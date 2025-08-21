@@ -39,135 +39,138 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
   const externalEngine = ruleDetails.repo.replace(new RegExp(`^${EXTERNAL_RULE_REPO_PREFIX}`), '');
 
   return (
-    <Text isSubtle size="small">
-      <ul className="sw-flex sw-flex-wrap sw-items-center sw-gap-2">
-        {/* Template */}
-        {!ruleDetails.isExternal && ruleDetails.isTemplate && (
-          <>
-            <li>
-              <Tooltip content={translate('coding_rules.rule_template.title')}>
-                <span className="it__coding-rules-detail-property">
-                  {translate('coding_rules.rule_template')}
-                </span>
-              </Tooltip>
-            </li>
-            <SeparatorCircleIcon aria-hidden as="li" />
-          </>
-        )}
+    <Text
+      as="ul"
+      className="sw-list-none sw-flex sw-flex-row sw-flex-wrap sw-items-center sw-gap-2 sw-p-0 sw-m-0"
+      isSubtle
+      size="small"
+    >
+      {/* Template */}
+      {!ruleDetails.isExternal && ruleDetails.isTemplate && (
+        <>
+          <li>
+            <Tooltip content={translate('coding_rules.rule_template.title')}>
+              <span className="it__coding-rules-detail-property">
+                {translate('coding_rules.rule_template')}
+              </span>
+            </Tooltip>
+          </li>
+          <SeparatorCircleIcon aria-hidden as="li" />
+        </>
+      )}
 
-        {/* Parent template */}
-        {!ruleDetails.isExternal && ruleDetails.templateKey && (
-          <>
-            <li
-              className="it__coding-rules-detail-property sw-flex sw-items-center sw-gap-1"
-              data-meta="parent"
+      {/* Parent template */}
+      {!ruleDetails.isExternal && ruleDetails.templateKey && (
+        <>
+          <li
+            className="it__coding-rules-detail-property sw-flex sw-items-center sw-gap-1"
+            data-meta="parent"
+          >
+            <span>
+              {translate('coding_rules.custom_rule')}
+              {' ('}
+              <Link to={getRuleUrl(ruleDetails.templateKey)}>
+                {translate('coding_rules.show_template')}
+              </Link>
+              {') '}
+            </span>
+            <HelpTooltip overlay={translate('coding_rules.custom_rule.help')}>
+              <HelperHintIcon />
+            </HelpTooltip>
+          </li>
+          <SeparatorCircleIcon aria-hidden as="li" />
+        </>
+      )}
+
+      {/* Key */}
+      <li className="sw-flex sw-gap-1">
+        <span>{translate('coding_rules.rule_id')}</span>
+        <span className="sw-font-semibold">{ruleDetails.key}</span>
+      </li>
+
+      {/* Scope */}
+      {ruleDetails.scope && (
+        <>
+          <SeparatorCircleIcon aria-hidden as="li" />
+          <li className="sw-flex sw-gap-1">
+            <span>{translate('coding_rules.analysis_scope')}</span>
+            <span className="sw-font-semibold">
+              {translate('coding_rules.scope', ruleDetails.scope)}
+            </span>
+          </li>
+        </>
+      )}
+
+      {/* Repository */}
+      {repository && (
+        <>
+          <SeparatorCircleIcon aria-hidden as="li" />
+          <li className="sw-flex sw-gap-1">
+            <span>{translate('coding_rules.repository')}</span>
+            <span
+              className="it__coding-rules-detail-property sw-font-semibold"
+              data-meta="repository"
             >
-              <span>
-                {translate('coding_rules.custom_rule')}
-                {' ('}
-                <Link to={getRuleUrl(ruleDetails.templateKey)}>
-                  {translate('coding_rules.show_template')}
-                </Link>
-                {') '}
-              </span>
-              <HelpTooltip overlay={translate('coding_rules.custom_rule.help')}>
-                <HelperHintIcon />
-              </HelpTooltip>
-            </li>
-            <SeparatorCircleIcon aria-hidden as="li" />
-          </>
-        )}
+              {repository.name} ({ruleDetails.langName})
+            </span>
+          </li>
+        </>
+      )}
 
-        {/* Key */}
-        <li className="sw-flex sw-gap-1">
-          <span>{translate('coding_rules.rule_id')}</span>
-          <span className="sw-font-semibold">{ruleDetails.key}</span>
-        </li>
+      {/* Engine */}
+      {ruleDetails.isExternal && ruleDetails.repo && externalEngine && (
+        <>
+          <SeparatorCircleIcon aria-hidden as="li" />
+          <li>
+            <Tooltip
+              content={translateWithParameters(
+                'coding_rules.external_rule.engine_tooltip',
+                externalEngine,
+              )}
+            >
+              <div className="sw-flex sw-gap-1">
+                <span>{translate('coding_rules.external_rule.engine')}</span>
+                <span
+                  className="it__coding-rules-detail-property sw-font-semibold"
+                  data-meta="engine"
+                >
+                  <Badge>{externalEngine}</Badge>
+                </span>
+              </div>
+            </Tooltip>
+          </li>
+        </>
+      )}
 
-        {/* Scope */}
-        {ruleDetails.scope && (
-          <>
-            <SeparatorCircleIcon aria-hidden as="li" />
-            <li className="sw-flex sw-gap-1">
-              <span>{translate('coding_rules.analysis_scope')}</span>
-              <span className="sw-font-semibold">
-                {translate('coding_rules.scope', ruleDetails.scope)}
-              </span>
-            </li>
-          </>
-        )}
+      {/* Status */}
+      {!ruleDetails.isExternal && ruleDetails.status !== 'READY' && (
+        <>
+          <SeparatorCircleIcon aria-hidden as="li" />
+          <li>
+            <Tooltip content={translate('status')}>
+              <Text data-meta="status" isSubtle>
+                <Badge variant="deleted">{translate('rules.status', ruleDetails.status)}</Badge>
+              </Text>
+            </Tooltip>
+          </li>
+        </>
+      )}
 
-        {/* Repository */}
-        {repository && (
-          <>
-            <SeparatorCircleIcon aria-hidden as="li" />
-            <li className="sw-flex sw-gap-1">
-              <span>{translate('coding_rules.repository')}</span>
-              <span
-                className="it__coding-rules-detail-property sw-font-semibold"
-                data-meta="repository"
-              >
-                {repository.name} ({ruleDetails.langName})
-              </span>
-            </li>
-          </>
-        )}
-
-        {/* Engine */}
-        {ruleDetails.isExternal && ruleDetails.repo && externalEngine && (
-          <>
-            <SeparatorCircleIcon aria-hidden as="li" />
-            <li>
-              <Tooltip
-                content={translateWithParameters(
-                  'coding_rules.external_rule.engine_tooltip',
-                  externalEngine,
-                )}
-              >
-                <div className="sw-flex sw-gap-1">
-                  <span>{translate('coding_rules.external_rule.engine')}</span>
-                  <span
-                    className="it__coding-rules-detail-property sw-font-semibold"
-                    data-meta="engine"
-                  >
-                    <Badge>{externalEngine}</Badge>
-                  </span>
-                </div>
-              </Tooltip>
-            </li>
-          </>
-        )}
-
-        {/* Status */}
-        {!ruleDetails.isExternal && ruleDetails.status !== 'READY' && (
-          <>
-            <SeparatorCircleIcon aria-hidden as="li" />
-            <li>
-              <Tooltip content={translate('status')}>
-                <Text data-meta="status" isSubtle>
-                  <Badge variant="deleted">{translate('rules.status', ruleDetails.status)}</Badge>
-                </Text>
-              </Tooltip>
-            </li>
-          </>
-        )}
-
-        {/* Effort */}
-        {ruleDetails.remFnType && ruleDetails.remFnBaseEffort && (
-          <>
-            <SeparatorCircleIcon aria-hidden as="li" />
-            <li className="sw-flex sw-gap-1">
-              <span>{translate('coding_rules.remediation_effort')}</span>
-              <span
-                className="it__coding-rules-detail-property sw-font-semibold"
-                data-meta="remediation-function"
-              >
-                {ruleDetails.remFnBaseEffort !== undefined && ` ${ruleDetails.remFnBaseEffort}`}
-              </span>
-            </li>
-          </>
-        )}
-      </ul>
+      {/* Effort */}
+      {ruleDetails.remFnType && ruleDetails.remFnBaseEffort && (
+        <>
+          <SeparatorCircleIcon aria-hidden as="li" />
+          <li className="sw-flex sw-gap-1">
+            <span>{translate('coding_rules.remediation_effort')}</span>
+            <span
+              className="it__coding-rules-detail-property sw-font-semibold"
+              data-meta="remediation-function"
+            >
+              {ruleDetails.remFnBaseEffort !== undefined && ` ${ruleDetails.remFnBaseEffort}`}
+            </span>
+          </li>
+        </>
+      )}
     </Text>
   );
 }
