@@ -18,18 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
 import { renderComponent } from '../../../../helpers/testReactTestingUtils';
 import { FCProps } from '../../../../types/misc';
 import FilterBarTemplate from '../FilterBarTemplate';
 
-it('should render with filter header', () => {
-  setupWithProps({
-    header: <span data-testid="filter-header">header</span>,
-    headerHeight: 16,
-  });
-
-  expect(screen.getByTestId('filter-header')).toHaveTextContent('header');
+it('should render correctly', () => {
+  const { container } = setupWithProps();
+  expect(container).toMatchSnapshot();
 });
 
 function setupWithProps(props: Partial<FCProps<typeof FilterBarTemplate>> = {}) {

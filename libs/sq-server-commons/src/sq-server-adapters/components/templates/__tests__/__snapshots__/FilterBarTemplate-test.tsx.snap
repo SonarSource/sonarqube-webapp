@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`should render correctly 1`] = `
+.emotion-0 {
+  position: -webkit-sticky;
+  position: sticky;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: rgb(255,255,255);
+  border-right: 1px solid rgb(225,230,243);
+}
+
+.emotion-0.border-left {
+  border-left: 1px solid rgb(225,230,243);
+}
+
+.emotion-0.bordered {
+  border: 1px solid rgb(225,230,243);
+}
+
+.emotion-2 {
+  position: -webkit-sticky;
+  position: sticky;
+  box-sizing: border-box;
+  height: 56px;
+  background-color: inherit;
+  border-bottom: 1px solid rgb(235,235,235);
+}
+
+.emotion-4 {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.emotion-6 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+<div>
+  <div
+    class="sw-grid sw-grid-cols-12 sw-w-full sw-px-14 sw-box-border custom-class"
+  >
+    <div
+      class="sw-z-filterbar sw-col-span-4 border-left emotion-0 emotion-1"
+      style="height: calc(100vh - 0px + 160px); top: 160px;"
+    >
+      <div
+        class="sw-w-full sw-top-0 sw-px-4 sw-py-2 sw-z-filterbar-header emotion-2 emotion-3"
+      >
+        <div
+          data-testid="side-header"
+        />
+      </div>
+      <nav
+        aria-label="secondary"
+        class="sw-p-4 js-page-filter emotion-4 emotion-5"
+      >
+        <div
+          data-testid="side"
+        />
+      </nav>
+    </div>
+    <div
+      class="sw-relative sw-pl-12 sw-col-span-8 js-page-main emotion-6 emotion-7"
+    >
+      <div
+        data-testid="content"
+      />
+    </div>
+  </div>
+  <section
+    aria-atomic="false"
+    aria-label="toasts.keyboard_shortcut_aria_label alt+T"
+    aria-live="polite"
+    aria-relevant="additions text"
+    tabindex="-1"
+  />
+</div>
+`;

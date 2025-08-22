@@ -34,9 +34,6 @@ import useFollowScroll from '../../../hooks/useFollowScroll';
 
 export type LayoutFilterBarSize = 'default' | 'large';
 
-const HEADER_PADDING_BOTTOM = 24;
-const HEADER_PADDING = 32 + HEADER_PADDING_BOTTOM; //32 padding top and 24 padding bottom
-
 interface Props {
   className?: string;
   content: React.ReactNode;
@@ -47,8 +44,6 @@ interface Props {
   filterbarHeader?: React.ReactNode;
   filterbarHeaderClassName?: string;
   filterbarRef?: React.RefObject<HTMLDivElement>;
-  header?: React.ReactNode;
-  headerHeight?: number;
   id?: string;
   size?: LayoutFilterBarSize;
   withBorderLeft?: boolean;
@@ -60,8 +55,6 @@ export default function FilterBarTemplate(props: Readonly<Props>) {
     content,
     contentClassName,
     disableSticky = false,
-    header,
-    headerHeight = 0,
     id,
     filterbarRef,
     filterbar,
@@ -69,10 +62,9 @@ export default function FilterBarTemplate(props: Readonly<Props>) {
     filterbarHeaderClassName,
     filterbarContentClassName,
     size = 'default',
-    withBorderLeft = false,
+    withBorderLeft = true,
   } = props;
 
-  const headerHeightWithPadding = headerHeight ? headerHeight + HEADER_PADDING : 0;
   const { top: topScroll, scrolledOnce } = useFollowScroll();
   const distanceFromBottom = topScroll + window.innerHeight - document.body.scrollHeight;
   const footerVisibleHeight =
@@ -83,78 +75,59 @@ export default function FilterBarTemplate(props: Readonly<Props>) {
     0;
 
   return (
-    <>
-      {header && (
-        <div
-          className="sw-flex sw-pb-6 sw-box-border"
-          style={{
-            height: `${headerHeight + HEADER_PADDING_BOTTOM}px`,
-          }}
-        >
-          {header}
-        </div>
-      )}
-      <div
-        className={classNames(
-          'sw-grid sw-grid-cols-12 sw-w-full sw-px-14 sw-box-border',
-          className,
-        )}
-        id={id}
+    <div
+      className={classNames('sw-grid sw-grid-cols-12 sw-w-full sw-px-14 sw-box-border', className)}
+      id={id}
+    >
+      <Filterbar
+        className={classNames('sw-z-filterbar', {
+          'sw-col-span-3': size === 'default',
+          'sw-col-span-4': size === 'large',
+          'border-left': withBorderLeft,
+        })}
+        ref={filterbarRef}
+        style={
+          disableSticky
+            ? {}
+            : {
+                height: `calc(100vh - ${
+                  LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT
+                }px - ${footerVisibleHeight}px)`,
+                top: LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT,
+              }
+        }
       >
-        <Filterbar
-          className={classNames('sw-z-filterbar', {
-            'sw-col-span-3': size === 'default',
-            'sw-col-span-4': size === 'large',
-            bordered: Boolean(header),
-            'sw-mt-0': Boolean(header),
-            'sw-rounded-t-1': Boolean(header),
-            'border-left': withBorderLeft,
-          })}
-          ref={filterbarRef}
-          style={
-            disableSticky
-              ? {}
-              : {
-                  height: `calc(100vh - ${
-                    LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT
-                  }px - ${footerVisibleHeight}px)`,
-                  top:
-                    LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT + headerHeightWithPadding,
-                }
-          }
-        >
-          {filterbarHeader && (
-            <FilterbarHeader
-              className={classNames(
-                'sw-w-full sw-top-0 sw-px-4 sw-py-2 sw-z-filterbar-header',
-                filterbarHeaderClassName,
-              )}
-            >
-              {filterbarHeader}
-            </FilterbarHeader>
-          )}
-          <FilterbarContent
-            aria-label={translate('secondary')}
-            className={classNames('sw-p-4 js-page-filter', filterbarContentClassName)}
+        {filterbarHeader && (
+          <FilterbarHeader
+            className={classNames(
+              'sw-w-full sw-top-0 sw-px-4 sw-py-2 sw-z-filterbar-header',
+              filterbarHeaderClassName,
+            )}
           >
-            {filterbar}
-          </FilterbarContent>
-        </Filterbar>
-        <Main
-          className={classNames(
-            'sw-relative sw-pl-12',
-            {
-              'sw-col-span-9': size === 'default',
-              'sw-col-span-8': size === 'large',
-            },
-            'js-page-main',
-            contentClassName,
-          )}
+            {filterbarHeader}
+          </FilterbarHeader>
+        )}
+        <FilterbarContent
+          aria-label={translate('secondary')}
+          className={classNames('sw-p-4 js-page-filter', filterbarContentClassName)}
         >
-          {content}
-        </Main>
-      </div>
-    </>
+          {filterbar}
+        </FilterbarContent>
+      </Filterbar>
+      <Main
+        className={classNames(
+          'sw-relative sw-pl-12',
+          {
+            'sw-col-span-9': size === 'default',
+            'sw-col-span-8': size === 'large',
+          },
+          'js-page-main',
+          contentClassName,
+        )}
+      >
+        {content}
+      </Main>
+    </div>
   );
 }
 
