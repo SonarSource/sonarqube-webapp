@@ -31,7 +31,7 @@ import Sca from '../Sca';
 let scaServiceSettingsMock: ScaServiceSettingsMock;
 let entitlementsMock: EntitlementsServiceMock;
 
-const SCA_ENABLED_KEY = 'sonar.sca.enabled';
+const SCA_ENABLED_KEY = 'sonar.sca.featureEnabled';
 const WRONG_CATEGORY_KEY = 'sonar.other.enabled';
 const VISIBLE_CATEGORY_KEY = 'sonar.sca.option';
 

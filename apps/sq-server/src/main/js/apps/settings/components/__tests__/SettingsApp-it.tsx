@@ -147,9 +147,9 @@ describe('Global Settings', () => {
 
     await user.click(ui.settingsSearchInput.get());
     await user.type(ui.settingsSearchInput.get(), 'global');
-    expect(ui.searchItem('sonar.sca.enabled').query()).not.toBeInTheDocument();
+    expect(ui.searchItem('sonar.sca.featureEnabled').query()).not.toBeInTheDocument();
     await user.type(ui.settingsSearchInput.get(), 'sca');
-    expect(ui.searchItem('sonar.sca.enabled').query()).not.toBeInTheDocument();
+    expect(ui.searchItem('sonar.sca.featureEnabled').query()).not.toBeInTheDocument();
   });
 
   it('can search definitions by name or key', async () => {

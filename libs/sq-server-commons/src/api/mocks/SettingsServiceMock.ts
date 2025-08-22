@@ -144,7 +144,7 @@ export const DEFAULT_DEFINITIONS_MOCK = [
   }),
   mockDefinition({
     category: 'Advanced Security',
-    key: 'sonar.sca.enabled',
+    key: 'sonar.sca.featureEnabled',
     subCategory: 'SCA',
     name: 'Enable SCA',
     description: 'Enable SCA',

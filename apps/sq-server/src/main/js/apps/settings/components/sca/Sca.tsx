@@ -54,15 +54,17 @@ const DISMISSABLE_MESSAGE_STORAGE_KEY = 'sonarqube.sca.show_enabled_message';
 
 function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'definitions'>>) {
   const intl = useIntl();
+
+  /**
+   * Feature enablement is driven by sonar.sca.featureEnabled
+   */
+  const scaFeature = usePurchasableFeature(Feature.Sca);
   const [isEnabled, setIsEnabled] = useState(false);
   const [showEnabledMessage, setShowEnabledMessage] = useLocalStorage(
     DISMISSABLE_MESSAGE_STORAGE_KEY,
     false,
   );
   const docUrl = useSharedDocUrl();
-
-  const scaFeature = usePurchasableFeature(Feature.Sca);
-
   const { data: isScaEnabled = false, isLoading: isLoadingFeatureEnablement } =
     useGetScaFeatureEnablementQuery();
   const { mutate: mutateFeatureEnablement, isPending } =
@@ -89,8 +91,20 @@ function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'd
 
   const isLoading = isLoadingFeatureEnablement || isPending;
   const isChanged = isLoading || isEnabled === isScaEnabled;
-  const scaDefinitions = definitions.filter(
-    (d) => d.subCategory === 'SCA' && d.key !== 'sonar.sca.enabled',
+
+  const scaRescanDefinitions = definitions.filter(
+    (d) => d.subCategory === 'SCA' && d.key.startsWith('sonar.sca.rescan'),
+  );
+
+  /**
+   * Other definitions includes:
+   * - sonar.sca.enabled -- Whether to run SCA analysis in scans
+   */
+  const scaOtherDefinitions = definitions.filter(
+    (d) =>
+      d.subCategory === 'SCA' &&
+      d.key !== 'sonar.sca.featureEnabled' &&
+      !d.key.startsWith('sonar.sca.rescan'),
   );
 
   useEffect(() => {
@@ -184,6 +198,13 @@ function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'd
           </>
         )}
       </div>
+      {isScaEnabled && (
+        <div className="sw-my-6">
+          {scaOtherDefinitions.map((definition) => (
+            <Definition definition={definition} key={definition.key} />
+          ))}
+        </div>
+      )}
       {showEnabledMessage && (
         <MessageCallout
           action={
@@ -219,7 +240,7 @@ function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'd
           </Text>
 
           <ul>
-            {scaDefinitions.map((definition) => (
+            {scaRescanDefinitions.map((definition) => (
               <StyledListItem
                 className="sw-p-6"
                 data-scroll-key={definition.key}
