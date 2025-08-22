@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useLocation } from 'react-router-dom';
 import { RiskStatus } from '../types/sca';
 import { queryToSearchString } from './query';
 
@@ -27,8 +28,7 @@ export const RISKS_ROUTE_NAME = 'dependency-risks';
 export const LICENSE_EXTERNAL_COPYLEFT_DETAILS_LINK = 'https://blueoakcouncil.org/copyleft';
 export const LICENSE_EXTERNAL_GENERAL_DETAILS_LINK = 'https://blueoakcouncil.org/list';
 
-const REQUIRED_PARAMS = ['id'] as const;
-const OPTIONAL_PARAMS = ['branch', 'pullRequest'] as const;
+const OPTIONAL_PARAMS = ['id', 'branch', 'pullRequest'] as const;
 
 /** The default risk status filters when none are selected */
 export const DefaultRiskStatusFilters: Partial<Record<RiskStatus, boolean>> = {
@@ -43,14 +43,12 @@ function buildUrlWithCurrentParams({
   pathname,
   currentSearch = '',
   newParams = {},
-  requiredParams = REQUIRED_PARAMS,
   optionalParams = OPTIONAL_PARAMS,
 }: {
   currentSearch?: string;
   newParams?: NewParams<string>;
   optionalParams?: Readonly<string[]>;
   pathname: string;
-  requiredParams?: Readonly<string[]>;
 }) {
   const currentParams = Object.fromEntries(new URLSearchParams(currentSearch));
   const searchObject = {
@@ -58,15 +56,8 @@ function buildUrlWithCurrentParams({
     ...newParams,
   };
 
-  // Ensure required params are present
-  for (const param of requiredParams) {
-    if (!searchObject[param]) {
-      throw new Error(`Missing required parameter: ${param}`);
-    }
-  }
-
   // Remove params if they are not in the required or optional list
-  const allParams = optionalParams.concat(requiredParams).concat(Object.keys(newParams));
+  const allParams = optionalParams.concat(Object.keys(newParams));
   for (const key in searchObject) {
     if (!allParams.includes(key)) {
       // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
@@ -79,23 +70,30 @@ function buildUrlWithCurrentParams({
   };
 }
 
-export function getReleaseDetailsUrl(params: { key: string }, currentSearch: string) {
+// Backward-compatible internal wrapper retaining original signature while adding optional baseUrl
+export function getReleaseDetailsUrl(
+  params: { key: string },
+  currentSearch: string,
+  baseUrl: string,
+) {
   return buildUrlWithCurrentParams({
-    pathname: `/${RELEASES_ROUTE_NAME}/${params.key}`,
+    pathname: withBase(baseUrl, `${RELEASES_ROUTE_NAME}/${params.key}`),
     currentSearch,
   });
 }
 
 const RELEASES_OPTIONAL_PARAMS = [...OPTIONAL_PARAMS, 'newlyIntroduced', 'id'] as const;
 export function getReleasesUrl(params: {
+  baseUrl?: string;
   currentSearch?: string;
   newParams?: NewParams<(typeof RELEASES_OPTIONAL_PARAMS)[number]>;
 }) {
+  const { currentSearch, newParams, baseUrl = '/' } = params;
   return buildUrlWithCurrentParams({
-    pathname: `/${RELEASES_ROUTE_NAME}`,
-    currentSearch: params.currentSearch,
+    pathname: withBase(baseUrl, `${RELEASES_ROUTE_NAME}`),
+    currentSearch,
     optionalParams: RELEASES_OPTIONAL_PARAMS,
-    newParams: params.newParams,
+    newParams,
   });
 }
 
@@ -108,6 +106,7 @@ const RISKS_OPTIONAL_PARAMS = [
   'id',
 ] as const;
 export function getRisksUrl(params: {
+  baseUrl?: string;
   currentSearch?: string;
   newParams?: NewParams<(typeof RISKS_OPTIONAL_PARAMS)[number]>;
 }) {
@@ -119,8 +118,9 @@ export function getRisksUrl(params: {
   if (!newStatuses) {
     newStatuses = Object.keys(DefaultRiskStatusFilters).join(',');
   }
+  const baseUrl = params.baseUrl ?? '/';
   return buildUrlWithCurrentParams({
-    pathname: `/${RISKS_ROUTE_NAME}`,
+    pathname: withBase(baseUrl, `${RISKS_ROUTE_NAME}`),
     currentSearch: params.currentSearch,
     optionalParams: RISKS_OPTIONAL_PARAMS,
     newParams: {
@@ -130,9 +130,13 @@ export function getRisksUrl(params: {
   });
 }
 
-export function getRiskDetailsUrl(params: { riskId: string }, currentSearch: string) {
+export function getRiskDetailsUrl(
+  params: { riskId: string },
+  currentSearch: string,
+  baseUrl: string,
+) {
   return buildUrlWithCurrentParams({
-    pathname: `/${RISKS_ROUTE_NAME}/${params.riskId}`,
+    pathname: withBase(baseUrl, `${RISKS_ROUTE_NAME}/${params.riskId}`),
     currentSearch,
   });
 }
@@ -150,13 +154,35 @@ export function getRiskDetailsTabUrl(
     tab: RiskDetailsTab;
   },
   currentSearch: string,
+  baseUrl: string,
 ) {
   const { riskId, showRiskSelector, tab } = params;
   return buildUrlWithCurrentParams({
-    pathname: `/${RISKS_ROUTE_NAME}/${riskId}/${tab}`,
+    pathname: withBase(baseUrl, `${RISKS_ROUTE_NAME}/${riskId}/${tab}`),
     currentSearch,
     newParams: {
       showRiskSelector,
     },
   });
+}
+
+function withBase(baseUrl: string, path: string): string {
+  const trimmedBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+  return `${trimmedBase}/${path}`;
+}
+
+/**
+ * The SCA app might be mounted ad one of several places in the app.
+ * This will return the base route for the currently mounted app.
+ */
+export function useScaBaseUrl() {
+  const { pathname } = useLocation();
+  /** The SCA base URL is the part of the pathName before the known routes  */
+  for (const route of [RELEASES_ROUTE_NAME, RISKS_ROUTE_NAME]) {
+    const parts = pathname.split(route);
+    if (parts.length > 1) {
+      return parts[0];
+    }
+  }
+  return '/';
 }
