@@ -123,7 +123,7 @@ export async function loadL10nBundle(appState: AppState | undefined) {
        * hence the ts-expect-error tag
        */
       defaultRichTextElements: {
-        // @ts-expect-error
+        // @ts-expect-error see previous comment
         productName: getProductName(appState),
       },
     },

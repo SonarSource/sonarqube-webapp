@@ -32,7 +32,7 @@ export type ComponentPropsType<
 export function mockIntersectionObserver(): Function {
   let callback: Function;
 
-  // @ts-ignore
+  // @ts-expect-error simplified mock that doesn't fully respect the typing
   global.IntersectionObserver = jest.fn((cb: Function) => {
     const instance = {
       observe: jest.fn(),

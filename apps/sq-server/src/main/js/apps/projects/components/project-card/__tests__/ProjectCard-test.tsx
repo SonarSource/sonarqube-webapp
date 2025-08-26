@@ -243,7 +243,7 @@ describe('upgrade scenario (awaiting scan)', () => {
     });
     expect(await screen.findByText('projects.awaiting_scan')).toBeInTheDocument();
     await user.click(screen.getByText('projects.awaiting_scan'));
-    await expect(screen.getByText('projects.awaiting_scan.description.TRK')).toBeInTheDocument();
+    expect(screen.getByText('projects.awaiting_scan.description.TRK')).toBeInTheDocument();
     expect(screen.getByText('4')).toBeInTheDocument();
     expect(screen.getByText('5')).toBeInTheDocument();
     expect(screen.getByText('6')).toBeInTheDocument();
@@ -291,7 +291,7 @@ describe('upgrade scenario (awaiting scan)', () => {
     });
     expect(await screen.findByText('projects.awaiting_scan')).toBeInTheDocument();
     await user.click(screen.getByText('projects.awaiting_scan'));
-    await expect(screen.getByText('projects.awaiting_scan.description.APP')).toBeInTheDocument();
+    expect(screen.getByText('projects.awaiting_scan.description.APP')).toBeInTheDocument();
     expect(screen.getByText('4')).toBeInTheDocument();
     expect(screen.getByText('5')).toBeInTheDocument();
     expect(screen.getByText('6')).toBeInTheDocument();

@@ -293,7 +293,7 @@ it('should display NCD banner if some branches had their NCD automatically chang
   ).toBeInTheDocument();
 });
 
-it('should not display NCD banner if some branches had their NCD automatically changed and banne has been dismissed', async () => {
+it('should not display NCD banner if some branches had their NCD automatically changed and banne has been dismissed', () => {
   const { ui } = getPageObjects();
 
   newCodeDefinitionMock.setListBranchesNewCode([
@@ -323,7 +323,7 @@ it('should not display NCD banner if some branches had their NCD automatically c
     featureList: [Feature.BranchSupport],
   });
 
-  expect(await ui.branchNCDsBanner.query()).not.toBeInTheDocument();
+  expect(ui.branchNCDsBanner.query()).not.toBeInTheDocument();
 });
 
 it('should correctly dismiss branch banner', async () => {

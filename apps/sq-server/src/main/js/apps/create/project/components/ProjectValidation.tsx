@@ -23,6 +23,7 @@ import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import * as React from 'react';
 import { Card } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { doesComponentExists } from '~sq-server-commons/api/components';
 import { PROJECT_KEY_MAX_LEN } from '~sq-server-commons/helpers/constants';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -31,7 +32,7 @@ import { ProjectKeyValidationResult } from '~sq-server-commons/types/component';
 import { PROJECT_NAME_MAX_LEN } from '../constants';
 import { getSanitizedProjectKey } from '../utils';
 
-interface Props<I> {
+interface Props<I extends string | number> {
   initialKey?: string;
   initialName?: string;
   monorepoSetupProjectKeys?: string[];
@@ -65,7 +66,7 @@ enum ProjectKeyErrors {
 
 const DEBOUNCE_DELAY = 250;
 
-export default function ProjectValidation<I>(props: Readonly<Props<I>>) {
+export default function ProjectValidation<I extends string | number>(props: Readonly<Props<I>>) {
   const {
     initialKey = '',
     initialName = '',
@@ -228,8 +229,8 @@ export default function ProjectValidation<I>(props: Readonly<Props<I>>) {
   const touched = Boolean(keyTouched || nameTouched);
   const projectNameIsInvalid = nameTouched && nameError !== undefined;
   const projectKeyIsInvalid = touched && keyError !== undefined;
-  const projectKeyInputId = projectId !== undefined ? `project-key-${projectId}` : 'project-key';
-  const projectNameInputId = projectId !== undefined ? `project-name-${projectId}` : 'project-name';
+  const projectKeyInputId = isDefined(projectId) ? `project-key-${projectId}` : 'project-key';
+  const projectNameInputId = isDefined(projectId) ? `project-name-${projectId}` : 'project-name';
 
   return (
     <>
@@ -282,7 +283,7 @@ export default function ProjectValidation<I>(props: Readonly<Props<I>>) {
   );
 }
 
-export function ProjectValidationCard<I>({
+export function ProjectValidationCard<I extends string | number>({
   initialKey,
   initialName,
   monorepoSetupProjectKeys,

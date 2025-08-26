@@ -30,7 +30,7 @@ import {
 
 it.each([[isPortfolioLike]])(
   '%p should work properly',
-  (utilityMethod: (componentQualifier: ComponentQualifier) => void) => {
+  (utilityMethod: (componentQualifier: ComponentQualifier) => boolean) => {
     const results = Object.values(ComponentQualifier).reduce(
       (prev, qualifier) => ({ ...prev, [qualifier]: utilityMethod(qualifier) }),
       {},
@@ -41,7 +41,7 @@ it.each([[isPortfolioLike]])(
 
 it.each([[isFile], [isView], [isProject], [isApplication]])(
   '%p should work properly',
-  (utilityMethod: (componentQualifier: ComponentQualifier) => void) => {
+  (utilityMethod: (componentQualifier: ComponentQualifier) => boolean) => {
     const results = Object.values(ComponentQualifier).reduce(
       (prev, qualifier) => ({ ...prev, [qualifier]: utilityMethod(qualifier) }),
       {},

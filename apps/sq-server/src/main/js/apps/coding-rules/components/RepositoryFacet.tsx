@@ -42,14 +42,14 @@ class RepositoryFacet extends React.PureComponent<Props> {
     return language?.name || languageKey;
   };
 
-  handleSearch(query: string) {
+  handleSearch = (query: string) => {
     return getRuleRepositories({ q: query }).then((repos) => {
       return {
         paging: { pageIndex: 1, pageSize: repos.length, total: repos.length },
         results: repos.map((r) => r.key),
       };
     });
-  }
+  };
 
   renderName = (repositoryKey: string) => {
     const { referencedRepositories } = this.props;

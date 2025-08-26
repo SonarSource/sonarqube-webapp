@@ -107,7 +107,11 @@ export default function AddGraphMetricPopup({
       listSize={0}
       noResultsLabel={translateWithParameters('no_results')}
       onSearch={props.onSearch}
-      onSelect={(item: string) => elements.includes(item) && props.onSelect(item)}
+      onSelect={(item: string) => {
+        if (elements.includes(item)) {
+          props.onSelect(item);
+        }
+      }}
       onUnselect={props.onUnselect}
       placeholder={translate('search.search_for_metrics')}
       renderAriaLabel={renderAriaLabel}

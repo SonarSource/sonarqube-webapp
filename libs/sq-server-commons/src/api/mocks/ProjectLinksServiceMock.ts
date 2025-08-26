@@ -51,7 +51,7 @@ export default class ProjectLinksServiceMock {
   };
 
   handleDeleteLink = (id: string) => {
-    this.projectLinks.filter((link) => link.id !== id);
+    this.projectLinks = this.projectLinks.filter((link) => link.id !== id);
 
     return this.reply(undefined);
   };

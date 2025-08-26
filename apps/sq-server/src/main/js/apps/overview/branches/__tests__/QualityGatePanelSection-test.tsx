@@ -77,7 +77,7 @@ it('should render correctly 0 New issues onboarding', async () => {
   expect(await byRole('alertdialog').find()).toBeInTheDocument();
 });
 
-it('should not render 0 New issues onboarding for user who dismissed it', async () => {
+it('should not render 0 New issues onboarding for user who dismissed it', () => {
   renderQualityGatePanelSection(
     {
       isApplication: false,
@@ -90,7 +90,7 @@ it('should not render 0 New issues onboarding for user who dismissed it', async 
   );
 
   expect(screen.queryByText('quality_gates.conditions.new_code_1')).not.toBeInTheDocument();
-  expect(await byRole('alertdialog').query()).not.toBeInTheDocument();
+  expect(byRole('alertdialog').query()).not.toBeInTheDocument();
 });
 
 it('should render correct links for ratings with "overall code" failed conditions', () => {

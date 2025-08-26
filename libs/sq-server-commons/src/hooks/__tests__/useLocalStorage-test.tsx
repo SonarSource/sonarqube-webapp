@@ -73,7 +73,12 @@ function LSComponent({
 
   return (
     <div>
-      <button onClick={() => setValue(valueToSet)} type="button">
+      <button
+        onClick={() => {
+          setValue(valueToSet);
+        }}
+        type="button"
+      >
         show
       </button>
       {condition(value) && <span>text</span>}

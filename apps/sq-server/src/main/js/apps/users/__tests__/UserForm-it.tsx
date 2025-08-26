@@ -244,7 +244,7 @@ describe('in non-managed mode', () => {
       expect(await ui.openModalButton.find()).toBeInTheDocument();
       await userEvent.click(ui.openModalButton.get());
 
-      expect(await ui.userNameInput.get()).toBeInTheDocument();
+      expect(ui.userNameInput.get()).toBeInTheDocument();
       expect(ui.emailInput.get()).toBeInTheDocument();
       expect(ui.scmAddButton.get()).toBeInTheDocument();
     });

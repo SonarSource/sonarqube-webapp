@@ -47,7 +47,13 @@ export default function EmailIput(props: Readonly<Props>) {
   }, []);
 
   return (
-    <FocusOutHandler onFocusOut={() => value !== '' && setIsEmailValid(isEmail(value))}>
+    <FocusOutHandler
+      onFocusOut={() => {
+        if (value !== '') {
+          setIsEmailValid(isEmail(value));
+        }
+      }}
+    >
       <div className="sw-flex sw-items-center">
         <InputField
           disabled={isDisabled === true}

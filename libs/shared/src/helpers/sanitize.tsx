@@ -21,8 +21,6 @@
 import dompurify from 'dompurify';
 import React from 'react';
 
-const { sanitize } = dompurify;
-
 export enum SanitizeLevel {
   FORBID_STYLE, // minimum sanitation level to prevent CSS injections
   FORBID_SVG_MATHML, // adds SVG and MathML exclusion
@@ -39,13 +37,13 @@ export const sanitizeFunctionByLevel = (sanitizeLevel: SanitizeLevel) =>
   })[sanitizeLevel];
 
 export const sanitizeHTMLToPreventCSSInjection = (htmlAsString: string) =>
-  sanitize(htmlAsString, {
+  dompurify.sanitize(htmlAsString, {
     FORBID_ATTR: ['style'],
     FORBID_TAGS: ['style'],
   });
 
 export function sanitizeHTMLNoSVGNoMathML(htmlAsString: string) {
-  return sanitize(htmlAsString, {
+  return dompurify.sanitize(htmlAsString, {
     FORBID_ATTR: ['style'],
     FORBID_TAGS: ['style'],
     USE_PROFILES: { html: true },
@@ -53,7 +51,7 @@ export function sanitizeHTMLNoSVGNoMathML(htmlAsString: string) {
 }
 
 export function sanitizeHTMLUserInput(htmlAsString: string) {
-  return sanitize(htmlAsString, {
+  return dompurify.sanitize(htmlAsString, {
     ALLOWED_ATTR: ['href', 'rel'],
     ALLOWED_TAGS: [
       'a',
@@ -79,7 +77,7 @@ export function sanitizeHTMLUserInput(htmlAsString: string) {
 }
 
 export function sanitizeHTMLRestricted(htmlAsString: string) {
-  return sanitize(htmlAsString, {
+  return dompurify.sanitize(htmlAsString, {
     ALLOWED_ATTR: ['href'],
     ALLOWED_TAGS: ['a', 'b', 'br', 'code', 'i', 'li', 'p', 'strong', 'ul'],
   });

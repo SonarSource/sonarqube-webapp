@@ -104,7 +104,7 @@ describe('rendering', () => {
         mockIssue(false, {
           key: 'custom',
           message: 'Custom Issue',
-          flows: Array.from({ length: VISIBLE_LOCATIONS_COLLAPSE }).map((i) => [
+          flows: Array.from<number>({ length: VISIBLE_LOCATIONS_COLLAPSE }).map((i) => [
             mockFlowLocation({ component: `component-${i}` }),
           ]),
         }),

@@ -258,15 +258,15 @@ export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
     document.removeEventListener('keydown', this.handleKeyDown);
   }
 
-  constructFiltersFromProps(
+  constructFiltersFromProps = (
     props: Props,
-  ): Pick<HotspotFilters, 'assignedToMe' | 'inNewCodePeriod'> {
+  ): Pick<HotspotFilters, 'assignedToMe' | 'inNewCodePeriod'> => {
     return {
       assignedToMe: props.location.query.assignedToMe === 'true' && isLoggedIn(props.currentUser),
       inNewCodePeriod:
         isPullRequest(props.branchLike) || props.location.query.inNewCodePeriod === 'true',
     };
-  }
+  };
 
   handleCallFailure = () => {
     if (this.mounted) {

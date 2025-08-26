@@ -497,7 +497,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
                     )({
                       theme,
                     })}
-                    key={`${serie.name}${point.x}${point.y}`}
+                    key={`${serie.name}${point.x.toString()}${point.y}`}
                     r="2"
                     stroke="white"
                     strokeWidth={1}
