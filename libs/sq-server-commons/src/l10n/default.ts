@@ -1934,8 +1934,6 @@ export const defaultMessages = {
   'architecture.page.model.no_data': 'No model data',
   'architecture.page.model.invalid_json': 'Invalid JSON format',
   'architecture.page.model.label': 'Model',
-  'architecture.page.model.invalid_groups':
-    'Invalid {groupsCount, plural, one {group} other {groups}}: {groups}',
   'architecture.page.oversize': 'Oversized components',
   'architecture.page.oversize_list': 'Oversized components',
   'architecture.page.oversize_list.count':
