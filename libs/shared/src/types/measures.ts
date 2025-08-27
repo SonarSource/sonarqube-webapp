@@ -87,3 +87,12 @@ export interface MeasuresByComponents {
   periods?: PeriodMeasure[];
   value?: string;
 }
+
+export interface MeasureHistory {
+  date: string;
+  value?: string;
+}
+export interface MeasuresHistory {
+  history: Array<MeasureHistory>;
+  metric: string;
+}

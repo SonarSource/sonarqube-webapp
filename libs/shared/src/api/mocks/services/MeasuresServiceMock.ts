@@ -187,6 +187,16 @@ export const MeasuresServiceDefaultDataset: MeasuresServiceData = {
         component: COMPONENT_FOO.key,
       },
       {
+        metric: MetricKey.security_hotspots,
+        value: '2',
+        component: COMPONENT_FOO.key,
+      },
+      {
+        metric: MetricKey.sca_count_any_issue,
+        value: '5',
+        component: COMPONENT_FOO.key,
+      },
+      {
         metric: MetricKey.new_violations,
         periods: [
           {
