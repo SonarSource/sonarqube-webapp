@@ -17,8 +17,8 @@
       ],
       "constraints": [
         {
-          "from": ["api-layer-group**"],
-          "to": ["implementation-layer-group**"],
+          "from": ["api-layer-group"],
+          "to": ["implementation-layer-group"],
           "relation": "allow"
         }
       ]
