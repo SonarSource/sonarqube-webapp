@@ -1936,6 +1936,9 @@ export const defaultMessages = {
   'architecture.page.model.label': 'Model',
   'architecture.page.model.invalid_groups':
     'Invalid {groupsCount, plural, one {group} other {groups}}: {groups}',
+  'architecture.page.model.duplicate_connection':
+    'A connection between "{source}" and "{target}" already exists',
+  'architecture.page.model.same_source_and_target': 'A group cannot be connected to itself',
   'architecture.page.oversize': 'Oversized components',
   'architecture.page.oversize_list': 'Oversized components',
   'architecture.page.oversize_list.count':
