@@ -47,6 +47,7 @@ import { AssigneeFacet } from './AssigneeFacet';
 import { AttributeCategoryFacet } from './AttributeCategoryFacet';
 import { AuthorFacet } from './AuthorFacet';
 import { CreationDateFacet } from './CreationDateFacet';
+import { DetectionCauseFacet } from './DetectionCauseFacet';
 import { DirectoryFacet } from './DirectoryFacet';
 import { FileFacet } from './FileFacet';
 import { IssueStatusFacet } from './IssueStatusFacet';
@@ -386,6 +387,21 @@ export function Sidebar(props: Readonly<Props>) {
             open={!!openFacets.createdAt}
             stats={facets.createdAt}
           />
+
+          {hasFeature(Feature.FromSonarQubeUpdate) && (
+            <>
+              <Divider className="sw-my-2" />
+
+              <DetectionCauseFacet
+                fetching={props.loadingFacets.fromSonarQubeUpdate === true}
+                onChange={props.onFilterChange}
+                onToggle={props.onFacetToggle}
+                open={!!openFacets.fromSonarQubeUpdate}
+                stats={facets.fromSonarQubeUpdate}
+                value={query.fromSonarQubeUpdate}
+              />
+            </>
+          )}
 
           <Divider className="sw-my-2" />
 

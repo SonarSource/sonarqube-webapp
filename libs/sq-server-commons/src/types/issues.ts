@@ -129,6 +129,7 @@ export interface RawIssue {
     locations?: RawFlowLocation[];
     type?: string;
   }>;
+  fromSonarQubeUpdate?: boolean;
   impacts: SoftwareQualityImpact[];
   issueStatus: IssueStatus;
   key: string;
@@ -259,6 +260,7 @@ export interface IssuesQuery {
   directories: string[];
   files: string[];
   fixedInPullRequest: string;
+  fromSonarQubeUpdate?: boolean;
   impactSeverities: SoftwareImpactSeverity[];
   impactSoftwareQualities: SoftwareQuality[];
   inNewCodePeriod: boolean;

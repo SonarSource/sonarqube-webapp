@@ -79,6 +79,7 @@ describe('serialize/deserialize', () => {
         statuses: [],
         fixedInPullRequest: '',
         prioritizedRule: true,
+        fromSonarQubeUpdate: true,
       }),
     ).toStrictEqual({
       assignees: 'a,b',
@@ -116,6 +117,7 @@ describe('serialize/deserialize', () => {
       tags: 'a,b',
       types: 'a,b',
       prioritizedRule: 'true',
+      fromSonarQubeUpdate: 'true',
     });
   });
 
@@ -130,6 +132,7 @@ describe('serialize/deserialize', () => {
         severities: 'CRITICAL,MAJOR',
         impactSoftwareQualities: 'MAINTAINABILITY',
         prioritizedRule: 'true',
+        fromSonarQubeUpdate: 'true',
       }),
     ).toStrictEqual({
       assigned: true,
@@ -171,6 +174,7 @@ describe('serialize/deserialize', () => {
       fixedInPullRequest: '',
       resolved: undefined,
       prioritizedRule: true,
+      fromSonarQubeUpdate: true,
     });
   });
 

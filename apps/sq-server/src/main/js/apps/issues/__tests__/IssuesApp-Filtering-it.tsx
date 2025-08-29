@@ -69,27 +69,27 @@ describe('issues app filtering', () => {
   it('should combine sidebar filters properly', async () => {
     issuesHandler.setPageSize(50);
     const user = userEvent.setup();
-    renderIssueApp(mockLoggedInUser(), [Feature.PrioritizedRules]);
+    renderIssueApp(mockLoggedInUser(), [Feature.PrioritizedRules, Feature.FromSonarQubeUpdate]);
     await waitOnDataLoaded();
 
     // Select CC responsible category (should make the first issue disappear)
     await user.click(await ui.responsibleCategoryFilter.find());
     await waitFor(() => {
-      expect(ui.issueItems.getAll()).toHaveLength(10);
+      expect(ui.issueItems.getAll()).toHaveLength(11);
     });
     expect(ui.issueItem1.query()).not.toBeInTheDocument();
 
     // Select responsible + Maintainability quality
     await user.click(ui.softwareQualityMaintainabilityFilter.get());
     await waitFor(() => {
-      expect(ui.issueItems.getAll()).toHaveLength(9);
+      expect(ui.issueItems.getAll()).toHaveLength(10);
     });
     expect(ui.issueItem5.query()).not.toBeInTheDocument();
 
     // Select MEDIUM severity
     await user.click(ui.mediumSeverityFilter.get());
     await waitFor(() => {
-      expect(ui.issueItems.getAll()).toHaveLength(8);
+      expect(ui.issueItems.getAll()).toHaveLength(9);
     });
     expect(ui.issueItem8.query()).not.toBeInTheDocument();
 
@@ -101,7 +101,7 @@ describe('issues app filtering', () => {
     await user.click(ui.mainScopeFilter.get());
 
     await waitFor(() => {
-      expect(ui.issueItems.getAll()).toHaveLength(6);
+      expect(ui.issueItems.getAll()).toHaveLength(7);
     });
 
     expect(ui.issueItem4.query()).not.toBeInTheDocument();
@@ -174,7 +174,7 @@ describe('issues app filtering', () => {
     await user.click(ui.prioritizedRuleFilter.get());
 
     await waitFor(() => {
-      expect(ui.issueItems.getAll()).toHaveLength(1);
+      expect(ui.issueItems.getAll()).toHaveLength(2);
     });
 
     expect(ui.issueItem1.query()).not.toBeInTheDocument();
@@ -184,6 +184,27 @@ describe('issues app filtering', () => {
     expect(ui.issueItem5.query()).not.toBeInTheDocument();
     expect(ui.issueItem6.query()).not.toBeInTheDocument();
     expect(ui.issueItem7.query()).not.toBeInTheDocument();
+    expect(ui.issueItem10.get()).toBeInTheDocument();
+    expect(ui.issueItem11.get()).toBeInTheDocument();
+
+    await user.click(ui.detectionCauseFacet.get());
+    expect(await ui.sonarQubeUpdateDetectionFilter.find()).toBeInTheDocument();
+    expect(ui.otherCausesDetectionFilter.get()).toBeInTheDocument();
+    await waitFor(() => {
+      expect(ui.sonarQubeUpdateDetectionFilter.get()).toBeEnabled();
+    });
+    await user.click(ui.sonarQubeUpdateDetectionFilter.get());
+
+    await waitFor(() => {
+      expect(ui.issueItems.getAll()).toHaveLength(1);
+    });
+
+    expect(ui.issueItem10.query()).not.toBeInTheDocument();
+    expect(ui.issueItem11.get()).toBeInTheDocument();
+
+    await user.click(ui.otherCausesDetectionFilter.get());
+
+    expect(ui.issueItem11.query()).not.toBeInTheDocument();
     expect(ui.issueItem10.get()).toBeInTheDocument();
 
     // Clear filters one by one
@@ -197,6 +218,7 @@ describe('issues app filtering', () => {
     await user.click(ui.clearAssigneeFacet.get());
     await user.click(ui.clearAuthorFacet.get());
     await user.click(ui.clearPrioritizedRuleFacet.get());
+    await user.click(ui.clearDetectionCauseFacet.get());
     expect(await ui.issueItem1.find()).toBeInTheDocument();
     expect(ui.issueItem2.get()).toBeInTheDocument();
     expect(ui.issueItem3.get()).toBeInTheDocument();
@@ -205,6 +227,7 @@ describe('issues app filtering', () => {
     expect(ui.issueItem6.get()).toBeInTheDocument();
     expect(ui.issueItem7.get()).toBeInTheDocument();
     expect(ui.issueItem10.get()).toBeInTheDocument();
+    expect(ui.issueItem11.get()).toBeInTheDocument();
   });
 
   it('should combine sidebar filters properly in standard mode', async () => {
@@ -393,9 +416,9 @@ describe('issues app filtering', () => {
 
     renderProjectIssuesApp('project/issues?id=myproject');
 
-    expect(await ui.issueItems.findAll()).toHaveLength(11);
+    expect(await ui.issueItems.findAll()).toHaveLength(12);
     await user.click(await ui.inNewCodeFilter.find());
-    expect(await ui.issueItems.findAll()).toHaveLength(7);
+    expect(await ui.issueItems.findAll()).toHaveLength(8);
   });
 
   it('should support OWASP Top 10 version 2021', async () => {

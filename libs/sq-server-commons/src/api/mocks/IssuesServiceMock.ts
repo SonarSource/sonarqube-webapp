@@ -359,6 +359,7 @@ export default class IssuesServiceMock {
             assignees: ['email1@sonarsource.com', 'email2@sonarsource.com'],
             author: ['email3@sonarsource.com', 'email4@sonarsource.com'],
             prioritizedRule: ['true', 'false'],
+            fromSonarQubeUpdate: ['true', 'false'],
           }[name] ?? []
         ).map((val) => ({
           val,
@@ -501,6 +502,14 @@ export default class IssuesServiceMock {
           return true;
         }
         return item.issue.prioritizedRule === true;
+      })
+      .filter((item) => {
+        if (query.fromSonarQubeUpdate === undefined) {
+          return true;
+        }
+        return query.fromSonarQubeUpdate === 'true'
+          ? item.issue.fromSonarQubeUpdate === true
+          : item.issue.fromSonarQubeUpdate === false;
       });
 
     // Splice list items according to paging using a fixed page size

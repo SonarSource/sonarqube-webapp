@@ -19,35 +19,49 @@
  */
 
 import { useIntl } from 'react-intl';
+import { FacetHelp } from '~sq-server-commons/components/facets/FacetHelp';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { IssuesQuery } from '~sq-server-commons/types/issues';
 import { BooleanFacet, BooleanFacetOption } from './BooleanFacet';
 
-export interface PrioritizedRuleFacetProps {
+export interface DetectionCauseFacetProps {
   fetching: boolean;
   onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
   open: boolean;
   stats: Record<string, number> | undefined;
-  value: true | undefined;
+  value: boolean | undefined;
 }
 
-export function PrioritizedRuleFacet(props: Readonly<PrioritizedRuleFacetProps>) {
+export function DetectionCauseFacet(props: Readonly<DetectionCauseFacetProps>) {
   const { fetching, onChange, onToggle, open, value, stats } = props;
   const intl = useIntl();
 
-  const property = 'prioritizedRule';
+  const property = 'fromSonarQubeUpdate';
 
   const options: BooleanFacetOption[] = [
     {
-      nameKey: 'issues.facet.prioritized_rule',
+      nameKey: 'issues.facet.detection_cause.sonarqube_update',
       value: true,
+    },
+    {
+      nameKey: 'issues.facet.detection_cause.other_causes',
+      value: false,
     },
   ];
 
   return (
     <BooleanFacet
       fetching={fetching}
-      name={intl.formatMessage({ id: 'issues.facet.prioritized_rule.category' })}
+      help={
+        <FacetHelp
+          description={intl.formatMessage({ id: 'issues.facet.detection_cause.help' })}
+          link={DocLink.Root}
+          linkText={intl.formatMessage({ id: 'learn_more' })}
+          title={intl.formatMessage({ id: 'issues.facet.detection_cause' })}
+        />
+      }
+      name={intl.formatMessage({ id: 'issues.facet.detection_cause' })}
       onChange={onChange}
       onToggle={onToggle}
       open={open}

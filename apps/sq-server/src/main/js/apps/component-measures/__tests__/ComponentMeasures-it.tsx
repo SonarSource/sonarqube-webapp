@@ -136,11 +136,11 @@ describe('rendering', () => {
     // Check one of the domains.
     await user.click(ui.maintainabilityDomainBtn.get());
     [
-      'component_measures.metric.new_code_smells.name 9',
+      'component_measures.metric.new_code_smells.name 10',
       'Added Technical Debt work_duration.x_minutes.1',
       'Technical Debt Ratio on New Code 1.0%',
       'Maintainability Rating on New Code metric.has_rating_X.E metric.sqale_rating.tooltip.E.0.0%',
-      'component_measures.metric.code_smells.name 9',
+      'component_measures.metric.code_smells.name 10',
       'Technical Debt work_duration.x_minutes.1',
       'Technical Debt Ratio 1.0%',
       'Maintainability Rating metric.has_rating_X.E metric.sqale_rating.tooltip.E.0.0%',
@@ -175,11 +175,11 @@ describe('rendering', () => {
     // Check one of the domains.
     await user.click(ui.maintainabilityDomainBtn.get());
     [
-      'component_measures.leak_awaiting_analysis.name 9',
+      'component_measures.leak_awaiting_analysis.name 10',
       'Added Technical Debt work_duration.x_minutes.1',
       'Technical Debt Ratio on New Code 1.0%',
       'Maintainability Rating on New Code metric.has_rating_X.E metric.sqale_rating.tooltip.E.0.0%',
-      'component_measures.awaiting_analysis.name 9',
+      'component_measures.awaiting_analysis.name 10',
       'Technical Debt work_duration.x_minutes.1',
       'Technical Debt Ratio 1.0%',
       'Maintainability Rating metric.has_rating_X.E metric.sqale_rating.tooltip.E.0.0%',
@@ -238,11 +238,11 @@ describe('rendering', () => {
     // Check one of the domains.
     await user.click(ui.maintainabilityDomainBtn.get());
     [
-      'component_measures.metric.new_code_smells.name 9',
+      'component_measures.metric.new_code_smells.name 10',
       'Added Technical Debt work_duration.x_minutes.1',
       'Technical Debt Ratio on New Code 1.0%',
       'Maintainability Rating on New Code metric.has_rating_X.E metric.sqale_rating.tooltip.E.0.0%',
-      'component_measures.metric.code_smells.name 9',
+      'component_measures.metric.code_smells.name 10',
       'Technical Debt work_duration.x_minutes.1',
       'Technical Debt Ratio 1.0%',
       'Maintainability Rating metric.has_rating_X.E metric.sqale_rating.tooltip.E.0.0%',

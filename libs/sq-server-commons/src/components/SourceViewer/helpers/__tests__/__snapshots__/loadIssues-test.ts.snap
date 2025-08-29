@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`loadIssues should load issues with listIssues if re-indexing 1`] = `
 [
@@ -23,6 +23,7 @@ exports[`loadIssues should load issues with listIssues if re-indexing 1`] = `
     "creationDate": "2016-08-15T15:25:38+0200",
     "flows": [],
     "flowsWithType": [],
+    "fromSonarQubeUpdate": false,
     "impacts": [
       {
         "severity": "MEDIUM",
@@ -90,6 +91,7 @@ exports[`loadIssues should load issues with searchIssues if not re-indexing 1`] 
     "creationDate": "2016-08-15T15:25:38+0200",
     "flows": [],
     "flowsWithType": [],
+    "fromSonarQubeUpdate": false,
     "impacts": [
       {
         "severity": "MEDIUM",

@@ -1462,6 +1462,12 @@ export const defaultMessages = {
   'issues.facet.sonarsource.show_more': 'Show more SonarSource categories',
   'issues.facet.prioritized_rule.category': 'Prioritized rules',
   'issues.facet.prioritized_rule': 'Issues from prioritized rules',
+  'issues.facet.detection_cause': 'Detection cause',
+  'issues.facet.detection_cause.help':
+    'New SonarQube issues arise either because of user actions (such as code changes or modification of custom quality profiles) or because of SonarQube updates (such as analyzer/rule improvements or built-in profile adjustments).',
+  'issues.facet.detection_cause.help.aria_label': 'Detection cause information',
+  'issues.facet.detection_cause.sonarqube_update': 'SonarQube update',
+  'issues.facet.detection_cause.other_causes': 'All other causes',
   'issues.facet.second_line.mode.standard': 'Standard Experience',
   'issues.facet.second_line.mode.mqr': 'MQR mode',
 

@@ -468,7 +468,7 @@ describe('project overview', () => {
     ui.expectSoftwareImpactMeasureCardToHaveOldMeasures(
       SoftwareQuality.Maintainability,
       'E',
-      9,
+      10,
       'CODE_SMELL',
     );
   });
@@ -578,7 +578,7 @@ describe('project overview', () => {
     ui.expectSoftwareImpactMeasureCardToHaveOldMeasures(
       SoftwareQuality.Maintainability,
       'E',
-      9,
+      10,
       'CODE_SMELL',
     );
   });

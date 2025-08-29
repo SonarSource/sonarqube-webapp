@@ -35,4 +35,5 @@ export enum Feature {
   FixSuggestions = 'fix-suggestions',
   FixSuggestionsMarketing = 'fix-suggestions-marketing',
   AiCodeAssurance = 'ai-code-assurance',
+  FromSonarQubeUpdate = 'from-sonarqube-update',
 }

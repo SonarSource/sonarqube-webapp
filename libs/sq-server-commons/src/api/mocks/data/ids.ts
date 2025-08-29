@@ -68,6 +68,7 @@ export const ISSUE_2 = 'issue2';
 export const ISSUE_3 = 'issue3';
 export const ISSUE_4 = 'issue4';
 export const ISSUE_5 = 'issue5';
+export const ISSUE_6 = 'issue6';
 export const ISSUE_11 = 'issue11';
 export const ISSUE_101 = 'issue101';
 export const ISSUE_1101 = 'issue1101';
@@ -82,6 +83,7 @@ export const ISSUE_TO_RULE = {
   [ISSUE_3]: 'other',
   [ISSUE_4]: 'other',
   [ISSUE_5]: 'other',
+  [ISSUE_6]: 'other',
   [ISSUE_11]: SIMPLE_RULE,
   [ISSUE_101]: SIMPLE_RULE,
   [ISSUE_1101]: SIMPLE_RULE,
@@ -97,6 +99,7 @@ export const ISSUE_TO_FILES = {
   [ISSUE_3]: [FILE3_KEY],
   [ISSUE_4]: [FILE3_KEY],
   [ISSUE_5]: [FILE3_KEY],
+  [ISSUE_6]: [FILE3_KEY],
   [ISSUE_11]: [FILE2_KEY, FILE3_KEY],
   [ISSUE_101]: [FILE2_KEY, FILE3_KEY],
   [ISSUE_1101]: [`${FOLDER1_KEY}/${FILE7_KEY}`],

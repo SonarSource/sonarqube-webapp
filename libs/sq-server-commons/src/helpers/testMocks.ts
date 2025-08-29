@@ -349,6 +349,7 @@ export function mockRawIssue(withLocations = false, overrides: Partial<RawIssue>
       },
     ],
     prioritizedRule: false,
+    fromSonarQubeUpdate: false,
     ...overrides,
   };
 
@@ -406,6 +407,7 @@ export function mockIssue(withLocations = false, overrides: Partial<Issue> = {})
         severity: SoftwareImpactSeverity.Medium,
       },
     ],
+    fromSonarQubeUpdate: false,
   };
 
   const loc = mockFlowLocation;

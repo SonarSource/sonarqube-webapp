@@ -107,6 +107,7 @@ export function parseQuery(query: RawQuery, needIssueSync = false): IssuesQuery 
     codeVariants: parseAsArray(query.codeVariants, parseAsString),
     fixedInPullRequest: parseAsString(query.fixedInPullRequest),
     prioritizedRule: parseAsOptionalBoolean(query.prioritizedRule),
+    fromSonarQubeUpdate: parseAsOptionalBoolean(query.fromSonarQubeUpdate),
     // While reindexing, we need to use resolved param for issues/list endpoint
     // False is used to show unresolved issues only
     resolved: needIssueSync ? false : undefined,
@@ -226,6 +227,7 @@ export function serializeQuery(query: IssuesQuery): RawQuery {
     codeVariants: serializeStringArray(query.codeVariants),
     resolved: serializeOptionalBoolean(query.resolved),
     prioritizedRule: serializeOptionalBoolean(query.prioritizedRule),
+    fromSonarQubeUpdate: serializeOptionalBoolean(query.fromSonarQubeUpdate),
   };
 
   return cleanQuery(filter);

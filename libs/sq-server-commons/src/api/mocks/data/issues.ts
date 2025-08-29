@@ -50,6 +50,7 @@ import {
   ISSUE_3,
   ISSUE_4,
   ISSUE_5,
+  ISSUE_6,
   ISSUE_TO_FILES,
   ISSUE_TO_RULE,
   PARENT_COMPONENT_KEY,
@@ -491,6 +492,48 @@ export function mockIssuesList(baseComponentKey = PARENT_COMPONENT_KEY): IssueDa
         [
           mockSnippetsByComponent(
             ISSUE_TO_FILES[ISSUE_5][0],
+            baseComponentKey,
+            times(40, (i) => i + 20),
+          ),
+        ],
+        'component.key',
+      ),
+    },
+    {
+      issue: mockRawIssue(false, {
+        key: ISSUE_6,
+        actions: Object.values(IssueActions),
+        transitions: [
+          IssueTransition.Confirm,
+          IssueTransition.Resolve,
+          IssueTransition.FalsePositive,
+          IssueTransition.WontFix,
+        ],
+        component: `${baseComponentKey}:${ISSUE_TO_FILES[ISSUE_6][0]}`,
+        message: 'Issue from SonarQube update',
+        rule: ISSUE_TO_RULE[ISSUE_6],
+        textRange: {
+          startLine: 25,
+          endLine: 25,
+          startOffset: 0,
+          endOffset: 1,
+        },
+        ruleDescriptionContextKey: 'spring',
+        ruleStatus: 'DEPRECATED',
+        quickFixAvailable: true,
+        tags: ['unused'],
+        codeVariants: ['variant 1', 'variant 2'],
+        project: 'org.sonarsource.javascript:javascript',
+        assignee: 'email1@sonarsource.com',
+        author: 'email3@sonarsource.com',
+        issueStatus: IssueStatus.Confirmed,
+        prioritizedRule: true,
+        fromSonarQubeUpdate: true,
+      }),
+      snippets: keyBy(
+        [
+          mockSnippetsByComponent(
+            ISSUE_TO_FILES[ISSUE_6][0],
             baseComponentKey,
             times(40, (i) => i + 20),
           ),

@@ -73,6 +73,7 @@ export enum DocLink {
   InstanceAdminSecurity = '/instance-administration/system-functions/security/',
   IssueResolutions = '/user-guide/issues/solution-overview/#deprecated-features',
   Issues = '/user-guide/issues/introduction/',
+  IssuesFromSonarQubeUpdate = '/user-guide/issues/TODO',
   IssueStatuses = '/user-guide/issues/solution-overview/#life-cycle',
   MainBranchAnalysis = '/project-administration/maintaining-the-branches-of-your-project/',
   MaintainBranches = '/project-administration/maintaining-the-branches-of-your-project/#keep-specific-branches-from-deletion',

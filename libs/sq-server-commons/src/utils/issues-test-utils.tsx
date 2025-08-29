@@ -74,6 +74,7 @@ export const ui = {
   issueItem8: byRole('region', { name: 'Issue on page 2' }),
   issueItem9: byRole('region', { name: 'Issue inside folderA' }),
   issueItem10: byRole('region', { name: 'Issue with prioritized rule' }),
+  issueItem11: byRole('region', { name: 'Issue from SonarQube update' }),
   projectIssueItem6: byRole('button', { name: 'Second issue' }),
 
   conciseIssueTotal: byTestId('page-counter-total'),
@@ -119,6 +120,9 @@ export const ui = {
   prioritizedRuleFacet: byRole('button', {
     name: 'issues.facet.prioritized_rule.category',
   }),
+  detectionCauseFacet: byRole('button', {
+    name: 'issues.facet.detection_cause',
+  }),
 
   clearCodeCategoryFacet: byTestId('clear-issues.facet.cleanCodeAttributeCategories'),
   clearSoftwareQualityFacet: byTestId('clear-issues.facet.impactSoftwareQualities'),
@@ -136,6 +140,7 @@ export const ui = {
   clearIssueStatusFacet: byTestId('clear-issues.facet.issueStatuses'),
   clearTagFacet: byTestId('clear-issues.facet.tags'),
   clearPrioritizedRuleFacet: byTestId('clear-issues.facet.prioritized_rule.category'),
+  clearDetectionCauseFacet: byTestId('clear-issues.facet.detection_cause'),
 
   responsibleCategoryFilter: byRole('checkbox', {
     name: `issue.clean_code_attribute_category.${CleanCodeAttributeCategory.Responsible}`,
@@ -166,6 +171,12 @@ export const ui = {
   }),
   prioritizedRuleFilter: byRole('checkbox', {
     name: 'issues.facet.prioritized_rule',
+  }),
+  sonarQubeUpdateDetectionFilter: byRole('checkbox', {
+    name: 'issues.facet.detection_cause.sonarqube_update',
+  }),
+  otherCausesDetectionFilter: byRole('checkbox', {
+    name: 'issues.facet.detection_cause.other_causes',
   }),
 
   bulkChangeComment: byRole('textbox', {

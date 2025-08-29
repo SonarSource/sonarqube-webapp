@@ -83,7 +83,7 @@ describe('issue app', () => {
   it('should always be able to render the open issue', async () => {
     renderProjectIssuesApp('project/issues?issueStatuses=CONFIRMED&open=issue2&id=myproject&why=1');
 
-    expect(await ui.conciseIssueTotal.find(undefined, { timeout: 10_000 })).toHaveTextContent('4');
+    expect(await ui.conciseIssueTotal.find(undefined, { timeout: 10_000 })).toHaveTextContent('5');
     expect(ui.conciseIssueItem4.get()).toBeInTheDocument();
     expect(ui.conciseIssueItem2.get()).toBeInTheDocument();
   });

@@ -88,6 +88,19 @@ describe('MQR mode', () => {
     ]);
   });
 
+  it('should render Detection Cause facet when FromSonarQubeUpdate feature is enabled', async () => {
+    renderSidebar(
+      {
+        component: mockComponent({ qualifier: ComponentQualifier.Project }),
+      },
+      [Feature.FromSonarQubeUpdate],
+    );
+
+    expect(
+      await screen.findByRole('button', { name: 'issues.facet.detection_cause' }),
+    ).toBeInTheDocument();
+  });
+
   it('should show standard filters if they exist in query', async () => {
     const user = userEvent.setup();
     let component = renderSidebar({
