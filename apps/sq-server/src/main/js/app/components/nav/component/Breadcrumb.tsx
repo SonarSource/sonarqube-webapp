@@ -21,6 +21,7 @@
 import styled from '@emotion/styled';
 import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { ComponentQualifier } from '~shared/types/component';
 import Favorite from '~sq-server-commons/components/controls/Favorite';
 import { getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
 import { Component } from '~sq-server-commons/types/types';
@@ -63,7 +64,9 @@ export function Breadcrumb(props: Readonly<BreadcrumbProps>) {
               {breadcrumbElement.name}
             </LinkStandalone>
 
-            <ProjectBindingStatus className="sw-ml-2" component={component} />
+            {component.qualifier === ComponentQualifier.Project && (
+              <ProjectBindingStatus className="sw-ml-2" component={component} />
+            )}
 
             {isNotLast && <SlashSeparator className="sw-mx-2" />}
           </div>
