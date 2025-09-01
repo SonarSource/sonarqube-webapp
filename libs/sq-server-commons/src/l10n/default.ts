@@ -6125,8 +6125,6 @@ export const defaultMessages = {
     'Learn how to improve your code base by cleaning only new code.',
   'overview.promoted_section.button_primary': 'Take the Tour',
   'overview.promoted_section.button_secondary': 'Not now',
-  'overview.promoted_section.button_tooltip':
-    'Learn how to improve your code base by cleaning only new code.',
 
   'overview.ai_assurance.unsolved_overall.title': 'Unresolved findings in overall code',
   'overview.ai_assurance.unsolved_overall.description':
@@ -6151,9 +6149,6 @@ export const defaultMessages = {
     'When a feature is ready, analyze your {value} (commercial edition only) and make sure no issue is missed.',
   'guiding.cayc_promotion.4.content.3':
     'Finally, rely on a thorough {value} analysis to ensure the new code is clean.',
-  'guiding.replay_tour_button.1.title': 'Replay tour',
-  'guiding.replay_tour_button.tour_completed.1.title': 'Tour complete!',
-  'guiding.replay_tour_button.1.content': 'You can replay this product tour any time here.',
 
   //------------------------------------------------------------------------------
   //

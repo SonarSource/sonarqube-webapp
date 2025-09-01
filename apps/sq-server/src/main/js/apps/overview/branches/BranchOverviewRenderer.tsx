@@ -62,7 +62,6 @@ import MeasuresPanelNoNewCode from './MeasuresPanelNoNewCode';
 import NewCodeMeasuresPanel from './NewCodeMeasuresPanel';
 import NoCodeWarning from './NoCodeWarning';
 import OverallCodeMeasuresPanel from './OverallCodeMeasuresPanel';
-import ReplayTourGuide from './ReplayTour';
 import TabsPanel from './TabsPanel';
 
 export interface BranchOverviewRendererProps {
@@ -117,8 +116,6 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
 
   const [isPromotedSectionHidden, setIsPromotedSectionHidden] = useState(false);
   const [startTour, setStartTour] = useState(false);
-  const [tourCompleted, setTourCompleted] = useState(false);
-  const [showReplay, setShowReplay] = useState(false);
   const [dismissedTour, setDismissedTour] = useState(
     currentUser.isLoggedIn &&
       !!currentUser.dismissedNotices?.[NoticeType.ONBOARDING_CAYC_BRANCH_SUMMARY_GUIDE],
@@ -147,7 +144,6 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
     dismissNotice(NoticeType.ONBOARDING_CAYC_BRANCH_SUMMARY_GUIDE)
       .then(() => {
         setDismissedTour(true);
-        setShowReplay(true);
       })
       .catch(() => {
         /* noop */
@@ -162,7 +158,6 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
 
     if (action === 'close' && !dismissedTour) {
       dismissPromotedSection();
-      setTourCompleted(true);
     }
   };
 
@@ -170,7 +165,6 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
     if (!isNewCodeTab) {
       selectTab(CodeScope.New);
     }
-    setShowReplay(false);
     setStartTour(true);
   };
 
@@ -191,15 +185,6 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
 
       <CenteredLayout>
         <CaycPromotionGuide closeTour={closeTour} run={startTour} />
-        {showReplay && (
-          <ReplayTourGuide
-            closeTour={() => {
-              setShowReplay(false);
-            }}
-            run={showReplay}
-            tourCompleted={tourCompleted}
-          />
-        )}
         <div className="overview sw-my-6 sw-typo-default">
           <A11ySkipTarget anchor="overview_main" />
 
@@ -209,15 +194,7 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
             <div>
               {branch && (
                 <>
-                  <BranchMetaTopBar
-                    branch={branch}
-                    component={component}
-                    measures={measures}
-                    showTakeTheTourButton={
-                      dismissedTour && currentUser.isLoggedIn && hasNewCodeMeasures
-                    }
-                    startTour={startTourGuide}
-                  />
+                  <BranchMetaTopBar branch={branch} component={component} measures={measures} />
 
                   <CardSeparator />
 

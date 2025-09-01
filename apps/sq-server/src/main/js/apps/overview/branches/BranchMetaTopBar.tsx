@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, IconSlideshow, IconSparkle } from '@sonarsource/echoes-react';
+import { IconSparkle } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { Badge, SeparatorCircleIcon } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
@@ -42,17 +42,9 @@ interface Props {
   branch: Branch;
   component: Component;
   measures: MeasureEnhanced[];
-  showTakeTheTourButton: boolean;
-  startTour?: () => void;
 }
 
-export default function BranchMetaTopBar({
-  branch,
-  measures,
-  component,
-  showTakeTheTourButton,
-  startTour,
-}: Readonly<Props>) {
+export default function BranchMetaTopBar({ branch, measures, component }: Readonly<Props>) {
   const { hasFeature } = useAvailableFeatures();
   const { data: containsAiCode } = useProjectContainsAiCodeQuery(
     {
@@ -105,18 +97,6 @@ export default function BranchMetaTopBar({
       )}
       <HomePageSelect currentPage={currentPage} type="button" />
       <ComponentReportActions branch={branch} component={component} />
-      {showTakeTheTourButton && (
-        <Tooltip content={translate('overview.promoted_section.button_tooltip')}>
-          <Button
-            className="sw-pl-4 sw-shrink-0"
-            data-spotlight-id="take-tour-1"
-            onClick={startTour}
-          >
-            <IconSlideshow className="sw-mr-1" />
-            {translate('overview.promoted_section.button_primary')}
-          </Button>
-        </Tooltip>
-      )}
     </div>
   );
 

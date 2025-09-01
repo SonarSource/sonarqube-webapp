@@ -748,8 +748,6 @@ describe('project overview', () => {
     );
 
     expect(byText('overview.promoted_section.title').query()).not.toBeInTheDocument();
-
-    expect(byText('guiding.replay_tour_button.1.title').get()).toBeInTheDocument();
   });
 
   it('should show CaYC tour', async () => {
@@ -785,7 +783,7 @@ describe('project overview', () => {
 
     await user.click(byRole('button', { name: 'complete' }).get());
 
-    expect(byText('guiding.replay_tour_button.tour_completed.1.title').get()).toBeInTheDocument();
+    expect(byText('guiding.cayc_promotion.4.title').query()).not.toBeInTheDocument();
   });
 });
 
