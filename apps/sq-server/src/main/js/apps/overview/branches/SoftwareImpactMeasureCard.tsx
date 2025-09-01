@@ -33,6 +33,7 @@ import { isDefined } from '~shared/helpers/types';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
+import IssuesLinkCausedByUpgrade from '~sq-server-commons/components/overview/IssuesLinkCausedByUpgrade';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import {
   SOFTWARE_QUALITIES_METRIC_KEYS_MAP,
@@ -86,6 +87,12 @@ export function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdow
     (c) => c.level === QGStatusEnum.ERROR && c.metric === ratingMetricKey,
   );
 
+  const fromSonarQubeUpdateIssuesMeasure = measures.find(
+    (m) => m.metric.key === MetricKey.from_sonarqube_update_issues,
+  );
+
+  const metric = measure?.metric || alternativeMeasure?.metric;
+
   return (
     <div
       className="sw-overflow-hidden sw-rounded-2 sw-flex-col"
@@ -104,35 +111,46 @@ export function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdow
       </div>
       <div className="sw-flex sw-flex-col sw-gap-3">
         <div className="sw-flex sw-mt-4">
-          <div className="sw-flex sw-gap-1 sw-items-center">
-            {count ? (
-              <Tooltip content={countTooltipOverlay} isOpen={isStandardMode ? false : undefined}>
-                <LinkStandalone
-                  aria-label={intl.formatMessage(
-                    {
-                      id: `overview.measures.software_impact.see_list_of_x_open_issues`,
-                    },
-                    {
-                      count,
-                      softwareQuality: intl.formatMessage({
-                        id: SOFTWARE_QUALITY_LABELS[softwareQuality],
-                      }),
-                    },
-                  )}
-                  className="sw-text-lg sw-font-semibold"
-                  data-testid={`overview__software-impact-${softwareQuality}`}
-                  highlight={LinkHighlight.CurrentColor}
-                  to={totalLinkHref}
-                >
-                  {count}
-                </LinkStandalone>
-              </Tooltip>
-            ) : (
-              <StyledDash isHighlighted>-</StyledDash>
-            )}
-            <Text className="sw-self-end sw-pb-1" isSubtle>
-              {intl.formatMessage({ id: 'overview.measures.software_impact.total_open_issues' })}
-            </Text>
+          <div>
+            <div className="sw-flex sw-gap-1 sw-items-center">
+              {count ? (
+                <Tooltip content={countTooltipOverlay} isOpen={isStandardMode ? false : undefined}>
+                  <LinkStandalone
+                    aria-label={intl.formatMessage(
+                      {
+                        id: `overview.measures.software_impact.see_list_of_x_open_issues`,
+                      },
+                      {
+                        count,
+                        softwareQuality: intl.formatMessage({
+                          id: SOFTWARE_QUALITY_LABELS[softwareQuality],
+                        }),
+                      },
+                    )}
+                    className="sw-text-lg sw-font-semibold"
+                    data-testid={`overview__software-impact-${softwareQuality}`}
+                    highlight={LinkHighlight.CurrentColor}
+                    to={totalLinkHref}
+                  >
+                    {count}
+                  </LinkStandalone>
+                </Tooltip>
+              ) : (
+                <StyledDash isHighlighted>-</StyledDash>
+              )}
+              <Text className="sw-self-end sw-pb-1" isSubtle>
+                {intl.formatMessage({ id: 'overview.measures.software_impact.total_open_issues' })}
+              </Text>
+            </div>
+
+            <IssuesLinkCausedByUpgrade
+              branchLike={branch}
+              className="sw-mt-1"
+              component={component}
+              fromSonarQubeUpdateIssuesMeasure={fromSonarQubeUpdateIssuesMeasure}
+              isNewCodePeriod={false}
+              metric={metric}
+            />
           </div>
 
           <div className="sw-flex-grow sw-flex sw-justify-end">

@@ -21,6 +21,7 @@
 import { Text } from '@sonarsource/echoes-react';
 import _ from 'lodash';
 import { FormattedMessage } from 'react-intl';
+import { MeasureEnhanced } from '~shared/types/measures';
 import { CardSeparator } from '../../design-system';
 import { isDiffMetric } from '../../helpers/measures';
 import { BranchLike } from '../../types/branch-like';
@@ -35,6 +36,7 @@ export interface FailedConditionsProps {
   failedConditions: QualityGateStatusConditionEnhanced[];
   isApplication?: boolean;
   isNewCode: boolean;
+  measures?: MeasureEnhanced[];
   qualityGate?: QualityGate;
 }
 
@@ -45,6 +47,7 @@ export default function FailedConditions({
   failedConditions,
   component,
   branchLike,
+  measures,
 }: Readonly<FailedConditionsProps>) {
   const [newCodeFailedConditions, overallFailedConditions] = _.partition(
     failedConditions,
@@ -74,6 +77,7 @@ export default function FailedConditions({
         component={component}
         failedConditions={isNewCode ? newCodeFailedConditions : overallFailedConditions}
         isBuiltInQualityGate={isNewCode && qualityGate?.isBuiltIn}
+        measures={measures}
       />
     </>
   );

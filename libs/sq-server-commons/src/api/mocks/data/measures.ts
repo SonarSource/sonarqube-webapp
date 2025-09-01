@@ -105,6 +105,16 @@ function mockComponentMeasure(tree: ComponentTree, issueList: IssueData[], metri
         },
         value: undefined,
       });
+
+    case MetricKey.from_sonarqube_update_issues:
+      return mockMeasure({
+        metric: metricKey,
+        period: {
+          index: 1,
+          value: '5',
+        },
+        value: '3',
+      });
   }
 
   const issues = issueList

@@ -54,6 +54,7 @@ export enum MetricKey {
   executable_lines_data = 'executable_lines_data',
   false_positive_issues = 'false_positive_issues',
   file = 'file',
+  from_sonarqube_update_issues = 'from_sonarqube_update_issues',
   file_complexity = 'file_complexity',
   file_complexity_distribution = 'file_complexity_distribution',
   filename_size = 'filename_size',

@@ -20,7 +20,7 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import { byRole, byText } from '~shared/helpers/testSelector';
-import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import { AiCodeAssuranceStatus } from '~sq-server-commons/api/ai-code-assurance';
@@ -29,6 +29,7 @@ import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServ
 import ApplicationServiceMock from '~sq-server-commons/api/mocks/ApplicationServiceMock';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
 import { PARENT_COMPONENT_KEY } from '~sq-server-commons/api/mocks/data/ids';
+import IssuesServiceMock from '~sq-server-commons/api/mocks/IssuesServiceMock';
 import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServiceMock';
 import MessagesServiceMock from '~sq-server-commons/api/mocks/MessagesServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
@@ -45,10 +46,16 @@ import { mockMainBranch } from '~sq-server-commons/helpers/mocks/branch-like';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockAnalysis, mockAnalysisEvent } from '~sq-server-commons/helpers/mocks/project-activity';
 import { mockQualityGateProjectStatus } from '~sq-server-commons/helpers/mocks/quality-gates';
-import { mockLoggedInUser, mockMeasure, mockPaging } from '~sq-server-commons/helpers/testMocks';
+import {
+  mockLoggedInUser,
+  mockMeasure,
+  mockPaging,
+  mockRawIssue,
+} from '~sq-server-commons/helpers/testMocks';
 import { renderComponent, RenderContext } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { ComponentPropsType } from '~sq-server-commons/helpers/testUtils';
 import { Feature } from '~sq-server-commons/types/features';
+import { IssueType } from '~sq-server-commons/types/issues';
 import { Mode } from '~sq-server-commons/types/mode';
 import { ProjectAnalysisEventCategory } from '~sq-server-commons/types/project-activity';
 import { CaycStatus, Component } from '~sq-server-commons/types/types';
@@ -66,6 +73,7 @@ let usersHandler: UsersServiceMock;
 let timeMarchineHandler: TimeMachineServiceMock;
 let qualityGatesHandler: QualityGatesServiceMock;
 let messageshandler: MessagesServiceMock;
+let issuesHandler: IssuesServiceMock;
 const aiCodeAssuredHanler = new AiCodeAssuredServiceMock();
 const settingsHandler = new SettingsServiceMock();
 
@@ -79,6 +87,7 @@ beforeAll(() => {
   applicationHandler = new ApplicationServiceMock();
   projectActivityHandler = new ProjectActivityServiceMock();
   usersHandler = new UsersServiceMock();
+  issuesHandler = new IssuesServiceMock();
   projectActivityHandler.setAnalysesList([
     mockAnalysis({ key: 'a1', detectedCI: 'Cirrus CI' }),
     mockAnalysis({ key: 'a2' }),
@@ -145,6 +154,7 @@ beforeEach(() => {
   messageshandler.reset();
   aiCodeAssuredHanler.reset();
   settingsHandler.reset();
+  issuesHandler.reset();
   aiCodeAssuredHanler.projectList.push({
     aiCodeAssurance: AiCodeAssuranceStatus.AI_CODE_ASSURED_ON,
     project: 'foo',
@@ -253,6 +263,144 @@ describe('project overview', () => {
     expect(
       screen.getByRole('link', { name: 'projects.ai_code_detected.link' }),
     ).toBeInTheDocument();
+  });
+
+  describe('Issues from SonarQube update', () => {
+    beforeEach(() => {
+      qualityGatesHandler.setQualityGateProjectStatus(
+        mockQualityGateProjectStatus({
+          status: 'OK',
+        }),
+      );
+
+      issuesHandler.list = [
+        {
+          issue: mockRawIssue(false, {
+            type: IssueType.Vulnerability,
+            impacts: [
+              {
+                softwareQuality: SoftwareQuality.Security,
+                severity: SoftwareImpactSeverity.Medium,
+              },
+            ],
+            fromSonarQubeUpdate: true,
+          }),
+          snippets: {},
+        },
+        {
+          issue: mockRawIssue(false, {
+            type: IssueType.CodeSmell,
+            impacts: [
+              {
+                softwareQuality: SoftwareQuality.Security,
+                severity: SoftwareImpactSeverity.High,
+              },
+            ],
+            fromSonarQubeUpdate: true,
+          }),
+          snippets: {},
+        },
+        {
+          issue: mockRawIssue(false, {
+            type: IssueType.CodeSmell,
+            impacts: [
+              {
+                softwareQuality: SoftwareQuality.Maintainability,
+                severity: SoftwareImpactSeverity.Medium,
+              },
+            ],
+            fromSonarQubeUpdate: true,
+          }),
+          snippets: {},
+        },
+        {
+          issue: mockRawIssue(false, {
+            type: IssueType.CodeSmell,
+            impacts: [
+              {
+                softwareQuality: SoftwareQuality.Maintainability,
+                severity: SoftwareImpactSeverity.Medium,
+              },
+            ],
+          }),
+          snippets: {},
+        },
+      ];
+    });
+
+    it('should show link to issues from SonarQube updates in MQR mode', async () => {
+      const { user, ui } = getPageObjects();
+      modeHandler.setMode(Mode.MQR);
+
+      renderBranchOverview({}, { featureList: [Feature.FromSonarQubeUpdate] });
+
+      expect(
+        await screen.findAllByRole('link', { name: /overview\.issues\.issue_from_update/ }),
+      ).toHaveLength(1);
+      expect(
+        screen.getByRole('link', { name: 'overview.issues.issue_from_update.3' }),
+      ).toHaveAttribute(
+        'href',
+        '/project/issues?issueStatuses=OPEN%2CCONFIRMED&inNewCodePeriod=true&fromSonarQubeUpdate=true&id=foo',
+      );
+
+      await user.click(ui.overallCodeButton.get());
+
+      expect(
+        await screen.findAllByRole('link', { name: /overview\.issues\.issue_from_update/ }),
+      ).toHaveLength(2);
+
+      expect(
+        screen.getByRole('link', { name: 'overview.issues.issue_from_update.1' }),
+      ).toHaveAttribute(
+        'href',
+        '/project/issues?issueStatuses=OPEN%2CCONFIRMED&impactSoftwareQualities=MAINTAINABILITY&fromSonarQubeUpdate=true&id=foo',
+      );
+
+      expect(
+        screen.getByRole('link', { name: 'overview.issues.issue_from_update.2' }),
+      ).toHaveAttribute(
+        'href',
+        '/project/issues?issueStatuses=OPEN%2CCONFIRMED&impactSoftwareQualities=SECURITY&fromSonarQubeUpdate=true&id=foo',
+      );
+    });
+
+    it('should show link to issues from SonarQube updates in Standard mode', async () => {
+      const { user, ui } = getPageObjects();
+      modeHandler.setMode(Mode.Standard);
+
+      renderBranchOverview({}, { featureList: [Feature.FromSonarQubeUpdate] });
+
+      expect(
+        await screen.findAllByRole('link', { name: /overview\.issues\.issue_from_update/ }),
+      ).toHaveLength(1);
+      expect(
+        screen.getByRole('link', { name: 'overview.issues.issue_from_update.3' }),
+      ).toHaveAttribute(
+        'href',
+        '/project/issues?issueStatuses=OPEN%2CCONFIRMED&inNewCodePeriod=true&fromSonarQubeUpdate=true&id=foo',
+      );
+
+      await user.click(ui.overallCodeButton.get());
+
+      expect(
+        await screen.findAllByRole('link', { name: /overview\.issues\.issue_from_update/ }),
+      ).toHaveLength(2);
+
+      expect(
+        screen.getByRole('link', { name: 'overview.issues.issue_from_update.2' }),
+      ).toHaveAttribute(
+        'href',
+        '/project/issues?issueStatuses=OPEN%2CCONFIRMED&types=CODE_SMELL&fromSonarQubeUpdate=true&id=foo',
+      );
+
+      expect(
+        screen.getByRole('link', { name: 'overview.issues.issue_from_update.1' }),
+      ).toHaveAttribute(
+        'href',
+        '/project/issues?issueStatuses=OPEN%2CCONFIRMED&types=VULNERABILITY&fromSonarQubeUpdate=true&id=foo',
+      );
+    });
   });
 
   it('should show a failed QG', async () => {

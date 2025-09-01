@@ -91,6 +91,7 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
           <QualityGatePanel
             component={component}
             loading={loading}
+            measures={measures}
             qgStatuses={qgStatuses}
             qualityGate={qualityGate}
             totalFailedConditionLength={totalOverallFailedCondition.length}

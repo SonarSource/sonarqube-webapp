@@ -25,6 +25,7 @@ import { FormattedMessage } from 'react-intl';
 import { CardSeparator, InfoCard } from '~design-system';
 import { isApplication } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
+import { MeasureEnhanced } from '~shared/types/measures';
 import IgnoredConditionWarning from '~sq-server-commons/components/overview/IgnoredConditionWarning';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
@@ -40,6 +41,7 @@ export interface QualityGatePanelProps {
   component: Pick<Component, 'key' | 'qualifier' | 'qualityGate'>;
   isNewCode?: boolean;
   loading?: boolean;
+  measures?: MeasureEnhanced[];
   qgStatuses?: QualityGateStatus[];
   qualityGate?: QualityGate;
   showCaycWarningInApp?: boolean;
@@ -51,6 +53,7 @@ export function QualityGatePanel(props: QualityGatePanelProps) {
   const {
     component,
     loading,
+    measures,
     qgStatuses = [],
     qualityGate,
     isNewCode = false,
@@ -112,6 +115,7 @@ export function QualityGatePanel(props: QualityGatePanelProps) {
                       isLastStatus={qgStatusIdx === failedQgStatuses.length - 1}
                       isNewCode={isNewCode}
                       key={qgStatus.key}
+                      measures={measures}
                       qgStatus={qgStatus}
                       qualityGate={qualityGate}
                     />

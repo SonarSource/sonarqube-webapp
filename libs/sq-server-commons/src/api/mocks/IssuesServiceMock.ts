@@ -34,6 +34,7 @@ import {
 import { StandardsInformation } from '~shared/types/security';
 import { ISSUE_STATUSES, ISSUE_TYPES, SEVERITIES, SOURCE_SCOPES } from '../../helpers/constants';
 import { mockIssueAuthors, mockIssueChangelog } from '../../helpers/mocks/issues';
+import { parseAsOptionalBoolean } from '../../helpers/query';
 import { RequestData } from '../../helpers/request';
 import { mockLoggedInUser, mockPaging, mockRuleDetails } from '../../helpers/testMocks';
 import { SearchRulesResponse } from '../../types/coding-rules';
@@ -507,9 +508,10 @@ export default class IssuesServiceMock {
         if (query.fromSonarQubeUpdate === undefined) {
           return true;
         }
-        return query.fromSonarQubeUpdate === 'true'
-          ? item.issue.fromSonarQubeUpdate === true
-          : item.issue.fromSonarQubeUpdate === false;
+        return (
+          item.issue.fromSonarQubeUpdate ===
+          (parseAsOptionalBoolean(query.fromSonarQubeUpdate) ?? query.fromSonarQubeUpdate)
+        );
       });
 
     // Splice list items according to paging using a fixed page size

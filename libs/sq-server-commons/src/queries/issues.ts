@@ -19,17 +19,32 @@
  */
 
 import { QueryClient, queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
-import { createQueryHook } from '~shared/queries/common';
-import { addIssueComment, getIssueChangelog, setIssueTransition } from '../api/issues';
+import { createQueryHook, StaleTime } from '~shared/queries/common';
+import {
+  addIssueComment,
+  getIssueChangelog,
+  searchIssues,
+  setIssueTransition,
+} from '../api/issues';
+import { RequestData } from '../helpers/request';
 
 const issuesQuery = {
   changelog: (issueKey: string) => ['issue', issueKey, 'changelog'] as const,
+  search: (query: RequestData) => ['issues', 'search', query] as const,
 };
 
 export const useIssueChangelogQuery = createQueryHook((issueKey: string) => {
   return queryOptions({
     queryKey: issuesQuery.changelog(issueKey),
     queryFn: () => getIssueChangelog(issueKey),
+  });
+});
+
+export const useIssuesSearchQuery = createQueryHook((query: RequestData) => {
+  return queryOptions({
+    queryKey: issuesQuery.search(query),
+    queryFn: () => searchIssues(query),
+    staleTime: StaleTime.LIVE,
   });
 });
 

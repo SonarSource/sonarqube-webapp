@@ -19,9 +19,10 @@ When running tests, pick the most relevent platform (cloud or server) and narrow
 
 # Writing Code
 
-Try not to write duplicate code, and reorganize if necessary to keep things DRY.
-Never attempt to fix linting issues until you believe the implementation is correct.
-Always fix typescript errors
+- Try not to write duplicate code, and reorganize if necessary to keep things DRY.
+- Never attempt to fix linting issues until you believe the implementation is correct.
+- Always fix typescript errors
+- **MANDATORY**: ALWAYS run `yarn prettier --write <file>` immediately after editing any file to ensure proper formatting.
 
 ## Tailwind and CSS
 

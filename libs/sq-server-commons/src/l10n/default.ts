@@ -6132,6 +6132,8 @@ export const defaultMessages = {
   'overview.ai_assurance.unsolved_overall.description':
     'Some unresolved findings in this branch’s overall code may represent a risk. We recommend reviewing these findings before releasing the branch.',
   'overview.ai_assurance.unsolved_overall.dismiss': 'Dismiss unresolved overall code findings',
+  'overview.issues.issue_from_update': '{count} from SonarQube update',
+  'overview.issues.issue_from_update.tooltip': 'Issues appearing as a result of SonarQube updates',
 
   'guiding.cayc_promotion.1.title': 'The power of new code',
   'guiding.cayc_promotion.1.content.1':

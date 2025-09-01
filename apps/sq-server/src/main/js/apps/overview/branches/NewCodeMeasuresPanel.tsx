@@ -41,6 +41,7 @@ import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { getLeakValue } from '~sq-server-commons/components/measure/utils';
 import { IssueMeasuresCardInner } from '~sq-server-commons/components/overview/IssueMeasuresCardInner';
+import IssuesLinkCausedByUpgrade from '~sq-server-commons/components/overview/IssuesLinkCausedByUpgrade';
 import { MeasuresCardDependencyRisk } from '~sq-server-commons/components/overview/MeasuresCardDependencyRisk';
 import MeasuresCardNumber from '~sq-server-commons/components/overview/MeasuresCardNumber';
 import MeasuresCardPercent from '~sq-server-commons/components/overview/MeasuresCardPercent';
@@ -87,7 +88,8 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
 
   const totalFailedCondition = qgStatuses?.flatMap((qg) => qg.failedConditions) ?? [];
   const totalNewFailedCondition = totalFailedCondition.filter((c) => isDiffMetric(c.metric));
-  const newIssues = getLeakValue(findMeasure(measures, MetricKey.new_violations));
+  const newIssuesMeasure = findMeasure(measures, MetricKey.new_violations);
+  const newIssues = getLeakValue(newIssuesMeasure);
   const newIssuesCondition = conditions.find((c) => c.metric === MetricKey.new_violations);
   const issuesConditionFailed = newIssuesCondition?.level === QGStatusEnum.ERROR;
   const newAcceptedIssues = getLeakValue(findMeasure(measures, MetricKey.new_accepted_issues));
@@ -102,6 +104,11 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
   ) as string;
   const newSecurityReviewRating = getLeakValue(
     findMeasure(measures, MetricKey.new_security_review_rating),
+  );
+
+  // Find the from_sonarqube_update_issues measure value
+  const fromSonarQubeUpdateIssuesMeasure = measures.find(
+    (m) => m.metric.key === MetricKey.from_sonarqube_update_issues,
   );
 
   let issuesFooter;
@@ -176,6 +183,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
               component={component}
               isNewCode
               loading={loading}
+              measures={measures}
               qgStatuses={qgStatuses}
               qualityGate={qualityGate}
               showCaycWarningInApp={showCaycWarningInApp}
@@ -188,6 +196,16 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
           <IssueMeasuresCardInner
             data-testid="overview__measures-new_issues"
             disabled={component.needIssueSync}
+            extraLine={
+              <IssuesLinkCausedByUpgrade
+                branchLike={branch}
+                className="sw-mt-1"
+                component={component}
+                fromSonarQubeUpdateIssuesMeasure={fromSonarQubeUpdateIssuesMeasure}
+                isNewCodePeriod
+                metric={newIssuesMeasure?.metric}
+              />
+            }
             failed={issuesConditionFailed}
             footer={issuesFooter}
             header={intl.formatMessage({

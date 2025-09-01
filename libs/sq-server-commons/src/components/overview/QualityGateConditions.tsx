@@ -20,6 +20,7 @@
 
 import { sortBy } from 'lodash';
 import * as React from 'react';
+import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { CardSeparator, Link } from '../../design-system';
 import { translate } from '../../helpers/l10n';
@@ -27,6 +28,7 @@ import { CAYC_CONDITION_ORDER_PRIORITIES } from '../../helpers/quality-gates';
 import { BranchLike } from '../../types/branch-like';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
 import { Component } from '../../types/types';
+import IssuesLinkCausedByUpgrade from './IssuesLinkCausedByUpgrade';
 import QualityGateCondition from './QualityGateCondition';
 import QualityGateSimplifiedCondition from './QualityGateSimplifiedCondition';
 
@@ -38,12 +40,14 @@ export interface QualityGateConditionsProps {
   component: Pick<Component, 'key'>;
   failedConditions: QualityGateStatusConditionEnhanced[];
   isBuiltInQualityGate?: boolean;
+  measures?: MeasureEnhanced[];
 }
 
 const MAX_CONDITIONS = 5;
 
 export function QualityGateConditions(props: Readonly<QualityGateConditionsProps>) {
-  const { branchLike, collapsible, component, failedConditions, isBuiltInQualityGate } = props;
+  const { branchLike, collapsible, component, failedConditions, isBuiltInQualityGate, measures } =
+    props;
   const [collapsed, toggleCollapsed] = React.useState(Boolean(collapsible));
 
   const handleToggleCollapsed = React.useCallback(() => {
@@ -62,6 +66,10 @@ export function QualityGateConditions(props: Readonly<QualityGateConditionsProps
     (condition) => CAYC_CONDITION_ORDER_PRIORITIES[condition.metric],
     (condition) => LEVEL_ORDER.indexOf(condition.level),
   ]);
+
+  const fromSonarQubeUpdateIssuesMeasure = measures?.find(
+    (measure) => measure.metric.key === MetricKey.from_sonarqube_update_issues,
+  );
 
   let renderConditions;
   let renderCollapsed;
@@ -91,6 +99,15 @@ export function QualityGateConditions(props: Readonly<QualityGateConditionsProps
               condition={condition}
             />
           )}
+          <IssuesLinkCausedByUpgrade
+            branchLike={branchLike}
+            className="sw-ml-16 sw-mt-1"
+            component={component}
+            condition={condition}
+            fromSonarQubeUpdateIssuesMeasure={fromSonarQubeUpdateIssuesMeasure}
+            isNewCodePeriod={condition.period != null}
+            metric={condition.measure.metric}
+          />
           {idx !== renderConditions.length - 1 && <CardSeparator />}
         </div>
       ))}

@@ -433,6 +433,7 @@ export function mockMetric(
   const name = overrides.name || key;
   const type = overrides.type || MetricType.Percent;
   return {
+    domain: 'Issues',
     ...overrides,
     key,
     name,

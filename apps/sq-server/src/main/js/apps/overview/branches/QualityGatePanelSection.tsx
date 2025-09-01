@@ -20,6 +20,7 @@
 
 import * as React from 'react';
 import { BorderlessAccordion, CardSeparator } from '~design-system';
+import { MeasureEnhanced } from '~shared/types/measures';
 import FailedConditions from '~sq-server-commons/components/overview/FailedConditions';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { QualityGateStatus } from '~sq-server-commons/types/quality-gates';
@@ -29,12 +30,13 @@ export interface QualityGatePanelSectionProps {
   isApplication?: boolean;
   isLastStatus?: boolean;
   isNewCode: boolean;
+  measures?: MeasureEnhanced[];
   qgStatus: QualityGateStatus;
   qualityGate?: QualityGate;
 }
 
 export function QualityGatePanelSection(props: QualityGatePanelSectionProps) {
-  const { isApplication, isLastStatus, qgStatus, qualityGate, isNewCode } = props;
+  const { isApplication, isLastStatus, measures, qgStatus, qualityGate, isNewCode } = props;
   const [collapsed, setCollapsed] = React.useState(false);
 
   const toggle = React.useCallback(() => {
@@ -67,6 +69,7 @@ export function QualityGatePanelSection(props: QualityGatePanelSectionProps) {
               failedConditions={qgStatus.failedConditions}
               isApplication={isApplication}
               isNewCode={isNewCode}
+              measures={measures}
               qualityGate={qualityGate}
             />
           </BorderlessAccordion>
@@ -80,6 +83,7 @@ export function QualityGatePanelSection(props: QualityGatePanelSectionProps) {
           failedConditions={qgStatus.failedConditions}
           isApplication={isApplication}
           isNewCode={isNewCode}
+          measures={measures}
           qualityGate={qualityGate}
         />
       )}

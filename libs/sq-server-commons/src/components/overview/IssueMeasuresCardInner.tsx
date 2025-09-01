@@ -30,6 +30,7 @@ import { localizeMetric } from '../../helpers/measures';
 
 interface IssueMeasuresCardInnerProps extends React.HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;
+  extraLine?: React.ReactNode;
   failed?: boolean;
   footer?: React.ReactNode;
   header: React.ReactNode;
@@ -40,47 +41,62 @@ interface IssueMeasuresCardInnerProps extends React.HTMLAttributes<HTMLDivElemen
 }
 
 export function IssueMeasuresCardInner(props: Readonly<IssueMeasuresCardInnerProps>) {
-  const { header, metric, icon, value, url, failed, footer, className, disabled, ...rest } = props;
+  const {
+    header,
+    metric,
+    icon,
+    value,
+    url,
+    failed,
+    footer,
+    extraLine,
+    className,
+    disabled,
+    ...rest
+  } = props;
 
   return (
     <div className={classNames('sw-flex sw-flex-col sw-gap-3', className)} {...rest}>
-      <div
-        className={classNames('sw-flex sw-flex-col sw-gap-2 sw-font-semibold', {
-          'sw-opacity-60': disabled,
-        })}
-      >
-        <div className="sw-flex sw-items-center sw-gap-2">
-          <Label as="span" className="sw-whitespace-nowrap">
-            {header}
-          </Label>
+      <div>
+        <div
+          className={classNames('sw-flex sw-flex-col sw-gap-2 sw-font-semibold', {
+            'sw-opacity-60': disabled,
+          })}
+        >
+          <div className="sw-flex sw-items-center sw-gap-2">
+            <Label as="span" className="sw-whitespace-nowrap">
+              {header}
+            </Label>
 
-          {failed && (
-            <Badge variety="danger">
-              <FormattedMessage id="overview.measures.failed_badge" />
-            </Badge>
-          )}
-        </div>
-        <div className="sw-flex sw-justify-between sw-items-center sw-h-900">
-          <div className="sw-h-fit">
-            <LinkStandalone
-              aria-label={
-                value
-                  ? translateWithParameters(
-                      'overview.see_more_details_on_x_of_y',
-                      value,
-                      localizeMetric(metric),
-                    )
-                  : translateWithParameters('no_measure_value_x', localizeMetric(metric))
-              }
-              className="it__overview-measures-value sw-w-fit sw-text-lg"
-              highlight={LinkHighlight.Default}
-              to={url}
-            >
-              {value ?? '-'}
-            </LinkStandalone>
+            {failed && (
+              <Badge variety="danger">
+                <FormattedMessage id="overview.measures.failed_badge" />
+              </Badge>
+            )}
           </div>
-          {value ? icon : <NoDataIcon size="md" />}
+          <div className="sw-flex sw-justify-between sw-items-center sw-h-900">
+            <div className="sw-h-fit">
+              <LinkStandalone
+                aria-label={
+                  value
+                    ? translateWithParameters(
+                        'overview.see_more_details_on_x_of_y',
+                        value,
+                        localizeMetric(metric),
+                      )
+                    : translateWithParameters('no_measure_value_x', localizeMetric(metric))
+                }
+                className="it__overview-measures-value sw-w-fit sw-text-lg"
+                highlight={LinkHighlight.Default}
+                to={url}
+              >
+                {value ?? '-'}
+              </LinkStandalone>
+            </div>
+            {value ? icon : <NoDataIcon size="md" />}
+          </div>
         </div>
+        {extraLine}
       </div>
       {footer}
     </div>
