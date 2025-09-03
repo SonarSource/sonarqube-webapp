@@ -285,7 +285,7 @@ describe('issues app', () => {
 
       expect(
         issueBoxFixThat.queryByLabelText(
-          'issue.transition.status_x_click_to_change.issue.status.falsepositive',
+          'transition_status.status_x_click_to_change.issue.status.falsepositive',
         ),
       ).not.toBeInTheDocument();
     });

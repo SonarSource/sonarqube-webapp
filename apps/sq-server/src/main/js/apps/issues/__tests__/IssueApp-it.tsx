@@ -22,12 +22,14 @@ import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { range } from 'lodash';
 import React from 'react';
-import { byRole, byText } from '~shared/helpers/testSelector';
+import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { ISSUE_101, ISSUE_1101, ISSUE_2 } from '~sq-server-commons/api/mocks/data/ids';
 import { TabKeys } from '~sq-server-commons/components/rules/RuleTabViewer';
+import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { Feature } from '~sq-server-commons/types/features';
+import { IssueStatus, IssueTransition } from '~sq-server-commons/types/issues';
 import { Component } from '~sq-server-commons/types/types';
 import { RestUserDetailed } from '~sq-server-commons/types/users';
 import {
@@ -272,54 +274,42 @@ describe('issue app', () => {
     issuesHandler.setIsAdmin(true);
     renderIssueApp();
 
-    // Get a specific issue list item
-    const listItem = within(
-      await screen.findByLabelText('Fix that', undefined, { timeout: 10_000 }),
-    );
+    const issueContainer = await byLabelText('Fix that').find(); // Get a specific issue list item
+    expect(ui.statusBtn(IssueStatus.Open).get(issueContainer)).toBeInTheDocument();
 
-    expect(listItem.getByText('issue.issue_status.OPEN')).toBeInTheDocument();
+    await user.click(ui.statusBtn(IssueStatus.Open).get(issueContainer));
 
-    await user.click(listItem.getByText('issue.issue_status.OPEN'));
+    expect(byText('issue.transition.title').get()).toBeInTheDocument();
+    expect(ui.issueTransitionItem(IssueTransition.Accept).get()).toBeInTheDocument();
+    expect(ui.issueTransitionItem(IssueTransition.Confirm).get()).toBeInTheDocument();
 
-    expect(screen.getByText('issue.transition.status_change')).toBeInTheDocument();
-    expect(listItem.getByText('issue.transition.accept')).toBeInTheDocument();
-    expect(listItem.getByText('issue.transition.confirm')).toBeInTheDocument();
+    // test add comment dialog (cancel)
+    await user.click(ui.issueTransitionItem(IssueTransition.FalsePositive).get());
+    expect(ui.commentDialogTitle.get()).toBeInTheDocument();
+    expect(byRole('heading', { name: 'issue.transition.title' }).query()).not.toBeInTheDocument();
 
-    // test go back
-    await user.click(listItem.getByText('issue.transition.falsepositive'));
-    expect(listItem.getByText('issue.transition.falsepositive')).toBeInTheDocument();
-    expect(listItem.queryByText('issue.transition.accept')).not.toBeInTheDocument();
-    expect(listItem.queryByText('issue.transition.confirm')).not.toBeInTheDocument();
-    await user.click(screen.getByLabelText('go_back'));
-    expect(listItem.getByText('issue.transition.accept')).toBeInTheDocument();
+    await user.click(byRole('button', { name: 'cancel' }).get());
+    expect(ui.statusBtn(IssueStatus.Open).get(issueContainer)).toBeInTheDocument();
 
-    // select accept
-    await user.click(listItem.getByText('issue.transition.accept'));
-    expect(screen.getByText('issue.transition.go_back_change_status')).toBeInTheDocument();
-    expect(listItem.getByRole('textbox')).toBeInTheDocument();
+    // test add comment dialog (confirm)
+    await user.click(ui.statusBtn(IssueStatus.Open).get(issueContainer));
+    await user.click(ui.issueTransitionItem(IssueTransition.FalsePositive).get());
+    await user.click(ui.changeStatusBtn.get());
 
-    const commentInput = listItem.getByRole('textbox');
-    await user.click(commentInput);
-    await user.paste('test');
-    await user.click(listItem.getByText('issue.transition.change_status'));
+    expect(ui.statusBtn(IssueStatus.FalsePositive).get(issueContainer)).toBeInTheDocument();
 
-    expect(
-      listItem.getByLabelText(
-        'issue.transition.status_x_click_to_change.issue.issue_status.ACCEPTED',
-      ),
-    ).toBeInTheDocument();
+    // Change back to open
+    await user.click(ui.statusBtn(IssueStatus.FalsePositive).get(issueContainer));
+    await user.click(ui.issueTransitionItem(IssueTransition.Reopen).get());
 
-    // Change status again
-    await user.click(listItem.getByText('issue.issue_status.ACCEPTED'));
-    await user.click(listItem.getByText('issue.transition.reopen'));
+    expect(await ui.statusBtn(IssueStatus.Open).find(issueContainer)).toBeInTheDocument();
 
-    expect(
-      listItem.getByLabelText('issue.transition.status_x_click_to_change.issue.issue_status.OPEN'),
-    ).toBeInTheDocument();
+    // Accept issue
+    await user.click(ui.statusBtn(IssueStatus.Open).get(issueContainer));
+    await user.click(ui.issueTransitionItem(IssueTransition.Accept).get());
+    await user.click(ui.changeStatusBtn.get());
 
-    expect(
-      listItem.queryByRole('button', { name: 'issue.comment.submit' }),
-    ).not.toBeInTheDocument();
+    expect(ui.statusBtn(IssueStatus.Accepted).get(issueContainer)).toBeInTheDocument();
   });
 
   it('should be able to assign issue to a different user', async () => {
@@ -410,7 +400,7 @@ describe('issue app', () => {
 
     expect(
       screen.queryByRole('button', {
-        name: `issue.transition.status_x_click_to_change.issue.status.OPEN`,
+        name: `transition_status.status_x_click_to_change.issue.status.OPEN`,
       }),
     ).not.toBeInTheDocument();
     expect(
@@ -431,23 +421,27 @@ describe('issue app', () => {
     // Open status popup on key press 'f'
     await user.keyboard('f');
 
-    expect(screen.getByText('issue.transition.confirm')).toBeInTheDocument();
-    expect(screen.getByText('issue.transition.resolve')).toBeInTheDocument();
+    expect(await ui.issueTransitionItem(IssueTransition.Confirm).find()).toBeInTheDocument();
+    expect(ui.issueTransitionItem(IssueTransition.Resolve).get()).toBeInTheDocument();
 
     // Open tags popup on key press 't'
     await user.keyboard('t');
+    expect(
+      await screen.findByRole('searchbox', { name: 'search.search_for_tags' }),
+    ).toBeInTheDocument();
 
-    expect(screen.getByRole('searchbox', { name: 'search.search_for_tags' })).toBeInTheDocument();
     expect(screen.getByText('android')).toBeInTheDocument();
     expect(screen.getByText('accessibility')).toBeInTheDocument();
 
     // Close tags popup
-    await user.click(screen.getByText('issue.no_tag'));
+    await user.keyboard(`{${KeyboardKeys.Escape}}`);
 
     // Open assign popup on key press 'a'
     await user.keyboard('a');
 
-    expect(screen.getByRole('searchbox', { name: 'search.search_for_tags' })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('searchbox', { name: 'search.search_for_users' }),
+    ).toBeInTheDocument();
   });
 
   it('should not open the actions popup using keyboard shortcut when keyboard shortcut flag is disabled', async () => {
@@ -461,8 +455,8 @@ describe('issue app', () => {
 
     // open status popup on key press 'f'
     await user.keyboard('f');
-    expect(screen.queryByText('issue.transition.confirm')).not.toBeInTheDocument();
-    expect(screen.queryByText('issue.transition.resolve')).not.toBeInTheDocument();
+    expect(screen.queryByText('status_transition.confirm')).not.toBeInTheDocument();
+    expect(screen.queryByText('status_transition.resolve')).not.toBeInTheDocument();
 
     // open comment popup on key press 'c'
     await user.keyboard('c');

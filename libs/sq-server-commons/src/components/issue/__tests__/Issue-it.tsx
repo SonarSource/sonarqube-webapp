@@ -322,15 +322,15 @@ it('should correctly handle keyboard shortcuts', async () => {
   });
 
   await ui.pressTransitionShortcut();
-  expect(ui.setStatusBtn(IssueTransition.UnConfirm).get()).toBeInTheDocument();
+  expect(await ui.setStatusBtn(IssueTransition.UnConfirm).find()).toBeInTheDocument();
   await ui.pressDismissShortcut();
 
   await ui.pressAssignShortcut();
-  expect(ui.setAssigneeBtn(/Organa/).get()).toBeInTheDocument();
+  expect(await ui.setAssigneeBtn(/Organa/).find()).toBeInTheDocument();
   await ui.pressDismissShortcut();
 
   await ui.pressTagsShortcut();
-  expect(ui.tagsSearchInput.get()).toBeInTheDocument();
+  expect(await ui.tagsSearchInput.find()).toBeInTheDocument();
   await ui.pressDismissShortcut();
 
   await ui.pressCheckShortcut();
@@ -424,8 +424,8 @@ function getPageObject() {
 
     // Status
     updateStatusBtn: (currentStatus: IssueStatus) =>
-      byLabelText(`issue.transition.status_x_click_to_change.issue.issue_status.${currentStatus}`),
-    setStatusBtn: (transition: IssueTransition) => byText(`issue.transition.${transition}`),
+      byLabelText(`status_transition.status_x_click_to_change.issue.issue_status.${currentStatus}`),
+    setStatusBtn: (transition: IssueTransition) => byText(`status_transition.${transition}`),
 
     // Assignee
     assigneeSearchInput: byLabelText('search.search_for_users'),

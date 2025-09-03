@@ -18,22 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
 import * as React from 'react';
-import {
-  Dropdown,
-  DropdownMenuWrapper,
-  ItemDivider,
-  PopupPlacement,
-  PopupZLevel,
-  SearchSelectDropdownControl,
-} from '../../../design-system';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { StatusTransition } from '~shared/components/status-transition/StatusTransition';
 import { useIssueCommentMutation, useIssueTransitionMutation } from '../../../queries/issues';
+import { IssueStatus } from '../../../types/issues';
 import { Issue } from '../../../types/types';
-import StatusHelper from '../../shared/StatusHelper';
 import { updateIssue } from '../actions';
-import { IssueTransitionOverlay } from './IssueTransitionOverlay';
+import {
+  isTransitionDeprecated,
+  isTransitionVisible,
+  orderIssueTransitions,
+  transitionRequiresComment,
+} from '../helpers';
 
 interface Props {
   isOpen: boolean;
@@ -43,87 +40,62 @@ interface Props {
 }
 
 export default function IssueTransition(props: Readonly<Props>) {
+  const intl = useIntl();
   const { isOpen, issue, onChange, togglePopup } = props;
 
   const [transitioning, setTransitioning] = React.useState(false);
   const { mutateAsync: setIssueTransition } = useIssueTransitionMutation();
   const { mutateAsync: addIssueComment } = useIssueCommentMutation();
 
-  async function handleSetTransition(transition: string, comment?: string) {
-    setTransitioning(true);
+  const transiteIssue = React.useCallback(
+    async (transition: string, comment?: string) => {
+      setTransitioning(true);
 
-    try {
-      if (typeof comment === 'string' && comment.length > 0) {
-        await setIssueTransition({ issue: issue.key, transition });
-        await updateIssue(onChange, addIssueComment({ issue: issue.key, text: comment }));
-      } else {
-        await updateIssue(onChange, setIssueTransition({ issue: issue.key, transition }));
-      }
-      togglePopup('transition', false);
-    } finally {
-      setTransitioning(false);
-    }
-  }
-
-  function handleClose() {
-    togglePopup('transition', false);
-  }
-
-  if (issue.transitions?.length) {
-    return (
-      <StyledDropdown
-        allowResizing
-        closeOnClick={false}
-        id="issue-transition"
-        onClose={handleClose}
-        openDropdown={isOpen}
-        overlay={
-          <IssueTransitionOverlay
-            issue={issue}
-            loading={transitioning}
-            onClose={handleClose}
-            onSetTransition={handleSetTransition}
-          />
+      try {
+        if (typeof comment === 'string' && comment.length > 0) {
+          await setIssueTransition({ issue: issue.key, transition });
+          await updateIssue(onChange, addIssueComment({ issue: issue.key, text: comment }));
+        } else {
+          await updateIssue(onChange, setIssueTransition({ issue: issue.key, transition }));
         }
-        placement={PopupPlacement.Bottom}
-        size="full"
-        zLevel={PopupZLevel.Absolute}
-      >
-        {({ a11yAttrs }) => (
-          <SearchSelectDropdownControl
-            {...a11yAttrs}
-            ariaLabel={translateWithParameters(
-              'issue.transition.status_x_click_to_change',
-              translate('issue.issue_status', issue.issueStatus),
-            )}
-            className="it__issue-transition sw-px-1"
-            isDiscreet
-            label={
-              <StatusHelper className="sw-flex sw-items-center" issueStatus={issue.issueStatus} />
-            }
-            onClear={handleClose}
-            onClick={(ev) => {
-              ev.preventDefault();
-              togglePopup('transition', !isOpen);
-            }}
-          />
-        )}
-      </StyledDropdown>
-    );
-  }
+        togglePopup('transition', false);
+      } finally {
+        setTransitioning(false);
+      }
+    },
+    [issue.key, onChange, addIssueComment, setIssueTransition, togglePopup],
+  );
 
-  return <StatusHelper issueStatus={issue.issueStatus} />;
-}
+  const transitions = orderIssueTransitions(issue.transitions.filter(isTransitionVisible)).map(
+    (transition) => ({
+      value: transition,
+      isDeprecated: isTransitionDeprecated(transition),
+      requiresComment: transitionRequiresComment(transition),
+    }),
+  );
 
-const StyledDropdown = styled(Dropdown)`
-  overflow: auto;
-
-  & ${DropdownMenuWrapper} {
-    border-radius: 8px;
-
-    ${ItemDivider} {
-      margin-left: 0;
-      margin-right: 0;
+  const getTooltipContent = () => {
+    if ([IssueStatus.Confirmed, IssueStatus.Fixed].includes(issue.issueStatus)) {
+      return <FormattedMessage id="issue.transition.status_deprecated" />;
     }
-  }
-`;
+
+    return <FormattedMessage id="issue.transition.status" />;
+  };
+
+  return (
+    <StatusTransition
+      buttonTooltipContent={getTooltipContent()}
+      dropdownHeader={{
+        label: <FormattedMessage id="issue.transition.title" />,
+      }}
+      isOpen={isOpen}
+      isTransiting={transitioning}
+      onOpenChange={(isOpen) => {
+        togglePopup('transition', isOpen);
+      }}
+      onTransite={transiteIssue}
+      status={intl.formatMessage({ id: `issue.issue_status.${issue.issueStatus}` })}
+      transitions={transitions}
+    />
+  );
+}

@@ -180,14 +180,14 @@ export default function IssueView(props: Readonly<Props>) {
           </span>
         )}
 
-        <div className="sw-flex sw-flex-col sw-grow sw-gap-3 sw-min-w-0">
+        <div className="sw-flex sw-flex-col sw-grow sw-min-w-0">
           <IssueTitleBar
             branchLike={branchLike}
             displayWhyIsThisAnIssue={displayWhyIsThisAnIssue}
             issue={issue}
           />
 
-          <div className="sw-mt-1 sw-flex sw-items-start sw-justify-between">
+          <div className="sw-mt-3 sw-flex sw-items-start sw-justify-between">
             <SoftwareImpactPillList
               data-guiding-id="issue-2"
               issueSeverity={issue.severity as IssueSeverity}
@@ -206,7 +206,7 @@ export default function IssueView(props: Readonly<Props>) {
             </div>
           </div>
 
-          <BasicSeparator />
+          <BasicSeparator className="sw-mt-3 sw-mb-1" />
 
           <div className="sw-flex sw-gap-2 sw-flex-nowrap sw-items-center sw-justify-between">
             <IssueActionsBar

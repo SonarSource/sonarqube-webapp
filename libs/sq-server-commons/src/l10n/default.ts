@@ -1085,40 +1085,26 @@ export const defaultMessages = {
   'issue.severity.updated_notification':
     '{issueLink, select, other { {issueLink} }} {quality, select, other { {quality} }} severity was changed from {before} to {after}',
   'issue.change_status': 'Change Status',
-  'issue.transition.community_plug_link': 'SonarSource Community',
-  'issue.transition.status_x_click_to_change': 'Issue status: {0}, click to change',
+
+  'issue.transition.title': 'Change issue status',
+  'issue.transition.status': 'Issue status',
+  'issue.transition.status_deprecated': 'Deprecated issue status',
   'issue.transition': 'Transition',
   'issue.transition.accept': 'Accept',
   'issue.transition.accept.description':
-    "Valid issue but won't be fixed now, it's acceptable for a while.",
+    "Won't fix immediately, but will no longer affect the quality gate",
   'issue.transition.confirm': 'Confirm',
-  'issue.transition.confirm.description': 'Deprecated',
-  'issue.transition.confirm.deprecated_tooltip.1': 'The Confirm action is deprecated.',
-  'issue.transition.confirm.deprecated_tooltip.2':
-    'If you were using Confirm to communicate with team members, consider assigning the issue or using comments and tags instead.',
-  'issue.transition.confirm.deprecated_tooltip.3':
-    'If you have reviewed this issue but cannot fix it now, consider marking it as Accepted.',
+  'issue.transition.confirm.description':
+    'Confirmation that the issue is valid. Issue impacts the quality gate',
   'issue.transition.unconfirm': 'Open',
-  'issue.transition.unconfirm.description': 'Reopen issue',
+  'issue.transition.unconfirm.description': 'Issue impacts the quality gate',
   'issue.transition.resolve': 'Fixed',
-  'issue.transition.resolve.description': 'Deprecated',
-  'issue.transition.resolve.deprecated_tooltip.1': 'The Resolve as Fixed action is deprecated.',
-  'issue.transition.resolve.deprecated_tooltip.2':
-    'The next analysis result will show if the issue has been fixed, otherwise it will reopen it automatically.',
-  'issue.transition.resolve.deprecated_tooltip.3':
-    'If you were using Resolve as Fixed to communicate with team members that an issue is being fixed, consider assigning it or using comments and tags instead.',
+  'issue.transition.resolve.description':
+    'Marked manually as fixed, but will reopen after the next analysis',
   'issue.transition.falsepositive': 'False Positive',
-  'issue.transition.falsepositive.description': 'Analysis is mistaken',
+  'issue.transition.falsepositive.description': 'Analysis is incorrect',
   'issue.transition.reopen': 'Open',
-  'issue.transition.reopen.description': 'Reopen issue',
-  'issue.transition.comment': 'Status change comment',
-  'issue.transition.comment.placeholder.accept': 'Share why (optional)',
-  'issue.transition.comment.placeholder.confirm': 'Share why this is confirmed (optional)',
-  'issue.transition.comment.placeholder.resolve': 'Share why this is fixed (optional)',
-  'issue.transition.comment.placeholder.falsepositive':
-    'Share why this is a false positive (optional)',
-  'issue.transition.close': 'Close',
-  'issue.transition.close.description': '',
+  'issue.transition.reopen.description': 'Issue impacts the quality gate',
   'issue.transition.wontfix': "Won't Fix",
   'issue.transition.wontfix.description': 'Deprecated',
   'issue.transition.openasvulnerability': 'Open as Vulnerability',
@@ -1131,6 +1117,40 @@ export const defaultMessages = {
   'issue.transition.status_change': 'Status change',
   'issue.transition.go_back_change_status': 'Go back to status change',
   'issue.transition.change_status': 'Change status',
+
+  // StatusTransition
+  'status_transition.status_x_click_to_change': 'Status: {0}, click to change',
+  'status_transition.transition': 'Transition',
+  'status_transition.accept': 'Accept',
+  'status_transition.accept.to_status': 'Accepted',
+  'status_transition.accept.description':
+    "Won't fix immediately, but will no longer affect the quality gate",
+  'status_transition.confirm': 'Confirm',
+  'status_transition.confirm.description':
+    'Confirmation that the issue is valid. Issue impacts the quality gate',
+  'status_transition.confirm.to_status': 'Confirmed',
+  'status_transition.unconfirm': 'Open',
+  'status_transition.unconfirm.description': 'Issue impacts the quality gate',
+  'status_transition.unconfirm.to_status': 'Open',
+  'status_transition.resolve': 'Fixed',
+  'status_transition.resolve.description':
+    'Marked manually as fixed, but will reopen after the next analysis',
+  'status_transition.resolve.to_status': 'Fixed',
+  'status_transition.falsepositive': 'False Positive',
+  'status_transition.falsepositive.description': 'Analysis is incorrect',
+  'status_transition.falsepositive.to_status': 'False Positive',
+  'status_transition.reopen': 'Open',
+  'status_transition.reopen.description': 'Issue impacts the quality gate',
+  'status_transition.reopen.to_status': 'Open',
+  'status_transition.wontfix': "Won't Fix",
+  'status_transition.wontfix.description': 'Deprecated',
+  'status_transition.wontfix.to_status': "Won't Fix",
+  'status_transition.comment.title': 'Add status change comment (optional)',
+  'status_transition.comment.label': 'Why should the current status be changed to "{status}"?',
+  'status_transition.comment.placeholder': 'Add the comment',
+  'status_transition.comment.share': 'Share this comment with Sonar to help us improve analyzers',
+  'status_transition.change_status': 'Change status',
+
   'issue.tabs.code': 'Where is the issue?',
   'issue.location_x': 'Location {0}',
   'issue.closed.file_level':

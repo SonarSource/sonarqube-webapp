@@ -80,35 +80,45 @@ function Issue(props: Readonly<Props>) {
     [issue.assignee, issue.key, onChange, togglePopup],
   );
 
+  const handlePopupKeyboardEvent = useCallback(
+    (nextPopup: string, event: KeyboardEvent) => {
+      event.preventDefault();
+
+      if (nextPopup === openPopup) {
+        togglePopup(openPopup, false);
+        return;
+      }
+
+      // Close current popup first
+      if (openPopup) {
+        togglePopup(openPopup, false);
+      }
+
+      // Needed delay to have correct focus on next popup
+      setTimeout(() => {
+        togglePopup(nextPopup, true);
+      }, 100);
+    },
+    [openPopup, togglePopup],
+  );
+
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       if (!getKeyboardShortcutEnabled() || isInput(event) || isShortcut(event)) {
         return true;
       } else if (event.key === KeyboardKeys.KeyF) {
-        event.preventDefault();
-        togglePopup('transition');
-
-        return undefined;
+        handlePopupKeyboardEvent('transition', event);
       } else if (event.key === KeyboardKeys.KeyA) {
-        event.preventDefault();
-        togglePopup('assign');
-
-        return undefined;
+        handlePopupKeyboardEvent('assign', event);
       } else if (event.key === KeyboardKeys.KeyM && issue.actions.includes('assign')) {
         event.preventDefault();
         handleAssignement('_me');
 
         return undefined;
       } else if (event.key === KeyboardKeys.KeyI) {
-        event.preventDefault();
-        togglePopup('set-severity');
-
-        return undefined;
+        handlePopupKeyboardEvent('set-severity', event);
       } else if (event.key === KeyboardKeys.KeyT) {
-        event.preventDefault();
-        togglePopup('edit-tags');
-
-        return undefined;
+        handlePopupKeyboardEvent('edit-tags', event);
       } else if (event.key === KeyboardKeys.Space) {
         event.preventDefault();
 
@@ -121,7 +131,7 @@ function Issue(props: Readonly<Props>) {
 
       return true;
     },
-    [issue.actions, issue.key, togglePopup, handleAssignement, onCheck],
+    [issue.actions, issue.key, handleAssignement, handlePopupKeyboardEvent, onCheck],
   );
 
   useEffect(() => {

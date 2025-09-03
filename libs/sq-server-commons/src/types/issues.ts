@@ -77,14 +77,15 @@ export enum IssueActions {
   Assign = 'assign',
 }
 
+// The order should be kept for issue transition
 export enum IssueTransition {
-  Accept = 'accept',
-  Confirm = 'confirm',
   UnConfirm = 'unconfirm',
-  Resolve = 'resolve',
-  FalsePositive = 'falsepositive',
-  WontFix = 'wontfix',
   Reopen = 'reopen',
+  Accept = 'accept',
+  FalsePositive = 'falsepositive',
+  Confirm = 'confirm',
+  Resolve = 'resolve',
+  WontFix = 'wontfix',
 }
 
 interface Comment {

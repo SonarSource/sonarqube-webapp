@@ -74,16 +74,23 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
     });
   }
 
-  handleIssuePopupToggle = (popupName: string, open?: boolean) => {
-    this.setState(({ issuePopupName }) => {
-      const samePopup = popupName && issuePopupName === popupName;
-      if (open !== false && !samePopup) {
-        return { issuePopupName: popupName };
-      } else if (open !== true && samePopup) {
-        return { issuePopupName: undefined };
-      }
-      return { issuePopupName };
-    });
+  handleIssuePopupToggle = (nextPopup: string) => {
+    const { issuePopupName: openPopup } = this.state;
+
+    if (nextPopup === openPopup) {
+      this.setState({ issuePopupName: undefined });
+      return;
+    }
+
+    // Close current popup first
+    if (openPopup) {
+      this.setState({ issuePopupName: undefined });
+    }
+
+    // Needed delay to have correct focus on next popup
+    setTimeout(() => {
+      this.setState({ issuePopupName: nextPopup });
+    }, 100);
   };
 
   handleAssignement = (login: string) => {
@@ -95,7 +102,7 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
         setIssueAssignee({ issue: issue.key, assignee: login }),
       );
     }
-    this.handleIssuePopupToggle('assign', false);
+    this.handleIssuePopupToggle('assign');
   };
 
   handleSeverityChange = (

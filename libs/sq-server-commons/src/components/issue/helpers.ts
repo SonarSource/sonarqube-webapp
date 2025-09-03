@@ -24,10 +24,15 @@ export function isTransitionDeprecated(transition: IssueTransition) {
   return transition === IssueTransition.Confirm || transition === IssueTransition.Resolve;
 }
 
-export function isTransitionHidden(transition: IssueTransition) {
-  return transition === IssueTransition.WontFix;
+export function isTransitionVisible(transition: IssueTransition) {
+  return transition !== IssueTransition.WontFix;
 }
 
 export function transitionRequiresComment(transition: IssueTransition) {
   return [IssueTransition.Accept, IssueTransition.FalsePositive].includes(transition);
+}
+
+export function orderIssueTransitions(transitions: IssueTransition[]) {
+  const order = Object.values(IssueTransition);
+  return transitions.sort((a, b) => order.indexOf(a) - order.indexOf(b));
 }

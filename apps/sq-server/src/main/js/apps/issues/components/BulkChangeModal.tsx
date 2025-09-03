@@ -35,7 +35,7 @@ import FormattingTips from '~shared/components/common/FormattingTips';
 import { Paging } from '~shared/types/paging';
 import { bulkChangeIssues, searchIssueTags } from '~sq-server-commons/api/issues';
 import {
-  isTransitionHidden,
+  isTransitionVisible,
   transitionRequiresComment,
 } from '~sq-server-commons/components/issue/helpers';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
@@ -297,8 +297,8 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
   };
 
   renderTransitionsField = () => {
-    const transitions = this.getAvailableTransitions(this.state.issues).filter(
-      (transition) => !isTransitionHidden(transition.transition),
+    const transitions = this.getAvailableTransitions(this.state.issues).filter((issue) =>
+      isTransitionVisible(issue.transition),
     );
 
     if (transitions.length === 0) {

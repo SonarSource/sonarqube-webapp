@@ -32,7 +32,7 @@ import IssuesServiceMock from '../api/mocks/IssuesServiceMock';
 import { ModeServiceMock } from '../api/mocks/ModeServiceMock';
 import SourcesServiceMock from '../api/mocks/SourcesServiceMock';
 import UsersServiceMock from '../api/mocks/UsersServiceMock';
-import { IssueSeverity } from '../types/issues';
+import { IssueSeverity, IssueStatus, IssueTransition } from '../types/issues';
 
 export const usersHandler = new UsersServiceMock();
 export const issuesHandler = new IssuesServiceMock(usersHandler);
@@ -211,6 +211,20 @@ export const ui = {
   }),
 
   guidePopup: byRole('alertdialog'),
+
+  // Issue status
+  statusBtn: (status: IssueStatus) =>
+    byRole('button', {
+      name: `status_transition.status_x_click_to_change.issue.issue_status.${status}`,
+    }),
+  issueTransitionItem: (transition: IssueTransition) =>
+    byRole('menuitem', {
+      name: new RegExp(`status_transition.${transition}`),
+    }),
+  commentDialogTitle: byRole('heading', { name: 'status_transition.comment.title' }),
+  changeStatusBtn: byRole('button', {
+    name: `status_transition.change_status`,
+  }),
 };
 
 export async function waitOnDataLoaded() {
