@@ -57,6 +57,7 @@ scanner_params=(
                                 **/app/index.ts,
                                 **/app/utils/startReactApp.tsx,
                                 **/helpers/testUtils.tsx,
+                                **/helpers/testUtils.ts,
                                 **/helpers/testReactTestingUtils.tsx,
                                 **/helpers/testSelector.ts,
                                 **/helpers/testMocks.ts,

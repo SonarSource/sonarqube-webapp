@@ -55,3 +55,13 @@ export function mockIntersectionObserver(): Function {
 
   return (entry: IntersectionObserverEntry) => callback([entry]);
 }
+
+export async function flushPromises(times = 1) {
+  for (let i = 0; i < times; i++) {
+    // Run sequentially
+    // eslint-disable-next-line no-await-in-loop
+    await new Promise<void>((resolve) => {
+      setTimeout(resolve, 0);
+    });
+  }
+}

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen, waitFor } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier } from '~shared/types/component';
@@ -53,7 +53,7 @@ import {
   mockRawIssue,
 } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent, RenderContext } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { ComponentPropsType } from '~sq-server-commons/helpers/testUtils';
+import { ComponentPropsType, flushPromises } from '~sq-server-commons/helpers/testUtils';
 import { Feature } from '~sq-server-commons/types/features';
 import { IssueType } from '~sq-server-commons/types/issues';
 import { Mode } from '~sq-server-commons/types/mode';
@@ -400,6 +400,20 @@ describe('project overview', () => {
         'href',
         '/project/issues?issueStatuses=OPEN%2CCONFIRMED&types=VULNERABILITY&fromSonarQubeUpdate=true&id=foo',
       );
+    });
+
+    it('should not show links when feature is disabled', async () => {
+      modeHandler.setMode(Mode.MQR);
+
+      renderBranchOverview({}, { featureList: [] });
+
+      await act(async () => {
+        await flushPromises(10);
+      });
+
+      expect(
+        byRole('link', { name: /overview\.issues\.issue_from_update/ }).query(),
+      ).not.toBeInTheDocument();
     });
   });
 

@@ -121,7 +121,11 @@ export default function BranchOverview(props: Readonly<Props>) {
   const { hasFeature } = useAvailableFeatures();
   const hasSca = hasFeature(Feature.Sca);
   const scaOverviewMetrics = useScaOverviewMetrics(hasSca);
-  const branchOverviewMetrics = [...BRANCH_OVERVIEW_METRICS, ...scaOverviewMetrics];
+  const branchOverviewMetrics = [
+    ...BRANCH_OVERVIEW_METRICS,
+    ...scaOverviewMetrics,
+    ...(hasFeature(Feature.FromSonarQubeUpdate) ? [MetricKey.from_sonarqube_update_issues] : []),
+  ];
 
   const { data: measuresAndLeak } = useMeasuresAndLeakQuery({
     componentKey: component.key,
