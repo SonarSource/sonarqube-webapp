@@ -31,7 +31,7 @@ import Sca from '../Sca';
 let scaServiceSettingsMock: ScaServiceSettingsMock;
 let entitlementsMock: EntitlementsServiceMock;
 
-const SCA_ENABLED_KEY = 'sonar.sca.featureEnabled';
+const SCA_FEATURE_ENABLED_KEY = 'sonar.sca.featureEnabled';
 const WRONG_CATEGORY_KEY = 'sonar.other.enabled';
 const VISIBLE_CATEGORY_KEY = 'sonar.sca.option';
 
@@ -39,12 +39,12 @@ const VISIBLE_CATEGORY_KEY = 'sonar.sca.option';
 // filtering logic.
 const SETTINGS_DEFINITIONS: ExtendedSettingDefinition[] = [
   {
-    key: SCA_ENABLED_KEY,
+    key: SCA_FEATURE_ENABLED_KEY,
     description: 'enabled, should not appear',
     options: [],
     category: 'Advanced Security',
     subCategory: 'SCA',
-    fields: [{ key: SCA_ENABLED_KEY, name: SCA_ENABLED_KEY, options: [] }],
+    fields: [{ key: SCA_FEATURE_ENABLED_KEY, name: SCA_FEATURE_ENABLED_KEY, options: [] }],
   },
   {
     key: WRONG_CATEGORY_KEY,
@@ -80,27 +80,30 @@ beforeAll(() => {
 
 beforeEach(() => {
   registerServiceMocks(entitlementsMock);
-  window.localStorage.removeItem('sonarqube.sca.show_enabled_message');
 });
 
 afterEach(() => {
   scaServiceSettingsMock.reset();
   entitlementsMock.reset();
-  window.localStorage.removeItem('sonarqube.sca.show_enabled_message');
 });
 
 const ui = {
   header: byText('settings.advanced_security.title'),
   headerDescription: byText('settings.advanced_security.description'),
   description: byText('property.sca.admin.description'),
-  enabledScaCheckbox: byRole('checkbox', { name: 'property.sca.admin.checkbox.label' }),
+  enabledScaFeatureCheckbox: byRole('checkbox', { name: 'property.sca.admin.checkbox.label' }),
 
   // form buttons
   save: byRole('button', { name: 'save' }),
   cancel: byRole('button', { name: 'cancel' }),
 
-  // enabled message
+  // The callout box title and text are dependent on the value of `sonar.sca.enabled`, which
+  // is NOT mocked in this test.
+  //
+  // active and enabled-by-default message
   enabledMessageTitle: byText('property.sca.admin.enabled.message.title'),
+  // active and disabled-by-default message
+  disabledMessageTitle: byText('property.sca.admin.disabled.message.title'),
   dismiss: byLabelText('message_callout.dismiss'),
 
   // modal
@@ -115,7 +118,7 @@ it('should display the form using data loaded from the backend', async () => {
   expect(await ui.headerDescription.find()).toBeInTheDocument();
   expect(await ui.description.find()).toBeInTheDocument();
   await waitFor(() => {
-    expect(ui.enabledScaCheckbox.get()).toBeChecked();
+    expect(ui.enabledScaFeatureCheckbox.get()).toBeChecked();
   });
 });
 
@@ -126,18 +129,18 @@ it('should toggle the checkbox and dirty the form', async () => {
 
   expect(await ui.description.find()).toBeInTheDocument();
   await waitFor(() => {
-    expect(ui.enabledScaCheckbox.get()).toBeChecked();
+    expect(ui.enabledScaFeatureCheckbox.get()).toBeChecked();
   });
   expect(ui.save.query()).not.toBeInTheDocument();
   expect(ui.cancel.query()).not.toBeInTheDocument();
 
-  await user.click(ui.enabledScaCheckbox.get());
-  expect(ui.enabledScaCheckbox.get()).not.toBeChecked();
+  await user.click(ui.enabledScaFeatureCheckbox.get());
+  expect(ui.enabledScaFeatureCheckbox.get()).not.toBeChecked();
   expect(await ui.save.find()).toBeEnabled();
   expect(await ui.cancel.find()).toBeEnabled();
 
-  await user.click(ui.enabledScaCheckbox.get());
-  expect(ui.enabledScaCheckbox.get()).toBeChecked();
+  await user.click(ui.enabledScaFeatureCheckbox.get());
+  expect(ui.enabledScaFeatureCheckbox.get()).toBeChecked();
   expect(ui.save.query()).not.toBeInTheDocument();
   expect(ui.cancel.query()).not.toBeInTheDocument();
 });
@@ -149,16 +152,16 @@ it('should cancel changes to the form', async () => {
 
   expect(await ui.description.find()).toBeInTheDocument();
   await waitFor(() => {
-    expect(ui.enabledScaCheckbox.get()).toBeChecked();
+    expect(ui.enabledScaFeatureCheckbox.get()).toBeChecked();
   });
 
   // dirty the form
-  await user.click(ui.enabledScaCheckbox.get());
+  await user.click(ui.enabledScaFeatureCheckbox.get());
   expect(await ui.cancel.find()).toBeEnabled();
 
   // cancel changes
   await user.click(ui.cancel.get());
-  expect(ui.enabledScaCheckbox.get()).toBeChecked();
+  expect(ui.enabledScaFeatureCheckbox.get()).toBeChecked();
 });
 
 it('should submit changes to the form', async () => {
@@ -168,11 +171,11 @@ it('should submit changes to the form', async () => {
 
   expect(await ui.description.find()).toBeInTheDocument();
   await waitFor(() => {
-    expect(ui.enabledScaCheckbox.get()).toBeChecked();
+    expect(ui.enabledScaFeatureCheckbox.get()).toBeChecked();
   });
 
   // dirty the form
-  await user.click(ui.enabledScaCheckbox.get());
+  await user.click(ui.enabledScaFeatureCheckbox.get());
   expect(await ui.cancel.find()).toBeEnabled();
 
   // save the form
@@ -183,9 +186,10 @@ it('should submit changes to the form', async () => {
 
   // no message
   expect(ui.enabledMessageTitle.query()).not.toBeInTheDocument();
+  expect(ui.disabledMessageTitle.query()).not.toBeInTheDocument();
 
   // toggle it on and submit again
-  await user.click(ui.enabledScaCheckbox.get());
+  await user.click(ui.enabledScaFeatureCheckbox.get());
 
   expect(await ui.cancel.find()).toBeEnabled();
 
@@ -193,24 +197,17 @@ it('should submit changes to the form', async () => {
   await user.click(ui.confirmModal.get());
 
   // message
-  expect(ui.enabledMessageTitle.query()).toBeInTheDocument();
+  expect(ui.disabledMessageTitle.query()).toBeInTheDocument();
 });
 
-it('should show the message if it has not been dismissed', async () => {
-  window.localStorage.setItem('sonarqube.sca.show_enabled_message', 'true');
-
+it('should show the message if it is appropriate', async () => {
   renderScaAdmin();
 
-  const user = userEvent.setup();
-
   await waitFor(() => {
-    expect(ui.enabledScaCheckbox.get()).toBeChecked();
+    expect(ui.enabledScaFeatureCheckbox.get()).toBeChecked();
   });
 
-  expect(ui.enabledMessageTitle.query()).toBeInTheDocument();
-
-  await user.click(ui.dismiss.get());
-  expect(ui.enabledMessageTitle.query()).not.toBeInTheDocument();
+  expect(ui.disabledMessageTitle.query()).toBeInTheDocument();
 });
 
 it('should handle feature not enabled', async () => {
@@ -219,10 +216,11 @@ it('should handle feature not enabled', async () => {
   renderScaAdmin();
 
   await waitFor(() => {
-    expect(ui.enabledScaCheckbox.get()).not.toBeChecked();
+    expect(ui.enabledScaFeatureCheckbox.get()).not.toBeChecked();
   });
 
   expect(ui.enabledMessageTitle.query()).not.toBeInTheDocument();
+  expect(ui.disabledMessageTitle.query()).not.toBeInTheDocument();
 });
 
 it('should not show the form if the feature is not available', () => {
@@ -239,12 +237,12 @@ it('should render the correct definitions', async () => {
   renderScaAdmin();
 
   await waitFor(() => {
-    expect(ui.enabledScaCheckbox.get()).toBeChecked();
+    expect(ui.enabledScaFeatureCheckbox.get()).toBeChecked();
   });
 
   expect(byText('settings.key_x.' + VISIBLE_CATEGORY_KEY).query()).toBeInTheDocument();
   expect(byText('settings.key_x.' + WRONG_CATEGORY_KEY).query()).not.toBeInTheDocument();
-  expect(byText('settings.key_x.' + SCA_ENABLED_KEY).query()).not.toBeInTheDocument();
+  expect(byText('settings.key_x.' + SCA_FEATURE_ENABLED_KEY).query()).not.toBeInTheDocument();
 });
 
 function renderScaAdmin() {

@@ -56,75 +56,82 @@ function ScaConnectivityTest() {
   }, []);
 
   return (
-    <div>
-      <Heading as="h3" hasMarginBottom>
-        <FormattedMessage id="property.sca.admin.selftest.title" />
-      </Heading>
-      <Text as="p" className="sw-mb-6">
-        <FormattedMessage id="property.sca.admin.selftest.description" />
-      </Text>
-      <div className="sw-my-4">
-        <Spinner
-          ariaLabel="Checking connectivity"
-          isLoading={isLoading}
-          label={<FormattedMessage id="property.sca.admin.selftest.checking" />}
-        >
-          <Text as="p">
-            <>
-              {!isPaused && !isError && scaSelfTestResults?.selfTestPassed ? (
-                <>
-                  <IconCheck className="sw-mr-1" color="echoes-color-icon-success" />
-                  <FormattedMessage id="property.sca.admin.selftest.success" />
-                </>
-              ) : (
-                <>
-                  <IconError className="sw-mr-1" color="echoes-color-icon-danger" />
-                  <FormattedMessage id="property.sca.admin.selftest.failure" />{' '}
-                  {isPaused && (
-                    <FormattedMessage id="property.sca.admin.selftest.failure.offline" />
-                  )}
-                </>
-              )}
-            </>
-          </Text>
-        </Spinner>
-      </div>
-      <div className="sw-my-4">
-        <Button className="sw-mr-4" isDisabled={isLoading || isPaused} onClick={handleShowDetails}>
-          <FormattedMessage id="property.sca.admin.selftest.show_details" />
-        </Button>{' '}
-        <Button isDisabled={isLoading} onClick={recheckConnectivity}>
-          <FormattedMessage id="property.sca.admin.selftest.recheck" />
-        </Button>
-      </div>
-      <div className="sw-flex">
-        <Modal
-          content={
-            <>
-              <span>
-                <FormattedMessage id="property.sca.admin.selftest.details.description" />
-              </span>
-              <pre>
-                {!isError && scaSelfTestResults ? (
-                  JSON.stringify(scaSelfTestResults, null, 2)
+    <>
+      <hr className="sw-mx-0 sw-my-6 sw-p-0" />
+      <div className="sw-my-8">
+        <Heading as="h3" hasMarginBottom>
+          <FormattedMessage id="property.sca.admin.selftest.title" />
+        </Heading>
+        <Text as="p" className="sw-mb-6">
+          <FormattedMessage id="property.sca.admin.selftest.description" />
+        </Text>
+        <div className="sw-my-4">
+          <Spinner
+            ariaLabel="Checking connectivity"
+            isLoading={isLoading}
+            label={<FormattedMessage id="property.sca.admin.selftest.checking" />}
+          >
+            <Text as="p">
+              <>
+                {!isPaused && !isError && scaSelfTestResults?.selfTestPassed ? (
+                  <>
+                    <IconCheck className="sw-mr-1" color="echoes-color-icon-success" />
+                    <FormattedMessage id="property.sca.admin.selftest.success" />
+                  </>
                 ) : (
                   <>
-                    <FormattedMessage id="no_results" /> {error?.message}
+                    <IconError className="sw-mr-1" color="echoes-color-icon-danger" />
+                    <FormattedMessage id="property.sca.admin.selftest.failure" />{' '}
+                    {isPaused && (
+                      <FormattedMessage id="property.sca.admin.selftest.failure.offline" />
+                    )}
                   </>
                 )}
-              </pre>
-            </>
-          }
-          isOpen={showDetails}
-          onOpenChange={handleCloseDetails}
-          primaryButton={
-            <Button onClick={handleCloseDetails}>{<FormattedMessage id="close" />}</Button>
-          }
-          size={ModalSize.Wide}
-          title={<FormattedMessage id="property.sca.admin.selftest.details.title" />}
-        />
+              </>
+            </Text>
+          </Spinner>
+        </div>
+        <div>
+          <Button
+            className="sw-mr-4"
+            isDisabled={isLoading || isPaused}
+            onClick={handleShowDetails}
+          >
+            <FormattedMessage id="property.sca.admin.selftest.show_details" />
+          </Button>{' '}
+          <Button isDisabled={isLoading} onClick={recheckConnectivity}>
+            <FormattedMessage id="property.sca.admin.selftest.recheck" />
+          </Button>
+        </div>
+        <div className="sw-flex">
+          <Modal
+            content={
+              <>
+                <span>
+                  <FormattedMessage id="property.sca.admin.selftest.details.description" />
+                </span>
+                <pre>
+                  {!isError && scaSelfTestResults ? (
+                    JSON.stringify(scaSelfTestResults, null, 2)
+                  ) : (
+                    <>
+                      <FormattedMessage id="no_results" /> {error?.message}
+                    </>
+                  )}
+                </pre>
+              </>
+            }
+            isOpen={showDetails}
+            onOpenChange={handleCloseDetails}
+            primaryButton={
+              <Button onClick={handleCloseDetails}>{<FormattedMessage id="close" />}</Button>
+            }
+            size={ModalSize.Wide}
+            title={<FormattedMessage id="property.sca.admin.selftest.details.title" />}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -2887,7 +2887,8 @@ export const defaultMessages = {
     'Activate this option to enable any user to scan their projects for issues in their third-party dependencies, such as vulnerabilities or prohibited licenses, using the Sonar SCA service.',
   'property.sca.admin.description2':
     'By enabling this feature, you agree to the <link>Advanced Security Terms and Conditions</link>',
-  'property.sca.admin.checkbox.label': 'Activate SCA',
+  'property.sca.admin.checkbox.label': 'Enable Software Composition Analysis (SCA)',
+  'property.sca.default.title': 'Analyze all projects',
   'property.sca.confirm.modal.title.enable':
     'You are about to enable Software Composition Analysis (SCA)',
   'property.sca.confirm.modal.description.enable':
@@ -2912,13 +2913,20 @@ export const defaultMessages = {
     'The following information may help diagnose issues with your connectivity to the cloud portion of the SCA service.',
 
   'property.sca.admin.rescan.title': 'Configure branch rescanning',
-  'property.sca.admin.rescan.description': 'Branches can be rescanned for new vulnerabilities',
+  'property.sca.admin.rescan.description':
+    'Once a branch has been analyzed, it can be periodically rescanned for new vulnerabilities.',
 
   'property.sca.admin.enabled.message.title':
-    'SCA has been activated. Run new analyses to see scan results.',
+    'SCA has been enabled for all projects. Run new analyses to see scan results.',
   'property.sca.admin.enabled.message.body':
     'Next time an analysis runs on one of your projects, the scan will check the project’s dependencies for risks. For information on <link>how to ensure your projects are ready for SCA analysis</link> and more, view our complete configuration guide.',
   'property.sca.admin.enabled.message.link': 'View configuration guide',
+
+  'property.sca.admin.disabled.message.title':
+    'SCA has been enabled and will run on a project-by-project basis.',
+  'property.sca.admin.disabled.message.body':
+    'You must enable SCA for each project you want SCA analysis for. Then, the next time an analysis runs on one of your projects, the scan will check the project’s dependencies for risks. For information on <link>how to ensure your projects are ready for SCA analysis</link> and more, view our complete configuration guide.',
+  'property.sca.admin.disabled.message.link': 'View configuration guide',
 
   'property.aicodefix.admin.title': 'Enable AI-generated fix suggestions',
   'property.aicodefix.admin.description':

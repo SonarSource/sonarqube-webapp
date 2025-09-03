@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
 import {
   Button,
   ButtonVariety,
@@ -32,7 +31,6 @@ import {
   ModalAlert,
   Text,
   TextSize,
-  cssVar,
 } from '@sonarsource/echoes-react';
 import { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -43,6 +41,7 @@ import {
   useGetScaFeatureEnablementQuery,
   useUpdateScaFeatureEnablementMutation,
 } from '~sq-server-commons/queries/sca';
+import { useGetValueQuery } from '~sq-server-commons/queries/settings';
 import { Feature } from '~sq-server-commons/types/features';
 import { usePurchasableFeature } from '../../utils';
 import { AdditionalCategoryComponentProps } from '../AdditionalCategories';
@@ -67,9 +66,13 @@ function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'd
   const docUrl = useSharedDocUrl();
   const { data: isScaEnabled = false, isLoading: isLoadingFeatureEnablement } =
     useGetScaFeatureEnablementQuery();
+  const { data: isOnByDefaultSetting, isLoading: isLoadingOnByDefault } = useGetValueQuery({
+    key: 'sonar.sca.enabled',
+  });
   const { mutate: mutateFeatureEnablement, isPending } =
     useUpdateScaFeatureEnablementMutation(reloadWindow);
 
+  const isOnByDefault = isLoadingOnByDefault ? true : isOnByDefaultSetting?.value === 'true';
   const onChangeIsEnabled = () => {
     setIsEnabled((prevIsEnabled) => !prevIsEnabled);
   };
@@ -89,7 +92,7 @@ function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'd
     setShowEnabledMessage(false);
   };
 
-  const isLoading = isLoadingFeatureEnablement || isPending;
+  const isLoading = isLoadingFeatureEnablement || isLoadingOnByDefault || isPending;
   const isChanged = isLoading || isEnabled === isScaEnabled;
 
   const scaRescanDefinitions = definitions.filter(
@@ -117,108 +120,124 @@ function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'd
 
   return (
     <div>
-      <Heading as="h1" hasMarginBottom>
+      <Heading as="h2" hasMarginBottom>
         <FormattedMessage id="settings.advanced_security.title" />
       </Heading>
       <Text as="p" className="sw-mb-6" size={TextSize.Large}>
         <FormattedMessage id="settings.advanced_security.description" />
       </Text>
-      <Heading as="h3" hasMarginBottom>
-        <FormattedMessage id="property.sca.admin.title" />
-      </Heading>
-      <Text as="p">
-        <FormattedMessage id="property.sca.admin.description" />
-      </Text>
-      <p className="sw-mt-4">
-        <FormattedMessage
-          id="property.sca.admin.description2"
-          values={{
-            link: (text) => (
-              <Link
-                enableOpenInNewTab
-                highlight={LinkHighlight.CurrentColor}
-                to={getAdvancedSecurityTermsOfServiceUrl()}
-              >
-                {text}
-              </Link>
-            ),
-          }}
+      <div className="sw-my-8">
+        <Heading as="h3" hasMarginBottom>
+          <FormattedMessage id="property.sca.admin.title" />
+        </Heading>
+        <Text as="p">
+          <FormattedMessage id="property.sca.admin.description" />
+        </Text>
+        <p className="sw-mt-4">
+          <FormattedMessage
+            id="property.sca.admin.description2"
+            values={{
+              link: (text) => (
+                <Link
+                  enableOpenInNewTab
+                  highlight={LinkHighlight.CurrentColor}
+                  to={getAdvancedSecurityTermsOfServiceUrl()}
+                >
+                  {text}
+                </Link>
+              ),
+            }}
+          />
+        </p>
+        <Checkbox
+          checked={isEnabled}
+          className="sw-mt-6"
+          label={<FormattedMessage id="property.sca.admin.checkbox.label" />}
+          onCheck={onChangeIsEnabled}
         />
-      </p>
-      <Checkbox
-        checked={isEnabled}
-        className="sw-my-6"
-        label={<FormattedMessage id="property.sca.admin.checkbox.label" />}
-        onCheck={onChangeIsEnabled}
-      />
-      <div className="sw-flex">
-        {!isChanged && (
-          <>
-            <ModalAlert
-              description={
-                isEnabled
-                  ? intl.formatMessage({ id: 'property.sca.confirm.modal.description.enable' })
-                  : intl.formatMessage({ id: 'property.sca.confirm.modal.description.disable' })
-              }
-              primaryButton={
-                <Button onClick={onSubmit} variety={ButtonVariety.Primary}>
-                  {<FormattedMessage id="confirm" />}
+        <div className="sw-flex">
+          {!isChanged && (
+            <div className="sw-flex sw-mt-6">
+              <ModalAlert
+                description={
+                  isEnabled
+                    ? intl.formatMessage({ id: 'property.sca.confirm.modal.description.enable' })
+                    : intl.formatMessage({ id: 'property.sca.confirm.modal.description.disable' })
+                }
+                primaryButton={
+                  <Button onClick={onSubmit} variety={ButtonVariety.Primary}>
+                    {<FormattedMessage id="confirm" />}
+                  </Button>
+                }
+                secondaryButtonLabel={<FormattedMessage id="cancel" />}
+                title={
+                  <FormattedMessage
+                    id={
+                      isEnabled
+                        ? 'property.sca.confirm.modal.title.enable'
+                        : 'property.sca.confirm.modal.title.disable'
+                    }
+                  />
+                }
+              >
+                <Button isLoading={isLoading} variety={ButtonVariety.Primary}>
+                  <FormattedMessage id="save" />
                 </Button>
-              }
-              secondaryButtonLabel={<FormattedMessage id="cancel" />}
-              title={
-                <FormattedMessage
-                  id={
-                    isEnabled
-                      ? 'property.sca.confirm.modal.title.enable'
-                      : 'property.sca.confirm.modal.title.disable'
-                  }
-                />
-              }
-            >
-              <Button isLoading={isLoading} variety={ButtonVariety.Primary}>
-                <FormattedMessage id="save" />
+              </ModalAlert>
+              <Button className="sw-ml-3" onClick={onCancel} variety={ButtonVariety.Default}>
+                <FormattedMessage id="cancel" />
               </Button>
-            </ModalAlert>
-            <Button className="sw-ml-3" onClick={onCancel} variety={ButtonVariety.Default}>
-              <FormattedMessage id="cancel" />
-            </Button>
-            <ModalAlert
-              description={<FormattedMessage id="property.sca.cancel.modal.description" />}
-              primaryButton={
-                <Button onClick={onCancel} variety={ButtonVariety.Primary}>
-                  <FormattedMessage id="confirm" />
-                </Button>
-              }
-              secondaryButtonLabel={
-                <FormattedMessage id="property.sca.cancel.modal.continue_editing" />
-              }
-              title={<FormattedMessage id="property.sca.cancel.modal.title" />}
-            />
-          </>
-        )}
-      </div>
-      {isScaEnabled && (
-        <div className="sw-my-6">
-          {scaOtherDefinitions.map((definition) => (
-            <Definition definition={definition} key={definition.key} />
-          ))}
+              <ModalAlert
+                description={<FormattedMessage id="property.sca.cancel.modal.description" />}
+                primaryButton={
+                  <Button onClick={onCancel} variety={ButtonVariety.Primary}>
+                    <FormattedMessage id="confirm" />
+                  </Button>
+                }
+                secondaryButtonLabel={
+                  <FormattedMessage id="property.sca.cancel.modal.continue_editing" />
+                }
+                title={<FormattedMessage id="property.sca.cancel.modal.title" />}
+              />
+            </div>
+          )}
         </div>
+      </div>
+      {isEnabled && (
+        <>
+          <hr className="sw-mx-0 sw-mb-6 sw-p-0" />
+          <Heading as="h3" hasMarginBottom>
+            <FormattedMessage id="property.sca.default.title" />
+          </Heading>
+          <div className="sw-my-6">
+            {scaOtherDefinitions.map((definition) => (
+              <Definition definition={definition} key={definition.key} />
+            ))}
+          </div>
+        </>
       )}
-      {showEnabledMessage && (
+      {showEnabledMessage && isEnabled && (
         <MessageCallout
           action={
             <LinkStandalone className="sw-ml-3" to={docUrl(SharedDocLink.AnalyzingDependencies)}>
               <FormattedMessage id="property.sca.admin.enabled.message.link" />
             </LinkStandalone>
           }
-          className="sw-my-8 sw-max-w-abs-600"
+          className="sw-max-w-abs-600"
           onDismiss={onDismissSuccessMessage}
-          title={intl.formatMessage({ id: 'property.sca.admin.enabled.message.title' })}
-          variety={MessageVariety.Success}
+          title={
+            isOnByDefault
+              ? intl.formatMessage({ id: 'property.sca.admin.enabled.message.title' })
+              : intl.formatMessage({ id: 'property.sca.admin.disabled.message.title' })
+          }
+          variety={isOnByDefault ? MessageVariety.Success : MessageVariety.Info}
         >
           <FormattedMessage
-            id="property.sca.admin.enabled.message.body"
+            id={
+              isOnByDefault
+                ? 'property.sca.admin.enabled.message.body'
+                : 'property.sca.admin.disabled.message.body'
+            }
             values={{
               link: (text) => (
                 <LinkStandalone to={docUrl(SharedDocLink.AnalyzingDependencies)}>
@@ -232,37 +251,25 @@ function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'd
       {isScaEnabled && <ScaConnectivityTest />}
       {isScaEnabled && (
         <>
-          <Heading as="h3" hasMarginBottom>
-            <FormattedMessage id="property.sca.admin.rescan.title" />
-          </Heading>
-          <Text as="p">
-            <FormattedMessage id="property.sca.admin.rescan.description" />
-          </Text>
+          <hr className="sw-mx-0 sw-my-6 sw-p-0" />
+          <div className="sw-my-8">
+            <Heading as="h3" hasMarginBottom>
+              <FormattedMessage id="property.sca.admin.rescan.title" />
+            </Heading>
+            <Text as="p" className="sw-mb-6">
+              <FormattedMessage id="property.sca.admin.rescan.description" />
+            </Text>
 
-          <ul>
-            {scaRescanDefinitions.map((definition) => (
-              <StyledListItem
-                className="sw-p-6"
-                data-scroll-key={definition.key}
-                key={definition.key}
-              >
-                <Definition definition={definition} />
-              </StyledListItem>
-            ))}
-          </ul>
+            <ul>
+              {scaRescanDefinitions.map((definition) => (
+                <Definition definition={definition} key={definition.key} />
+              ))}
+            </ul>
+          </div>
         </>
       )}
     </div>
   );
 }
-
-/**
- * reimplemented from DefinitionsList.tsx
- */
-const StyledListItem = styled.li`
-  & + & {
-    border-top: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
-  }
-`;
 
 export default Sca;
