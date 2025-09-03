@@ -36,6 +36,7 @@ import { BranchLike } from '../types/branch-like';
 import { MeasurePageView } from '../types/measures';
 import { GraphType } from '../types/project-activity';
 import { HomePage } from '../types/users';
+import { SonarSourceLink } from './doc-links';
 import { serializeOptionalBoolean } from './query';
 
 export { getRulesUrl } from '~adapters/helpers/urls';
@@ -427,14 +428,18 @@ function linkIsLocation(link: string | Location): link is Location {
   return (link as Location).query !== undefined;
 }
 
+export function getSonarSourceComUrl(link?: SonarSourceLink): string {
+  return link ? `${SONARSOURCE_COM_URL}${link}` : SONARSOURCE_COM_URL;
+}
+
 export function getAiCodeFixTermsOfServiceUrl(): string {
-  return `${SONARSOURCE_COM_URL}/legal/ai-codefix-terms/`;
+  return getSonarSourceComUrl(SonarSourceLink.AiCodeFixTerms);
 }
 
 export function getAdvancedSecurityTermsOfServiceUrl(): string {
-  return `${SONARSOURCE_COM_URL}/legal/sonarqube/terms-and-conditions/`;
+  return getSonarSourceComUrl(SonarSourceLink.TermsAndConditions);
 }
 
 export function getPlansPricingUrl(): string {
-  return `${SONARSOURCE_COM_URL}/plans-and-pricing/sonarqube/`;
+  return getSonarSourceComUrl(SonarSourceLink.PlansAndPricing);
 }

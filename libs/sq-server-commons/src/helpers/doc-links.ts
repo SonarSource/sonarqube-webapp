@@ -109,6 +109,14 @@ export enum DocLink {
   Webhooks = '/project-administration/webhooks/',
 }
 
+export enum SonarSourceLink {
+  AiCodeFixTerms = '/legal/ai-codefix-terms/',
+  TermsAndConditions = '/legal/sonarqube/terms-and-conditions/',
+  AdvancedSecurity = '/products/sonarqube/advanced-security/',
+  PlansAndPricing = '/plans-and-pricing/sonarqube/',
+  Downloads = '/products/sonarqube/downloads/',
+}
+
 export const DocTitle = {
   [DocLink.BackgroundTasks]: 'About Background Tasks',
   [DocLink.CaYC]: 'Clean as You Code',

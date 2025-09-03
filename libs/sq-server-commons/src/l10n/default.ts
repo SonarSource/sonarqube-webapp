@@ -6253,6 +6253,17 @@ export const defaultMessages = {
 
   //------------------------------------------------------------------------------
   //
+  // PROMOTION
+  //
+  //------------------------------------------------------------------------------
+
+  'promotion.security_dev_edition.title': 'Did you know...',
+  'promotion.security_dev_edition.text':
+    'SonarQube Developer Edition can detect <b>260+ additional</b> distinct types of security issues across the languages of your projects.',
+  'promotion.security_dev_edition.action': 'Compare benefits',
+
+  //------------------------------------------------------------------------------
+  //
   // COMPONENT MEASURES
   //
   //------------------------------------------------------------------------------

@@ -37,6 +37,7 @@ import { withRouter } from '~shared/components/hoc/withRouter';
 import StyledNavFix from '~shared/components/nav/NavFix';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
 import { isPortfolioLike, isProject } from '~shared/helpers/component';
+import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier } from '~shared/types/component';
 import { Paging } from '~shared/types/paging';
 import { Location, RawQuery, Router } from '~shared/types/router';
@@ -50,6 +51,7 @@ import withIndexationContext, {
 } from '~sq-server-commons/components/hoc/withIndexationContext';
 import withIndexationGuard from '~sq-server-commons/components/hoc/withIndexationGuard';
 import { PSEUDO_SHADOW_HEIGHT } from '~sq-server-commons/components/issues/StyledHeader';
+import { SecurityDevEditionPromoteBanner } from '~sq-server-commons/components/promotion/SecurityDevEditionPromoteBanner';
 import '~sq-server-commons/components/search-navigator.css';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
@@ -75,6 +77,7 @@ import {
   Facet,
   FetchIssuesPromise,
   IssueStatus,
+  IssueType,
   IssuesQuery,
   ReferencedComponent,
   ReferencedLanguage,
@@ -143,6 +146,7 @@ export interface State {
   selected?: string;
   selectedFlowIndex?: number;
   selectedLocationIndex?: number;
+  showSecurityDevPromotion: boolean;
   showVariantsFilter: boolean;
 }
 
@@ -209,6 +213,7 @@ export class App extends React.PureComponent<Props, State> {
       referencedUsers: {},
       selected: getOpen(props.location.query),
       showVariantsFilter: false,
+      showSecurityDevPromotion: false,
     };
   }
 
@@ -246,6 +251,20 @@ export class App extends React.PureComponent<Props, State> {
     const { query } = this.props.location;
     const { query: prevQuery } = prevProps.location;
     const { openIssue } = this.state;
+
+    // Check if security development promotion banner should be shown
+    // Both for mqr and standard experience
+    // when user has changed filter
+    const prevParsedQuery = parseQuery(prevQuery);
+    const parsedQuery = parseQuery(query);
+    if (
+      (parsedQuery.impactSoftwareQualities.includes(SoftwareQuality.Security) &&
+        !prevParsedQuery.impactSoftwareQualities.includes(SoftwareQuality.Security)) ||
+      (parsedQuery.types.includes(IssueType.Vulnerability) &&
+        !prevParsedQuery.types.includes(IssueType.Vulnerability))
+    ) {
+      this.setState({ showSecurityDevPromotion: true });
+    }
 
     if (this.requiresInitialFetch && !this.props.isFetchingBranch) {
       this.requiresInitialFetch = false;
@@ -1111,7 +1130,11 @@ export class App extends React.PureComponent<Props, State> {
   }
 
   renderIssueList() {
-    const { checkAll, loading, paging } = this.state;
+    const { checkAll, loading, paging, showSecurityDevPromotion, query } = this.state;
+
+    const hasSecurityFilter =
+      query.impactSoftwareQualities.includes(SoftwareQuality.Security) ||
+      query.types.includes(IssueType.Vulnerability);
 
     return (
       <ScreenPositionHelper>
@@ -1121,14 +1144,22 @@ export class App extends React.PureComponent<Props, State> {
             style={{ height: `calc(100vh - ${top + LAYOUT_FOOTER_HEIGHT}px)` }}
           >
             <A11ySkipTarget anchor="issues_main" />
-            <div className="sw-p-6 sw-flex sw-w-full sw-items-center sw-justify-between sw-box-border">
-              {this.renderBulkChange()}
+            <div className="sw-p-6">
+              {showSecurityDevPromotion && hasSecurityFilter && (
+                <SecurityDevEditionPromoteBanner
+                  className="sw-mb-4 sw-w-full sw-box-border"
+                  isWide
+                />
+              )}
+              <div className="sw-flex sw-w-full sw-items-center sw-justify-between sw-box-border">
+                {this.renderBulkChange()}
 
-              <PageActions
-                canSetHome={!this.props.component}
-                effortTotal={this.state.effortTotal}
-                paging={this.props.component?.needIssueSync ? undefined : paging}
-              />
+                <PageActions
+                  canSetHome={!this.props.component}
+                  effortTotal={this.state.effortTotal}
+                  paging={this.props.component?.needIssueSync ? undefined : paging}
+                />
+              </div>
             </div>
 
             <div className="sw-px-6 sw-pb-6" style={{ marginTop: `-${PSEUDO_SHADOW_HEIGHT}px` }}>

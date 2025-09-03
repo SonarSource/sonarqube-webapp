@@ -25,6 +25,7 @@ import {
   SubnavigationSubheading,
 } from '~design-system';
 import { MeasureEnhanced } from '~shared/types/measures';
+import { SecurityDevEditionPromoteBanner } from '~sq-server-commons/components/promotion/SecurityDevEditionPromoteBanner';
 import {
   getLocalizedCategoryMetricName,
   getLocalizedMetricDomain,
@@ -91,6 +92,7 @@ export default function DomainSubnavigation(props: Readonly<Props>) {
       id={`measure-${domain.name}`}
       initExpanded={open}
     >
+      {domain.name === 'Security' && <SecurityDevEditionPromoteBanner className="sw-m-2" />}
       {hasOverview(domain.name) && (
         <SubnavigationItem
           active={domain.name === selected}
