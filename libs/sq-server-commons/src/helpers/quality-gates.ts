@@ -19,9 +19,10 @@
  */
 
 import { sortBy } from 'lodash';
-import { scaConditionOperator } from '~shared/helpers/sca';
+import { getOperatorLabelId } from '~shared/helpers/quality-gates';
 import { Metric } from '~shared/types/measures';
-import { MetricKey, MetricType } from '~shared/types/metrics';
+import { MetricKey } from '~shared/types/metrics';
+import { QualityGateConditionOperator } from '~shared/types/quality-gates';
 import {
   QualityGateApplicationStatusChildProject,
   QualityGateProjectStatus,
@@ -36,10 +37,7 @@ import { isDiffMetric } from './measures';
 
 export function getOperatorLabel(op: string, metric: Metric) {
   const { formatMessage } = getIntl();
-  const opOverride = scaConditionOperator(metric.key) ?? op;
-  return metric.type === MetricType.Rating
-    ? formatMessage({ id: `quality_gates.operator.${opOverride}.rating` })
-    : formatMessage({ id: `quality_gates.operator.${opOverride}` });
+  return formatMessage({ id: getOperatorLabelId(op as QualityGateConditionOperator, metric) });
 }
 
 export function extractStatusConditionsFromProjectStatus(

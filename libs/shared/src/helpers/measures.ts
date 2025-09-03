@@ -21,6 +21,11 @@
 import { RatingBadgeRating } from '@sonarsource/echoes-react';
 import { IntlShape } from 'react-intl';
 import { getCurrentLocale } from '~adapters/helpers/l10n';
+import {
+  RISK_SEVERITY_LABELS,
+  SCA_RISK_SEVERITY_METRIC_THRESHOLD_KEYS,
+  SCA_RISK_SEVERITY_METRIC_THRESHOLDS,
+} from './sca';
 
 type RatingLabel = Exclude<keyof typeof RatingBadgeRating, 'Null'>;
 type FormatMessageFunction = IntlShape['formatMessage'];
@@ -278,6 +283,18 @@ function shortDurationFormatter(
   return formatDurationShort(formatMessage, isNegative, days, hours, remainingValue);
 }
 
+function scaRiskFormatter(
+  formatMessage: FormatMessageFunction,
+  value: SCA_RISK_SEVERITY_METRIC_THRESHOLD_KEYS,
+): string {
+  const severity = SCA_RISK_SEVERITY_METRIC_THRESHOLDS[value];
+  if (severity === undefined) {
+    throw new Error(`Threshold '${value}' not valid`);
+  }
+
+  return formatMessage({ id: RISK_SEVERITY_LABELS[severity] });
+}
+
 /*
  * Debt Formatters
  */
@@ -316,6 +333,7 @@ export {
   numberFormatter,
   percentFormatter,
   ratingFormatter,
+  scaRiskFormatter,
   shortDurationFormatter,
   shortIntFormatter,
 };

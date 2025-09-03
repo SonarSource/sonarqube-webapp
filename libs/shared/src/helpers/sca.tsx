@@ -35,6 +35,9 @@ export const SCA_RISK_SEVERITY_METRIC_THRESHOLDS = {
   '24': ReleaseRiskSeverity.Blocker,
 };
 
+export type SCA_RISK_SEVERITY_METRIC_THRESHOLD_KEYS =
+  keyof typeof SCA_RISK_SEVERITY_METRIC_THRESHOLDS;
+
 /** HIGH risk is the only risk level for license related options. */
 export const SCA_LICENSE_RISK_SEVERITY_METRIC_THRESHOLDS = {
   '19': ReleaseRiskSeverity.High,

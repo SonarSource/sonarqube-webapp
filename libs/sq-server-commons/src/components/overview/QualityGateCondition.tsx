@@ -114,6 +114,7 @@ export class QualityGateCondition extends React.PureComponent<Props> {
     });
   }
 
+  // TODO: Consolidate with sq-cloud/metrics.ts
   makeScaRiskRoutes() {
     const { condition } = this.props;
     return SCA_RISK_ALL_METRICS.reduce(

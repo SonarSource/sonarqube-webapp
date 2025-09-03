@@ -19,8 +19,12 @@
  */
 
 import { useLocation } from 'react-router-dom';
+import { BranchLikeBase } from '../types/branch-like';
+import { MetricKey } from '../types/metrics';
 import { RiskStatus } from '../types/sca';
+import { getBranchLikeQuery } from './branch-like';
 import { queryToSearchString } from './query';
+import { SCA_METRIC_TYPE_MAP, scaFilterConditionsBySeverity } from './sca';
 
 export const RELEASES_ROUTE_NAME = 'dependencies';
 export const RISKS_ROUTE_NAME = 'dependency-risks';
@@ -105,10 +109,13 @@ const RISKS_OPTIONAL_PARAMS = [
   'types',
   'id',
 ] as const;
+
+type RisksUrlNewParams = NewParams<(typeof RISKS_OPTIONAL_PARAMS)[number]>;
+
 export function getRisksUrl(params: {
   baseUrl?: string;
   currentSearch?: string;
-  newParams?: NewParams<(typeof RISKS_OPTIONAL_PARAMS)[number]>;
+  newParams?: RisksUrlNewParams;
 }) {
   /**
    * Unless the caller specifies otherwise, include the default risk status filters
@@ -145,6 +152,39 @@ export enum RiskDetailsTab {
   WHAT = 'what',
   HOW = 'how',
   ACTIVITY = 'activity',
+}
+
+export function getRisksUrlForComponent({
+  metricKey,
+  componentKey,
+  branchLike,
+  newlyIntroduced,
+  threshold,
+}: {
+  branchLike?: BranchLikeBase;
+  componentKey: string;
+  metricKey: MetricKey;
+  newlyIntroduced?: string;
+  threshold?: string;
+}) {
+  const newParams: RisksUrlNewParams = {
+    types: SCA_METRIC_TYPE_MAP[metricKey],
+    id: componentKey,
+  };
+
+  if (branchLike) {
+    Object.assign(newParams, getBranchLikeQuery(branchLike));
+  }
+
+  if (newlyIntroduced) {
+    newParams.newlyIntroduced = newlyIntroduced;
+  }
+
+  if (threshold) {
+    newParams.severities = scaFilterConditionsBySeverity(threshold).join(',');
+  }
+
+  return getRisksUrl({ newParams });
 }
 
 export function getRiskDetailsTabUrl(
