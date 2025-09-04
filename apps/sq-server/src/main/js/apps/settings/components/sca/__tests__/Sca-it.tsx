@@ -197,7 +197,7 @@ it('should submit changes to the form', async () => {
   await user.click(ui.confirmModal.get());
 
   // message
-  expect(ui.disabledMessageTitle.query()).toBeInTheDocument();
+  expect(await ui.disabledMessageTitle.find()).toBeInTheDocument();
 });
 
 it('should show the message if it is appropriate', async () => {
@@ -207,7 +207,7 @@ it('should show the message if it is appropriate', async () => {
     expect(ui.enabledScaFeatureCheckbox.get()).toBeChecked();
   });
 
-  expect(ui.disabledMessageTitle.query()).toBeInTheDocument();
+  expect(await ui.disabledMessageTitle.find()).toBeInTheDocument();
 });
 
 it('should handle feature not enabled', async () => {
