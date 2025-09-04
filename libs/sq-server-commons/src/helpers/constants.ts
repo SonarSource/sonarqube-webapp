@@ -71,13 +71,7 @@ export const SOFTWARE_QUALITIES = Object.values(SoftwareQuality);
 
 export const STATUSES = ['OPEN', 'CONFIRMED', 'REOPENED', 'RESOLVED', 'CLOSED'];
 
-export const ISSUE_STATUSES = [
-  IssueStatus.Open,
-  IssueStatus.Accepted,
-  IssueStatus.FalsePositive,
-  IssueStatus.Confirmed,
-  IssueStatus.Fixed,
-];
+export const ISSUE_STATUSES = Object.values(IssueStatus);
 
 export const ISSUE_TYPES: IssueType[] = [
   IssueType.Bug,

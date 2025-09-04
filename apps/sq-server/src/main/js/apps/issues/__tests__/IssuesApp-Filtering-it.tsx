@@ -23,6 +23,7 @@ import userEvent from '@testing-library/user-event';
 import { renderOwaspTop102021Category } from '~shared/helpers/security-standards';
 import { mockLoggedInUser, mockRawIssue } from '~sq-server-commons/helpers/testMocks';
 import { Feature } from '~sq-server-commons/types/features';
+import { IssueStatus } from '~sq-server-commons/types/issues';
 import { Mode } from '~sq-server-commons/types/mode';
 import { NoticeType } from '~sq-server-commons/types/users';
 import {
@@ -266,6 +267,26 @@ describe('issues app filtering', () => {
     expect(ui.issueItem6.get()).toBeInTheDocument();
     expect(ui.issueItem7.get()).toBeInTheDocument();
     expect(ui.issueItem10.get()).toBeInTheDocument();
+  });
+
+  it('should properly filter for Sandbox issue status', async () => {
+    const user = userEvent.setup();
+
+    // Set first issue to sandbox status
+    issuesHandler.list[0].issue.issueStatus = IssueStatus.InSandbox;
+
+    renderIssueApp(mockLoggedInUser(), [Feature.PrioritizedRules, Feature.FromSonarQubeUpdate]);
+    await waitOnDataLoaded();
+
+    await user.click(await ui.issueStatusFacet.find());
+    await waitFor(() => {
+      expect(ui.sandboxStatusFilter.get()).toBeEnabled();
+    });
+    await user.click(ui.sandboxStatusFilter.get());
+
+    await waitFor(() => {
+      expect(ui.issueItems.getAll()).toHaveLength(1);
+    });
   });
 
   it('should properly filter by code variants', async () => {

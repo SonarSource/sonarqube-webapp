@@ -74,6 +74,7 @@ import {
   ASSIGNEE_ME,
   Facet,
   FetchIssuesPromise,
+  IssueStatus,
   IssuesQuery,
   ReferencedComponent,
   ReferencedLanguage,
@@ -100,6 +101,7 @@ import { Sidebar } from '../sidebar/Sidebar';
 import '../styles.css';
 import BulkChangeModal, { MAX_PAGE_SIZE } from './BulkChangeModal';
 import IssueDetails from './IssueDetails';
+import IssueSandboxCallout from './IssueSandboxCallout';
 import IssuesList from './IssuesList';
 import IssuesListTitle from './IssuesListTitle';
 import NoIssues from './NoIssues';
@@ -1073,6 +1075,8 @@ export class App extends React.PureComponent<Props, State> {
           fixedInPullRequest={query.fixedInPullRequest}
           pullRequests={branchLikes?.filter(isPullRequest) ?? []}
         />
+
+        {query.issueStatuses.includes(IssueStatus.InSandbox) && <IssueSandboxCallout />}
 
         {issues.length > 0 && (
           <IssuesList

@@ -20,6 +20,7 @@
 
 import { screen, waitForElementToBeRemoved, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
 import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { IssueType } from '~sq-server-commons/types/issues';
@@ -84,6 +85,17 @@ describe('issues app', () => {
       renderProjectIssuesApp('project/issues?id=my-project&types=VULNERABILITY');
 
       expect(await ui.issueItem1.find()).toHaveTextContent('issue.type.VULNERABILITY');
+    });
+
+    it('should show sandbox discovery message when filtered by Sandbox status', async () => {
+      const user = userEvent.setup();
+      renderProjectIssuesApp('project/issues?id=my-project&issueStatuses=IN_SANDBOX');
+
+      expect(await byText('issue.sandbox.title').find()).toBeInTheDocument();
+      expect(byText('issue.sandbox.description').get()).toBeInTheDocument();
+
+      await user.click(byRole('button', { name: 'message_callout.dismiss' }).get());
+      expect(byText('issue.sandbox.title').query()).not.toBeInTheDocument();
     });
   });
 

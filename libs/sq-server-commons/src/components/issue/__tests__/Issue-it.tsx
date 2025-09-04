@@ -147,6 +147,30 @@ describe('rendering', () => {
       ui.cleanCodeAttribute(CleanCodeAttributeCategory.Responsible).query(),
     ).not.toBeInTheDocument();
   });
+
+  it('should correctly render issue with Sandbox status', async () => {
+    const { ui, user } = getPageObject();
+    const issue = mockRawIssue(false, {
+      issueStatus: IssueStatus.InSandbox,
+      transitions: [
+        IssueTransition.Reopen,
+        IssueTransition.Accept,
+        IssueTransition.FalsePositive,
+        IssueTransition.Confirm,
+        IssueTransition.Resolve,
+      ],
+    });
+    issuesHandler.setIssueList([{ issue, snippets: {} }]);
+    renderIssue({
+      issue: mockIssue(false, {
+        ...pick(issue, 'key', 'issueStatus', 'transitions'),
+      }),
+    });
+
+    await user.click(await ui.updateStatusBtn(IssueStatus.InSandbox).find());
+    expect(byRole('menuitem').getAll()).toHaveLength(5);
+    expect(byText('issue.transition.in_sandbox_helptext').get()).toBeInTheDocument();
+  });
 });
 
 describe('updating', () => {

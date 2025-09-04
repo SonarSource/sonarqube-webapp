@@ -1089,6 +1089,10 @@ export const defaultMessages = {
   'issue.transition.title': 'Change issue status',
   'issue.transition.status': 'Issue status',
   'issue.transition.status_deprecated': 'Deprecated issue status',
+  'issue.transition.status_in_sandbox':
+    "Issues that don't affect the quality gate or measures, but should be triaged to avoid technical debt accumulation",
+  'issue.transition.in_sandbox_helptext':
+    'If "In sandbox" status is changed, it can\'t be assigned again',
   'issue.transition': 'Transition',
   'issue.transition.accept': 'Accept',
   'issue.transition.accept.description':
@@ -1150,6 +1154,10 @@ export const defaultMessages = {
   'status_transition.comment.placeholder': 'Add the comment',
   'status_transition.comment.share': 'Share this comment with Sonar to help us improve analyzers',
   'status_transition.change_status': 'Change status',
+
+  'issue.sandbox.title': 'Issue sandbox',
+  'issue.sandbox.description':
+    'Issues that don’t affect the quality gate or measures, but should be triaged to avoid technical debt accumulation. Change their status and bring them back to the workflow.',
 
   'issue.tabs.code': 'Where is the issue?',
   'issue.location_x': 'Location {0}',
@@ -1291,6 +1299,7 @@ export const defaultMessages = {
   'issue.issue_status.CONFIRMED': 'Confirmed',
   'issue.issue_status.FIXED': 'Fixed',
   'issue.issue_status.FALSE_POSITIVE': 'False Positive',
+  'issue.issue_status.IN_SANDBOX': 'In Sandbox',
 
   'issue.status.ACCEPTED': 'Accepted',
   'issue.status.REOPENED': 'Reopened',
@@ -1441,7 +1450,7 @@ export const defaultMessages = {
   'issues.facet.issueStatuses': 'Status',
   'issues.facet.issueStatuses.help.title': 'Simplified issue lifecycle',
   'issues.facet.issueStatuses.help.description':
-    "<p1>Issue Resolution and Issue Status were merged and there are now five possible statuses in the issue lifecycle.</p1><p>Won't Fix was replaced with Accept. Marking issues as Confirmed and Fixed was deprecated.</p>",
+    "<p1>Issue Resolution and Issue Status were merged and there are now six possible statuses in the issue lifecycle.</p1><p>Won't Fix was replaced with Accept. Marking issues as Confirmed and Fixed was deprecated.</p>",
   'issues.facet.issueStatuses.help.link': 'Learn more about new issue lifecycle',
   'issues.facet.hotspotStatuses': 'Hotspot Status',
   'issues.facet.assignees': 'Assignee',

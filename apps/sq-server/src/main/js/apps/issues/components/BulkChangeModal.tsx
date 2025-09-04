@@ -22,6 +22,8 @@ import {
   Button,
   ButtonVariety,
   Checkbox,
+  MessageCallout,
+  MessageVariety,
   RadioButtonGroup,
   Spinner,
   Text,
@@ -40,7 +42,7 @@ import {
 } from '~sq-server-commons/components/issue/helpers';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { withBranchStatusRefresh } from '~sq-server-commons/queries/branch';
-import { IssueTransition } from '~sq-server-commons/types/issues';
+import { IssueStatus, IssueTransition } from '~sq-server-commons/types/issues';
 import { Issue } from '~sq-server-commons/types/types';
 import AssigneeSelect from './AssigneeSelect';
 import TagsSelect from './TagsSelect';
@@ -301,6 +303,10 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
       isTransitionVisible(issue.transition),
     );
 
+    const someIssueHasInSandboxStatus = this.state.issues.some(
+      (issue) => issue.issueStatus === IssueStatus.InSandbox,
+    );
+
     if (transitions.length === 0) {
       return null;
     }
@@ -314,8 +320,15 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
             </Text>
           </legend>
 
+          {someIssueHasInSandboxStatus && (
+            <MessageCallout className="sw-mt-3 sw-mb-6" variety={MessageVariety.Info}>
+              <FormattedMessage id="issue.transition.in_sandbox_helptext" />
+            </MessageCallout>
+          )}
+
           <RadioButtonGroup
             ariaLabelledBy="bulk-change-transition-label"
+            className="sw-mt-1"
             id="bulk-change-transition"
             onChange={this.handleRadioTransitionChange}
             options={transitions.map(({ transition, count }) => ({

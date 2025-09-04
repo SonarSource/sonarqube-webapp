@@ -67,6 +67,7 @@ export enum IssueStatus {
   Confirmed = 'CONFIRMED',
   Accepted = 'ACCEPTED',
   FalsePositive = 'FALSE_POSITIVE',
+  InSandbox = 'IN_SANDBOX',
 }
 
 export enum IssueActions {

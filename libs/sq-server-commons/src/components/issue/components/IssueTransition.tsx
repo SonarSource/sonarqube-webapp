@@ -75,6 +75,10 @@ export default function IssueTransition(props: Readonly<Props>) {
   );
 
   const getTooltipContent = () => {
+    if (issue.issueStatus === IssueStatus.InSandbox) {
+      return <FormattedMessage id="issue.transition.status_in_sandbox" />;
+    }
+
     if ([IssueStatus.Confirmed, IssueStatus.Fixed].includes(issue.issueStatus)) {
       return <FormattedMessage id="issue.transition.status_deprecated" />;
     }
@@ -87,6 +91,10 @@ export default function IssueTransition(props: Readonly<Props>) {
       buttonTooltipContent={getTooltipContent()}
       dropdownHeader={{
         label: <FormattedMessage id="issue.transition.title" />,
+        helpText:
+          issue.issueStatus === IssueStatus.InSandbox ? (
+            <FormattedMessage id="issue.transition.in_sandbox_helptext" />
+          ) : null,
       }}
       isOpen={isOpen}
       isTransiting={transitioning}

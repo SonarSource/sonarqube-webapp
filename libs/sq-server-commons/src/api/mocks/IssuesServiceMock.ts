@@ -401,12 +401,12 @@ export default class IssuesServiceMock {
   handleSearchIssues = (query: RequestData): Promise<RawIssuesResponse> => {
     const facets = this.mockFacetDetailResponse(query);
 
-    // Filter list (only supports assignee, type and severity)
     const filteredList = this.list
-      .filter(
-        (item) =>
-          !query.issueStatuses || query.issueStatuses.split(',').includes(item.issue.issueStatus),
-      )
+      .filter((item) => {
+        return (
+          !query.issueStatuses || query.issueStatuses.split(',').includes(item.issue.issueStatus)
+        );
+      })
       .filter((item) => {
         if (!query.cleanCodeAttributeCategories) {
           return true;

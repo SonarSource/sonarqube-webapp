@@ -166,6 +166,8 @@ export const ui = {
     name: new RegExp(`severity.${IssueSeverity.Major}`),
   }),
   openStatusFilter: byRole('checkbox', { name: 'issue.issue_status.OPEN' }),
+  sandboxStatusFilter: byRole('checkbox', { name: 'issue.issue_status.IN_SANDBOX' }),
+
   vulnerabilityIssueTypeFilter: byRole('checkbox', {
     name: 'issue.type.VULNERABILITY',
   }),
