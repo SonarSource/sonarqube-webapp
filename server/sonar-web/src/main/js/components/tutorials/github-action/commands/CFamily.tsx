@@ -45,14 +45,14 @@ function yamlSteps(os: OSs, arch: Arch) {
   const buildWrapperExecutable = getBuildWrapperExecutable(os, arch);
   return `
       - name: Install Build Wrapper
-        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v4
+        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v5
         env:
           SONAR_HOST_URL: \${{secrets.SONAR_HOST_URL}}
       - name: Run Build Wrapper
         run: |
           ${buildWrapperExecutable} --out-dir \${{ env.BUILD_WRAPPER_OUT_DIR }} <insert_your_clean_build_command>
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v4
+        uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: \${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: \${{secrets.SONAR_HOST_URL}}
