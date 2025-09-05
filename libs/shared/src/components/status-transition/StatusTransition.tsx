@@ -82,6 +82,7 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
           <>
             {transitions.map((transition) => (
               <DropdownMenu.ItemButton
+                className="it__issue-transition-option"
                 helpText={
                   <FormattedMessage id={`status_transition.${transition.value}.description`} />
                 }
@@ -115,6 +116,7 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
               { id: 'status_transition.status_x_click_to_change' },
               { '0': status },
             )}
+            className="it__issue-transition"
             isDisabled={transitions.length === 0}
             isLoading={isTransiting}
             suffix={transitions.length > 0 ? <IconChevronDown /> : null}
