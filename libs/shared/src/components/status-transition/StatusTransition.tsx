@@ -76,6 +76,7 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
   return (
     <>
       <DropdownMenu
+        className="sw-z-dropdown-menu"
         header={dropdownHeader}
         isOpen={isOpen}
         items={
