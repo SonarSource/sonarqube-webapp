@@ -22,9 +22,9 @@ import { Button, Link, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Badge, ContentCell, SubTitle, Table, TableRow } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
+import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { getProfileProjects } from '~sq-server-commons/api/quality-profiles';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { getProjectUrl } from '~sq-server-commons/helpers/urls';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
 import ChangeProjectsForm from './ChangeProjectsForm';
 
@@ -151,7 +151,7 @@ export default class ProfileProjects extends React.PureComponent<Props, State> {
               <ContentCell>
                 <Link
                   className="it__quality-profiles__project fs-mask"
-                  to={getProjectUrl(project.key)}
+                  to={getProjectOverviewUrl(project.key)}
                 >
                   {project.name}
                 </Link>

@@ -30,6 +30,7 @@ import { CenteredLayout } from '~design-system';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isFile, isPortfolioLike } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
+import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { ComponentQualifier } from '~shared/types/component';
 import { HttpStatus } from '~shared/types/request';
 import { validateProjectAlmBinding } from '~sq-server-commons/api/alm-settings';
@@ -236,10 +237,19 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
 
     if (isInTutorials && hasUpdatedTasks) {
       const { branch: branchName, pullRequest: pullRequestKey } = currentTask ?? tasks[0];
-      const url =
-        pullRequestKey !== undefined
-          ? getPullRequestUrl(key, pullRequestKey)
-          : getProjectUrl(key, branchName);
+      // coerce to string since RawQuery values are any type
+      // this could probably be done better farther above in the code
+      const projectKey = key as string;
+
+      let url;
+      if (pullRequestKey !== undefined) {
+        url = getPullRequestUrl(projectKey, pullRequestKey);
+      } else if (branchName !== undefined) {
+        url = getProjectUrl(projectKey, branchName);
+      } else {
+        url = getProjectOverviewUrl(projectKey);
+      }
+
       router.replace(url);
     }
 

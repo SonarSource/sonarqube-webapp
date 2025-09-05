@@ -24,8 +24,8 @@ import classNames from 'classnames';
 import React from 'react';
 import { Image } from '~adapters/components/common/Image';
 import { CheckIcon, Checkbox, themeBorder } from '~design-system';
+import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { getProjectUrl } from '~sq-server-commons/helpers/urls';
 
 type AlmRepoItemProps = {
   almIconSrc: string;
@@ -99,7 +99,7 @@ export default function AlmRepoItem({
             <LinkStandalone
               className="sw-truncate sw-font-semibold"
               highlight={LinkHighlight.Default}
-              to={getProjectUrl(sqProjectKey)}
+              to={getProjectOverviewUrl(sqProjectKey)}
             >
               {primaryTextNode}
             </LinkStandalone>

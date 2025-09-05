@@ -20,7 +20,7 @@
 
 import { Path, To } from 'react-router-dom';
 import { getBaseUrl } from '~adapters/helpers/system';
-import { getRulesUrl } from '~adapters/helpers/urls';
+import { getRulesUrl, PROJECT_BASE_URL } from '~adapters/helpers/urls';
 import { RawQuery } from '../types/router';
 import { queryToSearchString } from './query';
 
@@ -64,4 +64,8 @@ export function getDeprecatedActiveRulesUrl(
 ): Partial<Path> {
   const baseQuery = { activation: 'true', statuses: 'DEPRECATED' };
   return getRulesUrl({ ...query, ...baseQuery }, organization);
+}
+
+export function getProjectOverviewUrl(projectKey: string): Partial<Path> {
+  return { pathname: PROJECT_BASE_URL, search: queryToSearchString({ id: projectKey }) };
 }

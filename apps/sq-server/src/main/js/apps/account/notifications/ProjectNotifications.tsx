@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link } from '~design-system';
+import { Link } from '@sonarsource/echoes-react';
+import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import NotificationsList from '~sq-server-commons/components/notifications/NotificationsList';
-import { getProjectUrl } from '~sq-server-commons/helpers/urls';
 import { NotificationProject } from '~sq-server-commons/types/notifications';
 
 interface Props {
@@ -31,7 +31,7 @@ export default function ProjectNotifications({ project }: Readonly<Props>) {
   return (
     <div className="sw-my-6">
       <div className="sw-mb-4">
-        <Link to={getProjectUrl(project.project)}>{project.projectName}</Link>
+        <Link to={getProjectOverviewUrl(project.project)}>{project.projectName}</Link>
       </div>
 
       <NotificationsList projectKey={project.project} projectName={project.projectName} />

@@ -20,6 +20,7 @@
 
 import { Path, To } from 'react-router-dom';
 import { getBaseUrl } from '~adapters/helpers/system';
+import { PROJECT_BASE_URL } from '~adapters/helpers/urls';
 import {
   getBranchLikeQuery,
   isBranch,
@@ -27,11 +28,11 @@ import {
   isPullRequest,
 } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike } from '~shared/helpers/component';
+import { queryToSearchString } from '~shared/helpers/query';
 import { BranchParameters } from '~shared/types/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import { DEFAULT_ISSUES_QUERY } from '../components/shared/utils';
 import { PROFILE_PATH } from '../constants/paths';
-import { queryToSearchString } from '../sonar-aligned/helpers/urls';
 import { BranchLike } from '../types/branch-like';
 import { MeasurePageView } from '../types/measures';
 import { GraphType } from '../types/project-activity';
@@ -39,7 +40,7 @@ import { HomePage } from '../types/users';
 import { SonarSourceLink } from './doc-links';
 import { serializeOptionalBoolean } from './query';
 
-export { getRulesUrl } from '~adapters/helpers/urls';
+export { getRulesUrl, PROJECT_BASE_URL } from '~adapters/helpers/urls';
 export { getHostUrl, getPathUrlAsString, getRuleUrl } from '~shared/helpers/urls';
 
 export interface Location {
@@ -56,7 +57,6 @@ type CodeScopeType = CodeScope.Overall | CodeScope.New;
 
 export type Query = Location['query'];
 
-const PROJECT_BASE_URL = '/dashboard';
 const SONARSOURCE_COM_URL = 'https://www.sonarsource.com';
 
 export function getComponentOverviewUrl(
@@ -82,11 +82,26 @@ export function getComponentAdminUrl(
   return getProjectUrl(componentKey);
 }
 
-export function getProjectUrl(
+interface GetProjectUrl {
+  /**
+   * @deprecated Use {@link ~shared/helpers/urls#getProjectOverviewUrl} instead.
+   */
+  (project: string): Partial<Path>;
+
+  // We are specifically deprecating the project-only usage of this function,
+  // despite this function signature below allowing that same behavior.
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  (project: string, branch?: string, codeScope?: CodeScopeType): Partial<Path>;
+}
+
+/**
+ * If you only need to link to the Dashboard for a project, use {@link ~shared/helpers/urls#getProjectOverviewUrl} instead.
+ */
+export const getProjectUrl: GetProjectUrl = (
   project: string,
   branch?: string,
   codeScope?: CodeScopeType,
-): Partial<Path> {
+): Partial<Path> => {
   return {
     pathname: PROJECT_BASE_URL,
     search: queryToSearchString({
@@ -95,7 +110,7 @@ export function getProjectUrl(
       ...(codeScope && { codeScope }),
     }),
   };
-}
+};
 
 export function getProjectSecurityHotspots(project: string): To {
   return {

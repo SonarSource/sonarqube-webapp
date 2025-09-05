@@ -28,13 +28,9 @@ import {
   StandoutLink,
 } from '~design-system';
 import { isPortfolioLike } from '~shared/helpers/component';
+import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import {
-  getBranchUrl,
-  getPortfolioUrl,
-  getProjectUrl,
-  getPullRequestUrl,
-} from '~sq-server-commons/helpers/urls';
+import { getBranchUrl, getPortfolioUrl, getPullRequestUrl } from '~sq-server-commons/helpers/urls';
 import { Task } from '~sq-server-commons/types/tasks';
 
 interface Props {
@@ -91,7 +87,7 @@ function getTaskComponentUrl(componentKey: string, task: Task) {
   } else if (task.pullRequest) {
     return getPullRequestUrl(componentKey, task.pullRequest);
   }
-  return getProjectUrl(componentKey);
+  return getProjectOverviewUrl(componentKey);
 }
 
 const StyledSpan = styled.span`

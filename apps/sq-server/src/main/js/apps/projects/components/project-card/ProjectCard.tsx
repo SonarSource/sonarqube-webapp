@@ -34,6 +34,7 @@ import { QualityGateIndicator, SeparatorCircleIcon, Tags, themeColor } from '~de
 import DateFromNow from '~shared/components/intl/DateFromNow';
 import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import { isDefined, isStringDefined } from '~shared/helpers/types';
+import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { QGStatus } from '~shared/types/common';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey, MetricType } from '~shared/types/metrics';
@@ -41,7 +42,6 @@ import Favorite from '~sq-server-commons/components/controls/Favorite';
 import { ContainsAICodeBadge } from '~sq-server-commons/components/shared/ContainsAICodeBadge';
 import AICodeAssuranceStatus from '~sq-server-commons/components/typography/AICodeAssuranceStatus';
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
-import { getProjectUrl } from '~sq-server-commons/helpers/urls';
 import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { isLoggedIn } from '~sq-server-commons/types/users';
@@ -91,7 +91,7 @@ function CardTitle({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
       )}
 
       <span className="it__project-card-name" title={name}>
-        <LinkStandalone to={getProjectUrl(key)}>{name}</LinkStandalone>
+        <LinkStandalone to={getProjectOverviewUrl(key)}>{name}</LinkStandalone>
       </span>
 
       {qualifier === ComponentQualifier.Application && (
@@ -259,7 +259,7 @@ function CardDetails({ project, isNewCode }: Readonly<ProjectCardSectionProps>) 
               { project: project.name },
             )}
             className="sw-ml-2 sw-typo-semibold"
-            to={getProjectUrl(key)}
+            to={getProjectOverviewUrl(key)}
           >
             <FormattedMessage id="projects.configure_analysis" />
           </Link>

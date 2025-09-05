@@ -22,8 +22,8 @@ import { Label, LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react'
 import { FormattedMessage, useIntl } from 'react-intl';
 import { GroupBase } from 'react-select';
 import { FlagMessage, InputSelect } from '~design-system';
+import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
-import { getProjectUrl } from '~sq-server-commons/helpers/urls';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 
 interface Props {
@@ -118,7 +118,7 @@ export function MonorepoRepositorySelector({
                         <li key={projectId}>
                           <LinkStandalone
                             highlight={LinkHighlight.Subtle}
-                            to={getProjectUrl(projectId)}
+                            to={getProjectOverviewUrl(projectId)}
                           >
                             {projectName}
                           </LinkStandalone>

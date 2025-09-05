@@ -18,17 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Text } from '@sonarsource/echoes-react';
+import { Link, Text } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { Card, DiscreetLink, QualityGateIndicator, SubHeading } from '~design-system';
+import { Card, QualityGateIndicator, SubHeading } from '~design-system';
 import DateFromNow from '~shared/components/intl/DateFromNow';
+import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { QGStatus } from '~shared/types/common';
 import { MetricType } from '~shared/types/metrics';
 import MetaLink from '~sq-server-commons/components/common/MetaLink';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { orderLinks } from '~sq-server-commons/helpers/projectLinks';
-import { getProjectUrl } from '~sq-server-commons/helpers/urls';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { MyProject, ProjectLink } from '~sq-server-commons/types/types';
 
@@ -88,7 +88,9 @@ export default function ProjectCard({ project }: Readonly<Props>) {
       </aside>
 
       <SubHeading as="h3">
-        <DiscreetLink to={getProjectUrl(project.key)}>{project.name}</DiscreetLink>
+        <Link highlight="subtle" to={getProjectOverviewUrl(project.key)}>
+          {project.name}
+        </Link>
       </SubHeading>
 
       <Text isSubtle>{project.key}</Text>

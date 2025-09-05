@@ -36,3 +36,8 @@ export function getFormattingHelpUrl(): string {
 
 export const API_V2_BASE_URL = '/api/v2';
 export const API_V2_MOCKS_PREFIX = '/api/v2';
+
+/**
+ * This is the URL most like an overview for a SQS project.
+ */
+export const PROJECT_BASE_URL = '/dashboard';

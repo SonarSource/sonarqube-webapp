@@ -37,11 +37,11 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useNavigate, unstable_usePrompt as usePrompt } from 'react-router-dom';
 import { addGlobalSuccessMessage } from '~design-system';
 import { useLocation } from '~shared/components/hoc/withRouter';
+import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import NewCodeDefinitionSelector from '~sq-server-commons/components/new-code-definition/NewCodeDefinitionSelector';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { getProjectUrl } from '~sq-server-commons/helpers/urls';
 import {
   MutationArg,
   useImportProjectMutation,
@@ -86,7 +86,7 @@ export default function NewCodeDefinitionSelection(props: Props) {
     const redirect = (projectCount: number) => {
       if (!isMonorepo && projectCount === 1 && data) {
         if (redirectTo === '/projects') {
-          navigate(getProjectUrl(data.project.key));
+          navigate(getProjectOverviewUrl(data.project.key));
         } else {
           onClose();
         }
@@ -133,7 +133,9 @@ export default function NewCodeDefinitionSelection(props: Props) {
           <FormattedMessage
             id="onboarding.create_project.success.admin"
             values={{
-              project_link: <Link to={getProjectUrl(data.project.key)}>{data.project.name}</Link>,
+              project_link: (
+                <Link to={getProjectOverviewUrl(data.project.key)}>{data.project.name}</Link>
+              ),
             }}
           />,
         );
