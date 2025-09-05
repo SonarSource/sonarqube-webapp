@@ -53,8 +53,8 @@ export default function IssueChangelogDiff({ diff }: Readonly<Props>) {
         {formatMessage(
           { id: 'issue.change.from_branch' },
           {
-            '0': diffComputedValues.oldValue,
-            '1': diffComputedValues.newValue,
+            branchA: diffComputedValues.oldValue,
+            branchB: diffComputedValues.newValue,
           },
         )}
       </p>
@@ -68,8 +68,8 @@ export default function IssueChangelogDiff({ diff }: Readonly<Props>) {
         {formatMessage(
           { id: 'issue.change.from_non_branch' },
           {
-            '0': diffComputedValues.oldValue,
-            '1': diffComputedValues.newValue,
+            branchA: diffComputedValues.oldValue,
+            branchB: diffComputedValues.newValue,
           },
         )}
       </p>
