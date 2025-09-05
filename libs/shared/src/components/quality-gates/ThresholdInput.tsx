@@ -21,10 +21,10 @@
 import { FormFieldWidth, Select, Text, TextInput, TextSize } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { getScaRiskMetricThresholds, RISK_SEVERITY_LABELS } from '~shared/helpers/sca';
-import { isStringDefined } from '~shared/helpers/types';
-import { Metric } from '~shared/types/measures';
-import { MetricType } from '~shared/types/metrics';
+import { getScaRiskMetricThresholds, RISK_SEVERITY_LABELS } from '../../helpers/sca';
+import { isStringDefined } from '../../helpers/types';
+import { Metric } from '../../types/measures';
+import { MetricType } from '../../types/metrics';
 
 interface Props {
   disabled?: boolean;
@@ -47,6 +47,7 @@ export default function ThresholdInput({
 
   const commonInputProps = {
     label: intl.formatMessage({ id: 'quality_gates.conditions.value' }),
+    ariaLabel: intl.formatMessage({ id: 'quality_gates.conditions.threshold' }),
     isDisabled: disabled,
     isRequired: true,
     id: 'condition-threshold',
@@ -106,7 +107,7 @@ export default function ThresholdInput({
         />
         {options.length === 1 && (
           <Text as="p" className="sw-mt-3" size={TextSize.Small}>
-            <FormattedMessage id="quality_gates.metric.sca_severity_licensing.description" />
+            <FormattedMessage id="sca.quality_gates.metric.sca_severity_licensing.description" />
           </Text>
         )}
       </div>

@@ -20,9 +20,8 @@
 
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
-import { SCA_ISSUE_RISK_SEVERITY_METRICS } from '~shared/helpers/sca';
+import { augmentMetrics } from '~shared/helpers/sca';
 import { Metric } from '~shared/types/measures';
-import { MetricType } from '~shared/types/metrics';
 
 export interface MetricsResponse {
   metrics: Metric[];
@@ -37,20 +36,6 @@ function getMetrics(data?: {
   ps?: number;
 }): Promise<MetricsResponse> {
   return getJSON('/api/metrics/search', data).catch(throwGlobalError);
-}
-
-/**
- * TODO: Backend tech debt:
- * SQ Server SCA Risk severity metrics are not typed correctly in the API.
- * They are currently typed as 'INT' but should be a new custom type 'SCA_RISK'.
- */
-function augmentMetrics(metrics: Metric[]): Metric[] {
-  return metrics.map((metric) => {
-    if (SCA_ISSUE_RISK_SEVERITY_METRICS.includes(metric.key)) {
-      metric.type = MetricType.ScaRisk;
-    }
-    return metric;
-  });
 }
 
 export function getAllMetrics(data?: {

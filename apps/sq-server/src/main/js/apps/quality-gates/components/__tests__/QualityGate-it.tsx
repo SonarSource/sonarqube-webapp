@@ -300,7 +300,7 @@ it('should be able to add a condition on new code', async () => {
   await user.click(dialog.byRole('option', { name: 'Issues' }).get());
 
   await user.click(
-    await dialog.byRole('textbox', { name: 'quality_gates.conditions.value' }).find(),
+    await dialog.byRole('textbox', { name: 'quality_gates.conditions.threshold' }).find(),
   );
   await user.keyboard('12');
   await user.click(dialog.byRole('button', { name: 'quality_gates.add_condition' }).get());
@@ -334,7 +334,7 @@ it('should be able to add a condition on overall code', async () => {
   await user.click(await dialog.byLabelText('quality_gates.conditions.operator').find());
 
   await user.click(dialog.byText('quality_gates.operator.LT').get());
-  await user.click(dialog.byRole('textbox', { name: 'quality_gates.conditions.value' }).get());
+  await user.click(dialog.byRole('textbox', { name: 'quality_gates.conditions.threshold' }).get());
   await user.keyboard('42');
   await user.click(dialog.byRole('button', { name: 'quality_gates.add_condition' }).get());
 
@@ -364,7 +364,7 @@ it('should be able to select a rating', async () => {
   );
   await user.click(dialog.byRole('option', { name: 'Maintainability Rating' }).get());
 
-  await user.click(dialog.byRole('combobox', { name: 'quality_gates.conditions.value' }).get());
+  await user.click(dialog.byRole('combobox', { name: 'quality_gates.conditions.threshold' }).get());
   await user.click(dialog.byText('B').get());
   await user.click(dialog.byRole('button', { name: 'quality_gates.add_condition' }).get());
 
@@ -387,7 +387,7 @@ it('should be able to edit a condition', async () => {
     newConditions.getByLabelText('quality_gates.condition.edit.Line Coverage on New Code'),
   );
   const dialog = within(screen.getByRole('dialog'));
-  const textBox = dialog.getByRole('textbox', { name: 'quality_gates.conditions.value' });
+  const textBox = dialog.getByRole('textbox', { name: 'quality_gates.conditions.threshold' });
   await user.clear(textBox);
   await user.type(textBox, '23');
   await user.click(dialog.getByRole('button', { name: 'quality_gates.update_condition' }));
@@ -419,7 +419,7 @@ it('cannot add/edit a condition for percentage metric with invalid value', async
 
   await user.click(await dialog.byRole('option', { name: 'Coverage' }).find());
   await user.type(
-    dialog.byRole('textbox', { name: 'quality_gates.conditions.value' }).get(),
+    dialog.byRole('textbox', { name: 'quality_gates.conditions.threshold' }).get(),
     '1000',
   );
 
@@ -427,8 +427,11 @@ it('cannot add/edit a condition for percentage metric with invalid value', async
   expect(dialog.byRole('button', { name: 'quality_gates.add_condition' }).get()).toBeDisabled();
 
   // add valid condition and check editing
-  await user.clear(dialog.byRole('textbox', { name: 'quality_gates.conditions.value' }).get());
-  await user.type(dialog.byRole('textbox', { name: 'quality_gates.conditions.value' }).get(), '90');
+  await user.clear(dialog.byRole('textbox', { name: 'quality_gates.conditions.threshold' }).get());
+  await user.type(
+    dialog.byRole('textbox', { name: 'quality_gates.conditions.threshold' }).get(),
+    '90',
+  );
 
   await user.click(dialog.byRole('button', { name: 'quality_gates.add_condition' }).get());
 
@@ -436,7 +439,7 @@ it('cannot add/edit a condition for percentage metric with invalid value', async
 
   await user.click(overall.getByLabelText('quality_gates.condition.edit.Coverage'));
   await user.type(
-    dialog.byRole('textbox', { name: 'quality_gates.conditions.value' }).get(),
+    dialog.byRole('textbox', { name: 'quality_gates.conditions.threshold' }).get(),
     '1000',
   );
   expect(dialog.byText('quality_gates.conditions.error_message.percent').get()).toBeInTheDocument();
@@ -464,7 +467,7 @@ it('should be able to edit an SCA Severity condition', async () => {
   );
 
   await user.click(
-    await dialog.byRole('combobox', { name: 'quality_gates.conditions.value' }).find(),
+    await dialog.byRole('combobox', { name: 'quality_gates.conditions.threshold' }).find(),
   );
 
   await user.click(await dialog.byRole('option', { name: 'severity_impact.HIGH' }).find());
@@ -789,10 +792,12 @@ it('should not allow to change value of prioritized_rule_issues', async () => {
   );
   await user.click(dialog.byRole('option', { name: 'Issues from prioritized rules' }).get());
 
-  expect(dialog.byRole('textbox', { name: 'quality_gates.conditions.value' }).get()).toBeDisabled();
-  expect(dialog.byRole('textbox', { name: 'quality_gates.conditions.value' }).get()).toHaveValue(
-    '0',
-  );
+  expect(
+    dialog.byRole('textbox', { name: 'quality_gates.conditions.threshold' }).get(),
+  ).toBeDisabled();
+  expect(
+    dialog.byRole('textbox', { name: 'quality_gates.conditions.threshold' }).get(),
+  ).toHaveValue('0');
 
   await user.click(dialog.byRole('button', { name: 'quality_gates.add_condition' }).get());
 

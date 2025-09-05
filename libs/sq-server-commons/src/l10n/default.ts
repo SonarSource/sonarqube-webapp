@@ -1936,7 +1936,11 @@ export const defaultMessages = {
     'A {licenseProfileDocUrl} is a collection of policies that define which licenses are allowed or prohibited for the dependencies used by your projects. Dependency licenses will only be analyzed if a default license profile is created, or if projects are manually assigned to a license profile. If a dependency with a prohibited license is found during an analysis, it will be identified as a {dependencyRiskDocUrl}.',
   'sca.licenses.project.choose':
     'Choose which license profile to assign to this project or create a new profile from the {licenseProfilesUrl} page.',
-
+  'sca.quality_gates.metric.sca_severity_vulnerability': 'Dependency vulnerability severity',
+  'sca.quality_gates.metric.sca_severity_licensing': 'Dependency with prohibited license',
+  'sca.quality_gates.metric.sca_severity_any_issue': 'Dependency risk severity',
+  'sca.quality_gates.metric.sca_severity_licensing.description':
+    "All prohibited license risks are classified as high severity by Sonar. Therefore, this condition will cause the quality gate to fail if any of a project's dependencies use a license that is prohibited by the project's License Profile.",
   //------------------------------------------------------------------------------
   //
   // ARCHITECTURE PAGE
@@ -3764,6 +3768,7 @@ export const defaultMessages = {
     '{conditions} {conditions, plural, one {condition} other {conditions}} failed',
   'quality_gates.conditions.operator': 'Operator',
   'quality_gates.conditions.value': 'Value',
+  'quality_gates.conditions.threshold': 'Set condition value',
   'quality_gates.conditions.where': 'Where?',
   'quality_gates.duplicated_conditions': 'This quality gate has duplicated conditions:',
   'quality_gates.intro.1':
@@ -3864,11 +3869,6 @@ export const defaultMessages = {
   'quality_gates.metric.standard_mode_long': 'Standard Experience Metric',
   'quality_gates.metric.mqr_mode_short': 'MQR Mode',
   'quality_gates.metric.mqr_mode_long': 'MQR Mode Metric',
-  'quality_gates.metric.sca_severity_vulnerability': 'Dependency vulnerability severity',
-  'quality_gates.metric.sca_severity_licensing': 'Dependency with prohibited license',
-  'quality_gates.metric.sca_severity_any_issue': 'Dependency risk severity',
-  'quality_gates.metric.sca_severity_licensing.description':
-    "All prohibited license risks are classified as high severity by Sonar. Therefore, this condition will cause the quality gate to fail if any of a project's dependencies use a license that is prohibited by the project's License Profile.",
   'quality_gates.update_conditions.operator_and_value_header': 'Operator and Value',
   'quality_gates.update_conditions.removed': 'Condition will be removed',
   'quality_gates.update_conditions.error': 'Failed to update some conditions',

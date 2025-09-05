@@ -30,6 +30,7 @@ import {
 import { isArray } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
+import ThresholdInput from '~shared/components/quality-gates/ThresholdInput';
 import { isValidPercentageMetric } from '~shared/helpers/metrics';
 import { isStringDefined } from '~shared/helpers/types';
 import { Metric } from '~shared/types/measures';
@@ -39,7 +40,6 @@ import { getPossibleOperators } from '~sq-server-commons/helpers/quality-gates';
 import { useUpdateConditionMutation } from '~sq-server-commons/queries/quality-gates';
 import { Condition, QualityGate } from '~sq-server-commons/types/types';
 import ConditionOperator from './ConditionOperator';
-import ThresholdInput from './ThresholdInput';
 
 interface Props {
   condition: Condition;

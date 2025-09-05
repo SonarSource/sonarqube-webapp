@@ -21,6 +21,7 @@
 import { Button, Form, ModalForm, RadioButtonGroup } from '@sonarsource/echoes-react';
 import { differenceWith, map } from 'lodash';
 import * as React from 'react';
+import ThresholdInput from '~shared/components/quality-gates/ThresholdInput';
 import { isValidPercentageMetric } from '~shared/helpers/metrics';
 import { isStringDefined } from '~shared/helpers/types';
 import { Metric } from '~shared/types/measures';
@@ -41,7 +42,6 @@ import { Feature } from '~sq-server-commons/types/features';
 import { Condition, QualityGate } from '~sq-server-commons/types/types';
 import ConditionOperator from './ConditionOperator';
 import MetricSelect from './MetricSelect';
-import ThresholdInput from './ThresholdInput';
 
 interface Props {
   qualityGate: QualityGate;

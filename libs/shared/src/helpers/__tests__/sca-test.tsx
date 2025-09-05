@@ -19,9 +19,10 @@
  */
 
 import { renderHook } from '@testing-library/react';
-import { MetricKey } from '../../types/metrics';
+import { MetricKey, MetricType } from '../../types/metrics';
 import { ReleaseRiskSeverity } from '../../types/sca';
 import {
+  augmentMetrics,
   getScaRiskMetricThresholds,
   scaConditionOperator,
   scaFilterConditionsBySeverity,
@@ -71,5 +72,19 @@ describe('useScaOverviewMetrics', () => {
   it('should return empty array when hasSca is false', () => {
     const { result } = renderHook(() => useScaOverviewMetrics(false));
     expect(result.current).toEqual([]);
+  });
+});
+
+describe('augmentMetrics', () => {
+  it('should change metric type for SCA severity metrics', () => {
+    const result = augmentMetrics([
+      { key: MetricKey.sca_severity_vulnerability, name: '', type: '' },
+    ]);
+    expect(result[0].type).toBe(MetricType.ScaRisk);
+  });
+
+  it('should not change metric type for non-SCA severity metrics', () => {
+    const result = augmentMetrics([{ key: MetricKey.new_sca_count_any_issue, name: '', type: '' }]);
+    expect(result[0].type).not.toBe(MetricType.ScaRisk);
   });
 });

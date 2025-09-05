@@ -19,7 +19,8 @@
  */
 
 import { useMemo } from 'react';
-import { MetricKey } from '../types/metrics';
+import { Metric } from '../types/measures';
+import { MetricKey, MetricType } from '../types/metrics';
 import { L10nMessageType, ReleaseRiskSeverity, ReleaseRiskType } from '../types/sca';
 
 /**
@@ -60,9 +61,9 @@ export const RISK_SEVERITY_LABELS: Record<ReleaseRiskSeverity, L10nMessageType> 
 };
 
 export const RISK_TYPE_QUALITY_GATE_LABEL: Record<ReleaseRiskType | 'Any', L10nMessageType> = {
-  Any: 'quality_gates.metric.sca_severity_any_issue',
-  [ReleaseRiskType.Vulnerability]: 'quality_gates.metric.sca_severity_vulnerability',
-  [ReleaseRiskType.ProhibitedLicense]: 'quality_gates.metric.sca_severity_licensing',
+  Any: 'sca.quality_gates.metric.sca_severity_any_issue',
+  [ReleaseRiskType.Vulnerability]: 'sca.quality_gates.metric.sca_severity_vulnerability',
+  [ReleaseRiskType.ProhibitedLicense]: 'sca.quality_gates.metric.sca_severity_licensing',
 };
 
 export const SCA_LICENSE_RISK_METRIC_KEYS = [
@@ -156,4 +157,18 @@ export function useScaOverviewMetrics(hasSca: boolean) {
     }
     return [];
   }, [hasSca]);
+}
+
+/**
+ * TODO: Backend tech debt:
+ * SQ Server SCA Risk severity metrics are not typed correctly in the API.
+ * They are currently typed as 'INT' but should be a new custom type 'SCA_RISK'.
+ */
+export function augmentMetrics(metrics: Metric[]): Metric[] {
+  return metrics.map((metric) => {
+    if (SCA_ISSUE_RISK_SEVERITY_METRICS.includes(metric.key)) {
+      metric.type = MetricType.ScaRisk;
+    }
+    return metric;
+  });
 }
