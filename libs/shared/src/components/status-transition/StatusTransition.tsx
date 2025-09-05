@@ -45,7 +45,7 @@ interface StatusTransitionProps<T extends string> {
   isOpen: boolean;
   isTransiting?: boolean;
   onOpenChange?: (isOpen: boolean) => void;
-  onTransite: (transition: T, comment?: string) => Promise<void>;
+  onTransition: (transition: T, comment?: string) => Promise<void>;
   status: string;
   transitions: StatusTransitionItem<T>[];
 }
@@ -54,7 +54,7 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
   const intl = useIntl();
   const {
     isOpen,
-    onTransite,
+    onTransition,
     onOpenChange,
     transitions,
     buttonTooltipContent,
@@ -69,7 +69,7 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
     if (transition.requiresComment) {
       setSelectedTransition(transition.value);
     } else {
-      void onTransite(transition.value);
+      void onTransition(transition.value);
     }
   };
 
@@ -105,6 +105,9 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
         onClose={() => {
           onOpenChange?.(false);
         }}
+        onOpen={() => {
+          onOpenChange?.(true);
+        }}
       >
         <Tooltip content={buttonTooltipContent}>
           <Button
@@ -114,9 +117,6 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
             )}
             isDisabled={transitions.length === 0}
             isLoading={isTransiting}
-            onClick={() => {
-              onOpenChange?.(!isOpen);
-            }}
             suffix={transitions.length > 0 ? <IconChevronDown /> : null}
             variety={ButtonVariety.DefaultGhost}
           >
@@ -132,7 +132,7 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
           }}
           onConfirm={(comment) => {
             if (selectedTransition) {
-              void onTransite(selectedTransition, comment);
+              void onTransition(selectedTransition, comment);
               setSelectedTransition(null);
             }
           }}

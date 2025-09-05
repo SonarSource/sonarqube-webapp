@@ -81,7 +81,7 @@ function renderStatusTransition(props: Partial<StatusTransitionProps> = {}) {
     <StatusTransition
       buttonTooltipContent="tooltip-text"
       isOpen
-      onTransite={onTransite}
+      onTransition={onTransite}
       status="transition-status"
       transitions={defaultTransitions}
       {...props}

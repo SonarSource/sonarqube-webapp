@@ -47,7 +47,7 @@ export default function IssueTransition(props: Readonly<Props>) {
   const { mutateAsync: setIssueTransition } = useIssueTransitionMutation();
   const { mutateAsync: addIssueComment } = useIssueCommentMutation();
 
-  const transiteIssue = React.useCallback(
+  const changeIssueStatus = React.useCallback(
     async (transition: string, comment?: string) => {
       setTransitioning(true);
 
@@ -101,7 +101,7 @@ export default function IssueTransition(props: Readonly<Props>) {
       onOpenChange={(isOpen) => {
         togglePopup('transition', isOpen);
       }}
-      onTransite={transiteIssue}
+      onTransition={changeIssueStatus}
       status={intl.formatMessage({ id: `issue.issue_status.${issue.issueStatus}` })}
       transitions={transitions}
     />
