@@ -49,6 +49,7 @@ import { IssueStatus } from '~sq-server-commons/types/issues';
 import { QualityGateStatus } from '~sq-server-commons/types/quality-gates';
 import { Component, QualityGate } from '~sq-server-commons/types/types';
 import { MeasurementType, getMeasurementMetricKey } from '~sq-server-commons/utils/overview-utils';
+import { IssuesInSandboxSection } from './issues-sandbox/IssuesInSandboxSection';
 import QualityGatePanel from './QualityGatePanel';
 import SoftwareImpactMeasureCard from './SoftwareImpactMeasureCard';
 
@@ -231,6 +232,7 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
         dependencyRiskRating={dependencyRiskRating}
         ratingMetricKey={MetricKey.sca_rating_any_issue}
       />
+      <IssuesInSandboxSection measures={measures} />
     </GridContainer>
   );
 }

@@ -154,6 +154,7 @@ export const defaultMessages = {
   last_analysis: 'Last Analysis',
   learn_more: 'Learn More',
   learn_more_x: 'Learn More: {link}',
+  learn_more_in_doc: 'Learn more in documentation',
   'learn_more.clean_code': 'Learn more: Clean as You Code',
   lets_go: "Let's go",
   library: 'Library',
@@ -1158,6 +1159,9 @@ export const defaultMessages = {
   'issue.sandbox.title': 'Issue sandbox',
   'issue.sandbox.description':
     'Issues that don’t affect the quality gate or measures, but should be triaged to avoid technical debt accumulation. Change their status and bring them back to the workflow.',
+  'issue.sandbox.includes_blockers': 'Includes blocker issues',
+  'issue.sandbox.see_x_sandboxed_issues':
+    'See the list of {count} {quality} issues in sandbox. {hasBlockers, select, true {Includes blocker issues.} other {}}',
 
   'issue.tabs.code': 'Where is the issue?',
   'issue.location_x': 'Location {0}',
@@ -5235,6 +5239,14 @@ export const defaultMessages = {
   'metric.new_software_quality_reliability_issues.description': 'New reliability issues',
   'metric.new_software_quality_security_issues.name': 'New Security Issues',
   'metric.new_software_quality_security_issues.description': 'New security issues',
+  'metric.issues_in_sandbox.name': 'Issues in sandbox',
+  'metric.issues_in_sandbox.short_name': 'Issue sandbox',
+  'metric.issues_in_sandbox.description':
+    'Issues detected after SonarQube update. They don’t affect the quality gate, but should be triaged to avoid debt accumulation',
+  'metric.new_issues_in_sandbox.name': 'New issues in sandbox',
+  'metric.new_issues_in_sandbox.short_name': 'Issue sandbox',
+  'metric.new_issues_in_sandbox.description':
+    'Issues detected after SonarQube update. They don’t affect the quality gate, but should be triaged to avoid debt accumulation',
 
   //------------------------------------------------------------------------------
   //

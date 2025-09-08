@@ -67,6 +67,7 @@ import {
 } from '~sq-server-commons/utils/overview-utils';
 import { LeakPeriodInfo } from './LeakPeriodInfo';
 import QualityGatePanel from './QualityGatePanel';
+import { IssuesInSandboxSection } from './issues-sandbox/IssuesInSandboxSection';
 
 interface Props {
   appLeak?: ApplicationPeriod;
@@ -324,6 +325,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
           dependencyRiskRating={dependencyRiskRating}
           ratingMetricKey={MetricKey.new_sca_rating_any_issue}
         />
+        <IssuesInSandboxSection inNewCodePeriod measures={measures} />
       </GridContainer>
     </div>
   );

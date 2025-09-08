@@ -44,6 +44,8 @@ export const BRANCH_OVERVIEW_METRICS: string[] = [
   MetricKey.software_quality_maintainability_issues,
   MetricKey.software_quality_reliability_issues,
   MetricKey.software_quality_security_issues,
+  MetricKey.issues_in_sandbox,
+  MetricKey.new_issues_in_sandbox,
 
   // bugs
   MetricKey.bugs,
