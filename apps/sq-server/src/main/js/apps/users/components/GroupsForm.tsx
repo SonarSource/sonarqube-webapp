@@ -50,7 +50,7 @@ export default function GroupsForm(props: Props) {
   const [query, setQuery] = React.useState<string>('');
   const [filter, setFilter] = React.useState<SelectListFilter>(SelectListFilter.Selected);
   const [changedGroups, setChangedGroups] = React.useState<Map<string, boolean>>(new Map());
-  const { data, isLoading, refetch } = useUserGroupsQuery({
+  const { data, isLoading, fetchNextPage, refetch } = useUserGroupsQuery({
     q: query,
     filter,
     userId: user.id,
@@ -65,14 +65,14 @@ export default function GroupsForm(props: Props) {
   const { samlEnabled } = useSamlConfiguration(samlDefinitions);
 
   const onSearch = async (searchParams: SelectListSearchParams) => {
-    if (query === searchParams.query && filter === searchParams.filter) {
+    setQuery(searchParams.query);
+    setFilter(searchParams.filter);
+    if (searchParams.page === 1) {
       await refetch();
+      setChangedGroups(new Map());
     } else {
-      setQuery(searchParams.query);
-      setFilter(searchParams.filter);
+      await fetchNextPage();
     }
-
-    setChangedGroups(new Map());
   };
 
   const handleSelect = (groupId: string) =>
@@ -125,7 +125,7 @@ export default function GroupsForm(props: Props) {
           )}
           <SelectList
             elements={groups?.map((group) => group.id.toString()) ?? []}
-            elementsTotalCount={groups?.length}
+            elementsTotalCount={data?.pages[0]?.page?.total}
             loading={isLoading}
             needToReload={changedGroups.size > 0 && filter !== SelectListFilter.All}
             onSearch={onSearch}
@@ -137,6 +137,7 @@ export default function GroupsForm(props: Props) {
                 ?.filter((g) => (changedGroups.has(g.id) ? changedGroups.get(g.id) : g.selected))
                 .map((g) => g.id) ?? []
             }
+            withPaging
           />
         </div>
       }
