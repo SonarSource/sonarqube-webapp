@@ -324,7 +324,12 @@ function RuleListItem(props: Readonly<Props>) {
             )}
           </div>
 
-          <Text as="ul" className="sw-flex sw-gap-1 sw-items-center" isSubtle size={TextSize.Small}>
+          <Text
+            as="ul"
+            className="sw-flex sw-flex-row sw-gap-1 sw-items-center sw-list-none"
+            isSubtle
+            size={TextSize.Small}
+          >
             <li>{rule.langName}</li>
 
             {rule.isTemplate && (
