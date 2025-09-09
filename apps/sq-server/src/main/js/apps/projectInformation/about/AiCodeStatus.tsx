@@ -29,6 +29,7 @@ import {
 import { FormattedMessage } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { ComponentQualifier } from '~shared/types/component';
+import { addons } from '~sq-server-addons/index';
 import { AiCodeAssuranceStatus } from '~sq-server-commons/api/ai-code-assurance';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import AICodeAssuranceStatus from '~sq-server-commons/components/typography/AICodeAssuranceStatus';
@@ -95,7 +96,7 @@ export default function AiCodeStatus(props: Readonly<Props>) {
           {detectedAiCode && (
             <div className="sw-mt-2">
               <Link
-                to={`/project/admin/extension/developer-server/ai-project-settings?id=${component.key}&qualifier=${component.qualifier}`}
+                to={addons?.aica?.getAICodeSettingsUrl(component.key, component.qualifier) ?? ''}
               >
                 {translate('projects.ai_code_detected.link')}
               </Link>

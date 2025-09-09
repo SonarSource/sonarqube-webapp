@@ -23,6 +23,7 @@ import { IconSparkle, Link, LinkHighlight, Text, TextSize } from '@sonarsource/e
 import { FormattedMessage, useIntl } from 'react-intl';
 import { HelperHintIcon, themeBorder } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
+import { addons } from '~sq-server-addons/index';
 import { AiCodeAssuranceStatus } from '~sq-server-commons/api/ai-code-assurance';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import AICodeAssuranceStatus from '~sq-server-commons/components/typography/AICodeAssuranceStatus';
@@ -90,9 +91,7 @@ export default function AICodeStatus(props: Readonly<Props>) {
           </HelpTooltip>
         </div>
 
-        <Link
-          to={`/project/admin/extension/developer-server/ai-project-settings?id=${component.key}&qualifier=${component.qualifier}`}
-        >
+        <Link to={addons?.aica?.getAICodeSettingsUrl(component.key, component.qualifier) ?? ''}>
           {intl.formatMessage({ id: 'projects.ai_code_detected.link' })}
         </Link>
       </AICodeAssuranceStatusWrapper>
