@@ -1689,7 +1689,7 @@ export const defaultMessages = {
   'dependencies.details.chains_none_label':
     'No dependency chains were found. For more details view {link}.',
   'dependencies.details.chains_none_missing_lockfile_label':
-    'No lockfile was found, so dependency chains are unavailable. For more details view {link}',
+    'A lockfile is required for complete dependency details and accurate analysis. As a best practice, Sonar recommends committing the lockfile to your source control system to ensure it is present when analysis is run. For more details view {link}',
   'dependencies.details.chains_none_missing_lockfile_link': 'analyzing projects for dependencies.',
   'dependencies.package_managers.CARGO': 'Cargo',
   'dependencies.package_managers.COCOAPODS': 'CocoaPods',
