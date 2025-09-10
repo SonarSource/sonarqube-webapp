@@ -20,12 +20,13 @@
 
 import { HttpResponse, http } from 'msw';
 import { mockMainBranch, mockPullRequest } from '../../../helpers/mocks/branches';
-import { BranchBase } from '../../../types/branch-like';
+import { BranchBase, PullRequest } from '../../../types/branch-like';
 import { HttpStatus } from '../../../types/request';
 import { AbstractServiceMock } from '../AbstractServiceMock';
 
 interface BranchesServiceData {
   branches: BranchBase[];
+  pullRequests: PullRequest[];
 }
 
 export class BranchesServiceMock extends AbstractServiceMock<BranchesServiceData> {
@@ -36,15 +37,8 @@ export class BranchesServiceMock extends AbstractServiceMock<BranchesServiceData
       return HttpResponse.json({ branches }, { status: HttpStatus.Ok });
     }),
     http.get('/api/project_pull_requests/list', () => {
-      return HttpResponse.json(
-        {
-          pullRequests: [
-            mockPullRequest({ key: 'pr-89', status: { qualityGateStatus: 'ERROR' } }),
-            mockPullRequest({ key: 'pr-90', title: 'PR Feature 2' }),
-          ],
-        },
-        { status: HttpStatus.Ok },
-      );
+      const { pullRequests } = this.data;
+      return HttpResponse.json({ pullRequests }, { status: HttpStatus.Ok });
     }),
     http.post('/api/project_branches/delete', () =>
       HttpResponse.json(undefined, { status: HttpStatus.Ok }),
@@ -60,4 +54,8 @@ export class BranchesServiceMock extends AbstractServiceMock<BranchesServiceData
 
 export const BranchesServiceDefaultDataset: BranchesServiceData = {
   branches: [mockMainBranch()],
+  pullRequests: [
+    mockPullRequest({ key: 'pr-89', status: { qualityGateStatus: 'ERROR' } }),
+    mockPullRequest({ key: 'pr-90', title: 'PR Feature 2' }),
+  ],
 };
