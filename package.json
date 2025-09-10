@@ -171,7 +171,7 @@
     "chalk": "4.1.2",
     "cheerio": "1.1.2",
     "core-js": "3.44.0",
-    "env-cmd": "10.1.0",
+    "env-cmd": "11.0.0",
     "eslint": "8.57.1",
     "eslint-config-prettier": "9.1.2",
     "eslint-plugin-header": "3.1.1",

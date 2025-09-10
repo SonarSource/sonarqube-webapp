@@ -2159,6 +2159,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@commander-js/extra-typings@npm:^13.1.0":
+  version: 13.1.0
+  resolution: "@commander-js/extra-typings@npm:13.1.0"
+  peerDependencies:
+    commander: ~13.1.0
+  checksum: 10/cdb7f854ac6c0b60c073ae928f2b836517ae7c1a8e86eb603144337fc87087ab9adebce67ed60d35beb82d80ef834ec40e7c20ef6053f4b115def21f1cd1d25f
+  languageName: node
+  linkType: hard
+
 "@cspotcode/source-map-support@npm:^0.8.0":
   version: 0.8.1
   resolution: "@cspotcode/source-map-support@npm:0.8.1"
@@ -11094,6 +11103,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"commander@npm:^13.1.0":
+  version: 13.1.0
+  resolution: "commander@npm:13.1.0"
+  checksum: 10/d3b4b79e6be8471ddadacbb8cd441fe82154d7da7393b50e76165a9e29ccdb74fa911a186437b9a211d0fc071db6051915c94fb8ef16d77511d898e9dbabc6af
+  languageName: node
+  linkType: hard
+
 "commander@npm:^2.20.0":
   version: 2.20.3
   resolution: "commander@npm:2.20.3"
@@ -12510,15 +12526,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"env-cmd@npm:10.1.0":
-  version: 10.1.0
-  resolution: "env-cmd@npm:10.1.0"
+"env-cmd@npm:11.0.0":
+  version: 11.0.0
+  resolution: "env-cmd@npm:11.0.0"
   dependencies:
-    commander: "npm:^4.0.0"
-    cross-spawn: "npm:^7.0.0"
+    "@commander-js/extra-typings": "npm:^13.1.0"
+    commander: "npm:^13.1.0"
+    cross-spawn: "npm:^7.0.6"
   bin:
     env-cmd: bin/env-cmd.js
-  checksum: 10/54516db019e3c5fbbd3b5da4c74e63e18b20266c0df791890dec89c6c60a0617ad8530356499f8355cc422838f3b7922450239728b3be0a1f38b51503d42a232
+  checksum: 10/80f81646010dd1be9997b8ccc452f9a3622c3d0ff7ea611f3329a2b31ca7b9c1a5c195ff97d4cae3c89eda40f2177f2ad493fa677b0328a9be0e5f8193c68220
   languageName: node
   linkType: hard
 
@@ -22222,7 +22239,7 @@ __metadata:
     date-fns: "npm:4.1.0"
     diff: "npm:8.0.2"
     dompurify: "npm:3.2.6"
-    env-cmd: "npm:10.1.0"
+    env-cmd: "npm:11.0.0"
     eslint: "npm:8.57.1"
     eslint-config-prettier: "npm:9.1.2"
     eslint-plugin-header: "npm:3.1.1"
