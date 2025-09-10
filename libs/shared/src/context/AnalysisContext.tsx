@@ -20,12 +20,22 @@
 
 import { createContext, useContext } from 'react';
 
-type AnalysisContextShape = {
+/**
+ * Shared code will inevitably need to tweak behavior specific to cloud or server.
+ * Consumers of these platform-specific properties should use caution.
+ */
+interface CloudAnalysisContextShape {
+  autoscanEnabled?: boolean;
+}
+
+interface SharedAnalysisContextShape {
   analysisDate?: string;
   branchId?: string;
   organizationId?: string;
   organizationKey?: string;
-};
+}
+
+type AnalysisContextShape = CloudAnalysisContextShape & SharedAnalysisContextShape;
 
 export const AnalysisContext = createContext<AnalysisContextShape>({});
 export const useAnalysisContext = () => useContext(AnalysisContext);
