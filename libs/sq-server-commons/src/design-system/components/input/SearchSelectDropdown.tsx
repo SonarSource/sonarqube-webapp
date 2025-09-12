@@ -81,6 +81,7 @@ export function SearchSelectDropdown<
     value,
     loadOptions,
     controlLabel,
+    isSearchable = true,
     controlPlaceholder,
     controlSize,
     isDisabled,
@@ -91,6 +92,7 @@ export function SearchSelectDropdown<
     onInputChange,
     isClearable,
     zLevel = PopupZLevel.Global,
+    closeMenuOnSelect = true,
     placeholder = '',
     ...rest
   } = props;
@@ -116,10 +118,12 @@ export function SearchSelectDropdown<
 
   const handleChange = React.useCallback(
     (newValue: OnChangeValue<Option, IsMulti>, actionMeta: ActionMeta<Option>) => {
-      toggleDropdown(false);
+      if (closeMenuOnSelect) {
+        toggleDropdown(false);
+      }
       onChange?.(newValue, actionMeta);
     },
-    [toggleDropdown, onChange],
+    [toggleDropdown, onChange, closeMenuOnSelect],
   );
 
   const handleLoadOptions = React.useCallback(
@@ -168,7 +172,7 @@ export function SearchSelectDropdown<
       open={open}
       overlay={
         <SearchHighlighterContext.Provider value={inputValue}>
-          <StyledSearchSelectWrapper>
+          <StyledSearchSelectWrapper isSearchable={isSearchable}>
             <SearchSelect
               cacheOptions
               {...rest}
@@ -177,6 +181,7 @@ export function SearchSelectDropdown<
                 Option: IconOption,
                 ...rest.components,
               }}
+              isSearchable={isSearchable}
               loadOptions={handleLoadOptions}
               menuIsOpen
               minLength={minLength}
@@ -210,13 +215,17 @@ export function SearchSelectDropdown<
   );
 }
 
-const StyledSearchSelectWrapper = styled.div`
+const StyledSearchSelectWrapper = styled.div<{ isSearchable: boolean }>`
   ${tw`sw-w-full`};
   ${tw`sw-rounded-2`};
 
   .react-select {
     border: ${themeBorder('default', 'inputDisabledBorder')};
     ${tw`sw-rounded-2`};
+  }
+
+  .react-select__control {
+    ${({ isSearchable }) => (isSearchable === false ? 'display: none;' : '')};
   }
 
   .react-select__menu {

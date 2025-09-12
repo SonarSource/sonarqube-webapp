@@ -25,17 +25,12 @@ import { BugIcon, CodeSmellIcon, SecurityHotspotIcon, VulnerabilityIcon } from '
 import { IssueType, RawIssue } from '../types/issues';
 import { Flow, FlowLocation, FlowType, Issue, TextRange } from '../types/types';
 import { UserBase } from '../types/users';
-import { ISSUE_TYPES } from './constants';
 
 interface Rule {}
 
 interface Component {
   key: string;
   name: string;
-}
-
-export function sortByType<T extends Pick<Issue, 'type'>>(issues: T[]): T[] {
-  return sortBy(issues, (issue) => ISSUE_TYPES.indexOf(issue.type as IssueType));
 }
 
 function injectRelational(

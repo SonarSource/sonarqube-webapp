@@ -127,8 +127,8 @@ export function IssuesInSandboxSection({
           )}
         </Spinner>
       </Text>
-      <Spinner isLoading={loadingSandboxedIssues}>
-        <div className="sw-my-4 sw-flex sw-justify-between sw-max-w-[466px]">
+      <Spinner className="sw-my-2" isLoading={loadingSandboxedIssues}>
+        <div className="sw-my-4 sw-flex sw-justify-between sw-w-[466px]">
           {sandboxIssues &&
             SOFTWARE_QUALITIES.map((quality) => (
               <IssuesSandboxQualityMeasure

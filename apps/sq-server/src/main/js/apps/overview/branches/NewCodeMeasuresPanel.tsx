@@ -32,7 +32,6 @@ import {
 import {
   GridContainer,
   StyleMeasuresCard,
-  StyleMeasuresCardRightBorder,
   StyledConditionsCard,
 } from '~shared/components/overview/BranchSummaryStyles';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
@@ -286,7 +285,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
             useDiffMetric
           />
         </StyleMeasuresCard>
-        <StyleMeasuresCardRightBorder className="sw-col-span-4">
+        <StyleMeasuresCard className="sw-col-span-4">
           <MeasuresCardNumber
             conditionMetric={MetricKey.new_security_hotspots_reviewed}
             conditions={conditions}
@@ -314,7 +313,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
             })}
             value={newSecurityHotspots}
           />
-        </StyleMeasuresCardRightBorder>
+        </StyleMeasuresCard>
         <MeasuresCardDependencyRisk
           branchLike={branch}
           className="sw-col-span-4"

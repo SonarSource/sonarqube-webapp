@@ -2836,6 +2836,52 @@ export const defaultMessages = {
   'settings.early_access.misra.success':
     'Early access to MISRA Compliance {enabled, select, true {is enabled} other {is disabled}} for this instance',
 
+  // Sandbox issue settings
+  'settings.sandbox_issues.title': 'Sandbox specific issue categories after SonarQube update',
+  'settings.sandbox_issues.toggle.label.mqr':
+    'Enable the Sandbox feature for issues with specific software quality and severity.',
+  'settings.sandbox_issues.toggle.label.standard':
+    'Enable “In Sandbox” status for issues with defined type and severity.',
+  'settings.sandbox_issues.toggle.description':
+    'This status can be automatically assigned to issues appearing as a result of <b>analyzer updates</b> or <b>changes to built-in quality profiles. </b> Issues caused by code modification or other user actions will not be affected.',
+  'settings.sandbox_issues.callout_message':
+    'This setting prevents unexpected quality gate failures, but could increase technical debt.',
+  'settings.sandbox_issues.qualities.title.mqr':
+    'Choose software quality and severity of issues automatically moved to sandbox after SonarQube update{required}',
+  'settings.sandbox_issues.qualities.title.standard':
+    'Choose type and severity of issues automatically moved to sandbox after SonarQube update{required}',
+  'settings.sandbox_issues.qualities.invalid.mqr': 'Choose software quality and severity',
+  'settings.sandbox_issues.qualities.invalid.standard': 'Choose issue type and severity',
+  'settings.sandbox_issues.qualities.security.warning':
+    '<b>Proceed with caution:</b> security issues significantly elevate the risk of a security breach',
+  'settings.sandbox_issues.qualities.reliability.warning':
+    '<b>Proceed with caution:</b> reliability issues can lead to unpredictable behaviour and degraded performance of your software',
+  'settings.sandbox_issues.choose_severities': 'Choose severity...',
+  'settings.sandbox_issues.select_severities_for': 'Select severities for {quality}',
+  'settings.sandbox_issues.override_admins.title.mqr':
+    'Should project admins be able to override software quality and severity?',
+  'settings.sandbox_issues.override_admins.title.standard':
+    'Should project admins be able to override issue type and severity?',
+  'settings.sandbox_issues.override_admins.yes.description':
+    'Your choice can be edited at the project level',
+  'settings.sandbox_issues.override_admins.no.description':
+    'Your choice is enforced on all projects',
+  'settings.sandbox_issues.override_admins.invalid': 'Define if admins can override your choice',
+  'settings.sandbox_issues.default_enablement.title':
+    'Should sandbox feature be on or off by default?',
+  'settings.sandbox_issues.default_enablement.yes.description':
+    'Active for all existing and future projects. Can be disabled by project admins',
+  'settings.sandbox_issues.default_enablement.no.description':
+    'Project admins need to turn it on for their project.',
+  'settings.sandbox_issues.default_enablement.invalid': 'Choose default status',
+  'settings.sandbox_issues.confirm.title':
+    'This action might compromise your code. Are you sure you want to proceed?',
+  'settings.sandbox_issues.confirm.description':
+    'Automatically moving security and/or reliability issues to the sandbox can significantly elevate the risk of security breach, unpredictable behaviour and degraded performance of your software if the issues are not addressed.',
+  'settings.sandbox_issues.confirm.question': 'Are you sure you want to proceed?',
+  'settings.sandbox_issues.enable.success': 'Sandbox feature is now enabled',
+  'settings.sandbox_issues.edit.success': 'Sandbox setting changes were saved successfully',
+
   'property.category.announcement': 'Announcement',
   'property.category.general': 'General',
   'property.category.general.email': 'Email',

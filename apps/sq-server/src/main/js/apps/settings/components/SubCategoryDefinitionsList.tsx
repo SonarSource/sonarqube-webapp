@@ -18,11 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import styled from '@emotion/styled';
 import { Heading, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { groupBy, sortBy } from 'lodash';
 import * as React from 'react';
-import { BasicSeparator } from '~design-system';
+import { BasicSeparator, themeBorder } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { Location } from '~shared/types/router';
@@ -30,6 +31,7 @@ import { SettingDefinitionAndValue } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import { SUB_CATEGORY_EXCLUSIONS } from '../constants';
 import { getSubCategoryDescription, getSubCategoryName } from '../utils';
+import { ADDITIONAL_SUB_CATEGORY_SETTINGS } from './AdditionalSubCategories';
 import DefinitionsList from './DefinitionsList';
 
 export interface SubCategoryDefinitionsListProps {
@@ -60,6 +62,32 @@ class SubCategoryDefinitionsList extends React.PureComponent<SubCategoryDefiniti
       }
     }
   };
+
+  renderExtraSubCategorySettings(subCategory: string | undefined) {
+    const { category, component } = this.props;
+    const filteredExtraSubCategories = ADDITIONAL_SUB_CATEGORY_SETTINGS.filter(
+      ({ subCategoryKey, categoryKey }) => {
+        return subCategory === subCategoryKey && category === categoryKey;
+      },
+    ).filter(
+      ({ availableForProject, availableGlobally }) =>
+        (availableGlobally && !component) || (availableForProject && !!component),
+    );
+
+    if (filteredExtraSubCategories.length > 0) {
+      return (
+        <ul>
+          {filteredExtraSubCategories.map(({ key, SubCategoryComponent }) => (
+            <StyledListItem key={key}>
+              {SubCategoryComponent && <SubCategoryComponent component={component} />}
+            </StyledListItem>
+          ))}
+        </ul>
+      );
+    }
+
+    return null;
+  }
 
   render() {
     const {
@@ -116,11 +144,18 @@ class SubCategoryDefinitionsList extends React.PureComponent<SubCategoryDefiniti
               // Add a separator to all but the last element
               index !== filteredSubCategories.length - 1 && <BasicSeparator />
             }
+            {this.renderExtraSubCategorySettings(subCategory.key)}
           </li>
         ))}
       </ul>
     );
   }
 }
+
+const StyledListItem = styled.li`
+  & + & {
+    border-top: ${themeBorder('default')};
+  }
+`;
 
 export default withRouter(SubCategoryDefinitionsList);

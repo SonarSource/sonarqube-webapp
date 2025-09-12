@@ -1,0 +1,367 @@
+/*
+ * SonarQube
+ * Copyright (C) 2009-2025 SonarSource SA
+ * mailto:info AT sonarsource DOT com
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { byRole } from '~shared/helpers/testSelector';
+import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
+import QualityProfilesServiceMock from '~sq-server-commons/api/mocks/QualityProfilesServiceMock';
+import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { Feature } from '~sq-server-commons/types/features';
+import routes from '../routes';
+import { qualityProfilePageObjects as ui } from './utils';
+
+jest.mock('~sq-server-commons/api/quality-profiles');
+jest.mock('~sq-server-commons/api/rules');
+
+let serviceMock: QualityProfilesServiceMock;
+
+beforeEach(() => {
+  serviceMock = new QualityProfilesServiceMock();
+  // eslint-disable-next-line no-new
+  new ModeServiceMock();
+  serviceMock.setAdmin();
+  jest.clearAllMocks();
+});
+
+describe('Permissions', () => {
+  it('should be able to grant permission to a user and remove it', async () => {
+    const user = userEvent.setup();
+    renderQualityProfile();
+    await ui.waitForDataLoaded();
+
+    expect(await ui.permissionSection.find()).toBeInTheDocument();
+
+    // Add user
+    await user.click(ui.grantPermissionButton.get());
+    expect(ui.dialog.get()).toBeInTheDocument();
+
+    await user.click(ui.selectUserOrGroup.get());
+    await user.click(byRole('option', { name: /^Buzz/ }).get());
+
+    await user.click(ui.addButton.get());
+    expect(ui.permissionSection.byText('Buzz').get()).toBeInTheDocument();
+
+    // Remove User
+    await user.click(
+      ui.permissionSection
+        .byRole('button', { name: 'quality_profiles.permissions.remove.user_x.Buzz' })
+        .get(),
+    );
+    expect(ui.dialog.get()).toBeInTheDocument();
+    await user.click(ui.removeButton.get());
+    expect(ui.permissionSection.byText('buzz').query()).not.toBeInTheDocument();
+  });
+
+  it('should be able to grant permission to a group and remove it', async () => {
+    const user = userEvent.setup();
+    renderQualityProfile();
+    await ui.waitForDataLoaded();
+
+    expect(await ui.permissionSection.find()).toBeInTheDocument();
+
+    // Add Group
+    await user.click(ui.grantPermissionButton.get());
+    expect(ui.dialog.get()).toBeInTheDocument();
+
+    await user.click(ui.selectUserOrGroup.get());
+    await user.click(byRole('option', { name: /^ACDC/ }).get());
+
+    await user.click(ui.addButton.get());
+    expect(ui.permissionSection.byText('ACDC').get()).toBeInTheDocument();
+
+    // Remove group
+    await user.click(
+      ui.permissionSection
+        .byRole('button', { name: 'quality_profiles.permissions.remove.group_x.ACDC' })
+        .get(),
+    );
+    expect(ui.dialog.get()).toBeInTheDocument();
+    await user.click(ui.removeButton.get());
+    expect(ui.permissionSection.byText('ACDC').query()).not.toBeInTheDocument();
+  });
+
+  it('should not be able to grant permission if the profile is built-in', async () => {
+    renderQualityProfile('sonar');
+    await ui.waitForDataLoaded();
+    expect(await screen.findByRole('heading', { name: /\bSonar way\b/ })).toBeInTheDocument();
+    expect(ui.permissionSection.query()).not.toBeInTheDocument();
+  });
+});
+
+describe('Projects', () => {
+  it('should be able to add a project to Quality Profile with active rules', async () => {
+    serviceMock.resetProfileProjects();
+
+    const user = userEvent.setup();
+    renderQualityProfile();
+    await ui.waitForDataLoaded();
+
+    expect(await ui.projectSection.find()).toBeInTheDocument();
+
+    expect(ui.projectSection.byText('Twitter').query()).not.toBeInTheDocument();
+    await user.click(ui.changeProjectsButton.get());
+    expect(ui.dialog.get()).toBeInTheDocument();
+
+    await user.click(ui.withoutFilterButton.get());
+    await user.click(ui.twitterCheckbox.get());
+    await user.click(ui.closeButton.get());
+    expect(ui.projectSection.byText('Twitter').get()).toBeInTheDocument();
+  });
+
+  it('should be able to remove a project from a Quality Profile with active rules', async () => {
+    serviceMock.resetProfileProjects();
+
+    const user = userEvent.setup();
+    renderQualityProfile();
+    await ui.waitForDataLoaded();
+
+    expect(await ui.projectSection.find()).toBeInTheDocument();
+
+    expect(ui.projectSection.byText('Benflix').get()).toBeInTheDocument();
+    await user.click(ui.changeProjectsButton.get());
+    expect(ui.dialog.get()).toBeInTheDocument();
+
+    await user.click(ui.benflixCheckbox.get());
+    await user.click(ui.closeButton.get());
+    expect(ui.projectSection.byText('Benflix').query()).not.toBeInTheDocument();
+  });
+
+  it('should not be able to change project for Quality Profile with no active rules', async () => {
+    renderQualityProfile('no-rule-qp');
+    await ui.waitForDataLoaded();
+
+    expect(await ui.projectSection.find()).toBeInTheDocument();
+
+    expect(ui.changeProjectsButton.get()).toHaveAttribute('disabled');
+  });
+
+  it('should not be able to change projects for default profiles', async () => {
+    renderQualityProfile('sonar');
+    await ui.waitForDataLoaded();
+
+    expect(await ui.projectSection.find()).toBeInTheDocument();
+
+    expect(
+      ui.projectSection.byText('quality_profiles.projects_for_default').get(),
+    ).toBeInTheDocument();
+  });
+});
+
+describe('Rules', () => {
+  it('should be able to activate more rules', async () => {
+    renderQualityProfile();
+    await ui.waitForDataLoaded();
+
+    expect(await ui.rulesSection.find()).toBeInTheDocument();
+
+    expect(await ui.activateMoreLink.find()).toBeInTheDocument();
+    expect(ui.activateMoreLink.get()).toHaveAttribute(
+      'href',
+      '/coding_rules?qprofile=old-php-qp&activation=false',
+    );
+  });
+
+  it("shouldn't be able to activate more rules for built in Quality Profile", async () => {
+    renderQualityProfile('sonar');
+    await ui.waitForDataLoaded();
+    expect(await ui.rulesSection.find()).toBeInTheDocument();
+    expect(await ui.activateMoreButton.find()).toBeInTheDocument();
+    expect(ui.activateMoreButton.get()).toBeDisabled();
+  });
+});
+
+describe('Inheritance', () => {
+  it("should be able to change a quality profile's parents", async () => {
+    const user = userEvent.setup();
+    renderQualityProfile();
+    await ui.waitForDataLoaded();
+
+    expect(await ui.inheritanceSection.find()).toBeInTheDocument();
+
+    // Parents
+    expect(ui.inheritanceSection.byText('PHP Sonar way 1').get()).toBeInTheDocument();
+    expect(ui.inheritanceSection.byText('PHP Sonar way 2').query()).not.toBeInTheDocument();
+    // Children
+    expect(ui.inheritanceSection.byText('PHP way').get()).toBeInTheDocument();
+
+    await user.click(ui.changeParentButton.get());
+    expect(await ui.dialog.find()).toBeInTheDocument();
+    expect(ui.changeButton.get()).toBeDisabled();
+
+    await user.click(ui.selectField.get());
+    await user.click(byRole('option', { name: 'PHP Sonar way 2' }).get());
+
+    await user.click(ui.changeButton.get());
+    expect(ui.dialog.query()).not.toBeInTheDocument();
+
+    await ui.waitForDataLoaded();
+
+    // Parents
+    expect(ui.inheritanceSection.byText('PHP Sonar way 2').get()).toBeInTheDocument();
+    expect(ui.inheritanceSection.byText('PHP Sonar way 1').query()).not.toBeInTheDocument();
+    // Children
+    expect(ui.inheritanceSection.byText('PHP way').get()).toBeInTheDocument();
+  });
+
+  it("should not be able to change a Built-in quality profile's parents", async () => {
+    renderQualityProfile('php-sonar-way-1');
+    await ui.waitForDataLoaded();
+
+    expect(await ui.inheritanceSection.find()).toBeInTheDocument();
+    expect(ui.changeParentButton.query()).not.toBeInTheDocument();
+  });
+});
+
+describe('Actions', () => {
+  it('should be able to activate more rules', async () => {
+    const user = userEvent.setup();
+    renderQualityProfile();
+    await ui.waitForDataLoaded();
+
+    await user.click(await ui.qualityProfileActions.find());
+    expect(ui.activateMoreRulesLink.get()).toBeInTheDocument();
+    expect(ui.activateMoreRulesLink.get()).toHaveAttribute(
+      'href',
+      '/coding_rules?qprofile=old-php-qp&activation=false',
+    );
+  });
+
+  it('should be able to extend a quality profile', async () => {
+    const user = userEvent.setup();
+    renderQualityProfile();
+    await ui.waitForDataLoaded();
+
+    expect(
+      await screen.findByRole('heading', { name: 'Good old PHP quality profile' }),
+    ).toBeInTheDocument();
+
+    await user.click(ui.qualityProfileActions.get());
+    await user.click(ui.extendButton.get());
+
+    expect(ui.dialog.get()).toBeInTheDocument();
+    expect(ui.dialog.byRole('button', { name: 'extend' }).get()).toBeDisabled();
+
+    await user.clear(ui.newNameInput.get());
+    await user.type(ui.newNameInput.get(), 'Bad new PHP quality profile');
+    await user.click(ui.dialog.byRole('button', { name: 'extend' }).get());
+
+    expect(ui.dialog.query()).not.toBeInTheDocument();
+
+    await ui.waitForDataLoaded();
+
+    // below, the 3 instances are: in the breadcrumbs, in the h1 header, in the inheritance tree
+    expect(screen.getAllByText('Bad new PHP quality profile')).toHaveLength(3);
+
+    expect(screen.getByText('Good old PHP quality profile')).toBeInTheDocument();
+  });
+
+  it('should be able to copy a quality profile', async () => {
+    const user = userEvent.setup();
+    renderQualityProfile();
+    await ui.waitForDataLoaded();
+
+    await user.click(await ui.qualityProfileActions.find());
+    await user.click(ui.copyButton.get());
+
+    expect(ui.dialog.get()).toBeInTheDocument();
+    expect(ui.dialog.byRole('button', { name: 'copy' }).get()).toBeDisabled();
+
+    await user.clear(ui.newNameInput.get());
+    await user.type(ui.newNameInput.get(), 'Good old PHP quality profile copy');
+    await user.click(ui.dialog.byRole('button', { name: 'copy' }).get());
+
+    expect(ui.dialog.query()).not.toBeInTheDocument();
+
+    await ui.waitForDataLoaded();
+
+    // below, the 3 instances are: in the breadcrumbs, in the h1 header, in the inheritance tree
+    expect(await screen.findAllByText('Good old PHP quality profile copy')).toHaveLength(3);
+  });
+
+  it('should be able to rename a quality profile', async () => {
+    const user = userEvent.setup();
+    renderQualityProfile();
+    await ui.waitForDataLoaded();
+
+    await user.click(await ui.qualityProfileActions.find());
+    await user.click(ui.renameButton.get());
+
+    expect(ui.dialog.get()).toBeInTheDocument();
+    expect(ui.dialog.byRole('button', { name: 'rename' }).get()).toBeDisabled();
+
+    await user.clear(ui.newNameInput.get());
+    await user.type(ui.newNameInput.get(), 'Fossil PHP quality profile');
+    await user.click(ui.dialog.byRole('button', { name: 'rename' }).get());
+
+    expect(ui.dialog.query()).not.toBeInTheDocument();
+
+    await ui.waitForDataLoaded();
+
+    // below, the 3 instances are: in the breadcrumbs, in the h1 header, in the inheritance tree
+    expect(screen.getAllByText('Fossil PHP quality profile')).toHaveLength(3);
+  });
+
+  it('should be able to set a quality profile as default', async () => {
+    const user = userEvent.setup();
+    renderQualityProfile();
+    await ui.waitForDataLoaded();
+
+    await user.click(await ui.qualityProfileActions.find());
+    await user.click(ui.setAsDefaultButton.get());
+
+    expect(screen.getAllByText('default')).toHaveLength(2);
+  });
+
+  it('should NOT be able to set a quality profile as default if it has no active rules', async () => {
+    const user = userEvent.setup();
+    renderQualityProfile('no-rule-qp');
+    await ui.waitForDataLoaded();
+
+    await user.click(await ui.qualityProfileActions.find());
+    expect(ui.setAsDefaultButton.get()).toHaveAttribute('aria-disabled', 'true');
+  });
+
+  it('should be able to delete a Quality Profile and its children', async () => {
+    const user = userEvent.setup();
+    renderQualityProfile();
+    await ui.waitForDataLoaded();
+
+    await user.click(await ui.qualityProfileActions.find());
+    await user.click(await ui.deleteQualityProfileButton.find());
+
+    expect(ui.alertDialog.get()).toBeInTheDocument();
+    expect(
+      ui.alertDialog
+        .byText(/quality_profiles.are_you_sure_want_delete_profile_x_and_descendants/)
+        .get(),
+    ).toBeInTheDocument();
+    await user.click(ui.alertDialog.byRole('button', { name: 'delete' }).get());
+
+    expect(await ui.qualityProfilesHeader.find()).toBeInTheDocument();
+    // children
+    expect(screen.queryByText('PHP way')).not.toBeInTheDocument();
+    expect(screen.queryByText('Good old PHP quality profile')).not.toBeInTheDocument();
+  });
+});
+
+function renderQualityProfile(key = 'old-php-qp', featureList: Feature[] = []) {
+  renderAppRoutes(`profiles/show?key=${key}`, routes, { featureList });
+}
