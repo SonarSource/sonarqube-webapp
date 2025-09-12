@@ -19,6 +19,7 @@
  */
 
 import { act, screen, waitFor } from '@testing-library/react';
+import { ComponentContext } from '~adapters/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier } from '~shared/types/component';
@@ -40,7 +41,6 @@ import { TimeMachineServiceMock } from '~sq-server-commons/api/mocks/TimeMachine
 import UsersServiceMock from '~sq-server-commons/api/mocks/UsersServiceMock';
 import { getProjectActivity } from '~sq-server-commons/api/projectActivity';
 import { getQualityGateProjectStatus } from '~sq-server-commons/api/quality-gates';
-import CurrentUserContextProvider from '~sq-server-commons/context/current-user/CurrentUserContextProvider';
 import { parseDate } from '~sq-server-commons/helpers/dates';
 import { mockMainBranch } from '~sq-server-commons/helpers/mocks/branch-like';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
@@ -406,6 +406,23 @@ describe('project overview', () => {
       modeHandler.setMode(Mode.MQR);
 
       renderBranchOverview({}, { featureList: [] });
+
+      await act(async () => {
+        await flushPromises(10);
+      });
+
+      expect(
+        byRole('link', { name: /overview\.issues\.issue_from_update/ }).query(),
+      ).not.toBeInTheDocument();
+    });
+    it('should not show links when component is reindexing', async () => {
+      modeHandler.setMode(Mode.MQR);
+
+      renderBranchOverview(
+        {},
+        { featureList: [Feature.FromSonarQubeUpdate] },
+        { needIssueSync: true },
+      );
 
       await act(async () => {
         await flushPromises(10);
@@ -1064,12 +1081,14 @@ function renderBranchOverview(
   });
 
   return renderComponent(
-    <CurrentUserContextProvider currentUser={user}>
+    <ComponentContext.Provider
+      value={{ component, fetchComponent: jest.fn(), onComponentChange: jest.fn() }}
+    >
       <Header component={component} currentUser={user} />
 
       <BranchOverview branch={mockMainBranch()} component={component} {...props} />
-    </CurrentUserContextProvider>,
+    </ComponentContext.Provider>,
     '/',
-    context,
+    { ...context, currentUser: user },
   );
 }

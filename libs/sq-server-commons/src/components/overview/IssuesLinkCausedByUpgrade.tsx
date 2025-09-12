@@ -27,6 +27,7 @@ import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MeasureEnhanced, Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { useAvailableFeatures } from '../../context/available-features/withAvailableFeatures';
+import { useComponent } from '../../context/componentContext/withComponentContext';
 import {
   CCT_SOFTWARE_QUALITY_METRICS,
   LEAK_CCT_SOFTWARE_QUALITY_METRICS,
@@ -86,6 +87,7 @@ const METRICS_TO_ISSUE_TYPE: Record<string, IssueType> = {
 
 export default function IssuesLinkCausedByUpgrade(props: Readonly<IssuesLinkCausedByUpgradeProps>) {
   const { className, component, fromSonarQubeUpdateIssuesMeasure, isNewCodePeriod, metric } = props;
+  const { component: { needIssueSync } = {} } = useComponent();
   const { hasFeature } = useAvailableFeatures();
   const intl = useIntl();
 
@@ -95,6 +97,7 @@ export default function IssuesLinkCausedByUpgrade(props: Readonly<IssuesLinkCaus
 
   const shouldEnableQueries =
     hasFeature(Feature.FromSonarQubeUpdate) &&
+    !needIssueSync &&
     DOMAINS_TO_SHOW_FAILED_ISSUES_COUNT.includes(metric?.domain ?? '') &&
     fromSonarQubeUpdateIssuesCount > 0;
 
