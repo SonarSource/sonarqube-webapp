@@ -399,5 +399,10 @@ export enum MetricType {
   Data = 'DATA',
   Distribution = 'DISTRIB',
   WorkDuration = 'WORK_DUR',
+  /**
+   * The highest severity of a risk type for a project.
+   * These are special in that their comparisons are greater-than-or-equal-to,
+   * unlike other SonarQube metrics that are greater than or less than.
+   */
   ScaRisk = 'SCA_RISK',
 }
