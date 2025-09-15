@@ -21,6 +21,9 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 
+/**
+ * Used to wrap StyleMeasuresCards.
+ */
 export const GridContainer = styled.div`
   --column-grids-gaps: ${cssVar('dimension-space-600')};
   --row-grids-gaps: ${cssVar('dimension-space-800')};
@@ -30,6 +33,12 @@ export const GridContainer = styled.div`
   column-gap: var(--column-grids-gaps);
 `;
 
+/**
+ * Used for cards not at the bottom of the
+ * card list. They provide an unbroken bottom
+ * border, as well as a right border if they are not
+ * the last card in a row.
+ */
 export const StyleMeasuresCard = styled.div`
   box-sizing: border-box;
   position: relative;
@@ -56,6 +65,11 @@ export const StyleMeasuresCard = styled.div`
   }
 `;
 
+/**
+ * Used for cards at the bottom of the card list.
+ * These will not have a bottom border, only a right
+ * border if they are not the last card in the row.
+ */
 export const StyleMeasuresCardRightBorder = styled.div`
   box-sizing: border-box;
   position: relative;
