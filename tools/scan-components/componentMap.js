@@ -825,7 +825,6 @@ export const componentMap = {
   ConditionalWrapper: 'Excluded',
   SourceFileWrapper: '',
   IconDiamond: 'Icons',
-  Carousel: 'Excluded',
   Commit: 'Excluded',
   Header: 'Heading',
   NoOptionsMessage: 'Covered',
