@@ -178,7 +178,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
       )}
       <GridContainer className="sw-relative sw-overflow-hidden sw-mt-8 js-summary">
         {!noConditionsAndWarningForNewCode && (
-          <StyledConditionsCard className="sw-row-span-4 sw-col-span-4">
+          <StyledConditionsCard className="sw-row-span-5 sw-col-span-4">
             <QualityGatePanel
               component={component}
               isNewCode
@@ -324,7 +324,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
           dependencyRiskRating={dependencyRiskRating}
           ratingMetricKey={MetricKey.new_sca_rating_any_issue}
         />
-        <IssuesInSandboxSection inNewCodePeriod measures={measures} />
+        <IssuesInSandboxSection className="sw-col-span-8" inNewCodePeriod measures={measures} />
       </GridContainer>
     </div>
   );

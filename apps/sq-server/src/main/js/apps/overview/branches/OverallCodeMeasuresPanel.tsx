@@ -88,7 +88,7 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
       id={getTabPanelId(CodeScope.Overall)}
     >
       {!noConditionsAndWarningForOverallCode && (
-        <StyledConditionsCard className="sw-row-span-4">
+        <StyledConditionsCard className="sw-row-span-5">
           <QualityGatePanel
             component={component}
             loading={loading}
@@ -232,7 +232,7 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
         dependencyRiskRating={dependencyRiskRating}
         ratingMetricKey={MetricKey.sca_rating_any_issue}
       />
-      <IssuesInSandboxSection measures={measures} />
+      <IssuesInSandboxSection className="sw-col-span-3" measures={measures} />
     </GridContainer>
   );
 }

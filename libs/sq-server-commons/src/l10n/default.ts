@@ -2843,7 +2843,7 @@ export const defaultMessages = {
   'settings.sandbox_issues.toggle.label.standard':
     'Enable “In Sandbox” status for issues with defined type and severity.',
   'settings.sandbox_issues.toggle.description':
-    'This status can be automatically assigned to issues appearing as a result of <b>analyzer updates</b> or <b>changes to built-in quality profiles. </b> Issues caused by code modification or other user actions will not be affected.',
+    'A new, “In Sandbox” status will be automatically assigned to issues that appear as a result of <b>SonarQube updates</b> or <b>changes to built-in quality profiles.</b> Issues caused by code modification or other user actions will not be affected.',
   'settings.sandbox_issues.callout_message':
     'This setting prevents unexpected quality gate failures, but could increase technical debt.',
   'settings.sandbox_issues.qualities.title.mqr':
@@ -2881,6 +2881,23 @@ export const defaultMessages = {
   'settings.sandbox_issues.confirm.question': 'Are you sure you want to proceed?',
   'settings.sandbox_issues.enable.success': 'Sandbox feature is now enabled',
   'settings.sandbox_issues.edit.success': 'Sandbox setting changes were saved successfully',
+
+  // Project setting
+  'settings.sandbox_issues.project.on.success': 'Sandbox feature is now enabled',
+  'settings.sandbox_issues.project.off.success': 'Sandbox feature is now disabled',
+  'settings.sandbox_issues.project.edit.success':
+    'Sandbox setting was changed successfully for this project',
+  'settings.sandbox_issues.project.reset.success': 'The setting was reset to instance default',
+  'settings.sandbox_issues.project.default_settings.mqr':
+    'Default permitted software qualities and severities:',
+  'settings.sandbox_issues.project.default_settings.standard':
+    'Default permitted types and severities:',
+  'settings.sandbox_issues.project.default_settings.severities':
+    '{severities} {count, plural, one {severity} other {severities}}',
+  'settings.sandbox_issues.project.qualities.title.mqr':
+    'Software quality and severity of issues that are isolated in the sandbox',
+  'settings.sandbox_issues.project.qualities.title.standard':
+    'Type and severity of issues that are isolated in the sandbox',
 
   'property.category.announcement': 'Announcement',
   'property.category.general': 'General',

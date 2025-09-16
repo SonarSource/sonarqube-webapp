@@ -45,12 +45,14 @@ import { IssuesSandboxQualityMeasure } from './IssuesSandboxQualityMeasure';
 import useSandboxFacetsNamesBasedOnMode from './useFacetsNamesBasedOnMode';
 
 export interface IssuesInSandboxSectionProps {
+  className?: string;
   inNewCodePeriod?: boolean;
   measures: MeasureEnhanced[];
 }
 
 export function IssuesInSandboxSection({
   measures,
+  className,
   inNewCodePeriod = false,
 }: Readonly<IssuesInSandboxSectionProps>) {
   const docUrl = useDocUrl(DocLink.IssuesFromSonarQubeUpdate);
@@ -116,7 +118,7 @@ export function IssuesInSandboxSection({
   }
 
   return (
-    <section className="sw-col-span-3">
+    <section className={className}>
       <Text isHighlighted>
         <FormattedMessage id={`metric.${MetricKey.issues_in_sandbox}.short_name`} />
         <Spinner isLoading={loadingSandboxedBlockerIssues} wrapperClassName="sw-inline-flex">
