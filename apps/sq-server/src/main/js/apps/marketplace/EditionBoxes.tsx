@@ -18,11 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { LinkStandalone } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { Card, Link } from '~design-system';
+import { FormattedMessage } from 'react-intl';
+import { Card } from '~design-system';
 import { getMarketplaceNavigation } from '~sq-server-commons/api/navigation';
 import { getAllEditionsAbove, getEditionUrl } from '~sq-server-commons/helpers/editions';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import EditionBox from './components/EditionBox';
 
@@ -77,10 +78,13 @@ export default class EditionBoxes extends React.PureComponent<Props, State> {
           >
             <EditionBox edition={edition} />
 
-            <div className="sw-mt-4">
-              <Link to={getEditionUrl(edition, { ncloc, serverId, sourceEdition: currentEdition })}>
-                {translate('marketplace.request_free_trial')}
-              </Link>
+            <div className="sw-mt-8">
+              <LinkStandalone
+                enableOpenInNewTab
+                to={getEditionUrl(edition, { ncloc, serverId, sourceEdition: currentEdition })}
+              >
+                <FormattedMessage id="marketplace.request_free_trial" />
+              </LinkStandalone>
             </div>
           </Card>
         ))}

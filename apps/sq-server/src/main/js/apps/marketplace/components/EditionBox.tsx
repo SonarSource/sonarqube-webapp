@@ -42,10 +42,11 @@ export default function EditionBox({ edition }: Readonly<Props>) {
             <span>Data Center Edition</span>
           </SubHeading>
           <p className="sw-mt-4">
-            <em>Designed for High Availability and Scalability</em>
+            <em>High availability, scalability, and peak performance for large codebases</em>
           </p>
-          <p className="sw-mt-4">Enterprise Edition functionality plus:</p>
+          <p className="sw-mt-4">Includes everything in Enterprise Edition plus:</p>
           <Text as="ul" className="sw-ml-8">
+            <li>Autoscaling in a Kubernetes cluster</li>
             <li>Component redundancy</li>
             <li>Data resiliency</li>
             <li>Horizontal scalability</li>
@@ -75,16 +76,18 @@ export default function EditionBox({ edition }: Readonly<Props>) {
             <span>Enterprise Edition</span>
           </SubHeading>
           <p className="sw-mt-4">
-            <em>Designed to Meet Enterprise Requirements</em>
+            <em>Deeper insights and enterprise-level performance</em>
           </p>
-          <p className="sw-mt-4">Developer Edition functionality plus:</p>
+          <p className="sw-mt-4">Includes everything in Developer Edition plus:</p>
           <Text as="ul" className="sw-ml-8">
-            <li>Faster analysis with parallel processing</li>
-            <li>OWASP/CWE security reports</li>
-            <li>Portfolio management</li>
-            <li>Executive reporting</li>
-            <li>Project transfer</li>
-            <li>Additional languages: Apex, COBOL, PL/I, RPG &amp; VB6</li>
+            <li>AI CodeFix for one-click AI-powered fix recommendations</li>
+            <li>Meet compliance with common security standards: PCI, OWASP, CWE, STIG, and CASA</li>
+            <li>Security engine custom configuration for more powerful taint analysis</li>
+            <li>
+              View code quality across all your projects in one place by aggregating into a
+              Portfolio
+            </li>
+            <li>Deliver executive summary reports of your projects, applications and portfolios</li>
             <li>
               Get SCA with Advanced Security add-on:{' '}
               <Link
@@ -111,33 +114,26 @@ export default function EditionBox({ edition }: Readonly<Props>) {
             <span>Developer Edition</span>
           </SubHeading>
           <p className="sw-mt-4">
-            <em>Built for Developers by Developers</em>
+            <em>Essential capabilities for small teams & businesses</em>
           </p>
-          <p className="sw-mt-4">Community Build functionality plus:</p>
+          <p className="sw-mt-4">Includes everything in Community Build plus:</p>
           <Text as="ul" className="sw-ml-8">
             <li>
-              <span>PR / MR decoration &amp; Quality Gate</span>
-              <Image alt="GitHub" className="sw-ml-2" src="/images/alm/github.svg" width={16} />
-              <Image alt="GitLab" className="sw-ml-2" src="/images/alm/gitlab.svg" width={16} />
-              <Image
-                alt="Azure DevOps"
-                className="sw-ml-2"
-                src="/images/alm/azure.svg"
-                width={16}
-              />
-              <Image
-                alt="Bitbucket"
-                className="sw-ml-2"
-                src="/images/alm/bitbucket.svg"
-                width={16}
-              />
+              AI Code Assurance to ensure AI-generated code is verified to meet your standards
             </li>
             <li>
-              Taint analysis / Injection flaw detection for Java, C#, PHP, Python, JS &amp; TS
+              SAST with taint analysis to detect injection vulnerabilities for Java, JavaScript,
+              TypeScript, Python, C#, and PHP
             </li>
-            <li>Branch analysis</li>
-            <li>Project aggregation</li>
-            <li>Additional languages: C, C++, Obj-C, PL/SQL, ABAP, TSQL &amp; Swift</li>
+            <li>Powerful secrets detection for accessing private and enterprise cloud services</li>
+            <li>
+              Pull request and branch analysis including displaying quality gate status directly in
+              DevOps platforms: GitHub, GitLab, Bitbucket, and Azure DevOps
+            </li>
+            <li>
+              Additional languages: C, C++, Obj-C, Dart/Flutter, Swift, ABAP, T-SQL, PL/SQL, and
+              Ansible
+            </li>
           </Text>
         </div>
       );
