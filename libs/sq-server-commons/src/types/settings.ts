@@ -47,6 +47,7 @@ export enum GlobalSettingKeys {
   UpdatecenterActivated = 'sonar.updatecenter.activate',
   DisplayAnnouncementMessage = 'sonar.announcement.displayMessage',
   AnnouncementMessage = 'sonar.announcement.message',
+  AnnouncementHTMLMessage = 'sonar.announcement.htmlMessage',
   MainBranchName = 'sonar.projectCreation.mainBranchName',
 }
 

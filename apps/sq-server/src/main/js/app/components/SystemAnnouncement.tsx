@@ -18,9 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Banner } from '@sonarsource/echoes-react';
+import styled from '@emotion/styled';
+import { Banner, cssVar } from '@sonarsource/echoes-react';
 import { keyBy, throttle } from 'lodash';
 import * as React from 'react';
+import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { getValues } from '~sq-server-commons/api/settings';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
@@ -53,14 +55,22 @@ export class SystemAnnouncement extends React.PureComponent<WithAvailableFeature
 
   getSettings = async () => {
     const values = await getValues({
-      keys: [GlobalSettingKeys.DisplayAnnouncementMessage, GlobalSettingKeys.AnnouncementMessage],
+      keys: [
+        GlobalSettingKeys.DisplayAnnouncementMessage,
+        GlobalSettingKeys.AnnouncementMessage,
+        GlobalSettingKeys.AnnouncementHTMLMessage,
+      ],
     });
 
     const settings = keyBy(values, 'key');
 
     this.setState({
       displayMessage: settings?.[GlobalSettingKeys.DisplayAnnouncementMessage]?.value === 'true',
-      message: settings?.[GlobalSettingKeys.AnnouncementMessage]?.value ?? '',
+      // Use the HTML if it exists, otherwise the plain text message
+      message:
+        settings?.[GlobalSettingKeys.AnnouncementHTMLMessage]?.value ??
+        settings?.[GlobalSettingKeys.AnnouncementMessage]?.value ??
+        '',
     });
   };
 
@@ -76,12 +86,47 @@ export class SystemAnnouncement extends React.PureComponent<WithAvailableFeature
 
     return (
       <div style={!(displayMessage && message.length > 0) ? { display: 'none' } : {}}>
-        <Banner aria-live="assertive" disableFollowScroll variety="warning">
-          {message}
-        </Banner>
+        <StyledBannerWithMarkdown aria-live="assertive" disableFollowScroll variety="warning">
+          <SafeHTMLInjection htmlAsString={message} sanitizeLevel={SanitizeLevel.USER_INPUT} />
+        </StyledBannerWithMarkdown>
       </div>
     );
   }
 }
+
+/**
+ * This style is copied from Echoes' Link
+ * This should be replaced with a proper HTMLFormatter from Echoes, once
+ * it exists!
+ */
+const StyledBannerWithMarkdown = styled(Banner)`
+  & a {
+    color: ${cssVar('color-text-default')};
+
+    font: inherit;
+    font-weight: ${cssVar('font-weight-semi-bold')};
+    text-decoration-line: ${cssVar('text-decoration-underline')};
+    text-decoration-color: var(--color);
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: auto;
+  }
+
+  & a:visited {
+    color: ${cssVar('color-text-default')};
+  }
+
+  & a:is(:hover, :focus, :active) {
+    color: ${cssVar('color-text-link-hover')};
+    text-decoration-color: ${cssVar('color-text-link-hover')};
+    outline: none;
+  }
+
+  & a:focus-visible {
+    outline: ${cssVar('color-focus-default')} solid ${cssVar('focus-border-width-default')};
+    outline-offset: ${cssVar('focus-border-offset-default')};
+    border-radius: ${cssVar('border-radius-200')};
+  }
+`;
 
 export default withAvailableFeatures(SystemAnnouncement);
