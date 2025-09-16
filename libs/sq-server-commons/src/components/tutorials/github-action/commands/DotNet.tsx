@@ -41,28 +41,28 @@ function dotnetYamlSteps(projectKey: string) {
       - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:
-          path: ~\\.sonar\\cache
+          path: \${{ runner.temp }}\\cache
           key: \${{ runner.os }}-sonar
           restore-keys: \${{ runner.os }}-sonar
       - name: Cache SonarQube scanner
         id: cache-sonar-scanner
         uses: actions/cache@v4
         with:
-          path: .\\.sonar\\scanner
+          path: \${{ runner.temp }}\\scanner
           key: \${{ runner.os }}-sonar-scanner
           restore-keys: \${{ runner.os }}-sonar-scanner
       - name: Install SonarQube scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: powershell
         run: |
-          New-Item -Path .\\.sonar\\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path .\\.sonar\\scanner
+          New-Item -Path \${{ runner.temp }}\\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path \${{ runner.temp }}\\scanner
       - name: Build and analyze
         shell: powershell
         run: |
-          .\\.sonar\\scanner\\dotnet-sonarscanner begin /k:"${projectKey}" /d:sonar.token="\${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="\${{ secrets.SONAR_HOST_URL }}"
+          \${{ runner.temp }}\\scanner\\dotnet-sonarscanner begin /k:"${projectKey}" /d:sonar.token="\${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="\${{ secrets.SONAR_HOST_URL }}"
           dotnet build
-          .\\.sonar\\scanner\\dotnet-sonarscanner end /d:sonar.token="\${{ secrets.SONAR_TOKEN }}"`;
+          \${{ runner.temp }}\\scanner\\dotnet-sonarscanner end /d:sonar.token="\${{ secrets.SONAR_TOKEN }}"`;
 }
 
 export default function DotNet(props: DotNetProps) {
