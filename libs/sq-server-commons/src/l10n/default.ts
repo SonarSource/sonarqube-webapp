@@ -1958,22 +1958,16 @@ export const defaultMessages = {
   'architecture.page': 'Architecture',
   'architecture.page.discovery': 'Structure map',
   'architecture.page.dashboard.open_graph': 'Open structure map',
-  'architecture.page.dashboard.open_model': 'Open model builder',
-  'architecture.page.dashboard.open_model_visual': 'Open model builder (visual)',
+  'architecture.page.dashboard.open_model_json': 'Edit model (json)',
+  'architecture.page.dashboard.open_model_visual': 'Edit model (visual)',
   'architecture.page.model.visual.title': 'Editing Model',
   'architecture.page.model.visual.new_group': 'New Group',
   'architecture.page.model.visual.save_close': 'Save & Close',
   'architecture.page.model.visual.sidebar.title': 'Source Nodes',
   'architecture.page.model.visual.sidebar.description': 'Drag nodes to create groups in the model',
-  'architecture.page.model': 'Model',
-  'architecture.page.model.description':
-    'Visualize your codebase and start formalizing your software architecture.',
-  'architecture.page.model.title': 'Architecture model',
-  'architecture.page.model.subtitle': 'Define your architecture model as code',
+  'architecture.page.model': 'Intended architecture',
   'architecture.page.dashboard.model.description':
-    'You can define your architecture model as code below.',
-  'architecture.page.model.docs':
-    'Review the <link1>expected format</link1> or take a look at the <link2>documentation</link2> to learn more.',
+    'A model of the project intended architecture allows to detect deviations between the real architecture and the intended architecture.',
   'architecture.page.model.saved': 'Model saved successfully',
   'architecture.page.model.no_data': 'No model data',
   'architecture.page.model.invalid_json': 'Invalid JSON format',
@@ -1983,6 +1977,12 @@ export const defaultMessages = {
   'architecture.page.model.duplicate_connection':
     'A connection between "{source}" and "{target}" already exists',
   'architecture.page.model.same_source_and_target': 'A group cannot be connected to itself',
+  'architecture.page.model.title': 'Architecture model',
+  'architecture.page.model.subtitle': 'Define your architecture model as code',
+  'architecture.page.model.description': 'You can define your architecture model as code below.',
+  'architecture.page.model.docs':
+    'Review the <link1>expected format</link1> or take a look at the <link2>documentation</link2> to learn more.',
+  'architecture.page.model.visual.search.placeholder': 'Search...',
   'architecture.page.oversize': 'Oversized components',
   'architecture.page.oversize_list': 'Oversized components',
   'architecture.page.oversize_list.count':
@@ -1993,6 +1993,24 @@ export const defaultMessages = {
   'architecture.page.tangle': 'Tangle Details',
   'architecture.page.tangles.count':
     '{count, plural, one {<bold>1</bold> Tangle} other {<bold>{count}</bold> Tangles}}',
+  'architecture.page.architecture_deviations': 'Architecture deviations',
+  'architecture.page.structural_flaws': 'Structural flaws',
+  'architecture.page.architecture_deviations_description':
+    'Patterns detected in the codebase that deviate from your intended architecture.',
+  'architecture.page.structural_flaws_description':
+    'Patterns detected in the codebase that indicate a flaw.',
+  'architecture.page.disallowed_dependencies': 'Bad dependencies',
+  'architecture.page.disallowed_dependencies.count':
+    '{count, plural, one {<bold>1</bold> Bad dependency} other {<bold>{count}</bold> Bad dependencies}}',
+  'architecture.disallowed_dependencies.table.bad_dependency': 'Bad dependency',
+  'architecture.disallowed_dependencies.table.sort_containment': 'Highest container involved',
+  'architecture.disallowed_dependencies.description':
+    'Dependencies between two code components that are not explicitly allowed in the intended architecture.',
+  'architecture.page.misplaced_components': 'Bad components',
+  'architecture.page.misplaced_components.count':
+    '{count, plural, one {<bold>1</bold> Bad component} other {<bold>{count}</bold> Bad components}}',
+  'architecture.misplaced_components.description':
+    'Components in the intended architecture referencing code artifacts that are located elsewhere in the codebase.',
   'architecture.admin.promotion.message':
     'Try Design & Architecture free Early Access to Visualize your codebase and start formalizing your software architecture. <link>Enable Design & Architecture</link>',
   'architecture.user.promotion.message':
@@ -2001,11 +2019,12 @@ export const defaultMessages = {
   'architecture.error.message': "Sorry, Currently a project of this size isn't supported.",
   'architecture.nodes.orphans.label': 'Orphans ({orphansCount})',
   'architecture.nodes.orphans.name': 'Orphans',
-  'architecture.tangles.description': 'Tangles found in this branch.',
+  'architecture.tangles.description':
+    'Groups of code components interconnected in a complex way, making them harder to understand and maintain.',
   'architecture.tangles.title':
-    '{{containersCount}} {{containerWord}} and {{elementsCount}} {{elementWord}}{{filename}}',
-  'architecture.tangles.title.filename': ' inside {{filename}}',
-  'architecture.tangles.subtitle': '{{containers}} • {{elements}} • in {{container}}',
+    '{containersCount} {containerWord} and {elementsCount} {elementWord}{filename}',
+  'architecture.tangles.title.filename': ' inside {filename}',
+  'architecture.tangles.subtitle': '{containers} • {elements} • in {container}',
   'architecture.oversize.description': 'Components containing too many child items.',
   'architecture.discovery.description': 'Discover the structure of your project.',
   'architecture.discovery.spotlight.path.copy': 'Copy: {path}',
