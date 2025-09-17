@@ -20,9 +20,10 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { byRole } from '~shared/helpers/testSelector';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier } from '~shared/types/component';
+import IssuesServiceMock from '~sq-server-commons/api/mocks/IssuesServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockQuery } from '~sq-server-commons/helpers/mocks/issues';
@@ -30,10 +31,11 @@ import {
   mockAppState,
   mockCurrentUser,
   mockLoggedInUser,
+  mockRawIssue,
 } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { Feature } from '~sq-server-commons/types/features';
-import { IssueSeverity, IssueType } from '~sq-server-commons/types/issues';
+import { IssueSeverity, IssueStatus, IssueType } from '~sq-server-commons/types/issues';
 import { Mode } from '~sq-server-commons/types/mode';
 import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import { CurrentUser } from '~sq-server-commons/types/users';
@@ -49,9 +51,11 @@ jest.mock('~shared/helpers/security-standards', () => {
 });
 
 const modeHandler = new ModeServiceMock();
+const issuesService = new IssuesServiceMock();
 
 beforeEach(() => {
   modeHandler.reset();
+  issuesService.reset();
 });
 
 describe('MQR mode', () => {
@@ -450,6 +454,49 @@ it('should not render author facet if not logged in', () => {
   );
 
   expect(screen.queryByRole('button', { name: 'issues.facet.authors' })).not.toBeInTheDocument();
+});
+
+it('should not render In sandbox status when no issue with this status', async () => {
+  renderSidebar(
+    {
+      facets: { issueStatuses: {} },
+      openFacets: { issueStatuses: true },
+    },
+    [],
+    mockCurrentUser(),
+  );
+
+  expect(
+    await byText(`issue.issue_status.${IssueStatus.FalsePositive}`).find(),
+  ).toBeInTheDocument();
+  expect(byText(`issue.issue_status.${IssueStatus.InSandbox}`).query()).not.toBeInTheDocument();
+});
+
+it('should render In sandbox status when has issue with this status', async () => {
+  issuesService.setIssueList([
+    {
+      issue: mockRawIssue(false, {
+        key: 'sandbox-issue-4',
+        component: 'foo',
+        issueStatus: IssueStatus.InSandbox,
+        impacts: [
+          { softwareQuality: SoftwareQuality.Reliability, severity: SoftwareImpactSeverity.Medium },
+        ],
+        type: IssueType.Bug,
+        severity: IssueSeverity.Major,
+      }),
+      snippets: {},
+    },
+  ]);
+  renderSidebar(
+    {
+      openFacets: { issueStatuses: true },
+    },
+    [],
+    mockCurrentUser(),
+  );
+
+  expect(await byText(`issue.issue_status.${IssueStatus.InSandbox}`).find()).toBeInTheDocument();
 });
 
 function renderSidebar(

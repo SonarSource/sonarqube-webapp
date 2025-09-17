@@ -333,7 +333,9 @@ export function Sidebar(props: Readonly<Props>) {
           <Divider className="sw-my-2" />
 
           <IssueStatusFacet
+            component={component}
             fetching={props.loadingFacets.issueStatuses === true}
+            inNewCodePeriod={query.inNewCodePeriod}
             issueStatuses={query.issueStatuses}
             onChange={props.onFilterChange}
             onToggle={props.onFacetToggle}

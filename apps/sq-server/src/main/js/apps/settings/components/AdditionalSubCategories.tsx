@@ -34,6 +34,7 @@ export interface AdditionalSubCategorySetting {
   availableForProject: boolean;
   availableGlobally: boolean;
   categoryKey: string;
+  'data-scroll-key'?: string;
   key: string;
   subCategoryKey: string;
 }
@@ -50,6 +51,7 @@ export const ADDITIONAL_SUB_CATEGORY_SETTINGS: AdditionalSubCategorySetting[] = 
     SubCategoryComponent: SandboxIssues,
     availableGlobally: true,
     availableForProject: true,
+    'data-scroll-key': 'sonar.issues.sandbox.enabled',
   },
 ];
 

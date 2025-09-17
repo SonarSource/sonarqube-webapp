@@ -1303,7 +1303,7 @@ export const defaultMessages = {
   'issue.issue_status.CONFIRMED': 'Confirmed',
   'issue.issue_status.FIXED': 'Fixed',
   'issue.issue_status.FALSE_POSITIVE': 'False Positive',
-  'issue.issue_status.IN_SANDBOX': 'In Sandbox',
+  'issue.issue_status.IN_SANDBOX': 'In sandbox',
 
   'issue.status.ACCEPTED': 'Accepted',
   'issue.status.REOPENED': 'Reopened',
@@ -2860,9 +2860,9 @@ export const defaultMessages = {
   'settings.sandbox_issues.toggle.label.mqr':
     'Enable the Sandbox feature for issues with specific software quality and severity.',
   'settings.sandbox_issues.toggle.label.standard':
-    'Enable “In Sandbox” status for issues with defined type and severity.',
+    'Enable “In sandbox” status for issues with defined type and severity.',
   'settings.sandbox_issues.toggle.description':
-    'A new, “In Sandbox” status will be automatically assigned to issues that appear as a result of <b>SonarQube updates</b> or <b>changes to built-in quality profiles.</b> Issues caused by code modification or other user actions will not be affected.',
+    'A new, “In sandbox” status will be automatically assigned to issues that appear as a result of <b>SonarQube updates</b> or <b>changes to built-in quality profiles.</b> Issues caused by code modification or other user actions will not be affected.',
   'settings.sandbox_issues.callout_message':
     'This setting prevents unexpected quality gate failures, but could increase technical debt.',
   'settings.sandbox_issues.qualities.title.mqr':

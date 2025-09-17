@@ -21,7 +21,7 @@
 import styled from '@emotion/styled';
 import { Heading, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import { groupBy, sortBy } from 'lodash';
+import { debounce, groupBy, sortBy } from 'lodash';
 import * as React from 'react';
 import { BasicSeparator, themeBorder } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
@@ -44,15 +44,38 @@ export interface SubCategoryDefinitionsListProps {
   subCategory?: string;
 }
 
+const DEBOUNCE_TIME_TO_SCROLL = 150;
+
 class SubCategoryDefinitionsList extends React.PureComponent<SubCategoryDefinitionsListProps> {
+  debouncedDetectElementToScroll: (key: string) => void;
+
+  constructor(props: Readonly<SubCategoryDefinitionsListProps>) {
+    super(props);
+    this.debouncedDetectElementToScroll = debounce(
+      this.detectElementToScroll,
+      DEBOUNCE_TIME_TO_SCROLL,
+    );
+  }
+
+  componentDidMount(): void {
+    const { hash } = this.props.location;
+    if (hash.length > 0) {
+      this.debouncedDetectElementToScroll(hash);
+    }
+  }
+
   componentDidUpdate(prevProps: SubCategoryDefinitionsListProps) {
     const { hash } = this.props.location;
     if (hash.length > 0 && prevProps.location.hash !== hash) {
-      const query = `[data-scroll-key=${hash.substring(1).replace(/[.#/]/g, '\\$&')}]`;
-      const element = document.querySelector<HTMLHeadingElement | HTMLLIElement>(query);
-      this.scrollToSubCategoryOrDefinition(element);
+      this.debouncedDetectElementToScroll(hash);
     }
   }
+
+  detectElementToScroll = (hash: string) => {
+    const query = `[data-scroll-key=${hash.substring(1).replace(/[.#/]/g, '\\$&')}]`;
+    const element = document.querySelector<HTMLHeadingElement | HTMLLIElement>(query);
+    this.scrollToSubCategoryOrDefinition(element);
+  };
 
   scrollToSubCategoryOrDefinition = (element: HTMLHeadingElement | HTMLLIElement | null) => {
     if (element) {
@@ -77,11 +100,13 @@ class SubCategoryDefinitionsList extends React.PureComponent<SubCategoryDefiniti
     if (filteredExtraSubCategories.length > 0) {
       return (
         <ul>
-          {filteredExtraSubCategories.map(({ key, SubCategoryComponent }) => (
-            <StyledListItem key={key}>
-              {SubCategoryComponent && <SubCategoryComponent component={component} />}
-            </StyledListItem>
-          ))}
+          {filteredExtraSubCategories.map(
+            ({ key, SubCategoryComponent, 'data-scroll-key': dataScrollKey }) => (
+              <StyledListItem data-scroll-key={dataScrollKey} key={key}>
+                {SubCategoryComponent && <SubCategoryComponent component={component} />}
+              </StyledListItem>
+            ),
+          )}
         </ul>
       );
     }

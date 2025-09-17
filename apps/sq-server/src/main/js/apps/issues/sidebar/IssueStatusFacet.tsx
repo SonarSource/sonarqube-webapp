@@ -20,18 +20,24 @@
 
 import { isEqual, sortBy, without } from 'lodash';
 import { useIntl } from 'react-intl';
+import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { FacetBox, FacetItem } from '~design-system';
 import MultipleSelectionHint from '~shared/components/MultipleSelectionHint';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { FacetHelp } from '~sq-server-commons/components/facets/FacetHelp';
 import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import { ISSUE_STATUSES } from '~sq-server-commons/helpers/constants';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { useIssuesSearchQuery } from '~sq-server-commons/queries/issues';
 import { IssueStatus } from '~sq-server-commons/types/issues';
+import { Component } from '~sq-server-commons/types/types';
 import { formatFacetStat } from '~sq-server-commons/utils/issues-utils';
 import { CommonProps } from './SimpleListStyleFacet';
 
 interface Props extends CommonProps {
+  component?: Component;
+  inNewCodePeriod: boolean;
   issueStatuses: Array<IssueStatus>;
 }
 
@@ -41,8 +47,28 @@ const headerId = `facet_${property}`;
 const defaultStatuses = DEFAULT_ISSUES_QUERY.issueStatuses.split(',') as IssueStatus[];
 
 export function IssueStatusFacet(props: Readonly<Props>) {
-  const { issueStatuses = [], stats = {}, fetching, open, help, needIssueSync } = props;
+  const {
+    issueStatuses = [],
+    stats = {},
+    component,
+    inNewCodePeriod,
+    fetching,
+    open,
+    help,
+    needIssueSync,
+  } = props;
   const intl = useIntl();
+  const { data: branchLike } = useCurrentBranchQuery(component);
+  const { data: totalSandboxedIssues } = useIssuesSearchQuery(
+    {
+      ...getBranchLikeQuery(branchLike),
+      components: component?.key,
+      inNewCodePeriod,
+      issueStatuses: IssueStatus.InSandbox,
+      ps: 1,
+    },
+    { select: (data) => data.paging.total },
+  );
 
   const nbSelectableItems = ISSUE_STATUSES.filter(
     (item) => !defaultStatuses.includes(item) && stats[item],
@@ -71,7 +97,9 @@ export function IssueStatusFacet(props: Readonly<Props>) {
       open={open}
     >
       <FacetItemsList labelledby={headerId}>
-        {ISSUE_STATUSES.map((item) => {
+        {ISSUE_STATUSES.filter(
+          (status) => status !== IssueStatus.InSandbox || Number(totalSandboxedIssues) > 0,
+        ).map((item) => {
           const active = issueStatuses.includes(item);
           const stat = stats[item];
 

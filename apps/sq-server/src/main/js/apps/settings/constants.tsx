@@ -92,6 +92,16 @@ export const SUB_CATEGORY_EXCLUSIONS: Record<string, string[]> = {
 // numbers, dashes, and underscores.
 export const BITBUCKET_CLOUD_WORKSPACE_ID_FORMAT = /^[a-z0-9\-_]+$/;
 
+const SANDBOX_DEFINITION: ExtendedSettingDefinition = {
+  name: 'Sandbox specific issue categories after SonarQube update',
+  description: '',
+  category: 'general',
+  key: 'sonar.issues.sandbox.enabled',
+  fields: [],
+  options: [],
+  subCategory: 'issues',
+};
+
 export const ADDITIONAL_PROJECT_SETTING_DEFINITIONS: ExtendedSettingDefinition[] = [
   {
     name: 'DevOps Platform Integration',
@@ -105,6 +115,7 @@ export const ADDITIONAL_PROJECT_SETTING_DEFINITIONS: ExtendedSettingDefinition[]
     options: [],
     subCategory: '',
   },
+  SANDBOX_DEFINITION,
 ];
 
 export const ADDITIONAL_SETTING_DEFINITIONS: ExtendedSettingDefinition[] = [
@@ -224,6 +235,7 @@ export const ADDITIONAL_SETTING_DEFINITIONS: ExtendedSettingDefinition[] = [
     options: [],
     subCategory: '',
   },
+  SANDBOX_DEFINITION,
 ];
 
 export const SETTING_CONFIRMATION_MESSAGE_IDS: Record<

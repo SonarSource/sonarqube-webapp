@@ -52,7 +52,7 @@ export default function IssueSandboxCallout() {
           highlight={LinkHighlight.CurrentColor}
           to={docUrl}
         >
-          {intl.formatMessage({ id: 'learn_more' })}
+          {intl.formatMessage({ id: 'learn_more_in_doc' })}
         </Link>
       }
       onDismiss={() => {
