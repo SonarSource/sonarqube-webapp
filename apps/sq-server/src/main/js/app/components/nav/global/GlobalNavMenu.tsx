@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { GlobalNavigation } from '@sonarsource/echoes-react';
+import { Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
@@ -51,46 +51,46 @@ export function GlobalNavMenu({ currentUser }: Readonly<Props>) {
   const licenseProfileRoute = `/${addons.sca?.LICENSE_ROUTE_NAME}`;
 
   return (
-    <GlobalNavigation.ItemsContainer id="it__global-navbar-menu">
-      <GlobalNavigation.Item to="/projects">
+    <Layout.GlobalNavigation.ItemsContainer id="it__global-navbar-menu">
+      <Layout.GlobalNavigation.Item to="/projects">
         <FormattedMessage id="projects.page" />
-      </GlobalNavigation.Item>
+      </Layout.GlobalNavigation.Item>
 
       {governanceInstalled && (
-        <GlobalNavigation.Item to="/portfolios">
+        <Layout.GlobalNavigation.Item to="/portfolios">
           <FormattedMessage id="portfolios.page" />
-        </GlobalNavigation.Item>
+        </Layout.GlobalNavigation.Item>
       )}
 
-      <GlobalNavigation.Item to={{ pathname: '/issues', search }}>
+      <Layout.GlobalNavigation.Item to={{ pathname: '/issues', search }}>
         <FormattedMessage id="issues.page" />
-      </GlobalNavigation.Item>
-      <GlobalNavigation.Item to="/coding_rules">
+      </Layout.GlobalNavigation.Item>
+      <Layout.GlobalNavigation.Item to="/coding_rules">
         <FormattedMessage id="coding_rules.page" />
-      </GlobalNavigation.Item>
-      <GlobalNavigation.Item to="/profiles">
+      </Layout.GlobalNavigation.Item>
+      <Layout.GlobalNavigation.Item to="/profiles">
         <FormattedMessage id="quality_profiles.page" />
-      </GlobalNavigation.Item>
+      </Layout.GlobalNavigation.Item>
       {scaEnabled && licenseProfileRoute && (
-        <GlobalNavigation.Item to={licenseProfileRoute}>
+        <Layout.GlobalNavigation.Item to={licenseProfileRoute}>
           <FormattedMessage id="sca.licenses.page" />
-        </GlobalNavigation.Item>
+        </Layout.GlobalNavigation.Item>
       )}
-      <GlobalNavigation.Item to={getQualityGatesUrl()}>
+      <Layout.GlobalNavigation.Item to={getQualityGatesUrl()}>
         <FormattedMessage id="quality_gates.page" />
-      </GlobalNavigation.Item>
+      </Layout.GlobalNavigation.Item>
 
       {appState.canAdmin && (
-        <GlobalNavigation.Item
+        <Layout.GlobalNavigation.Item
           data-guiding-id="mode-tour-1"
           data-spotlight-id="design-and-architecture-tour"
           to="/admin/settings"
         >
           <FormattedMessage id="layout.settings" />
-        </GlobalNavigation.Item>
+        </Layout.GlobalNavigation.Item>
       )}
 
       <GlobalNavMore />
-    </GlobalNavigation.ItemsContainer>
+    </Layout.GlobalNavigation.ItemsContainer>
   );
 }

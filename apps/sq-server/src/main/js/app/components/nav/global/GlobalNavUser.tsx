@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, DropdownMenuAlign, GlobalNavigation } from '@sonarsource/echoes-react';
+import { Button, DropdownMenuAlign, Layout } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Avatar } from '~design-system';
 import { AppStateContext } from '~sq-server-commons/context/app-state/AppStateContext';
@@ -54,7 +54,7 @@ export function GlobalNavUser() {
   const gravatarServerUrl = settings[GlobalSettingKeys.GravatarServerUrl] ?? '';
 
   return (
-    <GlobalNavigation.Account
+    <Layout.GlobalNavigation.Account
       align={DropdownMenuAlign.End}
       avatar={
         <Avatar

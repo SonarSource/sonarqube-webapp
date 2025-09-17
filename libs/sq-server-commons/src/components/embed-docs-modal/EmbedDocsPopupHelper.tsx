@@ -22,8 +22,8 @@ import {
   ButtonVariety,
   DropdownMenu,
   DropdownMenuAlign,
-  GlobalNavigation,
   IconQuestionMark,
+  Layout,
 } from '@sonarsource/echoes-react';
 import { useCallback, useEffect, useState } from 'react';
 import { CustomEvents } from '../../helpers/constants';
@@ -64,7 +64,7 @@ export default function EmbedDocsPopupHelper() {
         setOpen(true);
       }}
     >
-      <GlobalNavigation.Action
+      <Layout.GlobalNavigation.Action
         Icon={IconQuestionMark}
         ariaLabel={translate('help')}
         isIconFilled

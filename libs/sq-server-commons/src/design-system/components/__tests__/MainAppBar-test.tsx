@@ -24,7 +24,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { Image } from '~adapters/components/common/Image';
 import { FCProps } from '../../../types/misc';
 import { LAYOUT_LOGO_MAX_WIDTH } from '../../helpers/constants';
-import { render } from '../../helpers/testUtils';
+import { renderWithContext } from '../../helpers/testUtils';
 import { MainAppBar } from '../MainAppBar';
 import { SonarQubeLogo } from '../SonarQubeLogo';
 
@@ -69,7 +69,7 @@ function setupWithProps(
     Logo: () => <Image alt="logo" src="http://example.com/logo.png" />,
   },
 ) {
-  return render(
+  return renderWithContext(
     <MemoryRouter initialEntries={['/']}>
       <Routes>
         <Route element={<MainAppBar {...props} />} path="/" />

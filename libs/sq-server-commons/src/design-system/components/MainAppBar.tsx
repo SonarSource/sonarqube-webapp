@@ -20,7 +20,7 @@
 
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { GlobalNavigation } from '@sonarsource/echoes-react';
+import { Layout } from '@sonarsource/echoes-react';
 import { throttle } from 'lodash';
 import React from 'react';
 import { LAYOUT_VIEWPORT_MIN_WIDTH, THROTTLE_SCROLL_DELAY } from '../helpers/constants';
@@ -50,14 +50,14 @@ export function MainAppBar({
 
   return (
     <MainAppBarHeader style={{ boxShadow }}>
-      <GlobalNavigation>
-        <GlobalNavigation.Primary>
-          <GlobalNavigation.Home>
+      <Layout.GlobalNavigation>
+        <Layout.GlobalNavigation.Primary>
+          <Layout.GlobalNavigation.Home>
             <Logo />
-          </GlobalNavigation.Home>
-        </GlobalNavigation.Primary>
-      </GlobalNavigation>
-      <GlobalNavigation.Secondary>{children}</GlobalNavigation.Secondary>
+          </Layout.GlobalNavigation.Home>
+        </Layout.GlobalNavigation.Primary>
+      </Layout.GlobalNavigation>
+      <Layout.GlobalNavigation.Secondary>{children}</Layout.GlobalNavigation.Secondary>
     </MainAppBarHeader>
   );
 }

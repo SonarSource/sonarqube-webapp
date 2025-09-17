@@ -18,13 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  ButtonVariety,
-  GlobalNavigation,
-  IconSearch,
-  SearchInput,
-  Text,
-} from '@sonarsource/echoes-react';
+import { ButtonVariety, IconSearch, Layout, SearchInput, Text } from '@sonarsource/echoes-react';
 import { debounce, isEmpty, uniqBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -359,7 +353,7 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
     return (
       <form role="search">
         {!open && isEmpty(query) ? (
-          <GlobalNavigation.Action
+          <Layout.GlobalNavigation.Action
             Icon={IconSearch}
             ariaLabel={intl.formatMessage({ id: 'search_verb' })}
             onClick={this.handleFocus}

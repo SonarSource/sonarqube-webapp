@@ -19,7 +19,7 @@
  */
 
 import { css, Global, useTheme } from '@emotion/react';
-import { cssVar, GlobalNavigation, IconBell } from '@sonarsource/echoes-react';
+import { cssVar, IconBell, Layout } from '@sonarsource/echoes-react';
 import { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { getBeamerProductId, useBeamerContextData } from '~adapters/helpers/vendorConfig';
@@ -117,7 +117,7 @@ export function BeamerWidget({ hideCounter = true }: Readonly<Props>) {
           }
         `}
       />
-      <GlobalNavigation.Action
+      <Layout.GlobalNavigation.Action
         Icon={IconBell}
         aria-haspopup
         ariaLabel={intl.formatMessage({ id: 'global_nav.news.tooltip' })}
