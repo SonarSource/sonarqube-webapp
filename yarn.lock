@@ -3895,9 +3895,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/core@patch:@mantine/core@7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::locator=%40sonarsource%2Fechoes-react%40npm%3A1.2.0":
+"@mantine/core@patch:@mantine/core@7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::locator=%40sonarsource%2Fechoes-react%40npm%3A1.2.1-4390%3A%3A__archiveUrl%3Dhttps%253A%252F%252Frepox.jfrog.io%252Fartifactory%252Fapi%252Fnpm%252Fnpm%252F%2540sonarsource%252Fechoes-react%252F-%252F%2540sonarsource%252Fechoes-react-1.2.1-4390.tgz":
   version: 7.12.2
-  resolution: "@mantine/core@patch:@mantine/core@npm%3A7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::version=7.12.2&hash=cab555&locator=%40sonarsource%2Fechoes-react%40npm%3A1.2.0"
+  resolution: "@mantine/core@patch:@mantine/core@npm%3A7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::version=7.12.2&hash=cab555&locator=%40sonarsource%2Fechoes-react%40npm%3A1.2.1-4390%3A%3A__archiveUrl%3Dhttps%253A%252F%252Frepox.jfrog.io%252Fartifactory%252Fapi%252Fnpm%252Fnpm%252F%2540sonarsource%252Fechoes-react%252F-%252F%2540sonarsource%252Fechoes-react-1.2.1-4390.tgz"
   dependencies:
     "@floating-ui/react": "npm:^0.26.9"
     clsx: "npm:^2.1.1"
@@ -6955,9 +6955,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sonarsource/echoes-react@npm:1.2.0":
-  version: 1.2.0
-  resolution: "@sonarsource/echoes-react@npm:1.2.0"
+"@sonarsource/echoes-react@npm:1.2.1-4390":
+  version: 1.2.1-4390
+  resolution: "@sonarsource/echoes-react@npm:1.2.1-4390::__archiveUrl=https%3A%2F%2Frepox.jfrog.io%2Fartifactory%2Fapi%2Fnpm%2Fnpm%2F%40sonarsource%2Fechoes-react%2F-%2F%40sonarsource%2Fechoes-react-1.2.1-4390.tgz"
   dependencies:
     "@mantine/core": "patch:@mantine/core@7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch"
     "@mantine/hooks": "npm:7.12.2"
@@ -6983,7 +6983,7 @@ __metadata:
     react-dom: ^18.0.0
     react-intl: ^6.0.0
     react-router-dom: ^6.0.0
-  checksum: 10/f46c00ebfe378f7a461922d0018a812302a58a09e0b97a1e2150e73e4748a8137e24c524ae6b8669e278ff1f911401c3b1eb7744717d2ac34d04f0a4f10eceb8
+  checksum: 10/891fa0cd23285189792f9626aa061fa59116a2acf828f2004eead4c48fd8b97eb5f1ff3614753c587c49e534fb222e217f1d091f9eca83151385e42262e7e172
   languageName: node
   linkType: hard
 
@@ -22189,7 +22189,7 @@ __metadata:
     "@rollup/plugin-replace": "npm:6.0.2"
     "@sentry/fullstory": "npm:4.0.0"
     "@sentry/react": "npm:10.11.0"
-    "@sonarsource/echoes-react": "npm:1.2.0"
+    "@sonarsource/echoes-react": "npm:1.2.1-4390"
     "@sprig-technologies/sprig-browser": "npm:2.34.0"
     "@stripe/react-stripe-js": "npm:3.8.1"
     "@stripe/stripe-js": "npm:7.7.0"
