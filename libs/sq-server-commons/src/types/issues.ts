@@ -133,6 +133,7 @@ export interface RawIssue {
   }>;
   fromSonarQubeUpdate?: boolean;
   impacts: SoftwareQualityImpact[];
+  internalTags?: string[];
   issueStatus: IssueStatus;
   key: string;
   line?: number;
