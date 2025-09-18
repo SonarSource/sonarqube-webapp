@@ -44,7 +44,7 @@ export interface SubCategoryDefinitionsListProps {
   subCategory?: string;
 }
 
-const DEBOUNCE_TIME_TO_SCROLL = 150;
+const DEBOUNCE_TIME_TO_SCROLL = 300;
 
 class SubCategoryDefinitionsList extends React.PureComponent<SubCategoryDefinitionsListProps> {
   debouncedDetectElementToScroll: (key: string) => void;

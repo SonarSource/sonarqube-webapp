@@ -57,7 +57,7 @@ export function DetectionCauseFacet(props: Readonly<DetectionCauseFacetProps>) {
         <FacetHelp
           description={intl.formatMessage({ id: 'issues.facet.detection_cause.help' })}
           link={DocLink.Root}
-          linkText={intl.formatMessage({ id: 'learn_more' })}
+          linkText={intl.formatMessage({ id: 'learn_more_in_doc' })}
           title={intl.formatMessage({ id: 'issues.facet.detection_cause' })}
         />
       }

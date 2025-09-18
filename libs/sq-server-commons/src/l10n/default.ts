@@ -1453,10 +1453,18 @@ export const defaultMessages = {
   'issues.facet.scopes': 'Scope',
   'issues.facet.projects': 'Project',
   'issues.facet.issueStatuses': 'Status',
-  'issues.facet.issueStatuses.help.title': 'Simplified issue lifecycle',
+  'issues.facet.issueStatuses.help.title': 'Issue lifecycle',
   'issues.facet.issueStatuses.help.description':
-    "<p1>Issue Resolution and Issue Status were merged and there are now six possible statuses in the issue lifecycle.</p1><p>Won't Fix was replaced with Accept. Marking issues as Confirmed and Fixed was deprecated.</p>",
-  'issues.facet.issueStatuses.help.link': 'Learn more about new issue lifecycle',
+    'There are {hasSandboxIssues, select, true {six} other {five}} possible statuses in the issue lifecycle. Some of them can be assigned manually, others can only be assigned by SonarQube after the scan.',
+  'issues.facet.issueStatuses.help.description.ACCEPTED': "Accepted: won't fix immediately",
+  'issues.facet.issueStatuses.help.description.FALSE_POSITIVE':
+    'False positive: analysis is incorrect',
+  'issues.facet.issueStatuses.help.description.CONFIRMED':
+    'Confirmed: a confirmation that the issue is valid',
+  'issues.facet.issueStatuses.help.description.IN_SANDBOX':
+    'In sandbox: filtered issues that temporarily don’t affect the quality gate',
+  'issues.facet.issueStatuses.help.description.FIXED': 'Fixed: issue has been resolved',
+  'issues.facet.issueStatuses.help.link': 'Learn more about the issue lifecycle in documentation',
   'issues.facet.hotspotStatuses': 'Hotspot Status',
   'issues.facet.assignees': 'Assignee',
   'issues.facet.files': 'File',
@@ -2858,7 +2866,7 @@ export const defaultMessages = {
   // Sandbox issue settings
   'settings.sandbox_issues.title': 'Sandbox specific issue categories after SonarQube update',
   'settings.sandbox_issues.toggle.label.mqr':
-    'Enable the Sandbox feature for issues with specific software quality and severity.',
+    'Enable the sandbox feature for issues with specific software quality and severity.',
   'settings.sandbox_issues.toggle.label.standard':
     'Enable “In sandbox” status for issues with defined type and severity.',
   'settings.sandbox_issues.toggle.description':

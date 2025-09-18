@@ -18,13 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  type PopoverProps,
-  Button,
-  ButtonVariety,
-  IconQuestionMark,
-  Popover,
-} from '@sonarsource/echoes-react';
+import { type PopoverProps, ToggleTip } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { DocLink } from '../../helpers/doc-links';
 import DocumentationLink from '../common/DocumentationLink';
@@ -50,7 +44,9 @@ type Props =
 export function FacetHelp({ property, title, description, noDescription, link, linkText }: Props) {
   const intl = useIntl();
   return (
-    <Popover
+    <ToggleTip
+      ariaLabel={intl.formatMessage({ id: 'help' })}
+      className="sw-mt-2"
       description={
         property
           ? !noDescription && (
@@ -74,14 +70,6 @@ export function FacetHelp({ property, title, description, noDescription, link, l
           ? intl.formatMessage({ id: `issues.facet.${property}.help.title` })
           : title
       }
-    >
-      <Button
-        ariaLabel={intl.formatMessage({ id: 'help' })}
-        className="sw-p-0 sw-h-fit sw-min-h-fit"
-        variety={ButtonVariety.DefaultGhost}
-      >
-        <IconQuestionMark color="echoes-color-icon-subtle" />
-      </Button>
-    </Popover>
+    />
   );
 }

@@ -19,7 +19,7 @@
  */
 
 import { isEqual, sortBy, without } from 'lodash';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { FacetBox, FacetItem } from '~design-system';
 import MultipleSelectionHint from '~shared/components/MultipleSelectionHint';
@@ -75,6 +75,7 @@ export function IssueStatusFacet(props: Readonly<Props>) {
   ).length;
   const hasDefaultSelection = isEqual(sortBy(issueStatuses), sortBy(defaultStatuses));
   const nbSelectedItems = hasDefaultSelection ? 0 : issueStatuses.length;
+  const hasTotalSandboxedIssues = Number(totalSandboxedIssues) > 0;
 
   return (
     <FacetBox
@@ -82,7 +83,38 @@ export function IssueStatusFacet(props: Readonly<Props>) {
       count={nbSelectedItems}
       countLabel={intl.formatMessage({ id: 'x_selected' }, { '0': nbSelectedItems })}
       data-property={property}
-      help={help ?? <FacetHelp link={DocLink.IssueStatuses} property="issueStatuses" />}
+      help={
+        help ?? (
+          <FacetHelp
+            description={
+              <>
+                <FormattedMessage
+                  id={`issues.facet.${property}.help.description`}
+                  values={{ hasSandboxIssues: hasTotalSandboxedIssues }}
+                />
+                <ul>
+                  {[
+                    IssueStatus.Accepted,
+                    IssueStatus.FalsePositive,
+                    IssueStatus.Confirmed,
+                    IssueStatus.Fixed,
+                    ...(hasTotalSandboxedIssues ? [IssueStatus.InSandbox] : []),
+                  ].map((status) => (
+                    <li key={status}>
+                      <FormattedMessage
+                        id={`issues.facet.${property}.help.description.${status}`}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </>
+            }
+            link={DocLink.IssueStatuses}
+            linkText={intl.formatMessage({ id: `issues.facet.${property}.help.link` })}
+            title={intl.formatMessage({ id: `issues.facet.${property}.help.title` })}
+          />
+        )
+      }
       id={headerId}
       loading={fetching}
       name={intl.formatMessage({ id: `issues.facet.${property}` })}
@@ -98,7 +130,7 @@ export function IssueStatusFacet(props: Readonly<Props>) {
     >
       <FacetItemsList labelledby={headerId}>
         {ISSUE_STATUSES.filter(
-          (status) => status !== IssueStatus.InSandbox || Number(totalSandboxedIssues) > 0,
+          (status) => status !== IssueStatus.InSandbox || hasTotalSandboxedIssues,
         ).map((item) => {
           const active = issueStatuses.includes(item);
           const stat = stats[item];
