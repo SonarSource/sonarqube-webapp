@@ -19,21 +19,17 @@
  */
 
 import styled from '@emotion/styled';
-import { cssVar, LinkStandalone, Spinner, Text } from '@sonarsource/echoes-react';
+import { cssVar, Spinner, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { CardSeparator, InfoCard } from '~design-system';
+import { CardSeparator } from '~design-system';
 import { isApplication } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
 import { MeasureEnhanced } from '~shared/types/measures';
 import IgnoredConditionWarning from '~sq-server-commons/components/overview/IgnoredConditionWarning';
-import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
 import { QualityGateStatus } from '~sq-server-commons/types/quality-gates';
-import { CaycStatus, Component, QualityGate } from '~sq-server-commons/types/types';
-import ApplicationNonCaycProjectWarning from './ApplicationNonCaycProjectWarning';
-import CleanAsYouCodeWarning from './CleanAsYouCodeWarning';
+import { Component, QualityGate } from '~sq-server-commons/types/types';
 import QualityGatePanelSection from './QualityGatePanelSection';
 import SonarLintPromotion from './SonarLintPromotion';
 
@@ -44,8 +40,6 @@ export interface QualityGatePanelProps {
   measures?: MeasureEnhanced[];
   qgStatuses?: QualityGateStatus[];
   qualityGate?: QualityGate;
-  showCaycWarningInApp?: boolean;
-  showCaycWarningInProject?: boolean;
   totalFailedConditionLength: number;
 }
 
@@ -58,11 +52,7 @@ export function QualityGatePanel(props: QualityGatePanelProps) {
     qualityGate,
     isNewCode = false,
     totalFailedConditionLength,
-    showCaycWarningInProject = false,
-    showCaycWarningInApp = false,
   } = props;
-
-  const caycUrl = useDocUrl(DocLink.CaYC);
 
   if (qgStatuses === undefined) {
     return null;
@@ -71,12 +61,6 @@ export function QualityGatePanel(props: QualityGatePanelProps) {
   const failedQgStatuses = qgStatuses.filter((qgStatus) => qgStatus.failedConditions.length > 0);
 
   const isApp = isApplication(component.qualifier);
-
-  const nonCaycProjectsInApp = isApp
-    ? qgStatuses
-        .filter(({ caycStatus }) => caycStatus === CaycStatus.NonCompliant)
-        .sort(({ name: a }, { name: b }) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
-    : [];
 
   const showIgnoredConditionWarning =
     component.qualifier === ComponentQualifier.Project &&
@@ -127,31 +111,6 @@ export function QualityGatePanel(props: QualityGatePanelProps) {
           )}
         </Conditions>
 
-        {showCaycWarningInApp && (
-          <InfoCard
-            className="sw-typo-default"
-            footer={
-              <LinkStandalone to={caycUrl}>
-                <FormattedMessage id="overview.quality_gate.conditions.cayc.link" />
-              </LinkStandalone>
-            }
-          >
-            <ApplicationNonCaycProjectWarning projects={nonCaycProjectsInApp} />
-          </InfoCard>
-        )}
-
-        {showCaycWarningInProject && (
-          <InfoCard
-            className="sw-typo-default"
-            footer={
-              <LinkStandalone to={caycUrl}>
-                <FormattedMessage id="overview.quality_gate.conditions.cayc.link" />
-              </LinkStandalone>
-            }
-          >
-            <CleanAsYouCodeWarning component={component} />
-          </InfoCard>
-        )}
         <SonarLintPromotion qgConditions={qgStatuses?.flatMap((qg) => qg.failedConditions)} />
       </Column>
     </Spinner>

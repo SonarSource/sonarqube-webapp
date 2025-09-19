@@ -35,7 +35,6 @@ import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtil
 import { Feature } from '~sq-server-commons/types/features';
 import { IssueType } from '~sq-server-commons/types/issues';
 import { QualityGateStatusConditionEnhanced } from '~sq-server-commons/types/quality-gates';
-import { CaycStatus } from '~sq-server-commons/types/types';
 import { CurrentUser, NoticeType } from '~sq-server-commons/types/users';
 import QualityGatePanelSection, { QualityGatePanelSectionProps } from '../QualityGatePanelSection';
 
@@ -76,7 +75,6 @@ const failedConditions = [
 ];
 
 const qgStatus = mockQualityGateStatus({
-  caycStatus: CaycStatus.Compliant,
   failedConditions,
   key: 'qgStatusKey',
   name: 'qgStatusName',

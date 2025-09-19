@@ -25,13 +25,11 @@ import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import { QualityGatesServiceMock } from '~sq-server-commons/api/mocks/QualityGatesServiceMock';
 import UsersServiceMock from '~sq-server-commons/api/mocks/UsersServiceMock';
 import { searchProjects, searchUsers } from '~sq-server-commons/api/quality-gates';
-import { dismissNotice } from '~sq-server-commons/api/users';
 import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderAppRoutes, RenderContext } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { Feature } from '~sq-server-commons/types/features';
 import { Mode } from '~sq-server-commons/types/mode';
 import { CaycStatus } from '~sq-server-commons/types/types';
-import { NoticeType } from '~sq-server-commons/types/users';
 import routes from '../../routes';
 
 const ui = {
@@ -678,68 +676,11 @@ it('should render CaYC conditions on a separate table if Sonar way', async () =>
   ).toBeInTheDocument();
 });
 
-it('should display CaYC condition simplification tour for users who didnt dismissed it', async () => {
-  const user = userEvent.setup();
-  qualityGateHandler.setIsAdmin(true);
-  renderQualityGateApp({ currentUser: mockLoggedInUser() });
-
-  const qualityGate = await screen.findByText('Sonar way');
-
-  await user.click(qualityGate);
-
-  expect(await byRole('alertdialog').find()).toBeInTheDocument();
-
-  expect(
-    byRole('alertdialog')
-      .byText('quality_gates.cayc.condition_simplification_tour.page_1.title')
-      .get(),
-  ).toBeInTheDocument();
-
-  await user.click(byRole('alertdialog').byRole('button', { name: 'spotlight.next' }).get());
-
-  expect(
-    byRole('alertdialog')
-      .byText('quality_gates.cayc.condition_simplification_tour.page_2.title')
-      .get(),
-  ).toBeInTheDocument();
-
-  await user.click(byRole('alertdialog').byRole('button', { name: 'spotlight.next' }).get());
-
-  expect(
-    byRole('alertdialog')
-      .byText('quality_gates.cayc.condition_simplification_tour.page_3.title')
-      .get(),
-  ).toBeInTheDocument();
-
-  await user.click(byRole('alertdialog').byRole('button', { name: 'dismiss' }).get());
-
-  expect(byRole('alertdialog').query()).not.toBeInTheDocument();
-  expect(dismissNotice).toHaveBeenLastCalledWith(NoticeType.QG_CAYC_CONDITIONS_SIMPLIFICATION);
-});
-
-it('should not display CaYC condition simplification tour for users who dismissed it', async () => {
-  const user = userEvent.setup();
-  qualityGateHandler.setIsAdmin(true);
-  renderQualityGateApp({
-    currentUser: mockLoggedInUser({
-      dismissedNotices: { [NoticeType.QG_CAYC_CONDITIONS_SIMPLIFICATION]: true },
-    }),
-  });
-
-  const qualityGate = await screen.findByText('Sonar way');
-
-  await user.click(qualityGate);
-
-  expect(byRole('alertdialog').query()).not.toBeInTheDocument();
-});
-
 it('should advertise the Sonar way for AI code Quality Gate as AI-ready', async () => {
   const user = userEvent.setup();
   qualityGateHandler.setIsAdmin(true);
   renderQualityGateApp({
-    currentUser: mockLoggedInUser({
-      dismissedNotices: { [NoticeType.QG_CAYC_CONDITIONS_SIMPLIFICATION]: true },
-    }),
+    currentUser: mockLoggedInUser(),
     featureList: [Feature.AiCodeAssurance],
   });
 

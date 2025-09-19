@@ -106,7 +106,7 @@ export default function TabsPanel(props: React.PropsWithChildren<MeasuresPanelPr
   ];
 
   return (
-    <div data-spotlight-id="cayc-promotion-1" data-testid="overview__measures-panel">
+    <div data-testid="overview__measures-panel">
       {loading ? (
         <div>
           <Spinner isLoading={loading} />

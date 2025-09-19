@@ -18,16 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  Button,
-  ButtonGroup,
-  ButtonVariety,
-  PromotedSection,
-  PromotedSectionVariety,
-} from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { useState } from 'react';
-import { useIntl } from 'react-intl';
 import { CardSeparator, CenteredLayout } from '~design-system';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
@@ -38,12 +29,10 @@ import { AnalysisStatus } from '~sq-server-commons/components/overview/AnalysisS
 import LastAnalysisLabel from '~sq-server-commons/components/overview/LastAnalysisLabel';
 import QGStatusComponent from '~sq-server-commons/components/overview/QualityGateStatus';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { parseDate } from '~sq-server-commons/helpers/dates';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
 import { CodeScope } from '~sq-server-commons/helpers/urls';
 import { useGetValueQuery } from '~sq-server-commons/queries/settings';
-import { useDismissNoticeMutation } from '~sq-server-commons/queries/users';
 import { ApplicationPeriod } from '~sq-server-commons/types/application';
 import { Branch } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
@@ -51,12 +40,10 @@ import { Analysis, GraphType, MeasureHistory } from '~sq-server-commons/types/pr
 import { QualityGateStatus } from '~sq-server-commons/types/quality-gates';
 import { SettingsKey } from '~sq-server-commons/types/settings';
 import { Component, Period, QualityGate } from '~sq-server-commons/types/types';
-import { NoticeType } from '~sq-server-commons/types/users';
 import { QGStatusEnum } from '~sq-server-commons/utils/overview-utils';
 import ActivityPanel from './ActivityPanel';
 import AICodeStatus from './AICodeStatus';
 import BranchMetaTopBar from './BranchMetaTopBar';
-import CaycPromotionGuide from './CaycPromotionGuide';
 import FirstAnalysisNextStepsNotif from './FirstAnalysisNextStepsNotif';
 import MeasuresPanelNoNewCode from './MeasuresPanelNoNewCode';
 import NewCodeMeasuresPanel from './NewCodeMeasuresPanel';
@@ -103,23 +90,13 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
     qualityGate,
   } = props;
 
-  const intl = useIntl();
   const { query } = useLocation();
   const router = useRouter();
 
-  const { currentUser } = React.useContext(CurrentUserContext);
   const { hasFeature } = useAvailableFeatures();
-  const { mutateAsync: dismissNotice } = useDismissNoticeMutation();
   const { data: architectureEnabled } = useGetValueQuery({
     key: SettingsKey.DesignAndArchitecture,
   });
-
-  const [isPromotedSectionHidden, setIsPromotedSectionHidden] = useState(false);
-  const [startTour, setStartTour] = useState(false);
-  const [dismissedTour, setDismissedTour] = useState(
-    currentUser.isLoggedIn &&
-      !!currentUser.dismissedNotices?.[NoticeType.ONBOARDING_CAYC_BRANCH_SUMMARY_GUIDE],
-  );
 
   const tab = query.codeScope === CodeScope.Overall ? CodeScope.Overall : CodeScope.New;
   const leakPeriod = component.qualifier === ComponentQualifier.Application ? appLeak : period;
@@ -140,34 +117,6 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [loadingStatus, hasNewCodeMeasures]);
 
-  const dismissPromotedSection = () => {
-    dismissNotice(NoticeType.ONBOARDING_CAYC_BRANCH_SUMMARY_GUIDE)
-      .then(() => {
-        setDismissedTour(true);
-      })
-      .catch(() => {
-        /* noop */
-      });
-  };
-
-  const closeTour = (action: string) => {
-    setStartTour(false);
-    if (action === 'skip' && !dismissedTour) {
-      dismissPromotedSection();
-    }
-
-    if (action === 'close' && !dismissedTour) {
-      dismissPromotedSection();
-    }
-  };
-
-  const startTourGuide = () => {
-    if (!isNewCodeTab) {
-      selectTab(CodeScope.New);
-    }
-    setStartTour(true);
-  };
-
   const qgStatus = qgStatuses?.map((s) => s.status).includes('ERROR')
     ? QGStatusEnum.ERROR
     : QGStatusEnum.OK;
@@ -184,7 +133,6 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
         addons.architecture?.ArchitectureUserBanner({ projectKey: component.key })}
 
       <CenteredLayout>
-        <CaycPromotionGuide closeTour={closeTour} run={startTour} />
         <div className="overview sw-my-6 sw-typo-default">
           <A11ySkipTarget anchor="overview_main" />
 
@@ -197,42 +145,6 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
                   <BranchMetaTopBar branch={branch} component={component} measures={measures} />
 
                   <CardSeparator />
-
-                  {currentUser.isLoggedIn &&
-                    hasNewCodeMeasures &&
-                    !dismissedTour &&
-                    !isPromotedSectionHidden && (
-                      <PromotedSection
-                        actions={
-                          <ButtonGroup>
-                            <Button
-                              onClick={() => {
-                                setIsPromotedSectionHidden(true);
-                                startTourGuide();
-                              }}
-                              variety={ButtonVariety.Primary}
-                            >
-                              {intl.formatMessage({
-                                id: 'overview.promoted_section.button_primary',
-                              })}
-                            </Button>
-
-                            <Button onClick={dismissPromotedSection}>
-                              {intl.formatMessage({
-                                id: 'overview.promoted_section.button_secondary',
-                              })}
-                            </Button>
-                          </ButtonGroup>
-                        }
-                        className="sw-my-6"
-                        headerText={intl.formatMessage({
-                          id: 'overview.promoted_section.title',
-                        })}
-                        onDismiss={dismissPromotedSection}
-                        text={intl.formatMessage({ id: 'overview.promoted_section.content' })}
-                        variety={PromotedSectionVariety.Highlight}
-                      />
-                    )}
                 </>
               )}
               <div

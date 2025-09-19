@@ -3919,17 +3919,6 @@ export const defaultMessages = {
     'This quality gate will be optimized for {cayc_link}. Please review the changes below.',
   'quality_gates.cayc.condition_simplification_list':
     'List of conditions to ensure that any code added or changed is clean.',
-  'quality_gates.cayc.condition_simplification_tour.page_1.title': "'Clean as You Code' ready!",
-  'quality_gates.cayc.condition_simplification_tour.page_1.content1':
-    'The conditions in this quality gate have been updated to ensure that any code added or changed is clean.',
-  'quality_gates.cayc.condition_simplification_tour.page_2.title': 'One condition, zero issues',
-  'quality_gates.cayc.condition_simplification_tour.page_2.content':
-    '<p>One single condition ensures that new code has no issues.</p> <p>This condition replaced the three conditions on Security rating, Reliability rating and Maintainability rating.</p>',
-  'quality_gates.cayc.condition_simplification_tour.page_3.title': 'Resolve pending issues',
-  'quality_gates.cayc.condition_simplification_tour.page_3.content1':
-    'Every issue in new code must be resolved for a project to pass this quality gate.',
-  'quality_gates.cayc.condition_simplification_tour.page_3.content2':
-    'Learn more: Issue life cycle',
   'quality_gates.cayc.new_maintainability_rating.A': 'Technical debt ratio is less than {0}',
   'quality_gates.cayc.new_maintainability_rating': 'Technical debt ratio is greater than {1}',
   'quality_gates.cayc.new_reliability_rating.A': 'No bugs',
@@ -6026,18 +6015,6 @@ export const defaultMessages = {
     "At the start of a new code period, if very few lines have been added or modified, it might be difficult to reach the desired level of code coverage or duplications. To prevent Quality Gate failure when there's little that can be done about it, Quality Gate conditions about duplications in new code and coverage on new code are ignored until the number of new lines is at least 20. An administrator can disable this in the general settings.",
   'overview.quality_gate.conditions_on_new_code':
     'Only conditions on new code that are defined in the Quality Gate are checked. See the {link} associated to the project for details.',
-  'overview.quality_gate.conditions.cayc.warning.title.APP':
-    'Some projects are not ready for Clean as You Code',
-  'overview.quality_gate.conditions.cayc.warning.title.TRK':
-    'This project is not ready for Clean as You Code',
-  'overview.quality_gate.conditions.cayc.details.APP':
-    'The quality gate used by these projects can be improved to enable Clean as You Code:',
-  'overview.quality_gate.conditions.cayc.details.TRK':
-    'The quality gate used by this project can be improved to enable Clean as You Code.',
-  'overview.quality_gate.conditions.cayc.details_with_link':
-    'The {link} used by this project can be improved to enable Clean as You Code.',
-  'overview.quality_gate.conditions.non_cayc.warning.link': 'quality gate',
-  'overview.quality_gate.conditions.cayc.link': 'Learn more',
   'overview.quality_gates.conditions.condition_simplification_tour.title':
     'One condition, zero issues',
   'overview.quality_gates.conditions.condition_simplification_tour.content':
@@ -6265,35 +6242,12 @@ export const defaultMessages = {
   'overview.activity.variations.new_analysis': 'New analysis:',
   'overview.activity.variations.first_analysis': 'First analysis:',
 
-  'overview.promoted_section.title': "Don't let issues accumulate. Discover ‘Clean as You Code’!",
-  'overview.promoted_section.content':
-    'Learn how to improve your code base by cleaning only new code.',
-  'overview.promoted_section.button_primary': 'Take the Tour',
-  'overview.promoted_section.button_secondary': 'Not now',
-
   'overview.ai_assurance.unsolved_overall.title': 'Unresolved findings in overall code',
   'overview.ai_assurance.unsolved_overall.description':
     'Some unresolved findings in this branch’s overall code may represent a risk. We recommend reviewing these findings before releasing the branch.',
   'overview.ai_assurance.unsolved_overall.dismiss': 'Dismiss unresolved overall code findings',
   'overview.issues.issue_from_update': '{count} from SonarQube update',
   'overview.issues.issue_from_update.tooltip': 'Issues appearing as a result of SonarQube updates',
-
-  'guiding.cayc_promotion.1.title': 'The power of new code',
-  'guiding.cayc_promotion.1.content.1':
-    'Cleaning only new code is easier and guarantees no debt will be added. As you change old code, it also gets cleaner over time. We call this ‘Clean as You Code’.',
-  'guiding.cayc_promotion.2.title': 'Define your new code',
-  'guiding.cayc_promotion.2.content.1':
-    'Your team or organization decides when a new code period for your project should start, for example, each time a project is released.',
-  'guiding.cayc_promotion.3.title': 'Green is clean',
-  'guiding.cayc_promotion.3.content.1':
-    'Quality Gate Status tells you if your new code is clean or not. Keep it green as often as possible, and your project will be production-ready.',
-  'guiding.cayc_promotion.4.title': 'Clean at all levels',
-  'guiding.cayc_promotion.4.content.1':
-    'With SonarQube for IDE, clean code as you write it in your {value}.',
-  'guiding.cayc_promotion.4.content.2':
-    'When a feature is ready, analyze your {value} (commercial edition only) and make sure no issue is missed.',
-  'guiding.cayc_promotion.4.content.3':
-    'Finally, rely on a thorough {value} analysis to ensure the new code is clean.',
 
   //------------------------------------------------------------------------------
   //
@@ -8530,9 +8484,8 @@ export const defaultMessages = {
     'You do not have access to all projects in this portfolio',
 
   'portfolio_overview.new_code_definition':
-    'The metrics below show ratings on both New Code (code that has been added or changed according to your New Code definition) and Overall Code. With {cayc}, your focus is on New Code to ensure the code you write today is clean and safe. {link}.',
+    'The metrics below show ratings on both New Code (code that has been added or changed according to your New Code definition) and Overall Code. Focusing on the new code ensures the code you write today is clean and safe. {link}.',
   'portfolio_overview.new_code_definition.link': 'Learn more about New vs Overall Code',
-  'portfolio_overview.cayc_definition.link': 'Clean as You Code',
 
   'portfolio_overview.releasability.title': 'Releasability',
   'portfolio_overview.releasability.description':

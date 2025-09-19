@@ -183,9 +183,6 @@ describe('project overview', () => {
 
     // QG panel
     expect(screen.getByText('metric.level.OK')).toBeInTheDocument();
-    expect(
-      screen.queryByText('overview.quality_gate.conditions.cayc.warning.title.TRK'),
-    ).not.toBeInTheDocument();
 
     // Measures panel
     expect(screen.getByText('overview.new_issues')).toBeInTheDocument();
@@ -211,35 +208,14 @@ describe('project overview', () => {
     });
     jest
       .mocked(getQualityGateProjectStatus)
-      .mockResolvedValueOnce(
-        mockQualityGateProjectStatus({ status: 'OK', caycStatus: CaycStatus.NonCompliant }),
-      );
+      .mockResolvedValueOnce(mockQualityGateProjectStatus({ status: 'OK' }));
 
     renderBranchOverview({}, { featureList: [Feature.AiCodeAssurance] });
 
     expect(await screen.findByText('metric.level.OK')).toBeInTheDocument();
-    expect(
-      screen.queryByText('overview.quality_gate.conditions.cayc.warning.title.TRK'),
-    ).not.toBeInTheDocument();
+
     expect(byText('projects.ai_code_assurance_off.description').get()).toBeInTheDocument();
     expect(screen.queryByText('projects.ai_code_detected.description')).not.toBeInTheDocument();
-  });
-
-  it('should show a successful non-compliant QG as admin', async () => {
-    jest
-      .mocked(getQualityGateProjectStatus)
-      .mockResolvedValueOnce(
-        mockQualityGateProjectStatus({ status: 'OK', caycStatus: CaycStatus.NonCompliant }),
-      );
-    qualityGatesHandler.setIsAdmin(true);
-    qualityGatesHandler.setGetGateForProjectName('Non Cayc QG');
-
-    renderBranchOverview();
-
-    await screen.findByText('metric.level.OK');
-    expect(
-      await screen.findByText('overview.quality_gate.conditions.cayc.warning.title.TRK'),
-    ).toBeInTheDocument();
   });
 
   it('should show a detected AI code message', async () => {
@@ -761,61 +737,6 @@ describe('project overview', () => {
       'CODE_SMELL',
     );
   });
-
-  it('should dismiss CaYC promoted section', async () => {
-    qualityGatesHandler.setQualityGateProjectStatus(
-      mockQualityGateProjectStatus({
-        status: 'OK',
-      }),
-    );
-    const { user } = getPageObjects();
-    renderBranchOverview();
-
-    // Meta info
-    expect(await byText('overview.promoted_section.title').find()).toBeInTheDocument();
-
-    await user.click(
-      byRole('button', { name: 'overview.promoted_section.button_secondary' }).get(),
-    );
-
-    expect(byText('overview.promoted_section.title').query()).not.toBeInTheDocument();
-  });
-
-  it('should show CaYC tour', async () => {
-    qualityGatesHandler.setQualityGateProjectStatus(
-      mockQualityGateProjectStatus({
-        status: 'OK',
-      }),
-    );
-
-    const { user } = getPageObjects();
-
-    renderBranchOverview();
-
-    expect(await byText('overview.promoted_section.title').find()).toBeInTheDocument();
-
-    await user.click(byRole('button', { name: 'overview.promoted_section.button_primary' }).get());
-
-    expect(byText('overview.promoted_section.title').query()).not.toBeInTheDocument();
-
-    expect(await byText('guiding.cayc_promotion.1.title').find()).toBeInTheDocument();
-
-    await user.click(byRole('button', { name: 'spotlight.next' }).get());
-
-    expect(byText('guiding.cayc_promotion.2.title').get()).toBeInTheDocument();
-
-    await user.click(byRole('button', { name: 'spotlight.next' }).get());
-
-    expect(byText('guiding.cayc_promotion.3.title').get()).toBeInTheDocument();
-
-    await user.click(await byRole('button', { name: 'spotlight.next' }).find());
-
-    expect(byText('guiding.cayc_promotion.4.title').get()).toBeInTheDocument();
-
-    await user.click(byRole('button', { name: 'complete' }).get());
-
-    expect(byText('guiding.cayc_promotion.4.title').query()).not.toBeInTheDocument();
-  });
 });
 
 describe('application overview', () => {
@@ -923,16 +844,6 @@ describe('application overview', () => {
     expect(
       byRole('link', { name: '1 1 new_violations quality_gates.operator.GT 0' }).get(),
     ).toBeInTheDocument();
-  });
-
-  it("should show projects that don't have a compliant quality gate", async () => {
-    renderBranchOverview({ component });
-    expect(
-      await screen.findByText('overview.quality_gate.conditions.cayc.details.APP'),
-    ).toBeInTheDocument();
-    expect(screen.getByText('first project')).toBeInTheDocument();
-    expect(screen.queryByText('second project')).not.toBeInTheDocument();
-    expect(screen.getByText('third project')).toBeInTheDocument();
   });
 
   it('should correctly show an app as empty', async () => {

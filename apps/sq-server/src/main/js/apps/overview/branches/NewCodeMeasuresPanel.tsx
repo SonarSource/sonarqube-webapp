@@ -57,7 +57,7 @@ import { ApplicationPeriod } from '~sq-server-commons/types/application';
 import { Branch } from '~sq-server-commons/types/branch-like';
 import { IssueStatus } from '~sq-server-commons/types/issues';
 import { QualityGateStatus } from '~sq-server-commons/types/quality-gates';
-import { CaycStatus, Component, Period, QualityGate } from '~sq-server-commons/types/types';
+import { Component, Period, QualityGate } from '~sq-server-commons/types/types';
 import {
   MeasurementType,
   QGStatusEnum,
@@ -143,31 +143,12 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
 
   const leakPeriod = isApp ? appLeak : period;
 
-  const nonCaycProjectsInApp =
-    isApp && qgStatuses
-      ? qgStatuses
-          .filter(({ caycStatus }) => caycStatus === CaycStatus.NonCompliant)
-          .sort(({ name: a }, { name: b }) =>
-            a.localeCompare(b, undefined, { sensitivity: 'base' }),
-          )
-      : [];
-
-  const showCaycWarningInProject =
-    qgStatuses &&
-    qgStatuses.length === 1 &&
-    qgStatuses[0].caycStatus === CaycStatus.NonCompliant &&
-    qualityGate?.actions?.manageConditions &&
-    !isApp;
-
-  const showCaycWarningInApp = nonCaycProjectsInApp.length > 0;
-
-  const noConditionsAndWarningForNewCode =
-    totalNewFailedCondition.length === 0 && !showCaycWarningInApp && !showCaycWarningInProject;
+  const noConditionsAndWarningForNewCode = totalNewFailedCondition.length === 0;
 
   return (
     <div id={getTabPanelId(CodeScope.New)}>
       {leakPeriod && (
-        <div className="sw-flex sw-items-center sw-mr-6" data-spotlight-id="cayc-promotion-2">
+        <div className="sw-flex sw-items-center sw-mr-6">
           <Text className="sw-mr-1" isSubtle size={TextSize.Small}>
             <FormattedMessage id="overview.new_code" />
           </Text>
@@ -186,8 +167,6 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
               measures={measures}
               qgStatuses={qgStatuses}
               qualityGate={qualityGate}
-              showCaycWarningInApp={showCaycWarningInApp}
-              showCaycWarningInProject={showCaycWarningInProject ?? false}
               totalFailedConditionLength={totalNewFailedCondition.length}
             />
           </StyledConditionsCard>

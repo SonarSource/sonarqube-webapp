@@ -80,10 +80,7 @@ export function BranchLikeNavigation(props: BranchLikeNavigationProps) {
   return (
     <>
       <SlashSeparator className=" sw-mx-2" />
-      <div
-        className="sw-flex sw-items-center it__branch-like-navigation-toggler-container"
-        data-spotlight-id="cayc-promotion-4"
-      >
+      <div className="sw-flex sw-items-center it__branch-like-navigation-toggler-container">
         <Popup
           allowResizing
           overlay={

@@ -55,7 +55,6 @@ import {
 } from '~sq-server-commons/types/types';
 import AddConditionModal from './AddConditionModal';
 import CaycCompliantBanner from './CaycCompliantBanner';
-import CaYCConditionsSimplificationGuide from './CaYCConditionsSimplificationGuide';
 import CaycFixOptimizeBanner from './CaycFixOptimizeBanner';
 import ConditionsTable from './ConditionsTable';
 import CaycCondition from './NewCodeBuiltInCondition';
@@ -118,7 +117,6 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
 
   return (
     <Spinner isLoading={isLoading}>
-      {isBuiltInCaYC && <CaYCConditionsSimplificationGuide qualityGate={qualityGate} />}
       {isAICodeAssuranceQualityGate && (
         <div className="sw-flex sw-items-center">
           <AIAssuredIcon className="sw-mr-1" />
@@ -250,7 +248,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
               </Heading>
             </div>
 
-            <HighlightedSection className="sw-p-0 sw-my-2 sw-w-3/4" id="cayc-highlight">
+            <HighlightedSection className="sw-p-0 sw-my-2 sw-w-3/4">
               <ul
                 aria-label={translate('quality_gates.cayc.condition_simplification_list')}
                 className="sw-my-2"

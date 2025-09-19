@@ -21,7 +21,6 @@
 import { Text, ToggleTip } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { Metric } from '~shared/types/measures';
-import { MetricKey } from '~shared/types/metrics';
 import withMetricsContext from '~sq-server-commons/context/metrics/withMetricsContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import {
@@ -47,11 +46,7 @@ function NewCodeBuiltInCondition({ condition, metric, metrics }: Readonly<Props>
   };
 
   return (
-    <BuiltInStyledItem
-      data-guiding-id={
-        condition.metric === MetricKey.new_violations ? 'caycConditionsSimplification' : undefined
-      }
-    >
+    <BuiltInStyledItem>
       <span>
         <Text isHighlighted>{translate(`metric.${metric.key}.description.positive`)}</Text>
       </span>
