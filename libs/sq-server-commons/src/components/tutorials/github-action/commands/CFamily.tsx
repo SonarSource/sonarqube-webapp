@@ -45,20 +45,20 @@ function yamlSteps(os: OSs, arch: Arch) {
   const buildWrapperExecutable = getBuildWrapperExecutable(os, arch);
   return `
       - name: Install Build Wrapper
-        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v5
+        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v6
         env:
           SONAR_HOST_URL: \${{secrets.SONAR_HOST_URL}}
       - name: Run Build Wrapper
         run: |
           ${buildWrapperExecutable} --out-dir \${{ env.BUILD_WRAPPER_OUT_DIR }} <insert_your_clean_build_command>
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v5
+        uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: \${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: \${{secrets.SONAR_HOST_URL}}
         with:
           args: >
-            -Dsonar.cfamily.compile-commands="\${{ env.BUILD_WRAPPER_OUT_DIR }}/compile_commands.json"`;
+            "-Dsonar.cfamily.compile-commands=\${{ env.BUILD_WRAPPER_OUT_DIR }}/compile_commands.json"`;
 }
 
 export default function CFamily(props: Readonly<CFamilyProps>) {

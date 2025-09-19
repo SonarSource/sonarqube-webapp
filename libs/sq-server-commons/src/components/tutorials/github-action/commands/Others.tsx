@@ -41,7 +41,7 @@ function otherYamlSteps(buildSteps: string, branchesEnabled: boolean) {
   let output =
     buildSteps +
     `
-      - uses: SonarSource/sonarqube-scan-action@v5
+      - uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: \${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: \${{ secrets.SONAR_HOST_URL }}
