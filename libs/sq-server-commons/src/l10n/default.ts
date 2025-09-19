@@ -5332,11 +5332,11 @@ export const defaultMessages = {
   'metric.issues_in_sandbox.name': 'Issues in sandbox',
   'metric.issues_in_sandbox.short_name': 'Issue sandbox',
   'metric.issues_in_sandbox.description':
-    'Issues detected after SonarQube update. They don’t affect the quality gate, but should be triaged to avoid debt accumulation',
+    'Sandbox catches specific issues introduced by SonarQube updates before they affect the quality gate',
   'metric.new_issues_in_sandbox.name': 'New issues in sandbox',
   'metric.new_issues_in_sandbox.short_name': 'Issue sandbox',
   'metric.new_issues_in_sandbox.description':
-    'Issues detected after SonarQube update. They don’t affect the quality gate, but should be triaged to avoid debt accumulation',
+    'Sandbox catches specific issues introduced by SonarQube updates before they affect the quality gate',
 
   //------------------------------------------------------------------------------
   //
