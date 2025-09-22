@@ -5331,11 +5331,11 @@ export const defaultMessages = {
   'metric.issues_in_sandbox.name': 'Issues in sandbox',
   'metric.issues_in_sandbox.short_name': 'Issue sandbox',
   'metric.issues_in_sandbox.description':
-    'Sandbox catches specific issues introduced by SonarQube updates before they affect the quality gate',
+    'Issue detection is always improving. When SonarQube finds new issues due to an update, they are held here for review before they can affect the quality gate.',
   'metric.new_issues_in_sandbox.name': 'New issues in sandbox',
   'metric.new_issues_in_sandbox.short_name': 'Issue sandbox',
   'metric.new_issues_in_sandbox.description':
-    'Sandbox catches specific issues introduced by SonarQube updates before they affect the quality gate',
+    'Issue detection is always improving. When SonarQube finds new issues due to an update, they are held here for review before they can affect the quality gate.',
 
   //------------------------------------------------------------------------------
   //

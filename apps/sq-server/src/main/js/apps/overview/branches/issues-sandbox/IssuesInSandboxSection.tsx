@@ -143,11 +143,14 @@ export function IssuesInSandboxSection({
             ))}
         </div>
       </Spinner>
-      <Text as="p" className="sw-w-[364px]" isSubtle size={TextSize.Small}>
+      <Text as="p" className="sw-w-[400px]" isSubtle size={TextSize.Small}>
         <FormattedMessage id={`metric.${MetricKey.issues_in_sandbox}.description`} />
-      </Text>
-      <Text as="p" isSubtle size={TextSize.Small}>
-        <Link enableOpenInNewTab highlight={LinkHighlight.CurrentColor} to={docUrl}>
+        <Link
+          className="sw-ml-1"
+          enableOpenInNewTab
+          highlight={LinkHighlight.CurrentColor}
+          to={docUrl}
+        >
           <FormattedMessage id="learn_more_in_doc" />
         </Link>
       </Text>
