@@ -49,7 +49,9 @@ it('should show and dismiss details dialog', async () => {
 
   expect(ui.description.query()).toBeInTheDocument();
 
-  expect(await ui.detailsButton.find()).toBeVisible();
+  await waitFor(async () => {
+    expect(await ui.detailsButton.find()).toBeEnabled();
+  });
 
   // open the details dialog
   await userEvent.click(ui.detailsButton.get());
