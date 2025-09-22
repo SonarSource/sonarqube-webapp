@@ -266,7 +266,7 @@ describe('issue app', () => {
         { timeout: 10_000 },
       ),
     );
-    expect(screen.getByRole('heading', { name: 'Defense-In-Depth', level: 3 })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Defense-in-depth', level: 3 })).toBeInTheDocument();
   });
 
   it('should be able to change the issue status', async () => {

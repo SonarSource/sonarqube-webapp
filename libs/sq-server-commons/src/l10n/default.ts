@@ -1296,7 +1296,6 @@ export const defaultMessages = {
     'This is a responsibility issue, the code is not trustworthy enough.',
   'issue.clean_code_attribute.TRUSTWORTHY.advice':
     'To be trustworthy, the code needs to abstain from revealing or hard-coding private information.',
-  'clean_code_attribute.learn_more': 'Learn more about Clean Code',
 
   'issue.issue_status.OPEN': 'Open',
   'issue.issue_status.ACCEPTED': 'Accepted',

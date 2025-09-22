@@ -21,7 +21,7 @@
 export default function NeverTrustUserInput() {
   return (
     <>
-      <h3>Never Trust User Input</h3>
+      <h3>Never trust user input</h3>
       <p>
         Applications must treat all user input and, more generally, all third-party data as
         attacker-controlled data.

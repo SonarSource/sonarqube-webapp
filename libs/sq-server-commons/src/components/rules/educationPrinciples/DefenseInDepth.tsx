@@ -21,7 +21,7 @@
 export default function DefenseInDepth() {
   return (
     <>
-      <h3>Defense-In-Depth</h3>
+      <h3>Defense-in-depth</h3>
       <p>
         Applications and infrastructure benefit greatly from relying on multiple security mechanisms
         layered on top of each other. If one security mechanism fails, there is a high probability
