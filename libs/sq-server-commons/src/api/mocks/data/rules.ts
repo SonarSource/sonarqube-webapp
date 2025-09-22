@@ -19,7 +19,7 @@
  */
 
 import {
-  CleanCodeAttributeCategory,
+  CodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
@@ -155,7 +155,7 @@ export function mockRuleDetailsList() {
       type: 'VULNERABILITY',
       lang: 'py',
       langName: 'Python',
-      cleanCodeAttributeCategory: CleanCodeAttributeCategory.Consistent,
+      cleanCodeAttributeCategory: CodeAttributeCategory.Consistent,
       name: 'Awsome Python rule',
       descriptionSections: [
         { key: RuleDescriptionSections.Introduction, content: introTitle },

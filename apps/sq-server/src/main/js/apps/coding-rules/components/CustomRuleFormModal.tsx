@@ -38,8 +38,8 @@ import { LabelValueSelectOption } from '~design-system';
 import FormattingTips from '~shared/components/common/FormattingTips';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import {
-  CleanCodeAttribute,
-  CleanCodeAttributeCategory,
+  CodeAttribute,
+  CodeAttributeCategory,
   SoftwareQualityImpact,
 } from '~shared/types/clean-code-taxonomy';
 import { HttpStatus } from '~shared/types/request';
@@ -78,11 +78,11 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
   const [params, setParams] = useState(getParams(customRule));
   const [reactivating, setReactivating] = useState(false);
   const [status, setStatus] = useState(customRule?.status ?? templateRule.status);
-  const [ccCategory, setCCCategory] = useState<CleanCodeAttributeCategory>(
-    templateRule.cleanCodeAttributeCategory ?? CleanCodeAttributeCategory.Consistent,
+  const [ccCategory, setCCCategory] = useState<CodeAttributeCategory>(
+    templateRule.cleanCodeAttributeCategory ?? CodeAttributeCategory.Consistent,
   );
-  const [ccAttribute, setCCAttribute] = useState<CleanCodeAttribute>(
-    templateRule.cleanCodeAttribute ?? CleanCodeAttribute.Conventional,
+  const [ccAttribute, setCCAttribute] = useState<CodeAttribute>(
+    templateRule.cleanCodeAttribute ?? CodeAttribute.Conventional,
   );
   const [impacts, setImpacts] = useState<SoftwareQualityImpact[]>(templateRule?.impacts ?? []);
   const [standardSeverity, setStandardSeverity] = useState(

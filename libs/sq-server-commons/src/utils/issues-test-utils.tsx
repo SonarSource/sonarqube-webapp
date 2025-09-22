@@ -21,7 +21,7 @@
 import { waitFor } from '@testing-library/react';
 import { byPlaceholderText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import {
-  CleanCodeAttributeCategory,
+  CodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
@@ -143,10 +143,10 @@ export const ui = {
   clearDetectionCauseFacet: byTestId('clear-issues.facet.detection_cause'),
 
   responsibleCategoryFilter: byRole('checkbox', {
-    name: `issue.clean_code_attribute_category.${CleanCodeAttributeCategory.Responsible}`,
+    name: `issue.clean_code_attribute_category.${CodeAttributeCategory.Responsible}`,
   }),
   consistentCategoryFilter: byRole('checkbox', {
-    name: `issue.clean_code_attribute_category.${CleanCodeAttributeCategory.Consistent}`,
+    name: `issue.clean_code_attribute_category.${CodeAttributeCategory.Consistent}`,
   }),
   softwareQualityMaintainabilityFilter: byRole('checkbox', {
     name: `software_quality.${SoftwareQuality.Maintainability}`,

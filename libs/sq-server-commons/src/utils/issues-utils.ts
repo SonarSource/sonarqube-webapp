@@ -21,7 +21,7 @@
 import { intersection, isArray, uniq } from 'lodash';
 import { isDefined } from '~shared/helpers/types';
 import {
-  CleanCodeAttributeCategory,
+  CodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
@@ -66,7 +66,7 @@ export function parseQuery(query: RawQuery, needIssueSync = false): IssuesQuery 
     assigned: parseAsBoolean(query.assigned),
     assignees: parseAsArray(query.assignees, parseAsString),
     author: isArray(query.author) ? query.author : [query.author].filter(isDefined),
-    cleanCodeAttributeCategories: parseAsArray<CleanCodeAttributeCategory>(
+    cleanCodeAttributeCategories: parseAsArray<CodeAttributeCategory>(
       query.cleanCodeAttributeCategories,
       parseAsString,
     ),

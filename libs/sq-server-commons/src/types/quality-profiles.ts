@@ -19,8 +19,8 @@
  */
 
 import {
-  CleanCodeAttribute,
-  CleanCodeAttributeCategory,
+  CodeAttribute,
+  CodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
@@ -86,7 +86,7 @@ export enum ChangelogEventAction {
 export interface ProfileChangelogEvent {
   action: ChangelogEventAction;
   authorName?: string;
-  cleanCodeAttributeCategory?: CleanCodeAttributeCategory;
+  cleanCodeAttributeCategory?: CodeAttributeCategory;
   date: string;
   // impacts should be always set in the wild. But Next currently has a specific database state for which this field is undefined. May be possible to make this field required in the future.
   impacts?: {
@@ -95,10 +95,10 @@ export interface ProfileChangelogEvent {
   }[];
   params?: {
     impactChanges?: ProfileChangelogEventImpactChange[];
-    newCleanCodeAttribute?: CleanCodeAttribute;
-    newCleanCodeAttributeCategory?: CleanCodeAttributeCategory;
-    oldCleanCodeAttribute?: CleanCodeAttribute;
-    oldCleanCodeAttributeCategory?: CleanCodeAttributeCategory;
+    newCleanCodeAttribute?: CodeAttribute;
+    newCleanCodeAttributeCategory?: CodeAttributeCategory;
+    oldCleanCodeAttribute?: CodeAttribute;
+    oldCleanCodeAttributeCategory?: CodeAttributeCategory;
     prioritizedRule?: string;
     severity?: IssueSeverity;
   } & Record<string, string | ProfileChangelogEventImpactChange[] | null>;

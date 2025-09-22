@@ -20,7 +20,7 @@
 
 import { isEmpty } from 'lodash';
 import {
-  CleanCodeAttributeCategory,
+  CodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
@@ -61,7 +61,7 @@ export function parseQuery(query: RawQuery): CodingRulesQuery {
   return {
     activation: parseAsOptionalBoolean(query.activation),
     availableSince: parseAsDate(query.available_since),
-    cleanCodeAttributeCategories: parseAsArray<CleanCodeAttributeCategory>(
+    cleanCodeAttributeCategories: parseAsArray<CodeAttributeCategory>(
       query.cleanCodeAttributeCategories,
       parseAsString,
     ),

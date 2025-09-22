@@ -18,14 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { CleanCodeAttributeCategory } from '~shared/types/clean-code-taxonomy';
+import { CodeAttributeCategory } from '~shared/types/clean-code-taxonomy';
 import { FacetHelp } from '~sq-server-commons/components/facets/FacetHelp';
 import { CLEAN_CODE_CATEGORIES } from '~sq-server-commons/helpers/constants';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { CommonProps, SimpleListStyleFacet } from './SimpleListStyleFacet';
 
 interface Props extends CommonProps {
-  categories: Array<CleanCodeAttributeCategory>;
+  categories: Array<CodeAttributeCategory>;
 }
 
 export function AttributeCategoryFacet(props: Props) {

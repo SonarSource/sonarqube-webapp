@@ -27,7 +27,7 @@ import { ContentCell, NumericalCell, Table, TableRow, themeColor } from '~design
 import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import { isDefined } from '~shared/helpers/types';
 import { StaleTime } from '~shared/queries/common';
-import { CleanCodeAttributeCategory, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { CodeAttributeCategory, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { RuleTypes } from '~shared/types/rules';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getRulesUrl } from '~sq-server-commons/helpers/urls';
@@ -208,7 +208,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
               noSidePadding
               withRoundedBorder
             >
-              {Object.values(CleanCodeAttributeCategory).map((category) => (
+              {Object.values(CodeAttributeCategory).map((category) => (
                 <ProfileRulesRow
                   count={countsByCctCategory[category]?.count}
                   key={category}

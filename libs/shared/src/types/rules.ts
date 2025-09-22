@@ -19,16 +19,16 @@
  */
 
 import {
-  CleanCodeAttribute,
-  CleanCodeAttributeCategory,
+  CodeAttribute,
+  CodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
   SoftwareQualityImpact,
 } from './clean-code-taxonomy';
 
 export interface Rule {
-  cleanCodeAttribute?: CleanCodeAttribute;
-  cleanCodeAttributeCategory?: CleanCodeAttributeCategory;
+  cleanCodeAttribute?: CodeAttribute;
+  cleanCodeAttributeCategory?: CodeAttributeCategory;
   impacts?: SoftwareQualityImpact[];
   isTemplate?: boolean;
   key: string;

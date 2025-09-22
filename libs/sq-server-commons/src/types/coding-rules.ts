@@ -19,7 +19,7 @@
  */
 
 import {
-  CleanCodeAttributeCategory,
+  CodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
@@ -49,7 +49,7 @@ export interface CodingRulesQuery {
   active_impactSeverities: SoftwareImpactSeverity[];
   active_severities: string[];
   availableSince: Date | undefined;
-  cleanCodeAttributeCategories: CleanCodeAttributeCategory[];
+  cleanCodeAttributeCategories: CodeAttributeCategory[];
   compareToProfile: string | undefined;
   cwe: string[];
   impactSeverities: SoftwareImpactSeverity[];

@@ -25,7 +25,7 @@ import * as React from 'react';
 import { Route } from 'react-router-dom';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import {
-  CleanCodeAttributeCategory,
+  CodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
@@ -123,7 +123,7 @@ describe('rendering', () => {
         .softwareQualitySeverity(SoftwareQuality.Maintainability, SoftwareImpactSeverity.Medium)
         .get(),
     ).toBeInTheDocument();
-    expect(ui.cleanCodeAttribute(CleanCodeAttributeCategory.Responsible).get()).toBeInTheDocument();
+    expect(ui.cleanCodeAttribute(CodeAttributeCategory.Responsible).get()).toBeInTheDocument();
 
     expect(ui.issueType(IssueType.Bug).query()).not.toBeInTheDocument();
     expect(ui.standardSeverity(IssueSeverity.Major).query()).not.toBeInTheDocument();
@@ -144,7 +144,7 @@ describe('rendering', () => {
         .query(),
     ).not.toBeInTheDocument();
     expect(
-      ui.cleanCodeAttribute(CleanCodeAttributeCategory.Responsible).query(),
+      ui.cleanCodeAttribute(CodeAttributeCategory.Responsible).query(),
     ).not.toBeInTheDocument();
   });
 
@@ -390,7 +390,7 @@ function getPageObject() {
         `software_impact.button.change.severity_impact.${severity}.software_quality.${quality}`,
       ),
     severityOption: (severity: SoftwareImpactSeverity) => byText(`severity_impact.${severity}`),
-    cleanCodeAttribute: (category: CleanCodeAttributeCategory) =>
+    cleanCodeAttribute: (category: CodeAttributeCategory) =>
       byText(`issue.clean_code_attribute_category.${category}`),
     issueType: (type: IssueType) => byText(`issue.type.${type}`),
     standardSeverity: (severity: IssueSeverity) => byText(`severity.${severity}`),

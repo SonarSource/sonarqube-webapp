@@ -19,8 +19,8 @@
  */
 
 import {
-  CleanCodeAttribute,
-  CleanCodeAttributeCategory,
+  CodeAttribute,
+  CodeAttributeCategory,
   SoftwareQualityImpact,
 } from '~shared/types/clean-code-taxonomy';
 import { Extension } from '~shared/types/common';
@@ -414,8 +414,8 @@ export interface QualityGate extends QualityGatePreview {
 }
 
 export interface RestRule {
-  cleanCodeAttribute?: CleanCodeAttribute;
-  cleanCodeAttributeCategory?: CleanCodeAttributeCategory;
+  cleanCodeAttribute?: CodeAttribute;
+  cleanCodeAttributeCategory?: CodeAttributeCategory;
   impacts?: SoftwareQualityImpact[];
   key: string;
   language?: string;
@@ -431,7 +431,7 @@ export interface RestRule {
 }
 
 export interface RulesUpdateRequest {
-  cleanCodeAttribute?: CleanCodeAttribute;
+  cleanCodeAttribute?: CodeAttribute;
   impacts?: SoftwareQualityImpact[];
   key: string;
   markdownDescription?: string;

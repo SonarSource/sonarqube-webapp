@@ -21,7 +21,7 @@
 import { cloneDeep, uniqueId } from 'lodash';
 import { getStandards } from '~shared/helpers/security-standards';
 import {
-  CleanCodeAttributeCategory,
+  CodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
@@ -282,8 +282,8 @@ export default class IssuesServiceMock {
 
   mockFacetDetailResponse = (query: RequestData): RawFacet[] => {
     const facets = (query.facets ?? '').split(',');
-    const cleanCodeCategories: CleanCodeAttributeCategory[] = (
-      query.cleanCodeAttributeCategories ?? Object.values(CleanCodeAttributeCategory).join(',')
+    const cleanCodeCategories: CodeAttributeCategory[] = (
+      query.cleanCodeAttributeCategories ?? Object.values(CodeAttributeCategory).join(',')
     ).split(',');
     return facets.map((name: string): RawFacet => {
       if (name === 'owaspTop10-2021') {
@@ -317,10 +317,10 @@ export default class IssuesServiceMock {
 
       if (name === 'languages') {
         const counters = {
-          [CleanCodeAttributeCategory.Intentional]: { java: 4100, ts: 500 },
-          [CleanCodeAttributeCategory.Consistent]: { java: 100, ts: 200 },
-          [CleanCodeAttributeCategory.Adaptable]: { java: 21000, ts: 2000 },
-          [CleanCodeAttributeCategory.Responsible]: { java: 111, ts: 674 },
+          [CodeAttributeCategory.Intentional]: { java: 4100, ts: 500 },
+          [CodeAttributeCategory.Consistent]: { java: 100, ts: 200 },
+          [CodeAttributeCategory.Adaptable]: { java: 21000, ts: 2000 },
+          [CodeAttributeCategory.Responsible]: { java: 111, ts: 674 },
         };
         return {
           property: name,

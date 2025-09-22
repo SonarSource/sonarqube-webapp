@@ -26,14 +26,14 @@ export enum SoftwareImpactSeverity {
   Info = 'INFO',
 }
 
-export enum CleanCodeAttributeCategory {
+export enum CodeAttributeCategory {
   Consistent = 'CONSISTENT',
   Intentional = 'INTENTIONAL',
   Adaptable = 'ADAPTABLE',
   Responsible = 'RESPONSIBLE',
 }
 
-export enum CleanCodeAttribute {
+export enum CodeAttribute {
   Clear = 'CLEAR',
   Complete = 'COMPLETE',
   Conventional = 'CONVENTIONAL',

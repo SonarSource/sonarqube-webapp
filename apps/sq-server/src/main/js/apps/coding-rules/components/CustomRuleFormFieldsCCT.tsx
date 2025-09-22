@@ -25,8 +25,8 @@ import { FormField, RequiredIcon } from '~design-system';
 import SoftwareImpactSeverityIcon from '~shared/components/icon-mappers/SoftwareImpactSeverityIcon';
 import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import {
-  CleanCodeAttribute,
-  CleanCodeAttributeCategory,
+  CodeAttribute,
+  CodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
   SoftwareQualityImpact,
@@ -44,7 +44,7 @@ interface Props<T> {
   value: T;
 }
 
-export function CleanCodeCategoryField(props: Readonly<Props<CleanCodeAttributeCategory>>) {
+export function CleanCodeCategoryField(props: Readonly<Props<CodeAttributeCategory>>) {
   const { value, disabled } = props;
   const intl = useIntl();
 
@@ -67,7 +67,7 @@ export function CleanCodeCategoryField(props: Readonly<Props<CleanCodeAttributeC
         isSearchable={false}
         onChange={(option) => {
           if (option) {
-            props.onChange(option as CleanCodeAttributeCategory);
+            props.onChange(option as CodeAttributeCategory);
           }
         }}
         value={categories.find((category) => category.value === value)?.value}
@@ -77,7 +77,7 @@ export function CleanCodeCategoryField(props: Readonly<Props<CleanCodeAttributeC
 }
 
 export function CleanCodeAttributeField(
-  props: Readonly<Props<CleanCodeAttribute> & { category: CleanCodeAttributeCategory }>,
+  props: Readonly<Props<CodeAttribute> & { category: CodeAttributeCategory }>,
 ) {
   const { value, disabled, category, onChange } = props;
   const initialAttribute = useRef(value);
@@ -116,7 +116,7 @@ export function CleanCodeAttributeField(
         isNotClearable
         isSearchable={false}
         onChange={(option) => {
-          props.onChange(option as CleanCodeAttribute);
+          props.onChange(option as CodeAttribute);
         }}
         value={attributes.find((attribute) => attribute.value === value)?.value}
       />

@@ -21,7 +21,7 @@
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { axiosToCatch } from '~shared/helpers/axios-clients';
-import { CleanCodeAttribute, SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
+import { CodeAttribute, SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
 import { HttpStatus } from '~shared/types/request';
 import { RuleActivationAdvanced, RuleDetails, RuleType } from '~shared/types/rules';
 import { post, postJSON } from '../helpers/request';
@@ -32,7 +32,7 @@ import { RestRuleDetails, RestRuleParameter, RulesUpdateRequest } from '../types
 const RULES_ENDPOINT = '/api/v2/clean-code-policy/rules';
 
 export interface CreateRuleData {
-  cleanCodeAttribute?: CleanCodeAttribute;
+  cleanCodeAttribute?: CodeAttribute;
   impacts: SoftwareQualityImpact[];
   key: string;
   markdownDescription: string;

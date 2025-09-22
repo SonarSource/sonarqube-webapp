@@ -19,8 +19,8 @@
  */
 
 import {
-  CleanCodeAttribute,
-  CleanCodeAttributeCategory,
+  CodeAttribute,
+  CodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
@@ -40,30 +40,30 @@ export const SEVERITIES = Object.values(IssueSeverity);
 
 export const IMPACT_SEVERITIES = Object.values(SoftwareImpactSeverity);
 
-export const CLEAN_CODE_CATEGORIES = Object.values(CleanCodeAttributeCategory);
+export const CLEAN_CODE_CATEGORIES = Object.values(CodeAttributeCategory);
 
 export const CLEAN_CODE_ATTRIBUTES_BY_CATEGORY = {
-  [CleanCodeAttributeCategory.Consistent]: [
-    CleanCodeAttribute.Conventional,
-    CleanCodeAttribute.Identifiable,
-    CleanCodeAttribute.Formatted,
+  [CodeAttributeCategory.Consistent]: [
+    CodeAttribute.Conventional,
+    CodeAttribute.Identifiable,
+    CodeAttribute.Formatted,
   ],
-  [CleanCodeAttributeCategory.Intentional]: [
-    CleanCodeAttribute.Logical,
-    CleanCodeAttribute.Clear,
-    CleanCodeAttribute.Complete,
-    CleanCodeAttribute.Efficient,
+  [CodeAttributeCategory.Intentional]: [
+    CodeAttribute.Logical,
+    CodeAttribute.Clear,
+    CodeAttribute.Complete,
+    CodeAttribute.Efficient,
   ],
-  [CleanCodeAttributeCategory.Adaptable]: [
-    CleanCodeAttribute.Focused,
-    CleanCodeAttribute.Distinct,
-    CleanCodeAttribute.Modular,
-    CleanCodeAttribute.Tested,
+  [CodeAttributeCategory.Adaptable]: [
+    CodeAttribute.Focused,
+    CodeAttribute.Distinct,
+    CodeAttribute.Modular,
+    CodeAttribute.Tested,
   ],
-  [CleanCodeAttributeCategory.Responsible]: [
-    CleanCodeAttribute.Trustworthy,
-    CleanCodeAttribute.Lawful,
-    CleanCodeAttribute.Respectful,
+  [CodeAttributeCategory.Responsible]: [
+    CodeAttribute.Trustworthy,
+    CodeAttribute.Lawful,
+    CodeAttribute.Respectful,
   ],
 };
 

@@ -20,8 +20,8 @@
 
 import { cloneDeep } from 'lodash';
 import {
-  CleanCodeAttribute,
-  CleanCodeAttributeCategory,
+  CodeAttribute,
+  CodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
@@ -244,10 +244,10 @@ export default class QualityProfilesServiceMock {
         ruleName: 'PHP Rule',
         params: {
           severity: IssueSeverity.Critical,
-          newCleanCodeAttribute: CleanCodeAttribute.Complete,
-          newCleanCodeAttributeCategory: CleanCodeAttributeCategory.Intentional,
-          oldCleanCodeAttribute: CleanCodeAttribute.Clear,
-          oldCleanCodeAttributeCategory: CleanCodeAttributeCategory.Responsible,
+          newCleanCodeAttribute: CodeAttribute.Complete,
+          newCleanCodeAttributeCategory: CodeAttributeCategory.Intentional,
+          oldCleanCodeAttribute: CodeAttribute.Clear,
+          oldCleanCodeAttributeCategory: CodeAttributeCategory.Responsible,
         },
       }),
       mockQualityProfileChangelogEvent({
@@ -270,10 +270,10 @@ export default class QualityProfilesServiceMock {
         ruleName: 'Rule 1',
         params: {
           severity: IssueSeverity.Critical,
-          newCleanCodeAttribute: CleanCodeAttribute.Complete,
-          newCleanCodeAttributeCategory: CleanCodeAttributeCategory.Intentional,
-          oldCleanCodeAttribute: CleanCodeAttribute.Lawful,
-          oldCleanCodeAttributeCategory: CleanCodeAttributeCategory.Responsible,
+          newCleanCodeAttribute: CodeAttribute.Complete,
+          newCleanCodeAttributeCategory: CodeAttributeCategory.Intentional,
+          oldCleanCodeAttribute: CodeAttribute.Lawful,
+          oldCleanCodeAttributeCategory: CodeAttributeCategory.Responsible,
           impactChanges: [
             {
               newSeverity: SoftwareImpactSeverity.Medium,
@@ -311,10 +311,10 @@ export default class QualityProfilesServiceMock {
         ruleName: 'Rule 5',
         params: {
           prioritizedRule: 'false',
-          newCleanCodeAttribute: CleanCodeAttribute.Complete,
-          newCleanCodeAttributeCategory: CleanCodeAttributeCategory.Intentional,
-          oldCleanCodeAttribute: CleanCodeAttribute.Lawful,
-          oldCleanCodeAttributeCategory: CleanCodeAttributeCategory.Responsible,
+          newCleanCodeAttribute: CodeAttribute.Complete,
+          newCleanCodeAttributeCategory: CodeAttributeCategory.Intentional,
+          oldCleanCodeAttribute: CodeAttribute.Lawful,
+          oldCleanCodeAttributeCategory: CodeAttributeCategory.Responsible,
           impactChanges: [
             {
               newSeverity: SoftwareImpactSeverity.Medium,
@@ -538,19 +538,19 @@ export default class QualityProfilesServiceMock {
             property: 'cleanCodeAttributeCategories',
             values: [
               {
-                val: CleanCodeAttributeCategory.Intentional,
+                val: CodeAttributeCategory.Intentional,
                 count: activation ? 23 : 27,
               },
               {
-                val: CleanCodeAttributeCategory.Consistent,
+                val: CodeAttributeCategory.Consistent,
                 count: activation ? 2 : 20,
               },
               {
-                val: CleanCodeAttributeCategory.Adaptable,
+                val: CodeAttributeCategory.Adaptable,
                 count: activation ? 1 : 12,
               },
               {
-                val: CleanCodeAttributeCategory.Responsible,
+                val: CodeAttributeCategory.Responsible,
                 count: 0,
               },
             ],

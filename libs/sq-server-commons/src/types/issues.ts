@@ -19,8 +19,8 @@
  */
 
 import {
-  CleanCodeAttribute,
-  CleanCodeAttributeCategory,
+  CodeAttribute,
+  CodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
   SoftwareQualityImpact,
@@ -120,8 +120,8 @@ export interface RawIssue {
   actions: string[];
   assignee?: string;
   author?: string;
-  cleanCodeAttribute: CleanCodeAttribute;
-  cleanCodeAttributeCategory: CleanCodeAttributeCategory;
+  cleanCodeAttribute: CodeAttribute;
+  cleanCodeAttributeCategory: CodeAttributeCategory;
   codeVariants?: string[];
   comments?: Comment[];
   component: string;
@@ -253,7 +253,7 @@ export interface IssuesQuery {
   assignees: string[];
   author: string[];
   casa: string[];
-  cleanCodeAttributeCategories: CleanCodeAttributeCategory[];
+  cleanCodeAttributeCategories: CodeAttributeCategory[];
   codeVariants: string[];
   createdAfter: Date | undefined;
   createdAt: string;

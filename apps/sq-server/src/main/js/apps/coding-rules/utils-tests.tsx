@@ -27,8 +27,8 @@ import {
   byText,
 } from '~shared/helpers/testSelector';
 import {
-  CleanCodeAttribute,
-  CleanCodeAttributeCategory,
+  CodeAttribute,
+  CodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
@@ -130,9 +130,9 @@ const selectors = {
   saveButton: byRole('button', { name: 'save' }),
   cancelButton: byRole('button', { name: 'cancel' }),
   removeButton: byRole('button', { name: 'remove' }),
-  ruleCleanCodeAttributeCategory: (category: CleanCodeAttributeCategory) =>
+  ruleCleanCodeAttributeCategory: (category: CodeAttributeCategory) =>
     byText(`rule.clean_code_attribute_category.${category}`),
-  ruleCleanCodeAttribute: (attribute: CleanCodeAttribute) =>
+  ruleCleanCodeAttribute: (attribute: CodeAttribute) =>
     byText(new RegExp(`rule\\.clean_code_attribute\\.${attribute}$`)),
   ruleSoftwareQuality: (quality: SoftwareQuality) => byText(`software_quality.${quality}`),
   ruleSoftwareQualitySeverityButton: (quality: SoftwareQuality, severity: SoftwareImpactSeverity) =>

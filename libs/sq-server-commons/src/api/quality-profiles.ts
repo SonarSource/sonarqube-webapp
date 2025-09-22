@@ -22,7 +22,7 @@ import { map } from 'lodash';
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import {
-  CleanCodeAttributeCategory,
+  CodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
   SoftwareQualityImpact,
@@ -196,7 +196,7 @@ export function getProfileChangelog(data: ChangelogData): Promise<ChangelogRespo
 }
 
 export interface RuleCompare {
-  cleanCodeAttributeCategory?: CleanCodeAttributeCategory;
+  cleanCodeAttributeCategory?: CodeAttributeCategory;
   impacts?: SoftwareQualityImpact[];
   key: string;
   left?: {

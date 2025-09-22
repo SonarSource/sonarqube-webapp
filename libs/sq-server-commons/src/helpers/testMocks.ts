@@ -21,8 +21,8 @@
 import { omit } from 'lodash';
 import { To } from 'react-router-dom';
 import {
-  CleanCodeAttribute,
-  CleanCodeAttributeCategory,
+  CodeAttribute,
+  CodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
@@ -340,8 +340,8 @@ export function mockRawIssue(withLocations = false, overrides: Partial<RawIssue>
     issueStatus: IssueStatus.Open,
     transitions: [],
     scope: IssueScope.Main,
-    cleanCodeAttributeCategory: CleanCodeAttributeCategory.Responsible,
-    cleanCodeAttribute: CleanCodeAttribute.Respectful,
+    cleanCodeAttributeCategory: CodeAttributeCategory.Responsible,
+    cleanCodeAttribute: CodeAttribute.Respectful,
     impacts: [
       {
         softwareQuality: SoftwareQuality.Maintainability,
@@ -399,8 +399,8 @@ export function mockIssue(withLocations = false, overrides: Partial<Issue> = {})
     textRange: { startLine: 25, endLine: 26, startOffset: 0, endOffset: 15 },
     transitions: [],
     type: IssueType.Bug,
-    cleanCodeAttributeCategory: CleanCodeAttributeCategory.Responsible,
-    cleanCodeAttribute: CleanCodeAttribute.Respectful,
+    cleanCodeAttributeCategory: CodeAttributeCategory.Responsible,
+    cleanCodeAttribute: CodeAttribute.Respectful,
     impacts: [
       {
         softwareQuality: SoftwareQuality.Maintainability,
@@ -515,7 +515,7 @@ export function mockCompareResult(overrides: Partial<CompareResponse> = {}): Com
       {
         key: 'java:S4604',
         name: 'Rule in left',
-        cleanCodeAttributeCategory: CleanCodeAttributeCategory.Adaptable,
+        cleanCodeAttributeCategory: CodeAttributeCategory.Adaptable,
         impacts: [
           {
             softwareQuality: SoftwareQuality.Maintainability,
@@ -528,7 +528,7 @@ export function mockCompareResult(overrides: Partial<CompareResponse> = {}): Com
       {
         key: 'java:S5128',
         name: 'Rule in right',
-        cleanCodeAttributeCategory: CleanCodeAttributeCategory.Responsible,
+        cleanCodeAttributeCategory: CodeAttributeCategory.Responsible,
         impacts: [
           {
             softwareQuality: SoftwareQuality.Security,
@@ -577,7 +577,7 @@ export function mockQualityProfileChangelogEvent(
     params: {
       severity: IssueSeverity.Major,
     },
-    cleanCodeAttributeCategory: CleanCodeAttributeCategory.Responsible,
+    cleanCodeAttributeCategory: CodeAttributeCategory.Responsible,
     impacts: [
       {
         softwareQuality: SoftwareQuality.Maintainability,
@@ -664,8 +664,8 @@ export function mockRuleActivationAdvanced(
 
 export function mockRuleDetails(overrides: Partial<RuleDetails> = {}): RuleDetails {
   return {
-    cleanCodeAttributeCategory: CleanCodeAttributeCategory.Intentional,
-    cleanCodeAttribute: CleanCodeAttribute.Clear,
+    cleanCodeAttributeCategory: CodeAttributeCategory.Intentional,
+    cleanCodeAttribute: CodeAttribute.Clear,
     key: 'squid:S1337',
     repo: 'squid',
     name: '".equals()" should not be used to test the values of "Atomic" classes',

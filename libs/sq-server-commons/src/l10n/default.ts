@@ -1203,7 +1203,7 @@ export const defaultMessages = {
   'issue.severity.deprecation.documentation': 'Documentation',
   'issue.severity.new': 'The new severities',
 
-  'issue.cct_attribute.label': 'Clean code attribute',
+  'issue.cct_attribute.label': 'Code attribute',
   'issue.software_qualities.label': 'Software qualities impacted',
   'issue.impact.severity.tooltip':
     'This issue has a {severity} impact on the {quality} of your software.',
@@ -1225,7 +1225,7 @@ export const defaultMessages = {
   'issue.clean_code_attribute_category.RESPONSIBLE.advice':
     'To be responsible, the code must take into account its ethical obligations on data and potential impact of societal norms.',
 
-  'issue.clean_code_attribute': 'Clean Code Attribute',
+  'issue.clean_code_attribute': 'Code attribute',
   'issue.clean_code_attribute.CLEAR': 'Not clear',
   'issue.clean_code_attribute.CLEAR.title':
     'This is an intentionality issue, the code is not clear enough.',
@@ -1439,7 +1439,7 @@ export const defaultMessages = {
   'issue.changelog.field.code_variants': 'Code Variants',
   'issue.changelog.field.type': 'Type',
   'issue.changelog.field.file': 'File',
-  'issue.changelog.field.cleanCodeAttribute': 'Clean Code Attribute',
+  'issue.changelog.field.cleanCodeAttribute': 'Code attribute',
   'issue.changelog.impactSeverity': '{0} severity changed to {1} (was {2})',
 
   //------------------------------------------------------------------------------
@@ -1473,10 +1473,10 @@ export const defaultMessages = {
   'issues.facet.tags': 'Tag',
   'issues.facet.rules': 'Rule',
   'issues.facet.languages': 'Language',
-  'issues.facet.cleanCodeAttributeCategories': 'Clean Code Attribute',
+  'issues.facet.cleanCodeAttributeCategories': 'Code attribute',
   'issues.facet.cleanCodeAttributeCategories.help.title':
     'Attributes group together conceptually similar issues.',
-  'issues.facet.cleanCodeAttributeCategories.help.link': 'Learn more about clean code attributes',
+  'issues.facet.cleanCodeAttributeCategories.help.link': 'Learn more about code attributes',
   'issues.facet.impactSoftwareQualities': 'Software Quality',
   'issues.facet.impactSoftwareQualities.help.title': 'What are software qualities?',
   'issues.facet.impactSoftwareQualities.help.description':
@@ -3632,9 +3632,9 @@ export const defaultMessages = {
     'Parameter {0} reset to default value',
   'quality_profiles.changelog.prioritized_rule_changed': 'Prioritized rule set to {flag}',
   'quality_profiles.changelog.cca_and_category_changed':
-    'Clean Code category set to {newCleanCodeAttributeCategory} and attribute set to {newCleanCodeAttribute}, was {oldCleanCodeAttributeCategory} and {oldCleanCodeAttribute}',
+    'Code category set to {newCleanCodeAttributeCategory} and attribute set to {newCleanCodeAttribute}, was {oldCleanCodeAttributeCategory} and {oldCleanCodeAttribute}',
   'quality_profiles.changelog.cca_only_changed':
-    'Clean Code attribute set to {newCleanCodeAttribute}, was {oldCleanCodeAttribute}',
+    'Code attribute set to {newCleanCodeAttribute}, was {oldCleanCodeAttribute}',
   'quality_profiles.changelog.impact_changed':
     'Software impact set to {newSoftwareQuality} with severity {newSeverity}, was {oldSoftwareQuality} with severity {oldSeverity}',
   'quality_profiles.changelog.impact_added':
@@ -3650,8 +3650,8 @@ export const defaultMessages = {
   'quality_profile.x_active_rules': '{0} active rules',
   'quality_profile.x_inactive_rules': '{0} inactive rules',
   'quality_profile.rules.breakdown': 'Rule breakdown',
-  'quality_profile.rules.cct_categories_title': 'Clean Code Categories',
-  'quality_profile.rules.software_qualities_title': 'Software Qualities',
+  'quality_profile.rules.cct_categories_title': 'Code categories',
+  'quality_profile.rules.software_qualities_title': 'Software qualities',
   'quality_profile.rules.see_x_active_x_rules': 'See {0} active {1} rules',
   'quality_profile.rules.see_x_inactive_x_rules': 'See {0} inactive {1} rules',
   'quality_profiles.x_overridden_rules': '{0} overridden rules',
@@ -4120,7 +4120,7 @@ export const defaultMessages = {
   'coding_rules.show_template': 'Show Template',
   'coding_rules.skip_to_filters': 'Skip to rules filters',
   'coding_rules.software_qualities.label': 'Software qualities impacted',
-  'coding_rules.cct_attribute.label': 'Clean Code attribute',
+  'coding_rules.cct_attribute.label': 'Code attribute',
   'coding_rules.to_select_rules': 'Select rules',
   'coding_rules.to_navigate': 'Navigate to rule',
   'coding_rules.prioritized_rule.title': 'Prioritized rule',
@@ -4183,8 +4183,8 @@ export const defaultMessages = {
   'coding_rules.facet.repositories': 'Repository',
   'coding_rules.facet.impactSeverities': 'Severity',
   'coding_rules.facet.active_impactSeverities': 'Severity',
-  'coding_rules.facet.cleanCodeAttributeCategories': 'Clean Code Attribute',
-  'coding_rules.facet.impactSoftwareQualities': 'Software Quality',
+  'coding_rules.facet.cleanCodeAttributeCategories': 'Code attribute',
+  'coding_rules.facet.impactSoftwareQualities': 'Software quality',
   'coding_rules.facet.tags': 'Tags',
   'coding_rules.facet.qprofile': 'Quality Profile',
   'coding_rules.facet.qprofile.help.title': 'Quality Profiles',
@@ -4245,12 +4245,12 @@ export const defaultMessages = {
     '{0} was detected as the most relevant component or framework for this issue.',
   'coding_rules.description_context.other': 'Other',
 
-  'coding_rules.more_info.education_principles.title': 'Clean Code principles',
+  'coding_rules.more_info.education_principles.title': 'Code principles',
   'coding_rules.more_info.resources.title': 'Resources',
 
   'coding_rules.more_info.notification_message':
-    "We've added new information about Clean Code principles below to help you improve your code quality and security. Take a moment to read through them.",
-  'coding_rules.more_info.scroll_message': 'Scroll down to Code Quality principles',
+    "We've added new information about Code principles below to help you improve your code quality and security. Take a moment to read through them.",
+  'coding_rules.more_info.scroll_message': 'Scroll down to code quality principles',
 
   'coding_rules.detail.extend_description.form': "Extend this rule's description",
   'coding_rules.create_tag': 'Create Tag',

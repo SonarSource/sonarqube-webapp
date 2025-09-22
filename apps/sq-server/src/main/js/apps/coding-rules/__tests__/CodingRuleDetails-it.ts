@@ -21,8 +21,8 @@
 import { fireEvent, screen } from '@testing-library/react';
 import { byRole } from '~shared/helpers/testSelector';
 import {
-  CleanCodeAttribute,
-  CleanCodeAttributeCategory,
+  CodeAttribute,
+  CodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
@@ -62,9 +62,9 @@ describe('rendering', () => {
     await ui.detailsloaded();
     expect(ui.ruleTitle('Awsome java rule').get()).toBeInTheDocument();
     expect(
-      ui.ruleCleanCodeAttributeCategory(CleanCodeAttributeCategory.Intentional).get(),
+      ui.ruleCleanCodeAttributeCategory(CodeAttributeCategory.Intentional).get(),
     ).toBeInTheDocument();
-    expect(ui.ruleCleanCodeAttribute(CleanCodeAttribute.Clear).get()).toBeInTheDocument();
+    expect(ui.ruleCleanCodeAttribute(CodeAttribute.Clear).get()).toBeInTheDocument();
     // 1 In Rule details + 1 in facet
     expect(ui.ruleSoftwareQuality(SoftwareQuality.Maintainability).getAll()).toHaveLength(2);
     expect(document.title).toEqual('page_title.template.with_category.coding_rules.page');

@@ -20,7 +20,7 @@
 
 import { keyBy, times } from 'lodash';
 import {
-  CleanCodeAttributeCategory,
+  CodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
@@ -69,7 +69,7 @@ export function mockIssuesList(baseComponentKey = PARENT_COMPONENT_KEY): IssueDa
         component: `${baseComponentKey}:${ISSUE_TO_FILES[ISSUE_101][0]}`,
         creationDate: '2023-01-05T09:36:01+0100',
         message: 'Issue with no location message',
-        cleanCodeAttributeCategory: CleanCodeAttributeCategory.Consistent,
+        cleanCodeAttributeCategory: CodeAttributeCategory.Consistent,
         type: IssueType.Vulnerability,
         rule: ISSUE_TO_RULE[ISSUE_101],
         textRange: {

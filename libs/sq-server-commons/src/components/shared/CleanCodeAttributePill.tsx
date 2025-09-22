@@ -19,15 +19,13 @@
  */
 
 import { Badge, Popover } from '@sonarsource/echoes-react';
-import { CleanCodeAttribute, CleanCodeAttributeCategory } from '~shared/types/clean-code-taxonomy';
-import { DocLink } from '../../helpers/doc-links';
+import { CodeAttribute, CodeAttributeCategory } from '~shared/types/clean-code-taxonomy';
 import { translate } from '../../helpers/l10n';
-import DocumentationLink from '../common/DocumentationLink';
 
 export interface Props {
   className?: string;
-  cleanCodeAttribute?: CleanCodeAttribute;
-  cleanCodeAttributeCategory: CleanCodeAttributeCategory;
+  cleanCodeAttribute?: CodeAttribute;
+  cleanCodeAttributeCategory: CodeAttributeCategory;
   type?: 'issue' | 'rule';
 }
 
@@ -42,11 +40,6 @@ export function CleanCodeAttributePill(props: Readonly<Props>) {
         cleanCodeAttribute ?? cleanCodeAttributeCategory,
         'advice',
       )}
-      footer={
-        <DocumentationLink enableOpenInNewTab standalone to={DocLink.CleanCode}>
-          {translate('clean_code_attribute.learn_more')}
-        </DocumentationLink>
-      }
       title={translate(
         type,
         cleanCodeAttribute ? 'clean_code_attribute' : 'clean_code_attribute_category',

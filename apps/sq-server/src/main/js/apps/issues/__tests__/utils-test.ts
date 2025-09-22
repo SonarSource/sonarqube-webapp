@@ -19,7 +19,7 @@
  */
 
 import {
-  CleanCodeAttributeCategory,
+  CodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
@@ -44,7 +44,7 @@ describe('serialize/deserialize', () => {
         assigned: true,
         assignees: ['a', 'b'],
         author: ['a', 'b'],
-        cleanCodeAttributeCategories: [CleanCodeAttributeCategory.Responsible],
+        cleanCodeAttributeCategories: [CodeAttributeCategory.Responsible],
         impactSeverities: [SoftwareImpactSeverity.High],
         impactSoftwareQualities: [SoftwareQuality.Security],
         codeVariants: ['variant1', 'variant2'],
@@ -84,7 +84,7 @@ describe('serialize/deserialize', () => {
     ).toStrictEqual({
       assignees: 'a,b',
       author: ['a', 'b'],
-      cleanCodeAttributeCategories: CleanCodeAttributeCategory.Responsible,
+      cleanCodeAttributeCategories: CodeAttributeCategory.Responsible,
       impactSeverities: SoftwareImpactSeverity.High,
       impactSoftwareQualities: SoftwareQuality.Security,
       codeVariants: 'variant1,variant2',
@@ -138,7 +138,7 @@ describe('serialize/deserialize', () => {
       assigned: true,
       assignees: ['first', 'second'],
       author: ['author'],
-      cleanCodeAttributeCategories: [CleanCodeAttributeCategory.Consistent],
+      cleanCodeAttributeCategories: [CodeAttributeCategory.Consistent],
       codeVariants: [],
       createdAfter: undefined,
       createdAt: '',
