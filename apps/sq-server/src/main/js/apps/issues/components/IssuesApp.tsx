@@ -197,7 +197,6 @@ export class App extends React.PureComponent<Props, State> {
               query,
               StandardsInformationKey.OWASP_TOP10_2021,
             ),
-            cleanCodeAttributeCategories: true,
             impactSoftwareQualities: true,
             severities: true,
             types: true,

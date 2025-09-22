@@ -74,7 +74,11 @@ describe('issues app filtering', () => {
     await waitOnDataLoaded();
 
     // Select CC responsible category (should make the first issue disappear)
-    await user.click(await ui.responsibleCategoryFilter.find());
+    await user.click(await ui.cleanCodeAttributeCategoryFacet.find());
+    await waitFor(() => {
+      expect(ui.responsibleCategoryFilter.get()).toBeEnabled();
+    });
+    await user.click(ui.responsibleCategoryFilter.get());
     await waitFor(() => {
       expect(ui.issueItems.getAll()).toHaveLength(11);
     });
@@ -420,6 +424,7 @@ describe('issues app filtering', () => {
     await user.click(ui.languageFacet.get());
     expect(ui.languageFacetList.query()).not.toBeInTheDocument();
 
+    await user.click(ui.cleanCodeAttributeCategoryFacet.get());
     await user.click(ui.responsibleCategoryFilter.get());
     await user.click(ui.languageFacet.get());
     expect(await ui.languageFacetList.find()).toBeInTheDocument();
@@ -463,7 +468,7 @@ describe('issues app filtering', () => {
   it('should close all filters if there is a filter from other mode', async () => {
     let component = renderIssueApp();
     await waitOnDataLoaded();
-    expect(screen.getAllByRole('button', { expanded: true })).toHaveLength(3);
+    expect(screen.getAllByRole('button', { expanded: true })).toHaveLength(2);
 
     component.unmount();
 
