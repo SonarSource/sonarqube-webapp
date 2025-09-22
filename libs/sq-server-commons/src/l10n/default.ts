@@ -1963,6 +1963,9 @@ export const defaultMessages = {
     'If your project is compatible with the architecture feature, please run a new scan and the diagram will appear here.',
   'architecture.empty_state.body1': 'Supported Languages: {supported_languages}',
   'architecture.empty_state.body2': 'Active Languages: {active_languages}',
+  'architecture.empty_state.get_started.title': 'Get started!',
+  'architecture.empty_state.get_started.description':
+    'Add a first component to your intended architecture.',
   'architecture.page': 'Architecture',
   'architecture.page.discovery': 'Structure map',
   'architecture.page.dashboard.open_graph': 'Open structure map',
@@ -1972,6 +1975,9 @@ export const defaultMessages = {
   'architecture.page.model.visual.new_group': 'New Group',
   'architecture.page.model.visual.sidebar.title': 'Source Nodes',
   'architecture.page.model.visual.sidebar.description': 'Drag nodes to create groups in the model',
+  'architecture.page.model.visual.button.add_component.label': 'Add component',
+  'architecture.page.model.visual.button.add_component': 'Component',
+  'architecture.page.model.visual.button.empty_state.add_component': 'Add a component',
   'architecture.page.model': 'Intended architecture',
   'architecture.page.dashboard.model.description':
     'A model of the project intended architecture allows to detect deviations between the real architecture and the intended architecture.',
