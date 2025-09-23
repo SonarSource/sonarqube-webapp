@@ -19,13 +19,19 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, ButtonVariety, Text, TextSize, cssVar } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  LinkStandalone,
+  Text,
+  TextSize,
+  cssVar,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import {
   Badge,
   InheritanceIcon,
-  Link,
   OverridenIcon,
   SeparatorCircleIcon,
   themeBorder,
@@ -250,9 +256,13 @@ function RuleListItem(props: Readonly<Props>) {
           <div className="sw-flex sw-items-center">
             {renderActivation()}
 
-            <Link className="sw-typo-semibold" onClick={handleNameClick} to={getRuleUrl(rule.key)}>
+            <LinkStandalone
+              className="sw-typo-semibold"
+              onClick={handleNameClick}
+              to={getRuleUrl(rule.key)}
+            >
               {rule.name}
-            </Link>
+            </LinkStandalone>
           </div>
 
           <div>
@@ -380,7 +390,7 @@ const ListItemStyled = styled.li<{ selected: boolean }>`
   background-color: ${cssVar('color-surface-default')};
   outline: ${(props) =>
     props.selected ? themeBorder('heavy', 'primary') : themeBorder('default', 'almCardBorder')};
-  outline-offset: ${(props) => (props.selected ? '-2px' : '-1px')};
+  outline-offset: -2px;
 `;
 
 function getImpactsDiffBySeverity({ impacts = [] }: Rule, activation?: RuleActivationAdvanced) {
