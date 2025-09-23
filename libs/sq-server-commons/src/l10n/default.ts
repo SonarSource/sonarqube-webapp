@@ -91,6 +91,7 @@ export const defaultMessages = {
   create_new_element: 'Create new element',
   created: 'Created',
   created_on: 'Created on',
+  criteria: 'Criteria',
   critical: 'Critical',
   current: 'current',
   current_noun: 'Current',
