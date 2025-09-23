@@ -69,6 +69,10 @@ it('should render correctly', async () => {
 
   // Measures & Activity are on their own, because we have exactly 8 links (the maximum)
   expect(screen.getByRole('link', { name: 'layout.measures' })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: 'layout.measures' })).toHaveAttribute(
+    'href',
+    '/component_measures?id=foo',
+  );
   expect(screen.getByRole('link', { name: 'project_activity.page' })).toBeInTheDocument();
 
   // Check the dropdown.
@@ -150,7 +154,11 @@ it('should render correctly when on a branch', async () => {
   );
 
   expect(await screen.findByRole('link', { name: 'overview.page' })).toBeInTheDocument();
-  expect(screen.getByRole('link', { name: 'issues.page' })).toBeInTheDocument();
+  // Test that link has correct branch params
+  expect(screen.getByRole('link', { name: 'issues.page' })).toHaveAttribute(
+    'href',
+    '/project/issues?branch=normal-branch&id=foo&issueStatuses=OPEN%2CCONFIRMED',
+  );
   expect(screen.getByRole('link', { name: 'layout.measures' })).toBeInTheDocument();
   expect(screen.getByRole('link', { name: 'project.info.title' })).toBeInTheDocument();
 });
@@ -168,7 +176,11 @@ it('should render correctly when on a pull request', async () => {
   );
 
   expect(await screen.findByRole('link', { name: 'overview.page' })).toBeInTheDocument();
-  expect(screen.getByRole('link', { name: 'issues.page' })).toBeInTheDocument();
+  // test that link has correct pull request params
+  expect(screen.getByRole('link', { name: 'issues.page' })).toHaveAttribute(
+    'href',
+    '/project/issues?pullRequest=01&id=foo&issueStatuses=OPEN%2CCONFIRMED',
+  );
   expect(screen.getByRole('link', { name: 'layout.measures' })).toBeInTheDocument();
 
   await waitFor(() => {

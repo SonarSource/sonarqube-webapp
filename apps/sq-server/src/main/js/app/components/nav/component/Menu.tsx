@@ -19,6 +19,7 @@
  */
 
 import { DropdownMenu } from '@sonarsource/echoes-react';
+import { pick } from 'lodash';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
@@ -76,6 +77,7 @@ interface Props extends WithAvailableFeaturesProps {
 type Query = BranchParameters & { id: string };
 
 export function Menu(props: Readonly<Props>) {
+  const { query: urlQuery } = useLocation();
   const { component, hasFeature, isInProgress, isPending } = props;
   const { extensions = [], canBrowseAllChildProjects, qualifier, configuration = {} } = component;
 
@@ -103,7 +105,11 @@ export function Menu(props: Readonly<Props>) {
   );
 
   const getQuery = (): Query => {
-    return { id: component.key, ...getBranchLikeQuery(branchLike) };
+    return {
+      ...pick(urlQuery, ['pullRequest', 'branch']),
+      id: component.key,
+      ...getBranchLikeQuery(branchLike),
+    };
   };
 
   const renderLinkWhenInaccessibleChild = (label: string) => {
