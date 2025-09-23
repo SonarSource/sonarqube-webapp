@@ -56,7 +56,7 @@ export function DetectionCauseFacet(props: Readonly<DetectionCauseFacetProps>) {
       help={
         <FacetHelp
           description={intl.formatMessage({ id: 'issues.facet.detection_cause.help' })}
-          link={DocLink.Root}
+          link={DocLink.IssuesFromSonarQubeUpdate}
           linkText={intl.formatMessage({ id: 'learn_more_in_doc' })}
           title={intl.formatMessage({ id: 'issues.facet.detection_cause' })}
         />
