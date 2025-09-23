@@ -163,7 +163,7 @@ it('should be able to create a quality gate then delete it', async () => {
   });
 });
 
-it('should be able to copy a quality gate which is CaYC compliant', async () => {
+it('should be able to copy a quality gate', async () => {
   const user = userEvent.setup();
   qualityGateHandler.setIsAdmin(true);
   renderQualityGateApp();
@@ -179,19 +179,6 @@ it('should be able to copy a quality gate which is CaYC compliant', async () => 
   await user.click(nameInput);
   await user.keyboard(' bis{Enter}');
   expect(await screen.findByRole('button', { name: /.* bis/ })).toBeInTheDocument();
-});
-
-it('should not be able to copy a quality gate which is not CaYC compliant', async () => {
-  const user = userEvent.setup();
-  qualityGateHandler.setIsAdmin(true);
-  renderQualityGateApp();
-
-  const notDefaultQualityGate = await screen.findByText('SonarSource way - CFamily');
-  await user.click(notDefaultQualityGate);
-  await user.click(await screen.findByLabelText('actions'));
-  const copyButton = screen.getByRole('menuitem', { name: 'copy' });
-
-  expect(copyButton).toHaveAttribute('aria-disabled', 'true');
 });
 
 it('should be able to rename a quality gate', async () => {

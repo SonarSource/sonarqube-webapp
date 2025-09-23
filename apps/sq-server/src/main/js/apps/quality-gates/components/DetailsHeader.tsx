@@ -151,18 +151,11 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
                     <DropdownMenu.ItemButton>{translate('rename')}</DropdownMenu.ItemButton>
                   </RenameQualityGateForm>
                 )}
-                {actions.copy &&
-                  (qualityGate.caycStatus === CaycStatus.NonCompliant ? (
-                    <Tooltip content={translate('quality_gates.cannot_copy_no_cayc')}>
-                      <DropdownMenu.ItemButton isDisabled>
-                        {translate('copy')}
-                      </DropdownMenu.ItemButton>
-                    </Tooltip>
-                  ) : (
-                    <CopyQualityGateForm qualityGate={qualityGate}>
-                      <DropdownMenu.ItemButton>{translate('copy')}</DropdownMenu.ItemButton>
-                    </CopyQualityGateForm>
-                  ))}
+                {actions.copy && (
+                  <CopyQualityGateForm qualityGate={qualityGate}>
+                    <DropdownMenu.ItemButton>{translate('copy')}</DropdownMenu.ItemButton>
+                  </CopyQualityGateForm>
+                )}
                 {actions.setAsDefault && (
                   <DropdownMenu.ItemButton onClick={handleSetAsDefaultClick}>
                     {translate('set_as_default')}

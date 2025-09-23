@@ -3776,8 +3776,6 @@ export const defaultMessages = {
   'quality_gates.rename': 'Rename Quality Gate',
   'quality_gates.delete': 'Delete Quality Gate',
   'quality_gates.copy': 'Copy Quality Gate',
-  'quality_gates.cannot_copy_no_cayc':
-    'You must make this quality gate Clean as You Code compliant to copy.',
   'quality_gates.is_default_no_conditions':
     'This is the default quality gate, but it has no configured conditions. Please configure at least 1 condition for this quality gate.',
   'quality_gates.is_built_in.description': 'Sonar way is recommended for most projects. {link}',
