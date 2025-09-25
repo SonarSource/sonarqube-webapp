@@ -45,7 +45,6 @@ import { getLocalizedMetricName, translate } from '~sq-server-commons/helpers/l1
 import {
   getLocalizedMetricNameNoDiffMetric,
   getOperatorLabel,
-  isConditionWithFixedValue,
   isNonEditableMetric,
   MQR_CONDITIONS_MAP,
   STANDARD_CONDITIONS_MAP,
@@ -67,7 +66,6 @@ interface Props {
   isCaycModal?: boolean;
   metric: Metric;
   qualityGate: QualityGate;
-  showEdit?: boolean;
 }
 
 export default function ConditionComponent({
@@ -75,7 +73,6 @@ export default function ConditionComponent({
   canEdit,
   metric,
   qualityGate,
-  showEdit,
   isCaycModal,
 }: Readonly<Props>) {
   const { mutateAsync: deleteCondition } = useDeleteConditionMutation(qualityGate.name);
@@ -141,47 +138,40 @@ export default function ConditionComponent({
                 />
               </UpdateConditionsFromOtherModeModal>
             )}
-            {(!isCaycCompliantAndOverCompliant ||
-              !isConditionWithFixedValue(condition) ||
-              (isCaycCompliantAndOverCompliant && showEdit)) &&
-              !isNonEditableMetric(condition.metric as MetricKey) &&
-              !isMetricFromOtherMode && (
-                <EditConditionModal
-                  condition={condition}
-                  header={translate('quality_gates.update_condition')}
-                  metric={metric}
-                  qualityGate={qualityGate}
-                />
-              )}
-            {(!isCaycCompliantAndOverCompliant ||
-              !condition.isCaycCondition ||
-              (isCaycCompliantAndOverCompliant && showEdit)) && (
-              <ModalAlert
-                description={
-                  <FormattedMessage
-                    id="quality_gates.delete_condition.confirm.message"
-                    values={{ metric: getLocalizedMetricName(metric) }}
-                  />
-                }
-                primaryButton={
-                  <Button onClick={() => deleteCondition(condition)} variety={ButtonVariety.Danger}>
-                    {translate('delete')}
-                  </Button>
-                }
-                secondaryButtonLabel={translate('close')}
-                title={translate('quality_gates.delete_condition')}
-              >
-                <ButtonIcon
-                  Icon={IconDelete}
-                  ariaLabel={intl.formatMessage(
-                    { id: 'quality_gates.condition.delete' },
-                    { metric: metric.name },
-                  )}
-                  size={ButtonSize.Medium}
-                  variety={ButtonVariety.DangerGhost}
-                />
-              </ModalAlert>
+            {!isNonEditableMetric(condition.metric as MetricKey) && !isMetricFromOtherMode && (
+              <EditConditionModal
+                condition={condition}
+                header={translate('quality_gates.update_condition')}
+                metric={metric}
+                qualityGate={qualityGate}
+              />
             )}
+
+            <ModalAlert
+              description={
+                <FormattedMessage
+                  id="quality_gates.delete_condition.confirm.message"
+                  values={{ metric: getLocalizedMetricName(metric) }}
+                />
+              }
+              primaryButton={
+                <Button onClick={() => deleteCondition(condition)} variety={ButtonVariety.Danger}>
+                  {translate('delete')}
+                </Button>
+              }
+              secondaryButtonLabel={translate('close')}
+              title={translate('quality_gates.delete_condition')}
+            >
+              <ButtonIcon
+                Icon={IconDelete}
+                ariaLabel={intl.formatMessage(
+                  { id: 'quality_gates.condition.delete' },
+                  { metric: metric.name },
+                )}
+                size={ButtonSize.Medium}
+                variety={ButtonVariety.DangerGhost}
+              />
+            </ModalAlert>
           </>
         )}
       </ActionCell>

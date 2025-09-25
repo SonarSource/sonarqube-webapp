@@ -24,8 +24,6 @@ import { Image } from '~adapters/components/common/Image';
 import { getTabPanelId } from '~design-system';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
-import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
-import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { CodeScope } from '~sq-server-commons/helpers/urls';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
@@ -79,36 +77,23 @@ export default function MeasuresPanelNoNewCode(props: MeasuresPanelNoNewCodeProp
       />
       <Text as="div" className="sw-ml-4 sw-max-w-abs-500" isSubtle>
         <p className="sw-mb-2 sw-mt-4">{translate(badExplanationKey)}</p>
-        {hasBadNewCodeSettingSameRef ? (
-          showSettingsLink && (
-            <p>
-              <FormattedMessage
-                id="overview.measures.bad_setting.link"
-                values={{
-                  setting_link: (
-                    <Link
-                      to={{
-                        pathname: '/project/baseline',
-                        search: queryToSearchString({
-                          id: component.key,
-                          ...getBranchLikeQuery(branch),
-                        }),
-                      }}
-                    >
-                      {translate('settings.new_code_period.category')}
-                    </Link>
-                  ),
-                }}
-              />
-            </p>
-          )
-        ) : (
+        {hasBadNewCodeSettingSameRef && showSettingsLink && (
           <p>
             <FormattedMessage
-              id="overview.measures.empty_link"
+              id="overview.measures.bad_setting.link"
               values={{
-                learn_more_link: (
-                  <DocumentationLink to={DocLink.CaYC}>{translate('learn_more')}</DocumentationLink>
+                setting_link: (
+                  <Link
+                    to={{
+                      pathname: '/project/baseline',
+                      search: queryToSearchString({
+                        id: component.key,
+                        ...getBranchLikeQuery(branch),
+                      }),
+                    }}
+                  >
+                    {translate('settings.new_code_period.category')}
+                  </Link>
                 ),
               }}
             />

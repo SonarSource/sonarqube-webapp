@@ -28,7 +28,7 @@ import {
   QualityGateProjectStatus,
   QualityGateStatusCondition,
 } from '../types/quality-gates';
-import { CaycStatus, Condition, Group, QualityGate } from '../types/types';
+import { Condition, Group } from '../types/types';
 import { UserBase } from '../types/users';
 import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from './constants';
 import { getLocalizedMetricName } from './l10n';
@@ -196,13 +196,7 @@ const CAYC_CONDITIONS_WITHOUT_FIXED_VALUE: AllCaycMetricKeys[] = [
   MetricKey.new_duplicated_lines_density,
   MetricKey.new_coverage,
 ];
-const CAYC_CONDITIONS_WITH_FIXED_VALUE: AllCaycMetricKeys[] = [
-  MetricKey.new_security_hotspots_reviewed,
-  MetricKey.new_violations,
-  MetricKey.new_reliability_rating,
-  MetricKey.new_security_rating,
-  MetricKey.new_maintainability_rating,
-];
+
 const NON_EDITABLE_CONDITIONS: MetricKey[] = [MetricKey.prioritized_rule_issues];
 
 export const STANDARD_CONDITIONS_MAP: Partial<Record<MetricKey, MetricKey>> = {
@@ -232,10 +226,6 @@ export const MQR_CONDITIONS_MAP: Partial<Record<MetricKey, MetricKey | null>> = 
   [MetricKey.high_impact_accepted_issues]: null,
 };
 
-export function isConditionWithFixedValue(condition: Condition) {
-  return CAYC_CONDITIONS_WITH_FIXED_VALUE.includes(condition.metric as OptimizedCaycMetricKeys);
-}
-
 export function isNonEditableMetric(metricKey: MetricKey) {
   return NON_EDITABLE_CONDITIONS.includes(metricKey);
 }
@@ -245,20 +235,6 @@ export function getCaycConditionMetadata(condition: Condition) {
   return {
     shouldRenderOperator: foundCondition?.shouldRenderOperator,
   };
-}
-
-export function isQualityGateOptimized(qualityGate: QualityGate) {
-  return (
-    !qualityGate.isBuiltIn &&
-    qualityGate.caycStatus !== CaycStatus.NonCompliant &&
-    Object.values(OPTIMIZED_CAYC_CONDITIONS).every((condition) => {
-      const foundCondition = qualityGate.conditions?.find((c) => c.metric === condition.metric);
-      return (
-        foundCondition &&
-        !isWeakCondition(condition.metric as OptimizedCaycMetricKeys, foundCondition)
-      );
-    })
-  );
 }
 
 function isWeakCondition(key: AllCaycMetricKeys, selectedCondition: Condition) {

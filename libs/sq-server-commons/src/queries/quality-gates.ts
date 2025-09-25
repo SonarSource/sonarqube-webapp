@@ -240,21 +240,20 @@ export function useFixQualityGateMutation(gateName: string) {
       missingConditions: Condition[];
       weakConditions: Condition[];
     }) => {
-      const promiseArr = weakConditions
-        .map((condition) => {
+      const promiseArr = [
+        ...weakConditions.map((condition) => {
           return updateCondition({
             ...getCorrectCaycCondition(condition),
             id: condition.id,
           });
-        })
-        .concat(
-          missingConditions.map((condition) => {
-            return createCondition({
-              ...getCorrectCaycCondition(condition),
-              gateName,
-            });
-          }),
-        );
+        }),
+        ...missingConditions.map((condition) => {
+          return createCondition({
+            ...getCorrectCaycCondition(condition),
+            gateName,
+          });
+        }),
+      ];
 
       return Promise.all(promiseArr);
     },

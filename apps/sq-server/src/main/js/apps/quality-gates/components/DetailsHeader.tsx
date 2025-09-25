@@ -32,6 +32,7 @@ import { countBy } from 'lodash';
 import * as React from 'react';
 import { useCallback } from 'react';
 import { Badge } from '~design-system';
+import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   useGetAllQualityGateProjectsQuery,
@@ -43,6 +44,7 @@ import BuiltInQualityGateBadge from './BuiltInQualityGateBadge';
 import CopyQualityGateForm from './CopyQualityGateForm';
 import DeleteQualityGateForm from './DeleteQualityGateForm';
 import DisqualifyAiQualityGateForm from './DisqualifyAiQualityGateForm';
+import FixQualityGateModal from './FixQualityGateModal';
 import RenameQualityGateForm from './RenameQualityGateForm';
 
 interface Props {
@@ -50,6 +52,7 @@ interface Props {
 }
 
 export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
+  const metrics = useMetrics();
   const [isQualifyAiFormOpen, setIsQualifyAiFormOpen] = React.useState(false);
   const actions = qualityGate.actions ?? {};
   const actionsCount = countBy([
@@ -169,6 +172,18 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
                         : 'quality_gates.actions.qualify_for_ai_code_assurance',
                     )}
                   </DropdownMenu.ItemButton>
+                )}
+                {actions.manageConditions && qualityGate.caycStatus === CaycStatus.NonCompliant && (
+                  <FixQualityGateModal
+                    conditions={qualityGate.conditions ?? []}
+                    metrics={metrics}
+                    qualityGate={qualityGate}
+                    scope="new-cayc"
+                  >
+                    <DropdownMenu.ItemButton>
+                      {translate('quality_gates.conditions.update')}
+                    </DropdownMenu.ItemButton>
+                  </FixQualityGateModal>
                 )}
                 {actions.delete && (
                   <>

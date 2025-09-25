@@ -25,18 +25,14 @@ export const BuiltInStyledItem = styled.li`
   justify-content: space-between;
   padding: 1rem;
   flex-wrap: wrap;
-
-  &:not(:last-child) {
-    padding-bottom: 0;
-  }
+  position: relative;
 
   &:not(:last-child):after {
     content: '';
     border-bottom: 1px solid rgb(235, 235, 235);
-    display: flex;
-    height: 10px;
-    width: 100%;
-    padding-top: 1rem;
+    width: calc(100% - 1rem);
+    position: absolute;
+    bottom: 0;
   }
 `;
 

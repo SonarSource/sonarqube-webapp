@@ -20,6 +20,7 @@
 
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { noop } from 'lodash';
 import { byLabelText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import { QualityGatesServiceMock } from '~sq-server-commons/api/mocks/QualityGatesServiceMock';
@@ -27,6 +28,7 @@ import UsersServiceMock from '~sq-server-commons/api/mocks/UsersServiceMock';
 import { searchProjects, searchUsers } from '~sq-server-commons/api/quality-gates';
 import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderAppRoutes, RenderContext } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { flushPromises } from '~sq-server-commons/helpers/testUtils';
 import { Feature } from '~sq-server-commons/types/features';
 import { Mode } from '~sq-server-commons/types/mode';
 import { CaycStatus } from '~sq-server-commons/types/types';
@@ -117,7 +119,7 @@ it('should render the built-in quality gate properly', async () => {
 
   await user.click(builtInQualityGate);
 
-  expect(await screen.findByText(/quality_gates.is_built_in.cayc.description/)).toBeInTheDocument();
+  expect(await screen.findByText('quality_gates.banner.builtin.title')).toBeInTheDocument();
 });
 
 it('should be able to create a quality gate then delete it', async () => {
@@ -516,169 +518,168 @@ it('should explain condition on branch', async () => {
   ).toBeInTheDocument();
 });
 
-it('should show warning banner when CaYC condition is not properly set and should be able to update them', async () => {
-  const user = userEvent.setup();
-  qualityGateHandler.setIsAdmin(true);
-  renderQualityGateApp();
+describe('Configuration banner', () => {
+  it('shows correct banner for builtin sonar quality gate', async () => {
+    const user = userEvent.setup();
+    qualityGateHandler.setIsAdmin(true);
+    renderQualityGateApp();
 
-  const qualityGate = await screen.findByText('SonarSource way - CFamily');
+    const qualityGate = await screen.findByText('Sonar way');
 
-  await user.click(qualityGate);
+    await user.click(qualityGate);
 
-  expect(await screen.findByText('quality_gates.cayc_missing.banner.title')).toBeInTheDocument();
-  expect(screen.getByText('quality_gates.cayc_missing.banner.description')).toBeInTheDocument();
-  expect(
-    screen.getByRole('button', { name: 'quality_gates.cayc_condition.review_update' }),
-  ).toBeInTheDocument();
-
-  await user.click(
-    screen.getByRole('button', { name: 'quality_gates.cayc_condition.review_update' }),
-  );
-  expect(
-    screen.getByRole('dialog', {
-      name: 'quality_gates.cayc.review_update_modal.header.SonarSource way - CFamily',
-    }),
-  ).toBeInTheDocument();
-  expect(
-    screen.getByText('quality_gates.cayc.review_update_modal.description1'),
-  ).toBeInTheDocument();
-  expect(
-    screen.getByText('quality_gates.cayc.review_update_modal.description2'),
-  ).toBeInTheDocument();
-  expect(
-    screen.getByRole('button', { name: 'quality_gates.cayc.review_update_modal.confirm_text' }),
-  ).toBeInTheDocument();
-
-  qualityGateHandler.setCaycStatusForQualityGate('SonarSource way - CFamily', CaycStatus.Compliant);
-
-  await user.click(
-    screen.getByRole('button', { name: 'quality_gates.cayc.review_update_modal.confirm_text' }),
-  );
-
-  expect(await screen.findByText('quality_gates.cayc.banner.title')).toBeInTheDocument();
-
-  const overallConditionsWrapper = within(
-    await screen.findByTestId('quality-gates__conditions-overall'),
-  );
-  expect(overallConditionsWrapper.getByText('Public API')).toBeInTheDocument();
-});
-
-it('should show optimize banner when CaYC condition is not properly set and QG is compliant and should be able to update them', async () => {
-  const user = userEvent.setup();
-  qualityGateHandler.setIsAdmin(true);
-  renderQualityGateApp();
-
-  const qualityGate = await screen.findByText('Non Cayc Compliant QG');
-
-  await user.click(qualityGate);
-
-  expect(await screen.findByText('quality_gates.cayc_optimize.banner.title')).toBeInTheDocument();
-  expect(screen.getByText('quality_gates.cayc_optimize.banner.description')).toBeInTheDocument();
-  expect(
-    screen.getByRole('button', { name: 'quality_gates.cayc_condition.review_optimize' }),
-  ).toBeInTheDocument();
-
-  await user.click(
-    screen.getByRole('button', { name: 'quality_gates.cayc_condition.review_optimize' }),
-  );
-  expect(
-    screen.getByRole('dialog', {
-      name: 'quality_gates.cayc.review_optimize_modal.header.Non Cayc Compliant QG',
-    }),
-  ).toBeInTheDocument();
-  expect(
-    screen.getByText('quality_gates.cayc.review_optimize_modal.description1'),
-  ).toBeInTheDocument();
-  expect(
-    screen.getByText('quality_gates.cayc.review_update_modal.description2'),
-  ).toBeInTheDocument();
-  expect(
-    screen.getByRole('button', { name: 'quality_gates.cayc.review_optimize_modal.confirm_text' }),
-  ).toBeInTheDocument();
-
-  await user.click(
-    screen.getByRole('button', { name: 'quality_gates.cayc.review_optimize_modal.confirm_text' }),
-  );
-});
-
-it('should not warn user when quality gate is not CaYC compliant and user has no permission to edit it', async () => {
-  const user = userEvent.setup();
-  renderQualityGateApp();
-
-  const nonCompliantQualityGate = await screen.findByRole('button', { name: 'Non Cayc QG' });
-
-  await user.click(nonCompliantQualityGate);
-
-  expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-});
-
-it('should not show optimize banner when quality gate is compliant but non-CaYC and user has no permission to edit it', async () => {
-  const user = userEvent.setup();
-  renderQualityGateApp();
-
-  const nonCompliantQualityGate = await screen.findByRole('button', {
-    name: 'Non Cayc Compliant QG',
+    expect(await screen.findByText('quality_gates.banner.builtin.title')).toBeInTheDocument();
   });
 
-  await user.click(nonCompliantQualityGate);
+  it('shows correct banner for builtin sonar ai quality gate', async () => {
+    const user = userEvent.setup();
+    qualityGateHandler.setIsAdmin(true);
+    renderQualityGateApp({ featureList: [Feature.AiCodeAssurance] });
 
-  expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-});
+    const qualityGate = await screen.findByText('Sonar way for AI code');
 
-it('should warn user when quality gate is not CaYC compliant and user has permission to edit it', async () => {
-  const user = userEvent.setup();
-  qualityGateHandler.setIsAdmin(true);
-  renderQualityGateApp();
+    await user.click(qualityGate);
 
-  const nonCompliantQualityGate = await screen.findByRole('button', { name: /Non Cayc QG/ });
-
-  await user.click(nonCompliantQualityGate);
-
-  expect(await screen.findByText(/quality_gates.cayc_missing.banner.title/)).toBeInTheDocument();
-});
-
-it('should show optimize banner when quality gate is compliant but non-CaYC and user has permission to edit it', async () => {
-  const user = userEvent.setup();
-  qualityGateHandler.setIsAdmin(true);
-  renderQualityGateApp();
-
-  const nonCompliantQualityGate = await screen.findByRole('button', {
-    name: /Non Cayc Compliant QG/,
+    expect(await screen.findByText('quality_gates.banner.builtin.ai.title')).toBeInTheDocument();
   });
 
-  await user.click(nonCompliantQualityGate);
+  it('shows recommendation banner to align with recommended conditions and should be able to update them', async () => {
+    const user = userEvent.setup();
+    qualityGateHandler.setIsAdmin(true);
+    renderQualityGateApp();
 
-  expect(await screen.findByText(/quality_gates.cayc_optimize.banner.title/)).toBeInTheDocument();
+    const qualityGate = await screen.findByText('SonarSource way - CFamily');
+
+    await user.click(qualityGate);
+
+    expect(
+      await screen.findByText('quality_gates.banner.recommendation_update.title'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'quality_gates.fix_modal.review_update' }),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'quality_gates.fix_modal.review_update' }));
+    expect(
+      screen.getByRole('dialog', {
+        name: 'quality_gates.fix_modal.title',
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/quality_gates.fix_modal.description_link/)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'update_verb' })).toBeInTheDocument();
+
+    qualityGateHandler.setCaycStatusForQualityGate(
+      'SonarSource way - CFamily',
+      CaycStatus.Compliant,
+    );
+
+    await user.click(screen.getByRole('button', { name: 'update_verb' }));
+
+    expect(await screen.findByText('quality_gates.info.recommended.title')).toBeInTheDocument();
+
+    const overallConditionsWrapper = within(
+      await screen.findByTestId('quality-gates__conditions-overall'),
+    );
+    expect(overallConditionsWrapper.getByText('Public API')).toBeInTheDocument();
+  });
+
+  it('can dismiss recommendation banner', async () => {
+    const user = userEvent.setup();
+    qualityGateHandler.setIsAdmin(true);
+    renderQualityGateApp();
+
+    const qualityGate = await screen.findByText('SonarSource way - CFamily');
+
+    await user.click(qualityGate);
+
+    expect(
+      await screen.findByText('quality_gates.banner.recommendation_update.title'),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'message_callout.dismiss' })).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'message_callout.dismiss' }));
+    expect(
+      screen.queryByText('quality_gates.banner.recommendation_update.title'),
+    ).not.toBeInTheDocument();
+  });
+
+  it('does not show recommendation banner when quality gate is not compliant, but user is not admin', async () => {
+    const user = userEvent.setup();
+    renderQualityGateApp();
+
+    const qualityGate = await screen.findByText('SonarSource way - CFamily');
+
+    await user.click(qualityGate);
+    await flushPromises(4);
+
+    expect(
+      screen.queryByText('quality_gates.banner.recommendation_update.title'),
+    ).not.toBeInTheDocument();
+  });
+
+  it('shows a correct banner for sonar compliant quality gate with ai code enabled', async () => {
+    const user = userEvent.setup();
+    const gateName = 'Non Cayc Compliant QG';
+    await qualityGateHandler.handleSetQualityGateAiQualified(gateName, true).catch(noop);
+    renderQualityGateApp({ featureList: [Feature.AiCodeAssurance] });
+
+    const qualityGate = await screen.findByText(gateName);
+    await user.click(qualityGate);
+
+    expect(await screen.findByText('quality_gates.banner.info.multiple.title')).toBeInTheDocument();
+    expect(screen.getByText('quality_gates.banner.info.multiple.aica')).toBeInTheDocument();
+    expect(screen.getByText('quality_gates.banner.info.multiple.sonar')).toBeInTheDocument();
+  });
+
+  it('shows a correct banner for sonar compliant quality gate without ai code enabled', async () => {
+    const user = userEvent.setup();
+    const gateName = 'Non Cayc Compliant QG';
+    renderQualityGateApp({ featureList: [Feature.AiCodeAssurance] });
+
+    const qualityGate = await screen.findByText(gateName);
+    await user.click(qualityGate);
+
+    expect(await screen.findByText('quality_gates.info.recommended.title')).toBeInTheDocument();
+  });
+
+  it('shows a correct banner for sonar non compliant quality gate with ai code enabled', async () => {
+    const user = userEvent.setup();
+    const gateName = 'SonarSource way - CFamily';
+    await qualityGateHandler.handleSetQualityGateAiQualified(gateName, true).catch(noop);
+
+    renderQualityGateApp({ featureList: [Feature.AiCodeAssurance] });
+
+    const qualityGate = await screen.findByText(gateName);
+    await user.click(qualityGate);
+
+    expect(await screen.findByText('quality_gates.info.aica.title')).toBeInTheDocument();
+  });
+
+  it('does not show a banner for ai code support banner when feature is off', async () => {
+    const user = userEvent.setup();
+    const gateName = 'SonarSource way - CFamily';
+    await qualityGateHandler.handleSetQualityGateAiQualified(gateName, true).catch(noop);
+
+    renderQualityGateApp();
+
+    const qualityGate = await screen.findByText(gateName);
+    await user.click(qualityGate);
+    await flushPromises(4);
+
+    expect(screen.queryByText('quality_gates.info.aica.title')).not.toBeInTheDocument();
+  });
 });
 
-it('should render CaYC conditions on a separate table if Sonar way', async () => {
+it('should render builtin conditions on a separate table if Sonar way', async () => {
   const user = userEvent.setup();
   qualityGateHandler.setIsAdmin(true);
   renderQualityGateApp();
   await user.click(await screen.findByText('Sonar way'));
 
-  expect(screen.queryByText('quality_gates.cayc.banner.title')).not.toBeInTheDocument();
+  expect(await screen.findByText('quality_gates.banner.builtin.title')).toBeInTheDocument();
   expect(
-    await screen.findByRole('list', { name: 'quality_gates.cayc.condition_simplification_list' }),
+    await screen.findByRole('list', { name: 'quality_gates.condition_simplification_list' }),
   ).toBeInTheDocument();
-});
-
-it('should advertise the Sonar way for AI code Quality Gate as AI-ready', async () => {
-  const user = userEvent.setup();
-  qualityGateHandler.setIsAdmin(true);
-  renderQualityGateApp({
-    currentUser: mockLoggedInUser(),
-    featureList: [Feature.AiCodeAssurance],
-  });
-
-  await user.click(await screen.findByRole('link', { name: /Sonar way for AI code/ }));
-
-  expect(
-    await screen.findByRole('link', {
-      name: 'quality_gates.ai_generated.description.clean_ai_generated_code open_in_new_tab',
-    }),
-  ).toBeInTheDocument();
-  expect(await screen.findByText('quality_gates.is_built_in.ai.description')).toBeInTheDocument();
 });
 
 it('should show AI indicator for Sonar AI Way based in DE+ editions', async () => {
@@ -995,7 +996,7 @@ describe('Mode transition', () => {
       expect(await ui.listItem.findAll()).toHaveLength(10);
       expect(ui.requiresUpdateIndicator.query()).not.toBeInTheDocument();
       await user.click(ui.qualityGateListItem('SonarSource way default').get());
-      expect(byText('quality_gates.cayc.banner.title').get()).toBeInTheDocument();
+      expect(byText('quality_gates.info.recommended.title').get()).toBeInTheDocument();
       expect(ui.batchUpdate.query()).not.toBeInTheDocument();
       expect(ui.singleUpdate.query()).not.toBeInTheDocument();
       expect(ui.standardBadge.query()).not.toBeInTheDocument();
@@ -1011,7 +1012,6 @@ describe('Mode transition', () => {
         ui.qualityGateListItem('SonarSource way default').by(ui.requiresUpdateIndicator).get(),
       ).toBeInTheDocument();
       await user.click(ui.qualityGateListItem('SonarSource way default').get());
-      expect(byText('quality_gates.cayc.banner.title').query()).not.toBeInTheDocument();
       expect(
         byText('quality_gates.mode_banner.title.settings.mode.standard.name').get(),
       ).toBeInTheDocument();
@@ -1062,7 +1062,7 @@ describe('Mode transition', () => {
       );
       await user.click(ui.batchDialog.by(ui.updateMetricsBtn).get());
 
-      expect(byText('quality_gates.cayc.banner.title').get()).toBeInTheDocument();
+      expect(byText('quality_gates.info.recommended.title').get()).toBeInTheDocument();
       expect(ui.batchUpdate.query()).not.toBeInTheDocument();
       expect(ui.singleUpdate.query()).not.toBeInTheDocument();
       expect(ui.standardBadge.query()).not.toBeInTheDocument();
@@ -1177,7 +1177,7 @@ describe('Mode transition', () => {
       );
       await user.click(ui.batchDialog.by(ui.updateMetricsBtn).get());
 
-      expect(byText('quality_gates.cayc_missing.banner.title').get()).toBeInTheDocument();
+      expect(byText('quality_gates.banner.recommendation_update.title').get()).toBeInTheDocument();
       expect(ui.batchUpdate.query()).not.toBeInTheDocument();
       expect(ui.singleUpdate.query()).not.toBeInTheDocument();
       expect(ui.mqrBadge.query()).not.toBeInTheDocument();

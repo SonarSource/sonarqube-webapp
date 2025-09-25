@@ -32,7 +32,6 @@ interface Props {
   metrics: Record<string, Metric>;
   qualityGate: QualityGate;
   scope: 'new' | 'overall' | 'new-cayc';
-  showEdit?: boolean;
 }
 
 function Header() {
@@ -59,7 +58,6 @@ export default function ConditionsTable({
   scope,
   conditions,
   isCaycModal,
-  showEdit,
 }: Readonly<Props>) {
   return (
     <Table
@@ -78,7 +76,6 @@ export default function ConditionsTable({
           key={condition.id}
           metric={metrics[condition.metric]}
           qualityGate={qualityGate}
-          showEdit={showEdit}
         />
       ))}
     </Table>

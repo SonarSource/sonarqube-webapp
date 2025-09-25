@@ -53,7 +53,7 @@ export default function ConditionValueDescription({
           <>
             (
             {translate(
-              `quality_gates.cayc.${condition.metric}.${formatMeasure(
+              `quality_gates.recommendation.${condition.metric}.${formatMeasure(
                 condition.error,
                 metric.type,
               )}`,

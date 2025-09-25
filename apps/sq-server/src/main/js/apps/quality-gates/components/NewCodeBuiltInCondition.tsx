@@ -63,7 +63,7 @@ function NewCodeBuiltInCondition({ condition, metric, metrics }: Readonly<Props>
           />
           <ToggleTip
             className="sw-ml-2"
-            description={translate('quality_gates.conditions.cayc.threshold.hint')}
+            description={translate('quality_gates.conditions.threshold.hint')}
           />
         </BuiltInStyledContentCell>
       )}

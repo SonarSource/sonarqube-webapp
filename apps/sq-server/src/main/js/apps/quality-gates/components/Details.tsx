@@ -21,6 +21,7 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
 import { useQualityGateQuery } from '~sq-server-commons/queries/quality-gates';
+import ConfigurationBanner from './ConfigurationBanner';
 import DetailsContent from './DetailsContent';
 import DetailsHeader from './DetailsHeader';
 
@@ -37,6 +38,7 @@ export default function Details({ qualityGateName }: Readonly<Props>) {
         <main>
           <Helmet defer={false} title={qualityGate.name} />
           <DetailsHeader qualityGate={qualityGate} />
+          <ConfigurationBanner qualityGate={qualityGate} />
           <DetailsContent isFetching={isFetching} qualityGate={qualityGate} />
         </main>
       )}

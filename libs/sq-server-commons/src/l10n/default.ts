@@ -71,7 +71,6 @@ export const defaultMessages = {
   choose_file: 'Choose file',
   class: 'Class',
   classes: 'Classes',
-  clean_as_you_code: 'Clean as You Code',
   clear_file: 'Clear file',
   close: 'Close',
   closed: 'Closed',
@@ -156,7 +155,6 @@ export const defaultMessages = {
   learn_more: 'Learn More',
   learn_more_x: 'Learn More: {link}',
   learn_more_in_doc: 'Learn more in documentation',
-  'learn_more.clean_code': 'Learn more: Clean as You Code',
   lets_go: "Let's go",
   library: 'Library',
   line_number: 'Line Number',
@@ -3796,12 +3794,13 @@ export const defaultMessages = {
   'quality_gates.is_default_no_conditions':
     'This is the default quality gate, but it has no configured conditions. Please configure at least 1 condition for this quality gate.',
   'quality_gates.is_built_in.description': 'Sonar way is recommended for most projects. {link}',
-  'quality_gates.is_built_in.cayc.description': 'The only quality gate you need to practice {link}',
-  'quality_gates.is_built_in.ai.description': 'This quality gate is configured for {link}',
+  'quality_gates.is_built_in.tooltip': 'Built-in quality gate reflecting recommended practices',
+  'quality_gates.is_built_in.ai.tooltip':
+    'Built-in quality gate reflecting recommended practices for AI-generated code',
   'quality_gates.conditions': 'Conditions',
   'quality_gates.conditions.help':
     'Your project will fail the Quality Gate if it crosses any metric thresholds set for New Code or Overall Code.',
-  'quality_gates.conditions.help.link': 'See also: Clean as You Code',
+  'quality_gates.conditions.update': 'Update conditions on new code',
   'quality_gates.projects': 'Projects',
   'quality_gates.projects.help':
     'The Default gate is applied to all projects not explicitly assigned to a gate. Quality Gate administrators can assign projects to a non-default gate, or always make it follow the system default. Project administrators may choose any gate.',
@@ -3857,13 +3856,13 @@ export const defaultMessages = {
   'quality_gates.conditions.fails_when': 'Quality Gate fails when',
   'quality_gates.conditions.metric': 'Metric',
   'quality_gates.conditions.builtin_overall.metric': '{metric} is {operator} {value}',
-  'quality_gates.conditions.cayc': 'Your new code will be clean if:',
-  'quality_gates.conditions.cayc.description':
+  'quality_gates.conditions.builtin': 'Conditions on New Code',
+  'quality_gates.conditions.description':
     'These conditions apply to the new code of all branches and to pull requests.',
   'quality_gates.conditions.builtin_new_code.metric': '{metric} is {operator} to {value}',
-  'quality_gates.conditions.cayc.hint':
+  'quality_gates.conditions.hint':
     'The conditions below must be true for your project to pass the Quality Gate.',
-  'quality_gates.conditions.cayc.threshold.hint':
+  'quality_gates.conditions.threshold.hint':
     'Sonar recommends this threshold. Create a new Quality Gate to set a different value.',
   'quality_gates.conditions.new_code': 'On New Code',
   'quality_gates.conditions.new_code.long': 'Conditions on New Code',
@@ -3909,50 +3908,57 @@ export const defaultMessages = {
   'quality_gates.permissions.remove.group': 'Remove permission from group',
   'quality_gates.permissions.remove.group.confirmation':
     'Are you sure you want to remove permission on this quality gate from group {user}?',
-  'quality_gates.cayc': 'Clean as You Code',
-  'quality_gates.cayc_missing.banner.title':
-    'This quality gate does not comply with Clean as You Code',
-  'quality_gates.cayc_missing.banner.description':
-    '{cayc_link} is the most efficient approach to delivering Clean Code. This quality gate does not comply with this methodology. We highly recommend that you update this quality gate.',
-  'quality_gates.cayc_condition.review_update': 'Review and Update Quality Gate',
-  'quality_gates.cayc.review_update_modal.header':
-    'Update "{qualityGate}" to comply with Clean as You Code',
-  'quality_gates.cayc.review_update_modal.confirm_text': 'Update Quality Gate',
-  'quality_gates.cayc.review_update_modal.description1':
-    'This quality gate will be updated to comply with {cayc_link}. Please review the changes below.',
-  'quality_gates.cayc.review_update_modal.description2': 'All other conditions will be preserved',
-  'quality_gates.cayc_optimize.banner.title':
-    'This quality gate can be further optimized for Clean as You Code',
-  'quality_gates.cayc_optimize.banner.description':
-    'This quality gate complies with the {cayc_link} methodology, but it can be further optimized to ensure that new code has 0 issues.',
-  'quality_gates.cayc_condition.review_optimize': 'Review and Optimize Quality Gate',
-  'quality_gates.cayc.review_optimize_modal.header':
-    'Optimize "{qualityGate}" for Clean as You Code',
-  'quality_gates.cayc.review_optimize_modal.confirm_text': 'Optimize Quality Gate',
-  'quality_gates.cayc.review_optimize_modal.description1':
-    'This quality gate will be optimized for {cayc_link}. Please review the changes below.',
-  'quality_gates.cayc.condition_simplification_list':
-    'List of conditions to ensure that any code added or changed is clean.',
-  'quality_gates.cayc.new_maintainability_rating.A': 'Technical debt ratio is less than {0}',
-  'quality_gates.cayc.new_maintainability_rating': 'Technical debt ratio is greater than {1}',
-  'quality_gates.cayc.new_reliability_rating.A': 'No bugs',
-  'quality_gates.cayc.new_security_rating.A': 'No vulnerabilities',
-  'quality_gates.cayc.unlock_edit': 'Unlock editing',
-  'quality_gates.cayc.tooltip.message': 'This quality gate is configured for Clean as You Code.',
-  'quality_gates.cayc.badge.tooltip.learn_more': 'Learn more: Clean as You Code',
-  'quality_gates.cayc.banner.title': 'This quality gate complies with Clean as You Code',
-  'quality_gates.cayc.banner.description':
-    'This quality gate is <link>configured for Clean as You Code</link>. It ensures that:',
-  'quality_gates.cayc_unfollow.description':
-    'You may click unlock to edit this quality gate. Adding extra conditions to a compliant quality gate can result in drawbacks. Are you reconsidering {cayc_link}? We strongly recommend this methodology to achieve a Clean Code status.',
-  'quality_gates.cayc.review_update_modal.add_condition.header':
-    ' {count} condition(s) on new code will be added',
-  'quality_gates.cayc.review_update_modal.modify_condition.header':
-    ' {count} condition(s) on new code will be modified',
+  'quality_gates.condition_simplification_list':
+    'List of conditions to ensure that any code added follow Sonar practices',
+
+  'quality_gates.banner.builtin.title':
+    'This quality gate reflects <link>Sonar recommended practices</link>',
+  'quality_gates.banner.builtin.ai.title':
+    "This quality gate reflects Sonar's recommended practices for AI-generated code",
+  'quality_gates.banner.recommendation_update.title': 'Consider updating conditions on new code',
+  'quality_gates.banner.recommendation_update.description':
+    'Updating conditions on new code would align this gate with <link>standards recommended by Sonar</link>',
+  'quality_gates.banner.info.multiple.title': 'This quality gate:',
+  'quality_gates.banner.info.multiple.aica': 'Is qualified for <link>AI Code Assurance</link>',
+  'quality_gates.banner.info.multiple.sonar':
+    'Has all of conditions <link>recommended by Sonar</link>',
+  'quality_gates.info.recommended.title':
+    'This quality gate has all of the conditions <link>recommended by Sonar</link>',
+  'quality_gates.info.aica.title':
+    'This quality gate is qualified for <link>AI Code Assurance</link>',
+
+  'quality_gates.recommendation.new_maintainability_rating.A':
+    'Technical debt ratio is less than {0}',
+  'quality_gates.recommendation.new_maintainability_rating':
+    'Technical debt ratio is greater than {1}',
+  'quality_gates.recommendation.new_reliability_rating.A': 'No bugs',
+  'quality_gates.recommendation.new_security_rating.A': 'No vulnerabilities',
+
+  'quality_gates.fix_modal.title': 'Update conditions on new code',
+  'quality_gates.fix_modal.description':
+    'Modify conditions on new code to align this quality gate with <link>standards recommended by Sonar</link>. All conditions on overall code will remain unchanged.',
+  'quality_gates.fix_modal.to_add.title.x_conditions':
+    '{count} {count, plural, one {condition} other {conditions}} on new code will be added',
+  'quality_gates.fix_modal.to_add.note':
+    '* Select the value that fits your needs. You can also change it later.',
+  'quality_gates.fix_modal.to_modify.title.x_conditions':
+    '{count} {count, plural, one {condition} other {conditions}} on new code will be modified',
+  'quality_gates.fix_modal.to_modify.accessible_item':
+    '{metric} is changing from "{op} {oldValue}" to "{op} {newValue}"',
+  'quality_gates.fix_modal.to_remove.title': 'Some conditions on new code can be removed',
+  'quality_gates.fix_modal.to_remove.description':
+    'The following conditions are not <link>recommended by Sonar</link>',
+  'quality_gates.fix_modal.to_remove.selection.description':
+    'All selected conditions will be removed. Deselect conditions you want to retain.',
+  'quality_gates.fix_modal.success': 'Conditions on new code were successfully updated',
+  'quality_gates.fix_modal.review_update': 'Review and update',
+
+  'quality_gates.recommended.tooltip.message': 'This  gate has all recommended conditions',
   'quality_gates.ai_generated.tooltip.message':
     'This quality gate is qualified for AI Code Assurance',
-  'quality_gates.ai_generated.description': 'This quality gate is qualified for {link}',
-  'quality_gates.ai_generated.description.clean_ai_generated_code': 'AI Code Assurance',
+  'quality_gates.recommended_and_ai.tooltip':
+    'This gate has all recommended conditions and is marked as qualified for AI-generated code',
+
   'quality_gates.mqr_mode_update.tooltip.message': 'Update the metrics of this quality gate',
   'quality_gates.mqr_mode_update.single_metric.tooltip.message': 'Update {metric} metric to {mode}',
   'quality_gates.update_conditions.update_metrics': 'Update metrics',
@@ -6084,7 +6090,6 @@ export const defaultMessages = {
   'overview.high_impact_accepted_issues': 'Blocker and High Severity Accepted Issues',
   'overview.measures.empty_explanation':
     'Measures on New Code will appear after the second analysis of this branch.',
-  'overview.measures.empty_link': '{learn_more_link} about the Clean as You Code approach.',
   'overview.measures.same_reference.explanation':
     'This branch is configured to use itself as a reference branch. It will never have New Code.',
   'overview.measures.bad_reference.explanation':
