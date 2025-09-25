@@ -33,7 +33,7 @@ import { BranchLike } from '../../types/branch-like';
 import { Feature } from '../../types/features';
 
 export function branchesQuery(
-  component: LightComponent | undefined,
+  component: Pick<LightComponent, 'key' | 'qualifier'> | undefined,
   branchSupportFeatureEnabled: boolean,
 ) {
   return queryOptions({
@@ -54,6 +54,7 @@ export function branchesQuery(
       return branchLikes;
     },
     enabled: isDefined(component),
+    staleTime: StaleTime.SHORT,
   });
 }
 
