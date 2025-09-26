@@ -18,6 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export function isOrganizationIdAvailable(_organizationId?: string) {
-  return true;
+export function shouldWaitForOrganizationId(_organizationId?: string) {
+  return false;
+}
+
+export function shouldWaitForOrganizationContext() {
+  return false;
 }
