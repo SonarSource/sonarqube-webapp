@@ -185,7 +185,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
             </div>
 
             <HighlightedSection className="sw-p-0 sw-my-2" id="ai-highlight">
-              <ul aria-label={translate('quality_gates.cayc.condition_simplification_list')}>
+              <ul>
                 {builtInOverallConditions.map((condition) => (
                   <AiCondition
                     condition={condition}

@@ -20,7 +20,6 @@
 
 import {
   Button,
-  ButtonVariety,
   LinkHighlight,
   MessageCallout,
   MessageVariety,
@@ -182,7 +181,7 @@ function GateRecommendationBanner({
           qualityGate={qualityGate}
           scope="new-cayc"
         >
-          <Button className="sw-mt-4" variety={ButtonVariety.Primary}>
+          <Button className="sw-mt-4">
             <FormattedMessage id="quality_gates.fix_modal.review_update" />
           </Button>
         </FixQualityGateModal>
