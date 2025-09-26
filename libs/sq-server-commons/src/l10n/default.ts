@@ -1996,6 +1996,22 @@ export const defaultMessages = {
   'architecture.page.model.docs':
     'Review the <link1>expected format</link1> or take a look at the <link2>documentation</link2> to learn more.',
   'architecture.page.model.visual.search.placeholder': 'Search...',
+  'architecture.page.model.modal.add_component': 'Add Component',
+  'architecture.page.model.modal.add_subcomponent': 'Add Sub-Component',
+  'architecture.page.model.modal.add_component.title': 'New Component',
+  'architecture.page.model.modal.add_component.description':
+    'Add a new component to your architecture model.',
+  'architecture.page.model.modal.add_subcomponent.title': 'New Sub-Component',
+  'architecture.page.model.modal.add_subcomponent.description':
+    'Add a new sub-component to {parentName}.',
+  'architecture.page.model.modal.for_existing_code': 'For existing code',
+  'architecture.page.model.modal.for_future_code': 'For future code',
+  'architecture.page.model.modal.choose_existing_component': 'Choose an existing component',
+  'architecture.page.model.modal.choose_existing_subcomponent': 'Choose an existing sub-component',
+  'architecture.page.model.modal.select_placeholder': 'Select a component...',
+  'architecture.page.model.modal.name_in_intended_architecture': 'Name in intended architecture',
+  'architecture.page.model.modal.component_name_placeholder': 'Custom component name...',
+  'architecture.page.model.modal.subcomponent_name_placeholder': 'Custom sub-component name...',
   'architecture.page.oversize': 'Oversized components',
   'architecture.page.oversize_list': 'Oversized components',
   'architecture.page.oversize_list.count':
