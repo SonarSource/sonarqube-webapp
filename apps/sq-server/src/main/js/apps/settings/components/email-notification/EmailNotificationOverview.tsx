@@ -89,7 +89,11 @@ export default function EmailNotificationOverview(props: Readonly<EmailTestModal
             value={emailConfiguration.subjectPrefix}
           />
         </div>
-        <Button onClick={onEditClicked} variety={ButtonVariety.DefaultGhost}>
+        <Button
+          className="sw-flex-shrink-0"
+          onClick={onEditClicked}
+          variety={ButtonVariety.Default}
+        >
           {translate('edit')}
         </Button>
       </div>
@@ -101,8 +105,8 @@ function PublicValue({ messageKey, value }: Readonly<{ messageKey: string; value
   return (
     <>
       <label className="sw-typo-semibold">{translate(messageKey)}</label>
-      <div data-testid={`${messageKey}.value`}>
-        <CodeSnippet className="sw-px-1 sw-truncate" isOneLine noCopy snippet={value} />
+      <div className="sw-truncate" data-testid={`${messageKey}.value`}>
+        <CodeSnippet className="sw-px-1" isOneLine noCopy snippet={value} />
       </div>
     </>
   );
