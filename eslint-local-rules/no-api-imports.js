@@ -48,7 +48,10 @@ module.exports = {
       ImportDeclaration: function (node) {
         const importPath = node.source.value;
 
-        if (importPath.startsWith('~api') || importPath.split('/').includes('api')) {
+        if (
+          !importPath.endsWith('api/telemetry') &&
+          (importPath.startsWith('~api') || importPath.split('/').includes('api'))
+        ) {
           fnNames.push(...node.specifiers.map((specifier) => specifier.local.name));
         }
       },
