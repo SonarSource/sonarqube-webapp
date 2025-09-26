@@ -33,9 +33,7 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
-import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
 import '~sq-server-commons/components/search-navigator.css';
-import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getQualityGateUrl } from '~sq-server-commons/helpers/urls';
 import { useQualityGatesQuery } from '~sq-server-commons/queries/quality-gates';
@@ -85,8 +83,6 @@ export default function App() {
         )}
       />
       <div className="sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12 sw-w-full">
-        <Suggestions suggestion={DocLink.CaYC} />
-
         <StyledContentWrapper
           className="sw-col-span-3 sw-px-4 sw-py-6 sw-border-y-0"
           style={{

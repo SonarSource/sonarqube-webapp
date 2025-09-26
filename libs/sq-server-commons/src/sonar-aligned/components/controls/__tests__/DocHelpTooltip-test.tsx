@@ -75,7 +75,7 @@ function renderDocHelpTooltip(props: Partial<DocHelpTooltipProps> = {}) {
           },
           {
             doc: true,
-            href: DocLink.CaYC,
+            href: DocLink.AccountTokens,
             inPlace: true,
             label: 'Label2',
           },

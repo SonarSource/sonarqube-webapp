@@ -43,7 +43,6 @@ import { ComponentQualifier } from '~shared/types/component';
 import { AiCodeAssuranceStatus } from '~sq-server-commons/api/ai-code-assurance';
 import DisableableSelectOption from '~sq-server-commons/components/common/DisableableSelectOption';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
-import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
 import AIAssuredIcon, {
   AiIconColor,
 } from '~sq-server-commons/components/icon-mappers/AIAssuredIcon';
@@ -216,7 +215,6 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
   return (
     <LargeCenteredLayout id="project-quality-gate">
       <div className="sw-my-8">
-        <Suggestions suggestion={DocLink.CaYC} />
         <Helmet defer={false} title={translate('project_quality_gate.page')} />
         <A11ySkipTarget anchor="qg_main" />
 

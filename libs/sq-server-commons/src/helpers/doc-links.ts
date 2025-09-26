@@ -119,7 +119,6 @@ export enum SonarSourceLink {
 
 export const DocTitle = {
   [DocLink.BackgroundTasks]: 'About Background Tasks',
-  [DocLink.CaYC]: 'Clean as You Code',
   [DocLink.CIAnalysisSetup]: 'Set up CI analysis',
   [DocLink.InstanceAdminQualityProfiles]: 'About Quality Profiles',
   [DocLink.MetricDefinitions]: 'Metric Definitions',
@@ -135,14 +134,9 @@ export type DocTitleKey = keyof typeof DocTitle;
 const asDocSections = <T>(element: { [K in keyof T]: DocTitleKey[] }) => element;
 
 export const DocSection = asDocSections({
-  component_measures: [DocLink.CaYC, DocLink.MetricDefinitions],
-  overview: [
-    DocLink.PullRequestAnalysis,
-    DocLink.CIAnalysisSetup,
-    DocLink.CaYC,
-    DocLink.SonarLintConnectedMode,
-  ],
-  pull_requests: [DocLink.CaYC, DocLink.PullRequestAnalysis, DocLink.SonarLintConnectedMode],
+  component_measures: [DocLink.MetricDefinitions],
+  overview: [DocLink.PullRequestAnalysis, DocLink.CIAnalysisSetup, DocLink.SonarLintConnectedMode],
+  pull_requests: [DocLink.PullRequestAnalysis, DocLink.SonarLintConnectedMode],
 });
 
 export type DocSectionKey = keyof typeof DocSection;
