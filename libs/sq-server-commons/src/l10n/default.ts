@@ -8584,7 +8584,7 @@ export const defaultMessages = {
   'license.features.enablement.enabled': 'Enabled',
   'license.features.enablement.try_now': 'Try now',
   'license.features.enablement': 'Enablement',
-  'license.features.feature_name': 'Feature name',
+  'license.features.feature_name': 'Name',
   'license.features.feature.sca': 'SonarQube Advanced Security',
   'license.features': 'Features',
   'license.how_to_fix_it': 'How to fix it',
