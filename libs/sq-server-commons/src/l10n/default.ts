@@ -2067,6 +2067,15 @@ export const defaultMessages = {
     'Select a child item on the graph to see its dependencies.',
   'architecture.discovery.spotlight.weight':
     '{weight, plural, one {1 underlying dependency} other {{weight} underlying dependencies}}',
+  'architecture.model.no_subcomponents': 'No subcomponents',
+  'architecture.model.add_subcomponent': 'Subcomponent',
+  'architecture.model.add_subcomponent_label': 'Add subcomponent',
+  'architecture.misplaced_components.table.misplaced_component': 'Bad component',
+  'architecture.misplaced_components.table.misplaced_artifacts': 'Misplaced code artifacts',
+  'architecture.misplaced_components.table.misplaced_artifacts.count':
+    '{count, plural, one {1 artifact} other {{count} artifacts}}',
+  'architecture.misplaced_components.table.artifact_count':
+    '{count, plural, one {1 artifact} other {{count} artifacts}}',
 
   //------------------------------------------------------------------------------
 
