@@ -65,7 +65,7 @@ it('renders correctly without branch support feature', async () => {
   // User is not admin
   expect(ui.generalSettingsLink.query()).not.toBeInTheDocument();
 
-  expect(ui.referenceBranchRadio.query()).not.toBeInTheDocument();
+  expect(ui.generalSettingRadio.get()).toBeInTheDocument();
 
   expect(ui.branchListHeading.query()).not.toBeInTheDocument();
 });
@@ -84,7 +84,7 @@ it('renders correctly with branch support feature', async () => {
   // User is admin
   expect(ui.generalSettingsLink.get()).toBeInTheDocument();
 
-  expect(ui.referenceBranchRadio.get()).toBeInTheDocument();
+  expect(ui.generalSettingRadio.get()).toBeInTheDocument();
 
   expect(ui.branchListHeading.get()).toBeInTheDocument();
 });
@@ -94,20 +94,20 @@ it('can set previous version specific setting', async () => {
   renderProjectNewCodeDefinitionApp();
   await ui.appIsLoaded();
 
-  expect(await ui.previousVersionRadio.find()).toHaveClass('disabled');
+  expect(ui.previousVersionRadio.query()).not.toBeInTheDocument();
   await ui.setPreviousVersionSetting();
   expect(ui.previousVersionRadio.get()).toBeChecked();
 
   // Save changes
   await user.click(ui.saveButton.get());
 
-  expect(ui.saveButton.get()).toBeDisabled();
+  expect(ui.saveButton.query()).not.toBeInTheDocument();
 
   // Set general setting
   await user.click(ui.generalSettingRadio.get());
-  expect(ui.previousVersionRadio.get()).toHaveClass('disabled');
+  expect(ui.previousVersionRadio.query()).not.toBeInTheDocument();
   await user.click(ui.saveButton.get());
-  expect(ui.saveButton.get()).toBeDisabled();
+  expect(ui.saveButton.query()).not.toBeInTheDocument();
 });
 
 it('can set number of days specific setting', async () => {
@@ -115,20 +115,20 @@ it('can set number of days specific setting', async () => {
   renderProjectNewCodeDefinitionApp();
   await ui.appIsLoaded();
 
-  expect(await ui.numberDaysRadio.find()).toHaveClass('disabled');
+  expect(ui.previousVersionRadio.query()).not.toBeInTheDocument();
   await ui.setNumberDaysSetting('10');
   expect(ui.numberDaysRadio.get()).toBeChecked();
 
   // Reset to initial state
   await user.click(ui.cancelButton.get());
   expect(ui.generalSettingRadio.get()).toBeChecked();
-  expect(ui.numberDaysRadio.get()).toHaveClass('disabled');
+  expect(ui.numberDaysRadio.query()).not.toBeInTheDocument();
 
   // Save changes
   await ui.setNumberDaysSetting('10');
   await user.click(ui.saveButton.get());
 
-  expect(ui.saveButton.get()).toBeDisabled();
+  expect(ui.saveButton.query()).not.toBeInTheDocument();
 });
 
 it('can set reference branch specific setting', async () => {
@@ -138,14 +138,15 @@ it('can set reference branch specific setting', async () => {
   });
   await ui.appIsLoaded();
 
-  expect(await ui.referenceBranchRadio.find()).toHaveClass('disabled');
+  expect(ui.referenceBranchRadio.query()).not.toBeInTheDocument();
   await ui.setReferenceBranchSetting('main');
   expect(ui.referenceBranchRadio.get()).toBeChecked();
 
   // Save changes
   await user.click(ui.saveButton.get());
 
-  expect(ui.saveButton.get()).toBeDisabled();
+  expect(await byText('project_baseline.update_success').find()).toBeInTheDocument();
+  expect(ui.saveButton.query()).not.toBeInTheDocument();
 });
 
 it('cannot set specific analysis setting', async () => {
@@ -169,10 +170,10 @@ it('cannot set specific analysis setting', async () => {
   expect(await ui.specificAnalysisRadio.find()).toBeChecked();
   expect(await ui.baselineSpecificAnalysisDate.find()).toBeInTheDocument();
 
-  expect(ui.specificAnalysisRadio.get()).toHaveClass('disabled');
+  expect(ui.specificAnalysisRadio.get()).toBeDisabled();
   expect(ui.specificAnalysisWarning.get()).toBeInTheDocument();
 
-  expect(ui.saveButton.get()).toBeDisabled();
+  expect(ui.saveButton.query()).not.toBeInTheDocument();
 });
 
 it('renders correctly branch modal', async () => {
@@ -239,7 +240,7 @@ it('cannot set a specific analysis setting for branch', async () => {
   await user.click(await byLabelText('branch_list.show_actions_for_x.main').find());
   await user.click(await byRole('menuitem', { name: 'edit' }).find());
   expect(ui.specificAnalysisRadio.get()).toBeChecked();
-  expect(ui.specificAnalysisRadio.get()).toHaveClass('disabled');
+  expect(ui.specificAnalysisRadio.get()).toBeDisabled();
   expect(ui.specificAnalysisWarning.get()).toBeInTheDocument();
 
   expect(last(ui.saveButton.getAll())).toBeDisabled();
@@ -381,18 +382,28 @@ function getPageObjects() {
     pageHeading: byRole('heading', { name: 'project_baseline.page' }),
     branchListHeading: byText('project_baseline.configure_branches'),
     branchTableHeading: byText('branch_list.branch'),
-    generalSettingsLink: byRole('link', { name: 'project_baseline.page.description2.link' }),
+    generalSettingsLink: byRole('link', { name: 'project_baseline.page.description3_link' }),
     generalSettingRadio: byRole('radio', { name: 'project_baseline.global_setting' }),
     specificSettingRadio: byRole('radio', { name: 'project_baseline.specific_setting' }),
     previousVersionRadio: byRole('radio', {
-      name: /new_code_definition.previous_version.description/,
+      name: /new_code_definition.specific_setting.previous_version.label/,
     }),
-    numberDaysRadio: byRole('radio', { name: /new_code_definition.number_days.description/ }),
+    numberDaysRadio: byRole('radio', {
+      name: /new_code_definition.specific_setting.number_of_days.label/,
+    }),
     numberDaysInput: byRole('spinbutton'),
-    referenceBranchRadio: byRole('radio', { name: /baseline.reference_branch.description/ }),
-    chooseBranchSelect: byRole('combobox', { name: 'baseline.reference_branch.choose' }),
-    specificAnalysisRadio: byRole('radio', { name: /baseline.specific_analysis.description/ }),
-    specificAnalysisWarning: byText('baseline.specific_analysis.compliance_warning.title'),
+    referenceBranchRadio: byRole('radio', {
+      name: /new_code_definition.specific_setting.reference_branch.label/,
+    }),
+    chooseBranchSelect: byRole('combobox', {
+      name: 'new_code_definition.specific_setting.reference_branch.input.label',
+    }),
+    specificAnalysisRadio: byRole('radio', {
+      name: /new_code_definition.specific_setting.specific_analysis.label/,
+    }),
+    specificAnalysisWarning: byText(
+      'new_code_definition.specific_setting.specific_analysis.warning.label',
+    ),
     saveButton: byRole('button', { name: 'save' }),
     cancelButton: byRole('button', { name: 'cancel' }),
     branchActionsButton: (name: string) =>
@@ -409,7 +420,7 @@ function getPageObjects() {
   }
 
   async function setPreviousVersionSetting() {
-    await user.click(ui.specificSettingRadio.get());
+    await user.click(await ui.specificSettingRadio.find());
     await user.click(ui.previousVersionRadio.get());
   }
 
@@ -420,7 +431,7 @@ function getPageObjects() {
   }
 
   async function setNumberDaysSetting(value: string) {
-    await user.click(ui.specificSettingRadio.get());
+    await user.click(await ui.specificSettingRadio.find());
     await user.click(ui.numberDaysRadio.get());
     await user.clear(ui.numberDaysInput.get());
     await user.type(ui.numberDaysInput.get(), value);
@@ -435,7 +446,7 @@ function getPageObjects() {
   }
 
   async function setReferenceBranchSetting(branch: string) {
-    await user.click(ui.specificSettingRadio.get());
+    await user.click(await ui.specificSettingRadio.find());
     await user.click(ui.referenceBranchRadio.get());
 
     await user.click(ui.chooseBranchSelect.get());

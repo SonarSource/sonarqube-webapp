@@ -18,8 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import TopLevelNewCodeDefinitionPage from '~shared/components/new-code/TopLevelNewCodeDefinitionPage';
-
-export default function NewCodeDefinition() {
-  return <TopLevelNewCodeDefinitionPage />;
+export enum NewCodeDefinitionType {
+  NumberOfDays = 'number_of_days',
+  PreviousVersion = 'previous_version',
+  SpecificDate = 'specific_date',
+  SpecificVersion = 'specific_version',
 }
+
+export interface NewCodeDefinition {
+  isValid?: boolean;
+  previousNonCompliantValue?: string;
+  type: NewCodeDefinitionType;
+  updatedAt?: number;
+  value: string;
+}
+
+export interface VersionOption {
+  label: string;
+  value: string;
+}
+
+export const isValueDate = (value: string): boolean => {
+  return Date.parse(value) > 0;
+};

@@ -18,13 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
-import { cssVar, Text } from '@sonarsource/echoes-react';
+import { SelectionCards, Text, TextSize } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import * as React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { getNewCodeDefinition } from '../../api/newCodeDefinition';
-import { FlagMessage, RadioButton, SelectionCard } from '../../design-system';
-import { translate } from '../../helpers/l10n';
 import {
   getNumberOfDaysDefaultValue,
   isNewCodeDefinitionCompliant,
@@ -34,21 +32,19 @@ import {
   NewCodeDefinitiondWithCompliance,
   NewCodeDefinitionType,
 } from '../../types/new-code-definition';
-import GlobalNewCodeDefinitionDescription from './GlobalNewCodeDefinitionDescription';
-import NewCodeDefinitionDaysOption from './NewCodeDefinitionDaysOption';
-import NewCodeDefinitionPreviousVersionOption from './NewCodeDefinitionPreviousVersionOption';
+import NewCodeDefinitionSpecificGroup from './NewCodeDefinitionSpecificGroup';
 import { NewCodeDefinitionLevels } from './utils';
 
 interface Props {
-  isMultipleProjects?: boolean;
   onNcdChanged: (ncd: NewCodeDefinitiondWithCompliance) => void;
 }
 
 export default function NewCodeDefinitionSelector(props: Props) {
-  const { onNcdChanged, isMultipleProjects } = props;
+  const intl = useIntl();
+  const { onNcdChanged } = props;
 
-  const [globalNcd, setGlobalNcd] = React.useState<NewCodeDefinition | null>(null);
-  const [selectedNcdType, setSelectedNcdType] = React.useState<NewCodeDefinitionType | null>(null);
+  const [globalNcd, setGlobalNcd] = React.useState<NewCodeDefinition>();
+  const [selectedNcdType, setSelectedNcdType] = React.useState<NewCodeDefinitionType>();
   const [days, setDays] = React.useState<string>('');
 
   React.useEffect(() => {
@@ -92,101 +88,82 @@ export default function NewCodeDefinitionSelector(props: Props) {
     }
   }, [selectedNcdType, days, isCompliant, onNcdChanged]);
 
+  const getNcdSelectionValue = () => {
+    if (selectedNcdType) {
+      return selectedNcdType !== NewCodeDefinitionType.Inherited ? 'specific' : 'general';
+    }
+
+    return '';
+  };
+
   return (
     <div>
-      <Text as="p" className="sw-mt-5">
-        <strong>
-          {isMultipleProjects
-            ? translate('new_code_definition.question.multiple_projects')
-            : translate('new_code_definition.question')}
-        </strong>
-      </Text>
-      <div className="sw-mt-7 sw-ml-1" role="radiogroup">
-        <RadioButton
-          aria-label={translate('new_code_definition.global_setting')}
-          checked={selectedNcdType === NewCodeDefinitionType.Inherited}
-          onCheck={() => {
-            handleNcdChanged(NewCodeDefinitionType.Inherited);
-          }}
-          value="general"
-        >
-          <Text isHighlighted>{translate('new_code_definition.global_setting')}</Text>
-        </RadioButton>
+      <SelectionCards
+        ariaLabelledBy="selection-cards-label"
+        onChange={(value: 'general' | 'specific') => {
+          handleNcdChanged(
+            value === 'specific'
+              ? NewCodeDefinitionType.NumberOfDays
+              : NewCodeDefinitionType.Inherited,
+          );
+        }}
+        options={[
+          {
+            value: 'general',
+            label: intl.formatMessage({ id: 'project_baseline.global_setting' }),
+            helpText: (
+              <FormattedMessage
+                id="project_baseline.global_setting.description"
+                values={{
+                  default: (
+                    <FormattedMessage
+                      id={
+                        globalNcd?.type === NewCodeDefinitionType.NumberOfDays
+                          ? 'new_code_definition.number_days'
+                          : 'new_code_definition.previous_version'
+                      }
+                    />
+                  ),
+                }}
+              />
+            ),
+          },
+          {
+            value: 'specific',
+            label: intl.formatMessage({ id: 'project_baseline.specific_setting' }),
+            helpText: (
+              <span id="specific-definition-label">
+                <FormattedMessage
+                  id="project_baseline.specific_setting.description"
+                  values={{
+                    b: (text) => (
+                      <Text isHighlighted size={TextSize.Small}>
+                        {text}
+                      </Text>
+                    ),
+                  }}
+                />
+              </span>
+            ),
+          },
+        ]}
+        value={getNcdSelectionValue()}
+      />
 
-        <StyledGlobalSettingWrapper
-          className="sw-mt-4 sw-ml-6"
-          selected={selectedNcdType === NewCodeDefinitionType.Inherited}
-        >
-          {globalNcd && <GlobalNewCodeDefinitionDescription globalNcd={globalNcd} />}
-        </StyledGlobalSettingWrapper>
-
-        <RadioButton
-          aria-label={
-            isMultipleProjects
-              ? translate('new_code_definition.specific_setting.multiple_projects')
-              : translate('new_code_definition.specific_setting')
-          }
-          checked={Boolean(selectedNcdType && selectedNcdType !== NewCodeDefinitionType.Inherited)}
-          className="sw-mt-12 sw-font-semibold"
-          onCheck={() => {
-            handleNcdChanged(NewCodeDefinitionType.PreviousVersion);
-          }}
-          value="specific"
-        >
-          {isMultipleProjects
-            ? translate('new_code_definition.specific_setting.multiple_projects')
-            : translate('new_code_definition.specific_setting')}
-        </RadioButton>
-      </div>
-
-      <div className="sw-flex sw-flex-col sw-my-4 sw-mr-4 sw-gap-4" role="radiogroup">
-        <NewCodeDefinitionPreviousVersionOption
-          disabled={Boolean(
-            !selectedNcdType || selectedNcdType === NewCodeDefinitionType.Inherited,
-          )}
-          onSelect={handleNcdChanged}
-          selected={selectedNcdType === NewCodeDefinitionType.PreviousVersion}
-        />
-
-        <NewCodeDefinitionDaysOption
-          days={days}
-          disabled={Boolean(
-            !selectedNcdType || selectedNcdType === NewCodeDefinitionType.Inherited,
-          )}
+      {selectedNcdType && selectedNcdType !== NewCodeDefinitionType.Inherited && (
+        <NewCodeDefinitionSpecificGroup
+          ariaLabelledBy="specific-definition-label"
+          branchesEnabled
+          className="sw-mt-6"
           isValid={isCompliant}
-          onChangeDays={setDays}
-          onSelect={handleNcdChanged}
-          selected={selectedNcdType === NewCodeDefinitionType.NumberOfDays}
-          settingLevel={NewCodeDefinitionLevels.NewProject}
+          numberOfDaysInput={days}
+          onNumberOfDaysChange={setDays}
+          onReferenceBranchChange={noop}
+          onTypeChange={handleNcdChanged}
+          settingsLevel={NewCodeDefinitionLevels.NewProject}
+          typeValue={selectedNcdType}
         />
-
-        <SelectionCard
-          disabled={Boolean(
-            !selectedNcdType || selectedNcdType === NewCodeDefinitionType.Inherited,
-          )}
-          onClick={() => {
-            handleNcdChanged(NewCodeDefinitionType.ReferenceBranch);
-          }}
-          selected={selectedNcdType === NewCodeDefinitionType.ReferenceBranch}
-          title={translate('new_code_definition.reference_branch')}
-        >
-          <div>
-            <p className="sw-mb-2">
-              {translate('new_code_definition.reference_branch.description')}
-            </p>
-            <p>{translate('new_code_definition.reference_branch.usecase')}</p>
-            {selectedNcdType === NewCodeDefinitionType.ReferenceBranch && (
-              <FlagMessage className="sw-mt-4" variant="info">
-                {translate('new_code_definition.reference_branch.notice')}
-              </FlagMessage>
-            )}
-          </div>
-        </SelectionCard>
-      </div>
+      )}
     </div>
   );
 }
-
-const StyledGlobalSettingWrapper = styled.div<{ selected: boolean }>`
-  color: ${({ selected }) => (selected ? 'inherit' : cssVar('color-text-subtle'))};
-`;

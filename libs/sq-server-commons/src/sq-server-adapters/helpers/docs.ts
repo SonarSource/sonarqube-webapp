@@ -32,6 +32,7 @@ export enum SharedDocLink {
   SCATroubleshooting = '/advanced-security/troubleshooting/',
   ArchitectureModel = '/design-and-architecture/configuring-the-architecture-analysis/',
   ArchitectureModelDeclaration = '/design-and-architecture/configuring-the-architecture-analysis/#declaration',
+  NewCodeDefinition = '/user-guide/about-new-code#new-code-definitions',
 }
 
 /**

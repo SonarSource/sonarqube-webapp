@@ -71,7 +71,7 @@ const ui = {
     name: 'onboarding.create_project.new_code_definition.title',
   }),
   newCodeDefinitionHeader: byText('onboarding.create_x_project.new_code_definition.title.1'),
-  inheritGlobalNcdRadio: byRole('radio', { name: 'new_code_definition.global_setting' }),
+  inheritGlobalNcdRadio: byRole('radio', { name: 'project_baseline.global_setting' }),
   projectCreateButton: byRole('button', {
     name: 'onboarding.create_project.new_code_definition.create_x_projects.1',
   }),
@@ -79,20 +79,19 @@ const ui = {
   closeButton: byRole('button', { name: 'clear' }),
   createProjectsButton: byRole('button', { name: 'projects.add' }),
   createLocalProject: byRole('menuitem', { name: 'my_account.add_project.manual' }),
-  overrideNcdRadio: byRole('radio', { name: 'new_code_definition.specific_setting' }),
+  overrideNcdRadio: byRole('radio', { name: 'project_baseline.specific_setting' }),
   ncdOptionPreviousVersionRadio: byRole('radio', {
-    name: /new_code_definition.previous_version/,
+    name: /new_code_definition.specific_setting.previous_version.label/,
   }),
   ncdOptionRefBranchRadio: byRole('radio', {
-    name: /new_code_definition.reference_branch/,
+    name: /new_code_definition.specific_setting.reference_branch.label/,
   }),
   ncdOptionDaysRadio: byRole('radio', {
-    name: /new_code_definition.number_days/,
+    name: /new_code_definition.specific_setting.number_of_days.label/,
   }),
   ncdOptionDaysInput: byRole('spinbutton', {
-    name: /new_code_definition.number_days.specify_days/,
+    name: /new_code_definition.specific_setting.number_of_days.input.label/,
   }),
-  ncdOptionDaysInputError: byText('new_code_definition.number_days.invalid.1.90'),
   projectDashboardText: byText('/dashboard?id=foo'),
   projectsPageTitle: byRole('heading', { name: 'projects.page' }),
 };
@@ -175,11 +174,11 @@ it('number of days ignores non-numeric inputs', async () => {
   await fillFormAndNext('test', user);
 
   expect(ui.projectCreateButton.get()).toBeDisabled();
-  expect(ui.overrideNcdRadio.get()).not.toHaveClass('disabled');
-  expect(ui.ncdOptionDaysRadio.get()).toHaveClass('disabled');
+  expect(ui.overrideNcdRadio.get()).toBeEnabled();
+  expect(ui.ncdOptionDaysRadio.query()).not.toBeInTheDocument();
 
   await user.click(ui.overrideNcdRadio.get());
-  expect(ui.ncdOptionDaysRadio.get()).not.toHaveClass('disabled');
+  expect(ui.ncdOptionDaysRadio.get()).toBeEnabled();
 
   await user.click(ui.ncdOptionDaysRadio.get());
 
@@ -251,6 +250,6 @@ function renderCreateProject() {
     currentUser: mockCurrentUser({
       permissions: { global: [Permissions.ProjectCreation] },
     }),
-    appState: mockAppState({ canAdmin: true }),
+    appState: mockAppState({ canAdmin: true, documentationUrl: 'docs.sonarsource.com' }),
   });
 }

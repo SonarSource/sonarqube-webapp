@@ -64,7 +64,7 @@ const ui = {
   createProjectsButton: byRole('button', {
     name: 'onboarding.create_project.new_code_definition.create_x_projects.2',
   }),
-  globalSettingRadio: byRole('radio', { name: 'new_code_definition.global_setting' }),
+  globalSettingRadio: byRole('radio', { name: 'project_baseline.global_setting' }),
   createErrorMessage: byText('onboarding.create_project.github.warning.message'),
 };
 let consoleWarnSpy: jest.SpyInstance;

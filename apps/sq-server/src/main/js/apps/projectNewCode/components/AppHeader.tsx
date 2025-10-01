@@ -18,11 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Link, LinkHighlight } from '@sonarsource/echoes-react';
+import { Heading, Link, LinkHighlight, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
-import { translate } from '~sq-server-commons/helpers/l10n';
 
 export interface AppHeaderProps {
   canAdmin: boolean;
@@ -34,40 +33,50 @@ export default function AppHeader(props: AppHeaderProps) {
 
   return (
     <header className="sw-mt-8 sw-mb-4">
-      <Heading as="h1" className="sw-mb-4">
-        {translate('project_baseline.page')}
+      <Heading as="h1" className="sw-mb-6">
+        <FormattedMessage id="project_baseline.page" />
       </Heading>
-      <p className="sw-mb-2">{translate('project_baseline.page.description')}</p>
-      <p className="sw-mb-2">{translate('settings.new_code_period.description1')}</p>
-      <p className="sw-mb-2">
+      <Text as="p">
+        <FormattedMessage id="project_baseline.page.description" />
+      </Text>
+      <Text as="p" className="sw-mt-4">
+        <FormattedMessage
+          id="project_baseline.page.description2"
+          values={{
+            link: (text) => (
+              <Link
+                highlight={LinkHighlight.CurrentColor}
+                to="/admin/settings?category=new_code_period"
+              >
+                {text}
+              </Link>
+            ),
+          }}
+        />
         {canAdmin && (
           <FormattedMessage
-            id="project_baseline.page.description2"
+            id="project_baseline.page.description3"
             values={{
-              link: (
+              link: (text) => (
                 <Link
                   highlight={LinkHighlight.CurrentColor}
                   to="/admin/settings?category=new_code_period"
                 >
-                  {translate('project_baseline.page.description2.link')}
+                  {text}
                 </Link>
               ),
             }}
           />
         )}
-      </p>
-      <p className="sw-mb-2">
-        <FormattedMessage
-          id="settings.new_code_period.description3"
-          values={{
-            link: (
-              <Link highlight={LinkHighlight.CurrentColor} to={toUrl}>
-                {translate('settings.new_code_period.description3.link')}
-              </Link>
-            ),
-          }}
-        />
-      </p>
+      </Text>
+      <Link
+        className="sw-block"
+        enableOpenInNewTab
+        highlight={LinkHighlight.CurrentColor}
+        to={toUrl}
+      >
+        <FormattedMessage id="learn_more_in_doc" />
+      </Link>
     </header>
   );
 }

@@ -20,7 +20,10 @@
 
 // React-query component for new code definition
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from '@sonarsource/echoes-react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useIntl } from 'react-intl';
+import { createQueryHook } from '~shared/queries/common';
 import {
   getNewCodeDefinition,
   resetNewCodeDefinition,
@@ -32,24 +35,23 @@ function getNewCodeDefinitionQueryKey(projectKey?: string, branchName?: string) 
   return ['new-code-definition', { projectKey, branchName }];
 }
 
-export function useNewCodeDefinitionQuery(params?: {
-  branchName?: string;
-  enabled?: boolean;
-  projectKey?: string;
-}) {
-  return useQuery({
-    queryKey: getNewCodeDefinitionQueryKey(params?.projectKey, params?.branchName),
-    queryFn: () =>
-      getNewCodeDefinition({
-        branch: params?.branchName,
-        project: params?.projectKey,
-      }),
-    enabled: params?.enabled ?? true,
-    refetchOnWindowFocus: false,
-  });
-}
+export const useNewCodeDefinitionQuery = createQueryHook(
+  (params?: { branchName?: string; enabled?: boolean; projectKey?: string }) => {
+    return {
+      queryKey: getNewCodeDefinitionQueryKey(params?.projectKey, params?.branchName),
+      queryFn: () =>
+        getNewCodeDefinition({
+          branch: params?.branchName,
+          project: params?.projectKey,
+        }),
+      enabled: params?.enabled ?? true,
+      refetchOnWindowFocus: false,
+    };
+  },
+);
 
 export function useNewCodeDefinitionMutation() {
+  const intl = useIntl();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -71,6 +73,9 @@ export function useNewCodeDefinitionMutation() {
       return setNewCodeDefinition({ branch, project, type, value });
     },
     onSuccess(_, { branch, project }) {
+      toast.success({
+        description: intl.formatMessage({ id: 'project_baseline.update_success' }),
+      });
       queryClient.invalidateQueries({
         queryKey: getNewCodeDefinitionQueryKey(project, branch),
       });

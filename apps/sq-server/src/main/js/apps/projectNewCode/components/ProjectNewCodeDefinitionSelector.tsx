@@ -22,22 +22,21 @@ import {
   Button,
   ButtonGroup,
   ButtonVariety,
-  Label,
-  RadioButtonGroup,
+  Heading,
+  HeadingSize,
+  MessageInline,
+  MessageVariety,
+  SelectionCards,
+  Text,
+  TextSize,
 } from '@sonarsource/echoes-react';
-import { noop } from 'lodash';
 import * as React from 'react';
-import GlobalNewCodeDefinitionDescription from '~sq-server-commons/components/new-code-definition/GlobalNewCodeDefinitionDescription';
-import NewCodeDefinitionDaysOption from '~sq-server-commons/components/new-code-definition/NewCodeDefinitionDaysOption';
-import NewCodeDefinitionPreviousVersionOption from '~sq-server-commons/components/new-code-definition/NewCodeDefinitionPreviousVersionOption';
-import NewCodeDefinitionSettingAnalysis from '~sq-server-commons/components/new-code-definition/NewCodeDefinitionSettingAnalysis';
-import NewCodeDefinitionSettingReferenceBranch from '~sq-server-commons/components/new-code-definition/NewCodeDefinitionSettingReferenceBranch';
+import { FormattedMessage, useIntl } from 'react-intl';
+import NewCodeDefinitionSpecificGroup from '~sq-server-commons/components/new-code-definition/NewCodeDefinitionSpecificGroup';
 import {
   NewCodeDefinitionLevels,
   validateSetting,
 } from '~sq-server-commons/components/new-code-definition/utils';
-import { FlagMessage } from '~sq-server-commons/design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { Branch } from '~sq-server-commons/types/branch-like';
 import {
   NewCodeDefinition,
@@ -53,8 +52,6 @@ export interface ProjectBaselineSelectorProps {
   days: string;
   globalNewCodeDefinition: NewCodeDefinition;
   isChanged: boolean;
-  newCodeDefinitionType?: NewCodeDefinitionType;
-  newCodeDefinitionValue?: string;
   onCancel: () => void;
   onSelectDays: (value: string) => void;
   onSelectReferenceBranch: (value: string) => void;
@@ -69,13 +66,10 @@ export interface ProjectBaselineSelectorProps {
   selectedNewCodeDefinitionType?: NewCodeDefinitionType;
 }
 
-function branchToOption(b: Branch) {
-  return { label: b.name, value: b.name, isMain: b.isMain };
-}
-
 export default function ProjectNewCodeDefinitionSelector(
   props: Readonly<ProjectBaselineSelectorProps>,
 ) {
+  const intl = useIntl();
   const {
     analysis,
     branch,
@@ -85,8 +79,6 @@ export default function ProjectNewCodeDefinitionSelector(
     days,
     globalNewCodeDefinition,
     isChanged,
-    newCodeDefinitionType,
-    newCodeDefinitionValue,
     overrideGlobalNewCodeDefinition,
     previousNonCompliantValue,
     projectNcdUpdatedAt,
@@ -107,116 +99,108 @@ export default function ProjectNewCodeDefinitionSelector(
   }
 
   return (
-    <form className="it__project-baseline-selector " onSubmit={props.onSubmit}>
-      <fieldset>
-        <legend className="sw-mb-4">
-          <Label>{translate('project_baseline.page.question')}</Label>
-        </legend>
-        <RadioButtonGroup
-          id="new-code-baseline-radiogroup"
+    <>
+      <Heading
+        as="h2"
+        className="sw-mb-2 sw-mt-4"
+        id="selection-cards-label"
+        size={HeadingSize.Medium}
+      >
+        <FormattedMessage id="project_baseline.page.selection.label" />
+      </Heading>
+      <form className="it__project-baseline-selector" onSubmit={props.onSubmit}>
+        <SelectionCards
+          ariaLabelledBy="selection-cards-label"
           onChange={(value: 'general' | 'specific') => {
             props.onToggleSpecificSetting(value === 'specific');
           }}
           options={[
             {
               value: 'general',
-              label: translate('project_baseline.global_setting'),
+              label: intl.formatMessage({ id: 'project_baseline.global_setting' }),
               helpText: (
-                <GlobalNewCodeDefinitionDescription
-                  className="sw-mt-2 sw-mb-6"
-                  globalNcd={globalNewCodeDefinition}
+                <FormattedMessage
+                  id="project_baseline.global_setting.description"
+                  values={{
+                    default: (
+                      <FormattedMessage
+                        id={
+                          globalNewCodeDefinition.type === NewCodeDefinitionType.NumberOfDays
+                            ? 'new_code_definition.number_days'
+                            : 'new_code_definition.previous_version'
+                        }
+                      />
+                    ),
+                  }}
                 />
               ),
             },
-            { value: 'specific', label: translate('project_baseline.specific_setting') },
+            {
+              value: 'specific',
+              label: intl.formatMessage({ id: 'project_baseline.specific_setting' }),
+              helpText: (
+                <span id="specific-definition-label">
+                  <FormattedMessage
+                    id="project_baseline.specific_setting.description"
+                    values={{
+                      b: (text) => (
+                        <Text isHighlighted size={TextSize.Small}>
+                          {text}
+                        </Text>
+                      ),
+                    }}
+                  />
+                </span>
+              ),
+            },
           ]}
           value={overrideGlobalNewCodeDefinition ? 'specific' : 'general'}
         />
 
-        <div className="sw-flex sw-flex-col sw-gap-4" role="radiogroup">
-          <NewCodeDefinitionPreviousVersionOption
-            disabled={!overrideGlobalNewCodeDefinition}
-            onSelect={props.onSelectSetting}
-            selected={
-              overrideGlobalNewCodeDefinition &&
-              selectedNewCodeDefinitionType === NewCodeDefinitionType.PreviousVersion
-            }
-          />
-
-          <NewCodeDefinitionDaysOption
-            currentDaysValue={
-              newCodeDefinitionType === NewCodeDefinitionType.NumberOfDays
-                ? newCodeDefinitionValue
-                : undefined
-            }
-            days={days}
-            disabled={!overrideGlobalNewCodeDefinition}
+        {overrideGlobalNewCodeDefinition && (
+          <NewCodeDefinitionSpecificGroup
+            analysis={analysis}
+            ariaLabelledBy="specific-definition-label"
+            branch={branch.name}
+            branchList={branchList}
+            branchesEnabled={branchesEnabled}
+            className="sw-mt-6"
             isValid={isValid}
-            onChangeDays={props.onSelectDays}
-            onSelect={props.onSelectSetting}
+            numberOfDaysInput={days}
+            onNumberOfDaysChange={props.onSelectDays}
+            onReferenceBranchChange={props.onSelectReferenceBranch}
+            onTypeChange={props.onSelectSetting}
             previousNonCompliantValue={previousNonCompliantValue}
-            selected={
-              overrideGlobalNewCodeDefinition &&
-              selectedNewCodeDefinitionType === NewCodeDefinitionType.NumberOfDays
-            }
-            settingLevel={NewCodeDefinitionLevels.Project}
+            projectKey={component}
+            referenceBranchInput={referenceBranch}
+            settingsLevel={NewCodeDefinitionLevels.Project}
+            typeValue={selectedNewCodeDefinitionType}
             updatedAt={projectNcdUpdatedAt}
           />
+        )}
 
-          {branchesEnabled && (
-            <NewCodeDefinitionSettingReferenceBranch
-              branchList={branchList.map(branchToOption)}
-              disabled={!overrideGlobalNewCodeDefinition}
-              onChangeReferenceBranch={props.onSelectReferenceBranch}
-              onSelect={props.onSelectSetting}
-              referenceBranch={referenceBranch ?? ''}
-              selected={
-                overrideGlobalNewCodeDefinition &&
-                selectedNewCodeDefinitionType === NewCodeDefinitionType.ReferenceBranch
-              }
-              settingLevel={NewCodeDefinitionLevels.Project}
-            />
-          )}
+        {isChanged && (
+          <>
+            <ButtonGroup className="sw-flex sw-mt-6">
+              <Button
+                isDisabled={!isValid || saving}
+                isLoading={saving}
+                type="submit"
+                variety={ButtonVariety.Primary}
+              >
+                <FormattedMessage id="save" />
+              </Button>
 
-          {!branchesEnabled && newCodeDefinitionType === NewCodeDefinitionType.SpecificAnalysis && (
-            <NewCodeDefinitionSettingAnalysis
-              analysis={analysis ?? ''}
-              branch={branch.name}
-              component={component}
-              onSelect={noop}
-              selected={
-                overrideGlobalNewCodeDefinition &&
-                selectedNewCodeDefinitionType === NewCodeDefinitionType.SpecificAnalysis
-              }
-            />
-          )}
-        </div>
-      </fieldset>
-
-      <div className="sw-mt-4">
-        <output>
-          {isChanged && (
-            <FlagMessage className="sw-mb-4" variant="info">
-              {translate('baseline.next_analysis_notice')}
-            </FlagMessage>
-          )}
-        </output>
-
-        <ButtonGroup className="sw-flex">
-          <Button
-            isDisabled={!isValid || !isChanged || saving}
-            isLoading={saving}
-            type="submit"
-            variety={ButtonVariety.Primary}
-          >
-            {translate('save')}
-          </Button>
-
-          <Button isDisabled={saving || !isChanged} onClick={props.onCancel}>
-            {translate('cancel')}
-          </Button>
-        </ButtonGroup>
-      </div>
-    </form>
+              <Button isDisabled={saving} onClick={props.onCancel}>
+                <FormattedMessage id="cancel" />
+              </Button>
+            </ButtonGroup>
+            <MessageInline className="sw-mt-2" variety={MessageVariety.Info}>
+              <FormattedMessage id="baseline.next_analysis_notice" />
+            </MessageInline>
+          </>
+        )}
+      </form>
+    </>
   );
 }

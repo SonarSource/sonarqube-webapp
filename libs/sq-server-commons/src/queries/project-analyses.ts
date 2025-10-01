@@ -21,16 +21,16 @@
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
-import { createQueryHook } from '~shared/queries/common';
+import { createQueryHook, StaleTime } from '~shared/queries/common';
 import { BranchParameters } from '~shared/types/branch-like';
 import {
-  CreateEventResponse,
-  ProjectActivityStatuses,
   changeEvent,
   createEvent,
+  CreateEventResponse,
   deleteAnalysis,
   deleteEvent,
   getAllTimeProjectActivity,
+  ProjectActivityStatuses,
 } from '../api/projectActivity';
 import {
   useComponent,
@@ -42,9 +42,10 @@ import { ParsedAnalysis } from '../types/project-activity';
 
 const ACTIVITY_PAGE_SIZE = 500;
 
-function useProjectActivityQueryKey() {
+export function useProjectActivityQueryKey() {
   const { component } = useComponent();
   const componentKey = useTopLevelComponentKey();
+
   const { data: branchLike } = useCurrentBranchQuery(component);
   const branchParams = getBranchLikeQuery(branchLike);
 
@@ -56,29 +57,35 @@ function useProjectActivityQueryKey() {
   ];
 }
 
-export const useAllProjectAnalysesQuery = createQueryHook(() => {
-  const queryKey = useProjectActivityQueryKey();
-
-  return queryOptions({
-    queryKey,
-    queryFn: ({ queryKey: [_0, _1, project, branchParams] }) =>
-      getAllTimeProjectActivity({
-        ...branchParams,
-        project,
-        statuses: serializeStringArray([
-          ProjectActivityStatuses.STATUS_PROCESSED,
-          ProjectActivityStatuses.STATUS_LIVE_MEASURE_COMPUTE,
-        ]),
-        p: 1,
-        ps: ACTIVITY_PAGE_SIZE,
-      }).then(({ analyses }) =>
-        analyses.map((analysis) => ({
-          ...analysis,
-          date: parseDate(analysis.date),
-        })),
-      ),
-  });
-});
+export const useAllProjectAnalysesQuery = createQueryHook(
+  ({ componentKey, branchParams }: { branchParams: BranchParameters; componentKey?: string }) => {
+    return queryOptions({
+      queryKey: ['activity', 'list', componentKey, branchParams] as [
+        string,
+        string,
+        string | undefined,
+        BranchParameters,
+      ],
+      staleTime: StaleTime.LIVE,
+      queryFn: ({ queryKey: [_0, _1, project, branchParams] }) =>
+        getAllTimeProjectActivity({
+          ...branchParams,
+          project,
+          statuses: serializeStringArray([
+            ProjectActivityStatuses.STATUS_PROCESSED,
+            ProjectActivityStatuses.STATUS_LIVE_MEASURE_COMPUTE,
+          ]),
+          p: 1,
+          ps: ACTIVITY_PAGE_SIZE,
+        }).then(({ analyses }) =>
+          analyses.map((analysis) => ({
+            ...analysis,
+            date: parseDate(analysis.date),
+          })),
+        ),
+    });
+  },
+);
 
 export function useDeleteAnalysisMutation(successCb?: () => void) {
   const queryClient = useQueryClient();

@@ -175,7 +175,7 @@ it('should show import project feature when PAT is already set', async () => {
     }),
   ).toBeInTheDocument();
 
-  await user.click(screen.getByRole('radio', { name: 'new_code_definition.global_setting' }));
+  await user.click(screen.getByRole('radio', { name: 'project_baseline.global_setting' }));
   await user.click(
     screen.getByRole('button', {
       name: 'onboarding.create_project.new_code_definition.create_x_projects.1',

@@ -51,7 +51,7 @@ const ui = {
   }),
   gitLabOnboardingTitle: byRole('heading', { name: 'onboarding.create_project.gitlab.title' }),
   gitlabCreateProjectButton: byText('onboarding.create_project.select_method.gitlab'),
-  globalSettingRadio: byRole('radio', { name: 'new_code_definition.global_setting' }),
+  globalSettingRadio: byRole('radio', { name: 'project_baseline.global_setting' }),
   importButton: byRole('button', { name: 'onboarding.create_project.import' }),
   importProjectsTitle: byText('onboarding.create_project.gitlab.title'),
   instanceSelector: byRole('combobox', { name: /alm.configuration.selector.label/ }),

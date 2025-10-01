@@ -26,8 +26,10 @@ import {
   Form,
   IconX,
   Link,
+  LinkHighlight,
   MessageCallout,
   MessageVariety,
+  Text,
   toast,
 } from '@sonarsource/echoes-react';
 import { omit } from 'lodash';
@@ -38,9 +40,9 @@ import { useNavigate, unstable_usePrompt as usePrompt } from 'react-router-dom';
 import { addGlobalSuccessMessage } from '~design-system';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
-import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import NewCodeDefinitionSelector from '~sq-server-commons/components/new-code-definition/NewCodeDefinitionSelector';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   MutationArg,
@@ -63,6 +65,8 @@ interface Props {
 
 export default function NewCodeDefinitionSelection(props: Props) {
   const { importProjects, redirectTo, onClose } = props;
+
+  const toUrl = useDocUrl(DocLink.NewCodeDefinition);
 
   const [selectedDefinition, selectDefinition] = React.useState<NewCodeDefinitiondWithCompliance>();
   const [failedImports, setFailedImports] = React.useState<number>(0);
@@ -209,32 +213,49 @@ export default function NewCodeDefinitionSelection(props: Props) {
       <Form onSubmit={handleProjectCreation}>
         <Form.Header
           description={
-            <FormattedMessage
-              id="onboarding.create_project.new_code_definition.description"
-              values={{
-                link: (
-                  <DocumentationLink enableOpenInNewTab to={DocLink.NewCodeDefinition}>
-                    {translate('onboarding.create_project.new_code_definition.description.link')}
-                  </DocumentationLink>
-                ),
-              }}
-            />
+            <>
+              <Text as="p">
+                <FormattedMessage id="project_baseline.page.description" />
+              </Text>
+              <Text as="p" className="sw-mt-4">
+                <FormattedMessage
+                  id="project_baseline.page.description2"
+                  values={{
+                    link: (text) => (
+                      <Link
+                        highlight={LinkHighlight.CurrentColor}
+                        to="/admin/settings?category=new_code_period"
+                      >
+                        {text}
+                      </Link>
+                    ),
+                  }}
+                />
+              </Text>
+              <Link
+                className="sw-block"
+                enableOpenInNewTab
+                highlight={LinkHighlight.CurrentColor}
+                to={toUrl}
+              >
+                <FormattedMessage id="learn_more_in_doc" />
+              </Link>
+            </>
           }
           title={
-            <FormattedMessage
-              id="onboarding.create_x_project.new_code_definition.title"
-              values={{
-                count: projectCount,
-              }}
-            />
+            <span id="selection-cards-label">
+              <FormattedMessage
+                id="onboarding.create_x_project.new_code_definition.title"
+                values={{
+                  count: projectCount,
+                }}
+              />
+            </span>
           }
           titleAs="h1"
         />
         <Form.Section>
-          <NewCodeDefinitionSelector
-            isMultipleProjects={isMultipleProjects}
-            onNcdChanged={selectDefinition}
-          />
+          <NewCodeDefinitionSelector onNcdChanged={selectDefinition} />
 
           {isMultipleProjects && (
             <MessageCallout variety={MessageVariety.Info}>

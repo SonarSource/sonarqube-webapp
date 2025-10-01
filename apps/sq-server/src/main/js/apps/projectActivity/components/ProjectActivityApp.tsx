@@ -39,7 +39,10 @@ import { parseDate } from '~sq-server-commons/helpers/dates';
 import { useApplicationLeakQuery } from '~sq-server-commons/queries/applications';
 import { useAllMeasuresHistoryQuery } from '~sq-server-commons/queries/measures';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
-import { useAllProjectAnalysesQuery } from '~sq-server-commons/queries/project-analyses';
+import {
+  useAllProjectAnalysesQuery,
+  useProjectActivityQueryKey,
+} from '~sq-server-commons/queries/project-analyses';
 import { MeasureHistory, ParsedAnalysis } from '~sq-server-commons/types/project-activity';
 import { Query, parseQuery, serializeUrlQuery } from '../utils';
 import ProjectActivityAppRenderer from './ProjectActivityAppRenderer';
@@ -76,10 +79,17 @@ export function ProjectActivityApp() {
     enabled: isApplication(component?.qualifier),
   });
 
-  const { data: analysesData, isLoading: isLoadingAnalyses } = useAllProjectAnalysesQuery({
-    enabled,
-    staleTime: StaleTime.LONG,
-  });
+  const [_1, _2, componentKey, branchParams] = useProjectActivityQueryKey();
+  const { data: analysesData, isLoading: isLoadingAnalyses } = useAllProjectAnalysesQuery(
+    {
+      componentKey,
+      branchParams,
+    },
+    {
+      enabled,
+      staleTime: StaleTime.LONG,
+    },
+  );
 
   const { data: historyData, isLoading: isLoadingHistory } = useAllMeasuresHistoryQuery(
     {

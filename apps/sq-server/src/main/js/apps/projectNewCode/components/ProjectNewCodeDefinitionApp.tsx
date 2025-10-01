@@ -73,7 +73,7 @@ function ProjectNewCodeDefinitionApp(props: Readonly<ProjectNewCodeDefinitionApp
   const {
     data: globalNewCodeDefinition = { type: DEFAULT_NEW_CODE_DEFINITION_TYPE },
     isLoading: isGlobalNCDLoading,
-  } = useNewCodeDefinitionQuery();
+  } = useNewCodeDefinitionQuery(undefined); // bug in createQueryHook that expects argument
 
   const { data: projectNewCodeDefinition, isLoading: isProjectNCDLoading } =
     useNewCodeDefinitionQuery({
@@ -214,8 +214,6 @@ function ProjectNewCodeDefinitionApp(props: Readonly<ProjectNewCodeDefinitionApp
                 days={numberOfDays}
                 globalNewCodeDefinition={globalNewCodeDefinition}
                 isChanged={isFormTouched}
-                newCodeDefinitionType={projectNewCodeDefinition?.type}
-                newCodeDefinitionValue={projectNewCodeDefinition?.value}
                 onCancel={resetStatesFromProjectNewCodeDefinition}
                 onSelectDays={setNumberOfDays}
                 onSelectReferenceBranch={setReferenceBranch}

@@ -41,16 +41,14 @@ afterEach(() => {
 });
 
 const ui = {
-  newCodeTitle: byRole('heading', { name: 'settings.new_code_period.title' }),
-  savedMsg: byText('settings.state.saved'),
+  newCodeTitle: byRole('heading', { name: 'new_code_definition.page.title' }),
   prevVersionRadio: byRole('radio', { name: /new_code_definition.previous_version/ }),
   daysNumberRadio: byRole('radio', { name: /new_code_definition.number_days/ }),
-  daysNumberErrorMessage: byText('new_code_definition.number_days.invalid', { exact: false }),
   daysInput: byRole('spinbutton') /* spinbutton is the default role for a number input */,
   saveButton: byRole('button', { name: 'save' }),
   cancelButton: byRole('button', { name: 'cancel' }),
   ncdAutoUpdateMessage: byText(/new_code_definition.auto_update.ncd_page.message/),
-  ncdAutoUpdateMessageDismiss: byRole('button', { name: 'dismiss' }),
+  ncdAutoUpdateMessageDismiss: byRole('button', { name: 'message_callout.dismiss' }),
 };
 
 it('renders and behaves as expected', async () => {
@@ -61,47 +59,45 @@ it('renders and behaves as expected', async () => {
   // Previous version should be checked by default
   expect(await ui.prevVersionRadio.find()).toBeChecked();
 
-  // Can select number of days
+  // Can select number of days - this triggers hasChanged and shows buttons
   await user.click(ui.daysNumberRadio.get());
   expect(ui.daysNumberRadio.get()).toBeChecked();
 
-  // Save should be disabled for zero
+  // Now buttons should be visible since there's a change
   expect(ui.daysInput.get()).toHaveValue(30);
+
+  // Save should be disabled for zero
   await user.clear(ui.daysInput.get());
   await user.type(ui.daysInput.get(), '0');
   expect(await ui.saveButton.find()).toBeDisabled();
 
-  // Save should not appear at all for NaN
+  // Save should be disabled for NaN
   await user.clear(ui.daysInput.get());
   await user.type(ui.daysInput.get(), 'asdas');
-  expect(ui.saveButton.query()).toBeDisabled();
+  expect(ui.saveButton.get()).toBeDisabled();
 
   // Save enabled for valid days number
   await user.clear(ui.daysInput.get());
   await user.type(ui.daysInput.get(), '10');
   expect(ui.saveButton.get()).toBeEnabled();
 
-  // Can cancel action
+  // Can cancel action - this resets to original state
   await user.click(ui.cancelButton.get());
   expect(ui.prevVersionRadio.get()).toBeChecked();
+  // Buttons should be hidden after cancel since no changes
+  expect(ui.saveButton.query()).not.toBeInTheDocument();
 
-  // Can save change
+  // Make change again to show buttons
   await user.click(ui.daysNumberRadio.get());
   await user.clear(ui.daysInput.get());
   await user.type(ui.daysInput.get(), '10');
   await user.click(ui.saveButton.get());
-  expect(ui.saveButton.get()).toBeDisabled();
 
-  await user.click(ui.prevVersionRadio.get());
-  await user.click(ui.cancelButton.get());
-  await user.click(ui.prevVersionRadio.get());
-  await user.click(ui.saveButton.get());
-  expect(ui.saveButton.get()).toBeDisabled();
+  // After save, buttons should be hidden since hasChanged is false
+  expect(ui.saveButton.query()).not.toBeInTheDocument();
 });
 
 it('displays & dismisses information message when NCD is automatically updated', async () => {
-  const assertError = spyOnLogError();
-
   newCodeMock.setNewCodePeriod({
     type: NewCodeDefinitionType.NumberOfDays,
     value: '90',
@@ -116,8 +112,6 @@ it('displays & dismisses information message when NCD is automatically updated',
   await user.click(ui.ncdAutoUpdateMessageDismiss.get());
 
   expect(ui.ncdAutoUpdateMessage.query()).not.toBeInTheDocument();
-
-  assertError();
 });
 
 it('does not display information message when NCD is automatically updated if message is already dismissed', () => {
@@ -132,22 +126,6 @@ it('does not display information message when NCD is automatically updated if me
 
   expect(ui.ncdAutoUpdateMessage.query()).not.toBeInTheDocument();
 });
-
-function spyOnLogError() {
-  const errorSpy = jest.spyOn(console, 'error').mockImplementationOnce(() => {});
-
-  return () => {
-    // There is an issue with the design of NewCodeDefinitionDaysOption that causes a domNesting error
-    // this is valid and has to be fixed, but this is not the purpose of this test
-    expect(errorSpy).toHaveBeenCalledTimes(1);
-    expect(errorSpy.mock.calls[0][0]).toBe(
-      'Warning: validateDOMNesting(...): %s cannot appear as a descendant of <%s>.%s',
-    );
-    expect(errorSpy.mock.calls[0][1]).toBe('<button>');
-    expect(errorSpy.mock.calls[0][2]).toBe('button');
-    errorSpy.mockRestore();
-  };
-}
 
 function renderNewCodePeriod() {
   return renderComponent(<NewCodeDefinition />);

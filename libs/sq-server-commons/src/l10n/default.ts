@@ -207,6 +207,7 @@ export const defaultMessages = {
   parameters: 'Parameters',
   password: 'Password',
   confirm_password: 'Confirm Password',
+  main: 'Main',
   path: 'Path',
   permalink: 'Permanent Link',
   plugin: 'Plugin',
@@ -789,24 +790,24 @@ export const defaultMessages = {
 
   'project_baseline.page': 'New Code',
   'project_baseline.page.description':
-    'The new code definition sets which part of your code will be considered new code.',
-  'project_baseline.page.description2': 'You can adjust this setting globally in {link}.',
-  'project_baseline.page.description2.link': 'General Settings',
-  'project_baseline.page.question': 'Choose the baseline for new code for this project',
-  'project_baseline.global_setting': 'Use the global setting',
-  'project_baseline.specific_setting': 'Define a specific setting for this project',
+    "The new code definition sets the criteria for what's considered new code, allowing you to focus on the most recent changes in your project.",
+  'project_baseline.page.description2':
+    'This setting allows project administrators to customize the new code definition for their project.',
+  'project_baseline.page.description3':
+    "The instance's default new code definition can be adjusted in the <link>general settings.</link>",
+  'project_baseline.page.selection.label': 'Project definition of new code',
+  'project_baseline.global_setting': 'Follows the instance’s default',
+  'project_baseline.global_setting.description': 'Current default: {default}',
+  'project_baseline.specific_setting': 'Is custom',
+  'project_baseline.specific_setting.description':
+    'Choose whether it should be the <b>previous version</b>, a <b>number of days</b> or a <b>reference branch</b>',
   'project_baseline.configure_branches': 'Set a specific setting for a branch',
-
   'project_baseline.compliance.warning.title.project':
     'Your project new code definition is not compliant with the Clean as You Code methodology',
+  'project_baseline.update_success': 'New code definition has been updated',
 
   'baseline.specific_analysis': 'Specific analysis',
   'baseline.specific_analysis.description': 'Choose an analysis as the baseline for the new code.',
-  'baseline.specific_analysis.compliance_warning.title':
-    'Choosing the "Specific analysis" option from the {productName} UI is not compliant with the Clean as You Code methodology',
-  'baseline.specific_analysis.compliance_warning.explanation':
-    'It has been deprecated. The option remains available through the Web API.',
-  'baseline.specific_analysis.compliance_warning.link': 'Defining New Code',
   'baseline.reference_branch': 'Reference branch',
 
   'baseline.reference_branch.description': 'Choose a branch as the baseline for the new code.',
@@ -817,11 +818,8 @@ export const defaultMessages = {
   'baseline.last_analysis_before': 'Last analysis before',
   'baseline.next_analysis_notice': 'Changes will take effect after the next analysis',
 
-  'baseline.reference_branch.choose': 'Choose a branch',
   'baseline.reference_branch.does_not_exist':
     'Branch {branch} could not be found in {productName}.',
-  'baseline.reference_branch.cannot_be_itself':
-    'A branch cannot be used as its own reference branch',
   'baseline.reference_branch.invalid_branch_setting':
     'Branch {0} cannot use itself as a reference. Define a specific setting instead of using the project-level setting.',
   'baseline.edit_branch_setting': "Edit the branch's setting",
@@ -6508,33 +6506,23 @@ export const defaultMessages = {
   // NEW CODE DEFINITION
   //
   //------------------------------------------------------------------------------
-  'new_code_definition.question': 'Choose the baseline for new code for this project',
-  'new_code_definition.question.multiple_projects':
-    'Choose the baseline for new code for those projects',
-  'new_code_definition.global_setting': 'Use the global setting',
+  'new_code_definition.question': 'Instance default new code definition:',
   'new_code_definition.specific_setting': 'Define a specific setting for this project',
-  'new_code_definition.specific_setting.multiple_projects':
-    'Define a specific setting for your projects',
-
   'new_code_definition.previous_version': 'Previous version',
   'new_code_definition.previous_version.usecase':
-    'Recommended for projects following regular versions or releases.',
+    'Recommended for <b>projects following regular versions or releases.</b>',
   'new_code_definition.previous_version.description':
     'Any code that has changed since the previous version is considered new code.',
 
   'new_code_definition.number_days': 'Number of days',
   'new_code_definition.number_days.specify_days': 'Specify a number of days',
   'new_code_definition.number_days.usecase':
-    'Recommended for projects following continuous delivery.',
+    'Recommended for <b>projects following continuous delivery.</b>',
   'new_code_definition.number_days.description':
     'Any code that has changed in the last x days is considered new code. If no action is taken on a new issue after x days, this issue will become part of the overall code.',
   'new_code_definition.number_days.invalid': 'Please provide a whole number between {0} and {1}',
 
   'new_code_definition.reference_branch': 'Reference branch',
-  'new_code_definition.reference_branch.description':
-    'Choose a branch as the baseline for the new code.',
-  'new_code_definition.reference_branch.usecase':
-    'Recommended for projects using feature branches.',
   'new_code_definition.reference_branch.notice':
     'The main branch will be set as the reference branch when the project is created. You will be able to choose another branch as the reference branch when your project will have more branches.',
 
@@ -6549,6 +6537,32 @@ export const defaultMessages = {
   'new_code_definition.auto_update.project.message':
     "This project's new code definition was automatically changed from {previousDays} to {days} days on {date}, following a {productName} upgrade, as it was exceeding the maximum value. {link}",
   'new_code_definition.auto_update.review_link': 'Review new code definition',
+  'new_code_definition.change_notice': 'Changes will take effect after the next analysis.',
+  'new_code_definition.page.title': 'New Code',
+
+  'new_code_definition.specific_setting.previous_version.label': 'Previous version',
+  'new_code_definition.specific_setting.previous_version.description':
+    'Any code that has changed since the previous version is considered new code. Recommended for <b>projects following regular versions or releases.</b>',
+  'new_code_definition.specific_setting.number_of_days.label': 'Number of days',
+  'new_code_definition.specific_setting.number_of_days.description':
+    'Any code that has changed in the last x days is considered new code. If no action is taken on a new issue after x days, this issue will become part of the overall code. Recommended for <b>projects following continuous delivery.</b>',
+  'new_code_definition.specific_setting.number_of_days.input.label': 'Define the number of days',
+  'new_code_definition.specific_setting.number_of_days.input.error':
+    'Please provide a whole number between {min} and {max}',
+  'new_code_definition.specific_setting.reference_branch.label': 'Reference branch',
+  'new_code_definition.specific_setting.reference_branch.description':
+    'Choose a reference branch as the baseline for the new code. Recommended for <b>projects using feature branches.</b>',
+  'new_code_definition.specific_setting.reference_branch.input.label': 'Choose branch',
+  'new_code_definition.specific_setting.reference_branch.input.help.main':
+    'The branch you selected will need its own new code definition to prevent it from using itself as a reference',
+
+  'new_code_definition.specific_setting.specific_analysis.label': 'Specific analysis',
+  'new_code_definition.specific_setting.specific_analysis.description':
+    'Choose an analysis as the baseline for the new code.',
+  'new_code_definition.specific_setting.specific_analysis.warning.label':
+    'This option has been deprecated but remains available through the Web API',
+  'new_code_definition.specific_setting.specific_analysis.warning.description':
+    'Choosing the "Specific analysis" option from the {productName} UI is not recommended by Sonar.',
 
   //------------------------------------------------------------------------------
   //
@@ -6600,6 +6614,7 @@ export const defaultMessages = {
     "The provided value doesn't match the expected format.",
   'onboarding.create_project.project_key.description':
     "The project key is a unique identifier for your project. It may contain up to 400 characters. Allowed characters are alphanumeric, '-' (dash), '_' (underscore), '.' (period) and ':' (colon), with at least one non-digit.",
+  'onboarding.create_project.project_key.valid': 'The provided key can be used',
   'onboarding.create_project.project_key.error.empty': 'You must provide at least one character.',
   'onboarding.create_project.project_key.error.too_long': 'The provided key is too long.',
   'onboarding.create_project.project_key.error.invalid_char':
@@ -6805,12 +6820,9 @@ export const defaultMessages = {
   'onboarding.create_project.monorepo.warning.message_admin.link':
     'DevOps Platform integration settings',
 
-  'onboarding.create_project.new_code_definition.title': 'Set up project for Clean as You Code',
+  'onboarding.create_project.new_code_definition.title': 'Set up new code for project',
   'onboarding.create_x_project.new_code_definition.title':
-    'Set up {count, plural, one {project} other {# projects}} for Clean as You Code',
-  'onboarding.create_project.new_code_definition.description':
-    'The new code definition sets which part of your code will be considered new code. This helps you focus attention on the most recent changes to your project, enabling you to follow the Clean as You Code methodology. Learn more: {link}',
-  'onboarding.create_project.new_code_definition.description.link': 'Defining New Code',
+    'Set up new code for {count, plural, one {project} other {# projects}}',
   'onboarding.create_project.new_code_definition.create_x_projects':
     'Create {count, plural, one {project} other {# projects}}',
   'onboarding.create_projects.new_code_definition.change_info':
@@ -8686,4 +8698,11 @@ export const defaultMessages = {
     'In order to determine how much each project contributes, the license takes into account the number of lines of code on the largest branch of that project. Lines of test code do not count towards your license usage.',
   'license.valid': 'Valid',
   'license.warning_threshold.success': 'Warning threshold saved successfully.',
+
+  // New Code Definition - Additional keys for shared component
+  'new_code.page.description':
+    "The new code definition sets the criteria for what's considered new code, allowing you to focus on the most recent changes in your project.<br></br><br></br>This setting establishes the instance’s default new code definition, that will be applied to all new and existing projects, and can be further customized at the project level.<br></br>{url}",
+  'new_code.page.description.documentation_link': 'Learn more in documentation',
+  'new_code.changes_affect_new_projects_only': 'Changes will only affect new projects',
+  'new_code.page.notification.success': 'New code definition updated successfully',
 };

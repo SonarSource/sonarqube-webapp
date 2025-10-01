@@ -29,14 +29,38 @@ When running tests, pick the most relevent platform (cloud or server) and narrow
 - `sw-*` is our custom tailwind prefix.
 - Prefer tailwind helper classes over custom CSS (using emotion) when possible.
 
+## Echoes Component Styling
+
+- **ALWAYS** prefer semantic Echoes component properties over low-level Tailwind styling classes
+- Use component-specific props for visual styling (colors, fonts, sizes, emphasis) rather than manual CSS classes
+- Reserve custom Tailwind only for layout concerns (spacing, positioning, dimensions)
+- Examples: `isSubtle` instead of `sw-text-gray-600`, `size="small"` instead of `sw-text-sm`, `colorOverride="danger"` instead of `sw-text-red-600`
+
 ## React Components and JSX
 
 - Use functional components and TypeScript interfaces.
 - Use declarative JSX.
 - Use function, not const, for components.
+- **MANDATORY**: All newly created components MUST be functional components. No class components allowed.
 
 ## Localization
 
 - If you make a new localization key, say so when you summarize your changes!
 - Do not try to update the localization file (messages.json or default.ts)
 - Do not use default messages in code. Only use a key.
+
+## React Query / TanStack Query Best Practices
+
+**Core Principle**: Always reuse existing queries/mutations and return standard TanStack Query results.
+
+### Queries
+
+- **NEVER** create custom interfaces when reusing existing queries: `return { data: transformedData, isLoading, customField: 'value' }`
+- **ALWAYS** return exactly what the base query returns when reusing: `return baseQuery` or `return baseQuery({ select })`
+- Use `createQueryHook` for base to enable `select`, `enabled` and other options override support
+- Call base queries with `select` parameter for data transformation: `useBaseQuery(params, { select: (data) => transformedData })`
+
+### Mutations
+
+- **NEVER** wrap mutations when reusing existing ones: `return { isPending: mutation.isPending, mutate: customMutate }`
+- **ALWAYS** use `useMutation({ mutationFn: async (input) => existingMutation.mutateAsync(transformedInput) })` if you need to reuse existing mutations.
