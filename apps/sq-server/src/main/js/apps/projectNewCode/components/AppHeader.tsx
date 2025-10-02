@@ -40,19 +40,7 @@ export default function AppHeader(props: AppHeaderProps) {
         <FormattedMessage id="project_baseline.page.description" />
       </Text>
       <Text as="p" className="sw-mt-4">
-        <FormattedMessage
-          id="project_baseline.page.description2"
-          values={{
-            link: (text) => (
-              <Link
-                highlight={LinkHighlight.CurrentColor}
-                to="/admin/settings?category=new_code_period"
-              >
-                {text}
-              </Link>
-            ),
-          }}
-        />
+        <FormattedMessage id="project_baseline.page.description2" />
         {canAdmin && (
           <FormattedMessage
             id="project_baseline.page.description3"

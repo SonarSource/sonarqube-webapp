@@ -803,7 +803,7 @@ export const defaultMessages = {
     'Choose whether it should be the <b>previous version</b>, a <b>number of days</b> or a <b>reference branch</b>',
   'project_baseline.configure_branches': 'Set a specific setting for a branch',
   'project_baseline.compliance.warning.title.project':
-    'Your project new code definition is not compliant with the Clean as You Code methodology',
+    'Your project new code definition is not recommended by Sonar',
   'project_baseline.update_success': 'New code definition has been updated',
 
   'baseline.specific_analysis': 'Specific analysis',
@@ -2323,16 +2323,6 @@ export const defaultMessages = {
 
   'settings.new_code_period.category': 'New Code',
   'settings.new_code_period.title': 'New Code',
-  'settings.new_code_period.description0':
-    'The new code definition sets which part of your code will be considered new code.',
-  'settings.new_code_period.description1':
-    'This helps you focus attention on the most recent changes to your project, enabling you to follow the Clean as You Code methodology.',
-  'settings.new_code_period.description2':
-    'A specific new code definition can be configured at project level.',
-  'settings.new_code_period.description3': 'Learn more: {link}',
-  'settings.new_code_period.description3.link': 'Defining New Code',
-  'settings.new_code_period.question':
-    'Choose the baseline for new code for all projects by default',
 
   'settings.languages.select_a_language_placeholder': 'Select a language',
 
