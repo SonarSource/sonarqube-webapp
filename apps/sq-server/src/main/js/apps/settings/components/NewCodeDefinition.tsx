@@ -18,8 +18,47 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import TopLevelNewCodeDefinitionPage from '~shared/components/new-code/TopLevelNewCodeDefinitionPage';
+import { Heading, Link, LinkHighlight, Text } from '@sonarsource/echoes-react';
+import { Helmet } from 'react-helmet-async';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { TopLevelNewCodeDefinitionPage } from '~shared/components/new-code/TopLevelNewCodeDefinitionPage';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { useDocUrl } from '~sq-server-commons/helpers/docs';
 
 export default function NewCodeDefinition() {
-  return <TopLevelNewCodeDefinitionPage />;
+  const intl = useIntl();
+  const docUrl = useDocUrl();
+
+  return (
+    <>
+      <Helmet defer={false} title={intl.formatMessage({ id: 'new_code_definition.page.title' })} />
+
+      {/* Main Content Card */}
+      <div className="sw-max-w-abs-800">
+        <div className="sw-mb-8">
+          <Heading as="h1" className="sw-mb-4">
+            <FormattedMessage id="new_code_definition.page.title" />
+          </Heading>
+          <Text>
+            <FormattedMessage
+              id="new_code.page.description"
+              values={{
+                br: () => <br />,
+                url: (
+                  <Link
+                    enableOpenInNewTab
+                    highlight={LinkHighlight.CurrentColor}
+                    to={docUrl(DocLink.NewCodeDefinition)}
+                  >
+                    <FormattedMessage id="new_code.page.description.documentation_link" />
+                  </Link>
+                ),
+              }}
+            />
+          </Text>
+        </div>
+        <TopLevelNewCodeDefinitionPage />
+      </div>
+    </>
+  );
 }
