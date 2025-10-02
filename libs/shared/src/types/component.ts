@@ -36,7 +36,11 @@ export interface ComponentBase extends LightComponent {
   visibility?: Visibility;
 }
 
-export interface ComponentConfiguration {
+export interface LightComponentConfiguration {
+  showSettings?: boolean;
+}
+
+export interface ComponentConfiguration extends LightComponentConfiguration {
   canApplyPermissionTemplate?: boolean;
   canBrowseProject?: boolean;
   canScanProject?: boolean;
@@ -50,7 +54,6 @@ export interface ComponentConfiguration {
   showPermissions?: boolean;
   showQualityGates?: boolean;
   showQualityProfiles?: boolean;
-  showSettings?: boolean;
   showUpdateKey?: boolean;
 }
 
@@ -74,6 +77,7 @@ export interface ComponentQualityProfile {
 }
 
 export interface LightComponent {
+  configuration?: LightComponentConfiguration;
   key: string;
   name: string;
   qualifier: ComponentQualifier;

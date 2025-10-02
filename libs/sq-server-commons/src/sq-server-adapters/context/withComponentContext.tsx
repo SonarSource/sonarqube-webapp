@@ -31,7 +31,10 @@ export function withComponentContext<P extends { component: LightComponent }>(
   return function ComponentContextWrapper(props: Omit<P, 'component'>) {
     const context = useContext(ComponentContext);
     // Only pass the LightComponent shape
-    const { key, name, qualifier } = context.component ?? {};
-    return <WrappedComponent {...(props as P)} component={{ key, name, qualifier }} />;
+    const { key, name, qualifier, configuration } = context.component ?? {};
+
+    return (
+      <WrappedComponent {...(props as P)} component={{ key, name, qualifier, configuration }} />
+    );
   };
 }
