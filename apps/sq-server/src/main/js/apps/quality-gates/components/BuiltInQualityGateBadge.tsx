@@ -18,13 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Badge } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { Badge, BadgeVariety } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 
 interface Props {
   className?: string;
 }
 
-export default function BuiltInQualityGateBadge({ className }: Props) {
-  return <Badge className={className}>{translate('quality_gates.built_in')}</Badge>;
+export default function BuiltInQualityGateBadge({ className }: Readonly<Props>) {
+  return (
+    <Badge className={className} variety={BadgeVariety.Neutral}>
+      <FormattedMessage id="quality_gates.built_in" />
+    </Badge>
+  );
 }

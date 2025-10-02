@@ -46,7 +46,6 @@ export function FacetHelp({ property, title, description, noDescription, link, l
   return (
     <ToggleTip
       ariaLabel={intl.formatMessage({ id: 'help' })}
-      className="sw-mt-2"
       description={
         property
           ? !noDescription && (

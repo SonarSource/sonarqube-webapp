@@ -155,49 +155,35 @@ export default function FixQualityGateModal(props: Readonly<Props>) {
                 </span>
 
                 {condition.metric === MetricKey.new_coverage && (
-                  <>
-                    <div className="sw-inline-block sw-pl-1">
-                      <Select
-                        ariaLabelledBy={`missing-${condition.metric}`}
-                        data={COVERAGE_VALUES}
-                        isNotClearable
-                        onChange={(value) => {
-                          if (value) {
-                            setCoverageThreshold(value);
-                          }
-                        }}
-                        value={coverageThreshold}
-                        width="small"
-                      />
-                    </div>
-
-                    <Text aria-hidden className="sw-ml-2" isSubtle>
-                      *
-                    </Text>
-                  </>
+                  <Select
+                    ariaLabelledBy={`missing-${condition.metric}`}
+                    className="sw-mt-1 -sw-ml-4"
+                    data={COVERAGE_VALUES}
+                    isNotClearable
+                    onChange={(value) => {
+                      if (value) {
+                        setCoverageThreshold(value);
+                      }
+                    }}
+                    value={coverageThreshold}
+                    width="medium"
+                  />
                 )}
 
                 {condition.metric === MetricKey.new_duplicated_lines_density && (
-                  <>
-                    <div className="sw-inline-block sw-pl-1">
-                      <Select
-                        ariaLabelledBy={`missing-${condition.metric}`}
-                        data={DUPLICATION_VALUES}
-                        isNotClearable
-                        onChange={(value) => {
-                          if (value) {
-                            setDuplicationThreshold(value);
-                          }
-                        }}
-                        value={duplicationThreshold}
-                        width="small"
-                      />
-                    </div>
-
-                    <Text aria-hidden className="sw-ml-2" isSubtle>
-                      *
-                    </Text>
-                  </>
+                  <Select
+                    ariaLabelledBy={`missing-${condition.metric}`}
+                    className="sw-mt-1 -sw-ml-4"
+                    data={DUPLICATION_VALUES}
+                    isNotClearable
+                    onChange={(value) => {
+                      if (value) {
+                        setDuplicationThreshold(value);
+                      }
+                    }}
+                    value={duplicationThreshold}
+                    width="medium"
+                  />
                 )}
 
                 {condition.metric !== MetricKey.new_coverage &&
@@ -206,16 +192,6 @@ export default function FixQualityGateModal(props: Readonly<Props>) {
               </li>
             ))}
           </Text>
-
-          {missingConditions.some(
-            (condition) =>
-              condition.metric === MetricKey.new_coverage ||
-              condition.metric === MetricKey.new_duplicated_lines_density,
-          ) && (
-            <Text aria-hidden className="sw-mt-4 sw-block" isSubtle>
-              <FormattedMessage id="quality_gates.fix_modal.to_add.note" />
-            </Text>
-          )}
         </div>
       )}
 
@@ -287,7 +263,7 @@ export default function FixQualityGateModal(props: Readonly<Props>) {
               <DocumentationLink
                 enableOpenInNewTab
                 highlight={LinkHighlight.CurrentColor}
-                to={DocLink.NewCodeRecommended}
+                to={DocLink.QualityGatesRecommendedConditions}
               >
                 {text}
               </DocumentationLink>

@@ -140,7 +140,7 @@ export function FacetBox(props: FacetBoxProps) {
               )}
             </ChevronAndTitle>
           </TitleWithHelp>
-          {help && <span className="sw-ml-1">{help}</span>}
+          {help && <span className="sw-flex sw-ml-1">{help}</span>}
         </div>
 
         {<Spinner isLoading={loading} />}

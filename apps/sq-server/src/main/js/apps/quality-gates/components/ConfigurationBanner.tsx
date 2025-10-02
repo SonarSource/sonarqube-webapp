@@ -115,7 +115,7 @@ function GateBuiltInBanner() {
               <DocumentationLink
                 enableOpenInNewTab
                 highlight={LinkHighlight.CurrentColor}
-                to={DocLink.NewCodeRecommended}
+                to={DocLink.QualityGatesRecommendedConditions}
               >
                 {text}
               </DocumentationLink>
@@ -197,7 +197,7 @@ function GateRecommendationBanner({
             <DocumentationLink
               enableOpenInNewTab
               highlight={LinkHighlight.CurrentColor}
-              to={DocLink.NewCodeRecommended}
+              to={DocLink.QualityGatesRecommendedConditions}
             >
               {text}
             </DocumentationLink>
@@ -244,7 +244,7 @@ function GateRecommendedBanner() {
               <DocumentationLink
                 enableOpenInNewTab
                 highlight={LinkHighlight.CurrentColor}
-                to={DocLink.NewCodeRecommended}
+                to={DocLink.QualityGatesRecommendedConditions}
               >
                 {text}
               </DocumentationLink>
@@ -288,7 +288,7 @@ function GateRecommendedWithAIBanner() {
               <DocumentationLink
                 enableOpenInNewTab
                 highlight={LinkHighlight.CurrentColor}
-                to={DocLink.NewCodeRecommended}
+                to={DocLink.QualityGatesRecommendedConditions}
               >
                 {text}
               </DocumentationLink>

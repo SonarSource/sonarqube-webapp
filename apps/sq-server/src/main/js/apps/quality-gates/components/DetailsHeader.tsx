@@ -19,6 +19,8 @@
  */
 
 import {
+  Badge,
+  BadgeVariety,
   Button,
   ButtonIcon,
   ButtonVariety,
@@ -31,9 +33,8 @@ import {
 import { countBy } from 'lodash';
 import * as React from 'react';
 import { useCallback } from 'react';
-import { Badge } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   useGetAllQualityGateProjectsQuery,
   useSetAiSupportedQualityGateMutation,
@@ -52,6 +53,7 @@ interface Props {
 }
 
 export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
+  const intl = useIntl();
   const metrics = useMetrics();
   const [isQualifyAiFormOpen, setIsQualifyAiFormOpen] = React.useState(false);
   const actions = qualityGate.actions ?? {};
@@ -105,7 +107,11 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
               {qualityGate.name}
             </Heading>
             <div className="sw-flex sw-gap-2 sw-ml-4">
-              {qualityGate.isDefault && <Badge>{translate('default')}</Badge>}
+              {qualityGate.isDefault && (
+                <Badge variety={BadgeVariety.Neutral}>
+                  <FormattedMessage id="default" />
+                </Badge>
+              )}
               {qualityGate.isBuiltIn && <BuiltInQualityGateBadge />}
             </div>
           </div>
@@ -114,30 +120,36 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
           <>
             {actions.rename && (
               <RenameQualityGateForm qualityGate={qualityGate}>
-                <Button>{translate('rename')}</Button>
+                <Button>
+                  <FormattedMessage id="rename" />
+                </Button>
               </RenameQualityGateForm>
             )}
             {actions.copy && (
               <Tooltip
                 content={
                   qualityGate.caycStatus === CaycStatus.NonCompliant
-                    ? translate('quality_gates.cannot_copy_no_cayc')
+                    ? intl.formatMessage({ id: 'quality_gates.cannot_copy_no_cayc' })
                     : null
                 }
               >
                 <CopyQualityGateForm qualityGate={qualityGate}>
                   <Button isDisabled={qualityGate.caycStatus === CaycStatus.NonCompliant}>
-                    {translate('copy')}
+                    <FormattedMessage id="copy" />
                   </Button>
                 </CopyQualityGateForm>
               </Tooltip>
             )}
             {actions.setAsDefault && (
-              <Button onClick={handleSetAsDefaultClick}>{translate('set_as_default')}</Button>
+              <Button onClick={handleSetAsDefaultClick}>
+                <FormattedMessage id="set_as_default" />
+              </Button>
             )}
             {actions.delete && (
               <DeleteQualityGateForm qualityGate={qualityGate}>
-                <Button variety={ButtonVariety.Danger}>{translate('delete')}</Button>
+                <Button variety={ButtonVariety.Danger}>
+                  <FormattedMessage id="delete" />
+                </Button>
               </DeleteQualityGateForm>
             )}
           </>
@@ -151,26 +163,32 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
               <>
                 {actions.rename && (
                   <RenameQualityGateForm qualityGate={qualityGate}>
-                    <DropdownMenu.ItemButton>{translate('rename')}</DropdownMenu.ItemButton>
+                    <DropdownMenu.ItemButton>
+                      <FormattedMessage id="rename" />
+                    </DropdownMenu.ItemButton>
                   </RenameQualityGateForm>
                 )}
                 {actions.copy && (
                   <CopyQualityGateForm qualityGate={qualityGate}>
-                    <DropdownMenu.ItemButton>{translate('copy')}</DropdownMenu.ItemButton>
+                    <DropdownMenu.ItemButton>
+                      <FormattedMessage id="copy" />
+                    </DropdownMenu.ItemButton>
                   </CopyQualityGateForm>
                 )}
                 {actions.setAsDefault && (
                   <DropdownMenu.ItemButton onClick={handleSetAsDefaultClick}>
-                    {translate('set_as_default')}
+                    <FormattedMessage id="set_as_default" />
                   </DropdownMenu.ItemButton>
                 )}
                 {actions.manageAiCodeAssurance && !isCountLoading && (
                   <DropdownMenu.ItemButton onClick={handleSetQualityGateAiCodeAssurance}>
-                    {translate(
-                      qualityGate.isAiCodeSupported
-                        ? 'quality_gates.actions.disqualify_for_ai_code_assurance'
-                        : 'quality_gates.actions.qualify_for_ai_code_assurance',
-                    )}
+                    <FormattedMessage
+                      id={
+                        qualityGate.isAiCodeSupported
+                          ? 'quality_gates.actions.disqualify_for_ai_code_assurance'
+                          : 'quality_gates.actions.qualify_for_ai_code_assurance'
+                      }
+                    />
                   </DropdownMenu.ItemButton>
                 )}
                 {actions.manageConditions && qualityGate.caycStatus === CaycStatus.NonCompliant && (
@@ -181,7 +199,7 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
                     scope="new-cayc"
                   >
                     <DropdownMenu.ItemButton>
-                      {translate('quality_gates.conditions.update')}
+                      <FormattedMessage id="quality_gates.conditions.update" />
                     </DropdownMenu.ItemButton>
                   </FixQualityGateModal>
                 )}
@@ -190,7 +208,7 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
                     <DropdownMenu.Separator />
                     <DeleteQualityGateForm qualityGate={qualityGate}>
                       <DropdownMenu.ItemButtonDestructive>
-                        {translate('delete')}
+                        <FormattedMessage id="delete" />
                       </DropdownMenu.ItemButtonDestructive>
                     </DeleteQualityGateForm>
                   </>
@@ -198,7 +216,7 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
               </>
             }
           >
-            <ButtonIcon Icon={IconMoreVertical} ariaLabel={translate('actions')} />
+            <ButtonIcon Icon={IconMoreVertical} ariaLabel={intl.formatMessage({ id: 'actions' })} />
           </DropdownMenu>
         )}
       </div>

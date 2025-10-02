@@ -90,6 +90,7 @@ export enum DocLink {
   ProjectRegulatoryReports = '/user-guide/viewing-reports/regulatory-reports/',
   PullRequestAnalysis = '/analyzing-source-code/pull-request-analysis/introduction/',
   QualityGates = '/quality-standards-administration/managing-quality-gates/introduction-to-quality-gates/',
+  QualityGatesRecommendedConditions = '/quality-standards-administration/managing-quality-gates/introduction-to-quality-gates#quality-gate-and-new-code',
   Root = '/',
   RuleSeverity = '/quality-standards-administration/managing-quality-profiles/#rule-severity',
   MQRSeverity = '/instance-administration/analysis-functions/instance-mode/mqr-mode/#mqr-severity',

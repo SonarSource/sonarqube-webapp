@@ -18,11 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconRefresh, Spinner, Tooltip, TooltipSide } from '@sonarsource/echoes-react';
-import { useIntl } from 'react-intl';
+import {
+  Badge,
+  BadgeVariety,
+  IconRefresh,
+  Spinner,
+  Tooltip,
+  TooltipSide,
+} from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import { Fragment } from 'react/jsx-runtime';
-import { Badge, BareButton, SubnavigationGroup, SubnavigationItem } from '~design-system';
+import { BareButton, SubnavigationGroup, SubnavigationItem } from '~design-system';
 import AIAssuredIcon, {
   AiIconColor,
 } from '~sq-server-commons/components/icon-mappers/AIAssuredIcon';
@@ -119,7 +126,11 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
 
                     {(isDefault || isBuiltIn) && (
                       <div className="sw-mt-2">
-                        {isDefault && <Badge className="sw-mr-2">{translate('default')}</Badge>}
+                        {isDefault && (
+                          <Badge className="sw-mr-2" variety={BadgeVariety.Neutral}>
+                            <FormattedMessage id="default" />
+                          </Badge>
+                        )}
                         {isBuiltIn && <BuiltInQualityGateBadge />}
                       </div>
                     )}

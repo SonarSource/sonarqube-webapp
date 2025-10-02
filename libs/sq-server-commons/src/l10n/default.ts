@@ -3940,8 +3940,6 @@ export const defaultMessages = {
     'Modify conditions on new code to align this quality gate with <link>standards recommended by Sonar</link>. All conditions on overall code will remain unchanged.',
   'quality_gates.fix_modal.to_add.title.x_conditions':
     '{count} {count, plural, one {condition} other {conditions}} on new code will be added',
-  'quality_gates.fix_modal.to_add.note':
-    '* Select the value that fits your needs. You can also change it later.',
   'quality_gates.fix_modal.to_modify.title.x_conditions':
     '{count} {count, plural, one {condition} other {conditions}} on new code will be modified',
   'quality_gates.fix_modal.to_modify.accessible_item':
@@ -6542,7 +6540,8 @@ export const defaultMessages = {
     'Any code that has changed in the last x days is considered new code. If no action is taken on a new issue after x days, this issue will become part of the overall code. Recommended for <b>projects following continuous delivery.</b>',
   'new_code_definition.specific_setting.number_of_days.input.label': 'Define the number of days',
   'new_code_definition.specific_setting.number_of_days.input.error':
-    'Please provide a whole number between {min} and {max}',
+    'Please provide a whole number between {0} and {1}.',
+
   'new_code_definition.specific_setting.reference_branch.label': 'Reference branch',
   'new_code_definition.specific_setting.reference_branch.description':
     'Choose a reference branch as the baseline for the new code. Recommended for <b>projects using feature branches.</b>',
