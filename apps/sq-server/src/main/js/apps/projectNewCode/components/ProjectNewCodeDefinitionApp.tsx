@@ -199,7 +199,7 @@ function ProjectNewCodeDefinitionApp(props: Readonly<ProjectNewCodeDefinitionApp
 
       <Helmet defer={false} title={translate('project_baseline.page')} />
 
-      <div className="sw-my-8">
+      <div className="sw-my-8" id="project-ncd-selection">
         <AppHeader canAdmin={!!appState.canAdmin} />
 
         <Spinner isLoading={isLoading}>
