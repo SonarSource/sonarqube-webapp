@@ -87,6 +87,7 @@ export enum MetricKey {
   maintainability_rating_distribution = 'maintainability_rating_distribution',
   maintainability_rating_effort = 'maintainability_rating_effort',
   major_violations = 'major_violations',
+  matched_project_branch_count = 'matched_project_branch_count',
   minor_violations = 'minor_violations',
   ncloc = 'ncloc',
   ncloc_data = 'ncloc_data',
