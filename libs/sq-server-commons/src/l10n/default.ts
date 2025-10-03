@@ -2050,6 +2050,10 @@ export const defaultMessages = {
     '{containersCount} {containerWord} and {elementsCount} {elementWord}{filename}',
   'architecture.tangles.title.filename': ' inside {filename}',
   'architecture.tangles.subtitle': '{containers} • {elements} • in {container}',
+  'architecture.tangle.edge.removal.button': 'Request removal',
+  'architecture.tangle.edge.removal.description':
+    'An issue will be raised every time this dependency is detected in the code so that developers can remove it.',
+  'architecture.tangle.edge.removal.title': 'Request removal?',
   'architecture.oversize.description': 'Components containing too many child items.',
   'architecture.discovery.description': 'Discover the structure of your project.',
   'architecture.discovery.spotlight.path.copy': 'Copy: {path}',
