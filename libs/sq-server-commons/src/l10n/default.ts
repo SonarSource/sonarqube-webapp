@@ -2084,7 +2084,7 @@ export const defaultMessages = {
     '{count, plural, one {1 artifact} other {{count} artifacts}}',
   'architecture.misplaced_components.table.artifact_count':
     '{count, plural, one {1 artifact} other {{count} artifacts}}',
-
+  'architecture.directive.creation.success': 'Directive created successfully',
   //------------------------------------------------------------------------------
 
   //------------------------------------------------------------------------------
