@@ -1967,6 +1967,8 @@ export const defaultMessages = {
   'architecture.page.dashboard.open_graph': 'Open structure map',
   'architecture.page.dashboard.open_model_json': 'Edit model (json)',
   'architecture.page.dashboard.open_model_visual': 'Edit model (visual)',
+  'architecture.page.dashboard.open_model_disabled_info':
+    'Ask someone with an SonarQube Architect role in your organization to define the intended architecture.',
   'architecture.page.model.visual.title': 'Architecture model',
   'architecture.page.model.visual.new_group': 'New Group',
   'architecture.page.model.visual.sidebar.title': 'Source Nodes',
@@ -1976,7 +1978,9 @@ export const defaultMessages = {
   'architecture.page.model.visual.button.empty_state.add_component': 'Add a component',
   'architecture.page.model': 'Intended architecture',
   'architecture.page.dashboard.model.description':
-    'A model of the project intended architecture allows to detect deviations between the real architecture and the intended architecture.',
+    'The intended architecture describes the architecture towards which your project should trend.',
+  'architecture.page.dashboard.model.description_2':
+    'It enables the detection of architecture deviations and refines the detection of structural flaws.',
   'architecture.page.model.saved': 'Model saved successfully',
   'architecture.page.model.no_data': 'No model data',
   'architecture.page.model.invalid_json': 'Invalid JSON format',
@@ -2022,6 +2026,8 @@ export const defaultMessages = {
   'architecture.page.structural_flaws': 'Structural flaws',
   'architecture.page.architecture_deviations_description':
     'Patterns detected in the codebase that deviate from your intended architecture.',
+  'architecture.page.architecture_deviations_description_locked':
+    'Intended architecture is needed to unlock.',
   'architecture.page.structural_flaws_description':
     'Patterns detected in the codebase that indicate a flaw.',
   'architecture.page.disallowed_dependencies': 'Bad dependencies',
