@@ -22,6 +22,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ComponentProps } from 'react';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import BranchesServiceMock from '../../../api/mocks/BranchesServiceMock';
 import { ComponentContext } from '../../../context/componentContext/ComponentContext';
 import { mockComponent } from '../../../helpers/mocks/component';
@@ -152,6 +153,26 @@ it('handles open in ide button click with several ides found when there is fix s
     issueKey: MOCK_ISSUE_KEY,
     projectKey: MOCK_PROJECT_KEY,
     token: MOCK_TOKEN,
+  });
+});
+
+it('shows disabled button in Safari', async () => {
+  const originalUserAgent = navigator.userAgent;
+  Object.defineProperty(navigator, 'userAgent', {
+    value:
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15',
+    writable: true,
+  });
+
+  jest.mocked(probeSonarLintServers).mockResolvedValueOnce([MOCK_IDES_OPEN_FIX[0]]);
+  renderComponentOpenIssueInIdeButton();
+
+  expect(await byRole('button', { name: 'view_fix_in_ide' }).find()).toBeDisabled();
+  expect(byText('open_in_ide.safari.not_supported').get()).toBeInTheDocument();
+
+  Object.defineProperty(navigator, 'userAgent', {
+    value: originalUserAgent,
+    writable: true,
   });
 });
 

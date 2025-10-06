@@ -21,6 +21,8 @@
 import { Button, ButtonVariety, DropdownMenu } from '@sonarsource/echoes-react';
 import { useCallback, useState } from 'react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
+import IdeButtonSafariDisabled from '~shared/components/issues/IdeButtonSafariDisabled';
+import { isSafari } from '~shared/helpers/browsers';
 import { useComponent } from '../../context/componentContext/withComponentContext';
 import { useCurrentUser } from '../../context/current-user/CurrentUserContext';
 import { addGlobalErrorMessage } from '../../design-system';
@@ -129,6 +131,12 @@ export function OpenFixInIde({ aiSuggestion, issue }: Readonly<Props>) {
       {translate('view_fix_in_ide')}
     </Button>
   );
+
+  // Safari is not supported due to its limitations (no support for custom protocols)
+  // Disable button entirely and show a popover explaining the situation
+  if (isSafari()) {
+    return <IdeButtonSafariDisabled buttonKey="view_fix_in_ide" />;
+  }
 
   return ides === undefined ? (
     triggerButton

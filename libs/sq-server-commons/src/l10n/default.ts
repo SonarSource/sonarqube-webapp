@@ -200,6 +200,10 @@ export const defaultMessages = {
   or: 'Or',
   open: 'Open',
   open_in_ide: 'Open in IDE',
+  'open_in_ide.safari.not_supported': 'Not supported',
+  'open_in_ide.safari.not_supported.title': 'Feature not supported in Safari',
+  'open_in_ide.safari.not_supported.description':
+    'The "Open in IDE" feature is not supported in Safari. This is due to Safari\'s strict security policies regarding custom protocol links which are required to open files directly in your IDE. Please use Chrome or Firefox for this functionality.',
   open_issues: 'Open issues',
   optional: 'Optional',
   order: 'Order',

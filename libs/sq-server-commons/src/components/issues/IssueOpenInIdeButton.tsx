@@ -21,6 +21,8 @@
 import { Button, DropdownMenu } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import IdeButtonSafariDisabled from '~shared/components/issues/IdeButtonSafariDisabled';
+import { isSafari } from '~shared/helpers/browsers';
 import { addGlobalErrorMessage, addGlobalSuccessMessage } from '../../design-system';
 import { DocLink } from '../../helpers/doc-links';
 import { translate } from '../../helpers/l10n';
@@ -129,6 +131,12 @@ export function IssueOpenInIdeButton({ branchLike, issueKey, login, projectKey }
       {translate('open_in_ide')}
     </Button>
   );
+
+  // Safari is not supported due to its limitations (no support for custom protocols)
+  // Disable button entirely and show a popover explaining the situation
+  if (isSafari()) {
+    return <IdeButtonSafariDisabled buttonKey="open_in_ide" />;
+  }
 
   return ides === undefined ? (
     triggerButton

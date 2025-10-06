@@ -21,6 +21,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { FormattedMessage } from 'react-intl';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import UserTokensMock from '../../../api/mocks/UserTokensMock';
 import { addGlobalErrorMessage, addGlobalSuccessMessage } from '../../../design-system';
 import { DocLink } from '../../../helpers/doc-links';
@@ -185,6 +186,26 @@ it('handles button click with several ides found', async () => {
   expect(addGlobalSuccessMessage).toHaveBeenCalledWith('issues.open_in_ide.success');
 
   expect(addGlobalErrorMessage).not.toHaveBeenCalled();
+});
+
+it('shows disabled button in Safari', () => {
+  const originalUserAgent = navigator.userAgent;
+  Object.defineProperty(navigator, 'userAgent', {
+    value:
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15',
+    writable: true,
+  });
+
+  jest.mocked(probeSonarLintServers).mockResolvedValueOnce([MOCK_IDES[0]]);
+  renderComponentIssueOpenInIdeButton();
+
+  expect(byRole('button', { name: 'open_in_ide' }).get()).toBeDisabled();
+  expect(byText('open_in_ide.safari.not_supported').get()).toBeInTheDocument();
+
+  Object.defineProperty(navigator, 'userAgent', {
+    value: originalUserAgent,
+    writable: true,
+  });
 });
 
 function renderComponentIssueOpenInIdeButton(props: Partial<Props> = {}) {

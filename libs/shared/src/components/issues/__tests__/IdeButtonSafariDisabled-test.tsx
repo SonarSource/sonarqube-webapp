@@ -26,17 +26,21 @@ import IdeButtonSafariDisabled from '../IdeButtonSafariDisabled';
 
 type IdeButtonSafariDisabledProps = ComponentProps<typeof IdeButtonSafariDisabled>;
 
+const ui = {
+  openInIdeButton: byRole('button', { name: 'Open in IDE' }),
+  notSupportedText: byText('open_in_ide.safari.not_supported'),
+  popoverTitle: byRole('heading', { name: 'open_in_ide.safari.not_supported.title' }),
+};
+
 it('renders correctly', async () => {
   const user = userEvent.setup();
   renderIdeButtonDisabledSafari();
-  expect(byRole('button', { name: 'Open in IDE' }).get()).toBeDisabled();
-  expect(byText('open_in_ide.safari.not_supported').get()).toBeInTheDocument();
+  expect(ui.openInIdeButton.get()).toBeDisabled();
+  expect(ui.notSupportedText.get()).toBeInTheDocument();
 
-  await user.click(byText('open_in_ide.safari.not_supported').get());
+  await user.click(ui.notSupportedText.get());
 
-  expect(
-    byRole('heading', { name: 'open_in_ide.safari.not_supported.title' }).get(),
-  ).toBeInTheDocument();
+  expect(ui.popoverTitle.get()).toBeInTheDocument();
 });
 
 function renderIdeButtonDisabledSafari(props: Partial<IdeButtonSafariDisabledProps> = {}) {
