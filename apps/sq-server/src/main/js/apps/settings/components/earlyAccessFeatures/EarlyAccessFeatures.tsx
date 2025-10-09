@@ -18,25 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Spinner, Text, TextSize } from '@sonarsource/echoes-react';
+import { Heading, Text, TextSize } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { CardSeparator } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
-import { StaleTime } from '~shared/queries/common';
 import { addons } from '~sq-server-addons/index';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { useGetValueQuery } from '~sq-server-commons/queries/settings';
 import { Feature } from '~sq-server-commons/types/features';
-import { SettingsKey } from '~sq-server-commons/types/settings';
-import { MISRACompliance } from './MISRACompliance';
 
 export function EarlyAccessFeatures() {
   const { hasFeature } = useAvailableFeatures();
   const intl = useIntl();
-  const { isLoading: loadingMisraSetting } = useGetValueQuery(
-    { key: SettingsKey.MISRACompliance },
-    { staleTime: StaleTime.NEVER },
-  );
 
   const Architecture = addons.architecture?.ArchitectureEnablementForm;
 
@@ -49,9 +41,6 @@ export function EarlyAccessFeatures() {
         {intl.formatMessage({ id: 'settings.early_access.description' })}
       </Text>
       <div className="sw-flex sw-flex-col sw-gap-4">
-        <Spinner isLoading={loadingMisraSetting}>
-          <MISRACompliance />
-        </Spinner>
         {hasFeature(Feature.Architecture) && isDefined(Architecture) && (
           <>
             <CardSeparator />

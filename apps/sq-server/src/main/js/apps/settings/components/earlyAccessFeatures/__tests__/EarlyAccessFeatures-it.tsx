@@ -18,15 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import FixSuggestionsServiceMock from '~sq-server-commons/api/mocks/FixSuggestionsServiceMock';
 import ProjectManagementServiceMock from '~sq-server-commons/api/mocks/ProjectsManagementServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { SettingsKey } from '~sq-server-commons/types/settings';
 import { EarlyAccessFeatures } from '../EarlyAccessFeatures';
 
 let fixSuggestionsServiceMock: FixSuggestionsServiceMock;
@@ -49,87 +46,16 @@ afterEach(() => {
 });
 
 const ui = {
-  checkbox: (label: string) => byRole('checkbox', { name: new RegExp(label) }),
-  saveBtn: byRole('button', { name: 'save' }),
-  cancelBtn: byRole('button', { name: 'cancel' }),
-  dialogConfirm: byRole('dialog').byRole('button', { name: 'confirm' }),
+  pageTitle: byRole('heading', { name: 'settings.early_access.title' }),
+  pageDesc: byText('settings.early_access.description'),
 };
 
 describe('early access features', () => {
-  describe('MISRA', () => {
-    it('can enable misra feature', async () => {
-      settingServiceMock.set(SettingsKey.MISRACompliance, false);
-      const user = userEvent.setup();
-      renderEarlyAccessFeatures();
+  it('should render early access features page', async () => {
+    renderEarlyAccessFeatures();
 
-      expect(byRole('heading', { name: 'settings.early_access.title' }).get()).toBeInTheDocument();
-      expect(
-        await byRole('heading', { name: 'settings.early_access.misra.title' }).find(),
-      ).toBeInTheDocument();
-      expect(ui.checkbox('settings.early_access.misra.checkbox_label').get()).not.toBeChecked();
-      await user.click(ui.checkbox('settings.early_access.misra.checkbox_label').get());
-
-      expect(ui.saveBtn.get()).toBeInTheDocument();
-
-      // reset change
-      await user.click(ui.cancelBtn.get());
-      expect(ui.saveBtn.query()).not.toBeInTheDocument();
-
-      // check again
-      await user.click(ui.checkbox('settings.early_access.misra.checkbox_label').get());
-      await user.click(ui.saveBtn.get());
-
-      expect(
-        byRole('heading', { name: 'settings.early_access.misra.dialog_title.true' }).get(),
-      ).toBeInTheDocument();
-      expect(
-        byText('settings.early_access.misra.dialog_description.enable').get(),
-      ).toBeInTheDocument();
-
-      await user.click(ui.dialogConfirm.get());
-
-      expect(ui.saveBtn.query()).not.toBeInTheDocument();
-      expect(ui.checkbox('settings.early_access.misra.checkbox_label').get()).toBeChecked();
-      expect(byText('system.restart_server').get()).toBeInTheDocument();
-    });
-
-    it('can disable misra feature', async () => {
-      settingServiceMock.set(SettingsKey.MISRACompliance, true);
-      const user = userEvent.setup();
-      renderEarlyAccessFeatures();
-
-      expect(byRole('heading', { name: 'settings.early_access.title' }).get()).toBeInTheDocument();
-      expect(
-        await byRole('heading', { name: 'settings.early_access.misra.title' }).find(),
-      ).toBeInTheDocument();
-      expect(ui.checkbox('settings.early_access.misra.checkbox_label').get()).toBeChecked();
-
-      await user.click(ui.checkbox('settings.early_access.misra.checkbox_label').get());
-      await user.click(ui.saveBtn.get());
-
-      expect(
-        byRole('heading', { name: 'settings.early_access.misra.dialog_title.false' }).get(),
-      ).toBeInTheDocument();
-      expect(
-        byText('settings.early_access.misra.dialog_description.disable').get(),
-      ).toBeInTheDocument();
-      await user.click(ui.dialogConfirm.get());
-      expect(ui.saveBtn.query()).not.toBeInTheDocument();
-      expect(ui.checkbox('settings.early_access.misra.checkbox_label').get()).not.toBeChecked();
-      expect(byText('system.restart_server').get()).toBeInTheDocument();
-    });
-
-    it('is not rendered when no setting', async () => {
-      renderEarlyAccessFeatures();
-
-      expect(byRole('heading', { name: 'settings.early_access.title' }).get()).toBeInTheDocument();
-      await waitFor(() => {
-        expect(byRole('loading').query()).not.toBeInTheDocument();
-      });
-      expect(
-        byRole('heading', { name: 'settings.early_access.misra.title' }).query(),
-      ).not.toBeInTheDocument();
-    });
+    expect(await ui.pageTitle.find()).toBeInTheDocument();
+    expect(ui.pageDesc.get()).toBeInTheDocument();
   });
 });
 

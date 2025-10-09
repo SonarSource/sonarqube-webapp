@@ -34,7 +34,6 @@ export const enum SettingsKey {
   CodeSuggestion = 'sonar.ai.suggestions.enabled',
   AutodetectAICode = 'sonar.autodetect.ai.code',
   DesignAndArchitecture = 'sonar.architecture.visualization.enabled',
-  MISRACompliance = 'sonar.earlyAccess.misra.enabled',
 }
 
 export enum GlobalSettingKeys {
