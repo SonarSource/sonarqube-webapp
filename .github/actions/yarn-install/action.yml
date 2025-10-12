@@ -1,0 +1,33 @@
+name: Yarn install
+description: Install dependencies using Yarn and cache them
+
+runs:
+  using: composite
+  steps:
+    - id: secrets
+      uses: SonarSource/vault-action-wrapper@v3
+      with:
+        secrets: |
+          development/artifactory/token/{REPO_OWNER_NAME_DASH}-private-reader username | ARTIFACTORY_USERNAME;
+          development/artifactory/token/{REPO_OWNER_NAME_DASH}-private-reader access_token | ARTIFACTORY_ACCESS_TOKEN;
+    - uses: jdx/mise-action@5ac50f778e26fac95da98d50503682459e86d566 # v3
+      with:
+        version: 2025.9.12
+    - name: Cache Yarn dependencies
+      uses: SonarSource/ci-github-actions/cache@v1
+      with:
+        path: |
+          .yarn
+        key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: yarn-${{ runner.os }}-
+    - name: Yarn install dependencies
+      shell: bash
+      env:
+        ARTIFACTORY_URL: 'https://repox.jfrog.io/artifactory'
+        ARTIFACTORY_USERNAME: ${{ fromJSON(steps.secrets.outputs.vault).ARTIFACTORY_USERNAME }}
+        ARTIFACTORY_ACCESS_TOKEN: ${{ fromJSON(steps.secrets.outputs.vault).ARTIFACTORY_ACCESS_TOKEN }}
+      run: |
+        yarn config set npmRegistryServer "${ARTIFACTORY_URL}/api/npm/npm"
+        yarn config set npmAlwaysAuth true
+        yarn config set npmAuthIdent ${ARTIFACTORY_USERNAME}:${ARTIFACTORY_ACCESS_TOKEN}
+        yarn install --immutable

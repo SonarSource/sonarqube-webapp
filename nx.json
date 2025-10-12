@@ -125,9 +125,11 @@
       "options": {
         "cwd": "{workspaceRoot}",
         "commands": [
-          "ls {projectRoot}/build/reports/coverage",
+          "ls -la {projectRoot}/build/reports/coverage",
           "yarn nyc merge {projectRoot}/build/reports/coverage {projectRoot}/build/reports/merged-coverage/coverage-final.json",
-          "yarn nyc report -t {projectRoot}/build/reports/merged-coverage --report-dir {projectRoot}/build/reports/coverage --reporter=lcov"
+          "rm -rf {projectRoot}/build/reports/coverage/*",
+          "yarn nyc report -t {projectRoot}/build/reports/merged-coverage --report-dir {projectRoot}/build/reports/coverage --reporter=lcov",
+          "rm -rf {projectRoot}/build/reports/merged-coverage/"
         ],
         "parallel": false
       },

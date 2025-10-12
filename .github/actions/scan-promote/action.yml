@@ -1,0 +1,82 @@
+name: Scan and promote
+description: Scan the project and promote the artifact if quality gate is passed, can also perform shadow scans on sonarqube.us and sonarcloud.io
+
+inputs:
+  product-name:
+    description: 'The product name (e.g. sq-cloud, sq-server)'
+    required: true
+  build-number:
+    description: 'The build number to promote'
+    required: true
+  shadow-scans:
+    description: 'Whether to perform shadow scans, if true the analysis will also run on sonarcloud.io and sonarqube.us. If false will only run on Next.'
+    required: true
+  project-key:
+    description: 'The SonarQube project key (e.g. SonarSource_echoes-react)'
+    required: true
+
+runs:
+  using: composite
+  steps:
+      - id: secrets
+        uses: SonarSource/vault-action-wrapper@v3
+        with:
+          secrets: |
+            development/kv/data/next url | NEXT_URL;
+            development/kv/data/next token | NEXT_TOKEN;
+            development/kv/data/sonarqube-us url | SQC_US_URL;
+            development/kv/data/sonarqube-us token | SQC_US_TOKEN;
+            development/kv/data/sonarcloud url | SQC_EU_URL;
+            development/kv/data/sonarcloud token | SQC_EU_TOKEN;
+
+            development/artifactory/token/{REPO_OWNER_NAME_DASH}-private-reader access_token | ARTIFACTORY_ACCESS_TOKEN;
+            development/artifactory/token/{REPO_OWNER_NAME_DASH}-promoter access_token | ARTIFACTORY_PROMOTE_ACCESS_TOKEN;
+      - name: Download coverage and lint reports
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        with:
+          pattern: ${{ inputs.product-name }}-results-scan-*
+          path: build/reports/
+          merge-multiple: true
+      - name: Scan ${{ inputs.product-name }} on Next
+        shell: bash
+        env:
+          SONAR_HOST_URL: ${{ fromJSON(steps.secrets.outputs.vault).NEXT_URL }}
+          SONAR_TOKEN: ${{ fromJSON(steps.secrets.outputs.vault).NEXT_TOKEN }}
+        run: |
+          ls -la build/reports/
+          .github/scripts/scan-${{ inputs.product-name }}.sh
+      - name: Promote ${{ inputs.product-name }} build
+        shell: bash
+        env:
+          ARTIFACTORY_PROMOTE_ACCESS_TOKEN: ${{ fromJSON(steps.secrets.outputs.vault).ARTIFACTORY_PROMOTE_ACCESS_TOKEN }}
+          BUILD_NUMBER: ${{ inputs.build-number }}
+        run: |
+          .github/scripts/promote-${{ inputs.product-name }}.sh
+      - name: Scan ${{ inputs.product-name }} on sonarcloud.io
+        if: ${{ inputs.shadow-scans == 'true' }}
+        shell: bash
+        env:
+          SONAR_HOST_URL: ${{ fromJSON(steps.secrets.outputs.vault).SQC_EU_URL }}
+          SONAR_TOKEN: ${{ fromJSON(steps.secrets.outputs.vault).SQC_EU_TOKEN }}
+          ORGANIZATION: 'sonarsource'
+        run: |
+          .github/scripts/scan-${{ inputs.product-name }}.sh
+      - name: Scan ${{ inputs.product-name }} on sonarqube.us
+        if: ${{ inputs.shadow-scans == 'true' }}
+        shell: bash
+        env:
+          SONAR_HOST_URL: ${{ fromJSON(steps.secrets.outputs.vault).SQC_US_URL }}
+          SONAR_TOKEN: ${{ fromJSON(steps.secrets.outputs.vault).SQC_US_TOKEN }}
+          ORGANIZATION: 'sonarsource'
+        run: |
+          .github/scripts/scan-${{ inputs.product-name }}.sh
+      - name: Sync issues with IRIS
+        if: ${{ inputs.shadow-scans == 'true' }}
+        uses: SonarSource/unified-dogfooding-actions/run-iris@v1
+        with:
+          primary_project_key: "${{ inputs.project-key }}"
+          primary_platform: "Next"
+          shadow1_project_key: "${{ inputs.project-key }}"
+          shadow1_platform: "SQC-EU"
+          shadow2_project_key: "${{ inputs.project-key }}"
+          shadow2_platform: "SQC-US"
