@@ -113,7 +113,8 @@ export function getPageObject(user: UserEvent) {
       await user.click(ui.showAllBtn.get());
     },
     async searchFor(name: string) {
-      await user.type(ui.searchInput.get(), name);
+      await user.click(ui.searchInput.get());
+      await user.paste(name);
     },
     async clearSearch() {
       await user.clear(ui.searchInput.get());

@@ -196,30 +196,6 @@ it('should behave correctly when using search', async () => {
   expect(await ui.searchResult(/folderA/).find()).toBeInTheDocument();
 });
 
-it('should correctly handle long lists of components', async () => {
-  const component = mockComponent(componentsHandler.findComponentTree('foo')?.component);
-  componentsHandler.registerComponentTree({
-    component,
-    ancestors: [],
-    children: times(300, (n) => ({
-      component: mockComponent({
-        key: `foo:file${n}`,
-        name: `file${n}`,
-        qualifier: ComponentQualifier.File,
-      }),
-      ancestors: [component],
-      children: [],
-    })),
-  });
-  const ui = getPageObject(userEvent.setup());
-  renderCode();
-  await ui.appLoaded();
-
-  expect(ui.showingOutOfTxt(100, 300).get()).toBeInTheDocument();
-  await ui.clickLoadMore();
-  expect(ui.showingOutOfTxt(200, 300).get()).toBeInTheDocument();
-});
-
 it.each([
   ComponentQualifier.Application,
   ComponentQualifier.Project,

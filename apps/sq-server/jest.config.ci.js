@@ -24,6 +24,6 @@ module.exports = {
   ...jestConfig,
   collectCoverage: true,
   coverageReporters: ['json', 'lcov'],
-  maxWorkers: 6, // We have set number of CPU in .cirrus.yml to 10
-  workerIdleMemoryLimit: '4GB',
+  maxWorkers: 8, // We use sonar-l runner with 20 CPUs and 40 GB ram
+  workerIdleMemoryLimit: '5GB',
 };
