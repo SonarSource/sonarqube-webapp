@@ -123,7 +123,8 @@ const TabButton = styled(BareButton)<{
 
   height: 34px;
   background: ${(props) => (props.selected ? themeColor('backgroundSecondary') : 'none')};
-  color: ${(props) => (props.selected ? themeColor('tabSelected') : cssVar('color-text-subtle'))};
+  color: ${(props) =>
+    props.selected ? cssVar('color-text-accent') : cssVar('color-text-default')};
   border: ${(props) =>
     props.selected ? props.borderColor : themeBorder('default', 'transparent')};
   border-bottom: ${(props) =>
@@ -132,6 +133,13 @@ const TabButton = styled(BareButton)<{
   &:hover {
     background: ${(props) =>
       props.selected ? themeColor('backgroundSecondary') : themeColor('tabHover')};
+  }
+
+  &:focus-visible {
+    background: ${(props) =>
+      props.selected ? themeColor('backgroundSecondary') : themeColor('tabHover')};
+    outline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
+    z-index: 1;
   }
 
   &:active {
