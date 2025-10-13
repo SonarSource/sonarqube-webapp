@@ -354,9 +354,13 @@ const itemStyle = (props: ThemedProps) => css`
     color: var(--color);
     background-color: ${themeColor('dropdownMenuHover')(props)};
     text-decoration: none;
-    outline: none;
     border: none;
     border-bottom: none;
+  }
+
+  &.branch-like-active {
+    background-color: ${themeColor('dropdownMenuHover')(props)};
+    box-shadow: inset 3px 0px 0px 0px ${cssVar('color-focus-default')};
   }
 
   &:focus,
@@ -368,11 +372,6 @@ const itemStyle = (props: ThemedProps) => css`
     text-decoration: none;
     border: none;
     border-bottom: none;
-  }
-
-  &:focus-visible {
-    borderLeft: '2px solid ${cssVar('color-focus-default')}',
-    marginLeft: '-2px',
   }
 
   &:disabled,
