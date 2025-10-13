@@ -55,6 +55,8 @@ if [[ "${PULL_REQUEST}" ]] || [[ "${GITHUB_BRANCH}" == "master" ]]; then
     scanner_params+=("-Dsonar.organization=${ORGANIZATION}")
   fi
 
+  ESLINT_REPORT_PATH=$(find build/reports/ -name eslint-report.json -type f | paste -sd ',')
+
   scanner_params+=(
     "-Dsonar.projectName=SonarQube Cloud Webapp"
     "-Dsonar.host.url=${SONAR_HOST_URL}"
@@ -63,7 +65,7 @@ if [[ "${PULL_REQUEST}" ]] || [[ "${GITHUB_BRANCH}" == "master" ]]; then
     "-Dsonar.analysis.repository=${GITHUB_REPOSITORY}"
     "-Dsonar.analysis.sha1=${GITHUB_SHA}"
     "-Dsonar.projectKey=${PROJECT_KEY}"
-    "-Dsonar.eslint.reportPaths=build/reports/eslint-report/eslint-report.json"
+    "-Dsonar.eslint.reportPaths=${ESLINT_REPORT_PATH}"
     "-Dsonar.python.version=3"
     "-Dsonar.python.coverage.reportPaths=build/reports/static-handler/build/coverage.xml,build/reports/webapp-assets-platform/build/coverage.xml"
     "-Dsonar.javascript.lcov.reportPaths=build/reports/coverage/lcov.info"
