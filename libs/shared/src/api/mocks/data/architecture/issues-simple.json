@@ -3,7 +3,7 @@
     {
       "type": "TANGLE",
       "languageKey": "java",
-      "graphKey": "architecture.java.simple_test_graph",
+      "graphKey": "architecture.graph.java.namespace_graph.default_perspective",
       "nodeKeys": ["test-module:com.example.ClassA", "test-module:com.example.ClassB"],
       "properties": {
         "tangleType": "ITEM",

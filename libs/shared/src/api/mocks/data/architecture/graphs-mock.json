@@ -6,17 +6,25 @@
       "organizationId": "7fcb0a1f-15e9-447c-9ded-38913c626337",
       "type": "structural_issues",
       "ecosystem": "java",
-      "perspectiveKey": "simple-perspective",
-      "graphVersion": "2.0.0"
+      "graphVersion": "1.0.0"
     },
     {
       "id": "222-namespace-graph-222",
-      "analysisId": "AZfpWoF7WM0AmmyYLGYJ",
-      "organizationId": "7fcb0a1f-15e9-447c-9ded-38913c626337",
-      "type": "namespace_graph",
+      "analysisId": "AZnIcXvfZG9ul_fEcl4Q",
       "ecosystem": "java",
-      "perspectiveKey": "simple-perspective",
-      "graphVersion": "2.0.0"
+      "graphVersion": "2.0.0",
+      "organizationId": "f7a23dc6-8dd7-43a9-96a2-b315731facf0",
+      "perspectiveKey": "default_perspective",
+      "type": "namespace_graph"
+    },
+    {
+      "id": "333-namespace-graph-333",
+      "analysisId": "AZnIcXvfZG9ul_fEcl4Q",
+      "ecosystem": "java",
+      "graphVersion": "2.0.0",
+      "organizationId": "f7a23dc6-8dd7-43a9-96a2-b315731facf0",
+      "perspectiveKey": "intended_perspective_mapped_detail_filtered",
+      "type": "namespace_graph"
     }
   ]
 }
