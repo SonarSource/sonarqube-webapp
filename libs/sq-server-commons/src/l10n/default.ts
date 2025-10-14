@@ -8617,6 +8617,7 @@ export const defaultMessages = {
   'license.how_to_fix_it': 'How to fix it',
   'license.i_accept_the_terms_and_conditions_with_link': 'I accept the {link}',
   'license.i_accept_the_terms_and_conditions': 'I accept the SonarQube Terms and Conditions',
+  'license.invalid': 'Invalid',
   'license.is_supported': 'Support included',
   'license.last_refresh': 'Last refresh: ',
   'license.learn_more_or_activate_offline':
