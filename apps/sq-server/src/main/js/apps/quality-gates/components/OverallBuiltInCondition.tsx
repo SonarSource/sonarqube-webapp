@@ -64,6 +64,7 @@ function OverallBuiltInCondition({ condition, metric, metrics }: Readonly<Props>
           }}
         />
         <ToggleTip
+          ariaLabel={translate('toggle_tip.aria_label.threshold')}
           className="sw-ml-2"
           description={translate('quality_gates.conditions.cayc.threshold.hint')}
         />

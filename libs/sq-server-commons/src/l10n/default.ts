@@ -8711,4 +8711,13 @@ export const defaultMessages = {
   'new_code.page.description.documentation_link': 'Learn more in documentation',
   'new_code.changes_affect_new_projects_only': 'Changes will only affect new projects',
   'new_code.page.notification.success': 'New code definition updated successfully',
+
+  // Toggle Tips
+  'toggle_tip.aria_label.quality_gate': 'More information about quality gate',
+  'toggle_tip.aria_label.unbound_project': 'More information about PR decoration',
+  'toggle_tip.aria_label.alm_not_configured': 'More information about ALM integration',
+  'toggle_tip.aria_label.threshold': 'More information about threshold',
+  'toggle_tip.aria_label.security_hotspots': 'More information about security hotspots',
+  'toggle_tip.aria_label.reports': 'More information about reports',
+  'toggle_tip.aria_label.onboarding': 'More information about onboarding',
 };

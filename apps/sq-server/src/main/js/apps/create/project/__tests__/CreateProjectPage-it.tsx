@@ -71,7 +71,9 @@ it('should not be able to setup if no config and no admin rights', async () => {
   expect(await screen.findByText('onboarding.create_project.select_method')).toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'setup' })).not.toBeInTheDocument();
 
-  const helpTooltipButton = await screen.findByLabelText('toggletip.help');
+  const helpTooltipButton = await screen.findByLabelText(
+    'toggle_tip.aria_label.alm_not_configured',
+  );
   await user.click(helpTooltipButton);
 
   expect(

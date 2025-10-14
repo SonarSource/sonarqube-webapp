@@ -160,6 +160,7 @@ export default function ComponentReportActionsRenderer(
 
       {!branch?.excludedFromPurge && (
         <ToggleTip
+          ariaLabel={intl.formatMessage({ id: 'toggle_tip.aria_label.reports' })}
           description={
             <Text>
               {intl.formatMessage({
@@ -179,6 +180,7 @@ export default function ComponentReportActionsRenderer(
 
       {!currentUserHasEmail && branch?.excludedFromPurge && (
         <ToggleTip
+          ariaLabel={intl.formatMessage({ id: 'toggle_tip.aria_label.reports' })}
           description={intl.formatMessage({ id: 'component_report.no_email_to_subscribe' })}
         />
       )}

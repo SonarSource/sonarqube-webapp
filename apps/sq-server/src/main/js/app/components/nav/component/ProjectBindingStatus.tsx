@@ -124,11 +124,13 @@ export function ProjectBindingStatus({
 
 const UnboundBadge = forwardRef<HTMLButtonElement, { className?: string; isUserLoggedIn: boolean }>(
   ({ className, isUserLoggedIn }, ref) => {
+    const { formatMessage } = useIntl();
     return (
       <Badge className={className} ref={ref} size={BadgeSize.Small} variety={BadgeVariety.Neutral}>
         <FormattedMessage id="project_navigation.binding_status.not_bound" />
         {isUserLoggedIn && (
           <ToggleTip
+            ariaLabel={formatMessage({ id: 'toggle_tip.aria_label.unbound_project' })}
             description={
               <FormattedMessage id="project_navigation.binding_status.not_bound.tooltip" />
             }

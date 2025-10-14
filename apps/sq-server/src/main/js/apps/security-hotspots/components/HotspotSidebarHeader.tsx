@@ -100,6 +100,7 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
       </span>
 
       <ToggleTip
+        ariaLabel={translate('toggle_tip.aria_label.security_hotspots')}
         className="sw-ml-2"
         description={translate('hotspots.reviewed.tooltip')}
         title={translate('metric.security_hotspots_reviewed.name')}

@@ -82,8 +82,18 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
           <Heading as="h2" className="sw-typo-lg-semibold sw-m-0">
             {translate('quality_gates.conditions')}
           </Heading>
-          {!isBuiltIn && <ToggleTip description={translate('quality_gates.conditions.help')} />}
-          {isBuiltIn && <ToggleTip description={translate('quality_gates.conditions.hint')} />}
+          {!isBuiltIn && (
+            <ToggleTip
+              ariaLabel={translate('toggle_tip.aria_label.quality_gate')}
+              description={translate('quality_gates.conditions.help')}
+            />
+          )}
+          {isBuiltIn && (
+            <ToggleTip
+              ariaLabel={translate('toggle_tip.aria_label.quality_gate')}
+              description={translate('quality_gates.conditions.hint')}
+            />
+          )}
           <Spinner className="sw-ml-4 sw-mt-1" isLoading={isFetching} />
         </div>
         <div>{canEdit && <AddConditionModal qualityGate={qualityGate} />}</div>

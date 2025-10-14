@@ -116,7 +116,10 @@ function renderAlmOption(
               {translate('setup')}
             </Button>
           ) : (
-            <ToggleTip description={translate('onboarding.create_project.alm_not_configured')} />
+            <ToggleTip
+              ariaLabel={translate('toggle_tip.aria_label.alm_not_configured')}
+              description={translate('onboarding.create_project.alm_not_configured')}
+            />
           ))}
       </Spinner>
     </GreyCard>

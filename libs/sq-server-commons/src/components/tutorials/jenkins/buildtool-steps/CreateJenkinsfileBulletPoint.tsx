@@ -20,6 +20,7 @@
 
 import { MessageCallout, MessageVariety, ToggleTip } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { useIntl } from 'react-intl';
 import { CodeSnippet, NumberedListItem } from '../../../../design-system';
 import SentenceWithFilename from '../../components/SentenceWithFilename';
 import SentenceWithHighlights from '../../components/SentenceWithHighlights';
@@ -34,6 +35,7 @@ export default function CreateJenkinsfileBulletPoint(
   props: Readonly<CreateJenkinsfileBulletPointProps>,
 ) {
   const { children, snippet, alertTranslationKeyPart } = props;
+  const { formatMessage } = useIntl();
 
   return (
     <NumberedListItem>
@@ -50,6 +52,7 @@ export default function CreateJenkinsfileBulletPoint(
               translationKey={`${alertTranslationKeyPart}.replace`}
             />
             <ToggleTip
+              ariaLabel={formatMessage({ id: 'toggle_tip.aria_label.onboarding' })}
               className="sw-ml-1"
               description={
                 <>

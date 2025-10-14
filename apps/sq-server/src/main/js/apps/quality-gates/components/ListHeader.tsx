@@ -38,6 +38,7 @@ export default function ListHeader({ canCreate }: Readonly<Props>) {
           {intl.formatMessage({ id: 'quality_gates.page' })}
         </Heading>
         <ToggleTip
+          ariaLabel={translate('toggle_tip.aria_label.quality_gate')}
           description={intl.formatMessage({ id: 'quality_gates.help.desc' })}
           footer={
             <DocumentationLink enableOpenInNewTab standalone to={DocLink.QualityGates}>

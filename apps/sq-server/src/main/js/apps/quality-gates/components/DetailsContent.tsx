@@ -52,7 +52,11 @@ export function DetailsContent(props: DetailsContentProps) {
         <div className="sw-flex sw-flex-col">
           <Heading as="h3" className="sw-flex sw-items-center sw-typo-lg-semibold sw-mb-4">
             {translate('quality_gates.projects')}
-            <ToggleTip className="sw-ml-2" description={translate('quality_gates.projects.help')} />
+            <ToggleTip
+              ariaLabel={translate('toggle_tip.aria_label.quality_gate')}
+              className="sw-ml-2"
+              description={translate('quality_gates.projects.help')}
+            />
           </Heading>
 
           {qualityGate.isDefault ? (

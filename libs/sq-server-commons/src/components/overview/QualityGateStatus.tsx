@@ -37,6 +37,7 @@ export default function QualityGateStatus(props: Readonly<Props>) {
         <div className="sw-flex sw-items-center">
           <Text isSubtle>{translate('overview.quality_gate')}</Text>
           <ToggleTip
+            ariaLabel={translate('toggle_tip.aria_label.quality_gate')}
             className="sw-ml-2"
             description={translate('overview.quality_gate.help')}
             title={translate('overview.quality_gate')}
