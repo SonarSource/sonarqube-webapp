@@ -68,7 +68,7 @@ export default function MeasuresCard(
           highlight={LinkHighlight.Default}
           to={url}
         >
-          {value ?? '-'}
+          {value || '-'}
         </LinkStandalone>
 
         {icon}
