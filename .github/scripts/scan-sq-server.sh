@@ -49,6 +49,10 @@ if [[ "${PULL_REQUEST}" ]] || [[ "${GITHUB_BRANCH}" == "master" ]] || [[ "${GITH
     scanner_params+=("-Dsonar.organization=${ORGANIZATION}")
   fi
 
+  if [[ "$SONAR_HOST_URL" == *"sonarqube.us"* ]]; then
+    scanner_params+=("-Dsonar.region=US")
+  fi
+
   ESLINT_REPORT_PATH=$(find build/reports/ -name eslint-report.json -type f | paste -sd ',')
 
   scanner_params+=(
