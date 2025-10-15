@@ -68,6 +68,8 @@ const globalConfig = {
 };
 
 const projectConfig = {
+  cacheDirectory: '<rootDir>/.cache/jest_cache',
+
   globalSetup: `${__dirname}/GlobalSetup.js`,
 
   // File extension used by our modules, from most to less used
@@ -114,6 +116,12 @@ const projectConfig = {
   testEnvironmentOptions: {
     customExportConditions: [''],
   },
+
+  // Report the 5 slowest tests
+  reporters: [
+    'default',
+    ['jest-slow-test-reporter', { numTests: 5, warnOnSlowerThan: 10000, color: true }],
+  ],
 };
 
 module.exports = {

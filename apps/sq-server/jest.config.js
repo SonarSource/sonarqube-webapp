@@ -71,10 +71,5 @@ module.exports = {
   transform: {
     '^.+\\.[jt]sx?$': `<rootDir>/apps/sq-server/config/jest/JestPreprocess.js`,
   },
-  reporters: [
-    'default',
-    ['jest-slow-test-reporter', { numTests: 5, warnOnSlowerThan: 10000, color: true }],
-  ],
-
   testTimeout: 80000,
 };
