@@ -47,9 +47,9 @@ module.exports = {
     '~adapters/(.+)': '<rootDir>/libs/sq-server-commons/src/sq-server-adapters/$1',
 
     // sq-server specific modules aliases
-    '~sq-server-addons': isPrivateEdition
-      ? '<rootDir>/private/libs/sq-server-addons/src/index.ts'
-      : '<rootDir>/libs/sq-server-addons/src/index.ts',
+    '~sq-server-addons/(.+)': isPrivateEdition
+      ? '<rootDir>/private/libs/sq-server-addons/src/$1'
+      : '<rootDir>/libs/sq-server-addons/src/$1',
     '~sq-server-features/(.+)': '<rootDir>/private/libs/sq-server-features/src/$1',
     '~sq-server-commons/(.+)': '<rootDir>/libs/sq-server-commons/src/$1',
 

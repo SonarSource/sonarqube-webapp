@@ -55,65 +55,6 @@ it('should render correctly when there is only 1 branch', async () => {
   ).toBeDisabled();
 });
 
-it('should render correctly when there are multiple branch', async () => {
-  const user = userEvent.setup();
-  renderHeader();
-
-  expect(
-    await screen.findByRole('button', { name: 'main overview.quality_gate_x.metric.level.OK' }),
-  ).toBeEnabled();
-
-  expect(screen.queryByLabelText('help-tooltip')).not.toBeInTheDocument();
-
-  await user.click(
-    screen.getByRole('button', { name: 'main overview.quality_gate_x.metric.level.OK' }),
-  );
-  expect(screen.getByText('branches.main_branch')).toBeInTheDocument();
-  expect(
-    screen.getByRole('menuitem', {
-      name: '03 – TEST-193 dumb commit overview.quality_gate_x.metric.level.ERROR ERROR',
-    }),
-  ).toBeInTheDocument();
-  expect(
-    screen.getByRole('menuitem', {
-      name: '01 – TEST-191 update master overview.quality_gate_x.metric.level.OK OK',
-    }),
-  ).toBeInTheDocument();
-  expect(
-    screen.getByRole('menuitem', {
-      name: 'normal-branch overview.quality_gate_x.metric.level.ERROR ERROR',
-    }),
-  ).toBeInTheDocument();
-
-  await user.click(
-    screen.getByRole('menuitem', {
-      name: 'normal-branch overview.quality_gate_x.metric.level.ERROR ERROR',
-    }),
-  );
-  expect(screen.getByText('/dashboard?branch=normal-branch&id=header-project')).toBeInTheDocument();
-});
-
-it('should show manage branch and pull request button for admin', async () => {
-  const user = userEvent.setup();
-  renderHeader({
-    currentUser: mockLoggedInUser(),
-    component: mockComponent({
-      key: 'header-project',
-      configuration: { showSettings: true },
-      breadcrumbs: [{ name: 'project', key: 'project', qualifier: ComponentQualifier.Project }],
-    }),
-  });
-  await user.click(
-    await screen.findByRole('button', { name: 'main overview.quality_gate_x.metric.level.OK' }),
-  );
-
-  expect(screen.getByRole('link', { name: 'branch_like_navigation.manage' })).toBeInTheDocument();
-  expect(screen.getByRole('link', { name: 'branch_like_navigation.manage' })).toHaveAttribute(
-    'href',
-    '/project/branches?id=header-project',
-  );
-});
-
 it('should render favorite button if the user is logged in', async () => {
   const user = userEvent.setup();
   renderHeader({ currentUser: mockLoggedInUser() });
@@ -127,24 +68,6 @@ it('should render favorite button if the user is logged in', async () => {
   await user.click(screen.getByRole('button', { name: 'favorite.action.TRK.remove' }));
   expect(screen.getByRole('button', { name: 'favorite.action.TRK.add' })).toBeInTheDocument();
 });
-
-it.each([['github'], ['gitlab'], ['bitbucket'], ['azure']])(
-  'should show correct %s links for a PR',
-  async (alm: string) => {
-    handler.emptyBranchesAndPullRequest();
-    handler.addPullRequest(mockPullRequest({ url: alm }));
-    renderHeader(
-      {
-        currentUser: mockLoggedInUser(),
-      },
-      undefined,
-      'pullRequest=1001&id=compa',
-    );
-    const image = await screen.findByAltText(alm);
-    expect(image).toBeInTheDocument();
-    expect(image).toHaveAttribute('src', `/images/alm/${alm}.svg`);
-  },
-);
 
 it('should show the correct help tooltip for applications', async () => {
   handler.emptyBranchesAndPullRequest();
@@ -184,6 +107,7 @@ it('should show the correct help tooltip when branch support is not enabled', as
     screen.getByText('branch_like_navigation.no_branch_support.content_x.mr.alm.gitlab'),
   ).toBeInTheDocument();
 });
+
 
 function renderHeader(
   props?: Partial<HeaderProps>,

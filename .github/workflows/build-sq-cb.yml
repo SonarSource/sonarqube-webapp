@@ -1,0 +1,149 @@
+name: Build SQ-Community Build Webapp
+on:
+  push:
+    branches:
+      - master
+      - branch-sqs-*
+
+permissions:
+  id-token: write # OIDC auth for vault
+  contents: read # Checkout
+
+env:
+  ARTIFACTORY_URL: "https://repox.jfrog.io/artifactory"
+  ARTIFACTORY_DEPLOY_REPO: "sonarsource-private-qa"
+  ARTIFACTORY_DEPLOY_REPO_PUBLIC: "sonarsource-public-qa"
+  REPORTS_PATH: apps/sq-server/build/reports
+  DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+  GITHUB_BRANCH: ${{ github.head_ref || github.ref_name }}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build SQ-Community Build
+    runs-on: github-ubuntu-latest-s
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+      - uses: ./.github/actions/yarn-install
+      - name: Build SQ-Community Build
+        id: build-sq-cb
+        shell: bash
+        run: |
+          yarn nx build sq-server --output-style=static
+      - name: Upload build results
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: sq-community-build
+          path: |
+            apps/sq-server/build/**
+          if-no-files-found: warn
+
+  lint:
+    name: Lint SQ-Community Build
+    runs-on: github-ubuntu-latest-s
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+      - uses: ./.github/actions/yarn-install
+      - name: Lint SQ-Community Build
+        id: lint-sq-cb
+        shell: bash
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: |
+          yarn nx run-many -t lint-report -p sq-server,tag:scope:shared,tag:scope:server --output-style=static
+      - name: Upload lint results
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: sq-cb-results-scan-lint
+          path: |
+            **/build/reports/**
+            !**/node_modules/**
+          if-no-files-found: warn
+
+  unit-test:
+    name: Unit tests SQ-Community Build
+    runs-on: github-ubuntu-latest-l
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+      - uses: ./.github/actions/yarn-install
+      - name: Unit tests SQ-Community Build
+        id: unit-tests-sq-community-build
+        shell: bash
+        env:
+          NODE_OPTIONS: --max-old-space-size=8192
+          SHARD_VALUE: 1
+          SHARD_TOTAL: 1
+        run: |
+          yarn nx test-ci-shard sq-server --output-style=static
+      - name: Upload unit test results
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: sq-cb-results-scan-coverage
+          path: |
+            ${{ env.REPORTS_PATH }}/**
+          if-no-files-found: warn
+
+  scan:
+    name: Scan SQ-Community Build
+    needs: [build, lint, unit-test]
+    runs-on: github-ubuntu-latest-s
+    steps:
+      - id: secrets
+        uses: SonarSource/vault-action-wrapper@v3
+        with:
+          secrets: |
+            development/kv/data/next url | NEXT_URL;
+            development/kv/data/next token | NEXT_TOKEN;
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+        with:
+          # Disabling shallow clones is recommended for improving the relevance of reporting
+          fetch-depth: 0
+      - uses: ./.github/actions/yarn-install
+      - name: Download coverage and lint reports
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        with:
+          pattern: sq-cb-results-scan-*
+          path: build/reports/
+          merge-multiple: true
+      - name: Scan SQ-Community Build on Next
+        shell: bash
+        env:
+          SONAR_HOST_URL: ${{ fromJSON(steps.secrets.outputs.vault).NEXT_URL }}
+          SONAR_TOKEN: ${{ fromJSON(steps.secrets.outputs.vault).NEXT_TOKEN }}
+        run: |
+          ls -la build/reports/
+          .github/scripts/scan-sq-cb.sh
+
+  slack-notifications:
+    runs-on: github-ubuntu-latest-s # Public GH runner is required, runners starting with sonar-* do not support this action
+    if: failure() && github.ref_name == 'master'
+    needs: [build, scan]
+    permissions:
+      id-token: write
+    steps:
+      - name: Vault Secrets
+        id: secrets
+        uses: SonarSource/vault-action-wrapper@v3
+        with:
+          secrets: |
+            development/kv/data/slack token | SLACK_TOKEN;
+
+      - name: Slack Notification rtCamp
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
+        env:
+          SLACK_TOKEN: ${{ fromJSON(steps.secrets.outputs.vault).SLACK_TOKEN }}
+          SLACK_CHANNEL: ops-sonarqube-webapp
+          SLACK_TITLE: SQ-Community Build failed 🚨
+          SLACK_ICON_EMOJI: ":github:"
+          SLACK_USERNAME: BuildBot
+          SLACK_COLOR: danger
+          SLACK_MESSAGE: |
+            Workflow failed in ${{ github.repository }}
+            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            Branch: ${{ github.head_ref || github.ref_name }}

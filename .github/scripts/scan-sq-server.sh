@@ -15,6 +15,7 @@
 #  GITHUB_SHA
 #  GITHUB_BASE_REF
 #  GITHUB_REPOSITORY
+#  GITHUB_RUN_ID
 
 set -euo pipefail
 

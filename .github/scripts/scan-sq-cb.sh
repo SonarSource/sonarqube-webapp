@@ -1,38 +1,50 @@
 #!/bin/bash
+
+# The following environment variables are expected to be set:
+#  SONAR_HOST_URL
+#  SONARQUBE_NEXT_URL
+#  SONAR_TOKEN
+#  SONARQUBE_NEXT_TOKEN
+#  PROJECT_KEY
+#  VERSION
+
+# The following are Github Actions default environment variables:
+#  GITHUB_SHA
+#  GITHUB_BASE_REF
+#  GITHUB_REPOSITORY
+#  GITHUB_RUN_ID
+
 set -euo pipefail
 
-export GIT_SHA1=${CIRRUS_CHANGE_IN_REPO?}
-export GITHUB_BASE_BRANCH=${CIRRUS_BASE_BRANCH:-}
-export GITHUB_BRANCH=${CIRRUS_BRANCH?}
-export GITHUB_REPO=${CIRRUS_REPO_FULL_NAME?}
-export BUILD_NUMBER=${CI_BUILD_NUMBER?}
-export PULL_REQUEST=${CIRRUS_PR:-false}
-export PULL_REQUEST_SHA=${CIRRUS_BASE_SHA:-}
-export PIPELINE_ID=${CIRRUS_BUILD_ID?}
+export SONAR_HOST_URL=${SONAR_HOST_URL:-$SONARQUBE_NEXT_URL}
+export SONAR_TOKEN=${SONAR_TOKEN:-$SONARQUBE_NEXT_TOKEN}
+export PROJECT_KEY=${PROJECT_KEY:-sonarqube-webapp
 
-: "${SONAR_HOST_URL?}" "${SONAR_TOKEN?}"
+echo "[DEBUG] GITHUB_SHA: ${GITHUB_SHA}"
+echo "[DEBUG] GITHUB_BASE_REF: ${GITHUB_BASE_REF}"
+echo "[DEBUG] GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}"
+echo "[DEBUG] SONAR_HOST_URL: ${SONAR_HOST_URL}"
+echo "[DEBUG] PROJECT_KEY: ${PROJECT_KEY}"
 
 git fetch --unshallow || true
-if [ -n "${GITHUB_BASE_BRANCH:-}" ]; then
-  git fetch origin "${GITHUB_BASE_BRANCH}"
+if [ -n "${GITHUB_BASE_REF:-}" ]; then
+  git fetch origin "${GITHUB_BASE_REF}"
 fi
 
 PROJECT_VERSION=$(jq -r .version "apps/sq-server/package.json")
-ESLINT_REPORT_PATH=$(find ./ -name eslint-report.json -type f -not -path "**/.nx/*" -not -path "**/node_modules/*" | paste -sd ',')
+ESLINT_REPORT_PATH=$(find build/reports/ -name eslint-report.json -type f | paste -sd ',')
 
 scanner_params=(
-    "-DbuildNumber=${BUILD_NUMBER}"
-    "-Dsonar.projectKey=sonarqube-webapp"
+    "-Dsonar.projectKey=${PROJECT_KEY}"
     "-Dsonar.projectName=SonarQube Webapp"
     "-Dsonar.projectVersion=${PROJECT_VERSION}"
     "-Dsonar.host.url=${SONAR_HOST_URL}"
     "-Dsonar.token=${SONAR_TOKEN}"
-    "-Dsonar.analysis.buildNumber=${BUILD_NUMBER}"
-    "-Dsonar.analysis.pipeline=${PIPELINE_ID}"
-    "-Dsonar.analysis.repository=${GITHUB_REPO}"
-    "-Dsonar.analysis.sha1=${GIT_SHA1}"
+    "-Dsonar.analysis.pipeline=${GITHUB_RUN_ID}"
+    "-Dsonar.analysis.repository=${GITHUB_REPOSITORY}"
+    "-Dsonar.analysis.sha1=${GITHUB_SHA}"
     "-Dsonar.eslint.reportPaths=${ESLINT_REPORT_PATH}"
-    "-Dsonar.javascript.lcov.reportPaths=apps/sq-server/build/reports/coverage/lcov.info"
+    "-Dsonar.javascript.lcov.reportPaths=build/reports/coverage/lcov.info"
     "-Dsonar.sources=apps/sq-server/,libs/",
     "-Dsonar.inclusions=**/src/**"
     "-Dsonar.exclusions=**/__tests__/**"
@@ -65,4 +77,4 @@ scanner_params=(
                                 **/helpers/cookies.ts,
                                 **/*Legacy.*")
 
-sonar-scanner "${scanner_params[@]}"
+yarn run sonar-scanner "${scanner_params[@]}"

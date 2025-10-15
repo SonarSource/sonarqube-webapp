@@ -234,10 +234,11 @@ it('should disable links if application has inaccessible projects', () => {
   expect(screen.queryByRole('button', { name: 'application.info.title' })).not.toBeInTheDocument();
 });
 
-it('should show SCA menu if SCA is enabled', async () => {
-  const user = userEvent.setup();
-  const hasFeature = jest.fn().mockImplementation((feature: Feature) => feature === Feature.Sca);
-
+it('should render correctly for architecture feature', async () => {
+  settingsHandler.set(SettingsKey.DesignAndArchitecture, 'true');
+  const hasFeature = jest
+    .fn()
+    .mockImplementation((feature: Feature) => feature === Feature.Architecture);
   renderMenu({
     component: {
       ...BASE_COMPONENT,
@@ -245,15 +246,11 @@ it('should show SCA menu if SCA is enabled', async () => {
     hasFeature,
   });
 
-  const inventoryDropdown = screen.getByRole('link', { name: 'inventory' });
-  expect(inventoryDropdown).toBeInTheDocument();
-  await user.click(inventoryDropdown);
-  expect(
-    screen.getByRole('menuitem', { name: 'dependencies.bill_of_materials' }),
-  ).toBeInTheDocument();
+  await waitFor(() => {
+    expect(screen.getByRole('link', { name: 'layout.architecture' })).toBeInTheDocument();
+  });
 
-  expect(screen.getByRole('link', { name: 'dependencies.risks' })).toBeInTheDocument();
-  expect(hasFeature).toHaveBeenCalledWith(Feature.Sca);
+  expect(hasFeature).toHaveBeenCalledWith(Feature.Architecture);
 });
 
 it('should not show SCA menu if SCA is disabled', () => {
@@ -273,24 +270,6 @@ it('should not show SCA menu if SCA is disabled', () => {
   expect(screen.queryByRole('link', { name: 'dependencies.risks' })).not.toBeInTheDocument();
 });
 
-it('should render correctly for architecture feature', async () => {
-  settingsHandler.set(SettingsKey.DesignAndArchitecture, 'true');
-  const hasFeature = jest
-    .fn()
-    .mockImplementation((feature: Feature) => feature === Feature.Architecture);
-  renderMenu({
-    component: {
-      ...BASE_COMPONENT,
-    },
-    hasFeature,
-  });
-
-  await waitFor(() => {
-    expect(screen.getByRole('link', { name: 'layout.architecture' })).toBeInTheDocument();
-  });
-
-  expect(hasFeature).toHaveBeenCalledWith(Feature.Architecture);
-});
 
 function renderMenu(props: Partial<ComponentPropsType<typeof Menu>> = {}, params?: string) {
   const { hasFeature = jest.fn().mockReturnValue(false) } = props;

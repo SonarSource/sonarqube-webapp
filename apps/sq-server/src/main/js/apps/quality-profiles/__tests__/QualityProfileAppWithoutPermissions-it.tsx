@@ -86,12 +86,6 @@ describe('Every Users', () => {
     expect(byText('quality_profiles.built_in.aica_description').query()).not.toBeInTheDocument();
   });
 
-  it('should see aica description', async () => {
-    renderQualityProfile('sonar', [Feature.AiCodeAssurance]);
-    await ui.waitForDataLoaded();
-
-    expect(await byText('quality_profiles.built_in.aica_description').find()).toBeInTheDocument();
-  });
 
   it('should be able to see active/inactive rules for a Quality Profile', async () => {
     renderQualityProfile();

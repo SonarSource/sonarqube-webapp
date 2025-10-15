@@ -18,6 +18,20 @@ core.workflow(
             [core.move(".github-public/", ".github", overwrite=True)],
             reversal=[core.move(".github/", ".github-public/", overwrite=True)],
             noop_behavior = "IGNORE_NOOP"),
+        core.replace(
+            before = '"~sq-server-addons/*": ["private/libs/sq-server-addons/src/*", "libs/sq-server-addons/src/*"]',
+            after = '"~sq-server-addons/*": ["libs/sq-server-addons/src/*"]',
+            paths = ["./tsconfig.base.json"],
+        ),
+        core.replace(
+            before = "${x}",
+            after = "",
+            multiline = True,
+            regex_groups = {
+                "x": "(?m)^.*BEGIN-PRIVATE-FEATURE-TESTS[\\w\\W]*?END-PRIVATE-FEATURE-TESTS.*$\\n",
+            },
+            paths = glob(["**-it.tsx?", "**-test.tsx?"]),
+        ),
     ],
     mode = "ITERATIVE"
 )

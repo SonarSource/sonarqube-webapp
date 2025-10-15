@@ -35,7 +35,7 @@
       "~feature-sca/*": ["private/libs/feature-sca/src/*"],
       "~private-shared/*": ["private/libs/shared/src/*"],
       "~shared/*": ["libs/shared/src/*"],
-      "~sq-server-addons/*": ["private/libs/sq-server-addons/src/*", "libs/sq-server-addons/src/*"],
+      "~sq-server-addons/*": ["libs/sq-server-addons/src/*"],
       "~sq-server-commons/*": ["libs/sq-server-commons/src/*"],
       "~sq-server-features/*": ["private/libs/sq-server-features/src/*"]
     },
