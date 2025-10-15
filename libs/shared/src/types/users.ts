@@ -30,6 +30,7 @@ export interface CurrentUser {
    * SQS only feature
    */
   dismissedNotices?: { [key: string]: boolean };
+  email?: string;
   isLoggedIn: boolean;
   permissions?: { global: string[] };
 }
