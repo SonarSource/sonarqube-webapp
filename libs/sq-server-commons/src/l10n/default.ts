@@ -2037,8 +2037,10 @@ export const defaultMessages = {
   'architecture.page.disallowed_dependencies': 'Bad dependencies',
   'architecture.page.disallowed_dependencies.count':
     '{count, plural, one {<bold>1</bold> Bad dependency} other {<bold>{count}</bold> Bad dependencies}}',
-  'architecture.disallowed_dependencies.table.bad_dependency': 'Bad dependency',
-  'architecture.disallowed_dependencies.table.sort_containment': 'Highest container involved',
+  'architecture.disallowed_dependencies.table.dependency_from': 'From',
+  'architecture.disallowed_dependencies.table.dependency_to': 'To',
+  'architecture.disallowed_dependencies.table.depth': 'Depth',
+  'architecture.disallowed_dependencies.table.weight': 'Code reference',
   'architecture.disallowed_dependencies.description':
     'Dependencies between two code components that are not explicitly allowed in the intended architecture.',
   'architecture.page.misplaced_components': 'Bad components',
