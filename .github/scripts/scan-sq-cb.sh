@@ -18,7 +18,7 @@ set -euo pipefail
 
 export SONAR_HOST_URL=${SONAR_HOST_URL:-$SONARQUBE_NEXT_URL}
 export SONAR_TOKEN=${SONAR_TOKEN:-$SONARQUBE_NEXT_TOKEN}
-export PROJECT_KEY=${PROJECT_KEY:-sonarqube-webapp
+export PROJECT_KEY=${PROJECT_KEY:-sonarqube-webapp}
 
 echo "[DEBUG] GITHUB_SHA: ${GITHUB_SHA}"
 echo "[DEBUG] GITHUB_BASE_REF: ${GITHUB_BASE_REF}"

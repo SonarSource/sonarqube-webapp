@@ -140,7 +140,7 @@ jobs:
           SLACK_TOKEN: ${{ fromJSON(steps.secrets.outputs.vault).SLACK_TOKEN }}
           SLACK_CHANNEL: ops-sonarqube-webapp
           SLACK_TITLE: SQ-Community Build failed 🚨
-          SLACK_ICON_EMOJI: ":github:"
+          SLACK_ICON_EMOJI: ":sonar-qube-community:"
           SLACK_USERNAME: BuildBot
           SLACK_COLOR: danger
           SLACK_MESSAGE: |
