@@ -51,7 +51,7 @@ scanner_params=(
     "-Dsonar.cpd.exclusions=**/src/**/mocks/**,
                             **/src/**/*Legacy.*,
                             **/src/**/l10n/default.ts"
-    "-Dsonar.sca.exclusions=**/sq-cloud-assets/**"
+    "-Dsonar.sca.exclusions=tools/nx-automation/**"
     "-Dsonar.tests=apps/sq-server/,libs/",
     "-Dsonar.test.inclusions=**/__tests__/**"
     "-Dsonar.coverage.exclusions=**/__mocks__/**,
