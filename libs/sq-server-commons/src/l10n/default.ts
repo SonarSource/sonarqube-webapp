@@ -1994,6 +1994,8 @@ export const defaultMessages = {
   'architecture.page.model.duplicate_connection':
     'A connection between "{source}" and "{target}" already exists',
   'architecture.page.model.same_source_and_target': 'A group cannot be connected to itself',
+  'architecture.page.model.source_and_target_are_not_siblings':
+    'A group cannot be connected to a group that is not a sibling',
   'architecture.page.model.title': 'Architecture model',
   'architecture.page.model.subtitle': 'Define your architecture model as code',
   'architecture.page.model.description': 'You can define your architecture model as code below.',
