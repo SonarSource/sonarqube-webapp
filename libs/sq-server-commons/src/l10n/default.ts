@@ -2053,6 +2053,7 @@ export const defaultMessages = {
   'architecture.user.promotion.message':
     'You now have Design & Architecture enabled in Early Access, you can start to visualize your codebase, define and verify your architecture. <link>Take me there!</link>',
   'architecture.no_graph_file.message': 'No graph file found for this project.',
+  'architecture.issues.no_data': 'No issues found',
   'architecture.error.message': "Sorry, Currently a project of this size isn't supported.",
   'architecture.nodes.orphans.label': 'Orphans ({orphansCount})',
   'architecture.nodes.orphans.name': 'Orphans',
@@ -2088,11 +2089,8 @@ export const defaultMessages = {
   'architecture.model.add_subcomponent': 'Subcomponent',
   'architecture.model.add_subcomponent_label': 'Add subcomponent',
   'architecture.misplaced_components.table.misplaced_component': 'Bad component',
-  'architecture.misplaced_components.table.misplaced_artifacts': 'Misplaced code artifacts',
-  'architecture.misplaced_components.table.misplaced_artifacts.count':
-    '{count, plural, one {1 artifact} other {{count} artifacts}}',
-  'architecture.misplaced_components.table.artifact_count':
-    '{count, plural, one {1 artifact} other {{count} artifacts}}',
+  'architecture.misplaced_components.table.depth': 'Depth',
+  'architecture.misplaced_components.table.weight': 'Code artifacts',
   'architecture.directive.creation.success': 'Directive created successfully',
   //------------------------------------------------------------------------------
 
