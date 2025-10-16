@@ -24,23 +24,15 @@ import { createContext, PropsWithChildren, useContext, useMemo, useState } from 
 const FullWindowContext = createContext<{
   fullWindow: boolean;
   setFullWindow: (fullWindow: boolean) => void;
-  setUseGutters: (useGutters: boolean) => void;
-  useGutters: boolean;
 }>({
   fullWindow: false,
   setFullWindow: noop,
-  useGutters: true,
-  setUseGutters: noop,
 });
 
 export function FullWindowProvider({ children }: Readonly<PropsWithChildren>) {
   const [fullWindow, setFullWindow] = useState(false);
-  const [useGutters, setUseGutters] = useState(true);
 
-  const context = useMemo(
-    () => ({ fullWindow, setFullWindow, setUseGutters, useGutters }),
-    [fullWindow, setFullWindow, setUseGutters, useGutters],
-  );
+  const context = useMemo(() => ({ fullWindow, setFullWindow }), [fullWindow, setFullWindow]);
 
   return <FullWindowContext.Provider value={context}>{children}</FullWindowContext.Provider>;
 }
