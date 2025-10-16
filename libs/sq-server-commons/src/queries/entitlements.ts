@@ -19,7 +19,7 @@
  */
 
 import { queryOptions } from '@tanstack/react-query';
-import { createQueryHook } from '~shared/queries/common';
+import { createQueryHook, StaleTime } from '~shared/queries/common';
 import { getCurrentLicense, getPurchasableFeatures } from '../api/entitlements';
 
 export const LICENSE_QUERY_KEY = ['current-sqs-license'] as const;
@@ -28,6 +28,7 @@ export const useCurrentLicenseQuery = createQueryHook(() =>
   queryOptions({
     queryKey: LICENSE_QUERY_KEY,
     queryFn: getCurrentLicense,
+    staleTime: StaleTime.NEVER,
   }),
 );
 
@@ -35,5 +36,6 @@ export const usePurchasableFeaturesQuery = createQueryHook(() =>
   queryOptions({
     queryKey: ['purchasable-features'],
     queryFn: getPurchasableFeatures,
+    staleTime: StaleTime.NEVER,
   }),
 );

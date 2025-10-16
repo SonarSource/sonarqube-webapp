@@ -22,6 +22,7 @@ import { sortBy } from 'lodash';
 import { Path } from 'react-router-dom';
 import { InputSizeKeys } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
+import { addons } from '~sq-server-addons/index';
 import { hasMessage, translate } from '~sq-server-commons/helpers/l10n';
 import { getGlobalSettingsUrl, getProjectSettingsUrl } from '~sq-server-commons/helpers/urls';
 import { usePurchasableFeaturesQuery } from '~sq-server-commons/queries/entitlements';
@@ -274,6 +275,11 @@ export function buildSettingLink(
 }
 
 export function usePurchasableFeature(featureKey: string) {
-  const { data: purchasableFeatures = [] } = usePurchasableFeaturesQuery();
-  return purchasableFeatures.find((f) => f.featureKey === featureKey);
+  const { data: purchasableFeatures } = usePurchasableFeaturesQuery({
+    // Addons are only available in enterprise edition builds
+    // so there's no need to call the query if the addon is not available.
+    enabled: isDefined(addons.license),
+  });
+
+  return purchasableFeatures?.find((f) => f.featureKey === featureKey);
 }
