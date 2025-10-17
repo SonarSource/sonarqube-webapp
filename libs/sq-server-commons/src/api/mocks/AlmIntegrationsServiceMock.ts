@@ -64,6 +64,8 @@ import {
   setupGitlabProjectCreation,
 } from '../alm-integrations';
 
+jest.mock('../alm-integrations');
+
 function createUniqueNumber() {
   return Math.floor(Date.now() * Math.random());
 }

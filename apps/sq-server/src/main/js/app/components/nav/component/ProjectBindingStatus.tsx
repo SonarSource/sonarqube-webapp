@@ -31,10 +31,12 @@ import {
   TooltipSide,
 } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import { forwardRef } from 'react';
+import { noop } from 'lodash';
+import { forwardRef, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
-import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import { useCurrentUser } from '~adapters/helpers/users';
+import { getGithubRepositories } from '~sq-server-commons/api/alm-integrations';
 import { getProjectSettingsUrl } from '~sq-server-commons/helpers/urls';
 import { useProjectBindingQuery } from '~sq-server-commons/queries/devops-integration';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
@@ -67,6 +69,8 @@ export function ProjectBindingStatus({
   className,
   component,
 }: Readonly<ProjectNavBindingStatusProps>) {
+  const [repositoryUrl, setRepositoryUrl] = useState<string | undefined>();
+
   const { formatMessage } = useIntl();
 
   const { currentUser } = useCurrentUser();
@@ -83,9 +87,9 @@ export function ProjectBindingStatus({
       { dop: formatMessage({ id: DOP_LABEL_IDS[almKey] }) },
     );
 
-  return (
-    <Spinner isLoading={isLoadingProjectBinding}>
-      {almKey && (
+  const dopLogoComponent = useMemo(
+    () =>
+      almKey ? (
         <Image
           alt={imageTitle}
           className={classNames('sw-px-1 sw-align-text-top', className)}
@@ -94,6 +98,47 @@ export function ProjectBindingStatus({
           title={imageTitle}
           width={16}
         />
+      ) : null,
+    [almKey, imageTitle, className],
+  );
+
+  useEffect(() => {
+    // Retrieve the URL of the repository bound to this project
+    // Only works for GitHub for now because:
+    // - search_[DOP]_repos endpoints don't return the repository URL for Azure and Bitbucket
+    // - we can filter on search_gitlab_repos with the repository name but
+    //   the project binding object only contains the repository id and not the name
+    if (almKey === undefined) {
+      return;
+    }
+
+    if (almKey === AlmKeys.GitHub) {
+      const [organization, repository] = projectBinding?.repository?.split('/') ?? [];
+      getGithubRepositories({
+        almSetting: almKey,
+        organization,
+        pageSize: 1,
+        query: repository,
+      })
+        .then(({ repositories }) => {
+          setRepositoryUrl(repositories[0].url);
+        })
+        .catch(noop);
+    }
+  }, [almKey, component, projectBinding]);
+
+  return (
+    <Spinner isLoading={isLoadingProjectBinding}>
+      {almKey && repositoryUrl ? (
+        <LinkStandalone
+          className="sw-flex sw-items-center"
+          highlight={LinkHighlight.Default}
+          to={repositoryUrl}
+        >
+          {dopLogoComponent}
+        </LinkStandalone>
+      ) : (
+        dopLogoComponent
       )}
 
       {!almKey && !isLoadingProjectBinding && !component.configuration?.showSettings && (
