@@ -213,7 +213,6 @@ export const componentMap = {
   DangerButtonSecondary: 'Button',
   FocusOutHandler: 'Excluded',
   ChooseBuild: 'Excluded',
-  SimplePageTemplate: '',
   UpgradeOrLearnLink: 'Link',
   DuplicationsRating: '',
   MediumUpgradeBanner: 'PromotedSection',
