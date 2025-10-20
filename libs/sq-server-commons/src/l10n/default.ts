@@ -2016,8 +2016,6 @@ export const defaultMessages = {
   'architecture.page.model.modal.choose_existing_subcomponent': 'Choose an existing sub-component',
   'architecture.page.model.modal.select_placeholder': 'Select a component...',
   'architecture.page.model.modal.name_in_intended_architecture': 'Name in intended architecture',
-  'architecture.page.model.modal.component_name_placeholder': 'Custom component name...',
-  'architecture.page.model.modal.subcomponent_name_placeholder': 'Custom sub-component name...',
   'architecture.page.oversize': 'Oversized components',
   'architecture.page.oversize_list': 'Oversized components',
   'architecture.page.oversize_list.count':
