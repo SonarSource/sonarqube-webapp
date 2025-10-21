@@ -1996,6 +1996,16 @@ export const defaultMessages = {
   'architecture.page.model.same_source_and_target': 'A group cannot be connected to itself',
   'architecture.page.model.source_and_target_are_not_siblings':
     'A group cannot be connected to a group that is not a sibling',
+  'architecture.page.model.modal.edit_component.title': 'Edit Component',
+  'architecture.page.model.modal.edit_component.description':
+    'Edit the component and its code artifacts.',
+  'architecture.page.model.modal.edit_component_name': 'Component name',
+  'architecture.page.model.modal.edit_component_name_placeholder': 'Enter component name...',
+  'architecture.page.model.modal.code_artifacts': 'Code Artifacts',
+  'architecture.page.model.modal.search_artifacts': 'Search artifacts',
+  'architecture.page.model.modal.covered_by': 'covered by {pattern}',
+  'architecture.page.model.modal.assigned': 'Assigned',
+  'architecture.page.model.modal.unassigned': 'Unassigned',
   'architecture.page.model.title': 'Architecture model',
   'architecture.page.model.subtitle': 'Define your architecture model as code',
   'architecture.page.model.description': 'You can define your architecture model as code below.',
