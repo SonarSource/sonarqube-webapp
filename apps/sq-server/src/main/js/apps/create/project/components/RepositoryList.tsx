@@ -82,7 +82,7 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
 
   return (
     <div className="sw-flex sw-gap-12">
-      <LargeColumn>
+      <div className="sw-flex-[6]">
         <div className="sw-mb-2 sw-py-2 sw-flex sw-items-center sw-justify-between sw-w-full">
           <div>
             <Checkbox
@@ -139,8 +139,8 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
           loading={loadingRepositories}
           total={repositoryPaging.total}
         />
-      </LargeColumn>
-      <SideColumn>
+      </div>
+      <div className="sw-flex-[4]">
         {selected.size > 0 && (
           <SetupBox className="sw-rounded-2 sw-p-8 sw-mb-0">
             <SetupBoxTitle className="sw-mb-2 sw-heading-lg">
@@ -168,18 +168,10 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
             </div>
           </SetupBox>
         )}
-      </SideColumn>
+      </div>
     </div>
   );
 }
-
-const LargeColumn = styled.div`
-  flex: 6;
-`;
-
-const SideColumn = styled.div`
-  flex: 4;
-`;
 
 const SetupBox = styled.form`
   max-height: 280px;
