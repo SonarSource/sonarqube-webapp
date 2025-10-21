@@ -524,7 +524,6 @@ export const componentMap = {
   FacetEmpty: '',
   NavSidebarItem: '',
   NavSidebarItemInner: '',
-  GridCenteredItemLayout: '',
   FileSnippetsViewer: 'Excluded',
   SubnavigationLinkItem: '',
   SoftwareImpactSeverityInfoIcon: 'Icons',
