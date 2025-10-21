@@ -21,6 +21,7 @@
 export interface UserBaseShared {
   active?: boolean;
   avatar?: string;
+  email?: string | null;
   login: string;
   name?: string;
 }
@@ -41,6 +42,7 @@ export interface UserActiveShared extends UserBaseShared {
 }
 
 export interface LoggedInUserShared extends CurrentUser, UserActiveShared {
+  email?: string;
   externalIdentity?: string;
   externalProvider?: string;
   groups: string[];

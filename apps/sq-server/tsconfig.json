@@ -7,6 +7,7 @@
       /* shared libraries aliases, following token is used in the nx shared-library generator */
       /* <<shared-libraries-aliases>> */
       "~feature-architecture/*": ["private/libs/feature-architecture/src/*"],
+      "~feature-jira/*": ["private/libs/feature-jira/src/*"],
       "~feature-rules/*": ["libs/feature-rules/src/*"],
       "~feature-sca/*": ["private/libs/feature-sca/src/*"],
       "~private-shared/*": ["private/libs/shared/src/*"],

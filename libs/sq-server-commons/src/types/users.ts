@@ -94,9 +94,7 @@ export interface User extends UserBase {
   tokensCount?: number;
 }
 
-export interface UserBase extends UserBaseShared {
-  email?: string | null;
-}
+export interface UserBase extends UserBaseShared {}
 
 export interface RestUserBase {
   id: string;
