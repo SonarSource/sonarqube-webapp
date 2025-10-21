@@ -23,6 +23,7 @@ import { keyBy } from 'lodash';
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, Modal } from '~design-system';
+import { SettingType } from '~shared/types/settings';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -31,10 +32,10 @@ import {
   useUpdateGitLabConfigurationMutation,
 } from '~sq-server-commons/queries/identity-provider/gitlab';
 import {
-  GitLabConfigurationCreateBody,
   GitlabConfiguration,
+  GitLabConfigurationCreateBody,
 } from '~sq-server-commons/types/provisioning';
-import { DefinitionV2, SettingType } from '~sq-server-commons/types/settings';
+import { DefinitionV2 } from '~sq-server-commons/types/settings';
 import AuthenticationFormField from './AuthenticationFormField';
 
 interface Props {

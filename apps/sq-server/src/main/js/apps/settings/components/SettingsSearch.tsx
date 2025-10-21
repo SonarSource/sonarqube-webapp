@@ -23,11 +23,11 @@ import lunr, { LunrIndex } from 'lunr';
 import * as React from 'react';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Router } from '~shared/types/router';
+import { ExtendedSettingDefinition } from '~shared/types/settings';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
-import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import {
   ADDITIONAL_PROJECT_SETTING_DEFINITIONS,

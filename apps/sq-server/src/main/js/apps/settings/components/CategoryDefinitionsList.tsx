@@ -20,11 +20,9 @@
 
 import { keyBy } from 'lodash';
 import * as React from 'react';
+import { ExtendedSettingDefinition } from '~shared/types/settings';
 import { getValues } from '~sq-server-commons/api/settings';
-import {
-  ExtendedSettingDefinition,
-  SettingDefinitionAndValue,
-} from '~sq-server-commons/types/settings';
+import { SettingDefinitionAndValue } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import { SETTING_CONFIRMATION_MESSAGE_IDS } from '../constants';
 import SubCategoryDefinitionsList from './SubCategoryDefinitionsList';

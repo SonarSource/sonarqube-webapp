@@ -18,12 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-/**
- * /!\ This is a partial copy of {apps/sq-server/src/main/js/apps/settings/utils.ts}
- */
+import { screen } from '@testing-library/react';
+import { render } from '../../../helpers/test-utils';
+import { HtmlFormatter } from '../HtmlFormatter';
 
-import { ExtendedSettingDefinition, SettingDefinition } from '~shared/types/settings';
+it('renders html from children', () => {
+  render(
+    <HtmlFormatter>
+      <div>test</div>
+    </HtmlFormatter>,
+  );
 
-export function isCategoryDefinition(item: SettingDefinition): item is ExtendedSettingDefinition {
-  return Boolean((item as any).fields);
-}
+  expect(screen.getByText('test')).toBeInTheDocument();
+});
+
+it('renders html from string', () => {
+  render(<HtmlFormatter htmlAsString="<div>test</div>" />);
+
+  expect(screen.getByText('test')).toBeInTheDocument();
+});

@@ -22,20 +22,18 @@ import { sortBy } from 'lodash';
 import { Path } from 'react-router-dom';
 import { InputSizeKeys } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
+import {
+  ExtendedSettingDefinition,
+  SettingDefinition,
+  SettingType,
+  SettingValue,
+} from '~shared/types/settings';
 import { addons } from '~sq-server-addons/index';
 import { hasMessage, translate } from '~sq-server-commons/helpers/l10n';
 import { getGlobalSettingsUrl, getProjectSettingsUrl } from '~sq-server-commons/helpers/urls';
 import { usePurchasableFeaturesQuery } from '~sq-server-commons/queries/entitlements';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
-import {
-  DefinitionV2,
-  ExtendedSettingDefinition,
-  Setting,
-  SettingDefinition,
-  SettingType,
-  SettingValue,
-  SettingWithCategory,
-} from '~sq-server-commons/types/settings';
+import { DefinitionV2, Setting, SettingWithCategory } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 
 export const DEFAULT_CATEGORY = 'general';

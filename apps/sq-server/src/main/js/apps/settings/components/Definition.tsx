@@ -30,6 +30,7 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { ExtendedSettingDefinition, SettingType, SettingValue } from '~shared/types/settings';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { parseError } from '~sq-server-commons/helpers/request';
 import {
@@ -37,12 +38,7 @@ import {
   useResetSettingsMutation,
   useSaveValueMutation,
 } from '~sq-server-commons/queries/settings';
-import {
-  ExtendedSettingDefinition,
-  SettingDefinitionAndValue,
-  SettingType,
-  SettingValue,
-} from '~sq-server-commons/types/settings';
+import { SettingDefinitionAndValue } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import {
   combineDefinitionAndSettingValue,

@@ -18,15 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import {
+  ExtendedSettingDefinition,
+  SettingFieldDefinition,
+  SettingType,
+} from '~shared/types/settings';
 import { hasMessage } from '~sq-server-commons/helpers/l10n';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockDefinition, mockSettingValue } from '~sq-server-commons/helpers/mocks/settings';
-import {
-  ExtendedSettingDefinition,
-  Setting,
-  SettingFieldDefinition,
-  SettingType,
-} from '~sq-server-commons/types/settings';
+import { Setting } from '~sq-server-commons/types/settings';
 import {
   buildSettingLink,
   getDefaultValue,

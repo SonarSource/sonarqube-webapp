@@ -21,8 +21,9 @@
 import { Button, ButtonGroup, ButtonVariety, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Modal } from '~design-system';
+import { ExtendedSettingDefinition } from '~shared/types/settings';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
-import { ExtendedSettingDefinition, Setting } from '~sq-server-commons/types/settings';
+import { Setting } from '~sq-server-commons/types/settings';
 import { getDefaultValue, getPropertyName, isEmptyValue } from '../utils';
 
 type Props = {

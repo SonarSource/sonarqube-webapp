@@ -22,6 +22,7 @@ import { Button, Spinner, Text } from '@sonarsource/echoes-react';
 import { isEmpty, omitBy } from 'lodash';
 import { FormEvent, useContext, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { SettingType } from '~shared/types/settings';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
@@ -40,7 +41,7 @@ import {
   GitLabConfigurationUpdateBody,
   ProvisioningType,
 } from '~sq-server-commons/types/provisioning';
-import { DefinitionV2, SettingType } from '~sq-server-commons/types/settings';
+import { DefinitionV2 } from '~sq-server-commons/types/settings';
 import { Provider } from '~sq-server-commons/types/types';
 import GitLabSynchronisationWarning from '../../../../app/components/GitLabSynchronisationWarning';
 import AuthenticationFormField from './AuthenticationFormField';

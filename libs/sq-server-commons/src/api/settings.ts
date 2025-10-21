@@ -22,14 +22,14 @@ import { omitBy } from 'lodash';
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { BranchParameters } from '~shared/types/branch-like';
-import { post, postJSON, RequestData } from '../helpers/request';
 import {
   ExtendedSettingDefinition,
   SettingDefinition,
   SettingType,
   SettingValue,
-  SettingValueResponse,
-} from '../types/settings';
+} from '~shared/types/settings';
+import { post, postJSON, RequestData } from '../helpers/request';
+import { SettingValueResponse } from '../types/settings';
 import { isCategoryDefinition } from '../utils/settings';
 
 export function getDefinitions(component?: string): Promise<ExtendedSettingDefinition[]> {

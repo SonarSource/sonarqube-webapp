@@ -20,12 +20,11 @@
 
 import {
   ExtendedSettingDefinition,
-  Setting,
   SettingFieldDefinition,
   SettingType,
   SettingValue,
-  SettingWithCategory,
-} from '../../types/settings';
+} from '~shared/types/settings';
+import { Setting, SettingWithCategory } from '../../types/settings';
 
 export function mockDefinition(
   overrides: Partial<ExtendedSettingDefinition> = {},

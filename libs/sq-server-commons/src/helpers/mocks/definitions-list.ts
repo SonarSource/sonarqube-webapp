@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ExtendedSettingDefinition, SettingType } from '../../types/settings';
+import { ExtendedSettingDefinition, SettingType } from '~shared/types/settings';
 
 export const definitions: ExtendedSettingDefinition[] = [
   {

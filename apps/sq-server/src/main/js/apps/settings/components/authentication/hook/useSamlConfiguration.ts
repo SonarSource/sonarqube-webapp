@@ -19,10 +19,10 @@
  */
 
 import React from 'react';
+import { ExtendedSettingDefinition } from '~shared/types/settings';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { useScimStatusQuery } from '~sq-server-commons/queries/identity-provider/scim';
 import { Feature } from '~sq-server-commons/types/features';
-import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
 import useConfiguration from './useConfiguration';
 
 export const SAML_ENABLED_FIELD = 'sonar.auth.saml.enabled';

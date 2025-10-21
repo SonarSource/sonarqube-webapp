@@ -18,12 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { ExtendedSettingDefinition } from '~shared/types/settings';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
-import {
-  ExtendedSettingDefinition,
-  SettingDefinitionAndValue,
-  SettingsKey,
-} from '~sq-server-commons/types/settings';
+import { SettingDefinitionAndValue, SettingsKey } from '~sq-server-commons/types/settings';
 
 /**
  * Uses a space in order to integrate properly with existing

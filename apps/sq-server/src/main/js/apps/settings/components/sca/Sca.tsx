@@ -35,6 +35,7 @@ import {
 import { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
+import { RescanSettings } from '~shared/components/sca/RescanSettings';
 import { getAdvancedSecurityTermsOfServiceUrl } from '~sq-server-commons/helpers/urls';
 import useLocalStorage from '~sq-server-commons/hooks/useLocalStorage';
 import {
@@ -249,24 +250,15 @@ function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'd
         </MessageCallout>
       )}
       {isScaEnabled && <ScaConnectivityTest />}
-      {isScaEnabled && (
-        <>
-          <hr className="sw-mx-0 sw-my-6 sw-p-0" />
-          <div className="sw-my-8">
-            <Heading as="h3" hasMarginBottom>
-              <FormattedMessage id="property.sca.admin.rescan.title" />
-            </Heading>
-            <Text as="p" className="sw-mb-6">
-              <FormattedMessage id="property.sca.admin.rescan.description" />
-            </Text>
 
-            <ul>
-              {scaRescanDefinitions.map((definition) => (
-                <Definition definition={definition} key={definition.key} />
-              ))}
-            </ul>
-          </div>
-        </>
+      {isScaEnabled && (
+        <RescanSettings>
+          <ul>
+            {scaRescanDefinitions.map((definition) => (
+              <Definition definition={definition} key={definition.key} />
+            ))}
+          </ul>
+        </RescanSettings>
       )}
     </div>
   );

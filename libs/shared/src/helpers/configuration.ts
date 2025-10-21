@@ -18,12 +18,23 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-/**
- * /!\ This is a partial copy of {apps/sq-server/src/main/js/apps/settings/utils.ts}
- */
+import { MessageDescriptor } from 'react-intl';
+import { ExtendedSettingDefinition } from '../types/settings';
 
-import { ExtendedSettingDefinition, SettingDefinition } from '~shared/types/settings';
+export function getDescriptionNameAsIntlParams(
+  definition: ExtendedSettingDefinition,
+): MessageDescriptor {
+  return {
+    id: `property.${definition.key}.name`,
+    defaultMessage: definition.name || definition.key,
+  };
+}
 
-export function isCategoryDefinition(item: SettingDefinition): item is ExtendedSettingDefinition {
-  return Boolean((item as any).fields);
+export function getDescriptionDescriptionAsIntlParams(
+  definition: ExtendedSettingDefinition,
+): MessageDescriptor {
+  return {
+    id: `property.${definition.key}.description`,
+    defaultMessage: definition.description,
+  };
 }

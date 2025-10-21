@@ -23,11 +23,8 @@ import { IconError, Text } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { FormField, InputField, RequiredIcon } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
-import {
-  DefinitionV2,
-  ExtendedSettingDefinition,
-  SettingType,
-} from '~sq-server-commons/types/settings';
+import { ExtendedSettingDefinition, SettingType } from '~shared/types/settings';
+import { DefinitionV2 } from '~sq-server-commons/types/settings';
 import { getPropertyDescription, getPropertyName, isSecuredDefinition } from '../../utils';
 import AuthenticationMultiValueField from './AuthenticationMultiValuesField';
 import AuthenticationSecuredField from './AuthenticationSecuredField';

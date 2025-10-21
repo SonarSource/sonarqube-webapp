@@ -20,6 +20,13 @@
 
 import { ReactNode } from 'react';
 import { IntlShape } from 'react-intl';
+import {
+  BaseSettingsValueResponse,
+  ExtendedSettingDefinition,
+  SettingDefinition,
+  SettingType,
+  SettingValue,
+} from '~shared/types/settings';
 
 export const enum SettingsKey {
   AuditHouseKeeping = 'sonar.dbcleaner.auditHousekeeping',
@@ -67,44 +74,6 @@ export type SettingWithCategory = Setting & {
   definition: ExtendedSettingDefinition;
 };
 
-export enum SettingType {
-  STRING = 'STRING',
-  TEXT = 'TEXT',
-  JSON = 'JSON',
-  PASSWORD = 'PASSWORD',
-  BOOLEAN = 'BOOLEAN',
-  FLOAT = 'FLOAT',
-  INTEGER = 'INTEGER',
-  LICENSE = 'LICENSE',
-  LONG = 'LONG',
-  SINGLE_SELECT_LIST = 'SINGLE_SELECT_LIST',
-  PROPERTY_SET = 'PROPERTY_SET',
-  FORMATTED_TEXT = 'FORMATTED_TEXT',
-  REGULAR_EXPRESSION = 'REGULAR_EXPRESSION',
-  USER_LOGIN = 'USER_LOGIN',
-}
-export interface SettingDefinition {
-  description?: string;
-  key: string;
-  multiValues?: boolean;
-  name?: string;
-  options: string[];
-  type?: SettingType;
-}
-
-export interface SettingFieldDefinition extends SettingDefinition {
-  name: string;
-}
-
-export interface ExtendedSettingDefinition extends SettingDefinition {
-  category: string;
-  defaultValue?: string;
-  deprecatedKey?: string;
-  fields: SettingFieldDefinition[];
-  multiValues?: boolean;
-  subCategory: string;
-}
-
 export interface DefinitionV2 {
   description?: string;
   key: string;
@@ -114,18 +83,7 @@ export interface DefinitionV2 {
   type?: SettingType;
 }
 
-export interface SettingValueResponse {
+export interface SettingValueResponse extends BaseSettingsValueResponse {
   setSecuredSettings: string[];
   settings: SettingValue[];
-}
-
-export interface SettingValue {
-  fieldValues?: Array<Record<string, string>>;
-  inherited?: boolean;
-  key: string;
-  parentFieldValues?: Array<Record<string, string>>;
-  parentValue?: string;
-  parentValues?: string[];
-  value?: string;
-  values?: string[];
 }

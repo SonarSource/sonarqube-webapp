@@ -19,9 +19,9 @@
  */
 
 import * as React from 'react';
+import { ExtendedSettingDefinition } from '~shared/types/settings';
 import { NEW_CODE_PERIOD_CATEGORY } from '~sq-server-commons/constants/settings';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import {
   ADVANCED_SECURITY_CATEGORY,

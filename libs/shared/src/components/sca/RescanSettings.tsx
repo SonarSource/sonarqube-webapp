@@ -18,32 +18,28 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Text, Tooltip } from '@sonarsource/echoes-react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import DefinitionDescriptionBase from '~shared/components/configuration/DefinitionDescriptionBase';
-import { ExtendedSettingDefinition } from '~shared/types/settings';
+import { Heading, Text } from '@sonarsource/echoes-react';
+import { ReactNode } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 interface Props {
-  definition: ExtendedSettingDefinition;
+  children: ReactNode;
 }
 
-export default function DefinitionDescription({ definition }: Readonly<Props>) {
-  const intl = useIntl();
-
+export function RescanSettings({ children }: Readonly<Props>) {
   return (
-    <DefinitionDescriptionBase definition={definition}>
-      <Tooltip
-        content={intl.formatMessage(
-          {
-            id: 'settings.key_x',
-          },
-          { 0: definition.key },
-        )}
-      >
-        <Text as="div" className="sw-mt-4" isSubtle>
-          <FormattedMessage id="settings.key_x" values={{ 0: definition.key }} />
+    <>
+      <hr className="sw-mx-0 sw-my-6 sw-p-0" />
+      <div className="sw-my-8">
+        <Heading as="h3" hasMarginBottom>
+          <FormattedMessage id="property.sca.admin.rescan.title" />
+        </Heading>
+        <Text as="p" className="sw-mb-6">
+          <FormattedMessage id="property.sca.admin.rescan.description" />
         </Text>
-      </Tooltip>
-    </DefinitionDescriptionBase>
+
+        {children}
+      </div>
+    </>
   );
 }

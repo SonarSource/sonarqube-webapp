@@ -20,10 +20,10 @@
 
 import { useIntl } from 'react-intl';
 import { Title } from '~design-system';
+import { ExtendedSettingDefinition } from '~shared/types/settings';
 import InstanceMessage from '~sq-server-commons/components/common/InstanceMessage';
 import { getInstance } from '~sq-server-commons/helpers/system';
 import { Feature } from '~sq-server-commons/types/features';
-import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import { usePurchasableFeature } from '../utils';
 import SettingsSearch from './SettingsSearch';

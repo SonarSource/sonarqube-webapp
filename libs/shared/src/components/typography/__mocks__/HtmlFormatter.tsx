@@ -18,12 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-/**
- * /!\ This is a partial copy of {apps/sq-server/src/main/js/apps/settings/utils.ts}
- */
+import { mockForwardRefComponent } from 'sq-cloud/src/helpers/testUtils';
 
-import { ExtendedSettingDefinition, SettingDefinition } from '~shared/types/settings';
-
-export function isCategoryDefinition(item: SettingDefinition): item is ExtendedSettingDefinition {
-  return Boolean((item as any).fields);
-}
+export default mockForwardRefComponent('HtmlFormatter');

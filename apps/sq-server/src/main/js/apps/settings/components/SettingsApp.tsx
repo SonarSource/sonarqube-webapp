@@ -19,9 +19,9 @@
  */
 
 import * as React from 'react';
+import { ExtendedSettingDefinition } from '~shared/types/settings';
 import { getDefinitions } from '~sq-server-commons/api/settings';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
-import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import '../styles.css';
 import SettingsAppRenderer from './SettingsAppRenderer';

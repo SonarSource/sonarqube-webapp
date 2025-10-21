@@ -20,7 +20,8 @@
 
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { GitHubConfigurationResponse } from '~sq-server-commons/types/dop-translation';
-import { SettingType } from '~sq-server-commons/types/settings';
+
+import { SettingType } from '~shared/types/settings';
 
 export enum GitHubAuthFormFields {
   AllowedOrganizations = 'allowedOrganizations',

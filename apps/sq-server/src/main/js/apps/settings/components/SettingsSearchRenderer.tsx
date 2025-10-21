@@ -32,7 +32,7 @@ import {
   PopupPlacement,
   themeColor,
 } from '~design-system';
-import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
+import { ExtendedSettingDefinition } from '~shared/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import { buildSettingLink, isRealSettingKey } from '../utils';
 

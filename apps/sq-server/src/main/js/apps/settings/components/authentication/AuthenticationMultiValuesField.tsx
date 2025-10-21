@@ -20,8 +20,9 @@
 
 import { ButtonIcon, ButtonVariety, IconDelete } from '@sonarsource/echoes-react';
 import { InputField } from '~design-system';
+import { ExtendedSettingDefinition } from '~shared/types/settings';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
-import { DefinitionV2, ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
+import { DefinitionV2 } from '~sq-server-commons/types/settings';
 import { getPropertyName } from '../../utils';
 
 interface Props {

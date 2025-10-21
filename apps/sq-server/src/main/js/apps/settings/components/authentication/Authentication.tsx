@@ -24,15 +24,15 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSearchParams } from 'react-router-dom';
 import { Image } from '~adapters/components/common/Image';
-import { FlagMessage, SubTitle, ToggleButton, getTabId, getTabPanelId } from '~design-system';
+import { FlagMessage, getTabId, getTabPanelId, SubTitle, ToggleButton } from '~design-system';
 import { searchParamsToQuery } from '~shared/helpers/router';
+import { ExtendedSettingDefinition } from '~shared/types/settings';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { Feature } from '~sq-server-commons/types/features';
-import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
 import BitbucketAuthenticationTab from './BitbucketAuthenticationTab';
 import GitHubAuthenticationTab from './GitHubAuthenticationTab';
 import GitLabAuthenticationTab from './GitLabAuthenticationTab';

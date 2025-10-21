@@ -21,6 +21,7 @@
 import { Button, Spinner } from '@sonarsource/echoes-react';
 import React, { FormEvent } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { ExtendedSettingDefinition } from '~shared/types/settings';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import ConfirmModal from '~sq-server-commons/components/controls/ConfirmModal';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
@@ -29,7 +30,6 @@ import { useIdentityProviderQuery } from '~sq-server-commons/queries/identity-pr
 import { useToggleScimMutation } from '~sq-server-commons/queries/identity-provider/scim';
 import { useSaveValueMutation } from '~sq-server-commons/queries/settings';
 import { ProvisioningType } from '~sq-server-commons/types/provisioning';
-import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
 import { Provider } from '~sq-server-commons/types/types';
 import ConfigurationDetails from './ConfigurationDetails';
 import ConfigurationForm from './ConfigurationForm';
