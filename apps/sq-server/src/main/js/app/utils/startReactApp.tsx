@@ -34,6 +34,7 @@ import {
 } from 'react-router-dom';
 import { lightTheme } from '~design-system';
 import { ResetLayerStack } from '~shared/components/ResetLayerStack';
+import StateCallbackHandler from '~shared/components/StateCallbackHandler';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { addons } from '~sq-server-addons/index';
 import { DEFAULT_APP_STATE } from '~sq-server-commons/context/app-state/AppStateContext';
@@ -289,6 +290,8 @@ const router = ({
               {renderGlobalAddonRoutes({ hasScaFeature: availableFeatures.includes(Feature.Sca) })}
 
               {renderAdminRoutes()}
+
+              <Route element={<StateCallbackHandler />} path="callback" />
             </Route>
             <Route
               // We don't want this route to have any menu.
