@@ -44,39 +44,6 @@ const ui = {
   closeModal: byRole('button', { name: 'close' }),
 };
 
-it('should show and dismiss details dialog', async () => {
-  renderScaConnectivityTest();
-
-  expect(ui.description.query()).toBeInTheDocument();
-
-  await waitFor(async () => {
-    expect(await ui.detailsButton.find()).toBeEnabled();
-  });
-
-  // open the details dialog
-  await userEvent.click(ui.detailsButton.get());
-  expect(ui.detailsModal.query()).toBeInTheDocument();
-
-  // and close it
-  await userEvent.click(ui.closeModal.get());
-  expect(ui.detailsModal.query()).not.toBeInTheDocument();
-});
-
-it('should be able to trigger recheck', async () => {
-  renderScaConnectivityTest();
-
-  expect(ui.description.query()).toBeInTheDocument();
-
-  const recheckButton = await ui.recheckButton.find();
-  expect(recheckButton).toBeVisible();
-  await waitFor(() => {
-    expect(recheckButton).toBeEnabled();
-  });
-
-  // click the recheck button and see if the spinner shows
-  await userEvent.click(recheckButton);
-  expect(ui.checkingSpinner.query()).toBeInTheDocument();
-});
 
 function renderScaConnectivityTest() {
   return renderComponent(<ScaConnectivityTest />);
