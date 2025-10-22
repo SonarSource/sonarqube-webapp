@@ -8748,4 +8748,57 @@ export const defaultMessages = {
   'beamer.news.error': 'Failed to load news',
   'beamer.news.community_post': 'Community post',
   'beamer.news.no_news': 'No news available',
+
+  // ----------------------------------------------------------------------------
+  //
+  // Jira integration
+  //
+  // ----------------------------------------------------------------------------
+
+  'jira_binding.server_error': 'Internal server error. Please try again later.',
+  'project_settings.category.jira_binding': 'Jira',
+  'project_settings.jira_binding.header': 'Jira',
+  'project_settings.jira_binding.bound': 'Connected',
+  'project_settings.jira_binding.not_bound': 'Not connected',
+  'project_settings.jira_binding.description.bound':
+    '<p>You can now push SonarQube issues directly to Jira, display relevant release-related Jira information within SonarQube. For any errors, follow our <link>troubleshooting steps</link>.</p>',
+  'project_settings.jira_binding.description.not_bound':
+    '<p>Enable seamless issue management and workflow visibility.</p>  <p>Push SonarQube issues directly to Jira and display relevant release-related Jira information within SonarQube <link>by setting up your connection</link></p>',
+  'project_settings.jira_binding.key': 'Project key:',
+  'project_settings.jira_binding.remove_binding': 'Remove jira connection for project: {name}',
+  'project_settings.jira_binding.disconnect': 'Disconnect',
+  'project_settings.jira_binding.create_binding.title': 'Select a Jira project',
+  'project_settings.jira_binding.create_binding.description':
+    'By default, you will be able to push all possible issue types',
+  'project_settings.jira_binding.edit_binding.title': 'Change Jira project binding?',
+  'project_settings.jira_binding.edit_binding.description':
+    'Issues previously pushed to "{name}" and earlier will be preserved, but all new issues will be pushed to your new Jira project.',
+  'project_settings.jira_binding.organization_not_bound':
+    'Cannot connect until you bind your instance to Jira in <link>Administration -> Jira</link>',
+  'project_settings.jira_binding.no_summary':
+    'To see issues for this release, configure Jira releases and versions. See <link>instructions in our documentation</link>',
+  'project_settings.jira.binding.bind_success': '"{sqProject}" has been connected to Jira',
+  'project_settings.jira.binding.update_bind_success':
+    'You have successfully changed your Jira connection to "{name}"',
+  'project_settings.jira.binding.unbind_success': '"{sqProject}" has been disconnected from Jira',
+  'project_settings.jira_binding.work_types.at_least_one_required':
+    'At least one work type must be selected',
+  'project_settings.jira_binding.work_types.mandatory_custom_fields':
+    'Mandatory custom fields: {fields}',
+  'project_settings.jira_binding.work_types.mandatory_fields_warning.title':
+    'Some work item types can’t be pushed from SonarQube',
+  'project_settings.jira_binding.work_types.mandatory_fields_warning.text':
+    'SonarQube can’t create Jira work items with mandatory custom fields because it can’t automatically assign values to them. Remove the mandatory settings for those custom fields in Jira first.',
+  'project_settings.jira.binding.work_types.save_failed':
+    'Failed to save permitted Jira work types. Please try again later.',
+  'project_settings.jira.binding.work_types.saved_successfully':
+    'Permitted Jira work types were updated.',
+  'project_settings.jira_binding.work_types.title':
+    'Choose work types that can be pushed from SonarQube to Jira',
+  'project_settings.jira_binding.unbind_confirm.title':
+    'Do you want to disconnect this Jira project?',
+  'project_settings.jira_binding.unbind_confirm.description':
+    '{count} SonarQube {count, plural, one {issue} other {issues}} and corresponding Jira work items will no longer be synchronized. However, existing Jira work items will not be deleted.',
+  'project_settings.jira_binding.unbind_confirm.alert':
+    'Previous connections cannot be restored. Rebinding or creating a new project binding with Jira can lead to duplicate Jira work items.',
 };

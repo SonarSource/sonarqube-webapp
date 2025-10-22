@@ -28,6 +28,7 @@ export function mockProject(overrides: Partial<Project> = {}): Project {
     qualifier: ComponentQualifier.Project,
     visibility: Visibility.Public,
     lastAnalysisDate: '2019-01-04T09:51:48Z',
+    uuid: 'project-uuid',
     ...overrides,
   };
 }

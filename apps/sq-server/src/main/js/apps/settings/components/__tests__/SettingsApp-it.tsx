@@ -41,6 +41,16 @@ import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import routes from '../../routes';
 
+jest.mock('~sq-server-addons/index', () => ({
+  addons: {
+    ...jest.requireActual<typeof import('~sq-server-addons/index')>('~sq-server-addons/index')
+      .addons,
+    jira: {
+      JiraProjectBinding: () => <h1>JiraProjectBindingHeding</h1>,
+    },
+  },
+}));
+
 let settingsMock: SettingsServiceMock;
 let scaSettingsMock: ScaServiceSettingsMock;
 let modeHandler: ModeServiceMock;
@@ -66,25 +76,23 @@ beforeEach(() => {
 });
 
 const ui = {
-  categoryLink: (category: string) => byRole('link', { name: category }),
   announcementHeading: byRole('heading', { name: 'property.category.general.Announcement' }),
-
-  languagesHeading: byRole('heading', { name: 'property.category.languages' }),
-  languagesSelect: byRole('combobox', { name: 'property.category.languages' }),
-  jsGeneralSubCategoryHeading: byRole('heading', { name: 'property.category.javascript.General' }),
-  scaHeading: byRole('heading', { name: 'property.sca.admin.title' }),
-
-  settingsSearchInput: byRole('searchbox', { name: 'settings.search.placeholder' }),
-  searchResultsList: byRole('menu'),
-  searchItem: (key: string) => byRole('link', { name: new RegExp(key) }),
-  searchClear: byRole('button', { name: 'clear' }),
-
+  categoryLink: (category: string) => byRole('link', { name: category }),
   externalAnalyzersAndroidHeading: byRole('heading', {
     name: 'property.category.External Analyzers.Android',
   }),
   generalComputeEngineHeading: byRole('heading', {
     name: 'property.category.general.Compute Engine',
   }),
+  jsGeneralSubCategoryHeading: byRole('heading', { name: 'property.category.javascript.General' }),
+  languagesHeading: byRole('heading', { name: 'property.category.languages' }),
+  languagesSelect: byRole('combobox', { name: 'property.category.languages' }),
+  mockedJiraProjectBindingHeading: byRole('heading', { name: 'JiraProjectBindingHeding' }),
+  scaHeading: byRole('heading', { name: 'property.sca.admin.title' }),
+  searchClear: byRole('button', { name: 'clear' }),
+  searchItem: (key: string) => byRole('link', { name: new RegExp(key) }),
+  searchResultsList: byRole('menu'),
+  settingsSearchInput: byRole('searchbox', { name: 'settings.search.placeholder' }),
 };
 
 describe('Global Settings', () => {
@@ -209,7 +217,9 @@ describe('Global Settings', () => {
 describe('Project Settings', () => {
   it('renders categories list and definitions', async () => {
     const user = userEvent.setup();
-    renderSettingsApp(mockComponent(), { featureList: [Feature.BranchSupport] });
+    renderSettingsApp(mockComponent(), {
+      featureList: [Feature.BranchSupport, Feature.JiraIntegration],
+    });
 
     const projectCategories = [
       'property.category.general',
@@ -226,11 +236,16 @@ describe('Project Settings', () => {
     // Visible only for global settings
     expect(ui.categoryLink('property.category.almintegration').query()).not.toBeInTheDocument();
 
+    expect(ui.categoryLink('project_settings.category.jira_binding').get()).toBeInTheDocument();
+
     expect(await ui.announcementHeading.find()).toBeInTheDocument();
 
     // Navigating to Languages category
     await user.click(await ui.categoryLink('property.category.languages').find());
     expect(await ui.languagesHeading.find()).toBeInTheDocument();
+
+    await user.click(await ui.categoryLink('project_settings.category.jira_binding').find());
+    expect(await ui.mockedJiraProjectBindingHeading.find()).toBeInTheDocument();
   });
 });
 

@@ -82,7 +82,8 @@ function AllCategoriesList(props: Readonly<CategoriesListProps>) {
           (props.hasFeature(Feature.BranchSupport) || !c.requiresBranchSupport) &&
           (props.hasFeature(Feature.FixSuggestions) ||
             props.hasFeature(Feature.FixSuggestionsMarketing) ||
-            c.key !== AI_CODE_FIX_CATEGORY)
+            c.key !== AI_CODE_FIX_CATEGORY) &&
+          (c.requiredFeatures === undefined || c.requiredFeatures.every(props.hasFeature))
         );
       }),
     );

@@ -36,51 +36,64 @@ import SettingsServiceMock from './SettingsServiceMock';
 jest.mock('../project-management');
 
 const defaultProject = [
-  mockProject({ key: 'project1', name: 'Project 1' }),
+  mockProject({ key: 'project1', name: 'Project 1', uuid: 'project1-uuid' }),
   mockProject({
     key: 'project2',
     name: 'Project 2',
     visibility: Visibility.Private,
+    uuid: 'project2-uuid',
   }),
   mockProject({
     key: 'project3',
     name: 'Project 3',
     lastAnalysisDate: undefined,
+    uuid: 'project3-uuid',
   }),
-  mockProject({ key: 'projectProvisioned', name: 'Project 4', managed: true }),
+  mockProject({
+    key: 'projectProvisioned',
+    name: 'Project 4',
+    managed: true,
+    uuid: 'projectProvisioned-uuid',
+  }),
   mockProject({
     key: 'portfolio1',
     name: 'Portfolio 1',
     qualifier: ComponentQualifier.Portfolio,
+    uuid: 'portfolio1-uuid',
   }),
   mockProject({
     key: 'portfolio2',
     name: 'Portfolio 2',
     qualifier: ComponentQualifier.Portfolio,
     visibility: Visibility.Private,
+    uuid: 'portfolio2-uuid',
   }),
   mockProject({
     key: 'portfolio3',
     name: 'Portfolio 3',
     qualifier: ComponentQualifier.Portfolio,
     lastAnalysisDate: undefined,
+    uuid: 'portfolio3-uuid',
   }),
   mockProject({
     key: 'application1',
     name: 'Application 1',
     qualifier: ComponentQualifier.Application,
+    uuid: 'application1-uuid',
   }),
   mockProject({
     key: 'application2',
     name: 'Application 2',
     qualifier: ComponentQualifier.Application,
     visibility: Visibility.Private,
+    uuid: 'application2-uuid',
   }),
   mockProject({
     key: 'application3',
     name: 'Application 3',
     qualifier: ComponentQualifier.Application,
     lastAnalysisDate: undefined,
+    uuid: 'application3-uuid',
   }),
 ];
 

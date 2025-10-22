@@ -20,8 +20,10 @@
 
 import * as React from 'react';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
+import { addons } from '~sq-server-addons/index';
 import { NEW_CODE_PERIOD_CATEGORY } from '~sq-server-commons/constants/settings';
 import { translate } from '~sq-server-commons/helpers/l10n';
+import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import {
   ADVANCED_SECURITY_CATEGORY,
@@ -31,6 +33,7 @@ import {
   AUTHENTICATION_CATEGORY,
   EARLY_ACCESS_FEATURES_CATEGORY,
   EMAIL_NOTIFICATION_CATEGORY,
+  JIRA_PROJECT_BINDING_CATEGORY,
   LANGUAGES_CATEGORY,
   MODE_CATEGORY,
   PULL_REQUEST_DECORATION_BINDING_CATEGORY,
@@ -61,6 +64,7 @@ export interface AdditionalCategory {
   key: string;
   name: string;
   renderComponent: (props: AdditionalCategoryComponentProps) => React.ReactNode;
+  requiredFeatures?: Feature[];
   requiresBranchSupport?: boolean;
 }
 
@@ -172,6 +176,15 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
     availableForProject: false,
     displayTab: true,
   },
+  {
+    key: JIRA_PROJECT_BINDING_CATEGORY,
+    name: translate('project_settings.category.jira_binding'),
+    renderComponent: getProjectJiraBindingComponent,
+    availableGlobally: false,
+    availableForProject: true,
+    displayTab: true,
+    requiredFeatures: [Feature.JiraIntegration],
+  },
 ];
 
 function getLanguagesComponent(props: AdditionalCategoryComponentProps) {
@@ -216,4 +229,12 @@ function getAdvancedSecurityComponent(props: AdditionalCategoryComponentProps) {
 
 function getEarlyAccessFeaturesComponent() {
   return <EarlyAccessFeatures />;
+}
+
+function getProjectJiraBindingComponent({ component }: AdditionalCategoryComponentProps) {
+  if (addons.jira === undefined || component === undefined) {
+    return null;
+  }
+
+  return <addons.jira.JiraProjectBinding component={component} />;
 }

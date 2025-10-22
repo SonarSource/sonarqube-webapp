@@ -18,15 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { queryOptions } from '@tanstack/react-query';
 import { createQueryHook, StaleTime } from '~shared/queries/common';
 import { ComponentQualifier } from '~shared/types/component';
 import { getComponents, Project } from '../api/project-management';
 
 const PROJECT_QUERY_PAGE_SIZE = 500;
+const PROJECTS_QUERY_KEY = 'project-search';
 
 export const useGetAllProjectsQuery = createQueryHook(() => {
   return {
-    queryKey: ['project-search', 'all'] as const,
+    queryKey: [PROJECTS_QUERY_KEY, 'all'] as const,
     queryFn: async () => {
       let pageIndex = 1;
       let totalElements = 0;
@@ -49,4 +51,16 @@ export const useGetAllProjectsQuery = createQueryHook(() => {
     },
     staleTime: StaleTime.LIVE,
   };
+});
+
+export const useGetProjectQuery = createQueryHook((projectKey: string) => {
+  return queryOptions({
+    queryKey: [PROJECTS_QUERY_KEY, 'details', projectKey],
+    queryFn: () =>
+      getComponents({
+        projects: projectKey,
+      }),
+    select: (data) => data.components[0],
+    staleTime: StaleTime.SHORT,
+  });
 });

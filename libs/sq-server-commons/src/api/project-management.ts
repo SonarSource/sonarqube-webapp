@@ -40,6 +40,7 @@ export interface ProjectBase {
     | ComponentQualifier.Application
     | ComponentQualifier.Portfolio
     | ComponentQualifier.Project;
+  uuid: string;
   visibility: Visibility;
 }
 

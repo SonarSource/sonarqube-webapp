@@ -27,12 +27,15 @@ import { useUncataloguedDocUrl } from '../../helpers/docs';
  * they deal with the same subject matter */
 export enum SharedDocLink {
   AnalyzingDependencies = '/advanced-security/analyzing-projects-for-dependencies/',
-  DependencyRisks = '/advanced-security/reviewing-and-fixing-dependency-risks/',
-  LicenseProfiles = '/advanced-security/managing-license-profiles-and-policies/',
-  SCATroubleshooting = '/advanced-security/troubleshooting/',
   ArchitectureModel = '/design-and-architecture/configuring-the-architecture-analysis/',
   ArchitectureModelDeclaration = '/design-and-architecture/configuring-the-architecture-analysis/#declaration',
+  DependencyRisks = '/advanced-security/reviewing-and-fixing-dependency-risks/',
+  JiraIntegration = '/instance-administration/jira-integration',
+  JiraIntegrationProjectBinding = '/project-administration/jira-integration',
+  JiraIntegrationTroubleshooting = '/instance-administration/jira-integration#troubleshooting',
+  LicenseProfiles = '/advanced-security/managing-license-profiles-and-policies/',
   NewCodeDefinition = '/user-guide/about-new-code#new-code-definitions',
+  SCATroubleshooting = '/advanced-security/troubleshooting/',
 }
 
 /**
