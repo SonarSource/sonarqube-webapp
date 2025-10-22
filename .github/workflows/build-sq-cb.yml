@@ -98,7 +98,6 @@ jobs:
         uses: SonarSource/vault-action-wrapper@v3
         with:
           secrets: |
-            development/kv/data/next url | NEXT_URL;
             development/kv/data/next token | NEXT_TOKEN;
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
         with:
@@ -114,7 +113,7 @@ jobs:
       - name: Scan SQ-Community Build on Next
         shell: bash
         env:
-          SONAR_HOST_URL: ${{ fromJSON(steps.secrets.outputs.vault).NEXT_URL }}
+          SONAR_HOST_URL: https://next.sonarqube.com/sonarqube
           SONAR_TOKEN: ${{ fromJSON(steps.secrets.outputs.vault).NEXT_TOKEN }}
         run: |
           ls -la build/reports/
