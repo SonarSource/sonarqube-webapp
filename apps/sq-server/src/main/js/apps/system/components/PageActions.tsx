@@ -19,10 +19,12 @@
  */
 
 import { Button, ButtonIcon, ButtonVariety, IconEdit } from '@sonarsource/echoes-react';
-import * as React from 'react';
+import { useCallback, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { ChevronDownIcon, Dropdown, ItemDownload } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
+import { EditionKey } from '~sq-server-commons/types/editions';
 import { getFileNameSuffix } from '../utils';
 import ChangeLogLevelForm from './ChangeLogLevelForm';
 
@@ -33,116 +35,115 @@ interface Props {
   serverId?: string;
 }
 
-interface State {
-  openLogsLevelForm: boolean;
-}
+export default function PageActions(props: Props) {
+  const { cluster, logLevel, onLogLevelChange, serverId } = props;
 
-export default class PageActions extends React.PureComponent<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      openLogsLevelForm: false,
-    };
-  }
+  const [openLogsLevelForm, setOpenLogsLevelForm] = useState(false);
+  const { edition } = useAppState();
+  const intl = useIntl();
 
-  handleLogsLevelOpen = () => {
-    this.setState({ openLogsLevelForm: true });
-  };
+  const handleLogsLevelOpen = useCallback(() => {
+    setOpenLogsLevelForm(true);
+  }, []);
 
-  handleLogsLevelChange = () => {
-    this.props.onLogLevelChange();
-    this.handleLogsLevelClose();
-  };
+  const handleLogsLevelClose = useCallback(() => {
+    setOpenLogsLevelForm(false);
+  }, []);
 
-  handleLogsLevelClose = () => {
-    this.setState({ openLogsLevelForm: false });
-  };
+  const handleLogsLevelChange = useCallback(() => {
+    onLogLevelChange();
+    handleLogsLevelClose();
+  }, [handleLogsLevelClose, onLogLevelChange]);
 
-  removeElementFocus = (event: React.SyntheticEvent<HTMLElement>) => {
+  const removeElementFocus = useCallback((event: React.SyntheticEvent<HTMLElement>) => {
     event.currentTarget.blur();
-  };
+  }, []);
 
-  render() {
-    const infoUrl = getBaseUrl() + '/api/system/info';
-    const logsUrl = getBaseUrl() + '/api/system/logs';
-    return (
-      <div className="sw-flex sw-items-center sw-gap-2">
-        <div className="sw-flex sw-items-center">
-          <span>
-            {translate('system.logs_level')}
-            {': '}
-            <strong>{this.props.logLevel}</strong>
-          </span>
-          <ButtonIcon
-            Icon={IconEdit}
-            ariaLabel={translate('system.logs_level.change')}
-            className="sw-ml-1"
-            id="edit-logs-level-button"
-            onClick={this.handleLogsLevelOpen}
-            variety={ButtonVariety.DefaultGhost}
-          />
-        </div>
+  const infoUrl = getBaseUrl() + '/api/system/info';
+  const logsUrl = getBaseUrl() + '/api/system/logs';
 
-        <Dropdown
-          id="system-logs-download"
-          overlay={
-            <>
-              <ItemDownload download="sonarqube_app.log" href={logsUrl + '?name=app'}>
-                Main Process
-              </ItemDownload>
-              <ItemDownload download="sonarqube_ce.log" href={logsUrl + '?name=ce'}>
-                Compute Engine
-              </ItemDownload>
+  const filenameTemplate = useCallback(
+    (name: string) => `sonarqube_${name}.${edition === EditionKey.datacenter ? 'zip' : 'log'}`,
+    [edition],
+  );
 
-              {!this.props.cluster && (
-                <ItemDownload download="sonarqube_es.log" href={logsUrl + '?name=es'}>
-                  Search Engine
-                </ItemDownload>
-              )}
-
-              <ItemDownload download="sonarqube_web.log" href={logsUrl + '?name=web'}>
-                Web Server
-              </ItemDownload>
-
-              <ItemDownload download="sonarqube_access.log" href={logsUrl + '?name=access'}>
-                Access Logs
-              </ItemDownload>
-
-              <ItemDownload
-                download="sonarqube_deprecation.log"
-                href={logsUrl + '?name=deprecation'}
-              >
-                Deprecation Logs
-              </ItemDownload>
-            </>
-          }
-        >
-          <Button variety={ButtonVariety.Primary}>
-            {translate('system.download_logs')}
-            <ChevronDownIcon className="sw-ml-1" />
-          </Button>
-        </Dropdown>
-
-        <Button
-          download={`sonarqube-system-info-${getFileNameSuffix(this.props.serverId)}.json`}
-          id="download-link"
-          onClick={this.removeElementFocus}
-          to={infoUrl}
-          variety={ButtonVariety.Primary}
-        >
-          {translate('system.download_system_info')}
-        </Button>
-        {this.state.openLogsLevelForm && (
-          <ChangeLogLevelForm
-            infoMsg={translate(
-              this.props.cluster ? 'system.cluster_log_level.info' : 'system.log_level.info',
-            )}
-            logLevel={this.props.logLevel}
-            onChange={this.handleLogsLevelChange}
-            onClose={this.handleLogsLevelClose}
-          />
-        )}
+  return (
+    <div className="sw-flex sw-items-center sw-gap-2">
+      <div className="sw-flex sw-items-center">
+        <span>
+          <FormattedMessage id="system.logs_level" />
+          {': '}
+          <strong>{logLevel}</strong>
+        </span>
+        <ButtonIcon
+          Icon={IconEdit}
+          ariaLabel={intl.formatMessage({ id: 'system.logs_level.change' })}
+          className="sw-ml-1"
+          id="edit-logs-level-button"
+          onClick={handleLogsLevelOpen}
+          variety={ButtonVariety.DefaultGhost}
+        />
       </div>
-    );
-  }
+
+      <Dropdown
+        id="system-logs-download"
+        overlay={
+          <>
+            <ItemDownload download={filenameTemplate('app')} href={logsUrl + '?name=app'}>
+              Main Process
+            </ItemDownload>
+            <ItemDownload download={filenameTemplate('ce')} href={logsUrl + '?name=ce'}>
+              Compute Engine
+            </ItemDownload>
+
+            {!cluster && (
+              <ItemDownload download={filenameTemplate('es')} href={logsUrl + '?name=es'}>
+                Search Engine
+              </ItemDownload>
+            )}
+
+            <ItemDownload download={filenameTemplate('web')} href={logsUrl + '?name=web'}>
+              Web Server
+            </ItemDownload>
+
+            <ItemDownload download={filenameTemplate('access')} href={logsUrl + '?name=access'}>
+              Access Logs
+            </ItemDownload>
+
+            <ItemDownload
+              download={filenameTemplate('deprecation')}
+              href={logsUrl + '?name=deprecation'}
+            >
+              Deprecation Logs
+            </ItemDownload>
+          </>
+        }
+      >
+        <Button variety={ButtonVariety.Primary}>
+          <FormattedMessage id="system.download_logs" />
+          <ChevronDownIcon className="sw-ml-1" />
+        </Button>
+      </Dropdown>
+
+      <Button
+        download={`sonarqube-system-info-${getFileNameSuffix(serverId)}.json`}
+        id="download-link"
+        onClick={removeElementFocus}
+        to={infoUrl}
+        variety={ButtonVariety.Primary}
+      >
+        <FormattedMessage id="system.download_system_info" />
+      </Button>
+      {openLogsLevelForm && (
+        <ChangeLogLevelForm
+          infoMsg={intl.formatMessage({
+            id: cluster ? 'system.cluster_log_level.info' : 'system.log_level.info',
+          })}
+          logLevel={logLevel}
+          onChange={handleLogsLevelChange}
+          onClose={handleLogsLevelClose}
+        />
+      )}
+    </div>
+  );
 }
