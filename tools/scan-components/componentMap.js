@@ -99,7 +99,6 @@ export const componentMap = {
   Header: 'Heading',
   InlineSnippet: '',
   SentenceWithHighlights: 'Covered',
-  FilterBarTemplate: '',
   QualityGateIndicator: '',
   FlagErrorIcon: 'Icons',
   BreadcrumbsFullWidth: 'Breadcrumbs',
