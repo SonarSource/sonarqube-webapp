@@ -1991,11 +1991,17 @@ export const defaultMessages = {
   'architecture.page.model.label': 'Model',
   'architecture.page.model.invalid_groups':
     'Invalid {groupsCount, plural, one {group} other {groups}}: {groups}',
-  'architecture.page.model.duplicate_connection':
-    'A connection between "{source}" and "{target}" already exists',
-  'architecture.page.model.same_source_and_target': 'A group cannot be connected to itself',
-  'architecture.page.model.source_and_target_are_not_siblings':
-    'A group cannot be connected to a group that is not a sibling',
+  'architecture.page.model.errors.constraint.duplicate':
+    'A relationship between "{source}" and "{target}" is already allowed.',
+  'architecture.page.model.errors.constraint.same_source_and_target':
+    'A relationship between the same source and target is invalid.',
+  'architecture.page.model.errors.constraint.source_and_target_are_not_siblings':
+    'A component cannot be related to a component that is not a sibling.',
+  'architecture.page.model.errors.group.empty_label':
+    'A component cannot have an empty name: {nodeKey}.',
+  'architecture.page.model.errors.group.duplicate_sibling_labels':
+    'Two sibling components cannot have the same name: "{nodeKey}".',
+  'architecture.page.model.errors.invalid_model': 'Unable to change model. {errors}',
   'architecture.page.model.modal.edit_component.title': 'Edit Component',
   'architecture.page.model.modal.edit_component.description':
     'Edit the component and its code artifacts.',
