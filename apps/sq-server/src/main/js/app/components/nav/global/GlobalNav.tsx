@@ -23,9 +23,12 @@ import { Layout, cssVar } from '@sonarsource/echoes-react';
 import { throttle } from 'lodash';
 import { useEffect, useState } from 'react';
 import { LAYOUT_VIEWPORT_MIN_WIDTH, THROTTLE_SCROLL_DELAY } from '~design-system';
+import { BEAMER_NOTIFICATIONS_SETTING } from '~shared/helpers/beamer';
+import { BeamerWidgetCustom } from '~sq-server-commons/components/beamer/BeamerWidgetCustom';
 import EmbedDocsPopupHelper from '~sq-server-commons/components/embed-docs-modal/EmbedDocsPopupHelper';
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import useLocalStorage from '~sq-server-commons/hooks/useLocalStorage';
 import GlobalSearch from '../../global-search/GlobalSearch';
 import { GlobalNavMenu } from './GlobalNavMenu';
 import { GlobalNavUser } from './GlobalNavUser';
@@ -34,6 +37,8 @@ import { LogoWithAriaText } from './MainSonarQubeBar';
 export function GlobalNav() {
   const { currentUser } = useCurrentUser();
   const [boxShadow, setBoxShadow] = useState('none');
+
+  const [beamerNotifications] = useLocalStorage(BEAMER_NOTIFICATIONS_SETTING, true);
 
   useEffect(() => {
     const handleScroll = throttle(() => {
@@ -56,6 +61,7 @@ export function GlobalNav() {
       </Layout.GlobalNavigation.Primary>
       <Layout.GlobalNavigation.Secondary>
         <GlobalSearch />
+        <BeamerWidgetCustom hideCounter={!beamerNotifications} />
         <EmbedDocsPopupHelper />
         <GlobalNavUser />
       </Layout.GlobalNavigation.Secondary>

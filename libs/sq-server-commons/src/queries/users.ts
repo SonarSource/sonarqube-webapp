@@ -19,12 +19,14 @@
  */
 
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getNextPageParam, getPreviousPageParam } from '~shared/queries/common';
+import { isStringDefined } from '~shared/helpers/types';
+import { isLoggedIn } from '~shared/helpers/users';
+import { createQueryHook, getNextPageParam, getPreviousPageParam } from '~shared/queries/common';
 import { generateToken, getTokens, revokeToken } from '../api/user-tokens';
 import { deleteUser, dismissNotice, getUsers, postUser, updateUser } from '../api/users';
 import { useCurrentUser } from '../context/current-user/CurrentUserContext';
 import { UserToken } from '../types/token';
-import { NoticeType } from '../types/users';
+import { NoticeType, RestUserDetailed } from '../types/users';
 
 const STALE_TIME = 4 * 60 * 1000;
 
@@ -41,6 +43,18 @@ export function useUsersQueries(
     initialPageParam: 1,
   });
 }
+
+export const useCurrentUserDetailsQuery = createQueryHook(() => {
+  const { currentUser } = useCurrentUser();
+  const userLogin = isLoggedIn(currentUser) ? currentUser.login : '';
+
+  return {
+    queryKey: ['user', 'current', 'id'],
+    queryFn: () => getUsers({ q: userLogin }),
+    select: ({ users }: { users: RestUserDetailed[] }) => users.find((u) => u.login === userLogin),
+    enabled: isStringDefined(userLogin),
+  };
+});
 
 export function useUserTokensQuery(login: string) {
   return useQuery({

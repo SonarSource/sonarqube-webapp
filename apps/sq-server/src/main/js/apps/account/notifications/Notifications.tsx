@@ -18,13 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Spinner, Text } from '@sonarsource/echoes-react';
+import { Divider, Heading, Label, Spinner, Text } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
-import { GreySeparator } from '~design-system';
+import { FormattedMessage } from 'react-intl';
+import { Switch } from '~design-system';
+import { BEAMER_NOTIFICATIONS_SETTING } from '~shared/helpers/beamer';
 import { translate } from '~sq-server-commons/helpers/l10n';
+import useLocalStorage from '~sq-server-commons/hooks/useLocalStorage';
 import { useNotificationsQuery } from '~sq-server-commons/queries/notifications';
 import GlobalNotifications from './GlobalNotifications';
 import Projects from './Projects';
+
+const NEWS_NOTIFICATION_FIELD_ID = 'news-notification-field';
 
 export default function Notifications() {
   const { data: notificationResponse, isLoading } = useNotificationsQuery();
@@ -36,6 +41,10 @@ export default function Notifications() {
   };
 
   const projectNotifications = notifications.filter((n) => n.project !== undefined);
+
+  const [beamerNotifications, setBeamerNotifications] = useLocalStorage<boolean>(
+    BEAMER_NOTIFICATIONS_SETTING,
+  );
 
   return (
     <div className="it__account-body">
@@ -50,11 +59,29 @@ export default function Notifications() {
       <Spinner isLoading={isLoading}>
         {notifications && (
           <>
-            <GreySeparator className="sw-my-4" />
+            <Divider className="sw-my-4" />
 
             <GlobalNotifications />
 
-            <GreySeparator className="sw-my-6" />
+            <Divider className="sw-my-4" />
+
+            <Heading as="h2" hasMarginBottom>
+              <FormattedMessage id="my_profile.news_notifications.title" />
+            </Heading>
+
+            <div className="sw-flex sw-items-center sw-gap-2">
+              <Switch
+                id={NEWS_NOTIFICATION_FIELD_ID}
+                name={BEAMER_NOTIFICATIONS_SETTING}
+                onChange={setBeamerNotifications}
+                value={beamerNotifications ?? true}
+              />
+              <Label htmlFor={NEWS_NOTIFICATION_FIELD_ID}>
+                <FormattedMessage id="my_profile.news_notifications.label" />
+              </Label>
+            </div>
+
+            <Divider className="sw-my-4" />
 
             <Projects notifications={projectNotifications} />
           </>

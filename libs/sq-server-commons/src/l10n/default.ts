@@ -4549,6 +4549,9 @@ export const defaultMessages = {
   'my_profile.per_project_notifications.add': 'Add a project',
   'my_profile.per_project_notifications.edit': 'Set notifications',
   'my_profile.per_project_notifications.filter': 'Filter projects',
+  'my_profile.news_notifications.title': 'SonarQube new features notifications',
+  'my_profile.news_notifications.label':
+    'Display a notification count in the header when new features are deployed',
 
   'my_account.page': 'My Account',
   'my_account.notifications': 'Notifications',
@@ -8738,4 +8741,11 @@ export const defaultMessages = {
   'toggle_tip.aria_label.security_hotspots': 'More information about security hotspots',
   'toggle_tip.aria_label.reports': 'More information about reports',
   'toggle_tip.aria_label.onboarding': 'More information about onboarding',
+
+  // Beamer
+  'beamer.panel.title': "What's new on SonarQube",
+  'beamer.category.new': 'New',
+  'beamer.news.error': 'Failed to load news',
+  'beamer.news.community_post': 'Community post',
+  'beamer.news.no_news': 'No news available',
 };

@@ -28,9 +28,14 @@ import { isLoggedIn } from '../../types/users';
 import { useCurrentUser } from './users';
 
 const BEAMER_PRODUCT_ID = 'XzXivFzs65268';
+const BEAMER_API_KEY = 'b_VblkDQhs+4C+ZPgjSSi/sHsXhp1mtd/DTnm+GuB2sNA=';
 
 export function getBeamerProductId() {
   return BEAMER_PRODUCT_ID;
+}
+
+export function getBeamerAPIKey() {
+  return BEAMER_API_KEY;
 }
 
 const EDITION_MAP = {
