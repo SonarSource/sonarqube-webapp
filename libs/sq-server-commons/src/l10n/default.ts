@@ -1579,6 +1579,7 @@ export const defaultMessages = {
     ' This will export a SBOM for all of your dependencies.',
   'dependencies.list.export_as_sbom.type.cyclonedx': 'CycloneDX',
   'dependencies.list.export_as_sbom.type.spdx_23': 'SPDX v2.3',
+  'dependencies.list.export_as_sbom.type.spdx_30': 'SPDX v3.0',
   'dependencies.list.export_as_sbom.format.xml': 'XML',
   'dependencies.list.export_as_sbom.format.json': 'JSON',
   'dependencies.risk.header.risk_severity': 'Severity of impact',
