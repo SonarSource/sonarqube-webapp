@@ -20,7 +20,7 @@
 
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
-import { createQueryHook, StaleTime } from '~shared/queries/common';
+import { createQueryHook } from '~shared/queries/common';
 import { HttpStatus } from '~shared/types/request';
 import {
   deleteProjectAlmBinding,
@@ -58,7 +58,7 @@ export const useProjectBindingQuery = createQueryHook((project?: string) => {
         }
         return e as unknown as ProjectAlmBindingResponse;
       }),
-    staleTime: StaleTime.LONG,
+    staleTime: 60_000,
     enabled: projectKey !== null,
   });
 });

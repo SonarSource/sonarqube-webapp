@@ -134,15 +134,15 @@ interface EnhancedProjectAlmBindingParam extends ProjectAlmBindingParams {
 jest.mock('../alm-settings');
 
 export default class AlmSettingsServiceMock {
-  almDefinitions: AlmSettingsBindingDefinitions;
-  almSettings: AlmSettingsInstance[];
-  definitionError = '';
-  projectsBindings: { [key: string]: ProjectAlmBindingResponse | undefined } = {};
-  projectBindingConfigurationErrors: ProjectAlmBindingConfigurationErrors | undefined = undefined;
+  #almDefinitions: AlmSettingsBindingDefinitions;
+  #almSettings: AlmSettingsInstance[];
+  #definitionError = '';
+  #projectsBindings: { [key: string]: ProjectAlmBindingResponse | undefined } = {};
+  #projectBindingConfigurationErrors: ProjectAlmBindingConfigurationErrors | undefined = undefined;
 
   constructor() {
-    this.almSettings = cloneDeep(defaultAlmSettings);
-    this.almDefinitions = cloneDeep(defaultAlmDefinitions);
+    this.#almSettings = cloneDeep(defaultAlmSettings);
+    this.#almDefinitions = cloneDeep(defaultAlmDefinitions);
     jest.mocked(getAlmSettings).mockImplementation(this.handleGetAlmSettings);
     jest.mocked(getAlmSettingsNoCatch).mockImplementation(this.handleGetAlmSettings);
     jest.mocked(getAlmDefinitions).mockImplementation(this.handleGetAlmDefinitions);
@@ -182,15 +182,15 @@ export default class AlmSettingsServiceMock {
   }
 
   handleGetAlmDefinitions = () => {
-    return this.reply(this.almDefinitions);
+    return this.reply(this.#almDefinitions);
   };
 
   handleGetAlmSettings = () => {
-    return this.reply(this.almSettings);
+    return this.reply(this.#almSettings);
   };
 
   handleValidateAlmSettings = () => {
-    return this.reply(this.definitionError);
+    return this.reply(this.#definitionError);
   };
 
   handleCountBoundProjects = () => {
@@ -198,11 +198,11 @@ export default class AlmSettingsServiceMock {
   };
 
   setDefinitionErrorMessage = (message: string) => {
-    this.definitionError = message;
+    this.#definitionError = message;
   };
 
   handleDeleteConfiguration = (key: string) => {
-    for (const definitionsGroup of Object.values(this.almDefinitions) as [
+    for (const definitionsGroup of Object.values(this.#almDefinitions) as [
       GithubBindingDefinition[],
       GitlabBindingDefinition[],
       AzureBindingDefinition[],
@@ -219,43 +219,43 @@ export default class AlmSettingsServiceMock {
   };
 
   removeFromAlmSettings = (almKey: string) => {
-    this.almSettings = cloneDeep(defaultAlmSettings).filter(
+    this.#almSettings = cloneDeep(defaultAlmSettings).filter(
       (almSetting) => almSetting.alm !== almKey,
     );
   };
 
   handleCreateGithubConfiguration = (data: GithubBindingDefinition) => {
-    this.almDefinitions[AlmKeys.GitHub].push(data);
+    this.#almDefinitions[AlmKeys.GitHub].push(data);
 
     return this.reply(undefined);
   };
 
   handleCreateGitlabConfiguration = (data: GitlabBindingDefinition) => {
-    this.almDefinitions[AlmKeys.GitLab].push(data);
+    this.#almDefinitions[AlmKeys.GitLab].push(data);
 
     return this.reply(undefined);
   };
 
   handleCreateAzureConfiguration = (data: AzureBindingDefinition) => {
-    this.almDefinitions[AlmKeys.Azure].push(data);
+    this.#almDefinitions[AlmKeys.Azure].push(data);
 
     return this.reply(undefined);
   };
 
   handleCreateBitbucketServerConfiguration = (data: BitbucketServerBindingDefinition) => {
-    this.almDefinitions[AlmKeys.BitbucketServer].push(data);
+    this.#almDefinitions[AlmKeys.BitbucketServer].push(data);
 
     return this.reply(undefined);
   };
 
   handleCreateBitbucketCloudConfiguration = (data: BitbucketCloudBindingDefinition) => {
-    this.almDefinitions[AlmKeys.BitbucketCloud].push(data);
+    this.#almDefinitions[AlmKeys.BitbucketCloud].push(data);
 
     return this.reply(undefined);
   };
 
   handleUpdateGithubConfiguration = (data: GithubBindingDefinition & { newKey: string }) => {
-    const definition = this.almDefinitions[AlmKeys.GitHub].find(
+    const definition = this.#almDefinitions[AlmKeys.GitHub].find(
       (item) => item.key === data.key,
     ) as GithubBindingDefinition;
     Object.assign(definition, { ...data, key: data.newKey });
@@ -264,7 +264,7 @@ export default class AlmSettingsServiceMock {
   };
 
   handleUpdateGitlabConfiguration = (data: GitlabBindingDefinition & { newKey: string }) => {
-    const definition = this.almDefinitions[AlmKeys.GitLab].find(
+    const definition = this.#almDefinitions[AlmKeys.GitLab].find(
       (item) => item.key === data.key,
     ) as GitlabBindingDefinition;
     Object.assign(definition, { ...data, key: data.newKey });
@@ -273,7 +273,7 @@ export default class AlmSettingsServiceMock {
   };
 
   handleUpdateAzureConfiguration = (data: AzureBindingDefinition & { newKey: string }) => {
-    const definition = this.almDefinitions[AlmKeys.Azure].find(
+    const definition = this.#almDefinitions[AlmKeys.Azure].find(
       (item) => item.key === data.key,
     ) as AzureBindingDefinition;
     Object.assign(definition, { ...data, key: data.newKey });
@@ -284,7 +284,7 @@ export default class AlmSettingsServiceMock {
   handleUpdateBitbucketServerConfiguration = (
     data: BitbucketServerBindingDefinition & { newKey: string },
   ) => {
-    const definition = this.almDefinitions[AlmKeys.BitbucketServer].find(
+    const definition = this.#almDefinitions[AlmKeys.BitbucketServer].find(
       (item) => item.key === data.key,
     ) as BitbucketServerBindingDefinition;
     Object.assign(definition, { ...data, key: data.newKey });
@@ -295,7 +295,7 @@ export default class AlmSettingsServiceMock {
   handleUpdateBitbucketCloudConfiguration = (
     data: BitbucketCloudBindingDefinition & { newKey: string },
   ) => {
-    const definition = this.almDefinitions[AlmKeys.BitbucketCloud].find(
+    const definition = this.#almDefinitions[AlmKeys.BitbucketCloud].find(
       (item) => item.key === data.key,
     ) as BitbucketCloudBindingDefinition;
     Object.assign(definition, { ...data, key: data.newKey });
@@ -304,7 +304,7 @@ export default class AlmSettingsServiceMock {
   };
 
   handleGetProjectBinding = (project: string) => {
-    const projectBinding = this.projectsBindings[project];
+    const projectBinding = this.#projectsBindings[project];
 
     if (projectBinding === undefined) {
       return Promise.reject(
@@ -318,7 +318,7 @@ export default class AlmSettingsServiceMock {
   };
 
   handleSetProjectBinding = (alm: AlmKeys, data: EnhancedProjectAlmBindingParam) => {
-    this.projectsBindings[data.project] = {
+    this.#projectsBindings[data.project] = {
       alm,
       key: data.almSetting,
       repository: data.repositoryName ?? (data.repository as string),
@@ -351,23 +351,23 @@ export default class AlmSettingsServiceMock {
   };
 
   handleValidateProjectAlmBinding = () => {
-    return this.reply(this.projectBindingConfigurationErrors);
+    return this.reply(this.#projectBindingConfigurationErrors);
   };
 
   setProjectBindingConfigurationErrors = (errors?: ProjectAlmBindingConfigurationErrors) => {
-    this.projectBindingConfigurationErrors = errors;
+    this.#projectBindingConfigurationErrors = errors;
   };
 
   handleDeleteProjectAlmBinding = (project: string) => {
-    this.projectsBindings[project] = undefined;
+    this.#projectsBindings[project] = undefined;
     return this.reply(undefined);
   };
 
   reset = () => {
-    this.almSettings = cloneDeep(defaultAlmSettings);
-    this.almDefinitions = cloneDeep(defaultAlmDefinitions);
-    this.projectsBindings = {};
-    this.projectBindingConfigurationErrors = undefined;
+    this.#almSettings = cloneDeep(defaultAlmSettings);
+    this.#almDefinitions = cloneDeep(defaultAlmDefinitions);
+    this.#projectsBindings = {};
+    this.#projectBindingConfigurationErrors = undefined;
     this.setDefinitionErrorMessage('');
   };
 

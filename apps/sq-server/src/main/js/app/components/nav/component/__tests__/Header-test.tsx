@@ -20,13 +20,9 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { byRole } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
-import AlmIntegrationsServiceMock from '~sq-server-commons/api/mocks/AlmIntegrationsServiceMock';
 import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
-import { mockGitHubRepository } from '~sq-server-commons/helpers/mocks/alm-integrations';
-import { mockProjectAlmBindingResponse } from '~sq-server-commons/helpers/mocks/alm-settings';
 import { mockMainBranch, mockPullRequest } from '~sq-server-commons/helpers/mocks/branch-like';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
@@ -39,29 +35,13 @@ jest.mock('~sq-server-commons/api/favorites', () => ({
   addFavorite: jest.fn().mockResolvedValue({}),
   removeFavorite: jest.fn().mockResolvedValue({}),
 }));
-jest.mock('~adapters/helpers/users', () => ({
-  ...jest.requireActual<typeof import('~adapters/helpers/users')>('~adapters/helpers/users'),
-  useCurrentUser: () => ({ currentUser: mockLoggedInUser() }),
-}));
-
-const ui = {
-  bindProjectLink: byRole('link', { name: 'project_navigation.binding_status.bind' }),
-  bindingLink: byRole('link', {
-    name: /project_navigation.binding_status.bound_to_x/,
-  }),
-  bindingLogo: byRole('img', {
-    name: /project_navigation.binding_status.bound_to_x/,
-  }),
-};
 
 const handler = new BranchesServiceMock();
 const almHandler = new AlmSettingsServiceMock();
-const almIntegrationsHandler = new AlmIntegrationsServiceMock();
 
 beforeEach(() => {
   handler.reset();
   almHandler.reset();
-  almIntegrationsHandler.reset();
 });
 
 it('should render correctly when there is only 1 branch', async () => {
@@ -128,65 +108,6 @@ it('should show the correct help tooltip when branch support is not enabled', as
   ).toBeInTheDocument();
 });
 
-it('should show "bind project" link when project is not bound and user can bind project', async () => {
-  renderHeader({
-    component: mockComponent({
-      breadcrumbs: [{ name: 'project', key: 'project', qualifier: ComponentQualifier.Project }],
-      configuration: {
-        showSettings: true,
-      },
-    }),
-    currentUser: mockLoggedInUser(),
-  });
-
-  expect(await ui.bindProjectLink.find()).toBeInTheDocument();
-});
-
-it('should show GitHub logo linking to repository when project is bound to GitHub', async () => {
-  almIntegrationsHandler.githubRepositories = [
-    mockGitHubRepository({
-      url: 'https://github.com/org/repo',
-    }),
-  ];
-  almHandler.projectsBindings['project-bound'] = mockProjectAlmBindingResponse({
-    key: 'project-bound',
-    slug: 'org/repo',
-  });
-  renderHeader({
-    component: mockComponent({
-      breadcrumbs: [{ name: 'project', key: 'project', qualifier: ComponentQualifier.Project }],
-      configuration: {
-        showSettings: true,
-      },
-      key: 'project-bound',
-    }),
-    currentUser: mockLoggedInUser(),
-  });
-
-  expect(await ui.bindingLink.find()).toBeInTheDocument();
-});
-
-it('should show GitLab logo (without link) when project is bound to GitLab', async () => {
-  almHandler.projectsBindings['project-bound'] = mockProjectAlmBindingResponse({
-    alm: AlmKeys.GitLab,
-    key: 'project-bound',
-    slug: 'gitlab-repo',
-  });
-  renderHeader({
-    component: mockComponent({
-      breadcrumbs: [{ name: 'project', key: 'project', qualifier: ComponentQualifier.Project }],
-      configuration: {
-        showSettings: true,
-      },
-      key: 'project-bound',
-    }),
-    currentUser: mockLoggedInUser(),
-  });
-
-  expect(await ui.bindingLogo.find()).toBeInTheDocument();
-  expect(ui.bindingLink.query()).not.toBeInTheDocument();
-});
-
 
 function renderHeader(
   props?: Partial<HeaderProps>,
@@ -197,8 +118,8 @@ function renderHeader(
     '/',
     <Header
       component={mockComponent({
-        breadcrumbs: [{ name: 'project', key: 'project', qualifier: ComponentQualifier.Project }],
         key: 'header-project',
+        breadcrumbs: [{ name: 'project', key: 'project', qualifier: ComponentQualifier.Project }],
       })}
       currentUser={mockCurrentUser()}
       {...props}
