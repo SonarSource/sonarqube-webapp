@@ -21,6 +21,7 @@
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { byRole, byText } from '~shared/helpers/testSelector';
+import { isDefined } from '~shared/helpers/types';
 import ScaServiceSettingsMock from '~sq-server-commons/api/mocks/ScaServiceSettingsMock';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import ScaConnectivityTest from '../ScaConnectivityTest';
@@ -43,6 +44,11 @@ const ui = {
   detailsModal: byRole('dialog'),
   closeModal: byRole('button', { name: 'close' }),
 };
+
+it('test should always pass', () => {
+  /** This test is here so that CI for community build passes when the rest of the file is removed. */
+  expect(isDefined(1)).toBe(true);
+});
 
 
 function renderScaConnectivityTest() {

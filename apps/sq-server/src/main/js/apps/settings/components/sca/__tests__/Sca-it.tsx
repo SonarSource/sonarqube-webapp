@@ -22,6 +22,7 @@ import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { registerServiceMocks } from '~shared/api/mocks/server';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
+import { isDefined } from '~shared/helpers/types';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
 import { EntitlementsServiceMock } from '~sq-server-commons/api/mocks/EntitlementsServiceMock';
 import ScaServiceSettingsMock from '~sq-server-commons/api/mocks/ScaServiceSettingsMock';
@@ -110,6 +111,11 @@ const ui = {
   confirmModal: byRole('button', { name: 'confirm' }),
   dismissModal: byRole('button', { name: 'property.sca.cancel.modal.continue_editing' }),
 };
+
+it('test should always pass', () => {
+  /** This test is here so that CI for community build passes when the rest of the file is removed. */
+  expect(isDefined(1)).toBe(true);
+});
 
 
 function renderScaAdmin() {
