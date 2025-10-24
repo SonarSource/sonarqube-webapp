@@ -29,6 +29,7 @@ import {
   ToggleTip,
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
+import { isApplication } from '~shared/helpers/component';
 import { getReportUrl } from '../../api/component-report';
 import { getRegulatoryReportUrl } from '../../api/regulatory-report';
 import { DocLink } from '../../helpers/doc-links';
@@ -131,24 +132,27 @@ export default function ComponentReportActionsRenderer(
               })}
             </DropdownMenu.ItemButton>
 
-            <DropdownMenu.Separator />
-
-            <DropdownMenu.GroupLabel>
-              {intl.formatMessage({ id: 'component_regulatory_report.report' })}
-            </DropdownMenu.GroupLabel>
-            <DropdownMenu.ItemLinkDownload
-              download={[component.name, branch?.name, 'regulatory report.zip']
-                .filter((s) => !!s)
-                .join(' - ')}
-              helpText={intl.formatMessage({
-                id: 'component_regulatory_report.download.help_text',
-              })}
-              isDisabled={!branch?.excludedFromPurge}
-              onClick={handleDownloadStarted}
-              to={regulatoryReportDownloadURL}
-            >
-              {intl.formatMessage({ id: 'component_regulatory_report.download' })}
-            </DropdownMenu.ItemLinkDownload>
+            {!isApplication(component.qualifier) && (
+              <>
+                <DropdownMenu.Separator />
+                <DropdownMenu.GroupLabel>
+                  {intl.formatMessage({ id: 'component_regulatory_report.report' })}
+                </DropdownMenu.GroupLabel>
+                <DropdownMenu.ItemLinkDownload
+                  download={[component.name, branch?.name, 'regulatory report.zip']
+                    .filter((s) => !!s)
+                    .join(' - ')}
+                  helpText={intl.formatMessage({
+                    id: 'component_regulatory_report.download.help_text',
+                  })}
+                  isDisabled={!branch?.excludedFromPurge}
+                  onClick={handleDownloadStarted}
+                  to={regulatoryReportDownloadURL}
+                >
+                  {intl.formatMessage({ id: 'component_regulatory_report.download' })}
+                </DropdownMenu.ItemLinkDownload>
+              </>
+            )}
           </>
         }
       >
