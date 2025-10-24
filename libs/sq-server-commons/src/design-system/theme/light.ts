@@ -163,13 +163,6 @@ export const lightTheme = {
     switchButton: COLORS.white,
     switchButtonDisabled: secondary.light,
 
-    // sidebar
-    // NOTE: these aren't used because the sidebar is exclusively dark. but for type purposes are listed here
-    sidebarBackground: COLORS.blueGrey[700],
-    sidebarItemActive: COLORS.blueGrey[800],
-    sidebarBorder: COLORS.blueGrey[500],
-    sidebarActiveIcon: COLORS.blueGrey[200],
-
     //separator-circle
     separatorCircle: COLORS.blueGrey[200],
 
@@ -722,10 +715,6 @@ export const lightTheme = {
     // switch
     switchHover: primary.light,
     switchButton: primary.default,
-
-    // sidebar
-    sidebarBackground: COLORS.blueGrey[200],
-    sidebarItemActive: COLORS.blueGrey[25],
 
     // flag message
     flagMessageBackground: secondary.darker,
