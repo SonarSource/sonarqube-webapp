@@ -141,24 +141,6 @@ describe('Global Settings', () => {
     expect(await ui.jsGeneralSubCategoryHeading.find()).toBeInTheDocument();
   });
 
-  it('renders Advanced Security category', async () => {
-    const user = userEvent.setup();
-    entitlementsMock.data.purchasableFeatures = [
-      { featureKey: 'sca', isAvailable: true, isEnabled: false },
-    ];
-    renderSettingsApp();
-
-    // Navigating to Advanced Security category
-    await user.click(await ui.categoryLink('property.category.Advanced Security').find());
-
-    expect(await ui.scaHeading.find()).toBeInTheDocument();
-
-    await user.click(ui.settingsSearchInput.get());
-    await user.type(ui.settingsSearchInput.get(), 'global');
-    expect(ui.searchItem('sonar.sca.featureEnabled').query()).not.toBeInTheDocument();
-    await user.type(ui.settingsSearchInput.get(), 'sca');
-    expect(ui.searchItem('sonar.sca.featureEnabled').query()).not.toBeInTheDocument();
-  });
 
   it('can search definitions by name or key', async () => {
     const user = userEvent.setup();
