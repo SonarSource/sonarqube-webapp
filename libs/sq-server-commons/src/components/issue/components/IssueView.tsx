@@ -45,6 +45,7 @@ import IssueTags from './IssueTags';
 import IssueTitleBar from './IssueTitleBar';
 
 interface Props {
+  additionalIssueActions?: React.ComponentType<{ issue: Issue }>[];
   branchLike?: BranchLike;
   checked?: boolean;
   currentPopup?: string;
@@ -60,17 +61,18 @@ interface Props {
 
 export default function IssueView(props: Readonly<Props>) {
   const {
-    issue,
+    additionalIssueActions,
     branchLike,
     checked,
     currentPopup,
     displayWhyIsThisAnIssue,
+    issue,
     onAssign,
     onChange,
-    onSelect,
-    togglePopup,
-    selected,
     onCheck,
+    onSelect,
+    selected,
+    togglePopup,
   } = props;
   const intl = useIntl();
   const nodeRef = useRef<HTMLLIElement>(null);
@@ -210,6 +212,7 @@ export default function IssueView(props: Readonly<Props>) {
 
           <div className="sw-flex sw-gap-2 sw-flex-nowrap sw-items-center sw-justify-between">
             <IssueActionsBar
+              additionalIssueActions={additionalIssueActions}
               currentPopup={currentPopup}
               issue={issue}
               onAssign={onAssign}

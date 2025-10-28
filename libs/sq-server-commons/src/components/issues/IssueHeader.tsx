@@ -45,6 +45,7 @@ import IssueHeaderMeta from './IssueHeaderMeta';
 import IssueHeaderSide from './IssueHeaderSide';
 
 interface Props {
+  additionalIssueActions?: React.ComponentType<{ issue: Issue }>[];
   branchLike?: BranchLike;
   issue: Issue;
   onIssueChange: (issue: Issue) => void;
@@ -199,7 +200,7 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { issue, branchLike } = this.props;
+    const { additionalIssueActions, issue, branchLike } = this.props;
     const { issuePopupName } = this.state;
     const issueUrl = getComponentIssuesUrl(issue.project, {
       ...getBranchLikeQuery(branchLike),
@@ -240,6 +241,7 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
           <BasicSeparator />
 
           <IssueActionsBar
+            additionalIssueActions={additionalIssueActions}
             canSetTags={canSetTags}
             currentPopup={issuePopupName}
             issue={issue}

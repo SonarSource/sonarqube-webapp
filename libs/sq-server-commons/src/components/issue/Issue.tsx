@@ -32,6 +32,7 @@ import { updateIssue } from './actions';
 import IssueView from './components/IssueView';
 
 interface Props {
+  additionalIssueActions?: React.ComponentType<{ issue: TypeIssue }>[];
   branchLike?: BranchLike;
   checked?: boolean;
   displayWhyIsThisAnIssue?: boolean;
@@ -46,14 +47,15 @@ interface Props {
 
 function Issue(props: Readonly<Props>) {
   const {
-    selected = false,
-    issue,
+    additionalIssueActions,
     branchLike,
     checked,
-    openPopup,
     displayWhyIsThisAnIssue,
+    issue,
     onCheck,
     onPopupToggle,
+    openPopup,
+    selected = false,
   } = props;
 
   const { component } = useComponent();
@@ -145,6 +147,7 @@ function Issue(props: Readonly<Props>) {
 
   return (
     <IssueView
+      additionalIssueActions={additionalIssueActions}
       branchLike={branchLike}
       checked={checked}
       currentPopup={openPopup}

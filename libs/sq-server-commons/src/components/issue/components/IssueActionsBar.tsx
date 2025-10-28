@@ -27,6 +27,7 @@ import IssueTransition from './IssueTransition';
 import SonarLintBadge from './SonarLintBadge';
 
 interface Props {
+  additionalIssueActions?: React.ComponentType<{ issue: Issue }>[];
   canSetTags?: boolean;
   currentPopup?: string;
   issue: Issue;
@@ -39,14 +40,15 @@ interface Props {
 
 export default function IssueActionsBar(props: Readonly<Props>) {
   const {
-    issue,
+    additionalIssueActions,
+    canSetTags,
     currentPopup,
+    issue,
     onAssign,
     onChange,
-    togglePopup,
     showSonarLintBadge,
     showTags,
-    canSetTags,
+    togglePopup,
   } = props;
 
   const canAssign = issue.actions.includes(IssueActions.Assign);
@@ -77,6 +79,12 @@ export default function IssueActionsBar(props: Readonly<Props>) {
             togglePopup={togglePopup}
           />
         </li>
+
+        {additionalIssueActions?.map((ActionComponent) => (
+          <li key={`${ActionComponent.displayName}-${issue.key}`}>
+            <ActionComponent issue={issue} />
+          </li>
+        ))}
 
         {showTags && (
           <li>

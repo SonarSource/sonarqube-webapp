@@ -42,6 +42,7 @@ import { TabSelectorContext } from './TabSelectorContext';
 
 interface IssueTabViewerProps extends CurrentUserContextInterface {
   activityTabContent?: React.ReactNode;
+  additionalIssueActions?: React.ComponentType<{ issue: Issue }>[];
   aiSuggestionAvailable: boolean;
   codeTabContent?: React.ReactNode;
   currentUser: CurrentUser;
@@ -363,7 +364,7 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
   };
 
   render() {
-    const { issue, ruleDetails } = this.props;
+    const { additionalIssueActions, issue, ruleDetails } = this.props;
     const { tabs, selectedTab } = this.state;
 
     if (!tabs || tabs.length === 0 || !selectedTab) {
@@ -385,6 +386,7 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
             >
               <div className="sw-p-6 sw-pb-4" ref={(node) => (this.headerNode = node)}>
                 <IssueHeader
+                  additionalIssueActions={additionalIssueActions}
                   branchLike={fillBranchLike(issue.branch, issue.pullRequest)}
                   issue={issue}
                   onIssueChange={this.props.onIssueChange}

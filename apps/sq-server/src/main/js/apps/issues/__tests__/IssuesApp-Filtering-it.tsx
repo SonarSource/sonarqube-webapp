@@ -20,6 +20,7 @@
 
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ComponentProps } from 'react';
 import { renderOwaspTop102021Category } from '~shared/helpers/security-standards';
 import { mockLoggedInUser, mockRawIssue } from '~sq-server-commons/helpers/testMocks';
 import { Feature } from '~sq-server-commons/types/features';
@@ -39,7 +40,7 @@ import IssuesList from '../components/IssuesList';
 import { renderIssueApp, renderProjectIssuesApp } from '../test-utils';
 
 jest.mock('../components/IssuesList', () => {
-  const fakeIssueList = (props: IssuesList['props']) => {
+  const fakeIssueList = (props: ComponentProps<typeof IssuesList>) => {
     return (
       <>
         {props.issues.map((i) => (

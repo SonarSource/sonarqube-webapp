@@ -20,6 +20,7 @@
 
 import styled from '@emotion/styled';
 import { Spinner } from '@sonarsource/echoes-react';
+import { ComponentProps, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import {
@@ -34,6 +35,7 @@ import StyledNavFix from '~shared/components/nav/NavFix';
 import { isPortfolioLike } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
 import { Paging } from '~shared/types/paging';
+import { addons } from '~sq-server-addons/index';
 import ScreenPositionHelper from '~sq-server-commons/components/common/ScreenPositionHelper';
 import { AiCodeFixTab } from '~sq-server-commons/components/rules/AiCodeFixTab';
 import IssueTabViewer from '~sq-server-commons/components/rules/IssueTabViewer';
@@ -85,6 +87,21 @@ export default function IssueDetails({
   const openRuleDetails = ruleData?.rule;
 
   const intl = useIntl();
+
+  const additionalIssueActions = useMemo(() => {
+    const additionalActions = [] as Required<
+      ComponentProps<typeof IssueTabViewer>
+    >['additionalIssueActions'];
+
+    if (addons.jira !== undefined && component !== undefined) {
+      const { IssueJiraWorkItem } = addons.jira;
+      additionalActions.push(({ issue }) => (
+        <IssueJiraWorkItem component={component} issue={issue} />
+      ));
+    }
+
+    return additionalActions;
+  }, [component]);
 
   const warning = !canBrowseAllChildProjects && isPortfolioLike(qualifier) && (
     <FlagMessage
@@ -166,6 +183,7 @@ export default function IssueDetails({
                             onChange={handleIssueChange}
                           />
                         }
+                        additionalIssueActions={additionalIssueActions}
                         codeTabContent={
                           <IssuesSourceViewer
                             branchLike={fillBranchLike(openIssue.branch, openIssue.pullRequest)}

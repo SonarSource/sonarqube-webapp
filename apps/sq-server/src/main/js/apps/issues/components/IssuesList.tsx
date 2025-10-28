@@ -21,12 +21,13 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import { groupBy } from 'lodash';
 import * as React from 'react';
+import { addons } from '~sq-server-addons/index';
 import IssueItem from '~sq-server-commons/components/issue/Issue';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Component, Issue } from '~sq-server-commons/types/types';
 import ComponentBreadcrumbs from './ComponentBreadcrumbs';
 
-interface Props {
+interface IssuesListProps {
   branchLike: BranchLike | undefined;
   checked: string[];
   component: Component | undefined;
@@ -39,66 +40,74 @@ interface Props {
   selectedIssue: Issue | undefined;
 }
 
-interface State {
-  prerender: boolean;
-}
+export default function IssuesList({
+  branchLike,
+  checked,
+  component,
+  issues,
+  onIssueChange,
+  onIssueCheck,
+  onIssueSelect,
+  onPopupToggle,
+  openPopup,
+  selectedIssue,
+}: Readonly<IssuesListProps>) {
+  const [prerender, setPrerender] = React.useState(true);
 
-export default class IssuesList extends React.PureComponent<Props, State> {
-  state: State = {
-    prerender: true,
-  };
+  const issuesByComponent = React.useMemo(
+    () => groupBy(issues, (issue) => `(${issue.component} : ${issue.branch})`),
+    [issues],
+  );
 
-  componentDidMount() {
-    if (this.props.issues.length > 0) {
-      this.setState({ prerender: false });
-    }
-  }
+  const additionalIssueActions = React.useMemo(() => {
+    const additionalActions = [] as Required<
+      React.ComponentProps<typeof IssueItem>
+    >['additionalIssueActions'];
 
-  componentDidUpdate() {
-    if (this.props.issues.length > 0) {
-      this.setState({ prerender: false });
-    }
-  }
-
-  renderIssueComponentList = ([key, issues]: [string, Issue[]]) => {
-    const { branchLike, checked, component, openPopup, selectedIssue } = this.props;
-    return (
-      <li key={key}>
-        <ComponentBreadcrumbs component={component} issue={issues[0]} />
-        <ul>
-          {issues.map((issue) => (
-            <IssueItem
-              branchLike={branchLike}
-              checked={checked.includes(issue.key)}
-              issue={issue}
-              key={issue.key}
-              onChange={this.props.onIssueChange}
-              onCheck={this.props.onIssueCheck}
-              onPopupToggle={this.props.onPopupToggle}
-              onSelect={this.props.onIssueSelect}
-              openPopup={openPopup && openPopup.issue === issue.key ? openPopup.name : undefined}
-              selected={selectedIssue != null && selectedIssue.key === issue.key}
-            />
-          ))}
-        </ul>
-      </li>
-    );
-  };
-
-  render() {
-    const { issues } = this.props;
-    const { prerender } = this.state;
-
-    if (prerender) {
-      return (
-        <div>
-          <Spinner />
-        </div>
-      );
+    if (addons.jira !== undefined && component !== undefined) {
+      const JiraWorkItemComponent = addons.jira.IssueJiraWorkItem;
+      additionalActions.push(({ issue }) => (
+        <JiraWorkItemComponent component={component} issue={issue} />
+      ));
     }
 
-    const issuesByComponent = groupBy(issues, (issue) => `(${issue.component} : ${issue.branch})`);
+    return additionalActions;
+  }, [component]);
 
-    return <ul>{Object.entries(issuesByComponent).map(this.renderIssueComponentList)}</ul>;
-  }
+  React.useEffect(() => {
+    if (issues.length > 0) {
+      setPrerender(false);
+    }
+  }, [issues]);
+
+  return (
+    <Spinner isLoading={prerender}>
+      <ul>
+        {Object.entries(issuesByComponent).map(([key, issues]: [string, Issue[]]) => (
+          <li key={key}>
+            <ComponentBreadcrumbs component={component} issue={issues[0]} />
+            <ul>
+              {issues.map((issue) => (
+                <IssueItem
+                  additionalIssueActions={additionalIssueActions}
+                  branchLike={branchLike}
+                  checked={checked.includes(issue.key)}
+                  issue={issue}
+                  key={issue.key}
+                  onChange={onIssueChange}
+                  onCheck={onIssueCheck}
+                  onPopupToggle={onPopupToggle}
+                  onSelect={onIssueSelect}
+                  openPopup={
+                    openPopup && openPopup.issue === issue.key ? openPopup.name : undefined
+                  }
+                  selected={selectedIssue != null && selectedIssue.key === issue.key}
+                />
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    </Spinner>
+  );
 }

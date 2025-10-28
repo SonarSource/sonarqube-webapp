@@ -8879,4 +8879,23 @@ export const defaultMessages = {
     '{count} SonarQube {count, plural, one {issue} other {issues}} and corresponding Jira work items will no longer be synchronized. However, existing Jira work items will not be deleted.',
   'project_settings.jira_binding.unbind_confirm.alert':
     'Previous connections cannot be restored. Rebinding or creating a new project binding with Jira can lead to duplicate Jira work items.',
+
+  'issue.jira.work_item_deletion_error': 'Failed removing link to Jira issue {0}',
+  'issue.jira.work_item_deletion_link': 'Remove link',
+  'issue.jira.work_item_deletion_tooltip': 'Remove link to Jira issue',
+  'issue.jira.work_item_deletion_modal_description':
+    'This action cannot be undone. Deleting this connection only removes the link between SonarQube and Jira; it will not delete any work items in Jira itself.',
+  'issue.jira.work_item_deletion_modal_title': 'Are you sure you want to remove the Jira link?',
+  'issue.jira.work_item_deletion_success': 'Link to Jira issue {0} has been removed',
+  'issue.jira.work_item_creation': 'Push to Jira',
+  'issue.jira.work_item_creation.in_progress': 'Pushing to Jira',
+  'issue.jira.work_item_creation.count':
+    'Push {count} {count, plural, one {issue} other {issues}} to Jira',
+  'issue.jira.work_item_creation_success': 'Work item {0} created in Jira',
+  'issue.jira.work_type_dropdown': 'Choose Jira work type',
+  'issue.jira.view_work_item': 'View work item',
+  'issue.jira.work_items_creation_failure':
+    "An error occurred. Please make sure you don't try to push the same issue twice to Jira.",
+  'issue.jira.work_items_creation.success':
+    'Jira work {count, plural, one {item} other {items}} <link>{jiraWorkItemKey}</link> has been successfully created and linked to {count} SonarQube {count, plural, one {issue} other {issues}}',
 };
