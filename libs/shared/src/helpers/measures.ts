@@ -21,6 +21,8 @@
 import { RatingBadgeRating } from '@sonarsource/echoes-react';
 import { IntlShape } from 'react-intl';
 import { getCurrentLocale } from '~adapters/helpers/l10n';
+import { isDefined } from '../helpers/types';
+import { Measure } from '../types/measures';
 import {
   RISK_SEVERITY_LABELS,
   SCA_RISK_SEVERITY_METRIC_THRESHOLD_KEYS,
@@ -31,6 +33,20 @@ type RatingLabel = Exclude<keyof typeof RatingBadgeRating, 'Null'>;
 type FormatMessageFunction = IntlShape['formatMessage'];
 
 const HOURS_IN_DAY = 8;
+
+function getLanguagesSortedByNCLOC(measures: Measure[]) {
+  return (
+    measures
+      .flatMap((measure) =>
+        measure.value?.split(';').map((pair) => {
+          const [language, count] = pair.split('=');
+          return { language, count: Number.parseInt(count, 10) };
+        }),
+      )
+      .filter(isDefined)
+      .sort((a, b) => b.count - a.count) || []
+  );
+}
 
 function noFormatter(value: string | number): string | number {
   return value;
@@ -326,6 +342,7 @@ function addSpaceIfNeeded(value: string): string {
 export {
   durationFormatter,
   floatFormatter,
+  getLanguagesSortedByNCLOC,
   intFormatter,
   levelFormatter,
   millisecondsFormatter,
