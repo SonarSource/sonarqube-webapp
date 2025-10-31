@@ -1821,7 +1821,6 @@ export const componentMap = {
   ConditionsGuide: 'Excluded',
   UserDeleteAccountModal: 'Excluded',
   CreateOrganization: 'Excluded',
-  PortfoliosListIntro: 'Excluded',
   EligibilityOK: 'Excluded',
   ShowMore: 'Excluded',
   BillingNameInput: 'Excluded',
