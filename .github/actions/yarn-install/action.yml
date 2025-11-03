@@ -4,9 +4,9 @@ description: Install dependencies using Yarn and cache them
 runs:
   using: composite
   steps:
-    - uses: jdx/mise-action@5ac50f778e26fac95da98d50503682459e86d566 # v3
+    - uses: jdx/mise-action@be3be2260bc02bc3fbf94c5e2fed8b7964baf074 # v3
       with:
-        version: 2025.9.12
+        version: 2025.11.1
     - name: Cache Yarn dependencies
       uses: SonarSource/ci-github-actions/cache@v1
       with:
