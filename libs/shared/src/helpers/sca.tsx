@@ -104,6 +104,10 @@ export const SCA_ISSUE_RISK_RATING_METRICS = [
 export const SCA_ISSUE_RISK_COUNT_METRICS = [
   MetricKey.sca_count_any_issue,
   MetricKey.new_sca_count_any_issue,
+  MetricKey.sca_count_vulnerability,
+  MetricKey.new_sca_count_vulnerability,
+  MetricKey.sca_count_licensing,
+  MetricKey.new_sca_count_licensing,
 ] as string[];
 
 export const SCA_RISK_ALL_METRICS = [
