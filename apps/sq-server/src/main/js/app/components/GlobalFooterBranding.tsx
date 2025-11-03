@@ -34,7 +34,7 @@ export default function GlobalFooterBranding() {
             highlight={LinkHighlight.CurrentColor}
             to="https://www.sonarsource.com"
           >
-            SonarSource SA
+            SonarSource Sàrl
           </Link>
         </span>
       ) : (
@@ -52,10 +52,10 @@ export default function GlobalFooterBranding() {
           <Link
             enableOpenInNewTab
             highlight={LinkHighlight.CurrentColor}
-            title="SonarSource SA"
+            title="SonarSource Sàrl"
             to="https://www.sonarsource.com"
           >
-            SonarSource SA
+            SonarSource Sàrl
           </Link>
           .
         </span>

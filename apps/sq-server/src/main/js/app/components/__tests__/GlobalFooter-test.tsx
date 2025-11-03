@@ -130,7 +130,7 @@ const ui = {
 
   // links
   websiteLink: byRole('link', { name: 'SonarQube™' }),
-  companyLink: byRole('link', { name: 'SonarSource SA' }),
+  companyLink: byRole('link', { name: 'SonarSource Sàrl' }),
   licenseLink: byRole('link', { name: 'footer.license' }),
   communityLink: byRole('link', { name: 'footer.community' }),
   docsLink: byRole('link', { name: 'opens_in_new_window footer.documentation' }),
