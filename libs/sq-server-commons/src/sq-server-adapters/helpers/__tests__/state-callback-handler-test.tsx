@@ -48,9 +48,9 @@ describe('getStateCallbackRedirectTo', () => {
 
     const navigation = getStateCallbackRedirectTo(new URLSearchParams(searchParams));
 
-    expect(navigation.pathname).toEqual(getGlobalSettingsUrl('jira').pathname);
+    expect(navigation.pathname).toEqual(getGlobalSettingsUrl('jira_instance_binding').pathname);
     const navigationSearchParams = new URLSearchParams(navigation.search);
-    expect(navigationSearchParams.get('category')).toEqual('jira');
+    expect(navigationSearchParams.get('category')).toEqual('jira_instance_binding');
     expect(navigationSearchParams.get('state')).toEqual(stateObject);
     expect(navigationSearchParams.get('code')).toEqual('42');
   });

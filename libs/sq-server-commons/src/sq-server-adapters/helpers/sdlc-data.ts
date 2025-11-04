@@ -18,30 +18,4 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Path } from 'react-router-dom';
-import { isStringDefined } from '~shared/helpers/types';
-import { getGlobalSettingsUrl } from '../../helpers/urls';
-import { CallbackStateApp, CallbackStateBase } from '../../types/state-callback-handler';
-import { getBaseUrl } from './system';
-
-export function getStateCallbackRedirectTo(searchParams: URLSearchParams): Partial<Path> {
-  const state = searchParams.get('state');
-
-  if (!isStringDefined(state)) {
-    return { pathname: getBaseUrl() };
-  }
-
-  const stateObj = JSON.parse(atob(state)) as CallbackStateBase;
-
-  switch (stateObj.app) {
-    case CallbackStateApp.Jira: {
-      return getGlobalSettingsUrl(
-        'jira_instance_binding',
-        Object.fromEntries(searchParams.entries()),
-      );
-    }
-    default: {
-      return { pathname: getBaseUrl() };
-    }
-  }
-}
+export const SDLC_DATA_API_BASE_PATH = '';

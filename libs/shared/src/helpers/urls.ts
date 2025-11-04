@@ -69,3 +69,7 @@ export function getDeprecatedActiveRulesUrl(
 export function getProjectOverviewUrl(projectKey: string): Partial<Path> {
   return { pathname: PROJECT_BASE_URL, search: queryToSearchString({ id: projectKey }) };
 }
+
+export function getCallbackUrl(): string {
+  return `${getHostUrl()}/callback`;
+}

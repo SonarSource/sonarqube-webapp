@@ -33,6 +33,7 @@ import {
   AUTHENTICATION_CATEGORY,
   EARLY_ACCESS_FEATURES_CATEGORY,
   EMAIL_NOTIFICATION_CATEGORY,
+  JIRA_INSTANCE_BINDING_CATEGORY,
   JIRA_PROJECT_BINDING_CATEGORY,
   LANGUAGES_CATEGORY,
   MODE_CATEGORY,
@@ -177,6 +178,15 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
     displayTab: true,
   },
   {
+    key: JIRA_INSTANCE_BINDING_CATEGORY,
+    name: translate('project_settings.category.jira_binding'),
+    renderComponent: getInstanceJiraBindingComponent,
+    availableGlobally: true,
+    availableForProject: false,
+    displayTab: true,
+    requiredFeatures: [Feature.JiraIntegration],
+  },
+  {
     key: JIRA_PROJECT_BINDING_CATEGORY,
     name: translate('project_settings.category.jira_binding'),
     renderComponent: getProjectJiraBindingComponent,
@@ -229,6 +239,14 @@ function getAdvancedSecurityComponent(props: AdditionalCategoryComponentProps) {
 
 function getEarlyAccessFeaturesComponent() {
   return <EarlyAccessFeatures />;
+}
+
+function getInstanceJiraBindingComponent() {
+  if (addons.jira === undefined) {
+    return null;
+  }
+
+  return <addons.jira.InstanceJiraBinding />;
 }
 
 function getProjectJiraBindingComponent({ component }: AdditionalCategoryComponentProps) {

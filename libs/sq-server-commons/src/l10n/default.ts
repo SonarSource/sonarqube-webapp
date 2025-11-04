@@ -64,6 +64,7 @@ export const defaultMessages = {
   calendar: 'Calendar',
   cancel: 'Cancel',
   category: 'Category',
+  connect: 'Connect',
   attribute: 'Attribute',
   see_changelog: 'See Changelog',
   changelog: 'Changelog',
@@ -302,6 +303,7 @@ export const defaultMessages = {
   unit_tests: 'Unit tests',
   unknown: 'Unknown',
   unresolved: 'Unresolved',
+  update: 'Update',
   updated: 'Updated',
   updated_: 'updated',
   updated_on: 'Updated on',
@@ -8773,6 +8775,58 @@ export const defaultMessages = {
   // ----------------------------------------------------------------------------
 
   'jira_binding.server_error': 'Internal server error. Please try again later.',
+
+  'organization.jira.binding.header': 'Jira',
+  'organization.jira.binding.badge.connected': 'Connected',
+  'organization.jira.binding.badge.not_connected': 'Not Connected',
+  'organization.jira.binding.instance_details_title': 'Jira instance details',
+  'organization.jira.binding.not_connected.intro':
+    '<p>Setup and connect to your Jira application to push issues into Jira as work items. You will need to provide a Client ID and Secret to connect. To obtain them, <setupGuideDocLink>follow our setup guide</setupGuideDocLink></p>',
+  'organization.jira.binding.connected.intro':
+    "<p>To push issues, ensure you've <projectBindingDocLink>connected your projects</projectBindingDocLink> in your project settings.</p><p>If reauthorizing, always ensure you select the same instance in the app page to avoid potential errors. If an error occurs, please read and follow our <troubleshootingDocLink>troubleshooting steps.</troubleshootingDocLink></p>",
+  'organization.jira.binding.connected.callout.title':
+    'Almost done! Connect your projects to begin pushing issues',
+  'organization.jira.binding.connected.callout.text':
+    'Go to Administration > General settings > Jira, in the project you want to push issues from.',
+  'organization.jira.binding.connected.callout.documentation_link_text':
+    'How to connect projects to Jira',
+  'organization.jira.binding.connected.reauthorize': 'Reauthorize',
+  'organization.jira.binding.bind_success':
+    "You've successfully connected your Jira instance to this SonarQube Server instance",
+  'organization.jira.binding.unbind_success': "You've successfully deleted your Jira connection",
+  'organization.jira.binding.connected_by_on_label': 'Connected by: ',
+  'organization.jira.binding.connected_by_on_value': '{createdBy} on {createdAt}',
+  'organization.jira.binding.app_configuration.title': 'Client ID and Secret',
+  'organization.jira.binding.app_configuration.helper_intro':
+    'Follow the steps in our guide to <link>edit your Client ID and Secret</link>',
+  'organization.jira.binding.app_configuration.callback_url.label': 'Callback URL',
+  'organization.jira.binding.app_configuration.callback_url.copy': 'Copy callback URL to clipboard',
+  'organization.jira.binding.app_configuration.client_id.label': 'Client ID',
+  'organization.jira.binding.app_configuration.client_id.value':
+    '<label>Client ID:</label> {clientId}',
+  'organization.jira.binding.app_configuration.client_secret.label': 'Secret',
+  'organization.jira.binding.app_configuration.client_secret.value':
+    '<label>Secret:</label> <value>hidden for security</value>',
+  'organization.jira.binding.app_configuration.submit_note':
+    'Updating will redirect you to Atlassian to confirm your workspace.',
+  'organization.jira.binding.modal.confirmation.description':
+    "You've previously authorised multiple Jira instances to this SonarQube Server instance. Please confirm the Jira instance that you want to connect to:",
+  'organization.jira.binding.modal.confirmation.title': 'Confirm your Jira instance',
+  'organization.jira.binding.disconnect.modal.title':
+    'Delete Jira connection for this SonarQube instance?',
+  'organization.jira.binding.disconnect.modal.description.line1':
+    "<p>This action deletes all data (except Client ID & Secret) on SonarQube Server.</p><p>Revoke token permissions on Atlassian's connected apps page to completely delete the connection.</p>",
+  'organization.jira.binding.disconnect.modal.description.line2': 'By deleting, you will:',
+  'organization.jira.binding.disconnect.modal.description.bullet1':
+    'Lose access to all Jira features in this SonarQube Server instance',
+  'organization.jira.binding.disconnect.modal.description.bullet2':
+    "Delete this instance's project ↔ Jira project connections",
+  'organization.jira.binding.disconnect.modal.description.bullet3':
+    'Disconnect all SonarQube Server issues from Jira work items',
+  'organization.jira.binding.disconnect.modal.description.warning':
+    'You will not be able to restore or relink connections or issues even if you reconnect to the same Jira instance in the future',
+  'organization.jira.binding.disconnect.modal.link': 'Atlassian connected apps page',
+
   'project_settings.category.jira_binding': 'Jira',
   'project_settings.jira_binding.header': 'Jira',
   'project_settings.jira_binding.bound': 'Connected',
