@@ -24,7 +24,10 @@ import { registerServiceMocks } from '~shared/api/mocks/server';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { isDefined } from '~shared/helpers/types';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
-import { EntitlementsServiceMock } from '~sq-server-commons/api/mocks/EntitlementsServiceMock';
+import {
+  EntitlementsServiceMock,
+  mockPurchaseableFeature,
+} from '~sq-server-commons/api/mocks/EntitlementsServiceMock';
 import ScaServiceSettingsMock from '~sq-server-commons/api/mocks/ScaServiceSettingsMock';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import Sca from '../Sca';
@@ -75,7 +78,7 @@ jest.mock('../helpers', (): object => {
 beforeAll(() => {
   scaServiceSettingsMock = new ScaServiceSettingsMock();
   entitlementsMock = new EntitlementsServiceMock({
-    purchasableFeatures: [{ featureKey: 'sca', isAvailable: true }],
+    purchasableFeatures: [mockPurchaseableFeature({ isAvailable: true, isEnabled: true })],
   });
 });
 

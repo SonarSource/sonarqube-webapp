@@ -86,5 +86,6 @@ export interface PurchaseableFeature {
   featureKey: string;
   isAvailable?: boolean;
   isEnabled?: boolean;
+  parent?: string;
   url?: string;
 }

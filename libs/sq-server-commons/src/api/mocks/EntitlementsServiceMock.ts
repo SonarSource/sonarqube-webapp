@@ -28,8 +28,19 @@ export interface EntitlementsServiceData {
   purchasableFeatures?: PurchaseableFeature[];
 }
 
+export function mockPurchaseableFeature(
+  overrides: Partial<PurchaseableFeature> = {},
+): PurchaseableFeature {
+  return {
+    featureKey: 'sca',
+    isAvailable: false,
+    isEnabled: false,
+    ...overrides,
+  };
+}
+
 export function mockPurchaseableFeatures(): PurchaseableFeature[] {
-  return [{ featureKey: 'fictional' }, { featureKey: 'sca' }];
+  return [mockPurchaseableFeature({ featureKey: 'fictional' }), mockPurchaseableFeature()];
 }
 
 export const EntitlementsServiceDefaultDataset: EntitlementsServiceData = {
@@ -37,6 +48,10 @@ export const EntitlementsServiceDefaultDataset: EntitlementsServiceData = {
 };
 
 export class EntitlementsServiceMock extends AbstractServiceMock<EntitlementsServiceData> {
+  setPurchasableFeatures = (features: PurchaseableFeature[]) => {
+    this.data.purchasableFeatures = features;
+  };
+
   handlers = [
     http.get(`${DOMAIN}/purchasable-features`, () => {
       this.data.purchasableFeatures ??= mockPurchaseableFeatures();

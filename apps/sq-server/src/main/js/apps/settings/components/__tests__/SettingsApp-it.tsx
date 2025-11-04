@@ -26,6 +26,7 @@ import { byRole, byText } from '~shared/helpers/testSelector';
 import {
   EntitlementsServiceDefaultDataset,
   EntitlementsServiceMock,
+  mockPurchaseableFeature,
 } from '~sq-server-commons/api/mocks/EntitlementsServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import ScaServiceSettingsMock from '~sq-server-commons/api/mocks/ScaServiceSettingsMock';
