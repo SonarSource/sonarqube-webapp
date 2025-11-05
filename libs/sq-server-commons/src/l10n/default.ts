@@ -6563,7 +6563,6 @@ export const defaultMessages = {
     'Recommended for <b>projects following continuous delivery.</b>',
   'new_code_definition.number_days.description':
     'Any code that has changed in the last x days is considered new code. If no action is taken on a new issue after x days, this issue will become part of the overall code.',
-  'new_code_definition.number_days.invalid': 'Please provide a whole number between {0} and {1}',
 
   'new_code_definition.reference_branch': 'Reference branch',
   'new_code_definition.reference_branch.notice':
@@ -6591,7 +6590,7 @@ export const defaultMessages = {
     'Any code that has changed in the last x days is considered new code. If no action is taken on a new issue after x days, this issue will become part of the overall code. Recommended for <b>projects following continuous delivery.</b>',
   'new_code_definition.specific_setting.number_of_days.input.label': 'Define the number of days',
   'new_code_definition.specific_setting.number_of_days.input.error':
-    'Please provide a whole number between {0} and {1}.',
+    'Please provide a whole number between {min} and {max}.',
 
   'new_code_definition.specific_setting.reference_branch.label': 'Reference branch',
   'new_code_definition.specific_setting.reference_branch.description':

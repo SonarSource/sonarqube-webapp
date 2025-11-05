@@ -230,8 +230,8 @@ export function TopLevelNewCodeDefinitionPage() {
                                 max={90}
                                 messageInvalid={
                                   <FormattedMessage
-                                    id="new_code_definition.number_days.invalid"
-                                    values={{ 0: 1, 1: 90 }}
+                                    id="new_code_definition.specific_setting.number_of_days.input.error"
+                                    values={{ min: 1, max: 90 }}
                                   />
                                 }
                                 min={1}
