@@ -2090,7 +2090,11 @@ export const defaultMessages = {
   'architecture.tangle.directive.remove.button': 'Cancel removal',
   'architecture.tangle.directive.create.description':
     'An issue will be raised every time this dependency is detected in the code so that developers can remove it.',
+  'architecture.tangle.directive.remove.description':
+    'An issue is raised every time this dependency is detected in the code so that developers can remove it.',
   'architecture.tangle.directive.create.title': 'Request removal?',
+  'architecture.tangle.directive.absent.description':
+    'No directive exists to remove this dependency.',
   'architecture.tangle.directive.deletion.success': 'Dependency removal cancelled',
   'architecture.tangle.directive.callout.message': 'Select a dependency to manage its removal.',
   'architecture.oversize.description': 'Components containing too many child items.',
