@@ -1693,8 +1693,7 @@ export const defaultMessages = {
   'dependencies.details.not_found.go_back_text': 'Go back to bill of materials',
   'dependencies.details.chain.title': 'How is {dependency} brought into {projectBranchLabel}?',
   'dependencies.details.chain.transitive_label':
-    'This dependency is used transitively by {count} {count, plural, one {dependency} other {dependencies}}:',
-  'dependencies.details.chain.direct_label': 'This package is used directly via {file}.',
+    'Dependency chains resolved using <b>{lockfile}</b>',
   'dependencies.details.chain.paths_label': '{count} {count, plural, one {path} other {paths}}',
   'dependencies.details.chain_group_label': 'Dependency Group',
   'dependencies.details.chains_none_label':

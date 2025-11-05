@@ -49,7 +49,7 @@ export const HtmlFormatter = LegacyHtmlFormatter;
  * @deprecated Stop using design-system in shared code.
  */
 export function Accordion(props: Readonly<AccordionProps>) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(props.isOpen ?? false);
   return (
     <LegacyAccordion
       ariaLabel={props.ariaLabel}

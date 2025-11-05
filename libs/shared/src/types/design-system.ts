@@ -39,5 +39,6 @@ export interface SubnavigationLinkItemProps extends NavLinkProps {
 export interface AccordionProps {
   ariaLabel?: string;
   children: ReactNode;
+  isOpen?: boolean;
   title: ReactNode;
 }
