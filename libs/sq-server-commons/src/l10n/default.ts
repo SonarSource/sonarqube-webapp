@@ -2073,7 +2073,8 @@ export const defaultMessages = {
     'Try Design & Architecture free Early Access to Visualize your codebase and start formalizing your software architecture. <link>Enable Design & Architecture</link>',
   'architecture.user.promotion.message':
     'You now have Design & Architecture enabled in Early Access, you can start to visualize your codebase, define and verify your architecture. <link>Take me there!</link>',
-  'architecture.no_graph_file.message': 'No graph file found for this project.',
+  'architecture.no_graph_file.message':
+    'No data available. Please run an analysis first, or see the analysis logs for more information.',
   'architecture.unsupported_language.message': 'No supported languages found for this project.',
   'architecture.issues.no_data': 'No issues found',
   'architecture.error.message': "Sorry, Currently a project of this size isn't supported.",
