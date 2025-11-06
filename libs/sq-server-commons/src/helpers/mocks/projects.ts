@@ -24,11 +24,11 @@ import { Project } from '../../api/project-management';
 export function mockProject(overrides: Partial<Project> = {}): Project {
   return {
     key: 'foo',
+    lastAnalysisDate: '2019-01-04T09:51:48Z',
     name: 'Foo',
+    projectUuid: 'project-uuid',
     qualifier: ComponentQualifier.Project,
     visibility: Visibility.Public,
-    lastAnalysisDate: '2019-01-04T09:51:48Z',
-    uuid: 'project-uuid',
     ...overrides,
   };
 }

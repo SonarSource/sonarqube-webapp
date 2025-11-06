@@ -36,11 +36,11 @@ export interface BaseSearchProjectsParameters {
 export interface ProjectBase {
   key: string;
   name: string;
+  projectUuid: string;
   qualifier:
     | ComponentQualifier.Application
     | ComponentQualifier.Portfolio
     | ComponentQualifier.Project;
-  uuid: string;
   visibility: Visibility;
 }
 
