@@ -39,3 +39,18 @@ export function queryToSearchString(query: RawQuery | URLSearchParamsInit = {}) 
 
   return queryString ? `?${queryString}` : undefined;
 }
+
+export function filterQueryToSearchString(
+  query: RawQuery | URLSearchParamsInit,
+  filter: string[] | ((key: string) => boolean),
+) {
+  const searchParams = createSearchParams(query);
+  const filteredParams = Array.from(searchParams.entries()).filter(([key]) => {
+    if (Array.isArray(filter)) {
+      return filter.includes(key);
+    }
+    return filter(key);
+  });
+
+  return queryToSearchString(filteredParams);
+}

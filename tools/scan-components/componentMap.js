@@ -748,7 +748,6 @@ export const componentMap = {
   CopyIcon: 'Icons',
   OrganizationUrlInput: 'TextInput',
   Footer: '',
-  PageBoxFullHeight: '',
   MultiSelect: '',
   DeleteBranchModal: 'ModalAlert',
   SecurityStandardIssueCount: 'Excluded',
