@@ -1975,11 +1975,6 @@ export const defaultMessages = {
     'Add a first component to your intended architecture.',
   'architecture.page': 'Architecture',
   'architecture.page.discovery': 'Structure map',
-  'architecture.page.dashboard.open_graph': 'Open structure map',
-  'architecture.page.dashboard.open_model_json': 'Edit model (json)',
-  'architecture.page.dashboard.open_model_visual': 'Edit model (visual)',
-  'architecture.page.dashboard.open_model_disabled_info':
-    'Ask someone with an SonarQube Architect role in your organization to define the intended architecture.',
   'architecture.page.model.visual.title': 'Architecture model',
   'architecture.page.model.visual.new_group': 'New Group',
   'architecture.page.model.visual.sidebar.title': 'Source Nodes',
@@ -1988,10 +1983,10 @@ export const defaultMessages = {
   'architecture.page.model.visual.button.add_component': 'Component',
   'architecture.page.model.visual.button.empty_state.add_component': 'Add a component',
   'architecture.page.model': 'Intended architecture',
-  'architecture.page.dashboard.model.description':
-    'The intended architecture describes the architecture towards which your project should trend.',
-  'architecture.page.dashboard.model.description_2':
-    'It enables the detection of architecture deviations and refines the detection of structural flaws.',
+  'architecture.page.dashboard.model.description_admin':
+    'Create an intended architecture with a few top components to detect the first deviations.',
+  'architecture.page.dashboard.model.description_view_only':
+    'A project administrator should define the intended architecture to detect deviations.',
   'architecture.page.model.saved': 'Model saved successfully',
   'architecture.page.model.no_data': 'No model data',
   'architecture.page.model.invalid_json': 'Invalid JSON format',
@@ -2049,15 +2044,13 @@ export const defaultMessages = {
   'architecture.page.tangle': 'Tangle Details',
   'architecture.page.tangles.count':
     '{count, plural, one {<bold>1</bold> Tangle} other {<bold>{count}</bold> Tangles}}',
-  'architecture.page.architecture_deviations': 'Architecture deviations',
-  'architecture.page.structural_flaws': 'Structural flaws',
+  'architecture.page.architecture_deviations': 'Structure deviations',
+  'architecture.page.structural_flaws': 'Flaws',
   'architecture.page.architecture_deviations_description':
-    'Patterns detected in the codebase that deviate from your intended architecture.',
-  'architecture.page.architecture_deviations_description_locked':
-    'Intended architecture is needed to unlock.',
+    'Shows how much and where the codebase diverges from the intended architecture. Deviations appear in structure, which describes how elements are organized, and in relationships, which describe how elements depend on each other.',
   'architecture.page.structural_flaws_description':
-    'Patterns detected in the codebase that indicate a flaw.',
-  'architecture.page.disallowed_dependencies': 'Bad dependencies',
+    'Shows problems in the codebase that exist regardless of the intended architecture. A common example is a tangle, where several files or classes form overlapping cyclic dependencies and each can reach the others through dependency links.',
+  'architecture.page.disallowed_dependencies': 'Reliationship deviations',
   'architecture.page.disallowed_dependencies.count':
     '{count, plural, one {<bold>1</bold> Bad dependency} other {<bold>{count}</bold> Bad dependencies}}',
   'architecture.disallowed_dependencies.table.dependency_from': 'From',
@@ -2066,7 +2059,7 @@ export const defaultMessages = {
   'architecture.disallowed_dependencies.table.weight': 'Code reference',
   'architecture.disallowed_dependencies.description':
     'Dependencies between two code components that are not explicitly allowed in the intended architecture.',
-  'architecture.page.misplaced_components': 'Bad components',
+  'architecture.page.misplaced_components': 'Structure deviations',
   'architecture.page.misplaced_components.count':
     '{count, plural, one {<bold>1</bold> Bad component} other {<bold>{count}</bold> Bad components}}',
   'architecture.misplaced_components.description':
