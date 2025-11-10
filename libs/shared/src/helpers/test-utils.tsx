@@ -159,7 +159,8 @@ export function mockReactComponent<T extends {}>(
   transformProps: (props: PropsWithChildren<T>) => any = identity,
 ) {
   function MockedComponent({ ...props }: PropsWithChildren<T>) {
-    return createElement('mocked-' + kebabCase(name), transformProps({ role, ...props }));
+    const mockName = 'mocked-' + kebabCase(name);
+    return createElement(mockName, transformProps({ role, 'data-testid': mockName, ...props }));
   }
 
   MockedComponent.displayName = `mocked(${name})`;
@@ -177,7 +178,8 @@ export function mockForwardRefComponent<T>(
   transformProps: (props: PropsWithoutRef<T>) => Attributes | null | undefined = identity,
 ) {
   function MockedComponent(props: PropsWithoutRef<T>, _: RefObject<HTMLDivElement>) {
-    return createElement('mocked-' + kebabCase(name), transformProps({ role, ...props }));
+    const mockName = 'mocked-' + kebabCase(name);
+    return createElement(mockName, transformProps({ role, 'data-testid': mockName, ...props }));
   }
 
   MockedComponent.displayName = `mocked(${name})`;
