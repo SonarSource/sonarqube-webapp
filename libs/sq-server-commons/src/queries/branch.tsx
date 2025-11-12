@@ -21,16 +21,15 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { debounce } from 'lodash';
 import * as React from 'react';
-import { useCallback, useContext } from 'react';
+import { useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { branchesQuery, useCurrentBranchQuery } from '~adapters/queries/branch';
+import { useCurrentBranchQuery, useProjectBranchesQuery } from '~adapters/queries/branch';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/component';
 import { searchParamsToQuery } from '~shared/helpers/router';
 import { isDefined } from '~shared/helpers/types';
 import { StaleTime } from '~shared/queries/common';
-import { LightComponent } from '~shared/types/component';
 import {
   deleteBranch,
   deletePullRequest,
@@ -40,11 +39,9 @@ import {
 } from '../api/branches';
 import { dismissAnalysisWarning, getAnalysisStatus } from '../api/ce';
 import { getQualityGateProjectStatus } from '../api/quality-gates';
-import { AvailableFeaturesContext } from '../context/available-features/AvailableFeaturesContext';
 import { useComponent } from '../context/componentContext/withComponentContext';
 import { extractStatusConditionsFromProjectStatus } from '../helpers/quality-gates';
 import { Branch, BranchLike } from '../types/branch-like';
-import { Feature } from '../types/features';
 import { Component } from '../types/types';
 
 enum InnerState {
@@ -129,16 +126,6 @@ function getContext(key: ReturnType<typeof useBranchesQueryKey>, branchLike?: Br
     return { componentKey, query: { branch: (branchLike as Branch)?.name } };
   }
   return { componentKey, query: {} };
-}
-
-export function useBranchesQuery(component: LightComponent | undefined) {
-  const features = useContext(AvailableFeaturesContext);
-
-  return useQuery({
-    ...branchesQuery(component, features.includes(Feature.BranchSupport)),
-    initialData: [],
-    staleTime: StaleTime.SHORT,
-  });
 }
 
 export function useBranchStatusQuery(component: Component) {
@@ -364,7 +351,7 @@ export function withBranchLikes<P extends { component?: Component }>(
   WrappedComponent: React.ComponentType<React.PropsWithChildren<P & WithBranchLikesProps>>,
 ): React.ComponentType<React.PropsWithChildren<Omit<P, 'branchLike' | 'branchLikes'>>> {
   return function WithBranchLike(p: P) {
-    const { data: branchLikes, isLoading } = useBranchesQuery(p.component);
+    const { data: branchLikes, isLoading } = useProjectBranchesQuery(p.component?.key);
     const { data: branchLike, isFetching } = useCurrentBranchQuery(p.component);
     return (
       <WrappedComponent

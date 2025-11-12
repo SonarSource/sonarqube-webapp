@@ -44,6 +44,7 @@ function PullRequestIcon(props: Readonly<IconProps>) {
   return <IconPullrequest data-testid="branch-like-icon-pull-request" {...props} />;
 }
 
+/** @deprecated Use {@link ~shared/src/components/icon-mappers/BranchLikeIcon.tsx} instead */
 export default function BranchLikeIcon({ branchLike, ...props }: Readonly<BranchLikeIconProps>) {
   let Icon;
 

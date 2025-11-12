@@ -22,6 +22,7 @@ import styled from '@emotion/styled';
 import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Navigate } from 'react-router-dom';
+import { useProjectBranchesQuery } from '~adapters/queries/branch';
 import { FlagMessage, LargeCenteredLayout } from '~design-system';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { isBranch, isMainBranch } from '~shared/helpers/branch-like';
@@ -32,7 +33,6 @@ import { getBranchLikeDisplayName } from '~sq-server-commons/helpers/branch-like
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getProjectTutorialLocation } from '~sq-server-commons/helpers/urls';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
-import { useBranchesQuery } from '~sq-server-commons/queries/branch';
 import { useTaskForComponentQuery } from '~sq-server-commons/queries/component';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
@@ -53,7 +53,7 @@ export function EmptyOverview(props: Readonly<EmptyOverviewProps>) {
     query: { id: urlComponentKey },
   } = useLocation();
 
-  const { data: branchLikes } = useBranchesQuery(component);
+  const { data: branchLikes = [] } = useProjectBranchesQuery(component.key);
 
   const [currentUserCanScanProject, setCurrentUserCanScanProject] = React.useState(
     hasGlobalPermission(currentUser, Permissions.Scan),

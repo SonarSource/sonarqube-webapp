@@ -26,13 +26,13 @@ import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
 import { isPortfolioLike, isProject } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
 import { StaleTime } from '~shared/queries/common';
-import { LightComponent } from '~shared/types/component';
+import { ComponentQualifier, LightComponent } from '~shared/types/component';
 import { getBranches, getPullRequests } from '../../api/branches';
 import { AvailableFeaturesContext } from '../../context/available-features/AvailableFeaturesContext';
 import { BranchLike } from '../../types/branch-like';
 import { Feature } from '../../types/features';
 
-export function branchesQuery(
+function branchesQuery(
   component: Pick<LightComponent, 'key' | 'qualifier'> | undefined,
   branchSupportFeatureEnabled: boolean,
 ) {
@@ -56,6 +56,16 @@ export function branchesQuery(
     enabled: isDefined(component),
     staleTime: StaleTime.SHORT,
   });
+}
+
+export function useProjectBranchesQuery(componentKey: string | undefined) {
+  const features = useContext(AvailableFeaturesContext);
+
+  const component = componentKey
+    ? { key: componentKey, qualifier: ComponentQualifier.Project }
+    : undefined;
+
+  return useQuery(branchesQuery(component, features.includes(Feature.BranchSupport)));
 }
 
 export function useCurrentBranchQuery(

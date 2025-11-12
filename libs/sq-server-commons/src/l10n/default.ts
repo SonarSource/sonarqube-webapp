@@ -58,6 +58,7 @@ export const defaultMessages = {
   bold: 'Bold',
   branch: 'Branch',
   'branch.small': 'branch',
+  branches: 'Branches',
   breadcrumbs: 'Breadcrumbs',
   expand_breadcrumbs: 'Expand breadcrumbs',
   by_: 'by',
@@ -232,6 +233,8 @@ export const defaultMessages = {
   project_plural: 'projects',
   projects_management: 'Projects Management',
   'pull_request.small': 'pull request',
+  pull_requests: 'Pull Requests',
+  quality_gate: 'Quality Gate',
   quality_profile: 'Quality Profile',
   raw: 'Raw',
   recent_history: 'Recent History',
@@ -3364,6 +3367,17 @@ export const defaultMessages = {
   'project_navigation.binding_status.bind': 'Bind project',
   'project_navigation.binding_status.bind.tooltip':
     'Enable automatically configured PR decoration and privacy settings based on your DevOps platform by binding your project',
+
+  //------------------------------------------------------------------------------
+  //
+  // PROJECT BRANCH SELECTOR
+  //
+  //------------------------------------------------------------------------------
+
+  'project_branch_selector.title': 'Branches and pull requests',
+  'project_branch_selector.filters': 'Filter by branches or pull requests',
+  'project_branch_selector.search': 'Search branches or pull requests',
+  'project_branch_selector.none': 'No results',
 
   //------------------------------------------------------------------------------
   //

@@ -18,4 +18,25 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export { QualityGateIndicator } from '~adapters/components/ui/QualityGateIndicator';
+import { isBranch, isMainBranch, isPullRequest } from '~shared/helpers/branch-like';
+import { BranchLikeBase } from '~shared/types/branch-like';
+
+export function isSameBranchLike(a: BranchLikeBase | undefined, b: BranchLikeBase | undefined) {
+  // main branches are always equal
+  if (isMainBranch(a) && isMainBranch(b)) {
+    return true;
+  }
+
+  // branches are compared by name
+  if (isBranch(a) && isBranch(b)) {
+    return a.name === b.name;
+  }
+
+  // pull requests are compared by id
+  if (isPullRequest(a) && isPullRequest(b)) {
+    return a.key === b.key;
+  }
+
+  // finally if both parameters are `undefined`, consider them equal
+  return a === b;
+}

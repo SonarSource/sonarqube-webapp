@@ -28,11 +28,11 @@ import {
   Text,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { useProjectBranchesQuery } from '~adapters/queries/branch';
 import { isMainBranch } from '~shared/helpers/branch-like';
 import { GreyCard } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { getProjectTutorialLocation } from '../../helpers/urls';
-import { useBranchesQuery } from '../../queries/branch';
 import { Image } from '../../sq-server-adapters/components/common/Image';
 import { AlmKeys, AlmSettingsInstance, ProjectAlmBindingResponse } from '../../types/alm-settings';
 import { MainBranch } from '../../types/branch-like';
@@ -98,7 +98,7 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
     willRefreshAutomatically,
   } = props;
 
-  const { data: branchLikes = [] } = useBranchesQuery(component);
+  const { data: branchLikes = [] } = useProjectBranchesQuery(component.key);
 
   const mainBranchName =
     (branchLikes.find((b) => isMainBranch(b)) as MainBranch | undefined)?.name ||

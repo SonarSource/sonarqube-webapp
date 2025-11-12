@@ -21,7 +21,7 @@
 import styled from '@emotion/styled';
 import { Button } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { useCurrentBranchQuery } from '~adapters/queries/branch';
+import { useCurrentBranchQuery, useProjectBranchesQuery } from '~adapters/queries/branch';
 import { Popup, PopupPlacement, PopupZLevel } from '~design-system';
 import { isPullRequest } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
@@ -32,7 +32,6 @@ import EscKeydownHandler from '~sq-server-commons/components/controls/EscKeydown
 import FocusOutHandler from '~sq-server-commons/components/controls/FocusOutHandler';
 import OutsideClickHandler from '~sq-server-commons/components/controls/OutsideClickHandler';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { useBranchesQuery } from '~sq-server-commons/queries/branch';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import BranchHelpTooltip from './BranchHelpTooltip';
@@ -50,7 +49,7 @@ export function BranchLikeNavigation(props: BranchLikeNavigationProps) {
     component: { configuration },
   } = props;
 
-  const { data: branchLikes } = useBranchesQuery(component);
+  const { data: branchLikes = [] } = useProjectBranchesQuery(component.key);
   const { data: currentBranchLike } = useCurrentBranchQuery(component);
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);

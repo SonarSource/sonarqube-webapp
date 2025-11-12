@@ -22,7 +22,7 @@ import { DropdownMenu } from '@sonarsource/echoes-react';
 import { pick } from 'lodash';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useCurrentBranchQuery } from '~adapters/queries/branch';
+import { useCurrentBranchQuery, useProjectBranchesQuery } from '~adapters/queries/branch';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/component';
@@ -43,7 +43,6 @@ import {
   getProjectQualityProfileSettingsUrl,
   getProjectQueryUrl,
 } from '~sq-server-commons/helpers/urls';
-import { useBranchesQuery } from '~sq-server-commons/queries/branch';
 import { useGetValueQuery } from '~sq-server-commons/queries/settings';
 import { Feature } from '~sq-server-commons/types/features';
 import { SettingsKey } from '~sq-server-commons/types/settings';
@@ -81,7 +80,7 @@ export function Menu(props: Readonly<Props>) {
   const { component, hasFeature, isInProgress, isPending } = props;
   const { extensions = [], canBrowseAllChildProjects, qualifier, configuration = {} } = component;
 
-  const { data: branchLikes = [] } = useBranchesQuery(component);
+  const { data: branchLikes = [] } = useProjectBranchesQuery(component.key);
   const { data: branchLike } = useCurrentBranchQuery(component);
 
   const { data: architectureOptIn, isLoading: isLoadingArchitectureOptIn } = useGetValueQuery({

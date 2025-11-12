@@ -23,6 +23,8 @@ import { isBranch, isMainBranch, isPullRequest } from '~shared/helpers/branch-li
 import { PullRequest } from '~shared/types/branch-like';
 import { Branch, BranchLike, BranchLikeTree } from '../types/branch-like';
 
+export { isSameBranchLike } from '~adapters/helpers/branch-like';
+
 export function sortBranches(branches: Branch[]) {
   return orderBy(branches, [(b) => b.isMain, (b) => b.name], ['desc', 'asc']);
 }
@@ -41,26 +43,6 @@ export function getBranchLikeDisplayName(branchLike: BranchLike) {
 
 export function getBranchLikeKey(branchLike: BranchLike) {
   return isPullRequest(branchLike) ? `pull-request-${branchLike.key}` : `branch-${branchLike.name}`;
-}
-
-export function isSameBranchLike(a: BranchLike | undefined, b: BranchLike | undefined) {
-  // main branches are always equal
-  if (isMainBranch(a) && isMainBranch(b)) {
-    return true;
-  }
-
-  // Branches are compared by name
-  if (isBranch(a) && isBranch(b)) {
-    return a.name === b.name;
-  }
-
-  // pull requests are compared by id
-  if (isPullRequest(a) && isPullRequest(b)) {
-    return a.key === b.key;
-  }
-
-  // finally if both parameters are `undefined`, consider them equal
-  return a === b;
 }
 
 export function getBrancheLikesAsTree(branchLikes: BranchLike[]): BranchLikeTree {

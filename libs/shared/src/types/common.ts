@@ -32,3 +32,4 @@ export interface Extension {
 }
 
 export type QGStatus = 'ERROR' | 'NONE' | 'OK';
+export type QGStatusExtended = QGStatus | 'NOT_COMPUTED';

@@ -18,4 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export { QualityGateIndicator } from '~adapters/components/ui/QualityGateIndicator';
+import { IconBranch, IconGitBranch, IconProps, IconPullrequest } from '@sonarsource/echoes-react';
+import { isMainBranch, isPullRequest } from '../../helpers/branch-like';
+import { BranchLikeBase } from '../../types/branch-like';
+
+interface Props extends IconProps {
+  branchLike: BranchLikeBase;
+}
+
+export function BranchLikeIcon({ branchLike, ...iconProps }: Readonly<Props>) {
+  if (isMainBranch(branchLike)) {
+    return <IconBranch {...iconProps} />;
+  }
+
+  if (isPullRequest(branchLike)) {
+    return <IconPullrequest {...iconProps} />;
+  }
+
+  return <IconGitBranch {...iconProps} />;
+}
