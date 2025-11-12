@@ -55,6 +55,7 @@ export const CATEGORY_OVERRIDES: Record<string, string> = {
   flex: LANGUAGES_CATEGORY,
   'github actions': LANGUAGES_CATEGORY,
   go: LANGUAGES_CATEGORY,
+  groovy: LANGUAGES_CATEGORY,
   html: LANGUAGES_CATEGORY,
   java: LANGUAGES_CATEGORY,
   javascript: LANGUAGES_CATEGORY,
