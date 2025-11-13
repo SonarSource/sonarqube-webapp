@@ -6,6 +6,8 @@
 
 This project is a monorepo that contains many packages to build a SaaS Cloud and On-prem Server version of the SonarQube Frontend.
 
+**Note:** Check for a `CLAUDE-personal.md` file in the workspace root for personal preferences that complement these instructions.
+
 # Testing, Linting, and running Tools
 
 There are many configuration files for tools like linting and testing. If needed, check and read the relevent config files before deciding on what to do.

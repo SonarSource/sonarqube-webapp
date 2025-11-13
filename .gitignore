@@ -200,3 +200,6 @@ vite.config.*.timestamp*
 
 # MSW
 mockServiceWorker.js
+
+# Personal AI agent preferences (not committed)
+CLAUDE-personal.md
