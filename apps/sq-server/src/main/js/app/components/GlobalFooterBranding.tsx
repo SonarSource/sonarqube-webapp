@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, LinkHighlight } from '@sonarsource/echoes-react';
+import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import { isOfficial } from '~sq-server-commons/helpers/system';
 
 export default function GlobalFooterBranding() {
@@ -29,34 +29,37 @@ export default function GlobalFooterBranding() {
       {official ? (
         <span>
           SonarQube&trade; technology is powered by{' '}
-          <Link
+          <LinkStandalone
             enableOpenInNewTab
             highlight={LinkHighlight.CurrentColor}
+            isDiscreet
             to="https://www.sonarsource.com"
           >
             SonarSource Sàrl
-          </Link>
+          </LinkStandalone>
         </span>
       ) : (
         <span>
           This application is based on{' '}
-          <Link
+          <LinkStandalone
             enableOpenInNewTab
             highlight={LinkHighlight.CurrentColor}
+            isDiscreet
             title="SonarQube™"
             to="https://www.sonarsource.com/products/sonarqube/?referrer=sonarqube"
           >
             SonarQube™
-          </Link>{' '}
+          </LinkStandalone>{' '}
           but is <strong>not</strong> an official version provided by{' '}
-          <Link
+          <LinkStandalone
             enableOpenInNewTab
             highlight={LinkHighlight.CurrentColor}
+            isDiscreet
             title="SonarSource Sàrl"
             to="https://www.sonarsource.com"
           >
             SonarSource Sàrl
-          </Link>
+          </LinkStandalone>
           .
         </span>
       )}

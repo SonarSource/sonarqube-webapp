@@ -97,6 +97,7 @@ export default function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooter
                 <LinkStandalone
                   enableOpenInNewTab
                   highlight={LinkHighlight.CurrentColor}
+                  isDiscreet
                   to="https://www.gnu.org/licenses/lgpl-3.0.txt"
                 >
                   {intl.formatMessage({ id: 'footer.license.lgplv3' })}
@@ -105,6 +106,7 @@ export default function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooter
                 <LinkStandalone
                   enableOpenInNewTab
                   highlight={LinkHighlight.CurrentColor}
+                  isDiscreet
                   to="https://www.sonarsource.com/legal/sonarqube/terms-and-conditions/"
                 >
                   {intl.formatMessage({ id: 'footer.license.sqs' })}
@@ -116,6 +118,7 @@ export default function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooter
               <LinkStandalone
                 enableOpenInNewTab
                 highlight={LinkHighlight.CurrentColor}
+                isDiscreet
                 to={COMMUNITY_FORUM_URL}
               >
                 {intl.formatMessage({ id: 'footer.community' })}
@@ -126,6 +129,7 @@ export default function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooter
               <LinkStandalone
                 enableOpenInNewTab
                 highlight={LinkHighlight.CurrentColor}
+                isDiscreet
                 to={docUrl(DocLink.Root)}
               >
                 {intl.formatMessage({ id: 'footer.documentation' })}
@@ -136,6 +140,7 @@ export default function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooter
               <LinkStandalone
                 enableOpenInNewTab
                 highlight={LinkHighlight.CurrentColor}
+                isDiscreet
                 to={docUrl(DocLink.InstanceAdminPluginVersionMatrix)}
               >
                 {intl.formatMessage({ id: 'footer.plugins' })}
@@ -144,7 +149,7 @@ export default function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooter
 
             {!hideLoggedInInfo && (
               <li>
-                <LinkStandalone highlight={LinkHighlight.CurrentColor} to="/web_api">
+                <LinkStandalone highlight={LinkHighlight.CurrentColor} isDiscreet to="/web_api">
                   {intl.formatMessage({ id: 'footer.web_api' })}
                 </LinkStandalone>
               </li>
