@@ -14536,6 +14536,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jest-ctrf-json-reporter@npm:0.0.10":
+  version: 0.0.10
+  resolution: "jest-ctrf-json-reporter@npm:0.0.10"
+  checksum: 10/99cb1a15160b4069bd935d556f1dc41f588760fa1dde1df93cd16f9496cd3417cfe70896a6230dfa3209c4f4964628f09a0fcf53a9e7d282860d6eba10d8ead1
+  languageName: node
+  linkType: hard
+
 "jest-diff@npm:30.0.5, jest-diff@npm:^30.0.2":
   version: 30.0.5
   resolution: "jest-diff@npm:30.0.5"
@@ -20514,6 +20521,7 @@ __metadata:
     http-proxy-middleware: "npm:3.0.5"
     jest: "npm:30.0.5"
     jest-axe: "npm:10.0.0"
+    jest-ctrf-json-reporter: "npm:0.0.10"
     jest-environment-jsdom: "npm:30.0.5"
     jest-environment-node: "npm:30.0.5"
     jest-fail-on-console: "npm:3.3.1"

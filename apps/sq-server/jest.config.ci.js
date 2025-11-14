@@ -26,4 +26,14 @@ module.exports = {
   coverageReporters: ['json', 'lcov'],
   maxWorkers: 8, // We use sonar-l runner with 20 CPUs and 40 GB ram
   workerIdleMemoryLimit: '5GB',
+  reporters: [
+    'default',
+    [
+      'jest-ctrf-json-reporter',
+      {
+        outputDir: './apps/sq-server/build/reports/ctrf',
+        outputFile: 'ctrf-report.json',
+      },
+    ],
+  ],
 };

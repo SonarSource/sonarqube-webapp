@@ -190,6 +190,7 @@
     "http-proxy-middleware": "3.0.5",
     "jest": "30.0.5",
     "jest-axe": "10.0.0",
+    "jest-ctrf-json-reporter": "0.0.10",
     "jest-environment-jsdom": "30.0.5",
     "jest-environment-node": "30.0.5",
     "jest-fail-on-console": "3.3.1",
