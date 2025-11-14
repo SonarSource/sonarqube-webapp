@@ -18,15 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { BreadcrumbLinkProps, Layout, PageGridProps } from '@sonarsource/echoes-react';
+import { BreadcrumbsProps, Layout, PageGridProps } from '@sonarsource/echoes-react';
 import { forwardRef, PropsWithChildren, ReactNode } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { GlobalFooter } from './GlobalFooter';
 
 interface Props extends PropsWithChildren {
-  // eslint-disable-next-line react/no-unused-prop-types
-  additionalBreadcrumbs?: BreadcrumbLinkProps[];
   asideLeft?: ReactNode;
+  // eslint-disable-next-line react/no-unused-prop-types
+  breadcrumbs?: BreadcrumbsProps['items'];
   header?: ReactNode;
   pageClassName?: string;
   title: string;
