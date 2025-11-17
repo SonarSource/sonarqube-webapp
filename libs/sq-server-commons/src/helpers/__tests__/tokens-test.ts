@@ -118,6 +118,15 @@ describe('computeTokenExpirationDate', () => {
   ])('should correctly compute the proper expiration date for %s days', (days, expected) => {
     expect(computeTokenExpirationDate(Number(days))).toBe(expected);
   });
+
+  it('should calculate expiration date in UTC regardless of local timezone', () => {
+    const result = computeTokenExpirationDate(Number(TokenExpiration.OneMonth));
+    expect(result).toBe('2022-07-01');
+    const date = new Date(result);
+    expect(date.getUTCDate()).toBe(1);
+    expect(date.getUTCMonth()).toBe(6);
+    expect(date.getUTCFullYear()).toBe(2022);
+  });
 });
 
 describe('getNextTokenName', () => {

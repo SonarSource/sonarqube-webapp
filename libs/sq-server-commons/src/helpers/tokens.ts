@@ -66,9 +66,15 @@ export async function getAvailableExpirationOptions() {
 }
 
 export function computeTokenExpirationDate(days: number) {
-  const expirationDate = now();
-  expirationDate.setDate(expirationDate.getDate() + days);
-  return toShortISO8601String(expirationDate);
+  const currentDate = now();
+  const utcDate = new Date(
+    Date.UTC(
+      currentDate.getUTCFullYear(),
+      currentDate.getUTCMonth(),
+      currentDate.getUTCDate() + days,
+    ),
+  );
+  return toShortISO8601String(utcDate);
 }
 
 export function getNextTokenName(tokenNameBase: string, tokens: UserToken[]) {
