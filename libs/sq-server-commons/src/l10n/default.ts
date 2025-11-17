@@ -1982,6 +1982,7 @@ export const defaultMessages = {
   'architecture.empty_state.get_started.title': 'Get started!',
   'architecture.empty_state.get_started.description':
     'Add a first component to your intended architecture.',
+  'architecture.project_too_big': "This project is too big and can't be displayed.",
   'architecture.page': 'Architecture',
   'architecture.page.discovery': 'Structure map',
   'architecture.page.model.visual.title': 'Architecture model',
