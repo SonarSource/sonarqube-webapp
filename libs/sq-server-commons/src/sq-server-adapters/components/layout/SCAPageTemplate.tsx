@@ -21,6 +21,7 @@
 import { BreadcrumbsProps, Layout, PageGridProps } from '@sonarsource/echoes-react';
 import { forwardRef, PropsWithChildren, ReactNode } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { To } from 'react-router-dom';
 import { GlobalFooter } from './GlobalFooter';
 
 interface Props extends PropsWithChildren {
@@ -28,6 +29,8 @@ interface Props extends PropsWithChildren {
   // eslint-disable-next-line react/no-unused-prop-types
   breadcrumbs?: BreadcrumbsProps['items'];
   header?: ReactNode;
+  // eslint-disable-next-line react/no-unused-prop-types
+  overrideBranchSelectorPath?: To;
   pageClassName?: string;
   title: string;
   width?: PageGridProps['width'];
