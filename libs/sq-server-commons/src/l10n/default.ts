@@ -1709,6 +1709,7 @@ export const defaultMessages = {
   'dependencies.package_managers.CARGO': 'Cargo',
   'dependencies.package_managers.COCOAPODS': 'CocoaPods',
   'dependencies.package_managers.COMPOSER': 'Packagist', // Composer is the tool, packagist is the package manager
+  'dependencies.package_managers.CONAN': 'Conan',
   'dependencies.package_managers.GOLANG': 'Go',
   'dependencies.package_managers.MAVEN': 'Maven',
   'dependencies.package_managers.NPM': 'npm',
@@ -1716,6 +1717,7 @@ export const defaultMessages = {
   'dependencies.package_managers.PYPI': 'PyPI',
   'dependencies.package_managers.GEM': 'Gem',
   'dependencies.package_managers.UNKNOWN': 'Unknown',
+  'dependencies.package_managers.VCPKG': 'vcpkg',
 
   'dependencies.risks.sort_by': 'Sort by',
   'dependencies.risks.sort_by.severity': 'Risk severity',
