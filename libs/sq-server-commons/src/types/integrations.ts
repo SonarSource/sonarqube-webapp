@@ -18,34 +18,21 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export interface UserBaseShared {
-  active?: boolean;
-  avatar?: string;
-  email?: string | null;
-  login: string;
-  name?: string;
+export enum UserBindingType {
+  Slack = 'slack',
 }
 
-export interface CurrentUser {
-  /**
-   * SQS only feature
-   */
-  dismissedNotices?: { [key: string]: boolean };
-  email?: string;
-  isLoggedIn: boolean;
-  permissions?: { global: string[] };
+export interface SlackUserBindingPayload {
+  bindingData: {
+    code: string;
+  };
+  type: UserBindingType.Slack;
+  userId: string;
 }
-
-export interface UserActiveShared extends UserBaseShared {
-  active?: true;
-  name: string;
-}
-
-export interface LoggedInUserShared extends CurrentUser, UserActiveShared {
-  email?: string;
-  externalIdentity?: string;
-  externalProvider?: string;
-  groups: string[];
+export interface SlackUserBindingResponse {
+  bindingData: {
+    slackUserId: string;
+  };
   id: string;
-  isLoggedIn: true;
+  type: UserBindingType.Slack;
 }

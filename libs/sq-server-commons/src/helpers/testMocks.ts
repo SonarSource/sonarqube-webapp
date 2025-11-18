@@ -296,6 +296,7 @@ export function mockLoggedInUser(overrides: Partial<LoggedInUser> = {}): LoggedI
   return {
     groups: [],
     isLoggedIn: true,
+    id: 'user-id',
     login: 'luke',
     name: 'Skywalker',
     scmAccounts: [],

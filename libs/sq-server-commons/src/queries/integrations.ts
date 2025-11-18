@@ -18,34 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export interface UserBaseShared {
-  active?: boolean;
-  avatar?: string;
-  email?: string | null;
-  login: string;
-  name?: string;
-}
+import { useMutation } from '@tanstack/react-query';
+import { postUserBinding } from '../api/integrations';
 
-export interface CurrentUser {
-  /**
-   * SQS only feature
-   */
-  dismissedNotices?: { [key: string]: boolean };
-  email?: string;
-  isLoggedIn: boolean;
-  permissions?: { global: string[] };
-}
+/*
+ * User bindings
+ */
 
-export interface UserActiveShared extends UserBaseShared {
-  active?: true;
-  name: string;
-}
-
-export interface LoggedInUserShared extends CurrentUser, UserActiveShared {
-  email?: string;
-  externalIdentity?: string;
-  externalProvider?: string;
-  groups: string[];
-  id: string;
-  isLoggedIn: true;
+export function usePostUserBindingMutation() {
+  return useMutation({
+    mutationFn: postUserBinding,
+  });
 }

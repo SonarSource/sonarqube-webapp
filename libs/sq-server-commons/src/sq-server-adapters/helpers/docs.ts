@@ -36,6 +36,8 @@ export enum SharedDocLink {
   LicenseProfiles = '/advanced-security/managing-license-profiles-and-policies/',
   NewCodeDefinition = '/user-guide/about-new-code#new-code-definitions',
   SCATroubleshooting = '/advanced-security/troubleshooting/',
+  SlackIntegration = '/instance-administration/system-functions/notifications/slack/setup',
+  SlackSubscriptionSetup = '/user-guide/managing-your-account/subscribing-to-notifications/slack',
 }
 
 /**

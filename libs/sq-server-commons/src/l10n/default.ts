@@ -8282,6 +8282,34 @@ export const defaultMessages = {
 
   //------------------------------------------------------------------------------
   //
+  // OAuth Callback
+  //
+  //------------------------------------------------------------------------------
+
+  'oauth.slack_binding.success.title': "You're ready to start!",
+  'oauth.slack_binding.success.toast.title': 'Binding successful',
+  'oauth.slack_binding.success.toast.description':
+    "You've linked your SonarQube Server and Slack accounts",
+  'oauth.slack_binding.success.get_started.1':
+    '<b>Invite</b> your SonarQube Server app to a channel <cmd>/invite @SonarQube</cmd>',
+  'oauth.slack_binding.success.get_started.2':
+    "<b>Subscribe</b> to a project <cmd>/sonarqube-server subscribe '<project-key>'</cmd>",
+  'oauth.slack_binding.success.get_started.3':
+    "To <b>unsubscribe</b>, use <cmd>/sonarqube-server unsubscribe '<project-key>'</cmd>",
+  'oauth.slack_binding.success.documentation': 'For a step-by-step guide, view our {docLink}',
+  'oauth.slack_binding.success.documentation.link_label': 'Slack setup documentation',
+  'oauth.slack_binding.success.name': 'Logged in as {name}',
+  'oauth.slack_binding.error.title': 'Could not bind your accounts',
+  'oauth.slack_binding.error.description':
+    'Please try again on Slack. If you continue to experience this error, visit our documentation.',
+  'oauth.slack_binding.error.toast.title': 'Binding failed',
+  'oauth.slack_binding.error.toast.description':
+    'You were unable to link your SonarQube Instance and Slack accounts',
+  'oauth.slack_binding.documentation_link': 'View documentation',
+  'oauth.slack_binding.get_started_button': 'Get started',
+
+  //------------------------------------------------------------------------------
+  //
   // Enterprise Server Extension
   //
   //------------------------------------------------------------------------------

@@ -60,6 +60,7 @@ import groupsRoutes from '../../apps/groups/routes';
 import { globalIssuesRoutes, projectIssuesRoutes } from '../../apps/issues/routes';
 import maintenanceRoutes from '../../apps/maintenance/routes';
 import marketplaceRoutes from '../../apps/marketplace/routes';
+import SlackOAuthCallback from '../../apps/oauth/SlackOAuthCallback';
 import overviewRoutes from '../../apps/overview/routes';
 import permissionTemplatesRoutes from '../../apps/permission-templates/routes';
 import { globalPermissionsRoutes, projectPermissionsRoutes } from '../../apps/permissions/routes';
@@ -317,6 +318,10 @@ const router = ({
             <Route element={<SimpleContainer />}>
               <Route element={<NotFound />} path="not_found" />
               <Route element={<NotFound />} path="*" />
+
+              <Route path="oauth-callback">
+                <Route element={<SlackOAuthCallback />} path="slack" />
+              </Route>
             </Route>
           </Route>
         </Route>
