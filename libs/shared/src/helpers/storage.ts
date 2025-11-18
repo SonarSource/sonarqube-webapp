@@ -22,11 +22,11 @@ export function save(key: string, value?: string, suffix?: string): void {
   try {
     const finalKey = suffix ? `${key}.${suffix}` : key;
     if (value) {
-      window.localStorage.setItem(finalKey, value);
+      globalThis.localStorage.setItem(finalKey, value);
     } else {
-      window.localStorage.removeItem(finalKey);
+      globalThis.localStorage.removeItem(finalKey);
     }
-  } catch (e) {
+  } catch {
     // usually that means the storage is full
     // just do nothing in this case
   }
@@ -34,7 +34,7 @@ export function save(key: string, value?: string, suffix?: string): void {
 
 export function remove(key: string, suffix?: string): void {
   try {
-    window.localStorage.removeItem(suffix ? `${key}.${suffix}` : key);
+    globalThis.localStorage.removeItem(suffix ? `${key}.${suffix}` : key);
   } catch {
     // Fail silently
   }
@@ -42,7 +42,37 @@ export function remove(key: string, suffix?: string): void {
 
 export function get(key: string, suffix?: string): string | null {
   try {
-    return window.localStorage.getItem(suffix ? `${key}.${suffix}` : key);
+    return globalThis.localStorage.getItem(suffix ? `${key}.${suffix}` : key);
+  } catch {
+    return null;
+  }
+}
+
+export function sessionSave(key: string, value?: string, suffix?: string): void {
+  try {
+    const finalKey = suffix ? `${key}.${suffix}` : key;
+    if (value) {
+      globalThis.sessionStorage.setItem(finalKey, value);
+    } else {
+      globalThis.sessionStorage.removeItem(finalKey);
+    }
+  } catch {
+    // usually that means the storage is full
+    // just do nothing in this case
+  }
+}
+
+export function sessionRemove(key: string, suffix?: string): void {
+  try {
+    globalThis.sessionStorage.removeItem(suffix ? `${key}.${suffix}` : key);
+  } catch {
+    // Fail silently
+  }
+}
+
+export function sessionGet(key: string, suffix?: string): string | null {
+  try {
+    return globalThis.sessionStorage.getItem(suffix ? `${key}.${suffix}` : key);
   } catch {
     return null;
   }

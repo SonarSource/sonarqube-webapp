@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { get, remove, save } from '~shared/helpers/storage';
 import { getIndexationStatus } from '../../api/ce';
-import { get, remove, save } from '../../helpers/storage';
 import { IndexationStatus } from '../../types/indexation';
 
 const POLLING_INTERVAL_MS = 5000;

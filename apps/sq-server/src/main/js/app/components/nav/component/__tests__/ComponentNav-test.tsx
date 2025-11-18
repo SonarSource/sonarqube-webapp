@@ -20,6 +20,7 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { get } from '~shared/helpers/storage';
 import { byRole } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
@@ -30,13 +31,12 @@ import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { mockProjectAlmBindingConfigurationErrors } from '~sq-server-commons/helpers/mocks/alm-settings';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
-import { get } from '~sq-server-commons/helpers/storage';
 import { mockMeasure } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { Mode } from '~sq-server-commons/types/mode';
 import ComponentNav, { ComponentNavProps } from '../ComponentNav';
 
-jest.mock('~sq-server-commons/helpers/storage', () => ({
+jest.mock('~shared/helpers/storage', () => ({
   get: jest.fn(),
   remove: jest.fn(),
   save: jest.fn(),

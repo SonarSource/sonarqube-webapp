@@ -20,7 +20,7 @@
 
 import { Navigate, Route } from 'react-router-dom';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
-import { save } from '~sq-server-commons/helpers/storage';
+import { save } from '~shared/helpers/storage';
 import { PROJECTS_ALL, PROJECTS_DEFAULT_FILTER } from './utils';
 
 const DefaultPageSelector = lazyLoadComponent(() => import('./components/DefaultPageSelector'));

@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import { get, save } from '../helpers/storage';
+import { get, save } from '~shared/helpers/storage';
 
 export default function useLocalStorage<T>(key: string, initialValue?: T) {
   const lsValue = React.useCallback(() => {

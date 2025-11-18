@@ -21,6 +21,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Route } from 'react-router-dom';
+import { get, save } from '~shared/helpers/storage';
 import { byDisplayValue, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import { MetricKey } from '~shared/types/metrics';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
@@ -33,7 +34,6 @@ import {
 import { getUsers } from '~sq-server-commons/api/users';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { openHotspot, probeSonarLintServers } from '~sq-server-commons/helpers/sonarlint';
-import { get, save } from '~sq-server-commons/helpers/storage';
 import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderAppWithComponentContext } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { ComponentContextShape } from '~sq-server-commons/types/component';
@@ -60,7 +60,7 @@ jest.mock('~sq-server-commons/helpers/sonarlint', () => ({
     },
   ]),
 }));
-jest.mock('~sq-server-commons/helpers/storage');
+jest.mock('~shared/helpers/storage');
 
 const ui = {
   activeAssignee: byRole('combobox', { name: 'hotspots.assignee.change_user' }),

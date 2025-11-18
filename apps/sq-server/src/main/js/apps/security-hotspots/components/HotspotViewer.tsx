@@ -19,8 +19,8 @@
  */
 
 import { useState } from 'react';
+import { get } from '~shared/helpers/storage';
 import { StandardsInformation } from '~shared/types/security';
-import { get } from '~sq-server-commons/helpers/storage';
 import { useSecurityHotspotDetailsQuery } from '~sq-server-commons/queries/hotspots';
 import { useRuleDetailsQuery } from '~sq-server-commons/queries/rules';
 import {

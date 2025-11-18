@@ -20,8 +20,8 @@
 
 import { omit, uniqBy } from 'lodash';
 import * as React from 'react';
+import { get, save } from '~shared/helpers/storage';
 import { getRulesApp } from '../../api/rules';
-import { get, save } from '../../helpers/storage';
 import WorkspaceComponentViewer from './WorkspaceComponentViewer';
 import WorkspaceNav from './WorkspaceNav';
 import WorkspacePortal from './WorkspacePortal';

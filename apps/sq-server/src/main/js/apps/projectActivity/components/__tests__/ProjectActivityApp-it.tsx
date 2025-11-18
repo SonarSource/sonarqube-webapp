@@ -22,6 +22,7 @@ import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { keyBy, times } from 'lodash';
 import { Route } from 'react-router-dom';
+import { get } from '~shared/helpers/storage';
 import { byLabelText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey, MetricType } from '~shared/types/metrics';
@@ -39,7 +40,6 @@ import {
   mockHistoryItem,
   mockMeasureHistory,
 } from '~sq-server-commons/helpers/mocks/project-activity';
-import { get } from '~sq-server-commons/helpers/storage';
 import { mockMetric } from '~sq-server-commons/helpers/testMocks';
 import { renderAppWithComponentContext } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { Mode } from '~sq-server-commons/types/mode';
@@ -52,8 +52,8 @@ import ProjectActivityAppContainer from '../ProjectActivityApp';
 
 jest.mock('~sq-server-commons/api/projectActivity');
 
-jest.mock('~sq-server-commons/helpers/storage', () => ({
-  ...jest.requireActual('~sq-server-commons/helpers/storage'),
+jest.mock('~shared/helpers/storage', () => ({
+  ...jest.requireActual('~shared/helpers/storage'),
   get: jest.fn(),
   save: jest.fn(),
 }));

@@ -20,16 +20,16 @@
 
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+import { get, save } from '~shared/helpers/storage';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
 import { mockBranch } from '../../../helpers/mocks/branch-like';
-import { get, save } from '../../../helpers/storage';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
 import { BranchLike } from '../../../types/branch-like';
 import Workspace, { TYPE_KEY, WorkspaceTypes } from '../Workspace';
 import { WorkspaceContext } from '../context';
 
-jest.mock('../../../helpers/storage', () => {
+jest.mock('~shared/helpers/storage', () => {
   return {
     get: jest.fn(() => {
       throw Error('no local storage');

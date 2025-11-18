@@ -19,6 +19,7 @@
  */
 
 import { chunk, flatMap, groupBy, sortBy } from 'lodash';
+import { get, save } from '~shared/helpers/storage';
 import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
@@ -27,7 +28,6 @@ import {
 } from '../../helpers/constants';
 import { getLocalizedMetricName, translate } from '../../helpers/l10n';
 import { localizeMetric } from '../../helpers/measures';
-import { get, save } from '../../helpers/storage';
 import { GraphType, MeasureHistory, ParsedAnalysis, Serie } from '../../types/project-activity';
 
 export const DEFAULT_GRAPH = GraphType.issues;

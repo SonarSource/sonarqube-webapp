@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { get, save } from './storage';
+import { get, save } from '~shared/helpers/storage';
 
 export const KEYBOARD_SHORTCUTS_ENABLED = 'keyboard_shortcuts_enabled';
 

@@ -21,7 +21,7 @@
 import styled from '@emotion/styled';
 import { Banner, BannerProps } from '@sonarsource/echoes-react';
 import { useCallback, useEffect, useState } from 'react';
-import { get, save } from '../../helpers/storage';
+import { get, save } from '~shared/helpers/storage';
 
 export interface DismissableBannerProps {
   alertKey: string;

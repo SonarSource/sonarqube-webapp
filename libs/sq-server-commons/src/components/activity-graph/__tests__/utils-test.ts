@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { get, save } from '~shared/helpers/storage';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import * as dates from '../../../helpers/dates';
 import { mockMeasureHistory, mockSerie } from '../../../helpers/mocks/project-activity';
-import { get, save } from '../../../helpers/storage';
 import { mockMetric } from '../../../helpers/testMocks';
 import { GraphType } from '../../../types/project-activity';
 import * as utils from '../utils';
@@ -38,7 +38,7 @@ jest.mock('date-fns', () => {
   };
 });
 
-jest.mock('../../../helpers/storage', () => ({
+jest.mock('~shared/helpers/storage', () => ({
   save: jest.fn(),
   get: jest.fn(),
 }));

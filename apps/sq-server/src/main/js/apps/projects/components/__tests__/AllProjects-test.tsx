@@ -21,12 +21,12 @@
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { AutoSizerProps } from 'react-virtualized';
+import { save } from '~shared/helpers/storage';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import { ProjectsServiceMock } from '~sq-server-commons/api/mocks/ProjectsServiceMock';
-import { save } from '~sq-server-commons/helpers/storage';
 import { mockAppState, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
 import projectRoutes from '../../routes';
@@ -45,7 +45,7 @@ jest.mock('~sq-server-commons/api/components');
 jest.mock('~sq-server-commons/api/measures');
 jest.mock('~sq-server-commons/api/favorites');
 
-jest.mock('~sq-server-commons/helpers/storage', () => {
+jest.mock('~shared/helpers/storage', () => {
   const fakeStorage: Record<string, string> = {
     'sonarqube.projects.default': 'all',
   };

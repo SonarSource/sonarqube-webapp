@@ -22,8 +22,8 @@ import { Button, ButtonGroup, ButtonVariety, Text } from '@sonarsource/echoes-re
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Checkbox, Modal } from '~design-system';
+import { save } from '~shared/helpers/storage';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
-import { save } from '~sq-server-commons/helpers/storage';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { HotspotStatusOption } from '~sq-server-commons/types/security-hotspots';
 import { SHOW_STATUS_DIALOG_STORAGE_KEY } from '../constants';

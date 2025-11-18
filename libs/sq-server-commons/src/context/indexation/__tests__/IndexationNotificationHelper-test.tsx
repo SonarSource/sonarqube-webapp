@@ -19,8 +19,8 @@
  */
 
 import { setImmediate } from 'timers';
+import { get, remove, save } from '~shared/helpers/storage';
 import { getIndexationStatus } from '../../../api/ce';
-import { get, remove, save } from '../../../helpers/storage';
 import { IndexationStatus } from '../../../types/indexation';
 import IndexationNotificationHelper from '../IndexationNotificationHelper';
 
@@ -38,7 +38,7 @@ jest.mock('~sq-server-commons/api/ce', () => ({
   getIndexationStatus: jest.fn().mockResolvedValue({}),
 }));
 
-jest.mock('~sq-server-commons/helpers/storage', () => ({
+jest.mock('~shared/helpers/storage', () => ({
   get: jest.fn(),
   remove: jest.fn(),
   save: jest.fn(),

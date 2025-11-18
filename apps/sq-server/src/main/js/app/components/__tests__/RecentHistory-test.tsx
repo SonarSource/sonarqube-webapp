@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { get, remove, save } from '~shared/helpers/storage';
 import { ComponentQualifier } from '~shared/types/component';
-import { get, remove, save } from '~sq-server-commons/helpers/storage';
 import RecentHistory, { History } from '../RecentHistory';
 
-jest.mock('~sq-server-commons/helpers/storage', () => ({
+jest.mock('~shared/helpers/storage', () => ({
   get: jest.fn(),
   remove: jest.fn(),
   save: jest.fn(),

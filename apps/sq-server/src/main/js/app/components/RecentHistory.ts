@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { get, remove, save } from '~sq-server-commons/helpers/storage';
+import { get, remove, save } from '~shared/helpers/storage';
 
 const RECENT_HISTORY = 'sonar_recent_history';
 const HISTORY_LIMIT = 10;

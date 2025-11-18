@@ -19,6 +19,7 @@
  */
 
 import { intersection, isArray, uniq } from 'lodash';
+import { get, save } from '~shared/helpers/storage';
 import { isDefined } from '~shared/helpers/types';
 import {
   CodeAttributeCategory,
@@ -42,7 +43,6 @@ import {
   serializeString,
   serializeStringArray,
 } from '../helpers/query';
-import { get, save } from '../helpers/storage';
 import { formatMeasure } from '../sonar-aligned/helpers/measures';
 import {
   Facet,
