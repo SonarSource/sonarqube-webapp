@@ -19,11 +19,14 @@ Tests can be run and targeted to a particular directory or file like so:
 
 When running tests, pick the most relevent platform (cloud or server) and narrowly scope the test run to the files you've modified as tests take time to run.
 
+- ALWAYS use `await selector.find()` instead of `waitfor()` when looking for a possibly not-yet-rendered selector.
+
 # Writing Code
 
 - Try not to write duplicate code, and reorganize if necessary to keep things DRY.
 - Never attempt to fix linting issues until you believe the implementation is correct.
 - Always fix typescript errors
+- For components, always prefer `export { ComponentName }` intead of `export default ComponentName()` (it prevents renaming of components at import)
 - **MANDATORY**: ALWAYS run `yarn prettier --write <file>` immediately after editing any file to ensure proper formatting.
 
 ## Tailwind and CSS
