@@ -18,30 +18,24 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Path } from 'react-router-dom';
-import { isStringDefined } from '~shared/helpers/types';
-import { getGlobalSettingsUrl } from '../../helpers/urls';
-import { CallbackStateApp, CallbackStateBase } from '../../types/state-callback-handler';
-import { getBaseUrl } from './system';
+import { Divider, Heading, HeadingSize } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
+import { addons } from '~sq-server-addons/index';
 
-export function getStateCallbackRedirectTo(searchParams: URLSearchParams): Partial<Path> {
-  const state = searchParams.get('state');
+export function InstanceIntegrationsApp() {
+  return (
+    <div className="sw-flex sw-flex-col sw-gap-8">
+      <Heading as="h2" className="sw-mb-4" hasMarginBottom size={HeadingSize.ExtraLarge}>
+        <FormattedMessage id="settings.instance_integrations.title" />
+      </Heading>
 
-  if (!isStringDefined(state)) {
-    return { pathname: getBaseUrl() };
-  }
+      {addons.jira !== undefined && (
+        <>
+          <Divider />
 
-  const stateObj = JSON.parse(atob(state)) as CallbackStateBase;
-
-  switch (stateObj.app) {
-    case CallbackStateApp.Jira: {
-      return getGlobalSettingsUrl(
-        'instance_integrations',
-        Object.fromEntries(searchParams.entries()),
-      );
-    }
-    default: {
-      return { pathname: getBaseUrl() };
-    }
-  }
+          <addons.jira.InstanceJiraBinding />
+        </>
+      )}
+    </div>
+  );
 }

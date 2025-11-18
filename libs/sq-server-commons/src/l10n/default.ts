@@ -2969,6 +2969,9 @@ export const defaultMessages = {
   'settings.sandbox_issues.enable.success': 'Sandbox feature is now enabled',
   'settings.sandbox_issues.edit.success': 'Sandbox setting changes were saved successfully',
 
+  // Integrations settings
+  'settings.instance_integrations.title': 'Integrations',
+
   // Project setting
   'settings.sandbox_issues.project.on.success': 'Sandbox feature is now enabled',
   'settings.sandbox_issues.project.off.success': 'Sandbox feature is now disabled',
@@ -8853,6 +8856,7 @@ export const defaultMessages = {
   'organization.jira.binding.modal.confirmation.description':
     "You've previously authorised multiple Jira instances to this SonarQube Server instance. Please confirm the Jira instance that you want to connect to:",
   'organization.jira.binding.modal.confirmation.title': 'Confirm your Jira instance',
+  'organization.jira.binding.disconnect.label': 'Disconnect Jira instance',
   'organization.jira.binding.disconnect.modal.title':
     'Delete Jira connection for this SonarQube instance?',
   'organization.jira.binding.disconnect.modal.description.line1':

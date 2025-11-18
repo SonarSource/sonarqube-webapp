@@ -33,7 +33,7 @@ import {
   AUTHENTICATION_CATEGORY,
   EARLY_ACCESS_FEATURES_CATEGORY,
   EMAIL_NOTIFICATION_CATEGORY,
-  JIRA_INSTANCE_BINDING_CATEGORY,
+  INSTANCE_INTEGRATIONS_CATEGORY,
   JIRA_PROJECT_BINDING_CATEGORY,
   LANGUAGES_CATEGORY,
   MODE_CATEGORY,
@@ -46,6 +46,7 @@ import { AnalysisScope } from './AnalysisScope';
 import Authentication from './authentication/Authentication';
 import { EarlyAccessFeatures } from './earlyAccessFeatures/EarlyAccessFeatures';
 import EmailNotification from './email-notification/EmailNotification';
+import { InstanceIntegrationsApp } from './integrations/InstanceIntegrationsApp';
 import Languages from './Languages';
 import { Mode } from './Mode';
 import NewCodeDefinition from './NewCodeDefinition';
@@ -178,13 +179,12 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
     displayTab: true,
   },
   {
-    key: JIRA_INSTANCE_BINDING_CATEGORY,
-    name: translate('project_settings.category.jira_binding'),
-    renderComponent: getInstanceJiraBindingComponent,
+    key: INSTANCE_INTEGRATIONS_CATEGORY,
+    name: translate('settings.instance_integrations.title'),
+    renderComponent: getInstanceIntegrationsComponent,
     availableGlobally: true,
     availableForProject: false,
     displayTab: true,
-    requiredFeatures: [Feature.JiraIntegration],
   },
   {
     key: JIRA_PROJECT_BINDING_CATEGORY,
@@ -241,12 +241,8 @@ function getEarlyAccessFeaturesComponent() {
   return <EarlyAccessFeatures />;
 }
 
-function getInstanceJiraBindingComponent() {
-  if (addons.jira === undefined) {
-    return null;
-  }
-
-  return <addons.jira.InstanceJiraBinding />;
+function getInstanceIntegrationsComponent() {
+  return <InstanceIntegrationsApp />;
 }
 
 function getProjectJiraBindingComponent({ component }: AdditionalCategoryComponentProps) {
