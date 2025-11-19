@@ -36,3 +36,25 @@ export interface SlackUserBindingResponse {
   id: string;
   type: UserBindingType.Slack;
 }
+
+export enum IntegrationType {
+  Slack = 'SLACK',
+}
+
+export interface IntegrationConfigurationResponse {
+  clientId: string;
+  readonly id: string;
+  readonly integrationType: IntegrationType;
+}
+
+export interface IntegrationConfigurationPayload {
+  clientId: string;
+  clientSecret: string;
+  integrationType: IntegrationType;
+  signingSecret: string;
+}
+
+export type IntegrationConfigurationPatchPayload = Omit<
+  IntegrationConfigurationPayload,
+  'integrationType'
+>;

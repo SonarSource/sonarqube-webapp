@@ -18,28 +18,21 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Divider, Heading, HeadingSize } from '@sonarsource/echoes-react';
-import { FormattedMessage } from 'react-intl';
-import { addons } from '~sq-server-addons/index';
-import { SlackIntegrationConfiguration } from './slack/SlackIntegrationConfiguration';
+import {
+  IntegrationConfigurationPayload,
+  IntegrationConfigurationResponse,
+  IntegrationType,
+} from '../../types/integrations';
 
-export function InstanceIntegrationsApp() {
-  return (
-    <div className="sw-flex sw-flex-col sw-gap-8">
-      <Heading as="h2" className="sw-mb-4" hasMarginBottom size={HeadingSize.ExtraLarge}>
-        <FormattedMessage id="settings.instance_integrations.title" />
-      </Heading>
-
-      {addons.jira !== undefined && (
-        <>
-          <Divider />
-
-          <addons.jira.InstanceJiraBinding />
-        </>
-      )}
-
-      <Divider />
-      <SlackIntegrationConfiguration />
-    </div>
-  );
+export function mockIntegrationConfiguration(
+  overrides: Partial<IntegrationConfigurationPayload & IntegrationConfigurationResponse> = {},
+): IntegrationConfigurationPayload & IntegrationConfigurationResponse {
+  return {
+    id: 'slack-integration-configuration',
+    integrationType: IntegrationType.Slack,
+    clientId: 'clientId',
+    clientSecret: 'clientSecret',
+    signingSecret: 'signingSecret',
+    ...overrides,
+  };
 }

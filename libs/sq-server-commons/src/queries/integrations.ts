@@ -18,15 +18,63 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useMutation } from '@tanstack/react-query';
-import { postUserBinding } from '../api/integrations';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { StaleTime } from '~shared/queries/common';
+import { getIntegrationConfiguration, postUserBinding } from '../api/integrations';
+import { IntegrationType } from '../types/integrations';
+
+/*
+ * Query key helpers
+ */
+function getIntegrationConfigurationQueryKey(integrationType: IntegrationType) {
+  return ['integrations', 'integration-configurations', integrationType];
+}
 
 /*
  * User bindings
  */
-
 export function usePostUserBindingMutation() {
   return useMutation({
     mutationFn: postUserBinding,
   });
 }
+
+/*
+ * Integration configurations
+ */
+export function useGetIntegrationConfigurationQuery(integrationType: IntegrationType) {
+  return useQuery({
+    queryKey: getIntegrationConfigurationQueryKey(integrationType),
+    queryFn: () => getIntegrationConfiguration(integrationType),
+    staleTime: StaleTime.NEVER,
+  });
+}
+
+// export function usePostIntegrationConfigurationMutation() {
+//   const client = useQueryClient();
+
+//   return useMutation({
+//     mutationFn: postIntegrationConfiguration,
+//     onSuccess(integrationConfiguration) {
+//       client.setQueryData(
+//         getIntegrationConfigurationQueryKey(integrationConfiguration.integrationType),
+//         integrationConfiguration,
+//       );
+//     },
+//   });
+// }
+
+// export function usePatchIntegrationConfigurationMutation() {
+//   const client = useQueryClient();
+
+//   return useMutation({
+//     mutationFn: ({ id, data }: { data: IntegrationConfigurationPatchPayload; id: string }) =>
+//       patchIntegrationConfiguration(id, data),
+//     onSuccess(integrationConfiguration) {
+//       client.setQueryData(
+//         getIntegrationConfigurationQueryKey(integrationConfiguration.integrationType),
+//         integrationConfiguration,
+//       );
+//     },
+//   });
+// }

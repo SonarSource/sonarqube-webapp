@@ -2974,6 +2974,13 @@ export const defaultMessages = {
 
   // Integrations settings
   'settings.instance_integrations.title': 'Integrations',
+  'settings.slack.header': 'Slack',
+  'settings.slack.badge.configured': 'Configured',
+  'settings.slack.badge.not_configured': 'Not configured',
+  'settings.slack.description':
+    '<link>Set up and configure your Slack app</link> by following our documentation. Once configured and installed, you will receive instant slack notifications when your quality gate changes.',
+  'settings.slack.start_setup.label': 'Start setup',
+  'settings.slack.start_setup.hint': 'Setup can take 5 to 10 minutes.',
 
   // Project setting
   'settings.sandbox_issues.project.on.success': 'Sandbox feature is now enabled',

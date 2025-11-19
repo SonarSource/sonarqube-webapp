@@ -18,28 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Divider, Heading, HeadingSize } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, HelperText } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { addons } from '~sq-server-addons/index';
-import { SlackIntegrationConfiguration } from './slack/SlackIntegrationConfiguration';
 
-export function InstanceIntegrationsApp() {
+export function SlackIntegrationNotConfigured() {
   return (
-    <div className="sw-flex sw-flex-col sw-gap-8">
-      <Heading as="h2" className="sw-mb-4" hasMarginBottom size={HeadingSize.ExtraLarge}>
-        <FormattedMessage id="settings.instance_integrations.title" />
-      </Heading>
-
-      {addons.jira !== undefined && (
-        <>
-          <Divider />
-
-          <addons.jira.InstanceJiraBinding />
-        </>
-      )}
-
-      <Divider />
-      <SlackIntegrationConfiguration />
+    <div className="sw-flex sw-items-center sw-gap-2">
+      <Button variety={ButtonVariety.Default}>
+        <FormattedMessage id="settings.slack.start_setup.label" />
+      </Button>
+      <HelperText>
+        <FormattedMessage id="settings.slack.start_setup.hint" />
+      </HelperText>
     </div>
   );
 }

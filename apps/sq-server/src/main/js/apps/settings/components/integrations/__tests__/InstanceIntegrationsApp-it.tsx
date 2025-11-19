@@ -26,6 +26,7 @@ import { InstanceIntegrationsApp } from '../InstanceIntegrationsApp';
 const ui = {
   integrationsHeading: byRole('heading', { name: 'settings.instance_integrations.title' }),
   jiraBindingHeading: byRole('heading', { name: 'organization.jira.binding.header' }),
+  slackIntegrationHeader: byRole('heading', { name: 'settings.slack.header' }),
 };
 
 describe('Instance integrations administration', () => {
@@ -34,6 +35,7 @@ describe('Instance integrations administration', () => {
 
     expect(ui.integrationsHeading.get()).toBeInTheDocument();
     expect(ui.jiraBindingHeading.get()).toBeInTheDocument();
+    expect(ui.slackIntegrationHeader.get()).toBeInTheDocument();
   });
 
   it('should render correctly without Jira feature', () => {
@@ -41,6 +43,7 @@ describe('Instance integrations administration', () => {
 
     expect(ui.integrationsHeading.get()).toBeInTheDocument();
     expect(ui.jiraBindingHeading.query()).not.toBeInTheDocument();
+    expect(ui.slackIntegrationHeader.get()).toBeInTheDocument();
   });
 });
 

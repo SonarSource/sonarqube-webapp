@@ -21,10 +21,16 @@
 import { http } from 'msw';
 import { AbstractServiceMock } from '~shared/api/mocks/AbstractServiceMock';
 import { HttpStatus } from '~shared/types/request';
-import { UserBindingType } from '../../types/integrations';
-import { USER_BINDINGS_ENDPOINT_PATH } from '../integrations';
+import {
+  IntegrationConfigurationPayload,
+  IntegrationConfigurationResponse,
+  UserBindingType,
+} from '../../types/integrations';
+import { INTEGRATION_CONFIGURATIONS_PATH, USER_BINDINGS_ENDPOINT_PATH } from '../integrations';
 
-export interface IntegrationsServiceData {}
+export interface IntegrationsServiceData {
+  integrationConfigurations: (IntegrationConfigurationPayload & IntegrationConfigurationResponse)[];
+}
 
 export const INVALID_CODE = 'invalid_code';
 
@@ -51,7 +57,63 @@ export class IntegrationsServiceMock extends AbstractServiceMock<IntegrationsSer
           return this.errorsWithStatus(HttpStatus.BadRequest, 'Incorrect user binding type');
       }
     }),
+
+    /*
+     * Integration configurations
+     */
+    http.get(INTEGRATION_CONFIGURATIONS_PATH, () => {
+      return this.ok({
+        integrationConfigurations: this.data.integrationConfigurations,
+        page: this.paginateResponse(
+          'integrationConfigurations',
+          this.data.integrationConfigurations,
+        ),
+      });
+    }),
+
+    http.post(INTEGRATION_CONFIGURATIONS_PATH, async ({ request }) => {
+      const { integrationType, clientId, clientSecret, signingSecret } =
+        (await request.json()) as IntegrationConfigurationPayload;
+
+      const newIntegrationConfiguration = {
+        id: `integration-configuration-${integrationType}-${clientId}`,
+        integrationType,
+        clientId,
+        clientSecret,
+        signingSecret,
+      };
+      this.data.integrationConfigurations.push(newIntegrationConfiguration);
+
+      return this.ok({
+        clientId: newIntegrationConfiguration.clientId,
+        id: newIntegrationConfiguration.id,
+        integrationType: newIntegrationConfiguration.integrationType,
+      });
+    }),
+
+    http.patch(`${INTEGRATION_CONFIGURATIONS_PATH}/:id`, async ({ params, request }) => {
+      const { id } = params;
+      const { clientId, clientSecret, signingSecret } =
+        (await request.json()) as IntegrationConfigurationPayload;
+
+      const integrationConfiguration = this.data.integrationConfigurations.find((c) => c.id === id);
+      if (!integrationConfiguration) {
+        return this.errors('Integration configuration not found');
+      }
+
+      integrationConfiguration.clientId = clientId;
+      integrationConfiguration.clientSecret = clientSecret;
+      integrationConfiguration.signingSecret = signingSecret;
+
+      return this.ok({
+        clientId: integrationConfiguration.clientId,
+        id: integrationConfiguration.id,
+        integrationType: integrationConfiguration.integrationType,
+      });
+    }),
   ];
 }
 
-export const integrationsServiceDefaultDataset: IntegrationsServiceData = {};
+export const integrationsServiceDefaultDataset: IntegrationsServiceData = {
+  integrationConfigurations: [],
+};

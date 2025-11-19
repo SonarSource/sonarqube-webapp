@@ -18,11 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { axiosToCatch } from '~shared/helpers/axios-clients';
-import { SlackUserBindingPayload, SlackUserBindingResponse } from '../types/integrations';
+import { axiosClient, axiosToCatch } from '~shared/helpers/axios-clients';
+import { Paging } from '~shared/types/paging';
+import {
+  IntegrationConfigurationPatchPayload,
+  IntegrationConfigurationPayload,
+  IntegrationConfigurationResponse,
+  IntegrationType,
+  SlackUserBindingPayload,
+  SlackUserBindingResponse,
+} from '../types/integrations';
 
 const INTEGRATIONS_PATH = '/api/v2/integrations';
 export const USER_BINDINGS_ENDPOINT_PATH = `${INTEGRATIONS_PATH}/user-bindings`;
+export const INTEGRATION_CONFIGURATIONS_PATH = `${INTEGRATIONS_PATH}/integration-configurations`;
 
 /*
  * User bindings
@@ -30,4 +39,34 @@ export const USER_BINDINGS_ENDPOINT_PATH = `${INTEGRATIONS_PATH}/user-bindings`;
 
 export function postUserBinding(data: SlackUserBindingPayload): Promise<SlackUserBindingResponse> {
   return axiosToCatch.post(USER_BINDINGS_ENDPOINT_PATH, data);
+}
+
+/*
+ *  Integration configurations
+ */
+export function getIntegrationConfiguration(integrationType: IntegrationType) {
+  return axiosClient
+    .get<{
+      integrationConfigurations: IntegrationConfigurationResponse[];
+      page: Paging;
+    }>(INTEGRATION_CONFIGURATIONS_PATH, {
+      params: {
+        integrationType,
+      },
+    })
+    .then((response) => response.integrationConfigurations[0] ?? null);
+}
+
+export function postIntegrationConfiguration(data: IntegrationConfigurationPayload) {
+  return axiosClient.post<IntegrationConfigurationResponse>(INTEGRATION_CONFIGURATIONS_PATH, data);
+}
+
+export function patchIntegrationConfiguration(
+  id: string,
+  data: IntegrationConfigurationPatchPayload,
+) {
+  return axiosClient.patch<IntegrationConfigurationResponse>(
+    `${INTEGRATION_CONFIGURATIONS_PATH}/${id}`,
+    data,
+  );
 }
