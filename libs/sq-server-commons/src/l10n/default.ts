@@ -362,6 +362,7 @@ export const defaultMessages = {
     'There might be more results, try another set of filters to see them.',
   false_positive: 'False positive',
   go_back_to_homepage: 'Go back to the homepage',
+  hidden_for_security: 'Hidden for security',
   last_analysis_before: 'Last analysis before',
   less_than_1_hour_ago: '< 1 hour ago',
   local: 'Local',
@@ -2974,6 +2975,7 @@ export const defaultMessages = {
 
   // Integrations settings
   'settings.instance_integrations.title': 'Integrations',
+
   'settings.slack.header': 'Slack',
   'settings.slack.badge.configured': 'Configured',
   'settings.slack.badge.not_configured': 'Not configured',
@@ -2981,6 +2983,13 @@ export const defaultMessages = {
     '<link>Set up and configure your Slack app</link> by following our documentation. Once configured and installed, you will receive instant slack notifications when your quality gate changes.',
   'settings.slack.start_setup.label': 'Start setup',
   'settings.slack.start_setup.hint': 'Setup can take 5 to 10 minutes.',
+  'settings.slack.configuration.header': 'App configuration details',
+  'settings.slack.configuration.client_id': 'Client ID',
+  'settings.slack.configuration.client_secret': 'Client Secret',
+  'settings.slack.configuration.signing_secret': 'Signing Secret',
+  'settings.slack.install_app.label': 'Install SonarQube for Slack',
+  'settings.slack.install_app.hint': 'Did you know you can install slack to multiple workspaces?',
+  'settings.slack.remove_configuration': 'Remove Slack configuration',
 
   // Project setting
   'settings.sandbox_issues.project.on.success': 'Sandbox feature is now enabled',

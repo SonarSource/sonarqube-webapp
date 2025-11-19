@@ -30,7 +30,11 @@ import { SlackIntegrationConfiguration } from '../SlackIntegrationConfiguration'
 
 const ui = {
   configuredBadge: byText('settings.slack.badge.configured'),
+  configurationDeleteButton: byRole('button', { name: 'settings.slack.remove_configuration' }),
+  configurationEditButton: byRole('button', { name: 'edit' }),
+  configurationHeader: byText('settings.slack.configuration.header'),
   header: byRole('heading', { name: 'settings.slack.header' }),
+  installAppButton: byRole('link', { name: /^settings.slack.install_app.label/ }),
   notConfiguredBadge: byText('settings.slack.badge.not_configured'),
   startSetupButton: byRole('button', { name: 'settings.slack.start_setup.label' }),
 };
@@ -62,6 +66,10 @@ describe('SlackIntegrationConfiguration', () => {
 
     expect(ui.header.get()).toBeInTheDocument();
     expect(await ui.configuredBadge.find()).toBeInTheDocument();
+    expect(ui.configurationHeader.get()).toBeInTheDocument();
+    expect(ui.configurationEditButton.get()).toBeInTheDocument();
+    expect(ui.configurationDeleteButton.get()).toBeInTheDocument();
+    expect(ui.installAppButton.get()).toBeInTheDocument();
   });
 });
 

@@ -24,6 +24,7 @@ import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
 import { isDefined } from '~shared/helpers/types';
 import { useGetIntegrationConfigurationQuery } from '~sq-server-commons/queries/integrations';
 import { IntegrationType } from '~sq-server-commons/types/integrations';
+import { SlackIntegrationConfigured } from './SlackIntegrationConfigured';
 import { SlackIntegrationNotConfigured } from './SlackIntegrationNotConfigured';
 import { SlackIntegrationStatusBadgge } from './SlackIntegrationStatusBadge';
 
@@ -59,7 +60,11 @@ export function SlackIntegrationConfiguration() {
         />
       </Text>
 
-      <SlackIntegrationNotConfigured />
+      {isBound ? (
+        <SlackIntegrationConfigured className="sw-mt-4" slackConfiguration={slackConfiguration} />
+      ) : (
+        <SlackIntegrationNotConfigured />
+      )}
     </div>
   );
 }
