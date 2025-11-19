@@ -23,9 +23,10 @@ import { createQueryHook, StaleTime } from '~shared/queries/common';
 import {
   deleteIntegrationConfiguration,
   getIntegrationConfiguration,
+  patchIntegrationConfiguration,
   postUserBinding,
 } from '../api/integrations';
-import { IntegrationType } from '../types/integrations';
+import { IntegrationConfigurationPatchPayload, IntegrationType } from '../types/integrations';
 
 /*
  * Query key helpers
@@ -72,20 +73,20 @@ export const useGetIntegrationConfigurationQuery = createQueryHook(
 //   });
 // }
 
-// export function usePatchIntegrationConfigurationMutation() {
-//   const client = useQueryClient();
+export function useUpdateIntegrationConfigurationMutation() {
+  const client = useQueryClient();
 
-//   return useMutation({
-//     mutationFn: ({ id, data }: { data: IntegrationConfigurationPatchPayload; id: string }) =>
-//       patchIntegrationConfiguration(id, data),
-//     onSuccess(integrationConfiguration) {
-//       client.setQueryData(
-//         getIntegrationConfigurationsQueryKey(integrationConfiguration.integrationType),
-//         integrationConfiguration,
-//       );
-//     },
-//   });
-// }
+  return useMutation({
+    mutationFn: ({ id, data }: { data: IntegrationConfigurationPatchPayload; id: string }) =>
+      patchIntegrationConfiguration(id, data),
+    onSuccess(integrationConfiguration) {
+      client.setQueryData(
+        getIntegrationConfigurationsQueryKey(integrationConfiguration.integrationType),
+        integrationConfiguration,
+      );
+    },
+  });
+}
 
 export function useDeleteIntegrationConfigurationMutation() {
   const client = useQueryClient();

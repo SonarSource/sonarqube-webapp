@@ -27,10 +27,10 @@ import {
   Text,
 } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import { useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { IntegrationConfiguration } from '~sq-server-commons/types/integrations';
 import { SlackIntegrationConfigurationDeletion } from './SlackIntegrationConfigurationDeletion';
+import { SlackIntegrationConfigurationUpdate } from './SlackIntegrationConfigurationUpdate';
 import { useSlackAppDirectInstallUrl } from './utils';
 
 interface SlackIntegrationConfiguredProps {
@@ -42,17 +42,8 @@ export function SlackIntegrationConfigured({
   className,
   slackConfiguration,
 }: Readonly<SlackIntegrationConfiguredProps>) {
-  const { formatMessage } = useIntl();
-
-  // @ts-expect-error -- Will be used in next PR
-  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-
   const { slackAppDirectInstallUrl, isLoading: isLoadingSlackAppDirectInstallUrl } =
     useSlackAppDirectInstallUrl();
-
-  const openUpdateModal = () => {
-    setIsUpdateModalOpen(true);
-  };
 
   return (
     <div className={classNames('sw-flex sw-flex-col sw-gap-6', className)}>
@@ -61,14 +52,7 @@ export function SlackIntegrationConfigured({
           hasDivider
           rightContent={
             <ButtonGroup>
-              <Button
-                aria-label={formatMessage({ id: 'edit' })}
-                name="edit"
-                onClick={openUpdateModal}
-                variety={ButtonVariety.Default}
-              >
-                <FormattedMessage id="edit" />
-              </Button>
+              <SlackIntegrationConfigurationUpdate slackConfiguration={slackConfiguration} />
               <SlackIntegrationConfigurationDeletion slackConfigurationId={slackConfiguration.id} />
             </ButtonGroup>
           }

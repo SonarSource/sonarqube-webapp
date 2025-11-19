@@ -20,7 +20,7 @@
 
 import userEvent from '@testing-library/user-event';
 import { registerServiceMocks } from '~shared/api/mocks/server';
-import { byRole, byText } from '~shared/helpers/testSelector';
+import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import {
   integrationsServiceDefaultDataset,
   IntegrationsServiceMock,
@@ -30,17 +30,41 @@ import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtil
 import { SlackIntegrationConfiguration } from '../SlackIntegrationConfiguration';
 
 const ui = {
-  configuredBadge: byText('settings.slack.badge.configured'),
-  configurationDeleteButton: byRole('button', { name: 'settings.slack.remove_configuration' }),
-  configurationDeleteModalCancelButton: byRole('button', { name: 'cancel' }),
-  configurationDeleteModalConfirmButton: byRole('button', { name: 'delete' }),
-  configurationDeleteModalContent: byText('settings.slack.remove_configuration_modal.description'),
-  configurationEditButton: byRole('button', { name: 'edit' }),
-  configurationHeader: byText('settings.slack.configuration.header'),
-  header: byRole('heading', { name: 'settings.slack.header' }),
-  installAppButton: byRole('link', { name: /^settings.slack.install_app.label/ }),
-  notConfiguredBadge: byText('settings.slack.badge.not_configured'),
-  startSetupButton: byRole('button', { name: 'settings.slack.start_setup.label' }),
+  common: {
+    cancelButton: byRole('button', { name: 'cancel' }),
+  },
+
+  configurationCard: {
+    deleteButton: byRole('button', { name: 'settings.slack.remove_configuration' }),
+    editButton: byRole('button', { name: 'edit' }),
+    header: byText('settings.slack.configuration.header'),
+  },
+
+  configurationDeleteModal: {
+    confirmButton: byRole('button', { name: 'delete' }),
+    content: byText('settings.slack.remove_configuration_modal.description'),
+  },
+
+  configurationEditModal: {
+    submitButton: byRole('button', {
+      name: 'settings.slack.update_configuration_modal.update_button',
+    }),
+    header: byText('settings.slack.update_configuration_modal.title'),
+  },
+
+  configurationForm: {
+    clientId: byLabelText(/settings.slack.configuration.client_id/),
+    clientSecret: byLabelText(/settings.slack.configuration.client_secret/),
+    signingSecret: byLabelText(/settings.slack.configuration.signing_secret/),
+  },
+
+  global: {
+    configuredBadge: byText('settings.slack.badge.configured'),
+    header: byRole('heading', { name: 'settings.slack.header' }),
+    installAppButton: byRole('link', { name: /^settings.slack.install_app.label/ }),
+    notConfiguredBadge: byText('settings.slack.badge.not_configured'),
+    startSetupButton: byRole('button', { name: 'settings.slack.start_setup.label' }),
+  },
 };
 
 let integrationConfigurationServiceMock: IntegrationsServiceMock;
@@ -56,9 +80,9 @@ describe('SlackIntegrationConfiguration', () => {
   it('should render the Slack integration configuration in the not-configured state', async () => {
     renderSlackIntegrationConfiguration();
 
-    expect(ui.header.get()).toBeInTheDocument();
-    expect(await ui.startSetupButton.find()).toBeInTheDocument();
-    expect(ui.notConfiguredBadge.get()).toBeInTheDocument();
+    expect(ui.global.header.get()).toBeInTheDocument();
+    expect(await ui.global.startSetupButton.find()).toBeInTheDocument();
+    expect(ui.global.notConfiguredBadge.get()).toBeInTheDocument();
   });
 
   it('should render the Slack integration configuration in the configured state', async () => {
@@ -68,12 +92,53 @@ describe('SlackIntegrationConfiguration', () => {
 
     renderSlackIntegrationConfiguration();
 
-    expect(ui.header.get()).toBeInTheDocument();
-    expect(await ui.configuredBadge.find()).toBeInTheDocument();
-    expect(ui.configurationHeader.get()).toBeInTheDocument();
-    expect(ui.configurationEditButton.get()).toBeInTheDocument();
-    expect(ui.configurationDeleteButton.get()).toBeInTheDocument();
-    expect(ui.installAppButton.get()).toBeInTheDocument();
+    expect(ui.global.header.get()).toBeInTheDocument();
+    expect(await ui.global.configuredBadge.find()).toBeInTheDocument();
+    expect(ui.configurationCard.header.get()).toBeInTheDocument();
+    expect(ui.configurationCard.editButton.get()).toBeInTheDocument();
+    expect(ui.configurationCard.deleteButton.get()).toBeInTheDocument();
+    expect(ui.global.installAppButton.get()).toBeInTheDocument();
+  });
+
+  it('should be possible to update the Slack integration configuration', async () => {
+    const user = userEvent.setup();
+    integrationConfigurationServiceMock.data.integrationConfigurations.push(
+      mockIntegrationConfiguration({
+        clientId: 'oldClientId',
+      }),
+    );
+
+    renderSlackIntegrationConfiguration();
+
+    expect(await byText('oldClientId').find()).toBeInTheDocument();
+
+    // Cancel the update
+    await user.click(await ui.configurationCard.editButton.find());
+    expect(await ui.configurationEditModal.header.find()).toBeInTheDocument();
+    await user.click(ui.common.cancelButton.get());
+    expect(ui.configurationCard.header.get()).toBeInTheDocument();
+    expect(await byText('oldClientId').find()).toBeInTheDocument();
+    expect(ui.configurationCard.editButton.get()).toBeInTheDocument();
+    expect(ui.configurationCard.deleteButton.get()).toBeInTheDocument();
+    expect(ui.global.installAppButton.get()).toBeInTheDocument();
+
+    // Confirm the update
+    await user.click(await ui.configurationCard.editButton.find());
+    expect(await ui.configurationEditModal.submitButton.find()).toBeDisabled();
+    await user.clear(ui.configurationForm.clientId.get());
+    expect(ui.configurationEditModal.submitButton.get()).toBeDisabled();
+    await user.click(ui.configurationForm.clientId.get());
+    await user.paste('newClientId');
+    expect(ui.configurationEditModal.submitButton.get()).toBeEnabled();
+    await user.click(ui.configurationForm.clientSecret.get());
+    await user.paste('newClientSecret');
+    await user.click(ui.configurationEditModal.submitButton.get());
+    expect(await ui.configurationCard.header.find()).toBeInTheDocument();
+    expect(byText('oldClientId').query()).not.toBeInTheDocument();
+    expect(byText('newClientId').get()).toBeInTheDocument();
+    expect(await ui.configurationCard.editButton.find()).toBeInTheDocument();
+    expect(await ui.configurationCard.deleteButton.find()).toBeInTheDocument();
+    expect(await ui.global.installAppButton.find()).toBeInTheDocument();
   });
 
   it('should be possible to delete the Slack integration configuration', async () => {
@@ -84,21 +149,21 @@ describe('SlackIntegrationConfiguration', () => {
 
     renderSlackIntegrationConfiguration();
 
-    await user.click(await ui.configurationDeleteButton.find());
+    await user.click(await ui.configurationCard.deleteButton.find());
 
     // Cancel the deletion
-    expect(await ui.configurationDeleteModalContent.find()).toBeInTheDocument();
-    await user.click(ui.configurationDeleteModalCancelButton.get());
-    expect(ui.configurationHeader.get()).toBeInTheDocument();
-    expect(ui.configurationEditButton.get()).toBeInTheDocument();
-    expect(ui.configurationDeleteButton.get()).toBeInTheDocument();
-    expect(ui.installAppButton.get()).toBeInTheDocument();
+    expect(await ui.configurationDeleteModal.content.find()).toBeInTheDocument();
+    await user.click(ui.common.cancelButton.get());
+    expect(ui.configurationCard.header.get()).toBeInTheDocument();
+    expect(ui.configurationCard.editButton.get()).toBeInTheDocument();
+    expect(ui.configurationCard.deleteButton.get()).toBeInTheDocument();
+    expect(ui.global.installAppButton.get()).toBeInTheDocument();
 
-    await user.click(await ui.configurationDeleteButton.find());
+    await user.click(await ui.configurationCard.deleteButton.find());
 
     // Confirm the deletion
-    await user.click(await ui.configurationDeleteModalConfirmButton.find());
-    expect(await ui.startSetupButton.find()).toBeInTheDocument();
+    await user.click(await ui.configurationDeleteModal.confirmButton.find());
+    expect(await ui.global.startSetupButton.find()).toBeInTheDocument();
   });
 });
 
