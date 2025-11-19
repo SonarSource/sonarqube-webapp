@@ -24,13 +24,13 @@ import {
   ButtonVariety,
   Card,
   HelperText,
-  IconDelete,
   Text,
 } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { IntegrationConfiguration } from '~sq-server-commons/types/integrations';
+import { SlackIntegrationConfigurationDeletion } from './SlackIntegrationConfigurationDeletion';
 import { useSlackAppDirectInstallUrl } from './utils';
 
 interface SlackIntegrationConfiguredProps {
@@ -45,16 +45,10 @@ export function SlackIntegrationConfigured({
   const { formatMessage } = useIntl();
 
   // @ts-expect-error -- Will be used in next PR
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  // @ts-expect-error -- Will be used in next PR
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   const { slackAppDirectInstallUrl, isLoading: isLoadingSlackAppDirectInstallUrl } =
     useSlackAppDirectInstallUrl();
-
-  const openDeleteModal = () => {
-    setIsDeleteModalOpen(true);
-  };
 
   const openUpdateModal = () => {
     setIsUpdateModalOpen(true);
@@ -75,16 +69,7 @@ export function SlackIntegrationConfigured({
               >
                 <FormattedMessage id="edit" />
               </Button>
-              <Button
-                ariaLabel={formatMessage({ id: 'settings.slack.remove_configuration' })}
-                isDisabled
-                name="delete"
-                onClick={openDeleteModal}
-                type="reset"
-                variety={ButtonVariety.Default}
-              >
-                <IconDelete />
-              </Button>
+              <SlackIntegrationConfigurationDeletion slackConfigurationId={slackConfiguration.id} />
             </ButtonGroup>
           }
           title={<FormattedMessage id="settings.slack.configuration.header" />}

@@ -2990,6 +2990,10 @@ export const defaultMessages = {
   'settings.slack.install_app.label': 'Install SonarQube for Slack',
   'settings.slack.install_app.hint': 'Did you know you can install slack to multiple workspaces?',
   'settings.slack.remove_configuration': 'Remove Slack configuration',
+  'settings.slack.remove_configuration_modal.title':
+    'Delete Slack configuration for this SonarQube instance?',
+  'settings.slack.remove_configuration_modal.description':
+    '<p>This action deletes all Slack-related data on SonarQube Server. To completely delete the configuration, you must also delete the app on Slack.</p><p>The Slack-related data includes:</p><ul><li>Configurations</li><li>Workspaces</li><li>Subscriptions to projects</li><li>Connected user accounts</li></ul>',
 
   // Project setting
   'settings.sandbox_issues.project.on.success': 'Sandbox feature is now enabled',

@@ -70,3 +70,7 @@ export function patchIntegrationConfiguration(
     data,
   );
 }
+
+export function deleteIntegrationConfiguration(id: string) {
+  return axiosClient.delete(`${INTEGRATION_CONFIGURATIONS_PATH}/${id}`);
+}

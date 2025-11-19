@@ -18,16 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { queryOptions, useMutation } from '@tanstack/react-query';
+import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { createQueryHook, StaleTime } from '~shared/queries/common';
-import { getIntegrationConfiguration, postUserBinding } from '../api/integrations';
+import {
+  deleteIntegrationConfiguration,
+  getIntegrationConfiguration,
+  postUserBinding,
+} from '../api/integrations';
 import { IntegrationType } from '../types/integrations';
 
 /*
  * Query key helpers
  */
-function getIntegrationConfigurationQueryKey(integrationType: IntegrationType) {
-  return ['integrations', 'integration-configurations', integrationType];
+function getIntegrationConfigurationsQueryKey(integrationType?: IntegrationType) {
+  return integrationType === undefined
+    ? ['integrations', 'integration-configurations']
+    : ['integrations', 'integration-configurations', integrationType];
 }
 
 /*
@@ -45,7 +51,7 @@ export function usePostUserBindingMutation() {
 export const useGetIntegrationConfigurationQuery = createQueryHook(
   (integrationType: IntegrationType) => {
     return queryOptions({
-      queryKey: getIntegrationConfigurationQueryKey(integrationType),
+      queryKey: getIntegrationConfigurationsQueryKey(integrationType),
       queryFn: () => getIntegrationConfiguration(integrationType),
       staleTime: StaleTime.NEVER,
     });
@@ -59,7 +65,7 @@ export const useGetIntegrationConfigurationQuery = createQueryHook(
 //     mutationFn: postIntegrationConfiguration,
 //     onSuccess(integrationConfiguration) {
 //       client.setQueryData(
-//         getIntegrationConfigurationQueryKey(integrationConfiguration.integrationType),
+//         getIntegrationConfigurationsQueryKey(integrationConfiguration.integrationType),
 //         integrationConfiguration,
 //       );
 //     },
@@ -74,9 +80,20 @@ export const useGetIntegrationConfigurationQuery = createQueryHook(
 //       patchIntegrationConfiguration(id, data),
 //     onSuccess(integrationConfiguration) {
 //       client.setQueryData(
-//         getIntegrationConfigurationQueryKey(integrationConfiguration.integrationType),
+//         getIntegrationConfigurationsQueryKey(integrationConfiguration.integrationType),
 //         integrationConfiguration,
 //       );
 //     },
 //   });
 // }
+
+export function useDeleteIntegrationConfigurationMutation() {
+  const client = useQueryClient();
+
+  return useMutation({
+    mutationFn: deleteIntegrationConfiguration,
+    onSuccess() {
+      client.invalidateQueries({ queryKey: getIntegrationConfigurationsQueryKey() });
+    },
+  });
+}

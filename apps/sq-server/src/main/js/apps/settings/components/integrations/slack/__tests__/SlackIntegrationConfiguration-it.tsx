@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import userEvent from '@testing-library/user-event';
 import { registerServiceMocks } from '~shared/api/mocks/server';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import {
@@ -31,6 +32,9 @@ import { SlackIntegrationConfiguration } from '../SlackIntegrationConfiguration'
 const ui = {
   configuredBadge: byText('settings.slack.badge.configured'),
   configurationDeleteButton: byRole('button', { name: 'settings.slack.remove_configuration' }),
+  configurationDeleteModalCancelButton: byRole('button', { name: 'cancel' }),
+  configurationDeleteModalConfirmButton: byRole('button', { name: 'delete' }),
+  configurationDeleteModalContent: byText('settings.slack.remove_configuration_modal.description'),
   configurationEditButton: byRole('button', { name: 'edit' }),
   configurationHeader: byText('settings.slack.configuration.header'),
   header: byRole('heading', { name: 'settings.slack.header' }),
@@ -70,6 +74,31 @@ describe('SlackIntegrationConfiguration', () => {
     expect(ui.configurationEditButton.get()).toBeInTheDocument();
     expect(ui.configurationDeleteButton.get()).toBeInTheDocument();
     expect(ui.installAppButton.get()).toBeInTheDocument();
+  });
+
+  it('should be possible to delete the Slack integration configuration', async () => {
+    const user = userEvent.setup();
+    integrationConfigurationServiceMock.data.integrationConfigurations.push(
+      mockIntegrationConfiguration(),
+    );
+
+    renderSlackIntegrationConfiguration();
+
+    await user.click(await ui.configurationDeleteButton.find());
+
+    // Cancel the deletion
+    expect(await ui.configurationDeleteModalContent.find()).toBeInTheDocument();
+    await user.click(ui.configurationDeleteModalCancelButton.get());
+    expect(ui.configurationHeader.get()).toBeInTheDocument();
+    expect(ui.configurationEditButton.get()).toBeInTheDocument();
+    expect(ui.configurationDeleteButton.get()).toBeInTheDocument();
+    expect(ui.installAppButton.get()).toBeInTheDocument();
+
+    await user.click(await ui.configurationDeleteButton.find());
+
+    // Confirm the deletion
+    await user.click(await ui.configurationDeleteModalConfirmButton.find());
+    expect(await ui.startSetupButton.find()).toBeInTheDocument();
   });
 });
 

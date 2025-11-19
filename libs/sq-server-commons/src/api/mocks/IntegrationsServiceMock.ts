@@ -92,7 +92,7 @@ export class IntegrationsServiceMock extends AbstractServiceMock<IntegrationsSer
 
       const integrationConfiguration = this.data.integrationConfigurations.find((c) => c.id === id);
       if (!integrationConfiguration) {
-        return this.errors('Integration configuration not found');
+        return this.errorsWithStatus(HttpStatus.NotFound, 'Integration configuration not found');
       }
 
       integrationConfiguration.clientId = clientId;
@@ -101,6 +101,22 @@ export class IntegrationsServiceMock extends AbstractServiceMock<IntegrationsSer
         clientId: integrationConfiguration.clientId,
         id: integrationConfiguration.id,
         integrationType: integrationConfiguration.integrationType,
+      });
+    }),
+
+    http.delete(`${INTEGRATION_CONFIGURATIONS_PATH}/:id`, ({ params }) => {
+      const { id } = params;
+
+      const integrationConfiguration = this.data.integrationConfigurations.find((c) => c.id === id);
+      if (!integrationConfiguration) {
+        return this.errorsWithStatus(HttpStatus.NotFound, 'Integration configuration not found');
+      }
+      this.data.integrationConfigurations = this.data.integrationConfigurations.filter(
+        (c) => c.id !== id,
+      );
+
+      return this.ok({
+        id,
       });
     }),
   ];
