@@ -40,6 +40,12 @@ const ui = {
     header: byText('settings.slack.configuration.header'),
   },
 
+  configurationCreationForm: {
+    createAppButton: byRole('link', { name: /^settings.slack.app_creation.button_label/ }),
+    installAppButton: byRole('link', { name: 'settings.slack.install_app.label' }),
+    submitButton: byRole('button', { name: 'settings.slack.app_details.submit_button_label' }),
+  },
+
   configurationDeleteModal: {
     confirmButton: byRole('button', { name: 'delete' }),
     content: byText('settings.slack.remove_configuration_modal.description'),
@@ -98,6 +104,35 @@ describe('SlackIntegrationConfiguration', () => {
     expect(ui.configurationCard.editButton.get()).toBeInTheDocument();
     expect(ui.configurationCard.deleteButton.get()).toBeInTheDocument();
     expect(ui.global.installAppButton.get()).toBeInTheDocument();
+  });
+
+  it('should be possible to create the Slack integration configuration', async () => {
+    const user = userEvent.setup();
+    renderSlackIntegrationConfiguration();
+
+    await user.click(await ui.global.startSetupButton.find());
+
+    // Cancel creation
+    await user.click(ui.common.cancelButton.get());
+    expect(await ui.global.startSetupButton.find()).toBeInTheDocument();
+
+    // Go through with the creation
+    await user.click(await ui.global.startSetupButton.find());
+    expect(await ui.configurationCreationForm.createAppButton.find()).toBeInTheDocument();
+    await user.click(ui.configurationForm.clientId.get());
+    await user.paste('clientId');
+    await user.click(ui.configurationForm.clientSecret.get());
+    await user.paste('clientSecret');
+    await user.click(ui.configurationForm.signingSecret.get());
+    await user.paste('signingSecret');
+    await user.click(ui.configurationCreationForm.submitButton.get());
+    expect(await ui.configurationCard.header.find()).toBeInTheDocument();
+    expect(byText('clientId').get()).toBeInTheDocument();
+    expect(ui.global.installAppButton.get()).toBeInTheDocument();
+    expect(ui.global.installAppButton.get()).toHaveAttribute(
+      'href',
+      expect.stringContaining('client_id=clientId'),
+    );
   });
 
   it('should be possible to update the Slack integration configuration', async () => {

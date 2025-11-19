@@ -19,12 +19,25 @@
  */
 
 import { Button, ButtonVariety, HelperText } from '@sonarsource/echoes-react';
+import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { SlackIntegrationConfigurationCreation } from './SlackIntegrationConfigurationCreation';
 
 export function SlackIntegrationNotConfigured() {
-  return (
+  const [isFormDisplayed, setIsFormDisplayed] = useState(false);
+
+  const onHideForm = () => {
+    setIsFormDisplayed(false);
+  };
+  const onShowForm = () => {
+    setIsFormDisplayed(true);
+  };
+
+  return isFormDisplayed ? (
+    <SlackIntegrationConfigurationCreation onHideForm={onHideForm} />
+  ) : (
     <div className="sw-flex sw-items-center sw-gap-2">
-      <Button variety={ButtonVariety.Default}>
+      <Button onClick={onShowForm} variety={ButtonVariety.Default}>
         <FormattedMessage id="settings.slack.start_setup.label" />
       </Button>
       <HelperText>

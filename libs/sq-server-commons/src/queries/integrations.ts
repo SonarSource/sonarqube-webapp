@@ -24,6 +24,7 @@ import {
   deleteIntegrationConfiguration,
   getIntegrationConfiguration,
   patchIntegrationConfiguration,
+  postIntegrationConfiguration,
   postUserBinding,
 } from '../api/integrations';
 import { IntegrationConfigurationPatchPayload, IntegrationType } from '../types/integrations';
@@ -59,19 +60,19 @@ export const useGetIntegrationConfigurationQuery = createQueryHook(
   },
 );
 
-// export function usePostIntegrationConfigurationMutation() {
-//   const client = useQueryClient();
+export function useCreateIntegrationConfigurationMutation() {
+  const client = useQueryClient();
 
-//   return useMutation({
-//     mutationFn: postIntegrationConfiguration,
-//     onSuccess(integrationConfiguration) {
-//       client.setQueryData(
-//         getIntegrationConfigurationsQueryKey(integrationConfiguration.integrationType),
-//         integrationConfiguration,
-//       );
-//     },
-//   });
-// }
+  return useMutation({
+    mutationFn: postIntegrationConfiguration,
+    onSuccess(integrationConfiguration) {
+      client.setQueryData(
+        getIntegrationConfigurationsQueryKey(integrationConfiguration.integrationType),
+        integrationConfiguration,
+      );
+    },
+  });
+}
 
 export function useUpdateIntegrationConfigurationMutation() {
   const client = useQueryClient();

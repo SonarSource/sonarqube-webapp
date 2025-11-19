@@ -2983,6 +2983,14 @@ export const defaultMessages = {
     '<link>Set up and configure your Slack app</link> by following our documentation. Once configured and installed, you will receive instant slack notifications when your quality gate changes.',
   'settings.slack.start_setup.label': 'Start setup',
   'settings.slack.start_setup.hint': 'Setup can take 5 to 10 minutes.',
+  'settings.slack.app_creation.step_title': 'Create your slack app on your workspace',
+  'settings.slack.app_creation.helper':
+    'You will be asked to first select your workspace and confirm your details before app creation.',
+  'settings.slack.app_creation.hint': 'You must have Slack admin permissions.',
+  'settings.slack.app_creation.button_label': 'Create app',
+  'settings.slack.app_details.step_title':
+    'Copy and paste the following app credentials in the below fields',
+  'settings.slack.app_details.submit_button_label': 'Save configuration',
   'settings.slack.configuration.header': 'App configuration details',
   'settings.slack.configuration.client_id': 'Client ID',
   'settings.slack.configuration.client_secret': 'Client Secret',
