@@ -90,7 +90,7 @@ export default function GlobalContainer() {
       <SuggestionsProvider>
         <A11yProvider>
           <A11ySkipLinks />
-          <GlobalContainerWrapper>
+          <GlobalContainerWrapper id="global-container">
             <GlobalBackground
               className="sw-box-border sw-flex-[1_0_auto]"
               id="container"
@@ -143,7 +143,7 @@ export default function GlobalContainer() {
 const GlobalContainerWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 100vh;
   min-height: 100vh;
 `;
 
