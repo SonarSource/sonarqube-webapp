@@ -2076,7 +2076,6 @@ export const componentMap = {
   HotspotFilters: 'Excluded',
   JavaGradleTravisSonarCloud: 'Excluded',
   OrganizationsShortListItem: 'Excluded',
-  ErrorAlmAuthError: 'Excluded',
   NewUserGuide: 'Excluded',
   VulnerabilityList: 'Excluded',
   EnterpriseLoginWithRegion: 'Excluded',
