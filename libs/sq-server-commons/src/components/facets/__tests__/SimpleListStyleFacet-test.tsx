@@ -21,8 +21,7 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { byRole } from '~shared/helpers/testSelector';
-import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { FCProps } from '~sq-server-commons/types/misc';
+import { renderComponent } from '../../../helpers/testReactTestingUtils';
 import { SimpleListStyleFacet } from '../SimpleListStyleFacet';
 
 it('handles single & multiple selections', async () => {
@@ -52,8 +51,10 @@ it('handles single & multiple selections', async () => {
   expect(secondCheckbox).not.toBeChecked();
 });
 
-function renderSimpleListStyleFacet(props: Partial<FCProps<typeof SimpleListStyleFacet>> = {}) {
-  function Wrapper(props: Partial<FCProps<typeof SimpleListStyleFacet>> = {}) {
+function renderSimpleListStyleFacet(
+  props: Partial<React.ComponentProps<typeof SimpleListStyleFacet>> = {},
+) {
+  function Wrapper(props: Partial<React.ComponentProps<typeof SimpleListStyleFacet>> = {}) {
     const [selectedItems, setItems] = React.useState<string[]>([]);
 
     return (

@@ -59,6 +59,7 @@ describe('serialize/deserialize', () => {
         files: ['a', 'b'],
         issues: ['a', 'b'],
         languages: ['a', 'b'],
+        linkedTicketStatus: [],
         owaspTop10: ['a', 'b'],
         'owaspTop10-2021': ['a', 'b'],
         'owaspMobileTop10-2024': ['M1', 'M2'],
@@ -175,6 +176,7 @@ describe('serialize/deserialize', () => {
       resolved: undefined,
       prioritizedRule: true,
       fromSonarQubeUpdate: true,
+      linkedTicketStatus: [],
     });
   });
 

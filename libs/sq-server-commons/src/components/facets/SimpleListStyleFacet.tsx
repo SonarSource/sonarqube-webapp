@@ -21,12 +21,11 @@
 import { without } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { FacetBox, FacetItem } from '~design-system';
 import MultipleSelectionHint from '~shared/components/MultipleSelectionHint';
-import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
-import { IssuesQuery } from '~sq-server-commons/types/issues';
-import { formatFacetStat } from '~sq-server-commons/utils/issues-utils';
+import { FacetBox, FacetItem } from '../../design-system';
+import { IssuesQuery } from '../../types/issues';
+import { formatFacetStat } from '../../utils/issues-utils';
+import { FacetItemsList } from './FacetItemsList';
 
 export interface CommonProps {
   fetching: boolean;
@@ -61,7 +60,7 @@ export function SimpleListStyleFacet(props: Props) {
     help,
     renderIcon,
   } = props;
-  const intl = useIntl();
+  const { formatMessage } = useIntl();
 
   const nbSelectableItems = listItems.filter((item) => stats[item]).length;
   const nbSelectedItems = selectedItems.length;
@@ -71,12 +70,12 @@ export function SimpleListStyleFacet(props: Props) {
     <FacetBox
       className="it__search-navigator-facet-box it__search-navigator-facet-header"
       count={nbSelectedItems}
-      countLabel={translateWithParameters('x_selected', nbSelectedItems)}
+      countLabel={formatMessage({ id: 'x_selected' }, { '0': nbSelectedItems })}
       data-property={property}
       help={help}
       id={headerId}
       loading={fetching}
-      name={intl.formatMessage({ id: `issues.facet.${property}` })}
+      name={formatMessage({ id: `issues.facet.${property}` })}
       onClear={() => {
         props.onChange({ [property]: [] });
       }}
@@ -98,7 +97,7 @@ export function SimpleListStyleFacet(props: Props) {
               className="it__search-navigator-facet"
               icon={renderIcon?.(item, disabled)}
               key={item}
-              name={translate(itemNamePrefix, item)}
+              name={formatMessage({ id: `${itemNamePrefix}.${item}` })}
               onClick={(itemValue, multiple) => {
                 if (multiple) {
                   props.onChange({

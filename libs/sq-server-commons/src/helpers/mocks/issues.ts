@@ -61,6 +61,7 @@ export function mockQuery(overrides: Partial<IssuesQuery> = {}): IssuesQuery {
     fromSonarQubeUpdate: undefined,
     issues: [],
     languages: [],
+    linkedTicketStatus: [],
     owaspTop10: [],
     casa: [],
     'stig-ASD_V5R3': [],

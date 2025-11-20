@@ -20,10 +20,13 @@
 
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { FacetHelp } from '~sq-server-commons/components/facets/FacetHelp';
+import {
+  CommonProps,
+  SimpleListStyleFacet,
+} from '~sq-server-commons/components/facets/SimpleListStyleFacet';
 import QGMetricsMismatchHelp from '~sq-server-commons/components/issues/sidebar/QGMetricsMismatchHelp';
 import { SOFTWARE_QUALITIES } from '~sq-server-commons/helpers/constants';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { CommonProps, SimpleListStyleFacet } from './SimpleListStyleFacet';
 
 interface Props extends CommonProps {
   qualities: Array<SoftwareQuality>;

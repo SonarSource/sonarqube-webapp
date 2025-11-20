@@ -106,6 +106,7 @@ export function parseQuery(query: RawQuery, needIssueSync = false): IssuesQuery 
     types: parseAsArray(query.types, parseAsString),
     codeVariants: parseAsArray(query.codeVariants, parseAsString),
     fixedInPullRequest: parseAsString(query.fixedInPullRequest),
+    linkedTicketStatus: parseAsArray(query.linkedTicketStatus, parseAsString),
     prioritizedRule: parseAsOptionalBoolean(query.prioritizedRule),
     fromSonarQubeUpdate: parseAsOptionalBoolean(query.fromSonarQubeUpdate),
     // While reindexing, we need to use resolved param for issues/list endpoint
@@ -202,6 +203,7 @@ export function serializeQuery(query: IssuesQuery): RawQuery {
     fixedInPullRequest: serializeString(query.fixedInPullRequest),
     issues: serializeStringArray(query.issues),
     languages: serializeStringArray(query.languages),
+    linkedTicketStatus: serializeStringArray(query.linkedTicketStatus),
     owaspTop10: serializeStringArray(query.owaspTop10),
     'owaspMobileTop10-2024': serializeStringArray(query['owaspMobileTop10-2024']),
     'owaspTop10-2021': serializeStringArray(query['owaspTop10-2021']),

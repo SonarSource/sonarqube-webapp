@@ -234,6 +234,7 @@ export enum FacetName {
   Directories = 'directories',
   Files = 'files',
   Languages = 'languages',
+  LinkedTicketStatus = 'linkedTicketStatus',
   OwaspTop10 = 'owaspTop10',
   Projects = 'projects',
   Reporters = 'reporters',
@@ -270,6 +271,7 @@ export interface IssuesQuery {
   issueStatuses: IssueStatus[];
   issues: string[];
   languages: string[];
+  linkedTicketStatus: string[];
   owaspAsvsLevel: string;
   'owaspMobileTop10-2024': string[];
   owaspTop10: string[];

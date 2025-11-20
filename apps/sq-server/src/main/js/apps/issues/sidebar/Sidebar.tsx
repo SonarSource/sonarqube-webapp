@@ -23,6 +23,7 @@ import { FormattedMessage } from 'react-intl';
 import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike, isProject, isView } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
+import { addons } from '~sq-server-addons/index';
 import SeverityFacet from '~sq-server-commons/components/facets/SeverityFacet';
 import StandardSeverityFacet from '~sq-server-commons/components/facets/StandardSeverityFacet';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
@@ -342,6 +343,23 @@ export function Sidebar(props: Readonly<Props>) {
             open={!!openFacets.issueStatuses}
             stats={facets.issueStatuses}
           />
+
+          {addons.jira && (
+            <>
+              <Divider className="sw-my-2" />
+
+              <div className="sw-mb-4">
+                <addons.jira.JiraTicketStatusFacet
+                  facetStats={facets.linkedTicketStatus}
+                  facetStatuses={query.linkedTicketStatus}
+                  isFacetOpen={openFacets.linkedTicketStatus}
+                  isLoading={props.loadingFacets.linkedTicketStatus}
+                  onFacetToggle={props.onFacetToggle}
+                  onFilterChange={props.onFilterChange}
+                />
+              </div>
+            </>
+          )}
 
           <Divider className="sw-my-2" />
 

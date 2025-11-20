@@ -26,6 +26,7 @@ import MultipleSelectionHint from '~shared/components/MultipleSelectionHint';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { FacetHelp } from '~sq-server-commons/components/facets/FacetHelp';
 import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
+import { CommonProps } from '~sq-server-commons/components/facets/SimpleListStyleFacet';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import { ISSUE_STATUSES } from '~sq-server-commons/helpers/constants';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
@@ -33,7 +34,6 @@ import { useIssuesSearchQuery } from '~sq-server-commons/queries/issues';
 import { IssueStatus } from '~sq-server-commons/types/issues';
 import { Component } from '~sq-server-commons/types/types';
 import { formatFacetStat } from '~sq-server-commons/utils/issues-utils';
-import { CommonProps } from './SimpleListStyleFacet';
 
 interface Props extends CommonProps {
   component?: Component;

@@ -1519,6 +1519,9 @@ export const defaultMessages = {
   'issues.facet.detection_cause.other_causes': 'All other causes',
   'issues.facet.second_line.mode.standard': 'Standard Experience',
   'issues.facet.second_line.mode.mqr': 'MQR mode',
+  'issues.facet.linkedTicketStatus': 'Jira',
+  'issues.facet.linkedTicketStatus.LINKED': 'Pushed to Jira',
+  'issues.facet.linkedTicketStatus.NOT_LINKED': 'Not created',
 
   //------------------------------------------------------------------------------
   //
