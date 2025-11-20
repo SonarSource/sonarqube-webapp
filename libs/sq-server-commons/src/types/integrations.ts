@@ -41,7 +41,7 @@ export enum IntegrationType {
   Slack = 'SLACK',
 }
 
-export interface IntegrationConfigurationResponse {
+export interface IntegrationConfiguration {
   clientId: string;
   readonly id: string;
   readonly integrationType: IntegrationType;
@@ -55,6 +55,6 @@ export interface IntegrationConfigurationPayload {
 }
 
 export type IntegrationConfigurationPatchPayload = Omit<
-  IntegrationConfigurationPayload,
+  Partial<IntegrationConfigurationPayload>,
   'integrationType'
 >;

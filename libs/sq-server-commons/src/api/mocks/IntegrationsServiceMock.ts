@@ -21,15 +21,16 @@
 import { http } from 'msw';
 import { AbstractServiceMock } from '~shared/api/mocks/AbstractServiceMock';
 import { HttpStatus } from '~shared/types/request';
+import { mockIntegrationConfiguration } from '../../helpers/mocks/integrations';
 import {
+  IntegrationConfiguration,
   IntegrationConfigurationPayload,
-  IntegrationConfigurationResponse,
   UserBindingType,
 } from '../../types/integrations';
 import { INTEGRATION_CONFIGURATIONS_PATH, USER_BINDINGS_ENDPOINT_PATH } from '../integrations';
 
 export interface IntegrationsServiceData {
-  integrationConfigurations: (IntegrationConfigurationPayload & IntegrationConfigurationResponse)[];
+  integrationConfigurations: IntegrationConfiguration[];
 }
 
 export const INVALID_CODE = 'invalid_code';
@@ -72,29 +73,22 @@ export class IntegrationsServiceMock extends AbstractServiceMock<IntegrationsSer
     }),
 
     http.post(INTEGRATION_CONFIGURATIONS_PATH, async ({ request }) => {
-      const { integrationType, clientId, clientSecret, signingSecret } =
+      const { integrationType, clientId } =
         (await request.json()) as IntegrationConfigurationPayload;
 
-      const newIntegrationConfiguration = {
+      const newIntegrationConfiguration = mockIntegrationConfiguration({
         id: `integration-configuration-${integrationType}-${clientId}`,
         integrationType,
         clientId,
-        clientSecret,
-        signingSecret,
-      };
+      });
       this.data.integrationConfigurations.push(newIntegrationConfiguration);
 
-      return this.ok({
-        clientId: newIntegrationConfiguration.clientId,
-        id: newIntegrationConfiguration.id,
-        integrationType: newIntegrationConfiguration.integrationType,
-      });
+      return this.ok(newIntegrationConfiguration);
     }),
 
     http.patch(`${INTEGRATION_CONFIGURATIONS_PATH}/:id`, async ({ params, request }) => {
       const { id } = params;
-      const { clientId, clientSecret, signingSecret } =
-        (await request.json()) as IntegrationConfigurationPayload;
+      const { clientId } = (await request.json()) as IntegrationConfigurationPayload;
 
       const integrationConfiguration = this.data.integrationConfigurations.find((c) => c.id === id);
       if (!integrationConfiguration) {
@@ -102,8 +96,6 @@ export class IntegrationsServiceMock extends AbstractServiceMock<IntegrationsSer
       }
 
       integrationConfiguration.clientId = clientId;
-      integrationConfiguration.clientSecret = clientSecret;
-      integrationConfiguration.signingSecret = signingSecret;
 
       return this.ok({
         clientId: integrationConfiguration.clientId,

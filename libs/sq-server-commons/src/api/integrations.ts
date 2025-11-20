@@ -21,9 +21,9 @@
 import { axiosClient, axiosToCatch } from '~shared/helpers/axios-clients';
 import { Paging } from '~shared/types/paging';
 import {
+  IntegrationConfiguration,
   IntegrationConfigurationPatchPayload,
   IntegrationConfigurationPayload,
-  IntegrationConfigurationResponse,
   IntegrationType,
   SlackUserBindingPayload,
   SlackUserBindingResponse,
@@ -47,7 +47,7 @@ export function postUserBinding(data: SlackUserBindingPayload): Promise<SlackUse
 export function getIntegrationConfiguration(integrationType: IntegrationType) {
   return axiosClient
     .get<{
-      integrationConfigurations: IntegrationConfigurationResponse[];
+      integrationConfigurations: IntegrationConfiguration[];
       page: Paging;
     }>(INTEGRATION_CONFIGURATIONS_PATH, {
       params: {
@@ -58,14 +58,14 @@ export function getIntegrationConfiguration(integrationType: IntegrationType) {
 }
 
 export function postIntegrationConfiguration(data: IntegrationConfigurationPayload) {
-  return axiosClient.post<IntegrationConfigurationResponse>(INTEGRATION_CONFIGURATIONS_PATH, data);
+  return axiosClient.post<IntegrationConfiguration>(INTEGRATION_CONFIGURATIONS_PATH, data);
 }
 
 export function patchIntegrationConfiguration(
   id: string,
   data: IntegrationConfigurationPatchPayload,
 ) {
-  return axiosClient.patch<IntegrationConfigurationResponse>(
+  return axiosClient.patch<IntegrationConfiguration>(
     `${INTEGRATION_CONFIGURATIONS_PATH}/${id}`,
     data,
   );

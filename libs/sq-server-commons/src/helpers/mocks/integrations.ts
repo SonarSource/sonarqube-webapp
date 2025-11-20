@@ -18,21 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  IntegrationConfigurationPayload,
-  IntegrationConfigurationResponse,
-  IntegrationType,
-} from '../../types/integrations';
+import { IntegrationConfiguration, IntegrationType } from '../../types/integrations';
 
 export function mockIntegrationConfiguration(
-  overrides: Partial<IntegrationConfigurationPayload & IntegrationConfigurationResponse> = {},
-): IntegrationConfigurationPayload & IntegrationConfigurationResponse {
+  overrides: Partial<IntegrationConfiguration> = {},
+): IntegrationConfiguration {
   return {
     id: 'slack-integration-configuration',
     integrationType: IntegrationType.Slack,
     clientId: 'clientId',
-    clientSecret: 'clientSecret',
-    signingSecret: 'signingSecret',
     ...overrides,
   };
 }

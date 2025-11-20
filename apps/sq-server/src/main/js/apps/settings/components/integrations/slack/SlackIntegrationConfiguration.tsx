@@ -42,24 +42,22 @@ export function SlackIntegrationConfiguration() {
         <SlackIntegrationStatusBadgge isBound={isBound} />
       </div>
 
-      <div>
-        <Text>
-          <FormattedMessage
-            id="settings.slack.description"
-            values={{
-              link: (text) => (
-                <Link
-                  enableOpenInNewTab
-                  highlight={LinkHighlight.Default}
-                  to={docUrl(SharedDocLink.SlackIntegration)}
-                >
-                  {text}
-                </Link>
-              ),
-            }}
-          />
-        </Text>
-      </div>
+      <Text as="p">
+        <FormattedMessage
+          id="settings.slack.description"
+          values={{
+            link: (text) => (
+              <Link
+                enableOpenInNewTab
+                highlight={LinkHighlight.Default}
+                to={docUrl(SharedDocLink.SlackIntegration)}
+              >
+                {text}
+              </Link>
+            ),
+          }}
+        />
+      </Text>
 
       <SlackIntegrationNotConfigured />
     </div>

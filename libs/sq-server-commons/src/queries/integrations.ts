@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { StaleTime } from '~shared/queries/common';
+import { queryOptions, useMutation } from '@tanstack/react-query';
+import { createQueryHook, StaleTime } from '~shared/queries/common';
 import { getIntegrationConfiguration, postUserBinding } from '../api/integrations';
 import { IntegrationType } from '../types/integrations';
 
@@ -42,13 +42,15 @@ export function usePostUserBindingMutation() {
 /*
  * Integration configurations
  */
-export function useGetIntegrationConfigurationQuery(integrationType: IntegrationType) {
-  return useQuery({
-    queryKey: getIntegrationConfigurationQueryKey(integrationType),
-    queryFn: () => getIntegrationConfiguration(integrationType),
-    staleTime: StaleTime.NEVER,
-  });
-}
+export const useGetIntegrationConfigurationQuery = createQueryHook(
+  (integrationType: IntegrationType) => {
+    return queryOptions({
+      queryKey: getIntegrationConfigurationQueryKey(integrationType),
+      queryFn: () => getIntegrationConfiguration(integrationType),
+      staleTime: StaleTime.NEVER,
+    });
+  },
+);
 
 // export function usePostIntegrationConfigurationMutation() {
 //   const client = useQueryClient();
