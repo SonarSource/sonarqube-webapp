@@ -1984,7 +1984,7 @@ export const defaultMessages = {
     'Add a first component to your intended architecture.',
   'architecture.project_too_big': "This project is too big and can't be displayed.",
   'architecture.page': 'Architecture',
-  'architecture.page.discovery': 'Structure map',
+  'architecture.page.discovery': 'Current architecture',
   'architecture.page.model.visual.title': 'Architecture model',
   'architecture.page.model.visual.new_group': 'New Group',
   'architecture.page.model.visual.sidebar.title': 'Source Nodes',
@@ -2054,24 +2054,24 @@ export const defaultMessages = {
   'architecture.page.tangle': 'Tangle Details',
   'architecture.page.tangles.count':
     '{count, plural, one {<bold>1</bold> Tangle} other {<bold>{count}</bold> Tangles}}',
-  'architecture.page.architecture_deviations': 'Structure deviations',
+  'architecture.page.architecture_deviations': 'Deviations',
   'architecture.page.structural_flaws': 'Flaws',
   'architecture.page.architecture_deviations_description':
     'Shows how much and where the codebase diverges from the intended architecture. Deviations appear in structure, which describes how elements are organized, and in relationships, which describe how elements depend on each other.',
   'architecture.page.structural_flaws_description':
     'Shows problems in the codebase that exist regardless of the intended architecture. A common example is a tangle, where several files or classes form overlapping cyclic dependencies and each can reach the others through dependency links.',
-  'architecture.page.disallowed_dependencies': 'Reliationship deviations',
+  'architecture.page.disallowed_dependencies': 'Relationships',
   'architecture.page.disallowed_dependencies.count':
-    '{count, plural, one {<bold>1</bold> Bad dependency} other {<bold>{count}</bold> Bad dependencies}}',
+    '{count, plural, one {<bold>1</bold> Relationship dependency} other {<bold>{count}</bold> Relationship dependencies}}',
   'architecture.disallowed_dependencies.table.dependency_from': 'From',
   'architecture.disallowed_dependencies.table.dependency_to': 'To',
   'architecture.disallowed_dependencies.table.depth': 'Depth',
   'architecture.disallowed_dependencies.table.weight': 'Code reference',
   'architecture.disallowed_dependencies.description':
     'Dependencies between two code components that are not explicitly allowed in the intended architecture.',
-  'architecture.page.misplaced_components': 'Structure deviations',
+  'architecture.page.misplaced_components': 'Structure',
   'architecture.page.misplaced_components.count':
-    '{count, plural, one {<bold>1</bold> Bad component} other {<bold>{count}</bold> Bad components}}',
+    '{count, plural, one {<bold>1</bold> Structural deviation} other {<bold>{count}</bold> Structural deviations}}',
   'architecture.misplaced_components.description':
     'Components in the intended architecture referencing code artifacts that are located elsewhere in the codebase.',
   'architecture.admin.promotion.message':
