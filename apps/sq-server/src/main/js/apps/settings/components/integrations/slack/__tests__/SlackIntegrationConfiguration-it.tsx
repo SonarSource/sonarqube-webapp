@@ -41,7 +41,7 @@ const ui = {
   },
 
   configurationCreationForm: {
-    createAppButton: byRole('link', { name: /^settings.slack.app_creation.button_label/ }),
+    createAppButton: byRole('button', { name: /^settings.slack.app_creation.button_label/ }),
     installAppButton: byRole('link', { name: 'settings.slack.install_app.label' }),
     submitButton: byRole('button', { name: 'settings.slack.app_details.submit_button_label' }),
   },

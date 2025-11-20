@@ -31,7 +31,7 @@ import { FormattedMessage } from 'react-intl';
 import { IntegrationConfiguration } from '~sq-server-commons/types/integrations';
 import { SlackIntegrationConfigurationDeletion } from './SlackIntegrationConfigurationDeletion';
 import { SlackIntegrationConfigurationUpdate } from './SlackIntegrationConfigurationUpdate';
-import { useSlackAppDirectInstallUrl } from './utils';
+import { useSlackAppDirectInstallUrl } from './hooks';
 
 interface SlackIntegrationConfiguredProps {
   className?: string;

@@ -32,6 +32,7 @@ import { NumberedList, NumberedListItem } from '~sq-server-commons/design-system
 import { useCreateIntegrationConfigurationMutation } from '~sq-server-commons/queries/integrations';
 import { IntegrationType } from '~sq-server-commons/types/integrations';
 import { SlackIntegrationConfigurationForm } from './SlackIntegrationConfigurationForm';
+import { useSlackAppManifestUrl } from './hooks';
 
 interface SlackIntegrationConfigurationCreationProps {
   onHideForm: () => void;
@@ -50,6 +51,7 @@ export function SlackIntegrationConfigurationCreation({
     signingSecret: '',
   });
 
+  const { isLoading: isLoadingSlackAppManifestUrl, slackAppManifestUrl } = useSlackAppManifestUrl();
   const { isPending: isCreatingSlackConfiguration, mutate: createSlackConfiguration } =
     useCreateIntegrationConfigurationMutation();
 
@@ -91,7 +93,13 @@ export function SlackIntegrationConfigurationCreation({
             </Text>
           </div>
           <div className="sw-flex sw-items-center sw-mt-6 sw-gap-3">
-            <Button enableOpenInNewTab to="" variety={ButtonVariety.Default}>
+            <Button
+              enableOpenInNewTab
+              isDisabled={isLoadingSlackAppManifestUrl || slackAppManifestUrl === undefined}
+              isLoading={isLoadingSlackAppManifestUrl}
+              to={slackAppManifestUrl ?? ''}
+              variety={ButtonVariety.Default}
+            >
               <FormattedMessage id="settings.slack.app_creation.button_label" />
             </Button>
             <Text isSubtle>

@@ -30,7 +30,8 @@ import {
 } from '~sq-server-commons/api/mocks/IntegrationsServiceMock';
 import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import SlackOAuthCallback, { SLACK_OAUTH_STATE_LS_KEY } from '../SlackOAuthCallback';
+import SlackOAuthCallback from '../SlackOAuthCallback';
+import { SLACK_OAUTH_STATE_LS_KEY } from '../utils';
 
 jest.mock('~shared/helpers/crypto', () => ({
   uuidv4: jest.fn(),
