@@ -39,6 +39,7 @@ import {
   MODE_CATEGORY,
   PULL_REQUEST_DECORATION_BINDING_CATEGORY,
 } from '../constants';
+import { AdvancedSecurity } from './advancedSecurity/AdvancedSecurity';
 import { AiCodeFixAdminCategory } from './ai-codefix/AiCodeFixAdminCategory';
 import AlmIntegration from './almIntegration/AlmIntegration';
 import { AnalysisScope } from './AnalysisScope';
@@ -49,7 +50,6 @@ import Languages from './Languages';
 import { Mode } from './Mode';
 import NewCodeDefinition from './NewCodeDefinition';
 import PullRequestDecorationBinding from './pullRequestDecorationBinding/PRDecorationBinding';
-import Sca from './sca/Sca';
 
 export interface AdditionalCategoryComponentProps {
   categories: string[];
@@ -234,7 +234,7 @@ function getModeComponent() {
 }
 
 function getAdvancedSecurityComponent(props: AdditionalCategoryComponentProps) {
-  return <Sca definitions={props.definitions} />;
+  return <AdvancedSecurity definitions={props.definitions} />;
 }
 
 function getEarlyAccessFeaturesComponent() {

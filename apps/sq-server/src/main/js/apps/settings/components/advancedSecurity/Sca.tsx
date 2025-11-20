@@ -30,7 +30,6 @@ import {
   MessageVariety,
   ModalAlert,
   Text,
-  TextSize,
 } from '@sonarsource/echoes-react';
 import { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -52,7 +51,9 @@ import { reloadWindow } from './helpers';
 
 const DISMISSABLE_MESSAGE_STORAGE_KEY = 'sonarqube.sca.show_enabled_message';
 
-function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'definitions'>>) {
+export function Sca({
+  definitions,
+}: Readonly<Pick<AdditionalCategoryComponentProps, 'definitions'>>) {
   const intl = useIntl();
 
   /**
@@ -121,12 +122,6 @@ function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'd
 
   return (
     <div>
-      <Heading as="h2" hasMarginBottom>
-        <FormattedMessage id="settings.advanced_security.title" />
-      </Heading>
-      <Text as="p" className="sw-mb-6" size={TextSize.Large}>
-        <FormattedMessage id="settings.advanced_security.description" />
-      </Text>
       <div className="sw-my-8">
         <Heading as="h3" hasMarginBottom>
           <FormattedMessage id="property.sca.admin.title" />
@@ -205,7 +200,7 @@ function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'd
         </div>
       </div>
       {isEnabled && (
-        <>
+        <div className="sw-ml-12">
           <hr className="sw-mx-0 sw-mb-6 sw-p-0" />
           <Heading as="h3" hasMarginBottom>
             <FormattedMessage id="property.sca.default.title" />
@@ -215,7 +210,7 @@ function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'd
               <Definition definition={definition} key={definition.key} />
             ))}
           </div>
-        </>
+        </div>
       )}
       {showEnabledMessage && isEnabled && (
         <MessageCallout
@@ -263,5 +258,3 @@ function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'd
     </div>
   );
 }
-
-export default Sca;

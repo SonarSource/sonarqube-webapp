@@ -18,24 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export enum Feature {
-  AiCodeAssurance = 'ai-code-assurance',
-  Announcement = 'announcement',
-  Architecture = 'architecture-project',
-  AdvancedSAST = 'asast',
-  BranchSupport = 'branch-support',
-  FixSuggestions = 'fix-suggestions',
-  FixSuggestionsMarketing = 'fix-suggestions-marketing',
-  FromSonarQubeUpdate = 'from-sonarqube-update',
-  GithubProvisioning = 'github-provisioning',
-  GitlabProvisioning = 'gitlab-provisioning',
-  JiraIntegration = 'jira',
-  LoginMessage = 'login-message',
-  MonoRepositoryPullRequestDecoration = 'monorepo',
-  MultipleAlm = 'multiple-alm',
-  PrioritizedRules = 'prioritized-rules',
-  ProjectImport = 'project-import',
-  RegulatoryReport = 'regulatory-reports',
-  Sca = 'sca',
-  Scim = 'scim',
+import { Divider, Heading, Text, TextSize } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
+import { AdditionalCategoryComponentProps } from '../AdditionalCategories';
+import { AdvancedSast } from './AdvancedSast';
+import { Sca } from './Sca';
+
+export function AdvancedSecurity({
+  definitions,
+}: Readonly<Pick<AdditionalCategoryComponentProps, 'definitions'>>) {
+  return (
+    <>
+      <Heading as="h2" hasMarginBottom>
+        <FormattedMessage id="settings.advanced_security.title" />
+      </Heading>
+      <Text as="p" className="sw-mb-6" size={TextSize.Large}>
+        <FormattedMessage id="settings.advanced_security.description" />
+      </Text>
+      <AdvancedSast />
+      <Divider className="sw-my-6" />
+      <Sca definitions={definitions} />
+    </>
+  );
 }

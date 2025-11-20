@@ -28,7 +28,7 @@ interface Props {
 
 export function RescanSettings({ children }: Readonly<Props>) {
   return (
-    <>
+    <div className="sw-ml-12">
       <hr className="sw-mx-0 sw-my-6 sw-p-0" />
       <div className="sw-my-8">
         <Heading as="h3" hasMarginBottom>
@@ -40,6 +40,6 @@ export function RescanSettings({ children }: Readonly<Props>) {
 
         {children}
       </div>
-    </>
+    </div>
   );
 }

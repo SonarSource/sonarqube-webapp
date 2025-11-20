@@ -30,7 +30,7 @@ import {
 } from '~sq-server-commons/api/mocks/EntitlementsServiceMock';
 import ScaServiceSettingsMock from '~sq-server-commons/api/mocks/ScaServiceSettingsMock';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import Sca from '../Sca';
+import { AdvancedSecurity } from '../AdvancedSecurity';
 
 let scaServiceSettingsMock: ScaServiceSettingsMock;
 let entitlementsMock: EntitlementsServiceMock;
@@ -122,5 +122,5 @@ it('test should always pass', () => {
 
 
 function renderScaAdmin() {
-  return renderComponent(<Sca definitions={SETTINGS_DEFINITIONS} />);
+  return renderComponent(<AdvancedSecurity definitions={SETTINGS_DEFINITIONS} />);
 }

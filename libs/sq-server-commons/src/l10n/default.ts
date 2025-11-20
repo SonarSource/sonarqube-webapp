@@ -3070,6 +3070,10 @@ export const defaultMessages = {
   'settings.advanced_security.title': 'Advanced Security',
   'settings.advanced_security.description':
     'SonarQube Advanced Security extends your protection to third-party open source code and gives you access to Advanced SAST capabilities.',
+  'property.asast.admin.title': 'Advanced SAST (ASAST)',
+  'property.asast.admin.description':
+    'SonarQube Advanced Security comes with Advanced SAST (ASAST) activated by default for any user to find deeply nested taint vulnerabilities.',
+  'property.asast.admin.checkbox.label': 'Enable Advanced SAST (ASAST)',
   'property.sca.admin.title': 'Software Composition Analysis (SCA)',
   'property.sca.admin.description':
     'Activate this option to enable any user to scan their projects for issues in their third-party dependencies, such as vulnerabilities or prohibited licenses, using the Sonar SCA service.',
