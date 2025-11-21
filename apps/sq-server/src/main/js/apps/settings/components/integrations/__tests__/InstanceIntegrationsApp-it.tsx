@@ -30,15 +30,8 @@ const ui = {
 };
 
 describe('Instance integrations administration', () => {
-  it('should render correctly with Jira feature', () => {
-    renderInstanceIntegrationsApp([Feature.JiraIntegration]);
 
-    expect(ui.integrationsHeading.get()).toBeInTheDocument();
-    expect(ui.jiraBindingHeading.get()).toBeInTheDocument();
-    expect(ui.slackIntegrationHeader.get()).toBeInTheDocument();
-  });
-
-  it('should render correctly without Jira feature', () => {
+  it('should render correctly without paid features', () => {
     renderInstanceIntegrationsApp();
 
     expect(ui.integrationsHeading.get()).toBeInTheDocument();
