@@ -20,9 +20,9 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderComponent } from '../../helpers/testReactTestingUtils';
-import { FCProps } from '../../types/misc';
-import useLocalStorage from '../useLocalStorage';
+import { ComponentProps } from 'react';
+import { render } from '../../helpers/test-utils';
+import useLocalStorage from '../../helpers/useLocalStorage';
 
 describe('useLocalStorage hook', () => {
   it('gets/sets boolean value', async () => {
@@ -30,31 +30,41 @@ describe('useLocalStorage hook', () => {
     renderLSComponent();
 
     expect(screen.getByRole('button', { name: 'show' })).toBeInTheDocument();
-    user.click(screen.getByRole('button', { name: 'show' }));
+    await user.click(screen.getByRole('button', { name: 'show' }));
     expect(await screen.findByText('text')).toBeInTheDocument();
   });
 
   it('gets/sets string value', async () => {
     const user = userEvent.setup();
-    const props = {
-      condition: (value: string) => value === 'ok',
-      valueToSet: 'wow',
-    };
+    const props = { condition: (value: string) => value === 'ok', valueToSet: 'wow' };
     const { rerender } = renderLSComponent(props);
 
     expect(screen.getByRole('button', { name: 'show' })).toBeInTheDocument();
-    user.click(screen.getByRole('button', { name: 'show' }));
+    await user.click(screen.getByRole('button', { name: 'show' }));
     expect(screen.queryByText('text')).not.toBeInTheDocument();
 
     rerender(<LSComponent lsKey="test_ls" {...props} valueToSet="ok" />);
-    user.click(screen.getByRole('button', { name: 'show' }));
+    await user.click(screen.getByRole('button', { name: 'show' }));
     expect(await screen.findByText('text')).toBeInTheDocument();
+  });
+
+  it('updates consumers of ls value', async () => {
+    const user = userEvent.setup();
+    renderLSComponent({ lsKey: 'test_consumer' });
+
+    expect(screen.queryByText('LS consumer value updated')).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'show' }));
+    expect(screen.getByText('LS consumer value updated')).toBeInTheDocument();
   });
 });
 
-function renderLSComponent(props: Partial<FCProps<typeof LSComponent>> = {}) {
-  return renderComponent(
-    <LSComponent condition={(value) => Boolean(value)} lsKey="test_ls" valueToSet {...props} />,
+function renderLSComponent(props: Readonly<Partial<ComponentProps<typeof LSComponent>>> = {}) {
+  return render(
+    <>
+      <LSComponent condition={(value) => Boolean(value)} lsKey="test_ls" valueToSet {...props} />
+      <LSConsumerComponent lsKey={props.lsKey ?? 'test_ls'} />
+    </>,
   );
 }
 
@@ -64,7 +74,7 @@ function LSComponent({
   initialValue,
   valueToSet,
 }: Readonly<{
-  condition: (value: boolean | string | undefined) => boolean;
+  condition: (value?: boolean | string) => boolean;
   initialValue?: boolean | string;
   lsKey: string;
   valueToSet: boolean | string;
@@ -84,4 +94,14 @@ function LSComponent({
       {condition(value) && <span>text</span>}
     </div>
   );
+}
+
+function LSConsumerComponent({ lsKey }: Readonly<{ lsKey: string }>) {
+  const [value] = useLocalStorage(lsKey);
+
+  if (value) {
+    return <span>LS consumer value updated</span>;
+  }
+
+  return null;
 }

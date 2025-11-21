@@ -35,8 +35,8 @@ import { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
 import { RescanSettings } from '~shared/components/sca/RescanSettings';
+import useLocalStorage from '~shared/helpers/useLocalStorage';
 import { getAdvancedSecurityTermsOfServiceUrl } from '~sq-server-commons/helpers/urls';
-import useLocalStorage from '~sq-server-commons/hooks/useLocalStorage';
 import {
   useGetScaFeatureEnablementQuery,
   useUpdateScaFeatureEnablementMutation,

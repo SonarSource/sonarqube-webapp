@@ -26,9 +26,9 @@ import {
   Text,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import useLocalStorage from '~shared/helpers/useLocalStorage';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
-import useLocalStorage from '~sq-server-commons/hooks/useLocalStorage';
 
 const SANDBOX_LOCAL_STORAGE_KEY = 'issue.sandbox.dismissed';
 

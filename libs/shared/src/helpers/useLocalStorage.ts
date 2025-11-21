@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import React from 'react';
-import { get, save } from '~shared/helpers/storage';
+import { useCallback, useEffect, useState } from 'react';
+import { get, save } from './storage';
 
 export default function useLocalStorage<T>(key: string, initialValue?: T) {
-  const lsValue = React.useCallback(() => {
+  const lsValue = useCallback<() => T>(() => {
     const v = get(key);
     try {
       return JSON.parse(v as string);
@@ -31,17 +31,39 @@ export default function useLocalStorage<T>(key: string, initialValue?: T) {
     }
   }, [key]);
 
-  const [storedValue, setStoredValue] = React.useState(lsValue() ?? initialValue);
+  const [storedValue, setStoredValue] = useState(lsValue() ?? initialValue);
 
-  const changeValue = React.useCallback(
+  const changeValue = useCallback(
     (value: T) => {
       save(key, JSON.stringify(value));
+
+      // Dispatching storage event to notify current tab
+      const lsEvent = new StorageEvent('storage', {
+        key,
+        newValue: JSON.stringify(value),
+        oldValue: JSON.stringify(storedValue),
+      });
+      globalThis.dispatchEvent(lsEvent);
+
       setStoredValue(lsValue());
     },
-    [key, lsValue],
+    [key, lsValue, storedValue],
   );
 
-  React.useEffect(() => {
+  // If storaged value changes outside of the consumer, we update the state
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === key) {
+        setStoredValue(lsValue() ?? initialValue);
+      }
+    };
+    globalThis.addEventListener('storage', handleStorageChange, false);
+    return () => {
+      globalThis.removeEventListener('storage', handleStorageChange, false);
+    };
+  }, [key, lsValue, initialValue]);
+
+  useEffect(() => {
     setStoredValue(lsValue() ?? initialValue);
   }, [lsValue, initialValue]);
 

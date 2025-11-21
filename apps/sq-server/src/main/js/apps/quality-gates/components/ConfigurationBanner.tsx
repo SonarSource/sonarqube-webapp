@@ -26,6 +26,7 @@ import {
   Text,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import useLocalStorage from '~shared/helpers/useLocalStorage';
 import { MetricKey } from '~shared/types/metrics';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import AIAssuredIcon from '~sq-server-commons/components/icon-mappers/AIAssuredIcon';
@@ -38,7 +39,6 @@ import {
   MQR_CONDITIONS_MAP,
   STANDARD_CONDITIONS_MAP,
 } from '~sq-server-commons/helpers/quality-gates';
-import useLocalStorage from '~sq-server-commons/hooks/useLocalStorage';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { Feature } from '~sq-server-commons/types/features';
 import { CaycStatus, QualityGate } from '~sq-server-commons/types/types';

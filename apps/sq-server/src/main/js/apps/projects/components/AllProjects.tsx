@@ -28,6 +28,7 @@ import { LAYOUT_FOOTER_HEIGHT, LargeCenteredLayout, themeBorder, themeColor } fr
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isDefined } from '~shared/helpers/types';
+import useLocalStorage from '~shared/helpers/useLocalStorage';
 import { ComponentQualifier } from '~shared/types/component';
 import { RawQuery } from '~shared/types/router';
 import { searchProjects } from '~sq-server-commons/api/components';
@@ -40,7 +41,6 @@ import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentU
 import handleRequiredAuthentication from '~sq-server-commons/helpers/handleRequiredAuthentication';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { convertToQueryData, hasFilterParams } from '~sq-server-commons/helpers/projects';
-import useLocalStorage from '~sq-server-commons/hooks/useLocalStorage';
 import { useMeasuresForProjectsQuery } from '~sq-server-commons/queries/measures';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import {

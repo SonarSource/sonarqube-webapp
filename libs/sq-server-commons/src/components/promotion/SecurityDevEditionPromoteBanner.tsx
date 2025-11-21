@@ -26,10 +26,10 @@ import {
   Text,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import useLocalStorage from '~shared/helpers/useLocalStorage';
 import { useAppState } from '../../context/app-state/withAppStateContext';
 import { SonarSourceLink } from '../../helpers/doc-links';
 import { getSonarSourceComUrl } from '../../helpers/urls';
-import useLocalStorage from '../../hooks/useLocalStorage';
 import { EditionKey } from '../../types/editions';
 import { LockIllustration } from '../illustrations/LockIllustration';
 
