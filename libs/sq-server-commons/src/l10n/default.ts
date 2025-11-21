@@ -2997,7 +2997,8 @@ export const defaultMessages = {
   'settings.slack.configuration.signing_secret': 'Signing Secret',
   'settings.slack.configuration.secret_placeholder': 'Leave field empty to keep current value',
   'settings.slack.install_app.label': 'Install SonarQube for Slack',
-  'settings.slack.install_app.hint': 'Did you know you can install slack to multiple workspaces?',
+  'settings.slack.install_app.hint':
+    'Did you know you can install SonarQube for Slack to multiple workspaces?',
   'settings.slack.update_configuration_modal.title': 'Slack configuration',
   'settings.slack.update_configuration_modal.hint': 'How can I update my secrets?',
   'settings.slack.update_configuration_modal.update_button': 'Update configuration',
