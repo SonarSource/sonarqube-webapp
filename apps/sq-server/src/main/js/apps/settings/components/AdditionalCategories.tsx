@@ -66,8 +66,9 @@ export interface AdditionalCategory {
   key: string;
   name: string;
   renderComponent: (props: AdditionalCategoryComponentProps) => React.ReactNode;
-  requiredFeatures?: Feature[];
   requiresBranchSupport?: boolean;
+  requiresFeatures?: Feature[];
+  requiresOneOfFeatures?: Feature[];
 }
 
 /**
@@ -185,6 +186,7 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
     availableGlobally: true,
     availableForProject: false,
     displayTab: true,
+    requiresOneOfFeatures: [Feature.JiraIntegration, Feature.SlackIntegration],
   },
   {
     key: JIRA_PROJECT_BINDING_CATEGORY,
@@ -193,7 +195,7 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
     availableGlobally: false,
     availableForProject: true,
     displayTab: true,
-    requiredFeatures: [Feature.JiraIntegration],
+    requiresFeatures: [Feature.JiraIntegration],
   },
 ];
 

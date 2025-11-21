@@ -83,7 +83,10 @@ function AllCategoriesList(props: Readonly<CategoriesListProps>) {
           (props.hasFeature(Feature.FixSuggestions) ||
             props.hasFeature(Feature.FixSuggestionsMarketing) ||
             c.key !== AI_CODE_FIX_CATEGORY) &&
-          (c.requiredFeatures === undefined || c.requiredFeatures.every(props.hasFeature))
+          (c.requiresFeatures === undefined ||
+            c.requiresFeatures.every(props.hasFeature) ||
+            c.requiresOneOfFeatures === undefined ||
+            c.requiresOneOfFeatures.some(props.hasFeature))
         );
       }),
     );

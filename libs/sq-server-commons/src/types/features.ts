@@ -38,4 +38,5 @@ export enum Feature {
   RegulatoryReport = 'regulatory-reports',
   Sca = 'sca',
   Scim = 'scim',
+  SlackIntegration = 'slack',
 }

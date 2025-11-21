@@ -45,7 +45,7 @@ import useEffectOnce from '~shared/helpers/useEffectOnce';
 import { whenLoggedIn } from '~sq-server-commons/components/hoc/whenLoggedIn';
 import { usePostUserBindingMutation } from '~sq-server-commons/queries/integrations';
 import { UserBindingType } from '~sq-server-commons/types/integrations';
-import { SLACK_OAUTH_STATE_LS_KEY } from './utils';
+import { SLACK_OAUTH_STATE_LS_KEY } from '~sq-server-commons/utils/oauth';
 
 const SLACK_REDIRECT_URL_HOST = 'slack.com';
 const SLACK_REDIRECT_URL_PROTOCOL = 'https';

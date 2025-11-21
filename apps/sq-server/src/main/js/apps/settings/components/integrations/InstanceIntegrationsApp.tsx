@@ -21,7 +21,6 @@
 import { Divider, Heading, HeadingSize } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { addons } from '~sq-server-addons/index';
-import { SlackIntegrationConfiguration } from './slack/SlackIntegrationConfiguration';
 
 export function InstanceIntegrationsApp() {
   return (
@@ -30,16 +29,19 @@ export function InstanceIntegrationsApp() {
         <FormattedMessage id="settings.instance_integrations.title" />
       </Heading>
 
-      {addons.jira !== undefined && (
+      {addons.jira && (
         <>
           <Divider />
-
           <addons.jira.InstanceJiraBinding />
         </>
       )}
 
-      <Divider />
-      <SlackIntegrationConfiguration />
+      {addons.slack && (
+        <>
+          <Divider />
+          <addons.slack.SlackIntegrationConfiguration />
+        </>
+      )}
     </div>
   );
 }
