@@ -8876,7 +8876,8 @@ export const defaultMessages = {
   'organization.jira.binding.bind_success':
     "You've successfully connected your Jira instance to this SonarQube Server instance",
   'organization.jira.binding.unbind_success': "You've successfully deleted your Jira connection",
-  'organization.jira.binding.connected_by_on_label': 'Connected by: ',
+  'organization.jira.binding.instance_url.label': 'Jira instance host',
+  'organization.jira.binding.connected_by_on_label': 'Connected by',
   'organization.jira.binding.connected_by_on_value': '{createdBy} on {createdAt}',
   'organization.jira.binding.app_configuration.title': 'Client ID and Secret',
   'organization.jira.binding.app_configuration.edit_modal.title': 'Edit Client ID and Secret',
