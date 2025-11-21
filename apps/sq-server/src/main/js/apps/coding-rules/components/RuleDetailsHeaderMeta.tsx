@@ -20,7 +20,8 @@
 
 import { Text } from '@sonarsource/echoes-react';
 import { Badge, HelperHintIcon, Link, SeparatorCircleIcon } from '~design-system';
-import { RuleDetails } from '~shared/types/rules';
+import { RuleStatusBadge } from '~shared/components/coding-rules/RuleStatusBadge';
+import { RuleDetails, RuleStatus } from '~shared/types/rules';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getRuleUrl } from '~sq-server-commons/helpers/urls';
@@ -143,15 +144,11 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
       )}
 
       {/* Status */}
-      {!ruleDetails.isExternal && ruleDetails.status !== 'READY' && (
+      {!ruleDetails.isExternal && ruleDetails.status !== RuleStatus.Ready && (
         <>
           <SeparatorCircleIcon aria-hidden as="li" />
           <li>
-            <Tooltip content={translate('status')}>
-              <Text data-meta="status" isSubtle>
-                <Badge variant="deleted">{translate('rules.status', ruleDetails.status)}</Badge>
-              </Text>
-            </Tooltip>
+            <RuleStatusBadge rule={ruleDetails} />
           </li>
         </>
       )}

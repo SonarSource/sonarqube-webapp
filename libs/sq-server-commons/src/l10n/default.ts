@@ -4099,6 +4099,8 @@ export const defaultMessages = {
   'rules.parameters': 'Parameters',
   'rules.status.beta': 'Beta',
   'rules.status.BETA': 'Beta',
+  'rules.status.BETA.help':
+    'The rule has been recently implemented and we haven’t gotten enough feedback from users yet, so there may be false positives or false negatives.',
   'rules.status.deprecated': 'Deprecated',
   'rules.status.DEPRECATED': 'Deprecated',
   'rules.status.DEPRECATED.help':

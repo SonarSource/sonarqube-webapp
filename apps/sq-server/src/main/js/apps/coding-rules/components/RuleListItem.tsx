@@ -36,8 +36,9 @@ import {
   SeparatorCircleIcon,
   themeBorder,
 } from '~design-system';
+import { RuleStatusBadge } from '~shared/components/coding-rules/RuleStatusBadge';
 import { SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
-import { Rule, RuleActivationAdvanced } from '~shared/types/rules';
+import { Rule, RuleActivationAdvanced, RuleStatus } from '~shared/types/rules';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { CleanCodeAttributePill } from '~sq-server-commons/components/shared/CleanCodeAttributePill';
 import SoftwareImpactPillList from '~sq-server-commons/components/shared/SoftwareImpactPillList';
@@ -355,11 +356,11 @@ function RuleListItem(props: Readonly<Props>) {
               </>
             )}
 
-            {rule.status !== 'READY' && (
+            {rule.status !== RuleStatus.Ready && (
               <>
                 <SeparatorCircleIcon aria-hidden as="li" />
                 <li>
-                  <Badge variant="deleted">{translate('rules.status', rule.status)}</Badge>
+                  <RuleStatusBadge rule={rule} />
                 </li>
               </>
             )}

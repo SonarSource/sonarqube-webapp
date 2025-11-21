@@ -22,11 +22,12 @@ import { Heading, IconLink, Link, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ClipboardIconButton } from '~shared/components/clipboard';
+import { RuleStatusBadge } from '~shared/components/coding-rules/RuleStatusBadge';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
-import { RuleDetails } from '~shared/types/rules';
+import { RuleDetails, RuleStatus } from '~shared/types/rules';
 import { setIssueAssignee, setIssueSeverity } from '../../api/issues';
 import { addGlobalSuccessMessage, Badge, BasicSeparator } from '../../design-system';
 import { isInput, isShortcut } from '../../helpers/keyboardEventHelpers';
@@ -168,10 +169,8 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
   };
 
   renderRuleDescription = () => {
-    const {
-      issue,
-      ruleDetails: { key, name, isExternal },
-    } = this.props;
+    const { issue, ruleDetails } = this.props;
+    const { key, name, isExternal, status } = ruleDetails;
 
     return (
       <Text isSubtle>
@@ -195,6 +194,13 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
             return null;
           }}
         </WorkspaceContext.Consumer>
+
+        {/* Only show beta status badge for non-external rules */}
+        {!isExternal && status === RuleStatus.Beta && (
+          <span className="sw-ml-1">
+            <RuleStatusBadge rule={ruleDetails} />
+          </span>
+        )}
       </Text>
     );
   };
