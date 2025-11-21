@@ -8879,16 +8879,13 @@ export const defaultMessages = {
   'organization.jira.binding.connected_by_on_label': 'Connected by: ',
   'organization.jira.binding.connected_by_on_value': '{createdBy} on {createdAt}',
   'organization.jira.binding.app_configuration.title': 'Client ID and Secret',
+  'organization.jira.binding.app_configuration.edit_modal.title': 'Edit Client ID and Secret',
   'organization.jira.binding.app_configuration.helper_intro':
     'Follow the steps in our guide to <link>edit your Client ID and Secret</link>',
   'organization.jira.binding.app_configuration.callback_url.label': 'Callback URL',
   'organization.jira.binding.app_configuration.callback_url.copy': 'Copy callback URL to clipboard',
   'organization.jira.binding.app_configuration.client_id.label': 'Client ID',
-  'organization.jira.binding.app_configuration.client_id.value':
-    '<label>Client ID:</label> {clientId}',
   'organization.jira.binding.app_configuration.client_secret.label': 'Secret',
-  'organization.jira.binding.app_configuration.client_secret.value':
-    '<label>Secret:</label> <value>hidden for security</value>',
   'organization.jira.binding.app_configuration.submit_note':
     'Updating will redirect you to Atlassian to confirm your workspace.',
   'organization.jira.binding.modal.confirmation.description':
