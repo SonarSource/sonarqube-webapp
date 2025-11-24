@@ -2983,6 +2983,8 @@ export const defaultMessages = {
   'settings.slack.description':
     '<link>Set up and configure your Slack app</link> by following our documentation. Once configured and installed, you will receive instant slack notifications when your quality gate changes.',
   'settings.slack.start_setup.label': 'Start setup',
+  'settings.slack.start_setup.no_server_base_url_warning':
+    'To continue, set your "Server base URL" in the <link>general settings</link>',
   'settings.slack.start_setup.hint': 'Setup can take 5 to 10 minutes.',
   'settings.slack.app_creation.step_title': 'Create your slack app on your workspace',
   'settings.slack.app_creation.helper':
