@@ -4598,11 +4598,12 @@ export const defaultMessages = {
 
   'login.page': 'Log in',
   'login.login_to_sonarqube': 'Log in to {productName}',
-  'login.login_with_x': 'Log in with {0}',
+  'login.login_with_x': 'Log in with {providerName}',
   'login.more_options': 'Log in with credentials',
   'login.unauthorized_access_alert':
     'You are not authorized to access this page. Please log in with more privileges and try again.',
   'login.with_x': 'With {0}',
+  'login.or': 'Or log in with',
   'login.authentication_failed': 'Authentication failed',
   'login.logout_failed': 'Logout failed',
 

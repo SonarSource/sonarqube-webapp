@@ -18,11 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
-import { BasicSeparator, ThirdPartyButton } from '~design-system';
-import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { Divider, Text, TextSize, ToggleTip } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
+import { ThirdPartyButton } from '~design-system';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { IdentityProvider } from '~sq-server-commons/types/types';
 
 interface Props {
@@ -31,41 +30,44 @@ interface Props {
 }
 
 export default function OAuthProviders({ identityProviders, returnTo }: Readonly<Props>) {
-  const authenticate = React.useCallback(
-    (key: string) => {
-      // We need a real page refresh, as the login mechanism is handled on the server
-      window.location.replace(
-        `${getBaseUrl()}/sessions/init/${key}?return_to=${encodeURIComponent(returnTo)}`,
-      );
-    },
-    [returnTo],
-  );
+  const authenticate = (key: string) => {
+    // We need a real page refresh, as the login mechanism is handled on the server
+    window.location.replace(
+      `${getBaseUrl()}/sessions/init/${key}?return_to=${encodeURIComponent(returnTo)}`,
+    );
+  };
 
   return (
     <>
       <div className="sw-w-full sw-flex sw-flex-col sw-gap-4" id="oauth-providers">
-        {identityProviders.map((identityProvider) => (
-          <div key={identityProvider.key}>
+        {identityProviders.map(({ key, name, iconPath, helpMessage }) => (
+          <div key={key}>
             <ThirdPartyButton
               className="sw-w-full sw-justify-center"
-              iconPath={`${getBaseUrl()}${identityProvider.iconPath}`}
-              name={identityProvider.name}
+              iconPath={`${getBaseUrl()}${iconPath}`}
+              name={name}
               onClick={() => {
-                authenticate(identityProvider.key);
+                authenticate(key);
               }}
             >
-              <span>{translateWithParameters('login.login_with_x', identityProvider.name)}</span>
+              <span>
+                <FormattedMessage id="login.login_with_x" values={{ providerName: name }} />
+              </span>
             </ThirdPartyButton>
-            {identityProvider.helpMessage && (
-              <HelpTooltip
-                className="oauth-providers-help"
-                overlay={identityProvider.helpMessage}
-              />
+            {helpMessage && (
+              <ToggleTip className="oauth-providers-help" description={helpMessage} />
             )}
           </div>
         ))}
       </div>
-      <BasicSeparator className="sw-my-6 sw-w-full" />
+      <Divider
+        className="sw-my-8 sw-w-full"
+        text={
+          <Text className="sw-mx-4" size={TextSize.Small}>
+            <FormattedMessage id="login.or" />
+          </Text>
+        }
+      />
     </>
   );
 }

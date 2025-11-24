@@ -22,6 +22,7 @@ import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/r
 import { createQueryHook } from '~shared/queries/common';
 import { ExtendedSettingDefinition, SettingValue } from '~shared/types/settings';
 import {
+  getLoginMessage,
   getValue,
   getValues,
   resetSettingValue,
@@ -62,6 +63,14 @@ export const useGetValueQuery = createQueryHook(
     });
   },
 );
+
+export const useLoginMessageQuery = createQueryHook(() => {
+  return {
+    queryKey: ['settings', 'login-message'],
+    queryFn: getLoginMessage,
+    select: (data: { message: string }) => data.message,
+  };
+});
 
 export function useResetSettingsMutation() {
   const queryClient = useQueryClient();

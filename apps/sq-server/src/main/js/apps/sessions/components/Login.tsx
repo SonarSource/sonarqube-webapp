@@ -18,83 +18,73 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
 import {
   Heading,
   LogoSize,
-  LogoSonar,
   MessageCallout,
   MessageVariety,
   Spinner,
 } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
-import { FormattedMessage } from 'react-intl';
-import { Card, HtmlFormatter, themeBorder, themeColor } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { HtmlFormatter } from '~design-system';
+import { useLocation } from '~shared/components/hoc/withRouter';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
-import { Location } from '~shared/types/router';
 import { SonarQubeProductLogo } from '~sq-server-commons/components/branding/SonarQubeProductLogo';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getReturnUrl } from '~sq-server-commons/helpers/urls';
-import { IdentityProvider } from '~sq-server-commons/types/types';
+import { useIdentityProvidersQuery } from '~sq-server-commons/queries/users';
 import LoginForm from './LoginForm';
 import OAuthProviders from './OAuthProviders';
 
 export interface LoginProps {
-  identityProviders: IdentityProvider[];
-  loading: boolean;
-  location: Location;
   message?: string;
-  onSubmit: (login: string, password: string) => Promise<void>;
 }
 
 export default function Login(props: Readonly<LoginProps>) {
-  const { identityProviders, loading, location, message } = props;
-  const returnTo = getReturnUrl(location);
+  const { message } = props;
+  const { data: identityProviders = [], isFetching } = useIdentityProvidersQuery();
+
+  const location = useLocation();
+  const { formatMessage } = useIntl();
+
   const displayError = Boolean(location.query.authorizationError);
 
   return (
-    <div className="sw-flex sw-flex-col sw-items-center sw-pt-32" id="login_form">
-      <Helmet defer={false} title={translate('login.page')} />
-      <LogoSonar hasText size={LogoSize.Large} />
-      <Card className="sw-my-14 sw-p-0 sw-w-abs-350">
-        <div className="sw-typo-lg sw-flex sw-flex-col sw-items-center sw-py-8 sw-px-4">
-          <SonarQubeProductLogo size={LogoSize.Small} />
-          <Heading as="h1" className="sw-my-6 sw-text-center">
-            <FormattedMessage id="login.login_to_sonarqube" />
-          </Heading>
-          <Spinner isLoading={loading}>
-            <>
-              {displayError && (
-                <MessageCallout className="sw-mb-6" variety={MessageVariety.Danger}>
-                  {translate('login.unauthorized_access_alert')}
-                </MessageCallout>
-              )}
+    <div className="sw-flex sw-flex-col sw-w-abs-400 sw-min-w-abs-400" id="login_form">
+      <Helmet defer={false} title={formatMessage({ id: 'login.page' })} />
+      <div className="sw-typo-lg sw-flex-col">
+        <SonarQubeProductLogo className="sw-mb-6" hasText size={LogoSize.Large} />
+        <Heading as="h1" className="sw-mb-16">
+          <FormattedMessage id="login.login_to_sonarqube" />
+        </Heading>
 
-              {message !== undefined && message.length > 0 && (
-                <HtmlFormatter>
-                  <SafeHTMLInjection
-                    htmlAsString={message}
-                    sanitizeLevel={SanitizeLevel.USER_INPUT}
-                  >
-                    <StyledMessage className="markdown sw-rounded-2 sw-p-4 sw-mb-6" />
-                  </SafeHTMLInjection>
-                </HtmlFormatter>
-              )}
+        <Spinner isLoading={isFetching}>
+          <>
+            {displayError && (
+              <MessageCallout className="sw-mb-6" variety={MessageVariety.Danger}>
+                {formatMessage({ id: 'login.unauthorized_access_alert' })}
+              </MessageCallout>
+            )}
 
-              {identityProviders.length > 0 && (
-                <OAuthProviders identityProviders={identityProviders} returnTo={returnTo} />
-              )}
+            {message !== undefined && message.length > 0 && (
+              <HtmlFormatter>
+                <SafeHTMLInjection htmlAsString={message} sanitizeLevel={SanitizeLevel.USER_INPUT}>
+                  <div className="markdown sw-rounded-2 sw-p-4 sw-mb-6" />
+                </SafeHTMLInjection>
+              </HtmlFormatter>
+            )}
 
-              <LoginForm collapsed={identityProviders.length > 0} onSubmit={props.onSubmit} />
-            </>
-          </Spinner>
-        </div>
-      </Card>
+            {identityProviders.length > 0 && (
+              <OAuthProviders
+                identityProviders={identityProviders}
+                returnTo={getReturnUrl(location)}
+              />
+            )}
+
+            <LoginForm collapsed={identityProviders.length > 0} />
+          </>
+        </Spinner>
+      </div>
     </div>
   );
 }
-
-const StyledMessage = styled.div`
-  background: ${themeColor('highlightedSection')};
-  border: ${themeBorder('default', 'highlightedSectionBorder')};
-`;

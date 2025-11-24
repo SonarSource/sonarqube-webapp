@@ -18,111 +18,111 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Form, LinkStandalone, TextInput } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  Form,
+  TextInput,
+  toast,
+  ToastDuration,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { useIntl } from 'react-intl';
+import { useLocation } from '~shared/components/hoc/withRouter';
+import { getReturnUrl } from '~sq-server-commons/helpers/urls';
+import { useLoginMutation } from '~sq-server-commons/queries/authentication';
 
 interface Props {
-  collapsed?: boolean;
-  onSubmit: (login: string, password: string) => Promise<void>;
-}
-
-interface State {
   collapsed: boolean;
-  loading: boolean;
-  login: string;
-  password: string;
 }
 
 const LOGIN_INPUT_ID = 'login-input';
 const PASSWORD_INPUT_ID = 'password-input';
 
-export default class LoginForm extends React.PureComponent<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      collapsed: Boolean(props.collapsed),
-      loading: false,
-      login: '',
-      password: '',
-    };
-  }
+export default function LoginForm({ collapsed }: Readonly<Props>) {
+  const location = useLocation();
+  const { mutate, isPending } = useLoginMutation();
 
-  stopLoading = () => {
-    this.setState({ loading: false });
-  };
+  const [isCollapsed, setIsCollapsed] = React.useState(Boolean(collapsed));
+  const [login, setLogin] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const { formatMessage } = useIntl();
 
-  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    this.setState({ loading: true });
-    this.props
-      .onSubmit(this.state.login, this.state.password)
-      .then(this.stopLoading, this.stopLoading);
+
+    mutate(
+      { login, password },
+      {
+        onSuccess: () => {
+          globalThis.location.replace(getReturnUrl(location));
+        },
+        onError: () => {
+          toast.error({
+            description: formatMessage({ id: 'login.authentication_failed' }),
+            duration: ToastDuration.Short,
+          });
+        },
+      },
+    );
   };
 
-  handleMoreOptionsClick = () => {
-    this.setState({ collapsed: false });
+  const handleMoreOptionsClick = () => {
+    setIsCollapsed(false);
   };
 
-  handleLoginChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ login: event.currentTarget.value });
+  const handleLoginChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLogin(event.currentTarget.value);
   };
 
-  handlePwdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ password: event.currentTarget.value });
+  const handlePwdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.currentTarget.value);
   };
 
-  render() {
-    if (this.state.collapsed) {
-      return (
-        <Button
-          aria-expanded={false}
-          className="sw-w-full sw-justify-center"
-          onClick={this.handleMoreOptionsClick}
-        >
-          {translate('login.more_options')}
-        </Button>
-      );
-    }
+  if (isCollapsed) {
     return (
-      <Form className="sw-w-full" onSubmit={this.handleSubmit}>
-        <Form.Section>
-          <TextInput
-            autoFocus
-            id={LOGIN_INPUT_ID}
-            isRequired
-            label={translate('login')}
-            maxLength={255}
-            name="login"
-            onChange={this.handleLoginChange}
-            type="text"
-            value={this.state.login}
-            width="full"
-          />
-
-          <TextInput
-            id={PASSWORD_INPUT_ID}
-            isRequired
-            label={translate('password')}
-            name="password"
-            onChange={this.handlePwdChange}
-            type="password"
-            value={this.state.password}
-            width="full"
-          />
-        </Form.Section>
-        <Form.Footer side="right">
-          <LinkStandalone to="/">{translate('go_back')}</LinkStandalone>
-          <Button
-            isDisabled={this.state.loading}
-            size="medium"
-            type="submit"
-            variety={ButtonVariety.Primary}
-          >
-            {translate('sessions.log_in')}
-          </Button>
-        </Form.Footer>
-      </Form>
+      <Button
+        aria-expanded={false}
+        className="sw-w-full sw-justify-center"
+        onClick={handleMoreOptionsClick}
+      >
+        {formatMessage({ id: 'login.more_options' })}
+      </Button>
     );
   }
+
+  return (
+    <Form className="sw-w-full" onSubmit={handleSubmit}>
+      <Form.Section>
+        <TextInput
+          autoFocus
+          id={LOGIN_INPUT_ID}
+          isRequired
+          label={formatMessage({ id: 'login' })}
+          maxLength={255}
+          name="login"
+          onChange={handleLoginChange}
+          type="text"
+          value={login}
+          width="full"
+        />
+
+        <TextInput
+          id={PASSWORD_INPUT_ID}
+          isRequired
+          label={formatMessage({ id: 'password' })}
+          name="password"
+          onChange={handlePwdChange}
+          type="password"
+          value={password}
+          width="full"
+        />
+      </Form.Section>
+      <Form.Footer side="right">
+        <Button isDisabled={isPending} size="medium" type="submit" variety={ButtonVariety.Primary}>
+          {formatMessage({ id: 'sessions.log_in' })}
+        </Button>
+      </Form.Footer>
+    </Form>
+  );
 }

@@ -18,26 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { cssVar } from '@sonarsource/echoes-react';
-import { LAYOUT_FOOTER_HEIGHT } from '~sq-server-commons/design-system';
-import { useLoginMessageQuery } from '~sq-server-commons/queries/settings';
-import Login from './Login';
+import { useMutation } from '@tanstack/react-query';
+import { logIn } from '../api/auth';
 
-export default function LoginContainer() {
-  const { data: message } = useLoginMessageQuery();
-
-  return (
-    <div
-      className="sw-flex"
-      style={{
-        height: `calc(100vh - ${LAYOUT_FOOTER_HEIGHT}px)`,
-        backgroundColor: cssVar('color-surface-default'),
-      }}
-    >
-      <div className="sw-flex-1 sw-flex sw-p-8 sw-justify-center sw-items-center">
-        <Login message={message} />
-      </div>
-      <div className="sw-flex-1 sw-flex sw-bg-red-100" />
-    </div>
-  );
+export function useLoginMutation() {
+  return useMutation({
+    mutationFn: ({ login, password }: { login: string; password: string }) =>
+      logIn(login, password),
+  });
 }

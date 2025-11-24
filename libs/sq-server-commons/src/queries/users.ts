@@ -23,9 +23,17 @@ import { isStringDefined } from '~shared/helpers/types';
 import { isLoggedIn } from '~shared/helpers/users';
 import { createQueryHook, getNextPageParam, getPreviousPageParam } from '~shared/queries/common';
 import { generateToken, getTokens, revokeToken } from '../api/user-tokens';
-import { deleteUser, dismissNotice, getUsers, postUser, updateUser } from '../api/users';
+import {
+  deleteUser,
+  dismissNotice,
+  getIdentityProviders,
+  getUsers,
+  postUser,
+  updateUser,
+} from '../api/users';
 import { useCurrentUser } from '../context/current-user/CurrentUserContext';
 import { UserToken } from '../types/token';
+import { IdentityProvider } from '../types/types';
 import { NoticeType, RestUserDetailed } from '../types/users';
 
 const STALE_TIME = 4 * 60 * 1000;
@@ -63,6 +71,14 @@ export function useUserTokensQuery(login: string) {
     staleTime: STALE_TIME,
   });
 }
+
+export const useIdentityProvidersQuery = createQueryHook(() => {
+  return {
+    queryKey: ['identity-providers', 'list'],
+    queryFn: () => getIdentityProviders(),
+    select: (data: { identityProviders: IdentityProvider[] }) => data.identityProviders,
+  };
+});
 
 export function usePostUserMutation() {
   const queryClient = useQueryClient();

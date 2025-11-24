@@ -20,14 +20,23 @@
 
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { addGlobalErrorMessage } from '~design-system';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { getLoginMessage } from '~sq-server-commons/api/settings';
 import { getIdentityProviders } from '~sq-server-commons/api/users';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { mockLocation } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { LoginContainer } from '../LoginContainer';
+import LoginContainer from '../LoginContainer';
+
+const mockUseLocation = jest.fn();
+
+jest.mock(
+  '~shared/components/hoc/withRouter',
+  (): Record<string, unknown> => ({
+    ...(jest.requireActual('~shared/components/hoc/withRouter') as Record<string, unknown>),
+    useLocation: (): unknown => mockUseLocation(),
+  }),
+);
 
 jest.mock('~sq-server-commons/helpers/system', () => ({
   getBaseUrl: jest.fn().mockReturnValue(''),
@@ -59,6 +68,20 @@ const originalLocation = window.location;
 const replace = jest.fn();
 const customLoginMessage = 'Welcome to SQ! Please use your Skynet credentials';
 
+const ui = {
+  errorToast: byText('login.authentication_failed'),
+  customLoginText: byText(customLoginMessage),
+  header: byRole('heading', { name: 'login.login_to_sonarqube' }),
+  loginInput: byLabelText(/login/),
+  passwordInput: byLabelText(/password/),
+  githubImage: byRole('img', { name: 'Github' }),
+  githubButton: byRole('button', { name: 'Github login.login_with_x.Github' }),
+  loginOAuthLink: byRole('link', { name: 'login.login_with_x' }),
+  loginOptionsButton: byRole('button', { name: 'login.more_options' }),
+  submitButton: byRole('button', { name: 'sessions.log_in' }),
+  unauthorizedAccessText: byText('login.unauthorized_access_alert'),
+};
+
 beforeAll(() => {
   const location = {
     ...window.location,
@@ -77,9 +100,14 @@ afterAll(() => {
   });
 });
 
-beforeEach(jest.clearAllMocks);
+beforeEach(() => {
+  jest.clearAllMocks();
+  mockUseLocation.mockReturnValue(mockLocation());
+});
 
 it('should behave correctly', async () => {
+  /* eslint-disable camelcase */
+  mockUseLocation.mockReturnValue(mockLocation({ query: { return_to: '/some/path' } }));
   const user = userEvent.setup();
 
   renderLoginContainer();
@@ -96,10 +124,6 @@ it('should behave correctly', async () => {
   // Open login form, log in.
   await user.click(ui.loginOptionsButton.get());
 
-  const cancelLink = await ui.backLink.find();
-  expect(cancelLink).toBeInTheDocument();
-  expect(cancelLink).toHaveAttribute('href', '/');
-
   const loginField = ui.loginInput.get();
   const passwordField = ui.passwordInput.get();
   const submitButton = ui.submitButton.get();
@@ -107,23 +131,20 @@ it('should behave correctly', async () => {
   // Incorrect login.
   await user.type(loginField, 'janedoe');
   await user.type(passwordField, 'invalid');
-
-  // We are not waiting for async handler to be done, as we assert that button is disabled immediately after
-  user.click(submitButton);
-  await waitFor(() => {
-    expect(submitButton).toBeDisabled();
-  });
+  await user.click(submitButton);
 
   await waitFor(() => {
-    expect(addGlobalErrorMessage).toHaveBeenCalledWith('login.authentication_failed');
+    expect(ui.errorToast.get()).toBeInTheDocument();
   });
 
   // Correct login.
   await user.clear(passwordField);
   await user.type(passwordField, 'valid');
   await user.click(submitButton);
-  expect(addGlobalErrorMessage).toHaveBeenCalledTimes(1);
-  expect(replace).toHaveBeenCalledWith('/some/path');
+
+  await waitFor(() => {
+    expect(replace).toHaveBeenCalledWith('/some/path');
+  });
 });
 
 it('should have correct image URL with different baseURL', async () => {
@@ -147,9 +168,8 @@ it('should not show any OAuth providers if none are configured', async () => {
 });
 
 it("should show a warning if there's an authorization error", async () => {
-  renderLoginContainer({
-    location: mockLocation({ query: { authorizationError: 'true' } }),
-  });
+  mockUseLocation.mockReturnValue(mockLocation({ query: { authorizationError: 'true' } }));
+  renderLoginContainer();
 
   expect(await ui.header.find()).toBeInTheDocument();
 
@@ -158,34 +178,18 @@ it("should show a warning if there's an authorization error", async () => {
 
 it('should display a login message if enabled & provided', async () => {
   jest.mocked(getLoginMessage).mockResolvedValueOnce({ message: customLoginMessage });
-  renderLoginContainer({});
+  renderLoginContainer();
 
   expect(await ui.customLoginText.find()).toBeInTheDocument();
 });
 
 it('should handle errors', async () => {
   jest.mocked(getLoginMessage).mockRejectedValueOnce('nope');
-  renderLoginContainer({});
+  renderLoginContainer();
 
   expect(await ui.header.find()).toBeInTheDocument();
 });
 
-function renderLoginContainer(props: Partial<LoginContainer['props']> = {}) {
-  return renderComponent(
-    <LoginContainer location={mockLocation({ query: { return_to: '/some/path' } })} {...props} />,
-  );
+function renderLoginContainer() {
+  return renderComponent(<LoginContainer />);
 }
-
-const ui = {
-  customLoginText: byText(customLoginMessage),
-  header: byRole('heading', { name: 'login.login_to_sonarqube' }),
-  loginInput: byLabelText(/login/),
-  passwordInput: byLabelText(/password/),
-  backLink: byRole('link', { name: 'go_back' }),
-  githubImage: byRole('img', { name: 'Github' }),
-  githubButton: byRole('button', { name: 'Github login.login_with_x.Github' }),
-  loginOAuthLink: byRole('link', { name: 'login.login_with_x' }),
-  loginOptionsButton: byRole('button', { name: 'login.more_options' }),
-  submitButton: byRole('button', { name: 'sessions.log_in' }),
-  unauthorizedAccessText: byText('login.unauthorized_access_alert'),
-};
