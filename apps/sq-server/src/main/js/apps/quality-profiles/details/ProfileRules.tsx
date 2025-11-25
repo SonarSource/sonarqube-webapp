@@ -28,7 +28,7 @@ import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import { isDefined } from '~shared/helpers/types';
 import { StaleTime } from '~shared/queries/common';
 import { CodeAttributeCategory, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
-import { RuleTypes } from '~shared/types/rules';
+import { RuleType } from '~shared/types/rules';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getRulesUrl } from '~sq-server-commons/helpers/urls';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
@@ -143,7 +143,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
             noSidePadding
             withRoundedBorder
           >
-            {RuleTypes.filter((type) => type !== 'UNKNOWN').map((type) => (
+            {Object.keys(countsByTypes).map((type: RuleType) => (
               <ProfileRulesRow
                 count={countsByTypes[type]?.count}
                 key={type}
