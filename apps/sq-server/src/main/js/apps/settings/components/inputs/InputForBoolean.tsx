@@ -20,7 +20,7 @@
 
 import { Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { Switch } from '~design-system';
+import { Switch } from '~adapters/components/common/Switch';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { DefaultSpecializedInputProps } from '../../utils';
 

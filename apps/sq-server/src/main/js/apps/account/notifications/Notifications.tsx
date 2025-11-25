@@ -21,7 +21,7 @@
 import { Divider, Heading, Label, Spinner, Text } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
-import { Switch } from '~design-system';
+import { Switch } from '~adapters/components/common/Switch';
 import { BEAMER_NOTIFICATIONS_SETTING } from '~shared/helpers/beamer';
 import useLocalStorage from '~shared/helpers/useLocalStorage';
 import { translate } from '~sq-server-commons/helpers/l10n';

@@ -22,8 +22,7 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import { ForwardedRef, forwardRef } from 'react';
 import tw from 'twin.macro';
-import { themeColor, themeContrast, themeShadow } from '../helpers';
-import { CheckIcon } from './icons';
+import { CheckIcon, themeColor, themeContrast, themeShadow } from '../../../design-system';
 
 interface Props {
   ariaDescribedby?: string;

@@ -8870,16 +8870,30 @@ export const defaultMessages = {
   'organization.jira.binding.connected.intro':
     "<p>To push issues, ensure you've <projectBindingDocLink>connected your projects</projectBindingDocLink> in your project settings.</p><p>If reauthorizing, always ensure you select the same instance in the app page to avoid potential errors. If an error occurs, please read and follow our <troubleshootingDocLink>troubleshooting steps.</troubleshootingDocLink></p>",
   'organization.jira.binding.connected.callout.title':
-    'Almost done! Connect your projects to begin pushing issues',
+    'Want project admins to be able to set up Jira at the project level?',
   'organization.jira.binding.connected.callout.text':
-    'Go to Administration > General settings > Jira, in the project you want to push issues from.',
+    'By default, only instance admins have browse, bind and edit permissions to Jira projects. If you want project admins to be able to set up Jira at the project level, turn ‘on’ the setting below.',
   'organization.jira.binding.connected.callout.documentation_link_text':
     'How to connect projects to Jira',
+  'organization.jira.binding.connected.grant_project_permissions.label':
+    'Grant project administrators binding permissions',
+  'organization.jira.binding.connected.grant_project_permissions.description':
+    'If you want project admins to be able to bind to Jira at the project level, turn ‘on’ this setting.',
+  'organization.jira.binding.connected.grant_project_permissions.description_2':
+    'By default, only instance admins have browse and bind and projects with Jira projects.',
+  'organization.jira.binding.connected.grant_project_permissions.toast_granted.title':
+    'Permissions granted',
+  'organization.jira.binding.connected.grant_project_permissions.toast_granted.description':
+    'Project admins now have browse, bind and edit permissions to Jira projects.',
+  'organization.jira.binding.connected.grant_project_permissions.toast_revoked.title':
+    'Permissions revoked',
+  'organization.jira.binding.connected.grant_project_permissions.toast_revoked.description':
+    'Only instance administrator now have browse, bind and edit permissions to Jira projects.',
   'organization.jira.binding.connected.reauthorize': 'Reauthorize',
   'organization.jira.binding.bind_success':
     "You've successfully connected your Jira instance to this SonarQube Server instance",
   'organization.jira.binding.unbind_success': "You've successfully deleted your Jira connection",
-  'organization.jira.binding.instance_url.label': 'Jira instance host',
+  'organization.jira.binding.instance_url.label': 'Instance URL',
   'organization.jira.binding.connected_by_on_label': 'Connected by',
   'organization.jira.binding.connected_by_on_value': '{createdBy} on {createdAt}',
   'organization.jira.binding.app_configuration.title': 'Client ID and Secret',

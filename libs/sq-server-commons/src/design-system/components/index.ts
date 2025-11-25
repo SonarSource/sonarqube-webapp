@@ -83,7 +83,6 @@ export * from './SonarCodeColorizer';
 export * from './SonarQubeLogo';
 export { Spinner } from './Spinner';
 export * from './subnavigation';
-export * from './Switch';
 export * from './Tabs';
 export * from './Tags';
 export * from './TextAccordion';

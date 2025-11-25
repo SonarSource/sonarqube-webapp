@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Switch } from '~design-system';
+import { Switch } from '~adapters/components/common/Switch';
 
 interface SamlToggleFieldProps {
   ariaDescribedby: string;

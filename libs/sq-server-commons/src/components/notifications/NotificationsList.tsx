@@ -22,7 +22,8 @@ import { Checkbox, Label, Spinner, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { CellComponent, Switch, Table, TableRowInteractive } from '../../design-system';
+import { Switch } from '~adapters/components/common/Switch';
+import { CellComponent, Table, TableRowInteractive } from '../../design-system';
 import { hasMessage, translate } from '../../helpers/l10n';
 import {
   useAddNotificationMutation,

@@ -20,7 +20,8 @@
 
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { SubHeading, Switch } from '~design-system';
+import { Switch } from '~adapters/components/common/Switch';
+import { SubHeading } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   getKeyboardShortcutEnabled,

@@ -20,7 +20,7 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { render } from '../../helpers/testUtils';
+import { renderComponent } from '../../../../helpers/testReactTestingUtils';
 import { Switch } from '../Switch';
 
 const defaultProps = {
@@ -31,7 +31,7 @@ it('renders switch correctly if value is false and change to true on click', asy
   const user = userEvent.setup();
   const onChange = jest.fn();
 
-  render(<Switch {...defaultProps} onChange={onChange} />);
+  renderComponent(<Switch {...defaultProps} onChange={onChange} />);
   const switchContainer = screen.getByRole('switch');
   expect(switchContainer).not.toBeChecked();
 
@@ -44,7 +44,7 @@ it('renders switch correctly if value is true and change to false on click', asy
   const user = userEvent.setup();
   const onChange = jest.fn();
 
-  render(<Switch {...defaultProps} onChange={onChange} value />);
+  renderComponent(<Switch {...defaultProps} onChange={onChange} value />);
   const switchContainer = screen.getByRole('switch');
   expect(switchContainer).toBeChecked();
 
@@ -54,7 +54,7 @@ it('renders switch correctly if value is true and change to false on click', asy
 });
 
 it('renders switch correctly if value is true and disabled', () => {
-  render(<Switch {...defaultProps} disabled value />);
+  renderComponent(<Switch {...defaultProps} disabled value />);
   const switchContainer = screen.getByRole('switch');
   expect(switchContainer).toBeDisabled();
 });

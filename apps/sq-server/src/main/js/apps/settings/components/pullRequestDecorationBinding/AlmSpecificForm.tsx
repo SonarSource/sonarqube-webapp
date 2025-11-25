@@ -21,7 +21,8 @@
 import { Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage, InputField, RequiredIcon, SubHeading, Switch } from '~design-system';
+import { Switch } from '~adapters/components/common/Switch';
+import { FlagMessage, InputField, RequiredIcon, SubHeading } from '~design-system';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
