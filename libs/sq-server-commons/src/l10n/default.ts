@@ -299,6 +299,7 @@ export const defaultMessages = {
   tours: 'Tours',
   treemap: 'Treemap',
   true: 'True',
+  troubleshooting_steps: 'Troubleshooting steps',
   type: 'Type',
   unassigned: 'Not assigned',
   uncheck_all: 'Uncheck all',
@@ -8880,7 +8881,7 @@ export const defaultMessages = {
   'organization.jira.binding.connected.grant_project_permissions.description':
     'If you want project admins to be able to bind to Jira at the project level, turn ‘on’ this setting.',
   'organization.jira.binding.connected.grant_project_permissions.description_2':
-    'By default, only instance admins have browse and bind and projects with Jira projects.',
+    'By default, only instance admins have browse, bind and edit permissions to Jira projects.',
   'organization.jira.binding.connected.grant_project_permissions.toast_granted.title':
     'Permissions granted',
   'organization.jira.binding.connected.grant_project_permissions.toast_granted.description':
@@ -8944,6 +8945,10 @@ export const defaultMessages = {
     'Issues previously pushed to "{name}" and earlier will be preserved, but all new issues will be pushed to your new Jira project.',
   'project_settings.jira_binding.organization_not_bound':
     'Cannot connect until you bind your instance to Jira in <link>Administration -> Jira</link>',
+  'project_settings.jira_binding.no_permissions':
+    'To bind to a Jira project, your instance admin must grant binding permissions to project admins',
+  'project_settings.jira_binding.bound.no_permissions':
+    'To edit or delete this binding, your instance admin must grant binding permissions to project admins in the instance settings.',
   'project_settings.jira_binding.no_summary':
     'To see issues for this release, configure Jira releases and versions. See <link>instructions in our documentation</link>',
   'project_settings.jira.binding.bind_success': '"{sqProject}" has been connected to Jira',
