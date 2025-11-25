@@ -27,21 +27,14 @@ import {
 } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { HtmlFormatter } from '~design-system';
 import { useLocation } from '~shared/components/hoc/withRouter';
-import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { SonarQubeProductLogo } from '~sq-server-commons/components/branding/SonarQubeProductLogo';
 import { getReturnUrl } from '~sq-server-commons/helpers/urls';
 import { useIdentityProvidersQuery } from '~sq-server-commons/queries/users';
 import LoginForm from './LoginForm';
 import OAuthProviders from './OAuthProviders';
 
-export interface LoginProps {
-  message?: string;
-}
-
-export default function Login(props: Readonly<LoginProps>) {
-  const { message } = props;
+export default function Login() {
   const { data: identityProviders = [], isFetching } = useIdentityProvidersQuery();
 
   const location = useLocation();
@@ -64,14 +57,6 @@ export default function Login(props: Readonly<LoginProps>) {
               <MessageCallout className="sw-mb-6" variety={MessageVariety.Danger}>
                 {formatMessage({ id: 'login.unauthorized_access_alert' })}
               </MessageCallout>
-            )}
-
-            {message !== undefined && message.length > 0 && (
-              <HtmlFormatter>
-                <SafeHTMLInjection htmlAsString={message} sanitizeLevel={SanitizeLevel.USER_INPUT}>
-                  <div className="markdown sw-rounded-2 sw-p-4 sw-mb-6" />
-                </SafeHTMLInjection>
-              </HtmlFormatter>
             )}
 
             {identityProviders.length > 0 && (

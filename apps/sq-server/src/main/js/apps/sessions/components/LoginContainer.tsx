@@ -20,12 +20,10 @@
 
 import { cssVar } from '@sonarsource/echoes-react';
 import { LAYOUT_FOOTER_HEIGHT } from '~sq-server-commons/design-system';
-import { useLoginMessageQuery } from '~sq-server-commons/queries/settings';
 import Login from './Login';
+import MarketingPanel from './MarketingPanel';
 
 export default function LoginContainer() {
-  const { data: message } = useLoginMessageQuery();
-
   return (
     <div
       className="sw-flex"
@@ -35,9 +33,11 @@ export default function LoginContainer() {
       }}
     >
       <div className="sw-flex-1 sw-flex sw-p-8 sw-justify-center sw-items-center">
-        <Login message={message} />
+        <Login />
       </div>
-      <div className="sw-flex-1 sw-flex sw-bg-red-100" />
+      <div className="sw-flex-1 sw-flex">
+        <MarketingPanel />
+      </div>
     </div>
   );
 }
