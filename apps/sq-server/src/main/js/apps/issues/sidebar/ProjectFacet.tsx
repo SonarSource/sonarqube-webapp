@@ -164,7 +164,6 @@ function ProjectItem({
 }>) {
   const { data, isLoading } = useProjectQuery(projectKey, {
     enabled: projectName === undefined,
-    select: (data) => data.components.find((el) => el.key === projectKey),
   });
 
   const label = projectName ?? (isLoading ? '' : (data?.name ?? projectKey));

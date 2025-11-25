@@ -63,6 +63,7 @@ export interface ComponentRaw {
   needIssueSync?: boolean;
   qualifier: ComponentQualifier;
   tags: string[];
+  uuid?: string;
   visibility: Visibility;
 }
 

@@ -92,6 +92,8 @@ export const useProjectQuery = createQueryHook((key: string) => {
   return queryOptions({
     queryKey: projectsQueryKeys.details(key),
     queryFn: ({ queryKey: [_1, _2, key] }) => searchProjects({ filter: `query=${key}` }),
+    select: (data) => data.components.find((el) => el.key === key),
+    staleTime: StaleTime.NEVER,
   });
 });
 
