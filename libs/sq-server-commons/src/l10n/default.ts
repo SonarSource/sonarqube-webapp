@@ -6771,7 +6771,7 @@ export const defaultMessages = {
     'Your Azure DevOps instance configuration is missing a URL. We cannot import projects in the current state. Please contact your system administrator.',
   'onboarding.create_project.enter_pat': 'Personal Access Token',
   'onboarding.create_project.bitbucket_cloud.enter_password': 'API token',
-  'onboarding.create_project.bitbucket_cloud.enter_username': 'BitBucket username',
+  'onboarding.create_project.bitbucket_cloud.enter_username': 'Atlassian account email address',
   'onboarding.create_project.pat_incorrect.azure': "Your personal access couldn't be validated.",
   'onboarding.create_project.pat_incorrect.bitbucket':
     "Your personal access couldn't be validated.",
@@ -6793,8 +6793,8 @@ export const defaultMessages = {
   'onboarding.create_project.pat_help.instructions.gitlab.link': 'generate a token',
 
   'onboarding.enter_username.instructions.bitbucket_cloud':
-    'You can find your username in your {link}',
-  'onboarding.enter_username.instructions.bitbucket_cloud.link': 'BitBucket profile settings',
+    'Find your email address in your {link}',
+  'onboarding.enter_username.instructions.bitbucket_cloud.link': 'Atlassian settings',
 
   'onboarding.create_project.enter_password.instructions.bitbucket_cloud':
     'To get an API token, {link}',

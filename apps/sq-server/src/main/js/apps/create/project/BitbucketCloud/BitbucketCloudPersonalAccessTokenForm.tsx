@@ -18,21 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  FormFieldWidth,
-  Link,
-  LinkHighlight,
-  MessageCallout,
-  MessageVariety,
-  Spinner,
-  TextInput,
-} from '@sonarsource/echoes-react';
+import { FormFieldWidth, Link, LinkHighlight, Spinner, TextInput } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { AlmInstanceBase, AlmKeys } from '~sq-server-commons/types/alm-settings';
 import PersonalAccessTokenForm from '../components/PersonalAccessTokenForm';
 import { usePersonalAccessToken } from '../usePersonalAccessToken';
+import { ATLASSIAN_ACCOUNT_EMAIL_LINK } from './utils';
 
 interface Props {
   almSetting: AlmInstanceBase;
@@ -89,28 +82,32 @@ export default function BitbucketCloudPersonalAccessTokenForm({
     >
       <TextInput
         autoFocus
+        helpText={
+          <FormattedMessage
+            id="onboarding.enter_username.instructions.bitbucket_cloud"
+            values={{
+              link: (
+                <Link
+                  enableOpenInNewTab
+                  highlight={LinkHighlight.CurrentColor}
+                  to={ATLASSIAN_ACCOUNT_EMAIL_LINK}
+                >
+                  <FormattedMessage id="onboarding.enter_username.instructions.bitbucket_cloud.link" />
+                </Link>
+              ),
+            }}
+          />
+        }
         id="enter_username_validation"
         isRequired
         label={<FormattedMessage id="onboarding.create_project.bitbucket_cloud.enter_username" />}
         minLength={1}
         onChange={handleUsernameChange}
-        type="text"
+        type="email"
         validation={isInvalid ? 'invalid' : 'none'}
         value={username}
         width={FormFieldWidth.Large}
       />
-      <MessageCallout variety={MessageVariety.Info}>
-        <FormattedMessage
-          id="onboarding.enter_username.instructions.bitbucket_cloud"
-          values={{
-            link: (
-              <Link enableOpenInNewTab to="https://bitbucket.org/account/settings/">
-                <FormattedMessage id="onboarding.enter_username.instructions.bitbucket_cloud.link" />
-              </Link>
-            ),
-          }}
-        />
-      </MessageCallout>
       <TextInput
         helpText={
           <FormattedMessage
