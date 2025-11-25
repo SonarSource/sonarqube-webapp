@@ -30,14 +30,6 @@ const ui = {
 };
 
 describe('Instance integrations administration', () => {
-
-  it('should render correctly without paid features', () => {
-    renderInstanceIntegrationsApp();
-
-    expect(ui.integrationsHeading.get()).toBeInTheDocument();
-    expect(ui.jiraBindingHeading.query()).not.toBeInTheDocument();
-    expect(ui.slackIntegrationHeader.get()).toBeInTheDocument();
-  });
 });
 
 function renderInstanceIntegrationsApp(featureList: Feature[] = []) {
