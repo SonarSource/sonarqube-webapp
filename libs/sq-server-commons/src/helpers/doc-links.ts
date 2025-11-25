@@ -83,7 +83,6 @@ export enum DocLink {
   ModeStandard = '/instance-administration/analysis-functions/instance-mode/standard-experience',
   Monorepos = '/project-administration/monorepos/',
   NewCodeDefinition = '/user-guide/about-new-code/',
-  NewCodeDefinitionOptions = '/user-guide/about-new-code#new-code-definitions',
   NewCodeRecommended = '/user-guide/about-new-code#recommended-option-depending-on-project-type',
   PortfolioBreakdown = '/user-guide/viewing-reports/portfolios/#portfolio-breakdown',
   Portfolios = '/user-guide/viewing-reports/portfolios/',

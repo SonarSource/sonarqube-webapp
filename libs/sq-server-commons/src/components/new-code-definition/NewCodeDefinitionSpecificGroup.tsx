@@ -177,7 +177,7 @@ export default function NewCodeDefinitionSpecificGroup({
                           days: numberOfDaysInput,
                           date: isDefined(updatedAt) && new Date(updatedAt).toLocaleDateString(),
                           link: (
-                            <DocumentationLink to={DocLink.NewCodeDefinitionOptions}>
+                            <DocumentationLink to={DocLink.NewCodeDefinition}>
                               <FormattedMessage id="learn_more" />
                             </DocumentationLink>
                           ),

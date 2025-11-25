@@ -32,10 +32,10 @@ interface NCDAutoUpdateMessageProps {
   previouslyNonCompliantBranchNCDs: PreviouslyNonCompliantBranchNCD[];
 }
 
-export default function NCDAutoUpdateMessage(props: NCDAutoUpdateMessageProps) {
+export default function NCDAutoUpdateMessage(props: Readonly<NCDAutoUpdateMessageProps>) {
   const { component, previouslyNonCompliantBranchNCDs } = props;
   const intl = useIntl();
-  const toUrl = useDocUrl(DocLink.NewCodeDefinitionOptions);
+  const toUrl = useDocUrl(DocLink.NewCodeDefinition);
 
   const [dismissed, setDismissed] = useState(true);
 
@@ -54,6 +54,7 @@ export default function NCDAutoUpdateMessage(props: NCDAutoUpdateMessageProps) {
           messageType: MessageTypes.BranchNcd90,
           projectKey: component.key,
         });
+
         setDismissed(messageStatus.dismissed);
       }
     }
