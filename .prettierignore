@@ -11,3 +11,4 @@
 .vscode
 .nx/cache
 .nx/workspace-data
+private/libs/feature-architecture/src/types/proto/generated

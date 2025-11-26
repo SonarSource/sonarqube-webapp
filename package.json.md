@@ -118,3 +118,7 @@ We have many many transitive dependencies on semver with a lot of different vers
 ### yaml
 
 We have multiple transitive dependencies on yaml and some before 2.0.0 have Mend vulnerabilities.
+
+### protobuf & protobufjs-cli
+
+These packages are used to maintain contract validation between the frontend and analyzer in the architecture feature. the cli package is specifically used for the generation of the validation code and associated types.
