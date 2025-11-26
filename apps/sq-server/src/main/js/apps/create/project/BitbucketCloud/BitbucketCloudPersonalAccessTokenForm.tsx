@@ -21,13 +21,15 @@
 import {
   FormFieldWidth,
   Link,
+  LinkHighlight,
   MessageCallout,
   MessageVariety,
   Spinner,
   TextInput,
 } from '@sonarsource/echoes-react';
-import { FormattedMessage } from 'react-intl';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { FormattedMessage, useIntl } from 'react-intl';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { AlmInstanceBase, AlmKeys } from '~sq-server-commons/types/alm-settings';
 import PersonalAccessTokenForm from '../components/PersonalAccessTokenForm';
 import { usePersonalAccessToken } from '../usePersonalAccessToken';
@@ -58,6 +60,8 @@ export default function BitbucketCloudPersonalAccessTokenForm({
     validationFailed,
   } = usePersonalAccessToken(almSetting, resetPat, onPersonalAccessTokenCreated);
 
+  const { formatMessage } = useIntl();
+
   if (checkingPat) {
     return <Spinner className="sw-ml-2" isLoading />;
   }
@@ -67,7 +71,8 @@ export default function BitbucketCloudPersonalAccessTokenForm({
   const submitButtonDisabled = isInvalid || submitting || !canSubmit;
 
   const errorMessage =
-    validationErrorMessage ?? translate('onboarding.create_project.pat_incorrect.bitbucket_cloud');
+    validationErrorMessage ??
+    formatMessage({ id: 'onboarding.create_project.pat_incorrect.bitbucket_cloud' });
 
   return (
     <PersonalAccessTokenForm
@@ -86,7 +91,7 @@ export default function BitbucketCloudPersonalAccessTokenForm({
         autoFocus
         id="enter_username_validation"
         isRequired
-        label={translate('onboarding.create_project.bitbucket_cloud.enter_username')}
+        label={<FormattedMessage id="onboarding.create_project.bitbucket_cloud.enter_username" />}
         minLength={1}
         onChange={handleUsernameChange}
         type="text"
@@ -99,17 +104,33 @@ export default function BitbucketCloudPersonalAccessTokenForm({
           id="onboarding.enter_username.instructions.bitbucket_cloud"
           values={{
             link: (
-              <Link to="https://bitbucket.org/account/settings/">
-                {translate('onboarding.enter_username.instructions.bitbucket_cloud.link')}
+              <Link enableOpenInNewTab to="https://bitbucket.org/account/settings/">
+                <FormattedMessage id="onboarding.enter_username.instructions.bitbucket_cloud.link" />
               </Link>
             ),
           }}
         />
       </MessageCallout>
       <TextInput
+        helpText={
+          <FormattedMessage
+            id="onboarding.create_project.enter_password.instructions.bitbucket_cloud"
+            values={{
+              link: (
+                <DocumentationLink
+                  enableOpenInNewTab
+                  highlight={LinkHighlight.CurrentColor}
+                  to={DocLink.AlmBitBucketCloudIntegrationApiToken}
+                >
+                  <FormattedMessage id="onboarding.create_project.enter_password.instructions.bitbucket_cloud.link" />
+                </DocumentationLink>
+              ),
+            }}
+          />
+        }
         id="enter_password_validation"
         isRequired
-        label={translate('onboarding.create_project.bitbucket_cloud.enter_password')}
+        label={<FormattedMessage id="onboarding.create_project.bitbucket_cloud.enter_password" />}
         minLength={1}
         onChange={handlePasswordChange}
         type="text"
@@ -117,20 +138,6 @@ export default function BitbucketCloudPersonalAccessTokenForm({
         value={password}
         width={FormFieldWidth.Large}
       />
-      <MessageCallout variety={MessageVariety.Info}>
-        <FormattedMessage
-          id="onboarding.create_project.enter_password.instructions.bitbucket_cloud"
-          values={{
-            link: (
-              <Link to="https://bitbucket.org/account/settings/app-passwords/new">
-                {translate(
-                  'onboarding.create_project.enter_password.instructions.bitbucket_cloud.link',
-                )}
-              </Link>
-            ),
-          }}
-        />
-      </MessageCallout>
     </PersonalAccessTokenForm>
   );
 }

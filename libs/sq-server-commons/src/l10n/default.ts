@@ -6757,7 +6757,7 @@ export const defaultMessages = {
   'onboarding.create_project.pat_form.help.bitbucket':
     '{productName} needs a personal access token to access and list your repositories from Bitbucket Server.',
   'onboarding.create_project.pat_form.help.bitbucket_cloud':
-    '{productName} needs an app password to access and list your repositories from Bitbucket Cloud.',
+    '{productName} needs an API token to access and list your repositories from Bitbucket Cloud.',
   'onboarding.create_project.pat_form.help.gitlab':
     '{productName} needs a personal access token to access and list your projects from GitLab.',
   'onboarding.create_project.pat_form.pat_required': 'Please enter a personal access token',
@@ -6770,13 +6770,13 @@ export const defaultMessages = {
   'onboarding.create_project.azure.no_url':
     'Your Azure DevOps instance configuration is missing a URL. We cannot import projects in the current state. Please contact your system administrator.',
   'onboarding.create_project.enter_pat': 'Personal Access Token',
-  'onboarding.create_project.bitbucket_cloud.enter_password': 'App password',
+  'onboarding.create_project.bitbucket_cloud.enter_password': 'API token',
   'onboarding.create_project.bitbucket_cloud.enter_username': 'BitBucket username',
   'onboarding.create_project.pat_incorrect.azure': "Your personal access couldn't be validated.",
   'onboarding.create_project.pat_incorrect.bitbucket':
     "Your personal access couldn't be validated.",
   'onboarding.create_project.pat_incorrect.bitbucket_cloud':
-    "Your app password couldn't be validated.",
+    "Your API token couldn't be validated.",
   'onboarding.create_project.pat_incorrect.gitlab':
     "Your personal access couldn't be validated. Please make sure it has the right scope and that it is not expired.",
   'onboarding.create_project.pat.expired.info_message':
@@ -6797,9 +6797,9 @@ export const defaultMessages = {
   'onboarding.enter_username.instructions.bitbucket_cloud.link': 'BitBucket profile settings',
 
   'onboarding.create_project.enter_password.instructions.bitbucket_cloud':
-    'To create an app password on BitBucket, {link} by setting a name, for example “{productName}” and selecting the “Repositories: Read” permissions.',
+    'To get an API token, {link}',
   'onboarding.create_project.enter_password.instructions.bitbucket_cloud.link':
-    'add an app password',
+    'view our "API token with scopes" guide',
 
   'onboarding.create_project.pat_help.instructions.bitbucket_server':
     'To create a Personal Access Token on BitBucket Server, go to {link} and click on “Create token”. Set a name, for example “{productName}” and select the following permissions “Projects: Read” “Repositories: Read”.',
@@ -6841,7 +6841,7 @@ export const defaultMessages = {
   'onboarding.create_project.azure.no_results': 'No repositories match your search query.',
   'onboarding.create_project.bitbucketcloud.title': 'Bitbucket Cloud project onboarding',
   'onboarding.create_project.bitbucketcloud.subtitle.reset_pat':
-    'Reset your Bitbucket Cloud app password',
+    'Reset your Bitbucket Cloud API token',
   'onboarding.create_project.bitbucketcloud.subtitle':
     'Import projects from one of your Bitbucket Cloud workspaces',
   'onboarding.create_project.bitbucketcloud.subtitle.with_monorepo':
