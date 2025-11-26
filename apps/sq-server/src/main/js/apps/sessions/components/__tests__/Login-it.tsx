@@ -80,6 +80,13 @@ const ui = {
   loginOptionsButton: byRole('button', { name: 'login.more_options' }),
   submitButton: byRole('button', { name: 'sessions.log_in' }),
   unauthorizedAccessText: byText('login.unauthorized_access_alert'),
+  marketingTitle: byRole('heading', { name: 'login.marketing.title' }),
+  marketingDescription: byText('login.marketing.description'),
+  continuousVerification: byText('login.marketing.continuous_verification'),
+  devsecopsIntegrated: byText('login.marketing.devsecops_integrated'),
+  empoweringDevelopers: byText('login.marketing.empowering_developers'),
+  sonarWhaleWhite: byRole('img', { name: 'login.marketing.background.alt' }),
+  sonarLogoWhite: byRole('img', { name: 'login.marketing.logo.alt' }),
 };
 
 beforeAll(() => {
@@ -188,6 +195,20 @@ it('should handle errors', async () => {
   renderLoginContainer();
 
   expect(await ui.header.find()).toBeInTheDocument();
+});
+
+it('should display the marketing panel with content', async () => {
+  renderLoginContainer();
+
+  expect(await ui.header.find()).toBeInTheDocument();
+
+  expect(ui.marketingTitle.get()).toBeInTheDocument();
+  expect(ui.marketingDescription.get()).toBeInTheDocument();
+  expect(ui.continuousVerification.get()).toBeInTheDocument();
+  expect(ui.devsecopsIntegrated.get()).toBeInTheDocument();
+  expect(ui.empoweringDevelopers.get()).toBeInTheDocument();
+  expect(ui.sonarWhaleWhite.get()).toBeInTheDocument();
+  expect(ui.sonarLogoWhite.get()).toBeInTheDocument();
 });
 
 function renderLoginContainer() {

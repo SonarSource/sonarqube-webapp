@@ -4606,6 +4606,20 @@ export const defaultMessages = {
   'login.or': 'Or log in with',
   'login.authentication_failed': 'Authentication failed',
   'login.logout_failed': 'Logout failed',
+  'login.marketing.background.alt': 'SonarQube whale logo',
+  'login.marketing.logo.alt': 'Sonar logo',
+  'login.marketing.title': 'SonarQube Server: Your independent code verification layer',
+  'login.marketing.description':
+    'SonarQube Server provides deep analysis to ensure all your code, human-written and AI-generated, is secure and high quality.',
+  'login.marketing.continuous_verification': 'Continuous Verification: ',
+  'login.marketing.continuous_verification.description':
+    'Automatically reviews your code in real-time, helping you eliminate security risks, bugs, and technical debt before they reach production.',
+  'login.marketing.devsecops_integrated': 'DevSecOps integrated: ',
+  'login.marketing.devsecops_integrated.description':
+    'Works seamlessly within your existing CI/CD workflow, including integrations with tools like GitHub Actions, GitLab CI/CD, and Jenkins.',
+  'login.marketing.empowering_developers': 'Empowering developers: ',
+  'login.marketing.empowering_developers.description':
+    'SonarQube for IDE in connected mode enables developers to receive real-time, actionable code intelligence and guidance to resolve issues quickly.',
 
   'unauthorized.page': 'Unauthorized',
   'unauthorized.message':
