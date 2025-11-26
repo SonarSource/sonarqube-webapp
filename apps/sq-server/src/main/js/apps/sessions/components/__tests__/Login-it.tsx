@@ -72,8 +72,10 @@ const ui = {
   errorToast: byText('login.authentication_failed'),
   customLoginText: byText(customLoginMessage),
   header: byRole('heading', { name: 'login.login_to_sonarqube' }),
-  loginInput: byLabelText(/login/),
-  passwordInput: byLabelText(/password/),
+  loginInput: byRole('textbox', { name: 'username' }),
+  passwordInput: byLabelText(/^password/),
+  showPasswordButton: byRole('button', { name: 'login.show_password' }),
+  hidePasswordButton: byRole('button', { name: 'login.hide_password' }),
   githubImage: byRole('img', { name: 'Github' }),
   githubButton: byRole('button', { name: 'Github login.login_with_x.Github' }),
   loginOAuthLink: byRole('link', { name: 'login.login_with_x' }),
@@ -209,6 +211,32 @@ it('should display the marketing panel with content', async () => {
   expect(ui.empoweringDevelopers.get()).toBeInTheDocument();
   expect(ui.sonarWhaleWhite.get()).toBeInTheDocument();
   expect(ui.sonarLogoWhite.get()).toBeInTheDocument();
+});
+
+it('should toggle password visibility', async () => {
+  jest.mocked(getIdentityProviders).mockResolvedValueOnce({ identityProviders: [] });
+  const user = userEvent.setup();
+
+  renderLoginContainer();
+
+  expect(await ui.header.find()).toBeInTheDocument();
+
+  const passwordField = ui.passwordInput.get();
+
+  expect(passwordField).toHaveAttribute('type', 'password');
+  expect(ui.showPasswordButton.get()).toBeInTheDocument();
+
+  await user.type(passwordField, 'mypassword');
+
+  await user.click(ui.showPasswordButton.get());
+
+  expect(passwordField).toHaveAttribute('type', 'text');
+  expect(ui.hidePasswordButton.get()).toBeInTheDocument();
+
+  await user.click(ui.hidePasswordButton.get());
+
+  expect(passwordField).toHaveAttribute('type', 'password');
+  expect(ui.showPasswordButton.get()).toBeInTheDocument();
 });
 
 function renderLoginContainer() {

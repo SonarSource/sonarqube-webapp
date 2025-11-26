@@ -20,8 +20,11 @@
 
 import {
   Button,
+  ButtonIcon,
+  ButtonSize,
   ButtonVariety,
   Form,
+  IconX,
   TextInput,
   toast,
   ToastDuration,
@@ -36,9 +39,6 @@ interface Props {
   collapsed: boolean;
 }
 
-const LOGIN_INPUT_ID = 'login-input';
-const PASSWORD_INPUT_ID = 'password-input';
-
 export default function LoginForm({ collapsed }: Readonly<Props>) {
   const location = useLocation();
   const { mutate, isPending } = useLoginMutation();
@@ -46,6 +46,7 @@ export default function LoginForm({ collapsed }: Readonly<Props>) {
   const [isCollapsed, setIsCollapsed] = React.useState(Boolean(collapsed));
   const [login, setLogin] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [showPassword, setShowPassword] = React.useState(false);
   const { formatMessage } = useIntl();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -95,27 +96,44 @@ export default function LoginForm({ collapsed }: Readonly<Props>) {
     <Form className="sw-w-full" onSubmit={handleSubmit}>
       <Form.Section>
         <TextInput
-          autoFocus
-          id={LOGIN_INPUT_ID}
+          id="login-input"
           isRequired
-          label={formatMessage({ id: 'login' })}
+          label={formatMessage({ id: 'username' })}
           maxLength={255}
           name="login"
           onChange={handleLoginChange}
+          placeholder={formatMessage({ id: 'login.username.placeholder' })}
           type="text"
           value={login}
           width="full"
         />
 
         <TextInput
-          id={PASSWORD_INPUT_ID}
+          autoComplete="current-password"
+          isDisabled={isPending}
           isRequired
           label={formatMessage({ id: 'password' })}
           name="password"
           onChange={handlePwdChange}
-          type="password"
+          placeholder={formatMessage({ id: 'login.password.placeholder' })}
+          suffix={
+            <ButtonIcon
+              Icon={IconX}
+              ariaLabel={
+                showPassword
+                  ? formatMessage({ id: 'login.hide_password' })
+                  : formatMessage({ id: 'login.show_password' })
+              }
+              isDisabled={isPending}
+              onClick={() => {
+                setShowPassword(!showPassword);
+              }}
+              size={ButtonSize.Medium}
+              variety={ButtonVariety.DefaultGhost}
+            />
+          }
+          type={showPassword ? 'text' : 'password'}
           value={password}
-          width="full"
         />
       </Form.Section>
       <Form.Footer side="right">
