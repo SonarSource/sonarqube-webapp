@@ -80,7 +80,7 @@ export function Menu(props: Readonly<Props>) {
   const { component, hasFeature, isInProgress, isPending } = props;
   const { extensions = [], canBrowseAllChildProjects, qualifier, configuration = {} } = component;
 
-  const { data: branchLikes = [] } = useProjectBranchesQuery(component.key);
+  const { data: branchLikes = [] } = useProjectBranchesQuery(component);
   const { data: branchLike } = useCurrentBranchQuery(component);
 
   const { data: architectureOptIn, isLoading: isLoadingArchitectureOptIn } = useGetValueQuery({

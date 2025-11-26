@@ -98,7 +98,7 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
     willRefreshAutomatically,
   } = props;
 
-  const { data: branchLikes = [] } = useProjectBranchesQuery(component.key);
+  const { data: branchLikes = [] } = useProjectBranchesQuery(component);
 
   const mainBranchName =
     (branchLikes.find((b) => isMainBranch(b)) as MainBranch | undefined)?.name ||

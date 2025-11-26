@@ -49,7 +49,7 @@ export function BranchLikeNavigation(props: BranchLikeNavigationProps) {
     component: { configuration },
   } = props;
 
-  const { data: branchLikes = [] } = useProjectBranchesQuery(component.key);
+  const { data: branchLikes = [] } = useProjectBranchesQuery(component);
   const { data: currentBranchLike } = useCurrentBranchQuery(component);
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);

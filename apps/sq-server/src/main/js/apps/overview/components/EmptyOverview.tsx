@@ -53,7 +53,7 @@ export function EmptyOverview(props: Readonly<EmptyOverviewProps>) {
     query: { id: urlComponentKey },
   } = useLocation();
 
-  const { data: branchLikes = [] } = useProjectBranchesQuery(component.key);
+  const { data: branchLikes = [] } = useProjectBranchesQuery(component);
 
   const [currentUserCanScanProject, setCurrentUserCanScanProject] = React.useState(
     hasGlobalPermission(currentUser, Permissions.Scan),

@@ -351,7 +351,7 @@ export function withBranchLikes<P extends { component?: Component }>(
   WrappedComponent: React.ComponentType<React.PropsWithChildren<P & WithBranchLikesProps>>,
 ): React.ComponentType<React.PropsWithChildren<Omit<P, 'branchLike' | 'branchLikes'>>> {
   return function WithBranchLike(p: P) {
-    const { data: branchLikes, isLoading } = useProjectBranchesQuery(p.component?.key);
+    const { data: branchLikes, isLoading } = useProjectBranchesQuery(p.component);
     const { data: branchLike, isFetching } = useCurrentBranchQuery(p.component);
     return (
       <WrappedComponent
