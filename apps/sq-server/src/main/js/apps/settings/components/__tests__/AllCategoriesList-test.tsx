@@ -59,6 +59,24 @@ jest.mock('../AdditionalCategories', () => ({
       availableForProject: true,
       displayTab: false,
     },
+    {
+      key: 'CAT_5',
+      name: 'CAT_5_NAME',
+      renderComponent: jest.fn(),
+      availableGlobally: true,
+      availableForProject: false,
+      displayTab: true,
+      requiresFeatures: ['dummy-feature'],
+    },
+    {
+      key: 'CAT_6',
+      name: 'CAT_6_NAME',
+      renderComponent: jest.fn(),
+      availableGlobally: true,
+      availableForProject: true,
+      displayTab: true,
+      requiresOneOfFeatures: ['dummy-feature'],
+    },
   ] as AdditionalCategory[],
 }));
 
@@ -70,23 +88,29 @@ it('should render correctly', () => {
   expect(screen.queryByText('CAT_3_NAME')).not.toBeInTheDocument();
   expect(screen.queryByText('CAT_4_NAME')).not.toBeInTheDocument();
   expect(screen.getByText('CAT_2_NAME')).toHaveClass('active');
+  expect(screen.getByText('CAT_5_NAME')).toBeInTheDocument();
+  expect(screen.getByText('CAT_6_NAME')).toBeInTheDocument();
 });
 
-it('should correctly for project', () => {
+it('should render correctly for project', () => {
   renderCategoriesList({ component: mockComponent() });
 
   expect(screen.getByText('CAT_1_NAME')).toBeInTheDocument();
   expect(screen.queryByText('CAT_2_NAME')).not.toBeInTheDocument();
   expect(screen.getByText('CAT_3_NAME')).toBeInTheDocument();
   expect(screen.queryByText('CAT_4_NAME')).not.toBeInTheDocument();
+  expect(screen.queryByText('CAT_5_NAME')).not.toBeInTheDocument();
+  expect(screen.getByText('CAT_6_NAME')).toBeInTheDocument();
 });
 
-it('should render correctly when branches are disabled', () => {
+it('should render correctly when paid features are disabled', () => {
   renderCategoriesList({ hasFeature: () => false });
 
   expect(screen.queryByText('CAT_1_NAME')).not.toBeInTheDocument();
   expect(screen.getByText('CAT_2_NAME')).toBeInTheDocument();
   expect(screen.queryByText('CAT_4_NAME')).not.toBeInTheDocument();
+  expect(screen.queryByText('CAT_5_NAME')).not.toBeInTheDocument();
+  expect(screen.queryByText('CAT_6_NAME')).not.toBeInTheDocument();
 });
 
 function renderCategoriesList(props?: Partial<CategoriesListProps>) {

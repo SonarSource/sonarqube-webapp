@@ -21,22 +21,26 @@
 import { Divider, Heading, HeadingSize } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { addons } from '~sq-server-addons/index';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { Feature } from '~sq-server-commons/types/features';
 
 export function InstanceIntegrationsApp() {
+  const { hasFeature } = useAvailableFeatures();
+
   return (
     <div className="sw-flex sw-flex-col sw-gap-8">
       <Heading as="h2" className="sw-mb-4" hasMarginBottom size={HeadingSize.ExtraLarge}>
         <FormattedMessage id="settings.instance_integrations.title" />
       </Heading>
 
-      {addons.jira && (
+      {addons.jira && hasFeature(Feature.JiraIntegration) && (
         <>
           <Divider />
           <addons.jira.InstanceJiraBinding />
         </>
       )}
 
-      {addons.slack && (
+      {addons.slack && hasFeature(Feature.SlackIntegration) && (
         <>
           <Divider />
           <addons.slack.SlackIntegrationConfiguration />

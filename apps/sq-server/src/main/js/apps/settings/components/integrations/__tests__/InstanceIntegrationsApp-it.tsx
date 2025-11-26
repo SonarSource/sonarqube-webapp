@@ -29,7 +29,15 @@ const ui = {
   slackIntegrationHeader: byRole('heading', { name: 'settings.slack.header' }),
 };
 
-describe('Instance integrations administration', () => {
+
+describe('Instance integrations - free features', () => {
+  it('should render correctly with free features', () => {
+    renderInstanceIntegrationsApp();
+
+    expect(ui.integrationsHeading.get()).toBeInTheDocument();
+    expect(ui.jiraBindingHeading.query()).not.toBeInTheDocument();
+    expect(ui.slackIntegrationHeader.query()).not.toBeInTheDocument();
+  });
 });
 
 function renderInstanceIntegrationsApp(featureList: Feature[] = []) {
