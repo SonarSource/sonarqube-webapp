@@ -24,6 +24,10 @@ export function tokenExistedBefore(error?: string) {
   return !error?.includes('is missing');
 }
 
+export function currentTokenIsAppPassword(error?: string) {
+  return error?.includes('Bitbucket App Passwords');
+}
+
 export function getSanitizedProjectKey(projectKey: string) {
   return projectKey.trim().replace(PROJECT_KEY_INVALID_CHARACTERS, '-');
 }

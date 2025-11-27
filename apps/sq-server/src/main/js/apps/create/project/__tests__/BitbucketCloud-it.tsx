@@ -69,7 +69,7 @@ const ui = {
   }),
 };
 
-const original = window.location;
+const original = globalThis.location;
 
 beforeAll(() => {
   almIntegrationHandler = new AlmIntegrationsServiceMock();
@@ -85,7 +85,7 @@ beforeEach(() => {
 });
 
 afterAll(() => {
-  Object.defineProperty(window, 'location', { configurable: true, value: original });
+  Object.defineProperty(globalThis, 'location', { configurable: true, value: original });
 });
 
 it('should ask for PAT when it is not set yet and show the import project feature afterwards', async () => {
@@ -106,9 +106,7 @@ it('should ask for PAT when it is not set yet and show the import project featur
   ).toBeInTheDocument();
 
   expect(
-    screen.getByText(
-      'onboarding.create_project.pat.expired.info_message onboarding.create_project.pat.expired.info_message_contact',
-    ),
+    screen.getByText('onboarding.create_project.pat.expired.info_message'),
   ).toBeInTheDocument();
 
   expect(screen.getByRole('button', { name: 'save' })).toBeDisabled();
@@ -128,6 +126,25 @@ it('should ask for PAT when it is not set yet and show the import project featur
 
   expect(await screen.findByText('BitbucketCloud Repo 1')).toBeInTheDocument();
   expect(screen.getByText('BitbucketCloud Repo 2')).toBeInTheDocument();
+});
+
+it('should ask for PAT when an app password is currently set', async () => {
+  const user = userEvent.setup();
+  renderCreateProject();
+
+  expect(screen.getByText('onboarding.create_project.bitbucketcloud.title')).toBeInTheDocument();
+
+  await user.click(await ui.instanceSelector.find());
+  await user.click(byRole('option', { name: /conf-bitbucketcloud-3/ }).get());
+
+  expect(
+    await screen.findByText('onboarding.create_project.bitbucket_cloud.enter_password'),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByText('onboarding.create_project.enter_password.instructions.bitbucket_cloud'),
+  ).toBeInTheDocument();
+
+  expect(screen.getByText('Bitbucket App Passwords')).toBeInTheDocument();
 });
 
 it('should show import project feature when PAT is already set', async () => {

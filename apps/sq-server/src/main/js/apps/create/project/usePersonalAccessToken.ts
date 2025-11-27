@@ -25,7 +25,7 @@ import {
 } from '~sq-server-commons/api/alm-integrations';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { AlmInstanceBase } from '~sq-server-commons/types/alm-settings';
-import { tokenExistedBefore } from './utils';
+import { currentTokenIsAppPassword, tokenExistedBefore } from './utils';
 
 export interface PATType {
   checkingPat: boolean;
@@ -73,7 +73,13 @@ export const usePersonalAccessToken = (
         }
 
         if (tokenExistedBefore(error)) {
-          setValidationErrorMessage(error);
+          if (currentTokenIsAppPassword(error)) {
+            setValidationErrorMessage(error);
+          } else {
+            setValidationErrorMessage(
+              translate('onboarding.create_project.pat.expired.info_message'),
+            );
+          }
           setIsCurrentPatInvalid(true);
         } else {
           setFirstConnection(true);

@@ -21,6 +21,7 @@
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { Paging } from '~shared/types/paging';
+import { HttpStatus } from '~shared/types/request';
 import { get, parseError, post, postJSON } from '../helpers/request';
 import {
   AzureProject,
@@ -52,7 +53,7 @@ export function checkPersonalAccessTokenIsValid(
   return get('/api/alm_integrations/check_pat', { almSetting })
     .then(() => ({ status: true }))
     .catch(async (response: Response) => {
-      if (response.status === 400) {
+      if (response.status === HttpStatus.BadRequest) {
         const error = await parseError(response);
         return { status: false, error };
       }

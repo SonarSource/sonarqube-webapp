@@ -89,12 +89,7 @@ export default function PersonalAccessTokenForm({
           <MessageCallout variety={MessageVariety.Danger}>{errorMessage}</MessageCallout>
         )}
         {!firstConnection && isCurrentPatInvalid && (
-          <MessageCallout variety={MessageVariety.Warning}>
-            <p>
-              <FormattedMessage id="onboarding.create_project.pat.expired.info_message" />{' '}
-              <FormattedMessage id="onboarding.create_project.pat.expired.info_message_contact" />{' '}
-            </p>
-          </MessageCallout>
+          <MessageCallout variety={MessageVariety.Warning}>{errorMessage}</MessageCallout>
         )}
         {children}
       </Form.Section>

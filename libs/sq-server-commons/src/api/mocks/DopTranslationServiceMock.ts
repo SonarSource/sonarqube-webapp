@@ -72,6 +72,11 @@ const defaultDopSettings = [
     url: 'url',
   }),
   mockDopSetting({
+    key: 'conf-bitbucketcloud-3',
+    type: AlmKeys.BitbucketCloud,
+    url: 'url',
+  }),
+  mockDopSetting({
     key: 'conf-bitbucketserver-1',
     type: AlmKeys.BitbucketServer,
     url: 'url',

@@ -6812,9 +6812,7 @@ export const defaultMessages = {
   'onboarding.create_project.pat_incorrect.gitlab':
     "Your personal access couldn't be validated. Please make sure it has the right scope and that it is not expired.",
   'onboarding.create_project.pat.expired.info_message':
-    'You have to do this again as your token may have expired or has been revoked.',
-  'onboarding.create_project.pat.expired.info_message_contact':
-    'If this does not fix the issue, please contact your system administrator.',
+    'You have to do this again as your token may have expired or has been revoked. If this does not fix the issue, please contact your system administrator.',
 
   'onboarding.create_project.pat_help.instructions.azure':
     'To create a Personal Access Token on Azure, {link} and make sure to select the “Code (Read)” scope.',

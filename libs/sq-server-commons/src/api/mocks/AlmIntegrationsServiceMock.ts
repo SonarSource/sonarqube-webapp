@@ -69,7 +69,7 @@ function createUniqueNumber() {
 }
 
 export default class AlmIntegrationsServiceMock {
-  almInstancePATMap: { [key: string]: boolean } = {};
+  almInstancePATMap: Record<string, { error?: string; status: boolean }>;
   gitlabProjects: GitlabProject[];
   azureProjects: AzureProject[];
   azureRepositories: AzureRepository[];
@@ -80,17 +80,18 @@ export default class AlmIntegrationsServiceMock {
   bitbucketReposIsLastPage: boolean;
   bitbucketRepositories: BitbucketRepository[];
   bitbucketProjects: BitbucketProject[];
-  defaultAlmInstancePATMap: { [key: string]: boolean } = {
-    'conf-final-1': false,
-    'conf-final-2': true,
-    'conf-github-1': false,
-    'conf-github-2': true,
-    'conf-azure-1': false,
-    'conf-azure-2': true,
-    'conf-bitbucketcloud-1': false,
-    'conf-bitbucketcloud-2': true,
-    'conf-bitbucketserver-1': false,
-    'conf-bitbucketserver-2': true,
+  defaultAlmInstancePATMap: Record<string, { error?: string; status: boolean }> = {
+    'conf-final-1': { status: false },
+    'conf-final-2': { status: true },
+    'conf-github-1': { status: false },
+    'conf-github-2': { status: true },
+    'conf-azure-1': { status: false },
+    'conf-azure-2': { status: true },
+    'conf-bitbucketcloud-1': { status: false },
+    'conf-bitbucketcloud-2': { status: true },
+    'conf-bitbucketcloud-3': { error: 'Bitbucket App Passwords', status: false },
+    'conf-bitbucketserver-1': { status: false },
+    'conf-bitbucketserver-2': { status: true },
   };
 
   defaultGitlabProjects: GitlabProject[] = [
@@ -252,11 +253,11 @@ export default class AlmIntegrationsServiceMock {
   }
 
   checkPersonalAccessTokenIsValid = (conf: string) => {
-    return Promise.resolve({ status: this.almInstancePATMap[conf] });
+    return Promise.resolve(this.almInstancePATMap[conf]);
   };
 
   setAlmPersonalAccessToken = (conf: string) => {
-    this.almInstancePATMap[conf] = true;
+    this.almInstancePATMap[conf] = { status: true };
     return Promise.resolve();
   };
 
