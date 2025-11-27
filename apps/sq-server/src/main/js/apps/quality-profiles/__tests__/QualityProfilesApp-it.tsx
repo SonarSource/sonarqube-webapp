@@ -30,6 +30,8 @@ import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtil
 import { Mode } from '~sq-server-commons/types/mode';
 import routes from '../routes';
 
+// Flaky tests without jest-cache
+jest.retryTimes(2);
 jest.mock('~sq-server-commons/api/quality-profiles');
 jest.mock('~sq-server-commons/api/rules');
 

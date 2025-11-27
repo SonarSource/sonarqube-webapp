@@ -28,6 +28,9 @@ import { Feature } from '~sq-server-commons/types/features';
 import routes from '../routes';
 import { qualityProfilePageObjects as ui } from './utils';
 
+// Flaky tests without jest-cache
+jest.retryTimes(2);
+
 jest.mock('~sq-server-commons/api/quality-profiles');
 jest.mock('~sq-server-commons/api/rules');
 

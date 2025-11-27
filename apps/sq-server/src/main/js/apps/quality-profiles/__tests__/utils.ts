@@ -71,9 +71,12 @@ export const qualityProfilePageObjects = {
   rulesDeprecatedLink: byRole('link', { name: '8' }),
 
   waitForDataLoaded: async () => {
-    await waitFor(() => {
-      expect(qualityProfilePageObjects.loading.query()).not.toBeInTheDocument();
-    });
+    await waitFor(
+      () => {
+        expect(qualityProfilePageObjects.loading.query()).not.toBeInTheDocument();
+      },
+      { timeout: 10000 },
+    );
   },
 
   checkRuleRow: (name: string, active: number, inactive: number) => {

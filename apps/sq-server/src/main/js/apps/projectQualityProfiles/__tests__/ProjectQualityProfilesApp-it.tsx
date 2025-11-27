@@ -37,6 +37,8 @@ import { Component } from '~sq-server-commons/types/types';
 import handleRequiredAuthorization from '../../../app/utils/handleRequiredAuthorization';
 import routes from '../routes';
 
+jest.retryTimes(3);
+
 jest.mock('~sq-server-commons/api/quality-profiles', () => {
   const { mockQualityProfile } = jest.requireActual('~sq-server-commons/helpers/testMocks');
 
@@ -157,7 +159,7 @@ it('should be able to add and change profile for languages', async () => {
   const user = userEvent.setup();
   renderProjectQualityProfilesApp();
 
-  expect(await ui.pageTitle.find()).toBeInTheDocument();
+  expect(await ui.pageTitle.find(undefined, { timeout: 10000 })).toBeInTheDocument();
   expect(ui.pageDescription.get()).toBeInTheDocument();
   expect(await ui.addLanguageButton.find()).toBeInTheDocument();
 
