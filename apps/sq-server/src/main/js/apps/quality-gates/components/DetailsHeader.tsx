@@ -28,7 +28,6 @@ import {
   DropdownMenuAlign,
   Heading,
   IconMoreVertical,
-  Tooltip,
 } from '@sonarsource/echoes-react';
 import { countBy } from 'lodash';
 import * as React from 'react';
@@ -98,6 +97,7 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
     });
     setIsQualifyAiFormOpen(false);
   }, [qualityGate.isAiCodeSupported, qualityGate.name, setAiSupportedQualityGate]);
+
   return (
     <>
       <div className="it__layout-page-main-header sw-flex sw-items-center sw-justify-between sw-mb-9">
@@ -120,34 +120,48 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
           <>
             {actions.rename && (
               <RenameQualityGateForm qualityGate={qualityGate}>
-                <Button>
+                <Button
+                  ariaLabel={intl.formatMessage(
+                    { id: 'quality_gates.rename_x' },
+                    { name: qualityGate.name },
+                  )}
+                >
                   <FormattedMessage id="rename" />
                 </Button>
               </RenameQualityGateForm>
             )}
             {actions.copy && (
-              <Tooltip
-                content={
-                  qualityGate.caycStatus === CaycStatus.NonCompliant
-                    ? intl.formatMessage({ id: 'quality_gates.cannot_copy_no_cayc' })
-                    : null
-                }
-              >
-                <CopyQualityGateForm qualityGate={qualityGate}>
-                  <Button isDisabled={qualityGate.caycStatus === CaycStatus.NonCompliant}>
-                    <FormattedMessage id="copy" />
-                  </Button>
-                </CopyQualityGateForm>
-              </Tooltip>
+              <CopyQualityGateForm qualityGate={qualityGate}>
+                <Button
+                  ariaLabel={intl.formatMessage(
+                    { id: 'quality_gates.copy_x' },
+                    { name: qualityGate.name },
+                  )}
+                >
+                  <FormattedMessage id="copy" />
+                </Button>
+              </CopyQualityGateForm>
             )}
             {actions.setAsDefault && (
-              <Button onClick={handleSetAsDefaultClick}>
+              <Button
+                ariaLabel={intl.formatMessage(
+                  { id: 'quality_gates.set_as_default_x' },
+                  { name: qualityGate.name },
+                )}
+                onClick={handleSetAsDefaultClick}
+              >
                 <FormattedMessage id="set_as_default" />
               </Button>
             )}
             {actions.delete && (
               <DeleteQualityGateForm qualityGate={qualityGate}>
-                <Button variety={ButtonVariety.Danger}>
+                <Button
+                  ariaLabel={intl.formatMessage(
+                    { id: 'quality_gates.delete_x' },
+                    { name: qualityGate.name },
+                  )}
+                  variety={ButtonVariety.Danger}
+                >
                   <FormattedMessage id="delete" />
                 </Button>
               </DeleteQualityGateForm>
@@ -163,25 +177,51 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
               <>
                 {actions.rename && (
                   <RenameQualityGateForm qualityGate={qualityGate}>
-                    <DropdownMenu.ItemButton>
+                    <DropdownMenu.ItemButton
+                      ariaLabel={intl.formatMessage(
+                        { id: 'quality_gates.rename_x' },
+                        { name: qualityGate.name },
+                      )}
+                    >
                       <FormattedMessage id="rename" />
                     </DropdownMenu.ItemButton>
                   </RenameQualityGateForm>
                 )}
                 {actions.copy && (
                   <CopyQualityGateForm qualityGate={qualityGate}>
-                    <DropdownMenu.ItemButton>
+                    <DropdownMenu.ItemButton
+                      ariaLabel={intl.formatMessage(
+                        { id: 'quality_gates.copy_x' },
+                        { name: qualityGate.name },
+                      )}
+                    >
                       <FormattedMessage id="copy" />
                     </DropdownMenu.ItemButton>
                   </CopyQualityGateForm>
                 )}
                 {actions.setAsDefault && (
-                  <DropdownMenu.ItemButton onClick={handleSetAsDefaultClick}>
+                  <DropdownMenu.ItemButton
+                    ariaLabel={intl.formatMessage(
+                      { id: 'quality_gates.set_as_default_x' },
+                      { name: qualityGate.name },
+                    )}
+                    onClick={handleSetAsDefaultClick}
+                  >
                     <FormattedMessage id="set_as_default" />
                   </DropdownMenu.ItemButton>
                 )}
                 {actions.manageAiCodeAssurance && !isCountLoading && (
-                  <DropdownMenu.ItemButton onClick={handleSetQualityGateAiCodeAssurance}>
+                  <DropdownMenu.ItemButton
+                    ariaLabel={intl.formatMessage(
+                      {
+                        id: qualityGate.isAiCodeSupported
+                          ? 'quality_gates.actions.disqualify_for_ai_code_assurance_x'
+                          : 'quality_gates.actions.qualify_for_ai_code_assurance_x',
+                      },
+                      { name: qualityGate.name },
+                    )}
+                    onClick={handleSetQualityGateAiCodeAssurance}
+                  >
                     <FormattedMessage
                       id={
                         qualityGate.isAiCodeSupported
@@ -198,7 +238,12 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
                     qualityGate={qualityGate}
                     scope="new-cayc"
                   >
-                    <DropdownMenu.ItemButton>
+                    <DropdownMenu.ItemButton
+                      ariaLabel={intl.formatMessage(
+                        { id: 'quality_gates.conditions.update_x' },
+                        { name: qualityGate.name },
+                      )}
+                    >
                       <FormattedMessage id="quality_gates.conditions.update" />
                     </DropdownMenu.ItemButton>
                   </FixQualityGateModal>
@@ -207,7 +252,12 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
                   <>
                     <DropdownMenu.Separator />
                     <DeleteQualityGateForm qualityGate={qualityGate}>
-                      <DropdownMenu.ItemButtonDestructive>
+                      <DropdownMenu.ItemButtonDestructive
+                        ariaLabel={intl.formatMessage(
+                          { id: 'quality_gates.delete_x' },
+                          { name: qualityGate.name },
+                        )}
+                      >
                         <FormattedMessage id="delete" />
                       </DropdownMenu.ItemButtonDestructive>
                     </DeleteQualityGateForm>

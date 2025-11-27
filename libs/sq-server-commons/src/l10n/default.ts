@@ -3885,11 +3885,14 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
-  'quality_gate.create': 'Create',
   'quality_gates.create': 'Create Quality Gate',
   'quality_gates.rename': 'Rename Quality Gate',
+  'quality_gates.rename_x': 'Rename {name} Quality Gate',
   'quality_gates.delete': 'Delete Quality Gate',
+  'quality_gates.delete_x': 'Delete {name} Quality Gate',
   'quality_gates.copy': 'Copy Quality Gate',
+  'quality_gates.copy_x': 'Copy {name} Quality Gate',
+  'quality_gates.set_as_default_x': 'Set {name} as Default Quality Gate',
   'quality_gates.is_default_no_conditions':
     'This is the default quality gate, but it has no configured conditions. Please configure at least 1 condition for this quality gate.',
   'quality_gates.is_built_in.description': 'Sonar way is recommended for most projects. {link}',
@@ -3900,10 +3903,12 @@ export const defaultMessages = {
   'quality_gates.conditions.help':
     'Your project will fail the Quality Gate if it crosses any metric thresholds set for New Code or Overall Code.',
   'quality_gates.conditions.update': 'Update conditions on new code',
+  'quality_gates.conditions.update_x': 'Update conditions on new code for {name} quality gate',
   'quality_gates.projects': 'Projects',
   'quality_gates.projects.help':
     'The Default gate is applied to all projects not explicitly assigned to a gate. Quality Gate administrators can assign projects to a non-default gate, or always make it follow the system default. Project administrators may choose any gate.',
   'quality_gates.add_condition': 'Add Condition',
+  'quality_gates.add_condition_x': 'Add Condition to {name} Quality Gate',
   'quality_gates.add_condition.metric_from_other_mode':
     'This quality gate already has an equivalent condition based on the same concept ("{metric}") that persists from the {isStandardMode, select, true {Standard Experience} other {Multi-Quality Rule Mode}}. Update the metric and you will be able to edit the condition.',
   'quality_gates.condition.edit': 'Edit condition on {metric}',
@@ -4049,7 +4054,8 @@ export const defaultMessages = {
     'All selected conditions will be removed. Deselect conditions you want to retain.',
   'quality_gates.fix_modal.success': 'Conditions on new code were successfully updated',
   'quality_gates.fix_modal.review_update': 'Review and update',
-
+  'quality_gates.fix_modal.review_update_x':
+    'Review and update conditions on new code for {name} quality gate',
   'quality_gates.recommended.tooltip.message': 'This  gate has all recommended conditions',
   'quality_gates.ai_generated.tooltip.message':
     'This quality gate is qualified for AI Code Assurance',
@@ -4083,7 +4089,11 @@ export const defaultMessages = {
     'This instance is currently in the {link}. We recommend you update the metrics of your quality gate conditions to ensure accurate categorization and ranking of your issues in this mode. Conditions that use {otherMode} metrics can’t be edited until they are updated.',
   'quality_gates.mode_banner.button': 'Review and update metrics',
   'quality_gates.actions.disqualify_for_ai_code_assurance': 'Disqualify for AI Code Assurance',
+  'quality_gates.actions.disqualify_for_ai_code_assurance_x':
+    'Disqualify {name} quality gate for AI Code Assurance',
   'quality_gates.actions.qualify_for_ai_code_assurance': 'Qualify for AI Code Assurance',
+  'quality_gates.actions.qualify_for_ai_code_assurance_x':
+    'Qualify {name} quality gate for AI Code Assurance',
   'quality_gates.disqualify_ai_modal.title':
     'Disqualify this quality gate and disable AI Code Assurance on {count} {count, plural, one {project} other {projects}}?',
   'quality_gates.disqualify_ai_modal_default.title':

@@ -20,14 +20,14 @@
 
 import { Form, FormFieldWidth, ModalForm, Text, TextInput } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { RequiredIcon } from '~design-system';
 import { useRouter } from '~shared/components/hoc/withRouter';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getQualityGateUrl } from '~sq-server-commons/helpers/urls';
 import { useCreateQualityGateMutation } from '~sq-server-commons/queries/quality-gates';
 
 export default function CreateQualityGateForm({ children }: Readonly<React.PropsWithChildren>) {
+  const intl = useIntl();
   const [name, setName] = React.useState('');
   const { mutateAsync: createQualityGate, isPending: submitting } = useCreateQualityGateMutation();
   const router = useRouter();
@@ -66,7 +66,7 @@ export default function CreateQualityGateForm({ children }: Readonly<React.Props
         autoComplete="off"
         id="quality-gate-form-name"
         isRequired
-        label={translate('name')}
+        label={intl.formatMessage({ id: 'name' })}
         maxLength={256}
         name="key"
         onChange={handleNameChange}
@@ -84,9 +84,9 @@ export default function CreateQualityGateForm({ children }: Readonly<React.Props
       isSubmitting={submitting}
       onReset={handleReset}
       onSubmit={handleFormSubmit}
-      secondaryButtonLabel={translate('cancel')}
-      submitButtonLabel={translate('quality_gate.create')}
-      title={translate('quality_gates.create')}
+      secondaryButtonLabel={intl.formatMessage({ id: 'cancel' })}
+      submitButtonLabel={intl.formatMessage({ id: 'create' })}
+      title={intl.formatMessage({ id: 'quality_gates.create' })}
     >
       {children}
     </ModalForm>

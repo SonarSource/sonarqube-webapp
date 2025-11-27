@@ -181,7 +181,13 @@ function GateRecommendationBanner({
           qualityGate={qualityGate}
           scope="new-cayc"
         >
-          <Button className="sw-mt-4">
+          <Button
+            ariaLabel={intl.formatMessage(
+              { id: 'quality_gates.fix_modal.review_update_x' },
+              { name: qualityGate.name },
+            )}
+            className="sw-mt-4"
+          >
             <FormattedMessage id="quality_gates.fix_modal.review_update" />
           </Button>
         </FixQualityGateModal>

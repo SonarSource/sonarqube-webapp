@@ -50,7 +50,11 @@ export default function ListHeader({ canCreate }: Readonly<Props>) {
       </div>
       {canCreate && (
         <CreateQualityGateForm>
-          <Button data-test="quality-gates__add" variety={ButtonVariety.Default}>
+          <Button
+            ariaLabel={intl.formatMessage({ id: 'quality_gates.create' })}
+            data-test="quality-gates__add"
+            variety={ButtonVariety.Default}
+          >
             {translate('create')}
           </Button>
         </CreateQualityGateForm>

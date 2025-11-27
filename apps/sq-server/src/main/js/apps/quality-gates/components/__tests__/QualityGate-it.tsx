@@ -35,6 +35,7 @@ import { CaycStatus } from '~sq-server-commons/types/types';
 import routes from '../../routes';
 
 const ui = {
+  createButton: byRole('button', { name: 'quality_gates.create' }),
   batchUpdate: byRole('button', { name: 'quality_gates.mode_banner.button' }),
   singleUpdate: byRole('button', {
     name: /quality_gates.mqr_mode_update.single_metric.tooltip.message/,
@@ -43,10 +44,11 @@ const ui = {
   listItem: byTestId('js-subnavigation-item'),
   requiresUpdateIndicator: byTestId('quality-gates-mqr-standard-mode-update-indicator'),
   aiAssuranceIndicator: byTestId('quality-gates-ai-assurance-indicator'),
-  qualityGateListItem: (qualityGateName: string) => byRole('link', { name: qualityGateName }),
+  qualityGateListItem: (qualityGateName: string | RegExp) =>
+    byRole('link', { name: qualityGateName }),
   newConditionRow: byTestId('quality-gates__conditions-new').byRole('row'),
   overallConditionRow: byTestId('quality-gates__conditions-overall').byRole('row'),
-  addConditionButton: byRole('button', { name: 'quality_gates.add_condition' }),
+  addConditionButton: byRole('button', { name: /quality_gates.add_condition_x/ }),
   batchDialog: byRole('dialog', { name: /quality_gates.update_conditions.header/ }),
   singleDialog: byRole('dialog', { name: /quality_gates.update_conditions.header.single_metric/ }),
   updateMetricsBtn: byRole('button', { name: 'quality_gates.update_conditions.update_metrics' }),
@@ -54,6 +56,19 @@ const ui = {
   cancelBtn: byRole('button', { name: 'cancel' }),
   standardBadge: byText('quality_gates.metric.standard_mode_short'),
   mqrBadge: byText('quality_gates.metric.mqr_mode_short'),
+
+  // actions
+  actionsMenu: byLabelText('actions'),
+  copy: byRole('menuitem', { name: /quality_gates.copy_x/ }),
+  rename: byRole('menuitem', { name: /quality_gates.rename_x/ }),
+  setAsDefault: byRole('menuitem', { name: /quality_gates.set_as_default_x/ }),
+  qualifyForAi: byRole('menuitem', {
+    name: /quality_gates.actions.qualify_for_ai_code_assurance_x/,
+  }),
+  disqualifyForAi: byRole('menuitem', {
+    name: /quality_gates.actions.disqualify_for_ai_code_assurance_x/,
+  }),
+  delete: byRole('menuitem', { name: /quality_gates.delete_x/ }),
 };
 
 let qualityGateHandler: QualityGatesServiceMock;
@@ -126,19 +141,17 @@ it('should be able to create a quality gate then delete it', async () => {
   const user = userEvent.setup();
   qualityGateHandler.setIsAdmin(true);
   renderQualityGateApp();
-  let createButton = await screen.findByRole('button', { name: 'create' });
 
   // Using keyboard
-  await user.click(createButton);
+  await user.click(await ui.createButton.find());
   await user.click(screen.getByRole('textbox', { name: /name.*/ }));
   await user.keyboard('testone');
-  await user.click(screen.getByRole('button', { name: 'quality_gate.create' }));
+  await user.click(screen.getByRole('button', { name: 'create' }));
   expect(await screen.findByRole('button', { name: 'testone' })).toBeInTheDocument();
 
   // Using modal button
-  createButton = await screen.findByRole('button', { name: 'create' });
-  await user.click(createButton);
-  const saveButton = screen.getByRole('button', { name: 'quality_gate.create' });
+  await user.click(ui.createButton.get());
+  const saveButton = screen.getByRole('button', { name: 'create' });
 
   expect(saveButton).toBeDisabled();
   const nameInput = screen.getByRole('textbox', { name: /name.*/ });
@@ -153,9 +166,8 @@ it('should be able to create a quality gate then delete it', async () => {
   // Delete the quality gate
   await user.click(newQG);
 
-  await user.click(screen.getByLabelText('actions'));
-  const deleteButton = screen.getByRole('menuitem', { name: 'delete' });
-  await user.click(deleteButton);
+  await user.click(ui.actionsMenu.get());
+  await user.click(ui.delete.get());
   const popup = screen.getByRole('alertdialog');
   const dialogDeleteButton = within(popup).getByRole('button', { name: 'delete' });
   await user.click(dialogDeleteButton);
@@ -172,31 +184,30 @@ it('should be able to copy a quality gate', async () => {
 
   const notDefaultQualityGate = await screen.findByText('Sonar way');
   await user.click(notDefaultQualityGate);
-  await user.click(await screen.findByLabelText('actions'));
-  const copyButton = screen.getByRole('menuitem', { name: 'copy' });
+  await user.click(await ui.actionsMenu.find());
+  await user.click(ui.copy.get());
 
-  await user.click(copyButton);
   const nameInput = screen.getByRole('textbox', { name: /name.*/ });
   expect(nameInput).toBeInTheDocument();
   await user.click(nameInput);
   await user.keyboard(' bis{Enter}');
-  expect(await screen.findByRole('button', { name: /.* bis/ })).toBeInTheDocument();
+
+  expect(await ui.qualityGateListItem(/.* bis/).find()).toBeInTheDocument();
 });
 
 it('should be able to rename a quality gate', async () => {
   const user = userEvent.setup();
   qualityGateHandler.setIsAdmin(true);
   renderQualityGateApp();
-  await user.click(await screen.findByLabelText('actions'));
-  const renameButton = screen.getByRole('menuitem', { name: 'rename' });
+  await user.click(await ui.actionsMenu.find());
 
-  await user.click(renameButton);
+  await user.click(ui.rename.get());
   const nameInput = screen.getByRole('textbox', { name: /name.*/ });
   expect(nameInput).toBeInTheDocument();
   await user.click(nameInput);
   await user.keyboard('{Control>}a{/Control}New Name{Enter}');
 
-  expect(await screen.findByRole('button', { name: /New Name.*/ })).toBeInTheDocument();
+  expect(await ui.qualityGateListItem(/New Name.*/).find()).toBeInTheDocument();
 });
 
 it('should be able to set as default any quality gate', async () => {
@@ -208,30 +219,24 @@ it('should be able to set as default any quality gate', async () => {
     name: /Sonar way for AI code/,
   });
   await user.click(notDefaultQualityGate);
-  await user.click(await screen.findByLabelText('actions'));
-  const setAsDefaultButton = screen.getByRole('menuitem', { name: 'set_as_default' });
-  await user.click(setAsDefaultButton);
-  expect(await screen.findByRole('button', { name: /Sonar way for AI code/ })).toBeInTheDocument();
+  await user.click(await ui.actionsMenu.find());
+  await user.click(ui.setAsDefault.get());
+
+  expect(await ui.qualityGateListItem(/Sonar way for AI code default/).find()).toBeInTheDocument();
 });
 
 it('should be able to qualify/disqualify a quality gate for AI code assurance', async () => {
   const user = userEvent.setup();
   qualityGateHandler.setIsAdmin(true);
   renderQualityGateApp();
-  await user.click(await screen.findByLabelText('actions'));
-  const qualifyButton = screen.getByRole('menuitem', {
-    name: 'quality_gates.actions.qualify_for_ai_code_assurance',
-  });
-  expect(qualifyButton).toBeInTheDocument();
-  await user.click(qualifyButton);
+  await user.click(await ui.actionsMenu.find());
 
-  await user.click(await screen.findByLabelText('actions'));
-  const disqualifyButton = screen.getByRole('menuitem', {
-    name: 'quality_gates.actions.disqualify_for_ai_code_assurance',
-  });
+  expect(ui.qualifyForAi.get()).toBeInTheDocument();
+  await user.click(ui.qualifyForAi.get());
 
-  expect(disqualifyButton).toBeInTheDocument();
-  await user.click(disqualifyButton);
+  await user.click(await ui.actionsMenu.find());
+  expect(ui.disqualifyForAi.get()).toBeInTheDocument();
+  await user.click(ui.disqualifyForAi.get());
 });
 
 it('should show confirmation when disqualifying a quality gate with projects having AI code', async () => {
@@ -239,32 +244,21 @@ it('should show confirmation when disqualifying a quality gate with projects hav
   qualityGateHandler.setIsAdmin(true);
   renderQualityGateApp();
 
-  await user.click(await screen.findByText('SonarSource way - CFamily'));
+  await user.click(await ui.qualityGateListItem('SonarSource way - CFamily').find());
 
-  await user.click(await screen.findByLabelText('actions'));
-  const qualifyButton = screen.getByRole('menuitem', {
-    name: 'quality_gates.actions.qualify_for_ai_code_assurance',
-  });
-  await user.click(qualifyButton);
+  await user.click(await ui.actionsMenu.find());
+  await user.click(ui.qualifyForAi.get());
 
-  await user.click(await screen.findByLabelText('actions'));
-  const disqualifyButton = screen.getByRole('menuitem', {
-    name: 'quality_gates.actions.disqualify_for_ai_code_assurance',
-  });
-
-  await user.click(disqualifyButton);
+  await user.click(await ui.actionsMenu.find());
+  await user.click(ui.disqualifyForAi.get());
 
   expect(await screen.findByRole('dialog')).toBeInTheDocument();
   await user.click(
     screen.getByRole('button', { name: 'quality_gates.disqualify_ai_modal.confirm' }),
   );
 
-  await user.click(await screen.findByLabelText('actions'));
-  expect(
-    screen.getByRole('menuitem', {
-      name: 'quality_gates.actions.qualify_for_ai_code_assurance',
-    }),
-  ).toBeInTheDocument();
+  await user.click(await ui.actionsMenu.find());
+  expect(ui.qualifyForAi.get()).toBeInTheDocument();
 });
 
 it('should be able to add a condition on new code', async () => {
@@ -272,10 +266,10 @@ it('should be able to add a condition on new code', async () => {
   qualityGateHandler.setIsAdmin(true);
   renderQualityGateApp();
 
-  await user.click(await screen.findByText('SonarSource way - CFamily'));
+  await user.click(await ui.qualityGateListItem('SonarSource way - CFamily').find());
 
   // On new code
-  await user.click(await screen.findByText('quality_gates.add_condition'));
+  await user.click(await ui.addConditionButton.find());
 
   const dialog = byRole('dialog');
 
@@ -301,10 +295,10 @@ it('should be able to add a condition on overall code', async () => {
   qualityGateHandler.setIsAdmin(true);
   renderQualityGateApp();
 
-  await user.click(await screen.findByText('SonarSource way - CFamily'));
+  await user.click(await ui.qualityGateListItem('SonarSource way - CFamily').find());
 
   // On overall code
-  await user.click(await screen.findByText('quality_gates.add_condition'));
+  await user.click(await ui.addConditionButton.find());
 
   const dialog = byRole('dialog');
 
@@ -338,10 +332,10 @@ it('should be able to select a rating', async () => {
   qualityGateHandler.setIsAdmin(true);
   renderQualityGateApp();
 
-  await user.click(await screen.findByText('SonarSource way - CFamily'));
+  await user.click(await ui.qualityGateListItem('SonarSource way - CFamily').find());
 
   // Select a rating
-  await user.click(await screen.findByText('quality_gates.add_condition'));
+  await user.click(await ui.addConditionButton.find());
 
   const dialog = byRole('dialog');
 
@@ -391,10 +385,10 @@ it('cannot add/edit a condition for percentage metric with invalid value', async
   qualityGateHandler.setIsAdmin(true);
   renderQualityGateApp();
 
-  await user.click(await screen.findByText('SonarSource way - CFamily'));
+  await user.click(await ui.qualityGateListItem('SonarSource way - CFamily').find());
 
   // On overall code
-  await user.click(await screen.findByText('quality_gates.add_condition'));
+  await user.click(await ui.addConditionButton.find());
 
   const dialog = byRole('dialog');
 
@@ -492,7 +486,7 @@ it('should be able to handle delete condition', async () => {
   qualityGateHandler.setIsAdmin(true);
   renderQualityGateApp();
 
-  await user.click(await screen.findByText('Non Cayc QG'));
+  await user.click(await ui.qualityGateListItem('Non Cayc QG').find());
   const newConditions = within(await screen.findByTestId('quality-gates__conditions-new'));
 
   await user.click(
@@ -524,10 +518,7 @@ describe('Configuration banner', () => {
     qualityGateHandler.setIsAdmin(true);
     renderQualityGateApp();
 
-    const qualityGate = await screen.findByText('Sonar way');
-
-    await user.click(qualityGate);
-
+    await user.click(await ui.qualityGateListItem('Sonar way quality_gates.built_in').find());
     expect(await screen.findByText('quality_gates.banner.builtin.title')).toBeInTheDocument();
   });
 
@@ -536,10 +527,7 @@ describe('Configuration banner', () => {
     qualityGateHandler.setIsAdmin(true);
     renderQualityGateApp({ featureList: [Feature.AiCodeAssurance] });
 
-    const qualityGate = await screen.findByText('Sonar way for AI code');
-
-    await user.click(qualityGate);
-
+    await user.click(await ui.qualityGateListItem(/Sonar way for AI code/).find());
     expect(await screen.findByText('quality_gates.banner.builtin.ai.title')).toBeInTheDocument();
   });
 
@@ -548,18 +536,18 @@ describe('Configuration banner', () => {
     qualityGateHandler.setIsAdmin(true);
     renderQualityGateApp();
 
-    const qualityGate = await screen.findByText('SonarSource way - CFamily');
-
-    await user.click(qualityGate);
-
+    await user.click(await ui.qualityGateListItem('SonarSource way - CFamily').find());
     expect(
       await screen.findByText('quality_gates.banner.recommendation_update.title'),
     ).toBeInTheDocument();
+
     expect(
-      screen.getByRole('button', { name: 'quality_gates.fix_modal.review_update' }),
+      screen.getByRole('button', { name: /quality_gates.fix_modal.review_update_x/ }),
     ).toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: 'quality_gates.fix_modal.review_update' }));
+    await user.click(
+      screen.getByRole('button', { name: /quality_gates.fix_modal.review_update_x/ }),
+    );
     expect(
       screen.getByRole('dialog', {
         name: 'quality_gates.fix_modal.title',
@@ -588,10 +576,7 @@ describe('Configuration banner', () => {
     qualityGateHandler.setIsAdmin(true);
     renderQualityGateApp();
 
-    const qualityGate = await screen.findByText('SonarSource way - CFamily');
-
-    await user.click(qualityGate);
-
+    await user.click(await ui.qualityGateListItem('SonarSource way - CFamily').find());
     expect(
       await screen.findByText('quality_gates.banner.recommendation_update.title'),
     ).toBeInTheDocument();
@@ -607,9 +592,7 @@ describe('Configuration banner', () => {
     const user = userEvent.setup();
     renderQualityGateApp();
 
-    const qualityGate = await screen.findByText('SonarSource way - CFamily');
-
-    await user.click(qualityGate);
+    await user.click(await ui.qualityGateListItem('SonarSource way - CFamily').find());
     await flushPromises(4);
 
     expect(
@@ -623,9 +606,7 @@ describe('Configuration banner', () => {
     await qualityGateHandler.handleSetQualityGateAiQualified(gateName, true).catch(noop);
     renderQualityGateApp({ featureList: [Feature.AiCodeAssurance] });
 
-    const qualityGate = await screen.findByText(gateName);
-    await user.click(qualityGate);
-
+    await user.click(await ui.qualityGateListItem(gateName).find());
     expect(await screen.findByText('quality_gates.banner.info.multiple.title')).toBeInTheDocument();
     expect(screen.getByText('quality_gates.banner.info.multiple.aica')).toBeInTheDocument();
     expect(screen.getByText('quality_gates.banner.info.multiple.sonar')).toBeInTheDocument();
@@ -636,8 +617,7 @@ describe('Configuration banner', () => {
     const gateName = 'Non Cayc Compliant QG';
     renderQualityGateApp({ featureList: [Feature.AiCodeAssurance] });
 
-    const qualityGate = await screen.findByText(gateName);
-    await user.click(qualityGate);
+    await user.click(await ui.qualityGateListItem(gateName).find());
 
     expect(await screen.findByText('quality_gates.info.recommended.title')).toBeInTheDocument();
   });
@@ -649,9 +629,7 @@ describe('Configuration banner', () => {
 
     renderQualityGateApp({ featureList: [Feature.AiCodeAssurance] });
 
-    const qualityGate = await screen.findByText(gateName);
-    await user.click(qualityGate);
-
+    await user.click(await ui.qualityGateListItem(gateName).find());
     expect(await screen.findByText('quality_gates.info.aica.title')).toBeInTheDocument();
   });
 
@@ -662,8 +640,7 @@ describe('Configuration banner', () => {
 
     renderQualityGateApp();
 
-    const qualityGate = await screen.findByText(gateName);
-    await user.click(qualityGate);
+    await user.click(await ui.qualityGateListItem(gateName).find());
     await flushPromises(4);
 
     expect(screen.queryByText('quality_gates.info.aica.title')).not.toBeInTheDocument();
@@ -674,8 +651,8 @@ it('should render builtin conditions on a separate table if Sonar way', async ()
   const user = userEvent.setup();
   qualityGateHandler.setIsAdmin(true);
   renderQualityGateApp();
-  await user.click(await screen.findByText('Sonar way'));
 
+  await user.click(await ui.qualityGateListItem('Sonar way quality_gates.built_in').find());
   expect(await screen.findByText('quality_gates.banner.builtin.title')).toBeInTheDocument();
   expect(
     await screen.findByRole('list', { name: 'quality_gates.condition_simplification_list' }),
@@ -700,7 +677,6 @@ it('should not show AI indicator for Sonar AI Way based in Community editions', 
   });
 
   await screen.findByText('Sonar way');
-
   expect(ui.aiAssuranceIndicator.query()).not.toBeInTheDocument();
 });
 
@@ -709,9 +685,8 @@ it('should not allow to change value of prioritized_rule_issues', async () => {
   qualityGateHandler.setIsAdmin(true);
   renderQualityGateApp({ featureList: [Feature.PrioritizedRules] });
 
-  await user.click(await screen.findByText('SonarSource way - CFamily'));
-
-  await user.click(await screen.findByText('quality_gates.add_condition'));
+  await user.click(await ui.qualityGateListItem('SonarSource way - CFamily').find());
+  await user.click(await ui.addConditionButton.find());
 
   const dialog = byRole('dialog');
 
@@ -749,9 +724,8 @@ it('should not allow to add prioritized_rule_issues condition if feature is not 
   qualityGateHandler.setIsAdmin(true);
   renderQualityGateApp();
 
-  await user.click(await screen.findByText('SonarSource way - CFamily'));
-
-  await user.click(await screen.findByText('quality_gates.add_condition'));
+  await user.click(await ui.qualityGateListItem('SonarSource way - CFamily').find());
+  await user.click(await ui.addConditionButton.find());
 
   const dialog = byRole('dialog');
 
@@ -768,9 +742,7 @@ describe('The Project section', () => {
     qualityGateHandler.setIsAdmin(true);
     renderQualityGateApp();
 
-    const notDefaultQualityGate = await screen.findByText('SonarSource way - CFamily');
-
-    await user.click(notDefaultQualityGate);
+    await user.click(await ui.qualityGateListItem('SonarSource way - CFamily').find());
 
     // by default it shows "selected" values
     expect(await screen.findAllByRole('checkbox')).toHaveLength(4);
@@ -789,9 +761,7 @@ describe('The Project section', () => {
     qualityGateHandler.setIsAdmin(true);
     renderQualityGateApp();
 
-    const notDefaultQualityGate = await screen.findByText('SonarSource way - CFamily');
-
-    await user.click(notDefaultQualityGate);
+    await user.click(await ui.qualityGateListItem('SonarSource way - CFamily').find());
 
     expect(await screen.findAllByRole('checkbox')).toHaveLength(4);
     const checkedProjects = screen.getAllByRole('checkbox')[0];
@@ -830,9 +800,7 @@ describe('The Project section', () => {
     qualityGateHandler.setIsAdmin(true);
     renderQualityGateApp();
 
-    const notDefaultQualityGate = await screen.findByText('SonarSource way - CFamily');
-
-    await user.click(notDefaultQualityGate);
+    await user.click(await ui.qualityGateListItem('SonarSource way - CFamily').find());
 
     const searchInput = await screen.findByRole('searchbox', { name: 'search_verb' });
     expect(searchInput).toBeInTheDocument();
@@ -854,9 +822,7 @@ describe('The Project section', () => {
     qualityGateHandler.setIsAdmin(true);
     renderQualityGateApp();
 
-    const notDefaultQualityGate = await screen.findByText('SonarSource way - CFamily');
-    await user.click(notDefaultQualityGate);
-
+    await user.click(await ui.qualityGateListItem('SonarSource way - CFamily').find());
     expect(await screen.findByRole('button', { name: 'show_more' })).toBeInTheDocument();
   });
 });

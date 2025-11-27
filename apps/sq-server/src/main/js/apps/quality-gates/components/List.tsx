@@ -28,7 +28,6 @@ import {
 } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
-import { Fragment } from 'react/jsx-runtime';
 import { BareButton, SubnavigationGroup, SubnavigationItem } from '~design-system';
 import AIAssuredIcon, {
   AiIconColor,
@@ -93,7 +92,7 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
   };
 
   return (
-    <SubnavigationGroup>
+    <SubnavigationGroup as="ul">
       {qualityGates.map((qualityGate) => {
         const { name, isDefault, isBuiltIn, caycStatus, isAiCodeSupported } = qualityGate;
         const isDefaultTitle = isDefault ? ` ${translate('default')}` : '';
@@ -104,7 +103,7 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
         const showGateUpdateIcon = shouldShowQualityGateUpdateIcon(qualityGate);
 
         return (
-          <Fragment key={name}>
+          <li key={name}>
             <Tooltip content={getTooltipContent(qualityGate)} side={TooltipSide.Right}>
               <div>
                 <SubnavigationItem
@@ -166,7 +165,7 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
                 </SubnavigationItem>
               </div>
             </Tooltip>
-          </Fragment>
+          </li>
         );
       })}
     </SubnavigationGroup>

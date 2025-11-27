@@ -21,6 +21,7 @@
 import { Button, Form, ModalForm, RadioButtonGroup } from '@sonarsource/echoes-react';
 import { differenceWith, map } from 'lodash';
 import * as React from 'react';
+import { useIntl } from 'react-intl';
 import ThresholdInput from '~shared/components/quality-gates/ThresholdInput';
 import { isValidPercentageMetric } from '~shared/helpers/metrics';
 import { isStringDefined } from '~shared/helpers/types';
@@ -28,7 +29,6 @@ import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
 import {
   getPossibleOperators,
@@ -60,6 +60,7 @@ const ADD_CONDITION_MODAL_ID = 'add-condition-modal';
 const QUALITY_GATES_ADD_CONDITION = 'quality_gates.add_condition';
 
 export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
+  const intl = useIntl();
   const { data: isStandardMode } = useStandardExperienceModeQuery();
   const [errorThreshold, setErrorThreshold] = React.useState('');
   const [scope, setScope] = React.useState<'new' | 'overall'>('new');
@@ -171,19 +172,25 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
   const renderBody = () => {
     return (
       <>
-        <Form.Section title={translate('quality_gates.conditions.where')}>
+        <Form.Section title={intl.formatMessage({ id: 'quality_gates.conditions.where' })}>
           <RadioButtonGroup
             id="quality_gates-add-condition-scope-radio"
             onChange={handleScopeChange}
             options={[
-              { label: translate('quality_gates.conditions.new_code'), value: 'new' },
-              { label: translate('quality_gates.conditions.overall_code'), value: 'overall' },
+              {
+                label: intl.formatMessage({ id: 'quality_gates.conditions.new_code' }),
+                value: 'new',
+              },
+              {
+                label: intl.formatMessage({ id: 'quality_gates.conditions.overall_code' }),
+                value: 'overall',
+              },
             ]}
             value={scope}
           />
         </Form.Section>
 
-        <Form.Section title={translate('quality_gates.conditions.fails_when')}>
+        <Form.Section title={intl.formatMessage({ id: 'quality_gates.conditions.fails_when' })}>
           <MetricSelect
             metricsArray={availableMetrics.filter((m) =>
               scope === 'new' ? isDiffMetric(m.key) : !isDiffMetric(m.key),
@@ -228,12 +235,18 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
       isSubmitDisabled={isSubmitDisabled}
       onReset={handleFormReset}
       onSubmit={handleFormSubmit}
-      secondaryButtonLabel={translate('close')}
-      submitButtonLabel={translate(QUALITY_GATES_ADD_CONDITION)}
-      title={translate(QUALITY_GATES_ADD_CONDITION)}
+      secondaryButtonLabel={intl.formatMessage({ id: 'close' })}
+      submitButtonLabel={intl.formatMessage({ id: QUALITY_GATES_ADD_CONDITION })}
+      title={intl.formatMessage({ id: QUALITY_GATES_ADD_CONDITION })}
     >
-      <Button data-test="quality-gates__add-condition">
-        {translate(QUALITY_GATES_ADD_CONDITION)}
+      <Button
+        ariaLabel={intl.formatMessage(
+          { id: `${QUALITY_GATES_ADD_CONDITION}_x` },
+          { name: qualityGate.name },
+        )}
+        data-test="quality-gates__add-condition"
+      >
+        {intl.formatMessage({ id: QUALITY_GATES_ADD_CONDITION })}
       </Button>
     </ModalForm>
   );

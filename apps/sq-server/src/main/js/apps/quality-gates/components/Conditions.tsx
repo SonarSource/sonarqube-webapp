@@ -27,10 +27,11 @@ import {
   ToggleTip,
 } from '@sonarsource/echoes-react';
 import { uniqBy } from 'lodash';
+import { useIntl } from 'react-intl';
 import { HighlightedSection } from '~design-system';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
-import { getLocalizedMetricName, translate } from '~sq-server-commons/helpers/l10n';
+import { getLocalizedMetricName } from '~sq-server-commons/helpers/l10n';
 import { groupAndSortByPriorityConditions } from '~sq-server-commons/helpers/quality-gates';
 import { Feature } from '~sq-server-commons/types/features';
 import { Condition as ConditionType, QualityGate } from '~sq-server-commons/types/types';
@@ -45,6 +46,7 @@ interface Props {
 }
 
 export default function Conditions({ qualityGate, isFetching }: Readonly<Props>) {
+  const intl = useIntl();
   const { isBuiltIn, actions, conditions = [], isAiCodeSupported } = qualityGate;
 
   const metrics = useMetrics();
@@ -79,19 +81,19 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
     <>
       <header className="sw-flex sw-items-center sw-mt-9 sw-mb-4 sw-justify-between">
         <div className="sw-flex sw-items-center sw-gap-2">
-          <Heading as="h2" className="sw-typo-lg-semibold sw-m-0">
-            {translate('quality_gates.conditions')}
+          <Heading as="h3" className="sw-m-0">
+            {intl.formatMessage({ id: 'quality_gates.conditions' })}
           </Heading>
           {!isBuiltIn && (
             <ToggleTip
-              ariaLabel={translate('toggle_tip.aria_label.quality_gate')}
-              description={translate('quality_gates.conditions.help')}
+              ariaLabel={intl.formatMessage({ id: 'toggle_tip.aria_label.quality_gate' })}
+              description={intl.formatMessage({ id: 'quality_gates.conditions.help' })}
             />
           )}
           {isBuiltIn && (
             <ToggleTip
-              ariaLabel={translate('toggle_tip.aria_label.quality_gate')}
-              description={translate('quality_gates.conditions.hint')}
+              ariaLabel={intl.formatMessage({ id: 'toggle_tip.aria_label.quality_gate' })}
+              description={intl.formatMessage({ id: 'quality_gates.conditions.hint' })}
             />
           )}
           <Spinner className="sw-ml-4 sw-mt-1" isLoading={isFetching} />
@@ -101,7 +103,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
       {uniqDuplicates.length > 0 && (
         <MessageCallout className="sw-mb-4" variety={MessageVariety.Warning}>
           <div>
-            <p>{translate('quality_gates.duplicated_conditions')}</p>
+            <p>{intl.formatMessage({ id: 'quality_gates.duplicated_conditions' })}</p>
             <ul className="sw-my-2 sw-list-disc sw-pl-10">
               {uniqDuplicates.map((d) => (
                 <li key={d.metric.key}>{getLocalizedMetricName(d.metric)}</li>
@@ -114,15 +116,19 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
         {builtInNewCodeConditions.length > 0 && (
           <div>
             <div className="sw-flex sw-items-center sw-gap-2 sw-mb-2">
-              <Heading as="h3">
+              <Heading as="h4">
                 {isBuiltInAiCodeSupported
-                  ? translate('quality_gates.conditions.new_code', 'long')
-                  : translate('quality_gates.conditions.builtin')}
+                  ? intl.formatMessage({ id: 'quality_gates.conditions.new_code.long' })
+                  : intl.formatMessage({ id: 'quality_gates.conditions.builtin' })}
               </Heading>
             </div>
 
             <HighlightedSection className="sw-p-0 sw-my-2">
-              <ul aria-label={translate('quality_gates.condition_simplification_list')}>
+              <ul
+                aria-label={intl.formatMessage({
+                  id: 'quality_gates.condition_simplification_list',
+                })}
+              >
                 {builtInNewCodeConditions.map((condition) => (
                   <CaycCondition
                     condition={condition}
@@ -135,7 +141,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
 
             {hasFeature(Feature.BranchSupport) && (
               <Text className="sw-mb-2" isSubtle>
-                {translate('quality_gates.conditions', 'description')}
+                {intl.formatMessage({ id: 'quality_gates.conditions.description' })}
               </Text>
             )}
           </div>
@@ -144,12 +150,12 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
         {newCodeConditions.length > 0 && (
           <div>
             <div className="sw-flex sw-justify-between">
-              <Heading as="h3" className="sw-mb-2">
-                {translate('quality_gates.conditions.new_code', 'long')}
+              <Heading as="h4" className="sw-mb-2">
+                {intl.formatMessage({ id: 'quality_gates.conditions.new_code.long' })}
               </Heading>
               {hasFeature(Feature.BranchSupport) && (
                 <Text className="sw-mb-2" isSubtle>
-                  {translate('quality_gates.conditions.new_code', 'description')}
+                  {intl.formatMessage({ id: 'quality_gates.conditions.new_code.description' })}
                 </Text>
               )}
             </div>
@@ -167,12 +173,12 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
         {overallCodeConditions.length > 0 && (
           <div className="sw-mt-5">
             <div className="sw-flex sw-justify-between">
-              <Heading as="h3" className="sw-mb-2">
-                {translate('quality_gates.conditions.overall_code', 'long')}
+              <Heading as="h4" className="sw-mb-2">
+                {intl.formatMessage({ id: 'quality_gates.conditions.overall_code.long' })}
               </Heading>
               {hasFeature(Feature.BranchSupport) && (
                 <Text className="sw-mb-2" isSubtle>
-                  {translate('quality_gates.conditions.overall_code', 'description')}
+                  {intl.formatMessage({ id: 'quality_gates.conditions.overall_code.description' })}
                 </Text>
               )}
             </div>
@@ -189,8 +195,8 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
         {builtInOverallConditions.length > 0 && (
           <div>
             <div className="sw-flex sw-items-center sw-gap-2 sw-mb-2">
-              <Heading as="h3" className="sw-mb-2">
-                {translate('quality_gates.conditions.overall_code', 'long')}
+              <Heading as="h4" className="sw-mb-2">
+                {intl.formatMessage({ id: 'quality_gates.conditions.overall_code.long' })}
               </Heading>
             </div>
 
@@ -211,7 +217,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
 
       {existingConditions.length === 0 && (
         <div className="sw-mt-4 sw-typo-default">
-          <Text as="p">{translate('quality_gates.no_conditions')}</Text>
+          <Text as="p">{intl.formatMessage({ id: 'quality_gates.no_conditions' })}</Text>
         </div>
       )}
     </>
