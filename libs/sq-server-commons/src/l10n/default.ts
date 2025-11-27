@@ -8346,7 +8346,7 @@ export const defaultMessages = {
   'oauth.slack_binding.success.toast.description':
     "You've linked your SonarQube Server and Slack accounts",
   'oauth.slack_binding.success.get_started.1':
-    '<b>Invite</b> your SonarQube Server app to a channel <cmd>/invite @SonarQube</cmd>',
+    '<b>Invite</b> your SonarQube Server app to a channel <cmd>/invite @SonarQube Server</cmd>',
   'oauth.slack_binding.success.get_started.2':
     "<b>Subscribe</b> to a project <cmd>/sonarqube-server subscribe '<project-key>'</cmd>",
   'oauth.slack_binding.success.get_started.3':
