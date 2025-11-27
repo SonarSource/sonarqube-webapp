@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Banner, cssVar } from '@sonarsource/echoes-react';
+import { cssVar, Layout } from '@sonarsource/echoes-react';
 import { keyBy, throttle } from 'lodash';
 import * as React from 'react';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
@@ -86,7 +86,7 @@ export class SystemAnnouncement extends React.PureComponent<WithAvailableFeature
 
     return (
       <div style={!(displayMessage && message.length > 0) ? { display: 'none' } : {}}>
-        <StyledBannerWithMarkdown aria-live="assertive" disableFollowScroll variety="warning">
+        <StyledBannerWithMarkdown aria-live="assertive" variety="warning">
           <SafeHTMLInjection htmlAsString={message} sanitizeLevel={SanitizeLevel.USER_INPUT} />
         </StyledBannerWithMarkdown>
       </div>
@@ -99,7 +99,7 @@ export class SystemAnnouncement extends React.PureComponent<WithAvailableFeature
  * This should be replaced with a proper HTMLFormatter from Echoes, once
  * it exists!
  */
-const StyledBannerWithMarkdown = styled(Banner)`
+const StyledBannerWithMarkdown = styled(Layout.Banner)`
   & a {
     color: ${cssVar('color-text-default')};
 

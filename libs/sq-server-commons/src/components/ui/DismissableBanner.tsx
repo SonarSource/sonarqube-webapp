@@ -18,8 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
-import { Banner, BannerProps } from '@sonarsource/echoes-react';
+import { BannerProps, Layout } from '@sonarsource/echoes-react';
 import { useCallback, useEffect, useState } from 'react';
 import { get, save } from '~shared/helpers/storage';
 
@@ -55,22 +54,8 @@ export function DismissableBanner(props: Readonly<DismissableBannerProps>) {
   }
 
   return (
-    <SQSTemporaryRelativeBannerContainer>
-      <Banner
-        className={className}
-        disableFollowScroll
-        onDismiss={handleBannerDismiss}
-        variety={variety}
-      >
-        {children}
-      </Banner>
-    </SQSTemporaryRelativeBannerContainer>
+    <Layout.Banner className={className} onDismiss={handleBannerDismiss} variety={variety}>
+      {children}
+    </Layout.Banner>
   );
 }
-
-// FIXME temporary fix for the banner in SQS SONAR-25639
-const SQSTemporaryRelativeBannerContainer = styled.div`
-  & div {
-    position: relative;
-  }
-`;

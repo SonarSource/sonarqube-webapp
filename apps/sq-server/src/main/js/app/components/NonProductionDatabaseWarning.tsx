@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Banner, LinkHighlight } from '@sonarsource/echoes-react';
+import { Layout, LinkHighlight } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
@@ -34,7 +34,7 @@ export default function NonProductionDatabaseWarning() {
   }
 
   return (
-    <Banner variety="warning">
+    <Layout.Banner variety="warning">
       <FormattedMessage
         id="notification.non_production_database.warning"
         values={{
@@ -51,6 +51,6 @@ export default function NonProductionDatabaseWarning() {
           ),
         }}
       />
-    </Banner>
+    </Layout.Banner>
   );
 }

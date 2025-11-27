@@ -33,10 +33,12 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import { lightTheme } from '~design-system';
+import { A11yProvider } from '~shared/components/a11y/A11yProvider';
 import { ResetLayerStack } from '~shared/components/ResetLayerStack';
 import StateCallbackHandler from '~shared/components/StateCallbackHandler';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { addons } from '~sq-server-addons/index';
+import SuggestionsProvider from '~sq-server-commons/components/embed-docs-modal/SuggestionsProvider';
 import { DEFAULT_APP_STATE } from '~sq-server-commons/context/app-state/AppStateContext';
 import AppStateContextProvider from '~sq-server-commons/context/app-state/AppStateContextProvider';
 import {
@@ -44,9 +46,12 @@ import {
   DEFAULT_AVAILABLE_FEATURES,
 } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import CurrentUserContextProvider from '~sq-server-commons/context/current-user/CurrentUserContextProvider';
+import IndexationContextProvider from '~sq-server-commons/context/indexation/IndexationContextProvider';
+import MetricsContextProvider from '~sq-server-commons/context/metrics/MetricsContextProvider';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { queryClient } from '~sq-server-commons/queries/queryClient';
+import A11ySkipLinks from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipLinks';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { Feature } from '~sq-server-commons/types/features';
 import { CurrentUser } from '~sq-server-commons/types/users';
@@ -241,7 +246,16 @@ const router = ({
         element={
           <EchoesProvider>
             <ResetLayerStack>
-              <Outlet />
+              <SuggestionsProvider>
+                <A11yProvider>
+                  <A11ySkipLinks />
+                  <IndexationContextProvider>
+                    <MetricsContextProvider>
+                      <Outlet />
+                    </MetricsContextProvider>
+                  </IndexationContextProvider>
+                </A11yProvider>
+              </SuggestionsProvider>
             </ResetLayerStack>
           </EchoesProvider>
         }

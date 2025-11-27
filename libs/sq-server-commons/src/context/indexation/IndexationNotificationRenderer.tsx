@@ -19,7 +19,7 @@
  */
 
 /* eslint-disable react/no-unused-prop-types */
-import { Banner, BannerVariety, Link, LinkHighlight, Spinner } from '@sonarsource/echoes-react';
+import { BannerVariety, Layout, Link, LinkHighlight, Spinner } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DocumentationLink from '../../components/common/DocumentationLink';
@@ -45,16 +45,15 @@ export default function IndexationNotificationRenderer(
 
   return (
     <div className={classNames({ 'sw-hidden': type === undefined })}>
-      <Banner
+      <Layout.Banner
         aria-live="assertive"
-        disableFollowScroll
         onDismiss={
           type === IndexationNotificationType.Completed ? props.onDismissBanner : undefined
         }
         variety={NOTIFICATION_TYPES[type ?? IndexationNotificationType.Completed]}
       >
         <IndexationBanner {...props} />
-      </Banner>
+      </Layout.Banner>
     </div>
   );
 }

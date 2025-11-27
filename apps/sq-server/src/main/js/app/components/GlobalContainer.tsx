@@ -18,21 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ThemeProvider } from '@emotion/react';
+import { css, Global } from '@emotion/react';
 import styled from '@emotion/styled';
+import { Layout } from '@sonarsource/echoes-react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { lightTheme, themeColor } from '~design-system';
-import { A11yProvider } from '~shared/components/a11y/A11yProvider';
+import { themeColor } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
-import SuggestionsProvider from '~sq-server-commons/components/embed-docs-modal/SuggestionsProvider';
 import NCDAutoUpdateMessage from '~sq-server-commons/components/new-code-definition/NCDAutoUpdateMessage';
 import Workspace from '~sq-server-commons/components/workspace/Workspace';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import IndexationContextProvider from '~sq-server-commons/context/indexation/IndexationContextProvider';
 import IndexationNotification from '~sq-server-commons/context/indexation/IndexationNotification';
-import MetricsContextProvider from '~sq-server-commons/context/metrics/MetricsContextProvider';
-import A11ySkipLinks from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipLinks';
 import { Feature } from '~sq-server-commons/types/features';
 import GlobalFooter from './GlobalFooter';
 import ModeTour from './ModeTour';
@@ -48,7 +45,7 @@ import { UpdateNotification } from './update-notification/UpdateNotification';
  * These pages need a white background (aka 'secondary', rather than the default 'primary')
  * This should be revisited at some point (why the exception?)
  */
-const PAGES_WITH_SECONDARY_BACKGROUND = [
+const PAGES_WITH_SECONDARY_BACKGROUND = new Set([
   '/tutorials',
   '/projects/create',
   '/project/baseline',
@@ -75,7 +72,12 @@ const PAGES_WITH_SECONDARY_BACKGROUND = [
   '/admin/audit',
   '/admin/projects_management',
   '/account/projects',
-];
+]);
+
+/*
+ * Temporary list of migrated pages. Once the migration is done, we can remove it
+ */
+const PAGES_MIGRATED: string[] = ['placeholder'];
 
 const StartupLicenseCheckModal = addons.license?.StartupLicenseCheckModal || (() => undefined);
 
@@ -85,58 +87,85 @@ export default function GlobalContainer() {
   const { hasFeature } = useAvailableFeatures();
   const { canAdmin } = useAppState();
 
+  const newLayout = PAGES_MIGRATED.find((path) => location.pathname.includes(path));
+
+  return isDefined(newLayout) ? (
+    <Workspace>
+      {/*FIXME Temporary override to base.css to be removed when migration is done */}
+      <Global
+        styles={css`
+          body {
+            overflow-y: hidden;
+          }
+        `}
+      />
+      <Layout>
+        <Layout.BannerContainer>
+          <Banners />
+        </Layout.BannerContainer>
+
+        <GlobalNav />
+
+        <Outlet />
+      </Layout>
+
+      {/* spotlight tours and modals */}
+      {hasFeature(Feature.Architecture) && canAdmin && addons.architecture?.spotlight({})}
+      <ModeTour />
+      <PromotionNotification />
+    </Workspace>
+  ) : (
+    <>
+      <GlobalContainerWrapper id="global-container">
+        <GlobalBackground
+          className="sw-box-border sw-flex-[1_0_auto]"
+          id="container"
+          secondary={PAGES_WITH_SECONDARY_BACKGROUND.has(location.pathname)}
+        >
+          <Workspace>
+            <div className="sw-sticky sw-top-0 sw-z-global-navbar" id="global-navigation">
+              <SQSTemporaryRelativeBannerContainer>
+                <Banners />
+              </SQSTemporaryRelativeBannerContainer>
+              <GlobalNav />
+              {hasFeature(Feature.Architecture) && canAdmin && addons.architecture?.spotlight({})}
+              <ModeTour />
+              {/* The following is the portal anchor point for the component nav
+               * See ComponentContainer.tsx
+               */}
+              <div id="component-nav-portal" />
+            </div>
+            <Outlet />
+          </Workspace>
+          <PromotionNotification />
+        </GlobalBackground>
+
+        <GlobalFooter />
+      </GlobalContainerWrapper>
+      <StartupLicenseCheckModal />
+    </>
+  );
+}
+
+function Banners() {
+  const { hasFeature } = useAvailableFeatures();
+  const { canAdmin } = useAppState();
+
   return (
-    <ThemeProvider theme={lightTheme}>
-      <SuggestionsProvider>
-        <A11yProvider>
-          <A11ySkipLinks />
-          <GlobalContainerWrapper id="global-container">
-            <GlobalBackground
-              className="sw-box-border sw-flex-[1_0_auto]"
-              id="container"
-              secondary={PAGES_WITH_SECONDARY_BACKGROUND.includes(location.pathname)}
-            >
-              <Workspace>
-                <IndexationContextProvider>
-                  <MetricsContextProvider>
-                    <div className="sw-sticky sw-top-0 sw-z-global-navbar" id="global-navigation">
-                      <SQSTemporaryRelativeBannerContainer>
-                        <SystemAnnouncement />
-                        <NonProductionDatabaseWarning />
-                        {(hasFeature(Feature.FixSuggestions) ||
-                          hasFeature(Feature.FixSuggestionsMarketing)) && (
-                          <EnableAiCodeFixMessage />
-                        )}
-                        {hasFeature(Feature.Architecture) &&
-                          canAdmin &&
-                          addons.architecture?.ArchitectureAdminBanner({})}
-                        <NCDAutoUpdateMessage />
-                        <UpdateNotification isGlobalBanner />
-                        <IndexationNotification />
-                        <CalculationChangeMessage />
-                      </SQSTemporaryRelativeBannerContainer>
-                      <GlobalNav />
-                      {hasFeature(Feature.Architecture) &&
-                        canAdmin &&
-                        addons.architecture?.spotlight({})}
-                      <ModeTour />
-                      {/* The following is the portal anchor point for the component nav
-                       * See ComponentContainer.tsx
-                       */}
-                      <div id="component-nav-portal" />
-                    </div>
-                    <Outlet />
-                  </MetricsContextProvider>
-                </IndexationContextProvider>
-              </Workspace>
-              <PromotionNotification />
-            </GlobalBackground>
-            <GlobalFooter />
-          </GlobalContainerWrapper>
-          <StartupLicenseCheckModal />
-        </A11yProvider>
-      </SuggestionsProvider>
-    </ThemeProvider>
+    <>
+      <SystemAnnouncement />
+      <NonProductionDatabaseWarning />
+      {(hasFeature(Feature.FixSuggestions) || hasFeature(Feature.FixSuggestionsMarketing)) && (
+        <EnableAiCodeFixMessage />
+      )}
+      {hasFeature(Feature.Architecture) &&
+        canAdmin &&
+        addons.architecture?.ArchitectureAdminBanner({})}
+      <NCDAutoUpdateMessage />
+      <UpdateNotification isGlobalBanner />
+      <IndexationNotification />
+      <CalculationChangeMessage />
+    </>
   );
 }
 
@@ -154,6 +183,8 @@ const GlobalBackground = styled.div<{ secondary: boolean }>`
 
 // FIXME temporary fix for the banner in SQS SONAR-25639
 const SQSTemporaryRelativeBannerContainer = styled.div`
+  min-width: 1280px;
+
   & div {
     position: relative;
   }

@@ -148,7 +148,7 @@ describe('Project NCD update notification banner', () => {
   });
 
   const ui = {
-    dismissButton: byRole('button', { name: 'banner.dismiss' }),
+    dismissButton: byRole('button', { name: 'message_callout.dismiss' }),
     projectBannerContent: byText(/new_code_definition.auto_update.project.message/),
     projectNcdMessage: byText('Project NCD'),
     reviewLink: byText('new_code_definition.auto_update.review_link'),

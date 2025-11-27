@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Banner, Link } from '@sonarsource/echoes-react';
+import { Layout, Link, MessageCallout } from '@sonarsource/echoes-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { MessageTypes, checkMessageDismissed, setMessageDismissed } from '../../api/messages';
@@ -115,24 +115,24 @@ function NCDAutoUpdateMessage(props: Readonly<NCDAutoUpdateMessageProps>) {
     ? 'new_code_definition.auto_update.global.message'
     : 'new_code_definition.auto_update.project.message';
 
+  const Component = isGlobalBanner ? Layout.Banner : MessageCallout;
+
   return (
-    <Banner disableFollowScroll onDismiss={handleBannerDismiss} variety="info">
-      <p>
-        <FormattedMessage
-          id={bannerMessageId}
-          values={{
-            date: new Date(updatedAt).toLocaleDateString(),
-            days: value,
-            link: (
-              <Link to={ncdReviewLinkTo}>
-                <FormattedMessage id="new_code_definition.auto_update.review_link" />
-              </Link>
-            ),
-            previousDays: previousNonCompliantValue,
-          }}
-        />
-      </p>
-    </Banner>
+    <Component onDismiss={handleBannerDismiss} variety="info">
+      <FormattedMessage
+        id={bannerMessageId}
+        values={{
+          date: new Date(updatedAt).toLocaleDateString(),
+          days: value,
+          link: (
+            <Link to={ncdReviewLinkTo}>
+              <FormattedMessage id="new_code_definition.auto_update.review_link" />
+            </Link>
+          ),
+          previousDays: previousNonCompliantValue,
+        }}
+      />
+    </Component>
   );
 }
 

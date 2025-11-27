@@ -79,8 +79,9 @@ function ComponentNav(props: Readonly<ComponentNavProps>) {
         <Menu component={component} isInProgress={isInProgress} isPending={isPending} />
       </TopBar>
 
+      <NCDAutoUpdateMessage branchName={branchName} component={component} />
+
       <SQSTemporaryRelativeBannerContainer>
-        <NCDAutoUpdateMessage branchName={branchName} component={component} />
         <ComponentMissingMqrMetricsMessage component={component} />
         {projectBindingErrors !== undefined && (
           <ComponentNavProjectBindingErrorNotif component={component} />
