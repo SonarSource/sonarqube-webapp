@@ -65,6 +65,7 @@ export function SearchSelectDropdownControl(props: SearchSelectDropdownControlPr
 
   return (
     <StyledControl
+      aria-disabled={disabled}
       aria-label={ariaLabel}
       className={classNames(className, { 'is-discreet': isDiscreet })}
       onClick={(ev: MouseEvent<HTMLDivElement>) => {

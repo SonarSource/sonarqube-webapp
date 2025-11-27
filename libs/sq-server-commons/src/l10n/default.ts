@@ -974,6 +974,7 @@ export const defaultMessages = {
   'hotspots.list_title.FIXED': '{0} Security Hotspots reviewed as fixed',
   'hotspots.list_title.SAFE': '{0} Security Hotspots reviewed as safe',
   'hotspots.risk_exposure': 'Review priority',
+  'hotspots.permalink_copy': 'Copy permalink to current hotspot: "{title}"',
 
   'hotspots.tabs.code': 'Where is the risk?',
   'hotspots.tabs.risk_description': "What's the risk?",
@@ -1028,6 +1029,7 @@ export const defaultMessages = {
   'hotspots.continue_to_next_hotspot': 'Continue Reviewing',
 
   'hotspot.filters.title': 'Filters',
+  'hotspot.filters.title_x': 'Apply filters to security hotspots; currently applied: {count}',
   'hotspot.filters.assignee.assigned_to_me': 'Assigned to me',
   'hotspot.filters.assignee.all': 'All',
   'hotspot.filters.clear': 'Clear filters',
@@ -1067,6 +1069,7 @@ export const defaultMessages = {
   'issue.create_tag': 'Create Tag',
   'issue.create_tag_x': 'Create Tag "{0}"',
   'issue.tags': 'Tags',
+  'issue.permalink_copy': 'Copy permalink to current issue: "{title}"',
   'issue.assign.assigned_to_x_click_to_change': 'Assigned to {0}, click to change',
   'issue.assign.unassigned_click_to_assign': 'Unassigned, click to assign issue',
   'issue.assign.formlink': 'Assign',

@@ -18,9 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, IconLink, Link, Text } from '@sonarsource/echoes-react';
-import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import {
+  Badge,
+  BadgeVariety,
+  Heading,
+  IconLink,
+  Link,
+  Text,
+  toast,
+} from '@sonarsource/echoes-react';
+import { memo, useCallback, useEffect, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import { RuleStatusBadge } from '~shared/components/coding-rules/RuleStatusBadge';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
@@ -29,10 +37,9 @@ import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { RuleDetails, RuleStatus } from '~shared/types/rules';
 import { setIssueAssignee, setIssueSeverity } from '../../api/issues';
-import { addGlobalSuccessMessage, Badge, BasicSeparator } from '../../design-system';
+import { BasicSeparator } from '../../design-system';
 import { isInput, isShortcut } from '../../helpers/keyboardEventHelpers';
 import { KeyboardKeys } from '../../helpers/keycodes';
-import { translate } from '../../helpers/l10n';
 import { getKeyboardShortcutEnabled } from '../../helpers/preferences';
 import { getPathUrlAsString, getRuleUrl } from '../../helpers/urls';
 import { getComponentIssuesUrl } from '../../sonar-aligned/helpers/urls';
@@ -53,218 +60,228 @@ interface Props {
   ruleDetails: RuleDetails;
 }
 
-interface State {
-  issuePopupName?: string;
-}
+function IssueHeader({
+  additionalIssueActions,
+  branchLike,
+  issue,
+  onIssueChange,
+  ruleDetails,
+}: Readonly<Props>) {
+  const [issuePopupName, setIssuePopupName] = useState<string | undefined>(undefined);
+  const intl = useIntl();
 
-export default class IssueHeader extends React.PureComponent<Props, State> {
-  state = { issuePopupName: undefined };
+  const handleIssuePopupToggle = useCallback((nextPopup: string) => {
+    setIssuePopupName((openPopup) => {
+      if (nextPopup === openPopup) {
+        return undefined;
+      }
 
-  componentDidMount() {
-    document.addEventListener('keydown', this.handleKeyDown, { capture: true });
-  }
+      // Close current popup first
+      if (openPopup) {
+        // Needed delay to have correct focus on next popup
+        setTimeout(() => {
+          setIssuePopupName(nextPopup);
+        }, 100);
+        return undefined;
+      }
 
-  componentDidUpdate(prevProps: Props) {
-    if (prevProps.issue.key !== this.props.issue.key) {
-      this.setState({ issuePopupName: undefined });
-    }
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeyDown, {
-      capture: true,
+      return nextPopup;
     });
-  }
+  }, []);
 
-  handleIssuePopupToggle = (nextPopup: string) => {
-    const { issuePopupName: openPopup } = this.state;
-
-    if (nextPopup === openPopup) {
-      this.setState({ issuePopupName: undefined });
-      return;
-    }
-
-    // Close current popup first
-    if (openPopup) {
-      this.setState({ issuePopupName: undefined });
-    }
-
-    // Needed delay to have correct focus on next popup
-    setTimeout(() => {
-      this.setState({ issuePopupName: nextPopup });
-    }, 100);
-  };
-
-  handleAssignement = (login: string) => {
-    const { issue } = this.props;
-    if (issue.assignee !== login) {
-      void updateIssue(
-        this.props.onIssueChange,
-        // eslint-disable-next-line local-rules/no-api-imports
-        setIssueAssignee({ issue: issue.key, assignee: login }),
-      );
-    }
-    this.handleIssuePopupToggle('assign');
-  };
-
-  handleSeverityChange = (
-    severity: IssueSeverity | SoftwareImpactSeverity,
-    quality?: SoftwareQuality,
-  ) => {
-    const { issue } = this.props;
-
-    const data = quality
-      ? { issue: issue.key, impact: `${quality}=${severity}` }
-      : { issue: issue.key, severity: severity as IssueSeverity };
-
-    const severityBefore = quality
-      ? issue.impacts.find((impact) => impact.softwareQuality === quality)?.severity
-      : issue.severity;
-
-    return updateIssue(
-      this.props.onIssueChange,
-      setIssueSeverity(data).then((r) => {
-        addGlobalSuccessMessage(
-          <FormattedMessage
-            id="issue.severity.updated_notification"
-            values={{
-              issueLink: undefined,
-              quality: quality ? translate(SOFTWARE_QUALITY_LABELS[quality]) : undefined,
-              before: translate(quality ? 'severity_impact' : 'severity', severityBefore ?? ''),
-              after: translate(quality ? 'severity_impact' : 'severity', severity),
-            }}
-          />,
+  const handleAssignement = useCallback(
+    (login: string) => {
+      if (issue.assignee !== login) {
+        void updateIssue(
+          onIssueChange,
+          // eslint-disable-next-line local-rules/no-api-imports
+          setIssueAssignee({ issue: issue.key, assignee: login }),
         );
-        return r;
-      }),
-    );
-  };
+      }
+      handleIssuePopupToggle('assign');
+    },
+    [issue.assignee, issue.key, onIssueChange, handleIssuePopupToggle],
+  );
 
-  handleKeyDown = (event: KeyboardEvent) => {
-    if (isInput(event) || isShortcut(event) || !getKeyboardShortcutEnabled()) {
+  const handleSeverityChange = useCallback(
+    (severity: IssueSeverity | SoftwareImpactSeverity, quality?: SoftwareQuality) => {
+      const data = quality
+        ? { issue: issue.key, impact: `${quality}=${severity}` }
+        : { issue: issue.key, severity: severity as IssueSeverity };
+
+      const severityBefore = quality
+        ? issue.impacts.find((impact) => impact.softwareQuality === quality)?.severity
+        : issue.severity;
+
+      return updateIssue(
+        onIssueChange,
+        setIssueSeverity(data).then((r) => {
+          toast.success({
+            description: (
+              <FormattedMessage
+                id="issue.severity.updated_notification"
+                values={{
+                  issueLink: undefined,
+                  quality: quality
+                    ? intl.formatMessage({ id: SOFTWARE_QUALITY_LABELS[quality] })
+                    : undefined,
+                  before: intl.formatMessage({
+                    id: [quality ? 'severity_impact' : 'severity', severityBefore ?? '']
+                      .filter(Boolean)
+                      .join('.'),
+                  }),
+                  after: intl.formatMessage({
+                    id: [quality ? 'severity_impact' : 'severity', severity].join('.'),
+                  }),
+                }}
+              />
+            ),
+          });
+
+          return r;
+        }),
+      );
+    },
+    [issue.key, issue.impacts, issue.severity, onIssueChange],
+  );
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (isInput(event) || isShortcut(event) || !getKeyboardShortcutEnabled()) {
+        return true;
+      } else if (event.key === KeyboardKeys.KeyF) {
+        event.preventDefault();
+        handleIssuePopupToggle('transition');
+
+        return undefined;
+      } else if (event.key === KeyboardKeys.KeyA) {
+        event.preventDefault();
+        handleIssuePopupToggle('assign');
+
+        return undefined;
+      } else if (event.key === KeyboardKeys.KeyM && issue.actions.includes('assign')) {
+        event.preventDefault();
+        handleAssignement('_me');
+
+        return undefined;
+      } else if (event.key === KeyboardKeys.KeyT) {
+        event.preventDefault();
+        handleIssuePopupToggle('edit-tags');
+
+        return undefined;
+      }
+
       return true;
-    } else if (event.key === KeyboardKeys.KeyF) {
-      event.preventDefault();
-      this.handleIssuePopupToggle('transition');
+    },
+    [issue.actions, handleAssignement, handleIssuePopupToggle],
+  );
 
-      return undefined;
-    } else if (event.key === KeyboardKeys.KeyA) {
-      event.preventDefault();
-      this.handleIssuePopupToggle('assign');
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown, { capture: true });
 
-      return undefined;
-    } else if (event.key === KeyboardKeys.KeyM && this.props.issue.actions.includes('assign')) {
-      event.preventDefault();
-      this.handleAssignement('_me');
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown, { capture: true });
+    };
+  }, [handleKeyDown]);
 
-      return undefined;
-    } else if (event.key === KeyboardKeys.KeyT) {
-      event.preventDefault();
-      this.handleIssuePopupToggle('edit-tags');
+  useEffect(() => {
+    setIssuePopupName(undefined);
+  }, [issue.key]);
 
-      return undefined;
-    }
+  const issueUrl = getComponentIssuesUrl(issue.project, {
+    ...getBranchLikeQuery(branchLike),
+    issues: issue.key,
+    open: issue.key,
+    types: issue.type === IssueType.SecurityHotspot ? issue.type : undefined,
+  });
 
-    return true;
-  };
+  const canSetTags = issue.actions.includes(IssueActions.SetTags);
 
-  renderRuleDescription = () => {
-    const { issue, ruleDetails } = this.props;
-    const { key, name, isExternal, status } = ruleDetails;
-
-    return (
-      <Text isSubtle>
-        <span className="sw-pr-1">{name}</span>
-        {isExternal ? (
-          <span>({key})</span>
-        ) : (
-          <Link enableOpenInNewTab to={getRuleUrl(key)}>
-            {key}
-          </Link>
-        )}
-        <WorkspaceContext.Consumer>
-          {({ externalRulesRepoNames }) => {
-            const ruleEngine =
-              (issue.externalRuleEngine && externalRulesRepoNames[issue.externalRuleEngine]) ||
-              issue.externalRuleEngine;
-            if (ruleEngine) {
-              return <Badge className="sw-ml-1">{ruleEngine}</Badge>;
-            }
-
-            return null;
-          }}
-        </WorkspaceContext.Consumer>
-
-        {/* Only show beta status badge for non-external rules */}
-        {!isExternal && status === RuleStatus.Beta && (
-          <span className="sw-ml-1">
-            <RuleStatusBadge rule={ruleDetails} />
-          </span>
-        )}
-      </Text>
-    );
-  };
-
-  render() {
-    const { additionalIssueActions, issue, branchLike } = this.props;
-    const { issuePopupName } = this.state;
-    const issueUrl = getComponentIssuesUrl(issue.project, {
-      ...getBranchLikeQuery(branchLike),
-      issues: issue.key,
-      open: issue.key,
-      types: issue.type === IssueType.SecurityHotspot ? issue.type : undefined,
-    });
-
-    const canSetTags = issue.actions.includes(IssueActions.SetTags);
-
-    return (
-      <header className="sw-flex sw-mb-6">
-        <div className="sw-mr-8 sw-flex-1 sw-flex sw-flex-col sw-gap-4 sw-min-w-0">
-          <div className="sw-flex sw-flex-col sw-gap-2">
-            <div className="sw-flex sw-items-center">
-              <Heading as="h1" size="medium">
-                <IssueMessageHighlighting
-                  message={issue.message}
-                  messageFormattings={issue.messageFormattings}
-                />
-                <ClipboardIconButton
-                  Icon={IconLink}
-                  aria-label={translate('permalink')}
-                  className="sw-ml-1 sw-align-bottom"
-                  copyValue={getPathUrlAsString(issueUrl, false)}
-                  discreet
-                />
-              </Heading>
-            </div>
-
-            <div className="sw-flex sw-items-center sw-justify-between">
-              {this.renderRuleDescription()}
-            </div>
+  return (
+    <header className="sw-flex sw-mb-6">
+      <div className="sw-mr-8 sw-flex-1 sw-flex sw-flex-col sw-gap-4 sw-min-w-0">
+        <div className="sw-flex sw-flex-col sw-gap-2">
+          <div className="sw-flex sw-items-center">
+            <Heading as="h1" size="medium">
+              <IssueMessageHighlighting
+                message={issue.message}
+                messageFormattings={issue.messageFormattings}
+              />
+            </Heading>
+            <ClipboardIconButton
+              Icon={IconLink}
+              aria-label={intl.formatMessage(
+                { id: 'issue.permalink_copy' },
+                { title: issue.message },
+              )}
+              className="sw-ml-1 sw-align-bottom"
+              copyValue={getPathUrlAsString(issueUrl, false)}
+              discreet
+            />
           </div>
 
-          <IssueHeaderMeta issue={issue} />
+          <div className="sw-flex sw-items-center sw-justify-between">
+            <Text isSubtle>
+              <span className="sw-pr-1">{ruleDetails.name}</span>
+              {ruleDetails.isExternal ? (
+                <span>({ruleDetails.key})</span>
+              ) : (
+                <Link enableOpenInNewTab to={getRuleUrl(ruleDetails.key)}>
+                  {ruleDetails.key}
+                </Link>
+              )}
+              <WorkspaceContext.Consumer>
+                {({ externalRulesRepoNames }) => {
+                  const ruleEngine =
+                    (issue.externalRuleEngine &&
+                      externalRulesRepoNames[issue.externalRuleEngine]) ||
+                    issue.externalRuleEngine;
+                  if (ruleEngine) {
+                    return (
+                      <Badge className="sw-ml-1" variety={BadgeVariety.Neutral}>
+                        {ruleEngine}
+                      </Badge>
+                    );
+                  }
 
-          <BasicSeparator />
+                  return null;
+                }}
+              </WorkspaceContext.Consumer>
 
-          <IssueActionsBar
-            additionalIssueActions={additionalIssueActions}
-            canSetTags={canSetTags}
-            currentPopup={issuePopupName}
-            issue={issue}
-            onAssign={this.handleAssignement}
-            onChange={this.props.onIssueChange}
-            showSonarLintBadge
-            showTags
-            togglePopup={this.handleIssuePopupToggle}
-          />
+              {/* Only show beta status badge for non-external rules */}
+              {!ruleDetails.isExternal && ruleDetails.status === RuleStatus.Beta && (
+                <span className="sw-ml-1">
+                  <RuleStatusBadge rule={ruleDetails} />
+                </span>
+              )}
+            </Text>
+          </div>
         </div>
-        <IssueHeaderSide
+
+        <IssueHeaderMeta issue={issue} />
+
+        <BasicSeparator />
+
+        <IssueActionsBar
+          additionalIssueActions={additionalIssueActions}
+          canSetTags={canSetTags}
+          currentPopup={issuePopupName}
           issue={issue}
-          onSetSeverity={
-            issue.actions.includes(IssueActions.SetSeverity) ? this.handleSeverityChange : undefined
-          }
+          onAssign={handleAssignement}
+          onChange={onIssueChange}
+          showSonarLintBadge
+          showTags
+          togglePopup={handleIssuePopupToggle}
         />
-      </header>
-    );
-  }
+      </div>
+      <IssueHeaderSide
+        issue={issue}
+        onSetSeverity={
+          issue.actions.includes(IssueActions.SetSeverity) ? handleSeverityChange : undefined
+        }
+      />
+    </header>
+  );
 }
+
+export default memo(IssueHeader);

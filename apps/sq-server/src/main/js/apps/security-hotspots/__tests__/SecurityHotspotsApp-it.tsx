@@ -78,13 +78,13 @@ const ui = {
   dontShowSuccessDialogCheckbox: byRole('checkbox', {
     name: 'hotspots.success_dialog.do_not_show',
   }),
-  filterAssigneeToMe: byRole('checkbox', {
+  filterAssigneeToMe: byRole('menuitem', {
     name: 'hotspot.filters.assignee.assigned_to_me',
   }),
   filterByPeriod: byRole('combobox', { name: 'hotspot.filters.period' }),
   filterByStatus: byRole('combobox', { name: 'hotspot.filters.status' }),
-  filterDropdown: byRole('button', { name: 'hotspot.filters.title' }),
-  filterNewCode: byRole('checkbox', { name: 'hotspot.filters.period.since_leak_period' }),
+  filterDropdown: byRole('button', { name: /hotspot.filters.title/ }),
+  filterNewCode: byRole('menuitem', { name: 'hotspot.filters.period.since_leak_period' }),
   filterToReview: byRole('radio', { name: 'hotspot.filters.status.to_review' }),
   fixContent: byText('This is how to fix'),
   fixTab: byRole('tab', { name: /hotspots.tabs.fix_recommendations/ }),
@@ -460,9 +460,7 @@ it('should be able to filter the hotspot list', async () => {
     undefined,
   );
 
-  await user.click(ui.filterDropdown.get());
   await user.click(ui.clearFilters.get());
-
   expect(ui.hotpostListTitle.get()).toBeInTheDocument();
 });
 
@@ -476,7 +474,7 @@ it('should disable the "assigned to me" filter if the project is indexing', asyn
 
   await user.click(ui.filterDropdown.get());
 
-  expect(ui.filterAssigneeToMe.get()).toHaveAttribute('disabled');
+  expect(ui.filterAssigneeToMe.get()).toHaveAttribute('aria-disabled');
 });
 
 function renderSecurityHotspotsApp(

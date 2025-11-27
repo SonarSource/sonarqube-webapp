@@ -18,31 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner, ToggleTip } from '@sonarsource/echoes-react';
 import {
-  CoverageIndicator,
-  DiscreetInteractiveIcon,
-  Dropdown,
-  FilterIcon,
-  ItemCheckbox,
-  ItemDangerButton,
-  ItemDivider,
-  ItemHeader,
-  PopupZLevel,
-} from '~design-system';
+  Button,
+  ButtonVariety,
+  DropdownMenu,
+  IconFilter,
+  Spinner,
+  Text,
+  ToggleTip,
+} from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { CoverageIndicator } from '~design-system';
 import { isBranch } from '~shared/helpers/branch-like';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import Tooltip from '~sq-server-commons/components/controls/Tooltip';
-import { PopupPlacement } from '~sq-server-commons/components/ui/popups';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { ComponentContextShape } from '~sq-server-commons/types/component';
 import { HotspotFilters } from '~sq-server-commons/types/security-hotspots';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
-import { HotspotDisabledFilterTooltip } from './HotspotDisabledFilterTooltip';
 
 export interface SecurityHotspotsAppRendererProps extends ComponentContextShape {
   branchLike?: BranchLike;
@@ -64,6 +59,7 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
     isStaticListOfHotspots,
     loadingMeasure,
   } = props;
+  const intl = useIntl();
 
   const userLoggedIn = isLoggedIn(currentUser);
 
@@ -96,85 +92,77 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
       </Spinner>
 
       <span className="sw-typo-default sw-ml-1">
-        {translate('metric.security_hotspots_reviewed.name')}
+        {intl.formatMessage({ id: 'metric.security_hotspots_reviewed.name' })}
       </span>
 
       <ToggleTip
-        ariaLabel={translate('toggle_tip.aria_label.security_hotspots')}
+        ariaLabel={intl.formatMessage({ id: 'toggle_tip.aria_label.security_hotspots' })}
         className="sw-ml-2"
-        description={translate('hotspots.reviewed.tooltip')}
-        title={translate('metric.security_hotspots_reviewed.name')}
+        description={intl.formatMessage({ id: 'hotspots.reviewed.tooltip' })}
+        title={intl.formatMessage({ id: 'metric.security_hotspots_reviewed.name' })}
       />
 
       {!isStaticListOfHotspots && (isBranch(branchLike) || userLoggedIn || isFiltered) && (
-        <div className="sw-flex sw-flex-grow sw-justify-end">
-          <Dropdown
-            allowResizing
-            closeOnClick={false}
+        <div className="sw-flex sw-flex-grow sw-justify-end sw-items-center">
+          <DropdownMenu
             id="filter-hotspots-menu"
-            overlay={
+            items={
               <>
-                <ItemHeader>{translate('hotspot.filters.title')}</ItemHeader>
-
+                <DropdownMenu.GroupLabel>
+                  {intl.formatMessage({ id: 'hotspot.filters.title' })}
+                </DropdownMenu.GroupLabel>
                 {isBranch(branchLike) && (
-                  <ItemCheckbox
-                    checked={Boolean(filters.inNewCodePeriod)}
-                    onCheck={(inNewCodePeriod: boolean) => {
-                      props.onChangeFilters({ inNewCodePeriod });
+                  <DropdownMenu.ItemButtonCheckable
+                    isChecked={Boolean(filters.inNewCodePeriod)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      props.onChangeFilters({ inNewCodePeriod: !filters.inNewCodePeriod });
                     }}
                   >
-                    <span className="sw-mx-2">
-                      {translate('hotspot.filters.period.since_leak_period')}
-                    </span>
-                  </ItemCheckbox>
+                    <FormattedMessage id="hotspot.filters.period.since_leak_period" />
+                  </DropdownMenu.ItemButtonCheckable>
                 )}
-
                 {userLoggedIn && (
-                  <Tooltip
-                    classNameSpace={component?.needIssueSync ? 'tooltip' : 'sw-hidden'}
-                    content={<HotspotDisabledFilterTooltip />}
-                    side="right"
+                  <DropdownMenu.ItemButtonCheckable
+                    isChecked={Boolean(filters.assignedToMe)}
+                    isDisabled={Boolean(component?.needIssueSync)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      props.onChangeFilters({ assignedToMe: !filters.assignedToMe });
+                    }}
                   >
-                    <ItemCheckbox
-                      checked={Boolean(filters.assignedToMe)}
-                      disabled={component?.needIssueSync}
-                      onCheck={(assignedToMe: boolean) => {
-                        props.onChangeFilters({ assignedToMe });
+                    <FormattedMessage id="hotspot.filters.assignee.assigned_to_me" />
+                  </DropdownMenu.ItemButtonCheckable>
+                )}
+                {isFiltered && (
+                  <>
+                    <DropdownMenu.Separator />
+                    <DropdownMenu.ItemButtonDestructive
+                      onClick={() => {
+                        props.onChangeFilters({
+                          assignedToMe: false,
+                          inNewCodePeriod: false,
+                        });
                       }}
                     >
-                      <span className="sw-mx-2">
-                        {translate('hotspot.filters.assignee.assigned_to_me')}
-                      </span>
-                    </ItemCheckbox>
-                  </Tooltip>
-                )}
-
-                {isFiltered && <ItemDivider />}
-
-                {isFiltered && (
-                  <ItemDangerButton
-                    onClick={() => {
-                      props.onChangeFilters({
-                        assignedToMe: false,
-                        inNewCodePeriod: false,
-                      });
-                    }}
-                  >
-                    {translate('hotspot.filters.clear')}
-                  </ItemDangerButton>
+                      <FormattedMessage id="hotspot.filters.clear" />
+                    </DropdownMenu.ItemButtonDestructive>
+                  </>
                 )}
               </>
             }
-            placement={PopupPlacement.BottomRight}
-            zLevel={PopupZLevel.Global}
           >
-            <DiscreetInteractiveIcon
-              Icon={FilterIcon}
-              aria-label={translate('hotspot.filters.title')}
+            <Button
+              ariaLabel={intl.formatMessage(
+                { id: 'hotspot.filters.title_x' },
+                { count: filtersCount },
+              )}
+              variety={ButtonVariety.DefaultGhost}
             >
-              {isFiltered ? filtersCount : null}
-            </DiscreetInteractiveIcon>
-          </Dropdown>
+              <IconFilter />
+              <Text>{isFiltered ? filtersCount : null}</Text>
+            </Button>
+          </DropdownMenu>
         </div>
       )}
     </div>

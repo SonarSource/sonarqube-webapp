@@ -19,6 +19,7 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { ComponentProps } from 'react';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import IssuesServiceMock from '~sq-server-commons/api/mocks/IssuesServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
@@ -192,7 +193,7 @@ it('can update the severity in Standard mode', async () => {
 });
 
 function renderIssueHeader(
-  props: Partial<IssueHeader['props']> = {},
+  props: Partial<ComponentProps<typeof IssueHeader>> = {},
   externalRules: Record<string, string> = {},
 ) {
   issuesHandler.setIssueList([
