@@ -30,6 +30,7 @@ import Workspace from '~sq-server-commons/components/workspace/Workspace';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import IndexationNotification from '~sq-server-commons/context/indexation/IndexationNotification';
+import MetricsContextProvider from '~sq-server-commons/context/metrics/MetricsContextProvider';
 import { Feature } from '~sq-server-commons/types/features';
 import GlobalFooter from './GlobalFooter';
 import ModeTour from './ModeTour';
@@ -90,32 +91,34 @@ export default function GlobalContainer() {
   const newLayout = PAGES_MIGRATED.find((path) => location.pathname.includes(path));
 
   return isDefined(newLayout) ? (
-    <Workspace>
-      {/*FIXME Temporary override to base.css to be removed when migration is done */}
-      <Global
-        styles={css`
-          body {
-            overflow-y: hidden;
-          }
-        `}
-      />
-      <Layout>
-        <Layout.BannerContainer>
-          <Banners />
-        </Layout.BannerContainer>
+    <MetricsContextProvider>
+      <Workspace>
+        {/*FIXME Temporary override to base.css to be removed when migration is done */}
+        <Global
+          styles={css`
+            body {
+              overflow-y: hidden;
+            }
+          `}
+        />
+        <Layout>
+          <Layout.BannerContainer>
+            <Banners />
+          </Layout.BannerContainer>
 
-        <GlobalNav />
+          <GlobalNav />
 
-        <Outlet />
-      </Layout>
+          <Outlet />
+        </Layout>
 
-      {/* spotlight tours and modals */}
-      {hasFeature(Feature.Architecture) && canAdmin && addons.architecture?.spotlight({})}
-      <ModeTour />
-      <PromotionNotification />
-    </Workspace>
+        {/* spotlight tours and modals */}
+        {hasFeature(Feature.Architecture) && canAdmin && addons.architecture?.spotlight({})}
+        <ModeTour />
+        <PromotionNotification />
+      </Workspace>
+    </MetricsContextProvider>
   ) : (
-    <>
+    <MetricsContextProvider>
       <GlobalContainerWrapper id="global-container">
         <GlobalBackground
           className="sw-box-border sw-flex-[1_0_auto]"
@@ -143,7 +146,7 @@ export default function GlobalContainer() {
         <GlobalFooter />
       </GlobalContainerWrapper>
       <StartupLicenseCheckModal />
-    </>
+    </MetricsContextProvider>
   );
 }
 

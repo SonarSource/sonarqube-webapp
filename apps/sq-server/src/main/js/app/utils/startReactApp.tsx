@@ -47,7 +47,6 @@ import {
 } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import CurrentUserContextProvider from '~sq-server-commons/context/current-user/CurrentUserContextProvider';
 import IndexationContextProvider from '~sq-server-commons/context/indexation/IndexationContextProvider';
-import MetricsContextProvider from '~sq-server-commons/context/metrics/MetricsContextProvider';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { queryClient } from '~sq-server-commons/queries/queryClient';
@@ -250,9 +249,7 @@ const router = ({
                 <A11yProvider>
                   <A11ySkipLinks />
                   <IndexationContextProvider>
-                    <MetricsContextProvider>
-                      <Outlet />
-                    </MetricsContextProvider>
+                    <Outlet />
                   </IndexationContextProvider>
                 </A11yProvider>
               </SuggestionsProvider>
