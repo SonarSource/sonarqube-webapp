@@ -3694,7 +3694,9 @@ export const defaultMessages = {
 
   'quality_profiles.compare_with': 'Compare with',
   'quality_profiles.filter_by': 'Filter by',
+  'quality_profiles.filter_by_lang': 'Filter by language',
   'quality_profiles.select_lang': 'Select language',
+  'quality_profiles.no_lang_found': 'No languages found',
   'quality_profiles.restore_profile': 'Restore Profile',
   'quality_profiles.restore_profile.success':
     '{ruleSuccesses} rule(s) restored in profile "{profileName}"',

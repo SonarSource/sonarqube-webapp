@@ -105,7 +105,7 @@ const ui = {
   deactivateConfirmButton: byRole('button', { name: 'yes' }),
   activateConfirmButton: byRole('button', { name: 'coding_rules.activate' }),
   namePropupInput: byRole('textbox', { name: 'quality_profiles.new_name' }),
-  filterByLang: byRole('combobox', { name: 'quality_profiles.select_lang' }),
+  filterByLang: byRole('combobox', { name: 'quality_profiles.filter_by_lang' }),
   listLinkCQualityProfile: byRole('link', { name: 'c quality profile' }),
   headingNewCQualityProfile: byRole('heading', { name: 'New c quality profile' }),
   headingNewCQualityProfileFromCreateButton: byRole('heading', {

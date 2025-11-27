@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
+import { SearchInputWidth, Select } from '@sonarsource/echoes-react';
+import { useMemo } from 'react';
 import { useIntl } from 'react-intl';
-import { LabelValueSelectOption, SearchSelectDropdown } from '~design-system';
 import { useRouter } from '~shared/components/hoc/withRouter';
 import { PROFILE_PATH } from '~sq-server-commons/constants/paths';
 import { getProfilesForLanguagePath } from '~sq-server-commons/utils/quality-profiles-utils';
@@ -37,17 +37,12 @@ export default function LanguageSelect(props: Readonly<Props>) {
   const intl = useIntl();
   const router = useRouter();
 
-  const options = languages.map((language) => ({
-    label: language.name,
-    value: language.key,
-  }));
-
-  const handleLanguagesSearch = React.useCallback(
-    (query: string, cb: (options: LabelValueSelectOption<string>[]) => void) => {
-      cb(options.filter((option) => option.label.toLowerCase().includes(query.toLowerCase())));
-    },
-    [options],
-  );
+  const options = useMemo(() => {
+    return languages.map((language) => ({
+      label: language.name,
+      value: language.key,
+    }));
+  }, [languages]);
 
   if (languages.length < MIN_LANGUAGES) {
     return null;
@@ -55,23 +50,19 @@ export default function LanguageSelect(props: Readonly<Props>) {
 
   return (
     <div className="sw-mb-4">
-      <span className="sw-mr-2 sw-typo-semibold">
-        {intl.formatMessage({ id: 'quality_profiles.filter_by' })}
-      </span>
-      <SearchSelectDropdown
-        autoFocus
-        className="sw-inline-block"
-        controlAriaLabel={intl.formatMessage({ id: 'quality_profiles.select_lang' })}
-        controlPlaceholder={intl.formatMessage({ id: 'quality_profiles.select_lang' })}
-        controlSize="medium"
-        defaultOptions={options}
-        isClearable
-        loadOptions={handleLanguagesSearch}
-        onChange={(option: LabelValueSelectOption<string>) => {
-          router.replace(!option ? PROFILE_PATH : getProfilesForLanguagePath(option.value));
+      <Select
+        ariaLabel={intl.formatMessage({ id: 'quality_profiles.filter_by_lang' })}
+        className="sw-py-1"
+        data={options}
+        isSearchable
+        label={intl.formatMessage({ id: 'quality_profiles.filter_by' })}
+        labelNotFound={intl.formatMessage({ id: 'quality_profiles.no_lang_found' })}
+        onChange={(value: string) => {
+          router.replace(value ? getProfilesForLanguagePath(value) : PROFILE_PATH);
         }}
-        options={options}
-        value={options.find((o) => o.value === currentFilter)}
+        placeholder={intl.formatMessage({ id: 'quality_profiles.select_lang' })}
+        value={options.find((o) => o.value === currentFilter)?.value}
+        width={SearchInputWidth.Medium}
       />
     </div>
   );
