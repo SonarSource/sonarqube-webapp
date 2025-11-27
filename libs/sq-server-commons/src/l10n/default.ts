@@ -2013,8 +2013,6 @@ export const defaultMessages = {
   'architecture.empty_state.body1': 'Supported Languages: {supported_languages}',
   'architecture.empty_state.body2': 'Active Languages: {active_languages}',
   'architecture.empty_state.get_started.title': 'Get started!',
-  'architecture.empty_state.get_started.description':
-    'Add a first component to your intended architecture.',
   'architecture.project_too_big': "This project is too big and can't be displayed.",
   'architecture.page': 'Architecture',
   'architecture.page.discovery': 'Current architecture',
@@ -2024,7 +2022,6 @@ export const defaultMessages = {
   'architecture.page.model.visual.sidebar.description': 'Drag nodes to create groups in the model',
   'architecture.page.model.visual.button.add_component.label': 'Add component',
   'architecture.page.model.visual.button.add_component': 'Component',
-  'architecture.page.model.visual.button.empty_state.add_component': 'Add a component',
   'architecture.page.model': 'Intended architecture',
   'architecture.page.dashboard.model.description_admin':
     'Create an intended architecture with a few top components to detect the first deviations.',
