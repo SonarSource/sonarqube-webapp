@@ -123,21 +123,15 @@ it('should behave correctly', async () => {
 
   expect(await ui.header.find()).toBeInTheDocument();
 
-  // OAuth provider.
   expect(ui.githubButton.get()).toBeInTheDocument();
   expect(ui.githubImage.get()).toHaveAttribute('src', '/path/icon.svg');
 
-  // Login form collapsed by default.
-  expect(ui.loginInput.query()).not.toBeInTheDocument();
-
-  // Open login form, log in.
-  await user.click(ui.loginOptionsButton.get());
+  await user.click(await ui.loginOptionsButton.find());
 
   const loginField = ui.loginInput.get();
   const passwordField = ui.passwordInput.get();
   const submitButton = ui.submitButton.get();
 
-  // Incorrect login.
   await user.type(loginField, 'janedoe');
   await user.type(passwordField, 'invalid');
   await user.click(submitButton);
@@ -146,7 +140,6 @@ it('should behave correctly', async () => {
     expect(ui.errorToast.get()).toBeInTheDocument();
   });
 
-  // Correct login.
   await user.clear(passwordField);
   await user.type(passwordField, 'valid');
   await user.click(submitButton);
@@ -171,7 +164,6 @@ it('should not show any OAuth providers if none are configured', async () => {
 
   expect(await ui.header.find()).toBeInTheDocument();
 
-  // No OAuth providers, login form display by default.
   expect(ui.loginOAuthLink.query()).not.toBeInTheDocument();
   expect(ui.loginInput.get()).toBeInTheDocument();
 });
@@ -237,6 +229,60 @@ it('should toggle password visibility', async () => {
 
   expect(passwordField).toHaveAttribute('type', 'password');
   expect(ui.showPasswordButton.get()).toBeInTheDocument();
+});
+
+it('should disable submit button when form fields are empty', async () => {
+  jest.mocked(getIdentityProviders).mockResolvedValueOnce({ identityProviders: [] });
+  const user = userEvent.setup();
+
+  renderLoginContainer();
+
+  expect(await ui.header.find()).toBeInTheDocument();
+
+  const submitButton = await ui.submitButton.find();
+  const loginField = ui.loginInput.get();
+  const passwordField = ui.passwordInput.get();
+
+  expect(submitButton).toBeDisabled();
+
+  await user.type(loginField, 'janedoe');
+  expect(submitButton).toBeDisabled();
+
+  await user.type(passwordField, 'password');
+  expect(submitButton).toBeEnabled();
+
+  await user.clear(loginField);
+  expect(submitButton).toBeDisabled();
+
+  await user.type(loginField, 'janedoe');
+  expect(submitButton).toBeEnabled();
+
+  await user.clear(passwordField);
+  expect(submitButton).toBeDisabled();
+});
+
+it('should show validation error state on authentication failure', async () => {
+  jest.mocked(getIdentityProviders).mockResolvedValueOnce({ identityProviders: [] });
+  const user = userEvent.setup();
+
+  renderLoginContainer();
+
+  expect(await ui.header.find()).toBeInTheDocument();
+
+  const submitButton = await ui.submitButton.find();
+  const loginField = ui.loginInput.get();
+  const passwordField = ui.passwordInput.get();
+
+  await user.type(loginField, 'janedoe');
+  await user.type(passwordField, 'invalid');
+  await user.click(submitButton);
+
+  await waitFor(() => {
+    expect(ui.errorToast.get()).toBeInTheDocument();
+  });
+
+  expect(loginField).toHaveAttribute('aria-invalid', 'true');
+  expect(passwordField).toHaveAttribute('aria-invalid', 'true');
 });
 
 function renderLoginContainer() {

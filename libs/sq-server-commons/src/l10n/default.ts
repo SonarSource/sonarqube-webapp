@@ -4598,14 +4598,14 @@ export const defaultMessages = {
   'user.confirm_password.no_match': 'Passwords do not match',
 
   'login.page': 'Log in',
-  'login.login_to_sonarqube': 'Log in to {productName}',
+  'login.login_to_sonarqube': 'Welcome to {productName}',
   'login.login_with_x': 'Log in with {providerName}',
   'login.more_options': 'Log in with credentials',
   'login.unauthorized_access_alert':
     'You are not authorized to access this page. Please log in with more privileges and try again.',
   'login.with_x': 'With {0}',
-  'login.or': 'Or log in with',
-  'login.authentication_failed': 'Authentication failed',
+  'login.or': 'Or',
+  'login.authentication_failed': 'Invalid username or password.',
   'login.logout_failed': 'Logout failed',
   'login.username.placeholder': 'Enter your username',
   'login.password.placeholder': 'Enter your password',

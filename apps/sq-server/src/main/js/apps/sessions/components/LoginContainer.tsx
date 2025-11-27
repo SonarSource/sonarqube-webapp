@@ -18,26 +18,29 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
+import tw from 'twin.macro';
 import { LAYOUT_FOOTER_HEIGHT } from '~sq-server-commons/design-system';
 import Login from './Login';
 import MarketingPanel from './MarketingPanel';
 
 export default function LoginContainer() {
   return (
-    <div
-      className="sw-flex"
-      style={{
-        height: `calc(100vh - ${LAYOUT_FOOTER_HEIGHT}px)`,
-        backgroundColor: cssVar('color-surface-default'),
-      }}
-    >
+    <LoginContainerWrapper>
       <div className="sw-flex-1 sw-flex sw-p-8 sw-justify-center sw-items-center">
         <Login />
       </div>
       <div className="sw-flex-1 sw-flex">
         <MarketingPanel />
       </div>
-    </div>
+    </LoginContainerWrapper>
   );
 }
+
+const LoginContainerWrapper = styled.div`
+  ${tw`sw-flex`};
+  height: calc(100vh - ${LAYOUT_FOOTER_HEIGHT}px);
+  background-color: ${cssVar('color-surface-default')};
+  min-width: 1280px;
+`;

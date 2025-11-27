@@ -61,7 +61,7 @@ export default function OAuthProviders({ identityProviders, returnTo }: Readonly
         ))}
       </div>
       <Divider
-        className="sw-my-8 sw-w-full"
+        className="sw-mt-8 sw-w-full"
         text={
           <Text className="sw-mx-4" size={TextSize.Small}>
             <FormattedMessage id="login.or" />

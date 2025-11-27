@@ -25,6 +25,7 @@ import {
   MessageVariety,
   Spinner,
 } from '@sonarsource/echoes-react';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation } from '~shared/components/hoc/withRouter';
@@ -35,10 +36,19 @@ import LoginForm from './LoginForm';
 import OAuthProviders from './OAuthProviders';
 
 export default function Login() {
-  const { data: identityProviders = [], isFetching } = useIdentityProvidersQuery();
+  const { data: identityProviders = [], isLoading } = useIdentityProvidersQuery();
 
   const location = useLocation();
   const { formatMessage } = useIntl();
+  const [isCredentialsFormCollapsed, setIsCredentialsFormCollapsed] = useState(true);
+
+  const hasOAuthProviders = identityProviders.length > 0;
+  useEffect(() => {
+    if (isLoading) {
+      return;
+    }
+    setIsCredentialsFormCollapsed(hasOAuthProviders);
+  }, [hasOAuthProviders, isLoading]);
 
   const displayError = Boolean(location.query.authorizationError);
 
@@ -47,11 +57,11 @@ export default function Login() {
       <Helmet defer={false} title={formatMessage({ id: 'login.page' })} />
       <div className="sw-typo-lg sw-flex-col">
         <SonarQubeProductLogo className="sw-mb-6" hasText size={LogoSize.Large} />
-        <Heading as="h1" className="sw-mb-16">
+        <Heading as="h1" className="sw-mb-10">
           <FormattedMessage id="login.login_to_sonarqube" />
         </Heading>
 
-        <Spinner isLoading={isFetching}>
+        <Spinner isLoading={isLoading}>
           <>
             {displayError && (
               <MessageCallout className="sw-mb-6" variety={MessageVariety.Danger}>
@@ -59,14 +69,19 @@ export default function Login() {
               </MessageCallout>
             )}
 
-            {identityProviders.length > 0 && (
+            {hasOAuthProviders && (
               <OAuthProviders
                 identityProviders={identityProviders}
                 returnTo={getReturnUrl(location)}
               />
             )}
 
-            <LoginForm collapsed={identityProviders.length > 0} />
+            <LoginForm
+              collapsed={isCredentialsFormCollapsed}
+              onExpandClick={() => {
+                setIsCredentialsFormCollapsed(false);
+              }}
+            />
           </>
         </Spinner>
       </div>
