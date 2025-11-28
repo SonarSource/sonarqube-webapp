@@ -109,6 +109,28 @@ it('should show the correct help tooltip when branch support is not enabled', as
 });
 
 
+it('should not render project binding link if branch support is not enabled and the project is not bound', async () => {
+  handler.emptyBranchesAndPullRequest();
+  renderHeader(
+    {
+      component: mockComponent({
+        key: 'header-project',
+        configuration: { showSettings: true },
+        breadcrumbs: [{ name: 'project', key: 'project', qualifier: ComponentQualifier.Project }],
+      }),
+      currentUser: mockLoggedInUser(),
+    },
+    [],
+    'pullRequest=1001&id=compa',
+  );
+
+  // Waiting for the Header to be rendered
+  expect(await screen.findByText('project')).toBeInTheDocument();
+
+  // Checking that the project binding status is not rendered
+  expect(screen.queryByText('project_navigation.binding_status.bind')).not.toBeInTheDocument();
+});
+
 function renderHeader(
   props?: Partial<HeaderProps>,
   featureList = [Feature.BranchSupport],
