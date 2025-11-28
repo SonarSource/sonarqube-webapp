@@ -168,6 +168,11 @@ export function mockStandards(): StandardsInformation {
         title: 'Sensitive Data Exposure',
       },
     },
+    'owaspTop10-2025': {
+      a1: {
+        title: 'Broken Access Control',
+      },
+    },
     sonarsourceSecurity: {
       'buffer-overflow': {
         title: 'Buffer Overflow',
@@ -197,6 +202,11 @@ export function mockStandards(): StandardsInformation {
     'stig-ASD_V5R3': {
       'V-123': {
         title: 'STIG requirement 123',
+      },
+    },
+    'stig-ASD_V6': {
+      'V-456': {
+        title: 'STIG requirement 456',
       },
     },
     casa: {

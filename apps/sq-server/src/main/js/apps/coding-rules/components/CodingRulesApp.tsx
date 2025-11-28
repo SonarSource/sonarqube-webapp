@@ -67,6 +67,8 @@ import {
   getOpen,
   getSelected,
   hasRuleKey,
+  mapBackendFacetKeyToFrontend,
+  mapFacetToBackendName,
   parseQuery,
   serializeQuery,
   shouldRequestFacet,
@@ -125,6 +127,21 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
           {},
           query,
           StandardsInformationKey.OWASP_TOP10_2021,
+        ),
+        'owaspTop10-2025': shouldOpenStandardsChildFacet(
+          {},
+          query,
+          StandardsInformationKey.OWASP_TOP10_2025,
+        ),
+        'stig-ASD_V5R3': shouldOpenStandardsChildFacet(
+          {},
+          query,
+          StandardsInformationKey.STIG_ASD_V5R3,
+        ),
+        'stig-ASD_V6': shouldOpenStandardsChildFacet(
+          {},
+          query,
+          StandardsInformationKey.STIG_ASD_V6,
         ),
         sonarsourceSecurity: shouldOpenSonarSourceSecurityFacet({}, query),
         standards: shouldOpenStandardsFacet({}, query),
@@ -217,9 +234,12 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
 
   getFacetsToFetch = () => {
     const { openFacets } = this.state;
-    return Object.keys(openFacets)
+    const facets = Object.keys(openFacets)
       .filter((facet: FacetKey) => openFacets[facet])
-      .filter((facet: FacetKey) => shouldRequestFacet(facet));
+      .filter((facet: FacetKey) => shouldRequestFacet(facet))
+      .map((facet: FacetKey) => mapFacetToBackendName(facet));
+    // Deduplicate facets (e.g., both owaspTop10-2025 and stig-ASD_V6 map to complianceStandards)
+    return Array.from(new Set(facets));
   };
 
   getFieldsToFetch = () => {
@@ -241,13 +261,22 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
     return fields;
   };
 
-  getSearchParameters = () => ({
-    f: this.getFieldsToFetch().join(),
-    facets: this.getFacetsToFetch().join(),
-    ps: PAGE_SIZE,
-    s: 'name',
-    ...serializeQuery(parseQuery(this.props.location.query)),
-  });
+  getSearchParameters = () => {
+    const {
+      'owaspTop10-2025': _owaspTop102025,
+      'stig-ASD_V5R3': _stigAsdV5R3,
+      'stig-ASD_V6': _stigAsdV6,
+      ...apiParams
+    } = serializeQuery(parseQuery(this.props.location.query));
+
+    return {
+      f: this.getFieldsToFetch().join(),
+      facets: this.getFacetsToFetch().join(),
+      ps: PAGE_SIZE,
+      s: 'name',
+      ...apiParams,
+    };
+  };
 
   stopLoading = () => {
     if (this.mounted) {
@@ -289,13 +318,13 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
         const openRule = this.getOpenRule(rules);
         const selected = rules.length > 0 && !openRule ? rules[0].key : undefined;
         this.routeSelectedRulePath(selected);
-        this.setState({
+        this.setState((state) => ({
           actives,
-          facets,
+          facets: { ...state.facets, ...facets },
           loading: false,
           paging,
           rules,
-        });
+        }));
       }
     }, this.stopLoading);
   };
@@ -322,14 +351,15 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
   };
 
   fetchFacet = (facet: FacetKey | FacetKey[]) => {
-    this.makeFetchRequest({ ps: 1, facets: Array.isArray(facet) ? facet.join(',') : facet }).then(
-      ({ facets }) => {
-        if (this.mounted) {
-          this.setState((state) => ({ facets: { ...state.facets, ...facets }, loading: false }));
-        }
-      },
-      this.stopLoading,
-    );
+    const facetsToFetch = Array.isArray(facet)
+      ? facet.map(mapFacetToBackendName).join(',')
+      : mapFacetToBackendName(facet);
+
+    this.makeFetchRequest({ ps: 1, facets: facetsToFetch }).then(({ facets }) => {
+      if (this.mounted) {
+        this.setState((state) => ({ facets: { ...state.facets, ...facets }, loading: false }));
+      }
+    }, this.stopLoading);
   };
 
   getSelectedIndex = ({ rules } = this.state) => {
@@ -745,7 +775,9 @@ function parseFacets(rawFacets: { property: string; values: { count: number; val
     for (const rawValue of rawFacet.values) {
       values[rawValue.val] = rawValue.count;
     }
-    facets[rawFacet.property as FacetKey] = values;
+    // Map backend facet keys to frontend keys (e.g., backend compliance standard keys)
+    const frontendKey = mapBackendFacetKeyToFrontend(rawFacet.property);
+    facets[frontendKey as FacetKey] = values;
   }
   return facets;
 }

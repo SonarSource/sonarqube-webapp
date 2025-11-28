@@ -32,8 +32,11 @@ import {
   renderCWECategory,
   renderOwaspMobileTop10Version2024Category,
   renderOwaspTop102021Category,
+  renderOwaspTop102025Category,
   renderOwaspTop10Category,
   renderSonarSourceSecurityCategory,
+  renderStigCategory,
+  renderStigV6Category,
 } from '~shared/helpers/security-standards';
 import { StandardsInformation, StandardsInformationKey } from '~shared/types/security';
 import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
@@ -50,7 +53,10 @@ interface Props {
   'fetchingOwaspMobileTop10-2024': boolean;
   fetchingOwaspTop10: boolean;
   'fetchingOwaspTop10-2021': boolean;
+  'fetchingOwaspTop10-2025': boolean;
   fetchingSonarSourceSecurity: boolean;
+  'fetchingStig-ASD_V5R3': boolean;
+  'fetchingStig-ASD_V6': boolean;
   loadSearchResultCount?: (property: string, changes: Partial<IssuesQuery>) => Promise<Facet>;
   onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
@@ -62,32 +68,49 @@ interface Props {
   'owaspTop10-2021': string[];
   'owaspTop10-2021Open': boolean;
   'owaspTop10-2021Stats': Record<string, number> | undefined;
+  'owaspTop10-2025': string[];
+  'owaspTop10-2025Open': boolean;
+  'owaspTop10-2025Stats': Record<string, number> | undefined;
   owaspTop10Open: boolean;
   owaspTop10Stats: Record<string, number> | undefined;
   query: Partial<IssuesQuery>;
   sonarsourceSecurity: string[];
   sonarsourceSecurityOpen: boolean;
   sonarsourceSecurityStats: Record<string, number> | undefined;
+  'stig-ASD_V5R3': string[];
+  'stig-ASD_V5R3Open': boolean;
+  'stig-ASD_V5R3Stats': Record<string, number> | undefined;
+  'stig-ASD_V6': string[];
+  'stig-ASD_V6Open': boolean;
+  'stig-ASD_V6Stats': Record<string, number> | undefined;
 }
 
 interface State {
   showFullSonarSourceList: boolean;
+  showFullStigV5R3List: boolean;
+  showFullStigV6List: boolean;
   standards: StandardsInformation;
 }
 
 type StatsProp =
   | 'owaspMobileTop10-2024Stats'
   | 'owaspTop10-2021Stats'
+  | 'owaspTop10-2025Stats'
   | 'owaspTop10Stats'
   | 'cweStats'
-  | 'sonarsourceSecurityStats';
+  | 'sonarsourceSecurityStats'
+  | 'stig-ASD_V5R3Stats'
+  | 'stig-ASD_V6Stats';
 
 type ValuesProp =
   | 'owaspMobileTop10-2024'
   | 'owaspTop10-2021'
+  | 'owaspTop10-2025'
   | 'owaspTop10'
   | 'sonarsourceSecurity'
-  | 'cwe';
+  | 'cwe'
+  | 'stig-ASD_V5R3'
+  | 'stig-ASD_V6';
 
 const INITIAL_FACET_COUNT = 15;
 
@@ -97,15 +120,19 @@ export class StandardFacet extends React.PureComponent<Props, State> {
 
   state: State = {
     showFullSonarSourceList: false,
+    showFullStigV5R3List: false,
+    showFullStigV6List: false,
     standards: {
       'owaspMobileTop10-2024': {},
       owaspTop10: {},
       'owaspTop10-2021': {},
+      'owaspTop10-2025': {},
       cwe: {},
       sonarsourceSecurity: {},
       'pciDss-3.2': {},
       'pciDss-4.0': {},
       'stig-ASD_V5R3': {},
+      'stig-ASD_V6': {},
       casa: {},
       'owaspAsvs-4.0': {},
     },
@@ -119,9 +146,12 @@ export class StandardFacet extends React.PureComponent<Props, State> {
       this.props.open ||
       this.props.owaspTop10.length > 0 ||
       this.props['owaspTop10-2021'].length > 0 ||
+      this.props['owaspTop10-2025'].length > 0 ||
       this.props['owaspMobileTop10-2024'].length > 0 ||
       this.props.cwe.length > 0 ||
-      this.props.sonarsourceSecurity.length > 0
+      this.props.sonarsourceSecurity.length > 0 ||
+      this.props['stig-ASD_V5R3'].length > 0 ||
+      this.props['stig-ASD_V6'].length > 0
     ) {
       this.loadStandards();
     }
@@ -142,6 +172,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
       ({
         [StandardsInformationKey.OWASP_MOBILE_TOP10_2024]: owaspMobileTop102024,
         [StandardsInformationKey.OWASP_TOP10_2021]: owaspTop102021,
+        [StandardsInformationKey.OWASP_TOP10_2025]: owaspTop102025,
         [StandardsInformationKey.OWASP_TOP10]: owaspTop10,
         [StandardsInformationKey.CWE]: cwe,
         [StandardsInformationKey.SONARSOURCE]: sonarsourceSecurity,
@@ -149,6 +180,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
         [StandardsInformationKey.PCI_DSS_4_0]: pciDss40,
         [StandardsInformationKey.OWASP_ASVS_4_0]: owaspAsvs40,
         [StandardsInformationKey.STIG_ASD_V5R3]: stigV5,
+        [StandardsInformationKey.STIG_ASD_V6]: stigV6,
         [StandardsInformationKey.CASA]: casa,
       }: StandardsInformation) => {
         if (this.mounted) {
@@ -156,6 +188,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
             standards: {
               [StandardsInformationKey.OWASP_MOBILE_TOP10_2024]: owaspMobileTop102024,
               [StandardsInformationKey.OWASP_TOP10_2021]: owaspTop102021,
+              [StandardsInformationKey.OWASP_TOP10_2025]: owaspTop102025,
               [StandardsInformationKey.OWASP_TOP10]: owaspTop10,
               [StandardsInformationKey.CWE]: cwe,
               [StandardsInformationKey.SONARSOURCE]: sonarsourceSecurity,
@@ -163,6 +196,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
               [StandardsInformationKey.PCI_DSS_4_0]: pciDss40,
               [StandardsInformationKey.OWASP_ASVS_4_0]: owaspAsvs40,
               [StandardsInformationKey.STIG_ASD_V5R3]: stigV5,
+              [StandardsInformationKey.STIG_ASD_V6]: stigV6,
               [StandardsInformationKey.CASA]: casa,
             },
           });
@@ -183,10 +217,15 @@ export class StandardFacet extends React.PureComponent<Props, State> {
       ...this.props['owaspTop10-2021'].map((item) =>
         renderOwaspTop102021Category(this.state.standards, item, true),
       ),
+      ...this.props['owaspTop10-2025'].map((item) =>
+        renderOwaspTop102025Category(this.state.standards, item, true),
+      ),
       ...this.props['owaspMobileTop10-2024'].map((item) =>
         renderOwaspMobileTop10Version2024Category(this.state.standards, item, true),
       ),
       ...this.props.cwe.map((item) => renderCWECategory(this.state.standards, item)),
+      ...this.props['stig-ASD_V5R3'].map((item) => renderStigCategory(this.state.standards, item)),
+      ...this.props['stig-ASD_V6'].map((item) => renderStigV6Category(this.state.standards, item)),
     ];
   };
 
@@ -206,8 +245,20 @@ export class StandardFacet extends React.PureComponent<Props, State> {
     this.props.onToggle('owaspTop10-2021');
   };
 
+  handleOwaspTop102025HeaderClick = () => {
+    this.props.onToggle('owaspTop10-2025');
+  };
+
   handleOwaspMobileTop102024HeaderClick = () => {
     this.props.onToggle('owaspMobileTop10-2024');
+  };
+
+  handleStigV5R3HeaderClick = () => {
+    this.props.onToggle('stig-ASD_V5R3');
+  };
+
+  handleStigV6HeaderClick = () => {
+    this.props.onToggle('stig-ASD_V6');
   };
 
   handleSonarSourceSecurityHeaderClick = () => {
@@ -219,9 +270,12 @@ export class StandardFacet extends React.PureComponent<Props, State> {
       [this.property]: [],
       owaspTop10: [],
       'owaspTop10-2021': [],
+      'owaspTop10-2025': [],
       'owaspMobileTop10-2024': [],
       cwe: [],
       sonarsourceSecurity: [],
+      'stig-ASD_V5R3': [],
+      'stig-ASD_V6': [],
     });
   };
 
@@ -249,8 +303,20 @@ export class StandardFacet extends React.PureComponent<Props, State> {
     this.handleItemClick(StandardsInformationKey.OWASP_TOP10_2021, itemValue, multiple);
   };
 
+  handleOwaspTop102025ItemClick = (itemValue: string, multiple: boolean) => {
+    this.handleItemClick(StandardsInformationKey.OWASP_TOP10_2025, itemValue, multiple);
+  };
+
   handleOwaspMobileTop102024ItemClick = (itemValue: string, multiple: boolean) => {
     this.handleItemClick(StandardsInformationKey.OWASP_MOBILE_TOP10_2024, itemValue, multiple);
+  };
+
+  handleStigV5R3ItemClick = (itemValue: string, multiple: boolean) => {
+    this.handleItemClick(StandardsInformationKey.STIG_ASD_V5R3, itemValue, multiple);
+  };
+
+  handleStigV6ItemClick = (itemValue: string, multiple: boolean) => {
+    this.handleItemClick(StandardsInformationKey.STIG_ASD_V6, itemValue, multiple);
   };
 
   handleSonarSourceSecurityItemClick = (itemValue: string, multiple: boolean) => {
@@ -326,6 +392,99 @@ export class StandardFacet extends React.PureComponent<Props, State> {
     ));
   };
 
+  // Helper method to render a list with "Show More/Show Less" functionality
+  renderListWithShowMore = ({
+    onClick,
+    onShowLess,
+    onShowMore,
+    renderName,
+    renderTooltip,
+    showFullList,
+    showLessAriaLabel,
+    showMoreAriaLabel,
+    sortedItems,
+    stats,
+    values,
+  }: {
+    onClick: (x: string, multiple?: boolean) => void;
+    onShowLess?: () => void;
+    onShowMore: () => void;
+    renderName: (standards: StandardsInformation, category: string) => React.ReactNode;
+    renderTooltip: (standards: StandardsInformation, category: string) => string;
+    showFullList: boolean;
+    showLessAriaLabel?: string;
+    showMoreAriaLabel?: string;
+    sortedItems: string[];
+    stats: Record<string, number | undefined>;
+    values: string[];
+  }) => {
+    const limitedList = showFullList ? sortedItems : sortedItems.slice(0, INITIAL_FACET_COUNT);
+
+    const selectedBelowLimit = showFullList
+      ? []
+      : sortedItems.slice(INITIAL_FACET_COUNT).filter((item) => values.includes(item));
+
+    const allItemShown = limitedList.length + selectedBelowLimit.length === sortedItems.length;
+
+    if (!(limitedList.length || selectedBelowLimit.length)) {
+      return (
+        <Text className="sw-ml-2 sw-mt-1" isSubtle>
+          {translate('no_results')}
+        </Text>
+      );
+    }
+
+    return (
+      <>
+        {limitedList.map((item) => (
+          <FacetItem
+            active={values.includes(item)}
+            className="it__search-navigator-facet"
+            key={item}
+            name={renderName(this.state.standards, item)}
+            onClick={onClick}
+            stat={formatFacetStat(stats[item]) ?? 0}
+            tooltip={renderTooltip(this.state.standards, item)}
+            value={item}
+          />
+        ))}
+
+        {selectedBelowLimit.length > 0 && (
+          <>
+            {!allItemShown && (
+              <Text as="div" className="sw-mb-2 sw-text-center" isSubtle>
+                ⋯
+              </Text>
+            )}
+            {selectedBelowLimit.map((item) => (
+              <FacetItem
+                active
+                className="it__search-navigator-facet"
+                key={item}
+                name={renderName(this.state.standards, item)}
+                onClick={onClick}
+                stat={formatFacetStat(stats[item]) ?? 0}
+                tooltip={renderTooltip(this.state.standards, item)}
+                value={item}
+              />
+            ))}
+          </>
+        )}
+
+        {(!allItemShown || showFullList) && (
+          <ListStyleFacetFooter
+            nbShown={limitedList.length + selectedBelowLimit.length}
+            showLess={onShowLess}
+            showLessAriaLabel={showLessAriaLabel}
+            showMore={onShowMore}
+            showMoreAriaLabel={showMoreAriaLabel}
+            total={sortedItems.length}
+          />
+        )}
+      </>
+    );
+  };
+
   renderHint = (statsProp: StatsProp, valuesProp: ValuesProp) => {
     const nbSelectableItems = Object.keys(this.props[statsProp] ?? {}).length;
     const nbSelectedItems = this.props[valuesProp].length;
@@ -357,6 +516,15 @@ export class StandardFacet extends React.PureComponent<Props, State> {
     );
   }
 
+  renderOwaspTop102025List() {
+    return this.renderList(
+      'owaspTop10-2025Stats',
+      StandardsInformationKey.OWASP_TOP10_2025,
+      renderOwaspTop102025Category,
+      this.handleOwaspTop102025ItemClick,
+    );
+  }
+
   renderOwaspMobileTop102024List() {
     return this.renderList(
       'owaspMobileTop10-2024Stats',
@@ -364,6 +532,76 @@ export class StandardFacet extends React.PureComponent<Props, State> {
       renderOwaspMobileTop10Version2024Category,
       this.handleOwaspMobileTop102024ItemClick,
     );
+  }
+
+  renderStigV5R3List() {
+    const stats = this.props['stig-ASD_V5R3Stats'];
+    const values = this.props['stig-ASD_V5R3'];
+
+    if (!stats) {
+      return null;
+    }
+
+    const sortedItems = sortBy(
+      Object.keys(stats),
+      (key) => -stats[key],
+      (key) => renderStigCategory(this.state.standards, key),
+    );
+
+    return this.renderListWithShowMore({
+      stats,
+      values,
+      sortedItems,
+      showFullList: this.state.showFullStigV5R3List,
+      renderName: renderStigCategory,
+      renderTooltip: renderStigCategory,
+      onClick: this.handleStigV5R3ItemClick,
+      onShowMore: () => {
+        this.setState({ showFullStigV5R3List: true });
+      },
+      onShowLess: this.state.showFullStigV5R3List
+        ? () => {
+            this.setState({ showFullStigV5R3List: false });
+          }
+        : undefined,
+      showMoreAriaLabel: translate('issues.facet.stigAsd_v5r3.show_more'),
+      showLessAriaLabel: translate('issues.facet.stigAsd_v5r3.show_less'),
+    });
+  }
+
+  renderStigV6List() {
+    const stats = this.props['stig-ASD_V6Stats'];
+    const values = this.props['stig-ASD_V6'];
+
+    if (!stats) {
+      return null;
+    }
+
+    const sortedItems = sortBy(
+      Object.keys(stats),
+      (key) => -stats[key],
+      (key) => renderStigV6Category(this.state.standards, key),
+    );
+
+    return this.renderListWithShowMore({
+      stats,
+      values,
+      sortedItems,
+      showFullList: this.state.showFullStigV6List,
+      renderName: renderStigV6Category,
+      renderTooltip: renderStigV6Category,
+      onClick: this.handleStigV6ItemClick,
+      onShowMore: () => {
+        this.setState({ showFullStigV6List: true });
+      },
+      onShowLess: this.state.showFullStigV6List
+        ? () => {
+            this.setState({ showFullStigV6List: false });
+          }
+        : undefined,
+      showMoreAriaLabel: translate('issues.facet.stigAsd_v6.show_more'),
+      showLessAriaLabel: translate('issues.facet.stigAsd_v6.show_less'),
+    });
   }
 
   renderSonarSourceSecurityList() {
@@ -380,74 +618,19 @@ export class StandardFacet extends React.PureComponent<Props, State> {
       (key) => renderSonarSourceSecurityCategory(this.state.standards, key),
     );
 
-    const limitedList = this.state.showFullSonarSourceList
-      ? sortedItems
-      : sortedItems.slice(0, INITIAL_FACET_COUNT);
-
-    // make sure all selected items are displayed
-    const selectedBelowLimit = this.state.showFullSonarSourceList
-      ? []
-      : sortedItems.slice(INITIAL_FACET_COUNT).filter((item) => values.includes(item));
-
-    const allItemShown = limitedList.length + selectedBelowLimit.length === sortedItems.length;
-
-    if (!(limitedList.length || selectedBelowLimit.length)) {
-      return (
-        <Text className="sw-ml-2 sw-mt-1" isSubtle>
-          {translate('no_results')}
-        </Text>
-      );
-    }
-
-    return (
-      <>
-        {limitedList.map((item) => (
-          <FacetItem
-            active={values.includes(item)}
-            className="it__search-navigator-facet"
-            key={item}
-            name={renderSonarSourceSecurityCategory(this.state.standards, item)}
-            onClick={this.handleSonarSourceSecurityItemClick}
-            stat={formatFacetStat(stats[item]) ?? 0}
-            tooltip={renderSonarSourceSecurityCategory(this.state.standards, item)}
-            value={item}
-          />
-        ))}
-
-        {selectedBelowLimit.length > 0 && (
-          <>
-            {!allItemShown && (
-              <Text as="div" className="sw-mb-2 sw-text-center" isSubtle>
-                ⋯
-              </Text>
-            )}
-            {selectedBelowLimit.map((item) => (
-              <FacetItem
-                active
-                className="it__search-navigator-facet"
-                key={item}
-                name={renderSonarSourceSecurityCategory(this.state.standards, item)}
-                onClick={this.handleSonarSourceSecurityItemClick}
-                stat={formatFacetStat(stats[item]) ?? 0}
-                tooltip={renderSonarSourceSecurityCategory(this.state.standards, item)}
-                value={item}
-              />
-            ))}
-          </>
-        )}
-
-        {!allItemShown && (
-          <ListStyleFacetFooter
-            nbShown={limitedList.length + selectedBelowLimit.length}
-            showMore={() => {
-              this.setState({ showFullSonarSourceList: true });
-            }}
-            showMoreAriaLabel={translate('issues.facet.sonarsource.show_more')}
-            total={sortedItems.length}
-          />
-        )}
-      </>
-    );
+    return this.renderListWithShowMore({
+      stats,
+      values,
+      sortedItems,
+      showFullList: this.state.showFullSonarSourceList,
+      renderName: renderSonarSourceSecurityCategory,
+      renderTooltip: renderSonarSourceSecurityCategory,
+      onClick: this.handleSonarSourceSecurityItemClick,
+      onShowMore: () => {
+        this.setState({ showFullSonarSourceList: true });
+      },
+      showMoreAriaLabel: translate('issues.facet.sonarsource.show_more'),
+    });
   }
 
   renderOwaspTop10Hint() {
@@ -458,11 +641,23 @@ export class StandardFacet extends React.PureComponent<Props, State> {
     return this.renderHint('owaspTop10-2021Stats', StandardsInformationKey.OWASP_TOP10_2021);
   }
 
+  renderOwaspTop102025Hint() {
+    return this.renderHint('owaspTop10-2025Stats', StandardsInformationKey.OWASP_TOP10_2025);
+  }
+
   renderOwaspMobileTop102024Hint() {
     return this.renderHint(
       'owaspMobileTop10-2024Stats',
       StandardsInformationKey.OWASP_MOBILE_TOP10_2024,
     );
+  }
+
+  renderStigV5R3Hint() {
+    return this.renderHint('stig-ASD_V5R3Stats', StandardsInformationKey.STIG_ASD_V5R3);
+  }
+
+  renderStigV6Hint() {
+    return this.renderHint('stig-ASD_V6Stats', StandardsInformationKey.STIG_ASD_V6);
   }
 
   renderSonarSourceSecurityHint() {
@@ -478,16 +673,25 @@ export class StandardFacet extends React.PureComponent<Props, State> {
       'fetchingOwaspMobileTop10-2024': fetchingOwaspMobileTop102024,
       fetchingOwaspTop10,
       'fetchingOwaspTop10-2021': fetchingOwaspTop102021,
+      'fetchingOwaspTop10-2025': fetchingOwaspTop102025,
       fetchingSonarSourceSecurity,
+      'fetchingStig-ASD_V5R3': fetchingStigV5R3,
+      'fetchingStig-ASD_V6': fetchingStigV6,
       'owaspMobileTop10-2024': owaspMobileTop102024,
       'owaspMobileTop10-2024Open': owaspMobileTop102024Open,
       owaspTop10,
       owaspTop10Open,
       'owaspTop10-2021Open': owaspTop102021Open,
       'owaspTop10-2021': owaspTop102021,
+      'owaspTop10-2025Open': owaspTop102025Open,
+      'owaspTop10-2025': owaspTop102025,
       query,
       sonarsourceSecurity,
       sonarsourceSecurityOpen,
+      'stig-ASD_V5R3': stigV5R3,
+      'stig-ASD_V5R3Open': stigV5R3Open,
+      'stig-ASD_V6': stigV6,
+      'stig-ASD_V6Open': stigV6Open,
     } = this.props;
 
     const standards = [
@@ -504,6 +708,20 @@ export class StandardFacet extends React.PureComponent<Props, State> {
           </>
         ),
         property: StandardsInformationKey.SONARSOURCE,
+      },
+      {
+        count: owaspTop102025.length,
+        loading: fetchingOwaspTop102025,
+        name: 'owaspTop10_2025',
+        onClick: this.handleOwaspTop102025HeaderClick,
+        open: owaspTop102025Open,
+        panel: (
+          <>
+            {this.renderOwaspTop102025List()}
+            {this.renderOwaspTop102025Hint()}
+          </>
+        ),
+        property: StandardsInformationKey.OWASP_TOP10_2025,
       },
       {
         count: owaspTop102021.length,
@@ -546,6 +764,34 @@ export class StandardFacet extends React.PureComponent<Props, State> {
           </>
         ),
         property: StandardsInformationKey.OWASP_MOBILE_TOP10_2024,
+      },
+      {
+        count: stigV6.length,
+        loading: fetchingStigV6,
+        name: 'stigAsd_v6',
+        onClick: this.handleStigV6HeaderClick,
+        open: stigV6Open,
+        panel: (
+          <>
+            {this.renderStigV6List()}
+            {this.renderStigV6Hint()}
+          </>
+        ),
+        property: StandardsInformationKey.STIG_ASD_V6,
+      },
+      {
+        count: stigV5R3.length,
+        loading: fetchingStigV5R3,
+        name: 'stigAsd_v5r3',
+        onClick: this.handleStigV5R3HeaderClick,
+        open: stigV5R3Open,
+        panel: (
+          <>
+            {this.renderStigV5R3List()}
+            {this.renderStigV5R3Hint()}
+          </>
+        ),
+        property: StandardsInformationKey.STIG_ASD_V5R3,
       },
     ];
 

@@ -23,12 +23,14 @@ export enum StandardsInformationKey {
   CWE = 'cwe',
   OWASP_ASVS_4_0 = 'owaspAsvs-4.0',
   OWASP_TOP10_2021 = 'owaspTop10-2021',
+  OWASP_TOP10_2025 = 'owaspTop10-2025',
   OWASP_TOP10 = 'owaspTop10',
   OWASP_MOBILE_TOP10_2024 = 'owaspMobileTop10-2024',
   PCI_DSS_3_2 = 'pciDss-3.2',
   PCI_DSS_4_0 = 'pciDss-4.0',
   SONARSOURCE = 'sonarsourceSecurity',
   STIG_ASD_V5R3 = 'stig-ASD_V5R3',
+  STIG_ASD_V6 = 'stig-ASD_V6',
 }
 
 export type StandardsInformation = {

@@ -40,6 +40,10 @@ import {
   serializeStringArray,
 } from '../helpers/query';
 import { CodingRulesQuery } from '../types/coding-rules';
+import { buildComplianceStandards } from './compliance-standards';
+
+// Re-export for backward compatibility
+export { mapBackendFacetKeyToFrontend, mapFacetToBackendName } from './compliance-standards';
 
 export type FacetKey = keyof CodingRulesQuery;
 
@@ -78,17 +82,20 @@ export function parseQuery(query: RawQuery): CodingRulesQuery {
     'owaspMobileTop10-2024Stats': parseAsOptionalBoolean(query['owaspMobileTop10-2024Stats']),
     owaspTop10: parseAsArray(query.owaspTop10, parseAsString),
     'owaspTop10-2021': parseAsArray(query['owaspTop10-2021'], parseAsString),
+    'owaspTop10-2025': parseAsArray(query['owaspTop10-2025'], parseAsString),
     profile: parseAsOptionalString(query.qprofile),
     repositories: parseAsArray(query.repositories, parseAsString),
     ruleKey: parseAsOptionalString(query.rule_key),
     searchQuery: parseAsOptionalString(query.q),
     sonarsourceSecurity: parseAsArray(query.sonarsourceSecurity, parseAsString),
     statuses: parseAsArray(query.statuses, parseAsString),
+    'stig-ASD_V5R3': parseAsArray(query['stig-ASD_V5R3'], parseAsString),
+    'stig-ASD_V6': parseAsArray(query['stig-ASD_V6'], parseAsString),
     tags: parseAsArray(query.tags, parseAsString),
     template: parseAsOptionalBoolean(query.is_template),
     types: parseAsArray(query.types, parseAsString),
     prioritizedRule: parseAsOptionalBoolean(query.prioritizedRule),
-    ...parseSeverities(query, 'severities', 'active_severities'),
+    ...parseSeverities<string>(query, 'severities', 'active_severities'),
     ...parseSeverities<SoftwareImpactSeverity>(
       query,
       'impactSeverities',
@@ -105,6 +112,7 @@ export function serializeQuery(query: CodingRulesQuery): RawQuery {
     available_since: serializeDateShort(query.availableSince),
     cleanCodeAttributeCategories: serializeStringArray(query.cleanCodeAttributeCategories),
     compareToProfile: serializeString(query.compareToProfile),
+    complianceStandards: serializeStringArray(buildComplianceStandards(query)),
     cwe: serializeStringArray(query.cwe),
     inheritance: serializeInheritance(query.inheritance),
     impactSeverities: serializeStringArray(query.impactSeverities),
@@ -114,6 +122,9 @@ export function serializeQuery(query: CodingRulesQuery): RawQuery {
     'owaspMobileTop10-2024': serializeStringArray(query['owaspMobileTop10-2024']),
     owaspTop10: serializeStringArray(query.owaspTop10),
     'owaspTop10-2021': serializeStringArray(query['owaspTop10-2021']),
+    'owaspTop10-2025': serializeStringArray(query['owaspTop10-2025']),
+    'stig-ASD_V5R3': serializeStringArray(query['stig-ASD_V5R3']),
+    'stig-ASD_V6': serializeStringArray(query['stig-ASD_V6']),
     q: serializeString(query.searchQuery),
     qprofile: serializeString(query.profile),
     repositories: serializeStringArray(query.repositories),
@@ -168,11 +179,15 @@ export function shouldRequestFacet(facet: string): facet is FacetKey {
     'owaspTop10',
     'owaspMobileTop10-2024',
     'owaspTop10-2021',
+    'owaspTop10-2025', // Mapped to complianceStandards in backend
     'repositories',
     'severities',
     'active_severities',
     'active_impactSeverities',
     'sonarsourceSecurity',
+    'stig-ASD_V5R3', // Mapped to complianceStandards in backend
+    'stig-ASD_V6', // Mapped to complianceStandards in backend
+    'complianceStandards',
     'standard',
     'statuses',
     'tags',

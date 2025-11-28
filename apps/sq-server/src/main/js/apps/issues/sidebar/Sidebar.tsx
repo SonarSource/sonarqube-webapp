@@ -371,7 +371,10 @@ export function Sidebar(props: Readonly<Props>) {
             fetchingOwaspMobileTop10-2024={props.loadingFacets['owaspMobileTop10-2024'] === true}
             fetchingOwaspTop10={props.loadingFacets.owaspTop10 === true}
             fetchingOwaspTop10-2021={props.loadingFacets['owaspTop10-2021'] === true}
+            fetchingOwaspTop10-2025={props.loadingFacets['owaspTop10-2025'] === true}
             fetchingSonarSourceSecurity={props.loadingFacets.sonarsourceSecurity === true}
+            fetchingStig-ASD_V5R3={props.loadingFacets['stig-ASD_V5R3'] === true}
+            fetchingStig-ASD_V6={props.loadingFacets['stig-ASD_V6'] === true}
             loadSearchResultCount={props.loadSearchResultCount}
             onChange={props.onFilterChange}
             onToggle={props.onFacetToggle}
@@ -383,12 +386,21 @@ export function Sidebar(props: Readonly<Props>) {
             owaspTop10-2021={query['owaspTop10-2021']}
             owaspTop10-2021Open={!!openFacets['owaspTop10-2021']}
             owaspTop10-2021Stats={facets['owaspTop10-2021']}
+            owaspTop10-2025={query['owaspTop10-2025']}
+            owaspTop10-2025Open={!!openFacets['owaspTop10-2025']}
+            owaspTop10-2025Stats={facets['owaspTop10-2025']}
             owaspTop10Open={!!openFacets.owaspTop10}
             owaspTop10Stats={facets.owaspTop10}
             query={query}
             sonarsourceSecurity={query.sonarsourceSecurity}
             sonarsourceSecurityOpen={!!openFacets.sonarsourceSecurity}
             sonarsourceSecurityStats={facets.sonarsourceSecurity}
+            stig-ASD_V5R3={query['stig-ASD_V5R3']}
+            stig-ASD_V5R3Open={!!openFacets['stig-ASD_V5R3']}
+            stig-ASD_V5R3Stats={facets['stig-ASD_V5R3']}
+            stig-ASD_V6={query['stig-ASD_V6']}
+            stig-ASD_V6Open={!!openFacets['stig-ASD_V6']}
+            stig-ASD_V6Stats={facets['stig-ASD_V6']}
           />
 
           <Divider className="sw-my-2" />

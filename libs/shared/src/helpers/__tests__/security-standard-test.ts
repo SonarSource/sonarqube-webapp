@@ -25,11 +25,14 @@ import {
   renderCWECategory,
   renderOwaspAsvs40Category,
   renderOwaspMobileTop10Version2024Category,
+  renderOwaspTop102021Category,
+  renderOwaspTop102025Category,
   renderOwaspTop10Category,
   renderPciDss32Category,
   renderPciDss40Category,
   renderSonarSourceSecurityCategory,
   renderStigCategory,
+  renderStigV6Category,
 } from '../security-standards';
 
 describe('standards renderers', () => {
@@ -55,6 +58,14 @@ describe('standards renderers', () => {
     'owaspTop10-2021': {
       a1: {
         title: 'Injection',
+      },
+    },
+    'owaspTop10-2025': {
+      a1: {
+        title: 'Broken Access Control',
+      },
+      a8: {
+        title: 'Software or Data Integrity Failures',
       },
     },
     sonarsourceSecurity: {
@@ -92,6 +103,11 @@ describe('standards renderers', () => {
     'stig-ASD_V5R3': {
       'v-123': {
         title: 'Stig requirement',
+      },
+    },
+    'stig-ASD_V6': {
+      'v-456': {
+        title: 'Stig requirement V6',
       },
     },
   };
@@ -179,5 +195,45 @@ describe('standards renderers', () => {
     expect(renderOwaspMobileTop10Version2024Category(extendedStandards, 'm3', true)).toEqual(
       'OWASP Mobile M3',
     );
+  });
+
+  it('should render OWASP Top 10 2021 categories correctly', () => {
+    expect(renderOwaspTop102021Category(standards, 'a1')).toEqual('A1 - Injection');
+    expect(renderOwaspTop102021Category(standards, 'a1', true)).toEqual('OWASP A1 - Injection');
+    expect(renderOwaspTop102021Category(standards, 'a2')).toEqual('A2');
+    expect(renderOwaspTop102021Category(standards, 'a2', true)).toEqual('OWASP A2');
+    // Test that leading zeros are handled correctly
+    expect(renderOwaspTop102021Category(standards, 'A01')).toEqual('A1 - Injection');
+    expect(renderOwaspTop102021Category(standards, 'A08')).toEqual('A8');
+  });
+
+  it('should render OWASP Top 10 2025 categories correctly', () => {
+    expect(renderOwaspTop102025Category(standards, 'a1')).toEqual('A1 - Broken Access Control');
+    expect(renderOwaspTop102025Category(standards, 'a1', true)).toEqual(
+      'OWASP A1 - Broken Access Control',
+    );
+    expect(renderOwaspTop102025Category(standards, 'a8')).toEqual(
+      'A8 - Software or Data Integrity Failures',
+    );
+    expect(renderOwaspTop102025Category(standards, 'a2')).toEqual('A2');
+    expect(renderOwaspTop102025Category(standards, 'a2', true)).toEqual('OWASP A2');
+    // Test that leading zeros are handled correctly
+    expect(renderOwaspTop102025Category(standards, 'A01')).toEqual('A1 - Broken Access Control');
+    expect(renderOwaspTop102025Category(standards, 'A08')).toEqual(
+      'A8 - Software or Data Integrity Failures',
+    );
+    expect(renderOwaspTop102025Category(standards, 'A10')).toEqual('A10');
+  });
+
+  it('should render STIG V5R3 categories correctly', () => {
+    expect(renderStigCategory(standards, 'v-123')).toEqual('v-123 - Stig requirement');
+    expect(renderStigCategory(standards, 'none')).toEqual('none');
+  });
+
+  it('should render STIG V6 categories correctly', () => {
+    expect(renderStigV6Category(standards, 'v-456')).toEqual('v-456 - Stig requirement V6');
+    expect(renderStigV6Category(standards, 'v-999')).toEqual('v-999');
+    // Test with empty standards object
+    expect(renderStigV6Category({} as StandardsInformation, 'v-456')).toEqual('v-456');
   });
 });

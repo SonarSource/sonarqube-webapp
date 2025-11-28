@@ -54,6 +54,14 @@ import {
   RawFacet,
 } from '../types/issues';
 import { Flow, FlowType, Issue } from '../types/types';
+import {
+  buildComplianceStandards,
+  mapBackendFacetKeyToFrontend,
+  mapFacetToBackendName,
+} from './compliance-standards';
+
+// Re-export for backward compatibility
+export { mapBackendFacetKeyToFrontend, mapFacetToBackendName };
 
 export const STANDARDS = 'standards';
 
@@ -83,12 +91,14 @@ export function parseQuery(query: RawQuery, needIssueSync = false): IssuesQuery 
       parseAsString,
     ),
     'stig-ASD_V5R3': parseAsArray(query['stig-ASD_V5R3'], parseAsString),
+    'stig-ASD_V6': parseAsArray(query['stig-ASD_V6'], parseAsString),
     inNewCodePeriod: parseAsBoolean(query.inNewCodePeriod, false),
     issues: parseAsArray(query.issues, parseAsString),
     languages: parseAsArray(query.languages, parseAsString),
     owaspTop10: parseAsArray(query.owaspTop10, parseAsString),
     'owaspMobileTop10-2024': parseAsArray(query['owaspMobileTop10-2024'], parseAsString),
     'owaspTop10-2021': parseAsArray(query['owaspTop10-2021'], parseAsString),
+    'owaspTop10-2025': parseAsArray(query['owaspTop10-2025'], parseAsString),
     'pciDss-3.2': parseAsArray(query['pciDss-3.2'], parseAsString),
     'pciDss-4.0': parseAsArray(query['pciDss-4.0'], parseAsString),
     casa: parseAsArray(query.casa, parseAsString),
@@ -193,6 +203,7 @@ export function serializeQuery(query: IssuesQuery): RawQuery {
     assignees: serializeStringArray(query.assignees),
     author: query.author,
     cleanCodeAttributeCategories: serializeStringArray(query.cleanCodeAttributeCategories),
+    complianceStandards: serializeStringArray(buildComplianceStandards(query)),
     createdAfter: serializeDateShort(query.createdAfter),
     createdAt: serializeString(query.createdAt),
     createdBefore: serializeDateShort(query.createdBefore),
@@ -207,9 +218,11 @@ export function serializeQuery(query: IssuesQuery): RawQuery {
     owaspTop10: serializeStringArray(query.owaspTop10),
     'owaspMobileTop10-2024': serializeStringArray(query['owaspMobileTop10-2024']),
     'owaspTop10-2021': serializeStringArray(query['owaspTop10-2021']),
+    'owaspTop10-2025': serializeStringArray(query['owaspTop10-2025']),
     'pciDss-3.2': serializeStringArray(query['pciDss-3.2']),
     casa: serializeStringArray(query.casa),
     'stig-ASD_V5R3': serializeStringArray(query['stig-ASD_V5R3']),
+    'stig-ASD_V6': serializeStringArray(query['stig-ASD_V6']),
     'pciDss-4.0': serializeStringArray(query['pciDss-4.0']),
     [OWASP_ASVS_4_0]: serializeStringArray(query[OWASP_ASVS_4_0]),
     owaspAsvsLevel: serializeString(query.owaspAsvsLevel),
@@ -249,7 +262,9 @@ export function parseFacets(facets?: RawFacet[]): Record<string, Facet> {
     facet.values.forEach((value) => {
       values[value.val] = value.count;
     });
-    result[facet.property] = values;
+    // Map backend facet keys to frontend keys
+    const frontendKey = mapBackendFacetKeyToFrontend(facet.property);
+    result[frontendKey] = values;
   });
   return result;
 }
@@ -345,8 +360,11 @@ export function shouldOpenStandardsChildFacet(
     | StandardsInformationKey.CWE
     | StandardsInformationKey.OWASP_TOP10
     | StandardsInformationKey.OWASP_TOP10_2021
+    | StandardsInformationKey.OWASP_TOP10_2025
     | StandardsInformationKey.OWASP_MOBILE_TOP10_2024
-    | StandardsInformationKey.SONARSOURCE,
+    | StandardsInformationKey.SONARSOURCE
+    | StandardsInformationKey.STIG_ASD_V5R3
+    | StandardsInformationKey.STIG_ASD_V6,
 ): boolean {
   const filter = query[standardType];
   return (
@@ -379,9 +397,12 @@ function isOneStandardChildFacetOpen(
     [
       StandardsInformationKey.OWASP_TOP10,
       StandardsInformationKey.OWASP_TOP10_2021,
+      StandardsInformationKey.OWASP_TOP10_2025,
       StandardsInformationKey.OWASP_MOBILE_TOP10_2024,
       StandardsInformationKey.CWE,
       StandardsInformationKey.SONARSOURCE,
+      StandardsInformationKey.STIG_ASD_V5R3,
+      StandardsInformationKey.STIG_ASD_V6,
     ] as const
   ).some((standardType) => shouldOpenStandardsChildFacet(openFacets, query, standardType));
 }

@@ -99,6 +99,7 @@ import {
   areQueriesEqual,
   getOpen,
   getOpenIssue,
+  mapFacetToBackendName,
   parseFacets,
   parseQuery,
   saveMyIssues,
@@ -204,6 +205,21 @@ export class App extends React.PureComponent<Props, State> {
               {},
               query,
               StandardsInformationKey.OWASP_TOP10_2021,
+            ),
+            'owaspTop10-2025': shouldOpenStandardsChildFacet(
+              {},
+              query,
+              StandardsInformationKey.OWASP_TOP10_2025,
+            ),
+            'stig-ASD_V5R3': shouldOpenStandardsChildFacet(
+              {},
+              query,
+              StandardsInformationKey.STIG_ASD_V5R3,
+            ),
+            'stig-ASD_V6': shouldOpenStandardsChildFacet(
+              {},
+              query,
+              StandardsInformationKey.STIG_ASD_V6,
             ),
             impactSoftwareQualities: true,
             severities: true,
@@ -512,20 +528,33 @@ export class App extends React.PureComponent<Props, State> {
     const { myIssues, openFacets, query } = this.state;
 
     let facets = requestFacets
-      ? Object.keys(openFacets)
-          .filter((facet) => facet !== STANDARDS && openFacets[facet])
-          .join(',')
+      ? Array.from(
+          new Set(
+            Object.keys(openFacets)
+              .filter((facet) => facet !== STANDARDS && openFacets[facet])
+              .map((facet) => mapFacetToBackendName(facet)),
+          ),
+        ).join(',')
       : undefined;
 
     if (firstRequest && isProject(component?.qualifier)) {
       facets = facets ? `${facets},${VARIANTS_FACET}` : VARIANTS_FACET;
     }
 
+    // Filter out compliance standards from API calls
+    // They are kept in URL for state management but converted to complianceStandards for API
+    const {
+      'owaspTop10-2025': _owaspTop102025,
+      'stig-ASD_V5R3': _stigAsdV5R3,
+      'stig-ASD_V6': _stigAsdV6,
+      ...serializedQuery
+    } = serializeQuery(query);
+
     const parameters: Record<string, string | undefined> = component?.needIssueSync
       ? {
           ...getBranchLikeQuery(this.props.branchLike, true),
           project: component?.key,
-          ...serializeQuery(query),
+          ...serializedQuery,
           ps: `${ISSUES_PAGE_SIZE}`,
           ...additional,
         }
@@ -533,7 +562,7 @@ export class App extends React.PureComponent<Props, State> {
           ...getBranchLikeQuery(this.props.branchLike),
           components: component?.key,
           s: 'FILE_LINE',
-          ...serializeQuery(query),
+          ...serializedQuery,
           ps: `${ISSUES_PAGE_SIZE}`,
           facets,
           ...additional,
@@ -683,7 +712,7 @@ export class App extends React.PureComponent<Props, State> {
   };
 
   fetchFacet = (facet: string) => {
-    return this.fetchIssues({ ps: 1, facets: facet }, false).then(
+    return this.fetchIssues({ ps: 1, facets: mapFacetToBackendName(facet) }, false).then(
       ({ facets, ...other }) => {
         if (this.mounted) {
           this.setState((state) => ({
@@ -793,12 +822,20 @@ export class App extends React.PureComponent<Props, State> {
     const { component } = this.props;
     const { myIssues, query } = this.state;
 
+    // Filter out owaspTop10-2025 and stig-ASD_V6 from API calls
+    const {
+      'owaspTop10-2025': _owaspTop102025,
+      'stig-ASD_V5R3': _stigAsdV5R3,
+      'stig-ASD_V6': _stigAsdV6,
+      ...serializedQuery
+    } = serializeQuery({ ...query, ...changes });
+
     const parameters = {
       ...getBranchLikeQuery(this.props.branchLike),
       components: component?.key,
-      facets: property,
+      facets: mapFacetToBackendName(property),
       s: 'FILE_LINE',
-      ...serializeQuery({ ...query, ...changes }),
+      ...serializedQuery,
       ps: 1,
     };
 

@@ -97,6 +97,26 @@ export function renderOwaspTop10Version2021Category(
 // This is an alias for SQS (once we add new standards to SQS we can standardize the naming)
 export const renderOwaspTop102021Category = renderOwaspTop10Version2021Category;
 
+export function renderOwaspTop10Version2025Category(
+  standards: Pick<StandardsInformation, StandardsInformationKey.OWASP_TOP10_2025>,
+  category: string,
+  withPrefix = false,
+): string {
+  // Check if the standard exists in the standards data
+  if (!standards[StandardsInformationKey.OWASP_TOP10_2025]) {
+    return addPrefix(category.toUpperCase(), 'OWASP', withPrefix);
+  }
+  return renderOwaspCategory(
+    StandardsInformationKey.OWASP_TOP10_2025,
+    standards,
+    category,
+    withPrefix,
+  );
+}
+
+// This is an alias for SQS (once we add new standards to SQS we can standardize the naming)
+export const renderOwaspTop102025Category = renderOwaspTop10Version2025Category;
+
 export function renderOwaspMobileTop10Version2024Category(
   standards: Pick<ExtendedStandardsInformation, 'owaspMobileTop10-2024'>,
   category: string,
@@ -111,18 +131,28 @@ export function renderOwaspMobileTop10Version2024Category(
 }
 
 function renderOwaspCategory<
-  T extends StandardsInformationKey.OWASP_TOP10_2021 | StandardsInformationKey.OWASP_TOP10,
+  T extends
+    | StandardsInformationKey.OWASP_TOP10_2021
+    | StandardsInformationKey.OWASP_TOP10_2025
+    | StandardsInformationKey.OWASP_TOP10,
 >(
   type: T,
   standards: Partial<Pick<StandardsInformation, T>>,
   category: string,
   withPrefix: boolean,
 ) {
-  const record = standards[type]?.[category];
+  // Normalize category: convert to lowercase and remove leading zeros
+  // E.g., "A01" -> "a1", "A08" -> "a8", "A10" -> "a10"
+  const normalizedCategory = category.toLowerCase().replace(/^a0+/, 'a');
+  const record = standards[type]?.[normalizedCategory];
+
+  // Display without leading zeros: A1, A2, A8, A10
+  const displayCategory = category.toUpperCase().replace(/^A0+/, 'A');
+
   if (!record) {
-    return addPrefix(category.toUpperCase(), 'OWASP', withPrefix);
+    return addPrefix(displayCategory, 'OWASP', withPrefix);
   }
-  return addPrefix(`${category.toUpperCase()} - ${record.title}`, 'OWASP', withPrefix);
+  return addPrefix(`${displayCategory} - ${record.title}`, 'OWASP', withPrefix);
 }
 
 function renderOwaspMobileCategory<T extends string>(
@@ -199,6 +229,11 @@ export function renderCASACategory(standards: StandardsInformation, category: st
 }
 
 export function renderStigCategory(standards: StandardsInformation, category: string) {
-  const record = standards['stig-ASD_V5R3'][category];
+  const record = standards['stig-ASD_V5R3']?.[category];
+  return record ? `${category} - ${record.title}` : category;
+}
+
+export function renderStigV6Category(standards: StandardsInformation, category: string) {
+  const record = standards['stig-ASD_V6']?.[category];
   return record ? `${category} - ${record.title}` : category;
 }

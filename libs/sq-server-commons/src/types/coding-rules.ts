@@ -61,6 +61,7 @@ export interface CodingRulesQuery {
   'owaspMobileTop10-2024Stats': boolean | undefined;
   owaspTop10: string[];
   'owaspTop10-2021': string[];
+  'owaspTop10-2025': string[];
   prioritizedRule: boolean | undefined;
   profile: string | undefined;
   repositories: string[];
@@ -69,6 +70,8 @@ export interface CodingRulesQuery {
   severities: string[];
   sonarsourceSecurity: string[];
   statuses: string[];
+  'stig-ASD_V5R3': string[];
+  'stig-ASD_V6': string[];
   tags: string[];
   template: boolean | undefined;
   types: string[];

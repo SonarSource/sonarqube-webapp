@@ -276,6 +276,7 @@ export interface IssuesQuery {
   'owaspMobileTop10-2024': string[];
   owaspTop10: string[];
   'owaspTop10-2021': string[];
+  'owaspTop10-2025': string[];
   'pciDss-3.2': string[];
   'pciDss-4.0': string[];
   prioritizedRule?: boolean;
@@ -289,6 +290,7 @@ export interface IssuesQuery {
   // Legacy purpose
   statuses: string[];
   'stig-ASD_V5R3': string[];
+  'stig-ASD_V6': string[];
   tags: string[];
   types: string[];
 }
