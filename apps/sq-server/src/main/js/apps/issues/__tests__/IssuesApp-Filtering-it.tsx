@@ -134,10 +134,10 @@ describe('issues app filtering', () => {
 
     // Rule
     await user.click(ui.ruleFacet.get());
-    await user.click(await screen.findByRole('checkbox', { name: 'other' }));
+    await user.click(await screen.findByRole('checkbox', { name: /other/ }));
 
     // Name should apply to the rule
-    expect(screen.getByRole('checkbox', { name: '(HTML) Advanced rule' })).toBeInTheDocument();
+    expect(screen.getByRole('checkbox', { name: '(HTML) Advanced rule 1' })).toBeInTheDocument();
 
     // Tag
     await user.click(ui.tagFacet.get());
@@ -155,8 +155,8 @@ describe('issues app filtering', () => {
 
     // Assignee
     await user.click(ui.assigneeFacet.get());
-    await user.click(await screen.findByRole('checkbox', { name: 'email2@sonarsource.com' }));
-    await user.click(screen.getByRole('checkbox', { name: 'email1@sonarsource.com' })); // Change assignee
+    await user.click(await screen.findByRole('checkbox', { name: /email2@sonarsource.com/ }));
+    await user.click(screen.getByRole('checkbox', { name: /email1@sonarsource.com/ })); // Change assignee
 
     // Author
     await user.click(ui.authorFacet.get());
@@ -416,10 +416,10 @@ describe('issues app filtering', () => {
     await user.click(await ui.languageFacet.find());
     expect(await ui.languageFacetList.find()).toBeInTheDocument();
     expect(
-      within(ui.languageFacetList.get()).getByRole('checkbox', { name: 'java' }),
+      within(ui.languageFacetList.get()).getByRole('checkbox', { name: /java/ }),
     ).toHaveTextContent('java25short_number_suffix.k');
     expect(
-      within(ui.languageFacetList.get()).getByRole('checkbox', { name: 'ts' }),
+      within(ui.languageFacetList.get()).getByRole('checkbox', { name: /ts/ }),
     ).toHaveTextContent('ts3.4short_number_suffix.k');
 
     await user.click(ui.languageFacet.get());
@@ -430,10 +430,10 @@ describe('issues app filtering', () => {
     await user.click(ui.languageFacet.get());
     expect(await ui.languageFacetList.find()).toBeInTheDocument();
     expect(
-      within(ui.languageFacetList.get()).getByRole('checkbox', { name: 'java' }),
+      within(ui.languageFacetList.get()).getByRole('checkbox', { name: /java/ }),
     ).toHaveTextContent('java111');
     expect(
-      within(ui.languageFacetList.get()).getByRole('checkbox', { name: 'ts' }),
+      within(ui.languageFacetList.get()).getByRole('checkbox', { name: /ts/ }),
     ).toHaveTextContent('ts674');
   });
 

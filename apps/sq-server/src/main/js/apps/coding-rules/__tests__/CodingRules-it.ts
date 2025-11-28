@@ -75,11 +75,11 @@ describe('Rules app list', () => {
       expect(ui.facetItem(new RegExp(name)).get()).toBeInTheDocument();
     });
     expect(
-      ui.facetItem('coding_rules.facet.security_hotspots.show_only').get(),
+      ui.facetItem(/coding_rules.facet.security_hotspots.show_only/).get(),
     ).toBeInTheDocument();
 
     // Renders language facets
-    ['JavaScript', 'Java', 'C'].forEach((name) => {
+    ['JavaScript 2', 'Java 2', 'C 1'].forEach((name) => {
       expect(ui.facetItem(name).get()).toBeInTheDocument();
     });
 
@@ -124,7 +124,7 @@ describe('Rules app list', () => {
     });
 
     // Renders language facets
-    ['JavaScript', 'Java', 'C'].forEach((name) => {
+    ['JavaScript 2', 'Java 2', 'C 1'].forEach((name) => {
       expect(ui.facetItem(name).get()).toBeInTheDocument();
     });
 
@@ -282,20 +282,20 @@ describe('Rules app list', () => {
 
       expect(ui.getAllRuleListItems()).toHaveLength(11);
       await user.click(ui.standardsFacet.get());
-      await user.click(ui.facetItem('Buffer Overflow').get());
+      await user.click(ui.facetItem(/Buffer Overflow/).get());
       expect(ui.getAllRuleListItems()).toHaveLength(6);
 
       await user.click(ui.standardsOwasp2021Top10Facet.get());
-      await user.click(ui.facetItem('A2 - Cryptographic Failures').get());
+      await user.click(ui.facetItem(/A2 - Cryptographic Failures/).get());
       await user.click(ui.standardsOwasp2021Top10Facet.get()); // Close facet
       expect(ui.getAllRuleListItems()).toHaveLength(5);
 
       await user.click(ui.standardsOwasp2017Top10Facet.get());
-      await user.click(ui.facetItem('A3 - Sensitive Data Exposure').get());
+      await user.click(ui.facetItem(/A3 - Sensitive Data Exposure/).get());
       expect(ui.getAllRuleListItems()).toHaveLength(4);
 
       await user.click(ui.standardsCweFacet.get());
-      await user.click(ui.facetItem('CWE-102 - Struts: Duplicate Validation Forms').get());
+      await user.click(ui.facetItem(/CWE-102 - Struts: Duplicate Validation Forms/).get());
       expect(ui.getAllRuleListItems()).toHaveLength(3);
 
       await user.type(ui.facetSearchInput('search.search_for_cwe').get(), 'Certificate');
@@ -432,7 +432,7 @@ describe('Rules app list', () => {
       renderCodingRulesApp(mockLoggedInUser());
       await ui.listLoaded();
 
-      await user.click(ui.facetItem('C').get());
+      await user.click(ui.facetItem('C 1').get());
       await user.click(ui.bulkChangeButton.get());
       await user.click(ui.activateIn.get());
 

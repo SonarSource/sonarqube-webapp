@@ -69,12 +69,24 @@ export function BaseFacetItem({
     onClick(value, event.ctrlKey || event.metaKey);
   };
 
+  const ariaLabel = React.useMemo(() => {
+    if (typeof name !== 'string') {
+      return undefined;
+    }
+
+    if (!hideStat && typeof stat === 'string') {
+      return `${name} ${stat}`;
+    }
+
+    return name;
+  }, [name, stat, hideStat]);
+
   return (
     <StyledItem active={active} className={classNames({ active }, className)} role="listitem">
       <StyledButton
         active={active}
         aria-checked={active}
-        aria-label={typeof name === 'string' ? name : undefined}
+        aria-label={ariaLabel}
         data-facet={value}
         disabled={disabled}
         icon={icon}

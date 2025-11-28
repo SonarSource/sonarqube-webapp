@@ -143,42 +143,42 @@ export const ui = {
   clearDetectionCauseFacet: byTestId('clear-issues.facet.detection_cause'),
 
   responsibleCategoryFilter: byRole('checkbox', {
-    name: `issue.clean_code_attribute_category.${CodeAttributeCategory.Responsible}`,
+    name: new RegExp(`issue.clean_code_attribute_category.${CodeAttributeCategory.Responsible}`),
   }),
   consistentCategoryFilter: byRole('checkbox', {
-    name: `issue.clean_code_attribute_category.${CodeAttributeCategory.Consistent}`,
+    name: new RegExp(`issue.clean_code_attribute_category.${CodeAttributeCategory.Consistent}`),
   }),
   softwareQualityMaintainabilityFilter: byRole('checkbox', {
-    name: `software_quality.${SoftwareQuality.Maintainability}`,
+    name: new RegExp(`software_quality.${SoftwareQuality.Maintainability}`),
   }),
   codeSmellIssueTypeFilter: byRole('checkbox', {
-    name: 'issue.type.CODE_SMELL',
+    name: new RegExp('issue.type.CODE_SMELL'),
   }),
   confirmedStatusFilter: byRole('checkbox', {
-    name: 'issue.issue_status.CONFIRMED',
+    name: new RegExp('issue.issue_status.CONFIRMED'),
   }),
-  fixedResolutionFilter: byRole('checkbox', { name: 'issue.resolution.FIXED' }),
-  mainScopeFilter: byRole('checkbox', { name: 'issue.scope.MAIN' }),
+  fixedResolutionFilter: byRole('checkbox', { name: new RegExp('issue.resolution.FIXED') }),
+  mainScopeFilter: byRole('checkbox', { name: new RegExp('issue.scope.MAIN') }),
   mediumSeverityFilter: byRole('checkbox', {
     name: new RegExp(`severity_impact.${SoftwareImpactSeverity.Medium}`),
   }),
   majorSeverityFilter: byRole('checkbox', {
     name: new RegExp(`severity.${IssueSeverity.Major}`),
   }),
-  openStatusFilter: byRole('checkbox', { name: 'issue.issue_status.OPEN' }),
-  sandboxStatusFilter: byRole('checkbox', { name: 'issue.issue_status.IN_SANDBOX' }),
+  openStatusFilter: byRole('checkbox', { name: new RegExp('issue.issue_status.OPEN') }),
+  sandboxStatusFilter: byRole('checkbox', { name: new RegExp('issue.issue_status.IN_SANDBOX') }),
 
   vulnerabilityIssueTypeFilter: byRole('checkbox', {
-    name: 'issue.type.VULNERABILITY',
+    name: new RegExp('issue.type.VULNERABILITY'),
   }),
   prioritizedRuleFilter: byRole('checkbox', {
-    name: 'issues.facet.prioritized_rule',
+    name: /issues.facet.prioritized_rule/,
   }),
   sonarQubeUpdateDetectionFilter: byRole('checkbox', {
-    name: 'issues.facet.detection_cause.sonarqube_update',
+    name: /issues.facet.detection_cause.sonarqube_update/,
   }),
   otherCausesDetectionFilter: byRole('checkbox', {
-    name: 'issues.facet.detection_cause.other_causes',
+    name: /issues.facet.detection_cause.other_causes/,
   }),
 
   bulkChangeComment: byRole('textbox', {

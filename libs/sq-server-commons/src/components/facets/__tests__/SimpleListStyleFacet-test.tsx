@@ -28,8 +28,8 @@ it('handles single & multiple selections', async () => {
   const user = userEvent.setup();
   renderSimpleListStyleFacet();
 
-  const firstCheckbox = byRole('checkbox', { name: 'prefix.first' }).get();
-  const secondCheckbox = byRole('checkbox', { name: 'prefix.second' }).get();
+  const firstCheckbox = byRole('checkbox', { name: 'prefix.first 1' }).get();
+  const secondCheckbox = byRole('checkbox', { name: 'prefix.second 2' }).get();
   const thirdCheckbox = byRole('checkbox', { name: 'prefix.third' }).get();
 
   expect(thirdCheckbox).toBeDisabled();
