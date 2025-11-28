@@ -2060,6 +2060,7 @@ export const defaultMessages = {
   'architecture.page.model.docs':
     'Review the <link1>expected format</link1> or take a look at the <link2>documentation</link2> to learn more.',
   'architecture.page.model.visual.search.placeholder': 'Search...',
+  'architecture.page.model.visual.no_components_available': 'No components can be added',
   'architecture.page.model.modal.add_component': 'Add Component',
   'architecture.page.model.modal.add_subcomponent': 'Add Sub-Component',
   'architecture.page.model.modal.add_component.title': 'New Component',
