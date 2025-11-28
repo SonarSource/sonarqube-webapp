@@ -19,7 +19,15 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, Checkbox, Spinner, ToggleButtonGroup, cssVar } from '@sonarsource/echoes-react';
+import {
+  Button,
+  Checkbox,
+  MessageCallout,
+  MessageVariety,
+  Spinner,
+  ToggleButtonGroup,
+  cssVar,
+} from '@sonarsource/echoes-react';
 import { keyBy, omit, without } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -720,11 +728,7 @@ export class App extends React.PureComponent<Props, State> {
     return Promise.resolve({ issues, paging });
   };
 
-  getButtonLabel = (checked: string[], checkAll = false, paging?: Paging) => {
-    if (checked.length === 0) {
-      return translate('bulk_change');
-    }
-
+  getCheckedIssuesCount = (checked: string[], checkAll = false, paging?: Paging) => {
     let count;
 
     if (checkAll && paging && !this.props.component?.needIssueSync) {
@@ -733,7 +737,18 @@ export class App extends React.PureComponent<Props, State> {
       count = Math.min(checked.length, MAX_PAGE_SIZE);
     }
 
-    return translateWithParameters('issues.bulk_change_X_issues', count);
+    return count;
+  };
+
+  getButtonLabel = (checked: string[], checkAll = false, paging?: Paging) => {
+    if (checked.length === 0) {
+      return translate('bulk_change');
+    }
+
+    return translateWithParameters(
+      'issues.bulk_change_X_issues',
+      this.getCheckedIssuesCount(checked, checkAll, paging),
+    );
   };
 
   handleFilterChange = (changes: Partial<IssuesQuery>) => {
@@ -1135,6 +1150,8 @@ export class App extends React.PureComponent<Props, State> {
       query.impactSoftwareQualities.includes(SoftwareQuality.Security) ||
       query.types.includes(IssueType.Vulnerability);
 
+    const showMaxBulkItemsMessage = checkAll && paging && paging.total > MAX_PAGE_SIZE;
+
     return (
       <ScreenPositionHelper>
         {({ top }) => (
@@ -1167,18 +1184,29 @@ export class App extends React.PureComponent<Props, State> {
                 className="sw-mt-4"
                 isLoading={loading}
               >
-                {checkAll && paging && paging.total > MAX_PAGE_SIZE && (
-                  <div className="sw-mt-3">
-                    <FlagMessage variant="warning">
-                      <span>
-                        <FormattedMessage
-                          id="issue_bulk_change.max_issues_reached"
-                          values={{ max: <strong>{MAX_PAGE_SIZE}</strong> }}
-                        />
-                      </span>
-                    </FlagMessage>
-                  </div>
-                )}
+                <output>
+                  {showMaxBulkItemsMessage ? (
+                    <MessageCallout className="sw-mt-3" variety={MessageVariety.Info}>
+                      <FormattedMessage
+                        id="issue_bulk_change.max_issues_reached"
+                        values={{ max: <strong>{MAX_PAGE_SIZE}</strong> }}
+                      />
+                    </MessageCallout>
+                  ) : (
+                    <span className="sw-sr-only">
+                      <FormattedMessage
+                        id="issue_bulk_change.selected"
+                        values={{
+                          '0': this.getCheckedIssuesCount(
+                            this.state.checked,
+                            this.state.checkAll,
+                            this.state.paging,
+                          ),
+                        }}
+                      />
+                    </span>
+                  )}
+                </output>
 
                 {this.renderList()}
               </Spinner>

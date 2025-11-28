@@ -1533,6 +1533,7 @@ export const defaultMessages = {
   //------------------------------------------------------------------------------
 
   'issue_bulk_change.form.title': 'Change {0} issues',
+  'issue_bulk_change.selected': '{0} issues selected',
   'issue_bulk_change.max_issues_reached':
     'There are more issues available than can be treated by a single bulk action. Your changes will only be applied to the first {max} issues.',
   'issue_bulk_change.x_issues': '{0} issues',
