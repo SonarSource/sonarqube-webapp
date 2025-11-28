@@ -73,12 +73,11 @@ export function BaseFacetItem({
     if (typeof name !== 'string') {
       return undefined;
     }
-
-    if (!hideStat && typeof stat === 'string') {
-      return `${name} ${stat}`;
+    if (hideStat || typeof stat !== 'string') {
+      return name;
     }
 
-    return name;
+    return `${name} ${stat}`;
   }, [name, stat, hideStat]);
 
   return (

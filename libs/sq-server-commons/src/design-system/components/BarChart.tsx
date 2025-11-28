@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { cssVar, Tooltip } from '@sonarsource/echoes-react';
 import { max } from 'd3-array';
 import { ScaleBand, scaleBand, ScaleLinear, scaleLinear } from 'd3-scale';
-import { Fragment } from 'react/jsx-runtime';
 import { themeColor } from '../helpers';
 
 interface DataPoint {
@@ -132,21 +131,19 @@ function Bars<T>(
     const height = maxY - y;
     const rect = (
       // eslint-disable-next-line react/no-array-index-key
-      <Fragment key={index}>
-        <Tooltip content={point.tooltip}>
-          <BarChartBar
-            aria-label={point.description}
-            className="sw-cursor-pointer"
-            height={height}
-            onClick={() => {
-              props.onBarClick(point);
-            }}
-            width={barsWidth}
-            x={x}
-            y={y}
-          />
-        </Tooltip>
-      </Fragment>
+      <Tooltip content={point.tooltip} key={index}>
+        <BarChartBar
+          aria-label={point.description}
+          className="sw-cursor-pointer"
+          height={height}
+          onClick={() => {
+            props.onBarClick(point);
+          }}
+          width={barsWidth}
+          x={x}
+          y={y}
+        />
+      </Tooltip>
     );
     return rect;
   });

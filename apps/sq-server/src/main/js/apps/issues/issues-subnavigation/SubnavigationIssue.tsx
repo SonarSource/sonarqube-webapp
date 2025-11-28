@@ -21,7 +21,7 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { BareButton, SubnavigationItem, themeColor, themeContrast } from '~design-system';
+import { BareButton, SubnavigationItem, themeContrast } from '~design-system';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { Issue } from '~sq-server-commons/types/types';
 import IssueItemLocationsQuantity from './IssueItemLocationsQuantity';
@@ -51,12 +51,12 @@ export default function SubnavigationIssue(props: ConciseIssueProps) {
     <li ref={element}>
       <SubnavigationItem active={selected} onClick={props.onClick} value={issue.key}>
         <div className="sw-w-full">
-          <StyledIssueTitle aria-current={selected} className="sw-mb-2 sw-p-1">
+          <BareButton aria-current={selected} className="sw-mb-2 sw-break-words sw-p-1">
             <IssueMessageHighlighting
               message={issue.message}
               messageFormattings={issue.messageFormattings}
             />
-          </StyledIssueTitle>
+          </BareButton>
           <IssueInfo className="sw-flex sw-justify-between sw-gap-2">
             <IssueItemLocationsQuantity issue={issue} />
           </IssueInfo>
@@ -81,14 +81,5 @@ const IssueInfo = styled.div`
   .active &,
   :hover & {
     color: ${themeContrast('subnavigation')};
-  }
-`;
-
-const StyledIssueTitle = styled(BareButton)`
-  word-break: break-word;
-
-  &:focus,
-  &:hover {
-    background-color: ${themeColor('subnavigationSelected')};
   }
 `;
