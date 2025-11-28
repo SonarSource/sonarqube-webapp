@@ -7,18 +7,18 @@
       "language": "java",
       "groups": [
         {
-          "label": "api-layer-group",
-          "patterns": ["**/api/**", "**/Api**", "**/Interface**"]
+          "label": "api",
+          "patterns": ["api.**"]
         },
         {
-          "label": "implementation-layer-group",
-          "patterns": ["**/impl/**", "**/Implementation**", "**/Concrete**"]
+          "label": "implementation",
+          "patterns": ["implementation.**"]
         }
       ],
       "constraints": [
         {
-          "from": ["api-layer-group"],
-          "to": ["implementation-layer-group"],
+          "from": ["api"],
+          "to": ["implementation"],
           "relation": "allow"
         }
       ]
