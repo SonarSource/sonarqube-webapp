@@ -19,9 +19,10 @@
  */
 
 import styled from '@emotion/styled';
-import { cssVar } from '@sonarsource/echoes-react';
+import { cssVar, Tooltip } from '@sonarsource/echoes-react';
 import { max } from 'd3-array';
-import { ScaleBand, ScaleLinear, scaleBand, scaleLinear } from 'd3-scale';
+import { ScaleBand, scaleBand, ScaleLinear, scaleLinear } from 'd3-scale';
+import { Fragment } from 'react/jsx-runtime';
 import { themeColor } from '../helpers';
 
 interface DataPoint {
@@ -130,21 +131,22 @@ function Bars<T>(
     const y = Math.round(yScale(point.y)) - /* minimum bar height */ 1;
     const height = maxY - y;
     const rect = (
-      <BarChartBar
-        aria-label={point.description}
-        className="sw-cursor-pointer"
-        height={height}
-        // eslint-disable-next-line react/no-array-index-key
-        key={index}
-        onClick={() => {
-          props.onBarClick(point);
-        }}
-        width={barsWidth}
-        x={x}
-        y={y}
-      >
-        <title>{point.tooltip}</title>
-      </BarChartBar>
+      // eslint-disable-next-line react/no-array-index-key
+      <Fragment key={index}>
+        <Tooltip content={point.tooltip}>
+          <BarChartBar
+            aria-label={point.description}
+            className="sw-cursor-pointer"
+            height={height}
+            onClick={() => {
+              props.onBarClick(point);
+            }}
+            width={barsWidth}
+            x={x}
+            y={y}
+          />
+        </Tooltip>
+      </Fragment>
     );
     return rect;
   });
