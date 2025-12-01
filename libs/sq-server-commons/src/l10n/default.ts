@@ -1891,6 +1891,9 @@ export const defaultMessages = {
   'dependencies.risk.how.fix_body.latest_prerelease.default':
     'This is the latest prerelease version but it does not fix this vulnerability{vulnerabilityIdCount, plural, =1 {.} other { and has # other vulnerabilities.}}',
 
+  'dependencies.risk.how.no_guidance':
+    'Remediation guidance is not yet available in Sonar for this vulnerability. You will need to manually determine if there is an unaffected release available that you can update to. Please check the “What’s the risk” information for guidance on affected versions.',
+
   //------------------------------------------------------------------------------
   //
   // SCA LICENSE PROFILES
