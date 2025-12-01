@@ -32,7 +32,6 @@ import { getComponentData } from '~sq-server-commons/api/components';
 import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { getComponentNavigation } from '~sq-server-commons/api/navigation';
-import { WithAvailableFeaturesProps } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 import { mockProjectAlmBindingConfigurationErrors } from '~sq-server-commons/helpers/mocks/alm-settings';
 import { mockBranch, mockPullRequest } from '~sq-server-commons/helpers/mocks/branch-like';
@@ -40,6 +39,7 @@ import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockTask } from '~sq-server-commons/helpers/mocks/tasks';
 import { renderAppRoutes, renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { getProjectUrl, getPullRequestUrl } from '~sq-server-commons/helpers/urls';
+import { Feature } from '~sq-server-commons/types/features';
 import { TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
 import handleRequiredAuthorization from '../../utils/handleRequiredAuthorization';
 import ComponentContainer, { isSameBranch } from '../ComponentContainer';
@@ -182,10 +182,7 @@ it('should show component not found if it does not exist', async () => {
 });
 
 it('should show component not found if target branch is not found for fixing pull request', async () => {
-  renderComponentContainer(
-    { hasFeature: jest.fn().mockReturnValue(true) },
-    '?id=foo&fixedInPullRequest=1001',
-  );
+  renderComponentContainer('?id=foo&fixedInPullRequest=1001');
 
   expect(await ui.dashboardNotFound.find()).toBeInTheDocument();
 });
@@ -387,7 +384,7 @@ describe('should correctly validate the project binding depending on the context
       jest.mocked(validateProjectAlmBinding).mockResolvedValueOnce(projectBindingErrors);
     }
 
-    renderComponentContainer({ hasFeature: jest.fn().mockReturnValue(true) });
+    renderComponentContainer();
     await waitFor(() => {
       expect(validateProjectAlmBinding).toHaveBeenCalledTimes(n);
     });
@@ -406,7 +403,7 @@ describe('should correctly validate the project binding depending on the context
 
     jest.mocked(validateProjectAlmBinding).mockResolvedValueOnce(PROJECT_BINDING_ERRORS);
 
-    renderComponentContainerAsComponent({ hasFeature: jest.fn().mockReturnValue(true) });
+    renderComponentContainerAsComponent();
     expect(
       await screen.findByText('component_navigation.pr_deco.error_detected_X', { exact: false }),
     ).toBeInTheDocument();
@@ -426,20 +423,20 @@ describe('redirects', () => {
   });
 
   it('should redirect to portfolio when using dashboard path', async () => {
-    renderComponentContainer(
-      { hasFeature: jest.fn().mockReturnValue(true) },
-      'dashboard?id=foo',
-      '/dashboard',
-    );
+    renderComponentContainer('dashboard?id=foo', '/dashboard');
 
     expect(await ui.portfolioText.find()).toBeInTheDocument();
   });
 
+  it('should fix broken query parameters from GH UI', async () => {
+    renderComponentContainer('?id=foo&pullRequest=4?pr=123', '/dashboard');
+
+    expect(await screen.findByText('This is a test component')).toBeInTheDocument();
+    expect(ui.dashboardNotFound.query()).not.toBeInTheDocument();
+  });
+
   it('should remove the branch query parameter when branch supoort is not enabled', async () => {
-    renderComponentContainer(
-      { hasFeature: jest.fn().mockReturnValue(false) },
-      '?id=foo&branch=branch2',
-    );
+    renderComponentContainer('?id=foo&branch=branch2', '/', []);
 
     expect(getComponentData).toHaveBeenCalledWith({
       branch: undefined,
@@ -472,7 +469,7 @@ it.each([
         ReturnType<typeof getComponentData>
       >);
 
-    renderComponentContainer({ hasFeature: jest.fn().mockReturnValue(true) });
+    renderComponentContainer();
     await waitFor(() => {
       expect(validateProjectAlmBinding).not.toHaveBeenCalled();
     });
@@ -513,11 +510,7 @@ describe('tutorials', () => {
       setSearchParams: jest.fn(),
     });
 
-    renderComponentContainer(
-      { hasFeature: jest.fn().mockReturnValue(true) },
-      `tutorials?id=${componentKey}`,
-      '/',
-    );
+    renderComponentContainer(`tutorials?id=${componentKey}`, '/');
 
     jest.useFakeTimers();
 
@@ -571,11 +564,7 @@ describe('tutorials', () => {
 
     jest.useFakeTimers();
 
-    renderComponentContainer(
-      { hasFeature: jest.fn().mockReturnValue(true) },
-      `tutorials?id=${componentKey}`,
-      '/',
-    );
+    renderComponentContainer(`tutorials?id=${componentKey}`, '/');
 
     await waitFor(() => {
       expect(getTasksForComponent).toHaveBeenCalledTimes(1);
@@ -629,11 +618,7 @@ describe('tutorials', () => {
 
     jest.useFakeTimers();
 
-    renderComponentContainer(
-      { hasFeature: jest.fn().mockReturnValue(true) },
-      `tutorials?id=${componentKey}`,
-      '/',
-    );
+    renderComponentContainer(`tutorials?id=${componentKey}`, '/');
 
     await waitFor(() => {
       expect(getTasksForComponent).toHaveBeenCalledTimes(1);
@@ -656,25 +641,28 @@ describe('tutorials', () => {
   });
 });
 
-function renderComponentContainerAsComponent(props: Partial<WithAvailableFeaturesProps> = {}) {
+function renderComponentContainerAsComponent() {
   return renderComponent(
     <>
       <div id="component-nav-portal" />
-      <ComponentContainer {...props} />
+      <ComponentContainer />
     </>,
     '/?id=foo',
+    {
+      featureList: [Feature.BranchSupport],
+    },
   );
 }
 
 function renderComponentContainer(
-  props: Partial<WithAvailableFeaturesProps> = {},
   navigateTo = '?id=foo',
   path = '/',
+  features = [Feature.BranchSupport],
 ) {
   renderAppRoutes(
     path,
     () => (
-      <Route element={<ComponentContainer {...props} />}>
+      <Route element={<ComponentContainer />}>
         <Route element={<TestComponent />} path="*" />
         <Route element={<div>portfolio</div>} path="portfolio" />
         <Route element={<div>project</div>} path="dashboard" />
@@ -682,6 +670,7 @@ function renderComponentContainer(
     ),
     {
       navigateTo,
+      featureList: features,
     },
   );
 }

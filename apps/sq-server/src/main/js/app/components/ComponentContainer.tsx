@@ -24,7 +24,7 @@ import * as React from 'react';
 import { createPortal } from 'react-dom';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { CenteredLayout } from '~design-system';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
@@ -37,7 +37,8 @@ import { validateProjectAlmBinding } from '~sq-server-commons/api/alm-settings';
 import { getTasksForComponent } from '~sq-server-commons/api/ce';
 import { getComponentData } from '~sq-server-commons/api/components';
 import { getComponentNavigation } from '~sq-server-commons/api/navigation';
-import withAvailableFeatures, {
+import {
+  useAvailableFeatures,
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
@@ -303,6 +304,7 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
     if (pathname.includes('dashboard') && component && isPortfolioLike(component.qualifier)) {
       router.replace(getPortfolioUrl(component.key));
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [component]);
 
@@ -486,4 +488,16 @@ function computeHasUpdatedTasks(
   return false;
 }
 
-export default withAvailableFeatures(ComponentContainer);
+export default function ContainerWithRedirects() {
+  const { hasFeature } = useAvailableFeatures();
+  const { pathname, search } = useLocation();
+
+  // GH UI adds extra query params in a breaking format like '?param1=value1?ghPrId=123'
+  // we remove gh pr key and everything after it
+  const splitParams = search.split('?');
+  if (splitParams[2]) {
+    return <Navigate replace to={{ pathname, search: splitParams[1] }} />;
+  }
+
+  return <ComponentContainer hasFeature={hasFeature} />;
+}
