@@ -18,13 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
-import { addGlobalSuccessMessage } from '~design-system';
+import { Button, ButtonVariety, ModalAlert, toast } from '@sonarsource/echoes-react';
+import { useState } from 'react';
+import { useIntl } from 'react-intl';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { isApplication, isPortfolioLike } from '~shared/helpers/component';
+import { ComponentQualifier } from '~shared/types/component';
 import { Router } from '~shared/types/router';
-import ConfirmButton from '~sq-server-commons/components/controls/ConfirmButton';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { useDeleteApplicationMutation } from '~sq-server-commons/queries/applications';
 import { useDeletePortfolioMutation } from '~sq-server-commons/queries/portfolios';
 import { useDeleteProjectMutation } from '~sq-server-commons/queries/projects';
@@ -36,6 +36,9 @@ interface Props {
 }
 
 export function Form({ component, router }: Readonly<Props>) {
+  const intl = useIntl();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const { mutate: deleteProject } = useDeleteProjectMutation();
   const { mutate: deleteApplication } = useDeleteApplicationMutation();
   const { mutate: deletePortfolio } = useDeletePortfolioMutation();
@@ -51,34 +54,79 @@ export function Form({ component, router }: Readonly<Props>) {
       deleteMethod = deleteApplication;
     }
 
+    setIsDeleting(true);
     deleteMethod(component.key, {
       onSuccess: () => {
-        addGlobalSuccessMessage(
-          translateWithParameters('project_deletion.resource_deleted', component.name),
-        );
+        toast.success({
+          description: intl.formatMessage(
+            { id: 'project_deletion.resource_deleted' },
+            { name: component.name },
+          ),
+          duration: 'medium',
+        });
 
+        setIsModalOpen(false);
         router.replace(redirectTo);
+      },
+      onSettled: () => {
+        setIsDeleting(false);
       },
     });
   };
 
+  const getTitle = (qualifier: ComponentQualifier) => {
+    switch (qualifier) {
+      case ComponentQualifier.Project:
+        return intl.formatMessage({ id: 'qualifier.delete.TRK' });
+      case ComponentQualifier.Portfolio:
+        return intl.formatMessage({ id: 'qualifier.delete.VW' });
+      case ComponentQualifier.Application:
+        return intl.formatMessage({ id: 'qualifier.delete.APP' });
+      default:
+        return '';
+    }
+  };
+
   return (
-    <ConfirmButton
-      confirmButtonText={translate('delete')}
-      isDestructive
-      modalBody={translateWithParameters(
-        'project_deletion.delete_resource_confirmation',
-        component.name,
+    <ModalAlert
+      description={intl.formatMessage(
+        { id: 'project_deletion.delete_resource_confirmation' },
+        { name: component.name },
       )}
-      modalHeader={translate('qualifier.delete', component.qualifier)}
-      onConfirm={handleDelete}
-    >
-      {({ onClick }) => (
-        <Button id="delete-project" onClick={onClick} variety={ButtonVariety.Danger}>
-          {translate('delete')}
+      isOpen={isModalOpen}
+      onOpenChange={setIsModalOpen}
+      primaryButton={
+        <Button
+          isDisabled={isDeleting}
+          isLoading={isDeleting}
+          onClick={handleDelete}
+          variety={ButtonVariety.Danger}
+        >
+          {intl.formatMessage({ id: 'delete' })}
         </Button>
-      )}
-    </ConfirmButton>
+      }
+      secondaryButton={
+        <Button
+          isDisabled={isDeleting}
+          onClick={() => {
+            setIsModalOpen(false);
+          }}
+        >
+          {intl.formatMessage({ id: 'cancel' })}
+        </Button>
+      }
+      title={intl.formatMessage({ id: getTitle(component.qualifier) })}
+    >
+      <Button
+        id="delete-project"
+        onClick={() => {
+          setIsModalOpen(true);
+        }}
+        variety={ButtonVariety.Danger}
+      >
+        {intl.formatMessage({ id: 'delete' })}
+      </Button>
+    </ModalAlert>
   );
 }
 

@@ -3641,8 +3641,8 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
-  'project_deletion.delete_resource_confirmation': 'Are you sure you want to delete "{0}"?',
-  'project_deletion.resource_deleted': 'Project "{0}" has been successfully deleted.',
+  'project_deletion.delete_resource_confirmation': 'Are you sure you want to delete "{name}"?',
+  'project_deletion.resource_deleted': 'Project "{name}" has been successfully deleted.',
   'projects_management.delete_resource_confirmation': 'Are you sure you want to delete "{0}"?',
   'projects_management.delete_selected_warning': "You're about to delete {0} selected items.",
   'projects_management.delete_all_warning': "You're about to delete all {0} items.",
