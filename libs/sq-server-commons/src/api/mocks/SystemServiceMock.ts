@@ -26,6 +26,7 @@ import {
   mockPaging,
   mockStandaloneSysInfo,
 } from '../../helpers/testMocks';
+import { SupportInformation } from '../../types/settings';
 import { EmailConfiguration, LogsLevels } from '../../types/system';
 import {
   Provider,
@@ -36,6 +37,7 @@ import {
 } from '../../types/types';
 import {
   getEmailConfigurations,
+  getSupportInformation,
   getSystemInfo,
   getSystemStatus,
   getSystemUpgrades,
@@ -66,6 +68,12 @@ export default class SystemServiceMock {
 
   emailConfigurations: EmailConfiguration[] = [];
 
+  supportInformation: SupportInformation = {
+    statistics: {
+      installationDate: new Date('2025-01-01').toISOString(),
+    },
+  };
+
   constructor() {
     this.updateSystemInfo();
     jest.mocked(getSystemInfo).mockImplementation(this.handleGetSystemInfo);
@@ -75,6 +83,7 @@ export default class SystemServiceMock {
     jest.mocked(getEmailConfigurations).mockImplementation(this.handleGetEmailConfigurations);
     jest.mocked(postEmailConfiguration).mockImplementation(this.handlePostEmailConfiguration);
     jest.mocked(patchEmailConfiguration).mockImplementation(this.handlePatchEmailConfiguration);
+    jest.mocked(getSupportInformation).mockImplementation(this.handleGetSupportInformation);
   }
 
   handleGetSystemInfo = () => {
@@ -155,6 +164,10 @@ export default class SystemServiceMock {
       ...configuration,
     });
     return this.reply(this.emailConfigurations[index]);
+  };
+
+  handleGetSupportInformation = () => {
+    return this.reply(this.supportInformation);
   };
 
   addEmailConfiguration = (configuration: EmailConfiguration) => {

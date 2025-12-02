@@ -23,6 +23,7 @@ import { getJSON } from '~adapters/helpers/request';
 import { post } from '../helpers/request';
 
 export enum MessageTypes {
+  BitbucketCloudAppDeprecation = 'BITBUCKET_CLOUD_APP_DEPRECATION',
   GlobalNcd90 = 'GLOBAL_NCD_90',
   GlobalNcdPage90 = 'GLOBAL_NCD_PAGE_90',
   ProjectNcd90 = 'PROJECT_NCD_90',

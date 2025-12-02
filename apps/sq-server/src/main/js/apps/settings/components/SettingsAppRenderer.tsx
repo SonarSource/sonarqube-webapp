@@ -27,6 +27,7 @@ import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location } from '~shared/types/router';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
 import ModeBanner from '~sq-server-commons/components/common/ModeBanner';
+import { BitbucketCloudAppDeprecationMessage } from '~sq-server-commons/components/devops-platform/BitbucketCloudAppDeprecationMessage';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Component } from '~sq-server-commons/types/types';
 import { CATEGORY_OVERRIDES } from '../constants';
@@ -72,6 +73,8 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
   return (
     <LargeCenteredLayout id="settings-page">
       <Helmet defer={false} title={translate('settings.page')} />
+
+      <BitbucketCloudAppDeprecationMessage className="sw-mt-8" />
 
       <ModeBanner as="wideBanner" />
 

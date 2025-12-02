@@ -19,9 +19,10 @@
  */
 
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createQueryHook } from '~shared/queries/common';
+import { createQueryHook, StaleTime } from '~shared/queries/common';
 import {
   getEmailConfigurations,
+  getSupportInformation,
   getSystemStatus,
   getSystemUpgrades,
   patchEmailConfiguration,
@@ -92,3 +93,11 @@ export function useUpdateEmailConfigurationMutation() {
     },
   });
 }
+
+export const useSupportInformationQuery = createQueryHook(() => {
+  return queryOptions({
+    queryKey: ['support', 'information'],
+    queryFn: getSupportInformation,
+    staleTime: StaleTime.NEVER,
+  });
+});

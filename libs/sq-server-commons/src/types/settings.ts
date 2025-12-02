@@ -87,3 +87,9 @@ export interface SettingValueResponse extends BaseSettingsValueResponse {
   setSecuredSettings: string[];
   settings: SettingValue[];
 }
+
+export interface SupportInformation {
+  statistics: {
+    installationDate: string;
+  };
+}

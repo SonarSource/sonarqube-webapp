@@ -599,6 +599,11 @@ export const defaultMessages = {
     'New SonarQube Server version available',
   'admin_notification.update.new_sqs_version_when_running_sqcb.upgrade':
     'Upgrade to SonarQube Server and get access to enterprise features',
+  'admin_notification.bitbucket_cloud_app_deprecation.title':
+    'Bitbucket API tokens have replaced app passwords',
+  'admin_notification.bitbucket_cloud_app_deprecation.body':
+    'Bitbucket Cloud app is deprecated and will be removed in the future. Please migrate to the new Bitbucket app.',
+  'admin_notification.bitbucket_cloud_app_deprecation.link': 'Create API token on Bitbucket',
 
   //------------------------------------------------------------------------------
   //

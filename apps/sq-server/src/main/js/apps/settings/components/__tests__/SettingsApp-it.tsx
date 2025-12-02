@@ -23,22 +23,30 @@ import userEvent from '@testing-library/user-event';
 import { Route } from 'react-router-dom';
 import { registerServiceMocks } from '~shared/api/mocks/server';
 import { byRole, byText } from '~shared/helpers/testSelector';
+import { MessageTypes } from '~sq-server-commons/api/messages';
+import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
 import {
   EntitlementsServiceDefaultDataset,
   EntitlementsServiceMock,
   mockPurchaseableFeature,
 } from '~sq-server-commons/api/mocks/EntitlementsServiceMock';
+import MessagesServiceMock from '~sq-server-commons/api/mocks/MessagesServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import ScaServiceSettingsMock from '~sq-server-commons/api/mocks/ScaServiceSettingsMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
+import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
+import { mockAlmSettingsInstance } from '~sq-server-commons/helpers/mocks/alm-settings';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import {
   renderAppRoutes,
   renderAppWithComponentContext,
   RenderContext,
 } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { Feature } from '~sq-server-commons/types/features';
+import { Permissions } from '~sq-server-commons/types/permissions';
 import { Component } from '~sq-server-commons/types/types';
 import routes from '../../routes';
 
@@ -52,23 +60,32 @@ jest.mock('~sq-server-addons/index', () => ({
   },
 }));
 
+let almSettingsMock: AlmSettingsServiceMock;
 let settingsMock: SettingsServiceMock;
 let scaSettingsMock: ScaServiceSettingsMock;
 let modeHandler: ModeServiceMock;
 let entitlementsMock: EntitlementsServiceMock;
+let messagesMock: MessagesServiceMock;
+let systemMock: SystemServiceMock;
 
 beforeAll(() => {
+  almSettingsMock = new AlmSettingsServiceMock();
   settingsMock = new SettingsServiceMock();
   scaSettingsMock = new ScaServiceSettingsMock();
   modeHandler = new ModeServiceMock();
   entitlementsMock = new EntitlementsServiceMock(EntitlementsServiceDefaultDataset);
+  messagesMock = new MessagesServiceMock();
+  systemMock = new SystemServiceMock();
 });
 
 afterEach(() => {
+  almSettingsMock.reset();
   settingsMock.reset();
   scaSettingsMock.reset();
   modeHandler.reset();
   entitlementsMock.reset();
+  messagesMock.reset();
+  systemMock.reset();
 });
 
 beforeEach(() => {
@@ -78,6 +95,9 @@ beforeEach(() => {
 
 const ui = {
   announcementHeading: byRole('heading', { name: 'property.category.general.Announcement' }),
+  appPasswordDeprecationMessageTitle: byText(
+    'admin_notification.bitbucket_cloud_app_deprecation.link',
+  ),
   categoryLink: (category: string) => byRole('link', { name: category }),
   externalAnalyzersAndroidHeading: byRole('heading', {
     name: 'property.category.External Analyzers.Android',
@@ -229,6 +249,60 @@ describe('Project Settings', () => {
 
     await user.click(await ui.categoryLink('project_settings.category.jira_binding').find());
     expect(await ui.mockedJiraProjectBindingHeading.find()).toBeInTheDocument();
+  });
+});
+
+describe('BitbucketCloudAppDeprecationMessage', () => {
+  it('should render the message if the conditions are met', async () => {
+    almSettingsMock.setAlmSettings([mockAlmSettingsInstance({ alm: AlmKeys.BitbucketCloud })]);
+
+    renderSettingsApp(undefined, {
+      currentUser: mockLoggedInUser({ permissions: { global: [Permissions.Admin] } }),
+    });
+    expect(await ui.settingsSearchInput.find()).toBeInTheDocument();
+
+    expect(await ui.appPasswordDeprecationMessageTitle.find()).toBeInTheDocument();
+  });
+
+  it('should not render the message if there is no Bitbucket Cloud ALM settings', async () => {
+    almSettingsMock.setAlmSettings([]);
+
+    renderSettingsApp(undefined, {
+      currentUser: mockLoggedInUser({ permissions: { global: [Permissions.Admin] } }),
+    });
+    expect(await ui.settingsSearchInput.find()).toBeInTheDocument();
+
+    expect(ui.appPasswordDeprecationMessageTitle.query()).not.toBeInTheDocument();
+  });
+
+  it('should not render the message if the message has been dismissed', async () => {
+    almSettingsMock.setAlmSettings([mockAlmSettingsInstance({ alm: AlmKeys.BitbucketCloud })]);
+    messagesMock.setMessageDismissed({
+      messageType: MessageTypes.BitbucketCloudAppDeprecation,
+    });
+
+    renderSettingsApp(undefined, {
+      currentUser: mockLoggedInUser({ permissions: { global: [Permissions.Admin] } }),
+    });
+    expect(await ui.settingsSearchInput.find()).toBeInTheDocument();
+
+    expect(ui.appPasswordDeprecationMessageTitle.query()).not.toBeInTheDocument();
+  });
+
+  it('should not render the message if the installation date is after the maximum installation date', async () => {
+    almSettingsMock.setAlmSettings([mockAlmSettingsInstance({ alm: AlmKeys.BitbucketCloud })]);
+    systemMock.supportInformation = {
+      statistics: {
+        installationDate: '2025-10-01',
+      },
+    };
+
+    renderSettingsApp(undefined, {
+      currentUser: mockLoggedInUser({ permissions: { global: [Permissions.Admin] } }),
+    });
+    expect(await ui.settingsSearchInput.find()).toBeInTheDocument();
+
+    expect(ui.appPasswordDeprecationMessageTitle.query()).not.toBeInTheDocument();
   });
 });
 

@@ -24,6 +24,7 @@ import { axiosClient } from '~shared/helpers/axios-clients';
 import { requestTryAndRepeatUntil } from '~shared/helpers/request';
 import { Paging } from '~shared/types/paging';
 import { post, postJSON } from '../helpers/request';
+import { SupportInformation } from '../types/settings';
 import {
   EmailConfiguration,
   MigrationStatus,
@@ -107,4 +108,8 @@ export function patchEmailConfiguration(
     `${EMAIL_NOTIFICATION_PATH}/${id}`,
     emailConfiguration,
   );
+}
+
+export function getSupportInformation(): Promise<SupportInformation> {
+  return axiosClient.get('/api/support/info');
 }

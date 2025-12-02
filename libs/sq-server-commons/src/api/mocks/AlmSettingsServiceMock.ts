@@ -363,6 +363,10 @@ export default class AlmSettingsServiceMock {
     return this.reply(undefined);
   };
 
+  setAlmSettings = (almSettings: AlmSettingsInstance[]) => {
+    this.#almSettings = almSettings;
+  };
+
   reset = () => {
     this.#almSettings = cloneDeep(defaultAlmSettings);
     this.#almDefinitions = cloneDeep(defaultAlmDefinitions);
