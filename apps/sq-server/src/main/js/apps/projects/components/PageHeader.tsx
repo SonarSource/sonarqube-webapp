@@ -20,7 +20,7 @@
 
 import { ButtonGroup, SearchInput, Text, Tooltip } from '@sonarsource/echoes-react';
 import { debounce } from 'lodash';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { isDefined } from '~shared/helpers/types';
 import { RawQuery } from '~shared/types/router';
@@ -50,6 +50,10 @@ export default function PageHeader(props: Readonly<Props>) {
 
   const [search, setSearch] = useState<string>((query.search as string) ?? '');
   const intl = useIntl();
+
+  useEffect(() => {
+    setSearch((query.search as string) ?? '');
+  }, [query.search]);
 
   const defaultOption = isLoggedIn(currentUser) ? 'name' : 'analysis_date';
 
