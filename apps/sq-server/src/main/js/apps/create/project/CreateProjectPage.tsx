@@ -167,19 +167,13 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
   };
 
   handleAfterSubmit = async () => {
-    let { creatingAlmDefinition: createdAlmDefinition } = this.state;
+    const { creatingAlmDefinition: createdAlmDefinition } = this.state;
 
     this.setState({ creatingAlmDefinition: undefined });
 
     await this.fetchAlmBindings();
 
     if (this.mounted && createdAlmDefinition) {
-      const { bitbucketCloudSettings } = this.state;
-
-      if (createdAlmDefinition === AlmKeys.BitbucketServer && bitbucketCloudSettings.length > 0) {
-        createdAlmDefinition = AlmKeys.BitbucketCloud;
-      }
-
       this.handleModeSelect(PROJECT_MODE_FOR_ALM_KEY[createdAlmDefinition]);
     }
   };
