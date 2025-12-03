@@ -184,6 +184,7 @@ export const defaultMessages = {
   more: 'More',
   more_x: '{0} more',
   more_actions: 'More Actions',
+  move: 'Move',
   my_issues: 'My Issues',
   my_favorite: 'My Favorite',
   my_favorites: 'My Favorites',
@@ -2044,11 +2045,13 @@ export const defaultMessages = {
   'architecture.page.model.errors.group.duplicate_sibling_labels':
     'Two sibling components cannot have the same name: "{groupKey}".',
   'architecture.page.model.errors.invalid_model': 'Unable to change model. {errors}',
-  'architecture.page.model.modal.edit_component.title': 'Edit Component',
-  'architecture.page.model.modal.edit_component.description':
-    'Edit the component and its code artifacts.',
-  'architecture.page.model.modal.edit_component_name': 'Component name',
-  'architecture.page.model.modal.edit_component_name_placeholder': 'Enter component name...',
+  'architecture.page.model.modal.move_component.title': 'Move Component',
+  'architecture.page.model.modal.move_component.description':
+    'Move the component and its code artifacts.',
+  'architecture.page.model.modal.move_component.current_location': 'Current location:',
+  'architecture.page.model.modal.move_component.new_location': 'New location',
+  'architecture.page.model.modal.move_component_name': 'Component name',
+  'architecture.page.model.modal.move_component_name_placeholder': 'Enter component name...',
   'architecture.page.model.modal.code_artifacts': 'Code Artifacts',
   'architecture.page.model.modal.search_artifacts': 'Search artifacts',
   'architecture.page.model.modal.covered_by': 'covered by {pattern}',
