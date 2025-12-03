@@ -1637,6 +1637,7 @@ export const defaultMessages = {
     'Sonar uses EPSS score alongside other factors to calculate risk severity. For medium severity risks, EPSS must be >=0.5% and CVSS must be >= 4.0, for high severity risks, EPSS must be >=5% and CVSS must be >=7.0.',
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.tooltip.link':
     'Learn more about EPSS v{version}',
+  'dependencies.risk.what.basicInfo.cwe.weaknesses': 'Weaknesses',
   'dependencies.risk.what.basicInfo.knownExploited': 'Known exploited',
   'dependencies.risk.what.basicInfo.knownExploited.kev': '(KEV)',
   'dependencies.risk.what.basicInfo.knownExploited.kev.tooltip':
