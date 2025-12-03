@@ -216,7 +216,7 @@ exports[`bitbucket: can select devops platform and complete all the steps with c
   stage('SonarQube Analysis') {
     def mvn = tool 'Default Maven';
     withSonarQubeEnv() {
-      sh "\${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=my-project -Dsonar.projectName='MyProject'"
+      sh "\${mvn}/bin/mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=my-project -Dsonar.projectName='MyProject'"
     }
   }
 }"
@@ -581,7 +581,7 @@ exports[`bitbucketcloud: can select devops platform and complete all the steps w
   stage('SonarQube Analysis') {
     def mvn = tool 'Default Maven';
     withSonarQubeEnv() {
-      sh "\${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=my-project -Dsonar.projectName='MyProject'"
+      sh "\${mvn}/bin/mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=my-project -Dsonar.projectName='MyProject'"
     }
   }
 }"
@@ -946,7 +946,7 @@ exports[`github: can select devops platform and complete all the steps with copy
   stage('SonarQube Analysis') {
     def mvn = tool 'Default Maven';
     withSonarQubeEnv() {
-      sh "\${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=my-project -Dsonar.projectName='MyProject'"
+      sh "\${mvn}/bin/mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=my-project -Dsonar.projectName='MyProject'"
     }
   }
 }"
@@ -1311,7 +1311,7 @@ exports[`gitlab: can select devops platform and complete all the steps with copy
   stage('SonarQube Analysis') {
     def mvn = tool 'Default Maven';
     withSonarQubeEnv() {
-      sh "\${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=my-project -Dsonar.projectName='MyProject'"
+      sh "\${mvn}/bin/mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=my-project -Dsonar.projectName='MyProject'"
     }
   }
 }"

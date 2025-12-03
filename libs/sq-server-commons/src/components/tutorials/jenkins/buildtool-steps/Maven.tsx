@@ -29,7 +29,7 @@ function jenkinsfileSnippet(projectKey: string, projectName: string) {
   stage('SonarQube Analysis') {
     def mvn = tool 'Default Maven';
     withSonarQubeEnv() {
-      sh "\${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=${projectKey} -Dsonar.projectName='${projectName}'"
+      sh "\${mvn}/bin/mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=${projectKey} -Dsonar.projectName='${projectName}'"
     }
   }
 }`;

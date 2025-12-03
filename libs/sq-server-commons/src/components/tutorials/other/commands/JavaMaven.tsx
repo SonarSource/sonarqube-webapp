@@ -37,7 +37,7 @@ export interface JavaMavenProps {
 export default function JavaMaven(props: Readonly<JavaMavenProps>) {
   const { baseUrl, component, token } = props;
   const command = [
-    'mvn clean verify sonar:sonar',
+    'mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar',
     `-Dsonar.projectKey=${component.key}`,
     `-Dsonar.projectName='${component.name}'`,
     `-Dsonar.host.url=${baseUrl}`,

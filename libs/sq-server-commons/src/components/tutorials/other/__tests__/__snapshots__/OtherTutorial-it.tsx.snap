@@ -257,7 +257,7 @@ exports[`can choose build tools and copy provided settings: gradle: sonarqube pl
 `;
 
 exports[`can choose build tools and copy provided settings: maven: execute scanner 1`] = `
-"mvn clean verify sonar:sonar \\
+"mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \\
   -Dsonar.projectKey=my-project \\
   -Dsonar.projectName='MyProject' \\
   -Dsonar.host.url=http://localhost:9000 \\
