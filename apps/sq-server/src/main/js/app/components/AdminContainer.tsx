@@ -142,6 +142,7 @@ export class AdminContainer extends React.PureComponent<AdminContainerProps, Sta
             { page: translate('layout.settings') },
           )}
         />
+
         {this.portalAnchor &&
           createPortal(
             <SettingsNav
