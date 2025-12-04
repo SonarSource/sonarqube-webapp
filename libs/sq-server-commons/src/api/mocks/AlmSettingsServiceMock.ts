@@ -19,7 +19,10 @@
  */
 
 import { cloneDeep } from 'lodash';
-import { mockAlmSettingsInstance } from '../../helpers/mocks/alm-settings';
+import {
+  mockAlmSettingsInstance,
+  mockProjectAlmBindingResponse,
+} from '../../helpers/mocks/alm-settings';
 import {
   AlmKeys,
   AlmSettingsBindingDefinitions,
@@ -318,16 +321,23 @@ export default class AlmSettingsServiceMock {
   };
 
   handleSetProjectBinding = (alm: AlmKeys, data: EnhancedProjectAlmBindingParam) => {
-    this.#projectsBindings[data.project] = {
-      alm,
-      key: data.almSetting,
-      repository: data.repositoryName ?? (data.repository as string),
-      monorepo: data.monorepo,
-      slug: data.projectName ?? data.slug,
-      summaryCommentEnabled: data.summaryCommentEnabled ?? false,
-      url: 'https://company.com/project',
-    };
+    this.setProjectBinding(
+      data.project,
+      mockProjectAlmBindingResponse({
+        alm,
+        key: data.almSetting,
+        repository: data.repositoryName ?? (data.repository as string),
+        monorepo: data.monorepo,
+        slug: data.projectName ?? data.slug,
+        summaryCommentEnabled: data.summaryCommentEnabled ?? false,
+        url: 'https://company.com/project',
+      }),
+    );
     return this.reply(undefined);
+  };
+
+  setProjectBinding = (project: string, binding: ProjectAlmBindingResponse) => {
+    this.#projectsBindings[project] = binding;
   };
 
   handleSetProjectAzureBinding = (data: AzureProjectAlmBindingParams) => {

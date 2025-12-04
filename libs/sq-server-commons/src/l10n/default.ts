@@ -3441,6 +3441,7 @@ export const defaultMessages = {
   'project_navigation.analysis_status.details_link': 'See details',
   'project_navigation.analysis_status.details_link.label': 'See details about the last analysis',
   'project_navigation.binding_status.bound_to_x': 'Bound to {dop}',
+  'project_navigation.binding_status.view_on_x': 'View on {dop}',
   'project_navigation.binding_status.not_bound': 'Not bound',
   'project_navigation.binding_status.not_bound.tooltip':
     'To enable automatically configured PR decoration and privacy settings based on your DevOps platform, ask your admin to bind this project',

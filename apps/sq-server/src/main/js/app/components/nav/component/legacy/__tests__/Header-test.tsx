@@ -23,6 +23,7 @@ import userEvent from '@testing-library/user-event';
 import { ComponentQualifier } from '~shared/types/component';
 import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
+import { mockProjectAlmBindingResponse } from '~sq-server-commons/helpers/mocks/alm-settings';
 import { mockMainBranch, mockPullRequest } from '~sq-server-commons/helpers/mocks/branch-like';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
@@ -88,12 +89,14 @@ it('should show the correct help tooltip for applications', async () => {
 it('should show the correct help tooltip when branch support is not enabled', async () => {
   handler.emptyBranchesAndPullRequest();
   handler.addBranch(mockMainBranch());
-  almHandler.handleSetProjectBinding(AlmKeys.GitLab, {
-    almSetting: 'key',
-    project: 'header-project',
-    repository: 'header-project',
-    monorepo: true,
-  });
+  almHandler.setProjectBinding(
+    'header-project',
+    mockProjectAlmBindingResponse({
+      alm: AlmKeys.GitLab,
+      repository: 'header-project',
+      monorepo: true,
+    }),
+  );
   renderHeader(
     {
       currentUser: mockLoggedInUser(),

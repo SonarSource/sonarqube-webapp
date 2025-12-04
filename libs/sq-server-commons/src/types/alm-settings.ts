@@ -74,6 +74,7 @@ export interface ProjectAlmBindingResponse {
   key: string;
   monorepo: boolean;
   repository: string;
+  repositoryUrl?: string;
   slug?: string;
   summaryCommentEnabled?: boolean;
   url?: string;

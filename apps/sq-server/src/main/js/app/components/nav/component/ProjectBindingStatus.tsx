@@ -22,9 +22,8 @@ import {
   Badge,
   BadgeSize,
   BadgeVariety,
+  Button,
   IconLink,
-  LinkHighlight,
-  LinkStandalone,
   Spinner,
   ToggleTip,
   Tooltip,
@@ -91,16 +90,33 @@ export function ProjectBindingStatus({
 
   return (
     <Spinner isLoading={isLoadingProjectBinding}>
-      {almKey && (
-        <Image
-          alt={imageTitle}
-          className={classNames('sw-px-1 sw-align-text-top', className)}
-          height={16}
-          src={DOP_LOGOS[almKey]}
-          title={imageTitle}
-          width={16}
-        />
-      )}
+      {almKey &&
+        (projectBinding?.repositoryUrl ? (
+          <Tooltip
+            content={<FormattedMessage id={imageTitle} values={{ almKey }} />}
+            side={TooltipSide.Right}
+          >
+            <Button
+              className={className}
+              prefix={<Image alt={imageTitle} height={16} src={DOP_LOGOS[almKey]} width={16} />}
+              to={projectBinding?.repositoryUrl}
+            >
+              <FormattedMessage
+                id="project_navigation.binding_status.view_on_x"
+                values={{ dop: <FormattedMessage id={almKey} /> }}
+              />
+            </Button>
+          </Tooltip>
+        ) : (
+          <Image
+            alt={imageTitle}
+            className={classNames('sw-px-1 sw-align-text-top', className)}
+            height={16}
+            src={DOP_LOGOS[almKey]}
+            title={imageTitle}
+            width={16}
+          />
+        ))}
 
       {hasBranchSupport &&
         !almKey &&
@@ -118,14 +134,13 @@ export function ProjectBindingStatus({
             content={<FormattedMessage id="project_navigation.binding_status.bind.tooltip" />}
             side={TooltipSide.Right}
           >
-            <LinkStandalone
+            <Button
               className={className}
-              highlight={LinkHighlight.Default}
-              iconLeft={<IconLink />}
+              prefix={<IconLink />}
               to={getProjectSettingsUrl(component.key, PULL_REQUEST_DECORATION_BINDING_CATEGORY)}
             >
               <FormattedMessage id="project_navigation.binding_status.bind" />
-            </LinkStandalone>
+            </Button>
           </Tooltip>
         )}
     </Spinner>
