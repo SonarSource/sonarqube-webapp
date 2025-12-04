@@ -21,18 +21,20 @@
 import styled from '@emotion/styled';
 import tw from 'twin.macro';
 import { LAYOUT_VIEWPORT_MIN_WIDTH } from '../helpers';
-import { themeColor, themeContrast, themeShadow } from '../helpers/theme';
+import { themeColor, themeContrast } from '../helpers/theme';
 
-export const TopBar = styled.nav`
+export const TopBarNewLayoutCompatible = styled.nav`
   ${tw`sw-px-6 sw-pt-4`}
   ${tw`sw-box-border`};
   ${tw`sw-w-full`};
   ${tw`sw-font-sans`}
   ${tw`sw-text-sm`}
 
-  min-width: ${LAYOUT_VIEWPORT_MIN_WIDTH}px;
-
   background-color: ${themeColor('navbar')};
   color: ${themeContrast('navbar')};
-  box-shadow: ${themeShadow('lg')};
+  border-bottom: 1px solid ${themeColor('border')};
+`;
+
+export const TopBar = styled(TopBarNewLayoutCompatible)`
+  min-width: ${LAYOUT_VIEWPORT_MIN_WIDTH}px;
 `;

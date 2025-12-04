@@ -20,7 +20,7 @@
 
 import { Navigate, To } from 'react-router-dom';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
-import { getHomePageUrl } from '~sq-server-commons/helpers/urls';
+import { getHomePageUrl, getProjectsUrl } from '~sq-server-commons/helpers/urls';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 
 export interface LandingProps {
@@ -32,7 +32,7 @@ export function Landing({ currentUser }: LandingProps) {
   if (isLoggedIn(currentUser) && currentUser.homepage) {
     redirectUrl = getHomePageUrl(currentUser.homepage);
   } else {
-    redirectUrl = '/projects';
+    redirectUrl = getProjectsUrl();
   }
 
   return <Navigate replace to={redirectUrl} />;

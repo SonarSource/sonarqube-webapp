@@ -18,19 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { get, remove, save } from '~shared/helpers/storage';
+import { get, remove, save } from './storage';
 
 const RECENT_HISTORY = 'sonar_recent_history';
 const HISTORY_LIMIT = 10;
 
-export type History = Array<{
-  icon: string;
+export interface History {
   key: string;
   name: string;
-}>;
+  organization?: string;
+  qualifier: string;
+}
 
-export default class RecentHistory {
-  static get(): History {
+export class RecentHistory {
+  static get(): History[] {
     const history = get(RECENT_HISTORY);
     if (history == null) {
       return [];
@@ -43,7 +44,7 @@ export default class RecentHistory {
     }
   }
 
-  static set(newHistory: History) {
+  static set(newHistory: History[]) {
     save(RECENT_HISTORY, JSON.stringify(newHistory));
   }
 
@@ -51,18 +52,17 @@ export default class RecentHistory {
     remove(RECENT_HISTORY);
   }
 
-  static add(componentKey: string, componentName: string, icon: string) {
-    const sonarHistory = RecentHistory.get();
-    const newEntry = { key: componentKey, name: componentName, icon };
+  static add(newEntry: History) {
+    const sonarHistory = this.get();
     let newHistory = sonarHistory.filter((entry) => entry.key !== newEntry.key);
     newHistory.unshift(newEntry);
     newHistory = newHistory.slice(0, HISTORY_LIMIT);
     RecentHistory.set(newHistory);
   }
 
-  static remove(componentKey: string) {
-    const history = RecentHistory.get();
-    const newHistory = history.filter((entry) => entry.key !== componentKey);
+  static remove(entryKey: string) {
+    const history = this.get();
+    const newHistory = history.filter((entry) => entry.key !== entryKey);
     RecentHistory.set(newHistory);
   }
 }

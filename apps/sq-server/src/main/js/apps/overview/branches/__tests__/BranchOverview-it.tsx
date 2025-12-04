@@ -59,7 +59,7 @@ import { IssueType } from '~sq-server-commons/types/issues';
 import { Mode } from '~sq-server-commons/types/mode';
 import { ProjectAnalysisEventCategory } from '~sq-server-commons/types/project-activity';
 import { CaycStatus, Component } from '~sq-server-commons/types/types';
-import { Header } from '../../../../app/components/nav/component/Header';
+import { Header } from '../../../../app/components/nav/component/legacy/Header';
 import BranchOverview, { NO_CI_DETECTED } from '../BranchOverview';
 import { getPageObjects } from '../test-utils';
 

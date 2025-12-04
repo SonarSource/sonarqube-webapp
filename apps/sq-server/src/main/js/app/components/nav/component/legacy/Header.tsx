@@ -19,27 +19,27 @@
  */
 
 import * as React from 'react';
-import { CenteredLayout, addGlobalErrorMessage } from '~design-system';
-import { RecentHistory } from '~shared/helpers/recent-history';
-import { logOut } from '~sq-server-commons/api/auth';
-import { translate } from '~sq-server-commons/helpers/l10n';
-import { getBaseUrl } from '~sq-server-commons/helpers/system';
+import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { Component } from '~sq-server-commons/types/types';
+import { CurrentUser } from '~sq-server-commons/types/users';
+import { BranchLikeNavigation } from '../branch-like/BranchLikeNavigation';
+import { Breadcrumb } from './Breadcrumb';
 
-export default function Logout() {
-  React.useEffect(() => {
-    logOut()
-      .then(() => {
-        RecentHistory.clear();
-        window.location.replace(getBaseUrl() + '/');
-      })
-      .catch(() => {
-        addGlobalErrorMessage(translate('login.logout_failed'));
-      });
-  }, []);
+export interface HeaderProps {
+  component: Component;
+  currentUser: CurrentUser;
+}
+
+export function Header(props: HeaderProps) {
+  const { component, currentUser } = props;
 
   return (
-    <CenteredLayout>
-      <div className="sw-typo-lg sw-mt-14 sw-text-center">{translate('logging_out')}</div>
-    </CenteredLayout>
+    <div className="sw-flex sw-flex-shrink sw-items-center">
+      <Breadcrumb component={component} currentUser={currentUser} />
+
+      <BranchLikeNavigation component={component} />
+    </div>
   );
 }
+
+export default withCurrentUserContext(React.memo(Header));

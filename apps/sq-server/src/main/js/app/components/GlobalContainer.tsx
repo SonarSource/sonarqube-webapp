@@ -38,7 +38,7 @@ import NonProductionDatabaseWarning from './NonProductionDatabaseWarning';
 import SystemAnnouncement from './SystemAnnouncement';
 import EnableAiCodeFixMessage from './ai-codefix-notification/EnableAiCodeFixMessage';
 import CalculationChangeMessage from './calculation-notification/CalculationChangeMessage';
-import GlobalNav from './nav/global/GlobalNav';
+import { GlobalNav, GlobalNavLegacy } from './nav/global/GlobalNav';
 import PromotionNotification from './promotion-notification/PromotionNotification';
 import { UpdateNotification } from './update-notification/UpdateNotification';
 
@@ -130,7 +130,7 @@ export default function GlobalContainer() {
               <SQSTemporaryRelativeBannerContainer>
                 <Banners />
               </SQSTemporaryRelativeBannerContainer>
-              <GlobalNav />
+              <GlobalNavLegacy />
               {hasFeature(Feature.Architecture) && canAdmin && addons.architecture?.spotlight({})}
               <ModeTour />
               {/* The following is the portal anchor point for the component nav

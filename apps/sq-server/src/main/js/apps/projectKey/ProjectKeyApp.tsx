@@ -22,12 +22,12 @@ import { Heading } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
+import { RecentHistory } from '~shared/helpers/recent-history';
 import { Router } from '~shared/types/router';
 import { changeKey } from '~sq-server-commons/api/components';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Component } from '~sq-server-commons/types/types';
-import RecentHistory from '../../app/components/RecentHistory';
 import UpdateForm from './UpdateForm';
 
 interface Props {

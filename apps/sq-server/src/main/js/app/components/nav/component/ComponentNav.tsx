@@ -18,84 +18,101 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
-import * as React from 'react';
-import { useCurrentBranchQuery } from '~adapters/queries/branch';
-import { TopBar } from '~design-system';
+import { IconRocket, Layout } from '@sonarsource/echoes-react';
+import { useEffect } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useCurrentBranchQuery, useProjectBranchesQuery } from '~adapters/queries/branch';
+import { ComponentNavHeader } from '~shared/components/nav/component-nav/ComponentNavHeader';
+import { isApplication, isPortfolioLike } from '~shared/helpers/component';
+import { History, RecentHistory } from '~shared/helpers/recent-history';
 import { isDefined } from '~shared/helpers/types';
+import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { ComponentQualifier } from '~shared/types/component';
-import NCDAutoUpdateMessage from '~sq-server-commons/components/new-code-definition/NCDAutoUpdateMessage';
-import { ComponentMissingMqrMetricsMessage } from '~sq-server-commons/components/shared/ComponentMissingMqrMetricsMessage';
-import withAvailableFeatures, {
-  WithAvailableFeaturesProps,
-} from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { getBranchLikeDisplayName } from '~sq-server-commons/helpers/branch-like';
-import { translate } from '~sq-server-commons/helpers/l10n';
-import { ProjectAlmBindingConfigurationErrors } from '~sq-server-commons/types/alm-settings';
-import { Feature } from '~sq-server-commons/types/features';
+import {
+  getPortfolioUrl,
+  getProjectsUrl,
+  getProjectTutorialLocation,
+} from '~sq-server-commons/helpers/urls';
 import { Component } from '~sq-server-commons/types/types';
-import RecentHistory from '../../RecentHistory';
-import ComponentNavProjectBindingErrorNotif from './ComponentNavProjectBindingErrorNotif';
-import Header from './Header';
-import Menu from './Menu';
+import { ComponentNavAnalysisMenu } from './ComponentNavAnalysisMenu';
+import { ComponentNavExtensionsMenu } from './ComponentNavExtensionsMenu';
+import { ComponentNavInformationMenu } from './ComponentNavInformationMenu';
+import { ComponentNavPoliciesMenu } from './ComponentNavPoliciesMenu';
+import ComponentNavSettingsMenu from './ComponentNavSettingsMenu';
 
-export interface ComponentNavProps extends WithAvailableFeaturesProps {
+interface Props {
   component: Component;
   isInProgress?: boolean;
   isPending?: boolean;
-  projectBindingErrors?: ProjectAlmBindingConfigurationErrors;
 }
 
-function ComponentNav(props: Readonly<ComponentNavProps>) {
-  const { component, hasFeature, isInProgress, isPending, projectBindingErrors } = props;
-
+export function ComponentNav(props: Readonly<Props>) {
+  const intl = useIntl();
+  const { component, isInProgress, isPending } = props;
+  const { data: branchLikes = [] } = useProjectBranchesQuery(component);
   const { data: branchLike } = useCurrentBranchQuery(component);
+  const { breadcrumbs, key, name } = component;
+  const { qualifier } = breadcrumbs.at(-1) ?? {};
+  const hasBranches = branchLikes.length > 1;
+  const isAnalyzed = hasBranches || isInProgress || isPending || isDefined(component.analysisDate);
 
-  React.useEffect(() => {
-    const { breadcrumbs, key, name } = component;
-    const { qualifier } = breadcrumbs[breadcrumbs.length - 1];
+  const isApplicationChildInaccessible =
+    isApplication(component.qualifier) && !component.canBrowseAllChildProjects;
+
+  useEffect(() => {
     if (
+      qualifier &&
       [
         ComponentQualifier.Project,
         ComponentQualifier.Portfolio,
         ComponentQualifier.Application,
-      ].includes(qualifier as ComponentQualifier)
+      ].includes(qualifier)
     ) {
-      RecentHistory.add(key, name, qualifier.toLowerCase());
+      RecentHistory.add({ key, name, qualifier });
     }
-  }, [component, component.key]);
-
-  const branchName =
-    hasFeature(Feature.BranchSupport) || !isDefined(branchLike)
-      ? undefined
-      : getBranchLikeDisplayName(branchLike);
+  }, [key, name, qualifier]);
 
   return (
-    <>
-      <TopBar aria-label={translate('qualifier', component.qualifier)} id="context-navigation">
-        <div className="sw-min-h-1000 sw-flex sw-justify-between">
-          <Header component={component} />
-        </div>
-        <Menu component={component} isInProgress={isInProgress} isPending={isPending} />
-      </TopBar>
+    <Layout.SidebarNavigation
+      ariaLabel={intl.formatMessage({ id: `qualifier.${component.qualifier}` })}
+    >
+      <ComponentNavHeader
+        allProjectsUrl={getProjectsUrl()}
+        component={component}
+        getItemUrl={getComponentUrl}
+      />
 
-      <NCDAutoUpdateMessage branchName={branchName} component={component} />
-
-      <SQSTemporaryRelativeBannerContainer>
-        <ComponentMissingMqrMetricsMessage component={component} />
-        {projectBindingErrors !== undefined && (
-          <ComponentNavProjectBindingErrorNotif component={component} />
+      <Layout.SidebarNavigation.Body>
+        {!isAnalyzed && (
+          <Layout.SidebarNavigation.Item
+            Icon={IconRocket}
+            to={getProjectTutorialLocation(component.key)}
+          >
+            <FormattedMessage id="onboarding.project_analysis.menu_entry" />
+          </Layout.SidebarNavigation.Item>
         )}
-      </SQSTemporaryRelativeBannerContainer>
-    </>
+        {isAnalyzed && <ComponentNavAnalysisMenu branchLike={branchLike} component={component} />}
+        {isAnalyzed && !isApplicationChildInaccessible && (
+          <ComponentNavExtensionsMenu branchLike={branchLike} component={component} />
+        )}
+        {!isApplicationChildInaccessible && (
+          <>
+            <ComponentNavPoliciesMenu component={component} />
+            <ComponentNavInformationMenu component={component} />
+          </>
+        )}
+      </Layout.SidebarNavigation.Body>
+
+      <Layout.SidebarNavigation.Footer>
+        <ComponentNavSettingsMenu branchLike={branchLike} component={component} />
+      </Layout.SidebarNavigation.Footer>
+    </Layout.SidebarNavigation>
   );
 }
 
-export default withAvailableFeatures(ComponentNav);
-
-// FIXME temporary fix for the banner in SQS SONAR-25639
-const SQSTemporaryRelativeBannerContainer = styled.div`
-  & div {
-    position: relative;
+function getComponentUrl(component: History) {
+  if (isPortfolioLike(component.qualifier)) {
+    return getPortfolioUrl(component.key);
   }
-`;
+  return getProjectOverviewUrl(component.key);
+}

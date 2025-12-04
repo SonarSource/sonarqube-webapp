@@ -20,9 +20,9 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import { addGlobalErrorMessage } from '~design-system';
+import { RecentHistory } from '~shared/helpers/recent-history';
 import { logOut } from '~sq-server-commons/api/auth';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import RecentHistory from '../../../../app/components/RecentHistory';
 import Logout from '../Logout';
 
 jest.mock('~sq-server-commons/api/auth', () => ({
@@ -38,9 +38,8 @@ jest.mock('~sq-server-commons/helpers/system', () => ({
   getBaseUrl: jest.fn().mockReturnValue('/context'),
 }));
 
-jest.mock('../../../../app/components/RecentHistory', () => ({
-  __esModule: true,
-  default: {
+jest.mock('~shared/helpers/recent-history', () => ({
+  RecentHistory: {
     clear: jest.fn(),
   },
 }));

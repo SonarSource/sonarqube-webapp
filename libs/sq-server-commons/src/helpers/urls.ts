@@ -380,6 +380,10 @@ export function getCodeUrl(
   };
 }
 
+export function getProjectsUrl(isFavorite = false): Partial<Path> {
+  return { pathname: `/projects` + (isFavorite ? '/favorite' : '') };
+}
+
 export function getHomePageUrl(homepage: HomePage) {
   switch (homepage.type) {
     case 'APPLICATION':
@@ -395,14 +399,14 @@ export function getHomePageUrl(homepage: HomePage) {
     case 'PORTFOLIOS':
       return '/portfolios';
     case 'MY_PROJECTS':
-      return '/projects';
+      return getProjectsUrl(true);
     case 'ISSUES':
     case 'MY_ISSUES':
       return { pathname: '/issues', query: DEFAULT_ISSUES_QUERY };
   }
 
   // should never happen, but just in case...
-  return '/projects';
+  return getProjectsUrl();
 }
 
 export function convertGithubApiUrlToLink(url: string) {

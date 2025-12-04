@@ -18,28 +18,37 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
-import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { IconInfo, Layout } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
+import { isApplication, isProject } from '~shared/helpers/component';
 import { Component } from '~sq-server-commons/types/types';
-import { CurrentUser } from '~sq-server-commons/types/users';
-import { Breadcrumb } from './Breadcrumb';
-import { BranchLikeNavigation } from './branch-like/BranchLikeNavigation';
 
-export interface HeaderProps {
+interface Props {
   component: Component;
-  currentUser: CurrentUser;
 }
 
-export function Header(props: HeaderProps) {
-  const { component, currentUser } = props;
+export function ComponentNavInformationMenu({ component }: Readonly<Props>) {
+  const { qualifier } = component;
+
+  if (!isProject(qualifier) && !isApplication(qualifier)) {
+    return null;
+  }
 
   return (
-    <div className="sw-flex sw-flex-shrink sw-items-center">
-      <Breadcrumb component={component} currentUser={currentUser} />
-
-      <BranchLikeNavigation component={component} />
-    </div>
+    <Layout.SidebarNavigation.Group
+      label={<FormattedMessage id="navigation.project.group.information" />}
+    >
+      <Layout.SidebarNavigation.Item
+        Icon={IconInfo}
+        to={{
+          pathname: '/project/information',
+          search: new URLSearchParams({ id: component.key }).toString(),
+        }}
+      >
+        <FormattedMessage
+          id={isProject(qualifier) ? 'project.info.title' : 'application.info.title'}
+        />
+      </Layout.SidebarNavigation.Item>
+    </Layout.SidebarNavigation.Group>
   );
 }
-
-export default withCurrentUserContext(React.memo(Header));

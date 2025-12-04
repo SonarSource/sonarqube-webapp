@@ -18,34 +18,34 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
+import { MessageCallout } from '@sonarsource/echoes-react';
+import { useContext } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Outlet } from 'react-router-dom';
-import { CenteredLayout, FlagMessage } from '~design-system';
+import { CenteredLayout } from '~design-system';
 import { isApplication } from '~shared/helpers/component';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 
 export default function NonAdminPagesContainer() {
-  const { component } = React.useContext(ComponentContext);
+  const { component } = useContext(ComponentContext);
 
   /*
    * Catch Applications for which the user does not have access to all child projects
    * and prevent displaying whatever page was requested.
    * This doesn't apply to admin pages (those are not within this container)
    */
-  if (component && isApplication(component.qualifier) && !component.canBrowseAllChildProjects) {
+
+  const isApplicationChildInaccessible =
+    component && isApplication(component.qualifier) && !component.canBrowseAllChildProjects;
+
+  if (isApplicationChildInaccessible) {
     return (
-      <CenteredLayout
-        className="sw-py-8 sw-typo-lg sw-flex sw-flex-col sw-items-center"
-        id="code-page"
-      >
-        <FlagMessage className="it__alert-no-access-all-child-project sw-mt-10" variant="error">
-          <p>
-            {translate('application.cannot_access_all_child_projects1')}
-            <br />
-            {translate('application.cannot_access_all_child_projects2')}
-          </p>
-        </FlagMessage>
+      <CenteredLayout className="sw-py-8 sw-typo-lg sw-flex sw-flex-col sw-items-center">
+        <MessageCallout className="it__alert-no-access-all-child-project sw-mt-10" variety="danger">
+          <FormattedMessage id="application.cannot_access_all_child_projects1" />
+          <br />
+          <FormattedMessage id="application.cannot_access_all_child_projects2" />
+        </MessageCallout>
       </CenteredLayout>
     );
   }

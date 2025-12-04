@@ -3415,10 +3415,20 @@ export const defaultMessages = {
 
   //------------------------------------------------------------------------------
   //
+  // COMMON NAVIGATION
+  //
+  //------------------------------------------------------------------------------
+  'navigation.view_all': 'View all',
+  'navigation.project.group.analysis': 'Analysis',
+  'navigation.project.group.policies': 'Policies',
+  'navigation.project.group.information': 'Information',
+  'navigation.project.group.extensions': 'Extensions',
+
+  //------------------------------------------------------------------------------
+  //
   // PROJECT NAVIGATION
   //
   //------------------------------------------------------------------------------
-
   'project_navigation.analysis_status.failed': 'The last analysis has failed.',
   'project_navigation.analysis_status.warnings': 'The last analysis has warnings.',
   'project_navigation.analysis_status.pending': 'New analysis pending',
@@ -6724,6 +6734,7 @@ export const defaultMessages = {
   'onboarding.alm.bitbucketcloud': 'Bitbucket Cloud',
   'onboarding.alm.gitlab': 'GitLab',
 
+  'onboarding.project_analysis.menu_entry': 'Project onboarding',
   'onboarding.project_analysis.header': 'Analyze your project',
   'onboarding.project_analysis.description':
     "We initialized your project on {productName}, now it's up to you to launch analyses!",

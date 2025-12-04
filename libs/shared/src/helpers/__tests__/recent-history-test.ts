@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { get, remove, save } from '~shared/helpers/storage';
-import { ComponentQualifier } from '~shared/types/component';
-import RecentHistory, { History } from '../RecentHistory';
+import { ComponentQualifier } from '../../types/component';
+import { History, RecentHistory } from '../recent-history';
+import { get, remove, save } from '../storage';
 
 jest.mock('~shared/helpers/storage', () => ({
   get: jest.fn(),
@@ -29,13 +29,11 @@ jest.mock('~shared/helpers/storage', () => ({
 }));
 
 beforeEach(() => {
-  jest.mocked(get).mockClear();
-  jest.mocked(remove).mockClear();
-  jest.mocked(save).mockClear();
+  jest.clearAllMocks();
 });
 
 it('should get existing history', () => {
-  const history = [{ key: 'foo', name: 'Foo', icon: ComponentQualifier.Project }];
+  const history = [{ key: 'foo', name: 'Foo' }];
   jest.mocked(get).mockReturnValueOnce(JSON.stringify(history));
   expect(RecentHistory.get()).toEqual(history);
   expect(get).toHaveBeenCalledWith('sonar_recent_history');
@@ -55,7 +53,9 @@ it('should return [] and clear history in case of failure', () => {
 });
 
 it('should save history', () => {
-  const history = [{ key: 'foo', name: 'Foo', icon: ComponentQualifier.Project }];
+  const history = [
+    { key: 'foo', name: 'Foo', organization: 'org', qualifier: ComponentQualifier.Project },
+  ];
   RecentHistory.set(history);
   expect(save).toHaveBeenCalledWith('sonar_recent_history', JSON.stringify(history));
 });
@@ -66,35 +66,53 @@ it('should clear history', () => {
 });
 
 it('should add item to history', () => {
-  const history = [{ key: 'foo', name: 'Foo', icon: ComponentQualifier.Project }];
+  const history = [{ key: 'foo', name: 'Foo' }];
   jest.mocked(get).mockReturnValueOnce(JSON.stringify(history));
-  RecentHistory.add('bar', 'Bar', ComponentQualifier.Portfolio);
+  RecentHistory.add({ key: 'bar', name: 'Bar', qualifier: ComponentQualifier.Portfolio });
   expect(save).toHaveBeenCalledWith(
     'sonar_recent_history',
-    JSON.stringify([{ key: 'bar', name: 'Bar', icon: ComponentQualifier.Portfolio }, ...history]),
+    JSON.stringify([
+      { key: 'bar', name: 'Bar', qualifier: ComponentQualifier.Portfolio },
+      ...history,
+    ]),
   );
 });
 
 it('should keep 10 items maximum', () => {
-  const history: History = [];
+  const history: History[] = [];
   for (let i = 0; i < 10; i++) {
-    history.push({ key: `key-${i}`, name: `name-${i}`, icon: ComponentQualifier.Project });
+    history.push({
+      key: `key-${i}`,
+      name: `name-${i}`,
+      organization: 'org',
+      qualifier: ComponentQualifier.Project,
+    });
   }
   jest.mocked(get).mockReturnValueOnce(JSON.stringify(history));
-  RecentHistory.add('bar', 'Bar', ComponentQualifier.Portfolio);
+  RecentHistory.add({
+    key: 'bar',
+    name: 'Bar',
+    organization: 'org',
+    qualifier: ComponentQualifier.Portfolio,
+  });
   expect(save).toHaveBeenCalledWith(
     'sonar_recent_history',
     JSON.stringify([
-      { key: 'bar', name: 'Bar', icon: ComponentQualifier.Portfolio },
+      { key: 'bar', name: 'Bar', organization: 'org', qualifier: ComponentQualifier.Portfolio },
       ...history.slice(0, 9),
     ]),
   );
 });
 
 it('should remove component from history', () => {
-  const history: History = [];
+  const history: History[] = [];
   for (let i = 0; i < 10; i++) {
-    history.push({ key: `key-${i}`, name: `name-${i}`, icon: ComponentQualifier.Project });
+    history.push({
+      key: `key-${i}`,
+      name: `name-${i}`,
+      organization: 'org',
+      qualifier: ComponentQualifier.Project,
+    });
   }
   jest.mocked(get).mockReturnValueOnce(JSON.stringify(history));
   RecentHistory.remove('key-5');

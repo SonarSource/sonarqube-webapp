@@ -29,7 +29,7 @@ import { EditionKey } from '~sq-server-commons/types/editions';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { NoticeType } from '~sq-server-commons/types/users';
 import ModeTour from '../ModeTour';
-import GlobalNav from '../nav/global/GlobalNav';
+import { GlobalNavLegacy } from '../nav/global/GlobalNav';
 
 const ui = {
   close: byRole('button', { name: 'modal.close' }),
@@ -219,7 +219,7 @@ function renderGlobalNav(currentUser = mockCurrentUser()) {
   renderApp(
     '/',
     <>
-      <GlobalNav />
+      <GlobalNavLegacy />
       <ModeTour />
     </>,
     {

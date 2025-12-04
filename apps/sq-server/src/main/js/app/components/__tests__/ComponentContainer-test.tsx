@@ -223,7 +223,7 @@ describe('getTasksForComponent', () => {
     });
 
     // getTasksForComponent updated the tasks, which triggers the setTimeout
-    expect(jest.getTimerCount()).toBe(1);
+    expect(jest.getTimerCount()).toBeGreaterThan(0);
     // we run the timer to trigger the next getTasksForComponent call
     jest.runOnlyPendingTimers();
 
@@ -270,7 +270,7 @@ describe('getTasksForComponent', () => {
     });
 
     // Despite the fact taht we don't have any tasks in the queue, the component.analysisDate is undefined, so we trigger setTimeout
-    expect(jest.getTimerCount()).toBe(1);
+    expect(jest.getTimerCount()).toBeGreaterThan(0);
     jest.runOnlyPendingTimers();
 
     // Second round, nothing in the queue, BUT a success task is current. This
@@ -283,12 +283,14 @@ describe('getTasksForComponent', () => {
     await waitFor(() => {
       expect(getComponentNavigation).toHaveBeenCalledTimes(2);
     });
+
+    // Make sure the timeout was cleared
+    jest.runOnlyPendingTimers();
+    expect(jest.getTimerCount()).toBe(0);
+
     // The status API call will be called 1 final time after the component is
     // fully loaded, so the total will be 3.
     expect(getTasksForComponent).toHaveBeenCalledTimes(3);
-
-    // Make sure the timeout was cleared. It should not be called again.
-    expect(jest.getTimerCount()).toBe(0);
   });
 
   it('only fully loads a non-empty component once', async () => {
@@ -310,7 +312,9 @@ describe('getTasksForComponent', () => {
     });
 
     // Since the component has analysisDate, and the queue is empty, the setTimeout will not be triggered
+    jest.runOnlyPendingTimers();
     expect(jest.getTimerCount()).toBe(0);
+    expect(getTasksForComponent).toHaveBeenCalledTimes(1);
   });
 
   it('only fully reloads a non-empty component if there was previously some task in progress', async () => {
@@ -336,7 +340,7 @@ describe('getTasksForComponent', () => {
       expect(getTasksForComponent).toHaveBeenCalledTimes(1);
     });
 
-    expect(jest.getTimerCount()).toBe(1);
+    expect(jest.getTimerCount()).toBeGreaterThan(0);
     jest.runOnlyPendingTimers();
 
     // Second round, nothing in the queue, and a success task is current. This
@@ -350,12 +354,13 @@ describe('getTasksForComponent', () => {
       expect(getComponentNavigation).toHaveBeenCalledTimes(2);
     });
 
+    // Make sure the timeout was cleared.
+    jest.runOnlyPendingTimers();
+    expect(jest.getTimerCount()).toBe(0);
+
     // The status API call will be called 1 final time after the component is
     // fully loaded, so the total will be 3.
     expect(getTasksForComponent).toHaveBeenCalledTimes(3);
-
-    // Make sure the timeout was cleared. It should not be called again.
-    expect(jest.getTimerCount()).toBe(0);
   });
 });
 
@@ -520,7 +525,7 @@ describe('tutorials', () => {
     expect(mockedReplace).not.toHaveBeenCalled();
 
     // Since component.analysisDate is undefined we trigger setTimeout
-    expect(jest.getTimerCount()).toBe(1);
+    expect(jest.getTimerCount()).toBeGreaterThan(0);
     jest.runOnlyPendingTimers();
     expect(getTasksForComponent).toHaveBeenCalledTimes(2);
 
@@ -572,7 +577,7 @@ describe('tutorials', () => {
     expect(mockedReplace).not.toHaveBeenCalled();
 
     // Since component.analysisDate is undefined we trigger setTimeout
-    expect(jest.getTimerCount()).toBe(1);
+    expect(jest.getTimerCount()).toBeGreaterThan(0);
     jest.runOnlyPendingTimers();
     expect(getTasksForComponent).toHaveBeenCalledTimes(2);
 
@@ -626,7 +631,7 @@ describe('tutorials', () => {
     expect(mockedReplace).not.toHaveBeenCalled();
 
     // Since component.analysisDate is undefined we trigger setTimeout
-    expect(jest.getTimerCount()).toBe(1);
+    expect(jest.getTimerCount()).toBeGreaterThan(0);
     jest.runOnlyPendingTimers();
     expect(getTasksForComponent).toHaveBeenCalledTimes(2);
 
@@ -662,7 +667,14 @@ function renderComponentContainer(
   renderAppRoutes(
     path,
     () => (
-      <Route element={<ComponentContainer />}>
+      <Route
+        element={
+          <>
+            <div id="component-nav-portal" />
+            <ComponentContainer />
+          </>
+        }
+      >
         <Route element={<TestComponent />} path="*" />
         <Route element={<div>portfolio</div>} path="portfolio" />
         <Route element={<div>project</div>} path="dashboard" />

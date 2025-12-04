@@ -28,13 +28,12 @@ import useLocalStorage from '~shared/helpers/useLocalStorage';
 import { BeamerWidgetCustom } from '~sq-server-commons/components/beamer/BeamerWidgetCustom';
 import EmbedDocsPopupHelper from '~sq-server-commons/components/embed-docs-modal/EmbedDocsPopupHelper';
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
-import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import GlobalSearch from '../../global-search/GlobalSearch';
 import { GlobalNavMenu } from './GlobalNavMenu';
 import { GlobalNavUser } from './GlobalNavUser';
 import { LogoWithAriaText } from './MainSonarQubeBar';
 
-export function GlobalNav() {
+export function GlobalNavLegacy() {
   const { currentUser } = useCurrentUser();
   const [boxShadow, setBoxShadow] = useState('none');
 
@@ -75,4 +74,25 @@ const StyledGlobalNavigation = styled(Layout.GlobalNavigation)<{ boxShadow: stri
   min-width: ${LAYOUT_VIEWPORT_MIN_WIDTH}px;
 `;
 
-export default withCurrentUserContext(GlobalNav);
+export function GlobalNav() {
+  const { currentUser } = useCurrentUser();
+
+  const [beamerNotifications] = useLocalStorage(BEAMER_NOTIFICATIONS_SETTING, true);
+
+  return (
+    <Layout.GlobalNavigation>
+      <Layout.GlobalNavigation.Primary>
+        <Layout.GlobalNavigation.Home>
+          <LogoWithAriaText />
+        </Layout.GlobalNavigation.Home>
+        <GlobalNavMenu currentUser={currentUser} />
+      </Layout.GlobalNavigation.Primary>
+      <Layout.GlobalNavigation.Secondary>
+        <GlobalSearch />
+        <BeamerWidgetCustom hideCounter={!beamerNotifications} />
+        <EmbedDocsPopupHelper />
+        <GlobalNavUser />
+      </Layout.GlobalNavigation.Secondary>
+    </Layout.GlobalNavigation>
+  );
+}

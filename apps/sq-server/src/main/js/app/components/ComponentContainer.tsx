@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner } from '@sonarsource/echoes-react';
+import { Layout, Spinner } from '@sonarsource/echoes-react';
 import { differenceBy } from 'lodash';
 import * as React from 'react';
 import { createPortal } from 'react-dom';
@@ -31,6 +31,7 @@ import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isFile, isPortfolioLike } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
+import { useNewUI } from '~shared/helpers/useNewUI';
 import { ComponentQualifier } from '~shared/types/component';
 import { HttpStatus } from '~shared/types/request';
 import { validateProjectAlmBinding } from '~sq-server-commons/api/alm-settings';
@@ -51,13 +52,17 @@ import { Task, TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
 import { Component } from '~sq-server-commons/types/types';
 import handleRequiredAuthorization from '../utils/handleRequiredAuthorization';
 import ComponentContainerNotFound from './ComponentContainerNotFound';
-import ComponentNav from './nav/component/ComponentNav';
+import { ComponentNav } from './nav/component/ComponentNav';
+import {
+  LegacyComponentNav,
+  LegacyComponentNavCompatibleWithNewLayout,
+} from './nav/component/legacy/ComponentNav';
 
 const FETCH_STATUS_WAIT_TIME = 3000;
 
 function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>) {
   const watchStatusTimer = React.useRef<number>();
-  const portalAnchor = React.useRef<Element | null>(null);
+  const legacyComponentNavAnchor = React.useRef<Element | null>(); // undefined means it wansn't loaded yet, if not found it will be null
   const oldTasksInProgress = React.useRef<Task[]>();
   const oldCurrentTask = React.useRef<Task>();
   const {
@@ -65,8 +70,8 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
     pathname,
   } = useLocation();
   const router = useRouter();
-
   const intl = useIntl();
+  const [newUI] = useNewUI();
 
   const [component, setComponent] = React.useState<Component>();
   const [projectComponent, setProjectComponent] = React.useState<Component>();
@@ -318,7 +323,7 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
 
   // Set portal anchor on mount
   React.useEffect(() => {
-    portalAnchor.current = document.querySelector('#component-nav-portal');
+    legacyComponentNavAnchor.current = document.querySelector('#component-nav-portal');
   }, []);
 
   const isInProgress = tasksInProgress && tasksInProgress.length > 0;
@@ -349,6 +354,44 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
     return <ComponentContainerNotFound isPortfolioLike={pathname.includes('portfolio')} />;
   }
 
+  // TODO drop this once project scope migration is done
+  const isLegacyLayout = legacyComponentNavAnchor.current !== null;
+  if (isLegacyLayout) {
+    return (
+      <>
+        <Helmet
+          defer={false}
+          titleTemplate={intl.formatMessage(
+            { id: 'page_title.template.with_instance' },
+            { project: component?.name ?? '' },
+          )}
+        />
+        {component &&
+          !isFile(component.qualifier) &&
+          legacyComponentNavAnchor.current &&
+          /* Use a portal to fix positioning until we can fully review the layout */
+          createPortal(
+            <LegacyComponentNav
+              component={component}
+              isInProgress={isInProgress}
+              isPending={isPending}
+              projectBindingErrors={projectBindingErrors}
+            />,
+            legacyComponentNavAnchor.current,
+          )}
+        {loading ? (
+          <CenteredLayout>
+            <Spinner className="sw-mt-10" />
+          </CenteredLayout>
+        ) : (
+          <ComponentContext.Provider value={componentProviderProps}>
+            <Outlet />
+          </ComponentContext.Provider>
+        )}
+      </>
+    );
+  }
+
   return (
     <>
       <Helmet
@@ -358,28 +401,28 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
           { project: component?.name ?? '' },
         )}
       />
-      {component &&
-        !isFile(component.qualifier) &&
-        portalAnchor.current &&
-        /* Use a portal to fix positioning until we can fully review the layout */
-        createPortal(
-          <ComponentNav
+      {newUI && component && !isFile(component.qualifier) && <ComponentNav component={component} />}
+      <Layout.ContentGrid>
+        {!newUI && component && !isFile(component.qualifier) && (
+          <LegacyComponentNavCompatibleWithNewLayout
             component={component}
             isInProgress={isInProgress}
             isPending={isPending}
             projectBindingErrors={projectBindingErrors}
-          />,
-          portalAnchor.current,
+          />
         )}
-      {loading ? (
-        <CenteredLayout>
-          <Spinner className="sw-mt-10" />
-        </CenteredLayout>
-      ) : (
-        <ComponentContext.Provider value={componentProviderProps}>
-          <Outlet />
-        </ComponentContext.Provider>
-      )}
+        <Layout.PageGrid>
+          <Layout.PageContent>
+            {loading ? (
+              <Spinner className="sw-mt-10" />
+            ) : (
+              <ComponentContext.Provider value={componentProviderProps}>
+                <Outlet />
+              </ComponentContext.Provider>
+            )}
+          </Layout.PageContent>
+        </Layout.PageGrid>
+      </Layout.ContentGrid>
     </>
   );
 }
