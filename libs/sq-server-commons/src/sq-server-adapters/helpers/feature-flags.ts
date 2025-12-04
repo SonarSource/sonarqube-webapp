@@ -19,12 +19,19 @@
  */
 
 import { FlagSet } from '~shared/types/feature-flags';
+import { useEnableSidebarNavigation } from '../../helpers/useEnableSidebarNavigation';
+
+interface SQSFlagSet extends FlagSet {
+  frontEndEngineeringEnableSidebarNavigation?: boolean;
+}
 
 // SQS doesn't use LaunchDarkly for feature flags, so we just pass a default hardcoded flag set for
 // compatibility with SQC in shared code.
 // Add features flags here as needed in shared code, especially useful if you want a default value other than falsy for SQS.
-const defaultFlags: FlagSet = {};
+const defaultFlags: SQSFlagSet = {};
 
 export function useFlags(): FlagSet {
-  return defaultFlags;
+  const [frontEndEngineeringEnableSidebarNavigation] = useEnableSidebarNavigation();
+
+  return { ...defaultFlags, frontEndEngineeringEnableSidebarNavigation };
 }

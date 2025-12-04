@@ -25,13 +25,13 @@ import { createPortal } from 'react-dom';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { Navigate, Outlet } from 'react-router-dom';
+import { useFlags } from '~adapters/helpers/feature-flags';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { CenteredLayout } from '~design-system';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isFile, isPortfolioLike } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
-import { useNewUI } from '~shared/helpers/useNewUI';
 import { ComponentQualifier } from '~shared/types/component';
 import { HttpStatus } from '~shared/types/request';
 import { validateProjectAlmBinding } from '~sq-server-commons/api/alm-settings';
@@ -71,7 +71,7 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
   } = useLocation();
   const router = useRouter();
   const intl = useIntl();
-  const [newUI] = useNewUI();
+  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
 
   const [component, setComponent] = React.useState<Component>();
   const [projectComponent, setProjectComponent] = React.useState<Component>();
@@ -401,16 +401,20 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
           { project: component?.name ?? '' },
         )}
       />
-      {newUI && component && !isFile(component.qualifier) && <ComponentNav component={component} />}
+      {frontEndEngineeringEnableSidebarNavigation && component && !isFile(component.qualifier) && (
+        <ComponentNav component={component} />
+      )}
       <Layout.ContentGrid>
-        {!newUI && component && !isFile(component.qualifier) && (
-          <LegacyComponentNavCompatibleWithNewLayout
-            component={component}
-            isInProgress={isInProgress}
-            isPending={isPending}
-            projectBindingErrors={projectBindingErrors}
-          />
-        )}
+        {!frontEndEngineeringEnableSidebarNavigation &&
+          component &&
+          !isFile(component.qualifier) && (
+            <LegacyComponentNavCompatibleWithNewLayout
+              component={component}
+              isInProgress={isInProgress}
+              isPending={isPending}
+              projectBindingErrors={projectBindingErrors}
+            />
+          )}
         <Layout.PageGrid>
           <Layout.PageContent>
             {loading ? (
