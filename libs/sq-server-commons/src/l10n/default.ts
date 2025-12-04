@@ -2064,6 +2064,12 @@ export const defaultMessages = {
     'Review the <link1>expected format</link1> or take a look at the <link2>documentation</link2> to learn more.',
   'architecture.page.model.visual.search.placeholder': 'Search...',
   'architecture.page.model.visual.no_components_available': 'No components can be added',
+  'architecture.page.model.relationships.incoming.label': 'Has incoming relationships',
+  'architecture.page.model.relationships.outgoing.label': 'Has outgoing relationships',
+  'architecture.page.model.relationships.no-siblings':
+    'This component has no siblings and cannot have relationships.',
+  'architecture.page.model.relationships.all_selected':
+    'All components are already part of a relationship.',
   'architecture.page.model.modal.add_component': 'Add Component',
   'architecture.page.model.modal.add_subcomponent': 'Add Sub-Component',
   'architecture.page.model.modal.add_component.title': 'New Component',
@@ -2078,6 +2084,7 @@ export const defaultMessages = {
   'architecture.page.model.modal.choose_existing_subcomponent': 'Choose an existing sub-component',
   'architecture.page.model.modal.select_placeholder': 'Select a component...',
   'architecture.page.model.modal.name_in_intended_architecture': 'Name in intended architecture',
+  'architecture.page.model.node.action_needed': 'You must define relationships.',
   'architecture.page.oversize': 'Oversized components',
   'architecture.page.oversize_list': 'Oversized components',
   'architecture.page.oversize_list.count':
@@ -2097,8 +2104,6 @@ export const defaultMessages = {
   'architecture.page.disallowed_dependencies': 'Relationships',
   'architecture.page.disallowed_dependencies.count':
     '{count, plural, one {<bold>1</bold> Relationship dependency} other {<bold>{count}</bold> Relationship dependencies}}',
-  'architecture.disallowed_dependencies.table.dependency_from': 'From',
-  'architecture.disallowed_dependencies.table.dependency_to': 'To',
   'architecture.disallowed_dependencies.table.depth': 'Depth',
   'architecture.disallowed_dependencies.table.weight': 'Code reference',
   'architecture.disallowed_dependencies.description':

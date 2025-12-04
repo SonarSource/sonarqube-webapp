@@ -63,7 +63,9 @@ export default ({ mode }) => {
         ...baseViteConfig.css.postcss,
 
         plugins: [
-          tailwind(resolve(workspaceRoot, 'libs/sq-server-commons/config/tailwind/tailwind.config')),
+          tailwind(
+            resolve(workspaceRoot, 'libs/sq-server-commons/config/tailwind/tailwind.config'),
+          ),
 
           ...baseViteConfig.css.postcss.plugins,
         ],
