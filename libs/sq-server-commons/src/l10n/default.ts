@@ -6644,7 +6644,7 @@ export const defaultMessages = {
   'footer.documentation': 'Documentation',
   'footer.help': 'Help',
   'footer.license.lgplv3': 'LGPL v3',
-  'footer.license.sqs': 'SonarQube Server Terms & Conditions',
+  'footer.license.sqs': 'Terms & Conditions',
   'footer.news': 'News',
   'footer.plugins': 'Plugins',
   'footer.pricing': 'Pricing',

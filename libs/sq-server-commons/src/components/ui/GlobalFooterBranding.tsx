@@ -19,18 +19,19 @@
  */
 
 import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
-import { isOfficial } from '~sq-server-commons/helpers/system';
+import { isOfficial } from '../../helpers/system';
+
+/* eslint-disable local-rules/no-jsx-literals */
 
 export default function GlobalFooterBranding() {
   const official = isOfficial();
 
   return (
-    <div className="max-[1400px]:sw-max-w-[12rem] sw-flex sw-items-center">
+    <div className="sw-flex sw-items-center">
       {official ? (
-        <span>
+        <span className="sw-text-nowrap">
           SonarQube&trade; technology is powered by{' '}
           <LinkStandalone
-            enableOpenInNewTab
             highlight={LinkHighlight.CurrentColor}
             isDiscreet
             to="https://www.sonarsource.com"
@@ -39,10 +40,9 @@ export default function GlobalFooterBranding() {
           </LinkStandalone>
         </span>
       ) : (
-        <span>
+        <span className="sw-text-nowrap">
           This application is based on{' '}
           <LinkStandalone
-            enableOpenInNewTab
             highlight={LinkHighlight.CurrentColor}
             isDiscreet
             title="SonarQube™"
@@ -52,7 +52,6 @@ export default function GlobalFooterBranding() {
           </LinkStandalone>{' '}
           but is <strong>not</strong> an official version provided by{' '}
           <LinkStandalone
-            enableOpenInNewTab
             highlight={LinkHighlight.CurrentColor}
             isDiscreet
             title="SonarSource Sàrl"

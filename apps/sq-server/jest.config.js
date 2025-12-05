@@ -43,6 +43,10 @@ module.exports = {
   moduleNameMapper: {
     ...baseConfig.projectConfig.moduleNameMapper,
 
+    // mock global footer to speed up tests
+    '~adapters/components/layout/GlobalFooter':
+      '<rootDir>/apps/sq-server/__mocks__/GlobalFooter.tsx',
+
     // adapters aliases
     '~adapters/(.+)': '<rootDir>/libs/sq-server-commons/src/sq-server-adapters/$1',
 

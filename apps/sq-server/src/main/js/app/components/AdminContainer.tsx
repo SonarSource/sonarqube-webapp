@@ -18,10 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import styled from '@emotion/styled';
+import { Layout } from '@sonarsource/echoes-react';
+import { noop } from 'lodash';
 import * as React from 'react';
-import { createPortal } from 'react-dom';
 import { Helmet } from 'react-helmet-async';
+import { useIntl } from 'react-intl';
 import { Outlet } from 'react-router-dom';
+import { useFlags } from '~adapters/helpers/feature-flags';
+import useEffectOnce from '~shared/helpers/useEffectOnce';
 import { Extension } from '~shared/types/common';
 import { getSettingsNavigation } from '~sq-server-commons/api/navigation';
 import { getPendingPlugins } from '~sq-server-commons/api/plugins';
@@ -32,142 +37,121 @@ import AdminContext, {
 } from '~sq-server-commons/context/AdminContext';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { AdminPagesContext } from '~sq-server-commons/types/admin';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { PendingPluginResult } from '~sq-server-commons/types/plugins';
 import { SysStatus } from '~sq-server-commons/types/types';
 import handleRequiredAuthorization from '../utils/handleRequiredAuthorization';
+import { AdministrationSidebar } from './nav/administration/AdministrationSidebar';
 import SettingsNav from './nav/settings/SettingsNav';
 
 export interface AdminContainerProps {
   appState: AppState;
 }
 
-interface State {
-  adminPages: Extension[];
-  pendingPlugins: PendingPluginResult;
-  systemStatus: SysStatus;
-}
+export function AdminContainer({ appState }: Readonly<AdminContainerProps>) {
+  const intl = useIntl();
 
-export class AdminContainer extends React.PureComponent<AdminContainerProps, State> {
-  intl = getIntl();
-  mounted = false;
-  portalAnchor: Element | null = null;
-  state: State = {
-    pendingPlugins: defaultPendingPlugins,
-    systemStatus: defaultSystemStatus,
-    adminPages: [],
-  };
+  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
 
-  componentDidMount() {
-    this.mounted = true;
-    this.portalAnchor = document.getElementById('component-nav-portal');
-    if (!this.props.appState.canAdmin) {
+  const [pendingPlugins, setPendingPlugins] =
+    React.useState<PendingPluginResult>(defaultPendingPlugins);
+  const [systemStatus, setSystemStatus] = React.useState<SysStatus>(defaultSystemStatus);
+  const [adminPages, setAdminPages] = React.useState<Extension[]>([]);
+
+  const fetchNavigationSettings = React.useCallback(() => {
+    getSettingsNavigation().then((r) => {
+      setAdminPages(r.extensions);
+    }, noop);
+  }, []);
+
+  const fetchPendingPlugins = React.useCallback(() => {
+    getPendingPlugins().then((pendingPlugins) => {
+      setPendingPlugins(pendingPlugins);
+    }, noop);
+  }, []);
+
+  const waitRestartingDone = React.useCallback(() => {
+    waitSystemUPStatus().then(({ status }) => {
+      setSystemStatus(status);
+      window.location.reload();
+    }, noop);
+  }, []);
+
+  const fetchSystemStatus = React.useCallback(() => {
+    getSystemStatus().then(({ status }) => {
+      setSystemStatus(status);
+      if (status === 'RESTARTING') {
+        waitRestartingDone();
+      }
+    }, noop);
+  }, [waitRestartingDone]);
+
+  useEffectOnce(() => {
+    if (!appState.canAdmin) {
       handleRequiredAuthorization();
-    } else {
-      this.fetchNavigationSettings();
-      this.fetchPendingPlugins();
-      this.fetchSystemStatus();
-    }
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  fetchNavigationSettings = () => {
-    getSettingsNavigation().then(
-      (r) => {
-        this.setState({ adminPages: r.extensions });
-      },
-      () => {},
-    );
-  };
-
-  fetchPendingPlugins = () => {
-    getPendingPlugins().then(
-      (pendingPlugins) => {
-        if (this.mounted) {
-          this.setState({ pendingPlugins });
-        }
-      },
-      () => {},
-    );
-  };
-
-  fetchSystemStatus = () => {
-    getSystemStatus().then(
-      ({ status }) => {
-        if (this.mounted) {
-          this.setState({ systemStatus: status });
-          if (status === 'RESTARTING') {
-            this.waitRestartingDone();
-          }
-        }
-      },
-      () => {},
-    );
-  };
-
-  waitRestartingDone = () => {
-    waitSystemUPStatus().then(
-      ({ status }) => {
-        if (this.mounted) {
-          this.setState({ systemStatus: status });
-          window.location.reload();
-        }
-      },
-      () => {},
-    );
-  };
-
-  render() {
-    const { adminPages } = this.state;
-
-    // Check that the adminPages are loaded
-    if (!adminPages) {
-      return null;
+      return;
     }
 
-    const { pendingPlugins, systemStatus } = this.state;
-    const adminPagesContext: AdminPagesContext = { adminPages };
+    fetchNavigationSettings();
+    fetchPendingPlugins();
+    fetchSystemStatus();
+  });
 
-    return (
-      <>
+  const adminContextValue = React.useMemo(
+    () => ({
+      fetchSystemStatus,
+      fetchPendingPlugins,
+      pendingPlugins,
+      systemStatus,
+    }),
+    [fetchPendingPlugins, fetchSystemStatus, pendingPlugins, systemStatus],
+  );
+
+  // Check that the adminPages are loaded
+  if (!adminPages) {
+    return null;
+  }
+
+  const adminPagesContext: AdminPagesContext = { adminPages };
+
+  return (
+    <>
+      {frontEndEngineeringEnableSidebarNavigation && (
+        <AdministrationSidebar extensions={adminPages} />
+      )}
+
+      <Layout.ContentGrid>
         <Helmet
           defer={false}
-          titleTemplate={this.intl.formatMessage(
+          titleTemplate={intl.formatMessage(
             { id: 'page_title.template.with_category' },
             { page: translate('layout.settings') },
           )}
         />
 
-        {this.portalAnchor &&
-          createPortal(
+        {!frontEndEngineeringEnableSidebarNavigation && (
+          <ContentHeader>
             <SettingsNav
               extensions={adminPages}
-              fetchPendingPlugins={this.fetchPendingPlugins}
-              fetchSystemStatus={this.fetchSystemStatus}
+              fetchPendingPlugins={fetchPendingPlugins}
+              fetchSystemStatus={fetchSystemStatus}
               pendingPlugins={pendingPlugins}
               systemStatus={systemStatus}
-            />,
-            this.portalAnchor,
-          )}
+            />
+          </ContentHeader>
+        )}
 
-        <AdminContext.Provider
-          value={{
-            fetchSystemStatus: this.fetchSystemStatus,
-            fetchPendingPlugins: this.fetchPendingPlugins,
-            pendingPlugins,
-            systemStatus,
-          }}
-        >
+        <AdminContext.Provider value={adminContextValue}>
           <Outlet context={adminPagesContext} />
         </AdminContext.Provider>
-      </>
-    );
-  }
+      </Layout.ContentGrid>
+    </>
+  );
 }
 
 export default withAppStateContext(AdminContainer);
+
+const ContentHeader = styled.div`
+  grid-area: content-header;
+`;

@@ -28,6 +28,7 @@ import {
   themeColor,
 } from '~design-system';
 import AppVersionStatus from '~sq-server-commons/components/shared/AppVersionStatus';
+import GlobalFooterBranding from '~sq-server-commons/components/ui/GlobalFooterBranding';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { COMMUNITY_FORUM_URL, DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
@@ -35,13 +36,12 @@ import { getEdition } from '~sq-server-commons/helpers/editions';
 import { getInstanceVersionNumber } from '~sq-server-commons/helpers/strings';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { EditionKey } from '~sq-server-commons/types/editions';
-import GlobalFooterBranding from './GlobalFooterBranding';
 
 interface GlobalFooterProps {
   hideLoggedInInfo?: boolean;
 }
 
-export default function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooterProps>) {
+export default function GlobalFooterLegacy({ hideLoggedInInfo }: Readonly<GlobalFooterProps>) {
   const appState = useAppState();
   const { data: isStandardMode } = useStandardExperienceModeQuery({
     enabled: appState.version !== '',

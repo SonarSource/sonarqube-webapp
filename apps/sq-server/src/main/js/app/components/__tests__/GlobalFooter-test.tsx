@@ -29,7 +29,7 @@ import { AppState } from '~sq-server-commons/types/appstate';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { FCProps } from '~sq-server-commons/types/misc';
 import { Mode } from '~sq-server-commons/types/mode';
-import GlobalFooter from '../GlobalFooter';
+import GlobalFooterLegacy from '../GlobalFooter';
 
 const systemMock = new SystemServiceMock();
 const modeHandler = new ModeServiceMock();
@@ -110,10 +110,10 @@ it('should not render the logged-in information', () => {
 });
 
 function renderGlobalFooter(
-  props: Partial<FCProps<typeof GlobalFooter>> = {},
+  props: Partial<FCProps<typeof GlobalFooterLegacy>> = {},
   appStateOverride: Partial<AppState> = {},
 ) {
-  return renderComponent(<GlobalFooter {...props} />, '/', {
+  return renderComponent(<GlobalFooterLegacy {...props} />, '/', {
     appState: mockAppState({
       productionDatabase: true,
       edition: EditionKey.developer,

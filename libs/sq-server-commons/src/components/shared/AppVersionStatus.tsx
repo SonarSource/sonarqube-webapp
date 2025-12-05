@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
+import { LinkHighlight, LinkStandalone, LinkStandaloneProps } from '@sonarsource/echoes-react';
 import { useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useAppState } from '../../context/app-state/withAppStateContext';
@@ -29,7 +29,12 @@ import { isCurrentVersionEOLActive } from '../../helpers/system';
 import { useSystemUpgrades } from '../../queries/system';
 import { EditionKey } from '../../types/editions';
 
-export default function AppVersionStatus({ statusOnly }: Readonly<{ statusOnly?: boolean }>) {
+interface Props {
+  linkStyleProps?: Pick<LinkStandaloneProps, 'highlight' | 'isDiscreet'>;
+  statusOnly?: boolean;
+}
+
+export default function AppVersionStatus({ linkStyleProps, statusOnly }: Readonly<Props>) {
   const { data } = useSystemUpgrades();
   const { edition, version, versionEOL } = useAppState();
 
@@ -49,7 +54,12 @@ export default function AppVersionStatus({ statusOnly }: Readonly<{ statusOnly?:
     {
       version: getInstanceVersionNumber(version),
       status: edition && edition !== EditionKey.community && (
-        <LinkStandalone className="sw-ml-1" highlight={LinkHighlight.CurrentColor} to={docUrl}>
+        <LinkStandalone
+          className="sw-ml-1"
+          highlight={LinkHighlight.CurrentColor}
+          to={docUrl}
+          {...linkStyleProps}
+        >
           <FormattedMessage
             id={`footer.version.status.${isActiveVersion ? 'active' : 'inactive'}`}
           />

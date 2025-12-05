@@ -91,6 +91,7 @@ import webAPIRoutesV2 from '../../apps/web-api-v2/routes';
 import webAPIRoutes from '../../apps/web-api/routes';
 import webhooksRoutes from '../../apps/webhooks/routes';
 import AdminContainer from '../components/AdminContainer';
+import AdminContainerLegacy from '../components/AdminContainerLegacy';
 import App from '../components/App';
 import ComponentContainer from '../components/ComponentContainer';
 import DocumentationRedirect from '../components/DocumentationRedirect';
@@ -182,20 +183,22 @@ function renderAdminRoutes() {
   const licenseRoutes = addons.license ? addons.license.routes : () => undefined;
 
   return (
-    <Route element={<AdminContainer />} path="admin">
-      <Route element={<GlobalAdminPageExtension />} path="extension/:pluginKey/:extensionKey" />
-      {auditLogsRoutes()}
-      {backgroundTasksRoutes()}
-      {globalPermissionsRoutes()}
-      {groupsRoutes()}
-      {licenseRoutes()}
-      {marketplaceRoutes()}
-      {permissionTemplatesRoutes()}
-      {projectsManagementRoutes()}
-      {settingsRoutes()}
-      {systemRoutes()}
-      {usersRoutes()}
-      {webhooksRoutes()}
+    <Route path="admin">
+      <Route element={<AdminContainerLegacy />}>
+        <Route element={<GlobalAdminPageExtension />} path="extension/:pluginKey/:extensionKey" />
+        {auditLogsRoutes()}
+        {backgroundTasksRoutes()}
+        {globalPermissionsRoutes()}
+        {groupsRoutes()}
+        {licenseRoutes()}
+        {marketplaceRoutes()}
+        {permissionTemplatesRoutes()}
+        {projectsManagementRoutes()}
+        {settingsRoutes()}
+        {usersRoutes()}
+        {webhooksRoutes()}
+      </Route>
+      <Route element={<AdminContainer />}>{systemRoutes()}</Route>
     </Route>
   );
 }

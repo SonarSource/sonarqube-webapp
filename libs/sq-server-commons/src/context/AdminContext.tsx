@@ -29,7 +29,7 @@ export interface AdminContextInterface {
   systemStatus: SysStatus;
 }
 
-export const defaultPendingPlugins = {
+export const defaultPendingPlugins: PendingPluginResult = {
   installing: [],
   removing: [],
   updating: [],

@@ -18,14 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Layout, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout } from '~design-system';
+import { FormattedMessage } from 'react-intl';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, Router } from '~shared/types/router';
 import { getSystemInfo } from '~sq-server-commons/api/system';
 import { translate } from '~sq-server-commons/helpers/l10n';
+import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { SysInfoCluster, SysInfoStandalone } from '~sq-server-commons/types/types';
+import { AdminPageTemplate } from '../../../app/components/AdminPageTemplate';
 import { UpdateNotification } from '../../../app/components/update-notification/UpdateNotification';
 import '../styles.css';
 import {
@@ -39,6 +42,7 @@ import {
   serializeQuery,
 } from '../utils';
 import ClusterSysInfos from './ClusterSysInfos';
+import PageActions from './PageActions';
 import PageHeader from './PageHeader';
 import StandaloneSysInfos from './StandaloneSysInfos';
 
@@ -54,6 +58,7 @@ interface State {
 
 class SystemApp extends React.PureComponent<Props, State> {
   mounted = false;
+  intl = getIntl();
   state: State = { loading: true };
 
   componentDidMount() {
@@ -125,27 +130,40 @@ class SystemApp extends React.PureComponent<Props, State> {
   render() {
     const { loading, sysInfoData } = this.state;
     return (
-      <LargeCenteredLayout as="main">
+      <AdminPageTemplate
+        actions={
+          <Layout.PageHeader.Actions>
+            <Spinner className="sw-mr-4 sw-mt-1" isLoading={loading} />
+
+            {sysInfoData && (
+              <PageActions
+                cluster={isCluster(sysInfoData)}
+                logLevel={getSystemLogsLevel(sysInfoData)}
+                onLogLevelChange={this.fetchSysInfo}
+                serverId={getServerId(sysInfoData)}
+              />
+            )}
+          </Layout.PageHeader.Actions>
+        }
+        breadcrumbs={[{ linkElement: <FormattedMessage id="system_info.page" /> }]}
+        title={this.intl.formatMessage({ id: 'system_info.page' })}
+      >
         <Helmet defer={false} title={translate('system_info.page')} />
-        <div className="sw-pb-8">
-          <div>
-            <UpdateNotification />
-          </div>
-          {sysInfoData && (
-            <PageHeader
-              isCluster={isCluster(sysInfoData)}
-              loading={loading}
-              logLevel={getSystemLogsLevel(sysInfoData)}
-              onLogLevelChange={this.fetchSysInfo}
-              serverId={getServerId(sysInfoData)}
-              version={
-                isCluster(sysInfoData) ? getClusterVersion(sysInfoData) : getVersion(sysInfoData)
-              }
-            />
-          )}
-          {this.renderSysInfo()}
+
+        <div>
+          <UpdateNotification />
         </div>
-      </LargeCenteredLayout>
+        {sysInfoData && (
+          <PageHeader
+            onLogLevelChange={this.fetchSysInfo}
+            serverId={getServerId(sysInfoData)}
+            version={
+              isCluster(sysInfoData) ? getClusterVersion(sysInfoData) : getVersion(sysInfoData)
+            }
+          />
+        )}
+        {this.renderSysInfo()}
+      </AdminPageTemplate>
     );
   }
 }

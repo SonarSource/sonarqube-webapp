@@ -46,7 +46,7 @@ export default function ClusterSysInfos({
 }: Readonly<Props>) {
   const mainCardName = 'System';
   return (
-    <Text as="ul" className="sw-list-none sw-flex sw-flex-col sw-gap-4">
+    <ul className="sw-list-none sw-flex sw-flex-col sw-gap-4 sw-w-3/4">
       <HealthCard
         health={getHealth(sysInfoData)}
         healthCauses={getHealthCauses(sysInfoData)}
@@ -81,6 +81,6 @@ export default function ClusterSysInfos({
           sysInfoData={ignoreInfoFields(node)}
         />
       ))}
-    </Text>
+    </ul>
   );
 }

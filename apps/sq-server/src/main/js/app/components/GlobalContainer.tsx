@@ -32,7 +32,7 @@ import { useAvailableFeatures } from '~sq-server-commons/context/available-featu
 import IndexationNotification from '~sq-server-commons/context/indexation/IndexationNotification';
 import MetricsContextProvider from '~sq-server-commons/context/metrics/MetricsContextProvider';
 import { Feature } from '~sq-server-commons/types/features';
-import GlobalFooter from './GlobalFooter';
+import GlobalFooterLegacy from './GlobalFooter';
 import ModeTour from './ModeTour';
 import NonProductionDatabaseWarning from './NonProductionDatabaseWarning';
 import SystemAnnouncement from './SystemAnnouncement';
@@ -78,7 +78,7 @@ const PAGES_WITH_SECONDARY_BACKGROUND = new Set([
 /*
  * Temporary list of migrated pages. Once the migration is done, we can remove it
  */
-const PAGES_MIGRATED: string[] = ['placeholder'];
+const PAGES_MIGRATED: string[] = ['/admin/system'];
 
 const StartupLicenseCheckModal = addons.license?.StartupLicenseCheckModal || (() => undefined);
 
@@ -143,7 +143,7 @@ export default function GlobalContainer() {
           <PromotionNotification />
         </GlobalBackground>
 
-        <GlobalFooter />
+        <GlobalFooterLegacy />
       </GlobalContainerWrapper>
       <StartupLicenseCheckModal />
     </MetricsContextProvider>

@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Text } from '@sonarsource/echoes-react';
 import { map } from 'lodash';
 import { SysInfoStandalone } from '~sq-server-commons/types/types';
 import {
@@ -44,7 +43,7 @@ export default function StandAloneSysInfos({
   toggleCard,
 }: Readonly<Props>) {
   return (
-    <Text as="ul" className="sw-list-none sw-flex sw-flex-col sw-gap-4">
+    <ul className="sw-list-none sw-flex sw-flex-col sw-gap-4 sw-w-3/4">
       <HealthCard
         health={getHealth(sysInfoData)}
         healthCauses={getHealthCauses(sysInfoData)}
@@ -62,6 +61,6 @@ export default function StandAloneSysInfos({
           sysInfoData={ignoreInfoFields(section)}
         />
       ))}
-    </Text>
+    </ul>
   );
 }

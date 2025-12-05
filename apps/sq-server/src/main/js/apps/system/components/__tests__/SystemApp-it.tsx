@@ -89,7 +89,7 @@ describe('System Info Standalone', () => {
     await ui.appIsLoaded();
 
     expect(ui.versionLabel('7.8').get()).toBeInTheDocument();
-    expect(ui.ltaDocumentationLinkActive.get()).toBeInTheDocument();
+    expect(await ui.ltaDocumentationLinkActive.find()).toBeInTheDocument();
   });
 });
 
@@ -122,7 +122,7 @@ describe('System Info Cluster', () => {
     await ui.appIsLoaded();
 
     expect(ui.versionLabel('7.8').get()).toBeInTheDocument();
-    expect(ui.ltaDocumentationLinkActive.get()).toBeInTheDocument();
+    expect(await ui.ltaDocumentationLinkActive.find()).toBeInTheDocument();
   });
 
   it('should not render search engine download button', async () => {

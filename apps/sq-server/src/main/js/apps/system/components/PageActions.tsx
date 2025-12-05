@@ -68,7 +68,7 @@ export default function PageActions(props: Props) {
   );
 
   return (
-    <div className="sw-flex sw-items-center sw-gap-2">
+    <>
       <div className="sw-flex sw-items-center">
         <span>
           <FormattedMessage id="system.logs_level" />
@@ -144,6 +144,6 @@ export default function PageActions(props: Props) {
           onClose={handleLogsLevelClose}
         />
       )}
-    </div>
+    </>
   );
 }

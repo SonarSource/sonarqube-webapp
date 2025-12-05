@@ -26,6 +26,7 @@ import { NavBarTabLink, NavBarTabs, TopBar } from '~design-system';
 import { Extension } from '~shared/types/common';
 import { addons } from '~sq-server-addons/index';
 import withLocation from '~sq-server-commons/components/hoc/withLocation';
+import { TopBarNewLayoutCompatible } from '~sq-server-commons/design-system/components/TopBar';
 import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { AdminPageExtension } from '~sq-server-commons/types/extension';
@@ -38,6 +39,7 @@ interface Props {
   extensions: Extension[];
   fetchPendingPlugins: () => void;
   fetchSystemStatus: () => void;
+  legacyMode?: boolean;
   location: Location;
   pendingPlugins: PendingPluginResult;
   systemStatus: SysStatus;
@@ -236,10 +238,12 @@ export class SettingsNav extends React.PureComponent<Props> {
       );
     }
 
+    const Wrapper = this.props.legacyMode ? TopBar : TopBarNewLayoutCompatible;
+
     return (
       <>
-        <TopBar aria-label={this.intl.formatMessage({ id: 'settings' })} id="context-navigation">
-          <Heading as="h1" size="xsmall">
+        <Wrapper aria-label={this.intl.formatMessage({ id: 'settings' })} id="context-navigation">
+          <Heading as="h2" size="xsmall">
             {this.intl.formatMessage({ id: 'layout.settings' })}
           </Heading>
 
@@ -276,7 +280,7 @@ export class SettingsNav extends React.PureComponent<Props> {
               />
             )}
           </NavBarTabs>
-        </TopBar>
+        </Wrapper>
 
         {notifComponent}
       </>
