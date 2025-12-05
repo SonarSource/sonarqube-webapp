@@ -23,6 +23,7 @@ export function automaticReportDownload({ downloadLink }: { downloadLink: string
   link.href = downloadLink;
   link.hidden = true;
   link.rel = 'noopener noreferrer';
+  link.target = '_blank';
   document.body.appendChild(link);
   link.click();
   link.remove();
