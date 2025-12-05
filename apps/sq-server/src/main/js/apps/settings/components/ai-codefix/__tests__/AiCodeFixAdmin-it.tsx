@@ -26,6 +26,7 @@ import ProjectManagementServiceMock from '~sq-server-commons/api/mocks/ProjectsM
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { flushPromises } from '~sq-server-commons/helpers/testUtils';
 import { Feature } from '~sq-server-commons/types/features';
 import { AiCodeFixAdminCategory } from '../AiCodeFixAdminCategory';
 
@@ -39,10 +40,12 @@ beforeAll(() => {
   projectManagementServiceMock = new ProjectManagementServiceMock(settingServiceMock);
 });
 
-afterEach(() => {
+afterEach(async () => {
   fixSuggestionsServiceMock.reset();
   projectManagementServiceMock.reset();
   settingServiceMock.reset();
+  // Wait for any pending async operations to complete
+  await flushPromises();
 });
 
 const ui = {
@@ -106,8 +109,8 @@ it('should display an error message when there is a connection error with the se
 
 it('should propose to retry when an error occurs', async () => {
   fixSuggestionsServiceMock.setServiceInfo({ status: 'CONNECTION_ERROR' });
-  const user = userEvent.setup();
   renderCodeFixAdmin();
+  const user = userEvent.setup();
 
   expect(
     await screen.findByText('property.aicodefix.admin.serviceInfo.result.unresponsive.message'),
@@ -161,77 +164,117 @@ it('should display an error message when the backend answers with an error', asy
 it('should by default propose enabling for all projects when enabling the feature', async () => {
   fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   fixSuggestionsServiceMock.disableForAllProject();
-  const user = userEvent.setup();
   renderCodeFixAdmin();
+  const user = userEvent.setup();
 
   expect(await ui.codeFixTitle.find()).toBeInTheDocument();
   expect(ui.enableAiCodeFixCheckbox.get()).not.toBeChecked();
 
-  await user.click(ui.enableAiCodeFixCheckbox.get());
-  expect(ui.allProjectsEnabledRadio.get()).toBeEnabled();
+  const enableAiCodeFixCheckbox = ui.enableAiCodeFixCheckbox.get();
+  await user.click(enableAiCodeFixCheckbox);
+
+  const allProjectsEnabledRadio = await ui.allProjectsEnabledRadio.find();
+
+  expect(allProjectsEnabledRadio).toBeVisible();
+  expect(allProjectsEnabledRadio).toBeChecked();
 });
 
 it('should be able to enable the code fix feature for all projects', async () => {
   fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   fixSuggestionsServiceMock.disableForAllProject();
-
-  const user = userEvent.setup();
   renderCodeFixAdmin();
+  const user = userEvent.setup();
 
   expect(await ui.codeFixTitle.find()).toBeInTheDocument();
-  expect(ui.enableAiCodeFixCheckbox.get()).not.toBeChecked();
 
-  await user.click(ui.enableAiCodeFixCheckbox.get());
-  expect(ui.llmProvider.get()).toHaveValue('OpenAI');
-  expect(ui.allProjectsEnabledRadio.get()).toBeEnabled();
-  expect(await ui.saveButton.find()).toBeEnabled();
+  const enableAiCodeFixCheckbox = await ui.enableAiCodeFixCheckbox.find();
 
-  await user.click(ui.saveButton.get());
+  expect(enableAiCodeFixCheckbox).toBeVisible();
+  expect(enableAiCodeFixCheckbox).not.toBeChecked();
+
+  await user.click(enableAiCodeFixCheckbox);
+
   await waitFor(() => {
     expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
   });
 
-  expect(ui.saveButton.query()).not.toBeInTheDocument();
+  const llmProvider = await ui.llmProvider.find();
+
+  expect(llmProvider).toBeVisible();
+  expect(llmProvider).toHaveValue('OpenAI');
+
+  const allProjectsEnabledRadio = await ui.allProjectsEnabledRadio.find();
+
+  expect(allProjectsEnabledRadio).toBeVisible();
+  expect(allProjectsEnabledRadio).toBeChecked();
+
+  const saveButton = await ui.saveButton.find();
+
+  expect(saveButton).toBeVisible();
+  expect(saveButton).toBeEnabled();
+
+  await user.click(saveButton);
+
+  await waitFor(() => {
+    expect(saveButton).not.toBeInTheDocument();
+  });
 });
 
 it('should be able to enable the code fix feature for some projects', async () => {
   fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   fixSuggestionsServiceMock.disableForAllProject();
 
-  const user = userEvent.setup();
   renderCodeFixAdmin();
+  const user = userEvent.setup();
 
+  const enableAiCodeFixCheckbox = await ui.enableAiCodeFixCheckbox.find();
+
+  expect(enableAiCodeFixCheckbox).toBeVisible();
   await waitFor(() => {
-    expect(ui.enableAiCodeFixCheckbox.get()).not.toBeChecked();
+    expect(enableAiCodeFixCheckbox).not.toBeChecked();
   });
 
-  await user.click(ui.enableAiCodeFixCheckbox.get());
-  expect(ui.someProjectsEnabledRadio.get()).toBeEnabled();
-  await user.click(ui.someProjectsEnabledRadio.get());
+  await user.click(enableAiCodeFixCheckbox);
 
-  expect(ui.selectedTab.get()).toBeVisible();
-  expect(await ui.unselectedTab.find()).toBeVisible();
-  expect(await ui.allTab.find()).toBeVisible();
-  await user.click(ui.unselectedTab.get());
+  const someProjectsEnabledRadio = await ui.someProjectsEnabledRadio.find();
+
+  expect(someProjectsEnabledRadio).toBeVisible();
+
+  await user.click(someProjectsEnabledRadio);
+
+  const selectedTab = await ui.selectedTab.find();
+  const unselectedTab = await ui.unselectedTab.find();
+  const allTab = await ui.allTab.find();
+
+  expect(selectedTab).toBeVisible();
+  expect(unselectedTab).toBeVisible();
+  expect(allTab).toBeVisible();
+
+  await user.click(unselectedTab);
+
+  const projectUi = await ui.project.find();
+
+  expect(projectUi).toBeVisible();
+
+  await user.click(projectUi);
+
+  const saveButton = await ui.saveButton.find();
+
+  await user.click(saveButton);
 
   await waitFor(() => {
-    expect(ui.project.get()).toBeVisible();
-  });
-  await user.click(ui.project.get());
-
-  await user.click(ui.saveButton.get());
-  await waitFor(() => {
-    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+    // expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+    expect(enableAiCodeFixCheckbox).toBeChecked();
   });
 
-  expect(ui.saveButton.query()).not.toBeInTheDocument();
+  expect(saveButton).not.toBeVisible();
 });
 
 it('should be able to disable the feature for a single project', async () => {
   fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   fixSuggestionsServiceMock.enableSomeProject('project1');
-  const user = userEvent.setup();
   renderCodeFixAdmin();
+  const user = userEvent.setup();
 
   await waitFor(() => {
     expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
@@ -250,8 +293,8 @@ it('should be able to disable the feature for a single project', async () => {
 
 it('should be able to disable the code fix feature', async () => {
   fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
-  const user = userEvent.setup();
   renderCodeFixAdmin();
+  const user = userEvent.setup();
 
   await waitFor(() => {
     expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
@@ -265,8 +308,8 @@ it('should be able to disable the code fix feature', async () => {
 
 it('should be able to reset the form when canceling', async () => {
   fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
-  const user = userEvent.setup();
   renderCodeFixAdmin();
+  const user = userEvent.setup();
 
   await waitFor(() => {
     expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
@@ -287,8 +330,8 @@ it('should be able to reset the form when canceling', async () => {
 
 it('should be able to set the Azure Open option in the form', async () => {
   fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
-  const user = userEvent.setup();
   renderCodeFixAdmin();
+  const user = userEvent.setup();
 
   await waitFor(() => {
     expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
@@ -316,19 +359,25 @@ it('should be able to select the recommended provider by default if no provider 
   fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   fixSuggestionsServiceMock.disableForAllProject();
 
-  const user = userEvent.setup();
   renderCodeFixAdmin();
-  await user.click(await ui.enableAiCodeFixCheckbox.find());
+  const user = userEvent.setup();
 
-  expect(ui.llmProvider.get()).toHaveValue('OpenAI');
+  expect(await ui.codeFixTitle.find()).toBeInTheDocument();
+  expect(ui.enableAiCodeFixCheckbox.get()).not.toBeChecked();
+
+  await user.click(ui.enableAiCodeFixCheckbox.get());
+
+  const llmProvider = ui.llmProvider.get();
+
+  expect(llmProvider).toHaveValue('OpenAI');
 });
 
 it('should disable the save button when the provider is not valid', async () => {
   fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   fixSuggestionsServiceMock.enableAllProjectWithAzureProvider();
 
-  const user = userEvent.setup();
   renderCodeFixAdmin();
+  const user = userEvent.setup();
 
   await waitFor(() => {
     expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();

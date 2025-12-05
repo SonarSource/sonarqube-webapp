@@ -78,6 +78,9 @@ export default class FixSuggestionsServiceMock {
   }
 
   reset = () => {
+    this.serviceInfo = {
+      status: 'SUCCESS',
+    };
     this.featureEnablement = {
       enablement: AiCodeFixFeatureEnablement.allProjects,
       enabledProjectKeys: [],
