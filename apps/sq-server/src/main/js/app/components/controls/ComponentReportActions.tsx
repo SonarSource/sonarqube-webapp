@@ -19,17 +19,19 @@
  */
 
 import { ComponentQualifier } from '~shared/types/component';
-import withAppStateContext from '../../context/app-state/withAppStateContext';
-import withCurrentUserContext from '../../context/current-user/withCurrentUserContext';
+import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import {
   useGetReportStatusQuery,
   useSubscribeToEmailReportMutation,
   useUnsubscribeFromEmailReportMutation,
-} from '../../queries/subscriptions';
-import { AppState } from '../../types/appstate';
-import { Branch } from '../../types/branch-like';
-import { Component } from '../../types/types';
-import { CurrentUser, isLoggedIn } from '../../types/users';
+} from '~sq-server-commons/queries/subscriptions';
+import { AppState } from '~sq-server-commons/types/appstate';
+import { Branch } from '~sq-server-commons/types/branch-like';
+import { Feature } from '~sq-server-commons/types/features';
+import { Component } from '~sq-server-commons/types/types';
+import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 import ComponentReportActionsRenderer from './ComponentReportActionsRenderer';
 
 interface Props {
@@ -41,6 +43,7 @@ interface Props {
 
 export function ComponentReportActions(props: Readonly<Props>) {
   const { appState, branch, component, currentUser } = props;
+  const scaEnabled = useAvailableFeatures().hasFeature(Feature.Sca);
   const { data: status, isLoading } = useGetReportStatusQuery(
     {
       componentKey: component.key,
@@ -81,6 +84,7 @@ export function ComponentReportActions(props: Readonly<Props>) {
       frequency={status.componentFrequency || status.globalFrequency}
       handleSubscription={handleSubscribe}
       handleUnsubscription={handleUnsubscribe}
+      scaEnabled={scaEnabled}
       subscribed={status.subscribed}
     />
   );

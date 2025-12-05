@@ -30,13 +30,14 @@ import {
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { isApplication } from '~shared/helpers/component';
-import { getReportUrl } from '../../api/component-report';
-import { getRegulatoryReportUrl } from '../../api/regulatory-report';
-import { DocLink } from '../../helpers/doc-links';
-import { translate, translateWithParameters } from '../../helpers/l10n';
-import { Branch } from '../../types/branch-like';
-import { Component } from '../../types/types';
-import DocumentationLink from '../common/DocumentationLink';
+import { addons } from '~sq-server-addons/index';
+import { getReportUrl } from '~sq-server-commons/api/component-report';
+import { getRegulatoryReportUrl } from '~sq-server-commons/api/regulatory-report';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { Branch } from '~sq-server-commons/types/branch-like';
+import { Component } from '~sq-server-commons/types/types';
 
 export interface ComponentReportActionsRendererProps {
   branch?: Branch;
@@ -46,6 +47,7 @@ export interface ComponentReportActionsRendererProps {
   frequency: string;
   handleSubscription: () => void;
   handleUnsubscription: () => void;
+  scaEnabled: boolean;
   subscribed: boolean;
 }
 
@@ -65,6 +67,7 @@ export default function ComponentReportActionsRenderer(
   props: Readonly<ComponentReportActionsRendererProps>,
 ) {
   const {
+    scaEnabled,
     branch,
     component,
     frequency,
@@ -131,6 +134,17 @@ export default function ComponentReportActionsRenderer(
                 subscribed,
               })}
             </DropdownMenu.ItemButton>
+
+            {scaEnabled && addons.sca && (
+              <>
+                <DropdownMenu.Separator />
+                <addons.sca.ScaReportOverviewOptions
+                  branch={branch?.name}
+                  component={component.key}
+                  componentName={component.name}
+                />
+              </>
+            )}
 
             {!isApplication(component.qualifier) && (
               <>

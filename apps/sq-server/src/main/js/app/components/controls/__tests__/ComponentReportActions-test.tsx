@@ -25,33 +25,39 @@ import {
   getReportStatus,
   subscribeToEmailReport,
   unsubscribeFromEmailReport,
-} from '../../../api/component-report';
-import { addGlobalSuccessMessage } from '../../../design-system';
-import { mockBranch } from '../../../helpers/mocks/branch-like';
-import { mockComponent } from '../../../helpers/mocks/component';
-import { mockComponentReportStatus } from '../../../helpers/mocks/component-report';
-import { mockAppState, mockCurrentUser, mockLoggedInUser } from '../../../helpers/testMocks';
-import { renderApp } from '../../../helpers/testReactTestingUtils';
+} from '~sq-server-commons/api/component-report';
+import { addGlobalSuccessMessage } from '~sq-server-commons/design-system';
+import { mockBranch } from '~sq-server-commons/helpers/mocks/branch-like';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { mockComponentReportStatus } from '~sq-server-commons/helpers/mocks/component-report';
+import {
+  mockAppState,
+  mockCurrentUser,
+  mockLoggedInUser,
+} from '~sq-server-commons/helpers/testMocks';
+import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { ComponentReportActions } from '../ComponentReportActions';
 
-jest.mock('../../../design-system', () => ({
-  ...jest.requireActual('../../../design-system'),
+jest.mock('~sq-server-commons/design-system', () => ({
+  ...jest.requireActual('~sq-server-commons/design-system'),
   addGlobalSuccessMessage: jest.fn(),
 }));
 
-jest.mock('../../../api/component-report', () => ({
-  ...jest.requireActual('../../../api/component-report'),
+jest.mock('~sq-server-commons/api/component-report', () => ({
+  ...jest.requireActual('~sq-server-commons/api/component-report'),
   getReportStatus: jest
     .fn()
     .mockResolvedValue(
-      jest.requireActual('../../../helpers/mocks/component-report').mockComponentReportStatus(),
+      jest
+        .requireActual('~sq-server-commons/helpers/mocks/component-report')
+        .mockComponentReportStatus(),
     ),
   subscribeToEmailReport: jest.fn().mockResolvedValue(undefined),
   unsubscribeFromEmailReport: jest.fn().mockResolvedValue(undefined),
 }));
 
-jest.mock('../../../helpers/system', () => ({
-  ...jest.requireActual('../../../helpers/system'),
+jest.mock('~sq-server-commons/helpers/system', () => ({
+  ...jest.requireActual('~sq-server-commons/helpers/system'),
   getBaseUrl: jest.fn().mockReturnValue('baseUrl'),
 }));
 

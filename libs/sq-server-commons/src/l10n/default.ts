@@ -95,6 +95,7 @@ export const defaultMessages = {
   created_on: 'Created on',
   criteria: 'Criteria',
   critical: 'Critical',
+  csv: 'CSV',
   current: 'current',
   current_noun: 'Current',
   customize: 'Customize',
@@ -151,6 +152,7 @@ export const defaultMessages = {
   inheritance: 'Inheritance',
   internal: 'internal',
   inventory: 'Inventory',
+  json: 'JSON',
   key: 'Key',
   later: 'Later',
   language: 'Language',
@@ -1610,7 +1612,6 @@ export const defaultMessages = {
   'dependencies.list.export_as_sbom.type.spdx_23': 'SPDX v2.3',
   'dependencies.list.export_as_sbom.type.spdx_30': 'SPDX v3.0',
   'dependencies.list.export_as_sbom.format.xml': 'XML',
-  'dependencies.list.export_as_sbom.format.json': 'JSON',
   'dependencies.risk.header.risk_severity': 'Severity of impact',
   'dependencies.risk.header.risk_severity.intro': 'How is the severity impact calculated?',
   'dependencies.risk.header.first_detected': 'First detected',
@@ -1991,6 +1992,16 @@ export const defaultMessages = {
   'sca.quality_gates.metric.sca_count_licensing': 'Prohibited license dependency risks',
   'sca.quality_gates.metric.sca_severity_licensing.description':
     "All prohibited license risks are classified as high severity by Sonar. Therefore, this condition will cause the quality gate to fail if any of a project's dependencies use a license that is prohibited by the project's License Profile.",
+
+  //------------------------------------------------------------------------------
+  //
+  // SCA REPORT PAGE
+  //
+  //------------------------------------------------------------------------------
+  'sca.sbom.report': 'Software Bill of Materials (SBOM)',
+  'sca.risk.report': 'Advanced Security Dependency Risks Report',
+  'sca.risk.report.name': 'Dependency Risks Report',
+
   //------------------------------------------------------------------------------
   //
   // ARCHITECTURE PAGE

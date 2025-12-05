@@ -24,7 +24,6 @@ import { Badge, SeparatorCircleIcon } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
 import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import ComponentReportActions from '~sq-server-commons/components/controls/ComponentReportActions';
 import HomePageSelect from '~sq-server-commons/components/controls/HomePageSelect';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
@@ -36,6 +35,7 @@ import { Branch } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import { HomePage } from '~sq-server-commons/types/users';
+import ComponentReportActions from '../../../app/components/controls/ComponentReportActions';
 import { getCurrentPage } from '../../../app/components/nav/component/utils';
 
 interface Props {
