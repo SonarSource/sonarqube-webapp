@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
+import { Link, LinkHighlight, MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
 import { isBefore } from 'date-fns';
 import { noop } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -130,7 +130,7 @@ export function BitbucketCloudAppDeprecationMessage({
   return (
     <MessageCallout
       action={
-        <Link to={BITBUCKET_API_TOKEN_DOCUMENTATION_URL}>
+        <Link highlight={LinkHighlight.Default} to={BITBUCKET_API_TOKEN_DOCUMENTATION_URL}>
           <FormattedMessage id="admin_notification.bitbucket_cloud_app_deprecation.link" />
         </Link>
       }
@@ -139,7 +139,7 @@ export function BitbucketCloudAppDeprecationMessage({
       title={formatMessage({ id: 'admin_notification.bitbucket_cloud_app_deprecation.title' })}
       variety={MessageVariety.Info}
     >
-      <FormattedMessage id="admin_notification.bitbucket_cloud_app_deprecation.banner" />
+      <FormattedMessage id="admin_notification.bitbucket_cloud_app_deprecation.body" />
     </MessageCallout>
   );
 }
