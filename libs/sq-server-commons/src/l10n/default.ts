@@ -3015,13 +3015,13 @@ export const defaultMessages = {
 
   // Integrations settings
   'settings.instance_integrations.title': 'Integrations',
+  'settings.instance_integrations.start_setup': 'Start setup',
 
   'settings.slack.header': 'Slack',
   'settings.slack.badge.configured': 'Configured',
   'settings.slack.badge.not_configured': 'Not configured',
   'settings.slack.description':
     '<link>Set up and configure your Slack app</link> by following our documentation. Once configured and installed, you will receive instant slack notifications when your quality gate changes.',
-  'settings.slack.start_setup.label': 'Start setup',
   'settings.slack.start_setup.no_server_base_url_warning':
     'To continue, set your "Server base URL" in the <link>general settings</link>',
   'settings.slack.start_setup.hint': 'Setup can take 5 to 10 minutes.',
@@ -8947,6 +8947,7 @@ export const defaultMessages = {
   'organization.jira.binding.instance_details_title': 'Jira instance details',
   'organization.jira.binding.not_connected.intro':
     '<p>Setup and connect to your Jira application to push issues into Jira as work items. You will need to provide a Client ID and Secret to connect. To obtain them, <setupGuideDocLink>follow our setup guide</setupGuideDocLink></p>',
+  'organization.jira.binding.start_setup.hint': 'Setup can take 15 minutes.',
   'organization.jira.binding.connected.intro':
     "<p>To push issues, ensure you've <projectBindingDocLink>connected your projects</projectBindingDocLink> in your project settings.</p><p>If reauthorizing, always ensure you select the same instance in the app page to avoid potential errors. If an error occurs, please read and follow our <troubleshootingDocLink>troubleshooting steps.</troubleshootingDocLink></p>",
   'organization.jira.binding.connected.callout.title':
