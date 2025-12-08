@@ -30,7 +30,7 @@ interface SQSFlagSet extends FlagSet {
 // Add features flags here as needed in shared code, especially useful if you want a default value other than falsy for SQS.
 const defaultFlags: SQSFlagSet = {};
 
-export function useFlags(): FlagSet {
+export function useFlags(): SQSFlagSet {
   const [frontEndEngineeringEnableSidebarNavigation] = useEnableSidebarNavigation();
 
   return { ...defaultFlags, frontEndEngineeringEnableSidebarNavigation };

@@ -144,6 +144,7 @@ module.exports = {
             onlyDependOnLibsWithTags: ['type:util'],
           },
         ],
+        // We have circular dependencies between shared and sq-cloud/sq-server-commons because of the adapters systems that are stored there
         ignoredCircularDependencies: [
           ['shared', 'sq-cloud'],
           ['shared', 'sq-server-commons'],
