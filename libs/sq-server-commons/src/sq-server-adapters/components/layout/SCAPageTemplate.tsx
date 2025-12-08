@@ -22,7 +22,6 @@ import { BreadcrumbsProps, Layout, PageGridProps } from '@sonarsource/echoes-rea
 import { forwardRef, PropsWithChildren, ReactNode } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { To } from 'react-router-dom';
-import { GlobalFooter } from './GlobalFooter';
 
 interface Props extends PropsWithChildren {
   asideLeft?: ReactNode;
@@ -48,8 +47,6 @@ export const SCAPageTemplate = forwardRef<HTMLDivElement, Props>(
           {header}
 
           <Layout.PageContent>{children}</Layout.PageContent>
-
-          <GlobalFooter />
         </Layout.PageGrid>
       </>
     );
