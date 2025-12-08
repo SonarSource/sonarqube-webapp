@@ -73,7 +73,9 @@ const ISSUES_DEFAULT = 'sonarqube.issues.default';
 
 export function parseQuery(query: RawQuery, needIssueSync = false): IssuesQuery {
   // Parse compliance standards from the complianceStandards parameter if present
-  const parsedComplianceStandards = parseComplianceStandards(query.complianceStandards);
+  const parsedComplianceStandards = parseComplianceStandards(
+    query.complianceStandards as string | undefined,
+  );
 
   return {
     assigned: parseAsBoolean(query.assigned),
