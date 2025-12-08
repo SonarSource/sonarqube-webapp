@@ -93,7 +93,7 @@ const ui = {
   projectTitle: byRole('link', { name: 'Project' }),
   projectText: byText('project'),
   portfolioTitle: byRole('link', { name: 'portfolio' }),
-  portfolioText: byText('portfolio'),
+  portfolioText: byText(/portfolio/i),
   overviewPageLink: byRole('link', { name: 'overview.page' }),
   issuesPageLink: byRole('link', { name: 'issues.page' }),
   hotspotsPageLink: byRole('link', { name: 'layout.security_hotspots' }),

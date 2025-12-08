@@ -25,6 +25,7 @@ export interface SearchRulesQuery {
   asc?: boolean | string;
   available_since?: string;
   cleanCodeAttributeCategories?: string;
+  complianceStandards?: string;
   cwe?: string;
   f?: string;
   facets?: string;

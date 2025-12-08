@@ -35,6 +35,7 @@ import {
   parseAsArray,
   parseAsBoolean,
   parseAsDate,
+  parseAsOptionalArray,
   parseAsOptionalBoolean,
   parseAsString,
   queriesEqual,
@@ -58,6 +59,7 @@ import {
   buildComplianceStandards,
   mapBackendFacetKeyToFrontend,
   mapFacetToBackendName,
+  parseComplianceStandards,
 } from './compliance-standards';
 
 // Re-export for backward compatibility
@@ -70,6 +72,9 @@ const parseAsSort = (sort: string) => (sort === 'CREATION_DATE' ? 'CREATION_DATE
 const ISSUES_DEFAULT = 'sonarqube.issues.default';
 
 export function parseQuery(query: RawQuery, needIssueSync = false): IssuesQuery {
+  // Parse compliance standards from the complianceStandards parameter if present
+  const parsedComplianceStandards = parseComplianceStandards(query.complianceStandards);
+
   return {
     assigned: parseAsBoolean(query.assigned),
     assignees: parseAsArray(query.assignees, parseAsString),
@@ -90,15 +95,31 @@ export function parseQuery(query: RawQuery, needIssueSync = false): IssuesQuery 
       query.impactSoftwareQualities,
       parseAsString,
     ),
-    'stig-ASD_V5R3': parseAsArray(query['stig-ASD_V5R3'], parseAsString),
-    'stig-ASD_V6': parseAsArray(query['stig-ASD_V6'], parseAsString),
+    // Use individual fields if present, otherwise use parsed complianceStandards
+    'stig-ASD_V5R3':
+      parseAsOptionalArray(query['stig-ASD_V5R3'], parseAsString) ||
+      parsedComplianceStandards['stig-ASD_V5R3'] ||
+      [],
+    'stig-ASD_V6':
+      parseAsOptionalArray(query['stig-ASD_V6'], parseAsString) ||
+      parsedComplianceStandards['stig-ASD_V6'] ||
+      [],
     inNewCodePeriod: parseAsBoolean(query.inNewCodePeriod, false),
     issues: parseAsArray(query.issues, parseAsString),
     languages: parseAsArray(query.languages, parseAsString),
-    owaspTop10: parseAsArray(query.owaspTop10, parseAsString),
+    owaspTop10:
+      parseAsOptionalArray(query.owaspTop10, parseAsString) ||
+      parsedComplianceStandards.owaspTop10 ||
+      [],
     'owaspMobileTop10-2024': parseAsArray(query['owaspMobileTop10-2024'], parseAsString),
-    'owaspTop10-2021': parseAsArray(query['owaspTop10-2021'], parseAsString),
-    'owaspTop10-2025': parseAsArray(query['owaspTop10-2025'], parseAsString),
+    'owaspTop10-2021':
+      parseAsOptionalArray(query['owaspTop10-2021'], parseAsString) ||
+      parsedComplianceStandards['owaspTop10-2021'] ||
+      [],
+    'owaspTop10-2025':
+      parseAsOptionalArray(query['owaspTop10-2025'], parseAsString) ||
+      parsedComplianceStandards['owaspTop10-2025'] ||
+      [],
     'pciDss-3.2': parseAsArray(query['pciDss-3.2'], parseAsString),
     'pciDss-4.0': parseAsArray(query['pciDss-4.0'], parseAsString),
     casa: parseAsArray(query.casa, parseAsString),
@@ -203,7 +224,7 @@ export function serializeQuery(query: IssuesQuery): RawQuery {
     assignees: serializeStringArray(query.assignees),
     author: query.author,
     cleanCodeAttributeCategories: serializeStringArray(query.cleanCodeAttributeCategories),
-    complianceStandards: serializeStringArray(buildComplianceStandards(query)),
+    complianceStandards: buildComplianceStandards(query),
     createdAfter: serializeDateShort(query.createdAfter),
     createdAt: serializeString(query.createdAt),
     createdBefore: serializeDateShort(query.createdBefore),

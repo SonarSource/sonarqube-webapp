@@ -544,6 +544,8 @@ export class App extends React.PureComponent<Props, State> {
     // Filter out compliance standards from API calls
     // They are kept in URL for state management but converted to complianceStandards for API
     const {
+      owaspTop10: _owaspTop10,
+      'owaspTop10-2021': _owaspTop102021,
       'owaspTop10-2025': _owaspTop102025,
       'stig-ASD_V5R3': _stigAsdV5R3,
       'stig-ASD_V6': _stigAsdV6,
@@ -822,8 +824,10 @@ export class App extends React.PureComponent<Props, State> {
     const { component } = this.props;
     const { myIssues, query } = this.state;
 
-    // Filter out owaspTop10-2025 and stig-ASD_V6 from API calls
+    // Filter out compliance standards from API calls
     const {
+      owaspTop10: _owaspTop10,
+      'owaspTop10-2021': _owaspTop102021,
       'owaspTop10-2025': _owaspTop102025,
       'stig-ASD_V5R3': _stigAsdV5R3,
       'stig-ASD_V6': _stigAsdV6,

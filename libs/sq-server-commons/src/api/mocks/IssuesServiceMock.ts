@@ -161,7 +161,7 @@ export default class IssuesServiceMock {
 
   owasp2021FacetList(): RawFacet {
     return {
-      property: 'owaspTop10-2021',
+      property: 'owasp_top10:urn:sonar-security-standard:owasp:top10:2021',
       values: [{ val: 'a1', count: 0 }],
     };
   }
@@ -286,7 +286,7 @@ export default class IssuesServiceMock {
       query.cleanCodeAttributeCategories ?? Object.values(CodeAttributeCategory).join(',')
     ).split(',');
     return facets.map((name: string): RawFacet => {
-      if (name === 'owaspTop10-2021') {
+      if (name === 'complianceStandards') {
         return this.owasp2021FacetList();
       }
 

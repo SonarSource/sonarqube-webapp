@@ -92,7 +92,7 @@ describe('serialize/deserialize', () => {
       impactSoftwareQualities: SoftwareQuality.Security,
       codeVariants: 'variant1,variant2',
       complianceStandards:
-        'owasp_top10:urn:sonar-security-standard:owasp:top10:2025=a,owasp_top10:urn:sonar-security-standard:owasp:top10:2025=b,stig_asd:urn:sonar-security-standard:stig:asd:v5=a,stig_asd:urn:sonar-security-standard:stig:asd:v5=b,stig_asd:urn:sonar-security-standard:stig:asd:v6=a,stig_asd:urn:sonar-security-standard:stig:asd:v6=b',
+        'owasp_top10:urn:sonar-security-standard:owasp:top10:2017=a,b&owasp_top10:urn:sonar-security-standard:owasp:top10:2021=a,b&owasp_top10:urn:sonar-security-standard:owasp:top10:2025=a,b&stig_asd:urn:sonar-security-standard:stig:asd:v5=a,b&stig_asd:urn:sonar-security-standard:stig:asd:v6=a,b',
       createdAt: 'a',
       createdBefore: '1970-01-01',
       createdAfter: '1970-01-01',
@@ -186,6 +186,54 @@ describe('serialize/deserialize', () => {
       fromSonarQubeUpdate: true,
       linkedTicketStatus: [],
     });
+  });
+
+  it('should deserialize owaspTop10 from complianceStandards parameter', () => {
+    expect(
+      parseQuery({
+        complianceStandards: 'owasp_top10:urn:sonar-security-standard:owasp:top10:2017=a1,a2',
+      }).owaspTop10,
+    ).toEqual(['a1', 'a2']);
+  });
+
+  it('should deserialize owaspTop10-2021 from complianceStandards parameter', () => {
+    expect(
+      parseQuery({
+        complianceStandards: 'owasp_top10:urn:sonar-security-standard:owasp:top10:2021=a1,a2,a3',
+      })['owaspTop10-2021'],
+    ).toEqual(['a1', 'a2', 'a3']);
+  });
+
+  it('should deserialize owaspTop10-2025 from complianceStandards parameter', () => {
+    expect(
+      parseQuery({
+        complianceStandards: 'owasp_top10:urn:sonar-security-standard:owasp:top10:2025=A01,A02',
+      })['owaspTop10-2025'],
+    ).toEqual(['A01', 'A02']);
+  });
+
+  it('should deserialize stig-ASD_V5R3 from complianceStandards parameter', () => {
+    expect(
+      parseQuery({
+        complianceStandards: 'stig_asd:urn:sonar-security-standard:stig:asd:v5=V-222607,V-222642',
+      })['stig-ASD_V5R3'],
+    ).toEqual(['V-222607', 'V-222642']);
+  });
+
+  it('should deserialize stig-ASD_V6 from complianceStandards parameter', () => {
+    expect(
+      parseQuery({
+        complianceStandards: 'stig_asd:urn:sonar-security-standard:stig:asd:v6=V-222609',
+      })['stig-ASD_V6'],
+    ).toEqual(['V-222609']);
+  });
+
+  it('should prefer direct query parameters over complianceStandards', () => {
+    const result = parseQuery({
+      owaspTop10: 'a3,a4',
+      complianceStandards: 'owasp_top10:urn:sonar-security-standard:owasp:top10:2017=a1,a2',
+    });
+    expect(result.owaspTop10).toEqual(['a3', 'a4']);
   });
 
   it('should map deprecated status and resolution query to new issue statuses', () => {

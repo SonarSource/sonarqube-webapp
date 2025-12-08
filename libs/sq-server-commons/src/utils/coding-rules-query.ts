@@ -30,6 +30,7 @@ import {
   cleanQuery,
   parseAsArray,
   parseAsDate,
+  parseAsOptionalArray,
   parseAsOptionalBoolean,
   parseAsOptionalString,
   parseAsString,
@@ -40,7 +41,7 @@ import {
   serializeStringArray,
 } from '../helpers/query';
 import { CodingRulesQuery } from '../types/coding-rules';
-import { buildComplianceStandards } from './compliance-standards';
+import { buildComplianceStandards, parseComplianceStandards } from './compliance-standards';
 
 // Re-export for backward compatibility
 export { mapBackendFacetKeyToFrontend, mapFacetToBackendName } from './compliance-standards';
@@ -62,6 +63,9 @@ export interface Actives {
 }
 
 export function parseQuery(query: RawQuery): CodingRulesQuery {
+  // Parse compliance standards from the complianceStandards parameter if present
+  const parsedComplianceStandards = parseComplianceStandards(query.complianceStandards);
+
   return {
     activation: parseAsOptionalBoolean(query.activation),
     availableSince: parseAsDate(query.available_since),
@@ -80,17 +84,33 @@ export function parseQuery(query: RawQuery): CodingRulesQuery {
     'owaspMobileTop10-2024': parseAsArray(query['owaspMobileTop10-2024'], parseAsString),
     'owaspMobileTop10-2024Open': parseAsOptionalBoolean(query['owaspMobileTop10-2024Open']),
     'owaspMobileTop10-2024Stats': parseAsOptionalBoolean(query['owaspMobileTop10-2024Stats']),
-    owaspTop10: parseAsArray(query.owaspTop10, parseAsString),
-    'owaspTop10-2021': parseAsArray(query['owaspTop10-2021'], parseAsString),
-    'owaspTop10-2025': parseAsArray(query['owaspTop10-2025'], parseAsString),
+    owaspTop10:
+      parseAsOptionalArray(query.owaspTop10, parseAsString) ||
+      parsedComplianceStandards.owaspTop10 ||
+      [],
+    'owaspTop10-2021':
+      parseAsOptionalArray(query['owaspTop10-2021'], parseAsString) ||
+      parsedComplianceStandards['owaspTop10-2021'] ||
+      [],
+    // Use individual fields if present, otherwise use parsed complianceStandards
+    'owaspTop10-2025':
+      parseAsOptionalArray(query['owaspTop10-2025'], parseAsString) ||
+      parsedComplianceStandards['owaspTop10-2025'] ||
+      [],
     profile: parseAsOptionalString(query.qprofile),
     repositories: parseAsArray(query.repositories, parseAsString),
     ruleKey: parseAsOptionalString(query.rule_key),
     searchQuery: parseAsOptionalString(query.q),
     sonarsourceSecurity: parseAsArray(query.sonarsourceSecurity, parseAsString),
     statuses: parseAsArray(query.statuses, parseAsString),
-    'stig-ASD_V5R3': parseAsArray(query['stig-ASD_V5R3'], parseAsString),
-    'stig-ASD_V6': parseAsArray(query['stig-ASD_V6'], parseAsString),
+    'stig-ASD_V5R3':
+      parseAsOptionalArray(query['stig-ASD_V5R3'] as string | undefined, parseAsString) ||
+      parsedComplianceStandards['stig-ASD_V5R3'] ||
+      [],
+    'stig-ASD_V6':
+      parseAsOptionalArray(query['stig-ASD_V6'] as string | undefined, parseAsString) ||
+      parsedComplianceStandards['stig-ASD_V6'] ||
+      [],
     tags: parseAsArray(query.tags, parseAsString),
     template: parseAsOptionalBoolean(query.is_template),
     types: parseAsArray(query.types, parseAsString),
@@ -112,7 +132,7 @@ export function serializeQuery(query: CodingRulesQuery): RawQuery {
     available_since: serializeDateShort(query.availableSince),
     cleanCodeAttributeCategories: serializeStringArray(query.cleanCodeAttributeCategories),
     compareToProfile: serializeString(query.compareToProfile),
-    complianceStandards: serializeStringArray(buildComplianceStandards(query)),
+    complianceStandards: buildComplianceStandards(query),
     cwe: serializeStringArray(query.cwe),
     inheritance: serializeInheritance(query.inheritance),
     impactSeverities: serializeStringArray(query.impactSeverities),

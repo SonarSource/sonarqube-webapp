@@ -47,6 +47,10 @@ import { SearchRulesQuery } from '../../types/rules';
 import { RulesUpdateRequest } from '../../types/types';
 import { NoticeType } from '../../types/users';
 import { mapRestRuleToRule } from '../../utils/coding-rules';
+import {
+  COMPLIANCE_STANDARDS_BACKEND_KEYS,
+  parseComplianceStandards,
+} from '../../utils/compliance-standards';
 import { getComponentData } from '../components';
 import { getFacet } from '../issues';
 import {
@@ -514,6 +518,7 @@ export default class CodingRulesServiceMock {
     sonarsourceSecurity,
     owaspTop10,
     'owaspTop10-2021': owasp2021Top10,
+    complianceStandards,
     cwe,
     tags,
     q,
@@ -525,6 +530,13 @@ export default class CodingRulesServiceMock {
     prioritizedRule,
   }: SearchRulesQuery): Promise<SearchRulesResponse> => {
     const standards = await getStandards();
+
+    // Parse complianceStandards parameter to extract individual standard values
+    const parsedComplianceStandards = parseComplianceStandards(complianceStandards);
+    const effectiveOwaspTop10 = parsedComplianceStandards.owaspTop10?.[0] ?? owaspTop10;
+    const effectiveOwasp2021Top10 =
+      parsedComplianceStandards['owaspTop10-2021']?.[0] ?? owasp2021Top10;
+
     const facetCounts: Array<{
       property: string;
       values: { count: number; val: string }[];
@@ -570,11 +582,77 @@ export default class CodingRulesServiceMock {
             count: this.rules.filter((r) => r.repo === repo.key).length,
           })),
         });
+      } else if (facet === 'complianceStandards') {
+        const complianceStandardsFacets: Array<{
+          property: string;
+          values: { count: number; val: string }[];
+        }> = [];
+
+        if (standards[StandardsInformationKey.OWASP_TOP10]) {
+          complianceStandardsFacets.push({
+            property: COMPLIANCE_STANDARDS_BACKEND_KEYS[StandardsInformationKey.OWASP_TOP10],
+            values: Object.keys(standards[StandardsInformationKey.OWASP_TOP10]).map(
+              (val: string) => ({
+                val,
+                count: 1,
+              }),
+            ),
+          });
+        }
+
+        if (standards[StandardsInformationKey.OWASP_TOP10_2021]) {
+          complianceStandardsFacets.push({
+            property: COMPLIANCE_STANDARDS_BACKEND_KEYS[StandardsInformationKey.OWASP_TOP10_2021],
+            values: Object.keys(standards[StandardsInformationKey.OWASP_TOP10_2021]).map(
+              (val: string) => ({
+                val,
+                count: 1,
+              }),
+            ),
+          });
+        }
+
+        if (standards[StandardsInformationKey.OWASP_TOP10_2025]) {
+          complianceStandardsFacets.push({
+            property: COMPLIANCE_STANDARDS_BACKEND_KEYS[StandardsInformationKey.OWASP_TOP10_2025],
+            values: Object.keys(standards[StandardsInformationKey.OWASP_TOP10_2025]).map(
+              (val: string) => ({
+                val,
+                count: 1,
+              }),
+            ),
+          });
+        }
+
+        if (standards[StandardsInformationKey.STIG_ASD_V5R3]) {
+          complianceStandardsFacets.push({
+            property: COMPLIANCE_STANDARDS_BACKEND_KEYS[StandardsInformationKey.STIG_ASD_V5R3],
+            values: Object.keys(standards[StandardsInformationKey.STIG_ASD_V5R3]).map(
+              (val: string) => ({
+                val,
+                count: 1,
+              }),
+            ),
+          });
+        }
+
+        if (standards[StandardsInformationKey.STIG_ASD_V6]) {
+          complianceStandardsFacets.push({
+            property: COMPLIANCE_STANDARDS_BACKEND_KEYS[StandardsInformationKey.STIG_ASD_V6],
+            values: Object.keys(standards[StandardsInformationKey.STIG_ASD_V6]).map(
+              (val: string) => ({
+                val,
+                count: 1,
+              }),
+            ),
+          });
+        }
+
+        facetCounts.push(...complianceStandardsFacets);
       } else if (typeof (standards as Record<string, object>)[facet] === 'object') {
-        // When a standards facet is requested, we return all the values with a count of 1
         facetCounts.push({
           property: facet,
-          values: Object.keys((standards as any)[facet]).map((val: string) => ({
+          values: Object.keys((standards as Record<string, object>)[facet]).map((val: string) => ({
             val,
             count: 1,
           })),
@@ -609,8 +687,8 @@ export default class CodingRulesServiceMock {
         active_impactSeverities,
         active_severities,
         sonarsourceSecurity,
-        owaspTop10,
-        'owaspTop10-2021': owasp2021Top10,
+        owaspTop10: effectiveOwaspTop10,
+        'owaspTop10-2021': effectiveOwasp2021Top10,
         cwe,
         activation,
         prioritizedRule,

@@ -263,6 +263,8 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
 
   getSearchParameters = () => {
     const {
+      owaspTop10: _owaspTop10,
+      'owaspTop10-2021': _owaspTop102021,
       'owaspTop10-2025': _owaspTop102025,
       'stig-ASD_V5R3': _stigAsdV5R3,
       'stig-ASD_V6': _stigAsdV6,
