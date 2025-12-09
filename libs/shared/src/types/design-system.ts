@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ReactNode } from 'react';
 import { NavLinkProps } from 'react-router-dom';
 
 /**
@@ -34,11 +33,4 @@ export interface SubnavigationLinkItemProps extends NavLinkProps {
   onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
   preventDefault?: boolean;
   stopPropagation?: boolean;
-}
-
-export interface AccordionProps {
-  ariaLabel?: string;
-  children: ReactNode;
-  isOpen?: boolean;
-  title: ReactNode;
 }

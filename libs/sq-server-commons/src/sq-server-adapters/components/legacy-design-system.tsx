@@ -18,10 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useState } from 'react';
-import { AccordionProps, SubnavigationLinkItemProps } from '~shared/types/design-system';
+import { SubnavigationLinkItemProps } from '~shared/types/design-system';
 import {
-  Accordion as LegacyAccordion,
   HtmlFormatter as LegacyHtmlFormatter,
   SubnavigationLinkItem as LegacySubnavigationLinkItem,
 } from '../../design-system';
@@ -44,22 +42,3 @@ export function SubnavigationLinkItem(props: Readonly<SubnavigationLinkItemProps
  * @deprecated Stop using design-system in shared code.
  */
 export const HtmlFormatter = LegacyHtmlFormatter;
-
-/**
- * @deprecated Stop using design-system in shared code.
- */
-export function Accordion(props: Readonly<AccordionProps>) {
-  const [open, setOpen] = useState(props.isOpen ?? false);
-  return (
-    <LegacyAccordion
-      ariaLabel={props.ariaLabel}
-      header={props.title}
-      onClick={() => {
-        setOpen(!open);
-      }}
-      open={open}
-    >
-      {props.children}
-    </LegacyAccordion>
-  );
-}

@@ -150,6 +150,7 @@ export function getRiskDetailsUrl(
 
 export enum RiskDetailsTab {
   WHAT = 'what',
+  WHERE = 'where',
   HOW = 'how',
   ACTIVITY = 'activity',
 }
