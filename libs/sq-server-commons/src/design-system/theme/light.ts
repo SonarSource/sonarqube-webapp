@@ -991,7 +991,6 @@ export const lightTheme = {
     BitbucketCircleCI: '/images/tutorials/circleci.svg',
     GitHubActions: '/images/alms/github.svg',
     GitHubCircleCI: '/images/tutorials/circleci.svg',
-    GitHubTravis: '/images/tutorials/TravisCI-Mascot.png',
     GitLabPipeline: '/images/alms/gitlab.svg',
   },
 };
