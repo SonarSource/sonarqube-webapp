@@ -1,5 +1,6 @@
 {
   "name": "sonarqube-webapp",
+  "version": "0.0.0",
   "description": "Monorepository for the SonarQube WebApp",
   "license": "LGPL-3.0",
   "workspaces": [
