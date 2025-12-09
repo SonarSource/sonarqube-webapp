@@ -2050,6 +2050,8 @@ export const defaultMessages = {
     'Move the component and its code artifacts.',
   'architecture.page.model.modal.move_component.current_location': 'Current location:',
   'architecture.page.model.modal.move_component.new_location': 'New location:',
+  'architecture.page.model.modal.move_component.warning':
+    'When moving the component, all sibling relationships will be lost.',
   'architecture.page.model.modal.move_component_name': 'Component name',
   'architecture.page.model.modal.move_component_name_placeholder': 'Enter component name...',
   'architecture.page.model.modal.code_artifacts': 'Code Artifacts',
