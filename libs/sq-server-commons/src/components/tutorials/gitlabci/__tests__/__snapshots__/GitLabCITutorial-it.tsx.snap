@@ -61,9 +61,9 @@ get-binaries:
   script:
     # Download sonar-scanner
     - if [ ! -d sonar-scanner ]; then
-        curl -sSLo ./sonar-scanner.zip 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.2.0.5079-linux-x64.zip' &&
+        curl -sSLo ./sonar-scanner.zip 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-8.0.1.6346-linux-x64.zip' &&
         unzip -o sonar-scanner.zip &&
-        mv sonar-scanner-7.2.0.5079-linux-x64 sonar-scanner;
+        mv sonar-scanner-8.0.1.6346-linux-x64 sonar-scanner;
       fi
     
     # Download build wrapper
@@ -120,9 +120,9 @@ get-binaries:
   script:
     # Download sonar-scanner
     - if [ ! -d sonar-scanner ]; then
-        curl -sSLo ./sonar-scanner.zip 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.2.0.5079-linux-x64.zip' &&
+        curl -sSLo ./sonar-scanner.zip 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-8.0.1.6346-linux-x64.zip' &&
         unzip -o sonar-scanner.zip &&
-        mv sonar-scanner-7.2.0.5079-linux-x64 sonar-scanner;
+        mv sonar-scanner-8.0.1.6346-linux-x64 sonar-scanner;
       fi
     
   rules:
@@ -183,9 +183,9 @@ get-binaries:
   script:
     # Download sonar-scanner
     - if [ ! -d sonar-scanner ]; then
-        curl -sSLo ./sonar-scanner.zip 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.2.0.5079-linux-x64.zip' &&
+        curl -sSLo ./sonar-scanner.zip 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-8.0.1.6346-linux-x64.zip' &&
         unzip -o sonar-scanner.zip &&
-        mv sonar-scanner-7.2.0.5079-linux-x64 sonar-scanner;
+        mv sonar-scanner-8.0.1.6346-linux-x64 sonar-scanner;
       fi
     
   rules:
