@@ -76,7 +76,9 @@ export function TopLevelNewCodeDefinitionPage() {
     updatedAt: data?.updatedAt,
   });
 
-  const [newCodeDefinition, setNewCodeDefinition] = useState<NewCodeDefinition | undefined>(data);
+  const [newCodeDefinition, setNewCodeDefinition] = useState<NewCodeDefinition | null | undefined>(
+    data,
+  );
 
   const [numberOfDays, setNumberOfDays] = useState(
     data?.type === NewCodeDefinitionType.NumberOfDays ? data.value : '30',

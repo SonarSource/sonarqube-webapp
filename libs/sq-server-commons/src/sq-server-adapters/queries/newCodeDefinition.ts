@@ -50,14 +50,14 @@ const SHARED_TO_SERVER_TYPE_MAP: Partial<
 
 export function useNewCodeDefinitionQuery() {
   return useServerNewCodeDefinitionQuery(undefined, {
-    select: (serverData): NewCodeDefinition | undefined => {
+    select: (serverData): NewCodeDefinition | null => {
       if (!serverData) {
-        return undefined;
+        return null;
       }
 
       const type = SERVER_TO_SHARED_TYPE_MAP[serverData.type];
       if (!type) {
-        return undefined;
+        return null;
       }
 
       return {
