@@ -2041,6 +2041,7 @@ export const defaultMessages = {
     'A relationship between the same source and target is invalid.',
   'architecture.page.model.errors.constraint.source_and_target_are_not_siblings':
     'A component cannot be related to a component that is not a sibling.',
+  'architecture.page.model.errors.constraint.direct_cycle': 'Cyclic relationships are not allowed.',
   'architecture.page.model.errors.group.empty_label':
     'A component cannot have an empty name: {groupKey}.',
   'architecture.page.model.errors.group.duplicate_sibling_labels':
