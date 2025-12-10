@@ -2029,7 +2029,7 @@ export const defaultMessages = {
     'Create an intended architecture with a few top components to detect the first deviations.',
   'architecture.page.dashboard.model.description_view_only':
     'A project administrator should define the intended architecture to detect deviations.',
-  'architecture.page.model.saved': 'Model saved successfully',
+  'architecture.page.model.saved': 'Saved successfully',
   'architecture.page.model.no_data': 'No model data',
   'architecture.page.model.invalid_json': 'Invalid JSON format',
   'architecture.page.model.label': 'Model',
@@ -2046,6 +2046,8 @@ export const defaultMessages = {
   'architecture.page.model.errors.group.duplicate_sibling_labels':
     'Two sibling components cannot have the same name: "{groupKey}".',
   'architecture.page.model.errors.invalid_model': 'Unable to change model. {errors}',
+  'architecture.page.model.errors.action_needed':
+    'Failed to save. You must define relationships first.',
   'architecture.page.model.modal.move_component.title': 'Move Component',
   'architecture.page.model.modal.move_component.description':
     'Move the component and its code artifacts.',
