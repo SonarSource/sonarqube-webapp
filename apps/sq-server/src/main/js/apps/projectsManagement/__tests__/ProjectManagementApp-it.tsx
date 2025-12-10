@@ -637,7 +637,9 @@ it('should restore access to admin', async () => {
   await user.click(ui.restoreAccess.get());
   expect(ui.restoreAccessDialog.get()).toBeInTheDocument();
   await user.click(ui.restoreAccessDialog.by(ui.restore).get());
-  expect(ui.restoreAccessDialog.query()).not.toBeInTheDocument();
+  await waitFor(() => {
+    expect(ui.restoreAccessDialog.query()).not.toBeInTheDocument();
+  });
   await user.click(await ui.firstProjectActions.find());
   expect(ui.restoreAccess.query()).not.toBeInTheDocument();
   expect(ui.noActionsAvailable.query()).not.toBeInTheDocument();
@@ -664,7 +666,9 @@ it('should restore access for github project', async () => {
   await user.click(ui.restoreAccess.get());
   expect(ui.restoreAccessDialog.get()).toBeInTheDocument();
   await user.click(ui.restoreAccessDialog.by(ui.restore).get());
-  expect(ui.restoreAccessDialog.query()).not.toBeInTheDocument();
+  await waitFor(() => {
+    expect(ui.restoreAccessDialog.query()).not.toBeInTheDocument();
+  });
   await user.click(await ui.projectActions('Project 4').find());
   expect(ui.noActionsAvailable.query()).not.toBeInTheDocument();
   expect(ui.restoreAccess.query()).not.toBeInTheDocument();
