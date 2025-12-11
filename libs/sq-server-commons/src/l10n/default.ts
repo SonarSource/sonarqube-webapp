@@ -1613,6 +1613,8 @@ export const defaultMessages = {
   'dependencies.list.export_as_sbom.type.spdx_23': 'SPDX v2.3',
   'dependencies.list.export_as_sbom.type.spdx_30': 'SPDX v3.0',
   'dependencies.list.export_as_sbom.format.xml': 'XML',
+  'dependencies.risk.fixed_release_missing':
+    'Information about where it was introduced is no longer available.',
   'dependencies.risk.header.risk_severity': 'Severity of impact',
   'dependencies.risk.header.risk_severity.intro': 'How is the severity impact calculated?',
   'dependencies.risk.header.first_detected': 'First detected',
