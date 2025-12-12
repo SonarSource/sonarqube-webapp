@@ -37,7 +37,6 @@ export const PULL_REQUEST_DECORATION_BINDING_CATEGORY = 'pull_request_decoration
 export const EMAIL_NOTIFICATION_CATEGORY = 'email_notification';
 export const MODE_CATEGORY = 'mode';
 export const EARLY_ACCESS_FEATURES_CATEGORY = 'early_access_features';
-export const INSTANCE_INTEGRATIONS_CATEGORY = 'instance_integrations';
 export const JIRA_PROJECT_BINDING_CATEGORY = 'jira_project_binding';
 
 export const CATEGORY_OVERRIDES: Record<string, string> = {

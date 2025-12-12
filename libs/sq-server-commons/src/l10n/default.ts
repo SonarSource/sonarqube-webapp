@@ -9034,7 +9034,7 @@ export const defaultMessages = {
   'project_settings.jira_binding.edit_binding.description':
     'Issues previously pushed to "{name}" and earlier will be preserved, but all new issues will be pushed to your new Jira project.',
   'project_settings.jira_binding.organization_not_bound':
-    'Cannot connect until you bind your instance to Jira in <link>Administration -> Jira</link>',
+    'Cannot connect until you bind your instance to Jira in <link>Administration -> Integrations</link>',
   'project_settings.jira_binding.no_permissions':
     'To bind to a Jira project, your instance admin must grant binding permissions to project admins',
   'project_settings.jira_binding.bound.no_permissions':

@@ -21,7 +21,10 @@
 import * as React from 'react';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
 import { addons } from '~sq-server-addons/index';
-import { NEW_CODE_PERIOD_CATEGORY } from '~sq-server-commons/constants/settings';
+import {
+  INSTANCE_INTEGRATIONS_CATEGORY,
+  NEW_CODE_PERIOD_CATEGORY,
+} from '~sq-server-commons/constants/settings';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
@@ -33,7 +36,6 @@ import {
   AUTHENTICATION_CATEGORY,
   EARLY_ACCESS_FEATURES_CATEGORY,
   EMAIL_NOTIFICATION_CATEGORY,
-  INSTANCE_INTEGRATIONS_CATEGORY,
   JIRA_PROJECT_BINDING_CATEGORY,
   LANGUAGES_CATEGORY,
   MODE_CATEGORY,

@@ -19,3 +19,4 @@
  */
 
 export const NEW_CODE_PERIOD_CATEGORY = 'new_code_period';
+export const INSTANCE_INTEGRATIONS_CATEGORY = 'instance_integrations';
