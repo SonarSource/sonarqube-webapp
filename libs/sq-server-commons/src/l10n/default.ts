@@ -2036,7 +2036,7 @@ export const defaultMessages = {
   'architecture.project_too_big.body': "This project is too big and can't be displayed.",
   'architecture.page': 'Architecture',
   'architecture.page.discovery': 'Current architecture',
-  'architecture.page.model.visual.title': 'Architecture model',
+  'architecture.page.model.visual.title': 'Intended architecture',
   'architecture.page.model.visual.new_group': 'New Group',
   'architecture.page.model.visual.sidebar.title': 'Source Nodes',
   'architecture.page.model.visual.sidebar.description': 'Drag nodes to create groups in the model',
@@ -2083,7 +2083,6 @@ export const defaultMessages = {
   'architecture.page.model.modal.covered_by': 'covered by {pattern}',
   'architecture.page.model.modal.assigned': 'Assigned',
   'architecture.page.model.modal.unassigned': 'Unassigned',
-  'architecture.page.model.title': 'Architecture model',
   'architecture.page.model.subtitle': 'Define your architecture model as code',
   'architecture.page.model.description': 'You can define your architecture model as code below.',
   'architecture.page.model.docs':
