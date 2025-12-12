@@ -2061,7 +2061,7 @@ export const defaultMessages = {
   'architecture.page.model.modal.move_component_name': 'Component name',
   'architecture.page.model.modal.move_component_name_placeholder': 'Enter component name...',
   'architecture.page.model.modal.move_component.disabled_duplicate':
-    'This group has a child with the same name.',
+    'This component has a child with the same name.',
   'architecture.page.model.modal.code_artifacts': 'Code Artifacts',
   'architecture.page.model.modal.search_artifacts': 'Search artifacts',
   'architecture.page.model.modal.covered_by': 'covered by {pattern}',
