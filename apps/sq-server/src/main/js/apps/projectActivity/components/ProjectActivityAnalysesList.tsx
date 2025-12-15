@@ -19,16 +19,16 @@
  */
 
 import styled from '@emotion/styled';
-import { Spinner, Text } from '@sonarsource/echoes-react';
+import { Layout, Spinner, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { isEqual } from 'date-fns';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Badge, HelperHintIcon, themeColor } from '~design-system';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import { ComponentQualifier } from '~shared/types/component';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { toShortISO8601String } from '~sq-server-commons/helpers/dates';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { ParsedAnalysis } from '~sq-server-commons/types/project-activity';
 import { AnalysesByDay, Query, activityQueryChanged, getAnalysesByVersionByDay } from '../utils';
 import ProjectActivityAnalysis, { BaselineMarker } from './ProjectActivityAnalysis';
@@ -44,8 +44,6 @@ interface Props {
   project: { qualifier: string };
   query: Query;
 }
-
-const LIST_MARGIN_TOP = 24;
 
 export default class ProjectActivityAnalysesList extends React.PureComponent<Props> {
   scrollContainer?: HTMLUListElement | null;
@@ -129,37 +127,30 @@ export default class ProjectActivityAnalysesList extends React.PureComponent<Pro
     const hasData = analyses.length > 0 && hasFilteredData;
 
     return (
-      <>
+      // Top padding is handled by the sticky version tags
+      <Layout.AsideLeft className="sw-pt-0" size="large">
         <output>
-          <Spinner isLoading={initializing}>
+          <Spinner className="sw-my-4" isLoading={initializing}>
             {!hasData && (
-              <div className="sw-p-4 sw-typo-default">
-                <Text isSubtle>{translate('no_results')}</Text>
+              <div className="sw-my-4">
+                <Text isSubtle>
+                  <FormattedMessage id="no_results" />
+                </Text>
               </div>
             )}
           </Spinner>
         </output>
 
         {hasData && (
-          <ul
-            className="it__project-activity-versions-list sw-box-border sw-overflow-auto sw-grow sw-shrink-0 sw-py-0 sw-px-4"
-            ref={(element) => (this.scrollContainer = element)}
-            style={{
-              height: 'calc(100vh - 250px)',
-              marginTop:
-                this.props.project.qualifier === ComponentQualifier.Project
-                  ? LIST_MARGIN_TOP
-                  : undefined,
-            }}
-          >
+          <ul className="it__project-activity-versions-list">
             {newCodePeriod.baselineAnalysisKey !== undefined &&
               newCodePeriod.firstNewCodeAnalysisKey === undefined && (
                 <BaselineMarker className="sw-typo-default sw-mb-2">
                   <span className="sw-py-1/2 sw-px-1">
-                    {translate('project_activity.new_code_period_start')}
+                    <FormattedMessage id="project_activity.new_code_period_start" />
                   </span>
                   <Tooltip
-                    content={translate('project_activity.new_code_period_start.help')}
+                    content={<FormattedMessage id="project_activity.new_code_period_start.help" />}
                     side="top"
                   >
                     <HelperHintIcon className="sw-ml-1" />
@@ -167,7 +158,7 @@ export default class ProjectActivityAnalysesList extends React.PureComponent<Pro
                 </BaselineMarker>
               )}
 
-            {byVersionByDay.map((version, idx) => {
+            {byVersionByDay.map((version) => {
               const days = Object.keys(version.byDay);
               if (days.length <= 0) {
                 return null;
@@ -178,14 +169,13 @@ export default class ProjectActivityAnalysesList extends React.PureComponent<Pro
                   {version.version && (
                     <VersionTagStyled
                       className={classNames(
-                        'sw-sticky sw-top-0 sw-left-0 sw-pb-1 -sw-ml-4 sw-z-normal',
-                        {
-                          'sw-top-0 sw-pt-0': idx === 0,
-                        },
+                        'sw-sticky sw-top-0 sw-left-0 sw-pt-4 sw-pb-1 sw--ml-4 sw-z-normal',
                       )}
                     >
                       <Tooltip
-                        content={`${translate('version')} ${version.version}`}
+                        content={
+                          <FormattedMessage id="version_x" values={{ 0: version.version }} />
+                        }
                         mouseEnterDelay={0.5}
                       >
                         <Badge className="sw-p-1">{version.version}</Badge>
@@ -220,7 +210,7 @@ export default class ProjectActivityAnalysesList extends React.PureComponent<Pro
             )}
           </ul>
         )}
-      </>
+      </Layout.AsideLeft>
     );
   }
 }

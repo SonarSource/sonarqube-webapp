@@ -18,10 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import styled from '@emotion/styled';
 import { debounce, findLast, maxBy, minBy, sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage } from '~design-system';
+import { FlagMessage, themeBorder, themeColor } from '~design-system';
 import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import GraphsHeader from '~sq-server-commons/components/activity-graph/GraphsHeader';
@@ -248,7 +249,7 @@ export default class ProjectActivityGraphs extends React.PureComponent<Props, St
     const { graphEndDate, graphStartDate, series } = this.state;
 
     return (
-      <div className="sw-px-5 sw-py-4 sw-h-full sw-flex sw-flex-col sw-box-border">
+      <ProjectActivityWrapper className="sw-grow sw-flex sw-flex-col sw-p-4 sw-min-h-[30rem]">
         <GraphsHeader
           className="sw-mb-4"
           graph={query.graph}
@@ -285,7 +286,12 @@ export default class ProjectActivityGraphs extends React.PureComponent<Props, St
           series={series}
           showAreas={[GraphType.coverage, GraphType.duplications].includes(query.graph)}
         />
-      </div>
+      </ProjectActivityWrapper>
     );
   }
 }
+
+const ProjectActivityWrapper = styled.div`
+  border: ${themeBorder('default', 'pageBlockBorder')};
+  background-color: ${themeColor('pageBlock')};
+`;

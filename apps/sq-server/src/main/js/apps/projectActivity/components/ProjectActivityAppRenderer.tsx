@@ -18,13 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
-import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout, themeBorder, themeColor } from '~design-system';
+import { Layout } from '@sonarsource/echoes-react';
+import { useIntl } from 'react-intl';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
+import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { ComponentQualifier } from '~shared/types/component';
 import { Metric } from '~shared/types/measures';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { MeasureHistory, ParsedAnalysis } from '~sq-server-commons/types/project-activity';
 import { Component } from '~sq-server-commons/types/types';
 import { Query } from '../utils';
@@ -59,17 +58,35 @@ export default function ProjectActivityAppRenderer(props: Props) {
     project,
     isStandardMode,
   } = props;
+  const intl = useIntl();
   const { configuration, qualifier } = props.project;
   const canAdmin =
     (qualifier === ComponentQualifier.Project || qualifier === ComponentQualifier.Application) &&
     configuration?.showHistory;
   const canDeleteAnalyses = configuration?.showHistory;
-  return (
-    <main className="sw-p-5" id="project-activity">
-      <Helmet defer={false} title={translate('project_activity.page')} />
 
+  return (
+    <ProjectPageTemplate
+      asideLeft={
+        <ProjectActivityAnalysesList
+          analyses={analyses}
+          analysesLoading={analysesLoading}
+          canAdmin={canAdmin}
+          canDeleteAnalyses={canDeleteAnalyses}
+          initializing={initializing}
+          leakPeriodDate={leakPeriodDate}
+          onUpdateQuery={props.onUpdateQuery}
+          project={project}
+          query={query}
+        />
+      }
+      pageClassName="it__project-activity"
+      skipPageContentWrapper
+      title={intl.formatMessage({ id: 'project_activity.page' })}
+      width="fluid"
+    >
       <A11ySkipTarget anchor="activity_main" />
-      <LargeCenteredLayout>
+      <Layout.PageContent className="sw-flex sw-flex-col">
         <ProjectActivityPageFilters
           category={query.category}
           from={query.from}
@@ -78,40 +95,18 @@ export default function ProjectActivityAppRenderer(props: Props) {
           updateQuery={props.onUpdateQuery}
         />
 
-        <div className="sw-grid sw-grid-cols-12 sw-gap-x-12">
-          <StyledWrapper className="sw-col-span-4 sw-rounded-1">
-            <ProjectActivityAnalysesList
-              analyses={analyses}
-              analysesLoading={analysesLoading}
-              canAdmin={canAdmin}
-              canDeleteAnalyses={canDeleteAnalyses}
-              initializing={initializing}
-              leakPeriodDate={leakPeriodDate}
-              onUpdateQuery={props.onUpdateQuery}
-              project={project}
-              query={query}
-            />
-          </StyledWrapper>
-          <StyledWrapper className="sw-col-span-8 sw-rounded-1">
-            <ProjectActivityGraphs
-              analyses={analyses}
-              isStandardMode={isStandardMode}
-              leakPeriodDate={leakPeriodDate}
-              loading={graphLoading}
-              measuresHistory={measuresHistory}
-              metrics={metrics}
-              project={project.key}
-              query={query}
-              updateQuery={props.onUpdateQuery}
-            />
-          </StyledWrapper>
-        </div>
-      </LargeCenteredLayout>
-    </main>
+        <ProjectActivityGraphs
+          analyses={analyses}
+          isStandardMode={isStandardMode}
+          leakPeriodDate={leakPeriodDate}
+          loading={graphLoading}
+          measuresHistory={measuresHistory}
+          metrics={metrics}
+          project={project.key}
+          query={query}
+          updateQuery={props.onUpdateQuery}
+        />
+      </Layout.PageContent>
+    </ProjectPageTemplate>
   );
 }
-
-const StyledWrapper = styled.div`
-  border: ${themeBorder('default', 'filterbarBorder')};
-  background-color: ${themeColor('backgroundSecondary')};
-`;
