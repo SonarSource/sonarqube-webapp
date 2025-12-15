@@ -1803,6 +1803,9 @@ export const defaultMessages = {
   'dependencies.risks.details.not_found.body':
     'The dependency risk you are trying to view may not exist anymore, or there may be a problem with its identifier.',
   'dependencies.risks.details.not_found.go_back_text': 'Go back to all risks',
+  'dependencies.risks.details.license_profile_missing.title': 'License profile not found',
+  'dependencies.risks.details.license_profile_missing.body':
+    'The license profile associated with this dependency risk is no longer available. Please ensure that a valid license profile is assigned to the project and rescan.',
   'dependencies.risks.affected_dependency': 'Affected dependency',
   'dependencies.risks.more': '+{count} more',
   'dependencies.risks.activity.initial_activity': 'Dependency risk first detected',
