@@ -23,29 +23,34 @@ import { uniqBy } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, themeBorder } from '~design-system';
-import { withRouter } from '~shared/components/hoc/withRouter';
-import { Location } from '~shared/types/router';
+import { useLocation } from '~shared/components/hoc/withRouter';
+import { isDefined } from '~shared/helpers/types';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
 import ModeBanner from '~sq-server-commons/components/common/ModeBanner';
 import { BitbucketCloudAppDeprecationMessage } from '~sq-server-commons/components/devops-platform/BitbucketCloudAppDeprecationMessage';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
+import { AdminPageTemplate } from '../../../app/components/AdminPageTemplate';
 import { CATEGORY_OVERRIDES } from '../constants';
-import { getDefaultCategory } from '../utils';
+import { getDefaultCategory, usePurchasableFeature } from '../utils';
 import { ADDITIONAL_CATEGORIES } from './AdditionalCategories';
 import AllCategoriesList from './AllCategoriesList';
 import CategoryDefinitionsList from './CategoryDefinitionsList';
 import PageHeader from './PageHeader';
+import SettingsSearch from './SettingsSearch';
+import { useSettingsAppHeader } from './useSettingsAppHeader';
 
 export interface SettingsAppRendererProps {
   component?: Component;
   definitions: ExtendedSettingDefinition[];
   loading: boolean;
-  location: Location;
 }
 
 function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
-  const { definitions, component, loading, location } = props;
+  const { definitions, component, loading } = props;
+
+  const location = useLocation();
+  const scaFeature = usePurchasableFeature(Feature.Sca);
 
   const categories = React.useMemo(() => {
     return uniqBy(
@@ -64,22 +69,30 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
   const overriddenCategory = CATEGORY_OVERRIDES[originalCategory.toLowerCase()];
   const selectedCategory = overriddenCategory || originalCategory;
   const foundAdditionalCategory = ADDITIONAL_CATEGORIES.find((c) => c.key === selectedCategory);
-  const isProjectSettings = component;
+  const isProjectSettings = isDefined(component);
   const shouldRenderAdditionalCategory =
     foundAdditionalCategory &&
     ((isProjectSettings && foundAdditionalCategory.availableForProject) ||
       (!isProjectSettings && foundAdditionalCategory.availableGlobally));
 
   return (
-    <LargeCenteredLayout id="settings-page">
-      <Helmet defer={false} title={translate('settings.page')} />
-
+    <Wrapper component={component}>
       <BitbucketCloudAppDeprecationMessage className="sw-mt-8" />
 
       <ModeBanner as="wideBanner" />
 
       <div className="sw-my-8">
-        <PageHeader component={component} definitions={definitions} />
+        {isProjectSettings ? (
+          <PageHeader component={component} definitions={definitions} />
+        ) : (
+          <div className="sw-mb-4">
+            <SettingsSearch
+              component={component}
+              definitions={definitions}
+              showAdvancedSecurity={scaFeature?.isAvailable ?? false}
+            />
+          </div>
+        )}
 
         <div className="sw-typo-default sw-flex sw-items-stretch sw-justify-between">
           <div className="sw-min-w-abs-250">
@@ -113,11 +126,34 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
           </StyledBox>
         </div>
       </div>
-    </LargeCenteredLayout>
+    </Wrapper>
   );
 }
 
-export default withRouter(SettingsAppRenderer);
+function Wrapper({ children, component }: React.PropsWithChildren<{ component?: Component }>) {
+  const { pageTitle, pageDescription } = useSettingsAppHeader(component);
+
+  if (isDefined(component)) {
+    return (
+      <LargeCenteredLayout id="settings-page">
+        <Helmet defer={false} title={pageTitle} />
+        {children}
+      </LargeCenteredLayout>
+    );
+  }
+
+  return (
+    <AdminPageTemplate
+      breadcrumbs={[{ linkElement: pageTitle }]}
+      description={pageDescription}
+      title={pageTitle}
+    >
+      {children}
+    </AdminPageTemplate>
+  );
+}
+
+export default SettingsAppRenderer;
 
 const StyledBox = styled.div`
   border: ${themeBorder('default', 'subnavigationBorder')};

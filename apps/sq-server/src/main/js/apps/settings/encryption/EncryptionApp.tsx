@@ -20,77 +20,56 @@
 
 import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout, Title } from '~design-system';
+import { useIntl } from 'react-intl';
+import useEffectOnce from '~shared/helpers/useEffectOnce';
 import { checkSecretKey, generateSecretKey } from '~sq-server-commons/api/settings';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { AdminPageTemplate } from '../../../app/components/AdminPageTemplate';
 import EncryptionForm from './EncryptionForm';
 import GenerateSecretKeyForm from './GenerateSecretKeyForm';
 
-interface State {
-  loading: boolean;
-  secretKey?: string;
-  secretKeyAvailable?: boolean;
-}
+export default function EncryptionApp() {
+  const { formatMessage } = useIntl();
 
-export default class EncryptionApp extends React.PureComponent<{}, State> {
-  state: State = { loading: true };
-  mounted = false;
+  const [loading, setLoading] = React.useState(true);
+  const [secretKey, setSecretKey] = React.useState('');
+  const [secretKeyAvailable, setSecretKeyAvailable] = React.useState(false);
 
-  componentDidMount() {
-    this.mounted = true;
-    this.checkSecretKey();
-  }
+  useEffectOnce(() => {
+    initialize();
+  });
 
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  checkSecretKey = () => {
+  const initialize = React.useCallback(() => {
     checkSecretKey().then(
       ({ secretKeyAvailable }) => {
-        if (this.mounted) {
-          this.setState({ loading: false, secretKeyAvailable });
-        }
+        setLoading(false);
+        setSecretKeyAvailable(secretKeyAvailable);
       },
       () => {
-        if (this.mounted) {
-          this.setState({ loading: false });
-        }
+        setLoading(false);
       },
     );
-  };
+  }, []);
 
-  generateSecretKey = () => {
+  const doGenerateSecretKey = React.useCallback(() => {
     return generateSecretKey().then(({ secretKey }) => {
-      if (this.mounted) {
-        this.setState({ secretKey, secretKeyAvailable: false });
-      }
+      setSecretKey(secretKey);
+      setSecretKeyAvailable(false);
     });
-  };
+  }, []);
 
-  render() {
-    const { loading, secretKey, secretKeyAvailable } = this.state;
+  const pageTitle = formatMessage({ id: 'property.category.security.encryption' });
 
-    return (
-      <LargeCenteredLayout id="encryption-page">
-        <div className="sw-my-8">
-          <Helmet defer={false} title={translate('property.category.security.encryption')} />
-          <header>
-            <Title>{translate('property.category.security.encryption')}</Title>
-            <Spinner isLoading={loading} />
-          </header>
-
-          {!loading && !secretKeyAvailable && (
-            <GenerateSecretKeyForm
-              generateSecretKey={this.generateSecretKey}
-              secretKey={secretKey}
-            />
+  return (
+    <AdminPageTemplate breadcrumbs={[{ linkElement: pageTitle }]} title={pageTitle}>
+      <div className="sw-my-8" id="encryption-page">
+        <Spinner isLoading={loading}>
+          {!secretKeyAvailable && (
+            <GenerateSecretKeyForm generateSecretKey={doGenerateSecretKey} secretKey={secretKey} />
           )}
+        </Spinner>
 
-          {secretKeyAvailable && <EncryptionForm generateSecretKey={this.generateSecretKey} />}
-        </div>
-      </LargeCenteredLayout>
-    );
-  }
+        {secretKeyAvailable && <EncryptionForm generateSecretKey={doGenerateSecretKey} />}
+      </div>
+    </AdminPageTemplate>
+  );
 }

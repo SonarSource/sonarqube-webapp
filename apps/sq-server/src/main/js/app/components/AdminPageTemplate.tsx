@@ -30,7 +30,7 @@ import { FormattedMessage } from 'react-intl';
 import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 
 interface Props extends PropsWithChildren {
-  actions: PageHeaderProps['actions'];
+  actions?: PageHeaderProps['actions'];
   asideLeft?: ReactNode;
   breadcrumbs: BreadcrumbsProps['items'];
   description?: PageHeaderProps['description'];

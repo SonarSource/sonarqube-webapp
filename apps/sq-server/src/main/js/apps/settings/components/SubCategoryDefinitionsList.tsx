@@ -80,7 +80,11 @@ class SubCategoryDefinitionsList extends React.PureComponent<SubCategoryDefiniti
   scrollToSubCategoryOrDefinition = (element: HTMLHeadingElement | HTMLLIElement | null) => {
     if (element) {
       const { hash } = this.props.location;
-      if (hash.length > 0 && hash.substring(1) === element.getAttribute('data-scroll-key')) {
+      if (
+        hash.length > 0 &&
+        hash.substring(1).toLocaleLowerCase() ===
+          element.getAttribute('data-scroll-key')?.toLocaleLowerCase()
+      ) {
         element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
       }
     }
