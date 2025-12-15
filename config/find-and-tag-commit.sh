@@ -146,7 +146,7 @@ read -r -p "Proceed with tagging sonarqube-webapp commit $sqw_commit_hash_match 
 if [[ "$confirmation" == "Y" || "$confirmation" == "y" || "$confirmation" == "yes" ]]; then
   echo "Tagging commit $sqw_commit_hash_match with tag '$NEW_SQW_TAG' in $SONARQUBE_WEBAPP_PATH..."
 
-  if (cd "$SONARQUBE_WEBAPP_PATH" && git tag "$NEW_SQW_TAG" "$sqw_commit_hash_match"); then
+  if (cd "$SONARQUBE_WEBAPP_PATH" && git tag "$NEW_SQW_TAG" "$sqw_commit_hash_match" --no-sign); then
     echo "Successfully tagged $sqw_commit_hash_match with $NEW_SQW_TAG in sonarqube-webapp."
     echo "IMPORTANT: Remember to push the tag to the remote repository:"
     echo "  (cd \"$SONARQUBE_WEBAPP_PATH\" && git push origin \"$NEW_SQW_TAG\")"
