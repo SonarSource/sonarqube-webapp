@@ -432,8 +432,9 @@ describe('redirects', () => {
 
     // The component should redirect from /dashboard to /portfolio route
     // We need to wait for both the navigation breadcrumb and the route content
-    await ui.portfolioTitle.find();
-    expect(ui.portfolioText.getAll()).toHaveLength(2); // breadcrumb link text + route div
+    await waitFor(() => {
+      expect(ui.portfolioText.getAll()).toHaveLength(2); // breadcrumb link text + route div
+    });
   });
 
   it('should fix broken query parameters from GH UI', async () => {
