@@ -255,7 +255,7 @@ build-sonar:
 
 exports[`should follow and complete all steps: Groovy: build.gradle 1`] = `
 "plugins {
-  id "org.sonarqube" version "7.2.0.6526"
+  id "org.sonarqube" version "7.2.1.6560"
 }
 
 sonar {
@@ -269,7 +269,7 @@ sonar {
 
 exports[`should follow and complete all steps: Kotlin: build.gradle.kts 1`] = `
 "plugins {
-  id ("org.sonarqube") version "7.2.0.6526"
+  id ("org.sonarqube") version "7.2.1.6560"
 }
 
 sonar {
