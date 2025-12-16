@@ -25,6 +25,7 @@ import { isEqual } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
+import { useFlags } from '~adapters/helpers/feature-flags';
 import { Theme } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Extension as TypeExtension } from '~shared/types/common';
@@ -52,11 +53,28 @@ export interface ExtensionProps extends WrappedComponentProps {
   router: Router;
   theme: Theme;
   updateCurrentUserHomepage: (homepage: HomePage) => void;
+  usesSidebarNavigation?: boolean;
 }
 
 interface State {
   extensionElement?: React.ReactElement<unknown>;
 }
+
+// Maps internal SonarSource extension keys to their page templates.
+// Different page contexts (project, project admin, portfolio) will need different templates.
+// Only extension keys listed here will receive ExtensionPageTemplate and usesSidebarNavigation.
+const EXTENSION_PAGE_TEMPLATES: Record<string, React.ComponentType | undefined> = {
+  // TODO: this is not ready yet as it requires sync with sonar-enterprise, but it will include
+  // something like:
+  // 'developer-server/application-console': TBD,
+  // 'governance/application_report': TBD,
+  // 'governance/console': TBD,
+  // 'governance/portfolio': ProjectPageTemplate,
+  // 'governance/portfolios': TBD,
+  // 'governance/report': TBD,
+  // 'governance/views_console': TBD,
+  // 'securityreport/securityreport': ProjectPageTemplate,
+};
 
 class Extension extends React.PureComponent<ExtensionProps, State> {
   container?: HTMLElement | null;
@@ -81,7 +99,10 @@ class Extension extends React.PureComponent<ExtensionProps, State> {
   }
 
   handleStart = (start: ExtensionStartMethod) => {
-    const { theme, queryClient } = this.props;
+    const { queryClient, theme, usesSidebarNavigation } = this.props;
+
+    const isInternalExtension = this.props.extension.key in EXTENSION_PAGE_TEMPLATES;
+    const ExtensionPageTemplate = EXTENSION_PAGE_TEMPLATES[this.props.extension.key];
 
     const result = start({
       appState: this.props.appState,
@@ -89,6 +110,7 @@ class Extension extends React.PureComponent<ExtensionProps, State> {
       baseUrl: getBaseUrl(),
       currentUser: this.props.currentUser,
       el: this.container,
+      ...(ExtensionPageTemplate && { ExtensionPageTemplate }),
       intl: this.props.intl,
       l10nBundle: getCurrentL10nBundle(),
       location: this.props.location,
@@ -98,6 +120,7 @@ class Extension extends React.PureComponent<ExtensionProps, State> {
       // See SONAR-16207 and core-extension-enterprise-server/src/main/js/portfolios/components/Header.tsx
       // for more information on why we're passing this as a prop to an extension.
       updateCurrentUserHomepage: this.props.updateCurrentUserHomepage,
+      ...(isInternalExtension && { usesSidebarNavigation }),
       ...this.props.options,
     });
 
@@ -132,7 +155,11 @@ class Extension extends React.PureComponent<ExtensionProps, State> {
 
   render() {
     return (
-      <div>
+      // sw-contents (display: contents) makes this wrapper transparent to CSS Grid layout.
+      // This allows extensions to render Layout components (AsideLeft, PageGrid) that need to be
+      // direct grid children of ContentGrid (which is rendered by ComponentContainer).
+      // Without display: contents, this div would break the grid-area placement.
+      <div className="sw-contents">
         <Helmet title={this.props.extension.name} />
 
         {this.state.extensionElement ? (
@@ -145,9 +172,19 @@ class Extension extends React.PureComponent<ExtensionProps, State> {
   }
 }
 
-function ExtensionWithAvailableFeaturesHoC(props: Readonly<ExtensionProps>) {
+function ExtensionWithAvailableFeaturesHoC(
+  props: Readonly<Omit<ExtensionProps, 'availableFeatures' | 'usesSidebarNavigation'>>,
+) {
   const availableFeatures = React.useContext(AvailableFeaturesContext);
-  return <Extension {...props} availableFeatures={availableFeatures} />;
+  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
+
+  return (
+    <Extension
+      {...props}
+      availableFeatures={availableFeatures}
+      usesSidebarNavigation={frontEndEngineeringEnableSidebarNavigation ?? false}
+    />
+  );
 }
 
 export default injectIntl(

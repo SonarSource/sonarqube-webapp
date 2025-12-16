@@ -125,6 +125,7 @@ export default function GlobalContainer() {
         <ModeTour />
         <PromotionNotification />
       </Workspace>
+      <StartupLicenseCheckModal />
     </MetricsContextProvider>
   ) : (
     <MetricsContextProvider>
