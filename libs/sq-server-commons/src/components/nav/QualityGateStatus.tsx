@@ -26,13 +26,13 @@ import { BranchLike } from '../../types/branch-like';
 
 interface Props {
   branchLike: BranchLike;
-  className: string;
+  className?: string;
   showStatusText?: boolean;
+  indicatorSize?: 'sm' | 'md';
 }
 
 export default function QualityGateStatus(props: Readonly<Props>) {
-  const { className, showStatusText, branchLike } = props;
-
+  const { className, showStatusText, branchLike, indicatorSize = 'sm' } = props;
   // eslint-disable-next-line @typescript-eslint/prefer-optional-chain, @typescript-eslint/no-unnecessary-condition
   if (!branchLike.status?.qualityGateStatus) {
     return null;
@@ -43,7 +43,7 @@ export default function QualityGateStatus(props: Readonly<Props>) {
     <div className={classNames(`it__level-${branchLike.status.qualityGateStatus}`, className)}>
       <QualityGateIndicator
         className="sw-mr-2"
-        size="sm"
+        size={indicatorSize}
         status={branchLike.status?.qualityGateStatus}
       />
       {showStatusText && <span>{formatted}</span>}

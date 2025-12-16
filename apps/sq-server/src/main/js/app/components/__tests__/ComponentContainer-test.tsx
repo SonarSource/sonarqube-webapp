@@ -370,11 +370,25 @@ describe('should correctly validate the project binding depending on the context
   });
   const PROJECT_BINDING_ERRORS = mockProjectAlmBindingConfigurationErrors();
 
+  it("has an analysis; won't perform any check", async () => {
+    jest
+      .mocked(getComponentNavigation)
+      .mockResolvedValueOnce({} as unknown as Awaited<ReturnType<typeof getComponentNavigation>>);
+
+    jest.mocked(getComponentData).mockResolvedValueOnce({
+      component: { ...COMPONENT, analysisDate: '2020-01' },
+    } as unknown as Awaited<ReturnType<typeof getComponentData>>);
+
+    renderComponentContainer();
+    await waitFor(() => {
+      expect(validateProjectAlmBinding).toHaveBeenCalledTimes(0);
+    });
+  });
+
   it.each([
-    ["has an analysis; won't perform any check", { ...COMPONENT, analysisDate: '2020-01' }],
-    ['has a project binding; check is OK', COMPONENT, undefined, 1],
-    ['has a project binding; check is not OK', COMPONENT, PROJECT_BINDING_ERRORS, 1],
-  ])('%s', async (_, component, projectBindingErrors = undefined, n = 0) => {
+    ['has a project binding; check is OK', COMPONENT, undefined],
+    ['has a project binding; check is not OK', COMPONENT, PROJECT_BINDING_ERRORS],
+  ])('%s', async (_, component, projectBindingErrors = undefined) => {
     jest
       .mocked(getComponentNavigation)
       .mockResolvedValueOnce({} as unknown as Awaited<ReturnType<typeof getComponentNavigation>>);
@@ -385,13 +399,11 @@ describe('should correctly validate the project binding depending on the context
         ReturnType<typeof getComponentData>
       >);
 
-    if (n > 0) {
-      jest.mocked(validateProjectAlmBinding).mockResolvedValueOnce(projectBindingErrors);
-    }
+    jest.mocked(validateProjectAlmBinding).mockResolvedValue(projectBindingErrors);
 
     renderComponentContainer();
     await waitFor(() => {
-      expect(validateProjectAlmBinding).toHaveBeenCalledTimes(n);
+      expect(validateProjectAlmBinding).toHaveBeenCalled();
     });
   });
 
@@ -406,7 +418,7 @@ describe('should correctly validate the project binding depending on the context
         ReturnType<typeof getComponentData>
       >);
 
-    jest.mocked(validateProjectAlmBinding).mockResolvedValueOnce(PROJECT_BINDING_ERRORS);
+    jest.mocked(validateProjectAlmBinding).mockResolvedValue(PROJECT_BINDING_ERRORS);
 
     renderComponentContainerAsComponent();
     expect(

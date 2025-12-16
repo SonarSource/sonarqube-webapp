@@ -39,6 +39,7 @@ import StateCallbackHandler from '~shared/components/StateCallbackHandler';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { addons } from '~sq-server-addons/index';
 import SuggestionsProvider from '~sq-server-commons/components/embed-docs-modal/SuggestionsProvider';
+import { AddonsContext } from '~sq-server-commons/context/addons/AddonsContext';
 import { DEFAULT_APP_STATE } from '~sq-server-commons/context/app-state/AppStateContext';
 import AppStateContextProvider from '~sq-server-commons/context/app-state/AppStateContextProvider';
 import {
@@ -362,20 +363,22 @@ export default function startReactApp(
     <HelmetProvider>
       <AppStateContextProvider appState={appState ?? DEFAULT_APP_STATE}>
         <AvailableFeaturesContext.Provider value={availableFeatures}>
-          <CurrentUserContextProvider currentUser={currentUser}>
-            <RawIntlProvider value={l10nBundle}>
-              <ThemeProvider theme={lightTheme}>
-                <QueryClientProvider client={queryClient}>
-                  <GlobalStyles />
-                  <Helmet titleTemplate={translate('page_title.template.default')} />
+          <AddonsContext.Provider value={addons}>
+            <CurrentUserContextProvider currentUser={currentUser}>
+              <RawIntlProvider value={l10nBundle}>
+                <ThemeProvider theme={lightTheme}>
+                  <QueryClientProvider client={queryClient}>
+                    <GlobalStyles />
+                    <Helmet titleTemplate={translate('page_title.template.default')} />
 
-                  <RouterProvider router={router({ availableFeatures, optInFeatures })} />
+                    <RouterProvider router={router({ availableFeatures, optInFeatures })} />
 
-                  <ReactQueryDevtools initialIsOpen={false} />
-                </QueryClientProvider>
-              </ThemeProvider>
-            </RawIntlProvider>
-          </CurrentUserContextProvider>
+                    <ReactQueryDevtools initialIsOpen={false} />
+                  </QueryClientProvider>
+                </ThemeProvider>
+              </RawIntlProvider>
+            </CurrentUserContextProvider>
+          </AddonsContext.Provider>
         </AvailableFeaturesContext.Provider>
       </AppStateContextProvider>
     </HelmetProvider>,

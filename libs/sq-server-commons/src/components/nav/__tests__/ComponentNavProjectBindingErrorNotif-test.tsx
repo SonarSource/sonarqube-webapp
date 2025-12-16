@@ -21,14 +21,36 @@
 import { screen } from '@testing-library/react';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { Feature } from '~sq-server-commons/types/features';
 import ComponentNavProjectBindingErrorNotif, {
   ComponentNavProjectBindingErrorNotifProps,
 } from '../ComponentNavProjectBindingErrorNotif';
 
-it('should not show a link if use is not allowed', () => {
+jest.mock('~sq-server-commons/api/alm-settings', () => {
+  return {
+    validateProjectAlmBinding: jest
+      .fn()
+      .mockResolvedValue(
+        jest
+          .requireActual<
+            typeof import('~sq-server-commons/helpers/mocks/alm-settings')
+          >('~sq-server-commons/helpers/mocks/alm-settings')
+          .mockProjectAlmBindingConfigurationErrors(),
+      ),
+  };
+});
+
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
+it('should not show a link if use is not allowed', async () => {
   renderComponentNavProjectBindingErrorNotif({
     component: mockComponent({ configuration: { showSettings: false } }),
   });
+  expect(
+    await screen.findByText(/component_navigation.pr_deco.action.contact_project_admin/),
+  ).toBeInTheDocument();
   expect(
     screen.queryByRole('link', {
       name: 'component_navigation.pr_deco.action.check_project_settings',
@@ -36,12 +58,12 @@ it('should not show a link if use is not allowed', () => {
   ).not.toBeInTheDocument();
 });
 
-it('should show a link if use is allowed', () => {
+it('should show a link if use is allowed', async () => {
   renderComponentNavProjectBindingErrorNotif({
     component: mockComponent({ configuration: { showSettings: true } }),
   });
   expect(
-    screen.getByRole('link', {
+    await screen.findByRole('link', {
       name: 'component_navigation.pr_deco.action.check_project_settings',
     }),
   ).toBeInTheDocument();
@@ -52,5 +74,7 @@ function renderComponentNavProjectBindingErrorNotif(
 ) {
   return renderComponent(
     <ComponentNavProjectBindingErrorNotif component={mockComponent()} {...props} />,
+    '',
+    { featureList: [Feature.BranchSupport] },
   );
 }

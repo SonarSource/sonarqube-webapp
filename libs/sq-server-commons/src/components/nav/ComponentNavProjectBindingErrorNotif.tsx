@@ -18,11 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Banner, Link } from '@sonarsource/echoes-react';
+import { Link, MessageCallout } from '@sonarsource/echoes-react';
+import { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { ComponentQualifier } from '~shared/types/component';
+import { validateProjectAlmBinding } from '~sq-server-commons/api/alm-settings';
+import { PULL_REQUEST_DECORATION_BINDING_CATEGORY } from '~sq-server-commons/constants/settings';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { getProjectSettingsUrl } from '~sq-server-commons/helpers/urls';
+import { ProjectAlmBindingConfigurationErrors } from '~sq-server-commons/types/alm-settings';
+import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
-import { PULL_REQUEST_DECORATION_BINDING_CATEGORY } from '../../../../apps/settings/constants';
 
 export interface ComponentNavProjectBindingErrorNotifProps {
   component: Component;
@@ -32,8 +38,40 @@ export default function ComponentNavProjectBindingErrorNotif(
   props: Readonly<ComponentNavProjectBindingErrorNotifProps>,
 ) {
   const { component } = props;
-  let action;
+  const { hasFeature } = useAvailableFeatures();
+  const [projectBindingErrors, setProjectBindingErrors] =
+    useState<ProjectAlmBindingConfigurationErrors>();
 
+  const fetchProjectBindingErrors = useCallback(
+    async (component: Component) => {
+      if (
+        component.qualifier === ComponentQualifier.Project &&
+        component.analysisDate === undefined &&
+        hasFeature(Feature.BranchSupport)
+      ) {
+        try {
+          const projectBindingErrors = await validateProjectAlmBinding(component.key);
+          setProjectBindingErrors(projectBindingErrors);
+        } catch {
+          setProjectBindingErrors(undefined);
+        }
+      }
+    },
+    [hasFeature],
+  );
+
+  // Fetch errors when component has changed
+  useEffect(() => {
+    if (component) {
+      fetchProjectBindingErrors(component);
+    }
+  }, [component, fetchProjectBindingErrors]);
+
+  if (!projectBindingErrors) {
+    return null;
+  }
+
+  let action;
   if (component.configuration?.showSettings) {
     action = (
       <Link
@@ -48,8 +86,8 @@ export default function ComponentNavProjectBindingErrorNotif(
   }
 
   return (
-    <Banner disableFollowScroll variety="warning">
+    <MessageCallout variety="warning">
       <FormattedMessage id="component_navigation.pr_deco.error_detected_X" values={{ action }} />
-    </Banner>
+    </MessageCallout>
   );
 }

@@ -21,6 +21,7 @@
 import { LinkHighlight } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
+import { DismissableMessageCallout } from '~shared/components/common/DismissableMessageCallout';
 import { isPullRequest } from '~shared/helpers/branch-like';
 import { LightComponent } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
@@ -28,7 +29,6 @@ import { DocLink } from '../../helpers/doc-links';
 import { useMeasureQuery } from '../../queries/measures';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
 import DocumentationLink from '../common/DocumentationLink';
-import { DismissableBanner } from '../ui/DismissableBanner';
 
 interface AnalysisMissingInfoMessageProps {
   component: LightComponent;
@@ -69,7 +69,7 @@ export function ComponentMissingMqrMetricsMessage({
   }
 
   return (
-    <DismissableBanner alertKey={`${ALERT_KEY}_${componentKey}`} variety="info">
+    <DismissableMessageCallout alertKey={`${ALERT_KEY}_${componentKey}`} variety="info">
       <FormattedMessage
         id="overview.missing_project_data"
         tagName="div"
@@ -87,6 +87,6 @@ export function ComponentMissingMqrMetricsMessage({
           ),
         }}
       />
-    </DismissableBanner>
+    </DismissableMessageCallout>
   );
 }

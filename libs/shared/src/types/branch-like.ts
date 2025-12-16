@@ -18,7 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { To } from 'react-router-dom';
 import { QGStatus } from './common';
+import { ComponentBase } from './component';
 
 /**
  * For Web API V2, use BranchLikeParameters instead
@@ -65,4 +67,11 @@ export interface PullRequestBase {
   target: string;
   title: string;
   url?: string;
+}
+
+export interface ProjectBranchSelectorProps {
+  className?: string;
+  component: ComponentBase;
+  currentBranchLike: BranchLikeBase;
+  overridePath?: To;
 }
