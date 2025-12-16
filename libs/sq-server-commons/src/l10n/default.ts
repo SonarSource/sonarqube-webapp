@@ -2068,6 +2068,8 @@ export const defaultMessages = {
   'architecture.page.model.errors.invalid_model': 'Unable to change model. {errors}',
   'architecture.page.model.errors.action_needed':
     'Failed to save. You must define relationships first.',
+  'architecture.page.model.errors.group.name_cannot_contain_slash':
+    'A component name cannot contain a slash.',
   'architecture.page.model.modal.move_component.title': 'Move "{label}"',
   'architecture.page.model.modal.move_component.description':
     'Move the component and its code artifacts.',
@@ -2080,10 +2082,10 @@ export const defaultMessages = {
   'architecture.page.model.modal.move_component.disabled_duplicate':
     'This component has a child with the same name.',
   'architecture.page.model.modal.rename_component.title': 'Rename "{label}"',
-  'architecture.page.model.modal.rename_component.new_name': 'New name:',
+  'architecture.page.model.modal.rename_component.new_name': 'New name',
   'architecture.page.model.modal.add_placeholder.title': 'Add placeholder',
   'architecture.page.model.modal.add_placeholder.kind_of_component': 'Kind of component',
-  'architecture.page.model.modal.add_placeholder.new_name': 'New name:',
+  'architecture.page.model.modal.add_placeholder.new_name': 'Name',
   'architecture.page.model.modal.code_artifacts': 'Code Artifacts',
   'architecture.page.model.modal.search_artifacts': 'Search artifacts',
   'architecture.page.model.modal.covered_by': 'covered by {pattern}',
