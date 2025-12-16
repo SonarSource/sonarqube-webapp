@@ -18,10 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link } from '@sonarsource/echoes-react';
+import { Card, Layout, Link } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
-import { Card, CenteredLayout, SubHeading } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 export interface ComponentContainerNotFoundProps {
   isPortfolioLike: boolean;
@@ -30,18 +29,31 @@ export interface ComponentContainerNotFoundProps {
 export default function ComponentContainerNotFound({
   isPortfolioLike,
 }: Readonly<ComponentContainerNotFoundProps>) {
+  const intl = useIntl();
   const componentType = isPortfolioLike ? 'portfolio' : 'project';
 
   return (
-    <CenteredLayout className="sw-flex sw-justify-around" id="bd">
-      <Helmet defaultTitle={translate('404_not_found')} defer={false} />
-      <Card className="sw-mt-24" id="nonav">
-        <SubHeading>{translate('dashboard', componentType, 'not_found')}</SubHeading>
-        <p className="sw-mb-2">{translate('dashboard', componentType, 'not_found.2')}</p>
-        <p>
-          <Link to="/">{translate('go_back_to_homepage')}</Link>
-        </p>
-      </Card>
-    </CenteredLayout>
+    <Layout.ContentGrid>
+      <Layout.PageGrid>
+        <Layout.PageContent>
+          <Helmet defaultTitle={intl.formatMessage({ id: '404_not_found' })} defer={false} />
+          <div className="sw-max-w-abs-500 sw-mx-auto sw-mt-24">
+            <Card>
+              <Card.Header
+                title={<FormattedMessage id={`dashboard.${componentType}.not_found`} />}
+              />
+              <Card.Body>
+                <p className="sw-mb-2">
+                  <FormattedMessage id={`dashboard.${componentType}.not_found.2`} />
+                </p>
+                <Link to="/">
+                  <FormattedMessage id="go_back_to_homepage" />
+                </Link>
+              </Card.Body>
+            </Card>
+          </div>
+        </Layout.PageContent>
+      </Layout.PageGrid>
+    </Layout.ContentGrid>
   );
 }

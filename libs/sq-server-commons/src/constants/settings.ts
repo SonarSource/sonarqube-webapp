@@ -18,5 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export const NEW_CODE_PERIOD_CATEGORY = 'new_code_period';
 export const INSTANCE_INTEGRATIONS_CATEGORY = 'instance_integrations';
+export const NEW_CODE_PERIOD_CATEGORY = 'new_code_period';
+export const PULL_REQUEST_DECORATION_BINDING_CATEGORY = 'pull_request_decoration_binding';

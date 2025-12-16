@@ -19,32 +19,36 @@
  */
 
 import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { FCProps } from '../../../types/misc';
-import { renderWithContext } from '../../helpers/testUtils';
-import { FavoriteButton } from '../FavoriteButton';
+import { ComponentProps } from 'react';
+import { renderWithContext } from '../../../helpers/test-utils';
+import { ComponentQualifier } from '../../../types/component';
+import FavoriteButton from '../FavoriteButton';
 
-it('should render favorite filled', () => {
-  const { container } = renderFavoriteButton({ favorite: true });
-  expect(screen.getByLabelText('label-info')).toBeInTheDocument();
-  expect(container).toMatchSnapshot();
+it('should render favorite', () => {
+  setupWithProps({ favorite: true });
+  expect(screen.getByRole('button', { name: 'favorite.action.TRK.remove' })).toBeVisible();
 });
 
-it('should render favorite empty', () => {
-  const { container } = renderFavoriteButton();
-  expect(screen.getByLabelText('label-info')).toBeInTheDocument();
-  expect(container).toMatchSnapshot();
+it('should render not favorite', () => {
+  setupWithProps({ favorite: false });
+  expect(screen.getByRole('button', { name: 'favorite.action.TRK.add' })).toBeVisible();
 });
 
 it('should toggle favorite', async () => {
   const toggleFavorite = jest.fn();
-  renderFavoriteButton({ toggleFavorite });
-  await userEvent.click(screen.getByRole('button'));
+  const { user } = setupWithProps({ favorite: false, toggleFavorite });
+
+  await user.click(screen.getByRole('button', { name: 'favorite.action.TRK.add' }));
   expect(toggleFavorite).toHaveBeenCalled();
 });
 
-function renderFavoriteButton(props: Partial<FCProps<typeof FavoriteButton>> = {}) {
+function setupWithProps(props: Partial<ComponentProps<typeof FavoriteButton>> = {}) {
   return renderWithContext(
-    <FavoriteButton favorite overlay="label-info" toggleFavorite={jest.fn()} {...props} />,
+    <FavoriteButton
+      favorite
+      qualifier={ComponentQualifier.Project}
+      toggleFavorite={jest.fn()}
+      {...props}
+    />,
   );
 }

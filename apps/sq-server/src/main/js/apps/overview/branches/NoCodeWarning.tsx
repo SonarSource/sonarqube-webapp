@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { MessageCallout } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FlagMessage } from '~design-system';
 import { isMainBranch } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import { MeasureEnhanced } from '~shared/types/measures';
@@ -83,7 +83,7 @@ export function NoCodeWarning({ branchLike, component, measures }: Props) {
   }
   /* eslint-enable no-lonely-if */
 
-  return <FlagMessage variant="warning">{title}</FlagMessage>;
+  return <MessageCallout variety="warning">{title}</MessageCallout>;
 }
 
 export default React.memo(NoCodeWarning);

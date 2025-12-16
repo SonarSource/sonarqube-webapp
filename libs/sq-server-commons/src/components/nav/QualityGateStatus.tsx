@@ -27,8 +27,8 @@ import { BranchLike } from '../../types/branch-like';
 interface Props {
   branchLike: BranchLike;
   className?: string;
-  showStatusText?: boolean;
   indicatorSize?: 'sm' | 'md';
+  showStatusText?: boolean;
 }
 
 export default function QualityGateStatus(props: Readonly<Props>) {

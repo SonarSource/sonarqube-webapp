@@ -18,21 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { Link } from '~design-system';
+import { DismissableMessageCallout } from '~shared/components/common/DismissableMessageCallout';
+import { isLoggedIn } from '~shared/helpers/users';
 import { ComponentQualifier } from '~shared/types/component';
-import { DismissableBanner } from '~sq-server-commons/components/ui/DismissableBanner';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { useProjectBindingQuery } from '~sq-server-commons/queries/devops-integration';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
-import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
+import { CurrentUser } from '~sq-server-commons/types/users';
 import { PULL_REQUEST_DECORATION_BINDING_CATEGORY } from '../../settings/constants';
 
 export interface FirstAnalysisNextStepsNotifProps {
+  className?: string;
   component: Component;
   currentUser: CurrentUser;
   detectedCIOnLastAnalysis?: boolean;
@@ -41,7 +42,7 @@ export interface FirstAnalysisNextStepsNotifProps {
 export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifProps) {
   const { hasFeature } = useAvailableFeatures();
 
-  const { component, currentUser, detectedCIOnLastAnalysis } = props;
+  const { component, className, currentUser, detectedCIOnLastAnalysis } = props;
 
   const { data: projectBinding, isLoading } = useProjectBindingQuery(component.key);
 
@@ -72,7 +73,7 @@ export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifPr
         search: queryToSearchString({ id: component.key }),
       }}
     >
-      {translate('overview.project.next_steps.links.set_up_ci')}
+      <FormattedMessage id="overview.project.next_steps.links.set_up_ci" />
     </Link>
   );
 
@@ -86,12 +87,16 @@ export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifPr
         }),
       }}
     >
-      {translate('overview.project.next_steps.links.project_settings')}
+      <FormattedMessage id="overview.project.next_steps.links.project_settings" />
     </Link>
   );
 
   return (
-    <DismissableBanner alertKey={`config_ci_pr_deco.${component.key}`} variety="info">
+    <DismissableMessageCallout
+      alertKey={`config_ci_pr_deco.${component.key}`}
+      className={className}
+      variety="info"
+    >
       <div>
         {showOnlyConfigureCI && (
           <FormattedMessage
@@ -111,7 +116,7 @@ export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifPr
               }}
             />
           ) : (
-            translate('overview.project.next_steps.set_up_pr_deco')
+            <FormattedMessage id="overview.project.next_steps.set_up_pr_deco" />
           ))}
 
         {showBoth &&
@@ -130,7 +135,7 @@ export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifPr
             />
           ))}
       </div>
-    </DismissableBanner>
+    </DismissableMessageCallout>
   );
 }
 

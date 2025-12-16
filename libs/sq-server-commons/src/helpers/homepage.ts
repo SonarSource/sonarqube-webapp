@@ -20,11 +20,11 @@
 
 import { isBranch } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
-import { BranchLike } from '~sq-server-commons/types/branch-like';
-import { Component } from '~sq-server-commons/types/types';
-import { HomePage } from '~sq-server-commons/types/users';
+import { BranchLike } from '../types/branch-like';
+import { Component } from '../types/types';
+import { HomePage } from '../types/users';
 
-export function getCurrentPage(component: Component, branchLike: BranchLike | undefined) {
+export function getComponentAsHomepage(component: Component, branchLike: BranchLike | undefined) {
   let currentPage: HomePage | undefined;
 
   const branch = isBranch(branchLike) && !branchLike.isMain ? branchLike.name : undefined;
@@ -52,4 +52,12 @@ export function getCurrentPage(component: Component, branchLike: BranchLike | un
   }
 
   return currentPage;
+}
+
+export function isSameHomePage(a: HomePage, b: HomePage) {
+  return (
+    a.type === b.type &&
+    (a as any).branch === (b as any).branch &&
+    (a as any).component === (b as any).component
+  );
 }

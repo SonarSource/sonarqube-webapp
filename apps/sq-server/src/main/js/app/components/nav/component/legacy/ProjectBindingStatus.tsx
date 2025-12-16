@@ -34,6 +34,7 @@ import { forwardRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
 import { useCurrentUser } from '~adapters/helpers/users';
+import { PULL_REQUEST_DECORATION_BINDING_CATEGORY } from '~sq-server-commons/constants/settings';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { getProjectSettingsUrl } from '~sq-server-commons/helpers/urls';
 import { useProjectBindingQuery } from '~sq-server-commons/queries/devops-integration';
@@ -41,7 +42,6 @@ import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import { isLoggedIn } from '~sq-server-commons/types/users';
-import { PULL_REQUEST_DECORATION_BINDING_CATEGORY } from '../../../../apps/settings/constants';
 
 interface ProjectNavBindingStatusProps {
   className?: string;
@@ -69,9 +69,7 @@ export function ProjectBindingStatus({
   component,
 }: Readonly<ProjectNavBindingStatusProps>) {
   const { formatMessage } = useIntl();
-
   const { hasFeature } = useAvailableFeatures();
-
   const { currentUser } = useCurrentUser();
 
   const { data: projectBinding, isLoading: isLoadingProjectBinding } = useProjectBindingQuery(

@@ -84,6 +84,7 @@ const PAGES_MIGRATED: string[] = [
   '/admin/settings/encryption',
   '/admin/system',
   '/admin/webhooks',
+  '/dashboard',
 ];
 
 const StartupLicenseCheckModal = addons.license?.StartupLicenseCheckModal || (() => undefined);

@@ -27,6 +27,7 @@ import { MetricKey, MetricType } from '~shared/types/metrics';
 import HomePageSelect from '~sq-server-commons/components/controls/HomePageSelect';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { getComponentAsHomepage } from '~sq-server-commons/helpers/homepage';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { findMeasure } from '~sq-server-commons/helpers/measures';
 import { useProjectContainsAiCodeQuery } from '~sq-server-commons/queries/ai-code-assurance';
@@ -34,9 +35,7 @@ import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures
 import { Branch } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
-import { HomePage } from '~sq-server-commons/types/users';
-import ComponentReportActions from '../../../app/components/controls/ComponentReportActions';
-import { getCurrentPage } from '../../../app/components/nav/component/utils';
+import ComponentReportActions from './ComponentReportActions';
 
 interface Props {
   branch: Branch;
@@ -44,7 +43,7 @@ interface Props {
   measures: MeasureEnhanced[];
 }
 
-export default function BranchMetaTopBar({ branch, measures, component }: Readonly<Props>) {
+export default function BranchMetaTopBarLegacy({ branch, measures, component }: Readonly<Props>) {
   const { hasFeature } = useAvailableFeatures();
   const { data: containsAiCode } = useProjectContainsAiCodeQuery(
     {
@@ -58,7 +57,7 @@ export default function BranchMetaTopBar({ branch, measures, component }: Readon
 
   const intl = useIntl();
 
-  const currentPage = getCurrentPage(component, branch) as HomePage;
+  const currentPage = getComponentAsHomepage(component, branch);
   const locMeasure = findMeasure(measures, MetricKey.ncloc);
 
   const leftSection = (
@@ -95,7 +94,7 @@ export default function BranchMetaTopBar({ branch, measures, component }: Readon
           <SeparatorCircleIcon />
         </>
       )}
-      <HomePageSelect currentPage={currentPage} type="button" />
+      {currentPage && <HomePageSelect currentPage={currentPage} type="button" />}
       <ComponentReportActions branch={branch} component={component} />
     </div>
   );

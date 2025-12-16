@@ -21,7 +21,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { get } from '~shared/helpers/storage';
-import { byRole } from '~shared/helpers/testSelector';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
@@ -29,7 +29,6 @@ import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMoc
 import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
-import { mockProjectAlmBindingConfigurationErrors } from '~sq-server-commons/helpers/mocks/alm-settings';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockMeasure } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
@@ -57,15 +56,6 @@ afterEach(() => {
   almHandler.reset();
   modeHandler.reset();
   measuresHandler.reset();
-});
-
-it('renders correctly when the project binding is incorrect', () => {
-  renderComponentNav({
-    projectBindingErrors: mockProjectAlmBindingConfigurationErrors(),
-  });
-  expect(
-    screen.getByText('component_navigation.pr_deco.error_detected_X', { exact: false }),
-  ).toBeInTheDocument();
 });
 
 it('correctly returns focus to the Project Information link when the drawer is closed', async () => {
@@ -198,41 +188,13 @@ describe('MQR mode calculation change message', () => {
     renderComponentNav({ component });
 
     expect(
-      await byRole('alert')
-        .byText(new RegExp(`overview.missing_project_data.${qualifier}`))
-        .find(),
+      await byText(new RegExp(`overview.missing_project_data.${qualifier}`)).find(),
     ).toBeInTheDocument();
 
     expect(
       byRole('link', { name: /overview.missing_project_data_link/ }).get(),
     ).toBeInTheDocument();
-  });
-
-  it('can dismiss message', async () => {
-    const user = userEvent.setup();
-
-    measuresHandler.registerComponentMeasures({
-      'my-project': {
-        [MetricKey.security_rating]: mockMeasure({
-          metric: MetricKey.security_rating,
-          value: '1.0',
-        }),
-      },
-    });
-    renderComponentNav();
-    expect(
-      await byRole('alert')
-        .byText(/overview.missing_project_data.TRK/)
-        .find(),
-    ).toBeInTheDocument();
-
-    await user.click(byRole('button', { name: 'banner.dismiss' }).get());
-
-    expect(
-      byRole('alert')
-        .byText(/overview.missing_project_data.TRK/)
-        .query(),
-    ).not.toBeInTheDocument();
+    expect(byRole('button', { name: 'message_callout.dismiss' }).get()).toBeInTheDocument();
   });
 });
 

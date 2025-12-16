@@ -64,13 +64,12 @@ export function BranchLikeNavigation(props: BranchLikeNavigationProps) {
 
   const Menu = addons.branches?.Menu || (() => undefined);
 
-  const PRLink = (isPullRequest(currentBranchLike) && addons.branches?.PRLink) || (() => undefined);
+  const PRLink =
+    (isPullRequest(currentBranchLike) && addons.branches?.PRLinkLegacy) || (() => undefined);
 
   const canAdminComponent = configuration?.showSettings;
   const hasManyBranches = branchLikes.length >= 2;
   const isMenuEnabled = branchSupportEnabled && hasManyBranches;
-
-  const currentBranchLikeElement = <CurrentBranchLike currentBranchLike={currentBranchLike} />;
 
   const handleOutsideClick = () => {
     setIsMenuOpen(false);
@@ -115,7 +114,7 @@ export function BranchLikeNavigation(props: BranchLikeNavigationProps) {
               setIsMenuOpen(!isMenuOpen);
             }}
           >
-            {currentBranchLikeElement}
+            <CurrentBranchLike currentBranchLike={currentBranchLike} />
           </Button>
         </Popup>
 

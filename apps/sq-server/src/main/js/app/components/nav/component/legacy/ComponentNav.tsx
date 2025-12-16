@@ -25,16 +25,15 @@ import { TopBar } from '~design-system';
 import { RecentHistory } from '~shared/helpers/recent-history';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
+import ComponentNavProjectBindingErrorNotif from '~sq-server-commons/components/nav/ComponentNavProjectBindingErrorNotif';
 import NCDAutoUpdateMessage from '~sq-server-commons/components/new-code-definition/NCDAutoUpdateMessage';
 import { ComponentMissingMqrMetricsMessage } from '~sq-server-commons/components/shared/ComponentMissingMqrMetricsMessage';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { TopBarNewLayoutCompatible } from '~sq-server-commons/design-system/components/TopBar';
 import { getBranchLikeDisplayName } from '~sq-server-commons/helpers/branch-like';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { ProjectAlmBindingConfigurationErrors } from '~sq-server-commons/types/alm-settings';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
-import ComponentNavProjectBindingErrorNotif from '../ComponentNavProjectBindingErrorNotif';
 import Header from './Header';
 import Menu from './Menu';
 
@@ -42,13 +41,12 @@ export interface ComponentNavProps {
   component: Component;
   isInProgress?: boolean;
   isPending?: boolean;
-  projectBindingErrors?: ProjectAlmBindingConfigurationErrors;
 }
 
 // TODO drop this once project scope migration is done
 export function LegacyComponentNav(props: Readonly<ComponentNavProps>) {
   const { hasFeature } = useAvailableFeatures();
-  const { component, isInProgress, isPending, projectBindingErrors } = props;
+  const { component, isInProgress, isPending } = props;
 
   const { data: branchLike } = useCurrentBranchQuery(component);
 
@@ -81,20 +79,15 @@ export function LegacyComponentNav(props: Readonly<ComponentNavProps>) {
       </TopBar>
 
       <NCDAutoUpdateMessage branchName={branchName} component={component} />
-
-      <SQSTemporaryRelativeBannerContainer>
-        <ComponentMissingMqrMetricsMessage component={component} />
-        {projectBindingErrors !== undefined && (
-          <ComponentNavProjectBindingErrorNotif component={component} />
-        )}
-      </SQSTemporaryRelativeBannerContainer>
+      <ComponentMissingMqrMetricsMessage component={component} />
+      <ComponentNavProjectBindingErrorNotif component={component} />
     </>
   );
 }
 
 export function LegacyComponentNavCompatibleWithNewLayout(props: Readonly<ComponentNavProps>) {
   const { hasFeature } = useAvailableFeatures();
-  const { component, isInProgress, isPending, projectBindingErrors } = props;
+  const { component, isInProgress, isPending } = props;
 
   const { data: branchLike } = useCurrentBranchQuery(component);
 
@@ -131,22 +124,11 @@ export function LegacyComponentNavCompatibleWithNewLayout(props: Readonly<Compon
 
       <NCDAutoUpdateMessage branchName={branchName} component={component} />
 
-      <SQSTemporaryRelativeBannerContainer>
-        <ComponentMissingMqrMetricsMessage component={component} />
-        {projectBindingErrors !== undefined && (
-          <ComponentNavProjectBindingErrorNotif component={component} />
-        )}
-      </SQSTemporaryRelativeBannerContainer>
+      <ComponentMissingMqrMetricsMessage component={component} />
+      <ComponentNavProjectBindingErrorNotif component={component} />
     </ContentHeader>
   );
 }
-
-// FIXME temporary fix for the banner in SQS SONAR-25639
-const SQSTemporaryRelativeBannerContainer = styled.div`
-  & div {
-    position: relative;
-  }
-`;
 
 const ContentHeader = styled.div`
   grid-area: content-header;

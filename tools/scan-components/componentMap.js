@@ -2519,6 +2519,7 @@ export const componentMap = {
   TypeHelper: 'Excluded',
   LicenseProfileListApp: 'Excluded',
   PRLink: 'Excluded',
+  PRLinkLegacy: 'Excluded',
   ReleaseDetailsApp: 'Excluded',
   ArchitectureApp: 'Excluded',
   RiskDetailsHow: 'Excluded',

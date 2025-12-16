@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { ButtonSize, ButtonVariety, TooltipSide } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FavoriteButton } from '../../design-system';
-import { translate, translateWithParameters } from '../../helpers/l10n';
+import FavoriteButton from '~shared/components/controls/FavoriteButton';
 import { useToggleFavoriteMutation } from '../../queries/favorites';
 
 interface Props {
@@ -30,18 +30,13 @@ interface Props {
   favorite: boolean;
   handleFavorite?: (component: string, isFavorite: boolean) => void;
   qualifier: string;
+  side?: TooltipSide;
+  size?: ButtonSize;
+  variety?: ButtonVariety;
 }
 
 export default function Favorite(props: Readonly<Props>) {
-  const {
-    className,
-    componentName,
-    qualifier,
-    favorite: favoriteP,
-    component,
-    handleFavorite,
-  } = props;
-  const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const { favorite: favoriteP, component, handleFavorite, ...buttonProps } = props;
   // local state of favorite is only needed in case of portfolios, as they are not migrated to query yet
   const [favorite, setFavorite] = React.useState(favoriteP);
   const { mutate } = useToggleFavoriteMutation();
@@ -55,28 +50,14 @@ export default function Favorite(props: Readonly<Props>) {
         onSuccess: () => {
           setFavorite(newFavorite);
           handleFavorite?.(component, newFavorite);
-          buttonRef.current?.focus();
         },
       },
     );
   };
 
-  const actionName = favorite ? 'remove' : 'add';
-  const overlay = componentName
-    ? translateWithParameters(`favorite.action.${qualifier}.${actionName}_x`, componentName)
-    : translate('favorite.action', qualifier, actionName);
-
   React.useEffect(() => {
     setFavorite(favoriteP);
   }, [favoriteP]);
 
-  return (
-    <FavoriteButton
-      className={className}
-      favorite={favorite}
-      innerRef={buttonRef}
-      overlay={overlay}
-      toggleFavorite={toggleFavorite}
-    />
-  );
+  return <FavoriteButton {...buttonProps} favorite={favorite} toggleFavorite={toggleFavorite} />;
 }

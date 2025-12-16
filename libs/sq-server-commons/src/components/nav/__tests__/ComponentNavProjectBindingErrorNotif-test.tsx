@@ -19,9 +19,9 @@
  */
 
 import { screen } from '@testing-library/react';
-import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
-import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { Feature } from '~sq-server-commons/types/features';
+import { mockComponent } from '../../../helpers/mocks/component';
+import { renderComponent } from '../../../helpers/testReactTestingUtils';
+import { Feature } from '../../../types/features';
 import ComponentNavProjectBindingErrorNotif, {
   ComponentNavProjectBindingErrorNotifProps,
 } from '../ComponentNavProjectBindingErrorNotif';

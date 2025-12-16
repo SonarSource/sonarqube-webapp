@@ -19,14 +19,14 @@
  */
 
 import { ComponentQualifier } from '~shared/types/component';
-import { mockBranch } from '~sq-server-commons/helpers/mocks/branch-like';
-import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
-import { getCurrentPage } from '../utils';
+import { getComponentAsHomepage, isSameHomePage } from '../homepage';
+import { mockBranch } from '../mocks/branch-like';
+import { mockComponent } from '../mocks/component';
 
-describe('getCurrentPage', () => {
+describe('getComponentAsHomepage', () => {
   it('should return a portfolio page', () => {
     expect(
-      getCurrentPage(
+      getComponentAsHomepage(
         mockComponent({ key: 'foo', qualifier: ComponentQualifier.Portfolio }),
         undefined,
       ),
@@ -38,7 +38,7 @@ describe('getCurrentPage', () => {
 
   it('should return a portfolio page for a subportfolio too', () => {
     expect(
-      getCurrentPage(
+      getComponentAsHomepage(
         mockComponent({ key: 'foo', qualifier: ComponentQualifier.SubPortfolio }),
         undefined,
       ),
@@ -50,7 +50,7 @@ describe('getCurrentPage', () => {
 
   it('should return an application page', () => {
     expect(
-      getCurrentPage(
+      getComponentAsHomepage(
         mockComponent({ key: 'foo', qualifier: ComponentQualifier.Application }),
         mockBranch({ name: 'develop' }),
       ),
@@ -58,10 +58,72 @@ describe('getCurrentPage', () => {
   });
 
   it('should return a project page', () => {
-    expect(getCurrentPage(mockComponent(), mockBranch({ name: 'feature/foo' }))).toEqual({
+    expect(getComponentAsHomepage(mockComponent(), mockBranch({ name: 'feature/foo' }))).toEqual({
       type: 'PROJECT',
       component: 'my-project',
       branch: 'feature/foo',
     });
+  });
+});
+
+describe('isSameHomePage', () => {
+  it('should homepage equality properly', () => {
+    expect(
+      isSameHomePage(
+        {
+          type: 'APPLICATION',
+          branch: 'test-branch',
+          component: 'test-component',
+        },
+        {
+          type: 'APPLICATION',
+          branch: 'test-branch',
+          component: 'test-component',
+        },
+      ),
+    ).toBe(true);
+
+    expect(
+      isSameHomePage(
+        {
+          type: 'APPLICATION',
+          branch: 'test-branch',
+          component: 'test-component',
+        },
+        {
+          type: 'ISSUES',
+        },
+      ),
+    ).toBe(false);
+
+    expect(
+      isSameHomePage(
+        {
+          type: 'APPLICATION',
+          branch: 'test-branch',
+          component: 'test-component',
+        },
+        {
+          type: 'APPLICATION',
+          branch: 'test-branch-1',
+          component: 'test-component',
+        },
+      ),
+    ).toBe(false);
+
+    expect(
+      isSameHomePage(
+        {
+          type: 'APPLICATION',
+          branch: 'test-branch',
+          component: 'test-component',
+        },
+        {
+          type: 'APPLICATION',
+          branch: 'test-branch',
+          component: 'test-component-1',
+        },
+      ),
+    ).toBe(false);
   });
 });

@@ -19,7 +19,9 @@
  */
 
 import { Helmet } from 'react-helmet-async';
+import { useIntl } from 'react-intl';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
+import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isPullRequest } from '~shared/helpers/branch-like';
 import { isPortfolioLike } from '~shared/helpers/component';
 import { isDefined, isStringDefined } from '~shared/helpers/types';
@@ -38,6 +40,7 @@ interface AppProps {
 }
 
 export function App(props: AppProps) {
+  const intl = useIntl();
   const { hasFeature } = useAvailableFeatures();
   const { component } = props;
   const { data: branchLike } = useCurrentBranchQuery(component);
@@ -54,25 +57,30 @@ export function App(props: AppProps) {
     <>
       <Helmet defer={false} title={translate('overview.page')} />
       {isPullRequest(branchLike) ? (
-        <main>
+        <>
           <Suggestions suggestionGroup="pull_requests" />
 
           {branchSupportEnabled && (
             <PullRequestOverview component={component} pullRequest={branchLike} />
           )}
-        </main>
+        </>
       ) : (
-        <main>
+        <>
           <Suggestions suggestionGroup="overview" />
 
           {!isStringDefined(component.analysisDate) && (
-            <EmptyOverview branchLike={branchLike} component={component} />
+            <ProjectPageTemplate
+              disableBranchSelector
+              title={intl.formatMessage({ id: 'overview.page' })}
+            >
+              <EmptyOverview branchLike={branchLike} component={component} />
+            </ProjectPageTemplate>
           )}
 
           {isStringDefined(component.analysisDate) && (
             <BranchOverview branch={branchLike} component={component} />
           )}
-        </main>
+        </>
       )}
     </>
   );

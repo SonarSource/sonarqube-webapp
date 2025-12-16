@@ -19,15 +19,14 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, ButtonIcon, cssVar, IconHome } from '@sonarsource/echoes-react';
+import { Button, ButtonIcon, cssVar, IconHome, Tooltip } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { setHomePage } from '../../api/users';
 import { CurrentUserContextInterface } from '../../context/current-user/CurrentUserContext';
 import withCurrentUserContext from '../../context/current-user/withCurrentUserContext';
 import { HomeFillIcon, HomeIcon } from '../../design-system';
-import { isSameHomePage } from '../../helpers/users';
+import { isSameHomePage } from '../../helpers/homepage';
 import { HomePage, isLoggedIn } from '../../types/users';
-import Tooltip from './Tooltip';
 
 interface Props
   extends Pick<CurrentUserContextInterface, 'currentUser' | 'updateCurrentUserHomepage'> {

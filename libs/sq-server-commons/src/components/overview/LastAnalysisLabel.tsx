@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import DateFromNow from '~shared/components/intl/DateFromNow';
 
 interface Props {
@@ -26,18 +26,18 @@ interface Props {
 }
 
 export default function LastAnalysisLabel({ analysisDate }: Readonly<Props>) {
-  const intl = useIntl();
+  if (!analysisDate) {
+    return null;
+  }
 
-  return analysisDate ? (
+  return (
     <span>
-      {intl.formatMessage(
-        {
-          id: 'overview.last_analysis_x',
-        },
-        {
-          date: <DateFromNow className="sw-typo-semibold" date={analysisDate} />,
-        },
-      )}
+      <FormattedMessage
+        id="overview.last_analysis_x"
+        values={{
+          date: <DateFromNow date={analysisDate} />,
+        }}
+      />
     </span>
-  ) : null;
+  );
 }

@@ -18,19 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { CurrentUser, HomePage } from '../types/users';
+import { CurrentUser } from '../types/users';
 
 export function hasGlobalPermission(user: CurrentUser, permission: string): boolean {
   if (!user.permissions) {
     return false;
   }
   return user.permissions.global.includes(permission);
-}
-
-export function isSameHomePage(a: HomePage, b: HomePage) {
-  return (
-    a.type === b.type &&
-    (a as any).branch === (b as any).branch &&
-    (a as any).component === (b as any).component
-  );
 }

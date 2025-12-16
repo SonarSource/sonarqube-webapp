@@ -32,9 +32,7 @@ import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isFile, isPortfolioLike } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
-import { ComponentQualifier } from '~shared/types/component';
 import { HttpStatus } from '~shared/types/request';
-import { validateProjectAlmBinding } from '~sq-server-commons/api/alm-settings';
 import { getTasksForComponent } from '~sq-server-commons/api/ce';
 import { getComponentData } from '~sq-server-commons/api/components';
 import { getComponentNavigation } from '~sq-server-commons/api/navigation';
@@ -45,7 +43,6 @@ import {
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 import { getPortfolioUrl, getProjectUrl, getPullRequestUrl } from '~sq-server-commons/helpers/urls';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
-import { ProjectAlmBindingConfigurationErrors } from '~sq-server-commons/types/alm-settings';
 import { Branch } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { Task, TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
@@ -77,8 +74,6 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
   const [projectComponent, setProjectComponent] = React.useState<Component>();
   const [currentTask, setCurrentTask] = React.useState<Task>();
   const [tasksInProgress, setTasksInProgress] = React.useState<Task[]>();
-  const [projectBindingErrors, setProjectBindingErrors] =
-    React.useState<ProjectAlmBindingConfigurationErrors>();
   const [loading, setLoading] = React.useState(true);
   const [isPending, setIsPending] = React.useState(false);
   const { data: branchLike, isFetching } = useCurrentBranchQuery(
@@ -173,25 +168,6 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
     [branch, isInTutorials, pullRequest],
   );
 
-  const fetchProjectBindingErrors = React.useCallback(
-    async (component: Component) => {
-      if (
-        component.qualifier === ComponentQualifier.Project &&
-        component.analysisDate === undefined &&
-        hasFeature(Feature.BranchSupport)
-      ) {
-        try {
-          const projectBindingErrors = await validateProjectAlmBinding(component.key);
-
-          setProjectBindingErrors(projectBindingErrors);
-        } catch {
-          // noop
-        }
-      }
-    },
-    [hasFeature],
-  );
-
   const handleComponentChange = React.useCallback(
     (changes: Partial<Component>) => {
       if (!component) {
@@ -216,13 +192,12 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
     }
   }, [key, fetchComponent]);
 
-  // Fetch status and errors when component has changed
+  // Fetch status when component has changed
   React.useEffect(() => {
     if (component) {
       fetchStatus(component.key);
-      fetchProjectBindingErrors(component);
     }
-  }, [component, fetchStatus, fetchProjectBindingErrors]);
+  }, [component, fetchStatus]);
 
   // Refetch status when tasks in progress/current task have changed
   // Or refetch component based on computeHasUpdatedTasks
@@ -375,7 +350,6 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
               component={component}
               isInProgress={isInProgress}
               isPending={isPending}
-              projectBindingErrors={projectBindingErrors}
             />,
             legacyComponentNavAnchor.current,
           )}
@@ -412,20 +386,19 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
               component={component}
               isInProgress={isInProgress}
               isPending={isPending}
-              projectBindingErrors={projectBindingErrors}
             />
           )}
-        <Layout.PageGrid>
-          <Layout.PageContent>
-            {loading ? (
+        {loading ? (
+          <Layout.PageGrid>
+            <Layout.PageContent>
               <Spinner className="sw-mt-10" />
-            ) : (
-              <ComponentContext.Provider value={componentProviderProps}>
-                <Outlet />
-              </ComponentContext.Provider>
-            )}
-          </Layout.PageContent>
-        </Layout.PageGrid>
+            </Layout.PageContent>
+          </Layout.PageGrid>
+        ) : (
+          <ComponentContext.Provider value={componentProviderProps}>
+            <Outlet />
+          </ComponentContext.Provider>
+        )}
       </Layout.ContentGrid>
     </>
   );

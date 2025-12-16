@@ -22,13 +22,13 @@ import { Link, MessageCallout } from '@sonarsource/echoes-react';
 import { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ComponentQualifier } from '~shared/types/component';
-import { validateProjectAlmBinding } from '~sq-server-commons/api/alm-settings';
-import { PULL_REQUEST_DECORATION_BINDING_CATEGORY } from '~sq-server-commons/constants/settings';
-import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { getProjectSettingsUrl } from '~sq-server-commons/helpers/urls';
-import { ProjectAlmBindingConfigurationErrors } from '~sq-server-commons/types/alm-settings';
-import { Feature } from '~sq-server-commons/types/features';
-import { Component } from '~sq-server-commons/types/types';
+import { validateProjectAlmBinding } from '../../api/alm-settings';
+import { PULL_REQUEST_DECORATION_BINDING_CATEGORY } from '../../constants/settings';
+import { useAvailableFeatures } from '../../context/available-features/withAvailableFeatures';
+import { getProjectSettingsUrl } from '../../helpers/urls';
+import { ProjectAlmBindingConfigurationErrors } from '../../types/alm-settings';
+import { Feature } from '../../types/features';
+import { Component } from '../../types/types';
 
 export interface ComponentNavProjectBindingErrorNotifProps {
   component: Component;

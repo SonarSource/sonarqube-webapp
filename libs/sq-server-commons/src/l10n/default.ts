@@ -3470,8 +3470,8 @@ export const defaultMessages = {
   'project_navigation.analysis_status.in_progress': 'New analysis in progress',
   'project_navigation.analysis_status.details_link': 'See details',
   'project_navigation.analysis_status.details_link.label': 'See details about the last analysis',
-  'project_navigation.binding_status.bound_to_x': 'Bound to {dop}',
   'project_navigation.binding_status.view_on_x': 'View on {dop}',
+  'project_navigation.binding_status.bound_to_x': 'Bound to {dop}',
   'project_navigation.binding_status.not_bound': 'Not bound',
   'project_navigation.binding_status.not_bound.tooltip':
     'To enable automatically configured PR decoration and privacy settings based on your DevOps platform, ask your admin to bind this project',
@@ -7898,7 +7898,7 @@ export const defaultMessages = {
   'branches.main_branch': 'Main Branch',
   'branches.pr': 'PR',
   'branches.see_the_pr': 'See the PR',
-  'branches.see_the_pr_on_x': 'See the PR on {0}',
+  'branches.see_the_pr_on_x': 'See the PR on {dop}',
 
   //------------------------------------------------------------------------------
   //
@@ -7914,7 +7914,7 @@ export const defaultMessages = {
   'branch_like_navigation.orphan_pull_requests.tooltip':
     'When the base of a Pull Request is deleted, this Pull Request becomes orphan.',
   'branch_like_navigation.for_merge_into_x_from_y': 'for merge into {target} from {branch}',
-  'branch_like_navigation.for_merge_into_x_from_y.title': 'for merge into {0} from {1}',
+  'branch_like_navigation.for_merge_into_x_from_y.title': 'for merge into {target} from {branch}',
   'branch_like_navigation.no_branch_support.title':
     'Get the most out of SonarQube Server with branch and PR/MR analysis',
   'branch_like_navigation.no_branch_support.title.pr':
@@ -8246,14 +8246,14 @@ export const defaultMessages = {
   'favorite.action.SVW.remove': 'Remove this sub-portfolio from favorites',
   'favorite.action.APP.add': 'Add this application to favorites',
   'favorite.action.APP.remove': 'Remove this application from favorites',
-  'favorite.action.TRK.add_x': 'Add project {0} to favorites',
-  'favorite.action.TRK.remove_x': 'Remove project {0} from favorites',
-  'favorite.action.VW.add_x': 'Add portfolio {0} to favorites',
-  'favorite.action.VW.remove_x': 'Remove portfolio {0} from favorites',
-  'favorite.action.SVW.add_x': 'Add sub-portfolio {0} to favorites',
-  'favorite.action.SVW.remove_x': 'Remove sub-portfolio {0} from favorites',
-  'favorite.action.APP.add_x': 'Add application {0} to favorites',
-  'favorite.action.APP.remove_x': 'Remove application {0} from favorites',
+  'favorite.action.TRK.add_x': 'Add project {component} to favorites',
+  'favorite.action.TRK.remove_x': 'Remove project {component} from favorites',
+  'favorite.action.VW.add_x': 'Add portfolio {component} to favorites',
+  'favorite.action.VW.remove_x': 'Remove portfolio {component} from favorites',
+  'favorite.action.SVW.add_x': 'Add sub-portfolio {component} to favorites',
+  'favorite.action.SVW.remove_x': 'Remove sub-portfolio {component} from favorites',
+  'favorite.action.APP.add_x': 'Add application {component} to favorites',
+  'favorite.action.APP.remove_x': 'Remove application {component} from favorites',
 
   //------------------------------------------------------------------------------
   //

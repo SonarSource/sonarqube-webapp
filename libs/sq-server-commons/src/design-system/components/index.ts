@@ -49,7 +49,6 @@ export * from './ExecutionFlowAccordion';
 export * from './FacetBox';
 export * from './FacetItem';
 export { FailedQGConditionLink } from './FailedQGConditionLink';
-export * from './FavoriteButton';
 export * from './FlowStep';
 export * from './HighlightedSection';
 export * from './HighlightRing';

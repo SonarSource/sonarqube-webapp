@@ -19,11 +19,10 @@
  */
 
 import styled from '@emotion/styled';
-import { Spinner } from '@sonarsource/echoes-react';
+import { MessageCallout, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useProjectBranchesQuery } from '~adapters/queries/branch';
-import { FlagMessage, LargeCenteredLayout } from '~design-system';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { isBranch, isMainBranch } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
@@ -94,11 +93,9 @@ export function EmptyOverview(props: Readonly<EmptyOverviewProps>) {
 
   if (component.qualifier === ComponentQualifier.Application) {
     return (
-      <LargeCenteredLayout className="sw-pt-8">
-        <FlagMessage className="sw-w-full" variant="warning">
-          {translate('provisioning.no_analysis.application')}
-        </FlagMessage>
-      </LargeCenteredLayout>
+      <MessageCallout variety="warning">
+        {translate('provisioning.no_analysis.application')}
+      </MessageCallout>
     );
   } else if (!isBranch(branchLike)) {
     return null;
@@ -112,15 +109,13 @@ export function EmptyOverview(props: Readonly<EmptyOverviewProps>) {
 
   if (hasPermissionSyncInProgess) {
     return (
-      <LargeCenteredLayout className="sw-pt-8">
-        <SynchInProgress>
-          <Spinner className="sw-mr-2" />
-          {translateWithParameters(
-            'provisioning.permission_synch_in_progress',
-            translate('alm', permissionInSyncFor),
-          )}
-        </SynchInProgress>
-      </LargeCenteredLayout>
+      <SynchInProgress>
+        <Spinner className="sw-mr-2" />
+        {translateWithParameters(
+          'provisioning.permission_synch_in_progress',
+          translate('alm', permissionInSyncFor),
+        )}
+      </SynchInProgress>
     );
   }
 
@@ -146,15 +141,7 @@ export function EmptyOverview(props: Readonly<EmptyOverviewProps>) {
     );
   }
 
-  return (
-    <LargeCenteredLayout className="sw-pt-8">
-      <div>
-        <FlagMessage className="sw-w-full" variant="warning">
-          {warning}
-        </FlagMessage>
-      </div>
-    </LargeCenteredLayout>
-  );
+  return <MessageCallout variety="warning">{warning}</MessageCallout>;
 }
 
 export default withCurrentUserContext(EmptyOverview);

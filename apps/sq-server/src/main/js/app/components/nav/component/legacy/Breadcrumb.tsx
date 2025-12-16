@@ -26,7 +26,7 @@ import Favorite from '~sq-server-commons/components/controls/Favorite';
 import { getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
 import { Component } from '~sq-server-commons/types/types';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
-import { ProjectBindingStatus } from '../ProjectBindingStatus';
+import { ProjectBindingStatus } from './ProjectBindingStatus';
 
 export interface BreadcrumbProps {
   component: Component;
