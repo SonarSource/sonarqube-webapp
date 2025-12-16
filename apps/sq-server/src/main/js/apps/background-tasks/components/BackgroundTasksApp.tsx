@@ -18,13 +18,21 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MessageCallout, Pagination, Spinner, Text } from '@sonarsource/echoes-react';
+import {
+  Layout,
+  LinkHighlight,
+  MessageCallout,
+  Pagination,
+  Spinner,
+  Text,
+} from '@sonarsource/echoes-react';
 import { debounce } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { LargeCenteredLayout } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
+import { isDefined } from '~shared/helpers/types';
 import { Paging } from '~shared/types/paging';
 import { Location, RawQuery, Router } from '~shared/types/router';
 import {
@@ -39,16 +47,17 @@ import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggesti
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import { toShortISO8601String } from '~sq-server-commons/helpers/dates';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { parseAsDate } from '~sq-server-commons/helpers/query';
 import { Task, TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
 import { Component } from '~sq-server-commons/types/types';
+import { AdminPageTemplate } from '../../../app/components/AdminPageTemplate';
 import { CURRENTS, DEBOUNCE_DELAY, DEFAULT_FILTERS, PAGE_SIZE } from '../constants';
 import { Query, mapFiltersToParameters, updateTask } from '../utils';
 import Header from './Header';
 import Search from './Search';
 import Stats from './Stats';
 import Tasks from './Tasks';
+import Workers from './Workers';
 
 interface Props {
   component?: Component;
@@ -227,90 +236,137 @@ export class BackgroundTasksApp extends React.PureComponent<Props, State> {
     const { component, location } = this.props;
     const { loading, pagination, types, tasks } = this.state;
 
-    const status = location.query.status || DEFAULT_FILTERS.status;
-    const taskType = location.query.taskType || DEFAULT_FILTERS.taskType;
-    const currents = location.query.currents || DEFAULT_FILTERS.currents;
-    const minSubmittedAt = parseAsDate(location.query.minSubmittedAt);
-    const maxExecutedAt = parseAsDate(location.query.maxExecutedAt);
-    const query = location.query.query ?? '';
+    const status = (location.query.status || DEFAULT_FILTERS.status) as string;
+    const taskType = (location.query.taskType || DEFAULT_FILTERS.taskType) as string;
+    const currents = (location.query.currents || DEFAULT_FILTERS.currents) as string;
+    const minSubmittedAt = parseAsDate(location.query.minSubmittedAt as string | undefined);
+    const maxExecutedAt = parseAsDate(location.query.maxExecutedAt as string | undefined);
+    const query = (location.query.query ?? '') as string;
 
+    return (
+      <Wrapper component={component}>
+        <Suggestions suggestion={DocLink.BackgroundTasks} />
+
+        <Spinner isLoading={!types}>
+          {isDefined(component) && <Header component={component} />}
+
+          {this.isFailedTaskWithProjectDataReload() && (
+            <MessageCallout variety="warning">
+              <Text>
+                <FormattedMessage
+                  id="background_tasks.retry_failed_tasks"
+                  values={{
+                    link: (text) => (
+                      <DocumentationLink
+                        enableOpenInNewTab
+                        to={DocLink.BackgroundTasksReIndexingSingleProject}
+                      >
+                        {text}
+                      </DocumentationLink>
+                    ),
+                  }}
+                />
+              </Text>
+            </MessageCallout>
+          )}
+          <Stats
+            component={component}
+            failingCount={this.state.failingCount}
+            onCancelAllPending={this.handleCancelAllPending}
+            onShowFailing={this.handleShowFailing}
+            pendingCount={this.state.pendingCount}
+            pendingTime={this.state.pendingTime}
+          />
+
+          <Search
+            component={component}
+            currents={currents}
+            loading={loading}
+            maxExecutedAt={maxExecutedAt}
+            minSubmittedAt={minSubmittedAt}
+            onFilterUpdate={this.handleFilterUpdate}
+            onReload={this.loadTasksDebounced}
+            query={query}
+            status={status}
+            taskType={taskType}
+            types={types ?? []}
+          />
+
+          <Spinner
+            className="sw-mt-2"
+            isLoading={loading}
+            wrapperClassName="sw-flex sw-justify-center"
+          >
+            <Tasks
+              component={component}
+              onCancelTask={this.handleCancelTask}
+              onFilterTask={this.handleFilterTask}
+              tasks={tasks}
+            />
+          </Spinner>
+
+          {pagination.total > 0 && (
+            <div className="sw-mt-8 sw-flex sw-justify-center">
+              <Pagination
+                isDisabled={loading}
+                onChange={this.loadMoreTasks}
+                page={pagination.pageIndex}
+                totalPages={Math.ceil(pagination.total / pagination.pageSize)}
+              />
+            </div>
+          )}
+        </Spinner>
+      </Wrapper>
+    );
+  }
+}
+
+function Wrapper({ children, component }: React.PropsWithChildren<{ component?: Component }>) {
+  const { formatMessage } = useIntl();
+  const pageTitle = formatMessage({ id: 'background_tasks.page' });
+
+  if (isDefined(component)) {
     return (
       <LargeCenteredLayout id="background-tasks">
         <div className="sw-my-4">
-          <Suggestions suggestion={DocLink.BackgroundTasks} />
-          <Helmet defer={false} title={translate('background_tasks.page')} />
-          <Spinner isLoading={!types}>
-            <Header component={component} />
-            {this.isFailedTaskWithProjectDataReload() && (
-              <MessageCallout variety="warning">
-                <Text>
-                  <FormattedMessage
-                    id="background_tasks.retry_failed_tasks"
-                    values={{
-                      link: (text) => (
-                        <DocumentationLink
-                          enableOpenInNewTab
-                          to={DocLink.BackgroundTasksReIndexingSingleProject}
-                        >
-                          {text}
-                        </DocumentationLink>
-                      ),
-                    }}
-                  />
-                </Text>
-              </MessageCallout>
-            )}
-            <Stats
-              component={component}
-              failingCount={this.state.failingCount}
-              onCancelAllPending={this.handleCancelAllPending}
-              onShowFailing={this.handleShowFailing}
-              pendingCount={this.state.pendingCount}
-              pendingTime={this.state.pendingTime}
-            />
-
-            <Search
-              component={component}
-              currents={currents}
-              loading={loading}
-              maxExecutedAt={maxExecutedAt}
-              minSubmittedAt={minSubmittedAt}
-              onFilterUpdate={this.handleFilterUpdate}
-              onReload={this.loadTasksDebounced}
-              query={query}
-              status={status}
-              taskType={taskType}
-              types={types ?? []}
-            />
-
-            <Spinner
-              className="sw-mt-2"
-              isLoading={loading}
-              wrapperClassName="sw-flex sw-justify-center"
-            >
-              <Tasks
-                component={component}
-                onCancelTask={this.handleCancelTask}
-                onFilterTask={this.handleFilterTask}
-                tasks={tasks}
-              />
-            </Spinner>
-
-            {pagination.total > 0 && (
-              <div className="sw-mt-8 sw-flex sw-justify-center">
-                <Pagination
-                  isDisabled={loading}
-                  onChange={this.loadMoreTasks}
-                  page={pagination.pageIndex}
-                  totalPages={Math.ceil(pagination.total / pagination.pageSize)}
-                />
-              </div>
-            )}
-          </Spinner>
+          <Helmet defer={false} title={pageTitle} />
+          {children}
         </div>
       </LargeCenteredLayout>
     );
   }
+
+  return (
+    <AdminPageTemplate
+      actions={
+        <Layout.PageHeader.Actions>
+          <Workers />
+        </Layout.PageHeader.Actions>
+      }
+      description={
+        <Layout.PageHeader.Description>
+          {formatMessage(
+            { id: 'background_tasks.page.description' },
+            {
+              link: (text) => (
+                <DocumentationLink
+                  enableOpenInNewTab
+                  highlight={LinkHighlight.CurrentColor}
+                  to={DocLink.BackgroundTasks}
+                >
+                  {text}
+                </DocumentationLink>
+              ),
+            },
+          )}
+        </Layout.PageHeader.Description>
+      }
+      title={pageTitle}
+      width="default"
+    >
+      {children}
+    </AdminPageTemplate>
+  );
 }
 
 export default withComponentContext(withRouter(BackgroundTasksApp));

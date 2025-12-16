@@ -187,7 +187,6 @@ function renderAdminRoutes() {
       <Route element={<AdminContainerLegacy />}>
         <Route element={<GlobalAdminPageExtension />} path="extension/:pluginKey/:extensionKey" />
         {auditLogsRoutes()}
-        {backgroundTasksRoutes()}
         {globalPermissionsRoutes()}
         {groupsRoutes()}
         {licenseRoutes()}
@@ -197,6 +196,7 @@ function renderAdminRoutes() {
         {usersRoutes()}
       </Route>
       <Route element={<AdminContainer />}>
+        {backgroundTasksRoutes()}
         {settingsRoutes()}
         {systemRoutes()}
         {webhooksRoutes()}

@@ -79,9 +79,10 @@ const PAGES_WITH_SECONDARY_BACKGROUND = new Set([
  * Temporary list of migrated pages. Once the migration is done, we can remove it
  */
 const PAGES_MIGRATED: string[] = [
-  '/admin/system',
+  '/admin/background_tasks',
   '/admin/settings',
   '/admin/settings/encryption',
+  '/admin/system',
   '/admin/webhooks',
 ];
 
