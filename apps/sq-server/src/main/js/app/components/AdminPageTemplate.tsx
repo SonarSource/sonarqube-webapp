@@ -32,7 +32,7 @@ import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 interface Props extends PropsWithChildren {
   actions?: PageHeaderProps['actions'];
   asideLeft?: ReactNode;
-  breadcrumbs: BreadcrumbsProps['items'];
+  breadcrumbs?: BreadcrumbsProps['items'];
   description?: PageHeaderProps['description'];
   pageClassName?: string;
   scrollBehavior?: PageHeaderProps['scrollBehavior'];
@@ -57,7 +57,7 @@ export const AdminPageTemplate = forwardRef<HTMLDivElement, Props>(
               <Layout.PageHeader.Breadcrumbs
                 items={[
                   { linkElement: <FormattedMessage id="layout.settings" />, to: '/admin/settings' },
-                  ...breadcrumbs,
+                  ...(breadcrumbs ?? [{ linkElement: title }]),
                 ]}
               />
             }

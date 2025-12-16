@@ -195,11 +195,11 @@ function renderAdminRoutes() {
         {permissionTemplatesRoutes()}
         {projectsManagementRoutes()}
         {usersRoutes()}
-        {webhooksRoutes()}
       </Route>
       <Route element={<AdminContainer />}>
         {settingsRoutes()}
         {systemRoutes()}
+        {webhooksRoutes()}
       </Route>
     </Route>
   );
