@@ -114,12 +114,12 @@ export const SCA_ISSUE_RISK_RATING_METRICS = [
   /** Overall metrics */
   MetricKey.sca_rating_any_issue,
   MetricKey.sca_rating_licensing,
-  MetricKey.sca_rating_malware,
+  // MetricKey.sca_rating_malware,
   MetricKey.sca_rating_vulnerability,
   /** New metrics */
   MetricKey.new_sca_rating_any_issue,
   MetricKey.new_sca_rating_licensing,
-  MetricKey.new_sca_rating_malware,
+  // MetricKey.new_sca_rating_malware,
   MetricKey.new_sca_rating_vulnerability,
 ] as string[];
 
@@ -132,6 +132,9 @@ export const SCA_RISK_ALL_METRICS = [
   ...SCA_ISSUE_RISK_SEVERITY_METRICS,
   ...SCA_ISSUE_RISK_RATING_METRICS,
   ...SCA_ISSUE_RISK_COUNT_METRICS,
+  // TODO: Uncomment above when backend is updated
+  MetricKey.sca_rating_malware,
+  MetricKey.new_sca_rating_malware,
 ] as string[];
 
 export const SCA_METRIC_TYPE_MAP: Partial<Record<MetricKey, ReleaseRiskType>> = {
