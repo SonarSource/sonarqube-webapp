@@ -89,7 +89,7 @@ const PAGES_MIGRATED: string[] = [
   '/unsubscribe',
 ];
 
-const StartupLicenseCheckModal = addons.license?.StartupLicenseCheckModal || (() => undefined);
+const StartupLicenseCheckBanner = addons.license?.StartupLicenseCheckBanner || (() => undefined);
 
 export default function GlobalContainer() {
   // it is important to pass `location` down to `GlobalNav` to trigger render on url change
@@ -137,6 +137,7 @@ export default function GlobalContainer() {
           <Workspace>
             <div className="sw-sticky sw-top-0 sw-z-global-navbar" id="global-navigation">
               <SQSTemporaryRelativeBannerContainer>
+                <StartupLicenseCheckBanner />
                 <Banners />
               </SQSTemporaryRelativeBannerContainer>
               <GlobalNavLegacy />
@@ -154,7 +155,6 @@ export default function GlobalContainer() {
 
         <GlobalFooterLegacy />
       </GlobalContainerWrapper>
-      <StartupLicenseCheckModal />
     </MetricsContextProvider>
   );
 }

@@ -8865,9 +8865,10 @@ export const defaultMessages = {
     'Click to open the offline license portal. Upload your .req file into it and donwload your .lic file in return. Then come back to this wizard',
   'license.offline.upload_req_file':
     'Upload your .req request file, download your .lic license file',
-  'license.prompt.description': 'You must set a license to be able to perform new analyses. {url}.',
+  'license.prompt.description':
+    '{title}You must set a license to be able to perform new analyses. {url}.',
   'license.prompt.link': 'Go to License page',
-  'license.prompt.title': 'License needed',
+  'license.prompt.title': 'License needed:',
   'license.refresh_license': 'Refresh license',
   'license.refresh_limit_hit': 'Daily refresh limit of 10 reached',
   'license.refresh_your_license_offline': 'Refresh your license offline',
