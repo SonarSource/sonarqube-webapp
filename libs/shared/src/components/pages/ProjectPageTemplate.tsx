@@ -39,7 +39,7 @@ interface ProjectContentHeaderProps {
   breadcrumbs?: BreadcrumbsProps['items'];
   /** Callout message that can be displayed at the top of the content header, should use the MessageCallout component */
   callout?: ContentHeaderProps['callout'];
-  /** Content header description, displayed below the title */
+  /** Content header description, displayed below the title, should be wrapped in a Layout.ContentHeader.Description */
   description?: ContentHeaderProps['description'];
   /** Whether to disable the branch selector in the content header */
   disableBranchSelector?: boolean;

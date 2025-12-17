@@ -31,22 +31,6 @@
   border-collapse: collapse;
 }
 
-.source-viewer-code {
-  overflow-x: auto;
-}
-
-.source-viewer-more-code {
-  padding: 40px 0;
-  border-bottom: 1px solid #e6e6e6;
-  background-color: #f3f3f3;
-  text-align: center;
-}
-
-.source-table + .source-viewer-more-code {
-  border-bottom: none;
-  border-top: 1px solid #e6e6e6;
-}
-
 .issue-location.highlighted {
   border-color: #e1e1f2;
   background-color: #e1e1f2;

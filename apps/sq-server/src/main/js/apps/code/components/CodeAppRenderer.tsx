@@ -18,15 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, IconQuestionMark, LinkHighlight, Spinner, Text } from '@sonarsource/echoes-react';
+import {
+  Heading,
+  Layout,
+  LinkHighlight,
+  MessageCallout,
+  Spinner,
+  Text,
+  ToggleTip,
+} from '@sonarsource/echoes-react';
 import { difference, intersection } from 'lodash';
-import { Helmet } from 'react-helmet-async';
-import { useIntl } from 'react-intl';
-import { Card, FlagMessage, LargeCenteredLayout } from '~design-system';
+import { useMemo } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useFlags } from '~adapters/helpers/feature-flags';
+import { Card } from '~design-system';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { KeyboardHint } from '~shared/components/KeyboardHint';
+import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isApplication, isPortfolioLike } from '~shared/helpers/component';
+import { isDefined } from '~shared/helpers/types';
 import { LightComponent } from '~shared/types/component';
 import { Metric } from '~shared/types/measures';
 import { Location } from '~shared/types/router';
@@ -40,13 +51,12 @@ import {
 } from '~sq-server-commons/helpers/constants';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   areCCTMeasuresComputed,
   areSoftwareQualityRatingsComputed,
 } from '~sq-server-commons/helpers/measures';
+import { getCodeUrl } from '~sq-server-commons/helpers/urls';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Component, ComponentMeasure } from '~sq-server-commons/types/types';
 import { getCodeMetrics, PortfolioMetrics } from '../utils';
@@ -95,17 +105,16 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
     searchResults,
     sourceViewer,
   } = props;
-  const { canBrowseAllChildProjects, qualifier } = component;
-
-  const showSearch = searchResults !== undefined;
-
-  const hasComponents = components.length > 0 || searchResults !== undefined;
-
-  const showBreadcrumbs = breadcrumbs.length > 1 && !showSearch;
-
-  const showComponentList = sourceViewer === undefined && components.length > 0 && !showSearch;
 
   const intl = useIntl();
+  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
+
+  const { canBrowseAllChildProjects, qualifier } = component;
+  const showSearch = searchResults !== undefined;
+  const hasComponents = components.length > 0 || searchResults !== undefined;
+  const showBreadcrumbs =
+    breadcrumbs.length > 1 && !showSearch && !frontEndEngineeringEnableSidebarNavigation;
+  const showComponentList = sourceViewer === undefined && components.length > 0 && !showSearch;
 
   const { data: isStandardMode, isLoading: isLoadingStandardMode } =
     useStandardExperienceModeQuery();
@@ -151,30 +160,70 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
   const aicaDisabledMetrics = getMetrics(aicaDisabledMetricKeys);
   const aicaEnabledMetrics = getMetrics(aicaEnabledMetricKeys);
 
-  let defaultTitle = translate('code.page');
+  let defaultTitle = intl.formatMessage({ id: 'code.page' });
   if (isApplication(baseComponent?.qualifier)) {
-    defaultTitle = translate('projects.page');
+    defaultTitle = intl.formatMessage({ id: 'projects.page' });
   } else if (isPortfolioLike(baseComponent?.qualifier)) {
-    defaultTitle = translate('portfolio_breakdown.page');
+    defaultTitle = intl.formatMessage({ id: 'portfolio_breakdown.page' });
   }
 
   const isPortfolio = isPortfolioLike(qualifier);
 
+  const breadcrumbsWithLinks = useMemo(
+    () =>
+      breadcrumbs.map((bc, index) => {
+        let linkElement = bc.name;
+        let selected: string | undefined = bc.key;
+        if (index === 0) {
+          linkElement = defaultTitle;
+          selected = undefined;
+        }
+        if (index === breadcrumbs.length - 1) {
+          return { linkElement, to: '' };
+        }
+        return { linkElement, to: getCodeUrl(component.key, branchLike, selected) };
+      }),
+    [breadcrumbs, defaultTitle, component.key, branchLike],
+  );
+
   return (
-    <LargeCenteredLayout className="sw-py-8 sw-typo-lg" id="code-page">
-      <Helmet defer={false} title={sourceViewer !== undefined ? sourceViewer.name : defaultTitle} />
+    <ProjectPageTemplate
+      breadcrumbs={breadcrumbsWithLinks}
+      description={
+        isPortfolio && (
+          <Layout.ContentHeader.Description>
+            <FormattedMessage
+              id="portfolio_overview.intro"
+              values={{
+                link: (text) => (
+                  <DocumentationLink
+                    enableOpenInNewTab
+                    highlight={LinkHighlight.Accent}
+                    to={DocLink.PortfolioBreakdown}
+                  >
+                    {text}
+                  </DocumentationLink>
+                ),
+              }}
+            />
+          </Layout.ContentHeader.Description>
+        )
+      }
+      title={isDefined(sourceViewer) ? sourceViewer.name : defaultTitle}
+      width="fluid"
+    >
       <A11ySkipTarget anchor="code_main" />
-      {isPortfolio && (
+      {isPortfolio && !frontEndEngineeringEnableSidebarNavigation && (
         <header className="sw-grid sw-grid-cols-3 sw-gap-12 sw-mb-4">
           <div className="sw-col-span-2">
             <Heading as="h1" hasMarginBottom>
-              {translate('portfolio_breakdown.page')}
+              <FormattedMessage id="portfolio_breakdown.page" />
             </Heading>
 
             <div className="sw-typo-default">
-              {intl.formatMessage(
-                { id: 'portfolio_overview.intro' },
-                {
+              <FormattedMessage
+                id="portfolio_overview.intro"
+                values={{
                   link: (text) => (
                     <DocumentationLink
                       enableOpenInNewTab
@@ -184,78 +233,75 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
                       {text}
                     </DocumentationLink>
                   ),
-                },
-              )}
+                }}
+              />
             </div>
           </div>
         </header>
       )}
 
       {!canBrowseAllChildProjects && isPortfolio && (
-        <FlagMessage className="it__portfolio_warning sw-mb-4" variant="warning">
-          {translate('code_viewer.not_all_measures_are_shown')}
-          <HelpTooltip
+        <MessageCallout className="it__portfolio_warning sw-mb-4" variety="warning">
+          <FormattedMessage id="code_viewer.not_all_measures_are_shown" />
+          <ToggleTip
             className="sw-ml-2"
-            overlay={translate('code_viewer.not_all_measures_are_shown.help')}
-          >
-            <IconQuestionMark />
-          </HelpTooltip>
-        </FlagMessage>
+            description={<FormattedMessage id="code_viewer.not_all_measures_are_shown.help" />}
+          />
+        </MessageCallout>
       )}
 
       <Spinner isLoading={loading || isLoadingStandardMode}>
-        <div className="sw-flex sw-justify-between">
-          <div>
-            {hasComponents && (
-              <Search
-                branchLike={branchLike}
-                className="sw-mb-4"
-                component={component}
-                newCodeSelected={newCodeSelected}
-                onNewCodeToggle={props.handleSelectNewCode}
-                onSearchClear={props.handleSearchClear}
-                onSearchResults={props.handleSearchResults}
-              />
-            )}
+        {(showComponentList || showSearch || hasComponents || showBreadcrumbs) && (
+          <div className="sw-flex sw-justify-between sw-mb-2" id="code-page">
+            <div className="sw-flex sw-flex-col sw-gap-4">
+              {hasComponents && (
+                <Search
+                  branchLike={branchLike}
+                  component={component}
+                  newCodeSelected={newCodeSelected}
+                  onNewCodeToggle={props.handleSelectNewCode}
+                  onSearchClear={props.handleSearchClear}
+                  onSearchResults={props.handleSearchResults}
+                />
+              )}
 
-            {!hasComponents && sourceViewer === undefined && (
-              <div className="sw-flex sw-align-center sw-flex-col sw-fixed sw-top-1/2">
-                <Text isSubtle>
-                  {translate(
-                    'code_viewer.no_source_code_displayed_due_to_empty_analysis',
-                    component.qualifier,
-                  )}
-                </Text>
-              </div>
-            )}
+              {showBreadcrumbs && (
+                <CodeBreadcrumbs
+                  branchLike={branchLike}
+                  breadcrumbs={breadcrumbs}
+                  rootComponent={component}
+                />
+              )}
+            </div>
 
-            {showBreadcrumbs && (
-              <CodeBreadcrumbs
-                branchLike={branchLike}
-                breadcrumbs={breadcrumbs}
-                rootComponent={component}
-              />
+            {(showComponentList || showSearch) && (
+              <Text className="sw-flex sw-items-end sw-gap-4 sw-ml-6 sw-mb-50">
+                <KeyboardHint
+                  command={`${KeyboardKeys.DownArrow} ${KeyboardKeys.UpArrow}`}
+                  title={intl.formatMessage({ id: 'component_measures.select_files' })}
+                />
+
+                <KeyboardHint
+                  command={`${KeyboardKeys.LeftArrow} ${KeyboardKeys.RightArrow}`}
+                  title={intl.formatMessage({ id: 'component_measures.navigate' })}
+                />
+              </Text>
             )}
           </div>
+        )}
 
-          {(showComponentList || showSearch) && (
-            <div className="sw-flex sw-items-end sw-typo-default">
-              <KeyboardHint
-                className="sw-mr-4 sw-ml-6"
-                command={`${KeyboardKeys.DownArrow} ${KeyboardKeys.UpArrow}`}
-                title={translate('component_measures.select_files')}
+        {!hasComponents && sourceViewer === undefined && (
+          <div className="sw-flex sw-align-center sw-flex-col sw-fixed sw-top-1/2">
+            <Text as="div" isSubtle>
+              <FormattedMessage
+                id={`code_viewer.no_source_code_displayed_due_to_empty_analysis.${component.qualifier}`}
               />
-
-              <KeyboardHint
-                command={`${KeyboardKeys.LeftArrow} ${KeyboardKeys.RightArrow}`}
-                title={translate('component_measures.navigate')}
-              />
-            </div>
-          )}
-        </div>
+            </Text>
+          </div>
+        )}
 
         {(showComponentList || showSearch) && (
-          <Card className="sw-mt-2 sw-overflow-auto">
+          <Card className="sw-overflow-auto">
             {showComponentList && (
               <Components
                 aicaDisabledMetrics={aicaDisabledMetrics}
@@ -296,18 +342,16 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
         )}
 
         {sourceViewer !== undefined && !showSearch && (
-          <div className="sw-mt-2">
-            <SourceViewerWrapper
-              branchLike={branchLike}
-              component={sourceViewer.key}
-              componentMeasures={sourceViewer.measures}
-              isFile
-              location={location}
-              onGoToParent={props.handleGoToParent}
-            />
-          </div>
+          <SourceViewerWrapper
+            branchLike={branchLike}
+            component={sourceViewer.key}
+            componentMeasures={sourceViewer.measures}
+            isFile
+            location={location}
+            onGoToParent={props.handleGoToParent}
+          />
         )}
       </Spinner>
-    </LargeCenteredLayout>
+    </ProjectPageTemplate>
   );
 }

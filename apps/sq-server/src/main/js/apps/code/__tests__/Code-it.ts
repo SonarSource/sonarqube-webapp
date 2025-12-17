@@ -745,8 +745,7 @@ it('should render correctly for ipynb files', async () => {
   expect(ui.previewOutputImage.get()).toBeInTheDocument();
   expect(ui.previewOutputText.get()).toBeInTheDocument();
   expect(ui.previewOutputStream.get()).toBeInTheDocument();
-  expect(ui.previewIssueUnderline.get()).toBeInTheDocument();
-
+  expect(await ui.previewIssueUnderline.find()).toBeInTheDocument();
   expect(await ui.previewIssueIndicator.find()).toBeInTheDocument();
 
   await ui.clickIssueIndicator();

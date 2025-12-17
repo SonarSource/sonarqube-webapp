@@ -50,12 +50,12 @@ export function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooterProps>) 
 
   return (
     <Layout.PageFooter>
-      <Text as="div" className="sw-flex sw-flex-shrink-0 sw-flex-auto" isSubtle size="small">
+      <Text as="div" className="sw-flex sw-grow sw-shrink-0 sw-flex-auto" isSubtle size="small">
         <GlobalFooterBranding />
       </Text>
 
       {!hideLoggedInInfo && (
-        <ul className="sw-code sw-flex sw-flex-wrap sw-justify-center sw-items-center sw-gap-1 sw-mx-8">
+        <ul className="sw-code sw-flex sw-grow sw-flex-wrap sw-justify-center sw-items-center sw-gap-1 sw-mx-8">
           {currentEdition && (
             <>
               <Text as="li" isSubtle size="small">
@@ -92,7 +92,7 @@ export function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooterProps>) 
         </ul>
       )}
 
-      <ul className="sw-flex sw-items-center sw-gap-4 sw-typo-sm">
+      <ul className="sw-flex sw-grow sw-justify-end sw-items-center sw-gap-4 sw-typo-sm">
         <li>
           {isCommunityBuildRunning ? (
             <LinkStandalone

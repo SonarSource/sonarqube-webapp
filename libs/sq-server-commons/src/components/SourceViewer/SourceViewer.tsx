@@ -18,8 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { MessageCallout } from '@sonarsource/echoes-react';
 import { intersection } from 'lodash';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import { Measure } from '~shared/types/measures';
@@ -31,7 +33,6 @@ import {
   getSources,
 } from '../../api/components';
 import { ComponentContext } from '../../context/componentContext/ComponentContext';
-import { FlagMessage } from '../../design-system';
 import { isSameBranchLike } from '../../helpers/branch-like';
 import { translate } from '../../helpers/l10n';
 import { BranchLike } from '../../types/branch-like';
@@ -605,17 +606,17 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
 
     if (this.state.notExist) {
       return (
-        <FlagMessage className="sw-mt-2" variant="warning">
-          {translate('component_viewer.no_component')}
-        </FlagMessage>
+        <MessageCallout className="sw-mt-2" variety="warning">
+          <FormattedMessage id="component_viewer.no_component" />
+        </MessageCallout>
       );
     }
 
     if (notAccessible) {
       return (
-        <FlagMessage className="sw-mt-2" variant="warning">
-          {translate('code_viewer.no_source_code_displayed_due_to_security')}
-        </FlagMessage>
+        <MessageCallout className="sw-mt-2" variety="warning">
+          <FormattedMessage id="code_viewer.no_source_code_displayed_due_to_security" />
+        </MessageCallout>
       );
     }
 
@@ -629,9 +630,9 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
           {!hideHeader && this.renderHeader(component)}
 
           {sourceRemoved && (
-            <FlagMessage className="sw-mt-4 sw-ml-4" variant="warning">
-              {translate('code_viewer.no_source_code_displayed_due_to_source_removed')}
-            </FlagMessage>
+            <MessageCallout className="sw-mt-4 sw-ml-4" variety="warning">
+              <FormattedMessage id="code_viewer.no_source_code_displayed_due_to_source_removed" />
+            </MessageCallout>
           )}
 
           {!sourceRemoved && sources !== undefined && this.renderCode(sources)}
