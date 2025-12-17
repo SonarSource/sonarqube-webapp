@@ -137,7 +137,7 @@ const ui = {
   description: byText('users.page.description'),
   deleteUserAlert: byText('users.delete_user.help'),
 
-  searchInput: byRole('searchbox', { name: 'search.search_by_login_or_name' }),
+  searchInput: byRole('searchbox', { name: /search.search_by_login_or_name/ }),
   activityFilter: byRole('combobox', { name: 'users.activity_filter.label' }),
   loginInput: byRole('textbox', { name: /login/ }),
   userNameInput: byRole('textbox', { name: /name/ }),
@@ -198,7 +198,9 @@ describe('different filters combinations', () => {
 
     await user.type(await ui.searchInput.find(), 'ar');
 
-    expect(await ui.userRows.findAll()).toHaveLength(2);
+    await waitFor(() => {
+      expect(ui.userRows.getAll()).toHaveLength(2);
+    });
     expect(ui.bobRow.get()).toBeInTheDocument();
     expect(ui.charlieRow.get()).toBeInTheDocument();
   });

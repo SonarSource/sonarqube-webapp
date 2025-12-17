@@ -23,10 +23,11 @@ import { LAYOUT_GLOBAL_NAV_HEIGHT, Table, themeColor } from '~design-system';
 
 export const LAYOUT_ADMIN_NAV_HEIGHT = 92;
 
-export const StickyTable = styled(Table)`
+export const StickyTable = styled(Table)<{ overrideTop?: number }>`
   & th {
     position: sticky;
-    top: ${LAYOUT_ADMIN_NAV_HEIGHT + LAYOUT_GLOBAL_NAV_HEIGHT}px;
+    top: ${({ overrideTop }) =>
+      overrideTop ?? LAYOUT_ADMIN_NAV_HEIGHT + LAYOUT_GLOBAL_NAV_HEIGHT}px;
     background: ${themeColor('backgroundSecondary')};
     z-index: 1;
   }

@@ -84,6 +84,7 @@ const PAGES_MIGRATED: string[] = [
   '/admin/settings',
   '/admin/settings/encryption',
   '/admin/system',
+  '/admin/users',
   '/admin/webhooks',
   '/code',
   '/dashboard',

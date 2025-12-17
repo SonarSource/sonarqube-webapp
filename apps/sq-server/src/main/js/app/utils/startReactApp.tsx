@@ -193,13 +193,13 @@ function renderAdminRoutes() {
         {marketplaceRoutes()}
         {permissionTemplatesRoutes()}
         {projectsManagementRoutes()}
-        {usersRoutes()}
       </Route>
       <Route element={<AdminContainer />}>
         {backgroundTasksRoutes()}
         {licenseRoutes()}
         {settingsRoutes()}
         {systemRoutes()}
+        {usersRoutes()}
         {webhooksRoutes()}
       </Route>
     </Route>

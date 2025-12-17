@@ -53,7 +53,7 @@ export default function UsersList({ identityProviders, users, manageProvider }: 
   );
 
   return (
-    <StickyTable columnCount={7} header={header} id="users-list">
+    <StickyTable columnCount={7} header={header} id="users-list" overrideTop={-1}>
       {users.map((user) => (
         <UserListItem
           identityProvider={identityProviders.find(

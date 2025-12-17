@@ -18,35 +18,47 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Label, Spinner } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  Card,
+  Label,
+  Layout,
+  SearchInput,
+  Spinner,
+  ToggleTip,
+} from '@sonarsource/echoes-react';
 import { subDays, subSeconds } from 'date-fns';
 import { useEffect, useMemo, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { HelperHintIcon, InputSearch, InputSelect, LargeCenteredLayout } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { InputSelect } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
+import { useDebouncedValue } from '~shared/helpers/useDebouncedValue';
 import { getIdentityProviders } from '~sq-server-commons/api/users';
 import { ManagedFilter } from '~sq-server-commons/components/controls/ManagedFilter';
+import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
 import { now, toISO8601WithOffsetString } from '~sq-server-commons/helpers/dates';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
 import { useIdentityProviderQuery } from '~sq-server-commons/queries/identity-provider/common';
 import { useUsersQueries } from '~sq-server-commons/queries/users';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { IdentityProvider, Provider } from '~sq-server-commons/types/types';
 import GitHubSynchronisationWarning from '../../app/components/GitHubSynchronisationWarning';
 import GitLabSynchronisationWarning from '../../app/components/GitLabSynchronisationWarning';
-import Header from './Header';
-import UsersList from './UsersList';
+import UserForm from './components/UserForm';
 import { USERS_ACTIVITY_OPTIONS, USER_INACTIVITY_DAYS_THRESHOLD } from './constants';
 import { UserActivity } from './types';
+import UsersAppDescription from './UsersAppDescription';
+import UsersList from './UsersList';
 
 export default function UsersApp() {
+  const { formatMessage } = useIntl();
   const [identityProviders, setIdentityProviders] = useState<IdentityProvider[]>([]);
-  const [search, setSearch] = useState('');
   const [usersActivity, setUsersActivity] = useState<UserActivity>(UserActivity.AnyActivity);
   const [managed, setManaged] = useState<boolean | undefined>(undefined);
 
   const { data: manageProvider } = useIdentityProviderQuery();
+
+  const [search, query, handleSearch] = useDebouncedValue();
 
   const usersActivityParams = useMemo(() => {
     const nowDate = now();
@@ -73,7 +85,7 @@ export default function UsersApp() {
   }, [usersActivity]);
 
   const { data, isLoading, fetchNextPage } = useUsersQueries({
-    q: search,
+    q: query,
     managed,
     ...usersActivityParams,
   });
@@ -88,78 +100,102 @@ export default function UsersApp() {
   }, []);
 
   return (
-    <LargeCenteredLayout as="main" id="users-page">
-      <div className="sw-my-8">
-        <Helmet defer={false} title={translate('users.page')} />
-        <Header manageProvider={manageProvider?.provider} />
+    <AdminPageTemplate
+      actions={
+        <Layout.PageHeader.Actions>
+          <UserForm isInstanceManaged={false}>
+            <Button
+              id="users-create"
+              isDisabled={manageProvider?.provider !== undefined}
+              variety={ButtonVariety.Primary}
+            >
+              <FormattedMessage id="users.create_user" />
+            </Button>
+          </UserForm>
+        </Layout.PageHeader.Actions>
+      }
+      description={<UsersAppDescription manageProvider={manageProvider?.provider} />}
+      title={formatMessage({ id: 'users.page' })}
+      width="fluid"
+    >
+      <div className="sw-mb-8">
         {manageProvider?.provider === Provider.Github && <GitHubSynchronisationWarning short />}
         {manageProvider?.provider === Provider.Gitlab && <GitLabSynchronisationWarning short />}
-        <div className="sw-flex sw-my-4">
-          <ManagedFilter
-            loading={isLoading}
-            manageProvider={manageProvider?.provider}
-            managed={managed}
-            setManaged={(m) => {
-              setManaged(m);
-            }}
-          />
-          <InputSearch
-            id="users-search"
-            minLength={2}
-            onChange={(search: string) => {
-              setSearch(search);
-            }}
-            placeholder={translate('search.search_by_login_or_name')}
-            value={search}
-          />
-          <div className="sw-flex sw-items-center sw-ml-4">
-            <Label as="label" className="sw-mr-2">
-              {translate('users.filter.by')}
-            </Label>
-            <InputSelect
-              aria-label={translate('users.activity_filter.label')}
-              className="sw-typo-default"
-              id="users-activity-filter"
-              isDisabled={isLoading}
-              isSearchable={false}
-              onChange={(userActivity: LabelValueSelectOption<UserActivity>) => {
-                setUsersActivity(userActivity.value);
-              }}
-              options={USERS_ACTIVITY_OPTIONS}
-              placeholder={translate('users.activity_filter.placeholder')}
-              size="medium"
-              value={
-                USERS_ACTIVITY_OPTIONS.find((option) => option.value === usersActivity) ?? null
-              }
-            />
-            <HelpTooltip
-              className="sw-ml-1"
-              overlay={
-                <>
-                  <p>{translate('users.activity_filter.helptext.sonarqube')}</p>
-                  <p>{translate('users.activity_filter.helptext.sonarlint')}</p>
-                </>
-              }
-            >
-              <HelperHintIcon />
-            </HelpTooltip>
-          </div>
-        </div>
-        <Spinner isLoading={isLoading}>
-          <UsersList
-            identityProviders={identityProviders}
-            manageProvider={manageProvider?.provider}
-            users={users}
-          />
-        </Spinner>
+        <Card>
+          <Card.Body>
+            <div className="sw-flex sw-mb-4">
+              <ManagedFilter
+                loading={isLoading}
+                manageProvider={manageProvider?.provider}
+                managed={managed}
+                setManaged={(m) => {
+                  setManaged(m);
+                }}
+              />
 
-        <ListFooter
-          count={users.length}
-          loadMore={fetchNextPage}
-          ready={!isLoading}
-          total={data?.pages[0].page.total}
-        />
+              <SearchInput
+                className="sw-mr-2"
+                id="users-search"
+                onChange={handleSearch}
+                placeholderLabel={formatMessage({ id: 'search.search_by_login_or_name' })}
+                value={search}
+                width="large"
+              />
+              <div className="sw-flex sw-items-center sw-ml-4">
+                <Label as="label" className="sw-mr-2">
+                  <FormattedMessage id="users.filter.by" />
+                </Label>
+                <InputSelect
+                  aria-label={formatMessage({ id: 'users.activity_filter.label' })}
+                  className="sw-typo-default"
+                  id="users-activity-filter"
+                  isDisabled={isLoading}
+                  isSearchable={false}
+                  onChange={(userActivity: LabelValueSelectOption<UserActivity>) => {
+                    setUsersActivity(userActivity.value);
+                  }}
+                  options={USERS_ACTIVITY_OPTIONS}
+                  placeholder={formatMessage({ id: 'users.activity_filter.placeholder' })}
+                  size="medium"
+                  value={
+                    USERS_ACTIVITY_OPTIONS.find((option) => option.value === usersActivity) ?? null
+                  }
+                />
+                <ToggleTip
+                  className="sw-ml-2"
+                  description={
+                    <>
+                      <p>
+                        <FormattedMessage id="users.activity_filter.helptext.sonarqube" />
+                      </p>
+                      <br />
+                      <p>
+                        <FormattedMessage id="users.activity_filter.helptext.sonarlint" />
+                      </p>
+                    </>
+                  }
+                  side="right"
+                />
+              </div>
+            </div>
+
+            <Spinner isLoading={isLoading}>
+              <UsersList
+                identityProviders={identityProviders}
+                manageProvider={manageProvider?.provider}
+                users={users}
+              />
+            </Spinner>
+
+            <ListFooter
+              count={users.length}
+              loadMore={fetchNextPage}
+              ready={!isLoading}
+              total={data?.pages[0].page.total}
+            />
+          </Card.Body>
+        </Card>
       </div>
-    </LargeCenteredLayout>
+    </AdminPageTemplate>
   );
 }
