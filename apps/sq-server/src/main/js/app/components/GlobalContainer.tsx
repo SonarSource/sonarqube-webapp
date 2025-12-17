@@ -85,6 +85,7 @@ const PAGES_MIGRATED: string[] = [
   '/admin/system',
   '/admin/webhooks',
   '/dashboard',
+  '/unsubscribe',
 ];
 
 const StartupLicenseCheckModal = addons.license?.StartupLicenseCheckModal || (() => undefined);

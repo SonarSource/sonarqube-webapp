@@ -20,18 +20,19 @@
 
 import { Spinner } from '@sonarsource/echoes-react';
 import { useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { useLocation } from '~shared/components/hoc/withRouter';
+import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
 import { isPortfolioLike, isProject } from '~shared/helpers/component';
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { useUnsubscribeFromEmailReportMutation } from '~sq-server-commons/queries/subscriptions';
 
 export function UnsubscribeApp() {
   const { component } = useComponent();
+  const intl = useIntl();
   const location = useLocation();
   const navigate = useNavigate();
   const { data: branchLike, isLoading: isLoadingBranch } = useCurrentBranchQuery(component);
@@ -57,9 +58,11 @@ export function UnsubscribeApp() {
   }, [component, isLoadingBranch, branchLike, location.search, navigate, unsubscribe]);
 
   return (
-    <>
-      <Helmet defer={false} title={translate('component_report.unsubscribe.page_title')} />
+    <ProjectPageTemplate
+      disableBranchSelector
+      title={intl.formatMessage({ id: 'component_report.unsubscribe.page_title' })}
+    >
       <Spinner isLoading />
-    </>
+    </ProjectPageTemplate>
   );
 }
