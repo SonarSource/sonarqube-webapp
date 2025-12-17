@@ -112,6 +112,7 @@ export default function GlobalContainer() {
         />
         <Layout>
           <Layout.BannerContainer>
+            <StartupLicenseCheckBanner />
             <Banners />
           </Layout.BannerContainer>
 
@@ -125,7 +126,6 @@ export default function GlobalContainer() {
         <ModeTour />
         <PromotionNotification />
       </Workspace>
-      <StartupLicenseCheckModal />
     </MetricsContextProvider>
   ) : (
     <MetricsContextProvider>
