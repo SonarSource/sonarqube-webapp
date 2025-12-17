@@ -26,7 +26,7 @@ import { Path } from 'react-router-dom';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import {
   RISK_TYPE_QUALITY_GATE_LABEL,
-  SCA_LICENSE_RISK_METRIC_KEYS,
+  SCA_LICENSE_SEVERITY_RISK_METRIC_KEYS,
   SCA_METRIC_TYPE_MAP,
   SCA_RISK_ALL_METRICS,
   scaFilterConditionsBySeverity,
@@ -248,7 +248,7 @@ export class QualityGateCondition extends React.PureComponent<Props> {
     const threshold = (condition.level === 'ERROR' ? condition.error : condition.warning) as string;
 
     if (metric.type === MetricType.ScaRisk) {
-      if (SCA_LICENSE_RISK_METRIC_KEYS.includes(metric.key)) {
+      if (SCA_LICENSE_SEVERITY_RISK_METRIC_KEYS.includes(metric.key)) {
         return null;
       }
     }

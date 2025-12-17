@@ -40,8 +40,13 @@ export type SCA_RISK_SEVERITY_METRIC_THRESHOLD_KEYS =
   keyof typeof SCA_RISK_SEVERITY_METRIC_THRESHOLDS;
 
 /** HIGH risk is the only risk level for license related options. */
-export const SCA_LICENSE_RISK_SEVERITY_METRIC_THRESHOLDS = {
+const SCA_LICENSE_RISK_SEVERITY_METRIC_THRESHOLDS = {
   '19': ReleaseRiskSeverity.High,
+};
+
+/** BLOCKER risk is the only risk level for malware related options. */
+const SCA_MALWARE_RISK_SEVERITY_METRIC_THRESHOLDS = {
+  '24': ReleaseRiskSeverity.Blocker,
 };
 
 export const SCA_RISK_SEVERITY_METRIC_VALUES = {
@@ -64,16 +69,25 @@ export const RISK_TYPE_QUALITY_GATE_LABEL: Record<ReleaseRiskType | 'Any', L10nM
   Any: 'sca.quality_gates.metric.sca_severity_any_issue',
   [ReleaseRiskType.Vulnerability]: 'sca.quality_gates.metric.sca_severity_vulnerability',
   [ReleaseRiskType.ProhibitedLicense]: 'sca.quality_gates.metric.sca_severity_licensing',
+  [ReleaseRiskType.Malware]: 'sca.quality_gates.metric.sca_severity_licensing',
 };
 
-export const SCA_LICENSE_RISK_METRIC_KEYS = [
+export const SCA_LICENSE_SEVERITY_RISK_METRIC_KEYS = [
   MetricKey.sca_severity_licensing,
   MetricKey.new_sca_severity_licensing,
 ] as string[];
 
+export const SCA_MALWARE_SEVERITY_RISK_METRIC_KEYS = [
+  MetricKey.sca_severity_malware,
+  MetricKey.new_sca_severity_malware,
+] as string[];
+
 export function getScaRiskMetricThresholds(metricKey: string) {
-  if (SCA_LICENSE_RISK_METRIC_KEYS.includes(metricKey)) {
+  if (SCA_LICENSE_SEVERITY_RISK_METRIC_KEYS.includes(metricKey)) {
     return SCA_LICENSE_RISK_SEVERITY_METRIC_THRESHOLDS;
+  }
+  if (SCA_MALWARE_SEVERITY_RISK_METRIC_KEYS.includes(metricKey)) {
+    return SCA_MALWARE_RISK_SEVERITY_METRIC_THRESHOLDS;
   }
   return SCA_RISK_SEVERITY_METRIC_THRESHOLDS;
 }
@@ -84,20 +98,28 @@ export function getScaRiskMetricThresholds(metricKey: string) {
  * and that should have the MetricType.ScaRisk type.
  */
 export const SCA_ISSUE_RISK_SEVERITY_METRICS = [
+  /** Overall metrics */
   MetricKey.sca_severity_any_issue,
   MetricKey.sca_severity_licensing,
   MetricKey.sca_severity_vulnerability,
+  MetricKey.sca_severity_malware,
+  /** New metrics */
   MetricKey.new_sca_severity_any_issue,
   MetricKey.new_sca_severity_licensing,
   MetricKey.new_sca_severity_vulnerability,
+  MetricKey.new_sca_severity_malware,
 ] as string[];
 
 export const SCA_ISSUE_RISK_RATING_METRICS = [
+  /** Overall metrics */
   MetricKey.sca_rating_any_issue,
   MetricKey.sca_rating_licensing,
+  MetricKey.sca_rating_malware,
   MetricKey.sca_rating_vulnerability,
+  /** New metrics */
   MetricKey.new_sca_rating_any_issue,
   MetricKey.new_sca_rating_licensing,
+  MetricKey.new_sca_rating_malware,
   MetricKey.new_sca_rating_vulnerability,
 ] as string[];
 
@@ -113,13 +135,21 @@ export const SCA_RISK_ALL_METRICS = [
 ] as string[];
 
 export const SCA_METRIC_TYPE_MAP: Partial<Record<MetricKey, ReleaseRiskType>> = {
+  /** Overall rating */
   [MetricKey.sca_rating_licensing]: ReleaseRiskType.ProhibitedLicense,
+  [MetricKey.sca_rating_malware]: ReleaseRiskType.Malware,
   [MetricKey.sca_rating_vulnerability]: ReleaseRiskType.Vulnerability,
+  /** Overall severity */
   [MetricKey.sca_severity_licensing]: ReleaseRiskType.ProhibitedLicense,
+  [MetricKey.sca_severity_malware]: ReleaseRiskType.Malware,
   [MetricKey.sca_severity_vulnerability]: ReleaseRiskType.Vulnerability,
+  /** New rating */
   [MetricKey.new_sca_rating_licensing]: ReleaseRiskType.ProhibitedLicense,
+  [MetricKey.new_sca_rating_malware]: ReleaseRiskType.Malware,
   [MetricKey.new_sca_rating_vulnerability]: ReleaseRiskType.Vulnerability,
+  /** New severity */
   [MetricKey.new_sca_severity_licensing]: ReleaseRiskType.ProhibitedLicense,
+  [MetricKey.new_sca_severity_malware]: ReleaseRiskType.Malware,
   [MetricKey.new_sca_severity_vulnerability]: ReleaseRiskType.Vulnerability,
 };
 

@@ -46,6 +46,7 @@ export enum ReleaseRiskSeverity {
 }
 
 export enum ReleaseRiskType {
+  Malware = 'MALWARE',
   Vulnerability = 'VULNERABILITY',
   ProhibitedLicense = 'PROHIBITED_LICENSE',
 }

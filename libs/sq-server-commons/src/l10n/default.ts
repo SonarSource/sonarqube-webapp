@@ -243,6 +243,7 @@ export const defaultMessages = {
   recent_history: 'Recent History',
   recently_browsed: 'Recently Browsed',
   recommended: 'Recommended',
+  references: 'References',
   refresh: 'Refresh',
   reload: 'Reload',
   remove: 'Remove',
@@ -1793,6 +1794,7 @@ export const defaultMessages = {
   'dependencies.risks.type.license_prohibited_description':
     'Dependencies with license {license} should not be used',
   'dependencies.risks.type.vulnerability': 'Vulnerability',
+  'dependencies.risks.type.malware': 'Malicious package',
   'dependencies.risk': 'Dependency Risk',
   'dependencies.risks': 'Dependency Risks',
   'dependencies.risks.empty_state.title':
@@ -1819,6 +1821,8 @@ export const defaultMessages = {
   'dependencies.risks.severity.help.vulnerability.heading': 'Vulnerabilities',
   'dependencies.risks.severity.help.vulnerability.body':
     'Vulnerabilities are given a holistic severity rating based on the vulnerability severity (as defined by CVSS), known exploitation (as defined by CISA KEV), and probable future exploitation (as defined by EPSS).',
+  'dependencies.risks.severity.help.malware.body':
+    'Malware is always given a BLOCKER severity rating by default.',
   'dependencies.risks.severity.help.manual_update':
     "This risk's severity was manually changed to {severity}. To see the history of severity changes for this risk, view the <link>activity tab.</link>",
   'dependencies.risks.severity.help.warning_title': 'Severity review recommended',
@@ -1860,6 +1864,7 @@ export const defaultMessages = {
   'dependencies.risk.how.body':
     'If an updated version of the dependency that fixes the vulnerability is available, update to that version. Always test your application thoroughly after updating a dependency to ensure nothing breaks.',
   'dependencies.risk.how_introduced_link': 'How is this dependency introduced?',
+  'dependencies.risk.how_introduced_tab': 'Where is it?',
   'dependencies.risk.how.find_alternative': 'Find an alternative',
   'dependencies.risk.how.find_alternative.vulnerability_body':
     'If no update is available, consider switching to an alternative dependency that provides the same functionality but without the vulnerability.',
@@ -1906,6 +1911,9 @@ export const defaultMessages = {
 
   'dependencies.risk.how.no_guidance':
     'Remediation guidance is not yet available in Sonar for this vulnerability. You will need to manually determine if there is an unaffected release available that you can update to. Please check the “What’s the risk” information for guidance on affected versions.',
+
+  'dependencies.risk.how.malware.body':
+    "While each instance of a malicious package is different, here are some general principles to help guide you. <li>Immediately inform your information security team.</li><li>Remove the package from your project by uninstalling it and removing it from your dependency files.</li><li>Rotate all secrets and credentials that may have been exposed, including API keys, passwords, tokens, and certificates. Do this from a different, secure computer.</li><li>Review your system for compromise by checking for unexpected processes, network connections, or file modifications. Consider restoring from a clean backup or reimaging affected systems.</li><li>Update to a safe version if one exists, or find an alternative package. Check the package's repository and security advisories for guidance.</li><li>Scan your codebase for any malicious code that may have been injected into your project files during the package's execution.</li><li>Review your security practices including how you vet dependencies and consider using tools that scan for malicious packages before installation.</li>",
 
   //------------------------------------------------------------------------------
   //
@@ -1992,10 +2000,12 @@ export const defaultMessages = {
     'Choose which license profile to assign to this project or create a new profile from the {licenseProfilesUrl} page.',
   'sca.quality_gates.metric.sca_severity_vulnerability': 'Dependency vulnerability severity',
   'sca.quality_gates.metric.sca_severity_licensing': 'Dependency with prohibited license',
+  'sca.quality_gates.metric.sca_severity_malware': 'Dependency with malware',
   'sca.quality_gates.metric.sca_severity_any_issue': 'Dependency risk severity',
   'sca.quality_gates.metric.sca_count_any_issue': 'Dependency risks',
   'sca.quality_gates.metric.sca_count_vulnerability': 'Vulnerable dependency risks',
   'sca.quality_gates.metric.sca_count_licensing': 'Prohibited license dependency risks',
+  'sca.quality_gates.metric.sca_count_malware': 'Malware dependency risks',
   'sca.quality_gates.metric.sca_severity_licensing.description':
     "All prohibited license risks are classified as high severity by Sonar. Therefore, this condition will cause the quality gate to fail if any of a project's dependencies use a license that is prohibited by the project's License Profile.",
 
@@ -5162,7 +5172,9 @@ export const defaultMessages = {
   'metric.new_sca_count_vulnerabilities.description': 'Number of dependencies with vulnerabilities',
   'metric.new_sca_count_vulnerabilities.name': 'Vulnerable dependency risks',
   'metric.new_sca_count_licensing.description': 'Number of dependencies with prohibited licenses',
-  'metric.new_sca_count_licensing_issue.name': 'Prohibited license dependency risks',
+  'metric.new_sca_count_licensing.name': 'Prohibited license dependency risks',
+  'metric.new_sca_count_malware.description': 'Malware dependency risks',
+  'metric.new_sca_count_malware.name': 'New malware dependency risks',
   'metric.new_software_quality_reliability_remediation_effort.description':
     'Reliability remediation effort on new code',
   'metric.new_software_quality_reliability_remediation_effort.name':
@@ -5315,7 +5327,9 @@ export const defaultMessages = {
   'metric.sca_count_vulnerabilities.description': 'Number of dependencies with vulnerabilities',
   'metric.sca_count_vulnerabilities.name': 'Vulnerable dependency risks',
   'metric.sca_count_licensing.description': 'Number of dependencies with prohibited licenses',
-  'metric.sca_count_licensing_issue.name': 'Prohibited license dependency risks',
+  'metric.sca_count_licensing.name': 'Prohibited license dependency risks',
+  'metric.sca_count_malware.description': 'Malware dependency risks',
+  'metric.sca_count_malware.name': 'Malware dependency risks',
   'metric.software_quality_releasability_rating.description': 'Releasability Rating',
   'metric.software_quality_releasability_rating.name': 'Releasability Rating',
   'metric.software_quality_reliability_rating.description': 'Reliability rating',
