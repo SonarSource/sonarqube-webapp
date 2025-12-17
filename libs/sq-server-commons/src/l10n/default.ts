@@ -1734,6 +1734,9 @@ export const defaultMessages = {
   'dependencies.details.chains_none_missing_lockfile_label':
     'A lockfile is required for complete dependency details and accurate analysis. As a best practice, Sonar recommends committing the lockfile to your source control system to ensure it is present when analysis is run. For more details view {link}',
   'dependencies.details.chains_none_missing_lockfile_link': 'analyzing projects for dependencies.',
+  'dependencies.details.other_versions': '{count} other releases in use',
+  'dependencies.details.other_versions.description':
+    '{count} other releases of this package are used in {branchName}',
   'dependencies.package_managers.CARGO': 'Cargo',
   'dependencies.package_managers.COCOAPODS': 'CocoaPods',
   'dependencies.package_managers.COMPOSER': 'Packagist', // Composer is the tool, packagist is the package manager

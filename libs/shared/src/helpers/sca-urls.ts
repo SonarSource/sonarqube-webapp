@@ -213,12 +213,17 @@ function withBase(baseUrl: string, path: string): string {
 }
 
 /**
- * The SCA app might be mounted ad one of several places in the app.
+ * The SCA app might be mounted at one of several places in the app.
  * This will return the base route for the currently mounted app.
  */
 export function useScaBaseUrl() {
   const { pathname } = useLocation();
-  /** The SCA base URL is the part of the pathName before the known routes  */
+  /**
+   * The SCA base URL is the part of the pathName before the known routes
+   * Example: /dependencies/dependency_id_1 -> /
+   *          /dependency-risks -> /
+   *          /some/other/path/dependencies -> /some/other/path/
+   */
   for (const route of [RELEASES_ROUTE_NAME, RISKS_ROUTE_NAME]) {
     const parts = pathname.split(route);
     if (parts.length > 1) {
