@@ -18,19 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Card, Layout } from '@sonarsource/echoes-react';
 import { without } from 'lodash';
 import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout } from '~design-system';
+import { FormattedMessage } from 'react-intl';
 import { ComponentQualifier } from '~shared/types/component';
 import { Paging } from '~shared/types/paging';
 import * as api from '~sq-server-commons/api/permissions';
 import AllHoldersList from '~sq-server-commons/components/permissions/AllHoldersList';
 import { FilterOption } from '~sq-server-commons/components/permissions/SearchForm';
+import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
 import withAppStateContext, {
   WithAppStateContextProps,
 } from '~sq-server-commons/context/app-state/withAppStateContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import {
   PERMISSIONS_ORDER_GLOBAL,
   convertToPermissionDefinitions,
@@ -38,7 +39,6 @@ import {
 } from '~sq-server-commons/helpers/permissions';
 import { PermissionGroup, PermissionUser } from '~sq-server-commons/types/types';
 import '../../styles.css';
-import PageHeader from './PageHeader';
 
 type Props = WithAppStateContextProps;
 
@@ -54,6 +54,7 @@ interface State {
 
 class PermissionsGlobalApp extends React.PureComponent<Props, State> {
   mounted = false;
+  intl = getIntl();
 
   constructor(props: Props) {
     super(props);
@@ -257,30 +258,42 @@ class PermissionsGlobalApp extends React.PureComponent<Props, State> {
       filterPermissions(PERMISSIONS_ORDER_GLOBAL, hasApplicationsEnabled, hasPortfoliosEnabled),
       'global_permissions',
     );
+
+    const pageTitle = this.intl.formatMessage({ id: 'global_permissions.page' });
+
     return (
-      <LargeCenteredLayout id="project-permissions-page">
-        <div className="sw-my-8">
-          <Helmet defer={false} title={translate('global_permissions.permission')} />
-          <PageHeader />
-          <AllHoldersList
-            filter={filter}
-            groups={groups}
-            groupsPaging={groupsPaging}
-            loading={loading}
-            onFilter={this.handleFilter}
-            onGrantPermissionToGroup={this.handleGrantPermissionToGroup}
-            onGrantPermissionToUser={this.handleGrantPermissionToUser}
-            onLoadMore={this.handleLoadMore}
-            onQuery={this.handleSearch}
-            onRevokePermissionFromGroup={this.handleRevokePermissionFromGroup}
-            onRevokePermissionFromUser={this.handleRevokePermissionFromUser}
-            permissions={permissions}
-            query={query}
-            users={users}
-            usersPaging={usersPaging}
-          />
+      <AdminPageTemplate
+        description={
+          <Layout.PageHeader.Description>
+            <FormattedMessage id="global_permissions.page.description" />
+          </Layout.PageHeader.Description>
+        }
+        title={pageTitle}
+      >
+        <div>
+          <Card>
+            <Card.Body>
+              <AllHoldersList
+                filter={filter}
+                groups={groups}
+                groupsPaging={groupsPaging}
+                loading={loading}
+                onFilter={this.handleFilter}
+                onGrantPermissionToGroup={this.handleGrantPermissionToGroup}
+                onGrantPermissionToUser={this.handleGrantPermissionToUser}
+                onLoadMore={this.handleLoadMore}
+                onQuery={this.handleSearch}
+                onRevokePermissionFromGroup={this.handleRevokePermissionFromGroup}
+                onRevokePermissionFromUser={this.handleRevokePermissionFromUser}
+                permissions={permissions}
+                query={query}
+                users={users}
+                usersPaging={usersPaging}
+              />
+            </Card.Body>
+          </Card>
         </div>
-      </LargeCenteredLayout>
+      </AdminPageTemplate>
     );
   }
 }
