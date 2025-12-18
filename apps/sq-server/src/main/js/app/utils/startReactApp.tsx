@@ -190,7 +190,6 @@ function renderAdminRoutes() {
         {auditLogsRoutes()}
         {globalPermissionsRoutes()}
         {groupsRoutes()}
-        {licenseRoutes()}
         {marketplaceRoutes()}
         {permissionTemplatesRoutes()}
         {projectsManagementRoutes()}
@@ -198,6 +197,7 @@ function renderAdminRoutes() {
       </Route>
       <Route element={<AdminContainer />}>
         {backgroundTasksRoutes()}
+        {licenseRoutes()}
         {settingsRoutes()}
         {systemRoutes()}
         {webhooksRoutes()}

@@ -80,6 +80,8 @@ const PAGES_WITH_SECONDARY_BACKGROUND = new Set([
  */
 const PAGES_MIGRATED: string[] = [
   '/admin/background_tasks',
+  '/admin/license/app',
+  '/admin/license/support',
   '/admin/settings',
   '/admin/settings/encryption',
   '/admin/system',

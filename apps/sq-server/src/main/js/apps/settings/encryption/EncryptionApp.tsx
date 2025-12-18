@@ -23,7 +23,7 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import useEffectOnce from '~shared/helpers/useEffectOnce';
 import { checkSecretKey, generateSecretKey } from '~sq-server-commons/api/settings';
-import { AdminPageTemplate } from '../../../app/components/AdminPageTemplate';
+import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
 import EncryptionForm from './EncryptionForm';
 import GenerateSecretKeyForm from './GenerateSecretKeyForm';
 

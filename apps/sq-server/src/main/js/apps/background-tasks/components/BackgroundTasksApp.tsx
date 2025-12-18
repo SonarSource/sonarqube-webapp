@@ -44,13 +44,13 @@ import {
 } from '~sq-server-commons/api/ce';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
+import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import { toShortISO8601String } from '~sq-server-commons/helpers/dates';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { parseAsDate } from '~sq-server-commons/helpers/query';
 import { Task, TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
 import { Component } from '~sq-server-commons/types/types';
-import { AdminPageTemplate } from '../../../app/components/AdminPageTemplate';
 import { CURRENTS, DEBOUNCE_DELAY, DEFAULT_FILTERS, PAGE_SIZE } from '../constants';
 import { Query, mapFiltersToParameters, updateTask } from '../utils';
 import Header from './Header';

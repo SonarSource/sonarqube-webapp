@@ -31,12 +31,12 @@ import {
   updateWebhook,
 } from '~sq-server-commons/api/webhooks';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
+import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { Component } from '~sq-server-commons/types/types';
 import { WebhookResponse } from '~sq-server-commons/types/webhook';
-import { AdminPageTemplate } from '../../../app/components/AdminPageTemplate';
 import PageActions from './PageActions';
 import PageHeader from './PageHeader';
 import WebhooksList from './WebhooksList';

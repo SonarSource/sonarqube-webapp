@@ -25,10 +25,10 @@ import { FormattedMessage } from 'react-intl';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, Router } from '~shared/types/router';
 import { getSystemInfo } from '~sq-server-commons/api/system';
+import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { SysInfoCluster, SysInfoStandalone } from '~sq-server-commons/types/types';
-import { AdminPageTemplate } from '../../../app/components/AdminPageTemplate';
 import { UpdateNotification } from '../../../app/components/update-notification/UpdateNotification';
 import '../styles.css';
 import {
