@@ -88,6 +88,7 @@ const PAGES_MIGRATED: string[] = [
   '/code',
   '/dashboard',
   '/component_measures',
+  '/issues',
   '/project/activity',
   '/project/issues',
   '/unsubscribe',
