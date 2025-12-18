@@ -18,33 +18,24 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
-import { Spinner } from '@sonarsource/echoes-react';
+import { Layout, MessageCallout, Spinner, ToggleTip } from '@sonarsource/echoes-react';
 import { ComponentProps, useMemo } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useIntl } from 'react-intl';
-import {
-  FlagMessage,
-  LargeCenteredLayout,
-  LAYOUT_FOOTER_HEIGHT,
-  themeBorder,
-  themeColor,
-} from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
-import StyledNavFix from '~shared/components/nav/NavFix';
 import { isPortfolioLike } from '~shared/helpers/component';
+import { filterQueryToSearchString } from '~shared/helpers/query';
 import { ComponentQualifier } from '~shared/types/component';
 import { Paging } from '~shared/types/paging';
+import { Location, Router } from '~shared/types/router';
 import { addons } from '~sq-server-addons/index';
-import ScreenPositionHelper from '~sq-server-commons/components/common/ScreenPositionHelper';
 import { AiCodeFixTab } from '~sq-server-commons/components/rules/AiCodeFixTab';
 import IssueTabViewer from '~sq-server-commons/components/rules/IssueTabViewer';
 import { fillBranchLike } from '~sq-server-commons/helpers/branch-like';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { useRuleDetailsQuery } from '~sq-server-commons/queries/rules';
 import { Component, Issue } from '~sq-server-commons/types/types';
 import SubnavigationIssuesList from '../issues-subnavigation/SubnavigationIssuesList';
 import IssueReviewHistoryAndComments from './IssueReviewHistoryAndComments';
+import { IssuesPageTemplate } from './IssuesPageTemplate';
 import IssuesSourceViewer from './IssuesSourceViewer';
 
 interface IssueDetailsProps {
@@ -55,9 +46,11 @@ interface IssueDetailsProps {
   issues: Issue[];
   loading: boolean;
   loadingMore: boolean;
+  location: Location;
   locationsNavigator: boolean;
   openIssue: Issue;
   paging?: Paging;
+  router: Router;
   selectFlow: (flowIndex: number) => void;
   selectLocation: (locationIndex: number) => void;
   selected?: string;
@@ -65,23 +58,10 @@ interface IssueDetailsProps {
   selectedLocationIndex?: number;
 }
 
-export default function IssueDetails({
-  handleOpenIssue,
-  handleIssueChange,
-  openIssue,
-  component,
-  fetchMoreIssues,
-  selectFlow,
-  selectLocation,
-  issues,
-  loading,
-  loadingMore,
-  locationsNavigator,
-  paging,
-  selected,
-  selectedFlowIndex,
-  selectedLocationIndex,
-}: Readonly<IssueDetailsProps>) {
+export default function IssueDetails(props: Readonly<IssueDetailsProps>) {
+  const { handleOpenIssue, handleIssueChange, openIssue, component, fetchMoreIssues } = props;
+  const { selectFlow, selectLocation, issues, loading, loadingMore, locationsNavigator } = props;
+  const { paging, selected, selectedFlowIndex, selectedLocationIndex } = props;
   const { canBrowseAllChildProjects, qualifier = ComponentQualifier.Project } = component ?? {};
   const { data: ruleData, isLoading: isLoadingRule } = useRuleDetailsQuery({ key: openIssue.rule });
   const openRuleDetails = ruleData?.rule;
@@ -103,143 +83,104 @@ export default function IssueDetails({
     return additionalActions;
   }, [component]);
 
-  const warning = !canBrowseAllChildProjects && isPortfolioLike(qualifier) && (
-    <FlagMessage
-      className="it__portfolio_warning sw-flex"
-      title={translate('issues.not_all_issue_show_why')}
-      variant="warning"
-    >
-      {translate('issues.not_all_issue_show')}
-    </FlagMessage>
-  );
-
   return (
-    <PageWrapperStyle id="issues-page">
-      <LargeCenteredLayout>
-        <div className="sw-w-full sw-flex" id="issues-page">
-          <Helmet
-            defer={false}
-            title={openIssue.message}
-            titleTemplate={intl.formatMessage(
-              { id: 'page_title.template.with_category' },
-              { page: translate('issues.page') },
+    <IssuesPageTemplate
+      asideLeft={
+        <Layout.AsideLeft className="it__layout-page-filters" size="medium">
+          <nav
+            aria-label={intl.formatMessage({ id: 'list_of_issues' })}
+            data-testid="issues-nav-bar"
+          >
+            <A11ySkipTarget
+              anchor="issues_sidebar"
+              label={intl.formatMessage({ id: 'issues.skip_to_list' })}
+              weight={10}
+            />
+
+            {!canBrowseAllChildProjects && isPortfolioLike(qualifier) && (
+              <MessageCallout className="it__portfolio_warning sw-pb-4" variety="warning">
+                <span className="sw-flex sw-items-center sw-text-nowrap">
+                  <FormattedMessage id="issues.not_all_issue_show" />
+                  <ToggleTip
+                    className="sw-ml-1"
+                    description={<FormattedMessage id="issues.not_all_issue_show_why" />}
+                  />
+                </span>
+              </MessageCallout>
             )}
-          />
-          <h1 className="sw-sr-only">{translate('issues.page')}</h1>
 
-          <SideBarStyle>
-            <ScreenPositionHelper className="sw-z-filterbar">
-              {({ top }) => (
-                <StyledNavFix
-                  aria-label={translate('list_of_issues')}
-                  className="issues-nav-bar sw-overflow-y-auto"
-                  data-testid="issues-nav-bar"
-                  style={{ height: `calc((100vh - ${top}px) - ${LAYOUT_FOOTER_HEIGHT}px)` }}
-                >
-                  <div className="sw-w-[300px] lg:sw-w-[390px] sw-h-full">
-                    <A11ySkipTarget
-                      anchor="issues_sidebar"
-                      label={translate('issues.skip_to_list')}
-                      weight={10}
-                    />
-                    <div className="sw-h-full">
-                      {warning && <div className="sw-py-4">{warning}</div>}
+            <SubnavigationIssuesList
+              fetchMoreIssues={fetchMoreIssues}
+              issues={issues}
+              loading={loading}
+              loadingMore={loadingMore}
+              onFlowSelect={selectFlow}
+              onIssueSelect={handleOpenIssue}
+              onLocationSelect={selectLocation}
+              paging={paging}
+              selected={selected}
+              selectedFlowIndex={selectedFlowIndex}
+              selectedLocationIndex={selectedLocationIndex}
+            />
+          </nav>
+        </Layout.AsideLeft>
+      }
+      breadcrumbs={useMemo(
+        () => [
+          {
+            linkElement: intl.formatMessage({ id: 'issues.page' }),
+            to: {
+              ...props.location,
+              search: filterQueryToSearchString(props.router.searchParams, (key) => key !== 'open'),
+            },
+          },
+          { hasEllipsis: true, linkElement: openIssue.message },
+        ],
+        [openIssue.message, props.location, props.router.searchParams, intl],
+      )}
+      skipPageContentWrapper
+      title={intl.formatMessage({ id: 'issues.page' })}
+    >
+      <div className="sw-contents it__layout-page-main-inner details-open" id="issues-page">
+        <A11ySkipTarget anchor="issues_main" />
 
-                      <SubnavigationIssuesList
-                        fetchMoreIssues={fetchMoreIssues}
-                        issues={issues}
-                        loading={loading}
-                        loadingMore={loadingMore}
-                        onFlowSelect={selectFlow}
-                        onIssueSelect={handleOpenIssue}
-                        onLocationSelect={selectLocation}
-                        paging={paging}
-                        selected={selected}
-                        selectedFlowIndex={selectedFlowIndex}
-                        selectedLocationIndex={selectedLocationIndex}
-                      />
-                    </div>
-                  </div>
-                </StyledNavFix>
-              )}
-            </ScreenPositionHelper>
-          </SideBarStyle>
-
-          <main className="sw-relative sw-flex-1 sw-min-w-0">
-            <ScreenPositionHelper>
-              {({ top }) => (
-                <StyledIssueWrapper
-                  className="it__layout-page-main-inner sw-pt-0 details-open sw-ml-12"
-                  style={{ height: `calc(100vh - ${top + LAYOUT_FOOTER_HEIGHT}px)` }}
-                >
-                  <A11ySkipTarget anchor="issues_main" />
-
-                  <Spinner isLoading={isLoadingRule}>
-                    {openRuleDetails && (
-                      <IssueTabViewer
-                        activityTabContent={
-                          <IssueReviewHistoryAndComments
-                            issue={openIssue}
-                            onChange={handleIssueChange}
-                          />
-                        }
-                        additionalIssueActions={additionalIssueActions}
-                        codeTabContent={
-                          <IssuesSourceViewer
-                            branchLike={fillBranchLike(openIssue.branch, openIssue.pullRequest)}
-                            issues={issues}
-                            locationsNavigator={locationsNavigator}
-                            onIssueSelect={handleOpenIssue}
-                            onLocationSelect={selectLocation}
-                            openIssue={openIssue}
-                            selectedFlowIndex={selectedFlowIndex}
-                            selectedLocationIndex={selectedLocationIndex}
-                          />
-                        }
-                        extendedDescription={openRuleDetails.htmlNote}
-                        issue={openIssue}
-                        onIssueChange={handleIssueChange}
-                        ruleDescriptionContextKey={openIssue.ruleDescriptionContextKey}
-                        ruleDetails={openRuleDetails}
-                        selectedFlowIndex={selectedFlowIndex}
-                        selectedLocationIndex={selectedLocationIndex}
-                        suggestionTabContent={
-                          <AiCodeFixTab
-                            branchLike={fillBranchLike(openIssue.branch, openIssue.pullRequest)}
-                            issue={openIssue}
-                            language={openRuleDetails.lang}
-                          />
-                        }
-                      />
-                    )}
-                  </Spinner>
-                </StyledIssueWrapper>
-              )}
-            </ScreenPositionHelper>
-          </main>
-        </div>
-      </LargeCenteredLayout>
-    </PageWrapperStyle>
+        <Spinner className="sw-p-4" isLoading={isLoadingRule}>
+          {openRuleDetails && (
+            <IssueTabViewer
+              activityTabContent={
+                <IssueReviewHistoryAndComments issue={openIssue} onChange={handleIssueChange} />
+              }
+              additionalIssueActions={additionalIssueActions}
+              codeTabContent={
+                <IssuesSourceViewer
+                  branchLike={fillBranchLike(openIssue.branch, openIssue.pullRequest)}
+                  issues={issues}
+                  locationsNavigator={locationsNavigator}
+                  onIssueSelect={handleOpenIssue}
+                  onLocationSelect={selectLocation}
+                  openIssue={openIssue}
+                  selectedFlowIndex={selectedFlowIndex}
+                  selectedLocationIndex={selectedLocationIndex}
+                />
+              }
+              extendedDescription={openRuleDetails.htmlNote}
+              issue={openIssue}
+              onIssueChange={handleIssueChange}
+              ruleDescriptionContextKey={openIssue.ruleDescriptionContextKey}
+              ruleDetails={openRuleDetails}
+              selectedFlowIndex={selectedFlowIndex}
+              selectedLocationIndex={selectedLocationIndex}
+              suggestionTabContent={
+                <AiCodeFixTab
+                  branchLike={fillBranchLike(openIssue.branch, openIssue.pullRequest)}
+                  issue={openIssue}
+                  language={openRuleDetails.lang}
+                />
+              }
+            />
+          )}
+        </Spinner>
+      </div>
+    </IssuesPageTemplate>
   );
 }
-
-const PageWrapperStyle = styled.div`
-  background-color: ${themeColor('backgroundPrimary')};
-`;
-
-const SideBarStyle = styled.div`
-  border-left: ${themeBorder('default', 'filterbarBorder')};
-  border-right: ${themeBorder('default', 'filterbarBorder')};
-  background-color: ${themeColor('backgroundSecondary')};
-`;
-
-const StyledIssueWrapper = styled.div`
-  &.details-open {
-    box-sizing: border-box;
-    border-radius: 4px;
-    border: ${themeBorder('default', 'filterbarBorder')};
-    background-color: ${themeColor('filterbar')};
-    border-bottom: none;
-    border-top: none;
-  }
-`;

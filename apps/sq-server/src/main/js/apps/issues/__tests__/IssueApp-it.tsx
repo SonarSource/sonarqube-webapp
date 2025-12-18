@@ -21,7 +21,6 @@
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { range } from 'lodash';
-import React from 'react';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { ISSUE_101, ISSUE_1101, ISSUE_2 } from '~sq-server-commons/api/mocks/data/ids';
 import { TabKeys } from '~sq-server-commons/components/rules/RuleTabViewer';
@@ -51,22 +50,6 @@ jest.mock('../sidebar/Sidebar', () => {
     __esModule: true,
     default: fakeSidebar,
     Sidebar: fakeSidebar,
-  };
-});
-
-jest.mock('~sq-server-commons/components/common/ScreenPositionHelper', () => {
-  const React = jest.requireActual('react');
-
-  return {
-    __esModule: true,
-    default: class ScreenPositionHelper extends React.Component<{
-      children: (args: { top: number }) => React.ReactNode;
-    }> {
-      render() {
-        // eslint-disable-next-line testing-library/no-node-access
-        return this.props.children({ top: 10 });
-      }
-    },
   };
 });
 

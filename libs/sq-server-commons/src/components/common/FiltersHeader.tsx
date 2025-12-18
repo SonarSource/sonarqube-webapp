@@ -46,7 +46,7 @@ export default function FiltersHeader({
   return (
     <div className="sw-mb-5">
       <div className="sw-flex sw-h-900 sw-items-center sw-justify-between">
-        <Heading as="h2" className="sw-typo-lg-semibold">
+        <Heading as="h2" size="medium">
           {title}
         </Heading>
 

@@ -18,31 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
 import {
   Button,
   Checkbox,
+  Layout,
   MessageCallout,
   MessageVariety,
   Spinner,
   ToggleButtonGroup,
-  cssVar,
+  ToggleTip,
 } from '@sonarsource/echoes-react';
 import { keyBy, omit, without } from 'lodash';
 import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
-import {
-  FlagMessage,
-  LAYOUT_FOOTER_HEIGHT,
-  LargeCenteredLayout,
-  themeBorder,
-  themeColor,
-} from '~design-system';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { withRouter } from '~shared/components/hoc/withRouter';
-import StyledNavFix from '~shared/components/nav/NavFix';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
 import { isPortfolioLike, isProject } from '~shared/helpers/component';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
@@ -52,12 +43,10 @@ import { Location, RawQuery, Router } from '~shared/types/router';
 import { listIssues, searchIssues } from '~sq-server-commons/api/issues';
 import EmptySearch from '~sq-server-commons/components/common/EmptySearch';
 import FiltersHeader from '~sq-server-commons/components/common/FiltersHeader';
-import ScreenPositionHelper from '~sq-server-commons/components/common/ScreenPositionHelper';
 import withIndexationContext, {
   WithIndexationContextProps,
 } from '~sq-server-commons/components/hoc/withIndexationContext';
 import withIndexationGuard from '~sq-server-commons/components/hoc/withIndexationGuard';
-import { PSEUDO_SHADOW_HEIGHT } from '~sq-server-commons/components/issues/StyledHeader';
 import { SecurityDevEditionPromoteBanner } from '~sq-server-commons/components/promotion/SecurityDevEditionPromoteBanner';
 import '~sq-server-commons/components/search-navigator.css';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
@@ -114,6 +103,7 @@ import IssueDetails from './IssueDetails';
 import IssueSandboxCallout from './IssueSandboxCallout';
 import IssuesList from './IssuesList';
 import IssuesListTitle from './IssuesListTitle';
+import { IssuesPageTemplate } from './IssuesPageTemplate';
 import NoIssues from './NoIssues';
 import NoMyIssues from './NoMyIssues';
 import PageActions from './PageActions';
@@ -1008,8 +998,9 @@ export class App extends React.PureComponent<Props, State> {
     );
   }
 
-  renderFacets(warning?: React.ReactNode) {
+  renderFacets() {
     const { component, currentUser, branchLike } = this.props;
+    const { canBrowseAllChildProjects, qualifier = ComponentQualifier.Project } = component ?? {};
     const {
       facets,
       loadingFacets,
@@ -1025,53 +1016,65 @@ export class App extends React.PureComponent<Props, State> {
     } = this.state;
 
     return (
-      <div
-        className={
-          'it__layout-page-filters sw-box-border sw-h-full ' +
-          'sw-py-6 sw-pl-3 sw-pr-4 sw-w-[300px] lg:sw-w-[390px]'
-        }
-        style={{ backgroundColor: cssVar('color-surface-default') }}
-      >
-        {warning && <div className="sw-pb-6">{warning}</div>}
+      <Layout.AsideLeft className="it__layout-page-filters" size="medium">
+        <nav aria-label={this.intl.formatMessage({ id: 'filters' })} data-testid="issues-nav-bar">
+          <A11ySkipTarget
+            anchor="issues_sidebar"
+            label={translate('issues.skip_to_filters')}
+            weight={10}
+          />
 
-        {currentUser.isLoggedIn && !component?.needIssueSync && (
-          <div className="sw-flex sw-justify-start sw-mb-8">
-            <ToggleButtonGroup
-              onChange={this.handleMyIssuesChange}
-              options={[
-                {
-                  value: TOGGLE_OPTION.MyIssues,
-                  label: this.intl.formatMessage({ id: 'issues.my_issues' }),
-                },
-                { value: TOGGLE_OPTION.All, label: this.intl.formatMessage({ id: 'all' }) },
-              ]}
-              selected={this.state.myIssues ? TOGGLE_OPTION.MyIssues : TOGGLE_OPTION.All}
-            />
-          </div>
-        )}
+          {!canBrowseAllChildProjects && isPortfolioLike(qualifier) && (
+            <MessageCallout className="it__portfolio_warning sw-pb-4" variety="warning">
+              <span className="sw-flex sw-items-center sw-text-nowrap">
+                <FormattedMessage id="issues.not_all_issue_show" />
+                <ToggleTip
+                  className="sw-ml-1"
+                  description={<FormattedMessage id="issues.not_all_issue_show_why" />}
+                />
+              </span>
+            </MessageCallout>
+          )}
 
-        <FiltersHeader displayReset={this.isFiltered()} onReset={this.handleReset} />
+          {currentUser.isLoggedIn && !component?.needIssueSync && (
+            <div className="sw-flex sw-justify-start sw-mb-4">
+              <ToggleButtonGroup
+                onChange={this.handleMyIssuesChange}
+                options={[
+                  {
+                    value: TOGGLE_OPTION.MyIssues,
+                    label: this.intl.formatMessage({ id: 'issues.my_issues' }),
+                  },
+                  { value: TOGGLE_OPTION.All, label: this.intl.formatMessage({ id: 'all' }) },
+                ]}
+                selected={this.state.myIssues ? TOGGLE_OPTION.MyIssues : TOGGLE_OPTION.All}
+              />
+            </div>
+          )}
 
-        <Sidebar
-          branchLike={branchLike}
-          component={component}
-          createdAfterIncludesTime={this.createdAfterIncludesTime()}
-          facets={facets}
-          loadSearchResultCount={this.loadSearchResultCount}
-          loadingFacets={loadingFacets}
-          myIssues={myIssues}
-          onFacetToggle={this.handleFacetToggle}
-          onFilterChange={this.handleFilterChange}
-          openFacets={openFacets}
-          query={query}
-          referencedComponentsById={referencedComponentsById}
-          referencedComponentsByKey={referencedComponentsByKey}
-          referencedLanguages={referencedLanguages}
-          referencedRules={referencedRules}
-          referencedUsers={referencedUsers}
-          showVariantsFilter={showVariantsFilter}
-        />
-      </div>
+          <FiltersHeader displayReset={this.isFiltered()} onReset={this.handleReset} />
+
+          <Sidebar
+            branchLike={branchLike}
+            component={component}
+            createdAfterIncludesTime={this.createdAfterIncludesTime()}
+            facets={facets}
+            loadSearchResultCount={this.loadSearchResultCount}
+            loadingFacets={loadingFacets}
+            myIssues={myIssues}
+            onFacetToggle={this.handleFacetToggle}
+            onFilterChange={this.handleFilterChange}
+            openFacets={openFacets}
+            query={query}
+            referencedComponentsById={referencedComponentsById}
+            referencedComponentsByKey={referencedComponentsByKey}
+            referencedLanguages={referencedLanguages}
+            referencedRules={referencedRules}
+            referencedUsers={referencedUsers}
+            showVariantsFilter={showVariantsFilter}
+          />
+        </nav>
+      </Layout.AsideLeft>
     );
   }
 
@@ -1149,67 +1152,55 @@ export class App extends React.PureComponent<Props, State> {
     const showMaxBulkItemsMessage = checkAll && paging && paging.total > MAX_PAGE_SIZE;
 
     return (
-      <ScreenPositionHelper>
-        {({ top }) => (
-          <StyledIssueWrapper
-            className="it__layout-page-main-inner sw-pt-0 sw-overflow-y-auto sw-pl-12"
-            style={{ height: `calc(100vh - ${top + LAYOUT_FOOTER_HEIGHT}px)` }}
-          >
-            <A11ySkipTarget anchor="issues_main" />
-            <div className="sw-p-6">
-              {showSecurityDevPromotion && hasSecurityFilter && (
-                <SecurityDevEditionPromoteBanner
-                  className="sw-mb-4 sw-w-full sw-box-border"
-                  isWide
+      <div className="it__layout-page-main-inner" id="issues-page">
+        <A11ySkipTarget anchor="issues_main" />
+        <div className="sw-pb-2">
+          {showSecurityDevPromotion && hasSecurityFilter && (
+            <SecurityDevEditionPromoteBanner className="sw-mb-4 sw-w-full sw-box-border" isWide />
+          )}
+          <div className="sw-flex sw-w-full sw-items-center sw-justify-between sw-box-border">
+            {this.renderBulkChange()}
+
+            <PageActions
+              canSetHome={!this.props.component}
+              effortTotal={this.state.effortTotal}
+              paging={this.props.component?.needIssueSync ? undefined : paging}
+            />
+          </div>
+        </div>
+
+        <Spinner
+          ariaLabel={translate('issues.loading_issues')}
+          className="sw-mt-4"
+          isLoading={loading}
+        >
+          <output>
+            {showMaxBulkItemsMessage ? (
+              <MessageCallout className="sw-mt-3" variety={MessageVariety.Info}>
+                <FormattedMessage
+                  id="issue_bulk_change.max_issues_reached"
+                  values={{ max: <strong>{MAX_PAGE_SIZE}</strong> }}
                 />
-              )}
-              <div className="sw-flex sw-w-full sw-items-center sw-justify-between sw-box-border">
-                {this.renderBulkChange()}
-
-                <PageActions
-                  canSetHome={!this.props.component}
-                  effortTotal={this.state.effortTotal}
-                  paging={this.props.component?.needIssueSync ? undefined : paging}
+              </MessageCallout>
+            ) : (
+              <span className="sw-sr-only">
+                <FormattedMessage
+                  id="issue_bulk_change.selected"
+                  values={{
+                    '0': this.getCheckedIssuesCount(
+                      this.state.checked,
+                      this.state.checkAll,
+                      this.state.paging,
+                    ),
+                  }}
                 />
-              </div>
-            </div>
+              </span>
+            )}
+          </output>
 
-            <div className="sw-px-6 sw-pb-6" style={{ marginTop: `-${PSEUDO_SHADOW_HEIGHT}px` }}>
-              <Spinner
-                ariaLabel={translate('issues.loading_issues')}
-                className="sw-mt-4"
-                isLoading={loading}
-              >
-                <output>
-                  {showMaxBulkItemsMessage ? (
-                    <MessageCallout className="sw-mt-3" variety={MessageVariety.Info}>
-                      <FormattedMessage
-                        id="issue_bulk_change.max_issues_reached"
-                        values={{ max: <strong>{MAX_PAGE_SIZE}</strong> }}
-                      />
-                    </MessageCallout>
-                  ) : (
-                    <span className="sw-sr-only">
-                      <FormattedMessage
-                        id="issue_bulk_change.selected"
-                        values={{
-                          '0': this.getCheckedIssuesCount(
-                            this.state.checked,
-                            this.state.checkAll,
-                            this.state.paging,
-                          ),
-                        }}
-                      />
-                    </span>
-                  )}
-                </output>
-
-                {this.renderList()}
-              </Spinner>
-            </div>
-          </StyledIssueWrapper>
-        )}
-      </ScreenPositionHelper>
+          {this.renderList()}
+        </Spinner>
+      </div>
     );
   }
 
@@ -1225,18 +1216,7 @@ export class App extends React.PureComponent<Props, State> {
       selected,
       locationsNavigator,
     } = this.state;
-    const { component } = this.props;
-    const { canBrowseAllChildProjects, qualifier = ComponentQualifier.Project } =
-      this.props.component ?? {};
-    const warning = !canBrowseAllChildProjects && isPortfolioLike(qualifier) && (
-      <FlagMessage
-        className="it__portfolio_warning sw-flex"
-        title={translate('issues.not_all_issue_show_why')}
-        variant="warning"
-      >
-        {translate('issues.not_all_issue_show')}
-      </FlagMessage>
-    );
+    const { component, location, router } = this.props;
 
     if (openIssue) {
       return (
@@ -1248,9 +1228,11 @@ export class App extends React.PureComponent<Props, State> {
           issues={issues}
           loading={loading}
           loadingMore={loadingMore}
+          location={location}
           locationsNavigator={locationsNavigator}
           openIssue={openIssue}
           paging={paging}
+          router={router}
           selectFlow={this.selectFlow}
           selectLocation={this.selectLocation}
           selected={selected}
@@ -1261,40 +1243,12 @@ export class App extends React.PureComponent<Props, State> {
     }
 
     return (
-      <PageWrapperStyle id="issues-page">
-        <LargeCenteredLayout>
-          <div className="sw-w-full sw-flex" id="issues-page">
-            <Helmet defer={false} title={translate('issues.page')} />
-
-            <h1 className="sw-sr-only">{translate('issues.page')}</h1>
-
-            <SideBarStyle>
-              <ScreenPositionHelper className="sw-z-filterbar">
-                {({ top }) => (
-                  <StyledNavFix
-                    aria-label={translate('filters')}
-                    className="issues-nav-bar sw-overflow-y-auto"
-                    data-testid="issues-nav-bar"
-                    style={{ height: `calc((100vh - ${top}px) - ${LAYOUT_FOOTER_HEIGHT}px)` }}
-                  >
-                    <div className="sw-w-[300px] lg:sw-w-[390px] sw-h-full">
-                      <A11ySkipTarget
-                        anchor="issues_sidebar"
-                        label={translate('issues.skip_to_filters')}
-                        weight={10}
-                      />
-
-                      {this.renderFacets(warning)}
-                    </div>
-                  </StyledNavFix>
-                )}
-              </ScreenPositionHelper>
-            </SideBarStyle>
-
-            <main className="sw-relative sw-flex-1 sw-min-w-0">{this.renderIssueList()}</main>
-          </div>
-        </LargeCenteredLayout>
-      </PageWrapperStyle>
+      <IssuesPageTemplate
+        asideLeft={this.renderFacets()}
+        title={this.intl.formatMessage({ id: 'issues.page' })}
+      >
+        {this.renderIssueList()}
+      </IssuesPageTemplate>
     );
   }
 }
@@ -1303,7 +1257,11 @@ function WrappedApp(props: Readonly<Omit<Props, 'isStandard'>>) {
   const { data: isStandard, isLoading } = useStandardExperienceModeQuery();
 
   return (
-    <Spinner ariaLabel={translate('issues.loading_issues')} isLoading={isLoading}>
+    <Spinner
+      ariaLabel={translate('issues.loading_issues')}
+      className="sw-m-4"
+      isLoading={isLoading}
+    >
       <App {...props} isStandard={isStandard} />
     </Spinner>
   );
@@ -1332,24 +1290,3 @@ export default withRouter(
     ),
   ),
 );
-
-const PageWrapperStyle = styled.div`
-  background-color: ${themeColor('backgroundPrimary')};
-`;
-
-const SideBarStyle = styled.div`
-  border-left: ${themeBorder('default', 'filterbarBorder')};
-  border-right: ${themeBorder('default', 'filterbarBorder')};
-  background-color: ${themeColor('backgroundSecondary')};
-`;
-
-const StyledIssueWrapper = styled.div`
-  &.details-open {
-    box-sizing: border-box;
-    border-radius: 4px;
-    border: ${themeBorder('default', 'filterbarBorder')};
-    background-color: ${themeColor('filterbar')};
-    border-bottom: none;
-    border-top: none;
-  }
-`;

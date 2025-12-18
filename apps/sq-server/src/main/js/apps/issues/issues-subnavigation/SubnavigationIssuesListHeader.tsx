@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
 import { Spinner } from '@sonarsource/echoes-react';
-import { SubnavigationHeading, themeShadow } from '~design-system';
+import { SubnavigationHeading } from '~design-system';
 import { Paging } from '~shared/types/paging';
 import IssuesCounter from '../components/IssuesCounter';
 
@@ -33,12 +32,8 @@ export default function SubnavigationIssuesListHeader(props: Props) {
   const { loading, paging } = props;
 
   return (
-    <StyledHeader className="sw-z-normal">
+    <SubnavigationHeading className="sw-py-0">
       <Spinner isLoading={loading}>{paging && <IssuesCounter total={paging.total} />}</Spinner>
-    </StyledHeader>
+    </SubnavigationHeading>
   );
 }
-
-const StyledHeader = styled(SubnavigationHeading)`
-  box-shadow: ${themeShadow('scrolling')};
-`;

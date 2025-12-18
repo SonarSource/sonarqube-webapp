@@ -20,7 +20,6 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
 import { mockRestUser } from '~sq-server-commons/helpers/testMocks';
 import { Mode } from '~sq-server-commons/types/mode';
 import {
@@ -41,21 +40,6 @@ jest.mock('../sidebar/Sidebar', () => {
     __esModule: true,
     default: fakeSidebar,
     Sidebar: fakeSidebar,
-  };
-});
-
-jest.mock('~sq-server-commons/components/common/ScreenPositionHelper', () => {
-  const React = jest.requireActual('react');
-  return {
-    __esModule: true,
-    default: class ScreenPositionHelper extends React.Component<{
-      children: (args: { top: number }) => React.ReactNode;
-    }> {
-      render() {
-        // eslint-disable-next-line testing-library/no-node-access
-        return this.props.children({ top: 10 });
-      }
-    },
   };
 });
 

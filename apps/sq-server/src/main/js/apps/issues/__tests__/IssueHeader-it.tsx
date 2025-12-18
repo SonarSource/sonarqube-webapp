@@ -205,6 +205,7 @@ function renderIssueHeader(
     >
       <IssueHeader
         issue={mockIssue()}
+        navigation={null}
         onIssueChange={jest.fn()}
         ruleDetails={mockRuleDetails()}
         {...props}

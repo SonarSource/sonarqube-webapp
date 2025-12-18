@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Layout } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { cloneDeep, debounce, groupBy } from 'lodash';
 import * as React from 'react';
@@ -26,16 +27,14 @@ import { RuleDescriptionSections, RuleDetails } from '~shared/types/rules';
 import { dismissNotice } from '../../api/users';
 import { CurrentUserContextInterface } from '../../context/current-user/CurrentUserContext';
 import withCurrentUserContext from '../../context/current-user/withCurrentUserContext';
-import { LAYOUT_FOOTER_HEIGHT, ToggleButton } from '../../design-system';
+import { ToggleButton } from '../../design-system';
 import { fillBranchLike } from '../../helpers/branch-like';
 import { translate } from '../../helpers/l10n';
 import { withUseGetFixSuggestionsIssues } from '../../queries/fix-suggestions';
 import { Issue } from '../../types/types';
 import { CurrentUser, NoticeType } from '../../types/users';
-import ScreenPositionHelper from '../common/ScreenPositionHelper';
 import withLocation from '../hoc/withLocation';
 import IssueHeader from '../issues/IssueHeader';
-import StyledHeader from '../issues/StyledHeader';
 import MoreInfoRuleDescription from './MoreInfoRuleDescription';
 import RuleDescription from './RuleDescription';
 import { TabSelectorContext } from './TabSelectorContext';
@@ -84,7 +83,6 @@ export enum TabKeys {
 const DEBOUNCE_FOR_SCROLL = 250;
 
 export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, State> {
-  headerNode?: HTMLElement | null = null;
   state: State = {
     tabs: [],
   };
@@ -372,59 +370,48 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
     }
 
     return (
-      <ScreenPositionHelper>
-        {({ top }) => (
+      <>
+        <IssueHeader
+          additionalIssueActions={additionalIssueActions}
+          branchLike={fillBranchLike(issue.branch, issue.pullRequest)}
+          issue={issue}
+          navigation={
+            /* This toggle button is used as tabs, do not replace it with Echoes ToggleButtonGroup */
+            <ToggleButton
+              onChange={this.handleSelectTabs}
+              options={tabs}
+              role="tablist"
+              value={selectedTab.key}
+            />
+          }
+          onIssueChange={this.props.onIssueChange}
+          ruleDetails={ruleDetails}
+        />
+
+        <Layout.PageContent>
           <div
-            className="sw-overflow-y-auto"
-            style={{
-              height: `calc(100vh - ${top + 20 + LAYOUT_FOOTER_HEIGHT}px)`,
-            }}
+            aria-labelledby={`tab-${selectedTab.key}`}
+            className="sw-flex sw-flex-col"
+            id={`tabpanel-${selectedTab.key}`}
+            role="tabpanel"
           >
-            <StyledHeader
-              className="sw-z-issue-header"
-              headerHeight={this.headerNode?.clientHeight ?? 0}
-            >
-              <div className="sw-p-6 sw-pb-4" ref={(node) => (this.headerNode = node)}>
-                <IssueHeader
-                  additionalIssueActions={additionalIssueActions}
-                  branchLike={fillBranchLike(issue.branch, issue.pullRequest)}
-                  issue={issue}
-                  onIssueChange={this.props.onIssueChange}
-                  ruleDetails={ruleDetails}
-                />
-                {/* This toggle button is used as tabs, do not replace it with Echoes ToggleButtonGroup */}
-                <ToggleButton
-                  onChange={this.handleSelectTabs}
-                  options={tabs}
-                  role="tablist"
-                  value={selectedTab.key}
-                />
-              </div>
-            </StyledHeader>
-            <div
-              aria-labelledby={`tab-${selectedTab.key}`}
-              className="sw-flex sw-flex-col sw-px-6"
-              id={`tabpanel-${selectedTab.key}`}
-              role="tabpanel"
-            >
-              {tabs
-                .filter((t) => t.key === selectedTab.key)
-                .map((tab) => (
-                  <div
-                    className={classNames({
-                      'sw-hidden': tab.key !== selectedTab.key,
-                    })}
-                    key={tab.key}
-                  >
-                    <TabSelectorContext.Provider value={this.handleSelectTabs}>
-                      {tab.content}
-                    </TabSelectorContext.Provider>
-                  </div>
-                ))}
-            </div>
+            {tabs
+              .filter((t) => t.key === selectedTab.key)
+              .map((tab) => (
+                <div
+                  className={classNames({
+                    'sw-hidden': tab.key !== selectedTab.key,
+                  })}
+                  key={tab.key}
+                >
+                  <TabSelectorContext.Provider value={this.handleSelectTabs}>
+                    {tab.content}
+                  </TabSelectorContext.Provider>
+                </div>
+              ))}
           </div>
-        )}
-      </ScreenPositionHelper>
+        </Layout.PageContent>
+      </>
     );
   }
 }

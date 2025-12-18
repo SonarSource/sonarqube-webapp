@@ -21,13 +21,14 @@
 import {
   Badge,
   BadgeVariety,
-  Heading,
+  Divider,
   IconLink,
+  Layout,
   Link,
   Text,
   toast,
 } from '@sonarsource/echoes-react';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, ReactNode, useCallback, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import { RuleStatusBadge } from '~shared/components/coding-rules/RuleStatusBadge';
@@ -37,7 +38,6 @@ import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { RuleDetails, RuleStatus } from '~shared/types/rules';
 import { setIssueAssignee, setIssueSeverity } from '../../api/issues';
-import { BasicSeparator } from '../../design-system';
 import { isInput, isShortcut } from '../../helpers/keyboardEventHelpers';
 import { KeyboardKeys } from '../../helpers/keycodes';
 import { getKeyboardShortcutEnabled } from '../../helpers/preferences';
@@ -56,17 +56,14 @@ interface Props {
   additionalIssueActions?: React.ComponentType<{ issue: Issue }>[];
   branchLike?: BranchLike;
   issue: Issue;
+  navigation: ReactNode;
   onIssueChange: (issue: Issue) => void;
   ruleDetails: RuleDetails;
 }
 
-function IssueHeader({
-  additionalIssueActions,
-  branchLike,
-  issue,
-  onIssueChange,
-  ruleDetails,
-}: Readonly<Props>) {
+function IssueHeader(props: Readonly<Props>) {
+  const { additionalIssueActions, branchLike, issue, navigation, onIssueChange, ruleDetails } =
+    props;
   const [issuePopupName, setIssuePopupName] = useState<string | undefined>(undefined);
   const intl = useIntl();
 
@@ -198,89 +195,95 @@ function IssueHeader({
   const canSetTags = issue.actions.includes(IssueActions.SetTags);
 
   return (
-    <header className="sw-flex sw-mb-6">
-      <div className="sw-mr-8 sw-flex-1 sw-flex sw-flex-col sw-gap-4 sw-min-w-0">
-        <div className="sw-flex sw-flex-col sw-gap-2">
-          <div className="sw-flex sw-items-center">
-            <Heading as="h1" size="medium">
-              <IssueMessageHighlighting
-                message={issue.message}
-                messageFormattings={issue.messageFormattings}
-              />
-            </Heading>
-            <ClipboardIconButton
-              Icon={IconLink}
-              aria-label={intl.formatMessage(
-                { id: 'issue.permalink_copy' },
-                { title: issue.message },
-              )}
-              className="sw-ml-1 sw-align-bottom"
-              copyValue={getPathUrlAsString(issueUrl, false)}
-              discreet
-            />
-          </div>
-
-          <div className="sw-flex sw-items-center sw-justify-between">
-            <Text isSubtle>
-              <span className="sw-pr-1">{ruleDetails.name}</span>
-              {ruleDetails.isExternal ? (
-                <span>({ruleDetails.key})</span>
-              ) : (
-                <Link enableOpenInNewTab to={getRuleUrl(ruleDetails.key)}>
-                  {ruleDetails.key}
-                </Link>
-              )}
-              <WorkspaceContext.Consumer>
-                {({ externalRulesRepoNames }) => {
-                  const ruleEngine =
-                    (issue.externalRuleEngine &&
-                      externalRulesRepoNames[issue.externalRuleEngine]) ||
-                    issue.externalRuleEngine;
-                  if (ruleEngine) {
-                    return (
-                      <Badge className="sw-ml-1" variety={BadgeVariety.Neutral}>
-                        {ruleEngine}
-                      </Badge>
-                    );
-                  }
-
-                  return null;
-                }}
-              </WorkspaceContext.Consumer>
-
-              {/* Only show beta status badge for non-external rules */}
-              {!ruleDetails.isExternal && ruleDetails.status === RuleStatus.Beta && (
-                <span className="sw-ml-1">
-                  <RuleStatusBadge rule={ruleDetails} />
-                </span>
-              )}
+    <Layout.PageHeader
+      actions={
+        <Layout.PageHeader.Actions>
+          <Divider className="sw-ml-2" isVertical />
+          <IssueHeaderSide
+            issue={issue}
+            onSetSeverity={
+              issue.actions.includes(IssueActions.SetSeverity) ? handleSeverityChange : undefined
+            }
+          />
+        </Layout.PageHeader.Actions>
+      }
+      className="sw-z-normal"
+      description={
+        <>
+          <Layout.PageHeader.Description>
+            <Text className="sw-pr-1" isSubtle>
+              {ruleDetails.name}
             </Text>
-          </div>
-        </div>
+            {ruleDetails.isExternal ? (
+              <Text isSubtle>({ruleDetails.key})</Text>
+            ) : (
+              <Link enableOpenInNewTab to={getRuleUrl(ruleDetails.key)}>
+                {ruleDetails.key}
+              </Link>
+            )}
+            <WorkspaceContext.Consumer>
+              {({ externalRulesRepoNames }) => {
+                const ruleEngine =
+                  (issue.externalRuleEngine && externalRulesRepoNames[issue.externalRuleEngine]) ||
+                  issue.externalRuleEngine;
+                if (ruleEngine) {
+                  return (
+                    <Badge className="sw-ml-1" variety={BadgeVariety.Neutral}>
+                      {ruleEngine}
+                    </Badge>
+                  );
+                }
 
-        <IssueHeaderMeta issue={issue} />
+                return null;
+              }}
+            </WorkspaceContext.Consumer>
 
-        <BasicSeparator />
-
-        <IssueActionsBar
-          additionalIssueActions={additionalIssueActions}
-          canSetTags={canSetTags}
-          currentPopup={issuePopupName}
-          issue={issue}
-          onAssign={handleAssignement}
-          onChange={onIssueChange}
-          showSonarLintBadge
-          showTags
-          togglePopup={handleIssuePopupToggle}
-        />
-      </div>
-      <IssueHeaderSide
-        issue={issue}
-        onSetSeverity={
-          issue.actions.includes(IssueActions.SetSeverity) ? handleSeverityChange : undefined
-        }
-      />
-    </header>
+            {/* Only show beta status badge for non-external rules */}
+            {!ruleDetails.isExternal && ruleDetails.status === RuleStatus.Beta && (
+              <span className="sw-ml-1">
+                <RuleStatusBadge rule={ruleDetails} />
+              </span>
+            )}
+            <IssueHeaderMeta issue={issue} />
+          </Layout.PageHeader.Description>
+          <Divider className="sw-my-50" />
+          <IssueActionsBar
+            additionalIssueActions={additionalIssueActions}
+            canSetTags={canSetTags}
+            currentPopup={issuePopupName}
+            issue={issue}
+            onAssign={handleAssignement}
+            onChange={onIssueChange}
+            showSonarLintBadge
+            showTags
+            togglePopup={handleIssuePopupToggle}
+          />
+        </>
+      }
+      navigation={
+        <Layout.PageHeader.Navigation>
+          <div className="sw-mb-300">{navigation}</div>
+        </Layout.PageHeader.Navigation>
+      }
+      scrollBehavior="sticky"
+      title={
+        <Layout.PageHeader.Title headingLevel="h3">
+          <IssueMessageHighlighting
+            message={issue.message}
+            messageFormattings={issue.messageFormattings}
+          />{' '}
+          <ClipboardIconButton
+            Icon={IconLink}
+            aria-label={intl.formatMessage(
+              { id: 'issue.permalink_copy' },
+              { title: issue.message },
+            )}
+            copyValue={getPathUrlAsString(issueUrl, false)}
+            discreet
+          />
+        </Layout.PageHeader.Title>
+      }
+    />
   );
 }
 

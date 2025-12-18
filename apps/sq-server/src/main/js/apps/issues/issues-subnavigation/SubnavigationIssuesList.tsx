@@ -20,7 +20,7 @@
 
 import styled from '@emotion/styled';
 import * as React from 'react';
-import { themeBorder, themeColor, themeShadow } from '~design-system';
+import { themeBorder } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { Paging } from '~shared/types/paging';
 import { Issue } from '~sq-server-commons/types/types';
@@ -56,7 +56,7 @@ export default function SubnavigationIssuesList(props: Props) {
   return (
     <StyledWrapper>
       <SubnavigationIssuesListHeader loading={loading} paging={paging} />
-      <StyledList className="sw-overflow-auto sw-flex-auto">
+      <StyledList>
         {issues.map((issue, index) => {
           const previousIssue = index > 0 ? issues[index - 1] : undefined;
           const displayComponentName =
@@ -84,7 +84,7 @@ export default function SubnavigationIssuesList(props: Props) {
         })}
       </StyledList>
       {paging && paging.total > 0 && (
-        <StyledFooter
+        <ListFooter
           className="sw-my-0 sw-py-4"
           count={issues.length}
           loadMore={props.fetchMoreIssues}
@@ -103,12 +103,7 @@ const StyledList = styled.ul`
 `;
 
 const StyledWrapper = styled.div`
-  background-color: ${themeColor('filterbar')};
   height: inherit;
   display: flex;
   flex-direction: column;
-`;
-
-const StyledFooter = styled(ListFooter)`
-  box-shadow: ${themeShadow('scrolling')};
 `;

@@ -31,7 +31,7 @@ interface Props {
 
 export default function IssueHeaderMeta({ issue }: Readonly<Props>) {
   return (
-    <HelperText className="sw-flex sw-flex-wrap sw-items-center sw-gap-2">
+    <HelperText className="sw-flex sw-flex-wrap sw-items-center sw-gap-2 sw-mt-200">
       {typeof issue.line === 'number' && (
         <>
           <div className="sw-flex sw-gap-1">

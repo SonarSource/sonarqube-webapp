@@ -42,10 +42,12 @@ export default function PageActions(props: PageActionsProps) {
 
       {paging != null && <IssuesCounter total={paging.total} />}
       {effortTotal !== undefined && (
-        <FormattedMessage
-          id="issue.x_effort"
-          values={{ 0: <strong>{formatMeasure(effortTotal, 'WORK_DUR')}</strong> }}
-        />
+        <span>
+          <FormattedMessage
+            id="issue.x_effort"
+            values={{ 0: <strong>{formatMeasure(effortTotal, 'WORK_DUR')}</strong> }}
+          />
+        </span>
       )}
 
       {canSetHome && <HomePageSelect currentPage={{ type: 'ISSUES' }} />}

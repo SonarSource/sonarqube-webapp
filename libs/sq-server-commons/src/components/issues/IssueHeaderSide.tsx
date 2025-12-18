@@ -18,11 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
 import { Spinner, Text } from '@sonarsource/echoes-react';
 import React from 'react';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
-import { themeBorder } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
 import { IssueSeverity } from '../../types/issues';
@@ -39,32 +37,33 @@ interface Props {
 export default function IssueHeaderSide({ issue, onSetSeverity }: Readonly<Props>) {
   const { data: isStandardMode, isLoading } = useStandardExperienceModeQuery();
   return (
-    <StyledSection className="sw-flex sw-flex-col sw-pl-4 sw-max-w-[250px]">
+    <div className="sw-self-start">
       <Spinner isLoading={isLoading}>
-        <IssueHeaderInfo
-          className="sw-mb-6"
-          data-guiding-id="issue-2"
-          title={isStandardMode ? translate('type') : translate('issue.software_qualities.label')}
-        >
-          <SoftwareImpactPillList
-            className="sw-flex-wrap"
-            issueSeverity={issue.severity as IssueSeverity}
-            issueType={issue.type}
-            onSetSeverity={onSetSeverity}
-            softwareImpacts={issue.impacts}
-          />
-        </IssueHeaderInfo>
-
-        {!isStandardMode && (
-          <IssueHeaderInfo title={translate('issue.cct_attribute.label')}>
-            <CleanCodeAttributePill
-              cleanCodeAttribute={issue.cleanCodeAttribute}
-              cleanCodeAttributeCategory={issue.cleanCodeAttributeCategory}
+        <div className="sw-flex sw-flex-col sw-gap-300 sw-pl-2 sw-max-w-[250px]">
+          <IssueHeaderInfo
+            data-guiding-id="issue-2"
+            title={isStandardMode ? translate('type') : translate('issue.software_qualities.label')}
+          >
+            <SoftwareImpactPillList
+              className="sw-flex-wrap"
+              issueSeverity={issue.severity as IssueSeverity}
+              issueType={issue.type}
+              onSetSeverity={onSetSeverity}
+              softwareImpacts={issue.impacts}
             />
           </IssueHeaderInfo>
-        )}
+
+          {!isStandardMode && (
+            <IssueHeaderInfo title={translate('issue.cct_attribute.label')}>
+              <CleanCodeAttributePill
+                cleanCodeAttribute={issue.cleanCodeAttribute}
+                cleanCodeAttributeCategory={issue.cleanCodeAttributeCategory}
+              />
+            </IssueHeaderInfo>
+          )}
+        </div>
       </Spinner>
-    </StyledSection>
+    </div>
   );
 }
 
@@ -89,7 +88,3 @@ function IssueHeaderInfo({
     </div>
   );
 }
-
-const StyledSection = styled.div`
-  border-left: ${themeBorder('default', 'pageBlockBorder')};
-`;

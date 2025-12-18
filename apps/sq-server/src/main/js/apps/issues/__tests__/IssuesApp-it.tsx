@@ -142,7 +142,7 @@ describe('issues app', () => {
       expect(screen.getByRole('tab', { name: 'issue.tabs.code' })).toBeInTheDocument();
 
       // Are rule headers present?
-      expect(screen.getByRole('heading', { level: 1, name: 'Fix that' })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Fix that' })).toBeInTheDocument();
       expect(screen.getByRole('link', { name: /^advancedRuleId/ })).toBeInTheDocument();
 
       // Select the "why is this an issue" tab and check its content
@@ -194,7 +194,7 @@ describe('issues app', () => {
       await user.keyboard('{ArrowUp}');
 
       // Are rule headers present?
-      expect(screen.getByRole('heading', { level: 1, name: 'Fix this' })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Fix this' })).toBeInTheDocument();
       expect(screen.getByRole('link', { name: /^simpleRuleId/ })).toBeInTheDocument();
 
       // Select the "why is this an issue tab" and check its content
@@ -207,7 +207,7 @@ describe('issues app', () => {
       await user.keyboard('{ArrowUp}');
 
       // Are rule headers present?
-      expect(screen.getByRole('heading', { level: 1, name: 'Issue on file' })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Issue on file' })).toBeInTheDocument();
       expect(screen.getByRole('link', { name: /^simpleRuleId/ })).toBeInTheDocument();
 
       // The "Where is the issue" tab should be selected by default. Check its content
@@ -227,7 +227,7 @@ describe('issues app', () => {
       expect(ui.projectIssueItem6.getAll()).toHaveLength(2); // there will be 2 buttons one in concise issue and other in code viewer
 
       await user.click(ui.projectIssueItem6.getAll()[1]);
-      expect(screen.getByRole('heading', { level: 1, name: 'Second issue' })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Second issue' })).toBeInTheDocument();
     });
 
     it('should be able to show more issues', async () => {

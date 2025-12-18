@@ -89,6 +89,7 @@ const PAGES_MIGRATED: string[] = [
   '/dashboard',
   '/component_measures',
   '/project/activity',
+  '/project/issues',
   '/unsubscribe',
 ];
 
