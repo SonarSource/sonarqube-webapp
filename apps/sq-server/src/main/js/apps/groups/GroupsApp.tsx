@@ -18,21 +18,25 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Card } from '@sonarsource/echoes-react';
 import { useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { InputSearch, LargeCenteredLayout } from '~design-system';
+import { useIntl } from 'react-intl';
+import { InputSearch } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { ManagedFilter } from '~sq-server-commons/components/controls/ManagedFilter';
+import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useGroupsQueries } from '~sq-server-commons/queries/groups';
 import { useIdentityProviderQuery } from '~sq-server-commons/queries/identity-provider/common';
 import { Provider } from '~sq-server-commons/types/types';
 import GitHubSynchronisationWarning from '../../app/components/GitHubSynchronisationWarning';
 import GitLabSynchronisationWarning from '../../app/components/GitLabSynchronisationWarning';
-import Header from './components/Header';
+import { GroupsHeaderActions } from './components/GroupsHeaderActions';
+import { GroupsHeaderDescription } from './components/GroupsHeaderDescription';
 import List from './components/List';
 
 export default function GroupsApp() {
+  const { formatMessage } = useIntl();
   const [search, setSearch] = useState<string>('');
   const [managed, setManaged] = useState<boolean | undefined>();
   const { data: manageProvider } = useIdentityProviderQuery();
@@ -45,43 +49,48 @@ export default function GroupsApp() {
   const groups = data?.pages.flatMap((page) => page.groups) ?? [];
 
   return (
-    <LargeCenteredLayout>
-      <div className="sw-my-8">
-        <Helmet defer={false} title={translate('user_groups.page')} />
-        <main>
-          <Header manageProvider={manageProvider?.provider} />
-          {manageProvider?.provider === Provider.Github && <GitHubSynchronisationWarning short />}
-          {manageProvider?.provider === Provider.Gitlab && <GitLabSynchronisationWarning short />}
+    <AdminPageTemplate
+      actions={<GroupsHeaderActions manageProvider={manageProvider?.provider} />}
+      description={<GroupsHeaderDescription manageProvider={manageProvider?.provider} />}
+      title={formatMessage({ id: 'user_groups.page' })}
+      width="fluid"
+    >
+      <div>
+        {manageProvider?.provider === Provider.Github && <GitHubSynchronisationWarning short />}
+        {manageProvider?.provider === Provider.Gitlab && <GitLabSynchronisationWarning short />}
 
-          <div className="sw-flex sw-my-4">
-            <ManagedFilter
+        <Card>
+          <Card.Body>
+            <div className="sw-flex sw-mb-4">
+              <ManagedFilter
+                loading={isLoading}
+                manageProvider={manageProvider?.provider}
+                managed={managed}
+                setManaged={setManaged}
+              />
+              <InputSearch
+                minLength={2}
+                onChange={(q) => {
+                  setSearch(q);
+                }}
+                placeholder={translate('search.search_by_name')}
+                size="large"
+                value={search}
+              />
+            </div>
+
+            <List groups={groups} manageProvider={manageProvider?.provider} />
+
+            <ListFooter
+              count={groups.length}
+              loadMore={fetchNextPage}
               loading={isLoading}
-              manageProvider={manageProvider?.provider}
-              managed={managed}
-              setManaged={setManaged}
+              ready={!isLoading}
+              total={data?.pages[0].page.total}
             />
-            <InputSearch
-              minLength={2}
-              onChange={(q) => {
-                setSearch(q);
-              }}
-              placeholder={translate('search.search_by_name')}
-              size="large"
-              value={search}
-            />
-          </div>
-
-          <List groups={groups} manageProvider={manageProvider?.provider} />
-
-          <ListFooter
-            count={groups.length}
-            loadMore={fetchNextPage}
-            loading={isLoading}
-            ready={!isLoading}
-            total={data?.pages[0].page.total}
-          />
-        </main>
+          </Card.Body>
+        </Card>
       </div>
-    </LargeCenteredLayout>
+    </AdminPageTemplate>
   );
 }
