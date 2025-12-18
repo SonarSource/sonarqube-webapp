@@ -1631,7 +1631,6 @@ export const defaultMessages = {
   'dependencies.risk.what.basicInfo.severity.tooltip':
     'CVSS (Common Vulnerability Scoring System) is a standardized metric that assesses the severity of software vulnerabilities on a scale of 0-10.',
   'dependencies.risk.what.basicInfo.severity.tooltip.link': 'Learn more about CVSS',
-  'dependencies.risk.what.basicInfo.GHSA': 'GHSA',
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation': 'Chance of future exploitation',
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss': '(EPSS)',
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.probabilityRankings.highSeverity':
@@ -1654,8 +1653,9 @@ export const defaultMessages = {
   'dependencies.risk.what.basicInfo.knownExploited.kev.tooltip':
     'KEV (Known Exploited Vulnerabilities) is a list of vulnerabilities that have been confirmed to be actively exploited in the wild',
   'dependencies.risk.what.basicInfo.knownExploited.kev.tooltip.link': 'Learn more about KEV',
-  'dependencies.risk.what.basicInfo.CVE': 'NVD',
-  'dependencies.risk.what.basicInfo.epss': 'EPSS',
+  'dependencies.risk.what.basicInfo.reportType.cve': 'NVD',
+  'dependencies.risk.what.basicInfo.reportType.epss': 'EPSS',
+  'dependencies.risk.what.basicInfo.reportType.ghsa': 'GHSA',
   'dependencies.risk.what.insights.insights_from_maintainer': 'Insights from the maintainer',
   'dependencies.risk.what.insights.insights_from_maintainer.body':
     'Sonar works with the maintainer of this dependency to uphold secure development practices and provide first-party insights on vulnerabilities that are identified.',
