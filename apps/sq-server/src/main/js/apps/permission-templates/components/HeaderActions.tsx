@@ -18,17 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Layout, Spinner } from '@sonarsource/echoes-react';
 import { useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { throwGlobalError } from '~adapters/helpers/error';
-import { Title } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Router } from '~shared/types/router';
 import { createPermissionTemplate } from '~sq-server-commons/api/permissions';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { PERMISSION_TEMPLATES_PATH } from '../utils';
 import Form from './Form';
-import ProvisioningWarning from './ProvisioningWarning';
 
 interface Props {
   ready?: boolean;
@@ -36,9 +34,10 @@ interface Props {
   router: Router;
 }
 
-function Header(props: Props) {
+function HeaderActions(props: Readonly<Props>) {
   const { ready, router } = props;
   const [createModal, setCreateModal] = useState(false);
+  const { formatMessage } = useIntl();
 
   const handleCreateModalSubmit = async (data: {
     description: string;
@@ -58,39 +57,30 @@ function Header(props: Props) {
   };
 
   return (
-    <header>
-      <div id="project-permissions-header">
-        <div className="sw-flex sw-justify-between">
-          <div className="sw-flex sw-gap-3">
-            <Title>{translate('permission_templates.page')}</Title>
-            <Spinner className="sw-mt-2" isLoading={!ready} />
-          </div>
-
-          <Button
-            onClick={() => {
-              setCreateModal(true);
-            }}
-            variety={ButtonVariety.Primary}
-          >
-            {translate('create')}
-          </Button>
-        </div>
-        <div className="sw-mb-4">{translate('permission_templates.page.description')}</div>
-      </div>
-      <ProvisioningWarning />
+    <Layout.PageHeader.Actions>
+      <Spinner isLoading={!ready}>
+        <Button
+          onClick={() => {
+            setCreateModal(true);
+          }}
+          variety={ButtonVariety.Primary}
+        >
+          <FormattedMessage id="create" />
+        </Button>
+      </Spinner>
 
       {createModal && (
         <Form
-          confirmButtonText={translate('create')}
-          header={translate('permission_template.new_template')}
+          confirmButtonText={formatMessage({ id: 'create' })}
+          header={formatMessage({ id: 'permission_template.new_template' })}
           onClose={() => {
             setCreateModal(false);
           }}
           onSubmit={handleCreateModalSubmit}
         />
       )}
-    </header>
+    </Layout.PageHeader.Actions>
   );
 }
 
-export default withRouter(Header);
+export default withRouter(HeaderActions);

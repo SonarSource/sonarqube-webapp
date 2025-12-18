@@ -40,6 +40,7 @@ export default function List(props: Props) {
       columnCount={8}
       header={<ListHeader permissions={props.permissions} />}
       id="permission-templates"
+      noHeaderTopBorder
     >
       {permissionTemplates}
     </Table>

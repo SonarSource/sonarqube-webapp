@@ -18,12 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { Card, Layout } from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
 import { Permission, PermissionTemplate } from '~sq-server-commons/types/types';
-import Header from './Header';
+import HeaderActions from './HeaderActions';
 import List from './List';
+import ProvisioningWarning from './ProvisioningWarning';
 
 interface Props {
   permissionTemplates: PermissionTemplate[];
@@ -34,22 +35,33 @@ interface Props {
 }
 
 export default function Home(props: Props) {
+  const { formatMessage } = useIntl();
+
   return (
-    <LargeCenteredLayout id="users-page">
-      <div className="sw-my-8">
-        <Helmet defer={false} title={translate('permission_templates.page')} />
+    <AdminPageTemplate
+      actions={<HeaderActions ready={props.ready} refresh={props.refresh} />}
+      description={
+        <Layout.PageHeader.Description>
+          <FormattedMessage id="permission_templates.page.description" />
+        </Layout.PageHeader.Description>
+      }
+      title={formatMessage({ id: 'permission_templates.page' })}
+      width="fluid"
+    >
+      <ProvisioningWarning />
 
-        <Header ready={props.ready} refresh={props.refresh} />
-
-        <main>
-          <List
-            permissionTemplates={props.permissionTemplates}
-            permissions={props.permissions}
-            refresh={props.refresh}
-            topQualifiers={props.topQualifiers}
-          />
-        </main>
+      <div>
+        <Card>
+          <Card.Body>
+            <List
+              permissionTemplates={props.permissionTemplates}
+              permissions={props.permissions}
+              refresh={props.refresh}
+              topQualifiers={props.topQualifiers}
+            />
+          </Card.Body>
+        </Card>
       </div>
-    </LargeCenteredLayout>
+    </AdminPageTemplate>
   );
 }

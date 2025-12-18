@@ -19,12 +19,11 @@
  */
 
 import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
 import { withRouter } from '~shared/components/hoc/withRouter';
+import { isDefined } from '~shared/helpers/types';
 import { Location } from '~shared/types/router';
 import { getPermissionTemplates } from '~sq-server-commons/api/permissions';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { Permission, PermissionTemplate } from '~sq-server-commons/types/types';
 import '../../permissions/styles.css';
@@ -76,8 +75,23 @@ class PermissionTemplatesApp extends React.PureComponent<Props, State> {
     }
   };
 
-  renderTemplate(id: string) {
-    const { permissionTemplates, ready } = this.state;
+  render() {
+    const { appState, location } = this.props;
+    const { id } = location.query;
+    const { permissionTemplates, permissions, ready } = this.state;
+
+    if (!isDefined(id)) {
+      return (
+        <Home
+          permissionTemplates={permissionTemplates}
+          permissions={permissions}
+          ready={ready}
+          refresh={this.handleRefresh}
+          topQualifiers={appState.qualifiers}
+        />
+      );
+    }
+
     if (!ready) {
       return null;
     }
@@ -93,29 +107,6 @@ class PermissionTemplatesApp extends React.PureComponent<Props, State> {
         template={template}
         topQualifiers={this.props.appState.qualifiers}
       />
-    );
-  }
-
-  render() {
-    const { appState, location } = this.props;
-    const { id } = location.query;
-    const { permissionTemplates, permissions, ready } = this.state;
-    return (
-      <>
-        <Helmet defer={false} title={translate('permission_templates.page')} />
-
-        {id === undefined ? (
-          <Home
-            permissionTemplates={permissionTemplates}
-            permissions={permissions}
-            ready={ready}
-            refresh={this.handleRefresh}
-            topQualifiers={appState.qualifiers}
-          />
-        ) : (
-          this.renderTemplate(id)
-        )}
-      </>
     );
   }
 }

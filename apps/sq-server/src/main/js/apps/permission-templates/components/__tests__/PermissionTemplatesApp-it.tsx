@@ -189,7 +189,7 @@ describe('CRUD', () => {
       '/new pattern/',
     );
 
-    expect(screen.getByText('Updated name')).toBeInTheDocument();
+    expect(screen.getAllByText('Updated name')).toHaveLength(2); // Header & breadcrumb
     expect(screen.getByText('Updated description')).toBeInTheDocument();
     expect(screen.getByText('/new pattern/')).toBeInTheDocument();
   });
@@ -484,7 +484,7 @@ function getPageObject(user: UserEvent) {
       });
     },
     async openTemplateDetails(name: string) {
-      await user.click(ui.templateLink(name).get());
+      await user.click(await ui.templateLink(name).find());
     },
     async toggleFilterByPermission(permission: Permissions) {
       await user.click(ui.tableHeaderFilter.get());

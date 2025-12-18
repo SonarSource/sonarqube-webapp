@@ -18,14 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Card, Layout } from '@sonarsource/echoes-react';
 import { without } from 'lodash';
 import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout } from '~design-system';
+import { FormattedMessage } from 'react-intl';
 import { Paging } from '~shared/types/paging';
 import * as api from '~sq-server-commons/api/permissions';
 import AllHoldersList from '~sq-server-commons/components/permissions/AllHoldersList';
 import { FilterOption } from '~sq-server-commons/components/permissions/SearchForm';
+import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE,
@@ -36,9 +37,10 @@ import {
   PermissionTemplate,
   PermissionUser,
 } from '~sq-server-commons/types/types';
+import { PERMISSION_TEMPLATES_PATH } from '../utils';
+import ActionsCell from './ActionsCell';
 import ProvisioningWarning from './ProvisioningWarning';
 import TemplateDetails from './TemplateDetails';
-import TemplateHeader from './TemplateHeader';
 
 interface Props {
   refresh: () => void;
@@ -350,41 +352,61 @@ export default class Template extends React.PureComponent<Props, State> {
     }
 
     return (
-      <LargeCenteredLayout id="permission-template">
-        <div className="sw-my-8">
-          <Helmet defer={false} title={template.name} />
-
-          <TemplateHeader
-            refresh={this.props.refresh}
-            template={template}
-            topQualifiers={topQualifiers}
-          />
-          <main>
-            <TemplateDetails template={template} />
-            <ProvisioningWarning />
-
-            <AllHoldersList
-              filter={filter}
-              groups={groups}
-              groupsPaging={groupsPaging}
-              loading={loading}
-              onFilter={this.handleFilter}
-              onGrantPermissionToGroup={this.grantPermissionToGroup}
-              onGrantPermissionToUser={this.grantPermissionToUser}
-              onLoadMore={this.onLoadMore}
-              onQuery={this.handleSearch}
-              onRevokePermissionFromGroup={this.revokePermissionFromGroup}
-              onRevokePermissionFromUser={this.revokePermissionFromUser}
-              onSelectPermission={this.handleSelectPermission}
-              permissions={permissions}
-              query={query}
-              selectedPermission={selectedPermission}
-              users={allUsers}
-              usersPaging={usersPagingWithCreator}
+      <AdminPageTemplate
+        actions={
+          <Layout.PageHeader.Actions>
+            <ActionsCell
+              fromDetails
+              permissionTemplate={template}
+              refresh={this.props.refresh}
+              topQualifiers={topQualifiers}
             />
-          </main>
+          </Layout.PageHeader.Actions>
+        }
+        breadcrumbs={[
+          {
+            linkElement: <FormattedMessage id="permission_templates.page" />,
+            to: PERMISSION_TEMPLATES_PATH,
+          },
+          { linkElement: template.name },
+        ]}
+        description={
+          <Layout.PageHeader.Description>
+            <FormattedMessage id="global_permissions.page.description" />
+          </Layout.PageHeader.Description>
+        }
+        title={template.name}
+        width="fluid"
+      >
+        <TemplateDetails template={template} />
+        <ProvisioningWarning />
+
+        <div>
+          <Card>
+            <Card.Body>
+              <AllHoldersList
+                filter={filter}
+                groups={groups}
+                groupsPaging={groupsPaging}
+                loading={loading}
+                onFilter={this.handleFilter}
+                onGrantPermissionToGroup={this.grantPermissionToGroup}
+                onGrantPermissionToUser={this.grantPermissionToUser}
+                onLoadMore={this.onLoadMore}
+                onQuery={this.handleSearch}
+                onRevokePermissionFromGroup={this.revokePermissionFromGroup}
+                onRevokePermissionFromUser={this.revokePermissionFromUser}
+                onSelectPermission={this.handleSelectPermission}
+                permissions={permissions}
+                query={query}
+                selectedPermission={selectedPermission}
+                users={allUsers}
+                usersPaging={usersPagingWithCreator}
+              />
+            </Card.Body>
+          </Card>
         </div>
-      </LargeCenteredLayout>
+      </AdminPageTemplate>
     );
   }
 }
