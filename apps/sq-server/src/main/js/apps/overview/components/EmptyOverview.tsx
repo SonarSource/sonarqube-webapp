@@ -58,22 +58,19 @@ export function EmptyOverview(props: Readonly<EmptyOverviewProps>) {
     hasGlobalPermission(currentUser, Permissions.Scan),
   );
 
-  const { data, isLoading } = useTaskForComponentQuery(component);
+  const { data: analysisTasks, isLoading } = useTaskForComponentQuery(component);
 
-  const hasQueuedAnalyses =
-    data && data.queue.filter((task) => task.type === TaskTypes.Report).length > 0;
+  const hasQueuedAnalyses = analysisTasks?.queue.some((task) => task.type === TaskTypes.Report);
 
   let permissionInSyncFor: AlmKeys.GitHub | AlmKeys.GitLab = AlmKeys.GitHub;
 
-  const hasPermissionSyncInProgess =
-    data &&
-    data.queue.filter((task) => {
-      if (task.type === TaskTypes.GitlabProjectPermissionsProvisioning) {
-        permissionInSyncFor = AlmKeys.GitLab;
-        return true;
-      }
-      return task.type === TaskTypes.GithubProjectPermissionsProvisioning;
-    }).length > 0;
+  const hasPermissionSyncInProgess = analysisTasks?.queue.some((task) => {
+    if (task.type === TaskTypes.GitlabProjectPermissionsProvisioning) {
+      permissionInSyncFor = AlmKeys.GitLab;
+      return true;
+    }
+    return task.type === TaskTypes.GithubProjectPermissionsProvisioning;
+  });
 
   React.useEffect(() => {
     if (currentUserCanScanProject || !isLoggedIn(currentUser)) {
@@ -141,7 +138,11 @@ export function EmptyOverview(props: Readonly<EmptyOverviewProps>) {
     );
   }
 
-  return <MessageCallout variety="warning">{warning}</MessageCallout>;
+  return (
+    <MessageCallout className="it__empty-overview" variety="warning">
+      {warning}
+    </MessageCallout>
+  );
 }
 
 export default withCurrentUserContext(EmptyOverview);

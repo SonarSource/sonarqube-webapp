@@ -495,14 +495,17 @@ function computeHasUpdatedTasks(
 
   if (progressHasChanged) {
     return true;
-  } else if (currentTaskHasChanged && component) {
+  } else if (currentTaskHasChanged && component && newCurrentTask) {
     // We return true if:
     // - there was no prior analysis date (means this is an empty project, and
-    //   a new analysis came in)
+    //   a new analysis came in and this new analysis is not a failure)
     // - OR, there was a prior analysis date (non-empty project) AND there were
     //   some tasks in progress before
     return (
-      Boolean(!component.analysisDate) || Boolean(component.analysisDate && tasksInProgress?.length)
+      Boolean(
+        !component.analysisDate &&
+          ![TaskStatuses.Failed, TaskStatuses.Canceled].includes(newCurrentTask.status),
+      ) || Boolean(component.analysisDate && tasksInProgress?.length)
     );
   }
   return false;

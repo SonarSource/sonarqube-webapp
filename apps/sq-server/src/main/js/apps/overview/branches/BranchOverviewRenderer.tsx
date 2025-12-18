@@ -173,6 +173,7 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
       }
       disableQualityGateStatus
       metadata={<MetaContentHeader branch={branch} component={component} measures={measures} />}
+      pageClassName="it__overview"
       title={intl.formatMessage({ id: 'overview.page' })}
     >
       {!frontEndEngineeringEnableSidebarNavigation && (
