@@ -116,7 +116,6 @@ export default function GlobalContainer() {
         />
         <Layout>
           <Layout.BannerContainer>
-            <StartupLicenseCheckBanner />
             <Banners />
           </Layout.BannerContainer>
 
@@ -142,7 +141,6 @@ export default function GlobalContainer() {
           <Workspace>
             <div className="sw-sticky sw-top-0 sw-z-global-navbar" id="global-navigation">
               <SQSTemporaryRelativeBannerContainer>
-                <StartupLicenseCheckBanner />
                 <Banners />
               </SQSTemporaryRelativeBannerContainer>
               <GlobalNavLegacy />
@@ -170,6 +168,7 @@ function Banners() {
 
   return (
     <>
+      <StartupLicenseCheckBanner />
       <SystemAnnouncement />
       <NonProductionDatabaseWarning />
       {(hasFeature(Feature.FixSuggestions) || hasFeature(Feature.FixSuggestionsMarketing)) && (

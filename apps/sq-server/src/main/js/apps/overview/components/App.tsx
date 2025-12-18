@@ -71,6 +71,7 @@ export function App(props: AppProps) {
           {!isStringDefined(component.analysisDate) && (
             <ProjectPageTemplate
               disableBranchSelector
+              pageClassName="it__empty-overview"
               title={intl.formatMessage({ id: 'overview.page' })}
             >
               <EmptyOverview branchLike={branchLike} component={component} />

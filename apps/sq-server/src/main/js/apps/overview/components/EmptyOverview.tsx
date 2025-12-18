@@ -138,11 +138,7 @@ export function EmptyOverview(props: Readonly<EmptyOverviewProps>) {
     );
   }
 
-  return (
-    <MessageCallout className="it__empty-overview" variety="warning">
-      {warning}
-    </MessageCallout>
-  );
+  return <MessageCallout variety="warning">{warning}</MessageCallout>;
 }
 
 export default withCurrentUserContext(EmptyOverview);
