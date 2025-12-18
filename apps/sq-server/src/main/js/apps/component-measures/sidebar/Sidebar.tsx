@@ -18,22 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { withTheme } from '@emotion/react';
-import styled from '@emotion/styled';
+import { Layout } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import {
-  LAYOUT_FOOTER_HEIGHT,
-  LAYOUT_GLOBAL_NAV_HEIGHT,
-  LAYOUT_PROJECT_NAV_HEIGHT,
-  SubnavigationGroup,
-  SubnavigationItem,
-  themeBorder,
-  themeColor,
-} from '~design-system';
+import { SubnavigationGroup, SubnavigationItem } from '~design-system';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { MeasureEnhanced } from '~shared/types/measures';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import useFollowScroll from '~sq-server-commons/hooks/useFollowScroll';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { Domain } from '~sq-server-commons/types/measures';
 import { PROJECT_OVERVIEW, Query, isProjectOverview, populateDomainsFromMeasures } from '../utils';
@@ -49,7 +39,6 @@ interface Props {
 
 export default function Sidebar(props: Readonly<Props>) {
   const { showFullMeasures, updateQuery, componentKey, selectedMetric, measures } = props;
-  const { top: topScroll, scrolledOnce } = useFollowScroll();
   const { data: isStandardMode } = useStandardExperienceModeQuery();
   const domains = populateDomainsFromMeasures(measures, isStandardMode);
 
@@ -64,27 +53,11 @@ export default function Sidebar(props: Readonly<Props>) {
     handleChangeMetric(PROJECT_OVERVIEW);
   };
 
-  const distanceFromBottom = topScroll + window.innerHeight - document.body.scrollHeight;
-  const footerVisibleHeight =
-    (scrolledOnce &&
-      (distanceFromBottom > -LAYOUT_FOOTER_HEIGHT
-        ? LAYOUT_FOOTER_HEIGHT + distanceFromBottom
-        : 0)) ||
-    0;
-
   return (
-    <StyledSidebar
-      className="sw-col-span-3"
-      style={{
-        top: `${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT}px`,
-        height: `calc(
-            100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT + footerVisibleHeight}px
-          )`,
-      }}
-    >
+    <Layout.AsideLeft size="medium">
       <section
         aria-label={translate('component_measures.navigation')}
-        className="sw-flex sw-flex-col sw-gap-4 sw-p-4"
+        className="sw-flex sw-flex-col sw-gap-4"
       >
         <A11ySkipTarget
           anchor="measures_filters"
@@ -114,7 +87,7 @@ export default function Sidebar(props: Readonly<Props>) {
           />
         ))}
       </section>
-    </StyledSidebar>
+    </Layout.AsideLeft>
   );
 }
 
@@ -124,13 +97,3 @@ function isDomainSelected(selectedMetric: string, domain: Domain) {
     domain.measures.some((measure) => measure.metric.key === selectedMetric)
   );
 }
-
-const StyledSidebar = withTheme(styled.div`
-  box-sizing: border-box;
-  margin-top: -2rem;
-
-  background-color: ${themeColor('filterbar')};
-  border-right: ${themeBorder('default', 'filterbarBorder')};
-  position: sticky;
-  overflow-x: hidden;
-`);

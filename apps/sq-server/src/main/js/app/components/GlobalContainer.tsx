@@ -86,6 +86,7 @@ const PAGES_MIGRATED: string[] = [
   '/admin/webhooks',
   '/code',
   '/dashboard',
+  '/component_measures',
   '/project/activity',
   '/unsubscribe',
 ];

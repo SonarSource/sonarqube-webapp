@@ -19,8 +19,12 @@
  */
 
 import { Text } from '@sonarsource/echoes-react';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { FormattedMessage } from 'react-intl';
 
 export default function MeasuresEmpty() {
-  return <Text isSubtle>{translate('component_measures.empty')}</Text>;
+  return (
+    <Text as="div" className="sw-my-3 sw-mx-6" isSubtle>
+      <FormattedMessage id="component_measures.empty" />
+    </Text>
+  );
 }

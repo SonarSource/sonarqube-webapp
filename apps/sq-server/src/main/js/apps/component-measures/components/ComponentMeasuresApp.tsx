@@ -18,15 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { withTheme } from '@emotion/react';
-import styled from '@emotion/styled';
-import { Spinner, Text } from '@sonarsource/echoes-react';
-import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
+import { Card, MessageCallout, Spinner, Text } from '@sonarsource/echoes-react';
+import { useContext } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { useMeasuresComponentQuery } from '~adapters/queries/measures';
-import { FlagMessage, LargeCenteredLayout, themeBorder, themeColor } from '~design-system';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
+import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
 import { isPortfolioLike } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
@@ -36,7 +34,6 @@ import { enhanceMeasure } from '~sq-server-commons/components/measure/utils';
 import '~sq-server-commons/components/search-navigator.css';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { MeasurePageView } from '~sq-server-commons/types/measures';
 import { useBubbleChartMetrics } from '../hooks';
@@ -60,9 +57,10 @@ import MeasureOverview from './MeasureOverview';
 import MeasuresEmpty from './MeasuresEmpty';
 
 export default function ComponentMeasuresApp() {
-  const { component } = React.useContext(ComponentContext);
+  const { component } = useContext(ComponentContext);
   const { data: branchLike } = useCurrentBranchQuery(component);
   const { query: rawQuery, pathname } = useLocation();
+  const intl = useIntl();
   const query = parseQuery(rawQuery);
   const router = useRouter();
   const metrics = useMetrics();
@@ -143,23 +141,17 @@ export default function ComponentMeasuresApp() {
   const renderContent = () => {
     if (displayOverview) {
       return (
-        <StyledMain className="sw-rounded-1 sw-mb-4">
-          <MeasureOverview
-            bubblesByDomain={bubblesByDomain}
-            leakPeriod={leakPeriod}
-            rootComponent={component}
-            updateQuery={updateQuery}
-          />
-        </StyledMain>
+        <MeasureOverview
+          bubblesByDomain={bubblesByDomain}
+          leakPeriod={leakPeriod}
+          rootComponent={component}
+          updateQuery={updateQuery}
+        />
       );
     }
 
     if (!metric) {
-      return (
-        <StyledMain className="sw-rounded-1 sw-p-6 sw-mb-4">
-          <MeasuresEmpty />
-        </StyledMain>
-      );
+      return <MeasuresEmpty />;
     }
 
     const hideDrilldown =
@@ -168,64 +160,64 @@ export default function ComponentMeasuresApp() {
 
     if (hideDrilldown) {
       return (
-        <StyledMain className="sw-rounded-1 sw-p-6 sw-mb-4">
-          <Text isSubtle>{translate('component_measures.details_are_not_available')}</Text>
-        </StyledMain>
+        <Text as="div" className="sw-my-3 sw-mx-6" isSubtle>
+          <FormattedMessage id="component_measures.details_are_not_available" />
+        </Text>
       );
     }
 
     return (
-      <StyledMain className="sw-rounded-1 sw-mb-4">
-        <MeasureContent
-          leakPeriod={leakPeriod}
-          requestedMetric={metric}
-          rootComponent={component}
-          updateQuery={updateQuery}
-        />
-      </StyledMain>
+      <MeasureContent
+        leakPeriod={leakPeriod}
+        requestedMetric={metric}
+        rootComponent={component}
+        updateQuery={updateQuery}
+      />
     );
   };
 
   return (
-    <LargeCenteredLayout className="sw-pt-8" id="component-measures">
+    <ProjectPageTemplate
+      asideLeft={
+        <Sidebar
+          componentKey={componentKey}
+          measures={measures}
+          selectedMetric={metric ? metric.key : query.metric}
+          showFullMeasures={showFullMeasures}
+          updateQuery={updateQuery}
+        />
+      }
+      title={intl.formatMessage({ id: 'layout.measures' })}
+    >
       <Suggestions suggestionGroup="component_measures" />
-      <Helmet defer={false} title={translate('layout.measures')} />
 
-      <Spinner isLoading={isLoading} />
-
-      {measures.length > 0 ? (
-        <div className="sw-grid sw-grid-cols-12 sw-w-full">
-          <Sidebar
-            componentKey={componentKey}
-            measures={measures}
-            selectedMetric={metric ? metric.key : query.metric}
-            showFullMeasures={showFullMeasures}
-            updateQuery={updateQuery}
-          />
-
-          <div className="sw-col-span-9 sw-ml-12">
-            {!component?.canBrowseAllChildProjects && isPortfolioLike(component?.qualifier) && (
-              <FlagMessage className="sw-mb-4 it__portfolio_warning" variant="warning">
-                {translate('component_measures.not_all_measures_are_shown')}
-                <HelpTooltip
-                  className="sw-ml-2"
-                  overlay={translate('component_measures.not_all_measures_are_shown.help')}
-                />
-              </FlagMessage>
+      <Card>
+        <Spinner className="sw-my-3 sw-mx-6" isLoading={isLoading}>
+          <Card.Body insetContent>
+            {measures.length > 0 ? (
+              <div id="component-measures">
+                {!component?.canBrowseAllChildProjects && isPortfolioLike(component?.qualifier) && (
+                  <MessageCallout
+                    className="sw-my-3 sw-mx-6 it__portfolio_warning"
+                    variety="warning"
+                  >
+                    <FormattedMessage id="component_measures.not_all_measures_are_shown" />
+                    <HelpTooltip
+                      className="sw-ml-2"
+                      overlay={
+                        <FormattedMessage id="component_measures.not_all_measures_are_shown.help" />
+                      }
+                    />
+                  </MessageCallout>
+                )}
+                {renderContent()}
+              </div>
+            ) : (
+              <MeasuresEmpty />
             )}
-            {renderContent()}
-          </div>
-        </div>
-      ) : (
-        <StyledMain className="sw-rounded-1 sw-p-6 sw-mb-4">
-          <MeasuresEmpty />
-        </StyledMain>
-      )}
-    </LargeCenteredLayout>
+          </Card.Body>
+        </Spinner>
+      </Card>
+    </ProjectPageTemplate>
   );
 }
-
-const StyledMain = withTheme(styled.main`
-  background-color: ${themeColor('pageBlock')};
-  border: ${themeBorder('default', 'pageBlockBorder')};
-`);
