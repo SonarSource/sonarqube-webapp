@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Card, Layout } from '@sonarsource/echoes-react';
 import { debounce, uniq } from 'lodash';
 import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
+import { FormattedMessage } from 'react-intl';
 import { throwGlobalError } from '~adapters/helpers/error';
-import { LargeCenteredLayout } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { Visibility } from '~shared/types/component';
 import {
@@ -31,14 +31,15 @@ import {
   getComponents,
 } from '~sq-server-commons/api/project-management';
 import { getValue } from '~sq-server-commons/api/settings';
+import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { toShortISO8601String } from '~sq-server-commons/helpers/dates';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { SettingsKey } from '~sq-server-commons/types/settings';
 import { LoggedInUser } from '~sq-server-commons/types/users';
-import Header from './Header';
+import { HeaderActions } from './HeaderActions';
 import Projects from './Projects';
 import Search from './Search';
 
@@ -64,6 +65,7 @@ const DEBOUNCE_DELAY = 250;
 const PAGE_SIZE = 50;
 
 class ProjectManagementApp extends React.PureComponent<Props, State> {
+  intl = getIntl();
   mounted = false;
 
   constructor(props: Props) {
@@ -208,53 +210,64 @@ class ProjectManagementApp extends React.PureComponent<Props, State> {
     const { currentUser } = this.props;
     const { defaultProjectVisibility } = this.state;
     return (
-      <LargeCenteredLayout as="main" id="projects-management-page">
-        <div className="sw-my-8">
-          <Helmet defer={false} title={translate('projects_management')} />
-
-          <Header
+      <AdminPageTemplate
+        actions={
+          <HeaderActions
             defaultProjectVisibility={defaultProjectVisibility}
             hasProvisionPermission={hasGlobalPermission(currentUser, Permissions.ProjectCreation)}
             onChangeDefaultProjectVisibility={this.handleDefaultProjectVisibilityChange}
           />
+        }
+        description={
+          <Layout.PageHeader.Description>
+            <FormattedMessage id="projects_management.page.description" />
+          </Layout.PageHeader.Description>
+        }
+        title={this.intl.formatMessage({ id: 'projects_management' })}
+        width="fluid"
+      >
+        <div>
+          <Card>
+            <Card.Body>
+              <Search
+                analyzedBefore={this.state.analyzedBefore}
+                onAllDeselected={this.onAllDeselected}
+                onAllSelected={this.onAllSelected}
+                onDateChanged={this.handleDateChanged}
+                onDeleteProjects={this.onProjectsDeleted}
+                onProvisionedChanged={this.onProvisionedChanged}
+                onQualifierChanged={this.onQualifierChanged}
+                onSearch={this.onSearch}
+                onVisibilityChanged={this.onVisibilityChanged}
+                projects={this.state.projects}
+                provisioned={this.state.provisioned}
+                qualifiers={this.state.qualifiers}
+                query={this.state.query}
+                ready={this.state.ready}
+                selection={this.state.selection}
+                total={this.state.total}
+                visibility={this.state.visibility}
+              />
 
-          <Search
-            analyzedBefore={this.state.analyzedBefore}
-            onAllDeselected={this.onAllDeselected}
-            onAllSelected={this.onAllSelected}
-            onDateChanged={this.handleDateChanged}
-            onDeleteProjects={this.onProjectsDeleted}
-            onProvisionedChanged={this.onProvisionedChanged}
-            onQualifierChanged={this.onQualifierChanged}
-            onSearch={this.onSearch}
-            onVisibilityChanged={this.onVisibilityChanged}
-            projects={this.state.projects}
-            provisioned={this.state.provisioned}
-            qualifiers={this.state.qualifiers}
-            query={this.state.query}
-            ready={this.state.ready}
-            selection={this.state.selection}
-            total={this.state.total}
-            visibility={this.state.visibility}
-          />
+              <Projects
+                currentUser={this.props.currentUser}
+                onProjectDeselected={this.onProjectDeselected}
+                onProjectSelected={this.onProjectSelected}
+                projects={this.state.projects}
+                ready={this.state.ready}
+                selection={this.state.selection}
+              />
 
-          <Projects
-            currentUser={this.props.currentUser}
-            onProjectDeselected={this.onProjectDeselected}
-            onProjectSelected={this.onProjectSelected}
-            projects={this.state.projects}
-            ready={this.state.ready}
-            selection={this.state.selection}
-          />
-
-          <ListFooter
-            count={this.state.projects.length}
-            loadMore={this.loadMore}
-            ready={this.state.ready}
-            total={this.state.total}
-          />
+              <ListFooter
+                count={this.state.projects.length}
+                loadMore={this.loadMore}
+                ready={this.state.ready}
+                total={this.state.total}
+              />
+            </Card.Body>
+          </Card>
         </div>
-      </LargeCenteredLayout>
+      </AdminPageTemplate>
     );
   }
 }

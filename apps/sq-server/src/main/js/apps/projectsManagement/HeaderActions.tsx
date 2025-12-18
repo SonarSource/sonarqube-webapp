@@ -18,12 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonIcon, ButtonVariety, IconEdit } from '@sonarsource/echoes-react';
+import { Button, ButtonIcon, ButtonVariety, IconEdit, Layout } from '@sonarsource/echoes-react';
 import { useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Title } from '~design-system';
 import { Visibility } from '~shared/types/component';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import ChangeDefaultVisibilityForm from './ChangeDefaultVisibilityForm';
 
 export interface Props {
@@ -32,53 +31,51 @@ export interface Props {
   onChangeDefaultProjectVisibility: (visibility: Visibility) => void;
 }
 
-export default function Header(props: Readonly<Props>) {
+export function HeaderActions(props: Readonly<Props>) {
   const [visibilityForm, setVisibilityForm] = useState(false);
+  const { formatMessage } = useIntl();
   const navigate = useNavigate();
   const location = useLocation();
 
   const { defaultProjectVisibility, hasProvisionPermission } = props;
 
   return (
-    <header className="sw-mb-5">
-      <div className="sw-flex sw-items-center sw-justify-between">
-        <Title className="sw-m-0">{translate('projects_management')}</Title>
-        <div className="sw-flex sw-items-center it__page-actions">
-          <div className="sw-mr-2">
-            <span className="sw-mr-1">
-              {translate('settings.projects.default_visibility_of_new_projects')}{' '}
-              <strong className="sw-typo-semibold">
-                {defaultProjectVisibility ? translate('visibility', defaultProjectVisibility) : '—'}
-              </strong>
-            </span>
-            <ButtonIcon
-              Icon={IconEdit}
-              ariaLabel={translate('settings.projects.change_visibility_form.label')}
-              className="it__change-visibility"
-              onClick={() => {
-                setVisibilityForm(true);
-              }}
-              variety={ButtonVariety.DefaultGhost}
-            />
-          </div>
-
-          {hasProvisionPermission && (
-            <Button
-              id="create-project"
-              onClick={() => {
-                navigate('/projects/create?mode=manual', {
-                  state: { from: location.pathname },
-                });
-              }}
-              variety={ButtonVariety.Primary}
-            >
-              {translate('qualifiers.create.TRK')}
-            </Button>
-          )}
-        </div>
+    <Layout.PageHeader.Actions className="it__page-actions">
+      <div className="sw-mr-2 sw-flex sw-items-center">
+        <span className="sw-mr-1">
+          <FormattedMessage id="settings.projects.default_visibility_of_new_projects" />{' '}
+          <strong className="sw-typo-semibold">
+            {defaultProjectVisibility ? (
+              <FormattedMessage id={`visibility.${defaultProjectVisibility}`} />
+            ) : (
+              '—'
+            )}
+          </strong>
+        </span>
+        <ButtonIcon
+          Icon={IconEdit}
+          ariaLabel={formatMessage({ id: 'settings.projects.change_visibility_form.label' })}
+          className="it__change-visibility"
+          onClick={() => {
+            setVisibilityForm(true);
+          }}
+          variety={ButtonVariety.DefaultGhost}
+        />
       </div>
 
-      <p className="sw-mt-4">{translate('projects_management.page.description')}</p>
+      {hasProvisionPermission && (
+        <Button
+          id="create-project"
+          onClick={() => {
+            navigate('/projects/create?mode=manual', {
+              state: { from: location.pathname },
+            });
+          }}
+          variety={ButtonVariety.Primary}
+        >
+          <FormattedMessage id="qualifiers.create.TRK" />
+        </Button>
+      )}
 
       {visibilityForm && (
         <ChangeDefaultVisibilityForm
@@ -89,6 +86,6 @@ export default function Header(props: Readonly<Props>) {
           onConfirm={props.onChangeDefaultProjectVisibility}
         />
       )}
-    </header>
+    </Layout.PageHeader.Actions>
   );
 }

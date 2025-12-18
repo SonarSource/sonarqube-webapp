@@ -84,6 +84,7 @@ const PAGES_MIGRATED: string[] = [
   '/admin/license/support',
   '/admin/permission_templates',
   '/admin/permissions',
+  '/admin/projects_management',
   '/admin/settings',
   '/admin/settings/encryption',
   '/admin/system',

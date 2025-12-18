@@ -19,9 +19,9 @@
  */
 
 import classNames from 'classnames';
+import { FormattedMessage } from 'react-intl';
 import { ActionCell, ContentCell, Table, TableRow } from '~design-system';
 import { Project } from '~sq-server-commons/api/project-management';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { LoggedInUser } from '~sq-server-commons/types/users';
 import ProjectRow from './ProjectRow';
 
@@ -48,11 +48,21 @@ export default function Projects(props: Readonly<Props>) {
   const header = (
     <TableRow>
       <ContentCell>&nbsp;</ContentCell>
-      <ContentCell>{translate('name')}</ContentCell>
-      <ContentCell>{translate('visibility')}</ContentCell>
-      <ContentCell>{translate('key')}</ContentCell>
-      <ContentCell>{translate('last_analysis')}</ContentCell>
-      <ActionCell>{translate('actions')}</ActionCell>
+      <ContentCell>
+        <FormattedMessage id="name" />
+      </ContentCell>
+      <ContentCell>
+        <FormattedMessage id="visibility" />
+      </ContentCell>
+      <ContentCell>
+        <FormattedMessage id="key" />
+      </ContentCell>
+      <ContentCell>
+        <FormattedMessage id="last_analysis" />
+      </ContentCell>
+      <ActionCell>
+        <FormattedMessage id="actions" />
+      </ActionCell>
     </TableRow>
   );
 

@@ -226,7 +226,7 @@ class Search extends React.PureComponent<Props, State> {
   render() {
     return (
       <div className="sw-mb-4">
-        <div className="sw-flex sw-justify-start sw-items-center sw-flex-wrap sw-gap-2 sw-p-2">
+        <div className="sw-flex sw-justify-start sw-items-center sw-flex-wrap sw-gap-2">
           <Spinner className="sw-ml-2" isLoading={!this.props.ready}>
             {this.renderCheckbox()}
           </Spinner>

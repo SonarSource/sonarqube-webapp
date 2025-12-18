@@ -189,7 +189,6 @@ function renderAdminRoutes() {
         <Route element={<GlobalAdminPageExtension />} path="extension/:pluginKey/:extensionKey" />
         {auditLogsRoutes()}
         {marketplaceRoutes()}
-        {projectsManagementRoutes()}
       </Route>
       <Route element={<AdminContainer />}>
         {backgroundTasksRoutes()}
@@ -197,6 +196,7 @@ function renderAdminRoutes() {
         {groupsRoutes()}
         {licenseRoutes()}
         {permissionTemplatesRoutes()}
+        {projectsManagementRoutes()}
         {settingsRoutes()}
         {systemRoutes()}
         {usersRoutes()}
