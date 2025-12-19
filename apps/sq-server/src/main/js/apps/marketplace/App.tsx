@@ -18,25 +18,24 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner } from '@sonarsource/echoes-react';
+import { Divider, Heading, Layout, Spinner, Text } from '@sonarsource/echoes-react';
 import { sortBy, uniqBy } from 'lodash';
 import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
-import { BasicSeparator, FlagMessage, LargeCenteredLayout, SubTitle } from '~design-system';
+import { FlagMessage } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, Router } from '~shared/types/router';
 import { getAvailablePlugins, getInstalledPlugins } from '~sq-server-commons/api/plugins';
 import { getValue, setSimpleSettingValue } from '~sq-server-commons/api/settings';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { PendingPluginResult, Plugin, RiskConsent } from '~sq-server-commons/types/plugins';
 import { SettingsKey } from '~sq-server-commons/types/settings';
 import EditionBoxes from './EditionBoxes';
-import Header from './Header';
 import PluginsList from './PluginsList';
 import Search from './Search';
 import PluginRiskConsentBox from './components/PluginRiskConsentBox';
@@ -67,6 +66,7 @@ interface State {
 }
 
 class App extends React.PureComponent<Props, State> {
+  intl = getIntl();
   mounted = false;
   state: State = { loadingPlugins: true, plugins: [] };
 
@@ -160,67 +160,86 @@ class App extends React.PureComponent<Props, State> {
       riskConsent === RiskConsent.Accepted;
 
     return (
-      <LargeCenteredLayout as="main" id="marketplace-page">
-        <div className="sw-py-8">
-          <Helmet title={translate('marketplace.page')} />
-          <Header currentEdition={currentEdition} />
-          <EditionBoxes currentEdition={currentEdition} />
-
-          <BasicSeparator className="sw-my-6" />
-
-          <div>
-            <SubTitle>{translate('marketplace.page.plugins')}</SubTitle>
-            <div className="sw-mt-2 sw-max-w-abs-600 ">
-              <p>{translate('marketplace.page.plugins.description')}</p>
-              {currentEdition !== EditionKey.community && (
-                <FlagMessage className="sw-mt-2" variant="info">
-                  <p>
-                    <FormattedMessage
-                      id="marketplace.page.plugins.description2"
-                      values={{
-                        link: (
-                          <DocumentationLink to={DocLink.InstanceAdminMarketplace}>
-                            {translate('marketplace.page.plugins.description2.link')}
-                          </DocumentationLink>
-                        ),
-                      }}
-                    />
-                  </p>
-                </FlagMessage>
+      <AdminPageTemplate
+        description={
+          <Layout.PageHeader.Description>
+            {currentEdition && (
+              <Text isHighlighted>
+                <FormattedMessage id={`marketplace.page.you_are_running.${currentEdition}`} />
+              </Text>
+            )}
+            <p className="sw-mt-2">
+              {currentEdition === 'datacenter' ? (
+                <FormattedMessage id="marketplace.page.description_best_edition" />
+              ) : (
+                <FormattedMessage id="marketplace.page.description" />
               )}
-            </div>
-          </div>
+            </p>
+          </Layout.PageHeader.Description>
+        }
+        title={this.intl.formatMessage({ id: 'marketplace.page' })}
+      >
+        <EditionBoxes currentEdition={currentEdition} />
 
-          <PluginRiskConsentBox
-            acknowledgeRisk={this.acknowledgeRisk}
-            currentEdition={currentEdition}
-            riskConsent={riskConsent}
-          />
+        <Divider className="sw-my-6" />
 
-          <Search
-            query={query}
-            updateCenterActive={this.props.updateCenterActive}
-            updateQuery={this.updateQuery}
-          />
-          <div className="sw-mt-4">
-            <Spinner isLoading={loadingPlugins}>
-              {filteredPlugins.length === 0 &&
-                translate('marketplace.plugin_list.no_plugins', query.filter)}
-              {filteredPlugins.length > 0 && (
-                <>
-                  <PluginsList
-                    pending={pendingPlugins}
-                    plugins={filteredPlugins}
-                    readOnly={!allowActions}
-                    refreshPending={this.props.fetchPendingPlugins}
+        <div>
+          <Heading as="h2" hasMarginBottom>
+            <FormattedMessage id="marketplace.page.plugins" />
+          </Heading>
+          <div className="sw-mt-2 sw-max-w-abs-600 ">
+            <p>
+              <FormattedMessage id="marketplace.page.plugins.description" />
+            </p>
+            {currentEdition !== EditionKey.community && (
+              <FlagMessage className="sw-mt-2" variant="info">
+                <p>
+                  <FormattedMessage
+                    id="marketplace.page.plugins.description2"
+                    values={{
+                      link: (
+                        <DocumentationLink to={DocLink.InstanceAdminMarketplace}>
+                          <FormattedMessage id="marketplace.page.plugins.description2.link" />
+                        </DocumentationLink>
+                      ),
+                    }}
                   />
-                  <ListFooter count={filteredPlugins.length} total={plugins.length} />
-                </>
-              )}
-            </Spinner>
+                </p>
+              </FlagMessage>
+            )}
           </div>
         </div>
-      </LargeCenteredLayout>
+
+        <PluginRiskConsentBox
+          acknowledgeRisk={this.acknowledgeRisk}
+          currentEdition={currentEdition}
+          riskConsent={riskConsent}
+        />
+
+        <Search
+          query={query}
+          updateCenterActive={this.props.updateCenterActive}
+          updateQuery={this.updateQuery}
+        />
+        <div className="sw-mt-4">
+          <Spinner isLoading={loadingPlugins}>
+            {filteredPlugins.length === 0 && (
+              <FormattedMessage id={`marketplace.plugin_list.no_plugins.${query.filter}`} />
+            )}
+            {filteredPlugins.length > 0 && (
+              <>
+                <PluginsList
+                  pending={pendingPlugins}
+                  plugins={filteredPlugins}
+                  readOnly={!allowActions}
+                  refreshPending={this.props.fetchPendingPlugins}
+                />
+                <ListFooter count={filteredPlugins.length} total={plugins.length} />
+              </>
+            )}
+          </Spinner>
+        </div>
+      </AdminPageTemplate>
     );
   }
 }
