@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, RadioButtonGroup } from '@sonarsource/echoes-react';
+import { Heading, Layout, Link, RadioButtonGroup } from '@sonarsource/echoes-react';
 import { subDays } from 'date-fns';
-import { Helmet } from 'react-helmet-async';
-import { FormattedMessage } from 'react-intl';
-import { DateRangePicker, LargeCenteredLayout, PopupZLevel, Title } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { DateRangePicker } from '~design-system';
+import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
 import { now } from '~sq-server-commons/helpers/dates';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
@@ -69,73 +69,75 @@ const getRangeOptions = (housekeepingPolicy: HousekeepingPolicy) => {
 export default function AuditAppRenderer(props: Readonly<AuditAppRendererProps>) {
   const { dateRange, downloadStarted, housekeepingPolicy, selection } = props;
 
+  const { formatMessage } = useIntl();
+
   return (
-    <LargeCenteredLayout as="main" id="audit-logs-page">
-      <div className="sw-my-8">
-        <Helmet title={translate('audit_logs.page')} />
+    <AdminPageTemplate
+      description={
+        <Layout.PageHeader.Description>
+          <p>
+            <FormattedMessage id="audit_logs.page.description.1" />
+            <br />
+            <br />
+            <FormattedMessage
+              id="audit_logs.page.description.2"
+              values={{
+                housekeeping: translate('audit_logs.housekeeping_policy', housekeepingPolicy),
+                link: (
+                  <Link
+                    to={{
+                      pathname: '/admin/settings',
+                      search: queryToSearchString({ category: 'housekeeping' }),
+                      hash: '#auditLogs',
+                    }}
+                  >
+                    {translate('audit_logs.page.description.link')}
+                  </Link>
+                ),
+              }}
+            />
+          </p>
+        </Layout.PageHeader.Description>
+      }
+      title={formatMessage({ id: 'audit_logs.page' })}
+    >
+      <div className="sw-mb-6">
+        <Heading as="h2" hasMarginBottom id="audit-logs-housekeeping-radio-label" size="medium">
+          <FormattedMessage id="audit_logs.download" />
+        </Heading>
 
-        <Title>{translate('audit_logs.page')}</Title>
+        <RadioButtonGroup
+          ariaLabelledBy="audit-logs-housekeeping-radio-label"
+          id="audit-logs-housekeeping-radio"
+          onChange={props.handleOptionSelection}
+          options={getRangeOptions(housekeepingPolicy).map((option) => ({
+            label: formatMessage({ id: `audit_logs.range_option.${option}` }),
+            value: option,
+          }))}
+          value={selection}
+          width="small"
+        />
 
-        <p className="sw-mb-4">
-          {translate('audit_logs.page.description.1')}
-          <br />
-          <FormattedMessage
-            id="audit_logs.page.description.2"
-            values={{
-              housekeeping: translate('audit_logs.housekeeping_policy', housekeepingPolicy),
-              link: (
-                <Link
-                  to={{
-                    pathname: '/admin/settings',
-                    search: queryToSearchString({ category: 'housekeeping' }),
-                    hash: '#auditLogs',
-                  }}
-                >
-                  {translate('audit_logs.page.description.link')}
-                </Link>
-              ),
-            }}
-          />
-        </p>
-
-        <div className="sw-mb-6">
-          <h3 className="sw-mb-4" id="audit-logs-housekeeping-radio-label">
-            {translate('audit_logs.download')}
-          </h3>
-
-          <RadioButtonGroup
-            ariaLabelledBy="audit-logs-housekeeping-radio-label"
-            id="audit-logs-housekeeping-radio"
-            onChange={props.handleOptionSelection}
-            options={getRangeOptions(housekeepingPolicy).map((option) => ({
-              label: translate('audit_logs.range_option', option),
-              value: option,
-            }))}
-            value={selection}
-          />
-
-          <DateRangePicker
-            className="sw-w-abs-350 sw-mt-4"
-            endClearButtonLabel={translate('clear.end')}
-            fromLabel={translate('start_date')}
-            maxDate={now()}
-            minDate={subDays(now(), HOUSEKEEPING_POLICY_VALUES[housekeepingPolicy])}
-            onChange={props.handleDateSelection}
-            separatorText={translate('to_')}
-            startClearButtonLabel={translate('clear.start')}
-            toLabel={translate('end_date')}
-            value={dateRange}
-            zLevel={PopupZLevel.Content}
-          />
-        </div>
-
-        <DownloadButton
-          dateRange={dateRange}
-          downloadStarted={downloadStarted}
-          onStartDownload={props.handleStartDownload}
-          selection={selection}
+        <DateRangePicker
+          className="sw-w-abs-350 sw-mt-4"
+          endClearButtonLabel={formatMessage({ id: 'clear.end' })}
+          fromLabel={formatMessage({ id: 'start_date' })}
+          maxDate={now()}
+          minDate={subDays(now(), HOUSEKEEPING_POLICY_VALUES[housekeepingPolicy])}
+          onChange={props.handleDateSelection}
+          separatorText={formatMessage({ id: 'to_' })}
+          startClearButtonLabel={formatMessage({ id: 'clear.start' })}
+          toLabel={formatMessage({ id: 'end_date' })}
+          value={dateRange}
         />
       </div>
-    </LargeCenteredLayout>
+
+      <DownloadButton
+        dateRange={dateRange}
+        downloadStarted={downloadStarted}
+        onStartDownload={props.handleStartDownload}
+        selection={selection}
+      />
+    </AdminPageTemplate>
   );
 }

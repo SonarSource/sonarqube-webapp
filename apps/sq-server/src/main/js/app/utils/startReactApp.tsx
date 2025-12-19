@@ -187,9 +187,9 @@ function renderAdminRoutes() {
     <Route path="admin">
       <Route element={<AdminContainerLegacy />}>
         <Route element={<GlobalAdminPageExtension />} path="extension/:pluginKey/:extensionKey" />
-        {auditLogsRoutes()}
       </Route>
       <Route element={<AdminContainer />}>
+        {auditLogsRoutes()}
         {backgroundTasksRoutes()}
         {globalPermissionsRoutes()}
         {groupsRoutes()}
