@@ -2054,6 +2054,7 @@ export const defaultMessages = {
   'architecture.page.model.label': 'Model',
   'architecture.page.model.invalid_groups':
     'Invalid {groupsCount, plural, one {group} other {groups}}: {groups}',
+  'architecture.page.model.visual.compress_nodes': 'Compact view',
   'architecture.page.model.errors.constraint.duplicate':
     'A relationship between "{source}" and "{target}" is already allowed.',
   'architecture.page.model.errors.constraint.same_source_and_target':
