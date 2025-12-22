@@ -575,13 +575,13 @@ describe('Rules app list', () => {
 
       // 3 rules have deactivate button and 1 rule has revert to parent definition button
       expect(ui.deactivateButton.getAll()).toHaveLength(3);
-      expect(ui.revertToParentDefinitionButton.get()).toBeInTheDocument();
+      expect(ui.revertToParentDefinitionButton().get()).toBeInTheDocument();
 
       await user.type(ui.searchInput.get(), RULE_10);
 
       // Only 1 rule left after search
       expect(ui.getAllRuleListItems()).toHaveLength(1);
-      expect(ui.revertToParentDefinitionButton.get()).toBeInTheDocument();
+      expect(ui.revertToParentDefinitionButton().get()).toBeInTheDocument();
       expect(ui.changeButton('QP Bar').get()).toBeInTheDocument();
 
       // Check that severity is reflected correctly
@@ -592,10 +592,10 @@ describe('Rules app list', () => {
       expect(ui.prioritizedSwitch.get(ui.changeQPDialog.get())).toBeChecked();
       await user.click(ui.cancelButton.get(ui.changeQPDialog.get()));
 
-      await user.click(ui.revertToParentDefinitionButton.get());
+      await user.click(ui.revertToParentDefinitionButton().get());
       await user.click(ui.yesButton.get());
 
-      await waitForElementToBeRemoved(ui.revertToParentDefinitionButton.query());
+      await waitForElementToBeRemoved(ui.revertToParentDefinitionButton().query());
       expect(ui.getAllRuleListItems()).toHaveLength(1);
       expect(ui.deactivateButton.get()).toBeInTheDocument();
       expect(ui.deactivateButton.get()).toBeDisabled();
@@ -638,7 +638,7 @@ describe('Rules app list', () => {
       expect(ui.prioritizedSwitch.get(ui.changeQPDialog.get())).not.toBeChecked();
       await user.click(ui.saveButton.get(ui.changeQPDialog.get()));
 
-      expect(ui.revertToParentDefinitionButton.query()).not.toBeInTheDocument();
+      expect(ui.revertToParentDefinitionButton().query()).not.toBeInTheDocument();
     });
   });
 
@@ -727,13 +727,13 @@ describe('Rules app list', () => {
 
       // 3 rules have deactivate button and 1 rule has revert to parent definition button
       expect(ui.deactivateButton.getAll()).toHaveLength(3);
-      expect(ui.revertToParentDefinitionButton.get()).toBeInTheDocument();
+      expect(ui.revertToParentDefinitionButton().get()).toBeInTheDocument();
 
       await user.type(ui.searchInput.get(), RULE_10);
 
       // Only 1 rule left after search
       expect(ui.getAllRuleListItems()).toHaveLength(1);
-      expect(ui.revertToParentDefinitionButton.get()).toBeInTheDocument();
+      expect(ui.revertToParentDefinitionButton().get()).toBeInTheDocument();
       expect(ui.changeButton('QP Bar').get()).toBeInTheDocument();
 
       // Check that severity is reflected correctly
@@ -751,10 +751,10 @@ describe('Rules app list', () => {
       expect(ui.prioritizedSwitch.get(ui.changeQPDialog.get())).toBeChecked();
       await user.click(ui.cancelButton.get(ui.changeQPDialog.get()));
 
-      await user.click(ui.revertToParentDefinitionButton.get());
+      await user.click(ui.revertToParentDefinitionButton().get());
       await user.click(ui.yesButton.get());
 
-      await waitForElementToBeRemoved(ui.revertToParentDefinitionButton.query());
+      await waitForElementToBeRemoved(ui.revertToParentDefinitionButton().query());
       expect(ui.getAllRuleListItems()).toHaveLength(1);
       expect(ui.deactivateButton.get()).toBeInTheDocument();
       expect(ui.deactivateButton.get()).toBeDisabled();
@@ -800,7 +800,7 @@ describe('Rules app list', () => {
       expect(ui.notRecommendedSeverity.get()).toHaveTextContent('severity_impact.LOW');
       await user.click(ui.saveButton.get(ui.changeQPDialog.get()));
 
-      expect(ui.revertToParentDefinitionButton.query()).not.toBeInTheDocument();
+      expect(ui.revertToParentDefinitionButton().query()).not.toBeInTheDocument();
     });
 
     it('should ignore excessive activation impacts', async () => {

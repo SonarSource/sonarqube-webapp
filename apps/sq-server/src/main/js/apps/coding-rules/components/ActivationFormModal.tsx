@@ -314,6 +314,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                   <TextArea
                     id={key}
                     isDisabled={submitting}
+                    isResizable
                     label={key}
                     name={key}
                     onChange={handleParameterChange}

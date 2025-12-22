@@ -18,41 +18,47 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
-import * as React from 'react';
+import { Button, ButtonVariety, DropdownMenu } from '@sonarsource/echoes-react';
+import { MouseEvent, useState } from 'react';
 import { Rule, RuleActivationAdvanced, RuleDetails } from '~shared/types/rules';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import ActivationFormModal from './ActivationFormModal';
 
-interface Props {
+interface ActivationButtonProps {
   activation?: RuleActivationAdvanced;
   ariaLabel?: string;
   buttonText: string;
   className?: string;
+  inDropdown?: boolean;
   modalHeader: string;
   onDone?: (severity: string, prioritizedRule: boolean) => Promise<void> | void;
   profiles: BaseProfile[];
   rule: Rule | RuleDetails;
 }
 
-export default function ActivationButton(props: Props) {
-  const { className, ariaLabel, buttonText, activation, modalHeader, profiles, rule } = props;
-  const [modalOpen, setModalOpen] = React.useState(false);
+export default function ActivationButton(props: Readonly<ActivationButtonProps>) {
+  const { className, ariaLabel, buttonText, activation, modalHeader, profiles, inDropdown, rule } =
+    props;
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const buttonProps = {
+    ariaLabel,
+    className,
+    onClick: (e: MouseEvent<HTMLDivElement>) => {
+      // Prevent dropdown menu from closing when clicking the button
+      e.preventDefault();
+      setModalOpen(true);
+    },
+    variety: ButtonVariety.Default,
+  };
 
   return (
     <>
-      <Button
-        ariaLabel={ariaLabel}
-        className={className}
-        id="coding-rules-quality-profile-activate"
-        onClick={() => {
-          setModalOpen(true);
-        }}
-        variety={ButtonVariety.Default}
-      >
-        {buttonText}
-      </Button>
-
+      {inDropdown ? (
+        <DropdownMenu.ItemButton {...buttonProps}>{buttonText}</DropdownMenu.ItemButton>
+      ) : (
+        <Button {...buttonProps}>{buttonText}</Button>
+      )}
       <ActivationFormModal
         activation={activation}
         isOpen={modalOpen}

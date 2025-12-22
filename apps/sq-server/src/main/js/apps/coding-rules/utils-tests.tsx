@@ -177,14 +177,17 @@ const selectors = {
   notRecommendedSeverity: byText('coding_rules.custom_severity.not_recommended'),
   prioritizedSwitch: byRole('checkbox', { name: 'coding_rules.prioritized_rule.switch_label' }),
   activateQPDialog: byRole('dialog', { name: 'coding_rules.activate_in_quality_profile' }),
-  changeButton: (profile: string) =>
-    byRole('button', { name: `coding_rules.change_details_x.${profile}` }),
+  changeButton: (profile: string, role: 'button' | 'menuitem' = 'button') =>
+    byRole(role, { name: `coding_rules.change_details_x.${profile}` }),
   changeQPDialog: byRole('dialog', { name: 'coding_rules.change_details' }),
-  deactivateInQPButton: (profile: string) =>
-    byRole('button', { name: `coding_rules.deactivate_in_quality_profile_x.${profile}` }),
-  revertToParentDefinitionButton: byRole('button', {
-    name: 'coding_rules.revert_to_parent_definition',
-  }),
+  deactivateInQPButton: (profile: string, role: 'button' | 'menuitem' = 'button') =>
+    byRole(role, { name: `coding_rules.deactivate_in_quality_profile_x.${profile}` }),
+  revertToParentDefinitionButton: (role: 'button' | 'menuitem' = 'button') =>
+    byRole(role, {
+      name: 'coding_rules.revert_to_parent_definition',
+    }),
+  qpRowActionsButton: (profile: string) =>
+    byRole('button', { name: `coding_rules.see_actions_for_profile_x.${profile}` }),
   activaInAllQPs: byText('coding_rules.active_in_all_profiles'),
   yesButton: byRole('button', { name: 'yes' }),
   paramInput: (param: string) => byRole('textbox', { name: param }),

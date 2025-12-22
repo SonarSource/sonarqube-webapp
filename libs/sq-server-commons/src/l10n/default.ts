@@ -4290,6 +4290,7 @@ export const defaultMessages = {
   'coding_rules.deactivate.confirm':
     'Are you sure you want to deactivate this rule in the profile?',
   'coding_rules.deactivate_in_all_quality_profiles': 'Deactivate In All {0} Profiles',
+  'coding_rules.see_actions_for_profile_x': 'See rule actions for profile {x}',
   'coding_rules.inherits': '"{0}" inherits from "{1}"',
   'coding_rules.issues': 'Issues',
   'coding_rules.issues.only_main_branches':

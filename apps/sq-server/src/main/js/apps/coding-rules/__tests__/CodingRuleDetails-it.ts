@@ -267,7 +267,9 @@ it('can activate/change/deactivate rule in quality profile', async () => {
   await user.click(ui.cancelButton.get(activationDialog));
 
   // Change rule details in quality profile
-  fireEvent.click(ui.changeButton('QP FooBaz').get(mainContainer));
+  await user.click(ui.qpRowActionsButton('QP FooBaz').get(mainContainer));
+  fireEvent.click(ui.changeButton('QP FooBaz', 'menuitem').get());
+
   const changeDialog = await ui.changeQPDialog.find();
   await user.clear(ui.paramInput('1').get(changeDialog));
   await user.click(ui.paramInput('1').get(changeDialog));
@@ -283,7 +285,7 @@ it('can activate/change/deactivate rule in quality profile', async () => {
   );
 
   // Revert rule details in quality profile
-  fireEvent.click(ui.revertToParentDefinitionButton.get(mainContainer));
+  fireEvent.click(ui.revertToParentDefinitionButton('menuitem').get());
   await user.click(ui.yesButton.get());
   qpRow = await ui.qualityProfileRow.findAt(4);
   expect(qpRow).toHaveTextContent('QP FooBaz');
@@ -291,7 +293,8 @@ it('can activate/change/deactivate rule in quality profile', async () => {
   expect(ui.newSeverityCustomizedCell.query(qpRow)).not.toBeInTheDocument();
 
   // Deactivate rule in quality profile
-  await user.click(ui.deactivateInQPButton('QP FooBar').get(mainContainer));
+  await user.click(ui.qpRowActionsButton('QP FooBar').get(mainContainer));
+  await user.click(ui.deactivateInQPButton('QP FooBar', 'menuitem').get());
   await user.click(ui.yesButton.get());
   expect(ui.qpLink('QP FooBar').query(mainContainer)).not.toBeInTheDocument();
 }, 80000);
@@ -323,7 +326,8 @@ it('can activate/change/deactivate rule in quality profile for legacy mode', asy
     'severity.MAJORseverity.MINOR',
   );
 
-  fireEvent.click(ui.changeButton('QP FooBar').get());
+  await user.click(ui.qpRowActionsButton('QP FooBar').get(mainContainer));
+  fireEvent.click(ui.changeButton('QP FooBar', 'menuitem').get());
   let changeDialog = await ui.changeQPDialog.find();
   fireEvent.click(ui.oldSeveritySelect.get(changeDialog));
   fireEvent.click(
@@ -345,12 +349,13 @@ it('can activate/change/deactivate rule in quality profile for legacy mode', asy
   expect(ui.qpLink('QP FooBaz').get()).toBeInTheDocument();
 
   // Change rule details in quality profile
-  fireEvent.click(ui.changeButton('QP FooBaz').get(mainContainer));
+  await user.click(ui.qpRowActionsButton('QP FooBaz').get(mainContainer));
+  fireEvent.click(ui.changeButton('QP FooBaz', 'menuitem').get());
   changeDialog = await ui.changeQPDialog.find();
   fireEvent.click(ui.oldSeveritySelect.get(changeDialog));
   fireEvent.click(byRole('option', { name: 'severity.BLOCKER' }).get(changeDialog));
   fireEvent.click(ui.saveButton.get(changeDialog));
-  let qpRow = await ui.qualityProfileRow.findAt(5);
+  let qpRow = await ui.qualityProfileRow.findAt(4);
   expect(qpRow).toHaveTextContent('QP FooBaz');
   expect(ui.oldSeverityCustomizedCell.get(qpRow)).toBeInTheDocument();
   expect(ui.oldSeverityCustomizedCell.get(qpRow)).toHaveTextContent(
@@ -358,9 +363,9 @@ it('can activate/change/deactivate rule in quality profile for legacy mode', asy
   );
 
   // Revert rule details in quality profile
-  await user.click(ui.revertToParentDefinitionButton.get(mainContainer));
+  await user.click(ui.revertToParentDefinitionButton('menuitem').get());
   await user.click(ui.yesButton.get());
-  qpRow = await ui.qualityProfileRow.findAt(5);
+  qpRow = await ui.qualityProfileRow.findAt(4);
   expect(qpRow).toHaveTextContent('QP FooBaz');
   expect(ui.oldSeverityCustomizedCell.query(qpRow)).not.toBeInTheDocument();
 });
@@ -385,7 +390,8 @@ it('should show multiple customized severities', async () => {
     'coding_rules.impact_customized.detail software_quality.RELIABILITYseverity_impact.HIGHseverity_impact.BLOCKER',
   );
 
-  await user.click(ui.changeButton('QP Bar').get());
+  await user.click(ui.qpRowActionsButton('QP Bar').get());
+  await user.click(ui.changeButton('QP Bar', 'menuitem').get());
   await user.click(ui.newSeveritySelect(SoftwareQuality.Reliability).get());
   await user.click(
     byRole('option', { name: /coding_rules.custom_severity.severity_with_recommended/ }).get(),
@@ -405,25 +411,31 @@ it('can deactivate an inherrited rule', async () => {
   await ui.detailsloaded();
 
   // Should show 2 deactivate buttons: one for the parent, one for the child profile.
-  expect(ui.deactivateInQPButton('QP FooBarBaz').get()).toBeInTheDocument();
-  expect(ui.deactivateInQPButton('QP FooBaz').get()).toBeInTheDocument();
+  await user.click(ui.qpRowActionsButton('QP FooBarBaz').get());
+  expect(ui.deactivateInQPButton('QP FooBarBaz', 'menuitem').get()).toBeInTheDocument();
+
+  await user.click(ui.qpRowActionsButton('QP FooBaz').get());
+  expect(ui.deactivateInQPButton('QP FooBaz', 'menuitem').get()).toBeInTheDocument();
 
   // Deactivate rule in inherited quality profile
-  await user.click(ui.deactivateInQPButton('QP FooBaz').get());
+  await user.click(ui.deactivateInQPButton('QP FooBaz', 'menuitem').get());
   await user.click(ui.yesButton.get());
   expect(ui.qpLink('QP FooBaz').query()).not.toBeInTheDocument();
 });
 
 it('cannot deactivate an inherrited rule if the setting is false', async () => {
-  const { ui } = getPageObjects();
+  const { ui, user } = getPageObjects();
   rulesHandler.setIsAdmin();
   settingsHandler.set(SettingsKey.QPAdminCanDisableInheritedRules, 'false');
   renderCodingRulesApp(mockLoggedInUser(), 'coding_rules?open=rule11');
   await ui.detailsloaded();
 
   // Should show 1 deactivate button: one for the parent, none for the child profile.
-  expect(ui.deactivateInQPButton('QP FooBarBaz').get()).toBeInTheDocument();
-  expect(ui.deactivateInQPButton('QP FooBaz').query()).not.toBeInTheDocument();
+  await user.click(ui.qpRowActionsButton('QP FooBarBaz').get());
+  expect(ui.deactivateInQPButton('QP FooBarBaz', 'menuitem').get()).toBeInTheDocument();
+
+  await user.click(ui.qpRowActionsButton('QP FooBaz').get());
+  expect(ui.deactivateInQPButton('QP FooBaz', 'menuitem').query()).not.toBeInTheDocument();
 });
 
 it('can extend the rule description', async () => {

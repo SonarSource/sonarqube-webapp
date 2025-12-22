@@ -19,15 +19,15 @@
  */
 
 import styled from '@emotion/styled';
-import { LinkStandalone, Text, Tooltip } from '@sonarsource/echoes-react';
-import { filter, isEqual } from 'lodash';
+import { IconInheritance, LinkStandalone, Text, Tooltip } from '@sonarsource/echoes-react';
+import { filter, isEqual, orderBy } from 'lodash';
 import { FormattedMessage } from 'react-intl';
+import tw from 'twin.macro';
 import {
   ActionCell,
   CellComponent,
   ContentCell,
   DiscreetLink,
-  InheritanceIcon,
   SeparatorCircleIcon,
   SubTitle,
   Table,
@@ -102,12 +102,13 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
 
   const renderRowActions = (activation: RuleActivationAdvanced, profile: BaseProfile) => {
     return (
-      <ActionCell>
+      <ActionCell className="sw-align-top">
         <ActivatedRuleActions
           activation={activation}
           canDeactivateInherited={canDeactivateInherited}
           handleDeactivate={handleDeactivate}
           handleRevert={handleRevert}
+          mode="dropdown"
           onActivate={props.onActivate}
           profile={profile}
           ruleDetails={ruleDetails}
@@ -128,8 +129,12 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
     const inheritedProfileSection = profile.parentName
       ? (activation.inherit === 'OVERRIDES' || activation.inherit === 'INHERITED') && (
           <Text as="div" className="sw-flex sw-items-center sw-w-full" isSubtle>
-            <InheritanceIcon
-              fill={activation.inherit === 'OVERRIDES' ? 'destructiveIconFocus' : 'currentColor'}
+            <IconInheritance
+              color={
+                activation.inherit === 'OVERRIDES'
+                  ? 'echoes-color-icon-danger'
+                  : 'echoes-color-icon-default'
+              }
             />
 
             <DiscreetLink
@@ -152,22 +157,25 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
 
     return (
       <TableRowInteractive key={profile.key}>
-        <ContentCell className="sw-flex sw-flex-col sw-gap-2">
-          <div className="sw-self-start sw-flex sw-gap-2 sw-items-center">
-            <LinkStandalone
-              aria-label={profile.name}
-              className="sw-truncate sw-max-w-[256px]"
-              title={profile.name}
-              to={getQualityProfileUrl(profile.name, profile.language)}
-            >
-              {profile.name}
-            </LinkStandalone>
+        <ContentCell cellClassName="sw-align-top">
+          <div className="sw-flex-col sw-flex sw-gap-1">
+            <span>
+              <LinkStandalone
+                aria-label={profile.name}
+                title={profile.name}
+                to={getQualityProfileUrl(profile.name, profile.language)}
+              >
+                {profile.name}
+              </LinkStandalone>
+              {profile.isBuiltIn && <BuiltInQualityProfileBadge className="sw-ml-1" />}
+            </span>
+            {inheritedProfileSection}
 
             {activation.prioritizedRule && (
-              <>
+              <MetaProfileItem>
                 <SeparatorCircleIcon />
                 <Text isSubtle>{translate('coding_rules.prioritized_rule.title')}</Text>
-              </>
+              </MetaProfileItem>
             )}
             {!isStandardMode &&
               Boolean(activation.impacts?.length) &&
@@ -175,7 +183,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                 [...activation.impacts].sort(sortImpacts),
                 [...(ruleDetails.impacts ?? [])].sort(sortImpacts),
               ) && (
-                <>
+                <MetaProfileItem>
                   <SeparatorCircleIcon />
                   <Tooltip
                     content={
@@ -233,13 +241,13 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                   >
                     <Text isSubtle>{translate('coding_rules.impact_customized.message')}</Text>
                   </Tooltip>
-                </>
+                </MetaProfileItem>
               )}
 
             {isStandardMode &&
               activation.severity &&
               activation.severity !== ruleDetails.severity && (
-                <>
+                <MetaProfileItem>
                   <SeparatorCircleIcon />
                   <Text isSubtle>
                     <FormattedMessage
@@ -258,39 +266,33 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                       }}
                     />
                   </Text>
-                </>
+                </MetaProfileItem>
               )}
-
-            {profile.isBuiltIn && <BuiltInQualityProfileBadge />}
           </div>
-
-          {inheritedProfileSection}
         </ContentCell>
 
         {showParamsColumn && (
           <CellComponent>
             {activation.params.map((param: { key: string; value: string }) => {
-              const originalParam = parentActivation?.params.find((p) => p.key === param.key);
-              const originalValue = originalParam?.value;
+              const parentValue = parentActivation?.params.find((p) => p.key === param.key)?.value;
 
               return (
-                <StyledParameter className="sw-my-4" key={param.key}>
-                  <span className="key">{param.key}</span>
-
-                  <span className="sep sw-mr-1">: </span>
-
-                  <span className="value" title={param.value}>
-                    {param.value}
-                  </span>
-
-                  {parentActivation && param.value !== originalValue && (
-                    <div className="sw-flex sw-ml-4">
-                      {translate('coding_rules.original')}
-
-                      <span className="value sw-ml-1" title={originalValue}>
-                        {originalValue}
-                      </span>
-                    </div>
+                <StyledParameter key={param.key}>
+                  <div className="sw-flex">
+                    <Text className="sw-min-w-[100px]" isHighlighted>
+                      {param.key}:
+                    </Text>
+                    <span className="fs-mask sw-inline-block sw-code sw-ml-2" title={param.value}>
+                      {param.value}
+                    </span>
+                  </div>
+                  {parentActivation && param.value !== parentValue && (
+                    <Text className="sw-flex sw-mt-1" isSubtle>
+                      <div className="sw-min-w-[100px]">
+                        <FormattedMessage id="coding_rules.original" />
+                      </div>
+                      <span className="fs-mask sw-code sw-ml-2">{parentValue}</span>
+                    </Text>
                   )}
                 </StyledParameter>
               );
@@ -343,23 +345,19 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
           }
           id="coding-rules-detail-quality-profiles"
         >
-          {activations.map(renderActivationRow)}
+          {orderBy(activations, 'qProfile').map(renderActivationRow)}
         </Table>
       )}
     </div>
   );
 }
 
-const StyledParameter = styled.div`
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+const MetaProfileItem = styled.div`
+  ${tw`sw-flex sw-items-center sw-gap-1 sw-mt-1`};
+`;
 
-  .value {
-    display: inline-block;
-    max-width: 300px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+const StyledParameter = styled.div`
+  &:not(:first-of-type) {
+    ${tw`sw-mt-3`};
   }
 `;
