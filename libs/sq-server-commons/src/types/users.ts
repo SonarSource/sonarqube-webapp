@@ -44,6 +44,7 @@ export enum NoticeType {
   OVERVIEW_ZERO_NEW_ISSUES_SIMPLIFICATION = 'overviewZeroNewIssuesSimplification',
   MQR_MODE_ADVERTISEMENT_BANNER = 'showNewModesBanner',
   MODE_TOUR = 'showNewModesTour',
+  SANDBOXED_ISSUES_INTRO = 'showSandboxedIssuesIntro',
   DESIGN_AND_ARCHITECTURE_OPT_IN_BANNER = 'showDesignAndArchitectureOptInBanner',
   DESIGN_AND_ARCHITECTURE_BANNER = 'showDesignAndArchitectureBanner',
   DESIGN_AND_ARCHITECTURE_TOUR = 'showDesignAndArchitectureTour',

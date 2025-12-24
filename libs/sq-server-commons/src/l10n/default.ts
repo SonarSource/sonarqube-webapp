@@ -8410,6 +8410,23 @@ export const defaultMessages = {
 
   //------------------------------------------------------------------------------
   //
+  // Sandboxed issues intro
+  //
+  //------------------------------------------------------------------------------
+  'sandboxed_issues_intro.title': 'Upgrade without breaking your Quality Gate ',
+  'sandboxed_issues_intro.img_alt':
+    'Image showing an example of sandbox issues on summary page that do not impact quality gate. Additionally, new issue status "In sandbox" is shown for an issue in issue list.',
+  'sandboxed_issues_intro.description_1': 'Say goodbye to unexpected pipeline failures.',
+  'sandboxed_issues_intro.description_2':
+    'We’re introducing the <b>issue sandbox</b> to make platform updates stress-free. New issues flagged by updated analyzers are placed in a "sandbox"—visible to you, but excluded from Quality Gate calculations.',
+  'sandboxed_issues_intro.description_3':
+    '<b>Turn it on now to keep your pipelines green</b> and give your teams the flexibility to triage new issues at their own pace.',
+  'sandboxed_issues_intro.footer_link': 'How does issue sandbox works?',
+  'sandboxed_issues_intro.turn_on': 'Turn it on',
+  'sandboxed_issues_intro.no_thanks': 'No thanks',
+
+  //------------------------------------------------------------------------------
+  //
   // Developer Server Extension
   //
   //------------------------------------------------------------------------------

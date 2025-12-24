@@ -71,6 +71,7 @@ export enum DocLink {
   InstanceAdminQualityProfilesPrioritizingRules = '/quality-standards-administration/managing-quality-profiles/editing-a-custom-quality-profile/#marking-a-rule-as-prioritized',
   InstanceAdminReindexation = '/server-upgrade-and-maintenance/maintenance/reindexing/',
   InstanceAdminSecurity = '/instance-administration/system-functions/security/',
+  InstanceAdminSandboxIssues = '/instance-administration/analysis-functions/quality-standards#setting-up-the-sandbox-feature-at-the-instance-level',
   IssueResolutions = '/user-guide/issues/solution-overview/#deprecated-features',
   Issues = '/user-guide/issues/introduction/',
   IssuesFromSonarQubeUpdate = '/user-guide/issues/solution-overview/#from-sonarqube-update',

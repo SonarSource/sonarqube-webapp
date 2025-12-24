@@ -345,10 +345,12 @@ export function getQualityGatesUrl(): To {
 export function getGlobalSettingsUrl(
   category?: string,
   query?: Record<string, string | undefined | number>,
+  hash?: string,
 ): Partial<Path> {
   return {
     pathname: '/admin/settings',
     search: queryToSearchString({ category, ...query }),
+    hash,
   };
 }
 

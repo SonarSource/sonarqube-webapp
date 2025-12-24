@@ -127,6 +127,9 @@ export default function GlobalContainer() {
         {/* spotlight tours and modals */}
         {hasFeature(Feature.Architecture) && canAdmin && addons.architecture?.spotlight({})}
         <ModeTour />
+        {hasFeature(Feature.FromSonarQubeUpdate) && addons.issueSandbox?.SandboxIssuesIntro && (
+          <addons.issueSandbox.SandboxIssuesIntro />
+        )}
         <PromotionNotification />
       </Workspace>
     </MetricsContextProvider>
@@ -146,6 +149,11 @@ export default function GlobalContainer() {
               <GlobalNavLegacy />
               {hasFeature(Feature.Architecture) && canAdmin && addons.architecture?.spotlight({})}
               <ModeTour />
+              {hasFeature(Feature.FromSonarQubeUpdate) &&
+                addons.issueSandbox?.SandboxIssuesIntro && (
+                  <addons.issueSandbox.SandboxIssuesIntro />
+                )}
+
               {/* The following is the portal anchor point for the component nav
                * See ComponentContainer.tsx
                */}
