@@ -33,7 +33,6 @@ import IndexationNotification from '~sq-server-commons/context/indexation/Indexa
 import MetricsContextProvider from '~sq-server-commons/context/metrics/MetricsContextProvider';
 import { Feature } from '~sq-server-commons/types/features';
 import GlobalFooterLegacy from './GlobalFooter';
-import ModeTour from './ModeTour';
 import NonProductionDatabaseWarning from './NonProductionDatabaseWarning';
 import SystemAnnouncement from './SystemAnnouncement';
 import EnableAiCodeFixMessage from './ai-codefix-notification/EnableAiCodeFixMessage';
@@ -126,7 +125,6 @@ export default function GlobalContainer() {
 
         {/* spotlight tours and modals */}
         {hasFeature(Feature.Architecture) && canAdmin && addons.architecture?.spotlight({})}
-        <ModeTour />
         {hasFeature(Feature.FromSonarQubeUpdate) && addons.issueSandbox?.SandboxIssuesIntro && (
           <addons.issueSandbox.SandboxIssuesIntro />
         )}
@@ -148,7 +146,6 @@ export default function GlobalContainer() {
               </SQSTemporaryRelativeBannerContainer>
               <GlobalNavLegacy />
               {hasFeature(Feature.Architecture) && canAdmin && addons.architecture?.spotlight({})}
-              <ModeTour />
               {hasFeature(Feature.FromSonarQubeUpdate) &&
                 addons.issueSandbox?.SandboxIssuesIntro && (
                   <addons.issueSandbox.SandboxIssuesIntro />

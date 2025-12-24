@@ -8380,36 +8380,6 @@ export const defaultMessages = {
 
   //------------------------------------------------------------------------------
   //
-  // MODE TOUR
-  //
-  //------------------------------------------------------------------------------
-  'mode_tour.name': 'Standard Experience and MQR mode tour',
-  'mode_tour.link': 'Learn more about the modes in documentation',
-  'mode_tour.step1.title':
-    'Welcome to SonarQube {isCommunityBuild, select, true {Community Build} other {Server}}',
-  'mode_tour.step1.img_alt':
-    'Visual presentation of the difference of the issue in the two new modes',
-  'mode_tour.step1.description':
-    '<p1>We have introduced two modes - <b>Standard Experience</b> and <b>Multi-Quality Rule (MQR) Mode</b> - to empower you and your team to either continue using familiar workflows or explore new concepts.</p1><p>Take this tour to see what the difference is between them.</p>',
-  'mode_tour.step2.title': 'Standard Experience',
-  'mode_tour.step2.img_alt':
-    'Visual presentation of the new look of Standard Experience badges: Vulnerability, Bug and Code Smell',
-  'mode_tour.step2.description':
-    '<p1>The Standard Experience encompasses the use of rule types such as <b>Vulnerabilities</b>, <b>Bugs</b>, and <b>Code Smells</b>. Each rule has a single type and severity level, which you can customize with appropriate permissions.</p1><p>This approach focuses on assigning severity to a rule based on the single software quality (e.g., Security, Reliability, or Maintainability) on which it has the most significant impact.</p>',
-  'mode_tour.step3.title': 'Multi-Quality Rule Mode',
-  'mode_tour.step3.img_alt':
-    'Visual presentation of the new Software Quality badges: Security, Reliability and Maintainability and their connection to the corresponding Standard Experience badges',
-  'mode_tour.step3.description':
-    "<p1>The new Multi-Quality Rule Mode aims to more accurately represent an issue's impact on all software qualities. </p1><p>It does this by assigning a separate severity to a rule for each software quality (Security, Reliability, and Maintainability), which replaces the types (Vulnerabilities, Bugs, and Code Smells). You can customize the severity level with appropriate permissions.</p><p>This approach focuses on ensuring the impact on all software qualities is clear, not just the one most severely impacted.</p>",
-  'mode_tour.step4.title': 'Switch modes',
-  'mode_tour.step4.img_alt':
-    'Visual presentation of switch between Standard Experience and MQR mode in the Administation settings',
-  'mode_tour.step4.description':
-    '<p1>You are currently in <b>{mode}</b>.</p1><p>It can be changed with sufficient permissions by going to Administration > Configuration > General Settings > Mode.</p><p>Your instance will start in the mode that most closely resembles the software version you are upgrading from.</p>',
-  'mode_tour.step5.title': 'You can replay the tour from the help section',
-
-  //------------------------------------------------------------------------------
-  //
   // Sandboxed issues intro
   //
   //------------------------------------------------------------------------------
