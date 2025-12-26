@@ -3005,18 +3005,15 @@ export const defaultMessages = {
 
   // Sandbox issue settings
   'settings.sandbox_issues.title': 'Sandbox specific issue categories after SonarQube update',
-  'settings.sandbox_issues.toggle.label.mqr':
-    'Enable the sandbox feature for issues with specific software quality and severity.',
-  'settings.sandbox_issues.toggle.label.standard':
-    'Enable “In sandbox” status for issues with defined type and severity.',
+  'settings.sandbox_issues.toggle.label': 'Enable the Sandbox feature for specific issue criteria',
   'settings.sandbox_issues.toggle.description':
-    'A new, “In sandbox” status will be automatically assigned to issues that appear as a result of <b>SonarQube updates</b> or <b>changes to built-in quality profiles.</b> Issues caused by code modification or other user actions will not be affected.',
-  'settings.sandbox_issues.callout_message':
-    'This setting prevents unexpected quality gate failures, but could increase technical debt.',
-  'settings.sandbox_issues.qualities.title.mqr':
-    'Choose software quality and severity of issues automatically moved to sandbox after SonarQube update{required}',
-  'settings.sandbox_issues.qualities.title.standard':
-    'Choose type and severity of issues automatically moved to sandbox after SonarQube update{required}',
+    'Automatically assigns the "In sandbox" status to issues caused by SonarQube updates or changes to built-in quality profiles. Excludes issues caused by code modifications. <doc>Learn more in documentation</doc>',
+  'settings.sandbox_issues.qualities.title.mqr': 'Choose software quality and severity{required}',
+  'settings.sandbox_issues.qualities.title.standard': 'Choose issue type and severity{required}',
+  'settings.sandbox_issues.qualities.description.instance':
+    'This choice will be saved as default for this instance of SonarQube.',
+  'settings.sandbox_issues.qualities.description.project':
+    'This choice will be saved for this project only, overriding the instance default.',
   'settings.sandbox_issues.qualities.invalid.mqr': 'Choose software quality and severity',
   'settings.sandbox_issues.qualities.invalid.standard': 'Choose issue type and severity',
   'settings.sandbox_issues.qualities.security.warning':
@@ -3025,21 +3022,19 @@ export const defaultMessages = {
     '<b>Proceed with caution:</b> reliability issues can lead to unpredictable behaviour and degraded performance of your software',
   'settings.sandbox_issues.choose_severities': 'Choose severity...',
   'settings.sandbox_issues.select_severities_for': 'Select severities for {quality}',
-  'settings.sandbox_issues.override_admins.title.mqr':
-    'Should project admins be able to override software quality and severity?',
-  'settings.sandbox_issues.override_admins.title.standard':
-    'Should project admins be able to override issue type and severity?',
-  'settings.sandbox_issues.override_admins.yes.description':
-    'Your choice can be edited at the project level',
-  'settings.sandbox_issues.override_admins.no.description':
-    'Your choice is enforced on all projects',
+  'settings.sandbox_issues.override_admins.title': 'Project overrides',
+  'settings.sandbox_issues.override_admins.label.mqr':
+    'Allow project admins to customize software quality and severity',
+  'settings.sandbox_issues.override_admins.label.standard':
+    'Allow project admins to customize issue type and severity',
+  'settings.sandbox_issues.override_admins.helpText':
+    'If unchecked, the settings above are enforced on all projects',
   'settings.sandbox_issues.override_admins.invalid': 'Define if admins can override your choice',
-  'settings.sandbox_issues.default_enablement.title':
-    'Should sandbox feature be on or off by default?',
+  'settings.sandbox_issues.default_enablement.title': 'Default project setting',
   'settings.sandbox_issues.default_enablement.yes.description':
     'Active for all existing and future projects. Can be disabled by project admins',
   'settings.sandbox_issues.default_enablement.no.description':
-    'Project admins need to turn it on for their project.',
+    'Project admins must manually enable this feature',
   'settings.sandbox_issues.default_enablement.invalid': 'Choose default status',
   'settings.sandbox_issues.confirm.title':
     'This action might compromise your code. Are you sure you want to proceed?',
@@ -3102,6 +3097,8 @@ export const defaultMessages = {
     'Software quality and severity of issues that are isolated in the sandbox',
   'settings.sandbox_issues.project.qualities.title.standard':
     'Type and severity of issues that are isolated in the sandbox',
+  'settings.sandbox_issues.project.qualities.description':
+    'Configured at the instance level. Contact your administrator for modifications.',
 
   'property.category.announcement': 'Announcement',
   'property.category.general': 'General',
