@@ -64,13 +64,15 @@ export function renderCWECategory(
   standards: Pick<StandardsInformation, StandardsInformationKey.CWE>,
   category: string,
 ): string {
-  const record = standards.cwe[category];
+  const normalizedCategory = category.replace(/^CWE-/i, '');
+  const record = standards.cwe[normalizedCategory];
+
   if (!record) {
-    return `CWE-${category}`;
-  } else if (category === 'unknown') {
+    return `CWE-${normalizedCategory}`;
+  } else if (normalizedCategory === 'unknown') {
     return record.title;
   }
-  return `CWE-${category} - ${record.title}`;
+  return `CWE-${normalizedCategory} - ${record.title}`;
 }
 
 export function renderOwaspTop10Category(
@@ -81,7 +83,7 @@ export function renderOwaspTop10Category(
   return renderOwaspCategory(StandardsInformationKey.OWASP_TOP10, standards, category, withPrefix);
 }
 
-export function renderOwaspTop10Version2021Category(
+export function renderOwaspTop102021Category(
   standards: Pick<StandardsInformation, StandardsInformationKey.OWASP_TOP10_2021>,
   category: string,
   withPrefix = false,
@@ -94,10 +96,7 @@ export function renderOwaspTop10Version2021Category(
   );
 }
 
-// This is an alias for SQS (once we add new standards to SQS we can standardize the naming)
-export const renderOwaspTop102021Category = renderOwaspTop10Version2021Category;
-
-export function renderOwaspTop10Version2025Category(
+export function renderOwaspTop102025Category(
   standards: Pick<StandardsInformation, StandardsInformationKey.OWASP_TOP10_2025>,
   category: string,
   withPrefix = false,
@@ -114,10 +113,7 @@ export function renderOwaspTop10Version2025Category(
   );
 }
 
-// This is an alias for SQS (once we add new standards to SQS we can standardize the naming)
-export const renderOwaspTop102025Category = renderOwaspTop10Version2025Category;
-
-export function renderOwaspMobileTop10Version2024Category(
+export function renderOwaspMobileTop102024Category(
   standards: Pick<ExtendedStandardsInformation, 'owaspMobileTop10-2024'>,
   category: string,
   withPrefix = false,
@@ -128,6 +124,23 @@ export function renderOwaspMobileTop10Version2024Category(
     standards,
     withPrefix,
   );
+}
+
+function normalizeCategoryWithLeadingZeros(
+  category: string,
+  prefix: string,
+): { display: string; normalized: string } {
+  const lowerPrefix = prefix.toLowerCase();
+  const upperPrefix = prefix.toUpperCase();
+  const regexPattern = new RegExp(`^${lowerPrefix}0+`, 'i');
+
+  // Normalize for lookup: lowercase and remove leading zeros
+  const normalized = category.toLowerCase().replace(regexPattern, lowerPrefix);
+
+  // Format for display: uppercase and remove leading zeros
+  const display = category.toUpperCase().replace(regexPattern, upperPrefix);
+
+  return { normalized, display };
 }
 
 function renderOwaspCategory<
@@ -141,18 +154,13 @@ function renderOwaspCategory<
   category: string,
   withPrefix: boolean,
 ) {
-  // Normalize category: convert to lowercase and remove leading zeros
-  // E.g., "A01" -> "a1", "A08" -> "a8", "A10" -> "a10"
-  const normalizedCategory = category.toLowerCase().replace(/^a0+/, 'a');
-  const record = standards[type]?.[normalizedCategory];
-
-  // Display without leading zeros: A1, A2, A8, A10
-  const displayCategory = category.toUpperCase().replace(/^A0+/, 'A');
+  const { normalized, display } = normalizeCategoryWithLeadingZeros(category, 'a');
+  const record = standards[type]?.[normalized];
 
   if (!record) {
-    return addPrefix(displayCategory, 'OWASP', withPrefix);
+    return addPrefix(display, 'OWASP', withPrefix);
   }
-  return addPrefix(`${displayCategory} - ${record.title}`, 'OWASP', withPrefix);
+  return addPrefix(`${display} - ${record.title}`, 'OWASP', withPrefix);
 }
 
 function renderOwaspMobileCategory<T extends string>(
@@ -167,11 +175,13 @@ function renderOwaspMobileCategory<T extends string>(
   >,
   withPrefix: boolean,
 ) {
-  const record = standards[type]?.[category];
+  const { normalized, display } = normalizeCategoryWithLeadingZeros(category, 'm');
+  const record = standards[type]?.[normalized];
+
   if (!record) {
-    return addPrefix(category.toUpperCase(), 'OWASP Mobile', withPrefix);
+    return addPrefix(display, 'OWASP Mobile', withPrefix);
   }
-  return addPrefix(`${category.toUpperCase()} - ${record.title}`, 'OWASP Mobile', withPrefix);
+  return addPrefix(`${display} - ${record.title}`, 'OWASP Mobile', withPrefix);
 }
 
 export function renderSonarSourceSecurityCategory(
@@ -188,52 +198,44 @@ export function renderSonarSourceSecurityCategory(
   return addPrefix(record.title, 'SONAR', withPrefix);
 }
 
-export function renderPciDss32Category(standards: StandardsInformation, category: string): string {
-  const record = standards['pciDss-3.2'][category];
-  if (!record) {
-    return category;
-  }
-  return `${category} - ${record.title}`;
+function createSimpleRenderer<K extends keyof StandardsInformation>(standardKey: K) {
+  return (standards: StandardsInformation, category: string): string => {
+    const record = standards[standardKey]?.[category];
+    return record ? `${category} - ${record.title}` : category;
+  };
 }
 
-export function renderPciDss40Category(standards: StandardsInformation, category: string): string {
-  const record = standards['pciDss-4.0'][category];
-  if (!record) {
-    return category;
-  }
-  return `${category} - ${record.title}`;
+function createRendererWithLevel<K extends keyof StandardsInformation>(standardKey: K) {
+  return (standards: StandardsInformation, category: string): string => {
+    const record = standards[standardKey]?.[category];
+    if (!record) {
+      return category;
+    }
+    const levelInfo = record.level ? ` (Level ${record.level})` : '';
+    return `${category} - ${record.title}${levelInfo}`;
+  };
 }
 
-export function renderOwaspAsvs40Category(
-  standards: StandardsInformation,
-  category: string,
-): string {
-  const record = standards['owaspAsvs-4.0'][category];
-  if (!record) {
-    return category;
-  }
-  const levelInfo = record.level ? ` (Level ${record.level})` : '';
-  return `${category} - ${record.title}${levelInfo}`;
-}
+// Simple renderers - all use the same pattern
+export const renderPciDss32Category = createSimpleRenderer(StandardsInformationKey.PCI_DSS_3_2);
+export const renderPciDss40Category = createSimpleRenderer(StandardsInformationKey.PCI_DSS_4_0);
+export const renderCASACategory = createSimpleRenderer(StandardsInformationKey.CASA);
+export const renderStigCategory = createSimpleRenderer(StandardsInformationKey.STIG_ASD_V5R3);
+export const renderStigV6Category = createSimpleRenderer(StandardsInformationKey.STIG_ASD_V6);
+
+// Renderers with level information
+export const renderOwaspAsvs40Category = createRendererWithLevel(
+  StandardsInformationKey.OWASP_ASVS_4_0,
+);
+export const renderOwaspAsvs50Category = createRendererWithLevel(
+  StandardsInformationKey.OWASP_ASVS_5_0,
+);
+
+// Aliases for backward compatibility (to avoid updating sq-cloud files)
+export const renderOwaspTop10Version2021Category = renderOwaspTop102021Category;
+export const renderOwaspTop10Version2025Category = renderOwaspTop102025Category;
+export const renderOwaspMobileTop10Version2024Category = renderOwaspMobileTop102024Category;
 
 function addPrefix(title: string, prefix: string, withPrefix: boolean) {
   return withPrefix ? `${prefix} ${title}` : title;
-}
-
-export function renderCASACategory(standards: StandardsInformation, category: string): string {
-  const record = standards.casa[category];
-  if (!record) {
-    return category;
-  }
-  return `${category} - ${record.title}`;
-}
-
-export function renderStigCategory(standards: StandardsInformation, category: string) {
-  const record = standards['stig-ASD_V5R3']?.[category];
-  return record ? `${category} - ${record.title}` : category;
-}
-
-export function renderStigV6Category(standards: StandardsInformation, category: string) {
-  const record = standards['stig-ASD_V6']?.[category];
-  return record ? `${category} - ${record.title}` : category;
 }

@@ -159,11 +159,44 @@ export default class IssuesServiceMock {
     return this.standards;
   }
 
-  owasp2021FacetList(): RawFacet {
-    return {
-      property: 'owasp_top10:urn:sonar-security-standard:owasp:top10:2021',
-      values: [{ val: 'a1', count: 0 }],
-    };
+  complianceStandardsFacetList(): RawFacet[] {
+    return [
+      {
+        property: 'owasp_top10:urn:sonar-security-standard:owasp:top10:2017',
+        values: [
+          { val: 'a1', count: 1 },
+          { val: 'a2', count: 1 },
+        ],
+      },
+      {
+        property: 'owasp_top10:urn:sonar-security-standard:owasp:top10:2021',
+        values: [
+          { val: 'a1', count: 1 },
+          { val: 'a2', count: 1 },
+        ],
+      },
+      {
+        property: 'owasp_top10:urn:sonar-security-standard:owasp:top10:2025',
+        values: [
+          { val: 'A01', count: 1 },
+          { val: 'A02', count: 1 },
+        ],
+      },
+      {
+        property: 'stig_asd:urn:sonar-security-standard:stig:asd:v5',
+        values: [
+          { val: 'V-222596', count: 1 },
+          { val: 'V-222607', count: 1 },
+        ],
+      },
+      {
+        property: 'stig_asd:urn:sonar-security-standard:stig:asd:v6',
+        values: [
+          { val: 'V-265634', count: 1 },
+          { val: 'V-265635', count: 1 },
+        ],
+      },
+    ];
   }
 
   setIsAdmin(isAdmin: boolean) {
@@ -281,13 +314,24 @@ export default class IssuesServiceMock {
   };
 
   mockFacetDetailResponse = (query: RequestData): RawFacet[] => {
-    const facets = (query.facets ?? '').split(',');
+    const facets: string[] = ((query.facets as string | undefined) ?? '').split(',');
     const cleanCodeCategories: CodeAttributeCategory[] = (
-      query.cleanCodeAttributeCategories ?? Object.values(CodeAttributeCategory).join(',')
-    ).split(',');
-    return facets.map((name: string): RawFacet => {
+      (query.cleanCodeAttributeCategories as string | undefined) ??
+      Object.values(CodeAttributeCategory).join(',')
+    ).split(',') as CodeAttributeCategory[];
+    return facets.flatMap((name: string): RawFacet | RawFacet[] => {
       if (name === 'complianceStandards') {
-        return this.owasp2021FacetList();
+        return this.complianceStandardsFacetList();
+      }
+
+      if (name === 'sonarsourceSecurity') {
+        return {
+          property: 'sonarsourceSecurity',
+          values: [
+            { val: 'sql-injection', count: 1 },
+            { val: 'command-injection', count: 1 },
+          ],
+        };
       }
 
       if (name === 'codeVariants') {

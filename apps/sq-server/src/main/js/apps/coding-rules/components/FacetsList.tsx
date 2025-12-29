@@ -26,6 +26,8 @@ import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
 import { Feature } from '~sq-server-commons/types/features';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import { Facets, OpenFacets } from '~sq-server-commons/utils/coding-rules-query';
+import { buildStandardsPropsFromQuery } from '~sq-server-commons/utils/compliance-standards';
+import { ALL_STANDARD_KEYS } from '~sq-server-commons/utils/compliance-standards-registry';
 import { LanguageFacet } from '../../issues/sidebar/LanguageFacet';
 import { StandardFacet } from '../../issues/sidebar/StandardFacet';
 import AttributeCategoryFacet from './AttributeCategoryFacet';
@@ -45,6 +47,7 @@ import TypeFacet from './TypeFacet';
 export interface FacetsListProps {
   facets?: Facets;
   hideProfileFacet?: boolean;
+  loadingFacets: Record<string, boolean>;
   onFacetToggle: (facet: string) => void;
   onFilterChange: (changes: Partial<CodingRulesQuery>) => void;
   openFacets: OpenFacets;
@@ -195,38 +198,17 @@ export default function FacetsList(props: Readonly<FacetsListProps>) {
         cweOpen={!!props.openFacets.cwe}
         cweStats={props.facets?.cwe}
         fetchingCwe={false}
-        fetchingOwaspMobileTop10-2024={false}
-        fetchingOwaspTop10={false}
-        fetchingOwaspTop10-2021={false}
-        fetchingOwaspTop10-2025={false}
-        fetchingSonarSourceSecurity={false}
-        fetchingStig-ASD_V5R3={false}
-        fetchingStig-ASD_V6={false}
         onChange={props.onFilterChange}
         onToggle={props.onFacetToggle}
         open={!!props.openFacets.standards}
-        owaspMobileTop10-2024={props.query['owaspMobileTop10-2024']}
-        owaspMobileTop10-2024Open={!!props.openFacets['owaspMobileTop10-2024']}
-        owaspMobileTop10-2024Stats={props.facets?.['owaspMobileTop10-2024']}
-        owaspTop10={props.query.owaspTop10}
-        owaspTop10-2021={props.query['owaspTop10-2021']}
-        owaspTop10-2021Open={!!props.openFacets['owaspTop10-2021']}
-        owaspTop10-2021Stats={props.facets?.['owaspTop10-2021']}
-        owaspTop10-2025={props.query['owaspTop10-2025']}
-        owaspTop10-2025Open={!!props.openFacets['owaspTop10-2025']}
-        owaspTop10-2025Stats={props.facets?.['owaspTop10-2025']}
-        owaspTop10Open={!!props.openFacets.owaspTop10}
-        owaspTop10Stats={props.facets?.owaspTop10}
         query={props.query}
-        sonarsourceSecurity={props.query.sonarsourceSecurity}
-        sonarsourceSecurityOpen={!!props.openFacets.sonarsourceSecurity}
-        sonarsourceSecurityStats={props.facets?.sonarsourceSecurity}
-        stig-ASD_V5R3={props.query['stig-ASD_V5R3']}
-        stig-ASD_V5R3Open={!!props.openFacets['stig-ASD_V5R3']}
-        stig-ASD_V5R3Stats={props.facets?.['stig-ASD_V5R3']}
-        stig-ASD_V6={props.query['stig-ASD_V6']}
-        stig-ASD_V6Open={!!props.openFacets['stig-ASD_V6']}
-        stig-ASD_V6Stats={props.facets?.['stig-ASD_V6']}
+        standards={buildStandardsPropsFromQuery(
+          props.query,
+          props.facets ?? {},
+          props.loadingFacets,
+          props.openFacets,
+          ALL_STANDARD_KEYS,
+        )}
       />
 
       <Divider className="sw-my-2" />

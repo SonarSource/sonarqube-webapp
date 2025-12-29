@@ -50,6 +50,7 @@ import {
 } from '~sq-server-commons/types/security-hotspots';
 import { Component } from '~sq-server-commons/types/types';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
+import { createEmptyStandardsInformation } from '~sq-server-commons/utils/compliance-standards';
 import SecurityHotspotsAppRenderer from './SecurityHotspotsAppRenderer';
 import { SECURITY_STANDARDS, getLocations } from './utils';
 
@@ -101,21 +102,7 @@ export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
       loadingMeasure: false,
       loadingMore: false,
       selectedHotspot: undefined,
-
-      standards: {
-        [StandardsInformationKey.CWE]: {},
-        [StandardsInformationKey.OWASP_MOBILE_TOP10_2024]: {},
-        [StandardsInformationKey.OWASP_ASVS_4_0]: {},
-        [StandardsInformationKey.OWASP_TOP10_2021]: {},
-        [StandardsInformationKey.OWASP_TOP10_2025]: {},
-        [StandardsInformationKey.OWASP_TOP10]: {},
-        [StandardsInformationKey.PCI_DSS_3_2]: {},
-        [StandardsInformationKey.PCI_DSS_4_0]: {},
-        [StandardsInformationKey.SONARSOURCE]: {},
-        [StandardsInformationKey.CASA]: {},
-        [StandardsInformationKey.STIG_ASD_V5R3]: {},
-        [StandardsInformationKey.STIG_ASD_V6]: {},
-      },
+      standards: createEmptyStandardsInformation(),
     };
   }
 

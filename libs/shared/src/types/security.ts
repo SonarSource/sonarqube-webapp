@@ -22,6 +22,7 @@ export enum StandardsInformationKey {
   CASA = 'casa',
   CWE = 'cwe',
   OWASP_ASVS_4_0 = 'owaspAsvs-4.0',
+  OWASP_ASVS_5_0 = 'owaspAsvs-5.0',
   OWASP_TOP10_2021 = 'owaspTop10-2021',
   OWASP_TOP10_2025 = 'owaspTop10-2025',
   OWASP_TOP10 = 'owaspTop10',

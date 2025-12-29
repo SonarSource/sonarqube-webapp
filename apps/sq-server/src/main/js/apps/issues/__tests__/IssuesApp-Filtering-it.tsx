@@ -457,13 +457,16 @@ describe('issues app filtering', () => {
     expect(owaspTop102021).toBeInTheDocument();
 
     await user.click(owaspTop102021);
-    await Promise.all(
-      issuesHandler.owasp2021FacetList().values.map(async ({ val }) => {
-        const standard = await issuesHandler.getStandards();
-        const linkName = renderOwaspTop102021Category(standard, val);
-        expect(screen.getByRole('checkbox', { name: linkName })).toBeInTheDocument();
-      }),
-    );
+
+    // Wait for the facet checkboxes to appear (mock returns 'a1' and 'a2' for OWASP 2021)
+    const standard = await issuesHandler.getStandards();
+    // The checkboxes include the count suffix (e.g., "A1 - Broken Access Control 1")
+    const firstLinkName = `${renderOwaspTop102021Category(standard, 'a1')} 1`;
+    const secondLinkName = `${renderOwaspTop102021Category(standard, 'a2')} 1`;
+
+    // Wait for checkboxes to appear
+    await screen.findByRole('checkbox', { name: firstLinkName });
+    expect(screen.getByRole('checkbox', { name: secondLinkName })).toBeInTheDocument();
   });
 
   it('should close all filters if there is a filter from other mode', async () => {

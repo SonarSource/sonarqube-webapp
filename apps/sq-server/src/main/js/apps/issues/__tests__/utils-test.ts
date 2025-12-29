@@ -68,7 +68,7 @@ describe('serialize/deserialize', () => {
         'pciDss-3.2': ['a', 'b'],
         'pciDss-4.0': ['a', 'b'],
         'owaspAsvs-4.0': ['2'],
-        owaspAsvsLevel: '2',
+        'owaspAsvs-5.0': ['3'],
         projects: ['a', 'b'],
         rules: ['a', 'b'],
         sort: 'rules',
@@ -92,34 +92,21 @@ describe('serialize/deserialize', () => {
       impactSoftwareQualities: SoftwareQuality.Security,
       codeVariants: 'variant1,variant2',
       complianceStandards:
-        'owasp_top10:urn:sonar-security-standard:owasp:top10:2017=a,b&owasp_top10:urn:sonar-security-standard:owasp:top10:2021=a,b&owasp_top10:urn:sonar-security-standard:owasp:top10:2025=a,b&stig_asd:urn:sonar-security-standard:stig:asd:v5=a,b&stig_asd:urn:sonar-security-standard:stig:asd:v6=a,b',
+        'sonar_standard:urn:sonar-security-standard:sonar:standard:unversioned=a,b&owasp_top10:urn:sonar-security-standard:owasp:top10:2025=a,b&owasp_top10:urn:sonar-security-standard:owasp:top10:2021=a,b&owasp_top10:urn:sonar-security-standard:owasp:top10:2017=a,b&owasp_mobile-top10:urn:sonar-security-standard:owasp:mobile-top10:2024=M1,M2&owasp_asvs:urn:sonar-security-standard:owasp:asvs:5.0=3&owasp_asvs:urn:sonar-security-standard:owasp:asvs:4.0=2&pci_dss:urn:sonar-security-standard:pci:dss:4.0=a,b&pci_dss:urn:sonar-security-standard:pci:dss:3.2=a,b&casa_standard:urn:sonar-security-standard:casa:standard:unversioned=a,b&stig_asd:urn:sonar-security-standard:stig:asd:v6=a,b&stig_asd:urn:sonar-security-standard:stig:asd:v5=a,b&cwe_standard:urn:sonar-security-standard:cwe:standard:4.18=18,19',
       createdAt: 'a',
       createdBefore: '1970-01-01',
       createdAfter: '1970-01-01',
       createdInLast: 'a',
-      cwe: '18,19',
       directories: 'a,b',
       files: 'a,b',
       issues: 'a,b',
       languages: 'a,b',
-      owaspTop10: 'a,b',
-      'owaspMobileTop10-2024': 'M1,M2',
-      casa: 'a,b',
-      'stig-ASD_V5R3': 'a,b',
-      'stig-ASD_V6': 'a,b',
-      'owaspTop10-2021': 'a,b',
-      'owaspTop10-2025': 'a,b',
-      'pciDss-3.2': 'a,b',
-      'pciDss-4.0': 'a,b',
-      'owaspAsvs-4.0': '2',
-      owaspAsvsLevel: '2',
       projects: 'a,b',
       rules: 'a,b',
       s: 'rules',
       scopes: 'a,b',
       inNewCodePeriod: 'true',
       severities: 'a,b',
-      sonarsourceSecurity: 'a,b',
       issueStatuses: 'ACCEPTED,CONFIRMED',
       tags: 'a,b',
       types: 'a,b',
@@ -163,7 +150,7 @@ describe('serialize/deserialize', () => {
       issues: [],
       languages: [],
       'owaspAsvs-4.0': [],
-      owaspAsvsLevel: '',
+      'owaspAsvs-5.0': [],
       'owaspMobileTop10-2024': [],
       owaspTop10: [],
       'owaspTop10-2021': [],
@@ -228,12 +215,28 @@ describe('serialize/deserialize', () => {
     ).toEqual(['V-222609']);
   });
 
-  it('should prefer direct query parameters over complianceStandards', () => {
+  it('should deserialize sonarsourceSecurity from complianceStandards parameter', () => {
+    expect(
+      parseQuery({
+        complianceStandards:
+          'sonar_standard:urn:sonar-security-standard:sonar:standard:unversioned=sql-injection,command-injection',
+      }).sonarsourceSecurity,
+    ).toEqual(['sql-injection', 'command-injection']);
+  });
+
+  it('should deserialize cwe from complianceStandards parameter', () => {
+    expect(
+      parseQuery({
+        complianceStandards: 'cwe_standard:urn:sonar-security-standard:cwe:standard:4.18=79,89,352',
+      }).cwe,
+    ).toEqual(['79', '89', '352']);
+  });
+
+  it('should use complianceStandards parameter', () => {
     const result = parseQuery({
-      owaspTop10: 'a3,a4',
       complianceStandards: 'owasp_top10:urn:sonar-security-standard:owasp:top10:2017=a1,a2',
     });
-    expect(result.owaspTop10).toEqual(['a3', 'a4']);
+    expect(result.owaspTop10).toEqual(['a1', 'a2']);
   });
 
   it('should map deprecated status and resolution query to new issue statuses', () => {

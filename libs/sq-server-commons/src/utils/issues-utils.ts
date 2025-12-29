@@ -35,7 +35,6 @@ import {
   parseAsArray,
   parseAsBoolean,
   parseAsDate,
-  parseAsOptionalArray,
   parseAsOptionalBoolean,
   parseAsString,
   queriesEqual,
@@ -51,19 +50,16 @@ import {
   IssueResolution,
   IssuesQuery,
   IssueStatus,
-  OWASP_ASVS_4_0,
   RawFacet,
 } from '../types/issues';
 import { Flow, FlowType, Issue } from '../types/types';
 import {
   buildComplianceStandards,
   mapBackendFacetKeyToFrontend,
-  mapFacetToBackendName,
   parseComplianceStandards,
+  populateStandardsFromParsed,
 } from './compliance-standards';
-
-// Re-export for backward compatibility
-export { mapBackendFacetKeyToFrontend, mapFacetToBackendName };
+import { ALL_STANDARD_KEYS } from './compliance-standards-registry';
 
 export const STANDARDS = 'standards';
 
@@ -89,7 +85,6 @@ export function parseQuery(query: RawQuery, needIssueSync = false): IssuesQuery 
     createdAt: parseAsString(query.createdAt),
     createdBefore: parseAsDate(query.createdBefore),
     createdInLast: parseAsString(query.createdInLast),
-    cwe: parseAsArray(query.cwe, parseAsString),
     directories: parseAsArray(query.directories, parseAsString),
     files: parseAsArray(query.files, parseAsString),
     impactSeverities: parseAsArray<SoftwareImpactSeverity>(query.impactSeverities, parseAsString),
@@ -97,41 +92,13 @@ export function parseQuery(query: RawQuery, needIssueSync = false): IssuesQuery 
       query.impactSoftwareQualities,
       parseAsString,
     ),
-    // Use individual fields if present, otherwise use parsed complianceStandards
-    'stig-ASD_V5R3':
-      parseAsOptionalArray(query['stig-ASD_V5R3'], parseAsString) ||
-      parsedComplianceStandards['stig-ASD_V5R3'] ||
-      [],
-    'stig-ASD_V6':
-      parseAsOptionalArray(query['stig-ASD_V6'], parseAsString) ||
-      parsedComplianceStandards['stig-ASD_V6'] ||
-      [],
     inNewCodePeriod: parseAsBoolean(query.inNewCodePeriod, false),
     issues: parseAsArray(query.issues, parseAsString),
     languages: parseAsArray(query.languages, parseAsString),
-    owaspTop10:
-      parseAsOptionalArray(query.owaspTop10, parseAsString) ||
-      parsedComplianceStandards.owaspTop10 ||
-      [],
-    'owaspMobileTop10-2024': parseAsArray(query['owaspMobileTop10-2024'], parseAsString),
-    'owaspTop10-2021':
-      parseAsOptionalArray(query['owaspTop10-2021'], parseAsString) ||
-      parsedComplianceStandards['owaspTop10-2021'] ||
-      [],
-    'owaspTop10-2025':
-      parseAsOptionalArray(query['owaspTop10-2025'], parseAsString) ||
-      parsedComplianceStandards['owaspTop10-2025'] ||
-      [],
-    'pciDss-3.2': parseAsArray(query['pciDss-3.2'], parseAsString),
-    'pciDss-4.0': parseAsArray(query['pciDss-4.0'], parseAsString),
-    casa: parseAsArray(query.casa, parseAsString),
-    [OWASP_ASVS_4_0]: parseAsArray(query[OWASP_ASVS_4_0], parseAsString),
-    owaspAsvsLevel: parseAsString(query.owaspAsvsLevel),
     projects: parseAsArray(query.projects, parseAsString),
     rules: parseAsArray(query.rules, parseAsString),
     scopes: parseAsArray(query.scopes, parseAsString),
     severities: parseAsArray(query.severities, parseAsString),
-    sonarsourceSecurity: parseAsArray(query.sonarsourceSecurity, parseAsString),
     sort: parseAsSort(query.s),
     statuses: parseAsArray(query.statuses, parseAsString),
     issueStatuses: parseIssueStatuses(query),
@@ -145,7 +112,9 @@ export function parseQuery(query: RawQuery, needIssueSync = false): IssuesQuery 
     // While reindexing, we need to use resolved param for issues/list endpoint
     // False is used to show unresolved issues only
     resolved: needIssueSync ? false : undefined,
-  };
+    // Populate all standards from the registry
+    ...populateStandardsFromParsed(parsedComplianceStandards),
+  } as IssuesQuery;
 }
 
 function parseIssueStatuses(query: RawQuery) {
@@ -231,24 +200,12 @@ export function serializeQuery(query: IssuesQuery): RawQuery {
     createdAt: serializeString(query.createdAt),
     createdBefore: serializeDateShort(query.createdBefore),
     createdInLast: serializeString(query.createdInLast),
-    cwe: serializeStringArray(query.cwe),
     directories: serializeStringArray(query.directories),
     files: serializeStringArray(query.files),
     fixedInPullRequest: serializeString(query.fixedInPullRequest),
     issues: serializeStringArray(query.issues),
     languages: serializeStringArray(query.languages),
     linkedTicketStatus: serializeStringArray(query.linkedTicketStatus),
-    owaspTop10: serializeStringArray(query.owaspTop10),
-    'owaspMobileTop10-2024': serializeStringArray(query['owaspMobileTop10-2024']),
-    'owaspTop10-2021': serializeStringArray(query['owaspTop10-2021']),
-    'owaspTop10-2025': serializeStringArray(query['owaspTop10-2025']),
-    'pciDss-3.2': serializeStringArray(query['pciDss-3.2']),
-    casa: serializeStringArray(query.casa),
-    'stig-ASD_V5R3': serializeStringArray(query['stig-ASD_V5R3']),
-    'stig-ASD_V6': serializeStringArray(query['stig-ASD_V6']),
-    'pciDss-4.0': serializeStringArray(query['pciDss-4.0']),
-    [OWASP_ASVS_4_0]: serializeStringArray(query[OWASP_ASVS_4_0]),
-    owaspAsvsLevel: serializeString(query.owaspAsvsLevel),
     projects: serializeStringArray(query.projects),
     rules: serializeStringArray(query.rules),
     s: serializeString(query.sort),
@@ -258,7 +215,6 @@ export function serializeQuery(query: IssuesQuery): RawQuery {
     impactSeverities: serializeStringArray(query.impactSeverities),
     impactSoftwareQualities: serializeStringArray(query.impactSoftwareQualities),
     inNewCodePeriod: query.inNewCodePeriod ? 'true' : undefined,
-    sonarsourceSecurity: serializeStringArray(query.sonarsourceSecurity),
     issueStatuses: serializeStringArray(query.issueStatuses),
     tags: serializeStringArray(query.tags),
     types: serializeStringArray(query.types),
@@ -379,15 +335,7 @@ export function shouldOpenStandardsFacet(
 export function shouldOpenStandardsChildFacet(
   openFacets: Record<string, boolean>,
   query: Partial<IssuesQuery>,
-  standardType:
-    | StandardsInformationKey.CWE
-    | StandardsInformationKey.OWASP_TOP10
-    | StandardsInformationKey.OWASP_TOP10_2021
-    | StandardsInformationKey.OWASP_TOP10_2025
-    | StandardsInformationKey.OWASP_MOBILE_TOP10_2024
-    | StandardsInformationKey.SONARSOURCE
-    | StandardsInformationKey.STIG_ASD_V5R3
-    | StandardsInformationKey.STIG_ASD_V6,
+  standardType: StandardsInformationKey,
 ): boolean {
   const filter = query[standardType];
   return (
@@ -416,16 +364,7 @@ function isOneStandardChildFacetOpen(
   openFacets: Record<string, boolean>,
   query: Partial<IssuesQuery>,
 ): boolean {
-  return (
-    [
-      StandardsInformationKey.OWASP_TOP10,
-      StandardsInformationKey.OWASP_TOP10_2021,
-      StandardsInformationKey.OWASP_TOP10_2025,
-      StandardsInformationKey.OWASP_MOBILE_TOP10_2024,
-      StandardsInformationKey.CWE,
-      StandardsInformationKey.SONARSOURCE,
-      StandardsInformationKey.STIG_ASD_V5R3,
-      StandardsInformationKey.STIG_ASD_V6,
-    ] as const
-  ).some((standardType) => shouldOpenStandardsChildFacet(openFacets, query, standardType));
+  return ALL_STANDARD_KEYS.some((standardType) =>
+    shouldOpenStandardsChildFacet(openFacets, query, standardType),
+  );
 }

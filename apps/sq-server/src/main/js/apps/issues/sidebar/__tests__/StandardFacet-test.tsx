@@ -22,6 +22,7 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { mockQuery } from '~sq-server-commons/helpers/mocks/issues';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { STANDARDS_REGISTRY } from '~sq-server-commons/utils/compliance-standards-registry';
 import { StandardFacet } from '../StandardFacet';
 
 jest.mock('~shared/helpers/security-standards', () => ({
@@ -54,6 +55,7 @@ jest.mock('~shared/helpers/security-standards', () => ({
       'pciDss-3.2': {},
       'pciDss-4.0': {},
       'owaspAsvs-4.0': {},
+      'owaspAsvs-5.0': {},
       'stig-ASD_V5R3': {
         'V-222596': 'V-222596 - Application must not be vulnerable to SQL Injection',
         'V-222597': 'V-222597 - Application must not be vulnerable to XSS',
@@ -66,7 +68,7 @@ jest.mock('~shared/helpers/security-standards', () => ({
     }),
   ),
   renderCWECategory: jest.fn((_standards, cwe) => `CWE-${cwe}`),
-  renderOwaspMobileTop10Version2024Category: jest.fn((_standards, item: string) => `M${item}`),
+  renderOwaspMobileTop102024Category: jest.fn((_standards, item: string) => `M${item}`),
   renderOwaspTop102021Category: jest.fn((_standards, item) => `A${item}`),
   renderOwaspTop102025Category: jest.fn((_standards, item) => `A${item}`),
   renderOwaspTop10Category: jest.fn((_standards, item) => `A${item}`),
@@ -152,6 +154,11 @@ it('should clear standards facet including owaspMobileTop10-2024', async () => {
     sonarsourceSecurity: [],
     'stig-ASD_V5R3': [],
     'stig-ASD_V6': [],
+    casa: [],
+    'owaspAsvs-4.0': [],
+    'owaspAsvs-5.0': [],
+    'pciDss-3.2': [],
+    'pciDss-4.0': [],
   });
 });
 
@@ -261,61 +268,39 @@ interface StandardFacetProps {
   onChange?: jest.Mock;
   onToggle?: jest.Mock;
   open?: boolean;
-  'owaspMobileTop10-2024'?: string[];
-  'owaspMobileTop10-2024Open'?: boolean;
-  'owaspMobileTop10-2024Stats'?: Record<string, number>;
-  sonarsourceSecurity?: string[];
 }
 
 function renderStandardFacet(props: StandardFacetProps = {}) {
-  const {
-    onChange = jest.fn(),
-    onToggle = jest.fn(),
-    open = false,
-    'owaspMobileTop10-2024': owaspMobileTop102024 = [],
-    'owaspMobileTop10-2024Open': owaspMobileTop102024Open = false,
-    'owaspMobileTop10-2024Stats': owaspMobileTop102024Stats = {},
-    sonarsourceSecurity = [],
-    ...otherProps
-  } = props;
+  const { onChange = jest.fn(), onToggle = jest.fn(), open = false, ...otherProps } = props;
+
+  // Dynamically generate standards from registry
+  const standards = Object.fromEntries(
+    STANDARDS_REGISTRY.map((s) => {
+      const { queryProp } = s;
+      const openProp = `${queryProp}Open`;
+      const statsProp = `${queryProp}Stats`;
+      return [
+        s.key,
+        {
+          fetching: false,
+          open: (otherProps[openProp] as boolean) ?? false,
+          stats: (otherProps[statsProp] as Record<string, number>) ?? {},
+          values: (otherProps[queryProp] as string[]) ?? [],
+        },
+      ];
+    }),
+  );
 
   const defaultProps = {
     cwe: [],
     cweOpen: false,
     cweStats: {},
     fetchingCwe: false,
-    'fetchingOwaspMobileTop10-2024': false,
-    fetchingOwaspTop10: false,
-    'fetchingOwaspTop10-2021': false,
-    'fetchingOwaspTop10-2025': false,
-    fetchingSonarSourceSecurity: false,
-    'fetchingStig-ASD_V5R3': false,
-    'fetchingStig-ASD_V6': false,
     onChange,
     onToggle,
     open,
-    'owaspMobileTop10-2024': owaspMobileTop102024,
-    'owaspMobileTop10-2024Open': owaspMobileTop102024Open,
-    'owaspMobileTop10-2024Stats': owaspMobileTop102024Stats,
-    owaspTop10: [],
-    'owaspTop10-2021': [],
-    'owaspTop10-2021Open': false,
-    'owaspTop10-2021Stats': {},
-    'owaspTop10-2025': [],
-    'owaspTop10-2025Open': false,
-    'owaspTop10-2025Stats': {},
-    owaspTop10Open: false,
-    owaspTop10Stats: {},
     query: mockQuery(),
-    sonarsourceSecurity,
-    sonarsourceSecurityOpen: false,
-    sonarsourceSecurityStats: {},
-    'stig-ASD_V5R3': [],
-    'stig-ASD_V5R3Open': false,
-    'stig-ASD_V5R3Stats': {},
-    'stig-ASD_V6': [],
-    'stig-ASD_V6Open': false,
-    'stig-ASD_V6Stats': {},
+    standards,
     ...otherProps,
   };
 

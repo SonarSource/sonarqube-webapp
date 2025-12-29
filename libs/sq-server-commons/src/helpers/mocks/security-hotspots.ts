@@ -199,6 +199,11 @@ export function mockStandards(): StandardsInformation {
         title: 'New OWASP ASVS cat 1',
       },
     },
+    'owaspAsvs-5.0': {
+      '1': {
+        title: 'New OWASP ASVS 5.0 cat 1',
+      },
+    },
     'stig-ASD_V5R3': {
       'V-123': {
         title: 'STIG requirement 123',

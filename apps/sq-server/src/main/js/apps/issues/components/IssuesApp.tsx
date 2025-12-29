@@ -49,7 +49,6 @@ import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier } from '~shared/types/component';
 import { Paging } from '~shared/types/paging';
 import { Location, RawQuery, Router } from '~shared/types/router';
-import { StandardsInformationKey } from '~shared/types/security';
 import { listIssues, searchIssues } from '~sq-server-commons/api/issues';
 import EmptySearch from '~sq-server-commons/components/common/EmptySearch';
 import FiltersHeader from '~sq-server-commons/components/common/FiltersHeader';
@@ -93,19 +92,18 @@ import {
 } from '~sq-server-commons/types/issues';
 import { Component, Issue } from '~sq-server-commons/types/types';
 import { CurrentUser, UserBase } from '~sq-server-commons/types/users';
+import { mapFacetToBackendName } from '~sq-server-commons/utils/compliance-standards';
 import {
   STANDARDS,
   areMyIssuesSelected,
   areQueriesEqual,
   getOpen,
   getOpenIssue,
-  mapFacetToBackendName,
   parseFacets,
   parseQuery,
   saveMyIssues,
   serializeQuery,
   shouldOpenSonarSourceSecurityFacet,
-  shouldOpenStandardsChildFacet,
   shouldOpenStandardsFacet,
 } from '~sq-server-commons/utils/issues-utils';
 import * as actions from '../actions';
@@ -196,36 +194,10 @@ export class App extends React.PureComponent<Props, State> {
       openFacets: hasFilterFromOtherMode
         ? {}
         : {
-            owaspTop10: shouldOpenStandardsChildFacet(
-              {},
-              query,
-              StandardsInformationKey.OWASP_TOP10,
-            ),
-            'owaspTop10-2021': shouldOpenStandardsChildFacet(
-              {},
-              query,
-              StandardsInformationKey.OWASP_TOP10_2021,
-            ),
-            'owaspTop10-2025': shouldOpenStandardsChildFacet(
-              {},
-              query,
-              StandardsInformationKey.OWASP_TOP10_2025,
-            ),
-            'stig-ASD_V5R3': shouldOpenStandardsChildFacet(
-              {},
-              query,
-              StandardsInformationKey.STIG_ASD_V5R3,
-            ),
-            'stig-ASD_V6': shouldOpenStandardsChildFacet(
-              {},
-              query,
-              StandardsInformationKey.STIG_ASD_V6,
-            ),
             impactSoftwareQualities: true,
             severities: true,
             types: true,
             impactSeverities: true,
-            sonarsourceSecurity: shouldOpenSonarSourceSecurityFacet({}, query),
             standards: shouldOpenStandardsFacet({}, query),
           },
       query,
@@ -541,16 +513,7 @@ export class App extends React.PureComponent<Props, State> {
       facets = facets ? `${facets},${VARIANTS_FACET}` : VARIANTS_FACET;
     }
 
-    // Filter out compliance standards from API calls
-    // They are kept in URL for state management but converted to complianceStandards for API
-    const {
-      owaspTop10: _owaspTop10,
-      'owaspTop10-2021': _owaspTop102021,
-      'owaspTop10-2025': _owaspTop102025,
-      'stig-ASD_V5R3': _stigAsdV5R3,
-      'stig-ASD_V6': _stigAsdV6,
-      ...serializedQuery
-    } = serializeQuery(query);
+    const serializedQuery = serializeQuery(query);
 
     const parameters: Record<string, string | undefined> = component?.needIssueSync
       ? {
@@ -824,15 +787,7 @@ export class App extends React.PureComponent<Props, State> {
     const { component } = this.props;
     const { myIssues, query } = this.state;
 
-    // Filter out compliance standards from API calls
-    const {
-      owaspTop10: _owaspTop10,
-      'owaspTop10-2021': _owaspTop102021,
-      'owaspTop10-2025': _owaspTop102025,
-      'stig-ASD_V5R3': _stigAsdV5R3,
-      'stig-ASD_V6': _stigAsdV6,
-      ...serializedQuery
-    } = serializeQuery({ ...query, ...changes });
+    const serializedQuery = serializeQuery({ ...query, ...changes });
 
     const parameters = {
       ...getBranchLikeQuery(this.props.branchLike),

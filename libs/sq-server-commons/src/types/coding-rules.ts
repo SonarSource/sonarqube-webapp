@@ -49,6 +49,7 @@ export interface CodingRulesQuery {
   active_impactSeverities: SoftwareImpactSeverity[];
   active_severities: string[];
   availableSince: Date | undefined;
+  casa: string[];
   cleanCodeAttributeCategories: CodeAttributeCategory[];
   compareToProfile: string | undefined;
   cwe: string[];
@@ -56,12 +57,14 @@ export interface CodingRulesQuery {
   impactSoftwareQualities: SoftwareQuality[];
   inheritance: RuleInheritance | undefined;
   languages: string[];
+  'owaspAsvs-4.0': string[];
+  'owaspAsvs-5.0': string[];
   'owaspMobileTop10-2024': string[];
-  'owaspMobileTop10-2024Open': boolean | undefined;
-  'owaspMobileTop10-2024Stats': boolean | undefined;
   owaspTop10: string[];
   'owaspTop10-2021': string[];
   'owaspTop10-2025': string[];
+  'pciDss-3.2': string[];
+  'pciDss-4.0': string[];
   prioritizedRule: boolean | undefined;
   profile: string | undefined;
   repositories: string[];

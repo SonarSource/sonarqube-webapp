@@ -18,94 +18,57 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { StandardsInformationKey } from '~shared/types/security';
+import { StandardsInformation, StandardsInformationKey } from '~shared/types/security';
+import { STANDARDS_REGISTRY } from './compliance-standards-registry';
 
-export const COMPLIANCE_STANDARDS_BACKEND_KEYS = {
-  [StandardsInformationKey.OWASP_TOP10]: 'owasp_top10:urn:sonar-security-standard:owasp:top10:2017',
-  [StandardsInformationKey.OWASP_TOP10_2021]:
-    'owasp_top10:urn:sonar-security-standard:owasp:top10:2021',
-  [StandardsInformationKey.OWASP_TOP10_2025]:
-    'owasp_top10:urn:sonar-security-standard:owasp:top10:2025',
-  [StandardsInformationKey.STIG_ASD_V5R3]: 'stig_asd:urn:sonar-security-standard:stig:asd:v5',
-  [StandardsInformationKey.STIG_ASD_V6]: 'stig_asd:urn:sonar-security-standard:stig:asd:v6',
-} as const;
+// Re-export to keep everything compliance standards related in one place
+export { STANDARDS_REGISTRY } from './compliance-standards-registry';
 
-export const BACKEND_KEY_TO_FRONTEND: Record<string, string> = {
-  'owasp_top10:urn:sonar-security-standard:owasp:top10:2017': StandardsInformationKey.OWASP_TOP10,
-  'owasp_top10:urn:sonar-security-standard:owasp:top10:2021':
-    StandardsInformationKey.OWASP_TOP10_2021,
-  'owasp_top10:urn:sonar-security-standard:owasp:top10:2025':
-    StandardsInformationKey.OWASP_TOP10_2025,
-  'stig_asd:urn:sonar-security-standard:stig:asd:v5': StandardsInformationKey.STIG_ASD_V5R3,
-  'stig_asd:urn:sonar-security-standard:stig:asd:v6': StandardsInformationKey.STIG_ASD_V6,
-};
+// Derived from STANDARDS_REGISTRY - maps frontend key to backend key
+export const COMPLIANCE_STANDARDS_BACKEND_KEYS = Object.fromEntries(
+  STANDARDS_REGISTRY.map((s) => [s.key, s.backendKey]),
+) as Record<StandardsInformationKey, string>;
 
-interface ComplianceStandardsQuery {
-  owaspTop10?: string[];
-  'owaspTop10-2021'?: string[];
-  'owaspTop10-2025'?: string[];
-  'stig-ASD_V5R3'?: string[];
-  'stig-ASD_V6'?: string[];
-}
+// Derived from STANDARDS_REGISTRY - maps backend key to frontend key
+export const BACKEND_KEY_TO_FRONTEND: Record<string, string> = Object.fromEntries(
+  STANDARDS_REGISTRY.map((s) => [s.backendKey, s.key]),
+);
 
-export function buildComplianceStandards(query: ComplianceStandardsQuery): string | undefined {
+// Derived from STANDARDS_REGISTRY - maps frontend key to query property name
+const FRONTEND_KEY_TO_QUERY_PROP: Record<string, string> = Object.fromEntries(
+  STANDARDS_REGISTRY.map((s) => [s.key, s.queryProp]),
+);
+
+// All standards that use complianceStandards
+const COMPLIANCE_STANDARDS = Object.keys(FRONTEND_KEY_TO_QUERY_PROP);
+
+export function buildComplianceStandards(query: object): string | undefined {
   const standardGroups: string[] = [];
+  const q = query as Record<string, unknown>;
 
-  const { owaspTop10 } = query;
-  if (owaspTop10?.length) {
-    standardGroups.push(
-      `${COMPLIANCE_STANDARDS_BACKEND_KEYS[StandardsInformationKey.OWASP_TOP10]}=${owaspTop10.join(',')}`,
-    );
-  }
-
-  const owaspTop102021 = query['owaspTop10-2021'];
-  if (owaspTop102021?.length) {
-    standardGroups.push(
-      `${COMPLIANCE_STANDARDS_BACKEND_KEYS[StandardsInformationKey.OWASP_TOP10_2021]}=${owaspTop102021.join(',')}`,
-    );
-  }
-
-  const owaspTop102025 = query['owaspTop10-2025'];
-  if (owaspTop102025?.length) {
-    standardGroups.push(
-      `${COMPLIANCE_STANDARDS_BACKEND_KEYS[StandardsInformationKey.OWASP_TOP10_2025]}=${owaspTop102025.join(',')}`,
-    );
-  }
-
-  const stigV5R3 = query['stig-ASD_V5R3'];
-  if (stigV5R3?.length) {
-    standardGroups.push(
-      `${COMPLIANCE_STANDARDS_BACKEND_KEYS[StandardsInformationKey.STIG_ASD_V5R3]}=${stigV5R3.join(',')}`,
-    );
-  }
-
-  const stigV6 = query['stig-ASD_V6'];
-  if (stigV6?.length) {
-    standardGroups.push(
-      `${COMPLIANCE_STANDARDS_BACKEND_KEYS[StandardsInformationKey.STIG_ASD_V6]}=${stigV6.join(',')}`,
-    );
+  for (const [frontendKey, queryProp] of Object.entries(FRONTEND_KEY_TO_QUERY_PROP)) {
+    const values = q[queryProp] as string[] | undefined;
+    if (values?.length) {
+      const backendKey =
+        COMPLIANCE_STANDARDS_BACKEND_KEYS[
+          frontendKey as keyof typeof COMPLIANCE_STANDARDS_BACKEND_KEYS
+        ];
+      standardGroups.push(`${backendKey}=${values.join(',')}`);
+    }
   }
 
   return standardGroups.length > 0 ? standardGroups.join('&') : undefined;
 }
 
 export function mapFacetToBackendName(facet: string): string {
-  if (
-    facet === StandardsInformationKey.OWASP_TOP10 ||
-    facet === StandardsInformationKey.OWASP_TOP10_2021 ||
-    facet === StandardsInformationKey.OWASP_TOP10_2025 ||
-    facet === StandardsInformationKey.STIG_ASD_V5R3 ||
-    facet === StandardsInformationKey.STIG_ASD_V6
-  ) {
+  // All compliance standards use the complianceStandards facet
+  if (COMPLIANCE_STANDARDS.includes(facet)) {
     return 'complianceStandards';
   }
   return facet;
 }
 
-function processComplianceStandardGroup(
-  group: string,
-  result: Partial<ComplianceStandardsQuery>,
-): void {
+function processComplianceStandardGroup(group: string, result: Record<string, string[]>): void {
   const [backendKey, categoriesString] = group.split('=');
   if (!backendKey || !categoriesString) {
     return;
@@ -116,35 +79,20 @@ function processComplianceStandardGroup(
     return;
   }
 
-  const categories = categoriesString.split(',');
-
-  switch (frontendKey) {
-    case StandardsInformationKey.OWASP_TOP10:
-      result.owaspTop10 = categories;
-      break;
-    case StandardsInformationKey.OWASP_TOP10_2021:
-      result['owaspTop10-2021'] = categories;
-      break;
-    case StandardsInformationKey.OWASP_TOP10_2025:
-      result['owaspTop10-2025'] = categories;
-      break;
-    case StandardsInformationKey.STIG_ASD_V5R3:
-      result['stig-ASD_V5R3'] = categories;
-      break;
-    case StandardsInformationKey.STIG_ASD_V6:
-      result['stig-ASD_V6'] = categories;
-      break;
+  const queryProp = FRONTEND_KEY_TO_QUERY_PROP[frontendKey];
+  if (queryProp) {
+    result[queryProp] = categoriesString.split(',');
   }
 }
 
 export function parseComplianceStandards(
   complianceStandardsString?: string,
-): Partial<ComplianceStandardsQuery> {
+): Record<string, string[]> {
   if (!complianceStandardsString) {
     return {};
   }
 
-  const result: Partial<ComplianceStandardsQuery> = {};
+  const result: Record<string, string[]> = {};
   const groups = complianceStandardsString.split('&');
 
   for (const group of groups) {
@@ -156,4 +104,53 @@ export function parseComplianceStandards(
 
 export function mapBackendFacetKeyToFrontend(backendKey: string): string {
   return BACKEND_KEY_TO_FRONTEND[backendKey] || backendKey;
+}
+
+export interface StandardData {
+  fetching: boolean;
+  open: boolean;
+  stats: Record<string, number> | undefined;
+  values: string[];
+}
+
+export function buildStandardsPropsFromQuery(
+  query: object,
+  facets: Record<string, Record<string, number> | undefined>,
+  loadingFacets: Record<string, boolean>,
+  openFacets: Record<string, boolean>,
+  standardKeys: StandardsInformationKey[] = STANDARDS_REGISTRY.map((s) => s.key),
+): Record<StandardsInformationKey, StandardData> {
+  const result: Partial<Record<StandardsInformationKey, StandardData>> = {};
+  const q = query as Record<string, unknown>;
+
+  for (const key of standardKeys) {
+    const queryProp = FRONTEND_KEY_TO_QUERY_PROP[key];
+    if (queryProp) {
+      const queryValue = q[queryProp];
+      result[key] = {
+        fetching: loadingFacets[queryProp] === true,
+        open: !!openFacets[queryProp],
+        stats: facets[queryProp],
+        values: Array.isArray(queryValue) ? (queryValue as string[]) : [],
+      };
+    }
+  }
+
+  return result as Record<StandardsInformationKey, StandardData>;
+}
+
+export function populateStandardsFromParsed(
+  parsedComplianceStandards: Record<string, string[]>,
+): Record<string, string[]> {
+  const result: Record<string, string[]> = {};
+
+  for (const standard of STANDARDS_REGISTRY) {
+    result[standard.queryProp] = parsedComplianceStandards[standard.queryProp] ?? [];
+  }
+
+  return result;
+}
+
+export function createEmptyStandardsInformation(): StandardsInformation {
+  return Object.fromEntries(STANDARDS_REGISTRY.map((s) => [s.key, {}])) as StandardsInformation;
 }

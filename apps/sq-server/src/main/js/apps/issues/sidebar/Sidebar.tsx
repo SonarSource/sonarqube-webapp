@@ -44,6 +44,8 @@ import {
 import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import { UserBase } from '~sq-server-commons/types/users';
+import { buildStandardsPropsFromQuery } from '~sq-server-commons/utils/compliance-standards';
+import { ALL_STANDARD_KEYS } from '~sq-server-commons/utils/compliance-standards-registry';
 import { AssigneeFacet } from './AssigneeFacet';
 import { AttributeCategoryFacet } from './AttributeCategoryFacet';
 import { AuthorFacet } from './AuthorFacet';
@@ -345,20 +347,14 @@ export function Sidebar(props: Readonly<Props>) {
           />
 
           {addons.jira && (
-            <>
-              <Divider className="sw-my-2" />
-
-              <div className="sw-mb-4">
-                <addons.jira.JiraTicketStatusFacet
-                  facetStats={facets.linkedTicketStatus}
-                  facetStatuses={query.linkedTicketStatus}
-                  isFacetOpen={openFacets.linkedTicketStatus}
-                  isLoading={props.loadingFacets.linkedTicketStatus}
-                  onFacetToggle={props.onFacetToggle}
-                  onFilterChange={props.onFilterChange}
-                />
-              </div>
-            </>
+            <addons.jira.JiraTicketStatusFacet
+              facetStats={facets.linkedTicketStatus}
+              facetStatuses={query.linkedTicketStatus}
+              isFacetOpen={openFacets.linkedTicketStatus}
+              isLoading={props.loadingFacets.linkedTicketStatus}
+              onFacetToggle={props.onFacetToggle}
+              onFilterChange={props.onFilterChange}
+            />
           )}
 
           <Divider className="sw-my-2" />
@@ -368,39 +364,18 @@ export function Sidebar(props: Readonly<Props>) {
             cweOpen={!!openFacets.cwe}
             cweStats={facets.cwe}
             fetchingCwe={props.loadingFacets.cwe === true}
-            fetchingOwaspMobileTop10-2024={props.loadingFacets['owaspMobileTop10-2024'] === true}
-            fetchingOwaspTop10={props.loadingFacets.owaspTop10 === true}
-            fetchingOwaspTop10-2021={props.loadingFacets['owaspTop10-2021'] === true}
-            fetchingOwaspTop10-2025={props.loadingFacets['owaspTop10-2025'] === true}
-            fetchingSonarSourceSecurity={props.loadingFacets.sonarsourceSecurity === true}
-            fetchingStig-ASD_V5R3={props.loadingFacets['stig-ASD_V5R3'] === true}
-            fetchingStig-ASD_V6={props.loadingFacets['stig-ASD_V6'] === true}
             loadSearchResultCount={props.loadSearchResultCount}
             onChange={props.onFilterChange}
             onToggle={props.onFacetToggle}
             open={!!openFacets.standards}
-            owaspMobileTop10-2024={query['owaspMobileTop10-2024']}
-            owaspMobileTop10-2024Open={!!openFacets['owaspMobileTop10-2024']}
-            owaspMobileTop10-2024Stats={facets['owaspMobileTop10-2024']}
-            owaspTop10={query.owaspTop10}
-            owaspTop10-2021={query['owaspTop10-2021']}
-            owaspTop10-2021Open={!!openFacets['owaspTop10-2021']}
-            owaspTop10-2021Stats={facets['owaspTop10-2021']}
-            owaspTop10-2025={query['owaspTop10-2025']}
-            owaspTop10-2025Open={!!openFacets['owaspTop10-2025']}
-            owaspTop10-2025Stats={facets['owaspTop10-2025']}
-            owaspTop10Open={!!openFacets.owaspTop10}
-            owaspTop10Stats={facets.owaspTop10}
             query={query}
-            sonarsourceSecurity={query.sonarsourceSecurity}
-            sonarsourceSecurityOpen={!!openFacets.sonarsourceSecurity}
-            sonarsourceSecurityStats={facets.sonarsourceSecurity}
-            stig-ASD_V5R3={query['stig-ASD_V5R3']}
-            stig-ASD_V5R3Open={!!openFacets['stig-ASD_V5R3']}
-            stig-ASD_V5R3Stats={facets['stig-ASD_V5R3']}
-            stig-ASD_V6={query['stig-ASD_V6']}
-            stig-ASD_V6Open={!!openFacets['stig-ASD_V6']}
-            stig-ASD_V6Stats={facets['stig-ASD_V6']}
+            standards={buildStandardsPropsFromQuery(
+              query,
+              facets,
+              props.loadingFacets,
+              openFacets,
+              ALL_STANDARD_KEYS,
+            )}
           />
 
           <Divider className="sw-my-2" />

@@ -97,10 +97,14 @@ type FacetFilter = Pick<
   | 'qprofile'
   | 'activation'
   | 'severities'
-  | 'sonarsourceSecurity'
+  | 'cwe'
+  | 'owaspMobileTop10-2024'
   | 'owaspTop10'
   | 'owaspTop10-2021'
-  | 'cwe'
+  | 'owaspTop10-2025'
+  | 'sonarsourceSecurity'
+  | 'stig-ASD_V5R3'
+  | 'stig-ASD_V6'
   | 'is_template'
   | 'template_key'
   | 'cleanCodeAttributeCategories'
@@ -533,9 +537,16 @@ export default class CodingRulesServiceMock {
 
     // Parse complianceStandards parameter to extract individual standard values
     const parsedComplianceStandards = parseComplianceStandards(complianceStandards);
+    const effectiveCwe = parsedComplianceStandards.cwe?.[0] ?? cwe;
     const effectiveOwaspTop10 = parsedComplianceStandards.owaspTop10?.[0] ?? owaspTop10;
     const effectiveOwasp2021Top10 =
       parsedComplianceStandards['owaspTop10-2021']?.[0] ?? owasp2021Top10;
+    const effectiveOwaspTop102025 = parsedComplianceStandards['owaspTop10-2025']?.[0];
+    const effectiveOwaspMobileTop102024 = parsedComplianceStandards['owaspMobileTop10-2024']?.[0];
+    const effectiveSonarsourceSecurity =
+      parsedComplianceStandards.sonarsourceSecurity?.[0] ?? sonarsourceSecurity;
+    const effectiveStigV5R3 = parsedComplianceStandards['stig-ASD_V5R3']?.[0];
+    const effectiveStigV6 = parsedComplianceStandards['stig-ASD_V6']?.[0];
 
     const facetCounts: Array<{
       property: string;
@@ -583,70 +594,15 @@ export default class CodingRulesServiceMock {
           })),
         });
       } else if (facet === 'complianceStandards') {
-        const complianceStandardsFacets: Array<{
-          property: string;
-          values: { count: number; val: string }[];
-        }> = [];
-
-        if (standards[StandardsInformationKey.OWASP_TOP10]) {
-          complianceStandardsFacets.push({
-            property: COMPLIANCE_STANDARDS_BACKEND_KEYS[StandardsInformationKey.OWASP_TOP10],
-            values: Object.keys(standards[StandardsInformationKey.OWASP_TOP10]).map(
-              (val: string) => ({
-                val,
-                count: 1,
-              }),
-            ),
-          });
-        }
-
-        if (standards[StandardsInformationKey.OWASP_TOP10_2021]) {
-          complianceStandardsFacets.push({
-            property: COMPLIANCE_STANDARDS_BACKEND_KEYS[StandardsInformationKey.OWASP_TOP10_2021],
-            values: Object.keys(standards[StandardsInformationKey.OWASP_TOP10_2021]).map(
-              (val: string) => ({
-                val,
-                count: 1,
-              }),
-            ),
-          });
-        }
-
-        if (standards[StandardsInformationKey.OWASP_TOP10_2025]) {
-          complianceStandardsFacets.push({
-            property: COMPLIANCE_STANDARDS_BACKEND_KEYS[StandardsInformationKey.OWASP_TOP10_2025],
-            values: Object.keys(standards[StandardsInformationKey.OWASP_TOP10_2025]).map(
-              (val: string) => ({
-                val,
-                count: 1,
-              }),
-            ),
-          });
-        }
-
-        if (standards[StandardsInformationKey.STIG_ASD_V5R3]) {
-          complianceStandardsFacets.push({
-            property: COMPLIANCE_STANDARDS_BACKEND_KEYS[StandardsInformationKey.STIG_ASD_V5R3],
-            values: Object.keys(standards[StandardsInformationKey.STIG_ASD_V5R3]).map(
-              (val: string) => ({
-                val,
-                count: 1,
-              }),
-            ),
-          });
-        }
-
-        if (standards[StandardsInformationKey.STIG_ASD_V6]) {
-          complianceStandardsFacets.push({
-            property: COMPLIANCE_STANDARDS_BACKEND_KEYS[StandardsInformationKey.STIG_ASD_V6],
-            values: Object.keys(standards[StandardsInformationKey.STIG_ASD_V6]).map(
-              (val: string) => ({
-                val,
-                count: 1,
-              }),
-            ),
-          });
-        }
+        const complianceStandardsFacets = Object.values(StandardsInformationKey)
+          .filter((key) => standards[key])
+          .map((key) => ({
+            property: COMPLIANCE_STANDARDS_BACKEND_KEYS[key],
+            values: Object.keys(standards[key]).map((val: string) => ({
+              val,
+              count: 1,
+            })),
+          }));
 
         facetCounts.push(...complianceStandardsFacets);
       } else if (typeof (standards as Record<string, object>)[facet] === 'object') {
@@ -686,10 +642,14 @@ export default class CodingRulesServiceMock {
         severities,
         active_impactSeverities,
         active_severities,
-        sonarsourceSecurity,
+        cwe: effectiveCwe,
         owaspTop10: effectiveOwaspTop10,
         'owaspTop10-2021': effectiveOwasp2021Top10,
-        cwe,
+        'owaspTop10-2025': effectiveOwaspTop102025,
+        'owaspMobileTop10-2024': effectiveOwaspMobileTop102024,
+        sonarsourceSecurity: effectiveSonarsourceSecurity,
+        'stig-ASD_V5R3': effectiveStigV5R3,
+        'stig-ASD_V6': effectiveStigV6,
         activation,
         prioritizedRule,
       });

@@ -247,9 +247,11 @@ export enum FacetName {
 }
 
 export const OWASP_ASVS_4_0 = 'owaspAsvs-4.0';
+export const OWASP_ASVS_5_0 = 'owaspAsvs-5.0';
 
 export interface IssuesQuery {
   [OWASP_ASVS_4_0]: string[];
+  [OWASP_ASVS_5_0]: string[];
   assigned: boolean;
   assignees: string[];
   author: string[];
@@ -272,7 +274,6 @@ export interface IssuesQuery {
   issues: string[];
   languages: string[];
   linkedTicketStatus: string[];
-  owaspAsvsLevel: string;
   'owaspMobileTop10-2024': string[];
   owaspTop10: string[];
   'owaspTop10-2021': string[];

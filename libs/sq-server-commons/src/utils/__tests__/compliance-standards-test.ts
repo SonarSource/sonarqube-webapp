@@ -30,7 +30,7 @@ describe('buildComplianceStandards', () => {
     const result = buildComplianceStandards(query);
 
     expect(result).toBe(
-      'stig_asd:urn:sonar-security-standard:stig:asd:v5=V-222607,V-222642&stig_asd:urn:sonar-security-standard:stig:asd:v6=V-222609',
+      'stig_asd:urn:sonar-security-standard:stig:asd:v6=V-222609&stig_asd:urn:sonar-security-standard:stig:asd:v5=V-222607,V-222642',
     );
   });
 
@@ -74,7 +74,7 @@ describe('buildComplianceStandards', () => {
     const result = buildComplianceStandards(query);
 
     expect(result).toBe(
-      'owasp_top10:urn:sonar-security-standard:owasp:top10:2025=A01,A02&stig_asd:urn:sonar-security-standard:stig:asd:v5=V-222607,V-222642,V-222643&stig_asd:urn:sonar-security-standard:stig:asd:v6=V-222609',
+      'owasp_top10:urn:sonar-security-standard:owasp:top10:2025=A01,A02&stig_asd:urn:sonar-security-standard:stig:asd:v6=V-222609&stig_asd:urn:sonar-security-standard:stig:asd:v5=V-222607,V-222642,V-222643',
     );
   });
 
@@ -88,7 +88,40 @@ describe('buildComplianceStandards', () => {
     const result = buildComplianceStandards(query);
 
     expect(result).toBe(
-      'owasp_top10:urn:sonar-security-standard:owasp:top10:2017=a1&owasp_top10:urn:sonar-security-standard:owasp:top10:2021=a2&owasp_top10:urn:sonar-security-standard:owasp:top10:2025=A03',
+      'owasp_top10:urn:sonar-security-standard:owasp:top10:2025=A03&owasp_top10:urn:sonar-security-standard:owasp:top10:2021=a2&owasp_top10:urn:sonar-security-standard:owasp:top10:2017=a1',
+    );
+  });
+
+  it('should build compliance standards with PCI DSS 3.2', () => {
+    const query = {
+      'pciDss-3.2': ['1', '2', '3'],
+    };
+
+    const result = buildComplianceStandards(query);
+
+    expect(result).toBe('pci_dss:urn:sonar-security-standard:pci:dss:3.2=1,2,3');
+  });
+
+  it('should build compliance standards with PCI DSS 4.0', () => {
+    const query = {
+      'pciDss-4.0': ['1', '2'],
+    };
+
+    const result = buildComplianceStandards(query);
+
+    expect(result).toBe('pci_dss:urn:sonar-security-standard:pci:dss:4.0=1,2');
+  });
+
+  it('should build compliance standards with both PCI DSS versions', () => {
+    const query = {
+      'pciDss-3.2': ['1', '2'],
+      'pciDss-4.0': ['3', '4'],
+    };
+
+    const result = buildComplianceStandards(query);
+
+    expect(result).toBe(
+      'pci_dss:urn:sonar-security-standard:pci:dss:4.0=3,4&pci_dss:urn:sonar-security-standard:pci:dss:3.2=1,2',
     );
   });
 
@@ -181,6 +214,38 @@ describe('parseComplianceStandards', () => {
     });
   });
 
+  it('should parse PCI DSS 3.2 compliance standards', () => {
+    const complianceString = 'pci_dss:urn:sonar-security-standard:pci:dss:3.2=1,2,3';
+
+    const result = parseComplianceStandards(complianceString);
+
+    expect(result).toEqual({
+      'pciDss-3.2': ['1', '2', '3'],
+    });
+  });
+
+  it('should parse PCI DSS 4.0 compliance standards', () => {
+    const complianceString = 'pci_dss:urn:sonar-security-standard:pci:dss:4.0=1,2';
+
+    const result = parseComplianceStandards(complianceString);
+
+    expect(result).toEqual({
+      'pciDss-4.0': ['1', '2'],
+    });
+  });
+
+  it('should parse compliance standards with both PCI DSS versions', () => {
+    const complianceString =
+      'pci_dss:urn:sonar-security-standard:pci:dss:3.2=1,2&pci_dss:urn:sonar-security-standard:pci:dss:4.0=3,4';
+
+    const result = parseComplianceStandards(complianceString);
+
+    expect(result).toEqual({
+      'pciDss-3.2': ['1', '2'],
+      'pciDss-4.0': ['3', '4'],
+    });
+  });
+
   it('should return empty object when no string is provided', () => {
     const result = parseComplianceStandards(undefined);
 
@@ -199,6 +264,18 @@ describe('parseComplianceStandards', () => {
     const original = {
       'stig-ASD_V5R3': ['V-222607', 'V-222642'],
       'stig-ASD_V6': ['V-222609'],
+    };
+
+    const serialized = buildComplianceStandards(original);
+    const parsed = parseComplianceStandards(serialized);
+
+    expect(parsed).toEqual(original);
+  });
+
+  it('should round-trip PCI DSS correctly', () => {
+    const original = {
+      'pciDss-3.2': ['1', '2', '3'],
+      'pciDss-4.0': ['4', '5'],
     };
 
     const serialized = buildComplianceStandards(original);

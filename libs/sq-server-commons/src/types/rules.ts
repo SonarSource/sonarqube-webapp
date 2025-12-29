@@ -35,8 +35,10 @@ export interface SearchRulesQuery {
   inheritance?: string;
   is_template?: boolean | string;
   languages?: string;
+  ['owaspMobileTop10-2024']?: string;
   owaspTop10?: string;
   ['owaspTop10-2021']?: string;
+  ['owaspTop10-2025']?: string;
   p?: number;
   prioritizedRule?: boolean | string;
   ps?: number;
@@ -48,6 +50,8 @@ export interface SearchRulesQuery {
   severities?: string;
   sonarsourceSecurity?: string;
   statuses?: string;
+  ['stig-ASD_V5R3']?: string;
+  ['stig-ASD_V6']?: string;
   tags?: string;
   template_key?: string;
   types?: string;

@@ -21,21 +21,6 @@
 import { flatten, groupBy, sortBy } from 'lodash';
 import { HotspotRatingEnum } from '~design-system';
 import {
-  renderCASACategory,
-  renderCWECategory,
-  renderOwaspAsvs40Category,
-  renderOwaspMobileTop10Version2024Category,
-  renderOwaspTop102021Category,
-  renderOwaspTop102025Category,
-  renderOwaspTop10Category,
-  renderPciDss32Category,
-  renderPciDss40Category,
-  renderSonarSourceSecurityCategory,
-  renderStigCategory,
-  renderStigV6Category,
-} from '~shared/helpers/security-standards';
-import { StandardsInformationKey } from '~shared/types/security';
-import {
   Hotspot,
   HotspotResolution,
   HotspotStatus,
@@ -50,6 +35,7 @@ import {
   SourceViewerFile,
   StandardSecurityCategories,
 } from '~sq-server-commons/types/types';
+import { STANDARDS_REGISTRY } from '~sq-server-commons/utils/compliance-standards-registry';
 
 const OTHERS_SECURITY_CATEGORY = 'others';
 
@@ -58,34 +44,14 @@ export const RISK_EXPOSURE_LEVELS = [
   HotspotRatingEnum.MEDIUM,
   HotspotRatingEnum.LOW,
 ];
-export const SECURITY_STANDARDS = [
-  StandardsInformationKey.SONARSOURCE,
-  StandardsInformationKey.OWASP_TOP10,
-  StandardsInformationKey.OWASP_TOP10_2021,
-  StandardsInformationKey.OWASP_TOP10_2025,
-  StandardsInformationKey.CWE,
-  StandardsInformationKey.PCI_DSS_3_2,
-  StandardsInformationKey.PCI_DSS_4_0,
-  StandardsInformationKey.OWASP_ASVS_4_0,
-  StandardsInformationKey.CASA,
-  StandardsInformationKey.STIG_ASD_V5R3,
-  StandardsInformationKey.STIG_ASD_V6,
-];
 
-export const SECURITY_STANDARD_RENDERER = {
-  [StandardsInformationKey.OWASP_MOBILE_TOP10_2024]: renderOwaspMobileTop10Version2024Category,
-  [StandardsInformationKey.OWASP_TOP10]: renderOwaspTop10Category,
-  [StandardsInformationKey.OWASP_TOP10_2021]: renderOwaspTop102021Category,
-  [StandardsInformationKey.OWASP_TOP10_2025]: renderOwaspTop102025Category,
-  [StandardsInformationKey.SONARSOURCE]: renderSonarSourceSecurityCategory,
-  [StandardsInformationKey.CWE]: renderCWECategory,
-  [StandardsInformationKey.PCI_DSS_3_2]: renderPciDss32Category,
-  [StandardsInformationKey.PCI_DSS_4_0]: renderPciDss40Category,
-  [StandardsInformationKey.OWASP_ASVS_4_0]: renderOwaspAsvs40Category,
-  [StandardsInformationKey.CASA]: renderCASACategory,
-  [StandardsInformationKey.STIG_ASD_V5R3]: renderStigCategory,
-  [StandardsInformationKey.STIG_ASD_V6]: renderStigV6Category,
-};
+// Derived from STANDARDS_REGISTRY - all standard keys
+export const SECURITY_STANDARDS = STANDARDS_REGISTRY.map((s) => s.key);
+
+// Derived from STANDARDS_REGISTRY - map of standard keys to their render functions
+export const SECURITY_STANDARD_RENDERER = Object.fromEntries(
+  STANDARDS_REGISTRY.map((s) => [s.key, s.renderCategory]),
+);
 
 export function mapRules(rules: Array<{ key: string; name: string }>): Record<string, string> {
   return rules.reduce((ruleMap: Record<string, string>, r) => {

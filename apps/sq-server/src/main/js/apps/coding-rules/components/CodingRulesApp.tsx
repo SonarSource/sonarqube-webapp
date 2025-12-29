@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { keyBy } from 'lodash';
+import { keyBy, omit } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
@@ -36,7 +36,6 @@ import { withRouter } from '~shared/components/hoc/withRouter';
 import { Paging } from '~shared/types/paging';
 import { Location, RawQuery, Router } from '~shared/types/router';
 import { Rule, RuleActivationAdvanced } from '~shared/types/rules';
-import { StandardsInformationKey } from '~shared/types/security';
 import { searchQualityProfiles } from '~sq-server-commons/api/quality-profiles';
 import { getRulesApp, searchRules } from '~sq-server-commons/api/rules';
 import { getValue } from '~sq-server-commons/api/settings';
@@ -67,16 +66,17 @@ import {
   getOpen,
   getSelected,
   hasRuleKey,
-  mapBackendFacetKeyToFrontend,
-  mapFacetToBackendName,
   parseQuery,
   serializeQuery,
   shouldRequestFacet,
 } from '~sq-server-commons/utils/coding-rules-query';
 import {
+  mapBackendFacetKeyToFrontend,
+  mapFacetToBackendName,
+} from '~sq-server-commons/utils/compliance-standards';
+import {
   STANDARDS,
   shouldOpenSonarSourceSecurityFacet,
-  shouldOpenStandardsChildFacet,
   shouldOpenStandardsFacet,
 } from '~sq-server-commons/utils/issues-utils';
 import '../styles.css';
@@ -102,6 +102,7 @@ interface State {
   canWrite?: boolean;
   facets?: Facets;
   loading: boolean;
+  loadingFacets: Record<string, boolean>;
   openFacets: OpenFacets;
   paging?: Paging;
   referencedProfiles: Record<string, BaseProfile>;
@@ -120,30 +121,9 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
     const query = parseQuery(props.location.query);
     this.state = {
       loading: true,
+      loadingFacets: {},
       openFacets: {
         languages: true,
-        owaspTop10: shouldOpenStandardsChildFacet({}, query, StandardsInformationKey.OWASP_TOP10),
-        'owaspTop10-2021': shouldOpenStandardsChildFacet(
-          {},
-          query,
-          StandardsInformationKey.OWASP_TOP10_2021,
-        ),
-        'owaspTop10-2025': shouldOpenStandardsChildFacet(
-          {},
-          query,
-          StandardsInformationKey.OWASP_TOP10_2025,
-        ),
-        'stig-ASD_V5R3': shouldOpenStandardsChildFacet(
-          {},
-          query,
-          StandardsInformationKey.STIG_ASD_V5R3,
-        ),
-        'stig-ASD_V6': shouldOpenStandardsChildFacet(
-          {},
-          query,
-          StandardsInformationKey.STIG_ASD_V6,
-        ),
-        sonarsourceSecurity: shouldOpenSonarSourceSecurityFacet({}, query),
         standards: shouldOpenStandardsFacet({}, query),
         impactSoftwareQualities: true,
         severities: true,
@@ -234,12 +214,11 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
 
   getFacetsToFetch = () => {
     const { openFacets } = this.state;
-    const facets = Object.keys(openFacets)
-      .filter((facet: FacetKey) => openFacets[facet])
-      .filter((facet: FacetKey) => shouldRequestFacet(facet))
+    const backendFacets = Object.keys(openFacets)
+      .filter((facet: FacetKey) => openFacets[facet] && shouldRequestFacet(facet))
       .map((facet: FacetKey) => mapFacetToBackendName(facet));
-    // Deduplicate facets (e.g., both owaspTop10-2025 and stig-ASD_V6 map to complianceStandards)
-    return Array.from(new Set(facets));
+
+    return [...new Set(backendFacets)];
   };
 
   getFieldsToFetch = () => {
@@ -262,14 +241,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
   };
 
   getSearchParameters = () => {
-    const {
-      owaspTop10: _owaspTop10,
-      'owaspTop10-2021': _owaspTop102021,
-      'owaspTop10-2025': _owaspTop102025,
-      'stig-ASD_V5R3': _stigAsdV5R3,
-      'stig-ASD_V6': _stigAsdV6,
-      ...apiParams
-    } = serializeQuery(parseQuery(this.props.location.query));
+    const apiParams = serializeQuery(parseQuery(this.props.location.query));
 
     return {
       f: this.getFieldsToFetch().join(),
@@ -357,9 +329,15 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
       ? facet.map(mapFacetToBackendName).join(',')
       : mapFacetToBackendName(facet);
 
+    const facetsArray = Array.isArray(facet) ? facet : [facet];
+
     this.makeFetchRequest({ ps: 1, facets: facetsToFetch }).then(({ facets }) => {
       if (this.mounted) {
-        this.setState((state) => ({ facets: { ...state.facets, ...facets }, loading: false }));
+        this.setState((state) => ({
+          facets: { ...state.facets, ...facets },
+          loading: false,
+          loadingFacets: omit(state.loadingFacets, ...facetsArray),
+        }));
       }
     }, this.stopLoading);
   };
@@ -516,6 +494,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
       const willOpenProperty = !state.openFacets[property];
       const newState = {
         loading: state.loading,
+        loadingFacets: state.loadingFacets,
         openFacets: { ...state.openFacets, [property]: willOpenProperty },
       };
 
@@ -531,6 +510,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
 
       if (shouldRequestFacet(property) && !state.facets?.[property]) {
         newState.loading = true;
+        newState.loadingFacets = { ...state.loadingFacets, [property]: true };
         this.fetchFacet(property);
       }
 
@@ -666,6 +646,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
                 <FiltersHeader displayReset={this.isFiltered()} onReset={this.handleReset} />
                 <FacetsList
                   facets={this.state.facets}
+                  loadingFacets={this.state.loadingFacets}
                   onFacetToggle={this.handleFacetToggle}
                   onFilterChange={this.handleFilterChange}
                   openFacets={this.state.openFacets}

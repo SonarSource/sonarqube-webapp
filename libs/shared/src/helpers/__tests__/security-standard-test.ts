@@ -24,7 +24,7 @@ import {
   renderCASACategory,
   renderCWECategory,
   renderOwaspAsvs40Category,
-  renderOwaspMobileTop10Version2024Category,
+  renderOwaspMobileTop102024Category,
   renderOwaspTop102021Category,
   renderOwaspTop102025Category,
   renderOwaspTop10Category,
@@ -37,6 +37,14 @@ import {
 
 describe('standards renderers', () => {
   const standards: StandardsInformation = {
+    casa: {
+      '1': {
+        title: 'Main category',
+      },
+      '2': {
+        title: 'Sub category',
+      },
+    },
     cwe: {
       '1004': {
         title: "Sensitive Cookie Without 'HttpOnly' Flag",
@@ -95,9 +103,13 @@ describe('standards renderers', () => {
         level: '2',
       },
     },
-    casa: {
+    'owaspAsvs-5.0': {
       '1': {
-        title: 'Main category',
+        title: 'Main category V5',
+      },
+      '1.1': {
+        title: 'Sub category V5',
+        level: '3',
       },
     },
     'stig-ASD_V5R3': {
@@ -129,6 +141,14 @@ describe('standards renderers', () => {
     );
     expect(renderCWECategory(standards, '124')).toEqual('CWE-124');
     expect(renderCWECategory(standards, 'unknown')).toEqual('No CWE associated');
+    // Test that the "CWE-" prefix is handled correctly (backend sends values with prefix)
+    expect(renderCWECategory(standards, 'CWE-1004')).toEqual(
+      "CWE-1004 - Sensitive Cookie Without 'HttpOnly' Flag",
+    );
+    expect(renderCWECategory(standards, 'CWE-124')).toEqual('CWE-124');
+    expect(renderCWECategory(standards, 'cwe-1004')).toEqual(
+      "CWE-1004 - Sensitive Cookie Without 'HttpOnly' Flag",
+    );
   });
 
   it('should render owasp categories correctly', () => {
@@ -170,7 +190,7 @@ describe('standards renderers', () => {
 
   it('should render casa categories correctly', () => {
     expect(renderCASACategory(standards, '1')).toEqual('1 - Main category');
-    expect(renderCASACategory(standards, '2')).toEqual('2');
+    expect(renderCASACategory(standards, '2')).toEqual('2 - Sub category');
   });
 
   it('should render stig requirements correctly', () => {
@@ -179,22 +199,31 @@ describe('standards renderers', () => {
   });
 
   it('should render OWASP Mobile Top 10 2024 categories correctly', () => {
-    expect(renderOwaspMobileTop10Version2024Category(extendedStandards, 'm1')).toEqual(
+    expect(renderOwaspMobileTop102024Category(extendedStandards, 'm1')).toEqual(
       'M1 - Improper Credential Usage',
     );
-    expect(renderOwaspMobileTop10Version2024Category(extendedStandards, 'm1', true)).toEqual(
+    expect(renderOwaspMobileTop102024Category(extendedStandards, 'm1', true)).toEqual(
       'OWASP Mobile M1 - Improper Credential Usage',
     );
-    expect(renderOwaspMobileTop10Version2024Category(extendedStandards, 'm2')).toEqual(
+    expect(renderOwaspMobileTop102024Category(extendedStandards, 'm2')).toEqual(
       'M2 - Inadequate Supply Chain Security',
     );
-    expect(renderOwaspMobileTop10Version2024Category(extendedStandards, 'm2', true)).toEqual(
+    expect(renderOwaspMobileTop102024Category(extendedStandards, 'm2', true)).toEqual(
       'OWASP Mobile M2 - Inadequate Supply Chain Security',
     );
-    expect(renderOwaspMobileTop10Version2024Category(extendedStandards, 'm3')).toEqual('M3');
-    expect(renderOwaspMobileTop10Version2024Category(extendedStandards, 'm3', true)).toEqual(
+    expect(renderOwaspMobileTop102024Category(extendedStandards, 'm3')).toEqual('M3');
+    expect(renderOwaspMobileTop102024Category(extendedStandards, 'm3', true)).toEqual(
       'OWASP Mobile M3',
     );
+    // Test that leading zeros are handled correctly (backend sends M01, M02, M08, M10)
+    expect(renderOwaspMobileTop102024Category(extendedStandards, 'M01')).toEqual(
+      'M1 - Improper Credential Usage',
+    );
+    expect(renderOwaspMobileTop102024Category(extendedStandards, 'M02')).toEqual(
+      'M2 - Inadequate Supply Chain Security',
+    );
+    expect(renderOwaspMobileTop102024Category(extendedStandards, 'M08')).toEqual('M8');
+    expect(renderOwaspMobileTop102024Category(extendedStandards, 'M10')).toEqual('M10');
   });
 
   it('should render OWASP Top 10 2021 categories correctly', () => {
