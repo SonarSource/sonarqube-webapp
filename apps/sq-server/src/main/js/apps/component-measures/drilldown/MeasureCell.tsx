@@ -27,22 +27,27 @@ import { ComponentMeasureEnhanced } from '~sq-server-commons/types/types';
 
 interface Props {
   branchLike?: BranchLike;
-  component: ComponentMeasureEnhanced;
-  measure?: MeasureEnhanced;
+  componentKey: string;
+  measure?: MeasureEnhanced | ComponentMeasureEnhanced;
   metric: Metric;
 }
 
-export default function MeasureCell({ component, measure, metric, branchLike }: Readonly<Props>) {
-  const getValue = (item: { leak?: string; value?: string }) =>
+export default function MeasureCell({
+  componentKey,
+  measure,
+  metric,
+  branchLike,
+}: Readonly<Props>) {
+  const getValue = (item: { leak?: string; value?: string } = {}) =>
     isDiffMetric(metric.key) ? item.leak : item.value;
 
-  const value = getValue(measure || component);
+  const value = getValue(measure);
 
   return (
     <NumericalCell className="sw-py-3">
       <Measure
         branchLike={branchLike}
-        componentKey={component.key}
+        componentKey={componentKey}
         metricKey={metric.key}
         metricType={metric.type}
         small

@@ -82,12 +82,17 @@ export default function ComponentsList({ components, metric, metrics, ...props }
             view={props.view}
           />
 
-          <MeasureCell branchLike={branchLike} component={component} metric={metric} />
+          <MeasureCell
+            branchLike={branchLike}
+            componentKey={component.key}
+            measure={component}
+            metric={metric}
+          />
 
           {otherMetrics.map((metric) => (
             <MeasureCell
               branchLike={branchLike}
-              component={component}
+              componentKey={component.key}
               key={metric.key}
               measure={component.measures.find((measure) => measure.metric.key === metric.key)}
               metric={metric}
