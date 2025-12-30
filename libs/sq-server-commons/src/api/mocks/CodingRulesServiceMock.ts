@@ -97,20 +97,13 @@ type FacetFilter = Pick<
   | 'qprofile'
   | 'activation'
   | 'severities'
-  | 'cwe'
-  | 'owaspMobileTop10-2024'
-  | 'owaspTop10'
-  | 'owaspTop10-2021'
-  | 'owaspTop10-2025'
-  | 'sonarsourceSecurity'
-  | 'stig-ASD_V5R3'
-  | 'stig-ASD_V6'
   | 'is_template'
   | 'template_key'
   | 'cleanCodeAttributeCategories'
   | 'prioritizedRule'
   | 'active_severities'
   | 'active_impactSeverities'
+  | StandardsInformationKey
 >;
 
 const FACET_RULE_MAP: Record<string, keyof Rule> = {

@@ -18,22 +18,24 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { StandardsInformation, StandardsInformationKey } from '../types/security';
 import {
   renderCASACategory,
   renderCWECategory,
   renderOwaspAsvs40Category,
   renderOwaspAsvs50Category,
+  renderOwaspMasvsV2Category,
   renderOwaspMobileTop102024Category,
   renderOwaspTop102021Category,
   renderOwaspTop102025Category,
   renderOwaspTop10Category,
+  renderOwaspTop10ForLlm2025Category,
   renderPciDss32Category,
   renderPciDss40Category,
   renderSonarSourceSecurityCategory,
   renderStigCategory,
   renderStigV6Category,
-} from '~shared/helpers/security-standards';
-import { StandardsInformation, StandardsInformationKey } from '~shared/types/security';
+} from './security-standards';
 
 export interface StandardDefinition {
   backendKey: string;
@@ -86,6 +88,14 @@ export const STANDARDS_REGISTRY: StandardDefinition[] = [
     showMoreEnabled: false,
   },
   {
+    key: StandardsInformationKey.OWASP_TOP10_FOR_LLM_2025,
+    backendKey: 'owasp_llm-top10:urn:sonar-security-standard:owasp:llm-top10:2025',
+    queryProp: 'owaspLlmTop10-2025',
+    displayName: 'owaspLlmTop10_2025',
+    renderCategory: renderOwaspTop10ForLlm2025Category,
+    showMoreEnabled: false,
+  },
+  {
     key: StandardsInformationKey.OWASP_ASVS_5_0,
     backendKey: 'owasp_asvs:urn:sonar-security-standard:owasp:asvs:5.0',
     queryProp: 'owaspAsvs-5.0',
@@ -99,6 +109,14 @@ export const STANDARDS_REGISTRY: StandardDefinition[] = [
     queryProp: 'owaspAsvs-4.0',
     displayName: 'owaspAsvs_4.0',
     renderCategory: renderOwaspAsvs40Category,
+    showMoreEnabled: true,
+  },
+  {
+    key: StandardsInformationKey.OWASP_MASVS_V2,
+    backendKey: 'owasp_masvs:urn:sonar-security-standard:owasp:masvs:v2',
+    queryProp: 'owaspMasvs-v2',
+    displayName: 'owaspMasvs_v2',
+    renderCategory: renderOwaspMasvsV2Category,
     showMoreEnabled: true,
   },
   {

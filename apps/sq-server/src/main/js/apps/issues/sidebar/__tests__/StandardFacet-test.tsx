@@ -20,9 +20,9 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry';
 import { mockQuery } from '~sq-server-commons/helpers/mocks/issues';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { STANDARDS_REGISTRY } from '~sq-server-commons/utils/compliance-standards-registry';
 import { StandardFacet } from '../StandardFacet';
 
 jest.mock('~shared/helpers/security-standards', () => ({
@@ -44,6 +44,10 @@ jest.mock('~shared/helpers/security-standards', () => ({
         a1: 'A1 - Injection',
         a2: 'A2 - Broken Authentication',
       },
+      'owaspLlmTop10-2025': {
+        llm1: 'LLM1 - Prompt Injection',
+        llm2: 'LLM2 - Sensitive Information Disclosure',
+      },
       cwe: {
         79: 'CWE-79 - Cross-site Scripting (XSS)',
         89: 'CWE-89 - SQL Injection',
@@ -56,6 +60,7 @@ jest.mock('~shared/helpers/security-standards', () => ({
       'pciDss-4.0': {},
       'owaspAsvs-4.0': {},
       'owaspAsvs-5.0': {},
+      'owaspMasvs-v2': {},
       'stig-ASD_V5R3': {
         'V-222596': 'V-222596 - Application must not be vulnerable to SQL Injection',
         'V-222597': 'V-222597 - Application must not be vulnerable to XSS',
@@ -72,6 +77,7 @@ jest.mock('~shared/helpers/security-standards', () => ({
   renderOwaspTop102021Category: jest.fn((_standards, item) => `A${item}`),
   renderOwaspTop102025Category: jest.fn((_standards, item) => `A${item}`),
   renderOwaspTop10Category: jest.fn((_standards, item) => `A${item}`),
+  renderOwaspTop10ForLlm2025Category: jest.fn((_standards, item: string) => `LLM${item}`),
   renderSonarSourceSecurityCategory: jest.fn((_standards, item: string) => item),
   renderStigCategory: jest.fn((_standards, item: string) => item),
   renderStigV6Category: jest.fn((_standards, item: string) => item),
@@ -144,21 +150,13 @@ it('should clear standards facet including owaspMobileTop10-2024', async () => {
 
   await user.click(await screen.findByTestId('clear-issues.facet.standards'));
 
+  const expectedClearedStandards = Object.fromEntries(
+    STANDARDS_REGISTRY.map((standard) => [standard.queryProp, []]),
+  );
+
   expect(onChange).toHaveBeenCalledWith({
     standards: [],
-    owaspTop10: [],
-    'owaspTop10-2021': [],
-    'owaspTop10-2025': [],
-    'owaspMobileTop10-2024': [],
-    cwe: [],
-    sonarsourceSecurity: [],
-    'stig-ASD_V5R3': [],
-    'stig-ASD_V6': [],
-    casa: [],
-    'owaspAsvs-4.0': [],
-    'owaspAsvs-5.0': [],
-    'pciDss-3.2': [],
-    'pciDss-4.0': [],
+    ...expectedClearedStandards,
   });
 });
 
@@ -282,7 +280,9 @@ function renderStandardFacet(props: StandardFacetProps = {}) {
       return [
         s.key,
         {
-          fetching: false,
+          fetching:
+            (otherProps[`fetching${s.key.charAt(0).toUpperCase() + s.key.slice(1)}`] as boolean) ??
+            false,
           open: (otherProps[openProp] as boolean) ?? false,
           stats: (otherProps[statsProp] as Record<string, number>) ?? {},
           values: (otherProps[queryProp] as string[]) ?? [],
@@ -292,10 +292,6 @@ function renderStandardFacet(props: StandardFacetProps = {}) {
   );
 
   const defaultProps = {
-    cwe: [],
-    cweOpen: false,
-    cweStats: {},
-    fetchingCwe: false,
     onChange,
     onToggle,
     open,

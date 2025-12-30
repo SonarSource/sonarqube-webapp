@@ -20,6 +20,7 @@
 
 import { flatten, groupBy, sortBy } from 'lodash';
 import { HotspotRatingEnum } from '~design-system';
+import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry';
 import {
   Hotspot,
   HotspotResolution,
@@ -35,7 +36,6 @@ import {
   SourceViewerFile,
   StandardSecurityCategories,
 } from '~sq-server-commons/types/types';
-import { STANDARDS_REGISTRY } from '~sq-server-commons/utils/compliance-standards-registry';
 
 const OTHERS_SECURITY_CATEGORY = 'others';
 

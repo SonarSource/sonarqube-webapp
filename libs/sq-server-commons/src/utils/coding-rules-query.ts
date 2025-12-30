@@ -19,6 +19,7 @@
  */
 
 import { isEmpty } from 'lodash';
+import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry';
 import {
   CodeAttributeCategory,
   SoftwareImpactSeverity,
@@ -45,7 +46,6 @@ import {
   parseComplianceStandards,
   populateStandardsFromParsed,
 } from './compliance-standards';
-import { STANDARDS_REGISTRY } from './compliance-standards-registry';
 
 export type FacetKey = keyof CodingRulesQuery;
 

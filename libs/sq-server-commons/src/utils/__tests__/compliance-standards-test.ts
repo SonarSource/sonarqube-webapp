@@ -143,6 +143,18 @@ describe('buildComplianceStandards', () => {
 
     expect(result).toBeUndefined();
   });
+
+  it('should build compliance standards with OWASP MASVS v2', () => {
+    const query = {
+      'owaspMasvs-v2': ['MASVS-STORAGE-1', 'MASVS-CRYPTO-1'],
+    };
+
+    const result = buildComplianceStandards(query);
+
+    expect(result).toBe(
+      'owasp_masvs:urn:sonar-security-standard:owasp:masvs:v2=MASVS-STORAGE-1,MASVS-CRYPTO-1',
+    );
+  });
 });
 
 describe('parseComplianceStandards', () => {
@@ -276,6 +288,17 @@ describe('parseComplianceStandards', () => {
     const original = {
       'pciDss-3.2': ['1', '2', '3'],
       'pciDss-4.0': ['4', '5'],
+    };
+
+    const serialized = buildComplianceStandards(original);
+    const parsed = parseComplianceStandards(serialized);
+
+    expect(parsed).toEqual(original);
+  });
+
+  it('should round-trip OWASP MASVS v2 correctly', () => {
+    const original = {
+      'owaspMasvs-v2': ['MASVS-STORAGE-1', 'MASVS-CRYPTO-1', 'MASVS-AUTH-2'],
     };
 
     const serialized = buildComplianceStandards(original);

@@ -19,6 +19,7 @@
  */
 
 import { intersection, isArray, uniq } from 'lodash';
+import { ALL_STANDARD_KEYS } from '~shared/helpers/compliance-standards-registry';
 import { get, save } from '~shared/helpers/storage';
 import { isDefined } from '~shared/helpers/types';
 import {
@@ -59,7 +60,6 @@ import {
   parseComplianceStandards,
   populateStandardsFromParsed,
 } from './compliance-standards';
-import { ALL_STANDARD_KEYS } from './compliance-standards-registry';
 
 export const STANDARDS = 'standards';
 

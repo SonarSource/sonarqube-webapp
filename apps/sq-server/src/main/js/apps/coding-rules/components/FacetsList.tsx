@@ -20,6 +20,7 @@
 
 import { Divider } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
+import { ALL_STANDARD_KEYS } from '~shared/helpers/compliance-standards-registry';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
@@ -27,7 +28,6 @@ import { Feature } from '~sq-server-commons/types/features';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import { Facets, OpenFacets } from '~sq-server-commons/utils/coding-rules-query';
 import { buildStandardsPropsFromQuery } from '~sq-server-commons/utils/compliance-standards';
-import { ALL_STANDARD_KEYS } from '~sq-server-commons/utils/compliance-standards-registry';
 import { LanguageFacet } from '../../issues/sidebar/LanguageFacet';
 import { StandardFacet } from '../../issues/sidebar/StandardFacet';
 import AttributeCategoryFacet from './AttributeCategoryFacet';
@@ -194,10 +194,6 @@ export default function FacetsList(props: Readonly<FacetsListProps>) {
       <Divider className="sw-my-2" />
 
       <StandardFacet
-        cwe={props.query.cwe}
-        cweOpen={!!props.openFacets.cwe}
-        cweStats={props.facets?.cwe}
-        fetchingCwe={false}
         onChange={props.onFilterChange}
         onToggle={props.onFacetToggle}
         open={!!props.openFacets.standards}

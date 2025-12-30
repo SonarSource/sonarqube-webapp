@@ -24,10 +24,12 @@ import {
   renderCASACategory,
   renderCWECategory,
   renderOwaspAsvs40Category,
+  renderOwaspMasvsV2Category,
   renderOwaspMobileTop102024Category,
   renderOwaspTop102021Category,
   renderOwaspTop102025Category,
   renderOwaspTop10Category,
+  renderOwaspTop10ForLlm2025Category,
   renderPciDss32Category,
   renderPciDss40Category,
   renderSonarSourceSecurityCategory,
@@ -76,6 +78,17 @@ describe('standards renderers', () => {
         title: 'Software or Data Integrity Failures',
       },
     },
+    'owaspLlmTop10-2025': {
+      llm1: {
+        title: 'Prompt Injection',
+      },
+      llm2: {
+        title: 'Sensitive Information Disclosure',
+      },
+      llm10: {
+        title: 'Unbounded Consumption',
+      },
+    },
     sonarsourceSecurity: {
       xss: {
         title: 'Cross-Site Scripting (XSS)',
@@ -110,6 +123,14 @@ describe('standards renderers', () => {
       '1.1': {
         title: 'Sub category V5',
         level: '3',
+      },
+    },
+    'owaspMasvs-v2': {
+      'MASVS-STORAGE': {
+        title: 'Storage',
+      },
+      'MASVS-STORAGE-1': {
+        title: 'The app securely stores sensitive data.',
       },
     },
     'stig-ASD_V5R3': {
@@ -264,5 +285,41 @@ describe('standards renderers', () => {
     expect(renderStigV6Category(standards, 'v-999')).toEqual('v-999');
     // Test with empty standards object
     expect(renderStigV6Category({} as StandardsInformation, 'v-456')).toEqual('v-456');
+  });
+
+  it('should render OWASP MASVS v2 categories correctly', () => {
+    expect(renderOwaspMasvsV2Category(standards, 'MASVS-STORAGE')).toEqual(
+      'MASVS-STORAGE - Storage',
+    );
+    expect(renderOwaspMasvsV2Category(standards, 'MASVS-STORAGE-1')).toEqual(
+      'MASVS-STORAGE-1 - The app securely stores sensitive data.',
+    );
+    expect(renderOwaspMasvsV2Category(standards, 'unknown')).toEqual('unknown');
+  });
+
+  it('should render OWASP Top 10 For LLM 2025 categories correctly', () => {
+    expect(renderOwaspTop10ForLlm2025Category(standards, 'LLM01')).toEqual(
+      'LLM1 - Prompt Injection',
+    );
+    expect(renderOwaspTop10ForLlm2025Category(standards, 'LLM01', true)).toEqual(
+      'OWASP LLM1 - Prompt Injection',
+    );
+    expect(renderOwaspTop10ForLlm2025Category(standards, 'LLM02')).toEqual(
+      'LLM2 - Sensitive Information Disclosure',
+    );
+    expect(renderOwaspTop10ForLlm2025Category(standards, 'LLM02', true)).toEqual(
+      'OWASP LLM2 - Sensitive Information Disclosure',
+    );
+    expect(renderOwaspTop10ForLlm2025Category(standards, 'LLM10')).toEqual(
+      'LLM10 - Unbounded Consumption',
+    );
+    expect(renderOwaspTop10ForLlm2025Category(standards, 'LLM10', true)).toEqual(
+      'OWASP LLM10 - Unbounded Consumption',
+    );
+    expect(renderOwaspTop10ForLlm2025Category(standards, 'LLM03')).toEqual('LLM3');
+    expect(renderOwaspTop10ForLlm2025Category(standards, 'LLM03', true)).toEqual('OWASP LLM3');
+    expect(renderOwaspTop10ForLlm2025Category(standards, 'llm01')).toEqual(
+      'LLM1 - Prompt Injection',
+    );
   });
 });

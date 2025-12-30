@@ -25,6 +25,7 @@ import {
 } from '~shared/types/clean-code-taxonomy';
 import { Paging } from '~shared/types/paging';
 import { Rule, RuleActivationAdvanced, RuleInheritance } from '~shared/types/rules';
+import { StandardsInformationKey } from '~shared/types/security';
 
 export interface RuleRepository {
   key: string;
@@ -44,37 +45,29 @@ export interface SearchRulesResponse {
   rules: Rule[];
 }
 
-export interface CodingRulesQuery {
+// Dynamically generate security standard properties from the enum
+type SecurityStandardQueryProperties = {
+  [K in StandardsInformationKey]: string[];
+};
+
+export interface CodingRulesQuery extends SecurityStandardQueryProperties {
   activation: boolean | undefined;
   active_impactSeverities: SoftwareImpactSeverity[];
   active_severities: string[];
   availableSince: Date | undefined;
-  casa: string[];
   cleanCodeAttributeCategories: CodeAttributeCategory[];
   compareToProfile: string | undefined;
-  cwe: string[];
   impactSeverities: SoftwareImpactSeverity[];
   impactSoftwareQualities: SoftwareQuality[];
   inheritance: RuleInheritance | undefined;
   languages: string[];
-  'owaspAsvs-4.0': string[];
-  'owaspAsvs-5.0': string[];
-  'owaspMobileTop10-2024': string[];
-  owaspTop10: string[];
-  'owaspTop10-2021': string[];
-  'owaspTop10-2025': string[];
-  'pciDss-3.2': string[];
-  'pciDss-4.0': string[];
   prioritizedRule: boolean | undefined;
   profile: string | undefined;
   repositories: string[];
   ruleKey: string | undefined;
   searchQuery: string | undefined;
   severities: string[];
-  sonarsourceSecurity: string[];
   statuses: string[];
-  'stig-ASD_V5R3': string[];
-  'stig-ASD_V6': string[];
   tags: string[];
   template: boolean | undefined;
   types: string[];

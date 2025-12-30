@@ -49,10 +49,7 @@ interface StandardConfig {
 }
 
 // Derived from STANDARDS_REGISTRY - no need to manually maintain this list
-const STANDARD_CONFIGS: StandardConfig[] = STANDARDS_REGISTRY.filter(
-  // Exclude CWE as it's handled separately
-  (s) => s.key !== StandardsInformationKey.CWE,
-).map((s) => ({
+const STANDARD_CONFIGS: StandardConfig[] = STANDARDS_REGISTRY.map((s) => ({
   key: s.key,
   name: s.displayName,
   renderCategory: s.renderCategory,
@@ -67,10 +64,6 @@ interface StandardData {
 }
 
 interface Props {
-  cwe: string[];
-  cweOpen: boolean;
-  cweStats: Record<string, number> | undefined;
-  fetchingCwe: boolean;
   loadSearchResultCount?: (property: string, changes: Partial<IssuesQuery>) => Promise<Facet>;
   onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
@@ -99,9 +92,9 @@ export class StandardFacet extends React.PureComponent<Props, State> {
     this.mounted = true;
 
     // load standards.json only if the facet is open, or there is a selected value
-    const hasSelectedValues =
-      this.props.cwe.length > 0 ||
-      Object.values(this.props.standards).some((data) => data.values.length > 0);
+    const hasSelectedValues = Object.values(this.props.standards).some(
+      (data) => data.values.length > 0,
+    );
 
     if (this.props.open || hasSelectedValues) {
       this.loadStandards();
@@ -144,9 +137,6 @@ export class StandardFacet extends React.PureComponent<Props, State> {
       }
     });
 
-    // Add CWE values (handled separately)
-    values.push(...this.props.cwe.map((item) => renderCWECategory(this.state.standardsInfo, item)));
-
     return values;
   };
 
@@ -165,7 +155,6 @@ export class StandardFacet extends React.PureComponent<Props, State> {
   handleClear = () => {
     const changes: Partial<IssuesQuery> = {
       [this.property]: [],
-      cwe: [],
     };
 
     // Clear all configured standards
@@ -413,10 +402,13 @@ export class StandardFacet extends React.PureComponent<Props, State> {
   };
 
   renderSubFacets() {
-    const { cwe, cweOpen, cweStats, fetchingCwe, query, standards } = this.props;
+    const { query, standards } = this.props;
+    const cweData = standards[StandardsInformationKey.CWE];
 
-    // Build standards list from configuration
-    const standardsList = STANDARD_CONFIGS.map((config) => {
+    // Build standards list from configuration, separating CWE for special rendering
+    const standardsList = STANDARD_CONFIGS.filter(
+      (config) => config.key !== StandardsInformationKey.CWE,
+    ).map((config) => {
       const standardData = standards[config.key];
       return {
         count: standardData?.values.length ?? 0,
@@ -453,7 +445,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
 
         <ListStyleFacet<string>
           facetHeader={translate('issues.facet.cwe')}
-          fetching={fetchingCwe}
+          fetching={cweData?.fetching ?? false}
           getFacetItemText={(item) => renderCWECategory(this.state.standardsInfo, item)}
           getSearchResultText={(item) => renderCWECategory(this.state.standardsInfo, item)}
           inner
@@ -461,7 +453,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
           onChange={this.props.onChange}
           onSearch={this.handleCWESearch}
           onToggle={this.props.onToggle}
-          open={cweOpen}
+          open={cweData?.open ?? false}
           property={StandardsInformationKey.CWE}
           query={omit(query, 'cwe')}
           renderFacetItem={(item) => renderCWECategory(this.state.standardsInfo, item)}
@@ -470,8 +462,8 @@ export class StandardFacet extends React.PureComponent<Props, State> {
           }
           searchInputAriaLabel={translate('search.search_for_cwe')}
           searchPlaceholder={translate('search.search_for_cwe')}
-          stats={cweStats}
-          values={cwe}
+          stats={cweData?.stats}
+          values={cweData?.values ?? []}
         />
       </>
     );

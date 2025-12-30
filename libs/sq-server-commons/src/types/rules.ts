@@ -18,7 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export interface SearchRulesQuery {
+import { StandardsInformationKey } from '~shared/types/security';
+
+// Map all security standards from the registry to query properties
+// In SearchRulesQuery, standards are comma-separated strings (not arrays)
+type SecurityStandardQueryProperties = {
+  [K in StandardsInformationKey]?: string;
+};
+
+export interface SearchRulesQuery extends SecurityStandardQueryProperties {
   activation?: boolean | string;
   active_impactSeverities?: string;
   active_severities?: string;
@@ -26,7 +34,6 @@ export interface SearchRulesQuery {
   available_since?: string;
   cleanCodeAttributeCategories?: string;
   complianceStandards?: string;
-  cwe?: string;
   f?: string;
   facets?: string;
   impactSeverities?: string;
@@ -35,10 +42,6 @@ export interface SearchRulesQuery {
   inheritance?: string;
   is_template?: boolean | string;
   languages?: string;
-  ['owaspMobileTop10-2024']?: string;
-  owaspTop10?: string;
-  ['owaspTop10-2021']?: string;
-  ['owaspTop10-2025']?: string;
   p?: number;
   prioritizedRule?: boolean | string;
   ps?: number;
@@ -48,10 +51,7 @@ export interface SearchRulesQuery {
   rule_key?: string;
   s?: string;
   severities?: string;
-  sonarsourceSecurity?: string;
   statuses?: string;
-  ['stig-ASD_V5R3']?: string;
-  ['stig-ASD_V6']?: string;
   tags?: string;
   template_key?: string;
   types?: string;

@@ -73,6 +73,7 @@ export function mockQuery(overrides: Partial<IssuesQuery> = {}): IssuesQuery {
     'pciDss-4.0': [],
     'owaspAsvs-4.0': [],
     'owaspAsvs-5.0': [],
+    'owaspMasvs-v2': [],
     prioritizedRule: undefined,
     projects: [],
     rules: [],

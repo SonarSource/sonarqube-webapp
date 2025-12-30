@@ -115,6 +115,170 @@
       "title": "Insufficient Cryptography"
     }
   },
+  "owaspMasvs-v2": {
+    "MASVS-STORAGE": {
+      "title": "Storage"
+    },
+    "MASVS-STORAGE-1": {
+      "title": "The app securely stores sensitive data.",
+      "description": "Apps handle sensitive data coming from many sources such as the user, the backend, system services or other apps on the device and usually need to store it locally. The storage locations may be private to the app (e.g. its internal storage) or be public and therefore accessible by the user or other installed apps (e.g. public folders such as Downloads). This control ensures that any sensitive data that is intentionally stored by the app is properly protected independently of the target location."
+    },
+    "MASVS-STORAGE-2": {
+      "title": "The app prevents leakage of sensitive data.",
+      "description": "There are cases when sensitive data is unintentionally stored or exposed to publicly accessible locations; typically as a side-effect of using certain APIs, system capabilities such as backups or logs. This control covers this kind of unintentional leaks where the developer actually has a way to prevent it."
+    },
+    "MASVS-CRYPTO": {
+      "title": "Cryptography"
+    },
+    "MASVS-CRYPTO-1": {
+      "title": "The app employs current strong cryptography and uses it according to industry best practices.",
+      "description": "Cryptography plays an especially important role in securing the user's data - even more so in a mobile environment, where attackers having physical access to the user's device is a likely scenario. This control covers general cryptography best practices, which are typically defined in external standards."
+    },
+    "MASVS-CRYPTO-2": {
+      "title": "The app performs key management according to industry best practices.",
+      "description": "Even the strongest cryptography would be compromised by poor key management. This control covers the management of cryptographic keys throughout their lifecycle, including key generation, storage and protection."
+    },
+    "MASVS-AUTH": {
+      "title": "Authentication and Authorization"
+    },
+    "MASVS-AUTH-1": {
+      "title": "The app uses secure authentication and authorization protocols and follows the relevant best practices.",
+      "description": "Most apps connecting to a remote endpoint require user authentication and also enforce some kind of authorization. While the enforcement of these mechanisms must be on the remote endpoint, the apps also have to ensure that it follows all the relevant best practices to ensure a secure use of the involved protocols."
+    },
+    "MASVS-AUTH-2": {
+      "title": "The app performs local authentication securely according to the platform best practices.",
+      "description": "Many apps allow users to authenticate via biometrics or a local PIN code. These authentication mechanisms need to be correctly implemented. Additionally, some apps might not have a remote endpoint, and rely fully on local app authentication."
+    },
+    "MASVS-AUTH-3": {
+      "title": "The app secures sensitive operations with additional authentication.",
+      "description": "Some additional form of authentication is often desirable for sensitive actions inside the app. This can be done in different ways (biometric, pin, MFA code generator, email, deep links, etc) and they all need to be implemented securely."
+    },
+    "MASVS-NETWORK": {
+      "title": "Network Communication"
+    },
+    "MASVS-NETWORK-1": {
+      "title": "The app secures all network traffic according to the current best practices.",
+      "description": "Ensuring data privacy and integrity of any data in transit is critical for any app that communicates over the network. This is typically done by encrypting data and authenticating the remote endpoint, as TLS does. However, there are many ways for a developer to disable the platform secure defaults, or bypass them completely by using low-level APIs or third-party libraries. This control ensures that the app is in fact setting up secure connections in any situation."
+    },
+    "MASVS-NETWORK-2": {
+      "title": "The app performs identity pinning for all remote endpoints under the developer's control.",
+      "description": "Instead of trusting all the default root CAs of the framework or device, this control will make sure that only very specific CAs are trusted. This practice is typically called certificate pinning or public key pinning."
+    },
+    "MASVS-PLATFORM": {
+      "title": "Platform Interaction"
+    },
+    "MASVS-PLATFORM-1": {
+      "title": "The app uses IPC mechanisms securely.",
+      "description": "Apps typically use platform provided IPC mechanisms to intentionally expose data or functionality. Both installed apps and the user are able to interact with the app in many different ways. This control ensures that all interactions involving IPC mechanisms happen securely."
+    },
+    "MASVS-PLATFORM-2": {
+      "title": "The app uses WebViews securely.",
+      "description": "WebViews are typically used by apps that have a need for increased control over the UI. This control ensures that WebViews are configured securely to prevent sensitive data leakage as well as sensitive functionality exposure (e.g. via JavaScript bridges to native code)."
+    },
+    "MASVS-PLATFORM-3": {
+      "title": "The app uses the user interface securely.",
+      "description": "Sensitive data has to be displayed in the UI in many situations (e.g. passwords, credit card details, OTP codes in notifications). This control ensures that this data doesn't end up being unintentionally leaked due to platform mechanisms such as auto-generated screenshots or accidentally disclosed via e.g. shoulder surfing or sharing the device with another person."
+    },
+    "MASVS-CODE": {
+      "title": "Code Quality"
+    },
+    "MASVS-CODE-1": {
+      "title": "The app requires an up-to-date platform version.",
+      "description": "Every release of the mobile OS includes security patches and new security features. By supporting older versions, apps stay vulnerable to well-known threats. This control ensures that the app is running on an up-to-date platform version so that users have the latest security protections."
+    },
+    "MASVS-CODE-2": {
+      "title": "The app has a mechanism for enforcing app updates.",
+      "description": "Sometimes critical vulnerabilities are discovered in the app when it is already in production. This control ensures that there is a mechanism to force the users to update the app before they can continue using it."
+    },
+    "MASVS-CODE-3": {
+      "title": "The app only uses software components without known vulnerabilities.",
+      "description": "To be truly secure, a full whitebox assessment should have been performed on all app components. However, as it usually happens with e.g. for third-party components this is not always feasible and not typically part of a penetration test. This control covers \"low-hanging fruit\" cases, such as those that can be detected just by scanning libraries for known vulnerabilities."
+    },
+    "MASVS-CODE-4": {
+      "title": "The app validates and sanitizes all untrusted inputs.",
+      "description": "Apps have many data entry points including the UI, IPC, the network, the file system, etc. This incoming data might have been inadvertently modified by untrusted actors and may lead to bypass of critical security checks as well as classical injection attacks such as SQL injection, XSS or insecure deserialization. This control ensures that this data is treated as untrusted input and is properly verified and sanitized before it's used."
+    },
+    "MASVS-RESILIENCE": {
+      "title": "Resilience Against Reverse Engineering and Tampering"
+    },
+    "MASVS-RESILIENCE-1": {
+      "title": "The app validates the integrity of the platform.",
+      "description": "Running on a platform that has been tampered with can be very dangerous for apps, as this may disable certain security features, putting the data of the app at risk. Trusting the platform is essential for many of the MASVS controls relying on the platform being secure (e.g. secure storage, biometrics, sandboxing, etc.). This control tries to validate that the OS has not been compromised and its security features can thus be trusted."
+    },
+    "MASVS-RESILIENCE-2": {
+      "title": "The app implements anti-tampering mechanisms.",
+      "description": "Apps run on a user-controlled device, and without proper protections it's relatively easy to run a modified version locally (e.g. to cheat in a game, or enable premium features without paying), or upload a backdoored version of it to third-party app stores. This control tries to ensure the integrity of the app's intended functionality by preventing modifications to the original code and resources."
+    },
+    "MASVS-RESILIENCE-3": {
+      "title": "The app implements anti-static analysis mechanisms.",
+      "description": "Understanding the internals of an app is typically the first step towards tampering with it (either dynamically, or statically). This control tries to impede comprehension by making it as difficult as possible to figure out how an app works using static analysis."
+    },
+    "MASVS-RESILIENCE-4": {
+      "title": "The app implements anti-dynamic analysis techniques.",
+      "description": "Sometimes pure static analysis is very difficult and time consuming so it typically goes hand in hand with dynamic analysis. Observing and manipulating an app during runtime makes it much easier to decipher its behavior. This control aims to make it as difficult as possible to perform dynamic analysis, as well as prevent dynamic instrumentation which could allow an attacker to modify the code at runtime."
+    },
+    "MASVS-PRIVACY": {
+      "title": "Privacy"
+    },
+    "MASVS-PRIVACY-1": {
+      "title": "The app minimizes access to sensitive data and resources.",
+      "description": "Apps should only request access to the data they absolutely need for their functionality and always with informed consent from the user. This control ensures that apps practice data minimization and restricts access control, reducing the potential impact of data breaches or leaks."
+    },
+    "MASVS-PRIVACY-2": {
+      "title": "The app prevents identification of the user.",
+      "description": "Protecting user identity is crucial. This control emphasizes the use of unlinkability techniques like data abstraction, anonymization and pseudonymization to prevent user identification and tracking."
+    },
+    "MASVS-PRIVACY-3": {
+      "title": "The app is transparent about data collection and usage.",
+      "description": "Users have the right to know how their data is being used. This control ensures that apps provide clear information about data collection, storage, and sharing practices, including any behavior a user wouldn't reasonably expect, such as background data collection. Apps should also adhere to platform guidelines on data declarations."
+    },
+    "MASVS-PRIVACY-4": {
+      "title": "The app offers user control over their data.",
+      "description": "Users should have control over their data. This control ensures that apps provide mechanisms for users to manage, delete, and modify their data, and change privacy settings as needed (e.g. to revoke consent). Additionally, apps should re-prompt for consent and update their transparency disclosures when they require more data than initially specified."
+    }
+  },
+  "owaspLlmTop10-2025": {
+    "llm1": {
+      "title": "Prompt Injection",
+      "description": "Prompt injection vulnerabilities occur when untrusted input manipulates an LLM's behavior through crafted prompts, causing unintended actions."
+    },
+    "llm2": {
+      "title": "Sensitive Information Disclosure",
+      "description": "LLMs may inadvertently reveal confidential data in their responses, leading to unauthorized data access, privacy violations, and security breaches."
+    },
+    "llm3": {
+      "title": "Supply Chain",
+      "description": "LLM supply chains can be vulnerable, impacting the integrity of training data, ML models, and deployment platforms, leading to biased outcomes, security breaches, or system failures."
+    },
+    "llm4": {
+      "title": "Data and Model Poisoning",
+      "description": "Manipulation of training data or fine-tuning processes can introduce vulnerabilities, backdoors, or biases that compromise the LLM's security, effectiveness, or ethical behavior."
+    },
+    "llm5": {
+      "title": "Improper Output Handling",
+      "description": "Inadequate validation or sanitization of LLM outputs can lead to downstream security exploits including code execution, XSS, CSRF, SSRF, and privilege escalation."
+    },
+    "llm6": {
+      "title": "Excessive Agency",
+      "description": "LLM-based systems may undertake actions leading to unintended consequences when granted excessive functionality, permissions, or autonomy without proper oversight."
+    },
+    "llm7": {
+      "title": "System Prompt Leakage",
+      "description": "System prompts may be exposed through various techniques, potentially revealing sensitive information, intellectual property, or security mechanisms."
+    },
+    "llm8": {
+      "title": "Vector and Embedding Weaknesses",
+      "description": "Vulnerabilities in vector databases and embedding mechanisms can lead to unauthorized access, data poisoning, or manipulation of LLM behavior."
+    },
+    "llm9": {
+      "title": "Misinformation",
+      "description": "LLMs may generate false or misleading information, presenting it convincingly as factual, leading to security risks when users or systems rely on inaccurate outputs."
+    },
+    "llm10": {
+      "title": "Unbounded Consumption",
+      "description": "Unchecked LLM operations can lead to excessive resource consumption, causing denial of service or unexpected costs through uncontrolled inference, context expansion, or recursive operations."
+    }
+  },
   "cwe": {
     "5": {
       "title": "J2EE Misconfiguration: Data Transmission Without Encryption",

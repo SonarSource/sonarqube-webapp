@@ -126,6 +126,20 @@ export function renderOwaspMobileTop102024Category(
   );
 }
 
+export function renderOwaspTop10ForLlm2025Category(
+  standards: Pick<StandardsInformation, StandardsInformationKey.OWASP_TOP10_FOR_LLM_2025>,
+  category: string,
+  withPrefix = false,
+): string {
+  return renderOwaspCategory(
+    StandardsInformationKey.OWASP_TOP10_FOR_LLM_2025,
+    standards,
+    category,
+    withPrefix,
+    'LLM',
+  );
+}
+
 function normalizeCategoryWithLeadingZeros(
   category: string,
   prefix: string,
@@ -147,14 +161,16 @@ function renderOwaspCategory<
   T extends
     | StandardsInformationKey.OWASP_TOP10_2021
     | StandardsInformationKey.OWASP_TOP10_2025
-    | StandardsInformationKey.OWASP_TOP10,
+    | StandardsInformationKey.OWASP_TOP10
+    | StandardsInformationKey.OWASP_TOP10_FOR_LLM_2025,
 >(
   type: T,
   standards: Partial<Pick<StandardsInformation, T>>,
   category: string,
   withPrefix: boolean,
+  prefix = 'a',
 ) {
-  const { normalized, display } = normalizeCategoryWithLeadingZeros(category, 'a');
+  const { normalized, display } = normalizeCategoryWithLeadingZeros(category, prefix);
   const record = standards[type]?.[normalized];
 
   if (!record) {
@@ -219,6 +235,9 @@ function createRendererWithLevel<K extends keyof StandardsInformation>(standardK
 // Simple renderers - all use the same pattern
 export const renderPciDss32Category = createSimpleRenderer(StandardsInformationKey.PCI_DSS_3_2);
 export const renderPciDss40Category = createSimpleRenderer(StandardsInformationKey.PCI_DSS_4_0);
+export const renderOwaspMasvsV2Category = createSimpleRenderer(
+  StandardsInformationKey.OWASP_MASVS_V2,
+);
 export const renderCASACategory = createSimpleRenderer(StandardsInformationKey.CASA);
 export const renderStigCategory = createSimpleRenderer(StandardsInformationKey.STIG_ASD_V5R3);
 export const renderStigV6Category = createSimpleRenderer(StandardsInformationKey.STIG_ASD_V6);

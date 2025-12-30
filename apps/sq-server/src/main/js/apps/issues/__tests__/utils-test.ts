@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry';
 import {
   CodeAttributeCategory,
   SoftwareImpactSeverity,
@@ -37,6 +38,15 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
+const generateStandardsWithValues = () =>
+  Object.fromEntries(STANDARDS_REGISTRY.map((standard) => [standard.queryProp, ['a', 'b']]));
+
+const generateEmptyStandards = () =>
+  Object.fromEntries(STANDARDS_REGISTRY.map((standard) => [standard.queryProp, []]));
+
+const generateExpectedComplianceStandards = () =>
+  STANDARDS_REGISTRY.map((standard) => `${standard.backendKey}=a,b`).join('&');
+
 describe('serialize/deserialize', () => {
   it('should serlialize correctly', () => {
     expect(
@@ -52,30 +62,17 @@ describe('serialize/deserialize', () => {
         createdAt: 'a',
         createdBefore: new Date(1000000),
         createdInLast: 'a',
-        cwe: ['18', '19'],
         directories: ['a', 'b'],
-        casa: ['a', 'b'],
-        'stig-ASD_V5R3': ['a', 'b'],
-        'stig-ASD_V6': ['a', 'b'],
         files: ['a', 'b'],
         issues: ['a', 'b'],
         languages: ['a', 'b'],
         linkedTicketStatus: [],
-        owaspTop10: ['a', 'b'],
-        'owaspTop10-2021': ['a', 'b'],
-        'owaspTop10-2025': ['a', 'b'],
-        'owaspMobileTop10-2024': ['M1', 'M2'],
-        'pciDss-3.2': ['a', 'b'],
-        'pciDss-4.0': ['a', 'b'],
-        'owaspAsvs-4.0': ['2'],
-        'owaspAsvs-5.0': ['3'],
         projects: ['a', 'b'],
         rules: ['a', 'b'],
         sort: 'rules',
         scopes: ['a', 'b'],
         severities: ['a', 'b'],
         inNewCodePeriod: true,
-        sonarsourceSecurity: ['a', 'b'],
         issueStatuses: [IssueStatus.Accepted, IssueStatus.Confirmed],
         tags: ['a', 'b'],
         types: ['a', 'b'],
@@ -83,6 +80,8 @@ describe('serialize/deserialize', () => {
         fixedInPullRequest: '',
         prioritizedRule: true,
         fromSonarQubeUpdate: true,
+        // Dynamically add all security standards with ['a', 'b'] values
+        ...generateStandardsWithValues(),
       }),
     ).toStrictEqual({
       assignees: 'a,b',
@@ -91,8 +90,7 @@ describe('serialize/deserialize', () => {
       impactSeverities: SoftwareImpactSeverity.High,
       impactSoftwareQualities: SoftwareQuality.Security,
       codeVariants: 'variant1,variant2',
-      complianceStandards:
-        'sonar_standard:urn:sonar-security-standard:sonar:standard:unversioned=a,b&owasp_top10:urn:sonar-security-standard:owasp:top10:2025=a,b&owasp_top10:urn:sonar-security-standard:owasp:top10:2021=a,b&owasp_top10:urn:sonar-security-standard:owasp:top10:2017=a,b&owasp_mobile-top10:urn:sonar-security-standard:owasp:mobile-top10:2024=M1,M2&owasp_asvs:urn:sonar-security-standard:owasp:asvs:5.0=3&owasp_asvs:urn:sonar-security-standard:owasp:asvs:4.0=2&pci_dss:urn:sonar-security-standard:pci:dss:4.0=a,b&pci_dss:urn:sonar-security-standard:pci:dss:3.2=a,b&casa_standard:urn:sonar-security-standard:casa:standard:unversioned=a,b&stig_asd:urn:sonar-security-standard:stig:asd:v6=a,b&stig_asd:urn:sonar-security-standard:stig:asd:v5=a,b&cwe_standard:urn:sonar-security-standard:cwe:standard:4.18=18,19',
+      complianceStandards: generateExpectedComplianceStandards(),
       createdAt: 'a',
       createdBefore: '1970-01-01',
       createdAfter: '1970-01-01',
@@ -138,10 +136,6 @@ describe('serialize/deserialize', () => {
       createdAt: '',
       createdBefore: undefined,
       createdInLast: '',
-      cwe: [],
-      'stig-ASD_V5R3': [],
-      'stig-ASD_V6': [],
-      casa: [],
       directories: [],
       files: [],
       impactSeverities: [SoftwareImpactSeverity.Low],
@@ -149,19 +143,10 @@ describe('serialize/deserialize', () => {
       inNewCodePeriod: false,
       issues: [],
       languages: [],
-      'owaspAsvs-4.0': [],
-      'owaspAsvs-5.0': [],
-      'owaspMobileTop10-2024': [],
-      owaspTop10: [],
-      'owaspTop10-2021': [],
-      'owaspTop10-2025': [],
-      'pciDss-3.2': [],
-      'pciDss-4.0': [],
       projects: [],
       rules: [],
       scopes: [],
       severities: ['CRITICAL', 'MAJOR'],
-      sonarsourceSecurity: [],
       sort: '',
       issueStatuses: [],
       statuses: [],
@@ -172,6 +157,8 @@ describe('serialize/deserialize', () => {
       prioritizedRule: true,
       fromSonarQubeUpdate: true,
       linkedTicketStatus: [],
+      // Dynamically add all security standards as empty arrays
+      ...generateEmptyStandards(),
     });
   });
 

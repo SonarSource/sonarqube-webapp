@@ -21,6 +21,7 @@
 import { Divider } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
+import { ALL_STANDARD_KEYS } from '~shared/helpers/compliance-standards-registry';
 import { isApplication, isPortfolioLike, isProject, isView } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
@@ -45,7 +46,6 @@ import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import { UserBase } from '~sq-server-commons/types/users';
 import { buildStandardsPropsFromQuery } from '~sq-server-commons/utils/compliance-standards';
-import { ALL_STANDARD_KEYS } from '~sq-server-commons/utils/compliance-standards-registry';
 import { AssigneeFacet } from './AssigneeFacet';
 import { AttributeCategoryFacet } from './AttributeCategoryFacet';
 import { AuthorFacet } from './AuthorFacet';
@@ -360,10 +360,6 @@ export function Sidebar(props: Readonly<Props>) {
           <Divider className="sw-my-2" />
 
           <StandardFacet
-            cwe={query.cwe}
-            cweOpen={!!openFacets.cwe}
-            cweStats={facets.cwe}
-            fetchingCwe={props.loadingFacets.cwe === true}
             loadSearchResultCount={props.loadSearchResultCount}
             onChange={props.onFilterChange}
             onToggle={props.onFacetToggle}

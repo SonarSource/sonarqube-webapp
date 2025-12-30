@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry';
 import { StandardsInformation, StandardsInformationKey } from '~shared/types/security';
-import { STANDARDS_REGISTRY } from './compliance-standards-registry';
 
 // Re-export to keep everything compliance standards related in one place
-export { STANDARDS_REGISTRY } from './compliance-standards-registry';
+export { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry';
 
 // Derived from STANDARDS_REGISTRY - maps frontend key to backend key
 export const COMPLIANCE_STANDARDS_BACKEND_KEYS = Object.fromEntries(

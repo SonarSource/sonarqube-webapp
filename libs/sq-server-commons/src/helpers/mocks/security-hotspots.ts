@@ -173,6 +173,11 @@ export function mockStandards(): StandardsInformation {
         title: 'Broken Access Control',
       },
     },
+    'owaspLlmTop10-2025': {
+      llm1: {
+        title: 'Prompt Injection',
+      },
+    },
     sonarsourceSecurity: {
       'buffer-overflow': {
         title: 'Buffer Overflow',
@@ -202,6 +207,14 @@ export function mockStandards(): StandardsInformation {
     'owaspAsvs-5.0': {
       '1': {
         title: 'New OWASP ASVS 5.0 cat 1',
+      },
+    },
+    'owaspMasvs-v2': {
+      'MASVS-STORAGE': {
+        title: 'Storage',
+      },
+      'MASVS-STORAGE-1': {
+        title: 'The app securely stores sensitive data.',
       },
     },
     'stig-ASD_V5R3': {

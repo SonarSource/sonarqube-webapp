@@ -26,6 +26,7 @@ import {
   SoftwareQualityImpact,
 } from '~shared/types/clean-code-taxonomy';
 import { Paging } from '~shared/types/paging';
+import { StandardsInformationKey } from '~shared/types/security';
 import { Issue, TextRange } from './types';
 import { UserBase } from './users';
 
@@ -249,20 +250,22 @@ export enum FacetName {
 export const OWASP_ASVS_4_0 = 'owaspAsvs-4.0';
 export const OWASP_ASVS_5_0 = 'owaspAsvs-5.0';
 
-export interface IssuesQuery {
-  [OWASP_ASVS_4_0]: string[];
-  [OWASP_ASVS_5_0]: string[];
+// Map all security standards from the registry to query properties
+// Optional to allow partial queries and mocks. parseQuery() ensures all are populated when parsing from URLs.
+type SecurityStandardQueryProperties = {
+  [K in StandardsInformationKey]?: string[];
+};
+
+export interface IssuesQuery extends SecurityStandardQueryProperties {
   assigned: boolean;
   assignees: string[];
   author: string[];
-  casa: string[];
   cleanCodeAttributeCategories: CodeAttributeCategory[];
   codeVariants: string[];
   createdAfter: Date | undefined;
   createdAt: string;
   createdBefore: Date | undefined;
   createdInLast: string;
-  cwe: string[];
   directories: string[];
   files: string[];
   fixedInPullRequest: string;
@@ -274,24 +277,15 @@ export interface IssuesQuery {
   issues: string[];
   languages: string[];
   linkedTicketStatus: string[];
-  'owaspMobileTop10-2024': string[];
-  owaspTop10: string[];
-  'owaspTop10-2021': string[];
-  'owaspTop10-2025': string[];
-  'pciDss-3.2': string[];
-  'pciDss-4.0': string[];
   prioritizedRule?: boolean;
   projects: string[];
   resolved?: boolean;
   rules: string[];
   scopes: string[];
   severities: string[];
-  sonarsourceSecurity: string[];
   sort: string;
   // Legacy purpose
   statuses: string[];
-  'stig-ASD_V5R3': string[];
-  'stig-ASD_V6': string[];
   tags: string[];
   types: string[];
 }
