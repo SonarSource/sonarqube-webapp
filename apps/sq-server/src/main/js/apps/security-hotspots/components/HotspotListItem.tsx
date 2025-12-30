@@ -65,11 +65,17 @@ export default function HotspotListItem(props: Readonly<HotspotListItemProps>) {
   return (
     <SubnavigationItem
       active={selected}
+      ariaLabel={intl.formatMessage(
+        { id: hotspot.line ? 'hotspot.label_with_line' : 'hotspot.label' },
+        { issue: hotspot.message, file: hotspot.component.split('/').at(-1), line: hotspot.line },
+      )}
       className="sw-flex-col sw-items-start"
       innerRef={itemRef}
       onClick={handleClick}
     >
-      <StyledHotspotTitle aria-current={selected}>{hotspot.message}</StyledHotspotTitle>
+      <StyledHotspotTitle aria-current={selected} aria-hidden tabIndex={-1}>
+        {hotspot.message}
+      </StyledHotspotTitle>
       {locations.length > 0 && (
         <StyledHotspotInfo className="sw-flex sw-justify-end sw-w-full">
           <div className="sw-flex sw-mt-2 sw-items-center sw-justify-center sw-gap-1 sw-overflow-hidden">

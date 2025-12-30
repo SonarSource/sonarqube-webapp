@@ -219,6 +219,7 @@ export interface Issue extends Omit<RawIssue, 'flows' | 'comments'> {
   comments?: IssueComment[];
   componentEnabled?: boolean;
   componentLongName: string;
+  componentName: string;
   componentQualifier: string;
   componentUuid: string;
   effort?: string;

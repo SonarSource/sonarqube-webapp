@@ -379,6 +379,7 @@ export function mockIssue(withLocations = false, overrides: Partial<Issue> = {})
     component: 'main.js',
     componentEnabled: true,
     componentLongName: 'main.js',
+    componentName: 'main.js',
     componentQualifier: 'FIL',
     componentUuid: 'foo1234',
     creationDate: '2017-03-01T09:36:01+0100',

@@ -1038,6 +1038,8 @@ export const defaultMessages = {
   'hotspots.see_x_hotspots': 'See "{0}" Security Hotspots',
   'hotspots.continue_to_next_hotspot': 'Continue Reviewing',
 
+  'hotspot.label': 'Security hotspot on file {file} - {issue},',
+  'hotspot.label_with_line': 'Security hotspot on file {file} and line {line} - {issue},',
   'hotspot.filters.title': 'Filters',
   'hotspot.filters.title_x': 'Apply filters to security hotspots; currently applied: {count}',
   'hotspot.filters.assignee.assigned_to_me': 'Assigned to me',
@@ -1102,6 +1104,7 @@ export const defaultMessages = {
   'issue.comment.empty.list': 'There are no comments yet on this issue.',
   'issue.rule_details': 'Rule Details',
   'issue.send_notifications': 'Send Notifications',
+  'issue.label': 'Issue on file {file} and line {line} - {issue},',
   'issue.why_this_issue': 'Why is this an issue?',
   'issue.why_this_issue.long':
     "Why is this an issue? Open the rule's details at the bottom of the page.",

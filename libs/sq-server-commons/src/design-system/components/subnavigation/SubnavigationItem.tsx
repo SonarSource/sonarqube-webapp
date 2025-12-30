@@ -30,6 +30,7 @@ import NavLink, { NavLinkProps } from '../NavLink';
 interface Props {
   active?: boolean;
   ariaCurrent?: boolean;
+  ariaLabel?: string;
   children: ReactNode;
   className?: string;
   id?: string;
@@ -39,7 +40,8 @@ interface Props {
 }
 
 export function SubnavigationItem(props: Readonly<Props>) {
-  const { active, ariaCurrent, className, children, id, innerRef, onClick, value } = props;
+  const { active, ariaCurrent, ariaLabel, className, children, id, innerRef, onClick, value } =
+    props;
   const handleClick = useCallback(
     (e: SyntheticEvent<HTMLAnchorElement>) => {
       e.preventDefault();
@@ -50,6 +52,7 @@ export function SubnavigationItem(props: Readonly<Props>) {
   return (
     <StyledSubnavigationItem
       aria-current={ariaCurrent}
+      aria-label={ariaLabel}
       className={classNames({ active }, className)}
       data-testid="js-subnavigation-item"
       href="#"

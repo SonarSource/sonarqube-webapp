@@ -375,7 +375,7 @@ function getPageObject() {
     effort: (effort: string) => byText(`issue.x_effort.${effort}`),
     whyLink: byRole('link', { name: 'issue.why_this_issue.long' }),
     checkbox: byRole('checkbox'),
-    issueMessageLink: byRole('link', { name: 'This is an issue' }),
+    issueMessageLink: byRole('link', { name: 'issue.label.This is an issue.main.js.25' }),
     variants: (n: number) => byText(`issue.x_code_variants.${n}`),
     softwareQuality: (quality: SoftwareQuality) => byText(`software_quality.${quality}`),
     softwareQualitySeverity: (quality: SoftwareQuality, severity: SoftwareImpactSeverity) =>

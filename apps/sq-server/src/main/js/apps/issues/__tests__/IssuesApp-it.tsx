@@ -136,7 +136,9 @@ describe('issues app', () => {
       renderIssueApp();
 
       // Select an issue with an advanced rule
-      await user.click(await screen.findByRole('link', { name: 'Fix that' }));
+      await user.click(
+        await screen.findByRole('link', { name: 'issue.label.Fix that.Component1.25' }),
+      );
       expect(screen.getByRole('tab', { name: 'issue.tabs.code' })).toBeInTheDocument();
 
       // Are rule headers present?

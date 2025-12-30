@@ -99,7 +99,7 @@ function NavigationHeader(props: NavigationHeaderProps) {
   const counter = hotspots.length + (isLastAndIncomplete ? '+' : '');
 
   return (
-    <SubNavigationContainer className="sw-flex sw-justify-between">
+    <SubNavigationContainer className="sw-flex sw-items-center sw-justify-between">
       <div className="sw-flex sw-items-center">
         <HotspotRating className="sw-mr-2" rating={rating} />
         {title}

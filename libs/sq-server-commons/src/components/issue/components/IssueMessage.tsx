@@ -18,7 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { LinkStandalone } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { useIntl } from 'react-intl';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
@@ -38,6 +40,7 @@ export interface IssueMessageProps {
 }
 
 export default function IssueMessage(props: IssueMessageProps) {
+  const intl = useIntl();
   const { issue, branchLike, displayWhyIsThisAnIssue } = props;
   const location = useLocation();
   const query = parseQuery(location.query);
@@ -67,9 +70,18 @@ export default function IssueMessage(props: IssueMessageProps) {
 
   return (
     <>
-      <StandoutLink className="it__issue-message" to={issueUrl}>
+      <LinkStandalone
+        aria-label={intl.formatMessage(
+          {
+            id: 'issue.label',
+          },
+          { issue: issue.message, file: issue.componentName, line: issue.line },
+        )}
+        className="it__issue-message"
+        to={issueUrl}
+      >
         <IssueMessageHighlighting message={message} messageFormattings={messageFormattings} />
-      </StandoutLink>
+      </LinkStandalone>
 
       {displayWhyIsThisAnIssue && (
         <StandoutLink
