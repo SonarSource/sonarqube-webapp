@@ -20,7 +20,7 @@
 
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { times } from 'lodash';
+import { omit, times } from 'lodash';
 import { byLabelText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
 import { Metric } from '~shared/types/measures';
@@ -148,6 +148,22 @@ describe('rendering', () => {
     ].forEach((measure) => {
       expect(ui.measureLink(measure).get()).toBeInTheDocument();
     });
+  });
+
+  it('should render the default overview chart without sqale_index measure', async () => {
+    const { ui } = getPageObject();
+    modeHandler.setMode(Mode.Standard);
+
+    measuresHandler.deleteComponentMeasure('foo:folderA/out.tsx', MetricKey.sqale_index);
+    componentsHandler.measures['foo:folderA/out.tsx'] = omit(
+      componentsHandler.measures['foo:folderA/out.tsx'],
+      [MetricKey.sqale_index],
+    );
+
+    renderMeasuresApp();
+
+    expect(await ui.seeDataAsListLink.find(undefined, { timeout: 10000 })).toBeInTheDocument();
+    expect(ui.bubbleChart.byRole('link').getAll()).toHaveLength(8);
   });
 
   it('should correctly revert to old measures when analysis is missing', async () => {

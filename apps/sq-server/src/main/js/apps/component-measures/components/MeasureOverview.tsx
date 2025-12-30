@@ -19,11 +19,13 @@
  */
 
 import { Spinner } from '@sonarsource/echoes-react';
+import { useMemo } from 'react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isFile, isView } from '~shared/helpers/component';
+import { MetricKey } from '~shared/types/metrics';
 import SourceViewer from '~sq-server-commons/components/SourceViewer/SourceViewer';
 import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
 import { getProjectUrl } from '~sq-server-commons/helpers/urls';
@@ -92,9 +94,32 @@ export default function MeasureOverview(props: Readonly<Props>) {
     },
   );
 
-  const components = (bubblesData?.pages?.[0]?.components ?? []).map((c) =>
-    enhanceComponent(c, undefined, metrics),
-  );
+  const components = useMemo(() => {
+    let bubbles = (bubblesData?.pages?.[0]?.components ?? []).map((c) =>
+      enhanceComponent(c, undefined, metrics),
+    );
+
+    // sqale_index is not present on files without code smells
+    // manually add 0 to be able to display a bubble on chart (x axis)
+    if (bubblesByDomain[domain].x === MetricKey.sqale_index) {
+      bubbles = bubbles.map((bubble) => ({
+        ...bubble,
+        measures: bubble.measures.some((m) => m.metric.name === MetricKey.sqale_index)
+          ? bubble.measures
+          : [
+              ...bubble.measures,
+              {
+                metric: metrics[MetricKey.sqale_index],
+                value: '0',
+                bestValue: true,
+              },
+            ],
+      }));
+    }
+
+    return bubbles;
+  }, [bubblesData?.pages, bubblesByDomain, domain, metrics]);
+
   const paging = bubblesData?.pages?.[0]?.paging;
 
   if (!component) {
