@@ -245,7 +245,9 @@ export function getAnalysisVariations(measures: MeasureHistory[], analysesCount:
 
     history.slice(-analysesCount).forEach(({ value = '' }, index, analysesHistory) => {
       if (index === 0) {
-        variations[index][metric] = parseFloat(value) || 0;
+        variations[index][metric] = Number.isNaN(Number.parseFloat(value))
+          ? undefined
+          : Number.parseFloat(value);
         return;
       }
 

@@ -42,6 +42,7 @@ import UsersServiceMock from '~sq-server-commons/api/mocks/UsersServiceMock';
 import { getProjectActivity } from '~sq-server-commons/api/projectActivity';
 import { getQualityGateProjectStatus } from '~sq-server-commons/api/quality-gates';
 import { parseDate } from '~sq-server-commons/helpers/dates';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { mockMainBranch } from '~sq-server-commons/helpers/mocks/branch-like';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockAnalysis, mockAnalysisEvent } from '~sq-server-commons/helpers/mocks/project-activity';
@@ -199,6 +200,17 @@ describe('project overview', () => {
     expect(byText('projects.ai_code_assurance_pass.description').get()).toBeInTheDocument();
     expect(byText('dependencies.risks').get()).toBeInTheDocument();
     expect(screen.queryByText('projects.ai_code_detected.description')).not.toBeInTheDocument();
+  });
+
+  it('renders measures panel with not computed coverage link', async () => {
+    measuresHandler.deleteComponentMeasure('foo', MetricKey.coverage);
+    measuresHandler.deleteComponentMeasure('foo', MetricKey.new_coverage);
+    renderBranchOverview();
+
+    expect(await screen.findByText('master')).toBeInTheDocument();
+    expect(
+      await byRole('link', { name: 'overview.coverage.not_computed_doc open_in_new_tab' }).find(),
+    ).toHaveAttribute('href', expect.stringContaining(DocLink.TestCoverage));
   });
 
   it('should show a successful non-compliant QG', async () => {

@@ -18,16 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkHighlight, LinkStandalone, Text } from '@sonarsource/echoes-react';
+import { LinkHighlight, LinkStandalone, Text, TextSize } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { To } from 'react-router-dom';
-import { isPullRequest } from '~shared/helpers/branch-like';
+import { isMainBranch, isPullRequest } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
 import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { CoverageIndicator, DuplicationsIndicator } from '../../design-system';
+import { DocLink } from '../../helpers/doc-links';
 import { findMeasure, localizeMetric } from '../../helpers/measures';
 import { getComponentDrilldownUrl } from '../../helpers/urls';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
@@ -39,6 +40,7 @@ import {
   getConditionRequiredLabel,
   getMeasurementMetricKey,
 } from '../../utils/overview-utils';
+import DocumentationLink from '../common/DocumentationLink';
 import { duplicationRatingConverter, getLeakValue } from '../measure/utils';
 import AfterMergeNote from './AfterMergeNote';
 import MeasuresCard from './MeasuresCard';
@@ -95,9 +97,7 @@ export default function MeasuresCardPercent(
 
   const condition = conditions.find((c) => c.metric === conditionMetric);
   const conditionFailed = condition?.level === QGStatusEnum.ERROR;
-
   const shouldRenderRequiredLabel = showRequired && condition;
-
   const formattedMeasure = formatMeasure(linesValue ?? '0', MetricType.ShortInteger);
 
   return (
@@ -126,7 +126,7 @@ export default function MeasuresCardPercent(
           'sw-mt-3': !shouldRenderRequiredLabel,
         })}
       >
-        <Text className="sw-flex sw-gap-1" isSubtle>
+        <Text className="sw-flex sw-gap-1" isSubtle size={TextSize.Small}>
           {isDefined(value) ? (
             <FormattedMessage
               id={linesLabel}
@@ -150,7 +150,7 @@ export default function MeasuresCardPercent(
               }}
             />
           ) : (
-            intl.formatMessage({ id: 'overview.metric_not_computed' })
+            <NotComputedLabel {...props} />
           )}
         </Text>
       </div>
@@ -168,4 +168,34 @@ function renderIcon(type: MeasurementType, value?: string) {
 
   const rating = duplicationRatingConverter(Number(value));
   return <DuplicationsIndicator aria-hidden="true" rating={rating} size="md" />;
+}
+
+function NotComputedLabel({ measurementType, branchLike, measures }: Readonly<Props>) {
+  if (measurementType === MeasurementType.Coverage && isMainBranch(branchLike)) {
+    const overallCoverage = findMeasure(measures, MetricKey.coverage);
+    const newCoverage = getLeakValue(findMeasure(measures, MetricKey.new_coverage));
+
+    if (!overallCoverage && !newCoverage) {
+      return (
+        <span>
+          <FormattedMessage
+            id="overview.coverage.not_computed"
+            values={{
+              doc: (text) => (
+                <DocumentationLink
+                  enableOpenInNewTab
+                  highlight={LinkHighlight.CurrentColor}
+                  to={DocLink.TestCoverage}
+                >
+                  {text}
+                </DocumentationLink>
+              ),
+            }}
+          />
+        </span>
+      );
+    }
+  }
+
+  return <FormattedMessage id="overview.metric_not_computed" />;
 }

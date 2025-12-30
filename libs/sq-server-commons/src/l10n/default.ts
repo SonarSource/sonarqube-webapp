@@ -6304,6 +6304,8 @@ export const defaultMessages = {
   'overview.see_more_details_on_x_of_y': 'See more details on {0} of {1}',
   'overview.see_more_details_on_x_y': 'See more details on {0} {1}',
   'overview.metric_not_computed': 'Not computed',
+  'overview.coverage.not_computed':
+    'Not computed. <doc>Check language support and import guides</doc>',
   'overview.about_this_portfolio': 'About This Portfolio',
   'overview.about_this_project.APP': 'About This Application',
   'overview.about_this_project.TRK': 'About This Project',

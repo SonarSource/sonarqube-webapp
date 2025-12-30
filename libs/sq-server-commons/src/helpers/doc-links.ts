@@ -108,6 +108,7 @@ export enum DocLink {
   SonarScannerNpm = '/analyzing-source-code/scanners/npm/introduction',
   SonarScannerPython = '/advanced-setup/ci-based-analysis/sonarscanner-for-python/',
   SonarWayQualityGate = '/quality-standards-administration/managing-quality-gates/introduction-to-quality-gates/#sonar-way-recommended-quality-gate',
+  TestCoverage = '/analyzing-source-code/test-coverage/overview',
   Webhooks = '/project-administration/webhooks/',
 }
 
