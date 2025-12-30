@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Text } from '@sonarsource/echoes-react';
-import { useIntl } from 'react-intl';
-import { DiscreetLink, PullRequestIcon, SubTitle } from '~design-system';
+import { Heading, IconPullrequest, Link, LinkHighlight, Text } from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { PullRequest } from '~shared/types/branch-like';
 import { getPullRequestUrl } from '~sq-server-commons/helpers/urls';
 import { Component } from '~sq-server-commons/types/types';
@@ -42,26 +41,28 @@ export default function IssuesListTitle({
 
   return pullRequest && !component?.needIssueSync ? (
     <>
-      <SubTitle className="sw-mt-6 sw-mb-2">
-        {intl.formatMessage({ id: 'issues.fixed_issues' })}
-      </SubTitle>
-      <Text className="sw-flex sw-items-center sw-gap-1 sw-mb-2" isHighlighted>
-        {intl.formatMessage(
-          { id: 'issues.fixed_issues.description' },
-          {
+      <Heading as="h2" className="sw-mt-6 sw-mb-2">
+        <FormattedMessage id="issues.fixed_issues" />
+      </Heading>
+      <Text as="p" className="sw-mb-2 sw-max-w-full">
+        <FormattedMessage
+          id="issues.fixed_issues.description"
+          values={{
             pullRequest: (
               <>
-                <PullRequestIcon />
-                <DiscreetLink className="sw-mt-[3px]" to={prSummaryUrl}>
+                <IconPullrequest />
+                <Link highlight={LinkHighlight.CurrentColor} to={prSummaryUrl}>
                   {pullRequest.title}
-                </DiscreetLink>
+                </Link>
               </>
             ),
-          },
-        )}
+          }}
+        />
       </Text>
     </>
   ) : (
-    <h2 className="sw-sr-only">{intl.formatMessage({ id: 'list_of_issues' })}</h2>
+    <Heading as="h2" className="sw-sr-only">
+      {intl.formatMessage({ id: 'list_of_issues' })}
+    </Heading>
   );
 }
