@@ -84,9 +84,7 @@ export function TopLevelNewCodeDefinitionPage() {
     data?.type === NewCodeDefinitionType.NumberOfDays ? data.value : '30',
   );
 
-  const [selectedType, setSelectedType] = useState<NewCodeDefinitionType>(
-    data?.type || NewCodeDefinitionType.PreviousVersion,
-  );
+  const [selectedType, setSelectedType] = useState<NewCodeDefinitionType | ''>(data?.type ?? '');
 
   useEffect(() => {
     if (data) {
@@ -136,7 +134,7 @@ export function TopLevelNewCodeDefinitionPage() {
   const handleCancel = () => {
     setNewCodeDefinition(clone(data));
     setNumberOfDays(data?.type === NewCodeDefinitionType.NumberOfDays ? data.value : '30');
-    setSelectedType(data?.type || NewCodeDefinitionType.PreviousVersion);
+    setSelectedType(data?.type ?? '');
   };
 
   const handleSubmit = () => {
