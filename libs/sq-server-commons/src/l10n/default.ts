@@ -1596,7 +1596,7 @@ export const defaultMessages = {
     'No {branchType, select, pullRequest {new dependencies in this pull request} other {dependencies found in this branch}}',
   'dependencies.empty_state.body':
     'We analyzed the manifest/lock files we found but no {branchType, select, pullRequest {new } other {}}dependencies were found.',
-  'dependencies.no_result_state.title': 'We couldn’t find any results matching selected criteria',
+  'dependencies.no_result_state.title': "We couldn't find any results matching selected criteria",
   'dependencies.no_result_state.body': 'Try to change filters to get some results.',
   'dependencies.risks.project.no_analysis.title':
     'The next project analysis will start populating the list of dependency risks',
@@ -2016,10 +2016,6 @@ export const defaultMessages = {
   'sca.quality_gates.metric.sca_severity_licensing': 'Dependency with prohibited license',
   'sca.quality_gates.metric.sca_severity_malware': 'Dependency with malware',
   'sca.quality_gates.metric.sca_severity_any_issue': 'Dependency risk severity',
-  'sca.quality_gates.metric.sca_count_any_issue': 'Dependency risks',
-  'sca.quality_gates.metric.sca_count_vulnerability': 'Vulnerable dependency risks',
-  'sca.quality_gates.metric.sca_count_licensing': 'Prohibited license dependency risks',
-  'sca.quality_gates.metric.sca_count_malware': 'Malware dependency risks',
   'sca.quality_gates.metric.sca_severity_licensing.description':
     "All prohibited license risks are classified as high severity by Sonar. Therefore, this condition will cause the quality gate to fail if any of a project's dependencies use a license that is prohibited by the project's License Profile.",
 
