@@ -18,11 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Layout } from '@sonarsource/echoes-react';
 import { useOutletContext, useSearchParams } from 'react-router-dom';
+import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import { QualityProfilesContextProps } from '../qualityProfilesContext';
 import Evolution from './Evolution';
+import { HomeContainerHeader } from './HomeContainerHeader';
 import LanguageSelect from './LanguageSelect';
-import PageHeader from './PageHeader';
 import ProfilesList from './ProfilesList';
 
 export default function HomeContainer() {
@@ -32,18 +34,20 @@ export default function HomeContainer() {
   const selectedLanguage = searchParams.get('language') ?? undefined;
 
   return (
-    <div>
-      <PageHeader {...context} />
+    <Layout.PageGrid width="fluid">
+      <HomeContainerHeader {...context} />
 
-      <div className="sw-grid sw-grid-cols-3 sw-gap-12 sw-mt-12">
-        <main className="sw-col-span-2">
+      <Layout.PageContent className="sw-grid sw-grid-cols-3 sw-gap-12 sw-mt-12">
+        <div className="sw-col-span-2">
           <LanguageSelect currentFilter={selectedLanguage} languages={context.languages} />
           <ProfilesList {...context} language={selectedLanguage} />
-        </main>
+        </div>
         <aside>
           <Evolution {...context} />
         </aside>
-      </div>
-    </div>
+      </Layout.PageContent>
+
+      <GlobalFooter />
+    </Layout.PageGrid>
   );
 }

@@ -19,12 +19,14 @@
  */
 
 import { Spinner } from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { useProfilesCompareQuery } from '~sq-server-commons/queries/quality-profiles';
 import { useGetValueQuery } from '~sq-server-commons/queries/settings';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
 import { SettingsKey } from '~sq-server-commons/types/settings';
 import { getProfileComparePath } from '~sq-server-commons/utils/quality-profiles-utils';
+import { ProfilePageTemplate } from '../details/ProfilePageTemplate';
 import { withQualityProfilesContext } from '../qualityProfilesContext';
 import ComparisonForm from './ComparisonForm';
 import ComparisonResults from './ComparisonResults';
@@ -38,6 +40,9 @@ export function ComparisonContainer(props: Readonly<Props>) {
   const { profile, profiles } = props;
   const location = useLocation();
   const router = useRouter();
+
+  const { formatMessage } = useIntl();
+
   const { data: inheritRulesSetting } = useGetValueQuery({
     key: SettingsKey.QPAdminCanDisableInheritedRules,
   });
@@ -60,7 +65,14 @@ export function ComparisonContainer(props: Readonly<Props>) {
   };
 
   return (
-    <div className="sw-typo-default">
+    <ProfilePageTemplate
+      additionalBreadcrumbs={[{ linkElement: <FormattedMessage id="compare" /> }]}
+      helmetTitle={formatMessage(
+        { id: 'quality_profiles.page_title_compare_x' },
+        { profile: profile.name },
+      )}
+      hideMetadata
+    >
       <div className="sw-flex sw-items-center">
         <ComparisonForm
           onCompare={handleCompare}
@@ -85,7 +97,7 @@ export function ComparisonContainer(props: Readonly<Props>) {
           rightProfile={profiles.find((p) => p.key === withKey)}
         />
       )}
-    </div>
+    </ProfilePageTemplate>
   );
 }
 

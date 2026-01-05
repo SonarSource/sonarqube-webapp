@@ -19,6 +19,7 @@
  */
 
 import { Button, Spinner } from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isDefined } from '~shared/helpers/types';
 import { parseDate, toISO8601WithOffsetString } from '~sq-server-commons/helpers/dates';
@@ -30,12 +31,13 @@ import {
   QualityProfileChangelogFilterMode,
 } from '~sq-server-commons/types/quality-profiles';
 import { getProfileChangelogPath } from '~sq-server-commons/utils/quality-profiles-utils';
-import { withQualityProfilesContext } from '../qualityProfilesContext';
+import { ProfilePageTemplate } from '../details/ProfilePageTemplate';
+import { QualityProfilesContextProps, withQualityProfilesContext } from '../qualityProfilesContext';
 import Changelog from './Changelog';
 import ChangelogEmpty from './ChangelogEmpty';
 import ChangelogSearch from './ChangelogSearch';
 
-interface Props {
+interface Props extends QualityProfilesContextProps {
   profile: Profile;
 }
 
@@ -46,6 +48,8 @@ function ChangelogContainer(props: Readonly<Props>) {
   const {
     query: { since, to },
   } = useLocation();
+
+  const { formatMessage } = useIntl();
 
   const filterMode = isStandardMode
     ? QualityProfileChangelogFilterMode.STANDARD
@@ -81,7 +85,14 @@ function ChangelogContainer(props: Readonly<Props>) {
   const shouldDisplayFooter = isDefined(events) && isDefined(total) && events.length < total;
 
   return (
-    <div className="sw-mt-4">
+    <ProfilePageTemplate
+      additionalBreadcrumbs={[{ linkElement: <FormattedMessage id="changelog" /> }]}
+      helmetTitle={formatMessage(
+        { id: 'quality_profiles.page_title_changelog_x' },
+        { profile: profile.name },
+      )}
+      hideChangelogLink
+    >
       <div className="sw-mb-2 sw-flex sw-gap-4 sw-items-center">
         <ChangelogSearch
           dateRange={{
@@ -103,7 +114,7 @@ function ChangelogContainer(props: Readonly<Props>) {
           <Button onClick={() => fetchNextPage()}>{translate('show_more')}</Button>
         </footer>
       )}
-    </div>
+    </ProfilePageTemplate>
   );
 }
 

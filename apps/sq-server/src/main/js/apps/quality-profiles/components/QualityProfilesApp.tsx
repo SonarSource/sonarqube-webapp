@@ -18,11 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner } from '@sonarsource/echoes-react';
+import { Layout, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
-import { LargeCenteredLayout } from '~design-system';
 import {
   Actions,
   getExporters,
@@ -112,12 +111,12 @@ export class QualityProfilesApp extends React.PureComponent<WithLanguagesProps, 
 
   render() {
     return (
-      <LargeCenteredLayout className="sw-my-8">
+      <>
         <Suggestions suggestion={DocLink.InstanceAdminQualityProfiles} />
         <Helmet defer={false} title={translate('quality_profiles.page')} />
 
-        {this.renderChild()}
-      </LargeCenteredLayout>
+        <Layout.ContentGrid>{this.renderChild()}</Layout.ContentGrid>
+      </>
     );
   }
 }

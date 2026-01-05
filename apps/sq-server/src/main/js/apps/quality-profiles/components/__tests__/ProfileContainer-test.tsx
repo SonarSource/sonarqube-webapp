@@ -33,12 +33,11 @@ import ProfileContainer from '../ProfileContainer';
 
 it('should render the header and child', () => {
   const targetProfile = mockQualityProfile({ name: 'profile1' });
-  renderProfileContainer('/?language=js&name=profile1', {
+  const { container } = renderProfileContainer('/?language=js&name=profile1', {
     profiles: [mockQualityProfile({ language: 'Java', name: 'profile1' }), targetProfile],
   });
 
-  // below, the 2 instances are in the breadcrumbs and in the h1 header
-  expect(screen.getAllByText('profile1')).toHaveLength(2);
+  expect(container).toHaveTextContent('profile1');
 });
 
 it('should render "not found"', () => {
@@ -58,12 +57,11 @@ it('should render "not found" for wrong key', () => {
 });
 
 it('should handle getting profile by key', () => {
-  renderProfileContainer('/?key=profileKey', {
+  const { container } = renderProfileContainer('/?key=profileKey', {
     profiles: [mockQualityProfile({ key: 'profileKey', name: 'found the profile' })],
   });
 
-  // below, the 2 instances are in the breadcrumbs and in the h1 header
-  expect(screen.getAllByText('found the profile')).toHaveLength(2);
+  expect(container).toHaveTextContent('found the profile');
 });
 
 function Child(props: { profile?: Profile }) {

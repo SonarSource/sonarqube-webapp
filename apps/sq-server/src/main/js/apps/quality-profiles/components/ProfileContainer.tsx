@@ -24,7 +24,6 @@ import { useIntl } from 'react-intl';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import ProfileHeader from '../details/ProfileHeader';
 import { useQualityProfilesContext } from '../qualityProfilesContext';
 import ProfileNotFound from './ProfileNotFound';
 
@@ -62,7 +61,7 @@ export default function ProfileContainer() {
   }
 
   return (
-    <div id="quality-profile">
+    <>
       <Helmet
         defer={false}
         title={profile.name}
@@ -71,14 +70,8 @@ export default function ProfileContainer() {
           { page: translate('quality_profiles.page') },
         )}
       />
-      <ProfileHeader
-        isComparable={filteredProfiles.length > 1}
-        profile={profile}
-        updateProfiles={context.updateProfiles}
-      />
-      <main>
-        <Outlet context={{ profile, ...context }} />
-      </main>
-    </div>
+
+      <Outlet context={{ profile, ...context }} />
+    </>
   );
 }

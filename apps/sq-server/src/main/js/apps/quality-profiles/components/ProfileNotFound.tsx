@@ -18,21 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useIntl } from 'react-intl';
-import { Link } from '~design-system';
+import { Heading, Layout, LinkStandalone } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 import { PROFILE_PATH } from '~sq-server-commons/constants/paths';
 
 export default function ProfileNotFound() {
-  const intl = useIntl();
-
   return (
-    <div className="sw-text-center sw-mt-4">
-      <h1 className="sw-typo-lg-semibold sw-mb-4">
-        {intl.formatMessage({ id: 'quality_profiles.not_found' })}
-      </h1>
-      <Link className="sw-typo-semibold" to={PROFILE_PATH}>
-        {intl.formatMessage({ id: 'quality_profiles.back_to_list' })}
-      </Link>
-    </div>
+    <Layout.PageGrid>
+      <Layout.PageContent className="sw-flex sw-flex-col sw-items-center sw-gap-4 sw-mt-12">
+        <Heading as="h1" size="large">
+          <FormattedMessage id="quality_profiles.not_found" />
+        </Heading>
+
+        <LinkStandalone to={PROFILE_PATH}>
+          <FormattedMessage id="quality_profiles.back_to_list" />
+        </LinkStandalone>
+      </Layout.PageContent>
+    </Layout.PageGrid>
   );
 }

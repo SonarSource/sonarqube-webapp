@@ -20,9 +20,8 @@
 
 import {
   Button,
-  ButtonGroup,
   ButtonVariety,
-  Heading,
+  Layout,
   LinkHighlight,
   MessageCallout,
   MessageVariety,
@@ -36,7 +35,6 @@ import { Actions } from '~sq-server-commons/api/quality-profiles';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getProfilePath } from '~sq-server-commons/helpers/urls';
 import { Feature } from '~sq-server-commons/types/features';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
@@ -50,7 +48,7 @@ interface Props {
   updateProfiles: () => Promise<void>;
 }
 
-export default function PageHeader(props: Readonly<Props>) {
+export function HomeContainerHeader(props: Readonly<Props>) {
   const { actions, languages, profiles } = props;
   const intl = useIntl();
   const location = useLocation();
@@ -69,13 +67,43 @@ export default function PageHeader(props: Readonly<Props>) {
   const showAICA = isDefined(addons.aica) && hasFeature(Feature.AiCodeAssurance);
 
   return (
-    <header className="sw-grid sw-grid-cols-3 sw-gap-12">
-      <div className="sw-col-span-2">
-        <Heading as="h1" hasMarginBottom>
-          {translate('quality_profiles.page')}
-        </Heading>
+    <Layout.PageHeader
+      actions={
+        actions.create && (
+          <div className="sw-flex sw-flex-col sw-items-end sw-justify-center">
+            <Layout.PageHeader.Actions>
+              <CreateProfileForm
+                languages={languages}
+                location={location}
+                onCreate={handleCreate}
+                profiles={profiles}
+              >
+                <Button
+                  id="quality-profiles-create"
+                  isDisabled={languages.length === 0}
+                  variety={ButtonVariety.Primary}
+                >
+                  {intl.formatMessage({ id: 'create' })}
+                </Button>
+              </CreateProfileForm>
 
-        <div className="sw-typo-default">
+              <RestoreProfileForm onRestore={props.updateProfiles}>
+                <Button id="quality-profiles-restore">
+                  {intl.formatMessage({ id: 'restore' })}
+                </Button>
+              </RestoreProfileForm>
+            </Layout.PageHeader.Actions>
+
+            {languages.length === 0 && (
+              <MessageCallout className="sw-mt-2" variety={MessageVariety.Warning}>
+                {intl.formatMessage({ id: 'quality_profiles.no_languages_available' })}
+              </MessageCallout>
+            )}
+          </div>
+        )
+      }
+      description={
+        <Layout.PageHeader.Description>
           <FormattedMessage
             id="quality_profiles.intro"
             values={{
@@ -101,39 +129,13 @@ export default function PageHeader(props: Readonly<Props>) {
               ),
             }}
           />
-        </div>
-      </div>
-
-      {actions.create && (
-        <div className="sw-flex sw-flex-col sw-items-end">
-          <ButtonGroup>
-            <CreateProfileForm
-              languages={languages}
-              location={location}
-              onCreate={handleCreate}
-              profiles={profiles}
-            >
-              <Button
-                id="quality-profiles-create"
-                isDisabled={languages.length === 0}
-                variety={ButtonVariety.Primary}
-              >
-                {intl.formatMessage({ id: 'create' })}
-              </Button>
-            </CreateProfileForm>
-
-            <RestoreProfileForm onRestore={props.updateProfiles}>
-              <Button id="quality-profiles-restore">{intl.formatMessage({ id: 'restore' })}</Button>
-            </RestoreProfileForm>
-          </ButtonGroup>
-
-          {languages.length === 0 && (
-            <MessageCallout className="sw-mt-2" variety={MessageVariety.Warning}>
-              {intl.formatMessage({ id: 'quality_profiles.no_languages_available' })}
-            </MessageCallout>
-          )}
-        </div>
-      )}
-    </header>
+        </Layout.PageHeader.Description>
+      }
+      title={
+        <Layout.PageHeader.Title>
+          <FormattedMessage id="quality_profiles.page" />
+        </Layout.PageHeader.Title>
+      }
+    />
   );
 }

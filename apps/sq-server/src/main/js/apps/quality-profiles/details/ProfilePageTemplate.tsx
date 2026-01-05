@@ -18,73 +18,98 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Breadcrumbs, Link, LinkHighlight, LinkStandalone, Text } from '@sonarsource/echoes-react';
+import {
+  Badge,
+  BreadcrumbsProps,
+  Layout,
+  Link,
+  LinkHighlight,
+  LinkStandalone,
+  Text,
+} from '@sonarsource/echoes-react';
+import { PropsWithChildren } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
-import { Badge } from '~design-system';
+import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import DateFromNow from '~shared/components/intl/DateFromNow';
 import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
-import { AdminPageHeader } from '~sq-server-commons/components/ui/AdminPageHeader';
 import { PROFILE_PATH } from '~sq-server-commons/constants/paths';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { getProfilePath } from '~sq-server-commons/helpers/urls';
 import { Feature } from '~sq-server-commons/types/features';
-import { Profile } from '~sq-server-commons/types/quality-profiles';
 import {
   getProfileChangelogPath,
   getProfilesForLanguagePath,
-  isProfileComparePath,
 } from '~sq-server-commons/utils/quality-profiles-utils';
 import BuiltInQualityProfileBadge from '../components/BuiltInQualityProfileBadge';
 import ProfileActions from '../components/ProfileActions';
-import { QualityProfilePath } from '../routes';
+import { useQualityProfileDetailsContext } from '../qualityProfilesContext';
 
 interface Props {
-  isComparable: boolean;
-  profile: Profile;
-  updateProfiles: () => Promise<void>;
+  additionalBreadcrumbs?: BreadcrumbsProps['items'];
+  helmetTitle: string;
+  hideChangelogLink?: boolean;
+  hideMetadata?: boolean;
 }
 
-export default function ProfileHeader(props: Props) {
-  const { profile, isComparable, updateProfiles } = props;
+export function ProfilePageTemplate(props: PropsWithChildren<Props>) {
+  const {
+    additionalBreadcrumbs = [],
+    children,
+    helmetTitle,
+    hideChangelogLink = false,
+    hideMetadata = false,
+  } = props;
+
+  const { profile, profiles, updateProfiles } = useQualityProfileDetailsContext();
+
   const location = useLocation();
+  const { language } = location.query;
+
+  const filteredProfiles = profiles.filter((p) => p.language === language);
+  const isComparable = filteredProfiles.length > 1;
+
   const { hasFeature } = useAvailableFeatures();
-  const isComparePage = location.pathname.endsWith(`/${QualityProfilePath.COMPARE}`);
-  const isChangeLogPage = location.pathname.endsWith(`/${QualityProfilePath.CHANGELOG}`);
+
   const hasAicaFeature = hasFeature(Feature.AiCodeAssurance);
   const showAicaIntro = Boolean(
     hasAicaFeature && addons.aica?.isQualityProfileRecommendedForAI?.(profile),
   );
+
   const getDocUrl = useDocUrl();
 
   return (
-    <div className="it__quality-profiles__header">
-      {(isComparePage || isChangeLogPage) && (
-        <Helmet
-          defer={false}
-          title={translateWithParameters(
-            isChangeLogPage
-              ? 'quality_profiles.page_title_changelog_x'
-              : 'quality_profiles.page_title_compare_x',
-            profile.name,
-          )}
-        />
-      )}
+    <Layout.PageGrid width="fluid">
+      <Helmet defer={false} title={helmetTitle} />
 
-      <Breadcrumbs
-        className="sw-mb-6"
-        items={[
-          { linkElement: translate('quality_profiles.page'), to: PROFILE_PATH },
-          { linkElement: profile.languageName, to: getProfilesForLanguagePath(profile.language) },
-          { linkElement: profile.name, to: '#' },
-        ]}
-      />
-
-      <AdminPageHeader
+      <Layout.PageHeader
+        actions={
+          <Layout.PageHeader.Actions>
+            <ProfileActions
+              isComparable={isComparable}
+              profile={profile}
+              updateProfiles={updateProfiles}
+            />
+          </Layout.PageHeader.Actions>
+        }
+        breadcrumbs={
+          <Layout.PageHeader.Breadcrumbs
+            items={[
+              { linkElement: <FormattedMessage id="quality_profiles.page" />, to: PROFILE_PATH },
+              {
+                linkElement: profile.languageName,
+                to: getProfilesForLanguagePath(profile.language),
+              },
+              { linkElement: profile.name, to: getProfilePath(profile.name, profile.language) },
+              ...additionalBreadcrumbs,
+            ]}
+          />
+        }
+        className="it__quality-profiles__header"
         description={
           profile.isBuiltIn && (
             <FormattedMessage
@@ -108,52 +133,60 @@ export default function ProfileHeader(props: Props) {
             />
           )
         }
-        title={
-          <span className="sw-inline-flex sw-items-center sw-gap-1">
-            <span className="sw-mr-1">{profile.name}</span>
-            {profile.isBuiltIn && <BuiltInQualityProfileBadge tooltip={false} />}
-            {profile.isDefault && <Badge>{translate('default')}</Badge>}
-            {isDefined(addons.aica?.ProfileRecommendedForAiIcon) && hasAicaFeature && (
-              <addons.aica.ProfileRecommendedForAiIcon profile={profile} />
-            )}
-          </span>
-        }
-      >
-        <div className="sw-flex sw-items-center sw-gap-3 sw-self-start">
-          {!isProfileComparePath(location.pathname) && (
-            <div className="sw-flex sw-gap-3">
+        metadata={
+          !hideMetadata && (
+            <Layout.PageHeader.Metadata className="sw-gap-3">
               <div>
                 <strong className="sw-typo-semibold">
-                  {translate('quality_profiles.updated_')}
+                  <FormattedMessage id="quality_profiles.updated_" />
                 </strong>{' '}
                 <DateFromNow date={profile.rulesUpdatedAt} />
               </div>
 
               <div>
-                <strong className="sw-typo-semibold">{translate('quality_profiles.used_')}</strong>{' '}
+                <strong className="sw-typo-semibold">
+                  <FormattedMessage id="quality_profiles.used_" />
+                </strong>{' '}
                 <DateFromNow date={profile.lastUsed} />
               </div>
 
-              {!isChangeLogPage && (
+              {!hideChangelogLink && (
                 <div>
                   <LinkStandalone
                     className="it__quality-profiles__changelog"
                     to={getProfileChangelogPath(profile.name, profile.language)}
                   >
-                    {translate('see_changelog')}
+                    <FormattedMessage id="see_changelog" />
                   </LinkStandalone>
                 </div>
               )}
-            </div>
-          )}
+            </Layout.PageHeader.Metadata>
+          )
+        }
+        title={
+          <Layout.PageHeader.Title
+            suffix={
+              <div className="sw-flex sw-items-center sw-ml-2 sw-gap-2">
+                {profile.isBuiltIn && <BuiltInQualityProfileBadge tooltip={false} />}
+                {profile.isDefault && (
+                  <Badge variety="neutral">
+                    <FormattedMessage id="default" />
+                  </Badge>
+                )}
+                {isDefined(addons.aica?.ProfileRecommendedForAiIcon) && hasAicaFeature && (
+                  <addons.aica.ProfileRecommendedForAiIcon profile={profile} />
+                )}
+              </div>
+            }
+          >
+            {profile.name}
+          </Layout.PageHeader.Title>
+        }
+      />
 
-          <ProfileActions
-            isComparable={isComparable}
-            profile={profile}
-            updateProfiles={updateProfiles}
-          />
-        </div>
-      </AdminPageHeader>
-    </div>
+      <Layout.PageContent>{children}</Layout.PageContent>
+
+      <GlobalFooter />
+    </Layout.PageGrid>
   );
 }

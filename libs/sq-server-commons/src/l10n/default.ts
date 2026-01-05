@@ -3776,8 +3776,8 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
-  'quality_profiles.page_title_changelog_x': '{0} Changelog',
-  'quality_profiles.page_title_compare_x': '{0} Comparison',
+  'quality_profiles.page_title_changelog_x': '{profile} Changelog',
+  'quality_profiles.page_title_compare_x': '{profile} Comparison',
   'quality_profiles.new_profile': 'New Quality Profile',
 
   'quality_profiles.compare_with': 'Compare with',

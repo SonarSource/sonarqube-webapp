@@ -18,24 +18,27 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Badge } from '~design-system';
-import Tooltip from '~sq-server-commons/components/controls/Tooltip';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { Badge, Popover } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 
 interface Props {
   className?: string;
   tooltip?: boolean;
 }
 
-export default function BuiltInQualityProfileBadge({ className, tooltip = true }: Props) {
+export default function BuiltInQualityProfileBadge({ className, tooltip = true }: Readonly<Props>) {
   const badge = (
-    <Badge className={className} variant="default">
-      {translate('quality_profiles.built_in')}
+    <Badge className={className} isInteractive={tooltip} variety="neutral">
+      <FormattedMessage id="quality_profiles.built_in" />
     </Badge>
   );
 
   if (tooltip) {
-    return <Tooltip content={translate('quality_profiles.built_in.description')}>{badge}</Tooltip>;
+    return (
+      <Popover description={<FormattedMessage id="quality_profiles.built_in.description" />}>
+        {badge}
+      </Popover>
+    );
   }
 
   return badge;

@@ -53,7 +53,7 @@ export function RichQualityProfileEventInner({
 
   const contextForAria = intl.formatMessage(
     { id: 'quality_profiles.page_title_changelog_x' },
-    { 0: qualityProfileName },
+    { profile: qualityProfileName },
   );
 
   return (

@@ -18,29 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
-import { FlagMessage, themeColor } from '~design-system';
+import { FlagMessage } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { Exporter, Profile } from '~sq-server-commons/types/quality-profiles';
-import { withQualityProfilesContext } from '../qualityProfilesContext';
+import { Profile } from '~sq-server-commons/types/quality-profiles';
+import { QualityProfilesContextProps, withQualityProfilesContext } from '../qualityProfilesContext';
 import ProfileExporters from './ProfileExporters';
 import ProfileInheritance from './ProfileInheritance';
+import { ProfilePageTemplate } from './ProfilePageTemplate';
 import ProfilePermissions from './ProfilePermissions';
 import ProfileProjects from './ProfileProjects';
 import ProfileRules from './ProfileRules';
 
-interface ProfileDetailsProps {
-  exporters: Exporter[];
+interface ProfileDetailsProps extends QualityProfilesContextProps {
   profile: Profile;
-  profiles: Profile[];
-  updateProfiles: () => Promise<void>;
 }
 
 function ProfileDetails(props: ProfileDetailsProps) {
-  const { profile, profiles, exporters } = props;
+  const { exporters, profile, profiles } = props;
 
   return (
-    <ContentWrapper>
+    <ProfilePageTemplate helmetTitle={profile.name}>
       <div className="sw-grid sw-grid-cols-3 sw-gap-12 sw-mt-12">
         <div className="sw-col-span-2 sw-flex sw-flex-col sw-gap-12">
           {profile.activeRuleCount === 0 && (profile.projectCount || profile.isDefault) && (
@@ -67,12 +64,8 @@ function ProfileDetails(props: ProfileDetailsProps) {
           <ProfileExporters exporters={exporters} profile={profile} />
         </div>
       </div>
-    </ContentWrapper>
+    </ProfilePageTemplate>
   );
 }
-
-const ContentWrapper = styled.div`
-  color: ${themeColor('pageContent')};
-`;
 
 export default withQualityProfilesContext(ProfileDetails);

@@ -51,3 +51,7 @@ export function withQualityProfilesContext<P extends Partial<QualityProfilesCont
 export function useQualityProfilesContext() {
   return useOutletContext<QualityProfilesContextProps>();
 }
+
+export function useQualityProfileDetailsContext() {
+  return useOutletContext<QualityProfilesContextProps & { profile: Profile }>();
+}
