@@ -1,2 +1,44 @@
+#
+#
 # https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
-.github/CODEOWNERS @SonarSource/platform-front-end-eng-squad
+#
+# As described in the doc above, order is important!
+# The last matching pattern takes the most precedence.
+#
+
+# json, js & ts files at the root
+/*.json                                             @SonarSource/platform-front-end-eng-squad
+/*.js                                               @SonarSource/platform-front-end-eng-squad
+/*.ts                                               @SonarSource/platform-front-end-eng-squad
+/*.code-workspace                                   @SonarSource/platform-front-end-eng-squad
+
+# Apps' config files
+
+/apps/sq-server/*.json                              @SonarSource/platform-front-end-eng-squad
+/apps/sq-server/*.js                                @SonarSource/platform-front-end-eng-squad
+/apps/sq-server/*.ts                                @SonarSource/platform-front-end-eng-squad
+
+# Directories
+
+/.github/                                           @SonarSource/platform-front-end-eng-squad
+/.vscode/                                           @SonarSource/platform-front-end-eng-squad
+/apps/sq-server/config                              @SonarSource/platform-front-end-eng-squad
+/apps/sq-server/public                              @SonarSource/platform-front-end-eng-squad
+/apps/sq-server/public/images                       # No owner for images
+/config/                                            @SonarSource/platform-front-end-eng-squad
+/eslint-local-rules/                                @SonarSource/platform-front-end-eng-squad
+/libs/sq-server-commons/src/sq-server-adapters/     @SonarSource/platform-front-end-eng-squad
+/tools/                                             @SonarSource/platform-front-end-eng-squad
+
+# Specific files
+
+/.eslintignore                                      @SonarSource/platform-front-end-eng-squad
+/.gitattributes                                     @SonarSource/platform-front-end-eng-squad
+/.gitignore                                         @SonarSource/platform-front-end-eng-squad
+/.prettierignore                                    @SonarSource/platform-front-end-eng-squad
+/.prettierrc                                        @SonarSource/platform-front-end-eng-squad
+/.yarnrc.yml                                        @SonarSource/platform-front-end-eng-squad
+/mise.toml                                          @SonarSource/platform-front-end-eng-squad
+/Makefile                                           @SonarSource/platform-front-end-eng-squad
+
+/apps/sq-server/index.html                          @SonarSource/platform-front-end-eng-squad
