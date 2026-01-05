@@ -559,6 +559,7 @@ describe('GitLab provisioning', () => {
   it('should have disabled permissions for GitLab Project', async () => {
     const user = userEvent.setup();
     const ui = getPageObject(user);
+    gitlabHandler.setGitlabProvisioningEnabled(true);
     almHandler.handleSetProjectBinding(AlmKeys.GitLab, {
       almSetting: 'test',
       repository: 'test',
@@ -574,7 +575,7 @@ describe('GitLab provisioning', () => {
     );
     await ui.appLoaded();
 
-    expect(ui.pageTitle.get()).toBeInTheDocument();
+    expect(await ui.pageTitle.find()).toBeInTheDocument();
     await waitFor(() => {
       expect(ui.pageTitle.get()).toHaveAccessibleName(/project_permission.managed/);
     });

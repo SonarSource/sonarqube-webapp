@@ -21,7 +21,11 @@
 import { cloneDeep, omit } from 'lodash';
 import { mockGitlabConfiguration } from '../../helpers/mocks/alm-integrations';
 import { mockPaging } from '../../helpers/testMocks';
-import { DevopsRolesMapping, GitlabConfiguration } from '../../types/provisioning';
+import {
+  DevopsRolesMapping,
+  GitlabConfiguration,
+  ProvisioningType,
+} from '../../types/provisioning';
 import {
   addGitlabRolesMapping,
   createGitLabConfiguration,
@@ -37,7 +41,7 @@ import {
 jest.mock('../gitlab-provisioning');
 
 const defaultGitlabConfiguration: GitlabConfiguration[] = [
-  mockGitlabConfiguration({ id: '1', enabled: true }),
+  mockGitlabConfiguration({ id: '1', enabled: true, provisioningType: ProvisioningType.jit }),
 ];
 
 const gitlabMappingMock = (
@@ -92,6 +96,8 @@ export default class GitlabProvisioningServiceMock {
     jest.mocked(deleteGitLabConfiguration).mockImplementation(this.handleDeleteGitLabConfiguration);
     jest.mocked(fetchGitlabRolesMapping).mockImplementation(this.handleFetchGilabRolesMapping);
     jest.mocked(updateGitlabRolesMapping).mockImplementation(this.handleUpdateGitlabRolesMapping);
+    jest.mocked(addGitlabRolesMapping).mockImplementation(this.handleAddGitlabRolesMapping);
+    jest.mocked(deleteGitlabRolesMapping).mockImplementation(this.handleDeleteGitlabRolesMapping);
   }
 
   handleFetchGitLabConfigurations: typeof fetchGitLabConfigurations = () => {
@@ -167,7 +173,18 @@ export default class GitlabProvisioningServiceMock {
     this.gitlabMapping = [...this.gitlabMapping, gitlabMappingMock(id, permissions)];
   };
 
+  setGitlabProvisioningEnabled = (enabled: boolean) => {
+    if (this.gitlabConfigurations.length > 0) {
+      this.gitlabConfigurations[0] = {
+        ...this.gitlabConfigurations[0],
+        enabled,
+        provisioningType: enabled ? ProvisioningType.auto : ProvisioningType.jit,
+      };
+    }
+  };
+
   reset = () => {
     this.gitlabConfigurations = cloneDeep(defaultGitlabConfiguration);
+    this.gitlabMapping = cloneDeep(defaultMapping);
   };
 }
