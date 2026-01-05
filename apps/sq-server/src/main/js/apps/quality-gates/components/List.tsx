@@ -92,7 +92,7 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
   };
 
   return (
-    <SubnavigationGroup as="ul">
+    <SubnavigationGroup as="ul" className="sw-box-border">
       {qualityGates.map((qualityGate) => {
         const { name, isDefault, isBuiltIn, caycStatus, isAiCodeSupported } = qualityGate;
         const isDefaultTitle = isDefault ? ` ${translate('default')}` : '';

@@ -18,23 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { withTheme } from '@emotion/react';
-import styled from '@emotion/styled';
-import { Spinner } from '@sonarsource/echoes-react';
+import { Layout, Spinner } from '@sonarsource/echoes-react';
 import { useCallback, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  Card,
-  LAYOUT_FOOTER_HEIGHT,
-  LAYOUT_GLOBAL_NAV_HEIGHT,
-  LargeCenteredLayout,
-  themeBorder,
-  themeColor,
-} from '~design-system';
+import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
+import { Card } from '~design-system';
 import '~sq-server-commons/components/search-navigator.css';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getQualityGateUrl } from '~sq-server-commons/helpers/urls';
 import { useQualityGatesQuery } from '~sq-server-commons/queries/quality-gates';
 import { QualityGate } from '~sq-server-commons/types/types';
@@ -73,48 +64,38 @@ export default function App() {
     }
   }, [name, openDefault, qualityGates]);
 
+  const title = intl.formatMessage({ id: 'quality_gates.page' });
+
   return (
-    <LargeCenteredLayout id="quality-gates-page">
+    <Layout.ContentGrid>
       <Helmet
         defer={false}
         titleTemplate={intl.formatMessage(
           { id: 'page_title.template.with_category' },
-          { page: translate('quality_gates.page') },
+          { page: title },
         )}
       />
-      <div className="sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12 sw-w-full">
-        <StyledContentWrapper
-          className="sw-col-span-3 sw-px-4 sw-py-6 sw-border-y-0"
-          style={{
-            height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px)`,
-          }}
-        >
-          <ListHeader canCreate={canCreate} />
-          <Spinner isLoading={isLoading}>
-            <List currentQualityGate={name} qualityGates={qualityGates} />
-          </Spinner>
-        </StyledContentWrapper>
 
-        {name !== undefined && (
-          <div
-            className="sw-col-span-9 sw-overflow-y-auto"
-            style={{
-              height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px)`,
-            }}
-          >
-            <Card className="sw-my-12">
-              <Details qualityGateName={name} />
-            </Card>
-          </div>
-        )}
-      </div>
-    </LargeCenteredLayout>
+      <Layout.AsideLeft size="large">
+        <ListHeader canCreate={canCreate} />
+        <Spinner isLoading={isLoading}>
+          <List currentQualityGate={name} qualityGates={qualityGates} />
+        </Spinner>
+      </Layout.AsideLeft>
+
+      <Layout.PageGrid width="fluid">
+        <Layout.PageContent>
+          {name !== undefined && (
+            <div>
+              <Card>
+                <Details qualityGateName={name} />
+              </Card>
+            </div>
+          )}
+        </Layout.PageContent>
+
+        <GlobalFooter />
+      </Layout.PageGrid>
+    </Layout.ContentGrid>
   );
 }
-
-const StyledContentWrapper = withTheme(styled.div`
-  box-sizing: border-box;
-  background-color: ${themeColor('filterbar')};
-  border: ${themeBorder('default', 'filterbarBorder')};
-  overflow-x: hidden;
-`);
