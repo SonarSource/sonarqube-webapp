@@ -18,63 +18,63 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
-import { createPortal } from 'react-dom';
+import styled from '@emotion/styled';
+import { Layout } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { Outlet } from 'react-router-dom';
-import { LargeCenteredLayout, TopBar } from '~design-system';
+import { useFlags } from '~adapters/helpers/feature-flags';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { useCurrentLoginUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { TopBarNewLayoutCompatible } from '~sq-server-commons/design-system/components/TopBar';
+import { AccountSidebar } from './components/AccountSidebar';
 import Nav from './components/Nav';
 import UserCard from './components/UserCard';
 
 export default function Account() {
   const currentUser = useCurrentLoginUser();
-  const [portalAnchor, setPortalAnchor] = React.useState<Element | null>(null);
 
-  const intl = useIntl();
+  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
 
-  // Set portal anchor on mount
-  React.useEffect(() => {
-    setPortalAnchor(document.getElementById('component-nav-portal'));
-  }, []);
+  const { formatMessage } = useIntl();
 
-  const title = translate('my_account.page');
+  const title = formatMessage({ id: 'my_account.page' });
 
   return (
-    <div id="account-page">
-      {portalAnchor &&
-        createPortal(
-          <header>
-            <TopBar>
+    <>
+      {frontEndEngineeringEnableSidebarNavigation && <AccountSidebar />}
+      <Layout.ContentGrid id="account-page">
+        <Helmet
+          defaultTitle={title}
+          defer={false}
+          titleTemplate={formatMessage(
+            { id: 'page_title.template.with_category' },
+            { page: formatMessage({ id: 'my_account.page' }) },
+          )}
+        />
+
+        {!frontEndEngineeringEnableSidebarNavigation && (
+          <ContentHeader>
+            <TopBarNewLayoutCompatible>
               <div className="sw-flex sw-items-center sw-gap-2 sw-pb-4">
                 <UserCard user={currentUser} />
               </div>
 
               <Nav />
-            </TopBar>
-          </header>,
-          portalAnchor,
+            </TopBarNewLayoutCompatible>
+          </ContentHeader>
         )}
 
-      <LargeCenteredLayout as="main">
-        <div className="sw-py-8">
-          <Helmet
-            defaultTitle={title}
-            defer={false}
-            titleTemplate={intl.formatMessage(
-              { id: 'page_title.template.with_category' },
-              { page: translate('my_account.page') },
-            )}
-          />
+        <A11ySkipTarget anchor="account_main" />
 
-          <A11ySkipTarget anchor="account_main" />
-
+        <Layout.PageGrid width="default">
           <Outlet />
-        </div>
-      </LargeCenteredLayout>
-    </div>
+        </Layout.PageGrid>
+      </Layout.ContentGrid>
+    </>
   );
 }
+
+const ContentHeader = styled.div`
+  grid-area: content-header;
+`;

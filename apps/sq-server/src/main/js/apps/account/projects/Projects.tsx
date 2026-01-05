@@ -35,7 +35,7 @@ export default function Projects(props: Readonly<Props>) {
 
   return (
     <div id="account-projects">
-      <div className="sw-mt-8">
+      <div>
         {projects.length === 0
           ? translate('my_account.projects.no_results')
           : translate('my_account.projects.description')}

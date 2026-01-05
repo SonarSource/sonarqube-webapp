@@ -18,12 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Helmet } from 'react-helmet-async';
-import { GreySeparator, HelperHintIcon, SubHeading, Title } from '~design-system';
+import { useIntl } from 'react-intl';
+import { GreySeparator, HelperHintIcon, SubHeading } from '~design-system';
 import { whenLoggedIn } from '~sq-server-commons/components/hoc/whenLoggedIn';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { LoggedInUser } from '~sq-server-commons/types/users';
+import { AccountPageTemplate } from '../components/AccountPageTemplate';
 import { Preferences } from './Preferences';
 import UserExternalIdentity from './UserExternalIdentity';
 
@@ -33,11 +34,10 @@ export interface ProfileProps {
 
 export function Profile({ currentUser }: ProfileProps) {
   const isExternalProvider = !currentUser.local && currentUser.externalProvider !== 'sonarqube';
+  const { formatMessage } = useIntl();
 
   return (
-    <div className="sw-max-w-1/2">
-      <Helmet defer={false} title={translate('my_account.profile')} />
-      <Title className="sw-mb-6">{translate('my_account.profile')}</Title>
+    <AccountPageTemplate title={formatMessage({ id: 'my_account.profile' })}>
       {renderLogin()}
       {renderEmail()}
       <GreySeparator className="sw-my-4" />
@@ -45,7 +45,7 @@ export function Profile({ currentUser }: ProfileProps) {
       {renderScmAccounts()}
       <GreySeparator className="sw-my-4" />
       <Preferences />
-    </div>
+    </AccountPageTemplate>
   );
 
   function renderLogin() {

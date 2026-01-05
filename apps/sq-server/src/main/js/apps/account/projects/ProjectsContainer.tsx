@@ -20,11 +20,10 @@
 
 import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { Title } from '~design-system';
 import { getMyProjects } from '~sq-server-commons/api/components';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { MyProject } from '~sq-server-commons/types/types';
+import { AccountPageTemplate } from '../components/AccountPageTemplate';
 import Projects from './Projects';
 
 interface State {
@@ -35,6 +34,7 @@ interface State {
 }
 
 export default class ProjectsContainer extends React.PureComponent<{}, State> {
+  intl = getIntl();
   mounted = false;
   state: State = { loading: true, page: 1 };
 
@@ -68,15 +68,11 @@ export default class ProjectsContainer extends React.PureComponent<{}, State> {
     const { loading, projects = [], total } = this.state;
 
     return (
-      <>
-        <Helmet title={translate('my_account.projects')} />
-
-        <Title>{translate('my_account.projects')}</Title>
-
+      <AccountPageTemplate title={this.intl.formatMessage({ id: 'my_account.projects' })}>
         <Spinner isLoading={loading && projects.length === 0}>
           <Projects loadMore={this.loadMore} loading={loading} projects={projects} total={total} />
         </Spinner>
-      </>
+      </AccountPageTemplate>
     );
   }
 }

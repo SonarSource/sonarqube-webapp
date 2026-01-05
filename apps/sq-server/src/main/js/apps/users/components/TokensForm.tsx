@@ -193,7 +193,7 @@ export function TokensForm(props: Readonly<Props>) {
 
   return (
     <>
-      <GreySeparator className="sw-mb-4 sw-mt-6" />
+      <GreySeparator className="sw-my-4" />
 
       <Heading as="h2" hasMarginBottom>
         {translate('users.tokens.generate')}

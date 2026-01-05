@@ -19,19 +19,20 @@
  */
 
 import { Divider, Heading, Label, Spinner, Text } from '@sonarsource/echoes-react';
-import { Helmet } from 'react-helmet-async';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Switch } from '~adapters/components/common/Switch';
 import { BEAMER_NOTIFICATIONS_SETTING } from '~shared/helpers/beamer';
 import useLocalStorage from '~shared/helpers/useLocalStorage';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useNotificationsQuery } from '~sq-server-commons/queries/notifications';
+import { AccountPageTemplate } from '../components/AccountPageTemplate';
 import GlobalNotifications from './GlobalNotifications';
 import Projects from './Projects';
 
 const NEWS_NOTIFICATION_FIELD_ID = 'news-notification-field';
 
 export default function Notifications() {
+  const { formatMessage } = useIntl();
   const { data: notificationResponse, isLoading } = useNotificationsQuery();
   const { notifications } = notificationResponse || {
     channels: [],
@@ -47,13 +48,10 @@ export default function Notifications() {
   );
 
   return (
-    <div className="it__account-body">
-      <Helmet defer={false} title={translate('my_account.notifications')} />
-
-      <Heading as="h1" hasMarginBottom>
-        {translate('my_account.notifications')}
-      </Heading>
-
+    <AccountPageTemplate
+      pageClassName="it__account-body"
+      title={formatMessage({ id: 'my_account.notifications' })}
+    >
       <Text isSubtle>{translate('notification.dispatcher.information')}</Text>
 
       <Spinner isLoading={isLoading}>
@@ -87,6 +85,6 @@ export default function Notifications() {
           </>
         )}
       </Spinner>
-    </div>
+    </AccountPageTemplate>
   );
 }

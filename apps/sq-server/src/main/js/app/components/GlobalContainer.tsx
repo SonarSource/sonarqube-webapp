@@ -79,6 +79,7 @@ const PAGES_WITH_SECONDARY_BACKGROUND = new Set([
  */
 const PAGES_MIGRATED: string[] = [
   '/admin/audit',
+  '/account',
   '/admin/background_tasks',
   '/admin/groups',
   '/admin/license/app',

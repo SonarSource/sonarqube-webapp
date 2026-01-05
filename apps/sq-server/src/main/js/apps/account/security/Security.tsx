@@ -18,30 +18,33 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading } from '@sonarsource/echoes-react';
-import { Helmet } from 'react-helmet-async';
+import { Heading, Text } from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import ResetPasswordForm from '~sq-server-commons/components/common/ResetPasswordForm';
 import { useCurrentLoginUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
-import Tokens from './Tokens';
+import { getInstance } from '~sq-server-commons/helpers/system';
+import TokensForm from '../../users/components/TokensForm';
+import { AccountPageTemplate } from '../components/AccountPageTemplate';
 
 export default function Security() {
+  const { formatMessage } = useIntl();
   const currentUser = useCurrentLoginUser();
   return (
-    <>
-      <Helmet defer={false} title={translate('my_account.security')} />
-
-      <Tokens login={currentUser.login} />
+    <AccountPageTemplate title={formatMessage({ id: 'my_account.security' })}>
+      <Text as="p" className="sw-mb-2">
+        <FormattedMessage id="my_account.tokens_description" values={{ instance: getInstance() }} />
+      </Text>
+      <TokensForm deleteConfirmation="modal" displayTokenTypeInput login={currentUser.login} />
 
       {currentUser.local && (
-        <>
-          <Heading as="h2" className="sw-mt-6" hasMarginBottom>
-            {translate('my_profile.password.title')}
+        <div className="sw-mt-8">
+          <Heading as="h2" hasMarginBottom>
+            <FormattedMessage id="my_profile.password.title" />
           </Heading>
 
           <ResetPasswordForm user={currentUser} />
-        </>
+        </div>
       )}
-    </>
+    </AccountPageTemplate>
   );
 }
