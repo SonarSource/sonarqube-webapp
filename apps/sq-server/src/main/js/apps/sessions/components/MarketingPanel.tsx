@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { cssVar, Heading } from '@sonarsource/echoes-react';
+import { cssVar, Heading, Spinner } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import tw from 'twin.macro';
 import { Image } from '~adapters/components/common/Image';
@@ -27,7 +27,7 @@ import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { useLoginMessageQuery } from '~sq-server-commons/queries/settings';
 
 export default function MarketingPanel() {
-  const { data: message } = useLoginMessageQuery();
+  const { data: message, isLoading } = useLoginMessageQuery();
   const { formatMessage } = useIntl();
   const displayMessage = message !== undefined && message.length > 0;
 
@@ -38,46 +38,48 @@ export default function MarketingPanel() {
         src="/images/sonar-whale-white.svg"
       />
       <div className="sw-text-white sw-flex sw-flex-col sw-py-10 sw-w-full sw-max-w-[31rem] sw-mx-auto">
-        {displayMessage ? (
-          <CustomMessage>
-            <SafeHTMLInjection htmlAsString={message} sanitizeLevel={SanitizeLevel.USER_INPUT}>
-              <div className="markdown sw-rounded-2 sw-p-4 sw-mb-6" />
-            </SafeHTMLInjection>
-          </CustomMessage>
-        ) : (
-          <div>
-            <Image
-              alt={formatMessage({ id: 'login.marketing.logo.alt' })}
-              className="sw-mb-6"
-              src="/images/sonar-logo-white.svg"
-            />
-            <Heading as="h1" className="sw-mb-4 sw-text-white">
-              <FormattedMessage id="login.marketing.title" />
-            </Heading>
-            <FormattedMessage id="login.marketing.description" />
+        <Spinner isLoading={isLoading}>
+          {displayMessage ? (
+            <CustomMessage>
+              <SafeHTMLInjection htmlAsString={message} sanitizeLevel={SanitizeLevel.USER_INPUT}>
+                <div className="markdown sw-rounded-2 sw-p-4 sw-mb-6" />
+              </SafeHTMLInjection>
+            </CustomMessage>
+          ) : (
+            <div>
+              <Image
+                alt={formatMessage({ id: 'login.marketing.logo.alt' })}
+                className="sw-mb-6"
+                src="/images/sonar-logo-white.svg"
+              />
+              <Heading as="h1" className="sw-mb-4 sw-text-white">
+                <FormattedMessage id="login.marketing.title" />
+              </Heading>
+              <FormattedMessage id="login.marketing.description" />
 
-            <ul className="sw-list-disc sw-flex sw-flex-col sw-gap-6 sw-mt-4 sw-pl-4">
-              <li>
-                <span className="sw-font-bold">
-                  <FormattedMessage id="login.marketing.continuous_verification" />
-                </span>
-                <FormattedMessage id="login.marketing.continuous_verification.description" />
-              </li>
-              <li>
-                <span className="sw-font-bold">
-                  <FormattedMessage id="login.marketing.devsecops_integrated" />
-                </span>
-                <FormattedMessage id="login.marketing.devsecops_integrated.description" />
-              </li>
-              <li>
-                <span className="sw-font-bold">
-                  <FormattedMessage id="login.marketing.empowering_developers" />
-                </span>
-                <FormattedMessage id="login.marketing.empowering_developers.description" />
-              </li>
-            </ul>
-          </div>
-        )}
+              <ul className="sw-list-disc sw-flex sw-flex-col sw-gap-6 sw-mt-4 sw-pl-4">
+                <li>
+                  <span className="sw-font-bold">
+                    <FormattedMessage id="login.marketing.continuous_verification" />
+                  </span>
+                  <FormattedMessage id="login.marketing.continuous_verification.description" />
+                </li>
+                <li>
+                  <span className="sw-font-bold">
+                    <FormattedMessage id="login.marketing.devsecops_integrated" />
+                  </span>
+                  <FormattedMessage id="login.marketing.devsecops_integrated.description" />
+                </li>
+                <li>
+                  <span className="sw-font-bold">
+                    <FormattedMessage id="login.marketing.empowering_developers" />
+                  </span>
+                  <FormattedMessage id="login.marketing.empowering_developers.description" />
+                </li>
+              </ul>
+            </div>
+          )}
+        </Spinner>
       </div>
     </SonarBackgroundContainer>
   );
@@ -109,6 +111,16 @@ const SonarBackgroundImage = styled(Image)`
 `;
 
 const CustomMessage = styled.div`
+  ${tw`sw-overflow-y-auto`}
+
+  max-height: calc(100vh - 5rem); /* Account for padding */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
   a {
     ${tw`sw-text-white sw-border-b sw-border-white`};
     ${tw`sw-underline sw-typo-semibold`};
