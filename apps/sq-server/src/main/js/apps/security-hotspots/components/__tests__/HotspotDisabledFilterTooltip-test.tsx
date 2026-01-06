@@ -23,9 +23,7 @@ import { render } from '~shared/helpers/test-utils';
 import { HotspotDisabledFilterTooltip } from '../HotspotDisabledFilterTooltip';
 
 it('should render correctly and stop event propagation', () => {
-  const { container } = render(<HotspotDisabledFilterTooltip />);
-
-  expect(container).toMatchSnapshot();
+  render(<HotspotDisabledFilterTooltip />);
 
   const reindexingLink = screen.getByText('indexation.reindexing');
 

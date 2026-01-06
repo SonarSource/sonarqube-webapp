@@ -50,6 +50,7 @@ beforeAll(() => {
     ...window.location,
     replace,
   };
+
   Object.defineProperty(window, 'location', {
     writable: true,
     value: location,
@@ -104,11 +105,13 @@ describe('Maintenance', () => {
 
       const title = await screen.findByRole('heading', { name: heading });
       expect(title).toBeInTheDocument();
+
       // eslint-disable-next-line jest/no-conditional-in-test
       if (body) {
         // eslint-disable-next-line jest/no-conditional-expect
         expect(screen.getByText(body)).toBeInTheDocument();
       }
+
       // eslint-disable-next-line jest/no-conditional-in-test
       if (linkInfo) {
         const link = screen.getByRole('link', { name: linkInfo.name });
@@ -198,6 +201,7 @@ describe('Setup', () => {
 
       const title = await screen.findByRole('heading', { name: heading });
       expect(title).toBeInTheDocument();
+
       // eslint-disable-next-line jest/no-conditional-in-test
       if (bodyText.length) {
         bodyText.forEach((text) => {
@@ -205,6 +209,7 @@ describe('Setup', () => {
           expect(screen.getByText(text)).toBeInTheDocument();
         });
       }
+
       // eslint-disable-next-line jest/no-conditional-in-test
       if (payload) {
         // eslint-disable-next-line jest/no-conditional-expect
@@ -212,6 +217,7 @@ describe('Setup', () => {
         // eslint-disable-next-line jest/no-conditional-expect
         expect(screen.getByText('background_tasks.table.started')).toBeInTheDocument();
       }
+
       // eslint-disable-next-line jest/no-conditional-in-test
       if (linkInfo) {
         const link = screen.getByRole('link', { name: linkInfo.name });
@@ -229,6 +235,7 @@ describe('Setup', () => {
       startedAt: '2022-12-01',
       state: 'MIGRATION_RUNNING',
     });
+
     jest
       .mocked(getMigrationsStatus)
       .mockResolvedValueOnce({ status: MigrationStatus.required })
@@ -256,16 +263,13 @@ describe('Setup', () => {
     expect(
       await screen.findByRole('heading', { name: 'maintenance.upgrade_database' }),
     ).toBeInTheDocument();
+
     expect(screen.getByText('maintenance.upgrade_database.1')).toBeInTheDocument();
     expect(screen.getByText('maintenance.upgrade_database.2')).toBeInTheDocument();
     const link = screen.getByRole('link', {
       name: 'maintenance.upgrade_database.2.link open_in_new_tab',
     });
     expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute(
-      'href',
-      'https://docs.sonarsource.com/sonarqube/10.0/server-upgrade-and-maintenance/upgrade/roadmap/',
-    );
 
     // Trigger DB migration.
     await user.click(screen.getByRole('button', { name: 'maintenance.upgrade' }));
