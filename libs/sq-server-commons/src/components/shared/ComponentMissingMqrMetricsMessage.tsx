@@ -40,6 +40,7 @@ export function ComponentMissingMqrMetricsMessage({
   component,
 }: Readonly<AnalysisMissingInfoMessageProps>) {
   const { key: componentKey, qualifier } = component;
+
   const { data: isStandardMode, isLoading } = useStandardExperienceModeQuery();
   const { data: branchLike, isLoading: loadingBranch } = useCurrentBranchQuery(component);
   const { data: standardMeasure, isLoading: loadingStandardMeasure } = useMeasureQuery(

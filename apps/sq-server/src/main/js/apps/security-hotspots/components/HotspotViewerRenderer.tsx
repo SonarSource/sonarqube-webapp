@@ -70,7 +70,7 @@ export function HotspotViewerRenderer(props: HotspotViewerRendererProps) {
 
   return (
     <>
-      <Spinner className="sw-ml-4 sw-mt-4" isLoading={loading} />
+      <Spinner className="sw-m-4" isLoading={loading} />
 
       {showStatusUpdateSuccessModal && (
         <StatusUpdateSuccessModal
@@ -82,7 +82,7 @@ export function HotspotViewerRenderer(props: HotspotViewerRendererProps) {
       )}
 
       {hotspot && (
-        <div className="sw-box-border sw-p-6">
+        <>
           <HotspotHeader
             branchLike={branchLike}
             component={component}
@@ -108,11 +108,10 @@ export function HotspotViewerRenderer(props: HotspotViewerRendererProps) {
               />
             }
             hotspot={hotspot}
-            onUpdateHotspot={props.onUpdateHotspot}
             ruleDescriptionSections={ruleDescriptionSections}
             ruleLanguage={ruleLanguage}
           />
-        </div>
+        </>
       )}
     </>
   );

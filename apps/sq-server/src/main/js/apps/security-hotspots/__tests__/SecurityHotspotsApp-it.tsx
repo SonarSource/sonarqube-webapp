@@ -38,18 +38,17 @@ import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderAppWithComponentContext } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { ComponentContextShape } from '~sq-server-commons/types/component';
 import SecurityHotspotsApp from '../SecurityHotspotsApp';
-import useStickyDetection from '../hooks/useStickyDetection';
+import { SHOW_STATUS_DIALOG_STORAGE_KEY } from '../constants';
 
 jest.mock('~sq-server-commons/api/measures');
 jest.mock('~sq-server-commons/api/security-hotspots');
 jest.mock('~sq-server-commons/api/components');
 jest.mock('~shared/helpers/security-standards');
 jest.mock('~sq-server-commons/api/users');
-
 jest.mock('~sq-server-commons/api/rules');
+jest.mock('~sq-server-commons/api/branches');
 jest.mock('~sq-server-commons/api/quality-profiles');
 jest.mock('~sq-server-commons/api/issues');
-jest.mock('../hooks/useStickyDetection');
 jest.mock('~sq-server-commons/helpers/sonarlint', () => ({
   openHotspot: jest.fn().mockResolvedValue(null),
   probeSonarLintServers: jest.fn().mockResolvedValue([
@@ -125,7 +124,12 @@ jest.mocked(save).mockImplementation((_key: string, value?: string) => {
   }
 });
 
-jest.mocked(get).mockImplementation(() => showDialog);
+jest.mocked(get).mockImplementation((key) => {
+  if (key === SHOW_STATUS_DIALOG_STORAGE_KEY) {
+    return showDialog;
+  }
+  return null;
+});
 
 beforeAll(() => {
   Object.defineProperty(window, 'scrollTo', {
@@ -141,10 +145,6 @@ afterAll(() => {
     writable: true,
     value: originalScrollTo,
   });
-});
-
-beforeEach(() => {
-  jest.mocked(useStickyDetection).mockImplementation(() => false);
 });
 
 afterEach(() => {
@@ -180,14 +180,6 @@ describe('rendering', () => {
 
     expect(ui.filterDropdown.get()).toBeInTheDocument();
     expect(ui.filterToReview.get()).toBeInTheDocument();
-  });
-
-  it('should render hotspot header in sticky mode', async () => {
-    jest.mocked(useStickyDetection).mockImplementation(() => true);
-
-    renderSecurityHotspotsApp();
-
-    expect(await ui.reviewButton.findAll()).toHaveLength(2);
   });
 });
 

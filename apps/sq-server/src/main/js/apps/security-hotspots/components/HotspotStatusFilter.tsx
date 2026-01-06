@@ -18,11 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { withTheme } from '@emotion/react';
-import styled from '@emotion/styled';
 import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { ToggleButton, themeBorder } from '~design-system';
+import { ToggleButton } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { HotspotFilters, HotspotStatusFilter } from '~sq-server-commons/types/security-hotspots';
 
@@ -52,40 +50,28 @@ export default function HotspotFilterByStatus(props: FilterBarProps) {
   const { filters, isStaticListOfHotspots } = props;
 
   return (
-    <div className="sw-flex sw-flex-col sw-justify-between sw-pb-4 sw-mb-3">
+    <div className="sw-flex sw-flex-col sw-justify-between sw-py-4">
       {isStaticListOfHotspots ? (
-        <StyledFilterWrapper className="sw-flex sw-px-2 sw-py-4">
-          <FormattedMessage
-            id="hotspot.filters.by_file_or_list_x"
-            values={{
-              show_all_link: (
-                <Link
-                  className="sw-ml-1"
-                  highlight="current-color"
-                  onClick={props.onShowAllHotspots}
-                >
-                  <FormattedMessage id="hotspot.filters.show_all" />
-                </Link>
-              ),
-            }}
-          />
-        </StyledFilterWrapper>
+        <FormattedMessage
+          id="hotspot.filters.by_file_or_list_x"
+          values={{
+            show_all_link: (
+              <Link className="sw-ml-1" highlight="current-color" onClick={props.onShowAllHotspots}>
+                <FormattedMessage id="hotspot.filters.show_all" />
+              </Link>
+            ),
+          }}
+        />
       ) : (
-        <StyledFilterWrapper className="sw-flex sw-px-2 sw-pb-4 sw-gap-2 sw-justify-between">
-          <ToggleButton
-            aria-label={translate('hotspot.filters.status')}
-            onChange={(status: HotspotStatusFilter) => {
-              props.onChangeFilters({ status });
-            }}
-            options={statusOptions}
-            value={statusOptions.find((status) => status.value === filters.status)?.value}
-          />
-        </StyledFilterWrapper>
+        <ToggleButton
+          aria-label={translate('hotspot.filters.status')}
+          onChange={(status: HotspotStatusFilter) => {
+            props.onChangeFilters({ status });
+          }}
+          options={statusOptions}
+          value={statusOptions.find((status) => status.value === filters.status)?.value}
+        />
       )}
     </div>
   );
 }
-
-const StyledFilterWrapper = withTheme(styled.div`
-  border-bottom: ${themeBorder('default')};
-`);

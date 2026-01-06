@@ -51,6 +51,7 @@ const Group = styled.div`
 
   background-color: ${themeColor('subnavigation')};
   border: ${themeBorder('default', 'subnavigationBorder')};
+  box-sizing: border-box;
 `;
 
 const Separator = styled.div`

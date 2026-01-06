@@ -18,38 +18,24 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
 import { groupBy, omit } from 'lodash';
 import * as React from 'react';
-import {
-  LAYOUT_GLOBAL_NAV_HEIGHT,
-  LAYOUT_PROJECT_NAV_HEIGHT,
-  ToggleButton,
-  getTabId,
-  getTabPanelId,
-  themeColor,
-  themeShadow,
-} from '~design-system';
+import { useIntl } from 'react-intl';
+import { ToggleButton, getTabId, getTabPanelId } from '~design-system';
 import { RuleDescriptionSection, RuleDescriptionSections } from '~shared/types/rules';
 import RuleDescription from '~sq-server-commons/components/rules/RuleDescription';
-import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
 import {
   isInput,
   isRadioButton,
   isShortcut,
 } from '~sq-server-commons/helpers/keyboardEventHelpers';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
-import { translate } from '~sq-server-commons/helpers/l10n';
-import { useRefreshBranchStatus } from '~sq-server-commons/queries/branch';
-import { Hotspot, HotspotStatusOption } from '~sq-server-commons/types/security-hotspots';
-import useStickyDetection from '../hooks/useStickyDetection';
-import StatusReviewButton from './status/StatusReviewButton';
+import { Hotspot } from '~sq-server-commons/types/security-hotspots';
 
 interface Props {
   activityTabContent: React.ReactNode;
   codeTabContent: React.ReactNode;
   hotspot: Hotspot;
-  onUpdateHotspot: (statusUpdate?: boolean, statusOption?: HotspotStatusOption) => Promise<void>;
   ruleDescriptionSections?: RuleDescriptionSection[];
   ruleLanguage?: string;
 }
@@ -68,61 +54,47 @@ export enum TabKeys {
   Activity = 'activity',
 }
 
-const TABS_OFFSET = LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT;
-
 export default function HotspotViewerTabs(props: Props) {
-  const {
-    activityTabContent,
-    codeTabContent,
-    hotspot,
-    onUpdateHotspot,
-    ruleDescriptionSections,
-    ruleLanguage,
-  } = props;
+  const { activityTabContent, codeTabContent, hotspot, ruleDescriptionSections, ruleLanguage } =
+    props;
 
-  const { component } = useComponent();
-  const refreshBranchStatus = useRefreshBranchStatus(component?.key);
-  const isSticky = useStickyDetection('.hotspot-tabs', {
-    offset: TABS_OFFSET,
-  });
-
+  const intl = useIntl();
   const tabs = React.useMemo(() => {
     const descriptionSectionsByKey = groupBy(ruleDescriptionSections, (section) => section.key);
-    const labelSuffix = isSticky ? '.short' : '';
 
     return [
       {
         value: TabKeys.Code,
-        label: translate(`hotspots.tabs.code${labelSuffix}`),
+        label: intl.formatMessage({ id: `hotspots.tabs.code` }),
         show: true,
       },
       {
         value: TabKeys.RiskDescription,
-        label: translate(`hotspots.tabs.risk_description${labelSuffix}`),
+        label: intl.formatMessage({ id: `hotspots.tabs.risk_description` }),
         show:
           descriptionSectionsByKey[RuleDescriptionSections.Default] ||
           descriptionSectionsByKey[RuleDescriptionSections.RootCause],
       },
       {
         value: TabKeys.VulnerabilityDescription,
-        label: translate(`hotspots.tabs.vulnerability_description${labelSuffix}`),
+        label: intl.formatMessage({ id: `hotspots.tabs.vulnerability_description` }),
         show: descriptionSectionsByKey[RuleDescriptionSections.AssessTheProblem] !== undefined,
       },
       {
         value: TabKeys.FixRecommendation,
-        label: translate(`hotspots.tabs.fix_recommendations${labelSuffix}`),
+        label: intl.formatMessage({ id: `hotspots.tabs.fix_recommendations` }),
         show: descriptionSectionsByKey[RuleDescriptionSections.HowToFix] !== undefined,
       },
       {
         value: TabKeys.Activity,
-        label: translate(`hotspots.tabs.activity${labelSuffix}`),
+        label: intl.formatMessage({ id: `hotspots.tabs.activity` }),
         show: true,
         counter: hotspot.comment.length,
       },
     ]
       .filter((tab) => tab.show)
       .map((tab) => omit(tab, 'show'));
-  }, [isSticky, ruleDescriptionSections, hotspot.comment]);
+  }, [intl, ruleDescriptionSections, hotspot.comment]);
 
   const [currentTab, setCurrentTab] = React.useState<Tab>(tabs[0]);
 
@@ -170,14 +142,6 @@ export default function HotspotViewerTabs(props: Props) {
     [tabs],
   );
 
-  const handleStatusChange = React.useCallback(
-    async (statusOption: HotspotStatusOption) => {
-      await onUpdateHotspot(true, statusOption);
-      refreshBranchStatus();
-    },
-    [onUpdateHotspot, refreshBranchStatus],
-  );
-
   React.useEffect(() => {
     document.addEventListener('keydown', handleKeyboardNavigation);
 
@@ -206,24 +170,16 @@ export default function HotspotViewerTabs(props: Props) {
 
   return (
     <>
-      <StickyTabs
-        className="sw-sticky sw-py-4 sw--mx-6 sw-px-6 sw-z-filterbar-header hotspot-tabs"
-        isSticky={isSticky}
-        top={TABS_OFFSET}
-      >
-        <div className="sw-flex sw-justify-between">
-          <ToggleButton
-            onChange={handleSelectTabs}
-            options={tabs}
-            role="tablist"
-            value={currentTab.value}
-          />
-          {isSticky && <StatusReviewButton hotspot={hotspot} onStatusChange={handleStatusChange} />}
-        </div>
-      </StickyTabs>
+      <div className="sw-mt-4">
+        <ToggleButton
+          onChange={handleSelectTabs}
+          options={tabs}
+          role="tablist"
+          value={currentTab.value}
+        />
+      </div>
       <div
         aria-labelledby={getTabId(currentTab.value)}
-        className="sw-mt-2"
         id={getTabPanelId(currentTab.value)}
         role="tabpanel"
       >
@@ -254,9 +210,3 @@ export default function HotspotViewerTabs(props: Props) {
     </>
   );
 }
-
-const StickyTabs = styled.div<{ isSticky: boolean; top: number }>`
-  background-color: ${themeColor('pageBlock')};
-  box-shadow: ${({ isSticky }) => (isSticky ? themeShadow('sm') : 'none')};
-  top: ${({ top }) => top}px;
-`;

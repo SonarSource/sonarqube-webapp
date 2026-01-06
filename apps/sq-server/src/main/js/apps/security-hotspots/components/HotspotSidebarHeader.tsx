@@ -18,9 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import styled from '@emotion/styled';
 import {
   Button,
   ButtonVariety,
+  cssVar,
   DropdownMenu,
   IconFilter,
   Spinner,
@@ -69,7 +71,7 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
   const isFiltered = Boolean(filtersCount);
 
   return (
-    <div className="sw-flex sw-h-600 sw-items-center sw-px-4 sw-py-4">
+    <StyledSidebarHeader className="sw-flex sw-items-center">
       <Spinner isLoading={loadingMeasure}>
         {hotspotsReviewedMeasure !== undefined && (
           <CoverageIndicator value={hotspotsReviewedMeasure} />
@@ -165,8 +167,18 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
           </DropdownMenu>
         </div>
       )}
-    </div>
+    </StyledSidebarHeader>
   );
 }
 
 export default withComponentContext(withCurrentUserContext(HotspotSidebarHeader));
+
+const StyledSidebarHeader = styled.div`
+  position: sticky;
+  top: 0px;
+  z-index: 1;
+  background-color: inherit;
+  border-bottom: ${cssVar('color-border-weak')} 1px solid;
+  padding-top: calc(${cssVar('dimension-space-250')});
+  padding-bottom: calc(${cssVar('dimension-space-150')});
+`;

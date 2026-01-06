@@ -77,6 +77,7 @@ export const ProjectPageTemplate = forwardRef<HTMLDivElement, Props>((props, ref
     width = 'default',
     ...contentHeaderProps
   } = props;
+
   const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
   const { fullWindow } = useFullWindow();
 

@@ -80,7 +80,7 @@ export default class HotspotReviewHistoryAndComments extends React.PureComponent
     const { currentUser, hotspot } = this.props;
     const { showAddCommentModal } = this.state;
     return (
-      <div className="it__hs-review-history">
+      <div className="it__hs-review-history sw-mt-6">
         <Heading as="h2" size="medium">
           {translate('hotspot.section.activity')}
         </Heading>

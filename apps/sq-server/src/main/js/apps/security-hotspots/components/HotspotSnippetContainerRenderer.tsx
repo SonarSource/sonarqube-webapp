@@ -148,7 +148,7 @@ export default function HotspotSnippetContainerRenderer(
       : undefined;
 
   return (
-    <Spinner isLoading={loading}>
+    <Spinner className="sw-mt-6" isLoading={loading}>
       {sourceLines.length === 0 && (
         <FlagMessage variant="info">{translate('hotspots.no_associated_lines')}</FlagMessage>
       )}

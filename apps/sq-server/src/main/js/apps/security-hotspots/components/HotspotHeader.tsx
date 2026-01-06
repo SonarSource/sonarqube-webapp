@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, IconLink, Text } from '@sonarsource/echoes-react';
+import { Heading, IconLink, Link, Text } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { Link } from '~design-system';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { StandardsInformation, StandardsInformationKey } from '~shared/types/security';
@@ -62,36 +61,34 @@ export function HotspotHeader(props: HotspotHeaderProps) {
   };
 
   return (
-    <div>
-      <div className="sw-flex sw-justify-between sw-gap-8 hotspot-header">
-        <div className="sw-flex-1">
-          <div className="sw-flex sw-items-center">
-            <Heading as="h1" className="sw-whitespace-normal sw-overflow-visible" size="medium">
-              <IssueMessageHighlighting message={message} messageFormattings={messageFormattings} />
-            </Heading>
-            <ClipboardIconButton
-              Icon={IconLink}
-              aria-label={intl.formatMessage({ id: 'hotspots.permalink_copy' }, { title: message })}
-              className="sw-ml-1"
-              copyValue={permalink}
-              discreet
-            />
-          </div>
-          <div className="sw-mt-2 sw-mb-4 sw-typo-default">
-            <Text isSubtle>{rule.name}</Text>
-            <Link className="sw-ml-1" target="_blank" to={getRuleUrl(rule.key)}>
-              {rule.key}
-            </Link>
-          </div>
-          <Status hotspot={hotspot} onStatusChange={handleStatusChange} />
-        </div>
-        <div className="sw-flex sw-flex-col sw-gap-4">
-          <HotspotHeaderRightSection
-            categoryStandard={categoryStandard}
-            hotspot={hotspot}
-            onUpdateHotspot={props.onUpdateHotspot}
+    <div className="sw-flex sw-justify-between sw-gap-8 hotspot-header">
+      <div className="sw-flex-1">
+        <div className="sw-flex sw-items-center">
+          <Heading as="h1" className="sw-whitespace-normal sw-overflow-visible" size="medium">
+            <IssueMessageHighlighting message={message} messageFormattings={messageFormattings} />
+          </Heading>
+          <ClipboardIconButton
+            Icon={IconLink}
+            aria-label={intl.formatMessage({ id: 'hotspots.permalink_copy' }, { title: message })}
+            className="sw-ml-1"
+            copyValue={permalink}
+            discreet
           />
         </div>
+        <div className="sw-mt-2 sw-mb-4 sw-typo-default">
+          <Text isSubtle>{rule.name}</Text>
+          <Link className="sw-ml-1" enableOpenInNewTab to={getRuleUrl(rule.key)}>
+            {rule.key}
+          </Link>
+        </div>
+        <Status hotspot={hotspot} onStatusChange={handleStatusChange} />
+      </div>
+      <div className="sw-flex sw-flex-col sw-gap-4">
+        <HotspotHeaderRightSection
+          categoryStandard={categoryStandard}
+          hotspot={hotspot}
+          onUpdateHotspot={props.onUpdateHotspot}
+        />
       </div>
     </div>
   );
