@@ -2145,15 +2145,19 @@ export const defaultMessages = {
   'architecture.page.structural_flaws_description':
     'Shows problems in the codebase that exist regardless of the intended architecture. A common example is a tangle, where several files or classes form overlapping cyclic dependencies and each can reach the others through dependency links.',
   'architecture.page.disallowed_dependencies': 'Relationships',
+  'architecture.page.disallowed_dependencies_full': 'Relationship deviations',
   'architecture.page.disallowed_dependencies.count':
     '{count, plural, one {<bold>1</bold> Relationship dependency} other {<bold>{count}</bold> Relationship dependencies}}',
+  'architecture.page.disallowed_dependencies.no_data': 'No relationship deviations',
   'architecture.disallowed_dependencies.table.depth': 'Depth',
   'architecture.disallowed_dependencies.table.weight': 'Code reference',
   'architecture.disallowed_dependencies.description':
     'Dependencies between two code components that are not explicitly allowed in the intended architecture.',
   'architecture.page.misplaced_components': 'Structure',
+  'architecture.page.misplaced_components_full': 'Structure deviations',
   'architecture.page.misplaced_components.count':
     '{count, plural, one {<bold>1</bold> Structural deviation} other {<bold>{count}</bold> Structural deviations}}',
+  'architecture.page.misplaced_components.no_data': 'No structure deviations',
   'architecture.misplaced_components.description':
     'Components in the intended architecture referencing code artifacts that are located elsewhere in the codebase.',
   'architecture.admin.promotion.message':
@@ -2163,7 +2167,6 @@ export const defaultMessages = {
   'architecture.no_graph_file.message':
     'No data available. Please run an analysis first, or see the analysis logs for more information.',
   'architecture.unsupported_language.message': 'No supported languages found for this project.',
-  'architecture.issues.no_data': 'No issues found',
   'architecture.error.message': "Sorry, Currently a project of this size isn't supported.",
   'architecture.nodes.orphans.label': 'Orphans ({orphansCount})',
   'architecture.nodes.orphans.name': 'Orphans',
