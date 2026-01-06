@@ -71,6 +71,7 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
     } else {
       void onTransition(transition.value);
     }
+    onOpenChange?.(false);
   };
 
   return (

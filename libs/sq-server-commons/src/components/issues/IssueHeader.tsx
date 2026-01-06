@@ -67,9 +67,9 @@ function IssueHeader(props: Readonly<Props>) {
   const [issuePopupName, setIssuePopupName] = useState<string | undefined>(undefined);
   const intl = useIntl();
 
-  const handleIssuePopupToggle = useCallback((nextPopup: string) => {
+  const handleIssuePopupToggle = useCallback((nextPopup: string, show?: boolean) => {
     setIssuePopupName((openPopup) => {
-      if (nextPopup === openPopup) {
+      if (nextPopup === openPopup || show === false) {
         return undefined;
       }
 
