@@ -35,6 +35,7 @@ import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
+import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry';
 import { isPortfolioLike, isProject } from '~shared/helpers/component';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier } from '~shared/types/component';
@@ -171,6 +172,23 @@ export class App extends React.PureComponent<Props, State> {
       ? query.impactSoftwareQualities.length !== 0 || query.impactSeverities.length !== 0
       : query.types.length !== 0 || query.severities.length !== 0;
 
+    const standardsWithFilters = STANDARDS_REGISTRY.filter((standard) => {
+      const queryValue = query[standard.queryProp as keyof IssuesQuery];
+      return Array.isArray(queryValue) && queryValue.length > 0;
+    });
+    const hasStandardsFilters = standardsWithFilters.length > 0;
+
+    const standardsOpenFacets: Record<string, boolean> = {};
+    if (hasStandardsFilters) {
+      standardsOpenFacets[STANDARDS] = true;
+      // Open the specific child facets that have filters
+      standardsWithFilters.forEach((standard) => {
+        standardsOpenFacets[standard.queryProp] = true;
+      });
+    }
+
+    const shouldOpenStandards = hasStandardsFilters || shouldOpenStandardsFacet({}, query);
+
     this.state = {
       bulkChangeModal: false,
       checked: [],
@@ -182,13 +200,14 @@ export class App extends React.PureComponent<Props, State> {
       locationsNavigator: false,
       myIssues: areMyIssuesSelected(props.location.query),
       openFacets: hasFilterFromOtherMode
-        ? {}
+        ? standardsOpenFacets
         : {
             impactSoftwareQualities: true,
             severities: true,
             types: true,
             impactSeverities: true,
-            standards: shouldOpenStandardsFacet({}, query),
+            standards: shouldOpenStandards,
+            ...standardsOpenFacets,
           },
       query,
       referencedComponentsById: {},
