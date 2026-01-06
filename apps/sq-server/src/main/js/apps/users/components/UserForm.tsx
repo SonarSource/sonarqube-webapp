@@ -70,6 +70,7 @@ export default function UserForm(props: Readonly<Props>) {
     isValid: false,
   });
   const [scmAccounts, setScmAccounts] = React.useState<string[]>(user?.scmAccounts ?? []);
+  const [formKey, setFormKey] = React.useState<number>(0);
 
   const { mutate: createUser, isPending: isLoadingCreate } = usePostUserMutation();
   const { mutate: updateUser, isPending: isLoadingUserUpdate } = useUpdateUserMutation();
@@ -88,6 +89,16 @@ export default function UserForm(props: Readonly<Props>) {
   const isEmailInvalid =
     (user && !user.local) || isInstanceManaged || email.value === '' ? false : !email.isValid;
 
+  const handleReset = () => {
+    setEmail({ value: user?.email ?? '', isValid: true });
+    setLogin(user?.login ?? '');
+    setInvalidMessage('');
+    setName(user?.name);
+    setPassword({ value: '', isValid: false });
+    setScmAccounts(user?.scmAccounts ?? []);
+    setFormKey((prev) => prev + 1);
+  };
+
   const handleCreateUser = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -99,7 +110,12 @@ export default function UserForm(props: Readonly<Props>) {
         password: password.value,
         scmAccounts,
       },
-      { onSuccess: onClose },
+      {
+        onSuccess: () => {
+          handleReset();
+          onClose?.();
+        },
+      },
     );
   };
 
@@ -195,6 +211,7 @@ export default function UserForm(props: Readonly<Props>) {
                 autoFocus
                 id="create-user-login"
                 isRequired={!isInstanceManaged}
+                key={`login-${formKey}`}
                 label={translate('login')}
                 maxLength={MAXIMUM_LOGIN_LENGTH}
                 messageInvalid={invalidMessage ?? ''}
@@ -280,6 +297,7 @@ export default function UserForm(props: Readonly<Props>) {
         isEmailInvalid ||
         Boolean(invalidMessage)
       }
+      onReset={handleReset}
       onSubmit={user ? handleUpdateUser : handleCreateUser}
       secondaryButtonLabel={translate('cancel')}
       submitButtonLabel={user ? translate('update_verb') : translate('create')}
