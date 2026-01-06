@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
 import {
   Button,
   ButtonVariety,
@@ -28,7 +27,6 @@ import {
   Spinner,
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { themeBorder, themeColor } from '~design-system';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import { RuleActivationAdvanced } from '~shared/types/rules';
 import {
@@ -107,7 +105,7 @@ export function RuleDetails(props: Readonly<Props>) {
   };
 
   return (
-    <StyledRuleDetails className="it__coding-rule-details sw-p-6 sw-mt-6">
+    <div className="it__coding-rule-details">
       <Spinner isLoading={isLoadingRule}>
         {ruleDetails && (
           <>
@@ -217,14 +215,6 @@ export function RuleDetails(props: Readonly<Props>) {
           </>
         )}
       </Spinner>
-    </StyledRuleDetails>
+    </div>
   );
 }
-
-const StyledRuleDetails = styled.div`
-  box-sizing: border-box;
-  border-radius: 4px;
-  background-color: ${themeColor('filterbar')};
-  border: ${themeBorder('default', 'filterbarBorder')};
-  overflow-x: hidden;
-`;

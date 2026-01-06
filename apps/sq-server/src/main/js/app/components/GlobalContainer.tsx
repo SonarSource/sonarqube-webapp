@@ -95,6 +95,7 @@ const PAGES_MIGRATED: string[] = [
   '/admin/webhooks',
   '/code',
   '/dashboard',
+  '/coding_rules',
   '/component_measures',
   '/security_hotspots',
   '/issues',

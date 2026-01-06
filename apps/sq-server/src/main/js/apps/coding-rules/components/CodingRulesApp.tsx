@@ -18,18 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
+import { Layout } from '@sonarsource/echoes-react';
 import { keyBy, omit } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import {
-  InputSearch,
-  LAYOUT_FOOTER_HEIGHT,
-  LAYOUT_GLOBAL_NAV_HEIGHT,
-  LargeCenteredLayout,
-  themeBorder,
-  themeColor,
-} from '~design-system';
+import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
+import { InputSearch } from '~design-system';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { withRouter } from '~shared/components/hoc/withRouter';
@@ -109,8 +103,6 @@ interface State {
   referencedRepositories: Record<string, { key: string; language: string; name: string }>;
   rules: Rule[];
 }
-
-const RULE_LIST_HEADER_HEIGHT = 68;
 
 export class CodingRulesApp extends React.PureComponent<Props, State> {
   intl = getIntl();
@@ -627,38 +619,29 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
             <meta content="noindex" name="robots" />
           </Helmet>
         )}
-        <LargeCenteredLayout id="coding-rules-page">
-          <div className="sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12 sw-w-full">
-            <StyledContentWrapper
-              aria-label={translate('filters')}
-              as="nav"
-              className="sw-col-span-3 sw-p-4 sw-overflow-y-auto"
-              style={{
-                height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px)`,
-              }}
-            >
-              <div>
-                <A11ySkipTarget
-                  anchor="rules_filters"
-                  label={translate('coding_rules.skip_to_filters')}
-                  weight={10}
-                />
-                <FiltersHeader displayReset={this.isFiltered()} onReset={this.handleReset} />
-                <FacetsList
-                  facets={this.state.facets}
-                  loadingFacets={this.state.loadingFacets}
-                  onFacetToggle={this.handleFacetToggle}
-                  onFilterChange={this.handleFilterChange}
-                  openFacets={this.state.openFacets}
-                  query={query}
-                  referencedProfiles={this.state.referencedProfiles}
-                  referencedRepositories={this.state.referencedRepositories}
-                  selectedProfile={this.getSelectedProfile()}
-                />
-              </div>
-            </StyledContentWrapper>
+        <Layout.ContentGrid id="coding-rules-page">
+          <Layout.AsideLeft>
+            <A11ySkipTarget
+              anchor="rules_filters"
+              label={translate('coding_rules.skip_to_filters')}
+              weight={10}
+            />
+            <FiltersHeader displayReset={this.isFiltered()} onReset={this.handleReset} />
+            <FacetsList
+              facets={this.state.facets}
+              loadingFacets={this.state.loadingFacets}
+              onFacetToggle={this.handleFacetToggle}
+              onFilterChange={this.handleFilterChange}
+              openFacets={this.state.openFacets}
+              query={query}
+              referencedProfiles={this.state.referencedProfiles}
+              referencedRepositories={this.state.referencedRepositories}
+              selectedProfile={this.getSelectedProfile()}
+            />
+          </Layout.AsideLeft>
 
-            <main className="sw-col-span-9">
+          <Layout.PageGrid>
+            <Layout.PageContent>
               {!openRule && (
                 <div>
                   <A11ySkipTarget anchor="rules_main" />
@@ -680,61 +663,54 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
                 </div>
               )}
 
-              <div
-                className="sw-overflow-y-auto"
-                style={{
-                  height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px - ${
-                    !openRule ? RULE_LIST_HEADER_HEIGHT : 0
-                  }px)`,
-                }}
-              >
-                {openRule ? (
-                  <RuleDetails
-                    allowCustomRules
-                    canDeactivateInherited={this.state.canDeactivateInherited}
-                    canWrite={this.state.canWrite}
-                    onActivate={this.handleRuleActivate}
-                    onDeactivate={this.handleRuleDeactivate}
-                    onDelete={this.handleRuleDelete}
-                    referencedProfiles={this.state.referencedProfiles}
-                    referencedRepositories={this.state.referencedRepositories}
-                    ruleKey={openRule.key}
-                    selectedProfile={this.getSelectedProfile()}
-                  />
-                ) : (
-                  <>
-                    <ul aria-label={translate('list_of_rules')}>
-                      {rules.map((rule) => (
-                        <RuleListItem
-                          activation={this.getRuleActivation(rule.key)}
-                          canDeactivateInherited={this.state.canDeactivateInherited}
-                          isLoggedIn={isLoggedIn(this.props.currentUser)}
-                          key={rule.key}
-                          onActivate={this.handleRuleActivate}
-                          onDeactivate={this.handleRuleDeactivate}
-                          onOpen={this.handleRuleOpen}
-                          rule={rule}
-                          selectRule={this.handleSelectRule}
-                          selected={rule.key === selected}
-                          selectedProfile={this.getSelectedProfile()}
-                        />
-                      ))}
-                    </ul>
-                    {paging !== undefined && (
-                      <ListFooter
-                        className="sw-mb-4"
-                        count={rules.length}
-                        loadMore={this.fetchMoreRules}
-                        ready={!this.state.loading}
-                        total={paging.total}
+              {openRule ? (
+                <RuleDetails
+                  allowCustomRules
+                  canDeactivateInherited={this.state.canDeactivateInherited}
+                  canWrite={this.state.canWrite}
+                  onActivate={this.handleRuleActivate}
+                  onDeactivate={this.handleRuleDeactivate}
+                  onDelete={this.handleRuleDelete}
+                  referencedProfiles={this.state.referencedProfiles}
+                  referencedRepositories={this.state.referencedRepositories}
+                  ruleKey={openRule.key}
+                  selectedProfile={this.getSelectedProfile()}
+                />
+              ) : (
+                <>
+                  <ul aria-label={translate('list_of_rules')}>
+                    {rules.map((rule) => (
+                      <RuleListItem
+                        activation={this.getRuleActivation(rule.key)}
+                        canDeactivateInherited={this.state.canDeactivateInherited}
+                        isLoggedIn={isLoggedIn(this.props.currentUser)}
+                        key={rule.key}
+                        onActivate={this.handleRuleActivate}
+                        onDeactivate={this.handleRuleDeactivate}
+                        onOpen={this.handleRuleOpen}
+                        rule={rule}
+                        selectRule={this.handleSelectRule}
+                        selected={rule.key === selected}
+                        selectedProfile={this.getSelectedProfile()}
                       />
-                    )}
-                  </>
-                )}
-              </div>
-            </main>
-          </div>
-        </LargeCenteredLayout>
+                    ))}
+                  </ul>
+                  {paging !== undefined && (
+                    <ListFooter
+                      className="sw-mb-4"
+                      count={rules.length}
+                      loadMore={this.fetchMoreRules}
+                      ready={!this.state.loading}
+                      total={paging.total}
+                    />
+                  )}
+                </>
+              )}
+            </Layout.PageContent>
+
+            <GlobalFooter />
+          </Layout.PageGrid>
+        </Layout.ContentGrid>
       </>
     );
   }
@@ -766,11 +742,3 @@ function parseFacets(rawFacets: { property: string; values: { count: number; val
 }
 
 export default withRouter(withCurrentUserContext(CodingRulesApp));
-
-const StyledContentWrapper = styled.div`
-  box-sizing: border-box;
-  background-color: ${themeColor('filterbar')};
-  border: ${themeBorder('default', 'filterbarBorder')};
-  border-bottom: none;
-  overflow-x: hidden;
-`;
