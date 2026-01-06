@@ -83,10 +83,12 @@ export default function LoginForm({ collapsed, onExpandClick }: Readonly<Props>)
 
   const handleLoginChange = (event: ChangeEvent<HTMLInputElement>) => {
     setLogin(event.currentTarget.value);
+    setShowAuthenticationError(false);
   };
 
   const handlePwdChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.currentTarget.value);
+    setShowAuthenticationError(false);
   };
 
   return (
