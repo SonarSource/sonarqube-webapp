@@ -81,7 +81,8 @@ const ui = {
 
   // Group labels
   analysisGroup: byText('navigation.project.group.analysis'),
-  informationGroup: byText('navigation.project.group.information'),
+  projectGroup: byText('navigation.project.group.project'),
+  reportingGroup: byText('navigation.project.group.reporting'),
   policiesGroup: byText('navigation.project.group.policies'),
 };
 
@@ -118,10 +119,10 @@ describe('ComponentNav', () => {
         'issues.page',
         'layout.security_hotspots',
         'layout.measures',
-        'code.page',
         'project_activity.page',
         'project_quality_profiles.page',
         'project_quality_gate.page',
+        'code.page',
         'project.info.title',
       ]);
       expect(ui.onboardingLink.query()).not.toBeInTheDocument();
@@ -134,7 +135,7 @@ describe('ComponentNav', () => {
       expect(ui.policiesGroup.get()).toBeInTheDocument();
       expect(ui.qualityProfilesLink.get()).toBeInTheDocument();
       expect(ui.qualityGateLink.get()).toBeInTheDocument();
-      expect(ui.informationGroup.get()).toBeInTheDocument();
+      expect(ui.projectGroup.get()).toBeInTheDocument();
       expect(ui.projectInfoLink.get()).toBeInTheDocument();
     });
 
@@ -154,8 +155,8 @@ describe('ComponentNav', () => {
         'issues.page',
         'layout.security_hotspots',
         'layout.measures',
-        'code.page',
         'project_activity.page',
+        'code.page',
         'project.info.title',
       ]);
       expect(ui.policiesGroup.query()).not.toBeInTheDocument();
@@ -181,8 +182,8 @@ describe('ComponentNav', () => {
         'issues.page',
         'layout.security_hotspots',
         'layout.measures',
-        'code.page',
         'project_activity.page',
+        'code.page',
         'project.info.title',
         'project_settings.page',
         'project_baseline.page',
@@ -214,8 +215,8 @@ describe('ComponentNav', () => {
         'issues.page',
         'layout.security_hotspots',
         'layout.measures',
-        'view_projects.page',
         'project_activity.page',
+        'view_projects.page',
         'application.info.title',
       ]);
 
@@ -225,8 +226,8 @@ describe('ComponentNav', () => {
       expect(ui.securityHotspotsLink.get()).toBeInTheDocument();
       expect(ui.appCodeLink.get()).toBeInTheDocument();
 
-      // Information menu
-      expect(ui.informationGroup.get()).toBeInTheDocument();
+      // Project menu
+      expect(ui.projectGroup.get()).toBeInTheDocument();
       expect(ui.applicationInfoLink.get()).toBeInTheDocument();
     });
 
@@ -241,7 +242,7 @@ describe('ComponentNav', () => {
       renderComponentNav({ component });
 
       expect(ui.overviewLink.get()).toBeInTheDocument();
-      expect(ui.informationGroup.query()).not.toBeInTheDocument();
+      expect(ui.projectGroup.query()).not.toBeInTheDocument();
       expect(ui.policiesGroup.query()).not.toBeInTheDocument();
 
       expect(ui.navigationItemsList()).toEqual(['overview.page']);
@@ -280,9 +281,6 @@ describe('ComponentNav', () => {
       expect(ui.securityHotspotsLink.query()).not.toBeInTheDocument();
       expect(ui.codeLink.query()).not.toBeInTheDocument();
       expect(ui.appCodeLink.query()).not.toBeInTheDocument();
-
-      // Portfolios don't show information menu
-      expect(ui.informationGroup.query()).not.toBeInTheDocument();
     });
   });
 
@@ -299,10 +297,10 @@ describe('ComponentNav', () => {
         'overview.page',
         'issues.page',
         'layout.security_hotspots',
-        'layout.measures',
-        'code.page',
-        'project_activity.page',
         'Custom Extension',
+        'layout.measures',
+        'project_activity.page',
+        'code.page',
         'project.info.title',
       ]);
       expect(screen.getByText('Custom Extension')).toBeInTheDocument();

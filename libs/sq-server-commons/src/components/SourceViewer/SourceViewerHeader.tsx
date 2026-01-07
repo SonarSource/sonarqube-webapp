@@ -23,6 +23,7 @@ import {
   ButtonIcon,
   ButtonVariety,
   IconMoreVertical,
+  IconProject,
   LinkStandalone,
   Text,
 } from '@sonarsource/echoes-react';
@@ -40,7 +41,6 @@ import {
   ItemLink,
   PopupPlacement,
   PopupZLevel,
-  ProjectIcon,
   QualifierIcon,
   themeBorder,
   themeColor,
@@ -185,10 +185,7 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
     >
       <div className="sw-flex sw-flex-1 sw-flex-col sw-gap-1 sw-mr-5 sw-my-1">
         <div className="sw-flex sw-gap-1 sw-items-center">
-          <LinkStandalone
-            iconLeft={<ProjectIcon className="sw-mr-2" />}
-            to={getBranchLikeUrl(project, branchLike)}
-          >
+          <LinkStandalone iconLeft={<IconProject />} to={getBranchLikeUrl(project, branchLike)}>
             {projectName}
           </LinkStandalone>
         </div>

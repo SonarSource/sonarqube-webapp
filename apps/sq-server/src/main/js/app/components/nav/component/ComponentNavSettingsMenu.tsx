@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconGear, IconGitBranch, Layout } from '@sonarsource/echoes-react';
+import { IconGear, IconWebhook, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/component';
@@ -54,7 +54,6 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
   const isProj = isProject(qualifier);
 
   const showSettings = !isApp && !isPortfolio;
-  const showBranches = isProj && hasFeature(Feature.BranchSupport) && addons.branches;
   const showBaseline = !isApp && !isPortfolio;
   const showAiGeneratedCode = isProj && hasFeature(Feature.AiCodeAssurance) && addons.aica;
   const showDeletion = [
@@ -69,7 +68,6 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
 
   if (
     !showSettings &&
-    !showBranches &&
     !showBaseline &&
     !configuration.showLinks &&
     !configuration.showPermissions &&
@@ -103,16 +101,6 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
           to={{ pathname: '/project/settings', search }}
         >
           <FormattedMessage id="project_settings.page" />
-        </Layout.SidebarNavigation.Item>
-      )}
-
-      {showBranches && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGitBranch}
-          disableIconWhenSidebarOpen
-          to={{ pathname: '/project/branches', search }}
-        >
-          <FormattedMessage id="project_branch_pull_request.page" />
         </Layout.SidebarNavigation.Item>
       )}
 
@@ -203,7 +191,7 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
 
       {isProj && (
         <Layout.SidebarNavigation.Item
-          Icon={IconGear}
+          Icon={IconWebhook}
           disableIconWhenSidebarOpen
           to={{ pathname: '/project/webhooks', search }}
         >

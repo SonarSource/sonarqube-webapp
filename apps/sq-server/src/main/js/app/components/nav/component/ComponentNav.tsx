@@ -36,8 +36,9 @@ import {
 import { Component } from '~sq-server-commons/types/types';
 import { ComponentNavAnalysisMenu } from './ComponentNavAnalysisMenu';
 import { ComponentNavExtensionsMenu } from './ComponentNavExtensionsMenu';
-import { ComponentNavInformationMenu } from './ComponentNavInformationMenu';
 import { ComponentNavPoliciesMenu } from './ComponentNavPoliciesMenu';
+import { ComponentNavProjectMenu } from './ComponentNavProjectMenu';
+import { ComponentNavReportingMenu } from './ComponentNavReportingMenu';
 import ComponentNavSettingsMenu from './ComponentNavSettingsMenu';
 
 interface Props {
@@ -93,12 +94,19 @@ export function ComponentNav(props: Readonly<Props>) {
         )}
         {isAnalyzed && <ComponentNavAnalysisMenu branchLike={branchLike} component={component} />}
         {isAnalyzed && !isApplicationChildInaccessible && (
-          <ComponentNavExtensionsMenu branchLike={branchLike} component={component} />
+          <>
+            <ComponentNavExtensionsMenu branchLike={branchLike} component={component} />
+            <ComponentNavReportingMenu branchLike={branchLike} component={component} />
+          </>
         )}
         {!isApplicationChildInaccessible && (
           <>
             <ComponentNavPoliciesMenu component={component} />
-            <ComponentNavInformationMenu component={component} />
+            <ComponentNavProjectMenu
+              branchLike={branchLike}
+              component={component}
+              isAnalyzed={isAnalyzed}
+            />
           </>
         )}
       </Layout.SidebarNavigation.Body>

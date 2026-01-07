@@ -18,7 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconQualityGate, IconQualityProfile, Layout } from '@sonarsource/echoes-react';
+import {
+  IconLicenseProfiles,
+  IconQualityGate,
+  IconQualityProfile,
+  Layout,
+} from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { isPortfolioLike } from '~shared/helpers/component';
 import { addons } from '~sq-server-addons/index';
@@ -71,7 +76,7 @@ export function ComponentNavPoliciesMenu({ component }: Readonly<Props>) {
 
       {showLicenseProfile && addons.sca && (
         <Layout.SidebarNavigation.Item
-          Icon={IconQualityProfile}
+          Icon={IconLicenseProfiles}
           to={{
             pathname: addons.sca.PROJECT_LICENSE_ROUTE_NAME,
             search: new URLSearchParams({ id: component.key }).toString(),

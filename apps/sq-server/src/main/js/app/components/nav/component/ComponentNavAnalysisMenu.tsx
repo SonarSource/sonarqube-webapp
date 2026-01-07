@@ -19,34 +19,24 @@
  */
 
 import {
-  IconActivity,
   IconArchitecture,
-  IconDependency,
   IconDependencyRisk,
   IconFileCode,
   IconIssues,
-  IconMeasures,
   IconOverview,
-  IconReports,
   IconSecurityFinding,
   Layout,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { To } from 'react-router-dom';
 import { useCurrentUser } from '~adapters/helpers/users';
-import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike } from '~shared/helpers/component';
 import { getRisksUrl } from '~shared/helpers/sca-urls';
 import { getComponentIssuesUrl } from '~shared/helpers/urls';
-import { addons } from '~sq-server-addons/index';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import {
-  getActivityUrl,
-  getCodeUrl,
-  getPortfolioUrl,
-  getProjectQueryUrl,
-} from '~sq-server-commons/helpers/urls';
+import { getCodeUrl, getPortfolioUrl, getProjectQueryUrl } from '~sq-server-commons/helpers/urls';
 import { useGetValueQuery } from '~sq-server-commons/queries/settings';
 import { getComponentSecurityHotspotsUrl } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
@@ -67,7 +57,6 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
 
   const branchParameters = getBranchLikeQuery(branchLike);
   const isPortfolio = isPortfolioLike(qualifier);
-  const isApp = isApplication(qualifier);
 
   const { data: architectureOptIn, isLoading: isLoadingArchitectureOptIn } = useGetValueQuery({
     key: SettingsKey.DesignAndArchitecture,
@@ -79,9 +68,6 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
   const isGovernanceEnabled = extensions.some((extension) =>
     extension.key.startsWith('governance/'),
   );
-  const isSecurityReportsEnabled =
-    !isPullRequest(branchLike) &&
-    extensions.some((extension) => extension.key.startsWith('securityreport/'));
 
   const isArchitectureEnabled =
     isLoggedIn &&
@@ -151,17 +137,6 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
           <FormattedMessage id="dependencies.risks" />
         </Layout.SidebarNavigation.Item>
       )}
-      {isSecurityReportsEnabled && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconReports}
-          to={{
-            pathname: '/project/extension/securityreport/securityreport',
-            search: new URLSearchParams({ id: component.key, ...branchParameters }).toString(),
-          }}
-        >
-          <FormattedMessage id="layout.security_reports" />
-        </Layout.SidebarNavigation.Item>
-      )}
       {isArchitectureEnabled && (
         <Layout.SidebarNavigation.Item
           Icon={IconArchitecture}
@@ -173,40 +148,6 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
           <FormattedMessage id="layout.architecture" />
         </Layout.SidebarNavigation.Item>
       )}
-      <Layout.SidebarNavigation.Item
-        Icon={IconMeasures}
-        to={{
-          pathname: '/component_measures',
-          search: new URLSearchParams({ id: component.key, ...branchParameters }).toString(),
-        }}
-      >
-        <FormattedMessage id="layout.measures" />
-      </Layout.SidebarNavigation.Item>
-      {!isPortfolio && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconFileCode}
-          to={getCodeUrl(component.key, branchLike)}
-        >
-          <FormattedMessage id={isApp ? 'view_projects.page' : 'code.page'} />
-        </Layout.SidebarNavigation.Item>
-      )}
-      {hasFeature(Feature.Sca) && addons.sca && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconDependency}
-          to={addons.sca.getReleasesUrl({
-            newParams: { id: component.key, ...branchParameters },
-          })}
-        >
-          <FormattedMessage id="dependencies.bill_of_materials" />
-        </Layout.SidebarNavigation.Item>
-      )}
-
-      <Layout.SidebarNavigation.Item
-        Icon={IconActivity}
-        to={getActivityUrl(component.key, branchLike)}
-      >
-        <FormattedMessage id="project_activity.page" />
-      </Layout.SidebarNavigation.Item>
     </Layout.SidebarNavigation.Group>
   );
 }

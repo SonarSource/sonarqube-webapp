@@ -3489,7 +3489,8 @@ export const defaultMessages = {
   'navigation.view_all': 'View all',
   'navigation.project.group.analysis': 'Analysis',
   'navigation.project.group.policies': 'Policies',
-  'navigation.project.group.information': 'Information',
+  'navigation.project.group.project': 'Project',
+  'navigation.project.group.reporting': 'Reporting',
   'navigation.project.group.extensions': 'Extensions',
 
   //------------------------------------------------------------------------------
