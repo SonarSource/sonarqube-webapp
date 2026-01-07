@@ -109,11 +109,8 @@ export function ComponentNav(props: Readonly<Props>) {
             />
           </>
         )}
-      </Layout.SidebarNavigation.Body>
-
-      <Layout.SidebarNavigation.Footer>
         <ComponentNavSettingsMenu branchLike={branchLike} component={component} />
-      </Layout.SidebarNavigation.Footer>
+      </Layout.SidebarNavigation.Body>
     </Layout.SidebarNavigation>
   );
 }
