@@ -19,7 +19,6 @@
  */
 
 import { queryToSearchString } from '~shared/helpers/query';
-import { StandardsInformationKey } from '~shared/types/security';
 import { getComponentSecurityHotspotsUrl } from '../urls';
 
 const SIMPLE_COMPONENT_KEY = 'sonarqube';
@@ -34,17 +33,42 @@ describe('#getComponentSecurityHotspotsUrl', () => {
     );
   });
 
-  it('should forward some query parameters', () => {
+  it('should forward some query parameters and use provided complianceStandards', () => {
+    const result = getComponentSecurityHotspotsUrl(SIMPLE_COMPONENT_KEY, undefined, {
+      inNewCodePeriod: 'true',
+      ignoredParam: '1234',
+      complianceStandards:
+        'owasp_top10:urn:sonar-security-standard:owasp:top10:2021=a1&cwe_standard:urn:sonar-security-standard:cwe:standard:4.18=79,89,352&pci_dss:urn:sonar-security-standard:pci:dss:4.0=4.1,4.2',
+    });
+
+    expect(result).toEqual(
+      expect.objectContaining({
+        pathname: '/security_hotspots',
+      }),
+    );
+
+    // Check that the search contains complianceStandards with all expected values
+    expect(result.search).toContain('id=sonarqube');
+    expect(result.search).toContain('inNewCodePeriod=true');
+    expect(result.search).toContain('complianceStandards=');
+    expect(result.search).toContain('owasp_top10');
+    expect(result.search).toContain('2021');
+    expect(result.search).toContain('a1');
+    expect(result.search).toContain('cwe_standard');
+    expect(result.search).toContain('79');
+    expect(result.search).toContain('89');
+    expect(result.search).toContain('352');
+    expect(result.search).toContain('pci_dss');
+    expect(result.search).toContain('4.1');
+    expect(result.search).toContain('4.2');
+    expect(result.search).not.toContain('ignoredParam');
+  });
+
+  it('should use provided complianceStandards parameter if already present', () => {
     expect(
       getComponentSecurityHotspotsUrl(SIMPLE_COMPONENT_KEY, undefined, {
         inNewCodePeriod: 'true',
-        [StandardsInformationKey.OWASP_TOP10_2021]: 'a1',
-        [StandardsInformationKey.CWE]: '213',
-        [StandardsInformationKey.OWASP_TOP10]: 'a1',
-        [StandardsInformationKey.SONARSOURCE]: 'command-injection',
-        [StandardsInformationKey.PCI_DSS_3_2]: '4.2',
-        [StandardsInformationKey.PCI_DSS_4_0]: '4.1',
-        ignoredParam: '1234',
+        complianceStandards: 'owaspTop10-2021=a1&cwe=213',
       }),
     ).toEqual(
       expect.objectContaining({
@@ -52,12 +76,7 @@ describe('#getComponentSecurityHotspotsUrl', () => {
         search: queryToSearchString({
           id: SIMPLE_COMPONENT_KEY,
           inNewCodePeriod: 'true',
-          [StandardsInformationKey.OWASP_TOP10_2021]: 'a1',
-          [StandardsInformationKey.OWASP_TOP10]: 'a1',
-          [StandardsInformationKey.SONARSOURCE]: 'command-injection',
-          [StandardsInformationKey.CWE]: '213',
-          [StandardsInformationKey.PCI_DSS_3_2]: '4.2',
-          [StandardsInformationKey.PCI_DSS_4_0]: '4.1',
+          complianceStandards: 'owaspTop10-2021=a1&cwe=213',
         }),
       }),
     );

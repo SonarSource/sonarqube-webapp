@@ -18,13 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { pick } from 'lodash';
 import { Path } from 'react-router-dom';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { queryToSearchString } from '~shared/helpers/query';
 import { BranchLikeBase } from '~shared/types/branch-like';
-import { StandardsInformationKey } from '~shared/types/security';
 import { Query } from '../../helpers/urls';
+import { buildComplianceStandards } from '../../utils/compliance-standards';
 
 export { queryToSearchString } from '~shared/helpers/query';
 export { getComponentIssuesUrl } from '~shared/helpers/urls';
@@ -37,7 +36,11 @@ export function getComponentSecurityHotspotsUrl(
   branchLike?: BranchLikeBase,
   query: Query = {},
 ): Partial<Path> {
-  const { inNewCodePeriod, hotspots, assignedToMe, files } = query;
+  const { inNewCodePeriod, hotspots, assignedToMe, files, complianceStandards } = query;
+
+  // Build complianceStandards from query if not already provided
+  const complianceStandardsParam = complianceStandards || buildComplianceStandards(query);
+
   return {
     pathname: '/security_hotspots',
     search: queryToSearchString({
@@ -47,18 +50,7 @@ export function getComponentSecurityHotspotsUrl(
       assignedToMe,
       files,
       ...getBranchLikeQuery(branchLike),
-      ...pick(query, [
-        StandardsInformationKey.OWASP_TOP10_2021,
-        StandardsInformationKey.OWASP_TOP10,
-        StandardsInformationKey.SONARSOURCE,
-        StandardsInformationKey.CWE,
-        StandardsInformationKey.PCI_DSS_3_2,
-        StandardsInformationKey.PCI_DSS_4_0,
-        StandardsInformationKey.OWASP_ASVS_4_0,
-        StandardsInformationKey.CASA,
-        StandardsInformationKey.STIG_ASD_V5R3,
-        'owaspAsvsLevel',
-      ]),
+      complianceStandards: complianceStandardsParam,
     }),
     hash: '',
   };

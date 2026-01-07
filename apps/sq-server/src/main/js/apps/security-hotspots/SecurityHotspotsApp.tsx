@@ -50,9 +50,13 @@ import {
 } from '~sq-server-commons/types/security-hotspots';
 import { Component } from '~sq-server-commons/types/types';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
-import { createEmptyStandardsInformation } from '~sq-server-commons/utils/compliance-standards';
+import {
+  buildComplianceStandards,
+  createEmptyStandardsInformation,
+  parseComplianceStandards,
+} from '~sq-server-commons/utils/compliance-standards';
 import SecurityHotspotsAppRenderer from './SecurityHotspotsAppRenderer';
-import { SECURITY_STANDARDS, getLocations } from './utils';
+import { getLocations } from './utils';
 
 const PAGE_SIZE = 500;
 
@@ -120,7 +124,8 @@ export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
       (this.props.component !== undefined &&
         this.props.component.key !== previous.component?.key) ||
       this.props.location.query.hotspots !== previous.location.query.hotspots ||
-      SECURITY_STANDARDS.some((s) => this.props.location.query[s] !== previous.location.query[s]) ||
+      this.props.location.query.complianceStandards !==
+        previous.location.query.complianceStandards ||
       this.props.location.query.files !== previous.location.query.files
     ) {
       this.fetchInitialData();
@@ -337,19 +342,11 @@ export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
   };
 
   fetchFilteredSecurityHotspots({
-    filterByCategory,
-    filterByCWE,
     filterByFile,
     page,
+    complianceStandardsQuery,
   }: {
-    filterByCWE: string | undefined;
-
-    filterByCategory:
-      | {
-          category: string;
-          standard: StandardsInformationKey;
-        }
-      | undefined;
+    complianceStandardsQuery: Record<string, string[]>;
     filterByFile: string | undefined;
     page: number;
   }) {
@@ -359,14 +356,12 @@ export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
       return Promise.resolve(undefined);
     }
 
-    const hotspotFilters: Record<string, string> = {};
+    const hotspotFilters: Record<string, string | undefined> = {};
 
-    if (filterByCategory) {
-      hotspotFilters[filterByCategory.standard] = filterByCategory.category;
-    }
-
-    if (filterByCWE) {
-      hotspotFilters[StandardsInformationKey.CWE] = filterByCWE;
+    // Build the complianceStandards parameter from the query
+    const complianceStandards = buildComplianceStandards(complianceStandardsQuery);
+    if (complianceStandards) {
+      hotspotFilters.complianceStandards = complianceStandards;
     }
 
     if (filterByFile) {
@@ -401,15 +396,24 @@ export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
       ? (location.query.hotspots as string).split(',')
       : undefined;
 
-    const standard = SECURITY_STANDARDS.find(
-      (stnd) => stnd !== StandardsInformationKey.CWE && location.query[stnd] !== undefined,
+    const parsedComplianceStandards = parseComplianceStandards(
+      location.query.complianceStandards as string | undefined,
     );
 
-    const filterByCategory = standard
-      ? { standard, category: location.query[standard] }
-      : undefined;
+    const cweValues = parsedComplianceStandards.cwe;
+    const filterByCWE = cweValues && cweValues.length > 0 ? cweValues[0] : undefined;
 
-    const filterByCWE: string | undefined = location.query.cwe;
+    let filterByCategory: { category: string; standard: StandardsInformationKey } | undefined;
+    for (const [key, values] of Object.entries(parsedComplianceStandards)) {
+      if (key !== 'cwe' && values.length > 0) {
+        const standardKey = key;
+        filterByCategory = {
+          category: values[0],
+          standard: standardKey as StandardsInformationKey,
+        };
+        break;
+      }
+    }
 
     const filterByFile: string | undefined = location.query.files;
 
@@ -426,12 +430,13 @@ export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
       );
     }
 
-    if (filterByCategory || filterByCWE || filterByFile) {
+    const hasComplianceStandardsFilter = Object.keys(parsedComplianceStandards).length > 0;
+
+    if (hasComplianceStandardsFilter || filterByFile) {
       return this.fetchFilteredSecurityHotspots({
-        filterByCategory,
-        filterByCWE,
         filterByFile,
         page,
+        complianceStandardsQuery: parsedComplianceStandards,
       });
     }
 
