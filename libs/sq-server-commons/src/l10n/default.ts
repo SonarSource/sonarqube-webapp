@@ -1991,7 +1991,7 @@ export const defaultMessages = {
   'sca.licenses.category.copyleft_maximal.name': 'Maximal copyleft',
   'sca.licenses.category.permissive_standard.name': 'Standard permissive',
   'sca.licenses.category.permissive_amateur.name': 'Non-standard permissive',
-  'sca.licenses.category.uncategorized.name': 'Uncategorized',
+  'sca.licenses.category.uncategorized.name': 'Other',
   'sca.licenses.category.filter_by_category': 'All categories',
 
   'sca.licenses.category.permissive_standard':
@@ -2006,8 +2006,9 @@ export const defaultMessages = {
     'In addition to the requirements of strong copyleft licenses, network copyleft licenses require you to share larger programs that you build with the licensed software not just when you give copies to others, but also when you run the software for others to use over the Internet or another network. Example network copyleft licenses include the GNU AGPL and the Server-Side-Public License software licenses.',
   'sca.licenses.category.copyleft_maximal':
     'Maximal copyleft licenses answer the question “When does the license require you to share?” differently than other families. Maximal copyleft licenses require you to share software you make with others, and to license that software alike when you do. Example maximal copyleft licenses include the Parity and Reciprocal software licenses.',
-  'sca.licenses.category.uncategorized': 'Uncategorized licenses are not known to Sonar.',
-
+  'sca.licenses.category.uncategorized':
+    'Many detectable licenses do not fall into one of the standard categories, usually because they have non-standard requirements. These non-standard requirements may include limitations on commercial use, morality clauses, requirements of commercial license purchase based on any number of factors, or unusual reporting requirements. Software may also be unlicensed, with the authors reserving all rights. Any license in  the ‘Other’ category needs to be individually reviewed and configured based on the specific license terms and use case.',
+  'sca.licenses.category.policy_not_configurable': 'Policies cannot be set for this category.',
   'sca.licenses.project.title': 'License Profile',
   'sca.licenses.project.info':
     'A {licenseProfileDocUrl} is a collection of policies that define which licenses are allowed or prohibited for the dependencies used by your projects. Dependency licenses will only be analyzed if a default license profile is created, or if projects are manually assigned to a license profile. If a dependency with a prohibited license is found during an analysis, it will be identified as a {dependencyRiskDocUrl}.',
