@@ -19,7 +19,16 @@
  */
 
 import styled from '@emotion/styled';
-import { IconSparkle, Link, LinkHighlight, Text, TextSize } from '@sonarsource/echoes-react';
+import {
+  Badge,
+  BadgeVariety,
+  IconSparkle,
+  Link,
+  LinkHighlight,
+  Popover,
+  Text,
+  TextSize,
+} from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { HelperHintIcon, themeBorder } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
@@ -77,6 +86,11 @@ export default function AICodeStatus(props: Readonly<Props>) {
         <Text isHighlighted>
           <IconSparkle className="sw-mr-1" />
           <FormattedMessage id="projects.ai_code_detected.title" />
+          <Popover description={<FormattedMessage id="settings.deprecated_setting_warning" />}>
+            <Badge className="sw-ml-2" isInteractive variety={BadgeVariety.Danger}>
+              <FormattedMessage id="deprecated" />
+            </Badge>
+          </Popover>
         </Text>
         <div className="sw-flex sw-items-center sw-gap-2 sw-mt-2">
           <Text as="p" isSubtle size={TextSize.Small}>

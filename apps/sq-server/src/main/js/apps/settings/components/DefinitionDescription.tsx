@@ -18,10 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Text, Tooltip } from '@sonarsource/echoes-react';
+import { MessageCallout, MessageVariety, Text, Tooltip } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DefinitionDescriptionBase from '~shared/components/configuration/DefinitionDescriptionBase';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
+import { DEPRECATED_SETTINGS_KEYS, SettingsKey } from '~sq-server-commons/types/settings';
 
 interface Props {
   definition: ExtendedSettingDefinition;
@@ -29,9 +30,15 @@ interface Props {
 
 export default function DefinitionDescription({ definition }: Readonly<Props>) {
   const intl = useIntl();
+  const isDeprecated = DEPRECATED_SETTINGS_KEYS.includes(definition.key as SettingsKey);
 
   return (
     <DefinitionDescriptionBase definition={definition}>
+      {isDeprecated && (
+        <MessageCallout variety={MessageVariety.Warning}>
+          <FormattedMessage id="settings.deprecated_setting_warning" />
+        </MessageCallout>
+      )}
       <Tooltip
         content={intl.formatMessage(
           {

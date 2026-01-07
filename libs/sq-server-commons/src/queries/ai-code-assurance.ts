@@ -57,6 +57,9 @@ export const useProjectContainsAiCodeQuery = createQueryHook(
   },
 );
 
+/*
+ * @deprecated, will be removed in future versions
+ */
 export const useProjectDetectedAiCodeQuery = createQueryHook(
   ({ project }: { project: Component }) => {
     return queryOptions({

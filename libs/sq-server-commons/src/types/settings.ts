@@ -57,6 +57,8 @@ export enum GlobalSettingKeys {
   MainBranchName = 'sonar.projectCreation.mainBranchName',
 }
 
+export const DEPRECATED_SETTINGS_KEYS: SettingsKey[] = [SettingsKey.AutodetectAICode];
+
 export type SettingDefinitionAndValue = {
   definition: ExtendedSettingDefinition;
   getConfirmationMessage?: (

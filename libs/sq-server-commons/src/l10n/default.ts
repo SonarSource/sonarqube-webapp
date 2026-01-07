@@ -2439,6 +2439,8 @@ export const defaultMessages = {
   'settings.definition.reset': 'Reset "{0}" to default values',
   'settings.definition.delete_value': 'Delete value "{1}" for setting "{0}"',
   'settings.definitions.delete_fields': 'Delete row {1} for setting "{0}"',
+  'settings.deprecated_setting_warning':
+    'This feature is deprecated and will be removed in a future release',
 
   'settings.search.placeholder': 'Find in Settings',
   'settings.search.results': 'Search results list',

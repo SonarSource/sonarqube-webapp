@@ -34,6 +34,8 @@ import Definition from '../Definition';
 
 let settingsMock: SettingsServiceMock;
 
+const DEPRECATED_SETTINGS_KEYS = ['sonar.autodetect.ai.code'];
+
 beforeAll(() => {
   settingsMock = new SettingsServiceMock();
 });
@@ -435,6 +437,12 @@ it('renders correctly with confirmation message', async () => {
   await user.click(ui.confirmDialog.by(ui.confirmButton).get());
   expect(ui.saveButton.query()).not.toBeInTheDocument();
   expect(ui.savedMsg.get()).toBeInTheDocument();
+});
+
+it.each(DEPRECATED_SETTINGS_KEYS)('renders correctly for deprecated definition', (key) => {
+  renderDefinition({ key });
+
+  expect(byText('settings.deprecated_setting_warning').get()).toBeInTheDocument();
 });
 
 function renderDefinition(
