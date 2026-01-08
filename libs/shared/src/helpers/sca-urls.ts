@@ -155,21 +155,24 @@ export enum RiskDetailsTab {
   ACTIVITY = 'activity',
 }
 
+// Only ever pass one of metricKey or riskTypes to determine what risks to show. metricKey takes priority.
 export function getRisksUrlForComponent({
   metricKey,
   componentKey,
   branchLike,
   newlyIntroduced,
+  riskTypes,
   threshold,
 }: {
   branchLike?: BranchLikeBase;
   componentKey: string;
-  metricKey: MetricKey;
+  metricKey?: MetricKey;
   newlyIntroduced?: string;
+  riskTypes?: Array<string>;
   threshold?: string;
 }) {
   const newParams: RisksUrlNewParams = {
-    types: SCA_METRIC_TYPE_MAP[metricKey],
+    types: metricKey === undefined ? riskTypes?.join(',') : SCA_METRIC_TYPE_MAP[metricKey],
     id: componentKey,
   };
 
