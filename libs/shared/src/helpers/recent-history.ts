@@ -20,8 +20,61 @@
 
 import { get, remove, save } from './storage';
 
-const RECENT_HISTORY = 'sonar_recent_history';
 const HISTORY_LIMIT = 10;
+
+// Generic history manager
+
+function createHistoryManager<T extends { key: string }>(storageKey: string) {
+  function getHistory(): T[] {
+    const history = get(storageKey);
+
+    if (history == null) {
+      return [];
+    }
+
+    try {
+      return JSON.parse(history);
+    } catch {
+      remove(storageKey);
+
+      return [];
+    }
+  }
+
+  function setHistory(newHistory: T[]) {
+    save(storageKey, JSON.stringify(newHistory));
+  }
+
+  function clearHistory() {
+    remove(storageKey);
+  }
+
+  function addToHistory(newEntry: T) {
+    const currentHistory = getHistory();
+    let newHistory = currentHistory.filter((entry) => entry.key !== newEntry.key);
+    newHistory.unshift(newEntry);
+    newHistory = newHistory.slice(0, HISTORY_LIMIT);
+
+    setHistory(newHistory);
+  }
+
+  function removeFromHistory(entryKey: string) {
+    const history = getHistory();
+    const newHistory = history.filter((entry) => entry.key !== entryKey);
+
+    setHistory(newHistory);
+  }
+
+  return {
+    add: addToHistory,
+    clear: clearHistory,
+    get: getHistory,
+    remove: removeFromHistory,
+    set: setHistory,
+  };
+}
+
+// Project recent history
 
 export interface History {
   key: string;
@@ -30,39 +83,26 @@ export interface History {
   qualifier: string;
 }
 
-export class RecentHistory {
-  static get(): History[] {
-    const history = get(RECENT_HISTORY);
-    if (history == null) {
-      return [];
-    }
-    try {
-      return JSON.parse(history);
-    } catch {
-      remove(RECENT_HISTORY);
-      return [];
-    }
-  }
+export const RecentHistory = createHistoryManager<History>('sonar_recent_history');
 
-  static set(newHistory: History[]) {
-    save(RECENT_HISTORY, JSON.stringify(newHistory));
-  }
+// Organization recent history
 
-  static clear() {
-    remove(RECENT_HISTORY);
-  }
-
-  static add(newEntry: History) {
-    const sonarHistory = this.get();
-    let newHistory = sonarHistory.filter((entry) => entry.key !== newEntry.key);
-    newHistory.unshift(newEntry);
-    newHistory = newHistory.slice(0, HISTORY_LIMIT);
-    RecentHistory.set(newHistory);
-  }
-
-  static remove(entryKey: string) {
-    const history = this.get();
-    const newHistory = history.filter((entry) => entry.key !== entryKey);
-    RecentHistory.set(newHistory);
-  }
+export interface OrganizationHistory {
+  key: string;
+  name: string;
 }
+
+export const RecentOrganizationHistory = createHistoryManager<OrganizationHistory>(
+  'sonar_recent_history_organizations',
+);
+
+// Enterprise recent history
+
+export interface EnterpriseHistory {
+  key: string;
+  name: string;
+}
+
+export const RecentEnterpriseHistory = createHistoryManager<EnterpriseHistory>(
+  'sonar_recent_history_enterprises',
+);
