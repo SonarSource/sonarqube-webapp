@@ -29,12 +29,11 @@ import SettingsServiceMock, {
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockDefinition } from '~sq-server-commons/helpers/mocks/settings';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { DEPRECATED_SETTINGS_KEYS } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import Definition from '../Definition';
 
 let settingsMock: SettingsServiceMock;
-
-const DEPRECATED_SETTINGS_KEYS = ['sonar.autodetect.ai.code'];
 
 beforeAll(() => {
   settingsMock = new SettingsServiceMock();
