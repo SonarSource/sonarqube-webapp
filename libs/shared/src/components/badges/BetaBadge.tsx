@@ -26,7 +26,7 @@ type Props = Readonly<Pick<BadgeProps, 'className' | 'isInteractive'>>;
 
 export const BetaBadge = forwardRef<HTMLButtonElement, Props>((props, ref) => {
   return (
-    <Badge variety={BadgeVariety.Highlight} {...props} ref={ref}>
+    <Badge variety={BadgeVariety.Info} {...props} ref={ref}>
       <FormattedMessage id="beta" />
     </Badge>
   );
