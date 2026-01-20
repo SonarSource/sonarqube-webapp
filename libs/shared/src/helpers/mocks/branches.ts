@@ -25,6 +25,7 @@ export function mockMainBranch(overrides: Partial<BranchBase> = {}): BranchBase 
     analysisDate: '2018-01-01',
     isMain: true,
     name: 'master',
+    branchId: '123',
     ...overrides,
   };
 }

@@ -85,3 +85,13 @@ export function getBranchLikeDisplayName(branchLike: BranchLikeBase): string {
 export function getPullRequestDisplayName(pullRequest: PullRequestBase) {
   return `${pullRequest.key} – ${pullRequest.title}`;
 }
+
+/**
+ * Returns the branch name, only if it's a branch and not the main branch
+ */
+export function getBranchName(branchLike?: BranchLikeBase) {
+  if (isBranch(branchLike) && !isMainBranch(branchLike)) {
+    return branchLike.name;
+  }
+  return undefined;
+}

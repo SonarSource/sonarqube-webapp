@@ -33,6 +33,7 @@ export type BranchLikeBase = BranchBase | PullRequestBase;
 
 export interface BranchBase {
   analysisDate?: string;
+  branchId?: string;
   isMain: boolean;
   name: string;
   status?: { qualityGateStatus: QGStatus };
