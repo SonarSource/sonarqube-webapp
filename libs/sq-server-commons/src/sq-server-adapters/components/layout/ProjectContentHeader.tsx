@@ -114,6 +114,14 @@ export function ProjectContentHeader(props: Readonly<Props>) {
                   className="sw-ml-4 sw-mr-2"
                   component={component}
                   currentBranchLike={branchLike}
+                  linkToAll={
+                    component.configuration?.showSettings
+                      ? {
+                          pathname: '/project/branches',
+                          search: new URLSearchParams({ id: component.key }).toString(),
+                        }
+                      : undefined
+                  }
                   overridePath={overrideBranchSelectorPath}
                 />
               )}

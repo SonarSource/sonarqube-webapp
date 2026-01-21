@@ -74,5 +74,8 @@ export interface ProjectBranchSelectorProps {
   className?: string;
   component: ComponentBase;
   currentBranchLike: BranchLikeBase;
+  linkToAll?: To;
+  linkToBranches?: To;
+  linkToPRs?: To;
   overridePath?: To;
 }

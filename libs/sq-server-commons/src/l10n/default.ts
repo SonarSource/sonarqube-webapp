@@ -3522,6 +3522,9 @@ export const defaultMessages = {
   'project_branch_selector.filters': 'Filter by branches or pull requests',
   'project_branch_selector.search': 'Search branches or pull requests',
   'project_branch_selector.none': 'No results',
+  'project_branch_selector.link.all': 'View all',
+  'project_branch_selector.link.branches': 'View all branches',
+  'project_branch_selector.link.pull_requests': 'View all {pull_requests}',
 
   //------------------------------------------------------------------------------
   //
