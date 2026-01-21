@@ -136,6 +136,7 @@ describe('rendering', () => {
     expect(
       await ui.standardSeverityPopoverButton(IssueType.Bug, IssueSeverity.Major).find(),
     ).toBeInTheDocument();
+    expect(ui.standardSeverity(IssueSeverity.Major).get()).toBeInTheDocument();
 
     expect(ui.softwareQuality(SoftwareQuality.Maintainability).query()).not.toBeInTheDocument();
     expect(

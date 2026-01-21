@@ -45,9 +45,9 @@ export default function IssueTypePill(props: Readonly<Props>) {
   const [updatingSeverity, setUpdatingSeverity] = useState(false);
   const variant = {
     [IssueSeverity.Blocker]: BadgeSeverityLevel.Blocker,
-    [IssueSeverity.Critical]: BadgeSeverityLevel.High,
-    [IssueSeverity.Major]: BadgeSeverityLevel.Medium,
-    [IssueSeverity.Minor]: BadgeSeverityLevel.Low,
+    [IssueSeverity.Critical]: BadgeSeverityLevel.Critical,
+    [IssueSeverity.Major]: BadgeSeverityLevel.Major,
+    [IssueSeverity.Minor]: BadgeSeverityLevel.Minor,
     [IssueSeverity.Info]: BadgeSeverityLevel.Info,
   }[severity];
 
