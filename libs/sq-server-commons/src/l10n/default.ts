@@ -592,9 +592,9 @@ export const defaultMessages = {
   'admin_notification.update.new_patch':
     'There’s an update available for your {productName} instance. Please update to make sure you benefit from the latest security and bug fixes.',
   'admin_notification.update.new_version':
-    'There’s a new version of {productName} available. Upgrade to the latest version to access new updates and features.',
+    'There’s a new version of {productName} available. Update to the latest version to access new updates and features.',
   'admin_notification.update.current_version_inactive':
-    'You’re running a version of {productName} that is no longer active. Please upgrade to an active version as soon as possible.',
+    'You’re running a version of {productName} that is no longer active. Please update to an active version as soon as possible.',
   'admin_notification.update.new_sqcb_version':
     'Keep your instance current and get the {link}, available now.',
   'admin_notification.update.latest': 'latest {productName}',
@@ -654,7 +654,7 @@ export const defaultMessages = {
   'event.definition_change.branch_removed': '{project} {branch} removed',
   'event.definition_change.branch_replaced': '{project} {oldBranch} replaced with {newBranch}',
   'event.failed_conditions': 'Failed Conditions:',
-  'event.sqUpgrade': 'First analysis since upgrading to {productName} {sqVersion}',
+  'event.sqUpgrade': 'First analysis since updating to {productName} {sqVersion}',
 
   //------------------------------------------------------------------------------
   //
@@ -3851,7 +3851,7 @@ export const defaultMessages = {
     'Software impact {newSoftwareQuality} with severity {newSeverity} was added',
   'quality_profiles.changelog.impact_removed':
     'Software impact {oldSoftwareQuality} with severity {oldSeverity} was removed',
-  'quality_profiles.changelog.sq_upgrade': 'Instance upgraded to {productName} {sqVersion}',
+  'quality_profiles.changelog.sq_upgrade': 'Instance updated to {productName} {sqVersion}',
   'quality_profiles.deleted_profile': "The profile {0} doesn't exist anymore",
   'quality_profiles.projects_for_default':
     'Every project not specifically associated with a quality profile will be associated to this one by default.',
@@ -6498,7 +6498,7 @@ export const defaultMessages = {
   'overview.badges.copy_snippet': 'Copy the snippet for your selected badge',
 
   'overview.quality_profiles_update_after_sq_upgrade.message':
-    'Upgrade to {productName} {sqVersion} has updated your Quality Profiles. Issues on your project may have been affected. {link}',
+    'Update to {productName} {sqVersion} has updated your Quality Profiles. Issues on your project may have been affected. {link}',
   'overview.quality_profiles_update_after_sq_upgrade.link': 'See more details',
 
   'overview.activity.variations.new_analysis': 'New analysis:',
@@ -6762,15 +6762,15 @@ export const defaultMessages = {
     'The main branch will be set as the reference branch when the project is created. You will be able to choose another branch as the reference branch when your project will have more branches.',
 
   'new_code_definition.auto_update.branch.message':
-    'The new code definition of the following branch(es) was automatically changed on {date}, following a {productName} upgrade, as it was exceeding the maximum value: {branchesList} {link}',
+    'The new code definition of the following branch(es) was automatically changed on {date}, following a {productName} update, as it was exceeding the maximum value: {branchesList} {link}',
   'new_code_definition.auto_update.branch.list_item':
     '{branchName}: Number of days was changed from {previousDays} to {days}.',
   'new_code_definition.auto_update.global.message':
-    'The global new code definition was automatically changed from {previousDays} to {days} days on {date}, following a {productName} upgrade, as it was exceeding the maximum value. {link}',
+    'The global new code definition was automatically changed from {previousDays} to {days} days on {date}, following a {productName} update, as it was exceeding the maximum value. {link}',
   'new_code_definition.auto_update.ncd_page.message':
-    'The number of days was automatically changed from {previousDays} to {days} on {date}, following a {productName} upgrade, as it was exceeding the maximum value. {link}',
+    'The number of days was automatically changed from {previousDays} to {days} on {date}, following a {productName} update, as it was exceeding the maximum value. {link}',
   'new_code_definition.auto_update.project.message':
-    "This project's new code definition was automatically changed from {previousDays} to {days} days on {date}, following a {productName} upgrade, as it was exceeding the maximum value. {link}",
+    "This project's new code definition was automatically changed from {previousDays} to {days} days on {date}, following a {productName} update, as it was exceeding the maximum value. {link}",
   'new_code_definition.auto_update.review_link': 'Review new code definition',
   'new_code_definition.change_notice': 'Changes will take effect after the next analysis.',
   'new_code_definition.page.title': 'New Code',
@@ -8192,7 +8192,7 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
   'maintenance.page': 'Maintenance',
-  'maintenance.upgrade_failed': 'Upgrade Failed',
+  'maintenance.upgrade_failed': 'Update Failed',
   'maintenance.upgrade_failed.text':
     'Database connection cannot be established. Please check database status and JDBC settings.',
   'maintenance.migration_not_supported': 'Migration not supported',
@@ -8201,11 +8201,11 @@ export const defaultMessages = {
   'maintenance.back_up_database.1':
     'When upgrading commences, you will no longer be able to back up your database or recover any lost data.',
   'maintenance.back_up_database.2': 'Continue only after you have backed up your database.',
-  'maintenance.upgrade_database': 'Upgrade database',
+  'maintenance.upgrade_database': 'Update database',
   'maintenance.upgrade_database.1': 'Upgrading your database can take several minutes.',
   'maintenance.upgrade_database.2': 'For guidance, view the {link}',
-  'maintenance.upgrade_database.2.link': 'SonarQube Server upgrade guide',
-  'maintenance.upgrade': 'Start upgrade',
+  'maintenance.upgrade_database.2.link': 'SonarQube Server update guide',
+  'maintenance.upgrade': 'Start update',
   'maintenance.database_migration': 'Database Migration',
   'maintenance.database_is_up_to_date': 'Database is up-to-date',
   'maintenance.is_down': '{instance} is down',
@@ -8217,7 +8217,7 @@ export const defaultMessages = {
   'maintenance.sonarqube_is_under_maintenance_link.1': 'SonarQube for IDE',
   'maintenance.sonarqube_is_under_maintenance.2':
     'If you are an administrator and have no idea why this message is being shown, you should read the {link}.',
-  'maintenance.sonarqube_is_under_maintenance_link.2': 'upgrade guide',
+  'maintenance.sonarqube_is_under_maintenance_link.2': 'update guide',
   'maintenance.is_starting': '{instance} is starting',
   'maintenance.is_up': '{instance} is up',
   'maintenance.all_systems_opetational': 'All systems operational.',
@@ -8260,7 +8260,7 @@ export const defaultMessages = {
   'indexation.filters_unavailable':
     'Some filters are unavailable until this process is complete. {link}',
   'indexation.upgrade_survey_link':
-    'Help us improve the upgrade experience. <link>Click here to share your thoughts.</link>',
+    'Help us improve the update experience. <link>Click here to share your thoughts.</link>',
 
   //------------------------------------------------------------------------------
   //
@@ -8395,7 +8395,7 @@ export const defaultMessages = {
   // Sandboxed issues intro
   //
   //------------------------------------------------------------------------------
-  'sandboxed_issues_intro.title': 'Upgrade without breaking your Quality Gate ',
+  'sandboxed_issues_intro.title': 'Update without breaking your Quality Gate ',
   'sandboxed_issues_intro.img_alt':
     'Image showing an example of sandbox issues on summary page that do not impact quality gate. Additionally, new issue status "In sandbox" is shown for an issue in issue list.',
   'sandboxed_issues_intro.description_1':
