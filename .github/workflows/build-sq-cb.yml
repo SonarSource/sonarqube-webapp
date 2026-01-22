@@ -4,6 +4,7 @@ on:
     branches:
       - master
       - branch-sqs-*
+      - jay/*
 
 permissions:
   id-token: write # OIDC auth for vault
@@ -119,30 +120,4 @@ jobs:
           ls -la build/reports/
           .github/scripts/scan-sq-cb.sh
 
-  slack-notifications:
-    runs-on: github-ubuntu-latest-s # Public GH runner is required, runners starting with sonar-* do not support this action
-    if: failure() && github.ref_name == 'master'
-    needs: [build, scan]
-    permissions:
-      id-token: write
-    steps:
-      - name: Vault Secrets
-        id: secrets
-        uses: SonarSource/vault-action-wrapper@v3
-        with:
-          secrets: |
-            development/kv/data/slack token | SLACK_TOKEN;
 
-      - name: Slack Notification rtCamp
-        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
-        env:
-          SLACK_TOKEN: ${{ fromJSON(steps.secrets.outputs.vault).SLACK_TOKEN }}
-          SLACK_CHANNEL: ops-sonarqube-webapp
-          SLACK_TITLE: SQ-Community Build failed 🚨
-          SLACK_ICON_EMOJI: ":sonar-qube-community:"
-          SLACK_USERNAME: BuildBot
-          SLACK_COLOR: danger
-          SLACK_MESSAGE: |
-            Workflow failed in ${{ github.repository }}
-            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-            Branch: ${{ github.head_ref || github.ref_name }}

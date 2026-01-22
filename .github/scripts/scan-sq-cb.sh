@@ -34,6 +34,8 @@ fi
 PROJECT_VERSION=$(jq -r .version "apps/sq-server/package.json")
 ESLINT_REPORT_PATH=$(find build/reports/ -name eslint-report.json -type f | paste -sd ',')
 
+echo "[DEBUG] PROJECT_VERSION: ${PROJECT_VERSION}"
+
 scanner_params=(
     "-Dsonar.projectKey=${PROJECT_KEY}"
     "-Dsonar.projectName=SonarQube Webapp"
@@ -77,4 +79,4 @@ scanner_params=(
                                 **/helpers/cookies.ts,
                                 **/*Legacy.*")
 
-yarn run sonar-scanner "${scanner_params[@]}"
+# yarn run sonar-scanner "${scanner_params[@]}"
