@@ -57,8 +57,10 @@ export function useBeamerContextData(): string | undefined {
   const { canAdmin, version, edition } = useAppState();
   const availableFeatures = useContext(AvailableFeaturesContext);
 
+  const isCommunity = edition === EditionKey.community;
+
   const { data: license } = useCurrentLicenseQuery({
-    enabled: isLoggedIn(currentUser) && Boolean(canAdmin),
+    enabled: !isCommunity && isLoggedIn(currentUser) && Boolean(canAdmin),
   });
 
   const filters = [
