@@ -19,6 +19,7 @@
  */
 
 export const SIDEBAR_NAVIGATION_SETTING = 'sidebar_navigation_setting';
+export const SIDEBAR_NAVIGATION_OPT_IN_DATE = 'sidebar_navigation_opt_in_date';
 
 export enum FEEShowSidebarNavigationSetting {
   Hide = 'hide',
