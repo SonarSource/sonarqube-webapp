@@ -264,6 +264,17 @@ describe('BitbucketCloudAppDeprecationMessage', () => {
     expect(await ui.appPasswordDeprecationMessageTitle.find()).toBeInTheDocument();
   });
 
+  it("should not render the message if we are in a project's settings", async () => {
+    almSettingsMock.setAlmSettings([mockAlmSettingsInstance({ alm: AlmKeys.BitbucketCloud })]);
+
+    renderSettingsApp(mockComponent(), {
+      currentUser: mockLoggedInUser({ permissions: { global: [Permissions.Admin] } }),
+    });
+    expect(await ui.settingsSearchInput.find()).toBeInTheDocument();
+
+    expect(ui.appPasswordDeprecationMessageTitle.query()).not.toBeInTheDocument();
+  });
+
   it('should not render the message if there is no Bitbucket Cloud ALM settings', async () => {
     almSettingsMock.setAlmSettings([]);
 

@@ -77,7 +77,7 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
 
   return (
     <Wrapper component={component}>
-      <BitbucketCloudAppDeprecationMessage className="sw-mt-8" />
+      {!isProjectSettings && <BitbucketCloudAppDeprecationMessage className="sw-mt-8" />}
 
       <ModeBanner as="wideBanner" />
 

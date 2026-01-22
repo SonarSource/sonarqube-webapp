@@ -58,6 +58,7 @@ export function BitbucketCloudAppDeprecationMessage({
   const isGlobalAdmin = hasGlobalPermission(currentUser, Permissions.Admin);
 
   const { data: installationDate, error: supportInformationError } = useSupportInformationQuery({
+    enabled: isGlobalAdmin,
     select: (data) => data.statistics.installationDate,
   });
   const { data: isMessageDismissed } = useMessageDismissedQuery(
@@ -65,6 +66,7 @@ export function BitbucketCloudAppDeprecationMessage({
       messageType: MessageTypes.BitbucketCloudAppDeprecation,
     },
     {
+      enabled: isGlobalAdmin,
       select: (data) => data.dismissed,
     },
   );
