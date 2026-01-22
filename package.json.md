@@ -130,3 +130,7 @@ We have multiple transitive dependencies on yaml and some before 2.0.0 have Mend
 ### protobuf & protobufjs-cli
 
 These packages are used to maintain contract validation between the frontend and analyzer in the architecture feature. the cli package is specifically used for the generation of the validation code and associated types.
+
+### @sentry/browser
+
+This package is needed for any worker.ts functions outside of react and reports to sentry from the browser

@@ -21465,6 +21465,7 @@ __metadata:
     "@primer/octicons-react": "npm:19.20.0"
     "@react-spring/web": "npm:10.0.3"
     "@rollup/plugin-replace": "npm:6.0.3"
+    "@sentry/browser": "npm:10.23.0"
     "@sentry/fullstory": "npm:4.0.0"
     "@sentry/react": "npm:10.23.0"
     "@sonarsource/echoes-react": "npm:1.10.0"

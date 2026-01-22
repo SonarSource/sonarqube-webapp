@@ -84,6 +84,9 @@ export default ({ mode }) => {
           'libs/sq-server-commons/src/design-system/index.ts',
         ),
         '~sq-server-addons/index': addonsAlias,
+        // worker.ts files are not bundled the same way as the rest of the webapp.
+        // This is required for aliases to work from worker.ts files
+        '~adapters': resolve(workspaceRoot, 'libs/sq-server-commons/src/sq-server-adapters'),
       },
     },
     server: {
