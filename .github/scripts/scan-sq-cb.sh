@@ -25,19 +25,19 @@ echo "[DEBUG] GITHUB_BASE_REF: ${GITHUB_BASE_REF}"
 echo "[DEBUG] GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}"
 echo "[DEBUG] SONAR_HOST_URL: ${SONAR_HOST_URL}"
 echo "[DEBUG] PROJECT_KEY: ${PROJECT_KEY}"
+echo "[DEBUG] VERSION: ${VERSION}"
 
 git fetch --unshallow || true
 if [ -n "${GITHUB_BASE_REF:-}" ]; then
   git fetch origin "${GITHUB_BASE_REF}"
 fi
 
-PROJECT_VERSION=$(jq -r .version "apps/sq-server/package.json")
 ESLINT_REPORT_PATH=$(find build/reports/ -name eslint-report.json -type f | paste -sd ',')
 
 scanner_params=(
     "-Dsonar.projectKey=${PROJECT_KEY}"
     "-Dsonar.projectName=SonarQube Webapp"
-    "-Dsonar.projectVersion=${PROJECT_VERSION}"
+    "-Dsonar.projectVersion=${VERSION}"
     "-Dsonar.host.url=${SONAR_HOST_URL}"
     "-Dsonar.token=${SONAR_TOKEN}"
     "-Dsonar.analysis.pipeline=${GITHUB_RUN_ID}"
