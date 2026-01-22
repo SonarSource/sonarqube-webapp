@@ -10,6 +10,14 @@ Used by sq-cloud to parse Date from string or number.
 
 LaunchDarkly SDK for React used by sq-cloud to manage feature flags.
 
+### react-dnd
+
+React drag and drop library used by the editable-multigrid component for drag-and-drop functionality in dashboard layouts.
+
+### react-dnd-html5-backend
+
+HTML5 backend for react-dnd, providing native HTML5 drag and drop support for the editable-multigrid component.
+
 ## devDependencies
 
 ### @cyclonedx/cdxgen

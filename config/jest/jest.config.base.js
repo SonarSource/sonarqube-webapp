@@ -27,6 +27,10 @@ const esModules = [
   '@sonarsource/echoes-react',
   // Jupyterlab
   '@jupyterlab/nbformat',
+  // React DnD (react-dnd pattern matches react-dnd-html5-backend too)
+  'react-dnd',
+  'dnd-core',
+  '@react-dnd',
   // React markdown
   'react-markdown',
   'devlop',
@@ -82,6 +86,7 @@ const projectConfig = {
 
     // Shared libraries aliases, following token is used in the nx shared-library generator
     // <<shared-libraries-aliases>>
+    '^~feature-dashboards/(.+)': '<rootDir>/private/libs/feature-dashboards/src/$1',
     '^~feature-architecture/(.+)': '<rootDir>/private/libs/feature-architecture/src/$1',
     '^~feature-jira/(.+)': '<rootDir>/private/libs/feature-jira/src/$1',
     '^~feature-rules/(.+)': '<rootDir>/libs/feature-rules/src/$1',

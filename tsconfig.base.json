@@ -38,7 +38,8 @@
       "~shared/*": ["libs/shared/src/*"],
       "~sq-server-addons/*": ["libs/sq-server-addons/src/*"],
       "~sq-server-commons/*": ["libs/sq-server-commons/src/*"],
-      "~sq-server-features/*": ["private/libs/sq-server-features/src/*"]
+      "~sq-server-features/*": ["private/libs/sq-server-features/src/*"],
+      "~feature-dashboards/*": ["private/libs/feature-dashboards/src/*"]
     },
     "types": ["node", "vite/client", "jest", "@testing-library/jest-dom"],
     "outDir": "./dist"

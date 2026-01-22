@@ -97,5 +97,9 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "[html][javascript][javascriptreact][typescript][typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "sonarlint.connectedMode.project": {
+    "connectionId": "https-next-sonarqube-com-sonarqube",
+    "projectKey": "SonarSource_sonarcloud-webapp"
   }
 }
