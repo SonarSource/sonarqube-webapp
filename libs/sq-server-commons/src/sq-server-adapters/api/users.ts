@@ -24,7 +24,7 @@ import { UserBaseShared } from '~shared/types/users';
 import { getUsers } from '../../api/users';
 
 export function searchAssignees(params: {
-  organizationIds?: string;
+  organizationIds?: string[];
   pageIndex?: number;
   pageSize?: number;
   q: string;
