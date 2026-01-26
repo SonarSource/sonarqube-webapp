@@ -18,28 +18,49 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { CenteredLayout } from '~design-system';
+import { Text } from '@sonarsource/echoes-react';
+import { useContext } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useFlags } from '~adapters/helpers/feature-flags';
+import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
+import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
+import { isApplication, isPortfolioLike } from '~shared/helpers/component';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import Form from './Form';
-import Header from './Header';
+import { Header } from './Header';
+
+function PageDescription({ qualifier }: Readonly<{ qualifier: string }>) {
+  if (isPortfolioLike(qualifier)) {
+    return <FormattedMessage id="portfolio_deletion.page.description" />;
+  }
+
+  if (isApplication(qualifier)) {
+    return <FormattedMessage id="application_deletion.page.description" />;
+  }
+
+  return <FormattedMessage id="project_deletion.page.description" />;
+}
 
 export default function App() {
-  const { component } = React.useContext(ComponentContext);
+  const { component } = useContext(ComponentContext);
+  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
+  const intl = useIntl();
 
   if (component === undefined) {
     return null;
   }
 
   return (
-    <CenteredLayout>
-      <Helmet defer={false} title={translate('deletion.page')} />
-      <div className="sw-my-8">
-        <Header component={component} />
-        <Form component={component} />
-      </div>
-    </CenteredLayout>
+    <ProjectPageTemplate disableBranchSelector title={intl.formatMessage({ id: 'deletion.page' })}>
+      <A11ySkipTarget anchor="deletion_main" />
+
+      {!frontEndEngineeringEnableSidebarNavigation && <Header />}
+
+      <Text as="p" className="sw-my-8">
+        <PageDescription qualifier={component.qualifier} />
+      </Text>
+
+      <Form component={component} />
+    </ProjectPageTemplate>
   );
 }

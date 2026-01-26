@@ -18,32 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Title } from '~design-system';
-import { isApplication, isPortfolioLike } from '~shared/helpers/component';
-import { translate } from '~sq-server-commons/helpers/l10n';
-import { Component } from '~sq-server-commons/types/types';
+import { Heading } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 
-interface Props {
-  component: Pick<Component, 'qualifier'>;
-}
-
-function getDescription(qualifier: string) {
-  if (isPortfolioLike(qualifier)) {
-    return translate('portfolio_deletion.page.description');
-  } else if (isApplication(qualifier)) {
-    return translate('application_deletion.page.description');
-  }
-
-  return translate('project_deletion.page.description');
-}
-
-export default function Header(props: Readonly<Props>) {
-  const { qualifier } = props.component;
-
+export function Header() {
   return (
-    <header className="sw-mt-8 sw-mb-4">
-      <Title className="sw-mb-4">{translate('deletion.page')}</Title>
-      <p className="sw-mb-2">{getDescription(qualifier)}</p>
+    <header className="sw-mb-4 sw-mt-8">
+      <Heading as="h1" className="sw-mb-4">
+        <FormattedMessage id="deletion.page" />
+      </Heading>
     </header>
   );
 }

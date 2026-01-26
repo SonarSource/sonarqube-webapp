@@ -171,7 +171,6 @@ function renderComponentRoutes({
           {aicaSettingsRoutes()}
           {webhooksRoutes()}
 
-          {projectDeletionRoutes()}
           {projectLinksRoutes()}
           {projectKeyRoutes()}
         </Route>
@@ -180,7 +179,10 @@ function renderComponentRoutes({
 
       {/* Pages migrated to the new layout get their <main> from Layout.PageContent */}
       <Route element={<ProjectAdminContainer skipMainWrapper />}>
-        <Route path="project">{projectNewCodeDefinitionRoutes()}</Route>
+        <Route path="project">
+          {projectDeletionRoutes()}
+          {projectNewCodeDefinitionRoutes()}
+        </Route>
       </Route>
     </Route>
   );

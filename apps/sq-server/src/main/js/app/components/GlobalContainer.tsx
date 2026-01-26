@@ -101,6 +101,7 @@ const PAGES_MIGRATED: string[] = [
   '/profiles',
   '/project/activity',
   '/project/baseline',
+  '/project/deletion',
   '/project/issues',
   '/quality_gates',
   '/unsubscribe',
