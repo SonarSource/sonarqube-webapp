@@ -18,10 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner } from '@sonarsource/echoes-react';
+import { Layout, Spinner } from '@sonarsource/echoes-react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout } from '~design-system';
+import { useIntl } from 'react-intl';
+import { useFlags } from '~adapters/helpers/feature-flags';
+import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
+import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isBranch } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
@@ -34,7 +36,6 @@ import withAvailableFeatures, {
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import { sortBranches } from '~sq-server-commons/helpers/branch-like';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   DEFAULT_NEW_CODE_DEFINITION_TYPE,
   getNumberOfDaysDefaultValue,
@@ -49,7 +50,7 @@ import { Branch, BranchLike } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { NewCodeDefinitionType } from '~sq-server-commons/types/new-code-definition';
 import { Component } from '~sq-server-commons/types/types';
-import AppHeader from './AppHeader';
+import { AppHeader, PageDescription } from './AppHeader';
 import ProjectNewCodeDefinitionSelector from './ProjectNewCodeDefinitionSelector';
 
 interface ProjectNewCodeDefinitionAppProps extends WithAvailableFeaturesProps {
@@ -59,8 +60,10 @@ interface ProjectNewCodeDefinitionAppProps extends WithAvailableFeaturesProps {
   component: Component;
 }
 
-function ProjectNewCodeDefinitionApp(props: Readonly<ProjectNewCodeDefinitionAppProps>) {
+function BaseProjectNewCodeDefinitionApp(props: Readonly<ProjectNewCodeDefinitionAppProps>) {
   const { appState, component, branchLike, branchLikes, hasFeature } = props;
+  const intl = useIntl();
+  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
 
   const [isSpecificNewCodeDefinition, setIsSpecificNewCodeDefinition] = useState<boolean>();
   const [numberOfDays, setNumberOfDays] = useState(getNumberOfDaysDefaultValue());
@@ -80,6 +83,7 @@ function ProjectNewCodeDefinitionApp(props: Readonly<ProjectNewCodeDefinitionApp
       branchName: hasFeature(Feature.BranchSupport) ? undefined : branchLike?.name,
       projectKey: component.key,
     });
+
   const { isPending: isSaving, mutate: postNewCodeDefinition } = useNewCodeDefinitionMutation();
 
   const branchList = useMemo(() => {
@@ -166,6 +170,7 @@ function ProjectNewCodeDefinitionApp(props: Readonly<ProjectNewCodeDefinitionApp
 
     if (!isSpecificNewCodeDefinition) {
       onResetNewCodeDefinition();
+
       return;
     }
 
@@ -194,56 +199,61 @@ function ProjectNewCodeDefinitionApp(props: Readonly<ProjectNewCodeDefinitionApp
   }, [resetStatesFromProjectNewCodeDefinition]);
 
   return (
-    <LargeCenteredLayout id="new-code-rules-page">
+    <ProjectPageTemplate
+      description={
+        <Layout.ContentHeader.Description>
+          <PageDescription canAdmin={!!appState.canAdmin} />
+        </Layout.ContentHeader.Description>
+      }
+      disableBranchSelector
+      title={intl.formatMessage({ id: 'project_baseline.page' })}
+    >
       <Suggestions suggestion={DocLink.NewCodeDefinition} />
+      <A11ySkipTarget anchor="baseline_main" />
 
-      <Helmet defer={false} title={translate('project_baseline.page')} />
+      {!frontEndEngineeringEnableSidebarNavigation && <AppHeader canAdmin={!!appState.canAdmin} />}
 
-      <div className="sw-my-8" id="project-ncd-selection">
-        <AppHeader canAdmin={!!appState.canAdmin} />
+      <Spinner isLoading={isLoading}>
+        <div className="it__project-baseline" id="project-ncd-selection">
+          {globalNewCodeDefinition && isSpecificNewCodeDefinition !== undefined && (
+            <ProjectNewCodeDefinitionSelector
+              analysis={specificAnalysis}
+              branch={branchLike}
+              branchList={branchList}
+              branchesEnabled={branchSupportEnabled}
+              component={component.key}
+              days={numberOfDays}
+              globalNewCodeDefinition={globalNewCodeDefinition}
+              isChanged={isFormTouched}
+              onCancel={resetStatesFromProjectNewCodeDefinition}
+              onSelectDays={setNumberOfDays}
+              onSelectReferenceBranch={setReferenceBranch}
+              onSelectSetting={setSelectedNewCodeDefinitionType}
+              onSubmit={onSubmit}
+              onToggleSpecificSetting={setIsSpecificNewCodeDefinition}
+              overrideGlobalNewCodeDefinition={isSpecificNewCodeDefinition}
+              previousNonCompliantValue={projectNewCodeDefinition?.previousNonCompliantValue}
+              projectNcdUpdatedAt={projectNewCodeDefinition?.updatedAt}
+              referenceBranch={referenceBranch}
+              saving={isSaving}
+              selectedNewCodeDefinitionType={selectedNewCodeDefinitionType}
+            />
+          )}
 
-        <Spinner isLoading={isLoading}>
-          <div className="it__project-baseline">
-            {globalNewCodeDefinition && isSpecificNewCodeDefinition !== undefined && (
-              <ProjectNewCodeDefinitionSelector
-                analysis={specificAnalysis}
-                branch={branchLike}
-                branchList={branchList}
-                branchesEnabled={branchSupportEnabled}
-                component={component.key}
-                days={numberOfDays}
-                globalNewCodeDefinition={globalNewCodeDefinition}
-                isChanged={isFormTouched}
-                onCancel={resetStatesFromProjectNewCodeDefinition}
-                onSelectDays={setNumberOfDays}
-                onSelectReferenceBranch={setReferenceBranch}
-                onSelectSetting={setSelectedNewCodeDefinitionType}
-                onSubmit={onSubmit}
-                onToggleSpecificSetting={setIsSpecificNewCodeDefinition}
-                overrideGlobalNewCodeDefinition={isSpecificNewCodeDefinition}
-                previousNonCompliantValue={projectNewCodeDefinition?.previousNonCompliantValue}
-                projectNcdUpdatedAt={projectNewCodeDefinition?.updatedAt}
-                referenceBranch={referenceBranch}
-                saving={isSaving}
-                selectedNewCodeDefinitionType={selectedNewCodeDefinitionType}
-              />
-            )}
-
-            {globalNewCodeDefinition && branchSupportEnabled && isDefined(addons.branches) && (
-              <addons.branches.BranchListSection
-                branchList={branchList}
-                component={component}
-                globalNewCodeDefinition={globalNewCodeDefinition}
-                projectNewCodeDefinition={projectNewCodeDefinition ?? globalNewCodeDefinition}
-              />
-            )}
-          </div>
-        </Spinner>
-      </div>
-    </LargeCenteredLayout>
+          {globalNewCodeDefinition && branchSupportEnabled && isDefined(addons.branches) && (
+            <addons.branches.BranchListSection
+              branchList={branchList}
+              component={component}
+              globalNewCodeDefinition={globalNewCodeDefinition}
+              projectNewCodeDefinition={projectNewCodeDefinition ?? globalNewCodeDefinition}
+            />
+          )}
+        </div>
+      </Spinner>
+    </ProjectPageTemplate>
   );
 }
 
 export default withComponentContext(
-  withAvailableFeatures(withAppStateContext(withBranchLikes(ProjectNewCodeDefinitionApp))),
+  withAvailableFeatures(withAppStateContext(withBranchLikes(BaseProjectNewCodeDefinitionApp))),
 );

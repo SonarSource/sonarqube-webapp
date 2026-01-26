@@ -156,6 +156,8 @@ function renderComponentRoutes({
 
         {tutorialsRoutes()}
       </Route>
+
+      {/* Pages not yet using new layout - ProjectAdminContainer provides <main> wrapper */}
       <Route element={<ProjectAdminContainer />}>
         <Route path="project">
           <Route
@@ -163,7 +165,6 @@ function renderComponentRoutes({
             path="admin/extension/:pluginKey/:extensionKey"
           />
           {backgroundTasksRoutes()}
-          {projectNewCodeDefinitionRoutes()}
           {projectBranchesRoutes()}
           {projectDumpRoutes()}
           {settingsRoutes()}
@@ -175,6 +176,11 @@ function renderComponentRoutes({
           {projectKeyRoutes()}
         </Route>
         {projectPermissionsRoutes()}
+      </Route>
+
+      {/* Pages migrated to the new layout get their <main> from Layout.PageContent */}
+      <Route element={<ProjectAdminContainer skipMainWrapper />}>
+        <Route path="project">{projectNewCodeDefinitionRoutes()}</Route>
       </Route>
     </Route>
   );

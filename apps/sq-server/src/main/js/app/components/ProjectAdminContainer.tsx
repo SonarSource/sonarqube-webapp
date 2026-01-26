@@ -27,6 +27,7 @@ import handleRequiredAuthorization from '../utils/handleRequiredAuthorization';
 
 interface Props {
   component: Component;
+  skipMainWrapper?: boolean;
 }
 
 export class ProjectAdminContainer extends React.PureComponent<Props> {
@@ -69,6 +70,7 @@ export class ProjectAdminContainer extends React.PureComponent<Props> {
 
   isProjectAdmin = () => {
     const { configuration } = this.props.component;
+
     return configuration?.showSettings;
   };
 
@@ -77,12 +79,15 @@ export class ProjectAdminContainer extends React.PureComponent<Props> {
       return null;
     }
 
-    return (
-      <main>
+    const content = (
+      <>
         <A11ySkipTarget anchor="admin_main" />
+
         <Outlet />
-      </main>
+      </>
     );
+
+    return this.props.skipMainWrapper ? content : <main>{content}</main>;
   }
 }
 

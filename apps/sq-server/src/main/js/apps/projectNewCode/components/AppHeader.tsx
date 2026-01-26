@@ -27,20 +27,22 @@ export interface AppHeaderProps {
   canAdmin: boolean;
 }
 
-export default function AppHeader(props: AppHeaderProps) {
-  const { canAdmin } = props;
+export interface PageDescriptionProps {
+  canAdmin: boolean;
+}
+
+export function PageDescription({ canAdmin }: Readonly<PageDescriptionProps>) {
   const toUrl = useDocUrl(DocLink.NewCodeDefinition);
 
   return (
-    <header className="sw-mt-8 sw-mb-4">
-      <Heading as="h1" className="sw-mb-6">
-        <FormattedMessage id="project_baseline.page" />
-      </Heading>
+    <>
       <Text as="p">
         <FormattedMessage id="project_baseline.page.description" />
       </Text>
+
       <Text as="p" className="sw-mt-4">
         <FormattedMessage id="project_baseline.page.description2" />
+
         {canAdmin && (
           <FormattedMessage
             id="project_baseline.page.description3"
@@ -57,6 +59,7 @@ export default function AppHeader(props: AppHeaderProps) {
           />
         )}
       </Text>
+
       <Link
         className="sw-block"
         enableOpenInNewTab
@@ -65,6 +68,20 @@ export default function AppHeader(props: AppHeaderProps) {
       >
         <FormattedMessage id="learn_more_in_doc" />
       </Link>
+    </>
+  );
+}
+
+export function AppHeader(props: Readonly<AppHeaderProps>) {
+  const { canAdmin } = props;
+
+  return (
+    <header className="sw-mt-8 sw-mb-4">
+      <Heading as="h1" className="sw-mb-6">
+        <FormattedMessage id="project_baseline.page" />
+      </Heading>
+
+      <PageDescription canAdmin={canAdmin} />
     </header>
   );
 }

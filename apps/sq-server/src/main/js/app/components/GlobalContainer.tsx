@@ -48,7 +48,6 @@ import { UpdateNotification } from './update-notification/UpdateNotification';
 const PAGES_WITH_SECONDARY_BACKGROUND = new Set([
   '/tutorials',
   '/projects/create',
-  '/project/baseline',
   '/project/branches',
   '/project/key',
   '/project/deletion',
@@ -101,6 +100,7 @@ const PAGES_MIGRATED: string[] = [
   '/issues',
   '/profiles',
   '/project/activity',
+  '/project/baseline',
   '/project/issues',
   '/quality_gates',
   '/unsubscribe',
