@@ -19,9 +19,11 @@
  */
 
 import { MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
-import React, { Component, ErrorInfo, lazy, Suspense } from 'react';
+import React, { Component, ComponentType, ErrorInfo, lazy, Suspense, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { getWrappedDisplayName } from '../components/hoc/utils';
 import { requestTryAndRepeatUntil } from './request';
+import useEffectOnce from './useEffectOnce';
 
 export function lazyLoadComponent<T extends React.ComponentType<any>>(
   factory: () => Promise<{ default: T }>,
@@ -90,4 +92,24 @@ Component stack: ${info.componentStack}
     }
     return this.props.children;
   }
+}
+
+/**
+ * This is a MacGyver fix to solve [SC-39549](https://sonarsource.atlassian.net/browse/SC-39549).
+ * Basically using two paperclips and duct tape to prevent an infinite rendering loop.
+ */
+export function withLazyLoadingDelay<P extends {}>(WrappedComponent: ComponentType<P>) {
+  function Wrapper(props: P) {
+    const [ready, setReady] = useState(false);
+
+    useEffectOnce(() => {
+      setReady(true);
+    });
+
+    return ready && <WrappedComponent {...props} />;
+  }
+
+  Wrapper.displayName = getWrappedDisplayName(WrappedComponent, 'lazyLoaded');
+
+  return Wrapper as ComponentType<P>;
 }
