@@ -18,62 +18,29 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
-import * as React from 'react';
-import { Title } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
-import CreationModal from './CreationModal';
+import { Button, ButtonVariety, Heading, Text } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 
-interface Props {
-  onCreate: (name: string, url: string) => Promise<void>;
+interface HeaderProps {
+  onCreateClick: () => void;
 }
 
-interface State {
-  creationModal: boolean;
-}
+export function Header({ onCreateClick }: Readonly<HeaderProps>) {
+  return (
+    <header className="sw-mb-4 sw-mt-8">
+      <div className="sw-flex sw-justify-between">
+        <Heading as="h1" className="sw-mb-4">
+          <FormattedMessage id="project_links.page" />
+        </Heading>
 
-export default class Header extends React.PureComponent<Props, State> {
-  mounted = false;
-  state: State = { creationModal: false };
+        <Button id="create-project-link" onClick={onCreateClick} variety={ButtonVariety.Primary}>
+          <FormattedMessage id="create" />
+        </Button>
+      </div>
 
-  componentDidMount() {
-    this.mounted = true;
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  handleCreateClick = () => {
-    this.setState({ creationModal: true });
-  };
-
-  handleCreationModalClose = () => {
-    if (this.mounted) {
-      this.setState({ creationModal: false });
-    }
-  };
-
-  render() {
-    return (
-      <>
-        <header className="sw-mt-8 sw-mb-4">
-          <div className="sw-flex sw-justify-between">
-            <Title className="sw-mb-4">{translate('project_links.page')}</Title>
-            <Button
-              id="create-project-link"
-              onClick={this.handleCreateClick}
-              variety={ButtonVariety.Primary}
-            >
-              {translate('create')}
-            </Button>
-          </div>
-          <p>{translate('project_links.page.description')}</p>
-        </header>
-        {this.state.creationModal && (
-          <CreationModal onClose={this.handleCreationModalClose} onSubmit={this.props.onCreate} />
-        )}
-      </>
-    );
-  }
+      <Text as="p">
+        <FormattedMessage id="project_links.page.description" />
+      </Text>
+    </header>
+  );
 }

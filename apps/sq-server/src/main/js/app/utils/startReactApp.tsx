@@ -170,8 +170,6 @@ function renderComponentRoutes({
           {settingsRoutes()}
           {aicaSettingsRoutes()}
           {webhooksRoutes()}
-
-          {projectLinksRoutes()}
         </Route>
         {projectPermissionsRoutes()}
       </Route>
@@ -181,6 +179,7 @@ function renderComponentRoutes({
         <Route path="project">
           {projectDeletionRoutes()}
           {projectKeyRoutes()}
+          {projectLinksRoutes()}
           {projectNewCodeDefinitionRoutes()}
         </Route>
       </Route>

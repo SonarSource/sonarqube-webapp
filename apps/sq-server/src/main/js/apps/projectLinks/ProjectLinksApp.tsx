@@ -18,103 +18,123 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner } from '@sonarsource/echoes-react';
-import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout } from '~design-system';
+import { Button, ButtonVariety, Layout, Spinner } from '@sonarsource/echoes-react';
+import { useCallback, useEffect, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useFlags } from '~adapters/helpers/feature-flags';
+import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
+import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { createLink, deleteLink, getProjectLinks } from '~sq-server-commons/api/projectLinks';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { Component, ProjectLink } from '~sq-server-commons/types/types';
-import Header from './Header';
+import CreationModal from './CreationModal';
+import { Header } from './Header';
 import ProjectLinkTable from './ProjectLinkTable';
 
-interface Props {
-  component: Component;
-}
+export function ProjectLinksApp({ component }: Readonly<{ component: Component }>) {
+  const [creationModal, setCreationModal] = useState(false);
+  const [links, setLinks] = useState<ProjectLink[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
+  const intl = useIntl();
 
-interface State {
-  links?: ProjectLink[];
-  loading: boolean;
-}
+  useEffect(() => {
+    setLoading(true);
 
-export class ProjectLinksApp extends React.PureComponent<Props, State> {
-  mounted = false;
-  state: State = { loading: true };
-
-  componentDidMount() {
-    this.mounted = true;
-    this.fetchLinks();
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    if (prevProps.component.key !== this.props.component.key) {
-      this.fetchLinks();
-    }
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  fetchLinks = () => {
-    const {
-      component: { key },
-    } = this.props;
-
-    this.setState({ loading: true });
-    getProjectLinks(key).then(
-      (links) => {
-        if (this.mounted) {
-          this.setState({ links, loading: false });
-        }
+    getProjectLinks(component.key).then(
+      (fetchedLinks) => {
+        setLinks(fetchedLinks);
+        setLoading(false);
       },
       () => {
-        if (this.mounted) {
-          this.setState({ loading: false });
-        }
+        setLoading(false);
       },
     );
-  };
+  }, [component.key]);
 
-  handleCreateLink = (name: string, url: string) => {
-    const {
-      component: { key },
-    } = this.props;
+  const addLinkToList = useCallback((link: ProjectLink) => {
+    setLinks((prevLinks) => [...prevLinks, link]);
+  }, []);
 
-    return createLink({ name, projectKey: key, url }).then((link) => {
-      if (this.mounted) {
-        this.setState(({ links = [] }) => ({
-          links: [...links, link],
-        }));
-      }
-    });
-  };
+  const removeLinkFromList = useCallback((linkId: string) => {
+    setLinks((prevLinks) => prevLinks.filter((link) => link.id !== linkId));
+  }, []);
 
-  handleDeleteLink = (linkId: string) => {
-    return deleteLink(linkId).then(() => {
-      if (this.mounted) {
-        this.setState(({ links = [] }) => ({
-          links: links.filter((link) => link.id !== linkId),
-        }));
-      }
-    });
-  };
+  const handleCreateLink = useCallback(
+    (name: string, url: string) => {
+      return createLink({ name, projectKey: component.key, url }).then(addLinkToList);
+    },
+    [component.key, addLinkToList],
+  );
 
-  render() {
-    const { loading, links } = this.state;
-    return (
-      <LargeCenteredLayout>
-        <div className="sw-my-8">
-          <Helmet defer={false} title={translate('project_links.page')} />
-          <Header onCreate={this.handleCreateLink} />
+  const handleDeleteLink = useCallback(
+    async (linkId: string) => {
+      await deleteLink(linkId);
+      removeLinkFromList(linkId);
+    },
+    [removeLinkFromList],
+  );
+
+  const handleOpenCreationModal = useCallback(() => {
+    setCreationModal(true);
+  }, []);
+
+  const handleCloseCreationModal = useCallback(() => {
+    setCreationModal(false);
+  }, []);
+
+  const handleCreateAndClose = useCallback(
+    async (name: string, url: string) => {
+      await handleCreateLink(name, url);
+      setCreationModal(false);
+    },
+    [handleCreateLink],
+  );
+
+  const actions = (
+    <Layout.ContentHeader.Actions>
+      <Button
+        id="create-project-link"
+        onClick={handleOpenCreationModal}
+        variety={ButtonVariety.Primary}
+      >
+        <FormattedMessage id="create" />
+      </Button>
+    </Layout.ContentHeader.Actions>
+  );
+
+  const description = (
+    <Layout.ContentHeader.Description>
+      <FormattedMessage id="project_links.page.description" />
+    </Layout.ContentHeader.Description>
+  );
+
+  return (
+    <>
+      <ProjectPageTemplate
+        actions={actions}
+        description={description}
+        disableBranchSelector
+        title={intl.formatMessage({ id: 'project_links.page' })}
+      >
+        <A11ySkipTarget anchor="links_main" />
+
+        {!frontEndEngineeringEnableSidebarNavigation && (
+          <Header onCreateClick={handleOpenCreationModal} />
+        )}
+
+        <div className="sw-mt-16">
           <Spinner isLoading={loading}>
-            <ProjectLinkTable links={links ?? []} onDelete={this.handleDeleteLink} />
+            <ProjectLinkTable links={links} onDelete={handleDeleteLink} />
           </Spinner>
         </div>
-      </LargeCenteredLayout>
-    );
-  }
+      </ProjectPageTemplate>
+
+      {creationModal && (
+        <CreationModal onClose={handleCloseCreationModal} onSubmit={handleCreateAndClose} />
+      )}
+    </>
+  );
 }
 
 export default withComponentContext(ProjectLinksApp);
