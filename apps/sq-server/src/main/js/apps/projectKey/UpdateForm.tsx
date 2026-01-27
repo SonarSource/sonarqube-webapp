@@ -18,33 +18,42 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, ModalAlert, Text } from '@sonarsource/echoes-react';
-import * as React from 'react';
-import { useIntl } from 'react-intl';
-import { FlagMessage, FormField, InputField } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import {
+  Button,
+  ButtonVariety,
+  FormFieldValidation,
+  FormFieldWidth,
+  ModalAlert,
+  Text,
+  TextInput,
+} from '@sonarsource/echoes-react';
+import { ChangeEvent, useCallback, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { validateProjectKey } from '~sq-server-commons/helpers/projects';
 import { ProjectKeyValidationResult } from '~sq-server-commons/types/component';
 import { Component } from '~sq-server-commons/types/types';
 
-export interface UpdateFormProps {
+interface UpdateFormProps {
   component: Pick<Component, 'key' | 'name'>;
   onKeyChange: (newKey: string) => Promise<void>;
 }
 
-export default function UpdateForm({ component, onKeyChange }: Readonly<UpdateFormProps>) {
-  const intl = useIntl();
-  const [newKey, setNewKey] = React.useState(component.key);
+export function UpdateForm({ component, onKeyChange }: Readonly<UpdateFormProps>) {
+  const [newKey, setNewKey] = useState(component.key);
   const hasChanged = newKey !== component.key;
+  const intl = useIntl();
 
   const validationResult = validateProjectKey(newKey);
+
   const error =
     validationResult === ProjectKeyValidationResult.Valid
       ? undefined
-      : translate('onboarding.create_project.project_key.error', validationResult);
+      : intl.formatMessage({
+          id: `onboarding.create_project.project_key.error.${validationResult}`,
+        });
 
-  const onInputChange = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onInputChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
       setNewKey(e.currentTarget.value);
     },
     [setNewKey],
@@ -52,54 +61,42 @@ export default function UpdateForm({ component, onKeyChange }: Readonly<UpdateFo
 
   return (
     <form
+      className="sw-mt-8"
       onSubmit={(e) => {
         e.preventDefault();
       }}
     >
-      <FormField htmlFor="project-key-input" label={translate('update_key.new_key')} required>
-        <InputField
-          aria-describedby="project-key-input-error project-key-input-hint"
-          aria-invalid={hasChanged && error !== undefined}
-          autoFocus
-          id="project-key-input"
-          isInvalid={hasChanged && error !== undefined}
-          isValid={hasChanged && error === undefined}
-          name="update_key.new_key"
-          onChange={onInputChange}
-          required
-          type="text"
-          value={newKey}
-        />
+      <TextInput
+        id="project-key-input"
+        isRequired
+        label={<FormattedMessage id="update_key.new_key" />}
+        messageInvalid={error}
+        onChange={onInputChange}
+        type="text"
+        validation={hasChanged && error ? FormFieldValidation.Invalid : undefined}
+        value={newKey}
+        width={FormFieldWidth.Large}
+      />
 
-        <output>
-          {Boolean(error) && (
-            <FlagMessage
-              className="sw-mt-2 sw-w-abs-400"
-              id="project-key-input-error"
-              variant="error"
-            >
-              {error}
-            </FlagMessage>
-          )}
-        </output>
-
-        <Text className="sw-mt-2 sw-max-w-1/2" isSubtle>
-          <span id="project-key-input-hint">
-            {translate('onboarding.create_project.project_key.description')}
-          </span>
+      <div className="sw-mb-4 sw-mt-4 sw-w-abs-600">
+        <Text as="p" isSubtle>
+          <FormattedMessage id="onboarding.create_project.project_key.description" />
         </Text>
-      </FormField>
+      </div>
 
-      <div className="sw-mt-2">
+      <div className="sw-mt-8">
         <ModalAlert
           content={
             <>
               <span>
-                {translate('update_key.old_key')}:&nbsp;
+                <FormattedMessage id="update_key.old_key" />
+                :&nbsp;
                 <strong className="sw-typo-lg-semibold">{component.key}</strong>
               </span>
+
               <div className="sw-mt-2">
-                {translate('update_key.new_key')}:&nbsp;
+                <FormattedMessage id="update_key.new_key" />
+                :&nbsp;
                 <strong className="sw-typo-lg-semibold">{newKey}</strong>
               </div>
             </>
@@ -110,10 +107,10 @@ export default function UpdateForm({ component, onKeyChange }: Readonly<UpdateFo
           )}
           primaryButton={
             <Button onClick={() => onKeyChange(newKey)} variety={ButtonVariety.Primary}>
-              {translate('update_verb')}
+              <FormattedMessage id="update_verb" />
             </Button>
           }
-          title={translate('update_key.page')}
+          title={intl.formatMessage({ id: 'update_key.page' })}
         >
           <Button
             id="update-key-submit"
@@ -121,7 +118,7 @@ export default function UpdateForm({ component, onKeyChange }: Readonly<UpdateFo
             type="submit"
             variety={ButtonVariety.Primary}
           >
-            {translate('update_verb')}
+            <FormattedMessage id="update_verb" />
           </Button>
         </ModalAlert>
 
@@ -135,7 +132,7 @@ export default function UpdateForm({ component, onKeyChange }: Readonly<UpdateFo
           type="reset"
           variety={ButtonVariety.Default}
         >
-          {translate('reset_verb')}
+          <FormattedMessage id="reset_verb" />
         </Button>
       </div>
     </form>

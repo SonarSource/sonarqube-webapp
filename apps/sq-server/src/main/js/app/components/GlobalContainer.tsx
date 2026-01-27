@@ -103,6 +103,7 @@ const PAGES_MIGRATED: string[] = [
   '/project/baseline',
   '/project/deletion',
   '/project/issues',
+  '/project/key',
   '/quality_gates',
   '/unsubscribe',
 ];

@@ -172,7 +172,6 @@ function renderComponentRoutes({
           {webhooksRoutes()}
 
           {projectLinksRoutes()}
-          {projectKeyRoutes()}
         </Route>
         {projectPermissionsRoutes()}
       </Route>
@@ -181,6 +180,7 @@ function renderComponentRoutes({
       <Route element={<ProjectAdminContainer skipMainWrapper />}>
         <Route path="project">
           {projectDeletionRoutes()}
+          {projectKeyRoutes()}
           {projectNewCodeDefinitionRoutes()}
         </Route>
       </Route>

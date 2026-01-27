@@ -18,24 +18,28 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading } from '@sonarsource/echoes-react';
-import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout } from '~design-system';
+import { Heading, Text } from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useFlags } from '~adapters/helpers/feature-flags';
+import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { withRouter } from '~shared/components/hoc/withRouter';
+import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { RecentHistory } from '~shared/helpers/recent-history';
 import { Router } from '~shared/types/router';
 import { changeKey } from '~sq-server-commons/api/components';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { Component } from '~sq-server-commons/types/types';
-import UpdateForm from './UpdateForm';
+import { UpdateForm } from './UpdateForm';
 
 interface Props {
   component: Component;
   router: Router;
 }
 
-function ProjectKeyApp({ component, router }: Props) {
+function ProjectKeyApp({ component, router }: Readonly<Props>) {
+  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
+  const intl = useIntl();
+
   const handleChangeKey = (newKey: string) => {
     return changeKey({ from: component.key, to: newKey }).then(() => {
       RecentHistory.remove(component.key);
@@ -44,18 +48,27 @@ function ProjectKeyApp({ component, router }: Props) {
   };
 
   return (
-    <LargeCenteredLayout id="project-key">
-      <Helmet defer={false} title={translate('update_key.page')} />
-      <div className="sw-my-8">
-        <header className="sw-mt-8 sw-mb-4">
+    <ProjectPageTemplate
+      description={intl.formatMessage({ id: 'update_key.page.description' })}
+      disableBranchSelector
+      title={intl.formatMessage({ id: 'update_key.page' })}
+    >
+      <A11ySkipTarget anchor="project_key_main" />
+
+      {!frontEndEngineeringEnableSidebarNavigation && (
+        <header className="sw-mb-4 sw-mt-8">
           <Heading as="h1" className="sw-mb-4">
-            {translate('update_key.page')}
+            <FormattedMessage id="update_key.page" />
           </Heading>
-          <div className="sw-mb-2">{translate('update_key.page.description')}</div>
+
+          <Text as="p" className="sw-mb-4">
+            <FormattedMessage id="update_key.page.description" />
+          </Text>
         </header>
-        <UpdateForm component={component} onKeyChange={handleChangeKey} />
-      </div>
-    </LargeCenteredLayout>
+      )}
+
+      <UpdateForm component={component} onKeyChange={handleChangeKey} />
+    </ProjectPageTemplate>
   );
 }
 
