@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { BasicSeparator, TutorialStep, TutorialStepList } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
@@ -56,48 +55,37 @@ export default function AzurePipelinesTutorial(props: Readonly<AzurePipelinesTut
   }, [config.buildTool]);
 
   return (
-    <>
-      <Heading as="h1">{translate('onboarding.tutorial.with.azure_pipelines.title')}</Heading>
-
-      <TutorialStepList className="sw-mb-10">
-        <TutorialStep
-          title={translate(
-            `onboarding.tutorial.with.azure_pipelines.${Steps.ExtensionInstallation}.title`,
-          )}
-        >
-          <ExtensionInstallationStepContent />
-        </TutorialStep>
-
-        <TutorialStep
-          title={translate(
-            `onboarding.tutorial.with.azure_pipelines.${Steps.ServiceEndpoint}.title`,
-          )}
-        >
-          <ServiceEndpointStepContent
-            baseUrl={baseUrl}
-            component={component}
-            currentUser={currentUser}
-          />
-        </TutorialStep>
-
-        <TutorialStep
-          title={translate(
-            `onboarding.tutorial.with.azure_pipelines.${Steps.BranchAnalysis}.title`,
-          )}
-        >
-          <BranchAnalysisStepContent component={component} config={config} setConfig={setConfig} />
-        </TutorialStep>
-
-        {done && (
-          <>
-            <BasicSeparator className="sw-my-10" />
-            <AllSet
-              alm={alm ?? AlmKeys.Azure}
-              willRefreshAutomatically={willRefreshAutomatically}
-            />
-          </>
+    <TutorialStepList className="sw-mb-10">
+      <TutorialStep
+        title={translate(
+          `onboarding.tutorial.with.azure_pipelines.${Steps.ExtensionInstallation}.title`,
         )}
-      </TutorialStepList>
-    </>
+      >
+        <ExtensionInstallationStepContent />
+      </TutorialStep>
+
+      <TutorialStep
+        title={translate(`onboarding.tutorial.with.azure_pipelines.${Steps.ServiceEndpoint}.title`)}
+      >
+        <ServiceEndpointStepContent
+          baseUrl={baseUrl}
+          component={component}
+          currentUser={currentUser}
+        />
+      </TutorialStep>
+
+      <TutorialStep
+        title={translate(`onboarding.tutorial.with.azure_pipelines.${Steps.BranchAnalysis}.title`)}
+      >
+        <BranchAnalysisStepContent component={component} config={config} setConfig={setConfig} />
+      </TutorialStep>
+
+      {done && (
+        <>
+          <BasicSeparator className="sw-my-10" />
+          <AllSet alm={alm ?? AlmKeys.Azure} willRefreshAutomatically={willRefreshAutomatically} />
+        </>
+      )}
+    </TutorialStepList>
   );
 }

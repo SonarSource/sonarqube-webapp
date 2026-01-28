@@ -52,12 +52,6 @@ it('should render correctly and allow token generation', async () => {
   renderAzurePipelinesTutorial();
   const user = userEvent.setup();
 
-  expect(
-    screen.getByRole('heading', {
-      name: 'onboarding.tutorial.with.azure_pipelines.title',
-    }),
-  ).toBeInTheDocument();
-
   // Default step.
   assertDefaultStepIsCorrectlyRendered();
 

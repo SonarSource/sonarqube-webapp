@@ -18,9 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { translate } from '../../../helpers/l10n';
 import { Component } from '../../../types/types';
 import { LoggedInUser } from '../../../types/users';
 import ProjectAnalysisStep from './ProjectAnalysisStep';
@@ -59,12 +57,7 @@ export default class OtherTutorial extends React.PureComponent<Props, State> {
     const { step, token } = this.state;
 
     return (
-      <div>
-        <div className="sw-mb-4">
-          <Heading as="h1">{translate('onboarding.project_analysis.header')} </Heading>
-          <Text isSubtle>{translate('onboarding.project_analysis.description')}</Text>
-        </div>
-
+      <>
         <TokenStep
           currentUser={currentUser}
           finished={Boolean(this.state.token)}
@@ -84,7 +77,7 @@ export default class OtherTutorial extends React.PureComponent<Props, State> {
           stepNumber={2}
           token={token}
         />
-      </div>
+      </>
     );
   }
 }

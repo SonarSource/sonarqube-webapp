@@ -7314,7 +7314,7 @@ export const defaultMessages = {
   'onboarding.tutorial.with.yaml.gradle':
     'Update your {groovy} or {kotlin} file with the {sq} plugin and its configuration:',
 
-  'onboarding.tutorial.with.bitbucket_ci.title': 'Analyze your project with Bitbucket CI',
+  'onboarding.tutorial.with.bitbucket-pipelines.title': 'Analyze your project with Bitbucket CI',
   'onboarding.tutorial.with.bitbucket_pipelines.variables.title': 'Create repository variables',
   'onboarding.tutorial.with.bitbucket_pipelines.yaml.title':
     'Create your pipelines builds configuration',
@@ -7331,7 +7331,7 @@ export const defaultMessages = {
     'Make sure {secured} is check.',
   'onboarding.tutorial.with.bitbucket_pipelines.variables.secured.sentence.secured': 'Secured',
 
-  'onboarding.tutorial.with.github_ci.title': 'Analyze your project with GitHub CI',
+  'onboarding.tutorial.with.github-actions.title': 'Analyze your project with GitHub CI',
   'onboarding.tutorial.with.github_action.create_secret.title': 'Create GitHub Secrets',
   'onboarding.tutorial.with.github_action.create_secret.monorepo_project_level_token_info':
     'If you use project-level tokens, {link} for each project in your monorepo and create the associated secrets as per previous steps (secrets names need to be unique per project e.g. SONAR_TOKEN_1, SONAR_TOKEN_2...)',
@@ -7357,7 +7357,7 @@ export const defaultMessages = {
   'onboarding.tutorial.with.github_action.dart':
     'Add the following steps to your GitHub Actions Workflow after build of your Flutter or Dart project:',
 
-  'onboarding.tutorial.with.gitlab_ci.title': 'Analyze your project with GitLab CI',
+  'onboarding.tutorial.with.gitlab-ci.title': 'Analyze your project with GitLab CI',
   'onboarding.tutorial.with.gitlab_ci.project_key.title': 'Set your project key',
   'onboarding.tutorial.with.gitlab_ci.project_key.maven.step2':
     'Add the following to your {file} file:',
@@ -7786,7 +7786,7 @@ export const defaultMessages = {
 
   'onboarding.tutorial.with.azure_pipelines.os': 'What is your agent host?',
   'onboarding.tutorial.with.azure_pipelines.architecture': 'What is your agent architecture?',
-  'onboarding.tutorial.with.azure_pipelines.title':
+  'onboarding.tutorial.with.azure-pipelines.title':
     'Analyze your project with Azure DevOps Pipelines',
   'onboarding.tutorial.with.azure_pipelines.ExtensionInstallation.title':
     'Install {productName} extension for Azure DevOps',

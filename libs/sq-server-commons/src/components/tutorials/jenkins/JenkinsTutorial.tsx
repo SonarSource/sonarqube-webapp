@@ -18,13 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '../../../context/available-features/withAvailableFeatures';
 import { BasicSeparator, TutorialStepList } from '../../../design-system';
-import { translate } from '../../../helpers/l10n';
 import { useProjectBindingQuery } from '../../../queries/devops-integration';
 import { AlmKeys, AlmSettingsInstance } from '../../../types/alm-settings';
 import { Feature } from '../../../types/features';
@@ -58,8 +56,6 @@ export function JenkinsTutorial(props: Readonly<JenkinsTutorialProps>) {
 
   return (
     <>
-      <Heading as="h1">{translate('onboarding.tutorial.with.jenkins.title')}</Heading>
-
       {hasSelectAlmStep && <SelectAlmStep alm={alm} onChange={setAlm} />}
       {alm && (
         <>

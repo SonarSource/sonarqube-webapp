@@ -91,13 +91,13 @@ const ui = {
 
 it.each([
   [TutorialModes.Jenkins, 'onboarding.tutorial.with.jenkins.title'],
-  [TutorialModes.AzurePipelines, 'onboarding.tutorial.with.azure_pipelines.title'],
+  [TutorialModes.AzurePipelines, 'onboarding.tutorial.with.azure-pipelines.title'],
   [
     TutorialModes.BitbucketPipelines,
     'onboarding.tutorial.with.bitbucket_pipelines.variables.title',
   ],
   [TutorialModes.GitHubActions, 'onboarding.tutorial.with.github_action.create_secret.title'],
-  [TutorialModes.GitLabCI, 'onboarding.tutorial.with.gitlab_ci.title'],
+  [TutorialModes.GitLabCI, 'onboarding.tutorial.with.gitlab-ci.title'],
   [TutorialModes.Local, 'onboarding.project_analysis.header'],
   [TutorialModes.OtherCI, 'onboarding.project_analysis.header'],
 ])('should properly click link for %s', async (mode, title) => {

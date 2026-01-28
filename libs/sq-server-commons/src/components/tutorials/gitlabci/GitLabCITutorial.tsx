@@ -18,10 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { BasicSeparator, TutorialStepList } from '../../../design-system';
-import { translate } from '../../../helpers/l10n';
 import { AlmKeys } from '../../../types/alm-settings';
 import { Component } from '../../../types/types';
 import { LoggedInUser } from '../../../types/users';
@@ -49,8 +47,6 @@ export default function GitLabCITutorial(props: Readonly<GitLabCITutorialProps>)
 
   return (
     <>
-      <Heading as="h1">{translate('onboarding.tutorial.with.gitlab_ci.title')}</Heading>
-
       <TutorialStepList className="sw-mb-8">
         <EnvironmentVariablesStep
           baseUrl={baseUrl}

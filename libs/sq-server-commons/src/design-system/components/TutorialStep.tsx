@@ -68,8 +68,6 @@ const Step = styled.li<{ stepNumber?: number }>`
   list-style: none;
   counter-increment: li ${(props) => props.stepNumber};
 
-  ${tw`sw-mt-10`}
-
   &::before {
     color: ${cssVar('color-text-subtle')};
     content: counter(li);
@@ -82,7 +80,7 @@ const Step = styled.li<{ stepNumber?: number }>`
 
   & + & {
     border-top: ${themeBorder('default')};
-
+    ${tw`sw-mt-10`}
     ${tw`sw-pt-10`}
   }
 `;

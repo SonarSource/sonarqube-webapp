@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { BasicSeparator, TutorialStep, TutorialStepList } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
@@ -64,65 +63,61 @@ export default function BitbucketPipelinesTutorial(
   }, [config.buildTool]);
 
   return (
-    <>
-      <Heading as="h1">{translate('onboarding.tutorial.with.bitbucket_ci.title')}</Heading>
-
-      <TutorialStepList className="sw-mb-8">
-        <TutorialStep
-          title={translate('onboarding.tutorial.with.bitbucket_pipelines.variables.title')}
-        >
-          <RepositoryVariables
-            almBinding={almBinding}
-            baseUrl={baseUrl}
-            component={component}
-            currentUser={currentUser}
-          />
-        </TutorialStep>
-        <TutorialStep title={translate('onboarding.tutorial.with.bitbucket_pipelines.yaml.title')}>
-          <YamlFileStep ci={TutorialModes.BitbucketPipelines} config={config} setConfig={setConfig}>
-            {(config) => (
-              <>
-                {shouldShowGithubCFamilyExampleRepositories(config) && (
-                  <GithubCFamilyExampleRepositories
-                    ci={TutorialModes.BitbucketPipelines}
-                    className="sw-my-4 sw-w-abs-600"
-                  />
-                )}
-                {shouldShowArchSelector(OSs.Linux, config) && (
-                  <div className="sw-my-4">
-                    <RenderOptions
-                      checked={arch}
-                      label={translate('onboarding.build.other.architecture')}
-                      onCheck={(value: Arch) => {
-                        setArch(value);
-                      }}
-                      optionLabelKey="onboarding.build.other.architecture"
-                      options={[Arch.X86_64, Arch.Arm64]}
-                      titleLabelKey="onboarding.build.other.architecture"
-                    />
-                  </div>
-                )}
-                <AnalysisCommand
-                  arch={arch}
-                  component={component}
-                  config={config}
-                  mainBranchName={mainBranchName}
+    <TutorialStepList className="sw-mb-8">
+      <TutorialStep
+        title={translate('onboarding.tutorial.with.bitbucket_pipelines.variables.title')}
+      >
+        <RepositoryVariables
+          almBinding={almBinding}
+          baseUrl={baseUrl}
+          component={component}
+          currentUser={currentUser}
+        />
+      </TutorialStep>
+      <TutorialStep title={translate('onboarding.tutorial.with.bitbucket_pipelines.yaml.title')}>
+        <YamlFileStep ci={TutorialModes.BitbucketPipelines} config={config} setConfig={setConfig}>
+          {(config) => (
+            <>
+              {shouldShowGithubCFamilyExampleRepositories(config) && (
+                <GithubCFamilyExampleRepositories
+                  ci={TutorialModes.BitbucketPipelines}
+                  className="sw-my-4 sw-w-abs-600"
                 />
-              </>
-            )}
-          </YamlFileStep>
-        </TutorialStep>
+              )}
+              {shouldShowArchSelector(OSs.Linux, config) && (
+                <div className="sw-my-4">
+                  <RenderOptions
+                    checked={arch}
+                    label={translate('onboarding.build.other.architecture')}
+                    onCheck={(value: Arch) => {
+                      setArch(value);
+                    }}
+                    optionLabelKey="onboarding.build.other.architecture"
+                    options={[Arch.X86_64, Arch.Arm64]}
+                    titleLabelKey="onboarding.build.other.architecture"
+                  />
+                </div>
+              )}
+              <AnalysisCommand
+                arch={arch}
+                component={component}
+                config={config}
+                mainBranchName={mainBranchName}
+              />
+            </>
+          )}
+        </YamlFileStep>
+      </TutorialStep>
 
-        {done && (
-          <>
-            <BasicSeparator className="sw-my-10" />
-            <AllSet
-              alm={AlmKeys.BitbucketCloud}
-              willRefreshAutomatically={willRefreshAutomatically}
-            />
-          </>
-        )}
-      </TutorialStepList>
-    </>
+      {done && (
+        <>
+          <BasicSeparator className="sw-my-10" />
+          <AllSet
+            alm={AlmKeys.BitbucketCloud}
+            willRefreshAutomatically={willRefreshAutomatically}
+          />
+        </>
+      )}
+    </TutorialStepList>
   );
 }

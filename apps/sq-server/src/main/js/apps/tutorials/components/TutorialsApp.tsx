@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LargeCenteredLayout } from '~design-system';
 import TutorialSelection from '~sq-server-commons/components/tutorials/TutorialSelection';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
@@ -31,7 +30,7 @@ export interface TutorialsAppProps {
   currentUser: CurrentUser;
 }
 
-export function TutorialsApp(props: TutorialsAppProps) {
+export function TutorialsApp(props: Readonly<TutorialsAppProps>) {
   const { component, currentUser } = props;
 
   if (!isLoggedIn(currentUser)) {
@@ -39,11 +38,7 @@ export function TutorialsApp(props: TutorialsAppProps) {
     return null;
   }
 
-  return (
-    <LargeCenteredLayout className="sw-pt-8">
-      <TutorialSelection component={component} currentUser={currentUser} />
-    </LargeCenteredLayout>
-  );
+  return <TutorialSelection component={component} currentUser={currentUser} />;
 }
 
 export default withComponentContext(withCurrentUserContext(TutorialsApp));

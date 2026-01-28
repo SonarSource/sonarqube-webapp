@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { BasicSeparator, TutorialStep, TutorialStepList } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
@@ -60,42 +59,37 @@ export default function GitHubActionTutorial(props: Readonly<GitHubActionTutoria
   }, [config.buildTool]);
 
   return (
-    <>
-      <Heading as="h1">{translate('onboarding.tutorial.with.github_ci.title')}</Heading>
-      <TutorialStepList className="sw-mb-8">
-        <TutorialStep
-          title={translate('onboarding.tutorial.with.github_action.create_secret.title')}
-        >
-          <SecretStep
-            almBinding={almBinding}
-            baseUrl={baseUrl}
-            component={component}
-            currentUser={currentUser}
-            monorepo={monorepo}
-          />
-        </TutorialStep>
-        <TutorialStep title={translate('onboarding.tutorial.with.github_action.yaml.title')}>
-          <YamlFileStep ci={TutorialModes.GitHubActions} config={config} setConfig={setConfig}>
-            {(config) => (
-              <AnalysisCommand
-                component={component}
-                config={config}
-                mainBranchName={mainBranchName}
-                monorepo={monorepo}
-              />
-            )}
-          </YamlFileStep>
-        </TutorialStep>
-        {done && (
-          <>
-            <BasicSeparator className="sw-my-10" />
-            <AllSet
-              alm={almBinding?.alm || AlmKeys.GitHub}
-              willRefreshAutomatically={willRefreshAutomatically}
+    <TutorialStepList className="sw-mb-8">
+      <TutorialStep title={translate('onboarding.tutorial.with.github_action.create_secret.title')}>
+        <SecretStep
+          almBinding={almBinding}
+          baseUrl={baseUrl}
+          component={component}
+          currentUser={currentUser}
+          monorepo={monorepo}
+        />
+      </TutorialStep>
+      <TutorialStep title={translate('onboarding.tutorial.with.github_action.yaml.title')}>
+        <YamlFileStep ci={TutorialModes.GitHubActions} config={config} setConfig={setConfig}>
+          {(config) => (
+            <AnalysisCommand
+              component={component}
+              config={config}
+              mainBranchName={mainBranchName}
+              monorepo={monorepo}
             />
-          </>
-        )}
-      </TutorialStepList>
-    </>
+          )}
+        </YamlFileStep>
+      </TutorialStep>
+      {done && (
+        <>
+          <BasicSeparator className="sw-my-10" />
+          <AllSet
+            alm={almBinding?.alm || AlmKeys.GitHub}
+            willRefreshAutomatically={willRefreshAutomatically}
+          />
+        </>
+      )}
+    </TutorialStepList>
   );
 }

@@ -111,6 +111,7 @@ const PAGES_MIGRATED: string[] = [
   '/project/key',
   '/project/links',
   '/quality_gates',
+  '/tutorials',
   '/unsubscribe',
 ];
 

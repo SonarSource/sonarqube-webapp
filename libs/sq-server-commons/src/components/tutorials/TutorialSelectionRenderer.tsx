@@ -19,19 +19,22 @@
  */
 
 import {
-  Breadcrumbs,
+  BreadcrumbsItems,
   Heading,
+  Layout,
   LinkStandalone,
   MessageCallout,
   MessageVariety,
   Spinner,
   Text,
 } from '@sonarsource/echoes-react';
-import * as React from 'react';
+import { useMemo } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useFlags } from '~adapters/helpers/feature-flags';
 import { useProjectBranchesQuery } from '~adapters/queries/branch';
+import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isMainBranch } from '~shared/helpers/branch-like';
 import { GreyCard } from '../../design-system';
-import { translate } from '../../helpers/l10n';
 import { getProjectTutorialLocation } from '../../helpers/urls';
 import { Image } from '../../sq-server-adapters/components/common/Image';
 import { AlmKeys, AlmSettingsInstance, ProjectAlmBindingResponse } from '../../types/alm-settings';
@@ -66,19 +69,19 @@ function renderAlm(mode: TutorialModes, project: string, icon?: React.ReactNode)
     <GreyCard className="sw-col-span-4 sw-p-4">
       <LinkStandalone iconLeft={icon} to={getProjectTutorialLocation(project, mode)}>
         <span className={icon ? 'sw-ml-2' : ''}>
-          {translate('onboarding.tutorial.choose_method', mode)}
+          <FormattedMessage id={`onboarding.tutorial.choose_method.${mode}`} />
         </span>
       </LinkStandalone>
 
       {mode === TutorialModes.Local && (
         <Text as="p" className="sw-mt-3" isSubtle>
-          {translate('onboarding.mode.help.manual')}
+          <FormattedMessage id="onboarding.mode.help.manual" />
         </Text>
       )}
 
       {mode === TutorialModes.OtherCI && (
         <Text as="p" className="sw-mt-3" isSubtle>
-          {translate('onboarding.mode.help.otherci')}
+          <FormattedMessage id="onboarding.mode.help.otherci" />
         </Text>
       )}
     </GreyCard>
@@ -98,21 +101,46 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
     willRefreshAutomatically,
   } = props;
 
+  const intl = useIntl();
+  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
   const { data: branchLikes = [] } = useProjectBranchesQuery(component);
 
   const mainBranchName =
     (branchLikes.find((b) => isMainBranch(b)) as MainBranch | undefined)?.name ||
     DEFAULT_MAIN_BRANCH_NAME;
 
+  let pageTitle = intl.formatMessage({ id: 'onboarding.tutorial.page.title' });
+
+  const selectedTutorialBreadcrumbs = useMemo<BreadcrumbsItems>(
+    () => [
+      {
+        linkElement: intl.formatMessage({ id: 'onboarding.tutorial.breadcrumbs.home' }),
+        to: getProjectTutorialLocation(component.key),
+      },
+      {
+        linkElement: intl.formatMessage({
+          id: `onboarding.tutorial.breadcrumbs.${selectedTutorial}`,
+        }),
+      },
+    ],
+    [component.key, intl, selectedTutorial],
+  );
+
   if (loading) {
-    return <Spinner />;
+    return (
+      <ProjectPageTemplate disableBranchSelector title={pageTitle}>
+        <Spinner />
+      </ProjectPageTemplate>
+    );
   }
 
   if (!currentUserCanScanProject) {
     return (
-      <MessageCallout className="sw-w-full" variety={MessageVariety.Warning}>
-        {translate('onboarding.tutorial.no_scan_rights')}
-      </MessageCallout>
+      <ProjectPageTemplate disableBranchSelector title={pageTitle}>
+        <MessageCallout variety={MessageVariety.Warning}>
+          <FormattedMessage id="onboarding.tutorial.no_scan_rights" />
+        </MessageCallout>
+      </ProjectPageTemplate>
     );
   }
 
@@ -136,20 +164,30 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
     ].includes(projectBinding.alm);
   }
 
-  return (
-    <div className="sw-typo-default">
-      <AnalysisStatus className="sw-mb-4 sw-w-max" component={component} />
+  if (!selectedTutorial) {
+    return (
+      <ProjectPageTemplate
+        description={<FormattedMessage id="onboarding.tutorial.page.description" />}
+        disableBranchSelector
+        header={
+          !frontEndEngineeringEnableSidebarNavigation && (
+            <Layout.PageHeader
+              description={
+                <Layout.PageHeader.Description>
+                  <FormattedMessage id="onboarding.tutorial.page.description" />
+                </Layout.PageHeader.Description>
+              }
+              title={<Layout.PageHeader.Title>{pageTitle}</Layout.PageHeader.Title>}
+            />
+          )
+        }
+        title={pageTitle}
+      >
+        <AnalysisStatus className="sw-mb-4 sw-w-max" component={component} />
 
-      {selectedTutorial === undefined && (
         <div className="sw-flex sw-flex-col">
-          <Heading as="h1" className="sw-mb-6">
-            {translate('onboarding.tutorial.page.title')}
-          </Heading>
-
-          <Text>{translate('onboarding.tutorial.page.description')}</Text>
-
-          <Heading as="h2" className="sw-mt-12 sw-mb-4">
-            {translate('onboarding.tutorial.choose_method')}
+          <Heading as="h2" hasMarginBottom>
+            <FormattedMessage id="onboarding.tutorial.choose_method" />
           </Heading>
 
           <div className="it__tutorial-selection sw-grid sw-gap-6 sw-grid-cols-12">
@@ -213,23 +251,39 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
             {renderAlm(TutorialModes.Local, component.key)}
           </div>
         </div>
-      )}
+      </ProjectPageTemplate>
+    );
+  }
 
-      {selectedTutorial && (
-        <Breadcrumbs
-          className="sw-mb-3"
-          items={[
-            {
-              linkElement: translate('onboarding.tutorial.breadcrumbs.home'),
-              to: getProjectTutorialLocation(component.key),
-            },
-            {
-              linkElement: translate('onboarding.tutorial.breadcrumbs', selectedTutorial),
-              to: '#',
-            },
-          ]}
-        />
-      )}
+  pageTitle = [TutorialModes.Local, TutorialModes.OtherCI].includes(selectedTutorial)
+    ? intl.formatMessage({ id: 'onboarding.project_analysis.header' })
+    : intl.formatMessage({ id: `onboarding.tutorial.with.${selectedTutorial}.title` });
+
+  const pageDescription = [TutorialModes.Local, TutorialModes.OtherCI].includes(selectedTutorial)
+    ? intl.formatMessage({ id: 'onboarding.project_analysis.description' })
+    : undefined;
+
+  return (
+    <ProjectPageTemplate
+      breadcrumbs={selectedTutorialBreadcrumbs}
+      description={pageDescription}
+      disableBranchSelector
+      header={
+        !frontEndEngineeringEnableSidebarNavigation && (
+          <Layout.PageHeader
+            breadcrumbs={<Layout.PageHeader.Breadcrumbs items={selectedTutorialBreadcrumbs} />}
+            description={
+              pageDescription && (
+                <Layout.PageHeader.Description>{pageDescription}</Layout.PageHeader.Description>
+              )
+            }
+            title={<Layout.PageHeader.Title>{pageTitle}</Layout.PageHeader.Title>}
+          />
+        )
+      }
+      title={pageTitle}
+    >
+      <AnalysisStatus className="sw-mb-4 sw-w-max" component={component} />
 
       {selectedTutorial === TutorialModes.Local && (
         <OtherTutorial baseUrl={baseUrl} component={component} currentUser={currentUser} isLocal />
@@ -289,6 +343,6 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
           willRefreshAutomatically={willRefreshAutomatically}
         />
       )}
-    </div>
+    </ProjectPageTemplate>
   );
 }

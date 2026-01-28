@@ -55,7 +55,7 @@ export default function Step(props: Props) {
 
   return (
     <StyledCard
-      className="sw-mb-2 sw-p-0"
+      className="sw-mb-2 sw-px-0"
       clickable={Boolean(clickable)}
       onClick={clickable ? handleClick : undefined}
       role={clickable ? 'button' : undefined}
