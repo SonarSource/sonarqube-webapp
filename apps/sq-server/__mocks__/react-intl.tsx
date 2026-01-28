@@ -19,7 +19,7 @@
  */
 
 import { isObject, some } from 'lodash';
-import { Fragment, ReactNode } from 'react';
+import { createElement, Fragment, ReactNode } from 'react';
 import { type MessageDescriptor } from 'react-intl';
 
 const formatMessageMock = jest
@@ -69,11 +69,15 @@ module.exports = {
   }),
   FormattedMessage: ({
     id,
+    tagName,
     values,
   }: {
     id: string;
+    tagName?: string;
     values?: Record<string, string | ((text: string) => ReactNode)>;
   }) => {
-    return formatMessageMock({ id }, values);
+    const content = formatMessageMock({ id }, values);
+
+    return tagName ? createElement(tagName, {}, content) : content;
   },
 };

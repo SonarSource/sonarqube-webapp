@@ -166,7 +166,6 @@ function renderComponentRoutes({
           />
           {backgroundTasksRoutes()}
           {projectBranchesRoutes()}
-          {projectDumpRoutes()}
           {settingsRoutes()}
           {aicaSettingsRoutes()}
           {webhooksRoutes()}
@@ -178,6 +177,7 @@ function renderComponentRoutes({
       <Route element={<ProjectAdminContainer skipMainWrapper />}>
         <Route path="project">
           {projectDeletionRoutes()}
+          {projectDumpRoutes()}
           {projectKeyRoutes()}
           {projectLinksRoutes()}
           {projectNewCodeDefinitionRoutes()}

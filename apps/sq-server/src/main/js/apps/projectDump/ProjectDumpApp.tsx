@@ -18,13 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Helmet } from 'react-helmet-async';
-import { BasicSeparator, LargeCenteredLayout, Title } from '~design-system';
+import { Divider, Layout } from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useFlags } from '~adapters/helpers/feature-flags';
+import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import Export from './components/Export';
@@ -36,39 +37,49 @@ interface Props extends WithAvailableFeaturesProps {
 }
 
 export function ProjectDumpApp({ component, hasFeature }: Readonly<Props>) {
+  const intl = useIntl();
+  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
   const projectImportFeatureEnabled = hasFeature(Feature.ProjectImport);
 
-  return (
-    <LargeCenteredLayout id="project-dump">
-      <div className="sw-my-8">
-        <header className="sw-mb-5">
-          <Helmet defer={false} title={translate('project_dump.page')} />
-          <Title className="sw-mb-4">{translate('project_dump.page')}</Title>
-          <div>
-            {projectImportFeatureEnabled ? (
-              <>
-                <p>{translate('project_dump.page.description1')}</p>
-                <p>{translate('project_dump.page.description2')}</p>
-              </>
-            ) : (
-              <>
-                <p>{translate('project_dump.page.description_without_import1')}</p>
-                <p>{translate('project_dump.page.description_without_import2')}</p>
-              </>
-            )}
-          </div>
-        </header>
+  const description = projectImportFeatureEnabled ? (
+    <>
+      <FormattedMessage id="project_dump.page.description1" tagName="p" />
+      <FormattedMessage id="project_dump.page.description2" tagName="p" />
+    </>
+  ) : (
+    <>
+      <FormattedMessage id="project_dump.page.description_without_import1" tagName="p" />
+      <FormattedMessage id="project_dump.page.description_without_import2" tagName="p" />
+    </>
+  );
 
-        <>
-          <div className="sw-mb-4">
-            <h2 className="sw-heading-lg">{translate('project_dump.export')}</h2>
-          </div>
-          <Export componentKey={component.key} />
-          <BasicSeparator className="sw-my-8" />
-          <Import componentKey={component.key} importEnabled={!!projectImportFeatureEnabled} />
-        </>
+  const title = intl.formatMessage({ id: 'project_dump.page' });
+
+  return (
+    <ProjectPageTemplate
+      description={<Layout.PageHeader.Description>{description}</Layout.PageHeader.Description>}
+      disableBranchSelector
+      header={
+        !frontEndEngineeringEnableSidebarNavigation && (
+          <Layout.PageHeader
+            description={
+              <Layout.PageHeader.Description>{description}</Layout.PageHeader.Description>
+            }
+            title={<Layout.PageHeader.Title>{title}</Layout.PageHeader.Title>}
+          />
+        )
+      }
+      title={title}
+    >
+      <div className="sw-mb-4">
+        <h2 className="sw-heading-lg">
+          <FormattedMessage id="project_dump.export" />
+        </h2>
       </div>
-    </LargeCenteredLayout>
+      <Export componentKey={component.key} />
+      <Divider className="sw-my-8" />
+      <Import componentKey={component.key} importEnabled={!!projectImportFeatureEnabled} />
+    </ProjectPageTemplate>
   );
 }
 
