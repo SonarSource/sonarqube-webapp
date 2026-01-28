@@ -18,32 +18,39 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Layout } from '@sonarsource/echoes-react';
 import { noop, without } from 'lodash';
 import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout } from '~design-system';
+import { useIntl, WrappedComponentProps } from 'react-intl';
+import { useFlags } from '~adapters/helpers/feature-flags';
+import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
+import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { Paging } from '~shared/types/paging';
 import * as api from '~sq-server-commons/api/permissions';
 import { getComponents } from '~sq-server-commons/api/project-management';
 import AllHoldersList from '~sq-server-commons/components/permissions/AllHoldersList';
 import { FilterOption } from '~sq-server-commons/components/permissions/SearchForm';
-import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
 import {
-  PERMISSIONS_ORDER_BY_QUALIFIER,
   convertToPermissionDefinitions,
+  PERMISSIONS_ORDER_BY_QUALIFIER,
 } from '~sq-server-commons/helpers/permissions';
 import { ComponentContextShape } from '~sq-server-commons/types/component';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { Component, PermissionGroup, PermissionUser } from '~sq-server-commons/types/types';
 import '../../styles.css';
 import PageHeader from './PageHeader';
+import { PermissionsProjectLocalProjectWarning } from './PermissionsProjectLocalProjectWarning';
+import { PermissionsProjectPageAction } from './PermissionsProjectPageAction';
+import { PermissionsProjectPageDescription } from './PermissionsProjectPageDescription';
+import { PermissionsProjectPageTitle } from './PermissionsProjectPageTitle';
 import PermissionsProjectVisibility from './PermissionsProjectVisibility';
 import PublicProjectDisclaimer from './PublicProjectDisclaimer';
 
-interface Props extends ComponentContextShape {
+interface Props extends ComponentContextShape, WrappedComponentProps {
   component: Component;
+  frontEndEngineeringEnableSidebarNavigation?: boolean;
 }
 
 interface State {
@@ -342,7 +349,7 @@ class PermissionsProjectApp extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { component } = this.props;
+    const { component, intl } = this.props;
     const {
       filter,
       groups,
@@ -361,17 +368,49 @@ class PermissionsProjectApp extends React.PureComponent<Props, State> {
       order = without(order, Permissions.Browse, Permissions.CodeViewer);
     }
     const permissions = convertToPermissionDefinitions(order, 'projects_role');
+    const pageTitle = intl.formatMessage({ id: 'permissions.page' });
 
     return (
-      <LargeCenteredLayout id="project-permissions-page">
-        <div className="sw-my-8">
-          <Helmet defer={false} title={translate('permissions.page')} />
+      <ProjectPageTemplate
+        actions={
+          <Layout.ContentHeader.Actions>
+            <PermissionsProjectPageAction
+              component={component}
+              isProjectManaged={isProjectManaged}
+              loadHolders={this.loadHolders}
+            />
+          </Layout.ContentHeader.Actions>
+        }
+        breadcrumbs={[{ linkElement: pageTitle }]}
+        contentHeaderTitle={
+          <PermissionsProjectPageTitle component={component} isProjectManaged={isProjectManaged} />
+        }
+        description={
+          <Layout.ContentHeader.Description>
+            <PermissionsProjectPageDescription
+              component={component}
+              isProjectManaged={isProjectManaged}
+            />
+          </Layout.ContentHeader.Description>
+        }
+        disableBranchSelector
+        title={pageTitle}
+      >
+        <A11ySkipTarget anchor="permissions_main" />
+        <div id="project-permissions-page">
+          {!this.props.frontEndEngineeringEnableSidebarNavigation && (
+            <PageHeader
+              component={component}
+              isProjectManaged={isProjectManaged}
+              loadHolders={this.loadHolders}
+            />
+          )}
 
-          <PageHeader
+          <PermissionsProjectLocalProjectWarning
             component={component}
             isProjectManaged={isProjectManaged}
-            loadHolders={this.loadHolders}
           />
+
           <div>
             <PermissionsProjectVisibility
               component={component}
@@ -409,9 +448,26 @@ class PermissionsProjectApp extends React.PureComponent<Props, State> {
             usersPaging={usersPaging}
           />
         </div>
-      </LargeCenteredLayout>
+      </ProjectPageTemplate>
     );
   }
 }
 
-export default withComponentContext(PermissionsProjectApp);
+export default function PermissionsProjectAppContainer() {
+  const { component, ...componentContext } = useComponent();
+  const intl = useIntl();
+  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
+
+  if (!component) {
+    return null;
+  }
+
+  return (
+    <PermissionsProjectApp
+      component={component}
+      frontEndEngineeringEnableSidebarNavigation={frontEndEngineeringEnableSidebarNavigation}
+      intl={intl}
+      {...componentContext}
+    />
+  );
+}

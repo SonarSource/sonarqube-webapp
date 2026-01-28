@@ -18,38 +18,32 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Title } from '~design-system';
+import { MessageCallout } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
+import { isProject } from '~shared/helpers/component';
 import { Component } from '~sq-server-commons/types/types';
-import { PermissionsProjectPageAction } from './PermissionsProjectPageAction';
-import { PermissionsProjectPageDescription } from './PermissionsProjectPageDescription';
-import { PermissionsProjectPageTitle } from './PermissionsProjectPageTitle';
+import { useProjectProvisionedStatus } from './useProjectProvisionedStatus';
 
 interface Props {
   component: Component;
   isProjectManaged: boolean;
-  loadHolders: () => void;
 }
 
-export default function PageHeader(props: Readonly<Props>) {
-  const { component, loadHolders, isProjectManaged } = props;
+export function PermissionsProjectLocalProjectWarning(props: Readonly<Props>) {
+  const { component, isProjectManaged } = props;
 
-  return (
-    <header className="sw-mb-2 sw-flex sw-items-center sw-justify-between">
-      <div>
-        <Title>
-          <PermissionsProjectPageTitle component={component} isProjectManaged={isProjectManaged} />
-        </Title>
-
-        <PermissionsProjectPageDescription
-          component={component}
-          isProjectManaged={isProjectManaged}
-        />
-      </div>
-      <PermissionsProjectPageAction
-        component={component}
-        isProjectManaged={isProjectManaged}
-        loadHolders={loadHolders}
-      />
-    </header>
+  const { githubProvisioningStatus, isGitHubProject } = useProjectProvisionedStatus(
+    component,
+    isProjectManaged,
   );
+
+  if (githubProvisioningStatus && !isGitHubProject && isProject(component.qualifier)) {
+    return (
+      <MessageCallout className="sw-mb-2 sw-max-w-max" variety="warning">
+        <FormattedMessage id="project_permission.local_project_with_github_provisioning" />
+      </MessageCallout>
+    );
+  }
+
+  return null;
 }

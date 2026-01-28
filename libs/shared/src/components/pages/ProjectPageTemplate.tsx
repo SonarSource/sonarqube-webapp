@@ -54,6 +54,8 @@ interface ProjectContentHeaderProps {
 interface Props extends PropsWithChildren, ProjectContentHeaderProps {
   /** Aside left content of the page, should be wrapped in a Layout.AsideLeft */
   asideLeft?: ReactNode;
+  /** Optional content header title, useful when the content header title needs to be different from the page title or something else than a string */
+  contentHeaderTitle?: ContentHeaderProps['title'];
   /** Additional Page header, displayed under the Content header, not needed for most pages, must be wrapped in a Layout.PageHeader component */
   header?: ReactNode;
   /** Additional class name to apply to the page grid */
@@ -70,6 +72,7 @@ export const ProjectPageTemplate = forwardRef<HTMLDivElement, Props>((props, ref
   const {
     asideLeft,
     children,
+    contentHeaderTitle,
     header,
     pageClassName,
     skipPageContentWrapper,
@@ -86,7 +89,7 @@ export const ProjectPageTemplate = forwardRef<HTMLDivElement, Props>((props, ref
       <Helmet defer={false} title={title} />
 
       {frontEndEngineeringEnableSidebarNavigation && (
-        <ProjectContentHeader {...contentHeaderProps} title={title} />
+        <ProjectContentHeader {...contentHeaderProps} title={contentHeaderTitle ?? title} />
       )}
 
       {asideLeft}

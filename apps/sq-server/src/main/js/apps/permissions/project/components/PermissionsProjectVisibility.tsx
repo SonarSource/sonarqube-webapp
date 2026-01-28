@@ -18,6 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
+import { isProject } from '~shared/helpers/component';
 import VisibilitySelector from '~sq-server-commons/components/common/VisibilitySelector';
 import {
   useIsGitHubProjectQuery,
@@ -46,13 +49,22 @@ export default function PermissionsProjectVisibility(props: Readonly<Props>) {
     (isGitHubProject && !!gitHubProvisioningStatus) || (isGitLabProject && isProjectManaged);
 
   return (
-    <VisibilitySelector
-      canTurnToPrivate={canTurnToPrivate}
-      className="sw-flex sw-my-4"
-      disabled={isDisabled}
-      loading={isLoading || isFetching}
-      onChange={handleVisibilityChange}
-      visibility={component.visibility}
-    />
+    <>
+      {isProject(component.qualifier) && component.visibility ? (
+        <Text as="p">
+          <FormattedMessage
+            id={`visibility.${component.visibility}.description.${component.qualifier}`}
+          />
+        </Text>
+      ) : undefined}
+      <VisibilitySelector
+        canTurnToPrivate={canTurnToPrivate}
+        className="sw-flex sw-my-4"
+        disabled={isDisabled}
+        loading={isLoading || isFetching}
+        onChange={handleVisibilityChange}
+        visibility={component.visibility}
+      />
+    </>
   );
 }

@@ -170,7 +170,6 @@ function renderComponentRoutes({
           {aicaSettingsRoutes()}
           {webhooksRoutes()}
         </Route>
-        {projectPermissionsRoutes()}
       </Route>
 
       {/* Pages migrated to the new layout get their <main> from Layout.PageContent */}
@@ -182,6 +181,7 @@ function renderComponentRoutes({
           {projectLinksRoutes()}
           {projectNewCodeDefinitionRoutes()}
         </Route>
+        {projectPermissionsRoutes()}
       </Route>
     </Route>
   );
