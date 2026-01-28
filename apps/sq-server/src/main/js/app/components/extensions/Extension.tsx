@@ -28,8 +28,10 @@ import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl'
 import { useFlags } from '~adapters/helpers/feature-flags';
 import { Theme } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
+import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { Extension as TypeExtension } from '~shared/types/common';
 import { Location, Router } from '~shared/types/router';
+import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
@@ -66,14 +68,14 @@ interface State {
 const EXTENSION_PAGE_TEMPLATES: Record<string, React.ComponentType | undefined> = {
   // TODO: this is not ready yet as it requires sync with sonar-enterprise, but it will include
   // something like:
-  // 'developer-server/application-console': TBD,
-  // 'governance/application_report': TBD,
+  'developer-server/application-console': ProjectPageTemplate,
+  'governance/application_report': ProjectPageTemplate,
   // 'governance/console': TBD,
   // 'governance/portfolio': ProjectPageTemplate,
-  // 'governance/portfolios': TBD,
-  // 'governance/report': TBD,
+  'governance/portfolios': GlobalPageTemplate,
+  'governance/report': ProjectPageTemplate,
   // 'governance/views_console': TBD,
-  // 'securityreport/securityreport': ProjectPageTemplate,
+  'securityreport/securityreport': ProjectPageTemplate,
 };
 
 class Extension extends React.PureComponent<ExtensionProps, State> {
