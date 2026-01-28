@@ -2094,6 +2094,10 @@ export const defaultMessages = {
     'This component has a child with the same name.',
   'architecture.page.model.modal.move_component.disabled_current_location':
     'You cannot move a component to its own location.',
+  'architecture.page.model.modal.move_component.disabled_selected':
+    'You cannot move a component to itself.',
+  'architecture.page.model.modal.move_component.disabled_kind':
+    'You cannot move a component to {kind}.',
   'architecture.page.model.modal.rename_component.title': 'Rename "{label}"',
   'architecture.page.model.modal.rename_component.new_name': 'New name',
   'architecture.page.model.modal.add_placeholder.title': 'Add placeholder',

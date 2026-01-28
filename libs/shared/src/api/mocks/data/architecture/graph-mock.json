@@ -1,0 +1,29 @@
+{
+  "schema_version": "2.0.0",
+  "source": "architecture.graph.js.file_graph.intended_perspective_mapped_detail_filtered",
+  "format": "hi-graph.nodes",
+  "nodeCount": 2,
+  "edgeCount": 0,
+  "externalsCount": 0,
+  "nodes": [
+      {
+          "id": 1,
+          "name": "api",
+          "kind": "package",
+          "separator": ".",
+          "nodes": [],
+          "edges": [],
+          "locations": []
+      },
+      {
+        "id": 2,
+        "name": "implementation",
+        "kind": "package",
+        "separator": ".",
+        "nodes": [],
+        "edges": [],
+        "locations": []
+    }
+  ],
+  "files": []
+}
