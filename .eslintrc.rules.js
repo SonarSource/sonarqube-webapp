@@ -301,7 +301,6 @@ module.exports = {
     'no-caller': 'error',
     'no-console': 'error',
     'no-constructor-return': 'error',
-    'no-continue': 'error',
     'no-control-regex': 'error',
     'no-delete-var': 'error',
     'no-div-regex': 'error',
