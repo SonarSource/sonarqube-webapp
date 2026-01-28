@@ -107,6 +107,7 @@ const PAGES_MIGRATED: string[] = [
   '/project/deletion',
   '/project/extension/securityreport/securityreport',
   '/project/import_export',
+  '/project/information',
   '/project/issues',
   '/project/key',
   '/project/links',
