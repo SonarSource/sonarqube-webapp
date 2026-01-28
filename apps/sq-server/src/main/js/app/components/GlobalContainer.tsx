@@ -111,6 +111,7 @@ const PAGES_MIGRATED: string[] = [
   '/project/issues',
   '/project/key',
   '/project/links',
+  '/project/quality_gate',
   '/project_roles',
   '/quality_gates',
   '/tutorials',

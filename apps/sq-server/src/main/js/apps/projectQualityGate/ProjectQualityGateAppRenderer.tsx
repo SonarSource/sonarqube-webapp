@@ -21,24 +21,19 @@
 import {
   Button,
   ButtonVariety,
+  Layout,
   Link,
   LinkHighlight,
   Spinner,
   Text,
 } from '@sonarsource/echoes-react';
 import { useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { components, OptionProps, SingleValueProps } from 'react-select';
-import {
-  FlagMessage,
-  HelperHintIcon,
-  InputSelect,
-  LargeCenteredLayout,
-  RadioButton,
-  Title,
-} from '~design-system';
+import { useFlags } from '~adapters/helpers/feature-flags';
+import { FlagMessage, HelperHintIcon, InputSelect, RadioButton, Title } from '~design-system';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
+import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { ComponentQualifier } from '~shared/types/component';
 import { AiCodeAssuranceStatus } from '~sq-server-commons/api/ai-code-assurance';
 import DisableableSelectOption from '~sq-server-commons/components/common/DisableableSelectOption';
@@ -138,6 +133,8 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
   const defaultQualityGate = allQualityGates?.find((g) => g.isDefault);
   const [isUserEditing, setIsUserEditing] = useState(false);
   const { hasFeature } = useAvailableFeatures();
+  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
+  const intl = useIntl();
 
   const { data: aiAssuranceStatus, refetch: refetchAiCodeAssuranceStatus } =
     useProjectBranchesAiCodeAssuranceStatusQuery(
@@ -184,8 +181,14 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
     props.onSubmit();
   };
 
+  const pageTitle = intl.formatMessage({ id: 'project_quality_gate.page' });
+
   if (loading) {
-    return <Spinner />;
+    return (
+      <ProjectPageTemplate disableBranchSelector title={pageTitle}>
+        <Spinner />
+      </ProjectPageTemplate>
+    );
   }
 
   if (
@@ -213,14 +216,20 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
   }));
 
   return (
-    <LargeCenteredLayout id="project-quality-gate">
-      <div className="sw-my-8">
-        <Helmet defer={false} title={translate('project_quality_gate.page')} />
-        <A11ySkipTarget anchor="qg_main" />
+    <ProjectPageTemplate
+      description={
+        <Layout.ContentHeader.Description>
+          <FormattedMessage id="quality_gates.projects.help" />
+        </Layout.ContentHeader.Description>
+      }
+      disableBranchSelector
+      title={pageTitle}
+    >
+      <A11ySkipTarget anchor="qg_main" />
 
+      {!frontEndEngineeringEnableSidebarNavigation && (
         <header className="sw-mb-5 sw-flex sw-items-center">
-          <Helmet defer={false} title={translate('project_quality_gate.page')} />
-          <Title>{translate('project_quality_gate.page')}</Title>
+          <Title>{pageTitle}</Title>
           <HelpTooltip
             className="sw-ml-2 sw-mb-4"
             overlay={translate('quality_gates.projects.help')}
@@ -228,233 +237,231 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
             <HelperHintIcon />
           </HelpTooltip>
         </header>
+      )}
 
-        <div className="sw-flex sw-flex-col sw-items-start">
-          {(aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_ON ||
-            aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_PASS ||
-            aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_FAIL) && (
-            <AiCodeAssuranceBanner
-              className="sw-mb-10 sw-w-abs-800"
-              description={
-                <FormattedMessage
-                  id="project_quality_gate.ai_generated_code_protected.description"
-                  values={{
-                    p: (text) => <p>{text}</p>,
-                    link: (text) => (
-                      <DocumentationLink
-                        className="sw-inline-block"
-                        enableOpenInNewTab
-                        highlight={LinkHighlight.Default}
-                        to={DocLink.AiCodeAssurance}
-                      >
-                        {text}
-                      </DocumentationLink>
-                    ),
-                  }}
-                />
-              }
-              iconVariant={AiIconVariant.Check}
-              title={
-                <FormattedMessage id="project_quality_gate.ai_generated_code_protected.title" />
-              }
-            />
-          )}
+      <div className="sw-flex sw-flex-col sw-items-start" id="project-quality-gate">
+        {(aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_ON ||
+          aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_PASS ||
+          aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_FAIL) && (
+          <AiCodeAssuranceBanner
+            className="sw-mb-10 sw-w-abs-800"
+            description={
+              <FormattedMessage
+                id="project_quality_gate.ai_generated_code_protected.description"
+                values={{
+                  p: (text) => <p>{text}</p>,
+                  link: (text) => (
+                    <DocumentationLink
+                      className="sw-inline-block"
+                      enableOpenInNewTab
+                      highlight={LinkHighlight.Default}
+                      to={DocLink.AiCodeAssurance}
+                    >
+                      {text}
+                    </DocumentationLink>
+                  ),
+                }}
+              />
+            }
+            iconVariant={AiIconVariant.Check}
+            title={<FormattedMessage id="project_quality_gate.ai_generated_code_protected.title" />}
+          />
+        )}
 
-          {aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF && (
-            <AiCodeAssuranceBanner
-              className="sw-mb-10 sw-w-abs-800"
-              description={
+        {aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF && (
+          <AiCodeAssuranceBanner
+            className="sw-mb-10 sw-w-abs-800"
+            description={
+              <FormattedMessage
+                id="project_quality_gate.ai_generated_code_not_protected.description"
+                values={{
+                  p: (text) => <p>{text}</p>,
+                  link: (text) => (
+                    <DocumentationLink
+                      enableOpenInNewTab
+                      highlight={LinkHighlight.Default}
+                      to={DocLink.AiCodeAssurance}
+                    >
+                      {text}
+                    </DocumentationLink>
+                  ),
+                  linkSonarWay: (text) => (
+                    <Link
+                      highlight={LinkHighlight.Default}
+                      to={{
+                        pathname: '/quality_gates/show/Sonar%20way%20for%20AI%20Code',
+                      }}
+                    >
+                      {text}
+                    </Link>
+                  ),
+                  linkQualifyDoc: (text) => (
+                    <DocumentationLink
+                      enableOpenInNewTab
+                      highlight={LinkHighlight.Default}
+                      to={DocLink.AiCodeAssuranceQualifyQualityGate}
+                    >
+                      {text}
+                    </DocumentationLink>
+                  ),
+                }}
+              />
+            }
+            iconVariant={AiIconVariant.Default}
+            title={
+              <FormattedMessage id="project_quality_gate.ai_generated_code_not_protected.title" />
+            }
+          />
+        )}
+
+        <form
+          id="project_quality_gate"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            await handleSubmit();
+            setIsUserEditing(false);
+            refetchAiCodeAssuranceStatus();
+          }}
+        >
+          <p className="sw-mb-4">{translate('project_quality_gate.page.description')}</p>
+
+          <div className="sw-mb-4">
+            <RadioButton
+              checked={usesDefault}
+              className="it__project-quality-default sw-items-start"
+              disabled={submitting}
+              onCheck={() => {
+                setIsUserEditing(true);
+                props.onSelect(USE_SYSTEM_DEFAULT);
+              }}
+              value={USE_SYSTEM_DEFAULT}
+            >
+              <div>
+                <div className="sw-ml-1 sw-mb-2">
+                  {translate('project_quality_gate.always_use_default')}
+                </div>
+                <div>
+                  <Text isSubtle>
+                    {translate('current_noun')}: {defaultQualityGate.name}
+                    {defaultQualityGate.isAiCodeSupported && (
+                      <AIAssuredIcon
+                        className="sw-ml-1"
+                        color={AiIconColor.Subtle}
+                        height={16}
+                        variant={AiCodeAssuranceStatus.AI_CODE_ASSURED_ON}
+                        width={16}
+                      />
+                    )}
+                    {defaultQualityGate.isBuiltIn && (
+                      <BuiltInQualityGateBadge className="sw-ml-1" />
+                    )}
+                  </Text>
+                </div>
+                {containsAiCode &&
+                  isUserEditing &&
+                  usesDefault &&
+                  defaultQualityGate.isAiCodeSupported === true && (
+                    <AiAssuranceSuccessMessage className="sw-mt-1" />
+                  )}
+
+                {containsAiCode &&
+                  isUserEditing &&
+                  usesDefault &&
+                  defaultQualityGate.isAiCodeSupported === false && (
+                    <AiAssuranceWarningMessage className="sw-mt-1" />
+                  )}
+              </div>
+            </RadioButton>
+          </div>
+
+          <div className="sw-mb-4">
+            <RadioButton
+              checked={!usesDefault}
+              className="it__project-quality-specific sw-items-start sw-mt-1"
+              disabled={submitting}
+              onCheck={(value: string) => {
+                setIsUserEditing(true);
+                if (usesDefault) {
+                  props.onSelect(value);
+                }
+              }}
+              value={!usesDefault ? selectedQualityGateName : currentQualityGate.name}
+            >
+              <div>
+                <div className="sw-ml-1 sw-mb-2">
+                  {translate('project_quality_gate.always_use_specific')}
+                </div>
+              </div>
+            </RadioButton>
+            <div className="sw-ml-6">
+              <InputSelect
+                aria-label={translate('project_quality_gate.select_specific_qg')}
+                className="it__project-quality-gate-select"
+                components={{
+                  Option: renderQualityGateOption,
+                  SingleValue: singleValueRenderer,
+                }}
+                isClearable={usesDefault}
+                isDisabled={submitting || usesDefault}
+                onChange={({ value }: QualityGateOption) => {
+                  setIsUserEditing(true);
+                  props.onSelect(value);
+                }}
+                options={options}
+                size="large"
+                value={options.find((o) => o.value === selectedQualityGateName)}
+              />
+            </div>
+            {containsAiCode &&
+              isUserEditing &&
+              !usesDefault &&
+              selectedQualityGate?.isAiCodeSupported === true && (
+                <AiAssuranceSuccessMessage className="sw-mt-1 sw-ml-6" />
+              )}
+
+            {containsAiCode &&
+              isUserEditing &&
+              !usesDefault &&
+              selectedQualityGate &&
+              selectedQualityGate.isAiCodeSupported === false && (
+                <AiAssuranceWarningMessage className="sw-mt-1 sw-ml-6" />
+              )}
+
+            {selectedQualityGate && !hasConditionOnNewCode(selectedQualityGate) && (
+              <FlagMessage variant="warning">
                 <FormattedMessage
-                  id="project_quality_gate.ai_generated_code_not_protected.description"
+                  id="project_quality_gate.no_condition_on_new_code"
                   values={{
-                    p: (text) => <p>{text}</p>,
-                    link: (text) => (
-                      <DocumentationLink
-                        enableOpenInNewTab
-                        highlight={LinkHighlight.Default}
-                        to={DocLink.AiCodeAssurance}
-                      >
-                        {text}
-                      </DocumentationLink>
-                    ),
-                    linkSonarWay: (text) => (
-                      <Link
-                        highlight={LinkHighlight.Default}
-                        to={{
-                          pathname: '/quality_gates/show/Sonar%20way%20for%20AI%20Code',
-                        }}
-                      >
-                        {text}
+                    link: (
+                      <Link to={getQualityGateUrl(selectedQualityGate.name)}>
+                        {translate('project_quality_gate.no_condition.link')}
                       </Link>
                     ),
-                    linkQualifyDoc: (text) => (
-                      <DocumentationLink
-                        enableOpenInNewTab
-                        highlight={LinkHighlight.Default}
-                        to={DocLink.AiCodeAssuranceQualifyQualityGate}
-                      >
-                        {text}
-                      </DocumentationLink>
-                    ),
                   }}
                 />
-              }
-              iconVariant={AiIconVariant.Default}
-              title={
-                <FormattedMessage id="project_quality_gate.ai_generated_code_not_protected.title" />
-              }
-            />
-          )}
+              </FlagMessage>
+            )}
+            {needsReanalysis && (
+              <FlagMessage className="sw-mt-4 sw-w-abs-600" variant="warning">
+                {translate('project_quality_gate.requires_new_analysis')}
+              </FlagMessage>
+            )}
+          </div>
 
-          <form
-            id="project_quality_gate"
-            onSubmit={async (e) => {
-              e.preventDefault();
-              await handleSubmit();
-              setIsUserEditing(false);
-              refetchAiCodeAssuranceStatus();
-            }}
-          >
-            <p className="sw-mb-4">{translate('project_quality_gate.page.description')}</p>
-
-            <div className="sw-mb-4">
-              <RadioButton
-                checked={usesDefault}
-                className="it__project-quality-default sw-items-start"
-                disabled={submitting}
-                onCheck={() => {
-                  setIsUserEditing(true);
-                  props.onSelect(USE_SYSTEM_DEFAULT);
-                }}
-                value={USE_SYSTEM_DEFAULT}
-              >
-                <div>
-                  <div className="sw-ml-1 sw-mb-2">
-                    {translate('project_quality_gate.always_use_default')}
-                  </div>
-                  <div>
-                    <Text isSubtle>
-                      {translate('current_noun')}: {defaultQualityGate.name}
-                      {defaultQualityGate.isAiCodeSupported && (
-                        <AIAssuredIcon
-                          className="sw-ml-1"
-                          color={AiIconColor.Subtle}
-                          height={16}
-                          variant={AiCodeAssuranceStatus.AI_CODE_ASSURED_ON}
-                          width={16}
-                        />
-                      )}
-                      {defaultQualityGate.isBuiltIn && (
-                        <BuiltInQualityGateBadge className="sw-ml-1" />
-                      )}
-                    </Text>
-                  </div>
-                  {containsAiCode &&
-                    isUserEditing &&
-                    usesDefault &&
-                    defaultQualityGate.isAiCodeSupported === true && (
-                      <AiAssuranceSuccessMessage className="sw-mt-1" />
-                    )}
-
-                  {containsAiCode &&
-                    isUserEditing &&
-                    usesDefault &&
-                    defaultQualityGate.isAiCodeSupported === false && (
-                      <AiAssuranceWarningMessage className="sw-mt-1" />
-                    )}
-                </div>
-              </RadioButton>
-            </div>
-
-            <div className="sw-mb-4">
-              <RadioButton
-                checked={!usesDefault}
-                className="it__project-quality-specific sw-items-start sw-mt-1"
-                disabled={submitting}
-                onCheck={(value: string) => {
-                  setIsUserEditing(true);
-                  if (usesDefault) {
-                    props.onSelect(value);
-                  }
-                }}
-                value={!usesDefault ? selectedQualityGateName : currentQualityGate.name}
-              >
-                <div>
-                  <div className="sw-ml-1 sw-mb-2">
-                    {translate('project_quality_gate.always_use_specific')}
-                  </div>
-                </div>
-              </RadioButton>
-              <div className="sw-ml-6">
-                <InputSelect
-                  aria-label={translate('project_quality_gate.select_specific_qg')}
-                  className="it__project-quality-gate-select"
-                  components={{
-                    Option: renderQualityGateOption,
-                    SingleValue: singleValueRenderer,
-                  }}
-                  isClearable={usesDefault}
-                  isDisabled={submitting || usesDefault}
-                  onChange={({ value }: QualityGateOption) => {
-                    setIsUserEditing(true);
-                    props.onSelect(value);
-                  }}
-                  options={options}
-                  size="large"
-                  value={options.find((o) => o.value === selectedQualityGateName)}
-                />
-              </div>
-              {containsAiCode &&
-                isUserEditing &&
-                !usesDefault &&
-                selectedQualityGate?.isAiCodeSupported === true && (
-                  <AiAssuranceSuccessMessage className="sw-mt-1 sw-ml-6" />
-                )}
-
-              {containsAiCode &&
-                isUserEditing &&
-                !usesDefault &&
-                selectedQualityGate &&
-                selectedQualityGate.isAiCodeSupported === false && (
-                  <AiAssuranceWarningMessage className="sw-mt-1 sw-ml-6" />
-                )}
-
-              {selectedQualityGate && !hasConditionOnNewCode(selectedQualityGate) && (
-                <FlagMessage variant="warning">
-                  <FormattedMessage
-                    id="project_quality_gate.no_condition_on_new_code"
-                    values={{
-                      link: (
-                        <Link to={getQualityGateUrl(selectedQualityGate.name)}>
-                          {translate('project_quality_gate.no_condition.link')}
-                        </Link>
-                      ),
-                    }}
-                  />
-                </FlagMessage>
-              )}
-              {needsReanalysis && (
-                <FlagMessage className="sw-mt-4 sw-w-abs-600" variant="warning">
-                  {translate('project_quality_gate.requires_new_analysis')}
-                </FlagMessage>
-              )}
-            </div>
-
-            <div>
-              <Button
-                form="project_quality_gate"
-                isDisabled={submitting}
-                type="submit"
-                variety={ButtonVariety.Primary}
-              >
-                {translate('save')}
-              </Button>
-              <Spinner isLoading={submitting} />
-            </div>
-          </form>
-        </div>
+          <div>
+            <Button
+              form="project_quality_gate"
+              isDisabled={submitting}
+              type="submit"
+              variety={ButtonVariety.Primary}
+            >
+              {translate('save')}
+            </Button>
+            <Spinner isLoading={submitting} />
+          </div>
+        </form>
       </div>
-    </LargeCenteredLayout>
+    </ProjectPageTemplate>
   );
 }
 
