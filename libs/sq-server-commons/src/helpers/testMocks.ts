@@ -20,6 +20,7 @@
 
 import { omit } from 'lodash';
 import { To } from 'react-router-dom';
+import { mockLoggedInUser as mockLoggedInUserShared } from '~shared/helpers/mocks/users';
 import {
   CodeAttribute,
   CodeAttributeCategory,
@@ -294,11 +295,9 @@ export function mockCurrentUser(overrides: Partial<CurrentUser> = {}): CurrentUs
 
 export function mockLoggedInUser(overrides: Partial<LoggedInUser> = {}): LoggedInUser {
   return {
-    groups: [],
-    isLoggedIn: true,
-    id: 'user-id',
-    login: 'luke',
-    name: 'Skywalker',
+    ...mockLoggedInUserShared({
+      id: 'user-id',
+    }),
     scmAccounts: [],
     dismissedNotices: {
       educationPrinciples: false,
