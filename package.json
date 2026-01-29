@@ -88,7 +88,7 @@
     "highlightjs-cobol": "0.3.3",
     "highlightjs-sap-abap": "0.3.0",
     "launchdarkly-react-client-sdk": "3.9.0",
-    "lodash": "4.17.21",
+    "lodash": "4.17.23",
     "lunr": "2.3.9",
     "memoize-one": "6.0.0",
     "packageurl-js": "2.0.1",
