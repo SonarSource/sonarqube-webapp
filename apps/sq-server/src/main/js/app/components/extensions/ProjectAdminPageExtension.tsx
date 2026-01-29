@@ -19,18 +19,30 @@
  */
 
 import * as React from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 import { useRefreshBranches } from '~sq-server-commons/queries/branch';
 import NotFound from '../NotFound';
 import Extension from './Extension';
 
 export default function ProjectAdminPageExtension() {
-  const { extensionKey, pluginKey } = useParams();
+  const { extensionKey: extensionKeyFromParams, pluginKey: pluginKeyFromParams } = useParams();
+  const location = useLocation();
   const { component, onComponentChange } = React.useContext(ComponentContext);
 
   // We keep that for compatibility but ideally should advocate to use tanstack query
   const onBranchesChange = useRefreshBranches(component?.key);
+
+  // Try to get from URL params first (for non-migrated extensions with dynamic routes)
+  let pluginKey = pluginKeyFromParams;
+  let extensionKey = extensionKeyFromParams;
+
+  // If params are empty, extract from pathname (for migrated extensions with static routes)
+  // Example pathname: /project/admin/extension/governance/report
+  if (!pluginKeyFromParams || !extensionKeyFromParams) {
+    [, pluginKey, extensionKey] =
+      /\/admin\/extension\/([^/]+)\/([^/]+)/.exec(location.pathname) ?? [];
+  }
 
   const extension = component?.configuration?.extensions?.find(
     (p) => p.key === `${pluginKey}/${extensionKey}`,

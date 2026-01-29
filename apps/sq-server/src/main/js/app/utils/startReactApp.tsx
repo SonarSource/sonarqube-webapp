@@ -97,6 +97,7 @@ import AdminContainerLegacy from '../components/AdminContainerLegacy';
 import App from '../components/App';
 import ComponentContainer from '../components/ComponentContainer';
 import DocumentationRedirect from '../components/DocumentationRedirect';
+import { projectAdminExtensionMigratedRoutes } from '../components/extensions/Extension';
 import GlobalAdminPageExtension from '../components/extensions/GlobalAdminPageExtension';
 import GlobalPageExtension from '../components/extensions/GlobalPageExtension';
 import PortfoliosPage from '../components/extensions/PortfoliosPage';
@@ -166,13 +167,27 @@ function renderComponentRoutes({
         {tutorialsRoutes()}
       </Route>
 
-      {/* Pages not yet using new layout - ProjectAdminContainer provides <main> wrapper */}
-      <Route element={<ProjectAdminContainer />}>
-        <Route path="project">
+      <Route path="project">
+        {/* Pages migrated to the new layout get their <main> from Layout.PageContent */}
+        <Route element={<ProjectAdminContainer skipMainWrapper />}>
+          {/* Migrated extensions - explicit routes based on EXTENSION_PAGE_TEMPLATES */}
+          {projectAdminExtensionMigratedRoutes()}
+
+          {projectDeletionRoutes()}
+          {projectDumpRoutes()}
+          {projectKeyRoutes()}
+          {projectLinksRoutes()}
+          {projectNewCodeDefinitionRoutes()}
+        </Route>
+
+        {/* Pages not yet using new layout - ProjectAdminContainer provides <main> wrapper */}
+        <Route element={<ProjectAdminContainer />}>
+          {/* Non-migrated extensions (from Sonar or 3rd-party ones) */}
           <Route
             element={<ProjectAdminPageExtension />}
             path="admin/extension/:pluginKey/:extensionKey"
           />
+
           {backgroundTasksRoutes()}
           {projectBranchesRoutes()}
           {settingsRoutes()}
@@ -180,16 +195,7 @@ function renderComponentRoutes({
           {webhooksRoutes()}
         </Route>
       </Route>
-
-      {/* Pages migrated to the new layout get their <main> from Layout.PageContent */}
       <Route element={<ProjectAdminContainer skipMainWrapper />}>
-        <Route path="project">
-          {projectDeletionRoutes()}
-          {projectDumpRoutes()}
-          {projectKeyRoutes()}
-          {projectLinksRoutes()}
-          {projectNewCodeDefinitionRoutes()}
-        </Route>
         {projectPermissionsRoutes()}
       </Route>
     </Route>

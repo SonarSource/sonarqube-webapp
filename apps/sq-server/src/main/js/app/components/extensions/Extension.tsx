@@ -25,6 +25,7 @@ import { isEqual } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
+import { Route } from 'react-router-dom';
 import { useFlags } from '~adapters/helpers/feature-flags';
 import { Theme } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
@@ -43,6 +44,7 @@ import { AppState } from '~sq-server-commons/types/appstate';
 import { ExtensionStartMethod } from '~sq-server-commons/types/extension';
 import { Feature } from '~sq-server-commons/types/features';
 import { CurrentUser, HomePage } from '~sq-server-commons/types/users';
+import ProjectAdminPageExtension from './ProjectAdminPageExtension';
 
 export interface ExtensionProps extends WrappedComponentProps {
   appState: AppState;
@@ -63,20 +65,26 @@ interface State {
 }
 
 // Maps internal SonarSource extension keys to their page templates.
-// Different page contexts (project, project admin, portfolio) will need different templates.
+// Different page contexts (project, global) will need different templates.
 // Only extension keys listed here will receive ExtensionPageTemplate and usesSidebarNavigation.
-const EXTENSION_PAGE_TEMPLATES: Record<string, React.ComponentType | undefined> = {
-  // TODO: this is not ready yet as it requires sync with sonar-enterprise, but it will include
-  // something like:
+export const EXTENSION_PAGE_TEMPLATES: Record<string, React.ComponentType | undefined> = {
   'developer-server/application-console': ProjectPageTemplate,
   'governance/application_report': ProjectPageTemplate,
-  // 'governance/console': TBD,
-  // 'governance/portfolio': ProjectPageTemplate,
+  'governance/console': ProjectPageTemplate,
   'governance/portfolios': GlobalPageTemplate,
   'governance/report': ProjectPageTemplate,
-  // 'governance/views_console': TBD,
+  // 'governance/views_console': GlobalPageTemplate,
   'securityreport/securityreport': ProjectPageTemplate,
 };
+
+export const projectAdminExtensionMigratedRoutes = () =>
+  Object.keys(EXTENSION_PAGE_TEMPLATES).map((extensionKey) => (
+    <Route
+      element={<ProjectAdminPageExtension />}
+      key={extensionKey}
+      path={`admin/extension/${extensionKey}`}
+    />
+  ));
 
 class Extension extends React.PureComponent<ExtensionProps, State> {
   container?: HTMLElement | null;
