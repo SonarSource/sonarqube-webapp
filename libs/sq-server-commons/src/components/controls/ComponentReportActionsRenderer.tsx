@@ -46,7 +46,6 @@ export interface ComponentReportActionsRendererProps {
   frequency: string;
   handleSubscription: () => void;
   handleUnsubscription: () => void;
-  scaEnabled: boolean;
   subscribed: boolean;
 }
 

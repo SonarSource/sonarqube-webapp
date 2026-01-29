@@ -99,7 +99,6 @@ export function ComponentReportActions(props: Readonly<Props>) {
       frequency={status.componentFrequency || status.globalFrequency}
       handleSubscription={handleSubscribe}
       handleUnsubscription={handleUnsubscribe}
-      scaEnabled={scaEnabled}
       subscribed={status.subscribed}
     />
   );
