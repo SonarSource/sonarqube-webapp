@@ -22,6 +22,7 @@ import {
   Badge,
   BadgeVariety,
   Button,
+  ButtonSize,
   ButtonVariety,
   MessageInline,
   MessageVariety,
@@ -31,12 +32,18 @@ import { FormattedMessage } from 'react-intl';
 
 export interface Props {
   buttonKey: string;
+  buttonSize?: ButtonSize;
+  buttonVariety?: ButtonVariety;
 }
 
-export default function IdeButtonSafariDisabled({ buttonKey }: Readonly<Props>) {
+export default function IdeButtonSafariDisabled({
+  buttonKey,
+  buttonVariety = ButtonVariety.Primary,
+  buttonSize = ButtonSize.Large,
+}: Readonly<Props>) {
   return (
     <div>
-      <Button className="sw-whitespace-nowrap" isDisabled variety={ButtonVariety.Primary}>
+      <Button className="sw-whitespace-nowrap" isDisabled size={buttonSize} variety={buttonVariety}>
         <FormattedMessage id={buttonKey} />
       </Button>
 
