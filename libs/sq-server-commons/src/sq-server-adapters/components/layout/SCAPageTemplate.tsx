@@ -22,35 +22,64 @@ import { BreadcrumbsProps, Layout, PageGridProps } from '@sonarsource/echoes-rea
 import { forwardRef, PropsWithChildren, ReactNode } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { To } from 'react-router-dom';
+import { useFlags } from '~adapters/helpers/feature-flags';
+import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
+import { isDefined } from '~shared/helpers/types';
+import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
+import { GlobalFooter } from './GlobalFooter';
 
 interface Props extends PropsWithChildren {
   asideLeft?: ReactNode;
-  // eslint-disable-next-line react/no-unused-prop-types
   breadcrumbs?: BreadcrumbsProps['items'];
+  disableBranchSelector?: boolean;
   header?: ReactNode;
-  // eslint-disable-next-line react/no-unused-prop-types
   overrideBranchSelectorPath?: To;
   pageClassName?: string;
   title: string;
   width?: PageGridProps['width'];
 }
 
-export const SCAPageTemplate = forwardRef<HTMLDivElement, Props>(
-  ({ asideLeft, children, header, pageClassName, title, width = 'default' }, ref) => {
+export const SCAPageTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
+  const { children, header, width = 'default', ...templateProps } = props;
+  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
+
+  // Gather possible contexts
+  const { component } = useComponent();
+
+  // Render the page template that relates to the context in which we show the page
+
+  if (isDefined(component)) {
     return (
-      <>
-        <Helmet defer={false} title={title} />
-
-        {asideLeft}
-
-        <Layout.PageGrid className={pageClassName} ref={ref} width={width}>
-          {header}
-
-          <Layout.PageContent>{children}</Layout.PageContent>
-        </Layout.PageGrid>
-      </>
+      <ProjectPageTemplate
+        {...templateProps}
+        // The page header is only used with the old layout, to be removed when we drop the frontEndEngineeringEnableSidebarNavigation flag
+        header={!frontEndEngineeringEnableSidebarNavigation && header}
+        ref={ref}
+        width={width}
+      >
+        {children}
+      </ProjectPageTemplate>
     );
-  },
-);
+  }
+
+  // Default wrapper with no specific page template
+  const { asideLeft, pageClassName } = templateProps;
+
+  return (
+    <>
+      <Helmet defer={false} title={props.title} />
+
+      {asideLeft}
+
+      <Layout.PageGrid className={pageClassName} ref={ref} width={width}>
+        {header}
+
+        <Layout.PageContent>{children}</Layout.PageContent>
+
+        <GlobalFooter />
+      </Layout.PageGrid>
+    </>
+  );
+});
 
 SCAPageTemplate.displayName = 'SCAPageTemplate';
