@@ -80,7 +80,7 @@
     "d3-shape": "3.2.0",
     "d3-zoom": "3.0.0",
     "date-fns": "4.1.0",
-    "diff": "8.0.2",
+    "diff": "8.0.3",
     "dompurify": "3.3.0",
     "formik": "2.4.8",
     "highlight.js": "11.11.1",
