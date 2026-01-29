@@ -198,7 +198,7 @@ function isMeasureEnhanced(measure: Measure | MeasureEnhanced): measure is Measu
   return (measure.metric as Metric)?.key !== undefined;
 }
 
-type RatingValue = 'A' | 'B' | 'C' | 'D' | 'E';
+export type RatingValue = 'A' | 'B' | 'C' | 'D' | 'E';
 const RATING_VALUES: RatingValue[] = ['A', 'B', 'C', 'D', 'E'];
 export function formatRating(value: string | number | undefined): RatingValue | undefined {
   if (!value) {

@@ -37,6 +37,7 @@ When running tests, pick the most relevent platform (cloud or server) and narrow
 ## Echoes Component Styling
 
 - **ALWAYS** prefer semantic Echoes component properties over low-level Tailwind styling classes
+- **ALWAYS** prefer echoes components over legacy `design-system` components for new code.
 - Use component-specific props for visual styling (colors, fonts, sizes, emphasis) rather than manual CSS classes
 - Reserve custom Tailwind only for layout concerns (spacing, positioning, dimensions)
 - Examples: `isSubtle` instead of `sw-text-gray-600`, `size="small"` instead of `sw-text-sm`, `colorOverride="danger"` instead of `sw-text-red-600`

@@ -37,6 +37,7 @@ import { A11yProvider } from '~shared/components/a11y/A11yProvider';
 import { ResetLayerStack } from '~shared/components/ResetLayerStack';
 import StateCallbackHandler from '~shared/components/StateCallbackHandler';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
+import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
 import SuggestionsProvider from '~sq-server-commons/components/embed-docs-modal/SuggestionsProvider';
 import { AddonsContext } from '~sq-server-commons/context/addons/AddonsContext';
@@ -98,7 +99,6 @@ import ComponentContainer from '../components/ComponentContainer';
 import DocumentationRedirect from '../components/DocumentationRedirect';
 import GlobalAdminPageExtension from '../components/extensions/GlobalAdminPageExtension';
 import GlobalPageExtension from '../components/extensions/GlobalPageExtension';
-import PortfolioPage from '../components/extensions/PortfolioPage';
 import PortfoliosPage from '../components/extensions/PortfoliosPage';
 import ProjectAdminPageExtension from '../components/extensions/ProjectAdminPageExtension';
 import ProjectPageExtension from '../components/extensions/ProjectPageExtension';
@@ -112,26 +112,35 @@ import SimpleContainer from '../components/SimpleContainer';
 import { GlobalStyles } from '../styles/GlobalStyles';
 import exportModulesAsGlobals from './exportModulesAsGlobals';
 
+type RoutesFn = () => React.ReactNode;
+const noopRoutes: RoutesFn = () => undefined;
+
+function getAddonRoutes<T extends { [K in P]: RoutesFn }, P extends keyof T>(
+  featureEnabled: boolean,
+  addon: T | undefined,
+  routeProperty: P,
+): RoutesFn {
+  return featureEnabled && addon ? addon[routeProperty] : noopRoutes;
+}
+
 function renderComponentRoutes({
   hasArchitectureFeature,
   hasBranchSupport,
   hasScaFeature,
   hasAicaFeature,
+  hasPortfolioFeature,
 }: {
   hasAicaFeature: boolean;
   hasArchitectureFeature: boolean;
   hasBranchSupport: boolean;
+  hasPortfolioFeature: boolean;
   hasScaFeature: boolean;
 }) {
-  const architectureRoutes =
-    hasArchitectureFeature && addons.architecture ? addons.architecture.routes : () => undefined;
-
-  const projectBranchesRoutes =
-    hasBranchSupport && addons.branches ? addons.branches.routes : () => undefined;
-
-  const scaRoutes = hasScaFeature && addons.sca ? addons.sca.projectRoutes : () => undefined;
-  const aicaSettingsRoutes =
-    hasAicaFeature && addons.aica ? addons.aica.aicaSettingsRoutes : () => undefined;
+  const architectureRoutes = getAddonRoutes(hasArchitectureFeature, addons.architecture, 'routes');
+  const projectBranchesRoutes = getAddonRoutes(hasBranchSupport, addons.branches, 'routes');
+  const scaRoutes = getAddonRoutes(hasScaFeature, addons.sca, 'projectRoutes');
+  const aicaSettingsRoutes = getAddonRoutes(hasAicaFeature, addons.aica, 'aicaSettingsRoutes');
+  const portfolioRoutes = getAddonRoutes(hasPortfolioFeature, addons.portfolios, 'routes');
 
   return (
     <Route element={<ComponentContainer />}>
@@ -140,7 +149,7 @@ function renderComponentRoutes({
         {codeRoutes()}
         {componentMeasuresRoutes()}
         {overviewRoutes()}
-        <Route element={<PortfolioPage />} path="portfolio" />
+        {portfolioRoutes()}
         {projectActivityRoutes()}
         <Route
           element={<ProjectPageExtension />}
@@ -245,9 +254,11 @@ const PluginRiskConsent = lazyLoadComponent(() => import('../components/PluginRi
 
 const router = ({
   availableFeatures,
+  governanceInstalled,
   optInFeatures,
 }: {
   availableFeatures: Feature[];
+  governanceInstalled: boolean;
   optInFeatures: Feature[];
 }) =>
   createBrowserRouter(
@@ -310,6 +321,7 @@ const router = ({
                 hasBranchSupport: availableFeatures.includes(Feature.BranchSupport),
                 hasScaFeature: availableFeatures.includes(Feature.Sca),
                 hasAicaFeature: availableFeatures.includes(Feature.AiCodeAssurance),
+                hasPortfolioFeature: governanceInstalled,
               })}
 
               {renderGlobalAddonRoutes({ hasScaFeature: availableFeatures.includes(Feature.Sca) })}
@@ -365,6 +377,7 @@ export default function startReactApp(
 
   const el = document.getElementById('content');
   const root = createRoot(el as HTMLElement);
+  const governanceInstalled = Boolean(appState?.qualifiers.includes(ComponentQualifier.Project));
 
   root.render(
     <HelmetProvider>
@@ -378,7 +391,9 @@ export default function startReactApp(
                     <GlobalStyles />
                     <Helmet titleTemplate={translate('page_title.template.default')} />
 
-                    <RouterProvider router={router({ availableFeatures, optInFeatures })} />
+                    <RouterProvider
+                      router={router({ availableFeatures, optInFeatures, governanceInstalled })}
+                    />
 
                     <ReactQueryDevtools initialIsOpen={false} />
                   </QueryClientProvider>

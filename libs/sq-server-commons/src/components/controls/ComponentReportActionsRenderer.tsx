@@ -28,22 +28,21 @@ import {
   toast,
   ToggleTip,
 } from '@sonarsource/echoes-react';
-import { useIntl } from 'react-intl';
-import { isApplication } from '~shared/helpers/component';
-import { addons } from '~sq-server-addons/index';
-import { getReportUrl } from '~sq-server-commons/api/component-report';
-import { getRegulatoryReportUrl } from '~sq-server-commons/api/regulatory-report';
-import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
-import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
-import { Branch } from '~sq-server-commons/types/branch-like';
-import { Component } from '~sq-server-commons/types/types';
+import { IntlShape, useIntl } from 'react-intl';
+import { isProject } from '~shared/helpers/component';
+import { getReportUrl } from '../../api/component-report';
+import { getRegulatoryReportUrl } from '../../api/regulatory-report';
+import { DocLink } from '../../helpers/doc-links';
+import { Branch } from '../../types/branch-like';
+import { Component } from '../../types/types';
+import DocumentationLink from '../common/DocumentationLink';
 
 export interface ComponentReportActionsRendererProps {
   branch?: Branch;
   canSubscribe: boolean;
   component: Component;
   currentUserHasEmail: boolean;
+  extraActions?: React.ReactNode;
   frequency: string;
   handleSubscription: () => void;
   handleUnsubscription: () => void;
@@ -51,23 +50,24 @@ export interface ComponentReportActionsRendererProps {
   subscribed: boolean;
 }
 
-const getSubscriptionText = ({
-  frequency,
-  subscribed,
-}: Pick<ComponentReportActionsRendererProps, 'frequency' | 'subscribed'>) => {
+const getSubscriptionText = (
+  intl: IntlShape,
+  { frequency, subscribed }: Pick<ComponentReportActionsRendererProps, 'frequency' | 'subscribed'>,
+) => {
   const translationKey = subscribed
     ? 'component_report.unsubscribe_x'
     : 'component_report.subscribe_x';
-  const frequencyTranslation = translate('report.frequency', frequency).toLowerCase();
+  const frequencyTranslation = intl
+    .formatMessage({ id: `report.frequency.${frequency}` })
+    .toLowerCase();
 
-  return translateWithParameters(translationKey, frequencyTranslation);
+  return intl.formatMessage({ id: translationKey }, { 0: frequencyTranslation });
 };
 
 export default function ComponentReportActionsRenderer(
   props: Readonly<ComponentReportActionsRendererProps>,
 ) {
   const {
-    scaEnabled,
     branch,
     component,
     frequency,
@@ -76,6 +76,7 @@ export default function ComponentReportActionsRenderer(
     currentUserHasEmail,
     handleSubscription,
     handleUnsubscription,
+    extraActions,
   } = props;
 
   const downloadName = [component.name, branch?.name, 'PDF Report.pdf']
@@ -96,6 +97,9 @@ export default function ComponentReportActionsRenderer(
     });
   };
 
+  const downloadAllowed = branch?.excludedFromPurge ?? true;
+  const hasRegulatoryReport = isProject(component.qualifier);
+
   return (
     <>
       <DropdownMenu
@@ -113,7 +117,7 @@ export default function ComponentReportActionsRenderer(
             <DropdownMenu.ItemLinkDownload
               download={downloadName}
               helpText={intl.formatMessage({ id: 'component_report.download.help_text' })}
-              isDisabled={!branch?.excludedFromPurge}
+              isDisabled={!downloadAllowed}
               onClick={handleDownloadStarted}
               to={reportUrl}
             >
@@ -125,28 +129,19 @@ export default function ComponentReportActionsRenderer(
 
             <DropdownMenu.ItemButton
               data-test="overview__subscribe-to-report-button"
-              isDisabled={!currentUserHasEmail || !branch?.excludedFromPurge || !canSubscribe}
+              isDisabled={!currentUserHasEmail || !downloadAllowed || !canSubscribe}
               onClick={subscribed ? handleUnsubscription : handleSubscription}
               prefix={<IconClock />}
             >
-              {getSubscriptionText({
+              {getSubscriptionText(intl, {
                 frequency,
                 subscribed,
               })}
             </DropdownMenu.ItemButton>
 
-            {scaEnabled && addons.sca && (
-              <>
-                <DropdownMenu.Separator />
-                <addons.sca.ScaReportOverviewOptions
-                  branch={branch?.name}
-                  component={component.key}
-                  componentName={component.name}
-                />
-              </>
-            )}
+            {extraActions}
 
-            {!isApplication(component.qualifier) && (
+            {hasRegulatoryReport && (
               <>
                 <DropdownMenu.Separator />
                 <DropdownMenu.GroupLabel>
@@ -176,7 +171,7 @@ export default function ComponentReportActionsRenderer(
         </Button>
       </DropdownMenu>
 
-      {!branch?.excludedFromPurge && (
+      {!downloadAllowed && (
         <ToggleTip
           ariaLabel={intl.formatMessage({ id: 'toggle_tip.aria_label.reports' })}
           description={
@@ -196,7 +191,7 @@ export default function ComponentReportActionsRenderer(
         />
       )}
 
-      {!currentUserHasEmail && branch?.excludedFromPurge && (
+      {!currentUserHasEmail && downloadAllowed && (
         <ToggleTip
           ariaLabel={intl.formatMessage({ id: 'toggle_tip.aria_label.reports' })}
           description={intl.formatMessage({ id: 'component_report.no_email_to_subscribe' })}

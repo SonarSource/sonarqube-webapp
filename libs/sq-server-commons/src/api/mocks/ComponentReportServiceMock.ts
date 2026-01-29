@@ -27,7 +27,15 @@ import {
   unsubscribeFromEmailReport,
 } from '../component-report';
 
-jest.mock('../component-report');
+jest.mock('../component-report', () => {
+  const actual: typeof import('../component-report') = jest.requireActual('../component-report');
+  return {
+    ...actual,
+    getReportStatus: jest.fn(),
+    subscribeToEmailReport: jest.fn(),
+    unsubscribeFromEmailReport: jest.fn(),
+  };
+});
 
 const defaultReport = mockComponentReportStatus();
 
@@ -56,6 +64,10 @@ export class ComponentReportServiceMock {
   handleSubscribeToEmailReport: typeof subscribeToEmailReport = () => {
     this.report.subscribed = true;
     return this.reply();
+  };
+
+  setSubscribed = (subscribed: boolean) => {
+    this.report.subscribed = subscribed;
   };
 
   reset = () => {

@@ -18,7 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { DropdownMenu } from '@sonarsource/echoes-react';
 import { ComponentQualifier } from '~shared/types/component';
+import { addons } from '~sq-server-addons/index';
+import ComponentReportActionsRenderer from '~sq-server-commons/components/controls/ComponentReportActionsRenderer';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
@@ -32,7 +35,6 @@ import { Branch } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
-import ComponentReportActionsRenderer from './ComponentReportActionsRenderer';
 
 interface Props {
   appState: AppState;
@@ -75,12 +77,25 @@ export function ComponentReportActions(props: Readonly<Props>) {
 
   const currentUserHasEmail = isLoggedIn(currentUser) && !!currentUser.email;
 
+  const extraActions =
+    scaEnabled && addons.sca ? (
+      <>
+        <DropdownMenu.Separator />
+        <addons.sca.ScaReportOverviewOptions
+          branch={branch?.name}
+          component={component.key}
+          componentName={component.name}
+        />
+      </>
+    ) : null;
+
   return (
     <ComponentReportActionsRenderer
       branch={branch}
       canSubscribe={status.canSubscribe}
       component={component}
       currentUserHasEmail={currentUserHasEmail}
+      extraActions={extraActions}
       frequency={status.componentFrequency || status.globalFrequency}
       handleSubscription={handleSubscribe}
       handleUnsubscription={handleUnsubscribe}
