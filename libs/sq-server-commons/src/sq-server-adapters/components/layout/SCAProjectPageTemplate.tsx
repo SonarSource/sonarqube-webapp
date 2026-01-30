@@ -18,15 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { BreadcrumbsProps, Layout, PageGridProps } from '@sonarsource/echoes-react';
+import { BreadcrumbsProps, PageGridProps } from '@sonarsource/echoes-react';
 import { forwardRef, PropsWithChildren, ReactNode } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { To } from 'react-router-dom';
 import { useFlags } from '~adapters/helpers/feature-flags';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
-import { isDefined } from '~shared/helpers/types';
-import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
-import { GlobalFooter } from './GlobalFooter';
 
 interface Props extends PropsWithChildren {
   asideLeft?: ReactNode;
@@ -39,47 +35,21 @@ interface Props extends PropsWithChildren {
   width?: PageGridProps['width'];
 }
 
-export const SCAPageTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
+export const SCAProjectPageTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
   const { children, header, width = 'default', ...templateProps } = props;
   const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
 
-  // Gather possible contexts
-  const { component } = useComponent();
-
-  // Render the page template that relates to the context in which we show the page
-
-  if (isDefined(component)) {
-    return (
-      <ProjectPageTemplate
-        {...templateProps}
-        // The page header is only used with the old layout, to be removed when we drop the frontEndEngineeringEnableSidebarNavigation flag
-        header={!frontEndEngineeringEnableSidebarNavigation && header}
-        ref={ref}
-        width={width}
-      >
-        {children}
-      </ProjectPageTemplate>
-    );
-  }
-
-  // Default wrapper with no specific page template
-  const { asideLeft, pageClassName } = templateProps;
-
   return (
-    <>
-      <Helmet defer={false} title={props.title} />
-
-      {asideLeft}
-
-      <Layout.PageGrid className={pageClassName} ref={ref} width={width}>
-        {header}
-
-        <Layout.PageContent>{children}</Layout.PageContent>
-
-        <GlobalFooter />
-      </Layout.PageGrid>
-    </>
+    <ProjectPageTemplate
+      {...templateProps}
+      // TODO The page header is only used with the old layout, to be removed when we drop the frontEndEngineeringEnableSidebarNavigation flag
+      header={!frontEndEngineeringEnableSidebarNavigation && header}
+      ref={ref}
+      width={width}
+    >
+      {children}
+    </ProjectPageTemplate>
   );
 });
 
-SCAPageTemplate.displayName = 'SCAPageTemplate';
+SCAProjectPageTemplate.displayName = 'SCAProjectPageTemplate';

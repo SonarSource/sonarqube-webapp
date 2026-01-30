@@ -113,17 +113,6 @@ import SimpleContainer from '../components/SimpleContainer';
 import { GlobalStyles } from '../styles/GlobalStyles';
 import exportModulesAsGlobals from './exportModulesAsGlobals';
 
-type RoutesFn = () => React.ReactNode;
-const noopRoutes: RoutesFn = () => undefined;
-
-function getAddonRoutes<T extends { [K in P]: RoutesFn }, P extends keyof T>(
-  featureEnabled: boolean,
-  addon: T | undefined,
-  routeProperty: P,
-): RoutesFn {
-  return featureEnabled && addon ? addon[routeProperty] : noopRoutes;
-}
-
 function renderComponentRoutes({
   hasArchitectureFeature,
   hasBranchSupport,
@@ -137,12 +126,6 @@ function renderComponentRoutes({
   hasPortfolioFeature: boolean;
   hasScaFeature: boolean;
 }) {
-  const architectureRoutes = getAddonRoutes(hasArchitectureFeature, addons.architecture, 'routes');
-  const projectBranchesRoutes = getAddonRoutes(hasBranchSupport, addons.branches, 'routes');
-  const scaRoutes = getAddonRoutes(hasScaFeature, addons.sca, 'projectRoutes');
-  const aicaSettingsRoutes = getAddonRoutes(hasAicaFeature, addons.aica, 'aicaSettingsRoutes');
-  const portfolioRoutes = getAddonRoutes(hasPortfolioFeature, addons.portfolios, 'routes');
-
   return (
     <Route element={<ComponentContainer />}>
       {/* This container is a catch-all for all non-admin pages */}
@@ -150,15 +133,15 @@ function renderComponentRoutes({
         {codeRoutes()}
         {componentMeasuresRoutes()}
         {overviewRoutes()}
-        {portfolioRoutes()}
+        {hasPortfolioFeature && addons.portfolios?.routes()}
         {projectActivityRoutes()}
         <Route
           element={<ProjectPageExtension />}
           path="project/extension/:pluginKey/:extensionKey"
         />
-        {architectureRoutes()}
+        {hasArchitectureFeature && addons.architecture?.routes()}
         {projectIssuesRoutes()}
-        {scaRoutes()}
+        {hasScaFeature && addons?.sca?.projectRoutes}
         {securityHotspotsRoutes()}
         {projectQualityGateRoutes()}
         {projectQualityProfilesRoutes()}
@@ -189,9 +172,9 @@ function renderComponentRoutes({
           />
 
           {backgroundTasksRoutes()}
-          {projectBranchesRoutes()}
+          {hasBranchSupport && addons.branches?.routes()}
           {settingsRoutes()}
-          {aicaSettingsRoutes()}
+          {hasAicaFeature && addons.aica?.aicaSettingsRoutes()}
           {webhooksRoutes()}
         </Route>
       </Route>
@@ -203,8 +186,6 @@ function renderComponentRoutes({
 }
 
 function renderAdminRoutes() {
-  const licenseRoutes = addons.license ? addons.license.routes : () => undefined;
-
   return (
     <Route path="admin">
       <Route element={<AdminContainerLegacy />}>
@@ -215,7 +196,7 @@ function renderAdminRoutes() {
         {backgroundTasksRoutes()}
         {globalPermissionsRoutes()}
         {groupsRoutes()}
-        {licenseRoutes()}
+        {addons.license?.routes()}
         {marketplaceRoutes()}
         {permissionTemplatesRoutes()}
         {projectsManagementRoutes()}
@@ -226,16 +207,6 @@ function renderAdminRoutes() {
       </Route>
     </Route>
   );
-}
-
-function renderGlobalAddonRoutes({ hasScaFeature }: { hasScaFeature: boolean }) {
-  const addonRoutes: JSX.Element[] = [];
-
-  if (hasScaFeature && addons.sca) {
-    addonRoutes.push(addons.sca.licenseRoutes());
-  }
-
-  return <>{addonRoutes}</>;
 }
 
 function renderRedirects() {
@@ -330,7 +301,7 @@ const router = ({
                 hasPortfolioFeature: governanceInstalled,
               })}
 
-              {renderGlobalAddonRoutes({ hasScaFeature: availableFeatures.includes(Feature.Sca) })}
+              {availableFeatures.includes(Feature.Sca) && addons.sca?.licenseRoutes}
 
               {renderAdminRoutes()}
 
