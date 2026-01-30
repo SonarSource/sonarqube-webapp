@@ -2052,6 +2052,11 @@ export const defaultMessages = {
   'architecture.page.model.visual.button.add_component.label': 'Add component',
   'architecture.page.model.visual.button.add_component': 'Component',
   'architecture.page.model': 'Intended architecture',
+  'architecture.page.model.navigation_guard.title': 'You have unsaved changes',
+  'architecture.page.model.navigation_guard.message':
+    'If you leave now, your progress will be lost. Are you sure you want to discard your changes?',
+  'architecture.page.model.navigation_guard.leave': 'Exit without saving',
+  'architecture.page.model.navigation_guard.stay': 'Keep editing',
   'architecture.page.dashboard.no_model.title': 'Intended architecture not defined',
   'architecture.page.dashboard.model.description_admin':
     'Create an intended architecture for this project with a few top components to detect the first deviations.',
@@ -2059,6 +2064,7 @@ export const defaultMessages = {
     'A project administrator should define the intended architecture to detect deviations.',
   'architecture.page.dashboard.model.create_model': 'Get started',
   'architecture.page.model.saved': 'Saved successfully',
+  'architecture.page.model.unsaved_changes': 'You have unsaved changes.',
   'architecture.page.model.no_data': 'No model data',
   'architecture.page.model.invalid_json': 'Invalid JSON format',
   'architecture.page.model.label': 'Model',
