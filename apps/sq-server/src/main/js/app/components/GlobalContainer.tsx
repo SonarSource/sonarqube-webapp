@@ -79,6 +79,7 @@ const PAGES_MIGRATED: string[] = [
   '/admin/audit',
   '/account',
   '/admin/background_tasks',
+  '/admin/extension/governance/views_console',
   '/admin/groups',
   '/admin/license/app',
   '/admin/license/support',

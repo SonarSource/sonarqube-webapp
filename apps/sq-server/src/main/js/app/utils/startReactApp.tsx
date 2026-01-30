@@ -97,13 +97,17 @@ import AdminContainerLegacy from '../components/AdminContainerLegacy';
 import App from '../components/App';
 import ComponentContainer from '../components/ComponentContainer';
 import DocumentationRedirect from '../components/DocumentationRedirect';
-import { projectAdminExtensionMigratedRoutes } from '../components/extensions/Extension';
+import {
+  globalAdminExtensionMigratedRoutes,
+  projectAdminExtensionMigratedRoutes,
+} from '../components/extensions/Extension';
 import GlobalAdminPageExtension from '../components/extensions/GlobalAdminPageExtension';
 import GlobalPageExtension from '../components/extensions/GlobalPageExtension';
 import PortfoliosPage from '../components/extensions/PortfoliosPage';
 import ProjectAdminPageExtension from '../components/extensions/ProjectAdminPageExtension';
 import ProjectPageExtension from '../components/extensions/ProjectPageExtension';
 import GlobalContainer from '../components/GlobalContainer';
+import GlobalPageExtensionContainer from '../components/GlobalPageExtensionContainer';
 import Landing from '../components/Landing';
 import MigrationContainer from '../components/MigrationContainer';
 import NonAdminPagesContainer from '../components/NonAdminPagesContainer';
@@ -188,9 +192,15 @@ function renderComponentRoutes({
 function renderAdminRoutes() {
   return (
     <Route path="admin">
+      {/* Migrated global admin extensions - must come before the dynamic catch-all */}
+      <Route element={<AdminContainer />}>{globalAdminExtensionMigratedRoutes()}</Route>
+
+      {/* Non-migrated 3rd-party/Sonar global admin extensions */}
       <Route element={<AdminContainerLegacy />}>
         <Route element={<GlobalAdminPageExtension />} path="extension/:pluginKey/:extensionKey" />
       </Route>
+
+      {/* Other admin pages */}
       <Route element={<AdminContainer />}>
         {auditLogsRoutes()}
         {backgroundTasksRoutes()}
@@ -275,7 +285,14 @@ const router = ({
 
               {codingRulesRoutes()}
 
-              <Route element={<GlobalPageExtension />} path="extension/:pluginKey/:extensionKey" />
+              <Route element={<GlobalPageExtensionContainer />}>
+                <Route
+                  element={<GlobalPageExtension />}
+                  path="extension/:pluginKey/:extensionKey"
+                />
+
+                <Route element={<PortfoliosPage />} path="portfolios" />
+              </Route>
 
               {globalIssuesRoutes()}
 
@@ -283,8 +300,6 @@ const router = ({
 
               {qualityGatesRoutes()}
               {qualityProfilesRoutes()}
-
-              <Route element={<PortfoliosPage />} path="portfolios" />
 
               <Route element={<SonarLintConnection />} path="sonarlint/auth" />
 

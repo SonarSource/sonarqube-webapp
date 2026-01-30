@@ -18,14 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useLocation, useOutletContext, useParams } from 'react-router-dom';
 import { AdminPagesContext } from '~sq-server-commons/types/admin';
 import NotFound from '../NotFound';
 import Extension from './Extension';
 
 export default function GlobalAdminPageExtension() {
-  const { pluginKey, extensionKey } = useParams();
+  const { pluginKey: pluginKeyFromParams, extensionKey: extensionKeyFromParams } = useParams();
+  const location = useLocation();
   const { adminPages } = useOutletContext<AdminPagesContext>();
+
+  // Try to get from URL params first (for non-migrated extensions with dynamic routes)
+  let pluginKey = pluginKeyFromParams;
+  let extensionKey = extensionKeyFromParams;
+
+  // If params are empty, extract from pathname (for migrated extensions with static routes)
+  // Example pathname: /admin/extension/governance/views_console
+  if (!pluginKeyFromParams || !extensionKeyFromParams) {
+    [, pluginKey, extensionKey] =
+      /\/admin\/extension\/([^/]+)\/([^/?]+)/.exec(location.pathname) ?? [];
+  }
 
   const extension = adminPages?.find((p) => p.key === `${pluginKey}/${extensionKey}`);
   return extension ? <Extension extension={extension} /> : <NotFound />;

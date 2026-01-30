@@ -40,13 +40,14 @@ interface Props extends PropsWithChildren {
 }
 
 // Global page template for non-project, non-admin pages like Portfolios list, etc.
+// Does NOT render ContentGrid - expects it from parent container (GlobalPageExtensionContainer or AdminContainer)
 export const GlobalPageTemplate = forwardRef<HTMLDivElement, Props>(
   (
     { asideLeft, breadcrumbs, children, pageClassName, title, width = 'default', ...headerProps },
     ref,
   ) => {
     return (
-      <Layout.ContentGrid>
+      <>
         <Helmet defer={false} title={title} />
 
         {asideLeft}
@@ -62,7 +63,7 @@ export const GlobalPageTemplate = forwardRef<HTMLDivElement, Props>(
 
           <GlobalFooter />
         </Layout.PageGrid>
-      </Layout.ContentGrid>
+      </>
     );
   },
 );
