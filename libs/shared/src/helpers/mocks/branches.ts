@@ -36,6 +36,7 @@ export function mockPullRequest(overrides: Partial<PullRequest> = {}): PullReque
     base: 'master',
     branch: 'feature/foo/bar',
     pullRequestUuidV1: 'pr-id',
+    pullRequestId: 'pr-uuid-v4-id',
     key: '1001',
     target: 'master',
     title: 'Foo Bar feature',

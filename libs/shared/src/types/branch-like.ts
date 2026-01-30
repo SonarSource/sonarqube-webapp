@@ -64,6 +64,7 @@ export interface PullRequestBase {
   branch: string;
   isOrphan?: boolean;
   key: string;
+  pullRequestId?: string;
   status?: { qualityGateStatus: QGStatus };
   target: string;
   title: string;
