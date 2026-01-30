@@ -8749,9 +8749,9 @@ export const defaultMessages = {
     'Portfolios offer an overview of the quality of all projects within each of them.',
 
   'portfolio_overview.title': 'Overview',
-  'portfolio_overview.desciption':
+  'portfolio_overview.description':
     'A summary of information from the project branches that was chosen for this portfolio. To learn more about how portfolio ratings are calculated, see {link}.',
-  'portfolio_overview.desciption.link': 'managing portfolios documentation',
+  'portfolio_overview.description.link': 'managing portfolios documentation',
 
   'portfolio_overview.breakdown': 'Portfolio Breakdown',
   'portfolio_overview.intro':

@@ -100,6 +100,7 @@ const PAGES_MIGRATED: string[] = [
   '/security_hotspots',
   '/issues',
   '/license_profiles',
+  '/portfolio',
   '/portfolios',
   '/profiles',
   '/project/activity',
