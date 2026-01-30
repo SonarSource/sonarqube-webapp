@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Card, MessageCallout, Spinner, Text } from '@sonarsource/echoes-react';
+import { Card, MessageCallout, Spinner, Text, ToggleTip } from '@sonarsource/echoes-react';
 import { useContext } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
@@ -34,7 +34,6 @@ import { enhanceMeasure } from '~sq-server-commons/components/measure/utils';
 import '~sq-server-commons/components/search-navigator.css';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { MeasurePageView } from '~sq-server-commons/types/measures';
 import { useBubbleChartMetrics } from '../hooks';
 import Sidebar from '../sidebar/Sidebar';
@@ -201,13 +200,15 @@ export default function ComponentMeasuresApp() {
                     className="sw-my-3 sw-mx-6 it__portfolio_warning"
                     variety="warning"
                   >
-                    <FormattedMessage id="component_measures.not_all_measures_are_shown" />
-                    <HelpTooltip
-                      className="sw-ml-2"
-                      overlay={
-                        <FormattedMessage id="component_measures.not_all_measures_are_shown.help" />
-                      }
-                    />
+                    <div className="sw-flex sw-items-center">
+                      <FormattedMessage id="component_measures.not_all_measures_are_shown" />
+                      <ToggleTip
+                        className="sw-ml-2"
+                        description={
+                          <FormattedMessage id="component_measures.not_all_measures_are_shown.help" />
+                        }
+                      />
+                    </div>
                   </MessageCallout>
                 )}
                 {renderContent()}

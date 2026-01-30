@@ -42,6 +42,7 @@ import { isDiffMetric } from '~sq-server-commons/helpers/measures';
 import { RequestData } from '~sq-server-commons/helpers/request';
 import { getProjectUrl } from '~sq-server-commons/helpers/urls';
 import { useComponentTreeQuery } from '~sq-server-commons/queries/measures';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { MeasurePageView } from '~sq-server-commons/types/measures';
 import {
@@ -71,6 +72,7 @@ export default function MeasureContent(props: Readonly<Props>) {
   const metrics = useMetrics();
   const { query: rawQuery } = useLocation();
   const { data: branchLike } = useCurrentBranchQuery(rootComponent);
+  const { data: isStandardMode } = useStandardExperienceModeQuery();
   const router = useRouter();
   const query = parseQuery(rawQuery);
   const { selected, asc, view } = query;
@@ -86,6 +88,7 @@ export default function MeasureContent(props: Readonly<Props>) {
     {
       ...(asc !== undefined && { asc }),
     },
+    isStandardMode,
   );
   const componentKey = selected !== undefined && selected !== '' ? selected : rootComponent.key;
   const {
@@ -109,8 +112,11 @@ export default function MeasureContent(props: Readonly<Props>) {
   if (requestedMetric.key === MetricKey.ncloc) {
     baseComponentMetrics.push(MetricKey.ncloc_language_distribution);
   }
-  if (SOFTWARE_QUALITY_RATING_METRICS_MAP[requestedMetric.key]) {
-    baseComponentMetrics.push(SOFTWARE_QUALITY_RATING_METRICS_MAP[requestedMetric.key]);
+
+  // Add MQR equivalent metric if available
+  const mqrEquivalent = SOFTWARE_QUALITY_RATING_METRICS_MAP[requestedMetric.key];
+  if (mqrEquivalent) {
+    baseComponentMetrics.push(mqrEquivalent);
   }
 
   const { data: measuresData } = useMeasuresComponentQuery(
@@ -316,13 +322,22 @@ function getComponentRequestParams(
   metric: Pick<Metric, 'key' | 'direction'>,
   branchLike?: BranchLike,
   options: object = {},
+  isStandardMode = false,
 ) {
   const strategy: 'leaves' | 'children' = view === MeasurePageView.list ? 'leaves' : 'children';
-  const metricKeys = [metric.key];
   const softwareQualityRatingMetric = SOFTWARE_QUALITY_RATING_METRICS_MAP[metric.key];
+
+  // Determine which metric to use for sorting based on mode
+  // In MQR mode (isStandardMode === false), prefer the MQR metric if available
+  const metricForSort =
+    !isStandardMode && softwareQualityRatingMetric ? softwareQualityRatingMetric : metric.key;
+
+  // Build metricKeys array - request both metrics for caching
+  const metricKeys = [metric.key];
   if (softwareQualityRatingMetric) {
     metricKeys.push(softwareQualityRatingMetric);
   }
+
   const opts: RequestData = {
     ...getBranchLikeQuery(branchLike),
     additionalFields: 'metrics',
@@ -330,7 +345,7 @@ function getComponentRequestParams(
   };
 
   const setMetricSort = () => {
-    const isDiff = isDiffMetric(metric.key);
+    const isDiff = isDiffMetric(metricForSort);
     opts.s = isDiff ? 'metricPeriod' : 'metric';
     opts.metricSortFilter = 'withMeasuresOnly';
     if (isDiff) {
@@ -346,7 +361,7 @@ function getComponentRequestParams(
   } else if (view === MeasurePageView.list) {
     metricKeys.push(...(complementary[metric.key] || []));
     opts.asc = metric.direction === 1;
-    opts.metricSort = metric.key;
+    opts.metricSort = metricForSort;
     setMetricSort();
   } else if (view === MeasurePageView.treemap) {
     const sizeMetric = isDiff ? MetricKey.new_lines : MetricKey.ncloc;

@@ -242,11 +242,13 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
 
       {!canBrowseAllChildProjects && isPortfolio && (
         <MessageCallout className="it__portfolio_warning sw-mb-4" variety="warning">
-          <FormattedMessage id="code_viewer.not_all_measures_are_shown" />
-          <ToggleTip
-            className="sw-ml-2"
-            description={<FormattedMessage id="code_viewer.not_all_measures_are_shown.help" />}
-          />
+          <div className="sw-flex sw-items-center">
+            <FormattedMessage id="code_viewer.not_all_measures_are_shown" />
+            <ToggleTip
+              className="sw-ml-2"
+              description={<FormattedMessage id="code_viewer.not_all_measures_are_shown.help" />}
+            />
+          </div>
         </MessageCallout>
       )}
 
