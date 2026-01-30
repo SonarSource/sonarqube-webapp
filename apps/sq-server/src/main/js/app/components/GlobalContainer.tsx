@@ -113,6 +113,7 @@ const PAGES_MIGRATED: string[] = [
   '/project/key',
   '/project/links',
   '/project/quality_gate',
+  '/project/quality_profiles',
   '/project_roles',
   '/quality_gates',
   '/tutorials',

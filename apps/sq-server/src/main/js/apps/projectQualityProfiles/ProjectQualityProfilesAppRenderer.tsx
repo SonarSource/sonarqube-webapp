@@ -26,22 +26,23 @@ import {
   Card,
   Heading,
   IconEdit,
+  Layout,
   Spinner,
   Text,
 } from '@sonarsource/echoes-react';
 import { groupBy, orderBy } from 'lodash';
-import { Helmet } from 'react-helmet-async';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useFlags } from '~adapters/helpers/feature-flags';
 import {
   ActionCell,
   ContentCell,
-  LargeCenteredLayout,
   Link,
   Table,
   TableRow,
   TableRowInteractive,
 } from '~design-system';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
+import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
@@ -86,6 +87,8 @@ export default function ProjectQualityProfilesAppRenderer(
     showAddLanguageModal,
   } = props;
 
+  const intl = useIntl();
+  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
   const { hasFeature } = useAvailableFeatures();
   const profilesByLanguage = groupBy(allProfiles, 'language');
   const orderedProfiles = orderBy(projectProfiles, (p) => p.profile.languageName);
@@ -102,19 +105,30 @@ export default function ProjectQualityProfilesAppRenderer(
     </TableRow>
   );
 
-  return (
-    <LargeCenteredLayout id="project-quality-profiles">
-      <div className="sw-my-8">
-        <Suggestions suggestion={DocLink.InstanceAdminQualityProfiles} />
-        <Helmet defer={false} title={translate('project_quality_profile.page')} />
-        <A11ySkipTarget anchor="profiles_main" />
+  const title = intl.formatMessage({ id: 'project_quality_profile.page' });
+  const description = (
+    <Layout.PageHeader.Description>
+      <FormattedMessage id="project_quality_profile.page.description" />
+    </Layout.PageHeader.Description>
+  );
 
-        <Heading as="h1">
-          <FormattedMessage id="project_quality_profile.page" />
-        </Heading>
-        <Text as="p" className="sw-mt-4">
-          <FormattedMessage id="project_quality_profile.page.description" />
-        </Text>
+  return (
+    <ProjectPageTemplate
+      description={description}
+      disableBranchSelector
+      header={
+        !frontEndEngineeringEnableSidebarNavigation && (
+          <Layout.PageHeader
+            description={description}
+            title={<Layout.PageHeader.Title>{title}</Layout.PageHeader.Title>}
+          />
+        )
+      }
+      title={title}
+    >
+      <div>
+        <Suggestions suggestion={DocLink.InstanceAdminQualityProfiles} />
+        <A11ySkipTarget anchor="profiles_main" />
 
         {hasAICAFeature && (
           <ProfileAICodeSuggestionBanner
@@ -225,6 +239,6 @@ export default function ProjectQualityProfilesAppRenderer(
           />
         )}
       </div>
-    </LargeCenteredLayout>
+    </ProjectPageTemplate>
   );
 }
