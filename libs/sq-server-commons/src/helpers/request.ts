@@ -20,6 +20,7 @@
 
 import { AxiosResponse } from 'axios';
 import { isNil, omitBy } from 'lodash';
+import { RequestData } from '~shared/helpers/request';
 import { HttpStatus } from '~shared/types/request';
 import { getCookie } from './cookies';
 import handleRequiredAuthentication from './handleRequiredAuthentication';
@@ -50,7 +51,7 @@ export function getCSRFToken(): Record<string, string> {
   return value ? { [getCSRFTokenName()]: value } : {};
 }
 
-export type RequestData = Record<string, any>;
+export type { RequestData } from '~shared/helpers/request';
 
 export function omitNil(obj: RequestData): RequestData {
   return omitBy(obj, isNil);

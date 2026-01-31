@@ -21,6 +21,10 @@
 const MINIMUM_TRIES_TIMEOUT = 500;
 const MAXIMUM_TRIES_TIMEOUT = 3000;
 
+// Keeping the types aligned with sq-cloud and sq-server
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type RequestData = Record<string, any>;
+
 function tryRequestAgain<T>(
   repeatAPICall: () => Promise<T>,
   tries: { max: number; slowThreshold: number },

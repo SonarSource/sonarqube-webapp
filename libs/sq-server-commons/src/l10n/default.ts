@@ -2165,7 +2165,8 @@ export const defaultMessages = {
     '{count, plural, one {<bold>1</bold> Relationship dependency} other {<bold>{count}</bold> Relationship dependencies}}',
   'architecture.page.disallowed_dependencies.no_data': 'No relationship deviations',
   'architecture.disallowed_dependencies.table.depth': 'Depth',
-  'architecture.disallowed_dependencies.table.weight': 'Code reference',
+  'architecture.disallowed_dependencies.table.weight': 'Occurrences',
+  'architecture.disallowed_dependencies.table.issues': 'Open issues',
   'architecture.disallowed_dependencies.description':
     'Dependencies between two code components that are not explicitly allowed in the intended architecture.',
   'architecture.page.misplaced_components': 'Structure',
@@ -2222,7 +2223,8 @@ export const defaultMessages = {
   'architecture.model.add_subcomponent_label': 'Add subcomponent',
   'architecture.misplaced_components.table.misplaced_component': 'Bad component',
   'architecture.misplaced_components.table.depth': 'Depth',
-  'architecture.misplaced_components.table.weight': 'Code artifacts',
+  'architecture.misplaced_components.table.weight': 'Occurrences',
+  'architecture.misplaced_components.table.issues': 'Open issues',
   'architecture.directive.creation.success': 'Directive created successfully',
   //------------------------------------------------------------------------------
 
