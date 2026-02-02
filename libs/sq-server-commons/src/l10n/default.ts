@@ -2163,17 +2163,16 @@ export const defaultMessages = {
   'architecture.page.disallowed_dependencies_full': 'Relationship deviations',
   'architecture.page.disallowed_dependencies.count':
     '{count, plural, one {<bold>1</bold> Relationship dependency} other {<bold>{count}</bold> Relationship dependencies}}',
-  'architecture.page.disallowed_dependencies.no_data': 'No relationship deviations',
   'architecture.disallowed_dependencies.table.depth': 'Depth',
   'architecture.disallowed_dependencies.table.weight': 'Occurrences',
   'architecture.disallowed_dependencies.table.issues': 'Open issues',
   'architecture.disallowed_dependencies.description':
     'Dependencies between two code components that are not explicitly allowed in the intended architecture.',
   'architecture.page.misplaced_components': 'Structure',
-  'architecture.page.misplaced_components_full': 'Structure deviations',
+  'architecture.page.misplaced_components_full': 'Structural deviations',
   'architecture.page.misplaced_components.count':
     '{count, plural, one {<bold>1</bold> Structural deviation} other {<bold>{count}</bold> Structural deviations}}',
-  'architecture.page.misplaced_components.no_data': 'No structure deviations',
+  'architecture.page.deviations.no_data': 'No deviations found',
   'architecture.misplaced_components.description':
     'Components in the intended architecture referencing code artifacts that are located elsewhere in the codebase.',
   'architecture.admin.promotion.message':
@@ -2192,6 +2191,14 @@ export const defaultMessages = {
     '{containersCount} {containerWord} and {elementsCount} {elementWord}{filename}',
   'architecture.tangles.title.filename': ' inside {filename}',
   'architecture.tangles.subtitle': '{containers} • {elements} • in {container}',
+  'architecture.tangles.table.name': 'Name',
+  'architecture.tangles.table.packages': 'Packages',
+  'architecture.tangles.table.namespaces': 'Namespaces',
+  'architecture.tangles.table.folders': 'Folders',
+  'architecture.tangles.table.classes': 'Classes',
+  'architecture.tangles.table.files': 'Files',
+  'architecture.tangles.table.location': 'Location',
+  'architecture.tangles.table.empty': 'No tangles found',
   'architecture.tangle.directive.create.button': 'Request removal',
   'architecture.tangle.directive.remove.button': 'Cancel removal',
   'architecture.tangle.directive.create.description':
@@ -2221,7 +2228,7 @@ export const defaultMessages = {
   'architecture.model.no_subcomponents': 'No subcomponents',
   'architecture.model.add_subcomponent': 'Subcomponent',
   'architecture.model.add_subcomponent_label': 'Add subcomponent',
-  'architecture.misplaced_components.table.misplaced_component': 'Bad component',
+  'architecture.misplaced_components.table.misplaced_component': 'Component',
   'architecture.misplaced_components.table.depth': 'Depth',
   'architecture.misplaced_components.table.weight': 'Occurrences',
   'architecture.misplaced_components.table.issues': 'Open issues',
