@@ -789,7 +789,7 @@ export const defaultMessages = {
   'project_branch_pull_request.branch.set_main': 'Set as main branch',
   'project_branch_pull_request.branch.set_x_as_main': 'Set "{branch}" as the main branch',
   'project_branch_pull_request.branch.delete': 'Delete branch',
-  'project_branch_pull_request.branch.actions_label': 'Update {0}',
+  'project_branch_pull_request.branch.actions_label': 'Update {branchName}',
   'project_branch_pull_request.branch.delete.are_you_sure':
     'Are you sure you want to delete branch "{name}"?',
   'project_branch_pull_request.branch.main_branch.are_you_sure':

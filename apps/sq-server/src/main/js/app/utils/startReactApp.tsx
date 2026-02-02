@@ -156,6 +156,8 @@ function renderComponentRoutes({
           {/* Migrated extensions - explicit routes based on EXTENSION_PAGE_TEMPLATES */}
           {projectAdminExtensionMigratedRoutes()}
 
+          {hasBranchSupport && addons.branches?.routes()}
+
           {projectDeletionRoutes()}
           {projectDumpRoutes()}
           {projectKeyRoutes()}
@@ -172,7 +174,7 @@ function renderComponentRoutes({
           />
 
           {backgroundTasksRoutes()}
-          {hasBranchSupport && addons.branches?.routes()}
+
           {settingsRoutes()}
           {hasAicaFeature && addons.aica?.aicaSettingsRoutes()}
           {webhooksRoutes()}
