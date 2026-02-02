@@ -37,7 +37,7 @@ import { CurrentUser } from '../../types/users';
 export { ComponentContext } from '../../context/componentContext/ComponentContext';
 
 export interface ContextWrapperInitProps {
-  analysisContext?: { branchId: string; organizationId?: string };
+  analysisContext?: { branchId: string; organizationId?: string; organizationKey?: string };
   availableFeatures?: string[];
   componentContext?: { component: LightComponent };
   initialCurrentUser?: CurrentUser;
