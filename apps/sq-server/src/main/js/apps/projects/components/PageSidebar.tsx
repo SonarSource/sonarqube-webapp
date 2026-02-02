@@ -75,7 +75,7 @@ export default function PageSidebar(props: PageSidebarProps) {
   }, [onClearAll, heading]);
 
   return (
-    <div className="sw-typo-default sw-px-4 sw-pt-12 sw-pb-24">
+    <>
       <FavoriteFilter />
 
       <div className="sw-flex sw-items-center sw-justify-between">
@@ -249,7 +249,7 @@ export default function PageSidebar(props: PageSidebarProps) {
         query={query}
         value={query.tags}
       />
-    </div>
+    </>
   );
 }
 

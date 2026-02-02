@@ -18,14 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
-import { Heading, Spinner } from '@sonarsource/echoes-react';
+import { Heading, Layout, Spinner } from '@sonarsource/echoes-react';
 import { chunk, keyBy, last, mapValues, omitBy, pick } from 'lodash';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useIntl } from 'react-intl';
-import { LAYOUT_FOOTER_HEIGHT, LargeCenteredLayout, themeBorder, themeColor } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
+import { useCurrentUser } from '~adapters/helpers/users';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
+import ListFooter from '~shared/components/controls/ListFooter';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isDefined } from '~shared/helpers/types';
 import useLocalStorage from '~shared/helpers/useLocalStorage';
@@ -33,13 +34,10 @@ import { ComponentQualifier } from '~shared/types/component';
 import { RawQuery } from '~shared/types/router';
 import { searchProjects } from '~sq-server-commons/api/components';
 import EmptySearch from '~sq-server-commons/components/common/EmptySearch';
-import ScreenPositionHelper from '~sq-server-commons/components/common/ScreenPositionHelper';
 import '~sq-server-commons/components/search-navigator.css';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import handleRequiredAuthentication from '~sq-server-commons/helpers/handleRequiredAuthentication';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { convertToQueryData, hasFilterParams } from '~sq-server-commons/helpers/projects';
 import { useMeasuresForProjectsQuery } from '~sq-server-commons/queries/measures';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
@@ -68,6 +66,7 @@ function AllProjects({ isFavorite }: Readonly<{ isFavorite: boolean }>) {
   const { currentUser } = useCurrentUser();
   const router = useRouter();
   const intl = useIntl();
+  const scrollElementRef = useRef<HTMLDivElement | null>(null);
   const { query, pathname } = useLocation();
   const parsedQuery = parseUrlQuery(query);
   const querySort = parsedQuery.sort ?? 'name';
@@ -206,115 +205,100 @@ function AllProjects({ isFavorite }: Readonly<{ isFavorite: boolean }>) {
     setProjectsView(query.view);
   };
 
-  const renderSide = () => (
-    <SideBarStyle>
-      <ScreenPositionHelper className="sw-z-filterbar">
-        {({ top }) => (
-          <section
-            aria-label={translate('filters')}
-            className="sw-overflow-y-auto project-filters-list"
-            style={{ height: `calc((100vh - ${top}px) - ${LAYOUT_FOOTER_HEIGHT}px)` }}
-          >
-            <div className="sw-w-[300px] lg:sw-w-[390px]">
-              <A11ySkipTarget
-                anchor="projects_filters"
-                label={translate('projects.skip_to_filters')}
-                weight={10}
-              />
-
-              <PageSidebar
-                applicationsEnabled={appState.qualifiers.includes(ComponentQualifier.Application)}
-                facets={facets}
-                loadSearchResultCount={loadSearchResultCount}
-                onClearAll={handleClearAll}
-                onQueryChange={updateLocationQuery}
-                query={parsedQuery}
-                view={queryView}
-              />
-            </div>
-          </section>
-        )}
-      </ScreenPositionHelper>
-    </SideBarStyle>
-  );
-
-  const renderHeader = () => (
-    <PageHeaderWrapper className="sw-w-full">
-      <PageHeader
-        currentUser={currentUser}
-        onPerspectiveChange={handlePerspectiveChange}
-        onQueryChange={updateLocationQuery}
-        onSortChange={handleSortChange}
-        query={parsedQuery}
-        selectedSort={querySort}
-        total={paging?.total}
-        view={queryView}
-      />
-    </PageHeaderWrapper>
-  );
-
-  const renderMain = () => {
-    const isFiltered = hasFilterParams(parsedQuery);
-    return (
-      <div className="it__layout-page-main-inner it__projects-list sw-h-full">
-        <output>
-          <Spinner isLoading={isLoading}>
-            {readyProjects.length === 0 && isFiltered && isFavorite && (
-              <EmptyFavoriteSearch query={parsedQuery} />
-            )}
-            {readyProjects.length === 0 && isFiltered && !isFavorite && <EmptySearch />}
-            {readyProjects.length === 0 && !isFiltered && isFavorite && <NoFavoriteProjects />}
-            {readyProjects.length === 0 && !isFiltered && !isFavorite && <EmptyInstance />}
-            {readyProjects.length > 0 && (
-              <span className="sw-sr-only">
-                {intl.formatMessage({ id: 'projects.x_projects_found' }, { count: paging?.total })}
-              </span>
-            )}
-          </Spinner>
-        </output>
-        {readyProjects.length > 0 && (
-          <ProjectsList
-            cardType={queryView}
-            isFavorite={isFavorite}
-            isFiltered={hasFilterParams(parsedQuery)}
-            loadMore={fetchNextPage}
-            loading={isFetchingNextPage || measuresForLastChunkAreLoading}
-            measures={measures}
-            projects={readyProjects}
-            query={parsedQuery}
-            total={paging?.total}
-          />
-        )}
-      </div>
-    );
-  };
+  const isFiltered = hasFilterParams(parsedQuery);
+  const pageTitle = intl.formatMessage({ id: 'projects.page' });
 
   return (
-    <StyledWrapper id="projects-page">
-      <Helmet defer={false} title={translate('projects.page')} />
-
+    <Layout.ContentGrid id="projects-page">
+      <Helmet defer={false} title={pageTitle} />
       <Heading as="h1" className="sw-sr-only">
-        {translate('projects.page')}
+        {pageTitle}
       </Heading>
 
-      <LargeCenteredLayout>
-        <div className="sw-flex sw-w-full sw-typo-lg">
-          {renderSide()}
+      <Layout.AsideLeft size="large">
+        <section aria-label={intl.formatMessage({ id: 'filters' })}>
+          <A11ySkipTarget
+            anchor="projects_filters"
+            label={intl.formatMessage({ id: 'projects.skip_to_filters' })}
+            weight={10}
+          />
 
-          <main className="sw-flex sw-flex-col sw-box-border sw-min-w-0 sw-pl-12 sw-pt-6 sw-flex-1">
-            <A11ySkipTarget anchor="projects_main" />
+          <PageSidebar
+            applicationsEnabled={appState.qualifiers.includes(ComponentQualifier.Application)}
+            facets={facets}
+            loadSearchResultCount={loadSearchResultCount}
+            onClearAll={handleClearAll}
+            onQueryChange={updateLocationQuery}
+            query={parsedQuery}
+            view={queryView}
+          />
+        </section>
+      </Layout.AsideLeft>
 
-            <Heading as="h2" className="sw-sr-only">
-              {translate('list_of_projects')}
-            </Heading>
+      <Layout.PageGrid ref={scrollElementRef}>
+        <A11ySkipTarget anchor="projects_main" />
+        <Heading as="h2" className="sw-sr-only">
+          <FormattedMessage id="list_of_projects" />
+        </Heading>
 
-            {renderHeader()}
+        <Layout.PageContent>
+          <PageHeader
+            currentUser={currentUser}
+            onPerspectiveChange={handlePerspectiveChange}
+            onQueryChange={updateLocationQuery}
+            onSortChange={handleSortChange}
+            query={parsedQuery}
+            selectedSort={querySort}
+            total={paging?.total}
+            view={queryView}
+          />
 
-            {renderMain()}
-          </main>
-        </div>
-      </LargeCenteredLayout>
-    </StyledWrapper>
+          <div className="it__layout-page-main-inner it__projects-list">
+            <output>
+              <Spinner isLoading={isLoading}>
+                {readyProjects.length === 0 && isFiltered && isFavorite && (
+                  <EmptyFavoriteSearch query={parsedQuery} />
+                )}
+                {readyProjects.length === 0 && isFiltered && !isFavorite && <EmptySearch />}
+                {readyProjects.length === 0 && !isFiltered && isFavorite && <NoFavoriteProjects />}
+                {readyProjects.length === 0 && !isFiltered && !isFavorite && <EmptyInstance />}
+                {readyProjects.length > 0 && (
+                  <span className="sw-sr-only">
+                    {intl.formatMessage(
+                      { id: 'projects.x_projects_found' },
+                      { count: paging?.total },
+                    )}
+                  </span>
+                )}
+              </Spinner>
+            </output>
+            {readyProjects.length > 0 && (
+              <>
+                <ProjectsList
+                  cardType={queryView}
+                  isFavorite={isFavorite}
+                  isFiltered={hasFilterParams(parsedQuery)}
+                  measures={measures}
+                  projects={readyProjects}
+                  query={parsedQuery}
+                  scrollElement={scrollElementRef.current ?? undefined}
+                />
+                <ListFooter
+                  count={isDefined(readyProjects) ? readyProjects.length : 0}
+                  loadMore={fetchNextPage}
+                  loadMoreAriaLabel={intl.formatMessage({ id: 'projects.show_more' })}
+                  loading={isFetchingNextPage || measuresForLastChunkAreLoading}
+                  ready={!isFetchingNextPage && !measuresForLastChunkAreLoading}
+                  total={paging?.total ?? 0}
+                />
+              </>
+            )}
+          </div>
+        </Layout.PageContent>
+
+        <GlobalFooter />
+      </Layout.PageGrid>
+    </Layout.ContentGrid>
   );
 }
 
@@ -331,17 +315,3 @@ function withRedirectWrapper(Component: React.ComponentType<{ isFavorite: boolea
 }
 
 export default withRedirectWrapper(AllProjects);
-
-const StyledWrapper = styled.div`
-  background-color: ${themeColor('backgroundPrimary')};
-`;
-
-const SideBarStyle = styled.div`
-  border-left: ${themeBorder('default', 'filterbarBorder')};
-  border-right: ${themeBorder('default', 'filterbarBorder')};
-  background-color: ${themeColor('backgroundSecondary')};
-`;
-
-const PageHeaderWrapper = styled.div`
-  border-bottom: ${themeBorder('default', 'filterbarBorder')};
-`;

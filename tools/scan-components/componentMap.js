@@ -2672,7 +2672,6 @@ export const componentMap = {
   MigrationContainer: 'Excluded',
   RedirectWrapper: 'Excluded',
   ProjectAdminPageExtension: 'Excluded',
-  FavoriteProjectsContainer: 'Excluded',
   MarketplaceAppContainer: 'Excluded',
   GitlabProjectSelectionForm: 'Excluded',
   Mode: 'Excluded',

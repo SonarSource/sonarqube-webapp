@@ -20,7 +20,7 @@
 
 import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
 import { List, ListRowProps } from 'react-virtualized/dist/commonjs/List';
-import ListFooter from '~shared/components/controls/ListFooter';
+import { WindowScroller } from 'react-virtualized/dist/commonjs/WindowScroller';
 import { MeasuresByComponents } from '~shared/types/measures';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
@@ -35,33 +35,16 @@ interface Props {
   cardType?: string;
   isFavorite: boolean;
   isFiltered: boolean;
-  loadMore: () => void;
-  loading: boolean;
   measures: MeasuresByComponents[];
   projects: Omit<Project, 'measures'>[];
   query: ProjectsQuery;
-  total?: number;
+  scrollElement?: HTMLDivElement;
 }
 
 export default function ProjectsList(props: Readonly<Props>) {
-  const { cardType, measures, loading, projects, total, loadMore } = props;
+  const { cardType, measures, projects, scrollElement } = props;
 
   const renderRow = ({ index, key, style }: ListRowProps) => {
-    if (index === projects.length) {
-      return (
-        <div key="footer" style={{ ...style }}>
-          <ListFooter
-            count={projects !== undefined ? projects.length : 0}
-            loadMore={loadMore}
-            loadMoreAriaLabel={translate('projects.show_more')}
-            loading={loading}
-            ready={!loading}
-            total={total ?? 0}
-          />
-        </div>
-      );
-    }
-
     const project = projects[index];
     const componentMeasures =
       measures
@@ -96,20 +79,28 @@ export default function ProjectsList(props: Readonly<Props>) {
   };
 
   return (
-    <AutoSizer>
-      {({ height, width }) => (
-        <List
-          aria-label={translate('project_plural')}
-          height={height}
-          overscanRowCount={2}
-          rowCount={projects.length + 1}
-          rowHeight={PROJECT_CARD_HEIGHT + PROJECT_CARD_MARGIN}
-          rowRenderer={renderRow}
-          style={{ outline: 'none' }}
-          tabIndex={-1}
-          width={width}
-        />
+    <WindowScroller scrollElement={scrollElement}>
+      {({ height, isScrolling, onChildScroll, scrollTop }) => (
+        <AutoSizer disableHeight>
+          {({ width }) => (
+            <List
+              aria-label={translate('project_plural')}
+              autoHeight
+              height={height}
+              isScrolling={isScrolling}
+              onScroll={onChildScroll}
+              overscanRowCount={2}
+              rowCount={projects.length}
+              rowHeight={PROJECT_CARD_HEIGHT + PROJECT_CARD_MARGIN}
+              rowRenderer={renderRow}
+              scrollTop={scrollTop}
+              style={{ outline: 'none' }}
+              tabIndex={-1}
+              width={width}
+            />
+          )}
+        </AutoSizer>
       )}
-    </AutoSizer>
+    </WindowScroller>
   );
 }

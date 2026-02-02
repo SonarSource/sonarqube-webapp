@@ -20,7 +20,7 @@
 
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { AutoSizerProps } from 'react-virtualized';
+import { WindowScrollerProps } from 'react-virtualized';
 import { save } from '~shared/helpers/storage';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
@@ -32,13 +32,27 @@ import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtil
 import projectRoutes from '../../routes';
 import { LS_PROJECTS_SORT, LS_PROJECTS_VIEW } from '../AllProjects';
 
-/* Mock the Autosizer to always render the whole list */
-jest.mock('react-virtualized/dist/commonjs/AutoSizer', () => {
-  function AutoSizer(props: AutoSizerProps) {
-    return <>{props.children({ height: 10000, width: 1000 })}</>;
+/* Mock the WindowScroller to always render the whole list */
+jest.mock('react-virtualized/dist/commonjs/WindowScroller', () => {
+  function WindowScroller(props: Readonly<WindowScrollerProps>) {
+    return (
+      <>
+        {props.children({
+          height: 10000,
+          width: 10000,
+          scrollLeft: 0,
+          scrollTop: 0,
+          isScrolling: false,
+          /* eslint-disable-next-line @typescript-eslint/no-empty-function */
+          onChildScroll: () => {},
+          /* eslint-disable-next-line @typescript-eslint/no-empty-function */
+          registerChild: () => {},
+        })}
+      </>
+    );
   }
 
-  return { AutoSizer };
+  return { WindowScroller };
 });
 
 jest.mock('~sq-server-commons/api/components');
