@@ -108,6 +108,7 @@ const PAGES_MIGRATED: string[] = [
   '/project/admin/extension/governance/application_report',
   '/project/admin/extension/governance/console',
   '/project/admin/extension/governance/report',
+  '/project/ai-project-settings',
   '/project/baseline',
   '/project/branches',
   '/project/deletion',
