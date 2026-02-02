@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Layout } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import InstanceMessage from '~sq-server-commons/components/common/InstanceMessage';
 import { getInstance } from '~sq-server-commons/helpers/system';
@@ -30,12 +31,16 @@ export function useSettingsAppHeader(component?: Component) {
     ? intl.formatMessage({ id: 'project_settings.page' })
     : intl.formatMessage({ id: 'settings.page' });
 
-  const pageDescription = component ? (
+  const pageDescriptionText = component ? (
     intl.formatMessage({ id: 'project_settings.page.description' })
   ) : (
     <InstanceMessage
       message={intl.formatMessage({ id: 'settings.page.description' }, { instance: getInstance() })}
     />
+  );
+
+  const pageDescription = (
+    <Layout.PageHeader.Description>{pageDescriptionText}</Layout.PageHeader.Description>
   );
 
   return { pageTitle, pageDescription };

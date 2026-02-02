@@ -19,17 +19,17 @@
  */
 
 import styled from '@emotion/styled';
-import { Text, cssVar } from '@sonarsource/echoes-react';
+import { cssVar, SearchInput, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import {
   DropdownMenu,
-  InputSearch,
   LinkBox,
   OutsideClickHandler,
   Popup,
   PopupPlacement,
+  PopupZLevel,
   themeColor,
 } from '~design-system';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
@@ -104,15 +104,18 @@ export default function SettingsSearchRenderer(props: Readonly<SettingsSearchRen
           )
         }
         placement={PopupPlacement.BottomLeft}
+        zLevel={PopupZLevel.Global}
       >
-        <InputSearch
-          id={SEARCH_INPUT_ID}
-          onChange={props.onSearchInputChange}
-          onFocus={props.onSearchInputFocus}
-          onKeyDown={props.onSearchInputKeyDown}
-          placeholder={intl.formatMessage({ id: 'settings.search.placeholder' })}
-          value={searchQuery}
-        />
+        <div className="sw-relative">
+          <SearchInput
+            id={SEARCH_INPUT_ID}
+            onChange={props.onSearchInputChange}
+            onFocus={props.onSearchInputFocus}
+            onKeyDown={props.onSearchInputKeyDown}
+            placeholderLabel={intl.formatMessage({ id: 'settings.search.placeholder' })}
+            value={searchQuery}
+          />
+        </div>
       </Popup>
     </OutsideClickHandler>
   );

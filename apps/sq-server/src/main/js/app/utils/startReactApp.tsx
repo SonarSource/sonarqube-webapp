@@ -164,6 +164,7 @@ function renderComponentRoutes({
           {projectKeyRoutes()}
           {projectLinksRoutes()}
           {projectNewCodeDefinitionRoutes()}
+          {settingsRoutes()}
         </Route>
 
         {/* Pages not yet using new layout - ProjectAdminContainer provides <main> wrapper */}
@@ -175,9 +176,6 @@ function renderComponentRoutes({
           />
 
           {backgroundTasksRoutes()}
-
-          {settingsRoutes()}
-
           {webhooksRoutes()}
         </Route>
       </Route>

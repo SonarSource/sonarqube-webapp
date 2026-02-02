@@ -19,20 +19,27 @@
  */
 
 import styled from '@emotion/styled';
+import { BreadcrumbsItems, BreadcrumbsProps, cssVar, Layout } from '@sonarsource/echoes-react';
 import { uniqBy } from 'lodash';
 import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout, themeBorder } from '~design-system';
+import { useFlags } from '~adapters/helpers/feature-flags';
 import { useLocation } from '~shared/components/hoc/withRouter';
+import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isDefined } from '~shared/helpers/types';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
 import ModeBanner from '~sq-server-commons/components/common/ModeBanner';
 import { BitbucketCloudAppDeprecationMessage } from '~sq-server-commons/components/devops-platform/BitbucketCloudAppDeprecationMessage';
 import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
+import { getGlobalSettingsUrl, getProjectSettingsUrl } from '~sq-server-commons/helpers/urls';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import { CATEGORY_OVERRIDES } from '../constants';
-import { getDefaultCategory, usePurchasableFeature } from '../utils';
+import {
+  DEFAULT_CATEGORY,
+  getCategoryName,
+  getDefaultCategory,
+  usePurchasableFeature,
+} from '../utils';
 import { ADDITIONAL_CATEGORIES } from './AdditionalCategories';
 import AllCategoriesList from './AllCategoriesList';
 import CategoryDefinitionsList from './CategoryDefinitionsList';
@@ -43,14 +50,14 @@ import { useSettingsAppHeader } from './useSettingsAppHeader';
 export interface SettingsAppRendererProps {
   component?: Component;
   definitions: ExtendedSettingDefinition[];
-  loading: boolean;
 }
 
 function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
-  const { definitions, component, loading } = props;
+  const { definitions, component } = props;
 
   const location = useLocation();
   const scaFeature = usePurchasableFeature(Feature.Sca);
+  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
 
   const categories = React.useMemo(() => {
     return uniqBy(
@@ -58,10 +65,6 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
       (category) => category.toLowerCase(),
     );
   }, [definitions]);
-
-  if (loading) {
-    return null;
-  }
 
   const { query } = location;
   const defaultCategory = getDefaultCategory(categories);
@@ -75,77 +78,110 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
     ((isProjectSettings && foundAdditionalCategory.availableForProject) ||
       (!isProjectSettings && foundAdditionalCategory.availableGlobally));
 
+  const breadcrumbs = React.useMemo<BreadcrumbsItems>(
+    () =>
+      selectedCategory === DEFAULT_CATEGORY
+        ? []
+        : [
+            {
+              linkElement: foundAdditionalCategory
+                ? foundAdditionalCategory.name
+                : getCategoryName(
+                    categories.find((c) => c.toLowerCase() === selectedCategory.toLowerCase()) ??
+                      selectedCategory.toLowerCase(),
+                  ),
+            },
+          ],
+    [categories, selectedCategory, foundAdditionalCategory],
+  );
+
   return (
-    <Wrapper component={component}>
+    <Wrapper
+      asideLeft={
+        <div className="sw-flex sw-flex-col sw-gap-4">
+          <SettingsSearch
+            component={component}
+            definitions={definitions}
+            showAdvancedSecurity={scaFeature?.isAvailable ?? false}
+          />
+          <AllCategoriesList
+            categories={categories}
+            component={component}
+            defaultCategory={defaultCategory}
+            selectedCategory={selectedCategory}
+          />
+        </div>
+      }
+      breadcrumbs={breadcrumbs}
+      component={component}
+    >
       {!isProjectSettings && <BitbucketCloudAppDeprecationMessage className="sw-mt-8" />}
 
       <ModeBanner as="wideBanner" />
 
-      <div className="sw-my-8">
-        {isProjectSettings ? (
-          <PageHeader component={component} definitions={definitions} />
-        ) : (
-          <div className="sw-mb-4">
-            <SettingsSearch
-              component={component}
-              definitions={definitions}
-              showAdvancedSecurity={scaFeature?.isAvailable ?? false}
-            />
-          </div>
+      <div>
+        {isProjectSettings && !frontEndEngineeringEnableSidebarNavigation && (
+          <PageHeader component={component} />
         )}
 
-        <div className="sw-typo-default sw-flex sw-items-stretch sw-justify-between">
-          <div className="sw-min-w-abs-250">
-            <AllCategoriesList
-              categories={categories}
+        {/* Adding a key to force re-rendering of the category content, so that it resets the scroll position */}
+        <StyledBox className="it__settings_list sw-flex-1 sw-p-6 sw-min-w-0" key={selectedCategory}>
+          {shouldRenderAdditionalCategory ? (
+            foundAdditionalCategory.renderComponent({
+              categories,
+              component,
+              definitions,
+              selectedCategory: originalCategory,
+            })
+          ) : (
+            <CategoryDefinitionsList
+              category={selectedCategory}
               component={component}
-              defaultCategory={defaultCategory}
-              selectedCategory={selectedCategory}
+              definitions={definitions}
             />
-          </div>
-
-          {/* Adding a key to force re-rendering of the category content, so that it resets the scroll position */}
-          <StyledBox
-            className="it__settings_list sw-flex-1 sw-p-6 sw-min-w-0"
-            key={selectedCategory}
-          >
-            {shouldRenderAdditionalCategory ? (
-              foundAdditionalCategory.renderComponent({
-                categories,
-                component,
-                definitions,
-                selectedCategory: originalCategory,
-              })
-            ) : (
-              <CategoryDefinitionsList
-                category={selectedCategory}
-                component={component}
-                definitions={definitions}
-              />
-            )}
-          </StyledBox>
-        </div>
+          )}
+        </StyledBox>
       </div>
     </Wrapper>
   );
 }
 
-function Wrapper({ children, component }: React.PropsWithChildren<{ component?: Component }>) {
+function Wrapper({
+  asideLeft,
+  breadcrumbs,
+  children,
+  component,
+}: React.PropsWithChildren<{
+  asideLeft: React.ReactNode;
+  breadcrumbs: BreadcrumbsProps['items'];
+  component?: Component;
+}>) {
   const { pageTitle, pageDescription } = useSettingsAppHeader(component);
 
   if (isDefined(component)) {
     return (
-      <LargeCenteredLayout id="settings-page">
-        <Helmet defer={false} title={pageTitle} />
-        {children}
-      </LargeCenteredLayout>
+      <ProjectPageTemplate
+        asideLeft={<Layout.AsideLeft>{asideLeft}</Layout.AsideLeft>}
+        breadcrumbs={[
+          { linkElement: pageTitle, to: getProjectSettingsUrl(component.key) },
+          ...breadcrumbs,
+        ]}
+        description={pageDescription}
+        disableBranchSelector
+        title={pageTitle}
+      >
+        <div id="settings-page">{children}</div>
+      </ProjectPageTemplate>
     );
   }
 
   return (
     <AdminPageTemplate
-      breadcrumbs={[{ linkElement: pageTitle }]}
+      asideLeft={<Layout.AsideLeft>{asideLeft}</Layout.AsideLeft>}
+      breadcrumbs={[{ linkElement: pageTitle, to: getGlobalSettingsUrl() }, ...breadcrumbs]}
       description={pageDescription}
+      hasDivider
+      scrollBehavior="sticky"
       title={pageTitle}
     >
       {children}
@@ -156,6 +192,7 @@ function Wrapper({ children, component }: React.PropsWithChildren<{ component?: 
 export default SettingsAppRenderer;
 
 const StyledBox = styled.div`
-  border: ${themeBorder('default', 'subnavigationBorder')};
+  background-color: ${cssVar('color-surface-default')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   margin-left: -1px;
 `;

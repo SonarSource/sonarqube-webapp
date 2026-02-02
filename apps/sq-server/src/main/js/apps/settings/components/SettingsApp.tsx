@@ -18,58 +18,35 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
+import { Spinner } from '@sonarsource/echoes-react';
+import { useContext, useEffect, useState } from 'react';
+import { ComponentContext } from '~adapters/helpers/test-utils';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
 import { getDefinitions } from '~sq-server-commons/api/settings';
-import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
-import { Component } from '~sq-server-commons/types/types';
 import '../styles.css';
 import SettingsAppRenderer from './SettingsAppRenderer';
 
-interface Props {
-  component?: Component;
+export default function SettingsApp() {
+  const { component } = useContext(ComponentContext);
+  const [definitions, setDefinitions] = useState<ExtendedSettingDefinition[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const definitions: ExtendedSettingDefinition[] = await getDefinitions(component?.key).catch(
+        () => [],
+      );
+
+      setDefinitions(definitions);
+      setLoading(false);
+    };
+
+    void fetchSettings();
+  }, [component?.key]);
+
+  return (
+    <Spinner className="sw-m-4" isLoading={loading}>
+      <SettingsAppRenderer component={component} definitions={definitions} />;
+    </Spinner>
+  );
 }
-
-interface State {
-  definitions: ExtendedSettingDefinition[];
-  loading: boolean;
-}
-
-class SettingsApp extends React.PureComponent<Props, State> {
-  mounted = false;
-  state: State = { definitions: [], loading: true };
-
-  componentDidMount() {
-    this.mounted = true;
-    this.fetchSettings();
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    if (prevProps.component !== this.props.component) {
-      this.fetchSettings();
-    }
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  fetchSettings = async () => {
-    const { component } = this.props;
-
-    const definitions: ExtendedSettingDefinition[] = await getDefinitions(component?.key).catch(
-      () => [],
-    );
-
-    if (this.mounted) {
-      this.setState({ definitions, loading: false });
-    }
-  };
-
-  render() {
-    const { component } = this.props;
-    return <SettingsAppRenderer component={component} {...this.state} />;
-  }
-}
-
-export default withComponentContext(SettingsApp);

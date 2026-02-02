@@ -110,7 +110,7 @@ const ui = {
   languagesSelect: byRole('combobox', { name: 'property.category.languages' }),
   mockedJiraProjectBindingHeading: byRole('heading', { name: 'JiraProjectBindingHeding' }),
   scaHeading: byRole('heading', { name: 'property.sca.admin.title' }),
-  searchClear: byRole('button', { name: 'clear' }),
+  searchClear: byRole('button', { name: 'search_input.clear' }),
   searchItem: (key: string) => byRole('link', { name: new RegExp(key) }),
   searchResultsList: byRole('menu'),
   settingsSearchInput: byRole('searchbox', { name: 'settings.search.placeholder' }),
