@@ -20,13 +20,16 @@
 
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ComponentContext } from '~adapters/helpers/test-utils';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import WebhooksMock from '~sq-server-commons/api/mocks/WebhooksMock';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockWebhook } from '~sq-server-commons/helpers/mocks/webhook';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { App, AppProps } from '../App';
+import { ComponentContextShape } from '~sq-server-commons/types/component';
+import { Component } from '~sq-server-commons/types/types';
 import { WEBHOOKS_LIMIT } from '../PageActions';
+import WebhooksApp from '../WebhooksApp';
 
 const webhookService = new WebhooksMock();
 
@@ -57,9 +60,7 @@ describe('app should render correctly', () => {
   it('project webhooks', async () => {
     const { ui } = getPageObject();
     webhookService.reset('project1');
-    renderWebhooksApp({
-      component: mockComponent({ key: 'project1' }),
-    });
+    renderWebhooksApp(mockComponent({ key: 'project1' }));
     await ui.waitForWebhooksLoaded();
 
     expect(ui.webhookTable.get()).toBeInTheDocument();
@@ -79,9 +80,7 @@ describe('app should render correctly', () => {
   it('project with no webhook', async () => {
     const { ui } = getPageObject();
     webhookService.reset('project2');
-    renderWebhooksApp({
-      component: mockComponent({ key: 'project2' }),
-    });
+    renderWebhooksApp(mockComponent({ key: 'project2' }));
     await ui.waitForNoResults();
 
     expect(ui.webhookTable.query()).not.toBeInTheDocument();
@@ -242,8 +241,12 @@ describe('should properly show deliveries', () => {
   });
 });
 
-function renderWebhooksApp(overrides: Partial<AppProps> = {}) {
-  return renderComponent(<App {...overrides} />);
+function renderWebhooksApp(component?: Component) {
+  return renderComponent(
+    <ComponentContext.Provider value={{ component } as ComponentContextShape}>
+      <WebhooksApp />
+    </ComponentContext.Provider>,
+  );
 }
 
 function getPageObject() {

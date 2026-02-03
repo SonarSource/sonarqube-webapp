@@ -21,7 +21,7 @@
 import { Route } from 'react-router-dom';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 
-const WebhooksApp = lazyLoadComponent(() => import('./components/App'));
+const WebhooksApp = lazyLoadComponent(() => import('./components/WebhooksApp'));
 
 export const routes = () => <Route element={<WebhooksApp />} path="webhooks" />;
 

@@ -19,10 +19,11 @@
  */
 
 import { Layout, Link, Spinner } from '@sonarsource/echoes-react';
-import { useCallback, useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { LargeCenteredLayout } from '~design-system';
+import { useFlags } from '~adapters/helpers/feature-flags';
+import { ComponentContext } from '~adapters/helpers/test-utils';
+import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isDefined } from '~shared/helpers/types';
 import {
   createWebhook,
@@ -32,22 +33,18 @@ import {
 } from '~sq-server-commons/api/webhooks';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
 import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
-import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
-import { Component } from '~sq-server-commons/types/types';
 import { WebhookResponse } from '~sq-server-commons/types/webhook';
 import PageActions from './PageActions';
-import PageHeader from './PageHeader';
 import WebhooksList from './WebhooksList';
 
-export interface AppProps {
-  component?: Component;
-}
-
-export function App({ component }: AppProps) {
+export default function WebhooksApp() {
+  const { component } = useContext(ComponentContext);
   const [loading, setLoading] = useState(true);
   const [webhooks, setWebhooks] = useState<WebhookResponse[]>([]);
+
+  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
 
   const { formatMessage } = useIntl();
   const toUrl = useDocUrl(DocLink.Webhooks);
@@ -132,47 +129,54 @@ export function App({ component }: AppProps) {
     </>
   );
 
+  const actions = (
+    <Layout.PageHeader.Actions>
+      <PageActions loading={loading} onCreate={handleCreate} webhooksCount={webhooks.length} />
+    </Layout.PageHeader.Actions>
+  );
+
   const pageContent = (
     <Spinner isLoading={loading}>
       <WebhooksList onDelete={handleDelete} onUpdate={handleUpdate} webhooks={webhooks} />
     </Spinner>
   );
 
-  if (isDefined(component)) {
-    return (
-      <LargeCenteredLayout className="sw-py-8" id="project-webhooks">
-        <Suggestions suggestion={DocLink.Webhooks} />
-        <Helmet defer={false} title={pageTitle} />
-
-        <PageHeader>
-          <PageActions loading={loading} onCreate={handleCreate} webhooksCount={webhooks.length} />
-        </PageHeader>
-        {pageContent}
-      </LargeCenteredLayout>
-    );
-  }
-
   return (
     <>
       <Suggestions suggestion={DocLink.Webhooks} />
-      <AdminPageTemplate
-        actions={
-          <Layout.PageHeader.Actions>
-            <PageActions
-              loading={loading}
-              onCreate={handleCreate}
-              webhooksCount={webhooks.length}
-            />
-          </Layout.PageHeader.Actions>
-        }
-        description={pageDescription}
-        scrollBehavior="sticky"
-        title={pageTitle}
-      >
-        {pageContent}
-      </AdminPageTemplate>
+
+      {isDefined(component) ? (
+        <ProjectPageTemplate
+          actions={actions}
+          description={
+            <Layout.ContentHeader.Description>{pageDescription}</Layout.ContentHeader.Description>
+          }
+          disableBranchSelector
+          header={
+            !frontEndEngineeringEnableSidebarNavigation && (
+              <Layout.PageHeader
+                actions={actions}
+                description={
+                  <Layout.PageHeader.Description>{pageDescription}</Layout.PageHeader.Description>
+                }
+                title={<Layout.PageHeader.Title>{pageTitle}</Layout.PageHeader.Title>}
+              />
+            )
+          }
+          title={pageTitle}
+        >
+          {pageContent}
+        </ProjectPageTemplate>
+      ) : (
+        <AdminPageTemplate
+          actions={actions}
+          description={pageDescription}
+          scrollBehavior="sticky"
+          title={pageTitle}
+        >
+          {pageContent}
+        </AdminPageTemplate>
+      )}
     </>
   );
 }
-
-export default withComponentContext(App);
