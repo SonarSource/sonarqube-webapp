@@ -20,18 +20,30 @@
 
 import { Heading, LinkHighlight } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
+import { useFlags } from '~adapters/helpers/feature-flags';
+import { isDefined } from '~shared/helpers/types';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Component } from '~sq-server-commons/types/types';
-import Workers from './Workers';
 
 interface Props {
   component?: Component;
 }
 
+/**
+ * Delete when we clear the feature flag `frontEndEngineeringEnableSidebarNavigation`
+ */
 export default function Header(props: Readonly<Props>) {
   const intl = useIntl();
+  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
+
+  const { component } = props;
+
+  if (!isDefined(component) || frontEndEngineeringEnableSidebarNavigation) {
+    return null;
+  }
+
   return (
     <header className="sw-mb-12 sw-flex sw-justify-between">
       <div className="sw-flex-1">
@@ -55,11 +67,6 @@ export default function Header(props: Readonly<Props>) {
           )}
         </p>
       </div>
-      {!props.component && (
-        <div>
-          <Workers />
-        </div>
-      )}
     </header>
   );
 }

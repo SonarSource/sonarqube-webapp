@@ -159,6 +159,7 @@ function renderComponentRoutes({
           {hasBranchSupport && addons.branches?.routes()}
           {hasAicaFeature && addons.aica?.aicaSettingsRoutes()}
 
+          {backgroundTasksRoutes()}
           {projectDeletionRoutes()}
           {projectDumpRoutes()}
           {projectKeyRoutes()}
@@ -175,8 +176,6 @@ function renderComponentRoutes({
             element={<ProjectAdminPageExtension />}
             path="admin/extension/:pluginKey/:extensionKey"
           />
-
-          {backgroundTasksRoutes()}
         </Route>
       </Route>
       <Route element={<ProjectAdminContainer skipMainWrapper />}>

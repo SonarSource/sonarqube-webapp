@@ -28,10 +28,9 @@ import {
 } from '@sonarsource/echoes-react';
 import { debounce } from 'lodash';
 import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { LargeCenteredLayout } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
+import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isDefined } from '~shared/helpers/types';
 import { Paging } from '~shared/types/paging';
 import { Location, RawQuery, Router } from '~shared/types/router';
@@ -248,7 +247,7 @@ export class BackgroundTasksApp extends React.PureComponent<Props, State> {
         <Suggestions suggestion={DocLink.BackgroundTasks} />
 
         <Spinner isLoading={!types}>
-          {isDefined(component) && <Header component={component} />}
+          <Header component={component} />
 
           {this.isFailedTaskWithProjectDataReload() && (
             <MessageCallout variety="warning">
@@ -324,15 +323,30 @@ export class BackgroundTasksApp extends React.PureComponent<Props, State> {
 function Wrapper({ children, component }: React.PropsWithChildren<{ component?: Component }>) {
   const { formatMessage } = useIntl();
   const pageTitle = formatMessage({ id: 'background_tasks.page' });
+  const pageDescription = (
+    <Layout.PageHeader.Description>
+      {formatMessage(
+        { id: 'background_tasks.page.description' },
+        {
+          link: (text) => (
+            <DocumentationLink
+              enableOpenInNewTab
+              highlight={LinkHighlight.CurrentColor}
+              to={DocLink.BackgroundTasks}
+            >
+              {text}
+            </DocumentationLink>
+          ),
+        },
+      )}
+    </Layout.PageHeader.Description>
+  );
 
   if (isDefined(component)) {
     return (
-      <LargeCenteredLayout id="background-tasks">
-        <div className="sw-my-4">
-          <Helmet defer={false} title={pageTitle} />
-          {children}
-        </div>
-      </LargeCenteredLayout>
+      <ProjectPageTemplate description={pageDescription} disableBranchSelector title={pageTitle}>
+        <div id="background-tasks">{children}</div>
+      </ProjectPageTemplate>
     );
   }
 
@@ -343,24 +357,7 @@ function Wrapper({ children, component }: React.PropsWithChildren<{ component?: 
           <Workers />
         </Layout.PageHeader.Actions>
       }
-      description={
-        <Layout.PageHeader.Description>
-          {formatMessage(
-            { id: 'background_tasks.page.description' },
-            {
-              link: (text) => (
-                <DocumentationLink
-                  enableOpenInNewTab
-                  highlight={LinkHighlight.CurrentColor}
-                  to={DocLink.BackgroundTasks}
-                >
-                  {text}
-                </DocumentationLink>
-              ),
-            },
-          )}
-        </Layout.PageHeader.Description>
-      }
+      description={pageDescription}
       title={pageTitle}
       width="default"
     >
