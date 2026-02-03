@@ -21,6 +21,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { get, save } from './storage';
 
+export default function useLocalStorage<T>(key: string): [T | undefined, (value: T) => void];
+export default function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T) => void];
 export default function useLocalStorage<T>(key: string, initialValue?: T) {
   const lsValue = useCallback<() => T>(() => {
     const v = get(key);
@@ -35,19 +37,21 @@ export default function useLocalStorage<T>(key: string, initialValue?: T) {
 
   const changeValue = useCallback(
     (value: T) => {
-      save(key, JSON.stringify(value));
+      setStoredValue((prev) => {
+        save(key, JSON.stringify(value));
 
-      // Dispatching storage event to notify current tab
-      const lsEvent = new StorageEvent('storage', {
-        key,
-        newValue: JSON.stringify(value),
-        oldValue: JSON.stringify(storedValue),
+        // Dispatching storage event to notify current tab
+        const lsEvent = new StorageEvent('storage', {
+          key,
+          newValue: JSON.stringify(value),
+          oldValue: JSON.stringify(prev),
+        });
+        globalThis.dispatchEvent(lsEvent);
+
+        return value;
       });
-      globalThis.dispatchEvent(lsEvent);
-
-      setStoredValue(lsValue());
     },
-    [key, lsValue, storedValue],
+    [key],
   );
 
   // If storaged value changes outside of the consumer, we update the state
@@ -67,5 +71,5 @@ export default function useLocalStorage<T>(key: string, initialValue?: T) {
     setStoredValue(lsValue() ?? initialValue);
   }, [lsValue, initialValue]);
 
-  return [storedValue, changeValue] as [T | undefined, (value: T) => void];
+  return [storedValue, changeValue];
 }
