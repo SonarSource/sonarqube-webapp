@@ -47,7 +47,8 @@
     "ts-check": "yarn nx run-many -t ts-check",
     "validate": "yarn nx run-many -t validate",
     "validate-l10n": "node private/config/validate-l10n.mts",
-    "scan-components": "node tools/scan-components/index.js"
+    "scan-components": "node tools/scan-components/index.js",
+    "ld-attribute-check": "node private/config/analyze-ld-context-attributes.mts"
   },
   "dependencies": {
     "@atlaskit/reduced-ui-pack": "19.0.6",
