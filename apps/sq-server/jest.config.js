@@ -60,6 +60,7 @@ module.exports = {
     // internal aliases
     '^~design-system': '<rootDir>/libs/sq-server-commons/src/design-system/index.ts',
   },
+  modulePathIgnorePatterns: ['<rootDir>/private/libs/feature-architecture/.*-it.tsx'],
   setupFiles: [
     ...baseConfig.projectConfig.setupFiles,
     '<rootDir>/config/jest/SetupTestEnvironment.ts',
