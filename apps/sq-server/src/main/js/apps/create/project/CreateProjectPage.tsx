@@ -18,10 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Layout } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout } from '~design-system';
+import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, Router } from '~shared/types/router';
@@ -277,37 +278,44 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
       : translate('onboarding.create_project.select_method');
 
     return (
-      <LargeCenteredLayout
-        className="sw-pt-8 sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12"
-        id="create-project"
-      >
-        <div className={gridLayoutStyle}>
-          <Helmet title={pageTitle} titleTemplate="%s" />
-          <A11ySkipTarget anchor="create_project_main" />
+      <Layout.ContentGrid>
+        <Layout.PageGrid>
+          <Layout.PageContent>
+            <div
+              className="sw-pt-8 sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12"
+              id="create-project"
+            >
+              <div className={gridLayoutStyle}>
+                <Helmet title={pageTitle} titleTemplate="%s" />
+                <A11ySkipTarget anchor="create_project_main" />
 
-          <div className={classNames({ 'sw-hidden': isProjectSetupDone })}>
-            {this.renderProjectCreation(mode)}
-          </div>
-          {importProjects !== undefined && isProjectSetupDone && (
-            <NewCodeDefinitionSelection
-              importProjects={importProjects}
-              onClose={() => {
-                this.props.router.push({ pathname: redirectTo });
-              }}
-              redirectTo={redirectTo}
-            />
-          )}
+                <div className={classNames({ 'sw-hidden': isProjectSetupDone })}>
+                  {this.renderProjectCreation(mode)}
+                </div>
+                {importProjects !== undefined && isProjectSetupDone && (
+                  <NewCodeDefinitionSelection
+                    importProjects={importProjects}
+                    onClose={() => {
+                      this.props.router.push({ pathname: redirectTo });
+                    }}
+                    redirectTo={redirectTo}
+                  />
+                )}
 
-          {creatingAlmDefinition && (
-            <AlmBindingDefinitionForm
-              afterSubmit={this.handleAfterSubmit}
-              alm={creatingAlmDefinition}
-              enforceValidation
-              onCancel={this.handleOnCancelCreation}
-            />
-          )}
-        </div>
-      </LargeCenteredLayout>
+                {creatingAlmDefinition && (
+                  <AlmBindingDefinitionForm
+                    afterSubmit={this.handleAfterSubmit}
+                    alm={creatingAlmDefinition}
+                    enforceValidation
+                    onCancel={this.handleOnCancelCreation}
+                  />
+                )}
+              </div>
+            </div>
+          </Layout.PageContent>
+          <GlobalFooter />
+        </Layout.PageGrid>
+      </Layout.ContentGrid>
     );
   }
 }
