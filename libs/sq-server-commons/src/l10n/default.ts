@@ -2151,12 +2151,6 @@ export const defaultMessages = {
   'architecture.page.model.modal.select_placeholder': 'Select a component...',
   'architecture.page.model.modal.name_in_intended_architecture': 'Name in intended architecture',
   'architecture.page.model.node.action_needed': 'You must define relationships.',
-  'architecture.page.oversize': 'Oversized components',
-  'architecture.page.oversize_list': 'Oversized components',
-  'architecture.page.oversize_list.count':
-    '{count, plural, one {<bold>1</bold> oversized component} other {<bold>{count}</bold> oversized components}}',
-  'architecture.page.oversize_list.child_count':
-    '{count, plural, one {1 child} other {{count} children}}',
   'architecture.page.tangles': 'Tangles',
   'architecture.page.tangle': 'Tangle Details',
   'architecture.page.tangles.count':
@@ -2218,7 +2212,6 @@ export const defaultMessages = {
     'No directive exists to remove this dependency.',
   'architecture.tangle.directive.deletion.success': 'Dependency removal cancelled',
   'architecture.tangle.directive.callout.message': 'Select a dependency to manage its removal.',
-  'architecture.oversize.description': 'Components containing too many child items.',
   'architecture.discovery.description': 'Discover the structure of your project.',
   'architecture.discovery.spotlight.path.copy': 'Copy: {path}',
   'architecture.discovery.spotlight.incoming_dependencies':
