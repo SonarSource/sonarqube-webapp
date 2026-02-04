@@ -26,11 +26,11 @@ import {
 } from '@sonarsource/echoes-react';
 import { forwardRef, PropsWithChildren, ReactNode } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { To } from 'react-router-dom';
 import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import { ProjectContentHeader } from '~adapters/components/layout/ProjectContentHeader';
 import { useFlags } from '~adapters/helpers/feature-flags';
 import { useFullWindow } from '../../context/fullWindowContext';
+import { ProjectBranchSelectorProps } from '../../types/branch-like';
 
 interface ProjectContentHeaderProps {
   /** Content header actions that should be wrapped in a Layout.ContentHeader.Actions */
@@ -47,8 +47,8 @@ interface ProjectContentHeaderProps {
   disableQualityGateStatus?: boolean;
   /** Content header metadata, displayed under the title and description, no need to wrap it in Layout.ContentHeader.Metadata, it's already done for you */
   metadata?: ContentHeaderProps['metadata'];
-  /** Override the path used by the branch selector to navigate when changing branch */
-  overrideBranchSelectorPath?: To;
+  /** Override the path used by the branch selector to navigate when changing branch. Can be a static path or a function that returns a path based on the branch-like. */
+  overrideBranchSelectorPath?: ProjectBranchSelectorProps['overridePath'];
 }
 
 interface Props extends PropsWithChildren, ProjectContentHeaderProps {

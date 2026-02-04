@@ -78,5 +78,5 @@ export interface ProjectBranchSelectorProps {
   linkToAll?: To;
   linkToBranches?: To;
   linkToPRs?: To;
-  overridePath?: To;
+  overridePath?: To | ((branchLike: BranchLikeBase) => To | undefined);
 }

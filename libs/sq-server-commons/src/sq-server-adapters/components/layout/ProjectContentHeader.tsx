@@ -20,10 +20,10 @@
 
 import styled from '@emotion/styled';
 import { BreadcrumbsProps, ContentHeaderProps, Layout } from '@sonarsource/echoes-react';
-import { To } from 'react-router-dom';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { getBranchLikeDisplayName } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
+import { ProjectBranchSelectorProps } from '~shared/types/branch-like';
 import ComponentNavProjectBindingErrorNotif from '../../../components/nav/ComponentNavProjectBindingErrorNotif';
 import QualityGateStatus from '../../../components/nav/QualityGateStatus';
 import NCDAutoUpdateMessage from '../../../components/new-code-definition/NCDAutoUpdateMessage';
@@ -44,7 +44,7 @@ interface Props extends SelectedContentHeaderProps {
   breadcrumbs?: BreadcrumbsProps['items'];
   disableBranchSelector?: boolean;
   disableQualityGateStatus?: boolean;
-  overrideBranchSelectorPath?: To;
+  overrideBranchSelectorPath?: ProjectBranchSelectorProps['overridePath'];
 }
 
 export function ProjectContentHeader(props: Readonly<Props>) {
