@@ -2020,7 +2020,8 @@ export const defaultMessages = {
   'sca.quality_gates.metric.sca_severity_any_issue': 'Dependency risk severity',
   'sca.quality_gates.metric.sca_severity_licensing.description':
     "All prohibited license risks are classified as high severity by Sonar. Therefore, this condition will cause the quality gate to fail if any of a project's dependencies use a license that is prohibited by the project's License Profile.",
-
+  'sca.quality_gates.metric.sca_severity_malware.description':
+    'All malicious code risks are classified as blocker severity by Sonar.',
   //------------------------------------------------------------------------------
   //
   // SCA REPORT PAGE

@@ -69,7 +69,7 @@ export const RISK_TYPE_QUALITY_GATE_LABEL: Record<ReleaseRiskType | 'Any', L10nM
   Any: 'sca.quality_gates.metric.sca_severity_any_issue',
   [ReleaseRiskType.Vulnerability]: 'sca.quality_gates.metric.sca_severity_vulnerability',
   [ReleaseRiskType.ProhibitedLicense]: 'sca.quality_gates.metric.sca_severity_licensing',
-  [ReleaseRiskType.Malware]: 'sca.quality_gates.metric.sca_severity_licensing',
+  [ReleaseRiskType.Malware]: 'sca.quality_gates.metric.sca_severity_malware',
 };
 
 export const SCA_LICENSE_SEVERITY_RISK_METRIC_KEYS = [
