@@ -20,11 +20,7 @@
 
 import styled from '@emotion/styled';
 import tw from 'twin.macro';
-import {
-  LAYOUT_VIEWPORT_MAX_WIDTH,
-  LAYOUT_VIEWPORT_MAX_WIDTH_LARGE,
-  LAYOUT_VIEWPORT_MIN_WIDTH,
-} from '../helpers';
+import { LAYOUT_VIEWPORT_MAX_WIDTH, LAYOUT_VIEWPORT_MIN_WIDTH } from '../helpers';
 
 const BaseLayout = styled.div`
   box-sizing: border-box;
@@ -36,8 +32,4 @@ const BaseLayout = styled.div`
 
 export const CenteredLayout = styled(BaseLayout)`
   max-width: ${LAYOUT_VIEWPORT_MAX_WIDTH}px;
-`;
-
-export const LargeCenteredLayout = styled(BaseLayout)`
-  max-width: ${LAYOUT_VIEWPORT_MAX_WIDTH_LARGE}px;
 `;

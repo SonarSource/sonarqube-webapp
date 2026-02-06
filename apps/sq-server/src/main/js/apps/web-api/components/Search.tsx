@@ -39,6 +39,7 @@ export default function Search(props: Readonly<Props>) {
     <div>
       <div>
         <InputSearch
+          className="sw-w-full"
           onChange={props.onSearch}
           placeholder={translate('api_documentation.search')}
           value={query.search}

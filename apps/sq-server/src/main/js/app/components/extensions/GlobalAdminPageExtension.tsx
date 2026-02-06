@@ -19,8 +19,8 @@
  */
 
 import { useLocation, useOutletContext, useParams } from 'react-router-dom';
+import NotFound from '~shared/components/NotFound';
 import { AdminPagesContext } from '~sq-server-commons/types/admin';
-import NotFound from '../NotFound';
 import Extension from './Extension';
 
 export default function GlobalAdminPageExtension() {

@@ -19,7 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
-import { render } from '~shared/helpers/test-utils';
+import { renderWithRouter } from '~shared/helpers/test-utils';
 import { IndexationContext } from '../../../context/indexation/IndexationContext';
 import withIndexationGuard from '../withIndexationGuard';
 
@@ -43,7 +43,7 @@ function renderComponentWithIndexationGuard(showIndexationMessage: () => boolean
     showIndexationMessage,
   });
 
-  return render(
+  return renderWithRouter(
     <IndexationContext.Provider
       value={{
         status: {

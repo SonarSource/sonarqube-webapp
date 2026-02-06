@@ -21,8 +21,8 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
+import NotFound from '~shared/components/NotFound';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
-import NotFound from '../NotFound';
 import Extension from './Extension';
 
 export interface ProjectPageExtensionProps {

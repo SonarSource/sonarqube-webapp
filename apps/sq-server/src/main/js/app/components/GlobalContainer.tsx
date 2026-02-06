@@ -130,6 +130,8 @@ const PAGES_MIGRATED: string[] = [
   '/quality_gates',
   '/tutorials',
   '/unsubscribe',
+  '/web_api',
+  '/web_api_v2',
 ];
 
 const StartupLicenseCheckBanner = addons.license?.StartupLicenseCheckBanner || (() => undefined);

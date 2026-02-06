@@ -42,7 +42,7 @@ export default function ApiInformation({ name, data, method, apiUrl }: Readonly<
           {data.summary}
         </Heading>
       )}
-      <Heading as="h3" hasMarginBottom>
+      <Heading as="h2" hasMarginBottom size="medium">
         <RestMethodPill method={method} />
         <span className="sw-ml-4">{apiUrl.replace(/.*(?=\/api)/, '') + name}</span>
         {data['x-sonar-internal'] && (

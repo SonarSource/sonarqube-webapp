@@ -21,18 +21,19 @@
 import {
   Button,
   ButtonVariety,
+  Card,
   Form,
   FormFieldWidth,
   LinkStandalone,
+  MessageCallout,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Card, CenteredLayout, FlagMessage } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Location } from '~shared/types/router';
 import UserPasswordInput, {
   PasswordChangeHandlerParams,
 } from '~sq-server-commons/components/common/UserPasswordInput';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getReturnUrl } from '~sq-server-commons/helpers/urls';
 import Unauthorized from '../sessions/components/Unauthorized';
 import { DEFAULT_ADMIN_PASSWORD } from './constants';
@@ -48,6 +49,7 @@ export interface ChangeAdminPasswordAppRendererProps {
 export default function ChangeAdminPasswordAppRenderer(
   props: Readonly<ChangeAdminPasswordAppRendererProps>,
 ) {
+  const { formatMessage } = useIntl();
   const { canAdmin, location, onSubmit, submitting, success } = props;
   const [newPassword, setNewPassword] = React.useState<PasswordChangeHandlerParams>({
     value: '',
@@ -60,55 +62,61 @@ export default function ChangeAdminPasswordAppRenderer(
   }
 
   return (
-    <CenteredLayout className="sw-h-screen">
-      <Helmet defer={false} title={translate('users.change_admin_password.page')} />
+    <>
+      <Helmet defer={false} title={formatMessage({ id: 'users.change_admin_password.page' })} />
 
       <div className="sw-flex sw-flex-col sw-items-center sw-justify-center">
-        <Card className="sw-mx-auto sw-mt-24 sw-w-abs-600 sw-flex sw-items-stretch sw-flex-col">
-          {success ? (
-            <FlagMessage className="sw-my-8" variant="success">
-              <div>
-                <p className="sw-mb-2">{translate('users.change_admin_password.form.success')}</p>
+        <Card className="sw-mx-auto sw-mt-24 sw-w-abs-600">
+          <Card.Body>
+            {success ? (
+              <MessageCallout variety="success">
+                <div>
+                  <p className="sw-mb-2">
+                    <FormattedMessage id="users.change_admin_password.form.success" />
+                  </p>
 
-                {/* We must reload because we need a refresh of the /api/navigation/global call. */}
-                <LinkStandalone reloadDocument to={getReturnUrl(location)}>
-                  {translate('users.change_admin_password.form.continue_to_app')}
-                </LinkStandalone>
-              </div>
-            </FlagMessage>
-          ) : (
-            <Form
-              onSubmit={(e: React.SyntheticEvent<HTMLFormElement>) => {
-                e.preventDefault();
-                onSubmit(newPassword.value);
-              }}
-            >
-              <Form.Header
-                description={translate('users.change_admin_password.description')}
-                extraContent={translate('users.change_admin_password.header')}
-                title={translate('users.change_admin_password.instance_is_at_risk')}
-              />
-              <Form.Section title={translate('users.change_admin_password.form.header')}>
-                <UserPasswordInput
-                  onChange={setNewPassword}
-                  size={FormFieldWidth.Large}
-                  value={newPassword.value}
+                  {/* We must reload because we need a refresh of the /api/navigation/global call. */}
+                  <LinkStandalone reloadDocument to={getReturnUrl(location)}>
+                    <FormattedMessage id="users.change_admin_password.form.continue_to_app" />
+                  </LinkStandalone>
+                </div>
+              </MessageCallout>
+            ) : (
+              <Form
+                onSubmit={(e: React.SyntheticEvent<HTMLFormElement>) => {
+                  e.preventDefault();
+                  onSubmit(newPassword.value);
+                }}
+              >
+                <Form.Header
+                  description={<FormattedMessage id="users.change_admin_password.description" />}
+                  extraContent={<FormattedMessage id="users.change_admin_password.header" />}
+                  title={<FormattedMessage id="users.change_admin_password.instance_is_at_risk" />}
                 />
-              </Form.Section>
-              <Form.Footer>
-                <Button
-                  isDisabled={!canSubmit || submitting}
-                  isLoading={submitting}
-                  type="submit"
-                  variety={ButtonVariety.Primary}
+                <Form.Section
+                  title={<FormattedMessage id="users.change_admin_password.form.header" />}
                 >
-                  {translate('update_verb')}
-                </Button>
-              </Form.Footer>
-            </Form>
-          )}
+                  <UserPasswordInput
+                    onChange={setNewPassword}
+                    size={FormFieldWidth.Large}
+                    value={newPassword.value}
+                  />
+                </Form.Section>
+                <Form.Footer>
+                  <Button
+                    isDisabled={!canSubmit || submitting}
+                    isLoading={submitting}
+                    type="submit"
+                    variety={ButtonVariety.Primary}
+                  >
+                    <FormattedMessage id="update_verb" />
+                  </Button>
+                </Form.Footer>
+              </Form>
+            )}
+          </Card.Body>
         </Card>
       </div>
-    </CenteredLayout>
+    </>
   );
 }

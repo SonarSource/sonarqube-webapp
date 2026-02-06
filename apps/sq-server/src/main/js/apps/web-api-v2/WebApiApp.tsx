@@ -18,14 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
-import { Spinner } from '@sonarsource/echoes-react';
+import { Heading, Layout, Spinner, Text } from '@sonarsource/echoes-react';
 import { omit } from 'lodash';
 import { useMemo, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
-import { LargeCenteredLayout, Title } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import { useOpenAPI } from '~sq-server-commons/queries/web-api';
 import ApiFilterContext from './components/ApiFilterContext';
 import ApiInformation from './components/ApiInformation';
@@ -37,6 +35,8 @@ export default function WebApiApp() {
   const { data, isLoading } = useOpenAPI();
   const location = useLocation();
   const activeApi = location.hash.replace('#', '').split(URL_DIVIDER);
+
+  const { formatMessage } = useIntl();
 
   const apis = useMemo(() => {
     if (!data) {
@@ -67,57 +67,42 @@ export default function WebApiApp() {
 
   return (
     <ApiFilterContext.Provider value={contextValue}>
-      <LargeCenteredLayout>
-        <Helmet defer={false} title={translate('api_documentation.page')} />
+      <Layout.ContentGrid>
         <Spinner isLoading={isLoading}>
           {data && (
-            <div className="sw-w-full sw-flex">
-              <NavContainer aria-label={translate('api_documentation.page')} className="sw--mx-2">
-                <div className="sw-w-[300px] lg:sw-w-[390px] sw-mx-2">
-                  <ApiSidebar
-                    apisList={apis.map(({ name, method, info }) => ({
-                      method,
-                      name,
-                      info,
-                    }))}
-                    docInfo={data.info}
-                  />
-                </div>
-              </NavContainer>
-              <main
-                className="sw-relative sw-ml-12 sw-flex-1 sw-overflow-y-auto sw-py-6"
-                style={{ height: 'calc(100vh - 160px)' }}
-              >
-                <Spinner isLoading={isLoading}>
-                  {!activeData && (
-                    <>
-                      <Title>{translate('about')}</Title>
-                      <p>{data.info.description}</p>
-                    </>
-                  )}
-                  {data && activeData && (
-                    <ApiInformation
-                      apiUrl={data.servers?.[0]?.url ?? ''}
-                      data={activeData.info}
-                      method={activeData.method}
-                      name={activeData.name}
-                    />
-                  )}
-                </Spinner>
-              </main>
-            </div>
+            <GlobalPageTemplate
+              asideLeft={
+                <ApiSidebar
+                  apisList={apis.map(({ name, method, info }) => ({
+                    method,
+                    name,
+                    info,
+                  }))}
+                />
+              }
+              hidePageHeader
+              title={formatMessage({ id: 'api_documentation.page' })}
+            >
+              {!activeData && (
+                <>
+                  <Heading as="h1">
+                    <FormattedMessage id="about" />
+                  </Heading>
+                  <Text as="p">{data.info.description}</Text>
+                </>
+              )}
+              {data && activeData && (
+                <ApiInformation
+                  apiUrl={data.servers?.[0]?.url ?? ''}
+                  data={activeData.info}
+                  method={activeData.method}
+                  name={activeData.name}
+                />
+              )}
+            </GlobalPageTemplate>
           )}
         </Spinner>
-      </LargeCenteredLayout>
+      </Layout.ContentGrid>
     </ApiFilterContext.Provider>
   );
 }
-
-const NavContainer = styled.nav`
-  scrollbar-gutter: stable;
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: calc(100vh - 160px);
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-`;

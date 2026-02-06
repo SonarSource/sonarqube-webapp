@@ -18,23 +18,51 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
+import { css, Global } from '@emotion/react';
+import { Layout } from '@sonarsource/echoes-react';
 import { Outlet } from 'react-router-dom';
-import GlobalFooterLegacy from './GlobalFooter';
-import MainSonarQubeBar from './nav/global/MainSonarQubeBar';
+import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
+import { LogoWithAriaText } from './nav/global/MainSonarQubeBar';
 
-/*
- * We need to render either children or the Outlet,
- * because this component is used both in the context of routes and as a regular container
- */
-export default function SimpleContainer({ children }: { children?: React.ReactNode }) {
+interface Props {
+  hideTopBarAndFooter?: boolean;
+}
+
+export function SimpleContainer({ hideTopBarAndFooter = false }: Readonly<Props>) {
   return (
-    <div className="sw-flex sw-flex-col sw-h-full sw-min-h-[100vh]">
-      <div className="sw-box-border sw-flex-auto" id="container">
-        <MainSonarQubeBar />
-        {children !== undefined ? children : <Outlet />}
-      </div>
-      <GlobalFooterLegacy />
-    </div>
+    <>
+      {/*FIXME Temporary override to base.css to be removed when migration is done */}
+      <Global
+        styles={css`
+          body {
+            overflow-y: hidden;
+          }
+        `}
+      />
+
+      <Layout>
+        {!hideTopBarAndFooter && <SimpleTopBar />}
+        <Layout.ContentGrid>
+          <Layout.PageGrid>
+            <Layout.PageContent>
+              <Outlet />
+            </Layout.PageContent>
+            {!hideTopBarAndFooter && <GlobalFooter hideLoggedInInfo />}
+          </Layout.PageGrid>
+        </Layout.ContentGrid>
+      </Layout>
+    </>
+  );
+}
+
+function SimpleTopBar() {
+  return (
+    <Layout.GlobalNavigation>
+      <Layout.GlobalNavigation.Primary>
+        <Layout.GlobalNavigation.Home>
+          <LogoWithAriaText />
+        </Layout.GlobalNavigation.Home>
+      </Layout.GlobalNavigation.Primary>
+    </Layout.GlobalNavigation>
   );
 }

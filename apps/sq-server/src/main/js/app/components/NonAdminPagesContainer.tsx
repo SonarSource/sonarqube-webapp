@@ -18,11 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MessageCallout } from '@sonarsource/echoes-react';
+import { Layout, MessageCallout } from '@sonarsource/echoes-react';
 import { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Outlet } from 'react-router-dom';
-import { CenteredLayout } from '~design-system';
 import { isApplication } from '~shared/helpers/component';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 
@@ -40,13 +39,18 @@ export default function NonAdminPagesContainer() {
 
   if (isApplicationChildInaccessible) {
     return (
-      <CenteredLayout className="sw-py-8 sw-typo-lg sw-flex sw-flex-col sw-items-center">
-        <MessageCallout className="it__alert-no-access-all-child-project sw-mt-10" variety="danger">
-          <FormattedMessage id="application.cannot_access_all_child_projects1" />
-          <br />
-          <FormattedMessage id="application.cannot_access_all_child_projects2" />
-        </MessageCallout>
-      </CenteredLayout>
+      <Layout.PageGrid>
+        <Layout.PageContent>
+          <MessageCallout
+            className="it__alert-no-access-all-child-project sw-mt-10"
+            variety="danger"
+          >
+            <FormattedMessage id="application.cannot_access_all_child_projects1" />
+            <br />
+            <FormattedMessage id="application.cannot_access_all_child_projects2" />
+          </MessageCallout>
+        </Layout.PageContent>
+      </Layout.PageGrid>
     );
   }
 

@@ -18,32 +18,38 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Card, Layout, LinkStandalone } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
-import { Card, CenteredLayout, Link } from '~design-system';
+import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import { getCookie } from '~sq-server-commons/helpers/cookies';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
 export default function Unauthorized() {
   const message = decodeURIComponent(getCookie('AUTHENTICATION-ERROR') || '');
   return (
-    <CenteredLayout id="bd">
-      <Helmet defer={false} title={translate('unauthorized.page')} />
-      <div className="sw-typo-lg sw-flex sw-justify-center" id="nonav">
-        <Card className="sw-w-abs-500 sw-my-14 sw-text-center">
-          <p id="unauthorized">{translate('unauthorized.message')}</p>
+    <Layout.PageGrid>
+      <Layout.PageContent id="bd">
+        <Helmet defer={false} title={translate('unauthorized.page')} />
+        <div className="sw-typo-lg sw-flex sw-justify-center" id="nonav">
+          <Card className="sw-w-abs-500 sw-my-40 sw-text-center">
+            <Card.Body>
+              <p id="unauthorized">{translate('unauthorized.message')}</p>
 
-          {Boolean(message) && (
-            <p className="sw-mt-4">
-              {translate('unauthorized.reason')}
-              <br /> {message}
-            </p>
-          )}
+              {Boolean(message) && (
+                <p className="sw-mt-4">
+                  {translate('unauthorized.reason')}
+                  <br /> {message}
+                </p>
+              )}
 
-          <div className="sw-mt-8">
-            <Link to="/">{translate('layout.home')}</Link>
-          </div>
-        </Card>
-      </div>
-    </CenteredLayout>
+              <div className="sw-mt-8">
+                <LinkStandalone to="/">{translate('layout.home')}</LinkStandalone>
+              </div>
+            </Card.Body>
+          </Card>
+        </div>
+      </Layout.PageContent>
+      <GlobalFooter hideLoggedInInfo />
+    </Layout.PageGrid>
   );
 }

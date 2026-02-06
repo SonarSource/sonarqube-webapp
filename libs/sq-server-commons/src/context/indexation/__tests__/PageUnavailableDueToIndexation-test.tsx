@@ -20,12 +20,13 @@
 
 import { byRole } from '~shared/helpers/testSelector';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
+import { IndexationContext } from '../IndexationContext';
 import { PageUnavailableDueToIndexation } from '../PageUnavailableDueToIndexation';
 
 it('should render correctly', () => {
   renderPageUnavailableToIndexation();
 
-  expect(byRole('link', { name: 'learn_more' }).get()).toBeInTheDocument();
+  expect(byRole('link', { name: /learn_more/ }).get()).toBeInTheDocument();
 });
 
 it('should not refresh the page once the indexation is complete if there were failures', () => {
@@ -33,7 +34,11 @@ it('should not refresh the page once the indexation is complete if there were fa
 
   Object.defineProperty(window, 'location', {
     writable: true,
-    value: { reload },
+    value: {
+      reload,
+      // trick the MemoryRouter into thinking this is an internal link, otherwise it throws a warning
+      href: 'https://docs.sonarsource.com/',
+    },
   });
 
   const { rerender } = renderPageUnavailableToIndexation();
@@ -41,11 +46,9 @@ it('should not refresh the page once the indexation is complete if there were fa
   expect(reload).not.toHaveBeenCalled();
 
   rerender(
-    <PageUnavailableDueToIndexation
-      indexationContext={{
-        status: { hasFailures: true, isCompleted: true },
-      }}
-    />,
+    <IndexationContext.Provider value={{ status: { hasFailures: true, isCompleted: true } }}>
+      <PageUnavailableDueToIndexation />
+    </IndexationContext.Provider>,
   );
 
   expect(reload).not.toHaveBeenCalled();
@@ -56,7 +59,11 @@ it('should refresh the page once the indexation is complete if there were NO fai
 
   Object.defineProperty(window, 'location', {
     writable: true,
-    value: { reload },
+    value: {
+      reload,
+      // trick the MemoryRouter into thinking this is an internal link, otherwise it throws a warning
+      href: 'https://docs.sonarsource.com/',
+    },
   });
 
   const { rerender } = renderPageUnavailableToIndexation();
@@ -64,11 +71,9 @@ it('should refresh the page once the indexation is complete if there were NO fai
   expect(reload).not.toHaveBeenCalled();
 
   rerender(
-    <PageUnavailableDueToIndexation
-      indexationContext={{
-        status: { hasFailures: false, isCompleted: true },
-      }}
-    />,
+    <IndexationContext.Provider value={{ status: { hasFailures: false, isCompleted: true } }}>
+      <PageUnavailableDueToIndexation />
+    </IndexationContext.Provider>,
   );
 
   expect(reload).toHaveBeenCalled();
@@ -76,8 +81,8 @@ it('should refresh the page once the indexation is complete if there were NO fai
 
 function renderPageUnavailableToIndexation() {
   return renderComponent(
-    <PageUnavailableDueToIndexation
-      indexationContext={{
+    <IndexationContext.Provider
+      value={{
         status: {
           completedCount: 23,
           hasFailures: false,
@@ -85,6 +90,8 @@ function renderPageUnavailableToIndexation() {
           total: 42,
         },
       }}
-    />,
+    >
+      <PageUnavailableDueToIndexation />
+    </IndexationContext.Provider>,
   );
 }

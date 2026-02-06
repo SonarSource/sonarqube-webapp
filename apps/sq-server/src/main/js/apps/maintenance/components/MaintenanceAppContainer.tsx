@@ -20,13 +20,13 @@
 
 import { useSearchParams } from 'react-router-dom';
 import { omitNil } from '~sq-server-commons/helpers/request';
-import App from './App';
+import MaintenanceApp from './MaintenanceApp';
 
 export default function MaintenanceAppContainer() {
   const [searchParams] = useSearchParams();
 
   return (
-    <App
+    <MaintenanceApp
       location={{ query: omitNil({ return_to: searchParams.get('return_to') }) }}
       setup={false}
     />

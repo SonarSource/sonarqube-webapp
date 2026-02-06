@@ -19,7 +19,7 @@
  */
 
 import * as React from 'react';
-import PageUnavailableDueToIndexation from '../../context/indexation/PageUnavailableDueToIndexation';
+import { PageUnavailableDueToIndexation } from '../../context/indexation/PageUnavailableDueToIndexation';
 
 export default function withIndexationGuard<P>({
   Component,

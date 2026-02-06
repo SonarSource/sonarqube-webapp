@@ -91,6 +91,17 @@ global.ResizeObserver = jest.fn().mockImplementation((callback) => {
   return MockResizeObserver;
 });
 
+global.matchMedia = jest.fn().mockImplementation((query) => ({
+  matches: false,
+  media: query,
+  onchange: null,
+  addListener: jest.fn(), // Deprecated
+  removeListener: jest.fn(), // Deprecated
+  addEventListener: jest.fn(),
+  removeEventListener: jest.fn(),
+  dispatchEvent: jest.fn(),
+}));
+
 // Copied from pollyfill.io
 // To be remove when upgrading jsdom https://github.com/jsdom/jsdom/releases/tag/22.1.0
 // jest-environment-jsdom to v30

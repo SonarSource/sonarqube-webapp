@@ -33,6 +33,7 @@ interface Props extends PropsWithChildren {
   asideLeft?: ReactNode;
   breadcrumbs?: BreadcrumbsProps['items'];
   description?: PageHeaderProps['description'];
+  hidePageHeader?: boolean;
   pageClassName?: string;
   scrollBehavior?: PageHeaderProps['scrollBehavior'];
   title: string;
@@ -43,7 +44,16 @@ interface Props extends PropsWithChildren {
 // Does NOT render ContentGrid - expects it from parent container (GlobalPageExtensionContainer or AdminContainer)
 export const GlobalPageTemplate = forwardRef<HTMLDivElement, Props>(
   (
-    { asideLeft, breadcrumbs, children, pageClassName, title, width = 'default', ...headerProps },
+    {
+      asideLeft,
+      breadcrumbs,
+      children,
+      hidePageHeader = false,
+      pageClassName,
+      title,
+      width = 'default',
+      ...headerProps
+    },
     ref,
   ) => {
     return (
@@ -53,11 +63,13 @@ export const GlobalPageTemplate = forwardRef<HTMLDivElement, Props>(
         {asideLeft}
 
         <Layout.PageGrid className={pageClassName} ref={ref} width={width}>
-          <Layout.PageHeader
-            breadcrumbs={breadcrumbs && <Layout.PageHeader.Breadcrumbs items={breadcrumbs} />}
-            title={<Layout.PageHeader.Title headingLevel="h1">{title}</Layout.PageHeader.Title>}
-            {...headerProps}
-          />
+          {!hidePageHeader && (
+            <Layout.PageHeader
+              breadcrumbs={breadcrumbs && <Layout.PageHeader.Breadcrumbs items={breadcrumbs} />}
+              title={<Layout.PageHeader.Title headingLevel="h1">{title}</Layout.PageHeader.Title>}
+              {...headerProps}
+            />
+          )}
 
           <Layout.PageContent>{children}</Layout.PageContent>
 

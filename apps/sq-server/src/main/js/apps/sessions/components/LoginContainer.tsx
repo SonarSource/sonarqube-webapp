@@ -19,28 +19,28 @@
  */
 
 import styled from '@emotion/styled';
-import { cssVar } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
-import { LAYOUT_FOOTER_HEIGHT } from '~sq-server-commons/design-system';
+import { Layout } from '@sonarsource/echoes-react';
+import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import Login from './Login';
 import MarketingPanel from './MarketingPanel';
 
 export default function LoginContainer() {
   return (
-    <LoginContainerWrapper>
-      <div className="sw-flex-1 sw-flex sw-p-8 sw-justify-center sw-items-center">
-        <Login />
-      </div>
-      <div className="sw-flex-1 sw-flex">
-        <MarketingPanel />
-      </div>
-    </LoginContainerWrapper>
+    <Layout.PageGrid width="fluid">
+      <LoginContainerWrapper>
+        <div className="sw-flex-1 sw-flex sw-p-8 sw-justify-center sw-items-center">
+          <Login />
+        </div>
+        <div className="sw-flex-1 sw-flex">
+          <MarketingPanel />
+        </div>
+      </LoginContainerWrapper>
+      <GlobalFooter hideLoggedInInfo />
+    </Layout.PageGrid>
   );
 }
 
-const LoginContainerWrapper = styled.div`
-  ${tw`sw-flex`};
-  height: calc(100vh - ${LAYOUT_FOOTER_HEIGHT}px);
-  background-color: ${cssVar('color-surface-default')};
-  min-width: 1280px;
+const LoginContainerWrapper = styled(Layout.PageContent)`
+  display: flex;
+  padding: 0;
 `;

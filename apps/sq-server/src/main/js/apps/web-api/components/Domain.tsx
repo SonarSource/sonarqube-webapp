@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Heading } from '@sonarsource/echoes-react';
 import { isEmpty } from 'lodash';
-import { SubTitle } from '~design-system';
 import { SafeHTMLInjection } from '~shared/helpers/sanitize';
 import { WebApi } from '~sq-server-commons/types/types';
 import { Query, actionsFilter, getActionKey } from '../utils';
@@ -38,7 +38,9 @@ export default function Domain({ domain, query }: Props) {
   return (
     <div>
       <header className="sw-flex sw-items-baseline sw-gap-3">
-        <SubTitle className="sw-m-0">{domain.path}</SubTitle>
+        <Heading as="h1" className="sw-m-0" size="large">
+          {domain.path}
+        </Heading>
 
         {!isEmpty(domain.deprecatedSince) && <DeprecatedBadge since={domain.deprecatedSince} />}
 

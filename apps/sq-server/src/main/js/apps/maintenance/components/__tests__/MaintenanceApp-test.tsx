@@ -29,7 +29,7 @@ import {
 import { mockLocation } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { MigrationStatus } from '~sq-server-commons/types/system';
-import App from '../App';
+import MaintenanceApp from '../MaintenanceApp';
 
 jest.mock('~sq-server-commons/api/system', () => ({
   getMigrationsStatus: jest.fn().mockResolvedValue(null),
@@ -149,10 +149,10 @@ describe('Maintenance', () => {
     expect(replace).toHaveBeenCalledWith('/return/to');
   });
 
-  function renderMaintenanceApp(props: Partial<App['props']> = {}) {
+  function renderMaintenanceApp(props: Partial<MaintenanceApp['props']> = {}) {
     return renderApp(
       '/',
-      <App
+      <MaintenanceApp
         location={mockLocation({ query: { return_to: '/return/to' } })}
         setup={false}
         {...props}
@@ -297,10 +297,14 @@ describe('Setup', () => {
     expect(replace).toHaveBeenCalledWith('/return/to');
   });
 
-  function renderSetupApp(props: Partial<App['props']> = {}) {
+  function renderSetupApp(props: Partial<MaintenanceApp['props']> = {}) {
     return renderApp(
       '/',
-      <App location={mockLocation({ query: { return_to: '/return/to' } })} setup {...props} />,
+      <MaintenanceApp
+        location={mockLocation({ query: { return_to: '/return/to' } })}
+        setup
+        {...props}
+      />,
     );
   }
 });

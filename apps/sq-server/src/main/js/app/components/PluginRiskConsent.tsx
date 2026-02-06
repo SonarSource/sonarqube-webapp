@@ -18,15 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Card, Heading } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Card, CenteredLayout, Title } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Router } from '~shared/types/router';
 import { setSimpleSettingValue } from '~sq-server-commons/api/settings';
 import { whenLoggedIn } from '~sq-server-commons/components/hoc/whenLoggedIn';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
 import { Permissions } from '~sq-server-commons/types/permissions';
@@ -40,6 +39,8 @@ export interface PluginRiskConsentProps {
 }
 
 export function PluginRiskConsent(props: Readonly<PluginRiskConsentProps>) {
+  const { formatMessage } = useIntl();
+
   const { currentUser, router } = props;
 
   const isAdmin = hasGlobalPermission(currentUser, Permissions.Admin);
@@ -69,24 +70,34 @@ export function PluginRiskConsent(props: Readonly<PluginRiskConsentProps>) {
   };
 
   return (
-    <CenteredLayout className="sw-h-screen sw-pt-[10vh]">
-      <Helmet defer={false} title={translate('plugin_risk_consent.page')} />
+    <>
+      <Helmet defer={false} title={formatMessage({ id: 'plugin_risk_consent.page' })} />
 
-      <Card
-        className="sw-typo-lg sw-min-w-[500px] sw-mx-auto sw-w-[40%] sw-text-center"
-        data-testid="plugin-risk-consent-page"
-      >
-        <Title className="sw-mb-4">{translate('plugin_risk_consent.title')}</Title>
+      <div className="sw-mt-40">
+        <Card
+          className="sw-typo-lg sw-min-w-[500px] sw-mx-auto sw-w-[40%] sw-text-center"
+          data-testid="plugin-risk-consent-page"
+        >
+          <Card.Body>
+            <Heading as="h1" hasMarginBottom>
+              <FormattedMessage id="plugin_risk_consent.title" />
+            </Heading>
 
-        <p className="sw-mb-4">{translate('plugin_risk_consent.description')}</p>
+            <p className="sw-mb-4">
+              <FormattedMessage id="plugin_risk_consent.description" />
+            </p>
 
-        <p className="sw-mb-6">{translate('plugin_risk_consent.description2')}</p>
+            <p className="sw-mb-6">
+              <FormattedMessage id="plugin_risk_consent.description2" />
+            </p>
 
-        <Button className="sw-my-4" onClick={acknowledgeRisk} variety={ButtonVariety.Primary}>
-          {translate('plugin_risk_consent.action')}
-        </Button>
-      </Card>
-    </CenteredLayout>
+            <Button className="sw-my-4" onClick={acknowledgeRisk} variety={ButtonVariety.Primary}>
+              <FormattedMessage id="plugin_risk_consent.action" />
+            </Button>
+          </Card.Body>
+        </Card>
+      </div>
+    </>
   );
 }
 

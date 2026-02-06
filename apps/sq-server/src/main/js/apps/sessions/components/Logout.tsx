@@ -18,12 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Layout } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { CenteredLayout, addGlobalErrorMessage } from '~design-system';
+import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
+import { getBaseUrl } from '~adapters/helpers/system';
+import { addGlobalErrorMessage } from '~design-system';
 import { RecentHistory } from '~shared/helpers/recent-history';
 import { logOut } from '~sq-server-commons/api/auth';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { getBaseUrl } from '~sq-server-commons/helpers/system';
 
 export default function Logout() {
   React.useEffect(() => {
@@ -38,8 +40,11 @@ export default function Logout() {
   }, []);
 
   return (
-    <CenteredLayout>
-      <div className="sw-typo-lg sw-mt-14 sw-text-center">{translate('logging_out')}</div>
-    </CenteredLayout>
+    <Layout.PageGrid>
+      <Layout.PageContent>
+        <div className="sw-typo-lg sw-mt-40 sw-text-center">{translate('logging_out')}</div>
+      </Layout.PageContent>
+      <GlobalFooter hideLoggedInInfo />
+    </Layout.PageGrid>
   );
 }

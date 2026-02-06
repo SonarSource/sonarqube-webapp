@@ -23,7 +23,7 @@ import { Link, LinkStandalone, Spinner, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
-import { Card, CenteredLayout, Title } from '~design-system';
+import { Card, Title } from '~design-system';
 import DateFromNow from '~shared/components/intl/DateFromNow';
 import TimeFormatter from '~shared/components/intl/TimeFormatter';
 import { isDefined } from '~shared/helpers/types';
@@ -63,7 +63,7 @@ interface State {
 const DELAY_REDIRECT_PREV_PAGE = 2500;
 const DELAY_REFRESH_STATUS = 5000;
 
-export default class App extends React.PureComponent<Props, State> {
+export default class MaintenanceApp extends React.PureComponent<Props, State> {
   interval?: number;
   mounted = false;
   state: State = {};
@@ -179,7 +179,7 @@ export default class App extends React.PureComponent<Props, State> {
       <>
         <Helmet defaultTitle={translate('maintenance.page')} defer={false} />
 
-        <CenteredLayout className="sw-flex sw-justify-around sw-mt-32" id="bd">
+        <div className="sw-flex sw-justify-around sw-mt-32" id="bd">
           <Card className="sw-typo-default sw-p-10 sw-w-abs-400" id="nonav">
             {systemStatus === 'OFFLINE' && (
               <>
@@ -352,7 +352,7 @@ export default class App extends React.PureComponent<Props, State> {
               </>
             )}
           </Card>
-        </CenteredLayout>
+        </div>
       </>
     );
   }

@@ -18,21 +18,28 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { css, Global } from '@emotion/react';
+import { Layout } from '@sonarsource/echoes-react';
 import { Outlet } from 'react-router-dom';
-import GlobalFooterLegacy from './GlobalFooter';
 import PageTracker from './PageTracker';
 
 export default function SimpleSessionsContainer() {
   return (
     <>
+      {/*FIXME Temporary override to base.css to be removed when migration is done */}
+      <Global
+        styles={css`
+          body {
+            overflow-y: hidden;
+          }
+        `}
+      />
       <PageTracker />
-
-      <div className="sw-flex sw-flex-col sw-h-full sw-min-h-[100vh]">
-        <div className="sw-box-border sw-flex-auto" id="container">
+      <Layout>
+        <Layout.ContentGrid id="container">
           <Outlet />
-        </div>
-        <GlobalFooterLegacy hideLoggedInInfo />
-      </div>
+        </Layout.ContentGrid>
+      </Layout>
     </>
   );
 }

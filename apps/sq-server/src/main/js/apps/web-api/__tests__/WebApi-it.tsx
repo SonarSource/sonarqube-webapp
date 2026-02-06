@@ -36,7 +36,7 @@ it('should allow to browse the api', async () => {
   const user = userEvent.setup();
   renderWebApi();
 
-  expect(await ui.sidebarHeader.find()).toBeInTheDocument();
+  expect(await ui.searchInput.find()).toBeInTheDocument();
   expect(await ui.domainMenuItems.findAll()).toHaveLength(2);
 
   await user.click(ui.domainMenuItemLink('foo/bar').get());
@@ -86,8 +86,7 @@ function renderWebApi(navigateTo?: string) {
 const ui = {
   domainMenuItems: byRole('navigation').byTestId('js-subnavigation-item'),
   domainMenuItemLink: (name: string) => byRole('navigation').byRole('link', { name }),
-  domainHeader: (name: string) => byRole('heading', { level: 2, name }),
-  sidebarHeader: byRole('heading', { name: 'api_documentation.page' }),
+  domainHeader: (name: string) => byRole('heading', { level: 1, name }),
   searchInput: byLabelText('api_documentation.search'),
   showInternalCheckbox: byRole('checkbox', { name: /api_documentation.show_internal/ }),
   showDeprecatedCheckbox: byRole('checkbox', { name: /api_documentation.show_deprecated/ }),

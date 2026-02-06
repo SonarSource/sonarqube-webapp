@@ -34,7 +34,7 @@ jest.mock('~design-system', () => ({
   addGlobalErrorMessage: jest.fn(),
 }));
 
-jest.mock('~sq-server-commons/helpers/system', () => ({
+jest.mock('~adapters/helpers/system', () => ({
   getBaseUrl: jest.fn().mockReturnValue('/context'),
 }));
 

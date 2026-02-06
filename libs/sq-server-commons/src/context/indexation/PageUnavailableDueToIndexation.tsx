@@ -18,46 +18,57 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
+import { Layout, Link, MessageCallout } from '@sonarsource/echoes-react';
+import { useContext, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-import withIndexationContext, {
-  WithIndexationContextProps,
-} from '../../components/hoc/withIndexationContext';
-import { CenteredLayout, FlagMessage, Link } from '../../design-system';
+import { isDefined } from '~shared/helpers/types';
+import { ComponentContext } from '../componentContext/ComponentContext';
+import { IndexationContext } from './IndexationContext';
 
-export class PageUnavailableDueToIndexation extends React.PureComponent<WithIndexationContextProps> {
-  componentDidUpdate() {
+export function PageUnavailableDueToIndexation() {
+  const indexationContext = useContext(IndexationContext);
+  const { component } = useContext(ComponentContext);
+
+  useEffect(() => {
     if (
-      this.props.indexationContext.status.isCompleted &&
-      !this.props.indexationContext.status.hasFailures
+      indexationContext !== null &&
+      indexationContext.status.isCompleted &&
+      !indexationContext.status.hasFailures
     ) {
       window.location.reload();
     }
+  }, [
+    indexationContext,
+    indexationContext?.status.isCompleted,
+    indexationContext?.status.hasFailures,
+  ]);
+
+  if (indexationContext === null) {
+    return null;
   }
 
-  render() {
-    return (
-      <CenteredLayout className="sw-flex sw-justify-around">
-        <FlagMessage className="sw-mt-32" variant="info">
-          <span className="sw-w-[290px]">
-            <FormattedMessage id="indexation.page_unavailable.description" />
-            <span className="sw-ml-1">
-              <FormattedMessage
-                id="indexation.page_unavailable.description.additional_information"
-                values={{
-                  link: (
-                    <Link to="https://docs.sonarsource.com/sonarqube/latest/instance-administration/reindexing/">
-                      <FormattedMessage id="learn_more" />
-                    </Link>
-                  ),
-                }}
-              />
-            </span>
-          </span>
-        </FlagMessage>
-      </CenteredLayout>
-    );
-  }
+  const page = (
+    <Layout.PageGrid>
+      <Layout.PageContent>
+        <MessageCallout className="sw-mt-10" variety="info">
+          <FormattedMessage id="indexation.page_unavailable.description" />{' '}
+          <FormattedMessage
+            id="indexation.page_unavailable.description.additional_information"
+            values={{
+              link: (
+                <Link
+                  enableOpenInNewTab
+                  to="https://docs.sonarsource.com/sonarqube/latest/instance-administration/reindexing/"
+                >
+                  <FormattedMessage id="learn_more" />
+                </Link>
+              ),
+            }}
+          />
+        </MessageCallout>
+      </Layout.PageContent>
+    </Layout.PageGrid>
+  );
+
+  return isDefined(component) ? page : <Layout.ContentGrid>{page}</Layout.ContentGrid>;
 }
-
-export default withIndexationContext(PageUnavailableDueToIndexation);

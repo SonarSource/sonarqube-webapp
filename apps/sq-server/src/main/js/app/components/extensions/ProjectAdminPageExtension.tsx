@@ -20,9 +20,9 @@
 
 import * as React from 'react';
 import { useLocation, useParams } from 'react-router-dom';
+import NotFound from '~shared/components/NotFound';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 import { useRefreshBranches } from '~sq-server-commons/queries/branch';
-import NotFound from '../NotFound';
 import Extension from './Extension';
 
 export default function ProjectAdminPageExtension() {

@@ -34,6 +34,7 @@ import {
 } from 'react-router-dom';
 import { lightTheme } from '~design-system';
 import { A11yProvider } from '~shared/components/a11y/A11yProvider';
+import NotFound from '~shared/components/NotFound';
 import { ResetLayerStack } from '~shared/components/ResetLayerStack';
 import StateCallbackHandler from '~shared/components/StateCallbackHandler';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
@@ -111,9 +112,8 @@ import GlobalPageExtensionContainer from '../components/GlobalPageExtensionConta
 import Landing from '../components/Landing';
 import MigrationContainer from '../components/MigrationContainer';
 import NonAdminPagesContainer from '../components/NonAdminPagesContainer';
-import NotFound from '../components/NotFound';
 import ProjectAdminContainer from '../components/ProjectAdminContainer';
-import SimpleContainer from '../components/SimpleContainer';
+import { SimpleContainer } from '../components/SimpleContainer';
 import { GlobalStyles } from '../styles/GlobalStyles';
 import exportModulesAsGlobals from './exportModulesAsGlobals';
 
@@ -322,26 +322,29 @@ const router = ({
 
               <Route element={<StateCallbackHandler />} path="callback" />
             </Route>
-            <Route
-              // We don't want this route to have any menu.
-              // That is why we can not have it under the accountRoutes
-              element={<ResetPassword />}
-              path="account/reset_password"
-            />
 
-            <Route
-              // We don't want this route to have any menu. This is why we define it here
-              // rather than under the admin routes.
-              element={<ChangeAdminPasswordApp />}
-              path="admin/change_admin_password"
-            />
+            <Route element={<SimpleContainer hideTopBarAndFooter />}>
+              <Route
+                // We don't want this route to have any menu.
+                // That is why we can not have it under the accountRoutes
+                element={<ResetPassword />}
+                path="account/reset_password"
+              />
 
-            <Route
-              // We don't want this route to have any menu. This is why we define it here
-              // rather than under the admin routes.
-              element={<PluginRiskConsent />}
-              path="admin/plugin_risk_consent"
-            />
+              <Route
+                // We don't want this route to have any menu. This is why we define it here
+                // rather than under the admin routes.
+                element={<ChangeAdminPasswordApp />}
+                path="admin/change_admin_password"
+              />
+
+              <Route
+                // We don't want this route to have any menu. This is why we define it here
+                // rather than under the admin routes.
+                element={<PluginRiskConsent />}
+                path="admin/plugin_risk_consent"
+              />
+            </Route>
 
             <Route element={<SimpleContainer />}>
               <Route element={<NotFound />} path="not_found" />

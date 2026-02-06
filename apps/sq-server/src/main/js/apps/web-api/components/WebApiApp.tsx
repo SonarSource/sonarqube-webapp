@@ -18,21 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
+import { Layout } from '@sonarsource/echoes-react';
 import { maxBy } from 'lodash';
 import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
 import { Params, useParams } from 'react-router-dom';
-import {
-  LAYOUT_FOOTER_HEIGHT,
-  LAYOUT_GLOBAL_NAV_HEIGHT,
-  LargeCenteredLayout,
-  Title,
-} from '~design-system';
-import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, Router } from '~shared/types/router';
 import { fetchWebApi } from '~sq-server-commons/api/web-api';
+import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { WebApi } from '~sq-server-commons/types/types';
 import '../styles/web-api.css';
@@ -165,39 +158,27 @@ export class WebApiApp extends React.PureComponent<Props, State> {
     const domain = domains.find((domain) => isDomainPathActive(domain.path, splat));
 
     return (
-      <LargeCenteredLayout>
-        <div className="sw-w-full sw-flex">
-          <Helmet defer={false} title={translate('api_documentation.page')} />
-          <div className="sw-w-full sw-flex">
-            <NavContainer
-              aria-label={translate('api_documentation.domain_nav')}
-              className="sw--mx-2"
-            >
-              <A11ySkipTarget anchor="webapi_main" />
-
-              <Title>{translate('api_documentation.page')}</Title>
-
+      <Layout.ContentGrid>
+        <GlobalPageTemplate
+          asideLeft={
+            <Layout.AsideLeft size="large">
               <Search
                 onSearch={this.handleSearch}
                 onToggleDeprecated={this.handleToggleDeprecated}
                 onToggleInternal={this.handleToggleInternal}
                 query={query}
               />
-              <div className="sw-w-[300px] sw-mr-2">
+              <nav aria-label={translate('api_documentation.domain_nav')}>
                 <Menu domains={this.state.domains} query={query} splat={splat} />
-              </div>
-            </NavContainer>
-            <main
-              className="sw-box-border sw-overflow-y-auto sw-relative sw-flex-1 sw-min-w-0 sw-ml-8 sw-py-8"
-              style={{
-                height: `calc(100vh - ${LAYOUT_FOOTER_HEIGHT + LAYOUT_GLOBAL_NAV_HEIGHT}px)`,
-              }}
-            >
-              {domain && <Domain domain={domain} key={domain.path} query={query} />}
-            </main>
-          </div>
-        </div>
-      </LargeCenteredLayout>
+              </nav>
+            </Layout.AsideLeft>
+          }
+          hidePageHeader
+          title={translate('api_documentation.page')}
+        >
+          {domain && <Domain domain={domain} key={domain.path} query={query} />}
+        </GlobalPageTemplate>
+      </Layout.ContentGrid>
     );
   }
 }
@@ -224,13 +205,3 @@ function getLatestDeprecatedAction(domain: Pick<WebApi.Domain, 'actions'>) {
     });
   return latestDeprecation || undefined;
 }
-
-const NavContainer = styled.nav`
-  scrollbar-gutter: stable;
-  overflow-y: auto;
-  overflow-x: hidden;
-  box-sizing: border-box;
-  height: calc(100vh - ${LAYOUT_FOOTER_HEIGHT + LAYOUT_GLOBAL_NAV_HEIGHT}px);
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-`;

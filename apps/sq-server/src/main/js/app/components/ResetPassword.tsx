@@ -20,10 +20,9 @@
 
 import { Heading, MessageCallout } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
 import ResetPasswordForm from '~sq-server-commons/components/common/ResetPasswordForm';
 import { whenLoggedIn } from '~sq-server-commons/components/hoc/whenLoggedIn';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { LoggedInUser } from '~sq-server-commons/types/users';
 
@@ -32,16 +31,21 @@ export interface ResetPasswordProps {
 }
 
 export function ResetPassword({ currentUser }: Readonly<ResetPasswordProps>) {
+  const { formatMessage } = useIntl();
   return (
-    <LargeCenteredLayout className="sw-h-screen sw-pt-10">
-      <Helmet defer={false} title={translate('my_account.reset_password.page')} />
+    <>
+      <Helmet defer={false} title={formatMessage({ id: 'my_account.reset_password.page' })} />
       <div className="sw-flex sw-justify-center">
         <div>
-          <Heading as="h1">{translate('my_account.reset_password')}</Heading>
+          <Heading as="h1">
+            <FormattedMessage id="my_account.reset_password" />
+          </Heading>
           <MessageCallout className="sw-mb-4" variety="warning">
-            {translate('my_account.reset_password.explain')}
+            <FormattedMessage id="my_account.reset_password.explain" />
           </MessageCallout>
-          <Heading as="h2">{translate('my_profile.password.title')}</Heading>
+          <Heading as="h2">
+            <FormattedMessage id="my_profile.password.title" />
+          </Heading>
           <ResetPasswordForm
             onPasswordChange={() => {
               // Force a refresh for the backend to handle additional redirects.
@@ -51,7 +55,7 @@ export function ResetPassword({ currentUser }: Readonly<ResetPasswordProps>) {
           />
         </div>
       </div>
-    </LargeCenteredLayout>
+    </>
   );
 }
 
