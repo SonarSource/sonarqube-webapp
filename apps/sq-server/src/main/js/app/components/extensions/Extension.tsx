@@ -32,11 +32,13 @@ import { withRouter } from '~shared/components/hoc/withRouter';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { Extension as TypeExtension } from '~shared/types/common';
 import { Location, Router } from '~shared/types/router';
+import { DefaultExtensionPageTemplate } from '~sq-server-commons/components/ui/DefaultExtensionPageTemplate';
+import { DefaultExtensionWrapper } from '~sq-server-commons/components/ui/DefaultExtensionWrapper';
 import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
-import { getExtensionStart } from '~sq-server-commons/helpers/extensions';
+import { getExtension } from '~sq-server-commons/helpers/extensions';
 import { getCurrentL10nBundle } from '~sq-server-commons/helpers/l10nBundle';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { withQueryClient } from '~sq-server-commons/queries/withQueryClientHoc';
@@ -126,11 +128,18 @@ class Extension extends React.PureComponent<ExtensionProps, State> {
     this.stopExtension();
   }
 
-  handleStart = (start: ExtensionStartMethod) => {
+  handleStart = (start: ExtensionStartMethod, receivesExtensionPageTemplate: boolean) => {
     const { queryClient, theme, usesSidebarNavigation } = this.props;
 
     const isInternalExtension = this.props.extension.key in EXTENSION_PAGE_TEMPLATES;
-    const ExtensionPageTemplate = EXTENSION_PAGE_TEMPLATES[this.props.extension.key];
+    const InternalExtensionPageTemplate = EXTENSION_PAGE_TEMPLATES[this.props.extension.key];
+
+    // Extensions using the new layout receive a page template and usesSidebarNavigation
+    const usesNewLayout = isInternalExtension || receivesExtensionPageTemplate;
+
+    const ExtensionPageTemplate =
+      InternalExtensionPageTemplate ??
+      (receivesExtensionPageTemplate ? DefaultExtensionPageTemplate : undefined);
 
     const result = start({
       appState: this.props.appState,
@@ -148,13 +157,22 @@ class Extension extends React.PureComponent<ExtensionProps, State> {
       // See SONAR-16207 and core-extension-enterprise-server/src/main/js/portfolios/components/Header.tsx
       // for more information on why we're passing this as a prop to an extension.
       updateCurrentUserHomepage: this.props.updateCurrentUserHomepage,
-      ...(isInternalExtension && { usesSidebarNavigation }),
+      ...(usesNewLayout && { usesSidebarNavigation }),
       ...this.props.options,
     });
 
     if (result) {
       if (React.isValidElement(result)) {
-        this.setState({ extensionElement: result });
+        // Legacy extensions get wrapped in DefaultExtensionWrapper (provides PageGrid + footer)
+        const wrappedResult = usesNewLayout ? (
+          result
+        ) : (
+          <DefaultExtensionWrapper>{result}</DefaultExtensionWrapper>
+        );
+
+        this.setState({
+          extensionElement: wrappedResult,
+        });
       } else if (typeof result === 'function') {
         this.stop = result;
       }
@@ -169,7 +187,13 @@ class Extension extends React.PureComponent<ExtensionProps, State> {
   };
 
   startExtension() {
-    getExtensionStart(this.props.extension.key).then(this.handleStart, this.handleFailure);
+    getExtension(this.props.extension.key).then((extension) => {
+      if (extension) {
+        this.handleStart(extension.start, extension.receivesExtensionPageTemplate);
+      } else {
+        this.handleFailure();
+      }
+    }, this.handleFailure);
   }
 
   stopExtension() {
@@ -190,11 +214,7 @@ class Extension extends React.PureComponent<ExtensionProps, State> {
       <div className="sw-contents">
         <Helmet title={this.props.extension.name} />
 
-        {this.state.extensionElement ? (
-          this.state.extensionElement
-        ) : (
-          <div ref={(container) => (this.container = container)} />
-        )}
+        {this.state.extensionElement ?? <div ref={(container) => (this.container = container)} />}
       </div>
     );
   }

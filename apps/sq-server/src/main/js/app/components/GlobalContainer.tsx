@@ -134,6 +134,12 @@ const PAGES_MIGRATED: string[] = [
   '/web_api_v2',
 ];
 
+// Prefix patterns for wildcard matching (checked after PAGES_MIGRATED)
+// Used when we can't enumerate all possible values (e.g., 3rd-party extensions)
+const MIGRATED_PREFIX_PATTERNS: string[] = [
+  '/extension/', // 3rd-party global non-admin extensions
+];
+
 const StartupLicenseCheckBanner = addons.license?.StartupLicenseCheckBanner || (() => undefined);
 
 export default function GlobalContainer() {
@@ -142,7 +148,9 @@ export default function GlobalContainer() {
   const { hasFeature } = useAvailableFeatures();
   const { canAdmin } = useAppState();
 
-  const newLayout = PAGES_MIGRATED.find((path) => location.pathname.includes(path));
+  const newLayout =
+    PAGES_MIGRATED.find((path) => location.pathname.includes(path)) ||
+    MIGRATED_PREFIX_PATTERNS.some((prefix) => location.pathname.startsWith(prefix));
 
   return isDefined(newLayout) ? (
     <MetricsContextProvider>

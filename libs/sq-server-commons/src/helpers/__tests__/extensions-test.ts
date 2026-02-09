@@ -20,7 +20,7 @@
 
 import { setImmediate } from 'timers';
 import exposeLibraries from '../exposeLibraries';
-import { getExtensionStart, installScript, installStyles } from '../extensions';
+import { getExtension, installScript, installStyles } from '../extensions';
 import { installExtensionsHandler } from '../extensionsHandler';
 
 jest.mock('../exposeLibraries', () => jest.fn());
@@ -46,7 +46,7 @@ describe('installStyles', () => {
   });
 });
 
-describe('getExtensionStart', () => {
+describe('getExtension', () => {
   const originalCreateElement = document.createElement;
   const scriptTag = document.createElement('script');
   const linkTag = document.createElement('link');
@@ -69,7 +69,7 @@ describe('getExtensionStart', () => {
     const start = jest.fn();
     installExtensionsHandler();
 
-    const result = getExtensionStart('bar');
+    const result = getExtension('bar');
 
     await new Promise(setImmediate);
     expect(exposeLibraries).toHaveBeenCalled();
@@ -82,13 +82,21 @@ describe('getExtensionStart', () => {
     (linkTag.onload as Function)();
     await new Promise(setImmediate);
 
-    return expect(result).resolves.toBe(start);
+    const extension = await result;
+
+    expect(extension?.start).toBe(start);
+    expect(extension?.receivesExtensionPageTemplate).toBe(false);
+    expect(extension?.providesCSSFile).toBe(true);
   });
 
-  it('should get the extension from the cache', () => {
+  it('should get the extension from the cache', async () => {
     const start = jest.fn();
     installExtensionsHandler();
     (window as any).registerExtension('baz', start);
-    return expect(getExtensionStart('baz')).resolves.toBe(start);
+
+    const extension = await getExtension('baz');
+
+    expect(extension?.start).toBe(start);
+    expect(extension?.receivesExtensionPageTemplate).toBe(false);
   });
 });

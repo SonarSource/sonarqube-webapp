@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ExtensionStartMethod } from '../types/extension';
+import { ExtensionRegistryEntry } from '../types/extension';
 import { getExtensionFromCache } from './extensionsHandler';
 import { getBaseUrl } from './system';
 
@@ -43,10 +43,11 @@ export function installScript(url: string, target: 'body' | 'head' = 'body'): Pr
   });
 }
 
-export async function getExtensionStart(key: string): Promise<ExtensionStartMethod | undefined> {
+export async function getExtension(key: string): Promise<ExtensionRegistryEntry | undefined> {
   const fromCache = getExtensionFromCache(key);
+
   if (fromCache) {
-    return Promise.resolve(fromCache.start);
+    return fromCache;
   }
 
   if (!librariesExposed) {
@@ -59,13 +60,14 @@ export async function getExtensionStart(key: string): Promise<ExtensionStartMeth
   await installScript(`/static/${key}.js`);
 
   const extension = getExtensionFromCache(key);
+
   if (!extension) {
-    return Promise.reject();
+    return undefined;
   }
 
   if (extension.providesCSSFile) {
     await installStyles(`/static/${key}.css`);
   }
 
-  return extension.start;
+  return extension;
 }

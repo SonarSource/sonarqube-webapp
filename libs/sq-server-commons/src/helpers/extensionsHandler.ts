@@ -27,8 +27,13 @@ const WEB_ANALYTICS_EXTENSION = 'sq-web-analytics';
 
 const extensions: Record<string, ExtensionRegistryEntry> = {};
 
-function registerExtension(key: string, start: ExtensionStartMethod, providesCSSFile = false) {
-  extensions[key] = { start, providesCSSFile };
+function registerExtension(
+  key: string,
+  start: ExtensionStartMethod,
+  providesCSSFile = false,
+  receivesExtensionPageTemplate = false,
+) {
+  extensions[key] = { providesCSSFile, receivesExtensionPageTemplate, start };
 }
 
 function setWebAnalyticsPageChangeHandler(pageHandler: (pathname: string) => void) {

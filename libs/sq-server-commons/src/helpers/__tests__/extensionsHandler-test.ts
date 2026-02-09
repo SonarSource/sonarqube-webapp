@@ -34,8 +34,9 @@ describe('installExtensionsHandler & extensions.getExtensionFromCache', () => {
     const start = jest.fn();
     (window as any).registerExtension('foo', start, true);
     expect(getExtensionFromCache('foo')).toEqual({
-      start,
       providesCSSFile: true,
+      receivesExtensionPageTemplate: false,
+      start,
     });
   });
 });

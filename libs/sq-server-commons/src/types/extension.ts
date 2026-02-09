@@ -35,6 +35,7 @@ export enum AdminPageExtension {
 
 export interface ExtensionRegistryEntry {
   providesCSSFile: boolean;
+  receivesExtensionPageTemplate: boolean;
   start: ExtensionStartMethod;
 }
 

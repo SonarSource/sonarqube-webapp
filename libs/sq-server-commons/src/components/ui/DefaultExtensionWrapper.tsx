@@ -18,32 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ExtensionStartMethod } from './extension';
-import { InstanceType } from './system';
-import { SysStatus } from './types';
+import { Layout } from '@sonarsource/echoes-react';
+import { PropsWithChildren } from 'react';
+import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 
-export interface EnhancedWindow extends Window {
-  baseUrl: string;
-  instance: InstanceType;
-  official: boolean;
-  registerExtension: (
-    key: string,
-    start: ExtensionStartMethod,
-    providesCSSFile?: boolean,
-    receivesExtensionPageTemplate?: boolean,
-  ) => void;
+// Wrapper for legacy extensions that don't receive a page template.
+export function DefaultExtensionWrapper({ children }: Readonly<PropsWithChildren<{}>>) {
+  return (
+    <Layout.PageGrid width="fluid">
+      <Layout.PageContent>{children}</Layout.PageContent>
 
-  serverStatus: SysStatus;
-  setWebAnalyticsPageChangeHandler: (pageHandler: (pathname: string) => void) => void;
-  t: (...keys: string[]) => string;
-  tp: (messageKey: string, ...parameters: Array<string | number>) => string;
-}
-
-export interface AppVariablesElement extends HTMLElement {
-  dataset: {
-    baseUrl: string;
-    instance: InstanceType;
-    official: string;
-    serverStatus: SysStatus;
-  };
+      <GlobalFooter />
+    </Layout.PageGrid>
+  );
 }

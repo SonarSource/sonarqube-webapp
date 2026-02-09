@@ -25,14 +25,18 @@ import { IntlProvider } from 'react-intl';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { render } from '~shared/helpers/test-utils';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
-import { getExtensionStart } from '~sq-server-commons/helpers/extensions';
+import { getExtension } from '~sq-server-commons/helpers/extensions';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { ComponentContextShape } from '~sq-server-commons/types/component';
 import { Component } from '~sq-server-commons/types/types';
 import ProjectAdminPageExtension from '../ProjectAdminPageExtension';
 
 jest.mock('~sq-server-commons/helpers/extensions', () => ({
-  getExtensionStart: jest.fn().mockResolvedValue(jest.fn()),
+  getExtension: jest.fn().mockResolvedValue({
+    providesCSSFile: false,
+    receivesExtensionPageTemplate: false,
+    start: jest.fn(),
+  }),
 }));
 
 it('should render correctly when the extension is found', () => {
@@ -42,7 +46,7 @@ it('should render correctly when the extension is found', () => {
     }),
     { pluginKey: 'pluginId', extensionKey: 'extensionId' },
   );
-  expect(getExtensionStart).toHaveBeenCalledWith('pluginId/extensionId');
+  expect(getExtension).toHaveBeenCalledWith('pluginId/extensionId');
 });
 
 it('should render correctly when the extension is not found', () => {
