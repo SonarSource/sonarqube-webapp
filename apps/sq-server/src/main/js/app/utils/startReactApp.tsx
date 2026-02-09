@@ -156,8 +156,14 @@ function renderComponentRoutes({
       <Route path="project">
         {/* Pages migrated to the new layout get their <main> from Layout.PageContent */}
         <Route element={<ProjectAdminContainer skipMainWrapper />}>
-          {/* Migrated extensions - explicit routes based on EXTENSION_PAGE_TEMPLATES */}
+          {/* Migrated internal Sonar project admin extensions */}
           {projectAdminExtensionMigratedRoutes()}
+
+          {/* 3rd-party project admin extensions (both legacy and modern) */}
+          <Route
+            element={<ProjectAdminPageExtension />}
+            path="admin/extension/:pluginKey/:extensionKey"
+          />
 
           {hasBranchSupport && addons.branches?.routes()}
           {hasAicaFeature && addons.aica?.aicaSettingsRoutes()}
@@ -170,15 +176,6 @@ function renderComponentRoutes({
           {projectNewCodeDefinitionRoutes()}
           {settingsRoutes()}
           {webhooksRoutes()}
-        </Route>
-
-        {/* Pages not yet using new layout - ProjectAdminContainer provides <main> wrapper */}
-        <Route element={<ProjectAdminContainer />}>
-          {/* Non-migrated extensions (from Sonar or 3rd-party ones) */}
-          <Route
-            element={<ProjectAdminPageExtension />}
-            path="admin/extension/:pluginKey/:extensionKey"
-          />
         </Route>
       </Route>
       <Route element={<ProjectAdminContainer skipMainWrapper />}>
