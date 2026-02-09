@@ -18,16 +18,25 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, IconCheck, LinkStandalone, Text } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  Heading,
+  IconCheck,
+  Layout,
+  LinkStandalone,
+  Text,
+  TextInput,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useSearchParams } from 'react-router-dom';
 import { Image } from '~adapters/components/common/Image';
-import { Card, CardSeparator, InputField, Title } from '~design-system';
+import { Card, CardSeparator } from '~design-system';
 import { ClipboardButton } from '~shared/components/clipboard';
 import { SonarQubeConnectionIllustration } from '~sq-server-commons/components/branding/SonarQubeConnectionIllustration';
 import { whenLoggedIn } from '~sq-server-commons/components/hoc/whenLoggedIn';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import {
   generateSonarLintUserToken,
   portIsValid,
@@ -48,12 +57,15 @@ interface Props {
 }
 
 export function SonarLintConnection({ currentUser }: Readonly<Props>) {
+  const intl = useIntl();
   const [searchParams] = useSearchParams();
   const [status, setStatus] = React.useState(Status.request);
   const [newToken, setNewToken] = React.useState<NewUserToken | undefined>(undefined);
 
-  const port = parseInt(searchParams.get('port') ?? '0', 10);
-  const ideName = searchParams.get('ideName') ?? translate('sonarlint-connection.unspecified-ide');
+  const port = Number.parseInt(searchParams.get('port') ?? '0', 10);
+  const ideName =
+    searchParams.get('ideName') ??
+    intl.formatMessage({ id: 'sonarlint-connection.unspecified-ide' });
 
   const { login } = currentUser;
 
@@ -62,6 +74,7 @@ export function SonarLintConnection({ currentUser }: Readonly<Props>) {
 
     if (!token) {
       setStatus(Status.tokenError);
+
       return;
     }
 
@@ -69,6 +82,7 @@ export function SonarLintConnection({ currentUser }: Readonly<Props>) {
 
     if (!portIsValid(port)) {
       setStatus(Status.tokenCreated);
+
       return;
     }
 
@@ -81,91 +95,157 @@ export function SonarLintConnection({ currentUser }: Readonly<Props>) {
   }, [port, ideName, login]);
 
   return (
-    <Card className="sw-mt-[10vh] sw-mx-auto sw-w-[650px] sw-text-center">
-      {status === Status.request && (
-        <>
-          <Title>{translate('sonarlint-connection.request.title')}</Title>
-          <SonarQubeConnectionIllustration className="sw-my-4" connected={false} />
-          <p className="sw-my-4">
-            <FormattedMessage id="sonarlint-connection.request.description" values={{ ideName }} />
-          </p>
-          <p className="sw-mb-10">{translate('sonarlint-connection.request.description2')}</p>
+    <Layout.ContentGrid>
+      <GlobalPageTemplate
+        hidePageHeader
+        title={intl.formatMessage({ id: 'sonarlint-connection.request.title' })}
+      >
+        <div className="sw-flex sw-justify-center">
+          <Card className="sw-mt-[10vh] sw-w-[700px] sw-text-center">
+            {status === Status.request && (
+              <>
+                <Heading as="h1">
+                  <FormattedMessage id="sonarlint-connection.request.title" />
+                </Heading>
 
-          <Button
-            onClick={authorize}
-            prefix={<IconCheck className="sw-mr-1" />}
-            variety={ButtonVariety.Primary}
-          >
-            {translate('sonarlint-connection.request.action')}
-          </Button>
-        </>
-      )}
+                <SonarQubeConnectionIllustration className="sw-my-4" connected={false} />
 
-      {status === Status.tokenError && (
-        <>
-          <Image aria-hidden className="sw-my-4 sw-pt-2" src="/images/cross.svg" />
-          <Title>{translate('sonarlint-connection.token-error.title')}</Title>
-          <p className="sw-my-4">{translate('sonarlint-connection.token-error.description')}</p>
-          <p className="sw-mb-4">
-            <FormattedMessage
-              id="sonarlint-connection.token-error.description2"
-              values={{
-                link: (
-                  <LinkStandalone to="/account/security">
-                    {translate('sonarlint-connection.token-error.description2.link')}
-                  </LinkStandalone>
-                ),
-              }}
-            />
-          </p>
-        </>
-      )}
+                <p className="sw-my-4">
+                  <FormattedMessage
+                    id="sonarlint-connection.request.description"
+                    values={{ ideName }}
+                  />
+                </p>
 
-      {status === Status.tokenCreated && newToken && (
-        <>
-          <Image aria-hidden className="sw-my-4 sw-pt-2" src="/images/check.svg" />
-          <Title>{translate('sonarlint-connection.connection-error.title')}</Title>
-          <p className="sw-my-6">
-            {translate('sonarlint-connection.connection-error.description')}
-          </p>
-          <div className="sw-flex sw-items-center">
-            <Text className="sw-w-abs-150 sw-text-start" isSubtle>
-              {translate('sonarlint-connection.connection-error.token-name')}
-            </Text>
-            {newToken.name}
-          </div>
-          <CardSeparator className="sw-my-3" />
-          <div className="sw-flex sw-items-center">
-            <Text className="sw-min-w-abs-150 sw-text-start" isSubtle>
-              {translate('sonarlint-connection.connection-error.token-value')}
-            </Text>
-            <InputField className="sw-cursor-text" disabled size="full" value={newToken.token} />
-            <ClipboardButton className="sw-ml-2" copyValue={newToken.token} />
-          </div>
-          <Text as="div" className="sw-mt-10">
-            <strong>{translate('sonarlint-connection.connection-error.next-steps')}</strong>
-            <ol className="sw-list-inside sw-mb-4">
-              <li>{translate('sonarlint-connection.connection-error.step1')}</li>
-              <li>{translate('sonarlint-connection.connection-error.step2')}</li>
-            </ol>
-          </Text>
-        </>
-      )}
+                <p className="sw-mb-10">
+                  <FormattedMessage id="sonarlint-connection.request.description2" />
+                </p>
 
-      {status === Status.tokenSent && newToken && (
-        <>
-          <Title>{translate('sonarlint-connection.success.title')}</Title>
-          <SonarQubeConnectionIllustration className="sw-mb-4" connected />
-          <p className="sw-my-4">
-            {translateWithParameters('sonarlint-connection.success.description', newToken.name)}
-          </p>
-          <div className="sw-mt-10">
-            <strong>{translate('sonarlint-connection.success.last-step')}</strong>
-          </div>
-          <div className="sw-my-4">{translate('sonarlint-connection.success.step')}</div>
-        </>
-      )}
-    </Card>
+                <Button
+                  onClick={authorize}
+                  prefix={<IconCheck className="sw-mr-1" />}
+                  variety={ButtonVariety.Primary}
+                >
+                  <FormattedMessage id="sonarlint-connection.request.action" />
+                </Button>
+              </>
+            )}
+
+            {status === Status.tokenError && (
+              <>
+                <Image aria-hidden className="sw-my-4 sw-pt-2" src="/images/cross.svg" />
+
+                <Heading as="h1">
+                  <FormattedMessage id="sonarlint-connection.token-error.title" />
+                </Heading>
+
+                <p className="sw-my-4">
+                  <FormattedMessage id="sonarlint-connection.token-error.description" />
+                </p>
+
+                <p className="sw-mb-4">
+                  <FormattedMessage
+                    id="sonarlint-connection.token-error.description2"
+                    values={{
+                      link: (
+                        <LinkStandalone to="/account/security">
+                          <FormattedMessage id="sonarlint-connection.token-error.description2.link" />
+                        </LinkStandalone>
+                      ),
+                    }}
+                  />
+                </p>
+              </>
+            )}
+
+            {status === Status.tokenCreated && newToken && (
+              <>
+                <Image aria-hidden className="sw-my-4 sw-pt-2" src="/images/check.svg" />
+
+                <Heading as="h1">
+                  <FormattedMessage id="sonarlint-connection.connection-error.title" />
+                </Heading>
+
+                <p className="sw-my-6">
+                  <FormattedMessage id="sonarlint-connection.connection-error.description" />
+                </p>
+
+                <div className="sw-flex sw-items-center">
+                  <Text className="sw-w-abs-150 sw-text-start" isSubtle>
+                    <FormattedMessage id="sonarlint-connection.connection-error.token-name" />
+                  </Text>
+
+                  {newToken.name}
+                </div>
+
+                <CardSeparator className="sw-my-3" />
+
+                <div className="sw-flex sw-items-center">
+                  <Text className="sw-min-w-abs-150 sw-text-start" isSubtle>
+                    <FormattedMessage id="sonarlint-connection.connection-error.token-value" />
+                  </Text>
+
+                  <TextInput
+                    ariaLabel={intl.formatMessage({
+                      id: 'sonarlint-connection.connection-error.token-value',
+                    })}
+                    className="sw-cursor-text"
+                    isDisabled
+                    value={newToken.token}
+                    width="full"
+                  />
+
+                  <ClipboardButton className="sw-ml-2" copyValue={newToken.token} />
+                </div>
+
+                <Text as="div" className="sw-mt-10">
+                  <strong>
+                    <FormattedMessage id="sonarlint-connection.connection-error.next-steps" />
+                  </strong>
+
+                  <ol className="sw-list-inside sw-mb-4">
+                    <li>
+                      <FormattedMessage id="sonarlint-connection.connection-error.step1" />
+                    </li>
+
+                    <li>
+                      <FormattedMessage id="sonarlint-connection.connection-error.step2" />
+                    </li>
+                  </ol>
+                </Text>
+              </>
+            )}
+
+            {status === Status.tokenSent && newToken && (
+              <>
+                <Heading as="h1">
+                  <FormattedMessage id="sonarlint-connection.success.title" />
+                </Heading>
+
+                <SonarQubeConnectionIllustration className="sw-my-4" connected />
+
+                <p className="sw-my-4">
+                  <FormattedMessage
+                    id="sonarlint-connection.success.description"
+                    values={{ 0: newToken.name }}
+                  />
+                </p>
+
+                <div className="sw-mt-10">
+                  <strong>
+                    <FormattedMessage id="sonarlint-connection.success.last-step" />
+                  </strong>
+                </div>
+
+                <div className="sw-my-4">
+                  <FormattedMessage id="sonarlint-connection.success.step" />
+                </div>
+              </>
+            )}
+          </Card>
+        </div>
+      </GlobalPageTemplate>
+    </Layout.ContentGrid>
   );
 }
 

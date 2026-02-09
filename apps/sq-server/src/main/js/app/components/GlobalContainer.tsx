@@ -128,6 +128,7 @@ const PAGES_MIGRATED: string[] = [
   '/projects',
   '/project_roles',
   '/quality_gates',
+  '/sonarlint/auth',
   '/tutorials',
   '/unsubscribe',
   '/web_api',
