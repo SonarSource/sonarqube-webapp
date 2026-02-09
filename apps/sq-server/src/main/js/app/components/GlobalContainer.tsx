@@ -137,6 +137,7 @@ const PAGES_MIGRATED: string[] = [
 // Prefix patterns for wildcard matching (checked after PAGES_MIGRATED)
 // Used when we can't enumerate all possible values (e.g., 3rd-party extensions)
 const MIGRATED_PREFIX_PATTERNS: string[] = [
+  '/admin/extension/', // 3rd-party global admin extensions
   '/extension/', // 3rd-party global non-admin extensions
 ];
 

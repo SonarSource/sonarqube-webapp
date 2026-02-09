@@ -94,7 +94,6 @@ import webAPIRoutesV2 from '../../apps/web-api-v2/routes';
 import webAPIRoutes from '../../apps/web-api/routes';
 import webhooksRoutes from '../../apps/webhooks/routes';
 import AdminContainer from '../components/AdminContainer';
-import AdminContainerLegacy from '../components/AdminContainerLegacy';
 import App from '../components/App';
 import ComponentContainer from '../components/ComponentContainer';
 import DocumentationRedirect from '../components/DocumentationRedirect';
@@ -192,16 +191,14 @@ function renderComponentRoutes({
 function renderAdminRoutes() {
   return (
     <Route path="admin">
-      {/* Migrated global admin extensions - must come before the dynamic catch-all */}
-      <Route element={<AdminContainer />}>{globalAdminExtensionMigratedRoutes()}</Route>
-
-      {/* Non-migrated 3rd-party/Sonar global admin extensions */}
-      <Route element={<AdminContainerLegacy />}>
-        <Route element={<GlobalAdminPageExtension />} path="extension/:pluginKey/:extensionKey" />
-      </Route>
-
-      {/* Other admin pages */}
       <Route element={<AdminContainer />}>
+        {/* Migrated internal Sonar admin extensions */}
+        {globalAdminExtensionMigratedRoutes()}
+
+        {/* 3rd-party global admin extensions (both legacy and modern) */}
+        <Route element={<GlobalAdminPageExtension />} path="extension/:pluginKey/:extensionKey" />
+
+        {/* Other admin pages */}
         {auditLogsRoutes()}
         {backgroundTasksRoutes()}
         {globalPermissionsRoutes()}
