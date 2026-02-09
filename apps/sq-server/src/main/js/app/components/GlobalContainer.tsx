@@ -140,6 +140,7 @@ const MIGRATED_PREFIX_PATTERNS: string[] = [
   '/admin/extension/', // 3rd-party global admin extensions
   '/extension/', // 3rd-party global non-admin extensions
   '/project/admin/extension/', // 3rd-party project admin extensions
+  '/project/extension/', // 3rd-party project non-admin extensions
 ];
 
 const StartupLicenseCheckBanner = addons.license?.StartupLicenseCheckBanner || (() => undefined);
