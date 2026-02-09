@@ -1811,6 +1811,8 @@ export const defaultMessages = {
   'dependencies.risks.type.malware': 'Malicious package',
   'dependencies.risk': 'Dependency Risk',
   'dependencies.risks': 'Dependency Risks',
+  'dependencies.risks.reachability': 'Reachability',
+  'dependencies.risks.reachable': 'Reachable',
   'dependencies.risks.empty_state.title':
     'No {branchType, select, pullRequest {new } other {}}dependency risks were found',
   'dependencies.risks.empty_state.body':
