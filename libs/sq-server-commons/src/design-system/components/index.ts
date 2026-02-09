@@ -59,7 +59,6 @@ export * from './icons';
 export { IllustratedSelectionCard } from './IlllustredSelectionCard';
 export * from './input';
 export * from './InteractiveIcon';
-export * from './layouts';
 export * from './Link';
 export { StandoutLink as Link } from './Link';
 export * from './lists';

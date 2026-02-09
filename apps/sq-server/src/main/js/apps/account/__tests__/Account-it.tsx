@@ -681,16 +681,7 @@ function renderAccountApp(currentUser: CurrentUser, navigateTo?: string) {
   renderAppRoutes(
     'account',
     () => (
-      <Route
-        element={
-          <>
-            <div id="component-nav-portal" />
-
-            <Outlet />
-          </>
-        }
-        path="/"
-      >
+      <Route element={<Outlet />} path="/">
         {routes()}
       </Route>
     ),

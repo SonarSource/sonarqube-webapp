@@ -204,11 +204,6 @@ export default function GlobalContainer() {
                 addons.issueSandbox?.SandboxIssuesIntro && (
                   <addons.issueSandbox.SandboxIssuesIntro />
                 )}
-
-              {/* The following is the portal anchor point for the component nav
-               * See ComponentContainer.tsx
-               */}
-              <div id="component-nav-portal" />
             </div>
             <Outlet />
           </Workspace>

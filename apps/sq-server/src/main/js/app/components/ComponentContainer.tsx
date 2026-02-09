@@ -21,13 +21,11 @@
 import { Layout, Spinner } from '@sonarsource/echoes-react';
 import { differenceBy } from 'lodash';
 import * as React from 'react';
-import { createPortal } from 'react-dom';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useFlags } from '~adapters/helpers/feature-flags';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
-import { CenteredLayout } from '~design-system';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isFile, isPortfolioLike } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
@@ -50,16 +48,12 @@ import { Component } from '~sq-server-commons/types/types';
 import handleRequiredAuthorization from '../utils/handleRequiredAuthorization';
 import ComponentContainerNotFound from './ComponentContainerNotFound';
 import { ComponentNav } from './nav/component/ComponentNav';
-import {
-  LegacyComponentNav,
-  LegacyComponentNavCompatibleWithNewLayout,
-} from './nav/component/legacy/ComponentNav';
+import { LegacyComponentNavCompatibleWithNewLayout } from './nav/component/legacy/ComponentNav';
 
 const FETCH_STATUS_WAIT_TIME = 3000;
 
 function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>) {
   const watchStatusTimer = React.useRef<number>();
-  const legacyComponentNavAnchor = React.useRef<Element | null>(); // undefined means it wansn't loaded yet, if not found it will be null
   const oldTasksInProgress = React.useRef<Task[]>();
   const oldCurrentTask = React.useRef<Task>();
   const {
@@ -296,11 +290,6 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
     };
   }, []);
 
-  // Set portal anchor on mount
-  React.useEffect(() => {
-    legacyComponentNavAnchor.current = document.querySelector('#component-nav-portal');
-  }, []);
-
   const isInProgress = tasksInProgress && tasksInProgress.length > 0;
 
   const componentProviderProps = React.useMemo(
@@ -327,43 +316,6 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
   // - target branch is not found (for pull requests fixing issues in a branch)
   if (!loading && (!component || (fixedInPullRequest && !isFetching && !branchLike))) {
     return <ComponentContainerNotFound isPortfolioLike={pathname.includes('portfolio')} />;
-  }
-
-  // TODO drop this once project scope migration is done
-  const isLegacyLayout = legacyComponentNavAnchor.current !== null;
-  if (isLegacyLayout) {
-    return (
-      <>
-        <Helmet
-          defer={false}
-          titleTemplate={intl.formatMessage(
-            { id: 'page_title.template.with_instance' },
-            { project: component?.name ?? '' },
-          )}
-        />
-        {component &&
-          !isFile(component.qualifier) &&
-          legacyComponentNavAnchor.current &&
-          /* Use a portal to fix positioning until we can fully review the layout */
-          createPortal(
-            <LegacyComponentNav
-              component={component}
-              isInProgress={isInProgress}
-              isPending={isPending}
-            />,
-            legacyComponentNavAnchor.current,
-          )}
-        {loading ? (
-          <CenteredLayout>
-            <Spinner className="sw-mt-10" />
-          </CenteredLayout>
-        ) : (
-          <ComponentContext.Provider value={componentProviderProps}>
-            <Outlet />
-          </ComponentContext.Provider>
-        )}
-      </>
-    );
   }
 
   return (

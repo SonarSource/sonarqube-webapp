@@ -663,16 +663,9 @@ describe('tutorials', () => {
 });
 
 function renderComponentContainerAsComponent() {
-  return renderComponent(
-    <>
-      <div id="component-nav-portal" />
-      <ComponentContainer />
-    </>,
-    '/?id=foo',
-    {
-      featureList: [Feature.BranchSupport],
-    },
-  );
+  return renderComponent(<ComponentContainer />, '/?id=foo', {
+    featureList: [Feature.BranchSupport],
+  });
 }
 
 function renderComponentContainer(
@@ -683,14 +676,7 @@ function renderComponentContainer(
   renderAppRoutes(
     path,
     () => (
-      <Route
-        element={
-          <>
-            <div id="component-nav-portal" />
-            <ComponentContainer />
-          </>
-        }
-      >
+      <Route element={<ComponentContainer />}>
         <Route element={<TestComponent />} path="*" />
         <Route element={<div>portfolio</div>} path="portfolio" />
         <Route element={<div>project</div>} path="dashboard" />

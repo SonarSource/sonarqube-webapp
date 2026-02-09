@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import * as React from 'react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
-import { TopBar } from '~design-system';
 import { RecentHistory } from '~shared/helpers/recent-history';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
@@ -43,48 +42,10 @@ export interface ComponentNavProps {
   isPending?: boolean;
 }
 
-// TODO drop this once project scope migration is done
-export function LegacyComponentNav(props: Readonly<ComponentNavProps>) {
-  const { hasFeature } = useAvailableFeatures();
-  const { component, isInProgress, isPending } = props;
-
-  const { data: branchLike } = useCurrentBranchQuery(component);
-
-  React.useEffect(() => {
-    const { breadcrumbs, key, name } = component;
-    const { qualifier } = breadcrumbs[breadcrumbs.length - 1];
-    if (
-      [
-        ComponentQualifier.Project,
-        ComponentQualifier.Portfolio,
-        ComponentQualifier.Application,
-      ].includes(qualifier)
-    ) {
-      RecentHistory.add({ key, name, qualifier });
-    }
-  }, [component, component.key]);
-
-  const branchName =
-    hasFeature(Feature.BranchSupport) || !isDefined(branchLike)
-      ? undefined
-      : getBranchLikeDisplayName(branchLike);
-
-  return (
-    <>
-      <TopBar aria-label={translate('qualifier', component.qualifier)} id="context-navigation">
-        <div className="sw-min-h-1000 sw-flex sw-justify-between">
-          <Header component={component} />
-        </div>
-        <Menu component={component} isInProgress={isInProgress} isPending={isPending} />
-      </TopBar>
-
-      <NCDAutoUpdateMessage branchName={branchName} component={component} />
-      <ComponentMissingMqrMetricsMessage component={component} />
-      <ComponentNavProjectBindingErrorNotif component={component} />
-    </>
-  );
-}
-
+/**
+ * Component navigation for the new layout when sidebar navigation is disabled.
+ * Renders the top navigation bar with component header and menu.
+ */
 export function LegacyComponentNavCompatibleWithNewLayout(props: Readonly<ComponentNavProps>) {
   const { hasFeature } = useAvailableFeatures();
   const { component, isInProgress, isPending } = props;
