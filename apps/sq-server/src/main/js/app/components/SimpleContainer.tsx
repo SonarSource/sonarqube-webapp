@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { css, Global } from '@emotion/react';
 import { Layout } from '@sonarsource/echoes-react';
 import { Outlet } from 'react-router-dom';
 import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
@@ -30,28 +29,19 @@ interface Props {
 
 export function SimpleContainer({ hideTopBarAndFooter = false }: Readonly<Props>) {
   return (
-    <>
-      {/*FIXME Temporary override to base.css to be removed when migration is done */}
-      <Global
-        styles={css`
-          body {
-            overflow-y: hidden;
-          }
-        `}
-      />
+    <Layout>
+      {!hideTopBarAndFooter && <SimpleTopBar />}
 
-      <Layout>
-        {!hideTopBarAndFooter && <SimpleTopBar />}
-        <Layout.ContentGrid>
-          <Layout.PageGrid>
-            <Layout.PageContent>
-              <Outlet />
-            </Layout.PageContent>
-            {!hideTopBarAndFooter && <GlobalFooter hideLoggedInInfo />}
-          </Layout.PageGrid>
-        </Layout.ContentGrid>
-      </Layout>
-    </>
+      <Layout.ContentGrid>
+        <Layout.PageGrid>
+          <Layout.PageContent>
+            <Outlet />
+          </Layout.PageContent>
+
+          {!hideTopBarAndFooter && <GlobalFooter hideLoggedInInfo />}
+        </Layout.PageGrid>
+      </Layout.ContentGrid>
+    </Layout>
   );
 }
 

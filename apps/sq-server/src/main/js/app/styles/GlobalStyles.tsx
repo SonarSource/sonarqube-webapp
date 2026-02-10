@@ -35,7 +35,6 @@ export function GlobalStyles() {
           font-weight: 400;
 
           color: ${themeColor('pageContent')({ theme })};
-          background-color: ${themeColor('backgroundPrimary')({ theme })};
         }
 
         a {

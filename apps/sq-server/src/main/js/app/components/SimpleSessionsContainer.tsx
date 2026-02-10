@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { css, Global } from '@emotion/react';
 import { Layout } from '@sonarsource/echoes-react';
 import { Outlet } from 'react-router-dom';
 import PageTracker from './PageTracker';
@@ -26,15 +25,8 @@ import PageTracker from './PageTracker';
 export default function SimpleSessionsContainer() {
   return (
     <>
-      {/*FIXME Temporary override to base.css to be removed when migration is done */}
-      <Global
-        styles={css`
-          body {
-            overflow-y: hidden;
-          }
-        `}
-      />
       <PageTracker />
+
       <Layout>
         <Layout.ContentGrid id="container">
           <Outlet />
