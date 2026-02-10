@@ -25,6 +25,7 @@ import {
   sanitizeHTMLRestricted,
   sanitizeHTMLToPreventCSSInjection,
   sanitizeHTMLUserInput,
+  sanitizeUrl,
 } from '../sanitize';
 import { render } from '../test-utils';
 
@@ -291,5 +292,111 @@ describe('SafeHTMLInjection', () => {
 
     expect(screen.getByText('a stylish paragraph')).toBeInTheDocument();
     expect(screen.getByText("SVG isn't always allowed")).toBeInTheDocument();
+  });
+});
+
+describe('sanitizeUrl', () => {
+  it('should allow http URLs', () => {
+    expect(sanitizeUrl('http://example.com')).toBe('http://example.com');
+    expect(sanitizeUrl('http://example.com/path')).toBe('http://example.com/path');
+    expect(sanitizeUrl('http://example.com/path?query=value')).toBe(
+      'http://example.com/path?query=value',
+    );
+  });
+
+  it('should allow https URLs', () => {
+    expect(sanitizeUrl('https://example.com')).toBe('https://example.com');
+    expect(sanitizeUrl('https://example.com/path')).toBe('https://example.com/path');
+    expect(sanitizeUrl('https://example.com/path?query=value#hash')).toBe(
+      'https://example.com/path?query=value#hash',
+    );
+  });
+
+  it('should allow mailto URLs', () => {
+    expect(sanitizeUrl('mailto:test@example.com')).toBe('mailto:test@example.com');
+    expect(sanitizeUrl('mailto:test@example.com?subject=Hello')).toBe(
+      'mailto:test@example.com?subject=Hello',
+    );
+  });
+
+  it('should allow relative URLs starting with /', () => {
+    expect(sanitizeUrl('/relative/path')).toBe('/relative/path');
+    expect(sanitizeUrl('/path/to/page')).toBe('/path/to/page');
+    expect(sanitizeUrl('/path?query=value')).toBe('/path?query=value');
+  });
+
+  it('should allow protocol-relative URLs', () => {
+    expect(sanitizeUrl('//example.com')).toBe('//example.com');
+    expect(sanitizeUrl('//cdn.example.com/script.js')).toBe('//cdn.example.com/script.js');
+  });
+
+  it('should allow hash URLs starting with #', () => {
+    expect(sanitizeUrl('#anchor')).toBe('#anchor');
+    expect(sanitizeUrl('#section-1')).toBe('#section-1');
+  });
+
+  it('should be case-insensitive for protocols', () => {
+    expect(sanitizeUrl('HTTP://example.com')).toBe('HTTP://example.com');
+    expect(sanitizeUrl('HTTPS://example.com')).toBe('HTTPS://example.com');
+    expect(sanitizeUrl('Mailto:test@example.com')).toBe('Mailto:test@example.com');
+  });
+
+  it('should block javascript: protocol', () => {
+    // eslint-disable-next-line no-script-url
+    expect(sanitizeUrl('javascript:alert(1)')).toBe('#');
+    // eslint-disable-next-line no-script-url
+    expect(sanitizeUrl('javascript:void(0)')).toBe('#');
+    // eslint-disable-next-line no-script-url
+    expect(sanitizeUrl('JavaScript:alert(1)')).toBe('#');
+  });
+
+  it('should block data: protocol', () => {
+    expect(sanitizeUrl('data:text/html,<script>alert(1)</script>')).toBe('#');
+    expect(sanitizeUrl('data:image/png;base64,iVBORw0KGgo=')).toBe('#');
+  });
+
+  it('should block vbscript: protocol', () => {
+    expect(sanitizeUrl('vbscript:msgbox(1)')).toBe('#');
+    expect(sanitizeUrl('VBScript:msgbox(1)')).toBe('#');
+  });
+
+  it('should block file: protocol', () => {
+    expect(sanitizeUrl('file:///etc/passwd')).toBe('#');
+    expect(sanitizeUrl('file://C:/Windows/System32')).toBe('#');
+  });
+
+  it('should block other dangerous protocols', () => {
+    expect(sanitizeUrl('ftp://example.com')).toBe('#');
+    expect(sanitizeUrl('tel:123456789')).toBe('#');
+    expect(sanitizeUrl('ws://example.com')).toBe('#');
+    expect(sanitizeUrl('wss://example.com')).toBe('#');
+  });
+
+  it('should handle undefined input', () => {
+    expect(sanitizeUrl(undefined)).toBe('#');
+  });
+
+  it('should handle empty string', () => {
+    expect(sanitizeUrl('')).toBe('#');
+  });
+
+  it('should handle whitespace-only strings', () => {
+    expect(sanitizeUrl('   ')).toBe('#');
+    expect(sanitizeUrl('\t\n')).toBe('#');
+  });
+
+  it('should trim whitespace from valid URLs', () => {
+    expect(sanitizeUrl('  https://example.com  ')).toBe('https://example.com');
+    expect(sanitizeUrl('\t/relative/path\n')).toBe('/relative/path');
+  });
+
+  it('should handle URLs without protocol', () => {
+    expect(sanitizeUrl('example.com')).toBe('#');
+    expect(sanitizeUrl('www.example.com')).toBe('#');
+  });
+
+  it('should block malformed or suspicious URLs', () => {
+    expect(sanitizeUrl('ht tp://example.com')).toBe('#');
+    expect(sanitizeUrl(':https://example.com')).toBe('#');
   });
 });

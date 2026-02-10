@@ -121,3 +121,44 @@ export const SafeHTMLInjection = ({
       __html: sanitizeFunctionByLevel(sanitizeLevel)(htmlAsString),
     },
   });
+
+/**
+ * Sanitizes a URL to prevent XSS attacks.
+ * Only allows http, https, and mailto protocols, as well as relative and protocol-relative URLs.
+ *
+ * @param url The URL to sanitize
+ * @returns A safe URL or '#' if the URL contains a dangerous protocol
+ *
+ * @example
+ * ```
+ * sanitizeUrl('https://example.com') // returns 'https://example.com'
+ * sanitizeUrl('javascript:alert(1)') // returns '#'
+ * sanitizeUrl('/relative/path') // returns '/relative/path'
+ * sanitizeUrl('//example.com') // returns '//example.com' (protocol-relative)
+ * sanitizeUrl('mailto:test@example.com') // returns 'mailto:test@example.com'
+ * ```
+ */
+export function sanitizeUrl(url: string | undefined): string {
+  if (!url) {
+    return '#';
+  }
+
+  const trimmedUrl = url.trim();
+
+  // Allow protocol-relative URLs (e.g., //example.com) - they inherit the current protocol
+  // Allow relative URLs (starting with / or #)
+  if (trimmedUrl.startsWith('/') || trimmedUrl.startsWith('#')) {
+    return trimmedUrl;
+  }
+
+  // Check for safe protocols using a case-insensitive regex
+  // Only allow http, https, and mailto
+  const safeProtocolRegex = /^(https?|mailto):/i;
+  if (safeProtocolRegex.test(trimmedUrl)) {
+    return trimmedUrl;
+  }
+
+  // Block dangerous protocols (javascript:, data:, vbscript:, etc.)
+  // or malformed URLs by returning a safe fallback
+  return '#';
+}
