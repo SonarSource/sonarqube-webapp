@@ -73,12 +73,13 @@ describe('rendering', () => {
     expect(ui.templateLink('Permission Template 2').get()).toBeInTheDocument();
 
     // Shows warning for browse and code viewer permissions.
-    await expect(ui.getHeaderTooltipIconByIndex(0)).toHaveATooltipWithContent(
-      'projects_role.public_projects_warning',
-    );
-    await expect(ui.getHeaderTooltipIconByIndex(1)).toHaveATooltipWithContent(
-      'projects_role.public_projects_warning',
-    );
+    await user.click(ui.getHeaderTooltipIconByIndex(0));
+    expect(screen.getByText('projects_role.public_projects_warning')).toBeInTheDocument();
+    await user.keyboard('{Escape}');
+
+    await user.click(ui.getHeaderTooltipIconByIndex(1));
+    expect(screen.getByText('projects_role.public_projects_warning')).toBeInTheDocument();
+    await user.keyboard('{Escape}');
 
     // Check summaries.
     // Note: because of the intricacies of these table cells, and the verbosity
@@ -122,9 +123,9 @@ describe('rendering', () => {
       renderPermissionTemplatesApp();
       await ui.appLoaded();
 
-      await expect(ui.getHeaderTooltipIconByIndex(i)).toHaveATooltipWithContent(
-        `projects_role.${permission}.desc`,
-      );
+      await user.click(ui.getHeaderTooltipIconByIndex(i));
+      expect(screen.getByText(`projects_role.${permission}.desc`)).toBeInTheDocument();
+      await user.keyboard('{Escape}');
     },
   );
 });
@@ -573,7 +574,11 @@ function getPageObject(user: UserEvent) {
       await user.click(ui.setDefaultBtn(qualifier).get());
     },
     getHeaderTooltipIconByIndex(i: number) {
-      return byRole('columnheader').byTestId('help-tooltip-activator').getAll()[i];
+      // Get all toggle tip buttons in column headers (skipping first header which is the template name)
+      const toggleTips = byRole('columnheader')
+        .byRole('button', { name: 'toggletip.help' })
+        .getAll();
+      return toggleTips[i];
     },
   };
 }

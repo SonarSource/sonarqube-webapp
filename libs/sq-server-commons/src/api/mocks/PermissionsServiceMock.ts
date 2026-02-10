@@ -20,6 +20,7 @@
 
 import { chunk, cloneDeep, remove, uniq } from 'lodash';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
+import { Paging } from '~shared/types/paging';
 import {
   mockPermission,
   mockPermissionGroup,
@@ -28,6 +29,7 @@ import {
   mockPermissionUser,
 } from '../../helpers/mocks/permissions';
 import { PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE } from '../../helpers/permissions';
+import { PERMISSION_TEMPLATES_PAGE_SIZE } from '../../queries/permissions';
 import { Permissions } from '../../types/permissions';
 import { Permission, PermissionGroup, PermissionTemplate, PermissionUser } from '../../types/types';
 import { BaseSearchProjectsParameters } from '../components';
@@ -203,11 +205,32 @@ export default class PermissionsServiceMock {
     jest.mocked(revokePermissionFromUser).mockImplementation(this.handleRevokePermissionFromUser);
   }
 
-  handleGetPermissionTemplates = () => {
+  handleGetPermissionTemplates = (data?: Omit<Paging, 'total'> & { q?: string }) => {
+    const p = data?.pageIndex ?? 1;
+    const ps = data?.pageSize ?? PERMISSION_TEMPLATES_PAGE_SIZE;
+    const q = data?.q;
+    let templates = cloneDeep(this.#permissionTemplates);
+
+    // Filter by search query if provided
+    if (q) {
+      const query = q.toLowerCase();
+      templates = templates.filter((template) => template.name.toLowerCase().includes(query));
+    }
+
+    const total = templates.length;
+    const startIndex = (p - 1) * ps;
+    const endIndex = startIndex + ps;
+    const paginatedTemplates = templates.slice(startIndex, endIndex);
+
     return this.reply({
-      permissionTemplates: this.#permissionTemplates,
+      permissionTemplates: paginatedTemplates,
       defaultTemplates: this.#defaultTemplates,
       permissions: this.#permissions,
+      paging: {
+        pageIndex: p,
+        pageSize: ps,
+        total,
+      },
     });
   };
 

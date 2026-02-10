@@ -20,6 +20,7 @@
 
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
+import { axiosClient } from '~shared/helpers/axios-clients';
 import { Visibility } from '~shared/types/component';
 import { Paging } from '~shared/types/paging';
 import { post, postJSON, RequestData } from '../helpers/request';
@@ -62,13 +63,16 @@ export function revokePermissionFromGroup(data: {
 
 interface GetPermissionTemplatesResponse {
   defaultTemplates: Array<{ qualifier: string; templateId: string }>;
+  paging?: Paging;
   permissionTemplates: PermissionTemplate[];
   permissions: Array<Permission>;
 }
 
-export function getPermissionTemplates(): Promise<GetPermissionTemplatesResponse> {
+export function getPermissionTemplates(
+  data?: Omit<Paging, 'total'> & { q?: string },
+): Promise<GetPermissionTemplatesResponse> {
   const url = '/api/permissions/search_templates';
-  return getJSON(url);
+  return axiosClient.get(url, { params: { p: data?.pageIndex, ps: data?.pageSize, q: data?.q } });
 }
 
 export function createPermissionTemplate(data: {

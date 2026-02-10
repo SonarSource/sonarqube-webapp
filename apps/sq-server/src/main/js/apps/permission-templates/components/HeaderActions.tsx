@@ -30,7 +30,7 @@ import Form from './Form';
 
 interface Props {
   ready?: boolean;
-  refresh: () => Promise<void>;
+  refresh: () => void;
   router: Router;
 }
 

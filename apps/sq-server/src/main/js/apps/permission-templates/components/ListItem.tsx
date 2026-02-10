@@ -25,7 +25,7 @@ import NameCell from './NameCell';
 import PermissionCell from './PermissionCell';
 
 interface Props {
-  refresh: () => Promise<void>;
+  refresh: () => void;
   template: PermissionTemplate;
   topQualifiers: string[];
 }

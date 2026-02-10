@@ -26,7 +26,7 @@ import ListItem from './ListItem';
 interface Props {
   permissionTemplates: PermissionTemplate[];
   permissions: Permission[];
-  refresh: () => Promise<void>;
+  refresh: () => void;
   topQualifiers: string[];
 }
 

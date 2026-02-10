@@ -18,47 +18,48 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
-import { ContentCell, FlagMessage, HelperHintIcon, TableRow } from '~design-system';
+import { MessageInline, MessageVariety, ToggleTip } from '@sonarsource/echoes-react';
+import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
+import { ContentCell, TableRow } from '~design-system';
 import InstanceMessage from '~sq-server-commons/components/common/InstanceMessage';
-import { translate } from '~sq-server-commons/helpers/l10n';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { Permission } from '~sq-server-commons/types/types';
 
 interface Props {
   permissions: Permission[];
 }
 
-export default class ListHeader extends React.PureComponent<Props> {
-  renderTooltip(permission: Permission) {
-    return permission.key === 'user' || permission.key === 'codeviewer' ? (
-      <div>
-        <InstanceMessage message={translate('projects_role', permission.key, 'desc')} />
-        <FlagMessage className="sw-mt-2" variant="warning">
-          {translate('projects_role.public_projects_warning')}
-        </FlagMessage>
-      </div>
-    ) : (
-      <InstanceMessage message={translate('projects_role', permission.key, 'desc')} />
-    );
-  }
+export default function ListHeader({ permissions }: Readonly<Props>) {
+  const intl = useIntl();
 
-  render() {
-    const cells = this.props.permissions.map((permission) => (
-      <ContentCell key={permission.key}>
-        <span>{translate('projects_role', permission.key)}</span>
-        <HelpTooltip overlay={this.renderTooltip(permission)}>
-          <HelperHintIcon className="sw-ml-2" />
-        </HelpTooltip>
+  const cells = permissions.map((permission) => (
+    <ContentCell key={permission.key}>
+      <span>{intl.formatMessage({ id: `projects_role.${permission.key}` })}</span>
+      <ToggleTip className="sw-ml-2" description={renderTooltip({ permission, intl })} />
+    </ContentCell>
+  ));
+
+  return (
+    <TableRow>
+      <ContentCell>
+        <FormattedMessage id="projects_role.template_name" />
       </ContentCell>
-    ));
+      {cells}
+      <ContentCell>&nbsp;</ContentCell>
+    </TableRow>
+  );
+}
 
-    return (
-      <TableRow>
-        <ContentCell>&nbsp;</ContentCell>
-        {cells}
-        <ContentCell>&nbsp;</ContentCell>
-      </TableRow>
-    );
-  }
+function renderTooltip({ permission, intl }: { intl: IntlShape; permission: Permission }) {
+  return permission.key === 'user' || permission.key === 'codeviewer' ? (
+    <div>
+      <InstanceMessage
+        message={intl.formatMessage({ id: `projects_role.${permission.key}.desc` })}
+      />
+      <MessageInline className="sw-mt-2" variety={MessageVariety.Warning}>
+        <FormattedMessage id="projects_role.public_projects_warning" />
+      </MessageInline>
+    </div>
+  ) : (
+    <InstanceMessage message={intl.formatMessage({ id: `projects_role.${permission.key}.desc` })} />
+  );
 }

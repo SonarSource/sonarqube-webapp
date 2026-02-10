@@ -18,31 +18,69 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Card, Layout } from '@sonarsource/echoes-react';
+import {
+  Card,
+  Layout,
+  Link,
+  Pagination,
+  SearchInput,
+  SearchInputWidth,
+  Spinner,
+} from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { isDefined } from '~shared/helpers/types';
+import { Paging } from '~shared/types/paging';
 import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { Permission, PermissionTemplate } from '~sq-server-commons/types/types';
 import HeaderActions from './HeaderActions';
 import List from './List';
 import ProvisioningWarning from './ProvisioningWarning';
 
 interface Props {
+  loading: boolean;
+  onPageChange: (page: number) => void;
+  onSearchChange: (query: string) => void;
+  paging?: Paging;
   permissionTemplates: PermissionTemplate[];
   permissions: Permission[];
-  ready: boolean;
-  refresh: () => Promise<void>;
+  refresh: () => void;
+  searchQuery: string;
   topQualifiers: string[];
 }
 
-export default function Home(props: Props) {
+export default function Home(props: Readonly<Props>) {
+  const {
+    loading,
+    onPageChange,
+    onSearchChange,
+    paging,
+    permissionTemplates,
+    permissions,
+    refresh,
+    searchQuery,
+    topQualifiers,
+  } = props;
   const { formatMessage } = useIntl();
+  const toUrl = useDocUrl(DocLink.PermissionTemplates);
+  const displayList = !loading && permissionTemplates.length > 0;
 
   return (
     <AdminPageTemplate
-      actions={<HeaderActions ready={props.ready} refresh={props.refresh} />}
+      actions={<HeaderActions ready={!loading} refresh={refresh} />}
       description={
         <Layout.PageHeader.Description>
-          <FormattedMessage id="permission_templates.page.description" />
+          <FormattedMessage
+            id="permission_templates.page.description"
+            values={{
+              link: (text) => (
+                <Link enableOpenInNewTab to={toUrl}>
+                  {text}
+                </Link>
+              ),
+            }}
+          />
         </Layout.PageHeader.Description>
       }
       title={formatMessage({ id: 'permission_templates.page' })}
@@ -50,15 +88,53 @@ export default function Home(props: Props) {
     >
       <ProvisioningWarning />
 
+      <div className="sw-mb-4">
+        <SearchInput
+          id="permission_templates.search"
+          minLength={2}
+          onChange={onSearchChange}
+          placeholderLabel={formatMessage({ id: 'permission_templates.search_placeholder' })}
+          value={searchQuery}
+          width={SearchInputWidth.Large}
+        />
+      </div>
       <div>
         <Card>
           <Card.Body>
-            <List
-              permissionTemplates={props.permissionTemplates}
-              permissions={props.permissions}
-              refresh={props.refresh}
-              topQualifiers={props.topQualifiers}
-            />
+            <Spinner isLoading={loading}>
+              {displayList ? (
+                <List
+                  permissionTemplates={permissionTemplates}
+                  permissions={permissions}
+                  refresh={refresh}
+                  topQualifiers={topQualifiers}
+                />
+              ) : (
+                <div className="sw-py-8 sw-text-center">
+                  {searchQuery ? (
+                    <FormattedMessage
+                      id="permission_templates.no_results"
+                      values={{ query: <strong>{searchQuery}</strong> }}
+                    />
+                  ) : (
+                    <FormattedMessage id="permission_templates.no_templates" />
+                  )}
+                </div>
+              )}
+            </Spinner>
+            {displayList && (
+              <div className="sw-flex sw-justify-center sw-mt-4">
+                <Pagination
+                  onChange={onPageChange}
+                  page={paging?.pageIndex ?? 1}
+                  totalPages={
+                    isDefined(paging?.total) && isDefined(paging?.pageSize)
+                      ? Math.ceil(paging.total / paging.pageSize)
+                      : 0
+                  }
+                />
+              </div>
+            )}
           </Card.Body>
         </Card>
       </div>

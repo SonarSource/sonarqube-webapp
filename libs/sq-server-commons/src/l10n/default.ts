@@ -5679,6 +5679,7 @@ export const defaultMessages = {
   'projects_role.criteria.key': 'Key contains',
   'projects_role.role': 'Role Membership For New',
   'projects_role.groups': 'Groups',
+  'projects_role.template_name': 'Template Name',
   'projects_role.admin': 'Administer',
   'projects_role.admin.desc':
     'Access project settings and perform administration tasks (for private projects, users also need the "Browse" permission)',
@@ -5720,7 +5721,7 @@ export const defaultMessages = {
   'projects_role.are_you_sure_to_turn_project_to_public.warning.APP':
     'Everybody will be able to browse it.',
   'projects_role.public_projects_warning':
-    'This permission is always granted by default to everybody (anonymous and authenticated users) for public projects. Therefore, the selection made on this page will be applied to private projects only.',
+    'For public projects, this permission is granted to everyone (including anonymous users) by default. Selections here apply to private projects only.',
   'projects_role.applicationcreator': 'Create Applications',
   'projects_role.applicationcreator.desc':
     'Allow to create applications for non system administrator.',
@@ -5735,7 +5736,11 @@ export const defaultMessages = {
   permission_templates: 'Permission Templates',
   'permission_templates.page': 'Permission Templates',
   'permission_templates.page.description':
-    'Manage templates of project permission sets. The default template will be applied to all new projects.',
+    '<link>Manage templates</link> of project permission sets. The default template will be applied to all new projects.',
+  'permission_templates.search_placeholder': 'Search for templates...',
+  'permission_templates.search_aria_label': 'Search permission templates',
+  'permission_templates.no_results': 'No permission templates found matching "{query}"',
+  'permission_templates.no_templates': 'No permission templates have been created yet.',
   'permission_templates.set_default': 'Set Default',
   'permission_templates.set_default_for': 'Set Default For',
   'permission_templates.provisioning_warning':
