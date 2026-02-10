@@ -2226,6 +2226,8 @@ export const defaultMessages = {
     'Select a child item on the graph to see its dependencies.',
   'architecture.discovery.spotlight.weight':
     '{weight, plural, one {1 underlying dependency} other {{weight} underlying dependencies}}',
+  'architecture.discovery.rollup.button.on': 'High-level',
+  'architecture.discovery.rollup.button.off': 'Low-level',
   'architecture.model.no_subcomponents': 'No subcomponents',
   'architecture.model.add_subcomponent': 'Subcomponent',
   'architecture.model.add_subcomponent_label': 'Add subcomponent',
