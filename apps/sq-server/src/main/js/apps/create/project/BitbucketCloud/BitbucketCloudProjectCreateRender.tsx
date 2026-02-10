@@ -18,11 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Link, Spinner, Text } from '@sonarsource/echoes-react';
+import { Layout, Link, Spinner } from '@sonarsource/echoes-react';
+import classNames from 'classnames';
 import { useContext } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useLocation } from '~shared/components/hoc/withRouter';
+import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { BitbucketCloudRepository } from '~sq-server-commons/types/alm-integration';
 import { AlmKeys, AlmSettingsInstance } from '~sq-server-commons/types/alm-settings';
@@ -31,6 +33,7 @@ import { Feature } from '~sq-server-commons/types/features';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
 import { PersonalAccessTokenResetLink } from '../components/PersonalAccessTokenResetLink';
 import WrongBindingCountAlert from '../components/WrongBindingCountAlert';
+import { isProjectSetupDone } from '../utils';
 import BitbucketCloudPersonalAccessTokenForm from './BitbucketCloudPersonalAccessTokenForm';
 import BitbucketCloudSearchForm from './BitbucketCloudSearchForm';
 
@@ -72,13 +75,13 @@ export default function BitbucketCloudProjectCreateRenderer(
     showPersonalAccessTokenForm,
   } = props;
 
+  const { formatMessage } = useIntl();
+  const location = useLocation();
+
   return (
-    <>
-      <header className="sw-mb-10">
-        <Heading as="h1" className="sw-mb-4">
-          {translate('onboarding.create_project.bitbucketcloud.title')}
-        </Heading>
-        <Text>
+    <GlobalPageTemplate
+      description={
+        <Layout.PageHeader.Description>
           {isMonorepoSupported ? (
             <FormattedMessage
               id="onboarding.create_project.bitbucketcloud.subtitle.with_monorepo"
@@ -101,16 +104,17 @@ export default function BitbucketCloudProjectCreateRenderer(
           ) : (
             <FormattedMessage id="onboarding.create_project.bitbucketcloud.subtitle" />
           )}
-        </Text>
-
-        {selectedAlmInstance && !showPersonalAccessTokenForm && (
-          <PersonalAccessTokenResetLink
-            className="sw-mt-4"
-            createProjectMode={CreateProjectModes.BitbucketCloud}
-          />
-        )}
-      </header>
-
+          {selectedAlmInstance && !showPersonalAccessTokenForm && (
+            <PersonalAccessTokenResetLink
+              className="sw-mt-4"
+              createProjectMode={CreateProjectModes.BitbucketCloud}
+            />
+          )}
+        </Layout.PageHeader.Description>
+      }
+      pageClassName={classNames({ 'sw-hidden': isProjectSetupDone(location) })}
+      title={formatMessage({ id: 'onboarding.create_project.bitbucketcloud.title' })}
+    >
       <AlmSettingsInstanceDropdown
         almInstances={almInstances}
         almKey={AlmKeys.BitbucketCloud}
@@ -144,6 +148,6 @@ export default function BitbucketCloudProjectCreateRenderer(
             searching={searching}
           />
         ))}
-    </>
+    </GlobalPageTemplate>
   );
 }

@@ -18,7 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Location } from '~shared/types/router';
 import { PROJECT_KEY_INVALID_CHARACTERS } from '~sq-server-commons/helpers/projects';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 
 export function tokenExistedBefore(error?: string) {
   return !error?.includes('is missing');
@@ -30,4 +32,12 @@ export function currentTokenIsAppPassword(error?: string) {
 
 export function getSanitizedProjectKey(projectKey: string) {
   return projectKey.trim().replace(PROJECT_KEY_INVALID_CHARACTERS, '-');
+}
+
+export function isProjectSetupDone(location: Location) {
+  return location.query?.setncd === 'true';
+}
+
+export function getAlmKey(location: Location) {
+  return location.query.mode as AlmKeys;
 }

@@ -21,17 +21,19 @@
 /* eslint-disable react/no-unused-prop-types */
 import {
   FormFieldWidth,
-  Heading,
+  Layout,
   Link,
   MessageCallout,
   MessageVariety,
   Select,
   Spinner,
-  Text,
 } from '@sonarsource/echoes-react';
+import classNames from 'classnames';
 import { useContext, useEffect, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useLocation } from '~shared/components/hoc/withRouter';
 import { Paging } from '~shared/types/paging';
+import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -42,6 +44,7 @@ import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import { Feature } from '~sq-server-commons/types/features';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
 import RepositoryList from '../components/RepositoryList';
+import { isProjectSetupDone } from '../utils';
 
 interface GitHubProjectCreateRendererProps {
   almInstances: AlmSettingsInstance[];
@@ -85,6 +88,8 @@ export default function GitHubProjectCreateRenderer(
   } = props;
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const { canAdmin } = useAppState();
+  const { formatMessage } = useIntl();
+  const location = useLocation();
 
   useEffect(() => {
     const selectedKeys = Array.from(selected).filter((key) =>
@@ -119,12 +124,9 @@ export default function GitHubProjectCreateRenderer(
   };
 
   return (
-    <>
-      <header className="sw-mb-10">
-        <Heading as="h1" className="sw-mb-4">
-          {translate('onboarding.create_project.github.title')}
-        </Heading>
-        <Text>
+    <GlobalPageTemplate
+      description={
+        <Layout.PageHeader.Description>
           {isMonorepoSupported ? (
             <FormattedMessage
               id="onboarding.create_project.github.subtitle.with_monorepo"
@@ -147,9 +149,11 @@ export default function GitHubProjectCreateRenderer(
           ) : (
             <FormattedMessage id="onboarding.create_project.github.subtitle" />
           )}
-        </Text>
-      </header>
-
+        </Layout.PageHeader.Description>
+      }
+      pageClassName={classNames({ 'sw-hidden': isProjectSetupDone(location) })}
+      title={formatMessage({ id: 'onboarding.create_project.github.title' })}
+    >
       <AlmSettingsInstanceDropdown
         almInstances={almInstances}
         almKey={AlmKeys.GitHub}
@@ -231,6 +235,6 @@ export default function GitHubProjectCreateRenderer(
           />
         )}
       </Spinner>
-    </>
+    </GlobalPageTemplate>
   );
 }

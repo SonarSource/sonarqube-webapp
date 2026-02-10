@@ -18,12 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Link, Spinner, Text } from '@sonarsource/echoes-react';
+import { Layout, Link, Spinner } from '@sonarsource/echoes-react';
+import classNames from 'classnames';
 import { useContext, useEffect, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useLocation } from '~shared/components/hoc/withRouter';
 import { Paging } from '~shared/types/paging';
+import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { GitlabProject } from '~sq-server-commons/types/alm-integration';
 import {
@@ -37,6 +39,7 @@ import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdo
 import { PersonalAccessTokenResetLink } from '../components/PersonalAccessTokenResetLink';
 import RepositoryList from '../components/RepositoryList';
 import WrongBindingCountAlert from '../components/WrongBindingCountAlert';
+import { isProjectSetupDone } from '../utils';
 import GitlabPersonalAccessTokenForm from './GItlabPersonalAccessTokenForm';
 
 export interface GitlabProjectCreateRendererProps {
@@ -77,6 +80,8 @@ export default function GitlabProjectCreateRenderer(
 
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
+  const location = useLocation();
+
   const handleCheck = (id: string) => {
     setSelected((prev) => new Set(prev.delete(id) ? prev : prev.add(id)));
   };
@@ -103,13 +108,12 @@ export default function GitlabProjectCreateRenderer(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projects]);
 
+  const { formatMessage } = useIntl();
+
   return (
-    <>
-      <header className="sw-mb-10">
-        <Heading as="h1" className="sw-mb-4">
-          {translate('onboarding.create_project.gitlab.title')}
-        </Heading>
-        <Text>
+    <GlobalPageTemplate
+      description={
+        <Layout.PageHeader.Description>
           {isMonorepoSupported ? (
             <FormattedMessage
               id="onboarding.create_project.gitlab.subtitle.with_monorepo"
@@ -132,16 +136,17 @@ export default function GitlabProjectCreateRenderer(
           ) : (
             <FormattedMessage id="onboarding.create_project.gitlab.subtitle" />
           )}
-        </Text>
-
-        {selectedAlmInstance && !showPersonalAccessTokenForm && (
-          <PersonalAccessTokenResetLink
-            className="sw-mt-4"
-            createProjectMode={CreateProjectModes.GitLab}
-          />
-        )}
-      </header>
-
+          {selectedAlmInstance && !showPersonalAccessTokenForm && (
+            <PersonalAccessTokenResetLink
+              className="sw-mt-4"
+              createProjectMode={CreateProjectModes.GitLab}
+            />
+          )}
+        </Layout.PageHeader.Description>
+      }
+      pageClassName={classNames({ 'sw-hidden': isProjectSetupDone(location) })}
+      title={formatMessage({ id: 'onboarding.create_project.gitlab.title' })}
+    >
       <AlmSettingsInstanceDropdown
         almInstances={almInstances}
         almKey={AlmKeys.GitLab}
@@ -179,6 +184,6 @@ export default function GitlabProjectCreateRenderer(
             uncheckAll={handleUncheckAll}
           />
         ))}
-    </>
+    </GlobalPageTemplate>
   );
 }

@@ -18,23 +18,25 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Layout, LinkStandalone, Spinner } from '@sonarsource/echoes-react';
+import classNames from 'classnames';
 import React, { useEffect, useRef } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { GroupBase } from 'react-select';
 import { throwGlobalError } from '~adapters/helpers/error';
 import { BlueGreySeparator } from '~design-system';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { getComponents } from '~sq-server-commons/api/project-management';
+import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
 import { useProjectBindingsQuery } from '~sq-server-commons/queries/dop-translation';
-import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';
 import { DopSetting } from '~sq-server-commons/types/dop-translation';
 import { ProjectData } from '../components/ProjectValidation';
-import { getSanitizedProjectKey } from '../utils';
+import { getAlmKey, getSanitizedProjectKey, isProjectSetupDone } from '../utils';
 import { MonorepoConnectionSelector } from './MonorepoConnectionSelector';
-import { MonorepoProjectHeader } from './MonorepoProjectHeader';
 import { MonorepoProjectsList } from './MonorepoProjectsList';
 
 interface MonorepoProjectCreateProps {
@@ -78,8 +80,12 @@ export default function MonorepoProjectCreate(props: Readonly<MonorepoProjectCre
     Array<{ projectId: string; projectName: string }>
   >([]);
 
+  const { formatMessage } = useIntl();
   const location = useLocation();
   const { push } = useRouter();
+  const docUrl = useDocUrl();
+
+  const almKey = getAlmKey(location);
 
   const projectKeys = React.useMemo(() => projects.map(({ key }) => key), [projects]);
   const {
@@ -93,8 +99,6 @@ export default function MonorepoProjectCreate(props: Readonly<MonorepoProjectCre
     },
     selectedRepository !== undefined,
   );
-
-  const almKey = location.query.mode as AlmKeys;
 
   const isOptionSelectionInvalid =
     (showOrganizations && selectedOrganization === undefined) || selectedRepository === undefined;
@@ -222,11 +226,27 @@ export default function MonorepoProjectCreate(props: Readonly<MonorepoProjectCre
   }
 
   return (
-    <div>
-      <MonorepoProjectHeader />
-
-      <BlueGreySeparator className="sw-my-5" />
-
+    <GlobalPageTemplate
+      description={
+        <Layout.PageHeader.Description>
+          <FormattedMessage id="onboarding.create_project.monorepo.subtitle" />
+          <p className="sw-mt-3">
+            <LinkStandalone enableOpenInNewTab to={docUrl(DocLink.Monorepos)}>
+              <FormattedMessage id="onboarding.create_project.monorepo.doc_link" />
+            </LinkStandalone>
+          </p>
+        </Layout.PageHeader.Description>
+      }
+      pageClassName={classNames({ 'sw-hidden': isProjectSetupDone(location) })}
+      title={formatMessage(
+        {
+          id: 'onboarding.create_project.monorepo.title',
+        },
+        {
+          almName: formatMessage({ id: `alm.${almKey}` }),
+        },
+      )}
+    >
       <MonorepoConnectionSelector
         almKey={almKey}
         alreadyBoundProjects={alreadyBoundProjects}
@@ -262,6 +282,6 @@ export default function MonorepoProjectCreate(props: Readonly<MonorepoProjectCre
           <FormattedMessage id="next" />
         </Button>
       </div>
-    </div>
+    </GlobalPageTemplate>
   );
 }

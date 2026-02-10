@@ -24,15 +24,17 @@ import {
   Button,
   Heading,
   Label,
+  Layout,
   LinkStandalone,
   Spinner,
   Text,
   ToggleTip,
 } from '@sonarsource/echoes-react';
+import { FormattedMessage, MessageDescriptor, useIntl } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
 import { GreyCard } from '~design-system';
+import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getCreateProjectModeLocation } from '~sq-server-commons/helpers/urls';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { AppState } from '~sq-server-commons/types/appstate';
@@ -64,12 +66,14 @@ function renderAlmOption(
   props: CreateProjectModeSelectionProps,
   alm: AlmKeys,
   mode: CreateProjectModes,
+  formatMessage: (descriptor: MessageDescriptor) => string,
 ) {
   const {
     almCounts,
     appState: { canAdmin },
     loadingBindings,
   } = props;
+
   const count = almCounts[alm];
   const hasConfig = count > 0;
   const disabled = loadingBindings || (!hasConfig && !canAdmin);
@@ -92,14 +96,14 @@ function renderAlmOption(
         {!disabled && hasConfig ? (
           <LinkStandalone iconLeft={icon} to={getCreateProjectModeLocation(mode)}>
             <span className="sw-ml-2">
-              {translate('onboarding.create_project.import_select_method', alm)}
+              <FormattedMessage id={`onboarding.create_project.import_select_method.${alm}`} />
             </span>
           </LinkStandalone>
         ) : (
           <>
             {icon}
             <Text className="sw-ml-3 sw-text-sm sw-font-semibold" isSubtle>
-              {translate('onboarding.create_project.import_select_method', alm)}
+              <FormattedMessage id={`onboarding.create_project.import_select_method.${alm}`} />
             </Text>
           </>
         )}
@@ -113,12 +117,12 @@ function renderAlmOption(
                 props.onConfigMode(configMode);
               }}
             >
-              {translate('setup')}
+              <FormattedMessage id="setup" />
             </Button>
           ) : (
             <ToggleTip
-              ariaLabel={translate('toggle_tip.aria_label.alm_not_configured')}
-              description={translate('onboarding.create_project.alm_not_configured')}
+              ariaLabel={formatMessage({ id: 'toggle_tip.aria_label.alm_not_configured' })}
+              description={formatMessage({ id: 'onboarding.create_project.alm_not_configured' })}
             />
           ))}
       </Spinner>
@@ -138,47 +142,55 @@ function separateAvailableOptions(almCounts: CreateProjectModeSelectionProps['al
   };
 }
 
-export function CreateProjectModeSelection(props: CreateProjectModeSelectionProps) {
+export function CreateProjectModeSelection(props: Readonly<CreateProjectModeSelectionProps>) {
   const {
     appState: { canAdmin },
     almCounts,
   } = props;
+
+  const { formatMessage } = useIntl();
+
   const almTotalCount = Object.values(almCounts).reduce((prev, cur) => prev + cur, 0);
   const filteredAlm = separateAvailableOptions(almCounts);
 
   return (
-    <div className="sw-typo-default">
-      <div className="sw-flex sw-flex-col">
-        <Heading as="h1" className="sw-mb-4">
-          {translate('onboarding.create_project.select_method')}
-        </Heading>
-        <Text>{translate('onboarding.create_project.select_method.devops_platform')}</Text>
-        <Heading as="h2" className="sw-mt-6">
-          {translate('onboarding.create_project.select_method.devops_platform_second')}
-        </Heading>
-        {almTotalCount === 0 && canAdmin && (
-          <Text className="sw-mt-3">
-            {translate('onboarding.create_project.select_method.no_alm_yet.admin')}
-          </Text>
+    <GlobalPageTemplate
+      description={
+        <Layout.PageHeader.Description>
+          <FormattedMessage id="onboarding.create_project.select_method.devops_platform" />
+        </Layout.PageHeader.Description>
+      }
+      title={formatMessage({ id: 'onboarding.create_project.select_method' })}
+    >
+      <Heading as="h2" className="sw-mt-6">
+        <FormattedMessage id="onboarding.create_project.select_method.devops_platform_second" />
+      </Heading>
+      {almTotalCount === 0 && canAdmin && (
+        <Text className="sw-mt-3">
+          <FormattedMessage id="onboarding.create_project.select_method.no_alm_yet.admin" />
+        </Text>
+      )}
+      <div className="sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12 sw-mt-4">
+        {filteredAlm.availableOptions.map(({ key, mode }) =>
+          renderAlmOption(props, key, mode, formatMessage),
         )}
-        <div className="sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12 sw-mt-4">
-          {filteredAlm.availableOptions.map(({ key, mode }) => renderAlmOption(props, key, mode))}
-          {filteredAlm.unavailableOptions.map(({ key, mode }) => renderAlmOption(props, key, mode))}
-        </div>
-        <Label className="sw-mb-4 sw-mt-10">
-          {translate('onboarding.create_project.select_method.manually')}
-        </Label>
-        <div className="sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12">
-          <GreyCard className="sw-col-span-4 sw-p-4 sw-py-6 sw-flex sw-justify-between sw-items-center">
-            <div>
-              <LinkStandalone to={getCreateProjectModeLocation(CreateProjectModes.Manual)}>
-                {translate('onboarding.create_project.import_select_method.manual')}
-              </LinkStandalone>
-            </div>
-          </GreyCard>
-        </div>
+        {filteredAlm.unavailableOptions.map(({ key, mode }) =>
+          renderAlmOption(props, key, mode, formatMessage),
+        )}
       </div>
-    </div>
+      <Label className="sw-block sw-mb-4 sw-mt-10">
+        <FormattedMessage id="onboarding.create_project.select_method.manually" />
+      </Label>
+      <div className="sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12">
+        <GreyCard className="sw-col-span-4 sw-p-4 sw-py-6 sw-flex sw-justify-between sw-items-center">
+          <div>
+            <LinkStandalone to={getCreateProjectModeLocation(CreateProjectModes.Manual)}>
+              <FormattedMessage id="onboarding.create_project.import_select_method.manual" />
+            </LinkStandalone>
+          </div>
+        </GreyCard>
+      </div>
+    </GlobalPageTemplate>
   );
 }
 

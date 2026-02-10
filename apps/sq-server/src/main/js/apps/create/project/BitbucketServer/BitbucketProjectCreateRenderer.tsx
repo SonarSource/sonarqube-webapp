@@ -18,9 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Link, LinkHighlight, Spinner, Text } from '@sonarsource/echoes-react';
+import { Layout, Link, Spinner } from '@sonarsource/echoes-react';
+import classNames from 'classnames';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useLocation } from '~shared/components/hoc/withRouter';
+import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { BitbucketRepository } from '~sq-server-commons/types/alm-integration';
@@ -31,6 +34,7 @@ import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdo
 import { PersonalAccessTokenResetLink } from '../components/PersonalAccessTokenResetLink';
 import WrongBindingCountAlert from '../components/WrongBindingCountAlert';
 import { BBSSearchMode } from '../constants';
+import { isProjectSetupDone } from '../utils';
 import BitbucketImportRepositoryForm from './BitbucketImportRepositoryForm';
 import BitbucketServerPersonalAccessTokenForm from './BitbucketServerPersonalAccessTokenForm';
 
@@ -79,20 +83,19 @@ export default function BitbucketProjectCreateRenderer(
     Feature.MonoRepositoryPullRequestDecoration,
   );
 
+  const { formatMessage } = useIntl();
+  const location = useLocation();
+
   return (
-    <>
-      <header className="sw-mb-10">
-        <Heading as="h1" className="sw-mb-4">
-          <FormattedMessage id="onboarding.create_project.bitbucket.title" />
-        </Heading>
-        <Text>
+    <GlobalPageTemplate
+      description={
+        <Layout.PageHeader.Description>
           {isMonorepoSupported ? (
             <FormattedMessage
               id="onboarding.create_project.bitbucket.subtitle.with_monorepo"
               values={{
                 monorepoSetupLink: (
                   <Link
-                    highlight={LinkHighlight.Default}
                     to={{
                       pathname: '/projects/create',
                       search: queryToSearchString({
@@ -109,16 +112,17 @@ export default function BitbucketProjectCreateRenderer(
           ) : (
             <FormattedMessage id="onboarding.create_project.bitbucket.subtitle" />
           )}
-        </Text>
-
-        {selectedAlmInstance && !showPersonalAccessTokenForm && (
-          <PersonalAccessTokenResetLink
-            className="sw-mt-4"
-            createProjectMode={CreateProjectModes.BitbucketServer}
-          />
-        )}
-      </header>
-
+          {selectedAlmInstance && !showPersonalAccessTokenForm && (
+            <PersonalAccessTokenResetLink
+              className="sw-mt-4"
+              createProjectMode={CreateProjectModes.BitbucketServer}
+            />
+          )}
+        </Layout.PageHeader.Description>
+      }
+      pageClassName={classNames({ 'sw-hidden': isProjectSetupDone(location) })}
+      title={formatMessage({ id: 'onboarding.create_project.bitbucket.title' })}
+    >
       <AlmSettingsInstanceDropdown
         almInstances={almInstances}
         almKey={AlmKeys.BitbucketServer}
@@ -153,6 +157,6 @@ export default function BitbucketProjectCreateRenderer(
             />
           ))}
       </Spinner>
-    </>
+    </GlobalPageTemplate>
   );
 }

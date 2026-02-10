@@ -18,20 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  Heading,
-  Link,
-  MessageCallout,
-  MessageVariety,
-  Spinner,
-  Text,
-} from '@sonarsource/echoes-react';
+import { Layout, Link, MessageCallout, MessageVariety, Spinner } from '@sonarsource/echoes-react';
+import classNames from 'classnames';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { InputSearch } from '~design-system';
+import { useLocation } from '~shared/components/hoc/withRouter';
+import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getGlobalSettingsUrl } from '~sq-server-commons/helpers/urls';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { AzureProject, AzureRepository } from '~sq-server-commons/types/alm-integration';
@@ -42,6 +37,7 @@ import { ALM_INTEGRATION_CATEGORY } from '../../../settings/constants';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
 import { PersonalAccessTokenResetLink } from '../components/PersonalAccessTokenResetLink';
 import WrongBindingCountAlert from '../components/WrongBindingCountAlert';
+import { isProjectSetupDone } from '../utils';
 import AzurePersonalAccessTokenForm from './AzurePersonalAccessTokenForm';
 import AzureProjectsList from './AzureProjectsList';
 
@@ -86,16 +82,18 @@ export default function AzureProjectCreateRenderer(
   );
 
   const { canAdmin } = useAppState();
+  const location = useLocation();
 
   const showCountError = !loading && (!almInstances || almInstances.length === 0);
   const showUrlError =
     !loading && selectedAlmInstance !== undefined && selectedAlmInstance.url === undefined;
 
+  const { formatMessage } = useIntl();
+
   return (
-    <>
-      <header className="sw-mb-10">
-        <Heading as="h1">{translate('onboarding.create_project.azure.title')}</Heading>
-        <Text>
+    <GlobalPageTemplate
+      description={
+        <Layout.PageHeader.Description>
           {isMonorepoSupported ? (
             <FormattedMessage
               id="onboarding.create_project.azure.subtitle.with_monorepo"
@@ -118,16 +116,17 @@ export default function AzureProjectCreateRenderer(
           ) : (
             <FormattedMessage id="onboarding.create_project.azure.subtitle" />
           )}
-        </Text>
-
-        {selectedAlmInstance && !showPersonalAccessTokenForm && (
-          <PersonalAccessTokenResetLink
-            className="sw-mt-4"
-            createProjectMode={CreateProjectModes.AzureDevOps}
-          />
-        )}
-      </header>
-
+          {selectedAlmInstance && !showPersonalAccessTokenForm && (
+            <PersonalAccessTokenResetLink
+              className="sw-mt-4"
+              createProjectMode={CreateProjectModes.AzureDevOps}
+            />
+          )}
+        </Layout.PageHeader.Description>
+      }
+      pageClassName={classNames({ 'sw-hidden': isProjectSetupDone(location) })}
+      title={formatMessage({ id: 'onboarding.create_project.azure.title' })}
+    >
       <AlmSettingsInstanceDropdown
         almInstances={almInstances}
         almKey={AlmKeys.Azure}
@@ -143,16 +142,16 @@ export default function AzureProjectCreateRenderer(
             <FormattedMessage
               id="onboarding.create_project.azure.no_url.admin"
               values={{
-                alm: translate('onboarding.alm', AlmKeys.Azure),
+                alm: <FormattedMessage id="onboarding.alm.azure" />,
                 url: (
                   <Link to={getGlobalSettingsUrl(ALM_INTEGRATION_CATEGORY)}>
-                    {translate('settings.page')}
+                    <FormattedMessage id="settings.page" />
                   </Link>
                 ),
               }}
             />
           ) : (
-            translate('onboarding.create_project.azure.no_url')
+            <FormattedMessage id="onboarding.create_project.azure.no_url" />
           )}
         </MessageCallout>
       )}
@@ -174,7 +173,9 @@ export default function AzureProjectCreateRenderer(
             <div className="sw-mb-10 sw-w-abs-400">
               <InputSearch
                 onChange={props.onSearch}
-                placeholder={translate('onboarding.create_project.search_projects_repositories')}
+                placeholder={formatMessage({
+                  id: 'onboarding.create_project.search_projects_repositories',
+                })}
                 size="full"
               />
             </div>
@@ -191,6 +192,6 @@ export default function AzureProjectCreateRenderer(
             </Spinner>
           </>
         ))}
-    </>
+    </GlobalPageTemplate>
   );
 }

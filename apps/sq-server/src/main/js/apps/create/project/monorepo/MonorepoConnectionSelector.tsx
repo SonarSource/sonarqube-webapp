@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Heading } from '@sonarsource/echoes-react';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { GroupBase } from 'react-select';
-import { Title } from '~design-system';
 import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { DopSetting } from '~sq-server-commons/types/dop-translation';
@@ -83,7 +83,7 @@ export function MonorepoConnectionSelector({
 }: Readonly<Props>) {
   return (
     <div className="sw-flex sw-flex-col sw-gap-6">
-      <Title>
+      <Heading as="h2">
         <FormattedMessage
           id={
             showOrganizations
@@ -91,7 +91,7 @@ export function MonorepoConnectionSelector({
               : 'onboarding.create_project.monorepo.choose_repository'
           }
         />
-      </Title>
+      </Heading>
 
       <DopSettingDropdown
         almKey={almKey}

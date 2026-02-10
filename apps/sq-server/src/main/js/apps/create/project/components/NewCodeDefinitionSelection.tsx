@@ -41,6 +41,7 @@ import { addGlobalSuccessMessage } from '~design-system';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import NewCodeDefinitionSelector from '~sq-server-commons/components/new-code-definition/NewCodeDefinitionSelector';
+import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -73,7 +74,7 @@ export default function NewCodeDefinitionSelection(props: Props) {
   const { mutateAsync, data, reset, isIdle } = useImportProjectMutation();
   const mutateCount = useImportProjectProgress();
   const isImporting = mutateCount > 0;
-  const intl = useIntl();
+  const { formatMessage } = useIntl();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -121,7 +122,7 @@ export default function NewCodeDefinitionSelection(props: Props) {
     if (projectCount > failedImports) {
       if (redirectTo === '/projects') {
         addGlobalSuccessMessage(
-          intl.formatMessage(
+          formatMessage(
             {
               id: isMonorepo
                 ? 'onboarding.create_project.monorepo.success'
@@ -153,9 +154,9 @@ export default function NewCodeDefinitionSelection(props: Props) {
     data,
     projectCount,
     failedImports,
+    formatMessage,
     mutateCount,
     reset,
-    intl,
     navigate,
     isIdle,
     redirectTo,
@@ -195,108 +196,115 @@ export default function NewCodeDefinitionSelection(props: Props) {
   };
 
   return (
-    <section
-      aria-label={translate('onboarding.create_project.new_code_definition.title')}
-      className="sw-typo-default"
-      id="project-ncd-selection"
+    <GlobalPageTemplate
+      hidePageHeader
+      title={formatMessage({ id: 'onboarding.create_project.new_code_definition.title' })}
     >
-      <div className="sw-flex sw-justify-between">
-        <FormattedMessage id="onboarding.create_project.manual.step2" />
-        <ButtonIcon
-          Icon={IconX}
-          ariaLabel={intl.formatMessage({ id: 'clear' })}
-          onClick={onClose}
-          size={ButtonSize.Medium}
-          variety={ButtonVariety.DefaultGhost}
-        />
-      </div>
-      <Form onSubmit={handleProjectCreation}>
-        <Form.Header
-          description={
-            <>
-              <Text as="p">
-                <FormattedMessage id="project_baseline.page.description" />
-              </Text>
-              <Text as="p" className="sw-mt-4">
+      <section
+        aria-label={formatMessage({
+          id: 'onboarding.create_project.new_code_definition.title',
+        })}
+        className="sw-typo-default"
+        id="project-ncd-selection"
+      >
+        <div className="sw-flex sw-justify-between">
+          <FormattedMessage id="onboarding.create_project.manual.step2" />
+          <ButtonIcon
+            Icon={IconX}
+            ariaLabel={formatMessage({ id: 'clear' })}
+            onClick={onClose}
+            size={ButtonSize.Medium}
+            variety={ButtonVariety.DefaultGhost}
+          />
+        </div>
+        <Form onSubmit={handleProjectCreation}>
+          <Form.Header
+            description={
+              <>
+                <Text as="p">
+                  <FormattedMessage id="project_baseline.page.description" />
+                </Text>
+                <Text as="p" className="sw-mt-4">
+                  <FormattedMessage
+                    id="project_baseline.page.description2"
+                    values={{
+                      link: (text) => (
+                        <Link
+                          highlight={LinkHighlight.CurrentColor}
+                          to="/admin/settings?category=new_code_period"
+                        >
+                          {text}
+                        </Link>
+                      ),
+                    }}
+                  />
+                </Text>
+                <Link
+                  className="sw-block"
+                  enableOpenInNewTab
+                  highlight={LinkHighlight.CurrentColor}
+                  to={toUrl}
+                >
+                  <FormattedMessage id="learn_more_in_doc" />
+                </Link>
+              </>
+            }
+            title={
+              <span id="selection-cards-label">
                 <FormattedMessage
-                  id="project_baseline.page.description2"
+                  id="onboarding.create_x_project.new_code_definition.title"
                   values={{
-                    link: (text) => (
-                      <Link
-                        highlight={LinkHighlight.CurrentColor}
-                        to="/admin/settings?category=new_code_period"
-                      >
-                        {text}
-                      </Link>
-                    ),
+                    count: projectCount,
                   }}
                 />
-              </Text>
-              <Link
-                className="sw-block"
-                enableOpenInNewTab
-                highlight={LinkHighlight.CurrentColor}
-                to={toUrl}
-              >
-                <FormattedMessage id="learn_more_in_doc" />
-              </Link>
-            </>
-          }
-          title={
-            <span id="selection-cards-label">
+              </span>
+            }
+            titleAs="h1"
+          />
+          <Form.Section>
+            <NewCodeDefinitionSelector onNcdChanged={selectDefinition} />
+
+            {isMultipleProjects && (
+              <MessageCallout variety={MessageVariety.Info}>
+                <FormattedMessage id="onboarding.create_projects.new_code_definition.change_info" />
+              </MessageCallout>
+            )}
+          </Form.Section>
+          <Form.Footer className="sw-mb-8">
+            <Button
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              {translate('back')}
+            </Button>
+            <Button
+              isDisabled={!selectedDefinition?.isCompliant || isImporting}
+              isLoading={isImporting}
+              type="submit"
+              variety="primary"
+            >
               <FormattedMessage
-                id="onboarding.create_x_project.new_code_definition.title"
+                id="onboarding.create_project.new_code_definition.create_x_projects"
                 values={{
                   count: projectCount,
                 }}
               />
-            </span>
-          }
-          titleAs="h1"
-        />
-        <Form.Section>
-          <NewCodeDefinitionSelector onNcdChanged={selectDefinition} />
-
-          {isMultipleProjects && (
-            <MessageCallout variety={MessageVariety.Info}>
-              <FormattedMessage id="onboarding.create_projects.new_code_definition.change_info" />
-            </MessageCallout>
-          )}
-        </Form.Section>
-        <Form.Footer className="sw-mb-8">
-          <Button
-            onClick={() => {
-              navigate(-1);
-            }}
-          >
-            {translate('back')}
-          </Button>
-          <Button
-            isDisabled={!selectedDefinition?.isCompliant || isImporting}
-            isLoading={isImporting}
-            type="submit"
-            variety="primary"
-          >
-            <FormattedMessage
-              id="onboarding.create_project.new_code_definition.create_x_projects"
-              values={{
-                count: projectCount,
-              }}
-            />
-          </Button>
-          {isImporting && projectCount > 1 && (
-            <MessageCallout variety={MessageVariety.Warning}>
-              <FormattedMessage
-                id="onboarding.create_project.import_in_progress"
-                values={{
-                  count: projectCount - mutateCount,
-                  total: projectCount,
-                }}
-              />
-            </MessageCallout>
-          )}
-        </Form.Footer>
-      </Form>
-    </section>
+            </Button>
+            {isImporting && projectCount > 1 && (
+              <MessageCallout variety={MessageVariety.Warning}>
+                <FormattedMessage
+                  id="onboarding.create_project.import_in_progress"
+                  values={{
+                    count: projectCount - mutateCount,
+                    total: projectCount,
+                  }}
+                />
+              </MessageCallout>
+            )}
+          </Form.Footer>
+        </Form>
+      </section>
+    </GlobalPageTemplate>
   );
 }

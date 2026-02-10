@@ -34,13 +34,16 @@ import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useLocation } from '~shared/components/hoc/withRouter';
 import { getValue } from '~sq-server-commons/api/settings';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';
 import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import ProjectValidation, { ProjectData } from '../components/ProjectValidation';
+import { isProjectSetupDone } from '../utils';
 
 interface Props {
   branchesEnabled: boolean;
@@ -69,6 +72,7 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
   });
 
   const intl = useIntl();
+  const location = useLocation();
 
   React.useEffect(() => {
     async function fetchMainBranchName() {
@@ -133,9 +137,10 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
   const mainBranchNameIsInvalid = mainBranchNameTouched && mainBranchNameError !== undefined;
 
   return (
-    <section
-      aria-label={translate('onboarding.create_project.manual.title')}
-      className="sw-typo-default"
+    <GlobalPageTemplate
+      hidePageHeader
+      pageClassName={classNames({ 'sw-hidden': isProjectSetupDone(location) })}
+      title={intl.formatMessage({ id: 'onboarding.create_project.manual.title' })}
     >
       <div className="sw-flex sw-justify-between">
         <FormattedMessage id="onboarding.create_project.manual.step1" />
@@ -201,6 +206,6 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
           </Button>
         </Form.Footer>
       </Form>
-    </section>
+    </GlobalPageTemplate>
   );
 }

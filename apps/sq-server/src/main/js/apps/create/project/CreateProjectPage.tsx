@@ -19,10 +19,7 @@
  */
 
 import { Layout } from '@sonarsource/echoes-react';
-import classNames from 'classnames';
 import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, Router } from '~shared/types/router';
@@ -30,7 +27,6 @@ import { getDopSettings } from '~sq-server-commons/api/dop-translation';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';
 import { DopSetting } from '~sq-server-commons/types/dop-translation';
@@ -44,6 +40,7 @@ import GitHubProjectCreate from './Github/GitHubProjectCreate';
 import GitlabProjectCreate from './Gitlab/GitlabProjectCreate';
 import NewCodeDefinitionSelection from './components/NewCodeDefinitionSelection';
 import ManualProjectCreate from './manual/ManualProjectCreate';
+import { isProjectSetupDone } from './utils';
 
 export interface CreateProjectPageProps extends WithAvailableFeaturesProps {
   location: Location;
@@ -270,51 +267,32 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
   render() {
     const { location } = this.props;
     const { creatingAlmDefinition, importProjects, redirectTo } = this.state;
-    const mode: CreateProjectModes | undefined = location.query?.mode;
-    const isProjectSetupDone = location.query?.setncd === 'true';
-    const gridLayoutStyle = mode ? 'sw-col-start-2 sw-col-span-10' : 'sw-col-span-12';
-    const pageTitle = mode
-      ? translate(`onboarding.create_project.${mode}.title`)
-      : translate('onboarding.create_project.select_method');
+    const mode = location.query?.mode as CreateProjectModes | undefined;
 
     return (
-      <Layout.ContentGrid>
-        <Layout.PageGrid>
-          <Layout.PageContent>
-            <div
-              className="sw-pt-8 sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12"
-              id="create-project"
-            >
-              <div className={gridLayoutStyle}>
-                <Helmet title={pageTitle} titleTemplate="%s" />
-                <A11ySkipTarget anchor="create_project_main" />
+      <Layout.ContentGrid id="create-project">
+        <A11ySkipTarget anchor="create_project_main" />
 
-                <div className={classNames({ 'sw-hidden': isProjectSetupDone })}>
-                  {this.renderProjectCreation(mode)}
-                </div>
-                {importProjects !== undefined && isProjectSetupDone && (
-                  <NewCodeDefinitionSelection
-                    importProjects={importProjects}
-                    onClose={() => {
-                      this.props.router.push({ pathname: redirectTo });
-                    }}
-                    redirectTo={redirectTo}
-                  />
-                )}
+        {this.renderProjectCreation(mode)}
 
-                {creatingAlmDefinition && (
-                  <AlmBindingDefinitionForm
-                    afterSubmit={this.handleAfterSubmit}
-                    alm={creatingAlmDefinition}
-                    enforceValidation
-                    onCancel={this.handleOnCancelCreation}
-                  />
-                )}
-              </div>
-            </div>
-          </Layout.PageContent>
-          <GlobalFooter />
-        </Layout.PageGrid>
+        {importProjects !== undefined && isProjectSetupDone(location) && (
+          <NewCodeDefinitionSelection
+            importProjects={importProjects}
+            onClose={() => {
+              this.props.router.push({ pathname: redirectTo });
+            }}
+            redirectTo={redirectTo}
+          />
+        )}
+
+        {creatingAlmDefinition && (
+          <AlmBindingDefinitionForm
+            afterSubmit={this.handleAfterSubmit}
+            alm={creatingAlmDefinition}
+            enforceValidation
+            onCancel={this.handleOnCancelCreation}
+          />
+        )}
       </Layout.ContentGrid>
     );
   }
