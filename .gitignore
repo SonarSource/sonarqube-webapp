@@ -204,3 +204,6 @@ mockServiceWorker.js
 # Personal AI agent preferences (not committed)
 CLAUDE-personal.md
 CLAUDE.local.md
+
+# SonarQube LLM code context files
+.sonar-code-context/
