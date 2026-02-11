@@ -38,6 +38,7 @@ import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { QGStatus } from '~shared/types/common';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey, MetricType } from '~shared/types/metrics';
+import ChangeInCalculation from '~sq-server-commons/components/common/ChangeInCalculationPill';
 import Favorite from '~sq-server-commons/components/controls/Favorite';
 import { ContainsAICodeBadge } from '~sq-server-commons/components/shared/ContainsAICodeBadge';
 import AICodeAssuranceStatus from '~sq-server-commons/components/typography/AICodeAssuranceStatus';
@@ -45,7 +46,6 @@ import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentU
 import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { isLoggedIn } from '~sq-server-commons/types/users';
-import ChangeInCalculation from '../../../../app/components/ChangeInCalculationPill';
 import { Project } from '../../types';
 import ProjectCardLanguages from './ProjectCardLanguages';
 import ProjectCardMeasures from './ProjectCardMeasures';

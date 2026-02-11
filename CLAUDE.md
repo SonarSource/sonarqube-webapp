@@ -17,6 +17,12 @@ Tests can be run and targeted to a particular directory or file like so:
 - `yarn nx run sq-server:test /path/to/tests`
 - `yarn nx run sq-cloud:test /path/to/tests`
 
+Other types of validation follow the pattern:
+
+- `yarn nx run <project-name>:<script-name> <optional-args>`
+- For example `yarn nx run sq-server-features:lint`
+- Use the `project.json` to figure out what scripts are available for which projects.
+
 When running tests, pick the most relevent platform (cloud or server) and narrowly scope the test run to the files you've modified as tests take time to run.
 
 - ALWAYS use `await selector.find()` instead of `waitfor()` when looking for a possibly not-yet-rendered selector.
@@ -54,6 +60,14 @@ When running tests, pick the most relevent platform (cloud or server) and narrow
 - If you make a new localization key, say so when you summarize your changes!
 - Do not try to update the localization file (messages.json or default.ts)
 - Do not use default messages in code. Only use a key.
+
+```ts
+// Always destructure like this
+const { formatMessage } = useIntl()
+// Never do this
+const intl = useIntl()
+intl.formatMessage(...)
+```
 
 ## React Query / TanStack Query Best Practices
 

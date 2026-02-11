@@ -21,9 +21,9 @@
 import { Badge, BadgeVariety, Popover } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { ComponentQualifier } from '~shared/types/component';
-import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
-import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { DocLink } from '../../helpers/doc-links';
+import { useStandardExperienceModeQuery } from '../../queries/mode';
+import DocumentationLink from './DocumentationLink';
 
 interface Props {
   qualifier: ComponentQualifier;

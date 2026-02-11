@@ -8696,7 +8696,7 @@ export const defaultMessages = {
   'governance.section.application.maintainability': 'Code Smells',
   'governance.section.sca': 'Dependency Risks',
   'governance.projects': 'Projects',
-  'governance.x_projects_failed': '{0} project(s) failed',
+  'governance.x_projects_failed': '{count} project(s) failed',
   'governance.x_projects_in_y': '{projectCount} project(s) in {rating}',
   'governance.and': 'and',
   'governance.has_always_been_x': 'has always been {rating}',

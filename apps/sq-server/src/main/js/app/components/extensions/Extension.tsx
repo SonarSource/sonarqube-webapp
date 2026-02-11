@@ -74,7 +74,6 @@ export const EXTENSION_PAGE_TEMPLATES: Record<string, React.ComponentType | unde
   'developer-server/application-console': ProjectPageTemplate,
   'governance/application_report': ProjectPageTemplate,
   'governance/console': ProjectPageTemplate,
-  'governance/portfolios': GlobalPageTemplate,
   'governance/report': ProjectPageTemplate,
   'governance/views_console': GlobalPageTemplate,
   'securityreport/securityreport': ProjectPageTemplate,
@@ -93,18 +92,13 @@ export const projectAdminExtensionMigratedRoutes = () =>
 
 // Generates routes for global admin extensions that use GlobalPageTemplate.
 export const globalAdminExtensionMigratedRoutes = () =>
-  Object.entries(EXTENSION_PAGE_TEMPLATES)
-    .filter(([extensionKey, template]) => {
-      // Filter out governance/portfolios as it has a custom route at /portfolios
-      return template === GlobalPageTemplate && extensionKey !== 'governance/portfolios';
-    })
-    .map(([extensionKey]) => (
-      <Route
-        element={<GlobalAdminPageExtension />}
-        key={extensionKey}
-        path={`extension/${extensionKey}`}
-      />
-    ));
+  Object.entries(EXTENSION_PAGE_TEMPLATES).map(([extensionKey]) => (
+    <Route
+      element={<GlobalAdminPageExtension />}
+      key={extensionKey}
+      path={`extension/${extensionKey}`}
+    />
+  ));
 
 class Extension extends React.PureComponent<ExtensionProps, State> {
   container?: HTMLElement | null;

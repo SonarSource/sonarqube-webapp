@@ -103,7 +103,6 @@ import {
 } from '../components/extensions/Extension';
 import GlobalAdminPageExtension from '../components/extensions/GlobalAdminPageExtension';
 import GlobalPageExtension from '../components/extensions/GlobalPageExtension';
-import PortfoliosPage from '../components/extensions/PortfoliosPage';
 import ProjectAdminPageExtension from '../components/extensions/ProjectAdminPageExtension';
 import ProjectPageExtension from '../components/extensions/ProjectPageExtension';
 import GlobalContainer from '../components/GlobalContainer';
@@ -136,7 +135,8 @@ function renderComponentRoutes({
         {codeRoutes()}
         {componentMeasuresRoutes()}
         {overviewRoutes()}
-        {hasPortfolioFeature && addons.portfolios?.routes()}
+        {hasPortfolioFeature && addons.portfolios?.componentRoutes()}
+
         {projectActivityRoutes()}
         <Route
           element={<ProjectPageExtension />}
@@ -284,8 +284,6 @@ const router = ({
                   element={<GlobalPageExtension />}
                   path="extension/:pluginKey/:extensionKey"
                 />
-
-                <Route element={<PortfoliosPage />} path="portfolios" />
               </Route>
 
               {globalIssuesRoutes()}
@@ -311,6 +309,7 @@ const router = ({
               })}
 
               {availableFeatures.includes(Feature.Sca) && addons.sca?.licenseRoutes}
+              {governanceInstalled && addons.portfolios?.globalRoutes()}
 
               {renderAdminRoutes()}
 
