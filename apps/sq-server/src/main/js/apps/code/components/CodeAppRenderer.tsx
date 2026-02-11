@@ -209,6 +209,7 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
           </Layout.ContentHeader.Description>
         )
       }
+      overrideBranchSelectorPath={getCodeUrl(component.key)}
       title={isDefined(sourceViewer) ? sourceViewer.name : defaultTitle}
       width="fluid"
     >
