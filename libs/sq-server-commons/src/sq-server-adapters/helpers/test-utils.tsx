@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { EchoesProvider } from '@sonarsource/echoes-react';
+import { EchoesProviderForTests } from '@sonarsource/echoes-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React, { ReactNode, useMemo } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
@@ -104,9 +104,9 @@ export function getContextWrapper({
         <CurrentUserContextProvider currentUser={initialCurrentUser}>
           <IntlWrapper>
             <QueryClientProvider client={queryClient}>
-              <EchoesProvider tooltipsDelayDuration={0}>
+              <EchoesProviderForTests tooltipsDelayDuration={0}>
                 {optionalContexts(providers, children)}
-              </EchoesProvider>
+              </EchoesProviderForTests>
             </QueryClientProvider>
           </IntlWrapper>
         </CurrentUserContextProvider>

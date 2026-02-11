@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { EchoesProvider } from '@sonarsource/echoes-react';
+import { EchoesProviderForTests } from '@sonarsource/echoes-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Matcher, RenderResult, render, screen, within } from '@testing-library/react';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
@@ -127,11 +127,11 @@ export function renderComponent(
               <CurrentUserContextProvider currentUser={currentUser}>
                 <AppStateContextProvider appState={appState}>
                   <MemoryRouter initialEntries={[pathname]}>
-                    <EchoesProvider tooltipsDelayDuration={0}>
+                    <EchoesProviderForTests tooltipsDelayDuration={0}>
                       <Routes>
                         <Route element={children} path="*" />
                       </Routes>
-                    </EchoesProvider>
+                    </EchoesProviderForTests>
                   </MemoryRouter>
                 </AppStateContextProvider>
               </CurrentUserContextProvider>
@@ -220,9 +220,9 @@ function renderRoutedApp(
     createRoutesFromElements(
       <Route
         element={
-          <EchoesProvider tooltipsDelayDuration={0}>
+          <EchoesProviderForTests tooltipsDelayDuration={0}>
             <Outlet />
-          </EchoesProvider>
+          </EchoesProviderForTests>
         }
       >
         {children}
