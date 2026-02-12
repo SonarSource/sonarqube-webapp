@@ -32,6 +32,7 @@ import { Extension } from '~shared/types/common';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
+import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
@@ -77,6 +78,8 @@ type Query = BranchParameters & { id: string };
 
 export function Menu(props: Readonly<Props>) {
   const { query: urlQuery } = useLocation();
+  const appState = useAppState();
+
   const { component, hasFeature, isInProgress, isPending } = props;
   const { extensions = [], canBrowseAllChildProjects, qualifier, configuration = {} } = component;
 
@@ -99,9 +102,7 @@ export function Menu(props: Readonly<Props>) {
     return hasBranches || isInProgress || isPending || component.analysisDate !== undefined;
   };
 
-  const isGovernanceEnabled = extensions.some((extension) =>
-    extension.key.startsWith('governance/'),
-  );
+  const isGovernanceEnabled = appState.qualifiers.includes(ComponentQualifier.Portfolio);
 
   const getQuery = (): Query => {
     return {

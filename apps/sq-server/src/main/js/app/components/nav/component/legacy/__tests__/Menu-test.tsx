@@ -24,9 +24,10 @@ import { ComponentQualifier } from '~shared/types/component';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
-import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { mockAppState, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { ComponentPropsType } from '~sq-server-commons/helpers/testUtils';
+import { AppState } from '~sq-server-commons/types/appstate';
 import { Feature } from '~sq-server-commons/types/features';
 import { SettingsKey } from '~sq-server-commons/types/settings';
 import { Menu } from '../Menu';
@@ -118,7 +119,7 @@ it('should collapse Measures & Activity in the more dropdown when too many links
   expect(screen.getByRole('menuitem', { name: 'ComponentFoo' })).toBeInTheDocument();
 });
 
-it('should render correctly when on a Portofolio', () => {
+it('should render correctly when on a Portfolio', () => {
   const component = {
     ...BASE_COMPONENT,
     configuration: {
@@ -134,7 +135,11 @@ it('should render correctly when on a Portofolio', () => {
       { key: 'governance/bar', name: 'governance bar' },
     ],
   };
-  renderMenu({ component });
+  renderMenu(
+    { component },
+    undefined,
+    mockAppState({ qualifiers: [ComponentQualifier.Project, ComponentQualifier.Portfolio] }),
+  );
   expect(screen.getByRole('link', { name: 'overview.page' })).toBeInTheDocument();
   expect(screen.getByRole('link', { name: 'issues.page' })).toBeInTheDocument();
   expect(screen.getByRole('link', { name: 'layout.measures' })).toBeInTheDocument();
@@ -271,7 +276,11 @@ it('should not show SCA menu if SCA is disabled', () => {
 });
 
 
-function renderMenu(props: Partial<ComponentPropsType<typeof Menu>> = {}, params?: string) {
+function renderMenu(
+  props: Partial<ComponentPropsType<typeof Menu>> = {},
+  params?: string,
+  appState?: AppState,
+) {
   const { hasFeature = jest.fn().mockReturnValue(false) } = props;
   return renderComponent(
     <Menu
@@ -282,6 +291,6 @@ function renderMenu(props: Partial<ComponentPropsType<typeof Menu>> = {}, params
       {...props}
     />,
     params ? `/?${params}` : '/',
-    { featureList: [Feature.BranchSupport], currentUser: mockLoggedInUser() },
+    { featureList: [Feature.BranchSupport], currentUser: mockLoggedInUser(), appState },
   );
 }

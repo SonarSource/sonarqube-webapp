@@ -365,7 +365,7 @@ export default function startReactApp(
 
   const el = document.getElementById('content');
   const root = createRoot(el as HTMLElement);
-  const governanceInstalled = Boolean(appState?.qualifiers.includes(ComponentQualifier.Project));
+  const governanceInstalled = Boolean(appState?.qualifiers.includes(ComponentQualifier.Portfolio));
 
   root.render(
     <HelmetProvider>
