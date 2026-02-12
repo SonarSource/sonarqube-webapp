@@ -122,6 +122,8 @@ export const SafeHTMLInjection = ({
     },
   });
 
+const safeProtocolRegex = /^(https?|mailto):/i;
+
 /**
  * Sanitizes a URL to prevent XSS attacks.
  * Only allows http, https, and mailto protocols, as well as relative and protocol-relative URLs.
@@ -153,7 +155,6 @@ export function sanitizeUrl(url: string | undefined): string {
 
   // Check for safe protocols using a case-insensitive regex
   // Only allow http, https, and mailto
-  const safeProtocolRegex = /^(https?|mailto):/i;
   if (safeProtocolRegex.test(trimmedUrl)) {
     return trimmedUrl;
   }
