@@ -1581,9 +1581,11 @@ export const defaultMessages = {
 
   'dependencies.analysis.failed': 'Dependency analysis failed',
   'dependencies.analysis.outdated': 'Latest dependency analysis attempt failed',
-  'dependencies.analysis.completed': 'There were errors in the dependency analysis',
+  'dependencies.analysis.completed': 'Results may be missing due to analysis errors',
+  'dependencies.analysis.completed_body':
+    'There may be dependency risks in your project that have not yet been detected. Please address the following errors and scan again.',
   'dependencies.analysis.callout_body':
-    'The results shown in this view may be incomplete due to errors in the dependency analysis.',
+    'A new scan may detect additional dependency risks if the analysis errors are resolved.',
   'dependencies.analysis.callout_view_errors': 'View errors',
   'dependencies.analysis.dependency_files_analyzed':
     '<highlighted>{count}</highlighted> dependency {count, plural, one {file} other {files}} were analyzed.',
