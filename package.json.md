@@ -18,6 +18,18 @@ React drag and drop library used by the editable-multigrid component for drag-an
 
 HTML5 backend for react-dnd, providing native HTML5 drag and drop support for the editable-multigrid component.
 
+### react-markdown
+
+Library to parse markdown into react components
+
+### rehype-raw
+
+Plugin to parse raw html string, into html tree. Used by react markdown
+
+### remark-gfm
+
+Plugin to support GitHub Flavoured Markdown. Used by react markdown
+
 ## devDependencies
 
 ### @cyclonedx/cdxgen

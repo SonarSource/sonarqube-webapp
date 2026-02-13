@@ -83,6 +83,46 @@ export function sanitizeHTMLRestricted(htmlAsString: string) {
   });
 }
 
+export function sanitizeHTMLMarkdown(htmlAsString: string) {
+  return dompurify.sanitize(htmlAsString, {
+    ALLOWED_TAGS: [
+      'p',
+      'a',
+      'strong',
+      'b',
+      'em',
+      'i',
+      'img',
+      'picture',
+      'source',
+      'code',
+      'pre',
+      'ul',
+      'ol',
+      'li',
+      'h1',
+      'h2',
+      'h3',
+      'h4',
+      'h5',
+      'h6',
+      'blockquote',
+      'br',
+      'hr',
+      'table',
+      'thead',
+      'tbody',
+      'tr',
+      'th',
+      'td',
+      'del',
+    ],
+    ALLOWED_ATTR: ['href', 'src', 'srcset', 'alt', 'title', 'media', 'target', 'rel', 'align'],
+    ALLOW_DATA_ATTR: false,
+    ALLOWED_URI_REGEXP: /^(?:https?|mailto):/i,
+  });
+}
+
 /**
  * Safely injects HTML into an element with no risk of XSS attacks.
  *
