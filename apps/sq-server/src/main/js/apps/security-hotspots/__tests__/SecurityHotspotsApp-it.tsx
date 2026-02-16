@@ -36,6 +36,7 @@ import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { openHotspot, probeSonarLintServers } from '~sq-server-commons/helpers/sonarlint';
 import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderAppWithComponentContext } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { SIDEBAR_NAVIGATION_USER_PREFERENCE } from '~sq-server-commons/helpers/useEnableSidebarNavigation';
 import { ComponentContextShape } from '~sq-server-commons/types/component';
 import SecurityHotspotsApp from '../SecurityHotspotsApp';
 import { SHOW_STATUS_DIALOG_STORAGE_KEY } from '../constants';
@@ -127,6 +128,9 @@ jest.mocked(save).mockImplementation((_key: string, value?: string) => {
 jest.mocked(get).mockImplementation((key) => {
   if (key === SHOW_STATUS_DIALOG_STORAGE_KEY) {
     return showDialog;
+  }
+  if (key === SIDEBAR_NAVIGATION_USER_PREFERENCE) {
+    return 'false';
   }
   return null;
 });

@@ -18,20 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Layout } from '@sonarsource/echoes-react';
-import { Outlet } from 'react-router-dom';
-import { useFlags } from '~adapters/helpers/feature-flags';
-import { AccountSidebar } from './components/AccountSidebar';
+import { useIntl } from 'react-intl';
+import { AccountPageTemplate } from '../components/AccountPageTemplate';
+import { AppearanceLayout } from './AppearanceLayout';
 
-export default function Account() {
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
-
+export function Appearance() {
+  const { formatMessage } = useIntl();
   return (
-    <>
-      {frontEndEngineeringEnableSidebarNavigation && <AccountSidebar />}
-      <Layout.ContentGrid id="account-page">
-        <Outlet />
-      </Layout.ContentGrid>
-    </>
+    <AccountPageTemplate title={formatMessage({ id: 'my_account.appearance.title' })}>
+      <AppearanceLayout />
+    </AccountPageTemplate>
   );
 }

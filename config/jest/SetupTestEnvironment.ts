@@ -25,6 +25,11 @@ import React from 'react';
 const baseUrl = '';
 (window as any).baseUrl = baseUrl;
 
+/**
+ * Set this so that tests use the old layout until we can "migrate" them (SONAR-27060)
+ */
+globalThis.localStorage.setItem('user.preferences.enable-sidebar-navigation', 'false');
+
 jest.mock('~sq-server-commons/helpers/l10n', () => ({
   ...jest.requireActual('~sq-server-commons/helpers/l10n'),
   hasMessage: () => true,

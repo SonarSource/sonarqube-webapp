@@ -20,13 +20,13 @@
 
 import useLocalStorage from '~shared/helpers/useLocalStorage';
 
-const NEW_UI_PREFERENCE = 'user.preferences.enable-sidebar-navigation';
+export const SIDEBAR_NAVIGATION_USER_PREFERENCE = 'user.preferences.enable-sidebar-navigation';
 
 /**
  * Thin wrapper around useLocalStorage to ensure we have a value and not have ot repeat the key
  */
 export function useEnableSidebarNavigation() {
-  const [value = false, setter] = useLocalStorage<boolean>(NEW_UI_PREFERENCE, false);
+  const [value = true, setter] = useLocalStorage<boolean>(SIDEBAR_NAVIGATION_USER_PREFERENCE, true);
 
   return [value, setter] as [boolean, (v: boolean) => void];
 }

@@ -4790,6 +4790,12 @@ export const defaultMessages = {
   'my_account.no_project_notifications': 'You have not set project notifications yet.',
   'my_account.profile': 'Profile',
   'my_account.security': 'Security',
+  'my_account.appearance': 'Appearance',
+  'my_account.appearance.title': 'Appearance',
+  'my_account.appearance.new_ui.title': 'New and faster UI',
+  'my_account.appearance.new_ui.description':
+    'Disable this feature to go back to the old layout. We would love to hear <link>your feedback</link> so we can make the experience better for you.',
+  'my_account.appearance.new_ui.switch_label': 'Enable the new navigation',
   'my_account.tokens_description':
     "If you want to enforce security by not providing credentials of a real {instance} user to run your code scan or to invoke web services, you can provide a User Token as a replacement of the user login. This will increase the security of your installation by not letting your analysis user's password going through your network.",
   'my_account.token_type': 'Type',

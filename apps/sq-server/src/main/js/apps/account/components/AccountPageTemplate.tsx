@@ -18,11 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import styled from '@emotion/styled';
 import { Layout } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
+import { useFlags } from '~adapters/helpers/feature-flags';
+import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { useLocation } from '~shared/components/hoc/withRouter';
+import { useCurrentLoginUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import { TopBarNewLayoutCompatible } from '~sq-server-commons/design-system/components/TopBar';
+import Nav from './Nav';
+import UserCard from './UserCard';
 
 interface Props {
   actions?: React.ReactNode;
@@ -44,34 +51,71 @@ export function AccountPageTemplate({
   const { formatMessage } = useIntl();
   const { pathname } = useLocation();
 
+  const currentUser = useCurrentLoginUser();
+
+  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
+
   const isIndex = pathname === indexPathname || pathname === `${indexPathname}/`;
+
+  const commonHeaderProps = {
+    actions,
+    breadcrumbs: isIndex ? undefined : (
+      <Layout.ContentHeader.Breadcrumbs
+        items={[
+          {
+            linkElement: formatMessage({ id: 'my_account.page' }),
+            to: indexPathname,
+          },
+          { linkElement: title, to: '#' },
+        ]}
+      />
+    ),
+    description: <Layout.ContentHeader.Description>{description}</Layout.ContentHeader.Description>,
+    title: <Layout.ContentHeader.Title>{title}</Layout.ContentHeader.Title>,
+  };
 
   return (
     <>
-      <Helmet defer={false} title={title} />
-
-      <Layout.PageHeader
-        actions={actions}
-        breadcrumbs={
-          isIndex ? undefined : (
-            <Layout.PageHeader.Breadcrumbs
-              items={[
-                {
-                  linkElement: formatMessage({ id: 'my_account.page' }),
-                  to: indexPathname,
-                },
-                { linkElement: title, to: '#' },
-              ]}
-            />
-          )
-        }
-        description={<Layout.PageHeader.Description>{description}</Layout.PageHeader.Description>}
-        title={<Layout.PageHeader.Title>{title}</Layout.PageHeader.Title>}
+      <Helmet
+        defaultTitle={formatMessage({ id: 'my_account.page' })}
+        defer={false}
+        titleTemplate={formatMessage(
+          { id: 'page_title.template.with_category' },
+          { page: formatMessage({ id: 'my_account.page' }) },
+        )}
       />
 
-      <Layout.PageContent className={pageClassName}>{children}</Layout.PageContent>
+      {frontEndEngineeringEnableSidebarNavigation ? (
+        <Layout.ContentHeader {...commonHeaderProps} hasDivider />
+      ) : (
+        <ContentHeader>
+          <TopBarNewLayoutCompatible>
+            <div className="sw-flex sw-items-center sw-gap-2 sw-pb-4">
+              <UserCard user={currentUser} />
+            </div>
 
-      <GlobalFooter />
+            <Nav />
+          </TopBarNewLayoutCompatible>
+        </ContentHeader>
+      )}
+
+      <A11ySkipTarget anchor="account_main" />
+
+      <Layout.PageGrid width="default">
+        <Helmet defer={false} title={title} />
+
+        {!frontEndEngineeringEnableSidebarNavigation && (
+          <Layout.PageHeader {...commonHeaderProps} />
+        )}
+
+        <Layout.PageContent className={pageClassName}>{children}</Layout.PageContent>
+
+        <GlobalFooter />
+      </Layout.PageGrid>
     </>
   );
 }
+
+const ContentHeader = styled.div`
+  grid-area: content-header;
+`;

@@ -20,6 +20,7 @@
 
 import {
   IconBell,
+  IconGear,
   IconPeople,
   IconProject,
   IconSecurityFinding,
@@ -54,6 +55,10 @@ export function AccountSidebar() {
 
         <Layout.SidebarNavigation.Item Icon={IconProject} to="/account/projects">
           <FormattedMessage id="my_account.projects" />
+        </Layout.SidebarNavigation.Item>
+
+        <Layout.SidebarNavigation.Item Icon={IconGear} to="/account/appearance">
+          <FormattedMessage id="my_account.appearance" />
         </Layout.SidebarNavigation.Item>
       </Layout.SidebarNavigation.Body>
     </Layout.SidebarNavigation>

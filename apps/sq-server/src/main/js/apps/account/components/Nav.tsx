@@ -18,16 +18,28 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useIntl } from 'react-intl';
 import { NavBarTabLink, NavBarTabs } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 
 export default function Nav() {
+  const { formatMessage } = useIntl();
   return (
     <NavBarTabs className="it__account-nav">
-      <NavBarTabLink end text={translate('my_account.profile')} to="/account" />
-      <NavBarTabLink text={translate('my_account.security')} to="/account/security" />
-      <NavBarTabLink text={translate('my_account.notifications')} to="/account/notifications" />
-      <NavBarTabLink text={translate('my_account.projects')} to="/account/projects" />
+      <NavBarTabLink end text={formatMessage({ id: 'my_account.profile' })} to="/account" />
+
+      <NavBarTabLink text={formatMessage({ id: 'my_account.security' })} to="/account/security" />
+
+      <NavBarTabLink
+        text={formatMessage({ id: 'my_account.notifications' })}
+        to="/account/notifications"
+      />
+
+      <NavBarTabLink text={formatMessage({ id: 'my_account.projects' })} to="/account/projects" />
+
+      <NavBarTabLink
+        text={formatMessage({ id: 'my_account.appearance' })}
+        to="/account/appearance"
+      />
     </NavBarTabs>
   );
 }
