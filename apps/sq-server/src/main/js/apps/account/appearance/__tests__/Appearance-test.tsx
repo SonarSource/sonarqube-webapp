@@ -24,6 +24,7 @@ import { get, save } from '~shared/helpers/storage';
 import { byLabelText } from '~shared/helpers/testSelector';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { SIDEBAR_NAVIGATION_USER_PREFERENCE } from '~sq-server-commons/helpers/useEnableSidebarNavigation';
+import { NEW_NAVIGATION_PROMOTION_DISMISSED_KEY } from '../../../../app/components/promotion-notification/NewNavigationPromotionNotification';
 import { Appearance } from '../Appearance';
 
 jest.mock('~shared/helpers/storage', () => ({
@@ -48,6 +49,7 @@ describe('AppearanceLayout', () => {
     await user.click(switchInput);
 
     expect(save).toHaveBeenCalledWith(SIDEBAR_NAVIGATION_USER_PREFERENCE, 'false');
+    expect(save).toHaveBeenCalledWith(NEW_NAVIGATION_PROMOTION_DISMISSED_KEY, 'true');
   });
 
   it('should be initialized to the saved value, and should allow switching', async () => {

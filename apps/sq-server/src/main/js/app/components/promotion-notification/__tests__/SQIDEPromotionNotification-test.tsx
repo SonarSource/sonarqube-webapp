@@ -24,7 +24,7 @@ import { dismissNotice } from '~sq-server-commons/api/users';
 import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { CurrentUser, NoticeType } from '~sq-server-commons/types/users';
-import PromotionNotification from '../PromotionNotification';
+import { SQIDEPromotionNotification } from '../SQIDEPromotionNotification';
 
 jest.mock('~sq-server-commons/api/users', () => ({
   dismissNotice: jest.fn().mockResolvedValue(undefined),
@@ -33,7 +33,7 @@ jest.mock('~sq-server-commons/api/users', () => ({
 it('should not render when anonymous', () => {
   renderPromotionNotification(mockCurrentUser({ isLoggedIn: false }));
 
-  expect(byText('promotion.sonarlint.title').query()).not.toBeInTheDocument();
+  expect(byText('promotion.sqide.title').query()).not.toBeInTheDocument();
 });
 
 it('should not render if previously dismissed', () => {
@@ -41,7 +41,7 @@ it('should not render if previously dismissed', () => {
     mockLoggedInUser({ dismissedNotices: { [NoticeType.SONARLINT_AD]: true } }),
   );
 
-  expect(byText('promotion.sonarlint.title').query()).not.toBeInTheDocument();
+  expect(byText('promotion.sqide.title').query()).not.toBeInTheDocument();
 });
 
 it('should be dismissable', async () => {
@@ -49,7 +49,7 @@ it('should be dismissable', async () => {
 
   renderPromotionNotification();
 
-  expect(byText('promotion.sonarlint.title').get()).toBeInTheDocument();
+  expect(byText('promotion.sqide.title').get()).toBeInTheDocument();
   const dismissButton = byRole('button', { name: 'dismiss' }).get();
 
   expect(dismissButton).toBeInTheDocument();
@@ -59,7 +59,7 @@ it('should be dismissable', async () => {
 });
 
 function renderPromotionNotification(currentUser: CurrentUser = mockLoggedInUser()) {
-  return renderComponent(<PromotionNotification />, '', {
+  return renderComponent(<SQIDEPromotionNotification />, '', {
     currentUser,
   });
 }

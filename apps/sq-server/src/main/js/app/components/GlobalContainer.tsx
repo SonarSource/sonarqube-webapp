@@ -33,7 +33,7 @@ import SystemAnnouncement from './SystemAnnouncement';
 import EnableAiCodeFixMessage from './ai-codefix-notification/EnableAiCodeFixMessage';
 import CalculationChangeMessage from './calculation-notification/CalculationChangeMessage';
 import { GlobalNav } from './nav/global/GlobalNav';
-import PromotionNotification from './promotion-notification/PromotionNotification';
+import { PromotionNotificationManager } from './promotion-notification/PromotionNotificationManager';
 import { UpdateNotification } from './update-notification/UpdateNotification';
 
 const StartupLicenseCheckBanner = addons.license?.StartupLicenseCheckBanner || (() => undefined);
@@ -60,7 +60,8 @@ export default function GlobalContainer() {
         {hasFeature(Feature.FromSonarQubeUpdate) && addons.issueSandbox?.SandboxIssuesIntro && (
           <addons.issueSandbox.SandboxIssuesIntro />
         )}
-        <PromotionNotification />
+
+        <PromotionNotificationManager />
       </Workspace>
     </MetricsContextProvider>
   );

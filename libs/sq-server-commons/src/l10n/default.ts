@@ -5789,9 +5789,15 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
-  'promotion.sonarlint.title': 'Get the most out of {productName}!',
-  'promotion.sonarlint.content':
+  'promotion.sqide.title': 'Get the most out of {productName}!',
+  'promotion.sqide.content':
     'Take advantage of the whole ecosystem by using SonarQube for IDE, a free IDE plugin that helps you find and fix issues earlier in your workflow. Connect SonarQube for IDE to {productName} to sync rule sets and issue states.',
+  'promotion.new_navigation.title': 'Introducing new, faster UI',
+  'promotion.new_navigation.content':
+    "You're now beta testing our new UI. You can switch back and/or leave feedback in My account > Appearance.",
+  'promotion.new_navigation.got_it': 'Got it',
+  'promotion.new_navigation.go_to_appearance': 'Go to Appearance',
+  'promotion.new_navigation.illustration_alt': 'New sidebar navigation preview',
 
   //------------------------------------------------------------------------------
   //

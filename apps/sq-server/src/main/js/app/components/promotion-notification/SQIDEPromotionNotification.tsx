@@ -20,20 +20,18 @@
 
 import styled from '@emotion/styled';
 import { Button, Text, Theme, ThemeProvider } from '@sonarsource/echoes-react';
-import * as React from 'react';
+import { useCallback, useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { themeBorder, themeColor } from '~design-system';
 import { dismissNotice } from '~sq-server-commons/api/users';
 import { SonarQubeIDEPromotionIllustration } from '~sq-server-commons/components/branding/SonarQubeIDEPromotionIllustration';
-import { CurrentUserContextInterface } from '~sq-server-commons/context/current-user/CurrentUserContext';
-import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { isLoggedIn, NoticeType } from '~sq-server-commons/types/users';
 
-export function PromotionNotification(props: CurrentUserContextInterface) {
-  const { currentUser, updateDismissedNotices } = props;
+export function SQIDEPromotionNotification() {
+  const { currentUser, updateDismissedNotices } = useContext(CurrentUserContext);
 
-  const onClick = React.useCallback(() => {
+  const onClick = useCallback(() => {
     return dismissNotice(NoticeType.SONARLINT_AD)
       .then(() => {
         updateDismissedNotices(NoticeType.SONARLINT_AD, true);
@@ -53,12 +51,17 @@ export function PromotionNotification(props: CurrentUserContextInterface) {
         <div className="sw-mr-2">
           <SonarQubeIDEPromotionIllustration />
         </div>
+
         <PromotionNotificationContent className="sw-flex-1 sw-px-2 sw-py-4">
-          <Text isHighlighted>{translate('promotion.sonarlint.title')}</Text>
+          <Text isHighlighted>
+            <FormattedMessage id="promotion.sqide.title" />
+          </Text>
+
           <Text as="p" className="sw-mt-2">
-            {translate('promotion.sonarlint.content')}
+            <FormattedMessage id="promotion.sqide.content" />
           </Text>
         </PromotionNotificationContent>
+
         <div className="sw-ml-2 sw-pl-2 sw-flex sw-flex-col sw-items-stretch">
           <Button
             className="sw-mb-4"
@@ -69,6 +72,7 @@ export function PromotionNotification(props: CurrentUserContextInterface) {
           >
             <FormattedMessage id="learn_more" />
           </Button>
+
           <Button className="sw-justify-center" onClick={onClick}>
             <FormattedMessage id="dismiss" />
           </Button>
@@ -78,14 +82,12 @@ export function PromotionNotification(props: CurrentUserContextInterface) {
   );
 }
 
-export default withCurrentUserContext(PromotionNotification);
-
 const PromotionNotificationWrapper = styled.div`
+  bottom: 10px;
+  box-shadow: 1px 1px 5px 0px black;
+  max-width: 600px;
   position: fixed;
   right: 10px;
-  bottom: 10px;
-  max-width: 600px;
-  box-shadow: 1px 1px 5px 0px black;
 
   background: ${themeColor('promotionNotificationBackground')};
   color: ${themeColor('promotionNotification')};

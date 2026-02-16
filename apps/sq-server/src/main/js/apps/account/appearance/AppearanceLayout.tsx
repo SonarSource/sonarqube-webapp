@@ -19,10 +19,13 @@
  */
 
 import { Heading, Label, Link, Text } from '@sonarsource/echoes-react';
+import { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Switch } from '~adapters/components/common/Switch';
 import { BetaBadge } from '~shared/components/badges/BetaBadge';
+import useLocalStorage from '~shared/helpers/useLocalStorage';
 import { useEnableSidebarNavigation } from '~sq-server-commons/helpers/useEnableSidebarNavigation';
+import { NEW_NAVIGATION_PROMOTION_DISMISSED_KEY } from '../../../app/components/promotion-notification/NewNavigationPromotionNotification';
 
 const SWITCH_ID = 'SIDEBAR_NAVIGATION_SETTING_SWITCH_ID';
 
@@ -32,6 +35,15 @@ interface Props {
 
 export function AppearanceLayout({ className }: Readonly<Props>) {
   const [enableSidebarNavigation, setEnableSidebarNavigation] = useEnableSidebarNavigation();
+  const [, setPromotionDismissed] = useLocalStorage(NEW_NAVIGATION_PROMOTION_DISMISSED_KEY, false);
+
+  const handleToggle = useCallback(
+    (enabled: boolean) => {
+      setEnableSidebarNavigation(enabled);
+      setPromotionDismissed(true);
+    },
+    [setEnableSidebarNavigation, setPromotionDismissed],
+  );
 
   return (
     <div className={className}>
@@ -58,11 +70,8 @@ export function AppearanceLayout({ className }: Readonly<Props>) {
       </Text>
 
       <div className="sw-mt-6 sw-flex sw-items-center sw-gap-3">
-        <Switch
-          id={SWITCH_ID}
-          onChange={setEnableSidebarNavigation}
-          value={enableSidebarNavigation}
-        />
+        <Switch id={SWITCH_ID} onChange={handleToggle} value={enableSidebarNavigation} />
+
         <Label htmlFor={SWITCH_ID}>
           <FormattedMessage id="my_account.appearance.new_ui.switch_label" />
         </Label>
