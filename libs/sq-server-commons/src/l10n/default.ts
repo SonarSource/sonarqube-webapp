@@ -2051,6 +2051,16 @@ export const defaultMessages = {
   'architecture.page': 'Architecture',
   'architecture.page.discovery': 'Current architecture',
   'architecture.page.model.visual.title': 'Intended architecture',
+  'architecture.page.model.visual.legend': 'Legend',
+  'architecture.page.model.visual.legend.title': 'How to read the map',
+  'architecture.page.model.visual.legend.bullet.1':
+    'Classes/files are recursively grouped within their packages/folders/modules',
+  'architecture.page.model.visual.legend.bullet.2':
+    "The element's size and position represent the structure of the project (topology)",
+  'architecture.page.model.visual.legend.bullet.3':
+    'Elements are ordered left to right according to their relationships',
+  'architecture.page.model.visual.legend.bullet.4':
+    'Elements in one column have no relationships among themselves',
   'architecture.page.model.visual.new_group': 'New Group',
   'architecture.page.model.visual.sidebar.title': 'Source Nodes',
   'architecture.page.model.visual.sidebar.description': 'Drag nodes to create groups in the model',
