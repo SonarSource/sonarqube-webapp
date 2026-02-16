@@ -26,11 +26,14 @@ import { IntlProvider, ReactIntlErrorCode } from 'react-intl';
 import { AnalysisContext } from '~shared/context/AnalysisContext';
 import { optionalContexts } from '~shared/helpers/context';
 import { isDefined } from '~shared/helpers/types';
+import { BaseAppState } from '~shared/types/appstate';
 import { LightComponent } from '~shared/types/component';
+import { AppStateContext } from '../../context/app-state/AppStateContext';
 import { AvailableFeaturesContext } from '../../context/available-features/AvailableFeaturesContext';
 import { ComponentContext } from '../../context/componentContext/ComponentContext';
 import CurrentUserContextProvider from '../../context/current-user/CurrentUserContextProvider';
 import { mockComponent } from '../../helpers/mocks/component';
+import { mockAppState } from '../../helpers/testMocks';
 import { Feature } from '../../types/features';
 import { CurrentUser } from '../../types/users';
 
@@ -38,16 +41,18 @@ export { ComponentContext } from '../../context/componentContext/ComponentContex
 
 export interface ContextWrapperInitProps {
   analysisContext?: { branchId: string; organizationId?: string; organizationKey?: string };
+  appState?: Partial<BaseAppState>;
   availableFeatures?: string[];
   componentContext?: { component: LightComponent };
   initialCurrentUser?: CurrentUser;
 }
 
 export function getContextWrapper({
-  initialCurrentUser = undefined,
-  componentContext = undefined,
   analysisContext = undefined,
+  appState = undefined,
   availableFeatures = [],
+  componentContext = undefined,
+  initialCurrentUser = undefined,
 }: ContextWrapperInitProps = {}) {
   return function ContextWrapper({ children }: React.PropsWithChildren<object>) {
     const queryClient = new QueryClient({
@@ -96,6 +101,11 @@ export function getContextWrapper({
         provider: AvailableFeaturesContext.Provider,
         value: useMemo(() => availableFeatures, []),
         enabled: isDefined(availableFeatures) && availableFeatures.length > 0,
+      },
+      {
+        provider: AppStateContext.Provider,
+        value: useMemo(() => mockAppState(appState), []),
+        enabled: isDefined(appState),
       },
     ];
 

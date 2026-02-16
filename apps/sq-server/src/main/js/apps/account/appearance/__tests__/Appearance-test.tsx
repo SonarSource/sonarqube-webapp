@@ -18,12 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { mockLoggedInUser } from '~shared/helpers/mocks/users';
 import { get, save } from '~shared/helpers/storage';
 import { byLabelText } from '~shared/helpers/testSelector';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { SIDEBAR_NAVIGATION_USER_PREFERENCE } from '~sq-server-commons/helpers/useEnableSidebarNavigation';
+import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import { NEW_NAVIGATION_PROMOTION_DISMISSED_KEY } from '../../../../app/components/promotion-notification/NewNavigationPromotionNotification';
 import { Appearance } from '../Appearance';
 
@@ -64,5 +67,18 @@ describe('AppearanceLayout', () => {
     await user.click(switchInput);
 
     expect(save).toHaveBeenCalledWith(SIDEBAR_NAVIGATION_USER_PREFERENCE, 'true');
+    expect(save).toHaveBeenCalledWith(NEW_NAVIGATION_PROMOTION_DISMISSED_KEY, 'true');
+  });
+
+  it('should render NotFound when old navigation is forced by admin', () => {
+    renderComponent(<Appearance />, '/', {
+      appState: mockAppState({
+        settings: { [GlobalSettingKeys.ForceOldNavigation]: 'true' },
+      }),
+
+      currentUser: mockLoggedInUser(),
+    });
+
+    expect(screen.getByText('page_not_found')).toBeInTheDocument();
   });
 });

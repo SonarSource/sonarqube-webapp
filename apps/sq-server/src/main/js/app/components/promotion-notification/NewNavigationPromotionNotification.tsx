@@ -35,6 +35,7 @@ import { useLocation } from 'react-router-dom';
 import { useFlags } from '~adapters/helpers/feature-flags';
 import { BetaBadge } from '~shared/components/badges/BetaBadge';
 import useLocalStorage from '~shared/helpers/useLocalStorage';
+import { useIsOldNavigationForced } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { NewSidebarIllustration } from './NewSidebarIllustration';
 
 export const NEW_NAVIGATION_PROMOTION_DISMISSED_KEY =
@@ -52,6 +53,7 @@ export function NewNavigationPromotionNotification() {
   );
 
   const [isDismissedTemporarily, setIsDismissedTemporarily] = useState(false);
+  const isOldNavigationForced = useIsOldNavigationForced();
 
   const onDismiss = useCallback(() => {
     setIsDismissedPermanently(true);
@@ -62,6 +64,7 @@ export function NewNavigationPromotionNotification() {
   }, []);
 
   if (
+    isOldNavigationForced ||
     !frontEndEngineeringEnableSidebarNavigation ||
     isDismissedPermanently ||
     isDismissedTemporarily ||

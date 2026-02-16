@@ -19,14 +19,24 @@
  */
 
 import useLocalStorage from '~shared/helpers/useLocalStorage';
+import { useIsOldNavigationForced } from '../context/app-state/withAppStateContext';
 
 export const SIDEBAR_NAVIGATION_USER_PREFERENCE = 'user.preferences.enable-sidebar-navigation';
 
 /**
- * Thin wrapper around useLocalStorage to ensure we have a value and not have ot repeat the key
+ * Returns whether the sidebar navigation should be enabled, taking into account both the user's
+ * preference and whether the admin has forced the old navigation via app state settings.
  */
 export function useEnableSidebarNavigation() {
-  const [value = true, setter] = useLocalStorage<boolean>(SIDEBAR_NAVIGATION_USER_PREFERENCE, true);
+  const [userPreference = true, setter] = useLocalStorage<boolean>(
+    SIDEBAR_NAVIGATION_USER_PREFERENCE,
+    true,
+  );
 
-  return [value, setter] as [boolean, (v: boolean) => void];
+  const isOldNavigationForced = useIsOldNavigationForced();
+
+  // If admin forces old navigation, always use old navigation regardless of user preference
+  const effectiveValue = isOldNavigationForced ? false : userPreference;
+
+  return [effectiveValue, setter] as [boolean, (v: boolean) => void];
 }

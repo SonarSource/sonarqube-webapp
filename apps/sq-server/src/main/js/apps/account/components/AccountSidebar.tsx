@@ -28,10 +28,12 @@ import {
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import Avatar from '~adapters/components/ui/Avatar';
+import { useIsOldNavigationForced } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useCurrentLoginUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
 
 export function AccountSidebar() {
   const user = useCurrentLoginUser();
+  const isOldNavigationForced = useIsOldNavigationForced();
 
   return (
     <Layout.SidebarNavigation>
@@ -57,9 +59,11 @@ export function AccountSidebar() {
           <FormattedMessage id="my_account.projects" />
         </Layout.SidebarNavigation.Item>
 
-        <Layout.SidebarNavigation.Item Icon={IconGear} to="/account/appearance">
-          <FormattedMessage id="my_account.appearance" />
-        </Layout.SidebarNavigation.Item>
+        {!isOldNavigationForced && (
+          <Layout.SidebarNavigation.Item Icon={IconGear} to="/account/appearance">
+            <FormattedMessage id="my_account.appearance" />
+          </Layout.SidebarNavigation.Item>
+        )}
       </Layout.SidebarNavigation.Body>
     </Layout.SidebarNavigation>
   );

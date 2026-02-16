@@ -18,23 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useIntl } from 'react-intl';
-import NotFound from '~shared/components/NotFound';
-import { useIsOldNavigationForced } from '~sq-server-commons/context/app-state/withAppStateContext';
-import { AccountPageTemplate } from '../components/AccountPageTemplate';
-import { AppearanceLayout } from './AppearanceLayout';
-
-export function Appearance() {
-  const { formatMessage } = useIntl();
-  const isOldNavigationForced = useIsOldNavigationForced();
-
-  if (isOldNavigationForced) {
-    return <NotFound />;
-  }
-
-  return (
-    <AccountPageTemplate title={formatMessage({ id: 'my_account.appearance.title' })}>
-      <AppearanceLayout />
-    </AccountPageTemplate>
-  );
+export interface BaseAppState {
+  settings: Record<string, string | undefined>;
 }

@@ -18,11 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { BaseAppState } from '~shared/types/appstate';
 import { Extension } from '~shared/types/common';
 import { EditionKey } from './editions';
 import { GlobalSettingKeys } from './settings';
 
-export interface AppState {
+export interface AppState extends BaseAppState {
   authenticationError?: boolean;
   authorizationError?: boolean;
   canAdmin?: boolean;

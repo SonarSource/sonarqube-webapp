@@ -44,17 +44,18 @@ export const enum SettingsKey {
 }
 
 export enum GlobalSettingKeys {
+  AnnouncementHTMLMessage = 'sonar.announcement.htmlMessage',
+  AnnouncementMessage = 'sonar.announcement.message',
+  DeveloperAggregatedInfoDisabled = 'sonar.developerAggregatedInfo.disabled',
+  DisplayAnnouncementMessage = 'sonar.announcement.displayMessage',
+  EnableGravatar = 'sonar.lf.enableGravatar',
+  ForceOldNavigation = 'sonar.ui.forceOldNavigation',
+  GravatarServerUrl = 'sonar.lf.gravatarServerUrl',
   LogoUrl = 'sonar.lf.logoUrl',
   LogoWidth = 'sonar.lf.logoWidthPx',
-  EnableGravatar = 'sonar.lf.enableGravatar',
-  GravatarServerUrl = 'sonar.lf.gravatarServerUrl',
-  RatingGrid = 'sonar.technicalDebt.ratingGrid',
-  DeveloperAggregatedInfoDisabled = 'sonar.developerAggregatedInfo.disabled',
-  UpdatecenterActivated = 'sonar.updatecenter.activate',
-  DisplayAnnouncementMessage = 'sonar.announcement.displayMessage',
-  AnnouncementMessage = 'sonar.announcement.message',
-  AnnouncementHTMLMessage = 'sonar.announcement.htmlMessage',
   MainBranchName = 'sonar.projectCreation.mainBranchName',
+  RatingGrid = 'sonar.technicalDebt.ratingGrid',
+  UpdatecenterActivated = 'sonar.updatecenter.activate',
 }
 
 export const DEPRECATED_SETTINGS_KEYS: SettingsKey[] = [SettingsKey.AutodetectAICode];

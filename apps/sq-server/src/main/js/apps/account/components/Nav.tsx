@@ -20,9 +20,12 @@
 
 import { useIntl } from 'react-intl';
 import { NavBarTabLink, NavBarTabs } from '~design-system';
+import { useIsOldNavigationForced } from '~sq-server-commons/context/app-state/withAppStateContext';
 
 export default function Nav() {
   const { formatMessage } = useIntl();
+  const isOldNavigationForced = useIsOldNavigationForced();
+
   return (
     <NavBarTabs className="it__account-nav">
       <NavBarTabLink end text={formatMessage({ id: 'my_account.profile' })} to="/account" />
@@ -36,10 +39,12 @@ export default function Nav() {
 
       <NavBarTabLink text={formatMessage({ id: 'my_account.projects' })} to="/account/projects" />
 
-      <NavBarTabLink
-        text={formatMessage({ id: 'my_account.appearance' })}
-        to="/account/appearance"
-      />
+      {!isOldNavigationForced && (
+        <NavBarTabLink
+          text={formatMessage({ id: 'my_account.appearance' })}
+          to="/account/appearance"
+        />
+      )}
     </NavBarTabs>
   );
 }

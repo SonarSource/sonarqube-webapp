@@ -21,6 +21,7 @@
 import userEvent from '@testing-library/user-event';
 import { useFlags } from '~adapters/helpers/feature-flags';
 import { byRole, byText } from '~shared/helpers/testSelector';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import {
   NEW_NAVIGATION_PROMOTION_DISMISSED_KEY,
@@ -113,6 +114,14 @@ it('should not render when on account appearance page', () => {
   expect(byText('promotion.new_navigation.title').query()).not.toBeInTheDocument();
 });
 
-function renderNewNavigationPromotionNotification(path = '/') {
-  return renderComponent(<NewNavigationPromotionNotification />, path);
+it('should not render when force old navigation is set', () => {
+  renderNewNavigationPromotionNotification('/', {
+    appState: mockAppState({ settings: { 'sonar.ui.forceOldNavigation': 'true' } }),
+  });
+
+  expect(byText('promotion.new_navigation.title').query()).not.toBeInTheDocument();
+});
+
+function renderNewNavigationPromotionNotification(path = '/', context = {}) {
+  return renderComponent(<NewNavigationPromotionNotification />, path, context);
 }
