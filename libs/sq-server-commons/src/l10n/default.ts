@@ -238,8 +238,8 @@ export const defaultMessages = {
   projects_management: 'Projects Management',
   'pull_request.small': 'pull request',
   pull_requests: 'Pull Requests',
-  quality_gate: 'Quality Gate',
-  quality_profile: 'Quality Profile',
+  quality_gate: 'Quality gate',
+  quality_profile: 'Quality profile',
   raw: 'Raw',
   recent_history: 'Recent History',
   recently_browsed: 'Recently Browsed',
@@ -677,12 +677,12 @@ export const defaultMessages = {
   'layout.measures': 'Measures',
   'layout.settings': 'Administration',
   'layout.architecture': 'Architecture',
-  'layout.security_hotspots': 'Security Hotspots',
-  'layout.settings.TRK': 'Project Settings',
-  'layout.settings.APP': 'Application Settings',
-  'layout.settings.VW': 'Portfolio Settings',
-  'layout.settings.SVW': 'Portfolio Settings',
-  'layout.security_reports': 'Security Reports',
+  'layout.security_hotspots': 'Security hotspots',
+  'layout.settings.TRK': 'Project settings',
+  'layout.settings.APP': 'Application settings',
+  'layout.settings.VW': 'Portfolio settings',
+  'layout.settings.SVW': 'Portfolio settings',
+  'layout.security_reports': 'Security reports',
   'layout.nav.home_logo_alt': 'Logo, link to homepage',
   'layout.nav.home_sonarqube_logo_alt': '{productName} logo, link to homepage',
   'layout.must_be_configured':
@@ -764,7 +764,7 @@ export const defaultMessages = {
   'settings.page.description': 'Edit global settings for this {instance} instance.',
   'system_info.page': 'System Info',
 
-  'project_quality_gate.page': 'Quality Gate',
+  'project_quality_gate.page': 'Quality gate',
   'project_quality_gate.page.description':
     'Choose which quality gate is associated with this project.',
 
@@ -894,8 +894,8 @@ export const defaultMessages = {
   'overview.page': 'Overview',
   'code.page': 'Code',
   'permissions.page': 'Permissions',
-  'quality_profiles.page': 'Quality Profiles',
-  'quality_gates.page': 'Quality Gates',
+  'quality_profiles.page': 'Quality profiles',
+  'quality_gates.page': 'Quality gates',
   'issues.page': 'Issues',
   'issues.skip_to_filters': 'Skip to issue filters',
   'issues.skip_to_list': 'Skip to issues list',
@@ -1812,7 +1812,7 @@ export const defaultMessages = {
   'dependencies.risks.type.vulnerability': 'Vulnerability',
   'dependencies.risks.type.malware': 'Malicious package',
   'dependencies.risk': 'Dependency Risk',
-  'dependencies.risks': 'Dependency Risks',
+  'dependencies.risks': 'Dependency risks',
   'dependencies.risks.reachability': 'Reachability',
   'dependencies.risks.reachable': 'Reachable',
   'dependencies.risks.empty_state.title':
@@ -1940,7 +1940,7 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
-  'sca.licenses.page': 'License Profiles',
+  'sca.licenses.page': 'License profiles',
   'sca.licenses.page.intro':
     'A license profile is a collection of policies that define which licenses are allowed or prohibited for the dependencies used by your projects. If a dependency with a prohibited license is found during an analysis, it will be identified as a dependency risk. For more details see the documentation for {docsLink}.',
   'sca.licenses.page.no_profiles.title':
@@ -5746,8 +5746,8 @@ export const defaultMessages = {
   // PERMISSION TEMPLATES
   //
   //------------------------------------------------------------------------------
-  permission_templates: 'Permission Templates',
-  'permission_templates.page': 'Permission Templates',
+  permission_templates: 'Permission templates',
+  'permission_templates.page': 'Permission templates',
   'permission_templates.page.description':
     '<link>Manage templates</link> of project permission sets. The default template will be applied to all new projects.',
   'permission_templates.search_placeholder': 'Search for templates...',
