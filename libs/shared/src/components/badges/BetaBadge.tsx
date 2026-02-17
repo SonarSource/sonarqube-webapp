@@ -22,7 +22,7 @@ import { Badge, BadgeProps, BadgeVariety } from '@sonarsource/echoes-react';
 import { forwardRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 
-type Props = Readonly<Pick<BadgeProps, 'className' | 'isInteractive' | 'size'>>;
+type Props = Readonly<Pick<BadgeProps, 'className' | 'isInteractive' | 'isHighContrast' | 'size'>>;
 
 export const BetaBadge = forwardRef<HTMLButtonElement, Props>((props, ref) => {
   return (
