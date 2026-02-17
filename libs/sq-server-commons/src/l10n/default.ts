@@ -2058,6 +2058,8 @@ export const defaultMessages = {
   'architecture.project_too_big.body': "This project is too big and can't be displayed.",
   'architecture.page': 'Architecture',
   'architecture.page.discovery': 'Current architecture',
+  'architecture.page.discovery.copy_component_path_to_clipboard':
+    'Copy the component path to the clipboard',
   'architecture.page.model.visual.title': 'Intended architecture',
   'architecture.page.model.visual.legend': 'Legend',
   'architecture.page.model.visual.legend.title': 'How to read the map',
