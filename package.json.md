@@ -30,6 +30,10 @@ Plugin to parse raw html string, into html tree. Used by react markdown
 
 Plugin to support GitHub Flavoured Markdown. Used by react markdown
 
+### valibot
+
+Schema validation library used by sq-cloud to validate dashboard and widget configuration (e.g. project dashboard layout and widget props) with TypeScript enum support and proper type inference.
+
 ## devDependencies
 
 ### @cyclonedx/cdxgen
