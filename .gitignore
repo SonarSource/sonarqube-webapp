@@ -207,3 +207,4 @@ CLAUDE.local.md
 
 # SonarQube LLM code context files
 .sonar-code-context/
+.serena/
