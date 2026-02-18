@@ -20,14 +20,14 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deletePortfolio } from '../api/project-management';
-import { invalidateMeasuresByComponentKey } from './measures';
+import { removeMeasuresByComponentKey } from './measures';
 
 export function useDeletePortfolioMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (key: string) => deletePortfolio(key),
     onSuccess: (_, key) => {
-      invalidateMeasuresByComponentKey(key, queryClient);
+      removeMeasuresByComponentKey(key, queryClient);
     },
   });
 }
