@@ -23,6 +23,7 @@ import { useCallback, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ChevronDownIcon, Dropdown, ItemDownload } from '~design-system';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
+import { PopupZLevel } from '~sq-server-commons/design-system/helpers/positioning';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { getFileNameSuffix } from '../utils';
@@ -118,6 +119,7 @@ export default function PageActions(props: Props) {
             </ItemDownload>
           </>
         }
+        zLevel={PopupZLevel.Global}
       >
         <Button variety={ButtonVariety.Primary}>
           <FormattedMessage id="system.download_logs" />
