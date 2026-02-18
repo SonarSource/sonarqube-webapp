@@ -392,6 +392,8 @@ describe('#isRelativeUrl', () => {
     expect(isRelativeUrl('javascript:alert("test")')).toBe(false);
     expect(isRelativeUrl('\\test')).toBe(false);
     expect(isRelativeUrl('//test')).toBe(false);
+    expect(isRelativeUrl('/\t/attacker.com')).toBe(false);
+    expect(isRelativeUrl('/\n/attacker.com')).toBe(false);
   });
 });
 
