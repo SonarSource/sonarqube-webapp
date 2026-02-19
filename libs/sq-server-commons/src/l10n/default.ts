@@ -731,7 +731,7 @@ export const defaultMessages = {
 
   'coding_rules.page': 'Rules',
   'coding_rule.page': '{0} rule: {1}',
-  'global_permissions.page': 'Global Permissions',
+  'global_permissions.page': 'Global permissions',
   'global_permissions.page.description':
     'Grant and revoke permissions to make changes at the global level. These permissions include editing Quality Profiles, executing analysis, and performing global system administration.',
   'roles.page': 'Project Permissions',
@@ -754,21 +754,21 @@ export const defaultMessages = {
   'project_permission.remove_only_confirmation':
     'Are you sure you want to remove the permission {permission} from {holder}? The permission can not be added back.',
   'project_permission.remove_only_confirmation_title': 'Remove permission',
-  'project_settings.page': 'General Settings',
+  'project_settings.page': 'General settings',
   'project_settings.page.description': 'Edit project settings.',
   'project_links.page': 'Links',
   'project_links.page.description': 'Edit some links associated with this project.',
   'projects_management.page.description':
     'Use this page to delete multiple projects at once, or to provision projects if you would like to configure them before the first analysis. Note that once a project is provisioned, you have access to perform all project configurations on it.',
-  'settings.page': 'General Settings',
+  'settings.page': 'General settings',
   'settings.page.description': 'Edit global settings for this {instance} instance.',
-  'system_info.page': 'System Info',
+  'system_info.page': 'System info',
 
   'project_quality_gate.page': 'Quality gate',
   'project_quality_gate.page.description':
     'Choose which quality gate is associated with this project.',
 
-  'update_key.page': 'Update Key',
+  'update_key.page': 'Update key',
   'update_key.page.description':
     'Edit the key of a project. Key changes must be made here BEFORE analyzing the project with the new keys, otherwise the analysis will simply create another project with the new key, rather than updating the existing project.',
   'deletion.page': 'Deletion',
@@ -812,7 +812,7 @@ export const defaultMessages = {
   'project_branch_pull_request.table.pull_request': 'Pull Request',
   'project_branch_pull_request.last_analysis_date': 'Last Analysis Date',
 
-  'project_baseline.page': 'New Code',
+  'project_baseline.page': 'New code',
   'project_baseline.page.description':
     "The new code definition sets the criteria for what's considered new code, allowing you to focus on the most recent changes in your project.",
   'project_baseline.page.description2':
@@ -860,7 +860,7 @@ export const defaultMessages = {
   'baseline.new_code_period_for_branch_x.question':
     'Choose the baseline for new code for this branch',
 
-  'regulatory_report.page': 'Regulatory Report',
+  'regulatory_report.page': 'Regulatory report',
   'regulatory_report.description1':
     'The <link>Regulatory report</link> is a .zip file that contains a detailed snapshot of a selected project branch. {br} It is comprised of a selection of .txt, .csv, and .pdf files containing:',
   'regulatory_report.bullet_point1': 'An overview of the selected branch of the project.',
@@ -901,7 +901,7 @@ export const defaultMessages = {
   'issues.skip_to_list': 'Skip to issues list',
   'view_projects.page': 'Projects',
   'portfolios.page': 'Portfolios',
-  'portfolio_breakdown.page': 'Portfolio Breakdown',
+  'portfolio_breakdown.page': 'Portfolio breakdown',
   'project_activity.page': 'Activity',
 
   //------------------------------------------------------------------------------
@@ -926,7 +926,7 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
-  'audit_logs.page': 'Audit Logs',
+  'audit_logs.page': 'Audit logs',
   'audit_logs.page.description.1':
     'Audit Logs help Administrators keep control and traceability of security related changes performed on the platform.',
   'audit_logs.page.description.2':
@@ -3680,7 +3680,8 @@ export const defaultMessages = {
     'This profile has no active rules, and cannot be used. Please enable at least 1 rule before using this profile.',
   'project_quality_profile.add_language_modal.go_to_profile': 'Go to Quality Profile',
   'project_quality_profile.change_profile_x': 'Change {x} profile',
-  'project_quality_profile.page': 'Quality Profiles',
+  'project_quality_profile.page': 'Quality profiles',
+  'project_quality_profiles.page': 'Quality profiles',
   'project_quality_profile.page.description':
     'Each language is automatically assigned the default quality profile of this instance. As a project administrator, you can override the default assignment and choose different profiles for languages used in this project.',
   'project_quality_profile.profiles_by_languages': 'Profiles by languages',
@@ -3779,8 +3780,8 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
-  'project.info.title': 'Project Information',
-  'application.info.title': 'Application Information',
+  'project.info.title': 'Project information',
+  'application.info.title': 'Application information',
   'project.about.title': 'About this Project',
   'application.about.title': 'About this Application',
   'project.info.description': 'Description',
@@ -4790,7 +4791,7 @@ export const defaultMessages = {
   'my_profile.news_notifications.label':
     'Display a notification count in the header when new features are deployed',
 
-  'my_account.page': 'My Account',
+  'my_account.page': 'My account',
   'my_account.notifications': 'Notifications',
   'my_account.no_project_notifications': 'You have not set project notifications yet.',
   'my_account.profile': 'Profile',
@@ -6147,7 +6148,7 @@ export const defaultMessages = {
   'background_task.type.GITLAB_PROJECT_PERMISSIONS_PROVISIONING': 'Gitlab Project Permission Sync',
   'background_task.type.SCA_RESCAN_BRANCH': 'SCA Scan Branch',
 
-  'background_tasks.page': 'Background Tasks',
+  'background_tasks.page': 'Background tasks',
   'background_tasks.page.description':
     'This page allows monitoring of the queue of tasks running asynchronously on the server. It also gives access to the history of finished tasks and their status. Analysis report processing is the most common kind of background task. Learn more about <link>Background Tasks</link>.',
 
@@ -8910,7 +8911,7 @@ export const defaultMessages = {
   'license.expired': 'Expired',
   'license.expires_soon.popover': 'Your license expires on {date}',
   'license.expires_soon': 'Expires soon',
-  'license.feature_name': 'License Manager',
+  'license.feature_name': 'License manager',
   'license.features.availability.available': 'Available',
   'license.features.availability.not_available': 'Not available',
   'license.features.availability': 'Availability',
