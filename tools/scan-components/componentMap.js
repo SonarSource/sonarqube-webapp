@@ -672,8 +672,6 @@ export const componentMap = {
   ConditionsScopedTitle: 'Excluded',
   StyledNote: 'Excluded',
   SummaryCard: 'Excluded',
-  StyledBreakdownCell: 'Excluded',
-  StyledBreakdownRow: 'Excluded',
   DomainSubnavigationCategory: 'Excluded',
   SearchForm: 'Excluded',
   ManualSetupWarning: 'Excluded',
