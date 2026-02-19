@@ -102,8 +102,24 @@ export function useCopyClipboardEffect(copyValue: string) {
   const [copySuccess, setCopySuccess] = useState(false);
 
   const handleCopy = useCallback(
-    ({ currentTarget }: MouseEvent<HTMLButtonElement>) => {
-      const isSuccess = copy(copyValue) === copyValue;
+    async ({ currentTarget }: MouseEvent<HTMLButtonElement>) => {
+      let isSuccess = false;
+
+      // Try modern Clipboard API first (works better in modals and secure contexts)
+      if (navigator.clipboard && globalThis.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(copyValue);
+          isSuccess = true;
+        } catch {
+          // no-op, fall through to clipboard.js
+        }
+      }
+
+      // Fallback to clipboard.js for older browsers or if modern API failed
+      if (!isSuccess) {
+        isSuccess = copy(copyValue) === copyValue;
+      }
+
       setCopySuccess(isSuccess);
 
       if (isSuccess) {
