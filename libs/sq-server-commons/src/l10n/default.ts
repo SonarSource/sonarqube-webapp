@@ -2071,6 +2071,17 @@ export const defaultMessages = {
     'Elements are ordered left to right according to their relationships',
   'architecture.page.model.visual.legend.bullet.4':
     'Elements in one column have no relationships among themselves',
+  'architecture.page.model.intended.how_it_works': 'How it works',
+  'architecture.page.model.intended.legend.description':
+    'Add the components that are the most important, generally the top ones (no need to go deep) for your application, and define their relationship. SonarQube will continuously verify them. Here is how it works:',
+  'architecture.page.model.intended.legend.bullet.1':
+    'Only added components (and their sub-components) are verified',
+  'architecture.page.model.intended.legend.bullet.2': 'Relations defined means they are allowed',
+  'architecture.page.model.intended.legend.bullet.3':
+    'Relations not defined means they are not allowed',
+  'architecture.page.model.intended.legend.bullet.4':
+    'Relations can only be defined between sibling components',
+  'architecture.page.model.intended.legend.bullet.5': 'Relations are inherited by children',
   'architecture.page.model.visual.new_group': 'New Group',
   'architecture.page.model.visual.sidebar.title': 'Source Nodes',
   'architecture.page.model.visual.sidebar.description': 'Drag nodes to create groups in the model',
