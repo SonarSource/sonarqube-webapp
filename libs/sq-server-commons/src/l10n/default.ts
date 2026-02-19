@@ -2105,6 +2105,8 @@ export const defaultMessages = {
   'architecture.page.model.saved': 'Saved successfully',
   'architecture.page.model.unsaved_changes': 'You have unsaved changes.',
   'architecture.page.model.no_data': 'No model data',
+  'architecture.page.model.no_architecture_available':
+    "This project doesn't have an intended architecture defined. Users with admin permission on the project are able to create it.",
   'architecture.page.model.invalid_json': 'Invalid JSON format',
   'architecture.page.model.label': 'Model',
   'architecture.page.model.invalid_groups':
