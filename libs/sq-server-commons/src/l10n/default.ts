@@ -2022,6 +2022,7 @@ export const defaultMessages = {
   'sca.quality_gates.metric.sca_severity_licensing': 'Dependency with prohibited license',
   'sca.quality_gates.metric.sca_severity_malware': 'Dependency with malicious code',
   'sca.quality_gates.metric.sca_severity_any_issue': 'Dependency risk severity',
+  'sca.quality_gates.metric.sca_severity_any_security': 'Dependency security risk severity',
   'sca.quality_gates.metric.sca_severity_licensing.description':
     "All prohibited license risks are classified as high severity by Sonar. Therefore, this condition will cause the quality gate to fail if any of a project's dependencies use a license that is prohibited by the project's License Profile.",
   'sca.quality_gates.metric.sca_severity_malware.description':
@@ -5240,6 +5241,8 @@ export const defaultMessages = {
   'metric.new_reliability_remediation_effort.extra_short_name': 'Remediation Effort',
   'metric.new_sca_count_any_issue.description': 'Number of dependencies with any risk',
   'metric.new_sca_count_any_issue.name': 'Dependency risks',
+  'metric.new_sca_count_any_security.description': 'Number of dependencies with security risks',
+  'metric.new_sca_count_any_security.name': 'Dependency security risks',
   'metric.new_sca_count_vulnerabilities.description': 'Number of dependencies with vulnerabilities',
   'metric.new_sca_count_vulnerabilities.name': 'Vulnerable dependency risks',
   'metric.new_sca_count_licensing.description': 'Number of dependencies with prohibited licenses',
@@ -5395,6 +5398,8 @@ export const defaultMessages = {
   'metric.releasability_rating.name': 'Releasability Rating',
   'metric.sca_count_any_issue.description': 'Number of dependencies with any risk',
   'metric.sca_count_any_issue.name': 'Dependency risks',
+  'metric.sca_count_any_security.description': 'Number of dependencies with security risks',
+  'metric.sca_count_any_security.name': 'Dependency security risks',
   'metric.sca_count_vulnerabilities.description': 'Number of dependencies with vulnerabilities',
   'metric.sca_count_vulnerabilities.name': 'Vulnerable dependency risks',
   'metric.sca_count_licensing.description': 'Number of dependencies with prohibited licenses',
