@@ -42,7 +42,7 @@ import {
   serializeQuery,
 } from '../utils';
 import ClusterSysInfos from './ClusterSysInfos';
-import PageActions from './PageActions';
+import { PageActions } from './PageActions';
 import PageHeader from './PageHeader';
 import StandaloneSysInfos from './StandaloneSysInfos';
 

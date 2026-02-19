@@ -6279,6 +6279,12 @@ export const defaultMessages = {
   'system.log_level.warning.short':
     'Current logs level has performance impacts, get back to INFO level.',
   'system.log_level.info': 'Your selection does not affect the Search Engine.',
+  'system.logs.access': 'Access Logs',
+  'system.logs.app': 'Main Process',
+  'system.logs.ce': 'Compute Engine',
+  'system.logs.deprecation': 'Deprecation Logs',
+  'system.logs.es': 'Search Engine',
+  'system.logs.web': 'Web Server',
   'system.logs_level': 'Logs level',
   'system.logs_level.change': 'Change logs level',
   'system.new_version_available': 'A new version of {productName} is available.',

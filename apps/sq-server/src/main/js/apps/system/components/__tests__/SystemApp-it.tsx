@@ -71,12 +71,12 @@ describe('System Info Standalone', () => {
 
     await user.click(ui.downloadLogsButton.get());
     [
-      'Main Process',
-      'Compute Engine',
-      'Search Engine',
-      'Web Server',
-      'Access Logs',
-      'Deprecation Logs',
+      'system.logs.app',
+      'system.logs.ce',
+      'system.logs.es',
+      'system.logs.web',
+      'system.logs.access',
+      'system.logs.deprecation',
     ].forEach((name) => {
       expect(screen.getByRole('menuitem', { name })).toBeInTheDocument();
     });

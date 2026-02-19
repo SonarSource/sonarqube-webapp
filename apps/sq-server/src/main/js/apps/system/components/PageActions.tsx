@@ -18,12 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonIcon, ButtonVariety, IconEdit } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonIcon,
+  ButtonVariety,
+  DropdownMenu,
+  IconChevronDown,
+  IconEdit,
+} from '@sonarsource/echoes-react';
 import { useCallback, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { ChevronDownIcon, Dropdown, ItemDownload } from '~design-system';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
-import { PopupZLevel } from '~sq-server-commons/design-system/helpers/positioning';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { getFileNameSuffix } from '../utils';
@@ -36,7 +41,7 @@ interface Props {
   serverId?: string;
 }
 
-export default function PageActions(props: Props) {
+export function PageActions(props: Readonly<Props>) {
   const { cluster, logLevel, onLogLevelChange, serverId } = props;
 
   const [openLogsLevelForm, setOpenLogsLevelForm] = useState(false);
@@ -76,6 +81,7 @@ export default function PageActions(props: Props) {
           {': '}
           <strong>{logLevel}</strong>
         </span>
+
         <ButtonIcon
           Icon={IconEdit}
           ariaLabel={intl.formatMessage({ id: 'system.logs_level.change' })}
@@ -86,46 +92,62 @@ export default function PageActions(props: Props) {
         />
       </div>
 
-      <Dropdown
+      <DropdownMenu
         id="system-logs-download"
-        overlay={
+        items={
           <>
-            <ItemDownload download={filenameTemplate('app')} href={logsUrl + '?name=app'}>
-              Main Process
-            </ItemDownload>
-            <ItemDownload download={filenameTemplate('ce')} href={logsUrl + '?name=ce'}>
-              Compute Engine
-            </ItemDownload>
+            <DropdownMenu.ItemLinkDownload
+              download={filenameTemplate('app')}
+              to={logsUrl + '?name=app'}
+            >
+              <FormattedMessage id="system.logs.app" />
+            </DropdownMenu.ItemLinkDownload>
+
+            <DropdownMenu.ItemLinkDownload
+              download={filenameTemplate('ce')}
+              to={logsUrl + '?name=ce'}
+            >
+              <FormattedMessage id="system.logs.ce" />
+            </DropdownMenu.ItemLinkDownload>
 
             {!cluster && (
-              <ItemDownload download={filenameTemplate('es')} href={logsUrl + '?name=es'}>
-                Search Engine
-              </ItemDownload>
+              <DropdownMenu.ItemLinkDownload
+                download={filenameTemplate('es')}
+                to={logsUrl + '?name=es'}
+              >
+                <FormattedMessage id="system.logs.es" />
+              </DropdownMenu.ItemLinkDownload>
             )}
 
-            <ItemDownload download={filenameTemplate('web')} href={logsUrl + '?name=web'}>
-              Web Server
-            </ItemDownload>
-
-            <ItemDownload download={filenameTemplate('access')} href={logsUrl + '?name=access'}>
-              Access Logs
-            </ItemDownload>
-
-            <ItemDownload
-              download={filenameTemplate('deprecation')}
-              href={logsUrl + '?name=deprecation'}
+            <DropdownMenu.ItemLinkDownload
+              download={filenameTemplate('web')}
+              to={logsUrl + '?name=web'}
             >
-              Deprecation Logs
-            </ItemDownload>
+              <FormattedMessage id="system.logs.web" />
+            </DropdownMenu.ItemLinkDownload>
+
+            <DropdownMenu.ItemLinkDownload
+              download={filenameTemplate('access')}
+              to={logsUrl + '?name=access'}
+            >
+              <FormattedMessage id="system.logs.access" />
+            </DropdownMenu.ItemLinkDownload>
+
+            <DropdownMenu.ItemLinkDownload
+              download={filenameTemplate('deprecation')}
+              to={logsUrl + '?name=deprecation'}
+            >
+              <FormattedMessage id="system.logs.deprecation" />
+            </DropdownMenu.ItemLinkDownload>
           </>
         }
-        zLevel={PopupZLevel.Global}
       >
         <Button variety={ButtonVariety.Primary}>
           <FormattedMessage id="system.download_logs" />
-          <ChevronDownIcon className="sw-ml-1" />
+
+          <IconChevronDown className="sw-ml-1" />
         </Button>
-      </Dropdown>
+      </DropdownMenu>
 
       <Button
         download={`sonarqube-system-info-${getFileNameSuffix(serverId)}.json`}
@@ -136,6 +158,7 @@ export default function PageActions(props: Props) {
       >
         <FormattedMessage id="system.download_system_info" />
       </Button>
+
       {openLogsLevelForm && (
         <ChangeLogLevelForm
           infoMsg={intl.formatMessage({
