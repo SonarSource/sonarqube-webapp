@@ -52,7 +52,7 @@ it('should show loading spinner when project binding is loading', () => {
 
 it('should display bound DOP button with URL when project is bound', () => {
   jest.mocked(useProjectBindingQuery).mockReturnValue({
-    data: mockProjectGithubBindingResponse({ url: 'https://github.com/test/repo' }),
+    data: mockProjectGithubBindingResponse({ repositoryUrl: 'https://github.com/test/repo' }),
     isLoading: false,
   });
 
@@ -65,7 +65,7 @@ it('should display bound DOP button with URL when project is bound', () => {
 
 it('should display bound DOP button without URL when project is bound but no URL available', () => {
   jest.mocked(useProjectBindingQuery).mockReturnValue({
-    data: mockProjectGithubBindingResponse({ url: undefined }),
+    data: mockProjectGithubBindingResponse({ repositoryUrl: undefined }),
     isLoading: false,
   });
 

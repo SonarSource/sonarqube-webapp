@@ -80,11 +80,11 @@ export function ComponentNavBindingStatus(props: Readonly<ComponentNavBindingSta
             side={TooltipSide.Top}
           >
             <Button
-              isDisabled={!projectBinding?.url}
+              isDisabled={!projectBinding?.repositoryUrl}
               prefix={<Image alt={almKey} height={16} src={DOP_LOGOS[almKey]} width={16} />}
-              to={projectBinding.url}
+              to={projectBinding.repositoryUrl}
             >
-              {projectBinding?.url ? (
+              {projectBinding?.repositoryUrl ? (
                 <FormattedMessage
                   id="project_navigation.binding_status.view_on_x"
                   values={{ dop: <FormattedMessage id={DOP_LABEL_IDS[almKey]} /> }}
