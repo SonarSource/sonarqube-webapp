@@ -25,6 +25,7 @@ import {
 
 describe('getDefaultValueForSidebarNavigationUserSetting', () => {
   it.each([
+    [true, FEEShowSidebarNavigationSetting.ForceOptIn],
     [true, FEEShowSidebarNavigationSetting.Hide],
     [false, FEEShowSidebarNavigationSetting.OptIn],
     [true, FEEShowSidebarNavigationSetting.OptOut],
