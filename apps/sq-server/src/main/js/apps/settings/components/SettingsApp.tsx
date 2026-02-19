@@ -46,7 +46,7 @@ export default function SettingsApp() {
 
   return (
     <Spinner className="sw-m-4" isLoading={loading}>
-      <SettingsAppRenderer component={component} definitions={definitions} />;
+      <SettingsAppRenderer component={component} definitions={definitions} />
     </Spinner>
   );
 }
