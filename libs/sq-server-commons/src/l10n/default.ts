@@ -8787,6 +8787,7 @@ export const defaultMessages = {
   'portfolios.search_in_structure': 'Search in structure...',
   'portfolios.explore_portfolios': 'Explore Portfolios',
   'portfolios.search_all_portfolios': 'Search all Portfolios',
+  'portfolios.exclude_sub_portfolios': 'Exclude sub-portfolios',
   'portfolios.create_portfolio': 'Create Portfolio',
   'portfolios.edit_portfolio': 'Edit Portfolio',
 
