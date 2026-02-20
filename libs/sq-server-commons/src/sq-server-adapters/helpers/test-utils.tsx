@@ -34,6 +34,7 @@ import { ComponentContext } from '../../context/componentContext/ComponentContex
 import CurrentUserContextProvider from '../../context/current-user/CurrentUserContextProvider';
 import { mockComponent } from '../../helpers/mocks/component';
 import { mockAppState } from '../../helpers/testMocks';
+import { BranchLike } from '../../types/branch-like';
 import { Feature } from '../../types/features';
 import { CurrentUser } from '../../types/users';
 
@@ -43,7 +44,7 @@ export interface ContextWrapperInitProps {
   analysisContext?: { branchId: string; organizationId?: string; organizationKey?: string };
   appState?: Partial<BaseAppState>;
   availableFeatures?: string[];
-  componentContext?: { component: LightComponent };
+  componentContext?: { branchLike?: BranchLike; component: LightComponent };
   initialCurrentUser?: CurrentUser;
 }
 
