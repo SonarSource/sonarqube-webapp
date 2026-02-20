@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { cloneDeep, times } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { getStandards } from '~shared/helpers/security-standards';
 import {
   mockHotspot,
@@ -27,7 +27,6 @@ import {
   mockRawHotspot,
   mockStandards,
 } from '../../helpers/mocks/security-hotspots';
-import { mockSourceLine } from '../../helpers/mocks/sources';
 import { mockPaging, mockRestUser } from '../../helpers/testMocks';
 import {
   Hotspot,
@@ -36,7 +35,6 @@ import {
   HotspotResolution,
   HotspotStatus,
 } from '../../types/security-hotspots';
-import { getSources } from '../components';
 import { getMeasures } from '../measures';
 import {
   assignSecurityHotspot,
@@ -49,8 +47,6 @@ import {
   setSecurityHotspotStatus,
 } from '../security-hotspots';
 import { getUsers } from '../users';
-
-const NUMBER_OF_LINES = 20;
 
 export default class SecurityHotspotServiceMock {
   hotspots: Hotspot[] = [];
@@ -68,14 +64,6 @@ export default class SecurityHotspotServiceMock {
     jest.mocked(assignSecurityHotspot).mockImplementation(this.handleAssignSecurityHotspot);
     jest.mocked(setSecurityHotspotStatus).mockImplementation(this.handleSetSecurityHotspotStatus);
     jest.mocked(getUsers).mockImplementation((p) => this.handleGetUsers(p));
-    jest.mocked(getSources).mockResolvedValue(
-      times(NUMBER_OF_LINES, (n) =>
-        mockSourceLine({
-          line: n,
-          code: '  <span class="sym-35 sym">symbole</span>',
-        }),
-      ),
-    );
     jest.mocked(commentSecurityHotspot).mockImplementation(this.handleCommentSecurityHotspot);
     jest
       .mocked(deleteSecurityHotspotComment)

@@ -22,7 +22,9 @@ import { MessageCallout } from '@sonarsource/echoes-react';
 import { intersection } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { getSources } from '~shared/api/sources';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import getCoverageStatus from '~shared/helpers/sources';
 import { ComponentQualifier } from '~shared/types/component';
 import { Measure } from '~shared/types/measures';
 import { HttpStatus } from '~shared/types/request';
@@ -30,7 +32,6 @@ import {
   getComponentData,
   getComponentForSourceViewer,
   getDuplications,
-  getSources,
 } from '../../api/components';
 import { ComponentContext } from '../../context/componentContext/ComponentContext';
 import { isSameBranchLike } from '../../helpers/branch-like';
@@ -55,7 +56,6 @@ import {
   getDuplicationBlocksForIndex,
   isDuplicationBlockInRemovedComponent,
 } from './helpers/duplications';
-import getCoverageStatus from './helpers/getCoverageStatus';
 import {
   duplicationsByLine,
   issuesByLine,
@@ -210,7 +210,9 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
     to: number | undefined,
     branchLike: BranchLike | undefined,
   ) {
-    return getSources({ key, from, to, ...getBranchLikeQuery(branchLike) });
+    return getSources({ key, from, to, ...getBranchLikeQuery(branchLike) }).then(
+      ({ sources }) => sources,
+    );
   }
 
   computeCoverageStatus(lines: SourceLine[]) {

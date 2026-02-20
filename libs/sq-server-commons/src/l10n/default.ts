@@ -1814,6 +1814,10 @@ export const defaultMessages = {
   'dependencies.risk': 'Dependency Risk',
   'dependencies.risks': 'Dependency risks',
   'dependencies.risks.reachability': 'Reachability',
+  'dependencies.risks.reachability.more_locations': 'Show additional files ({count})',
+  'dependencies.risks.reachability.snippet_message':
+    'Your code directly calls this vulnerable function, making this risk reachable.',
+  'dependencies.risks.reachability.title': 'This vulnerability is reachable',
   'dependencies.risks.reachable': 'Reachable',
   'dependencies.risks.empty_state.title':
     'No {branchType, select, pullRequest {new } other {}}dependency risks were found',

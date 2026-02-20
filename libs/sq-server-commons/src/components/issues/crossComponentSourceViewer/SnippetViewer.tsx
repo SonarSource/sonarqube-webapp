@@ -21,6 +21,7 @@
 import classNames from 'classnames';
 import { debounce, throttle } from 'lodash';
 import React from 'react';
+import { SourceLine } from '~shared/types/source';
 import {
   CodeViewerExpander,
   SonarCodeColorizer,
@@ -37,7 +38,6 @@ import {
   FlowLocation,
   LineMap,
   LinearIssueLocation,
-  SourceLine,
   SourceViewerFile,
 } from '../../../types/types';
 import Line from '../../SourceViewer/components/Line';

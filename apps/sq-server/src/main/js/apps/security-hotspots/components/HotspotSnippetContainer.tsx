@@ -19,8 +19,8 @@
  */
 
 import * as React from 'react';
+import { getSources } from '~shared/api/sources';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
-import { getSources } from '~sq-server-commons/api/components';
 import { locationsByLine } from '~sq-server-commons/components/SourceViewer/helpers/indexing';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Hotspot } from '~sq-server-commons/types/security-hotspots';
@@ -127,7 +127,9 @@ export default class HotspotSnippetContainer extends React.Component<Props, Stat
       from,
       to,
       ...getBranchLikeQuery(branchLike),
-    }).catch(() => [] as SourceLine[]);
+    })
+      .then(({ sources }) => sources)
+      .catch(() => [] as SourceLine[]);
 
     if (this.mounted) {
       const lastLine = this.checkLastLine(sourceLines, to);
@@ -177,7 +179,7 @@ export default class HotspotSnippetContainer extends React.Component<Props, Stat
       key: hotspot.component.key,
       ...range,
       ...getBranchLikeQuery(branchLike),
-    }).then((additionalLines) => {
+    }).then(({ sources: additionalLines }) => {
       const { lastLine: previousLastLine } = this.state;
 
       const lastLine =

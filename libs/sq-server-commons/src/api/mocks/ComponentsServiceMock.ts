@@ -20,6 +20,7 @@
 
 import { cloneDeep, pick } from 'lodash';
 import { GetTreeParams } from '~shared/api/components';
+import { getSources } from '~shared/api/sources';
 import { isDefined } from '~shared/helpers/types';
 import { BranchParameters } from '~shared/types/branch-like';
 import { TreeComponent, Visibility } from '~shared/types/component';
@@ -40,7 +41,6 @@ import {
   getComponentForSourceViewer,
   getComponentTree,
   getDuplications,
-  getSources,
   getTree,
   searchProjects,
   setApplicationTags,
@@ -58,6 +58,7 @@ import { mockProjects } from './data/projects';
 import { listAllComponent, listChildComponent, listLeavesComponent } from './data/utils';
 
 jest.mock('../components');
+jest.mock('~shared/api/sources');
 
 export default class ComponentsServiceMock {
   failLoadingComponentStatus: HttpStatus | undefined = undefined;
@@ -359,11 +360,13 @@ export default class ComponentsServiceMock {
     return this.reply({ duplications: [], files: {} });
   };
 
+  /** @deprecated prefer libs/shared/src/api/mocks/services/SourceServiceMock.ts instead */
   handleGetSources = (data: { from?: number; key: string; to?: number } & BranchParameters) => {
     const { lines } = this.findSourceFile(data.key);
     const from = data.from || 1;
     const to = data.to || lines.length;
-    return this.reply(lines.slice(from - 1, to));
+    const sources = lines.slice(from - 1, to);
+    return this.reply({ sources });
   };
 
   handleChangeKey = (data: { from: string; to: string }) => {

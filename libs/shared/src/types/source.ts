@@ -18,18 +18,24 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { SourceLine, SourceLineCoverageStatus } from '../../../types/types';
+export type SourceLineCoverageStatus = 'uncovered' | 'partially-covered' | 'covered';
 
-export default function getCoverageStatus(s: SourceLine): SourceLineCoverageStatus | undefined {
-  let status: SourceLineCoverageStatus | undefined;
-  if (s.lineHits != null && s.lineHits > 0) {
-    status = 'partially-covered';
-  }
-  if (s.lineHits != null && s.lineHits > 0 && s.conditions === s.coveredConditions) {
-    status = 'covered';
-  }
-  if (s.lineHits === 0 || s.coveredConditions === 0) {
-    status = 'uncovered';
-  }
-  return status;
+export interface SourceLine {
+  code?: string;
+  conditions?: number;
+  coverageBlock?: number;
+  coverageStatus?: SourceLineCoverageStatus;
+  coveredConditions?: number;
+  duplicated?: boolean;
+  isNew?: boolean;
+  line: number;
+  lineHits?: number;
+  newCodeBlock?: number;
+  scmAuthor?: string;
+  scmDate?: string;
+  scmRevision?: string;
+}
+
+export interface SourceLineMap {
+  [line: number]: SourceLine;
 }

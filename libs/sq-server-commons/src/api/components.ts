@@ -30,7 +30,6 @@ import {
   DuplicatedFile,
   Duplication,
   MyProject,
-  SourceLine,
   SourceViewerFile,
 } from '../types/types';
 import { AiCodeAssuranceStatus } from './ai-code-assurance';
@@ -207,12 +206,6 @@ export function getComponentForSourceViewer(
   data: { component: string } & BranchParameters,
 ): Promise<SourceViewerFile> {
   return getJSON('/api/components/app', data);
-}
-
-export function getSources(
-  data: { from?: number; key: string; to?: number } & BranchParameters,
-): Promise<SourceLine[]> {
-  return getJSON('/api/sources/lines', data).then((r) => r.sources);
 }
 
 export function getDuplications(

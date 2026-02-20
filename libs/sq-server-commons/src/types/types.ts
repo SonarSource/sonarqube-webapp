@@ -28,10 +28,13 @@ import { ComponentBase, ComponentConfiguration, ComponentQualifier } from '~shar
 import { IssueChangelogDiff } from '~shared/types/issue';
 import { Measure, MeasureEnhanced } from '~shared/types/measures';
 import { RuleDescriptionSection, RuleScope, RuleType } from '~shared/types/rules';
+import type { SourceLine } from '~shared/types/source';
 import { DocTitleKey } from '../helpers/doc-links';
 import { MessageFormatting, RawIssue } from './issues';
 import { NewCodeDefinitionType } from './new-code-definition';
 import { UserActive, UserBase } from './users';
+
+export type { SourceLine, SourceLineCoverageStatus } from '~shared/types/source';
 
 export interface ApiError {
   message: string;
@@ -494,24 +497,6 @@ export interface SnippetsByComponent {
   component: SourceViewerFile;
   sources: { [line: number]: SourceLine };
 }
-
-export interface SourceLine {
-  code?: string;
-  conditions?: number;
-  coverageBlock?: number;
-  coverageStatus?: SourceLineCoverageStatus;
-  coveredConditions?: number;
-  duplicated?: boolean;
-  isNew?: boolean;
-  line: number;
-  lineHits?: number;
-  newCodeBlock?: number;
-  scmAuthor?: string;
-  scmDate?: string;
-  scmRevision?: string;
-}
-
-export type SourceLineCoverageStatus = 'uncovered' | 'partially-covered' | 'covered';
 
 export interface SourceViewerFile {
   canMarkAsFavorite?: boolean;

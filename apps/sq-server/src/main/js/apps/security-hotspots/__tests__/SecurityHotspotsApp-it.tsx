@@ -20,7 +20,10 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { times } from 'lodash';
 import { Route } from 'react-router-dom';
+import { registerServiceMocks } from '~shared/api/mocks/server';
+import { SourceServiceMock } from '~shared/api/mocks/services/SourceServiceMock';
 import { get, save } from '~shared/helpers/storage';
 import { byDisplayValue, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import { MetricKey } from '~shared/types/metrics';
@@ -33,6 +36,7 @@ import {
 } from '~sq-server-commons/api/security-hotspots';
 import { getUsers } from '~sq-server-commons/api/users';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { mockSourceLine } from '~sq-server-commons/helpers/mocks/sources';
 import { openHotspot, probeSonarLintServers } from '~sq-server-commons/helpers/sonarlint';
 import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderAppWithComponentContext } from '~sq-server-commons/helpers/testReactTestingUtils';
@@ -111,6 +115,16 @@ const originalScrollTo = window.scrollTo;
 const hotspotsHandler = new SecurityHotspotServiceMock();
 const rulesHandles = new CodingRulesServiceMock();
 const branchHandler = new BranchesServiceMock();
+const sourcesHandler = new SourceServiceMock({
+  sources: {
+    'hotspot-component': times(20, (n) =>
+      mockSourceLine({
+        line: n,
+        code: '  <span class="sym-35 sym">symbole</span>',
+      }),
+    ),
+  },
+});
 
 const mockComponentInstance = mockComponent({
   key: 'guillaume-peoch-sonarsource_benflix_AYGpXq2bd8qy4i0eO9ed',
@@ -136,6 +150,7 @@ jest.mocked(get).mockImplementation((key) => {
 });
 
 beforeAll(() => {
+  registerServiceMocks(sourcesHandler);
   Object.defineProperty(window, 'scrollTo', {
     writable: true,
     value: () => {

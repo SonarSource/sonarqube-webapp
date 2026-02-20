@@ -24,6 +24,7 @@ import { useEnableSidebarNavigation } from '../../helpers/useEnableSidebarNaviga
 interface SQSFlagSet extends FlagSet {
   frontEndEngineeringEnableSidebarNavigation?: boolean;
   scaEnableOsvMalware: boolean;
+  scaEnableReachabilityFrontend: boolean;
 }
 
 // SQS doesn't use LaunchDarkly for feature flags, so we just pass a default hardcoded flag set for
@@ -31,6 +32,7 @@ interface SQSFlagSet extends FlagSet {
 // Add features flags here as needed in shared code, especially useful if you want a default value other than falsy for SQS.
 const defaultFlags: SQSFlagSet = {
   scaEnableOsvMalware: true,
+  scaEnableReachabilityFrontend: false,
 };
 
 export function useFlags(): SQSFlagSet {

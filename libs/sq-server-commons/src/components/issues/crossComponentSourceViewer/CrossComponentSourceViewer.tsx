@@ -22,10 +22,11 @@ import { Spinner } from '@sonarsource/echoes-react';
 import { findLastIndex, keyBy } from 'lodash';
 import * as React from 'react';
 import { throwGlobalError } from '~adapters/helpers/error';
+import { getSources } from '~shared/api/sources';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isFile } from '~shared/helpers/component';
 import { HttpStatus } from '~shared/types/request';
-import { getComponentForSourceViewer, getDuplications, getSources } from '../../../api/components';
+import { getComponentForSourceViewer, getDuplications } from '../../../api/components';
 import { getIssueFlowSnippets } from '../../../api/issues';
 import { FlagMessage } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
@@ -141,7 +142,7 @@ export default class CrossComponentSourceViewer extends React.PureComponent<Prop
             ...getBranchLikeQuery(branchLike),
             from: 1,
             to: 10,
-          }).then((lines) => keyBy(lines, 'line'));
+          }).then(({ sources }) => keyBy(sources, 'line'));
           components[issue.component].sources = sources;
         }
       }

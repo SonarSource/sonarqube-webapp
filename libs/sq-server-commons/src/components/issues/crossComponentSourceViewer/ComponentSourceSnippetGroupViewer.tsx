@@ -23,10 +23,11 @@ import { Button, ButtonVariety, IconSparkle, Spinner } from '@sonarsource/echoes
 import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { getSources } from '~shared/api/sources';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isFile } from '~shared/helpers/component';
-import { getSources } from '../../../api/components';
+import { enhanceSources } from '~shared/helpers/sources';
 import { FlagMessage, LineFinding, themeColor } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import {
@@ -49,7 +50,6 @@ import {
 } from '../../../types/types';
 import { TabKeys } from '../../rules/IssueTabViewer';
 import { TabSelectorContext } from '../../rules/TabSelectorContext';
-import getCoverageStatus from '../../SourceViewer/helpers/getCoverageStatus';
 import { locationsByLine } from '../../SourceViewer/helpers/indexing';
 import { IssueSourceViewerScrollContext } from '../IssueSourceViewerScrollContext';
 import { IssueSourceViewerHeader } from './IssueSourceViewerHeader';
@@ -159,14 +159,8 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
       ...range,
       ...getBranchLikeQuery(branchLike),
     })
-      .then((lines) =>
-        lines.reduce((lineMap: Record<string, SourceLine>, line) => {
-          line.coverageStatus = getCoverageStatus(line);
-          lineMap[line.line] = line;
-          return lineMap;
-        }, {}),
-      )
-      .then((newLinesMapped) => {
+      .then(({ sources }) => enhanceSources(sources))
+      .then(({ sourcesMap }) => {
         const newSnippets = expandSnippet({
           direction,
           snippetIndex,
@@ -174,7 +168,7 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
         });
 
         this.setState(({ additionalLines }) => {
-          const combinedLines = { ...additionalLines, ...newLinesMapped };
+          const combinedLines = { ...additionalLines, ...sourcesMap };
           return {
             additionalLines: combinedLines,
             snippets: newSnippets.filter((s) => !s.toDelete),
@@ -190,14 +184,15 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
     this.setState({ loading: true });
 
     getSources({ key, ...getBranchLikeQuery(branchLike) }).then(
-      (lines) => {
+      ({ sources }) => {
         if (this.mounted) {
           this.setState(({ additionalLines }) => {
-            const combinedLines = { ...additionalLines, ...lines };
+            const { sourcesMap } = enhanceSources(sources);
+            const combinedLines = { ...additionalLines, ...sourcesMap };
             return {
               additionalLines: combinedLines,
               loading: false,
-              snippets: [{ start: 0, end: lines[lines.length - 1].line, index: -1 }],
+              snippets: [{ start: 0, end: sources.at(-1)?.line ?? 0, index: -1 }],
             };
           });
         }
