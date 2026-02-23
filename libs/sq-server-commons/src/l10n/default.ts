@@ -1938,6 +1938,9 @@ export const defaultMessages = {
   'dependencies.risk.how.malware.body':
     "While each instance of a malicious package is different, here are some general principles to help guide you. <li>Immediately inform your information security team.</li><li>Remove the package from your project by uninstalling it and removing it from your dependency files.</li><li>Rotate all secrets and credentials that may have been exposed, including API keys, passwords, tokens, and certificates. Do this from a different, secure computer.</li><li>Review your system for compromise by checking for unexpected processes, network connections, or file modifications. Consider restoring from a clean backup or reimaging affected systems.</li><li>Update to a safe version if one exists, or find an alternative package. Check the package's repository and security advisories for guidance.</li><li>Scan your codebase for any malicious code that may have been injected into your project files during the package's execution.</li><li>Review your security practices including how you vet dependencies and consider using tools that scan for malicious packages before installation.</li>",
 
+  'dependencies.risk.how.withdrawn':
+    'This advisory has been withdrawn by the source as the report was found to be invalid. Sonar shows this record for transparency, but no patch or remediation is needed.',
+
   //------------------------------------------------------------------------------
   //
   // SCA LICENSE PROFILES
