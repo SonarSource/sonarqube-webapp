@@ -250,11 +250,6 @@ export const renderOwaspAsvs50Category = createRendererWithLevel(
   StandardsInformationKey.OWASP_ASVS_5_0,
 );
 
-// Aliases for backward compatibility (to avoid updating sq-cloud files)
-export const renderOwaspTop10Version2021Category = renderOwaspTop102021Category;
-export const renderOwaspTop10Version2025Category = renderOwaspTop102025Category;
-export const renderOwaspMobileTop10Version2024Category = renderOwaspMobileTop102024Category;
-
 function addPrefix(title: string, prefix: string, withPrefix: boolean) {
   return withPrefix ? `${prefix} ${title}` : title;
 }
