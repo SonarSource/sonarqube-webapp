@@ -18,6 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+export async function hashSHA256(value: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(value);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
 export function uuidv4() {
   return `${1e7}-${1e3}-${4e3}-${8e3}-${1e11}`.replaceAll(/[018]/g, (c) =>
     // eslint-disable-next-line no-bitwise

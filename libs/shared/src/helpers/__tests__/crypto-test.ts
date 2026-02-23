@@ -18,7 +18,43 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { uuidv4 } from '../crypto';
+import { webcrypto } from 'node:crypto';
+import { hashSHA256, uuidv4 } from '../crypto';
+
+// jsdom does not expose crypto.subtle — polyfill it with Node's Web Crypto implementation
+beforeAll(() => {
+  Object.defineProperty(globalThis.crypto, 'subtle', {
+    value: webcrypto.subtle,
+    writable: true,
+    configurable: true,
+  });
+});
+
+describe('hashSHA256', () => {
+  it('should return a 64-character lowercase hex string', async () => {
+    const hash = await hashSHA256('hello');
+    expect(hash).toHaveLength(64);
+    expect(/^[0-9a-f]{64}$/.test(hash)).toBe(true);
+  });
+
+  it('should be deterministic for the same input', async () => {
+    const hash1 = await hashSHA256('sonarsource.com');
+    const hash2 = await hashSHA256('sonarsource.com');
+    expect(hash1).toEqual(hash2);
+  });
+
+  it('should produce different hashes for different inputs', async () => {
+    const hash1 = await hashSHA256('domain-a.com');
+    const hash2 = await hashSHA256('domain-b.com');
+    expect(hash1).not.toEqual(hash2);
+  });
+
+  it('should match a known SHA-256 value', async () => {
+    // SHA-256("hello") is a well-known test vector
+    const hash = await hashSHA256('hello');
+    expect(hash).toBe('2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824');
+  });
+});
 
 describe('uuidv4', () => {
   it('should return a random uuidv4', () => {
