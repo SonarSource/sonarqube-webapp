@@ -3899,12 +3899,14 @@ export const defaultMessages = {
     'The current profile is the default profile, but it has no active rules. Please activate at least 1 rule for this profile.',
   'quality_profiles.parent': 'Parent',
   'quality_profiles.parameter_set_to': 'Parameter {0} set to {1}',
-  'quality_profile.summary_additional':
-    '{count} additional {count, plural, one {rule} other {rules}}',
-  'quality_profile.summary_fewer': '{count} fewer {count, plural, one {rule} other {rules}}',
+  'quality_profile.summary_additional': '{count} more {count, plural, one {rule} other {rules}}',
+  'quality_profile.summary_fewer': '{count} {count, plural, one {rule} other {rules}}',
   'quality_profile.summary_differences1':
-    '{profile} has {additional} and {fewer} than {comparedProfile}.',
-  'quality_profile.summary_differences2': '{profile} has {difference} than {comparedProfile}',
+    'Compared to {comparedProfile} profile, {profile} includes {additional} and is missing {fewer}.',
+  'quality_profile.summary_differences_additional_only':
+    'Compared to {comparedProfile} profile, {profile} includes {additional}.',
+  'quality_profile.summary_differences_fewer_only':
+    'Compared to {comparedProfile} profile, {profile} is missing {fewer}.',
   'quality_profiles.x_rules_only_in': '{count} rules in {profile}',
   'quality_profiles.x_rules_have_different_configuration':
     '{count} rules have a different configuration',

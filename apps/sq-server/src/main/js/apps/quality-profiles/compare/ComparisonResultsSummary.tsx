@@ -36,30 +36,49 @@ export default function ComparisonResultsSummary(props: Readonly<Props>) {
     return null;
   }
 
-  if (additionalCount === 0 || fewerCount === 0) {
+  if (additionalCount > 0 && fewerCount > 0) {
     return (
       <div className="sw-mb-4">
         <FormattedMessage
-          id="quality_profile.summary_differences2"
+          id="quality_profile.summary_differences1"
           values={{
             profile: profileName,
             comparedProfile: comparedProfileName,
-            difference:
-              additionalCount === 0 ? (
-                <Text colorOverride="echoes-color-text-danger">
-                  {intl.formatMessage(
-                    { id: 'quality_profile.summary_fewer' },
-                    { count: fewerCount },
-                  )}
-                </Text>
-              ) : (
-                <Text colorOverride="echoes-color-text-success">
-                  {intl.formatMessage(
-                    { id: 'quality_profile.summary_additional' },
-                    { count: additionalCount },
-                  )}
-                </Text>
-              ),
+            additional: (
+              <Text colorOverride="echoes-color-text-success" isHighlighted>
+                {intl.formatMessage(
+                  { id: 'quality_profile.summary_additional' },
+                  { count: additionalCount },
+                )}
+              </Text>
+            ),
+            fewer: (
+              <Text colorOverride="echoes-color-text-danger" isHighlighted>
+                {intl.formatMessage({ id: 'quality_profile.summary_fewer' }, { count: fewerCount })}
+              </Text>
+            ),
+          }}
+        />
+      </div>
+    );
+  }
+
+  if (additionalCount > 0) {
+    return (
+      <div className="sw-mb-4">
+        <FormattedMessage
+          id="quality_profile.summary_differences_additional_only"
+          values={{
+            profile: profileName,
+            comparedProfile: comparedProfileName,
+            additional: (
+              <Text colorOverride="echoes-color-text-success" isHighlighted>
+                {intl.formatMessage(
+                  { id: 'quality_profile.summary_additional' },
+                  { count: additionalCount },
+                )}
+              </Text>
+            ),
           }}
         />
       </div>
@@ -69,20 +88,12 @@ export default function ComparisonResultsSummary(props: Readonly<Props>) {
   return (
     <div className="sw-mb-4">
       <FormattedMessage
-        id="quality_profile.summary_differences1"
+        id="quality_profile.summary_differences_fewer_only"
         values={{
           profile: profileName,
           comparedProfile: comparedProfileName,
-          additional: (
-            <Text colorOverride="echoes-color-text-success">
-              {intl.formatMessage(
-                { id: 'quality_profile.summary_additional' },
-                { count: additionalCount },
-              )}
-            </Text>
-          ),
           fewer: (
-            <Text colorOverride="echoes-color-text-danger">
+            <Text colorOverride="echoes-color-text-danger" isHighlighted>
               {intl.formatMessage({ id: 'quality_profile.summary_fewer' }, { count: fewerCount })}
             </Text>
           ),
