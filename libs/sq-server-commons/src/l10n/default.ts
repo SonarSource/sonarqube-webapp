@@ -2101,6 +2101,8 @@ export const defaultMessages = {
   'architecture.page.dashboard.model.create_model': 'Get started',
   'architecture.page.dashboard.has_disabled_rules':
     'Some rules can be activated to raise issues on deviations and flaws.',
+  'architecture.page.dashboard.resources_link':
+    'What is architecture in SonarQube and how to use it?',
   'architecture.page.dashboard.view_disabled_rules': 'View rules',
   'architecture.page.model.saved': 'Saved successfully',
   'architecture.page.model.unsaved_changes': 'You have unsaved changes.',
