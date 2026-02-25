@@ -6,7 +6,37 @@
 
 This project is a monorepo that contains many packages to build a SaaS Cloud and On-prem Server version of the SonarQube Frontend.
 
-**Note:** Check for a `CLAUDE-personal.md` file in the workspace root for personal preferences that complement these instructions.
+# Important skills
+
+- `echoes-components` for working with Echoes design system `@sonarsource/echoes-react`.
+- `webapp-code-sharing` for understanding the complex project organization of this NX repo.
+- `webapp-testing` for understanding how to write good tests.
+- `writing-code-style-guide` for understanding how to write good compliant code.
+
+Use these skills eagerly and often!
+
+# NX Projects
+
+These are the NX projects in the monorepo. You can use `webapp-code-sharing` to understand how they fit together.
+
+```txt
+feature-architecture
+feature-dashboards
+sq-server-features
+private-sq-server-addons
+sq-cloud-e2e-tests
+feature-jira
+feature-sca
+sq-server-commons
+sq-cloud
+sq-server-addons
+nx-automation
+private-shared
+feature-rules
+sq-server
+shared
+sonarqube-webapp
+```
 
 # Testing, Linting, and running Tools
 
@@ -26,6 +56,8 @@ Other types of validation follow the pattern:
 When running tests, pick the most relevent platform (cloud or server) and narrowly scope the test run to the files you've modified as tests take time to run.
 
 - ALWAYS use `await selector.find()` instead of `waitfor()` when looking for a possibly not-yet-rendered selector.
+
+When you need to write tests, always use the `webapp-testing` skill!
 
 # Writing Code
 
@@ -47,6 +79,8 @@ When running tests, pick the most relevent platform (cloud or server) and narrow
 - Use component-specific props for visual styling (colors, fonts, sizes, emphasis) rather than manual CSS classes
 - Reserve custom Tailwind only for layout concerns (spacing, positioning, dimensions)
 - Examples: `isSubtle` instead of `sw-text-gray-600`, `size="small"` instead of `sw-text-sm`, `colorOverride="danger"` instead of `sw-text-red-600`
+
+When you need to use echoes components, always use the `echoes-components` skill!
 
 ## React Components and JSX
 
