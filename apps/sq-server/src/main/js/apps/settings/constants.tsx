@@ -43,6 +43,7 @@ export const CATEGORY_OVERRIDES: Record<string, string> = {
   abap: LANGUAGES_CATEGORY,
   ansible: LANGUAGES_CATEGORY,
   apex: LANGUAGES_CATEGORY,
+  'azure pipelines': LANGUAGES_CATEGORY,
   azureresourcemanager: LANGUAGES_CATEGORY,
   'c / c++ / objective-c': LANGUAGES_CATEGORY,
   'c#': LANGUAGES_CATEGORY,
