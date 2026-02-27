@@ -188,11 +188,13 @@ export class StandardFacet extends React.PureComponent<Props, State> {
 
   handleCWESearch = (query: string) => {
     return Promise.resolve({
-      results: Object.keys(this.state.standardsInfo.cwe).filter((cwe) =>
-        renderCWECategory(this.state.standardsInfo, cwe)
-          .toLowerCase()
-          .includes(query.toLowerCase()),
-      ),
+      results: Object.keys(this.state.standardsInfo.cwe)
+        .filter((cwe) =>
+          renderCWECategory(this.state.standardsInfo, cwe)
+            .toLowerCase()
+            .includes(query.toLowerCase()),
+        )
+        .map((cwe) => `CWE-${cwe}`),
     });
   };
 

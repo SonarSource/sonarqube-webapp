@@ -283,7 +283,8 @@ export default class CodingRulesServiceMock {
       filteredRules = filteredRules.filter((r) => matchingRules.includes(r.key));
     }
     if (cwe) {
-      const matchingRules = STANDARDS_TO_RULES[StandardsInformationKey.CWE]?.[cwe] ?? [];
+      const normalizedCwe = cwe.replace(/^CWE-/i, '');
+      const matchingRules = STANDARDS_TO_RULES[StandardsInformationKey.CWE]?.[normalizedCwe] ?? [];
       filteredRules = filteredRules.filter((r) => matchingRules.includes(r.key));
     }
     if (q && q.length > 2) {
