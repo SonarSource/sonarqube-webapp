@@ -46,17 +46,14 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "{projectRoot}",
-        "commands": [
-          "yarn run -T vite build",
-          "echo Open file://$PWD/build/bundle-analyzer.html in your favorite browser!"
-        ],
+        "commands": ["yarn run -T vite build"],
         "env": {
           "BUNDLE_ANALYSIS": "true"
         },
         "parallel": false
       },
       "inputs": ["productionWithShared", "^productionWithShared"],
-      "outputs": ["{projectRoot}/build/bundle-analyzer.html"],
+      "outputs": ["{projectRoot}/build/bundle-metrics.json"],
       "cache": true,
       "parallelism": true
     },

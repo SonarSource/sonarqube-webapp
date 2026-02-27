@@ -25,8 +25,8 @@ import autoprefixer from 'autoprefixer';
 import path, { resolve } from 'path';
 import postCssCalc from 'postcss-calc';
 import license from 'rollup-plugin-license';
-import { visualizer } from 'rollup-plugin-visualizer';
 import { UserConfig } from 'vite';
+import { analyzer } from 'vite-bundle-analyzer';
 import macrosPlugin from 'vite-plugin-babel-macros';
 import requireTransform from 'vite-plugin-require-transform';
 import babelConfig from './babel.config';
@@ -146,10 +146,9 @@ export const baseViteConfig = {
     // More Info: https://www.npmjs.com/package/babel-plugin-macros
     macrosPlugin(),
     analyzeBundle &&
-      visualizer({
-        filename: resolve(projectRoot, 'build/bundle-analyzer.html'),
-        template: 'treemap',
-        gzipSize: true,
+      analyzer({
+        fileName: resolve(projectRoot, 'build/bundle-metrics.json'),
+        analyzerMode: 'json',
       }),
   ],
   // This is the static folder we have to copy to build/webapp folder after build

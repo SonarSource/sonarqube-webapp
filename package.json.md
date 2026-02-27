@@ -36,6 +36,10 @@ Schema validation library used by sq-cloud to validate dashboard and widget conf
 
 ## devDependencies
 
+### @aws-sdk/client-cloudwatch
+
+Used by `.github/scripts/report-bundle-metrics/send-bundle-metrics.js` to send metrics to CloudWatch.
+
 ### @cyclonedx/cdxgen
 
 Library used to generate CycloneDX SBOM.
