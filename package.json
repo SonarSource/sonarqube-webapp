@@ -125,7 +125,7 @@
     "@babel/preset-env": "7.28.5",
     "@babel/preset-react": "7.28.5",
     "@babel/preset-typescript": "7.28.5",
-    "@cyclonedx/cdxgen": "11.11.0",
+    "@cyclonedx/cdxgen": "12.1.0",
     "@emotion/babel-plugin": "11.13.5",
     "@emotion/jest": "11.14.2",
     "@jupyterlab/nbformat": "4.4.10",
