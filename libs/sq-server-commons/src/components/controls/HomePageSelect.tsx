@@ -28,8 +28,10 @@ import { HomeFillIcon, HomeIcon } from '../../design-system';
 import { isSameHomePage } from '../../helpers/homepage';
 import { HomePage, isLoggedIn } from '../../types/users';
 
-interface Props
-  extends Pick<CurrentUserContextInterface, 'currentUser' | 'updateCurrentUserHomepage'> {
+interface Props extends Pick<
+  CurrentUserContextInterface,
+  'currentUser' | 'updateCurrentUserHomepage'
+> {
   className?: string;
   currentPage: HomePage;
   type?: 'button' | 'icon';

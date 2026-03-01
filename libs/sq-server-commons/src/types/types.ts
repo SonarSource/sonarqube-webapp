@@ -86,8 +86,10 @@ export interface Component extends ComponentBase {
   needIssueSync?: boolean;
 }
 
-export interface NavigationComponent
-  extends Omit<Component, 'alm' | 'qualifier' | 'leakPeriodDate' | 'path' | 'tags'> {}
+export interface NavigationComponent extends Omit<
+  Component,
+  'alm' | 'qualifier' | 'leakPeriodDate' | 'path' | 'tags'
+> {}
 
 export interface ComponentMeasureIntern {
   analysisDate?: string;

@@ -221,11 +221,11 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
 
     return Boolean(
       (addTags && addTags.length > 0) ||
-        (removeTags && removeTags.length > 0) ||
-        assignee !== undefined ||
-        severity ||
-        transition ||
-        type,
+      (removeTags && removeTags.length > 0) ||
+      assignee !== undefined ||
+      severity ||
+      transition ||
+      type,
     );
   };
 

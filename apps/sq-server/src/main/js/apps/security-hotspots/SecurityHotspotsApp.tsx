@@ -619,9 +619,9 @@ export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
         hotspotsTotal={hotspotsTotal}
         isStaticListOfHotspots={Boolean(
           (hotspotKeys && hotspotKeys.length > 0) ||
-            filterByCategory ||
-            filterByCWE ||
-            filterByFile,
+          filterByCategory ||
+          filterByCWE ||
+          filterByFile,
         )}
         loading={loading}
         loadingMeasure={loadingMeasure}

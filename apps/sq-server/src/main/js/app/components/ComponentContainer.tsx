@@ -436,13 +436,13 @@ function computeHasUpdatedTasks(
 ) {
   const progressHasChanged = Boolean(
     tasksInProgress &&
-      (newTasksInProgress.length !== tasksInProgress.length ||
-        differenceBy(newTasksInProgress, tasksInProgress, 'id').length > 0),
+    (newTasksInProgress.length !== tasksInProgress.length ||
+      differenceBy(newTasksInProgress, tasksInProgress, 'id').length > 0),
   );
 
   const currentTaskHasChanged = Boolean(
     (!currentTask && newCurrentTask) ||
-      (currentTask && newCurrentTask && currentTask.id !== newCurrentTask.id),
+    (currentTask && newCurrentTask && currentTask.id !== newCurrentTask.id),
   );
 
   if (progressHasChanged) {
@@ -456,7 +456,7 @@ function computeHasUpdatedTasks(
     return (
       Boolean(
         !component.analysisDate &&
-          ![TaskStatuses.Failed, TaskStatuses.Canceled].includes(newCurrentTask.status),
+        ![TaskStatuses.Failed, TaskStatuses.Canceled].includes(newCurrentTask.status),
       ) || Boolean(component.analysisDate && tasksInProgress?.length)
     );
   }

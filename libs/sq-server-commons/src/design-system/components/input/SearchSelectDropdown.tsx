@@ -53,8 +53,8 @@ interface SearchSelectDropdownProps<
   Option extends LabelValueSelectOption<V>,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>,
-> extends SelectProps<Option, IsMulti, Group>,
-    AsyncProps<Option, IsMulti, Group> {
+>
+  extends SelectProps<Option, IsMulti, Group>, AsyncProps<Option, IsMulti, Group> {
   className?: string;
   controlAriaLabel?: string;
   controlLabel?: React.ReactNode | string;

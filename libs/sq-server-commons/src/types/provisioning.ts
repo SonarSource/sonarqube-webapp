@@ -93,8 +93,10 @@ export interface DevopsRolesMapping {
   readonly role: string;
 }
 
-export interface GitLabConfigurationCreateBody
-  extends Pick<GitlabConfiguration, 'applicationId' | 'synchronizeGroups' | 'url'> {
+export interface GitLabConfigurationCreateBody extends Pick<
+  GitlabConfiguration,
+  'applicationId' | 'synchronizeGroups' | 'url'
+> {
   secret: string;
 }
 
