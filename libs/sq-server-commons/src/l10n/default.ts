@@ -2130,6 +2130,10 @@ export const defaultMessages = {
     'Failed to save. You must define relationships first.',
   'architecture.page.model.errors.group.name_cannot_contain_slash':
     'A component name cannot contain a slash.',
+  'architecture.page.model.modal.delete_component.title': 'Delete component',
+  'architecture.page.model.modal.delete_component.confirm': 'Are you sure?',
+  'architecture.page.model.modal.delete_component.delete_button': 'Delete and save',
+  'architecture.page.model.modal.delete_component.cancel_button': 'Cancel',
   'architecture.page.model.modal.move_component.title': 'Move "{label}"',
   'architecture.page.model.modal.move_component.description':
     'Move the component and its code artifacts.',
@@ -2149,9 +2153,6 @@ export const defaultMessages = {
     'You cannot move a component to {kind}.',
   'architecture.page.model.modal.rename_component.title': 'Rename "{label}"',
   'architecture.page.model.modal.rename_component.new_name': 'New name',
-  'architecture.page.model.modal.add_placeholder.title': 'Add placeholder',
-  'architecture.page.model.modal.add_placeholder.kind_of_component': 'Kind of component',
-  'architecture.page.model.modal.add_placeholder.new_name': 'Name',
   'architecture.page.model.modal.code_artifacts': 'Code Artifacts',
   'architecture.page.model.modal.search_artifacts': 'Search artifacts',
   'architecture.page.model.modal.covered_by': 'covered by {pattern}',
@@ -2171,6 +2172,17 @@ export const defaultMessages = {
     'This component has no siblings and cannot have relationships.',
   'architecture.page.model.relationships.all_selected':
     'All components are already part of a relationship.',
+  'architecture.page.model.spotlight.add_placeholder.label': 'Add placeholder component',
+  'architecture.page.model.spotlight.add_placeholder.name_placeholder': '<name>',
+  'architecture.page.model.spotlight.add_placeholder.kind_placeholder': '<kind>',
+  'architecture.page.model.edit.title': 'Edit mode',
+  'architecture.page.model.edit.hint':
+    'Drag a component to another to define a relationship. Any missing relationship is considered forbidden.',
+  'architecture.page.model.edit.orphan_warning.title': 'Warning',
+  'architecture.page.model.edit.orphan_warning.description':
+    'Some components have no relationships defined:',
+  'architecture.page.model.edit.orphan_warning.stay': 'Continue editing',
+  'architecture.page.model.edit.orphan_warning.save': 'Save anyway',
   'architecture.page.model.modal.add_component': 'Add Component',
   'architecture.page.model.modal.add_subcomponent': 'Add Sub-Component',
   'architecture.page.model.modal.add_component.title': 'New Component',
