@@ -433,44 +433,44 @@ export function Sidebar(props: Readonly<Props>) {
             stats={facets.rules}
           />
 
-          {!disableDeveloperAggregatedInfo && (
+          <Divider className="sw-my-2" />
+
+          <TagFacet
+            branch={branch}
+            component={component}
+            fetching={props.loadingFacets.tags === true}
+            loadSearchResultCount={props.loadSearchResultCount}
+            onChange={props.onFilterChange}
+            onToggle={props.onFacetToggle}
+            open={!!openFacets.tags}
+            query={query}
+            stats={facets.tags}
+            tags={query.tags}
+          />
+
+          {displayProjectsFacet && (
             <>
               <Divider className="sw-my-2" />
 
-              <TagFacet
-                branch={branch}
+              <ProjectFacet
                 component={component}
-                fetching={props.loadingFacets.tags === true}
+                fetching={props.loadingFacets.projects === true}
                 loadSearchResultCount={props.loadSearchResultCount}
                 onChange={props.onFilterChange}
                 onToggle={props.onFacetToggle}
-                open={!!openFacets.tags}
+                open={!!openFacets.projects}
+                projects={query.projects}
                 query={query}
-                stats={facets.tags}
-                tags={query.tags}
+                referencedComponents={props.referencedComponentsByKey}
+                stats={facets.projects}
               />
+            </>
+          )}
 
-              {displayProjectsFacet && (
-                <>
-                  <Divider className="sw-my-2" />
+          {renderComponentFacets()}
 
-                  <ProjectFacet
-                    component={component}
-                    fetching={props.loadingFacets.projects === true}
-                    loadSearchResultCount={props.loadSearchResultCount}
-                    onChange={props.onFilterChange}
-                    onToggle={props.onFacetToggle}
-                    open={!!openFacets.projects}
-                    projects={query.projects}
-                    query={query}
-                    referencedComponents={props.referencedComponentsByKey}
-                    stats={facets.projects}
-                  />
-                </>
-              )}
-
-              {renderComponentFacets()}
-
+          {!disableDeveloperAggregatedInfo && (
+            <>
               {!props.myIssues && (
                 <>
                   <Divider className="sw-my-2" />

@@ -241,6 +241,33 @@ describe('MQR mode', () => {
       'issues.facet.authors',
     ]);
   });
+  it('should hide only assignee and author facets when disableDeveloperAggregatedInfo is enabled', () => {
+    renderSidebar(
+      { component: mockComponent({ qualifier: ComponentQualifier.Application }) },
+      [],
+      mockLoggedInUser(),
+      { [GlobalSettingKeys.DeveloperAggregatedInfoDisabled]: 'true' },
+    );
+
+    expect(screen.getAllByRole('button').map((button) => button.textContent)).toStrictEqual([
+      'issues.facet.impactSoftwareQualities',
+      '',
+      'coding_rules.facet.impactSeverities',
+      // help icon
+      '',
+      'issues.facet.cleanCodeAttributeCategories',
+      '',
+      'issues.facet.scopes',
+      'issues.facet.issueStatuses',
+      '',
+      'issues.facet.standards',
+      'issues.facet.createdAt',
+      'issues.facet.languages',
+      'issues.facet.rules',
+      'issues.facet.tags',
+      'issues.facet.projects',
+    ]);
+  });
 });
 
 describe('Standard mode', () => {
@@ -410,6 +437,30 @@ describe('Standard mode', () => {
       'issues.facet.authors',
     ]);
   });
+  it('should hide only assignee and author facets when disableDeveloperAggregatedInfo is enabled', async () => {
+    renderSidebar(
+      { component: mockComponent({ qualifier: ComponentQualifier.Application }) },
+      [],
+      mockLoggedInUser(),
+      { [GlobalSettingKeys.DeveloperAggregatedInfoDisabled]: 'true' },
+    );
+
+    expect(await screen.findByRole('button', { name: 'issues.facet.types' })).toBeInTheDocument();
+
+    expect(screen.getAllByRole('button').map((button) => button.textContent)).toStrictEqual([
+      'issues.facet.types',
+      'issues.facet.severities',
+      'issues.facet.scopes',
+      'issues.facet.issueStatuses',
+      '',
+      'issues.facet.standards',
+      'issues.facet.createdAt',
+      'issues.facet.languages',
+      'issues.facet.rules',
+      'issues.facet.tags',
+      'issues.facet.projects',
+    ]);
+  });
 });
 
 it.each([
@@ -503,6 +554,7 @@ function renderSidebar(
   props: Partial<Parameters<typeof Sidebar>[0]> = {},
   features: Feature[] = [],
   currentUser: CurrentUser = mockLoggedInUser(),
+  settings: Record<string, string> = {},
 ) {
   return renderApp(
     'sidebar',
@@ -527,7 +579,10 @@ function renderSidebar(
     />,
     {
       appState: mockAppState({
-        settings: { [GlobalSettingKeys.DeveloperAggregatedInfoDisabled]: 'false' },
+        settings: {
+          [GlobalSettingKeys.DeveloperAggregatedInfoDisabled]: 'false',
+          ...settings,
+        },
       }),
       currentUser,
       featureList: features,
