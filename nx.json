@@ -53,7 +53,7 @@
         "parallel": false
       },
       "inputs": ["productionWithShared", "^productionWithShared"],
-      "outputs": ["{projectRoot}/build/bundle-metrics.json"],
+      "outputs": ["{projectRoot}/build/webapp", "{projectRoot}/build/bundle-metrics.json"],
       "cache": true,
       "parallelism": true
     },
@@ -121,6 +121,9 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "{workspaceRoot}",
+        "env": {
+          "NX_ISOLATE_PLUGINS": "false"
+        },
         "commands": [
           "ls -la {projectRoot}/build/reports/coverage",
           "yarn nyc merge {projectRoot}/build/reports/coverage {projectRoot}/build/reports/merged-coverage/coverage-final.json",
