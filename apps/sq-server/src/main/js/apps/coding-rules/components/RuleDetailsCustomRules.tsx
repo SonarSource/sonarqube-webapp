@@ -147,7 +147,9 @@ function RuleListItem(
               <li key={param.key}>
                 <b>{param.key}</b>
                 <span>:&nbsp;</span>
-                <span title={param.defaultValue}>{param.defaultValue}</span>
+                <span className="sw-break-all" title={param.defaultValue}>
+                  {param.defaultValue}
+                </span>
               </li>
             ))}
         </Text>

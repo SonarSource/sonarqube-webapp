@@ -360,6 +360,7 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
             <TextInput
               id={`coding-rule-custom-rule-${param.key}`}
               isDisabled={submitting}
+              label={param.key}
               name={param.key}
               onChange={handleParameterChange}
               placeholder={param.defaultValue}

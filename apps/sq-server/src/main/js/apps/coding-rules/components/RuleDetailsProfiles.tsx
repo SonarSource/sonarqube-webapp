@@ -282,7 +282,11 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                     <Text className="sw-min-w-[100px]" isHighlighted>
                       {param.key}:
                     </Text>
-                    <span className="fs-mask sw-inline-block sw-code sw-ml-2" title={param.value}>
+
+                    <span
+                      className="fs-mask sw-inline-block sw-code sw-ml-2 sw-break-all"
+                      title={param.value}
+                    >
                       {param.value}
                     </span>
                   </div>
@@ -291,7 +295,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                       <div className="sw-min-w-[100px]">
                         <FormattedMessage id="coding_rules.original" />
                       </div>
-                      <span className="fs-mask sw-code sw-ml-2">{parentValue}</span>
+                      <span className="fs-mask sw-code sw-ml-2 sw-break-all">{parentValue}</span>
                     </Text>
                   )}
                 </StyledParameter>
