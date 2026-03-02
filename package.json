@@ -7,6 +7,7 @@
     "apps/sq-server",
     "private/apps/sq-cloud",
     "private/sq-cloud-e2e-tests",
+    "private/sq-cloud-metrics",
     "tools/nx-automation"
   ],
   "engines": {
@@ -119,6 +120,7 @@
   },
   "devDependencies": {
     "@aws-sdk/client-cloudwatch": "3.999.0",
+    "@aws-sdk/client-cloudwatch-logs": "3.996.0",
     "@babel/core": "7.28.5",
     "@babel/preset-env": "7.28.5",
     "@babel/preset-react": "7.28.5",

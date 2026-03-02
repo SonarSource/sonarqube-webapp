@@ -2,6 +2,10 @@
 
 ## dependencies
 
+### @aws-sdk/client-cloudwatch-logs
+
+AWS SDK v3 CloudWatch Logs client — used by `sq-cloud-metrics` to push metrics to CloudWatch Logs for long-term trend tracking.
+
 ### @date-fns/upgrade
 
 Used by sq-cloud to parse Date from string or number.
