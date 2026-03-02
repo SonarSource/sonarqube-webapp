@@ -24,11 +24,12 @@ module.exports = {
   meta: {
     type: 'problem',
     docs: {
-      description: 'Prevent unsing within from testing library',
+      description: 'Avoid using within from Testing Library',
       category: 'Best Practices',
     },
     messages: {
-      noWithin: "Don't use within as it may hide DOM update. Prefer using chain selector.",
+      noWithin:
+        "Avoid using within as it may hide DOM updates. Prefer using chain selectors when possible (ex: within(element).getByTitle() => element.byTitle().get()). If you must use within, ensure you don't keep the cached node between DOM updates.",
     },
   },
   // eslint-disable-next-line object-shorthand
