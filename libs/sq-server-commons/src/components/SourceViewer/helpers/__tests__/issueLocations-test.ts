@@ -62,4 +62,15 @@ describe('getLinearLocations', () => {
       }),
     ).toEqual([{ from: 0, line: 6, to: 42 }]);
   });
+
+  it('should expand zero-width ranges (startOffset === endOffset) by one character', () => {
+    expect(
+      getLinearLocations({
+        startLine: 5,
+        startOffset: 10,
+        endLine: 5,
+        endOffset: 10,
+      }),
+    ).toEqual([{ from: 10, line: 5, to: 11 }]);
+  });
 });

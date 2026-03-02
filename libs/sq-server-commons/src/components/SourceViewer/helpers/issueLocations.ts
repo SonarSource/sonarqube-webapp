@@ -26,11 +26,17 @@ export function getLinearLocations(textRange: TextRange | undefined): LinearIssu
   }
   const locations = [];
 
+  // When startLine === endLine and startOffset === endOffset it's a zero-width range.
+  // Expand end offset by 1 so that at least one character gets highlighted.
+  const isZeroWidthRange =
+    textRange.startLine === textRange.endLine && textRange.startOffset === textRange.endOffset;
+
   // go through all lines of the `textRange`
   for (let line = textRange.startLine; line <= textRange.endLine; line++) {
     // TODO fix 999999
     const from = line === textRange.startLine ? textRange.startOffset : 0;
-    const to = line === textRange.endLine ? textRange.endOffset : 999999;
+    const rawTo = line === textRange.endLine ? textRange.endOffset : 999999;
+    const to = isZeroWidthRange ? rawTo + 1 : rawTo;
     locations.push({ line, from, to });
   }
   return locations;
