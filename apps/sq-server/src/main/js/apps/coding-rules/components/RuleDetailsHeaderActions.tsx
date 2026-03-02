@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Text } from '@sonarsource/echoes-react';
 import { RuleDetails } from '~shared/types/rules';
 import TagsList from '~sq-server-commons/components/tags/TagsList';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -38,22 +37,23 @@ export default function RuleDetailsHeaderActions(props: Readonly<Props>) {
   const TAGS_TO_DISPLAY = 1;
 
   return (
-    <Text className="sw-flex sw-flex-wrap sw-items-center sw-gap-2" isSubtle size="small">
+    <span
+      className="it__coding-rules-detail-property sw-flex sw-flex-wrap sw-items-center sw-gap-2"
+      data-meta="tags"
+    >
       {/* Tags */}
-      <div className="it__coding-rules-detail-property" data-meta="tags">
-        <TagsList
-          allowUpdate={canWrite}
-          className="sw-typo-sm"
-          overlay={
-            canWrite ? (
-              <RuleDetailsTagsPopup setTags={onTagsChange} sysTags={sysTags} tags={tags} />
-            ) : undefined
-          }
-          tags={allTags.length > 0 ? allTags : [translate('coding_rules.no_tags')]}
-          tagsClassName="sw-typo-sm"
-          tagsToDisplay={TAGS_TO_DISPLAY}
-        />
-      </div>
-    </Text>
+      <TagsList
+        allowUpdate={canWrite}
+        className="sw-typo-sm"
+        overlay={
+          canWrite ? (
+            <RuleDetailsTagsPopup setTags={onTagsChange} sysTags={sysTags} tags={tags} />
+          ) : undefined
+        }
+        tags={allTags.length > 0 ? allTags : [translate('coding_rules.no_tags')]}
+        tagsClassName="sw-typo-sm"
+        tagsToDisplay={TAGS_TO_DISPLAY}
+      />
+    </span>
   );
 }

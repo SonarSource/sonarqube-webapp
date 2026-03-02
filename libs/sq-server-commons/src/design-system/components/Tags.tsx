@@ -83,18 +83,21 @@ export function Tags({
   return (
     <span
       aria-label={`${ariaTagsListLabel}: ${tags.join(', ')}`}
-      className={classNames('sw-cursor-default sw-flex sw-items-center', className)}
+      className={classNames('sw-relative sw-cursor-default sw-flex sw-items-center', className)}
     >
       {allowUpdate ? (
         <Dropdown
           allowResizing
+          className="sw-top-4"
           closeOnClick={false}
           id={menuId}
+          menuClassName="sw-min-w-[200px]"
           onClose={onClose}
           openDropdown={open}
           overlay={overlay}
           placement={popupPlacement}
-          zLevel={PopupZLevel.Global}
+          size="auto"
+          zLevel={PopupZLevel.Absolute}
         >
           {({ a11yAttrs, onToggleClick, open }) => (
             <WrapperButton
