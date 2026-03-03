@@ -28,6 +28,7 @@ import { SCA_METRIC_TYPE_MAP, scaFilterConditionsBySeverity } from './sca';
 
 export const RELEASES_ROUTE_NAME = 'dependencies';
 export const RISKS_ROUTE_NAME = 'dependency-risks';
+export const RISKS_PROMO_ROUTE_NAME = 'dependency-risks/promo';
 
 export const LICENSE_EXTERNAL_COPYLEFT_DETAILS_LINK = 'https://blueoakcouncil.org/copyleft';
 export const LICENSE_EXTERNAL_GENERAL_DETAILS_LINK = 'https://blueoakcouncil.org/list';
@@ -61,9 +62,9 @@ function buildUrlWithCurrentParams({
   };
 
   // Remove params if they are not in the required or optional list
-  const allParams = optionalParams.concat(Object.keys(newParams));
+  const allParams = new Set([...optionalParams, ...Object.keys(newParams)]);
   for (const key in searchObject) {
-    if (!allParams.includes(key)) {
+    if (!allParams.has(key)) {
       // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
       delete searchObject[key];
     }
@@ -115,8 +116,19 @@ type RisksUrlNewParams = NewParams<(typeof RISKS_OPTIONAL_PARAMS)[number]>;
 export function getRisksUrl(params: {
   baseUrl?: string;
   currentSearch?: string;
+  enablePromo?: boolean;
   newParams?: RisksUrlNewParams;
 }) {
+  const baseUrl = params.baseUrl ?? '/';
+
+  if (params.enablePromo) {
+    return buildUrlWithCurrentParams({
+      pathname: withBase(params.baseUrl ?? '/', RISKS_PROMO_ROUTE_NAME),
+      currentSearch: params.currentSearch,
+      newParams: params.newParams,
+    });
+  }
+
   /**
    * Unless the caller specifies otherwise, include the default risk status filters
    */
@@ -125,7 +137,7 @@ export function getRisksUrl(params: {
   if (!newStatuses) {
     newStatuses = Object.keys(DefaultRiskStatusFilters).join(',');
   }
-  const baseUrl = params.baseUrl ?? '/';
+
   return buildUrlWithCurrentParams({
     pathname: withBase(baseUrl, `${RISKS_ROUTE_NAME}`),
     currentSearch: params.currentSearch,
