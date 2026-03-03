@@ -74,7 +74,6 @@ export const EXTENSION_PAGE_TEMPLATES: Record<string, React.ComponentType | unde
   'developer-server/application-console': ProjectPageTemplate,
   'governance/application_report': ProjectPageTemplate,
   'governance/console': ProjectPageTemplate,
-  'governance/report': ProjectPageTemplate,
   'governance/views_console': GlobalPageTemplate,
   'securityreport/securityreport': ProjectPageTemplate,
 };

@@ -24,6 +24,7 @@ import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
+import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
@@ -31,6 +32,7 @@ import { hasMessage } from '~sq-server-commons/helpers/l10n';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
+import { pathForExtension } from '../../extensions/helpers';
 
 interface Props extends WithAvailableFeaturesProps {
   branchLike?: BranchLike;
@@ -40,6 +42,7 @@ interface Props extends WithAvailableFeaturesProps {
 function ComponentNavSettingsMenu(props: Readonly<Props>) {
   const { branchLike, component, hasFeature } = props;
   const { configuration = {}, qualifier } = component;
+  const appState = useAppState();
 
   if (!configuration.showSettings) {
     return null;
@@ -56,6 +59,8 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
   const showSettings = !isApp && !isPortfolio;
   const showBaseline = !isApp && !isPortfolio;
   const showAiGeneratedCode = isProj && hasFeature(Feature.AiCodeAssurance) && addons.aica;
+  const isGovernanceEnabled = appState.qualifiers.includes(ComponentQualifier.Portfolio);
+  const showPortfolioReportSettings = isPortfolio && isGovernanceEnabled;
   const showDeletion = [
     ComponentQualifier.Project,
     ComponentQualifier.Portfolio,
@@ -114,20 +119,30 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
         </Layout.SidebarNavigation.Item>
       )}
 
-      {adminExtensions.map((extension) => (
+      {adminExtensions.map(({ key, name }) => (
         <Layout.SidebarNavigation.Item
           Icon={IconGear}
           disableIconWhenSidebarOpen
-          key={extension.key}
+          key={key}
           to={{
-            pathname: `/project/admin/extension/${extension.key}`,
+            pathname: pathForExtension(key, true),
             search: new URLSearchParams({ ...query, qualifier }).toString(),
           }}
         >
           {/* eslint-disable-next-line react/forbid-component-props */}
-          <FormattedMessage defaultMessage={extension.name} id={extension.name} />
+          <FormattedMessage defaultMessage={name} id={name} />
         </Layout.SidebarNavigation.Item>
       ))}
+
+      {showPortfolioReportSettings && (
+        <Layout.SidebarNavigation.Item
+          Icon={IconGear}
+          disableIconWhenSidebarOpen
+          to={{ pathname: '/portfolio/report', search }}
+        >
+          <FormattedMessage id="governance_report.page" />
+        </Layout.SidebarNavigation.Item>
+      )}
 
       {showAiGeneratedCode && addons.aica && (
         <Layout.SidebarNavigation.Item

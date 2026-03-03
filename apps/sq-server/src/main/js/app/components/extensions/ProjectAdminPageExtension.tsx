@@ -38,7 +38,7 @@ export default function ProjectAdminPageExtension() {
   let extensionKey = extensionKeyFromParams;
 
   // If params are empty, extract from pathname (for migrated extensions with static routes)
-  // Example pathname: /project/admin/extension/governance/report
+  // Example pathname: /project/admin/extension/governance/console
   if (!pluginKeyFromParams || !extensionKeyFromParams) {
     [, pluginKey, extensionKey] =
       /\/admin\/extension\/([^/]+)\/([^/]+)/.exec(location.pathname) ?? [];

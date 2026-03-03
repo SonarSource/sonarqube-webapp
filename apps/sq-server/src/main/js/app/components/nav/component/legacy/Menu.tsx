@@ -48,6 +48,7 @@ import { useGetValueQuery } from '~sq-server-commons/queries/settings';
 import { Feature } from '~sq-server-commons/types/features';
 import { SettingsKey } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
+import { pathForExtension } from '../../../extensions/helpers';
 import { MenuMoreDropdown } from './MenuMoreDropdown';
 
 const MAXIMUM_DISPLAYED_LINK_COUNT = 8;
@@ -361,6 +362,18 @@ export function Menu(props: Readonly<Props>) {
     );
   };
 
+  const renderPortfolioReportSettingsLink = (query: Query, isPortfolio: boolean) => {
+    if (!isPortfolio || !isGovernanceEnabled) {
+      return null;
+    }
+    return renderDropdownMenuLink({
+      key: 'portfolio-report',
+      label: intl.formatMessage({ id: 'governance_report.page' }),
+      pathname: '/portfolio/report',
+      additionalQueryParams: query,
+    });
+  };
+
   const renderAdministrationLinks = (
     query: Query,
     isProject: boolean,
@@ -372,6 +385,7 @@ export function Menu(props: Readonly<Props>) {
       renderBranchesLink(query, isProject),
       renderBaselineLink(query, isApplication, isPortfolio),
       ...renderAdminExtensions(isApplication),
+      renderPortfolioReportSettingsLink(query, isPortfolio),
       renderAiGeneratedCodeLink(query, isProject),
       renderImportExportLink(query, isProject),
       renderProfilesLink(query),
@@ -615,12 +629,12 @@ export function Menu(props: Readonly<Props>) {
     );
   };
 
-  const getExtensionData = ({ key, name }: Extension, isAdmin: boolean) => {
-    const pathname = isAdmin ? `/project/admin/extension/${key}` : `/project/extension/${key}`;
-    const additionalQueryParams = { qualifier };
-
-    return { key, label: name, pathname, additionalQueryParams };
-  };
+  const getExtensionData = ({ key, name }: Extension, isAdmin: boolean) => ({
+    key,
+    label: name,
+    pathname: pathForExtension(key, isAdmin),
+    additionalQueryParams: { qualifier },
+  });
 
   const renderAdminExtensions = (isApplication: boolean) => {
     const extensions = component.configuration?.extensions ?? [];
@@ -676,12 +690,7 @@ export function Menu(props: Readonly<Props>) {
 
       return hasAnalysis() ? (
         <DropdownMenu
-          items={
-            <>
-              {renderDropdownMenuLink(codeLinkData)}
-              {renderDropdownMenuLink(releasesLinkData)}
-            </>
-          }
+          items={[renderDropdownMenuLink(codeLinkData), renderDropdownMenuLink(releasesLinkData)]}
         >
           <NavBarTabLink active={isActive} preventDefault text={label} to={{}} withChevron />
         </DropdownMenu>
