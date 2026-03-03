@@ -12,7 +12,7 @@ runs:
           development/artifactory/token/{REPO_OWNER_NAME_DASH}-private-reader access_token | ARTIFACTORY_ACCESS_TOKEN;
     - uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3
       with:
-        version: 2025.11.1
+        version: 2026.2.19
     - name: Cache Yarn dependencies
       uses: SonarSource/ci-github-actions/cache@v1
       with:
