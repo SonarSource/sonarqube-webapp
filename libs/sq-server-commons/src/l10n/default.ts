@@ -2004,6 +2004,7 @@ export const defaultMessages = {
   'sca.licenses.category.permissive_amateur.name': 'Non-standard permissive',
   'sca.licenses.category.uncategorized.name': 'Other',
   'sca.licenses.category.filter_by_category': 'All categories',
+  'sca.licenses.profile.filter_by_policy': 'All policies',
 
   'sca.licenses.category.permissive_standard':
     'This category includes the most commonly used permissive licenses. Permissive licenses grant broad permissions to use, and modify, with very minimal obligations (primarily attribution). Licenses in this category have all the essential elements of permissive open source licenses. Example standard permissive licenses include the MIT and Apache software licenses.',
