@@ -31,7 +31,7 @@ export interface FiltersHeaderProps {
 
 export default function FiltersHeader({
   clearAllButtonLabel,
-  clearAllButtonVariety = ButtonVariety.DangerOutline,
+  clearAllButtonVariety = ButtonVariety.Default,
   displayReset,
   onReset,
   title,

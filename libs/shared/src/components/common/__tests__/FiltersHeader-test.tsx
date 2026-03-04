@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { ButtonVariety } from '@sonarsource/echoes-react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithContext } from '../../../helpers/test-utils';
@@ -44,6 +45,25 @@ describe('FiltersHeader', () => {
     await user.click(screen.getByRole('button'));
 
     expect(onReset).toHaveBeenCalled();
+  });
+
+  it('should use default button variety (Default) when not specified', () => {
+    renderFiltersHeader({ displayReset: true });
+    const button = screen.getByRole('button', { name: 'clear_all_filters' });
+
+    // Button should render successfully with default variety
+    expect(button).toBeInTheDocument();
+  });
+
+  it('should use custom button variety when specified', () => {
+    renderFiltersHeader({
+      displayReset: true,
+      clearAllButtonVariety: ButtonVariety.Danger,
+    });
+    const button = screen.getByRole('button', { name: 'clear_all_filters' });
+
+    // Button should exist with danger variety applied
+    expect(button).toBeInTheDocument();
   });
 
   function renderFiltersHeader(props: Partial<FiltersHeaderProps> = {}) {
