@@ -141,6 +141,10 @@ export function mockStandards(): StandardsInformation {
         title: "Sensitive Cookie Without 'HttpOnly' Flag",
       },
     },
+    'cwe-2021': {},
+    'cwe-2022': {},
+    'cwe-2023': {},
+    'cwe-2024': {},
     'owaspMobileTop10-2024': {
       m1: {
         title: 'Improper Credential Usage',

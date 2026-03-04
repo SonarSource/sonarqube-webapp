@@ -55,6 +55,28 @@ describe('standards renderers', () => {
         title: 'No CWE associated',
       },
     },
+    'cwe-2024': {
+      787: { title: 'Out-of-bounds Write' },
+      79: { title: 'Cross-site Scripting (XSS)' },
+      89: { title: 'SQL Injection' },
+      416: { title: 'Use After Free' },
+    },
+    'cwe-2023': {
+      787: { title: 'Out-of-bounds Write' },
+      79: { title: 'Cross-site Scripting (XSS)' },
+      89: { title: 'SQL Injection' },
+      352: { title: 'Cross-Site Request Forgery (CSRF)' },
+    },
+    'cwe-2022': {
+      787: { title: 'Out-of-bounds Write' },
+      79: { title: 'Cross-site Scripting (XSS)' },
+      89: { title: 'SQL Injection' },
+    },
+    'cwe-2021': {
+      787: { title: 'Out-of-bounds Write' },
+      79: { title: 'Cross-site Scripting (XSS)' },
+      125: { title: 'Out-of-bounds Read' },
+    },
     'owaspMobileTop10-2024': {
       m1: {
         title: 'Improper Credential Usage',

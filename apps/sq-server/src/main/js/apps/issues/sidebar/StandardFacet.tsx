@@ -27,6 +27,7 @@ import { FormattedMessage } from 'react-intl';
 import { FacetBox, FacetItem } from '~design-system';
 import { ListStyleFacetFooter } from '~shared/components/facet/ListStyleFacetFooter';
 import MultipleSelectionHint from '~shared/components/MultipleSelectionHint';
+import { getStandardsAvailableInIssuesFilter } from '~shared/helpers/compliance-standards-registry';
 import { highlightTerm } from '~shared/helpers/search';
 import { getStandards, renderCWECategory } from '~shared/helpers/security-standards';
 import { StandardsInformation, StandardsInformationKey } from '~shared/types/security';
@@ -34,10 +35,7 @@ import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyle
 import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { Facet, IssuesQuery } from '~sq-server-commons/types/issues';
-import {
-  createEmptyStandardsInformation,
-  STANDARDS_REGISTRY,
-} from '~sq-server-commons/utils/compliance-standards';
+import { createEmptyStandardsInformation } from '~sq-server-commons/utils/compliance-standards';
 import { formatFacetStat, STANDARDS } from '~sq-server-commons/utils/issues-utils';
 
 // Configuration for each standard
@@ -48,8 +46,8 @@ interface StandardConfig {
   showMoreEnabled?: boolean; // Whether to show "Show More/Less" functionality
 }
 
-// Derived from STANDARDS_REGISTRY - no need to manually maintain this list
-const STANDARD_CONFIGS: StandardConfig[] = STANDARDS_REGISTRY.map((s) => ({
+// Only include standards available for issues filtering (excludes year-specific versions)
+const STANDARD_CONFIGS: StandardConfig[] = getStandardsAvailableInIssuesFilter().map((s) => ({
   key: s.key,
   name: s.displayName,
   renderCategory: s.renderCategory,

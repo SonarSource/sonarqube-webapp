@@ -20,7 +20,7 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry';
+import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry-definitions';
 import { mockQuery } from '~sq-server-commons/helpers/mocks/issues';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { StandardFacet } from '../StandardFacet';
@@ -51,6 +51,28 @@ jest.mock('~shared/helpers/security-standards', () => ({
       cwe: {
         79: 'CWE-79 - Cross-site Scripting (XSS)',
         89: 'CWE-89 - SQL Injection',
+      },
+      'cwe-2021': {
+        787: 'CWE-787 - Out-of-bounds Write',
+        79: 'CWE-79 - Cross-site Scripting (XSS)',
+        125: 'CWE-125 - Out-of-bounds Read',
+      },
+      'cwe-2022': {
+        787: 'CWE-787 - Out-of-bounds Write',
+        79: 'CWE-79 - Cross-site Scripting (XSS)',
+        89: 'CWE-89 - SQL Injection',
+      },
+      'cwe-2023': {
+        787: 'CWE-787 - Out-of-bounds Write',
+        79: 'CWE-79 - Cross-site Scripting (XSS)',
+        89: 'CWE-89 - SQL Injection',
+        352: 'CWE-352 - Cross-Site Request Forgery (CSRF)',
+      },
+      'cwe-2024': {
+        787: 'CWE-787 - Out-of-bounds Write',
+        79: 'CWE-79 - Cross-site Scripting (XSS)',
+        89: 'CWE-89 - SQL Injection',
+        416: 'CWE-416 - Use After Free',
       },
       sonarsourceSecurity: {
         'buffer-overflow': 'Buffer Overflow',
@@ -150,13 +172,23 @@ it('should clear standards facet including owaspMobileTop10-2024', async () => {
 
   await user.click(await screen.findByTestId('clear-issues.facet.standards'));
 
-  const expectedClearedStandards = Object.fromEntries(
-    STANDARDS_REGISTRY.map((standard) => [standard.queryProp, []]),
-  );
-
   expect(onChange).toHaveBeenCalledWith({
     standards: [],
-    ...expectedClearedStandards,
+    casa: [],
+    cwe: [],
+    'owaspAsvs-4.0': [],
+    'owaspAsvs-5.0': [],
+    'owaspLlmTop10-2025': [],
+    'owaspMasvs-v2': [],
+    'owaspMobileTop10-2024': [],
+    owaspTop10: [],
+    'owaspTop10-2021': [],
+    'owaspTop10-2025': [],
+    'pciDss-3.2': [],
+    'pciDss-4.0': [],
+    sonarsourceSecurity: [],
+    'stig-ASD_V5R3': [],
+    'stig-ASD_V6': [],
   });
 });
 

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry';
+import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry-definitions';
 import {
   CodeAttributeCategory,
   SoftwareImpactSeverity,

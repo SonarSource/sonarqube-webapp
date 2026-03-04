@@ -35,7 +35,7 @@ import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
-import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry';
+import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry-definitions';
 import { isPortfolioLike, isProject } from '~shared/helpers/component';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier } from '~shared/types/component';

@@ -19,7 +19,7 @@
  */
 
 import { isEmpty } from 'lodash';
-import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry';
+import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry-definitions';
 import {
   CodeAttributeCategory,
   SoftwareImpactSeverity,

@@ -20,7 +20,7 @@
 
 import { flatten, groupBy, sortBy } from 'lodash';
 import { HotspotRatingEnum } from '~design-system';
-import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry';
+import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry-definitions';
 import {
   Hotspot,
   HotspotResolution,

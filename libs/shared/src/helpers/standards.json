@@ -4116,6 +4116,10 @@
       "title": "No CWE associated"
     }
   },
+  "cwe-2021": {},
+  "cwe-2022": {},
+  "cwe-2023": {},
+  "cwe-2024": {},
   "sonarsourceSecurity": {
     "buffer-overflow": {
       "title": "Buffer Overflow"
