@@ -59,7 +59,7 @@ export default function ComponentBreadcrumbs({
         { id: 'issues.on_file_x' },
         { file: `${displayProject ? issue.projectName + ', ' : ''}${componentName}` },
       )}
-      className="sw-flex sw-box-border sw-w-full sw-pb-2 sw-pt-4 sw-truncate"
+      className="sw-flex sw-box-border sw-w-full sw-max-w-full sw-pb-2 sw-pt-4 sw-truncate"
       isSubtle
     >
       {displayProject && (
