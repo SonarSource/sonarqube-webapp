@@ -819,7 +819,6 @@ export const componentMap = {
   CardHeaderTitle: 'Card',
   CardMeasures: 'Excluded',
   CommentModal: 'Modal',
-  QualityGateOnboardingTooltip: 'Tooltip',
   ErrorNeedBillingUpgrade: 'MessageCallout',
   SoftwareImpactsHelp: 'ToggleTip',
   StandardsSidebar: 'Excluded',
