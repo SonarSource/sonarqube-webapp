@@ -4856,14 +4856,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@launchdarkly/toolbar@npm:1.3.1":
-  version: 1.3.1
-  resolution: "@launchdarkly/toolbar@npm:1.3.1"
+"@launchdarkly/toolbar@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@launchdarkly/toolbar@npm:2.2.0"
   peerDependencies:
+    "@angular/common": ">=14.0.0 <22.0.0"
+    "@angular/core": ">=14.0.0 <22.0.0"
     launchdarkly-js-client-sdk: ">=3.9.0 <4.0.0"
     react: ^18.0.0 || ^19.0.0
     react-dom: ^18.0.0 || ^19.0.0
-  checksum: 10/1941d84dbe846d6466421b114c4edc4044df707af7b25f1441536a616b9b6a7eea7a0160e8a9b8ac56bb6de2f7e4edf86de73e0c802174abf3cef70e06fa3783
+    vue: ^2.7.0 || ^3.0.0
+  peerDependenciesMeta:
+    "@angular/common":
+      optional: true
+    "@angular/core":
+      optional: true
+    react:
+      optional: true
+    react-dom:
+      optional: true
+    vue:
+      optional: true
+  checksum: 10/a0724a78661152958b6cad9fce60add48d6f4bcba76a4489fc7a3a92ea61ee4d5e7e6ed450d5123831dd4e4a0195842a7214fed99eb2fc110ffb1f2383216d5d
   languageName: node
   linkType: hard
 
@@ -23567,7 +23581,7 @@ __metadata:
     "@fullstory/snippet": "npm:2.0.5"
     "@jupyterlab/nbformat": "npm:4.4.10"
     "@launchdarkly/observability": "npm:0.4.9"
-    "@launchdarkly/toolbar": "npm:1.3.1"
+    "@launchdarkly/toolbar": "npm:2.2.0"
     "@nx/devkit": "npm:22.2.0"
     "@nx/eslint": "npm:22.2.0"
     "@nx/eslint-plugin": "npm:22.2.0"
