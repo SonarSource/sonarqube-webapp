@@ -4822,37 +4822,37 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@launchdarkly/js-client-sdk-common@npm:1.13.0":
-  version: 1.13.0
-  resolution: "@launchdarkly/js-client-sdk-common@npm:1.13.0"
+"@launchdarkly/js-client-sdk-common@npm:1.20.0":
+  version: 1.20.0
+  resolution: "@launchdarkly/js-client-sdk-common@npm:1.20.0"
   dependencies:
-    "@launchdarkly/js-sdk-common": "npm:2.17.0"
-  checksum: 10/754d0b873714adac5d63fa3b5c416fcc8e089d09bf9061aa30e038a171c647cf4cfe0aded0f33ace02545cd0ef02e011500241ccdcda412fb6e514492b51e730
+    "@launchdarkly/js-sdk-common": "npm:2.22.0"
+  checksum: 10/25fd3f146c3c64f5a3d1679d640d32429ac465e3cbea2032fbb34eca6c2399d5686172a2c45cd8c4ff4a1c27529df7fac7e73496071d182d4e85103329a3dbae
   languageName: node
   linkType: hard
 
-"@launchdarkly/js-client-sdk@npm:^0.6.0":
-  version: 0.6.0
-  resolution: "@launchdarkly/js-client-sdk@npm:0.6.0"
+"@launchdarkly/js-client-sdk@npm:^4.0.0":
+  version: 4.3.0
+  resolution: "@launchdarkly/js-client-sdk@npm:4.3.0"
   dependencies:
-    "@launchdarkly/js-client-sdk-common": "npm:1.13.0"
-  checksum: 10/b95fb6178055c4c4df9a8f1ca4eadd3a77eb160ec655a6175fa55e4103e03b979caa8eb1a35b9c91109f6fbda086bb34ba91f0ba626635a4bf985258c55463b5
+    "@launchdarkly/js-client-sdk-common": "npm:1.20.0"
+  checksum: 10/52dc310cb4d6eec545dce3aa3b1b9fc9f086486436024549471e09ead156e4356bcabbd92e45a377a15e2a05075c57fa38fd6e00f02ec86dd57024444f5d5826
   languageName: node
   linkType: hard
 
-"@launchdarkly/js-sdk-common@npm:2.17.0":
-  version: 2.17.0
-  resolution: "@launchdarkly/js-sdk-common@npm:2.17.0"
-  checksum: 10/09ae02cbfd809b5b926c76aaaf771db11ffa8625c19ecbacc4176a7effc65bd0ec4fcd9fc539312d66910147c263b8143d773a34cc8f9ed3bb8e0a36ff36e29d
+"@launchdarkly/js-sdk-common@npm:2.22.0":
+  version: 2.22.0
+  resolution: "@launchdarkly/js-sdk-common@npm:2.22.0"
+  checksum: 10/e9412a5728619a94731f770761c93a19c9d4383190a2e9c860a21c4d71be8fdae77862d5ebbd3157bda7ae72e748511a97eed57d5146ca5d10cd25e4d0252397
   languageName: node
   linkType: hard
 
-"@launchdarkly/observability@npm:0.4.9":
-  version: 0.4.9
-  resolution: "@launchdarkly/observability@npm:0.4.9"
+"@launchdarkly/observability@npm:1.0.2":
+  version: 1.0.2
+  resolution: "@launchdarkly/observability@npm:1.0.2"
   dependencies:
-    highlight.run: "npm:9.23.0"
-  checksum: 10/026c2967a76e976d95dbb6022321eda3dc54bf885268c00cbf5fdca35b0eafc10be98835c34c2276ee7bb3c550599b565e7b1fc0d22a060769903971cb59cc99
+    highlight.run: "npm:9.27.0"
+  checksum: 10/b5a5e8ea13e3552fb990852e752e3790b9affcd2077f3e2b734a5ca739ea560bb05e8d40a3a70ab9a3d9305e7bc934a84ea133611b40a19422fe69d59b88292f
   languageName: node
   linkType: hard
 
@@ -16063,13 +16063,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"highlight.run@npm:9.23.0":
-  version: 9.23.0
-  resolution: "highlight.run@npm:9.23.0"
+"highlight.run@npm:9.27.0":
+  version: 9.27.0
+  resolution: "highlight.run@npm:9.27.0"
   dependencies:
-    "@launchdarkly/js-client-sdk": "npm:^0.6.0"
+    "@launchdarkly/js-client-sdk": "npm:^4.0.0"
     imurmurhash: "npm:^0.1.4"
-  checksum: 10/d4525a0ed30551bb19bb833e1a405766949ba257cd0bf71024fa507b0b28cdcfcff974e0cf23a6f55b42ec676ec0e198f82cdb41276b6b97a3d672a232c2d3dd
+  checksum: 10/8165555b64adeef29d5a6599ca01425df524e63b81deb0b78e77ae71fe7fee16c87a8b02afc4cb5624589b738d9865b780c2564d720ba4b060cee2aa051d0c68
   languageName: node
   linkType: hard
 
@@ -23580,7 +23580,7 @@ __metadata:
     "@fullstory/browser": "npm:2.0.6"
     "@fullstory/snippet": "npm:2.0.5"
     "@jupyterlab/nbformat": "npm:4.4.10"
-    "@launchdarkly/observability": "npm:0.4.9"
+    "@launchdarkly/observability": "npm:1.0.2"
     "@launchdarkly/toolbar": "npm:2.2.0"
     "@nx/devkit": "npm:22.2.0"
     "@nx/eslint": "npm:22.2.0"
