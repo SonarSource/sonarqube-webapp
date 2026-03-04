@@ -29,6 +29,7 @@ import { Facet, IssuesQuery, IssueType, ReferencedRule } from '~sq-server-common
 
 interface Props {
   fetching: boolean;
+  langStats: Record<string, number> | undefined;
   loadSearchResultCount: (property: string, changes: Partial<IssuesQuery>) => Promise<Facet>;
   onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
@@ -40,11 +41,13 @@ interface Props {
 
 export class RuleFacet extends React.PureComponent<Props> {
   handleSearch = (query: string, page = 1) => {
+    const { langStats } = this.props;
     const { languages, types } = this.props.query;
+    const finalLanguages = languages.length ? languages : Object.keys(langStats ?? {});
 
     return searchRules({
       f: 'name,langName',
-      languages: languages.length ? languages.join() : undefined,
+      languages: finalLanguages.length ? finalLanguages.join() : undefined,
       q: query,
       p: page,
       ps: 30,

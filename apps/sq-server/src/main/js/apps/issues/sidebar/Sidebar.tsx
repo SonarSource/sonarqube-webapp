@@ -424,6 +424,7 @@ export function Sidebar(props: Readonly<Props>) {
 
           <RuleFacet
             fetching={props.loadingFacets.rules === true}
+            langStats={facets.languages}
             loadSearchResultCount={props.loadSearchResultCount}
             onChange={props.onFilterChange}
             onToggle={props.onFacetToggle}
