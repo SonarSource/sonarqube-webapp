@@ -436,9 +436,90 @@ export function getAllComplianceStandardFacets(): string[] {
  * @returns The backend facet name ('complianceStandards' for all standards, otherwise the original facet)
  */
 export function mapFacetToBackendName(facet: string): string {
-  // All compliance standards use the complianceStandards facet
   if (isComplianceStandardFacet(facet)) {
     return 'complianceStandards';
   }
   return facet;
+}
+
+export const STANDARDS = 'standards';
+
+/**
+ * Determines whether the top-level "Standards" facet group should be open.
+ * Used by both Issues and Rules pages on both SQC and SQS.
+ */
+export function shouldOpenStandardsFacet(
+  openFacets: Record<string, boolean>,
+  query: object,
+): boolean {
+  const q = query as Record<string, unknown>;
+  return (
+    openFacets[STANDARDS] ||
+    isFilteredBySecurityIssueTypes(q) ||
+    isOneStandardChildFacetOpen(openFacets, q)
+  );
+}
+
+/**
+ * Determines whether a specific standard child facet should be open.
+ */
+export function shouldOpenStandardsChildFacet(
+  openFacets: Record<string, boolean>,
+  query: object,
+  standardType: string,
+): boolean {
+  const q = query as Record<string, unknown>;
+  const filter = q[standardType] as string[] | undefined;
+  return (
+    openFacets[STANDARDS] !== false &&
+    (openFacets[standardType] || (standardType !== StandardsInformationKey.CWE && !!filter?.length))
+  );
+}
+
+/**
+ * Determines whether the SonarSource Security child facet should be open.
+ * Opens by default when the parent is open and no other child is open.
+ */
+export function shouldOpenSonarSourceSecurityFacet(
+  openFacets: Record<string, boolean>,
+  query: object,
+): boolean {
+  const q = query as Record<string, unknown>;
+  return (
+    shouldOpenStandardsChildFacet(openFacets, q, StandardsInformationKey.SONARSOURCE) ||
+    (shouldOpenStandardsFacet(openFacets, q) && !isOneStandardChildFacetOpen(openFacets, q))
+  );
+}
+
+function isFilteredBySecurityIssueTypes(query: Record<string, unknown>): boolean {
+  const types = query.types as string[] | undefined;
+  return !!types?.includes('VULNERABILITY');
+}
+
+function isOneStandardChildFacetOpen(
+  openFacets: Record<string, boolean>,
+  query: Record<string, unknown>,
+): boolean {
+  return ALL_STANDARD_KEYS.some((standardType) =>
+    shouldOpenStandardsChildFacet(openFacets, query, standardType),
+  );
+}
+
+/**
+ * Maps an array of open frontend facet names to their backend API equivalents.
+ * Deduplicates compliance standard facets (which all map to 'complianceStandards').
+ *
+ * @param openFacets - Record of facet name to open state
+ * @param shouldRequest - Filter function to determine if a facet should be requested
+ * @returns Deduplicated array of backend facet names
+ */
+export function mapOpenFacetsToBackendFacets(
+  openFacets: Record<string, boolean>,
+  shouldRequest: (facet: string) => boolean,
+): string[] {
+  const backendFacets = Object.keys(openFacets)
+    .filter((facet) => openFacets[facet] && shouldRequest(facet))
+    .map(mapFacetToBackendName);
+
+  return [...new Set(backendFacets)];
 }

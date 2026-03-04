@@ -19,7 +19,7 @@
  */
 
 import { isEmpty } from 'lodash';
-import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry-definitions';
+import { getAllComplianceStandardFacets } from '~shared/helpers/compliance-standards-registry';
 import {
   CodeAttributeCategory,
   SoftwareImpactSeverity,
@@ -161,11 +161,8 @@ export function areQueriesEqual(a: RawQuery, b: RawQuery) {
 }
 
 export function shouldRequestFacet(facet: string): facet is FacetKey {
-  // Automatically include all standards from the registry
-  const standardFacets = STANDARDS_REGISTRY.map((s) => s.queryProp);
-
   const facetsToRequest = [
-    ...standardFacets,
+    ...getAllComplianceStandardFacets(),
     'languages',
     'repositories',
     'severities',

@@ -27,6 +27,12 @@ import { InputSearch } from '~design-system';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { withRouter } from '~shared/components/hoc/withRouter';
+import {
+  STANDARDS,
+  mapOpenFacetsToBackendFacets,
+  shouldOpenSonarSourceSecurityFacet,
+  shouldOpenStandardsFacet,
+} from '~shared/helpers/compliance-standards-registry';
 import { Paging } from '~shared/types/paging';
 import { Location, RawQuery, Router } from '~shared/types/router';
 import { Rule, RuleActivationAdvanced } from '~shared/types/rules';
@@ -68,11 +74,6 @@ import {
   mapBackendFacetKeyToFrontend,
   mapFacetToBackendName,
 } from '~sq-server-commons/utils/compliance-standards';
-import {
-  STANDARDS,
-  shouldOpenSonarSourceSecurityFacet,
-  shouldOpenStandardsFacet,
-} from '~sq-server-commons/utils/issues-utils';
 import '../styles.css';
 import BulkChange from './BulkChange';
 import FacetsList from './FacetsList';
@@ -205,12 +206,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
   };
 
   getFacetsToFetch = () => {
-    const { openFacets } = this.state;
-    const backendFacets = Object.keys(openFacets)
-      .filter((facet: FacetKey) => openFacets[facet] && shouldRequestFacet(facet))
-      .map((facet: FacetKey) => mapFacetToBackendName(facet));
-
-    return [...new Set(backendFacets)];
+    return mapOpenFacetsToBackendFacets(this.state.openFacets, shouldRequestFacet);
   };
 
   getFieldsToFetch = () => {

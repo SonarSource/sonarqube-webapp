@@ -19,7 +19,6 @@
  */
 
 import { intersection, isArray, uniq } from 'lodash';
-import { ALL_STANDARD_KEYS } from '~shared/helpers/compliance-standards-registry';
 import { get, save } from '~shared/helpers/storage';
 import { isDefined } from '~shared/helpers/types';
 import {
@@ -29,7 +28,6 @@ import {
 } from '~shared/types/clean-code-taxonomy';
 import { MetricType } from '~shared/types/metrics';
 import { RawQuery } from '~shared/types/router';
-import { StandardsInformationKey } from '~shared/types/security';
 import { DEFAULT_ISSUES_QUERY } from '../components/shared/utils';
 import {
   cleanQuery,
@@ -60,8 +58,6 @@ import {
   parseComplianceStandards,
   populateStandardsFromParsed,
 } from './compliance-standards';
-
-export const STANDARDS = 'standards';
 
 // allow sorting by CREATION_DATE only
 const parseAsSort = (sort: string) => (sort === 'CREATION_DATE' ? 'CREATION_DATE' : '');
@@ -319,52 +315,4 @@ export function allLocationsEmpty(
   selectedFlowIndex: number | undefined,
 ) {
   return getLocations(issue, selectedFlowIndex).every((location) => !location.msg);
-}
-
-export function shouldOpenStandardsFacet(
-  openFacets: Record<string, boolean>,
-  query: Partial<IssuesQuery>,
-): boolean {
-  return (
-    openFacets[STANDARDS] ||
-    isFilteredBySecurityIssueTypes(query) ||
-    isOneStandardChildFacetOpen(openFacets, query)
-  );
-}
-
-export function shouldOpenStandardsChildFacet(
-  openFacets: Record<string, boolean>,
-  query: Partial<IssuesQuery>,
-  standardType: StandardsInformationKey,
-): boolean {
-  const filter = query[standardType];
-  return (
-    openFacets[STANDARDS] !== false &&
-    (openFacets[standardType] ||
-      (standardType !== StandardsInformationKey.CWE && filter !== undefined && filter.length > 0))
-  );
-}
-
-export function shouldOpenSonarSourceSecurityFacet(
-  openFacets: Record<string, boolean>,
-  query: Partial<IssuesQuery>,
-): boolean {
-  // Open it by default if the parent is open, and no other standard is open.
-  return (
-    shouldOpenStandardsChildFacet(openFacets, query, StandardsInformationKey.SONARSOURCE) ||
-    (shouldOpenStandardsFacet(openFacets, query) && !isOneStandardChildFacetOpen(openFacets, query))
-  );
-}
-
-function isFilteredBySecurityIssueTypes(query: Partial<IssuesQuery>) {
-  return !!query.types?.includes('VULNERABILITY');
-}
-
-function isOneStandardChildFacetOpen(
-  openFacets: Record<string, boolean>,
-  query: Partial<IssuesQuery>,
-): boolean {
-  return ALL_STANDARD_KEYS.some((standardType) =>
-    shouldOpenStandardsChildFacet(openFacets, query, standardType),
-  );
 }

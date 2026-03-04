@@ -18,6 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import {
+  shouldOpenSonarSourceSecurityFacet,
+  shouldOpenStandardsChildFacet,
+  shouldOpenStandardsFacet,
+} from '~shared/helpers/compliance-standards-registry';
 import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry-definitions';
 import {
   CodeAttributeCategory,
@@ -26,13 +31,7 @@ import {
 } from '~shared/types/clean-code-taxonomy';
 import { StandardsInformationKey } from '~shared/types/security';
 import { IssueStatus } from '~sq-server-commons/types/issues';
-import {
-  parseQuery,
-  serializeQuery,
-  shouldOpenSonarSourceSecurityFacet,
-  shouldOpenStandardsChildFacet,
-  shouldOpenStandardsFacet,
-} from '~sq-server-commons/utils/issues-utils';
+import { parseQuery, serializeQuery } from '~sq-server-commons/utils/issues-utils';
 
 beforeEach(() => {
   jest.clearAllMocks();

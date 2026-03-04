@@ -27,7 +27,10 @@ import { FormattedMessage } from 'react-intl';
 import { FacetBox, FacetItem } from '~design-system';
 import { ListStyleFacetFooter } from '~shared/components/facet/ListStyleFacetFooter';
 import MultipleSelectionHint from '~shared/components/MultipleSelectionHint';
-import { getStandardsAvailableInIssuesFilter } from '~shared/helpers/compliance-standards-registry';
+import {
+  getStandardsAvailableInIssuesFilter,
+  STANDARDS,
+} from '~shared/helpers/compliance-standards-registry';
 import { highlightTerm } from '~shared/helpers/search';
 import { getStandards, renderCWECategory } from '~shared/helpers/security-standards';
 import { StandardsInformation, StandardsInformationKey } from '~shared/types/security';
@@ -36,7 +39,7 @@ import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsL
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { Facet, IssuesQuery } from '~sq-server-commons/types/issues';
 import { createEmptyStandardsInformation } from '~sq-server-commons/utils/compliance-standards';
-import { formatFacetStat, STANDARDS } from '~sq-server-commons/utils/issues-utils';
+import { formatFacetStat } from '~sq-server-commons/utils/issues-utils';
 
 // Configuration for each standard
 interface StandardConfig {

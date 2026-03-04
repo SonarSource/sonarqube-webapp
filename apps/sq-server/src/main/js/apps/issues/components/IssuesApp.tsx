@@ -35,6 +35,11 @@ import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
+import {
+  STANDARDS,
+  shouldOpenSonarSourceSecurityFacet,
+  shouldOpenStandardsFacet,
+} from '~shared/helpers/compliance-standards-registry';
 import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry-definitions';
 import { isPortfolioLike, isProject } from '~shared/helpers/component';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
@@ -84,7 +89,6 @@ import { Component, Issue } from '~sq-server-commons/types/types';
 import { CurrentUser, UserBase } from '~sq-server-commons/types/users';
 import { mapFacetToBackendName } from '~sq-server-commons/utils/compliance-standards';
 import {
-  STANDARDS,
   areMyIssuesSelected,
   areQueriesEqual,
   getOpen,
@@ -93,8 +97,6 @@ import {
   parseQuery,
   saveMyIssues,
   serializeQuery,
-  shouldOpenSonarSourceSecurityFacet,
-  shouldOpenStandardsFacet,
 } from '~sq-server-commons/utils/issues-utils';
 import * as actions from '../actions';
 import { Sidebar } from '../sidebar/Sidebar';
