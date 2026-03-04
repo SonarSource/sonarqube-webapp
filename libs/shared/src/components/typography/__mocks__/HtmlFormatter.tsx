@@ -18,6 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { mockForwardRefComponent } from 'sq-cloud/src/helpers/testUtils';
+import { mockForwardRefComponent } from '../../../helpers/test-utils';
 
 export default mockForwardRefComponent('HtmlFormatter');
