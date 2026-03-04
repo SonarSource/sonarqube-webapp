@@ -2128,8 +2128,8 @@ export const defaultMessages = {
   'architecture.page.model.errors.invalid_model': 'Unable to change model. {errors}',
   'architecture.page.model.errors.action_needed':
     'Failed to save. You must define relationships first.',
-  'architecture.page.model.errors.group.name_cannot_contain_slash':
-    'A component name cannot contain a slash.',
+  'architecture.page.model.errors.group.name_must_be_alphanumeric':
+    'A component name can only contain alphanumeric characters and dashes.',
   'architecture.page.model.modal.delete_component.title': 'Delete component',
   'architecture.page.model.modal.delete_component.confirm': 'Are you sure?',
   'architecture.page.model.modal.delete_component.delete_button': 'Delete and save',
