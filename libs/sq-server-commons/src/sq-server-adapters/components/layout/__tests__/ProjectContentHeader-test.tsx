@@ -19,13 +19,17 @@
  */
 
 import { Button } from '@sonarsource/echoes-react';
+import { UseQueryResult } from '@tanstack/react-query';
 import { screen } from '@testing-library/react';
 import { ComponentProps } from 'react';
+import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { Visibility } from '~shared/types/component';
 import { AddonsContext } from '../../../../context/addons/AddonsContext';
+import { mockPullRequest } from '../../../../helpers/mocks/branch-like';
 import { mockComponent } from '../../../../helpers/mocks/component';
 import { mockLoggedInUser } from '../../../../helpers/testMocks';
+import { BranchLike } from '../../../../types/branch-like';
 import { Feature } from '../../../../types/features';
 import { Component } from '../../../../types/types';
 import { ProjectContentHeader } from '../ProjectContentHeader';
@@ -95,6 +99,19 @@ it('should render correctly with default behavior for logged in user', () => {
   ).toBeInTheDocument();
   expect(screen.getByTestId('mocked-ncd-auto-update-message')).toBeInTheDocument();
   expect(screen.getByTestId('mocked-component-missing-mqr-metrics-message')).toBeInTheDocument();
+});
+
+it('should include pull request param in project breadcrumb link when viewing a PR', () => {
+  jest.mocked(useCurrentBranchQuery).mockReturnValue({
+    data: mockPullRequest({ key: '42' }),
+  } as UseQueryResult<BranchLike>);
+
+  setupWithProps({ title: 'Issues' });
+
+  expect(screen.getByRole('link', { name: 'MyProject' })).toHaveAttribute(
+    'href',
+    expect.stringContaining('pullRequest=42'),
+  );
 });
 
 it('should not render when component is not provided', () => {

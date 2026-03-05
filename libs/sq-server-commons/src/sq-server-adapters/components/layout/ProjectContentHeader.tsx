@@ -21,7 +21,7 @@
 import styled from '@emotion/styled';
 import { BreadcrumbsProps, ContentHeaderProps, Layout } from '@sonarsource/echoes-react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
-import { getBranchLikeDisplayName } from '~shared/helpers/branch-like';
+import { getBranchLikeDisplayName, getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
 import { ProjectBranchSelectorProps } from '~shared/types/branch-like';
 import ComponentNavProjectBindingErrorNotif from '../../../components/nav/ComponentNavProjectBindingErrorNotif';
@@ -85,7 +85,11 @@ export function ProjectContentHeader(props: Readonly<Props>) {
               hasEllipsis: true,
               className: 'js-project-link',
               linkElement: component.name,
-              to: getComponentOverviewUrl(component.key, component.qualifier),
+              to: getComponentOverviewUrl(
+                component.key,
+                component.qualifier,
+                getBranchLikeQuery(branchLike),
+              ),
               title: component.name,
             },
             ...breadcrumbs,
