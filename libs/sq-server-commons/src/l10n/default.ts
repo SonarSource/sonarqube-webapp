@@ -4339,7 +4339,8 @@ export const defaultMessages = {
   'coding_rules.bulk_change.no_quality_profile': 'No quality profile.',
   'coding_rules.can_not_bulk_change':
     'Bulk change is only available when you have a custom Quality Profile to target. You can create a customizable Quality Profile based on a built-in one by Copying or Extending it in the Quality Profiles list.',
-  'coding_rules.can_not_deactivate': 'This rule is inherited and cannot be deactivated.',
+  'coding_rules.deactivate_inherited_rules_disabled':
+    'Deactivation of inherited rules is disabled by an administrative setting (sonar.qualityProfiles.allowDisableInheritedRules)',
   'coding_rules.change_details': 'Change Details of Quality Profile',
   'coding_rules.change_details_x': 'Change Details of Quality Profile {0}',
   'coding_rules.context.others.title': 'How can I fix it in another component or framework?',

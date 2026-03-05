@@ -27,14 +27,13 @@ import ConfirmButton from '~sq-server-commons/components/controls/ConfirmButton'
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 
 interface Props {
-  canDeactivateInheritedRules: boolean;
   onDone: () => Promise<void>;
   profile: BaseProfile;
   ruleKey: string;
 }
 
 export default function ComparisonResultDeactivation(props: React.PropsWithChildren<Props>) {
-  const { profile, ruleKey, canDeactivateInheritedRules } = props;
+  const { profile, ruleKey } = props;
   const intl = useIntl();
 
   const handleDeactivate = () => {
@@ -54,21 +53,16 @@ export default function ComparisonResultDeactivation(props: React.PropsWithChild
     >
       {({ onClick }) => (
         <Tooltip
-          content={
-            canDeactivateInheritedRules
-              ? intl.formatMessage(
-                  { id: 'quality_profiles.comparison.deactivate_rule' },
-                  { profile: profile.name },
-                )
-              : intl.formatMessage({ id: 'coding_rules.can_not_deactivate' })
-          }
+          content={intl.formatMessage(
+            { id: 'quality_profiles.comparison.deactivate_rule' },
+            { profile: profile.name },
+          )}
         >
           <Button
             aria-label={intl.formatMessage(
               { id: 'quality_profiles.comparison.deactivate_rule' },
               { profile: profile.name },
             )}
-            isDisabled={!canDeactivateInheritedRules}
             onClick={onClick}
             variety={ButtonVariety.DangerOutline}
           >

@@ -22,9 +22,7 @@ import { Spinner } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { useProfilesCompareQuery } from '~sq-server-commons/queries/quality-profiles';
-import { useGetValueQuery } from '~sq-server-commons/queries/settings';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
-import { SettingsKey } from '~sq-server-commons/types/settings';
 import { getProfileComparePath } from '~sq-server-commons/utils/quality-profiles-utils';
 import { ProfilePageTemplate } from '../details/ProfilePageTemplate';
 import { withQualityProfilesContext } from '../qualityProfilesContext';
@@ -40,14 +38,7 @@ export function ComparisonContainer(props: Readonly<Props>) {
   const { profile, profiles } = props;
   const location = useLocation();
   const router = useRouter();
-
   const { formatMessage } = useIntl();
-
-  const { data: inheritRulesSetting } = useGetValueQuery({
-    key: SettingsKey.QPAdminCanDisableInheritedRules,
-  });
-  const canDeactivateInheritedRules = inheritRulesSetting?.value === 'true';
-
   const { withKey } = location.query;
   const {
     data: compareResults,
@@ -86,7 +77,6 @@ export function ComparisonContainer(props: Readonly<Props>) {
 
       {compareResults && (
         <ComparisonResults
-          canDeactivateInheritedRules={canDeactivateInheritedRules}
           inLeft={compareResults.inLeft}
           inRight={compareResults.inRight}
           left={compareResults.left}

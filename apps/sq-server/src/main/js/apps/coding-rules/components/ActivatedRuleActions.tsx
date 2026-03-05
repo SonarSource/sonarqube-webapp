@@ -20,13 +20,15 @@
 
 import {
   Button,
+  ButtonGroup,
   ButtonIcon,
   ButtonSize,
   ButtonVariety,
   DropdownMenu,
+  IconInfo,
   IconMoreVertical,
   ModalAlert,
-  Tooltip,
+  Popover,
 } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -67,7 +69,9 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
   const canRevertToParent = Boolean(
     hasParent && activation.inherit === 'OVERRIDES' && profile.parentName,
   );
+
   const canDeactivate = Boolean(!hasParent || canDeactivateInherited);
+
   const cannotDeactivateButSeeButton = Boolean(
     showDeactivated && hasParent && !canDeactivateInherited && activation.inherit !== 'OVERRIDES',
   );
@@ -158,7 +162,7 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
                     )}
                     helpText={
                       cannotDeactivateButSeeButton ? (
-                        <FormattedMessage id="coding_rules.can_not_deactivate" />
+                        <FormattedMessage id="coding_rules.deactivate_inherited_rules_disabled" />
                       ) : undefined
                     }
                     isDisabled={cannotDeactivateButSeeButton}
@@ -195,34 +199,45 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
             </Button>,
           )}
 
-        {(canDeactivate || cannotDeactivateButSeeButton) &&
+        {canDeactivate &&
           renderDeactivateModal(
-            cannotDeactivateButSeeButton ? (
-              <Tooltip content={<FormattedMessage id="coding_rules.can_not_deactivate" />}>
-                <Button
-                  ariaLabel={intl.formatMessage(
-                    { id: 'coding_rules.deactivate_in_quality_profile_x' },
-                    { '0': profile.name },
-                  )}
-                  isDisabled
-                  variety={ButtonVariety.DangerOutline}
-                >
-                  <FormattedMessage id="coding_rules.deactivate" />
-                </Button>
-              </Tooltip>
-            ) : (
-              <Button
-                ariaLabel={intl.formatMessage(
-                  { id: 'coding_rules.deactivate_in_quality_profile_x' },
-                  { '0': profile.name },
-                )}
-                isDisabled={cannotDeactivateButSeeButton}
-                variety={ButtonVariety.DangerOutline}
-              >
-                <FormattedMessage id="coding_rules.deactivate" />
-              </Button>
-            ),
+            <Button
+              ariaLabel={intl.formatMessage(
+                { id: 'coding_rules.deactivate_in_quality_profile_x' },
+                { '0': profile.name },
+              )}
+              variety={ButtonVariety.DangerOutline}
+            >
+              <FormattedMessage id="coding_rules.deactivate" />
+            </Button>,
           )}
+
+        {cannotDeactivateButSeeButton && (
+          <ButtonGroup isCombined>
+            <Button
+              ariaLabel={intl.formatMessage(
+                { id: 'coding_rules.deactivate_in_quality_profile_x' },
+                { '0': profile.name },
+              )}
+              isDisabled
+              variety={ButtonVariety.DangerOutline}
+            >
+              <FormattedMessage id="coding_rules.deactivate" />
+            </Button>
+            <Popover
+              description={intl.formatMessage({
+                id: 'coding_rules.deactivate_inherited_rules_disabled',
+              })}
+            >
+              <ButtonIcon
+                Icon={IconInfo}
+                ariaLabel={intl.formatMessage({
+                  id: 'coding_rules.deactivate_inherited_rules_disabled',
+                })}
+              />
+            </Popover>
+          </ButtonGroup>
+        )}
       </div>
     );
   }

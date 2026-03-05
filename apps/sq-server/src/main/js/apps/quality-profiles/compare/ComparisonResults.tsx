@@ -38,23 +38,13 @@ import ComparisonResultsSummary from './ComparisonResultsSummary';
 type Params = Record<string, string>;
 
 interface Props extends CompareResponse {
-  canDeactivateInheritedRules: boolean;
   leftProfile: BaseProfile;
   refresh: () => Promise<void>;
   rightProfile?: BaseProfile;
 }
 
 export default function ComparisonResults(props: Readonly<Props>) {
-  const {
-    leftProfile,
-    rightProfile,
-    inLeft,
-    left,
-    right,
-    inRight,
-    modified,
-    canDeactivateInheritedRules,
-  } = props;
+  const { leftProfile, rightProfile, inLeft, left, right, inRight, modified } = props;
 
   const intl = useIntl();
 
@@ -97,7 +87,6 @@ export default function ComparisonResults(props: Readonly<Props>) {
             {canRenderSecondColumn && (
               <ContentCell className="sw-px-0">
                 <ComparisonResultDeactivation
-                  canDeactivateInheritedRules={canDeactivateInheritedRules}
                   key={rule.key}
                   onDone={props.refresh}
                   profile={leftProfile}
