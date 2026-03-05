@@ -177,18 +177,13 @@ it('should clear standards facet including owaspMobileTop10-2024', async () => {
     casa: [],
     cwe: [],
     'owaspAsvs-4.0': [],
-    'owaspAsvs-5.0': [],
-    'owaspLlmTop10-2025': [],
-    'owaspMasvs-v2': [],
     'owaspMobileTop10-2024': [],
     owaspTop10: [],
     'owaspTop10-2021': [],
-    'owaspTop10-2025': [],
     'pciDss-3.2': [],
     'pciDss-4.0': [],
     sonarsourceSecurity: [],
     'stig-ASD_V5R3': [],
-    'stig-ASD_V6': [],
   });
 });
 
@@ -203,64 +198,6 @@ it('should show correct count when owaspMobileTop10-2024 values are selected', a
     // The getValues method is called when determining the count badge
     // With 3 selected items (2 mobile + 1 sonar = 3)
     expect(screen.getByRole('img', { name: /x_selected.3/ })).toBeInTheDocument();
-  });
-});
-
-it('should toggle owaspTop10-2025 sub-facet', async () => {
-  const onToggle = jest.fn();
-  const user = userEvent.setup();
-
-  renderStandardFacet({ onToggle, open: true });
-
-  await user.click(await screen.findByRole('button', { name: 'issues.facet.owaspTop10_2025' }));
-  expect(onToggle).toHaveBeenLastCalledWith('owaspTop10-2025');
-});
-
-it('should select owaspTop10-2025 items', async () => {
-  const onChange = jest.fn();
-  const user = userEvent.setup();
-
-  renderStandardFacet({
-    onChange,
-    open: true,
-    'owaspTop10-2025': [],
-    'owaspTop10-2025Open': true,
-    'owaspTop10-2025Stats': { a1: 10, a7: 5 },
-  });
-
-  await user.click(await screen.findByRole('checkbox', { name: /Aa1/ }));
-
-  expect(onChange).toHaveBeenLastCalledWith({
-    'owaspTop10-2025': ['a1'],
-  });
-});
-
-it('should toggle stig-ASD_V6 sub-facet', async () => {
-  const onToggle = jest.fn();
-  const user = userEvent.setup();
-
-  renderStandardFacet({ onToggle, open: true });
-
-  await user.click(await screen.findByRole('button', { name: 'issues.facet.stigAsd_v6' }));
-  expect(onToggle).toHaveBeenLastCalledWith('stig-ASD_V6');
-});
-
-it('should select stig-ASD_V6 items', async () => {
-  const onChange = jest.fn();
-  const user = userEvent.setup();
-
-  renderStandardFacet({
-    onChange,
-    open: true,
-    'stig-ASD_V6': [],
-    'stig-ASD_V6Open': true,
-    'stig-ASD_V6Stats': { 'V-265634': 8, 'V-222597': 3 },
-  });
-
-  await user.click(await screen.findByRole('checkbox', { name: /V-265634/ }));
-
-  expect(onChange).toHaveBeenLastCalledWith({
-    'stig-ASD_V6': ['V-265634'],
   });
 });
 

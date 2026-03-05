@@ -182,7 +182,7 @@ describe('serialize/deserialize', () => {
       parseQuery({
         complianceStandards: 'owasp_top10:urn:sonar-security-standard:owasp:top10:2025=A01,A02',
       })['owaspTop10-2025'],
-    ).toEqual(['A01', 'A02']);
+    ).toBeUndefined();
   });
 
   it('should deserialize stig-ASD_V5R3 from complianceStandards parameter', () => {
@@ -198,7 +198,7 @@ describe('serialize/deserialize', () => {
       parseQuery({
         complianceStandards: 'stig_asd:urn:sonar-security-standard:stig:asd:v6=V-222609',
       })['stig-ASD_V6'],
-    ).toEqual(['V-222609']);
+    ).toBeUndefined();
   });
 
   it('should deserialize sonarsourceSecurity from complianceStandards parameter', () => {

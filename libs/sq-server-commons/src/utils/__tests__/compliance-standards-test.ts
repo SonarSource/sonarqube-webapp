@@ -24,24 +24,21 @@ describe('buildComplianceStandards', () => {
   it('should build compliance standards with multiple categories in same standard', () => {
     const query = {
       'stig-ASD_V5R3': ['V-222607', 'V-222642'],
-      'stig-ASD_V6': ['V-222609'],
     };
 
     const result = buildComplianceStandards(query);
 
-    expect(result).toBe(
-      'stig_asd:urn:sonar-security-standard:stig:asd:v6=V-222609&stig_asd:urn:sonar-security-standard:stig:asd:v5=V-222607,V-222642',
-    );
+    expect(result).toBe('stig_asd:urn:sonar-security-standard:stig:asd:v5=V-222607,V-222642');
   });
 
   it('should build compliance standards with single category', () => {
     const query = {
-      'owaspTop10-2025': ['A01'],
+      'owaspTop10-2021': ['A01'],
     };
 
     const result = buildComplianceStandards(query);
 
-    expect(result).toBe('owasp_top10:urn:sonar-security-standard:owasp:top10:2025=A01');
+    expect(result).toBe('owasp_top10:urn:sonar-security-standard:owasp:top10:2021=A01');
   });
 
   it('should build compliance standards with OWASP 2017', () => {
@@ -66,15 +63,14 @@ describe('buildComplianceStandards', () => {
 
   it('should build compliance standards with multiple categories in multiple standards', () => {
     const query = {
-      'owaspTop10-2025': ['A01', 'A02'],
+      'owaspTop10-2021': ['A01', 'A02'],
       'stig-ASD_V5R3': ['V-222607', 'V-222642', 'V-222643'],
-      'stig-ASD_V6': ['V-222609'],
     };
 
     const result = buildComplianceStandards(query);
 
     expect(result).toBe(
-      'owasp_top10:urn:sonar-security-standard:owasp:top10:2025=A01,A02&stig_asd:urn:sonar-security-standard:stig:asd:v6=V-222609&stig_asd:urn:sonar-security-standard:stig:asd:v5=V-222607,V-222642,V-222643',
+      'owasp_top10:urn:sonar-security-standard:owasp:top10:2021=A01,A02&stig_asd:urn:sonar-security-standard:stig:asd:v5=V-222607,V-222642,V-222643',
     );
   });
 
@@ -82,13 +78,12 @@ describe('buildComplianceStandards', () => {
     const query = {
       owaspTop10: ['a1'],
       'owaspTop10-2021': ['a2'],
-      'owaspTop10-2025': ['A03'],
     };
 
     const result = buildComplianceStandards(query);
 
     expect(result).toBe(
-      'owasp_top10:urn:sonar-security-standard:owasp:top10:2025=A03&owasp_top10:urn:sonar-security-standard:owasp:top10:2021=a2&owasp_top10:urn:sonar-security-standard:owasp:top10:2017=a1',
+      'owasp_top10:urn:sonar-security-standard:owasp:top10:2021=a2&owasp_top10:urn:sonar-security-standard:owasp:top10:2017=a1',
     );
   });
 
@@ -144,39 +139,37 @@ describe('buildComplianceStandards', () => {
     expect(result).toBeUndefined();
   });
 
-  it('should build compliance standards with OWASP MASVS v2', () => {
+  it('should build compliance standards with CASA', () => {
     const query = {
-      'owaspMasvs-v2': ['MASVS-STORAGE-1', 'MASVS-CRYPTO-1'],
+      casa: ['CASA-1', 'CASA-2'],
     };
 
     const result = buildComplianceStandards(query);
 
     expect(result).toBe(
-      'owasp_masvs:urn:sonar-security-standard:owasp:masvs:v2=MASVS-STORAGE-1,MASVS-CRYPTO-1',
+      'casa_standard:urn:sonar-security-standard:casa:standard:unversioned=CASA-1,CASA-2',
     );
   });
 });
 
 describe('parseComplianceStandards', () => {
   it('should parse compliance standards with multiple categories', () => {
-    const complianceString =
-      'stig_asd:urn:sonar-security-standard:stig:asd:v5=V-222607,V-222642&stig_asd:urn:sonar-security-standard:stig:asd:v6=V-222609';
+    const complianceString = 'stig_asd:urn:sonar-security-standard:stig:asd:v5=V-222607,V-222642';
 
     const result = parseComplianceStandards(complianceString);
 
     expect(result).toEqual({
       'stig-ASD_V5R3': ['V-222607', 'V-222642'],
-      'stig-ASD_V6': ['V-222609'],
     });
   });
 
   it('should parse compliance standards with single category', () => {
-    const complianceString = 'owasp_top10:urn:sonar-security-standard:owasp:top10:2025=A01';
+    const complianceString = 'owasp_top10:urn:sonar-security-standard:owasp:top10:2021=A01';
 
     const result = parseComplianceStandards(complianceString);
 
     expect(result).toEqual({
-      'owaspTop10-2025': ['A01'],
+      'owaspTop10-2021': ['A01'],
     });
   });
 
@@ -202,27 +195,25 @@ describe('parseComplianceStandards', () => {
 
   it('should parse compliance standards with multiple standards', () => {
     const complianceString =
-      'owasp_top10:urn:sonar-security-standard:owasp:top10:2025=A01,A02&stig_asd:urn:sonar-security-standard:stig:asd:v5=V-222607,V-222642,V-222643&stig_asd:urn:sonar-security-standard:stig:asd:v6=V-222609';
+      'owasp_top10:urn:sonar-security-standard:owasp:top10:2021=A01,A02&stig_asd:urn:sonar-security-standard:stig:asd:v5=V-222607,V-222642,V-222643';
 
     const result = parseComplianceStandards(complianceString);
 
     expect(result).toEqual({
-      'owaspTop10-2025': ['A01', 'A02'],
+      'owaspTop10-2021': ['A01', 'A02'],
       'stig-ASD_V5R3': ['V-222607', 'V-222642', 'V-222643'],
-      'stig-ASD_V6': ['V-222609'],
     });
   });
 
   it('should parse compliance standards with all OWASP versions', () => {
     const complianceString =
-      'owasp_top10:urn:sonar-security-standard:owasp:top10:2017=a1&owasp_top10:urn:sonar-security-standard:owasp:top10:2021=a2&owasp_top10:urn:sonar-security-standard:owasp:top10:2025=A03';
+      'owasp_top10:urn:sonar-security-standard:owasp:top10:2017=a1&owasp_top10:urn:sonar-security-standard:owasp:top10:2021=a2';
 
     const result = parseComplianceStandards(complianceString);
 
     expect(result).toEqual({
       owaspTop10: ['a1'],
       'owaspTop10-2021': ['a2'],
-      'owaspTop10-2025': ['A03'],
     });
   });
 
@@ -275,7 +266,6 @@ describe('parseComplianceStandards', () => {
   it('should round-trip correctly', () => {
     const original = {
       'stig-ASD_V5R3': ['V-222607', 'V-222642'],
-      'stig-ASD_V6': ['V-222609'],
     };
 
     const serialized = buildComplianceStandards(original);
@@ -296,9 +286,9 @@ describe('parseComplianceStandards', () => {
     expect(parsed).toEqual(original);
   });
 
-  it('should round-trip OWASP MASVS v2 correctly', () => {
+  it('should round-trip CASA correctly', () => {
     const original = {
-      'owaspMasvs-v2': ['MASVS-STORAGE-1', 'MASVS-CRYPTO-1', 'MASVS-AUTH-2'],
+      casa: ['CASA-1', 'CASA-2', 'CASA-3'],
     };
 
     const serialized = buildComplianceStandards(original);
