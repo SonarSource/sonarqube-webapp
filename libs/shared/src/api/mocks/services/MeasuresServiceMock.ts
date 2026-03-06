@@ -63,7 +63,7 @@ export class MeasuresServiceMock extends AbstractServiceMock<MeasuresServiceData
       if (node.component.key === component) {
         return node;
       }
-      return node.children.map((child) => recurse(child)).filter(isDefined)[0];
+      return node.children.map((child) => recurse(child)).find(isDefined);
     };
     const components = this.data.components.map((child) => recurse(child)).filter(isDefined);
 
