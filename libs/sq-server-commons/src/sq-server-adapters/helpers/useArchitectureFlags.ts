@@ -26,6 +26,7 @@ interface ArchitectureFlags {
   };
   designArchitectureSquadShowArchitecture: boolean;
   designArchitectureSquadShowBeta: boolean;
+  isCurrentOrganizationMember: boolean;
   isLoading: boolean;
 }
 
@@ -39,5 +40,6 @@ export function useArchitectureFlags(): ArchitectureFlags {
     designArchitectureSquadShowArchitecture: true,
     designArchitectureSquadShowBeta: true,
     isLoading: false,
+    isCurrentOrganizationMember: true,
   };
 }
