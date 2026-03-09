@@ -2131,6 +2131,8 @@ export const defaultMessages = {
     'Failed to save. You must define relationships first.',
   'architecture.page.model.errors.group.name_must_be_alphanumeric':
     'A component name can only contain alphanumeric characters and dashes.',
+  'architecture.page.model.errors.group.name_conflicts_with_artifact':
+    "A component name cannot be the same as an existing artifact's name.",
   'architecture.page.model.modal.delete_component.title': 'Delete component',
   'architecture.page.model.modal.delete_component.confirm': 'Are you sure?',
   'architecture.page.model.modal.delete_component.delete_button': 'Delete and save',
