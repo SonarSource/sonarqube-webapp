@@ -22,6 +22,7 @@ import {
   ButtonIcon,
   ButtonSize,
   ButtonVariety,
+  IconChevronDown,
   IconChevronLeft,
   IconChevronRight,
 } from '@sonarsource/echoes-react';
@@ -35,21 +36,24 @@ import {
   startOfMonth,
 } from 'date-fns';
 import { range } from 'lodash';
-import {
-  CaptionProps,
-  useNavigation as useCalendarNavigation,
-  useDayPicker,
-} from 'react-day-picker';
+import { MonthCaptionProps, useDayPicker } from 'react-day-picker';
 import { useIntl } from 'react-intl';
 import { InputSelect } from '../../sonar-aligned/components/input';
+
+function CompactDropdownIndicator() {
+  return (
+    <div className="sw-flex sw-pr-1">
+      <IconChevronDown />
+    </div>
+  );
+}
 
 const YEARS_TO_DISPLAY = 10;
 const MONTHS_IN_A_YEAR = 12;
 
-export function CustomCalendarNavigation(props: CaptionProps) {
-  const { displayMonth } = props;
-  const { fromYear, toYear } = useDayPicker();
-  const { goToMonth, nextMonth, previousMonth } = useCalendarNavigation();
+export function CustomCalendarNavigation(props: MonthCaptionProps) {
+  const { calendarMonth } = props;
+  const { dayPickerProps, goToMonth, nextMonth, previousMonth } = useDayPicker();
 
   const intl = useIntl();
 
@@ -57,11 +61,13 @@ export function CustomCalendarNavigation(props: CaptionProps) {
     if (date === undefined) {
       return intl.formatMessage({ id: 'disabled_' });
     }
+
     return `${intl.formatDate(date, { month: 'long' })} ${intl.formatDate(date, {
       year: 'numeric',
     })}`;
   };
 
+  const displayMonth = calendarMonth.date;
   const baseDate = startOfMonth(displayMonth); // reference date
 
   const months = range(MONTHS_IN_A_YEAR).map((month) => {
@@ -73,9 +79,13 @@ export function CustomCalendarNavigation(props: CaptionProps) {
     };
   });
 
-  const startYear = fromYear ?? getYear(Date.now()) - YEARS_TO_DISPLAY;
+  const startYear = dayPickerProps.startMonth
+    ? getYear(dayPickerProps.startMonth)
+    : getYear(Date.now()) - YEARS_TO_DISPLAY;
 
-  const years = range(startYear, toYear ? toYear + 1 : undefined).map((year) => {
+  const endYear = dayPickerProps.endMonth ? getYear(dayPickerProps.endMonth) : undefined;
+
+  const years = range(startYear, endYear ? endYear + 1 : undefined).map((year) => {
     const yearValue = setYear(baseDate, year);
 
     return {
@@ -85,14 +95,13 @@ export function CustomCalendarNavigation(props: CaptionProps) {
   });
 
   return (
-    <nav className="sw-flex sw-items-center sw-justify-between sw-py-1">
+    <nav className="sw-flex sw-items-center sw-gap-1 sw-pt-2 sw-px-2">
       <ButtonIcon
         Icon={IconChevronLeft}
         ariaLabel={intl.formatMessage(
           { id: 'previous_month_x' },
           { month: formatChevronLabel(previousMonth) },
         )}
-        className="sw-mr-2"
         isDisabled={previousMonth === undefined}
         onClick={() => {
           if (previousMonth) {
@@ -105,6 +114,8 @@ export function CustomCalendarNavigation(props: CaptionProps) {
 
       <span data-testid="month-select">
         <InputSelect
+          className="sw-w-[5rem]"
+          components={{ DropdownIndicator: CompactDropdownIndicator }}
           isClearable={false}
           onChange={(value) => {
             if (value) {
@@ -112,14 +123,14 @@ export function CustomCalendarNavigation(props: CaptionProps) {
             }
           }}
           options={months}
-          size="full"
           value={months.find((m) => isSameMonth(m.value, displayMonth))}
         />
       </span>
 
       <span data-testid="year-select">
         <InputSelect
-          className="sw-ml-1"
+          className="sw-w-[5rem]"
+          components={{ DropdownIndicator: CompactDropdownIndicator }}
           data-testid="year-select"
           isClearable={false}
           onChange={(value) => {
@@ -128,7 +139,6 @@ export function CustomCalendarNavigation(props: CaptionProps) {
             }
           }}
           options={years}
-          size="full"
           value={years.find((y) => isSameYear(y.value, displayMonth))}
         />
       </span>
@@ -141,7 +151,6 @@ export function CustomCalendarNavigation(props: CaptionProps) {
             month: formatChevronLabel(nextMonth),
           },
         )}
-        className="sw-ml-2"
         isDisabled={nextMonth === undefined}
         onClick={() => {
           if (nextMonth) {

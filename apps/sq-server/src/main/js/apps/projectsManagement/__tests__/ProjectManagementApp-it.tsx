@@ -210,7 +210,7 @@ it('should filter projects', async () => {
     expect(ui.row.getAll()).toHaveLength(4);
   });
   await user.click(ui.analysisDateFilter.get());
-  await user.click(await screen.findByRole('gridcell', { name: '5' }));
+  await user.click(await screen.findByText('5'));
 
   await waitFor(() => {
     expect(ui.row.getAll()).toHaveLength(3);

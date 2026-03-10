@@ -38,8 +38,7 @@ it('behaves correctly', async () => {
    */
   await user.click(screen.getByRole('textbox'));
 
-  const nav = screen.getByRole('navigation');
-  expect(nav).toBeInTheDocument();
+  expect(screen.getAllByRole('navigation').length).toBeGreaterThan(0);
 
   await user.click(
     byRole('navigation')
@@ -149,11 +148,11 @@ it.each([
 
   await user.click(screen.getByRole('textbox'));
 
-  expect(screen.getByText('11')).not.toHaveClass(hightlightClass);
-  expect(screen.getByText('12')).toHaveClass(hightlightClass);
-  expect(screen.getByText('13')).toHaveClass(hightlightClass);
-  expect(screen.getByText('14')).toHaveClass(hightlightClass);
-  expect(screen.getByText('15')).not.toHaveClass(hightlightClass);
+  expect(screen.getByRole('gridcell', { name: '11' })).not.toHaveClass(hightlightClass);
+  expect(screen.getByRole('gridcell', { name: '12' })).toHaveClass(hightlightClass);
+  expect(screen.getByRole('gridcell', { name: '13' })).toHaveClass(hightlightClass);
+  expect(screen.getByRole('gridcell', { name: '14' })).toHaveClass(hightlightClass);
+  expect(screen.getByRole('gridcell', { name: '15' })).not.toHaveClass(hightlightClass);
 });
 
 function renderDatePicker(overrides: Partial<DatePicker['props']> = {}) {

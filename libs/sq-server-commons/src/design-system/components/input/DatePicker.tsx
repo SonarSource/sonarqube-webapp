@@ -19,16 +19,17 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar, IconCalendar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { format } from 'date-fns';
 import * as React from 'react';
-import { ActiveModifiers, Matcher, DayPicker as OriginalDayPicker } from 'react-day-picker';
+import { Matcher, DayPicker as OriginalDayPicker } from 'react-day-picker';
+import 'react-day-picker/style.css';
 import tw from 'twin.macro';
-import { PopupPlacement, PopupZLevel, themeBorder, themeColor, themeContrast } from '../../helpers';
+import { PopupPlacement, PopupZLevel, themeColor, themeContrast } from '../../helpers';
 import { InputSizeKeys } from '../../types/theme';
 import EscKeydownHandler from '../EscKeydownHandler';
 import { FocusOutHandler } from '../FocusOutHandler';
-import { CalendarIcon } from '../icons';
 import { CloseIcon } from '../icons/CloseIcon';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { OutsideClickHandler } from '../OutsideClickHandler';
@@ -98,14 +99,14 @@ export class DatePicker extends React.PureComponent<Props, State> {
     this.setState({ open: false });
   };
 
-  handleDayClick = (day: Date, modifiers: ActiveModifiers) => {
+  handleDayClick = (day: Date, modifiers: Record<string, boolean>) => {
     if (!modifiers.disabled) {
       this.closeCalendar();
       this.props.onChange(day);
     }
   };
 
-  handleDayMouseEnter = (day: Date, modifiers: ActiveModifiers) => {
+  handleDayMouseEnter = (day: Date, modifiers: Record<string, boolean>) => {
     this.setState({ lastHovered: modifiers.disabled ? undefined : day });
   };
 
@@ -129,24 +130,22 @@ export class DatePicker extends React.PureComponent<Props, State> {
       size,
       zLevel = PopupZLevel.Global,
     } = this.props;
+
     const { lastHovered, currentMonth, open } = this.state;
 
     // Infer start and end dropdown year from min/max dates, if set
     const fromYear = minDate ? minDate.getFullYear() : new Date().getFullYear() - YEARS_TO_DISPLAY;
     const toYear = maxDate.getFullYear();
 
-    const selectedDays = selectedDay ? [selectedDay] : [];
     let highlighted: Matcher = false;
     const lastHoveredOrValue = lastHovered ?? selectedDay;
 
     if (highlightFrom && lastHoveredOrValue) {
       highlighted = { from: highlightFrom, to: lastHoveredOrValue };
-      selectedDays.push(highlightFrom);
     }
 
     if (highlightTo && lastHoveredOrValue) {
       highlighted = { from: lastHoveredOrValue, to: highlightTo };
-      selectedDays.push(highlightTo);
     }
 
     return (
@@ -158,19 +157,20 @@ export class DatePicker extends React.PureComponent<Props, State> {
               className="sw-overflow-visible" //Necessary for the month & year selectors
               overlay={
                 open ? (
-                  <div className={classNames('sw-p-2')}>
+                  <div className="sw-px-2 sw-pb-2">
                     <DayPicker
-                      captionLayout="dropdown-buttons"
+                      captionLayout="dropdown"
                       className="sw-typo-default"
                       components={{
-                        Caption: CustomCalendarNavigation,
+                        MonthCaption: CustomCalendarNavigation,
+                        Nav: () => <></>,
                       }}
                       disabled={{ after: maxDate, before: minDate }}
+                      endMonth={new Date(toYear, 11)}
                       formatters={{
                         formatWeekdayName,
                       }}
-                      fromYear={fromYear}
-                      mode="default"
+                      mode="single"
                       modifiers={{ highlighted }}
                       modifiersClassNames={{ highlighted: 'rdp-highlighted' }}
                       month={currentMonth}
@@ -179,8 +179,8 @@ export class DatePicker extends React.PureComponent<Props, State> {
                       onMonthChange={(currentMonth) => {
                         this.setState({ currentMonth });
                       }}
-                      selected={selectedDays}
-                      toYear={toYear}
+                      selected={selectedDay}
+                      startMonth={new Date(fromYear, 0)}
                       weekStartsOn={1}
                     />
                   </div>
@@ -189,9 +189,7 @@ export class DatePicker extends React.PureComponent<Props, State> {
               placement={alignRight ? PopupPlacement.BottomRight : PopupPlacement.BottomLeft}
               zLevel={zLevel}
             >
-              <span
-                className={classNames('sw-relative sw-inline-block sw-cursor-pointer', className)}
-              >
+              <span className={classNames('sw-relative sw-block sw-cursor-pointer', className)}>
                 <StyledInputField
                   aria-label={placeholder}
                   className={classNames(inputClassName, {
@@ -210,7 +208,10 @@ export class DatePicker extends React.PureComponent<Props, State> {
                   value={valueFormatter(selectedDay)}
                 />
 
-                <StyledCalendarIcon fill="datePickerIcon" />
+                <IconCalendar
+                  className="sw-absolute sw-top-1/2 sw-left-2 -sw-translate-y-1/2"
+                  color="echoes-color-icon-default"
+                />
 
                 {selectedDay !== undefined && showClearButton && (
                   <StyledInteractiveIcon
@@ -229,71 +230,91 @@ export class DatePicker extends React.PureComponent<Props, State> {
   }
 }
 
-const StyledCalendarIcon = styled(CalendarIcon)`
-  ${tw`sw-absolute`};
-  ${tw`sw-top-[0.625rem] sw-left-2`};
-`;
-
-const StyledInteractiveIcon = styled(InteractiveIcon)`
-  ${tw`sw-absolute`};
-  ${tw`sw-top-[0.375rem] sw-right-[0.375rem]`};
-`;
-
 const StyledInputField = styled(InputField)`
   ${tw`sw-pl-8`};
   ${tw`sw-cursor-pointer`};
+  ${tw`sw-w-full`};
 
   &.is-filled {
     ${tw`sw-pr-8`};
   }
 `;
 
-const DayPicker = styled(OriginalDayPicker)`
-  --rdp-cell-size: auto;
-  /* Ensures the month/year dropdowns do not move on click, but rdp outline is not shown */
-  --rdp-outline: 2px solid transparent;
-  --rdp-outline-selected: 2px solid transparent;
+const StyledInteractiveIcon = styled(InteractiveIcon)`
+  ${tw`sw-absolute`};
+  ${tw`sw-top-1/2 -sw-translate-y-1/2 sw-right-1`};
+`;
 
+const DayPicker = styled(OriginalDayPicker)`
   margin: 0;
 
-  .rdp-head {
-    color: ${themeContrast('datePicker')};
+  .rdp-month {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .rdp-month_grid {
+    margin: 0 0.5rem;
+  }
+
+  .rdp-weekday {
+    color: ${cssVar('color-text-subtle')};
+    opacity: 1;
+    text-transform: none;
   }
 
   .rdp-day {
     height: 28px;
     width: 33px;
-    border-radius: 0;
     color: ${themeContrast('datePickerDefault')};
+    opacity: 1;
+  }
+
+  .rdp-day_button {
+    height: 28px;
+    width: 33px;
+    border: none;
+    border-radius: 0;
   }
 
   /* Default modifiers */
 
-  .rdp-day_disabled {
+  .rdp-disabled .rdp-day_button {
     cursor: not-allowed;
     background: ${themeColor('datePickerDisabled')};
-    color: ${themeContrast('datePickerDisabled')};
+    color: ${cssVar('color-text-subtle')};
   }
 
-  .rdp-day:hover:not(.rdp-day_outside):not(.rdp-day_disabled):not(.rdp-day_selected) {
+  .rdp-day:hover:not(.rdp-outside):not(.rdp-disabled):not(.rdp-selected) .rdp-day_button {
     background: ${themeColor('datePickerHover')};
     color: ${themeContrast('datePickerHover')};
   }
 
-  .rdp-day:focus-visible {
-    outline: ${themeBorder('focus', 'inputFocus')};
-    background: inherit;
+  .rdp-today:not(.rdp-selected) .rdp-day_button {
+    font-weight: bold;
+  }
+
+  .rdp-day_button:focus-visible {
+    outline: ${cssVar('color-focus-default')} solid ${cssVar('focus-border-width-default')};
     z-index: 1;
   }
 
-  .rdp-day.rdp-highlighted:not(.rdp-day_selected) {
+  .rdp-highlighted:not(.rdp-selected) .rdp-day_button {
     background: ${themeColor('datePickerRange')};
     color: ${themeContrast('datePickerRange')};
   }
 
-  .rdp-day_selected,
-  .rdp-day_selected:focus-visible {
+  .rdp-selected {
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  .rdp-selected .rdp-day_button,
+  .rdp-selected:focus-visible .rdp-day_button {
     background: ${themeColor('datePickerSelected')};
+    border-radius: 0;
     color: ${themeContrast('datePickerSelected')};
+    border: none;
   }
 `;

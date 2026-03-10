@@ -136,11 +136,11 @@ it('should filter the changelog', async () => {
 
   expect(await ui.row.findAll()).toHaveLength(7);
   await user.click(ui.startDate.get());
-  await user.click(screen.getByRole('gridcell', { name: '20' }));
+  await user.click(screen.getByText('20'));
   await user.click(document.body);
   expect(await ui.row.findAll()).toHaveLength(5);
   await user.click(ui.endDate.get());
-  await user.click(screen.getByRole('gridcell', { name: '25' }));
+  await user.click(screen.getByText('25'));
   await user.click(document.body);
   expect(await ui.row.findAll()).toHaveLength(4);
   await user.click(ui.reset.get());

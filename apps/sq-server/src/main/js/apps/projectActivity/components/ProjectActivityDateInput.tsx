@@ -20,7 +20,7 @@
 
 import { Button, ButtonGroup, Label } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { DateRangePicker, PopupZLevel } from '~design-system';
+import { DateRangePicker } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Query } from '../utils';
 
@@ -52,7 +52,6 @@ export default class ProjectActivityDateInput extends React.PureComponent<Props>
           startClearButtonLabel={translate('clear.start')}
           toLabel={translate('end_date')}
           value={{ from: this.props.from, to: this.props.to }}
-          zLevel={PopupZLevel.Content}
         />
         <Button
           className="sw-ml-2"
