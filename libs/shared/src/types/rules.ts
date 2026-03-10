@@ -36,6 +36,7 @@ export interface Rule {
   langName?: string;
   name: string;
   params?: RuleParameter[];
+  requiredEntitlements?: string[];
   severity: string;
   status: string;
   sysTags?: string[];

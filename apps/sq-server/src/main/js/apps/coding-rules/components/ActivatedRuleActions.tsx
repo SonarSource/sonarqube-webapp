@@ -25,10 +25,9 @@ import {
   ButtonSize,
   ButtonVariety,
   DropdownMenu,
-  IconInfo,
   IconMoreVertical,
   ModalAlert,
-  Popover,
+  ToggleTip,
 } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -213,7 +212,7 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
           )}
 
         {cannotDeactivateButSeeButton && (
-          <ButtonGroup isCombined>
+          <ButtonGroup>
             <Button
               ariaLabel={intl.formatMessage(
                 { id: 'coding_rules.deactivate_in_quality_profile_x' },
@@ -224,18 +223,12 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
             >
               <FormattedMessage id="coding_rules.deactivate" />
             </Button>
-            <Popover
+
+            <ToggleTip
               description={intl.formatMessage({
                 id: 'coding_rules.deactivate_inherited_rules_disabled',
               })}
-            >
-              <ButtonIcon
-                Icon={IconInfo}
-                ariaLabel={intl.formatMessage({
-                  id: 'coding_rules.deactivate_inherited_rules_disabled',
-                })}
-              />
-            </Popover>
+            />
           </ButtonGroup>
         )}
       </div>
