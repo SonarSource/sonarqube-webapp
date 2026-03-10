@@ -70,26 +70,26 @@ const computeSonarLintTokenExpirationDate = async () => {
   return computeTokenExpirationDate(Number(maxOption.value) || Number(TokenExpiration.OneYear));
 };
 
-const getNextAvailableSonarLintTokenName = async ({
-  ideName,
+const getNextAvailableTokenName = async ({
+  productName,
   login,
 }: {
-  ideName: string;
   login: string;
+  productName: string;
 }) => {
   const tokens = await getTokens(login);
 
-  return getNextTokenName(`SonarLint-${ideName}`, tokens);
+  return getNextTokenName(productName, tokens);
 };
 
-export const generateSonarLintUserToken = async ({
-  ideName,
+export const generateUserToken = async ({
+  productName,
   login,
 }: {
-  ideName: string;
   login: UserBase['login'];
+  productName: string;
 }) => {
-  const name = await getNextAvailableSonarLintTokenName({ ideName, login });
+  const name = await getNextAvailableTokenName({ productName, login });
   const expirationDate = await computeSonarLintTokenExpirationDate();
 
   return generateToken({ expirationDate, login, name });

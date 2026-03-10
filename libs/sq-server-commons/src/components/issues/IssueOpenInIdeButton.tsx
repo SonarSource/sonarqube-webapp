@@ -27,7 +27,7 @@ import { addGlobalErrorMessage, addGlobalSuccessMessage } from '../../design-sys
 import { DocLink } from '../../helpers/doc-links';
 import { translate } from '../../helpers/l10n';
 import {
-  generateSonarLintUserToken,
+  generateUserToken,
   openFixOrIssueInSonarLint,
   probeSonarLintServers,
 } from '../../helpers/sonarlint';
@@ -82,8 +82,8 @@ export function IssueOpenInIdeButton({ branchLike, issueKey, login, projectKey }
 
     try {
       if (ide.needsToken) {
-        token = await generateSonarLintUserToken({
-          ideName: ide.ideName,
+        token = await generateUserToken({
+          productName: ide.ideName,
           login,
         });
       }

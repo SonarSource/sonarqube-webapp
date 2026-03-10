@@ -22,7 +22,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useCurrentUser } from '../context/current-user/CurrentUserContext';
 import { addGlobalErrorMessage, addGlobalSuccessMessage } from '../design-system';
 import { translate } from '../helpers/l10n';
-import { generateSonarLintUserToken, openFixOrIssueInSonarLint } from '../helpers/sonarlint';
+import { generateUserToken, openFixOrIssueInSonarLint } from '../helpers/sonarlint';
 import { BranchLike } from '../types/branch-like';
 import { Fix, Ide } from '../types/sonarlint';
 import { Issue } from '../types/types';
@@ -45,8 +45,8 @@ export function useOpenFixOrIssueInIdeMutation() {
 
       let token;
       if (ide.needsToken && login !== undefined) {
-        token = await generateSonarLintUserToken({
-          ideName: ide.ideName,
+        token = await generateUserToken({
+          productName: ide.ideName,
           login,
         });
       }

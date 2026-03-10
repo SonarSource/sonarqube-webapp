@@ -31,7 +31,7 @@ interface Props {
  * This component switches between the Community and Server product versions' logo,
  * and between the connected and requested versions of the illustration
  */
-export function SonarQubeConnectionIllustration(props: Props) {
+export function SonarQubeIdeConnectionIllustration(props: Props) {
   const { edition } = useAppState();
 
   return edition === EditionKey.community ? (

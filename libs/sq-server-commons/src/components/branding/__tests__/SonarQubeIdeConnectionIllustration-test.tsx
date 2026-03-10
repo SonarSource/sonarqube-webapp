@@ -21,7 +21,7 @@
 import { mockAppState } from '../../../helpers/testMocks';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
 import { EditionKey } from '../../../types/editions';
-import { SonarQubeConnectionIllustration } from '../SonarQubeConnectionIllustration';
+import { SonarQubeIdeConnectionIllustration } from '../SonarQubeIdeConnectionIllustration';
 
 it.each([
   [EditionKey.community, true],
@@ -30,7 +30,7 @@ it.each([
   [EditionKey.enterprise, false],
 ])('should render %s edition (variant connected %s) correctly', (edition, connected) => {
   const { container } = renderComponent(
-    <SonarQubeConnectionIllustration connected={connected} />,
+    <SonarQubeIdeConnectionIllustration connected={connected} />,
     '',
     { appState: mockAppState({ edition }) },
   );

@@ -93,6 +93,7 @@ import usersRoutes from '../../apps/users/routes';
 import webAPIRoutesV2 from '../../apps/web-api-v2/routes';
 import webAPIRoutes from '../../apps/web-api/routes';
 import webhooksRoutes from '../../apps/webhooks/routes';
+import { AccountContainer } from '../components/AccountContainer';
 import AdminContainer from '../components/AdminContainer';
 import App from '../components/App';
 import ComponentContainer from '../components/ComponentContainer';
@@ -226,7 +227,9 @@ function renderRedirects() {
 }
 
 const FormattingHelp = lazyLoadComponent(() => import('../components/FormattingHelp'));
-const SonarLintConnection = lazyLoadComponent(() => import('../components/SonarLintConnection'));
+const ExternalProductConnection = lazyLoadComponent(
+  () => import('../components/external-product-connection/ExternalProductConnection'),
+);
 const ResetPassword = lazyLoadComponent(() => import('../components/ResetPassword'));
 const ChangeAdminPasswordApp = lazyLoadComponent(
   () => import('../../apps/change-admin-password/ChangeAdminPasswordApp'),
@@ -268,6 +271,13 @@ const router = ({
 
         <Route element={<SimpleContainer />}>{maintenanceRoutes()}</Route>
 
+        <Route element={<AccountContainer />}>
+          {/* External product (IDE/CLI) user token generation */}
+          <Route element={<ExternalProductConnection />} path="auth" />
+          {/* Backward compatibility: for older SonarQube IDEs */}
+          <Route element={<ExternalProductConnection />} path="sonarlint/auth" />
+        </Route>
+
         <Route element={<MigrationContainer />}>
           {sessionsRoutes()}
 
@@ -292,8 +302,6 @@ const router = ({
 
               {qualityGatesRoutes()}
               {qualityProfilesRoutes()}
-
-              <Route element={<SonarLintConnection />} path="sonarlint/auth" />
 
               {webAPIRoutes()}
               {webAPIRoutesV2()}

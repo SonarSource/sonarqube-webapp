@@ -5853,35 +5853,33 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
-  'sonarlint-connection.request.title': 'Allow SonarQube for IDE connection?',
-  'sonarlint-connection.request.description':
-    'SonarQube for IDE for {ideName} is requesting access to {productName}.',
-  'sonarlint-connection.request.description2':
-    'Do you allow SonarQube for IDE to connect? This will create a token and share it with SonarQube for IDE.',
-  'sonarlint-connection.request.action': 'Allow connection',
+  'external-product-connection.request.title': 'Authorize {productName}?',
+  'external-product-connection.request.description':
+    'Allowing this connection will generate a user token for {productName}.',
+  'external-product-connection.request.action': 'Allow connection',
 
-  'sonarlint-connection.token-error.title': 'Token generation failed',
-  'sonarlint-connection.token-error.description': '{productName} was not able to generate a token.',
-  'sonarlint-connection.token-error.description2':
-    'Go back to your IDE and start again, or go to the {link} of your {productName} account to create a new user token manually.',
-  'sonarlint-connection.token-error.description2.link': 'Security section',
+  'external-product-connection.token-error.title': 'Token generation failed',
+  'external-product-connection.token-error.description':
+    '{productName} was not able to generate a token.',
+  'external-product-connection.token-error.description2':
+    'Go back to your {productHost} and start again, or go to the {link} of your {productName} account to create a new user token manually.',
+  'external-product-connection.token-error.description2.link': 'Security section',
 
-  'sonarlint-connection.connection-error.title': 'Token created',
-  'sonarlint-connection.connection-error.description': 'The following token was created:',
-  'sonarlint-connection.connection-error.token-name': 'Token name',
-  'sonarlint-connection.connection-error.token-value': 'Token value',
-  'sonarlint-connection.connection-error.next-steps': 'Next steps',
-  'sonarlint-connection.connection-error.step1': 'Copy the above token.',
-  'sonarlint-connection.connection-error.step2':
-    'Go back to your IDE and paste the token in SonarQube for IDE.',
+  'external-product-connection.connection-error.title': 'Token created',
+  'external-product-connection.connection-error.description': 'The following token was created:',
+  'external-product-connection.connection-error.token-name': 'Token name',
+  'external-product-connection.connection-error.token-value': 'Token value',
+  'external-product-connection.connection-error.next-steps': 'Next steps',
+  'external-product-connection.connection-error.step1': 'Copy the above token.',
+  'external-product-connection.connection-error.step2':
+    'Go back to your {productHost} and paste the token.',
 
-  'sonarlint-connection.success.title': 'SonarQube for IDE connection is almost ready!',
-  'sonarlint-connection.success.description':
-    "A new '{0}' token was created and sent to SonarQube for IDE in your IDE.",
-  'sonarlint-connection.success.last-step': 'Last step',
-  'sonarlint-connection.success.step': 'Go back to your IDE to complete the setup.',
+  'external-product-connection.success.title': 'Connection successful!',
+  'external-product-connection.success.description':
+    'Your user token has now been generated & sent to your {productHost}.',
+  'external-product-connection.success.next': 'Return to your {productHost} to complete the setup.',
 
-  'sonarlint-connection.unspecified-ide': 'an unspecified IDE',
+  'external-product-connection.unspecified-ide': 'an unspecified IDE',
 
   'sonarlint-connected-mode-doc': 'documentation about SonarQube for IDE Connected Mode',
   //------------------------------------------------------------------------------
