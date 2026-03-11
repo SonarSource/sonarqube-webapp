@@ -55,9 +55,6 @@ const ui = {
   }),
   saveButton: byRole('button', { name: 'save' }),
   cancelButton: byRole('button', { name: 'cancel' }),
-  retryButton: byRole('button', {
-    name: 'property.aicodefix.admin.serviceInfo.result.error.retry.action',
-  }),
   allProjectsEnabledRadio: byRole('radio', {
     name: 'property.aicodefix.admin.enable.all.projects.label',
   }),
@@ -76,93 +73,18 @@ const ui = {
 };
 
 it('should display the enablement form when feature has fix-suggestions', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   renderCodeFixAdmin();
 
   expect(await screen.findByText('property.aicodefix.admin.description')).toBeInTheDocument();
 });
 
 it('should not display the enablement form when feature fix-suggestions or fix-suggestions-marketing are not present', () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   renderCodeFixAdmin([Feature.Architecture]);
 
   expect(screen.queryByText('property.aicodefix.admin.description')).not.toBeInTheDocument();
 });
 
-it('should display an error message when the service is not responsive', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'TIMEOUT' });
-  renderCodeFixAdmin();
-
-  expect(
-    await screen.findByText('property.aicodefix.admin.serviceInfo.result.unresponsive.message'),
-  ).toBeInTheDocument();
-});
-
-it('should display an error message when there is a connection error with the service', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'CONNECTION_ERROR' });
-  renderCodeFixAdmin();
-
-  expect(
-    await screen.findByText('property.aicodefix.admin.serviceInfo.result.unresponsive.message'),
-  ).toBeInTheDocument();
-});
-
-it('should propose to retry when an error occurs', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'CONNECTION_ERROR' });
-  renderCodeFixAdmin();
-  const user = userEvent.setup();
-
-  expect(
-    await screen.findByText('property.aicodefix.admin.serviceInfo.result.unresponsive.message'),
-  ).toBeInTheDocument();
-  expect(ui.retryButton.get()).toBeEnabled();
-
-  fixSuggestionsServiceMock.setServiceInfo({
-    status: 'SUCCESS',
-  });
-  await user.click(ui.retryButton.get());
-
-  expect(await screen.findByText('property.aicodefix.admin.title')).toBeInTheDocument();
-});
-
-it('should display an error message when the current instance is unauthorized', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'UNAUTHORIZED' });
-  renderCodeFixAdmin();
-
-  expect(
-    await screen.findByText('property.aicodefix.admin.serviceInfo.result.unauthorized'),
-  ).toBeInTheDocument();
-});
-
-it('should display an error message when an error happens at service level', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SERVICE_ERROR' });
-  renderCodeFixAdmin();
-
-  expect(
-    await screen.findByText('property.aicodefix.admin.serviceInfo.result.serviceError'),
-  ).toBeInTheDocument();
-});
-
-it('should display an error message when the service answers with an unknown status', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'WTF' });
-  renderCodeFixAdmin();
-
-  expect(
-    await screen.findByText('property.aicodefix.admin.serviceInfo.result.unknown WTF'),
-  ).toBeInTheDocument();
-});
-
-it('should display an error message when the backend answers with an error', async () => {
-  fixSuggestionsServiceMock.setServiceInfo(undefined);
-  renderCodeFixAdmin();
-
-  expect(
-    await screen.findByText('property.aicodefix.admin.serviceInfo.result.requestError No status'),
-  ).toBeInTheDocument();
-});
-
 it('should by default propose enabling for all projects when enabling the feature', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   fixSuggestionsServiceMock.disableForAllProject();
   renderCodeFixAdmin();
   const user = userEvent.setup();
@@ -180,7 +102,6 @@ it('should by default propose enabling for all projects when enabling the featur
 });
 
 it('should be able to enable the code fix feature for all projects', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   fixSuggestionsServiceMock.disableForAllProject();
   renderCodeFixAdmin();
   const user = userEvent.setup();
@@ -221,7 +142,6 @@ it('should be able to enable the code fix feature for all projects', async () =>
 });
 
 it('should be able to enable the code fix feature for some projects', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   fixSuggestionsServiceMock.disableForAllProject();
 
   renderCodeFixAdmin();
@@ -271,7 +191,6 @@ it('should be able to enable the code fix feature for some projects', async () =
 });
 
 it('should be able to disable the feature for a single project', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   fixSuggestionsServiceMock.enableSomeProject('project1');
   renderCodeFixAdmin();
   const user = userEvent.setup();
@@ -292,7 +211,6 @@ it('should be able to disable the feature for a single project', async () => {
 });
 
 it('should be able to disable the code fix feature', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   renderCodeFixAdmin();
   const user = userEvent.setup();
 
@@ -307,7 +225,6 @@ it('should be able to disable the code fix feature', async () => {
 });
 
 it('should be able to reset the form when canceling', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   renderCodeFixAdmin();
   const user = userEvent.setup();
 
@@ -329,7 +246,6 @@ it('should be able to reset the form when canceling', async () => {
 });
 
 it('should be able to set the Azure Open option in the form', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   renderCodeFixAdmin();
   const user = userEvent.setup();
 
@@ -356,7 +272,6 @@ it('should be able to set the Azure Open option in the form', async () => {
 });
 
 it('should be able to select the recommended provider by default if no provider is selected', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   fixSuggestionsServiceMock.disableForAllProject();
 
   renderCodeFixAdmin();
@@ -373,7 +288,6 @@ it('should be able to select the recommended provider by default if no provider 
 });
 
 it('should disable the save button when the provider is not valid', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   fixSuggestionsServiceMock.enableAllProjectWithAzureProvider();
 
   renderCodeFixAdmin();

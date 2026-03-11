@@ -3344,34 +3344,6 @@ export const defaultMessages = {
     "This no-cost trial is offered to you at Sonar's discretion during the early access period.",
   'property.aicodefix.admin.early_access.content2':
     'Sonar may stop the trial at any time. At the end of the trial, the AI CodeFix feature will be deactivated and your organization will not be charged.',
-  'property.aicodefix.admin.serviceInfo.learnMore': 'Read more about enabling AI CodeFix',
-  'property.aicodefix.admin.serviceInfo.spinner.label':
-    'Waiting for AI CodeFix service to respond...',
-  'property.aicodefix.admin.serviceInfo.unexpected.response.label':
-    'The AI CodeFix service returned an unexpected response. You might need to upgrade your instance.',
-  'property.aicodefix.admin.serviceInfo.empty.response.label':
-    'The AI CodeFix service returned an empty response. Please report the issue to the maintainers.',
-  'property.aicodefix.admin.serviceInfo.result.unresponsive.message':
-    'The AI CodeFix service does not respond or is not reachable.',
-  'property.aicodefix.admin.serviceInfo.result.unresponsive.causes.title':
-    'Here are some possible causes of this error:',
-  'property.aicodefix.admin.serviceInfo.result.unresponsive.causes.1':
-    'The network may not be properly configured on this SonarQube instance. Please check the firewall and connectivity settings.',
-  'property.aicodefix.admin.serviceInfo.result.unresponsive.causes.2':
-    'The AI CodeFix service may be down.',
-  'property.aicodefix.admin.serviceInfo.result.requestError':
-    'Error checking the AI CodeFix service:',
-  'property.aicodefix.admin.serviceInfo.result.serviceError':
-    'The AI CodeFix service is reachable but returned an error. Check logs for more details.',
-  'property.aicodefix.admin.serviceInfo.result.unauthorized':
-    'This SonarQube instance is not allowed to use AI CodeFix.',
-  'property.aicodefix.admin.serviceInfo.result.unknown':
-    'The AI CodeFix service returned an unexpected message:',
-  'property.aicodefix.admin.serviceInfo.result.error.title': 'AI CodeFix Error',
-  'property.aicodefix.admin.serviceInfo.result.error.retry.message':
-    'If the issue persists, try again later or {link}',
-  'property.aicodefix.admin.serviceInfo.result.error.retry.get_help': 'get help',
-  'property.aicodefix.admin.serviceInfo.result.error.retry.action': 'Retry',
   'property.aicodefix.admin.promotion.title':
     'This SonarQube Server edition doesn’t support this feature',
   'property.aicodefix.admin.promotion.subtitle': 'Unlock AI-generated fix suggestions',

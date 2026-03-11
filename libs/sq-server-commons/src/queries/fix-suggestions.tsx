@@ -18,20 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { some } from 'lodash';
 import React, { useContext } from 'react';
 import { useIntl } from 'react-intl';
-import { createQueryHook } from '~shared/queries/common';
 import {
   AIFeatureEnablement,
   getFeatureEnablement,
-  getFixSuggestionServiceInfo,
   getFixSuggestionsIssues,
   getLlmProviders,
   getSuggestions,
-  ServiceInfo,
   updateFeatureEnablement,
 } from '../api/fix-suggestions';
 import { useAvailableFeatures } from '../context/available-features/withAvailableFeatures';
@@ -193,15 +190,6 @@ export function withUseGetFixSuggestionsIssues<P extends { issue: Issue }>(
     return <Component aiSuggestionAvailable={data?.aiSuggestion === 'AVAILABLE'} {...props} />;
   };
 }
-
-export const useGetServiceInfoQuery = createQueryHook(() => {
-  const { hasFeature } = useAvailableFeatures();
-  return queryOptions<ServiceInfo, AxiosError>({
-    queryKey: ['fix-suggestions', 'service-info'],
-    queryFn: getFixSuggestionServiceInfo,
-    enabled: hasFeature(Feature.FixSuggestions),
-  });
-});
 
 export function useUpdateFeatureEnablementMutation() {
   const queryClient = useQueryClient();

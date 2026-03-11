@@ -24,21 +24,14 @@ import {
   AIFeatureEnablement,
   FixParam,
   getFeatureEnablement,
-  getFixSuggestionServiceInfo,
   getFixSuggestionsIssues,
   getLlmProviders,
   getSuggestions,
-  ServiceInfo,
-  SuggestionServiceStatus,
   updateFeatureEnablement,
 } from '../fix-suggestions';
 import { ISSUE_101, ISSUE_1101 } from './data/ids';
 
 jest.mock('../fix-suggestions');
-
-export type MockFixSuggestionServiceInfo = {
-  status: SuggestionServiceStatus | 'WTF';
-};
 
 export default class FixSuggestionsServiceMock {
   fixSuggestion = {
@@ -64,23 +57,15 @@ export default class FixSuggestionsServiceMock {
     },
   };
 
-  serviceInfo: MockFixSuggestionServiceInfo | undefined = {
-    status: 'SUCCESS',
-  };
-
   constructor() {
     jest.mocked(getSuggestions).mockImplementation(this.handleGetFixSuggestion);
     jest.mocked(getFixSuggestionsIssues).mockImplementation(this.handleGetFixSuggestionsIssues);
-    jest.mocked(getFixSuggestionServiceInfo).mockImplementation(this.handleGetServiceInfo);
     jest.mocked(updateFeatureEnablement).mockImplementation(this.handleUpdateFeatureEnablement);
     jest.mocked(getFeatureEnablement).mockImplementation(this.handleGetFeatureEnablement);
     jest.mocked(getLlmProviders).mockImplementation(this.handleGetLlmProviders);
   }
 
   reset = () => {
-    this.serviceInfo = {
-      status: 'SUCCESS',
-    };
     this.featureEnablement = {
       enablement: AiCodeFixFeatureEnablement.allProjects,
       enabledProjectKeys: [],
@@ -106,13 +91,6 @@ export default class FixSuggestionsServiceMock {
       return Promise.reject({ error: { msg: 'Invalid issue' } });
     }
     return this.reply(this.fixSuggestion);
-  };
-
-  handleGetServiceInfo = () => {
-    if (this.serviceInfo) {
-      return this.reply(this.serviceInfo as ServiceInfo);
-    }
-    return Promise.reject(new Error('Error'));
   };
 
   handleGetFeatureEnablement = () => {
@@ -200,9 +178,5 @@ export default class FixSuggestionsServiceMock {
         resolve(cloneDeep(response));
       }, 10);
     });
-  }
-
-  setServiceInfo(info: MockFixSuggestionServiceInfo | undefined) {
-    this.serviceInfo = info;
   }
 }

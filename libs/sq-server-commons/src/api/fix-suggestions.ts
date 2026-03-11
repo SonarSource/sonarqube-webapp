@@ -31,20 +31,9 @@ export interface AiIssue {
   id: string;
 }
 
-export type SuggestionServiceStatus =
-  | 'SUCCESS'
-  | 'TIMEOUT'
-  | 'UNAUTHORIZED'
-  | 'CONNECTION_ERROR'
-  | 'SERVICE_ERROR';
-
 export type SubscriptionType = 'EARLY_ACCESS' | 'PAID' | 'NOT_PAID';
 
 export type BannerType = 'ENABLE' | 'LEARN_MORE';
-
-export interface ServiceInfo {
-  status: SuggestionServiceStatus;
-}
 
 export interface SubscriptionTypeResponse {
   subscriptionType?: SubscriptionType;
@@ -108,10 +97,6 @@ export function getSuggestions(data: FixParam): Promise<SuggestedFix> {
 
 export function getFixSuggestionsIssues(data: FixParam): Promise<AiIssue> {
   return axiosToCatch.get(`/api/v2/fix-suggestions/issues/${data.issueId}`);
-}
-
-export function getFixSuggestionServiceInfo(): Promise<ServiceInfo> {
-  return axiosToCatch.get(`/api/v2/fix-suggestions/service-info`);
 }
 
 export function updateFeatureEnablement(

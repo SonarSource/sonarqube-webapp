@@ -132,10 +132,12 @@ const DEFAULT_FEATURE_ENABLEMENT = {
   provider: null,
 };
 
+const EMPTY_PROJECTS: never[] = [];
+
 const PROVIDER_MODEL_KEY_SEPARATOR = '&&';
 
 export function AiCodeFixEnablementForm() {
-  const { data: projects = [], isLoading: isLoadingProject } = useGetAllProjectsQuery();
+  const { data: projects = EMPTY_PROJECTS, isLoading: isLoadingProject } = useGetAllProjectsQuery();
 
   const { data: llmOptions } = useGetLlmProvidersQuery();
 
