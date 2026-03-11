@@ -28,6 +28,7 @@ import { StandardsInformation, StandardsInformationKey } from '~shared/types/sec
 export {
   BACKEND_KEY_TO_FRONTEND,
   buildComplianceStandards,
+  buildComplianceStandardsForCategory,
   COMPLIANCE_STANDARDS_BACKEND_KEYS,
   mapFacetToBackendName,
   parseComplianceStandards,

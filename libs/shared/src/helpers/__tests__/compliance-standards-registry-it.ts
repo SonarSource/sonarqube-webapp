@@ -21,6 +21,7 @@
 import { StandardsInformationKey } from '../../types/security';
 import {
   buildComplianceStandards,
+  buildComplianceStandardsForCategory,
   generatePdfExportStandards,
   getAllComplianceStandardFacets,
   getAllSecurityStandards,
@@ -702,6 +703,118 @@ describe('compliance-standards-registry', () => {
       expect(mapFacetToBackendName('languages')).toBe('languages');
       expect(mapFacetToBackendName('severities')).toBe('severities');
       expect(mapFacetToBackendName('tags')).toBe('tags');
+    });
+  });
+
+  describe('buildComplianceStandardsForCategory', () => {
+    it('should not modify SonarSource categories', () => {
+      expect(buildComplianceStandardsForCategory('sonarsourceSecurity', 'sql-injection')).toBe(
+        'sonar_standard:urn:sonar-security-standard:sonar:standard:unversioned=sql-injection',
+      );
+      expect(buildComplianceStandardsForCategory('sonarsourceSecurity', 'others')).toBe(
+        'sonar_standard:urn:sonar-security-standard:sonar:standard:unversioned=others',
+      );
+    });
+
+    it('should uppercase OWASP Top 10 2017 categories without zero-padding', () => {
+      expect(buildComplianceStandardsForCategory('owaspTop10', 'a1')).toBe(
+        'owasp_top10:urn:sonar-security-standard:owasp:top10:2017=A1',
+      );
+      expect(buildComplianceStandardsForCategory('owaspTop10', 'a7')).toBe(
+        'owasp_top10:urn:sonar-security-standard:owasp:top10:2017=A7',
+      );
+      expect(buildComplianceStandardsForCategory('owaspTop10', 'a10')).toBe(
+        'owasp_top10:urn:sonar-security-standard:owasp:top10:2017=A10',
+      );
+    });
+
+    it('should uppercase and zero-pad OWASP Top 10 2021 categories', () => {
+      expect(buildComplianceStandardsForCategory('owaspTop10-2021', 'a1')).toBe(
+        'owasp_top10:urn:sonar-security-standard:owasp:top10:2021=A01',
+      );
+      expect(buildComplianceStandardsForCategory('owaspTop10-2021', 'a6')).toBe(
+        'owasp_top10:urn:sonar-security-standard:owasp:top10:2021=A06',
+      );
+      expect(buildComplianceStandardsForCategory('owaspTop10-2021', 'a10')).toBe(
+        'owasp_top10:urn:sonar-security-standard:owasp:top10:2021=A10',
+      );
+    });
+
+    it('should strip extra leading zeros from input', () => {
+      expect(buildComplianceStandardsForCategory('owaspTop10-2021', 'a01')).toBe(
+        'owasp_top10:urn:sonar-security-standard:owasp:top10:2021=A01',
+      );
+    });
+
+    it('should uppercase and zero-pad OWASP Mobile Top 10 categories', () => {
+      expect(buildComplianceStandardsForCategory('owaspMobileTop10-2024', 'm1')).toBe(
+        'owasp_mobile-top10:urn:sonar-security-standard:owasp:mobile-top10:2024=M01',
+      );
+      expect(buildComplianceStandardsForCategory('owaspMobileTop10-2024', 'm10')).toBe(
+        'owasp_mobile-top10:urn:sonar-security-standard:owasp:mobile-top10:2024=M10',
+      );
+    });
+
+    it('should add CWE- prefix to numeric CWE categories', () => {
+      expect(buildComplianceStandardsForCategory('cwe', '79')).toBe(
+        'cwe_standard:urn:sonar-security-standard:cwe:standard:4.18=CWE-79',
+      );
+    });
+
+    it('should add CWE- prefix to year-specific CWE categories', () => {
+      expect(buildComplianceStandardsForCategory('cwe-2024', '787')).toBe(
+        'cwe_standard:urn:sonar-security-standard:cwe:standard:4.18:2024=CWE-787',
+      );
+    });
+
+    it('should preserve existing CWE- prefix', () => {
+      expect(buildComplianceStandardsForCategory('cwe', 'CWE-89')).toBe(
+        'cwe_standard:urn:sonar-security-standard:cwe:standard:4.18=CWE-89',
+      );
+    });
+
+    it('should preserve existing CWE- prefix case-insensitively', () => {
+      expect(buildComplianceStandardsForCategory('cwe', 'cwe-89')).toBe(
+        'cwe_standard:urn:sonar-security-standard:cwe:standard:4.18=cwe-89',
+      );
+    });
+
+    it('should not modify PCI DSS categories', () => {
+      expect(buildComplianceStandardsForCategory('pciDss-4.0', '1')).toBe(
+        'pci_dss:urn:sonar-security-standard:pci:dss:4.0=1',
+      );
+    });
+
+    it('should not modify STIG categories', () => {
+      expect(buildComplianceStandardsForCategory('stig-ASD_V5R3', 'V-222607')).toBe(
+        'stig_asd:urn:sonar-security-standard:stig:asd:v5=V-222607',
+      );
+    });
+
+    it('should not modify CASA categories', () => {
+      expect(buildComplianceStandardsForCategory('casa', 'CASA-1')).toBe(
+        'casa_standard:urn:sonar-security-standard:casa:standard:unversioned=CASA-1',
+      );
+    });
+
+    it('should return undefined for an unknown standard key', () => {
+      expect(buildComplianceStandardsForCategory('unknownStandard', 'value')).toBeUndefined();
+    });
+
+    it('should return undefined when category is undefined', () => {
+      expect(buildComplianceStandardsForCategory('sonarsourceSecurity', undefined)).toBeUndefined();
+    });
+
+    it('should produce output parseable by parseComplianceStandards for OWASP', () => {
+      const result = buildComplianceStandardsForCategory('owaspTop10-2021', 'a3');
+      const parsed = parseComplianceStandards(result);
+      expect(parsed['owaspTop10-2021']).toEqual(['A03']);
+    });
+
+    it('should produce output parseable by parseComplianceStandards for CWE', () => {
+      const result = buildComplianceStandardsForCategory('cwe', '79');
+      const parsed = parseComplianceStandards(result);
+      expect(parsed.cwe).toEqual(['CWE-79']);
     });
   });
 });

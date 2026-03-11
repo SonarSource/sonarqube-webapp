@@ -324,6 +324,86 @@ export function buildComplianceStandards(query: object): string | undefined {
   return standardGroups.length > 0 ? standardGroups.join('&') : undefined;
 }
 
+const OWASP_TOP10_BACKEND_KEY_PREFIX = 'owasp_top10';
+const OWASP_MOBILE_BACKEND_KEY_PREFIX = 'owasp_mobile-top10';
+const CWE_BACKEND_KEY_PREFIX = 'cwe_standard';
+
+// OWASP Top 10 2017 uses A1-A10, while 2021+ uses A01-A10 (zero-padded).
+// The year is the last segment of the backend key URN.
+// The source of truth is the backend YAML metadata in Software Quality Reports Repo.
+const OWASP_TOP10_NO_PAD_VERSIONS = new Set(['2017']);
+
+/**
+ * Normalizes a category value to match the format the backend expects.
+ * Based on the backend YAML metadata (source of truth):
+ * - OWASP Top 10 2017: uppercase, no padding (a1 → A1)
+ * - OWASP Top 10 2021/2025: uppercase, zero-padded (a1 → A01)
+ * - OWASP Mobile Top 10: uppercase, zero-padded (m1 → M01)
+ * - CWE: ensure CWE- prefix (79 → CWE-79)
+ */
+function normalizeCategory(backendKey: string, category: string): string {
+  const keyPrefix = backendKey.split(':')[0];
+
+  if (keyPrefix === OWASP_TOP10_BACKEND_KEY_PREFIX) {
+    const version = backendKey.split(':').pop() ?? '';
+    const shouldZeroPad = !OWASP_TOP10_NO_PAD_VERSIONS.has(version);
+    return normalizeOwaspCategory(category, shouldZeroPad);
+  }
+
+  if (keyPrefix === OWASP_MOBILE_BACKEND_KEY_PREFIX) {
+    return normalizeOwaspCategory(category, true);
+  }
+
+  if (keyPrefix === CWE_BACKEND_KEY_PREFIX && !/^CWE-/i.test(category)) {
+    return `CWE-${category}`;
+  }
+
+  return category;
+}
+
+/**
+ * Normalizes an OWASP category: uppercase letter prefix + optional zero-padding.
+ * e.g. 'a1' → 'A01' (with padding) or 'A1' (without), 'a10' → 'A10' (both)
+ */
+const OWASP_CATEGORY_REGEX = /^([a-zA-Z])(\d+)$/;
+
+function normalizeOwaspCategory(category: string, zeroPad: boolean): string {
+  const match = OWASP_CATEGORY_REGEX.exec(category);
+  if (!match) {
+    return category.toUpperCase();
+  }
+  const [, letter, digits] = match;
+  const num = String(Number(digits));
+  const paddedNum = zeroPad ? num.padStart(2, '0') : num;
+  return `${letter.toUpperCase()}${paddedNum}`;
+}
+
+/**
+ * Builds a complianceStandards query value for a single standard key and category.
+ * Used by security report links to construct issues page URLs that match
+ * the format the issues page itself uses for its filters.
+ *
+ * @param standardKey - A StandardsInformationKey (e.g., 'owaspTop10-2021', 'sonarsourceSecurity')
+ * @param category - The category value (e.g., 'a1', 'sql-injection', '79'), or undefined
+ * @returns The complianceStandards value (e.g., 'owasp_top10:urn:...=A01'), or undefined if the key is unknown or category is missing
+ */
+export function buildComplianceStandardsForCategory(
+  standardKey: string,
+  category: string | undefined,
+): string | undefined {
+  if (!category) {
+    return undefined;
+  }
+  const backendKey =
+    COMPLIANCE_STANDARDS_BACKEND_KEYS[
+      standardKey as keyof typeof COMPLIANCE_STANDARDS_BACKEND_KEYS
+    ];
+  if (!backendKey) {
+    return undefined;
+  }
+  return `${backendKey}=${normalizeCategory(backendKey, category)}`;
+}
+
 function processComplianceStandardGroup(group: string, result: Record<string, string[]>): void {
   const [backendKey, categoriesString] = group.split('=');
   if (!backendKey || !categoriesString) {
