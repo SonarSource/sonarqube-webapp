@@ -368,7 +368,7 @@ export function Menu(props: Readonly<Props>) {
     }
     return renderDropdownMenuLink({
       key: 'portfolio-report',
-      label: intl.formatMessage({ id: 'governance_report.page' }),
+      label: intl.formatMessage({ id: 'report.page' }),
       pathname: '/portfolio/report',
       additionalQueryParams: query,
     });

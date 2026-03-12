@@ -140,7 +140,7 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
           disableIconWhenSidebarOpen
           to={{ pathname: '/portfolio/report', search }}
         >
-          <FormattedMessage id="governance_report.page" />
+          <FormattedMessage id="report.page" />
         </Layout.SidebarNavigation.Item>
       )}
 
