@@ -35,12 +35,6 @@ import { find, groupBy, isEmpty, isEqual, sortBy } from 'lodash';
 import React, { useCallback, useEffect, useReducer } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Badge } from '~design-system';
-import {
-  AIFeatureEnablement,
-  LLMAzureOption,
-  LLMOption,
-  LLMProvider,
-} from '~sq-server-commons/api/fix-suggestions';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
@@ -48,117 +42,116 @@ import SelectList, {
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getAiCodeFixTermsOfServiceUrl } from '~sq-server-commons/helpers/urls';
 import {
+  MASKED_SECRET,
+  Provider,
+  getProviderKey,
   useGetFeatureEnablementQuery,
-  useGetLlmProvidersQuery,
   useUpdateFeatureEnablementMutation,
 } from '~sq-server-commons/queries/fix-suggestions';
 import { useGetAllProjectsQuery } from '~sq-server-commons/queries/project-managements';
 import { AiCodeFixFeatureEnablement } from '~sq-server-commons/types/fix-suggestions';
-import { formReducer } from './AiCodeFixFormReducer';
+import { FormState, formReducer } from './AiCodeFixFormReducer';
 import { LLMForm } from './LLMForm';
 
 export interface AiFormValidation {
   error: { [key: string]: string };
 }
 
-function isAzureLLMOption(option: Partial<LLMOption>): option is LLMAzureOption {
-  return option.key === 'AZURE_OPENAI';
+function toPatchModel(type: string, model: string | null): string {
+  if (model === null) {
+    return type;
+  }
+  return `${type}_${model.toUpperCase().replaceAll(/[^A-Z0-9]/g, '_')}`;
 }
 
-function isValidProvider(
-  provider: Partial<LLMOption>,
-  currentProviderKey?: string,
-): provider is LLMOption {
-  return (
-    provider.key !== undefined &&
-    ((isAzureLLMOption(provider) &&
-      ((!isEmpty(provider.apiKey) && !isEmpty(provider.endpoint)) ||
-        (currentProviderKey === 'AZURE_OPENAI' && !isEmpty(provider.endpoint)))) ||
-      !isAzureLLMOption(provider))
+function isValidProvider(formState: FormState, savedProviders: Provider[]): boolean {
+  if (formState.selectedProviderKey === null) {
+    return false;
+  }
+
+  const provider = formState.providers.find(
+    (p) => getProviderKey(p) === formState.selectedProviderKey,
   );
-}
+  if (!provider) {
+    return false;
+  }
 
-function isSameProvider(a: Partial<LLMOption> | null, b: Partial<LLMOption> | null) {
-  if (a === null && b === null) {
+  const configKeys = Object.keys(provider.config);
+  if (configKeys.length === 0) {
     return true;
   }
 
-  if (a === null) {
+  const savedProvider = savedProviders.find((p) => getProviderKey(p) === getProviderKey(provider));
+  const wasPreviouslySelected = savedProvider?.selected === true;
+
+  return configKeys.every((key) => {
+    const value = provider.config[key];
+    if (!isEmpty(value) && value !== MASKED_SECRET) {
+      return true;
+    }
+    // Empty/masked form value is OK if the server had a masked or empty value
+    // for this key (e.g., secrets not returned by the API)
+    const savedValue = savedProvider?.config[key];
+    return wasPreviouslySelected && (isEmpty(savedValue) || savedValue === MASKED_SECRET);
+  });
+}
+
+function hasProviderChanged(formState: FormState, savedProviders: Provider[]): boolean {
+  const savedSelected = savedProviders.find((p) => p.selected);
+  if (!savedSelected && !formState.selectedProviderKey) {
     return false;
   }
-
-  if (b === null) {
-    return false;
+  if (!savedSelected || !formState.selectedProviderKey) {
+    return true;
+  }
+  if (getProviderKey(savedSelected) !== formState.selectedProviderKey) {
+    return true;
   }
 
-  return (
-    (!isAzureLLMOption(a) && a.modelKey === b.modelKey) ||
-    (isAzureLLMOption(a) &&
-      isAzureLLMOption(b) &&
-      a.endpoint === b.endpoint &&
-      a.apiKey === b.apiKey)
+  const currentProvider = formState.providers.find(
+    (p) => getProviderKey(p) === formState.selectedProviderKey,
   );
-}
-
-function getRecommendedProvider(providers: LLMProvider[]): LLMOption | undefined {
-  const recommendedProvider = providers.find((p) => p.models?.some((m) => m.recommended));
-
-  if (recommendedProvider === undefined) {
-    return;
+  if (!currentProvider) {
+    return true;
   }
 
-  return {
-    key: recommendedProvider.key,
-    modelKey: recommendedProvider.models?.find((m) => m.recommended)?.key ?? '',
-  };
+  const configKeys = Object.keys(currentProvider.config);
+  return configKeys.some((key) => {
+    const currentValue = currentProvider.config[key];
+    const savedValue = savedSelected.config[key];
+    // Masked server values displayed as empty — treat as unchanged
+    if (savedValue === MASKED_SECRET && isEmpty(currentValue)) {
+      return false;
+    }
+    return currentValue !== savedValue;
+  });
 }
-
-function sanitizeProvider(provider: Partial<LLMOption>): LLMOption {
-  if (isAzureLLMOption(provider)) {
-    return {
-      key: 'AZURE_OPENAI',
-      endpoint: provider.endpoint ?? '',
-      apiKey: provider.apiKey,
-      modelKey: null,
-    };
-  }
-
-  return { key: provider.key ?? 'OPENAI', modelKey: provider.modelKey ?? '' };
-}
-
-const DEFAULT_FEATURE_ENABLEMENT = {
-  enablement: AiCodeFixFeatureEnablement.disabled as const,
-  enabledProjectKeys: null,
-  provider: null,
-};
 
 const EMPTY_PROJECTS: never[] = [];
 
-const PROVIDER_MODEL_KEY_SEPARATOR = '&&';
-
 export function AiCodeFixEnablementForm() {
   const { data: projects = EMPTY_PROJECTS, isLoading: isLoadingProject } = useGetAllProjectsQuery();
-
-  const { data: llmOptions } = useGetLlmProvidersQuery();
+  const { data: featureEnablementParams, isLoading: isLoadingFeatureEnablement } =
+    useGetFeatureEnablementQuery();
 
   const [validations, setValidations] = React.useState<AiFormValidation>({
     error: {},
   });
 
-  const {
-    data: featureEnablementParams = DEFAULT_FEATURE_ENABLEMENT,
-    isLoading: isLoadingFeatureEnablement,
-  } = useGetFeatureEnablementQuery();
-
   const [formState, dispatch] = useReducer(formReducer, {
-    ...featureEnablementParams,
+    enablement: AiCodeFixFeatureEnablement.disabled,
+    providers: [],
+    enabledProjectKeys: null,
     projectsToDisplay: [],
+    selectedProviderKey: null,
   });
 
   const { mutate: updateFeatureEnablement, isPending } = useUpdateFeatureEnablementMutation();
 
   useEffect(() => {
-    dispatch({ initialEnablement: featureEnablementParams, projects, type: 'initialize' });
+    if (featureEnablementParams !== undefined) {
+      dispatch({ initialEnablement: featureEnablementParams, projects, type: 'initialize' });
+    }
   }, [projects, featureEnablementParams]);
 
   const renderProjectElement = useCallback(
@@ -184,30 +177,55 @@ export function AiCodeFixEnablementForm() {
     [projects],
   );
 
-  const handleAiCodeFixUpdate = () => {
-    const enabledProjectKeys =
-      formState.enablement === AiCodeFixFeatureEnablement.someProjects
-        ? formState.enabledProjectKeys
-        : formState.enablement === AiCodeFixFeatureEnablement.disabled
-          ? null
-          : [];
+  const onProjectSelect = useCallback((projectKey: string) => {
+    dispatch({ projectKey, type: 'select' });
+    return Promise.resolve();
+  }, []);
 
-    // Can be save only if provider is valid, this is safe.
-    const provider = formState.provider === null ? null : sanitizeProvider(formState.provider);
+  const onProjectUnselect = useCallback((projectKey: string) => {
+    dispatch({ projectKey, type: 'unselect' });
+    return Promise.resolve();
+  }, []);
+
+  const onSearch = useCallback(
+    (searchParams: SelectListSearchParams) => {
+      dispatch({ projects, searchParams, type: 'filter' });
+      return Promise.resolve();
+    },
+    [projects],
+  );
+
+  if (isLoadingFeatureEnablement || featureEnablementParams === undefined) {
+    return null;
+  }
+
+  const handleAiCodeFixUpdate = () => {
+    const selectedProvider = formState.providers.find(
+      (p) => getProviderKey(p) === formState.selectedProviderKey,
+    );
+
+    if (!selectedProvider) {
+      return;
+    }
 
     updateFeatureEnablement(
       {
         config: {
           enablement: formState.enablement,
-          enabledProjectKeys,
-          provider,
-        } as AIFeatureEnablement,
+          ...(formState.enablement === AiCodeFixFeatureEnablement.someProjects
+            ? { enabledProjectKeys: formState.enabledProjectKeys }
+            : {}),
+          provider: {
+            type: selectedProvider.type,
+            model: toPatchModel(selectedProvider.type, selectedProvider.model),
+            config: selectedProvider.config,
+          },
+        },
         prevState: featureEnablementParams,
       },
       {
         onError: (err) => {
           if (err.response?.data.relatedField !== undefined) {
-            // relatedField is in the form of "provider.endpoint"
             const splittedRelatedField = err.response?.data.relatedField.split('.');
 
             setValidations({
@@ -224,29 +242,17 @@ export function AiCodeFixEnablementForm() {
     setValidations({ error: {} });
   };
 
-  const onProjectSelect = useCallback((projectKey: string) => {
-    dispatch({ projectKey, type: 'select' });
+  const providerOptionsGrouped = groupBySelfHosted(featureEnablementParams.providers);
+  const isLoading = isLoadingProject || isPending;
 
-    return Promise.resolve();
-  }, []);
-
-  const onProjectUnselect = useCallback((projectKey: string) => {
-    dispatch({ projectKey, type: 'unselect' });
-
-    return Promise.resolve();
-  }, []);
-
-  const onSearch = useCallback(
-    (searchParams: SelectListSearchParams) => {
-      dispatch({ projects, searchParams, type: 'filter' });
-
-      return Promise.resolve();
-    },
-    [projects],
+  const selectedProvider = formState.providers.find(
+    (p) => getProviderKey(p) === formState.selectedProviderKey,
   );
 
-  const providerOptionsGrouped = groupBySelfHosted(llmOptions ?? []);
-  const isLoading = isLoadingProject || isLoadingFeatureEnablement || isPending;
+  const isDirty =
+    formState.enablement !== featureEnablementParams.enablement ||
+    !isEqual(formState.enabledProjectKeys, featureEnablementParams.enabledProjectKeys) ||
+    hasProviderChanged(formState, featureEnablementParams.providers);
 
   return (
     <div className="sw-flex sw-items-start">
@@ -275,10 +281,7 @@ export function AiCodeFixEnablementForm() {
           label={translate('property.aicodefix.admin.checkbox.label')}
           onCheck={() => {
             setValidations({ error: {} });
-            dispatch({
-              type: 'toggle-enablement',
-              recommendedProvider: getRecommendedProvider(llmOptions ?? []),
-            });
+            dispatch({ type: 'toggle-enablement' });
           }}
         />
 
@@ -291,31 +294,23 @@ export function AiCodeFixEnablementForm() {
               isNotClearable
               isRequired
               label={translate('aicodefix.admin.provider.title')}
-              onChange={(value: string) => {
-                const splitValue = value.split(PROVIDER_MODEL_KEY_SEPARATOR);
-                const providerKey = splitValue[0];
-                const modelKey = splitValue[1];
+              onChange={(value) => {
+                if (value === null) {
+                  return;
+                }
                 setValidations({ error: {} });
-                dispatch({ modelKey, providerKey, type: 'selectProvider' });
+                dispatch({ providerKey: value, type: 'selectProvider' });
               }}
-              value={
-                formState.provider.modelKey
-                  ? `${formState.provider.key}${PROVIDER_MODEL_KEY_SEPARATOR}${formState.provider.modelKey}`
-                  : formState.provider.key
-              }
+              value={formState.selectedProviderKey ?? undefined}
               width="large"
             />
 
             <LLMForm
-              isFirstSetup={
-                featureEnablementParams.provider === null ||
-                featureEnablementParams.provider.key === 'OPENAI'
-              }
-              onChange={(provider) => {
+              config={selectedProvider?.config ?? {}}
+              onChange={(configKey, value) => {
                 setValidations({ error: {} });
-                dispatch({ type: 'setProvider', provider });
+                dispatch({ type: 'setProviderConfig', configKey, value });
               }}
-              options={formState.provider}
               validation={validations}
             />
           </div>
@@ -380,81 +375,58 @@ export function AiCodeFixEnablementForm() {
         </div>
 
         <div>
-          {!isLoading &&
-            !(
-              formState.enablement === featureEnablementParams.enablement &&
-              isEqual(formState.enabledProjectKeys, featureEnablementParams.enabledProjectKeys) &&
-              isSameProvider(formState.provider, featureEnablementParams.provider)
-            ) && (
-              <div className="sw-flex sw-mt-6">
-                <Button
-                  isDisabled={
-                    (formState.enablement !== AiCodeFixFeatureEnablement.disabled &&
-                      !isValidProvider(
-                        formState.provider,
-                        featureEnablementParams.provider?.key,
-                      )) ||
-                    isLoading ||
-                    (formState.enablement === featureEnablementParams.enablement &&
-                      isEqual(
-                        formState.enabledProjectKeys,
-                        featureEnablementParams.enabledProjectKeys,
-                      ) &&
-                      isSameProvider(formState.provider, featureEnablementParams.provider))
-                  }
-                  isLoading={isPending}
-                  onClick={handleAiCodeFixUpdate}
-                  variety={ButtonVariety.Primary}
-                >
-                  <FormattedMessage id="save" />
-                </Button>
+          {!isLoading && isDirty && (
+            <div className="sw-flex sw-mt-6">
+              <Button
+                isDisabled={
+                  (formState.enablement !== AiCodeFixFeatureEnablement.disabled &&
+                    !isValidProvider(formState, featureEnablementParams.providers)) ||
+                  isLoading ||
+                  !isDirty
+                }
+                isLoading={isPending}
+                onClick={handleAiCodeFixUpdate}
+                variety={ButtonVariety.Primary}
+              >
+                <FormattedMessage id="save" />
+              </Button>
 
-                <ModalAlert
-                  description={translate('aicodefix.cancel.modal.description')}
-                  primaryButton={
-                    <Button onClick={handleCancel} variety="primary">
-                      {translate('confirm')}
-                    </Button>
-                  }
-                  secondaryButtonLabel={translate('aicodefix.cancel.modal.continue_editing')}
-                  title={translate('aicodefix.cancel.modal.title')}
-                >
-                  <Button className="sw-ml-3" variety={ButtonVariety.Default}>
-                    <FormattedMessage id="cancel" />
+              <ModalAlert
+                description={translate('aicodefix.cancel.modal.description')}
+                primaryButton={
+                  <Button onClick={handleCancel} variety="primary">
+                    {translate('confirm')}
                   </Button>
-                </ModalAlert>
-              </div>
-            )}
+                }
+                secondaryButtonLabel={translate('aicodefix.cancel.modal.continue_editing')}
+                title={translate('aicodefix.cancel.modal.title')}
+              >
+                <Button className="sw-ml-3" variety={ButtonVariety.Default}>
+                  <FormattedMessage id="cancel" />
+                </Button>
+              </ModalAlert>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-function groupBySelfHosted(providersArray: LLMProvider[]) {
-  const groups = groupBy(providersArray, (m) => m.selfHosted);
+function groupBySelfHosted(providers: Provider[]) {
+  const groups = groupBy(providers, (p) => p.selfHosted);
 
   return Object.keys(groups).map((group) => {
     const items = sortBy(
-      groups[group].flatMap((provider) =>
-        provider.models === undefined || provider.models.length === 0
-          ? [
-              {
-                value: provider.key,
-                label: provider.name,
-                suffix: null,
-                helpText: '',
-              },
-            ]
-          : provider.models.map((model) => ({
-              value: `${provider.key}${PROVIDER_MODEL_KEY_SEPARATOR}${model.key}`,
-              label: provider.name,
-              suffix: model.recommended ? (
-                <Badge variant="counter">{translate('recommended')}</Badge>
-              ) : null,
-              helpText: model.name,
-            })),
-      ),
+      groups[group].map((provider) => ({
+        value: getProviderKey(provider),
+        label: provider.name ?? getProviderKey(provider),
+        suffix:
+          provider.recommended === true ? (
+            <Badge variant="counter">{translate('recommended')}</Badge>
+          ) : null,
+        helpText: provider.model ? provider.model : null,
+      })),
       (m) => m.label,
     );
 

@@ -25,13 +25,64 @@ import {
   FixParam,
   getFeatureEnablement,
   getFixSuggestionsIssues,
-  getLlmProviders,
+  getProviderKey,
   getSuggestions,
+  Provider,
   updateFeatureEnablement,
+  UpdateFeatureEnablementParams,
 } from '../fix-suggestions';
 import { ISSUE_101, ISSUE_1101 } from './data/ids';
 
-jest.mock('../fix-suggestions');
+jest.mock('../fix-suggestions', () => {
+  const actual: typeof import('../fix-suggestions') = jest.requireActual('../fix-suggestions');
+  return {
+    ...actual,
+    getFeatureEnablement: jest.fn(),
+    getFixSuggestionServiceInfo: jest.fn(),
+    getFixSuggestionsIssues: jest.fn(),
+    getSuggestions: jest.fn(),
+    updateFeatureEnablement: jest.fn(),
+  };
+});
+
+export const DEFAULT_PROVIDERS: Provider[] = [
+  {
+    name: 'OpenAI - GPT-5.1',
+    type: 'OPENAI',
+    config: {},
+    model: 'GPT-5.1',
+    recommended: true,
+    selected: true,
+    selfHosted: false,
+  },
+  {
+    name: 'OpenAI - GPT-5',
+    type: 'OPENAI',
+    config: {},
+    model: 'GPT-5',
+    recommended: false,
+    selected: false,
+    selfHosted: false,
+  },
+  {
+    name: 'Azure OpenAI',
+    type: 'AZURE_OPENAI',
+    config: { endpoint: '', apiKey: '' },
+    model: null,
+    recommended: null,
+    selected: false,
+    selfHosted: true,
+  },
+  {
+    name: 'AWS BedRock',
+    type: 'AWS_BEDROCK',
+    config: { region: '', modelId: '' },
+    model: null,
+    recommended: null,
+    selected: false,
+    selfHosted: true,
+  },
+];
 
 export default class FixSuggestionsServiceMock {
   fixSuggestion = {
@@ -51,10 +102,7 @@ export default class FixSuggestionsServiceMock {
   featureEnablement: AIFeatureEnablement = {
     enablement: AiCodeFixFeatureEnablement.allProjects,
     enabledProjectKeys: [],
-    provider: {
-      key: 'OPENAI',
-      modelKey: 'gpt-3.5-turbo',
-    },
+    providers: cloneDeep(DEFAULT_PROVIDERS),
   };
 
   constructor() {
@@ -62,17 +110,13 @@ export default class FixSuggestionsServiceMock {
     jest.mocked(getFixSuggestionsIssues).mockImplementation(this.handleGetFixSuggestionsIssues);
     jest.mocked(updateFeatureEnablement).mockImplementation(this.handleUpdateFeatureEnablement);
     jest.mocked(getFeatureEnablement).mockImplementation(this.handleGetFeatureEnablement);
-    jest.mocked(getLlmProviders).mockImplementation(this.handleGetLlmProviders);
   }
 
   reset = () => {
     this.featureEnablement = {
       enablement: AiCodeFixFeatureEnablement.allProjects,
       enabledProjectKeys: [],
-      provider: {
-        key: 'OPENAI',
-        modelKey: 'gpt-3.5-turbo',
-      },
+      providers: cloneDeep(DEFAULT_PROVIDERS),
     };
   };
 
@@ -97,62 +141,28 @@ export default class FixSuggestionsServiceMock {
     return this.reply(this.featureEnablement);
   };
 
-  handleUpdateFeatureEnablement = (f: AIFeatureEnablement) => {
-    this.featureEnablement = f;
+  handleUpdateFeatureEnablement = (f: UpdateFeatureEnablementParams) => {
+    const savedKey = getProviderKey({
+      type: f.provider.type,
+      model: f.provider.model ?? null,
+    });
+    this.featureEnablement = {
+      enablement: f.enablement,
+      enabledProjectKeys: f.enabledProjectKeys ?? null,
+      providers: this.featureEnablement.providers.map((p) => ({
+        ...p,
+        selected: getProviderKey(p) === savedKey,
+        config: getProviderKey(p) === savedKey ? { ...p.config, ...f.provider.config } : p.config,
+      })),
+    } as AIFeatureEnablement;
     return Promise.resolve();
-  };
-
-  handleGetLlmProviders = () => {
-    return this.reply([
-      {
-        key: 'OPENAI',
-        name: 'OpenAI',
-        models: [
-          {
-            key: 'gpt-3.5-turbo',
-            name: 'GPT-3.5 Turbo',
-            recommended: true,
-          },
-          {
-            key: 'gpt-3.5',
-            name: 'GPT-3.5',
-            recommended: false,
-          },
-        ],
-        selfHosted: false,
-        recommended: true,
-      },
-      {
-        key: 'AZURE_OPENAI',
-        name: 'Azure OpenAI',
-        selfHosted: true,
-        recommended: false,
-      },
-      {
-        key: 'ANTHROPIC',
-        name: 'Anthropic',
-        selfHosted: false,
-        models: [
-          {
-            key: 'davinci',
-            name: 'Davinci',
-            recommended: false,
-          },
-          {
-            key: 'curie',
-            name: 'Curie',
-            recommended: false,
-          },
-        ],
-      },
-    ]);
   };
 
   disableForAllProject() {
     this.featureEnablement = {
       enablement: AiCodeFixFeatureEnablement.disabled as const,
       enabledProjectKeys: null,
-      provider: null,
+      providers: cloneDeep(DEFAULT_PROVIDERS).map((p) => ({ ...p, selected: false })),
     };
   }
 
@@ -160,7 +170,7 @@ export default class FixSuggestionsServiceMock {
     this.featureEnablement = {
       enablement: AiCodeFixFeatureEnablement.someProjects as const,
       enabledProjectKeys: [key],
-      provider: { key: 'OPENAI', modelKey: 'gpt-3.5-turbo' },
+      providers: cloneDeep(DEFAULT_PROVIDERS),
     };
   }
 
@@ -168,7 +178,14 @@ export default class FixSuggestionsServiceMock {
     this.featureEnablement = {
       enablement: AiCodeFixFeatureEnablement.allProjects as const,
       enabledProjectKeys: null,
-      provider: { key: 'AZURE_OPENAI', endpoint: 'http://localhost:8080', modelKey: null },
+      providers: cloneDeep(DEFAULT_PROVIDERS).map((p) => ({
+        ...p,
+        selected: p.type === 'AZURE_OPENAI',
+        config:
+          p.type === 'AZURE_OPENAI'
+            ? { endpoint: 'http://localhost:8080', apiKey: '****' }
+            : p.config,
+      })),
     };
   }
 

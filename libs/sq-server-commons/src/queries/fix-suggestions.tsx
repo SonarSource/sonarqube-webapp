@@ -27,9 +27,9 @@ import {
   AIFeatureEnablement,
   getFeatureEnablement,
   getFixSuggestionsIssues,
-  getLlmProviders,
   getSuggestions,
   updateFeatureEnablement,
+  UpdateFeatureEnablementParams,
 } from '../api/fix-suggestions';
 import { useAvailableFeatures } from '../context/available-features/withAvailableFeatures';
 import { CurrentUserContext } from '../context/current-user/CurrentUserContext';
@@ -40,6 +40,8 @@ import { AIError, Issue } from '../types/types';
 import { isLoggedIn } from '../types/users';
 import { useComponentDataQuery } from './component';
 import { useRawSourceQuery } from './sources';
+
+export { getProviderKey, MASKED_SECRET, type Provider } from '../api/fix-suggestions';
 
 const UNKNOWN = -1;
 
@@ -197,12 +199,12 @@ export function useUpdateFeatureEnablementMutation() {
   return useMutation<
     Awaited<ReturnType<typeof updateFeatureEnablement>>,
     AxiosError<AIError>,
-    { config: AIFeatureEnablement; prevState: AIFeatureEnablement }
+    { config: UpdateFeatureEnablementParams; prevState: AIFeatureEnablement }
   >({
-    mutationFn: (data: { config: AIFeatureEnablement; prevState: AIFeatureEnablement }) =>
+    mutationFn: (data: { config: UpdateFeatureEnablementParams; prevState: AIFeatureEnablement }) =>
       updateFeatureEnablement(data.config),
     onSuccess: (_, param) => {
-      queryClient.removeQueries({ queryKey: ['fix-suggestions'] });
+      queryClient.invalidateQueries({ queryKey: ['fix-suggestions'] });
       if (
         param.config.enablement !== AiCodeFixFeatureEnablement.disabled &&
         param.prevState.enablement === AiCodeFixFeatureEnablement.disabled
@@ -232,16 +234,6 @@ export function useGetFeatureEnablementQuery() {
   return useQuery({
     queryKey: ['fix-suggestions', 'config'],
     queryFn: () => getFeatureEnablement(),
-    staleTime: Infinity,
-    enabled: hasFeature(Feature.FixSuggestions),
-  });
-}
-
-export function useGetLlmProvidersQuery() {
-  const { hasFeature } = useAvailableFeatures();
-  return useQuery({
-    queryKey: ['fix-suggestions', 'llm-providers'],
-    queryFn: () => getLlmProviders(),
     staleTime: Infinity,
     enabled: hasFeature(Feature.FixSuggestions),
   });

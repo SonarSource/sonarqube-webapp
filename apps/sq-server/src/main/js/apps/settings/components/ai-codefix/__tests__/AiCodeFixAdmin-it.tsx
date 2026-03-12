@@ -20,7 +20,7 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { byRole, byText } from '~shared/helpers/testSelector';
+import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import FixSuggestionsServiceMock from '~sq-server-commons/api/mocks/FixSuggestionsServiceMock';
 import ProjectManagementServiceMock from '~sq-server-commons/api/mocks/ProjectsManagementServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
@@ -68,8 +68,10 @@ const ui = {
   project: byText('project1'),
   confirmCancelButton: byRole('button', { name: 'confirm' }),
   continueEditingButton: byRole('button', { name: 'aicodefix.cancel.modal.continue_editing' }),
-  azureApiKeyInput: byRole('textbox', { name: 'aicodefix.azure_open_ai.apiKey.label' }),
-  azureEndpointInput: byRole('textbox', { name: 'aicodefix.azure_open_ai.endpoint.label' }),
+  azureEndpointInput: byRole('textbox', { name: 'Endpoint' }),
+  azureApiKeyInput: byLabelText(/API Key/),
+  awsRegionInput: byRole('textbox', { name: 'Region' }),
+  awsModelIdInput: byRole('textbox', { name: 'Model ID' }),
 };
 
 it('should display the enablement form when feature has fix-suggestions', async () => {
@@ -90,6 +92,7 @@ it('should by default propose enabling for all projects when enabling the featur
   const user = userEvent.setup();
 
   expect(await ui.codeFixTitle.find()).toBeInTheDocument();
+  await flushPromises();
   expect(ui.enableAiCodeFixCheckbox.get()).not.toBeChecked();
 
   const enableAiCodeFixCheckbox = ui.enableAiCodeFixCheckbox.get();
@@ -107,6 +110,7 @@ it('should be able to enable the code fix feature for all projects', async () =>
   const user = userEvent.setup();
 
   expect(await ui.codeFixTitle.find()).toBeInTheDocument();
+  await flushPromises();
 
   const enableAiCodeFixCheckbox = await ui.enableAiCodeFixCheckbox.find();
 
@@ -122,7 +126,7 @@ it('should be able to enable the code fix feature for all projects', async () =>
   const llmProvider = await ui.llmProvider.find();
 
   expect(llmProvider).toBeVisible();
-  expect(llmProvider).toHaveValue('OpenAI');
+  expect(llmProvider).toHaveValue('OpenAI - GPT-5.1');
 
   const allProjectsEnabledRadio = await ui.allProjectsEnabledRadio.find();
 
@@ -148,6 +152,7 @@ it('should be able to enable the code fix feature for some projects', async () =
   const user = userEvent.setup();
 
   const enableAiCodeFixCheckbox = await ui.enableAiCodeFixCheckbox.find();
+  await flushPromises();
 
   expect(enableAiCodeFixCheckbox).toBeVisible();
   await waitFor(() => {
@@ -155,6 +160,10 @@ it('should be able to enable the code fix feature for some projects', async () =
   });
 
   await user.click(enableAiCodeFixCheckbox);
+
+  await waitFor(() => {
+    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+  });
 
   const someProjectsEnabledRadio = await ui.someProjectsEnabledRadio.find();
 
@@ -183,11 +192,11 @@ it('should be able to enable the code fix feature for some projects', async () =
   await user.click(saveButton);
 
   await waitFor(() => {
-    // expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
     expect(enableAiCodeFixCheckbox).toBeChecked();
   });
-
-  expect(saveButton).not.toBeVisible();
+  await waitFor(() => {
+    expect(saveButton).not.toBeVisible();
+  });
 });
 
 it('should be able to disable the feature for a single project', async () => {
@@ -207,7 +216,9 @@ it('should be able to disable the feature for a single project', async () => {
   await waitFor(() => {
     expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
   });
-  expect(ui.saveButton.query()).not.toBeInTheDocument();
+  await waitFor(() => {
+    expect(ui.saveButton.query()).not.toBeInTheDocument();
+  });
 });
 
 it('should be able to disable the code fix feature', async () => {
@@ -268,7 +279,9 @@ it('should be able to set the Azure Open option in the form', async () => {
 
   expect(ui.azureApiKeyInput.get()).toHaveValue('test-api-key');
   expect(ui.azureEndpointInput.get()).toHaveValue('https://test-endpoint.com');
-  expect(ui.saveButton.query()).not.toBeInTheDocument();
+  await waitFor(() => {
+    expect(ui.saveButton.query()).not.toBeInTheDocument();
+  });
 });
 
 it('should be able to select the recommended provider by default if no provider is selected', async () => {
@@ -278,13 +291,18 @@ it('should be able to select the recommended provider by default if no provider 
   const user = userEvent.setup();
 
   expect(await ui.codeFixTitle.find()).toBeInTheDocument();
+  await flushPromises();
   expect(ui.enableAiCodeFixCheckbox.get()).not.toBeChecked();
 
   await user.click(ui.enableAiCodeFixCheckbox.get());
 
+  await waitFor(() => {
+    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+  });
+
   const llmProvider = ui.llmProvider.get();
 
-  expect(llmProvider).toHaveValue('OpenAI');
+  expect(llmProvider).toHaveValue('OpenAI - GPT-5.1');
 });
 
 it('should disable the save button when the provider is not valid', async () => {
@@ -303,6 +321,21 @@ it('should disable the save button when the provider is not valid', async () => 
 
   await user.type(ui.azureEndpointInput.get(), 'something new');
   expect(ui.saveButton.get()).toBeEnabled();
+});
+
+it('should render AWS Bedrock config fields when selecting that provider', async () => {
+  renderCodeFixAdmin();
+  const user = userEvent.setup();
+
+  await waitFor(() => {
+    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+  });
+
+  await user.click(ui.llmProvider.get());
+  await user.click(byText('AWS BedRock').get());
+
+  expect(ui.awsRegionInput.get()).toBeInTheDocument();
+  expect(ui.awsModelIdInput.get()).toBeInTheDocument();
 });
 
 it('should display the promotion message when the FixSuggestionsMarketing feature is enabled', async () => {

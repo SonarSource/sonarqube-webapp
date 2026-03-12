@@ -19,71 +19,78 @@
  */
 
 import { IconLock, TextInput } from '@sonarsource/echoes-react';
-import { useState } from 'react';
-import { LLMAzureOption, LLMOption } from '~sq-server-commons/api/fix-suggestions';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { isEmpty } from 'lodash';
+import { useIntl } from 'react-intl';
+import { MASKED_SECRET } from '~sq-server-commons/queries/fix-suggestions';
 import { AiFormValidation } from './AiCodeFixEnablementForm';
 
 interface LLMFormProps {
-  isFirstSetup: boolean;
-  onChange: (values: Partial<LLMOption>) => void;
-  options: Partial<LLMOption>;
+  config: Record<string, string>;
+  onChange: (configKey: string, value: string) => void;
   validation: AiFormValidation;
 }
 
-function isAzureLLMOption(option: Partial<LLMOption>): option is LLMAzureOption {
-  return option.key === 'AZURE_OPENAI';
+const WELL_KNOWN_ABBREVIATIONS = new Set(['api', 'id', 'url']);
+
+function humanizeConfigKey(key: string): string {
+  const words = key.replaceAll(/([a-z])([A-Z])/g, '$1 $2').split(/[\s_-]+/);
+
+  return words
+    .map((word) =>
+      WELL_KNOWN_ABBREVIATIONS.has(word.toLowerCase())
+        ? word.toUpperCase()
+        : word.charAt(0).toUpperCase() + word.slice(1),
+    )
+    .join(' ');
 }
 
-export function LLMForm(props: Readonly<LLMFormProps>) {
-  const [focused, setFocused] = useState(false);
-  const { options, validation } = props;
+function isSecretField(configKey: string): boolean {
+  return configKey.toLowerCase().includes('key');
+}
 
-  if (!isAzureLLMOption(options)) {
+function isMaskedValue(value: string): boolean {
+  return value === MASKED_SECRET;
+}
+
+export function LLMForm({ config, onChange, validation }: Readonly<LLMFormProps>) {
+  const { formatMessage } = useIntl();
+
+  const keys = Object.keys(config);
+
+  if (keys.length === 0) {
     return null;
   }
 
   return (
     <>
-      <TextInput
-        helpText={translate('aicodefix.azure_open_ai.endpoint.help')}
-        isRequired
-        label={translate('aicodefix.azure_open_ai.endpoint.label')}
-        messageInvalid={validation.error.endpoint}
-        onChange={(event) => {
-          props.onChange({ ...options, endpoint: event.target.value });
-        }}
-        type="url"
-        validation={validation.error.endpoint ? 'invalid' : 'none'}
-        value={options.endpoint ?? ''}
-        width="large"
-      />
-      <TextInput
-        helpText={translate('aicodefix.azure_open_ai.apiKey.help')}
-        isRequired
-        label={translate('aicodefix.azure_open_ai.apiKey.label')}
-        messageInvalid={validation.error.apiKey}
-        onBlur={() => {
-          setFocused(false);
-        }}
-        onChange={(event) => {
-          props.onChange({ ...options, apiKey: event.target.value });
-        }}
-        onFocus={() => {
-          setFocused(true);
-        }}
-        placeholder={
-          options.apiKey === undefined && !props.isFirstSetup
-            ? translate('aicodefix.azure_open_ai.apiKey.update_placeholder')
-            : undefined
-        }
-        prefix={
-          options.apiKey === undefined && !focused && !props.isFirstSetup ? <IconLock /> : undefined
-        }
-        validation={validation.error.apiKey ? 'invalid' : 'none'}
-        value={options.apiKey ?? ''}
-        width="large"
-      />
+      {keys.map((configKey) => {
+        const isSecret = isSecretField(configKey);
+        const rawValue = config[configKey];
+        const displayValue = isSecret && isMaskedValue(rawValue) ? '' : rawValue;
+        const hasSavedSecret = isSecret && isMaskedValue(rawValue);
+
+        return (
+          <TextInput
+            isRequired
+            key={configKey}
+            label={humanizeConfigKey(configKey)}
+            messageInvalid={validation.error[configKey]}
+            onChange={(event) => {
+              onChange(configKey, event.target.value);
+            }}
+            placeholder={
+              hasSavedSecret
+                ? formatMessage({ id: 'aicodefix.admin.provider.secret.placeholder' })
+                : undefined
+            }
+            prefix={hasSavedSecret && isEmpty(displayValue) ? <IconLock /> : undefined}
+            type={isSecret ? 'password' : 'text'}
+            validation={validation.error[configKey] ? 'invalid' : 'none'}
+            value={displayValue}
+            width="large"
+          />
+        );
+      })}
     </>
   );
 }

@@ -39,48 +39,42 @@ export interface SubscriptionTypeResponse {
   subscriptionType?: SubscriptionType;
 }
 
+export const MASKED_SECRET = '****';
+
+export function getProviderKey(provider: { model: string | null; type: string }): string {
+  return provider.model === null ? provider.type : `${provider.type}:${provider.model}`;
+}
+
+export interface Provider {
+  config: Record<string, string>;
+  model: string | null;
+  name: string;
+  recommended: boolean | null;
+  selected: boolean;
+  selfHosted: boolean;
+  type: string;
+}
+
 export type AIFeatureEnablement =
   | {
       enabledProjectKeys: string[] | null;
       enablement: AiCodeFixFeatureEnablement.allProjects | AiCodeFixFeatureEnablement.someProjects;
-      provider: LLMOption;
+      providers: Provider[];
     }
   | {
       enabledProjectKeys: null;
       enablement: AiCodeFixFeatureEnablement.disabled;
-      provider: null;
+      providers: Provider[];
     };
 
-type LLMOpenAIOption = {
-  key: 'OPENAI';
-  modelKey: string;
-};
-
-export type LLMAzureOption = {
-  apiKey?: string;
-  endpoint: string;
-  key: 'AZURE_OPENAI';
-  modelKey: null;
-};
-
-type LLMGenericSonar = {
-  key: Exclude<string, 'OPENAI' | 'AZURE_OPENAI'>;
-  modelKey: string;
-};
-
-export type LLMOption = LLMOpenAIOption | LLMAzureOption | LLMGenericSonar;
-
-export interface LLMProvider {
-  key: string;
-  models?: Model[];
-  name: string;
-  selfHosted: boolean;
-}
-
-interface Model {
-  key: string;
-  name: string;
-  recommended: boolean;
+export interface UpdateFeatureEnablementParams {
+  enabledProjectKeys?: string[] | null;
+  enablement: AiCodeFixFeatureEnablement;
+  provider: {
+    config: Record<string, string>;
+    model?: string | null;
+    type: string;
+  };
 }
 
 export function sendTelemetryInfo(bannerType: BannerType) {
@@ -100,15 +94,11 @@ export function getFixSuggestionsIssues(data: FixParam): Promise<AiIssue> {
 }
 
 export function updateFeatureEnablement(
-  featureEnablementParams: AIFeatureEnablement,
+  featureEnablementParams: UpdateFeatureEnablementParams,
 ): Promise<void> {
   return axiosToCatch.patch(`/api/v2/fix-suggestions/feature-enablements`, featureEnablementParams);
 }
 
 export function getFeatureEnablement(): Promise<AIFeatureEnablement> {
   return axiosClient.get(`/api/v2/fix-suggestions/feature-enablements`);
-}
-
-export function getLlmProviders(): Promise<LLMProvider[]> {
-  return axiosClient.get(`/api/v2/fix-suggestions/supported-llm-providers`);
 }

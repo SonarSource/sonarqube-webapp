@@ -18,12 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { AIFeatureEnablement, LLMOption } from '~sq-server-commons/api/fix-suggestions';
+import { AIFeatureEnablement } from '~sq-server-commons/api/fix-suggestions';
 import { Project } from '~sq-server-commons/api/project-management';
 import {
   SelectListFilter,
   SelectListSearchParams,
 } from '~sq-server-commons/components/controls/SelectList';
+import { getProviderKey, Provider } from '~sq-server-commons/queries/fix-suggestions';
 import { AiCodeFixFeatureEnablement } from '~sq-server-commons/types/fix-suggestions';
 
 type DispatchMessage =
@@ -34,26 +35,31 @@ type DispatchMessage =
     }
   | { projectKey: string; type: 'select' }
   | { projectKey: string; type: 'unselect' }
-  | { recommendedProvider?: LLMOption; type: 'toggle-enablement' }
+  | { type: 'toggle-enablement' }
   | { type: 'switch-enablement' }
-  | { modelKey: string; providerKey: string; type: 'selectProvider' }
-  | { provider: Partial<LLMOption>; type: 'setProvider' }
+  | { providerKey: string; type: 'selectProvider' }
+  | { configKey: string; type: 'setProviderConfig'; value: string }
   | { initialEnablement: AIFeatureEnablement; projects: Project[]; type: 'cancel' }
   | { initialEnablement: AIFeatureEnablement; projects: Project[]; type: 'initialize' };
 
-export type FormState =
-  | {
-      enabledProjectKeys: string[] | null;
-      enablement: AiCodeFixFeatureEnablement.allProjects | AiCodeFixFeatureEnablement.someProjects;
-      projectsToDisplay: string[];
-      provider: Partial<LLMOption>;
-    }
-  | {
-      enabledProjectKeys: null;
-      enablement: AiCodeFixFeatureEnablement.disabled;
-      projectsToDisplay: string[];
-      provider: null;
-    };
+export interface FormState {
+  enabledProjectKeys: string[] | null;
+  enablement: AiCodeFixFeatureEnablement;
+  projectsToDisplay: string[];
+  providers: Provider[];
+  selectedProviderKey: string | null;
+}
+
+function deriveSelection(providers: Provider[]): string | null {
+  const selected = providers.find((p) => p.selected);
+  return selected ? getProviderKey(selected) : null;
+}
+
+function getRecommendedProviderKey(providers: Provider[]): string | null {
+  const recommended = providers.find((p) => p.recommended === true);
+  const provider = recommended ?? providers[0];
+  return provider ? getProviderKey(provider) : null;
+}
 
 export function formReducer(formState: FormState, action: DispatchMessage): FormState {
   switch (action.type) {
@@ -103,48 +109,64 @@ export function formReducer(formState: FormState, action: DispatchMessage): Form
         formState.enablement === AiCodeFixFeatureEnablement.disabled
           ? AiCodeFixFeatureEnablement.allProjects
           : AiCodeFixFeatureEnablement.disabled;
-      const enabledProjectKeys =
-        enablement === AiCodeFixFeatureEnablement.disabled
-          ? null
-          : (formState.enabledProjectKeys ?? []);
-      const provider =
-        enablement === AiCodeFixFeatureEnablement.disabled
-          ? null
-          : (formState.provider ??
-            action.recommendedProvider ?? { key: 'OPENAI', modelKey: 'OPENAI_GPT_4O' });
+
+      if (enablement === AiCodeFixFeatureEnablement.disabled) {
+        return {
+          ...formState,
+          enablement,
+          enabledProjectKeys: null,
+          selectedProviderKey: null,
+          providers: formState.providers.map((p) => ({ ...p, selected: false })),
+        };
+      }
+
+      const recommendedKey = getRecommendedProviderKey(formState.providers);
+
       return {
         ...formState,
         enablement,
-        enabledProjectKeys,
-        provider,
-      } as FormState;
+        enabledProjectKeys: formState.enabledProjectKeys ?? [],
+        selectedProviderKey: recommendedKey,
+        providers: formState.providers.map((p) => ({
+          ...p,
+          selected: getProviderKey(p) === recommendedKey,
+        })),
+      };
     }
     case 'initialize':
-    case 'cancel':
+    case 'cancel': {
+      const { providers } = action.initialEnablement;
       return {
         ...formState,
         enablement: action.initialEnablement.enablement,
-        provider: action.initialEnablement.provider,
+        providers,
         enabledProjectKeys: action.initialEnablement.enabledProjectKeys,
+        selectedProviderKey: deriveSelection(providers),
         projectsToDisplay:
           action.initialEnablement.enablement === AiCodeFixFeatureEnablement.someProjects
             ? action.projects.map((p) => p.key)
             : [],
-      } as FormState;
+      };
+    }
     case 'selectProvider':
       return {
         ...formState,
-        provider: {
-          ...formState.provider,
-          key: action.providerKey,
-          modelKey: action.modelKey,
-        },
-      } as FormState;
-    case 'setProvider':
+        selectedProviderKey: action.providerKey,
+        providers: formState.providers.map((p) => ({
+          ...p,
+          selected: getProviderKey(p) === action.providerKey,
+        })),
+      };
+    case 'setProviderConfig': {
       return {
         ...formState,
-        provider: action.provider,
-      } as FormState;
+        providers: formState.providers.map((p) =>
+          getProviderKey(p) === formState.selectedProviderKey
+            ? { ...p, config: { ...p.config, [action.configKey]: action.value } }
+            : p,
+        ),
+      };
+    }
     case 'switch-enablement':
       return {
         ...formState,
@@ -153,6 +175,6 @@ export function formReducer(formState: FormState, action: DispatchMessage): Form
           formState.enablement === AiCodeFixFeatureEnablement.allProjects
             ? AiCodeFixFeatureEnablement.someProjects
             : AiCodeFixFeatureEnablement.allProjects,
-      } as FormState;
+      };
   }
 }

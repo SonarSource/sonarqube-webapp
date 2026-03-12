@@ -3373,7 +3373,7 @@ export const defaultMessages = {
   'aicodefix.azure_open_ai.endpoint.help': 'Provide Azure OpenAI API endpoint',
   'aicodefix.azure_open_ai.apiKey.label': 'API Key',
   'aicodefix.azure_open_ai.apiKey.help': 'Provide Azure OpenAI API key',
-  'aicodefix.azure_open_ai.apiKey.update_placeholder': 'Value is hidden, type a new key to update',
+  'aicodefix.admin.provider.secret.placeholder': 'Value is hidden, type a new key to update',
   'aicodefix.updated': 'AI CodeFix settings is {0} on your instance!',
   'aicodefix.update_error': 'Fail to save settings. {0}',
   'aicodefix.cancel.modal.title': 'Are you sure you want to cancel?',
