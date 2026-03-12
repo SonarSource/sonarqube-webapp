@@ -37,11 +37,6 @@ jest.mock('~sq-server-commons/api/system', () => ({
   migrateDatabase: jest.fn().mockResolvedValue(null),
 }));
 
-jest.mock('~sq-server-commons/helpers/system', () => ({
-  ...jest.requireActual('~sq-server-commons/helpers/system'),
-  getBaseUrl: jest.fn().mockReturnValue('/context'),
-}));
-
 const originalLocation = window.location;
 const replace = jest.fn();
 
@@ -80,7 +75,7 @@ describe('Maintenance', () => {
       'OFFLINE',
       'maintenance.is_offline',
       'maintenance.sonarqube_is_offline.text',
-      { name: 'maintenance.try_again', href: '/context/' },
+      { name: 'maintenance.try_again', href: '/' },
     ],
     [
       'UP',
@@ -93,7 +88,7 @@ describe('Maintenance', () => {
       'DOWN',
       'maintenance.is_down',
       'maintenance.sonarqube_is_down.text',
-      { name: 'maintenance.try_again', href: '/context/' },
+      { name: 'maintenance.try_again', href: '/' },
     ],
     ['DB_MIGRATION_NEEDED', 'maintenance.is_under_maintenance'],
     ['DB_MIGRATION_RUNNING', 'maintenance.is_under_maintenance'],

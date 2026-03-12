@@ -22,7 +22,6 @@ import { Button, ButtonVariety, Heading } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { CodeSnippet } from '../../../../design-system';
 import { translate } from '../../../../helpers/l10n';
-import { getBaseUrl } from '../../../../helpers/system';
 import { InlineSnippet } from '../../components/InlineSnippet';
 import { Arch, OSs } from '../../types';
 import { getBuildWrapperFolder } from '../../utils';
@@ -54,7 +53,7 @@ export default function DownloadBuildWrapper(props: Readonly<DownloadBuildWrappe
           <p className="sw-mb-2">
             <Button
               download={`${getBuildWrapperFolder(os, arch)}.zip`}
-              to={`${getBaseUrl()}/static/cpp/${getBuildWrapperFolder(os, arch)}.zip`}
+              to={`/static/cpp/${getBuildWrapperFolder(os, arch)}.zip`}
               variety={ButtonVariety.Primary}
             >
               {translate('download_verb')}

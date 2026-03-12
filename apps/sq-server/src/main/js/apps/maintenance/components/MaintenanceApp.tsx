@@ -36,7 +36,6 @@ import DocumentationLink from '~sq-server-commons/components/common/Documentatio
 import InstanceMessage from '~sq-server-commons/components/common/InstanceMessage';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { getReturnUrl } from '~sq-server-commons/helpers/urls';
 import { MigrationStatus } from '~sq-server-commons/types/system';
 import { MigrationConfirmation } from './MigrationConfirmation';
@@ -192,7 +191,7 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
                 </MaintenanceText>
 
                 <div className="sw-text-center">
-                  <LinkStandalone reloadDocument to={`${getBaseUrl()}/`}>
+                  <LinkStandalone reloadDocument to="/">
                     {translate('maintenance.try_again')}
                   </LinkStandalone>
                 </div>
@@ -236,7 +235,7 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
                 <MaintenanceText>{translate('maintenance.sonarqube_is_down.text')}</MaintenanceText>
 
                 <MaintenanceText className="sw-text-center">
-                  <LinkStandalone reloadDocument to={`${getBaseUrl()}/`}>
+                  <LinkStandalone reloadDocument to="/">
                     {translate('maintenance.try_again')}
                   </LinkStandalone>
                 </MaintenanceText>

@@ -29,7 +29,6 @@ import {
 import { useCallback, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
-import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { getFileNameSuffix } from '../utils';
 import ChangeLogLevelForm from './ChangeLogLevelForm';
@@ -65,8 +64,8 @@ export function PageActions(props: Readonly<Props>) {
     event.currentTarget.blur();
   }, []);
 
-  const infoUrl = getBaseUrl() + '/api/system/info';
-  const logsUrl = getBaseUrl() + '/api/system/logs';
+  const infoUrl = `/api/system/info`;
+  const logsUrl = `/api/system/logs`;
 
   const filenameTemplate = useCallback(
     (name: string) => `sonarqube_${name}.${edition === EditionKey.datacenter ? 'zip' : 'log'}`,
