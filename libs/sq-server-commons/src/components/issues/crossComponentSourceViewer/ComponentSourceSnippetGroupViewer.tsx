@@ -289,6 +289,8 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
 
     const hideLocationIndex = issue.secondaryLocations.length !== 0;
 
+    const isFullyExpandable = isExpandable(snippets, snippetGroup);
+
     return (
       <>
         {issueIsClosed && (
@@ -311,10 +313,8 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
 
         <IssueSourceViewerHeader
           className={issueIsClosed && !issueIsFileLevel ? 'sw-mb-0' : ''}
-          expandable={isExpandable(snippets, snippetGroup)}
           issueKey={issue.key}
           loading={loading}
-          onExpand={this.expandComponent}
           sourceViewerFile={snippetGroup.component}
         />
 
@@ -349,12 +349,14 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
             component={this.props.snippetGroup.component}
             duplications={this.props.duplications}
             duplicationsByLine={this.props.duplicationsByLine}
+            expandAll={isFullyExpandable ? this.expandComponent : undefined}
             expandBlock={this.expandBlock}
             handleSymbolClick={this.handleSymbolClick}
             hideLocationIndex={hideLocationIndex}
             highlightedLocationMessage={this.props.highlightedLocationMessage}
             highlightedSymbols={this.state.highlightedSymbols}
             index={snippets[index].index}
+            isLoading={loading}
             key={snippets[index].index}
             loadDuplications={this.loadDuplications}
             locations={this.props.locations}

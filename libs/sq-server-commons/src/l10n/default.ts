@@ -5995,6 +5995,12 @@ export const defaultMessages = {
   'source_viewer.coverage.covered': 'Covered code',
   'source_viewer.coverage.uncovered': 'Uncovered code',
   'source_viewer.coverage.partially-covered': 'Partially covered code',
+
+  'source_viewer.loading_more_lines': 'Loading more lines...',
+  'lines_of_code_ellipsis.show_x_lines': 'Show {count} lines',
+  'lines_of_code_ellipsis.show_more_lines': 'Show more lines',
+  'lines_of_code_ellipsis.show_all_lines': 'Show all lines',
+
   //------------------------------------------------------------------------------
   //
   // WORKSPACE

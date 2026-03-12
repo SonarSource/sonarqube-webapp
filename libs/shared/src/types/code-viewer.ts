@@ -18,24 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
-import { render } from '../../../helpers/testUtils';
-import { CodeViewerExpander } from '../BareButtons';
-
-it('renders CodeViewerExpander correctly when direction is UP', () => {
-  render(<CodeViewerExpander direction="UP">Hello</CodeViewerExpander>);
-  const content = screen.getByRole('button', { name: 'Hello' });
-  expect(content).toHaveStyle({
-    'border-top': 'none',
-    'border-bottom': '1px solid rgb(221,221,221)',
-  });
-});
-
-it('renders CodeViewerExpander correctly when direction is DOWN', () => {
-  render(<CodeViewerExpander direction="DOWN">Hello</CodeViewerExpander>);
-  const content = screen.getByRole('button', { name: 'Hello' });
-  expect(content).toHaveStyle({
-    'border-bottom': 'none',
-    'border-top': '1px solid rgb(221,221,221)',
-  });
-});
+export enum LinesOfCodeEllipsesDirection {
+  Up = 'up',
+  Down = 'down',
+  Middle = 'middle',
+}

@@ -21,33 +21,8 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
-import { themeBorder, themeColor } from '../../helpers';
+import { themeColor } from '../../helpers';
 import { BareButton } from '../../sonar-aligned/components/buttons';
-
-interface CodeViewerExpanderProps {
-  direction: 'UP' | 'DOWN';
-}
-
-export const CodeViewerExpander = styled(BareButton)<CodeViewerExpanderProps>`
-  ${tw`sw-flex sw-items-center sw-gap-2`}
-  ${tw`sw-px-2 sw-py-1`}
-  ${tw`sw-code`}
-  ${tw`sw-w-full`}
-  ${tw`sw-box-border`}
-
-  color: ${cssVar('color-text-subtle')};
-  background-color: ${themeColor('codeLineEllipsis')};
-
-  &:hover {
-    background-color: ${themeColor('codeLineEllipsisHover')};
-  }
-
-  border-top: ${(props) =>
-    props.direction === 'DOWN' ? themeBorder('default', 'codeLineBorder') : 'none'};
-
-  border-bottom: ${(props) =>
-    props.direction === 'UP' ? themeBorder('default', 'codeLineBorder') : 'none'};
-`;
 
 export const IssueIndicatorButton = styled(BareButton)`
   color: ${cssVar('color-text-subtle')};

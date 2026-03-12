@@ -48,7 +48,7 @@ beforeEach(() => {
 });
 
 const ui = {
-  expandAllLines: byRole('button', { name: 'source_viewer.expand_all_lines' }),
+  expandAllLines: byRole('button', { name: 'lines_of_code_ellipsis.show_all_lines' }),
   expandLinesAbove: byRole('button', { name: 'source_viewer.expand_above' }),
   expandLinesBelow: byRole('button', { name: 'source_viewer.expand_below' }),
 
@@ -143,7 +143,7 @@ describe('issues source viewer', () => {
 
     expect(ui.line199.query()).not.toBeInTheDocument();
 
-    await user.click(await ui.expandAllLines.find());
+    await user.click(await ui.expandAllLines.findAt(0));
 
     // All lines should be rendered now
     expect(ui.line199.get()).toBeInTheDocument();

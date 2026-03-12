@@ -21,17 +21,10 @@
 import classNames from 'classnames';
 import { debounce, throttle } from 'lodash';
 import React from 'react';
+import { LinesOfCodeEllipses } from '~shared/components/code-viewer/LinesOfCodeEllipses';
+import { LinesOfCodeEllipsesDirection } from '~shared/types/code-viewer';
 import { SourceLine } from '~shared/types/source';
-import {
-  CodeViewerExpander,
-  SonarCodeColorizer,
-  ThemeProp,
-  UnfoldDownIcon,
-  UnfoldUpIcon,
-  themeColor,
-  withTheme,
-} from '../../../design-system';
-import { translate } from '../../../helpers/l10n';
+import { SonarCodeColorizer, ThemeProp, themeColor, withTheme } from '../../../design-system';
 import {
   Duplication,
   ExpandDirection,
@@ -55,12 +48,14 @@ export interface SnippetViewerProps {
   displaySCM?: boolean;
   duplications?: Duplication[];
   duplicationsByLine?: { [line: number]: number[] };
+  expandAll?: () => void;
   expandBlock: (snippetIndex: number, direction: ExpandDirection) => Promise<void>;
   handleSymbolClick: (symbols: string[]) => void;
   hideLocationIndex?: boolean;
   highlightedLocationMessage: { index: number; text: string | undefined } | undefined;
   highlightedSymbols: string[];
   index: number;
+  isLoading?: boolean;
   loadDuplications?: (line: SourceLine) => void;
   locations: FlowLocation[];
   locationsByLine: { [line: number]: LinearIssueLocation[] };
@@ -81,6 +76,8 @@ function SnippetViewer(props: Props) {
   const {
     component,
     displaySCM,
+    expandAll,
+    isLoading = false,
     locationsByLine,
     snippet,
     theme,
@@ -98,7 +95,7 @@ function SnippetViewer(props: Props) {
   const noop = () => {
     /* noop */
   };
-  const lastLine = component.measures?.lines && parseInt(component.measures.lines, 10);
+  const lastFileLine = component.measures?.lines && parseInt(component.measures.lines, 10);
 
   const symbols = symbolsByLine(snippet);
 
@@ -128,6 +125,8 @@ function SnippetViewer(props: Props) {
     [],
   );
 
+  const lastSnippetLineNumber = snippet.at(-1)?.line ?? 0;
+
   return (
     <div
       className={classNames('it__source-viewer-code', className)}
@@ -135,13 +134,12 @@ function SnippetViewer(props: Props) {
     >
       <SonarCodeColorizer>
         {snippet[0].line > 1 && (
-          <CodeViewerExpander
-            className="sw-flex sw-justify-start sw-items-center sw-py-1 sw-px-2"
-            direction="UP"
-            onClick={expandBlock('up')}
-          >
-            <UnfoldUpIcon aria-label={translate('source_viewer.expand_above')} />
-          </CodeViewerExpander>
+          <LinesOfCodeEllipses
+            direction={LinesOfCodeEllipsesDirection.Up}
+            handleClick={expandBlock('up')}
+            handleShowAllClick={expandAll}
+            isLoading={isLoading}
+          />
         )}
         <table className="sw-w-full">
           <tbody>
@@ -201,14 +199,13 @@ function SnippetViewer(props: Props) {
             })}
           </tbody>
         </table>
-        {(!lastLine || snippet[snippet.length - 1].line < lastLine) && (
-          <CodeViewerExpander
-            className="sw-flex sw-justify-start sw-items-center sw-py-1 sw-px-2"
-            direction="DOWN"
-            onClick={expandBlock('down')}
-          >
-            <UnfoldDownIcon aria-label={translate('source_viewer.expand_below')} />
-          </CodeViewerExpander>
+        {(!lastFileLine || lastSnippetLineNumber < lastFileLine) && (
+          <LinesOfCodeEllipses
+            direction={LinesOfCodeEllipsesDirection.Down}
+            handleClick={expandBlock('down')}
+            handleShowAllClick={expandAll}
+            isLoading={isLoading}
+          />
         )}
       </SonarCodeColorizer>
     </div>
