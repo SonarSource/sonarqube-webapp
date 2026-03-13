@@ -2175,9 +2175,12 @@ export const defaultMessages = {
     'This component has no siblings and cannot have relationships.',
   'architecture.page.model.relationships.all_selected':
     'All components are already part of a relationship.',
+  'architecture.page.model.spotlight.interface_design': 'Interface Design',
+  'architecture.page.model.spotlight.component_structure': 'Component structure',
   'architecture.page.model.spotlight.add_placeholder.label': 'Add placeholder component',
   'architecture.page.model.spotlight.add_placeholder.name_placeholder': '<name>',
   'architecture.page.model.spotlight.add_placeholder.kind_placeholder': '<kind>',
+  'architecture.page.model.spotlight.enable_interfaces': 'Enable interfaces',
   'architecture.page.model.edit.title': 'Edit mode',
   'architecture.page.model.edit.hint':
     'Drag a component to another to define a relationship. Any missing relationship is considered forbidden.',
