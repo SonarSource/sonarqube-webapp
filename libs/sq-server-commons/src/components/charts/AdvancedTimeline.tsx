@@ -71,7 +71,7 @@ export interface PropsWithoutTheme {
 
 export type Props = PropsWithoutTheme & ThemeProp;
 
-type PropsWithDefaults = Props & typeof AdvancedTimelineClass.defaultProps;
+const DEFAULT_PADDING = [26, 10, 50, 50];
 
 type XScale = ScaleTime<number, number>;
 type YScale = ScaleLinear<number, number> | ScalePoint<number | string>;
@@ -90,11 +90,7 @@ interface State {
 }
 
 export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
-  static defaultProps = {
-    padding: [26, 10, 50, 50],
-  };
-
-  constructor(props: PropsWithDefaults) {
+  constructor(props: Props) {
     super(props);
 
     const scales = this.getScales(props);
@@ -104,7 +100,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
     this.handleZoomUpdate = throttle(this.handleZoomUpdate, 40);
   }
 
-  componentDidUpdate(prevProps: PropsWithDefaults) {
+  componentDidUpdate(prevProps: Props) {
     let scales;
     let selectedDatePos;
 
@@ -117,7 +113,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
       this.props.height !== prevProps.height ||
       this.props.series !== prevProps.series
     ) {
-      scales = this.getScales(this.props as PropsWithDefaults);
+      scales = this.getScales(this.props);
       this.setState({ ...scales });
 
       if (this.state.selectedDate != null) {
@@ -152,11 +148,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
     return scalePoint().domain(['ERROR', 'WARN', 'OK']).range([availableHeight, 0]);
   };
 
-  getYScale = (
-    props: PropsWithDefaults,
-    availableHeight: number,
-    flatData: Chart.Point[],
-  ): YScale => {
+  getYScale = (props: Props, availableHeight: number, flatData: Chart.Point[]): YScale => {
     if (props.metricType === MetricType.Rating) {
       return this.getRatingScale(availableHeight);
     } else if (props.metricType === MetricType.Level) {
@@ -173,11 +165,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
     return 'ticks' in yScale;
   }
 
-  getXScale = (
-    { startDate, endDate }: PropsWithDefaults,
-    availableWidth: number,
-    flatData: Chart.Point[],
-  ) => {
+  getXScale = ({ startDate, endDate }: Props, availableWidth: number, flatData: Chart.Point[]) => {
     const dateRange = extent(flatData, (d) => d.x) as [Date, Date];
     const start = startDate && startDate > dateRange[0] ? startDate : dateRange[0];
     const end = endDate && endDate < dateRange[1] ? endDate : dateRange[1];
@@ -193,9 +181,10 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
     };
   };
 
-  getScales = (props: PropsWithDefaults) => {
-    const availableWidth = props.width - props.padding[1] - props.padding[3];
-    const availableHeight = props.height - props.padding[0] - props.padding[2];
+  getScales = (props: Props) => {
+    const padding = props.padding ?? DEFAULT_PADDING;
+    const availableWidth = props.width - padding[1] - padding[3];
+    const availableHeight = props.height - padding[0] - padding[2];
     const flatData = flatten(props.series.map((serie) => serie.data));
 
     return {
@@ -626,7 +615,6 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
     const {
       width,
       height,
-      padding,
       disableZoom,
       startDate,
       endDate,
@@ -636,7 +624,8 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
       showAreas,
       graphDescription,
       splitPointDate,
-    } = this.props as PropsWithDefaults;
+    } = this.props;
+    const padding = this.props.padding ?? DEFAULT_PADDING;
     const { xScale, yScale } = this.state;
 
     if (!width || !height) {

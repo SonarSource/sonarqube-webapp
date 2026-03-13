@@ -277,6 +277,7 @@ module.exports = {
     'local-rules/enforce-staletime-enum': 'warn',
     'local-rules/no-api-imports': 'warn',
     'local-rules/no-conditional-rendering-of-spinner': 'warn',
+    'local-rules/no-default-props': 'error',
     'local-rules/no-direct-axios-import': 'error',
     'local-rules/no-direct-echoes-design-tokens': 'warn',
     'local-rules/no-implicit-coercion': 'off', // not useful

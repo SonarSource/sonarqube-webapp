@@ -23,6 +23,7 @@ module.exports = {
   'enforce-staletime-enum': require('./enforce-staletime-enum'),
   'no-api-imports': require('./no-api-imports'),
   'no-conditional-rendering-of-spinner': require('./no-conditional-rendering-of-spinner'),
+  'no-default-props': require('./no-default-props'),
   'no-direct-axios-import': require('./no-direct-axios-import'),
   'no-direct-echoes-design-tokens': require('./no-direct-echoes-design-tokens'),
   'no-launch-darkly-direct-import-in-shared-code': require('./no-launch-darkly-direct-import-in-shared-code'),
