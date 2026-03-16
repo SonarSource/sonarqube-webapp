@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { AIFeatureEnablement } from '~sq-server-commons/api/fix-suggestions';
+import { AIFeatureEnablement, MASKED_SECRET } from '~sq-server-commons/api/fix-suggestions';
 import { Project } from '~sq-server-commons/api/project-management';
 import {
   SelectListFilter,
@@ -26,6 +26,7 @@ import {
 } from '~sq-server-commons/components/controls/SelectList';
 import { CustomHeader, getProviderKey, Provider } from '~sq-server-commons/queries/fix-suggestions';
 import { AiCodeFixFeatureEnablement } from '~sq-server-commons/types/fix-suggestions';
+import { isSecretField } from './LLMForm';
 
 type DispatchMessage =
   | {
@@ -39,6 +40,7 @@ type DispatchMessage =
   | { type: 'switch-enablement' }
   | { providerKey: string; type: 'selectProvider' }
   | { configKey: string; type: 'setProviderConfig'; value: string }
+  | { type: 'clearSecretsState' }
   | { type: 'addHeader' }
   | { index: number; type: 'removeHeader' }
   | { field: keyof CustomHeader; index: number; type: 'updateHeader'; value: string | boolean }
@@ -204,6 +206,25 @@ export function formReducer(formState: FormState, action: DispatchMessage): Form
             i === action.index ? { ...h, [action.field]: action.value } : h,
           );
           return { ...p, headers };
+        }),
+      };
+    }
+    case 'clearSecretsState': {
+      return {
+        ...formState,
+        providers: formState.providers.map((p) => {
+          const newConfig: Record<string, string> = {};
+
+          Object.keys(p.config).forEach((key) => {
+            const isSecret = isSecretField(key);
+
+            newConfig[key] = isSecret ? MASKED_SECRET : p.config[key];
+          });
+
+          const headers = (p.headers ?? []).map((h) => {
+            return h.secret === false ? h : { ...h, value: MASKED_SECRET };
+          });
+          return { ...p, config: newConfig, headers };
         }),
       };
     }

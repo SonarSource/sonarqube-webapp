@@ -184,13 +184,23 @@ export function AiCodeFixEnablementForm() {
     selectedProviderKey: null,
   });
 
-  const { mutate: updateFeatureEnablement, isPending } = useUpdateFeatureEnablementMutation();
+  const {
+    mutate: updateFeatureEnablement,
+    isPending,
+    isSuccess,
+  } = useUpdateFeatureEnablementMutation();
 
   useEffect(() => {
     if (featureEnablementParams !== undefined) {
       dispatch({ initialEnablement: featureEnablementParams, projects, type: 'initialize' });
     }
   }, [projects, featureEnablementParams]);
+
+  useEffect(() => {
+    if (featureEnablementParams !== undefined) {
+      dispatch({ type: 'clearSecretsState' });
+    }
+  }, [featureEnablementParams, isSuccess]);
 
   const renderProjectElement = useCallback(
     (key: string): React.ReactNode => {

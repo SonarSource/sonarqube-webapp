@@ -283,11 +283,14 @@ it('should be able to set the Azure Open option in the form', async () => {
     expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
   });
 
-  expect(ui.azureApiKeyInput.get()).toHaveValue('test-api-key');
-  expect(ui.azureEndpointInput.get()).toHaveValue('https://test-endpoint.com');
+  // After save, verify the form stabilizes with Azure provider and masked secrets
   await waitFor(() => {
     expect(ui.saveButton.query()).not.toBeInTheDocument();
   });
+  await waitFor(() => {
+    expect(ui.azureApiKeyInput.get()).toHaveValue('');
+  });
+  expect(ui.azureEndpointInput.get()).toHaveValue('https://test-endpoint.com');
 });
 
 it('should be able to select the recommended provider by default if no provider is selected', async () => {

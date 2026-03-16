@@ -89,6 +89,11 @@ export function CustomHeadersForm({
               checked={header.secret}
               label={formatMessage({ id: 'aicodefix.admin.custom_headers.secret' })}
               onCheck={(checked) => {
+                // When unchecking 'secret', remove value from 'value' field
+                if (checked === false && header.value === MASKED_SECRET) {
+                  onUpdateHeader(index, 'value', '');
+                }
+
                 onUpdateHeader(index, 'secret', checked);
               }}
             />

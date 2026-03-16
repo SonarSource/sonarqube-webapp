@@ -27,6 +27,7 @@ import {
   getFixSuggestionsIssues,
   getProviderKey,
   getSuggestions,
+  MASKED_SECRET,
   Provider,
   updateFeatureEnablement,
   UpdateFeatureEnablementParams,
@@ -166,9 +167,12 @@ export default class FixSuggestionsServiceMock {
     }
 
     const { provider } = f;
+    // toPatchModel returns the type itself when model is null, so normalize back to null
+    const normalizedModel =
+      provider.model === provider.type || provider.model == null ? null : provider.model;
     const savedKey = getProviderKey({
       type: provider.type,
-      model: provider.model ?? null,
+      model: normalizedModel,
     });
     this.featureEnablement = {
       enablement: f.enablement,
@@ -176,8 +180,21 @@ export default class FixSuggestionsServiceMock {
       providers: this.featureEnablement.providers.map((p) => ({
         ...p,
         selected: getProviderKey(p) === savedKey,
-        config: getProviderKey(p) === savedKey ? { ...p.config, ...provider.config } : p.config,
-        headers: getProviderKey(p) === savedKey ? (provider.headers ?? p.headers) : p.headers,
+        config:
+          getProviderKey(p) === savedKey
+            ? Object.fromEntries(
+                Object.entries({ ...p.config, ...provider.config }).map(([k, v]) => [
+                  k,
+                  k.toLowerCase().includes('key') && v ? MASKED_SECRET : v,
+                ]),
+              )
+            : p.config,
+        headers:
+          getProviderKey(p) === savedKey
+            ? (provider.headers?.map((h) =>
+                h.secret && h.value ? { ...h, value: MASKED_SECRET } : h,
+              ) ?? p.headers)
+            : p.headers,
       })),
     } as AIFeatureEnablement;
     return Promise.resolve();

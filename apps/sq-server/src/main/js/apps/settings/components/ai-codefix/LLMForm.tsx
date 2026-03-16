@@ -44,7 +44,7 @@ function humanizeConfigKey(key: string): string {
     .join(' ');
 }
 
-function isSecretField(configKey: string): boolean {
+export function isSecretField(configKey: string): boolean {
   return configKey.toLowerCase().includes('key');
 }
 
