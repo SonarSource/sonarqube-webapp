@@ -19,6 +19,7 @@
  */
 
 import {
+  BadgeCounter,
   Button,
   ButtonVariety,
   Checkbox,
@@ -33,8 +34,7 @@ import {
 import classNames from 'classnames';
 import { find, groupBy, isEmpty, isEqual, sortBy } from 'lodash';
 import React, { useCallback, useEffect, useReducer } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Badge } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
@@ -42,6 +42,7 @@ import SelectList, {
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getAiCodeFixTermsOfServiceUrl } from '~sq-server-commons/helpers/urls';
 import {
+  CUSTOM_PROVIDER_TYPE,
   MASKED_SECRET,
   Provider,
   getProviderKey,
@@ -51,6 +52,7 @@ import {
 import { useGetAllProjectsQuery } from '~sq-server-commons/queries/project-managements';
 import { AiCodeFixFeatureEnablement } from '~sq-server-commons/types/fix-suggestions';
 import { FormState, formReducer } from './AiCodeFixFormReducer';
+import { CustomHeadersForm } from './CustomHeadersForm';
 import { LLMForm } from './LLMForm';
 
 export interface AiFormValidation {
@@ -84,7 +86,7 @@ function isValidProvider(formState: FormState, savedProviders: Provider[]): bool
   const savedProvider = savedProviders.find((p) => getProviderKey(p) === getProviderKey(provider));
   const wasPreviouslySelected = savedProvider?.selected === true;
 
-  return configKeys.every((key) => {
+  const configValid = configKeys.every((key) => {
     const value = provider.config[key];
     if (!isEmpty(value) && value !== MASKED_SECRET) {
       return true;
@@ -94,6 +96,16 @@ function isValidProvider(formState: FormState, savedProviders: Provider[]): bool
     const savedValue = savedProvider?.config[key];
     return wasPreviouslySelected && (isEmpty(savedValue) || savedValue === MASKED_SECRET);
   });
+
+  if (!configValid) {
+    return false;
+  }
+
+  if (provider.type === CUSTOM_PROVIDER_TYPE && provider.headers != null) {
+    return provider.headers.every((header) => !isEmpty(header.name) && !isEmpty(header.value));
+  }
+
+  return true;
 }
 
 function hasProviderChanged(formState: FormState, savedProviders: Provider[]): boolean {
@@ -116,7 +128,7 @@ function hasProviderChanged(formState: FormState, savedProviders: Provider[]): b
   }
 
   const configKeys = Object.keys(currentProvider.config);
-  return configKeys.some((key) => {
+  const configChanged = configKeys.some((key) => {
     const currentValue = currentProvider.config[key];
     const savedValue = savedSelected.config[key];
     // Masked server values displayed as empty — treat as unchanged
@@ -125,11 +137,37 @@ function hasProviderChanged(formState: FormState, savedProviders: Provider[]): b
     }
     return currentValue !== savedValue;
   });
+
+  if (configChanged) {
+    return true;
+  }
+
+  if (!isEqual(currentProvider.headers, savedSelected.headers)) {
+    // Treat masked secret header values displayed as empty as unchanged
+    const currentHeaders = currentProvider.headers ?? [];
+    const savedHeaders = savedSelected.headers ?? [];
+    if (currentHeaders.length !== savedHeaders.length) {
+      return true;
+    }
+    return currentHeaders.some((h, i) => {
+      const saved = savedHeaders[i];
+      if (h.name !== saved.name || h.secret !== saved.secret) {
+        return true;
+      }
+      if (saved.value === MASKED_SECRET && isEmpty(h.value)) {
+        return false;
+      }
+      return h.value !== saved.value;
+    });
+  }
+
+  return false;
 }
 
 const EMPTY_PROJECTS: never[] = [];
 
 export function AiCodeFixEnablementForm() {
+  const { formatMessage } = useIntl();
   const { data: projects = EMPTY_PROJECTS, isLoading: isLoadingProject } = useGetAllProjectsQuery();
   const { data: featureEnablementParams, isLoading: isLoadingFeatureEnablement } =
     useGetFeatureEnablementQuery();
@@ -204,7 +242,7 @@ export function AiCodeFixEnablementForm() {
       (p) => getProviderKey(p) === formState.selectedProviderKey,
     );
 
-    if (!selectedProvider) {
+    if (formState.enablement !== AiCodeFixFeatureEnablement.disabled && !selectedProvider) {
       return;
     }
 
@@ -215,11 +253,17 @@ export function AiCodeFixEnablementForm() {
           ...(formState.enablement === AiCodeFixFeatureEnablement.someProjects
             ? { enabledProjectKeys: formState.enabledProjectKeys }
             : {}),
-          provider: {
-            type: selectedProvider.type,
-            model: toPatchModel(selectedProvider.type, selectedProvider.model),
-            config: selectedProvider.config,
-          },
+          provider: selectedProvider
+            ? {
+                type: selectedProvider.type,
+                model: toPatchModel(selectedProvider.type, selectedProvider.model),
+                config: selectedProvider.config,
+                headers:
+                  selectedProvider.type === CUSTOM_PROVIDER_TYPE
+                    ? (selectedProvider.headers ?? null)
+                    : null,
+              }
+            : null,
         },
         prevState: featureEnablementParams,
       },
@@ -242,7 +286,10 @@ export function AiCodeFixEnablementForm() {
     setValidations({ error: {} });
   };
 
-  const providerOptionsGrouped = groupBySelfHosted(featureEnablementParams.providers);
+  const providerOptionsGrouped = groupBySelfHosted(
+    featureEnablementParams.providers,
+    formatMessage,
+  );
   const isLoading = isLoadingProject || isPending;
 
   const selectedProvider = formState.providers.find(
@@ -313,6 +360,21 @@ export function AiCodeFixEnablementForm() {
               }}
               validation={validations}
             />
+
+            {selectedProvider?.type === CUSTOM_PROVIDER_TYPE && (
+              <CustomHeadersForm
+                headers={selectedProvider.headers ?? []}
+                onAddHeader={() => {
+                  dispatch({ type: 'addHeader' });
+                }}
+                onRemoveHeader={(index) => {
+                  dispatch({ type: 'removeHeader', index });
+                }}
+                onUpdateHeader={(index, field, value) => {
+                  dispatch({ type: 'updateHeader', index, field, value });
+                }}
+              />
+            )}
           </div>
         )}
 
@@ -413,29 +475,46 @@ export function AiCodeFixEnablementForm() {
   );
 }
 
-function groupBySelfHosted(providers: Provider[]) {
+function getProviderHelpText(
+  provider: Provider,
+  formatMessage: (descriptor: { id: string }) => string,
+): string | null {
+  if (provider.type === CUSTOM_PROVIDER_TYPE) {
+    return formatMessage({ id: 'aicodefix.admin.provider.custom.help' });
+  }
+  return provider.model ?? null;
+}
+
+function groupBySelfHosted(
+  providers: Provider[],
+  formatMessage: (descriptor: { id: string }) => string,
+) {
   const groups = groupBy(providers, (p) => p.selfHosted);
 
-  return Object.keys(groups).map((group) => {
-    const items = sortBy(
-      groups[group].map((provider) => ({
-        value: getProviderKey(provider),
-        label: provider.name ?? getProviderKey(provider),
-        suffix:
-          provider.recommended === true ? (
-            <Badge variant="counter">{translate('recommended')}</Badge>
-          ) : null,
-        helpText: provider.model ? provider.model : null,
-      })),
-      (m) => m.label,
-    );
+  return sortBy(
+    Object.keys(groups).map((group) => {
+      const items = sortBy(
+        groups[group].map((provider) => ({
+          value: getProviderKey(provider),
+          label: provider.name ?? getProviderKey(provider),
+          suffix:
+            provider.recommended === true ? (
+              <BadgeCounter value={formatMessage({ id: 'recommended' })} />
+            ) : null,
+          helpText: getProviderHelpText(provider, formatMessage),
+        })),
+        (m) => (m.value === CUSTOM_PROVIDER_TYPE ? 'zzz' : m.label),
+      );
 
-    return {
-      group:
-        group === 'true'
-          ? translate('aicodefix.admin.provider.self_hosted')
-          : translate('aicodefix.admin.provider.sonar'),
-      items,
-    };
-  });
+      return {
+        group:
+          group === 'true'
+            ? formatMessage({ id: 'aicodefix.admin.provider.other_providers' })
+            : formatMessage({ id: 'aicodefix.admin.provider.sonar' }),
+        items,
+        sortKey: group === 'false' ? 0 : 1,
+      };
+    }),
+    (g) => g.sortKey,
+  ).map(({ group, items }) => ({ group, items }));
 }

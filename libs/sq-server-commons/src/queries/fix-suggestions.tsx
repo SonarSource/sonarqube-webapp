@@ -41,7 +41,13 @@ import { isLoggedIn } from '../types/users';
 import { useComponentDataQuery } from './component';
 import { useRawSourceQuery } from './sources';
 
-export { getProviderKey, MASKED_SECRET, type Provider } from '../api/fix-suggestions';
+export {
+  CUSTOM_PROVIDER_TYPE,
+  getProviderKey,
+  MASKED_SECRET,
+  type CustomHeader,
+  type Provider,
+} from '../api/fix-suggestions';
 
 const UNKNOWN = -1;
 

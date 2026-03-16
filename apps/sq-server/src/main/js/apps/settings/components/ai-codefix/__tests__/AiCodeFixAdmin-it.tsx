@@ -72,6 +72,12 @@ const ui = {
   azureApiKeyInput: byLabelText(/API Key/),
   awsRegionInput: byRole('textbox', { name: 'Region' }),
   awsModelIdInput: byRole('textbox', { name: 'Model ID' }),
+  customEndpointInput: byRole('textbox', { name: 'Endpoint' }),
+  customModelIdInput: byRole('textbox', { name: 'Model ID' }),
+  addHeaderButton: byRole('button', { name: /aicodefix.admin.custom_headers.add/ }),
+  headerNameInput: byRole('textbox', { name: 'aicodefix.admin.custom_headers.header_name' }),
+  headerValueInput: byRole('textbox', { name: 'aicodefix.admin.custom_headers.header_value' }),
+  headerSecretCheckbox: byRole('checkbox', { name: 'aicodefix.admin.custom_headers.secret' }),
 };
 
 it('should display the enablement form when feature has fix-suggestions', async () => {
@@ -341,6 +347,201 @@ it('should render AWS Bedrock config fields when selecting that provider', async
 it('should display the promotion message when the FixSuggestionsMarketing feature is enabled', async () => {
   renderCodeFixAdmin([Feature.FixSuggestions, Feature.FixSuggestionsMarketing]);
   expect(await screen.findByText(/property.aicodefix.admin.promotion.content/)).toBeInTheDocument();
+});
+
+it('should show endpoint, modelId inputs and Add header button when selecting Custom provider', async () => {
+  renderCodeFixAdmin();
+  const user = userEvent.setup();
+
+  await waitFor(() => {
+    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+  });
+
+  await user.click(ui.llmProvider.get());
+  await user.click(byText('Custom').get());
+
+  expect(ui.customEndpointInput.get()).toBeInTheDocument();
+  expect(ui.customModelIdInput.get()).toBeInTheDocument();
+  expect(ui.addHeaderButton.get()).toBeInTheDocument();
+});
+
+it('should add a header row with name, value, secret, and delete controls', async () => {
+  renderCodeFixAdmin();
+  const user = userEvent.setup();
+
+  await waitFor(() => {
+    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+  });
+
+  await user.click(ui.llmProvider.get());
+  await user.click(byText('Custom').get());
+
+  await user.click(ui.addHeaderButton.get());
+
+  expect(ui.headerNameInput.get()).toBeInTheDocument();
+  expect(ui.headerValueInput.get()).toBeInTheDocument();
+  expect(ui.headerSecretCheckbox.get()).toBeInTheDocument();
+  expect(
+    byRole('button', { name: /aicodefix.admin.custom_headers.delete/ }).get(),
+  ).toBeInTheDocument();
+});
+
+it('should send correct payload with headers when saving Custom provider', async () => {
+  renderCodeFixAdmin();
+  const user = userEvent.setup();
+
+  await waitFor(() => {
+    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+  });
+
+  await user.click(ui.llmProvider.get());
+  await user.click(byText('Custom').get());
+
+  await user.type(ui.customEndpointInput.get(), 'https://my-llm.example.com');
+  await user.type(ui.customModelIdInput.get(), 'my-model-v1');
+
+  await user.click(ui.addHeaderButton.get());
+
+  await user.type(ui.headerNameInput.get(), 'Authorization');
+  await user.type(ui.headerValueInput.get(), 'Bearer token123');
+
+  // Verify save button is enabled (all fields valid including headers)
+  expect(ui.saveButton.get()).toBeEnabled();
+
+  await user.click(ui.saveButton.get());
+
+  // Save succeeds — button disappears
+  await waitFor(() => {
+    expect(ui.saveButton.query()).not.toBeInTheDocument();
+  });
+});
+
+it('should toggle header value input to password type when secret checkbox is checked', async () => {
+  renderCodeFixAdmin();
+  const user = userEvent.setup();
+
+  await waitFor(() => {
+    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+  });
+
+  await user.click(ui.llmProvider.get());
+  await user.click(byText('Custom').get());
+  await user.click(ui.addHeaderButton.get());
+
+  const valueInput = ui.headerValueInput.get();
+  expect(valueInput).toHaveAttribute('type', 'text');
+
+  await user.click(ui.headerSecretCheckbox.get());
+
+  // After toggling secret, the input type changes to password, so query by label
+  const passwordInput = byLabelText('aicodefix.admin.custom_headers.header_value').get();
+  expect(passwordInput).toHaveAttribute('type', 'password');
+});
+
+it('should remove a header row when clicking delete', async () => {
+  renderCodeFixAdmin();
+  const user = userEvent.setup();
+
+  await waitFor(() => {
+    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+  });
+
+  await user.click(ui.llmProvider.get());
+  await user.click(byText('Custom').get());
+
+  await user.click(ui.addHeaderButton.get());
+  expect(ui.headerNameInput.get()).toBeInTheDocument();
+
+  await user.click(byRole('button', { name: /aicodefix.admin.custom_headers.delete/ }).get());
+  expect(ui.headerNameInput.query()).not.toBeInTheDocument();
+});
+
+it('should disable save button when header name or value is empty', async () => {
+  renderCodeFixAdmin();
+  const user = userEvent.setup();
+
+  await waitFor(() => {
+    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+  });
+
+  await user.click(ui.llmProvider.get());
+  await user.click(byText('Custom').get());
+
+  await user.type(ui.customEndpointInput.get(), 'https://my-llm.example.com');
+  await user.type(ui.customModelIdInput.get(), 'my-model-v1');
+
+  await user.click(ui.addHeaderButton.get());
+
+  // Header name and value are empty — save should be disabled
+  expect(ui.saveButton.get()).toBeDisabled();
+
+  await user.type(ui.headerNameInput.get(), 'X-Custom');
+  // Value still empty
+  expect(ui.saveButton.get()).toBeDisabled();
+
+  await user.type(ui.headerValueInput.get(), 'some-value');
+  expect(ui.saveButton.get()).toBeEnabled();
+});
+
+it('should not show save button when custom provider with masked headers is loaded unchanged', async () => {
+  fixSuggestionsServiceMock.enableAllProjectWithCustomProvider();
+  renderCodeFixAdmin();
+
+  await waitFor(() => {
+    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+  });
+
+  // Provider is Custom with pre-existing masked header — form is not dirty
+  expect(ui.saveButton.query()).not.toBeInTheDocument();
+});
+
+it('should detect dirty state when modifying a saved custom header name', async () => {
+  fixSuggestionsServiceMock.enableAllProjectWithCustomProvider();
+  renderCodeFixAdmin();
+  const user = userEvent.setup();
+
+  await waitFor(() => {
+    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+  });
+
+  // Modify the existing header name
+  await user.clear(ui.headerNameInput.get());
+  await user.type(ui.headerNameInput.get(), 'X-New-Header');
+
+  expect(ui.saveButton.get()).toBeEnabled();
+});
+
+it('should not show save button when azure provider with masked config is loaded unchanged', async () => {
+  fixSuggestionsServiceMock.enableAllProjectWithAzureProvider();
+  renderCodeFixAdmin();
+
+  await waitFor(() => {
+    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+  });
+
+  // Azure provider has masked apiKey (****) — form should not be dirty
+  expect(ui.saveButton.query()).not.toBeInTheDocument();
+});
+
+it('should display Custom provider last in the Other providers group', async () => {
+  renderCodeFixAdmin();
+  const user = userEvent.setup();
+
+  await waitFor(() => {
+    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+  });
+
+  await user.click(ui.llmProvider.get());
+
+  // Verify "Other providers" group heading exists
+  expect(screen.getByText('aicodefix.admin.provider.other_providers')).toBeInTheDocument();
+
+  // Get all options in the dropdown and verify Custom appears after other self-hosted providers
+  const allOptions = screen.getAllByRole('option');
+  const labels = allOptions.map((o) => String(o.textContent));
+  const awsIndex = labels.findIndex((l) => l.includes('AWS BedRock'));
+  const customIndex = labels.findIndex((l) => l.includes('Custom'));
+  expect(customIndex).toBeGreaterThan(awsIndex);
 });
 
 function renderCodeFixAdmin(features?: Feature[]) {

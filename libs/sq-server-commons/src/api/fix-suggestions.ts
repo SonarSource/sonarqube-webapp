@@ -41,12 +41,21 @@ export interface SubscriptionTypeResponse {
 
 export const MASKED_SECRET = '****';
 
+export const CUSTOM_PROVIDER_TYPE = 'CUSTOM';
+
 export function getProviderKey(provider: { model: string | null; type: string }): string {
   return provider.model === null ? provider.type : `${provider.type}:${provider.model}`;
 }
 
+export interface CustomHeader {
+  name: string;
+  secret: boolean;
+  value: string;
+}
+
 export interface Provider {
   config: Record<string, string>;
+  headers: CustomHeader[] | null;
   model: string | null;
   name: string;
   recommended: boolean | null;
@@ -72,9 +81,10 @@ export interface UpdateFeatureEnablementParams {
   enablement: AiCodeFixFeatureEnablement;
   provider: {
     config: Record<string, string>;
+    headers: CustomHeader[] | null;
     model?: string | null;
     type: string;
-  };
+  } | null;
 }
 
 export function sendTelemetryInfo(bannerType: BannerType) {

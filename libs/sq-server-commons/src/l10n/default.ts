@@ -3361,8 +3361,14 @@ export const defaultMessages = {
   'property.aicodefix.admin.unpaid.promotion.link': 'Explore upgrade options',
   'aicodefix.admin.provider.title': 'Provider',
   'aicodefix.admin.provider.help': 'Choose between our providers or bring your own model',
-  'aicodefix.admin.provider.self_hosted': 'Self-hosted (Bring Your Own Model)',
+  'aicodefix.admin.provider.other_providers': 'Other providers',
+  'aicodefix.admin.provider.custom.help': 'Any OpenAI-compatible model',
   'aicodefix.admin.provider.sonar': 'Sonar',
+  'aicodefix.admin.custom_headers.header_name': 'Header name',
+  'aicodefix.admin.custom_headers.header_value': 'Value',
+  'aicodefix.admin.custom_headers.secret': 'Secret',
+  'aicodefix.admin.custom_headers.add': 'Add custom header',
+  'aicodefix.admin.custom_headers.delete': 'Remove header {name}',
   'notification.aicodefix.ga.paid.inactive.admin.message':
     'The Sonar AI CodeFix is now available for this instance. Enable it to receive AI-generated code fix suggestions for some or all of your projects. {link}',
   'notification.aicodefix.ga.unpaid.active.admin.message':

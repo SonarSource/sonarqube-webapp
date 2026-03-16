@@ -50,6 +50,7 @@ export const DEFAULT_PROVIDERS: Provider[] = [
     name: 'OpenAI - GPT-5.1',
     type: 'OPENAI',
     config: {},
+    headers: null,
     model: 'GPT-5.1',
     recommended: true,
     selected: true,
@@ -59,6 +60,7 @@ export const DEFAULT_PROVIDERS: Provider[] = [
     name: 'OpenAI - GPT-5',
     type: 'OPENAI',
     config: {},
+    headers: null,
     model: 'GPT-5',
     recommended: false,
     selected: false,
@@ -68,6 +70,7 @@ export const DEFAULT_PROVIDERS: Provider[] = [
     name: 'Azure OpenAI',
     type: 'AZURE_OPENAI',
     config: { endpoint: '', apiKey: '' },
+    headers: null,
     model: null,
     recommended: null,
     selected: false,
@@ -77,6 +80,17 @@ export const DEFAULT_PROVIDERS: Provider[] = [
     name: 'AWS BedRock',
     type: 'AWS_BEDROCK',
     config: { region: '', modelId: '' },
+    headers: null,
+    model: null,
+    recommended: null,
+    selected: false,
+    selfHosted: true,
+  },
+  {
+    name: 'Custom',
+    type: 'CUSTOM',
+    config: { endpoint: '', modelId: '' },
+    headers: null,
     model: null,
     recommended: null,
     selected: false,
@@ -142,9 +156,19 @@ export default class FixSuggestionsServiceMock {
   };
 
   handleUpdateFeatureEnablement = (f: UpdateFeatureEnablementParams) => {
+    if (f.provider === null) {
+      this.featureEnablement = {
+        enablement: f.enablement,
+        enabledProjectKeys: f.enabledProjectKeys ?? null,
+        providers: this.featureEnablement.providers.map((p) => ({ ...p, selected: false })),
+      } as AIFeatureEnablement;
+      return Promise.resolve();
+    }
+
+    const { provider } = f;
     const savedKey = getProviderKey({
-      type: f.provider.type,
-      model: f.provider.model ?? null,
+      type: provider.type,
+      model: provider.model ?? null,
     });
     this.featureEnablement = {
       enablement: f.enablement,
@@ -152,7 +176,8 @@ export default class FixSuggestionsServiceMock {
       providers: this.featureEnablement.providers.map((p) => ({
         ...p,
         selected: getProviderKey(p) === savedKey,
-        config: getProviderKey(p) === savedKey ? { ...p.config, ...f.provider.config } : p.config,
+        config: getProviderKey(p) === savedKey ? { ...p.config, ...provider.config } : p.config,
+        headers: getProviderKey(p) === savedKey ? (provider.headers ?? p.headers) : p.headers,
       })),
     } as AIFeatureEnablement;
     return Promise.resolve();
@@ -160,7 +185,7 @@ export default class FixSuggestionsServiceMock {
 
   disableForAllProject() {
     this.featureEnablement = {
-      enablement: AiCodeFixFeatureEnablement.disabled as const,
+      enablement: AiCodeFixFeatureEnablement.disabled,
       enabledProjectKeys: null,
       providers: cloneDeep(DEFAULT_PROVIDERS).map((p) => ({ ...p, selected: false })),
     };
@@ -168,15 +193,32 @@ export default class FixSuggestionsServiceMock {
 
   enableSomeProject(key: string) {
     this.featureEnablement = {
-      enablement: AiCodeFixFeatureEnablement.someProjects as const,
+      enablement: AiCodeFixFeatureEnablement.someProjects,
       enabledProjectKeys: [key],
       providers: cloneDeep(DEFAULT_PROVIDERS),
     };
   }
 
+  enableAllProjectWithCustomProvider() {
+    this.featureEnablement = {
+      enablement: AiCodeFixFeatureEnablement.allProjects,
+      enabledProjectKeys: null,
+      providers: cloneDeep(DEFAULT_PROVIDERS).map((p) => ({
+        ...p,
+        selected: p.type === 'CUSTOM',
+        config:
+          p.type === 'CUSTOM'
+            ? { endpoint: 'http://localhost:8080', modelId: 'my-model' }
+            : p.config,
+        headers:
+          p.type === 'CUSTOM' ? [{ name: 'X-Api-Key', value: '****', secret: true }] : p.headers,
+      })),
+    };
+  }
+
   enableAllProjectWithAzureProvider() {
     this.featureEnablement = {
-      enablement: AiCodeFixFeatureEnablement.allProjects as const,
+      enablement: AiCodeFixFeatureEnablement.allProjects,
       enabledProjectKeys: null,
       providers: cloneDeep(DEFAULT_PROVIDERS).map((p) => ({
         ...p,

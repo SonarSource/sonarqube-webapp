@@ -24,7 +24,7 @@ import {
   SelectListFilter,
   SelectListSearchParams,
 } from '~sq-server-commons/components/controls/SelectList';
-import { getProviderKey, Provider } from '~sq-server-commons/queries/fix-suggestions';
+import { CustomHeader, getProviderKey, Provider } from '~sq-server-commons/queries/fix-suggestions';
 import { AiCodeFixFeatureEnablement } from '~sq-server-commons/types/fix-suggestions';
 
 type DispatchMessage =
@@ -39,6 +39,9 @@ type DispatchMessage =
   | { type: 'switch-enablement' }
   | { providerKey: string; type: 'selectProvider' }
   | { configKey: string; type: 'setProviderConfig'; value: string }
+  | { type: 'addHeader' }
+  | { index: number; type: 'removeHeader' }
+  | { field: keyof CustomHeader; index: number; type: 'updateHeader'; value: string | boolean }
   | { initialEnablement: AIFeatureEnablement; projects: Project[]; type: 'cancel' }
   | { initialEnablement: AIFeatureEnablement; projects: Project[]; type: 'initialize' };
 
@@ -165,6 +168,43 @@ export function formReducer(formState: FormState, action: DispatchMessage): Form
             ? { ...p, config: { ...p.config, [action.configKey]: action.value } }
             : p,
         ),
+      };
+    }
+    case 'addHeader': {
+      return {
+        ...formState,
+        providers: formState.providers.map((p) =>
+          getProviderKey(p) === formState.selectedProviderKey
+            ? { ...p, headers: [...(p.headers ?? []), { name: '', value: '', secret: false }] }
+            : p,
+        ),
+      };
+    }
+    case 'removeHeader': {
+      return {
+        ...formState,
+        providers: formState.providers.map((p) => {
+          if (getProviderKey(p) !== formState.selectedProviderKey) {
+            return p;
+          }
+          const headers = [...(p.headers ?? [])];
+          headers.splice(action.index, 1);
+          return { ...p, headers };
+        }),
+      };
+    }
+    case 'updateHeader': {
+      return {
+        ...formState,
+        providers: formState.providers.map((p) => {
+          if (getProviderKey(p) !== formState.selectedProviderKey) {
+            return p;
+          }
+          const headers = (p.headers ?? []).map((h, i) =>
+            i === action.index ? { ...h, [action.field]: action.value } : h,
+          );
+          return { ...p, headers };
+        }),
       };
     }
     case 'switch-enablement':
