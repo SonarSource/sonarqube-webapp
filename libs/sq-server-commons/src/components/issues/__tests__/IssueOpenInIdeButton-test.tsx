@@ -32,9 +32,7 @@ import DocumentationLink from '../../common/DocumentationLink';
 import { IssueOpenInIdeButton, Props } from '../IssueOpenInIdeButton';
 
 jest.mock('../../../helpers/sonarlint', () => ({
-  generateSonarLintUserToken: jest
-    .fn()
-    .mockResolvedValue({ name: 'token name', token: 'token value' }),
+  generateUserToken: jest.fn().mockResolvedValue({ name: 'token name', token: 'token value' }),
   openFixOrIssueInSonarLint: jest.fn().mockResolvedValue(undefined),
   probeSonarLintServers: jest.fn(),
 }));

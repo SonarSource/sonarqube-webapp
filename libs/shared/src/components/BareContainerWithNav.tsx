@@ -18,22 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { mockAppState } from '../../../helpers/testMocks';
-import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import { EditionKey } from '../../../types/editions';
-import { SonarQubeConnectionIllustration } from '../SonarQubeConnectionIllustration';
+import { Layout } from '@sonarsource/echoes-react';
+import { ComponentType } from 'react';
+import { Outlet } from 'react-router-dom';
 
-it.each([
-  [EditionKey.community, true],
-  [EditionKey.community, false],
-  [EditionKey.enterprise, true],
-  [EditionKey.enterprise, false],
-])('should render %s edition (variant connected %s) correctly', (edition, connected) => {
-  const { container } = renderComponent(
-    <SonarQubeConnectionIllustration connected={connected} />,
-    '',
-    { appState: mockAppState({ edition }) },
+interface Props {
+  NavBar: ComponentType;
+}
+
+export function BareContainerWithNav({ NavBar }: Readonly<Props>) {
+  return (
+    <Layout>
+      <NavBar />
+
+      <Layout.ContentGrid>
+        <Layout.PageGrid width="fluid">
+          <Layout.PageContent>
+            <Outlet />
+          </Layout.PageContent>
+        </Layout.PageGrid>
+      </Layout.ContentGrid>
+    </Layout>
   );
-
-  expect(container).toMatchSnapshot();
-});
+}

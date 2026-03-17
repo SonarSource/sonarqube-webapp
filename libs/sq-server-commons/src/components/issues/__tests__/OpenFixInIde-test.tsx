@@ -38,9 +38,7 @@ jest.mock('~sq-server-commons/api/components', () => ({
   getComponentForSourceViewer: jest.fn().mockReturnValue({}),
 }));
 jest.mock('~sq-server-commons/helpers/sonarlint', () => ({
-  generateSonarLintUserToken: jest
-    .fn()
-    .mockResolvedValue({ name: 'token name', token: 'token value' }),
+  generateUserToken: jest.fn().mockResolvedValue({ name: 'token name', token: 'token value' }),
   openFixOrIssueInSonarLint: jest.fn().mockResolvedValue(undefined),
   probeSonarLintServers: jest.fn(),
 }));
