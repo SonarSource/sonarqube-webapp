@@ -23,7 +23,7 @@ import { sortBy } from 'lodash';
 import * as React from 'react';
 import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { Dropdown } from '../../design-system';
+import { Dropdown, PopupZLevel } from '../../design-system';
 import { HIDDEN_METRICS } from '../../helpers/constants';
 import { getLocalizedMetricName, translate } from '../../helpers/l10n';
 import { isDiffMetric } from '../../helpers/measures';
@@ -142,6 +142,7 @@ export default function AddGraphMetric(props: Readonly<Props>) {
         />
       }
       size="large"
+      zLevel={PopupZLevel.Global}
     >
       <Button suffix={<IconChevronDown />}>
         <span className="sw-typo-default sw-flex">
