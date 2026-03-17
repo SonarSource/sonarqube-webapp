@@ -122,7 +122,9 @@ function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
               props.onUpdateSelectedDate(analysis.date);
             }
           }}
-          ref={(ref) => (node = ref)}
+          ref={(ref) => {
+            node = ref;
+          }}
         >
           <div className="it__project-activity-time">
             <ActivityTime className="sw-h-500 sw-typo-semibold sw-text-right sw-mr-2 sw-py-1/2">

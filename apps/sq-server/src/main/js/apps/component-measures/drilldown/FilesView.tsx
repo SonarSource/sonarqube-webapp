@@ -169,7 +169,11 @@ export default class FilesView extends React.PureComponent<Props, State> {
     const filteredComponents = this.getVisibleComponents();
     const hidingBestMeasures = filteredComponents.length < components.length;
     return (
-      <div ref={(elem) => (this.listContainer = elem)}>
+      <div
+        ref={(elem) => {
+          this.listContainer = elem;
+        }}
+      >
         <ComponentsList
           branchLike={this.props.branchLike}
           components={filteredComponents}

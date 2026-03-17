@@ -206,8 +206,13 @@ class Extension extends React.PureComponent<ExtensionProps, State> {
       // Without display: contents, this div would break the grid-area placement.
       <div className="sw-contents">
         <Helmet title={this.props.extension.name} />
-
-        {this.state.extensionElement ?? <div ref={(container) => (this.container = container)} />}
+        {this.state.extensionElement ?? (
+          <div
+            ref={(container) => {
+              this.container = container;
+            }}
+          />
+        )}
       </div>
     );
   }

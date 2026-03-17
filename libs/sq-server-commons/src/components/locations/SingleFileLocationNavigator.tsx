@@ -74,7 +74,9 @@ export default class SingleFileLocationNavigator extends React.PureComponent<Pro
           selected,
         })}
         onClick={this.handleClick}
-        ref={(n) => (this.node = n)}
+        ref={(n) => {
+          this.node = n;
+        }}
       >
         <LocationMarker selected={selected} text={concealedMarker ? undefined : index + 1} />
         <LocationMessage>

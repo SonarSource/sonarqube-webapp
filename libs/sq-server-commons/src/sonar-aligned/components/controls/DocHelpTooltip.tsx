@@ -121,7 +121,9 @@ export default function DocHelpTooltip(props: Readonly<DocHelpTooltipProps>) {
                 </DocumentationLink>
               ) : (
                 <Link
-                  ref={(ref) => (linksRef.current[index] = ref)}
+                  ref={(ref) => {
+                    linksRef.current[index] = ref;
+                  }}
                   target={inPlace ? undefined : '_blank'}
                   to={href}
                 >

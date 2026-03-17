@@ -86,10 +86,11 @@ export default class WorkspaceComponentViewer extends React.PureComponent<Props>
         >
           <WorkspaceComponentTitle component={component} />
         </WorkspaceHeader>
-
         <div
           className="workspace-viewer-container"
-          ref={(node) => (this.container = node)}
+          ref={(node) => {
+            this.container = node;
+          }}
           role="complementary"
           style={{ height: this.props.height }}
         >

@@ -290,7 +290,11 @@ export class MultiSelectMenu extends PureComponent<Props, State> {
     const hasFooter = Boolean(footerNode);
 
     return (
-      <div ref={(div) => (this.container = div)}>
+      <div
+        ref={(div) => {
+          this.container = div;
+        }}
+      >
         {allowSearch && (
           <>
             <div className="sw-px-3">
