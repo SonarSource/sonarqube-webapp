@@ -78,6 +78,20 @@ export const PLACEMENT_FLIP_MAP: { [key in PopupPlacement]: PopupPlacement } = {
 
 const MARGIN_TO_EDGE = 4;
 
+/**
+ * Returns the first child element that has layout (i.e. is not display:contents).
+ * Needed because display:contents elements return zero getBoundingClientRect().
+ */
+export function getFirstVisibleChild(node: Element): Element | undefined {
+  let el: Element | null = node.firstElementChild;
+
+  while (el !== null && getComputedStyle(el).display === 'contents') {
+    el = el.firstElementChild;
+  }
+
+  return el ?? undefined;
+}
+
 export function popupPositioning(
   toggleNode: Element,
   popupNode: Element,

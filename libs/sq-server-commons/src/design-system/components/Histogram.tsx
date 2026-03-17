@@ -20,13 +20,12 @@
 
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 import styled from '@emotion/styled';
-import { cssVar } from '@sonarsource/echoes-react';
+import { cssVar, Tooltip, TooltipSide } from '@sonarsource/echoes-react';
 import { max } from 'd3-array';
 import { scaleBand, ScaleBand, scaleLinear, ScaleLinear } from 'd3-scale';
 import React from 'react';
 import tw from 'twin.macro';
-import { themeColor, themeContrast } from '../helpers';
-import { Tooltip, TooltipWrapper } from './Tooltip';
+import { themeColor } from '../helpers';
 
 interface Props {
   bars: number[];
@@ -69,7 +68,10 @@ export class Histogram extends React.PureComponent<Props> {
     const y = Math.round((yScale(index) ?? 0) + yScale.bandwidth() / 2 + BAR_HEIGHT / 2);
 
     return (
-      <Tooltip content={this.props.yTooltips && this.props.yTooltips[index]}>
+      <Tooltip
+        content={this.props.yTooltips && this.props.yTooltips[index]}
+        side={TooltipSide.Right}
+      >
         <HistogramTick dx="1em" dy="0.3em" textAnchor="start" x={x} y={y}>
           {value}
         </HistogramTick>
@@ -142,10 +144,6 @@ export class Histogram extends React.PureComponent<Props> {
 const HistogramTick = styled.text`
   ${tw`sw-typo-default`}
   fill: ${cssVar('color-text-subtle')};
-
-  ${TooltipWrapper} & {
-    fill: ${themeContrast('primary')};
-  }
 `;
 
 const HistogramBar = styled.rect`

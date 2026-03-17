@@ -19,7 +19,6 @@
  */
 
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 
 export type MouseEventListener = 'click' | 'mousedown';
 interface Props {
@@ -30,6 +29,7 @@ interface Props {
 
 export class OutsideClickHandler extends React.Component<Props> {
   mounted = false;
+  nodeRef = React.createRef<HTMLDivElement>();
 
   componentDidMount() {
     this.mounted = true;
@@ -55,16 +55,19 @@ export class OutsideClickHandler extends React.Component<Props> {
 
   handleWindowClick = (event: MouseEvent) => {
     if (this.mounted) {
-      // eslint-disable-next-line react/no-find-dom-node
-      const node = findDOMNode(this);
+      const node = this.nodeRef.current;
 
-      if (!node?.contains(event.target as Node)) {
+      if (node && !node.contains(event.target as Node)) {
         this.props.onClickOutside();
       }
     }
   };
 
   render() {
-    return this.props.children;
+    return (
+      <div ref={this.nodeRef} style={{ display: 'contents' }}>
+        {this.props.children}
+      </div>
+    );
   }
 }

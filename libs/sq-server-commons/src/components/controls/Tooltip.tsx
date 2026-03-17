@@ -20,8 +20,9 @@
 
 import classNames from 'classnames';
 import { throttle, uniqueId } from 'lodash';
-import * as React from 'react';
-import { createPortal, findDOMNode } from 'react-dom';
+import { cloneElement, Component, createRef, PropsWithChildren, ReactNode } from 'react';
+import { createPortal } from 'react-dom';
+import { getFirstVisibleChild } from '../../design-system/helpers/positioning';
 import { ONE_SECOND } from '../../helpers/constants';
 import { translate } from '../../helpers/l10n';
 import EscKeydownHandler from './EscKeydownHandler';
@@ -35,7 +36,7 @@ interface TooltipProps {
   children: React.ReactElement<any>;
   classNameInner?: string;
   classNameSpace?: string;
-  content: React.ReactNode;
+  content: ReactNode;
   // If tooltip overlay has interactive content (links for instance) we may set this to true to stop
   // default behavior of tabbing (other changes should be done outside of this component to make it work)
   // See example DocHelpTooltip
@@ -100,11 +101,12 @@ export default function LegacyTooltip(props: TooltipProps) {
   );
 }
 
-export class TooltipInner extends React.Component<TooltipProps, State> {
+export class TooltipInner extends Component<TooltipProps, State> {
   throttledPositionTooltip: () => void;
   mouseEnterTimeout?: number;
   mouseLeaveTimeout?: number;
   tooltipNode?: HTMLElement | null;
+  toggleRef = createRef<HTMLSpanElement>();
   mounted = false;
   mouseIn = false;
   id: string;
@@ -115,17 +117,20 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
 
   constructor(props: TooltipProps) {
     super(props);
+
     this.state = {
       flipped: false,
       placement: props.side,
       visible: props.isOpen ?? false,
     };
+
     this.id = uniqueId('tooltip-');
     this.throttledPositionTooltip = throttle(this.positionTooltip, 10);
   }
 
   componentDidMount() {
     this.mounted = true;
+
     if (this.props.isOpen === true) {
       this.positionTooltip();
       this.addEventListeners();
@@ -135,6 +140,7 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
   componentDidUpdate(prevProps: TooltipProps, prevState: State) {
     if (this.props.side !== prevProps.side) {
       this.setState({ placement: this.props.side });
+
       // Break. This will trigger a new componentDidUpdate() call, so the below
       // positionTooltip() call will be correct. Otherwise, it might not use
       // the new state.placement value.
@@ -205,15 +211,11 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
   };
 
   positionTooltip = () => {
-    // `findDOMNode(this)` will search for the DOM node for the current component.
-    // First, it will find a React.Fragment (see `render`). It will skip this, and
-    // it will get the DOM node of the first child, i.e. DOM node of `this.props.children`.
-    // docs: https://reactjs.org/docs/refs-and-the-dom.html#exposing-dom-refs-to-parent-components
+    const toggleNode = this.toggleRef.current
+      ? getFirstVisibleChild(this.toggleRef.current)
+      : undefined;
 
-    // eslint-disable-next-line react/no-find-dom-node
-    const toggleNode = findDOMNode(this);
-
-    if (toggleNode && toggleNode instanceof Element && this.tooltipNode) {
+    if (toggleNode && this.tooltipNode) {
       const toggleRect = toggleNode.getBoundingClientRect();
       const tooltipRect = this.tooltipNode.getBoundingClientRect();
       const { width, height } = tooltipRect;
@@ -296,6 +298,7 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
           if (this.mounted && this.props.isOpen === undefined && !this.mouseIn) {
             this.setState({ visible: false });
           }
+
           if (this.props.onHide && !this.mouseIn) {
             this.props.onHide();
           }
@@ -307,6 +310,7 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
 
   handleFocus = () => {
     this.setState({ visible: true });
+
     if (this.props.onShow) {
       this.props.onShow();
     }
@@ -321,6 +325,7 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
   closeTooltip = () => {
     if (this.mounted) {
       this.setState({ visible: false });
+
       if (this.props.onHide) {
         this.props.onHide();
       }
@@ -341,6 +346,7 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
     // node. Only trigger if it really starts overlapping, as the re-positioning
     // is quite expensive, needing 2 re-renders.
     const threshold = 8;
+
     switch (this.getPlacement()) {
       case 'left':
       case 'right':
@@ -349,6 +355,7 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
       case 'bottom':
         return Math.abs(topFix) > threshold;
     }
+
     return false;
   };
 
@@ -380,6 +387,7 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
           },
         );
       }, 1);
+
       return null;
     }
 
@@ -424,6 +432,7 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
       content: overlay,
       classNameInner,
     } = this.props;
+
     return (
       <div
         aria-hidden={!isVisible}
@@ -442,22 +451,25 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
   render() {
     const isVisible = this.isVisible();
     const { isInteractive } = this.props;
+
     return (
       <>
-        {React.cloneElement(this.props.children, {
-          onPointerEnter: this.handleMouseEnter,
-          onPointerLeave: this.handleMouseLeave,
-          onFocus: this.handleFocus,
-          onBlur: this.handleBlur,
-          tabIndex: isInteractive ? 0 : undefined,
-          // aria-describedby is the semantically correct property to use, but it's not
-          // always well supported. We sometimes need to handle this differently, depending
-          // on the triggering element. For example, we can add a child <description> element
-          // if the triggering element is an SVG. See HelpTooltip for an example.
-          // We should NOT use aria-labelledby, as this can have unintended effects (e.g., this
-          // can mess up buttons that need a tooltip).
-          'aria-describedby': this.id,
-        })}
+        <span ref={this.toggleRef} style={{ display: 'contents' }}>
+          {cloneElement(this.props.children, {
+            onPointerEnter: this.handleMouseEnter,
+            onPointerLeave: this.handleMouseLeave,
+            onFocus: this.handleFocus,
+            onBlur: this.handleBlur,
+            tabIndex: isInteractive ? 0 : undefined,
+            // aria-describedby is the semantically correct property to use, but it's not
+            // always well supported. We sometimes need to handle this differently, depending
+            // on the triggering element. For example, we can add a child <description> element
+            // if the triggering element is an SVG. See HelpTooltip for an example.
+            // We should NOT use aria-labelledby, as this can have unintended effects (e.g., this
+            // can mess up buttons that need a tooltip).
+            'aria-describedby': this.id,
+          })}
+        </span>
         {!isVisible && <TooltipPortal>{this.renderOverlay()}</TooltipPortal>}
         {isVisible && (
           <EscKeydownHandler onKeydown={this.closeTooltip}>
@@ -473,7 +485,7 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
   }
 }
 
-class TooltipPortal extends React.Component<React.PropsWithChildren<{}>> {
+class TooltipPortal extends Component<PropsWithChildren<{}>> {
   el: HTMLElement;
 
   constructor(props: {}) {

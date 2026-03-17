@@ -19,6 +19,7 @@
  */
 
 import failOnConsole from 'jest-fail-on-console';
+
 const IGNORED_ERROR_MESSAGES: string[] = [
   // react-virtualized uses `findDOMNode` which is deprecated
   'findDOMNode is deprecated and will be removed in the next major release',

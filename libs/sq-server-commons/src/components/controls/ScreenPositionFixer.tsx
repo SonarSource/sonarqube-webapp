@@ -20,7 +20,6 @@
 
 import { throttle } from 'lodash';
 import * as React from 'react';
-import { findDOMNode } from 'react-dom';
 
 interface Props {
   /**
@@ -46,6 +45,7 @@ interface Fixes {
 const EDGE_MARGIN = 4;
 
 export default class ScreenPositionFixer extends React.Component<Props, Fixes> {
+  nodeRef = React.createRef<HTMLDivElement>();
   throttledPosition: () => void;
 
   constructor(props: Props) {
@@ -84,9 +84,9 @@ export default class ScreenPositionFixer extends React.Component<Props, Fixes> {
   };
 
   position = () => {
-    // eslint-disable-next-line react/no-find-dom-node
-    const node = findDOMNode(this);
-    if (node && node instanceof Element) {
+    const node = this.nodeRef.current;
+
+    if (node) {
       const { width, height, left, top } = node.getBoundingClientRect();
       const { clientHeight, clientWidth } = document.documentElement;
 
@@ -109,6 +109,6 @@ export default class ScreenPositionFixer extends React.Component<Props, Fixes> {
   };
 
   render() {
-    return this.props.children(this.state);
+    return <div ref={this.nodeRef}>{this.props.children(this.state)}</div>;
   }
 }

@@ -22,10 +22,14 @@ import styled from '@emotion/styled';
 import classNames from 'classnames';
 import { throttle } from 'lodash';
 import React, { AriaRole } from 'react';
-import { findDOMNode } from 'react-dom';
 import tw from 'twin.macro';
 import { THROTTLE_SCROLL_DELAY } from '../helpers/constants';
-import { PopupPlacement, PopupZLevel, popupPositioning } from '../helpers/positioning';
+import {
+  PopupPlacement,
+  PopupZLevel,
+  getFirstVisibleChild,
+  popupPositioning,
+} from '../helpers/positioning';
 import { themeBorder, themeColor, themeContrast, themeShadow } from '../helpers/theme';
 import ClickEventBoundary from './ClickEventBoundary';
 
@@ -90,6 +94,7 @@ export class Popup extends React.PureComponent<PopupProps, State> {
   mounted = false;
   popupNode = React.createRef<HTMLDivElement>();
   throttledPositionTooltip: () => void;
+  toggleRef = React.createRef<HTMLSpanElement>();
 
   constructor(props: PopupProps) {
     super(props);
@@ -130,14 +135,11 @@ export class Popup extends React.PureComponent<PopupProps, State> {
 
   positionPopup = () => {
     if (this.mounted && this.props.zLevel !== PopupZLevel.Absolute) {
-      // `findDOMNode(this)` will search for the DOM node for the current component
-      // first it will find a React.Fragment (see `render`),
-      // so it will get the DOM node of the first child, i.e. DOM node of `this.props.children`
-      // docs: https://reactjs.org/docs/refs-and-the-dom.html#exposing-dom-refs-to-parent-components
+      const toggleNode = this.toggleRef.current
+        ? getFirstVisibleChild(this.toggleRef.current)
+        : undefined;
 
-      // eslint-disable-next-line react/no-find-dom-node
-      const toggleNode = findDOMNode(this);
-      if (toggleNode && toggleNode instanceof Element && this.popupNode.current) {
+      if (toggleNode && this.popupNode.current) {
         const { placement, zLevel } = this.props;
         const isGlobal = zLevel === PopupZLevel.Global;
         const { height, left, top, width } = popupPositioning(
@@ -177,7 +179,10 @@ export class Popup extends React.PureComponent<PopupProps, State> {
     }
     return (
       <>
-        {this.props.children}
+        <span ref={this.toggleRef} style={{ display: 'contents' }}>
+          {this.props.children}
+        </span>
+
         {this.props.overlay && (
           <PopupWithRef placement={placement} ref={this.popupNode} style={style} {...popupProps}>
             {overlay}

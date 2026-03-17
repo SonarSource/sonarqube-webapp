@@ -24,11 +24,12 @@ import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { throttle, uniqueId } from 'lodash';
 import React from 'react';
-import { createPortal, findDOMNode } from 'react-dom';
+import { createPortal } from 'react-dom';
 import tw from 'twin.macro';
 import { THROTTLE_SCROLL_DELAY } from '../helpers/constants';
 import {
   BasePlacement,
+  getFirstVisibleChild,
   PLACEMENT_FLIP_MAP,
   PopupPlacement,
   popupPositioning,
@@ -97,6 +98,7 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
   mouseEnterTimeout?: number;
   mouseLeaveTimeout?: number;
   tooltipNode?: HTMLElement | null;
+  toggleRef = React.createRef<HTMLSpanElement>();
   mounted = false;
   mouseIn = false;
   id: string;
@@ -229,15 +231,11 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
   };
 
   positionTooltip = () => {
-    // `findDOMNode(this)` will search for the DOM node for the current component
-    // first it will find a React.Fragment (see `render`),
-    // so it will get the DOM node of the first child, i.e. DOM node of `this.props.children`
-    // docs: https://reactjs.org/docs/refs-and-the-dom.html#exposing-dom-refs-to-parent-components
+    const toggleNode = this.toggleRef.current
+      ? getFirstVisibleChild(this.toggleRef.current)
+      : undefined;
 
-    // eslint-disable-next-line react/no-find-dom-node
-    const toggleNode = findDOMNode(this);
-
-    if (toggleNode && toggleNode instanceof Element && this.tooltipNode) {
+    if (toggleNode && this.tooltipNode) {
       const { height, left, leftFix, top, topFix, width } = popupPositioning(
         toggleNode,
         this.tooltipNode,
@@ -388,17 +386,19 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
 
     return (
       <>
-        {React.cloneElement(this.props.children, {
-          onPointerEnter: this.handleChildPointerEnter,
-          onPointerLeave: this.handleChildPointerLeave,
-          onFocus: this.handleFocus,
-          onBlur: this.handleBlur,
-          // aria-describedby is the semantically correct property to use, but it's not
-          // always well supported. We sometimes need to handle this differently, depending
-          // on the triggering element. We should NOT use aria-labelledby, as this can
-          // have unintended effects (e.g., this can mess up buttons that need a tooltip).
-          'aria-describedby': this.id,
-        })}
+        <span ref={this.toggleRef} style={{ display: 'contents' }}>
+          {React.cloneElement(this.props.children, {
+            onPointerEnter: this.handleChildPointerEnter,
+            onPointerLeave: this.handleChildPointerLeave,
+            onFocus: this.handleFocus,
+            onBlur: this.handleBlur,
+            // aria-describedby is the semantically correct property to use, but it's not
+            // always well supported. We sometimes need to handle this differently, depending
+            // on the triggering element. We should NOT use aria-labelledby, as this can
+            // have unintended effects (e.g., this can mess up buttons that need a tooltip).
+            'aria-describedby': this.id,
+          })}
+        </span>
         {this.isVisible() && (
           <TooltipPortal>
             <TooltipWrapper

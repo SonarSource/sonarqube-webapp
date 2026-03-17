@@ -32,14 +32,18 @@ exports[`should render correctly when covered 1`] = `
 
 <tr>
   <td
-    aria-describedby="tooltip-1"
     class="emotion-0 emotion-1"
     data-line-number="16"
   >
-    <div
-      aria-label="OK"
-      class="emotion-2 emotion-3"
-    />
+    <span
+      style="display: contents;"
+    >
+      <div
+        aria-describedby="tooltip-1"
+        aria-label="OK"
+        class="emotion-2 emotion-3"
+      />
+    </span>
   </td>
 </tr>
 `;
@@ -101,32 +105,36 @@ exports[`should render correctly when partially covered with 5/10 conditions 1`]
 
 <tr>
   <td
-    aria-describedby="tooltip-4"
     class="emotion-0 emotion-1"
     data-line-number="16"
   >
-    <div
-      aria-label="OK"
-      class="emotion-2 emotion-3"
+    <span
+      style="display: contents;"
     >
-      <svg
-        fill="none"
-        viewBox="0 0 4 18"
-        xmlns="http://www.w3.org/2000/svg"
+      <div
+        aria-describedby="tooltip-4"
+        aria-label="OK"
+        class="emotion-2 emotion-3"
       >
-        <rect
-          fill="rgb(217,45,32)"
-          height="18"
-          width="4"
-        />
-        <path
-          clip-rule="evenodd"
-          d="M0 0L4 3V6L0 3V0ZM0 6L4 9V12L0 9V6ZM4 15L0 12V15L4 18V15Z"
-          fill="rgb(255,255,255)"
-          fill-rule="evenodd"
-        />
-      </svg>
-    </div>
+        <svg
+          fill="none"
+          viewBox="0 0 4 18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            fill="rgb(217,45,32)"
+            height="18"
+            width="4"
+          />
+          <path
+            clip-rule="evenodd"
+            d="M0 0L4 3V6L0 3V0ZM0 6L4 9V12L0 9V6ZM4 15L0 12V15L4 18V15Z"
+            fill="rgb(255,255,255)"
+            fill-rule="evenodd"
+          />
+        </svg>
+      </div>
+    </span>
   </td>
 </tr>
 `;
@@ -162,32 +170,36 @@ exports[`should render correctly when partially covered without conditions 1`] =
 
 <tr>
   <td
-    aria-describedby="tooltip-3"
     class="emotion-0 emotion-1"
     data-line-number="16"
   >
-    <div
-      aria-label="OK"
-      class="emotion-2 emotion-3"
+    <span
+      style="display: contents;"
     >
-      <svg
-        fill="none"
-        viewBox="0 0 4 18"
-        xmlns="http://www.w3.org/2000/svg"
+      <div
+        aria-describedby="tooltip-3"
+        aria-label="OK"
+        class="emotion-2 emotion-3"
       >
-        <rect
-          fill="rgb(217,45,32)"
-          height="18"
-          width="4"
-        />
-        <path
-          clip-rule="evenodd"
-          d="M0 0L4 3V6L0 3V0ZM0 6L4 9V12L0 9V6ZM4 15L0 12V15L4 18V15Z"
-          fill="rgb(255,255,255)"
-          fill-rule="evenodd"
-        />
-      </svg>
-    </div>
+        <svg
+          fill="none"
+          viewBox="0 0 4 18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            fill="rgb(217,45,32)"
+            height="18"
+            width="4"
+          />
+          <path
+            clip-rule="evenodd"
+            d="M0 0L4 3V6L0 3V0ZM0 6L4 9V12L0 9V6ZM4 15L0 12V15L4 18V15Z"
+            fill="rgb(255,255,255)"
+            fill-rule="evenodd"
+          />
+        </svg>
+      </div>
+    </span>
   </td>
 </tr>
 `;
@@ -224,14 +236,18 @@ exports[`should render correctly when uncovered 1`] = `
 
 <tr>
   <td
-    aria-describedby="tooltip-2"
     class="emotion-0 emotion-1"
     data-line-number="16"
   >
-    <div
-      aria-label="OK"
-      class="emotion-2 emotion-3"
-    />
+    <span
+      style="display: contents;"
+    >
+      <div
+        aria-describedby="tooltip-2"
+        aria-label="OK"
+        class="emotion-2 emotion-3"
+      />
+    </span>
   </td>
 </tr>
 `;

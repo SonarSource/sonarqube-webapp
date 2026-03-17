@@ -19,7 +19,6 @@
  */
 
 import * as React from 'react';
-import { findDOMNode } from 'react-dom';
 
 interface Props {
   children: React.ReactNode;
@@ -28,6 +27,7 @@ interface Props {
 
 export default class OutsideClickHandler extends React.Component<Props> {
   mounted = false;
+  nodeRef = React.createRef<HTMLDivElement>();
 
   componentDidMount() {
     this.mounted = true;
@@ -51,8 +51,7 @@ export default class OutsideClickHandler extends React.Component<Props> {
 
   handleWindowClick = (event: MouseEvent) => {
     if (this.mounted) {
-      // eslint-disable-next-line react/no-find-dom-node
-      const node = findDOMNode(this);
+      const node = this.nodeRef.current;
       if (
         node &&
         !node.contains(event.target as Node) &&
@@ -64,6 +63,10 @@ export default class OutsideClickHandler extends React.Component<Props> {
   };
 
   render() {
-    return this.props.children;
+    return (
+      <div ref={this.nodeRef} style={{ display: 'contents' }}>
+        {this.props.children}
+      </div>
+    );
   }
 }

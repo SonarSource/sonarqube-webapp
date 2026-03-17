@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { TooltipProvider } from '@sonarsource/echoes-react';
 import { render } from '../../helpers/testUtils';
 import { Histogram } from '../Histogram';
 
@@ -51,5 +52,9 @@ it('renders correctly with yValues, yTicks, and yTooltips', () => {
 });
 
 function renderHistogram(props: Partial<Histogram['props']> = {}) {
-  return render(<Histogram bars={[100, 75, 150]} height={75} width={100} {...props} />);
+  return render(
+    <TooltipProvider>
+      <Histogram bars={[100, 75, 150]} height={75} width={100} {...props} />
+    </TooltipProvider>,
+  );
 }

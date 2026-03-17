@@ -18,14 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
+import { memo, ReactNode, useCallback, useState } from 'react';
+import { useIntl } from 'react-intl';
 import {
   DuplicationBlock,
   LineMeta,
   OutsideClickHandler,
   PopupPlacement,
 } from '../../../design-system';
-import { translate } from '../../../helpers/l10n';
 import { SourceLine } from '../../../types/types';
 import Tooltip from '../../controls/Tooltip';
 
@@ -35,56 +35,58 @@ export interface LineDuplicationBlockProps {
   index: number;
   line: SourceLine;
   onClick?: (line: SourceLine) => void;
-  renderDuplicationPopup: (index: number, line: number) => React.ReactNode;
+  renderDuplicationPopup: (index: number, line: number) => ReactNode;
 }
 
 export function LineDuplicationBlock(props: LineDuplicationBlockProps) {
   const { blocksLoaded, duplicated, index, line, onClick } = props;
-  const [popupOpen, setPopupOpen] = React.useState(false);
+  const [popupOpen, setPopupOpen] = useState(false);
+  const { formatMessage } = useIntl();
 
-  const tooltip = popupOpen ? undefined : translate('source_viewer.tooltip.duplicated_block');
+  const duplicatedBlockLabel = formatMessage({ id: 'source_viewer.tooltip.duplicated_block' });
+  const tooltip = popupOpen ? undefined : duplicatedBlockLabel;
 
-  const handleClick = React.useCallback(() => {
+  const handleClick = useCallback(() => {
     setPopupOpen(!popupOpen);
+
     if (!blocksLoaded && line.duplicated && onClick) {
       onClick(line);
     }
   }, [blocksLoaded, line, onClick, popupOpen]);
 
-  const handleClose = React.useCallback(() => {
+  const handleClose = useCallback(() => {
     setPopupOpen(false);
   }, []);
 
   return duplicated ? (
-    <Tooltip content={tooltip} side={PopupPlacement.Right}>
-      <LineMeta
-        className="it__source-line-duplicated"
-        data-index={index}
-        data-line-number={line.line}
-      >
-        <OutsideClickHandler onClickOutside={handleClose}>
-          <Tooltip
-            classNameInner="sw-max-w-abs-400"
-            content={popupOpen ? props.renderDuplicationPopup(index, line.line) : undefined}
-            isInteractive
-            isOpen={popupOpen}
-            side={PopupPlacement.Right}
-          >
-            <DuplicationBlock
-              aria-expanded={popupOpen}
-              aria-haspopup="dialog"
-              aria-label={translate('source_viewer.tooltip.duplicated_block')}
-              onClick={handleClick}
-              role="button"
-              tabIndex={0}
-            />
-          </Tooltip>
-        </OutsideClickHandler>
-      </LineMeta>
-    </Tooltip>
+    <LineMeta
+      className="it__source-line-duplicated"
+      data-index={index}
+      data-line-number={line.line}
+    >
+      <OutsideClickHandler onClickOutside={handleClose}>
+        <Tooltip
+          classNameInner={popupOpen ? 'sw-max-w-abs-400' : undefined}
+          content={popupOpen ? props.renderDuplicationPopup(index, line.line) : tooltip}
+          isInteractive={popupOpen}
+          isOpen={popupOpen ? true : undefined}
+          key={popupOpen ? 'open' : 'closed'}
+          side={PopupPlacement.Right}
+        >
+          <DuplicationBlock
+            aria-expanded={popupOpen}
+            aria-haspopup="dialog"
+            aria-label={duplicatedBlockLabel}
+            onClick={handleClick}
+            role="button"
+            tabIndex={0}
+          />
+        </Tooltip>
+      </OutsideClickHandler>
+    </LineMeta>
   ) : (
     <LineMeta data-index={index} data-line-number={line.line} />
   );
 }
 
-export default React.memo(LineDuplicationBlock);
+export default memo(LineDuplicationBlock);
