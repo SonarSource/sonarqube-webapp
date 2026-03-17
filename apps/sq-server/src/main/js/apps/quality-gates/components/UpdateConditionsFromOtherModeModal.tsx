@@ -220,7 +220,7 @@ export default function UpdateConditionsFromOtherModeModal({
         { qualityGate: qualityGateName },
       )}
     >
-      {React.cloneElement(children as React.ReactElement, {
+      {React.cloneElement(children as React.ReactElement<any>, {
         onClick: () => {
           setOpen(true);
         },

@@ -33,7 +33,7 @@ interface Props extends IconProps {
   severity: IssueSeverity | undefined;
 }
 
-const severityIcons: Record<string, (props: IconProps) => React.ReactElement> = {
+const severityIcons: Record<string, (props: IconProps) => React.ReactElement<any>> = {
   blocker: SeverityBlockerIcon,
   critical: SeverityCriticalIcon,
   major: SeverityMajorIcon,

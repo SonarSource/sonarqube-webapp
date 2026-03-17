@@ -32,7 +32,7 @@ import './Tooltip.css';
 export type Placement = 'bottom' | 'right' | 'left' | 'top';
 
 interface TooltipProps {
-  children: React.ReactElement;
+  children: React.ReactElement<any>;
   classNameInner?: string;
   classNameSpace?: string;
   content: React.ReactNode;

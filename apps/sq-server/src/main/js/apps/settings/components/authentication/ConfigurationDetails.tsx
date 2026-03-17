@@ -26,7 +26,7 @@ import { translate } from '~sq-server-commons/helpers/l10n';
 interface Props {
   canDisable: boolean;
   enabled: boolean;
-  extraActions?: ReactElement;
+  extraActions?: ReactElement<any>;
   isDeleting: boolean;
   onDelete: () => void;
   onEdit: () => void;

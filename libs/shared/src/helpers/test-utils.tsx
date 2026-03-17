@@ -50,7 +50,7 @@ import { ContextWrapperInitProps, getContextWrapper } from '~adapters/helpers/te
 type RenderResultWithUser = RenderResult & { user: UserEvent };
 
 export function render(
-  ui: ReactElement,
+  ui: ReactElement<any>,
   options?: RenderOptions,
   userEventOptions?: UserEventsOptions,
 ): RenderResultWithUser {
@@ -66,7 +66,7 @@ export type RenderContextOptions = Omit<RenderOptions, 'wrapper'> &
   };
 
 export function renderWithContext(
-  ui: ReactElement,
+  ui: ReactElement<any>,
   { userEventOptions, ...options }: RenderContextOptions = {},
 ) {
   return render(ui, { ...options, wrapper: getContextWrapper(options) }, userEventOptions);
@@ -75,7 +75,7 @@ export function renderWithContext(
 type RenderRouterOptions = { additionalRoutes?: ReactNode };
 
 export function renderWithRouter(
-  ui: ReactElement,
+  ui: ReactElement<any>,
   {
     additionalRoutes,
     initialEntries = ['/'],
@@ -109,7 +109,7 @@ export function renderWithRouter(
 }
 
 export function renderWithRoutes(
-  ui: ReactElement,
+  ui: ReactElement<any>,
   { initialEntries, userEventOptions, ...options }: RenderContextOptions,
 ) {
   const ContextWrapper = getContextWrapper(options);

@@ -57,7 +57,7 @@ type QueryHook<TData, TArgs extends any[]> = (...args: TArgs) => UseQueryResult<
 
 interface Props<TData, TArgs extends any[]> {
   args?: TArgs;
-  children: (value: UseQueryResult<TData>) => ReactElement | null;
+  children: (value: UseQueryResult<TData>) => ReactElement<any> | null;
   query: QueryHook<TData, TArgs>;
 }
 

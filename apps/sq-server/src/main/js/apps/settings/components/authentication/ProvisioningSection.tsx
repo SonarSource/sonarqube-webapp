@@ -25,9 +25,9 @@ import { translate } from '~sq-server-commons/helpers/l10n';
 import { ProvisioningType } from '~sq-server-commons/types/provisioning';
 
 interface Props {
-  autoDescription: ReactElement;
-  autoFeatureDisabledText: string | ReactElement;
-  autoSettings?: ReactElement;
+  autoDescription: ReactElement<any>;
+  autoFeatureDisabledText: string | ReactElement<any>;
+  autoSettings?: ReactElement<any>;
   autoTitle: string;
   canSave?: boolean;
   canSync?: boolean;
@@ -37,15 +37,15 @@ interface Props {
   hasFeatureEnabled: boolean;
   hasUnsavedChanges: boolean;
   isLoading?: boolean;
-  jitDescription: string | ReactElement;
-  jitSettings?: ReactElement;
+  jitDescription: string | ReactElement<any>;
+  jitSettings?: ReactElement<any>;
   jitTitle: string;
   onCancel: () => void;
   onChangeProvisioningType: (val: ProvisioningType) => void;
   onSave: (e: FormEvent) => void;
   onSyncNow?: () => void;
   provisioningType: ProvisioningType;
-  synchronizationDetails?: ReactElement;
+  synchronizationDetails?: ReactElement<any>;
 }
 
 export default function ProvisioningSection(props: Readonly<Props>) {

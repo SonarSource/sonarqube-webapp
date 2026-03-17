@@ -28,7 +28,7 @@ import { localizeMetric } from '../../helpers/measures';
 
 export interface MeasuresCardProps {
   failed?: boolean;
-  icon?: React.ReactElement;
+  icon?: React.ReactElement<any>;
   label: string;
   metric: MetricKey;
   url: To;

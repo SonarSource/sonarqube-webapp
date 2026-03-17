@@ -102,7 +102,7 @@ export function renderAppWithAdminContext(
 }
 
 export function renderComponent(
-  component: React.ReactElement,
+  component: React.ReactElement<any>,
   pathname = '/',
   {
     appState = mockAppState(),
@@ -195,7 +195,7 @@ export function renderAppRoutes(
 }
 
 function renderRoutedApp(
-  children: React.ReactElement,
+  children: React.ReactElement<any>,
   indexPath: string,
   {
     currentUser = mockCurrentUser(),

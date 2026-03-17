@@ -39,7 +39,7 @@ interface StatusDataDictionnary {
 }
 
 interface StatusDataType {
-  iconComponent: React.ReactElement;
+  iconComponent: React.ReactElement<any>;
   textKey: string;
 }
 

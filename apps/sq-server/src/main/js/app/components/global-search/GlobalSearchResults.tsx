@@ -31,7 +31,7 @@ export interface Props {
   more: More;
   onMoreClick: (qualifier: string) => void;
   query: string;
-  renderNoResults: () => React.ReactElement;
+  renderNoResults: () => React.ReactElement<any>;
   renderResult: (component: ComponentResult) => React.ReactNode;
   results: Results;
   selected?: string;

@@ -24,7 +24,7 @@ import { BasicSeparator, SubHeading } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
-  configurationValidity?: ReactElement;
+  configurationValidity?: ReactElement<any>;
   onCreate: () => void;
   showCreate: boolean;
   title: string;

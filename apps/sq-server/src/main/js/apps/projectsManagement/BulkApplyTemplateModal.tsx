@@ -21,10 +21,10 @@
 import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FlagMessage, FormField, InputSelect, LabelValueSelectOption, Modal } from '~design-system';
+import UseQuery from '~shared/queries/common';
 import { bulkApplyTemplate, getPermissionTemplates } from '~sq-server-commons/api/permissions';
 import { Project } from '~sq-server-commons/api/project-management';
 import MandatoryFieldsExplanation from '~sq-server-commons/components/ui/MandatoryFieldsExplanation';
-import UseQuery from '~sq-server-commons/helpers/UseQuery';
 import { toISO8601WithOffsetString } from '~sq-server-commons/helpers/dates';
 import { addGlobalErrorMessageFromAPI } from '~sq-server-commons/helpers/globalMessages';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';

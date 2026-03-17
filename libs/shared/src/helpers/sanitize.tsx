@@ -152,7 +152,7 @@ export const SafeHTMLInjection = ({
   htmlAsString,
   sanitizeLevel = SanitizeLevel.FORBID_STYLE,
 }: Readonly<{
-  children?: React.ReactElement;
+  children?: React.ReactElement<any>;
   htmlAsString: string;
   sanitizeLevel?: SanitizeLevel;
 }>) =>

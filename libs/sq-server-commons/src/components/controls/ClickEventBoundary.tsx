@@ -21,7 +21,7 @@
 import * as React from 'react';
 
 export interface ClickEventBoundaryProps {
-  children: React.ReactElement;
+  children: React.ReactElement<any>;
 }
 
 export default function ClickEventBoundary({ children }: ClickEventBoundaryProps) {

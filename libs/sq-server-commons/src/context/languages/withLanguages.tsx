@@ -36,7 +36,7 @@ export default function withLanguages<P>(
 ) {
   function WithLanguagesWrapper(
     props: Readonly<Omit<P, keyof WithLanguagesProps>>,
-  ): React.ReactElement {
+  ): React.ReactElement<any> {
     const { data: languages = {} } = useLanguagesQuery();
     const languagesWithRules = useLanguagesWithRules();
 

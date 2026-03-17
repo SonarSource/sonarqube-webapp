@@ -38,7 +38,7 @@ import { themeColor } from '../helpers/theme';
 const MILLISECONDS_IN_A_SECOND = 1000;
 
 interface TooltipProps {
-  children: React.ReactElement;
+  children: React.ReactElement<any>;
   content: React.ReactNode;
   mouseEnterDelay?: number;
   mouseLeaveDelay?: number;
