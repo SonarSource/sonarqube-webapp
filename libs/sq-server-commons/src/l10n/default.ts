@@ -1618,7 +1618,6 @@ export const defaultMessages = {
   'dependencies.expandable_text.link.less_text': 'Show less',
   'dependencies.skip_to_filters': 'Skip to filters page',
   'dependencies.filters.clear_all': 'Clear filters',
-  'dependencies.list.new_code_show': 'Show',
   'dependencies.list.export_as_sbom.dropdown.button': 'Export SBOM',
   'dependencies.list.export_as_sbom.dropdown.header.label': 'Software Bill Of Materials (SBOM)',
   'dependencies.list.export_as_sbom.dropdown.header.helptext':
@@ -1721,9 +1720,9 @@ export const defaultMessages = {
   'dependencies.properties.license.label.nonstandard_link': 'Learn more about SPDX licenses',
   'dependencies.properties.license.label.none':
     "This software has no declared license, and should be treated as 'All rights reserved'.",
-  'dependencies.properties.newly_introduced': 'New dependencies',
-  'dependencies.properties.newly_introduced.inverse': 'All dependencies',
-  'dependencies.properties.newly_introduced.title': 'Risks in',
+  'dependencies.properties.newly_introduced.releases': 'New dependencies',
+  'dependencies.properties.newly_introduced.risks': 'Risks in new dependencies',
+  'dependencies.properties.newly_introduced.title': 'New code',
   'dependencies.properties.risks': 'Risks',
   'dependencies.properties.identified_using': 'Identified using',
   'dependencies.properties.identified_using.plural':
