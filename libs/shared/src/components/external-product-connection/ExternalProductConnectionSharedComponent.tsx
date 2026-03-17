@@ -30,7 +30,7 @@ import {
   Text,
   TextInput,
 } from '@sonarsource/echoes-react';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, type JSX } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSearchParams } from 'react-router-dom';

@@ -35,6 +35,8 @@ import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 import { FacetItemsList } from '../facets/FacetItemsList';
 import Tooltip from './Tooltip';
 
+import type { JSX } from 'react';
+
 interface SearchResponse<S> {
   maxResults?: boolean;
   paging?: Paging;

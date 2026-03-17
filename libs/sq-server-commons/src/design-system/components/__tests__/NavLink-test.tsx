@@ -24,6 +24,8 @@ import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { render } from '../../helpers/testUtils';
 import NavLink from '../NavLink';
 
+import type { JSX } from 'react';
+
 beforeAll(() => {
   const { location: originalLocation } = window;
   jest.spyOn(window, 'location', 'get').mockReturnValue({

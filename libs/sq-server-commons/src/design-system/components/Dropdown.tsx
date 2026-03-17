@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import React from 'react';
+import React, { type JSX } from 'react';
 import { PopupPlacement, PopupZLevel } from '../helpers/positioning';
 import { InputSizeKeys } from '../types/theme';
 import { DropdownMenu } from './DropdownMenu';

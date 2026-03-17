@@ -37,6 +37,8 @@ import {
 } from '~sq-server-commons/types/alm-settings';
 import { Feature } from '~sq-server-commons/types/features';
 
+import type { JSX } from 'react';
+
 export interface AlmSpecificFormProps extends WithAvailableFeaturesProps {
   alm: AlmKeys;
   formData: Omit<ProjectAlmBindingResponse, 'alm'>;

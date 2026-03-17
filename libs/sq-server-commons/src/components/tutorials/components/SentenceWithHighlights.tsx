@@ -22,6 +22,8 @@ import { Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { translate } from '../../../helpers/l10n';
 
+import type { JSX } from 'react';
+
 export interface SentenceWithHighlightsProps {
   highlightKeys: string[];
   highlightPrefixKeys?: string;

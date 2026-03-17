@@ -22,6 +22,8 @@ import { screen } from '@testing-library/react';
 import { renderComponent } from '../../../../helpers/testReactTestingUtils';
 import { Image } from '../Image';
 
+import type { JSX } from 'react';
+
 describe('should render correctly', () => {
   it('with a src', () => {
     setupWithProps({

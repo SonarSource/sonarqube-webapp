@@ -27,7 +27,7 @@ import {
   IconChevronDown,
 } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import React from 'react';
+import React, { type JSX } from 'react';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
 import {

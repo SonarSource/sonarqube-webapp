@@ -29,6 +29,8 @@ import {
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 
+import type { JSX } from 'react';
+
 interface Props {
   inputId?: string;
   onChange: (selected: BaseProfile[]) => void;

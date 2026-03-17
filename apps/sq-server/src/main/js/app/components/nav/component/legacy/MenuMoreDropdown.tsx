@@ -23,6 +23,8 @@ import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { NavBarTabLink } from '~sq-server-commons/design-system';
 
+import type { JSX } from 'react';
+
 interface Props {
   activityLinkData: DropdownMenuLinkArgs;
   componentMeasuresLinkData: DropdownMenuLinkArgs;

@@ -26,6 +26,8 @@ import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
 import { themeColor } from '../helpers/theme';
 
+import type { JSX } from 'react';
+
 interface Props {
   ariaLabel?: string;
   className?: string;

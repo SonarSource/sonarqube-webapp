@@ -20,7 +20,7 @@
 
 import { useTheme as themeInfo } from '@emotion/react';
 import { ButtonIcon, ButtonSize, ButtonVariety, cssVar, IconX } from '@sonarsource/echoes-react';
-import { RefObject } from 'react';
+import { RefObject, type JSX } from 'react';
 import { useIntl } from 'react-intl';
 import {
   ClearIndicatorProps,

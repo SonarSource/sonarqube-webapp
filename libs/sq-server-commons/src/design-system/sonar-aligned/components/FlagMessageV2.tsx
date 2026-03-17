@@ -29,7 +29,7 @@ import {
   IconX,
 } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, type JSX } from 'react';
 import { IntlShape, useIntl } from 'react-intl';
 import tw from 'twin.macro';
 import { themeBorder, themeColor } from '../../helpers/theme';

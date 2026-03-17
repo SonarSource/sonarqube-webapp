@@ -25,6 +25,8 @@ import AlertClassicEditor from './AlertClassicEditor';
 import PrepareAnalysisCommand, { PrepareType } from './PrepareAnalysisCommand';
 import PublishSteps from './PublishSteps';
 
+import type { JSX } from 'react';
+
 export interface DotNetProps {
   projectKey: string;
 }

@@ -55,6 +55,8 @@ import { mockComponent } from './mocks/component';
 import { DEFAULT_METRICS } from './mocks/metrics';
 import { mockAppState, mockCurrentUser } from './testMocks';
 
+import type { JSX } from 'react';
+
 export interface RenderContext {
   appState?: AppState;
   currentUser?: CurrentUser;

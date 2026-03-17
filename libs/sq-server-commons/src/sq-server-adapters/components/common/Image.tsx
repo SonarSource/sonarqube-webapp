@@ -20,6 +20,8 @@
 
 import { getBaseUrl } from '../../../helpers/system';
 
+import type { JSX } from 'react';
+
 export function Image(props: Readonly<JSX.IntrinsicElements['img']>) {
   const { alt, src: source, ...rest } = props;
 

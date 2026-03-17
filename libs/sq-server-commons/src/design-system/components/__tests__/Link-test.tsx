@@ -24,6 +24,8 @@ import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { render } from '../../helpers/testUtils';
 import { ContentLink, DiscreetLink, StandoutLink as Link } from '../Link';
 
+import type { JSX } from 'react';
+
 beforeAll(() => {
   const { location: originalLocation } = window;
   jest.spyOn(window, 'location', 'get').mockReturnValue({
