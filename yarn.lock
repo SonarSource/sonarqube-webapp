@@ -3654,12 +3654,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dagrejs/dagre@npm:1.1.5":
-  version: 1.1.5
-  resolution: "@dagrejs/dagre@npm:1.1.5"
+"@dagrejs/dagre@npm:1.1.8":
+  version: 1.1.8
+  resolution: "@dagrejs/dagre@npm:1.1.8"
   dependencies:
     "@dagrejs/graphlib": "npm:2.2.4"
-  checksum: 10/c00abd1e04d19f90ad8dfa0a4e16365371bc4309affead3827a1b39f6b0b946643b8af0b1e5519011deca3fda4c7471b27e9ebb03423309a94f95ac0b881ac4f
+  checksum: 10/648f60b8d6c05ec3367d1c7a4f2da32b7c26273e40234ce37bace606cd1e4f882ef7947452a0f0df4b34f1bbbc9f3cbae29f0f6af19fbffb8bc9f5e9b97fc3e8
   languageName: node
   linkType: hard
 
@@ -9513,7 +9513,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/d3-interpolate@npm:*":
+"@types/d3-interpolate@npm:*, @types/d3-interpolate@npm:^3.0.4":
   version: 3.0.4
   resolution: "@types/d3-interpolate@npm:3.0.4"
   dependencies:
@@ -10976,32 +10976,34 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xyflow/react@npm:12.6.4":
-  version: 12.6.4
-  resolution: "@xyflow/react@npm:12.6.4"
+"@xyflow/react@npm:12.10.1":
+  version: 12.10.1
+  resolution: "@xyflow/react@npm:12.10.1"
   dependencies:
-    "@xyflow/system": "npm:0.0.61"
+    "@xyflow/system": "npm:0.0.75"
     classcat: "npm:^5.0.3"
     zustand: "npm:^4.4.0"
   peerDependencies:
     react: ">=17"
     react-dom: ">=17"
-  checksum: 10/538ef45a4513c5e91ff24a615bfe0ac050eb9bd72626ba81351895a4bd7cc781c71189f6241b9b688abfd53b901acd64c8ee7abb19cf65737976f3b9e962523e
+  checksum: 10/b882af47f4ad7200fec76927063c827f66ab396d9143c7bc232878489687e5821afc556865fc4bdbbe2bdf9a84c03e948162b27df0d200cd6233cb85f152c9a9
   languageName: node
   linkType: hard
 
-"@xyflow/system@npm:0.0.61":
-  version: 0.0.61
-  resolution: "@xyflow/system@npm:0.0.61"
+"@xyflow/system@npm:0.0.75":
+  version: 0.0.75
+  resolution: "@xyflow/system@npm:0.0.75"
   dependencies:
     "@types/d3-drag": "npm:^3.0.7"
+    "@types/d3-interpolate": "npm:^3.0.4"
     "@types/d3-selection": "npm:^3.0.10"
     "@types/d3-transition": "npm:^3.0.8"
     "@types/d3-zoom": "npm:^3.0.8"
     d3-drag: "npm:^3.0.0"
+    d3-interpolate: "npm:^3.0.1"
     d3-selection: "npm:^3.0.0"
     d3-zoom: "npm:^3.0.0"
-  checksum: 10/e14dd2ca75aef661c74ba16fe37d1a55927ad145492835321b1f6a471483ce8d044acd36eaf09c2d775df2040341efde0c05c520b5f044add11dd0e8ca1d1bf7
+  checksum: 10/d724b9064e74a58aa7ba35e710e4548e49fa5f0732a6b8fe6e52cb620ee5f45ec61c60f8b1820a5152277260f3c135adda180c91b47e84970432e04ca04f8de1
   languageName: node
   linkType: hard
 
@@ -13320,7 +13322,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3-interpolate@npm:1 - 3, d3-interpolate@npm:1.2.0 - 3":
+"d3-interpolate@npm:1 - 3, d3-interpolate@npm:1.2.0 - 3, d3-interpolate@npm:^3.0.1":
   version: 3.0.1
   resolution: "d3-interpolate@npm:3.0.1"
   dependencies:
@@ -21859,9 +21861,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"protobufjs-cli@npm:1.1.3":
-  version: 1.1.3
-  resolution: "protobufjs-cli@npm:1.1.3"
+"protobufjs-cli@npm:1.2.0":
+  version: 1.2.0
+  resolution: "protobufjs-cli@npm:1.2.0"
   dependencies:
     chalk: "npm:^4.0.0"
     escodegen: "npm:^1.13.0"
@@ -21878,7 +21880,7 @@ __metadata:
   bin:
     pbjs: bin/pbjs
     pbts: bin/pbts
-  checksum: 10/081a38e406761d8865a53ef12726c7dec1d1c23dfe0a0706d5e7da3aaba24879bb2316274cc69296fa941a2e57606839008deca24da5943fec17fcff58268a91
+  checksum: 10/9add1594b785b3940d26acbeadc39019b60c871e45a4ca8f8fb70020fc1ef180abe56c11136fd2819cce05d31caea24e98e9af9e66613414333bb8fa9e79c32f
   languageName: node
   linkType: hard
 
@@ -23696,7 +23698,7 @@ __metadata:
     "@babel/preset-react": "npm:7.28.5"
     "@babel/preset-typescript": "npm:7.28.5"
     "@cyclonedx/cdxgen": "npm:12.1.0"
-    "@dagrejs/dagre": "npm:1.1.5"
+    "@dagrejs/dagre": "npm:1.1.8"
     "@date-fns/upgrade": "npm:1.0.3"
     "@emotion/babel-plugin": "npm:11.13.5"
     "@emotion/css": "npm:11.13.5"
@@ -23764,7 +23766,7 @@ __metadata:
     "@typescript-eslint/rule-tester": "npm:7.18.0"
     "@vitejs/plugin-legacy": "npm:7.2.1"
     "@vitejs/plugin-react": "npm:5.1.4"
-    "@xyflow/react": "npm:12.6.4"
+    "@xyflow/react": "npm:12.10.1"
     autoprefixer: "npm:10.4.24"
     axios: "npm:1.13.5"
     babel-jest: "npm:30.2.0"
@@ -23833,7 +23835,7 @@ __metadata:
     prettier: "npm:3.8.1"
     prettier-plugin-organize-imports: "npm:4.3.0"
     protobufjs: "npm:7.5.4"
-    protobufjs-cli: "npm:1.1.3"
+    protobufjs-cli: "npm:1.2.0"
     react: "npm:18.3.1"
     react-day-picker: "npm:9.14.0"
     react-dnd: "npm:16.0.1"

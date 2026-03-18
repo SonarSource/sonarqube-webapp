@@ -67,6 +67,8 @@ const MockIntersectionObserverEntries = [{ isIntersecting: true }];
 
 Element.prototype.scrollIntoView = () => {};
 
+import './SetupFocusVisiblePolyfill';
+
 const content = document.createElement('div');
 content.id = 'content';
 document.documentElement.appendChild(content);
