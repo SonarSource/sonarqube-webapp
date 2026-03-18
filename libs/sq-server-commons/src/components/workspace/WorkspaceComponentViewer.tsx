@@ -19,10 +19,13 @@
  */
 
 import * as React from 'react';
+import {
+  WorkspaceHeader,
+  WorkspaceHeaderProps,
+} from '~shared/components/workspace/WorkspaceHeader';
 import { SourceViewerFile } from '../../types/types';
 import SourceViewer from '../SourceViewer/SourceViewer';
 import WorkspaceComponentTitle from './WorkspaceComponentTitle';
-import WorkspaceHeader, { Props as WorkspaceHeaderProps } from './WorkspaceHeader';
 import { ComponentDescriptor } from './context';
 
 export interface Props extends Omit<WorkspaceHeaderProps, 'children' | 'onClose'> {

@@ -25,7 +25,13 @@ import { ScaleTime, scaleLinear, scalePoint, scaleTime } from 'd3-scale';
 import { area, curveBasis, line as d3Line } from 'd3-shape';
 import { flatten, sortBy, throttle } from 'lodash';
 import * as React from 'react';
-import Draggable, { DraggableBounds, DraggableCore, DraggableData } from 'react-draggable';
+import {
+  makeOverlayPointerDown,
+  makeOverlayPointerMove,
+  makeOverlayPointerUp,
+  makeSelectionPointerDown,
+  makeZoomHandlePointerDown,
+} from '~shared/helpers/charts';
 import { MetricType } from '~shared/types/metrics';
 import { CSSColor, DraggableIcon, themeColor } from '../../design-system';
 import { Chart } from '../../types/types';
@@ -47,18 +53,21 @@ export interface Props {
 
 const DEFAULT_PADDING = [0, 0, 18, 0];
 
-interface State {
-  newZoomStart?: number;
-  overlayLeftPos?: number;
-}
-
 type XScale = ScaleTime<number, number>;
 
-export class ZoomTimeLine extends React.PureComponent<Props, State> {
+export class ZoomTimeLine extends React.PureComponent<Props> {
+  dragState = React.createRef<{
+    newZoomStart?: number;
+    overlayLeftPos?: number;
+  }>() as React.MutableRefObject<{
+    newZoomStart?: number;
+    overlayLeftPos?: number;
+  }>;
+
   constructor(props: Props) {
     super(props);
 
-    this.state = {};
+    this.dragState.current = {};
     this.handleZoomUpdate = throttle(this.handleZoomUpdate, 40);
   }
 
@@ -107,55 +116,6 @@ export class ZoomTimeLine extends React.PureComponent<Props, State> {
     this.handleZoomUpdate(xScale, xDim);
   };
 
-  handleSelectionDrag =
-    (xScale: XScale, width: number, xDim: number[], checkDelta = false) =>
-    (_: MouseEvent, data: DraggableData) => {
-      if (!checkDelta || data.deltaX) {
-        const x = Math.max(xDim[0], Math.min(data.x, xDim[1] - width));
-        this.handleZoomUpdate(xScale, [x, width + x]);
-      }
-    };
-
-  handleSelectionHandleDrag =
-    (xScale: XScale, fixedX: number, xDim: number[], handleDirection: string, checkDelta = false) =>
-    (_: MouseEvent, data: DraggableData) => {
-      if (!checkDelta || data.deltaX) {
-        const x = Math.max(xDim[0], Math.min(data.x, xDim[1]));
-        this.handleZoomUpdate(xScale, handleDirection === 'right' ? [fixedX, x] : [x, fixedX]);
-      }
-    };
-
-  handleNewZoomDragStart = (xDim: number[]) => (_: MouseEvent, data: DraggableData) => {
-    const overlayLeftPos = data.node.getBoundingClientRect().left;
-
-    this.setState({
-      overlayLeftPos,
-      newZoomStart: Math.round(Math.max(xDim[0], Math.min(data.x - overlayLeftPos, xDim[1]))),
-    });
-  };
-
-  handleNewZoomDrag = (xScale: XScale, xDim: number[]) => (_: MouseEvent, data: DraggableData) => {
-    const { newZoomStart, overlayLeftPos } = this.state;
-
-    if (newZoomStart != null && overlayLeftPos != null && data.deltaX) {
-      this.handleZoomUpdate(
-        xScale,
-        sortBy([newZoomStart, Math.max(xDim[0], Math.min(data.x - overlayLeftPos, xDim[1]))]),
-      );
-    }
-  };
-
-  handleNewZoomDragEnd =
-    (xScale: XScale, xDim: number[]) => (_: MouseEvent, data: DraggableData) => {
-      const { newZoomStart, overlayLeftPos } = this.state;
-
-      if (newZoomStart !== undefined && overlayLeftPos !== undefined) {
-        const x = Math.round(Math.max(xDim[0], Math.min(data.x - overlayLeftPos, xDim[1])));
-        this.handleZoomUpdate(xScale, newZoomStart === x ? xDim : sortBy([newZoomStart, x]));
-        this.setState({ newZoomStart: undefined, overlayLeftPos: undefined });
-      }
-    };
-
   handleZoomUpdate = (xScale: XScale, xArray: number[]) => {
     const xRange = xScale.range();
 
@@ -171,6 +131,34 @@ export class ZoomTimeLine extends React.PureComponent<Props, State> {
 
     this.props.updateZoom(startDate, endDate);
   };
+
+  handleOverlayPointerDown = (_xScale: XScale, xDim: number[]) =>
+    makeOverlayPointerDown(xDim, this.dragState);
+
+  handleOverlayPointerMove = (xScale: XScale, xDim: number[]) =>
+    makeOverlayPointerMove(xScale, xDim, this.dragState, this.handleZoomUpdate);
+
+  handleOverlayPointerUp = (xScale: XScale, xDim: number[]) =>
+    makeOverlayPointerUp(xScale, xDim, this.dragState, this.handleZoomUpdate);
+
+  handleSelectionPointerDown = (xScale: XScale, startX: number, width: number, xDim: number[]) =>
+    makeSelectionPointerDown(xScale, startX, width, xDim, this.handleZoomUpdate);
+
+  handleZoomHandlePointerDown = (
+    xScale: XScale,
+    handleX: number,
+    fixedPos: number,
+    xDim: number[],
+    handleDirection: string,
+  ) =>
+    makeZoomHandlePointerDown(
+      xScale,
+      handleX,
+      fixedPos,
+      xDim,
+      handleDirection,
+      this.handleZoomUpdate,
+    );
 
   renderBaseLine = (xScale: XScale, yScale: { range: () => number[] }) => {
     return (
@@ -251,38 +239,28 @@ export class ZoomTimeLine extends React.PureComponent<Props, State> {
     xScale: XScale;
     yDim: number[];
   }) => (
-    <Draggable
-      axis="x"
-      bounds={{ left: options.xDim[0], right: options.xDim[1] } as DraggableBounds}
-      onDrag={this.handleSelectionHandleDrag(
+    <g
+      onPointerDown={this.handleZoomHandlePointerDown(
         options.xScale,
-        options.fixedPos,
-        options.xDim,
-        options.direction,
-        true,
-      )}
-      onStop={this.handleSelectionHandleDrag(
-        options.xScale,
+        options.xPos,
         options.fixedPos,
         options.xDim,
         options.direction,
       )}
-      position={{ x: options.xPos, y: 0 }}
+      style={{ transform: `translateX(${options.xPos}px)` }}
     >
-      <g>
-        <ZoomHighlightHandle
-          height={options.yDim[0] - options.yDim[1] + 1}
-          width={2}
-          x={options.direction === 'right' ? 0 : -2}
-          y={options.yDim[1]}
-        />
-        <DraggableIcon
-          fill={cssVar('color-icon-subtle')}
-          x={options.direction === 'right' ? -7 : -9}
-          y={16}
-        />
-      </g>
-    </Draggable>
+      <ZoomHighlightHandle
+        height={options.yDim[0] - options.yDim[1] + 1}
+        width={2}
+        x={options.direction === 'right' ? 0 : -2}
+        y={options.yDim[1]}
+      />
+      <DraggableIcon
+        fill={cssVar('color-icon-subtle')}
+        x={options.direction === 'right' ? -7 : -9}
+        y={16}
+      />
+    </g>
   );
 
   renderZoom = (xScale: XScale, yScale: { range: () => number[] }) => {
@@ -295,46 +273,29 @@ export class ZoomTimeLine extends React.PureComponent<Props, State> {
     const xArray = sortBy([startX, endX]);
     const zoomBoxWidth = xArray[1] - xArray[0];
 
-    const showZoomArea =
-      this.state.newZoomStart == null ||
-      this.state.newZoomStart === startX ||
-      this.state.newZoomStart === endX;
+    const { newZoomStart } = this.dragState.current;
+    const showZoomArea = newZoomStart == null || newZoomStart === startX || newZoomStart === endX;
 
     return (
       <g>
-        <DraggableCore
-          onDrag={this.handleNewZoomDrag(xScale, xDim)}
-          onStart={this.handleNewZoomDragStart(xDim)}
-          onStop={this.handleNewZoomDragEnd(xScale, xDim)}
-        >
-          <ZoomOverlay
-            height={yDim[0] - yDim[1]}
-            width={xDim[1] - xDim[0]}
-            x={xDim[0]}
+        <ZoomOverlay
+          height={yDim[0] - yDim[1]}
+          onPointerDown={this.handleOverlayPointerDown(xScale, xDim)}
+          onPointerMove={this.handleOverlayPointerMove(xScale, xDim)}
+          onPointerUp={this.handleOverlayPointerUp(xScale, xDim)}
+          width={xDim[1] - xDim[0]}
+          x={xDim[0]}
+          y={yDim[1]}
+        />
+        {showZoomArea && (
+          <ZoomHighlight
+            height={yDim[0] - yDim[1] + 1}
+            onDoubleClick={this.handleDoubleClick(xScale, xDim)}
+            onPointerDown={this.handleSelectionPointerDown(xScale, xArray[0], zoomBoxWidth, xDim)}
+            width={zoomBoxWidth}
+            x={xArray[0]}
             y={yDim[1]}
           />
-        </DraggableCore>
-        {showZoomArea && (
-          <Draggable
-            axis="x"
-            bounds={
-              {
-                left: xDim[0],
-                right: Math.floor(xDim[1] - zoomBoxWidth),
-              } as DraggableBounds
-            }
-            onDrag={this.handleSelectionDrag(xScale, zoomBoxWidth, xDim, true)}
-            onStop={this.handleSelectionDrag(xScale, zoomBoxWidth, xDim)}
-            position={{ x: xArray[0], y: 0 }}
-          >
-            <ZoomHighlight
-              height={yDim[0] - yDim[1] + 1}
-              onDoubleClick={this.handleDoubleClick(xScale, xDim)}
-              width={zoomBoxWidth}
-              x={0}
-              y={yDim[1]}
-            />
-          </Draggable>
         )}
         {showZoomArea &&
           this.renderZoomHandle({
