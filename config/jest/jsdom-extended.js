@@ -31,6 +31,8 @@ class JSDOMEnvironmentExtended extends JSDOMEnvironment {
     this.global.Request = Request;
     this.global.Response = Response;
     this.global.fetch = fetch;
+
+    this.global.structuredClone = structuredClone;
   }
 }
 

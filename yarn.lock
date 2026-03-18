@@ -3654,19 +3654,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dagrejs/dagre@npm:1.1.8":
-  version: 1.1.8
-  resolution: "@dagrejs/dagre@npm:1.1.8"
+"@dagrejs/dagre@npm:2.0.4":
+  version: 2.0.4
+  resolution: "@dagrejs/dagre@npm:2.0.4"
   dependencies:
-    "@dagrejs/graphlib": "npm:2.2.4"
-  checksum: 10/648f60b8d6c05ec3367d1c7a4f2da32b7c26273e40234ce37bace606cd1e4f882ef7947452a0f0df4b34f1bbbc9f3cbae29f0f6af19fbffb8bc9f5e9b97fc3e8
+    "@dagrejs/graphlib": "npm:3.0.4"
+  checksum: 10/fb2cec24ed581c024bb2fcfa982551226b91fe3d2d2c3d537a095429dc4e4c877d1054182a6fc9fbdb27f26ab08afb1ad31a20b7624663a8fb660ef8d0bb1568
   languageName: node
   linkType: hard
 
-"@dagrejs/graphlib@npm:2.2.4":
-  version: 2.2.4
-  resolution: "@dagrejs/graphlib@npm:2.2.4"
-  checksum: 10/1fc5393525a3d666284ca740867d082768bc87ff61f5f181eb5c1a73c1a6e328ad23581f7415c81df2614171b8a4b4a8e6a417eefd7f9fca74a4a625ec3aa848
+"@dagrejs/graphlib@npm:3.0.4":
+  version: 3.0.4
+  resolution: "@dagrejs/graphlib@npm:3.0.4"
+  checksum: 10/c1c854da7f900f58d5e7ca63eb36d94792818d8d458ababe6b308c5c4ebdc3643c484df38a78831b79b4a52808fe70638f0fdce176da5ad4744c9888d3b1daf6
   languageName: node
   linkType: hard
 
@@ -21861,9 +21861,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"protobufjs-cli@npm:1.2.0":
-  version: 1.2.0
-  resolution: "protobufjs-cli@npm:1.2.0"
+"protobufjs-cli@npm:2.0.0":
+  version: 2.0.0
+  resolution: "protobufjs-cli@npm:2.0.0"
   dependencies:
     chalk: "npm:^4.0.0"
     escodegen: "npm:^1.13.0"
@@ -21880,7 +21880,7 @@ __metadata:
   bin:
     pbjs: bin/pbjs
     pbts: bin/pbts
-  checksum: 10/9add1594b785b3940d26acbeadc39019b60c871e45a4ca8f8fb70020fc1ef180abe56c11136fd2819cce05d31caea24e98e9af9e66613414333bb8fa9e79c32f
+  checksum: 10/60c52941bf6d1b78412eaad63af8a1a2b84cabfc94f45b14b55de4332f29efd9fba7faea6549da2a83e60f40eb2f449f85b33cf3735356ad8c957f53e47b1e14
   languageName: node
   linkType: hard
 
@@ -23698,7 +23698,7 @@ __metadata:
     "@babel/preset-react": "npm:7.28.5"
     "@babel/preset-typescript": "npm:7.28.5"
     "@cyclonedx/cdxgen": "npm:12.1.0"
-    "@dagrejs/dagre": "npm:1.1.8"
+    "@dagrejs/dagre": "npm:2.0.4"
     "@date-fns/upgrade": "npm:1.0.3"
     "@emotion/babel-plugin": "npm:11.13.5"
     "@emotion/css": "npm:11.13.5"
@@ -23835,7 +23835,7 @@ __metadata:
     prettier: "npm:3.8.1"
     prettier-plugin-organize-imports: "npm:4.3.0"
     protobufjs: "npm:7.5.4"
-    protobufjs-cli: "npm:1.2.0"
+    protobufjs-cli: "npm:2.0.0"
     react: "npm:18.3.1"
     react-day-picker: "npm:9.14.0"
     react-dnd: "npm:16.0.1"

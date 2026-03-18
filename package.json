@@ -53,7 +53,7 @@
   },
   "dependencies": {
     "@atlaskit/reduced-ui-pack": "19.1.1",
-    "@dagrejs/dagre": "1.1.8",
+    "@dagrejs/dagre": "2.0.4",
     "@date-fns/upgrade": "1.0.3",
     "@emotion/css": "11.13.5",
     "@emotion/is-prop-valid": "1.4.0",
@@ -219,7 +219,7 @@
     "postcss-calc": "10.1.1",
     "prettier": "3.8.1",
     "prettier-plugin-organize-imports": "4.3.0",
-    "protobufjs-cli": "1.2.0",
+    "protobufjs-cli": "2.0.0",
     "react-scanner": "1.2.0",
     "regenerator-runtime": "0.14.1",
     "rollup-plugin-license": "3.7.0",
