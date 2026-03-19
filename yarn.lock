@@ -21884,9 +21884,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"protobufjs@npm:7.5.4":
-  version: 7.5.4
-  resolution: "protobufjs@npm:7.5.4"
+"protobufjs@npm:8.0.0":
+  version: 8.0.0
+  resolution: "protobufjs@npm:8.0.0"
   dependencies:
     "@protobufjs/aspromise": "npm:^1.1.2"
     "@protobufjs/base64": "npm:^1.1.2"
@@ -21900,7 +21900,7 @@ __metadata:
     "@protobufjs/utf8": "npm:^1.1.0"
     "@types/node": "npm:>=13.7.0"
     long: "npm:^5.0.0"
-  checksum: 10/88d677bb6f11a2ecec63fdd053dfe6d31120844d04e865efa9c8fbe0674cd077d6624ecfdf014018a20dcb114ae2a59c1b21966dd8073e920650c71370966439
+  checksum: 10/f9f2bc0acd37ca85ad4afb030fb3973cb93129e54623d7d36255a0406f852505afae4a94a88b305bca3a6384675bb34c7602dfa64cab6b67f95597234a94681d
   languageName: node
   linkType: hard
 
@@ -23834,7 +23834,7 @@ __metadata:
     postcss-calc: "npm:10.1.1"
     prettier: "npm:3.8.1"
     prettier-plugin-organize-imports: "npm:4.3.0"
-    protobufjs: "npm:7.5.4"
+    protobufjs: "npm:8.0.0"
     protobufjs-cli: "npm:2.0.0"
     react: "npm:18.3.1"
     react-day-picker: "npm:9.14.0"
