@@ -6,9 +6,17 @@
 
 AWS SDK v3 CloudWatch Logs client — used by `sq-cloud-metrics` to push metrics to CloudWatch Logs for long-term trend tracking.
 
+### @dagrejs/dagre
+
+Graph layout engine used by `feature-architecture` to compute hierarchical (Sugiyama/LR) node positions and edge paths for the architecture graph.
+
 ### @date-fns/upgrade
 
 Used by sq-cloud to parse Date from string or number.
+
+### @xyflow/react
+
+React-based interactive graph visualization library used by `feature-architecture` to render nodes, edges, handles, and controls for the architecture diagram, and to manage pan/zoom/selection interactions.
 
 ### launchdarkly-react-client-sdk
 
@@ -64,6 +72,10 @@ Used in development mode to facilitate the debugging Tanstack Query's cache and 
 
 Used to test our custom eslint rules in `./eslint-local-rules`.
 
+### @vitejs/plugin-legacy
+
+Used by vite to provide polyfills for older browsers.
+
 ### browserslist-useragent-regexp
 
 Used by sq-cloud to generate a regex from the browserlist query to display the "not supported" html code.
@@ -112,11 +124,11 @@ Polyfill for async/await used in conjunction with @vitejs/plugin-legacy.
 
 Peer dependency of @vitejs/plugin-legacy.
 
-### @vitejs/plugin-legacy
-
-Used by vite to provide polyfills for older browsers.
-
 ## resolutions
+
+### @sentry/browser
+
+This package is needed for any worker.ts functions outside of react and reports to sentry from the browser
 
 ### @types/d3-selection
 
@@ -143,6 +155,10 @@ Its versioning is closely tied to jsdom, to update it we should instead update j
 This is necessary, because more recent patch versions are broken.
 (For instance: [2.2.14](https://github.com/dperini/nwsapi/issues/135))
 
+### protobuf & protobufjs-cli
+
+These packages are used to maintain contract validation between the frontend and analyzer in the architecture feature. the cli package is specifically used for the generation of the validation code and associated types.
+
 ### semver
 
 We have many many transitive dependencies on semver with a lot of different version and some version before 7.0.0 have Mend vulnerabilities.
@@ -150,11 +166,3 @@ We have many many transitive dependencies on semver with a lot of different vers
 ### yaml
 
 We have multiple transitive dependencies on yaml and some before 2.0.0 have Mend vulnerabilities.
-
-### protobuf & protobufjs-cli
-
-These packages are used to maintain contract validation between the frontend and analyzer in the architecture feature. the cli package is specifically used for the generation of the validation code and associated types.
-
-### @sentry/browser
-
-This package is needed for any worker.ts functions outside of react and reports to sentry from the browser
