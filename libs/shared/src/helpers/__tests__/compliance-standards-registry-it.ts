@@ -90,9 +90,11 @@ describe('compliance-standards-registry', () => {
       expect(definition?.version).toBe('4.0');
     });
 
-    it('should return undefined for commented-out OWASP Top 10 2025', () => {
+    it('should return the correct definition for OWASP Top 10 2025', () => {
       const definition = getStandardDefinition(StandardsInformationKey.OWASP_TOP10_2025);
-      expect(definition).toBeUndefined();
+      expect(definition).toBeDefined();
+      expect(definition?.key).toBe(StandardsInformationKey.OWASP_TOP10_2025);
+      expect(definition?.version).toBe('2025');
     });
 
     it('should return undefined for non-existent key', () => {
@@ -126,7 +128,7 @@ describe('compliance-standards-registry', () => {
     it('should return true for standards available in PDF reports', () => {
       expect(isStandardAvailableInPDFReports(StandardsInformationKey.SONARSOURCE)).toBe(true);
       expect(isStandardAvailableInPDFReports(StandardsInformationKey.PCI_DSS_4_0)).toBe(true);
-      expect(isStandardAvailableInPDFReports(StandardsInformationKey.OWASP_TOP10_2021)).toBe(true);
+      expect(isStandardAvailableInPDFReports(StandardsInformationKey.OWASP_TOP10_2025)).toBe(true);
     });
 
     it('should return false for CWE standard (non-versioned)', () => {
@@ -208,14 +210,16 @@ describe('compliance-standards-registry', () => {
     it('should return all versions for OWASP Top 10', () => {
       const versions = getStandardVersionsFromRegistry('owaspTop10');
       expect(versions.length).toBeGreaterThan(0);
+      expect(versions).toContain('2025');
       expect(versions).toContain('2021');
       expect(versions).toContain('2017');
     });
 
     it('should return all versions for OWASP ASVS', () => {
       const versions = getStandardVersionsFromRegistry('owaspAsvs');
+      expect(versions).toContain('5.0');
       expect(versions).toContain('4.0');
-      expect(versions[0]).toBe('4.0');
+      expect(versions[0]).toBe('5.0'); // Newest first
     });
 
     it('should return all versions for CWE Top 25', () => {
@@ -237,9 +241,9 @@ describe('compliance-standards-registry', () => {
   });
 
   describe('getStandardLevels', () => {
-    it('should return empty array for commented-out OWASP ASVS 5.0', () => {
+    it('should return levels for OWASP ASVS 5.0', () => {
       const levels = getStandardLevels(StandardsInformationKey.OWASP_ASVS_5_0);
-      expect(levels).toEqual([]);
+      expect(levels).toEqual(['1', '2', '3']);
     });
 
     it('should return levels for OWASP ASVS 4.0', () => {
@@ -314,9 +318,9 @@ describe('compliance-standards-registry', () => {
       expect(key).toBe(StandardsInformationKey.PCI_DSS_3_2);
     });
 
-    it('should fall back for commented-out OWASP Top 10 2025', () => {
+    it('should return the correct key for OWASP Top 10 2025', () => {
       const key = getStandardsInformationKeyFromRegistry('owaspTop10', '2025');
-      expect(key).toBe(StandardsInformationKey.OWASP_TOP10_2021);
+      expect(key).toBe(StandardsInformationKey.OWASP_TOP10_2025);
     });
 
     it('should return the correct key for OWASP Top 10 2021', () => {
@@ -346,7 +350,7 @@ describe('compliance-standards-registry', () => {
 
     it('should handle OWASP ASVS with versions', () => {
       const key50 = getStandardsInformationKeyFromRegistry('owaspAsvs', '5.0');
-      expect(key50).toBe(StandardsInformationKey.OWASP_ASVS_4_0);
+      expect(key50).toBe(StandardsInformationKey.OWASP_ASVS_5_0);
 
       const key40 = getStandardsInformationKeyFromRegistry('owaspAsvs', '4.0');
       expect(key40).toBe(StandardsInformationKey.OWASP_ASVS_4_0);
@@ -484,8 +488,9 @@ describe('compliance-standards-registry', () => {
       const pdfStandards = generatePdfExportStandards();
       const asvsGroups = pdfStandards.filter((g) => g.id.startsWith('owaspAsvs-'));
 
-      expect(asvsGroups.length).toBeGreaterThanOrEqual(1);
+      expect(asvsGroups.length).toBeGreaterThanOrEqual(2); // At least 4.0 and 5.0
       expect(asvsGroups.some((g) => g.id === 'owaspAsvs-4.0')).toBe(true);
+      expect(asvsGroups.some((g) => g.id === 'owaspAsvs-5.0')).toBe(true);
     });
 
     it('should include OWASP Mobile Top 10 2024', () => {
@@ -496,11 +501,12 @@ describe('compliance-standards-registry', () => {
       expect(mobileGroup?.options.some((o) => o.label === '2024')).toBe(true);
     });
 
-    it('should not include commented-out OWASP Top 10 for LLM 2025', () => {
+    it('should include OWASP Top 10 for LLM 2025', () => {
       const pdfStandards = generatePdfExportStandards();
       const llmGroup = pdfStandards.find((g) => g.id === 'owaspLlmTop10');
 
-      expect(llmGroup).toBeUndefined();
+      expect(llmGroup).toBeDefined();
+      expect(llmGroup?.options.some((o) => o.label === '2025')).toBe(true);
     });
 
     it('should include CASA standard', () => {
@@ -516,7 +522,7 @@ describe('compliance-standards-registry', () => {
       const stigGroup = pdfStandards.find((g) => g.id === 'stig');
 
       expect(stigGroup).toBeDefined();
-      expect(stigGroup?.options.length).toBeGreaterThanOrEqual(1);
+      expect(stigGroup?.options.length).toBeGreaterThanOrEqual(2); // V5R3 and V6
     });
   });
 
@@ -581,7 +587,7 @@ describe('compliance-standards-registry', () => {
     });
 
     it('should return empty object for undefined input', () => {
-      expect(parseComplianceStandards(undefined)).toEqual({});
+      expect(parseComplianceStandards()).toEqual({});
     });
 
     it('should return empty object for empty string', () => {
@@ -637,12 +643,12 @@ describe('compliance-standards-registry', () => {
     });
 
     it('should round-trip versioned OWASP standards', () => {
-      const query = { 'owaspTop10-2021': ['A01', 'A02'] };
+      const query = { 'owaspTop10-2025': ['A01', 'A02'] };
 
       const built = buildComplianceStandards(query);
       const parsed = populateStandardsFromParsed(parseComplianceStandards(built));
 
-      expect(parsed['owaspTop10-2021']).toEqual(['A01', 'A02']);
+      expect(parsed['owaspTop10-2025']).toEqual(['A01', 'A02']);
     });
   });
 
@@ -671,7 +677,7 @@ describe('compliance-standards-registry', () => {
       expect(isComplianceStandardFacet('sonarsourceSecurity')).toBe(true);
       expect(isComplianceStandardFacet('cwe')).toBe(true);
       expect(isComplianceStandardFacet('pciDss-4.0')).toBe(true);
-      expect(isComplianceStandardFacet('owaspTop10-2021')).toBe(true);
+      expect(isComplianceStandardFacet('owaspTop10-2025')).toBe(true);
     });
 
     it('should return false for non-standard facets', () => {
@@ -695,7 +701,7 @@ describe('compliance-standards-registry', () => {
     it('should map compliance standard facets to complianceStandards', () => {
       expect(mapFacetToBackendName('sonarsourceSecurity')).toBe('complianceStandards');
       expect(mapFacetToBackendName('cwe')).toBe('complianceStandards');
-      expect(mapFacetToBackendName('owaspTop10-2021')).toBe('complianceStandards');
+      expect(mapFacetToBackendName('owaspTop10-2025')).toBe('complianceStandards');
       expect(mapFacetToBackendName('pciDss-4.0')).toBe('complianceStandards');
     });
 
@@ -761,9 +767,9 @@ describe('compliance-standards-registry', () => {
       );
     });
 
-    it('should add CWE- prefix to year-specific CWE categories', () => {
+    it('should add CWE- prefix to year-specific CWE categories using registry backend key', () => {
       expect(buildComplianceStandardsForCategory('cwe-2024', '787')).toBe(
-        'cwe_standard:urn:sonar-security-standard:cwe:standard:4.18:2024=CWE-787',
+        'cwe_top25:urn:sonar-security-standard:cwe:top25:2024=CWE-787',
       );
     });
 
@@ -815,6 +821,12 @@ describe('compliance-standards-registry', () => {
       const result = buildComplianceStandardsForCategory('cwe', '79');
       const parsed = parseComplianceStandards(result);
       expect(parsed.cwe).toEqual(['CWE-79']);
+    });
+
+    it('should produce output parseable by parseComplianceStandards for year-specific CWE', () => {
+      const result = buildComplianceStandardsForCategory('cwe-2024', '787');
+      const parsed = parseComplianceStandards(result);
+      expect(parsed['cwe-2024']).toEqual(['CWE-787']);
     });
   });
 });

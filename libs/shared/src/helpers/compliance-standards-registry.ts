@@ -21,6 +21,7 @@
 import { SecurityStandardOptionGroup, StandardsInformationKey } from '../types/security';
 import {
   STANDARDS_REGISTRY,
+  type CategoryNormalization,
   type StandardDefinition,
 } from './compliance-standards-registry-definitions';
 
@@ -324,41 +325,23 @@ export function buildComplianceStandards(query: object): string | undefined {
   return standardGroups.length > 0 ? standardGroups.join('&') : undefined;
 }
 
-const OWASP_TOP10_BACKEND_KEY_PREFIX = 'owasp_top10';
-const OWASP_MOBILE_BACKEND_KEY_PREFIX = 'owasp_mobile-top10';
-const CWE_BACKEND_KEY_PREFIX = 'cwe_standard';
-
-// OWASP Top 10 2017 uses A1-A10, while 2021+ uses A01-A10 (zero-padded).
-// The year is the last segment of the backend key URN.
-// The source of truth is the backend YAML metadata in Software Quality Reports Repo.
-const OWASP_TOP10_NO_PAD_VERSIONS = new Set(['2017']);
-
 /**
- * Normalizes a category value to match the format the backend expects.
- * Based on the backend YAML metadata (source of truth):
- * - OWASP Top 10 2017: uppercase, no padding (a1 → A1)
- * - OWASP Top 10 2021/2025: uppercase, zero-padded (a1 → A01)
- * - OWASP Mobile Top 10: uppercase, zero-padded (m1 → M01)
- * - CWE: ensure CWE- prefix (79 → CWE-79)
+ * Normalizes a category value based on the standard's normalization rule from the registry.
  */
-function normalizeCategory(backendKey: string, category: string): string {
-  const keyPrefix = backendKey.split(':')[0];
-
-  if (keyPrefix === OWASP_TOP10_BACKEND_KEY_PREFIX) {
-    const version = backendKey.split(':').pop() ?? '';
-    const shouldZeroPad = !OWASP_TOP10_NO_PAD_VERSIONS.has(version);
-    return normalizeOwaspCategory(category, shouldZeroPad);
+function normalizeCategory(
+  normalization: CategoryNormalization | undefined,
+  category: string,
+): string {
+  switch (normalization) {
+    case 'owasp-padded':
+      return normalizeOwaspCategory(category, true);
+    case 'owasp-unpadded':
+      return normalizeOwaspCategory(category, false);
+    case 'cwe-prefix':
+      return /^CWE-/i.exec(category) ? category : `CWE-${category}`;
+    default:
+      return category;
   }
-
-  if (keyPrefix === OWASP_MOBILE_BACKEND_KEY_PREFIX) {
-    return normalizeOwaspCategory(category, true);
-  }
-
-  if (keyPrefix === CWE_BACKEND_KEY_PREFIX && !/^CWE-/i.test(category)) {
-    return `CWE-${category}`;
-  }
-
-  return category;
 }
 
 /**
@@ -380,10 +363,9 @@ function normalizeOwaspCategory(category: string, zeroPad: boolean): string {
 
 /**
  * Builds a complianceStandards query value for a single standard key and category.
- * Used by security report links to construct issues page URLs that match
- * the format the issues page itself uses for its filters.
+ * Uses the standards registry as the source of truth for backend keys and normalization rules.
  *
- * @param standardKey - A StandardsInformationKey (e.g., 'owaspTop10-2021', 'sonarsourceSecurity')
+ * @param standardKey - A StandardsInformationKey (e.g., 'owaspTop10-2021', 'sonarsourceSecurity', 'cwe-2024')
  * @param category - The category value (e.g., 'a1', 'sql-injection', '79'), or undefined
  * @returns The complianceStandards value (e.g., 'owasp_top10:urn:...=A01'), or undefined if the key is unknown or category is missing
  */
@@ -394,14 +376,14 @@ export function buildComplianceStandardsForCategory(
   if (!category) {
     return undefined;
   }
-  const backendKey =
-    COMPLIANCE_STANDARDS_BACKEND_KEYS[
-      standardKey as keyof typeof COMPLIANCE_STANDARDS_BACKEND_KEYS
-    ];
-  if (!backendKey) {
+
+  const definition = STANDARDS_REGISTRY.find((s) => s.key === standardKey);
+  if (!definition) {
     return undefined;
   }
-  return `${backendKey}=${normalizeCategory(backendKey, category)}`;
+
+  const normalized = normalizeCategory(definition.categoryNormalization, category);
+  return `${definition.backendKey}=${normalized}`;
 }
 
 function processComplianceStandardGroup(group: string, result: Record<string, string[]>): void {
@@ -445,6 +427,20 @@ export function populateStandardsFromParsed(
 
   for (const standard of STANDARDS_REGISTRY) {
     result[standard.queryProp] = parsedComplianceStandards[standard.queryProp] ?? [];
+  }
+
+  const baseCwe = STANDARDS_REGISTRY.find((s) => s.enumKey === 'CWE_TOP_25' && !s.version);
+  if (baseCwe) {
+    const yearCweStandards = STANDARDS_REGISTRY.filter(
+      (s) => s.enumKey === 'CWE_TOP_25' && s.version,
+    );
+    const yearValues = yearCweStandards.flatMap((s) => result[s.queryProp] ?? []);
+    if (yearValues.length > 0) {
+      result[baseCwe.queryProp] = [...new Set([...result[baseCwe.queryProp], ...yearValues])];
+      for (const yearCwe of yearCweStandards) {
+        result[yearCwe.queryProp] = [];
+      }
+    }
   }
 
   return result;
