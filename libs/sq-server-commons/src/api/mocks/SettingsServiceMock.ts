@@ -19,6 +19,7 @@
  */
 
 import { cloneDeep, isArray, isObject, isString } from 'lodash';
+import { mockDefinition } from '~shared/helpers/mocks/settings';
 import { isDefined } from '~shared/helpers/types';
 import { BranchParameters } from '~shared/types/branch-like';
 import {
@@ -27,7 +28,7 @@ import {
   SettingType,
   SettingValue,
 } from '~shared/types/settings';
-import { mockDefinition, mockSettingFieldDefinition } from '../../helpers/mocks/settings';
+import { mockSettingFieldDefinition } from '../../helpers/mocks/settings';
 import { HousekeepingPolicy } from '../../types/audit-logs';
 import { SettingsKey } from '../../types/settings';
 import {

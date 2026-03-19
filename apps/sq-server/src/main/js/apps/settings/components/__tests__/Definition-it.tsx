@@ -18,18 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { last } from 'lodash';
+import { mockDefinition } from '~shared/helpers/mocks/settings';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { ExtendedSettingDefinition, SettingType, SettingValue } from '~shared/types/settings';
 import SettingsServiceMock, {
   DEFAULT_DEFINITIONS_MOCK,
 } from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
-import { mockDefinition } from '~sq-server-commons/helpers/mocks/settings';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { DEPRECATED_SETTINGS_KEYS } from '~sq-server-commons/types/settings';
+import { DEPRECATED_SETTINGS_KEYS, SettingsKey } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import Definition from '../Definition';
 
@@ -47,6 +47,7 @@ beforeEach(jest.clearAllMocks);
 
 const ui = {
   nameHeading: (name: string) => byRole('heading', { name }),
+  toggleSwitch: byRole('switch'),
   announcementInput: byLabelText('property.sonar.announcement.message.name'),
   securedInput: byRole('textbox', { name: 'property.sonar.announcement.message.secured.name' }),
   multiValuesInput: byRole('textbox', { name: 'property.sonar.javascript.globals.name' }),
@@ -284,7 +285,9 @@ it('renders definition for multiValues type and can do operations', async () => 
     mockComponent(),
   );
 
-  expect(await ui.nameHeading('property.sonar.javascript.globals.name').find()).toBeInTheDocument();
+  expect(
+    await ui.nameHeading('property.sonar.javascript.globals.name.project').find(),
+  ).toBeInTheDocument();
   expect(ui.multiValuesInput.getAll()).toHaveLength(4);
 
   // Should show validation message if no values
@@ -442,6 +445,80 @@ it.each(DEPRECATED_SETTINGS_KEYS)('renders correctly for deprecated definition',
   renderDefinition({ key });
 
   expect(byText('settings.deprecated_setting_warning').get()).toBeInTheDocument();
+});
+
+describe('Setting controlled by another setting', () => {
+  const dependentDefinition = mockDefinition({
+    key: SettingsKey.IssueResolutionEnabled,
+    type: SettingType.BOOLEAN,
+  });
+  const controllingDefinition = mockDefinition({
+    key: SettingsKey.IssueResolutionGlobalEnabled,
+    type: SettingType.BOOLEAN,
+  });
+
+  beforeEach(() => {
+    settingsMock.setDefinition(dependentDefinition);
+    settingsMock.setDefinition(controllingDefinition);
+  });
+
+  it('disables the toggle when the controlling setting is undefined', async () => {
+    renderDefinition({ key: SettingsKey.IssueResolutionEnabled, type: SettingType.BOOLEAN });
+
+    expect(await ui.toggleSwitch.find()).toBeDisabled();
+  });
+
+  it('disables the toggle when the controlling setting is false', async () => {
+    settingsMock.set(SettingsKey.IssueResolutionGlobalEnabled, false);
+    renderDefinition({ key: SettingsKey.IssueResolutionEnabled, type: SettingType.BOOLEAN });
+
+    expect(await ui.toggleSwitch.find()).toBeDisabled();
+  });
+
+  it('enables the toggle when the controlling setting is true', async () => {
+    settingsMock.set(SettingsKey.IssueResolutionGlobalEnabled, true);
+    renderDefinition({ key: SettingsKey.IssueResolutionEnabled, type: SettingType.BOOLEAN });
+
+    await waitFor(() => {
+      expect(ui.toggleSwitch.get()).toBeEnabled();
+    });
+  });
+
+  it('shows disabled reason tooltip when toggle is disabled', async () => {
+    settingsMock.set(SettingsKey.IssueResolutionGlobalEnabled, false);
+    renderDefinition({ key: SettingsKey.IssueResolutionEnabled, type: SettingType.BOOLEAN });
+
+    expect(await ui.toggleSwitch.find()).toBeDisabled();
+    await expect(ui.toggleSwitch.get()).toHaveATooltipWithContent(
+      `property.${SettingsKey.IssueResolutionEnabled}.disabled_reason`,
+    );
+  });
+});
+
+describe('project-level name and description overrides', () => {
+  it('shows project-specific name and description when in project context', async () => {
+    renderDefinition({}, undefined, mockComponent());
+
+    expect(
+      await ui.nameHeading(`property.${DEFAULT_DEFINITIONS_MOCK[0].key}.name.project`).find(),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText(`property.${DEFAULT_DEFINITIONS_MOCK[0].key}.description.project`),
+    ).toBeInTheDocument();
+  });
+
+  it('shows standard name and description when not in project context', async () => {
+    renderDefinition();
+
+    expect(
+      await ui.nameHeading(`property.${DEFAULT_DEFINITIONS_MOCK[0].key}.name`).find(),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText(`property.${DEFAULT_DEFINITIONS_MOCK[0].key}.description`),
+    ).toBeInTheDocument();
+  });
 });
 
 function renderDefinition(

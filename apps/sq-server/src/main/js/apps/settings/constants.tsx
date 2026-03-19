@@ -19,6 +19,7 @@
  */
 
 import { ExtendedSettingDefinition } from '~shared/types/settings';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { SettingDefinitionAndValue, SettingsKey } from '~sq-server-commons/types/settings';
 
@@ -237,6 +238,19 @@ export const ADDITIONAL_SETTING_DEFINITIONS: ExtendedSettingDefinition[] = [
   },
   SANDBOX_DEFINITION,
 ];
+
+/**
+ * Maps a setting key to the key of the setting that controls whether it is enabled.
+ * When the controlling setting's value is 'false', the dependent setting's input is disabled.
+ */
+export const SETTING_DISABLED_WHEN: Record<string, string> = {
+  [SettingsKey.IssueResolutionEnabled]: SettingsKey.IssueResolutionGlobalEnabled,
+};
+
+export const DEFINITION_DESCRIPTION_SETING_DOC_LINKS: Record<string, DocLink> = {
+  [SettingsKey.IssueResolutionEnabled]: DocLink.IssuesManaging,
+  [SettingsKey.IssueResolutionGlobalEnabled]: DocLink.IssuesManaging,
+};
 
 export const SETTING_CONFIRMATION_MESSAGE_IDS: Record<
   string,

@@ -3219,6 +3219,13 @@ export const defaultMessages = {
   'property.category.webhooks': 'Webhooks',
   'property.category.languages': 'Languages',
   'property.category.aicodefix': 'AI CodeFix',
+  'property.sonar.issues.issueResolution.global.enabled.description':
+    'Enable usage of in-code issue resolution with SONAR-RESOLVE across projects. Disabling this setting will prevent usage of SONAR-RESOLVE on all projects. <docLink>Read more about in-code issue resolution.</docLink>',
+  'property.sonar.issues.issueResolution.enabled.disabled_reason':
+    'This setting is disabled at the instance level',
+  'property.sonar.issues.issueResolution.enabled.name.project': 'Enable in-code issue resolution',
+  'property.sonar.issues.issueResolution.enabled.description.project':
+    'Enable usage of in-code issue resolution with SONAR-RESOLVE for this project. <docLink>Read more about in-code issue resolution.</docLink>',
   'property.sonar.autodetect.ai.code.confirmation':
     '{value, select, true {<p1>“Autodetect AI-generated code” will be turned on for all projects.</p1><p>This setting can be turned off by project administrators at the project level to prevent the autodetection of AI-generated code in specific projects.</p>} other {<p1>“Autodetect AI-generated code” will be turned off for all projects.</p1><p>Project administrators will no longer be able to activate this setting at the project level.</p>}}',
   'property.sonar.inclusions.name': 'Source File Inclusions',

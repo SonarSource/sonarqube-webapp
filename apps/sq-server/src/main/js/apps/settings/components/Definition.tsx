@@ -31,7 +31,7 @@ import {
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ExtendedSettingDefinition, SettingType, SettingValue } from '~shared/types/settings';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { hasMessage, translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { parseError } from '~sq-server-commons/helpers/request';
 import {
   useGetValueQuery,
@@ -40,6 +40,7 @@ import {
 } from '~sq-server-commons/queries/settings';
 import { SettingDefinitionAndValue } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
+import { SETTING_DISABLED_WHEN } from '../constants';
 import {
   combineDefinitionAndSettingValue,
   getSettingValue,
@@ -87,6 +88,24 @@ export default function Definition(props: Readonly<Props>) {
   // (Yes, it's ugly, we really shouldn't use `null` as the fallback value in useGetValueQuery)
   // prettier-ignore
   const settingValue = isLoading ? initialSettingValue : (loadedSettingValue ?? undefined);
+
+  // The setting can be disabled by another setting.
+  // Fetch the value of the other setting to know if the current one is disabled or not.
+  const controllingKey = SETTING_DISABLED_WHEN[definition.key];
+  const { data: controllingSettingValue, isLoading: loadingControllingSetting } = useGetValueQuery(
+    { key: controllingKey ?? '', component: component?.key },
+    { enabled: !!controllingKey },
+  );
+
+  const isDisabled = controllingKey
+    ? loadingControllingSetting || controllingSettingValue?.value !== 'true'
+    : false;
+
+  const disabledReasonKey = `property.${definition.key}.disabled_reason`;
+  const disabledReason =
+    isDisabled && hasMessage(disabledReasonKey)
+      ? intl.formatMessage({ id: disabledReasonKey })
+      : undefined;
 
   const requiresConfirmation = props.getConfirmationMessage != null;
 
@@ -225,19 +244,22 @@ export default function Definition(props: Readonly<Props>) {
 
   const hasError = validationMessage != null;
   const hasValueChanged = changedValue != null;
-  const effectiveValue = hasValueChanged ? changedValue : getSettingValue(definition, settingValue);
+  const storedValue = hasValueChanged ? changedValue : getSettingValue(definition, settingValue);
+  const effectiveValue = isDisabled ? false : storedValue;
   const isDefault = isDefaultOrInherited(settingValue);
 
   const settingDefinitionAndValue = combineDefinitionAndSettingValue(definition, settingValue);
 
   return (
     <div className="sw-flex sw-gap-12" data-key={definition.key} data-testid={definition.key}>
-      <DefinitionDescription definition={definition} />
+      <DefinitionDescription component={component} definition={definition} />
       <div className="sw-flex-1">
         <Form onSubmit={formNoop}>
           <Input
             ariaDescribedBy={`definition-stats-${name}`}
+            disabledReason={disabledReason}
             hasValueChanged={hasValueChanged}
+            isDisabled={isDisabled}
             isEditing={isEditing}
             isInvalid={hasError}
             onCancel={handleCancel}

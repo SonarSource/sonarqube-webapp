@@ -18,26 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  ExtendedSettingDefinition,
-  SettingFieldDefinition,
-  SettingType,
-  SettingValue,
-} from '~shared/types/settings';
+import { SettingFieldDefinition, SettingType, SettingValue } from '~shared/types/settings';
 import { Setting, SettingWithCategory } from '../../types/settings';
-
-export function mockDefinition(
-  overrides: Partial<ExtendedSettingDefinition> = {},
-): ExtendedSettingDefinition {
-  return {
-    key: 'foo',
-    category: 'foo category',
-    fields: [],
-    options: [],
-    subCategory: 'foo subCat',
-    ...overrides,
-  };
-}
 
 export function mockSettingFieldDefinition(
   overrides: Partial<SettingFieldDefinition> = {},

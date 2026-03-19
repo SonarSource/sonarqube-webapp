@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Text } from '@sonarsource/echoes-react';
+import { Text, Tooltip } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Switch } from '~adapters/components/common/Switch';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -29,14 +29,25 @@ interface Props extends DefaultSpecializedInputProps {
 }
 
 function InputForBoolean(
-  { onChange, name, value, ...other }: Readonly<Props>,
+  { onChange, name, value, isDisabled, disabledReason, ...other }: Readonly<Props>,
   ref: React.ForwardedRef<HTMLButtonElement>,
 ) {
   const toggleValue = getToggleValue(value != null ? value : false);
 
   return (
     <div className="sw-flex sw-items-center">
-      <Switch name={name} onChange={onChange} ref={ref} value={toggleValue} {...other} />
+      <Tooltip content={isDisabled ? disabledReason : undefined}>
+        <div>
+          <Switch
+            disabled={isDisabled}
+            name={name}
+            onChange={onChange}
+            ref={ref}
+            value={toggleValue}
+            {...other}
+          />
+        </div>
+      </Tooltip>
       {value == null && (
         <Text className="sw-ml-2" isSubtle>
           {translate('settings.not_set')}

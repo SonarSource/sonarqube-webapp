@@ -50,8 +50,10 @@ export type DefaultSpecializedInputProps = DefaultInputProps & {
 export interface DefaultInputProps {
   ariaDescribedBy?: string;
   autoFocus?: boolean;
+  disabledReason?: string;
   hasValueChanged?: boolean;
   id?: string;
+  isDisabled?: boolean;
   isEditing?: boolean;
   isInvalid?: boolean;
   onCancel?: () => void;

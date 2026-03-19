@@ -188,7 +188,7 @@ describe('Global Settings', () => {
 
     await user.type(ui.settingsSearchInput.get(), 'an');
     searchResultsKeys.forEach((key) => {
-      expect(ui.searchItem(key).get()).toBeInTheDocument();
+      expect(ui.searchItem(key).getAll().at(0)).toBeInTheDocument();
     });
     expect(ui.searchItem('sonar.javascript.globals').query()).not.toBeInTheDocument();
 

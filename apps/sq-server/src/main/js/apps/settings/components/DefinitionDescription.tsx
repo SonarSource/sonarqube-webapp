@@ -18,22 +18,62 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MessageCallout, MessageVariety, Text, Tooltip } from '@sonarsource/echoes-react';
+import {
+  LinkHighlight,
+  MessageCallout,
+  MessageVariety,
+  Text,
+  Tooltip,
+} from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DefinitionDescriptionBase from '~shared/components/configuration/DefinitionDescriptionBase';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { hasMessage } from '~sq-server-commons/helpers/l10n';
 import { DEPRECATED_SETTINGS_KEYS, SettingsKey } from '~sq-server-commons/types/settings';
+import { Component } from '~sq-server-commons/types/types';
+import { DEFINITION_DESCRIPTION_SETING_DOC_LINKS } from '../constants';
 
 interface Props {
+  component?: Component;
   definition: ExtendedSettingDefinition;
 }
 
-export default function DefinitionDescription({ definition }: Readonly<Props>) {
+export default function DefinitionDescription({ component, definition }: Readonly<Props>) {
   const intl = useIntl();
   const isDeprecated = DEPRECATED_SETTINGS_KEYS.includes(definition.key as SettingsKey);
 
+  const descriptionKey = component
+    ? `property.${definition.key}.description.project`
+    : `property.${definition.key}.description`;
+
+  const descriptionOverride = hasMessage(descriptionKey)
+    ? intl.formatMessage(
+        { id: descriptionKey },
+        {
+          docLink: (text) => (
+            <DocumentationLink
+              highlight={LinkHighlight.CurrentColor}
+              to={DEFINITION_DESCRIPTION_SETING_DOC_LINKS[definition.key]}
+            >
+              {text}
+            </DocumentationLink>
+          ),
+        },
+      )
+    : undefined;
+
+  const nameKey = component
+    ? `property.${definition.key}.name.project`
+    : `property.${definition.key}.name`;
+  const nameOverride = hasMessage(nameKey) ? intl.formatMessage({ id: nameKey }) : undefined;
+
   return (
-    <DefinitionDescriptionBase definition={definition}>
+    <DefinitionDescriptionBase
+      definition={definition}
+      descriptionOverride={descriptionOverride}
+      nameOverride={nameOverride}
+    >
       {isDeprecated && (
         <MessageCallout variety={MessageVariety.Warning}>
           <FormattedMessage id="settings.deprecated_setting_warning" />

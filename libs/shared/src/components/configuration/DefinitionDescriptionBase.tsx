@@ -19,7 +19,7 @@
  */
 
 import { Heading } from '@sonarsource/echoes-react';
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import {
   getDescriptionDescriptionAsIntlParams,
@@ -31,13 +31,37 @@ import { ExtendedSettingDefinition } from '../../types/settings';
 interface Props {
   children?: ReactNode;
   definition: ExtendedSettingDefinition;
+  descriptionOverride?: ReactNode;
+  nameOverride?: string;
 }
 
-export default function DefinitionDescriptionBase({ definition, children }: Readonly<Props>) {
+export default function DefinitionDescriptionBase({
+  definition,
+  descriptionOverride,
+  nameOverride,
+  children,
+}: Readonly<Props>) {
   const intl = useIntl();
 
-  const name = intl.formatMessage(getDescriptionNameAsIntlParams(definition));
-  const description = intl.formatMessage(getDescriptionDescriptionAsIntlParams(definition));
+  const name = nameOverride ?? intl.formatMessage(getDescriptionNameAsIntlParams(definition));
+
+  const finalDescription = useMemo(() => {
+    // If description comes from UI, no need for html injection
+    if (descriptionOverride) {
+      return descriptionOverride;
+    }
+
+    const description = intl.formatMessage(getDescriptionDescriptionAsIntlParams(definition));
+
+    if (description) {
+      return (
+        <SafeHTMLInjection htmlAsString={description} sanitizeLevel={SanitizeLevel.RESTRICTED}>
+          <div className="markdown sw-mt-1" />
+        </SafeHTMLInjection>
+      );
+    }
+    return null;
+  }, [descriptionOverride, definition, intl]);
 
   return (
     <div className="sw-w-abs-300">
@@ -45,11 +69,7 @@ export default function DefinitionDescriptionBase({ definition, children }: Read
         {name}
       </Heading>
 
-      {description && (
-        <SafeHTMLInjection htmlAsString={description} sanitizeLevel={SanitizeLevel.RESTRICTED}>
-          <div className="markdown sw-mt-1" />
-        </SafeHTMLInjection>
-      )}
+      {finalDescription}
 
       {children}
     </div>

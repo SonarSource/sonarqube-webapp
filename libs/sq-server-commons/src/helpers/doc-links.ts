@@ -74,6 +74,7 @@ export enum DocLink {
   InstanceAdminSandboxIssues = '/instance-administration/analysis-functions/quality-standards#setting-up-the-sandbox-feature-at-the-instance-level',
   IssueResolutions = '/user-guide/issues/solution-overview/#deprecated-features',
   Issues = '/user-guide/issues/introduction/',
+  IssuesManaging = '/user-guide/issues/managing/',
   IssuesFromSonarQubeUpdate = '/user-guide/issues/solution-overview/#from-sonarqube-update',
   IssueStatuses = '/user-guide/issues/solution-overview/#life-cycle',
   MainBranchAnalysis = '/project-administration/maintaining-project/maintaining-the-branches-of-your-project',

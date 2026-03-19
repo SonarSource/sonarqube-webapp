@@ -47,11 +47,11 @@ const ui = {
   languagesSelect: byRole('combobox', { name: 'property.category.languages' }),
   jsGeneralSubCategoryHeading: byRole('heading', { name: 'property.category.javascript.General' }),
   jsGlobalVariablesHeading: byRole('heading', {
-    name: 'property.sonar.javascript.globals.name',
+    name: 'property.sonar.javascript.globals.name.project',
   }),
   jsGlobalVariablesDescription: byText('List of Global variables'),
   jsFileSuffixesHeading: byRole('heading', {
-    name: 'property.sonar.javascript.file.suffixes.name',
+    name: 'property.sonar.javascript.file.suffixes.name.project',
   }),
   jsGlobalVariablesInput: byRole('textbox', { name: /property.sonar.javascript.globals.name -/ }),
   jsResetGlobalVariablesButton: byRole('button', {
