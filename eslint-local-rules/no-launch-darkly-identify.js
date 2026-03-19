@@ -40,7 +40,11 @@ module.exports = {
           const parentNode = getExportedParent(node);
           const parentName = getParentName(parentNode);
 
-          if (parentName && parentName !== 'updateLaunchDarklyMultiContext') {
+          if (
+            parentName &&
+            parentName !== 'updateLaunchDarklyMultiContext' &&
+            parentName !== 'identifyMixpanelUser'
+          ) {
             context.report({
               node: node.parent,
               messageId: 'noLaunchDarklyIdentify',
