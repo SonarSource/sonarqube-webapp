@@ -20,11 +20,11 @@
 
 import { screen } from '@testing-library/react';
 import { renderWithRouter } from '~shared/helpers/test-utils';
-import { useResizeObserver } from '../../hooks/useResizeObserver';
+import { useResizeObserver } from '~shared/helpers/useResizeObserver';
 import { BreadcrumbsFullWidth } from '../Breadcrumbs';
 import { HoverLink } from '../Link';
 
-jest.mock('../../hooks/useResizeObserver', () => ({
+jest.mock('~shared/helpers/useResizeObserver', () => ({
   useResizeObserver: jest.fn(() => [1000, undefined]),
 }));
 

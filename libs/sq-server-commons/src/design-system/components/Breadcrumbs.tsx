@@ -30,13 +30,13 @@ import classNames from 'classnames';
 import React, { type JSX } from 'react';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
+import { useResizeObserver } from '~shared/helpers/useResizeObserver';
 import {
   LAYOUT_VIEWPORT_MAX_WIDTH_LARGE,
   PopupPlacement,
   PopupZLevel,
   themeColor,
 } from '../helpers';
-import { useResizeObserver } from '../hooks/useResizeObserver';
 import { Dropdown } from './Dropdown';
 import { Tooltip } from './Tooltip';
 import { ChevronRightIcon } from './icons';

@@ -20,7 +20,7 @@
 
 import { screen } from '@testing-library/react';
 import { createRef, useRef } from 'react';
-import { render } from '../../helpers/testUtils';
+import { render } from '../test-utils';
 import { useResizeObserver } from '../useResizeObserver';
 
 it('should return the correct width and height of the element', () => {

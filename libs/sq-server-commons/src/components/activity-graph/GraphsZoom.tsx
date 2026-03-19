@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
+import { useRef } from 'react';
+import { useResizeObserver } from '~shared/helpers/useResizeObserver';
 import { Serie } from '../../types/project-activity';
 import { ZoomTimeLine } from '../charts/ZoomTimeLine';
 import { hasHistoryData } from './utils';
@@ -44,15 +45,18 @@ export default function GraphsZoom(props: GraphsZoomProps) {
   const { loading, series, graphEndDate, leakPeriodDate, metricsType, showAreas, graphStartDate } =
     props;
 
-  if (loading || !hasHistoryData(series)) {
-    return null;
-  }
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth] = useResizeObserver(containerRef);
 
   return (
     // We hide this for screen readers; they should use date inputs instead.
-    <div aria-hidden className="activity-graph-zoom">
-      <AutoSizer disableHeight>
-        {({ width }) => (
+    <div
+      aria-hidden
+      className="activity-graph-zoom sw-min-w-full sw-overflow-hidden sw-w-0"
+      ref={containerRef}
+    >
+      <div className="sw-overflow-hidden sw-w-full">
+        {!loading && hasHistoryData(series) && containerWidth !== undefined && (
           <ZoomTimeLine
             endDate={graphEndDate}
             height={ZOOM_TIMELINE_HEIGHT}
@@ -68,10 +72,10 @@ export default function GraphsZoom(props: GraphsZoomProps) {
             showAreas={showAreas}
             startDate={graphStartDate}
             updateZoom={props.onUpdateGraphZoom}
-            width={width}
+            width={containerWidth}
           />
         )}
-      </AutoSizer>
+      </div>
     </div>
   );
 }

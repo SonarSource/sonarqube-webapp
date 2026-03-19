@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, cssVar, Text } from '@sonarsource/echoes-react';
+import { Button, cssVar, Text, Tooltip } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { max, min } from 'd3-array';
 import { ScaleLinear, scaleLinear } from 'd3-scale';
@@ -27,10 +27,9 @@ import { select } from 'd3-selection';
 import { D3ZoomEvent, zoom, ZoomBehavior, zoomIdentity } from 'd3-zoom';
 import { sortBy, uniq } from 'lodash';
 import * as React from 'react';
-import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
 import tw from 'twin.macro';
+import { useResizeObserver } from '~shared/helpers/useResizeObserver';
 import { themeColor, themeContrast } from '../helpers';
-import { Tooltip } from './Tooltip';
 
 const TICKS_COUNT = 5;
 const DEFAULT_PADDING = [10, 10, 10, 10];
@@ -93,6 +92,8 @@ export function BubbleChart<T>(props: BubbleChartProps<T>) {
   const [transform, setTransform] = React.useState({ x: 0, y: 0, k: 1 });
   const nodeRef = React.useRef<SVGSVGElement>();
   const zoomRef = React.useRef<ZoomBehavior<Element, unknown>>();
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const [containerWidth] = useResizeObserver(containerRef);
   const zoomLevelLabel = `${Math.floor(transform.k * 100)}%`;
 
   if (zoomRef.current && nodeRef.current) {
@@ -354,7 +355,7 @@ export function BubbleChart<T>(props: BubbleChartProps<T>) {
   };
 
   return (
-    <div>
+    <div className="sw-min-w-full sw-overflow-hidden sw-w-0" ref={containerRef}>
       <div className="sw-flex sw-items-center sw-justify-end sw-h-control sw-mb-4">
         <Tooltip content={zoomTooltipText}>
           <span>
@@ -371,7 +372,9 @@ export function BubbleChart<T>(props: BubbleChartProps<T>) {
           </Button>
         )}
       </div>
-      <AutoSizer disableHeight>{(size) => renderChart(size.width)}</AutoSizer>
+      <div className="sw-overflow-hidden sw-w-full">
+        {containerWidth !== undefined && renderChart(containerWidth)}
+      </div>
     </div>
   );
 }
@@ -412,7 +415,11 @@ function Bubble<T>(props: BubbleProps<T>) {
     </a>
   );
 
-  return <Tooltip content={tooltip}>{circle}</Tooltip>;
+  return (
+    <Tooltip content={tooltip} side="bottom">
+      {circle}
+    </Tooltip>
+  );
 }
 
 const BubbleStyled = styled.circle`

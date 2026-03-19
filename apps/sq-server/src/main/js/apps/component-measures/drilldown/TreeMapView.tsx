@@ -22,7 +22,6 @@ import { Text } from '@sonarsource/echoes-react';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import { isEmpty } from 'lodash';
 import * as React from 'react';
-import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
 import {
   CSSColor,
   QualifierIcon,
@@ -34,6 +33,7 @@ import {
   withTheme,
 } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
+import { useResizeObserver } from '~shared/helpers/useResizeObserver';
 import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import ColorBoxLegend from '~sq-server-commons/components/charts/ColorBoxLegend';
@@ -253,19 +253,41 @@ export class TreeMapView extends React.PureComponent<Props, State> {
           </span>
           <span>{this.renderLegend()}</span>
         </Text>
-        <AutoSizer disableHeight>
-          {({ width }) => (
-            <TreeMap<ComponentMeasureIntern>
-              height={HEIGHT}
-              items={treemapItems}
-              onRectangleClick={this.handleSelect.bind(this)}
-              width={width}
-            />
-          )}
-        </AutoSizer>
+        <TreeMapAutoSizer
+          height={HEIGHT}
+          items={treemapItems}
+          onRectangleClick={this.handleSelect.bind(this)}
+        />
       </div>
     );
   }
+}
+
+function TreeMapAutoSizer({
+  height,
+  items,
+  onRectangleClick,
+}: Readonly<{
+  height: number;
+  items: Array<TreeMapItem<ComponentMeasureIntern>>;
+  onRectangleClick: (node: TreeMapItem<ComponentMeasureIntern>) => void;
+}>) {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const [containerWidth] = useResizeObserver(containerRef);
+  return (
+    <div className="sw-min-w-full sw-overflow-hidden sw-w-0" ref={containerRef}>
+      <div className="sw-overflow-hidden sw-w-full">
+        {containerWidth !== undefined && (
+          <TreeMap<ComponentMeasureIntern>
+            height={height}
+            items={items}
+            onRectangleClick={onRectangleClick}
+            width={containerWidth}
+          />
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default withTheme(TreeMapView);

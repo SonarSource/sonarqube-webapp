@@ -20,7 +20,6 @@
 
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { WindowScrollerProps } from 'react-virtualized';
 import { save } from '~shared/helpers/storage';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
@@ -31,29 +30,6 @@ import { mockAppState, mockLoggedInUser } from '~sq-server-commons/helpers/testM
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
 import projectRoutes from '../../routes';
 import { LS_PROJECTS_SORT, LS_PROJECTS_VIEW } from '../AllProjects';
-
-/* Mock the WindowScroller to always render the whole list */
-jest.mock('react-virtualized/dist/commonjs/WindowScroller', () => {
-  function WindowScroller(props: Readonly<WindowScrollerProps>) {
-    return (
-      <>
-        {props.children({
-          height: 10000,
-          width: 10000,
-          scrollLeft: 0,
-          scrollTop: 0,
-          isScrolling: false,
-          /* eslint-disable-next-line @typescript-eslint/no-empty-function */
-          onChildScroll: () => {},
-          /* eslint-disable-next-line @typescript-eslint/no-empty-function */
-          registerChild: () => {},
-        })}
-      </>
-    );
-  }
-
-  return { WindowScroller };
-});
 
 jest.mock('~sq-server-commons/api/components');
 jest.mock('~sq-server-commons/api/measures');
@@ -146,7 +122,7 @@ const ui = {
   loading: byText('loading'),
   myFavoritesToggleOption: byRole('radio', { name: 'my_favorites' }),
   allToggleOption: byRole('radio', { name: 'all' }),
-  projects: byRole('row'),
+  projects: byLabelText('list_of_projects').byRole('listitem'),
   perspectiveSelect: byLabelText('projects.perspective'),
   sortSelect: byLabelText('projects.sort_by'),
 };

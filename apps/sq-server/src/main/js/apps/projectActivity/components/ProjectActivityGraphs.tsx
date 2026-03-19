@@ -249,7 +249,7 @@ export default class ProjectActivityGraphs extends React.PureComponent<Props, St
     const { graphEndDate, graphStartDate, series } = this.state;
 
     return (
-      <ProjectActivityWrapper className="sw-grow sw-flex sw-flex-col sw-p-4 sw-min-h-[30rem]">
+      <ProjectActivityWrapper className="sw-flex sw-flex-col sw-grow sw-min-h-[30rem] sw-min-w-0 sw-p-4">
         <GraphsHeader
           className="sw-mb-4"
           graph={query.graph}

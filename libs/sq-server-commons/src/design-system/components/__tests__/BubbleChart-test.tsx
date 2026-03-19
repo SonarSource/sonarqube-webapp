@@ -19,14 +19,9 @@
  */
 
 import { screen } from '@testing-library/react';
-import { AutoSizerProps } from 'react-virtualized';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { FCProps } from '../../../types/misc';
 import { BubbleChart } from '../BubbleChart';
-
-jest.mock('react-virtualized/dist/commonjs/AutoSizer', () => ({
-  AutoSizer: ({ children }: AutoSizerProps) => children({ width: 100, height: NaN }),
-}));
 
 jest.mock('d3-zoom', () => ({
   zoom: jest.fn().mockReturnValue({

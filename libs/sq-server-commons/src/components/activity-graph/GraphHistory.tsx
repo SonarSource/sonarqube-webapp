@@ -21,7 +21,7 @@
 import styled from '@emotion/styled';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
+import { useResizeObserver } from '~shared/helpers/useResizeObserver';
 import { KeyboardKeys } from '../../helpers/keycodes';
 import { getShortType } from '../../helpers/measures';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
@@ -73,6 +73,8 @@ export default function GraphHistory(props: Readonly<Props>) {
   const [tooltipIdx, setTooltipIdx] = React.useState<number | undefined>(undefined);
   const [tooltipXPos, setTooltipXPos] = React.useState<number | undefined>(undefined);
   const [tableIsVisible, setTableIsVisible] = React.useState(false);
+  const graphContainerRef = React.useRef<HTMLDivElement>(null);
+  const [graphWidth, graphHeight] = useResizeObserver(graphContainerRef);
 
   const formatValue = (tick: string | number) => {
     return formatMeasure(tick, getShortType(metricsType));
@@ -117,46 +119,44 @@ export default function GraphHistory(props: Readonly<Props>) {
           <GraphsLegendStatic leakPeriodDate={leakPeriodDate} series={series} />
         )}
 
-        <div className="sw-flex-1">
-          <AutoSizer>
-            {({ height, width }) => (
-              <div>
-                <AdvancedTimeline
-                  endDate={graphEndDate}
-                  formatYTick={formatValue}
-                  graphDescription={graphDescription}
-                  height={height}
-                  leakPeriodDate={leakPeriodDate}
-                  metricType={metricsType}
-                  selectedDate={selectedDate}
-                  series={series}
-                  showAreas={showAreas}
-                  splitPointDate={measuresHistory.find((m) => m.splitPointDate)?.splitPointDate}
-                  startDate={graphStartDate}
-                  updateSelectedDate={props.updateSelectedDate}
-                  updateTooltip={updateTooltip}
-                  updateZoom={props.updateGraphZoom}
-                  width={width}
-                />
+        <div className="sw-flex-1 sw-min-w-full sw-overflow-hidden sw-w-0" ref={graphContainerRef}>
+          {graphWidth !== undefined && graphHeight !== undefined && (
+            <div className="sw-overflow-hidden sw-w-full">
+              <AdvancedTimeline
+                endDate={graphEndDate}
+                formatYTick={formatValue}
+                graphDescription={graphDescription}
+                height={graphHeight}
+                leakPeriodDate={leakPeriodDate}
+                metricType={metricsType}
+                selectedDate={selectedDate}
+                series={series}
+                showAreas={showAreas}
+                splitPointDate={measuresHistory.find((m) => m.splitPointDate)?.splitPointDate}
+                startDate={graphStartDate}
+                updateSelectedDate={props.updateSelectedDate}
+                updateTooltip={updateTooltip}
+                updateZoom={props.updateGraphZoom}
+                width={graphWidth}
+              />
 
-                {selectedDate !== undefined &&
-                  tooltipIdx !== undefined &&
-                  tooltipXPos !== undefined && (
-                    <GraphsTooltips
-                      events={events}
-                      formatValue={formatTooltipValue}
-                      graph={graph}
-                      graphWidth={width}
-                      measuresHistory={measuresHistory}
-                      selectedDate={selectedDate}
-                      series={series}
-                      tooltipIdx={tooltipIdx}
-                      tooltipPos={tooltipXPos}
-                    />
-                  )}
-              </div>
-            )}
-          </AutoSizer>
+              {selectedDate !== undefined &&
+                tooltipIdx !== undefined &&
+                tooltipXPos !== undefined && (
+                  <GraphsTooltips
+                    events={events}
+                    formatValue={formatTooltipValue}
+                    graph={graph}
+                    graphWidth={graphWidth}
+                    measuresHistory={measuresHistory}
+                    selectedDate={selectedDate}
+                    series={series}
+                    tooltipIdx={tooltipIdx}
+                    tooltipPos={tooltipXPos}
+                  />
+                )}
+            </div>
+          )}
         </div>
       </StyledGraphContainer>
       {tableIsVisible && (

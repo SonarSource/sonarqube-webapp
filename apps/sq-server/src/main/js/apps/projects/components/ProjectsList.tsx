@@ -18,18 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
-import { List, ListRowProps } from 'react-virtualized/dist/commonjs/List';
-import { WindowScroller } from 'react-virtualized/dist/commonjs/WindowScroller';
+import { useIntl } from 'react-intl';
 import { MeasuresByComponents } from '~shared/types/measures';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
 import { ProjectsQuery } from '~sq-server-commons/types/projects';
 import { Project } from '../types';
 import ProjectCard from './project-card/ProjectCard';
-
-const PROJECT_CARD_HEIGHT = 181;
-const PROJECT_CARD_MARGIN = 20;
 
 interface Props {
   cardType?: string;
@@ -38,69 +32,36 @@ interface Props {
   measures: MeasuresByComponents[];
   projects: Omit<Project, 'measures'>[];
   query: ProjectsQuery;
-  scrollElement?: HTMLDivElement;
 }
 
 export default function ProjectsList(props: Readonly<Props>) {
-  const { cardType, measures, projects, scrollElement } = props;
+  const { cardType, measures, projects } = props;
 
-  const renderRow = ({ index, key, style }: ListRowProps) => {
-    const project = projects[index];
-    const componentMeasures =
-      measures
-        ?.filter((measure) => measure.component === project.key)
-        .reduce(
-          (acc, measure) => {
-            const value = isDiffMetric(measure.metric) ? measure.period?.value : measure.value;
-            if (value !== undefined) {
-              acc[measure.metric] = value;
-            }
-            return acc;
-          },
-          {} as Record<string, string>,
-        ) ?? {};
-
-    return (
-      <div
-        className="sw-pt-4"
-        key={key}
-        role="row"
-        style={{ ...style, height: PROJECT_CARD_HEIGHT }}
-      >
-        <div className="sw-h-full" role="gridcell">
-          <ProjectCard
-            key={project.key}
-            project={{ ...project, measures: componentMeasures }}
-            type={cardType}
-          />
-        </div>
-      </div>
-    );
-  };
+  const { formatMessage } = useIntl();
 
   return (
-    <WindowScroller scrollElement={scrollElement}>
-      {({ height, isScrolling, onChildScroll, scrollTop }) => (
-        <AutoSizer disableHeight>
-          {({ width }) => (
-            <List
-              aria-label={translate('project_plural')}
-              autoHeight
-              height={height}
-              isScrolling={isScrolling}
-              onScroll={onChildScroll}
-              overscanRowCount={2}
-              rowCount={projects.length}
-              rowHeight={PROJECT_CARD_HEIGHT + PROJECT_CARD_MARGIN}
-              rowRenderer={renderRow}
-              scrollTop={scrollTop}
-              style={{ outline: 'none' }}
-              tabIndex={-1}
-              width={width}
-            />
-          )}
-        </AutoSizer>
-      )}
-    </WindowScroller>
+    <ul aria-label={formatMessage({ id: 'list_of_projects' })}>
+      {projects.map((project) => {
+        const componentMeasures =
+          measures
+            ?.filter((measure) => measure.component === project.key)
+            .reduce(
+              (acc, measure) => {
+                const value = isDiffMetric(measure.metric) ? measure.period?.value : measure.value;
+                if (value !== undefined) {
+                  acc[measure.metric] = value;
+                }
+                return acc;
+              },
+              {} as Record<string, string>,
+            ) ?? {};
+
+        return (
+          <li className="sw-pt-4" key={project.key}>
+            <ProjectCard project={{ ...project, measures: componentMeasures }} type={cardType} />
+          </li>
+        );
+      })}
+    </ul>
   );
 }

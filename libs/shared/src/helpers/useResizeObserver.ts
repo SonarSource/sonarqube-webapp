@@ -42,7 +42,7 @@ export const useResizeObserver = (ref: RefObject<Element>) => {
 
   useLayoutEffect(() => {
     if (!ref.current) {
-      return;
+      return undefined;
     }
 
     const RO = new ResizeObserver(handleResize);

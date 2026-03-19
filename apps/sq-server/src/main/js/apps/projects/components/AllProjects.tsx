@@ -20,7 +20,7 @@
 
 import { Heading, Layout, Spinner } from '@sonarsource/echoes-react';
 import { chunk, keyBy, last, mapValues, omitBy, pick } from 'lodash';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
@@ -66,7 +66,6 @@ function AllProjects({ isFavorite }: Readonly<{ isFavorite: boolean }>) {
   const { currentUser } = useCurrentUser();
   const router = useRouter();
   const intl = useIntl();
-  const scrollElementRef = useRef<HTMLDivElement | null>(null);
   const { query, pathname } = useLocation();
   const parsedQuery = parseUrlQuery(query);
   const querySort = parsedQuery.sort ?? 'name';
@@ -235,7 +234,7 @@ function AllProjects({ isFavorite }: Readonly<{ isFavorite: boolean }>) {
         </section>
       </Layout.AsideLeft>
 
-      <Layout.PageGrid ref={scrollElementRef}>
+      <Layout.PageGrid>
         <A11ySkipTarget anchor="projects_main" />
         <Heading as="h2" className="sw-sr-only">
           <FormattedMessage id="list_of_projects" />
@@ -281,9 +280,9 @@ function AllProjects({ isFavorite }: Readonly<{ isFavorite: boolean }>) {
                   measures={measures}
                   projects={readyProjects}
                   query={parsedQuery}
-                  scrollElement={scrollElementRef.current ?? undefined}
                 />
                 <ListFooter
+                  className="sw-pt-4"
                   count={isDefined(readyProjects) ? readyProjects.length : 0}
                   loadMore={fetchNextPage}
                   loadMoreAriaLabel={intl.formatMessage({ id: 'projects.show_more' })}
