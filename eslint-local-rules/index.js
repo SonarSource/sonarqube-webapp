@@ -27,7 +27,7 @@ module.exports = {
   'no-direct-axios-import': require('./no-direct-axios-import'),
   'no-direct-echoes-design-tokens': require('./no-direct-echoes-design-tokens'),
   'no-launch-darkly-direct-import-in-shared-code': require('./no-launch-darkly-direct-import-in-shared-code'),
-  'no-launch-darkly-identify': require('./no-launch-darkly-identify'),
+  'no-direct-analytics-sdk-calls': require('./no-direct-analytics-sdk-calls'),
   'no-implicit-coercion': require('./no-implicit-coercion'),
   'no-jsx-literals': require('./no-jsx-literals'),
   'no-query-client-imports': require('./no-query-client-imports'),

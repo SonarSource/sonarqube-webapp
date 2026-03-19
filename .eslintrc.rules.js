@@ -292,7 +292,7 @@ module.exports = {
     'local-rules/use-metrictype-enum': 'warn',
     'local-rules/use-proper-query-name': 'warn',
     'local-rules/use-visibility-enum': 'warn',
-    'local-rules/no-launch-darkly-identify': 'error',
+    'local-rules/no-direct-analytics-sdk-calls': 'error',
     'local-rules/no-explicit-undefined-enabled-in-react-query': 'error',
 
     'max-depth': 'error',

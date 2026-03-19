@@ -19,7 +19,7 @@
  */
 
 const { RuleTester } = require('eslint');
-const noLaunchDarklyIdentify = require('../no-launch-darkly-identify');
+const noDirectAnalyticsSdkCalls = require('../no-direct-analytics-sdk-calls');
 
 const ruleTester = new RuleTester({
   parserOptions: {
@@ -30,7 +30,7 @@ const ruleTester = new RuleTester({
   parser: require.resolve('@typescript-eslint/parser'),
 });
 
-ruleTester.run('no-launch-darkly-identify', noLaunchDarklyIdentify, {
+ruleTester.run('no-direct-analytics-sdk-calls', noDirectAnalyticsSdkCalls, {
   valid: [
     {
       code: `
@@ -60,6 +60,15 @@ ruleTester.run('no-launch-darkly-identify', noLaunchDarklyIdentify, {
       code: `
       function updateLaunchDarklyMultiContext(launchDarklyClient, overrides) {
         launchDarklyClient.identify(overrides);
+      }
+      `,
+    },
+    {
+      code: `
+      import mixpanel from 'mixpanel-browser';
+
+      export function identifyMixpanelUser(currentUser) {
+        mixpanel.identify(currentUser.id);
       }
       `,
     },
@@ -124,6 +133,46 @@ ruleTester.run('no-launch-darkly-identify', noLaunchDarklyIdentify, {
       }
       `,
       errors: [{ messageId: 'noLaunchDarklyIdentify' }],
+    },
+    {
+      code: `
+      import mixpanel from 'mixpanel-browser';
+
+      function trackPageView() {
+        mixpanel.track('Page Viewed', { page: 'home' });
+      }
+      `,
+      errors: [{ messageId: 'noMixpanelTrack' }],
+    },
+    {
+      code: `
+      import mixpanel from 'mixpanel-browser';
+
+      export const trackButtonClick = () => {
+        mixpanel.track('Button Clicked', { button: 'signup' });
+      }
+      `,
+      errors: [{ messageId: 'noMixpanelTrack' }],
+    },
+    {
+      code: `
+      import mixpanel from 'mixpanel-browser';
+
+      export async function useAnalytics() {
+        await mixpanel.track('Feature Used');
+      }
+      `,
+      errors: [{ messageId: 'noMixpanelTrack' }],
+    },
+    {
+      code: `
+      import mixpanel from 'mixpanel-browser';
+
+      function useTest() {
+        mixpanel.identify('user-123');
+      }
+      `,
+      errors: [{ messageId: 'noMixpanelIdentify' }],
     },
   ],
 });

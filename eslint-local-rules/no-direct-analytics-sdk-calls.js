@@ -22,12 +22,15 @@ module.exports = {
   meta: {
     type: 'problem',
     docs: {
-      description: 'Enforce no direct LaunchDarkly client identify() calls',
+      description: 'Enforce no direct analytics SDK identify() or track() calls',
       category: 'Best Practices',
     },
     messages: {
       noLaunchDarklyIdentify:
         'Do not call LaunchDarkly identify() directly, use the updateLaunchDarklyMultiContext function instead',
+      noMixpanelIdentify:
+        'Do not call Mixpanel identify() directly, use the identifyMixpanelUser function instead',
+      noMixpanelTrack: 'Do not call Mixpanel track() directly, use postTelemetryEvent instead',
     },
   },
   create(context) {
@@ -41,14 +44,41 @@ module.exports = {
           const parentName = getParentName(parentNode);
 
           if (
-            parentName &&
-            !['updateLaunchDarklyMultiContext', 'initMixpanel', 'identifyMixpanelUser'].includes(
+            !parentName ||
+            ['updateLaunchDarklyMultiContext', 'initMixpanel', 'identifyMixpanelUser'].includes(
               parentName,
             )
           ) {
+            return;
+          }
+
+          const callerObject = node.parent?.object;
+          const isMixpanelCall =
+            callerObject?.type === 'Identifier' && callerObject?.name.toLowerCase() === 'mixpanel';
+
+          context.report({
+            node: node.parent,
+            messageId: isMixpanelCall ? 'noMixpanelIdentify' : 'noLaunchDarklyIdentify',
+          });
+        }
+
+        // Check for track() calls
+        if (name === 'track') {
+          const callerObject = node.parent?.object;
+          const isMixpanelCall =
+            callerObject?.type === 'Identifier' && callerObject?.name.toLowerCase() === 'mixpanel';
+
+          if (!isMixpanelCall) {
+            return;
+          }
+
+          const parentNode = getExportedParent(node);
+          const parentName = getParentName(parentNode);
+
+          if (parentName) {
             context.report({
               node: node.parent,
-              messageId: 'noLaunchDarklyIdentify',
+              messageId: 'noMixpanelTrack',
             });
           }
         }
