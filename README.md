@@ -66,10 +66,10 @@ The distribution files are generated in the `apps/sq-server/build/webapp' direct
 
 ```bash
 # Start the dev server targeting a SonarQube instance located at http://localhost:9000
-yarn start
+yarn start-sqs
 
 # Start the dev server targeting a SonarQube instance located at http://my-sonarqube.org
-PROXY=http://my-sonarqube.org yarn start
+PROXY=http://my-sonarqube.org yarn start-sqs
 ```
 
 ### Validate your changes and test
