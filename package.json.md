@@ -22,6 +22,10 @@ React-based interactive graph visualization library used by `feature-architectur
 
 LaunchDarkly SDK for React used by sq-cloud to manage feature flags.
 
+### mixpanel-browser
+
+Mixpanel browser SDK used by sq-cloud to send auto-capture events and replays to Mixpanel.
+
 ### react-dnd
 
 React drag and drop library used by the editable-multigrid component for drag-and-drop functionality in dashboard layouts.
