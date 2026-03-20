@@ -4121,6 +4121,9 @@
   "cwe-2023": {},
   "cwe-2024": {},
   "sonarsourceSecurity": {
+    "malicious-dependencies": {
+      "title": "Malicious Dependencies"
+    },
     "buffer-overflow": {
       "title": "Buffer Overflow"
     },
