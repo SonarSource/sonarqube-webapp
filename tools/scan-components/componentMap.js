@@ -1752,7 +1752,6 @@ export const componentMap = {
   UpgradeHeader: 'Excluded',
   CurrentFreePlanCard: 'Excluded',
   CurrentPaidPlanCard: 'Excluded',
-  OrganizationKeyChangeContainer: 'Excluded',
   OrganizationKeyChange: 'Excluded',
   AnalysisCommandTravis: 'Excluded',
   PullRequestWidgetError: 'Excluded',
