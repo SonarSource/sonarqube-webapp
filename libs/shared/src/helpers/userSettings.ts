@@ -22,6 +22,8 @@ export const SIDEBAR_NAVIGATION_SETTING = 'sidebar_navigation_setting';
 export const SIDEBAR_NAVIGATION_OPT_IN_DATE = 'sidebar_navigation_opt_in_date';
 export const SIDEBAR_NAVIGATION_FORCE_OPT_IN_PROMOTION_DISMISSED_KEY =
   'sidebar_navigation_force_opt_in_promotion_dismissed';
+export const SIDEBAR_NAVIGATION_GENERAL_ROLLOUT_PROMOTION_DISMISSED_KEY =
+  'sidebar_navigation_general_rollout_promotion_dismissed';
 
 export enum FEEShowSidebarNavigationSetting {
   ForceOptIn = 'forceoptin',
