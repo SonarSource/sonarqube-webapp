@@ -25,6 +25,7 @@ interface SQSFlagSet extends FlagSet {
   frontEndEngineeringEnableSidebarNavigation?: boolean;
   scaEnableOsvMalware: boolean;
   scaEnableReachabilityFrontend: boolean;
+  scaKeyChangesPrView: boolean;
 }
 
 // SQS doesn't use LaunchDarkly for feature flags, so we just pass a default hardcoded flag set for
@@ -33,6 +34,7 @@ interface SQSFlagSet extends FlagSet {
 const defaultFlags: SQSFlagSet = {
   scaEnableOsvMalware: true,
   scaEnableReachabilityFrontend: false,
+  scaKeyChangesPrView: true,
 };
 
 export function useFlags(): SQSFlagSet {

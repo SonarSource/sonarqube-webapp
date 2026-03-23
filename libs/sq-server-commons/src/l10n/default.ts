@@ -2043,6 +2043,23 @@ export const defaultMessages = {
   'sca.risk.report': 'Advanced Security Dependency Risks Report',
   'sca.risk.report.name': 'Dependency Risks Report',
 
+  'sca.dependencies.key_changes.heading': 'Key changes for {branchName}',
+  'sca.dependencies.key_changes.selection_cards.aria_label': 'Select risk category to view',
+  'sca.dependencies.key_changes.newly_introduced.label': '{count} Newly Introduced Risks',
+  'sca.dependencies.key_changes.newly_introduced.no_risks':
+    'This pull request does not create any new dependency risks.',
+  'sca.dependencies.key_changes.newly_introduced.has_risks':
+    'This pull request would create {count} new dependency risks in the default branch.',
+  'sca.dependencies.key_changes.fixed.label': '{count} Fixed Risks',
+  'sca.dependencies.key_changes.fixed.no_risks':
+    'This pull request does not fix any dependency risks.',
+  'sca.dependencies.key_changes.fixed.has_risks':
+    'This pull request would eliminate {count} existing dependency risks from the default branch.',
+  'sca.dependencies.key_changes.fixed.read_only':
+    'This list is read-only. For more details see {link}.',
+  'sca.dependencies.key_changes.no_changes':
+    'This pull request does not create or fix any dependency risks.',
+
   //------------------------------------------------------------------------------
   //
   // ARCHITECTURE PAGE

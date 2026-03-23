@@ -25,6 +25,7 @@ import { useFlags } from '~adapters/helpers/feature-flags';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 
 interface Props extends PropsWithChildren {
+  actions?: ReactNode;
   asideLeft?: ReactNode;
   breadcrumbs?: BreadcrumbsProps['items'];
   disableBranchSelector?: boolean;
