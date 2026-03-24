@@ -37,6 +37,7 @@ export const DEFAULT_DEV_SERVER_PORT = 3000;
 export const DEFAULT_WS_PROXY_PORT = 3010;
 
 export const port = Number(process.env.PORT || DEFAULT_DEV_SERVER_PORT);
+export const wsProxyPort = Number(process.env.WS_PORT || DEFAULT_WS_PROXY_PORT);
 export const proxyTarget = (process.env.PROXY || 'http://localhost:9000').replace(/\/$/, '');
 export const isProduction = process.env.NODE_ENV === 'production';
 export const analyzeBundle = process.env.BUNDLE_ANALYSIS === 'true' || false;
