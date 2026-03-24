@@ -173,6 +173,7 @@
     "@typescript-eslint/rule-tester": "7.18.0",
     "@vitejs/plugin-legacy": "7.2.1",
     "@vitejs/plugin-react": "5.1.4",
+    "agentation": "2.3.3",
     "autoprefixer": "10.4.24",
     "babel-jest": "30.2.0",
     "babel-plugin-macros": "3.1.0",

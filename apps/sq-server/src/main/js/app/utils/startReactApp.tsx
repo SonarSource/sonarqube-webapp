@@ -22,6 +22,7 @@ import { ThemeProvider } from '@emotion/react';
 import { EchoesProvider } from '@sonarsource/echoes-react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Agentation } from 'agentation';
 import { createRoot } from 'react-dom/client';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { IntlShape, RawIntlProvider } from 'react-intl';
@@ -376,29 +377,40 @@ export default function startReactApp(
   const governanceInstalled = Boolean(appState?.qualifiers.includes(ComponentQualifier.Portfolio));
 
   root.render(
-    <HelmetProvider>
-      <AppStateContextProvider appState={appState ?? DEFAULT_APP_STATE}>
-        <AvailableFeaturesContext.Provider value={availableFeatures}>
-          <AddonsContext.Provider value={addons}>
-            <CurrentUserContextProvider currentUser={currentUser}>
-              <RawIntlProvider value={l10nBundle}>
-                <ThemeProvider theme={lightTheme}>
-                  <QueryClientProvider client={queryClient}>
-                    <GlobalStyles />
-                    <Helmet titleTemplate={translate('page_title.template.default')} />
+    <>
+      <HelmetProvider>
+        <AppStateContextProvider appState={appState ?? DEFAULT_APP_STATE}>
+          <AvailableFeaturesContext.Provider value={availableFeatures}>
+            <AddonsContext.Provider value={addons}>
+              <CurrentUserContextProvider currentUser={currentUser}>
+                <RawIntlProvider value={l10nBundle}>
+                  <ThemeProvider theme={lightTheme}>
+                    <QueryClientProvider client={queryClient}>
+                      <GlobalStyles />
+                      <Helmet titleTemplate={translate('page_title.template.default')} />
 
-                    <RouterProvider
-                      router={router({ availableFeatures, optInFeatures, governanceInstalled })}
-                    />
+                      <RouterProvider
+                        router={router({ availableFeatures, optInFeatures, governanceInstalled })}
+                      />
 
-                    <ReactQueryDevtools initialIsOpen={false} />
-                  </QueryClientProvider>
-                </ThemeProvider>
-              </RawIntlProvider>
-            </CurrentUserContextProvider>
-          </AddonsContext.Provider>
-        </AvailableFeaturesContext.Provider>
-      </AppStateContextProvider>
-    </HelmetProvider>,
+                      <ReactQueryDevtools initialIsOpen={false} />
+                    </QueryClientProvider>
+                  </ThemeProvider>
+                </RawIntlProvider>
+              </CurrentUserContextProvider>
+            </AddonsContext.Provider>
+          </AvailableFeaturesContext.Provider>
+        </AppStateContextProvider>
+      </HelmetProvider>
+      {process.env.NODE_ENV === 'development' && (
+        <Agentation
+          endpoint={process.env.AGENTATION_ENDPOINT ?? 'http://localhost:4747'}
+          onSessionCreated={(sessionId: string) => {
+            // eslint-disable-next-line no-console
+            console.log('Agentation session started:', sessionId);
+          }}
+        />
+      )}
+    </>,
   );
 }

@@ -80,6 +80,12 @@ Used to test our custom eslint rules in `./eslint-local-rules`.
 
 Used by vite to provide polyfills for older browsers.
 
+### agentation
+
+Tool to do UI annotations that are used by LLM do generate code changes.
+See https://www.agentation.com/ for more details.
+Add agentation-mcp config with `yarn dlx agentation-mcp init`. Start it with `yarn dlx agentation-mcp server`.
+
 ### browserslist-useragent-regexp
 
 Used by sq-cloud to generate a regex from the browserlist query to display the "not supported" html code.

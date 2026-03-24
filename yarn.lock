@@ -11178,6 +11178,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"agentation@npm:2.3.3":
+  version: 2.3.3
+  resolution: "agentation@npm:2.3.3"
+  peerDependencies:
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  peerDependenciesMeta:
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 10/c7c0af104ea3b2b4c34eaef0253aae3324ceb971f9ee30f35f31045ddd73660c3021349fc0be7abef05a4bbd5bcf1460d8c9532e6b98217d29be0de0e34d22ec
+  languageName: node
+  linkType: hard
+
 "aggregate-error@npm:^3.0.0":
   version: 3.1.0
   resolution: "aggregate-error@npm:3.1.0"
@@ -23819,6 +23834,7 @@ __metadata:
     "@vitejs/plugin-legacy": "npm:7.2.1"
     "@vitejs/plugin-react": "npm:5.1.4"
     "@xyflow/react": "npm:12.10.1"
+    agentation: "npm:2.3.3"
     autoprefixer: "npm:10.4.24"
     axios: "npm:1.13.5"
     babel-jest: "npm:30.2.0"
