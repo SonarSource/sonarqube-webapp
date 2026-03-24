@@ -19,6 +19,7 @@
  */
 
 import React from 'react';
+import { IssueSeverity } from '~shared/types/issues';
 import {
   IconProps,
   SeverityBlockerIcon,
@@ -27,7 +28,6 @@ import {
   SeverityMajorIcon,
   SeverityMinorIcon,
 } from '../../design-system';
-import { IssueSeverity } from '../../types/issues';
 
 interface Props extends IconProps {
   severity: IssueSeverity | undefined;

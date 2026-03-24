@@ -36,6 +36,7 @@ import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessage
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { IssueSeverity } from '~shared/types/issues';
 import { RuleDetails, RuleStatus } from '~shared/types/rules';
 import { setIssueAssignee, setIssueSeverity } from '../../api/issues';
 import { isInput, isShortcut } from '../../helpers/keyboardEventHelpers';
@@ -44,7 +45,7 @@ import { getKeyboardShortcutEnabled } from '../../helpers/preferences';
 import { getPathUrlAsString, getRuleUrl } from '../../helpers/urls';
 import { getComponentIssuesUrl } from '../../sonar-aligned/helpers/urls';
 import { BranchLike } from '../../types/branch-like';
-import { IssueActions, IssueSeverity, IssueType } from '../../types/issues';
+import { IssueActions, IssueType } from '../../types/issues';
 import { Issue } from '../../types/types';
 import { updateIssue } from '../issue/actions';
 import IssueActionsBar from '../issue/components/IssueActionsBar';

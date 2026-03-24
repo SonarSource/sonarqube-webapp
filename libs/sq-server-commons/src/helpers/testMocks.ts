@@ -28,6 +28,7 @@ import {
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier } from '~shared/types/component';
+import { IssueSeverity } from '~shared/types/issues';
 import { Language } from '~shared/types/languages';
 import { Measure, MeasureEnhanced, Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
@@ -47,7 +48,6 @@ import { EditionKey } from '../types/editions';
 import {
   IssueDeprecatedStatus,
   IssueScope,
-  IssueSeverity,
   IssueStatus,
   IssueType,
   RawIssue,

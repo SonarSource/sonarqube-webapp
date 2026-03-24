@@ -20,9 +20,9 @@
 
 import { Text } from '@sonarsource/echoes-react';
 import SoftwareImpactSeverityIcon from '~shared/components/icon-mappers/SoftwareImpactSeverityIcon';
+import { IssueSeverity as IssueSeverityType } from '~shared/types/issues';
 import { IconProps } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
-import { IssueSeverity as IssueSeverityType } from '../../../types/issues';
 import { Issue } from '../../../types/types';
 
 interface Props extends IconProps {

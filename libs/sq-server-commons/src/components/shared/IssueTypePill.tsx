@@ -28,7 +28,9 @@ import {
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import SoftwareImpactSeverityIcon from '~shared/components/icon-mappers/SoftwareImpactSeverityIcon';
-import { IssueSeverity, IssueType } from '../../types/issues';
+import { IssueSeverity } from '~shared/types/issues';
+import { SEVERITIES } from '../../helpers/constants';
+import { IssueType } from '../../types/issues';
 import { getIssueTypeIcon } from '../icon-mappers/IssueTypeIcon';
 
 export interface Props {
@@ -63,7 +65,7 @@ export default function IssueTypePill(props: Readonly<Props>) {
     return (
       <DropdownMenu
         align={DropdownMenuAlign.Start}
-        items={Object.values(IssueSeverity).map((severityItem) => (
+        items={SEVERITIES.map((severityItem) => (
           <DropdownMenu.ItemButtonCheckable
             isChecked={severityItem === severity}
             isDisabled={severityItem === severity}

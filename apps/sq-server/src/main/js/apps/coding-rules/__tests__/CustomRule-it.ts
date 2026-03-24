@@ -20,12 +20,13 @@
 
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { IssueSeverity } from '~shared/types/issues';
 import CodingRulesServiceMock from '~sq-server-commons/api/mocks/CodingRulesServiceMock';
 import { LanguagesServiceMock } from '~sq-server-commons/api/mocks/LanguagesServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { mockLoggedInUser, mockRuleDetails } from '~sq-server-commons/helpers/testMocks';
-import { IssueSeverity, IssueType } from '~sq-server-commons/types/issues';
+import { IssueType } from '~sq-server-commons/types/issues';
 import { Mode } from '~sq-server-commons/types/mode';
 import { getPageObjects, renderCodingRulesApp } from '../utils-tests';
 

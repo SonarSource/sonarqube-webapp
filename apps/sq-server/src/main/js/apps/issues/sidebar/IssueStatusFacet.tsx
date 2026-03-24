@@ -44,7 +44,11 @@ interface Props extends CommonProps {
 const property = 'issueStatuses';
 const headerId = `facet_${property}`;
 
-const defaultStatuses = DEFAULT_ISSUES_QUERY.issueStatuses.split(',') as IssueStatus[];
+function isIssueStatus(value: string): value is IssueStatus {
+  return ISSUE_STATUSES.some((s) => s === value);
+}
+
+const defaultStatuses = DEFAULT_ISSUES_QUERY.issueStatuses.split(',').filter(isIssueStatus);
 
 export function IssueStatusFacet(props: Readonly<Props>) {
   const {

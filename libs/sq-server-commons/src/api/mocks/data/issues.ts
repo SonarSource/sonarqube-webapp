@@ -24,6 +24,7 @@ import {
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
+import { IssueSeverity } from '~shared/types/issues';
 import { mockSnippetsByComponent } from '../../../helpers/mocks/sources';
 import { mockLoggedInUser, mockRawIssue } from '../../../helpers/testMocks';
 import {
@@ -31,7 +32,6 @@ import {
   IssueDeprecatedStatus,
   IssueResolution,
   IssueScope,
-  IssueSeverity,
   IssueStatus,
   IssueTransition,
   IssueType,

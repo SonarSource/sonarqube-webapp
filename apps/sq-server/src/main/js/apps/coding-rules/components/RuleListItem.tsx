@@ -38,6 +38,7 @@ import {
 } from '~design-system';
 import { RuleStatusBadge } from '~shared/components/coding-rules/RuleStatusBadge';
 import { SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
+import { IssueSeverity } from '~shared/types/issues';
 import { Rule, RuleActivationAdvanced, RuleStatus } from '~shared/types/rules';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { CleanCodeAttributePill } from '~sq-server-commons/components/shared/CleanCodeAttributePill';
@@ -51,7 +52,6 @@ import {
   useDeactivateRuleMutation,
 } from '~sq-server-commons/queries/quality-profiles';
 import { useRuleDetailsQuery } from '~sq-server-commons/queries/rules';
-import { IssueSeverity } from '~sq-server-commons/types/issues';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import ActivatedRuleActions from './ActivatedRuleActions';
 import ActivationButton from './ActivationButton';

@@ -25,6 +25,7 @@ import {
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
+import { IssueSeverity } from '~shared/types/issues';
 import BranchesServiceMock from '../api/mocks/BranchesServiceMock';
 import ComponentsServiceMock from '../api/mocks/ComponentsServiceMock';
 import FixSuggestionsServiceMock from '../api/mocks/FixSuggestionsServiceMock';
@@ -32,7 +33,7 @@ import IssuesServiceMock from '../api/mocks/IssuesServiceMock';
 import { ModeServiceMock } from '../api/mocks/ModeServiceMock';
 import SourcesServiceMock from '../api/mocks/SourcesServiceMock';
 import UsersServiceMock from '../api/mocks/UsersServiceMock';
-import { IssueSeverity, IssueStatus, IssueTransition } from '../types/issues';
+import { IssueStatus, IssueTransition } from '../types/issues';
 
 export const usersHandler = new UsersServiceMock();
 export const issuesHandler = new IssuesServiceMock(usersHandler);

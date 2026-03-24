@@ -232,6 +232,7 @@ export default class ComponentsServiceMock {
     this.components = cloneDeep(this.defaultComponents);
     this.sourceFiles = cloneDeep(this.defaultSourceFiles);
     this.measures = cloneDeep(this.defaultMeasures);
+    this.projects = cloneDeep(this.defaultProjects);
   };
 
   handleGetComponentTree = (

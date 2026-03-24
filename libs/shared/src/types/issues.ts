@@ -27,3 +27,16 @@ export enum IssueSeverity {
   Minor = 'MINOR',
   Info = 'INFO',
 }
+
+/**
+ * Issue statuses used on SonarCloud and in shared frontend types.
+ * SonarQube Server also supports `IN_SANDBOX` for the issues sandbox; that value is defined on
+ * `IssueStatus` in `libs/sq-server-commons` (not here).
+ */
+export enum IssueStatus {
+  Open = 'OPEN',
+  Fixed = 'FIXED',
+  Confirmed = 'CONFIRMED',
+  Accepted = 'ACCEPTED',
+  FalsePositive = 'FALSE_POSITIVE',
+}

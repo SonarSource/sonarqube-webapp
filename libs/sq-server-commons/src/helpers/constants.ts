@@ -25,16 +25,11 @@ import {
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier } from '~shared/types/component';
+import { IssueSeverity } from '~shared/types/issues';
 import { MetricKey } from '~shared/types/metrics';
 import { RuleType } from '~shared/types/rules';
 import { AlmKeys } from '../types/alm-settings';
-import {
-  IssueResolution,
-  IssueScope,
-  IssueSeverity,
-  IssueStatus,
-  IssueType,
-} from '../types/issues';
+import { IssueResolution, IssueScope, IssueStatus, IssueType } from '../types/issues';
 
 export const SEVERITIES = Object.values(IssueSeverity);
 

@@ -25,6 +25,7 @@ import {
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
+import { IssueSeverity } from '~shared/types/issues';
 import {
   Rule,
   RuleActivationAdvanced,
@@ -42,7 +43,6 @@ import {
   ASSIGNEE_ME,
   IssueDeprecatedStatus,
   IssueResolution,
-  IssueSeverity,
   IssueStatus,
   IssueTransition,
   IssueType,

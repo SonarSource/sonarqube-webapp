@@ -23,6 +23,7 @@ import userEvent from '@testing-library/user-event';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier } from '~shared/types/component';
+import { IssueSeverity } from '~shared/types/issues';
 import IssuesServiceMock from '~sq-server-commons/api/mocks/IssuesServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
@@ -35,7 +36,7 @@ import {
 } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { Feature } from '~sq-server-commons/types/features';
-import { IssueSeverity, IssueStatus, IssueType } from '~sq-server-commons/types/issues';
+import { IssueStatus, IssueType } from '~sq-server-commons/types/issues';
 import { Mode } from '~sq-server-commons/types/mode';
 import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import { CurrentUser } from '~sq-server-commons/types/users';

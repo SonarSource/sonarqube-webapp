@@ -32,9 +32,10 @@ import {
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
+import { IssueSeverity } from '~shared/types/issues';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { Feature } from '~sq-server-commons/types/features';
-import { IssueSeverity, IssueType } from '~sq-server-commons/types/issues';
+import { IssueType } from '~sq-server-commons/types/issues';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import { CurrentUser } from '~sq-server-commons/types/users';
 import routes from './routes';

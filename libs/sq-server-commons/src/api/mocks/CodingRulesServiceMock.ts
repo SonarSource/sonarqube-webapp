@@ -22,6 +22,7 @@ import { cloneDeep, countBy, isEqual, pick, trim, uniq } from 'lodash';
 import { getStandards } from '~shared/helpers/security-standards';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
+import { IssueSeverity } from '~shared/types/issues';
 import { HttpStatus } from '~shared/types/request';
 import {
   Rule,
@@ -41,7 +42,7 @@ import {
   mockRuleRepository,
 } from '../../helpers/testMocks';
 import { RuleRepository, SearchRulesResponse } from '../../types/coding-rules';
-import { IssueSeverity, RawIssuesResponse } from '../../types/issues';
+import { RawIssuesResponse } from '../../types/issues';
 import { Profile } from '../../types/quality-profiles';
 import { SearchRulesQuery } from '../../types/rules';
 import { RulesUpdateRequest } from '../../types/types';

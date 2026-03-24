@@ -24,8 +24,8 @@ import {
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
+import { IssueSeverity } from '~shared/types/issues';
 import { LabelValueSelectOption } from '../design-system';
-import { IssueSeverity } from './issues';
 
 export enum QualityProfileChangelogFilterMode {
   MQR = 'MQR',

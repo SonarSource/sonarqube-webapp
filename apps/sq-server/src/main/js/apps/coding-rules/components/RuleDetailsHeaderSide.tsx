@@ -23,12 +23,12 @@ import { Text } from '@sonarsource/echoes-react';
 import React from 'react';
 import { themeBorder } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
+import { IssueSeverity } from '~shared/types/issues';
 import { RuleDetails } from '~shared/types/rules';
 import { CleanCodeAttributePill } from '~sq-server-commons/components/shared/CleanCodeAttributePill';
 import SoftwareImpactPillList from '~sq-server-commons/components/shared/SoftwareImpactPillList';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
-import { IssueSeverity } from '~sq-server-commons/types/issues';
 
 interface Props {
   ruleDetails: RuleDetails;

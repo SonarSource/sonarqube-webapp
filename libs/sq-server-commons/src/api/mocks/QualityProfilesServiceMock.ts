@@ -25,6 +25,7 @@ import {
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
+import { IssueSeverity } from '~shared/types/issues';
 import { Paging } from '~shared/types/paging';
 import { RuleDetails } from '~shared/types/rules';
 import { RequestData } from '../../helpers/request';
@@ -38,7 +39,6 @@ import {
   mockUserSelected,
 } from '../../helpers/testMocks';
 import { SearchRulesResponse } from '../../types/coding-rules';
-import { IssueSeverity } from '../../types/issues';
 import {
   ChangelogEventAction,
   Profile,

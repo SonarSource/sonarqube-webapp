@@ -21,15 +21,10 @@
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import getCoverageStatus from '~shared/helpers/sources';
+import { IssueSeverity } from '~shared/types/issues';
 import { HttpStatus } from '~shared/types/request';
 import { get, parseJSON, post, postJSON, RequestData } from '../helpers/request';
-import {
-  FacetName,
-  IssueResponse,
-  IssueSeverity,
-  ListIssuesResponse,
-  RawIssuesResponse,
-} from '../types/issues';
+import { FacetName, IssueResponse, ListIssuesResponse, RawIssuesResponse } from '../types/issues';
 import { FacetValue, IssueChangelog, SnippetsByComponent, SourceLine } from '../types/types';
 
 export function searchIssues(query: RequestData): Promise<RawIssuesResponse> {

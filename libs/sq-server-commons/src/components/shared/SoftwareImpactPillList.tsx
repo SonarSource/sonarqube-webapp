@@ -25,8 +25,8 @@ import {
   SoftwareQuality,
   SoftwareQualityImpact,
 } from '~shared/types/clean-code-taxonomy';
+import { IssueSeverity } from '~shared/types/issues';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
-import { IssueSeverity } from '../../types/issues';
 import IssueTypePill from './IssueTypePill';
 import SoftwareImpactPill from './SoftwareImpactPill';
 

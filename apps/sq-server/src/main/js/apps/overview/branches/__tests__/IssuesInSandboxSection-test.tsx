@@ -25,6 +25,7 @@ import {
 } from '~shared/api/mocks/services/BranchesServiceMock';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { IssueSeverity } from '~shared/types/issues';
 import { MetricKey } from '~shared/types/metrics';
 import IssuesServiceMock from '~sq-server-commons/api/mocks/IssuesServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
@@ -38,7 +39,7 @@ import {
 } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { ComponentPropsType } from '~sq-server-commons/helpers/testUtils';
-import { IssueSeverity, IssueStatus, IssueType } from '~sq-server-commons/types/issues';
+import { IssueStatus, IssueType } from '~sq-server-commons/types/issues';
 import { Mode } from '~sq-server-commons/types/mode';
 import { Component } from '~sq-server-commons/types/types';
 import { IssuesInSandboxSection } from '../issues-sandbox/IssuesInSandboxSection';

@@ -30,8 +30,6 @@ import { StandardsInformationKey } from '~shared/types/security';
 import { Issue, TextRange } from './types';
 import { UserBase } from './users';
 
-export { IssueSeverity } from '~shared/types/issues';
-
 export const ASSIGNEE_ME = '__me__';
 
 export enum IssueType {

@@ -29,6 +29,7 @@ import {
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
+import { IssueSeverity } from '~shared/types/issues';
 import IssuesServiceMock from '../../../api/mocks/IssuesServiceMock';
 import { ModeServiceMock } from '../../../api/mocks/ModeServiceMock';
 import UsersServiceMock from '../../../api/mocks/UsersServiceMock';
@@ -36,13 +37,7 @@ import { KeyboardKeys } from '../../../helpers/keycodes';
 import { mockIssue, mockLoggedInUser, mockRawIssue } from '../../../helpers/testMocks';
 import { renderAppRoutes } from '../../../helpers/testReactTestingUtils';
 import { ComponentPropsType } from '../../../helpers/testUtils';
-import {
-  IssueActions,
-  IssueSeverity,
-  IssueStatus,
-  IssueTransition,
-  IssueType,
-} from '../../../types/issues';
+import { IssueActions, IssueStatus, IssueTransition, IssueType } from '../../../types/issues';
 import { Mode } from '../../../types/mode';
 import { RestUserDetailed } from '../../../types/users';
 import Issue from '../Issue';
