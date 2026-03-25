@@ -33,6 +33,18 @@ const IGNORED_ERROR_MESSAGES: string[] = [
 
 failOnConsole({
   silenceMessage: (message) => {
-    return IGNORED_ERROR_MESSAGES.some((ignore_message) => message.includes(ignore_message));
+    if (IGNORED_ERROR_MESSAGES.some((ignoredMessage) => message.includes(ignoredMessage))) {
+      return true;
+    }
+
+    // React 19 deprecation warning from Mantine (used internally by Echoes).
+    // This warning does not indicate a runtime crash or broken UI behavior by itself.
+    // It is ignored here to keep fail-on-console focused on functional/runtime errors.
+    // Remove this ignore once Mantine no longer logs this warning in Echoes usage.
+    if (message.includes('Accessing element.ref was removed in React 19.')) {
+      return true;
+    }
+
+    return false;
   },
 });
