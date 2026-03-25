@@ -27,7 +27,7 @@ const POINTER_HANDLE_HEIGHT_OFFSET = 2;
 const POINTER_HANDLE_MAX_HEIGHT = 10;
 
 interface Props {
-  issueFindingRef?: RefObject<HTMLDivElement>;
+  issueFindingRef?: RefObject<HTMLDivElement | null>;
 }
 
 export function LineIssuePointer({ issueFindingRef }: Props) {

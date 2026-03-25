@@ -59,7 +59,7 @@ const EXPAND_ANIMATION_SPEED = 200;
 
 /* Exported for testing */
 export async function animateExpansion(
-  scrollableRef: React.RefObject<HTMLDivElement>,
+  scrollableRef: React.RefObject<HTMLDivElement | null>,
   expandBlock: (direction: ExpandDirection) => Promise<void>,
   direction: ExpandDirection,
 ) {

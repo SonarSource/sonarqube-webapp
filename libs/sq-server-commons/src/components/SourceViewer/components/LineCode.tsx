@@ -55,7 +55,7 @@ interface Props {
 
 export class LineCode extends PureComponent<React.PropsWithChildren<Props>> {
   symbols?: NodeListOf<HTMLElement>;
-  findingNode?: RefObject<HTMLDivElement>;
+  findingNode?: RefObject<HTMLDivElement | null>;
 
   constructor(props: Props) {
     super(props);

@@ -40,7 +40,7 @@ const DEBOUNCE_DELAY = 300;
  *
  */
 export function useDebouncedValue(): [string, string, (v: string) => void] {
-  const handle = useRef<NodeJS.Timeout>();
+  const handle = useRef<NodeJS.Timeout>(undefined);
 
   const [value, setValue] = useState('');
   const [debouncedValue, setDebouncedValue] = useState('');

@@ -87,7 +87,7 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
     tabs: [],
   };
 
-  educationPrinciplesRef: React.RefObject<HTMLDivElement>;
+  educationPrinciplesRef: React.RefObject<HTMLDivElement | null>;
 
   constructor(props: IssueTabViewerProps) {
     super(props);

@@ -74,7 +74,7 @@ export default function ProjectValidation<I extends string | number>(props: Read
     onChange,
     projectId,
   } = props;
-  const checkFreeKeyTimeout = React.useRef<NodeJS.Timeout | undefined>();
+  const checkFreeKeyTimeout = React.useRef<NodeJS.Timeout | undefined>(undefined);
   const [project, setProject] = React.useState<State>({
     key: initialKey,
     name: initialName,

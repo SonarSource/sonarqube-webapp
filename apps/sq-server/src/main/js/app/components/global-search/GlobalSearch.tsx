@@ -369,7 +369,9 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
                     <DropdownMenu
                       aria-owns="global-search-input"
                       className="it__global-navbar-search-dropdown sw-overflow-y-auto sw-overflow-x-hidden"
-                      innerRef={(node: HTMLUListElement | null) => (this.node = node)}
+                      innerRef={(node: HTMLUListElement | null) => {
+                        this.node = node;
+                      }}
                       maxHeight="38rem"
                       size="auto"
                     >

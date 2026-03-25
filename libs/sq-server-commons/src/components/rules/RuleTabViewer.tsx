@@ -68,7 +68,7 @@ export class RuleTabViewer extends React.PureComponent<RuleTabViewerProps, State
     tabs: [],
   };
 
-  educationPrinciplesRef: React.RefObject<HTMLDivElement>;
+  educationPrinciplesRef: React.RefObject<HTMLDivElement | null>;
 
   constructor(props: RuleTabViewerProps) {
     super(props);

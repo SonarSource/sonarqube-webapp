@@ -90,8 +90,8 @@ export function BubbleChart<T>(props: BubbleChartProps<T>) {
   } = props;
 
   const [transform, setTransform] = React.useState({ x: 0, y: 0, k: 1 });
-  const nodeRef = React.useRef<SVGSVGElement>();
-  const zoomRef = React.useRef<ZoomBehavior<Element, unknown>>();
+  const nodeRef = React.useRef<SVGSVGElement>(undefined);
+  const zoomRef = React.useRef<ZoomBehavior<Element, unknown>>(undefined);
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [containerWidth] = useResizeObserver(containerRef);
   const zoomLevelLabel = `${Math.floor(transform.k * 100)}%`;
@@ -229,14 +229,19 @@ export function BubbleChart<T>(props: BubbleChartProps<T>) {
         return null;
       }
 
-      const ticks = xTicks.map((tick, index) => {
+      const ticks = xTicks.map((tick) => {
         const x = xScale(tick) * transform.k + transform.x;
         const y = yScale.range()[0];
         const innerText = formatXTick(tick);
         // as we modified the `x` using `transform`, check that it is inside the range again
         return x > 0 && x < xScale.range()[1] ? (
-          // eslint-disable-next-line react/no-array-index-key
-          <BubbleChartTick dy="1.5em" key={index} style={{ '--align': 'middle' }} x={x} y={y}>
+          <BubbleChartTick
+            dy="1.5em"
+            key={`x-tick-${tick}`}
+            style={{ '--align': 'middle' }}
+            x={x}
+            y={y}
+          >
             {innerText}
           </BubbleChartTick>
         ) : null;

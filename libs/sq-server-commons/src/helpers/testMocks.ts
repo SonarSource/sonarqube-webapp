@@ -888,14 +888,14 @@ export function mockIdentityProvider(overrides: Partial<IdentityProvider> = {}):
 }
 
 export function mockRef(
-  overrides: Partial<React.RefObject<Partial<HTMLElement>>> = {},
-): React.RefObject<HTMLElement> {
+  overrides: Partial<React.RefObject<Partial<HTMLElement> | null>> = {},
+): React.RefObject<HTMLElement | null> {
   return {
     current: {
       getBoundingClientRect: jest.fn(),
       ...overrides.current,
     },
-  } as React.RefObject<HTMLElement>;
+  } as React.RefObject<HTMLElement | null>;
 }
 
 export function mockPaging(overrides: Partial<Paging> = {}): Paging {

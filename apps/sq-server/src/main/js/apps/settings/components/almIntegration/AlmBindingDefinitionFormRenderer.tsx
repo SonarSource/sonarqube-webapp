@@ -40,7 +40,7 @@ export interface Props {
   alm: AlmKeys;
   bitbucketVariant?: AlmKeys.BitbucketServer | AlmKeys.BitbucketCloud;
   canSubmit: boolean;
-  errorListElementRef: React.RefObject<HTMLDivElement>;
+  errorListElementRef: React.RefObject<HTMLDivElement | null>;
   formData: AlmBindingDefinition;
   isUpdate: boolean;
   onBitbucketVariantChange: (

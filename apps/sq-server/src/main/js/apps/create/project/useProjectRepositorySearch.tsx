@@ -45,7 +45,7 @@ export function useProjectRepositorySearch<RepoType extends AzureRepository>({
   setSelectedRepository: (repo: RepoType) => void;
   setShowPersonalAccessTokenForm: (show: boolean) => void;
 }) {
-  const repositorySearchDebounceId = useRef<NodeJS.Timeout | undefined>();
+  const repositorySearchDebounceId = useRef<NodeJS.Timeout | undefined>(undefined);
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<RepoType[] | undefined>();
 

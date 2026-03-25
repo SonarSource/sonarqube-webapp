@@ -53,9 +53,9 @@ import { LegacyComponentNavCompatibleWithNewLayout } from './nav/component/legac
 const FETCH_STATUS_WAIT_TIME = 3000;
 
 function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>) {
-  const watchStatusTimer = React.useRef<number>();
-  const oldTasksInProgress = React.useRef<Task[]>();
-  const oldCurrentTask = React.useRef<Task>();
+  const watchStatusTimer = React.useRef<number | undefined>(undefined);
+  const oldTasksInProgress = React.useRef<Task[] | undefined>(undefined);
+  const oldCurrentTask = React.useRef<Task | undefined>(undefined);
   const {
     query: { id: key, branch, pullRequest, fixedInPullRequest },
     pathname,

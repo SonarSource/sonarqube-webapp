@@ -67,7 +67,7 @@ type IssueIndicatorsProps = {
   branchLike: BranchLike;
   component: Component;
   issuesByCell: IssuesByCell;
-  jupyterRef: React.RefObject<HTMLDivElement>;
+  jupyterRef: React.RefObject<HTMLDivElement | null>;
 };
 type IssueMapper = {
   issueUrl: To;
@@ -262,7 +262,7 @@ HljsIssueIndicatorPlugin.addIssuesToLines function on the source code of a Jupyt
 */
 function PortalLineIssuesIndicator(props: {
   issueMapper: IssueMapper;
-  jupyterRef: React.RefObject<HTMLDivElement>;
+  jupyterRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const { jupyterRef, issueMapper } = props;
   const router = useRouter();

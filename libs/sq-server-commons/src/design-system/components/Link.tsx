@@ -152,17 +152,18 @@ const StyledBaseLink = styled(BaseLink)`
   }
 
   ${({ icon }) =>
-    icon &&
-    css`
-      margin-left: calc(${twTheme('width.icon')} + ${twTheme('spacing.3')});
+    icon
+      ? css`
+          margin-left: calc(${twTheme('width.icon')} + ${twTheme('spacing.3')});
 
-      & > svg,
-      & > img {
-        ${tw`sw-mr-3`}
+          & > svg,
+          & > img {
+            ${tw`sw-mr-3`}
 
-        margin-left: calc(-1 * (${twTheme('width.icon')} + ${twTheme('spacing.3')}));
-      }
-    `};
+            margin-left: calc(-1 * (${twTheme('width.icon')} + ${twTheme('spacing.3')}));
+          }
+        `
+      : undefined};
 `;
 
 /** @deprecated Use either Link or LinkStandalone from Echoes instead.

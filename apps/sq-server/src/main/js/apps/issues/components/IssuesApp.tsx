@@ -164,7 +164,7 @@ export class App extends React.PureComponent<Props, State> {
   intl = getIntl();
   mounted = false;
   requiresInitialFetch = false;
-  bulkButtonRef: React.RefObject<HTMLButtonElement>;
+  bulkButtonRef: React.RefObject<HTMLButtonElement | null>;
 
   constructor(props: Props) {
     super(props);

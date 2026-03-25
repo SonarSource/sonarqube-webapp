@@ -22,7 +22,7 @@ import * as React from 'react';
 import { getInstance } from '../../helpers/system';
 
 interface Props {
-  children?: (transformedMessage: string) => React.ReactChild;
+  children?: (transformedMessage: string) => React.ReactNode;
   message: string;
 }
 

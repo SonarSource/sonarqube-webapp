@@ -49,7 +49,7 @@ function LineMarkerFunc(
     <Wrapper className={classNames({ leading })} ref={element}>
       <LocationMarker
         onClick={handleClick}
-        ref={ref as React.RefObject<HTMLDivElement>}
+        ref={ref as React.RefObject<HTMLDivElement | null>}
         selected={selected}
         text={hideLocationIndex ? undefined : index + 1}
       />

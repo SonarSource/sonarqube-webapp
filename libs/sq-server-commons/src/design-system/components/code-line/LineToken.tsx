@@ -36,7 +36,7 @@ interface Props extends TokenModifiers {
   children: ReactNode;
   className?: string;
   hasMarker?: boolean;
-  issueFindingRef?: RefObject<HTMLDivElement>;
+  issueFindingRef?: RefObject<HTMLDivElement | null>;
 }
 
 export function LineToken(props: Props) {

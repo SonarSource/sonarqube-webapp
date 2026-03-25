@@ -37,7 +37,7 @@ export function useRepositorySearch(
   setSearchQuery: (query: string) => void,
   showPersonalAccessTokenForm = false,
 ) {
-  const repositorySearchDebounceId = useRef<NodeJS.Timeout | undefined>();
+  const repositorySearchDebounceId = useRef<NodeJS.Timeout | undefined>(undefined);
   const [isSearching, setIsSearching] = useState<boolean>(false);
 
   const orgValid = useMemo(

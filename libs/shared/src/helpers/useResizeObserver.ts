@@ -26,7 +26,7 @@ export interface ResizeObserverEntry {
   target: Element;
 }
 
-export const useResizeObserver = (ref: RefObject<Element>) => {
+export const useResizeObserver = (ref: RefObject<Element | null>) => {
   const [width, setWidth] = useState<number>();
   const [height, setHeight] = useState<number>();
 

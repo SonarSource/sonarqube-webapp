@@ -31,7 +31,7 @@ import NeverTrustUserInput from './educationPrinciples/NeverTrustUserInput';
 interface Props {
   displayEducationalPrinciplesNotification?: boolean;
   educationPrinciples?: string[];
-  educationPrinciplesRef?: React.RefObject<HTMLDivElement>;
+  educationPrinciplesRef?: React.RefObject<HTMLDivElement | null>;
   language?: string;
   sections?: RuleDescriptionSection[];
 }

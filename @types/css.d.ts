@@ -19,9 +19,17 @@
  */
 
 import 'csstype';
+import 'react';
 
 declare module 'csstype' {
   interface Properties {
+    // Support any CSS Custom Property in style prop of components
+    [index: `--${string}`]: string | number;
+  }
+}
+
+declare module 'react' {
+  interface CSSProperties {
     // Support any CSS Custom Property in style prop of components
     [index: `--${string}`]: string | number;
   }

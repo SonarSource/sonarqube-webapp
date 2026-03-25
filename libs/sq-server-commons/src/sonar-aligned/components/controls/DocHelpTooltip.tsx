@@ -60,7 +60,7 @@ export interface DocHelpTooltipProps {
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3774513191/ToggleTips | Migration Guide} for more information.
  */
 export default function DocHelpTooltip(props: Readonly<DocHelpTooltipProps>) {
-  const nextSelectableNode = React.useRef<HTMLElement | undefined | null>();
+  const nextSelectableNode = React.useRef<HTMLElement | undefined | null>(undefined);
   const linksRef = React.useRef<Array<HTMLAnchorElement | null>>([]);
   const helpRef = React.useRef<HTMLElement>(null);
   const { className, children, content, links, title, placement, linkTextLabel } = props;
@@ -114,7 +114,9 @@ export default function DocHelpTooltip(props: Readonly<DocHelpTooltipProps>) {
               {index === 0 && linkTextLabel && `${linkTextLabel}: `}
               {doc ? (
                 <DocumentationLink
-                  innerRef={(ref) => (linksRef.current[index] = ref)}
+                  innerRef={(ref) => {
+                    linksRef.current[index] = ref;
+                  }}
                   to={href as DocLink} // the map above messed up type inference
                 >
                   {label}

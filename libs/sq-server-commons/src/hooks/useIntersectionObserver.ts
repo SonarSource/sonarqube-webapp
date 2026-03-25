@@ -26,7 +26,7 @@ interface Options extends IntersectionObserverInit {
 }
 
 export default function useIntersectionObserver<T extends Element>(
-  ref: RefObject<T>,
+  ref: RefObject<T | null>,
   options: Options = {},
 ) {
   const { root = null, rootMargin = '0px', threshold = 0, freezeOnceVisible = false } = options;

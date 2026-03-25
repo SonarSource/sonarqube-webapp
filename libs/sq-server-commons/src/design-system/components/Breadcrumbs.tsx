@@ -50,7 +50,7 @@ interface Props {
   children: React.ReactNode;
   className?: string;
   expandButtonLabel?: string;
-  innerRef?: React.RefObject<HTMLElement>;
+  innerRef?: React.RefObject<HTMLElement | null>;
   maxWidth?: number;
 }
 

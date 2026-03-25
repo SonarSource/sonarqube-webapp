@@ -68,7 +68,7 @@ type FieldValue = string | string[] | boolean;
 
 export default function Definition(props: Readonly<Props>) {
   const { component, definition, initialSettingValue } = props;
-  const timeout = React.useRef<number | undefined>();
+  const timeout = React.useRef<number | undefined>(undefined);
   const [isEditing, setIsEditing] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [isOpenConfirmation, setIsOpenConfirmation] = React.useState(false);

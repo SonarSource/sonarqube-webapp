@@ -177,7 +177,7 @@ export function mockForwardRefComponent<T>(
   role?: AriaRole,
   transformProps: (props: PropsWithoutRef<T>) => Attributes | null | undefined = identity,
 ) {
-  function MockedComponent(props: PropsWithoutRef<T>, _: RefObject<HTMLDivElement>) {
+  function MockedComponent(props: PropsWithoutRef<T>, _: RefObject<HTMLDivElement | null>) {
     const mockName = 'mocked-' + kebabCase(name);
     return createElement(mockName, transformProps({ role, 'data-testid': mockName, ...props }));
   }

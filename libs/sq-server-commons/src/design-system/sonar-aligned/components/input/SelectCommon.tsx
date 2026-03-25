@@ -43,7 +43,7 @@ export interface ExtensionProps<
   Group extends GroupBase<Option> = GroupBase<Option>,
 > {
   clearLabel?: string;
-  selectRef?: RefObject<Select<Option, IsMulti, Group>>;
+  selectRef?: RefObject<Select<Option, IsMulti, Group> | null>;
   shouldSortOption?: boolean;
   size?: InputSizeKeys;
 }
