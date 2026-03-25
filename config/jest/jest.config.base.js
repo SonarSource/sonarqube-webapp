@@ -25,6 +25,10 @@ const esModules = [
   'd3-drag',
   'highlightjs-',
   '@sonarsource/echoes-react',
+  // react-intl and its formatjs dependencies ship as ESM in v8+
+  'react-intl',
+  '@formatjs/',
+  'intl-messageformat',
   // Jupyterlab
   '@jupyterlab/nbformat',
   // React DnD (react-dnd pattern matches react-dnd-html5-backend too)
