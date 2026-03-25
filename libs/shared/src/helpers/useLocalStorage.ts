@@ -31,6 +31,7 @@ export default function useLocalStorage<T>(
 export default function useLocalStorage<T>(key: string, initialValue?: T) {
   const lsValue = useCallback<() => T>(() => {
     const v = get(key);
+
     try {
       return JSON.parse(v as string);
     } catch {
@@ -49,13 +50,17 @@ export default function useLocalStorage<T>(key: string, initialValue?: T) {
 
         save(key, JSON.stringify(nextValue));
 
-        // Dispatching storage event to notify current tab
-        const lsEvent = new StorageEvent('storage', {
-          key,
-          newValue: JSON.stringify(nextValue),
-          oldValue: JSON.stringify(prev),
+        // In React 19, listeners for this synthetic storage event can run right
+        // away and trigger nested update loops. We queue the dispatch in a
+        // microtask so it runs after the current React update cycle.
+        globalThis.queueMicrotask(() => {
+          const lsEvent = new StorageEvent('storage', {
+            key,
+            newValue: JSON.stringify(nextValue),
+            oldValue: JSON.stringify(prev),
+          });
+          globalThis.dispatchEvent(lsEvent);
         });
-        globalThis.dispatchEvent(lsEvent);
 
         return nextValue;
       });
@@ -70,7 +75,9 @@ export default function useLocalStorage<T>(key: string, initialValue?: T) {
         setStoredValue(lsValue() ?? initialValue);
       }
     };
+
     globalThis.addEventListener('storage', handleStorageChange, false);
+
     return () => {
       globalThis.removeEventListener('storage', handleStorageChange, false);
     };
