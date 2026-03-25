@@ -24,12 +24,15 @@ import {
   ButtonSize,
   ButtonVariety,
   IconDelete,
+  MessageCallout,
+  Modal,
+  ModalSize,
   Spinner,
   Table,
+  TextInput,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { useIntl } from 'react-intl';
-import { FlagMessage, FormField, InputField, Modal } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { PermissionHeader } from '~sq-server-commons/components/permissions/PermissionHeader';
 import {
   PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE,
@@ -205,24 +208,20 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
             <Table.Cell style={{ gridColumn: `1 / -1`, justifyContent: 'flex-start' }}>
               <div className="sw-flex sw-items-end">
                 <form className="sw-flex sw-items-end" onSubmit={validateAndAddCustomRole}>
-                  <FormField
-                    htmlFor="custom-role-input"
+                  <TextInput
+                    className="sw-w-[300px]"
+                    id="custom-role-input"
                     label={intl.formatMessage({
                       id: 'settings.authentication.configuration.roles_mapping.dialog.add_custom_role',
                     })}
-                  >
-                    <InputField
-                      className="sw-w-[300px]"
-                      id="custom-role-input"
-                      maxLength={4000}
-                      onChange={(event) => {
-                        setCustomRoleError(false);
-                        setCustomRoleInput(event.currentTarget.value);
-                      }}
-                      type="text"
-                      value={customRoleInput}
-                    />
-                  </FormField>
+                    maxLength={4000}
+                    onChange={(event) => {
+                      setCustomRoleError(false);
+                      setCustomRoleInput(event.currentTarget.value);
+                    }}
+                    type="text"
+                    value={customRoleInput}
+                  />
                   <Button
                     className="sw-ml-2 sw-mr-4 sw-w-full"
                     isDisabled={customRoleInput.trim() === '' || customRoleError}
@@ -232,11 +231,11 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
                   </Button>
                 </form>
                 {customRoleError && (
-                  <FlagMessage variant="error">
+                  <MessageCallout variety="danger">
                     {intl.formatMessage({
                       id: 'settings.authentication.configuration.roles_mapping.role_exists',
                     })}
-                  </FlagMessage>
+                  </MessageCallout>
                 )}
               </div>
             </Table.Cell>
@@ -254,36 +253,39 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
             ))}
         </Table.Body>
       </Table>
-      <FlagMessage variant="info">
+      <MessageCallout variety="info">
         {intl.formatMessage({
           id: `settings.authentication.${mappingFor}.configuration.roles_mapping.dialog.custom_roles_description`,
         })}
-      </FlagMessage>
+      </MessageCallout>
 
       <Spinner isLoading={isLoading} />
     </div>
   );
 
   return (
-    <Modal closeOnOverlayClick={!haveEmptyCustomRoles} isLarge onClose={onClose}>
-      <Modal.Header title={header} />
-      <Modal.Body>{formBody}</Modal.Body>
-      <Modal.Footer
-        secondaryButton={
-          <div className="sw-flex sw-items-center sw-justify-end sw-mt-2">
-            {haveEmptyCustomRoles && (
-              <FlagMessage className="sw-inline-block sw-mb-0 sw-mr-2" variant="error">
-                {intl.formatMessage({
-                  id: 'settings.authentication.configuration.roles_mapping.empty_custom_role',
-                })}
-              </FlagMessage>
-            )}
-            <Button isDisabled={haveEmptyCustomRoles} onClick={onClose}>
-              {intl.formatMessage({ id: 'close' })}
-            </Button>
-          </div>
+    <Modal
+      content={formBody}
+      isOpen
+      onOpenChange={(isOpen) => {
+        if (!isOpen && !haveEmptyCustomRoles) {
+          onClose();
         }
-      />
-    </Modal>
+      }}
+      secondaryButton={
+        <div className="sw-flex sw-items-center sw-justify-end sw-mt-2">
+          {haveEmptyCustomRoles && (
+            <MessageCallout className="sw-mr-2" variety="danger">
+              <FormattedMessage id="settings.authentication.configuration.roles_mapping.empty_custom_role" />
+            </MessageCallout>
+          )}
+          <Button isDisabled={haveEmptyCustomRoles} onClick={onClose}>
+            <FormattedMessage id="close" />
+          </Button>
+        </div>
+      }
+      size={ModalSize.Wide}
+      title={header}
+    />
   );
 }
