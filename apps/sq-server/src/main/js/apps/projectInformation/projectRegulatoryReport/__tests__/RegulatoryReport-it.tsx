@@ -55,7 +55,7 @@ describe('RegulatoryReport tests', () => {
     expect(await ui.page.find()).toBeInTheDocument();
     expect(ui.description1.get()).toBeInTheDocument();
     expect(ui.description2.get()).toBeInTheDocument();
-    expect(ui.availableBranchesInfo.get()).toBeInTheDocument();
+    expect(await ui.availableBranchesInfo.find()).toBeInTheDocument();
     expect(ui.moreInfo.get()).toBeInTheDocument();
     expect(ui.branchSelect.get()).toBeInTheDocument();
 

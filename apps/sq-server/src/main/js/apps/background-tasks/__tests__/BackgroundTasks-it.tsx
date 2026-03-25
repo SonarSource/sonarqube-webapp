@@ -366,6 +366,8 @@ function getPageObject() {
       expect(
         await screen.findByRole('heading', { name: 'background_tasks.page' }),
       ).toBeInTheDocument();
+
+      expect(await screen.findByRole('button', { name: 'reload' })).toBeEnabled();
     },
 
     getAllRows() {

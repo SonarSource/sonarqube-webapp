@@ -186,7 +186,7 @@ describe('project overview', () => {
     expect(screen.getByText('metric.level.OK')).toBeInTheDocument();
 
     // Measures panel
-    expect(screen.getByText('overview.new_issues')).toBeInTheDocument();
+    expect(await screen.findByText('overview.new_issues')).toBeInTheDocument();
     expect(
       byRole('link', {
         name: 'overview.see_more_details_on_x_of_y.1.metric.new_accepted_issues.name',

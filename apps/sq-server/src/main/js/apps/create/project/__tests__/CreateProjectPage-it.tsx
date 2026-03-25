@@ -61,7 +61,7 @@ it('should be able to setup if no config and admin', async () => {
   dopTranslationHandler.removeDopTypeFromSettings(AlmKeys.Azure);
   renderCreateProject(true);
   expect(await screen.findByText('onboarding.create_project.select_method')).toBeInTheDocument();
-  expect(screen.getByRole('button', { name: 'setup' })).toBeInTheDocument();
+  expect(await screen.findByRole('button', { name: 'setup' })).toBeInTheDocument();
 });
 
 it('should not be able to setup if no config and no admin rights', async () => {
@@ -85,7 +85,9 @@ it('should be able to setup if config is present', async () => {
   renderCreateProject();
   expect(await screen.findByText('onboarding.create_project.select_method')).toBeInTheDocument();
   expect(
-    screen.getByRole('link', { name: 'onboarding.create_project.import_select_method.bitbucket' }),
+    await screen.findByRole('link', {
+      name: 'onboarding.create_project.import_select_method.bitbucket',
+    }),
   ).toBeInTheDocument();
 });
 

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen, waitFor, waitForElementToBeRemoved, within } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
 import { byRole } from '~shared/helpers/testSelector';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import CodingRulesServiceMock from '~sq-server-commons/api/mocks/CodingRulesServiceMock';
@@ -595,7 +595,11 @@ describe('Rules app list', () => {
       await user.click(ui.revertToParentDefinitionButton().get());
       await user.click(ui.yesButton.get());
 
-      await waitForElementToBeRemoved(ui.revertToParentDefinitionButton().query());
+      // The button is removed asynchronously after the revert request completes.
+      // Assert disappearance via waitFor to avoid a race with immediate DOM checks.
+      await waitFor(() => {
+        expect(ui.revertToParentDefinitionButton().query()).not.toBeInTheDocument();
+      });
       expect(ui.getAllRuleListItems()).toHaveLength(1);
       expect(ui.deactivateButton.get()).toBeInTheDocument();
       expect(ui.deactivateButton.get()).toBeDisabled();
@@ -754,7 +758,11 @@ describe('Rules app list', () => {
       await user.click(ui.revertToParentDefinitionButton().get());
       await user.click(ui.yesButton.get());
 
-      await waitForElementToBeRemoved(ui.revertToParentDefinitionButton().query());
+      // The button is removed asynchronously after the revert request completes.
+      // Assert disappearance via waitFor to avoid a race with immediate DOM checks.
+      await waitFor(() => {
+        expect(ui.revertToParentDefinitionButton().query()).not.toBeInTheDocument();
+      });
       expect(ui.getAllRuleListItems()).toHaveLength(1);
       expect(ui.deactivateButton.get()).toBeInTheDocument();
       expect(ui.deactivateButton.get()).toBeDisabled();

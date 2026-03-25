@@ -80,10 +80,12 @@ it('should ask for PAT when it is not set yet and show the import project featur
   const user = userEvent.setup();
   renderCreateProject();
   expect(await screen.findByText('onboarding.create_project.azure.title')).toBeInTheDocument();
-  expect(screen.getByText('alm.configuration.selector.label.alm.azure.long')).toBeInTheDocument();
+  expect(
+    await screen.findByText('alm.configuration.selector.label.alm.azure.long'),
+  ).toBeInTheDocument();
 
-  await user.click(ui.instanceSelector.get());
-  await user.click(byRole('option', { name: /conf-azure-1/ }).get());
+  await user.click(await ui.instanceSelector.find());
+  await user.click(await byRole('option', { name: /conf-azure-1/ }).find());
 
   expect(await screen.findByText('onboarding.create_project.enter_pat')).toBeInTheDocument();
   expect(screen.getByText('onboarding.create_project.pat_form.title')).toBeInTheDocument();
@@ -105,8 +107,8 @@ it('should show import project feature when PAT is already set', async () => {
   renderCreateProject();
   expect(await screen.findByText('onboarding.create_project.azure.title')).toBeInTheDocument();
 
-  await user.click(ui.instanceSelector.get());
-  await user.click(byRole('option', { name: /conf-azure-2/ }).get());
+  await user.click(await ui.instanceSelector.find());
+  await user.click(await byRole('option', { name: /conf-azure-2/ }).find());
 
   expect(await screen.findByText('Azure project')).toBeInTheDocument();
   expect(screen.getByText('Azure project 2')).toBeInTheDocument();
@@ -190,8 +192,8 @@ it('should show search filter when PAT is already set', async () => {
   renderCreateProject();
   expect(await screen.findByText('onboarding.create_project.azure.title')).toBeInTheDocument();
 
-  await user.click(ui.instanceSelector.get());
-  await user.click(byRole('option', { name: /conf-azure-2/ }).get());
+  await user.click(await ui.instanceSelector.find());
+  await user.click(await byRole('option', { name: /conf-azure-2/ }).find());
 
   // Should search with positive results
   const inputSearch = await screen.findByPlaceholderText(
@@ -265,9 +267,9 @@ describe('Azure monorepo setup navigation', () => {
     renderCreateProject({ isMonorepo: true });
 
     await user.click(await ui.monorepoDopSettingDropdown.find());
-    await user.click(byRole('option', { name: /conf-azure-2/ }).get());
+    await user.click(await byRole('option', { name: /conf-azure-2/ }).find());
 
-    await user.click(ui.repositorySelector.get());
+    await user.click(await ui.repositorySelector.find());
 
     expect(screen.getByText('Azure repo 1')).toBeInTheDocument();
     expect(screen.getByText('Azure repo 2')).toBeInTheDocument();

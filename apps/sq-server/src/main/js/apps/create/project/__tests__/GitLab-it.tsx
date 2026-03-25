@@ -104,9 +104,9 @@ it('should ask for PAT when it is not set yet and show the import project featur
   renderCreateProject();
 
   expect(await ui.importProjectsTitle.find()).toBeInTheDocument();
-  expect(ui.instanceSelector.get()).toBeInTheDocument();
+  expect(await ui.instanceSelector.find()).toBeInTheDocument();
   await user.click(ui.instanceSelector.get());
-  await user.click(byRole('option', { name: /conf-final-1/ }).get());
+  await user.click(await byRole('option', { name: /conf-final-1/ }).find());
 
   expect(await screen.findByText('onboarding.create_project.enter_pat')).toBeInTheDocument();
   expect(ui.patHelpInstructions.get()).toBeInTheDocument();
@@ -124,8 +124,8 @@ it('should show import project feature when PAT is already set', async () => {
   renderCreateProject();
 
   expect(await ui.importProjectsTitle.find()).toBeInTheDocument();
-  await user.click(ui.instanceSelector.get());
-  await user.click(byRole('option', { name: /conf-final-2/ }).get());
+  await user.click(await ui.instanceSelector.find());
+  await user.click(await byRole('option', { name: /conf-final-2/ }).find());
 
   expect(await ui.project1.find()).toBeInTheDocument();
   expect(ui.project1Link.get()).toHaveAttribute('href', '/dashboard?id=key');
@@ -141,8 +141,8 @@ it('should show search filter when PAT is already set', async () => {
 
   expect(await ui.importProjectsTitle.find()).toBeInTheDocument();
 
-  await user.click(ui.instanceSelector.get());
-  await user.click(byRole('option', { name: /conf-final-2/ }).get());
+  await user.click(await ui.instanceSelector.find());
+  await user.click(await byRole('option', { name: /conf-final-2/ }).find());
 
   const inputSearch = await screen.findByRole('searchbox');
   await user.click(inputSearch);
@@ -167,7 +167,7 @@ it('should allow to reset PAT', async () => {
   expect(await ui.instanceSelector.find()).toBeInTheDocument();
 
   await user.click(ui.instanceSelector.get());
-  await user.click(byRole('option', { name: /conf-final-2/ }).get());
+  await user.click(await byRole('option', { name: /conf-final-2/ }).find());
 
   await user.click(await ui.resetPatLink.find());
 
@@ -192,8 +192,8 @@ it('should import several projects', async () => {
   renderCreateProject();
 
   expect(await ui.importProjectsTitle.find()).toBeInTheDocument();
-  await user.click(ui.instanceSelector.get());
-  await user.click(byRole('option', { name: /conf-final-2/ }).get());
+  await user.click(await ui.instanceSelector.find());
+  await user.click(await byRole('option', { name: /conf-final-2/ }).find());
 
   expect(await ui.project1.find()).toBeInTheDocument();
   expect(ui.project1Checkbox.get()).not.toBeChecked();
@@ -284,8 +284,8 @@ it('should show no result message when there are no projects', async () => {
   renderCreateProject();
 
   expect(await ui.importProjectsTitle.find()).toBeInTheDocument();
-  await user.click(ui.instanceSelector.get());
-  await user.click(byRole('option', { name: /conf-final-2/ }).get());
+  await user.click(await ui.instanceSelector.find());
+  await user.click(await byRole('option', { name: /conf-final-2/ }).find());
 
   expect(await screen.findByText('no_results')).toBeInTheDocument();
 });

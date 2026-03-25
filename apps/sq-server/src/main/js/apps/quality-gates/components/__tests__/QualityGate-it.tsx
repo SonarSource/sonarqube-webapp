@@ -871,7 +871,9 @@ describe('The Permissions section', () => {
     });
     expect(addUserButton).toBeDisabled();
     await user.click(searchUserInput);
-    await user.click(screen.getByRole('option', { name: 'userlogin' }));
+    // Autocomplete options are populated only after a real input change.
+    await user.keyboard('a');
+    await user.click(await screen.findByRole('option', { name: 'userlogin' }));
     expect(addUserButton).toBeEnabled();
     await user.click(addUserButton);
     expect(screen.getByText('userlogin')).toBeInTheDocument();
@@ -918,7 +920,9 @@ describe('The Permissions section', () => {
       name: 'add_verb',
     });
     await user.click(searchUserInput);
-    await user.click(within(popup).getByRole('option', { name: 'Foo Foo' }));
+    // Autocomplete options are populated only after a real input change.
+    await user.keyboard('a');
+    await user.click(await screen.findByRole('option', { name: 'Foo Foo' }));
     await user.click(addUserButton);
     expect(screen.getByText('Foo')).toBeInTheDocument();
 

@@ -67,7 +67,7 @@ describe('System Info Standalone', () => {
   it('can download logs & system info', async () => {
     const { user, ui } = getPageObjects();
     renderSystemApp();
-    expect(await ui.pageHeading.find()).toBeInTheDocument();
+    expect(await ui.downloadLogsButton.find()).toBeInTheDocument();
 
     await user.click(ui.downloadLogsButton.get());
     [
@@ -166,6 +166,8 @@ function getPageObjects() {
 
   async function appIsLoaded() {
     expect(await ui.pageHeading.find()).toBeInTheDocument();
+
+    expect(await ui.downloadLogsButton.find()).toBeInTheDocument();
   }
 
   return {

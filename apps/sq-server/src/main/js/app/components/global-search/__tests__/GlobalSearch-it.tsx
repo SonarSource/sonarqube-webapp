@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { getSuggestions } from '~sq-server-commons/api/components';
@@ -149,10 +150,10 @@ it('shows warning about short input', async () => {
 
   await user.click(ui.searchInput.get());
   await user.keyboard('s');
-  expect(ui.tooShortWarning.get()).toBeVisible();
+  expect(screen.getAllByText('search_input.minimum_characters.2')[0]).toBeVisible();
 
   await user.keyboard('abc');
-  expect(ui.tooShortWarning.query()).not.toBeInTheDocument();
+  expect(screen.queryByText('search_input.minimum_characters.2')).not.toBeInTheDocument();
 });
 
 it('should display no results message', async () => {

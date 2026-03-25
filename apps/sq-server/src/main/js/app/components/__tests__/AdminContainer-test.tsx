@@ -74,7 +74,7 @@ it('should render nav and provide context to children', async () => {
 
   expect(await ui.navHeader.find()).toBeInTheDocument();
 
-  expect(ui.pagesList.byRole('listitem').getAll()).toHaveLength(1);
+  expect(await ui.pagesList.byRole('listitem').findAll()).toHaveLength(1);
   expect(ui.pagesList.byText('asdf').get()).toBeInTheDocument();
 
   expect(ui.pluginsInstallingList.byRole('listitem').getAll()).toHaveLength(1);
