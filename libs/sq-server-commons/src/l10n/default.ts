@@ -1589,6 +1589,8 @@ export const defaultMessages = {
   'dependencies.analysis.callout_view_errors': 'View errors',
   'dependencies.analysis.dependency_files_analyzed':
     '<highlighted>{count}</highlighted> dependency {count, plural, one {file} other {files}} were analyzed.',
+  'dependencies.analysis.show_unfiltered_items': 'Show all risks',
+
   'dependencies.list.title':
     '<highlighted>{count}</highlighted> {count, plural, one {dependency} other {dependencies}}',
   'dependencies.list.name_search.title':
@@ -1819,7 +1821,7 @@ export const defaultMessages = {
   'dependencies.risks.reachability.title': 'This vulnerability is reachable',
   'dependencies.risks.reachable': 'Reachable',
   'dependencies.risks.empty_state.title':
-    'No {branchType, select, pullRequest {new } other {}}dependency risks were found',
+    'No {branchType, select, pullRequest {new } other {}}open dependency risks were found',
   'dependencies.risks.empty_state.body':
     'This may be because your project has no {branchType, select, pullRequest {new } other {}}dependencies, all dependencies are risk-free, or an error occurred during analysis.',
   'dependencies.risks.details.not_found.title': 'Dependency risk not found',

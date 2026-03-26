@@ -101,6 +101,10 @@ export default function ListFooter(props: Readonly<ListFooterProps>) {
     );
   }
 
+  if (total === 0) {
+    return null;
+  }
+
   return (
     <StyledDiv
       as="footer"
