@@ -99,7 +99,8 @@ export function DisabledTabLink(props: { label: string; overlay: React.ReactNode
 // Styling for <NavLink> due to its special className function, it conflicts when styled with Emotion.
 const NavBarTabLinkWrapper = styled.li`
   ${tw`sw-typo-default`};
-  & > a {
+  & > a,
+  & > * > a {
     ${tw`sw-pb-3`};
     ${tw`sw-block`};
     ${tw`sw-box-border`};
@@ -115,18 +116,27 @@ const NavBarTabLinkWrapper = styled.li`
   & > a:active,
   & > a:hover,
   & > a:focus,
-  & > a[aria-expanded='true'] {
+  & > a[aria-expanded='true'],
+  & > * > a.active,
+  & > * > a:active,
+  & > * > a:hover,
+  & > * > a:focus,
+  & > * > a[aria-expanded='true'] {
     border-bottom-color: ${themeColor('tabBorder')};
   }
 
   & > a.active > span[data-text],
   & > a[aria-expanded='true'] > span[data-text],
-  & > a:active > span:not([data-component='badge']) {
+  & > a:active > span:not([data-component='badge']),
+  & > * > a.active > span[data-text],
+  & > * > a[aria-expanded='true'] > span[data-text],
+  & > * > a:active > span:not([data-component='badge']) {
     ${tw`sw-typo-semibold`};
   }
 
   // This is a hack to have a link take the space of the bold font, so when active other ones are not moving
-  & > a > span[data-text]::before {
+  & > a > span[data-text]::before,
+  & > * > a > span[data-text]::before {
     ${tw`sw-block`};
     ${tw`sw-typo-semibold`};
     height: 0;
@@ -137,9 +147,12 @@ const NavBarTabLinkWrapper = styled.li`
 
   & > a.disabled-link,
   & > a.disabled-link:hover,
-  & > a.disabled-link.hover {
+  & > a.disabled-link.hover,
+  & > * > a.disabled-link,
+  & > * > a.disabled-link:hover,
+  & > * > a.disabled-link.hover {
     ${tw`sw-cursor-default`};
-    border-bottom: ${themeBorder('xsActive', 'transparent', 1)};
+    border-bottom: ${themeBorder('xsActive', 'transparent')};
     color: ${cssVar('color-text-disabled')};
   }
 `;
