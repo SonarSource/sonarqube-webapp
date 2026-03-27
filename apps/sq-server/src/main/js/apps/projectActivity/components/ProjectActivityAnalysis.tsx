@@ -28,7 +28,7 @@ import {
 } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
-import { WrappedComponentProps, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { HelperHintIcon, themeBorder, themeColor } from '~design-system';
 import { defaultFormatterOptions } from '~shared/components/intl/DateTimeFormatter';
 import TimeFormatter from '~shared/components/intl/TimeFormatter';
@@ -44,7 +44,7 @@ import Events from './Events';
 import AddEventForm from './forms/AddEventForm';
 import RemoveAnalysisForm from './forms/RemoveAnalysisForm';
 
-export interface ProjectActivityAnalysisProps extends WrappedComponentProps {
+export interface ProjectActivityAnalysisProps {
   analysis: ParsedAnalysis;
   canAdmin?: boolean;
   canCreateVersion: boolean;
@@ -61,18 +61,10 @@ export enum Dialog {
   RemoveAnalysis = 'remove_analysis',
 }
 
-function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
+export default function ProjectActivityAnalysis(props: Readonly<ProjectActivityAnalysisProps>) {
   let node: HTMLLIElement | null = null;
-
-  const {
-    analysis,
-    isBaseline,
-    isFirst,
-    canAdmin,
-    canCreateVersion,
-    selected,
-    intl: { formatDate },
-  } = props;
+  const { formatDate } = useIntl();
+  const { analysis, isBaseline, isFirst, canAdmin, canCreateVersion, selected } = props;
 
   React.useEffect(() => {
     if (node && selected) {
@@ -276,5 +268,3 @@ export const BaselineMarker = styled.li`
     background-color: ${themeColor('dropdownMenuFocus')};
   }
 `;
-
-export default injectIntl(ProjectActivityAnalysis);

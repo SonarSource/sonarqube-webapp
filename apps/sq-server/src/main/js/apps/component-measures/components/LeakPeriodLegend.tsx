@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { Text } from '@sonarsource/echoes-react';
 import { differenceInDays } from 'date-fns';
 import * as React from 'react';
-import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { themeBorder, themeColor } from '~design-system';
 import DateFormatter, { longFormatterOption } from '~shared/components/intl/DateFormatter';
 import DateFromNow from '~shared/components/intl/DateFromNow';
@@ -32,6 +31,7 @@ import DateTimeFormatter, {
 import { ComponentQualifier } from '~shared/types/component';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate } from '~sq-server-commons/helpers/l10n';
+import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import {
   getNewCodePeriodDate,
   getNewCodePeriodLabel,
@@ -44,13 +44,15 @@ export interface LeakPeriodLegendProps {
   period: Period;
 }
 
-class LeakPeriodLegend extends React.PureComponent<LeakPeriodLegendProps & WrappedComponentProps> {
+export default class LeakPeriodLegend extends React.PureComponent<LeakPeriodLegendProps> {
+  intl = getIntl();
+
   formatDate = (date: string) => {
-    return this.props.intl.formatDate(date, longFormatterOption);
+    return this.intl.formatDate(date, longFormatterOption);
   };
 
   formatDateTime = (date: string) => {
-    return this.props.intl.formatTime(date, defaultFormatterOptions);
+    return this.intl.formatTime(date, defaultFormatterOptions);
   };
 
   render() {
@@ -98,8 +100,6 @@ class LeakPeriodLegend extends React.PureComponent<LeakPeriodLegendProps & Wrapp
     return <Tooltip content={tooltip}>{label}</Tooltip>;
   }
 }
-
-export default injectIntl(LeakPeriodLegend);
 
 const LeakPeriodLabel = styled(Text)`
   background-color: ${themeColor('newCodeLegend')};

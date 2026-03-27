@@ -24,7 +24,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { isEqual } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { Route } from 'react-router-dom';
 import { useFlags } from '~adapters/helpers/feature-flags';
 import { Theme } from '~design-system';
@@ -39,7 +39,7 @@ import withAppStateContext from '~sq-server-commons/context/app-state/withAppSta
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { getExtension } from '~sq-server-commons/helpers/extensions';
-import { getCurrentL10nBundle } from '~sq-server-commons/helpers/l10nBundle';
+import { getCurrentL10nBundle, getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { withQueryClient } from '~sq-server-commons/queries/withQueryClientHoc';
 import { AppState } from '~sq-server-commons/types/appstate';
@@ -49,7 +49,7 @@ import { CurrentUser, HomePage } from '~sq-server-commons/types/users';
 import GlobalAdminPageExtension from './GlobalAdminPageExtension';
 import ProjectAdminPageExtension from './ProjectAdminPageExtension';
 
-export interface ExtensionProps extends WrappedComponentProps {
+export interface ExtensionProps {
   appState: AppState;
   availableFeatures?: Feature[];
   currentUser: CurrentUser;
@@ -101,6 +101,7 @@ export const globalAdminExtensionMigratedRoutes = () =>
 
 class Extension extends React.PureComponent<ExtensionProps, State> {
   container?: HTMLElement | null;
+  intl = getIntl();
   state: State = {};
   stop?: Function;
 
@@ -141,7 +142,7 @@ class Extension extends React.PureComponent<ExtensionProps, State> {
       currentUser: this.props.currentUser,
       el: this.container,
       ...(ExtensionPageTemplate && { ExtensionPageTemplate }),
-      intl: this.props.intl,
+      intl: this.intl,
       l10nBundle: getCurrentL10nBundle(),
       location: this.props.location,
       queryClient,
@@ -233,12 +234,8 @@ function ExtensionWithAvailableFeaturesHoC(
   );
 }
 
-export default injectIntl(
-  withRouter(
-    withTheme(
-      withAppStateContext(
-        withCurrentUserContext(withQueryClient(ExtensionWithAvailableFeaturesHoC)),
-      ),
-    ),
+export default withRouter(
+  withTheme(
+    withAppStateContext(withCurrentUserContext(withQueryClient(ExtensionWithAvailableFeaturesHoC))),
   ),
 );

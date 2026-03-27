@@ -22,7 +22,6 @@ import { Text } from '@sonarsource/echoes-react';
 import { isSameDay } from 'date-fns';
 import { isEmpty, max } from 'lodash';
 import * as React from 'react';
-import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { BarChart, DateRangePicker, FacetBox, FacetItem } from '~design-system';
 import { longFormatterOption } from '~shared/components/intl/DateFormatter';
 import DateFromNow from '~shared/components/intl/DateFromNow';
@@ -30,12 +29,11 @@ import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import { MetricType } from '~shared/types/metrics';
 import { parseDate } from '~sq-server-commons/helpers/dates';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { IssuesQuery } from '~sq-server-commons/types/issues';
-import { Component } from '~sq-server-commons/types/types';
 
 interface Props {
-  component: Component | undefined;
   createdAfter: Date | undefined;
   createdAfterIncludesTime: boolean;
   createdAt: string;
@@ -49,9 +47,9 @@ interface Props {
   stats: Record<string, number> | undefined;
 }
 
-export class CreationDateFacetClass extends React.PureComponent<Props & WrappedComponentProps> {
+export class CreationDateFacet extends React.PureComponent<Props> {
+  intl = getIntl();
   property = 'createdAt';
-
   static defaultProps = {
     open: true,
   };
@@ -115,7 +113,7 @@ export class CreationDateFacetClass extends React.PureComponent<Props & WrappedC
       return null;
     }
 
-    const { formatDate } = this.props.intl;
+    const { formatDate } = this.intl;
     const data = periods.map((start, index) => {
       const startDate = parseDate(start);
       let endDate;
@@ -301,5 +299,3 @@ export class CreationDateFacetClass extends React.PureComponent<Props & WrappedC
     );
   }
 }
-
-export const CreationDateFacet = injectIntl(CreationDateFacetClass);

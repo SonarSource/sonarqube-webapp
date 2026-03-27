@@ -66,6 +66,14 @@ module.exports = {
       });
       return formatter.format(new Date(v));
     }),
+    formatTime: jest.fn().mockImplementation((v: string) => {
+      const formatter = new Intl.DateTimeFormat('en', {
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+      });
+      return formatter.format(new Date(v));
+    }),
   }),
   FormattedMessage: ({
     id,

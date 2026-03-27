@@ -20,7 +20,6 @@
 
 import { screen } from '@testing-library/react';
 import { differenceInDays } from 'date-fns';
-import { IntlShape } from 'react-intl';
 import { mockPeriod } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { NewCodeDefinitionType } from '~sq-server-commons/types/new-code-definition';
@@ -39,7 +38,7 @@ it('should render correctly for 10 days', async () => {
 
 it('should render correctly for a specific date', async () => {
   renderProjectLeakPeriodInfo({ mode: 'date', parameter: '2013-01-01' });
-  expect(await screen.findByText('overview.period.date.formatted.2013-01-01')).toBeInTheDocument();
+  expect(await screen.findByText('overview.period.date.Jan 1, 2013')).toBeInTheDocument();
   expect(await screen.findByText(/overview\.started_x\..*ago/)).toBeInTheDocument();
 });
 
@@ -72,9 +71,7 @@ it('should render correctly for "REFERENCE_BRANCH"', async () => {
 it('should render correctly for "manual_baseline"', async () => {
   const rtl = renderProjectLeakPeriodInfo({ mode: 'manual_baseline' });
 
-  expect(
-    await screen.findByText(/overview\.period\.manual_baseline\.formattedTime\..*/),
-  ).toBeInTheDocument();
+  expect(await screen.findByText(/overview.period.manual_baseline.*/)).toBeInTheDocument();
   rtl.unmount();
   renderProjectLeakPeriodInfo({ mode: 'manual_baseline', parameter: '1.1.2' });
   expect(await screen.findByText('overview.period.manual_baseline.1.1.2')).toBeInTheDocument();
@@ -92,15 +89,5 @@ it('should render a more precise date', async () => {
 });
 
 function renderProjectLeakPeriodInfo(period: Partial<Period> = {}) {
-  return renderComponent(
-    <ProjectLeakPeriodInfo
-      intl={
-        {
-          formatDate: (date: string) => 'formatted.' + date,
-          formatTime: (date: string) => 'formattedTime.' + date,
-        } as IntlShape
-      }
-      leakPeriod={mockPeriod({ ...period })}
-    />,
-  );
+  return renderComponent(<ProjectLeakPeriodInfo leakPeriod={mockPeriod({ ...period })} />);
 }

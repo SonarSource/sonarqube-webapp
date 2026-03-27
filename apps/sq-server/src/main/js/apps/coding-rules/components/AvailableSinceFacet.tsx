@@ -19,7 +19,6 @@
  */
 
 import * as React from 'react';
-import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { DatePicker, FacetBox } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
@@ -31,7 +30,7 @@ interface Props {
   value?: Date;
 }
 
-class AvailableSinceFacet extends React.PureComponent<Props & WrappedComponentProps> {
+export default class AvailableSinceFacet extends React.PureComponent<Props> {
   property: keyof CodingRulesQuery = 'availableSince';
 
   handleHeaderClick = () => {
@@ -79,5 +78,3 @@ class AvailableSinceFacet extends React.PureComponent<Props & WrappedComponentPr
     );
   }
 }
-
-export default injectIntl(AvailableSinceFacet);

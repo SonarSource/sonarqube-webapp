@@ -19,7 +19,7 @@
  */
 
 import * as React from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { longFormatterOption } from '~shared/components/intl/DateFormatter';
 import DateFromNow from '~shared/components/intl/DateFromNow';
 import { defaultFormatterOptions } from '~shared/components/intl/DateTimeFormatter';
@@ -31,15 +31,13 @@ import {
 import { NewCodeDefinitionType } from '~sq-server-commons/types/new-code-definition';
 import { Period } from '~sq-server-commons/types/types';
 
-export interface ProjectLeakPeriodInfoProps extends WrappedComponentProps {
+export interface ProjectLeakPeriodInfoProps {
   leakPeriod: Period;
 }
 
-export function ProjectLeakPeriodInfo(props: ProjectLeakPeriodInfoProps) {
-  const {
-    intl: { formatDate, formatTime },
-    leakPeriod,
-  } = props;
+export function ProjectLeakPeriodInfo(props: Readonly<ProjectLeakPeriodInfoProps>) {
+  const { formatDate, formatTime } = useIntl();
+  const { leakPeriod } = props;
 
   const leakPeriodLabel = getNewCodePeriodLabel(
     leakPeriod,
@@ -86,4 +84,4 @@ export function ProjectLeakPeriodInfo(props: ProjectLeakPeriodInfoProps) {
   );
 }
 
-export default React.memo(injectIntl(ProjectLeakPeriodInfo));
+export default React.memo(ProjectLeakPeriodInfo);

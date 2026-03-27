@@ -377,7 +377,6 @@ export function Sidebar(props: Readonly<Props>) {
           <Divider className="sw-my-2" />
 
           <CreationDateFacet
-            component={component}
             createdAfter={query.createdAfter}
             createdAfterIncludesTime={createdAfterIncludesTime}
             createdAt={query.createdAt}

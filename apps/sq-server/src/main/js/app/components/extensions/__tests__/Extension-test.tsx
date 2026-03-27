@@ -21,7 +21,6 @@
 import { toast } from '@sonarsource/echoes-react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { IntlShape } from 'react-intl';
 import { setImmediate } from 'timers';
 import { lightTheme } from '~design-system';
 import { getEnhancedWindow } from '~sq-server-commons/helpers/browser';
@@ -140,7 +139,6 @@ function renderExtention(props: Partial<ExtensionProps> = {}) {
     appState: mockAppState(),
     currentUser: mockCurrentUser(),
     extension: { key: 'first-react-extension', name: 'first-react-extension' },
-    intl: {} as IntlShape,
     location: mockLocation(),
     router: mockRouter(),
     updateCurrentUserHomepage: jest.fn(),
