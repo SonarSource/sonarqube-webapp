@@ -52,6 +52,7 @@ const selectors = {
       .getAll()
       .filter((item) => !!item.getAttribute('data-rule')),
   currentListItem: byRole('listitem', { current: true }),
+  showMoreButton: byRole('button', { name: 'show_more' }),
 
   // Filters
   filtersHeading: byRole('heading', { name: 'filters' }),

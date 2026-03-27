@@ -32,7 +32,11 @@ import {
   SEVERITIES,
   SOFTWARE_QUALITIES,
 } from '~sq-server-commons/helpers/constants';
-import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import {
+  mockCurrentUser,
+  mockLoggedInUser,
+  mockRuleDetails,
+} from '~sq-server-commons/helpers/testMocks';
 import { Feature } from '~sq-server-commons/types/features';
 import { Mode } from '~sq-server-commons/types/mode';
 import { SettingsKey } from '~sq-server-commons/types/settings';
@@ -896,12 +900,33 @@ describe('Rules app list', () => {
     ).toBeInTheDocument();
 
     await user.keyboard('{ArrowRight}');
-    expect(screen.getByRole('heading', { level: 1, name: 'Awsome java rule' })).toBeInTheDocument();
+    expect(await ui.ruleTitle('Awsome java rule').find()).toBeInTheDocument();
 
     await user.keyboard('{ArrowLeft}');
     expect(
       ui.ruleListItemLink('Awsome java rule').get(ui.currentListItem.get()),
     ).toBeInTheDocument();
+  });
+
+  it('navigates correctly to rule details from second page', async () => {
+    // create 121 rules to have 2 pages (100 rules per page)
+    const rules = Array.from({ length: 121 }, (_, i) =>
+      mockRuleDetails({
+        key: `rule${i + 1}`,
+        name: `Rule ${i + 1}`,
+      }),
+    );
+    rulesHandler.rules = rules;
+
+    const { user, ui } = getPageObjects();
+    renderCodingRulesApp();
+    await ui.listLoaded();
+
+    const ruleOnSecondPage = rules[103];
+    await user.click(await ui.showMoreButton.find());
+    await user.click(await ui.ruleListItemLink(ruleOnSecondPage.name).find());
+
+    expect(await ui.ruleTitle(ruleOnSecondPage.name).find()).toBeInTheDocument();
   });
 });
 
@@ -912,6 +937,31 @@ describe('redirects', () => {
     await ui.listLoaded();
     expect(await ui.ruleListItemLink('Awsome java rule').find()).toBeInTheDocument();
     expect(ui.ruleListItemLink('Hot hotspot').query()).not.toBeInTheDocument();
+  });
+
+  it('should open rule details with permalink from second page', async () => {
+    // create 121 rules to have 2 pages (100 rules per page)
+    const rules = Array.from({ length: 121 }, (_, i) =>
+      mockRuleDetails({
+        key: `rule${i + 1}`,
+        name: `Rule ${i + 1}`,
+      }),
+    );
+    rulesHandler.rules = rules;
+    const ruleOnSecondPage = rules[103];
+
+    const { ui } = getPageObjects();
+    renderCodingRulesApp(undefined, `coding_rules?open=${ruleOnSecondPage.key}`);
+
+    expect(await ui.ruleTitle(ruleOnSecondPage.name).find()).toBeInTheDocument();
+  });
+
+  it('should open rules list if rule does not exist', async () => {
+    const { ui } = getPageObjects();
+    renderCodingRulesApp(undefined, `coding_rules?open=non_existent_rule`);
+
+    await ui.listLoaded();
+    expect(ui.ruleTitle('non_existent_rule').query()).not.toBeInTheDocument();
   });
 
   it('should handle hash parameters', async () => {

@@ -57,7 +57,7 @@ describe('custom rule', () => {
 
     // Show template rule details
     await user.click(ui.ruleListItemLink('Template rule').get());
-    expect(ui.ruleTitle('Template rule').get()).toBeInTheDocument();
+    expect(await ui.ruleTitle('Template rule').find()).toBeInTheDocument();
     expect(ui.customRuleSectionTitle.get()).toBeInTheDocument();
 
     // Create custom rule
@@ -150,7 +150,7 @@ describe('custom rule', () => {
 
     // Show template rule details
     await user.click(ui.ruleListItemLink('Template rule').get());
-    expect(ui.ruleTitle('Template rule').get()).toBeInTheDocument();
+    expect(await ui.ruleTitle('Template rule').find()).toBeInTheDocument();
     expect(ui.customRuleSectionTitle.get()).toBeInTheDocument();
 
     // Create custom rule

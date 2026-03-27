@@ -35,9 +35,13 @@ import {
 } from '~shared/helpers/compliance-standards-registry';
 import { Paging } from '~shared/types/paging';
 import { Location, RawQuery, Router } from '~shared/types/router';
-import { Rule, RuleActivationAdvanced } from '~shared/types/rules';
+import {
+  Rule,
+  RuleActivationAdvanced,
+  type RuleDetails as RuleDetailsType,
+} from '~shared/types/rules';
 import { searchQualityProfiles } from '~sq-server-commons/api/quality-profiles';
-import { getRulesApp, searchRules } from '~sq-server-commons/api/rules';
+import { getRuleDetails, getRulesApp, searchRules } from '~sq-server-commons/api/rules';
 import { getValue } from '~sq-server-commons/api/settings';
 import FiltersHeader from '~sq-server-commons/components/common/FiltersHeader';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
@@ -99,6 +103,7 @@ interface State {
   loading: boolean;
   loadingFacets: Record<string, boolean>;
   openFacets: OpenFacets;
+  openRule?: RuleDetailsType;
   paging?: Paging;
   referencedProfiles: Record<string, BaseProfile>;
   referencedRepositories: Record<string, { key: string; language: string; name: string }>;
@@ -139,13 +144,20 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (!areQueriesEqual(prevProps.location.query, this.props.location.query)) {
+    const hasFilterChanged = !areQueriesEqual(
+      { ...prevProps.location.query, open: undefined },
+      { ...this.props.location.query, open: undefined },
+    );
+    if (hasFilterChanged) {
       this.fetchFirstRules();
     }
     if (this.getSelectedRuleKey(prevProps) !== this.getSelectedRuleKey(this.props)) {
       // if user simply selected another issue
       // or if user went from the source code back to the list of issues
       this.scrollToSelectedRule();
+    }
+    if (prevProps.location.query.open !== this.props.location.query.open) {
+      this.getOpenRule();
     }
   }
 
@@ -196,9 +208,26 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
     document.removeEventListener('keydown', this.handleKeyDown);
   };
 
-  getOpenRule = (rules: Rule[]) => {
+  getOpenRule = () => {
+    this.setState({ loading: true });
     const open = getOpen(this.props.location.query);
-    return open && rules.find((rule) => rule.key === open);
+
+    if (!open) {
+      this.setState({ openRule: undefined });
+      this.stopLoading();
+      return;
+    }
+
+    getRuleDetails({ key: open })
+      .then(({ rule }) => {
+        this.setState({ openRule: rule });
+      })
+      .catch(() => {
+        this.setState({ openRule: undefined });
+      })
+      .finally(() => {
+        this.stopLoading();
+      });
   };
 
   getSelectedRuleKey = (props: Props) => {
@@ -261,6 +290,9 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
         referencedRepositories: keyBy(repositories, 'key'),
       });
       this.fetchFirstRules();
+      if (getOpen(this.props.location.query)) {
+        this.getOpenRule();
+      }
     }, this.stopLoading);
   };
 
@@ -277,7 +309,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
     this.setState({ loading: true });
     this.makeFetchRequest(query).then(({ actives, facets, paging, rules }) => {
       if (this.mounted) {
-        const openRule = this.getOpenRule(rules);
+        const openRule = getOpen(this.props.location.query);
         const selected = rules.length > 0 && !openRule ? rules[0].key : undefined;
         this.routeSelectedRulePath(selected);
         this.setState((state) => ({
@@ -337,7 +369,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
   };
 
   selectNextRule = () => {
-    const { rules, loading, paging } = this.state;
+    const { rules, loading, paging, openRule } = this.state;
     const selectedIndex = this.getSelectedIndex();
     if (selectedIndex !== undefined) {
       if (
@@ -349,7 +381,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
         this.fetchMoreRules();
       }
       if (rules && selectedIndex < rules.length - 1) {
-        if (this.getOpenRule(this.state.rules)) {
+        if (openRule) {
           this.openRule(rules[selectedIndex + 1].key);
         } else {
           this.routeSelectedRulePath(rules[selectedIndex + 1].key);
@@ -363,10 +395,10 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
   };
 
   selectPreviousRule = () => {
-    const { rules } = this.state;
+    const { rules, openRule } = this.state;
     const selectedIndex = this.getSelectedIndex();
     if (rules && selectedIndex !== undefined && selectedIndex > 0) {
-      if (this.getOpenRule(this.state.rules)) {
+      if (openRule) {
         this.openRule(rules[selectedIndex - 1].key);
       } else {
         this.routeSelectedRulePath(rules[selectedIndex - 1].key);
@@ -393,7 +425,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
 
   openRule = (rule: string) => {
     const path = this.getRulePath(rule);
-    if (this.getOpenRule(this.state.rules)) {
+    if (this.state.openRule) {
       this.props.router.replace(path);
     } else {
       this.props.router.push(path);
@@ -412,7 +444,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
       pathname: this.props.location.pathname,
       query: {
         ...serializeQuery(parseQuery(this.props.location.query)),
-        selected: this.getOpenRule(this.state.rules)?.key || this.getSelectedRuleKey(this.props),
+        selected: this.state.openRule?.key || this.getSelectedRuleKey(this.props),
         open: undefined,
       },
     });
@@ -592,9 +624,8 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { paging, rules } = this.state;
+    const { paging, rules, openRule } = this.state;
     const query = parseQuery(this.props.location.query);
-    const openRule = this.getOpenRule(this.state.rules);
     const usingPermalink = hasRuleKey(this.props.location.query);
     const selected = this.getSelectedRuleKey(this.props);
 
@@ -604,7 +635,11 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
         {openRule ? (
           <Helmet
             defer={false}
-            title={translateWithParameters('coding_rule.page', openRule.langName, openRule.name)}
+            title={
+              openRule.lang
+                ? translateWithParameters('coding_rule.page', openRule.lang, openRule.name)
+                : openRule.name
+            }
             titleTemplate={this.intl.formatMessage(
               { id: 'page_title.template.with_category' },
               { page: translate('coding_rules.page') },
