@@ -25,6 +25,8 @@ import { translate } from '~sq-server-commons/helpers/l10n';
 import { useCreateEventMutation } from '~sq-server-commons/queries/project-analyses';
 import { ParsedAnalysis } from '~sq-server-commons/types/project-activity';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   addEventButtonText: string;
   analysis: ParsedAnalysis;
@@ -55,7 +57,9 @@ export default function AddEventForm(props: Readonly<Props>) {
     <Modal
       body={
         <form id="add-event-form">
-          <label htmlFor="name">{translate('name')}</label>
+          <label htmlFor="name">
+            <FormattedMessage id="name" />
+          </label>
           <InputField
             autoFocus
             className="sw-my-2"
@@ -78,7 +82,7 @@ export default function AddEventForm(props: Readonly<Props>) {
           type="submit"
           variety={ButtonVariety.Primary}
         >
-          {translate('save')}
+          <FormattedMessage id="save" />
         </Button>
       }
       secondaryButtonLabel={translate('cancel')}

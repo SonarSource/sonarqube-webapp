@@ -174,7 +174,9 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
             {activation.prioritizedRule && (
               <MetaProfileItem>
                 <SeparatorCircleIcon />
-                <Text isSubtle>{translate('coding_rules.prioritized_rule.title')}</Text>
+                <Text isSubtle>
+                  <FormattedMessage id="coding_rules.prioritized_rule.title" />
+                </Text>
               </MetaProfileItem>
             )}
             {!isStandardMode &&
@@ -239,7 +241,9 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                       </>
                     }
                   >
-                    <Text isSubtle>{translate('coding_rules.impact_customized.message')}</Text>
+                    <Text isSubtle>
+                      <FormattedMessage id="coding_rules.impact_customized.message" />
+                    </Text>
                   </Tooltip>
                 </MetaProfileItem>
               )}
@@ -270,7 +274,6 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
               )}
           </div>
         </ContentCell>
-
         {showParamsColumn && (
           <CellComponent>
             {activation.params.map((param: { key: string; value: string }) => {
@@ -303,7 +306,6 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
             })}
           </CellComponent>
         )}
-
         {renderRowActions(activation, profile)}
       </TableRowInteractive>
     );
@@ -334,7 +336,6 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
           />
         )}
       </div>
-
       {activations.length > 0 && (
         <Table
           aria-labelledby={PROFILES_HEADING_ID}
@@ -342,9 +343,17 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
           columnCount={MANDATORY_COLUMNS_COUNT + +showParamsColumn}
           header={
             <TableRow>
-              <ContentCell>{translate('profile_name')}</ContentCell>
-              {showParamsColumn && <ContentCell>{translate('parameters')}</ContentCell>}
-              <ActionCell>{translate('actions')}</ActionCell>
+              <ContentCell>
+                <FormattedMessage id="profile_name" />
+              </ContentCell>
+              {showParamsColumn && (
+                <ContentCell>
+                  <FormattedMessage id="parameters" />
+                </ContentCell>
+              )}
+              <ActionCell>
+                <FormattedMessage id="actions" />
+              </ActionCell>
             </TableRow>
           }
           id="coding-rules-detail-quality-profiles"

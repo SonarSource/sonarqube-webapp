@@ -36,6 +36,8 @@ import BitbucketForm from './BitbucketForm';
 import GithubForm from './GithubForm';
 import GitlabForm from './GitlabForm';
 
+import { FormattedMessage } from 'react-intl';
+
 export interface Props {
   alm: AlmKeys;
   bitbucketVariant?: AlmKeys.BitbucketServer | AlmKeys.BitbucketCloud;
@@ -112,7 +114,9 @@ export default class AlmBindingDefinitionFormRenderer extends React.PureComponen
           {validationError && !canSubmit && (
             <FlagMessage className="sw-w-full sw-mb-2" variant="error">
               <div>
-                <p>{translate('settings.almintegration.configuration_invalid')}</p>
+                <p>
+                  <FormattedMessage id="settings.almintegration.configuration_invalid" />
+                </p>
                 <ul>
                   <li>{validationError}</li>
                 </ul>
@@ -140,7 +144,7 @@ export default class AlmBindingDefinitionFormRenderer extends React.PureComponen
               type="submit"
               variety={ButtonVariety.Primary}
             >
-              {translate('settings.almintegration.form.save')}
+              <FormattedMessage id="settings.almintegration.form.save" />
             </Button>
           </>
         }

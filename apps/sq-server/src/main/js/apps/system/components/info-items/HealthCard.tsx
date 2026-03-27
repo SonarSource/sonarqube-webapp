@@ -19,8 +19,8 @@
  */
 
 import { map } from 'lodash';
+import { FormattedMessage } from 'react-intl';
 import { Accordion, FlagMessage, SubHeadingHighlight } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { LogsLevels } from '~sq-server-commons/types/system';
 import { HealthTypes, SysInfoValueObject } from '~sq-server-commons/types/types';
 import { getLogsLevel, groupSections } from '../../utils';
@@ -62,7 +62,7 @@ export default function HealthCard({
             </SubHeadingHighlight>
             {showLogLevelWarning && (
               <FlagMessage className="sw-ml-4" variant="warning">
-                {translate('system.log_level.warning.short')}
+                <FormattedMessage id="system.log_level.warning.short" />
               </FlagMessage>
             )}
           </div>

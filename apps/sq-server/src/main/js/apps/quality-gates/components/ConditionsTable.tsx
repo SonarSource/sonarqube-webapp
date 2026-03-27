@@ -19,9 +19,9 @@
  */
 
 import { Heading } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 import { ContentCell, NumericalCell, Table, TableRow } from '~design-system';
 import { Metric } from '~shared/types/measures';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { Condition as ConditionType, QualityGate } from '~sq-server-commons/types/types';
 import Condition from './Condition';
 
@@ -38,13 +38,19 @@ function Header() {
   return (
     <TableRow>
       <ContentCell>
-        <Heading as="h4">{translate('quality_gates.conditions.metric')}</Heading>
+        <Heading as="h4">
+          <FormattedMessage id="quality_gates.conditions.metric" />
+        </Heading>
       </ContentCell>
       <ContentCell>
-        <Heading as="h4">{translate('quality_gates.conditions.operator')}</Heading>
+        <Heading as="h4">
+          <FormattedMessage id="quality_gates.conditions.operator" />
+        </Heading>
       </ContentCell>
       <NumericalCell>
-        <Heading as="h4">{translate('quality_gates.conditions.value')}</Heading>
+        <Heading as="h4">
+          <FormattedMessage id="quality_gates.conditions.value" />
+        </Heading>
       </NumericalCell>
       <ContentCell />
     </TableRow>

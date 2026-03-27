@@ -48,10 +48,10 @@ export default function BitbucketServerForm(props: BitbucketServerFormProps) {
       <AlmBindingDefinitionFormField
         help={
           <>
-            {translate('settings.almintegration.form.url.bitbucket.help')}
+            <FormattedMessage id="settings.almintegration.form.url.bitbucket.help" />
             <br />
             <br />
-            {translate('settings.almintegration.form.url.pat_warning')}
+            <FormattedMessage id="settings.almintegration.form.url.pat_warning" />
           </>
         }
         id="url.bitbucket"
@@ -70,13 +70,15 @@ export default function BitbucketServerForm(props: BitbucketServerFormProps) {
                   target="_blank"
                   to="https://confluence.atlassian.com/bitbucketserver0515/personal-access-tokens-961275199.html"
                 >
-                  {translate(
-                    'settings.almintegration.form.personal_access_token.bitbucket.help.url',
-                  )}
+                  <FormattedMessage id="settings.almintegration.form.personal_access_token.bitbucket.help.url" />
                 </Link>
               ),
               permission: <strong>Read</strong>,
-              doc_link: <Link to={toStatic}>{translate('learn_more')}</Link>,
+              doc_link: (
+                <Link to={toStatic}>
+                  <FormattedMessage id="learn_more" />
+                </Link>
+              ),
             }}
           />
         }

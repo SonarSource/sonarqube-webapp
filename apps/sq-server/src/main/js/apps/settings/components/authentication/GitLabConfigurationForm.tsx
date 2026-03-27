@@ -164,7 +164,7 @@ export default function GitLabConfigurationForm(props: Readonly<Props>) {
             values={{
               link: (
                 <DocumentationLink to={DocLink.AlmGitLabAuth}>
-                  {translate('settings.authentication.help.link')}
+                  <FormattedMessage id="settings.authentication.help.link" />
                 </DocumentationLink>
               ),
             }}
@@ -229,7 +229,7 @@ export default function GitLabConfigurationForm(props: Readonly<Props>) {
             type="submit"
             variety={ButtonVariety.Primary}
           >
-            {translate('settings.almintegration.form.save')}
+            <FormattedMessage id="settings.almintegration.form.save" />
           </Button>
         </>
       }

@@ -160,7 +160,6 @@ export default function GitHubProjectCreateRenderer(
         onChangeConfig={props.onSelectedAlmInstanceChange}
         selectedAlmInstance={selectedAlmInstance}
       />
-
       {error && selectedAlmInstance && (
         <MessageCallout className="sw-my-2" variety={MessageVariety.Warning}>
           <span>
@@ -170,7 +169,7 @@ export default function GitHubProjectCreateRenderer(
                 values={{
                   link: (
                     <Link to="/admin/settings?category=almintegration">
-                      {translate('onboarding.create_project.github.warning.message_admin.link')}
+                      <FormattedMessage id="onboarding.create_project.github.warning.message_admin.link" />
                     </Link>
                   ),
                 }}
@@ -181,7 +180,6 @@ export default function GitHubProjectCreateRenderer(
           </span>
         </MessageCallout>
       )}
-
       <Spinner isLoading={loadingOrganizations && !error}>
         {!error && (
           <div className="sw-flex sw-flex-col">
@@ -207,9 +205,7 @@ export default function GitHubProjectCreateRenderer(
                         values={{
                           link: (
                             <Link to="/admin/settings?category=almintegration">
-                              {translate(
-                                'onboarding.create_project.github.warning.message_admin.link',
-                              )}
+                              <FormattedMessage id="onboarding.create_project.github.warning.message_admin.link" />
                             </Link>
                           ),
                         }}

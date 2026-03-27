@@ -19,7 +19,7 @@
  */
 
 import { Text } from '@sonarsource/echoes-react';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { FormattedMessage } from 'react-intl';
 import { Update } from '~sq-server-commons/types/plugins';
 import PluginUpdateItem from './PluginUpdateItem';
 
@@ -34,7 +34,9 @@ export default function PluginUpdates({ pluginName, updates }: Readonly<PluginUp
   }
   return (
     <li>
-      <strong>{translate('marketplace.updates')}:</strong>
+      <strong>
+        <FormattedMessage id="marketplace.updates" />:
+      </strong>
       <Text as="ul" className="sw-list-none sw-max-w-full sw-mt-2">
         {updates.map((update) =>
           update.release ? (

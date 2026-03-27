@@ -101,14 +101,13 @@ export default function AzurePersonalAccessTokenForm({
         value={password}
         width={FormFieldWidth.Large}
       />
-
       <MessageCallout variety={MessageVariety.Info}>
         <FormattedMessage
           id="onboarding.create_project.pat_help.instructions.azure"
           values={{
             link: url ? (
               <Link to={getAzurePatUrl(url)}>
-                {translate('onboarding.create_project.pat_help.instructions.link.azure')}
+                <FormattedMessage id="onboarding.create_project.pat_help.instructions.link.azure" />
               </Link>
             ) : (
               translate('onboarding.create_project.pat_help.instructions.link.azure')

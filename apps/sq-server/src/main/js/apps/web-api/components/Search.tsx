@@ -25,6 +25,8 @@ import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Query } from '../utils';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   onSearch: (search: string) => void;
   onToggleDeprecated: () => void;
@@ -45,7 +47,6 @@ export default function Search(props: Readonly<Props>) {
           value={query.search}
         />
       </div>
-
       <div className="sw-mt-4 sw-px-1 sw-max-w-[18rem]">
         <Checkbox
           checked={query.internal}
@@ -54,13 +55,12 @@ export default function Search(props: Readonly<Props>) {
           onCheck={onToggleInternal}
         />
       </div>
-
       <div className="sw-flex sw-px-1 sw-items-center sw-mt-2 sw-gap-2">
         <Checkbox
           checked={query.deprecated}
           helpText={
             <DocumentationLink enableOpenInNewTab to={DocLink.DeprecatedFeatures}>
-              {translate('api_documentation.show_deprecated.learn_more')}
+              <FormattedMessage id="api_documentation.show_deprecated.learn_more" />
             </DocumentationLink>
           }
           label={translate('api_documentation.show_deprecated')}

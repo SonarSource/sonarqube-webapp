@@ -19,8 +19,8 @@
  */
 
 import { Button, ButtonVariety, Label } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 import { Card } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { RiskConsent } from '~sq-server-commons/types/plugins';
 
@@ -39,14 +39,19 @@ export default function PluginRiskConsentBox(props: Readonly<PluginRiskConsentBo
 
   return (
     <Card className="sw-mt-6 it__plugin_risk_consent_box">
-      <Label>{translate('marketplace.risk_consent.title')}</Label>
-
-      <p className="sw-mt-2">{translate('marketplace.risk_consent.description')}</p>
+      <Label>
+        <FormattedMessage id="marketplace.risk_consent.title" />
+      </Label>
+      <p className="sw-mt-2">
+        <FormattedMessage id="marketplace.risk_consent.description" />
+      </p>
       {currentEdition === EditionKey.community && (
-        <p className="sw-mt-2">{translate('marketplace.risk_consent.installation')}</p>
+        <p className="sw-mt-2">
+          <FormattedMessage id="marketplace.risk_consent.installation" />
+        </p>
       )}
       <Button className="sw-mt-4" onClick={props.acknowledgeRisk} variety={ButtonVariety.Primary}>
-        {translate('marketplace.risk_consent.action')}
+        <FormattedMessage id="marketplace.risk_consent.action" />
       </Button>
     </Card>
   );

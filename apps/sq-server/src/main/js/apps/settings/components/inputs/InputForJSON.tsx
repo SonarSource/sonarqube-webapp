@@ -26,7 +26,7 @@ import {
   TextArea,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { FormattedMessage } from 'react-intl';
 import { DefaultSpecializedInputProps, getPropertyName } from '../../utils';
 
 const JSON_SPACE_SIZE = 4;
@@ -78,13 +78,13 @@ class InputForJSON extends React.PureComponent<Props, State> {
           />
           <div className="sw-ml-2">
             <Button className="sw-mt-2" onClick={this.format} variety={ButtonVariety.Primary}>
-              {translate('settings.json.format')}
+              <FormattedMessage id="settings.json.format" />
             </Button>
           </div>
         </div>
         {formatError && (
           <MessageInline className="sw-mt-2 sw-block" variety={MessageVariety.Warning}>
-            {translate('settings.json.format_error')}
+            <FormattedMessage id="settings.json.format_error" />
           </MessageInline>
         )}
       </>

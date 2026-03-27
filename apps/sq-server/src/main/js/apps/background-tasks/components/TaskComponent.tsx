@@ -33,6 +33,8 @@ import { translate } from '~sq-server-commons/helpers/l10n';
 import { getBranchUrl, getPortfolioUrl, getPullRequestUrl } from '~sq-server-commons/helpers/urls';
 import { Task } from '~sq-server-commons/types/tasks';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   task: Task;
 }
@@ -72,7 +74,7 @@ export default function TaskComponent({ task }: Readonly<Props>) {
         </p>
 
         <Text as="div" className="sw-mt-2" isSubtle>
-          {translate('background_tasks.table.id')}: {task.id}
+          <FormattedMessage id="background_tasks.table.id" />: {task.id}
         </Text>
       </div>
     </ContentCell>

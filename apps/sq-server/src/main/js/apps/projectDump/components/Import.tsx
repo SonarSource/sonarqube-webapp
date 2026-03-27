@@ -36,6 +36,8 @@ import { DumpTask } from '~sq-server-commons/types/project-dump';
 import { TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
 import { getImportExportActivityParams } from '../utils';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   componentKey: string;
   importEnabled: boolean;
@@ -84,25 +86,33 @@ export default function Import(props: Readonly<Props>) {
   };
 
   function renderWhenCanNotImport() {
-    return <span>{translate('project_dump.can_not_import')}</span>;
+    return (
+      <span>
+        <FormattedMessage id="project_dump.can_not_import" />
+      </span>
+    );
   }
 
   function renderWhenNoDump() {
     return (
-      <FlagMessage variant="warning">{translate('project_dump.no_file_to_import')}</FlagMessage>
+      <FlagMessage variant="warning">
+        <FormattedMessage id="project_dump.no_file_to_import" />
+      </FlagMessage>
     );
   }
 
   function renderImportForm() {
     return (
       <>
-        <div className="sw-mt-4">{translate('project_dump.import_form_description')}</div>
+        <div className="sw-mt-4">
+          <FormattedMessage id="project_dump.import_form_description" />
+        </div>
         <Button
           ariaLabel={translate('project_dump.do_import')}
           className="sw-mt-4"
           onClick={handleImport}
         >
-          {translate('project_dump.do_import')}
+          <FormattedMessage id="project_dump.do_import" />
         </Button>
       </>
     );
@@ -163,12 +173,11 @@ export default function Import(props: Readonly<Props>) {
     return (
       <div>
         <FlagMessage variant="error">
-          {translate('project_dump.failed_import')}
+          <FormattedMessage id="project_dump.failed_import" />
           <Link className="sw-ml-1" to={detailsUrl}>
-            {translate('project_dump.see_details')}
+            <FormattedMessage id="project_dump.see_details" />
           </Link>
         </FlagMessage>
-
         {renderImportForm()}
       </div>
     );
@@ -200,14 +209,17 @@ export default function Import(props: Readonly<Props>) {
   return (
     <>
       <div className="sw-my-4">
-        <h2 className="sw-heading-lg">{translate('project_dump.import')}</h2>
+        <h2 className="sw-heading-lg">
+          <FormattedMessage id="project_dump.import" />
+        </h2>
       </div>
-
       <Spinner isLoading={isLoading}>
         {importEnabled ? (
           renderContent()
         ) : (
-          <div>{translate('project_dump.import_form_description_disabled')}</div>
+          <div>
+            <FormattedMessage id="project_dump.import_form_description_disabled" />
+          </div>
         )}
       </Spinner>
     </>

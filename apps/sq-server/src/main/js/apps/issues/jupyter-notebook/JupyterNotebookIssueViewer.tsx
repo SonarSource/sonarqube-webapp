@@ -21,10 +21,10 @@
 import { ICodeCell, INotebookContent, isCode } from '@jupyterlab/nbformat';
 import { Spinner } from '@sonarsource/echoes-react';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { FlagMessage, hljsUnderlinePlugin, LineFinding } from '~design-system';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { useRawSourceQuery } from '~sq-server-commons/queries/sources';
 import { JupyterCodeCell } from '~sq-server-commons/sonar-aligned/components/SourceViewer/JupyterNotebookViewer';
 import { getOffsetsForIssue } from '~sq-server-commons/sonar-aligned/helpers/json-issue-mapper';
@@ -55,7 +55,7 @@ export function JupyterNotebookIssueViewer(props: Readonly<JupyterNotebookIssueV
     <Spinner isLoading={isLoading}>
       {!renderedCells ? (
         <FlagMessage className="sw-mt-2" variant="warning">
-          {translate('issue.preview.jupyter_notebook.error')}
+          <FormattedMessage id="issue.preview.jupyter_notebook.error" />
         </FlagMessage>
       ) : (
         <>

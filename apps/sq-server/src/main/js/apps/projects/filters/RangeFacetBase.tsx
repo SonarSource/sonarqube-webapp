@@ -21,11 +21,11 @@
 import { Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { FacetBox, FacetItem, HighlightedFacetItems } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { RawQuery } from '~shared/types/router';
 import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { formatFacetStat } from '~sq-server-commons/utils/issues-utils';
 import { Facet } from '../types';
 
@@ -150,7 +150,9 @@ export default class RangeFacetBase extends React.PureComponent<Props> {
 
     return (
       <Text isSubtle>
-        <em>{translate('projects.facets.no_available_filters_clear_others')}</em>
+        <em>
+          <FormattedMessage id="projects.facets.no_available_filters_clear_others" />
+        </em>
       </Text>
     );
   };

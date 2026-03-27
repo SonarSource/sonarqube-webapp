@@ -47,7 +47,7 @@ export default function DeleteProfileForm(props: Readonly<DeleteProfileFormProps
           {profile.childrenCount > 0 ? (
             <div className="sw-flex sw-flex-col">
               <MessageInline className="sw-mb-4" variety={MessageVariety.Warning}>
-                {translate('quality_profiles.this_profile_has_descendants')}
+                <FormattedMessage id="quality_profiles.this_profile_has_descendants" />
               </MessageInline>
               <FormattedMessage
                 id="quality_profiles.are_you_sure_want_delete_profile_x_and_descendants"
@@ -71,7 +71,7 @@ export default function DeleteProfileForm(props: Readonly<DeleteProfileFormProps
           }}
           variety={ButtonVariety.Danger}
         >
-          {translate('delete')}
+          <FormattedMessage id="delete" />
         </Button>
       }
       secondaryButtonLabel={translate('cancel')}

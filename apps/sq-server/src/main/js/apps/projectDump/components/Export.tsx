@@ -33,6 +33,8 @@ import { DumpTask } from '~sq-server-commons/types/project-dump';
 import { TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
 import { getImportExportActivityParams } from '../utils';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   componentKey: string;
 }
@@ -70,7 +72,7 @@ export default function Export({ componentKey }: Readonly<Props>) {
   function renderWhenCanNotExport() {
     return (
       <FlagMessage className="sw-mb-4" variant="warning">
-        {translate('project_dump.can_not_export')}
+        <FormattedMessage id="project_dump.can_not_export" />
       </FlagMessage>
     );
   }
@@ -111,12 +113,11 @@ export default function Export({ componentKey }: Readonly<Props>) {
     return (
       <div>
         <FlagMessage className="sw-mb-4" variant="error">
-          {translate('project_dump.failed_export')}
+          <FormattedMessage id="project_dump.failed_export" />
           <Link className="sw-ml-1" to={detailsUrl}>
-            {translate('project_dump.see_details')}
+            <FormattedMessage id="project_dump.see_details" />
           </Link>
         </FlagMessage>
-
         {renderExport()}
       </div>
     );
@@ -136,7 +137,11 @@ export default function Export({ componentKey }: Readonly<Props>) {
             </DateTimeFormatter>
           )}
           <div>
-            {!task && <div>{translate('project_dump.export_available')}</div>}
+            {!task && (
+              <div>
+                <FormattedMessage id="project_dump.export_available" />
+              </div>
+            )}
 
             <p className="sw-mt-2">{status?.exportedDump}</p>
           </div>
@@ -148,13 +153,15 @@ export default function Export({ componentKey }: Readonly<Props>) {
   function renderExport() {
     return (
       <>
-        <div>{translate('project_dump.export_form_description')}</div>
+        <div>
+          <FormattedMessage id="project_dump.export_form_description" />
+        </div>
         <Button
           ariaLabel={translate('project_dump.do_export')}
           className="sw-mt-4"
           onClick={handleExport}
         >
-          {translate('project_dump.do_export')}
+          <FormattedMessage id="project_dump.do_export" />
         </Button>
       </>
     );

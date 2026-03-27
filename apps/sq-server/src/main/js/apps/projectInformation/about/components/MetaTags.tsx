@@ -33,6 +33,8 @@ import { PopupPlacement } from '~sq-server-commons/components/ui/popups';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Component } from '~sq-server-commons/types/types';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   component: Component;
   onComponentChange: (changes: {}) => void;
@@ -81,7 +83,7 @@ export default function MetaTags(props: Props) {
   return (
     <>
       <Heading as="h3" className="sw-mb-2">
-        {translate('tags')}
+        <FormattedMessage id="tags" />
       </Heading>
       <Tags
         allowUpdate={canUpdateTags()}

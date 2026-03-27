@@ -19,8 +19,8 @@
  */
 
 import { Heading } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 import MetaLink from '~sq-server-commons/components/common/MetaLink';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { orderLinks } from '~sq-server-commons/helpers/projectLinks';
 import { ProjectLink } from '~sq-server-commons/types/types';
 
@@ -33,7 +33,9 @@ export default function MetaLinks({ links }: Readonly<Props>) {
 
   return (
     <>
-      <Heading as="h3">{translate('overview.external_links')}</Heading>
+      <Heading as="h3">
+        <FormattedMessage id="overview.external_links" />
+      </Heading>
       <ul className="sw-mt-2 sw-flex sw-flex-col sw-gap-3">
         {orderedLinks.map((link) => (
           <MetaLink key={link.id} link={link} />

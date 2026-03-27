@@ -25,6 +25,8 @@ import { translate } from '~sq-server-commons/helpers/l10n';
 import { useChangeEventMutation } from '~sq-server-commons/queries/project-analyses';
 import { AnalysisEvent } from '~sq-server-commons/types/project-activity';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   event: AnalysisEvent;
   header: string;
@@ -50,7 +52,9 @@ export default function ChangeEventForm(props: Readonly<Props>) {
     <Modal
       body={
         <form id="change-event-form">
-          <label htmlFor="name">{translate('name')}</label>
+          <label htmlFor="name">
+            <FormattedMessage id="name" />
+          </label>
           <InputField
             autoFocus
             className="sw-my-2"
@@ -73,7 +77,7 @@ export default function ChangeEventForm(props: Readonly<Props>) {
           type="submit"
           variety={ButtonVariety.Primary}
         >
-          {translate('change_verb')}
+          <FormattedMessage id="change_verb" />
         </Button>
       }
       secondaryButtonLabel={translate('cancel')}

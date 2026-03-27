@@ -19,7 +19,7 @@
  */
 
 import { Link } from '@sonarsource/echoes-react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { HelperHintIcon } from '~design-system';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -57,10 +57,12 @@ export default function BranchHelpTooltip({
         <HelpTooltip
           overlay={
             <>
-              <p>{translate('application.branches.help')}</p>
+              <p>
+                <FormattedMessage id="application.branches.help" />
+              </p>
               <hr className="sw-my-2" />
               <Link to={getApplicationAdminUrl(component.key)}>
-                {translate('application.branches.link')}
+                <FormattedMessage id="application.branches.link" />
               </Link>
             </>
           }

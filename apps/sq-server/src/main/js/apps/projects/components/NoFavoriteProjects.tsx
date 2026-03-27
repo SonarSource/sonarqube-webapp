@@ -19,20 +19,20 @@
  */
 
 import { Link, Text, TextSize } from '@sonarsource/echoes-react';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { FormattedMessage } from 'react-intl';
 
 export default function NoFavoriteProjects() {
   return (
     <div className="sw-flex sw-flex-col sw-items-center sw-py-8">
       <Text className="sw-mb-2" isHighlighted size={TextSize.Large}>
-        {translate('projects.no_favorite_projects')}
+        <FormattedMessage id="projects.no_favorite_projects" />
       </Text>
       <p className="sw-mt-2 sw-typo-default">
-        {translate('projects.no_favorite_projects.engagement')}
+        <FormattedMessage id="projects.no_favorite_projects.engagement" />
       </p>
       <p className="sw-mt-6">
         <Link className="sw-mt-6 sw-typo-semibold" to="/projects/all">
-          {translate('projects.explore_projects')}
+          <FormattedMessage id="projects.explore_projects" />
         </Link>
       </p>
     </div>

@@ -21,8 +21,10 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import CreateWebhookForm from './CreateWebhookForm';
+
+import { FormattedMessage } from 'react-intl';
 
 interface Props {
   loading: boolean;
@@ -53,7 +55,7 @@ export default function PageActions(props: Props) {
     return (
       <Tooltip content={translateWithParameters('webhooks.maximum_reached', WEBHOOKS_LIMIT)}>
         <Button className="it__webhook-create" isDisabled variety={ButtonVariety.Primary}>
-          {translate('create')}
+          <FormattedMessage id="create" />
         </Button>
       </Tooltip>
     );
@@ -66,7 +68,7 @@ export default function PageActions(props: Props) {
         onClick={handleCreateOpen}
         variety={ButtonVariety.Primary}
       >
-        {translate('create')}
+        <FormattedMessage id="create" />
       </Button>
       {openCreate && <CreateWebhookForm onClose={handleCreateClose} onDone={onCreate} />}
     </>

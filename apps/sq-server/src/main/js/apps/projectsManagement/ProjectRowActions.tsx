@@ -36,6 +36,8 @@ import { LoggedInUser } from '~sq-server-commons/types/users';
 import ApplyTemplate from '../permissions/project/components/ApplyTemplate';
 import RestoreAccessModal from './RestoreAccessModal';
 
+import { FormattedMessage } from 'react-intl';
+
 export interface Props {
   currentUser: Pick<LoggedInUser, 'login' | 'local'>;
   project: Project;
@@ -93,12 +95,12 @@ export default function ProjectRowActions({ currentUser, project }: Props) {
                       setRestoreAccessModal(true);
                     }}
                   >
-                    {translate('global_permissions.restore_access')}
+                    <FormattedMessage id="global_permissions.restore_access" />
                   </DropdownMenu.ItemButton>
                 ) : (
                   hasAccess === false && (
                     <DropdownMenu.ItemButton isDisabled onClick={noop}>
-                      {translate('global_permissions.no_actions_available')}
+                      <FormattedMessage id="global_permissions.no_actions_available" />
                     </DropdownMenu.ItemButton>
                   )
                 )}
@@ -112,7 +114,7 @@ export default function ProjectRowActions({ currentUser, project }: Props) {
                   setApplyTemplateModal(true);
                 }}
               >
-                {translate('projects_role.apply_template')}
+                <FormattedMessage id="projects_role.apply_template" />
               </DropdownMenu.ItemButton>
             )}
           </>
@@ -129,7 +131,6 @@ export default function ProjectRowActions({ currentUser, project }: Props) {
           size={ButtonSize.Medium}
         />
       </DropdownMenu>
-
       {restoreAccessModal && (
         <RestoreAccessModal
           currentUser={currentUser}
@@ -140,7 +141,6 @@ export default function ProjectRowActions({ currentUser, project }: Props) {
           project={project}
         />
       )}
-
       {applyTemplateModal && (
         <ApplyTemplate
           onClose={() => {

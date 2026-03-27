@@ -66,7 +66,7 @@ export default function DeactivateForm(props: Props) {
             onCheck={setAnonymize}
           >
             <Text className="sw-ml-3" isHighlighted>
-              {translate('users.delete_user')}
+              <FormattedMessage id="users.delete_user" />
             </Text>
           </Checkbox>
           {anonymize && (
@@ -75,7 +75,11 @@ export default function DeactivateForm(props: Props) {
                 <FormattedMessage
                   id="users.delete_user.help"
                   values={{
-                    link: <Link to={docUrl}>{translate('users.delete_user.help.link')}</Link>,
+                    link: (
+                      <Link to={docUrl}>
+                        <FormattedMessage id="users.delete_user.help.link" />
+                      </Link>
+                    ),
                   }}
                 />
               </span>
@@ -93,7 +97,7 @@ export default function DeactivateForm(props: Props) {
           type="submit"
           variety={ButtonVariety.Danger}
         >
-          {translate('users.deactivate')}
+          <FormattedMessage id="users.deactivate" />
         </Button>
       }
       secondaryButtonLabel={translate('cancel')}

@@ -99,13 +99,11 @@ export default function ConditionComponent({
         )}
         {metric.hidden && (
           <Text className="sw-ml-1" colorOverride="echoes-color-text-danger">
-            {translate('deprecated')}
+            <FormattedMessage id="deprecated" />
           </Text>
         )}
       </ContentCell>
-
       <ContentCell className="sw-whitespace-nowrap">{getOperatorLabel(op, metric)}</ContentCell>
-
       <NumericalCell className="sw-whitespace-nowrap">
         <ConditionValue
           condition={condition}
@@ -156,7 +154,7 @@ export default function ConditionComponent({
               }
               primaryButton={
                 <Button onClick={() => deleteCondition(condition)} variety={ButtonVariety.Danger}>
-                  {translate('delete')}
+                  <FormattedMessage id="delete" />
                 </Button>
               }
               secondaryButtonLabel={translate('close')}

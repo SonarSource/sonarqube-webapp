@@ -19,8 +19,12 @@
  */
 
 import { Text } from '@sonarsource/echoes-react';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { FormattedMessage } from 'react-intl';
 
 export default function EmptyResult() {
-  return <Text isSubtle>{translate('no_results')}</Text>;
+  return (
+    <Text isSubtle>
+      <FormattedMessage id="no_results" />
+    </Text>
+  );
 }

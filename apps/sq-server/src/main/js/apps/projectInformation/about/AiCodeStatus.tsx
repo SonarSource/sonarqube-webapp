@@ -35,7 +35,6 @@ import DocumentationLink from '~sq-server-commons/components/common/Documentatio
 import AICodeAssuranceStatus from '~sq-server-commons/components/typography/AICodeAssuranceStatus';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   useProjectBranchesAiCodeAssuranceStatusQuery,
   useProjectDetectedAiCodeQuery,
@@ -81,7 +80,7 @@ export default function AiCodeStatus(props: Readonly<Props>) {
       {(aiCodeAssuranceStatus !== AiCodeAssuranceStatus.NONE || detectedAiCode) && (
         <section className="sw-py-4">
           <Heading as="h3" className="sw-mb-2">
-            {translate('project.info.contain_ai_code.title')}
+            <FormattedMessage id="project.info.contain_ai_code.title" />
           </Heading>
           <Text>
             <IconSparkle className="sw-mr-2" color="echoes-color-icon-accent" />
@@ -98,16 +97,17 @@ export default function AiCodeStatus(props: Readonly<Props>) {
               <Link
                 to={addons?.aica?.getAICodeSettingsUrl(component.key, component.qualifier) ?? ''}
               >
-                {translate('projects.ai_code_detected.link')}
+                <FormattedMessage id="projects.ai_code_detected.link" />
               </Link>
             </div>
           )}
         </section>
       )}
-
       {aiCodeAssuranceStatus !== AiCodeAssuranceStatus.NONE && (
         <ProjectInformationSection className="sw-flex sw-flex-col sw-gap-2">
-          <Heading as="h3">{translate('project.info.ai_code_assurance.title')}</Heading>
+          <Heading as="h3">
+            <FormattedMessage id="project.info.ai_code_assurance.title" />
+          </Heading>
           <AICodeAssuranceStatus
             aiCodeAssuranceStatus={
               aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF

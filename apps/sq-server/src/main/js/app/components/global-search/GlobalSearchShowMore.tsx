@@ -21,8 +21,8 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { ItemButton } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   allowMore: boolean;
@@ -54,7 +54,9 @@ export default class GlobalSearchShowMore extends React.PureComponent<Props> {
           this.handleMoreClick(e, qualifier);
         }}
       >
-        <Spinner isLoading={loadingMore === qualifier}>{translate('show_more')}</Spinner>
+        <Spinner isLoading={loadingMore === qualifier}>
+          <FormattedMessage id="show_more" />
+        </Spinner>
       </ItemButton>
     );
   }

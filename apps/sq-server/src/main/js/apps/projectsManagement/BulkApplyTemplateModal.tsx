@@ -31,6 +31,8 @@ import { translate, translateWithParameters } from '~sq-server-commons/helpers/l
 import { useGithubProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/github';
 import { PermissionTemplate } from '~sq-server-commons/types/types';
 
+import { FormattedMessage } from 'react-intl';
+
 export interface Props {
   analyzedBefore: Date | undefined;
   onClose: () => void;
@@ -216,7 +218,7 @@ export default class BulkApplyTemplateModal extends React.PureComponent<Props, S
       <form id={FORM_ID} onSubmit={this.handleConfirmClick}>
         {done && (
           <FlagMessage variant="success">
-            {translate('projects_role.apply_template.success')}
+            <FormattedMessage id="projects_role.apply_template.success" />
           </FlagMessage>
         )}
 
@@ -250,7 +252,7 @@ export default class BulkApplyTemplateModal extends React.PureComponent<Props, S
               type="submit"
               variety={ButtonVariety.Primary}
             >
-              {translate('apply')}
+              <FormattedMessage id="apply" />
             </Button>
           )
         }

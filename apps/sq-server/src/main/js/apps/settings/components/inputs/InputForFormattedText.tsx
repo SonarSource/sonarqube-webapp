@@ -21,10 +21,10 @@
 import styled from '@emotion/styled';
 import { Button, TextArea } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { HtmlFormatter, PencilIcon, themeBorder, themeColor } from '~design-system';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import FormattingTipsWithLink from '~sq-server-commons/components/common/FormattingTipsWithLink';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { DefaultSpecializedInputProps, getPropertyName } from '../../utils';
 
 function InputForFormattedText(
@@ -68,7 +68,7 @@ function InputForFormattedText(
       </HtmlFormatter>
 
       <Button className="sw-mt-2" onClick={props.onEditing} prefix={<PencilIcon />}>
-        {translate('edit')}
+        <FormattedMessage id="edit" />
       </Button>
     </>
   );

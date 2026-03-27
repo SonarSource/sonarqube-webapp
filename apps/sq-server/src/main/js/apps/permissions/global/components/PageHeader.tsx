@@ -18,16 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { FormattedMessage } from 'react-intl';
 import { Title } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 
 export default function PageHeader() {
   return (
     <header className="sw-mb-2 sw-flex sw-flex-col sw-justify-between sw-mb-4">
       <div>
-        <Title>{translate('global_permissions.page')}</Title>
+        <Title>
+          <FormattedMessage id="global_permissions.page" />
+        </Title>
       </div>
-      <div>{translate('global_permissions.page.description')}</div>
+      <div>
+        <FormattedMessage id="global_permissions.page.description" />
+      </div>
     </header>
   );
 }

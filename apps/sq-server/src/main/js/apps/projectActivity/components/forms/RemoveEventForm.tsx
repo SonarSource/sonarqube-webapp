@@ -24,6 +24,8 @@ import { translate } from '~sq-server-commons/helpers/l10n';
 import { useDeleteEventMutation } from '~sq-server-commons/queries/project-analyses';
 import { AnalysisEvent } from '~sq-server-commons/types/project-activity';
 
+import { FormattedMessage } from 'react-intl';
+
 export interface RemoveEventFormProps {
   analysisKey: string;
   event: AnalysisEvent;
@@ -48,7 +50,7 @@ export default function RemoveEventForm(props: RemoveEventFormProps) {
           }}
           variety={ButtonVariety.Danger}
         >
-          {translate('delete')}
+          <FormattedMessage id="delete" />
         </Button>
       }
       secondaryButtonLabel={translate('cancel')}

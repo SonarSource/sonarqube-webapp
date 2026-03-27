@@ -20,8 +20,8 @@
 
 import { Text } from '@sonarsource/echoes-react';
 import { OpenAPIV3 } from 'openapi-types';
+import { FormattedMessage } from 'react-intl';
 import { CodeSnippet } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { ExcludeReferences } from '~sq-server-commons/types/web-api-v2';
 import { extractSchemaAndMediaType } from '../utils';
 
@@ -35,7 +35,11 @@ export default function ApiResponseSchema(props: Readonly<Props>) {
   const results = extractSchemaAndMediaType(content);
 
   if (results.length === 0) {
-    return <Text isSubtle>{translate('no_data')}</Text>;
+    return (
+      <Text isSubtle>
+        <FormattedMessage id="no_data" />
+      </Text>
+    );
   }
 
   return results.map(({ requestMediaType, schema }) => (

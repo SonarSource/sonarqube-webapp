@@ -41,7 +41,11 @@ export default function GithubForm(props: GithubFormProps) {
           <FormattedMessage
             id="settings.almintegration.github.info"
             values={{
-              link: <Link to={toStatic}>{translate('learn_more')}</Link>,
+              link: (
+                <Link to={toStatic}>
+                  <FormattedMessage id="learn_more" />
+                </Link>
+              ),
             }}
           />
         </span>
@@ -58,17 +62,17 @@ export default function GithubForm(props: GithubFormProps) {
       <AlmBindingDefinitionFormField
         help={
           <>
-            {translate('settings.almintegration.form.url.github.help1')}
+            <FormattedMessage id="settings.almintegration.form.url.github.help1" />
             <br />
             <em>https://github.company.com/api/v3</em>
             <br />
             <br />
-            {translate('settings.almintegration.form.url.github.help2')}
+            <FormattedMessage id="settings.almintegration.form.url.github.help2" />
             <br />
             <em>https://api.github.com/</em>
             <br />
             <br />
-            {translate('settings.almintegration.form.url.github.private_key_warning')}
+            <FormattedMessage id="settings.almintegration.form.url.github.private_key_warning" />
           </>
         }
         id="url.github"
@@ -77,7 +81,6 @@ export default function GithubForm(props: GithubFormProps) {
         propKey="url"
         value={formData.url}
       />
-
       <AlmBindingDefinitionFormField
         help={translate('settings.almintegration.form.app_id.github.help')}
         id="app_id"

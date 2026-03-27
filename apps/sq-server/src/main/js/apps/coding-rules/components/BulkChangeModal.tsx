@@ -42,6 +42,8 @@ import { BaseProfile, Profile } from '~sq-server-commons/types/quality-profiles'
 import { serializeQuery } from '~sq-server-commons/utils/coding-rules-query';
 import { QualityProfileSelector } from './QualityProfileSelector';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props extends WithLanguagesProps {
   action: string;
   onClose: () => void;
@@ -269,7 +271,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
                 <span>
                   {profile.name}
                   {' — '}
-                  {translate('are_you_sure')}
+                  <FormattedMessage id="are_you_sure" />
                 </span>
               </>
             ) : (
@@ -298,7 +300,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
               type="submit"
               variety={ButtonVariety.Primary}
             >
-              {translate('apply')}
+              <FormattedMessage id="apply" />
             </Button>
           )
         }

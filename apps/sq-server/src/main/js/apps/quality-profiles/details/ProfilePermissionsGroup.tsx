@@ -69,7 +69,6 @@ export default function ProfilePermissionsGroup(props: Readonly<Props>) {
         }}
         variety={ButtonVariety.DangerGhost}
       />
-
       {deleteDialogOpened && (
         <Modal
           body={
@@ -86,7 +85,7 @@ export default function ProfilePermissionsGroup(props: Readonly<Props>) {
           }}
           primaryButton={
             <Button hasAutoFocus onClick={handleDelete} variety={ButtonVariety.Danger}>
-              {translate('remove')}
+              <FormattedMessage id="remove" />
             </Button>
           }
           secondaryButtonLabel={translate('cancel')}

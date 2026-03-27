@@ -43,10 +43,14 @@ export function Preferences() {
 
   return (
     <>
-      <SubHeading as="h2">{translate('my_account.preferences')}</SubHeading>
+      <SubHeading as="h2">
+        <FormattedMessage id="my_account.preferences" />
+      </SubHeading>
       <ul>
         <li>
-          <div>{translate('my_account.preferences.keyboard_shortcuts')}</div>
+          <div>
+            <FormattedMessage id="my_account.preferences.keyboard_shortcuts" />
+          </div>
           <div className="sw-flex sw-flex-row">
             <div className="sw-max-w-3/4">
               <FormattedMessage

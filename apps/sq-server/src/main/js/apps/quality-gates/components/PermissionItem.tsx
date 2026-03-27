@@ -52,14 +52,12 @@ export default function PermissionItem(props: PermissionItemProps) {
           <GenericAvatar Icon={IconPeople} name={item.name} size="md" />
         )}
       </ContentCell>
-
       <ContentCell>
         <div className="sw-flex sw-flex-col">
           <strong className="sw-typo-semibold">{item.name}</strong>
           {isUser(item) && <Text isSubtle>{item.login}</Text>}
         </div>
       </ContentCell>
-
       <ContentCell>
         <ModalAlert
           description={
@@ -81,7 +79,7 @@ export default function PermissionItem(props: PermissionItemProps) {
               }}
               variety={ButtonVariety.Danger}
             >
-              {translate('remove')}
+              <FormattedMessage id="remove" />
             </Button>
           }
           secondaryButtonLabel={translate('close')}

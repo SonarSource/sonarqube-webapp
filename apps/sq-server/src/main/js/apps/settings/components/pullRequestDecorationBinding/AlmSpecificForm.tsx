@@ -85,7 +85,7 @@ function renderHelp({ help, helpExample, helpParams = {}, id }: CommonFieldProps
         />
         {helpExample && (
           <div className="sw-mt-2 sw-whitespace-nowrap">
-            {translate('example')}: <em>{helpExample}</em>
+            <FormattedMessage id="example" />: <em>{helpExample}</em>
           </div>
         )}
       </>
@@ -123,7 +123,7 @@ function renderBooleanField(
       />
       {value == null && (
         <Text className="sw-ml-2" isSubtle>
-          {translate('settings.not_set')}
+          <FormattedMessage id="settings.not_set" />
         </Text>
       )}
       {inputExtra}
@@ -310,7 +310,7 @@ export function AlmSpecificForm(props: AlmSpecificFormProps) {
           helpParams: {
             doc_link: (
               <DocumentationLink to={DocLink.Monorepos}>
-                {translate('learn_more')}
+                <FormattedMessage id="learn_more" />
               </DocumentationLink>
             ),
           },
@@ -320,7 +320,7 @@ export function AlmSpecificForm(props: AlmSpecificFormProps) {
           value: monorepo,
           inputExtra: monorepo && (
             <FlagMessage className="sw-ml-2" variant="warning">
-              {translate('settings.pr_decoration.binding.form.monorepo.warning')}
+              <FormattedMessage id="settings.pr_decoration.binding.form.monorepo.warning" />
             </FlagMessage>
           ),
         })}

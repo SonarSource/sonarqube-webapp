@@ -23,7 +23,7 @@ import { uniqBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import ListFooter from '~shared/components/controls/ListFooter';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { AzureProject, AzureRepository } from '~sq-server-commons/types/alm-integration';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';
@@ -49,7 +49,7 @@ export default function AzureProjectsList(props: AzureProjectsListProps) {
   if (searchResults && searchResults.length === 0) {
     return (
       <MessageCallout variety={MessageVariety.Warning}>
-        {translate('onboarding.create_project.azure.no_results')}
+        <FormattedMessage id="onboarding.create_project.azure.no_results" />
       </MessageCallout>
     );
   }
@@ -70,7 +70,7 @@ export default function AzureProjectsList(props: AzureProjectsListProps) {
                   }),
                 }}
               >
-                {translate('onboarding.create_project.update_your_token')}
+                <FormattedMessage id="onboarding.create_project.update_your_token" />
               </Link>
             ),
           }}

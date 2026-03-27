@@ -23,6 +23,8 @@ import * as React from 'react';
 import { Modal } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   onCancel: () => void;
   onSubmit: () => void;
@@ -45,7 +47,7 @@ export default function RemoveExtendedDescriptionModal({ onCancel, onSubmit }: P
       onClose={onCancel}
       primaryButton={
         <Button isDisabled={submitting} onClick={handleClick} variety={ButtonVariety.Danger}>
-          {translate('remove')}
+          <FormattedMessage id="remove" />
         </Button>
       }
       secondaryButtonLabel={translate('cancel')}

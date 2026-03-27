@@ -95,7 +95,7 @@ export default function ConfigurationForm(props: Readonly<Props>) {
               values={{
                 link: (
                   <DocumentationLink to={AlmAuthDocLinkKeys[tab]}>
-                    {translate('settings.authentication.help.link')}
+                    <FormattedMessage id="settings.authentication.help.link" />
                   </DocumentationLink>
                 ),
               }}
@@ -139,7 +139,7 @@ export default function ConfigurationForm(props: Readonly<Props>) {
           type="submit"
           variety={ButtonVariety.Primary}
         >
-          {translate('settings.almintegration.form.save')}
+          <FormattedMessage id="settings.almintegration.form.save" />
 
           <Spinner className="sw-ml-2" isLoading={loading} />
         </Button>

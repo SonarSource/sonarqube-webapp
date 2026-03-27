@@ -19,7 +19,7 @@
  */
 
 import { Button, ButtonVariety, Heading, ToggleTip } from '@sonarsource/echoes-react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -55,7 +55,7 @@ export default function ListHeader({ canCreate }: Readonly<Props>) {
             data-test="quality-gates__add"
             variety={ButtonVariety.Default}
           >
-            {translate('create')}
+            <FormattedMessage id="create" />
           </Button>
         </CreateQualityGateForm>
       )}

@@ -25,6 +25,8 @@ import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures
 import { WebhookDelivery } from '~sq-server-commons/types/webhook';
 import { formatPayload } from '../utils';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   className?: string;
   delivery: WebhookDelivery;
@@ -47,7 +49,9 @@ export default function DeliveryItem({ className, delivery, loading, payload }: 
           formatMeasure(delivery.durationMs, 'MILLISEC'),
         )}
       </p>
-      <p className="sw-mb-2">{translate('webhooks.delivery.payload')}</p>
+      <p className="sw-mb-2">
+        <FormattedMessage id="webhooks.delivery.payload" />
+      </p>
       <Spinner isLoading={loading}>
         {payload !== undefined && (
           <CodeSnippet

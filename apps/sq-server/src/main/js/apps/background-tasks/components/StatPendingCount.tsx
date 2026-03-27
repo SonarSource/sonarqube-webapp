@@ -24,6 +24,8 @@ import withAppStateContext from '~sq-server-commons/context/app-state/withAppSta
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { AppState } from '~sq-server-commons/types/appstate';
 
+import { FormattedMessage } from 'react-intl';
+
 export interface Props {
   appState: AppState;
   onCancelAllPending: () => void;
@@ -38,7 +40,7 @@ function StatPendingCount({ appState, onCancelAllPending, pendingCount }: Readon
   return (
     <div className="sw-flex sw-items-center">
       <span className="sw-typo-lg-semibold sw-mr-1">{pendingCount}</span>
-      {translate('background_tasks.pending')}
+      <FormattedMessage id="background_tasks.pending" />
       {appState.canAdmin && pendingCount > 0 && (
         <ConfirmButton
           cancelButtonText={translate('close')}

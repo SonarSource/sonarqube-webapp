@@ -78,29 +78,24 @@ export default function TokensFormItem(props: Readonly<Props>) {
               <div className="sw-mt-1">
                 <FlagWarningIcon className="sw-mr-1" />
 
-                {translate('my_account.tokens.expired')}
+                <FormattedMessage id="my_account.tokens.expired" />
               </div>
             </StyledSpan>
           )}
         </div>
       </ContentCell>
-
       <ContentCell className={className} title={translate('users.tokens', token.type)}>
         {translate('users.tokens', token.type, 'short')}
       </ContentCell>
-
       <ContentCell className={classNames('sw-w-[128px]', className)} title={token.project?.name}>
         <div className="sw-w-full sw-truncate">{token.project?.name}</div>
       </ContentCell>
-
       <ContentCell className={className}>
         <DateFromNow date={token.lastConnectionDate} hourPrecision />
       </ContentCell>
-
       <ContentCell className={className}>
         <DateFormatter date={token.createdAt} long />
       </ContentCell>
-
       <ContentCell className={className}>
         {token.expirationDate ? (
           <StyledSpan tokenIsExpired={token.isExpired}>
@@ -110,7 +105,6 @@ export default function TokensFormItem(props: Readonly<Props>) {
           '–'
         )}
       </ContentCell>
-
       <ContentCell>
         {token.isExpired && (
           <Button
@@ -120,7 +114,7 @@ export default function TokensFormItem(props: Readonly<Props>) {
             onClick={handleRevoke}
             variety={ButtonVariety.DangerOutline}
           >
-            {translate('remove')}
+            <FormattedMessage id="remove" />
           </Button>
         )}
 
@@ -144,7 +138,7 @@ export default function TokensFormItem(props: Readonly<Props>) {
                 onClick={onClick}
                 variety={ButtonVariety.DangerOutline}
               >
-                {translate('users.tokens.revoke')}
+                <FormattedMessage id="users.tokens.revoke" />
               </Button>
             )}
           </ConfirmButton>

@@ -83,8 +83,16 @@ export default class RestoreAccessModal extends React.PureComponent<Props, State
             <FormattedMessage
               id="global_permissions.restore_access.message"
               values={{
-                browse: <strong>{translate('projects_role.user')}</strong>,
-                administer: <strong>{translate('projects_role.admin')}</strong>,
+                browse: (
+                  <strong>
+                    <FormattedMessage id="projects_role.user" />
+                  </strong>
+                ),
+                administer: (
+                  <strong>
+                    <FormattedMessage id="projects_role.admin" />
+                  </strong>
+                ),
               }}
             />
           </form>
@@ -100,7 +108,7 @@ export default class RestoreAccessModal extends React.PureComponent<Props, State
             type="submit"
             variety={ButtonVariety.Primary}
           >
-            {translate('restore')}
+            <FormattedMessage id="restore" />
           </Button>
         }
         secondaryButtonLabel={translate('cancel')}

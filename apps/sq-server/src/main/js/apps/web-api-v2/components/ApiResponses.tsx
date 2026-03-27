@@ -20,8 +20,8 @@
 
 import { OpenAPIV3 } from 'openapi-types';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Accordion, SubTitle } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { ExcludeReferences } from '~sq-server-commons/types/web-api-v2';
 import ApiResponseSchema from './ApiResponseSchema';
 import ApiResponseTitle from './ApiResponseTitle';
@@ -47,8 +47,14 @@ export default function ApiResponses({ responses }: Props) {
 
   return (
     <>
-      <SubTitle id={titleId}>{translate('api_documentation.v2.response_header')}</SubTitle>
-      {!responses && <div>{translate('no_data')}</div>}
+      <SubTitle id={titleId}>
+        <FormattedMessage id="api_documentation.v2.response_header" />
+      </SubTitle>
+      {!responses && (
+        <div>
+          <FormattedMessage id="no_data" />
+        </div>
+      )}
       {responses && (
         <ul aria-labelledby={titleId}>
           {Object.entries(responses).map(([code, response]) => (

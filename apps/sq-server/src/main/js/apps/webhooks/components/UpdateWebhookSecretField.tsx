@@ -24,7 +24,6 @@ import { FormattedMessage } from 'react-intl';
 import { DiscreetLink, FlagMessage } from '~design-system';
 import InputValidationField from '~sq-server-commons/components/controls/InputValidationField';
 import ModalValidationField from '~sq-server-commons/components/controls/ModalValidationField';
-import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   description?: string;
@@ -103,7 +102,7 @@ export default function UpdateWebhookSecretField(props: Props) {
                     preventDefault
                     to={{}}
                   >
-                    {translate('webhooks.secret.field_mask.link')}
+                    <FormattedMessage id="webhooks.secret.field_mask.link" />
                   </DiscreetLink>
                 ),
               }}

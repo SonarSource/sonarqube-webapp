@@ -45,6 +45,8 @@ import { getProfileComparePath } from '~sq-server-commons/utils/quality-profiles
 import DeleteProfileForm from './DeleteProfileForm';
 import ProfileModalForm from './ProfileModalForm';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   isComparable: boolean;
   profile: Profile;
@@ -192,7 +194,7 @@ class ProfileActions extends React.PureComponent<Props, State> {
                 className="it__quality-profiles__activate-more-rules"
                 to={activateMoreUrl}
               >
-                {translate('quality_profiles.activate_more_rules')}
+                <FormattedMessage id="quality_profiles.activate_more_rules" />
               </DropdownMenu.ItemLink>
             )}
 
@@ -202,7 +204,7 @@ class ProfileActions extends React.PureComponent<Props, State> {
                 download={`${profile.key}.xml`}
                 to={this.getQualityProfileBackupUrl(profile)}
               >
-                {translate('backup_verb')}
+                <FormattedMessage id="backup_verb" />
               </DropdownMenu.ItemLinkDownload>
             )}
 
@@ -211,7 +213,7 @@ class ProfileActions extends React.PureComponent<Props, State> {
                 className="it__quality-profiles__compare"
                 to={getProfileComparePath(profile.name, profile.language)}
               >
-                {translate('compare')}
+                <FormattedMessage id="compare" />
               </DropdownMenu.ItemLink>
             )}
 
@@ -224,7 +226,7 @@ class ProfileActions extends React.PureComponent<Props, State> {
                   profile={profile}
                 >
                   <DropdownMenu.ItemButton className="it__quality-profiles__extend">
-                    {translate('extend')}
+                    <FormattedMessage id="extend" />
                   </DropdownMenu.ItemButton>
                 </ProfileModalForm>
 
@@ -235,7 +237,7 @@ class ProfileActions extends React.PureComponent<Props, State> {
                   profile={profile}
                 >
                   <DropdownMenu.ItemButton className="it__quality-profiles__copy">
-                    {translate('copy')}
+                    <FormattedMessage id="copy" />
                   </DropdownMenu.ItemButton>
                 </ProfileModalForm>
               </>
@@ -249,7 +251,7 @@ class ProfileActions extends React.PureComponent<Props, State> {
                 profile={profile}
               >
                 <DropdownMenu.ItemButton className="it__quality-profiles__rename">
-                  {translate('rename')}
+                  <FormattedMessage id="rename" />
                 </DropdownMenu.ItemButton>
               </ProfileModalForm>
             )}
@@ -265,7 +267,7 @@ class ProfileActions extends React.PureComponent<Props, State> {
                     isDisabled
                     onClick={this.handleSetDefaultClick}
                   >
-                    {translate('set_as_default')}
+                    <FormattedMessage id="set_as_default" />
                   </DropdownMenu.ItemButton>
                 </Tooltip>
               ) : (
@@ -273,7 +275,7 @@ class ProfileActions extends React.PureComponent<Props, State> {
                   className="it__quality-profiles__set-as-default"
                   onClick={this.handleSetDefaultClick}
                 >
-                  {translate('set_as_default')}
+                  <FormattedMessage id="set_as_default" />
                 </DropdownMenu.ItemButton>
               ))}
 
@@ -286,7 +288,7 @@ class ProfileActions extends React.PureComponent<Props, State> {
                   profile={profile}
                 >
                   <DropdownMenu.ItemButtonDestructive className="it__quality-profiles__delete">
-                    {translate('delete')}
+                    <FormattedMessage id="delete" />
                   </DropdownMenu.ItemButtonDestructive>
                 </DeleteProfileForm>
               </>

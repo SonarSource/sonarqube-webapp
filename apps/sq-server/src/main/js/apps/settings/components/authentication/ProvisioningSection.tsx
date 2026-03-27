@@ -24,6 +24,8 @@ import { BasicSeparator, FlagMessage, RadioButton, SubHeading } from '~design-sy
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { ProvisioningType } from '~sq-server-commons/types/provisioning';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   autoDescription: ReactElement<any>;
   autoFeatureDisabledText: string | ReactElement<any>;
@@ -76,7 +78,9 @@ export default function ProvisioningSection(props: Readonly<Props>) {
   return (
     <div className="sw-mb-2">
       <form onSubmit={onSave}>
-        <SubHeading as="h5">{translate('settings.authentication.form.provisioning')}</SubHeading>
+        <SubHeading as="h5">
+          <FormattedMessage id="settings.authentication.form.provisioning" />
+        </SubHeading>
         {enabled ? (
           <>
             <ul>
@@ -115,7 +119,7 @@ export default function ProvisioningSection(props: Readonly<Props>) {
                         <>
                           {hasDifferentProvider && (
                             <p className="sw-mb-2 sw-typo-semibold">
-                              {translate('settings.authentication.form.other_provisioning_enabled')}
+                              <FormattedMessage id="settings.authentication.form.other_provisioning_enabled" />
                             </p>
                           )}
                           {autoDescription}
@@ -136,7 +140,7 @@ export default function ProvisioningSection(props: Readonly<Props>) {
                           onClick={onSyncNow}
                           variety={ButtonVariety.Primary}
                         >
-                          {translate('settings.authentication.github.synchronize_now')}
+                          <FormattedMessage id="settings.authentication.github.synchronize_now" />
                         </Button>
                       </div>
                     )}
@@ -152,10 +156,10 @@ export default function ProvisioningSection(props: Readonly<Props>) {
                 type="submit"
                 variety={ButtonVariety.Primary}
               >
-                {translate('save')}
+                <FormattedMessage id="save" />
               </Button>
               <Button isDisabled={!hasUnsavedChanges} onClick={onCancel}>
-                {translate('cancel')}
+                <FormattedMessage id="cancel" />
               </Button>
               <Spinner isLoading={!!isLoading} />
               <FlagMessage className="sw-mb-0" variant="warning">

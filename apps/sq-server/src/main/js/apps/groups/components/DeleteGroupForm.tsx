@@ -24,6 +24,8 @@ import { translate, translateWithParameters } from '~sq-server-commons/helpers/l
 import { useDeleteGroupMutation } from '~sq-server-commons/queries/groups';
 import { Group } from '~sq-server-commons/types/types';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   group: Group;
   onClose: () => void;
@@ -53,7 +55,7 @@ export default function DeleteGroupForm(props: Readonly<Props>) {
           type="submit"
           variety={ButtonVariety.Danger}
         >
-          {translate('delete')}
+          <FormattedMessage id="delete" />
         </Button>
       }
       secondaryButtonLabel={translate('cancel')}

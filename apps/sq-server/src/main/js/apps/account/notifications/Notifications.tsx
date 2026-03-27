@@ -23,7 +23,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { Switch } from '~adapters/components/common/Switch';
 import { BEAMER_NOTIFICATIONS_SETTING } from '~shared/helpers/beamer';
 import useLocalStorage from '~shared/helpers/useLocalStorage';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { useNotificationsQuery } from '~sq-server-commons/queries/notifications';
 import { AccountPageTemplate } from '../components/AccountPageTemplate';
 import GlobalNotifications from './GlobalNotifications';
@@ -52,8 +51,9 @@ export default function Notifications() {
       pageClassName="it__account-body"
       title={formatMessage({ id: 'my_account.notifications' })}
     >
-      <Text isSubtle>{translate('notification.dispatcher.information')}</Text>
-
+      <Text isSubtle>
+        <FormattedMessage id="notification.dispatcher.information" />
+      </Text>
       <Spinner isLoading={isLoading}>
         {notifications && (
           <>

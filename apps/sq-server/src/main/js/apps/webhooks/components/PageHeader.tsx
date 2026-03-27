@@ -23,7 +23,6 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
-import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   children?: React.ReactNode;
@@ -36,14 +35,20 @@ export default function PageHeader({ children }: Readonly<Props>) {
     <header className="sw-mb-2 sw-flex sw-items-center sw-justify-between">
       <div>
         <Heading as="h1" className="sw-mb-4">
-          {translate('webhooks.page')}
+          <FormattedMessage id="webhooks.page" />
         </Heading>
-        <p>{translate('webhooks.description0')}</p>
+        <p>
+          <FormattedMessage id="webhooks.description0" />
+        </p>
         <p>
           <FormattedMessage
             id="webhooks.description1"
             values={{
-              url: <Link to={toUrl}>{translate('webhooks.documentation_link')}</Link>,
+              url: (
+                <Link to={toUrl}>
+                  <FormattedMessage id="webhooks.documentation_link" />
+                </Link>
+              ),
             }}
           />
         </p>

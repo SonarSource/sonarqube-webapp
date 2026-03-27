@@ -20,8 +20,8 @@
 
 import { Button } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { LockIcon } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   DefaultInputProps,
   DefaultSpecializedInputProps,
@@ -105,7 +105,9 @@ class InputForSecured extends React.PureComponent<InternalProps, State> {
     return (
       <div className="sw-flex sw-items-center">
         <LockIcon className="sw-mr-4" />
-        <Button onClick={this.handleChangeClick}>{translate('change_verb')}</Button>
+        <Button onClick={this.handleChangeClick}>
+          <FormattedMessage id="change_verb" />
+        </Button>
       </div>
     );
   }

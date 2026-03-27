@@ -24,6 +24,8 @@ import { Modal } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { WebhookResponse } from '~sq-server-commons/types/webhook';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   onClose: () => void;
   onSubmit: () => Promise<void>;
@@ -54,7 +56,7 @@ export default function DeleteWebhookForm({ onClose, onSubmit, webhook }: Props)
       onClose={onClose}
       primaryButton={
         <Button form={FORM_ID} type="submit" variety={ButtonVariety.Danger}>
-          {translate('delete')}
+          <FormattedMessage id="delete" />
         </Button>
       }
       secondaryButtonLabel={translate('cancel')}

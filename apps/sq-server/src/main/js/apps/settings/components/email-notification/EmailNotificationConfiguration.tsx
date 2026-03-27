@@ -21,8 +21,8 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import React, { useCallback, useEffect } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { NumberedList, NumberedListItem } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   useSaveEmailConfigurationMutation,
   useUpdateEmailConfigurationMutation,
@@ -134,15 +134,21 @@ export default function EmailNotificationConfiguration(props: Readonly<Props>) {
     <form id={FORM_ID} onSubmit={onSubmit}>
       <NumberedList>
         <NumberedListItem className="sw-pt-6">
-          <span className="sw-typo-semibold">{translate('email_notification.subheading.1')}</span>
+          <span className="sw-typo-semibold">
+            <FormattedMessage id="email_notification.subheading.1" />
+          </span>
           <AuthenticationSelector configuration={newConfiguration} onChange={onChange} />
         </NumberedListItem>
         <NumberedListItem className="sw-pt-6">
-          <span className="sw-typo-semibold">{translate('email_notification.subheading.2')}</span>
+          <span className="sw-typo-semibold">
+            <FormattedMessage id="email_notification.subheading.2" />
+          </span>
           <CommonSMTP configuration={newConfiguration} onChange={onChange} />
         </NumberedListItem>
         <NumberedListItem className="sw-pt-6">
-          <span className="sw-typo-semibold">{translate('email_notification.subheading.3')}</span>
+          <span className="sw-typo-semibold">
+            <FormattedMessage id="email_notification.subheading.3" />
+          </span>
           <SenderInformation configuration={newConfiguration} onChange={onChange} />
         </NumberedListItem>
       </NumberedList>
@@ -152,7 +158,7 @@ export default function EmailNotificationConfiguration(props: Readonly<Props>) {
         type="submit"
         variety={ButtonVariety.Primary}
       >
-        {translate('email_notification.form.save_configuration')}
+        <FormattedMessage id="email_notification.form.save_configuration" />
       </Button>
       {hasConfiguration && (
         <Button className="sw-ml-2" onClick={onCancel} variety={ButtonVariety.Primary}>

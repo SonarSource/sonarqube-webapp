@@ -25,8 +25,10 @@ import { useLanguagesQuery } from '~shared/queries/languages';
 import { ComponentQualityProfile } from '~shared/types/component';
 import { Languages } from '~shared/types/languages';
 import { searchRules } from '~sq-server-commons/api/rules';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getQualityProfileUrl } from '~sq-server-commons/helpers/urls';
+
+import { FormattedMessage } from 'react-intl';
 
 interface Props {
   profiles: ComponentQualityProfile[];
@@ -62,7 +64,9 @@ export function MetaQualityProfiles({ profiles }: Readonly<Props>) {
 
   return (
     <section>
-      <Heading as="h3">{translate('overview.quality_profiles')}</Heading>
+      <Heading as="h3">
+        <FormattedMessage id="overview.quality_profiles" />
+      </Heading>
       <ul className="sw-mt-2 sw-flex sw-flex-col sw-gap-3">
         {profiles.map((profile) => (
           <ProfileItem
@@ -120,7 +124,7 @@ function ProfileItem({
               >
                 <span>
                   <Badge className="sw-ml-6" variant="deleted">
-                    {translate('deprecated')}
+                    <FormattedMessage id="deprecated" />
                   </Badge>
                 </span>
               </Tooltip>

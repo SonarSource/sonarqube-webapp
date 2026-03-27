@@ -27,6 +27,8 @@ import { translate } from '~sq-server-commons/helpers/l10n';
 import { Plugin, isAvailablePlugin, isInstalledPlugin } from '~sq-server-commons/types/plugins';
 import PluginUpdateButton from './PluginUpdateButton';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   plugin: Plugin;
   refreshPending: () => void;
@@ -89,10 +91,12 @@ export default class PluginActions extends React.PureComponent<Props, State> {
       <div className="it__js-actions">
         {isAvailablePlugin(plugin) && (
           <div>
-            <p className="sw-mb-1">{translate('marketplace.available_under_commercial_license')}</p>
+            <p className="sw-mb-1">
+              <FormattedMessage id="marketplace.available_under_commercial_license" />
+            </p>
             {plugin.homepageUrl && (
               <Link target="_blank" to={plugin.homepageUrl}>
-                {translate('marketplace.learn_more')}
+                <FormattedMessage id="marketplace.learn_more" />
               </Link>
             )}
           </div>
@@ -100,7 +104,7 @@ export default class PluginActions extends React.PureComponent<Props, State> {
         {isInstalledPlugin(plugin) && (
           <p>
             <CheckIcon className="sw-mr-1" />
-            {translate('marketplace.installed')}
+            <FormattedMessage id="marketplace.installed" />
           </p>
         )}
         {isInstalledPlugin(plugin) && plugin.updates && plugin.updates.length > 0 && (
@@ -136,10 +140,12 @@ export default class PluginActions extends React.PureComponent<Props, State> {
               id={'plugin-terms-' + plugin.key}
               onCheck={this.handleTermsCheck}
             >
-              <span className="sw-ml-2">{translate('marketplace.i_accept_the')}</span>
+              <span className="sw-ml-2">
+                <FormattedMessage id="marketplace.i_accept_the" />
+              </span>
             </Checkbox>
             <Link className="sw-whitespace-nowrap sw-ml-1" to={plugin.termsAndConditionsUrl}>
-              {translate('marketplace.terms_and_conditions')}
+              <FormattedMessage id="marketplace.terms_and_conditions" />
             </Link>
           </div>
         )}
@@ -161,7 +167,7 @@ export default class PluginActions extends React.PureComponent<Props, State> {
                 onClick={this.handleUninstall}
                 variety={ButtonVariety.DangerOutline}
               >
-                {translate('marketplace.uninstall')}
+                <FormattedMessage id="marketplace.uninstall" />
               </Button>
             </Tooltip>
           </>
@@ -174,7 +180,7 @@ export default class PluginActions extends React.PureComponent<Props, State> {
               }
               onClick={this.handleInstall}
             >
-              {translate('marketplace.install')}
+              <FormattedMessage id="marketplace.install" />
             </Button>
           </Tooltip>
         )}

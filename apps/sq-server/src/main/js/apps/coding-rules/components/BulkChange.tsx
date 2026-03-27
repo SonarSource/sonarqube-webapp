@@ -78,7 +78,7 @@ export default class BulkChange extends React.PureComponent<Props, State> {
       return (
         <Tooltip content={translate('coding_rules.can_not_bulk_change')}>
           <Button isDisabled variety={ButtonVariety.Primary}>
-            {translate('bulk_change')}
+            <FormattedMessage id="bulk_change" />
           </Button>
         </Tooltip>
       );
@@ -98,23 +98,23 @@ export default class BulkChange extends React.PureComponent<Props, State> {
           overlay={
             <>
               <ItemButton onClick={this.handleActivateClick}>
-                {translate('coding_rules.activate_in')}
+                <FormattedMessage id="coding_rules.activate_in" />
               </ItemButton>
 
               {allowActivateOnProfile && profile && (
                 <ItemButton onClick={this.handleActivateInProfileClick}>
-                  {translate('coding_rules.activate_in')}{' '}
+                  <FormattedMessage id="coding_rules.activate_in" />{' '}
                   <strong className="sw-ml-1">{profile.name}</strong>
                 </ItemButton>
               )}
 
               <ItemButton onClick={this.handleDeactivateClick}>
-                {translate('coding_rules.deactivate_in')}
+                <FormattedMessage id="coding_rules.deactivate_in" />
               </ItemButton>
 
               {allowDeactivateOnProfile && profile && (
                 <ItemButton onClick={this.handleDeactivateInProfileClick}>
-                  {translate('coding_rules.deactivate_in')}{' '}
+                  <FormattedMessage id="coding_rules.deactivate_in" />{' '}
                   <strong className="sw-ml-1">{profile.name}</strong>
                 </ItemButton>
               )}

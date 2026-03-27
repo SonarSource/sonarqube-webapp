@@ -19,9 +19,9 @@
  */
 
 import { Heading } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 import { Visibility } from '~shared/types/component';
 import PrivacyBadgeContainer from '~sq-server-commons/components/common/PrivacyBadgeContainer';
-import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   qualifier: string;
@@ -32,7 +32,7 @@ export default function MetaVisibility({ qualifier, visibility }: Props) {
   return (
     <>
       <Heading as="h3" className="sw-mb-2">
-        {translate('visibility')}
+        <FormattedMessage id="visibility" />
       </Heading>
       <PrivacyBadgeContainer qualifier={qualifier} visibility={visibility} />
     </>

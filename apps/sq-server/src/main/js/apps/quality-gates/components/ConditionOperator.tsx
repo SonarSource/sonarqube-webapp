@@ -23,6 +23,8 @@ import { Metric } from '~shared/types/measures';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getOperatorLabel, getPossibleOperators } from '~sq-server-commons/helpers/quality-gates';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   isDisabled?: boolean;
   metric: Metric;
@@ -37,7 +39,7 @@ export default function ConditionOperator(props: Readonly<Props>) {
     return (
       <div>
         <Heading as="h4" hasMarginBottom>
-          {translate('quality_gates.conditions.operator')}
+          <FormattedMessage id="quality_gates.conditions.operator" />
         </Heading>
         <Text className="sw-w-abs-150" isSubtle>
           {getOperatorLabel(operators, props.metric)}

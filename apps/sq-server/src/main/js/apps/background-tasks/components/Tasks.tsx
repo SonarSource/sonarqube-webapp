@@ -19,10 +19,10 @@
  */
 
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { ContentCell, NumericalCell, Table, TableRow } from '~design-system';
 import { AppStateContext } from '~sq-server-commons/context/app-state/AppStateContext';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { Task as ITask } from '~sq-server-commons/types/tasks';
 import Task from './Task';
@@ -47,15 +47,29 @@ export function Tasks({ tasks, component, onCancelTask, onFilterTask }: Readonly
       columnWidths={isDataCenter ? COLUMN_WIDTHS_WITH_NODES : COLUMN_WIDTHS}
       header={
         <TableRow>
-          <ContentCell>{translate('background_tasks.table.status')}</ContentCell>
-          <ContentCell>{translate('background_tasks.table.task')}</ContentCell>
+          <ContentCell>
+            <FormattedMessage id="background_tasks.table.status" />
+          </ContentCell>
+          <ContentCell>
+            <FormattedMessage id="background_tasks.table.task" />
+          </ContentCell>
           {isDataCenter && (
-            <ContentCell>{translate('background_tasks.table.nodeName')}</ContentCell>
+            <ContentCell>
+              <FormattedMessage id="background_tasks.table.nodeName" />
+            </ContentCell>
           )}
-          <ContentCell>{translate('background_tasks.table.submitted')}</ContentCell>
-          <NumericalCell>{translate('background_tasks.table.started')}</NumericalCell>
-          <NumericalCell>{translate('background_tasks.table.finished')}</NumericalCell>
-          <NumericalCell>{translate('background_tasks.table.duration')}</NumericalCell>
+          <ContentCell>
+            <FormattedMessage id="background_tasks.table.submitted" />
+          </ContentCell>
+          <NumericalCell>
+            <FormattedMessage id="background_tasks.table.started" />
+          </NumericalCell>
+          <NumericalCell>
+            <FormattedMessage id="background_tasks.table.finished" />
+          </NumericalCell>
+          <NumericalCell>
+            <FormattedMessage id="background_tasks.table.duration" />
+          </NumericalCell>
           <ContentCell />
         </TableRow>
       }

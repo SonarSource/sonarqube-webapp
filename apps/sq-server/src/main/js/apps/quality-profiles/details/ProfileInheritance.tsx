@@ -28,6 +28,8 @@ import { Profile } from '~sq-server-commons/types/quality-profiles';
 import ChangeParentForm from './ChangeParentForm';
 import ProfileInheritanceRow from './ProfileInheritanceRow';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   profile: Profile;
   profiles: Profile[];
@@ -72,27 +74,27 @@ export default function ProfileInheritance(props: Readonly<Props>) {
       className="it__quality-profiles__inheritance"
     >
       <div className="sw-flex sw-items-center sw-gap-3 sw-mb-6">
-        <SubTitle className="sw-mb-0">{translate('quality_profiles.profile_inheritance')}</SubTitle>
+        <SubTitle className="sw-mb-0">
+          <FormattedMessage id="quality_profiles.profile_inheritance" />
+        </SubTitle>
         {profile.actions?.edit && !profile.isBuiltIn && (
           <Button className="it__quality-profiles__change-parent" onClick={handleChangeParentClick}>
-            {translate('quality_profiles.change_parent')}
+            <FormattedMessage id="quality_profiles.change_parent" />
           </Button>
         )}
       </div>
-
       {!extendsBuiltIn && !profile.isBuiltIn && (
         <FlagMessage className="sw-mb-4" variant="info">
           <div className="sw-flex sw-flex-col">
-            {translate('quality_profiles.no_built_in_updates_warning')}
+            <FormattedMessage id="quality_profiles.no_built_in_updates_warning" />
             {profile.actions?.edit && (
               <span className="sw-mt-1">
-                {translate('quality_profiles.no_built_in_updates_warning_admin')}
+                <FormattedMessage id="quality_profiles.no_built_in_updates_warning_admin" />
               </span>
             )}
           </div>
         </FlagMessage>
       )}
-
       <Spinner isLoading={isLoading}>
         <Table columnCount={3} noSidePadding>
           {reversedAncestors.map((ancestor, index) => (
@@ -128,7 +130,6 @@ export default function ProfileInheritance(props: Readonly<Props>) {
           ))}
         </Table>
       </Spinner>
-
       {formOpen && (
         <ChangeParentForm
           onChange={handleParentChange}

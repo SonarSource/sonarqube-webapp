@@ -32,6 +32,8 @@ import { ProjectKeyValidationResult } from '~sq-server-commons/types/component';
 import { PROJECT_NAME_MAX_LEN } from '../constants';
 import { getSanitizedProjectKey } from '../utils';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props<I extends string | number> {
   initialKey?: string;
   initialName?: string;
@@ -304,7 +306,7 @@ export function ProjectValidationCard<I extends string | number>({
         projectId={projectId}
       />
       <Button className="sw-mt-4 sw-mr-4" onClick={onRemove} prefix={<IconDelete />} type="button">
-        {translate('onboarding.create_project.monorepo.remove_project')}
+        <FormattedMessage id="onboarding.create_project.monorepo.remove_project" />
       </Button>
     </Card>
   );

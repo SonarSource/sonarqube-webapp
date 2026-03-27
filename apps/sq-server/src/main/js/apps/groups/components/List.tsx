@@ -19,8 +19,8 @@
  */
 
 import { sortBy } from 'lodash';
+import { FormattedMessage } from 'react-intl';
 import { ContentCell, NumericalCell, TableRow } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { Group, Provider } from '~sq-server-commons/types/types';
 import { StickyTable } from '../../../app/components/admin/StickyTable';
 import ListItem from './ListItem';
@@ -33,10 +33,18 @@ interface Props {
 function Header() {
   return (
     <TableRow>
-      <ContentCell>{translate('user_groups.page.group_header')}</ContentCell>
-      <NumericalCell>{translate('members')}</NumericalCell>
-      <ContentCell>{translate('description')}</ContentCell>
-      <NumericalCell>{translate('actions')}</NumericalCell>
+      <ContentCell>
+        <FormattedMessage id="user_groups.page.group_header" />
+      </ContentCell>
+      <NumericalCell>
+        <FormattedMessage id="members" />
+      </NumericalCell>
+      <ContentCell>
+        <FormattedMessage id="description" />
+      </ContentCell>
+      <NumericalCell>
+        <FormattedMessage id="actions" />
+      </NumericalCell>
     </TableRow>
   );
 }

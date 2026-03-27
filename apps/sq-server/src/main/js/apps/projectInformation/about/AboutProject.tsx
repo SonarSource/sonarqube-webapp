@@ -69,7 +69,6 @@ export default function AboutProject(props: Readonly<AboutProjectProps>) {
       <Heading as="h2" className="sw-mb-4">
         {translate(isApp ? 'application' : 'project', 'about.title')}
       </Heading>
-
       {!isApp && (component.qualityGate || filteredQualityProfiles.length > 0) && (
         <ProjectInformationSection className="sw-pt-0 sw-flex sw-flex-col sw-gap-4">
           {component.qualityGate && <MetaQualityGate qualityGate={component.qualityGate} />}
@@ -79,41 +78,33 @@ export default function AboutProject(props: Readonly<AboutProjectProps>) {
           )}
         </ProjectInformationSection>
       )}
-
       <AiCodeStatus component={component} />
-
       {component.isAiCodeFixEnabled === true && (
         <ProjectInformationSection>
           <Heading as="h3" className="sw-mb-2">
-            {translate('project.info.ai_code_fix.title')}
+            <FormattedMessage id="project.info.ai_code_fix.title" />
           </Heading>
           <FormattedMessage id="project.info.ai_code_fix.message" />
         </ProjectInformationSection>
       )}
-
       <ProjectInformationSection>
         <MetaKey componentKey={component.key} qualifier={component.qualifier} />
       </ProjectInformationSection>
-
       <ProjectInformationSection>
         <MetaVisibility
           qualifier={component.qualifier}
           visibility={component.visibility ?? Visibility.Public}
         />
       </ProjectInformationSection>
-
       <ProjectInformationSection>
         <MetaDescription description={component.description} isApp={isApp} />
       </ProjectInformationSection>
-
       <ProjectInformationSection>
         <MetaTags component={component} onComponentChange={props.onComponentChange} />
       </ProjectInformationSection>
-
       <ProjectInformationSection last={isApp || !links?.length}>
         <MetaSize component={component} measures={measures} />
       </ProjectInformationSection>
-
       {!isApp && links && links.length > 0 && (
         <ProjectInformationSection last>
           <MetaLinks links={links} />

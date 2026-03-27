@@ -20,8 +20,8 @@
 
 import { Text } from '@sonarsource/echoes-react';
 import { OpenAPIV3 } from 'openapi-types';
+import { FormattedMessage } from 'react-intl';
 import { Card, CodeSnippet } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { ExcludeReferences } from '~sq-server-commons/types/web-api-v2';
 import { extractSchemaAndMediaType } from '../utils';
 
@@ -35,13 +35,19 @@ export default function ApiRequestSchema(props: Readonly<Props>) {
   const results = extractSchemaAndMediaType(content);
 
   if (results.length === 0) {
-    return <Text isSubtle>{translate('no_data')}</Text>;
+    return (
+      <Text isSubtle>
+        <FormattedMessage id="no_data" />
+      </Text>
+    );
   }
 
   return results.map(({ requestMediaType, schema }) => (
     <Card key={requestMediaType}>
       <div>
-        <span>{translate('api_documentation.v2.request_subheader.request_content_type')}</span>
+        <span>
+          <FormattedMessage id="api_documentation.v2.request_subheader.request_content_type" />
+        </span>
         <CodeSnippet isOneLine noCopy snippet={requestMediaType} />
       </div>
       <CodeSnippet className="sw-p-6" language="json" snippet={schema} wrap="words" {...other} />

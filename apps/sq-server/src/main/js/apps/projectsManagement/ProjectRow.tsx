@@ -25,12 +25,14 @@ import { ComponentQualifier } from '~shared/types/component';
 import { Project } from '~sq-server-commons/api/project-management';
 import PrivacyBadgeContainer from '~sq-server-commons/components/common/PrivacyBadgeContainer';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
 import { useGithubProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/github';
 import { useGilabProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/gitlab';
 import { LoggedInUser } from '~sq-server-commons/types/users';
 import ProjectRowActions from './ProjectRowActions';
+
+import { FormattedMessage } from 'react-intl';
 
 interface Props {
   currentUser: Pick<LoggedInUser, 'login'>;
@@ -68,7 +70,11 @@ export default function ProjectRow(props: Readonly<Props>) {
         </LinkStandalone>
         {project.qualifier === ComponentQualifier.Project &&
           (githubProvisioningEnabled || gitlabProbivisioningEnabled) &&
-          !project.managed && <Badge className="sw-ml-1">{translate('local')}</Badge>}
+          !project.managed && (
+            <Badge className="sw-ml-1">
+              <FormattedMessage id="local" />
+            </Badge>
+          )}
       </ContentCell>
       <ContentCell>
         <PrivacyBadgeContainer qualifier={project.qualifier} visibility={project.visibility} />

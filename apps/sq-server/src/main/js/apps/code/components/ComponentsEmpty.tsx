@@ -19,14 +19,16 @@
  */
 
 import { Text } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 import { ContentCell, TableRow } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 
 export default function ComponentsEmpty() {
   return (
     <TableRow>
       <ContentCell className="sw-col-span-full">
-        <Text isSubtle>{translate('no_results')}</Text>
+        <Text isSubtle>
+          <FormattedMessage id="no_results" />
+        </Text>
       </ContentCell>
     </TableRow>
   );

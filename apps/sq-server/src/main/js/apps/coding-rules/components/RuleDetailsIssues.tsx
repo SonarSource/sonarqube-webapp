@@ -185,7 +185,7 @@ export class RuleDetailsIssues extends React.PureComponent<Props, State> {
       <div className="sw-mb-8">
         <Spinner isLoading={loading}>
           <SubTitle>
-            {translate('coding_rules.issues')}
+            <FormattedMessage id="coding_rules.issues" />
             {this.renderTotal()}
           </SubTitle>
 
@@ -197,7 +197,7 @@ export class RuleDetailsIssues extends React.PureComponent<Props, State> {
                 header={
                   <TableRow>
                     <ContentCell colSpan={2}>
-                      {translate('coding_rules.most_violating_projects')}
+                      <FormattedMessage id="coding_rules.most_violating_projects" />
                     </ContentCell>
                   </TableRow>
                 }
@@ -222,7 +222,7 @@ export class RuleDetailsIssues extends React.PureComponent<Props, State> {
             </>
           ) : (
             <div className="sw-mb-6">
-              {translate('coding_rules.no_issue_detected_for_projects')}
+              <FormattedMessage id="coding_rules.no_issue_detected_for_projects" />
             </div>
           )}
         </Spinner>

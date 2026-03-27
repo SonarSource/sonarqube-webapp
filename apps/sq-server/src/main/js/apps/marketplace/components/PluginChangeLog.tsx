@@ -20,7 +20,7 @@
 
 import { Text } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { FormattedMessage } from 'react-intl';
 import { Release, Update } from '~sq-server-commons/types/plugins';
 import PluginChangeLogItem from './PluginChangeLogItem';
 
@@ -33,7 +33,7 @@ export default function PluginChangeLog({ release, update }: Props) {
   return (
     <div className="sw-p-4">
       <Text isHighlighted size="large">
-        {translate('changelog')}
+        <FormattedMessage id="changelog" />
       </Text>
       <Text as="ul" className="sw-list-none sw-max-w-full">
         {update.previousUpdates &&

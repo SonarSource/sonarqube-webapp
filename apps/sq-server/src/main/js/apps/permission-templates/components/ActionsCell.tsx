@@ -35,6 +35,8 @@ import { PERMISSION_TEMPLATES_PATH } from '../utils';
 import DeleteForm from './DeleteForm';
 import Form from './Form';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   fromDetails?: boolean;
   permissionTemplate: PermissionTemplate;
@@ -137,7 +139,9 @@ class ActionsCell extends React.PureComponent<Props, State> {
     return availableQualifiers.map((qualifier) =>
       this.renderSetDefaultLink(
         qualifier,
-        <span>{translate('permission_templates.set_default')}</span>,
+        <span>
+          <FormattedMessage id="permission_templates.set_default" />
+        </span>,
       ),
     );
   }
@@ -147,7 +151,8 @@ class ActionsCell extends React.PureComponent<Props, State> {
       this.renderSetDefaultLink(
         qualifier,
         <span>
-          {translate('permission_templates.set_default_for')} {translate('qualifiers', qualifier)}
+          <FormattedMessage id="permission_templates.set_default_for" />{' '}
+          {translate('qualifiers', qualifier)}
         </span>,
       ),
     );
@@ -171,12 +176,12 @@ class ActionsCell extends React.PureComponent<Props, State> {
                     search: queryToSearchString({ id: t.id }),
                   }}
                 >
-                  {translate('edit_permissions')}
+                  <FormattedMessage id="edit_permissions" />
                 </DropdownMenu.ItemLink>
               )}
 
               <DropdownMenu.ItemButton className="js-update" onClick={this.handleUpdateClick}>
-                {translate('update_details')}
+                <FormattedMessage id="update_details" />
               </DropdownMenu.ItemButton>
 
               {t.defaultFor.length === 0 && (
@@ -184,7 +189,7 @@ class ActionsCell extends React.PureComponent<Props, State> {
                   className="js-delete"
                   onClick={this.handleDeleteClick}
                 >
-                  {translate('delete')}
+                  <FormattedMessage id="delete" />
                 </DropdownMenu.ItemButtonDestructive>
               )}
             </>
@@ -196,7 +201,6 @@ class ActionsCell extends React.PureComponent<Props, State> {
             className="it__permission-actions"
           />
         </DropdownMenu>
-
         {this.state.updateModal && (
           <Form
             confirmButtonText={translate('update_verb')}
@@ -206,7 +210,6 @@ class ActionsCell extends React.PureComponent<Props, State> {
             permissionTemplate={t}
           />
         )}
-
         {this.state.deleteForm && (
           <DeleteForm
             onClose={this.handleCloseDeleteForm}

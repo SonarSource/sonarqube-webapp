@@ -25,6 +25,8 @@ import { Project, bulkDeleteProjects } from '~sq-server-commons/api/project-mana
 import { toISO8601WithOffsetString } from '~sq-server-commons/helpers/dates';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 
+import { FormattedMessage } from 'react-intl';
+
 export interface Props {
   analyzedBefore: Date | undefined;
   onClose: () => void;
@@ -113,7 +115,7 @@ export default class DeleteModal extends React.PureComponent<Props, State> {
             type="submit"
             variety={ButtonVariety.Danger}
           >
-            {translate('delete')}
+            <FormattedMessage id="delete" />
           </Button>
         }
         secondaryButtonLabel={translate('cancel')}

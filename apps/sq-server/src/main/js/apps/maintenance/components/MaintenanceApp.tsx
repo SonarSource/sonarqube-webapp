@@ -177,7 +177,6 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
     return (
       <>
         <Helmet defaultTitle={translate('maintenance.page')} defer={false} />
-
         <div className="sw-flex sw-justify-around sw-mt-32" id="bd">
           <Card className="sw-typo-default sw-p-10 sw-w-abs-400" id="nonav">
             {systemStatus === 'OFFLINE' && (
@@ -187,12 +186,12 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
                 </MaintenanceTitle>
 
                 <MaintenanceText>
-                  {translate('maintenance.sonarqube_is_offline.text')}
+                  <FormattedMessage id="maintenance.sonarqube_is_offline.text" />
                 </MaintenanceText>
 
                 <div className="sw-text-center">
                   <LinkStandalone reloadDocument to="/">
-                    {translate('maintenance.try_again')}
+                    <FormattedMessage id="maintenance.try_again" />
                   </LinkStandalone>
                 </div>
               </>
@@ -205,11 +204,13 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
                 </MaintenanceTitle>
 
                 <MaintenanceText className="sw-text-center">
-                  {translate('maintenance.all_systems_opetational')}
+                  <FormattedMessage id="maintenance.all_systems_opetational" />
                 </MaintenanceText>
 
                 <div className="sw-text-center">
-                  <LinkStandalone to="/">{translate('layout.home')}</LinkStandalone>
+                  <LinkStandalone to="/">
+                    <FormattedMessage id="layout.home" />
+                  </LinkStandalone>
                 </div>
               </>
             )}
@@ -232,11 +233,13 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
                   <InstanceMessage message={translate('maintenance.is_down')} />
                 </MaintenanceTitle>
 
-                <MaintenanceText>{translate('maintenance.sonarqube_is_down.text')}</MaintenanceText>
+                <MaintenanceText>
+                  <FormattedMessage id="maintenance.sonarqube_is_down.text" />
+                </MaintenanceText>
 
                 <MaintenanceText className="sw-text-center">
                   <LinkStandalone reloadDocument to="/">
-                    {translate('maintenance.try_again')}
+                    <FormattedMessage id="maintenance.try_again" />
                   </LinkStandalone>
                 </MaintenanceText>
               </>
@@ -255,7 +258,7 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
                     values={{
                       link: (
                         <Link to="https://www.sonarlint.org/?referrer=sonarqube-maintenance">
-                          {translate('maintenance.sonarqube_is_under_maintenance_link.1')}
+                          <FormattedMessage id="maintenance.sonarqube_is_under_maintenance_link.1" />
                         </Link>
                       ),
                     }}
@@ -268,7 +271,7 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
                     values={{
                       link: (
                         <DocumentationLink to={DocLink.ServerUpgradeRoadmap}>
-                          {translate('maintenance.sonarqube_is_under_maintenance_link.2')}
+                          <FormattedMessage id="maintenance.sonarqube_is_under_maintenance_link.2" />
                         </DocumentationLink>
                       ),
                     }}
@@ -280,11 +283,13 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
             {migrationState === MigrationStatus.noMigration && (
               <>
                 <MaintenanceTitle>
-                  {translate('maintenance.database_is_up_to_date')}
+                  <FormattedMessage id="maintenance.database_is_up_to_date" />
                 </MaintenanceTitle>
 
                 <div className="sw-text-center">
-                  <LinkStandalone to="/">{translate('layout.home')}</LinkStandalone>
+                  <LinkStandalone to="/">
+                    <FormattedMessage id="layout.home" />
+                  </LinkStandalone>
                 </div>
               </>
             )}
@@ -296,16 +301,20 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
             {migrationState === MigrationStatus.notSupported && (
               <>
                 <MaintenanceTitle className="text-danger">
-                  {translate('maintenance.migration_not_supported')}
+                  <FormattedMessage id="maintenance.migration_not_supported" />
                 </MaintenanceTitle>
 
-                <p>{translate('maintenance.migration_not_supported.text')}</p>
+                <p>
+                  <FormattedMessage id="maintenance.migration_not_supported.text" />
+                </p>
               </>
             )}
 
             {migrationState === MigrationStatus.running && (
               <>
-                <MaintenanceTitle>{translate('maintenance.database_migration')}</MaintenanceTitle>
+                <MaintenanceTitle>
+                  <FormattedMessage id="maintenance.database_migration" />
+                </MaintenanceTitle>
 
                 {isDefined(this.state.message) && (
                   <MaintenanceText className="sw-text-center">{this.state.message}</MaintenanceText>
@@ -313,7 +322,7 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
 
                 {isDefined(this.state.startedAt) && (
                   <MaintenanceText className="sw-text-center">
-                    {translate('background_tasks.table.started')}{' '}
+                    <FormattedMessage id="background_tasks.table.started" />{' '}
                     <DateFromNow date={this.state.startedAt} />
                     <br />
                     <Text isSubtle>
@@ -332,11 +341,13 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
             {migrationState === MigrationStatus.succeeded && (
               <>
                 <MaintenanceTitle className="text-success">
-                  {translate('maintenance.database_is_up_to_date')}
+                  <FormattedMessage id="maintenance.database_is_up_to_date" />
                 </MaintenanceTitle>
 
                 <div className="sw-text-center">
-                  <LinkStandalone to="/">{translate('layout.home')}</LinkStandalone>
+                  <LinkStandalone to="/">
+                    <FormattedMessage id="layout.home" />
+                  </LinkStandalone>
                 </div>
               </>
             )}
@@ -344,10 +355,12 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
             {migrationState === MigrationStatus.failed && (
               <>
                 <MaintenanceTitle className="text-danger">
-                  {translate('maintenance.upgrade_failed')}
+                  <FormattedMessage id="maintenance.upgrade_failed" />
                 </MaintenanceTitle>
 
-                <MaintenanceText>{translate('maintenance.upgrade_failed.text')}</MaintenanceText>
+                <MaintenanceText>
+                  <FormattedMessage id="maintenance.upgrade_failed.text" />
+                </MaintenanceText>
               </>
             )}
           </Card>

@@ -28,6 +28,8 @@ import { translate } from '~sq-server-commons/helpers/l10n';
 import { TaskWarning } from '~sq-server-commons/types/tasks';
 import { CurrentUser } from '~sq-server-commons/types/users';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   componentKey?: string;
   currentUser: CurrentUser;
@@ -136,7 +138,7 @@ export class AnalysisWarningsModal extends React.PureComponent<Props, State> {
                       }}
                       variety={ButtonVariety.DangerOutline}
                     >
-                      {translate('dismiss_permanently')}
+                      <FormattedMessage id="dismiss_permanently" />
                     </Button>
 
                     <Spinner className="sw-ml-2" isLoading={dismissedWarning === key} />

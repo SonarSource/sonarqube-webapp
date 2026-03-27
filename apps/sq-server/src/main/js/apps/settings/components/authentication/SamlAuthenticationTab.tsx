@@ -123,7 +123,9 @@ export default function SamlAuthenticationTab(props: SamlAuthenticationProps) {
         />
 
         {!hasConfiguration && (
-          <div>{translate('settings.authentication.saml.form.not_configured')}</div>
+          <div>
+            <FormattedMessage id="settings.authentication.saml.form.not_configured" />
+          </div>
         )}
 
         {hasConfiguration && (
@@ -133,7 +135,7 @@ export default function SamlAuthenticationTab(props: SamlAuthenticationProps) {
               enabled={samlEnabled}
               extraActions={
                 <Button enableOpenInNewTab to={CONFIG_TEST_PATH}>
-                  {translate('settings.authentication.saml.form.test')}
+                  <FormattedMessage id="settings.authentication.saml.form.test" />
                 </Button>
               }
               isDeleting={isDeleting}
@@ -147,12 +149,10 @@ export default function SamlAuthenticationTab(props: SamlAuthenticationProps) {
               autoDescription={
                 <>
                   <p className="sw-mb-2">
-                    {translate('settings.authentication.saml.form.provisioning_with_scim.sub')}
+                    <FormattedMessage id="settings.authentication.saml.form.provisioning_with_scim.sub" />
                   </p>
                   <p className="sw-mb-2">
-                    {translate(
-                      'settings.authentication.saml.form.provisioning_with_scim.description',
-                    )}
+                    <FormattedMessage id="settings.authentication.saml.form.provisioning_with_scim.description" />
                   </p>
                   <p>
                     <FormattedMessage
@@ -160,7 +160,7 @@ export default function SamlAuthenticationTab(props: SamlAuthenticationProps) {
                       values={{
                         documentation: (
                           <DocumentationLink to={DocLink.AlmSamlScimAuth}>
-                            {translate('documentation')}
+                            <FormattedMessage id="documentation" />
                           </DocumentationLink>
                         ),
                       }}
@@ -174,7 +174,7 @@ export default function SamlAuthenticationTab(props: SamlAuthenticationProps) {
                   values={{
                     documentation: (
                       <DocumentationLink to={DocLink.AlmSamlScimAuth}>
-                        {translate('documentation')}
+                        <FormattedMessage id="documentation" />
                       </DocumentationLink>
                     ),
                   }}

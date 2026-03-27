@@ -92,7 +92,7 @@ export default function MeasuresPanelNoNewCode(props: MeasuresPanelNoNewCodeProp
                       }),
                     }}
                   >
-                    {translate('settings.new_code_period.category')}
+                    <FormattedMessage id="settings.new_code_period.category" />
                   </Link>
                 ),
               }}

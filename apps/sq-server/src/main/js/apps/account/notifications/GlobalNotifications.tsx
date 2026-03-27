@@ -19,16 +19,15 @@
  */
 
 import { Heading } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 import NotificationsList from '~sq-server-commons/components/notifications/NotificationsList';
-import { translate } from '~sq-server-commons/helpers/l10n';
 
 export default function GlobalNotifications() {
   return (
     <>
       <Heading as="h2" hasMarginBottom>
-        {translate('my_profile.overall_notifications.title')}
+        <FormattedMessage id="my_profile.overall_notifications.title" />
       </Heading>
-
       <NotificationsList />
     </>
   );

@@ -18,12 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { FormattedMessage } from 'react-intl';
 import { Card, FlagMessage } from '~design-system';
 import { ClipboardButton } from '~shared/components/clipboard';
 import AppVersionStatus from '~sq-server-commons/components/shared/AppVersionStatus';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
 import { toShortISO8601String } from '~sq-server-commons/helpers/dates';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { AppState } from '~sq-server-commons/types/appstate';
 
 export interface Props {
@@ -41,17 +41,21 @@ function PageHeader(props: Readonly<Props>) {
       <Card className="sw-max-w-1/2 sw-mb-8">
         {!appState.productionDatabase && (
           <FlagMessage className="sw-mb-2" variant="warning">
-            {translate('system.not_production_database_warning')}
+            <FormattedMessage id="system.not_production_database_warning" />
           </FlagMessage>
         )}
         <div className="sw-flex sw-items-center sw-justify-between">
           <div>
             <div className="sw-flex sw-items-center">
-              <strong className="sw-w-[128px]">{translate('system.server_id')}</strong>
+              <strong className="sw-w-[128px]">
+                <FormattedMessage id="system.server_id" />
+              </strong>
               <span className="sw-code">{serverId}</span>
             </div>
             <div className="sw-flex sw-items-center">
-              <strong className="sw-w-[128px]">{translate('system.version')}</strong>
+              <strong className="sw-w-[128px]">
+                <FormattedMessage id="system.version" />
+              </strong>
               <span>
                 <AppVersionStatus />
               </span>
@@ -65,7 +69,9 @@ Version: ${version}
 Date: ${toShortISO8601String(Date.now())}
 `}
           >
-            <span className="sw-ml-1 sw-whitespace-nowrap">{translate('system.copy_id_info')}</span>
+            <span className="sw-ml-1 sw-whitespace-nowrap">
+              <FormattedMessage id="system.copy_id_info" />
+            </span>
           </ClipboardButton>
         </div>
       </Card>

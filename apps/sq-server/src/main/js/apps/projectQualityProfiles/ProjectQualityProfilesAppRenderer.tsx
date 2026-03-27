@@ -48,7 +48,7 @@ import { addons } from '~sq-server-addons/index';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getRulesUrl } from '~sq-server-commons/helpers/urls';
 import { Feature } from '~sq-server-commons/types/features';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
@@ -98,10 +98,18 @@ export default function ProjectQualityProfilesAppRenderer(
 
   const header = (
     <TableRow>
-      <ContentCell>{translate('language')}</ContentCell>
-      <ContentCell>{translate('project_quality_profile.current')}</ContentCell>
-      <ContentCell>{translate('coding_rules.filters.activation.active_rules')}</ContentCell>
-      <ActionCell>{translate('actions')}</ActionCell>
+      <ContentCell>
+        <FormattedMessage id="language" />
+      </ContentCell>
+      <ContentCell>
+        <FormattedMessage id="project_quality_profile.current" />
+      </ContentCell>
+      <ContentCell>
+        <FormattedMessage id="coding_rules.filters.activation.active_rules" />
+      </ContentCell>
+      <ActionCell>
+        <FormattedMessage id="actions" />
+      </ActionCell>
     </TableRow>
   );
 

@@ -27,6 +27,8 @@ import MandatoryFieldsExplanation from '~sq-server-commons/components/ui/Mandato
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   onChange: () => void;
   onClose: () => void;
@@ -97,7 +99,7 @@ export default class ChangeParentForm extends React.PureComponent<Props, State> 
           <>
             {profile.parentKey !== undefined && (
               <FlagMessage className="sw-mb-8" variant="info">
-                {translate('quality_profiles.change_parent_warning')}
+                <FormattedMessage id="quality_profiles.change_parent_warning" />
               </FlagMessage>
             )}
 
@@ -133,7 +135,7 @@ export default class ChangeParentForm extends React.PureComponent<Props, State> 
             onClick={this.handleFormSubmit}
             variety={ButtonVariety.Primary}
           >
-            {translate('change_verb')}
+            <FormattedMessage id="change_verb" />
           </Button>
         }
         secondaryButtonLabel={translate('cancel')}

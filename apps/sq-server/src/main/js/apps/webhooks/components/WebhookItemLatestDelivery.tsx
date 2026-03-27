@@ -22,9 +22,11 @@ import { ButtonIcon, ButtonSize, IconMoreVertical } from '@sonarsource/echoes-re
 import { useState } from 'react';
 import { FlagErrorIcon, FlagSuccessIcon } from '~design-system';
 import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { WebhookResponse } from '~sq-server-commons/types/webhook';
 import LatestDeliveryForm from './LatestDeliveryForm';
+
+import { FormattedMessage } from 'react-intl';
 
 interface Props {
   webhook: WebhookResponse;
@@ -34,7 +36,11 @@ export default function WebhookItemLatestDelivery({ webhook }: Props) {
   const [modalOpen, setModalOpen] = useState(false);
 
   if (!webhook.latestDelivery) {
-    return <span>{translate('webhooks.last_execution.none')}</span>;
+    return (
+      <span>
+        <FormattedMessage id="webhooks.last_execution.none" />
+      </span>
+    );
   }
 
   return (

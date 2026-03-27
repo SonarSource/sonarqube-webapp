@@ -22,10 +22,10 @@ import styled from '@emotion/styled';
 import { Button, Link, LinkHighlight, LinkStandalone, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
 import { CheckIcon, Checkbox, themeBorder } from '~design-system';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
-import { translate } from '~sq-server-commons/helpers/l10n';
 
 type AlmRepoItemProps = {
   almIconSrc: string;
@@ -134,7 +134,7 @@ export default function AlmRepoItem({
           <div className="sw-flex sw-items-center">
             <CheckIcon />
             <Text className="sw-ml-2">
-              {translate('onboarding.create_project.repository_imported')}
+              <FormattedMessage id="onboarding.create_project.repository_imported" />
             </Text>
           </div>
         ) : (
@@ -145,7 +145,7 @@ export default function AlmRepoItem({
                   onImport(almKey);
                 }}
               >
-                {translate('onboarding.create_project.import')}
+                <FormattedMessage id="onboarding.create_project.import" />
               </Button>
             )}
           </>

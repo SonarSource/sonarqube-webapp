@@ -28,6 +28,8 @@ import {
 import { Facet } from '../types';
 import RangeFacetBase from './RangeFacetBase';
 
+import { FormattedMessage } from 'react-intl';
+
 export interface Props {
   facet?: Facet;
   maxFacetValue?: number;
@@ -83,7 +85,9 @@ function renderOption(option: number) {
         {option < NO_DATA_OPTION ? (
           getDuplicationsRatingLabel(option)
         ) : (
-          <span className="sw-ml-4">{translate('no_data')}</span>
+          <span className="sw-ml-4">
+            <FormattedMessage id="no_data" />
+          </span>
         )}
       </span>
     </div>

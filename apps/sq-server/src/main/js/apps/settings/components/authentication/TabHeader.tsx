@@ -20,8 +20,8 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { ReactElement } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { BasicSeparator, SubHeading } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   configurationValidity?: ReactElement<any>;
@@ -42,7 +42,7 @@ export default function TabHeader({
         <SubHeading as="h4">{title}</SubHeading>
         {showCreate && (
           <Button className="sw-mt-2" onClick={onCreate} variety={ButtonVariety.Primary}>
-            {translate('settings.authentication.form.create')}
+            <FormattedMessage id="settings.authentication.form.create" />
           </Button>
         )}
       </div>

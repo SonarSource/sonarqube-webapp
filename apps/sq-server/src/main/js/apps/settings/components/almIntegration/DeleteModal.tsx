@@ -32,7 +32,11 @@ export interface DeleteModalProps {
 
 function showProjectCountWarning(projectCount?: number) {
   if (projectCount === undefined) {
-    return <p>{translate('settings.almintegration.delete.no_info')}</p>;
+    return (
+      <p>
+        <FormattedMessage id="settings.almintegration.delete.no_info" />
+      </p>
+    );
   }
 
   return projectCount ? (

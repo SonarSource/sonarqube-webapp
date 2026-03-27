@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { FormattedMessage } from 'react-intl';
 import { Link } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { Plugin } from '~sq-server-commons/types/plugins';
 
 interface Props {
@@ -34,12 +34,12 @@ export default function PluginUrls({ plugin }: Readonly<Props>) {
     <li className="sw-flex sw-flex-wrap sw-gap-4">
       {plugin.homepageUrl && (
         <Link className="sw-whitespace-nowrap" to={plugin.homepageUrl}>
-          {translate('marketplace.homepage')}
+          <FormattedMessage id="marketplace.homepage" />
         </Link>
       )}
       {plugin.issueTrackerUrl && (
         <Link className="sw-whitespace-nowrap" to={plugin.issueTrackerUrl}>
-          {translate('marketplace.issue_tracker')}
+          <FormattedMessage id="marketplace.issue_tracker" />
         </Link>
       )}
     </li>

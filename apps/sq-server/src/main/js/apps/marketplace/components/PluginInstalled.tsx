@@ -20,8 +20,8 @@
 
 import styled from '@emotion/styled';
 import { Text } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 import { ContentCell } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { InstalledPlugin } from '~sq-server-commons/types/plugins';
 import PluginDescription from './PluginDescription';
 import PluginLicense from './PluginLicense';
@@ -50,12 +50,11 @@ export default function PluginInstalled({
         <StyledUnorderedList as="ul">
           <li>
             <strong className="sw-mr-1">{plugin.version}</strong>
-            {translate('marketplace._installed')}
+            <FormattedMessage id="marketplace._installed" />
           </li>
           <PluginUpdates pluginName={plugin.name} updates={plugin.updates} />
         </StyledUnorderedList>
       </ContentCell>
-
       <ContentCell>
         <StyledUnorderedList as="ul">
           <PluginUrls plugin={plugin} />
@@ -63,7 +62,6 @@ export default function PluginInstalled({
           <PluginOrganization plugin={plugin} />
         </StyledUnorderedList>
       </ContentCell>
-
       {!readOnly && (
         <ContentCell>
           <PluginStatus plugin={plugin} refreshPending={refreshPending} status={status} />

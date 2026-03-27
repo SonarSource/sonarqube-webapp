@@ -34,6 +34,8 @@ import { translate } from '~sq-server-commons/helpers/l10n';
 import { QualityGateProject } from '~sq-server-commons/types/quality-gates';
 import { QualityGate } from '~sq-server-commons/types/types';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   canEdit?: boolean;
   onUpdate: () => void;
@@ -140,7 +142,9 @@ export default class Projects extends React.PureComponent<Props, State> {
             <Text isSubtle>{project.key}</Text>
             {project.containsAiCode === true && (
               <p>
-                <Text isSubtle>{translate('quality_gates.projects.ai_assured_message')}</Text>
+                <Text isSubtle>
+                  <FormattedMessage id="quality_gates.projects.ai_assured_message" />
+                </Text>
               </p>
             )}
           </>
@@ -154,7 +158,9 @@ export default class Projects extends React.PureComponent<Props, State> {
 
     if (qualityGate.conditions === undefined || qualityGate.conditions.length === 0) {
       return (
-        <div>{translate('quality_gates.projects.cannot_associate_projects_no_conditions')}</div>
+        <div>
+          <FormattedMessage id="quality_gates.projects.cannot_associate_projects_no_conditions" />
+        </div>
       );
     }
 

@@ -19,12 +19,14 @@
  */
 
 import { Heading } from '@sonarsource/echoes-react';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { FormattedMessage } from 'react-intl';
 
 export default function NoMyIssues() {
   return (
     <div className="sw-text-center sw-py-8">
-      <Heading as="h3">{translate('issues.no_my_issues')}</Heading>
+      <Heading as="h3">
+        <FormattedMessage id="issues.no_my_issues" />
+      </Heading>
     </div>
   );
 }

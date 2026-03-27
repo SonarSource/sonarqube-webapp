@@ -20,10 +20,10 @@
 
 import { Button, DropdownMenuAlign, Layout } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Avatar } from '~design-system';
 import { AppStateContext } from '~sq-server-commons/context/app-state/AppStateContext';
 import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import { isLoggedIn } from '~sq-server-commons/types/users';
@@ -45,7 +45,7 @@ export function GlobalNavUser() {
   if (!currentUser || !isLoggedIn(currentUser)) {
     return (
       <Button onClick={handleLogin} size="medium">
-        {translate('layout.login')}
+        <FormattedMessage id="layout.login" />
       </Button>
     );
   }

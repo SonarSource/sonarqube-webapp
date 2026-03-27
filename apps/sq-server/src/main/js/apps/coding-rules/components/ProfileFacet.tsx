@@ -31,6 +31,8 @@ import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import { FacetKey } from '~sq-server-commons/utils/coding-rules-query';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   activation: boolean | undefined;
   compareToProfile: string | undefined;
@@ -180,9 +182,11 @@ export default class ProfileFacet extends React.PureComponent<Props> {
           <FacetHelp
             description={
               <>
-                {translate('coding_rules.facet.qprofile.help.desc')}
+                <FormattedMessage id="coding_rules.facet.qprofile.help.desc" />
                 {!hasEditRights && (
-                  <p className="sw-mt-4">{translate('coding_rules.facet.qprofile.help.extra')}</p>
+                  <p className="sw-mt-4">
+                    <FormattedMessage id="coding_rules.facet.qprofile.help.extra" />
+                  </p>
                 )}
               </>
             }
@@ -199,7 +203,7 @@ export default class ProfileFacet extends React.PureComponent<Props> {
       >
         {hasEditRights && (
           <Text as="p" className="sw-mt-2 sw-mb-4" isSubtle>
-            {translate('coding_rules.facet.qprofile.help.extra')}
+            <FormattedMessage id="coding_rules.facet.qprofile.help.extra" />
           </Text>
         )}
         {open && (

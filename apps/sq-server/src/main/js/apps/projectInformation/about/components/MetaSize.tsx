@@ -23,11 +23,13 @@ import { SizeIndicator } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
 import { Measure } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { localizeMetric } from '~sq-server-commons/helpers/measures';
 import { getComponentDrilldownUrl } from '~sq-server-commons/helpers/urls';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { Component } from '~sq-server-commons/types/types';
+
+import { FormattedMessage } from 'react-intl';
 
 interface MetaSizeProps {
   component: Component;
@@ -50,7 +52,9 @@ export default function MetaSize({ component, measures }: MetaSizeProps) {
     <>
       <div className="sw-mb-2 sw-flex sw-items-baseline">
         <Heading as="h3">{localizeMetric(MetricKey.ncloc)}</Heading>
-        <span className="sw-ml-1">({translate('project.info.main_branch')})</span>
+        <span className="sw-ml-1">
+          (<FormattedMessage id="project.info.main_branch" />)
+        </span>
       </div>
       <div className="sw-flex sw-items-center">
         {ncloc?.value ? (
@@ -88,7 +92,7 @@ export default function MetaSize({ component, measures }: MetaSizeProps) {
               <span>0</span>
             )}
             <Text className="sw-ml-1" isSubtle>
-              {translate('metric.projects.name')}
+              <FormattedMessage id="metric.projects.name" />
             </Text>
           </span>
         )}

@@ -44,6 +44,8 @@ import {
 } from '../utils';
 import DomainSubnavigationItem from './DomainSubnavigationItem';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   componentKey: string;
   domain: { measures: MeasureEnhanced[]; name: string };
@@ -100,10 +102,9 @@ export default function DomainSubnavigation(props: Readonly<Props>) {
           onClick={onChange}
           value={domain.name}
         >
-          {translate('component_measures.domain_overview')}
+          <FormattedMessage id="component_measures.domain_overview" />
         </SubnavigationItem>
       )}
-
       {sortedItems.map((item) =>
         typeof item === 'string' ? (
           showFullMeasures && (

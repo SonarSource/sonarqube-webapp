@@ -30,6 +30,8 @@ import { StandardSecurityCategories } from '~sq-server-commons/types/types';
 import { RISK_EXPOSURE_LEVELS, groupByCategory } from '../utils';
 import HotspotCategory from './HotspotCategory';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   hotspots: RawHotspot[];
   hotspotsTotal: number;
@@ -125,7 +127,9 @@ export default class HotspotList extends React.Component<Props, State> {
               <div className="sw-mb-4" key={riskGroup.risk}>
                 <SubnavigationHeading as="h2" className="sw-px-0">
                   <span className="sw-flex sw-items-center">
-                    <span className="sw-typo-semibold">{translate('hotspots.risk_exposure')}:</span>
+                    <span className="sw-typo-semibold">
+                      <FormattedMessage id="hotspots.risk_exposure" />:
+                    </span>
                     <HotspotRating className="sw-ml-2 sw-mr-1" rating={riskGroup.risk} />
                     {translate('risk_exposure', riskGroup.risk)}
                   </span>

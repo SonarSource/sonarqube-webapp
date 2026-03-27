@@ -25,11 +25,13 @@ import {
   IconMoreVertical,
 } from '@sonarsource/echoes-react';
 import { useState } from 'react';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { WebhookResponse, WebhookUpdatePayload } from '~sq-server-commons/types/webhook';
 import CreateWebhookForm from './CreateWebhookForm';
 import DeleteWebhookForm from './DeleteWebhookForm';
 import DeliveriesForm from './DeliveriesForm';
+
+import { FormattedMessage } from 'react-intl';
 
 interface Props {
   onDelete: (webhook: string) => Promise<void>;
@@ -60,7 +62,7 @@ export default function WebhookActions(props: Props) {
                 setUpdating(true);
               }}
             >
-              {translate('update_verb')}
+              <FormattedMessage id="update_verb" />
             </DropdownMenu.ItemButton>
             {webhook.latestDelivery && (
               <DropdownMenu.ItemButton
@@ -69,7 +71,7 @@ export default function WebhookActions(props: Props) {
                   setDeliveries(true);
                 }}
               >
-                {translate('webhooks.deliveries.show')}
+                <FormattedMessage id="webhooks.deliveries.show" />
               </DropdownMenu.ItemButton>
             )}
             <DropdownMenu.ItemButtonDestructive
@@ -78,7 +80,7 @@ export default function WebhookActions(props: Props) {
                 setDeleting(true);
               }}
             >
-              {translate('delete')}
+              <FormattedMessage id="delete" />
             </DropdownMenu.ItemButtonDestructive>
           </>
         }
@@ -90,7 +92,6 @@ export default function WebhookActions(props: Props) {
           variety={ButtonVariety.Default}
         />
       </DropdownMenu>
-
       {deliveries && (
         <DeliveriesForm
           onClose={() => {
@@ -99,7 +100,6 @@ export default function WebhookActions(props: Props) {
           webhook={webhook}
         />
       )}
-
       {updating && (
         <CreateWebhookForm
           onClose={() => {
@@ -109,7 +109,6 @@ export default function WebhookActions(props: Props) {
           webhook={webhook}
         />
       )}
-
       {deleting && (
         <DeleteWebhookForm
           onClose={() => {

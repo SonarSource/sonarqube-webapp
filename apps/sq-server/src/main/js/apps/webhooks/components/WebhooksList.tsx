@@ -19,8 +19,8 @@
  */
 
 import { sortBy } from 'lodash';
+import { FormattedMessage } from 'react-intl';
 import { ActionCell, ContentCell, Table, TableRow } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { WebhookResponse, WebhookUpdatePayload } from '~sq-server-commons/types/webhook';
 import WebhookItem from './WebhookItem';
 
@@ -34,16 +34,30 @@ const COLUMN_WIDTHS = ['auto', 'auto', 'auto', 'auto', '5%'];
 
 export default function WebhooksList({ webhooks, onDelete, onUpdate }: Props) {
   if (webhooks.length < 1) {
-    return <p className="it__webhook-empty-list">{translate('webhooks.no_result')}</p>;
+    return (
+      <p className="it__webhook-empty-list">
+        <FormattedMessage id="webhooks.no_result" />
+      </p>
+    );
   }
 
   const tableHeader = (
     <TableRow>
-      <ContentCell>{translate('name')}</ContentCell>
-      <ContentCell>{translate('webhooks.url')}</ContentCell>
-      <ContentCell>{translate('webhooks.secret_header')}</ContentCell>
-      <ContentCell>{translate('webhooks.last_execution')}</ContentCell>
-      <ActionCell>{translate('actions')}</ActionCell>
+      <ContentCell>
+        <FormattedMessage id="name" />
+      </ContentCell>
+      <ContentCell>
+        <FormattedMessage id="webhooks.url" />
+      </ContentCell>
+      <ContentCell>
+        <FormattedMessage id="webhooks.secret_header" />
+      </ContentCell>
+      <ContentCell>
+        <FormattedMessage id="webhooks.last_execution" />
+      </ContentCell>
+      <ActionCell>
+        <FormattedMessage id="actions" />
+      </ActionCell>
     </TableRow>
   );
 

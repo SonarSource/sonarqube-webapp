@@ -72,7 +72,7 @@ function getPRDecorationFeatureStatus(branchesEnabled: boolean, type: keyof type
   return (
     <div className="sw-inline-flex sw-items-center">
       <strong className="sw-ml-2">
-        {translate('settings.almintegration.feature.pr_decoration.disabled')}
+        <FormattedMessage id="settings.almintegration.feature.pr_decoration.disabled" />
       </strong>
       <HelpTooltip
         className="sw-ml-1"
@@ -88,9 +88,7 @@ function getPRDecorationFeatureStatus(branchesEnabled: boolean, type: keyof type
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  {translate(
-                    'settings.almintegration.feature.pr_decoration.disabled.no_branches.link',
-                  )}
+                  <FormattedMessage id="settings.almintegration.feature.pr_decoration.disabled.no_branches.link" />
                 </a>
               ),
             }}
@@ -115,7 +113,7 @@ function getImportFeatureStatus(
   return (
     <div className="sw-inline-flex sw-items-center">
       <strong className="sw-ml-2">
-        {translate('settings.almintegration.feature.alm_repo_import.disabled')}
+        <FormattedMessage id="settings.almintegration.feature.alm_repo_import.disabled" />
       </strong>
       <HelpTooltip
         className="sw-ml-1"
@@ -154,7 +152,7 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
             props.onEdit(definition.key);
           }}
         >
-          {translate('edit')}
+          <FormattedMessage id="edit" />
         </Button>
         <Button
           ariaLabel={translateWithParameters(
@@ -166,20 +164,20 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
           }}
           variety={ButtonVariety.DangerOutline}
         >
-          {translate('delete')}
+          <FormattedMessage id="delete" />
         </Button>
       </ButtonGroup>
-
       <div className="sw-mb-4">
         <h3>{definition.key}</h3>
         {definition.url && <span>{definition.url}</span>}
       </div>
-
       {status.type !== AlmSettingsBindingStatusType.Warning && (
         <div className="sw-flex sw-mb-3">
           <div className="sw-mr-10">
             <Tooltip content={getPrDecoFeatureDescription(alm)}>
-              <span>{translate('settings.almintegration.feature.status_reporting.title')}</span>
+              <span>
+                <FormattedMessage id="settings.almintegration.feature.status_reporting.title" />
+              </span>
             </Tooltip>
             {getPRDecorationFeatureStatus(branchesEnabled, status.type)}
           </div>
@@ -188,33 +186,32 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
               <Tooltip
                 content={translate('settings.almintegration.feature.alm_repo_import.description')}
               >
-                <span>{translate('settings.almintegration.feature.alm_repo_import.title')}</span>
+                <span>
+                  <FormattedMessage id="settings.almintegration.feature.alm_repo_import.title" />
+                </span>
               </Tooltip>
               {getImportFeatureStatus(alm, definition, status.type)}
             </div>
           )}
         </div>
       )}
-
       {status.type === AlmSettingsBindingStatusType.Warning && (
         <div className="sw-mb-3">
           <FlagMessage variant="warning">
-            {translate('settings.almintegration.could_not_validate')}
+            <FormattedMessage id="settings.almintegration.could_not_validate" />
           </FlagMessage>
         </div>
       )}
-
       {status.type === AlmSettingsBindingStatusType.Failure && (
         <div className="sw-mb-3">
           <FlagMessage variant="error">{status.failureMessage}</FlagMessage>
         </div>
       )}
-
       {status.type === AlmSettingsBindingStatusType.Success && status.alertSuccess && (
         <>
           <div className="sw-mb-3">
             <FlagMessage variant="success">
-              {translate('settings.almintegration.configuration_valid')}
+              <FormattedMessage id="settings.almintegration.configuration_valid" />
             </FlagMessage>
           </div>
           {alm === AlmKeys.GitHub && (
@@ -226,7 +223,7 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
                     values={{
                       link: (
                         <DocumentationLink to={DocLink.AlmGitHubIntegration}>
-                          {translate('learn_more')}
+                          <FormattedMessage id="learn_more" />
                         </DocumentationLink>
                       ),
                     }}
@@ -237,7 +234,6 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
           )}
         </>
       )}
-
       <div className="sw-flex sw-items-center">
         <Button
           aria-label={translateWithParameters(
@@ -248,7 +244,7 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
             props.onCheck(definition.key);
           }}
         >
-          {translate('settings.almintegration.check_configuration')}
+          <FormattedMessage id="settings.almintegration.check_configuration" />
         </Button>
         <Spinner
           ariaLabel={translate('settings.almintegration.checking_configuration')}
@@ -257,7 +253,7 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
         />
         {status.type === AlmSettingsBindingStatusType.Validating && (
           <span className="sw-ml-2">
-            {translate('settings.almintegration.checking_configuration')}
+            <FormattedMessage id="settings.almintegration.checking_configuration" />
           </span>
         )}
       </div>

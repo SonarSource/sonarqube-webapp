@@ -98,7 +98,7 @@ function renderOption(data: QualityGateOption) {
             values={{
               link: (
                 <Link to={getQualityGateUrl(data.label)}>
-                  {translate('project_quality_gate.no_condition.link')}
+                  <FormattedMessage id="project_quality_gate.no_condition.link" />
                 </Link>
               ),
             }}
@@ -226,7 +226,6 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
       title={pageTitle}
     >
       <A11ySkipTarget anchor="qg_main" />
-
       {!frontEndEngineeringEnableSidebarNavigation && (
         <header className="sw-mb-5 sw-flex sw-items-center">
           <Title>{pageTitle}</Title>
@@ -238,7 +237,6 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
           </HelpTooltip>
         </header>
       )}
-
       <div className="sw-flex sw-flex-col sw-items-start" id="project-quality-gate">
         {(aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_ON ||
           aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_PASS ||
@@ -323,7 +321,9 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
             refetchAiCodeAssuranceStatus();
           }}
         >
-          <p className="sw-mb-4">{translate('project_quality_gate.page.description')}</p>
+          <p className="sw-mb-4">
+            <FormattedMessage id="project_quality_gate.page.description" />
+          </p>
 
           <div className="sw-mb-4">
             <RadioButton
@@ -338,11 +338,11 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
             >
               <div>
                 <div className="sw-ml-1 sw-mb-2">
-                  {translate('project_quality_gate.always_use_default')}
+                  <FormattedMessage id="project_quality_gate.always_use_default" />
                 </div>
                 <div>
                   <Text isSubtle>
-                    {translate('current_noun')}: {defaultQualityGate.name}
+                    <FormattedMessage id="current_noun" />: {defaultQualityGate.name}
                     {defaultQualityGate.isAiCodeSupported && (
                       <AIAssuredIcon
                         className="sw-ml-1"
@@ -389,7 +389,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
             >
               <div>
                 <div className="sw-ml-1 sw-mb-2">
-                  {translate('project_quality_gate.always_use_specific')}
+                  <FormattedMessage id="project_quality_gate.always_use_specific" />
                 </div>
               </div>
             </RadioButton>
@@ -434,7 +434,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                   values={{
                     link: (
                       <Link to={getQualityGateUrl(selectedQualityGate.name)}>
-                        {translate('project_quality_gate.no_condition.link')}
+                        <FormattedMessage id="project_quality_gate.no_condition.link" />
                       </Link>
                     ),
                   }}
@@ -443,7 +443,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
             )}
             {needsReanalysis && (
               <FlagMessage className="sw-mt-4 sw-w-abs-600" variant="warning">
-                {translate('project_quality_gate.requires_new_analysis')}
+                <FormattedMessage id="project_quality_gate.requires_new_analysis" />
               </FlagMessage>
             )}
           </div>
@@ -455,7 +455,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
               type="submit"
               variety={ButtonVariety.Primary}
             >
-              {translate('save')}
+              <FormattedMessage id="save" />
             </Button>
             <Spinner isLoading={submitting} />
           </div>

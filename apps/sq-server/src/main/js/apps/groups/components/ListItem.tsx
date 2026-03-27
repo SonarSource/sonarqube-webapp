@@ -30,12 +30,14 @@ import {
 import { useState } from 'react';
 import { Image } from '~adapters/components/common/Image';
 import { Badge, ContentCell, NumericalCell, TableRow } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { useGroupMembersCountQuery } from '~sq-server-commons/queries/group-memberships';
 import { Group, Provider } from '~sq-server-commons/types/types';
 import DeleteGroupForm from './DeleteGroupForm';
 import GroupForm from './GroupForm';
 import Members from './Members';
+
+import { FormattedMessage } from 'react-intl';
 
 export interface ListItemProps {
   group: Group;
@@ -78,18 +80,23 @@ export default function ListItem(props: Readonly<ListItemProps>) {
     <TableRow data-id={name}>
       <ContentCell>
         <div className="sw-typo-semibold">{name}</div>
-        {group.default && <span className="sw-ml-1">({translate('default')})</span>}
+        {group.default && (
+          <span className="sw-ml-1">
+            (<FormattedMessage id="default" />)
+          </span>
+        )}
         {managed && renderIdentityProviderIcon(manageProvider)}
-        {isGroupLocal() && <Badge className="sw-ml-1">{translate('local')}</Badge>}
+        {isGroupLocal() && (
+          <Badge className="sw-ml-1">
+            <FormattedMessage id="local" />
+          </Badge>
+        )}
       </ContentCell>
-
       <NumericalCell>
         <Spinner isLoading={isLoading}>{membersCount}</Spinner>
         <Members group={group} isManaged={isManaged()} onEdit={refetch} />
       </NumericalCell>
-
       <ContentCell>{description}</ContentCell>
-
       <NumericalCell>
         {!group.default && (!isManaged() || isGroupLocal()) && (
           <>
@@ -115,7 +122,7 @@ export default function ListItem(props: Readonly<ListItemProps>) {
                         setGroupToEdit(group);
                       }}
                     >
-                      {translate('update_details')}
+                      <FormattedMessage id="update_details" />
                     </DropdownMenu.ItemButton>
                     <DropdownMenu.Separator />
                     <DropdownMenu.ItemButtonDestructive
@@ -124,7 +131,7 @@ export default function ListItem(props: Readonly<ListItemProps>) {
                         setGroupToDelete(group);
                       }}
                     >
-                      {translate('delete')}
+                      <FormattedMessage id="delete" />
                     </DropdownMenu.ItemButtonDestructive>
                   </>
                 }

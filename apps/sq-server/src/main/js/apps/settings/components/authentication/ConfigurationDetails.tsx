@@ -23,6 +23,8 @@ import { ReactElement } from 'react';
 import { FlagMessage, SubHeading } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   canDisable: boolean;
   enabled: boolean;
@@ -48,7 +50,7 @@ export default function ConfigurationDetails(props: Readonly<Props>) {
         <p>{url}</p>
         {enabled ? (
           <Button className="sw-mt-4" isDisabled={!canDisable} onClick={onToggle}>
-            {translate('settings.authentication.form.disable')}
+            <FormattedMessage id="settings.authentication.form.disable" />
           </Button>
         ) : (
           <Button
@@ -57,18 +59,20 @@ export default function ConfigurationDetails(props: Readonly<Props>) {
             onClick={onToggle}
             variety={ButtonVariety.Primary}
           >
-            {translate('settings.authentication.form.enable')}
+            <FormattedMessage id="settings.authentication.form.enable" />
           </Button>
         )}
         {!canDisable && (
           <FlagMessage className="sw-mt-2" variant="warning">
-            {translate('settings.authentication.form.disable.tooltip')}
+            <FormattedMessage id="settings.authentication.form.disable.tooltip" />
           </FlagMessage>
         )}
       </div>
       <div className="sw-flex sw-gap-2 sw-flex-nowrap sw-shrink-0">
         {extraActions}
-        <Button onClick={onEdit}>{translate('settings.authentication.form.edit')}</Button>
+        <Button onClick={onEdit}>
+          <FormattedMessage id="settings.authentication.form.edit" />
+        </Button>
         <Tooltip
           content={
             enabled || isDeleting ? translate('settings.authentication.form.delete.tooltip') : null
@@ -79,7 +83,7 @@ export default function ConfigurationDetails(props: Readonly<Props>) {
             onClick={onDelete}
             variety={ButtonVariety.DangerOutline}
           >
-            {translate('settings.authentication.form.delete')}
+            <FormattedMessage id="settings.authentication.form.delete" />
           </Button>
         </Tooltip>
       </div>

@@ -24,6 +24,8 @@ import DocumentationLink from '~sq-server-commons/components/common/Documentatio
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
+import { FormattedMessage } from 'react-intl';
+
 export interface EmptyHotspotsPageProps {
   emptyTranslationKey: string;
   filterByFile: boolean;
@@ -50,7 +52,7 @@ export default function EmptyHotspotsPage(props: EmptyHotspotsPageProps) {
       </Text>
       {!(filtered || isStaticListOfHotspots) && (
         <DocumentationLink className="sw-mt-4" to={DocLink.SecurityHotspots}>
-          {translate('hotspots.learn_more')}
+          <FormattedMessage id="hotspots.learn_more" />
         </DocumentationLink>
       )}
     </div>

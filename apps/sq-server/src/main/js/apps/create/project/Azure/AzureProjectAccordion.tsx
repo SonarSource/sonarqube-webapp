@@ -24,7 +24,6 @@ import { FormattedMessage } from 'react-intl';
 import { Accordion } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import SearchHighlighter from '~shared/components/SearchHighlighter';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { AzureProject, AzureRepository } from '~sq-server-commons/types/alm-integration';
@@ -85,7 +84,7 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
                         }),
                       }}
                     >
-                      {translate('onboarding.create_project.update_your_token')}
+                      <FormattedMessage id="onboarding.create_project.update_your_token" />
                     </Link>
                   ),
                 }}

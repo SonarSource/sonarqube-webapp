@@ -20,13 +20,13 @@
 
 import { Button, Heading } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import {
   commentSecurityHotspot,
   deleteSecurityHotspotComment,
   editSecurityHotspotComment,
 } from '~sq-server-commons/api/security-hotspots';
 import HotspotCommentModal from '~sq-server-commons/components/findings/HotspotCommentModal';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { Hotspot } from '~sq-server-commons/types/security-hotspots';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 import HotspotReviewHistory from './HotspotReviewHistory';
@@ -82,21 +82,18 @@ export default class HotspotReviewHistoryAndComments extends React.PureComponent
     return (
       <div className="it__hs-review-history sw-mt-6">
         <Heading as="h2" size="medium">
-          {translate('hotspot.section.activity')}
+          <FormattedMessage id="hotspot.section.activity" />
         </Heading>
-
         {isLoggedIn(currentUser) && (
           <Button className="sw-mt-4 sw-mb-2" onClick={this.handleShowCommentModal}>
-            {translate('hotspots.status.add_comment')}
+            <FormattedMessage id="hotspots.status.add_comment" />
           </Button>
         )}
-
         <HotspotReviewHistory
           hotspot={hotspot}
           onDeleteComment={this.handleDeleteComment}
           onEditComment={this.handleEditComment}
         />
-
         {showAddCommentModal && (
           <HotspotCommentModal
             onCancel={this.handleHideCommentModal}

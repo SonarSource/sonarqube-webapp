@@ -25,6 +25,8 @@ import { applyTemplateToProject, getPermissionTemplates } from '~sq-server-commo
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { PermissionTemplate } from '~sq-server-commons/types/types';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   onApply?: () => void;
   onClose: () => void;
@@ -110,7 +112,7 @@ export default class ApplyTemplate extends React.PureComponent<Props, State> {
             <div>
               {this.state.done && (
                 <FlagMessage variant="success">
-                  {translate('projects_role.apply_template.success')}
+                  <FormattedMessage id="projects_role.apply_template.success" />
                 </FlagMessage>
               )}
 
@@ -147,7 +149,7 @@ export default class ApplyTemplate extends React.PureComponent<Props, State> {
               type="submit"
               variety={ButtonVariety.Primary}
             >
-              {translate('apply')}
+              <FormattedMessage id="apply" />
             </Button>
           )
         }

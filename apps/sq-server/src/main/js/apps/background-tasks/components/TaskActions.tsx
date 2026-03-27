@@ -131,7 +131,7 @@ export default class TaskActions extends React.PureComponent<Props, State> {
               )}
               {canCancel && (
                 <ItemDangerButton className="js-task-cancel" onClick={this.handleCancelClick}>
-                  {translate('background_tasks.cancel_task')}
+                  <FormattedMessage id="background_tasks.cancel_task" />
                 </ItemDangerButton>
               )}
               {task.hasScannerContext && (
@@ -139,7 +139,7 @@ export default class TaskActions extends React.PureComponent<Props, State> {
                   className="js-task-show-scanner-context"
                   onClick={this.handleShowScannerContextClick}
                 >
-                  {translate('background_tasks.show_scanner_context')}
+                  <FormattedMessage id="background_tasks.show_scanner_context" />
                 </DropdownMenu.ItemButton>
               )}
               {canShowStacktrace && (
@@ -147,7 +147,7 @@ export default class TaskActions extends React.PureComponent<Props, State> {
                   className="js-task-show-stacktrace"
                   onClick={this.handleShowStacktraceClick}
                 >
-                  {translate('background_tasks.show_stacktrace')}
+                  <FormattedMessage id="background_tasks.show_stacktrace" />
                 </DropdownMenu.ItemButton>
               )}
               {canShowWarnings && (
@@ -155,7 +155,7 @@ export default class TaskActions extends React.PureComponent<Props, State> {
                   className="js-task-show-warnings"
                   onClick={this.handleShowWarningsClick}
                 >
-                  {translate('background_tasks.show_warnings')}
+                  <FormattedMessage id="background_tasks.show_warnings" />
                 </DropdownMenu.ItemButton>
               )}
             </>
@@ -170,7 +170,6 @@ export default class TaskActions extends React.PureComponent<Props, State> {
             variety={ButtonVariety.Default}
           />
         </DropdownMenu>
-
         <ConfirmModal
           cancelButtonText={translate('close')}
           confirmButtonText={translate('background_tasks.cancel_task')}
@@ -180,15 +179,12 @@ export default class TaskActions extends React.PureComponent<Props, State> {
           onClose={this.closeCancelTask}
           onConfirm={this.handleCancelTask}
         >
-          {translate('background_tasks.cancel_task.text')}
+          <FormattedMessage id="background_tasks.cancel_task.text" />
         </ConfirmModal>
-
         {this.state.scannerContextOpen && (
           <ScannerContext onClose={this.closeScannerContext} task={task} />
         )}
-
         {this.state.stacktraceOpen && <Stacktrace onClose={this.closeStacktrace} task={task} />}
-
         {this.state.warningsOpen && (
           <AnalysisWarningsModal
             componentKey={task.componentKey}

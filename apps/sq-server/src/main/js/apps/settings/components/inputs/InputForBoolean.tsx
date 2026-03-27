@@ -20,8 +20,8 @@
 
 import { Text, Tooltip } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Switch } from '~adapters/components/common/Switch';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { DefaultSpecializedInputProps } from '../../utils';
 
 interface Props extends DefaultSpecializedInputProps {
@@ -50,7 +50,7 @@ function InputForBoolean(
       </Tooltip>
       {value == null && (
         <Text className="sw-ml-2" isSubtle>
-          {translate('settings.not_set')}
+          <FormattedMessage id="settings.not_set" />
         </Text>
       )}
     </div>

@@ -185,7 +185,6 @@ export function Sidebar(props: Readonly<Props>) {
       {displayPeriodFilter && (
         <PeriodFilter newCodeSelected={query.inNewCodePeriod} onChange={props.onFilterChange} />
       )}
-
       {!isStandardMode && !needIssueSync && (
         <>
           <SoftwareQualityFacet
@@ -257,7 +256,6 @@ export function Sidebar(props: Readonly<Props>) {
           <Divider className="sw-my-2" />
         </>
       )}
-
       {isStandardMode && (
         <>
           <TypeFacet
@@ -321,7 +319,6 @@ export function Sidebar(props: Readonly<Props>) {
           )}
         </>
       )}
-
       {!needIssueSync && (
         <>
           <ScopeFacet
@@ -528,21 +525,20 @@ export function Sidebar(props: Readonly<Props>) {
           )}
         </>
       )}
-
       {needIssueSync && (
         <>
           <Divider className="sw-my-2" />
 
           <FlagMessage className="sw-my-6" variant="info">
             <div>
-              {translate('indexation.page_unavailable.description')}
+              <FormattedMessage id="indexation.page_unavailable.description" />
               <span className="sw-ml-1">
                 <FormattedMessage
                   id="indexation.filters_unavailable"
                   values={{
                     link: (
                       <Link to="https://docs.sonarsource.com/sonarqube/latest/instance-administration/reindexing/">
-                        {translate('learn_more')}
+                        <FormattedMessage id="learn_more" />
                       </Link>
                     ),
                   }}

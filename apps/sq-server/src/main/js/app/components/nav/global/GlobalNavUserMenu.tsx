@@ -19,19 +19,17 @@
  */
 
 import { DropdownMenu } from '@sonarsource/echoes-react';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { FormattedMessage } from 'react-intl';
 
 export function GlobalNavUserMenu() {
   return (
     <>
       <DropdownMenu.ItemLink isMatchingFullPath to="/account">
-        {translate('my_account.page')}
+        <FormattedMessage id="my_account.page" />
       </DropdownMenu.ItemLink>
-
       <DropdownMenu.Separator />
-
       <DropdownMenu.ItemLink to="/sessions/logout">
-        {translate('layout.logout')}
+        <FormattedMessage id="layout.logout" />
       </DropdownMenu.ItemLink>
     </>
   );

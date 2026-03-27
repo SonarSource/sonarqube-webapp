@@ -20,10 +20,10 @@
 
 import { Select } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { SubHeading } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, Router } from '~shared/types/router';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { CATEGORY_OVERRIDES, LANGUAGES_CATEGORY } from '../constants';
 import { getCategoryName } from '../utils';
 import { AdditionalCategoryComponentProps } from './AdditionalCategories';
@@ -51,7 +51,7 @@ export function Languages(props: Readonly<LanguagesProps>) {
   return (
     <>
       <SubHeading id="languages-category-title">
-        {translate('property.category.languages')}
+        <FormattedMessage id="property.category.languages" />
       </SubHeading>
       <div data-test="language-select">
         <Select

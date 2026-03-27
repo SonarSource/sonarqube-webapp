@@ -19,7 +19,7 @@
  */
 
 import { IconSparkle } from '@sonarsource/echoes-react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Badge, SeparatorCircleIcon } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
 import { MeasureEnhanced } from '~shared/types/measures';
@@ -68,7 +68,7 @@ export default function BranchMetaTopBarLegacy({ branch, measures, component }: 
           <span>
             <Badge className="sw-ml-3">
               <IconSparkle className="sw-mr-1 sw-fon" />
-              {translate('contains_ai_code')}
+              <FormattedMessage id="contains_ai_code" />
             </Badge>
           </span>
         </Tooltip>

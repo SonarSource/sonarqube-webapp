@@ -21,7 +21,6 @@
 import { Link, Text, TextSize } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { FishVisual } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { ProjectsQuery } from '~sq-server-commons/types/projects';
 
@@ -30,7 +29,7 @@ export default function EmptyFavoriteSearch({ query }: { query: ProjectsQuery })
     <div className="sw-flex sw-flex-col sw-items-center sw-py-8">
       <FishVisual />
       <Text className="sw-mt-6" isHighlighted size={TextSize.Large}>
-        {translate('no_results_search.favorites')}
+        <FormattedMessage id="no_results_search.favorites" />
       </Text>
       <div className="sw-my-4 sw-typo-default">
         <FormattedMessage
@@ -43,7 +42,7 @@ export default function EmptyFavoriteSearch({ query }: { query: ProjectsQuery })
                   search: queryToSearchString(query as Record<string, string | undefined | number>),
                 }}
               >
-                {translate('all')}
+                <FormattedMessage id="all" />
               </Link>
             ),
           }}

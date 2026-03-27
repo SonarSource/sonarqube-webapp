@@ -27,6 +27,8 @@ import Conditions from './Conditions';
 import Projects from './Projects';
 import QualityGatePermissions from './QualityGatePermissions';
 
+import { FormattedMessage } from 'react-intl';
+
 export interface DetailsContentProps {
   isFetching?: boolean;
   qualityGate: QualityGate;
@@ -42,16 +44,14 @@ export function DetailsContent(props: DetailsContentProps) {
       {qualityGate.isDefault &&
         (qualityGate.conditions === undefined || qualityGate.conditions.length === 0) && (
           <MessageCallout className="sw-mb-4" variety={MessageVariety.Warning}>
-            {translate('quality_gates.is_default_no_conditions')}
+            <FormattedMessage id="quality_gates.is_default_no_conditions" />
           </MessageCallout>
         )}
-
       <Conditions isFetching={isFetching} qualityGate={qualityGate} />
-
       <div className="sw-mt-10">
         <div className="sw-flex sw-flex-col">
           <Heading as="h3" className="sw-flex sw-items-center sw-typo-lg-semibold sw-mb-4">
-            {translate('quality_gates.projects')}
+            <FormattedMessage id="quality_gates.projects" />
             <ToggleTip
               ariaLabel={translate('toggle_tip.aria_label.quality_gate')}
               className="sw-ml-2"
@@ -61,7 +61,7 @@ export function DetailsContent(props: DetailsContentProps) {
 
           {qualityGate.isDefault ? (
             <p className="sw-typo-default sw-mb-2">
-              {translate('quality_gates.projects_for_default')}
+              <FormattedMessage id="quality_gates.projects_for_default" />
             </p>
           ) : (
             <Projects

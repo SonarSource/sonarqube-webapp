@@ -48,12 +48,12 @@ export default function GitlabForm(props: GitlabFormProps) {
       <AlmBindingDefinitionFormField
         help={
           <>
-            {translate('settings.almintegration.form.url.gitlab.help')}
+            <FormattedMessage id="settings.almintegration.form.url.gitlab.help" />
             <br />
             <em>https://gitlab.com/api/v4</em>
             <br />
             <br />
-            {translate('settings.almintegration.form.url.pat_warning')}
+            <FormattedMessage id="settings.almintegration.form.url.pat_warning" />
           </>
         }
         id="url.gitlab"
@@ -72,12 +72,16 @@ export default function GitlabForm(props: GitlabFormProps) {
                   target="_blank"
                   to="https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html"
                 >
-                  {translate('settings.almintegration.form.personal_access_token.gitlab.help.url')}
+                  <FormattedMessage id="settings.almintegration.form.personal_access_token.gitlab.help.url" />
                 </Link>
               ),
               permission: <strong>Reporter</strong>,
               scope: <strong>api</strong>,
-              doc_link: <Link to={toStatic}>{translate('learn_more')}</Link>,
+              doc_link: (
+                <Link to={toStatic}>
+                  <FormattedMessage id="learn_more" />
+                </Link>
+              ),
             }}
           />
         }

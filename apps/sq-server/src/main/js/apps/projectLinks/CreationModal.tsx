@@ -24,6 +24,8 @@ import { FormField, InputField, Modal } from '~design-system';
 import MandatoryFieldsExplanation from '~sq-server-commons/components/ui/MandatoryFieldsExplanation';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   onClose: () => void;
   onSubmit: (name: string, url: string) => Promise<void>;
@@ -100,7 +102,7 @@ export default class CreationModal extends React.PureComponent<Props, State> {
         onClose={this.props.onClose}
         primaryButton={
           <Button form={FORM_ID} type="submit" variety={ButtonVariety.Primary}>
-            {translate('create')}
+            <FormattedMessage id="create" />
           </Button>
         }
       />

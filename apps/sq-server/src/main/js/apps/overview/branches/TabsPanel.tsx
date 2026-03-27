@@ -152,7 +152,7 @@ export default function TabsPanel(props: React.PropsWithChildren<MeasuresPanelPr
                     className="sw-ml-1 sw-whitespace-nowrap"
                     to={DocLink.InstanceAdminReindexation}
                   >
-                    {translate('learn_more')}
+                    <FormattedMessage id="learn_more" />
                   </DocumentationLink>
                 </span>
               </FlagMessage>

@@ -23,7 +23,6 @@ import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   handleMigrateClick: () => void;
@@ -36,17 +35,17 @@ export function MigrationConfirmation({ handleMigrateClick }: Readonly<Props>) {
     return (
       <div className="sw-flex sw-flex-col sw-items-center">
         <Heading as="h1" hasMarginBottom>
-          {translate('maintenance.back_up_database')}
+          <FormattedMessage id="maintenance.back_up_database" />
         </Heading>
-
         <div>
           <Text as="p" className="sw-mb-3">
-            {translate('maintenance.back_up_database.1')}
+            <FormattedMessage id="maintenance.back_up_database.1" />
           </Text>
 
-          <Text as="p">{translate('maintenance.back_up_database.2')}</Text>
+          <Text as="p">
+            <FormattedMessage id="maintenance.back_up_database.2" />
+          </Text>
         </div>
-
         <Button
           className="sw-mt-6"
           onClick={() => {
@@ -54,7 +53,7 @@ export function MigrationConfirmation({ handleMigrateClick }: Readonly<Props>) {
           }}
           variety={ButtonVariety.Default}
         >
-          {translate('continue')}
+          <FormattedMessage id="continue" />
         </Button>
       </div>
     );
@@ -62,11 +61,12 @@ export function MigrationConfirmation({ handleMigrateClick }: Readonly<Props>) {
   return (
     <div className="sw-flex sw-flex-col sw-items-center">
       <Heading as="h1" hasMarginBottom>
-        {translate('maintenance.upgrade_database')}
+        <FormattedMessage id="maintenance.upgrade_database" />
       </Heading>
-
       <div>
-        <Text as="p">{translate('maintenance.upgrade_database.1')}</Text>
+        <Text as="p">
+          <FormattedMessage id="maintenance.upgrade_database.1" />
+        </Text>
 
         <Text as="p">
           <FormattedMessage
@@ -78,21 +78,22 @@ export function MigrationConfirmation({ handleMigrateClick }: Readonly<Props>) {
                   highlight={LinkHighlight.Default}
                   to={DocLink.ServerUpgradeRoadmap}
                 >
-                  <Text isHighlighted>{translate('maintenance.upgrade_database.2.link')}</Text>
+                  <Text isHighlighted>
+                    <FormattedMessage id="maintenance.upgrade_database.2.link" />
+                  </Text>
                 </DocumentationLink>
               ),
             }}
           />
         </Text>
       </div>
-
       <Button
         className="sw-mt-6"
         id="start-migration"
         onClick={handleMigrateClick}
         variety={ButtonVariety.Primary}
       >
-        {translate('maintenance.upgrade')}
+        <FormattedMessage id="maintenance.upgrade" />
       </Button>
     </div>
   );

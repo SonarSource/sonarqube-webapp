@@ -39,7 +39,6 @@ import {
 } from '~sq-server-commons/components/activity-graph/utils';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { MQR_CONDITIONS_MAP } from '~sq-server-commons/helpers/quality-gates';
 import {
   GraphType,
@@ -232,7 +231,7 @@ export default class ProjectActivityGraphs extends React.PureComponent<Props, St
             values={{
               learn_more: (
                 <DocumentationLink className="sw-whitespace-nowrap" to={DocLink.CleanCode}>
-                  {translate('learn_more')}
+                  <FormattedMessage id="learn_more" />
                 </DocumentationLink>
               ),
             }}

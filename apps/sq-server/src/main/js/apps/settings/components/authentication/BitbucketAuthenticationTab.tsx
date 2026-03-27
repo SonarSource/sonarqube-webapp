@@ -23,7 +23,6 @@ import { FlagMessage } from '~design-system';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { useGetValueQuery } from '~sq-server-commons/queries/settings';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { AUTHENTICATION_CATEGORY } from '../../constants';
@@ -55,7 +54,7 @@ export default function BitbucketAuthenticationTab(props: Readonly<Props>) {
               values={{
                 documentation: (
                   <DocumentationLink to={DocLink.AlmBitBucketCloudSettings}>
-                    {translate('documentation')}
+                    <FormattedMessage id="documentation" />
                   </DocumentationLink>
                 ),
               }}
@@ -70,7 +69,7 @@ export default function BitbucketAuthenticationTab(props: Readonly<Props>) {
             values={{
               link: (
                 <DocumentationLink to={DocLink.AlmBitBucketCloudAuth}>
-                  {translate('settings.authentication.help.link')}
+                  <FormattedMessage id="settings.authentication.help.link" />
                 </DocumentationLink>
               ),
             }}

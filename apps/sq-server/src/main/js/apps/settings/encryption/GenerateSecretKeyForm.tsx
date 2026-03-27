@@ -57,7 +57,9 @@ export default function GenerateSecretKeyForm({ secretKey, generateSecretKey }: 
       {secretKey ? (
         <>
           <div className="sw-mb-4">
-            <SubHeading id="secret-key-title">{translate('encryption.secret_key')}</SubHeading>
+            <SubHeading id="secret-key-title">
+              <FormattedMessage id="encryption.secret_key" />
+            </SubHeading>
             <div className="sw-flex">
               <CodeSnippet className="it__secret-key sw-p-1" isOneLine noCopy snippet={secretKey} />
               <ClipboardIconButton
@@ -67,7 +69,9 @@ export default function GenerateSecretKeyForm({ secretKey, generateSecretKey }: 
               />
             </div>
           </div>
-          <SubHeading className="sw-mb-2">{translate('encryption.how_to_use')}</SubHeading>
+          <SubHeading className="sw-mb-2">
+            <FormattedMessage id="encryption.how_to_use" />
+          </SubHeading>
           <div>
             <Text as="ul">
               <li>
@@ -84,7 +88,9 @@ export default function GenerateSecretKeyForm({ secretKey, generateSecretKey }: 
                   }}
                 />
               </li>
-              <li>{translate('encryption.how_to_use.content2')}</li>
+              <li>
+                <FormattedMessage id="encryption.how_to_use.content2" />
+              </li>
               <li>
                 <FormattedMessage
                   id="encryption.how_to_use.content3"
@@ -93,7 +99,9 @@ export default function GenerateSecretKeyForm({ secretKey, generateSecretKey }: 
                   }}
                 />
               </li>
-              <li>{translate('encryption.how_to_use.content4')}</li>
+              <li>
+                <FormattedMessage id="encryption.how_to_use.content4" />
+              </li>
             </Text>
           </div>
         </>
@@ -105,7 +113,7 @@ export default function GenerateSecretKeyForm({ secretKey, generateSecretKey }: 
               values={{
                 moreInformationLink: (
                   <DocumentationLink to={DocLink.InstanceAdminSecurity}>
-                    {translate('more_information')}
+                    <FormattedMessage id="more_information" />
                   </DocumentationLink>
                 ),
               }}
@@ -117,7 +125,7 @@ export default function GenerateSecretKeyForm({ secretKey, generateSecretKey }: 
             type="submit"
             variety={ButtonVariety.Primary}
           >
-            {translate('encryption.generate_secret_key')}
+            <FormattedMessage id="encryption.generate_secret_key" />
           </Button>
           <Spinner isLoading={submitting} />
         </form>

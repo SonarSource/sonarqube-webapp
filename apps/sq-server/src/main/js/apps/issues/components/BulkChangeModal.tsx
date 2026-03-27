@@ -316,7 +316,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
         <fieldset>
           <legend id="bulk-change-transition-label">
             <Text className="sw-mb-2" isHighlighted>
-              {translate('issue.change_status')}
+              <FormattedMessage id="issue.change_status" />
             </Text>
           </legend>
 
@@ -412,7 +412,9 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
           {issues.length > 0 && this.renderNotificationsField()}
 
           {issues.length === 0 && (
-            <FlagMessage variant="warning">{translate('issue_bulk_change.no_match')}</FlagMessage>
+            <FlagMessage variant="warning">
+              <FormattedMessage id="issue_bulk_change.no_match" />
+            </FlagMessage>
           )}
         </form>
       </Spinner>
@@ -443,7 +445,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
             type="submit"
             variety={ButtonVariety.Primary}
           >
-            {translate('apply')}
+            <FormattedMessage id="apply" />
           </Button>
         }
         secondaryButtonLabel={translate('cancel')}

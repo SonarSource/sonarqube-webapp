@@ -28,6 +28,8 @@ import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/He
 import NoWorkersSupportPopup from './NoWorkersSupportPopup';
 import WorkersForm from './WorkersForm';
 
+import { FormattedMessage } from 'react-intl';
+
 interface State {
   canSetWorkerCount: boolean;
   formOpen: boolean;
@@ -96,15 +98,14 @@ export default class Workers extends React.PureComponent<{}, State> {
             </div>
           </Tooltip>
         )}
-
-        <span id="ww">{translate('background_tasks.number_of_workers')}</span>
-
+        <span id="ww">
+          <FormattedMessage id="background_tasks.number_of_workers" />
+        </span>
         <Spinner className="sw-ml-1" isLoading={loading}>
           <strong aria-labelledby="ww" className="sw-ml-1">
             {workerCount}
           </strong>
         </Spinner>
-
         {!loading && canSetWorkerCount && (
           <ButtonIcon
             Icon={IconEdit}
@@ -114,13 +115,11 @@ export default class Workers extends React.PureComponent<{}, State> {
             variety={ButtonVariety.DefaultGhost}
           />
         )}
-
         {!loading && !canSetWorkerCount && (
           <HelpTooltip className="sw-ml-2" overlay={<NoWorkersSupportPopup />}>
             <HelperHintIcon />
           </HelpTooltip>
         )}
-
         {formOpen && <WorkersForm onClose={this.closeForm} workerCount={this.state.workerCount} />}
       </div>
     );

@@ -152,13 +152,12 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
           variety={ButtonVariety.DefaultGhost}
         />
       </div>
-
       <Form className="sw-typo-default" id="create-project-manual" onSubmit={handleFormSubmit}>
         <Form.Header
           description={
             branchesEnabled && (
               <MessageCallout variety={MessageVariety.Info}>
-                {translate('onboarding.create_project.pr_decoration.information')}
+                <FormattedMessage id="onboarding.create_project.pr_decoration.information" />
               </MessageCallout>
             )
           }
@@ -178,7 +177,7 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
                 values={{
                   learn_more: (
                     <DocumentationLink enableOpenInNewTab to={DocLink.BranchAnalysis}>
-                      {translate('learn_more')}
+                      <FormattedMessage id="learn_more" />
                     </DocumentationLink>
                   ),
                 }}
@@ -202,7 +201,7 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
             {intl.formatMessage({ id: 'cancel' })}
           </Button>
           <Button isDisabled={!canSubmit(mainBranch, project)} type="submit" variety="primary">
-            {translate('next')}
+            <FormattedMessage id="next" />
           </Button>
         </Form.Footer>
       </Form>

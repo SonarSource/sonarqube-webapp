@@ -27,6 +27,8 @@ import { QGPermissionOption } from '~sq-server-commons/helpers/quality-gates';
 import { Group as UserGroup, isUser } from '~sq-server-commons/types/quality-gates';
 import { UserBase } from '~sq-server-commons/types/users';
 
+import { FormattedMessage } from 'react-intl';
+
 export interface QualityGatePermissionsAddModalRendererProps {
   handleSearch: (q: string) => void;
   loading: boolean;
@@ -73,7 +75,9 @@ export default function QualityGatePermissionsAddModalRenderer(
       submitButtonLabel={translate('add_verb')}
       title={translate('quality_gates.permissions.grant')}
     >
-      <Button className="sw-mt-4">{translate('quality_gates.permissions.grant')}</Button>
+      <Button className="sw-mt-4">
+        <FormattedMessage id="quality_gates.permissions.grant" />
+      </Button>
     </ModalForm>
   );
 }

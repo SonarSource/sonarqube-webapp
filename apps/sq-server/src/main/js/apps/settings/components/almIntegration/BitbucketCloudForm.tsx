@@ -50,20 +50,19 @@ export default function BitbucketCloudForm(props: BitbucketCloudFormProps) {
                   target="_blank"
                   to="https://support.atlassian.com/bitbucket-cloud/docs/use-oauth-on-bitbucket-cloud/"
                 >
-                  {translate('settings.almintegration.bitbucketcloud.oauth')}
+                  <FormattedMessage id="settings.almintegration.bitbucketcloud.oauth" />
                 </Link>
               ),
               permission: <strong>Pull Requests: Read</strong>,
               doc_link: (
                 <DocumentationLink to={DocLink.AlmBitBucketCloudIntegration}>
-                  {translate('learn_more')}
+                  <FormattedMessage id="learn_more" />
                 </DocumentationLink>
               ),
             }}
           />
         </div>
       </FlagMessage>
-
       <AlmBindingDefinitionFormField
         autoFocus
         help={translate('settings.almintegration.form.name.bitbucketcloud.help')}
@@ -88,7 +87,9 @@ export default function BitbucketCloudForm(props: BitbucketCloudFormProps) {
                 ),
               }}
             />
-            <p>{translate('settings.almintegration.form.workspace.bitbucketcloud.error')}</p>
+            <p>
+              <FormattedMessage id="settings.almintegration.form.workspace.bitbucketcloud.error" />
+            </p>
           </>
         }
         id="workspace.bitbucketcloud"

@@ -28,6 +28,8 @@ import { translate, translateWithParameters } from '~sq-server-commons/helpers/l
 import { IssuesQuery } from '~sq-server-commons/types/issues';
 import { formatFacetStat } from '~sq-server-commons/utils/issues-utils';
 
+import { FormattedMessage } from 'react-intl';
+
 interface VariantFacetProps {
   fetching: boolean;
   onChange: (changes: Partial<IssuesQuery>) => void;
@@ -91,7 +93,7 @@ export function VariantFacet(props: VariantFacetProps) {
       <FacetItemsList labelledby={id}>
         {nbSelectableItems === 0 && (
           <Text as="div" className="sw-mb-2 sw-text-center" isSubtle>
-            {translate('no_results')}
+            <FormattedMessage id="no_results" />
           </Text>
         )}
 
@@ -111,7 +113,6 @@ export function VariantFacet(props: VariantFacetProps) {
           />
         ))}
       </FacetItemsList>
-
       <MultipleSelectionHint
         className="sw-pt-4"
         selectedItems={nbSelectedItems}

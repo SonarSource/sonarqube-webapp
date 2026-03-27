@@ -23,7 +23,6 @@ import { FormattedMessage } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
 import { FlagMessage, SubTitle, ToggleButton } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { useGetValuesQuery } from '~sq-server-commons/queries/settings';
 import {
   AlmKeys,
@@ -58,7 +57,7 @@ const tabs = [
     label: (
       <>
         <Image alt="github" className="sw-mr-2" height={16} src="/images/alm/github.svg" />
-        {translate('settings.almintegration.tab.github')}
+        <FormattedMessage id="settings.almintegration.tab.github" />
       </>
     ),
     value: AlmKeys.GitHub,
@@ -67,7 +66,7 @@ const tabs = [
     label: (
       <>
         <Image alt="bitbucket" className="sw-mr-2" height={16} src="/images/alm/bitbucket.svg" />
-        {translate('settings.almintegration.tab.bitbucket')}
+        <FormattedMessage id="settings.almintegration.tab.bitbucket" />
       </>
     ),
     value: AlmKeys.BitbucketServer,
@@ -76,7 +75,7 @@ const tabs = [
     label: (
       <>
         <Image alt="azure" className="sw-mr-2" height={16} src="/images/alm/azure.svg" />
-        {translate('settings.almintegration.tab.azure')}
+        <FormattedMessage id="settings.almintegration.tab.azure" />
       </>
     ),
     value: AlmKeys.Azure,
@@ -85,7 +84,7 @@ const tabs = [
     label: (
       <>
         <Image alt="gitlab" className="sw-mr-2" height={16} src="/images/alm/gitlab.svg" />
-        {translate('settings.almintegration.tab.gitlab')}
+        <FormattedMessage id="settings.almintegration.tab.gitlab" />
       </>
     ),
     value: AlmKeys.GitLab,
@@ -118,9 +117,10 @@ export default function AlmIntegrationRenderer(props: Readonly<AlmIntegrationRen
   return (
     <>
       <header className="sw-mb-5">
-        <SubTitle>{translate('settings.almintegration.title')}</SubTitle>
+        <SubTitle>
+          <FormattedMessage id="settings.almintegration.title" />
+        </SubTitle>
       </header>
-
       {!hasServerBaseUrl && !isLoading && branchesEnabled && (
         <FlagMessage variant="warning">
           <p>
@@ -129,7 +129,7 @@ export default function AlmIntegrationRenderer(props: Readonly<AlmIntegrationRen
               values={{
                 serverBaseUrl: (
                   <Link to="/admin/settings?category=general#sonar.core.serverBaseURL">
-                    {translate('settings.almintegration.empty.server_base_url.setting_link')}
+                    <FormattedMessage id="settings.almintegration.empty.server_base_url.setting_link" />
                   </Link>
                 ),
               }}
@@ -137,9 +137,9 @@ export default function AlmIntegrationRenderer(props: Readonly<AlmIntegrationRen
           </p>
         </FlagMessage>
       )}
-
-      <div className="sw-my-4">{translate('settings.almintegration.description')}</div>
-
+      <div className="sw-my-4">
+        <FormattedMessage id="settings.almintegration.description" />
+      </div>
       <div className="sw-mb-6">
         <ToggleButton
           onChange={props.onSelectAlmTab}
@@ -148,7 +148,6 @@ export default function AlmIntegrationRenderer(props: Readonly<AlmIntegrationRen
           value={currentAlmTab}
         />
       </div>
-
       <AlmTab
         almTab={currentAlmTab}
         branchesEnabled={branchesEnabled}
@@ -161,7 +160,6 @@ export default function AlmIntegrationRenderer(props: Readonly<AlmIntegrationRen
         onDelete={props.onDelete}
         onUpdateDefinitions={props.onUpdateDefinitions}
       />
-
       <DeleteModal
         id={definitionKeyForDeletion}
         isOpen={isDefined(definitionKeyForDeletion)}

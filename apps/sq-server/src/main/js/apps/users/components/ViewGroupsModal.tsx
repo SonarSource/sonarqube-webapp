@@ -26,6 +26,8 @@ import { useUserGroupsQuery } from '~sq-server-commons/queries/group-memberships
 import { Group } from '~sq-server-commons/types/types';
 import { RestUserDetailed } from '~sq-server-commons/types/users';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   onClose: () => void;
   user: RestUserDetailed;
@@ -61,7 +63,11 @@ export default function ViewGroupsModal(props: Readonly<Props>) {
                   <br />
                   <Text isSubtle> {description} </Text>
                 </span>
-                {!managed && <Badge>{translate('local')}</Badge>}
+                {!managed && (
+                  <Badge>
+                    <FormattedMessage id="local" />
+                  </Badge>
+                )}
               </span>
             </li>
           ))}
@@ -75,7 +81,11 @@ export default function ViewGroupsModal(props: Readonly<Props>) {
       content={modalBody}
       isOpen
       onOpenChange={onClose}
-      secondaryButton={<Button onClick={onClose}>{translate('close')}</Button>}
+      secondaryButton={
+        <Button onClick={onClose}>
+          <FormattedMessage id="close" />
+        </Button>
+      }
       size={ModalSize.Default}
       title={translate('users.view_groups')}
     />

@@ -45,6 +45,8 @@ import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures
 import { ComponentMeasureEnhanced, ComponentMeasureIntern } from '~sq-server-commons/types/types';
 import EmptyResult from './EmptyResult';
 
+import { FormattedMessage } from 'react-intl';
+
 interface TreeMapViewProps {
   components: ComponentMeasureEnhanced[];
   handleSelect: (component: ComponentMeasureIntern) => void;
@@ -240,11 +242,15 @@ export class TreeMapView extends React.PureComponent<Props, State> {
       <div data-testid="treemap">
         <Text as="div" className="sw-flex sw-items-start sw-mb-2" isSubtle>
           <span>
-            <strong className="sw-mr-1">{translate('component_measures.legend.color')}</strong>
+            <strong className="sw-mr-1">
+              <FormattedMessage id="component_measures.legend.color" />
+            </strong>
             {getLocalizedMetricName(metric)}
           </span>
           <span className="sw-ml-2 sw-flex-1">
-            <strong className="sw-mr-1">{translate('component_measures.legend.size')}</strong>
+            <strong className="sw-mr-1">
+              <FormattedMessage id="component_measures.legend.size" />
+            </strong>
             {translate(
               'metric',
               sizeMeasure?.metric ? sizeMeasure.metric.key : MetricKey.ncloc,

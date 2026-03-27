@@ -19,8 +19,7 @@
  */
 
 import { Heading, LinkStandalone, Text } from '@sonarsource/echoes-react';
-import { useIntl } from 'react-intl';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { getQualityGateUrl } from '~sq-server-commons/helpers/urls';
 
 interface Props {
@@ -32,12 +31,14 @@ export default function MetaQualityGate({ qualityGate }: Props) {
 
   return (
     <section>
-      <Heading as="h3">{translate('project.info.quality_gate')}</Heading>
+      <Heading as="h3">
+        <FormattedMessage id="project.info.quality_gate" />
+      </Heading>
       <ul className="sw-mt-2 sw-flex sw-flex-col sw-gap-3">
         <li>
           {qualityGate.isDefault && (
             <Text className="sw-mr-2" isSubtle>
-              ({translate('default')})
+              (<FormattedMessage id="default" />)
             </Text>
           )}
           <LinkStandalone

@@ -24,6 +24,8 @@ import { DateRangePicker } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Query } from '../utils';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   from?: Date;
   onChange: (changes: Partial<Query>) => void;
@@ -42,7 +44,9 @@ export default class ProjectActivityDateInput extends React.PureComponent<Props>
   render() {
     return (
       <ButtonGroup>
-        <Label htmlFor="date-from">{translate('project_activity.filter_date_range')}</Label>
+        <Label htmlFor="date-from">
+          <FormattedMessage id="project_activity.filter_date_range" />
+        </Label>
         <DateRangePicker
           className="sw-w-abs-350"
           endClearButtonLabel={translate('clear.end')}
@@ -58,7 +62,7 @@ export default class ProjectActivityDateInput extends React.PureComponent<Props>
           isDisabled={this.props.from === undefined && this.props.to === undefined}
           onClick={this.handleResetClick}
         >
-          {translate('project_activity.reset_dates')}
+          <FormattedMessage id="project_activity.reset_dates" />
         </Button>
       </ButtonGroup>
     );

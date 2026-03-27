@@ -34,6 +34,8 @@ import ProfilePermissionsForm from './ProfilePermissionsForm';
 import ProfilePermissionsGroup from './ProfilePermissionsGroup';
 import ProfilePermissionsUser from './ProfilePermissionsUser';
 
+import { FormattedMessage } from 'react-intl';
+
 export interface Group {
   name: string;
 }
@@ -144,12 +146,13 @@ export default class ProfilePermissions extends React.PureComponent<Props, State
     return (
       <section aria-label={translate('permissions.page')}>
         <div className="sw-mb-6">
-          <SubTitle className="sw-mb-0">{translate('permissions.page')}</SubTitle>
+          <SubTitle className="sw-mb-0">
+            <FormattedMessage id="permissions.page" />
+          </SubTitle>
           <Text as="p" className="sw-mt-6" isSubtle>
-            {translate('quality_profiles.default_permissions')}
+            <FormattedMessage id="quality_profiles.default_permissions" />
           </Text>
         </div>
-
         <Spinner isLoading={loading}>
           <Table columnCount={2} columnWidths={['100%', '0%']}>
             {this.state.users &&
@@ -181,11 +184,10 @@ export default class ProfilePermissions extends React.PureComponent<Props, State
           </Table>
           <div className="sw-mt-6">
             <Button onClick={this.handleAddUserButtonClick}>
-              {translate('quality_profiles.grant_permissions_to_more_users')}
+              <FormattedMessage id="quality_profiles.grant_permissions_to_more_users" />
             </Button>
           </div>
         </Spinner>
-
         {this.state.addUserForm && (
           <ProfilePermissionsForm
             onClose={this.handleAddUserFormClose}

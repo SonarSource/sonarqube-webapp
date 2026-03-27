@@ -28,6 +28,8 @@ import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getKeyboardShortcutEnabled } from '~sq-server-commons/helpers/preferences';
 
+import { FormattedMessage } from 'react-intl';
+
 type Section = {
   rows: Array<{ command: string; description: string }>;
   subTitle: string;
@@ -203,7 +205,7 @@ export default function KeyboardShortcutsModal() {
         }}
         to="/account"
       >
-        {translate('keyboard_shortcuts_modal.disable_link')}
+        <FormattedMessage id="keyboard_shortcuts_modal.disable_link" />
       </LinkStandalone>
 
       <div className="sw-mt-4">{renderSection()}</div>

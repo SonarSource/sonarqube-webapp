@@ -33,6 +33,8 @@ import { AppState } from '~sq-server-commons/types/appstate';
 import BulkApplyTemplateModal from './BulkApplyTemplateModal';
 import DeleteModal from './DeleteModal';
 
+import { FormattedMessage } from 'react-intl';
+
 export interface Props {
   analyzedBefore: Date | undefined;
   appState: AppState;
@@ -197,7 +199,9 @@ class Search extends React.PureComponent<Props, State> {
           id="projects-provisioned"
           onCheck={this.props.onProvisionedChanged}
         >
-          <span className="sw-ml-1">{translate('provisioning.only_provisioned')}</span>
+          <span className="sw-ml-1">
+            <FormattedMessage id="provisioning.only_provisioned" />
+          </span>
           <HelpTooltip
             className="sw-ml-2"
             overlay={translate('provisioning.only_provisioned.tooltip')}
@@ -249,7 +253,7 @@ class Search extends React.PureComponent<Props, State> {
               isDisabled={this.props.selection.length === 0}
               onClick={this.handleBulkApplyTemplateClick}
             >
-              {translate('permission_templates.bulk_apply_permission_template')}
+              <FormattedMessage id="permission_templates.bulk_apply_permission_template" />
             </Button>
             {this.props.qualifiers === 'TRK' && (
               <Tooltip
@@ -265,13 +269,12 @@ class Search extends React.PureComponent<Props, State> {
                   onClick={this.handleDeleteClick}
                   variety={ButtonVariety.Danger}
                 >
-                  {translate('delete')}
+                  <FormattedMessage id="delete" />
                 </Button>
               </Tooltip>
             )}
           </div>
         </div>
-
         {this.state.bulkApplyTemplateModal && (
           <BulkApplyTemplateModal
             analyzedBefore={this.props.analyzedBefore}
@@ -283,7 +286,6 @@ class Search extends React.PureComponent<Props, State> {
             total={this.props.total}
           />
         )}
-
         {this.state.deleteModal && (
           <DeleteModal
             analyzedBefore={this.props.analyzedBefore}

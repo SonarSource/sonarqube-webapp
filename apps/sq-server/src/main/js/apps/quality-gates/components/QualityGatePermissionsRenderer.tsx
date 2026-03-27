@@ -20,8 +20,8 @@
 
 import { Heading, Spinner } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
+import { FormattedMessage } from 'react-intl';
 import { Table, TableRowInteractive } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { Group } from '~sq-server-commons/types/quality-gates';
 import { QualityGate } from '~sq-server-commons/types/types';
 import { UserBase } from '~sq-server-commons/types/users';
@@ -44,9 +44,11 @@ export default function QualityGatePermissionsRenderer(props: QualityGatePermiss
   return (
     <div data-testid="quality-gate-permissions">
       <Heading as="h3" hasMarginBottom>
-        {translate('quality_gates.permissions')}
+        <FormattedMessage id="quality_gates.permissions" />
       </Heading>
-      <p className="sw-typo-default">{translate('quality_gates.permissions.help')}</p>
+      <p className="sw-typo-default">
+        <FormattedMessage id="quality_gates.permissions.help" />
+      </p>
       <div className={classNames({ 'sw-my-2': users.length + groups.length > 0 })}>
         <Spinner isLoading={loading}>
           <Table columnCount={3} columnWidths={['40px', 'auto', '1%']} width="100%">
@@ -63,7 +65,6 @@ export default function QualityGatePermissionsRenderer(props: QualityGatePermiss
           </Table>
         </Spinner>
       </div>
-
       <QualityGatePermissionsAddModal
         onSubmit={props.onSubmitAddPermission}
         qualityGate={qualityGate}

@@ -24,6 +24,8 @@ import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import { getCookie } from '~sq-server-commons/helpers/cookies';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
+import { FormattedMessage } from 'react-intl';
+
 export default function Unauthorized() {
   const message = decodeURIComponent(getCookie('AUTHENTICATION-ERROR') || '');
   return (
@@ -33,17 +35,21 @@ export default function Unauthorized() {
         <div className="sw-typo-lg sw-flex sw-justify-center" id="nonav">
           <Card className="sw-w-abs-500 sw-my-40 sw-text-center">
             <Card.Body>
-              <p id="unauthorized">{translate('unauthorized.message')}</p>
+              <p id="unauthorized">
+                <FormattedMessage id="unauthorized.message" />
+              </p>
 
               {Boolean(message) && (
                 <p className="sw-mt-4">
-                  {translate('unauthorized.reason')}
+                  <FormattedMessage id="unauthorized.reason" />
                   <br /> {message}
                 </p>
               )}
 
               <div className="sw-mt-8">
-                <LinkStandalone to="/">{translate('layout.home')}</LinkStandalone>
+                <LinkStandalone to="/">
+                  <FormattedMessage id="layout.home" />
+                </LinkStandalone>
               </div>
             </Card.Body>
           </Card>

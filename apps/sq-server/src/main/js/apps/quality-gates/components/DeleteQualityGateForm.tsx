@@ -50,7 +50,7 @@ export default function DeleteQualityGateForm({ qualityGate, children }: Readonl
       }
       primaryButton={
         <Button hasAutoFocus onClick={onDelete} type="submit" variety={ButtonVariety.Danger}>
-          {translate('delete')}
+          <FormattedMessage id="delete" />
         </Button>
       }
       title={translate('quality_gates.delete')}

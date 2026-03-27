@@ -25,6 +25,8 @@ import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Release, Update } from '~sq-server-commons/types/plugins';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   release: Release;
   update: Update;
@@ -49,7 +51,9 @@ export default function PluginChangeLogItem({ release, update }: Props) {
           <DateFormatter date={release.date} />
         </Text>
         {release.changeLogUrl && (
-          <Link to={release.changeLogUrl}>{translate('marketplace.release_notes')}</Link>
+          <Link to={release.changeLogUrl}>
+            <FormattedMessage id="marketplace.release_notes" />
+          </Link>
         )}
       </div>
       <p>{release.description}</p>

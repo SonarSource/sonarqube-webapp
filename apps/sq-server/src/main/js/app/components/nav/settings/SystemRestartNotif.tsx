@@ -20,7 +20,6 @@
 
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, Link } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getInstance } from '~sq-server-commons/helpers/system';
 
 export default function SystemRestartNotif() {
@@ -31,7 +30,11 @@ export default function SystemRestartNotif() {
           id="system.instance_restarting"
           values={{
             instance: getInstance(),
-            link: <Link to="/admin/background_tasks">{translate('background_tasks.page')}</Link>,
+            link: (
+              <Link to="/admin/background_tasks">
+                <FormattedMessage id="background_tasks.page" />
+              </Link>
+            ),
           }}
         />
       </span>

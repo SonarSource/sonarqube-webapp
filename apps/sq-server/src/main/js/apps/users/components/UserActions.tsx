@@ -32,6 +32,8 @@ import DeactivateForm from './DeactivateForm';
 import PasswordForm from './PasswordForm';
 import UserForm from './UserForm';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   manageProvider: Provider | undefined;
   user: RestUserDetailed;
@@ -66,7 +68,7 @@ export default function UserActions(props: Readonly<Props>) {
             {user.local && (
               <PasswordForm user={user}>
                 <DropdownMenu.ItemButton className="it__user-change-password" key="change_password">
-                  {translate('my_profile.password.title')}
+                  <FormattedMessage id="my_profile.password.title" />
                 </DropdownMenu.ItemButton>
               </PasswordForm>
             )}
@@ -80,7 +82,7 @@ export default function UserActions(props: Readonly<Props>) {
                   setOpenForm('deactivate');
                 }}
               >
-                {translate('users.deactivate')}
+                <FormattedMessage id="users.deactivate" />
               </DropdownMenu.ItemButtonDestructive>
             )}
           </>
@@ -94,7 +96,6 @@ export default function UserActions(props: Readonly<Props>) {
           variety={ButtonVariety.DefaultGhost}
         />
       </DropdownMenu>
-
       {openForm === 'deactivate' && isUserActive(user) && (
         <DeactivateForm
           onClose={() => {

@@ -48,17 +48,17 @@ export default function AzureForm(props: AzureFormProps) {
       <AlmBindingDefinitionFormField
         help={
           <>
-            {translate('settings.almintegration.form.url.azure.help1')}
+            <FormattedMessage id="settings.almintegration.form.url.azure.help1" />
             <br />
             <em>https://ado.your-company.com/your_collection</em>
             <br />
             <br />
-            {translate('settings.almintegration.form.url.azure.help2')}
+            <FormattedMessage id="settings.almintegration.form.url.azure.help2" />
             <br />
             <em>https://dev.azure.com/your_organization</em>
             <br />
             <br />
-            {translate('settings.almintegration.form.url.pat_warning')}
+            <FormattedMessage id="settings.almintegration.form.url.pat_warning" />
           </>
         }
         id="url.azure"
@@ -77,11 +77,15 @@ export default function AzureForm(props: AzureFormProps) {
                   target="_blank"
                   to="https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate"
                 >
-                  {translate('settings.almintegration.form.personal_access_token.azure.help.url')}
+                  <FormattedMessage id="settings.almintegration.form.personal_access_token.azure.help.url" />
                 </Link>
               ),
               permission: <strong>{'Code > Read & Write'}</strong>,
-              doc_link: <Link to={toStatic}>{translate('learn_more')}</Link>,
+              doc_link: (
+                <Link to={toStatic}>
+                  <FormattedMessage id="learn_more" />
+                </Link>
+              ),
             }}
           />
         }

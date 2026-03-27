@@ -73,7 +73,9 @@ export function AlmBindingDefinitionFormField<B extends AlmBindingDefinitionBase
     >
       {!showField && overwriteOnly && (
         <div className="sw-flex sw-items-center">
-          <p className="sw-mr-2">{translate('settings.almintegration.form.secret.field')}</p>
+          <p className="sw-mr-2">
+            <FormattedMessage id="settings.almintegration.form.secret.field" />
+          </p>
           <Button
             aria-label={translateWithParameters(
               'settings.almintegration.form.secret.update_field_x',
@@ -84,7 +86,7 @@ export function AlmBindingDefinitionFormField<B extends AlmBindingDefinitionBase
               setShowField(true);
             }}
           >
-            {translate('settings.almintegration.form.secret.update_field')}
+            <FormattedMessage id="settings.almintegration.form.secret.update_field" />
           </Button>
         </div>
       )}
@@ -123,7 +125,11 @@ export function AlmBindingDefinitionFormField<B extends AlmBindingDefinitionBase
             <FormattedMessage
               id="settings.almintegration.form.secret.can_encrypt"
               values={{
-                learn_more: <Link to={toStatic}>{translate('learn_more')}</Link>,
+                learn_more: (
+                  <Link to={toStatic}>
+                    <FormattedMessage id="learn_more" />
+                  </Link>
+                ),
               }}
             />
           </span>

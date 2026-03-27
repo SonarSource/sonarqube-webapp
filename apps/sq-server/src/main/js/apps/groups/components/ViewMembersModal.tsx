@@ -26,6 +26,8 @@ import { translate } from '~sq-server-commons/helpers/l10n';
 import { useGroupMembersQuery } from '~sq-server-commons/queries/group-memberships';
 import { Group } from '~sq-server-commons/types/types';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   group: Group;
   isManaged: boolean;
@@ -67,7 +69,11 @@ export default function ViewMembersModal(props: Readonly<Props>) {
                           <br />
                           <Text isSubtle>{user.login}</Text>
                         </span>
-                        {!user.managed && isManaged && <Badge>{translate('local')}</Badge>}
+                        {!user.managed && isManaged && (
+                          <Badge>
+                            <FormattedMessage id="local" />
+                          </Badge>
+                        )}
                       </span>
                     </span>
                   </li>

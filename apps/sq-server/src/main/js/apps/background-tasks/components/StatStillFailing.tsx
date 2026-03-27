@@ -23,6 +23,8 @@ import { HelperHintIcon, StandoutLink } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 
+import { FormattedMessage } from 'react-intl';
+
 export interface Props {
   failingCount?: number;
   onShowFailing: (e: React.SyntheticEvent<HTMLAnchorElement>) => void;
@@ -46,7 +48,9 @@ export default function StatStillFailing({ failingCount, onShowFailing }: Readon
       ) : (
         <span className="sw-typo-lg-semibold">{failingCount}</span>
       )}
-      <span className="sw-ml-1">{translate('background_tasks.failures')}</span>
+      <span className="sw-ml-1">
+        <FormattedMessage id="background_tasks.failures" />
+      </span>
       <HelpTooltip className="sw-ml-1" overlay={translate('background_tasks.failing_count')}>
         <HelperHintIcon />
       </HelpTooltip>

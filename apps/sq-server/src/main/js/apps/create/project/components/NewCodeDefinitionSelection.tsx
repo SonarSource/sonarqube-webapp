@@ -276,7 +276,7 @@ export default function NewCodeDefinitionSelection(props: Props) {
                 navigate(-1);
               }}
             >
-              {translate('back')}
+              <FormattedMessage id="back" />
             </Button>
             <Button
               isDisabled={!selectedDefinition?.isCompliant || isImporting}

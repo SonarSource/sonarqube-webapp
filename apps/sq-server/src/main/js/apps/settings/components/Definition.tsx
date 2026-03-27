@@ -279,7 +279,7 @@ export default function Definition(props: Readonly<Props>) {
                 <Spinner aria-busy />
 
                 <Text className="sw-ml-2" isSubtle>
-                  {translate('settings.state.saving')}
+                  <FormattedMessage id="settings.state.saving" />
                 </Text>
               </div>
             )}
@@ -297,7 +297,7 @@ export default function Definition(props: Readonly<Props>) {
 
             {!loading && !hasError && success && (
               <MessageInline variety={MessageVariety.Success}>
-                {translate('settings.state.saved')}
+                <FormattedMessage id="settings.state.saved" />
               </MessageInline>
             )}
           </div>
@@ -324,7 +324,7 @@ export default function Definition(props: Readonly<Props>) {
         }}
         primaryButton={
           <Button onClick={handleSave} variety={ButtonVariety.Primary}>
-            {translate('confirm')}
+            <FormattedMessage id="confirm" />
           </Button>
         }
         secondaryButton={
@@ -333,7 +333,7 @@ export default function Definition(props: Readonly<Props>) {
               setIsOpenConfirmation(false);
             }}
           >
-            {translate('cancel')}
+            <FormattedMessage id="cancel" />
           </Button>
         }
         title={

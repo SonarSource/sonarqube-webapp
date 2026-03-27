@@ -201,7 +201,9 @@ export default function GitHubAuthenticationTab() {
           title={translate('settings.authentication.github.configuration')}
         />
         {!hasConfiguration && (
-          <div>{translate('settings.authentication.github.form.not_configured')}</div>
+          <div>
+            <FormattedMessage id="settings.authentication.github.form.not_configured" />
+          </div>
         )}
         {hasLegacyConfiguration && (
           <FlagMessage variant="warning">
@@ -211,7 +213,7 @@ export default function GitHubAuthenticationTab() {
                 values={{
                   documentation: (
                     <DocumentationLink to={DocLink.AlmGitHubAuth}>
-                      {translate('settings.authentication.github.form.legacy_configured.link')}
+                      <FormattedMessage id="settings.authentication.github.form.legacy_configured.link" />
                     </DocumentationLink>
                   ),
                 }}
@@ -246,7 +248,7 @@ export default function GitHubAuthenticationTab() {
                   values={{
                     documentation: (
                       <DocumentationLink to={DocLink.AlmGitHubAuth}>
-                        {translate('learn_more')}
+                        <FormattedMessage id="learn_more" />
                       </DocumentationLink>
                     ),
                   }}
@@ -258,7 +260,7 @@ export default function GitHubAuthenticationTab() {
                   values={{
                     documentation: (
                       <DocumentationLink to={DocLink.AlmGitHubAuth}>
-                        {translate('documentation')}
+                        <FormattedMessage id="documentation" />
                       </DocumentationLink>
                     ),
                   }}
@@ -315,7 +317,7 @@ export default function GitHubAuthenticationTab() {
                   values={{
                     documentation: (
                       <DocumentationLink to={DocLink.AlmGitHubAuth}>
-                        {translate('learn_more')}
+                        <FormattedMessage id="learn_more" />
                       </DocumentationLink>
                     ),
                   }}

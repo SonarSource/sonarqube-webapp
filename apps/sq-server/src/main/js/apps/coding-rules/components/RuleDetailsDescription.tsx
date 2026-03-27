@@ -36,6 +36,8 @@ import { translate, translateWithParameters } from '~sq-server-commons/helpers/l
 import { useUpdateRuleMutation } from '~sq-server-commons/queries/rules';
 import RemoveExtendedDescriptionModal from './RemoveExtendedDescriptionModal';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   canWrite: boolean | undefined;
   ruleDetails: RuleDetails;
@@ -77,7 +79,7 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
               setDescriptionForm(true);
             }}
           >
-            {translate('coding_rules.extend_description')}
+            <FormattedMessage id="coding_rules.extend_description" />
           </Button>
         )}
       </div>
@@ -113,7 +115,7 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
             type="submit"
             variety={ButtonVariety.Primary}
           >
-            {translate('save')}
+            <FormattedMessage id="save" />
           </Button>
 
           {ruleDetails.mdNote !== undefined && (
@@ -127,7 +129,7 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
                 }}
                 variety={ButtonVariety.DangerOutline}
               >
-                {translate('remove')}
+                <FormattedMessage id="remove" />
               </Button>
               {removeDescriptionModal && (
                 <RemoveExtendedDescriptionModal
@@ -151,7 +153,7 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
               setDescriptionForm(false);
             }}
           >
-            {translate('cancel')}
+            <FormattedMessage id="cancel" />
           </Button>
 
           <Spinner className="sw-ml-2" isLoading={updatingRule} />

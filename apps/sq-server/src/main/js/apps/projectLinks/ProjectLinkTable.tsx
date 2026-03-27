@@ -19,8 +19,8 @@
  */
 
 import { Text } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 import { ActionCell, ContentCell, Table, TableRow } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { orderLinks } from '~sq-server-commons/helpers/projectLinks';
 import { ProjectLink } from '~sq-server-commons/types/types';
 import LinkRow from './ProjectLinkRow';
@@ -32,7 +32,11 @@ interface Props {
 
 export default function ProjectLinkTable({ links, onDelete }: Readonly<Props>) {
   if (!links.length) {
-    return <Text isSubtle>{translate('project_links.no_results')}</Text>;
+    return (
+      <Text isSubtle>
+        <FormattedMessage id="project_links.no_results" />
+      </Text>
+    );
   }
 
   const orderedLinks = orderLinks(links);
@@ -43,8 +47,12 @@ export default function ProjectLinkTable({ links, onDelete }: Readonly<Props>) {
 
   const header = (
     <TableRow>
-      <ContentCell>{translate('project_links.name')}</ContentCell>
-      <ContentCell>{translate('project_links.url')}</ContentCell>
+      <ContentCell>
+        <FormattedMessage id="project_links.name" />
+      </ContentCell>
+      <ContentCell>
+        <FormattedMessage id="project_links.url" />
+      </ContentCell>
       <ActionCell>&nbsp;</ActionCell>
     </TableRow>
   );

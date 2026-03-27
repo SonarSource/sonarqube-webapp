@@ -34,6 +34,8 @@ import { ComponentMeasure, Period } from '~sq-server-commons/types/types';
 import { getMetricSubnavigationName, hasFullMeasures } from '../utils';
 import LeakPeriodLegend from './LeakPeriodLegend';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   branchLike?: BranchLike;
   component: ComponentMeasure;
@@ -81,7 +83,7 @@ export default function MeasureHeader(props: Readonly<Props>) {
                   className="it__show-history-link sw-font-semibold"
                   to={getMeasureHistoryUrl(component.key, metric.key, branchLike)}
                 >
-                  {translate('component_measures.see_metric_history')}
+                  <FormattedMessage id="component_measures.see_metric_history" />
                 </LinkStandalone>
               </span>
             </Tooltip>

@@ -23,6 +23,8 @@ import { translate } from '~sq-server-commons/helpers/l10n';
 import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 
+import { FormattedMessage } from 'react-intl';
+
 // Do not display the pending time for values smaller than this threshold (in ms)
 const MIN_PENDING_TIME_THRESHOLD = 1000;
 
@@ -38,7 +40,7 @@ export default function StatPendingTime({ pendingCount, pendingTime }: Readonly<
   return (
     <div className="sw-flex sw-items-center">
       <span className="sw-typo-lg-semibold sw-mr-1">{formatMeasure(pendingTime, 'MILLISEC')}</span>
-      {translate('background_tasks.pending_time')}
+      <FormattedMessage id="background_tasks.pending_time" />
       <HelpTooltip
         className="sw-ml-1"
         overlay={translate('background_tasks.pending_time.description')}

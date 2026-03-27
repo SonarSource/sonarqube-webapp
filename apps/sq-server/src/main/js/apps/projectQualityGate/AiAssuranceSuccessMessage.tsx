@@ -19,7 +19,7 @@
  */
 
 import { IconCheck, Text } from '@sonarsource/echoes-react';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { FormattedMessage } from 'react-intl';
 
 interface Props {
   className?: string;
@@ -30,7 +30,7 @@ export default function AiAssuranceSuccessMessage({ className }: Readonly<Props>
     <div className={className}>
       <IconCheck color="echoes-color-icon-success" />
       <Text className="sw-ml-1" colorOverride="echoes-color-text-success">
-        {translate('project_quality_gate.ai_assured_quality_gate')}
+        <FormattedMessage id="project_quality_gate.ai_assured_quality_gate" />
       </Text>
     </div>
   );

@@ -36,6 +36,8 @@ import { MeasurePageView } from '~sq-server-commons/types/measures';
 import { Component, ComponentMeasureEnhanced } from '~sq-server-commons/types/types';
 import ComponentsList from './ComponentsList';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   branchLike?: BranchLike;
   components: ComponentMeasureEnhanced[];
@@ -198,7 +200,7 @@ export default class FilesView extends React.PureComponent<Props, State> {
               className="sw-ml-4"
               onClick={this.handleShowBestMeasures}
             >
-              {translate('show_them')}
+              <FormattedMessage id="show_them" />
             </Button>
           </FlagMessage>
         )}

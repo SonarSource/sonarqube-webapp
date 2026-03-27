@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { FormattedMessage } from 'react-intl';
 import SeverityHelper from '~sq-server-commons/components/shared/SeverityHelper';
-import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   severity: string;
@@ -28,7 +28,8 @@ interface Props {
 export default function SeverityChange({ severity }: Readonly<Props>) {
   return (
     <div className="sw-whitespace-nowrap">
-      {translate('quality_profiles.severity_set_to')} <SeverityHelper severity={severity} />
+      <FormattedMessage id="quality_profiles.severity_set_to" />{' '}
+      <SeverityHelper severity={severity} />
     </div>
   );
 }

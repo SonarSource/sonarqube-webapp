@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { GreySeparator, HelperHintIcon, SubHeading } from '~design-system';
 import { whenLoggedIn } from '~sq-server-commons/components/hoc/whenLoggedIn';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -55,7 +55,9 @@ export function Profile({ currentUser }: ProfileProps) {
 
     return (
       <div className="sw-flex sw-items-center sw-mb-2">
-        <strong className="sw-typo-semibold sw-mr-1">{translate('my_profile.login')}:</strong>
+        <strong className="sw-typo-semibold sw-mr-1">
+          <FormattedMessage id="my_profile.login" />:
+        </strong>
         {currentUser.login && <span id="login">{currentUser.login}</span>}
         {isExternalProvider && <UserExternalIdentity user={currentUser} />}
       </div>
@@ -69,7 +71,9 @@ export function Profile({ currentUser }: ProfileProps) {
 
     return (
       <div className="sw-mb-2">
-        <strong className="sw-typo-semibold sw-mr-1">{translate('my_profile.email')}:</strong>
+        <strong className="sw-typo-semibold sw-mr-1">
+          <FormattedMessage id="my_profile.email" />:
+        </strong>
         <span id="email">{currentUser.email}</span>
       </div>
     );
@@ -82,7 +86,9 @@ export function Profile({ currentUser }: ProfileProps) {
 
     return (
       <>
-        <SubHeading as="h2">{translate('my_profile.groups')}</SubHeading>
+        <SubHeading as="h2">
+          <FormattedMessage id="my_profile.groups" />
+        </SubHeading>
         <ul id="groups">
           {currentUser.groups.map((group) => (
             <li className="sw-mb-2" key={group} title={group}>
@@ -107,7 +113,7 @@ export function Profile({ currentUser }: ProfileProps) {
     return (
       <>
         <SubHeading as="h2">
-          {translate('my_profile.scm_accounts')}
+          <FormattedMessage id="my_profile.scm_accounts" />
           <HelpTooltip className="sw-ml-2" overlay={translate('my_profile.scm_accounts.tooltip')}>
             <HelperHintIcon />
           </HelpTooltip>

@@ -22,6 +22,8 @@ import { ContentCell, HelperHintIcon } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   permission: {
     groupsCount: number;
@@ -38,7 +40,7 @@ export default function PermissionCell({ permission: p }: Props) {
         <ul>
           {p.withProjectCreator && (
             <li className="sw-mb-2">
-              {translate('permission_templates.project_creators')}
+              <FormattedMessage id="permission_templates.project_creators" />
               <HelpTooltip
                 className="sw-ml-2"
                 overlay={translate('permission_templates.project_creators.explanation')}

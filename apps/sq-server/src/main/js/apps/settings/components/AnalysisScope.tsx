@@ -20,10 +20,9 @@
 
 import styled from '@emotion/styled';
 import { Heading, LinkHighlight, Text } from '@sonarsource/echoes-react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { AdditionalCategoryComponentProps } from './AdditionalCategories';
 import CategoryDefinitionsList from './CategoryDefinitionsList';
 
@@ -35,7 +34,7 @@ export function AnalysisScope(props: AdditionalCategoryComponentProps) {
     <>
       <StyledGrid className="sw-pt-1 sw-px-1 sw-gap-2">
         <Heading as="h2" className="sw-col-span-2">
-          {translate('property.category.exclusions')}
+          <FormattedMessage id="property.category.exclusions" />
         </Heading>
 
         <Text className="sw-col-span-2 sw-mt-4 sw-mb-3">
@@ -73,15 +72,20 @@ export function AnalysisScope(props: AdditionalCategoryComponentProps) {
         </Text>
 
         <Text>*</Text>
-        <Text isSubtle>{translate('settings.analysis_scope.wildcards.zero_more_char')}</Text>
+        <Text isSubtle>
+          <FormattedMessage id="settings.analysis_scope.wildcards.zero_more_char" />
+        </Text>
 
         <Text>**</Text>
-        <Text isSubtle>{translate('settings.analysis_scope.wildcards.zero_more_dir')}</Text>
+        <Text isSubtle>
+          <FormattedMessage id="settings.analysis_scope.wildcards.zero_more_dir" />
+        </Text>
 
         <Text>?</Text>
-        <Text isSubtle>{translate('settings.analysis_scope.wildcards.single_char')}</Text>
+        <Text isSubtle>
+          <FormattedMessage id="settings.analysis_scope.wildcards.single_char" />
+        </Text>
       </StyledGrid>
-
       <CategoryDefinitionsList
         category={selectedCategory}
         component={component}

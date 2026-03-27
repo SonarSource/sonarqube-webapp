@@ -244,10 +244,13 @@ export default function GitHubConfigurationForm(props: Readonly<Props>) {
             <FormattedMessage id="settings.almintegration.form.save" />
           </Button>
         }
-        secondaryButton={<Button onClick={onClose}>{translate('close')}</Button>}
+        secondaryButton={
+          <Button onClick={onClose}>
+            <FormattedMessage id="close" />
+          </Button>
+        }
         title={header}
       />
-
       <ConfirmProvisioningModal
         allowUsersToSignUp={gitHubConfiguration?.allowUsersToSignUp}
         isAllowListEmpty={isEmpty(gitHubConfiguration?.allowedOrganizations)}

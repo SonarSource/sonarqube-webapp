@@ -40,6 +40,8 @@ import { TaskTypes } from '~sq-server-commons/types/tasks';
 import { Component } from '~sq-server-commons/types/types';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 
+import { FormattedMessage } from 'react-intl';
+
 export interface EmptyOverviewProps {
   branchLike?: BranchLike;
   component: Component;
@@ -91,7 +93,7 @@ export function EmptyOverview(props: Readonly<EmptyOverviewProps>) {
   if (component.qualifier === ComponentQualifier.Application) {
     return (
       <MessageCallout variety="warning">
-        {translate('provisioning.no_analysis.application')}
+        <FormattedMessage id="provisioning.no_analysis.application" />
       </MessageCallout>
     );
   } else if (!isBranch(branchLike)) {

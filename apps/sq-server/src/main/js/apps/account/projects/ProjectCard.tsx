@@ -19,7 +19,7 @@
  */
 
 import { Link, Text } from '@sonarsource/echoes-react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Card, QualityGateIndicator, SubHeading } from '~design-system';
 import DateFromNow from '~shared/components/intl/DateFromNow';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
@@ -27,7 +27,7 @@ import { QGStatus } from '~shared/types/common';
 import { MetricType } from '~shared/types/metrics';
 import MetaLink from '~sq-server-commons/components/common/MetaLink';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { orderLinks } from '~sq-server-commons/helpers/projectLinks';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { MyProject, ProjectLink } from '~sq-server-commons/types/types';
@@ -70,7 +70,9 @@ export default function ProjectCard({ project }: Readonly<Props>) {
             </DateFromNow>
           </Text>
         ) : (
-          <Text isSubtle>{translate('my_account.projects.never_analyzed')}</Text>
+          <Text isSubtle>
+            <FormattedMessage id="my_account.projects.never_analyzed" />
+          </Text>
         )}
 
         {project.qualityGate !== undefined && (
@@ -86,17 +88,13 @@ export default function ProjectCard({ project }: Readonly<Props>) {
           </div>
         )}
       </aside>
-
       <SubHeading as="h3">
         <Link highlight="subtle" to={getProjectOverviewUrl(project.key)}>
           {project.name}
         </Link>
       </SubHeading>
-
       <Text isSubtle>{project.key}</Text>
-
       {!!project.description && <div className="sw-mt-2">{project.description}</div>}
-
       {orderedLinks.length > 0 && (
         <ul className="sw-list-none sw-flex sw-flex-row sw-gap-4 sw-mt-2">
           {orderedLinks.map((link) => (

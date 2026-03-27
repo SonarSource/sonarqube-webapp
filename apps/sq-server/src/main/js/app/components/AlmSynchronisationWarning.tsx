@@ -72,7 +72,7 @@ function LastSyncAlert({ info, provisionedBy, short }: Readonly<LastSyncProps>) 
                     className="sw-ml-2"
                     to={`/admin/settings?category=authentication&tab=${provisionedBy}`}
                   >
-                    {translate('settings.authentication.synchronization_details_link')}
+                    <FormattedMessage id="settings.authentication.synchronization_details_link" />
                   </Link>
                 ),
               }}
@@ -96,7 +96,7 @@ function LastSyncAlert({ info, provisionedBy, short }: Readonly<LastSyncProps>) 
                   className="sw-ml-2"
                   to={`/admin/settings?category=authentication&tab=${provisionedBy}`}
                 >
-                  {translate('settings.authentication.synchronization_details_link')}
+                  <FormattedMessage id="settings.authentication.synchronization_details_link" />
                 </Link>
               ),
             }}

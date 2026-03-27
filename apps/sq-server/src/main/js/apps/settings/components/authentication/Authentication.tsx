@@ -30,7 +30,6 @@ import { ExtendedSettingDefinition } from '~shared/types/settings';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { Feature } from '~sq-server-commons/types/features';
 import BitbucketAuthenticationTab from './BitbucketAuthenticationTab';
@@ -103,8 +102,9 @@ export function Authentication(props: Props & WithAvailableFeaturesProps) {
 
   return (
     <>
-      <SubTitle as="h3">{translate('settings.authentication.title')}</SubTitle>
-
+      <SubTitle as="h3">
+        <FormattedMessage id="settings.authentication.title" />
+      </SubTitle>
       {props.hasFeature(Feature.LoginMessage) && (
         <FlagMessage variant="info">
           <div>
@@ -113,7 +113,7 @@ export function Authentication(props: Props & WithAvailableFeaturesProps) {
               values={{
                 link: (
                   <Link to="/admin/settings?category=general#sonar.login.message">
-                    {translate('settings.authentication.custom_message_information.link')}
+                    <FormattedMessage id="settings.authentication.custom_message_information.link" />
                   </Link>
                 ),
               }}
@@ -121,11 +121,9 @@ export function Authentication(props: Props & WithAvailableFeaturesProps) {
           </div>
         </FlagMessage>
       )}
-
       <Text as="p" className="sw-my-6">
-        {translate('settings.authentication.description')}
+        <FormattedMessage id="settings.authentication.description" />
       </Text>
-
       <ToggleButton
         onChange={(tab: AuthenticationTabs) => {
           setSearchParams({ ...searchParamsToQuery(query), tab });

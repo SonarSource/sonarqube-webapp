@@ -26,6 +26,8 @@ import { translate, translateWithParameters } from '~sq-server-commons/helpers/l
 import { Setting } from '~sq-server-commons/types/settings';
 import { getDefaultValue, getPropertyName, isEmptyValue } from '../utils';
 
+import { FormattedMessage } from 'react-intl';
+
 type Props = {
   changedValue?: string | string[] | boolean;
   definition: ExtendedSettingDefinition;
@@ -66,14 +68,16 @@ export default class DefinitionActions extends React.PureComponent<Props, State>
       <Modal
         body={
           <form id={MODAL_FORM_ID} onSubmit={this.handleSubmit}>
-            <p>{translate('settings.reset_confirm.description')}</p>
+            <p>
+              <FormattedMessage id="settings.reset_confirm.description" />
+            </p>
           </form>
         }
         headerTitle={header}
         onClose={this.handleClose}
         primaryButton={
           <Button form={MODAL_FORM_ID} type="submit" variety={ButtonVariety.Danger}>
-            {translate('reset_verb')}
+            <FormattedMessage id="reset_verb" />
           </Button>
         }
         secondaryButtonLabel={translate('cancel')}
@@ -102,7 +106,7 @@ export default class DefinitionActions extends React.PureComponent<Props, State>
               onClick={this.props.onSave}
               variety={ButtonVariety.Primary}
             >
-              {translate('save')}
+              <FormattedMessage id="save" />
             </Button>
           )}
 
@@ -114,25 +118,23 @@ export default class DefinitionActions extends React.PureComponent<Props, State>
               )}
               onClick={this.handleReset}
             >
-              {translate('reset_verb')}
+              <FormattedMessage id="reset_verb" />
             </Button>
           )}
 
           {showCancel && (
             <Button ariaLabel={cancelButtonLabel} onClick={this.props.onCancel}>
-              {translate('cancel')}
+              <FormattedMessage id="cancel" />
             </Button>
           )}
         </ButtonGroup>
-
         {showReset && (
           <Text isSubtle>
-            {translate('default')}
+            <FormattedMessage id="default" />
             {': '}
             {getDefaultValue(setting)}
           </Text>
         )}
-
         {this.state.reseting && this.renderModal()}
       </div>
     );

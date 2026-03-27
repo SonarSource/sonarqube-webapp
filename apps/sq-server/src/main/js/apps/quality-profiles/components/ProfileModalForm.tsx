@@ -77,9 +77,9 @@ export default function ProfileModalForm(props: Readonly<ProfileModalFormProps>)
           {showBuiltInWarning && (
             <MessageCallout className="sw-mb-4" variety={MessageVariety.Info}>
               <div className="sw-flex sw-flex-col">
-                {translate('quality_profiles.no_built_in_updates_warning.new_profile')}
+                <FormattedMessage id="quality_profiles.no_built_in_updates_warning.new_profile" />
                 <span className="sw-mt-2">
-                  {translate('quality_profiles.no_built_in_updates_warning.new_profile.2')}
+                  <FormattedMessage id="quality_profiles.no_built_in_updates_warning.new_profile.2" />
                 </span>
               </div>
             </MessageCallout>

@@ -37,7 +37,6 @@ import { MetricKey } from '~shared/types/metrics';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   getLocalizedMetricNameNoDiffMetric,
   getOperatorLabel,
@@ -209,7 +208,7 @@ export default function UpdateConditionsFromOtherModeModal({
             setOpen(false);
           }}
         >
-          {translate('cancel')}
+          <FormattedMessage id="cancel" />
         </Button>
       }
       size={isSingleMetric ? ModalSize.Default : ModalSize.Wide}

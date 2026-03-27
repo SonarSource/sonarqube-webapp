@@ -63,7 +63,6 @@ export default function StatusUpdateSuccessModal(props: StatusUpdateSuccessModal
       <h2 className="sw-heading-lg sw-text-center">
         {translateWithParameters('hotspots.successful_status_change_to_x', statusLabel)}
       </h2>
-
       <div className="sw-text-center sw-mt-8 sw-typo-default">
         <FormattedMessage
           id="hotspots.find_in_status_filter_x"
@@ -90,10 +89,9 @@ export default function StatusUpdateSuccessModal(props: StatusUpdateSuccessModal
       </div>
       <Checkbox checked={isChecked} className="sw-mt-8" onCheck={handleCheckboxChange}>
         <Text className="sw-ml-2" isSubtle>
-          {translate('hotspots.success_dialog.do_not_show')}
+          <FormattedMessage id="hotspots.success_dialog.do_not_show" />
         </Text>
       </Checkbox>
-
       <ButtonGroup className="sw-mt-4">
         <Button
           onClick={() => {
@@ -104,7 +102,7 @@ export default function StatusUpdateSuccessModal(props: StatusUpdateSuccessModal
           {translateWithParameters('hotspots.see_x_hotspots', statusLabel)}
         </Button>
         <Button onClick={props.onClose} variety={ButtonVariety.Primary}>
-          {translate('hotspots.continue_to_next_hotspot')}
+          <FormattedMessage id="hotspots.continue_to_next_hotspot" />
         </Button>
       </ButtonGroup>
     </Modal>

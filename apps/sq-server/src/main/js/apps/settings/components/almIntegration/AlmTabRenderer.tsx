@@ -89,7 +89,7 @@ export default function AlmTabRenderer(props: Readonly<AlmTabRendererProps>) {
                 onClick={props.onCreate}
                 variety={ButtonVariety.Primary}
               >
-                {translate('settings.almintegration.create')}
+                <FormattedMessage id="settings.almintegration.create" />
               </Button>
             </CreationTooltip>
           </div>
@@ -129,7 +129,7 @@ export default function AlmTabRenderer(props: Readonly<AlmTabRendererProps>) {
                       search: `category=authentication&tab=${almTab}`,
                     }}
                   >
-                    {translate('property.category.authentication')}
+                    <FormattedMessage id="property.category.authentication" />
                   </Link>
                 ),
               }}

@@ -27,6 +27,8 @@ import { RecentHistory } from '~shared/helpers/recent-history';
 import { logOut } from '~sq-server-commons/api/auth';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
+import { FormattedMessage } from 'react-intl';
+
 export default function Logout() {
   React.useEffect(() => {
     logOut()
@@ -42,7 +44,9 @@ export default function Logout() {
   return (
     <Layout.PageGrid>
       <Layout.PageContent>
-        <div className="sw-typo-lg sw-mt-40 sw-text-center">{translate('logging_out')}</div>
+        <div className="sw-typo-lg sw-mt-40 sw-text-center">
+          <FormattedMessage id="logging_out" />
+        </div>
       </Layout.PageContent>
       <GlobalFooter hideLoggedInInfo />
     </Layout.PageGrid>

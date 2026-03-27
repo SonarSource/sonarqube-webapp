@@ -28,6 +28,8 @@ import { translate } from '~sq-server-commons/helpers/l10n';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
 import ChangeProjectsForm from './ChangeProjectsForm';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   profile: Profile;
 }
@@ -121,8 +123,10 @@ export default class ProfileProjects extends React.PureComponent<Props, State> {
   renderDefault() {
     return (
       <>
-        <Badge className="sw-mr-2">{translate('default')}</Badge>
-        {translate('quality_profiles.projects_for_default')}
+        <Badge className="sw-mr-2">
+          <FormattedMessage id="default" />
+        </Badge>
+        <FormattedMessage id="quality_profiles.projects_for_default" />
       </>
     );
   }
@@ -180,7 +184,9 @@ export default class ProfileProjects extends React.PureComponent<Props, State> {
         <div className="sw-flex sw-items-center sw-gap-3 sw-mb-6">
           {
             // eslint-disable-next-line local-rules/use-metrickey-enum
-            <SubTitle className="sw-mb-0">{translate('projects')}</SubTitle>
+            <SubTitle className="sw-mb-0">
+              <FormattedMessage id="projects" />
+            </SubTitle>
           }
           {profile.actions?.associateProjects && (
             <Button
@@ -188,13 +194,11 @@ export default class ProfileProjects extends React.PureComponent<Props, State> {
               isDisabled={hasNoActiveRules}
               onClick={this.handleChangeClick}
             >
-              {translate('quality_profiles.change_projects')}
+              <FormattedMessage id="quality_profiles.change_projects" />
             </Button>
           )}
         </div>
-
         {profile.isDefault ? this.renderDefault() : this.renderProjects()}
-
         {this.state.formOpen && <ChangeProjectsForm onClose={this.closeForm} profile={profile} />}
       </section>
     );

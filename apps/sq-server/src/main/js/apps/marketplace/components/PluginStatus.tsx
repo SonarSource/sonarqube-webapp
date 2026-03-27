@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { FormattedMessage } from 'react-intl';
 import { FlagMessage } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { Plugin } from '~sq-server-commons/types/plugins';
 import PluginActions from './PluginActions';
 
@@ -32,13 +32,25 @@ interface Props {
 export default function PluginStatus({ plugin, refreshPending, status }: Readonly<Props>) {
   switch (status) {
     case 'installing':
-      return <FlagMessage variant="info">{translate('marketplace.install_pending')}</FlagMessage>;
+      return (
+        <FlagMessage variant="info">
+          <FormattedMessage id="marketplace.install_pending" />
+        </FlagMessage>
+      );
 
     case 'updating':
-      return <FlagMessage variant="info">{translate('marketplace.update_pending')}</FlagMessage>;
+      return (
+        <FlagMessage variant="info">
+          <FormattedMessage id="marketplace.update_pending" />
+        </FlagMessage>
+      );
 
     case 'removing':
-      return <FlagMessage variant="info">{translate('marketplace.uninstall_pending')}</FlagMessage>;
+      return (
+        <FlagMessage variant="info">
+          <FormattedMessage id="marketplace.uninstall_pending" />
+        </FlagMessage>
+      );
 
     default:
       return <PluginActions plugin={plugin} refreshPending={refreshPending} />;

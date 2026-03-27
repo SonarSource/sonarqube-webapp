@@ -19,10 +19,10 @@
  */
 
 import { Text } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
 import { Badge, getTextColor } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { IdentityProvider, Provider } from '~sq-server-commons/types/types';
 import { RestUserDetailed } from '~sq-server-commons/types/users';
 
@@ -47,7 +47,11 @@ export default function UserListItemIdentity({ identityProvider, user, managePro
       {!user.local && user.externalProvider !== 'sonarqube' && (
         <ExternalProvider identityProvider={identityProvider} user={user} />
       )}
-      {!user.managed && manageProvider !== undefined && <Badge>{translate('local')}</Badge>}
+      {!user.managed && manageProvider !== undefined && (
+        <Badge>
+          <FormattedMessage id="local" />
+        </Badge>
+      )}
     </div>
   );
 }

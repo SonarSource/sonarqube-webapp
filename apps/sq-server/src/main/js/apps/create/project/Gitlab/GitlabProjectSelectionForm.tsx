@@ -61,7 +61,7 @@ export default function GitlabProjectSelectionForm(
                     search: queryToSearchString({ mode: CreateProjectModes.GitLab, resetPat: 1 }),
                   }}
                 >
-                  {translate('onboarding.create_project.update_your_token')}
+                  <FormattedMessage id="onboarding.create_project.update_your_token" />
                 </Link>
               ),
             }}
@@ -82,10 +82,11 @@ export default function GitlabProjectSelectionForm(
         size="large"
         value={searchQuery}
       />
-
       {projects.length === 0 ? (
         <div className="sw-py-6 sw-px-2">
-          <Text isHighlighted>{translate('no_results')}</Text>
+          <Text isHighlighted>
+            <FormattedMessage id="no_results" />
+          </Text>
         </div>
       ) : (
         <ul className="sw-flex sw-flex-col sw-gap-3">

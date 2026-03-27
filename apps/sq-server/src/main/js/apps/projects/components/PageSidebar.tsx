@@ -21,9 +21,9 @@
 import { Button, ButtonVariety, Divider, Heading } from '@sonarsource/echoes-react';
 import { flatMap } from 'lodash';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { MetricKey } from '~shared/types/metrics';
 import { RawQuery } from '~shared/types/router';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { hasFilterParams } from '~sq-server-commons/helpers/projects';
 import { ProjectsQuery } from '~sq-server-commons/types/projects';
 import CoverageFilter from '../filters/CoverageFilter';
@@ -77,29 +77,24 @@ export default function PageSidebar(props: PageSidebarProps) {
   return (
     <>
       <FavoriteFilter />
-
       <div className="sw-flex sw-items-center sw-justify-between">
         <Heading as="h2" ref={heading} size="medium">
-          {translate('filters')}
+          <FormattedMessage id="filters" />
         </Heading>
 
         {isFiltered && (
           <Button onClick={clearAll} variety={ButtonVariety.DangerOutline}>
-            {translate('clear_all_filters')}
+            <FormattedMessage id="clear_all_filters" />
           </Button>
         )}
       </div>
-
       <Divider className="sw-my-2" />
-
       <QualityGateFacet
         {...facetProps}
         facet={getFacet(facets, 'gate')}
         value={query.gate?.split(',')}
       />
-
       <Divider className="sw-my-2" />
-
       {!isLeakView && (
         <>
           <RatingFilter
@@ -218,9 +213,7 @@ export default function PageSidebar(props: PageSidebarProps) {
           />
         </>
       )}
-
       <Divider className="sw-my-2" />
-
       <LanguagesFilter
         {...facetProps}
         facet={getFacet(facets, 'languages')}
@@ -228,9 +221,7 @@ export default function PageSidebar(props: PageSidebarProps) {
         query={query}
         value={query.languages}
       />
-
       <Divider className="sw-my-2" />
-
       {applicationsEnabled && (
         <>
           <QualifierFacet

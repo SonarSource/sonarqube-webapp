@@ -46,6 +46,8 @@ import { CurrentUser } from '~sq-server-commons/types/users';
 import TokensFormItem, { TokenDeleteConfirmation } from './TokensFormItem';
 import TokensFormNewToken from './TokensFormNewToken';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   currentUser: CurrentUser;
   deleteConfirmation: TokenDeleteConfirmation;
@@ -182,26 +184,38 @@ export function TokensForm(props: Readonly<Props>) {
 
   const tableHeader = (
     <TableRow>
-      <ContentCell>{translate('name')}</ContentCell>
-      <ContentCell>{translate('my_account.token_type')}</ContentCell>
-      <ContentCell>{translate('my_account.project_name')}</ContentCell>
-      <ContentCell>{translate('my_account.tokens_last_usage')}</ContentCell>
-      <ContentCell>{translate('created')}</ContentCell>
-      <ContentCell>{translate('my_account.tokens.expiration')}</ContentCell>
+      <ContentCell>
+        <FormattedMessage id="name" />
+      </ContentCell>
+      <ContentCell>
+        <FormattedMessage id="my_account.token_type" />
+      </ContentCell>
+      <ContentCell>
+        <FormattedMessage id="my_account.project_name" />
+      </ContentCell>
+      <ContentCell>
+        <FormattedMessage id="my_account.tokens_last_usage" />
+      </ContentCell>
+      <ContentCell>
+        <FormattedMessage id="created" />
+      </ContentCell>
+      <ContentCell>
+        <FormattedMessage id="my_account.tokens.expiration" />
+      </ContentCell>
     </TableRow>
   );
 
   return (
     <>
       <GreySeparator className="sw-my-4" />
-
       <Heading as="h2" hasMarginBottom>
-        {translate('users.tokens.generate')}
+        <FormattedMessage id="users.tokens.generate" />
       </Heading>
-
       <form autoComplete="off" className="sw-flex sw-items-center" onSubmit={handleGenerateToken}>
         <div className="sw-flex sw-flex-col sw-mr-2">
-          <Label htmlFor="token-name">{translate('users.tokens.name')}</Label>
+          <Label htmlFor="token-name">
+            <FormattedMessage id="users.tokens.name" />
+          </Label>
 
           <InputField
             className="sw-mt-2 sw-w-auto it__token-name"
@@ -218,7 +232,9 @@ export function TokensForm(props: Readonly<Props>) {
         {displayTokenTypeInput && (
           <>
             <div className="sw-flex sw-flex-col sw-mr-2">
-              <Label htmlFor="token-select-type">{translate('users.tokens.type')}</Label>
+              <Label htmlFor="token-select-type">
+                <FormattedMessage id="users.tokens.type" />
+              </Label>
 
               <InputSelect
                 className="sw-mt-2 it__token-type"
@@ -237,7 +253,9 @@ export function TokensForm(props: Readonly<Props>) {
 
             {newTokenType === TokenType.Project && (
               <div className="sw-flex sw-flex-col sw-mr-2">
-                <Label htmlFor="token-select-project">{translate('users.tokens.project')}</Label>
+                <Label htmlFor="token-select-project">
+                  <FormattedMessage id="users.tokens.project" />
+                </Label>
 
                 <InputSelect
                   className="sw-mt-2 it__project"
@@ -253,7 +271,9 @@ export function TokensForm(props: Readonly<Props>) {
         )}
 
         <div className="sw-flex sw-flex-col sw-mr-2">
-          <Label htmlFor="token-select-expiration">{translate('users.tokens.expires_in')}</Label>
+          <Label htmlFor="token-select-expiration">
+            <FormattedMessage id="users.tokens.expires_in" />
+          </Label>
 
           <InputSelect
             className="sw-mt-2"
@@ -272,14 +292,11 @@ export function TokensForm(props: Readonly<Props>) {
           type="submit"
           variety={ButtonVariety.Primary}
         >
-          {translate('users.generate')}
+          <FormattedMessage id="users.generate" />
         </Button>
       </form>
-
       {newToken && <TokensFormNewToken token={newToken} />}
-
       <GreySeparator className="sw-mb-4 sw-mt-6" />
-
       <Spinner isLoading={loading}>
         <Table
           className="sw-min-h-[160px] sw-w-full"
@@ -290,7 +307,9 @@ export function TokensForm(props: Readonly<Props>) {
         >
           {tokens && tokens.length <= 0 ? (
             <TableRow>
-              <ContentCell colSpan={7}>{translate('users.no_tokens')}</ContentCell>
+              <ContentCell colSpan={7}>
+                <FormattedMessage id="users.no_tokens" />
+              </ContentCell>
             </TableRow>
           ) : (
             tokens?.map((token) => (

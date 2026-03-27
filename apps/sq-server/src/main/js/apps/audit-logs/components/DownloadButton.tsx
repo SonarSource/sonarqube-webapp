@@ -20,8 +20,8 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { endOfDay, startOfDay, subDays } from 'date-fns';
+import { FormattedMessage } from 'react-intl';
 import { now } from '~sq-server-commons/helpers/dates';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { RangeOption } from '~sq-server-commons/types/audit-logs';
 import '../style.css';
 
@@ -84,15 +84,20 @@ export default function DownloadButton(props: Readonly<DownloadButtonProps>) {
         to={downloadUrl}
         variety={ButtonVariety.Primary}
       >
-        {translate('download_verb')}
+        <FormattedMessage id="download_verb" />
       </Button>
-
       {downloadStarted && (
         <div className="sw-mt-2">
-          <p>{translate('audit_logs.download_start.sentence.1')}</p>
-          <p>{translate('audit_logs.download_start.sentence.2')}</p>
+          <p>
+            <FormattedMessage id="audit_logs.download_start.sentence.1" />
+          </p>
+          <p>
+            <FormattedMessage id="audit_logs.download_start.sentence.2" />
+          </p>
           <br />
-          <p>{translate('audit_logs.download_start.sentence.3')}</p>
+          <p>
+            <FormattedMessage id="audit_logs.download_start.sentence.3" />
+          </p>
         </div>
       )}
     </>

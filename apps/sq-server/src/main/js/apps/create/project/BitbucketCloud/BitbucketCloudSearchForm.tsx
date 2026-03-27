@@ -64,7 +64,7 @@ export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchForm
                   }),
                 }}
               >
-                {translate('onboarding.create_project.update_your_token')}
+                <FormattedMessage id="onboarding.create_project.update_your_token" />
               </Link>
             ),
           }}
@@ -85,10 +85,11 @@ export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchForm
           value={searchQuery}
         />
       </div>
-
       {repositories.length === 0 ? (
         <div className="sw-py-6 sw-px-2">
-          <Text className="sw-typo-default">{translate('no_results')}</Text>
+          <Text className="sw-typo-default">
+            <FormattedMessage id="no_results" />
+          </Text>
         </div>
       ) : (
         <ul className="sw-flex sw-flex-col sw-gap-3">
@@ -107,7 +108,6 @@ export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchForm
           ))}
         </ul>
       )}
-
       <ListFooter
         className="sw-mb-10"
         count={repositories.length}

@@ -59,6 +59,8 @@ import {
 } from './CustomRuleFormFieldsCCT';
 import { SeveritySelect } from './SeveritySelect';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   customRule?: RuleDetails;
   isOpen: boolean;
@@ -201,7 +203,9 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
     () =>
       customRule ? (
         <div>
-          <Heading as="h4">{translate('key')}</Heading>
+          <Heading as="h4">
+            <FormattedMessage id="key" />
+          </Heading>
           <span title={customRule.key}>{customRule.key}</span>
         </div>
       ) : (
@@ -411,7 +415,7 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
                 data-testid="coding-rules-reactivate"
                 variety={MessageVariety.Warning}
               >
-                {translate('coding_rules.reactivate.help')}
+                <FormattedMessage id="coding_rules.reactivate.help" />
               </MessageInline>
             </div>
           )}
@@ -472,7 +476,7 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
       }
       secondaryButton={
         <Button onClick={props.onClose} variety={ButtonVariety.Default}>
-          {translate('cancel')}
+          <FormattedMessage id="cancel" />
         </Button>
       }
       size={ModalSize.Wide}

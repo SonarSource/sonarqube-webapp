@@ -27,6 +27,8 @@ import { Hotspot, HotspotStatusOption } from '~sq-server-commons/types/security-
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 import StatusSelection from './StatusSelection';
 
+import { FormattedMessage } from 'react-intl';
+
 export interface StatusProps {
   currentUser: CurrentUser;
   hotspot: Hotspot;
@@ -53,10 +55,9 @@ export function StatusReviewButton(props: StatusProps) {
           }}
           variety={ButtonVariety.Primary}
         >
-          {translate('hotspots.status.review')}
+          <FormattedMessage id="hotspots.status.review" />
         </Button>
       </Tooltip>
-
       {isOpen && (
         <StatusSelection
           hotspot={hotspot}

@@ -261,7 +261,9 @@ export default function GitLabAuthenticationTab() {
           title={translate('settings.authentication.gitlab.configuration')}
         />
         {!configuration && (
-          <div>{translate('settings.authentication.gitlab.form.not_configured')}</div>
+          <div>
+            <FormattedMessage id="settings.authentication.gitlab.form.not_configured" />
+          </div>
         )}
         {configuration && (
           <>
@@ -299,7 +301,7 @@ export default function GitLabAuthenticationTab() {
                   values={{
                     documentation: (
                       <DocumentationLink to={DocLink.AlmGitLabAuth}>
-                        {translate('documentation')}
+                        <FormattedMessage id="documentation" />
                       </DocumentationLink>
                     ),
                   }}

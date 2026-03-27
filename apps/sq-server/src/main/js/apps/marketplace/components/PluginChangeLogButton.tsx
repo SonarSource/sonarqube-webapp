@@ -21,9 +21,11 @@
 import { Button } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { DropdownToggler } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { Release, Update } from '~sq-server-commons/types/plugins';
 import PluginChangeLog from './PluginChangeLog';
+
+import { FormattedMessage } from 'react-intl';
 
 interface Props {
   pluginName: string;
@@ -54,7 +56,7 @@ export default function PluginChangeLogButton({ pluginName, release, update }: R
           setOpen((open) => !open);
         }}
       >
-        {translate('see_changelog')}
+        <FormattedMessage id="see_changelog" />
       </Button>
     </DropdownToggler>
   );

@@ -25,6 +25,8 @@ import { setLogLevel } from '~sq-server-commons/api/system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { LOGS_LEVELS } from '../utils';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   infoMsg: string;
   logLevel: string;
@@ -86,7 +88,7 @@ export default class ChangeLogLevelForm extends React.PureComponent<Props, State
             </FlagMessage>
             {newLevel !== 'INFO' && (
               <FlagMessage className="sw-mt-2" variant="warning">
-                {translate('system.log_level.warning')}
+                <FormattedMessage id="system.log_level.warning" />
               </FlagMessage>
             )}
           </form>
@@ -102,7 +104,7 @@ export default class ChangeLogLevelForm extends React.PureComponent<Props, State
             type="submit"
             variety={ButtonVariety.Primary}
           >
-            {translate('save')}
+            <FormattedMessage id="save" />
           </Button>
         }
         secondaryButtonLabel={translate('cancel')}

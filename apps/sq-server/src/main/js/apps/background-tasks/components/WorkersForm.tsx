@@ -24,6 +24,8 @@ import { FlagMessage, InputSelect, Modal } from '~design-system';
 import { setWorkerCount } from '~sq-server-commons/api/ce';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
+import { FormattedMessage } from 'react-intl';
+
 const MAX_WORKERS = 10;
 const WORKERS_FORM_ID = 'workers-form';
 
@@ -104,7 +106,7 @@ export default class WorkersForm extends React.PureComponent<Props, State> {
               value={options.find((o) => o.value === newWorkerCount)}
             />
             <FlagMessage className="sw-mt-4" variant="info">
-              {translate('background_tasks.change_number_of_workers.hint')}
+              <FormattedMessage id="background_tasks.change_number_of_workers.hint" />
             </FlagMessage>
           </form>
         }
@@ -119,7 +121,7 @@ export default class WorkersForm extends React.PureComponent<Props, State> {
             type="submit"
             variety={ButtonVariety.Primary}
           >
-            {translate('save')}
+            <FormattedMessage id="save" />
           </Button>
         }
         secondaryButtonLabel={translate('cancel')}

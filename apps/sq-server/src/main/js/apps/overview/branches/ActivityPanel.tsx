@@ -33,7 +33,7 @@ import {
 } from '~sq-server-commons/components/activity-graph/utils';
 import ActivityLink from '~sq-server-commons/components/common/ActivityLink';
 import { parseDate } from '~sq-server-commons/helpers/dates';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { localizeMetric } from '~sq-server-commons/helpers/measures';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
@@ -45,6 +45,8 @@ import {
 import { Component } from '~sq-server-commons/types/types';
 import { getAnalysisVariations } from '~sq-server-commons/utils/overview-utils';
 import Analysis from './Analysis';
+
+import { FormattedMessage } from 'react-intl';
 
 export interface ActivityPanelProps {
   analyses?: AnalysisType[];
@@ -117,8 +119,9 @@ export function ActivityPanel(props: ActivityPanelProps) {
 
   return (
     <div>
-      <h2 className="sw-pt-6 sw-pb-4 sw-typo-lg-semibold">{translate('overview.activity')}</h2>
-
+      <h2 className="sw-pt-6 sw-pb-4 sw-typo-lg-semibold">
+        <FormattedMessage id="overview.activity" />
+      </h2>
       <Card className="sw-rounded-2" data-test="overview__activity-panel">
         <GraphsHeader graph={graph} metrics={metrics} onUpdateGraph={props.onGraphChange} />
 
@@ -141,7 +144,9 @@ export function ActivityPanel(props: ActivityPanelProps) {
 
         <Spinner isLoading={loading}>
           {displayedAnalyses.length === 0 ? (
-            <p>{translate('no_results')}</p>
+            <p>
+              <FormattedMessage id="no_results" />
+            </p>
           ) : (
             displayedAnalyses.map((analysis, index) => (
               <div key={analysis.key}>

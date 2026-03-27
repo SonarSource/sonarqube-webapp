@@ -27,6 +27,8 @@ import { translate, translateWithParameters } from '~sq-server-commons/helpers/l
 import { getRuleUrl } from '~sq-server-commons/helpers/urls';
 import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 
+import { FormattedMessage } from 'react-intl';
+
 const EXTERNAL_RULE_REPO_PREFIX = 'external_';
 
 interface Props {
@@ -52,14 +54,13 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
           <li>
             <Tooltip content={translate('coding_rules.rule_template.title')}>
               <span className="it__coding-rules-detail-property">
-                {translate('coding_rules.rule_template')}
+                <FormattedMessage id="coding_rules.rule_template" />
               </span>
             </Tooltip>
           </li>
           <SeparatorCircleIcon aria-hidden as="li" />
         </>
       )}
-
       {/* Parent template */}
       {!ruleDetails.isExternal && ruleDetails.templateKey && (
         <>
@@ -68,10 +69,10 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
             data-meta="parent"
           >
             <span>
-              {translate('coding_rules.custom_rule')}
+              <FormattedMessage id="coding_rules.custom_rule" />
               {' ('}
               <Link to={getRuleUrl(ruleDetails.templateKey)}>
-                {translate('coding_rules.show_template')}
+                <FormattedMessage id="coding_rules.show_template" />
               </Link>
               {') '}
             </span>
@@ -82,32 +83,35 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
           <SeparatorCircleIcon aria-hidden as="li" />
         </>
       )}
-
       {/* Key */}
       <li className="sw-flex sw-gap-1">
-        <span>{translate('coding_rules.rule_id')}</span>
+        <span>
+          <FormattedMessage id="coding_rules.rule_id" />
+        </span>
         <span className="sw-font-semibold">{ruleDetails.key}</span>
       </li>
-
       {/* Scope */}
       {ruleDetails.scope && (
         <>
           <SeparatorCircleIcon aria-hidden as="li" />
           <li className="sw-flex sw-gap-1">
-            <span>{translate('coding_rules.analysis_scope')}</span>
+            <span>
+              <FormattedMessage id="coding_rules.analysis_scope" />
+            </span>
             <span className="sw-font-semibold">
               {translate('coding_rules.scope', ruleDetails.scope)}
             </span>
           </li>
         </>
       )}
-
       {/* Repository */}
       {repository && (
         <>
           <SeparatorCircleIcon aria-hidden as="li" />
           <li className="sw-flex sw-gap-1">
-            <span>{translate('coding_rules.repository')}</span>
+            <span>
+              <FormattedMessage id="coding_rules.repository" />
+            </span>
             <span
               className="it__coding-rules-detail-property sw-font-semibold"
               data-meta="repository"
@@ -117,7 +121,6 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
           </li>
         </>
       )}
-
       {/* Engine */}
       {ruleDetails.isExternal && ruleDetails.repo && externalEngine && (
         <>
@@ -130,7 +133,9 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
               )}
             >
               <div className="sw-flex sw-gap-1">
-                <span>{translate('coding_rules.external_rule.engine')}</span>
+                <span>
+                  <FormattedMessage id="coding_rules.external_rule.engine" />
+                </span>
                 <span
                   className="it__coding-rules-detail-property sw-font-semibold"
                   data-meta="engine"
@@ -142,7 +147,6 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
           </li>
         </>
       )}
-
       {/* Status */}
       {!ruleDetails.isExternal && ruleDetails.status !== RuleStatus.Ready && (
         <>
@@ -152,13 +156,14 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
           </li>
         </>
       )}
-
       {/* Effort */}
       {ruleDetails.remFnType && ruleDetails.remFnBaseEffort && (
         <>
           <SeparatorCircleIcon aria-hidden as="li" />
           <li className="sw-flex sw-gap-1">
-            <span>{translate('coding_rules.remediation_effort')}</span>
+            <span>
+              <FormattedMessage id="coding_rules.remediation_effort" />
+            </span>
             <span
               className="it__coding-rules-detail-property sw-font-semibold"
               data-meta="remediation-function"

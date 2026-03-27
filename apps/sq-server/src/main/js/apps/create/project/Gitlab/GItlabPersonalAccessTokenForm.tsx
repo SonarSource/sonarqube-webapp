@@ -92,7 +92,6 @@ export default function GitlabPersonalAccessTokenForm({
         value={password}
         width={FormFieldWidth.Large}
       />
-
       <MessageCallout variety={MessageVariety.Info}>
         <p>
           <FormattedMessage
@@ -100,7 +99,7 @@ export default function GitlabPersonalAccessTokenForm({
             values={{
               link: (
                 <Link to="https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html">
-                  {translate('onboarding.create_project.pat_help.instructions.gitlab.link')}
+                  <FormattedMessage id="onboarding.create_project.pat_help.instructions.gitlab.link" />
                 </Link>
               ),
             }}

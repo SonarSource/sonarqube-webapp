@@ -91,7 +91,7 @@ export default function AuditAppRenderer(props: Readonly<AuditAppRendererProps>)
                       hash: '#auditLogs',
                     }}
                   >
-                    {translate('audit_logs.page.description.link')}
+                    <FormattedMessage id="audit_logs.page.description.link" />
                   </Link>
                 ),
               }}
@@ -131,7 +131,6 @@ export default function AuditAppRenderer(props: Readonly<AuditAppRendererProps>)
           value={dateRange}
         />
       </div>
-
       <DownloadButton
         dateRange={dateRange}
         downloadStarted={downloadStarted}

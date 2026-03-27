@@ -32,6 +32,8 @@ import { Component } from '~sq-server-commons/types/types';
 import { Query } from '../utils';
 import ProjectActivityDateInput from './ProjectActivityDateInput';
 
+import { FormattedMessage } from 'react-intl';
+
 interface ProjectActivityPageFiltersProps {
   category?: string;
   from?: Date;
@@ -63,7 +65,9 @@ export default function ProjectActivityPageFilters(props: ProjectActivityPageFil
     <div className="sw-flex sw-mb-5 sw-items-center sw-gap-8">
       {!isPortfolioLike(project.qualifier) && (
         <ButtonGroup>
-          <Label htmlFor="graph-type">{translate('project_activity.filter_events')}</Label>
+          <Label htmlFor="graph-type">
+            <FormattedMessage id="project_activity.filter_events" />
+          </Label>
           <Select
             data={options}
             hasDropdownAutoWidth

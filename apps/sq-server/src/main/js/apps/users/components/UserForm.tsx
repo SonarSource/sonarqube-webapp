@@ -43,6 +43,8 @@ import { RestUserDetailed } from '~sq-server-commons/types/users';
 import { DEBOUNCE_DELAY } from '../../background-tasks/constants';
 import UserScmAccountInput from './UserScmAccountInput';
 
+import { FormattedMessage } from 'react-intl';
+
 export interface Props {
   children: React.ReactNode;
   isInstanceManaged: boolean;
@@ -201,7 +203,7 @@ export default function UserForm(props: Readonly<Props>) {
           <Form.Section>
             {user && !user.local && (
               <MessageCallout className="sw-mb-4" variety={MessageVariety.Warning}>
-                {translate('users.cannot_update_delegated_user')}
+                <FormattedMessage id="users.cannot_update_delegated_user" />
               </MessageCallout>
             )}
 
@@ -284,7 +286,7 @@ export default function UserForm(props: Readonly<Props>) {
 
             <div>
               <Button className="it__scm-account-add" onClick={handleAddScmAccount}>
-                {translate('add_verb')}
+                <FormattedMessage id="add_verb" />
               </Button>
             </div>
           </Form.Section>

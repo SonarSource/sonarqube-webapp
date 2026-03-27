@@ -41,7 +41,7 @@ export default function EmailNotificationOverview(props: Readonly<EmailTestModal
       <div className="sw-flex sw-justify-between">
         <div className="sw-grid sw-gap-4">
           <span className="sw-typo-lg-semibold sw-col-span-2">
-            {translate('email_notification.overview.heading')}
+            <FormattedMessage id="email_notification.overview.heading" />
           </span>
 
           <PublicValue
@@ -94,7 +94,7 @@ export default function EmailNotificationOverview(props: Readonly<EmailTestModal
           onClick={onEditClicked}
           variety={ButtonVariety.Default}
         >
-          {translate('edit')}
+          <FormattedMessage id="edit" />
         </Button>
       </div>
     </>

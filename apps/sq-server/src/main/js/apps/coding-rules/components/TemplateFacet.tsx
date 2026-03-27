@@ -24,6 +24,8 @@ import Facet, { BasicProps } from '~sq-server-commons/components/facets/Facet';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props extends Omit<BasicProps, 'onChange' | 'values'> {
   onChange: (changes: { template: boolean | undefined }) => void;
   value: boolean | undefined;
@@ -53,7 +55,11 @@ export default class TemplateFacet extends React.PureComponent<Props> {
         {...props}
         help={
           <HelpTooltip
-            overlay={<div className="sw-my-2">{translate('coding_rules.rule_template.help')}</div>}
+            overlay={
+              <div className="sw-my-2">
+                <FormattedMessage id="coding_rules.rule_template.help" />
+              </div>
+            }
           >
             <HelperHintIcon />
           </HelpTooltip>

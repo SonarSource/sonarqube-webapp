@@ -71,7 +71,9 @@ export default class PendingPluginsActionNotif extends React.PureComponent<Props
               fetchSystemStatus={this.props.fetchSystemStatus}
               systemStatus={this.props.systemStatus}
             />
-            <Button onClick={this.handleRevert}>{translate('marketplace.revert')}</Button>
+            <Button onClick={this.handleRevert}>
+              <FormattedMessage id="marketplace.revert" />
+            </Button>
           </ButtonGroup>
         </div>
       </FlagMessage>

@@ -24,6 +24,8 @@ import { translate } from '~sq-server-commons/helpers/l10n';
 import { useDeleteAnalysisMutation } from '~sq-server-commons/queries/project-analyses';
 import { ParsedAnalysis } from '~sq-server-commons/types/project-activity';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   analysis: ParsedAnalysis;
   onClose: () => void;
@@ -34,7 +36,11 @@ export default function RemoveAnalysisForm({ analysis, onClose }: Readonly<Props
 
   return (
     <Modal
-      body={<p>{translate('project_activity.delete_analysis.question')}</p>}
+      body={
+        <p>
+          <FormattedMessage id="project_activity.delete_analysis.question" />
+        </p>
+      }
       headerTitle={translate('project_activity.delete_analysis')}
       onClose={onClose}
       primaryButton={
@@ -45,7 +51,7 @@ export default function RemoveAnalysisForm({ analysis, onClose }: Readonly<Props
           type="submit"
           variety={ButtonVariety.Danger}
         >
-          {translate('delete')}
+          <FormattedMessage id="delete" />
         </Button>
       }
       secondaryButtonLabel={translate('cancel')}

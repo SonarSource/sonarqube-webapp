@@ -78,7 +78,9 @@ export default function EncryptionForm({ generateSecretKey }: Readonly<Props>) {
 
   return (
     <div id="encryption-form-container">
-      <div className="sw-mb-2">{translate('encryption.form_intro')}</div>
+      <div className="sw-mb-2">
+        <FormattedMessage id="encryption.form_intro" />
+      </div>
       <form id="encryption-form" onSubmit={handleEncrypt}>
         <InputTextArea
           autoFocus
@@ -91,12 +93,11 @@ export default function EncryptionForm({ generateSecretKey }: Readonly<Props>) {
         />
         <div>
           <Button className="sw-my-2" isDisabled={encrypting || generating} type="submit">
-            {translate('encryption.encrypt')}
+            <FormattedMessage id="encryption.encrypt" />
           </Button>
           <Spinner isLoading={encrypting} />
         </div>
       </form>
-
       {encryptedValue && (
         <div className="sw-my-2">
           <label>{translate('encryption.encrypted_value')}</label>
@@ -115,7 +116,6 @@ export default function EncryptionForm({ generateSecretKey }: Readonly<Props>) {
           </div>
         </div>
       )}
-
       <form id="encryption-new-key-form" onSubmit={handleGenerateSecretKey}>
         <p className="sw-my-2">
           <FormattedMessage
@@ -123,7 +123,7 @@ export default function EncryptionForm({ generateSecretKey }: Readonly<Props>) {
             values={{
               moreInformationLink: (
                 <DocumentationLink to={DocLink.InstanceAdminSecurity}>
-                  {translate('more_information')}
+                  <FormattedMessage id="more_information" />
                 </DocumentationLink>
               ),
             }}
@@ -131,7 +131,7 @@ export default function EncryptionForm({ generateSecretKey }: Readonly<Props>) {
         </p>
 
         <Button isDisabled={generating || encrypting} type="submit" variety={ButtonVariety.Primary}>
-          {translate('encryption.generate_new_secret_key')}{' '}
+          <FormattedMessage id="encryption.generate_new_secret_key" />{' '}
         </Button>
         <Spinner isLoading={generating} />
       </form>

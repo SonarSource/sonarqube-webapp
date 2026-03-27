@@ -26,6 +26,8 @@ import { translate } from '~sq-server-commons/helpers/l10n';
 import { useGithubProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/github';
 import { useGilabProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/gitlab';
 
+import { FormattedMessage } from 'react-intl';
+
 export interface Props {
   defaultVisibility: Visibility;
   onClose: () => void;
@@ -85,7 +87,7 @@ export default function ChangeDefaultVisibilityForm(props: Readonly<Props>) {
       onClose={props.onClose}
       primaryButton={
         <Button form={FORM_ID} hasAutoFocus type="submit" variety={ButtonVariety.Primary}>
-          {translate('settings.projects.change_visibility_form.submit')}
+          <FormattedMessage id="settings.projects.change_visibility_form.submit" />
         </Button>
       }
       secondaryButtonLabel={translate('cancel')}

@@ -27,6 +27,8 @@ import { WebApi } from '~sq-server-commons/types/types';
 import DeprecatedBadge from './DeprecatedBadge';
 import InternalBadge from './InternalBadge';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   params: WebApi.Param[];
   showDeprecated: boolean;
@@ -69,7 +71,7 @@ export default class Params extends React.PureComponent<Props> {
           {this.props.showDeprecated && param.deprecatedKey && (
             <div className="sw-ml-2 sw-mt-4">
               <Text as="div" className="sw-mb-1" isSubtle>
-                {translate('replaces')}:
+                <FormattedMessage id="replaces" />:
               </Text>
               <code className="sw-code">{param.deprecatedKey}</code>
               {param.deprecatedKeySince && (
@@ -119,7 +121,9 @@ export default class Params extends React.PureComponent<Props> {
                 <div>
                   {param.possibleValues && (
                     <div>
-                      <Label as="div">{translate('api_documentation.possible_values')}</Label>
+                      <Label as="div">
+                        <FormattedMessage id="api_documentation.possible_values" />
+                      </Label>
                       <ul>
                         {param.possibleValues.map((value) => (
                           <li className="sw-mt-1" key={value}>

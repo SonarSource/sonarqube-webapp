@@ -20,6 +20,7 @@
 
 import { Button, Heading } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import {
   addIssueComment,
   deleteIssueComment,
@@ -27,7 +28,6 @@ import {
 } from '~sq-server-commons/api/issues';
 import HotspotCommentModal from '~sq-server-commons/components/findings/HotspotCommentModal';
 import { updateIssue } from '~sq-server-commons/components/issue/actions';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { IssueActions } from '~sq-server-commons/types/issues';
 import { Issue } from '~sq-server-commons/types/types';
 import IssueReviewHistory from './IssueReviewHistory';
@@ -82,23 +82,19 @@ export default class IssueReviewHistoryAndComments extends React.PureComponent<P
     return (
       <div>
         <Heading as="h2" size="medium">
-          {translate('hotspot.section.activity')}
+          <FormattedMessage id="hotspot.section.activity" />
         </Heading>
-
         {issue.actions.includes(IssueActions.Comment) && (
           <Button className="sw-mt-4 sw-mb-2" onClick={this.handleShowCommentModal}>
-            {translate('issue.activity.add_comment')}
+            <FormattedMessage id="issue.activity.add_comment" />
           </Button>
         )}
-
         <IssueReviewHistory
           issue={issue}
           onDeleteComment={this.handleDeleteComment}
           onEditComment={this.handleEditComment}
         />
-
         {/* <IssueChangeLogContent issue={issue} /> */}
-
         {showAddCommentModal && (
           <HotspotCommentModal
             onCancel={this.handleHideCommentModal}

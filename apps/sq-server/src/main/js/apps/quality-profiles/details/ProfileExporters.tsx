@@ -24,6 +24,8 @@ import { getQualityProfileExporterUrl } from '~sq-server-commons/api/quality-pro
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Exporter, Profile } from '~sq-server-commons/types/quality-profiles';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   exporters: Exporter[];
   profile: Profile;
@@ -39,13 +41,13 @@ export default function ProfileExporters({ exporters, profile }: Readonly<Props>
   return (
     <section aria-label={translate('quality_profiles.exporters')}>
       <div>
-        <SubTitle>{translate('quality_profiles.exporters')}</SubTitle>
+        <SubTitle>
+          <FormattedMessage id="quality_profiles.exporters" />
+        </SubTitle>
       </div>
-
       <FlagMessage className="sw-mb-4" variant="warning">
-        {translate('quality_profiles.exporters.deprecated')}
+        <FormattedMessage id="quality_profiles.exporters.deprecated" />
       </FlagMessage>
-
       <ul className="sw-flex sw-flex-col sw-gap-2">
         {exportersForLanguage.map((exporter) => (
           <li data-key={exporter.key} key={exporter.key}>

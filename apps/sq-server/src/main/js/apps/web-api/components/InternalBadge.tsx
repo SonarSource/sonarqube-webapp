@@ -22,11 +22,15 @@ import { Badge } from '~design-system';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
+import { FormattedMessage } from 'react-intl';
+
 export default function InternalBadge() {
   return (
     <Tooltip content={translate('api_documentation.internal_tooltip')}>
       <span>
-        <Badge variant="deleted">{translate('internal')}</Badge>
+        <Badge variant="deleted">
+          <FormattedMessage id="internal" />
+        </Badge>
       </span>
     </Tooltip>
   );

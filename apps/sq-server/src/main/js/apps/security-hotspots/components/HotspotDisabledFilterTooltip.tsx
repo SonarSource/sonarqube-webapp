@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { FormattedMessage } from 'react-intl';
 import { Link } from '~design-system';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
-import { translate } from '~sq-server-commons/helpers/l10n';
 
 export function HotspotDisabledFilterTooltip() {
   const docUrl = useDocUrl(DocLink.InstanceAdminReindexation);
@@ -29,11 +29,13 @@ export function HotspotDisabledFilterTooltip() {
   return (
     <div className="sw-typo-default sw-w-[190px]">
       <p>
-        {translate('indexation.page_unavailable.description')}{' '}
-        {translate('indexation.filter_unavailable.description')}
+        <FormattedMessage id="indexation.page_unavailable.description" />{' '}
+        <FormattedMessage id="indexation.filter_unavailable.description" />
       </p>
       <hr className="sw-mx-0 sw-my-3 sw-p-0 sw-w-full" />
-      <span className="sw-typo-semibold">{translate('indexation.learn_more')}</span>
+      <span className="sw-typo-semibold">
+        <FormattedMessage id="indexation.learn_more" />
+      </span>
       <Link
         className="sw-ml-1"
         onMouseDown={(e) => {
@@ -44,7 +46,7 @@ export function HotspotDisabledFilterTooltip() {
         }}
         to={docUrl}
       >
-        {translate('indexation.reindexing')}
+        <FormattedMessage id="indexation.reindexing" />
       </Link>
     </div>
   );

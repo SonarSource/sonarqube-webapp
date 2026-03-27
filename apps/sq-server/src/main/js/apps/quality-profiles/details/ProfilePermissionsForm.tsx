@@ -30,6 +30,8 @@ import { UserSelected } from '~sq-server-commons/types/types';
 import { Group } from './ProfilePermissions';
 import ProfilePermissionsFormSelect from './ProfilePermissionsFormSelect';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   onClose: () => void;
   onGroupAdd: (group: Group) => void;
@@ -98,7 +100,7 @@ export default function ProfilePermissionForm(props: Readonly<Props>) {
           type="submit"
           variety={ButtonVariety.Primary}
         >
-          {translate('add_verb')}
+          <FormattedMessage id="add_verb" />
         </Button>
       }
       secondaryButtonLabel={translate('cancel')}

@@ -158,7 +158,9 @@ export default class CreateApplicationForm extends React.PureComponent<Props, St
         submitButtonLabel={translate('create')}
         title={header}
       >
-        <Button>{translate('projects.create_application')}</Button>
+        <Button>
+          <FormattedMessage id="projects.create_application" />
+        </Button>
       </ModalForm>
     );
   }

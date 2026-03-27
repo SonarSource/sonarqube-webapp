@@ -38,6 +38,8 @@ import { RestUserDetailed } from '~sq-server-commons/types/users';
 import useSamlConfiguration from '../../settings/components/authentication/hook/useSamlConfiguration';
 import { SAML } from '../../settings/components/authentication/SamlAuthenticationTab';
 
+import { FormattedMessage } from 'react-intl';
+
 const samlDefinitions = definitions.filter((def) => def.subCategory === SAML);
 
 interface Props {
@@ -120,7 +122,7 @@ export default function GroupsForm(props: Props) {
         <div className="sw-pt-1">
           {samlEnabled && (
             <FlagMessage className="sw-mb-2" variant="warning">
-              {translate('users.update_groups.saml_enabled')}
+              <FormattedMessage id="users.update_groups.saml_enabled" />
             </FlagMessage>
           )}
           <SelectList

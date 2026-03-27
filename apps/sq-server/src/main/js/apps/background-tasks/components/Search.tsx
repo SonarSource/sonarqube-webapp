@@ -29,6 +29,8 @@ import DateFilter from './DateFilter';
 import StatusFilter from './StatusFilter';
 import TypesFilter from './TypesFilter';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   component?: unknown;
   currents: string;
@@ -94,7 +96,7 @@ export default class Search extends React.PureComponent<Props> {
               htmlFor="status-filter"
               id="background-task-status-filter-label"
             >
-              {translate('status')}
+              <FormattedMessage id="status" />
             </Label>
 
             <StatusFilter id="status-filter" onChange={this.handleStatusChange} value={status} />
@@ -107,7 +109,7 @@ export default class Search extends React.PureComponent<Props> {
                 htmlFor="types-filter"
                 id="background-task-type-filter-label"
               >
-                {translate('type')}
+                <FormattedMessage id="type" />
               </Label>
 
               <TypesFilter
@@ -122,7 +124,7 @@ export default class Search extends React.PureComponent<Props> {
           {!component && (
             <li className="sw-flex sw-items-center">
               <Label className="sw-mr-2">
-                {translate('background_tasks.currents_filter.ONLY_CURRENTS')}
+                <FormattedMessage id="background_tasks.currents_filter.ONLY_CURRENTS" />
               </Label>
 
               <CurrentsFilter onChange={this.handleCurrentsChange} value={currents} />
@@ -130,7 +132,9 @@ export default class Search extends React.PureComponent<Props> {
           )}
 
           <li className="sw-flex sw-items-center">
-            <Label className="sw-mr-2">{translate('background_tasks.date_filter')}</Label>
+            <Label className="sw-mr-2">
+              <FormattedMessage id="background_tasks.date_filter" />
+            </Label>
 
             <DateFilter
               maxExecutedAt={maxExecutedAt}
@@ -151,11 +155,11 @@ export default class Search extends React.PureComponent<Props> {
 
           <li>
             <Button className="js-reload sw-mr-2" isDisabled={loading} onClick={this.handleReload}>
-              {translate('reload')}
+              <FormattedMessage id="reload" />
             </Button>
 
             <Button isDisabled={loading} onClick={this.handleReset}>
-              {translate('reset_verb')}
+              <FormattedMessage id="reset_verb" />
             </Button>
           </li>
         </ul>

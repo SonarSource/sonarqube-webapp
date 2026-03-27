@@ -27,6 +27,8 @@ import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { isLoggedIn } from '~sq-server-commons/types/users';
 
+import { FormattedMessage } from 'react-intl';
+
 export default function EmptyInstance() {
   const { currentUser } = useCurrentUser();
   const router = useRouter();
@@ -44,7 +46,7 @@ export default function EmptyInstance() {
       {showNewProjectButton && (
         <>
           <p className="sw-mt-2 sw-typo-default">
-            {translate('projects.no_projects.empty_instance.how_to_add_projects')}
+            <FormattedMessage id="projects.no_projects.empty_instance.how_to_add_projects" />
           </p>
           <Button
             className="sw-mt-6"
@@ -53,7 +55,7 @@ export default function EmptyInstance() {
             }}
             variety={ButtonVariety.Primary}
           >
-            {translate('my_account.create_new.TRK')}
+            <FormattedMessage id="my_account.create_new.TRK" />
           </Button>
         </>
       )}

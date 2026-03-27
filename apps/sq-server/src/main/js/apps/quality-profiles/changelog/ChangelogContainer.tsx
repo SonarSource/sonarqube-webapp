@@ -23,7 +23,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isDefined } from '~shared/helpers/types';
 import { parseDate, toISO8601WithOffsetString } from '~sq-server-commons/helpers/dates';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { useGetQualityProfileChangelog } from '~sq-server-commons/queries/quality-profiles';
 import {
@@ -104,14 +103,13 @@ function ChangelogContainer(props: Readonly<Props>) {
         />
         <Spinner isLoading={isLoading} />
       </div>
-
       {isDefined(events) && events.length === 0 && <ChangelogEmpty />}
-
       {isDefined(events) && events.length > 0 && <Changelog events={events} />}
-
       {shouldDisplayFooter && (
         <footer className="sw-text-center sw-mt-2">
-          <Button onClick={() => fetchNextPage()}>{translate('show_more')}</Button>
+          <Button onClick={() => fetchNextPage()}>
+            <FormattedMessage id="show_more" />
+          </Button>
         </footer>
       )}
     </ProfilePageTemplate>

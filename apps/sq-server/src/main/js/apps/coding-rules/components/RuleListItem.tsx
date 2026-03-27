@@ -28,7 +28,7 @@ import {
   cssVar,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import {
   Badge,
   InheritanceIcon,
@@ -349,7 +349,9 @@ function RuleListItem(props: Readonly<Props>) {
                 <li>
                   <Tooltip content={translate('coding_rules.rule_template.title')}>
                     <span>
-                      <Badge>{translate('coding_rules.rule_template')}</Badge>
+                      <Badge>
+                        <FormattedMessage id="coding_rules.rule_template" />
+                      </Badge>
                     </span>
                   </Tooltip>
                 </li>

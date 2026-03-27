@@ -18,19 +18,23 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { FormattedMessage } from 'react-intl';
 import { Link } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 
 export default function NoWorkersSupportPopup() {
   return (
     <>
       <p className="sw-mb-2">
-        <strong>{translate('background_tasks.add_more_workers')}</strong>
+        <strong>
+          <FormattedMessage id="background_tasks.add_more_workers" />
+        </strong>
       </p>
-      <p className="sw-mb-4 markdown">{translate('background_tasks.add_more_workers.text')}</p>
+      <p className="sw-mb-4 markdown">
+        <FormattedMessage id="background_tasks.add_more_workers.text" />
+      </p>
       <p>
         <Link to="https://www.sonarsource.com/plans-and-pricing/enterprise/?referrer=sonarqube-background-tasks">
-          {translate('learn_more')}
+          <FormattedMessage id="learn_more" />
         </Link>
       </p>
     </>

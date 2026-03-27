@@ -60,7 +60,7 @@ export function CreationTooltip(props: CreationTooltipProps) {
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  {translate('settings.almintegration.create.tooltip.link')}
+                  <FormattedMessage id="settings.almintegration.create.tooltip.link" />
                 </a>
               ),
               alm: translate('alm', alm),

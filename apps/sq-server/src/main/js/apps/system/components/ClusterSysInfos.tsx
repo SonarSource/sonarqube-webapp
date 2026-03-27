@@ -20,7 +20,7 @@
 
 import { Text } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { FormattedMessage } from 'react-intl';
 import { SysInfoAppNode, SysInfoCluster, SysInfoSearchNode } from '~sq-server-commons/types/types';
 import {
   getAppNodes,
@@ -56,7 +56,9 @@ export default function ClusterSysInfos({
         sysInfoData={ignoreInfoFields(getClusterMainCardSection(sysInfoData))}
       />
       <li>
-        <Text isSubtle>{translate('system.application_nodes_title')}</Text>
+        <Text isSubtle>
+          <FormattedMessage id="system.application_nodes_title" />
+        </Text>
       </li>
       {sortBy(getAppNodes(sysInfoData), getNodeName).map((node: SysInfoAppNode) => (
         <HealthCard
@@ -70,7 +72,9 @@ export default function ClusterSysInfos({
         />
       ))}
       <li>
-        <Text isSubtle>{translate('system.search_nodes_title')}</Text>
+        <Text isSubtle>
+          <FormattedMessage id="system.search_nodes_title" />
+        </Text>
       </li>
       {sortBy(getSearchNodes(sysInfoData), getNodeName).map((node: SysInfoSearchNode) => (
         <HealthCard

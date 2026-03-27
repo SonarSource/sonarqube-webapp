@@ -315,10 +315,12 @@ export function AiCodeFixEnablementForm() {
     <div className="sw-flex sw-items-start">
       <div className="sw-flex-grow">
         <Heading as="h2" hasMarginBottom>
-          {translate('property.aicodefix.admin.title')}
+          <FormattedMessage id="property.aicodefix.admin.title" />
         </Heading>
 
-        <p>{translate('property.aicodefix.admin.description')}</p>
+        <p>
+          <FormattedMessage id="property.aicodefix.admin.description" />
+        </p>
 
         <Checkbox
           checked={formState.enablement !== AiCodeFixFeatureEnablement.disabled}
@@ -329,7 +331,7 @@ export function AiCodeFixEnablementForm() {
               values={{
                 terms: (
                   <Link enableOpenInNewTab to={getAiCodeFixTermsOfServiceUrl()}>
-                    {translate('property.aicodefix.admin.acceptTerm.terms')}
+                    <FormattedMessage id="property.aicodefix.admin.acceptTerm.terms" />
                   </Link>
                 ),
               }}
@@ -421,7 +423,9 @@ export function AiCodeFixEnablementForm() {
             <div className="sw-ml-6">
               <div className="sw-flex sw-mb-6 sw-mt-4">
                 <IconInfo className="sw-mr-1" color="echoes-color-icon-info" />
-                <Text>{translate('property.aicodefix.admin.enable.some.projects.note')}</Text>
+                <Text>
+                  <FormattedMessage id="property.aicodefix.admin.enable.some.projects.note" />
+                </Text>
               </div>
               <SelectList
                 elements={formState.projectsToDisplay}
@@ -467,7 +471,7 @@ export function AiCodeFixEnablementForm() {
                 description={translate('aicodefix.cancel.modal.description')}
                 primaryButton={
                   <Button onClick={handleCancel} variety="primary">
-                    {translate('confirm')}
+                    <FormattedMessage id="confirm" />
                   </Button>
                 }
                 secondaryButtonLabel={translate('aicodefix.cancel.modal.continue_editing')}

@@ -25,6 +25,8 @@ import { Modal } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { PermissionTemplate } from '~sq-server-commons/types/types';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   onClose: () => void;
   onSubmit: () => Promise<void>;
@@ -52,7 +54,7 @@ export default function DeleteForm({ onClose, onSubmit, permissionTemplate: t }:
         <>
           <Spinner isLoading={submitting} />
           <Button isDisabled={submitting} onClick={handleClick} variety={ButtonVariety.Danger}>
-            {translate('delete')}
+            <FormattedMessage id="delete" />
           </Button>
         </>
       }

@@ -43,7 +43,7 @@ export default function WrongBindingCountAlert(props: WrongBindingCountAlertProp
             alm: translate('onboarding.alm', alm),
             url: (
               <Link to={getGlobalSettingsUrl(ALM_INTEGRATION_CATEGORY)}>
-                {translate('settings.page')}
+                <FormattedMessage id="settings.page" />
               </Link>
             ),
           }}

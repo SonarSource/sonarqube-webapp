@@ -21,6 +21,8 @@
 import { Heading, Text } from '@sonarsource/echoes-react';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   description?: string;
   isApp?: boolean;
@@ -29,7 +31,9 @@ interface Props {
 export default function MetaDescription({ description, isApp }: Props) {
   return (
     <>
-      <Heading as="h3">{translate('project.info.description')}</Heading>
+      <Heading as="h3">
+        <FormattedMessage id="project.info.description" />
+      </Heading>
       <Text as="p" className="it__project-description sw-mt-2" isSubtle>
         {description ?? translate(isApp ? 'application' : 'project', 'info.empty_description')}
       </Text>

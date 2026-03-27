@@ -59,6 +59,8 @@ import {
 import ColorRatingsLegend from './ColorRatingsLegend';
 import EmptyResult from './EmptyResult';
 
+import { FormattedMessage } from 'react-intl';
+
 const HEIGHT = 500;
 
 interface Props {
@@ -177,7 +179,7 @@ export default function BubbleChartView(props: Readonly<Props>) {
 
           {paging?.total && paging?.total > BUBBLES_FETCH_LIMIT && (
             <div className="sw-mt-2">
-              ({translate('component_measures.legend.only_first_500_files')})
+              (<FormattedMessage id="component_measures.legend.only_first_500_files" />)
             </div>
           )}
           {(isView(component?.qualifier) || isProject(component?.qualifier)) && (
@@ -190,18 +192,17 @@ export default function BubbleChartView(props: Readonly<Props>) {
                   listView: true,
                 })}
               >
-                {translate('component_measures.overview.see_data_as_list')}
+                <FormattedMessage id="component_measures.overview.see_data_as_list" />
               </LinkStandalone>
             </div>
           )}
         </div>
-
         <div className="sw-flex sw-flex-col sw-items-end">
           <div className="sw-text-right">
             {bubbleMetrics.colors && (
               <span className="sw-mr-3">
                 <strong className="sw-typo-semibold">
-                  {translate('component_measures.legend.color')}
+                  <FormattedMessage id="component_measures.legend.color" />
                 </strong>{' '}
                 {bubbleMetrics.colors.length > 1
                   ? translateWithParameters(
@@ -212,7 +213,7 @@ export default function BubbleChartView(props: Readonly<Props>) {
               </span>
             )}
             <strong className="sw-typo-semibold">
-              {translate('component_measures.legend.size')}
+              <FormattedMessage id="component_measures.legend.size" />
             </strong>{' '}
             {getLocalizedMetricName(bubbleMetrics.size)}
           </div>

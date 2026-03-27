@@ -26,6 +26,8 @@ import { RestUserDetailed } from '~sq-server-commons/types/users';
 import { StickyTable } from '../../app/components/admin/StickyTable';
 import UserListItem from './components/UserListItem';
 
+import { FormattedMessage } from 'react-intl';
+
 interface Props {
   identityProviders: IdentityProvider[];
   manageProvider: Provider | undefined;
@@ -35,19 +37,31 @@ interface Props {
 export default function UsersList({ identityProviders, users, manageProvider }: Props) {
   const header = (
     <TableRow>
-      <ContentCell>{translate('users.user_name')}</ContentCell>
-      <ContentCell>{translate('my_profile.scm_accounts')}</ContentCell>
-      <ContentCell>{translate('users.last_connection')}</ContentCell>
       <ContentCell>
-        {translate('users.last_sonarlint_connection')}
+        <FormattedMessage id="users.user_name" />
+      </ContentCell>
+      <ContentCell>
+        <FormattedMessage id="my_profile.scm_accounts" />
+      </ContentCell>
+      <ContentCell>
+        <FormattedMessage id="users.last_connection" />
+      </ContentCell>
+      <ContentCell>
+        <FormattedMessage id="users.last_sonarlint_connection" />
         <HelpTooltip overlay={translate('users.last_sonarlint_connection.help_text')}>
           <HelperHintIcon />
         </HelpTooltip>
       </ContentCell>
-      <ContentCell>{translate('my_profile.groups')}</ContentCell>
-      <ContentCell>{translate('users.tokens')}</ContentCell>
+      <ContentCell>
+        <FormattedMessage id="my_profile.groups" />
+      </ContentCell>
+      <ContentCell>
+        <FormattedMessage id="users.tokens" />
+      </ContentCell>
       {(manageProvider === undefined || users.some((u) => !u.managed)) && (
-        <ActionCell>{translate('actions')}</ActionCell>
+        <ActionCell>
+          <FormattedMessage id="actions" />
+        </ActionCell>
       )}
     </TableRow>
   );

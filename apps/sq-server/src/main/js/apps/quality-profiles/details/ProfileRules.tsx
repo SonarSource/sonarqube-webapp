@@ -123,7 +123,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
     <section aria-label={translate('rules')} className="it__quality-profiles__rules">
       <Spinner isLoading={isActivatedRulesLoading || isAllRulesLoading || isShowProfileLoading}>
         <Heading as="h2" className="sw-mb-4">
-          {translate('quality_profile.rules.breakdown')}
+          <FormattedMessage id="quality_profile.rules.breakdown" />
         </Heading>
 
         {isStandardMode && (
@@ -132,10 +132,14 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
             columnWidths={['50%', '25%', '25%']}
             header={
               <StyledTableRowHeader>
-                <ContentCell className="sw-font-semibold sw-pl-4">{translate('type')}</ContentCell>
-                <NumericalCell className="sw-font-regular">{translate('active')}</NumericalCell>
+                <ContentCell className="sw-font-semibold sw-pl-4">
+                  <FormattedMessage id="type" />
+                </ContentCell>
+                <NumericalCell className="sw-font-regular">
+                  <FormattedMessage id="active" />
+                </NumericalCell>
                 <NumericalCell className="sw-pr-4 sw-font-regular">
-                  {translate('inactive')}
+                  <FormattedMessage id="inactive" />
                 </NumericalCell>
               </StyledTableRowHeader>
             }
@@ -165,11 +169,13 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
               header={
                 <StyledTableRowHeader>
                   <ContentCell className="sw-font-semibold sw-pl-4">
-                    {translate('quality_profile.rules.software_qualities_title')}
+                    <FormattedMessage id="quality_profile.rules.software_qualities_title" />
                   </ContentCell>
-                  <NumericalCell className="sw-font-regular">{translate('active')}</NumericalCell>
+                  <NumericalCell className="sw-font-regular">
+                    <FormattedMessage id="active" />
+                  </NumericalCell>
                   <NumericalCell className="sw-pr-4 sw-font-regular">
-                    {translate('inactive')}
+                    <FormattedMessage id="inactive" />
                   </NumericalCell>
                 </StyledTableRowHeader>
               }
@@ -196,11 +202,13 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
               header={
                 <StyledTableRowHeader>
                   <ContentCell className="sw-font-semibold sw-pl-4">
-                    {translate('quality_profile.rules.cct_categories_title')}
+                    <FormattedMessage id="quality_profile.rules.cct_categories_title" />
                   </ContentCell>
-                  <NumericalCell className="sw-font-regular">{translate('active')}</NumericalCell>
+                  <NumericalCell className="sw-font-regular">
+                    <FormattedMessage id="active" />
+                  </NumericalCell>
                   <NumericalCell className="sw-pr-4 sw-font-regular">
-                    {translate('inactive')}
+                    <FormattedMessage id="inactive" />
                   </NumericalCell>
                 </StyledTableRowHeader>
               }
@@ -260,7 +268,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
                 isDisabled
                 variety={ButtonVariety.Primary}
               >
-                {translate('quality_profiles.activate_more')}
+                <FormattedMessage id="quality_profiles.activate_more" />
               </Button>
             </DocHelpTooltip>
           )}

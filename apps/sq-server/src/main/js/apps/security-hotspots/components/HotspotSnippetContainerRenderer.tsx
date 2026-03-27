@@ -22,9 +22,9 @@ import { withTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { FlagMessage, themeColor } from '~design-system';
 import SnippetViewer from '~sq-server-commons/components/issues/crossComponentSourceViewer/SnippetViewer';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Hotspot } from '~sq-server-commons/types/security-hotspots';
 import {
@@ -150,9 +150,10 @@ export default function HotspotSnippetContainerRenderer(
   return (
     <Spinner className="sw-mt-6" isLoading={loading}>
       {sourceLines.length === 0 && (
-        <FlagMessage variant="info">{translate('hotspots.no_associated_lines')}</FlagMessage>
+        <FlagMessage variant="info">
+          <FormattedMessage id="hotspots.no_associated_lines" />
+        </FlagMessage>
       )}
-
       {sourceLines.length > 0 && (
         <>
           <HotspotSnippetHeader branchLike={branchLike} component={component} hotspot={hotspot} />

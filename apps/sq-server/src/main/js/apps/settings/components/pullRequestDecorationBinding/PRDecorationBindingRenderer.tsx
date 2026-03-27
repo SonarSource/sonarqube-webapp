@@ -90,7 +90,7 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
                 values={{
                   link: (
                     <Link to={getGlobalSettingsUrl(ALM_INTEGRATION_CATEGORY)}>
-                      {translate('settings.pr_decoration.binding.no_bindings.link')}
+                      <FormattedMessage id="settings.pr_decoration.binding.no_bindings.link" />
                     </Link>
                   ),
                 }}
@@ -108,14 +108,13 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
 
   return (
     <div className="sw-p-6">
-      <SubTitle as="h3">{translate('settings.pr_decoration.binding.title')}</SubTitle>
-
+      <SubTitle as="h3">
+        <FormattedMessage id="settings.pr_decoration.binding.title" />
+      </SubTitle>
       <Text className="markdown" isSubtle>
-        {translate('settings.pr_decoration.binding.description')}
+        <FormattedMessage id="settings.pr_decoration.binding.description" />
       </Text>
-
       <BasicSeparator className="sw-my-6" />
-
       <form
         onSubmit={(event: React.SyntheticEvent<HTMLFormElement>) => {
           event.preventDefault();
@@ -128,12 +127,12 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
           <div className="sw-w-abs-300">
             <SubHeading>
               <label htmlFor="name">
-                {translate('settings.pr_decoration.binding.form.name')}
+                <FormattedMessage id="settings.pr_decoration.binding.form.name" />
                 <RequiredIcon className="sw-mr-2" />
               </label>
             </SubHeading>
             <div className="markdown">
-              {translate('settings.pr_decoration.binding.form.name.help')}
+              <FormattedMessage id="settings.pr_decoration.binding.form.name.help" />
             </div>
           </div>
           <div className="sw-flex-1">
@@ -166,23 +165,29 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
                 type="submit"
                 variety={ButtonVariety.Primary}
               >
-                <span data-test="project-settings__alm-save">{translate('save')}</span>
+                <span data-test="project-settings__alm-save">
+                  <FormattedMessage id="save" />
+                </span>
               </Button>
               <Spinner isLoading={updating} />
             </>
           )}
           {!updating && successfullyUpdated && (
-            <FlagMessage variant="success">{translate('settings.state.saved')}</FlagMessage>
+            <FlagMessage variant="success">
+              <FormattedMessage id="settings.state.saved" />
+            </FlagMessage>
           )}
           {isConfigured && (
             <>
               <Button onClick={props.onReset}>
-                <span data-test="project-settings__alm-reset">{translate('reset_verb')}</span>
+                <span data-test="project-settings__alm-reset">
+                  <FormattedMessage id="reset_verb" />
+                </span>
               </Button>
               {!isChanged && (
                 <>
                   <Button isDisabled={checkingConfiguration} onClick={props.onCheckConfiguration}>
-                    {translate('settings.pr_decoration.binding.check_configuration')}
+                    <FormattedMessage id="settings.pr_decoration.binding.check_configuration" />
                   </Button>
                   <Spinner isLoading={checkingConfiguration} />
                 </>
@@ -194,7 +199,7 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
           <FlagMessage className="sw-mt-6" variant="error">
             <div>
               <p className="sw-mb-2">
-                {translate('settings.pr_decoration.binding.check_configuration.failure')}
+                <FormattedMessage id="settings.pr_decoration.binding.check_configuration.failure" />
               </p>
               <ul className="list-styled">
                 {configurationErrors.errors.map((error, i) => (
@@ -214,9 +219,7 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
                               alm: selected?.alm,
                             })}
                           >
-                            {translate(
-                              'settings.pr_decoration.binding.check_configuration.failure.check_global_settings.link',
-                            )}
+                            <FormattedMessage id="settings.pr_decoration.binding.check_configuration.failure.check_global_settings.link" />
                           </Link>
                         ),
                       }}
@@ -231,7 +234,7 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
         )}
         {isConfigured && !isChanged && !checkingConfiguration && !configurationErrors && (
           <FlagMessage className="sw-mt-6" variant="success">
-            {translate('settings.pr_decoration.binding.check_configuration.success')}
+            <FormattedMessage id="settings.pr_decoration.binding.check_configuration.success" />
           </FlagMessage>
         )}
       </form>
