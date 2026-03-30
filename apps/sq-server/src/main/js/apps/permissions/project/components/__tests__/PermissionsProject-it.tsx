@@ -20,6 +20,15 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
+import {
+  BranchesServiceDefaultDataset,
+  BranchesServiceMock,
+} from '~shared/api/mocks/services/BranchesServiceMock';
+import {
+  MeasuresServiceDefaultDataset,
+  MeasuresServiceMock,
+} from '~shared/api/mocks/services/MeasuresServiceMock';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
 import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
 import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslationServiceMock';
@@ -58,6 +67,13 @@ import {
 import { projectPermissionsRoutes } from '../../../routes';
 import { getPageObject } from '../../../test-utils';
 
+jest.mock('~sq-server-commons/api/mode', () => ({
+  getMode: jest.fn().mockResolvedValue({ mode: 'MQR', modified: false }),
+}));
+
+const brancheService = new BranchesServiceMock(BranchesServiceDefaultDataset);
+const measuresService = new MeasuresServiceMock(MeasuresServiceDefaultDataset);
+
 let serviceMock: PermissionsServiceMock;
 let dopTranslationHandler: DopTranslationServiceMock;
 let githubHandler: GithubProvisioningServiceMock;
@@ -78,7 +94,13 @@ beforeAll(() => {
   systemHandler = new SystemServiceMock();
 });
 
+beforeEach(() => {
+  registerServiceMocks(brancheService, measuresService);
+});
+
 afterEach(() => {
+  resetServiceMocks();
+
   serviceMock.reset();
   dopTranslationHandler.reset();
   githubHandler.reset();

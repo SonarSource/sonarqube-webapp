@@ -21,6 +21,12 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
+import { Route } from 'react-router-dom';
+import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
+import {
+  MeasuresServiceDefaultDataset,
+  MeasuresServiceMock,
+} from '~shared/api/mocks/services/MeasuresServiceMock';
 import { byRole, byText, QuerySelector } from '~shared/helpers/testSelector';
 import { getScannableProjects } from '../../../api/components';
 import AlmSettingsServiceMock from '../../../api/mocks/AlmSettingsServiceMock';
@@ -29,7 +35,7 @@ import SettingsServiceMock from '../../../api/mocks/SettingsServiceMock';
 import UserTokensMock from '../../../api/mocks/UserTokensMock';
 import { mockComponent } from '../../../helpers/mocks/component';
 import { mockLoggedInUser } from '../../../helpers/testMocks';
-import { renderApp } from '../../../helpers/testReactTestingUtils';
+import { renderAppWithComponentContext } from '../../../helpers/testReactTestingUtils';
 import { AlmKeys } from '../../../types/alm-settings';
 import { Feature } from '../../../types/features';
 import { Permissions } from '../../../types/permissions';
@@ -48,6 +54,12 @@ jest.mock('../../../api/components', () => ({
   getScannableProjects: jest.fn().mockResolvedValue({ projects: [] }),
 }));
 
+jest.mock('~sq-server-commons/api/mode', () => ({
+  getMode: jest.fn().mockResolvedValue({ mode: 'MQR', modified: false }),
+}));
+
+const measuresService = new MeasuresServiceMock(MeasuresServiceDefaultDataset);
+
 let settingsMock: SettingsServiceMock;
 let tokenMock: UserTokensMock;
 let almMock: AlmSettingsServiceMock;
@@ -60,19 +72,24 @@ beforeAll(() => {
   ceMock = new ComputeEngineServiceMock();
 });
 
+beforeEach(() => {
+  registerServiceMocks(measuresService);
+
+  jest.clearAllMocks();
+});
+
 afterEach(() => {
+  resetServiceMocks();
+
   tokenMock.reset();
   settingsMock.reset();
   almMock.reset();
   ceMock.reset();
 });
 
-beforeEach(() => {
-  jest.clearAllMocks();
-});
-
 const ui = {
   loading: byText('loading'),
+  breadcrumbLink: byRole('link', { name: 'onboarding.tutorial.breadcrumbs.home' }),
   noScanRights: byText('onboarding.tutorial.no_scan_rights'),
   monoRepoSecretInfo: byText(
     'onboarding.tutorial.with.github_action.create_secret.monorepo_project_level_token_info.link',
@@ -102,16 +119,17 @@ it.each([
   [TutorialModes.OtherCI, 'onboarding.project_analysis.header'],
 ])('should properly click link for %s', async (mode, title) => {
   const user = userEvent.setup();
-  const breadcrumbs = `onboarding.tutorial.breadcrumbs.${mode}`;
   renderTutorialSelection({});
   await waitOnDataLoaded();
 
   expect(screen.getByText('onboarding.tutorial.choose_method')).toBeInTheDocument();
 
-  expect(screen.queryByText(breadcrumbs)).not.toBeInTheDocument();
+  expect(ui.breadcrumbLink.query()).not.toBeInTheDocument();
+
   await user.click(ui.chooseTutorialLink(mode).get());
+
   expect(screen.getByText(title)).toBeInTheDocument();
-  expect(screen.getByText(breadcrumbs)).toBeInTheDocument();
+  expect(ui.breadcrumbLink.get()).toBeInTheDocument();
 });
 
 it('should properly detect and render GitHub monorepo-specific instructions for GitHub Actions', async () => {
@@ -280,15 +298,25 @@ function renderTutorialSelection(
   props: Partial<TutorialSelectionProps> = {},
   navigateTo = 'tutorials?id=bar',
 ) {
-  return renderApp(
+  const { component = mockComponent({ key: 'foo' }), ...otherProps } = props;
+
+  return renderAppWithComponentContext(
     '/tutorials',
-    <TutorialSelection
-      component={mockComponent({ key: 'foo' })}
-      currentUser={mockLoggedInUser({
-        permissions: { global: [Permissions.Scan] },
-      })}
-      {...props}
-    />,
+    () => (
+      <Route
+        element={
+          <TutorialSelection
+            component={component}
+            currentUser={mockLoggedInUser({
+              permissions: { global: [Permissions.Scan] },
+            })}
+            {...otherProps}
+          />
+        }
+        path="/tutorials"
+      />
+    ),
     { featureList: [Feature.BranchSupport], navigateTo },
+    { component },
   );
 }

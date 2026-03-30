@@ -20,6 +20,15 @@
 
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
+import {
+  BranchesServiceDefaultDataset,
+  BranchesServiceMock,
+} from '~shared/api/mocks/services/BranchesServiceMock';
+import {
+  MeasuresServiceDefaultDataset,
+  MeasuresServiceMock,
+} from '~shared/api/mocks/services/MeasuresServiceMock';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import ComputeEngineServiceMock from '~sq-server-commons/api/mocks/ComputeEngineServiceMock';
 import { ProjectDumpServiceMock } from '~sq-server-commons/api/mocks/ProjectDumpServiceMock';
@@ -28,6 +37,9 @@ import { renderAppWithComponentContext } from '~sq-server-commons/helpers/testRe
 import { Feature } from '~sq-server-commons/types/features';
 import { TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
 import routes from '../routes';
+
+const brancheService = new BranchesServiceMock(BranchesServiceDefaultDataset);
+const measuresService = new MeasuresServiceMock(MeasuresServiceDefaultDataset);
 
 const computeEngineHandler = new ComputeEngineServiceMock();
 const handler = new ProjectDumpServiceMock(computeEngineHandler);
@@ -57,7 +69,13 @@ const ui = {
   noDumpImportMsg: byText('project_dump.no_file_to_import'),
 };
 
+jest.mock('~sq-server-commons/api/mode', () => ({
+  getMode: jest.fn().mockResolvedValue({ mode: 'MQR', modified: false }),
+}));
+
 beforeEach(() => {
+  registerServiceMocks(brancheService, measuresService);
+
   computeEngineHandler.reset();
   handler.reset();
   jest.useFakeTimers({
@@ -67,6 +85,8 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  resetServiceMocks();
+
   jest.runOnlyPendingTimers();
   jest.useRealTimers();
 });
@@ -115,7 +135,9 @@ it('should show pending->in progress->failed export', async () => {
     status: TaskStatuses.InProgress,
     startedAt: '2023-06-08T12:00:00Z',
   });
-  jest.runOnlyPendingTimers();
+  act(() => {
+    jest.runOnlyPendingTimers();
+  });
   expect(await ui.inProgressExport.find()).toBeInTheDocument();
   expect(ui.exportBtn.query()).not.toBeInTheDocument();
 
@@ -163,7 +185,9 @@ it('should show pending->in progress->failed import', async () => {
     status: TaskStatuses.InProgress,
     startedAt: '2023-06-08T12:00:00Z',
   });
-  jest.runOnlyPendingTimers();
+  act(() => {
+    jest.runOnlyPendingTimers();
+  });
   expect(await ui.inProgressImport.find()).toBeInTheDocument();
   expect(ui.importBtn.query()).not.toBeInTheDocument();
 

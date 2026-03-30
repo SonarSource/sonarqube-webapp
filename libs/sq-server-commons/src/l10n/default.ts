@@ -8793,6 +8793,8 @@ export const defaultMessages = {
   'governance.show_all': 'Show All',
   'governance.no_security_review_rating': 'Not yet computed',
 
+  'governance_report.page': 'Executive report',
+
   // Metrics
   'metric.releasability_effort.name': 'Total Number of Projects not Production Ready',
   'metric.releasability_effort.description': 'Total number of projects not production ready',

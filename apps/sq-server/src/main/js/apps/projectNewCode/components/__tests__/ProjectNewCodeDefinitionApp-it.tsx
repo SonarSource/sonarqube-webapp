@@ -20,6 +20,11 @@
 
 import userEvent from '@testing-library/user-event';
 import { last } from 'lodash';
+import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
+import {
+  MeasuresServiceDefaultDataset,
+  MeasuresServiceMock,
+} from '~shared/api/mocks/services/MeasuresServiceMock';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { MessageTypes } from '~sq-server-commons/api/messages';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
@@ -38,6 +43,26 @@ import { Feature } from '~sq-server-commons/types/features';
 import { NewCodeDefinitionType } from '~sq-server-commons/types/new-code-definition';
 import routes from '../../routes';
 
+const measuresService = new MeasuresServiceMock(MeasuresServiceDefaultDataset);
+
+jest.mock('~sq-server-commons/api/alm-settings', () => {
+  return {
+    validateProjectAlmBinding: jest
+      .fn()
+      .mockResolvedValue(
+        jest
+          .requireActual<
+            typeof import('~sq-server-commons/helpers/mocks/alm-settings')
+          >('~sq-server-commons/helpers/mocks/alm-settings')
+          .mockProjectAlmBindingConfigurationErrors(),
+      ),
+  };
+});
+
+jest.mock('~sq-server-commons/api/mode', () => ({
+  getMode: jest.fn().mockResolvedValue({ mode: 'MQR', modified: false }),
+}));
+
 jest.mock('~sq-server-commons/api/newCodeDefinition');
 jest.mock('~sq-server-commons/api/projectActivity');
 jest.mock('~sq-server-commons/api/branches');
@@ -48,10 +73,16 @@ const branchHandler = new BranchesServiceMock();
 const messagesMock = new MessagesServiceMock();
 
 beforeEach(() => {
+  registerServiceMocks(measuresService);
+
   branchHandler.reset();
   newCodeDefinitionMock.reset();
   projectActivityMock.reset();
   messagesMock.reset();
+});
+
+afterEach(() => {
+  resetServiceMocks();
 });
 
 it('renders correctly without branch support feature', async () => {

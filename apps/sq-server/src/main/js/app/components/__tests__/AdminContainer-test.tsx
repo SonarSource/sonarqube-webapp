@@ -72,7 +72,7 @@ it('should render nav and provide context to children', async () => {
   const user = userEvent.setup();
   renderAdminContainer();
 
-  expect(await ui.navHeader.find()).toBeInTheDocument();
+  expect(await ui.nav.find()).toBeInTheDocument();
 
   expect(await ui.pagesList.byRole('listitem').findAll()).toHaveLength(1);
   expect(ui.pagesList.byText('asdf').get()).toBeInTheDocument();
@@ -88,9 +88,6 @@ it('should render nav and provide context to children', async () => {
   expect(ui.pluginsRemovingList.byText('removing').get()).toBeInTheDocument();
 
   expect(byText('DOWN').get()).toBeInTheDocument();
-
-  // Renders plugins notification
-  expect(ui.pluginsNotification.get()).toBeInTheDocument();
 
   // Trigger a status update
   jest.mocked(getSystemStatus).mockResolvedValueOnce({ id: '', version: '', status: 'RESTARTING' });
@@ -161,9 +158,8 @@ function TestChildComponent() {
 }
 
 const ui = {
-  navHeader: byRole('heading', { name: 'layout.settings' }),
+  nav: byRole('navigation', { name: 'settings' }),
   pagesList: byLabelText('pages'),
-  pluginsNotification: byText('marketplace.instance_needs_to_be_restarted_to'),
   pluginsInstallingList: byLabelText('plugins - installing'),
   pluginsUpdatingList: byLabelText('plugins - updating'),
   pluginsRemovingList: byLabelText('plugins - removing'),

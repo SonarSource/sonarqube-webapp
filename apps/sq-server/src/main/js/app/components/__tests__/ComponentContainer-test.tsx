@@ -33,7 +33,6 @@ import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServic
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { getComponentNavigation } from '~sq-server-commons/api/navigation';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
-import { mockProjectAlmBindingConfigurationErrors } from '~sq-server-commons/helpers/mocks/alm-settings';
 import { mockBranch, mockPullRequest } from '~sq-server-commons/helpers/mocks/branch-like';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockTask } from '~sq-server-commons/helpers/mocks/tasks';
@@ -90,9 +89,9 @@ jest.mock('~shared/components/hoc/withRouter', () => ({
 }));
 
 const ui = {
-  projectTitle: byRole('link', { name: 'Project' }),
+  projectTitle: byText('MyProject'),
   projectText: byText('project'),
-  portfolioTitle: byRole('link', { name: 'portfolio' }),
+  portfolioTitle: byText('component name'),
   portfolioText: byText(/portfolio/i),
   overviewPageLink: byRole('link', { name: 'overview.page' }),
   issuesPageLink: byRole('link', { name: 'issues.page' }),
@@ -116,10 +115,10 @@ afterEach(() => {
 
 it('should render the component nav correctly for portfolio', async () => {
   renderComponentContainerAsComponent();
-  expect(await ui.portfolioTitle.find()).toHaveAttribute('href', '/portfolio?id=portfolioKey');
+  expect(await ui.portfolioTitle.find()).toBeInTheDocument();
   expect(ui.issuesPageLink.get()).toHaveAttribute(
     'href',
-    '/project/issues?id=portfolioKey&issueStatuses=OPEN%2CCONFIRMED',
+    '/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=portfolioKey',
   );
   expect(ui.measuresPageLink.get()).toHaveAttribute('href', '/component_measures?id=portfolioKey');
   expect(ui.activityPageLink.get()).toHaveAttribute('href', '/project/activity?id=portfolioKey');
@@ -147,11 +146,11 @@ it('should render the component nav correctly for projects', async () => {
     >);
 
   renderComponentContainerAsComponent();
-  expect(await ui.projectTitle.find()).toHaveAttribute('href', '/dashboard?id=project');
+  expect(await ui.projectTitle.find()).toBeInTheDocument();
   expect(ui.overviewPageLink.get()).toHaveAttribute('href', '/dashboard?id=project-key');
   expect(ui.issuesPageLink.get()).toHaveAttribute(
     'href',
-    '/project/issues?id=project-key&issueStatuses=OPEN%2CCONFIRMED',
+    '/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=project-key',
   );
   expect(ui.hotspotsPageLink.get()).toHaveAttribute('href', '/security_hotspots?id=project-key');
   expect(ui.measuresPageLink.get()).toHaveAttribute('href', '/component_measures?id=project-key');
@@ -165,9 +164,14 @@ it('should be able to change component', async () => {
   renderComponentContainer();
   expect(await screen.findByText('This is a test component')).toBeInTheDocument();
   expect(screen.getByRole('button', { name: 'change component' })).toBeInTheDocument();
-  expect(screen.getByText('component name')).toBeInTheDocument();
+
+  expect(
+    byRole('navigation', { name: 'qualifier.VW' }).byText('component name').get(),
+  ).toBeInTheDocument();
   await user.click(screen.getByRole('button', { name: 'change component' }));
-  expect(screen.getByText('new component name')).toBeInTheDocument();
+  expect(
+    byRole('navigation', { name: 'qualifier.TRK' }).byText('new component name').get(),
+  ).toBeInTheDocument();
 });
 
 it('should show component not found if it does not exist', async () => {
@@ -364,69 +368,6 @@ describe('getTasksForComponent', () => {
   });
 });
 
-describe('should correctly validate the project binding depending on the context', () => {
-  const COMPONENT = mockComponent({
-    breadcrumbs: [{ key: 'foo', name: 'Foo', qualifier: ComponentQualifier.Project }],
-  });
-  const PROJECT_BINDING_ERRORS = mockProjectAlmBindingConfigurationErrors();
-
-  it("has an analysis; won't perform any check", async () => {
-    jest
-      .mocked(getComponentNavigation)
-      .mockResolvedValueOnce({} as unknown as Awaited<ReturnType<typeof getComponentNavigation>>);
-
-    jest.mocked(getComponentData).mockResolvedValueOnce({
-      component: { ...COMPONENT, analysisDate: '2020-01' },
-    } as unknown as Awaited<ReturnType<typeof getComponentData>>);
-
-    renderComponentContainer();
-    await waitFor(() => {
-      expect(validateProjectAlmBinding).toHaveBeenCalledTimes(0);
-    });
-  });
-
-  it.each([
-    ['has a project binding; check is OK', COMPONENT, undefined],
-    ['has a project binding; check is not OK', COMPONENT, PROJECT_BINDING_ERRORS],
-  ])('%s', async (_, component, projectBindingErrors = undefined) => {
-    jest
-      .mocked(getComponentNavigation)
-      .mockResolvedValueOnce({} as unknown as Awaited<ReturnType<typeof getComponentNavigation>>);
-
-    jest
-      .mocked(getComponentData)
-      .mockResolvedValueOnce({ component } as unknown as Awaited<
-        ReturnType<typeof getComponentData>
-      >);
-
-    jest.mocked(validateProjectAlmBinding).mockResolvedValue(projectBindingErrors);
-
-    renderComponentContainer();
-    await waitFor(() => {
-      expect(validateProjectAlmBinding).toHaveBeenCalled();
-    });
-  });
-
-  it('should show error message when check is not OK', async () => {
-    jest
-      .mocked(getComponentNavigation)
-      .mockResolvedValueOnce({} as unknown as Awaited<ReturnType<typeof getComponentNavigation>>);
-
-    jest
-      .mocked(getComponentData)
-      .mockResolvedValueOnce({ component: COMPONENT } as unknown as Awaited<
-        ReturnType<typeof getComponentData>
-      >);
-
-    jest.mocked(validateProjectAlmBinding).mockResolvedValue(PROJECT_BINDING_ERRORS);
-
-    renderComponentContainerAsComponent();
-    expect(
-      await screen.findByText('component_navigation.pr_deco.error_detected_X', { exact: false }),
-    ).toBeInTheDocument();
-  });
-});
-
 describe('redirects', () => {
   it('should redirect if the user has no access', async () => {
     jest
@@ -443,10 +384,8 @@ describe('redirects', () => {
     renderComponentContainer('dashboard?id=foo', '/dashboard');
 
     // The component should redirect from /dashboard to /portfolio route
-    // We need to wait for both the navigation breadcrumb and the route content
-    await waitFor(() => {
-      expect(ui.portfolioText.getAll()).toHaveLength(2); // breadcrumb link text + route div
-    });
+    // We need to wait for the navigation breadcrumb
+    expect(await ui.portfolioText.find()).toBeInTheDocument(); // breadcrumb link text + route div
   });
 
   it('should fix broken query parameters from GH UI', async () => {

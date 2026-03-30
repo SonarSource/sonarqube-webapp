@@ -825,7 +825,9 @@ function getPageObject() {
 
     // Misc
     loading: byText('loading'),
-    breadcrumbLink: (name: string) => byRole('link', { name }),
+    // File breadcrumbs (not the PageHeader's!)
+    breadcrumbLink: (name: string) =>
+      byRole('navigation', { name: 'breadcrumbs' }).byRole('link', { name }),
     viewSelect: byLabelText('component_measures.view_as'),
     emptyText: byText('component_measures.empty'),
     detailsUnavailableText: byText('component_measures.details_are_not_available'),

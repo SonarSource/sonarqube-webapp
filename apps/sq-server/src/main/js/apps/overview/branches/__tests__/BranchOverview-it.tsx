@@ -179,8 +179,8 @@ describe('project overview', () => {
     renderBranchOverview({}, { featureList: [Feature.AiCodeAssurance, Feature.Sca] });
 
     // Meta info
-    expect(await screen.findByText('master')).toBeInTheDocument();
-    expect(screen.getByText('version-1.0')).toBeInTheDocument();
+    expect(await screen.findByText('main')).toBeInTheDocument();
+    expect(screen.getByText(/version-1\.0/)).toBeInTheDocument();
 
     // QG panel
     expect(screen.getByText('metric.level.OK')).toBeInTheDocument();
@@ -207,7 +207,7 @@ describe('project overview', () => {
     measuresHandler.deleteComponentMeasure('foo', MetricKey.new_coverage);
     renderBranchOverview();
 
-    expect(await screen.findByText('master')).toBeInTheDocument();
+    expect(await screen.findByText('main')).toBeInTheDocument();
     expect(
       await byRole('link', { name: 'overview.coverage.not_computed_doc open_in_new_tab' }).find(),
     ).toHaveAttribute('href', expect.stringContaining(DocLink.TestCoverage));

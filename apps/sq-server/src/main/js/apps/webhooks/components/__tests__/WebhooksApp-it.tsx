@@ -21,6 +21,15 @@
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ComponentContext } from '~adapters/helpers/test-utils';
+import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
+import {
+  BranchesServiceDefaultDataset,
+  BranchesServiceMock,
+} from '~shared/api/mocks/services/BranchesServiceMock';
+import {
+  MeasuresServiceDefaultDataset,
+  MeasuresServiceMock,
+} from '~shared/api/mocks/services/MeasuresServiceMock';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import WebhooksMock from '~sq-server-commons/api/mocks/WebhooksMock';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
@@ -31,10 +40,21 @@ import { Component } from '~sq-server-commons/types/types';
 import { WEBHOOKS_LIMIT } from '../PageActions';
 import WebhooksApp from '../WebhooksApp';
 
+const brancheService = new BranchesServiceMock(BranchesServiceDefaultDataset);
+const measuresService = new MeasuresServiceMock(MeasuresServiceDefaultDataset);
 const webhookService = new WebhooksMock();
 
+jest.mock('~sq-server-commons/api/mode', () => ({
+  getMode: jest.fn().mockResolvedValue({ mode: 'MQR', modified: false }),
+}));
+
 beforeEach(() => {
+  registerServiceMocks(brancheService, measuresService);
   webhookService.reset();
+});
+
+afterEach(() => {
+  resetServiceMocks();
 });
 
 describe('app should render correctly', () => {

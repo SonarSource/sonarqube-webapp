@@ -19,6 +19,15 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
+import {
+  BranchesServiceDefaultDataset,
+  BranchesServiceMock,
+} from '~shared/api/mocks/services/BranchesServiceMock';
+import {
+  MeasuresServiceDefaultDataset,
+  MeasuresServiceMock,
+} from '~shared/api/mocks/services/MeasuresServiceMock';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
 import { deleteApplication } from '~sq-server-commons/api/application';
@@ -33,8 +42,21 @@ import App from '../App';
 jest.mock('~sq-server-commons/api/project-management');
 jest.mock('~sq-server-commons/api/application');
 
+jest.mock('~sq-server-commons/api/mode', () => ({
+  getMode: jest.fn().mockResolvedValue({ mode: 'MQR', modified: false }),
+}));
+
+const brancheService = new BranchesServiceMock(BranchesServiceDefaultDataset);
+const measuresService = new MeasuresServiceMock(MeasuresServiceDefaultDataset);
+
 beforeEach(() => {
+  registerServiceMocks(brancheService, measuresService);
+
   jest.clearAllMocks();
+});
+
+afterEach(() => {
+  resetServiceMocks();
 });
 
 it('should be able to delete project', async () => {
@@ -51,7 +73,7 @@ it('should be able to delete project', async () => {
     mockComponent({ key: 'foo', name: 'Foo', qualifier: ComponentQualifier.Project }),
   );
 
-  expect(byText('deletion.page').get()).toBeInTheDocument();
+  expect(byRole('heading', { name: 'deletion.page' }).get()).toBeInTheDocument();
   expect(byText('project_deletion.page.description').get()).toBeInTheDocument();
   await user.click(ui.deleteButton.get());
   expect(await ui.confirmationModal(ComponentQualifier.Project).find()).toBeInTheDocument();
@@ -78,7 +100,7 @@ it('should be able to delete Portfolio', async () => {
     mockComponent({ key: 'foo', name: 'Foo', qualifier: ComponentQualifier.Portfolio }),
   );
 
-  expect(byText('deletion.page').get()).toBeInTheDocument();
+  expect(byRole('heading', { name: 'deletion.page' }).get()).toBeInTheDocument();
   expect(byText('portfolio_deletion.page.description').get()).toBeInTheDocument();
 
   await user.click(ui.deleteButton.get());
@@ -106,7 +128,7 @@ it('should be able to delete Application', async () => {
     mockComponent({ key: 'foo', name: 'Foo', qualifier: ComponentQualifier.Application }),
   );
 
-  expect(byText('deletion.page').get()).toBeInTheDocument();
+  expect(byRole('heading', { name: 'deletion.page' }).get()).toBeInTheDocument();
   expect(byText('application_deletion.page.description').get()).toBeInTheDocument();
 
   await user.click(ui.deleteButton.get());

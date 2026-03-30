@@ -20,6 +20,15 @@
 
 import userEvent from '@testing-library/user-event';
 import { addGlobalSuccessMessage } from '~design-system';
+import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
+import {
+  BranchesServiceDefaultDataset,
+  BranchesServiceMock,
+} from '~shared/api/mocks/services/BranchesServiceMock';
+import {
+  MeasuresServiceDefaultDataset,
+  MeasuresServiceMock,
+} from '~shared/api/mocks/services/MeasuresServiceMock';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { LanguagesServiceMock } from '~sq-server-commons/api/mocks/LanguagesServiceMock';
 import {
@@ -102,6 +111,10 @@ jest.mock('~sq-server-commons/api/quality-profiles', () => {
   };
 });
 
+jest.mock('~sq-server-commons/api/mode', () => ({
+  getMode: jest.fn().mockResolvedValue({ mode: 'MQR', modified: false }),
+}));
+
 jest.mock('~sq-server-commons/api/rules', () => ({
   searchRules: jest.fn().mockResolvedValue({
     paging: { pageIndex: 1, pageSize: 100, total: 1 },
@@ -116,16 +129,25 @@ jest.mock('~design-system', () => ({
 
 jest.mock('../../../app/utils/handleRequiredAuthorization', () => jest.fn());
 
+const brancheService = new BranchesServiceMock(BranchesServiceDefaultDataset);
+const measuresService = new MeasuresServiceMock(MeasuresServiceDefaultDataset);
+
 const languagesService = new LanguagesServiceMock();
 
-beforeEach(jest.clearAllMocks);
+beforeEach(() => {
+  registerServiceMocks(brancheService, measuresService);
+
+  jest.clearAllMocks();
+});
 
 afterEach(() => {
+  resetServiceMocks();
+
   languagesService.reset();
 });
 
 const ui = {
-  pageTitle: byText('project_quality_profile.page'),
+  pageTitle: byRole('heading', { name: 'project_quality_profile.page' }),
   pageSubTitle: byText('project_quality_profile.subtitle'),
   pageDescription: byText('project_quality_profile.page.description'),
   profileRows: byRole('row'),

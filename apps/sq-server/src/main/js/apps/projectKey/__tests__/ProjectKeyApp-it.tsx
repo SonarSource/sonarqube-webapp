@@ -22,14 +22,36 @@ import { within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { last } from 'lodash';
 import { Route } from 'react-router-dom';
+import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
+import {
+  BranchesServiceDefaultDataset,
+  BranchesServiceMock,
+} from '~shared/api/mocks/services/BranchesServiceMock';
+import {
+  MeasuresServiceDefaultDataset,
+  MeasuresServiceMock,
+} from '~shared/api/mocks/services/MeasuresServiceMock';
 import { byRole } from '~shared/helpers/testSelector';
 import ComponentsServiceMock from '~sq-server-commons/api/mocks/ComponentsServiceMock';
 import { renderAppWithComponentContext } from '~sq-server-commons/helpers/testReactTestingUtils';
 import ProjectKeyApp from '../ProjectKeyApp';
 
+jest.mock('~sq-server-commons/api/mode', () => ({
+  getMode: jest.fn().mockResolvedValue({ mode: 'MQR', modified: false }),
+}));
+
+const brancheService = new BranchesServiceMock(BranchesServiceDefaultDataset);
+const measuresService = new MeasuresServiceMock(MeasuresServiceDefaultDataset);
+
 const componentsMock = new ComponentsServiceMock();
 
+beforeEach(() => {
+  registerServiceMocks(brancheService, measuresService);
+});
+
 afterEach(() => {
+  resetServiceMocks();
+
   componentsMock.reset();
 });
 

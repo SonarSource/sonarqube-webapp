@@ -144,12 +144,10 @@ it('should allow navigating through the tree', async () => {
   // Navigate by clicking on an element.
   await ui.clickOnChildComponent(/folderA$/);
   expect(await ui.childComponent(/out\.tsx/).find()).toBeInTheDocument();
-  expect(screen.getByRole('navigation', { name: 'breadcrumbs' })).toBeInTheDocument();
 
   // Navigate back using the breadcrumb.
-  await ui.clickOnBreadcrumb(/Foo$/);
+  await ui.clickOnBreadcrumb('code.page');
   expect(await ui.childComponent(/folderA/).find()).toBeInTheDocument();
-  expect(screen.queryByRole('navigation', { name: 'breadcrumbs' })).not.toBeInTheDocument();
 
   // Open "index.tsx" file using keyboard navigation.
   await ui.arrowDown();
@@ -636,7 +634,7 @@ it('should correctly show new VS overall measures for Portfolios', async () => {
   await ui.appLoaded(component.name);
 
   // New code measures.
-  expect(ui.newCodeBtn.get()).toHaveAttribute('aria-checked', 'true');
+  expect(await ui.newCodeBtn.find()).toHaveAttribute('aria-checked', 'true');
 
   // Child 1
   let child1Row = ui.measureRow(/^Child 1/);

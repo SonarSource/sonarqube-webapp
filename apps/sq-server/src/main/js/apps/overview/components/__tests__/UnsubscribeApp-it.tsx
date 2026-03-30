@@ -20,6 +20,11 @@
 
 import { screen } from '@testing-library/react';
 import { Route } from 'react-router-dom';
+import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
+import {
+  MeasuresServiceDefaultDataset,
+  MeasuresServiceMock,
+} from '~shared/api/mocks/services/MeasuresServiceMock';
 import { byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
@@ -41,12 +46,38 @@ const ui = {
   ),
 };
 
+const measuresService = new MeasuresServiceMock(MeasuresServiceDefaultDataset);
+
+jest.mock('~sq-server-commons/api/alm-settings', () => {
+  return {
+    validateProjectAlmBinding: jest
+      .fn()
+      .mockResolvedValue(
+        jest
+          .requireActual<
+            typeof import('~sq-server-commons/helpers/mocks/alm-settings')
+          >('~sq-server-commons/helpers/mocks/alm-settings')
+          .mockProjectAlmBindingConfigurationErrors(),
+      ),
+  };
+});
+
+jest.mock('~sq-server-commons/api/mode', () => ({
+  getMode: jest.fn().mockResolvedValue({ mode: 'MQR', modified: false }),
+}));
+
 const reportHandler = new ComponentReportServiceMock();
 const branchHandler = new BranchesServiceMock();
 
 beforeEach(() => {
+  registerServiceMocks(measuresService);
+
   reportHandler.reset();
   branchHandler.reset();
+});
+
+afterEach(() => {
+  resetServiceMocks();
 });
 
 it('unsubscribes project', async () => {

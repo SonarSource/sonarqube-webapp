@@ -19,6 +19,11 @@
  */
 
 import { screen, waitFor } from '@testing-library/react';
+import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
+import {
+  MeasuresServiceDefaultDataset,
+  MeasuresServiceMock,
+} from '~shared/api/mocks/services/MeasuresServiceMock';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
 import MessagesServiceMock from '~sq-server-commons/api/mocks/MessagesServiceMock';
@@ -33,13 +38,42 @@ import {
 import { Feature } from '~sq-server-commons/types/features';
 import routes from '../../routes';
 
+const measuresService = new MeasuresServiceMock(MeasuresServiceDefaultDataset);
+
 const newCodeDefinitionMock = new NewCodeDefinitionServiceMock();
 const projectActivityMock = new ProjectActivityServiceMock();
 const branchHandler = new BranchesServiceMock();
 const messagesMock = new MessagesServiceMock();
+
 jest.mock('~sq-server-addons/index', () => ({
   addons: {},
 }));
+
+jest.mock('~sq-server-commons/api/alm-settings', () => {
+  return {
+    validateProjectAlmBinding: jest
+      .fn()
+      .mockResolvedValue(
+        jest
+          .requireActual<
+            typeof import('~sq-server-commons/helpers/mocks/alm-settings')
+          >('~sq-server-commons/helpers/mocks/alm-settings')
+          .mockProjectAlmBindingConfigurationErrors(),
+      ),
+  };
+});
+
+jest.mock('~sq-server-commons/api/mode', () => ({
+  getMode: jest.fn().mockResolvedValue({ mode: 'MQR', modified: false }),
+}));
+
+beforeAll(() => {
+  registerServiceMocks(measuresService);
+});
+
+afterAll(() => {
+  resetServiceMocks();
+});
 
 describe('add-ons', () => {
   beforeEach(() => {

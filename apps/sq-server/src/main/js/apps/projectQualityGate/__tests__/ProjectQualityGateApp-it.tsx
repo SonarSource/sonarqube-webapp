@@ -21,6 +21,15 @@
 import { toast } from '@sonarsource/echoes-react';
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
+import {
+  BranchesServiceDefaultDataset,
+  BranchesServiceMock,
+} from '~shared/api/mocks/services/BranchesServiceMock';
+import {
+  MeasuresServiceDefaultDataset,
+  MeasuresServiceMock,
+} from '~shared/api/mocks/services/MeasuresServiceMock';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import {
   AiCodeAssuredServiceMock,
@@ -38,7 +47,14 @@ import { Component } from '~sq-server-commons/types/types';
 import handleRequiredAuthorization from '../../../app/utils/handleRequiredAuthorization';
 import routes from '../routes';
 
+const brancheService = new BranchesServiceMock(BranchesServiceDefaultDataset);
+const measuresService = new MeasuresServiceMock(MeasuresServiceDefaultDataset);
+
 jest.mock('~sq-server-commons/api/quality-gates');
+
+jest.mock('~sq-server-commons/api/mode', () => ({
+  getMode: jest.fn().mockResolvedValue({ mode: 'MQR', modified: false }),
+}));
 
 jest.mock('../../../app/utils/handleRequiredAuthorization');
 
@@ -79,7 +95,13 @@ beforeAll(() => {
   handler = new QualityGatesServiceMock();
 });
 
+beforeEach(() => {
+  registerServiceMocks(brancheService, measuresService);
+});
+
 afterEach(() => {
+  resetServiceMocks();
+
   handler.reset();
   aiCodeAssurance.reset();
 });
@@ -97,8 +119,8 @@ it('should be able to select and save specific Quality Gate', async () => {
   const user = userEvent.setup();
   renderProjectQualityGateApp();
 
-  expect(await ui.qualityGateHeading.find()).toBeInTheDocument();
-  expect(ui.defaultRadioQualityGate.get()).toBeChecked();
+  expect(ui.qualityGateHeading.get()).toBeInTheDocument();
+  expect(await ui.defaultRadioQualityGate.find()).toBeChecked();
 
   await user.click(ui.specificRadioQualityGate.get());
   expect(ui.qualityGatesSelect.get()).toBeEnabled();
