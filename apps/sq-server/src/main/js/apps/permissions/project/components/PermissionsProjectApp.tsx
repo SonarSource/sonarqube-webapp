@@ -21,7 +21,7 @@
 import { Layout } from '@sonarsource/echoes-react';
 import { noop, without } from 'lodash';
 import * as React from 'react';
-import { useIntl, WrappedComponentProps } from 'react-intl';
+import { IntlShape, useIntl } from 'react-intl';
 import { useFlags } from '~adapters/helpers/feature-flags';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
@@ -48,9 +48,10 @@ import { PermissionsProjectPageTitle } from './PermissionsProjectPageTitle';
 import PermissionsProjectVisibility from './PermissionsProjectVisibility';
 import PublicProjectDisclaimer from './PublicProjectDisclaimer';
 
-interface Props extends ComponentContextShape, WrappedComponentProps {
+interface Props extends ComponentContextShape {
   component: Component;
   frontEndEngineeringEnableSidebarNavigation?: boolean;
+  intl: IntlShape;
 }
 
 interface State {
