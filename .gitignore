@@ -150,6 +150,7 @@ dmypy.json
 # Local state files & OS specifics
 .DS_Store
 node_modules/
+node_modules
 lerna-debug.log
 dist/
 pack/
