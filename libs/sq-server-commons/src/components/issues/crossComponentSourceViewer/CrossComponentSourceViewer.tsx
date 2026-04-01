@@ -183,7 +183,6 @@ export default class CrossComponentSourceViewer extends React.PureComponent<Prop
             blocks={filterDuplicationBlocksByLine(blocks, line)}
             branchLike={this.props.branchLike}
             duplicatedFiles={duplicatedFiles}
-            duplicationHeader={translate('component_viewer.transition.duplication')}
             inRemovedComponent={isDuplicationBlockInRemovedComponent(blocks)}
             openComponent={openComponent}
             sourceViewerFile={component}

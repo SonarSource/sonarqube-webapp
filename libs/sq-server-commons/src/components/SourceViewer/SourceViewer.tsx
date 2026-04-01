@@ -35,7 +35,6 @@ import {
 } from '../../api/components';
 import { ComponentContext } from '../../context/componentContext/ComponentContext';
 import { isSameBranchLike } from '../../helpers/branch-like';
-import { translate } from '../../helpers/l10n';
 import { BranchLike } from '../../types/branch-like';
 import {
   DuplicatedFile,
@@ -528,7 +527,6 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
             blocks={filterDuplicationBlocksByLine(blocks, line)}
             branchLike={this.props.branchLike}
             duplicatedFiles={duplicatedFiles}
-            duplicationHeader={translate('component_viewer.transition.duplication')}
             inRemovedComponent={isDuplicationBlockInRemovedComponent(blocks)}
             openComponent={openComponent}
             sourceViewerFile={component}

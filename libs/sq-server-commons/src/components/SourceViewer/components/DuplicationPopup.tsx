@@ -18,17 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Link } from '@sonarsource/echoes-react';
 import { groupBy, sortBy } from 'lodash';
 import React, { Fragment, PureComponent } from 'react';
 import { isPullRequest } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
-import {
-  DiscreetLink,
-  DuplicationHighlight,
-  FlagMessage,
-  StandoutLink as Link,
-  QualifierIcon,
-} from '../../../design-system';
+import { FlagMessage, QualifierIcon } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { collapsedDirFromPath, fileFromPath } from '../../../helpers/path';
 import { getProjectUrl } from '../../../helpers/urls';
@@ -40,7 +35,6 @@ interface Props {
   blocks: DuplicationBlock[];
   branchLike: BranchLike | undefined;
   duplicatedFiles?: Record<string, DuplicatedFile>;
-  duplicationHeader: string;
   inRemovedComponent: boolean;
   openComponent: WorkspaceContextShape['openComponent'];
   sourceViewerFile: SourceViewerFile;
@@ -69,29 +63,33 @@ export default class DuplicationPopup extends PureComponent<Props> {
     }
   };
 
-  renderDuplication(file: DuplicatedFile, children: React.ReactNode, line?: number) {
+  renderDuplication(
+    file: DuplicatedFile,
+    children: React.ReactNode,
+    line?: number,
+    className?: string,
+    style?: React.CSSProperties,
+  ) {
     return this.shouldLink() ? (
-      <DiscreetLink
+      <Link
+        className={className}
         data-key={file.key}
         data-line={line}
+        enableBlurAfterClick
         onClick={this.handleFileClick}
+        style={style}
         title={file.name}
         to={{}}
       >
         {children}
-      </DiscreetLink>
+      </Link>
     ) : (
       children
     );
   }
 
   render() {
-    const {
-      duplicatedFiles = {},
-      sourceViewerFile,
-      duplicationHeader,
-      inRemovedComponent,
-    } = this.props;
+    const { duplicatedFiles = {}, sourceViewerFile, inRemovedComponent } = this.props;
 
     const groupedBlocks = groupBy(this.props.blocks, '_ref');
     let duplications = Object.keys(groupedBlocks).map((fileRef) => {
@@ -111,69 +109,63 @@ export default class DuplicationPopup extends PureComponent<Props> {
     );
 
     return (
-      <div className="sw-w-abs-400">
+      <div className="sw-max-w-abs-400">
         {inRemovedComponent && (
           <FlagMessage variant="warning">
             {translate('duplications.dups_found_on_deleted_resource')}
           </FlagMessage>
         )}
-        {duplications.length > 0 && (
-          <>
-            <DuplicationHighlight>{duplicationHeader}</DuplicationHighlight>
-            {duplications.map((duplication) => (
-              <div className="sw-my-2" key={duplication.file.key}>
-                <div className="sw-flex sw-flex-wrap sw-typo-default">
-                  {this.isDifferentComponent(duplication.file, this.props.sourceViewerFile) && (
-                    <div className="sw-mr-4">
-                      <QualifierIcon className="sw-mr-1" qualifier={ComponentQualifier.Project} />
-                      <Link
-                        title={duplication.file.projectName}
-                        to={getProjectUrl(duplication.file.project)}
-                      >
-                        {duplication.file.projectName}
-                      </Link>
-                    </div>
-                  )}
+        {duplications.length > 0 &&
+          duplications.map((duplication) => (
+            <div className="sw-my-2" key={duplication.file.key}>
+              <div className="sw-flex sw-flex-wrap sw-typo-default">
+                {this.isDifferentComponent(duplication.file, this.props.sourceViewerFile) && (
+                  <div className="sw-mr-4">
+                    <QualifierIcon className="sw-mr-1" qualifier={ComponentQualifier.Project} />
+                    <Link
+                      title={duplication.file.projectName}
+                      to={getProjectUrl(duplication.file.project)}
+                    >
+                      {duplication.file.projectName}
+                    </Link>
+                  </div>
+                )}
 
-                  {duplication.file.key !== this.props.sourceViewerFile.key && (
-                    <div className="sw-mr-2">
+                {duplication.file.key !== this.props.sourceViewerFile.key && (
+                  <div className="sw-basis-full sw-min-w-0">
+                    {this.renderDuplication(
+                      duplication.file,
+                      <span>
+                        <span>{collapsedDirFromPath(duplication.file.name)}</span>
+                        <span>{fileFromPath(duplication.file.name)}</span>
+                      </span>,
+                      undefined,
+                      'sw-inline-block sw-truncate',
+                      { maxWidth: '370px' },
+                    )}
+                  </div>
+                )}
+
+                <div>
+                  {'Lines: '}
+                  {duplication.blocks.map((block, index) => (
+                    <Fragment key={index}>
                       {this.renderDuplication(
                         duplication.file,
-                        <span
-                          title={
-                            (collapsedDirFromPath(duplication.file.name) ?? '') +
-                            (fileFromPath(duplication.file.name) ?? '')
-                          }
-                        >
-                          <span>{collapsedDirFromPath(duplication.file.name)}</span>
-                          <span>{fileFromPath(duplication.file.name)}</span>
-                        </span>,
+                        <>
+                          {block.from}
+                          {' – '}
+                          {block.from + block.size - 1}
+                        </>,
+                        block.from,
                       )}
-                    </div>
-                  )}
-
-                  <div>
-                    {'Lines: '}
-                    {duplication.blocks.map((block, index) => (
-                      <Fragment key={index}>
-                        {this.renderDuplication(
-                          duplication.file,
-                          <>
-                            {block.from}
-                            {' – '}
-                            {block.from + block.size - 1}
-                          </>,
-                          block.from,
-                        )}
-                        {index < duplication.blocks.length - 1 && ', '}
-                      </Fragment>
-                    ))}
-                  </div>
+                      {index < duplication.blocks.length - 1 && ', '}
+                    </Fragment>
+                  ))}
                 </div>
               </div>
-            ))}
-          </>
-        )}
+            </div>
+          ))}
       </div>
     );
   }

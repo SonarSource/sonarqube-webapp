@@ -18,16 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { memo, ReactNode, useCallback, useState } from 'react';
-import { useIntl } from 'react-intl';
-import {
-  DuplicationBlock,
-  LineMeta,
-  OutsideClickHandler,
-  PopupPlacement,
-} from '../../../design-system';
+import { Popover, PopoverSide, Spinner, Tooltip } from '@sonarsource/echoes-react';
+import { memo, ReactNode, useCallback } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { DuplicationBlock, LineMeta } from '../../../design-system';
 import { SourceLine } from '../../../types/types';
-import Tooltip from '../../controls/Tooltip';
 
 export interface LineDuplicationBlockProps {
   blocksLoaded: boolean;
@@ -40,52 +35,44 @@ export interface LineDuplicationBlockProps {
 
 export function LineDuplicationBlock(props: LineDuplicationBlockProps) {
   const { blocksLoaded, duplicated, index, line, onClick } = props;
-  const [popupOpen, setPopupOpen] = useState(false);
   const { formatMessage } = useIntl();
 
   const duplicatedBlockLabel = formatMessage({ id: 'source_viewer.tooltip.duplicated_block' });
-  const tooltip = popupOpen ? undefined : duplicatedBlockLabel;
 
   const handleClick = useCallback(() => {
-    setPopupOpen(!popupOpen);
-
     if (!blocksLoaded && line.duplicated && onClick) {
       onClick(line);
     }
-  }, [blocksLoaded, line, onClick, popupOpen]);
+  }, [blocksLoaded, line, onClick]);
 
-  const handleClose = useCallback(() => {
-    setPopupOpen(false);
-  }, []);
-
-  return duplicated ? (
+  return (
     <LineMeta
       className="it__source-line-duplicated"
       data-index={index}
       data-line-number={line.line}
     >
-      <OutsideClickHandler onClickOutside={handleClose}>
-        <Tooltip
-          classNameInner={popupOpen ? 'sw-max-w-abs-400' : undefined}
-          content={popupOpen ? props.renderDuplicationPopup(index, line.line) : tooltip}
-          isInteractive={popupOpen}
-          isOpen={popupOpen ? true : undefined}
-          key={popupOpen ? 'open' : 'closed'}
-          side={PopupPlacement.Right}
-        >
-          <DuplicationBlock
-            aria-expanded={popupOpen}
-            aria-haspopup="dialog"
-            aria-label={duplicatedBlockLabel}
-            onClick={handleClick}
-            role="button"
-            tabIndex={0}
-          />
+      {duplicated && (
+        <Tooltip content={duplicatedBlockLabel} side="right">
+          <Popover
+            extraContent={
+              <Spinner isLoading={!blocksLoaded}>
+                {props.renderDuplicationPopup(index, line.line)}
+              </Spinner>
+            }
+            side={PopoverSide.Right}
+            title={<FormattedMessage id="component_viewer.transition.duplication" />}
+          >
+            <DuplicationBlock
+              aria-label={duplicatedBlockLabel}
+              onClick={handleClick}
+              role="button"
+              tabIndex={0}
+              type="button"
+            />
+          </Popover>
         </Tooltip>
-      </OutsideClickHandler>
+      )}
     </LineMeta>
-  ) : (
-    <LineMeta data-index={index} data-line-number={line.line} />
   );
 }
 

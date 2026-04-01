@@ -332,11 +332,11 @@ it('should show duplication block', async () => {
     }),
   );
 
-  expect(screen.getByRole('tooltip')).toBeVisible();
+  expect(screen.getByRole('dialog')).toBeVisible();
 
   await user.click(document.body);
 
-  expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+  expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 });
 
 it('should highlight symbol', async () => {
