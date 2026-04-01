@@ -18,17 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export enum Permissions {
-  Admin = 'admin',
-  ArchitectureAdmin = 'architectureadmin',
-  Browse = 'user',
-  ProjectCreation = 'provisioning',
-  ApplicationCreation = 'applicationcreator',
-  PortfolioCreation = 'portfoliocreator',
-  QualityGateAdmin = 'gateadmin',
-  QualityProfileAdmin = 'profileadmin',
-  Scan = 'scan',
-  CodeViewer = 'codeviewer',
-  IssueAdmin = 'issueadmin',
-  SecurityHotspotAdmin = 'securityhotspotadmin',
+import { LightComponent } from '~shared/types/component';
+
+export function useCanUpdateArchitectureModel(component: LightComponent): boolean {
+  return component.configuration?.showSettings ?? false;
 }

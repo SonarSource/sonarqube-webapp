@@ -2116,7 +2116,7 @@ export const defaultMessages = {
   'architecture.page.dashboard.model.description_admin':
     'Create an intended architecture for this project with a few top components to detect the first deviations.',
   'architecture.page.dashboard.model.description_view_only':
-    'A project administrator should define the intended architecture to detect deviations.',
+    'An architecture administrator should define the intended architecture to detect deviations.',
   'architecture.page.dashboard.model.create_model': 'Get started',
   'architecture.page.dashboard.has_disabled_rules':
     'Some rules can be activated to raise issues on deviations and flaws.',
@@ -2127,7 +2127,7 @@ export const defaultMessages = {
   'architecture.page.model.unsaved_changes': 'You have unsaved changes.',
   'architecture.page.model.no_data': 'No model data',
   'architecture.page.model.no_architecture_available':
-    "This project doesn't have an intended architecture defined. Users with admin permission on the project are able to create it.",
+    "This project doesn't have an intended architecture defined. Architecture administrators are able to create it.",
   'architecture.page.model.invalid_json': 'Invalid JSON format',
   'architecture.page.model.label': 'Model',
   'architecture.page.model.invalid_groups':
