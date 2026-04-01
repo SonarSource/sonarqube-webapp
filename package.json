@@ -39,6 +39,7 @@
     "lint": "yarn nx run-many -t lint --quiet",
     "lint-report": "yarn nx run-many -t lint-report",
     "new-shared-lib": "yarn nx g shared-library",
+    "e2e-show-gh-report": "bash ./private/config/e2e-show-gh-report.sh",
     "start-sqc": "yarn nx start sq-cloud",
     "start-sqc-w-mocks": "yarn nx start-w-mocks sq-cloud",
     "start-sqs": "yarn nx start sq-server",
