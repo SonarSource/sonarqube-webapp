@@ -2227,6 +2227,13 @@ export const defaultMessages = {
   'architecture.page.tangle': 'Tangle Details',
   'architecture.page.tangles.count':
     '{count, plural, one {<bold>1</bold> Tangle} other {<bold>{count}</bold> Tangles}}',
+  'architecture.page.weak_tangles': 'Weak Tangles',
+  'architecture.page.weak_tangle': 'Weak Tangle Details',
+  'architecture.page.weak_tangles.count':
+    '{count, plural, one {<bold>1</bold> Weak Tangle} other {<bold>{count}</bold> Weak Tangles}}',
+  'architecture.page.smells': 'Smells',
+  'architecture.page.smells_description':
+    'Shows potential structural problems in the codebase that may degrade maintainability over time. A common example is a weak tangle, where several files or classes are connected in a way that is close to forming cyclic dependencies.',
   'architecture.page.architecture_deviations': 'Deviations',
   'architecture.page.structural_flaws': 'Flaws',
   'architecture.page.architecture_deviations_description':
@@ -2273,6 +2280,9 @@ export const defaultMessages = {
   'architecture.tangles.table.files': 'Files',
   'architecture.tangles.table.location': 'Location',
   'architecture.tangles.table.empty': 'No tangles found',
+  'architecture.tangles.issue_name': 'Tangle {index}',
+  'architecture.weak_tangles.issue_name': 'Weak Tangle {index}',
+  'architecture.weak_tangles.table.empty': 'No weak tangles found',
   'architecture.tangle.directive.create.button': 'Request removal',
   'architecture.tangle.directive.remove.button': 'Cancel removal',
   'architecture.tangle.directive.create.description':
