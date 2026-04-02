@@ -897,6 +897,7 @@ export const defaultMessages = {
   'permissions.page': 'Permissions',
   'quality_profiles.page': 'Quality profiles',
   'quality_gates.page': 'Quality gates',
+  'patterns.page': 'Patterns (architecture)',
   'issues.page': 'Issues',
   'issues.skip_to_filters': 'Skip to issue filters',
   'issues.skip_to_list': 'Skip to issues list',
