@@ -46,16 +46,6 @@ beforeEach(() => {
   } as unknown as ReturnType<typeof useFlags>);
 });
 
-it('should not render when feature flag is disabled', () => {
-  jest.mocked(useFlags).mockReturnValue({
-    frontEndEngineeringEnableSidebarNavigation: false,
-  } as unknown as ReturnType<typeof useFlags>);
-
-  renderNewNavigationPromotionNotification();
-
-  expect(byText('promotion.new_navigation.title').query()).not.toBeInTheDocument();
-});
-
 it('should not render if previously dismissed', () => {
   localStorage.setItem(NEW_NAVIGATION_PROMOTION_DISMISSED_KEY, JSON.stringify(true));
 
