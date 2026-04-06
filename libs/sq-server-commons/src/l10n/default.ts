@@ -326,6 +326,7 @@ export const defaultMessages = {
   variation: 'Variation',
   version: 'Version',
   version_x: 'Version {0}',
+  vex: 'VEX',
   view: 'View',
   views: 'Views',
   violations: 'Violations',
@@ -2042,8 +2043,8 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
   'sca.sbom.report': 'Software Bill of Materials (SBOM)',
-  'sca.risk.report': 'Advanced Security Dependency Risks Report',
-  'sca.risk.report.name': 'Dependency Risks Report',
+  'sca.risk.report': 'Advanced Security dependency risks report',
+  'sca.risk.report.name': 'Dependency risks report',
 
   'sca.dependencies.key_changes.heading': 'Key changes for {branchName}',
   'sca.dependencies.key_changes.selection_cards.aria_label': 'Select risk category to view',
