@@ -33,6 +33,7 @@ import {
   searchGroups,
   searchUsers,
 } from '~sq-server-commons/api/quality-profiles';
+import { useProfilePermissionsQuery } from '~sq-server-commons/queries/quality-profiles';
 import { UserSelected } from '~sq-server-commons/types/types';
 import { Group } from './ProfilePermissions';
 
@@ -44,10 +45,19 @@ interface Props {
   selected?: Option;
 }
 
-export default function ProfilePermissionsFormSelect(props: Readonly<Props>) {
-  const { profile, selected } = props;
-  const [defaultOptions, setDefaultOptions] = React.useState<LabelValueSelectOption<string>[]>([]);
+export function ProfilePermissionsFormSelect({ profile, selected, onChange }: Readonly<Props>) {
   const intl = useIntl();
+
+  const { data } = useProfilePermissionsQuery({
+    language: profile.language,
+    name: profile.name,
+    selected: 'deselected',
+  });
+
+  const defaultOptions = React.useMemo(
+    () => [...(data?.users ?? []), ...(data?.groups ?? [])].map(getOption),
+    [data],
+  );
 
   const value = selected ? getOption(selected) : null;
   const controlLabel = selected ? (
@@ -61,36 +71,15 @@ export default function ProfilePermissionsFormSelect(props: Readonly<Props>) {
     </>
   ) : undefined;
 
-  const loadOptions = React.useCallback(
-    async (q = '') => {
-      const parameters: SearchUsersGroupsParameters = {
-        language: profile.language,
-        q,
-        qualityProfile: profile.name,
-        selected: 'deselected',
-      };
-      const [{ users }, { groups }] = await Promise.all([
-        searchUsers(parameters),
-        searchGroups(parameters),
-      ]);
-
-      return { users, groups };
-    },
-    [profile.language, profile.name],
-  );
-
-  const loadInitial = React.useCallback(async () => {
-    try {
-      const { users, groups } = await loadOptions();
-      setDefaultOptions([...users, ...groups].map(getOption));
-    } catch {
-      // noop
-    }
-  }, [loadOptions]);
-
   const handleSearch = (q: string, cb: (options: LabelValueSelectOption<string>[]) => void) => {
-    loadOptions(q)
-      .then(({ users, groups }) => [...users, ...groups].map(getOption))
+    const parameters: SearchUsersGroupsParameters = {
+      language: profile.language,
+      q,
+      qualityProfile: profile.name,
+      selected: 'deselected',
+    };
+    Promise.all([searchUsers(parameters), searchGroups(parameters)])
+      .then(([{ users }, { groups }]) => [...users, ...groups].map(getOption))
       // eslint-disable-next-line promise/no-callback-in-promise
       .then(cb)
       // eslint-disable-next-line promise/no-callback-in-promise
@@ -100,12 +89,8 @@ export default function ProfilePermissionsFormSelect(props: Readonly<Props>) {
   };
 
   const handleChange = (option: LabelValueSelectOption<string>) => {
-    props.onChange(omit(option, ['Icon', 'label', 'value']) as Option);
+    onChange(omit(option, ['Icon', 'label', 'value']) as Option);
   };
-
-  React.useEffect(() => {
-    loadInitial();
-  }, [loadInitial]);
 
   return (
     <SearchSelectDropdown

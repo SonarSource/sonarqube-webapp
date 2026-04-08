@@ -19,33 +19,31 @@
  */
 
 import { Form, ModalForm, toast } from '@sonarsource/echoes-react';
-import { FormEvent, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { FileInput, FormField } from '~design-system';
-import { restoreQualityProfile } from '~sq-server-commons/api/quality-profiles';
 import MandatoryFieldsExplanation from '~sq-server-commons/components/ui/MandatoryFieldsExplanation';
 import { translate } from '~sq-server-commons/helpers/l10n';
+import { useRestoreProfileMutation } from '~sq-server-commons/queries/quality-profiles';
 
 interface Props {
   children: React.ReactNode;
-  onRestore: () => void;
 }
 
-export default function RestoreProfileForm({ children, onRestore }: Readonly<Props>) {
+export function RestoreProfileForm({ children }: Readonly<Props>) {
   const intl = useIntl();
+  const { mutate: restoreProfile, isPending } = useRestoreProfileMutation();
 
-  const [loading, setLoading] = useState(false);
-
-  async function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleFormSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
     const data = new FormData(event.currentTarget);
-    try {
-      setLoading(true);
-      const { profile, ruleFailures, ruleSuccesses } = await restoreQualityProfile(data);
-      renderAlert(profile, ruleFailures ?? 0, ruleSuccesses);
-      onRestore();
-    } finally {
-      setLoading(false);
-    }
+    restoreProfile(data, {
+      onSuccess: (result: {
+        profile: { name: string };
+        ruleFailures?: number;
+        ruleSuccesses: number;
+      }) => {
+        renderAlert(result.profile, result.ruleFailures ?? 0, result.ruleSuccesses);
+      },
+    });
   }
 
   function renderAlert(profile: { name: string }, ruleFailures: number, ruleSuccesses: number) {
@@ -92,7 +90,7 @@ export default function RestoreProfileForm({ children, onRestore }: Readonly<Pro
           </FormField>
         </Form.Section>
       }
-      isSubmitDisabled={loading}
+      isSubmitDisabled={isPending}
       onSubmit={handleFormSubmit}
       secondaryButtonLabel={translate('cancel')}
       submitButtonLabel={translate('restore')}

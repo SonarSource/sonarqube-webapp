@@ -33,7 +33,14 @@ import {
   StaleTime,
 } from '~shared/queries/common';
 import { RuleActivationAdvanced, RuleDetails } from '~shared/types/rules';
-import { createRule, deleteRule, getRuleDetails, searchRules, updateRule } from '../api/rules';
+import {
+  createRule,
+  deleteRule,
+  getRuleDetails,
+  listRules,
+  searchRules,
+  updateRule,
+} from '../api/rules';
 import { SearchRulesResponse } from '../types/coding-rules';
 import { SearchRulesQuery } from '../types/rules';
 import { mapRestRuleToRule } from '../utils/coding-rules';
@@ -70,6 +77,14 @@ export const useRuleDetailsQuery = createQueryHook((data: { actives?: boolean; k
   return queryOptions({
     queryKey: getRulesQueryKey('details', data.key),
     queryFn: () => getRuleDetails(data),
+    staleTime: StaleTime.NEVER,
+  });
+});
+
+export const useListRulesQuery = createQueryHook((data: SearchRulesQuery) => {
+  return queryOptions({
+    queryKey: ['rules', 'list', data],
+    queryFn: () => listRules(data),
     staleTime: StaleTime.NEVER,
   });
 });

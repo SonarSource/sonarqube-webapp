@@ -23,6 +23,7 @@ import userEvent from '@testing-library/user-event';
 import { byRole } from '~shared/helpers/testSelector';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import QualityProfilesServiceMock from '~sq-server-commons/api/mocks/QualityProfilesServiceMock';
+import { copyProfile, deleteProfile, renameProfile } from '~sq-server-commons/api/quality-profiles';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { Feature } from '~sq-server-commons/types/features';
 import routes from '../routes';
@@ -53,7 +54,7 @@ describe('Permissions', () => {
     expect(await ui.permissionSection.find()).toBeInTheDocument();
 
     // Add user
-    await user.click(ui.grantPermissionButton.get());
+    await user.click(await ui.grantPermissionButton.find());
     expect(ui.dialog.get()).toBeInTheDocument();
 
     await user.click(ui.selectUserOrGroup.get());
@@ -81,7 +82,7 @@ describe('Permissions', () => {
     expect(await ui.permissionSection.find()).toBeInTheDocument();
 
     // Add Group
-    await user.click(ui.grantPermissionButton.get());
+    await user.click(await ui.grantPermissionButton.find());
     expect(ui.dialog.get()).toBeInTheDocument();
 
     await user.click(ui.selectUserOrGroup.get());
@@ -138,7 +139,7 @@ describe('Projects', () => {
 
     expect(await ui.projectSection.find()).toBeInTheDocument();
 
-    expect(ui.projectSection.byText('Benflix').get()).toBeInTheDocument();
+    expect(await ui.projectSection.byText('Benflix').find()).toBeInTheDocument();
     await user.click(ui.changeProjectsButton.get());
     expect(ui.dialog.get()).toBeInTheDocument();
 
@@ -362,6 +363,66 @@ describe('Actions', () => {
     // children
     expect(screen.queryByText('PHP way')).not.toBeInTheDocument();
     expect(screen.queryByText('Good old PHP quality profile')).not.toBeInTheDocument();
+  });
+
+  it('should not navigate to new profile when copy fails', async () => {
+    const user = userEvent.setup();
+    jest.mocked(copyProfile).mockRejectedValueOnce(new Error('Server Error'));
+    renderQualityProfile();
+    await ui.waitForDataLoaded();
+
+    await user.click(await ui.qualityProfileActions.find());
+    await user.click(ui.copyButton.get());
+
+    expect(ui.dialog.get()).toBeInTheDocument();
+    await user.clear(ui.newNameInput.get());
+    await user.type(ui.newNameInput.get(), 'New PHP profile copy');
+    await user.click(ui.dialog.byRole('button', { name: 'copy' }).get());
+
+    // On error, no navigation to the new profile
+    expect(
+      await screen.findByRole('heading', { name: 'Good old PHP quality profile' }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'New PHP profile copy' })).not.toBeInTheDocument();
+  });
+
+  it('should not navigate away when rename fails', async () => {
+    const user = userEvent.setup();
+    jest.mocked(renameProfile).mockRejectedValueOnce(new Error('Server Error'));
+    renderQualityProfile();
+    await ui.waitForDataLoaded();
+
+    await user.click(await ui.qualityProfileActions.find());
+    await user.click(ui.renameButton.get());
+
+    expect(ui.dialog.get()).toBeInTheDocument();
+    await user.clear(ui.newNameInput.get());
+    await user.type(ui.newNameInput.get(), 'Renamed PHP profile');
+    await user.click(ui.dialog.byRole('button', { name: 'rename' }).get());
+
+    // On error, no navigation to the renamed profile
+    expect(
+      await screen.findByRole('heading', { name: 'Good old PHP quality profile' }),
+    ).toBeInTheDocument();
+  });
+
+  it('should not navigate to profiles list when delete fails', async () => {
+    const user = userEvent.setup();
+    jest.mocked(deleteProfile).mockRejectedValueOnce(new Error('Server Error'));
+    renderQualityProfile();
+    await ui.waitForDataLoaded();
+
+    await user.click(await ui.qualityProfileActions.find());
+    await user.click(await ui.deleteQualityProfileButton.find());
+
+    expect(ui.alertDialog.get()).toBeInTheDocument();
+    await user.click(ui.alertDialog.byRole('button', { name: 'delete' }).get());
+
+    // On error, no navigation to the profiles list
+    expect(
+      await screen.findByRole('heading', { name: 'Good old PHP quality profile' }),
+    ).toBeInTheDocument();
+    expect(ui.qualityProfilesHeader.query()).not.toBeInTheDocument();
   });
 });
 

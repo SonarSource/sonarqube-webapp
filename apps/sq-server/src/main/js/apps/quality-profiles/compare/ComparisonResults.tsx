@@ -32,7 +32,7 @@ import { getRulesUrl } from '~sq-server-commons/helpers/urls';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import ComparisonResultActivation from './ComparisonResultActivation';
-import ComparisonResultDeactivation from './ComparisonResultDeactivation';
+import { ComparisonResultDeactivation } from './ComparisonResultDeactivation';
 import ComparisonResultsSummary from './ComparisonResultsSummary';
 
 type Params = Record<string, string>;

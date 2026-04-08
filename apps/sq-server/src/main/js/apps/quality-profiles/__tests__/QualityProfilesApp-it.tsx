@@ -465,6 +465,40 @@ describe('Compare', () => {
     expect(await byText('quality_profile.empty_comparison').find()).toBeInTheDocument();
   });
 
+  it('should show not found page when navigating to compare for unknown profile', async () => {
+    renderAppRoutes('profiles/compare?language=java&name=Unknown+Profile', routes);
+
+    expect(
+      await byRole('heading', { name: 'quality_profiles.not_found' }).find(),
+    ).toBeInTheDocument();
+  });
+
+  it('should only show profiles of the same language in comparison dropdown', async () => {
+    serviceMock.setAdmin();
+    renderQualityProfiles();
+
+    await user.click(await ui.listProfileActions('java quality profile', 'Java').find());
+    await user.click(ui.compareButton.get());
+    await user.click(ui.compareDropdown.get());
+
+    expect(byRole('option', { name: 'java quality profile #2' }).get()).toBeInTheDocument();
+    expect(byRole('option', { name: 'c quality profile' }).query()).not.toBeInTheDocument();
+  });
+
+  it('should not show activate or deactivate buttons when left profile is built-in', async () => {
+    serviceMock.setAdmin();
+    renderQualityProfiles();
+
+    await user.click(await ui.listProfileActions('Sonar way', 'Java').find());
+    await user.click(ui.compareButton.get());
+    await user.click(ui.compareDropdown.get());
+    await user.click(byRole('option', { name: 'java quality profile' }).get());
+
+    expect(await ui.comparisonDiffTableHeading(1, 'Sonar way').find()).toBeInTheDocument();
+    expect(ui.activeRuleButton('Sonar way').query()).not.toBeInTheDocument();
+    expect(ui.deactivateRuleButton('Sonar way').query()).not.toBeInTheDocument();
+  });
+
   it('should be able to activate or deactivate rules in comparison page', async () => {
     serviceMock.setAdmin();
     renderQualityProfiles();

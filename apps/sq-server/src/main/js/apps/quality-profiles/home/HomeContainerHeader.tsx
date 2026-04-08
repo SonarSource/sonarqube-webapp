@@ -38,14 +38,13 @@ import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { getProfilePath } from '~sq-server-commons/helpers/urls';
 import { Feature } from '~sq-server-commons/types/features';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
-import CreateProfileForm from './CreateProfileForm';
-import RestoreProfileForm from './RestoreProfileForm';
+import { CreateProfileForm } from './CreateProfileForm';
+import { RestoreProfileForm } from './RestoreProfileForm';
 
 interface Props {
   actions: Actions;
   languages: Array<{ key: string; name: string }>;
   profiles: Profile[];
-  updateProfiles: () => Promise<void>;
 }
 
 export function HomeContainerHeader(props: Readonly<Props>) {
@@ -56,12 +55,7 @@ export function HomeContainerHeader(props: Readonly<Props>) {
   const router = useRouter();
 
   const handleCreate = (profile: Profile) => {
-    props.updateProfiles().then(
-      () => {
-        router.push(getProfilePath(profile.name, profile.language));
-      },
-      () => {},
-    );
+    router.push(getProfilePath(profile.name, profile.language));
   };
 
   const showAICA = isDefined(addons.aica) && hasFeature(Feature.AiCodeAssurance);
@@ -87,7 +81,7 @@ export function HomeContainerHeader(props: Readonly<Props>) {
                 </Button>
               </CreateProfileForm>
 
-              <RestoreProfileForm onRestore={props.updateProfiles}>
+              <RestoreProfileForm>
                 <Button id="quality-profiles-restore">
                   {intl.formatMessage({ id: 'restore' })}
                 </Button>

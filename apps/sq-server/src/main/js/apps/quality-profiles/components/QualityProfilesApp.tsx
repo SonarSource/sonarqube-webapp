@@ -19,106 +19,47 @@
  */
 
 import { Layout, Spinner } from '@sonarsource/echoes-react';
-import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
-import {
-  Actions,
-  getExporters,
-  searchQualityProfiles,
-} from '~sq-server-commons/api/quality-profiles';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
-import withLanguages, {
-  WithLanguagesProps,
-} from '~sq-server-commons/context/languages/withLanguages';
+import { useLanguagesWithRules } from '~sq-server-commons/context/languages/withLanguages';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { Exporter, Profile } from '~sq-server-commons/types/quality-profiles';
+import {
+  useExportersQuery,
+  useQualityProfilesSearchQuery,
+} from '~sq-server-commons/queries/quality-profiles';
+import { QualityProfilesContextProps } from '~sq-server-commons/types/quality-profiles';
 import { sortProfiles } from '~sq-server-commons/utils/quality-profiles-utils';
-import { QualityProfilesContextProps } from '../qualityProfilesContext';
 
-interface State {
-  actions?: Actions;
-  exporters?: Exporter[];
-  loading: boolean;
-  profiles?: Profile[];
-}
+export function QualityProfilesApp() {
+  const languagesWithRules = useLanguagesWithRules();
 
-export class QualityProfilesApp extends React.PureComponent<WithLanguagesProps, State> {
-  mounted = false;
-  state: State = { loading: true };
+  const { data: profilesData, isLoading: isProfilesLoading } =
+    useQualityProfilesSearchQuery(undefined);
+  const { data: exporters, isLoading: isExportersLoading } = useExportersQuery();
 
-  componentDidMount() {
-    this.mounted = true;
-    this.loadData();
-  }
+  const isLoading = isProfilesLoading || isExportersLoading;
 
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  fetchProfiles() {
-    return searchQualityProfiles();
-  }
-
-  loadData() {
-    this.setState({ loading: true });
-    Promise.all([getExporters(), this.fetchProfiles()]).then(
-      ([exporters, profilesResponse]) => {
-        if (this.mounted) {
-          this.setState({
-            actions: profilesResponse.actions,
-            exporters,
-            profiles: sortProfiles(profilesResponse.profiles),
-            loading: false,
-          });
-        }
-      },
-      () => {
-        if (this.mounted) {
-          this.setState({ loading: false });
-        }
-      },
-    );
-  }
-
-  updateProfiles = () => {
-    return this.fetchProfiles().then((r) => {
-      if (this.mounted) {
-        this.setState({ profiles: sortProfiles(r.profiles) });
-      }
-    });
+  const context: QualityProfilesContextProps = {
+    actions: profilesData?.actions ?? {},
+    profiles: sortProfiles(profilesData?.profiles ?? []),
+    languages: Object.values(languagesWithRules),
+    exporters: exporters ?? [],
   };
 
-  renderChild() {
-    const { actions, loading, profiles, exporters } = this.state;
+  return (
+    <>
+      <Suggestions suggestion={DocLink.InstanceAdminQualityProfiles} />
+      <Helmet defer={false} title={translate('quality_profiles.page')} />
 
-    if (loading) {
-      return <Spinner />;
-    }
-    const finalLanguages = Object.values(this.props.languagesWithRules);
-
-    const context: QualityProfilesContextProps = {
-      actions: actions ?? {},
-      profiles: profiles ?? [],
-      languages: finalLanguages,
-      exporters: exporters ?? [],
-      updateProfiles: this.updateProfiles,
-    };
-
-    return <Outlet context={context} />;
-  }
-
-  render() {
-    return (
-      <>
-        <Suggestions suggestion={DocLink.InstanceAdminQualityProfiles} />
-        <Helmet defer={false} title={translate('quality_profiles.page')} />
-
-        <Layout.ContentGrid>{this.renderChild()}</Layout.ContentGrid>
-      </>
-    );
-  }
+      <Layout.ContentGrid>
+        <Spinner isLoading={isLoading}>
+          <Outlet context={context} />
+        </Spinner>
+      </Layout.ContentGrid>
+    </>
+  );
 }
 
-export default withLanguages(QualityProfilesApp);
+export default QualityProfilesApp;

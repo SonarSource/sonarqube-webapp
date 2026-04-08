@@ -32,7 +32,7 @@ import { RuleType } from '~shared/types/rules';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getRulesUrl } from '~sq-server-commons/helpers/urls';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
-import { useGetQualityProfile } from '~sq-server-commons/queries/quality-profiles';
+import { useGetQualityProfileQuery } from '~sq-server-commons/queries/quality-profiles';
 import { useSearchRulesQuery } from '~sq-server-commons/queries/rules';
 import DocHelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/DocHelpTooltip';
 import { SearchRulesResponse } from '~sq-server-commons/types/coding-rules';
@@ -82,7 +82,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
   );
   const activatedRules = activatedRulesPaginated?.pages[0] ?? null;
 
-  const { data: sonarWayDiff, isLoading: isShowProfileLoading } = useGetQualityProfile(
+  const { data: sonarWayDiff, isLoading: isShowProfileLoading } = useGetQualityProfileQuery(
     { compareToSonarWay: true, profile },
     { enabled: !profile.isBuiltIn, select: (data) => data.compareToSonarWay },
   );

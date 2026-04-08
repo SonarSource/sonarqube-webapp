@@ -19,22 +19,15 @@
  */
 
 import { Button, Spinner, Text } from '@sonarsource/echoes-react';
-import { sortBy, uniqBy } from 'lodash';
+import { sortBy } from 'lodash';
 import * as React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { CellComponent, SubTitle, Table, TableRow } from '~design-system';
-import {
-  SearchUsersGroupsParameters,
-  searchGroups,
-  searchUsers,
-} from '~sq-server-commons/api/quality-profiles';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { useProfilePermissionsQuery } from '~sq-server-commons/queries/quality-profiles';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
-import { UserSelected } from '~sq-server-commons/types/types';
-import ProfilePermissionsForm from './ProfilePermissionsForm';
-import ProfilePermissionsGroup from './ProfilePermissionsGroup';
-import ProfilePermissionsUser from './ProfilePermissionsUser';
-
-import { FormattedMessage } from 'react-intl';
+import { ProfilePermissionsForm } from './ProfilePermissionsForm';
+import { ProfilePermissionsGroup } from './ProfilePermissionsGroup';
+import { ProfilePermissionsUser } from './ProfilePermissionsUser';
 
 export interface Group {
   name: string;
@@ -44,159 +37,64 @@ interface Props {
   profile: Pick<Profile, 'key' | 'language' | 'name'>;
 }
 
-interface State {
-  addUserForm: boolean;
-  groups?: Group[];
-  loading: boolean;
-  users?: UserSelected[];
-}
+export function ProfilePermissions({ profile }: Readonly<Props>) {
+  const { formatMessage } = useIntl();
+  const [addUserForm, setAddUserForm] = React.useState(false);
 
-export default class ProfilePermissions extends React.PureComponent<Props, State> {
-  mounted = false;
-  state: State = { addUserForm: false, loading: true };
+  const { data, isLoading } = useProfilePermissionsQuery({
+    language: profile.language,
+    name: profile.name,
+    selected: 'selected',
+  });
 
-  componentDidMount() {
-    this.mounted = true;
-    this.fetchUsersAndGroups();
-  }
+  const users = data?.users ?? [];
+  const groups = data?.groups ?? [];
 
-  componentDidUpdate(prevProps: Props) {
-    if (prevProps.profile.key !== this.props.profile.key) {
-      this.fetchUsersAndGroups();
-    }
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  fetchUsersAndGroups() {
-    this.setState({ loading: true });
-    const { profile } = this.props;
-    const parameters: SearchUsersGroupsParameters = {
-      language: profile.language,
-      qualityProfile: profile.name,
-      selected: 'selected',
-    };
-    Promise.all([searchUsers(parameters), searchGroups(parameters)]).then(
-      ([usersResponse, groupsResponse]) => {
-        if (this.mounted) {
-          this.setState({
-            groups: groupsResponse.groups,
-            loading: false,
-            users: usersResponse.users,
-          });
-        }
-      },
-      () => {
-        if (this.mounted) {
-          this.setState({ loading: false });
-        }
-      },
-    );
-  }
-
-  handleAddUserButtonClick = () => {
-    this.setState({ addUserForm: true });
-  };
-
-  handleAddUserFormClose = () => {
-    if (this.mounted) {
-      this.setState({ addUserForm: false });
-    }
-  };
-
-  handleUserAdd = (addedUser: UserSelected) => {
-    if (this.mounted) {
-      this.setState((state: State) => ({
-        addUserForm: false,
-        users: state.users && uniqBy([...state.users, addedUser], (user) => user.login),
-      }));
-    }
-  };
-
-  handleUserDelete = (removedUser: UserSelected) => {
-    if (this.mounted) {
-      this.setState((state: State) => ({
-        users: state.users?.filter((user) => user !== removedUser),
-      }));
-    }
-  };
-
-  handleGroupAdd = (addedGroup: Group) => {
-    if (this.mounted) {
-      this.setState((state: State) => ({
-        addUserForm: false,
-        groups: state.groups && uniqBy([...state.groups, addedGroup], (group) => group.name),
-      }));
-    }
-  };
-
-  handleGroupDelete = (removedGroup: Group) => {
-    if (this.mounted) {
-      this.setState((state: State) => ({
-        groups: state.groups?.filter((group) => group !== removedGroup),
-      }));
-    }
-  };
-
-  render() {
-    const { loading } = this.state;
-
-    return (
-      <section aria-label={translate('permissions.page')}>
-        <div className="sw-mb-6">
-          <SubTitle className="sw-mb-0">
-            <FormattedMessage id="permissions.page" />
-          </SubTitle>
-          <Text as="p" className="sw-mt-6" isSubtle>
-            <FormattedMessage id="quality_profiles.default_permissions" />
-          </Text>
+  return (
+    <section aria-label={formatMessage({ id: 'permissions.page' })}>
+      <div className="sw-mb-6">
+        <SubTitle className="sw-mb-0">
+          <FormattedMessage id="permissions.page" />
+        </SubTitle>
+        <Text as="p" className="sw-mt-6" isSubtle>
+          <FormattedMessage id="quality_profiles.default_permissions" />
+        </Text>
+      </div>
+      <Spinner isLoading={isLoading}>
+        <Table columnCount={2} columnWidths={['100%', '0%']}>
+          {sortBy(users, 'name').map((user) => (
+            <TableRow key={user.login}>
+              <CellComponent>
+                <ProfilePermissionsUser key={user.login} profile={profile} user={user} />
+              </CellComponent>
+            </TableRow>
+          ))}
+          {sortBy(groups, 'name').map((group) => (
+            <TableRow key={group.name}>
+              <CellComponent>
+                <ProfilePermissionsGroup group={group} key={group.name} profile={profile} />
+              </CellComponent>
+            </TableRow>
+          ))}
+        </Table>
+        <div className="sw-mt-6">
+          <Button
+            onClick={() => {
+              setAddUserForm(true);
+            }}
+          >
+            <FormattedMessage id="quality_profiles.grant_permissions_to_more_users" />
+          </Button>
         </div>
-        <Spinner isLoading={loading}>
-          <Table columnCount={2} columnWidths={['100%', '0%']}>
-            {this.state.users &&
-              sortBy(this.state.users, 'name').map((user) => (
-                <TableRow key={user.login}>
-                  <CellComponent>
-                    <ProfilePermissionsUser
-                      key={user.login}
-                      onDelete={this.handleUserDelete}
-                      profile={this.props.profile}
-                      user={user}
-                    />
-                  </CellComponent>
-                </TableRow>
-              ))}
-            {this.state.groups &&
-              sortBy(this.state.groups, 'name').map((group) => (
-                <TableRow key={group.name}>
-                  <CellComponent>
-                    <ProfilePermissionsGroup
-                      group={group}
-                      key={group.name}
-                      onDelete={this.handleGroupDelete}
-                      profile={this.props.profile}
-                    />
-                  </CellComponent>
-                </TableRow>
-              ))}
-          </Table>
-          <div className="sw-mt-6">
-            <Button onClick={this.handleAddUserButtonClick}>
-              <FormattedMessage id="quality_profiles.grant_permissions_to_more_users" />
-            </Button>
-          </div>
-        </Spinner>
-        {this.state.addUserForm && (
-          <ProfilePermissionsForm
-            onClose={this.handleAddUserFormClose}
-            onGroupAdd={this.handleGroupAdd}
-            onUserAdd={this.handleUserAdd}
-            profile={this.props.profile}
-          />
-        )}
-      </section>
-    );
-  }
+      </Spinner>
+      {addUserForm && (
+        <ProfilePermissionsForm
+          onClose={() => {
+            setAddUserForm(false);
+          }}
+          profile={profile}
+        />
+      )}
+    </section>
+  );
 }

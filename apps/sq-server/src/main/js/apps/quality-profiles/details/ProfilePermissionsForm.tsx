@@ -20,6 +20,7 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { FormField, Modal } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import {
@@ -28,27 +29,18 @@ import {
 } from '~sq-server-commons/queries/quality-profiles';
 import { UserSelected } from '~sq-server-commons/types/types';
 import { Group } from './ProfilePermissions';
-import ProfilePermissionsFormSelect from './ProfilePermissionsFormSelect';
-
-import { FormattedMessage } from 'react-intl';
+import { ProfilePermissionsFormSelect } from './ProfilePermissionsFormSelect';
 
 interface Props {
   onClose: () => void;
-  onGroupAdd: (group: Group) => void;
-  onUserAdd: (user: UserSelected) => void;
   profile: { language: string; name: string };
 }
 
-export default function ProfilePermissionForm(props: Readonly<Props>) {
-  const { profile } = props;
+export function ProfilePermissionsForm({ onClose, profile }: Readonly<Props>) {
   const [selected, setSelected] = React.useState<UserSelected | Group>();
 
-  const { mutate: addUser, isPending: addingUser } = useAddUserMutation(() => {
-    props.onUserAdd(selected as UserSelected);
-  });
-  const { mutate: addGroup, isPending: addingGroup } = useAddGroupMutation(() => {
-    props.onGroupAdd(selected as Group);
-  });
+  const { mutate: addUser, isPending: addingUser } = useAddUserMutation();
+  const { mutate: addGroup, isPending: addingGroup } = useAddGroupMutation();
 
   const loading = addingUser || addingGroup;
 
@@ -59,17 +51,15 @@ export default function ProfilePermissionForm(props: Readonly<Props>) {
     event.preventDefault();
     if (selected) {
       if (isSelectedUser(selected)) {
-        addUser({
-          language: profile.language,
-          login: selected.login,
-          qualityProfile: profile.name,
-        });
+        addUser(
+          { language: profile.language, login: selected.login, qualityProfile: profile.name },
+          { onSuccess: onClose },
+        );
       } else {
-        addGroup({
-          language: profile.language,
-          group: selected.name,
-          qualityProfile: profile.name,
-        });
+        addGroup(
+          { language: profile.language, group: selected.name, qualityProfile: profile.name },
+          { onSuccess: onClose },
+        );
       }
     }
   };
@@ -92,7 +82,7 @@ export default function ProfilePermissionForm(props: Readonly<Props>) {
       headerTitle={header}
       isOverflowVisible
       loading={loading}
-      onClose={props.onClose}
+      onClose={onClose}
       primaryButton={
         <Button
           form="grant_permissions_form"

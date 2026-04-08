@@ -19,11 +19,10 @@
  */
 
 import { Button, ButtonVariety, Tooltip } from '@sonarsource/echoes-react';
-import { noop } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { deactivateRule } from '~sq-server-commons/api/quality-profiles';
 import ConfirmButton from '~sq-server-commons/components/controls/ConfirmButton';
+import { useDeactivateRuleMutation } from '~sq-server-commons/queries/quality-profiles';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 
 interface Props {
@@ -32,16 +31,14 @@ interface Props {
   ruleKey: string;
 }
 
-export default function ComparisonResultDeactivation(props: React.PropsWithChildren<Props>) {
+export function ComparisonResultDeactivation(props: React.PropsWithChildren<Props>) {
   const { profile, ruleKey } = props;
   const intl = useIntl();
 
+  const { mutate: deactivateRule } = useDeactivateRuleMutation(() => props.onDone());
+
   const handleDeactivate = () => {
-    const data = {
-      key: profile.key,
-      rule: ruleKey,
-    };
-    deactivateRule(data).then(props.onDone, noop);
+    deactivateRule({ key: profile.key, rule: ruleKey });
   };
 
   return (

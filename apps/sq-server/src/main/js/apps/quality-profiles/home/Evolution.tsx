@@ -20,7 +20,7 @@
 
 import { Profile } from '~sq-server-commons/types/quality-profiles';
 import EvolutionDeprecated from './EvolutionDeprecated';
-import EvolutionRules from './EvolutionRules';
+import { EvolutionRules } from './EvolutionRules';
 import EvolutionStagnant from './EvolutionStagnant';
 
 export interface EvolutionProps {

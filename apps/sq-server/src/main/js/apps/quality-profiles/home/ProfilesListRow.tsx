@@ -36,7 +36,6 @@ import ProfileLink from '../components/ProfileLink';
 export interface ProfilesListRowProps {
   isComparable: boolean;
   profile: Profile;
-  updateProfiles: () => Promise<void>;
 }
 
 export function ProfilesListRow(props: Readonly<ProfilesListRowProps>) {
@@ -112,11 +111,7 @@ export function ProfilesListRow(props: Readonly<ProfilesListRowProps>) {
       </ContentCell>
 
       <ActionCell>
-        <ProfileActions
-          isComparable={isComparable}
-          profile={profile}
-          updateProfiles={props.updateProfiles}
-        />
+        <ProfileActions fromList isComparable={isComparable} profile={profile} />
       </ActionCell>
     </TableRow>
   );

@@ -20,124 +20,45 @@
 
 import { Button, Link, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Badge, ContentCell, SubTitle, Table, TableRow } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
-import { getProfileProjects } from '~sq-server-commons/api/quality-profiles';
 import { translate } from '~sq-server-commons/helpers/l10n';
+import { useProfileProjectsInfiniteQuery } from '~sq-server-commons/queries/quality-profiles';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
 import ChangeProjectsForm from './ChangeProjectsForm';
-
-import { FormattedMessage } from 'react-intl';
 
 interface Props {
   profile: Profile;
 }
 
-interface State {
-  formOpen: boolean;
-  loading: boolean;
-  loadingMore: boolean;
-  page: number;
-  projects: Array<{ key: string; name: string }>;
-  total: number;
-}
+export function ProfileProjects({ profile }: Readonly<Props>) {
+  const [formOpen, setFormOpen] = React.useState(false);
 
-export default class ProfileProjects extends React.PureComponent<Props, State> {
-  mounted = false;
+  const { data, fetchNextPage, isFetchingNextPage, isLoading } = useProfileProjectsInfiniteQuery(
+    profile.key,
+    { enabled: !profile.isDefault },
+  );
 
-  state: State = {
-    formOpen: false,
-    loading: true,
-    loadingMore: false,
-    page: 1,
-    projects: [],
-    total: 0,
-  };
+  const projects = data?.pages.flatMap((p) => p.results) ?? [];
+  const total = data?.pages[0]?.paging.total ?? 0;
 
-  componentDidMount() {
-    this.mounted = true;
-    this.loadProjects();
-  }
+  const hasNoActiveRules = profile.activeRuleCount === 0;
 
-  componentDidUpdate(prevProps: Props) {
-    if (prevProps.profile.key !== this.props.profile.key) {
-      this.loadProjects();
-    }
-  }
+  const renderDefault = () => (
+    <>
+      <Badge className="sw-mr-2">
+        <FormattedMessage id="default" />
+      </Badge>
+      <FormattedMessage id="quality_profiles.projects_for_default" />
+    </>
+  );
 
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  stopLoading = () => {
-    if (this.mounted) {
-      this.setState({ loading: false });
-    }
-  };
-
-  loadProjects() {
-    if (this.props.profile.isDefault) {
-      this.setState({ loading: false, projects: [] });
-      return;
-    }
-
-    this.setState({ loading: true });
-    const data = { key: this.props.profile.key, p: 1 };
-    getProfileProjects(data).then(({ paging, results }) => {
-      if (this.mounted) {
-        this.setState({
-          projects: results,
-          total: paging.total,
-          loading: false,
-          page: 1,
-        });
-      }
-    }, this.stopLoading);
-  }
-
-  loadMore = () => {
-    this.setState({ loadingMore: true });
-    const data = { key: this.props.profile.key, p: this.state.page + 1 };
-    getProfileProjects(data).then(({ paging, results }) => {
-      if (this.mounted) {
-        this.setState((state) => ({
-          projects: [...state.projects, ...results],
-          total: paging.total,
-          loadingMore: false,
-          page: state.page + 1,
-        }));
-      }
-    }, this.stopLoading);
-  };
-
-  handleChangeClick = () => {
-    this.setState({ formOpen: true });
-  };
-
-  closeForm = () => {
-    this.setState({ formOpen: false });
-    this.loadProjects();
-  };
-
-  renderDefault() {
-    return (
-      <>
-        <Badge className="sw-mr-2">
-          <FormattedMessage id="default" />
-        </Badge>
-        <FormattedMessage id="quality_profiles.projects_for_default" />
-      </>
-    );
-  }
-
-  renderProjects() {
-    if (this.state.loading) {
+  const renderProjects = () => {
+    if (isLoading) {
       return <Spinner />;
     }
-
-    const { projects } = this.state;
-    const { profile } = this.props;
 
     if (profile.activeRuleCount === 0 && projects.length === 0) {
       return translate('quality_profiles.cannot_associate_projects_no_rules');
@@ -166,41 +87,48 @@ export default class ProfileProjects extends React.PureComponent<Props, State> {
         {projects.length > 0 && (
           <ListFooter
             count={projects.length}
-            loadMore={this.loadMore}
-            loading={this.state.loadingMore}
-            total={this.state.total}
+            loadMore={() => {
+              void fetchNextPage();
+            }}
+            loading={isFetchingNextPage}
+            total={total}
           />
         )}
       </>
     );
-  }
+  };
 
-  render() {
-    const { profile } = this.props;
-    const hasNoActiveRules = profile.activeRuleCount === 0;
-    return (
-      // eslint-disable-next-line local-rules/use-metrickey-enum
-      <section aria-label={translate('projects')} className="it__quality-profiles__projects">
-        <div className="sw-flex sw-items-center sw-gap-3 sw-mb-6">
-          {
-            // eslint-disable-next-line local-rules/use-metrickey-enum
-            <SubTitle className="sw-mb-0">
-              <FormattedMessage id="projects" />
-            </SubTitle>
-          }
-          {profile.actions?.associateProjects && (
-            <Button
-              className="it__quality-profiles__change-projects"
-              isDisabled={hasNoActiveRules}
-              onClick={this.handleChangeClick}
-            >
-              <FormattedMessage id="quality_profiles.change_projects" />
-            </Button>
-          )}
-        </div>
-        {profile.isDefault ? this.renderDefault() : this.renderProjects()}
-        {this.state.formOpen && <ChangeProjectsForm onClose={this.closeForm} profile={profile} />}
-      </section>
-    );
-  }
+  return (
+    // eslint-disable-next-line local-rules/use-metrickey-enum
+    <section aria-label={translate('projects')} className="it__quality-profiles__projects">
+      <div className="sw-flex sw-items-center sw-gap-3 sw-mb-6">
+        {
+          // eslint-disable-next-line local-rules/use-metrickey-enum
+          <SubTitle className="sw-mb-0">
+            <FormattedMessage id="projects" />
+          </SubTitle>
+        }
+        {profile.actions?.associateProjects && (
+          <Button
+            className="it__quality-profiles__change-projects"
+            isDisabled={hasNoActiveRules}
+            onClick={() => {
+              setFormOpen(true);
+            }}
+          >
+            <FormattedMessage id="quality_profiles.change_projects" />
+          </Button>
+        )}
+      </div>
+      {profile.isDefault ? renderDefault() : renderProjects()}
+      {formOpen && (
+        <ChangeProjectsForm
+          onClose={() => {
+            setFormOpen(false);
+          }}
+          profile={profile}
+        />
+      )}
+    </section>
+  );
 }

@@ -21,7 +21,7 @@
 import { Layout } from '@sonarsource/echoes-react';
 import { useOutletContext, useSearchParams } from 'react-router-dom';
 import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
-import { QualityProfilesContextProps } from '../qualityProfilesContext';
+import { QualityProfilesContextProps } from '~sq-server-commons/types/quality-profiles';
 import Evolution from './Evolution';
 import { HomeContainerHeader } from './HomeContainerHeader';
 import LanguageSelect from './LanguageSelect';

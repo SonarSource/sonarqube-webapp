@@ -20,28 +20,24 @@
 
 import { Button, Spinner } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useOutletContext } from 'react-router-dom';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isDefined } from '~shared/helpers/types';
 import { parseDate, toISO8601WithOffsetString } from '~sq-server-commons/helpers/dates';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
-import { useGetQualityProfileChangelog } from '~sq-server-commons/queries/quality-profiles';
+import { useGetQualityProfileChangelogQuery } from '~sq-server-commons/queries/quality-profiles';
 import {
-  Profile,
   QualityProfileChangelogFilterMode,
+  QualityProfileDetailsContextProps,
 } from '~sq-server-commons/types/quality-profiles';
 import { getProfileChangelogPath } from '~sq-server-commons/utils/quality-profiles-utils';
 import { ProfilePageTemplate } from '../details/ProfilePageTemplate';
-import { QualityProfilesContextProps, withQualityProfilesContext } from '../qualityProfilesContext';
 import Changelog from './Changelog';
 import ChangelogEmpty from './ChangelogEmpty';
 import ChangelogSearch from './ChangelogSearch';
 
-interface Props extends QualityProfilesContextProps {
-  profile: Profile;
-}
-
-function ChangelogContainer(props: Readonly<Props>) {
-  const { profile } = props;
+export default function ChangelogContainer() {
+  const { profile } = useOutletContext<QualityProfileDetailsContextProps>();
   const { data: isStandardMode } = useStandardExperienceModeQuery();
   const router = useRouter();
   const {
@@ -58,7 +54,7 @@ function ChangelogContainer(props: Readonly<Props>) {
     data: changeLogResponse,
     isLoading,
     fetchNextPage,
-  } = useGetQualityProfileChangelog({
+  } = useGetQualityProfileChangelogQuery({
     since,
     to,
     profile,
@@ -115,5 +111,3 @@ function ChangelogContainer(props: Readonly<Props>) {
     </ProfilePageTemplate>
   );
 }
-
-export default withQualityProfilesContext(ChangelogContainer);

@@ -18,23 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useOutletContext } from 'react-router-dom';
 import { FlagMessage } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { Profile } from '~sq-server-commons/types/quality-profiles';
-import { QualityProfilesContextProps, withQualityProfilesContext } from '../qualityProfilesContext';
+import { QualityProfileDetailsContextProps } from '~sq-server-commons/types/quality-profiles';
 import ProfileExporters from './ProfileExporters';
 import ProfileInheritance from './ProfileInheritance';
 import { ProfilePageTemplate } from './ProfilePageTemplate';
-import ProfilePermissions from './ProfilePermissions';
-import ProfileProjects from './ProfileProjects';
+import { ProfilePermissions } from './ProfilePermissions';
+import { ProfileProjects } from './ProfileProjects';
 import ProfileRules from './ProfileRules';
 
-interface ProfileDetailsProps extends QualityProfilesContextProps {
-  profile: Profile;
-}
-
-function ProfileDetails(props: ProfileDetailsProps) {
-  const { exporters, profile, profiles } = props;
+export default function ProfileDetails() {
+  const { exporters, profile, profiles } = useOutletContext<QualityProfileDetailsContextProps>();
 
   return (
     <ProfilePageTemplate helmetTitle={profile.name}>
@@ -51,11 +47,7 @@ function ProfileDetails(props: ProfileDetailsProps) {
             </FlagMessage>
           )}
 
-          <ProfileInheritance
-            profile={profile}
-            profiles={profiles}
-            updateProfiles={props.updateProfiles}
-          />
+          <ProfileInheritance profile={profile} profiles={profiles} />
           <ProfileProjects profile={profile} />
           {profile.actions?.edit && !profile.isBuiltIn && <ProfilePermissions profile={profile} />}
         </div>
@@ -67,5 +59,3 @@ function ProfileDetails(props: ProfileDetailsProps) {
     </ProfilePageTemplate>
   );
 }
-
-export default withQualityProfilesContext(ProfileDetails);

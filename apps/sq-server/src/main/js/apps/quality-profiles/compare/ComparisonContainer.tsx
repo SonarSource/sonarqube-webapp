@@ -20,22 +20,17 @@
 
 import { Spinner } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useOutletContext } from 'react-router-dom';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { useProfilesCompareQuery } from '~sq-server-commons/queries/quality-profiles';
-import { Profile } from '~sq-server-commons/types/quality-profiles';
+import { QualityProfileDetailsContextProps } from '~sq-server-commons/types/quality-profiles';
 import { getProfileComparePath } from '~sq-server-commons/utils/quality-profiles-utils';
 import { ProfilePageTemplate } from '../details/ProfilePageTemplate';
-import { withQualityProfilesContext } from '../qualityProfilesContext';
 import ComparisonForm from './ComparisonForm';
 import ComparisonResults from './ComparisonResults';
 
-interface Props {
-  profile: Profile;
-  profiles: Profile[];
-}
-
-export function ComparisonContainer(props: Readonly<Props>) {
-  const { profile, profiles } = props;
+export default function ComparisonContainer() {
+  const { profile, profiles } = useOutletContext<QualityProfileDetailsContextProps>();
   const location = useLocation();
   const router = useRouter();
   const { formatMessage } = useIntl();
@@ -90,5 +85,3 @@ export function ComparisonContainer(props: Readonly<Props>) {
     </ProfilePageTemplate>
   );
 }
-
-export default withQualityProfilesContext(ComparisonContainer);

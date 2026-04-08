@@ -31,7 +31,6 @@ interface Props {
   language?: string;
   languages: Language[];
   profiles: Profile[];
-  updateProfiles: () => Promise<void>;
 }
 
 export default function ProfilesList(props: Readonly<Props>) {
@@ -108,7 +107,6 @@ export default function ProfilesList(props: Readonly<Props>) {
               isComparable={profilesToShow[languageKey].length > 1}
               key={profile.key}
               profile={profile}
-              updateProfiles={props.updateProfiles}
             />
           ))}
         </Table>

@@ -28,9 +28,7 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import useKeyDown from '~sq-server-commons/hooks/useKeydown';
 import { useProfileInheritanceQuery } from '~sq-server-commons/queries/quality-profiles';
 import { Profile, ProfileActionModals } from '~sq-server-commons/types/quality-profiles';
 
@@ -62,8 +60,6 @@ export default function ProfileModalForm(props: Readonly<ProfileModalFormProps>)
       onSubmit(name);
     }
   }, [name, onSubmit]);
-
-  useKeyDown(handleSubmit, [KeyboardKeys.Enter]);
 
   const extendsBuiltIn = ancestors?.some((profile) => profile.isBuiltIn);
   const showBuiltInWarning =

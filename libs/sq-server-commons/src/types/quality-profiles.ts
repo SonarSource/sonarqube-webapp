@@ -25,6 +25,8 @@ import {
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
 import { IssueSeverity } from '~shared/types/issues';
+import { Language } from '~shared/types/languages';
+import { Actions } from '../api/quality-profiles';
 import { LabelValueSelectOption } from '../design-system';
 
 export enum QualityProfileChangelogFilterMode {
@@ -117,4 +119,16 @@ export enum ProfileActionModals {
 export interface ProfileOption extends LabelValueSelectOption {
   isDisabled: boolean;
   language: string;
+}
+
+export interface QualityProfilesContextProps {
+  actions: Actions;
+  exporters: Exporter[];
+  languages: Language[];
+  profile?: Profile;
+  profiles: Profile[];
+}
+
+export interface QualityProfileDetailsContextProps extends QualityProfilesContextProps {
+  profile: Profile;
 }

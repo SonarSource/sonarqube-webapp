@@ -21,125 +21,89 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
 import * as React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { FlagMessage, FormField, InputSelect, LabelValueSelectOption, Modal } from '~design-system';
-import { changeProfileParent } from '~sq-server-commons/api/quality-profiles';
 import MandatoryFieldsExplanation from '~sq-server-commons/components/ui/MandatoryFieldsExplanation';
 import { translate } from '~sq-server-commons/helpers/l10n';
+import { useChangeProfileParentMutation } from '~sq-server-commons/queries/quality-profiles';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
 
-import { FormattedMessage } from 'react-intl';
-
 interface Props {
-  onChange: () => void;
   onClose: () => void;
   profile: Profile;
   profiles: Profile[];
 }
 
-interface State {
-  loading: boolean;
-  selected: { value: string } | null;
-}
+export function ChangeParentForm({ onClose, profile, profiles }: Readonly<Props>) {
+  const { formatMessage } = useIntl();
+  const [selected, setSelected] = React.useState<{ value: string } | null>(null);
+  const { isPending: loading, mutate: changeParent } = useChangeProfileParentMutation();
 
-export default class ChangeParentForm extends React.PureComponent<Props, State> {
-  mounted = false;
-  state: State = {
-    loading: false,
-    selected: null,
+  const handleFormSubmit = () => {
+    const parent = profiles.find((p) => p.key === selected?.value);
+    changeParent({ parentProfile: parent, profile }, { onSuccess: onClose });
   };
 
-  componentDidMount() {
-    this.mounted = true;
-  }
+  const options = [
+    { label: translate('none'), value: '' },
+    ...sortBy(profiles, 'name').map((p) => ({
+      label: p.isBuiltIn ? `${p.name} (${translate('quality_profiles.built_in')})` : p.name,
+      value: p.key,
+    })),
+  ].filter((o) => o.value !== profile.key);
 
-  componentWillUnmount() {
-    this.mounted = false;
-  }
+  const submitDisabled = loading || selected == null || selected.value === profile.parentKey;
 
-  handleSelectChange = (option: { value: string }) => {
-    this.setState({ selected: option });
-  };
+  const selectedValue = selected
+    ? options.find((o) => o.value === selected?.value)
+    : options.find((o) => o.value === profile.parentKey);
 
-  handleFormSubmit = () => {
-    const parent = this.props.profiles.find((p) => p.key === this.state.selected?.value);
+  return (
+    <Modal
+      body={
+        <>
+          {profile.parentKey !== undefined && (
+            <FlagMessage className="sw-mb-8" variant="info">
+              <FormattedMessage id="quality_profiles.change_parent_warning" />
+            </FlagMessage>
+          )}
 
-    this.setState({ loading: true });
-    changeProfileParent(this.props.profile, parent)
-      .then(this.props.onChange)
-      .catch(() => {
-        if (this.mounted) {
-          this.setState({ loading: false });
-        }
-      });
-  };
+          <MandatoryFieldsExplanation />
 
-  render() {
-    const { profiles, profile } = this.props;
-    const { loading, selected } = this.state;
-
-    const options = [
-      { label: translate('none'), value: '' },
-      ...sortBy(profiles, 'name').map((profile) => ({
-        label: profile.isBuiltIn
-          ? `${profile.name} (${translate('quality_profiles.built_in')})`
-          : profile.name,
-        value: profile.key,
-      })),
-    ].filter((o) => o.value !== profile.key);
-
-    const submitDisabled = loading || selected == null || selected.value === profile.parentKey;
-
-    const selectedValue = selected
-      ? options.find((o) => o.value === selected?.value)
-      : options.find((o) => o.value === profile.parentKey);
-
-    return (
-      <Modal
-        body={
-          <>
-            {profile.parentKey !== undefined && (
-              <FlagMessage className="sw-mb-8" variant="info">
-                <FormattedMessage id="quality_profiles.change_parent_warning" />
-              </FlagMessage>
-            )}
-
-            <MandatoryFieldsExplanation />
-
-            <FormField
-              className="sw-mt-2"
-              htmlFor="quality-profile-new-parent"
-              label={translate('quality_profiles.parent')}
-              required
-            >
-              <InputSelect
-                id="quality-profile-new-parent"
-                name="parent"
-                onChange={(data: LabelValueSelectOption<string>) => {
-                  this.handleSelectChange(data);
-                }}
-                options={options}
-                required
-                size="full"
-                value={selectedValue}
-              />
-            </FormField>
-          </>
-        }
-        headerTitle={translate('quality_profiles.change_parent')}
-        isOverflowVisible
-        loading={loading}
-        onClose={this.props.onClose}
-        primaryButton={
-          <Button
-            isDisabled={submitDisabled}
-            onClick={this.handleFormSubmit}
-            variety={ButtonVariety.Primary}
+          <FormField
+            className="sw-mt-2"
+            htmlFor="quality-profile-new-parent"
+            label={formatMessage({ id: 'quality_profiles.parent' })}
+            required
           >
-            <FormattedMessage id="change_verb" />
-          </Button>
-        }
-        secondaryButtonLabel={translate('cancel')}
-      />
-    );
-  }
+            <InputSelect
+              id="quality-profile-new-parent"
+              name="parent"
+              onChange={(data: LabelValueSelectOption<string>) => {
+                setSelected(data);
+              }}
+              options={options}
+              required
+              size="full"
+              value={selectedValue}
+            />
+          </FormField>
+        </>
+      }
+      headerTitle={formatMessage({ id: 'quality_profiles.change_parent' })}
+      isOverflowVisible
+      loading={loading}
+      onClose={onClose}
+      primaryButton={
+        <Button
+          isDisabled={submitDisabled}
+          onClick={handleFormSubmit}
+          variety={ButtonVariety.Primary}
+        >
+          <FormattedMessage id="change_verb" />
+        </Button>
+      }
+      secondaryButtonLabel={formatMessage({ id: 'cancel' })}
+    />
+  );
 }

@@ -21,14 +21,10 @@
 import { TooltipProvider } from '@sonarsource/echoes-react';
 import { screen } from '@testing-library/react';
 import { HelmetProvider } from 'react-helmet-async';
-import { MemoryRouter, Outlet, Route, Routes } from 'react-router-dom';
+import { MemoryRouter, Outlet, Route, Routes, useOutletContext } from 'react-router-dom';
 import { render } from '~shared/helpers/test-utils';
 import { mockQualityProfile } from '~sq-server-commons/helpers/testMocks';
-import { Profile } from '~sq-server-commons/types/quality-profiles';
-import {
-  QualityProfilesContextProps,
-  withQualityProfilesContext,
-} from '../../qualityProfilesContext';
+import { QualityProfilesContextProps } from '~sq-server-commons/types/quality-profiles';
 import ProfileContainer from '../ProfileContainer';
 
 it('should render the header and child', () => {
@@ -64,11 +60,10 @@ it('should handle getting profile by key', () => {
   expect(container).toHaveTextContent('found the profile');
 });
 
-function Child(props: { profile?: Profile }) {
-  return <div>{JSON.stringify(props.profile)}</div>;
+function Child() {
+  const { profile } = useOutletContext<QualityProfilesContextProps>();
+  return <div>{JSON.stringify(profile)}</div>;
 }
-
-const WrappedChild = withQualityProfilesContext(Child);
 
 function renderProfileContainer(path: string, overrides: Partial<QualityProfilesContextProps>) {
   function ProfileOutlet(props: Partial<QualityProfilesContextProps>) {
@@ -77,7 +72,6 @@ function renderProfileContainer(path: string, overrides: Partial<QualityProfiles
       exporters: [],
       languages: [],
       profiles: [],
-      updateProfiles: jest.fn(),
       ...props,
     };
 
@@ -91,7 +85,7 @@ function renderProfileContainer(path: string, overrides: Partial<QualityProfiles
           <Routes>
             <Route element={<ProfileOutlet {...overrides} />}>
               <Route element={<ProfileContainer />}>
-                <Route element={<WrappedChild />} path="*" />
+                <Route element={<Child />} path="*" />
               </Route>
             </Route>
           </Routes>

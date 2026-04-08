@@ -34,15 +34,15 @@ import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FileInput, FormField } from '~design-system';
 import { Location } from '~shared/types/router';
-import {
-  changeProfileParent,
-  copyProfile,
-  createQualityProfile,
-  getImporters,
-} from '~sq-server-commons/api/quality-profiles';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { parseAsOptionalString } from '~sq-server-commons/helpers/query';
-import { useProfileInheritanceQuery } from '~sq-server-commons/queries/quality-profiles';
+import {
+  useCopyProfileMutation,
+  useCreateProfileMutation,
+  useExtendProfileMutation,
+  useImportersQuery,
+  useProfileInheritanceQuery,
+} from '~sq-server-commons/queries/quality-profiles';
 import { Profile, ProfileActionModals } from '~sq-server-commons/types/quality-profiles';
 
 interface Props {
@@ -53,96 +53,95 @@ interface Props {
   profiles: Profile[];
 }
 
-export default function CreateProfileForm(props: Readonly<Props>) {
+export function CreateProfileForm(props: Readonly<Props>) {
   const { children, languages, profiles, onCreate } = props;
 
   const intl = useIntl();
 
-  const [importers, setImporters] = React.useState<
-    Array<{ key: string; languages: string[]; name: string }>
-  >([]);
-
   type ActionOptions = ProfileActionModals.Copy | ProfileActionModals.Extend | 'blank';
 
   const [action, setAction] = React.useState<ActionOptions>('blank');
-  const [submitting, setSubmitting] = React.useState(false);
   const [name, setName] = React.useState('');
-  const [loading, setLoading] = React.useState(true);
   const [language, setLanguage] = React.useState<string>();
   const [isValidLanguage, setIsValidLanguage] = React.useState<boolean>();
   const [isValidName, setIsValidName] = React.useState<boolean>();
   const [isValidProfile, setIsValidProfile] = React.useState<boolean>();
   const [profile, setProfile] = React.useState<Profile>();
 
-  const fetchImporters = React.useCallback(async () => {
-    setLoading(true);
-    try {
-      const importers = await getImporters();
-      setImporters(importers);
-    } finally {
-      setLoading(false);
-    }
-  }, [setImporters, setLoading]);
+  const { data: importers = [], isLoading } = useImportersQuery();
+  const { isPending: isCopying, mutate: copyProfile } = useCopyProfileMutation();
+  const { isPending: isExtending, mutate: extendProfile } = useExtendProfileMutation();
+  const { isPending: isCreating, mutate: createProfile } = useCreateProfileMutation();
 
-  const handleNameChange = React.useCallback(
-    (event: React.SyntheticEvent<HTMLInputElement>) => {
-      setName(event.currentTarget.value);
-      setIsValidName(event.currentTarget.value.length > 0);
-    },
-    [setName, setIsValidName],
-  );
+  const submitting = isCopying || isExtending || isCreating;
 
-  const handleLanguageChange = React.useCallback(
-    (option: string) => {
-      setLanguage(option);
-      setIsValidLanguage(true);
-      setProfile(undefined);
-      setIsValidProfile(false);
-    },
-    [setLanguage, setIsValidLanguage],
-  );
+  const handleNameChange = React.useCallback((event: React.SyntheticEvent<HTMLInputElement>) => {
+    setName(event.currentTarget.value);
+    setIsValidName(event.currentTarget.value.length > 0);
+  }, []);
+
+  const handleLanguageChange = React.useCallback((option: string) => {
+    setLanguage(option);
+    setIsValidLanguage(true);
+    setProfile(undefined);
+    setIsValidProfile(false);
+  }, []);
 
   const handleFormSubmit = React.useCallback(
-    async (event: React.FormEvent<HTMLFormElement>) => {
-      setSubmitting(true);
+    (event: React.SyntheticEvent<HTMLFormElement>) => {
       const profileKey = profile?.key;
-      try {
-        if (action === ProfileActionModals.Copy && profileKey && name) {
-          const profile = await copyProfile(profileKey, name);
-          onCreate(profile);
-        } else if (action === ProfileActionModals.Extend) {
-          const { profile } = await createQualityProfile({ language, name });
-
-          const parentProfile = profiles.find((p) => p.key === profileKey);
-          if (parentProfile) {
-            await changeProfileParent(profile, parentProfile);
-          }
-
-          onCreate(profile);
-        } else {
-          const formData = new FormData(event?.currentTarget ?? undefined);
-          formData.set('language', language ?? '');
-          formData.set('name', name);
-          const { profile } = await createQualityProfile(formData);
-          onCreate(profile);
-        }
-      } finally {
-        setSubmitting(false);
+      if (action === ProfileActionModals.Copy && profileKey && name) {
+        copyProfile(
+          { fromKey: profileKey, toName: name },
+          {
+            onSuccess: (newProfile) => {
+              onCreate(newProfile);
+            },
+          },
+        );
+      } else if (action === ProfileActionModals.Extend) {
+        const parentProfile = profiles.find((p) => p.key === profileKey);
+        extendProfile(
+          { language: language!, name, parentProfile: parentProfile! },
+          {
+            onSuccess: (newProfile) => {
+              onCreate(newProfile);
+            },
+          },
+        );
+      } else {
+        const formData = new FormData(event?.currentTarget ?? undefined);
+        formData.set('language', language ?? '');
+        formData.set('name', name);
+        createProfile(formData, {
+          onSuccess: (result: { profile: Profile }) => {
+            onCreate(result.profile);
+          },
+        });
       }
     },
-    [setSubmitting, onCreate, profiles, action, language, name, profile],
+    [
+      action,
+      copyProfile,
+      createProfile,
+      extendProfile,
+      language,
+      name,
+      onCreate,
+      profile,
+      profiles,
+    ],
   );
 
   React.useEffect(() => {
-    fetchImporters();
     const languageQueryFilter = parseAsOptionalString(props.location.query.language);
     if (languageQueryFilter !== undefined) {
       setLanguage(languageQueryFilter);
       setIsValidLanguage(true);
     }
-  }, [fetchImporters, props.location.query.language]);
+  }, [props.location.query.language]);
 
-  const { data: { ancestors } = {}, isLoading } = useProfileInheritanceQuery(
+  const { data: { ancestors } = {}, isLoading: isLoadingInheritance } = useProfileInheritanceQuery(
     action === undefined || language === undefined || profile === undefined
       ? undefined
       : {
@@ -171,12 +170,12 @@ export default function CreateProfileForm(props: Readonly<Props>) {
     : [];
 
   const profilesForSelectedLanguage = profiles.filter((p) => p.language === selectedLanguage);
-  const profileOptions = sortBy(profilesForSelectedLanguage, 'name').map((profile) => ({
-    ...profile,
-    label: profile.isBuiltIn
-      ? `${profile.name} (${intl.formatMessage({ id: 'quality_profiles.built_in' })})`
-      : profile.name,
-    value: profile.key,
+  const profileOptions = sortBy(profilesForSelectedLanguage, 'name').map((p) => ({
+    ...p,
+    label: p.isBuiltIn
+      ? `${p.name} (${intl.formatMessage({ id: 'quality_profiles.built_in' })})`
+      : p.name,
+    value: p.key,
   }));
 
   const handleQualityProfileChange = React.useCallback(
@@ -185,7 +184,7 @@ export default function CreateProfileForm(props: Readonly<Props>) {
       setProfile(selectedProfile);
       setIsValidProfile(selectedProfile !== undefined);
     },
-    [setProfile, setIsValidProfile, profileOptions],
+    [profileOptions],
   );
 
   const languagesOptions = sortBy(languages, 'name').map((l) => ({
@@ -254,7 +253,7 @@ export default function CreateProfileForm(props: Readonly<Props>) {
               value={action}
             />
 
-            {!isLoading && showBuiltInWarning && (
+            {!isLoadingInheritance && showBuiltInWarning && (
               <MessageCallout className="sw-block sw-my-4" variety={MessageVariety.Info}>
                 <div className="sw-flex sw-flex-col">
                   {intl.formatMessage({
@@ -336,7 +335,7 @@ export default function CreateProfileForm(props: Readonly<Props>) {
           )}
         </>
       }
-      isSubmitDisabled={!canSubmit || submitting || loading}
+      isSubmitDisabled={!canSubmit || submitting || isLoading}
       onSubmit={handleFormSubmit}
       secondaryButtonLabel={intl.formatMessage({ id: 'cancel' })}
       submitButtonLabel={translate('create')}

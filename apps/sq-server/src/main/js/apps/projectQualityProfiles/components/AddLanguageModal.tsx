@@ -18,15 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Select } from '@sonarsource/echoes-react';
+import { Form, ModalForm, Select } from '@sonarsource/echoes-react';
 import { difference } from 'lodash';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Modal } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
 import withLanguages, {
   WithLanguagesProps,
 } from '~sq-server-commons/context/languages/withLanguages';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import ProfileSelect from './ProfileSelect';
@@ -40,71 +38,65 @@ export interface AddLanguageModalProps extends WithLanguagesProps {
 
 export function AddLanguageModal(props: AddLanguageModalProps) {
   const { languagesWithRules: languages, profilesByLanguage, unavailableLanguages } = props;
+  const { formatMessage } = useIntl();
 
   const [{ language, key }, setSelected] = React.useState<{ key?: string; language?: string }>({
     language: undefined,
     key: undefined,
   });
 
-  const header = translate('project_quality_profile.add_language_modal.title');
-
   const languageOptions: LabelValueSelectOption[] = difference(
     Object.keys(profilesByLanguage).filter((lang) => languages[lang]),
     unavailableLanguages,
   ).map((l) => ({ value: l, label: languages[l].name }));
 
-  const onFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (language && key) {
-      props.onSubmit(key);
+  const onFormSubmit = () => {
+    if (!language || !key) {
+      return;
     }
+
+    return props.onSubmit(key);
   };
 
-  const renderForm = (
-    <form id="add-language-quality-profile" onSubmit={onFormSubmit}>
-      <Select
-        className="sw-mb-4"
-        data={languageOptions}
-        label={<FormattedMessage id="project_quality_profile.add_language_modal.choose_language" />}
-        onChange={(value: string) => {
-          setSelected({ language: value, key: undefined });
-        }}
-        value={language}
-        width="full"
-      />
-
-      <ProfileSelect
-        className="sw-mb-4"
-        id="profiles"
-        isDisabled={!language}
-        label={<FormattedMessage id="project_quality_profile.add_language_modal.choose_profile" />}
-        onChange={(value: string) => {
-          setSelected({ language, key: value });
-        }}
-        profiles={language ? profilesByLanguage[language] : []}
-        value={key}
-        width="full"
-      />
-    </form>
-  );
-
   return (
-    <Modal
-      body={renderForm}
-      headerTitle={header}
-      isOverflowVisible
-      onClose={props.onClose}
-      primaryButton={
-        <Button
-          form="add-language-quality-profile"
-          isDisabled={!language || !key}
-          type="submit"
-          variety={ButtonVariety.Primary}
-        >
-          <FormattedMessage id="save" />
-        </Button>
+    <ModalForm
+      content={
+        <Form.Section>
+          <Select
+            className="sw-mb-4"
+            data={languageOptions}
+            label={
+              <FormattedMessage id="project_quality_profile.add_language_modal.choose_language" />
+            }
+            onChange={(value: string) => {
+              setSelected({ language: value, key: undefined });
+            }}
+            value={language}
+            width="full"
+          />
+          <ProfileSelect
+            className="sw-mb-4"
+            id="profiles"
+            isDisabled={!language}
+            label={
+              <FormattedMessage id="project_quality_profile.add_language_modal.choose_profile" />
+            }
+            onChange={(value: string) => {
+              setSelected({ language, key: value });
+            }}
+            profiles={language ? profilesByLanguage[language] : []}
+            value={key}
+            width="full"
+          />
+        </Form.Section>
       }
+      isDefaultOpen
+      isSubmitDisabled={!language || !key}
+      onClose={props.onClose}
+      onSubmit={onFormSubmit}
       secondaryButtonLabel={<FormattedMessage id="cancel" />}
+      submitButtonLabel={<FormattedMessage id="save" />}
+      title={formatMessage({ id: 'project_quality_profile.add_language_modal.title' })}
     />
   );
 }

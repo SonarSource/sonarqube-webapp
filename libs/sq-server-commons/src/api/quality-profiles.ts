@@ -31,6 +31,7 @@ import { Paging } from '~shared/types/paging';
 import { csvEscape } from '../helpers/csv';
 import { RequestData, post, postJSON } from '../helpers/request';
 import {
+  BaseProfile,
   Exporter,
   BaseProfile as Profile,
   ProfileChangelogEvent,
@@ -77,8 +78,10 @@ export function getQualityProfile({
   return getJSON('/api/qualityprofiles/show', { compareToSonarWay, key });
 }
 
-export function createQualityProfile(data: RequestData): Promise<any> {
-  return postJSON('/api/qualityprofiles/create', data).catch(throwGlobalError);
+export function createQualityProfile(data: RequestData) {
+  return postJSON<{ profile: BaseProfile }>('/api/qualityprofiles/create', data).catch(
+    throwGlobalError,
+  );
 }
 
 export function restoreQualityProfile(data: RequestData): Promise<any> {
@@ -160,7 +163,7 @@ export function getImporters(): Promise<
   return getJSON('/api/qualityprofiles/importers').then((r) => r.importers, throwGlobalError);
 }
 
-export function getExporters(): Promise<any> {
+export function getExporters(): Promise<Exporter[]> {
   return getJSON('/api/qualityprofiles/exporters').then((r) => r.exporters);
 }
 

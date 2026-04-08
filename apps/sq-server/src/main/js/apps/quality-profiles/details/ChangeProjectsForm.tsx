@@ -21,18 +21,18 @@
 import { Text } from '@sonarsource/echoes-react';
 import { find, without } from 'lodash';
 import * as React from 'react';
+import { useIntl } from 'react-intl';
 import { Modal } from '~design-system';
-import {
-  ProfileProject,
-  associateProject,
-  dissociateProject,
-  getProfileProjects,
-} from '~sq-server-commons/api/quality-profiles';
+import { ProfileProject, getProfileProjects } from '~sq-server-commons/api/quality-profiles';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
 } from '~sq-server-commons/components/controls/SelectList';
 import { translate } from '~sq-server-commons/helpers/l10n';
+import {
+  useAssociateProjectMutation,
+  useDissociateProjectMutation,
+} from '~sq-server-commons/queries/quality-profiles';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
 
 interface Props {
@@ -40,88 +40,54 @@ interface Props {
   profile: Profile;
 }
 
-interface State {
-  lastSearchParams?: SelectListSearchParams;
-  needToReload: boolean;
-  projects: ProfileProject[];
-  projectsTotalCount?: number;
-  selectedProjects: string[];
-}
+export function ChangeProjectsForm({ onClose, profile }: Readonly<Props>) {
+  const { formatMessage } = useIntl();
+  const [lastSearchParams, setLastSearchParams] = React.useState<SelectListSearchParams>();
+  const [needToReload, setNeedToReload] = React.useState(false);
+  const [projects, setProjects] = React.useState<ProfileProject[]>([]);
+  const [projectsTotalCount, setProjectsTotalCount] = React.useState<number>();
+  const [selectedProjects, setSelectedProjects] = React.useState<string[]>([]);
 
-export default class ChangeProjectsForm extends React.PureComponent<Props, State> {
-  mounted = false;
+  const { mutateAsync: associateProject } = useAssociateProjectMutation();
+  const { mutateAsync: dissociateProject } = useDissociateProjectMutation();
 
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      needToReload: false,
-      projects: [],
-      selectedProjects: [],
-    };
-  }
-
-  componentDidMount() {
-    this.mounted = true;
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  fetchProjects = (searchParams: SelectListSearchParams) =>
+  const fetchProjects = (searchParams: SelectListSearchParams) =>
     getProfileProjects({
-      key: this.props.profile.key,
+      key: profile.key,
       p: searchParams.page,
       ps: searchParams.pageSize,
       q: searchParams.query !== '' ? searchParams.query : undefined,
       selected: searchParams.filter,
     }).then((data) => {
-      if (this.mounted) {
-        this.setState((prevState) => {
-          const more = searchParams.page != null && searchParams.page > 1;
+      const more = searchParams.page != null && searchParams.page > 1;
 
-          const projects = more ? [...prevState.projects, ...data.results] : data.results;
-          const newSeletedProjects = data.results
-            .filter((project) => project.selected)
-            .map((project) => project.key);
-          const selectedProjects = more
-            ? [...prevState.selectedProjects, ...newSeletedProjects]
-            : newSeletedProjects;
+      setProjects((prev) => (more ? [...prev, ...data.results] : data.results));
+      setProjectsTotalCount(data.paging.total);
+      setLastSearchParams(searchParams);
+      setNeedToReload(false);
 
-          return {
-            lastSearchParams: searchParams,
-            needToReload: false,
-            projects,
-            projectsTotalCount: data.paging.total,
-            selectedProjects,
-          };
-        });
-      }
+      const newSelectedProjects = data.results
+        .filter((project) => project.selected)
+        .map((project) => project.key);
+      setSelectedProjects((prev) =>
+        more ? [...prev, ...newSelectedProjects] : newSelectedProjects,
+      );
     });
 
-  handleSelect = (key: string) =>
-    associateProject(this.props.profile, key).then(() => {
-      if (this.mounted) {
-        this.setState((state: State) => ({
-          needToReload: true,
-          selectedProjects: [...state.selectedProjects, key],
-        }));
-      }
-    });
+  const handleSelect = async (key: string) => {
+    await associateProject({ profile, projectKey: key });
+    setNeedToReload(true);
+    setSelectedProjects((prev) => [...prev, key]);
+  };
 
-  handleUnselect = (key: string) =>
-    dissociateProject(this.props.profile, key).then(() => {
-      if (this.mounted) {
-        this.setState((state: State) => ({
-          needToReload: true,
-          selectedProjects: without(state.selectedProjects, key),
-        }));
-      }
-    });
+  const handleUnselect = async (key: string) => {
+    await dissociateProject({ profile, projectKey: key });
+    setNeedToReload(true);
+    setSelectedProjects((prev) => without(prev, key));
+  };
 
-  renderElement = (key: string): React.ReactNode => {
-    const project = find(this.state.projects, { key });
+  const renderElement = (key: string): React.ReactNode => {
+    const project = find(projects, { key });
     return (
       <>
         {project === undefined ? (
@@ -137,38 +103,36 @@ export default class ChangeProjectsForm extends React.PureComponent<Props, State
     );
   };
 
-  render() {
-    const header = translate('projects');
-
-    return (
-      <Modal
-        body={
-          <div className="sw-mt-1" id="profile-projects">
-            <SelectList
-              allowBulkSelection
-              elements={this.state.projects.map((project) => project.key)}
-              elementsTotalCount={this.state.projectsTotalCount}
-              labelAll={translate('quality_gates.projects.all')}
-              labelSelected={translate('quality_gates.projects.with')}
-              labelUnselected={translate('quality_gates.projects.without')}
-              needToReload={
-                this.state.needToReload &&
-                this.state.lastSearchParams &&
-                this.state.lastSearchParams.filter !== SelectListFilter.All
-              }
-              onSearch={this.fetchProjects}
-              onSelect={this.handleSelect}
-              onUnselect={this.handleUnselect}
-              renderElement={this.renderElement}
-              selectedElements={this.state.selectedProjects}
-              withPaging
-            />
-          </div>
-        }
-        headerTitle={header}
-        isOverflowVisible
-        onClose={this.props.onClose}
-      />
-    );
-  }
+  return (
+    <Modal
+      body={
+        <div className="sw-mt-1" id="profile-projects">
+          <SelectList
+            allowBulkSelection
+            elements={projects.map((project) => project.key)}
+            elementsTotalCount={projectsTotalCount}
+            labelAll={translate('quality_gates.projects.all')}
+            labelSelected={translate('quality_gates.projects.with')}
+            labelUnselected={translate('quality_gates.projects.without')}
+            needToReload={
+              needToReload &&
+              lastSearchParams !== undefined &&
+              lastSearchParams.filter !== SelectListFilter.All
+            }
+            onSearch={fetchProjects}
+            onSelect={handleSelect}
+            onUnselect={handleUnselect}
+            renderElement={renderElement}
+            selectedElements={selectedProjects}
+            withPaging
+          />
+        </div>
+      }
+      headerTitle={formatMessage({ id: 'projects' })}
+      isOverflowVisible
+      onClose={onClose}
+    />
+  );
 }
+
+export default ChangeProjectsForm;

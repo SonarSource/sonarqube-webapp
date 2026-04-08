@@ -19,17 +19,17 @@
  */
 
 import { Heading, Text } from '@sonarsource/echoes-react';
-import { noop, sortBy } from 'lodash';
+import { sortBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { DiscreetLink, Link } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { MetricType } from '~shared/types/metrics';
 import { Rule, RuleActivationAdvanced } from '~shared/types/rules';
-import { listRules } from '~sq-server-commons/api/rules';
 import { toShortISO8601String } from '~sq-server-commons/helpers/dates';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getRulesUrl } from '~sq-server-commons/helpers/urls';
+import { useListRulesQuery } from '~sq-server-commons/queries/rules';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 
 const RULES_LIMIT = 10;
@@ -38,10 +38,8 @@ interface ExtendedRule extends Rule {
   activations: number;
 }
 
-export default function EvolutionRules() {
+export function EvolutionRules() {
   const intl = useIntl();
-  const [latestRules, setLatestRules] = React.useState<ExtendedRule[]>();
-  const [latestRulesTotal, setLatestRulesTotal] = React.useState<number>();
 
   const periodStartDate = React.useMemo(() => {
     const startDate = new Date();
@@ -49,20 +47,16 @@ export default function EvolutionRules() {
     return toShortISO8601String(startDate);
   }, []);
 
-  React.useEffect(() => {
-    const data = {
-      asc: false,
-      available_since: periodStartDate,
-      f: 'name,langName,actives',
-      ps: RULES_LIMIT,
-      s: 'createdAt',
-    };
+  const { data } = useListRulesQuery({
+    asc: false,
+    available_since: periodStartDate,
+    f: 'name,langName,actives',
+    ps: RULES_LIMIT,
+    s: 'createdAt',
+  });
 
-    listRules(data).then(({ actives, rules, paging: { total } }) => {
-      setLatestRules(sortBy(parseRules(rules, actives), 'langName'));
-      setLatestRulesTotal(total);
-    }, noop);
-  }, [periodStartDate]);
+  const latestRulesTotal = data?.paging.total;
+  const latestRules = data ? sortBy(parseRules(data.rules, data.actives), 'langName') : undefined;
 
   if (!(isDefined(latestRulesTotal) && latestRulesTotal !== 0) || !latestRules) {
     return null;

@@ -258,13 +258,17 @@ export function getCorsJSON(url: string, data?: RequestData): Promise<any> {
 /**
  * Shortcut to do a POST request and return response json
  */
-export function postJSON(url: string, data?: RequestData, bypassRedirect = false): Promise<any> {
+export function postJSON<T = any>(
+  url: string,
+  data?: RequestData,
+  bypassRedirect = false,
+): Promise<T> {
   return request(url)
     .setMethod('POST')
     .setData(data)
     .submit()
     .then((response) => checkStatus(response, bypassRedirect))
-    .then(parseJSON);
+    .then(parseJSON) as Promise<T>;
 }
 
 /**

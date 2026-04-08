@@ -25,7 +25,7 @@ import { FlagMessage, SubTitle, Table } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useProfileInheritanceQuery } from '~sq-server-commons/queries/quality-profiles';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
-import ChangeParentForm from './ChangeParentForm';
+import { ChangeParentForm } from './ChangeParentForm';
 import ProfileInheritanceRow from './ProfileInheritanceRow';
 
 import { FormattedMessage } from 'react-intl';
@@ -33,11 +33,10 @@ import { FormattedMessage } from 'react-intl';
 interface Props {
   profile: Profile;
   profiles: Profile[];
-  updateProfiles: () => Promise<void>;
 }
 
 export default function ProfileInheritance(props: Readonly<Props>) {
-  const { profile, profiles, updateProfiles } = props;
+  const { profile, profiles } = props;
   const [formOpen, setFormOpen] = React.useState(false);
 
   const { data: { ancestors, children, profile: profileInheritanceDetail } = {}, isLoading } =
@@ -51,14 +50,6 @@ export default function ProfileInheritance(props: Readonly<Props>) {
   const closeForm = React.useCallback(() => {
     setFormOpen(false);
   }, [setFormOpen]);
-
-  const handleParentChange = React.useCallback(async () => {
-    try {
-      await updateProfiles();
-    } finally {
-      closeForm();
-    }
-  }, [closeForm, updateProfiles]);
 
   const highlightCurrent =
     !isLoading &&
@@ -132,7 +123,6 @@ export default function ProfileInheritance(props: Readonly<Props>) {
       </Spinner>
       {formOpen && (
         <ChangeParentForm
-          onChange={handleParentChange}
           onClose={closeForm}
           profile={profile}
           profiles={profiles.filter(

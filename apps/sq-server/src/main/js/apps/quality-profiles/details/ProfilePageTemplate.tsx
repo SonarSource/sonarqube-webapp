@@ -30,6 +30,7 @@ import {
 import { PropsWithChildren } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
+import { useOutletContext } from 'react-router-dom';
 import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import DateFromNow from '~shared/components/intl/DateFromNow';
@@ -41,13 +42,13 @@ import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { getProfilePath } from '~sq-server-commons/helpers/urls';
 import { Feature } from '~sq-server-commons/types/features';
+import { QualityProfileDetailsContextProps } from '~sq-server-commons/types/quality-profiles';
 import {
   getProfileChangelogPath,
   getProfilesForLanguagePath,
 } from '~sq-server-commons/utils/quality-profiles-utils';
 import BuiltInQualityProfileBadge from '../components/BuiltInQualityProfileBadge';
 import ProfileActions from '../components/ProfileActions';
-import { useQualityProfileDetailsContext } from '../qualityProfilesContext';
 
 interface Props {
   additionalBreadcrumbs?: BreadcrumbsProps['items'];
@@ -65,7 +66,7 @@ export function ProfilePageTemplate(props: PropsWithChildren<Props>) {
     hideMetadata = false,
   } = props;
 
-  const { profile, profiles, updateProfiles } = useQualityProfileDetailsContext();
+  const { profile, profiles } = useOutletContext<QualityProfileDetailsContextProps>();
 
   const location = useLocation();
   const { language } = location.query;
@@ -89,11 +90,7 @@ export function ProfilePageTemplate(props: PropsWithChildren<Props>) {
       <Layout.PageHeader
         actions={
           <Layout.PageHeader.Actions>
-            <ProfileActions
-              isComparable={isComparable}
-              profile={profile}
-              updateProfiles={updateProfiles}
-            />
+            <ProfileActions isComparable={isComparable} profile={profile} />
           </Layout.PageHeader.Actions>
         }
         breadcrumbs={

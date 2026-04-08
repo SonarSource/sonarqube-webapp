@@ -185,6 +185,14 @@ it('should show empty list for java', async () => {
   expect(ui.showMore.query()).not.toBeInTheDocument();
 });
 
+it('should show not found page when profile does not exist', async () => {
+  renderChangeLog('java', 'Unknown Profile');
+
+  expect(
+    await byRole('heading', { name: 'quality_profiles.not_found' }).find(),
+  ).toBeInTheDocument();
+});
+
 function renderChangeLog(language = 'c', name = 'c quality profile') {
   renderAppRoutes(`profiles/changelog?name=${name}&language=${language}`, routes, {});
 }

@@ -22,29 +22,28 @@ import { Button, ButtonIcon, ButtonVariety, IconDelete, Text } from '@sonarsourc
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Avatar, Modal } from '~design-system';
-import { removeUser } from '~sq-server-commons/api/quality-profiles';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { useRemoveUserMutation } from '~sq-server-commons/queries/quality-profiles';
 import { UserSelected } from '~sq-server-commons/types/types';
 
 interface Props {
-  onDelete: (user: UserSelected) => void;
   profile: { language: string; name: string };
   user: UserSelected;
 }
 
-export default function ProfilePermissionsGroup(props: Readonly<Props>) {
-  const { user, profile } = props;
+export function ProfilePermissionsUser({ user, profile }: Readonly<Props>) {
   const [deleteDialogOpened, setDeleteDialogOpened] = React.useState(false);
+  const { mutate: removeUser } = useRemoveUserMutation();
 
   const handleDelete = () => {
-    return removeUser({
-      language: profile.language,
-      login: user.login,
-      qualityProfile: profile.name,
-    }).then(() => {
-      setDeleteDialogOpened(false);
-      props.onDelete(user);
-    });
+    removeUser(
+      { language: profile.language, login: user.login, qualityProfile: profile.name },
+      {
+        onSuccess: () => {
+          setDeleteDialogOpened(false);
+        },
+      },
+    );
   };
 
   return (

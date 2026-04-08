@@ -102,6 +102,9 @@ export default class QualityProfilesServiceMock {
     [profileKey: string]: ProfileProject[];
   } = {};
 
+  selectedUsers: string[] = [];
+  selectedGroups: string[] = [];
+
   changelogEvents: ProfileChangelogEvent[] = [];
 
   constructor() {
@@ -677,38 +680,59 @@ export default class QualityProfilesServiceMock {
     });
   };
 
-  handleSearchUsers = () => {
-    return this.reply({
-      users: [
-        mockUserSelected({
-          login: 'buzz',
-          name: 'Buzz',
-        }),
-      ],
-      paging: mockPaging(),
-    });
+  handleSearchUsers = ({ selected }: { selected?: string }) => {
+    const buzz = mockUserSelected({ login: 'buzz', name: 'Buzz' });
+    const isSelected = this.selectedUsers.includes('buzz');
+
+    let users: (typeof buzz)[] = [];
+    if (selected === 'selected') {
+      users = isSelected ? [buzz] : [];
+    } else if (selected === 'deselected') {
+      users = isSelected ? [] : [buzz];
+    } else {
+      users = [buzz];
+    }
+
+    return this.reply({ users, paging: mockPaging() });
   };
 
-  handleAddUser = () => {
+  handleAddUser = ({ login }: { login: string }) => {
+    if (!this.selectedUsers.includes(login)) {
+      this.selectedUsers = [...this.selectedUsers, login];
+    }
     return this.reply(undefined);
   };
 
-  handleRemoveUser = () => {
+  handleRemoveUser = ({ login }: { login: string }) => {
+    this.selectedUsers = this.selectedUsers.filter((u) => u !== login);
     return this.reply(undefined);
   };
 
-  handleSearchGroups = () => {
-    return this.reply({
-      groups: [mockGroup({ name: 'ACDC' })],
-      paging: mockPaging(),
-    });
+  handleSearchGroups = ({ selected }: { selected?: string }) => {
+    const acdc = mockGroup({ name: 'ACDC' });
+    const isSelected = this.selectedGroups.includes('ACDC');
+
+    let groups: (typeof acdc)[] = [];
+    if (selected === 'selected') {
+      groups = isSelected ? [acdc] : [];
+    } else if (selected === 'deselected') {
+      groups = isSelected ? [] : [acdc];
+    } else {
+      groups = [acdc];
+    }
+
+    return this.reply({ groups, paging: mockPaging() });
   };
 
-  handleAddGroup = () => {
+  handleAddGroup = ({ group }: { group: string }) => {
+    if (!this.selectedGroups.includes(group)) {
+      this.selectedGroups = [...this.selectedGroups, group];
+    }
     return this.reply(undefined);
   };
 
-  handleRemoveGroup = () => {
+  handleRemoveGroup = ({ group }: { group: string }) => {
+    this.selectedGroups = this.selectedGroups.filter((g) => g !== group);
     return this.reply(undefined);
   };
 
@@ -865,6 +889,8 @@ export default class QualityProfilesServiceMock {
     this.resetSearchRulesResponse();
     this.resetProfileProjects();
     this.resetChangelogEvents();
+    this.selectedUsers = [];
+    this.selectedGroups = [];
   }
 
   reply<T>(response: T): Promise<T> {

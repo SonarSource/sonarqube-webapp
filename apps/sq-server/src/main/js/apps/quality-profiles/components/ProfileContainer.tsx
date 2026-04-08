@@ -21,10 +21,10 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
-import { Outlet, useSearchParams } from 'react-router-dom';
+import { Outlet, useOutletContext, useSearchParams } from 'react-router-dom';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { useQualityProfilesContext } from '../qualityProfilesContext';
+import { QualityProfilesContextProps } from '~sq-server-commons/types/quality-profiles';
 import ProfileNotFound from './ProfileNotFound';
 
 export default function ProfileContainer() {
@@ -33,7 +33,7 @@ export default function ProfileContainer() {
 
   const { key, language, name } = location.query;
 
-  const context = useQualityProfilesContext();
+  const context = useOutletContext<QualityProfilesContextProps>();
   const { profiles } = context;
 
   const intl = useIntl();

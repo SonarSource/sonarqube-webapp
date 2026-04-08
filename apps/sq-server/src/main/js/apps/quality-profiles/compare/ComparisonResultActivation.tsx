@@ -21,9 +21,8 @@
 import { Button, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { RuleDetails } from '~shared/types/rules';
-import { getRuleDetails } from '~sq-server-commons/api/rules';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import { useRuleDetailsQuery } from '~sq-server-commons/queries/rules';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import ActivationFormModal from '../../coding-rules/components/ActivationFormModal';
 
@@ -33,40 +32,35 @@ interface Props {
   ruleKey: string;
 }
 
-export default function ComparisonResultActivation(props: React.PropsWithChildren<Props>) {
+export function ComparisonResultActivation(props: React.PropsWithChildren<Props>) {
   const { profile, ruleKey } = props;
-  const [state, setState] = React.useState<'closed' | 'opening' | 'open'>('closed');
-  const [rule, setRule] = React.useState<RuleDetails>();
+  const [isOpen, setIsOpen] = React.useState(false);
   const intl = useIntl();
 
-  const isOpen = state === 'open' && !!rule;
+  const {
+    data: ruleData,
+    isFetching,
+    refetch,
+  } = useRuleDetailsQuery({ key: ruleKey }, { enabled: false });
+
+  const rule = ruleData?.rule;
 
   const activateRuleMsg = intl.formatMessage(
     { id: 'quality_profiles.comparison.activate_rule' },
     { profile: profile.name },
   );
 
-  const handleButtonClick = () => {
-    setState('opening');
-    getRuleDetails({ key: ruleKey }).then(
-      ({ rule }) => {
-        setState('open');
-        setRule(rule);
-      },
-      () => {
-        setState('closed');
-      },
-    );
+  const handleButtonClick = async () => {
+    const result = await refetch();
+    if (result.data) {
+      setIsOpen(true);
+    }
   };
 
   return (
-    <Spinner isLoading={state === 'opening'}>
+    <Spinner isLoading={isFetching}>
       <Tooltip content={activateRuleMsg} side="bottom">
-        <Button
-          ariaLabel={activateRuleMsg}
-          isDisabled={state !== 'closed'}
-          onClick={handleButtonClick}
-        >
+        <Button ariaLabel={activateRuleMsg} isDisabled={isFetching} onClick={handleButtonClick}>
           {intl.formatMessage({ id: 'activate' })}
         </Button>
       </Tooltip>
@@ -76,12 +70,10 @@ export default function ComparisonResultActivation(props: React.PropsWithChildre
           isOpen={isOpen}
           modalHeader={intl.formatMessage({ id: 'coding_rules.activate_in_quality_profile' })}
           onClose={() => {
-            setState('closed');
+            setIsOpen(false);
           }}
           onDone={props.onDone}
-          onOpenChange={(open) => {
-            setState(open ? 'open' : 'closed');
-          }}
+          onOpenChange={setIsOpen}
           profiles={[profile]}
           rule={rule}
         />
@@ -89,3 +81,5 @@ export default function ComparisonResultActivation(props: React.PropsWithChildre
     </Spinner>
   );
 }
+
+export default ComparisonResultActivation;
