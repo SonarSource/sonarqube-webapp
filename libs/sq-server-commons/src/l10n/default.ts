@@ -2266,6 +2266,8 @@ export const defaultMessages = {
     'No data available. Please run an analysis first, or see the analysis logs for more information.',
   'architecture.unsupported_language.message': 'No supported languages found for this project.',
   'architecture.error.message': "Sorry, Currently a project of this size isn't supported.",
+  'architecture.patterns.list.error':
+    "Sorry, we couldn't load the patterns. Please try again later.",
   'architecture.nodes.orphans.label': 'Orphans ({orphansCount})',
   'architecture.nodes.orphans.name': 'Orphans',
   'architecture.tangles.description':
