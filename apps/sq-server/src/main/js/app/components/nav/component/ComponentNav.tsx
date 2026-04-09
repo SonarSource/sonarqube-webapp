@@ -93,12 +93,15 @@ export function ComponentNav(props: Readonly<Props>) {
           </Layout.SidebarNavigation.Item>
         )}
         {isAnalyzed && <ComponentNavAnalysisMenu branchLike={branchLike} component={component} />}
-        {isAnalyzed && !isApplicationChildInaccessible && (
-          <>
-            <ComponentNavExtensionsMenu branchLike={branchLike} component={component} />
-            <ComponentNavReportingMenu branchLike={branchLike} component={component} />
-          </>
+
+        {!isApplicationChildInaccessible && (
+          <ComponentNavExtensionsMenu branchLike={branchLike} component={component} />
         )}
+
+        {isAnalyzed && !isApplicationChildInaccessible && (
+          <ComponentNavReportingMenu branchLike={branchLike} component={component} />
+        )}
+
         {!isApplicationChildInaccessible && (
           <>
             <ComponentNavPoliciesMenu component={component} />
