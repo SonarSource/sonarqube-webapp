@@ -5089,40 +5089,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@launchdarkly/js-client-sdk-common@npm:1.20.0":
-  version: 1.20.0
-  resolution: "@launchdarkly/js-client-sdk-common@npm:1.20.0"
-  dependencies:
-    "@launchdarkly/js-sdk-common": "npm:2.22.0"
-  checksum: 10/25fd3f146c3c64f5a3d1679d640d32429ac465e3cbea2032fbb34eca6c2399d5686172a2c45cd8c4ff4a1c27529df7fac7e73496071d182d4e85103329a3dbae
-  languageName: node
-  linkType: hard
-
-"@launchdarkly/js-client-sdk@npm:^4.0.0":
-  version: 4.3.0
-  resolution: "@launchdarkly/js-client-sdk@npm:4.3.0"
-  dependencies:
-    "@launchdarkly/js-client-sdk-common": "npm:1.20.0"
-  checksum: 10/52dc310cb4d6eec545dce3aa3b1b9fc9f086486436024549471e09ead156e4356bcabbd92e45a377a15e2a05075c57fa38fd6e00f02ec86dd57024444f5d5826
-  languageName: node
-  linkType: hard
-
-"@launchdarkly/js-sdk-common@npm:2.22.0":
-  version: 2.22.0
-  resolution: "@launchdarkly/js-sdk-common@npm:2.22.0"
-  checksum: 10/e9412a5728619a94731f770761c93a19c9d4383190a2e9c860a21c4d71be8fdae77862d5ebbd3157bda7ae72e748511a97eed57d5146ca5d10cd25e4d0252397
-  languageName: node
-  linkType: hard
-
-"@launchdarkly/observability@npm:1.0.2":
-  version: 1.0.2
-  resolution: "@launchdarkly/observability@npm:1.0.2"
-  dependencies:
-    highlight.run: "npm:9.27.0"
-  checksum: 10/b5a5e8ea13e3552fb990852e752e3790b9affcd2077f3e2b734a5ca739ea560bb05e8d40a3a70ab9a3d9305e7bc934a84ea133611b40a19422fe69d59b88292f
-  languageName: node
-  linkType: hard
-
 "@launchdarkly/toolbar@npm:2.2.0":
   version: 2.2.0
   resolution: "@launchdarkly/toolbar@npm:2.2.0"
@@ -16335,16 +16301,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"highlight.run@npm:9.27.0":
-  version: 9.27.0
-  resolution: "highlight.run@npm:9.27.0"
-  dependencies:
-    "@launchdarkly/js-client-sdk": "npm:^4.0.0"
-    imurmurhash: "npm:^0.1.4"
-  checksum: 10/8165555b64adeef29d5a6599ca01425df524e63b81deb0b78e77ae71fe7fee16c87a8b02afc4cb5624589b738d9865b780c2564d720ba4b060cee2aa051d0c68
-  languageName: node
-  linkType: hard
-
 "highlightjs-apex@npm:1.5.0":
   version: 1.5.0
   resolution: "highlightjs-apex@npm:1.5.0"
@@ -23763,7 +23719,6 @@ __metadata:
     "@fullstory/browser": "npm:2.0.6"
     "@fullstory/snippet": "npm:2.0.5"
     "@jupyterlab/nbformat": "npm:4.5.5"
-    "@launchdarkly/observability": "npm:1.0.2"
     "@launchdarkly/toolbar": "npm:2.2.0"
     "@nx/devkit": "npm:22.6.4"
     "@nx/eslint": "npm:22.6.4"
