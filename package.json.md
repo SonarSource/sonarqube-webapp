@@ -145,6 +145,10 @@ This package is needed for any worker.ts functions outside of react and reports 
 d3-zoom expects @types/d3-selection@3.0.x, so it may install a different version that breaks type resolution.
 We force it to use the explicit version we declare (3.0.11)
 
+### axios
+
+Some of our dependencies are requiring an older version of axios with vulnerabilities, we force them to use a more recent version that is not vulnerable.
+
 ### debug
 
 We have many transitive dependencies that depend on debug and versions before ^4.3.0 have a vulnerability reported by Mend. It's to hard to track down all the dependencies that would need to be updated to ensure it's at the right version without a resolution.
