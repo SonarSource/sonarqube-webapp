@@ -154,7 +154,7 @@ export default class ProfileProjects extends React.PureComponent<Props, State> {
             <TableRow key={project.key}>
               <ContentCell>
                 <Link
-                  className="it__quality-profiles__project fs-mask"
+                  className="it__quality-profiles__project"
                   to={getProjectOverviewUrl(project.key)}
                 >
                   {project.name}

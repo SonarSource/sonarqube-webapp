@@ -79,7 +79,6 @@ export function ProjectContentHeader(props: Readonly<Props>) {
       actions={actions}
       breadcrumbs={
         <Layout.PageHeader.Breadcrumbs
-          className="fs-mask"
           items={[
             {
               hasEllipsis: true,
@@ -109,7 +108,6 @@ export function ProjectContentHeader(props: Readonly<Props>) {
       metadata={metadata && <StyledMetadata>{metadata}</StyledMetadata>}
       title={
         <Layout.ContentHeader.Title
-          className="fs-mask"
           headingLevel="h1"
           suffix={
             <>

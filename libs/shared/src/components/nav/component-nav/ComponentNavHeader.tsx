@@ -52,7 +52,6 @@ export function ComponentNavHeader(props: Readonly<Props>) {
       id="component-nav-dropdown-menu"
       items={[
         <DropdownMenu.ItemButtonCheckable
-          className="fs-mask"
           isChecked
           key={component.key}
           prefix={<Avatar name={component.name} size="xs" />}
@@ -61,7 +60,6 @@ export function ComponentNavHeader(props: Readonly<Props>) {
         </DropdownMenu.ItemButtonCheckable>,
         ...recentlyBrowsed.map((component) => (
           <DropdownMenu.ItemLink
-            className="fs-mask"
             isActive={false}
             key={component.key}
             prefix={<Avatar name={component.name} size="xs" />}
@@ -92,8 +90,8 @@ const SidebarNavigationHeader = forwardRef<
     <Layout.SidebarNavigation.Header
       avatar={<Avatar name={component.name} size="sm" />}
       name={
-        <Tooltip content={<span className="fs-mask">{component.name}</span>} side="right">
-          <span className="fs-mask sw-block sw-truncate">{component.name}</span>
+        <Tooltip content={component.name} side="right">
+          <span className="sw-block sw-truncate">{component.name}</span>
         </Tooltip>
       }
       qualifier={<FormattedMessage id={`qualifier.${component.qualifier}`} />}
