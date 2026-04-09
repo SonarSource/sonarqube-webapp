@@ -35,3 +35,17 @@ export interface BeamerNewsItem {
   id: number;
   translations: BeamerNewsItemTranslation[];
 }
+
+export interface BeamerUnreadCountResponse {
+  count: number;
+}
+
+export interface GetBeamerUnreadCountArgs {
+  filter: string;
+  userId: string;
+}
+
+export interface BeamerCacheEntry {
+  data: BeamerUnreadCountResponse;
+  timestamp: number;
+}

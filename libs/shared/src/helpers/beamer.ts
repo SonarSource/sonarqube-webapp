@@ -18,4 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { BeamerCacheEntry, GetBeamerUnreadCountArgs } from '../types/beamer';
+import useLocalStorage from './useLocalStorage';
+
 export const BEAMER_NOTIFICATIONS_SETTING = 'beamer-notifications-setting';
+
+export const BEAMER_CACHE_DURATION_MS = 7 * 24 * 60 * 60 * 1000; // 1 week
+
+export const BEAMER_PAGE_SIZE = 10;
+
+const BEAMER_UNREAD_COUNT_CACHE_KEY = 'sonarqube.beamer-unread-count';
+
+export function useBeamerUnreadCountCache({ filter, userId }: GetBeamerUnreadCountArgs) {
+  return useLocalStorage<BeamerCacheEntry | undefined>(
+    `${BEAMER_UNREAD_COUNT_CACHE_KEY}.${userId}.${filter}`,
+  );
+}

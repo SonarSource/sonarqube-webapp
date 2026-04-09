@@ -52,7 +52,7 @@ const PRODUCT_MAP = {
   [EditionKey.datacenter]: 'sqs',
 };
 
-export function useBeamerContextData(): string | undefined {
+export function useBeamerContextData() {
   const { currentUser } = useCurrentUser();
   const { canAdmin, version, edition } = useAppState();
   const availableFeatures = useContext(AvailableFeaturesContext);

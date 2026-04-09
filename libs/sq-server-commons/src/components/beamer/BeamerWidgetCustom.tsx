@@ -58,52 +58,58 @@ const badgeVarietyForCategory: Record<string, BadgeVariety> = {
   new: BadgeVariety.Info,
 };
 
+/**
+ * Outer shell: waits for the user to load, then mounts the content.
+ * Splitting here ensures the inner component's hooks (including useLocalStorage
+ * for the cache) always receive a stable, defined params from mount.
+ */
 export function BeamerWidgetCustom({ hideCounter = true }: Readonly<Props>) {
+  const { data: userData } = useCurrentUserDetailsQuery();
+  const filter = useBeamerContextData();
+
+  if (!userData) {
+    return null;
+  }
+
+  return <BeamerWidgetContent filter={filter} hideCounter={hideCounter} userId={userData.id} />;
+}
+
+interface ContentProps {
+  filter: string;
+  hideCounter: boolean;
+  userId: string;
+}
+
+function BeamerWidgetContent({ filter, hideCounter, userId }: Readonly<ContentProps>) {
   const intl = useIntl();
 
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
-  // Fetch the current user's uuid
-  const { data: userData } = useCurrentUserDetailsQuery();
-  const userId = userData?.id;
-
-  const filter = useBeamerContextData();
-
   const { data: unreadCountData } = useBeamerUnreadCountQuery(
-    { filter: filter!, userId: userId! },
-    { enabled: isStringDefined(filter) && isStringDefined(userId) },
+    { filter, userId },
+    { enabled: isStringDefined(filter) },
   );
 
   const {
     data: newsListData,
     isLoading: isNewsListLoading,
     isError: newsListError,
-    refetch: refetchNewsList,
     fetchNextPage: fetchNextPageOfNews,
     hasNextPage: hasNextPageOfNews,
     isFetching: isFetchingNews,
   } = useBeamerNewsListQuery(
-    { filter: filter!, userId: userId! },
-    { enabled: isStringDefined(filter) && isPanelOpen && isStringDefined(userId) },
+    { filter, userId },
+    { enabled: isStringDefined(filter) && isPanelOpen },
   );
 
-  // Flatten the infinite query data
   const flattenedNewsData = useMemo(() => newsListData?.pages.flat() ?? [], [newsListData]);
 
-  const { mutate: markUnreadPostsAsRead } = useMarkUnreadPostsMutation({
-    filter: filter!,
-    userId: userId!,
-  });
+  const { mutate: markUnreadPostsAsRead } = useMarkUnreadPostsMutation({ filter, userId });
 
-  const handleOnClick = useCallback(async () => {
+  const handleOnClick = useCallback(() => {
     setIsPanelOpen(true);
-    await refetchNewsList();
     markUnreadPostsAsRead();
-  }, [markUnreadPostsAsRead, refetchNewsList]);
-
-  if (!userData) {
-    return null;
-  }
+  }, [markUnreadPostsAsRead]);
 
   const unreadCount = unreadCountData?.count ?? 0;
 

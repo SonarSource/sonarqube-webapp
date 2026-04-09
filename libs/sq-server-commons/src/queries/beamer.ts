@@ -28,36 +28,53 @@ import {
   getBeamerNewsList,
   GetBeamerNewsListArgs,
   getBeamerUnreadCount,
-  GetBeamerUnreadCountArgs,
   markUnreadPosts,
-  PAGE_SIZE,
 } from '~shared/api/beamer';
+import {
+  BEAMER_CACHE_DURATION_MS,
+  BEAMER_PAGE_SIZE,
+  useBeamerUnreadCountCache,
+} from '~shared/helpers/beamer';
 import { createInfiniteQueryHook, createQueryHook, StaleTime } from '~shared/queries/common';
+import { GetBeamerUnreadCountArgs } from '~shared/types/beamer';
 
 export const useBeamerUnreadCountQuery = createQueryHook((data: GetBeamerUnreadCountArgs) => {
+  const [cached, setCached] = useBeamerUnreadCountCache(data);
+
   return queryOptions({
-    queryKey: ['beamer', 'unread-count', data.filter],
-    queryFn: () => getBeamerUnreadCount(data),
+    queryKey: ['beamer', 'unread-count', data.userId, data.filter],
+    queryFn: async () => {
+      const response = await getBeamerUnreadCount(data);
+      setCached({ data: { count: response.count }, timestamp: Date.now() });
+      return response;
+    },
+    initialData: () => cached?.data,
+    initialDataUpdatedAt: cached?.timestamp,
     retry: false,
     refetchOnWindowFocus: false,
-    staleTime: StaleTime.NEVER,
+    staleTime: BEAMER_CACHE_DURATION_MS,
   });
 });
 
 export function useMarkUnreadPostsMutation(data: GetBeamerNewsListArgs) {
   const queryClient = useQueryClient();
+  const [_, setCached] = useBeamerUnreadCountCache(data);
 
   return useMutation({
     mutationFn: () => markUnreadPosts(data),
     onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ['beamer', 'unread-count', data.filter] });
+      // Remove the cache entry so the next query fetches fresh data from the API.
+      setCached(undefined);
+      queryClient.invalidateQueries({
+        queryKey: ['beamer', 'unread-count', data.userId, data.filter],
+      });
     },
   });
 }
 
 export const useBeamerNewsListQuery = createInfiniteQueryHook((data: GetBeamerNewsListArgs) => {
   return infiniteQueryOptions({
-    queryKey: ['beamer', 'news-list', data.filter],
+    queryKey: ['beamer', 'news-list', data.userId, data.filter],
     queryFn: ({ pageParam }) => getBeamerNewsList({ ...data, page: pageParam }),
     retry: false,
     refetchOnWindowFocus: false,
@@ -66,7 +83,7 @@ export const useBeamerNewsListQuery = createInfiniteQueryHook((data: GetBeamerNe
     getNextPageParam: (lastPage, _allPages, lastPageParam) => {
       // Beamer returns max 10 posts per page by default
       // If we get less than 10 posts, there are no more pages
-      return lastPage.length >= PAGE_SIZE ? lastPageParam + 1 : undefined;
+      return lastPage.length >= BEAMER_PAGE_SIZE ? lastPageParam + 1 : undefined;
     },
     getPreviousPageParam: (_firstPage, _allPages, firstPageParam) => {
       return firstPageParam > 1 ? firstPageParam - 1 : undefined;

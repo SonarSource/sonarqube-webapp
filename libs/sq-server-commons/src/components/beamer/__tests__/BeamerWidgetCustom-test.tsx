@@ -20,8 +20,8 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import { getBeamerNewsList, getBeamerUnreadCount, markUnreadPosts } from '~shared/api/beamer';
+import { BEAMER_CACHE_DURATION_MS } from '~shared/helpers/beamer';
 import { BeamerNewsItem } from '~shared/types/beamer';
 import { getUsers } from '../../../api/users';
 import { mockCurrentUser, mockLoggedInUser, mockPaging } from '../../../helpers/testMocks';
@@ -43,7 +43,11 @@ jest.mock('~shared/api/beamer', () => ({
   getBeamerNewsList: jest.fn(() => []),
   getBeamerUnreadCount: jest.fn(() => ({ count: 0 })),
   markUnreadPosts: jest.fn(),
-  PAGE_SIZE: 2,
+}));
+
+jest.mock('~shared/helpers/beamer', () => ({
+  ...jest.requireActual('~shared/helpers/beamer'),
+  BEAMER_PAGE_SIZE: 2,
 }));
 jest.mock('~sq-server-commons/api/users', () => ({
   getUsers: jest.fn(),
@@ -86,17 +90,25 @@ const mockNewsData: BeamerNewsItem[] = [
   },
 ];
 
+const MOCK_USER_ID = 'test-user-id';
+const MOCK_FILTER = 'userPersona:standardUser;productVersion:5.2';
+const MOCK_UNREAD_COUNT_CACHE_KEY = `sonarqube.beamer-unread-count.${MOCK_USER_ID}.${MOCK_FILTER}`;
+
 beforeEach(() => {
   jest.clearAllMocks();
-  mockBeamerContextData.mockReturnValue('userPersona:standardUser;productVersion:5.2');
+  mockBeamerContextData.mockReturnValue(MOCK_FILTER);
   mockGetBeamerAPIKey.mockReturnValue('test-api-key');
   jest.mocked(getBeamerNewsList).mockResolvedValue(mockNewsData);
   jest.mocked(getBeamerUnreadCount).mockResolvedValue({ count: 3 });
   jest.mocked(markUnreadPosts).mockResolvedValue(undefined);
   jest.mocked(getUsers).mockResolvedValue({
     page: mockPaging(),
-    users: [{ login: mockedCurrentUser.login, id: 'test-user-id' } as RestUserDetailed],
+    users: [{ login: mockedCurrentUser.login, id: MOCK_USER_ID } as RestUserDetailed],
   });
+});
+
+afterEach(() => {
+  localStorage.clear();
 });
 
 describe('BeamerWidgetCustom', () => {
@@ -121,8 +133,7 @@ describe('BeamerWidgetCustom', () => {
   it('should show unread counter when hideCounter is false', async () => {
     renderBeamerWidgetCustom({ hideCounter: false });
 
-    expect(await screen.findByRole('button')).toBeInTheDocument();
-    expect(screen.getByText('3')).toBeInTheDocument();
+    expect(await screen.findByText('3')).toBeInTheDocument();
   });
 
   it('should not show counter when hideCounter is false but no unread count', async () => {
@@ -270,6 +281,54 @@ describe('BeamerWidgetCustom', () => {
     expect(await screen.findByRole('button')).toBeInTheDocument();
     // When context data is undefined, API calls should not be made
     expect(getBeamerUnreadCount).not.toHaveBeenCalled();
+  });
+
+  it('should use cached unread count from localStorage and skip the API call', async () => {
+    localStorage.setItem(
+      MOCK_UNREAD_COUNT_CACHE_KEY,
+      JSON.stringify({ data: { count: 7 }, timestamp: Date.now() }),
+    );
+    renderBeamerWidgetCustom({ hideCounter: false });
+
+    expect(await screen.findByText('7')).toBeInTheDocument();
+    expect(getBeamerUnreadCount).not.toHaveBeenCalled();
+  });
+
+  it('should fetch a new unread count from the API when the timestamp is older than a week', async () => {
+    jest.mocked(getBeamerUnreadCount).mockResolvedValue({ count: 2 });
+    localStorage.setItem(
+      MOCK_UNREAD_COUNT_CACHE_KEY,
+      JSON.stringify({
+        data: { count: 7 },
+        timestamp: Date.now() - BEAMER_CACHE_DURATION_MS - 1000,
+      }),
+    );
+    renderBeamerWidgetCustom({ hideCounter: false });
+
+    expect(await screen.findByText('2')).toBeInTheDocument();
+    expect(getBeamerUnreadCount).toHaveBeenCalled();
+  });
+
+  it('should clear unread count cache and refetch from API when marking posts as read', async () => {
+    jest.mocked(getBeamerUnreadCount).mockResolvedValue({ count: 2 });
+    localStorage.setItem(
+      MOCK_UNREAD_COUNT_CACHE_KEY,
+      JSON.stringify({ data: { count: 5 }, timestamp: Date.now() }),
+    );
+
+    const user = userEvent.setup();
+    renderBeamerWidgetCustom({ hideCounter: false });
+
+    // Cache hit — API not called
+    expect(await screen.findByText('5')).toBeInTheDocument();
+    expect(getBeamerUnreadCount).not.toHaveBeenCalled();
+
+    await user.click(screen.getByRole('button', { name: 'global_nav.news.tooltip' }));
+
+    // markUnreadPosts clears the cache and invalidates the query, triggering a fresh API call
+    expect(await screen.findByText('2')).toBeInTheDocument();
+    expect(markUnreadPosts).toHaveBeenCalled();
+    expect(getBeamerUnreadCount).toHaveBeenCalled();
   });
 
   it('should use correct badge variety for categories', async () => {

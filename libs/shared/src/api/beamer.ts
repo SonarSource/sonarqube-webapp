@@ -20,18 +20,12 @@
 
 import { getBeamerAPIKey } from '~adapters/helpers/vendorConfig';
 import { axiosToCatch } from '../helpers/axios-clients';
-import { BeamerNewsItem } from '../types/beamer';
-
-export const PAGE_SIZE = 10;
-
-interface BeamerUnreadCountResponse {
-  count: number;
-}
-
-export interface GetBeamerUnreadCountArgs {
-  filter: string;
-  userId: string;
-}
+import { BEAMER_PAGE_SIZE } from '../helpers/beamer';
+import {
+  BeamerNewsItem,
+  BeamerUnreadCountResponse,
+  GetBeamerUnreadCountArgs,
+} from '../types/beamer';
 
 export function getBeamerUnreadCount({
   filter,
@@ -69,7 +63,7 @@ export function getBeamerNewsList({
       filter,
       userId,
       page,
-      maxResults: PAGE_SIZE,
+      maxResults: BEAMER_PAGE_SIZE,
     },
     headers: {
       'Beamer-Api-Key': getBeamerAPIKey(),
