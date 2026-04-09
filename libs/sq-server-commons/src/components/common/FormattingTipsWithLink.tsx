@@ -43,7 +43,7 @@ export default class FormattingTipsWithLink extends React.PureComponent<Props> {
   render() {
     return (
       <div className={this.props.className}>
-        <LinkStandalone onClick={this.handleClick} to="#">
+        <LinkStandalone onClick={this.handleClick} to={getFormattingHelpUrl()}>
           {translate('formatting.helplink')}
         </LinkStandalone>
 

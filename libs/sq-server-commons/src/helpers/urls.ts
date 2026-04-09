@@ -40,7 +40,7 @@ import { HomePage } from '../types/users';
 import { SonarSourceLink } from './doc-links';
 import { serializeOptionalBoolean } from './query';
 
-export { getRulesUrl, PROJECT_BASE_URL } from '~adapters/helpers/urls';
+export { getFormattingHelpUrl, getRulesUrl, PROJECT_BASE_URL } from '~adapters/helpers/urls';
 export { getHostUrl, getPathUrlAsString, getRuleUrl } from '~shared/helpers/urls';
 
 export interface Location {
@@ -359,10 +359,6 @@ export function getProjectSettingsUrl(id: string, category?: string): Partial<Pa
     pathname: '/project/settings',
     search: queryToSearchString({ id, category }),
   };
-}
-
-export function getFormattingHelpUrl(): string {
-  return '/formatting/help';
 }
 
 export function getCodeUrl(

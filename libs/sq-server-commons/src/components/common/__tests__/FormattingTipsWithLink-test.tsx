@@ -24,12 +24,18 @@ import { renderComponent } from '../../../helpers/testReactTestingUtils';
 import FormattingTipsWithLink from '../FormattingTipsWithLink';
 
 const originalOpen = window.open;
+const originalBaseUrl = (window as any).baseUrl;
 
 beforeAll(() => {
   Object.defineProperty(window, 'open', {
     writable: true,
     value: jest.fn(),
   });
+});
+
+afterEach(() => {
+  (window as any).baseUrl = originalBaseUrl;
+  (window.open as jest.Mock).mockClear();
 });
 
 afterAll(() => {
@@ -39,14 +45,23 @@ afterAll(() => {
   });
 });
 
-it('should render correctly', async () => {
+it('should render correctly and open the formatting help using the base URL', async () => {
   const user = userEvent.setup();
+  (window as any).baseUrl = '/sonarqube';
+
   renderFormattingTipsWithLink();
+
   expect(screen.getByText('formatting.helplink')).toBeInTheDocument();
   expect(screen.getByText('formatting.example.link')).toBeInTheDocument();
+  expect(screen.getByRole('link')).toHaveAttribute('href', '/sonarqube/formatting/help');
 
   await user.click(screen.getByRole('link'));
-  expect(window.open).toHaveBeenCalled();
+
+  expect(window.open).toHaveBeenCalledWith(
+    '/sonarqube/formatting/help',
+    'Formatting',
+    'height=300,width=600,scrollbars=1,resizable=1',
+  );
 });
 
 function renderFormattingTipsWithLink(props: Partial<FormattingTipsWithLink['props']> = {}) {
