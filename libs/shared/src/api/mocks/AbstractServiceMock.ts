@@ -38,8 +38,8 @@ export abstract class AbstractServiceMock<T = {}> {
   handlers: RequestHandler[] = [];
 
   constructor(initData: T) {
-    this.initialData = cloneDeep(initData);
-    this.data = cloneDeep(this.initialData);
+    this.initialData = initData;
+    this.data = cloneDeep(initData);
   }
 
   getHandlers() {
