@@ -17,12 +17,10 @@
       ],
       "constraints": [
         {
-          "from": ["api"],
-          "to": ["implementation"],
-          "relation": "allow"
+          "from": "api",
+          "to": "implementation"
         }
       ]
     }
-  ],
-  "constraints": []
+  ]
 }
