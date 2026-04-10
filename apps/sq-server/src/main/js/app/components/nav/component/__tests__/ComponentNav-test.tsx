@@ -28,6 +28,7 @@ import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMoc
 import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { AppState } from '~sq-server-commons/types/appstate';
 import { Feature } from '~sq-server-commons/types/features';
 import { ComponentNav } from '../ComponentNav';
 
@@ -374,6 +375,9 @@ function renderComponentNav(props: ComponentProps<typeof ComponentNav>, features
 
   return renderWithRouter(
     <ComponentNav component={component} isInProgress={isInProgress} isPending={isPending} />,
-    { availableFeatures: features },
+    {
+      availableFeatures: features,
+      appState: { qualifiers: [ComponentQualifier.Portfolio] } as AppState,
+    },
   );
 }

@@ -34,7 +34,9 @@ import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike } from '~shared/helpers/component';
 import { getRisksUrl } from '~shared/helpers/sca-urls';
 import { getComponentIssuesUrl } from '~shared/helpers/urls';
+import { ComponentQualifier } from '~shared/types/component';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
+import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { getCodeUrl, getPortfolioUrl, getProjectQueryUrl } from '~sq-server-commons/helpers/urls';
 import { useGetValueQuery } from '~sq-server-commons/queries/settings';
@@ -52,8 +54,9 @@ interface Props {
 export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
   const { hasFeature } = useAvailableFeatures();
   const { isLoggedIn } = useCurrentUser();
+  const appState = useAppState();
   const { branchLike, component } = props;
-  const { extensions = [], qualifier } = component;
+  const { qualifier } = component;
 
   const branchParameters = getBranchLikeQuery(branchLike);
   const isPortfolio = isPortfolioLike(qualifier);
@@ -65,9 +68,7 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
   const isApplicationChildInaccessible =
     isApplication(component.qualifier) && !component.canBrowseAllChildProjects;
 
-  const isGovernanceEnabled = extensions.some((extension) =>
-    extension.key.startsWith('governance/'),
-  );
+  const isGovernanceEnabled = appState.qualifiers.includes(ComponentQualifier.Portfolio);
 
   const isArchitectureEnabled =
     isLoggedIn &&
