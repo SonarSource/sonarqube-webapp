@@ -18,30 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Badge, BadgeProps, BadgeVariety } from '@sonarsource/echoes-react';
-import { forwardRef } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { screen } from '@testing-library/react';
+import { renderWithContext } from '../../../helpers/test-utils';
+import { NewBadge } from '../NewBadge';
 
-type Props = Readonly<
-  Pick<BadgeProps, 'className' | 'isInteractive'> & {
-    expirationDate: string | number | Date;
-  }
->;
-
-export const NewBadge = forwardRef<HTMLButtonElement, Props>((props, ref) => {
-  const { expirationDate, ...badgeProps } = props;
-  const expirationTimestamp = new Date(expirationDate).getTime();
-  const isExpired = Number.isNaN(expirationTimestamp) || Date.now() > expirationTimestamp;
-
-  if (isExpired) {
-    return undefined;
-  }
-
-  return (
-    <Badge variety={BadgeVariety.Highlight} {...badgeProps} ref={ref}>
-      <FormattedMessage id="new" />
-    </Badge>
-  );
+beforeEach(() => {
+  jest.useFakeTimers({ advanceTimers: true }).setSystemTime(new Date('2026-04-10T12:00:00.000Z'));
 });
 
-NewBadge.displayName = 'NewBadge';
+afterEach(() => {
+  jest.useRealTimers();
+});
+
+it('should render before expiration date', () => {
+  renderWithContext(<NewBadge expirationDate="2026-05-02T23:59:59.999Z" />);
+
+  expect(screen.getByText('new')).toBeVisible();
+});
+
+it('should not render after expiration date', () => {
+  renderWithContext(<NewBadge expirationDate="2026-04-09T23:59:59.999Z" />);
+
+  expect(screen.queryByText('new')).not.toBeInTheDocument();
+});
