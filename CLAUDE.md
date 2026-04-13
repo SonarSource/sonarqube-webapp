@@ -66,6 +66,7 @@ When you need to write tests, always use the `webapp-testing` skill!
 - Always fix typescript errors
 - For components, always prefer `export { ComponentName }` intead of `export default ComponentName()` (it prevents renaming of components at import)
 - **MANDATORY**: ALWAYS run `yarn prettier --write <file>` immediately after editing any file to ensure proper formatting.
+- **MANDATORY**: Before committing or declaring a task done, ALWAYS run `yarn nx run sq-cloud:ts-check` (or `sq-server` as appropriate). The IDE diagnostics tool is not sufficient — it misses real TypeScript errors that `tsc --noEmit` catches in CI.
 
 ## Tailwind and CSS
 
