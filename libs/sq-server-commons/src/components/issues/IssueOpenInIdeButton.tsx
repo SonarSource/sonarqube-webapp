@@ -18,21 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, DropdownMenu } from '@sonarsource/echoes-react';
-import * as React from 'react';
+import { Button, DropdownMenu, toast } from '@sonarsource/echoes-react';
+import { useCallback, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import IdeButtonSafariDisabled from '~shared/components/issues/IdeButtonSafariDisabled';
 import { isSafari } from '~shared/helpers/browsers';
-import { addGlobalErrorMessage, addGlobalSuccessMessage } from '../../design-system';
+import { useAvailableIDEs } from '~shared/helpers/useAvailableIDEs';
 import { DocLink } from '../../helpers/doc-links';
-import { translate } from '../../helpers/l10n';
 import {
   generateUserToken,
   openFixOrIssueInSonarLint,
   probeSonarLintServers,
 } from '../../helpers/sonarlint';
 import { BranchLike } from '../../types/branch-like';
-import { Ide } from '../../types/sonarlint';
+import { Ide } from '../../types/sonarqube-ide';
 import { NewUserToken } from '../../types/token';
 import { UserBase } from '../../types/users';
 import DocumentationLink from '../common/DocumentationLink';
@@ -46,36 +45,100 @@ export interface Props {
 }
 
 const showError = () =>
-  addGlobalErrorMessage(
-    <FormattedMessage
-      id="issues.open_in_ide.failure"
-      values={{
-        link: (
-          <DocumentationLink to={DocLink.SonarLintConnectedMode}>
-            {translate('sonarlint-connected-mode-doc')}
-          </DocumentationLink>
-        ),
-      }}
-    />,
-  );
+  toast.error({
+    description: (
+      <FormattedMessage
+        id="issues.open_in_ide.failure"
+        values={{
+          link: (
+            <DocumentationLink to={DocLink.SonarLintConnectedMode}>
+              <FormattedMessage id="sonarlint-connected-mode-doc" />
+            </DocumentationLink>
+          ),
+        }}
+      />
+    ),
+  });
 
-const showSuccess = () => addGlobalSuccessMessage(translate('issues.open_in_ide.success'));
+const showSuccess = () =>
+  toast.success({ description: <FormattedMessage id="issues.open_in_ide.success" /> });
 
 const DELAY_AFTER_TOKEN_CREATION = 3000;
 
 export function IssueOpenInIdeButton({ branchLike, issueKey, login, projectKey }: Readonly<Props>) {
-  const [isDisabled, setIsDisabled] = React.useState(false);
-  const [ides, setIdes] = React.useState<Ide[] | undefined>(undefined);
-  const ref = React.useRef<HTMLButtonElement>(null);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const ref = useRef<HTMLButtonElement>(null);
+
+  const { availableIDEs, closeDropdown, findAvailableIDEs, isLookingForIDEs } = useAvailableIDEs({
+    onError: showError,
+    onSingleIDEFound: openIssue,
+    probe: probeSonarLintServers,
+  });
 
   // to give focus back to the trigger button once it is re-rendered as a single button
-  const focusTriggerButton = React.useCallback(() => {
+  const focusTriggerButton = useCallback(() => {
     setTimeout(() => {
       ref.current?.focus();
     });
   }, []);
 
-  const openIssue = async (ide: Ide) => {
+  const closeDropdownAndFocusTriggerButton = useCallback(() => {
+    closeDropdown();
+    focusTriggerButton();
+  }, [closeDropdown, focusTriggerButton]);
+
+  const onClick = availableIDEs.length === 0 ? findAvailableIDEs : undefined;
+  const isLoading = isDisabled || isLookingForIDEs;
+
+  const triggerButton = (
+    <Button
+      className="sw-whitespace-nowrap"
+      isDisabled={isLoading}
+      isLoading={isLoading}
+      onClick={onClick}
+      ref={ref}
+    >
+      <FormattedMessage id="open_in_ide" />
+    </Button>
+  );
+
+  // Safari is not supported due to its limitations (no support for custom protocols)
+  // Disable button entirely and show a popover explaining the situation
+  if (isSafari()) {
+    return <IdeButtonSafariDisabled buttonKey="open_in_ide" />;
+  }
+
+  return availableIDEs.length === 0 ? (
+    triggerButton
+  ) : (
+    <DropdownMenu
+      isOpenOnMount
+      items={availableIDEs.map((ide) => {
+        const { ideName, description } = ide;
+        const label = ideName + (description ? ` - ${description}` : '');
+
+        return (
+          <DropdownMenu.ItemButton
+            key={ide.port}
+            onClick={() => {
+              void openIssue(ide);
+            }}
+          >
+            {label}
+          </DropdownMenu.ItemButton>
+        );
+      })}
+      onClose={closeDropdownAndFocusTriggerButton}
+      onOpen={() => {
+        void findAvailableIDEs();
+      }}
+    >
+      {triggerButton}
+    </DropdownMenu>
+  );
+
+  async function openIssue(ide: Ide) {
+    closeDropdown();
     setIsDisabled(true);
 
     let token: NewUserToken | undefined = undefined;
@@ -97,7 +160,7 @@ export function IssueOpenInIdeButton({ branchLike, issueKey, login, projectKey }
       });
 
       showSuccess();
-    } catch (e) {
+    } catch {
       showError();
     }
 
@@ -106,66 +169,8 @@ export function IssueOpenInIdeButton({ branchLike, issueKey, login, projectKey }
         setIsDisabled(false);
         focusTriggerButton();
       },
+
       ide.needsToken ? DELAY_AFTER_TOKEN_CREATION : 0,
     );
-  };
-
-  const findIDEs = async () => {
-    setIdes(undefined);
-
-    const ides = (await probeSonarLintServers()) ?? [];
-
-    if (ides.length === 0) {
-      showError();
-    } else if (ides.length === 1) {
-      openIssue(ides[0]);
-    } else {
-      setIdes(ides);
-    }
-  };
-
-  const onClick = ides === undefined ? findIDEs : undefined;
-
-  const triggerButton = (
-    <Button className="sw-whitespace-nowrap" isDisabled={isDisabled} onClick={onClick} ref={ref}>
-      {translate('open_in_ide')}
-    </Button>
-  );
-
-  // Safari is not supported due to its limitations (no support for custom protocols)
-  // Disable button entirely and show a popover explaining the situation
-  if (isSafari()) {
-    return <IdeButtonSafariDisabled buttonKey="open_in_ide" />;
   }
-
-  return ides === undefined ? (
-    triggerButton
-  ) : (
-    <DropdownMenu
-      isOpenOnMount
-      items={ides.map((ide) => {
-        const { ideName, description } = ide;
-
-        const label = ideName + (description ? ` - ${description}` : '');
-
-        return (
-          <DropdownMenu.ItemButton
-            key={ide.port}
-            onClick={() => {
-              openIssue(ide);
-            }}
-          >
-            {label}
-          </DropdownMenu.ItemButton>
-        );
-      })}
-      onClose={() => {
-        setIdes(undefined);
-        focusTriggerButton();
-      }}
-      onOpen={findIDEs}
-    >
-      {triggerButton}
-    </DropdownMenu>
-  );
 }

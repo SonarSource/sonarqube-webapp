@@ -24,7 +24,7 @@ import { addGlobalErrorMessage, addGlobalSuccessMessage } from '../design-system
 import { translate } from '../helpers/l10n';
 import { generateUserToken, openFixOrIssueInSonarLint } from '../helpers/sonarlint';
 import { BranchLike } from '../types/branch-like';
-import { Fix, Ide } from '../types/sonarlint';
+import { Fix, Ide } from '../types/sonarqube-ide';
 import { Issue } from '../types/types';
 import { isLoggedIn } from '../types/users';
 

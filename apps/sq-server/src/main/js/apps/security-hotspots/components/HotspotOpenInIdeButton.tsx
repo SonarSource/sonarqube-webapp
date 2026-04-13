@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, Spinner } from '@sonarsource/echoes-react';
-import * as React from 'react';
+import { Button, Spinner, toast } from '@sonarsource/echoes-react';
+import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
   DropdownMenu,
@@ -27,113 +27,79 @@ import {
   ItemButton,
   PopupPlacement,
   PopupZLevel,
-  addGlobalErrorMessage,
-  addGlobalSuccessMessage,
 } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { useAvailableIDEs } from '~shared/helpers/useAvailableIDEs';
+import type { Ide } from '~shared/types/sonarqube-ide';
 import { openHotspot, probeSonarLintServers } from '~sq-server-commons/helpers/sonarlint';
-import { Ide } from '~sq-server-commons/types/sonarlint';
 
 interface Props {
   hotspotKey: string;
   projectKey: string;
 }
 
-interface State {
-  ides: Ide[];
-  loading: boolean;
-}
+const showError = () =>
+  toast.error({ description: <FormattedMessage id="hotspots.open_in_ide.failure" /> });
 
-export default class HotspotOpenInIdeButton extends React.PureComponent<Props, State> {
-  mounted = false;
+const showSuccess = () =>
+  toast.success({ description: <FormattedMessage id="hotspots.open_in_ide.success" /> });
 
-  state = {
-    loading: false,
-    ides: [] as Ide[],
-  };
+export function HotspotOpenInIdeButton({ hotspotKey, projectKey }: Readonly<Props>) {
+  const [isOpening, setIsOpening] = useState(false);
 
-  componentDidMount() {
-    this.mounted = true;
-  }
+  const { availableIDEs, closeDropdown, findAvailableIDEs, isLookingForIDEs } = useAvailableIDEs({
+    onError: showError,
+    onSingleIDEFound: openHotspotInIDE,
+    probe: probeSonarLintServers,
+  });
 
-  componentWillUnmount() {
-    this.mounted = false;
-  }
+  const isLoading = isLookingForIDEs || isOpening;
 
-  handleOnClick = async () => {
-    this.setState({ loading: true, ides: [] });
-    const ides = await probeSonarLintServers();
+  return (
+    <div>
+      <DropdownToggler
+        allowResizing
+        onRequestClose={closeDropdown}
+        open={availableIDEs.length > 1}
+        overlay={
+          <DropdownMenu size="auto">
+            {availableIDEs.map((ide) => {
+              const { ideName, description } = ide;
+              const label = ideName + (description ? ` - ${description}` : '');
 
-    if (ides.length === 0) {
-      if (this.mounted) {
-        this.setState({ loading: false });
-      }
-      this.showError();
-    } else if (ides.length === 1) {
-      this.openHotspot(ides[0]);
-    } else if (this.mounted) {
-      this.setState({ loading: false, ides });
+              return (
+                <ItemButton
+                  key={ide.port}
+                  onClick={() => {
+                    void openHotspotInIDE(ide);
+                  }}
+                >
+                  {label}
+                </ItemButton>
+              );
+            })}
+          </DropdownMenu>
+        }
+        placement={PopupPlacement.BottomLeft}
+        zLevel={PopupZLevel.Global}
+      >
+        <Button onClick={findAvailableIDEs} suffix={<Spinner isLoading={isLoading} />}>
+          <FormattedMessage id="open_in_ide" />
+        </Button>
+      </DropdownToggler>
+    </div>
+  );
+
+  async function openHotspotInIDE(ide: Ide) {
+    closeDropdown();
+    setIsOpening(true);
+
+    try {
+      await openHotspot(ide.port, projectKey, hotspotKey);
+      showSuccess();
+    } catch {
+      showError();
+    } finally {
+      setIsOpening(false);
     }
-  };
-
-  openHotspot = (ide: Ide) => {
-    this.setState({ loading: true, ides: [] as Ide[] });
-    const { projectKey, hotspotKey } = this.props;
-
-    return openHotspot(ide.port, projectKey, hotspotKey)
-      .then(this.showSuccess)
-      .catch(this.showError)
-      .finally(this.cleanState);
-  };
-
-  showError = () => addGlobalErrorMessage(translate('hotspots.open_in_ide.failure'));
-
-  showSuccess = () => addGlobalSuccessMessage(translate('hotspots.open_in_ide.success'));
-
-  cleanState = () => {
-    if (this.mounted) {
-      this.setState({ loading: false, ides: [] });
-    }
-  };
-
-  render() {
-    const { ides, loading } = this.state;
-
-    return (
-      <div>
-        <DropdownToggler
-          allowResizing
-          onRequestClose={() => {
-            this.cleanState();
-          }}
-          open={ides.length > 1}
-          overlay={
-            <DropdownMenu size="auto">
-              {ides.map((ide) => {
-                const { ideName, description } = ide;
-                const label = ideName + (description ? ` - ${description}` : '');
-
-                return (
-                  <ItemButton
-                    key={ide.port}
-                    onClick={() => {
-                      this.openHotspot(ide);
-                    }}
-                  >
-                    {label}
-                  </ItemButton>
-                );
-              })}
-            </DropdownMenu>
-          }
-          placement={PopupPlacement.BottomLeft}
-          zLevel={PopupZLevel.Global}
-        >
-          <Button onClick={this.handleOnClick} suffix={<Spinner isLoading={loading} />}>
-            <FormattedMessage id="open_in_ide" />
-          </Button>
-        </DropdownToggler>
-      </div>
-    );
   }
 }

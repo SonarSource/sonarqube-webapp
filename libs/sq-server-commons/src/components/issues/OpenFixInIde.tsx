@@ -18,20 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, DropdownMenu } from '@sonarsource/echoes-react';
-import { useCallback, useState } from 'react';
+import { Button, ButtonVariety, DropdownMenu, toast } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import IdeButtonSafariDisabled from '~shared/components/issues/IdeButtonSafariDisabled';
 import { isSafari } from '~shared/helpers/browsers';
+import { useAvailableIDEs } from '~shared/helpers/useAvailableIDEs';
 import { useComponent } from '../../context/componentContext/withComponentContext';
 import { useCurrentUser } from '../../context/current-user/CurrentUserContext';
-import { addGlobalErrorMessage } from '../../design-system';
-import { translate } from '../../helpers/l10n';
 import { probeSonarLintServers } from '../../helpers/sonarlint';
 import { useComponentForSourceViewer } from '../../queries/component';
 import { CodeSuggestion } from '../../queries/fix-suggestions';
 import { useOpenFixOrIssueInIdeMutation } from '../../queries/sonarlint';
-import { Fix, Ide } from '../../types/sonarlint';
+import { Fix, Ide } from '../../types/sonarqube-ide';
 import { Issue } from '../../types/types';
 
 export interface Props {
@@ -42,7 +41,6 @@ export interface Props {
 const DELAY_AFTER_TOKEN_CREATION = 3000;
 
 export function OpenFixInIde({ aiSuggestion, issue }: Readonly<Props>) {
-  const [ides, setIdes] = useState<Ide[] | undefined>(undefined);
   const { component } = useComponent();
   const { data: branchLike, isLoading: isBranchLoading } = useCurrentBranchQuery(component);
 
@@ -55,80 +53,31 @@ export function OpenFixInIde({ aiSuggestion, issue }: Readonly<Props>) {
     branchLike,
     !isBranchLoading,
   );
+
   const { mutateAsync: openFixInIde, isPending } = useOpenFixOrIssueInIdeMutation();
 
-  const closeDropdown = () => {
-    setIdes(undefined);
-  };
-
-  const openFix = useCallback(
-    async (ide: Ide) => {
-      closeDropdown();
-
-      const fix: Fix = {
-        explanation: aiSuggestion.explanation,
-        fileEdit: {
-          changes: aiSuggestion.changes.map((change) => ({
-            after: change.newCode,
-            before: aiSuggestion.unifiedLines
-              .filter(
-                (line) => line.lineBefore >= change.startLine && line.lineBefore <= change.endLine,
-              )
-              .map((line) => line.code)
-              .join('\n'),
-            beforeLineRange: {
-              startLine: change.startLine,
-              endLine: change.endLine,
-            },
-          })),
-          path: sourceViewerFile?.path ?? '',
-        },
-        suggestionId: aiSuggestion.suggestionId,
-      };
-
-      await openFixInIde({
-        branchLike,
-        ide,
-        fix,
-        issue,
-      });
-
-      setTimeout(
-        () => {
-          closeDropdown();
-        },
-        ide.needsToken ? DELAY_AFTER_TOKEN_CREATION : 0,
-      );
-    },
-    [aiSuggestion, issue, sourceViewerFile, branchLike, openFixInIde],
-  );
-
-  const onClick = async () => {
-    let IDEs = (await probeSonarLintServers()) ?? [];
-
-    IDEs = IDEs.filter((ide) => ide.capabilities?.canOpenFixSuggestion);
-
-    if (IDEs.length === 0) {
-      addGlobalErrorMessage(translate('unable_to_find_ide_with_fix.error'));
-    } else if (IDEs.length === 1) {
-      openFix(IDEs[0]);
-    } else {
-      setIdes(IDEs);
-    }
-  };
+  const { availableIDEs, closeDropdown, findAvailableIDEs, isLookingForIDEs } = useAvailableIDEs({
+    filter: (ide) => ide.capabilities?.canOpenFixSuggestion === true,
+    onError: showError,
+    onSingleIDEFound: openFix,
+    probe: probeSonarLintServers,
+  });
 
   if (!isLoggedIn || branchLike === undefined || sourceViewerFile === undefined) {
     return null;
   }
 
+  const isLoading = isLookingForIDEs || isPending;
+
   const triggerButton = (
     <Button
       className="sw-whitespace-nowrap"
-      isDisabled={isPending}
-      onClick={onClick}
+      isDisabled={isLoading}
+      isLoading={isLoading}
+      onClick={findAvailableIDEs}
       variety={ButtonVariety.Default}
     >
-      {translate('view_fix_in_ide')}
+      <FormattedMessage id="view_fix_in_ide" />
     </Button>
   );
 
@@ -138,33 +87,75 @@ export function OpenFixInIde({ aiSuggestion, issue }: Readonly<Props>) {
     return <IdeButtonSafariDisabled buttonKey="view_fix_in_ide" />;
   }
 
-  return ides === undefined ? (
+  return availableIDEs.length === 0 ? (
     triggerButton
   ) : (
     <DropdownMenu
       isOpenOnMount
-      items={ides.map((ide) => {
+      items={availableIDEs.map((ide) => {
         const { ideName, description } = ide;
-
         const label = ideName + (description ? ` - ${description}` : '');
 
         return (
           <DropdownMenu.ItemButton
             key={ide.port}
             onClick={() => {
-              openFix(ide);
+              void openFix(ide);
             }}
           >
             {label}
           </DropdownMenu.ItemButton>
         );
       })}
-      onClose={() => {
-        setIdes(undefined);
+      onClose={closeDropdown}
+      onOpen={() => {
+        void findAvailableIDEs();
       }}
-      onOpen={onClick}
     >
       {triggerButton}
     </DropdownMenu>
   );
+
+  function showError() {
+    toast.error({ description: <FormattedMessage id="unable_to_find_ide_with_fix.error" /> });
+  }
+
+  async function openFix(ide: Ide) {
+    closeDropdown();
+
+    const fix: Fix = {
+      explanation: aiSuggestion.explanation,
+      fileEdit: {
+        changes: aiSuggestion.changes.map((change) => ({
+          after: change.newCode,
+          before: aiSuggestion.unifiedLines
+            .filter(
+              (line) => line.lineBefore >= change.startLine && line.lineBefore <= change.endLine,
+            )
+            .map((line) => line.code)
+            .join('\n'),
+          beforeLineRange: {
+            startLine: change.startLine,
+            endLine: change.endLine,
+          },
+        })),
+        path: sourceViewerFile?.path ?? '',
+      },
+      suggestionId: aiSuggestion.suggestionId,
+    };
+
+    await openFixInIde({
+      branchLike,
+      ide,
+      fix,
+      issue,
+    });
+
+    setTimeout(
+      () => {
+        closeDropdown();
+      },
+      ide.needsToken ? DELAY_AFTER_TOKEN_CREATION : 0,
+    );
+  }
 }

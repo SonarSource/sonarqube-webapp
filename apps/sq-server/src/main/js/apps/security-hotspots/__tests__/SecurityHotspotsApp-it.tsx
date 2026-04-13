@@ -27,6 +27,7 @@ import { SourceServiceMock } from '~shared/api/mocks/services/SourceServiceMock'
 import { get, save } from '~shared/helpers/storage';
 import { byDisplayValue, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import { MetricKey } from '~shared/types/metrics';
+import type { Ide } from '~shared/types/sonarqube-ide';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
 import CodingRulesServiceMock from '~sq-server-commons/api/mocks/CodingRulesServiceMock';
 import SecurityHotspotServiceMock from '~sq-server-commons/api/mocks/SecurityHotspotServiceMock';
@@ -55,7 +56,7 @@ jest.mock('~sq-server-commons/api/branches');
 jest.mock('~sq-server-commons/api/quality-profiles');
 jest.mock('~sq-server-commons/api/issues');
 jest.mock('~sq-server-commons/helpers/sonarlint', () => ({
-  openHotspot: jest.fn().mockResolvedValue(null),
+  openHotspot: jest.fn().mockResolvedValue(undefined),
   probeSonarLintServers: jest.fn().mockResolvedValue([
     {
       description: 'I use VIM',
@@ -149,6 +150,10 @@ jest.mocked(get).mockImplementation((key) => {
   return null;
 });
 
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 beforeAll(() => {
   registerServiceMocks(sourcesHandler);
   Object.defineProperty(window, 'scrollTo', {
@@ -171,6 +176,13 @@ afterEach(() => {
   rulesHandles.reset();
   branchHandler.reset();
 });
+
+function createNeverResolvingIdeProbePromise(): Promise<Ide[]> {
+  return new Promise<Ide[]>((resolve) => {
+    // Keep the probe pending so the loading state stays visible.
+    void resolve;
+  });
+}
 
 describe('rendering', () => {
   it('should render code variants correctly', async () => {
@@ -377,29 +389,48 @@ describe('navigation', () => {
     renderSecurityHotspotsApp();
 
     await user.click(await ui.openInIDEButton.find());
+
     expect(openHotspot).toHaveBeenCalledWith(1234, 'hotspot-component', 'test-1');
   });
 
   it('should allow to choose in which IDE to open a hotspot', async () => {
     jest.mocked(probeSonarLintServers).mockResolvedValueOnce([
       {
-        port: 1234,
-        ideName: 'VIM',
         description: 'I use VIM',
+        ideName: 'VIM',
+        port: 1234,
       },
       {
-        port: 4567,
-        ideName: 'MS Paint',
         description: 'I use MS Paint cuz Ima boss',
+        ideName: 'MS Paint',
+        port: 4567,
       },
     ]);
 
     const user = userEvent.setup();
+
     renderSecurityHotspotsApp();
 
     await user.click(await ui.openInIDEButton.find());
     await user.click(screen.getByRole('menuitem', { name: /MS Paint/ }));
+
     expect(openHotspot).toHaveBeenCalledWith(4567, 'hotspot-component', 'test-1');
+  });
+
+  it('should show a spinner while looking for IDEs', async () => {
+    jest.mocked(probeSonarLintServers).mockImplementationOnce(createNeverResolvingIdeProbePromise);
+
+    const user = userEvent.setup();
+
+    renderSecurityHotspotsApp();
+
+    await user.click(await ui.openInIDEButton.find());
+
+    expect(
+      await byRole('button', { name: /open_in_ide.*loading|loading.*open_in_ide/ })
+        .byRole('status')
+        .find(),
+    ).toBeInTheDocument();
   });
 });
 

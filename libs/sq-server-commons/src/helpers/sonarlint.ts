@@ -22,7 +22,7 @@ import { omit } from 'lodash';
 import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
 import { generateToken, getTokens } from '../api/user-tokens';
 import { BranchLike } from '../types/branch-like';
-import { Fix, Ide } from '../types/sonarlint';
+import { Fix, Ide } from '../types/sonarqube-ide';
 import { NewUserToken, TokenExpiration } from '../types/token';
 import { UserBase } from '../types/users';
 import { checkStatus, isSuccessStatus } from './request';

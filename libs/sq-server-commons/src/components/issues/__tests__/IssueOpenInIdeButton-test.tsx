@@ -18,16 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { toast } from '@sonarsource/echoes-react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { FormattedMessage } from 'react-intl';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import UserTokensMock from '../../../api/mocks/UserTokensMock';
-import { addGlobalErrorMessage, addGlobalSuccessMessage } from '../../../design-system';
 import { DocLink } from '../../../helpers/doc-links';
 import { openFixOrIssueInSonarLint, probeSonarLintServers } from '../../../helpers/sonarlint';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import { Ide } from '../../../types/sonarlint';
+import { Ide } from '../../../types/sonarqube-ide';
 import DocumentationLink from '../../common/DocumentationLink';
 import { IssueOpenInIdeButton, Props } from '../IssueOpenInIdeButton';
 
@@ -37,10 +37,15 @@ jest.mock('../../../helpers/sonarlint', () => ({
   probeSonarLintServers: jest.fn(),
 }));
 
-jest.mock('../../../design-system', () => ({
-  ...jest.requireActual('../../../design-system'),
-  addGlobalErrorMessage: jest.fn(),
-  addGlobalSuccessMessage: jest.fn(),
+jest.mock('@sonarsource/echoes-react', () => ({
+  ...jest.requireActual<typeof import('@sonarsource/echoes-react')>('@sonarsource/echoes-react'),
+  toast: Object.assign(jest.fn(), {
+    success: jest.fn(),
+    error: jest.fn(),
+    info: jest.fn(),
+    warning: jest.fn(),
+    dismiss: jest.fn(),
+  }),
 }));
 
 const MOCK_IDES: Ide[] = [
@@ -65,13 +70,20 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
+function createNeverResolvingIdeProbePromise(): Promise<Ide[]> {
+  return new Promise<Ide[]>((resolve) => {
+    // Keep the probe pending so the loading state stays visible.
+    void resolve;
+  });
+}
+
 it('renders properly', () => {
   renderComponentIssueOpenInIdeButton();
 
   expect(screen.getByText('open_in_ide')).toBeInTheDocument();
 
-  expect(addGlobalErrorMessage).not.toHaveBeenCalled();
-  expect(addGlobalSuccessMessage).not.toHaveBeenCalled();
+  expect(toast.error).not.toHaveBeenCalled();
+  expect(toast.success).not.toHaveBeenCalled();
   expect(openFixOrIssueInSonarLint).not.toHaveBeenCalled();
   expect(probeSonarLintServers).not.toHaveBeenCalled();
 });
@@ -89,21 +101,23 @@ it('handles button click with no ide found', async () => {
 
   expect(probeSonarLintServers).toHaveBeenCalledWith();
 
-  expect(addGlobalErrorMessage).toHaveBeenCalledWith(
-    <FormattedMessage
-      id="issues.open_in_ide.failure"
-      values={{
-        link: (
-          <DocumentationLink to={DocLink.SonarLintConnectedMode}>
-            sonarlint-connected-mode-doc
-          </DocumentationLink>
-        ),
-      }}
-    />,
-  );
+  expect(toast.error).toHaveBeenCalledWith({
+    description: (
+      <FormattedMessage
+        id="issues.open_in_ide.failure"
+        values={{
+          link: (
+            <DocumentationLink to={DocLink.SonarLintConnectedMode}>
+              <FormattedMessage id="sonarlint-connected-mode-doc" />
+            </DocumentationLink>
+          ),
+        }}
+      />
+    ),
+  });
 
   expect(openFixOrIssueInSonarLint).not.toHaveBeenCalled();
-  expect(addGlobalSuccessMessage).not.toHaveBeenCalled();
+  expect(toast.success).not.toHaveBeenCalled();
 });
 
 it('handles button click with one ide found', async () => {
@@ -122,18 +136,18 @@ it('handles button click with one ide found', async () => {
   expect(probeSonarLintServers).toHaveBeenCalledWith();
 
   expect(openFixOrIssueInSonarLint).toHaveBeenCalledWith({
-    branchName: undefined,
+    branchLike: undefined,
     calledPort: MOCK_IDES[0].port,
     issueKey: MOCK_ISSUE_KEY,
     projectKey: MOCK_PROJECT_KEY,
-    pullRequestID: undefined,
-    tokenName: undefined,
-    tokenValue: undefined,
+    token: undefined,
   });
 
-  expect(addGlobalSuccessMessage).toHaveBeenCalledWith('issues.open_in_ide.success');
+  expect(toast.success).toHaveBeenCalledWith({
+    description: <FormattedMessage id="issues.open_in_ide.success" />,
+  });
 
-  expect(addGlobalErrorMessage).not.toHaveBeenCalled();
+  expect(toast.error).not.toHaveBeenCalled();
 });
 
 it('handles button click with several ides found', async () => {
@@ -152,8 +166,8 @@ it('handles button click with several ides found', async () => {
   expect(probeSonarLintServers).toHaveBeenCalledWith();
 
   expect(openFixOrIssueInSonarLint).not.toHaveBeenCalled();
-  expect(addGlobalSuccessMessage).not.toHaveBeenCalled();
-  expect(addGlobalErrorMessage).not.toHaveBeenCalled();
+  expect(toast.success).not.toHaveBeenCalled();
+  expect(toast.error).not.toHaveBeenCalled();
 
   expect(
     screen.getByRole('menuitem', {
@@ -174,16 +188,38 @@ it('handles button click with several ides found', async () => {
     calledPort: MOCK_IDES[1].port,
     issueKey: MOCK_ISSUE_KEY,
     projectKey: MOCK_PROJECT_KEY,
-    pullRequestID: undefined,
     token: {
       name: 'token name',
       token: 'token value',
     },
   });
 
-  expect(addGlobalSuccessMessage).toHaveBeenCalledWith('issues.open_in_ide.success');
+  expect(toast.success).toHaveBeenCalledWith({
+    description: <FormattedMessage id="issues.open_in_ide.success" />,
+  });
 
-  expect(addGlobalErrorMessage).not.toHaveBeenCalled();
+  expect(toast.error).not.toHaveBeenCalled();
+});
+
+it('shows loading state while looking for IDEs', async () => {
+  const user = userEvent.setup();
+
+  jest.mocked(probeSonarLintServers).mockImplementationOnce(createNeverResolvingIdeProbePromise);
+
+  renderComponentIssueOpenInIdeButton();
+
+  await user.click(
+    screen.getByRole('button', {
+      name: 'open_in_ide',
+    }),
+  );
+
+  const loadingButton = byRole('button', {
+    name: /open_in_ide.*loading|loading.*open_in_ide/,
+  });
+
+  expect(await loadingButton.find()).toBeDisabled();
+  expect(await loadingButton.byRole('status').find()).toBeVisible();
 });
 
 it('shows disabled button in Safari', () => {

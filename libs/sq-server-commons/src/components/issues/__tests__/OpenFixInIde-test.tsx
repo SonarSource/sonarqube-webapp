@@ -31,7 +31,7 @@ import { mockIssue, mockLoggedInUser } from '../../../helpers/testMocks';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
 import { CodeSuggestion, LineTypeEnum } from '../../../queries/fix-suggestions';
 import { ComponentContextShape } from '../../../types/component';
-import { Fix, Ide } from '../../../types/sonarlint';
+import { Fix, Ide } from '../../../types/sonarqube-ide';
 import { OpenFixInIde } from '../OpenFixInIde';
 
 jest.mock('~sq-server-commons/api/components', () => ({
@@ -117,6 +117,13 @@ beforeEach(() => {
   handler.reset();
 });
 
+function createNeverResolvingIdeProbePromise(): Promise<Ide[]> {
+  return new Promise<Ide[]>((resolve) => {
+    // Keep the probe pending so the loading state stays visible.
+    void resolve;
+  });
+}
+
 it('handles open in ide button click with several ides found when there is fix suggestion', async () => {
   const user = userEvent.setup();
 
@@ -152,6 +159,27 @@ it('handles open in ide button click with several ides found when there is fix s
     projectKey: MOCK_PROJECT_KEY,
     token: MOCK_TOKEN,
   });
+});
+
+it('shows loading state while looking for IDEs for view fix in IDE', async () => {
+  const user = userEvent.setup();
+
+  jest.mocked(probeSonarLintServers).mockImplementationOnce(createNeverResolvingIdeProbePromise);
+
+  renderComponentOpenIssueInIdeButton();
+
+  await user.click(
+    await screen.findByRole('button', {
+      name: 'view_fix_in_ide',
+    }),
+  );
+
+  const loadingButton = byRole('button', {
+    name: /view_fix_in_ide.*loading|loading.*view_fix_in_ide/,
+  });
+
+  expect(await loadingButton.find()).toBeDisabled();
+  expect(await loadingButton.byRole('status').find()).toBeVisible();
 });
 
 it('shows disabled button in Safari', async () => {

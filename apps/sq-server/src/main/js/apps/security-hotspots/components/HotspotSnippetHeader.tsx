@@ -32,7 +32,7 @@ import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Hotspot } from '~sq-server-commons/types/security-hotspots';
 import { Component } from '~sq-server-commons/types/types';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
-import HotspotOpenInIdeButton from './HotspotOpenInIdeButton';
+import { HotspotOpenInIdeButton } from './HotspotOpenInIdeButton';
 
 export interface HotspotSnippetHeaderProps {
   branchLike?: BranchLike;
