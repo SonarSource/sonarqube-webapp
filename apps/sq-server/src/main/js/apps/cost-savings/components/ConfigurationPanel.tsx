@@ -126,7 +126,7 @@ function ConfigurationPanel({ onClose }: Props) {
   }
 
   return (
-    <div className="sw-fixed sw-inset-0 sw-z-50 sw-flex sw-justify-end" role="dialog">
+    <div className="sw-fixed sw-inset-0 sw-z-modal-overlay sw-flex sw-justify-end" role="dialog">
       {/* Backdrop */}
       <div className="sw-absolute sw-inset-0 sw-bg-black sw-bg-opacity-30" onClick={onClose} />
 
