@@ -1,31 +1,12 @@
+import { SonarLogo } from './SonarLogo'
+
 export function Footer() {
   return (
     <footer className="bg-white border-t border-sonar-blue-border/30 py-12">
       <div className="max-w-content mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2.5">
-            <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-              <path
-                d="M8 24C8 15.163 15.163 8 24 8"
-                stroke="#126ED3"
-                strokeWidth="3.5"
-                strokeLinecap="round"
-              />
-              <path
-                d="M8 18C8 12.477 12.477 8 18 8"
-                stroke="#126ED3"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                opacity="0.6"
-              />
-              <path
-                d="M8 12C8 9.791 9.791 8 12 8"
-                stroke="#126ED3"
-                strokeWidth="2"
-                strokeLinecap="round"
-                opacity="0.3"
-              />
-            </svg>
+          <div className="flex items-center gap-2.5 text-sonar-blue">
+            <SonarLogo size={22} />
             <span className="font-display font-bold text-sm text-sonar-ink">
               Sonar
             </span>

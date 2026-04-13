@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { SonarLogo } from './SonarLogo'
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -19,8 +20,8 @@ export function Navbar() {
       }`}
     >
       <div className="max-w-content mx-auto px-6 h-16 flex items-center justify-between">
-        <a href="#" className="flex items-center gap-2.5 group">
-          <SonarLogo />
+        <a href="#" className="flex items-center gap-2.5 group text-sonar-blue">
+          <SonarLogo size={28} />
           <span className="font-display font-bold text-lg text-sonar-ink">
             Sonar
           </span>
@@ -117,29 +118,3 @@ export function Navbar() {
   )
 }
 
-function SonarLogo() {
-  return (
-    <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-      <path
-        d="M8 24C8 15.163 15.163 8 24 8"
-        stroke="#126ED3"
-        strokeWidth="3.5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M8 18C8 12.477 12.477 8 18 8"
-        stroke="#126ED3"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        opacity="0.6"
-      />
-      <path
-        d="M8 12C8 9.791 9.791 8 12 8"
-        stroke="#126ED3"
-        strokeWidth="2"
-        strokeLinecap="round"
-        opacity="0.3"
-      />
-    </svg>
-  )
-}
