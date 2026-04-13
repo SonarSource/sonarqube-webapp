@@ -94,10 +94,15 @@ function ProjectScopeSelector({ selectedProjects, onProjectsChange }: Props) {
 
       {isOpen && (
         <>
-          <div className="sw-fixed sw-inset-0 sw-z-40" onClick={() => setIsOpen(false)} />
           <div
-            className="sw-absolute sw-right-0 sw-top-full sw-mt-1 sw-z-50 sw-w-[400px] sw-bg-white sw-rounded-lg sw-border sw-border-solid sw-shadow-lg sw-p-4"
+            className="sw-fixed sw-inset-0"
+            onClick={() => setIsOpen(false)}
+            style={{ zIndex: 100 }}
+          />
+          <div
+            className="sw-absolute sw-right-0 sw-top-full sw-mt-1 sw-w-[400px] sw-bg-white sw-rounded-lg sw-border sw-border-solid sw-shadow-lg sw-p-4"
             ref={popoverRef}
+            style={{ zIndex: 101 }}
           >
             <Spinner isLoading={isLoading}>
               <div className="sw-flex sw-gap-2 sw-mb-3">

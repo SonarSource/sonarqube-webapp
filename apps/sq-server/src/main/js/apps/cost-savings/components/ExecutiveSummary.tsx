@@ -110,8 +110,11 @@ function ExecutiveSummary({
         </div>
       )}
 
-      {/* Header row: title + controls */}
-      <div className="sw-flex sw-items-center sw-justify-between sw-mb-2 sw-relative sw-z-10">
+      {/* Header row: title + controls — z-index keeps dropdowns above the donut chart */}
+      <div
+        className="sw-flex sw-items-center sw-justify-between sw-mb-2"
+        style={{ position: 'relative', zIndex: 20 }}
+      >
         <Heading as="h1" className="sw-typo-lg-semibold">
           {formatMessage({ id: 'cost_savings.page' })}
         </Heading>
@@ -156,7 +159,10 @@ function ExecutiveSummary({
       </div>
 
       {/* Period date range */}
-      <div className="sw-text-sm sw-mb-6" style={{ color: 'var(--echoes-color-text-subdued)' }}>
+      <div
+        className="sw-text-sm sw-mb-6"
+        style={{ color: 'var(--echoes-color-text-subdued)', position: 'relative', zIndex: 0 }}
+      >
         {periodStart} — {periodEnd}
         {isEstimated && period !== 'all' && (
           <span className="sw-ml-2 sw-italic">
@@ -165,9 +171,12 @@ function ExecutiveSummary({
         )}
       </div>
 
-      {/* Donut chart: dimension breakdown */}
+      {/* Donut chart: dimension breakdown — z-index below the header controls */}
       {!isNegative && (
-        <div className="sw-py-6 sw-mb-6 sw-border-b sw-border-solid">
+        <div
+          className="sw-py-6 sw-mb-6 sw-border-b sw-border-solid"
+          style={{ position: 'relative', zIndex: 0 }}
+        >
           <ValueDonutChart
             centerLabel={donutLabel}
             centerValue={formatCurrency(totalDollars)}
