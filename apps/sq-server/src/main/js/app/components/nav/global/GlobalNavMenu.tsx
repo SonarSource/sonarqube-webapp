@@ -80,6 +80,10 @@ export function GlobalNavMenu({ currentUser }: Readonly<Props>) {
         <FormattedMessage id="quality_gates.page" />
       </Layout.GlobalNavigation.Item>
 
+      <Layout.GlobalNavigation.Item to="/cost_savings">
+        <FormattedMessage id="cost_savings.page" />
+      </Layout.GlobalNavigation.Item>
+
       {appState.canAdmin && (
         <Layout.GlobalNavigation.Item
           data-guiding-id="mode-tour-1"
