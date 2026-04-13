@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Spinner } from '@sonarsource/echoes-react';
+import { Spinner } from '@sonarsource/echoes-react';
 import { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import type { SecurityCategory } from '../api/cost-savings-api';
@@ -50,15 +50,15 @@ function SecurityRiskSection({ projectKeys }: Props) {
   );
 
   return (
-    <div className="sw-p-6">
-      <div className="sw-flex sw-items-center sw-gap-2 sw-mb-2">
-        <Heading as="h2" className="sw-typo-semibold">
+    <div className="sw-p-8">
+      <div className="sw-flex sw-items-center sw-gap-3 sw-mb-3">
+        <h2 className="sw-font-bold" style={{ fontSize: 20, color: '#290042' }}>
           {formatMessage({ id: 'cost_savings.security_risk.title' })}
-        </Heading>
+        </h2>
         <ConfidenceBadge level="contextual" />
       </div>
 
-      <p className="sw-text-sm sw-mb-4">
+      <p className="sw-text-sm sw-mb-6" style={{ color: '#69809B', lineHeight: 1.6 }}>
         {formatMessage({ id: 'cost_savings.security_risk.description' })}
       </p>
 
@@ -72,7 +72,15 @@ function SecurityRiskSection({ projectKeys }: Props) {
               <div className="sw-flex sw-flex-col sw-gap-4">
                 {/* Compliance summary */}
                 {compliance.controlCount > 0 && (
-                  <p className="sw-text-sm sw-font-medium">
+                  <p
+                    className="sw-text-sm sw-font-medium sw-p-3"
+                    style={{
+                      borderRadius: 8,
+                      backgroundColor: '#EEF4FC',
+                      color: '#126ED3',
+                      border: '1px solid #B7D3F2',
+                    }}
+                  >
                     {formatMessage(
                       { id: 'cost_savings.compliance.summary' },
                       {
@@ -90,13 +98,21 @@ function SecurityRiskSection({ projectKeys }: Props) {
 
                 {/* SCA dependency risks */}
                 {detail.scaDependencyRisks.count > 0 && (
-                  <div className="sw-rounded-lg sw-border sw-border-solid sw-p-4">
-                    <span className="sw-font-semibold">
+                  <div
+                    className="sw-p-5"
+                    style={{
+                      borderRadius: 12,
+                      border: '2px solid rgba(183, 211, 242, 0.5)',
+                    }}
+                  >
+                    <span className="sw-font-semibold" style={{ color: '#290042' }}>
                       {formatMessage({
                         id: 'cost_savings.sca.title',
                       })}
                     </span>
-                    <p className="sw-text-sm sw-mt-1">{detail.scaDependencyRisks.narrative}</p>
+                    <p className="sw-text-sm sw-mt-2" style={{ color: '#69809B', lineHeight: 1.6 }}>
+                      {detail.scaDependencyRisks.narrative}
+                    </p>
                   </div>
                 )}
               </div>
@@ -104,11 +120,20 @@ function SecurityRiskSection({ projectKeys }: Props) {
 
             {/* Revenue context — only when configured */}
             {detail.revenueContext && (
-              <div className="sw-mt-4 sw-rounded-lg sw-border sw-border-solid sw-p-4 sw-bg-amber-50">
-                <span className="sw-font-semibold sw-text-sm">
+              <div
+                className="sw-mt-5 sw-p-5"
+                style={{
+                  borderRadius: 12,
+                  backgroundColor: 'rgb(255, 251, 235)',
+                  border: '1px solid rgb(253, 230, 138)',
+                }}
+              >
+                <span className="sw-font-semibold sw-text-sm" style={{ color: '#290042' }}>
                   {formatMessage({ id: 'cost_savings.revenue_context.title' })}
                 </span>
-                <p className="sw-text-sm sw-mt-1">{detail.revenueContext.narrative}</p>
+                <p className="sw-text-sm sw-mt-2" style={{ color: '#69809B', lineHeight: 1.6 }}>
+                  {detail.revenueContext.narrative}
+                </p>
               </div>
             )}
           </>

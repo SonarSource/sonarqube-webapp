@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Spinner } from '@sonarsource/echoes-react';
+import { Spinner } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { useBenchmarksQuery, useConfigurationQuery } from '../hooks/useCostSavings';
 import { formatCurrency } from '../utils/format';
@@ -37,7 +37,14 @@ function IndustryBenchmark({ totalSavings, industry }: Props) {
 
   if (!isOptedIn) {
     return (
-      <div className="sw-rounded sw-bg-gray-50 sw-p-4 sw-text-sm sw-text-center">
+      <div
+        className="sw-p-5 sw-text-sm sw-text-center"
+        style={{
+          borderRadius: 12,
+          backgroundColor: '#F7F9FC',
+          color: '#69809B',
+        }}
+      >
         {formatMessage({ id: 'cost_savings.benchmark.opt_in_prompt' }, { industry })}
       </div>
     );
@@ -47,13 +54,19 @@ function IndustryBenchmark({ totalSavings, industry }: Props) {
   const maxValue = Math.max(totalSavings, industryAvg, 1);
 
   return (
-    <div className="sw-rounded sw-border sw-border-solid sw-p-4">
-      <Heading as="h3" className="sw-typo-semibold sw-mb-3">
+    <div
+      className="sw-p-5"
+      style={{
+        borderRadius: 12,
+        border: '2px solid rgba(183, 211, 242, 0.5)',
+      }}
+    >
+      <h3 className="sw-font-bold sw-mb-3" style={{ fontSize: 18, color: '#290042' }}>
         {formatMessage({ id: 'cost_savings.benchmark.title' })}
-      </Heading>
+      </h3>
 
       <Spinner isLoading={benchmarksLoading}>
-        <div className="sw-mb-3 sw-text-sm">
+        <div className="sw-mb-4 sw-text-sm" style={{ color: '#69809B', lineHeight: 1.6 }}>
           {formatMessage(
             { id: 'cost_savings.benchmark.description' },
             {
@@ -65,15 +78,15 @@ function IndustryBenchmark({ totalSavings, industry }: Props) {
         </div>
 
         {/* Horizontal bar comparison */}
-        <div className="sw-flex sw-flex-col sw-gap-3">
+        <div className="sw-flex sw-flex-col sw-gap-4">
           <BenchmarkBar
-            color="var(--echoes-color-icon-accent)"
+            color="linear-gradient(90deg, #126ED3, #0F63BF)"
             label={formatMessage({ id: 'cost_savings.benchmark.your_savings' })}
             maxValue={maxValue}
             value={totalSavings}
           />
           <BenchmarkBar
-            color="var(--echoes-color-icon-subdued)"
+            color="#69809B"
             label={formatMessage({ id: 'cost_savings.benchmark.industry_avg' }, { industry })}
             maxValue={maxValue}
             value={industryAvg}
@@ -81,7 +94,7 @@ function IndustryBenchmark({ totalSavings, industry }: Props) {
         </div>
 
         {benchmarks && (
-          <div className="sw-text-xs sw-mt-3" style={{ color: 'var(--echoes-color-text-subdued)' }}>
+          <div className="sw-text-xs sw-mt-4" style={{ color: '#69809B' }}>
             {formatMessage(
               { id: 'cost_savings.benchmark.based_on' },
               { count: benchmarks.totalCustomers },
@@ -105,16 +118,23 @@ function BenchmarkBar({ label, value, maxValue, color }: BenchmarkBarProps) {
 
   return (
     <div>
-      <div className="sw-flex sw-justify-between sw-text-sm sw-mb-1">
-        <span>{label}</span>
-        <span className="sw-font-semibold">{formatCurrency(value)}</span>
+      <div className="sw-flex sw-justify-between sw-text-sm sw-mb-2">
+        <span style={{ color: '#290042' }}>{label}</span>
+        <span className="sw-font-semibold" style={{ color: '#126ED3' }}>
+          {formatCurrency(value)}
+        </span>
       </div>
-      <div className="sw-h-6 sw-rounded sw-bg-gray-100 sw-overflow-hidden">
+      <div
+        className="sw-overflow-hidden"
+        style={{ height: 8, borderRadius: 4, backgroundColor: '#EEF4FC' }}
+      >
         <div
-          className="sw-h-full sw-rounded sw-transition-all"
           style={{
-            backgroundColor: color,
+            height: '100%',
+            borderRadius: 4,
+            background: color,
             width: `${widthPercent}%`,
+            transition: 'width 1s ease-out',
           }}
         />
       </div>

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Spinner } from '@sonarsource/echoes-react';
+import { Spinner } from '@sonarsource/echoes-react';
 import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
@@ -75,13 +75,12 @@ function SalesSummaryView() {
   const title = formatMessage({ id: 'cost_savings.summary.title' });
 
   return (
-    <div className="sw-max-w-[800px] sw-mx-auto sw-p-8">
+    <div className="sw-mx-auto sw-p-10" style={{ maxWidth: 860 }}>
       <Helmet defer={false} title={title} />
 
       <style>{`
         @media print {
           nav, header, footer, .global-footer { display: none !important; }
-          .sw-max-w-\\[800px\\] { max-width: none; padding: 0; }
         }
       `}</style>
 
@@ -89,21 +88,34 @@ function SalesSummaryView() {
         {summary && (
           <>
             {/* Hero: estimated savings as primary, industry context as secondary */}
-            <div className="sw-text-center sw-mb-8">
-              <Heading as="h1" className="sw-typo-lg-semibold sw-mb-2">
+            <div
+              className="sw-text-center sw-mb-10 sw-py-12 sw-px-8"
+              style={{
+                borderRadius: 16,
+                background: 'linear-gradient(135deg, #FFFFFF 0%, #EEF4FC 50%, #F7F9FC 100%)',
+                border: '2px solid rgba(183, 211, 242, 0.5)',
+              }}
+            >
+              <h1 className="sw-font-bold sw-mb-4" style={{ fontSize: 24, color: '#290042' }}>
                 {formatMessage({ id: 'cost_savings.summary.headline' })}
-              </Heading>
-              <div className="sw-text-5xl sw-font-bold sw-text-green-700">
+              </h1>
+              <div
+                className="sw-font-bold"
+                style={{
+                  fontSize: 56,
+                  background: 'linear-gradient(135deg, #126ED3 0%, #290042 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  lineHeight: 1.1,
+                }}
+              >
                 {formatCurrency(Math.abs(summary.timeSavings.total.dollars))}
               </div>
-              <div className="sw-text-lg sw-mt-2">
+              <div className="sw-mt-3" style={{ fontSize: 18, color: '#69809B' }}>
                 {formatMessage({ id: 'cost_savings.headline' })}
               </div>
               {summary.industryBreachBenchmark > 0 && summary.vulnerabilityCategoryCount > 0 && (
-                <div
-                  className="sw-mt-4 sw-text-sm"
-                  style={{ color: 'var(--echoes-color-text-subdued)' }}
-                >
+                <div className="sw-mt-5 sw-text-sm" style={{ color: '#69809B' }}>
                   {formatMessage(
                     { id: 'cost_savings.industry_context.benchmark' },
                     {
@@ -116,11 +128,11 @@ function SalesSummaryView() {
             </div>
 
             {/* Dimension breakdown */}
-            <div className="sw-mb-8">
-              <Heading as="h2" className="sw-typo-semibold sw-mb-3">
+            <div className="sw-mb-10">
+              <h2 className="sw-font-bold sw-mb-5" style={{ fontSize: 22, color: '#290042' }}>
                 {formatMessage({ id: 'cost_savings.summary.breakdown' })}
-              </Heading>
-              <div className="sw-flex sw-justify-around">
+              </h2>
+              <div className="sw-grid sw-grid-cols-3 sw-gap-5">
                 <SummaryDimension
                   label={formatMessage({ id: 'cost_savings.security' })}
                   savings={summary.timeSavings.security.dollars}
@@ -137,20 +149,28 @@ function SalesSummaryView() {
             </div>
 
             {/* Trend chart */}
-            <div className="sw-mb-8">
-              <Heading as="h2" className="sw-typo-semibold sw-mb-3">
+            <div className="sw-mb-10">
+              <h2 className="sw-font-bold sw-mb-5" style={{ fontSize: 22, color: '#290042' }}>
                 {formatMessage({ id: 'cost_savings.trends.title' })}
-              </Heading>
+              </h2>
               <Spinner isLoading={trendsLoading}>
                 {series.length > 0 && series[0].data.length > 0 && (
-                  <AdvancedTimeline
-                    formatYTick={(v) => formatCurrency(typeof v === 'string' ? parseFloat(v) : v)}
-                    height={200}
-                    metricType="INT"
-                    series={series}
-                    showAreas
-                    width={700}
-                  />
+                  <div
+                    className="sw-p-5"
+                    style={{
+                      borderRadius: 12,
+                      border: '1px solid rgba(183, 211, 242, 0.4)',
+                    }}
+                  >
+                    <AdvancedTimeline
+                      formatYTick={(v) => formatCurrency(typeof v === 'string' ? parseFloat(v) : v)}
+                      height={200}
+                      metricType="INT"
+                      series={series}
+                      showAreas
+                      width={700}
+                    />
+                  </div>
                 )}
               </Spinner>
             </div>
@@ -158,30 +178,45 @@ function SalesSummaryView() {
             {/* Top 3 vulnerability categories */}
             {topCategories.length > 0 && (
               <div>
-                <Heading as="h2" className="sw-typo-semibold sw-mb-3">
+                <h2 className="sw-font-bold sw-mb-5" style={{ fontSize: 22, color: '#290042' }}>
                   {formatMessage({ id: 'cost_savings.summary.top_vulnerabilities' })}
-                </Heading>
-                <div className="sw-flex sw-flex-col sw-gap-3">
+                </h2>
+                <div className="sw-flex sw-flex-col sw-gap-4">
                   {topCategories.map((cat) => (
                     <div
-                      className="sw-flex sw-justify-between sw-items-center sw-rounded sw-border sw-border-solid sw-p-3"
+                      className="sw-flex sw-justify-between sw-items-center sw-p-5"
                       key={cat.categoryKey}
+                      style={{
+                        borderRadius: 12,
+                        border: '2px solid rgba(183, 211, 242, 0.5)',
+                        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                      }}
                     >
                       <div>
-                        <div className="sw-font-semibold">{cat.category}</div>
-                        <div className="sw-text-sm">
+                        <div
+                          className="sw-font-semibold"
+                          style={{ color: '#290042', fontSize: 16 }}
+                        >
+                          {cat.category}
+                        </div>
+                        <div className="sw-text-sm sw-mt-1" style={{ color: '#69809B' }}>
                           {cat.issueCount}{' '}
                           {formatMessage({ id: 'cost_savings.summary.issues_found' })}
                         </div>
                       </div>
                       <div className="sw-text-right">
-                        <div className="sw-font-semibold">
+                        <div
+                          className="sw-font-bold"
+                          style={{
+                            fontSize: 18,
+                            background: 'linear-gradient(135deg, #126ED3 0%, #290042 100%)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                          }}
+                        >
                           {formatCurrency(cat.industryBenchmarkCost)}
                         </div>
-                        <div
-                          className="sw-text-xs"
-                          style={{ color: 'var(--echoes-color-text-subdued)' }}
-                        >
+                        <div className="sw-text-xs sw-mt-0.5" style={{ color: '#69809B' }}>
                           {formatMessage({ id: 'cost_savings.industry_benchmark' })}
                         </div>
                       </div>
@@ -193,8 +228,8 @@ function SalesSummaryView() {
 
             {/* Footer */}
             <div
-              className="sw-text-center sw-mt-8 sw-pt-4 sw-border-t sw-text-xs"
-              style={{ color: 'var(--echoes-color-text-subdued)' }}
+              className="sw-text-center sw-mt-10 sw-pt-5 sw-text-xs"
+              style={{ color: '#69809B', borderTop: '1px solid rgba(183, 211, 242, 0.4)' }}
             >
               {formatMessage({ id: 'cost_savings.summary.footer' })}
             </div>
@@ -212,11 +247,28 @@ interface SummaryDimensionProps {
 
 function SummaryDimension({ label, savings }: SummaryDimensionProps) {
   return (
-    <div className="sw-text-center">
-      <div className="sw-text-2xl sw-font-bold sw-text-green-700">
+    <div
+      className="sw-text-center sw-p-5"
+      style={{
+        borderRadius: 12,
+        border: '2px solid rgba(183, 211, 242, 0.5)',
+        backgroundColor: 'white',
+      }}
+    >
+      <div
+        className="sw-font-bold sw-mb-1"
+        style={{
+          fontSize: 26,
+          background: 'linear-gradient(135deg, #126ED3 0%, #290042 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+        }}
+      >
         {formatCurrency(Math.abs(savings))}
       </div>
-      <div className="sw-text-sm sw-mt-1">{label}</div>
+      <div className="sw-text-sm sw-font-medium" style={{ color: '#69809B' }}>
+        {label}
+      </div>
     </div>
   );
 }

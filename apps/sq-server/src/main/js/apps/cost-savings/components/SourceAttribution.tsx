@@ -28,7 +28,7 @@ function SourceAttribution({ sources }: Props) {
   }
 
   return (
-    <div className="sw-text-xs sw-mt-1" style={{ color: 'var(--echoes-color-text-subdued)' }}>
+    <div className="sw-text-xs sw-mt-1" style={{ color: '#69809B', fontStyle: 'italic' }}>
       {sources.join(' · ')}
     </div>
   );

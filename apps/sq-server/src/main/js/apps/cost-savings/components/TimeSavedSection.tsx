@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Link, Spinner, Tooltip } from '@sonarsource/echoes-react';
+import { Link, Spinner, Tooltip } from '@sonarsource/echoes-react';
 import { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { AdvancedTimeline } from '~sq-server-commons/components/charts/AdvancedTimeline';
@@ -158,22 +158,39 @@ function TimeSavedSection({ summary, period, projectKeys }: Props) {
   }, [series, comparisonSeries]);
 
   return (
-    <div className="sw-p-6">
-      <div className="sw-flex sw-items-center sw-gap-2 sw-mb-4">
-        <Heading as="h2" className="sw-typo-semibold">
+    <div className="sw-p-8">
+      <div className="sw-flex sw-items-center sw-gap-3 sw-mb-3">
+        <h2 className="sw-font-bold" style={{ fontSize: 20, color: '#290042' }}>
           {formatMessage({ id: 'cost_savings.time_saved.title' })}
-        </Heading>
+        </h2>
         <ConfidenceBadge level={isEstimated ? 'estimated' : 'high'} />
       </div>
 
-      <p className="sw-text-sm sw-mb-4">
+      <p className="sw-text-sm sw-mb-6" style={{ color: '#69809B', lineHeight: 1.6 }}>
         {formatMessage({ id: 'cost_savings.time_saved.description' })}
       </p>
 
       {summary.issuesPerKLoc > 0 && (
-        <div className="sw-rounded sw-bg-gray-50 sw-p-3 sw-mb-4 sw-inline-block">
-          <span className="sw-text-lg sw-font-bold">{summary.issuesPerKLoc}</span>
-          <span className="sw-text-sm sw-ml-1">
+        <div
+          className="sw-p-4 sw-mb-6 sw-inline-flex sw-items-center sw-gap-2"
+          style={{
+            borderRadius: 10,
+            backgroundColor: '#EEF4FC',
+            border: '1px solid #B7D3F2',
+          }}
+        >
+          <span
+            className="sw-font-bold"
+            style={{
+              fontSize: 22,
+              background: 'linear-gradient(135deg, #126ED3 0%, #290042 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            {summary.issuesPerKLoc}
+          </span>
+          <span className="sw-text-sm" style={{ color: '#290042' }}>
             {formatMessage({ id: 'cost_savings.time_saved.issues_per_kloc' })}
           </span>
           <SourceAttribution
@@ -183,26 +200,38 @@ function TimeSavedSection({ summary, period, projectKeys }: Props) {
       )}
 
       {/* Dimension breakdown table with drill-down links */}
-      <div className="sw-mb-6">
+      <div
+        className="sw-mb-8"
+        style={{
+          borderRadius: 12,
+          border: '1px solid rgba(183, 211, 242, 0.4)',
+          overflow: 'hidden',
+        }}
+      >
         <table className="sw-w-full">
           <thead>
-            <tr className="sw-text-left sw-text-sm sw-font-medium">
-              <th className="sw-pb-2">{formatMessage({ id: 'cost_savings.dimension' })}</th>
-              <th className="sw-pb-2 sw-text-right">
+            <tr
+              className="sw-text-left sw-text-sm sw-font-semibold"
+              style={{ backgroundColor: '#F7F9FC' }}
+            >
+              <th className="sw-py-3 sw-px-5" style={{ color: '#290042' }}>
+                {formatMessage({ id: 'cost_savings.dimension' })}
+              </th>
+              <th className="sw-py-3 sw-px-5 sw-text-right" style={{ color: '#290042' }}>
                 {formatMessage({ id: 'cost_savings.hours' })}
               </th>
-              <th className="sw-pb-2 sw-text-right">
+              <th className="sw-py-3 sw-px-5 sw-text-right" style={{ color: '#290042' }}>
                 <Tooltip
                   content={formatMessage({
                     id: 'cost_savings.time_saved.savings_includes_multiplier',
                   })}
                 >
-                  <span className="sw-cursor-help sw-border-b sw-border-dashed">
+                  <span className="sw-cursor-help" style={{ borderBottom: '1px dashed #B7D3F2' }}>
                     {formatMessage({ id: 'cost_savings.savings' })}
                   </span>
                 </Tooltip>
               </th>
-              <th className="sw-pb-2 sw-text-right">
+              <th className="sw-py-3 sw-px-5 sw-text-right" style={{ color: '#290042' }}>
                 {formatMessage({ id: 'cost_savings.multiplier' })}
               </th>
             </tr>
@@ -238,24 +267,38 @@ function TimeSavedSection({ summary, period, projectKeys }: Props) {
 
       {/* Cumulative area chart with AdvancedTimeline */}
       <div>
-        <Heading as="h3" className="sw-typo-semibold sw-mb-3">
+        <h3 className="sw-font-bold sw-mb-4" style={{ fontSize: 18, color: '#290042' }}>
           {formatMessage({ id: 'cost_savings.trends.title' })}
-        </Heading>
+        </h3>
         <Spinner isLoading={trendsLoading}>
           {allSeries.length > 0 &&
           allSeries[0].data.length > 0 &&
           allSeries[0].data.some((d) => d.y !== 0) ? (
-            <AdvancedTimeline
-              formatYTick={formatYTick}
-              height={200}
-              metricType="INT"
-              series={allSeries}
-              showAreas
-              width={700}
-            />
+            <div
+              className="sw-p-4"
+              style={{
+                borderRadius: 12,
+                border: '1px solid rgba(183, 211, 242, 0.4)',
+              }}
+            >
+              <AdvancedTimeline
+                formatYTick={formatYTick}
+                height={200}
+                metricType="INT"
+                series={allSeries}
+                showAreas
+                width={700}
+              />
+            </div>
           ) : (
-            <div className="sw-rounded sw-bg-gray-50 sw-p-6 sw-text-center">
-              <p className="sw-text-sm" style={{ color: 'var(--echoes-color-text-subdued)' }}>
+            <div
+              className="sw-p-6 sw-text-center"
+              style={{
+                borderRadius: 12,
+                backgroundColor: '#F7F9FC',
+              }}
+            >
+              <p className="sw-text-sm" style={{ color: '#69809B' }}>
                 {formatMessage({ id: 'cost_savings.trends.empty' })}
               </p>
             </div>
@@ -286,19 +329,31 @@ function DimensionRow({
   netNewDebt,
   issuesUrl,
 }: DimensionRowProps) {
-  const { formatMessage } = useIntl();
-  const colorClass = netNewDebt ? 'sw-text-red-600' : '';
-
   return (
-    <tr className="sw-border-t">
-      <td className="sw-py-2">
+    <tr style={{ borderTop: '1px solid rgba(183, 211, 242, 0.3)' }}>
+      <td className="sw-py-3 sw-px-5">
         <Link to={issuesUrl}>{name}</Link>
       </td>
-      <td className={`sw-py-2 sw-text-right ${colorClass}`}>{Math.abs(hours).toLocaleString()}</td>
-      <td className={`sw-py-2 sw-text-right sw-font-semibold ${colorClass}`}>
+      <td
+        className="sw-py-3 sw-px-5 sw-text-right"
+        style={{ color: netNewDebt ? '#dc2626' : '#290042' }}
+      >
+        {Math.abs(hours).toLocaleString()}
+      </td>
+      <td
+        className="sw-py-3 sw-px-5 sw-text-right sw-font-semibold"
+        style={{ color: netNewDebt ? '#dc2626' : '#126ED3' }}
+      >
         {formatCurrency(Math.abs(dollars))}
       </td>
-      <td className="sw-py-2 sw-text-right sw-text-sm">{multiplier}</td>
+      <td className="sw-py-3 sw-px-5 sw-text-right sw-text-sm">
+        <span
+          className="sw-inline-flex sw-items-center sw-rounded-full sw-px-2 sw-py-0.5 sw-text-xs sw-font-semibold"
+          style={{ backgroundColor: '#EEF4FC', color: '#126ED3' }}
+        >
+          {multiplier}
+        </span>
+      </td>
     </tr>
   );
 }

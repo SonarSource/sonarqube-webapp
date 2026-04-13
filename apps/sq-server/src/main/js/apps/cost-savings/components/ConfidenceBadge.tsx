@@ -24,10 +24,10 @@ interface Props {
   level: 'high' | 'estimated' | 'contextual';
 }
 
-const BADGE_STYLES: Record<Props['level'], string> = {
-  high: 'sw-bg-green-100 sw-text-green-800',
-  estimated: 'sw-bg-amber-100 sw-text-amber-800',
-  contextual: 'sw-bg-blue-100 sw-text-blue-800',
+const BADGE_COLORS: Record<Props['level'], { bg: string; text: string; dot: string }> = {
+  high: { bg: 'rgba(22, 163, 74, 0.1)', text: '#15803d', dot: '#16a34a' },
+  estimated: { bg: 'rgba(217, 119, 6, 0.1)', text: '#92400e', dot: '#d97706' },
+  contextual: { bg: '#EEF4FC', text: '#126ED3', dot: '#126ED3' },
 };
 
 const BADGE_KEYS: Record<Props['level'], string> = {
@@ -38,11 +38,21 @@ const BADGE_KEYS: Record<Props['level'], string> = {
 
 function ConfidenceBadge({ level }: Props) {
   const { formatMessage } = useIntl();
+  const colors = BADGE_COLORS[level];
 
   return (
     <span
-      className={`sw-inline-flex sw-items-center sw-rounded-full sw-px-2 sw-py-0.5 sw-text-xs sw-font-medium ${BADGE_STYLES[level]}`}
+      className="sw-inline-flex sw-items-center sw-gap-1.5 sw-rounded-full sw-px-2.5 sw-py-0.5 sw-text-xs sw-font-semibold"
+      style={{ backgroundColor: colors.bg, color: colors.text }}
     >
+      <span
+        style={{
+          width: 6,
+          height: 6,
+          borderRadius: '50%',
+          backgroundColor: colors.dot,
+        }}
+      />
       {formatMessage({ id: BADGE_KEYS[level] })}
     </span>
   );

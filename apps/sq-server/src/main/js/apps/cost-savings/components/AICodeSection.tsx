@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Link } from '@sonarsource/echoes-react';
+import { Link } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import type { AICodeMetrics } from '../api/cost-savings-api';
 import { ConfidenceBadge } from './ConfidenceBadge';
@@ -43,13 +43,13 @@ function AICodeSection({ aiCodeMetrics, projectKeys }: Props) {
 
   if (!aiCodeMetrics || !aiCodeMetrics.enabled) {
     return (
-      <div className="sw-p-6 sw-bg-gray-50">
+      <div className="sw-p-8" style={{ backgroundColor: '#F7F9FC' }}>
         <div className="sw-flex sw-items-start sw-gap-4">
           <div>
-            <Heading as="h3" className="sw-typo-semibold sw-mb-2">
+            <h3 className="sw-font-bold sw-mb-2" style={{ fontSize: 18, color: '#290042' }}>
               {formatMessage({ id: 'cost_savings.ai_code.promo_title' })}
-            </Heading>
-            <p className="sw-text-sm">
+            </h3>
+            <p className="sw-text-sm" style={{ color: '#69809B', lineHeight: 1.6 }}>
               {formatMessage({ id: 'cost_savings.ai_code.promo_description' })}
             </p>
           </div>
@@ -59,27 +59,59 @@ function AICodeSection({ aiCodeMetrics, projectKeys }: Props) {
   }
 
   return (
-    <div className="sw-p-6">
-      <div className="sw-flex sw-items-center sw-gap-2 sw-mb-4">
-        <Heading as="h2" className="sw-typo-semibold">
+    <div className="sw-p-8">
+      <div className="sw-flex sw-items-center sw-gap-3 sw-mb-5">
+        <h2 className="sw-font-bold" style={{ fontSize: 20, color: '#290042' }}>
           {formatMessage({ id: 'cost_savings.ai_code.title' })}
-        </Heading>
+        </h2>
         <ConfidenceBadge level="contextual" />
       </div>
 
-      <div className="sw-grid sw-grid-cols-3 sw-gap-4 sw-mb-4">
-        <div className="sw-rounded sw-bg-gray-50 sw-p-4">
-          <div className="sw-text-2xl sw-font-bold">{aiCodeMetrics.aiPassRate}%</div>
-          <div className="sw-text-sm">
+      <div className="sw-grid sw-grid-cols-3 sw-gap-5">
+        <div
+          className="sw-p-5 sw-text-center"
+          style={{
+            borderRadius: 12,
+            border: '2px solid rgba(183, 211, 242, 0.5)',
+            backgroundColor: 'white',
+          }}
+        >
+          <div
+            className="sw-font-bold sw-mb-1"
+            style={{
+              fontSize: 28,
+              background: 'linear-gradient(135deg, #126ED3 0%, #290042 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            {aiCodeMetrics.aiPassRate}%
+          </div>
+          <div className="sw-text-sm sw-font-medium" style={{ color: '#69809B' }}>
             {formatMessage({ id: 'cost_savings.ai_code.pass_rate' })}
           </div>
         </div>
 
-        <div className="sw-rounded sw-bg-gray-50 sw-p-4">
-          <div className="sw-text-2xl sw-font-bold">
+        <div
+          className="sw-p-5 sw-text-center"
+          style={{
+            borderRadius: 12,
+            border: '2px solid rgba(183, 211, 242, 0.5)',
+            backgroundColor: 'white',
+          }}
+        >
+          <div
+            className="sw-font-bold sw-mb-1"
+            style={{
+              fontSize: 28,
+              background: 'linear-gradient(135deg, #126ED3 0%, #290042 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
             {aiCodeMetrics.aiGeneratedIssueCount.toLocaleString()}
           </div>
-          <div className="sw-text-sm">
+          <div className="sw-text-sm sw-font-medium" style={{ color: '#69809B' }}>
             <Link to={buildAiIssuesUrl(projectKeys)}>
               {formatMessage({ id: 'cost_savings.ai_code.issues_found' })}
             </Link>
@@ -87,11 +119,20 @@ function AICodeSection({ aiCodeMetrics, projectKeys }: Props) {
         </div>
 
         {aiCodeMetrics.humanVsAiIssueRate && (
-          <div className="sw-rounded sw-bg-gray-50 sw-p-4">
-            <div className="sw-text-sm sw-font-semibold">
+          <div
+            className="sw-p-5"
+            style={{
+              borderRadius: 12,
+              border: '2px solid rgba(183, 211, 242, 0.5)',
+              backgroundColor: 'white',
+            }}
+          >
+            <div className="sw-text-sm sw-font-semibold sw-mb-2" style={{ color: '#290042' }}>
               {formatMessage({ id: 'cost_savings.ai_code.density_comparison' })}
             </div>
-            <div className="sw-text-sm sw-mt-1">{aiCodeMetrics.humanVsAiIssueRate}</div>
+            <div className="sw-text-sm" style={{ color: '#69809B' }}>
+              {aiCodeMetrics.humanVsAiIssueRate}
+            </div>
           </div>
         )}
       </div>

@@ -83,8 +83,15 @@ function SummaryNarrative({ summary, period, projectKeys }: Props) {
   }
 
   return (
-    <div className="sw-rounded sw-border sw-border-solid sw-bg-gray-50 sw-p-4 sw-flex sw-items-start sw-gap-3">
-      <p className="sw-text-sm sw-flex-1" style={{ color: 'var(--echoes-color-text-subdued)' }}>
+    <div
+      className="sw-p-5 sw-flex sw-items-start sw-gap-3"
+      style={{
+        borderRadius: 12,
+        backgroundColor: '#F7F9FC',
+        border: '1px solid rgba(183, 211, 242, 0.4)',
+      }}
+    >
+      <p className="sw-text-sm sw-flex-1" style={{ color: '#69809B', lineHeight: 1.7 }}>
         {narrativeText}
       </p>
       <ButtonIcon

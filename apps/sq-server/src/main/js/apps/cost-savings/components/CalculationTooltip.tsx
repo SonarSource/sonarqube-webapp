@@ -31,10 +31,11 @@ function CalculationTooltip({ content, children }: Props) {
     <Tooltip content={content}>
       {children ?? (
         <span
-          className="sw-inline-flex sw-items-center sw-justify-center sw-rounded-full sw-border sw-border-solid sw-cursor-help sw-ml-1 sw-align-middle"
+          className="sw-inline-flex sw-items-center sw-justify-center sw-rounded-full sw-cursor-help sw-ml-1 sw-align-middle sw-font-semibold"
           style={{
-            color: 'var(--echoes-color-text-subdued)',
-            fontSize: '11px',
+            color: '#126ED3',
+            backgroundColor: '#EEF4FC',
+            fontSize: '10px',
             height: '16px',
             lineHeight: '16px',
             width: '16px',

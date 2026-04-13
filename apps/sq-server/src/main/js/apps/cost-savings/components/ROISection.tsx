@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, LinkStandalone } from '@sonarsource/echoes-react';
+import { LinkStandalone } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import type { ROI } from '../api/cost-savings-api';
 import { formatCurrency } from '../utils/format';
@@ -33,11 +33,13 @@ function ROISection({ roi, onOpenConfig }: Props) {
 
   if (!roi) {
     return (
-      <div className="sw-p-6 sw-bg-blue-50">
-        <Heading as="h2" className="sw-typo-semibold sw-mb-2">
+      <div className="sw-p-8" style={{ backgroundColor: '#EEF4FC' }}>
+        <h2 className="sw-font-bold sw-mb-3" style={{ fontSize: 20, color: '#290042' }}>
           {formatMessage({ id: 'cost_savings.roi.title' })}
-        </Heading>
-        <p className="sw-text-sm sw-mb-3">{formatMessage({ id: 'cost_savings.roi.prompt' })}</p>
+        </h2>
+        <p className="sw-text-sm sw-mb-4" style={{ color: '#69809B' }}>
+          {formatMessage({ id: 'cost_savings.roi.prompt' })}
+        </p>
         <LinkStandalone onClick={onOpenConfig} to="">
           {formatMessage({ id: 'cost_savings.roi.configure' })}
         </LinkStandalone>
@@ -48,39 +50,63 @@ function ROISection({ roi, onOpenConfig }: Props) {
   const maxBar = Math.max(roi.totalSavings, roi.licenseCost);
 
   return (
-    <div className="sw-p-6">
-      <Heading as="h2" className="sw-typo-semibold sw-mb-2">
+    <div className="sw-p-8">
+      <h2 className="sw-font-bold sw-mb-3" style={{ fontSize: 20, color: '#290042' }}>
         {formatMessage({ id: 'cost_savings.roi.title' })}
-      </Heading>
+      </h2>
 
-      <p className="sw-text-lg sw-font-semibold sw-mb-4">
+      <p className="sw-font-semibold sw-mb-6" style={{ fontSize: 18, color: '#290042' }}>
         {formatMessage({ id: 'cost_savings.roi.headline' }, { ratio: roi.ratio.toFixed(1) })}
       </p>
 
       {/* Bar chart: license cost vs savings */}
-      <div className="sw-flex sw-flex-col sw-gap-3">
+      <div className="sw-flex sw-flex-col sw-gap-5">
         <div>
-          <div className="sw-flex sw-justify-between sw-text-sm sw-mb-1">
-            <span>{formatMessage({ id: 'cost_savings.roi.license_cost' })}</span>
-            <span className="sw-font-medium">{formatCurrency(roi.licenseCost)}</span>
+          <div className="sw-flex sw-justify-between sw-text-sm sw-mb-2">
+            <span style={{ color: '#290042' }}>
+              {formatMessage({ id: 'cost_savings.roi.license_cost' })}
+            </span>
+            <span className="sw-font-semibold" style={{ color: '#69809B' }}>
+              {formatCurrency(roi.licenseCost)}
+            </span>
           </div>
-          <div className="sw-h-6 sw-bg-gray-100 sw-rounded sw-overflow-hidden">
+          <div
+            className="sw-overflow-hidden"
+            style={{ height: 8, borderRadius: 4, backgroundColor: '#EEF4FC' }}
+          >
             <div
-              className="sw-h-full sw-bg-gray-400 sw-rounded"
-              style={{ width: `${(roi.licenseCost / maxBar) * 100}%` }}
+              style={{
+                height: '100%',
+                borderRadius: 4,
+                backgroundColor: '#69809B',
+                width: `${(roi.licenseCost / maxBar) * 100}%`,
+                transition: 'width 1s ease-out',
+              }}
             />
           </div>
         </div>
 
         <div>
-          <div className="sw-flex sw-justify-between sw-text-sm sw-mb-1">
-            <span>{formatMessage({ id: 'cost_savings.roi.savings' })}</span>
-            <span className="sw-font-medium">{formatCurrency(roi.totalSavings)}</span>
+          <div className="sw-flex sw-justify-between sw-text-sm sw-mb-2">
+            <span style={{ color: '#290042' }}>
+              {formatMessage({ id: 'cost_savings.roi.savings' })}
+            </span>
+            <span className="sw-font-semibold" style={{ color: '#126ED3' }}>
+              {formatCurrency(roi.totalSavings)}
+            </span>
           </div>
-          <div className="sw-h-6 sw-bg-gray-100 sw-rounded sw-overflow-hidden">
+          <div
+            className="sw-overflow-hidden"
+            style={{ height: 8, borderRadius: 4, backgroundColor: '#EEF4FC' }}
+          >
             <div
-              className="sw-h-full sw-bg-green-500 sw-rounded"
-              style={{ width: `${(roi.totalSavings / maxBar) * 100}%` }}
+              style={{
+                height: '100%',
+                borderRadius: 4,
+                background: 'linear-gradient(90deg, #126ED3, #0F63BF)',
+                width: `${(roi.totalSavings / maxBar) * 100}%`,
+                transition: 'width 1s ease-out',
+              }}
             />
           </div>
         </div>

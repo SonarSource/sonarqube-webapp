@@ -21,7 +21,6 @@
 import {
   Button,
   ButtonVariety,
-  Heading,
   Select,
   Spinner,
   TextInput,
@@ -128,27 +127,40 @@ function ConfigurationPanel({ onClose }: Props) {
   return (
     <div className="sw-fixed sw-inset-0 sw-z-modal-overlay sw-flex sw-justify-end" role="dialog">
       {/* Backdrop */}
-      <div className="sw-absolute sw-inset-0 sw-bg-black sw-bg-opacity-30" onClick={onClose} />
+      <div
+        className="sw-absolute sw-inset-0"
+        onClick={onClose}
+        style={{ backgroundColor: 'rgba(41, 0, 66, 0.3)' }}
+      />
 
       {/* Drawer */}
       <div
-        className="sw-relative sw-w-[480px] sw-bg-white sw-shadow-lg sw-overflow-y-auto sw-p-6"
+        className="sw-relative sw-overflow-y-auto"
         ref={drawerRef}
+        style={{
+          width: 480,
+          backgroundColor: 'white',
+          boxShadow: '-8px 0 40px rgba(41, 0, 66, 0.1)',
+          padding: 32,
+        }}
         tabIndex={-1}
       >
-        <div className="sw-flex sw-items-center sw-justify-between sw-mb-6">
-          <Heading as="h2" className="sw-typo-semibold">
+        <div className="sw-flex sw-items-center sw-justify-between sw-mb-8">
+          <h2 className="sw-font-bold" style={{ fontSize: 22, color: '#290042' }}>
             {formatMessage({ id: 'cost_savings.config.title' })}
-          </Heading>
+          </h2>
           <Button onClick={onClose} variety={ButtonVariety.DefaultGhost}>
             {formatMessage({ id: 'close' })}
           </Button>
         </div>
 
         <Spinner isLoading={isLoading}>
-          <div className="sw-flex sw-flex-col sw-gap-4">
+          <div className="sw-flex sw-flex-col sw-gap-5">
             <div>
-              <label className="sw-block sw-text-sm sw-font-medium sw-mb-1">
+              <label
+                className="sw-block sw-text-sm sw-font-semibold sw-mb-1.5"
+                style={{ color: '#290042' }}
+              >
                 {formatMessage({ id: 'cost_savings.config.industry' })}
               </label>
               <Select
@@ -164,7 +176,10 @@ function ConfigurationPanel({ onClose }: Props) {
             </div>
 
             <div>
-              <label className="sw-block sw-text-sm sw-font-medium sw-mb-1">
+              <label
+                className="sw-block sw-text-sm sw-font-semibold sw-mb-1.5"
+                style={{ color: '#290042' }}
+              >
                 {formatMessage({ id: 'cost_savings.config.region' })}
               </label>
               <Select
@@ -180,7 +195,10 @@ function ConfigurationPanel({ onClose }: Props) {
             </div>
 
             <div>
-              <label className="sw-block sw-text-sm sw-font-medium sw-mb-1">
+              <label
+                className="sw-block sw-text-sm sw-font-semibold sw-mb-1.5"
+                style={{ color: '#290042' }}
+              >
                 {formatMessage({ id: 'cost_savings.config.hourly_rate' })}
               </label>
               <TextInput
@@ -193,7 +211,7 @@ function ConfigurationPanel({ onClose }: Props) {
                 type="number"
                 value={merged.hourlyRate?.toString() ?? ''}
               />
-              <p className="sw-text-xs sw-mt-1">
+              <p className="sw-text-xs sw-mt-1.5" style={{ color: '#69809B' }}>
                 {formatMessage({
                   id: 'cost_savings.config.hourly_rate_help',
                 })}
@@ -201,7 +219,10 @@ function ConfigurationPanel({ onClose }: Props) {
             </div>
 
             <div>
-              <label className="sw-block sw-text-sm sw-font-medium sw-mb-1">
+              <label
+                className="sw-block sw-text-sm sw-font-semibold sw-mb-1.5"
+                style={{ color: '#290042' }}
+              >
                 {formatMessage({ id: 'cost_savings.config.annual_revenue' })}
               </label>
               <TextInput
@@ -219,7 +240,7 @@ function ConfigurationPanel({ onClose }: Props) {
                 type="number"
                 value={merged.annualRevenue?.toString() ?? ''}
               />
-              <p className="sw-text-xs sw-mt-1">
+              <p className="sw-text-xs sw-mt-1.5" style={{ color: '#69809B' }}>
                 {formatMessage({
                   id: 'cost_savings.config.annual_revenue_help',
                 })}
@@ -227,7 +248,10 @@ function ConfigurationPanel({ onClose }: Props) {
             </div>
 
             <div>
-              <label className="sw-block sw-text-sm sw-font-medium sw-mb-1">
+              <label
+                className="sw-block sw-text-sm sw-font-semibold sw-mb-1.5"
+                style={{ color: '#290042' }}
+              >
                 {formatMessage({ id: 'cost_savings.config.employee_count' })}
               </label>
               <TextInput
@@ -248,7 +272,10 @@ function ConfigurationPanel({ onClose }: Props) {
             </div>
 
             <div>
-              <label className="sw-block sw-text-sm sw-font-medium sw-mb-1">
+              <label
+                className="sw-block sw-text-sm sw-font-semibold sw-mb-1.5"
+                style={{ color: '#290042' }}
+              >
                 {formatMessage({ id: 'cost_savings.config.developer_count' })}
               </label>
               <TextInput
@@ -269,7 +296,10 @@ function ConfigurationPanel({ onClose }: Props) {
             </div>
 
             <div>
-              <label className="sw-block sw-text-sm sw-font-medium sw-mb-1">
+              <label
+                className="sw-block sw-text-sm sw-font-semibold sw-mb-1.5"
+                style={{ color: '#290042' }}
+              >
                 {formatMessage({ id: 'cost_savings.config.license_cost' })}
               </label>
               <TextInput
@@ -284,7 +314,7 @@ function ConfigurationPanel({ onClose }: Props) {
                 type="number"
                 value={merged.licenseCost?.toString() ?? ''}
               />
-              <p className="sw-text-xs sw-mt-1">
+              <p className="sw-text-xs sw-mt-1.5" style={{ color: '#69809B' }}>
                 {formatMessage({
                   id: 'cost_savings.config.license_cost_help',
                 })}
@@ -292,7 +322,7 @@ function ConfigurationPanel({ onClose }: Props) {
             </div>
 
             {/* Anonymous benchmarking opt-in */}
-            <div className="sw-border-t sw-pt-4">
+            <div style={{ borderTop: '1px solid rgba(183, 211, 242, 0.4)', paddingTop: 20 }}>
               <label className="sw-flex sw-items-center sw-gap-2 sw-cursor-pointer">
                 <input
                   checked={merged.telemetryOptIn === true}
@@ -301,20 +331,21 @@ function ConfigurationPanel({ onClose }: Props) {
                   }
                   type="checkbox"
                 />
-                <span className="sw-text-sm sw-font-medium">
+                <span className="sw-text-sm sw-font-semibold" style={{ color: '#290042' }}>
                   {formatMessage({ id: 'cost_savings.config.telemetry_opt_in' })}
                 </span>
               </label>
-              <p className="sw-text-xs sw-mt-1 sw-ml-6">
+              <p className="sw-text-xs sw-mt-1.5 sw-ml-6" style={{ color: '#69809B' }}>
                 {formatMessage({ id: 'cost_savings.config.telemetry_opt_in_help' })}
               </p>
             </div>
 
             {/* Advanced settings accordion */}
-            <div className="sw-border-t sw-pt-4">
+            <div style={{ borderTop: '1px solid rgba(183, 211, 242, 0.4)', paddingTop: 20 }}>
               <button
-                className="sw-flex sw-items-center sw-gap-1 sw-text-sm sw-font-medium sw-cursor-pointer sw-bg-transparent sw-border-none sw-p-0"
+                className="sw-flex sw-items-center sw-gap-1.5 sw-text-sm sw-font-semibold sw-cursor-pointer sw-bg-transparent sw-border-none sw-p-0"
                 onClick={() => setShowAdvanced((prev) => !prev)}
+                style={{ color: '#126ED3' }}
                 type="button"
               >
                 <span>{showAdvanced ? '▾' : '▸'}</span>
@@ -323,7 +354,10 @@ function ConfigurationPanel({ onClose }: Props) {
 
               {showAdvanced && (
                 <div className="sw-mt-3">
-                  <label className="sw-block sw-text-sm sw-font-medium sw-mb-1">
+                  <label
+                    className="sw-block sw-text-sm sw-font-semibold sw-mb-1.5"
+                    style={{ color: '#290042' }}
+                  >
                     {formatMessage({ id: 'cost_savings.config.token_price' })}
                   </label>
                   <TextInput
@@ -339,7 +373,7 @@ function ConfigurationPanel({ onClose }: Props) {
                     type="number"
                     value={merged.tokenPricePerMillion?.toString() ?? ''}
                   />
-                  <p className="sw-text-xs sw-mt-1">
+                  <p className="sw-text-xs sw-mt-1.5" style={{ color: '#69809B' }}>
                     {formatMessage({
                       id: 'cost_savings.config.token_price_help',
                     })}

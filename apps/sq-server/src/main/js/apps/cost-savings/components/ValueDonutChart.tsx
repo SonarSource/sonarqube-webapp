@@ -33,11 +33,11 @@ interface Props {
   segments: DonutSegment[];
 }
 
-const SIZE = 200;
-const STROKE_WIDTH = 32;
+const SIZE = 240;
+const STROKE_WIDTH = 28;
 const RADIUS = (SIZE - STROKE_WIDTH) / 2;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
-const GAP = 4;
+const GAP = 3;
 const INNER_DIAMETER = 2 * (RADIUS - STROKE_WIDTH / 2);
 
 function ValueDonutChart({ segments, centerValue, centerLabel }: Props) {
@@ -55,7 +55,12 @@ function ValueDonutChart({ segments, centerValue, centerLabel }: Props) {
     return active.map((s) => {
       const fraction = s.value / total;
       const dashLength = fraction * availableLength;
-      const result = { ...s, dashLength, dashOffset: offset };
+      const result = {
+        ...s,
+        dashLength,
+        dashOffset: offset,
+        percentage: Math.round(fraction * 100),
+      };
       offset += dashLength + GAP;
       return result;
     });
@@ -66,7 +71,7 @@ function ValueDonutChart({ segments, centerValue, centerLabel }: Props) {
   }
 
   return (
-    <div className="sw-flex sw-items-center sw-justify-center sw-gap-10">
+    <div className="sw-flex sw-items-center sw-justify-center sw-gap-12">
       <div className="sw-relative sw-shrink-0" style={{ height: SIZE, width: SIZE }}>
         <svg height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`} width={SIZE}>
           <circle
@@ -74,7 +79,7 @@ function ValueDonutChart({ segments, centerValue, centerLabel }: Props) {
             cy={SIZE / 2}
             fill="none"
             r={RADIUS}
-            stroke="#f3f4f6"
+            stroke="#EEF4FC"
             strokeWidth={STROKE_WIDTH}
           />
           {computed.map((seg) => (
@@ -89,7 +94,11 @@ function ValueDonutChart({ segments, centerValue, centerLabel }: Props) {
               strokeDashoffset={-seg.dashOffset}
               strokeLinecap="round"
               strokeWidth={STROKE_WIDTH}
-              style={{ transform: 'rotate(-90deg)', transformOrigin: 'center' }}
+              style={{
+                transform: 'rotate(-90deg)',
+                transformOrigin: 'center',
+                transition: 'stroke-dasharray 1s ease-out, stroke-dashoffset 1s ease-out',
+              }}
             />
           ))}
         </svg>
@@ -98,10 +107,20 @@ function ValueDonutChart({ segments, centerValue, centerLabel }: Props) {
             className="sw-flex sw-flex-col sw-items-center sw-justify-center sw-text-center"
             style={{ width: INNER_DIAMETER, height: INNER_DIAMETER }}
           >
-            <div className="sw-text-xl sw-font-bold sw-leading-tight">{centerValue}</div>
             <div
-              className="sw-text-xs sw-leading-tight sw-mt-0.5"
-              style={{ color: 'var(--echoes-color-text-subdued)' }}
+              className="sw-font-bold sw-leading-tight"
+              style={{
+                fontSize: 28,
+                background: 'linear-gradient(135deg, #126ED3 0%, #290042 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              {centerValue}
+            </div>
+            <div
+              className="sw-leading-tight sw-mt-1 sw-font-medium"
+              style={{ color: '#69809B', fontSize: 12 }}
             >
               {centerLabel}
             </div>
@@ -109,16 +128,37 @@ function ValueDonutChart({ segments, centerValue, centerLabel }: Props) {
         </div>
       </div>
 
-      <div className="sw-flex sw-flex-col sw-gap-3">
+      <div className="sw-flex sw-flex-col sw-gap-4">
         {computed.map((seg) => (
-          <div className="sw-flex sw-items-center sw-gap-3" key={seg.label}>
+          <div
+            className="sw-flex sw-items-start sw-gap-3 sw-p-3"
+            key={seg.label}
+            style={{
+              borderRadius: 10,
+              border: '1px solid rgba(183, 211, 242, 0.3)',
+              backgroundColor: 'white',
+              minWidth: 200,
+            }}
+          >
             <div
-              className="sw-w-3 sw-h-3 sw-rounded-full sw-shrink-0"
-              style={{ backgroundColor: seg.color }}
+              className="sw-shrink-0 sw-mt-0.5"
+              style={{
+                width: 12,
+                height: 12,
+                borderRadius: '50%',
+                backgroundColor: seg.color,
+              }}
             />
-            <div className="sw-flex sw-flex-col">
-              <span className="sw-text-sm sw-font-semibold">{formatCurrency(seg.value)}</span>
-              <span className="sw-text-xs" style={{ color: 'var(--echoes-color-text-subdued)' }}>
+            <div className="sw-flex sw-flex-col sw-flex-1">
+              <div className="sw-flex sw-items-baseline sw-justify-between sw-gap-3">
+                <span className="sw-font-semibold" style={{ fontSize: 15, color: '#290042' }}>
+                  {formatCurrency(seg.value)}
+                </span>
+                <span className="sw-text-sm sw-font-medium" style={{ color: '#69809B' }}>
+                  {seg.percentage}%
+                </span>
+              </div>
+              <span className="sw-text-xs sw-mt-0.5" style={{ color: '#69809B' }}>
                 {seg.label}
               </span>
             </div>

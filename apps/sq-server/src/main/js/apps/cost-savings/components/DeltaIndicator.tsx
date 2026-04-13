@@ -43,17 +43,23 @@ function DeltaIndicator({ current, previous, period }: Props) {
 
   const pct = ((current - previous) / Math.abs(previous)) * 100;
   const isPositive = pct >= 0;
-  const colorClass = isPositive ? 'sw-text-green-600' : 'sw-text-red-600';
+  const color = isPositive ? '#16a34a' : '#dc2626';
+  const bgColor = isPositive ? 'rgba(22, 163, 74, 0.08)' : 'rgba(220, 38, 38, 0.08)';
   const arrow = isPositive ? '\u25B2' : '\u25BC';
   const sign = isPositive ? '+' : '';
 
   return (
-    <div className="sw-text-sm sw-mt-1">
-      <span className={colorClass}>
+    <div className="sw-text-sm sw-mt-1 sw-inline-flex sw-items-center sw-gap-1.5">
+      <span
+        className="sw-inline-flex sw-items-center sw-rounded-full sw-px-2 sw-py-0.5 sw-text-xs sw-font-semibold"
+        style={{ backgroundColor: bgColor, color }}
+      >
         {arrow} {sign}
         {pct.toFixed(0)}%
-      </span>{' '}
-      {formatMessage({ id: 'cost_savings.delta.vs_previous' }, { period: PERIOD_LABELS[period] })}
+      </span>
+      <span style={{ color: '#69809B' }}>
+        {formatMessage({ id: 'cost_savings.delta.vs_previous' }, { period: PERIOD_LABELS[period] })}
+      </span>
     </div>
   );
 }

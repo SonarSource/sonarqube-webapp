@@ -58,32 +58,70 @@ function NarrativeCard({ category, projectKeys }: Props) {
 
   return (
     <div
-      className="sw-rounded-lg sw-border sw-border-solid sw-overflow-hidden"
-      style={{ borderLeftWidth: '3px', borderLeftColor: accentColor }}
+      className="sw-overflow-hidden"
+      style={{
+        borderRadius: 12,
+        border: '2px solid rgba(183, 211, 242, 0.5)',
+        borderLeftWidth: 4,
+        borderLeftColor: accentColor,
+        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+      }}
     >
-      <div className="sw-p-4">
+      <div className="sw-p-5">
         {/* Category header with issue count and OWASP tag */}
-        <div className="sw-flex sw-items-center sw-justify-between sw-mb-2">
+        <div className="sw-flex sw-items-center sw-justify-between sw-mb-3">
           <div className="sw-flex sw-items-center sw-gap-2">
-            <span className="sw-font-semibold sw-text-base">{category.category}</span>
+            <span className="sw-font-semibold" style={{ fontSize: 16, color: '#290042' }}>
+              {category.category}
+            </span>
             {category.owasp && (
-              <span className="sw-rounded sw-bg-gray-100 sw-px-1.5 sw-py-0.5 sw-text-xs sw-font-medium">
+              <span
+                className="sw-px-2 sw-py-0.5 sw-text-xs sw-font-medium"
+                style={{
+                  borderRadius: 6,
+                  backgroundColor: '#EEF4FC',
+                  color: '#126ED3',
+                }}
+              >
                 {category.owasp}
               </span>
             )}
           </div>
-          <span className="sw-rounded-full sw-bg-red-100 sw-px-2.5 sw-py-0.5 sw-text-sm sw-font-medium sw-text-red-800">
+          <span
+            className="sw-rounded-full sw-px-3 sw-py-1 sw-text-sm sw-font-semibold"
+            style={{
+              backgroundColor: 'rgba(220, 38, 38, 0.08)',
+              color: '#dc2626',
+            }}
+          >
             {category.issueCount} {formatMessage({ id: 'cost_savings.issues_found' })}
           </span>
         </div>
 
         {/* Narrative text — the core of the card */}
-        <p className="sw-text-sm sw-mb-3">{category.narrative}</p>
+        <p className="sw-text-sm sw-mb-4" style={{ color: '#69809B', lineHeight: 1.6 }}>
+          {category.narrative}
+        </p>
 
         {/* Benchmark highlight box */}
-        <div className="sw-rounded sw-bg-gray-50 sw-px-3 sw-py-2 sw-mb-3">
+        <div
+          className="sw-px-4 sw-py-3 sw-mb-4"
+          style={{
+            borderRadius: 10,
+            backgroundColor: '#F7F9FC',
+            border: '1px solid rgba(183, 211, 242, 0.3)',
+          }}
+        >
           <div className="sw-flex sw-items-center sw-gap-1">
-            <span className="sw-text-lg sw-font-bold">
+            <span
+              className="sw-font-bold"
+              style={{
+                fontSize: 20,
+                background: 'linear-gradient(135deg, #126ED3 0%, #290042 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
               {formatBenchmark(category.industryBenchmarkCost)}
             </span>
             <CalculationTooltip content={formatMessage({ id: 'cost_savings.tooltip.benchmark' })} />
@@ -99,7 +137,7 @@ function NarrativeCard({ category, projectKeys }: Props) {
 
           {uniqueFrameworks.length > 0 && (
             <>
-              <span className="sw-text-gray-300">|</span>
+              <span style={{ color: 'rgba(183, 211, 242, 0.6)' }}>|</span>
               {uniqueFrameworks.map((fw) => (
                 <ComplianceBadge framework={fw} key={fw} />
               ))}
@@ -108,7 +146,7 @@ function NarrativeCard({ category, projectKeys }: Props) {
 
           {issuesUrl && (
             <>
-              <span className="sw-text-gray-300">|</span>
+              <span style={{ color: 'rgba(183, 211, 242, 0.6)' }}>|</span>
               <Link to={issuesUrl}>{formatMessage({ id: 'cost_savings.view_issues' })}</Link>
             </>
           )}
@@ -118,8 +156,12 @@ function NarrativeCard({ category, projectKeys }: Props) {
       {/* Technical detail footer: CWE IDs */}
       {category.cwe.length > 0 && (
         <div
-          className="sw-px-4 sw-py-2 sw-text-xs sw-bg-gray-50"
-          style={{ color: 'var(--echoes-color-text-subdued)' }}
+          className="sw-px-5 sw-py-2.5 sw-text-xs"
+          style={{
+            backgroundColor: '#F7F9FC',
+            color: '#69809B',
+            borderTop: '1px solid rgba(183, 211, 242, 0.3)',
+          }}
         >
           {category.cwe.join(' · ')}
         </div>

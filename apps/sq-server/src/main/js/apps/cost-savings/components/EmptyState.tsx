@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 
 interface Props {
@@ -41,14 +40,46 @@ function EmptyState({ variant }: Props) {
 
   if (variant === 'no-data') {
     return (
-      <div className="sw-flex sw-flex-col sw-items-center sw-py-16 sw-px-8">
-        <Heading as="h1" className="sw-typo-lg-semibold sw-mb-4">
+      <div className="sw-flex sw-flex-col sw-items-center sw-py-20 sw-px-8">
+        <div
+          className="sw-flex sw-items-center sw-justify-center sw-mb-6"
+          style={{
+            width: 64,
+            height: 64,
+            borderRadius: 16,
+            backgroundColor: '#EEF4FC',
+          }}
+        >
+          <svg
+            fill="none"
+            height="32"
+            stroke="#126ED3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            width="32"
+          >
+            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+            <polyline points="17 6 23 6 23 12" />
+          </svg>
+        </div>
+        <h1
+          className="sw-font-bold sw-mb-3 sw-text-center"
+          style={{ fontSize: 24, color: '#290042' }}
+        >
           {formatMessage({ id: 'cost_savings.empty.no_data.title' })}
-        </Heading>
-        <p className="sw-text-center sw-max-w-lg sw-mb-6">
+        </h1>
+        <p
+          className="sw-text-center sw-mb-6"
+          style={{ maxWidth: 520, color: '#69809B', lineHeight: 1.6 }}
+        >
           {formatMessage({ id: 'cost_savings.empty.no_data.description' })}
         </p>
-        <p className="sw-text-sm sw-text-center sw-max-w-md">
+        <p
+          className="sw-text-sm sw-text-center sw-font-medium"
+          style={{ maxWidth: 480, color: '#126ED3' }}
+        >
           {formatMessage({ id: 'cost_savings.empty.no_data.cta' })}
         </p>
       </div>
@@ -57,8 +88,28 @@ function EmptyState({ variant }: Props) {
 
   // no-security-issues: positive framing
   return (
-    <div className="sw-rounded-lg sw-p-4 sw-bg-green-50">
-      <p className="sw-text-sm">
+    <div
+      className="sw-p-5 sw-flex sw-items-center sw-gap-3"
+      style={{
+        borderRadius: 12,
+        backgroundColor: 'rgba(22, 163, 74, 0.06)',
+        border: '1px solid rgba(22, 163, 74, 0.2)',
+      }}
+    >
+      <svg
+        fill="none"
+        height="20"
+        stroke="#16a34a"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        width="20"
+      >
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        <polyline points="9 12 11 14 15 10" />
+      </svg>
+      <p className="sw-text-sm sw-font-medium" style={{ color: '#15803d' }}>
         {formatMessage({ id: 'cost_savings.empty.no_security.message' })}
       </p>
     </div>

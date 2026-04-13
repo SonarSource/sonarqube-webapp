@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Heading } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { useCallback, useEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import type { RemediationBreakdown } from '../api/cost-savings-api';
@@ -56,82 +56,130 @@ function MethodologyDrawer({ onClose, remediationBreakdown, issueCount }: Props)
 
   return (
     <div className="sw-fixed sw-inset-0 sw-z-modal-overlay sw-flex sw-justify-end" role="dialog">
-      <div className="sw-absolute sw-inset-0 sw-bg-black sw-bg-opacity-30" onClick={onClose} />
+      <div
+        className="sw-absolute sw-inset-0"
+        onClick={onClose}
+        style={{ backgroundColor: 'rgba(41, 0, 66, 0.3)' }}
+      />
 
       <div
-        className="sw-relative sw-w-[560px] sw-bg-white sw-shadow-lg sw-overflow-y-auto sw-p-6"
+        className="sw-relative sw-overflow-y-auto"
         ref={drawerRef}
+        style={{
+          width: 560,
+          backgroundColor: 'white',
+          boxShadow: '-8px 0 40px rgba(41, 0, 66, 0.1)',
+          padding: 32,
+        }}
         tabIndex={-1}
       >
-        <div className="sw-flex sw-items-center sw-justify-between sw-mb-6">
-          <Heading as="h2" className="sw-typo-semibold">
+        <div className="sw-flex sw-items-center sw-justify-between sw-mb-8">
+          <h2 className="sw-font-bold" style={{ fontSize: 22, color: '#290042' }}>
             {formatMessage({ id: 'cost_savings.methodology.title' })}
-          </Heading>
+          </h2>
           <Button onClick={onClose} variety={ButtonVariety.DefaultGhost}>
             {formatMessage({ id: 'close' })}
           </Button>
         </div>
 
         {/* Tier A */}
-        <section className="sw-mb-6">
-          <Heading as="h3" className="sw-typo-semibold sw-mb-2">
+        <section className="sw-mb-8">
+          <h3 className="sw-font-bold sw-mb-3" style={{ fontSize: 16, color: '#290042' }}>
             {formatMessage({ id: 'cost_savings.methodology.tier_a.title' })}
-          </Heading>
-          <p className="sw-text-sm sw-mb-2">
+          </h3>
+          <p className="sw-text-sm sw-mb-3" style={{ color: '#69809B', lineHeight: 1.6 }}>
             {formatMessage({
               id: 'cost_savings.methodology.tier_a.description',
             })}
           </p>
-          <div className="sw-rounded sw-bg-gray-50 sw-p-3 sw-text-sm sw-font-mono sw-mb-2">
+          <div
+            className="sw-text-sm sw-font-mono sw-mb-3"
+            style={{
+              borderRadius: 8,
+              backgroundColor: '#F7F9FC',
+              border: '1px solid rgba(183, 211, 242, 0.4)',
+              padding: '12px 16px',
+              color: '#126ED3',
+            }}
+          >
             savings = (remediation_minutes / 60) × hourly_rate × phase_multiplier
           </div>
-          <table className="sw-w-full sw-text-sm">
-            <thead>
-              <tr className="sw-text-left sw-font-medium">
-                <th className="sw-pb-1">
-                  {formatMessage({
-                    id: 'cost_savings.methodology.issue_type',
-                  })}
-                </th>
-                <th className="sw-pb-1">
-                  {formatMessage({
-                    id: 'cost_savings.methodology.multiplier',
-                  })}
-                </th>
-                <th className="sw-pb-1">
-                  {formatMessage({ id: 'cost_savings.methodology.source' })}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="sw-border-t">
-                <td className="sw-py-1">
-                  {formatMessage({
-                    id: 'cost_savings.methodology.bugs_smells',
-                  })}
-                </td>
-                <td className="sw-py-1">5x</td>
-                <td className="sw-py-1">Boehm & Basili (2001)</td>
-              </tr>
-              <tr className="sw-border-t">
-                <td className="sw-py-1">
-                  {formatMessage({
-                    id: 'cost_savings.methodology.vulnerabilities',
-                  })}
-                </td>
-                <td className="sw-py-1">30x</td>
-                <td className="sw-py-1">HackerOne (empirical)</td>
-              </tr>
-            </tbody>
-          </table>
+          <div
+            style={{
+              borderRadius: 10,
+              border: '1px solid rgba(183, 211, 242, 0.4)',
+              overflow: 'hidden',
+            }}
+          >
+            <table className="sw-w-full sw-text-sm">
+              <thead>
+                <tr
+                  className="sw-text-left sw-font-semibold"
+                  style={{ backgroundColor: '#F7F9FC' }}
+                >
+                  <th className="sw-py-2.5 sw-px-4" style={{ color: '#290042' }}>
+                    {formatMessage({
+                      id: 'cost_savings.methodology.issue_type',
+                    })}
+                  </th>
+                  <th className="sw-py-2.5 sw-px-4" style={{ color: '#290042' }}>
+                    {formatMessage({
+                      id: 'cost_savings.methodology.multiplier',
+                    })}
+                  </th>
+                  <th className="sw-py-2.5 sw-px-4" style={{ color: '#290042' }}>
+                    {formatMessage({ id: 'cost_savings.methodology.source' })}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style={{ borderTop: '1px solid rgba(183, 211, 242, 0.3)' }}>
+                  <td className="sw-py-2.5 sw-px-4" style={{ color: '#290042' }}>
+                    {formatMessage({
+                      id: 'cost_savings.methodology.bugs_smells',
+                    })}
+                  </td>
+                  <td className="sw-py-2.5 sw-px-4">
+                    <span
+                      className="sw-inline-flex sw-items-center sw-rounded-full sw-px-2 sw-py-0.5 sw-text-xs sw-font-semibold"
+                      style={{ backgroundColor: '#EEF4FC', color: '#126ED3' }}
+                    >
+                      5x
+                    </span>
+                  </td>
+                  <td className="sw-py-2.5 sw-px-4" style={{ color: '#69809B' }}>
+                    Boehm & Basili (2001)
+                  </td>
+                </tr>
+                <tr style={{ borderTop: '1px solid rgba(183, 211, 242, 0.3)' }}>
+                  <td className="sw-py-2.5 sw-px-4" style={{ color: '#290042' }}>
+                    {formatMessage({
+                      id: 'cost_savings.methodology.vulnerabilities',
+                    })}
+                  </td>
+                  <td className="sw-py-2.5 sw-px-4">
+                    <span
+                      className="sw-inline-flex sw-items-center sw-rounded-full sw-px-2 sw-py-0.5 sw-text-xs sw-font-semibold"
+                      style={{ backgroundColor: '#EEF4FC', color: '#126ED3' }}
+                    >
+                      30x
+                    </span>
+                  </td>
+                  <td className="sw-py-2.5 sw-px-4" style={{ color: '#69809B' }}>
+                    HackerOne (empirical)
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </section>
 
         {/* Tier B */}
-        <section className="sw-mb-6">
-          <Heading as="h3" className="sw-typo-semibold sw-mb-2">
+        <section className="sw-mb-8">
+          <h3 className="sw-font-bold sw-mb-3" style={{ fontSize: 16, color: '#290042' }}>
             {formatMessage({ id: 'cost_savings.methodology.tier_b.title' })}
-          </Heading>
-          <p className="sw-text-sm sw-mb-2">
+          </h3>
+          <p className="sw-text-sm" style={{ color: '#69809B', lineHeight: 1.6 }}>
             {formatMessage({
               id: 'cost_savings.methodology.tier_b.description',
             })}
@@ -140,12 +188,22 @@ function MethodologyDrawer({ onClose, remediationBreakdown, issueCount }: Props)
 
         {/* AI-Assisted Remediation Context */}
         {remediationBreakdown && (
-          <section className="sw-mb-6">
-            <Heading as="h3" className="sw-typo-semibold sw-mb-2">
+          <section className="sw-mb-8">
+            <h3 className="sw-font-bold sw-mb-3" style={{ fontSize: 16, color: '#290042' }}>
               {formatMessage({ id: 'cost_savings.methodology.ai_remediation.title' })}
-            </Heading>
-            <div className="sw-rounded sw-bg-gray-50 sw-p-3 sw-text-sm sw-mb-2">
-              <p className="sw-mb-2">
+            </h3>
+            <div
+              className="sw-text-sm sw-mb-3"
+              style={{
+                borderRadius: 8,
+                backgroundColor: '#F7F9FC',
+                border: '1px solid rgba(183, 211, 242, 0.4)',
+                padding: '12px 16px',
+                color: '#69809B',
+                lineHeight: 1.6,
+              }}
+            >
+              <p>
                 {formatMessage(
                   { id: 'cost_savings.methodology.ai_remediation.description' },
                   {
@@ -159,51 +217,75 @@ function MethodologyDrawer({ onClose, remediationBreakdown, issueCount }: Props)
                 )}
               </p>
             </div>
-            <table className="sw-w-full sw-text-sm">
-              <tbody>
-                <tr className="sw-border-t">
-                  <td className="sw-py-1">
-                    {formatMessage({
-                      id: 'cost_savings.methodology.ai_remediation.token_consumption',
-                    })}
-                  </td>
-                  <td className="sw-py-1 sw-text-right">
-                    {remediationBreakdown.estimatedTokens.toLocaleString()} tokens ($
-                    {remediationBreakdown.estimatedTokenCost.toFixed(2)})
-                  </td>
-                </tr>
-                <tr className="sw-border-t">
-                  <td className="sw-py-1">
-                    {formatMessage({
-                      id: 'cost_savings.methodology.ai_remediation.human_review',
-                    })}
-                  </td>
-                  <td className="sw-py-1 sw-text-right">
-                    {remediationBreakdown.humanHours.toFixed(1)} hours (
-                    {formatCurrency(remediationBreakdown.humanCost)})
-                  </td>
-                </tr>
-                <tr className="sw-border-t sw-font-semibold">
-                  <td className="sw-py-1">
-                    {formatMessage({
-                      id: 'cost_savings.methodology.ai_remediation.total',
-                    })}
-                  </td>
-                  <td className="sw-py-1 sw-text-right">
-                    {formatCurrency(remediationBreakdown.totalCost)}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div
+              style={{
+                borderRadius: 10,
+                border: '1px solid rgba(183, 211, 242, 0.4)',
+                overflow: 'hidden',
+              }}
+            >
+              <table className="sw-w-full sw-text-sm">
+                <tbody>
+                  <tr style={{ borderTop: '1px solid rgba(183, 211, 242, 0.3)' }}>
+                    <td className="sw-py-2.5 sw-px-4" style={{ color: '#290042' }}>
+                      {formatMessage({
+                        id: 'cost_savings.methodology.ai_remediation.token_consumption',
+                      })}
+                    </td>
+                    <td className="sw-py-2.5 sw-px-4 sw-text-right" style={{ color: '#126ED3' }}>
+                      {remediationBreakdown.estimatedTokens.toLocaleString()} tokens ($
+                      {remediationBreakdown.estimatedTokenCost.toFixed(2)})
+                    </td>
+                  </tr>
+                  <tr style={{ borderTop: '1px solid rgba(183, 211, 242, 0.3)' }}>
+                    <td className="sw-py-2.5 sw-px-4" style={{ color: '#290042' }}>
+                      {formatMessage({
+                        id: 'cost_savings.methodology.ai_remediation.human_review',
+                      })}
+                    </td>
+                    <td className="sw-py-2.5 sw-px-4 sw-text-right" style={{ color: '#126ED3' }}>
+                      {remediationBreakdown.humanHours.toFixed(1)} hours (
+                      {formatCurrency(remediationBreakdown.humanCost)})
+                    </td>
+                  </tr>
+                  <tr
+                    className="sw-font-semibold"
+                    style={{
+                      borderTop: '1px solid rgba(183, 211, 242, 0.3)',
+                      backgroundColor: '#F7F9FC',
+                    }}
+                  >
+                    <td className="sw-py-2.5 sw-px-4" style={{ color: '#290042' }}>
+                      {formatMessage({
+                        id: 'cost_savings.methodology.ai_remediation.total',
+                      })}
+                    </td>
+                    <td
+                      className="sw-py-2.5 sw-px-4 sw-text-right"
+                      style={{
+                        background: 'linear-gradient(135deg, #126ED3 0%, #290042 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                      }}
+                    >
+                      {formatCurrency(remediationBreakdown.totalCost)}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </section>
         )}
 
         {/* Limitations */}
-        <section className="sw-mb-6">
-          <Heading as="h3" className="sw-typo-semibold sw-mb-2">
+        <section className="sw-mb-8">
+          <h3 className="sw-font-bold sw-mb-3" style={{ fontSize: 16, color: '#290042' }}>
             {formatMessage({ id: 'cost_savings.methodology.limitations' })}
-          </Heading>
-          <ul className="sw-list-disc sw-pl-5 sw-text-sm sw-flex sw-flex-col sw-gap-1">
+          </h3>
+          <ul
+            className="sw-list-disc sw-pl-5 sw-text-sm sw-flex sw-flex-col sw-gap-2"
+            style={{ color: '#69809B', lineHeight: 1.6 }}
+          >
             <li>
               {formatMessage({
                 id: 'cost_savings.methodology.limitation_1',
@@ -239,10 +321,10 @@ function MethodologyDrawer({ onClose, remediationBreakdown, issueCount }: Props)
 
         {/* References */}
         <section>
-          <Heading as="h3" className="sw-typo-semibold sw-mb-2">
+          <h3 className="sw-font-bold sw-mb-3" style={{ fontSize: 16, color: '#290042' }}>
             {formatMessage({ id: 'cost_savings.methodology.references' })}
-          </Heading>
-          <ul className="sw-text-sm sw-flex sw-flex-col sw-gap-1">
+          </h3>
+          <ul className="sw-text-sm sw-flex sw-flex-col sw-gap-2" style={{ color: '#69809B' }}>
             <li>IBM/Ponemon Cost of a Data Breach 2025</li>
             <li>Verizon Data Breach Investigations Report 2025</li>
             <li>HackerOne Cost Savings Report</li>

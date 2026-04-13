@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Spinner } from '@sonarsource/echoes-react';
+import { Spinner } from '@sonarsource/echoes-react';
 import { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { AdvancedTimeline } from '~sq-server-commons/components/charts/AdvancedTimeline';
@@ -82,13 +82,19 @@ function MaturityCurve({ currentSavings }: Props) {
   const y3 = benchmarks?.maturityCurve?.year3 ?? 0;
 
   return (
-    <div className="sw-rounded sw-border sw-border-solid sw-p-4 sw-mt-4">
-      <Heading as="h3" className="sw-typo-semibold sw-mb-3">
+    <div
+      className="sw-p-5 sw-mt-6"
+      style={{
+        borderRadius: 12,
+        border: '2px solid rgba(183, 211, 242, 0.5)',
+      }}
+    >
+      <h3 className="sw-font-bold sw-mb-3" style={{ fontSize: 18, color: '#290042' }}>
         {formatMessage({ id: 'cost_savings.maturity.title' })}
-      </Heading>
+      </h3>
 
       <Spinner isLoading={isLoading}>
-        <p className="sw-text-sm sw-mb-3">
+        <p className="sw-text-sm sw-mb-4" style={{ color: '#69809B', lineHeight: 1.6 }}>
           {formatMessage(
             { id: 'cost_savings.maturity.description' },
             {
@@ -100,22 +106,48 @@ function MaturityCurve({ currentSavings }: Props) {
         </p>
 
         {series.length > 0 && series[0].data.length > 0 && (
-          <AdvancedTimeline
-            formatYTick={(v) => formatCurrency(typeof v === 'string' ? parseFloat(v) : v)}
-            height={180}
-            metricType="INT"
-            series={series}
-            showAreas
-            width={700}
-          />
+          <div
+            className="sw-p-4"
+            style={{
+              borderRadius: 10,
+              border: '1px solid rgba(183, 211, 242, 0.3)',
+            }}
+          >
+            <AdvancedTimeline
+              formatYTick={(v) => formatCurrency(typeof v === 'string' ? parseFloat(v) : v)}
+              height={180}
+              metricType="INT"
+              series={series}
+              showAreas
+              width={700}
+            />
+          </div>
         )}
 
         {/* Marker legend */}
-        <div className="sw-flex sw-justify-center sw-gap-6 sw-mt-3 sw-text-xs">
+        <div className="sw-flex sw-justify-center sw-gap-8 sw-mt-4">
           {markers.map((m) => (
-            <div className="sw-text-center" key={m.label}>
-              <div className="sw-font-semibold">{m.label}</div>
-              <div>{formatCurrency(m.value)}</div>
+            <div
+              className="sw-text-center sw-px-4 sw-py-2"
+              key={m.label}
+              style={{
+                borderRadius: 8,
+                backgroundColor: '#F7F9FC',
+              }}
+            >
+              <div className="sw-text-xs sw-font-semibold" style={{ color: '#290042' }}>
+                {m.label}
+              </div>
+              <div
+                className="sw-text-sm sw-font-bold"
+                style={{
+                  background: 'linear-gradient(135deg, #126ED3 0%, #290042 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >
+                {formatCurrency(m.value)}
+              </div>
             </div>
           ))}
         </div>

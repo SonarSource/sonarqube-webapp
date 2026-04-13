@@ -18,12 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-const FRAMEWORK_COLORS: Record<string, string> = {
-  HIPAA: 'sw-bg-purple-100 sw-text-purple-800',
-  'OWASP Top 10': 'sw-bg-orange-100 sw-text-orange-800',
-  'PCI-DSS': 'sw-bg-blue-100 sw-text-blue-800',
-  'SOC 2': 'sw-bg-green-100 sw-text-green-800',
+const FRAMEWORK_COLORS: Record<string, { bg: string; text: string }> = {
+  HIPAA: { bg: 'rgba(126, 34, 206, 0.08)', text: '#6b21a8' },
+  'OWASP Top 10': { bg: 'rgba(234, 88, 12, 0.08)', text: '#c2410c' },
+  'PCI-DSS': { bg: '#EEF4FC', text: '#126ED3' },
+  'SOC 2': { bg: 'rgba(22, 163, 74, 0.08)', text: '#15803d' },
 };
+
+const DEFAULT_COLORS = { bg: '#F7F9FC', text: '#69809B' };
 
 interface Props {
   framework: string;
@@ -31,11 +33,12 @@ interface Props {
 
 function ComplianceBadge({ framework }: Props) {
   const name = extractFrameworkName(framework);
-  const colors = FRAMEWORK_COLORS[name] ?? 'sw-bg-gray-100 sw-text-gray-700';
+  const colors = FRAMEWORK_COLORS[name] ?? DEFAULT_COLORS;
 
   return (
     <span
-      className={`sw-inline-block sw-rounded-full sw-px-2 sw-py-0.5 sw-text-xs sw-font-medium ${colors}`}
+      className="sw-inline-block sw-rounded-full sw-px-2.5 sw-py-0.5 sw-text-xs sw-font-semibold"
+      style={{ backgroundColor: colors.bg, color: colors.text }}
     >
       {name}
     </span>
