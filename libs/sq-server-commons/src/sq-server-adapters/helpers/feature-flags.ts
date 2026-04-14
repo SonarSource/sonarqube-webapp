@@ -23,7 +23,6 @@ import { useEnableSidebarNavigation } from '../../helpers/useEnableSidebarNaviga
 
 interface SQSFlagSet extends FlagSet {
   frontEndEngineeringEnableSidebarNavigation?: boolean;
-  scaEnableOsvMalware: boolean;
   scaEnableReachabilityFrontend: boolean;
   scaKeyChangesPrView: boolean;
 }
@@ -32,7 +31,6 @@ interface SQSFlagSet extends FlagSet {
 // compatibility with SQC in shared code.
 // Add features flags here as needed in shared code, especially useful if you want a default value other than falsy for SQS.
 const defaultFlags: SQSFlagSet = {
-  scaEnableOsvMalware: true,
   scaEnableReachabilityFrontend: false,
   scaKeyChangesPrView: true,
 };

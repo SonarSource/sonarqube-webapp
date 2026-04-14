@@ -108,14 +108,6 @@ describe('useFlags', () => {
 
     expect(result.current.frontEndEngineeringEnableSidebarNavigation).toBe(true);
   });
-
-  it('should include other default flags', () => {
-    jest.mocked(get).mockReturnValue(null);
-
-    const { result } = setupHook({});
-
-    expect(result.current.scaEnableOsvMalware).toBe(true);
-  });
 });
 
 function setupHook(appState: Partial<AppState> = {}) {
