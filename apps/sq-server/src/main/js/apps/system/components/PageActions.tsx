@@ -24,6 +24,7 @@ import {
   ButtonVariety,
   DropdownMenu,
   IconChevronDown,
+  IconDownload,
   IconEdit,
 } from '@sonarsource/echoes-react';
 import { useCallback, useState } from 'react';
@@ -97,6 +98,7 @@ export function PageActions(props: Readonly<Props>) {
           <>
             <DropdownMenu.ItemLinkDownload
               download={filenameTemplate('app')}
+              prefix={undefined}
               to={logsUrl + '?name=app'}
             >
               <FormattedMessage id="system.logs.app" />
@@ -104,6 +106,7 @@ export function PageActions(props: Readonly<Props>) {
 
             <DropdownMenu.ItemLinkDownload
               download={filenameTemplate('ce')}
+              prefix={undefined}
               to={logsUrl + '?name=ce'}
             >
               <FormattedMessage id="system.logs.ce" />
@@ -112,6 +115,7 @@ export function PageActions(props: Readonly<Props>) {
             {!cluster && (
               <DropdownMenu.ItemLinkDownload
                 download={filenameTemplate('es')}
+                prefix={undefined}
                 to={logsUrl + '?name=es'}
               >
                 <FormattedMessage id="system.logs.es" />
@@ -120,6 +124,7 @@ export function PageActions(props: Readonly<Props>) {
 
             <DropdownMenu.ItemLinkDownload
               download={filenameTemplate('web')}
+              prefix={undefined}
               to={logsUrl + '?name=web'}
             >
               <FormattedMessage id="system.logs.web" />
@@ -127,6 +132,7 @@ export function PageActions(props: Readonly<Props>) {
 
             <DropdownMenu.ItemLinkDownload
               download={filenameTemplate('access')}
+              prefix={undefined}
               to={logsUrl + '?name=access'}
             >
               <FormattedMessage id="system.logs.access" />
@@ -134,6 +140,7 @@ export function PageActions(props: Readonly<Props>) {
 
             <DropdownMenu.ItemLinkDownload
               download={filenameTemplate('deprecation')}
+              prefix={undefined}
               to={logsUrl + '?name=deprecation'}
             >
               <FormattedMessage id="system.logs.deprecation" />
@@ -141,7 +148,7 @@ export function PageActions(props: Readonly<Props>) {
           </>
         }
       >
-        <Button variety={ButtonVariety.Primary}>
+        <Button prefix={<IconDownload />} variety={ButtonVariety.Primary}>
           <FormattedMessage id="system.download_logs" />
 
           <IconChevronDown className="sw-ml-1" />
@@ -152,6 +159,7 @@ export function PageActions(props: Readonly<Props>) {
         download={`sonarqube-system-info-${getFileNameSuffix(serverId)}.json`}
         id="download-link"
         onClick={removeElementFocus}
+        prefix={<IconDownload />}
         to={infoUrl}
         variety={ButtonVariety.Primary}
       >
