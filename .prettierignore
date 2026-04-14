@@ -12,3 +12,4 @@
 .nx/cache
 .nx/workspace-data
 private/libs/feature-architecture/src/types/proto/generated
+private/sq-cloud-e2e-tests/playwright-report
