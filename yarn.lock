@@ -8503,10 +8503,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sprig-technologies/sprig-browser@npm:2.42.1":
-  version: 2.42.1
-  resolution: "@sprig-technologies/sprig-browser@npm:2.42.1"
-  checksum: 10/2373c3bf8026d9db084b6108d962e7b8dbe94f5cca3a19e594340e6fe071df4e334dd6ab37b8cd7e4e4a82cb931e958c6061775a0827a23f15c398d9b25b69d9
+"@sprig-technologies/sprig-browser@npm:2.41.1":
+  version: 2.41.1
+  resolution: "@sprig-technologies/sprig-browser@npm:2.41.1"
+  checksum: 10/233f3b03a67332c439d2d7430c96e63ca8b7b9d3ea61f419caf09cb2da5e74b4f012529e04c5797d6b9c245086a98030537bcbdf027e697112dd9f581242eedd
   languageName: node
   linkType: hard
 
@@ -9529,11 +9529,11 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:^22.5.5":
-  version: 22.19.17
-  resolution: "@types/node@npm:22.19.17"
+  version: 22.19.13
+  resolution: "@types/node@npm:22.19.13"
   dependencies:
     undici-types: "npm:~6.21.0"
-  checksum: 10/8adcf9c2e9e7c524196efdd5ee60ebeda980b4ec9b5b8650e2341a2cabe46d368f3a4e4c0050b3bf26eb9cf383453ea2193ec5604079cdf9493a11a742f62018
+  checksum: 10/b2d1d0cff2f0e283cbd5a3b60226b8a938c59d868c5c4715d52be619b1e57386c3ce043abc28a833e21c86fa33aaa2d00181e76d23600953f18c9aa69e3d654b
   languageName: node
   linkType: hard
 
@@ -15635,9 +15635,9 @@ __metadata:
   linkType: hard
 
 "graphql@npm:^16.8.1":
-  version: 16.13.2
-  resolution: "graphql@npm:16.13.2"
-  checksum: 10/9ede86f0a7227d47a41e2076e0132839f66fbd14899abfd818d7de2ab81076ee249c8788ad42243367d68a027a8763cc4c7be2e441ccfb03a8549490c7b66c2f
+  version: 16.13.1
+  resolution: "graphql@npm:16.13.1"
+  checksum: 10/a42f857f60351e1f4665aa5bc5524796d3f45bf81793e6db932f902aff769b0488dafaa1d9c07bddda7122a1f6d0b0105fab12d38992f6b6fb81fc3d7ced1afc
   languageName: node
   linkType: hard
 
@@ -23048,7 +23048,7 @@ __metadata:
     "@sentry/fullstory": "npm:5.0.0"
     "@sentry/react": "npm:10.46.0"
     "@sonarsource/echoes-react": "npm:2.0.2"
-    "@sprig-technologies/sprig-browser": "npm:2.42.1"
+    "@sprig-technologies/sprig-browser": "npm:2.41.1"
     "@stripe/react-stripe-js": "npm:5.3.0"
     "@stripe/stripe-js": "npm:8.3.0"
     "@swc-node/register": "npm:1.11.1"
@@ -23470,17 +23470,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"statuses@npm:2.0.1":
+"statuses@npm:2.0.1, statuses@npm:^2.0.1":
   version: 2.0.1
   resolution: "statuses@npm:2.0.1"
   checksum: 10/18c7623fdb8f646fb213ca4051be4df7efb3484d4ab662937ca6fbef7ced9b9e12842709872eb3020cc3504b93bde88935c9f6417489627a7786f24f8031cbcb
-  languageName: node
-  linkType: hard
-
-"statuses@npm:^2.0.1, statuses@npm:~2.0.1, statuses@npm:~2.0.2":
-  version: 2.0.2
-  resolution: "statuses@npm:2.0.2"
-  checksum: 10/6927feb50c2a75b2a4caab2c565491f7a93ad3d8dbad7b1398d52359e9243a20e2ebe35e33726dee945125ef7a515e9097d8a1b910ba2bbd818265a2f6c39879
   languageName: node
   linkType: hard
 
@@ -23488,6 +23481,13 @@ __metadata:
   version: 1.5.0
   resolution: "statuses@npm:1.5.0"
   checksum: 10/c469b9519de16a4bb19600205cffb39ee471a5f17b82589757ca7bd40a8d92ebb6ed9f98b5a540c5d302ccbc78f15dc03cc0280dd6e00df1335568a5d5758a5c
+  languageName: node
+  linkType: hard
+
+"statuses@npm:~2.0.1, statuses@npm:~2.0.2":
+  version: 2.0.2
+  resolution: "statuses@npm:2.0.2"
+  checksum: 10/6927feb50c2a75b2a4caab2c565491f7a93ad3d8dbad7b1398d52359e9243a20e2ebe35e33726dee945125ef7a515e9097d8a1b910ba2bbd818265a2f6c39879
   languageName: node
   linkType: hard
 

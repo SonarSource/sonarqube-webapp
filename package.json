@@ -139,7 +139,7 @@
     "@nx/web": "22.6.4",
     "@playwright/test": "1.58.2",
     "@rollup/plugin-replace": "6.0.3",
-    "@sprig-technologies/sprig-browser": "2.42.1",
+    "@sprig-technologies/sprig-browser": "2.41.1",
     "@swc-node/register": "1.11.1",
     "@swc/cli": "0.8.0",
     "@swc/core": "1.15.21",
