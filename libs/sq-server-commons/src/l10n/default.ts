@@ -2202,6 +2202,13 @@ export const defaultMessages = {
   'architecture.page.model.spotlight.add_placeholder.name_placeholder': '<name>',
   'architecture.page.model.spotlight.add_placeholder.kind_placeholder': '<kind>',
   'architecture.page.model.spotlight.enable_interfaces': 'Enable interfaces',
+  'architecture.page.model.spotlight.patterns': 'Patterns',
+  'architecture.page.model.pattern_select.label': 'Apply a pattern',
+  'architecture.page.model.pattern_select.no_pattern': 'No pattern',
+  'architecture.page.model.pattern_badge.has_pattern': 'Pattern applied',
+  'architecture.page.model.pattern_confirm.title': 'Assign pattern?',
+  'architecture.page.model.pattern_confirm.message':
+    'Assigning a pattern will remove all child components of this group. Are you sure you want to continue?',
   'architecture.page.model.edit.title': 'Edit mode',
   'architecture.page.model.edit.hint':
     'Drag a component to another to define a relationship. Any missing relationship is considered forbidden.',

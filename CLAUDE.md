@@ -13,7 +13,7 @@ This project is a monorepo that contains many packages to build a SaaS Cloud and
 - `webapp-testing` for understanding how to write good tests.
 - `writing-code-style-guide` for understanding how to write good compliant code.
 
-Use these skills eagerly and often!
+Load these skills only when the task actually requires them — do not load them at startup.
 
 # NX Projects
 
@@ -57,7 +57,7 @@ When running tests, pick the most relevent platform (cloud or server) and narrow
 
 - ALWAYS use `await selector.find()` instead of `waitfor()` when looking for a possibly not-yet-rendered selector.
 
-When you need to write tests, always use the `webapp-testing` skill!
+When you need to write tests (and are NOT running `/browse-and-verify`), use the `webapp-testing` skill.
 
 # Writing Code
 
