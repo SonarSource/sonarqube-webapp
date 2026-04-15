@@ -2352,7 +2352,7 @@ export const defaultMessages = {
   'architecture.directives.count':
     '{count, plural, one {1 Relationship directive} other {{count} Relationship directives}}',
   'architecture.directives.create.button': 'Create directive',
-  'architecture.directives.create.title': 'Create relationship directive:',
+  'architecture.directives.relationship.create.title': 'Create relationship directive',
   'architecture.directives.delete.button': 'Delete directive',
   'architecture.directives.empty': 'No relationship directives',
   'architecture.directives.table.depth': 'Depth',
@@ -2370,12 +2370,11 @@ export const defaultMessages = {
     '{count, plural, one {1 Structure directive} other {{count} Structure directives}}',
   'architecture.directives.structure.tab.move': 'Move',
   'architecture.directives.structure.tab.rename': 'Rename',
-  'architecture.directives.structure.move.create.title': 'Create move directive:',
+  'architecture.directives.structure.move.create.title': 'Create move directive',
   'architecture.directives.structure.empty': 'No structure directives',
   'architecture.directives.structure.new_parent': 'New location',
-  'architecture.directives.structure.node_to_move': 'Component',
-  'architecture.directives.rename.create.title': 'Create rename directive:',
-  'architecture.directives.rename.component': 'Component:',
+  'architecture.directives.rename.create.title': 'Create rename directive',
+  'architecture.directives.rename.component': 'Component',
   'architecture.directives.rename.new_name': 'New name',
   //------------------------------------------------------------------------------
 
