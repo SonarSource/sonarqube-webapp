@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { byRole } from '~shared/helpers/testSelector';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
@@ -27,7 +27,7 @@ import { copyProfile, deleteProfile, renameProfile } from '~sq-server-commons/ap
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { Feature } from '~sq-server-commons/types/features';
 import routes from '../routes';
-import { qualityProfilePageObjects as ui } from './utils';
+import { getQualityProfileDetailsPath, qualityProfilePageObjects as ui } from './utils';
 
 // Flaky tests without jest-cache
 jest.retryTimes(2);
@@ -55,13 +55,13 @@ describe('Permissions', () => {
 
     // Add user
     await user.click(await ui.grantPermissionButton.find());
-    expect(ui.dialog.get()).toBeInTheDocument();
+    expect(await ui.dialog.find()).toBeInTheDocument();
 
     await user.click(ui.selectUserOrGroup.get());
-    await user.click(byRole('option', { name: /^Buzz/ }).get());
+    await user.click(await byRole('option', { name: /^Buzz/ }).find());
 
     await user.click(ui.addButton.get());
-    expect(ui.permissionSection.byText('Buzz').get()).toBeInTheDocument();
+    expect(await ui.permissionSection.byText('Buzz').find()).toBeInTheDocument();
 
     // Remove User
     await user.click(
@@ -69,9 +69,13 @@ describe('Permissions', () => {
         .byRole('button', { name: 'quality_profiles.permissions.remove.user_x.Buzz' })
         .get(),
     );
-    expect(ui.dialog.get()).toBeInTheDocument();
+    expect(await ui.dialog.find()).toBeInTheDocument();
+
     await user.click(ui.removeButton.get());
-    expect(ui.permissionSection.byText('buzz').query()).not.toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(ui.permissionSection.byText('buzz').query()).not.toBeInTheDocument();
+    });
   });
 
   it('should be able to grant permission to a group and remove it', async () => {
@@ -83,13 +87,13 @@ describe('Permissions', () => {
 
     // Add Group
     await user.click(await ui.grantPermissionButton.find());
-    expect(ui.dialog.get()).toBeInTheDocument();
+    expect(await ui.dialog.find()).toBeInTheDocument();
 
     await user.click(ui.selectUserOrGroup.get());
-    await user.click(byRole('option', { name: /^ACDC/ }).get());
+    await user.click(await byRole('option', { name: /^ACDC/ }).find());
 
     await user.click(ui.addButton.get());
-    expect(ui.permissionSection.byText('ACDC').get()).toBeInTheDocument();
+    expect(await ui.permissionSection.byText('ACDC').find()).toBeInTheDocument();
 
     // Remove group
     await user.click(
@@ -97,9 +101,13 @@ describe('Permissions', () => {
         .byRole('button', { name: 'quality_profiles.permissions.remove.group_x.ACDC' })
         .get(),
     );
-    expect(ui.dialog.get()).toBeInTheDocument();
+    expect(await ui.dialog.find()).toBeInTheDocument();
+
     await user.click(ui.removeButton.get());
-    expect(ui.permissionSection.byText('ACDC').query()).not.toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(ui.permissionSection.byText('ACDC').query()).not.toBeInTheDocument();
+    });
   });
 
   it('should not be able to grant permission if the profile is built-in', async () => {
@@ -427,5 +435,5 @@ describe('Actions', () => {
 });
 
 function renderQualityProfile(key = 'old-php-qp', featureList: Feature[] = []) {
-  renderAppRoutes(`profiles/show?key=${key}`, routes, { featureList });
+  renderAppRoutes(getQualityProfileDetailsPath(serviceMock, key), routes, { featureList });
 }

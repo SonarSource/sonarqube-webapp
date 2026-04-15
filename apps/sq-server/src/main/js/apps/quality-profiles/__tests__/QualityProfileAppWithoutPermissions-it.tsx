@@ -27,7 +27,7 @@ import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtil
 import { Feature } from '~sq-server-commons/types/features';
 import { Mode } from '~sq-server-commons/types/mode';
 import routes from '../routes';
-import { qualityProfilePageObjects as ui } from './utils';
+import { getQualityProfileDetailsPath, qualityProfilePageObjects as ui } from './utils';
 
 // Flaky tests without jest-cache
 jest.retryTimes(2);
@@ -200,5 +200,5 @@ describe('Every Users', () => {
 });
 
 function renderQualityProfile(key = 'old-php-qp', featureList: Feature[] = []) {
-  renderAppRoutes(`profiles/show?key=${key}`, routes, { featureList });
+  renderAppRoutes(getQualityProfileDetailsPath(serviceMock, key), routes, { featureList });
 }

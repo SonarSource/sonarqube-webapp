@@ -20,6 +20,22 @@
 
 import { waitFor } from '@testing-library/react';
 import { byRole, byText } from '~shared/helpers/testSelector';
+import QualityProfilesServiceMock from '~sq-server-commons/api/mocks/QualityProfilesServiceMock';
+import { getProfilePath } from '~sq-server-commons/helpers/urls';
+
+export function getQualityProfileDetailsPath(serviceMock: QualityProfilesServiceMock, key: string) {
+  const profile = serviceMock.listQualityProfile.find(
+    (currentProfile) => currentProfile.key === key,
+  );
+
+  if (profile) {
+    const { pathname, search } = getProfilePath(profile.name, profile.language);
+
+    return `${pathname}${search ?? ''}`;
+  }
+
+  return `/profiles/show?key=${key}`;
+}
 
 export const qualityProfilePageObjects = {
   loading: byRole('status', { name: 'loading' }),
