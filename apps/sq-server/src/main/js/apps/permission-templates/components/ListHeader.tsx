@@ -22,10 +22,6 @@ import { MessageInline, MessageVariety, ToggleTip } from '@sonarsource/echoes-re
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 import { ContentCell, TableRow } from '~design-system';
 import InstanceMessage from '~sq-server-commons/components/common/InstanceMessage';
-import {
-  SONARQUBE_SERVER_INSTANCE_DISPLAY_NAME,
-  executeAnalysisScanTooltipRichFormatValues,
-} from '~sq-server-commons/helpers/executeAnalysisScanTooltipRichFormatValues';
 import { Permission } from '~sq-server-commons/types/types';
 
 interface Props {
@@ -54,32 +50,16 @@ export default function ListHeader({ permissions }: Readonly<Props>) {
 }
 
 function renderTooltip({ permission, intl }: { intl: IntlShape; permission: Permission }) {
-  if (permission.key === 'user' || permission.key === 'codeviewer') {
-    return (
-      <div>
-        <InstanceMessage
-          message={intl.formatMessage({ id: `projects_role.${permission.key}.desc` })}
-        />
-        <MessageInline className="sw-mt-2" variety={MessageVariety.Warning}>
-          <FormattedMessage id="projects_role.public_projects_warning" />
-        </MessageInline>
-      </div>
-    );
-  }
-
-  if (permission.key === 'scan') {
-    return (
-      <FormattedMessage
-        id="projects_role.scan.desc"
-        values={{
-          instance: SONARQUBE_SERVER_INSTANCE_DISPLAY_NAME,
-          ...executeAnalysisScanTooltipRichFormatValues(),
-        }}
+  return permission.key === 'user' || permission.key === 'codeviewer' ? (
+    <div>
+      <InstanceMessage
+        message={intl.formatMessage({ id: `projects_role.${permission.key}.desc` })}
       />
-    );
-  }
-
-  return (
+      <MessageInline className="sw-mt-2" variety={MessageVariety.Warning}>
+        <FormattedMessage id="projects_role.public_projects_warning" />
+      </MessageInline>
+    </div>
+  ) : (
     <InstanceMessage message={intl.formatMessage({ id: `projects_role.${permission.key}.desc` })} />
   );
 }

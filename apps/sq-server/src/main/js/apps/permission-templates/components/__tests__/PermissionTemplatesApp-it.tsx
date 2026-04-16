@@ -115,39 +115,19 @@ describe('rendering', () => {
     expect(screen.getByText('This is permission template 1')).toBeInTheDocument();
   });
 
-  it.each(
-    PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE.filter((p) => p !== Permissions.Scan).map((p) => {
-      const i = PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE.indexOf(p);
-      return [p, i] as const;
-    }),
-  )('should show the correct tooltips for %s', async (permission, i) => {
-    const user = userEvent.setup();
-    const ui = getPageObject(user);
-    renderPermissionTemplatesApp();
-    await ui.appLoaded();
-    expect(await ui.templateLink('Permission Template 1').find()).toBeInTheDocument();
+  it.each(PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE.map((p, i) => [p, i]))(
+    'should show the correct tooltips',
+    async (permission, i) => {
+      const user = userEvent.setup();
+      const ui = getPageObject(user);
+      renderPermissionTemplatesApp();
+      await ui.appLoaded();
 
-    await user.click(ui.getHeaderTooltipIconByIndex(i));
-    const dialog = await screen.findByRole('dialog');
-    const descId = `projects_role.${permission}.desc`;
-    expect(dialog).toHaveTextContent(descId);
-    await user.keyboard('{Escape}');
-  });
-
-  it('should show the correct tooltips for scan including the SonarQube Server product name', async () => {
-    const user = userEvent.setup();
-    const ui = getPageObject(user);
-    renderPermissionTemplatesApp();
-    await ui.appLoaded();
-    expect(await ui.templateLink('Permission Template 1').find()).toBeInTheDocument();
-
-    const scanColumnIndex = PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE.indexOf(Permissions.Scan);
-    await user.click(ui.getHeaderTooltipIconByIndex(scanColumnIndex));
-    const dialog = await screen.findByRole('dialog');
-    expect(dialog).toHaveTextContent('projects_role.scan.desc');
-    expect(dialog).toHaveTextContent('SonarQube Server');
-    await user.keyboard('{Escape}');
-  });
+      await user.click(ui.getHeaderTooltipIconByIndex(i));
+      expect(screen.getByText(`projects_role.${permission}.desc`)).toBeInTheDocument();
+      await user.keyboard('{Escape}');
+    },
+  );
 });
 
 describe('CRUD', () => {

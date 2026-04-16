@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import type { ReactNode } from 'react';
 import {
   CodeAttribute,
   CodeAttributeCategory,
@@ -332,7 +331,7 @@ export interface Permission {
 }
 
 export interface PermissionDefinition {
-  description: ReactNode;
+  description: string;
   key: string;
   name: string;
 }

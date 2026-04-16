@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { isValidElement } from 'react';
 import { convertToPermissionDefinitions } from '../permissions';
 
 describe('convertToPermissionDefinitions', () => {
@@ -33,17 +32,5 @@ describe('convertToPermissionDefinitions', () => {
     ];
 
     expect(data).toEqual(expected);
-  });
-
-  it('should convert scan permission using the rich execute-analysis description path', () => {
-    const data = convertToPermissionDefinitions(['scan'], 'global_permissions');
-    expect(data).toHaveLength(1);
-    const scan = data[0];
-    expect(scan).toMatchObject({
-      key: 'scan',
-      name: 'global_permissions.scan',
-    });
-    expect(scan).toHaveProperty('description');
-    expect(isValidElement((scan as { description: unknown }).description)).toBe(true);
   });
 });
