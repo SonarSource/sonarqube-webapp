@@ -2367,6 +2367,13 @@ export const defaultMessages = {
   'architecture.directives.overview.structure': 'Structure',
   'architecture.directives.page': 'Directives',
   'architecture.directives.nav': 'Directives (architecture)',
+  'architecture.project_relationships.page': 'Project relationships',
+  'architecture.project_relationships.nav': 'Project relationships',
+  'architecture.project_relationships.define': 'Define relationships',
+  'architecture.project_relationships.define.action': 'Go to relationships definition',
+  'architecture.project_relationships.validate': 'Validate relationships',
+  'architecture.project_relationships.validate.action': 'Go to relationships validation',
+  'architecture.project_relationships.define.not_architect': 'Only accessible for architects',
   'architecture.page.directives': 'Relationship directives',
   'architecture.page.directives.structure': 'Structure directives',
   'architecture.directives.structure.count':

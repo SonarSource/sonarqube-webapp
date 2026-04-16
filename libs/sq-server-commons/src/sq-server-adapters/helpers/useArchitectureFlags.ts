@@ -20,6 +20,7 @@
 
 interface ArchitectureFlags {
   designArchitectureSquadEnableAdditionalLanguages: boolean;
+  designArchitectureSquadExtensionPack: boolean;
   designArchitectureSquadPerformanceLimits: {
     maxEdgesCount: number;
     maxNodesCount: number;
@@ -33,6 +34,7 @@ interface ArchitectureFlags {
 export function useArchitectureFlags(): ArchitectureFlags {
   return {
     designArchitectureSquadEnableAdditionalLanguages: true,
+    designArchitectureSquadExtensionPack: true,
     designArchitectureSquadPerformanceLimits: {
       maxNodesCount: 7000,
       maxEdgesCount: 14000,
