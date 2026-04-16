@@ -20,6 +20,10 @@
 
 import { Permissions } from '../types/permissions';
 import { PermissionDefinition, PermissionDefinitionGroup } from '../types/types';
+import {
+  SONARQUBE_SERVER_INSTANCE_DISPLAY_NAME,
+  executeAnalysisScanTooltipRichFormatValues,
+} from './executeAnalysisScanTooltipRichFormatValues';
 import { getIntl } from './l10nBundle';
 
 export const PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE = [
@@ -61,6 +65,22 @@ function convertToPermissionDefinition(permission: string, l10nPrefix: string) {
   const intl = getIntl();
 
   const name = intl.formatMessage({ id: `${l10nPrefix}.${permission}` });
+
+  if (permission === Permissions.Scan) {
+    const descId = `${l10nPrefix}.scan.desc`;
+    return {
+      key: permission,
+      name,
+      description: intl.formatMessage(
+        { id: descId },
+        {
+          instance: SONARQUBE_SERVER_INSTANCE_DISPLAY_NAME,
+          ...executeAnalysisScanTooltipRichFormatValues(),
+        },
+      ),
+    };
+  }
+
   const description = intl.formatMessage({ id: `${l10nPrefix}.${permission}.desc` });
 
   return {

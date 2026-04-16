@@ -25,6 +25,10 @@ import { isPermissionDefinitionGroup } from '../../helpers/permissions';
 import { PermissionDefinition, PermissionDefinitionGroup } from '../../types/types';
 import InstanceMessage from '../common/InstanceMessage';
 
+function renderPermissionDescription(description: PermissionDefinition['description']) {
+  return typeof description === 'string' ? <InstanceMessage message={description} /> : description;
+}
+
 interface Props {
   permission: PermissionDefinition | PermissionDefinitionGroup;
 }
@@ -38,19 +42,21 @@ export function PermissionHeader(props: Readonly<Props>) {
     ? intl.formatMessage({ id: `global_permissions.${permission.category}` })
     : permission.name;
 
-  const tooltipOverlay = isPermissionDefinitionGroup(permission) ? (
+  const tooltipBody = isPermissionDefinitionGroup(permission) ? (
     <>
       {permission.permissions.map((permission) => (
         <React.Fragment key={permission.key}>
           <b className="sw-mr-1">{permission.name}:</b>
-          <InstanceMessage key={permission.key} message={permission.description} />
+          {renderPermissionDescription(permission.description)}
           <br />
         </React.Fragment>
       ))}
     </>
   ) : (
-    <InstanceMessage message={permission.description} />
+    renderPermissionDescription(permission.description)
   );
+
+  const tooltipOverlay = <div className="sw-text-left">{tooltipBody}</div>;
 
   return (
     <Table.ColumnHeaderCell
