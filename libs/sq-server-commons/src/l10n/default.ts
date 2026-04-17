@@ -1717,6 +1717,8 @@ export const defaultMessages = {
   'dependencies.properties.import_type.transitive': 'Transitive',
   'dependencies.properties.scope': 'Dependency scope',
   'dependencies.properties.scope.development': 'Development',
+  'dependencies.properties.scope.plural':
+    '{scope} and {count} {count, plural, one {other} other {others}}',
   'dependencies.properties.scope.production': 'Production',
   'dependencies.properties.status': 'Status',
   'dependencies.properties.license': 'License',
