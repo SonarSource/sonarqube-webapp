@@ -75,7 +75,7 @@ module.exports = {
           const parentNode = getExportedParent(node);
           const parentName = getParentName(parentNode);
 
-          if (parentName) {
+          if (parentName && !['initMixpanel'].includes(parentName)) {
             context.report({
               node: node.parent,
               messageId: 'noMixpanelTrack',
