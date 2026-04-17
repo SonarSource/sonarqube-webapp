@@ -18,8 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, Link, Spinner } from '@sonarsource/echoes-react';
-import * as React from 'react';
+import { Link, Spinner } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { Badge, ContentCell, SubTitle, Table, TableRow } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
@@ -34,8 +33,6 @@ interface Props {
 }
 
 export function ProfileProjects({ profile }: Readonly<Props>) {
-  const [formOpen, setFormOpen] = React.useState(false);
-
   const { data, fetchNextPage, isFetchingNextPage, isLoading } = useProfileProjectsInfiniteQuery(
     profile.key,
     { enabled: !profile.isDefault },
@@ -43,8 +40,6 @@ export function ProfileProjects({ profile }: Readonly<Props>) {
 
   const projects = data?.pages.flatMap((p) => p.results) ?? [];
   const total = data?.pages[0]?.paging.total ?? 0;
-
-  const hasNoActiveRules = profile.activeRuleCount === 0;
 
   const renderDefault = () => (
     <>
@@ -108,27 +103,9 @@ export function ProfileProjects({ profile }: Readonly<Props>) {
             <FormattedMessage id="projects" />
           </SubTitle>
         }
-        {profile.actions?.associateProjects && (
-          <Button
-            className="it__quality-profiles__change-projects"
-            isDisabled={hasNoActiveRules}
-            onClick={() => {
-              setFormOpen(true);
-            }}
-          >
-            <FormattedMessage id="quality_profiles.change_projects" />
-          </Button>
-        )}
+        {profile.actions?.associateProjects && <ChangeProjectsForm profile={profile} />}
       </div>
       {profile.isDefault ? renderDefault() : renderProjects()}
-      {formOpen && (
-        <ChangeProjectsForm
-          onClose={() => {
-            setFormOpen(false);
-          }}
-          profile={profile}
-        />
-      )}
     </section>
   );
 }

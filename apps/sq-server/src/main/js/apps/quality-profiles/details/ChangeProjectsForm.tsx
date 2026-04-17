@@ -18,17 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Text } from '@sonarsource/echoes-react';
+import { Button, Modal, Text } from '@sonarsource/echoes-react';
 import { find, without } from 'lodash';
 import * as React from 'react';
-import { useIntl } from 'react-intl';
-import { Modal } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { ProfileProject, getProfileProjects } from '~sq-server-commons/api/quality-profiles';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
 } from '~sq-server-commons/components/controls/SelectList';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   useAssociateProjectMutation,
   useDissociateProjectMutation,
@@ -36,11 +34,10 @@ import {
 import { Profile } from '~sq-server-commons/types/quality-profiles';
 
 interface Props {
-  onClose: () => void;
   profile: Profile;
 }
 
-export function ChangeProjectsForm({ onClose, profile }: Readonly<Props>) {
+export function ChangeProjectsForm({ profile }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const [lastSearchParams, setLastSearchParams] = React.useState<SelectListSearchParams>();
   const [needToReload, setNeedToReload] = React.useState(false);
@@ -50,6 +47,8 @@ export function ChangeProjectsForm({ onClose, profile }: Readonly<Props>) {
 
   const { mutateAsync: associateProject } = useAssociateProjectMutation();
   const { mutateAsync: dissociateProject } = useDissociateProjectMutation();
+
+  const hasNoActiveRules = profile.activeRuleCount === 0;
 
   const fetchProjects = (searchParams: SelectListSearchParams) =>
     getProfileProjects({
@@ -105,15 +104,15 @@ export function ChangeProjectsForm({ onClose, profile }: Readonly<Props>) {
 
   return (
     <Modal
-      body={
+      content={
         <div className="sw-mt-1" id="profile-projects">
           <SelectList
             allowBulkSelection
             elements={projects.map((project) => project.key)}
             elementsTotalCount={projectsTotalCount}
-            labelAll={translate('quality_gates.projects.all')}
-            labelSelected={translate('quality_gates.projects.with')}
-            labelUnselected={translate('quality_gates.projects.without')}
+            labelAll={formatMessage({ id: 'quality_gates.projects.all' })}
+            labelSelected={formatMessage({ id: 'quality_gates.projects.with' })}
+            labelUnselected={formatMessage({ id: 'quality_gates.projects.without' })}
             needToReload={
               needToReload &&
               lastSearchParams !== undefined &&
@@ -128,10 +127,18 @@ export function ChangeProjectsForm({ onClose, profile }: Readonly<Props>) {
           />
         </div>
       }
-      headerTitle={formatMessage({ id: 'projects' })}
-      isOverflowVisible
-      onClose={onClose}
-    />
+      secondaryButton={
+        <Button>
+          <FormattedMessage id="close" />
+        </Button>
+      }
+      // eslint-disable-next-line local-rules/use-metrickey-enum
+      title={formatMessage({ id: 'projects' })}
+    >
+      <Button className="it__quality-profiles__change-projects" isDisabled={hasNoActiveRules}>
+        <FormattedMessage id="quality_profiles.change_projects" />
+      </Button>
+    </Modal>
   );
 }
 
