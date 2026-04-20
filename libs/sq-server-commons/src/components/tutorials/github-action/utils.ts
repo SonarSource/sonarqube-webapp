@@ -39,7 +39,7 @@ jobs:
     runs-on: ${runsOn}
     ${additionalConfig ?? ''}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis${steps}`;
 }

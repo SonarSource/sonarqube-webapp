@@ -41,7 +41,7 @@ function otherYamlSteps(buildSteps: string, branchesEnabled: boolean) {
   let output =
     buildSteps +
     `
-      - uses: SonarSource/sonarqube-scan-action@v6
+      - uses: SonarSource/sonarqube-scan-action@fd88b7d7ccbaefd23d8f36f73b59db7a3d246602 # v6.0.0
         env:
           SONAR_TOKEN: \${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: \${{ secrets.SONAR_HOST_URL }}
@@ -55,7 +55,7 @@ function otherYamlSteps(buildSteps: string, branchesEnabled: boolean) {
   }
 
   output += `
-      # - uses: SonarSource/sonarqube-quality-gate-action@v1
+      # - uses: SonarSource/sonarqube-quality-gate-action@cf038b0e0cdecfa9e56c198bbb7d21d751d62c3b # v1.2.0
       #   timeout-minutes: 5
       #   env:
       #     SONAR_TOKEN: \${{ secrets.SONAR_TOKEN }}`;
