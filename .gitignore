@@ -212,3 +212,7 @@ CLAUDE.local.md
 
 # Playwright MCP outputs
 .playwright-mcp/
+
+# Worktree directories
+.worktrees/
+.claude/worktrees/
