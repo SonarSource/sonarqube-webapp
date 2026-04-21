@@ -1889,6 +1889,10 @@ export const defaultMessages = {
     'Dependency risks can be confirmed (marked as problems that need fixed), accepted (technical debt to fix later), or marked safe (not a risk based on other factors).',
   'dependencies.risks.status.help.icon': 'More information about risk statuses',
   'dependencies.risks.status.learn_more': 'Learn more about managing dependency risks.',
+  'dependencies.risks.reanalyze': 'Reanalyze',
+  'dependencies.risks.reanalyze.success': 'Branch queued for reanalysis',
+  'dependencies.risks.reanalyze.error': 'Failure queueing branch for reanalysis',
+  'dependencies.risks.last_analysis': 'Last analysis {date}',
   'dependencies.risk.how.title': 'Update the dependency',
   'dependencies.risk.how.body':
     'If an updated version of the dependency that fixes the vulnerability is available, update to that version. Always test your application thoroughly after updating a dependency to ensure nothing breaks.',
