@@ -135,7 +135,10 @@ export function ExternalProductConnectionSharedComponent({
   return (
     <>
       <Helmet
-        defaultTitle={intl.formatMessage({ id: 'external-product-connection.request.title' })}
+        defaultTitle={intl.formatMessage(
+          { id: 'external-product-connection.request.title' },
+          { productName },
+        )}
       />
 
       <div className="sw-flex sw-justify-center">
