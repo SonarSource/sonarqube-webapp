@@ -26,8 +26,8 @@ export interface SystemUpgradeDownloadUrls {
 }
 
 export enum ProductName {
-  SonarQubeCommunityBuild = 'SonarQube Community Build',
-  SonarQubeServer = 'SonarQube Server',
+  SonarQubeCommunityBuild = '天融信AI代码审计平台社区版',
+  SonarQubeServer = '天融信AI代码审计平台',
 }
 
 export enum ProductNameForUpgrade {

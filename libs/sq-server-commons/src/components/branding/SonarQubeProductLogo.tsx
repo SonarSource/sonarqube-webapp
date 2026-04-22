@@ -18,21 +18,83 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LogoSonarQubeCommunity, LogoSonarQubeServer } from '@sonarsource/echoes-react';
+import { LogoSize } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { useAppState } from '../../context/app-state/withAppStateContext';
-import { EditionKey } from '../../types/editions';
+import { Image } from '~adapters/components/common/Image';
 
-type Props = React.ComponentProps<typeof LogoSonarQubeServer>;
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
+  hasText?: boolean;
+  size?: LogoSize;
+}
+
+const LOGO_SRC = 'images/topsec-logo.svg';
+const BRAND_NAME = '天融信AI代码审计平台';
+
+function getAssetPath(filename: string) {
+  const globalWindow = window as Window & {
+    __assetsPath?: (assetName: string) => string;
+  };
+
+  return globalWindow.__assetsPath?.(filename) ?? `/${filename}`;
+}
+
+function getLogoSize(size?: LogoSize) {
+  switch (size) {
+    case LogoSize.Small:
+      return 24;
+    case LogoSize.Large:
+      return 44;
+    case LogoSize.Medium:
+    default:
+      return 32;
+  }
+}
 
 /**
- * This component switches between the Community and Server product versions' logo
+ * TopSec branded logo replacement for all product logo usages in the webapp.
  */
-export function SonarQubeProductLogo(props: Props) {
-  const { edition } = useAppState();
+export function SonarQubeProductLogo({
+  className,
+  hasText = false,
+  size = LogoSize.Medium,
+  ...rest
+}: Props) {
+  const pixelSize = getLogoSize(size);
 
-  const OfficialLogo =
-    edition === EditionKey.community ? LogoSonarQubeCommunity : LogoSonarQubeServer;
-
-  return <OfficialLogo {...props} />;
+  return (
+    <div
+      className={[
+        'sw-inline-flex sw-items-center sw-gap-3',
+        hasText ? 'sw-justify-start' : 'sw-justify-center',
+        className ?? '',
+      ].join(' ')}
+      {...rest}
+    >
+      <div className="topsec-brand-logo sw-flex sw-items-center sw-justify-center">
+        <Image
+          alt={BRAND_NAME}
+          height={pixelSize}
+          src={getAssetPath(LOGO_SRC)}
+          style={{
+            maxHeight: `${pixelSize}px`,
+            maxWidth: `${pixelSize}px`,
+            objectFit: 'contain',
+          }}
+          width={pixelSize}
+        />
+      </div>
+      {hasText && (
+        <span
+          className="sw-font-semibold"
+          style={{
+            color: 'rgb(127, 29, 29)',
+            fontSize: size === LogoSize.Large ? '1.125rem' : '0.95rem',
+            lineHeight: 1.2,
+          }}
+        >
+          {BRAND_NAME}
+        </span>
+      )}
+    </div>
+  );
 }

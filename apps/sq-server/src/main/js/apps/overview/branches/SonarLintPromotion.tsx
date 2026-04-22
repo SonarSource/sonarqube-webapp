@@ -18,67 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { FormattedMessage } from 'react-intl';
-import { DiscreetLink, InfoCard } from '~design-system';
-import { MetricKey } from '~shared/types/metrics';
-import { SonarLintLogo } from '~sq-server-commons/components/logos/SonarLintLogo';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { QualityGateStatusCondition } from '~sq-server-commons/types/quality-gates';
-import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
+import { CurrentUser } from '~sq-server-commons/types/users';
 
 export interface SonarLintPromotionProps {
   currentUser: CurrentUser;
   qgConditions?: QualityGateStatusCondition[];
 }
 
-const CONDITIONS_TO_SHOW = [
-  MetricKey.new_blocker_violations,
-  MetricKey.new_critical_violations,
-  MetricKey.new_info_violations,
-  MetricKey.new_violations,
-  MetricKey.new_major_violations,
-  MetricKey.new_minor_violations,
-  MetricKey.new_code_smells,
-  MetricKey.new_bugs,
-  MetricKey.new_vulnerabilities,
-  MetricKey.new_security_rating,
-  MetricKey.new_maintainability_rating,
-  MetricKey.new_reliability_rating,
-];
-
-export function SonarLintPromotion({ currentUser, qgConditions }: SonarLintPromotionProps) {
-  const showMessage = qgConditions?.some(
-    (qgCondition) =>
-      CONDITIONS_TO_SHOW.includes(qgCondition.metric) && qgCondition.level === 'ERROR',
-  );
-  if (!showMessage || (isLoggedIn(currentUser) && currentUser.usingSonarLintConnectedMode)) {
-    return null;
-  }
-  return (
-    <InfoCard className="it__overview__sonarlint-promotion sw-typo-default">
-      <FormattedMessage
-        id="overview.fix_failed_conditions_with_sonarlint"
-        values={{
-          link: (
-            <>
-              <DiscreetLink
-                className="sw-mr-1"
-                rel="noopener noreferrer"
-                showExternalIcon={false}
-                target="_blank"
-                to="https://www.sonarsource.com/products/sonarlint/features/connected-mode/?referrer=sonarqube"
-              >
-                SonarQube for IDE
-              </DiscreetLink>
-              <span className="sw-align-middle">
-                <SonarLintLogo />
-              </span>
-            </>
-          ),
-        }}
-      />
-    </InfoCard>
-  );
+export function SonarLintPromotion(_props: SonarLintPromotionProps) {
+  return null;
 }
 
 export default withCurrentUserContext(SonarLintPromotion);

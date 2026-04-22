@@ -19,10 +19,6 @@
  */
 
 import { Layout } from '@sonarsource/echoes-react';
-import { BEAMER_NOTIFICATIONS_SETTING } from '~shared/helpers/beamer';
-import useLocalStorage from '~shared/helpers/useLocalStorage';
-import { BeamerWidgetCustom } from '~sq-server-commons/components/beamer/BeamerWidgetCustom';
-import EmbedDocsPopupHelper from '~sq-server-commons/components/embed-docs-modal/EmbedDocsPopupHelper';
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import GlobalSearch from '../../global-search/GlobalSearch';
 import { GlobalNavMenu } from './GlobalNavMenu';
@@ -31,8 +27,6 @@ import { LogoWithAriaText } from './MainSonarQubeBar';
 
 export function GlobalNav() {
   const { currentUser } = useCurrentUser();
-
-  const [beamerNotifications] = useLocalStorage(BEAMER_NOTIFICATIONS_SETTING, true);
 
   return (
     <Layout.GlobalNavigation>
@@ -44,8 +38,6 @@ export function GlobalNav() {
       </Layout.GlobalNavigation.Primary>
       <Layout.GlobalNavigation.Secondary>
         <GlobalSearch />
-        <BeamerWidgetCustom hideCounter={!beamerNotifications} />
-        <EmbedDocsPopupHelper />
         <GlobalNavUser />
       </Layout.GlobalNavigation.Secondary>
     </Layout.GlobalNavigation>

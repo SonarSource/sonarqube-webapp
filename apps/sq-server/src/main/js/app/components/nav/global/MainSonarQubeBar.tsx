@@ -18,18 +18,25 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LogoSize } from '@sonarsource/echoes-react';
 import { useContext } from 'react';
 import { useIntl } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
 import { MainAppBar } from '~design-system';
-import { SonarQubeProductLogo } from '~sq-server-commons/components/branding/SonarQubeProductLogo';
 import { AppStateContext } from '~sq-server-commons/context/app-state/AppStateContext';
 import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 
-const DEFAULT_CUSTOM_LOGO_WIDTH_IN_PX = 100;
-const MAX_LOGO_HEIGHT_IN_PX = 40;
-const MAX_LOGO_WIDTH_IN_PX = 150;
+const DEFAULT_CUSTOM_LOGO_WIDTH_IN_PX = 88;
+const MAX_LOGO_HEIGHT_IN_PX = 28;
+const MAX_LOGO_WIDTH_IN_PX = 88;
+const DEFAULT_TOPSEC_LOGO = 'images/topsec-logo.svg';
+
+function getAssetPath(filename: string) {
+  const globalWindow = window as Window & {
+    __assetsPath?: (assetName: string) => string;
+  };
+
+  return globalWindow.__assetsPath?.(filename) ?? `/${filename}`;
+}
 
 export function LogoWithAriaText() {
   const { settings } = useContext(AppStateContext);
@@ -47,7 +54,11 @@ export function LogoWithAriaText() {
     : intl.formatMessage({ id: 'layout.nav.home_sonarqube_logo_alt' });
 
   return (
-    <div aria-label={title} role="img">
+    <div
+      aria-label={title}
+      className="topsec-brand-logo sw-flex sw-items-center sw-justify-center"
+      role="img"
+    >
       {customLogoUrl ? (
         <Image
           alt={title}
@@ -60,7 +71,17 @@ export function LogoWithAriaText() {
           width={Math.min(customLogoWidth, MAX_LOGO_WIDTH_IN_PX)}
         />
       ) : (
-        <SonarQubeProductLogo hasText size={LogoSize.Medium} />
+        <Image
+          alt={title}
+          height={MAX_LOGO_HEIGHT_IN_PX}
+          src={getAssetPath(DEFAULT_TOPSEC_LOGO)}
+          style={{
+            maxHeight: `${MAX_LOGO_HEIGHT_IN_PX}px`,
+            maxWidth: `${MAX_LOGO_HEIGHT_IN_PX}px`,
+            objectFit: 'contain',
+          }}
+          width={MAX_LOGO_HEIGHT_IN_PX}
+        />
       )}
     </div>
   );

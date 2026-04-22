@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Label, Link, Text } from '@sonarsource/echoes-react';
+import { Heading, Label, Text } from '@sonarsource/echoes-react';
 import { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Switch } from '~adapters/components/common/Switch';
@@ -56,15 +56,7 @@ export function AppearanceLayout({ className }: Readonly<Props>) {
         <FormattedMessage
           id="my_account.appearance.new_ui.description"
           values={{
-            link: (text) => (
-              <Link
-                enableOpenInNewTab
-                highlight="current-color"
-                to="https://community.sonarsource.com/c/sq/10"
-              >
-                {text}
-              </Link>
-            ),
+            link: (text) => <>{text}</>,
           }}
         />
       </Text>

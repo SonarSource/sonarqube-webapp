@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Layout, Link, MessageCallout } from '@sonarsource/echoes-react';
+import { Layout, MessageCallout } from '@sonarsource/echoes-react';
 import { useContext, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { isDefined } from '~shared/helpers/types';
@@ -51,20 +51,7 @@ export function PageUnavailableDueToIndexation() {
     <Layout.PageGrid>
       <Layout.PageContent>
         <MessageCallout className="sw-mt-10" variety="info">
-          <FormattedMessage id="indexation.page_unavailable.description" />{' '}
-          <FormattedMessage
-            id="indexation.page_unavailable.description.additional_information"
-            values={{
-              link: (
-                <Link
-                  enableOpenInNewTab
-                  to="https://docs.sonarsource.com/sonarqube/latest/instance-administration/reindexing/"
-                >
-                  <FormattedMessage id="learn_more" />
-                </Link>
-              ),
-            }}
-          />
+          <FormattedMessage id="indexation.page_unavailable.description" />
         </MessageCallout>
       </Layout.PageContent>
     </Layout.PageGrid>

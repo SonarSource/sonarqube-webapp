@@ -23,7 +23,7 @@ import { mockAppState, mockCurrentUser } from '~sq-server-commons/helpers/testMo
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { GlobalNavMenu } from '../GlobalNavMenu';
 
-it('should work with extensions', () => {
+it('should hide the more entry even if extensions exist', () => {
   const appState = mockAppState({
     globalPages: [{ key: 'foo', name: 'Foo' }],
     qualifiers: ['TRK'],
@@ -34,7 +34,7 @@ it('should work with extensions', () => {
     dismissedNotices: {},
   });
   renderGlobalNavMenu({ appState, currentUser });
-  expect(screen.getByText('more')).toBeInTheDocument();
+  expect(screen.queryByText('more')).not.toBeInTheDocument();
 });
 
 it('should show administration menu if the user has the rights', () => {

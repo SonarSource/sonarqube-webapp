@@ -18,48 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useContext, useMemo } from 'react';
-import { useFlags } from '~adapters/helpers/feature-flags';
-import { get } from '~shared/helpers/storage';
-import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
-import { isLoggedIn, NoticeType } from '~sq-server-commons/types/users';
-import {
-  NEW_NAVIGATION_PROMOTION_DISMISSED_KEY,
-  NewNavigationPromotionNotification,
-} from './NewNavigationPromotionNotification';
-import { SQIDEPromotionNotification } from './SQIDEPromotionNotification';
-
 export function PromotionNotificationManager() {
-  const { currentUser } = useContext(CurrentUserContext);
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
-
-  /**
-   * We intentionally use useMemo with an empty dependency array instead of useLocalStorage
-   * here. This prevents the SQIDE promotion from appearing immediately after the user
-   * dismisses the New Navigation promotion within the same browser session.
-   */
-  const isNewUIPromotionDismissed = useMemo(() => {
-    const stored = get(NEW_NAVIGATION_PROMOTION_DISMISSED_KEY);
-
-    return stored ? (JSON.parse(stored) as boolean) : false;
-  }, []);
-
-  if (!isLoggedIn(currentUser)) {
-    return undefined;
-  }
-
-  const hasNewUIPromotion =
-    frontEndEngineeringEnableSidebarNavigation && !isNewUIPromotionDismissed;
-
-  const hasSQIDEPromotion = !currentUser.dismissedNotices?.[NoticeType.SONARLINT_AD];
-
-  if (hasNewUIPromotion) {
-    return <NewNavigationPromotionNotification />;
-  }
-
-  if (hasSQIDEPromotion) {
-    return <SQIDEPromotionNotification />;
-  }
-
-  return undefined;
+  return null;
 }

@@ -29,7 +29,7 @@ import { ProductName } from '../types/system';
 import { toISO8601WithOffsetString } from './dates';
 import { getL10nBundleFromCache, persistL10nBundleInCache } from './l10nBundleCache';
 
-const DEFAULT_LOCALE = 'en';
+const DEFAULT_LOCALE = 'zh-CN';
 const DEFAULT_MESSAGES: Record<string, string> = {
   // eslint-disable-next-line camelcase
   default_error_message: 'The request cannot be processed. Try again later.',
@@ -134,7 +134,7 @@ export async function loadL10nBundle(appState: AppState | undefined) {
 }
 
 function getPreferredLanguage() {
-  return window.navigator.languages ? window.navigator.languages[0] : window.navigator.language;
+  return 'zh-CN';
 }
 
 function getProductName(appState?: AppState) {
@@ -144,5 +144,5 @@ function getProductName(appState?: AppState) {
       : ProductName.SonarQubeServer;
   }
 
-  return 'SonarQube';
+  return '天融信AI代码审计平台';
 }

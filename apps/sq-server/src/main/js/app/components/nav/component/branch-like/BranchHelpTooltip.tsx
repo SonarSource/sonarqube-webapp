@@ -21,7 +21,6 @@
 import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { HelperHintIcon } from '~design-system';
-import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getApplicationAdminUrl } from '~sq-server-commons/helpers/urls';
 import { useProjectBindingQuery } from '~sq-server-commons/queries/devops-integration';
@@ -86,13 +85,7 @@ export default function BranchHelpTooltip({
               : translate('branch_like_navigation.no_branch_support.content')
           }
           data-test="branches-support-disabled"
-          links={[
-            {
-              href: 'https://www.sonarsource.com/plans-and-pricing/developer/',
-              label: translate('learn_more'),
-              doc: false,
-            },
-          ]}
+          links={[]}
           title={
             projectBinding != null
               ? translate('branch_like_navigation.no_branch_support.title', isGitLab ? 'mr' : 'pr')
@@ -110,14 +103,6 @@ export default function BranchHelpTooltip({
           content={translate('branch_like_navigation.only_one_branch.content')}
           data-test="only-one-branch-like"
           links={[
-            {
-              href: DocLink.BranchAnalysis,
-              label: translate('branch_like_navigation.only_one_branch.documentation'),
-            },
-            {
-              href: DocLink.PullRequestAnalysis,
-              label: translate('branch_like_navigation.only_one_branch.pr_analysis'),
-            },
             {
               doc: false,
               href: `/tutorials?id=${component.key}`,

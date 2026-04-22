@@ -29,7 +29,6 @@ import { getQualityGatesUrl } from '~sq-server-commons/helpers/urls';
 import { Feature } from '~sq-server-commons/types/features';
 import { CurrentUser } from '~sq-server-commons/types/users';
 import { isMySet } from '~sq-server-commons/utils/issues-utils';
-import GlobalNavMore from './GlobalNavMore';
 
 interface Props {
   currentUser: CurrentUser;
@@ -52,36 +51,40 @@ export function GlobalNavMenu({ currentUser }: Readonly<Props>) {
 
   return (
     <Layout.GlobalNavigation.ItemsContainer id="it__global-navbar-menu">
-      <Layout.GlobalNavigation.Item to="/projects">
+      <Layout.GlobalNavigation.Item className="topsec-global-nav-item" to="/projects">
         <FormattedMessage id="projects.page" />
       </Layout.GlobalNavigation.Item>
 
       {governanceInstalled && (
-        <Layout.GlobalNavigation.Item to="/portfolios">
+        <Layout.GlobalNavigation.Item className="topsec-global-nav-item" to="/portfolios">
           <FormattedMessage id="portfolios.page" />
         </Layout.GlobalNavigation.Item>
       )}
 
-      <Layout.GlobalNavigation.Item to={{ pathname: '/issues', search }}>
+      <Layout.GlobalNavigation.Item
+        className="topsec-global-nav-item"
+        to={{ pathname: '/issues', search }}
+      >
         <FormattedMessage id="issues.page" />
       </Layout.GlobalNavigation.Item>
-      <Layout.GlobalNavigation.Item to="/coding_rules">
+      <Layout.GlobalNavigation.Item className="topsec-global-nav-item" to="/coding_rules">
         <FormattedMessage id="coding_rules.page" />
       </Layout.GlobalNavigation.Item>
-      <Layout.GlobalNavigation.Item to="/profiles">
+      <Layout.GlobalNavigation.Item className="topsec-global-nav-item" to="/profiles">
         <FormattedMessage id="quality_profiles.page" />
       </Layout.GlobalNavigation.Item>
       {scaEnabled && licenseProfileRoute && (
-        <Layout.GlobalNavigation.Item to={licenseProfileRoute}>
+        <Layout.GlobalNavigation.Item className="topsec-global-nav-item" to={licenseProfileRoute}>
           <FormattedMessage id="sca.licenses.page" />
         </Layout.GlobalNavigation.Item>
       )}
-      <Layout.GlobalNavigation.Item to={getQualityGatesUrl()}>
+      <Layout.GlobalNavigation.Item className="topsec-global-nav-item" to={getQualityGatesUrl()}>
         <FormattedMessage id="quality_gates.page" />
       </Layout.GlobalNavigation.Item>
 
       {appState.canAdmin && (
         <Layout.GlobalNavigation.Item
+          className="topsec-global-nav-item"
           data-guiding-id="mode-tour-1"
           data-spotlight-id="design-and-architecture-tour"
           to="/admin/settings"
@@ -89,8 +92,6 @@ export function GlobalNavMenu({ currentUser }: Readonly<Props>) {
           <FormattedMessage id="layout.settings" />
         </Layout.GlobalNavigation.Item>
       )}
-
-      <GlobalNavMore />
     </Layout.GlobalNavigation.ItemsContainer>
   );
 }

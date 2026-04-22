@@ -18,46 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { isEmpty } from 'lodash';
-import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
-import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
-import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
-import { useSystemUpgrades } from '~sq-server-commons/queries/system';
-import { EditionKey } from '~sq-server-commons/types/editions';
-import { Permissions } from '~sq-server-commons/types/permissions';
-import { isLoggedIn } from '~sq-server-commons/types/users';
-import { parseVersion } from '~sq-server-commons/utils/update-notification-helpers';
-import { SQCBUpdateBanners } from './SQCBUpdateBanners';
-import { SQSUpdateBanner } from './SQSUpdateBanner';
-
 interface Props {
   isGlobalBanner?: boolean;
 }
 
-export function UpdateNotification({ isGlobalBanner }: Readonly<Props>) {
-  const appState = useAppState();
-  const { currentUser } = useCurrentUser();
-
-  const canUserSeeNotification =
-    isLoggedIn(currentUser) && hasGlobalPermission(currentUser, Permissions.Admin);
-
-  const parsedVersion = parseVersion(appState.version);
-
-  const { data, isLoading } = useSystemUpgrades({
-    enabled: canUserSeeNotification && parsedVersion !== undefined,
-  });
-
-  if (!canUserSeeNotification || parsedVersion === undefined || isLoading) {
-    return null;
-  }
-
-  const isCommunityBuildRunning = appState.edition === EditionKey.community;
-
-  if (isCommunityBuildRunning && !isEmpty(data?.upgrades)) {
-    // We're running SQCB, show SQCB update banner & SQS update banner if applicable
-    return <SQCBUpdateBanners data={data} isGlobalBanner={isGlobalBanner} />;
-  }
-
-  // We're running SQS (or old SQ), only show SQS update banner if applicable
-  return <SQSUpdateBanner data={data} isGlobalBanner={isGlobalBanner} />;
+export function UpdateNotification(_props: Readonly<Props>) {
+  return null;
 }

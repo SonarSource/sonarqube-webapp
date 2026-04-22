@@ -18,50 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
-import { isOfficial } from '../../helpers/system';
-
-/* eslint-disable local-rules/no-jsx-literals */
-
 export default function GlobalFooterBranding() {
-  const official = isOfficial();
-
   return (
     <div className="sw-flex sw-items-center">
-      {official ? (
-        <span className="sw-text-nowrap">
-          SonarQube&trade; technology is powered by{' '}
-          <LinkStandalone
-            highlight={LinkHighlight.CurrentColor}
-            isDiscreet
-            to="https://www.sonarsource.com"
-          >
-            SonarSource Sàrl
-          </LinkStandalone>
-        </span>
-      ) : (
-        <span className="sw-text-nowrap">
-          This application is based on{' '}
-          <LinkStandalone
-            highlight={LinkHighlight.CurrentColor}
-            isDiscreet
-            title="SonarQube™"
-            to="https://www.sonarsource.com/products/sonarqube/?referrer=sonarqube"
-          >
-            SonarQube™
-          </LinkStandalone>{' '}
-          but is <strong>not</strong> an official version provided by{' '}
-          <LinkStandalone
-            highlight={LinkHighlight.CurrentColor}
-            isDiscreet
-            title="SonarSource Sàrl"
-            to="https://www.sonarsource.com"
-          >
-            SonarSource Sàrl
-          </LinkStandalone>
-          .
-        </span>
-      )}
+      <span className="sw-text-nowrap">北京天融信网络安全技术有限公司</span>
     </div>
   );
 }
