@@ -21,7 +21,6 @@
 import { Layout, Spinner } from '@sonarsource/echoes-react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isBranch } from '~shared/helpers/branch-like';
@@ -50,7 +49,7 @@ import { Branch, BranchLike } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { NewCodeDefinitionType } from '~sq-server-commons/types/new-code-definition';
 import { Component } from '~sq-server-commons/types/types';
-import { AppHeader, PageDescription } from './AppHeader';
+import { PageDescription } from './PageDescription';
 import ProjectNewCodeDefinitionSelector from './ProjectNewCodeDefinitionSelector';
 
 interface ProjectNewCodeDefinitionAppProps extends WithAvailableFeaturesProps {
@@ -63,7 +62,6 @@ interface ProjectNewCodeDefinitionAppProps extends WithAvailableFeaturesProps {
 function BaseProjectNewCodeDefinitionApp(props: Readonly<ProjectNewCodeDefinitionAppProps>) {
   const { appState, component, branchLike, branchLikes, hasFeature } = props;
   const intl = useIntl();
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
 
   const [isSpecificNewCodeDefinition, setIsSpecificNewCodeDefinition] = useState<boolean>();
   const [numberOfDays, setNumberOfDays] = useState(getNumberOfDaysDefaultValue());
@@ -210,8 +208,6 @@ function BaseProjectNewCodeDefinitionApp(props: Readonly<ProjectNewCodeDefinitio
     >
       <Suggestions suggestion={DocLink.NewCodeDefinition} />
       <A11ySkipTarget anchor="baseline_main" />
-
-      {!frontEndEngineeringEnableSidebarNavigation && <AppHeader canAdmin={!!appState.canAdmin} />}
 
       <Spinner isLoading={isLoading}>
         <div className="it__project-baseline" id="project-ncd-selection">

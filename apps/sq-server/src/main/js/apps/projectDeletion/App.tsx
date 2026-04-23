@@ -21,13 +21,11 @@
 import { Text } from '@sonarsource/echoes-react';
 import { useContext } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isApplication, isPortfolioLike } from '~shared/helpers/component';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 import Form from './Form';
-import { Header } from './Header';
 
 function PageDescription({ qualifier }: Readonly<{ qualifier: string }>) {
   if (isPortfolioLike(qualifier)) {
@@ -43,7 +41,6 @@ function PageDescription({ qualifier }: Readonly<{ qualifier: string }>) {
 
 export default function App() {
   const { component } = useContext(ComponentContext);
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
   const intl = useIntl();
 
   if (component === undefined) {
@@ -53,8 +50,6 @@ export default function App() {
   return (
     <ProjectPageTemplate disableBranchSelector title={intl.formatMessage({ id: 'deletion.page' })}>
       <A11ySkipTarget anchor="deletion_main" />
-
-      {!frontEndEngineeringEnableSidebarNavigation && <Header />}
 
       <Text as="p" className="sw-my-8">
         <PageDescription qualifier={component.qualifier} />

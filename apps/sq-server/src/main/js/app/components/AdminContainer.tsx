@@ -18,14 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
 import { Layout } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { Outlet } from 'react-router-dom';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import useEffectOnce from '~shared/helpers/useEffectOnce';
 import { Extension } from '~shared/types/common';
 import { getSettingsNavigation } from '~sq-server-commons/api/navigation';
@@ -43,7 +41,6 @@ import { PendingPluginResult } from '~sq-server-commons/types/plugins';
 import { SysStatus } from '~sq-server-commons/types/types';
 import handleRequiredAuthorization from '../utils/handleRequiredAuthorization';
 import { AdministrationSidebar } from './nav/administration/AdministrationSidebar';
-import SettingsNav from './nav/settings/SettingsNav';
 
 export interface AdminContainerProps {
   appState: AppState;
@@ -51,8 +48,6 @@ export interface AdminContainerProps {
 
 export function AdminContainer({ appState }: Readonly<AdminContainerProps>) {
   const intl = useIntl();
-
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
 
   const [pendingPlugins, setPendingPlugins] =
     React.useState<PendingPluginResult>(defaultPendingPlugins);
@@ -117,9 +112,7 @@ export function AdminContainer({ appState }: Readonly<AdminContainerProps>) {
 
   return (
     <>
-      {frontEndEngineeringEnableSidebarNavigation && (
-        <AdministrationSidebar extensions={adminPages} />
-      )}
+      <AdministrationSidebar extensions={adminPages} />
 
       <Layout.ContentGrid>
         <Helmet
@@ -130,18 +123,6 @@ export function AdminContainer({ appState }: Readonly<AdminContainerProps>) {
           )}
         />
 
-        {!frontEndEngineeringEnableSidebarNavigation && (
-          <ContentHeader>
-            <SettingsNav
-              extensions={adminPages}
-              fetchPendingPlugins={fetchPendingPlugins}
-              fetchSystemStatus={fetchSystemStatus}
-              pendingPlugins={pendingPlugins}
-              systemStatus={systemStatus}
-            />
-          </ContentHeader>
-        )}
-
         <AdminContext.Provider value={adminContextValue}>
           <Outlet context={adminPagesContext} />
         </AdminContext.Provider>
@@ -151,7 +132,3 @@ export function AdminContainer({ appState }: Readonly<AdminContainerProps>) {
 }
 
 export default withAppStateContext(AdminContainer);
-
-const ContentHeader = styled.div`
-  grid-area: content-header;
-`;

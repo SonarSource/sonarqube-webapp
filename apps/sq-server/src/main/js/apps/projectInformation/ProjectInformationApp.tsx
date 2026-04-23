@@ -18,11 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading } from '@sonarsource/echoes-react';
-import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { Card } from '~design-system';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isApplication, isProject } from '~shared/helpers/component';
@@ -55,8 +52,6 @@ interface Props extends WithAvailableFeaturesProps {
 function ProjectInformationApp(props: Readonly<Props>) {
   const [measures, setMeasures] = useState<Measure[] | undefined>(undefined);
 
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
-
   const { branchLike, component, currentUser, metrics } = props;
 
   useEffect(() => {
@@ -86,44 +81,32 @@ function ProjectInformationApp(props: Readonly<Props>) {
 
   return (
     <ProjectPageTemplate disableBranchSelector title={title} width="fluid">
-      <div
-        className={classNames(
-          !frontEndEngineeringEnableSidebarNavigation && ['sw-mx-auto', 'sw-max-w-[1680px]'],
-        )}
-      >
-        {!frontEndEngineeringEnableSidebarNavigation && (
-          <Heading as="h1" hasMarginBottom>
-            {title}
-          </Heading>
-        )}
-
-        <div className="sw-grid sw-grid-cols-[488px_minmax(0,_1000px)] sw-gap-x-12 sw-gap-y-3 sw-auto-rows-min">
-          <div className="sw-row-span-3">
-            <Card>
-              <AboutProject
-                component={component}
-                measures={measures}
-                onComponentChange={props.onComponentChange}
-              />
-            </Card>
-          </div>
-
-          {canConfigureNotifications && (
-            <Card>
-              <ProjectNotifications component={component} />
-            </Card>
-          )}
-          {isProject(component.qualifier) && regulatoryReportFeatureEnabled && (
-            <Card>
-              <RegulatoryReport branchLike={branchLike} component={component} />
-            </Card>
-          )}
-          {canUseBadges && (
-            <Card>
-              <ProjectBadges branchLike={branchLike} component={component} />
-            </Card>
-          )}
+      <div className="sw-grid sw-grid-cols-[488px_minmax(0,_1000px)] sw-gap-x-12 sw-gap-y-3 sw-auto-rows-min">
+        <div className="sw-row-span-3">
+          <Card>
+            <AboutProject
+              component={component}
+              measures={measures}
+              onComponentChange={props.onComponentChange}
+            />
+          </Card>
         </div>
+
+        {canConfigureNotifications && (
+          <Card>
+            <ProjectNotifications component={component} />
+          </Card>
+        )}
+        {isProject(component.qualifier) && regulatoryReportFeatureEnabled && (
+          <Card>
+            <RegulatoryReport branchLike={branchLike} component={component} />
+          </Card>
+        )}
+        {canUseBadges && (
+          <Card>
+            <ProjectBadges branchLike={branchLike} component={component} />
+          </Card>
+        )}
       </div>
     </ProjectPageTemplate>
   );

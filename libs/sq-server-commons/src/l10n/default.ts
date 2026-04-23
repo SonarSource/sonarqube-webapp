@@ -153,7 +153,6 @@ export const defaultMessages = {
   inheritance: 'Inheritance',
   intended: 'Intended',
   internal: 'internal',
-  inventory: 'Inventory',
   json: 'JSON',
   key: 'Key',
   later: 'Later',
@@ -689,8 +688,6 @@ export const defaultMessages = {
   'layout.nav.home_sonarqube_logo_alt': '{productName} logo, link to homepage',
   'layout.must_be_configured':
     'This will be available once your project is configured and analyzed.',
-  'layout.all_project_must_be_accessible':
-    'You need access to all projects within this {qualifier} to access it.',
 
   'sidebar.projects': 'Projects',
   'sidebar.project_settings': 'Configuration',
@@ -4922,10 +4919,6 @@ export const defaultMessages = {
   'my_account.security': 'Security',
   'my_account.appearance': 'Appearance',
   'my_account.appearance.title': 'Appearance',
-  'my_account.appearance.new_ui.title': 'New and faster UI',
-  'my_account.appearance.new_ui.description':
-    'Disable this feature to go back to the old layout. We would love to hear <link>your feedback</link> so we can make the experience better for you.',
-  'my_account.appearance.new_ui.switch_label': 'Enable the new navigation',
   'my_account.tokens_description':
     "If you want to enforce security by not providing credentials of a real {instance} user to run your code scan or to invoke web services, you can provide a User Token as a replacement of the user login. This will increase the security of your installation by not letting your analysis user's password going through your network.",
   'my_account.token_type': 'Type',
@@ -5921,12 +5914,6 @@ export const defaultMessages = {
   'promotion.sqide.title': 'Get the most out of {productName}!',
   'promotion.sqide.content':
     'Take advantage of the whole ecosystem by using SonarQube for IDE, a free IDE plugin that helps you find and fix issues earlier in your workflow. Connect SonarQube for IDE to {productName} to sync rule sets and issue states.',
-  'promotion.new_navigation.title': 'Introducing a new, faster UI',
-  'promotion.new_navigation.content':
-    "You're now beta testing our new UI. You can switch back and/or leave feedback in My account > Appearance.",
-  'promotion.new_navigation.got_it': 'Got it',
-  'promotion.new_navigation.go_to_appearance': 'Go to Appearance',
-  'promotion.new_navigation.illustration_alt': 'New sidebar navigation preview',
 
   //------------------------------------------------------------------------------
   //
@@ -9159,7 +9146,6 @@ export const defaultMessages = {
 
   // Toggle Tips
   'toggle_tip.aria_label.quality_gate': 'More information about quality gate',
-  'toggle_tip.aria_label.unbound_project': 'More information about PR decoration',
   'toggle_tip.aria_label.alm_not_configured': 'More information about ALM integration',
   'toggle_tip.aria_label.threshold': 'More information about threshold',
   'toggle_tip.aria_label.security_hotspots': 'More information about security hotspots',

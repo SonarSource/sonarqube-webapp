@@ -21,9 +21,7 @@
 import { ButtonSize, ButtonVariety, Layout, TooltipSide } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { useCurrentUser } from '~adapters/helpers/users';
-import { CardSeparator } from '~design-system';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
@@ -35,7 +33,6 @@ import Favorite from '~sq-server-commons/components/controls/Favorite';
 import HomePageSelect from '~sq-server-commons/components/controls/HomePageSelect';
 import { ComponentNavBindingStatus } from '~sq-server-commons/components/nav/ComponentNavBindingStatus';
 import { AnalysisStatus } from '~sq-server-commons/components/overview/AnalysisStatus';
-import LastAnalysisLabel from '~sq-server-commons/components/overview/LastAnalysisLabel';
 import QGStatusComponent from '~sq-server-commons/components/overview/QualityGateStatus';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { parseDate } from '~sq-server-commons/helpers/dates';
@@ -53,7 +50,6 @@ import { Component, Period, QualityGate } from '~sq-server-commons/types/types';
 import { QGStatusEnum } from '~sq-server-commons/utils/overview-utils';
 import ActivityPanel from './ActivityPanel';
 import AICodeStatus from './AICodeStatus';
-import BranchMetaTopBarLegacy from './BranchMetaTopBarLegacy';
 import ComponentReportActions from './ComponentReportActions';
 import FirstAnalysisNextStepsNotif from './FirstAnalysisNextStepsNotif';
 import MeasuresPanelNoNewCode from './MeasuresPanelNoNewCode';
@@ -107,7 +103,6 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
   const { query } = useLocation();
   const router = useRouter();
   const intl = useIntl();
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
 
   const { hasFeature } = useAvailableFeatures();
   const { data: architectureEnabled } = useGetValueQuery({
@@ -176,33 +171,12 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
       pageClassName="it__overview"
       title={intl.formatMessage({ id: 'overview.page' })}
     >
-      {!frontEndEngineeringEnableSidebarNavigation && (
-        <>
-          <FirstAnalysisNextStepsNotif
-            className="sw-mb-6"
-            component={component}
-            detectedCIOnLastAnalysis={detectedCIOnLastAnalysis}
-          />
-          {architectureEnabled?.value === 'true' &&
-            hasFeature(Feature.Architecture) &&
-            isDefined(ArchitectureUserBanner) && (
-              <ArchitectureUserBanner className="sw-mb-6" projectKey={component.key} />
-            )}
-        </>
-      )}
       <A11ySkipTarget anchor="overview_main" />
 
       {projectIsEmpty ? (
         <NoCodeWarning branchLike={branch} component={component} measures={measures} />
       ) : (
         <div>
-          {!frontEndEngineeringEnableSidebarNavigation && branch && (
-            <>
-              <BranchMetaTopBarLegacy branch={branch} component={component} measures={measures} />
-
-              <CardSeparator className="sw-mb-6" />
-            </>
-          )}
           <div
             className="sw-flex sw-justify-between sw-items-start sw-mb-6"
             data-testid="overview__quality-gate-panel"
@@ -211,9 +185,6 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
               <QGStatusComponent status={qgStatus} />
               <AICodeStatus branch={branch} component={component} />
             </div>
-            {!frontEndEngineeringEnableSidebarNavigation && (
-              <LastAnalysisLabel analysisDate={branch?.analysisDate} />
-            )}
           </div>
           <AnalysisStatus component={component} />
           <div className="sw-flex sw-flex-col sw-mt-6">

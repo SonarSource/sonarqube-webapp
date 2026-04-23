@@ -24,7 +24,6 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isFile, isPortfolioLike } from '~shared/helpers/component';
@@ -48,7 +47,6 @@ import { Component } from '~sq-server-commons/types/types';
 import handleRequiredAuthorization from '../utils/handleRequiredAuthorization';
 import ComponentContainerNotFound from './ComponentContainerNotFound';
 import { ComponentNav } from './nav/component/ComponentNav';
-import { LegacyComponentNavCompatibleWithNewLayout } from './nav/component/legacy/ComponentNav';
 
 const FETCH_STATUS_WAIT_TIME = 3000;
 
@@ -62,7 +60,6 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
   } = useLocation();
   const router = useRouter();
   const intl = useIntl();
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
 
   const [component, setComponent] = React.useState<Component>();
   const [projectComponent, setProjectComponent] = React.useState<Component>();
@@ -327,19 +324,9 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
           { project: component?.name ?? '' },
         )}
       />
-      {frontEndEngineeringEnableSidebarNavigation && component && !isFile(component.qualifier) && (
-        <ComponentNav component={component} />
-      )}
+      {component && !isFile(component.qualifier) && <ComponentNav component={component} />}
+
       <Layout.ContentGrid>
-        {!frontEndEngineeringEnableSidebarNavigation &&
-          component &&
-          !isFile(component.qualifier) && (
-            <LegacyComponentNavCompatibleWithNewLayout
-              component={component}
-              isInProgress={isInProgress}
-              isPending={isPending}
-            />
-          )}
         {loading ? (
           <Layout.PageGrid>
             <Layout.PageContent>

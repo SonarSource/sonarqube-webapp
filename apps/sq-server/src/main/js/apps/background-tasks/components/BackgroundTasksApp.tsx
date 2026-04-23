@@ -52,7 +52,6 @@ import { Task, TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
 import { Component } from '~sq-server-commons/types/types';
 import { CURRENTS, DEBOUNCE_DELAY, DEFAULT_FILTERS, PAGE_SIZE } from '../constants';
 import { Query, mapFiltersToParameters, updateTask } from '../utils';
-import Header from './Header';
 import Search from './Search';
 import Stats from './Stats';
 import Tasks from './Tasks';
@@ -247,8 +246,6 @@ export class BackgroundTasksApp extends React.PureComponent<Props, State> {
         <Suggestions suggestion={DocLink.BackgroundTasks} />
 
         <Spinner isLoading={!types}>
-          <Header component={component} />
-
           {this.isFailedTaskWithProjectDataReload() && (
             <MessageCallout variety="warning">
               <Text>

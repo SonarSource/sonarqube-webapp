@@ -26,7 +26,6 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
 import { Route } from 'react-router-dom';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { Theme } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
@@ -60,7 +59,6 @@ export interface ExtensionProps {
   router: Router;
   theme: Theme;
   updateCurrentUserHomepage: (homepage: HomePage) => void;
-  usesSidebarNavigation?: boolean;
 }
 
 interface State {
@@ -69,7 +67,7 @@ interface State {
 
 // Maps internal SonarSource extension keys to their page templates.
 // Different page contexts (project, global) will need different templates.
-// Only extension keys listed here will receive ExtensionPageTemplate and usesSidebarNavigation.
+// Only extension keys listed here will receive ExtensionPageTemplate.
 export const EXTENSION_PAGE_TEMPLATES: Record<string, React.ComponentType | undefined> = {
   'developer-server/application-console': ProjectPageTemplate,
   'governance/application_report': ProjectPageTemplate,
@@ -123,12 +121,12 @@ class Extension extends React.PureComponent<ExtensionProps, State> {
   }
 
   handleStart = (start: ExtensionStartMethod, receivesExtensionPageTemplate: boolean) => {
-    const { queryClient, theme, usesSidebarNavigation } = this.props;
+    const { queryClient, theme } = this.props;
 
     const isInternalExtension = this.props.extension.key in EXTENSION_PAGE_TEMPLATES;
     const InternalExtensionPageTemplate = EXTENSION_PAGE_TEMPLATES[this.props.extension.key];
 
-    // Extensions using the new layout receive a page template and usesSidebarNavigation
+    // Extensions using the new layout receive a page template.
     const usesNewLayout = isInternalExtension || receivesExtensionPageTemplate;
 
     const ExtensionPageTemplate =
@@ -151,7 +149,6 @@ class Extension extends React.PureComponent<ExtensionProps, State> {
       // See SONAR-16207 and core-extension-enterprise-server/src/main/js/portfolios/components/Header.tsx
       // for more information on why we're passing this as a prop to an extension.
       updateCurrentUserHomepage: this.props.updateCurrentUserHomepage,
-      ...(usesNewLayout && { usesSidebarNavigation }),
       ...this.props.options,
     });
 
@@ -220,18 +217,11 @@ class Extension extends React.PureComponent<ExtensionProps, State> {
 }
 
 function ExtensionWithAvailableFeaturesHoC(
-  props: Readonly<Omit<ExtensionProps, 'availableFeatures' | 'usesSidebarNavigation'>>,
+  props: Readonly<Omit<ExtensionProps, 'availableFeatures'>>,
 ) {
   const availableFeatures = React.useContext(AvailableFeaturesContext);
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
 
-  return (
-    <Extension
-      {...props}
-      availableFeatures={availableFeatures}
-      usesSidebarNavigation={frontEndEngineeringEnableSidebarNavigation ?? false}
-    />
-  );
+  return <Extension {...props} availableFeatures={availableFeatures} />;
 }
 
 export default withRouter(

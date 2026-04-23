@@ -18,14 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Link, LinkHighlight, Text } from '@sonarsource/echoes-react';
+import { Link, LinkHighlight, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
-
-export interface AppHeaderProps {
-  canAdmin: boolean;
-}
 
 export interface PageDescriptionProps {
   canAdmin: boolean;
@@ -69,19 +65,5 @@ export function PageDescription({ canAdmin }: Readonly<PageDescriptionProps>) {
         <FormattedMessage id="learn_more_in_doc" />
       </Link>
     </>
-  );
-}
-
-export function AppHeader(props: Readonly<AppHeaderProps>) {
-  const { canAdmin } = props;
-
-  return (
-    <header className="sw-mt-8 sw-mb-4">
-      <Heading as="h1" className="sw-mb-6">
-        <FormattedMessage id="project_baseline.page" />
-      </Heading>
-
-      <PageDescription canAdmin={canAdmin} />
-    </header>
   );
 }

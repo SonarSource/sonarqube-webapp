@@ -18,18 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
 import { Layout } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { useLocation } from '~shared/components/hoc/withRouter';
-import { useCurrentLoginUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
-import { TopBarNewLayoutCompatible } from '~sq-server-commons/design-system/components/TopBar';
-import Nav from './Nav';
-import UserCard from './UserCard';
 
 interface Props {
   actions?: React.ReactNode;
@@ -50,10 +44,6 @@ export function AccountPageTemplate({
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const { pathname } = useLocation();
-
-  const currentUser = useCurrentLoginUser();
-
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
 
   const isIndex = pathname === indexPathname || pathname === `${indexPathname}/`;
 
@@ -84,29 +74,12 @@ export function AccountPageTemplate({
           { page: formatMessage({ id: 'my_account.page' }) },
         )}
       />
-
-      {frontEndEngineeringEnableSidebarNavigation ? (
-        <Layout.ContentHeader {...commonHeaderProps} hasDivider />
-      ) : (
-        <ContentHeader>
-          <TopBarNewLayoutCompatible>
-            <div className="sw-flex sw-items-center sw-gap-2 sw-pb-4">
-              <UserCard user={currentUser} />
-            </div>
-
-            <Nav />
-          </TopBarNewLayoutCompatible>
-        </ContentHeader>
-      )}
+      <Layout.ContentHeader {...commonHeaderProps} hasDivider />
 
       <A11ySkipTarget anchor="account_main" />
 
       <Layout.PageGrid width="default">
         <Helmet defer={false} title={title} />
-
-        {!frontEndEngineeringEnableSidebarNavigation && (
-          <Layout.PageHeader {...commonHeaderProps} />
-        )}
 
         <Layout.PageContent className={pageClassName}>{children}</Layout.PageContent>
 
@@ -115,7 +88,3 @@ export function AccountPageTemplate({
     </>
   );
 }
-
-const ContentHeader = styled.div`
-  grid-area: content-header;
-`;

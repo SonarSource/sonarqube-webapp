@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { BreadcrumbsItems, BreadcrumbsProps, cssVar, Layout } from '@sonarsource/echoes-react';
 import { uniqBy } from 'lodash';
 import * as React from 'react';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isDefined } from '~shared/helpers/types';
@@ -43,7 +42,6 @@ import {
 import { ADDITIONAL_CATEGORIES } from './AdditionalCategories';
 import AllCategoriesList from './AllCategoriesList';
 import CategoryDefinitionsList from './CategoryDefinitionsList';
-import PageHeader from './PageHeader';
 import SettingsSearch from './SettingsSearch';
 import { useSettingsAppHeader } from './useSettingsAppHeader';
 
@@ -57,7 +55,6 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
 
   const location = useLocation();
   const scaFeature = usePurchasableFeature(Feature.Sca);
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
 
   const categories = React.useMemo(() => {
     return uniqBy(
@@ -120,10 +117,6 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
       <ModeBanner as="wideBanner" />
 
       <div>
-        {isProjectSettings && !frontEndEngineeringEnableSidebarNavigation && (
-          <PageHeader component={component} />
-        )}
-
         {/* Adding a key to force re-rendering of the category content, so that it resets the scroll position */}
         <StyledBox className="it__settings_list sw-flex-1 sw-p-6 sw-min-w-0" key={selectedCategory}>
           {shouldRenderAdditionalCategory ? (

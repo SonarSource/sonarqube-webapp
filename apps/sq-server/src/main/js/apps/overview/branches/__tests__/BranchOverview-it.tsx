@@ -60,7 +60,6 @@ import { IssueType } from '~sq-server-commons/types/issues';
 import { Mode } from '~sq-server-commons/types/mode';
 import { ProjectAnalysisEventCategory } from '~sq-server-commons/types/project-activity';
 import { CaycStatus, Component } from '~sq-server-commons/types/types';
-import { Header } from '../../../../app/components/nav/component/legacy/Header';
 import BranchOverview, { NO_CI_DETECTED } from '../BranchOverview';
 import { getPageObjects } from '../test-utils';
 
@@ -179,7 +178,7 @@ describe('project overview', () => {
     renderBranchOverview({}, { featureList: [Feature.AiCodeAssurance, Feature.Sca] });
 
     // Meta info
-    expect(await screen.findByText('main')).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'overview.page' })).toBeInTheDocument();
     expect(screen.getByText(/version-1\.0/)).toBeInTheDocument();
 
     // QG panel
@@ -207,7 +206,7 @@ describe('project overview', () => {
     measuresHandler.deleteComponentMeasure('foo', MetricKey.new_coverage);
     renderBranchOverview();
 
-    expect(await screen.findByText('main')).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'overview.page' })).toBeInTheDocument();
     expect(
       await byRole('link', { name: 'overview.coverage.not_computed_doc open_in_new_tab' }).find(),
     ).toHaveAttribute('href', expect.stringContaining(DocLink.TestCoverage));
@@ -1008,8 +1007,6 @@ function renderBranchOverview(
     <ComponentContext.Provider
       value={{ component, fetchComponent: jest.fn(), onComponentChange: jest.fn() }}
     >
-      <Header component={component} currentUser={user} />
-
       <BranchOverview branch={mockMainBranch()} component={component} {...props} />
     </ComponentContext.Provider>,
     '/',

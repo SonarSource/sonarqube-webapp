@@ -21,7 +21,6 @@
 import {
   BreadcrumbsItems,
   Heading,
-  Layout,
   LinkStandalone,
   MessageCallout,
   MessageVariety,
@@ -30,7 +29,6 @@ import {
 } from '@sonarsource/echoes-react';
 import { useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { useProjectBranchesQuery } from '~adapters/queries/branch';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isMainBranch } from '~shared/helpers/branch-like';
@@ -102,7 +100,6 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
   } = props;
 
   const intl = useIntl();
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
   const { data: branchLikes = [] } = useProjectBranchesQuery(component);
 
   const mainBranchName =
@@ -169,18 +166,6 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
       <ProjectPageTemplate
         description={<FormattedMessage id="onboarding.tutorial.page.description" />}
         disableBranchSelector
-        header={
-          !frontEndEngineeringEnableSidebarNavigation && (
-            <Layout.PageHeader
-              description={
-                <Layout.PageHeader.Description>
-                  <FormattedMessage id="onboarding.tutorial.page.description" />
-                </Layout.PageHeader.Description>
-              }
-              title={<Layout.PageHeader.Title>{pageTitle}</Layout.PageHeader.Title>}
-            />
-          )
-        }
         title={pageTitle}
       >
         <AnalysisStatus className="sw-mb-4 sw-w-max" component={component} />
@@ -268,19 +253,6 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
       breadcrumbs={selectedTutorialBreadcrumbs}
       description={pageDescription}
       disableBranchSelector
-      header={
-        !frontEndEngineeringEnableSidebarNavigation && (
-          <Layout.PageHeader
-            breadcrumbs={<Layout.PageHeader.Breadcrumbs items={selectedTutorialBreadcrumbs} />}
-            description={
-              pageDescription && (
-                <Layout.PageHeader.Description>{pageDescription}</Layout.PageHeader.Description>
-              )
-            }
-            title={<Layout.PageHeader.Title>{pageTitle}</Layout.PageHeader.Title>}
-          />
-        )
-      }
       title={pageTitle}
     >
       <AnalysisStatus className="sw-mb-4 sw-w-max" component={component} />

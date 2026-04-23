@@ -28,7 +28,6 @@ import { forwardRef, PropsWithChildren, ReactNode } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import { ProjectContentHeader } from '~adapters/components/layout/ProjectContentHeader';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { useFullWindow } from '../../context/fullWindowContext';
 import { ProjectBranchSelectorProps } from '../../types/branch-like';
 
@@ -81,16 +80,13 @@ export const ProjectPageTemplate = forwardRef<HTMLDivElement, Props>((props, ref
     ...contentHeaderProps
   } = props;
 
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
   const { fullWindow } = useFullWindow();
 
   return (
     <>
       <Helmet defer={false} title={title} />
 
-      {frontEndEngineeringEnableSidebarNavigation && (
-        <ProjectContentHeader {...contentHeaderProps} title={contentHeaderTitle ?? title} />
-      )}
+      <ProjectContentHeader {...contentHeaderProps} title={contentHeaderTitle ?? title} />
 
       {asideLeft}
 

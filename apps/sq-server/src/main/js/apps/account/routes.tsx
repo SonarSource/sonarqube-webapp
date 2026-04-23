@@ -20,7 +20,6 @@
 
 import { Route } from 'react-router-dom';
 import Account from './Account';
-import { Appearance } from './appearance/Appearance';
 import Notifications from './notifications/Notifications';
 import Profile from './profile/Profile';
 import ProjectsContainer from './projects/ProjectsContainer';
@@ -32,7 +31,6 @@ const routes = () => (
     <Route element={<Security />} path="security" />
     <Route element={<ProjectsContainer />} path="projects" />
     <Route element={<Notifications />} path="notifications" />
-    <Route element={<Appearance />} path="appearance" />
   </Route>
 );
 

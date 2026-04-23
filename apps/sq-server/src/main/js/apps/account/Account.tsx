@@ -20,15 +20,13 @@
 
 import { Layout } from '@sonarsource/echoes-react';
 import { Outlet } from 'react-router-dom';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { AccountSidebar } from './components/AccountSidebar';
 
 export default function Account() {
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
-
   return (
     <>
-      {frontEndEngineeringEnableSidebarNavigation && <AccountSidebar />}
+      <AccountSidebar />
+
       <Layout.ContentGrid id="account-page">
         <Outlet />
       </Layout.ContentGrid>

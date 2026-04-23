@@ -22,7 +22,6 @@ import { Layout } from '@sonarsource/echoes-react';
 import { noop, without } from 'lodash';
 import * as React from 'react';
 import { IntlShape, useIntl } from 'react-intl';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
@@ -40,7 +39,6 @@ import { ComponentContextShape } from '~sq-server-commons/types/component';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { Component, PermissionGroup, PermissionUser } from '~sq-server-commons/types/types';
 import '../../styles.css';
-import PageHeader from './PageHeader';
 import { PermissionsProjectLocalProjectWarning } from './PermissionsProjectLocalProjectWarning';
 import { PermissionsProjectPageAction } from './PermissionsProjectPageAction';
 import { PermissionsProjectPageDescription } from './PermissionsProjectPageDescription';
@@ -50,7 +48,6 @@ import PublicProjectDisclaimer from './PublicProjectDisclaimer';
 
 interface Props extends ComponentContextShape {
   component: Component;
-  frontEndEngineeringEnableSidebarNavigation?: boolean;
   intl: IntlShape;
 }
 
@@ -399,14 +396,6 @@ class PermissionsProjectApp extends React.PureComponent<Props, State> {
       >
         <A11ySkipTarget anchor="permissions_main" />
         <div id="project-permissions-page">
-          {!this.props.frontEndEngineeringEnableSidebarNavigation && (
-            <PageHeader
-              component={component}
-              isProjectManaged={isProjectManaged}
-              loadHolders={this.loadHolders}
-            />
-          )}
-
           <PermissionsProjectLocalProjectWarning
             component={component}
             isProjectManaged={isProjectManaged}
@@ -457,18 +446,10 @@ class PermissionsProjectApp extends React.PureComponent<Props, State> {
 export default function PermissionsProjectAppContainer() {
   const { component, ...componentContext } = useComponent();
   const intl = useIntl();
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
 
   if (!component) {
     return null;
   }
 
-  return (
-    <PermissionsProjectApp
-      component={component}
-      frontEndEngineeringEnableSidebarNavigation={frontEndEngineeringEnableSidebarNavigation}
-      intl={intl}
-      {...componentContext}
-    />
-  );
+  return <PermissionsProjectApp component={component} intl={intl} {...componentContext} />;
 }

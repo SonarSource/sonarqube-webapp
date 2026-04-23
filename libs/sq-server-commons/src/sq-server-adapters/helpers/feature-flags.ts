@@ -19,10 +19,8 @@
  */
 
 import { FlagSet } from '~shared/types/feature-flags';
-import { useEnableSidebarNavigation } from '../../helpers/useEnableSidebarNavigation';
 
 interface SQSFlagSet extends FlagSet {
-  frontEndEngineeringEnableSidebarNavigation?: boolean;
   scaEnableReachabilityFrontend: boolean;
   scaKeyChangesPrView: boolean;
 }
@@ -36,7 +34,5 @@ const defaultFlags: SQSFlagSet = {
 };
 
 export function useFlags(): SQSFlagSet {
-  const [frontEndEngineeringEnableSidebarNavigation] = useEnableSidebarNavigation();
-
-  return { ...defaultFlags, frontEndEngineeringEnableSidebarNavigation };
+  return defaultFlags;
 }

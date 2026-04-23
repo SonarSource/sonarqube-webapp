@@ -32,7 +32,6 @@ import {
 } from '@sonarsource/echoes-react';
 import { groupBy, orderBy } from 'lodash';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import {
   ActionCell,
   ContentCell,
@@ -88,7 +87,6 @@ export default function ProjectQualityProfilesAppRenderer(
   } = props;
 
   const intl = useIntl();
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
   const { hasFeature } = useAvailableFeatures();
   const profilesByLanguage = groupBy(allProfiles, 'language');
   const orderedProfiles = orderBy(projectProfiles, (p) => p.profile.languageName);
@@ -121,19 +119,7 @@ export default function ProjectQualityProfilesAppRenderer(
   );
 
   return (
-    <ProjectPageTemplate
-      description={description}
-      disableBranchSelector
-      header={
-        !frontEndEngineeringEnableSidebarNavigation && (
-          <Layout.PageHeader
-            description={description}
-            title={<Layout.PageHeader.Title>{title}</Layout.PageHeader.Title>}
-          />
-        )
-      }
-      title={title}
-    >
+    <ProjectPageTemplate description={description} disableBranchSelector title={title}>
       <div>
         <Suggestions suggestion={DocLink.InstanceAdminQualityProfiles} />
         <A11ySkipTarget anchor="profiles_main" />

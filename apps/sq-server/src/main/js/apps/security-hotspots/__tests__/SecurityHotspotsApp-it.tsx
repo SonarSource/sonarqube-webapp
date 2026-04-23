@@ -30,6 +30,7 @@ import { MetricKey } from '~shared/types/metrics';
 import type { Ide } from '~shared/types/sonarqube-ide';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
 import CodingRulesServiceMock from '~sq-server-commons/api/mocks/CodingRulesServiceMock';
+import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import SecurityHotspotServiceMock from '~sq-server-commons/api/mocks/SecurityHotspotServiceMock';
 import {
   getSecurityHotspots,
@@ -41,7 +42,6 @@ import { mockSourceLine } from '~sq-server-commons/helpers/mocks/sources';
 import { openHotspot, probeSonarLintServers } from '~sq-server-commons/helpers/sonarlint';
 import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderAppWithComponentContext } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { SIDEBAR_NAVIGATION_USER_PREFERENCE } from '~sq-server-commons/helpers/useEnableSidebarNavigation';
 import { ComponentContextShape } from '~sq-server-commons/types/component';
 import SecurityHotspotsApp from '../SecurityHotspotsApp';
 import { SHOW_STATUS_DIALOG_STORAGE_KEY } from '../constants';
@@ -116,6 +116,7 @@ const originalScrollTo = window.scrollTo;
 const hotspotsHandler = new SecurityHotspotServiceMock();
 const rulesHandles = new CodingRulesServiceMock();
 const branchHandler = new BranchesServiceMock();
+const modeHandler = new ModeServiceMock();
 const sourcesHandler = new SourceServiceMock({
   sources: {
     'hotspot-component': times(20, (n) =>
@@ -143,9 +144,6 @@ jest.mocked(save).mockImplementation((_key: string, value?: string) => {
 jest.mocked(get).mockImplementation((key) => {
   if (key === SHOW_STATUS_DIALOG_STORAGE_KEY) {
     return showDialog;
-  }
-  if (key === SIDEBAR_NAVIGATION_USER_PREFERENCE) {
-    return 'false';
   }
   return null;
 });
@@ -175,6 +173,7 @@ afterEach(() => {
   hotspotsHandler.reset();
   rulesHandles.reset();
   branchHandler.reset();
+  modeHandler.reset();
 });
 
 function createNeverResolvingIdeProbePromise(): Promise<Ide[]> {

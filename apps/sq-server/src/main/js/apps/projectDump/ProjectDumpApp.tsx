@@ -20,7 +20,6 @@
 
 import { Divider, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
@@ -38,7 +37,6 @@ interface Props extends WithAvailableFeaturesProps {
 
 export function ProjectDumpApp({ component, hasFeature }: Readonly<Props>) {
   const intl = useIntl();
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
   const projectImportFeatureEnabled = hasFeature(Feature.ProjectImport);
 
   const description = projectImportFeatureEnabled ? (
@@ -59,16 +57,6 @@ export function ProjectDumpApp({ component, hasFeature }: Readonly<Props>) {
     <ProjectPageTemplate
       description={<Layout.PageHeader.Description>{description}</Layout.PageHeader.Description>}
       disableBranchSelector
-      header={
-        !frontEndEngineeringEnableSidebarNavigation && (
-          <Layout.PageHeader
-            description={
-              <Layout.PageHeader.Description>{description}</Layout.PageHeader.Description>
-            }
-            title={<Layout.PageHeader.Title>{title}</Layout.PageHeader.Title>}
-          />
-        )
-      }
       title={title}
     >
       <div className="sw-mb-4">

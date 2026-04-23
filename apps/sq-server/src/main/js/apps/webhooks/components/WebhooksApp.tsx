@@ -21,7 +21,6 @@
 import { Layout, Link, Spinner } from '@sonarsource/echoes-react';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { ComponentContext } from '~adapters/helpers/test-utils';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isDefined } from '~shared/helpers/types';
@@ -43,8 +42,6 @@ export default function WebhooksApp() {
   const { component } = useContext(ComponentContext);
   const [loading, setLoading] = useState(true);
   const [webhooks, setWebhooks] = useState<WebhookResponse[]>([]);
-
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
 
   const { formatMessage } = useIntl();
   const toUrl = useDocUrl(DocLink.Webhooks);
@@ -152,17 +149,6 @@ export default function WebhooksApp() {
             <Layout.ContentHeader.Description>{pageDescription}</Layout.ContentHeader.Description>
           }
           disableBranchSelector
-          header={
-            !frontEndEngineeringEnableSidebarNavigation && (
-              <Layout.PageHeader
-                actions={actions}
-                description={
-                  <Layout.PageHeader.Description>{pageDescription}</Layout.PageHeader.Description>
-                }
-                title={<Layout.PageHeader.Title>{pageTitle}</Layout.PageHeader.Title>}
-              />
-            )
-          }
           title={pageTitle}
         >
           {pageContent}

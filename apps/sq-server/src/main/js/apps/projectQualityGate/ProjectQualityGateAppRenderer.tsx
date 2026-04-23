@@ -30,8 +30,7 @@ import {
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { components, OptionProps, SingleValueProps } from 'react-select';
-import { useFlags } from '~adapters/helpers/feature-flags';
-import { FlagMessage, HelperHintIcon, InputSelect, RadioButton, Title } from '~design-system';
+import { FlagMessage, InputSelect, RadioButton } from '~design-system';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { ComponentQualifier } from '~shared/types/component';
@@ -60,7 +59,6 @@ import {
   useAssociateGateWithProjectMutation,
   useDissociateGateWithProjectMutation,
 } from '~sq-server-commons/queries/quality-gates';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component, QualityGate } from '~sq-server-commons/types/types';
 import BuiltInQualityGateBadge from '../quality-gates/components/BuiltInQualityGateBadge';
@@ -133,7 +131,6 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
   const defaultQualityGate = allQualityGates?.find((g) => g.isDefault);
   const [isUserEditing, setIsUserEditing] = useState(false);
   const { hasFeature } = useAvailableFeatures();
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
   const intl = useIntl();
 
   const { data: aiAssuranceStatus, refetch: refetchAiCodeAssuranceStatus } =
@@ -226,17 +223,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
       title={pageTitle}
     >
       <A11ySkipTarget anchor="qg_main" />
-      {!frontEndEngineeringEnableSidebarNavigation && (
-        <header className="sw-mb-5 sw-flex sw-items-center">
-          <Title>{pageTitle}</Title>
-          <HelpTooltip
-            className="sw-ml-2 sw-mb-4"
-            overlay={translate('quality_gates.projects.help')}
-          >
-            <HelperHintIcon />
-          </HelpTooltip>
-        </header>
-      )}
+
       <div className="sw-flex sw-flex-col sw-items-start" id="project-quality-gate">
         {(aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_ON ||
           aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_PASS ||

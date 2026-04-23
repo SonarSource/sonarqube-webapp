@@ -21,7 +21,6 @@
 import * as React from 'react';
 import { getWrappedDisplayName } from '~shared/components/hoc/utils';
 import { AppState } from '../../types/appstate';
-import { GlobalSettingKeys } from '../../types/settings';
 import { AppStateContext } from './AppStateContext';
 
 export interface WithAppStateContextProps {
@@ -48,10 +47,4 @@ export default function withAppStateContext<P>(
 
 export function useAppState() {
   return React.useContext(AppStateContext);
-}
-
-export function useIsOldNavigationForced(): boolean {
-  const appState = useAppState();
-
-  return appState.settings[GlobalSettingKeys.ForceOldNavigation] === 'true';
 }

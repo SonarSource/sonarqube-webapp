@@ -21,7 +21,6 @@
 import { BreadcrumbsProps, PageGridProps } from '@sonarsource/echoes-react';
 import { forwardRef, PropsWithChildren, ReactNode } from 'react';
 import { To } from 'react-router-dom';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 
 interface Props extends PropsWithChildren {
@@ -37,17 +36,10 @@ interface Props extends PropsWithChildren {
 }
 
 export const SCAProjectPageTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
-  const { children, header, width = 'default', ...templateProps } = props;
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
+  const { children, width = 'default', ...templateProps } = props;
 
   return (
-    <ProjectPageTemplate
-      {...templateProps}
-      // TODO The page header is only used with the old layout, to be removed when we drop the frontEndEngineeringEnableSidebarNavigation flag
-      header={!frontEndEngineeringEnableSidebarNavigation && header}
-      ref={ref}
-      width={width}
-    >
+    <ProjectPageTemplate {...templateProps} ref={ref} width={width}>
       {children}
     </ProjectPageTemplate>
   );

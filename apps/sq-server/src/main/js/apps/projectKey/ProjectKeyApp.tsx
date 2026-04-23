@@ -18,9 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Text } from '@sonarsource/echoes-react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { useFlags } from '~adapters/helpers/feature-flags';
+import { useIntl } from 'react-intl';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
@@ -37,7 +35,6 @@ interface Props {
 }
 
 function ProjectKeyApp({ component, router }: Readonly<Props>) {
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
   const intl = useIntl();
 
   const handleChangeKey = (newKey: string) => {
@@ -54,18 +51,6 @@ function ProjectKeyApp({ component, router }: Readonly<Props>) {
       title={intl.formatMessage({ id: 'update_key.page' })}
     >
       <A11ySkipTarget anchor="project_key_main" />
-
-      {!frontEndEngineeringEnableSidebarNavigation && (
-        <header className="sw-mb-4 sw-mt-8">
-          <Heading as="h1" className="sw-mb-4">
-            <FormattedMessage id="update_key.page" />
-          </Heading>
-
-          <Text as="p" className="sw-mb-4">
-            <FormattedMessage id="update_key.page.description" />
-          </Text>
-        </header>
-      )}
 
       <UpdateForm component={component} onKeyChange={handleChangeKey} />
     </ProjectPageTemplate>

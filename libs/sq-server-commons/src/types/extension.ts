@@ -67,7 +67,6 @@ export interface ExtensionStartMethodParameter extends Omit<ExtensionOptions, 'c
   // See SONAR-16207 and core-extension-enterprise-server/src/main/js/portfolios/components/Header.tsx
   // for more information on why we're passing this as a prop to an extension.
   updateCurrentUserHomepage: (homepage: HomePage) => void;
-  usesSidebarNavigation?: boolean;
 }
 
 export type ExtensionStartMethodReturnType = React.ReactNode | Function | void;

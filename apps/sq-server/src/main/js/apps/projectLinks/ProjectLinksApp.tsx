@@ -21,21 +21,18 @@
 import { Button, ButtonVariety, Layout, Spinner } from '@sonarsource/echoes-react';
 import { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { createLink, deleteLink, getProjectLinks } from '~sq-server-commons/api/projectLinks';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import { Component, ProjectLink } from '~sq-server-commons/types/types';
 import CreationModal from './CreationModal';
-import { Header } from './Header';
 import ProjectLinkTable from './ProjectLinkTable';
 
 export function ProjectLinksApp({ component }: Readonly<{ component: Component }>) {
   const [creationModal, setCreationModal] = useState(false);
   const [links, setLinks] = useState<ProjectLink[]>([]);
   const [loading, setLoading] = useState(true);
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
   const intl = useIntl();
 
   useEffect(() => {
@@ -118,10 +115,6 @@ export function ProjectLinksApp({ component }: Readonly<{ component: Component }
         title={intl.formatMessage({ id: 'project_links.page' })}
       >
         <A11ySkipTarget anchor="links_main" />
-
-        {!frontEndEngineeringEnableSidebarNavigation && (
-          <Header onCreateClick={handleOpenCreationModal} />
-        )}
 
         <div className="sw-mt-16">
           <Spinner isLoading={loading}>

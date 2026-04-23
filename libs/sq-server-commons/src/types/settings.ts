@@ -51,7 +51,6 @@ export enum GlobalSettingKeys {
   DeveloperAggregatedInfoDisabled = 'sonar.developerAggregatedInfo.disabled',
   DisplayAnnouncementMessage = 'sonar.announcement.displayMessage',
   EnableGravatar = 'sonar.lf.enableGravatar',
-  ForceOldNavigation = 'sonar.ui.forceOldNavigation',
   GravatarServerUrl = 'sonar.lf.gravatarServerUrl',
   LogoUrl = 'sonar.lf.logoUrl',
   LogoWidth = 'sonar.lf.logoWidthPx',

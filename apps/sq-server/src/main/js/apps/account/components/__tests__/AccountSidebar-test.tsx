@@ -20,29 +20,18 @@
 
 import { screen } from '@testing-library/react';
 import { mockLoggedInUser } from '~shared/helpers/mocks/users';
-import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import { AccountSidebar } from '../AccountSidebar';
 
 describe('AccountSidebar', () => {
-  it('should show Appearance menu item when old navigation is not forced', () => {
+  it('should render the account navigation items', () => {
     renderComponent(<AccountSidebar />, '/', {
       currentUser: mockLoggedInUser(),
     });
 
-    expect(screen.getByText('my_account.appearance')).toBeInTheDocument();
-  });
-
-  it('should hide Appearance menu item when old navigation is forced by admin', () => {
-    renderComponent(<AccountSidebar />, '/', {
-      appState: mockAppState({
-        settings: { [GlobalSettingKeys.ForceOldNavigation]: 'true' },
-      }),
-
-      currentUser: mockLoggedInUser(),
-    });
-
-    expect(screen.queryByText('my_account.appearance')).not.toBeInTheDocument();
+    expect(screen.getByText('my_account.profile')).toBeInTheDocument();
+    expect(screen.getByText('my_account.security')).toBeInTheDocument();
+    expect(screen.getByText('my_account.notifications')).toBeInTheDocument();
+    expect(screen.getByText('my_account.projects')).toBeInTheDocument();
   });
 });

@@ -19,7 +19,6 @@
  */
 
 import {
-  Heading,
   Layout,
   LinkHighlight,
   MessageCallout,
@@ -30,7 +29,6 @@ import {
 import { difference, intersection } from 'lodash';
 import { useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { Card } from '~design-system';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import ListFooter from '~shared/components/controls/ListFooter';
@@ -60,7 +58,6 @@ import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode'
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Component, ComponentMeasure } from '~sq-server-commons/types/types';
 import { getCodeMetrics, PortfolioMetrics } from '../utils';
-import CodeBreadcrumbs from './CodeBreadcrumbs';
 import Components from './Components';
 import Search from './Search';
 import SourceViewerWrapper from './SourceViewerWrapper';
@@ -107,13 +104,10 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
   } = props;
 
   const intl = useIntl();
-  const { frontEndEngineeringEnableSidebarNavigation } = useFlags();
 
   const { canBrowseAllChildProjects, qualifier } = component;
   const showSearch = searchResults !== undefined;
   const hasComponents = components.length > 0 || searchResults !== undefined;
-  const showBreadcrumbs =
-    breadcrumbs.length > 1 && !showSearch && !frontEndEngineeringEnableSidebarNavigation;
   const showComponentList = sourceViewer === undefined && components.length > 0 && !showSearch;
 
   const { data: isStandardMode, isLoading: isLoadingStandardMode } =
@@ -214,32 +208,6 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
       width="fluid"
     >
       <A11ySkipTarget anchor="code_main" />
-      {isPortfolio && !frontEndEngineeringEnableSidebarNavigation && (
-        <header className="sw-grid sw-grid-cols-3 sw-gap-12 sw-mb-4">
-          <div className="sw-col-span-2">
-            <Heading as="h1" hasMarginBottom>
-              <FormattedMessage id="portfolio_breakdown.page" />
-            </Heading>
-
-            <div className="sw-typo-default">
-              <FormattedMessage
-                id="portfolio_overview.intro"
-                values={{
-                  link: (text) => (
-                    <DocumentationLink
-                      enableOpenInNewTab
-                      highlight={LinkHighlight.Accent}
-                      to={DocLink.PortfolioBreakdown}
-                    >
-                      {text}
-                    </DocumentationLink>
-                  ),
-                }}
-              />
-            </div>
-          </div>
-        </header>
-      )}
 
       {!canBrowseAllChildProjects && isPortfolio && (
         <MessageCallout className="it__portfolio_warning sw-mb-4" variety="warning">
@@ -254,7 +222,7 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
       )}
 
       <Spinner isLoading={loading || isLoadingStandardMode}>
-        {(showComponentList || showSearch || hasComponents || showBreadcrumbs) && (
+        {hasComponents && (
           <div className="sw-flex sw-justify-between sw-mb-2" id="code-page">
             <div className="sw-flex sw-flex-col sw-gap-4">
               {hasComponents && (
@@ -265,14 +233,6 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
                   onNewCodeToggle={props.handleSelectNewCode}
                   onSearchClear={props.handleSearchClear}
                   onSearchResults={props.handleSearchResults}
-                />
-              )}
-
-              {showBreadcrumbs && (
-                <CodeBreadcrumbs
-                  branchLike={branchLike}
-                  breadcrumbs={breadcrumbs}
-                  rootComponent={component}
                 />
               )}
             </div>

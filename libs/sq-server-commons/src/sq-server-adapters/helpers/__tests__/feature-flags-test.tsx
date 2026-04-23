@@ -19,110 +19,15 @@
  */
 
 import { renderHook } from '@testing-library/react';
-import { PropsWithChildren } from 'react';
-import { get } from '~shared/helpers/storage';
-import AppStateContextProvider from '../../../context/app-state/AppStateContextProvider';
-import { mockAppState } from '../../../helpers/testMocks';
-import { AppState } from '../../../types/appstate';
-import { GlobalSettingKeys } from '../../../types/settings';
 import { useFlags } from '../feature-flags';
 
-jest.mock('~shared/helpers/storage', () => ({
-  get: jest.fn(),
-  save: jest.fn(),
-}));
-
 describe('useFlags', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
+  it('should expose the default SQS flag values', () => {
+    const { result } = renderHook(() => useFlags());
 
-  it('should default to new navigation when no user preference and no force old navigation setting', () => {
-    jest.mocked(get).mockReturnValue(null);
-
-    const { result } = setupHook({});
-
-    expect(result.current.frontEndEngineeringEnableSidebarNavigation).toBe(true);
-  });
-
-  it('should respect user opt-out preference', () => {
-    jest.mocked(get).mockReturnValue('false');
-
-    const { result } = setupHook({});
-
-    expect(result.current.frontEndEngineeringEnableSidebarNavigation).toBe(false);
-  });
-
-  it('should respect user opt-in preference', () => {
-    jest.mocked(get).mockReturnValue('true');
-
-    const { result } = setupHook({});
-
-    expect(result.current.frontEndEngineeringEnableSidebarNavigation).toBe(true);
-  });
-
-  it('should default to old navigation when force old navigation is set and user has no preference', () => {
-    jest.mocked(get).mockReturnValue(null);
-
-    const { result } = setupHook({
-      settings: {
-        [GlobalSettingKeys.ForceOldNavigation]: 'true',
-      },
+    expect(result.current).toMatchObject({
+      scaEnableReachabilityFrontend: false,
+      scaKeyChangesPrView: true,
     });
-
-    expect(result.current.frontEndEngineeringEnableSidebarNavigation).toBe(false);
-  });
-
-  it('should force old navigation even when user has opted in', () => {
-    jest.mocked(get).mockReturnValue('true');
-
-    const { result } = setupHook({
-      settings: {
-        [GlobalSettingKeys.ForceOldNavigation]: 'true',
-      },
-    });
-
-    expect(result.current.frontEndEngineeringEnableSidebarNavigation).toBe(false);
-  });
-
-  it('should force old navigation even when user has opted out', () => {
-    jest.mocked(get).mockReturnValue('false');
-
-    const { result } = setupHook({
-      settings: {
-        [GlobalSettingKeys.ForceOldNavigation]: 'true',
-      },
-    });
-
-    expect(result.current.frontEndEngineeringEnableSidebarNavigation).toBe(false);
-  });
-
-  it('should use new navigation when force old navigation is not set to true', () => {
-    jest.mocked(get).mockReturnValue(null);
-
-    const { result } = setupHook({
-      settings: {
-        [GlobalSettingKeys.ForceOldNavigation]: 'false',
-      },
-    });
-
-    expect(result.current.frontEndEngineeringEnableSidebarNavigation).toBe(true);
   });
 });
-
-function setupHook(appState: Partial<AppState> = {}) {
-  function Wrapper({ children }: Readonly<PropsWithChildren>) {
-    return (
-      <AppStateContextProvider
-        appState={mockAppState({
-          settings: {},
-          ...appState,
-        })}
-      >
-        {children}
-      </AppStateContextProvider>
-    );
-  }
-
-  return renderHook(() => useFlags(), { wrapper: Wrapper });
-}
