@@ -20,10 +20,11 @@
       "*.snap": "html",
     },
 
-    "javascript.format.enable": false,
-    "javascript.validate.enable": false,
+    "js/ts.format.enabled": false,
+    "js/ts.validate.enabled": false,
+    "js/ts.tsdk.path": "./node_modules/typescript/lib",
     "tailwindCSS.experimental.configFile": "libs/sq-server-commons/config/tailwind/tailwind.config.js",
-    "typescript.tsdk": "./node_modules/typescript/lib",
+
     "jestrunner.configPath": {
       "**/*": "apps/sq-server/jest.config.js",
     },

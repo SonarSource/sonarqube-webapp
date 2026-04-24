@@ -89,17 +89,24 @@
     "**/.nx": true,
     "**/.yarn/cache": true,
   },
-  "javascript.format.enable": false,
-  "javascript.updateImportsOnFileMove.enabled": "always",
-  "javascript.validate.enable": false,
-  "typescript.tsdk": "./node_modules/typescript/lib",
-  "typescript.preferences.importModuleSpecifier": "shortest",
-  "typescript.updateImportsOnFileMove.enabled": "always",
+  "js/ts.format.enabled": false,
+  "js/ts.updateImportsOnFileMove.enabled": "always",
+  "js/ts.validate.enabled": false,
+  "js/ts.tsdk.path": "./node_modules/typescript/lib",
+  "js/ts.preferences.importModuleSpecifier": "shortest",
   "[html][javascript][javascriptreact][typescript][typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "sonarlint.connectedMode.project": {
     "connectionId": "https-next-sonarqube-com-sonarqube",
     "projectKey": "SonarSource_sonarcloud-webapp"
+  },
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-action.json": [
+      ".github/actions/**/action.yml"
+    ],
+    "https://json.schemastore.org/github-workflow.json": [
+      ".github/workflows/*.yml"
+    ]
   }
 }
