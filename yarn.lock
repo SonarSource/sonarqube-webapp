@@ -3964,22 +3964,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fullstory/browser@npm:2.0.6":
-  version: 2.0.6
-  resolution: "@fullstory/browser@npm:2.0.6"
-  dependencies:
-    "@fullstory/snippet": "npm:2.0.5"
-  checksum: 10/d77e3daeaf22f57655619684397118b04115770e3dc0de3217d09d4deb729b080339ef69585e320da178611d82d99b70c244c03cefdd9a0671f55c5f9af2d017
-  languageName: node
-  linkType: hard
-
-"@fullstory/snippet@npm:2.0.5":
-  version: 2.0.5
-  resolution: "@fullstory/snippet@npm:2.0.5"
-  checksum: 10/7b27bde3153efa0f56c4bb63fc7c6bc0b5967994b67bdb779b7facc86883b6c54a021e69bf9907f2bc57aa9d175ba524870e4225b9f12e38faa97b2593932e04
-  languageName: node
-  linkType: hard
-
 "@gar/promise-retry@npm:^1.0.0":
   version: 1.0.2
   resolution: "@gar/promise-retry@npm:1.0.2"
@@ -7820,15 +7804,6 @@ __metadata:
   version: 10.46.0
   resolution: "@sentry/core@npm:10.46.0"
   checksum: 10/bbe823f9dea49ff87973a7d9bdf934016e7663e5269f2b09e1888a40e6e1718bab5c565cc30d77053c49e676d2694b15c886df3cbfb7045abd76f9c510731adb
-  languageName: node
-  linkType: hard
-
-"@sentry/fullstory@npm:5.0.0":
-  version: 5.0.0
-  resolution: "@sentry/fullstory@npm:5.0.0"
-  peerDependencies:
-    "@sentry/core": 10.x
-  checksum: 10/bca51117f0f80a16f28a42a9ffdc87251a809641267a8f9547db3c05a5f2df4565abd4ec93a16db03b198b15f29aebeb1a0d0bff7402991a7d257662d236d345
   languageName: node
   linkType: hard
 
@@ -23026,8 +23001,6 @@ __metadata:
     "@emotion/jest": "npm:11.14.2"
     "@emotion/react": "npm:11.14.0"
     "@emotion/styled": "npm:11.14.1"
-    "@fullstory/browser": "npm:2.0.6"
-    "@fullstory/snippet": "npm:2.0.5"
     "@jupyterlab/nbformat": "npm:4.5.6"
     "@launchdarkly/toolbar": "npm:2.2.1"
     "@nx/devkit": "npm:22.6.4"
@@ -23045,7 +23018,6 @@ __metadata:
     "@react-spring/web": "npm:10.0.3"
     "@rollup/plugin-replace": "npm:6.0.3"
     "@sentry/browser": "npm:10.46.0"
-    "@sentry/fullstory": "npm:5.0.0"
     "@sentry/react": "npm:10.46.0"
     "@sonarsource/echoes-react": "npm:2.1.0"
     "@sprig-technologies/sprig-browser": "npm:2.41.1"
