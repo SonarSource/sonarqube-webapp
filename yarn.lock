@@ -23755,24 +23755,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sq-cloud-e2e-tests@workspace:private/sq-cloud-e2e-tests":
-  version: 0.0.0-use.local
-  resolution: "sq-cloud-e2e-tests@workspace:private/sq-cloud-e2e-tests"
-  languageName: unknown
-  linkType: soft
-
-"sq-cloud-metrics@workspace:private/sq-cloud-metrics":
-  version: 0.0.0-use.local
-  resolution: "sq-cloud-metrics@workspace:private/sq-cloud-metrics"
-  languageName: unknown
-  linkType: soft
-
-"sq-cloud@workspace:private/apps/sq-cloud":
-  version: 0.0.0-use.local
-  resolution: "sq-cloud@workspace:private/apps/sq-cloud"
-  languageName: unknown
-  linkType: soft
-
 "sq-server@workspace:apps/sq-server":
   version: 0.0.0-use.local
   resolution: "sq-server@workspace:apps/sq-server"
