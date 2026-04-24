@@ -5791,7 +5791,7 @@ export const defaultMessages = {
   'global_permissions.gateadmin.desc': 'Ability to perform any action on quality gates.',
   'global_permissions.scan': 'Execute Analysis',
   'global_permissions.scan.desc':
-    'Ability to get all settings required to perform an analysis (including the secured settings like passwords) and to push analysis results to the {instance} server.',
+    '<p>Grants the ability to:</p><ul><li>Retrieve all settings required to run the analysis, including secured credentials like passwords.</li><li>Push analysis results to SonarQube Server.</li><li>Run scans on any project in this SonarQube Server instance, including private ones, regardless of existing project-level permissions.</li></ul>',
   'global_permissions.provisioning': 'Projects',
   'global_permissions.provisioning.desc':
     'Ability to initialize a project so its settings can be configured before the first analysis.',
@@ -5832,7 +5832,7 @@ export const defaultMessages = {
     'View the project\'s source code (for private projects, users also need the "Browse" permission)',
   'projects_role.scan': 'Execute Analysis',
   'projects_role.scan.desc':
-    'Ability to get all settings required to perform an analysis (including the secured settings like passwords) and to push analysis results to the server.',
+    '<p>Grants the ability to:</p><ul><li>Retrieve all settings required to run the analysis, including secured credentials like passwords.</li><li>Push analysis results to SonarQube Server.</li></ul><br></br><p><b>Note:</b> Users with the "Execute Analysis" permission at the <b>SonarQube Server instance level</b> are able to scan this project, even if they don\'t have any explicit project permissions.</p>',
   'projects_role.bulk_change': 'Bulk Change',
   'projects_role.apply_template': 'Apply Permission Template',
   'projects_role.apply_template_to_x': 'Apply Permission Template To "{0}"',

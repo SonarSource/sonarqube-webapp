@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { executeAnalysisScanTooltipRichFormatValues } from '~shared/helpers/executeAnalysisScanTooltipRichFormatValues';
 import { Permissions } from '../types/permissions';
 import { PermissionDefinition, PermissionDefinitionGroup } from '../types/types';
 import { getIntl } from './l10nBundle';
@@ -61,6 +62,20 @@ function convertToPermissionDefinition(permission: string, l10nPrefix: string) {
   const intl = getIntl();
 
   const name = intl.formatMessage({ id: `${l10nPrefix}.${permission}` });
+
+  if (permission === Permissions.Scan) {
+    const descId = `${l10nPrefix}.scan.desc`;
+    const richValues =
+      l10nPrefix === 'global_permissions'
+        ? executeAnalysisScanTooltipRichFormatValues('p', 'ul', 'li')
+        : executeAnalysisScanTooltipRichFormatValues('p', 'ul', 'li', 'b', 'br');
+    return {
+      key: permission,
+      name,
+      description: intl.formatMessage({ id: descId }, richValues),
+    };
+  }
+
   const description = intl.formatMessage({ id: `${l10nPrefix}.${permission}.desc` });
 
   return {
