@@ -21,7 +21,7 @@
 import { RatingBadgeSize } from '@sonarsource/echoes-react';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { CoverageIndicator, DuplicationsIndicator } from '../../design-system';
-import Measure from '../../sonar-aligned/components/measure/Measure';
+import AdapterMeasure from '../../sq-server-adapters/components/measure/Measure';
 import { BranchLike } from '../../types/branch-like';
 import { duplicationRatingConverter } from './utils';
 
@@ -37,7 +37,7 @@ interface Props {
   value: string | undefined;
 }
 
-export default function MeasureIndicator(props: Props) {
+export default function MeasureIndicator(props: Readonly<Props>) {
   const { className, metricKey, metricType, value } = props;
 
   if (
@@ -60,5 +60,5 @@ export default function MeasureIndicator(props: Props) {
     );
   }
 
-  return <Measure {...props} badgeSize={RatingBadgeSize.Small} />;
+  return <AdapterMeasure {...props} badgeSize={RatingBadgeSize.Small} />;
 }

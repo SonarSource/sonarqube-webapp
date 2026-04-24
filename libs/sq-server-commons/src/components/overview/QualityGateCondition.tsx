@@ -263,10 +263,10 @@ export class QualityGateCondition extends React.PureComponent<Props> {
     const actual = (condition.period ? measure.period?.value : measure.value) as string;
 
     return this.wrapWithLink(
-      <div className="sw-flex sw-items-center sw-p-2">
+      <div className="sw-flex sw-items-center sw-gap-4 sw-p-2">
         <MeasureIndicator
           branchLike={branchLike}
-          className="sw-flex sw-justify-center sw-w-300 sw-mx-4"
+          className="sw-flex sw-justify-center sw-w-300"
           componentKey={component.key}
           decimals={2}
           forceRatingMetric
