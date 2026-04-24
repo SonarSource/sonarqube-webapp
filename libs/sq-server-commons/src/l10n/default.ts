@@ -2243,6 +2243,21 @@ export const defaultMessages = {
   'architecture.page.weak_tangle': 'Weak Tangle Details',
   'architecture.page.weak_tangles.count':
     '{count, plural, one {<bold>1</bold> Weak Tangle} other {<bold>{count}</bold> Weak Tangles}}',
+  'architecture.page.split_responsibilities': 'Split responsibilities',
+  'architecture.page.split_responsibility': 'Split responsibility details',
+  'architecture.page.split_responsibilities.count':
+    '{count, plural, one {<bold>1</bold> split responsibility component} other {<bold>{count}</bold> split responsibility components}}',
+  'architecture.split_responsibility.issue_name': 'Split responsibility {index}',
+  'architecture.split_responsibility.detail_breadcrumb':
+    '{container} · depth {depth} · {fragments} fragments · {classes} classes',
+  'architecture.split_responsibility.subtitle':
+    '{depth} · {fragments} fragments · {classes} classes · {container}',
+  'architecture.split_responsibility.table.name': 'Name',
+  'architecture.split_responsibility.table.depth': 'Highest depth',
+  'architecture.split_responsibility.table.fragments': 'Fragments',
+  'architecture.split_responsibility.table.classes': 'Classes',
+  'architecture.split_responsibility.table.location': 'Location',
+  'architecture.split_responsibility.table.empty': 'No split responsibility components found',
   'architecture.page.smells': 'Smells',
   'architecture.page.smells_description':
     'Shows potential structural problems in the codebase that may degrade maintainability over time. A common example is a weak tangle, where several files or classes are connected in a way that is close to forming cyclic dependencies.',
