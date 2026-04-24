@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LightComponent } from '~shared/types/component';
+import { useComponent } from '../../context/componentContext/withComponentContext';
 
-export function useCanUpdateArchitectureModel(component: LightComponent): boolean {
-  return component.configuration?.showSettings ?? false;
+export function useCanUpdateArchitectureModel(): boolean {
+  const { component } = useComponent();
+  return component?.configuration?.showSettings ?? false;
 }
