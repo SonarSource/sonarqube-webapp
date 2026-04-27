@@ -2086,6 +2086,8 @@ export const defaultMessages = {
   'architecture.page.discovery.copy_component_path_to_clipboard':
     'Copy the component path to the clipboard',
   'architecture.page.model.visual.title': 'Intended architecture',
+  'architecture.page.model.visual.title.edit_mode': 'Edit "{label}"',
+  'architecture.page.model.visual.title.view_mode': 'View "{label}"',
   'architecture.page.model.visual.legend': 'Legend',
   'architecture.page.model.visual.legend.title': 'How to read the map',
   'architecture.page.model.visual.legend.bullet.1':
@@ -2220,6 +2222,8 @@ export const defaultMessages = {
     'Some components have no relationships defined:',
   'architecture.page.model.edit.orphan_warning.stay': 'Continue editing',
   'architecture.page.model.edit.orphan_warning.save': 'Save anyway',
+  'architecture.page.model.edit.interface_warning.description':
+    'Without at least one interface member, all components will be inaccessible from the outside.',
   'architecture.page.model.modal.add_component': 'Add Component',
   'architecture.page.model.modal.add_subcomponent': 'Add Sub-Component',
   'architecture.page.model.modal.add_component.title': 'New Component',
@@ -2235,6 +2239,12 @@ export const defaultMessages = {
   'architecture.page.model.modal.select_placeholder': 'Select a component...',
   'architecture.page.model.modal.name_in_intended_architecture': 'Name in intended architecture',
   'architecture.page.model.node.action_needed': 'You must define relationships.',
+  'architecture.page.model.view_details': 'View details',
+  'architecture.page.model.interface_badge.has_hidden_children':
+    '{count, plural, one {# hidden group} other {# hidden groups}}',
+  'architecture.page.model.interface_member': 'Interface member',
+  'architecture.page.model.spotlight.interfaces_warning':
+    'Interface design is enabled. All child components are unreachable by default — enable individual components as interface members to make them accessible from outside.',
   'architecture.page.tangles': 'Tangles',
   'architecture.page.tangle': 'Tangle Details',
   'architecture.page.tangles.count':
