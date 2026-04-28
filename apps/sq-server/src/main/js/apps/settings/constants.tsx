@@ -68,6 +68,7 @@ export const CATEGORY_OVERRIDES: Record<string, string> = {
   php: LANGUAGES_CATEGORY,
   'pl/i': LANGUAGES_CATEGORY,
   'pl/sql': LANGUAGES_CATEGORY,
+  powershell: LANGUAGES_CATEGORY,
   python: LANGUAGES_CATEGORY,
   rpg: LANGUAGES_CATEGORY,
   ruby: LANGUAGES_CATEGORY,
