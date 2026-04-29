@@ -894,6 +894,203 @@ export const defaultMessages = {
   'code.page': 'Code',
   'permissions.page': 'Permissions',
   'quality_profiles.page': 'Quality profiles',
+  'cost_savings.page': 'Cost Savings',
+  'cost_savings.headline': 'saved in developer time',
+  'cost_savings.based_on_issues': 'Based on {count} issues resolved before reaching production.',
+  'cost_savings.net_new_debt': 'in net new technical debt',
+  'cost_savings.net_new_debt_explanation':
+    'This typically happens when onboarding new projects or during rapid development phases.',
+  'cost_savings.defaults_banner': 'Estimated using industry defaults ($75/hr, Technology, US).',
+  'cost_savings.configure_profile': 'Configure your company profile',
+  'cost_savings.methodology': 'How is this calculated?',
+  'cost_savings.security': 'Security',
+  'cost_savings.reliability': 'Reliability',
+  'cost_savings.maintainability': 'Maintainability',
+  'cost_savings.dimension': 'Dimension',
+  'cost_savings.hours': 'Hours',
+  'cost_savings.savings': 'Savings',
+  'cost_savings.multiplier': 'Multiplier',
+  'cost_savings.issues_found': 'issues found',
+  'cost_savings.industry_benchmark': 'Avg. industry breach cost',
+  'cost_savings.owasp': 'OWASP',
+  'cost_savings.time_saved.title': 'Developer Time Saved',
+  'cost_savings.time_saved.description':
+    'Effort saved by detecting and resolving issues before they reach production, valued using industry-standard phase cost multipliers.',
+  'cost_savings.trends.title': 'Savings Over Time',
+  'cost_savings.security_risk.title': 'Security Risk Context',
+  'cost_savings.security_risk.description':
+    'Vulnerability categories detected by SonarQube alongside industry breach cost benchmarks. These are contextual benchmarks, not dollar savings predictions.',
+  'cost_savings.confidence.high': 'HIGH CONFIDENCE',
+  'cost_savings.confidence.estimated': 'ESTIMATED',
+  'cost_savings.confidence.contextual': 'CONTEXTUAL',
+  'cost_savings.sca.title': 'Dependency Vulnerabilities',
+  'cost_savings.revenue_context.title': 'Revenue-Linked Exposure',
+  'cost_savings.empty.no_data.title': 'See what SonarQube saves your organization',
+  'cost_savings.empty.no_data.description':
+    'This dashboard measures developer time saved by catching issues early and provides security risk context using industry breach cost benchmarks.',
+  'cost_savings.empty.no_data.cta': 'Run your first analysis to start tracking savings.',
+  'cost_savings.empty.no_security.message':
+    'No security vulnerabilities detected across your projects. SonarQube is actively scanning for SQL injection, XSS, authentication weaknesses, and other vulnerability classes. As vulnerabilities are identified, this section will show how they compare to industry breach benchmarks.',
+  'cost_savings.config.title': 'Company Profile',
+  'cost_savings.config.industry': 'Industry',
+  'cost_savings.config.region': 'Region',
+  'cost_savings.config.hourly_rate': 'Hourly Developer Rate (USD)',
+  'cost_savings.config.hourly_rate_help':
+    'Fully loaded rate. Default: $75. Or calculate: (avg salary × 1.4 burden) / 2,080 hours.',
+  'cost_savings.config.annual_revenue': 'Annual Revenue (USD)',
+  'cost_savings.config.annual_revenue_help':
+    'Enables GDPR fine exposure and ransomware cost context in the Security Risk section.',
+  'cost_savings.config.employee_count': 'Employee Count',
+  'cost_savings.config.developer_count': 'Developer Count',
+  'cost_savings.config.optional': 'Optional',
+  'cost_savings.methodology.title': 'How Are These Numbers Calculated?',
+  'cost_savings.methodology.tier_a.title': 'Tier A: Developer Time Saved (HIGH confidence)',
+  'cost_savings.methodology.tier_a.description':
+    'Uses SonarQube remediation effort data (minutes per issue) multiplied by your hourly rate and a phase cost multiplier. The multiplier reflects what the fix would have cost if found in production instead of development.',
+  'cost_savings.methodology.tier_b.title': 'Tier B: Security Risk Context (contextual)',
+  'cost_savings.methodology.tier_b.description':
+    'Shows what SonarQube detected alongside what those vulnerability classes cost the industry. Does not calculate dollar savings or use probability math. Benchmark costs are industry averages from IBM/Ponemon (updated annually).',
+  'cost_savings.methodology.issue_type': 'Issue Type',
+  'cost_savings.methodology.multiplier': 'Multiplier',
+  'cost_savings.methodology.source': 'Source',
+  'cost_savings.methodology.bugs_smells': 'Bugs & Code Smells',
+  'cost_savings.methodology.vulnerabilities': 'Vulnerabilities',
+  'cost_savings.methodology.limitations': 'Limitations',
+  'cost_savings.methodology.limitation_1':
+    'SAST coverage is partial. Cannot detect runtime vulnerabilities, business logic flaws, or infrastructure misconfiguration.',
+  'cost_savings.methodology.limitation_2':
+    'Remediation effort estimates are rule-static approximations — same minutes per instance regardless of context.',
+  'cost_savings.methodology.limitation_3':
+    'Risk context is industry benchmarks, not predictions. Breach costs shown are averages from published research.',
+  'cost_savings.methodology.limitation_4':
+    'No causal claims. Identifying a vulnerability is not the same as preventing a breach.',
+  'cost_savings.methodology.limitation_5':
+    'The "100x" cost multiplier is not used. We use Boehm\'s revised 5:1 (2001) and HackerOne\'s empirical 30:1.',
+  'cost_savings.methodology.references': 'References',
+  'cost_savings.projects.label': '{count} of {total} projects',
+  'cost_savings.projects.select_all': 'All',
+  'cost_savings.projects.select_none': 'None',
+  'cost_savings.projects.selected_total':
+    'Selected: {count} projects \u00B7 {total} estimated savings',
+  'cost_savings.config.saved': 'Company profile saved successfully.',
+  'cost_savings.config.save_error':
+    'Failed to save company profile. Check your permissions and try again.',
+  'cost_savings.tooltip.time_saved':
+    'Calculated as: remediation hours \u00D7 hourly rate \u00D7 phase multiplier (5x bugs, 30x vulnerabilities)',
+  'cost_savings.tooltip.benchmark':
+    'IBM/Ponemon Cost of a Data Breach 2025. Industry average based on 604 organizations surveyed.',
+  'cost_savings.source.multiplier':
+    '5x\u201330x production cost multiplier \u00B7 Boehm 2001, HackerOne',
+  'cost_savings.view_issues': 'View issues',
+  'cost_savings.delta.vs_previous': 'vs. previous {period}',
+  'cost_savings.industry_context.label': 'Industry context',
+  'cost_savings.industry_context.benchmark':
+    'In {industry}, the average data breach costs {cost} (IBM/Ponemon 2025).',
+  'cost_savings.source.breach_benchmark':
+    'IBM/Ponemon Cost of a Data Breach 2025 \u00B7 {industry} sector',
+  'cost_savings.retention_hook':
+    'SonarQube is actively monitoring {categoryCount} vulnerability categories across {projectCount} projects.',
+  'cost_savings.counterfactual':
+    'If you stopped scanning today, approximately {issuesPerMonth} new issues per month would go undetected \u2014 representing {dollarsPerMonth}/month in growing unmanaged risk.',
+  'cost_savings.source.counterfactual': 'Based on your historical issue creation rate.',
+  'cost_savings.export.label': 'Export',
+  'cost_savings.export.copy_summary': 'Copy summary to clipboard',
+  'cost_savings.export.print': 'Print / Save as PDF',
+  'cost_savings.export.copied': 'Summary copied to clipboard.',
+  'cost_savings.narrative.text':
+    'In {periodLabel}, SonarQube analyzed {projectCount} projects and identified {vulnCount} open security vulnerabilities spanning {categoryCount} categories ({categoryNames}). Estimated developer time savings from early detection: {timeSaved} ({hours} at {rate}/hr, including phase cost multipliers). For context, the average data breach in {industry} costs {benchmarkCost} (IBM/Ponemon 2025).',
+  'cost_savings.narrative.copy': 'Copy narrative to clipboard',
+  'cost_savings.roi.title': 'Return on Investment',
+  'cost_savings.roi.headline': 'SonarQube delivers a {ratio}:1 return on your investment.',
+  'cost_savings.roi.prompt': 'Add your SonarQube license cost to see your ROI.',
+  'cost_savings.roi.configure': 'Configure license cost',
+  'cost_savings.roi.license_cost': 'SonarQube License Cost',
+  'cost_savings.roi.savings': 'Total Savings',
+  'cost_savings.config.license_cost': 'SonarQube Annual License Cost (USD)',
+  'cost_savings.config.license_cost_help':
+    'Used to calculate return on investment. The ratio of total savings to license cost.',
+  'cost_savings.compliance.summary':
+    'Findings map to {count} compliance framework controls across {frameworks}.',
+  'cost_savings.config.telemetry_opt_in': 'Participate in anonymous benchmarking',
+  'cost_savings.config.telemetry_opt_in_help':
+    'When enabled, anonymized calculation metrics (industry, project count, savings range) are collected to power industry benchmarks. No project names, company names, or IP addresses are collected.',
+  'cost_savings.config.advanced': 'Advanced Settings',
+  'cost_savings.config.token_price': 'Token Price per Million (USD)',
+  'cost_savings.config.token_price_help':
+    'Price per million tokens for AI-assisted remediation cost estimates. Default: $2.00.',
+  'cost_savings.benchmark.title': 'Industry Benchmark Comparison',
+  'cost_savings.benchmark.description':
+    'Your security posture: {savings} saved. {industry} average: {industryAvg}.',
+  'cost_savings.benchmark.your_savings': 'Your Savings',
+  'cost_savings.benchmark.industry_avg': '{industry} Average',
+  'cost_savings.benchmark.based_on': 'Based on anonymized data from {count} organizations.',
+  'cost_savings.benchmark.opt_in_prompt':
+    'Opt in to anonymous benchmarking to see how you compare to {industry} peers.',
+  'cost_savings.maturity.title': 'Value Maturity Curve',
+  'cost_savings.maturity.description':
+    'Year 1 customers typically see {y1}. By year 3: {y3}. You are here: {current}.',
+  'cost_savings.maturity.projected': 'Projected Savings',
+  'cost_savings.maturity.you': 'You',
+  'cost_savings.share_summary': 'Share summary link',
+  'cost_savings.summary_link_copied': 'Summary link copied to clipboard.',
+  'cost_savings.summary.title': 'Cost Savings Summary',
+  'cost_savings.summary.headline': 'SonarQube Cost Savings Summary',
+  'cost_savings.summary.breakdown': 'Savings by Dimension',
+  'cost_savings.summary.top_vulnerabilities': 'Top Vulnerability Categories',
+  'cost_savings.summary.issues_found': 'issues found',
+  'cost_savings.summary.industry_benchmark': 'Industry benchmark',
+  'cost_savings.summary.footer':
+    'Generated by SonarQube Cost Savings Dashboard. Data reflects latest analysis.',
+  'cost_savings.time_saved.issues_per_kloc': 'open issues per thousand lines of code',
+  'cost_savings.time_saved.issues_per_kloc_source': 'Open issue density from SonarQube analysis.',
+  'cost_savings.time_saved.savings_includes_multiplier':
+    'Includes phase cost multiplier (5x for bugs/smells, 30x for vulnerabilities)',
+  'cost_savings.ai_code.title': 'AI Code Assurance',
+  'cost_savings.ai_code.promo_title': 'AI Code Assurance',
+  'cost_savings.ai_code.promo_description':
+    'Enable AI Code Assurance to track the quality of AI-generated code and compare issue density between human and AI-written code.',
+  'cost_savings.ai_code.learn_more': 'Learn more about AI Code Assurance',
+  'cost_savings.ai_code.pass_rate': 'AI Code Assurance pass rate',
+  'cost_savings.ai_code.issues_found': 'issues found in AI-generated code',
+  'cost_savings.ai_code.density_comparison': 'Issue density comparison',
+  'cost_savings.error.title': 'Unable to load Cost Savings',
+  'cost_savings.error.description':
+    'An error occurred while loading the Cost Savings dashboard. Please try again later or contact your administrator.',
+  'cost_savings.loading': 'Calculating savings across {count} projects\u2026',
+  'cost_savings.single_scan_notice':
+    'Savings are estimated from current detected issues. Run additional analyses over time for period-over-period trend data.',
+  'cost_savings.methodology.limitation_single_scan':
+    'Projects with a single scan show estimated savings from currently detected issues, not resolved work over time.',
+  'cost_savings.methodology.ai_remediation.title': 'AI-Assisted Remediation Cost',
+  'cost_savings.methodology.ai_remediation.description':
+    'If all {issueCount} issues were remediated with AI assistance, the estimated cost would be {tokens} tokens ({tokenCost}) plus {hours} hours of human review ({humanCost}), totaling {totalCost}.',
+  'cost_savings.methodology.ai_remediation.token_consumption': 'AI token consumption',
+  'cost_savings.methodology.ai_remediation.human_review': 'Human review time',
+  'cost_savings.methodology.ai_remediation.total': 'Total estimated cost',
+  'cost_savings.settings': 'Settings',
+  'cost_savings.single_scan_period_note':
+    '(Based on current snapshot \u2014 scan regularly for period-based trends)',
+  'cost_savings.single_scan_banner':
+    'These figures estimate the value of currently detected issues. Run additional analyses over time to see measured savings from resolved work.',
+  'cost_savings.estimated_savings': 'Estimated Savings',
+  'cost_savings.estimated_savings.measured': 'Estimated Savings',
+  'cost_savings.estimated_savings.estimated': 'Estimated Detection Value',
+  'cost_savings.comparison.title': 'Investment vs. Return',
+  'cost_savings.comparison.fix_now': 'Cost to fix now (AI-assisted)',
+  'cost_savings.comparison.fix_now_detail':
+    'AI token cost + developer review time for all detected issues',
+  'cost_savings.comparison.production_cost': 'Estimated cost if found in production',
+  'cost_savings.comparison.production_cost_detail':
+    'Based on 5\u201330x production cost multipliers (Boehm & Basili 2001, HackerOne)',
+  'cost_savings.comparison.net_value': 'Net value of early detection',
+  'cost_savings.stat.issues_resolved': 'Issues Resolved',
+  'cost_savings.stat.projects': 'Projects Analyzed',
+  'cost_savings.stat.vuln_categories': 'Vuln. Categories',
+  'cost_savings.stat.hourly_rate': 'Developer Rate',
+  'cost_savings.detail_preview.security': '{count} categories monitored',
+  'cost_savings.detail_preview.roi': '{ratio}x return',
+  'cost_savings.trends.empty':
+    'No trend data available yet. Run additional analyses over time to see savings trends here.',
   'quality_gates.page': 'Quality gates',
   'patterns.page': 'Patterns (architecture)',
   'issues.page': 'Issues',
