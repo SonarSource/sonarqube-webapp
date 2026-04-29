@@ -2021,7 +2021,6 @@ export const componentMap = {
   MigrationUsers: 'Excluded',
   PaidCurrentPlan: 'Excluded',
   DeleteModal: 'Excluded',
-  AccountTopBar: 'Excluded',
   SAMLConfiguration: 'Excluded',
   OrganizationSettingsTabs: 'Excluded',
   GlobalKeyboardShortcutsModal: 'Excluded',

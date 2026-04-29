@@ -686,8 +686,6 @@ export const defaultMessages = {
   'layout.security_reports': 'Security reports',
   'layout.nav.home_logo_alt': 'Logo, link to homepage',
   'layout.nav.home_sonarqube_logo_alt': '{productName} logo, link to homepage',
-  'layout.must_be_configured':
-    'This will be available once your project is configured and analyzed.',
 
   'sidebar.projects': 'Projects',
   'sidebar.project_settings': 'Configuration',
