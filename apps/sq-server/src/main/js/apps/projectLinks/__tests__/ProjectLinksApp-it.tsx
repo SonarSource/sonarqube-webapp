@@ -53,6 +53,20 @@ afterEach(() => {
   componentsMock.reset();
 });
 
+it('can add a link with maximum allowed name and url length', async () => {
+  const { ui } = getPageObjects();
+  const maxLengthName = 'a'.repeat(128);
+  const maxLengthUrl = 'https://example.com/' + 'a'.repeat(2028);
+
+  renderProjectLinksApp();
+  await ui.appIsLoaded();
+
+  await ui.createLink(maxLengthName, maxLengthUrl);
+  expect(await byText(maxLengthName).find()).toBeInTheDocument();
+  expect(byText(maxLengthUrl).get()).toBeInTheDocument();
+  expect(ui.deleteLinkButton(maxLengthName).get()).toBeInTheDocument();
+});
+
 it('renders project links app and can do CRUD operations', async () => {
   const { ui } = getPageObjects();
 

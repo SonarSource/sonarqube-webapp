@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, TextInput } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormField, InputField, Modal } from '~design-system';
 import MandatoryFieldsExplanation from '~sq-server-commons/components/ui/MandatoryFieldsExplanation';
@@ -81,15 +81,15 @@ export default class CreationModal extends React.PureComponent<Props, State> {
         </FormField>
 
         <FormField htmlFor="create-link-url" label={translate('project_links.url')} required>
-          <InputField
+          <TextInput
             id="create-link-url"
-            maxLength={128}
+            isRequired
+            maxLength={2048}
             name="url"
             onChange={this.handleUrlChange}
-            required
-            size="auto"
             type="text"
             value={this.state.url}
+            width="full"
           />
         </FormField>
       </form>

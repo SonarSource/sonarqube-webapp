@@ -18,9 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ButtonIcon, ButtonSize, ButtonVariety, IconDelete, Text } from '@sonarsource/echoes-react';
+import {
+  ButtonIcon,
+  ButtonSize,
+  ButtonVariety,
+  IconDelete,
+  Link,
+  Text,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { ActionCell, ContentCell, Link, TableRow } from '~design-system';
+import { ActionCell, ContentCell, TableRow } from '~design-system';
 import ConfirmButton from '~sq-server-commons/components/controls/ConfirmButton';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getLinkName, isProvided } from '~sq-server-commons/helpers/projectLinks';
@@ -90,9 +97,9 @@ export default class LinkRow extends React.PureComponent<Props> {
             </div>
           )}
         </ContentCell>
-        <ContentCell>
+        <ContentCell className="sw-break-all">
           {isValidUri(link.url) ? (
-            <Link target="_blank" to={link.url}>
+            <Link enableOpenInNewTab to={link.url}>
               {link.url}
             </Link>
           ) : (
