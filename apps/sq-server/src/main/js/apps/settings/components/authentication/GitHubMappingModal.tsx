@@ -18,26 +18,35 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
-import { useGithubRolesMappingQuery } from '~sq-server-commons/queries/identity-provider/github';
+import {
+  useGithubRolesMappingMutation,
+  useGithubRolesMappingQuery,
+} from '~sq-server-commons/queries/identity-provider/github';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { DevopsRolesMapping } from '~sq-server-commons/types/provisioning';
 import { DevopsRolesMappingModal } from './DevopsRolesMappingModal';
 
 interface Props {
-  mapping: DevopsRolesMapping[] | null;
   onClose: () => void;
-  setMapping: React.Dispatch<React.SetStateAction<DevopsRolesMapping[] | null>>;
 }
 
-export default function GitHubMappingModal(props: Readonly<Props>) {
+export default function GitHubMappingModal({ onClose }: Readonly<Props>) {
   const { data: roles, isPending } = useGithubRolesMappingQuery();
+  const { mutateAsync: updateMapping, isPending: isSaving } = useGithubRolesMappingMutation();
+
+  const handleSave = async (mapping: DevopsRolesMapping[]) => {
+    await updateMapping(mapping);
+    onClose();
+  };
+
   return (
     <DevopsRolesMappingModal
       isLoading={isPending}
+      isSaving={isSaving}
       mappingFor={AlmKeys.GitHub}
+      onClose={onClose}
+      onSave={handleSave}
       roles={roles}
-      {...props}
     />
   );
 }

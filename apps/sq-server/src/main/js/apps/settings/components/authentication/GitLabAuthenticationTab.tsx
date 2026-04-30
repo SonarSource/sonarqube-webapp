@@ -31,13 +31,11 @@ import { useIdentityProviderQuery } from '~sq-server-commons/queries/identity-pr
 import {
   useDeleteGitLabConfigurationMutation,
   useGitLabConfigurationsQuery,
-  useGitlabRolesMappingMutation,
   useSyncWithGitLabNow,
   useUpdateGitLabConfigurationMutation,
 } from '~sq-server-commons/queries/identity-provider/gitlab';
 import { Feature } from '~sq-server-commons/types/features';
 import {
-  DevopsRolesMapping,
   GitLabConfigurationUpdateBody,
   ProvisioningType,
 } from '~sq-server-commons/types/provisioning';
@@ -96,8 +94,6 @@ export default function GitLabAuthenticationTab() {
   const [tokenKey, setTokenKey] = useState<number>(0);
   const [showConfirmProvisioningModal, setShowConfirmProvisioningModal] = useState(false);
   const [isMappingModalOpen, setIsMappingModalOpen] = useState(false);
-  const [rolesMapping, setRolesMapping] = useState<DevopsRolesMapping[] | null>(null);
-  const { mutateAsync: updateMapping } = useGitlabRolesMappingMutation();
 
   const hasGitlabProvisioningFeature = useContext(AvailableFeaturesContext).includes(
     Feature.GitlabProvisioning,
@@ -147,7 +143,7 @@ export default function GitLabAuthenticationTab() {
   };
 
   const updateProvisioning = () => {
-    if ((!changes && !rolesMapping) || !configuration) {
+    if (!changes || !configuration) {
       return;
     }
 
@@ -160,14 +156,6 @@ export default function GitLabAuthenticationTab() {
         },
       },
     );
-
-    if (provisioningType === ProvisioningType.auto && rolesMapping) {
-      updateMapping(rolesMapping)
-        .then(() => {
-          setRolesMapping(null);
-        })
-        .catch(() => {});
-    }
   };
 
   const setJIT = () => {
@@ -198,13 +186,10 @@ export default function GitLabAuthenticationTab() {
   const provisioningToken = changes?.provisioningToken;
 
   const canSave = () => {
-    if (!configuration || (changes === undefined && rolesMapping === null) || isUpdating) {
+    if (!configuration || changes === undefined || isUpdating) {
       return false;
     }
     const type = changes?.provisioningType ?? configuration.provisioningType;
-    if (type === ProvisioningType.auto && rolesMapping !== null) {
-      return true;
-    }
     if (changes && type === ProvisioningType.auto) {
       const areGroupsDefined =
         changes.allowedGroups?.some((val) => val !== '') ??
@@ -365,7 +350,7 @@ export default function GitLabAuthenticationTab() {
               enabled={configuration.enabled}
               hasDifferentProvider={hasDifferentProvider}
               hasFeatureEnabled={hasGitlabProvisioningFeature}
-              hasUnsavedChanges={changes !== undefined || rolesMapping !== null}
+              hasUnsavedChanges={changes !== undefined}
               isLoading={isUpdating}
               jitDescription={
                 <FormattedMessage
@@ -411,7 +396,6 @@ export default function GitLabAuthenticationTab() {
               onCancel={() => {
                 setChanges(undefined);
                 setTokenKey(tokenKey + 1);
-                setRolesMapping(null);
               }}
               onChangeProvisioningType={(val: ProvisioningType) => {
                 if (val === ProvisioningType.auto) {
@@ -444,11 +428,9 @@ export default function GitLabAuthenticationTab() {
       )}
       {isMappingModalOpen && (
         <GitLabMappingModal
-          mapping={rolesMapping}
           onClose={() => {
             setIsMappingModalOpen(false);
           }}
-          setMapping={setRolesMapping}
         />
       )}
       {openForm && (

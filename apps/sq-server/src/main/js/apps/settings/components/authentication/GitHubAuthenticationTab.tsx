@@ -33,13 +33,10 @@ import {
   useUpdateGitHubConfigurationMutation,
 } from '~sq-server-commons/queries/dop-translation';
 import { useIdentityProviderQuery } from '~sq-server-commons/queries/identity-provider/common';
-import {
-  useGithubRolesMappingMutation,
-  useSyncWithGitHubNow,
-} from '~sq-server-commons/queries/identity-provider/github';
+import { useSyncWithGitHubNow } from '~sq-server-commons/queries/identity-provider/github';
 import { GitHubConfigurationPayload } from '~sq-server-commons/types/dop-translation';
 import { Feature } from '~sq-server-commons/types/features';
-import { DevopsRolesMapping, ProvisioningType } from '~sq-server-commons/types/provisioning';
+import { ProvisioningType } from '~sq-server-commons/types/provisioning';
 import { Provider } from '~sq-server-commons/types/types';
 import GitHubSynchronisationWarning from '../../../../app/components/GitHubSynchronisationWarning';
 import AuthenticationFormField from './AuthenticationFormField';
@@ -63,7 +60,6 @@ export default function GitHubAuthenticationTab() {
   const [tokenKey, setTokenKey] = React.useState<number>(0);
   const [isConfirmProvisioningModalOpen, setIsConfirmProvisioningModalOpen] = React.useState(false);
   const [isMappingModalOpen, setIsMappingModalOpen] = useState(false);
-  const [rolesMapping, setRolesMapping] = useState<DevopsRolesMapping[] | null>(null);
 
   const hasGithubProvisioning = useContext(AvailableFeaturesContext).includes(
     Feature.GithubProvisioning,
@@ -77,8 +73,6 @@ export default function GitHubAuthenticationTab() {
 
   const { mutate: updateConfig, isPending: isUpdating } = useUpdateGitHubConfigurationMutation();
   const { mutate: deleteConfig, isPending: isDeleting } = useDeleteGitHubConfigurationMutation();
-  const { mutateAsync: updateMapping } = useGithubRolesMappingMutation();
-
   const { formatMessage } = useIntl();
 
   const hasConfiguration = gitHubConfiguration !== undefined;
@@ -95,8 +89,6 @@ export default function GitHubAuthenticationTab() {
   const projectVisibility = changes?.projectVisibility ?? gitHubConfiguration?.projectVisibility;
 
   const onChangeProvisioningType = (val?: ProvisioningType) => {
-    setRolesMapping(null);
-
     if (val === ProvisioningType.auto) {
       setAutoProvisioning();
     } else if (val === ProvisioningType.jit) {
@@ -141,7 +133,7 @@ export default function GitHubAuthenticationTab() {
   };
 
   const onUpdateProvisioning = () => {
-    if ((!changes && !rolesMapping) || !gitHubConfiguration) {
+    if (!changes || !gitHubConfiguration) {
       return;
     }
 
@@ -157,13 +149,6 @@ export default function GitHubAuthenticationTab() {
         },
       },
     );
-    if (provisioningType === ProvisioningType.auto && rolesMapping) {
-      updateMapping(rolesMapping)
-        .then(() => {
-          setRolesMapping(null);
-        })
-        .catch(() => {});
-    }
   };
 
   const setAutoProvisioning = () => {
@@ -309,7 +294,7 @@ export default function GitHubAuthenticationTab() {
               enabled={isConfigurationEnabled}
               hasDifferentProvider={hasDifferentProvider}
               hasFeatureEnabled={hasGithubProvisioning}
-              hasUnsavedChanges={changes !== undefined || rolesMapping !== null}
+              hasUnsavedChanges={changes !== undefined}
               isLoading={isUpdating}
               jitDescription={
                 <FormattedMessage
@@ -366,11 +351,9 @@ export default function GitHubAuthenticationTab() {
 
             {isMappingModalOpen && (
               <GitHubMappingModal
-                mapping={rolesMapping}
                 onClose={() => {
                   setIsMappingModalOpen(false);
                 }}
-                setMapping={setRolesMapping}
               />
             )}
           </>

@@ -147,10 +147,15 @@ const ui = {
   getMappingRowByRole: (text: string) =>
     ui.mappingRow.getAll().find((row) => within(row).queryByText(text) !== null),
   mappingCheckbox: byRole('checkbox'),
-  mappingDialogClose: byRole('dialog', {
+  mappingDialogSave: byRole('dialog', {
     name: 'settings.authentication.configuration.roles_mapping.dialog.title.alm.github',
   }).byRole('button', {
-    name: 'close',
+    name: 'save',
+  }),
+  mappingDialogCancel: byRole('dialog', {
+    name: 'settings.authentication.configuration.roles_mapping.dialog.title.alm.github',
+  }).byRole('button', {
+    name: 'cancel',
   }),
   deleteOrg: (org: string) =>
     byRole('button', {
@@ -840,14 +845,11 @@ describe('Github tab', () => {
       await user.click(readCheckboxes[0]);
       await user.click(readCheckboxes[5]);
       await user.click(adminCheckboxes[5]);
-      await user.click(ui.mappingDialogClose.get());
+      await user.click(ui.mappingDialogSave.get());
 
+      // Save provisioning type change separately
       await user.click(ui.saveGithubProvisioning.get());
       await user.click(ui.confirmProvisioningButton.get());
-
-      // Clean local mapping state
-      await user.click(ui.jitProvisioningButton.get());
-      await user.click(ui.githubProvisioningButton.get());
 
       await user.click(ui.editMappingButton.get());
       readCheckboxes = ui.mappingCheckbox.getAll(ui.getMappingRowByRole('read'));
@@ -856,7 +858,7 @@ describe('Github tab', () => {
       expect(readCheckboxes[0]).not.toBeChecked();
       expect(readCheckboxes[5]).toBeChecked();
       expect(adminCheckboxes[5]).not.toBeChecked();
-      await user.click(ui.mappingDialogClose.get());
+      await user.click(ui.mappingDialogCancel.get());
     });
 
     it('should apply new mapping on auto-provisioning', async () => {
@@ -865,8 +867,7 @@ describe('Github tab', () => {
       renderAuthentication([Feature.GithubProvisioning]);
       await user.click(await ui.tab.find());
 
-      expect(await ui.saveGithubProvisioning.find()).toBeDisabled();
-      await user.click(ui.editMappingButton.get());
+      await user.click(await ui.editMappingButton.find());
 
       expect(await ui.mappingRow.findAll()).toHaveLength(7);
 
@@ -875,22 +876,13 @@ describe('Github tab', () => {
       expect(readCheckboxes).toBeChecked();
 
       await user.click(readCheckboxes);
-      await user.click(ui.mappingDialogClose.get());
-
-      expect(await ui.saveGithubProvisioning.find()).toBeEnabled();
-
-      await user.click(ui.saveGithubProvisioning.get());
-      await user.click(ui.confirmProvisioningButton.get());
-
-      // Clean local mapping state
-      await user.click(ui.jitProvisioningButton.get());
-      await user.click(ui.githubProvisioningButton.get());
+      await user.click(ui.mappingDialogSave.get());
 
       await user.click(ui.editMappingButton.get());
       readCheckboxes = ui.mappingCheckbox.getAll(ui.getMappingRowByRole('read'))[0];
 
       expect(readCheckboxes).not.toBeChecked();
-      await user.click(ui.mappingDialogClose.get());
+      await user.click(ui.mappingDialogCancel.get());
     });
 
     it('should add/remove/update custom roles', async () => {
@@ -901,8 +893,7 @@ describe('Github tab', () => {
       renderAuthentication([Feature.GithubProvisioning]);
       await user.click(await ui.tab.find());
 
-      expect(await ui.saveGithubProvisioning.find()).toBeDisabled();
-      await user.click(ui.editMappingButton.get());
+      await user.click(await ui.editMappingButton.find());
 
       const rows = (await ui.mappingRow.findAll()).filter(
         (row) => within(row).queryAllByRole('checkbox').length > 0,
@@ -950,20 +941,11 @@ describe('Github tab', () => {
       expect(custom3Checkboxes[5]).not.toBeChecked();
       await user.click(custom3Checkboxes[0]);
       expect(await ui.emptyRoleError.find()).toBeInTheDocument();
-      expect(ui.mappingDialogClose.get()).toBeDisabled();
+      expect(ui.mappingDialogSave.get()).toBeDisabled();
       await user.click(custom3Checkboxes[1]);
       expect(ui.emptyRoleError.query()).not.toBeInTheDocument();
-      expect(ui.mappingDialogClose.get()).toBeEnabled();
-      await user.click(ui.mappingDialogClose.get());
-
-      expect(await ui.saveGithubProvisioning.find()).toBeEnabled();
-      await user.click(ui.saveGithubProvisioning.get());
-
-      await user.click(ui.confirmProvisioningButton.get());
-
-      // Clean local mapping state
-      await user.click(ui.jitProvisioningButton.get());
-      await user.click(ui.githubProvisioningButton.get());
+      expect(ui.mappingDialogSave.get()).toBeEnabled();
+      await user.click(ui.mappingDialogSave.get());
 
       await user.click(ui.editMappingButton.get());
 
@@ -987,7 +969,7 @@ describe('Github tab', () => {
       expect(custom3Checkboxes[3]).not.toBeChecked();
       expect(custom3Checkboxes[4]).not.toBeChecked();
       expect(custom3Checkboxes[5]).not.toBeChecked();
-      await user.click(ui.mappingDialogClose.get());
+      await user.click(ui.mappingDialogCancel.get());
     });
 
     it('should should show insecure config warning', async () => {

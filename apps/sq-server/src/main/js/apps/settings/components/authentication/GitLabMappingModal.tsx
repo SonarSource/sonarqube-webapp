@@ -18,26 +18,35 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
-import { useGitlabRolesMappingQuery } from '~sq-server-commons/queries/identity-provider/gitlab';
+import {
+  useGitlabRolesMappingMutation,
+  useGitlabRolesMappingQuery,
+} from '~sq-server-commons/queries/identity-provider/gitlab';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { DevopsRolesMapping } from '~sq-server-commons/types/provisioning';
 import { DevopsRolesMappingModal } from './DevopsRolesMappingModal';
 
 interface Props {
-  mapping: DevopsRolesMapping[] | null;
   onClose: () => void;
-  setMapping: React.Dispatch<React.SetStateAction<DevopsRolesMapping[] | null>>;
 }
 
-export default function GitLabMappingModal(props: Readonly<Props>) {
+export default function GitLabMappingModal({ onClose }: Readonly<Props>) {
   const { data: roles, isPending } = useGitlabRolesMappingQuery();
+  const { mutateAsync: updateMapping, isPending: isSaving } = useGitlabRolesMappingMutation();
+
+  const handleSave = async (mapping: DevopsRolesMapping[]) => {
+    await updateMapping(mapping);
+    onClose();
+  };
+
   return (
     <DevopsRolesMappingModal
       isLoading={isPending}
+      isSaving={isSaving}
       mappingFor={AlmKeys.GitLab}
+      onClose={onClose}
+      onSave={handleSave}
       roles={roles}
-      {...props}
     />
   );
 }

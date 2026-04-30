@@ -44,16 +44,17 @@ import { DevopsRolesMapping } from '~sq-server-commons/types/provisioning';
 
 interface Props {
   isLoading: boolean;
-  mapping: DevopsRolesMapping[] | null;
+  isSaving: boolean;
   mappingFor: AlmKeys.GitHub | AlmKeys.GitLab;
   onClose: () => void;
+  onSave: (mapping: DevopsRolesMapping[]) => Promise<void>;
   roles?: DevopsRolesMapping[] | null;
-  setMapping: React.Dispatch<React.SetStateAction<DevopsRolesMapping[] | null>>;
 }
 
-interface PermissionCellProps extends Pick<Props, 'setMapping'> {
+interface PermissionCellProps {
   list?: DevopsRolesMapping[];
   mapping: DevopsRolesMapping;
+  setMapping: React.Dispatch<React.SetStateAction<DevopsRolesMapping[] | null>>;
 }
 
 const DEFAULT_CUSTOM_ROLE_PERMISSIONS: DevopsRolesMapping['permissions'] = {
@@ -66,12 +67,12 @@ const DEFAULT_CUSTOM_ROLE_PERMISSIONS: DevopsRolesMapping['permissions'] = {
 };
 
 function PermissionRow(props: Readonly<PermissionCellProps>) {
-  const { list, mapping } = props;
+  const { list, mapping, setMapping } = props;
   const { role, baseRole } = mapping;
   const intl = useIntl();
 
-  const setMapping = () => {
-    props.setMapping(list?.filter((r) => r.role !== role) ?? null);
+  const deleteRole = () => {
+    setMapping(list?.filter((r) => r.role !== role) ?? []);
   };
 
   return (
@@ -100,7 +101,7 @@ function PermissionRow(props: Readonly<PermissionCellProps>) {
                 { 0: role },
               )}
               className="sw-ml-1"
-              onClick={setMapping}
+              onClick={deleteRole}
               size={ButtonSize.Medium}
               variety={ButtonVariety.DangerGhost}
             />
@@ -114,12 +115,12 @@ function PermissionRow(props: Readonly<PermissionCellProps>) {
           id={`${mapping.id}-${key}`}
           key={key}
           onCheck={(newValue) => {
-            props.setMapping(
+            setMapping(
               list?.map((item) =>
                 item.id === mapping.id
                   ? { ...item, permissions: { ...item.permissions, [key]: newValue } }
                   : item,
-              ) ?? null,
+              ) ?? [],
             );
           }}
         />
@@ -129,13 +130,14 @@ function PermissionRow(props: Readonly<PermissionCellProps>) {
 }
 
 export function DevopsRolesMappingModal(props: Readonly<Props>) {
-  const { isLoading, mapping, mappingFor, onClose, roles, setMapping } = props;
+  const { isLoading, isSaving, mappingFor, onClose, onSave, roles } = props;
   const intl = useIntl();
 
   const permissions = convertToPermissionDefinitions(
     PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE,
     'projects_role',
   );
+  const [editedMapping, setEditedMapping] = React.useState<DevopsRolesMapping[] | null>(null);
   const [customRoleInput, setCustomRoleInput] = React.useState('');
   const [customRoleError, setCustomRoleError] = React.useState(false);
 
@@ -144,31 +146,31 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
     { 0: intl.formatMessage({ id: `alm.${mappingFor}` }) },
   );
 
-  const list = mapping ?? roles;
+  const list = editedMapping ?? roles ?? [];
 
   const validateAndAddCustomRole = (e: React.FormEvent) => {
     e.preventDefault();
     const value = customRoleInput.trim();
     if (
-      !list?.some((el) =>
+      list.some((el) =>
         el.baseRole ? el.role.toLowerCase() === value.toLowerCase() : el.role === value,
       )
     ) {
-      setMapping([
+      setCustomRoleError(true);
+    } else {
+      setEditedMapping([
         {
           id: customRoleInput,
           role: customRoleInput,
           permissions: { ...DEFAULT_CUSTOM_ROLE_PERMISSIONS },
         },
-        ...(list ?? []),
+        ...list,
       ]);
       setCustomRoleInput('');
-    } else {
-      setCustomRoleError(true);
     }
   };
 
-  const haveEmptyCustomRoles = !!mapping?.some(
+  const haveEmptyCustomRoles = list.some(
     (el) => !el.baseRole && !Object.values(el.permissions).some(Boolean),
   );
 
@@ -195,13 +197,13 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
         </Table.Header>
         <Table.Body>
           {list
-            ?.filter((r) => r.baseRole)
+            .filter((r) => r.baseRole)
             .map((mapping) => (
               <PermissionRow
                 key={mapping.id}
                 list={list}
                 mapping={mapping}
-                setMapping={setMapping}
+                setMapping={setEditedMapping}
               />
             ))}
           <Table.Row>
@@ -242,13 +244,13 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
           </Table.Row>
 
           {list
-            ?.filter((r) => !r.baseRole)
+            .filter((r) => !r.baseRole)
             .map((mapping) => (
               <PermissionRow
                 key={mapping.id}
                 list={list}
                 mapping={mapping}
-                setMapping={setMapping}
+                setMapping={setEditedMapping}
               />
             ))}
         </Table.Body>
@@ -268,21 +270,33 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
       content={formBody}
       isOpen
       onOpenChange={(isOpen) => {
-        if (!isOpen && !haveEmptyCustomRoles) {
+        if (!isOpen) {
           onClose();
         }
       }}
-      secondaryButton={
-        <div className="sw-flex sw-items-center sw-justify-end sw-mt-2">
+      primaryButton={
+        <div className="sw-flex sw-items-center sw-justify-end sw-gap-2">
           {haveEmptyCustomRoles && (
-            <MessageCallout className="sw-mr-2" variety="danger">
+            <MessageCallout variety="danger">
               <FormattedMessage id="settings.authentication.configuration.roles_mapping.empty_custom_role" />
             </MessageCallout>
           )}
-          <Button isDisabled={haveEmptyCustomRoles} onClick={onClose}>
-            <FormattedMessage id="close" />
+          <Button
+            isDisabled={haveEmptyCustomRoles || isSaving}
+            isLoading={isSaving}
+            onClick={() => {
+              void onSave(list);
+            }}
+            variety={ButtonVariety.Primary}
+          >
+            <FormattedMessage id="save" />
           </Button>
         </div>
+      }
+      secondaryButton={
+        <Button isDisabled={isSaving} onClick={onClose}>
+          <FormattedMessage id="cancel" />
+        </Button>
       }
       size={ModalSize.Wide}
       title={header}

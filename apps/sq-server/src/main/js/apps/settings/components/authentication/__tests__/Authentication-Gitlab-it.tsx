@@ -166,10 +166,15 @@ const ui = {
     name: 'settings.authentication.configuration.roles_mapping.dialog.title.alm.gitlab',
   }).byRole('row'),
   mappingCheckbox: byRole('checkbox'),
-  mappingDialogClose: byRole('dialog', {
+  mappingDialogSave: byRole('dialog', {
     name: 'settings.authentication.configuration.roles_mapping.dialog.title.alm.gitlab',
   }).byRole('button', {
-    name: 'close',
+    name: 'save',
+  }),
+  mappingDialogCancel: byRole('dialog', {
+    name: 'settings.authentication.configuration.roles_mapping.dialog.title.alm.gitlab',
+  }).byRole('button', {
+    name: 'cancel',
   }),
   customRoleInput: byRole('textbox', {
     name: 'settings.authentication.configuration.roles_mapping.dialog.add_custom_role',
@@ -742,14 +747,11 @@ describe('Gitlab Provisioning', () => {
     await user.click(guestCheckboxes[0]);
     await user.click(guestCheckboxes[5]);
     await user.click(ownerCheckboxes[5]);
-    await user.click(ui.mappingDialogClose.get());
+    await user.click(ui.mappingDialogSave.get());
 
+    // Save provisioning type change separately
     await user.click(ui.saveProvisioning.get());
     await user.click(ui.confirmProvisioningChange.get());
-
-    // Clean local mapping state
-    await user.click(ui.jitProvisioningRadioButton.get());
-    await user.click(ui.autoProvisioningRadioButton.get());
 
     await user.click(ui.editMappingButton.get());
     guestCheckboxes = ui.mappingCheckbox.getAll(ui.getMappingRowByRole('guest'));
@@ -758,7 +760,7 @@ describe('Gitlab Provisioning', () => {
     expect(guestCheckboxes[0]).not.toBeChecked();
     expect(guestCheckboxes[5]).toBeChecked();
     expect(ownerCheckboxes[5]).not.toBeChecked();
-    await user.click(ui.mappingDialogClose.get());
+    await user.click(ui.mappingDialogCancel.get());
   });
 
   it('should add/remove/update custom roles', async () => {
@@ -776,8 +778,7 @@ describe('Gitlab Provisioning', () => {
     handler.addGitLabCustomRole('custom2', ['user', 'codeViewer', 'issueAdmin', 'scan']);
     renderAuthentication([Feature.GitlabProvisioning]);
 
-    expect(await ui.saveProvisioning.find()).toBeDisabled();
-    await user.click(ui.editMappingButton.get());
+    await user.click(await ui.editMappingButton.find());
 
     const rows = (await ui.mappingRow.findAll()).filter(
       (row) => within(row).queryAllByRole('checkbox').length > 0,
@@ -825,18 +826,11 @@ describe('Gitlab Provisioning', () => {
     expect(custom3Checkboxes[5]).not.toBeChecked();
     await user.click(custom3Checkboxes[0]);
     expect(await ui.emptyRoleError.find()).toBeInTheDocument();
-    expect(ui.mappingDialogClose.get()).toBeDisabled();
+    expect(ui.mappingDialogSave.get()).toBeDisabled();
     await user.click(custom3Checkboxes[1]);
     expect(ui.emptyRoleError.query()).not.toBeInTheDocument();
-    expect(ui.mappingDialogClose.get()).toBeEnabled();
-    await user.click(ui.mappingDialogClose.get());
-
-    expect(await ui.saveProvisioning.find()).toBeEnabled();
-    await user.click(ui.saveProvisioning.get());
-
-    // Clean local mapping state
-    await user.click(ui.jitProvisioningRadioButton.get());
-    await user.click(ui.autoProvisioningRadioButton.get());
+    expect(ui.mappingDialogSave.get()).toBeEnabled();
+    await user.click(ui.mappingDialogSave.get());
 
     await user.click(ui.editMappingButton.get());
 
@@ -860,7 +854,7 @@ describe('Gitlab Provisioning', () => {
     expect(custom3Checkboxes[3]).not.toBeChecked();
     expect(custom3Checkboxes[4]).not.toBeChecked();
     expect(custom3Checkboxes[5]).not.toBeChecked();
-    await user.click(ui.mappingDialogClose.get());
+    await user.click(ui.mappingDialogCancel.get());
   });
 });
 
