@@ -19,18 +19,23 @@
  */
 
 import React, { PureComponent, ReactNode, RefObject, createRef } from 'react';
+import { FormattedMessage } from 'react-intl';
 import {
   CoveredUnderline,
   CoveredUnderlineLabel,
   LineCodeLayer,
+  NewCodeUnderline,
+  NewCodeUnderlineLabel,
+  PartiallyCoveredUnderline,
+  PartiallyCoveredUnderlineLabel,
+  UncoveredUnderline,
+  UncoveredUnderlineLabel,
+} from '~shared/components/code-viewer/CodeUnderlineStyles';
+import {
   LineCodeLayers,
   LineCodePreFormatted,
   LineMarker,
   LineToken,
-  NewCodeUnderline,
-  NewCodeUnderlineLabel,
-  UncoveredUnderline,
-  UncoveredUnderlineLabel,
   UnderlineLabels,
 } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
@@ -189,31 +194,48 @@ export class LineCode extends PureComponent<React.PropsWithChildren<Props>> {
       <LineCodeLayers className="it__source-line-code" data-line-number={line.line}>
         {(displayCoverageUnderlineLabel || displayNewCodeUnderlineLabel) && (
           <UnderlineLabels aria-hidden transparentBackground={previousLineHasUnderline}>
-            {displayCoverageUnderlineLabel && line.coverageStatus === 'covered' && (
-              <CoveredUnderlineLabel>
-                {translate('source_viewer.coverage.covered')}
-              </CoveredUnderlineLabel>
+            {displayCoverageUnderlineLabel && (
+              <>
+                {line.coverageStatus === 'covered' && (
+                  <CoveredUnderlineLabel>
+                    <FormattedMessage id="source_viewer.coverage.covered" />
+                  </CoveredUnderlineLabel>
+                )}
+
+                {line.coverageStatus === 'uncovered' && (
+                  <UncoveredUnderlineLabel>
+                    <FormattedMessage id="source_viewer.coverage.uncovered" />
+                  </UncoveredUnderlineLabel>
+                )}
+
+                {line.coverageStatus === 'partially-covered' && (
+                  <PartiallyCoveredUnderlineLabel>
+                    <FormattedMessage id="source_viewer.coverage.partially-covered" />
+                  </PartiallyCoveredUnderlineLabel>
+                )}
+              </>
             )}
-            {displayCoverageUnderlineLabel &&
-              (line.coverageStatus === 'uncovered' ||
-                line.coverageStatus === 'partially-covered') && (
-                <UncoveredUnderlineLabel>
-                  {translate('source_viewer.coverage', line.coverageStatus)}
-                </UncoveredUnderlineLabel>
-              )}
+
             {displayNewCodeUnderlineLabel && (
               <NewCodeUnderlineLabel>{translate('source_viewer.new_code')}</NewCodeUnderlineLabel>
             )}
           </UnderlineLabels>
         )}
         {line.isNew && <NewCodeUnderline aria-hidden data-testid="new-code-underline" />}
-        {displayCoverageUnderline && line.coverageStatus === 'covered' && (
-          <CoveredUnderline aria-hidden data-testid="covered-underline" />
+
+        {displayCoverageUnderline && (
+          <>
+            {line.coverageStatus === 'covered' && (
+              <CoveredUnderline aria-hidden data-testid="covered-underline" />
+            )}
+            {line.coverageStatus === 'uncovered' && (
+              <UncoveredUnderline aria-hidden data-testid="uncovered-underline" />
+            )}
+            {line.coverageStatus === 'partially-covered' && (
+              <PartiallyCoveredUnderline aria-hidden data-testid="partially-covered-underline" />
+            )}
+          </>
         )}
-        {displayCoverageUnderline &&
-          (line.coverageStatus === 'uncovered' || line.coverageStatus === 'partially-covered') && (
-            <UncoveredUnderline aria-hidden data-testid="uncovered-underline" />
-          )}
 
         <LineCodeLayer className="sw-px-3">
           <LineCodePreFormatted ref={this.nodeNodeRef}>

@@ -279,16 +279,14 @@ it('should show coverage information', async () => {
     }),
   );
 
-  expect(
-    coverdLine.getByLabelText('source_viewer.tooltip.covered.conditions.1'),
-  ).toBeInTheDocument();
+  expect(coverdLine.getByText('source_viewer.tooltip.covered.conditions.1')).toBeInTheDocument();
 
   const partialyCoveredWithConditionLine = within(
     await screen.findByRole('row', { name: / \* 5$/ }),
   );
 
   expect(
-    partialyCoveredWithConditionLine.getByLabelText(
+    partialyCoveredWithConditionLine.getByText(
       'source_viewer.tooltip.partially-covered.conditions.1.2',
     ),
   ).toBeInTheDocument();
@@ -296,25 +294,23 @@ it('should show coverage information', async () => {
   const partialyCoveredLine = within(await screen.findByRole('row', { name: /\/\*$/ }));
 
   expect(
-    partialyCoveredLine.getByLabelText('source_viewer.tooltip.partially-covered'),
+    partialyCoveredLine.getByText('source_viewer.tooltip.partially-covered'),
   ).toBeInTheDocument();
 
   const uncoveredLine = within(await screen.findByRole('row', { name: / \* 6$/ }));
-  expect(uncoveredLine.getByLabelText('source_viewer.tooltip.uncovered')).toBeInTheDocument();
+  expect(uncoveredLine.getByText('source_viewer.tooltip.uncovered')).toBeInTheDocument();
 
   const uncoveredWithConditionLine = within(
     await screen.findByRole('row', { name: / \* SonarQube$/ }),
   );
 
   expect(
-    uncoveredWithConditionLine.getByLabelText('source_viewer.tooltip.uncovered.conditions.1'),
+    uncoveredWithConditionLine.getByText('source_viewer.tooltip.uncovered.conditions.1'),
   ).toBeInTheDocument();
 
   const coveredWithNoCondition = within(await screen.findByRole('row', { name: /\* Copyright$/ }));
 
-  expect(
-    coveredWithNoCondition.getByLabelText('source_viewer.tooltip.covered'),
-  ).toBeInTheDocument();
+  expect(coveredWithNoCondition.getByText('source_viewer.tooltip.covered')).toBeInTheDocument();
 });
 
 it('should show duplication block', async () => {

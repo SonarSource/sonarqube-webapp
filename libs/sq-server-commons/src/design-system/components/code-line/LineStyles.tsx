@@ -85,11 +85,6 @@ export const LineCodePreFormatted = styled.pre`
   tab-size: 4;
 `;
 
-export const LineCodeLayer = styled.div`
-  grid-row: 1;
-  grid-column: 1;
-`;
-
 export const LineCodeLayers = styled.td`
   position: relative;
   display: grid;
@@ -100,18 +95,6 @@ export const LineCodeLayers = styled.td`
   ${LineStyled}:hover & {
     background-color: ${themeColor('codeLineHover')};
   }
-`;
-
-export const NewCodeUnderline = styled(LineCodeLayer)`
-  background-color: ${themeColor('codeLineNewCodeUnderline')};
-`;
-
-export const CoveredUnderline = styled(LineCodeLayer)`
-  background-color: ${themeColor('codeLineCoveredUnderline')};
-`;
-
-export const UncoveredUnderline = styled(LineCodeLayer)`
-  background-color: ${themeColor('codeLineUncoveredUnderline')};
 `;
 
 export const UnderlineLabels = styled.div<{ transparentBackground?: boolean }>`

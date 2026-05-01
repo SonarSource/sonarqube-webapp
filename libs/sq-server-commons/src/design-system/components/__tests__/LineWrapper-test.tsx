@@ -28,10 +28,10 @@ it('should render with correct styling', () => {
 
 it('should properly setup css grid columns', () => {
   expect(setupWithProps().container.firstChild).toHaveStyle({
-    '--columns': '44px 50px 26px repeat(3, 6px) 1fr',
+    '--columns': '44px 50px 26px repeat(2, 6px) 8px 1fr',
   });
   expect(setupWithProps({ duplicationsCount: 0 }).container.firstChild).toHaveStyle({
-    '--columns': '44px 50px 26px repeat(1, 6px) 1fr',
+    '--columns': '44px 50px 26px 8px 1fr',
   });
   expect(
     setupWithProps({

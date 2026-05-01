@@ -18,23 +18,31 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
-import styled from '@emotion/styled';
+import { MarginIndicator, MarginIndicatorType } from '@sonarsource/echoes-react';
 import React, { memo } from 'react';
-import tw from 'twin.macro';
-import { PopupPlacement } from '../../helpers/positioning';
-import { themeColor } from '../../helpers/theme';
-import { Tooltip } from '../Tooltip';
 import { LineMeta } from './LineStyles';
 
+type CoverageStatus = 'uncovered' | 'partially-covered' | 'covered';
+
 interface Props {
-  coverageStatus?: 'uncovered' | 'partially-covered' | 'covered';
+  coverageStatus?: CoverageStatus;
   lineNumber: number;
   scrollToUncoveredLine?: boolean;
   status: string | undefined;
 }
 
-function LineCoverageFunc({ lineNumber, coverageStatus, status, scrollToUncoveredLine }: Props) {
+const COVERAGE_STATUS_MAPPING: Record<CoverageStatus, MarginIndicatorType> = {
+  'partially-covered': MarginIndicatorType.PartiallyCovered,
+  covered: MarginIndicatorType.Covered,
+  uncovered: MarginIndicatorType.UnCovered,
+};
+
+function LineCoverageFunc({
+  lineNumber,
+  coverageStatus,
+  status,
+  scrollToUncoveredLine,
+}: Readonly<Props>) {
   const coverageMarker = React.useRef<HTMLTableCellElement>(null);
   React.useEffect(() => {
     if (scrollToUncoveredLine && coverageMarker.current) {
@@ -50,53 +58,14 @@ function LineCoverageFunc({ lineNumber, coverageStatus, status, scrollToUncovere
     return <LineMeta data-line-number={lineNumber} />;
   }
 
-  const CoverageBlockComponent = {
-    covered: CoveredBlock,
-    uncovered: UncoveredBlock,
-    'partially-covered': PartiallyCoveredBlock,
-  }[coverageStatus];
-
   return (
-    <LineMeta data-line-number={lineNumber} ref={coverageMarker}>
-      <Tooltip content={status} placement={PopupPlacement.Bottom}>
-        <CoverageBlockComponent aria-label={status} />
-      </Tooltip>
+    <LineMeta className="sw-pl-1/2" data-line-number={lineNumber} ref={coverageMarker}>
+      <MarginIndicator
+        ariaLabel={status ?? ''}
+        indicatorType={COVERAGE_STATUS_MAPPING[coverageStatus]}
+      />
     </LineMeta>
   );
 }
 
 export const LineCoverage = memo(LineCoverageFunc);
-
-const CoverageBlock = styled.div`
-  ${tw`sw-w-50 sw-h-full`}
-  ${tw`sw-ml-1/2`}
-
-  &, & svg {
-    outline: none;
-  }
-`;
-
-const CoveredBlock = styled(CoverageBlock)`
-  background-color: ${themeColor('codeLineCovered')};
-`;
-
-const UncoveredBlock = styled(CoverageBlock)`
-  background-color: ${themeColor('codeLineUncovered')};
-`;
-
-function PartiallyCoveredBlock(htmlProps: React.HTMLAttributes<HTMLDivElement>) {
-  const theme = useTheme();
-  return (
-    <CoverageBlock {...htmlProps}>
-      <svg fill="none" viewBox="0 0 4 18" xmlns="http://www.w3.org/2000/svg">
-        <rect fill={themeColor('codeLinePartiallyCoveredA')({ theme })} height="18" width="4" />
-        <path
-          clipRule="evenodd"
-          d="M0 0L4 3V6L0 3V0ZM0 6L4 9V12L0 9V6ZM4 15L0 12V15L4 18V15Z"
-          fill={themeColor('codeLinePartiallyCoveredB')({ theme })}
-          fillRule="evenodd"
-        />
-      </svg>
-    </CoverageBlock>
-  );
-}

@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Popover, PopoverSide, Spinner, Tooltip } from '@sonarsource/echoes-react';
+import { MarginIndicator, Popover, PopoverSide, Spinner, Tooltip } from '@sonarsource/echoes-react';
 import { memo, ReactNode, useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { DuplicationBlock, LineMeta } from '../../../design-system';
+import { LineMeta } from '../../../design-system';
 import { SourceLine } from '../../../types/types';
 
 export interface LineDuplicationBlockProps {
@@ -62,12 +62,11 @@ export function LineDuplicationBlock(props: LineDuplicationBlockProps) {
             side={PopoverSide.Right}
             title={<FormattedMessage id="component_viewer.transition.duplication" />}
           >
-            <DuplicationBlock
-              aria-label={duplicatedBlockLabel}
+            <MarginIndicator
+              ariaLabel={duplicatedBlockLabel}
+              indicatorType="duplication"
+              isInteractive
               onClick={handleClick}
-              role="button"
-              tabIndex={0}
-              type="button"
             />
           </Popover>
         </Tooltip>

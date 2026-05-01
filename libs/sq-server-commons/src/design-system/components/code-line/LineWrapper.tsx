@@ -34,12 +34,13 @@ export function LineWrapper(props: Props) {
   const { displayCoverage, displaySCM, duplicationsCount, highlighted, ...htmlProps } = props;
   const theme = useTheme();
   const SCMCol = displaySCM ? '50px ' : '';
-  const nbGutters = duplicationsCount + (displayCoverage ? 1 : 0);
-  const gutterCols = nbGutters > 0 ? `repeat(${nbGutters}, 6px) ` : '';
+  const duplicationCols = duplicationsCount > 0 ? `repeat(${duplicationsCount}, 6px) ` : '';
+  const coverageCol = displayCoverage ? '8px ' : '';
+
   return (
     <LineStyled
       style={{
-        '--columns': `44px ${SCMCol}26px ${gutterCols}1fr`,
+        '--columns': `44px ${SCMCol}26px ${duplicationCols}${coverageCol}1fr`,
         '--line-background': highlighted
           ? themeColor('codeLineHighlighted')({ theme })
           : themeColor('codeLine')({ theme }),
