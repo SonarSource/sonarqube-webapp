@@ -25,6 +25,15 @@
       "organizationId": "f7a23dc6-8dd7-43a9-96a2-b315731facf0",
       "perspectiveKey": "intended_perspective_mapped_detail_filtered",
       "type": "namespace_graph"
+    },
+    {
+      "id": "111-boundaries-111",
+      "analysisId": "AZnIcXvfZG9ul_fEcl4Q",
+      "ecosystem": "java",
+      "graphVersion": "1.0.0",
+      "organizationId": "f7a23dc6-8dd7-43a9-96a2-b315731facf0",
+      "perspectiveKey": "",
+      "type": "boundaries"
     }
   ]
 }
