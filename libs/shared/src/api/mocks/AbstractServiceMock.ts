@@ -34,12 +34,16 @@ type Paginate<T, A extends string> = {
 
 export abstract class AbstractServiceMock<T = {}> {
   private readonly initialData: T;
+  private readonly initialPageSize: number | null;
   data: T;
   handlers: RequestHandler[] = [];
+  overridePageSize: number | null = null;
 
-  constructor(initData: T) {
+  constructor(initData: T, overridePageSize?: number) {
     this.initialData = initData;
     this.data = cloneDeep(initData);
+    this.initialPageSize = overridePageSize ?? null;
+    this.overridePageSize = this.initialPageSize;
   }
 
   getHandlers() {
@@ -48,15 +52,19 @@ export abstract class AbstractServiceMock<T = {}> {
 
   paginateResponse<T, A extends string>(
     attribute: Literal<A>,
-    data: T[],
-    page = 1,
-    ps = 50,
+    paginatedData: T[],
+    page: number | string = 1,
+    pageSize: number | string = 50,
+    data: object = {},
   ): Paginate<T, typeof attribute> {
+    const ps = Number(this.overridePageSize ?? pageSize);
+    const p = Number(page);
     return {
-      p: page,
+      ...data,
+      p,
       ps,
-      total: data.length,
-      [attribute]: data.slice((page - 1) * ps, page * ps),
+      total: paginatedData.length,
+      [attribute]: paginatedData.slice((p - 1) * ps, p * ps),
     } as Paginate<T, typeof attribute>;
   }
 
@@ -85,5 +93,6 @@ export abstract class AbstractServiceMock<T = {}> {
 
   reset() {
     this.data = cloneDeep(this.initialData);
+    this.overridePageSize = this.initialPageSize;
   }
 }
