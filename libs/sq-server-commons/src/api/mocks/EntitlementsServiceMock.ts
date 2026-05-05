@@ -20,12 +20,37 @@
 
 import { http } from 'msw';
 import { AbstractServiceMock } from '~shared/api/mocks/AbstractServiceMock';
-import { PurchaseableFeature } from '../../types/editions';
+import { LicenseV2, PurchaseableFeature } from '../../types/editions';
 
 const DOMAIN = '/api/v2/entitlements';
 
 export interface EntitlementsServiceData {
+  license?: LicenseV2 | null;
   purchasableFeatures?: PurchaseableFeature[];
+}
+
+export function mockLicenseV2(overrides: Partial<LicenseV2> = {}): LicenseV2 {
+  return {
+    disabled: false,
+    edition: 'Developer Edition',
+    expirationDate: new Date(Date.now() + 86400000).toISOString(),
+    expired: false,
+    extraDays: 0,
+    features: [],
+    lastRefreshDate: '2024-06-01',
+    legacy: false,
+    licenseKey: 'mock-license-key',
+    loc: 229000,
+    maxLoc: 500000,
+    officialDistribution: true,
+    remainingLocThreshold: 100000,
+    serverId: 'mock-server-id',
+    startDate: '2023-06-01',
+    supported: true,
+    type: 'TEST',
+    validEdition: true,
+    ...overrides,
+  };
 }
 
 export function mockPurchaseableFeature(
@@ -44,15 +69,23 @@ export function mockPurchaseableFeatures(): PurchaseableFeature[] {
 }
 
 export const EntitlementsServiceDefaultDataset: EntitlementsServiceData = {
+  license: mockLicenseV2(),
   purchasableFeatures: mockPurchaseableFeatures(),
 };
 
 export class EntitlementsServiceMock extends AbstractServiceMock<EntitlementsServiceData> {
+  setLicenseSupported = (supported: boolean) => {
+    this.data.license = mockLicenseV2({ ...this.data.license, supported });
+  };
+
   setPurchasableFeatures = (features: PurchaseableFeature[]) => {
     this.data.purchasableFeatures = features;
   };
 
   handlers = [
+    http.get(`${DOMAIN}/license`, () => {
+      return this.ok(this.data.license ?? null);
+    }),
     http.get(`${DOMAIN}/purchasable-features`, () => {
       this.data.purchasableFeatures ??= mockPurchaseableFeatures();
 

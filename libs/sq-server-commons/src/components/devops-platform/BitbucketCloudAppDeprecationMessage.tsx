@@ -31,6 +31,7 @@ import {
   useMessageDismissedMutation,
   useMessageDismissedQuery,
 } from '../../queries/dismissed-messages';
+import { useCurrentLicenseQuery } from '../../queries/entitlements';
 import { useSupportInformationQuery } from '../../queries/system';
 import { AlmKeys, AlmSettingsInstance } from '../../types/alm-settings';
 import { Permissions } from '../../types/permissions';
@@ -57,8 +58,10 @@ export function BitbucketCloudAppDeprecationMessage({
 
   const isGlobalAdmin = hasGlobalPermission(currentUser, Permissions.Admin);
 
+  const { data: license } = useCurrentLicenseQuery({ enabled: isGlobalAdmin });
+
   const { data: installationDate, error: supportInformationError } = useSupportInformationQuery({
-    enabled: isGlobalAdmin,
+    enabled: isGlobalAdmin && Boolean(license?.supported),
     select: (data) => data.statistics.installationDate,
   });
   const { data: isMessageDismissed } = useMessageDismissedQuery(

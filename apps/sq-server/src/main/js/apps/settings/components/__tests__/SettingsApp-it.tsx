@@ -315,6 +315,18 @@ describe('BitbucketCloudAppDeprecationMessage', () => {
 
     expect(ui.appPasswordDeprecationMessageTitle.query()).not.toBeInTheDocument();
   });
+
+  it('should not render the message if the license does not include support', async () => {
+    almSettingsMock.setAlmSettings([mockAlmSettingsInstance({ alm: AlmKeys.BitbucketCloud })]);
+    entitlementsMock.setLicenseSupported(false);
+
+    renderSettingsApp(undefined, {
+      currentUser: mockLoggedInUser({ permissions: { global: [Permissions.Admin] } }),
+    });
+    expect(await ui.settingsSearchInput.find()).toBeInTheDocument();
+
+    expect(ui.appPasswordDeprecationMessageTitle.query()).not.toBeInTheDocument();
+  });
 });
 
 function renderSettingsApp(component?: Component, context: RenderContext = {}) {
