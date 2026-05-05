@@ -2143,7 +2143,8 @@ export const defaultMessages = {
   'architecture.page.model.label': 'Model',
   'architecture.page.model.invalid_groups':
     'Invalid {groupsCount, plural, one {group} other {groups}}: {groups}',
-  'architecture.page.model.visual.compress_nodes': 'Compact view',
+  'architecture.page.model.visual.detail_view.simple': 'Simple',
+  'architecture.page.model.visual.detail_view.detailed': 'Detailed',
   'architecture.page.model.errors.constraint.duplicate':
     'A relationship between "{source}" and "{target}" is already allowed.',
   'architecture.page.model.errors.constraint.same_source_and_target':
@@ -2246,6 +2247,7 @@ export const defaultMessages = {
   'architecture.page.model.interface_badge.has_hidden_children':
     '{count, plural, one {# hidden group} other {# hidden groups}}',
   'architecture.page.model.interface_member': 'Interface member',
+  'architecture.page.model.non_interface_member': 'Non-interface member',
   'architecture.page.model.spotlight.interfaces_warning':
     'Interface design is enabled. All child components are unreachable by default — enable individual components as interface members to make them accessible from outside.',
   'architecture.page.tangles': 'Tangles',
