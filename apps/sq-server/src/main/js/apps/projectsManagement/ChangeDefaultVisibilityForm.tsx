@@ -24,27 +24,27 @@ import { FlagMessage, Modal } from '~design-system';
 import { Visibility } from '~shared/types/component';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useGithubProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/github';
-import { useGilabProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/gitlab';
+import { useGitLabProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/gitlab';
 
 import { FormattedMessage } from 'react-intl';
 
 export interface Props {
   defaultVisibility: Visibility;
   onClose: () => void;
-  onConfirm: (visiblity: Visibility) => void;
+  onConfirm: (visibility: Visibility) => void;
 }
 
 const FORM_ID = 'change-default-visibility-form';
 
 export default function ChangeDefaultVisibilityForm(props: Readonly<Props>) {
   const [visibility, setVisibility] = useState(props.defaultVisibility);
-  const { data: githubProbivisioningEnabled } = useGithubProvisioningEnabledQuery();
-  const { data: gitlabProbivisioningEnabled } = useGilabProvisioningEnabledQuery();
+  const { data: githubProvisioningEnabled } = useGithubProvisioningEnabledQuery();
+  const { data: gitlabProvisioningEnabled } = useGitLabProvisioningEnabledQuery();
 
   let changeVisibilityTranslationKey = 'settings.projects.change_visibility_form.warning';
-  if (githubProbivisioningEnabled) {
+  if (githubProvisioningEnabled) {
     changeVisibilityTranslationKey += '.github';
-  } else if (gitlabProbivisioningEnabled) {
+  } else if (gitlabProvisioningEnabled) {
     changeVisibilityTranslationKey += '.gitlab';
   }
 

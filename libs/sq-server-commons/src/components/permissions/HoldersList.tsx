@@ -27,7 +27,7 @@ import { getIntl } from '../../helpers/l10nBundle';
 import { isPermissionDefinitionGroup } from '../../helpers/permissions';
 import { useIsGitHubProjectQuery, useIsGitLabProjectQuery } from '../../queries/devops-integration';
 import { useGithubProvisioningEnabledQuery } from '../../queries/identity-provider/github';
-import { useGilabProvisioningEnabledQuery } from '../../queries/identity-provider/gitlab';
+import { useGitLabProvisioningEnabledQuery } from '../../queries/identity-provider/gitlab';
 import { PermissionDefinitions, PermissionGroup, PermissionUser } from '../../types/types';
 import GroupHolder from './GroupHolder';
 import { PermissionHeader } from './PermissionHeader';
@@ -110,7 +110,7 @@ export default class HoldersList extends React.PureComponent<
             {({ data: isGitLabProject }) => (
               <UseQuery query={useGithubProvisioningEnabledQuery}>
                 {({ data: githubProvisioningStatus }) => (
-                  <UseQuery query={useGilabProvisioningEnabledQuery}>
+                  <UseQuery query={useGitLabProvisioningEnabledQuery}>
                     {({ data: gitlabProvisioningStatus }) => (
                       <>
                         {this.isPermissionUser(item) ? (

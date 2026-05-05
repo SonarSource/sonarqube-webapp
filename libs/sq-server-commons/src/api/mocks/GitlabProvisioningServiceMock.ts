@@ -33,6 +33,7 @@ import {
   deleteGitlabRolesMapping,
   fetchGitLabConfiguration,
   fetchGitLabConfigurations,
+  fetchGitLabConfigurationsSummary,
   fetchGitlabRolesMapping,
   updateGitLabConfiguration,
   updateGitlabRolesMapping,
@@ -90,6 +91,9 @@ export default class GitlabProvisioningServiceMock {
     this.gitlabConfigurations = cloneDeep(defaultGitlabConfiguration);
     this.gitlabMapping = cloneDeep(defaultMapping);
     jest.mocked(fetchGitLabConfigurations).mockImplementation(this.handleFetchGitLabConfigurations);
+    jest
+      .mocked(fetchGitLabConfigurationsSummary)
+      .mockImplementation(this.handleFetchGitLabConfigurationsSummary);
     jest.mocked(fetchGitLabConfiguration).mockImplementation(this.handleFetchGitLabConfiguration);
     jest.mocked(createGitLabConfiguration).mockImplementation(this.handleCreateGitLabConfiguration);
     jest.mocked(updateGitLabConfiguration).mockImplementation(this.handleUpdateGitLabConfiguration);
@@ -101,6 +105,13 @@ export default class GitlabProvisioningServiceMock {
   }
 
   handleFetchGitLabConfigurations: typeof fetchGitLabConfigurations = () => {
+    return Promise.resolve({
+      gitlabConfigurations: this.gitlabConfigurations,
+      page: mockPaging({ total: this.gitlabConfigurations.length }),
+    });
+  };
+
+  handleFetchGitLabConfigurationsSummary: typeof fetchGitLabConfigurationsSummary = () => {
     return Promise.resolve({
       gitlabConfigurations: this.gitlabConfigurations,
       page: mockPaging({ total: this.gitlabConfigurations.length }),

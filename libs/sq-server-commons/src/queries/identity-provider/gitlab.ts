@@ -28,6 +28,7 @@ import {
   deleteGitLabConfiguration,
   deleteGitlabRolesMapping,
   fetchGitLabConfigurations,
+  fetchGitLabConfigurationsSummary,
   fetchGitlabRolesMapping,
   syncNowGitLabProvisioning,
   updateGitLabConfiguration,
@@ -113,8 +114,16 @@ export function useDeleteGitLabConfigurationMutation() {
   });
 }
 
-export function useGilabProvisioningEnabledQuery() {
-  const res = useGitLabConfigurationsQuery();
+export function useGitLabConfigurationsSummaryQuery() {
+  return useQuery({
+    queryKey: ['identity_provider', 'gitlab_config'],
+    queryFn: fetchGitLabConfigurationsSummary,
+    staleTime: StaleTime.LONG,
+  });
+}
+
+export function useGitLabProvisioningEnabledQuery() {
+  const res = useGitLabConfigurationsSummaryQuery();
 
   return mapReactQueryResult(res, (data) =>
     data.gitlabConfigurations?.some(

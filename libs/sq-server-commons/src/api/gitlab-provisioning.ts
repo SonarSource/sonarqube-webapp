@@ -25,6 +25,7 @@ import {
   GitLabConfigurationCreateBody,
   GitLabConfigurationUpdateBody,
   GitlabConfiguration,
+  GitlabConfigurationSummary,
   ProvisioningType,
 } from '../types/provisioning';
 
@@ -34,6 +35,13 @@ const GITLAB_PERMISSION_MAPPINGS = '/api/v2/dop-translation/gitlab-permission-ma
 export function fetchGitLabConfigurations() {
   return axiosClient.get<{
     gitlabConfigurations: GitlabConfiguration[];
+    page: Paging;
+  }>(GITLAB_CONFIGURATIONS);
+}
+
+export function fetchGitLabConfigurationsSummary() {
+  return axiosClient.get<{
+    gitlabConfigurations: GitlabConfigurationSummary[];
     page: Paging;
   }>(GITLAB_CONFIGURATIONS);
 }

@@ -125,6 +125,11 @@ export type GitlabConfiguration = {
   url: string;
 };
 
+export type GitlabConfigurationSummary = Pick<
+  GitlabConfiguration,
+  'id' | 'enabled' | 'provisioningType'
+>;
+
 export enum ProvisioningType {
   jit = 'JIT',
   auto = 'AUTO_PROVISIONING',

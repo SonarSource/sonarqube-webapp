@@ -28,7 +28,7 @@ import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
 import { useGithubProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/github';
-import { useGilabProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/gitlab';
+import { useGitLabProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/gitlab';
 import { LoggedInUser } from '~sq-server-commons/types/users';
 import ProjectRowActions from './ProjectRowActions';
 
@@ -44,7 +44,7 @@ interface Props {
 export default function ProjectRow(props: Readonly<Props>) {
   const { currentUser, project, selected } = props;
   const { data: githubProvisioningEnabled } = useGithubProvisioningEnabledQuery();
-  const { data: gitlabProbivisioningEnabled } = useGilabProvisioningEnabledQuery();
+  const { data: gitlabProvisioningEnabled } = useGitLabProvisioningEnabledQuery();
 
   const handleProjectCheck = (checked: boolean) => {
     props.onProjectCheck(project, checked);
@@ -69,7 +69,7 @@ export default function ProjectRow(props: Readonly<Props>) {
           </Tooltip>
         </LinkStandalone>
         {project.qualifier === ComponentQualifier.Project &&
-          (githubProvisioningEnabled || gitlabProbivisioningEnabled) &&
+          (githubProvisioningEnabled || gitlabProvisioningEnabled) &&
           !project.managed && (
             <Badge className="sw-ml-1">
               <FormattedMessage id="local" />

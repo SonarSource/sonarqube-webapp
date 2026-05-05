@@ -21,12 +21,12 @@
 import { FlagMessage } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { useGithubProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/github';
-import { useGilabProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/gitlab';
+import { useGitLabProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/gitlab';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 
 export default function ProvisioningWarning() {
   const { data: gitHubProvisioningStatus } = useGithubProvisioningEnabledQuery();
-  const { data: gitLabProvisioningStatus } = useGilabProvisioningEnabledQuery();
+  const { data: gitLabProvisioningStatus } = useGitLabProvisioningEnabledQuery();
 
   if (gitHubProvisioningStatus || gitLabProvisioningStatus) {
     return (
