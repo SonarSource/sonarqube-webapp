@@ -19,11 +19,10 @@
  */
 
 import {
-  Button,
-  ButtonVariety,
   Checkbox,
   MessageCallout,
   MessageVariety,
+  ModalForm,
   RadioButtonGroup,
   Spinner,
   Text,
@@ -32,7 +31,7 @@ import { countBy, flattenDeep, pickBy, sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { throwGlobalError } from '~adapters/helpers/error';
-import { FlagMessage, FormField, InputTextArea, Modal } from '~design-system';
+import { FlagMessage, FormField, InputTextArea } from '~design-system';
 import FormattingTips from '~shared/components/common/FormattingTips';
 import { Paging } from '~shared/types/paging';
 import { bulkChangeIssues, searchIssueTags } from '~sq-server-commons/api/issues';
@@ -289,6 +288,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
       <TagsSelect
         allowCreation={allowCreate}
         inputId={`issues-bulk-change-${field}`}
+        label={translate(label)}
         onChange={this.handleTagsSelect(field)}
         onSearch={this.handleTagsSearch}
         selectedTags={tags}
@@ -389,34 +389,31 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
 
     return (
       <Spinner isLoading={loading}>
-        <form className="sw-mr-4" id="bulk-change-form" onSubmit={this.handleSubmit}>
-          {limitReached && (
-            <FlagMessage className="sw-mb-4" variant="warning">
-              <span>
-                <FormattedMessage
-                  id="issue_bulk_change.max_issues_reached"
-                  values={{ max: <strong>{MAX_PAGE_SIZE}</strong> }}
-                />
-              </span>
-            </FlagMessage>
-          )}
+        {limitReached && (
+          <FlagMessage className="sw-mb-4" variant="warning">
+            <span>
+              <FormattedMessage
+                id="issue_bulk_change.max_issues_reached"
+                values={{ max: <strong>{MAX_PAGE_SIZE}</strong> }}
+              />
+            </span>
+          </FlagMessage>
+        )}
 
-          {this.renderAssigneeField()}
-          {!needIssueSync && this.renderTagsField(InputField.addTags, 'issue.add_tags', true)}
+        {this.renderAssigneeField()}
+        {!needIssueSync && this.renderTagsField(InputField.addTags, 'issue.add_tags', true)}
 
-          {!needIssueSync &&
-            this.renderTagsField(InputField.removeTags, 'issue.remove_tags', false)}
+        {!needIssueSync && this.renderTagsField(InputField.removeTags, 'issue.remove_tags', false)}
 
-          {this.renderTransitionsField()}
-          {this.renderCommentField()}
-          {issues.length > 0 && this.renderNotificationsField()}
+        {this.renderTransitionsField()}
+        {this.renderCommentField()}
+        {issues.length > 0 && this.renderNotificationsField()}
 
-          {issues.length === 0 && (
-            <FlagMessage variant="warning">
-              <FormattedMessage id="issue_bulk_change.no_match" />
-            </FlagMessage>
-          )}
-        </form>
+        {issues.length === 0 && (
+          <FlagMessage variant="warning">
+            <FormattedMessage id="issue_bulk_change.no_match" />
+          </FlagMessage>
+        )}
       </Spinner>
     );
   };
@@ -427,28 +424,21 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
     const canSubmit = this.canSubmit();
 
     return (
-      <Modal
-        body={this.renderForm()}
-        headerTitle={
+      <ModalForm
+        content={this.renderForm()}
+        id="bulk-change-form"
+        isDefaultOpen
+        isSubmitDisabled={!canSubmit || issues.length === 0}
+        isSubmitting={submitting}
+        onClose={this.props.onClose}
+        onSubmit={this.handleSubmit}
+        secondaryButtonLabel={translate('cancel')}
+        submitButtonLabel={<FormattedMessage id="apply" />}
+        title={
           loading
             ? translate('bulk_change')
             : translateWithParameters('issue_bulk_change.form.title', issues.length)
         }
-        isScrollable
-        loading={submitting}
-        onClose={this.props.onClose}
-        primaryButton={
-          <Button
-            form="bulk-change-form"
-            id="bulk-change-submit"
-            isDisabled={!canSubmit || submitting || issues.length === 0}
-            type="submit"
-            variety={ButtonVariety.Primary}
-          >
-            <FormattedMessage id="apply" />
-          </Button>
-        }
-        secondaryButtonLabel={translate('cancel')}
       />
     );
   }

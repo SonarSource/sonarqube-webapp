@@ -18,16 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  Button,
-  ButtonVariety,
-  HelperText,
-  SelectAsync,
-  SelectOption,
-} from '@sonarsource/echoes-react';
+import { HelperText, ModalForm, SelectAsync, SelectOption } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Modal } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
 import { getSuggestions } from '~sq-server-commons/api/components';
 import { NotificationProject } from '~sq-server-commons/types/notifications';
@@ -120,9 +113,9 @@ export default class ProjectModal extends React.PureComponent<Props, State> {
     const { loading, selectedProject, suggestions } = this.state;
 
     return (
-      <Modal
-        body={
-          <form id="project-notifications-modal-form" onSubmit={this.handleSubmit}>
+      <ModalForm
+        content={
+          <>
             <SelectAsync
               className="sw-py-1"
               data={suggestionsToOptions(suggestions)}
@@ -138,21 +131,16 @@ export default class ProjectModal extends React.PureComponent<Props, State> {
             <HelperText>
               <FormattedMessage id="my_account.set_notifications_for.help" />
             </HelperText>
-          </form>
+          </>
         }
-        headerTitle={<FormattedMessage id="my_account.set_notifications_for.title" />}
+        id="project-notifications-modal-form"
+        isDefaultOpen
+        isSubmitDisabled={selectedProject === undefined}
         onClose={closeModal}
-        primaryButton={
-          <Button
-            form="project-notifications-modal-form"
-            isDisabled={selectedProject === undefined}
-            type="submit"
-            variety={ButtonVariety.Primary}
-          >
-            {<FormattedMessage id="add_verb" />}
-          </Button>
-        }
+        onSubmit={this.handleSubmit}
         secondaryButtonLabel={<FormattedMessage id="cancel" />}
+        submitButtonLabel={<FormattedMessage id="add_verb" />}
+        title={<FormattedMessage id="my_account.set_notifications_for.title" />}
       />
     );
   }

@@ -98,6 +98,7 @@ export default function AssigneeSelect(props: Readonly<AssigneeSelectProps>) {
       onSearch={handleAssigneeSearch}
       optionComponent={AssigneeOption}
       value={selectedAssigneeKey}
+      width="large"
     />
   );
 }

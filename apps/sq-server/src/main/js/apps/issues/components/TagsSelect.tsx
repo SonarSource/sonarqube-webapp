@@ -18,26 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { BadgeCounter, Button, DropdownMenu, IconChevronDown } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import {
-  Dropdown,
-  InputMultiSelect,
-  MultiSelector,
-  PopupPlacement,
-  PopupZLevel,
-} from '~design-system';
+import { MultiSelector } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   allowCreation: boolean;
   inputId?: string;
+  label?: string;
   onChange: (selected: string[]) => void;
   onSearch: (query: string) => Promise<string[]>;
   selectedTags: string[];
 }
 
 export default function TagsSelect(props: Props) {
-  const { allowCreation, inputId, onSearch, onChange, selectedTags } = props;
+  const { allowCreation, inputId, label, onSearch, onChange, selectedTags } = props;
   const [searchResults, setSearchResults] = React.useState<string[]>([]);
 
   const doSearch = React.useCallback(
@@ -63,50 +59,36 @@ export default function TagsSelect(props: Props) {
   );
 
   return (
-    <Dropdown
-      allowResizing
-      closeOnClick={false}
+    <DropdownMenu
       id="tag-selector"
-      overlay={
-        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-        <div onMouseDown={handleMousedown}>
-          <MultiSelector
-            allowNewElements={allowCreation}
-            createElementLabel={translateWithParameters('issue.create_tag')}
-            elements={searchResults}
-            headerLabel={translate('issue_bulk_change.select_tags')}
-            noResultsLabel={translate('no_results')}
-            onSearch={doSearch}
-            onSelect={onSelect}
-            onUnselect={onUnselect}
-            searchInputAriaLabel={translate('search.search_for_tags')}
-            selectedElements={selectedTags}
-          />
-        </div>
-      }
-      placement={PopupPlacement.BottomLeft}
-      zLevel={PopupZLevel.Global}
-    >
-      {({ onToggleClick }) => (
-        <InputMultiSelect
-          className="sw-w-abs-300"
-          count={selectedTags.length}
-          id={inputId}
-          onClick={onToggleClick}
-          placeholder={translate('select_verb')}
-          selectedLabel={translate('issue_bulk_change.selected_tags')}
+      items={
+        <MultiSelector
+          allowNewElements={allowCreation}
+          createElementLabel={translateWithParameters('issue.create_tag')}
+          elements={searchResults}
+          headerLabel={translate('issue_bulk_change.select_tags')}
+          noResultsLabel={translate('no_results')}
+          onSearch={doSearch}
+          onSelect={onSelect}
+          onUnselect={onUnselect}
+          searchInputAriaLabel={translate('search.search_for_tags')}
+          selectedElements={selectedTags}
         />
-      )}
-    </Dropdown>
+      }
+      side="bottom"
+    >
+      <Button
+        ariaLabel={label}
+        id={inputId}
+        suffix={
+          <>
+            <BadgeCounter value={selectedTags.length} />
+            <IconChevronDown />
+          </>
+        }
+      >
+        {translate('select_verb')}
+      </Button>
+    </DropdownMenu>
   );
-}
-
-/*
- * Prevent click from triggering a change of focus that would close the dropdown
- */
-function handleMousedown(e: React.MouseEvent) {
-  if ((e.target as HTMLElement).tagName !== 'INPUT') {
-    e.preventDefault();
-    e.stopPropagation();
-  }
 }

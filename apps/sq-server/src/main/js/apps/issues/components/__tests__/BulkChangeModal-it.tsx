@@ -20,6 +20,7 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { byRole } from '~shared/helpers/testSelector';
 import { bulkChangeIssues } from '~sq-server-commons/api/issues';
 import CurrentUserContextProvider from '~sq-server-commons/context/current-user/CurrentUserContextProvider';
 import { mockIssue, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
@@ -34,6 +35,11 @@ jest.mock('~sq-server-commons/api/issues', () => ({
   bulkChangeIssues: jest.fn().mockResolvedValue({}),
   searchIssueTags: jest.fn().mockResolvedValue(['tag1', 'tag2']),
 }));
+
+const ui = {
+  addTagsButton: byRole('button', { name: 'issue.add_tags' }),
+  removeTagsButton: byRole('button', { name: 'issue.remove_tags' }),
+};
 
 afterEach(() => {
   jest.clearAllMocks();
@@ -64,8 +70,8 @@ it('should display warning when too many issues are passed', async () => {
 it('should render tags correctly', async () => {
   renderBulkChangeModal([mockIssue(false, { actions: ['set_tags'] })]);
 
-  expect(await screen.findByRole('combobox', { name: 'issue.add_tags' })).toBeInTheDocument();
-  expect(await screen.findByRole('combobox', { name: 'issue.remove_tags' })).toBeInTheDocument();
+  expect(await ui.addTagsButton.find()).toBeInTheDocument();
+  expect(await ui.removeTagsButton.find()).toBeInTheDocument();
 });
 
 it('should render transitions correctly', async () => {
@@ -113,7 +119,7 @@ it('should disable the submit button unless some change is configured', async ()
   expect(await screen.findByRole('button', { name: 'apply' })).toBeDisabled();
 
   // Add a tag
-  await user.click(await screen.findByRole('combobox', { name: 'issue.add_tags' }));
+  await user.click(await ui.addTagsButton.find());
   await user.click(screen.getByText('tag1'));
   await user.click(screen.getByText('tag2'));
 
@@ -159,7 +165,7 @@ it('should properly submit', async () => {
   await user.click(await screen.findByText('issue.transition.accept'));
 
   // Add a tag
-  await user.click(screen.getByRole('combobox', { name: 'issue.add_tags' }));
+  await user.click(await ui.addTagsButton.find());
   await user.click(screen.getByText('tag1'));
   await user.click(screen.getByText('tag2'));
 
