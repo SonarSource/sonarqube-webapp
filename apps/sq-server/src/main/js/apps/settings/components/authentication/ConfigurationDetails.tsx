@@ -18,12 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Tooltip } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Heading, MessageInline, Tooltip } from '@sonarsource/echoes-react';
 import { ReactElement } from 'react';
-import { FlagMessage, SubHeading } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
-
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 interface Props {
   canDisable: boolean;
@@ -40,13 +37,14 @@ interface Props {
 export default function ConfigurationDetails(props: Readonly<Props>) {
   const { title, url, canDisable, onEdit, onDelete, onToggle, extraActions, isDeleting, enabled } =
     props;
+  const { formatMessage } = useIntl();
 
   return (
     <div className="sw-flex sw-mb-6 sw-justify-between">
       <div className="sw-min-w-0">
-        <SubHeading as="h5" className="sw-truncate" title={title}>
-          {title}
-        </SubHeading>
+        <Heading as="h5" className="sw-truncate">
+          <span title={title}>{title}</span>
+        </Heading>
         <p>{url}</p>
         {enabled ? (
           <Button className="sw-mt-4" isDisabled={!canDisable} onClick={onToggle}>
@@ -63,9 +61,9 @@ export default function ConfigurationDetails(props: Readonly<Props>) {
           </Button>
         )}
         {!canDisable && (
-          <FlagMessage className="sw-mt-2" variant="warning">
+          <MessageInline className="sw-mt-2" variety="warning">
             <FormattedMessage id="settings.authentication.form.disable.tooltip" />
-          </FlagMessage>
+          </MessageInline>
         )}
       </div>
       <div className="sw-flex sw-gap-2 sw-flex-nowrap sw-shrink-0">
@@ -75,7 +73,9 @@ export default function ConfigurationDetails(props: Readonly<Props>) {
         </Button>
         <Tooltip
           content={
-            enabled || isDeleting ? translate('settings.authentication.form.delete.tooltip') : null
+            enabled || isDeleting
+              ? formatMessage({ id: 'settings.authentication.form.delete.tooltip' })
+              : null
           }
         >
           <Button

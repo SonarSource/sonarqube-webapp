@@ -18,13 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  Divider,
+  Heading,
+  MessageCallout,
+  Spinner,
+} from '@sonarsource/echoes-react';
 import { FormEvent, ReactElement } from 'react';
-import { BasicSeparator, FlagMessage, RadioButton, SubHeading } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
-import { ProvisioningType } from '~sq-server-commons/types/provisioning';
-
 import { FormattedMessage } from 'react-intl';
+import { RadioButton } from '~design-system';
+import { ProvisioningType } from '~sq-server-commons/types/provisioning';
 
 interface Props {
   autoDescription: ReactElement<any>;
@@ -78,9 +83,9 @@ export default function ProvisioningSection(props: Readonly<Props>) {
   return (
     <div className="sw-mb-2">
       <form onSubmit={onSave}>
-        <SubHeading as="h5">
+        <Heading as="h5" hasMarginBottom>
           <FormattedMessage id="settings.authentication.form.provisioning" />
-        </SubHeading>
+        </Heading>
         {enabled ? (
           <>
             <ul>
@@ -99,9 +104,9 @@ export default function ProvisioningSection(props: Readonly<Props>) {
                   </div>
                 </RadioButton>
                 {provisioningType === ProvisioningType.jit && jitSettings && (
-                  <div className="sw-ml-16 sw-mt-6 sw-max-w-[435px]">{jitSettings}</div>
+                  <div className="sw-ml-12 sw-mt-6 sw-max-w-[435px]">{jitSettings}</div>
                 )}
-                <BasicSeparator className="sw-my-4" />
+                <Divider className="sw-my-4" />
               </li>
               <li>
                 <RadioButton
@@ -131,7 +136,7 @@ export default function ProvisioningSection(props: Readonly<Props>) {
                   </div>
                 </RadioButton>
                 {provisioningType === ProvisioningType.auto && (
-                  <div className="sw-ml-6 sw-mt-6">
+                  <div className="sw-ml-12 sw-mt-6">
                     {synchronizationDetails}
                     {onSyncNow && (
                       <div className="sw-mb-4 sw-mt-6">
@@ -144,10 +149,10 @@ export default function ProvisioningSection(props: Readonly<Props>) {
                         </Button>
                       </div>
                     )}
-                    <div className="sw-ml-10 sw-mt-8 sw-max-w-[435px]">{autoSettings}</div>
+                    <div className="sw-mt-8 sw-max-w-[435px]">{autoSettings}</div>
                   </div>
                 )}
-                <BasicSeparator className="sw-my-4" />
+                <Divider className="sw-my-4" />
               </li>
             </ul>
             <div className="sw-flex sw-gap-2 sw-h-800 sw-items-center">
@@ -162,17 +167,12 @@ export default function ProvisioningSection(props: Readonly<Props>) {
                 <FormattedMessage id="cancel" />
               </Button>
               <Spinner isLoading={!!isLoading} />
-              <FlagMessage className="sw-mb-0" variant="warning">
-                {hasUnsavedChanges &&
-                  !isLoading &&
-                  translate('settings.authentication.github.configuration.unsaved_changes')}
-              </FlagMessage>
             </div>
           </>
         ) : (
-          <FlagMessage className="sw-mt-4" variant="info">
+          <MessageCallout className="sw-mt-4" variety="info">
             {disabledConfigText}
-          </FlagMessage>
+          </MessageCallout>
         )}
       </form>
     </div>

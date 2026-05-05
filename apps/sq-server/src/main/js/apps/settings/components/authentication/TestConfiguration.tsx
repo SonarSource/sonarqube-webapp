@@ -18,23 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, Spinner } from '@sonarsource/echoes-react';
+import { Button, MessageInline, MessageVariety, Spinner } from '@sonarsource/echoes-react';
 import React from 'react';
-import { FlagMessage, Variant } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
 const intlPrefix = 'settings.authentication.configuration';
 
 interface Props {
   flagMessageContent: React.ReactNode;
-  flagMessageTitle: string;
-  flagMessageVariant: Variant;
+  flagMessageLabel: string;
+  flagMessageVariant: `${MessageVariety}`;
   loading: boolean;
   onTestConf: () => void;
 }
 
 export default function GitLabConfigurationValidity(props: Readonly<Props>) {
-  const { loading, flagMessageContent, flagMessageTitle, flagMessageVariant, onTestConf } = props;
+  const { loading, flagMessageContent, flagMessageLabel, flagMessageVariant, onTestConf } = props;
 
   return (
     <>
@@ -42,17 +41,19 @@ export default function GitLabConfigurationValidity(props: Readonly<Props>) {
         <Spinner className="sw-mr-2 sw-my-2" isLoading={loading} />
         {loading && <p>{translate(`${intlPrefix}.validity_check_loading`)}</p>}
       </div>
-      <FlagMessage
+      <div
         aria-atomic
         aria-busy={loading}
+        aria-label={flagMessageLabel}
         aria-live="polite"
-        className="sw-w-full"
         role="status"
-        title={flagMessageTitle}
-        variant={flagMessageVariant}
       >
-        {loading ? undefined : flagMessageContent}
-      </FlagMessage>
+        {!loading && (
+          <MessageInline className="sw-w-full" variety={flagMessageVariant}>
+            {flagMessageContent}
+          </MessageInline>
+        )}
+      </div>
       <Button
         className="sw-whitespace-nowrap sw-text-center sw-my-4"
         isDisabled={loading}

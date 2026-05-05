@@ -35,12 +35,12 @@ export default function GitLabConfigurationValidity(props: Readonly<Props>) {
   const message =
     configuration?.errorMessage ??
     translate(`${intlPrefix}.valid.${configuration?.provisioningType}`);
-  const variant = configuration?.errorMessage ? 'error' : 'success';
+  const variant = configuration?.errorMessage ? 'danger' : 'success';
 
   return (
     <TestConfiguration
       flagMessageContent={message}
-      flagMessageTitle={message}
+      flagMessageLabel={message}
       flagMessageVariant={variant}
       loading={loading}
       onTestConf={props.onRecheck}

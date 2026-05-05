@@ -18,13 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
-import { Link, Spinner } from '@sonarsource/echoes-react';
+import { IconCheck, IconWarning, Link, MessageCallout, Spinner } from '@sonarsource/echoes-react';
 import { formatDistance } from 'date-fns';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { CheckIcon, FlagMessage, FlagWarningIcon, themeColor } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { AlmSyncStatus } from '~sq-server-commons/types/provisioning';
 import { TaskStatuses } from '~sq-server-commons/types/tasks';
@@ -53,13 +50,13 @@ function LastSyncAlert({ info, provisionedBy, short }: Readonly<LastSyncProps>) 
   if (short) {
     return status === TaskStatuses.Success ? (
       <div>
-        <IconWrapper className="sw-ml-2">
+        <div className="sw-ml-2">
           {warningMessage ? (
-            <FlagWarningIcon className="sw-mr-2" />
+            <IconWarning className="sw-mr-2" variety="success" />
           ) : (
-            <CheckIcon className="sw-mr-2" height={32} width={32} />
+            <IconCheck className="sw-mr-2" height={32} variety="success" width={32} />
           )}
-        </IconWrapper>
+        </div>
 
         <i>
           {warningMessage ? (
@@ -78,86 +75,78 @@ function LastSyncAlert({ info, provisionedBy, short }: Readonly<LastSyncProps>) 
               }}
             />
           ) : (
-            translateWithParameters(
-              'settings.authentication.synchronization_successful',
-              formattedDate,
-            )
+            <FormattedMessage
+              id="settings.authentication.synchronization_successful"
+              values={{ '0': formattedDate }}
+            />
           )}
         </i>
       </div>
     ) : (
-      <FlagMessage variant="error">
-        <div>
-          <FormattedMessage
-            id="settings.authentication.synchronization_failed_short"
-            values={{
-              details: (
-                <Link
-                  className="sw-ml-2"
-                  to={`/admin/settings?category=authentication&tab=${provisionedBy}`}
-                >
-                  <FormattedMessage id="settings.authentication.synchronization_details_link" />
-                </Link>
-              ),
-            }}
-          />
-        </div>
-      </FlagMessage>
+      <MessageCallout variety="danger">
+        <FormattedMessage
+          id="settings.authentication.synchronization_failed_short"
+          values={{
+            details: (
+              <Link
+                className="sw-ml-2"
+                to={`/admin/settings?category=authentication&tab=${provisionedBy}`}
+              >
+                <FormattedMessage id="settings.authentication.synchronization_details_link" />
+              </Link>
+            ),
+          }}
+        />
+      </MessageCallout>
     );
   }
 
   return (
     <>
-      <FlagMessage
-        aria-live="assertive"
-        role="alert"
-        variant={status === TaskStatuses.Success ? 'success' : 'error'}
-      >
-        <div>
-          {status === TaskStatuses.Success ? (
-            <>
-              {translateWithParameters(
-                'settings.authentication.synchronization_successful',
-                formattedDate,
-              )}
+      <MessageCallout variety={status === TaskStatuses.Success ? 'success' : 'danger'}>
+        {status === TaskStatuses.Success ? (
+          <>
+            <FormattedMessage
+              id="settings.authentication.synchronization_successful"
+              values={{ '0': formattedDate }}
+            />
 
-              <br />
+            <br />
 
-              {summary ?? ''}
-            </>
-          ) : (
-            <React.Fragment key={`synch-alert-${finishedAt}`}>
-              <div>
-                {translateWithParameters(
-                  'settings.authentication.synchronization_failed',
-                  formattedDate,
-                )}
-              </div>
+            {summary ?? ''}
+          </>
+        ) : (
+          <React.Fragment key={`synch-alert-${finishedAt}`}>
+            <div>
+              <FormattedMessage
+                id="settings.authentication.synchronization_failed"
+                values={{ '0': formattedDate }}
+              />
+            </div>
 
-              <br />
+            <br />
 
-              {errorMessage ?? ''}
-            </React.Fragment>
-          )}
-        </div>
-      </FlagMessage>
+            {errorMessage ?? ''}
+          </React.Fragment>
+        )}
+      </MessageCallout>
 
-      <FlagMessage aria-live="assertive" role="alert" variant="warning">
-        {warningMessage}
-      </FlagMessage>
+      {warningMessage && <MessageCallout variety="warning">{warningMessage}</MessageCallout>}
     </>
   );
 }
 
 export default function AlmSynchronisationWarning(props: Readonly<SynchronisationWarningProps>) {
   const { data, provisionedBy, short } = props;
+  const { formatMessage } = useIntl();
   const loadingLabel =
     data.nextSync &&
-    translate(
-      data.nextSync.status === TaskStatuses.Pending
-        ? 'settings.authentication.synchronization_pending'
-        : 'settings.authentication.synchronization_in_progress',
-    );
+    formatMessage({
+      id:
+        data.nextSync.status === TaskStatuses.Pending
+          ? 'settings.authentication.synchronization_pending'
+          : 'settings.authentication.synchronization_in_progress',
+    });
 
   return (
     <>
@@ -173,7 +162,3 @@ export default function AlmSynchronisationWarning(props: Readonly<Synchronisatio
     </>
   );
 }
-
-const IconWrapper = styled.span`
-  color: ${themeColor('iconSuccess')};
-`;

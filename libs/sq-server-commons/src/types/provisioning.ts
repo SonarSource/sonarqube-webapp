@@ -101,6 +101,7 @@ export interface GitLabConfigurationCreateBody extends Pick<
 }
 
 export type GitLabConfigurationUpdateBody = {
+  allowAllGroups?: boolean;
   allowUsersToSignUp?: boolean;
   allowedGroups?: string[];
   applicationId?: string;
@@ -113,6 +114,7 @@ export type GitLabConfigurationUpdateBody = {
 };
 
 export type GitlabConfiguration = {
+  allowAllGroups: boolean;
   allowUsersToSignUp: boolean;
   allowedGroups: string[];
   applicationId: string;

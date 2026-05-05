@@ -110,6 +110,7 @@ export function mockGitlabConfiguration(
     enabled: false,
     url: 'URL',
     applicationId: '123',
+    allowAllGroups: false,
     allowUsersToSignUp: false,
     synchronizeGroups: true,
     provisioningType: ProvisioningType.jit,

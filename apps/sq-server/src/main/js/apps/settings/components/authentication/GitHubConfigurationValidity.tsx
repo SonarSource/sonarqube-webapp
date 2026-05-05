@@ -18,17 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, Text } from '@sonarsource/echoes-react';
+import {
+  IconCheckCircle,
+  IconError,
+  IconQuestionMark,
+  Link,
+  MessageInline,
+  MessageVariety,
+  Text,
+} from '@sonarsource/echoes-react';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  FlagErrorIcon,
-  FlagMessage,
-  FlagSuccessIcon,
-  HelperHintIcon,
-  Modal,
-  Variant,
-} from '~design-system';
+import { Modal } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { useCheckGitHubConfigQuery } from '~sq-server-commons/queries/identity-provider/github';
 import { GitHubProvisioningStatus } from '~sq-server-commons/types/provisioning';
@@ -38,9 +39,9 @@ const intlPrefix = 'settings.authentication.github.configuration.validation';
 
 function ValidityIcon({ valid }: { valid: boolean }) {
   return valid ? (
-    <FlagSuccessIcon aria-label={translate(`${intlPrefix}.details.valid_label`)} />
+    <IconCheckCircle aria-label={translate(`${intlPrefix}.details.valid_label`)} />
   ) : (
-    <FlagErrorIcon aria-label={translate(`${intlPrefix}.details.invalid_label`)} />
+    <IconError aria-label={translate(`${intlPrefix}.details.invalid_label`)} />
   );
 }
 
@@ -55,7 +56,7 @@ export default function GitHubConfigurationValidity({
 }: Props) {
   const [openDetails, setOpenDetails] = useState(false);
   const [messages, setMessages] = useState<string[]>([]);
-  const [alertVariant, setAlertVariant] = useState<Variant>('info');
+  const [alertVariant, setAlertVariant] = useState<`${MessageVariety}`>('info');
   const { data, isFetching, refetch } = useCheckGitHubConfigQuery(true);
   const modalHeader = translate(`${intlPrefix}.details.title`);
 
@@ -108,7 +109,7 @@ export default function GitHubConfigurationValidity({
         ),
         ...invalidOrgsMessages,
       ]);
-      setAlertVariant('error');
+      setAlertVariant('danger');
     }
   }, [isFetching, isValidApp, isAutoProvisioning, applicationField, data]);
 
@@ -139,7 +140,7 @@ export default function GitHubConfigurationValidity({
     <>
       <TestConfiguration
         flagMessageContent={message}
-        flagMessageTitle={messages[0]}
+        flagMessageLabel={messages[0] ?? ''}
         flagMessageVariant={alertVariant}
         loading={isFetching}
         onTestConf={() => refetch()}
@@ -150,16 +151,16 @@ export default function GitHubConfigurationValidity({
           body={
             <>
               {isValidApp ? (
-                <FlagMessage className="sw-w-full sw-mb-2" variant="success">
+                <MessageInline className="sw-w-full sw-mb-2" variety="success">
                   {translate(`${intlPrefix}.valid.short`)}
-                </FlagMessage>
+                </MessageInline>
               ) : (
-                <FlagMessage className="sw-w-full sw-mb-2" variant="error">
+                <MessageInline className="sw-w-full sw-mb-2" variety="danger">
                   {translateWithParameters(
                     `${intlPrefix}.invalid`,
                     data?.application[applicationField].errorMessage ?? '',
                   )}
-                </FlagMessage>
+                </MessageInline>
               )}
               <Text as="ul" className="sw-list-none sw-max-w-full sw-pl-5 sw-m-0">
                 {data?.installations.map((inst) => (
@@ -177,7 +178,7 @@ export default function GitHubConfigurationValidity({
                 ))}
                 {failedOrgs.map((fo) => (
                   <li className="sw-flex sw-items-center" key={fo}>
-                    <HelperHintIcon />
+                    <IconQuestionMark />
                     <Text className="sw-ml-2" isSubtle>
                       {translateWithParameters(`${intlPrefix}.details.org_not_found`, fo)}
                     </Text>

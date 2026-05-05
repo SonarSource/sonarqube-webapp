@@ -2974,7 +2974,6 @@ export const defaultMessages = {
     'GitHub roles mapping saved successfully.',
   'settings.authentication.github.configuration.roles_mapping.dialog.custom_roles_description':
     'When a custom role name added here matches an existing GitHub custom role in any of your organizations, the mapping applies to all users with this custom role. If an existing GitHub custom role has no exact match in this list, the permissions of its inherited base role are mapped.',
-  'settings.authentication.github.configuration.unsaved_changes': 'You have unsaved changes.',
 
   // GITLAB
   'settings.authentication.gitlab.configuration': 'GitLab Configuration',
@@ -2994,17 +2993,28 @@ export const defaultMessages = {
   'settings.authentication.gitlab.form.synchronizeGroups.name': 'Synchronize user groups',
   'settings.authentication.gitlab.form.synchronizeGroups.description':
     'For each GitLab group they belong to, the user will be associated to a group with the same name (if it exists) in {productName}. If enabled, the GitLab OAuth 2 application will need to provide the api scope.',
-  'settings.authentication.gitlab.form.allowedGroups.name': 'Allowed groups',
+  'settings.authentication.gitlab.form.allowedGroups.name': 'Allow specific groups',
   'settings.authentication.gitlab.form.allowedGroups.description.JIT':
-    'Only members of these groups (and sub-groups) will be allowed to authenticate. Enter the group slug as it appears in the GitLab URL, for instance `my-gitlab-group`. ⚠︎ When you turn on `Allow users to sign up`, make sure to also turn on group synchronization and provide a list of allowed groups. Otherwise, any GitLab user will be able to log in to this {productName} instance.',
+    'Only members of these groups (and sub-groups) will be provisioned. Provision only the selected groups, as it appears in the GitLab URL',
   'settings.authentication.gitlab.form.allowedGroups.description.AUTO_PROVISIONING':
-    'Only members of these groups (and sub-groups) will be provisioned. Please enter the group slug as it appears in the GitLab URL, for instance `my-gitlab-group`.',
+    'Only members of these groups (and sub-groups) will be provisioned.',
+  'settings.authentication.gitlab.form.allowedGroups.placeholder': 'gitlab-group-slug',
+  'settings.authentication.gitlab.form.allowedGroups.allow_all.label': 'Allow all groups',
+  'settings.authentication.gitlab.form.allowedGroups.allow_all.help':
+    'Provision all private and public groups',
+  'settings.authentication.gitlab.form.allowedGroups.allow_all.warning':
+    'Allowing all groups is less secure. SonarQube syncs all available GitLab groups, potentially granting unintended access. Use this only if you trust the entire GitLab instance.',
+  'settings.authentication.gitlab.form.allowedGroups.allow_specific.label': 'Allow specific groups',
+  'settings.authentication.gitlab.form.allowedGroups.allow_specific.help':
+    'Provision only the selected groups, as it appears in the GitLab URL',
   'settings.authentication.gitlab.form.allowUsersToSignUp.name': 'Allow users to sign up',
   'settings.authentication.gitlab.form.allowUsersToSignUp.description':
     'Allow new users to authenticate. When set to disabled, only existing users will be able to authenticate to the server.',
+  'settings.authentication.gitlab.form.allowUsersToSignUp.info':
+    '`Allow users to sign up` is enabled. To prevent any GitLab user from logging in, also enable group synchronization and restrict access to specific groups.',
   'settings.authentication.gitlab.form.provisioningToken.name': 'Provisioning token',
   'settings.authentication.gitlab.form.provisioningToken.description':
-    'Token used for user provisioning. You can either use a group or a personal access token, as long as it has visibility on the groups that need to be imported.',
+    'Token used for user provisioning. It can be either a group or personal access token and must have visibility on the groups to be provisioned.',
   'settings.authentication.gitlab.applicationId.name': 'App ID: {0}',
   'settings.authentication.gitlab.enable_first':
     'Enable your GitLab configuration for more provisioning options.',

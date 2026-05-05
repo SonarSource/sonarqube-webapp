@@ -18,13 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, Text } from '@sonarsource/echoes-react';
+import { Link, MessageInline, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSearchParams } from 'react-router-dom';
 import { Image } from '~adapters/components/common/Image';
-import { FlagMessage, getTabId, getTabPanelId, SubTitle, ToggleButton } from '~design-system';
+import { getTabId, getTabPanelId, SubTitle, ToggleButton } from '~design-system';
 import { searchParamsToQuery } from '~shared/helpers/router';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
 import withAvailableFeatures, {
@@ -106,20 +106,18 @@ export function Authentication(props: Props & WithAvailableFeaturesProps) {
         <FormattedMessage id="settings.authentication.title" />
       </SubTitle>
       {props.hasFeature(Feature.LoginMessage) && (
-        <FlagMessage variant="info">
-          <div>
-            <FormattedMessage
-              id="settings.authentication.custom_message_information"
-              values={{
-                link: (
-                  <Link to="/admin/settings?category=general#sonar.login.message">
-                    <FormattedMessage id="settings.authentication.custom_message_information.link" />
-                  </Link>
-                ),
-              }}
-            />
-          </div>
-        </FlagMessage>
+        <MessageInline variety="info">
+          <FormattedMessage
+            id="settings.authentication.custom_message_information"
+            values={{
+              link: (
+                <Link to="/admin/settings?category=general#sonar.login.message">
+                  <FormattedMessage id="settings.authentication.custom_message_information.link" />
+                </Link>
+              ),
+            }}
+          />
+        </MessageInline>
       )}
       <Text as="p" className="sw-my-6">
         <FormattedMessage id="settings.authentication.description" />

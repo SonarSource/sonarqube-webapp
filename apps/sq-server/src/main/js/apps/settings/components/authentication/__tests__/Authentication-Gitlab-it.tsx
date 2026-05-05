@@ -87,7 +87,7 @@ const ui = {
   }),
   url: byRole('textbox', { name: 'property.url.name' }),
   secret: byRole('textbox', {
-    name: 'property.secret.name',
+    name: 'property.secret.name required',
   }),
   synchronizeGroups: byRole('switch', {
     description: 'property.synchronizeGroups.description',
@@ -103,7 +103,7 @@ const ui = {
     description: 'property.allowUsersToSignUp.description',
   }),
   autoProvisioningToken: byRole('textbox', {
-    name: 'property.provisioningToken.name',
+    name: 'property.provisioningToken.name required',
   }),
   autoProvisioningUpdateTokenButton: byRole('button', {
     name: 'settings.almintegration.form.secret.update_field',
@@ -111,6 +111,18 @@ const ui = {
   groups: byRole('textbox', {
     name: 'property.allowedGroups.name',
   }),
+  allowAllGroupsRadio: byRole('radio', {
+    name: 'settings.authentication.gitlab.form.allowedGroups.allow_all.label',
+  }),
+  allowSpecificGroupsRadio: byRole('radio', {
+    name: 'settings.authentication.gitlab.form.allowedGroups.allow_specific.label',
+  }),
+  allowAllGroupsWarning: glContainer.byText(
+    'settings.authentication.gitlab.form.allowedGroups.allow_all.warning',
+  ),
+  allowUsersToSignUpWarning: glContainer.byText(
+    'settings.authentication.gitlab.form.allowUsersToSignUp.info',
+  ),
   deleteGroupButton: byRole('button', { name: /delete_value/ }),
   removeProvisioniongGroup: byRole('button', {
     name: /settings.definition.delete_value.property.allowedGroups.name./,
@@ -333,6 +345,149 @@ it('should change from just-in-time to Auto Provisioning if auto was never set b
 
   await user.type(ui.groups.get(), 'Public Enemy');
   expect(await ui.saveProvisioning.find()).toBeEnabled();
+});
+
+it('should allow provisioning of all groups via the Allow all radio in Auto mode', async () => {
+  const user = userEvent.setup();
+  handler.setGitlabConfigurations([
+    mockGitlabConfiguration({
+      allowUsersToSignUp: false,
+      enabled: true,
+      provisioningType: ProvisioningType.jit,
+      allowedGroups: [],
+      isProvisioningTokenSet: false,
+    }),
+  ]);
+  renderAuthentication([Feature.GitlabProvisioning]);
+
+  expect(await ui.editConfigButton.find()).toBeInTheDocument();
+  await user.click(ui.autoProvisioningRadioButton.get());
+  await user.type(ui.autoProvisioningToken.get(), 'a-token');
+
+  expect(ui.allowSpecificGroupsRadio.get()).toBeChecked();
+  expect(ui.groups.get()).toBeInTheDocument();
+  expect(ui.saveProvisioning.get()).toBeDisabled();
+
+  await user.click(ui.allowAllGroupsRadio.get());
+  expect(ui.allowAllGroupsRadio.get()).toBeChecked();
+  expect(ui.groups.query()).not.toBeInTheDocument();
+  expect(ui.saveProvisioning.get()).toBeEnabled();
+
+  await user.click(ui.saveProvisioning.get());
+  await user.click(ui.confirmProvisioningChange.get());
+
+  expect(handler.gitlabConfigurations[0].allowAllGroups).toBe(true);
+  expect(await ui.allowAllGroupsRadio.find()).toBeChecked();
+
+  await user.click(ui.allowSpecificGroupsRadio.get());
+  expect(ui.groups.get()).toBeInTheDocument();
+});
+
+it('should not show the insecure-config warning when JIT allows all groups', async () => {
+  handler.setGitlabConfigurations([
+    mockGitlabConfiguration({
+      allowUsersToSignUp: false,
+      enabled: true,
+      provisioningType: ProvisioningType.jit,
+      allowAllGroups: true,
+      allowedGroups: [],
+      isProvisioningTokenSet: true,
+    }),
+  ]);
+  const user = userEvent.setup();
+  renderAuthentication([Feature.GitlabProvisioning]);
+
+  expect(await ui.editConfigButton.find()).toBeInTheDocument();
+
+  await user.click(ui.jitAllowUsersToSignUpToggle.get());
+  await user.click(ui.saveProvisioning.get());
+
+  expect(ui.confirmInsecureProvisioningDialog.query()).not.toBeInTheDocument();
+  expect(handler.gitlabConfigurations[0].allowAllGroups).toBe(true);
+});
+
+it('should display the security warning when "Allow all groups" is selected in Auto mode', async () => {
+  handler.setGitlabConfigurations([
+    mockGitlabConfiguration({
+      enabled: true,
+      provisioningType: ProvisioningType.auto,
+      allowAllGroups: false,
+      allowedGroups: ['Cypress Hill'],
+      isProvisioningTokenSet: true,
+    }),
+  ]);
+  const user = userEvent.setup();
+  renderAuthentication([Feature.GitlabProvisioning]);
+
+  expect(await ui.editConfigButton.find()).toBeInTheDocument();
+  expect(ui.allowSpecificGroupsRadio.get()).toBeChecked();
+  expect(ui.allowAllGroupsWarning.query()).not.toBeInTheDocument();
+
+  await user.click(ui.allowAllGroupsRadio.get());
+  expect(ui.allowAllGroupsWarning.get()).toBeInTheDocument();
+
+  await user.click(ui.allowSpecificGroupsRadio.get());
+  expect(ui.allowAllGroupsWarning.query()).not.toBeInTheDocument();
+});
+
+it('should hydrate "Allow all groups" from an existing Auto provisioning configuration', async () => {
+  handler.setGitlabConfigurations([
+    mockGitlabConfiguration({
+      enabled: true,
+      provisioningType: ProvisioningType.auto,
+      allowAllGroups: true,
+      allowedGroups: [],
+      isProvisioningTokenSet: true,
+    }),
+  ]);
+  renderAuthentication([Feature.GitlabProvisioning]);
+
+  expect(await ui.editConfigButton.find()).toBeInTheDocument();
+  expect(ui.allowAllGroupsRadio.get()).toBeChecked();
+  expect(ui.allowSpecificGroupsRadio.get()).not.toBeChecked();
+  expect(ui.groups.query()).not.toBeInTheDocument();
+  expect(ui.allowAllGroupsWarning.get()).toBeInTheDocument();
+});
+
+it('should warn when JIT allowUsersToSignUp is enabled without group synchronization', async () => {
+  handler.setGitlabConfigurations([
+    mockGitlabConfiguration({
+      enabled: true,
+      provisioningType: ProvisioningType.jit,
+      allowUsersToSignUp: false,
+      synchronizeGroups: false,
+      allowedGroups: ['Cypress Hill'],
+      isProvisioningTokenSet: true,
+    }),
+  ]);
+  const user = userEvent.setup();
+  renderAuthentication([Feature.GitlabProvisioning]);
+
+  expect(await ui.editConfigButton.find()).toBeInTheDocument();
+  expect(ui.allowUsersToSignUpWarning.query()).not.toBeInTheDocument();
+
+  await user.click(ui.jitAllowUsersToSignUpToggle.get());
+  expect(ui.allowUsersToSignUpWarning.get()).toBeInTheDocument();
+
+  await user.click(ui.jitAllowUsersToSignUpToggle.get());
+  expect(ui.allowUsersToSignUpWarning.query()).not.toBeInTheDocument();
+});
+
+it('should not warn about JIT allowUsersToSignUp when group synchronization is enabled', async () => {
+  handler.setGitlabConfigurations([
+    mockGitlabConfiguration({
+      enabled: true,
+      provisioningType: ProvisioningType.jit,
+      allowUsersToSignUp: true,
+      synchronizeGroups: true,
+      allowedGroups: ['Cypress Hill'],
+      isProvisioningTokenSet: true,
+    }),
+  ]);
+  renderAuthentication([Feature.GitlabProvisioning]);
+
+  expect(await ui.editConfigButton.find()).toBeInTheDocument();
+  expect(ui.allowUsersToSignUpWarning.query()).not.toBeInTheDocument();
 });
 
 it('should change from just-in-time to Auto Provisioning if auto was set before', async () => {

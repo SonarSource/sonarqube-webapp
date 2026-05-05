@@ -75,7 +75,7 @@ const ui = {
   providerName: byRole('textbox', { name: 'property.sonar.auth.saml.providerName.name' }),
   providerId: byRole('textbox', { name: 'property.sonar.auth.saml.providerId.name' }),
   providerCertificate: byRole('textbox', {
-    name: 'property.sonar.auth.saml.certificate.secured.name',
+    name: 'property.sonar.auth.saml.certificate.secured.name required',
   }),
   loginUrl: byRole('textbox', { name: 'property.sonar.auth.saml.loginUrl.name' }),
   userLoginAttribute: byRole('textbox', { name: 'property.sonar.auth.saml.user.login.name' }),

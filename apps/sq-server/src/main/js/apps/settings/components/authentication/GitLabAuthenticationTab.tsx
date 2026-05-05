@@ -18,15 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, Spinner, Text } from '@sonarsource/echoes-react';
+import { Button, MessageCallout, RadioButtonGroup, Spinner, Text } from '@sonarsource/echoes-react';
 import { isEmpty, omitBy } from 'lodash';
 import { FormEvent, useContext, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { RequiredIcon } from '~design-system';
 import { SettingType } from '~shared/types/settings';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { useIdentityProviderQuery } from '~sq-server-commons/queries/identity-provider/common';
 import {
   useDeleteGitLabConfigurationMutation,
@@ -42,7 +42,9 @@ import {
 import { DefinitionV2 } from '~sq-server-commons/types/settings';
 import { Provider } from '~sq-server-commons/types/types';
 import GitLabSynchronisationWarning from '../../../../app/components/GitLabSynchronisationWarning';
+import { getPropertyDescription, getPropertyName } from '../../utils';
 import AuthenticationFormField from './AuthenticationFormField';
+import AuthenticationMultiValueField from './AuthenticationMultiValuesField';
 import AutoProvisioningConsent from './AutoProvisionningConsent';
 import ConfigurationDetails from './ConfigurationDetails';
 import ConfirmProvisioningModal from './ConfirmProvisioningModal';
@@ -53,42 +55,147 @@ import ProvisioningSection from './ProvisioningSection';
 import TabHeader from './TabHeader';
 
 interface ChangesForm {
+  allowAllGroups?: GitLabConfigurationUpdateBody['allowAllGroups'];
   allowUsersToSignUp?: GitLabConfigurationUpdateBody['allowUsersToSignUp'];
   allowedGroups?: GitLabConfigurationUpdateBody['allowedGroups'];
   provisioningToken?: GitLabConfigurationUpdateBody['provisioningToken'];
   provisioningType?: GitLabConfigurationUpdateBody['provisioningType'];
 }
 
-const getDefinitions = (
+const ALLOW_ALL = 'all';
+const ALLOW_SPECIFIC = 'specific';
+
+interface AllowedGroupsFieldProps {
+  allowAllGroups: boolean;
+  allowedGroups: string[] | undefined;
+  className?: string;
+  definition: DefinitionV2;
+  isAutoProvisioning?: boolean;
+  mandatory?: boolean;
+  onAllowAllGroupsChange: (value: boolean) => void;
+  onAllowedGroupsChange: (value: string[]) => void;
+}
+
+function AllowedGroupsField(props: Readonly<AllowedGroupsFieldProps>) {
+  const {
+    allowAllGroups,
+    allowedGroups,
+    className,
+    definition,
+    mandatory = false,
+    onAllowAllGroupsChange,
+    onAllowedGroupsChange,
+    isAutoProvisioning,
+  } = props;
+  const { formatMessage } = useIntl();
+  const name = getPropertyName(definition);
+  const description = getPropertyDescription(definition);
+
+  return (
+    <div className={className}>
+      <Text className="sw-mb-1 sw-flex sw-items-center" isHighlighted>
+        {name}
+        {mandatory && (
+          <RequiredIcon aria-label={formatMessage({ id: 'required' })} className="sw-ml-1" />
+        )}
+      </Text>
+      {description !== undefined && <Text isSubtle>{description}</Text>}
+
+      {isAutoProvisioning && (
+        <RadioButtonGroup
+          ariaLabel={name}
+          className="sw-mt-3"
+          onChange={(value) => {
+            onAllowAllGroupsChange(value === ALLOW_ALL);
+          }}
+          options={[
+            {
+              value: ALLOW_ALL,
+              label: formatMessage({
+                id: 'settings.authentication.gitlab.form.allowedGroups.allow_all.label',
+              }),
+              helpText: (
+                <div>
+                  {formatMessage({
+                    id: 'settings.authentication.gitlab.form.allowedGroups.allow_all.help',
+                  })}
+                  {allowAllGroups && isAutoProvisioning && (
+                    <MessageCallout className="sw-mt-2" variety="warning">
+                      <FormattedMessage id="settings.authentication.gitlab.form.allowedGroups.allow_all.warning" />
+                    </MessageCallout>
+                  )}
+                </div>
+              ),
+            },
+            {
+              value: ALLOW_SPECIFIC,
+              label: formatMessage({
+                id: 'settings.authentication.gitlab.form.allowedGroups.allow_specific.label',
+              }),
+              helpText: formatMessage({
+                id: 'settings.authentication.gitlab.form.allowedGroups.allow_specific.help',
+              }),
+            },
+          ]}
+          value={allowAllGroups ? ALLOW_ALL : ALLOW_SPECIFIC}
+        />
+      )}
+
+      {(!allowAllGroups || !isAutoProvisioning) && (
+        <div className={`sw-mt-3 ${isAutoProvisioning ? 'sw-ml-6' : ''}`}>
+          <label className="sw-sr-only" htmlFor={definition.key}>
+            {name}
+          </label>
+          <AuthenticationMultiValueField
+            definition={definition}
+            onFieldChange={onAllowedGroupsChange}
+            placeHolder={formatMessage({
+              id: 'settings.authentication.gitlab.form.allowedGroups.placeholder',
+            })}
+            settingValue={allowedGroups}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+const useDefinitions = (
   provisioningType: ProvisioningType,
-): Record<keyof Omit<ChangesForm, 'provisioningType'>, DefinitionV2> => {
+): Record<keyof Omit<ChangesForm, 'allowAllGroups' | 'provisioningType'>, DefinitionV2> => {
+  const { formatMessage } = useIntl();
   return {
     allowUsersToSignUp: {
-      name: translate('settings.authentication.gitlab.form.allowUsersToSignUp.name'),
+      name: formatMessage({ id: 'settings.authentication.gitlab.form.allowUsersToSignUp.name' }),
       secured: false,
       key: 'allowUsersToSignUp',
-      description: translate('settings.authentication.gitlab.form.allowUsersToSignUp.description'),
+      description: formatMessage({
+        id: 'settings.authentication.gitlab.form.allowUsersToSignUp.description',
+      }),
       type: SettingType.BOOLEAN,
     },
     provisioningToken: {
-      name: translate('settings.authentication.gitlab.form.provisioningToken.name'),
+      name: formatMessage({ id: 'settings.authentication.gitlab.form.provisioningToken.name' }),
       secured: true,
       key: 'provisioningToken',
-      description: translate('settings.authentication.gitlab.form.provisioningToken.description'),
+      description: formatMessage({
+        id: 'settings.authentication.gitlab.form.provisioningToken.description',
+      }),
     },
     allowedGroups: {
-      name: translate('settings.authentication.gitlab.form.allowedGroups.name'),
+      name: formatMessage({ id: 'settings.authentication.gitlab.form.allowedGroups.name' }),
       secured: false,
       key: 'allowedGroups',
-      description: translate(
-        `settings.authentication.gitlab.form.allowedGroups.description.${provisioningType}`,
-      ),
+      description: formatMessage({
+        id: `settings.authentication.gitlab.form.allowedGroups.description.${provisioningType}`,
+      }),
       multiValues: true,
     },
   };
 };
 
 export default function GitLabAuthenticationTab() {
+  const { formatMessage } = useIntl();
   const [openForm, setOpenForm] = useState(false);
   const [changes, setChanges] = useState<ChangesForm | undefined>();
   const [tokenKey, setTokenKey] = useState<number>(0);
@@ -113,7 +220,7 @@ export default function GitLabAuthenticationTab() {
   const { mutate: updateConfig, isPending: isUpdating } = useUpdateGitLabConfigurationMutation();
   const { mutate: deleteConfig, isPending: isDeleting } = useDeleteGitLabConfigurationMutation();
 
-  const definitions = getDefinitions(
+  const definitions = useDefinitions(
     changes?.provisioningType ?? configuration?.provisioningType ?? ProvisioningType.jit,
   );
   const toggleEnable = () => {
@@ -134,7 +241,10 @@ export default function GitLabAuthenticationTab() {
     e.preventDefault();
     if (
       changes?.provisioningType !== undefined ||
-      (provisioningType === ProvisioningType.jit && allowUsersToSignUp && isEmpty(allowedGroups))
+      (provisioningType === ProvisioningType.jit &&
+        allowUsersToSignUp &&
+        !allowAllGroups &&
+        isEmpty(allowedGroups))
     ) {
       setShowConfirmProvisioningModal(true);
     } else {
@@ -161,6 +271,7 @@ export default function GitLabAuthenticationTab() {
   const setJIT = () => {
     setChangesWithCheck({
       provisioningType: ProvisioningType.jit,
+      allowAllGroups: changes?.allowAllGroups,
       allowedGroups: changes?.allowedGroups,
       provisioningToken: undefined,
     });
@@ -169,6 +280,7 @@ export default function GitLabAuthenticationTab() {
   const setAuto = () => {
     setChangesWithCheck({
       provisioningType: ProvisioningType.auto,
+      allowAllGroups: changes?.allowAllGroups,
       allowedGroups: changes?.allowedGroups,
       allowUsersToSignUp: undefined,
     });
@@ -181,7 +293,9 @@ export default function GitLabAuthenticationTab() {
   const provisioningTokenDefinition = definitions.provisioningToken;
 
   const provisioningType = changes?.provisioningType ?? configuration?.provisioningType;
+  const synchronizeGroups = configuration?.synchronizeGroups ?? false;
   const allowUsersToSignUp = changes?.allowUsersToSignUp ?? configuration?.allowUsersToSignUp;
+  const allowAllGroups = changes?.allowAllGroups ?? configuration?.allowAllGroups ?? false;
   const allowedGroups = changes?.allowedGroups ?? configuration?.allowedGroups;
   const provisioningToken = changes?.provisioningToken;
 
@@ -195,7 +309,8 @@ export default function GitLabAuthenticationTab() {
         changes.allowedGroups?.some((val) => val !== '') ??
         configuration.allowedGroups?.some((val) => val !== '');
       return (
-        (configuration.isProvisioningTokenSet || !!changes.provisioningToken) && areGroupsDefined
+        (configuration.isProvisioningTokenSet || !!changes.provisioningToken) &&
+        (allowAllGroups || areGroupsDefined)
       );
     }
     return true;
@@ -207,6 +322,10 @@ export default function GitLabAuthenticationTab() {
         configuration?.provisioningType === newChanges.provisioningType
           ? undefined
           : newChanges.provisioningType,
+      allowAllGroups:
+        configuration?.allowAllGroups === newChanges.allowAllGroups
+          ? undefined
+          : newChanges.allowAllGroups,
       allowUsersToSignUp:
         configuration?.allowUsersToSignUp === newChanges.allowUsersToSignUp
           ? undefined
@@ -243,7 +362,7 @@ export default function GitLabAuthenticationTab() {
             setOpenForm(true);
           }}
           showCreate={!configuration}
-          title={translate('settings.authentication.gitlab.configuration')}
+          title={formatMessage({ id: 'settings.authentication.gitlab.configuration' })}
         />
         {!configuration && (
           <div>
@@ -261,9 +380,9 @@ export default function GitLabAuthenticationTab() {
                 setOpenForm(true);
               }}
               onToggle={toggleEnable}
-              title={translateWithParameters(
-                'settings.authentication.gitlab.applicationId.name',
-                configuration.applicationId,
+              title={formatMessage(
+                { id: 'settings.authentication.gitlab.applicationId.name' },
+                { 0: configuration.applicationId },
               )}
               url={configuration.url}
             />
@@ -274,7 +393,7 @@ export default function GitLabAuthenticationTab() {
                   values={{
                     documentation: (
                       <DocumentationLink to={DocLink.AlmGitLabAuthAutoProvisioningMethod}>
-                        {translate(`learn_more`)}
+                        {formatMessage({ id: 'learn_more' })}
                       </DocumentationLink>
                     ),
                   }}
@@ -307,29 +426,32 @@ export default function GitLabAuthenticationTab() {
                     }}
                     settingValue={provisioningToken}
                   />
-                  <AuthenticationFormField
+                  <AllowedGroupsField
+                    allowAllGroups={allowAllGroups}
+                    allowedGroups={allowedGroups}
                     className="sw-mt-8"
                     definition={allowedGroupsDefinition}
-                    isNotSet={configuration.provisioningType !== ProvisioningType.auto}
+                    isAutoProvisioning
                     mandatory
-                    onFieldChange={(_, values) => {
+                    onAllowAllGroupsChange={(value) => {
                       setChangesWithCheck({
                         ...changes,
-                        allowedGroups: values as string[],
+                        allowAllGroups: value,
                       });
                     }}
-                    settingValue={allowedGroups}
+                    onAllowedGroupsChange={(values) => {
+                      setChangesWithCheck({
+                        ...changes,
+                        allowedGroups: values,
+                      });
+                    }}
                   />
-                  <div className="sw-mt-6">
-                    <div className="sw-flex">
-                      <Text
-                        className="sw-mb-4 sw-mr-4 sw-flex sw-items-center sw-gap-2"
-                        isHighlighted
-                      >
+                  <div className="sw-mt-8">
+                    <div className="sw-flex sw-flex-col sw-gap-2 sw-items-start">
+                      <Text isHighlighted>
                         <FormattedMessage id="settings.authentication.configuration.roles_mapping.title" />
                       </Text>
                       <Button
-                        className="sw--mt-2"
                         onClick={() => {
                           setIsMappingModalOpen(true);
                         }}
@@ -337,16 +459,20 @@ export default function GitLabAuthenticationTab() {
                         <FormattedMessage id="settings.authentication.configuration.roles_mapping.button_label" />
                       </Button>
                     </div>
-                    <Text className="sw-mt-2" isSubtle>
+                    <Text as="p" className="sw-mt-3" isSubtle>
                       <FormattedMessage id="settings.authentication.gitlab.configuration.roles_mapping.description" />
                     </Text>
                   </div>
                 </>
               }
-              autoTitle={translate('settings.authentication.gitlab.form.provisioning_with_gitlab')}
+              autoTitle={formatMessage({
+                id: 'settings.authentication.gitlab.form.provisioning_with_gitlab',
+              })}
               canSave={canSave()}
               canSync={canSyncNow}
-              disabledConfigText={translate('settings.authentication.gitlab.enable_first')}
+              disabledConfigText={formatMessage({
+                id: 'settings.authentication.gitlab.enable_first',
+              })}
               enabled={configuration.enabled}
               hasDifferentProvider={hasDifferentProvider}
               hasFeatureEnabled={hasGitlabProvisioningFeature}
@@ -358,7 +484,7 @@ export default function GitLabAuthenticationTab() {
                   values={{
                     documentation: (
                       <DocumentationLink to={DocLink.AlmGitLabAuthJITProvisioningMethod}>
-                        {translate(`learn_more`)}
+                        {formatMessage({ id: 'learn_more' })}
                       </DocumentationLink>
                     ),
                   }}
@@ -378,21 +504,34 @@ export default function GitLabAuthenticationTab() {
                     }}
                     settingValue={allowUsersToSignUp}
                   />
-                  <AuthenticationFormField
+                  {allowUsersToSignUp && !synchronizeGroups && (
+                    <MessageCallout className="sw-mt-3" variety="warning">
+                      <FormattedMessage id="settings.authentication.gitlab.form.allowUsersToSignUp.info" />
+                    </MessageCallout>
+                  )}
+                  <AllowedGroupsField
+                    allowAllGroups={allowAllGroups}
+                    allowedGroups={allowedGroups}
                     className="sw-mt-8"
                     definition={allowedGroupsDefinition}
-                    isNotSet={configuration.provisioningType !== ProvisioningType.auto}
-                    onFieldChange={(_, values) => {
+                    onAllowAllGroupsChange={(value) => {
                       setChangesWithCheck({
                         ...changes,
-                        allowedGroups: values as string[],
+                        allowAllGroups: value,
                       });
                     }}
-                    settingValue={allowedGroups}
+                    onAllowedGroupsChange={(values) => {
+                      setChangesWithCheck({
+                        ...changes,
+                        allowedGroups: values,
+                      });
+                    }}
                   />
                 </>
               }
-              jitTitle={translate('settings.authentication.gitlab.provisioning_at_login')}
+              jitTitle={formatMessage({
+                id: 'settings.authentication.gitlab.provisioning_at_login',
+              })}
               onCancel={() => {
                 setChanges(undefined);
                 setTokenKey(tokenKey + 1);
@@ -416,7 +555,7 @@ export default function GitLabAuthenticationTab() {
         <ConfirmProvisioningModal
           allowUsersToSignUp={allowUsersToSignUp}
           hasProvisioningTypeChange={Boolean(changes?.provisioningType)}
-          isAllowListEmpty={isEmpty(allowedGroups)}
+          isAllowListEmpty={!allowAllGroups && isEmpty(allowedGroups)}
           isOpen={showConfirmProvisioningModal}
           onClose={() => {
             setShowConfirmProvisioningModal(false);

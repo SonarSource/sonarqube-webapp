@@ -60,6 +60,7 @@ export function useCreateGitLabConfigurationMutation() {
           total: 1,
         },
       });
+      client.invalidateQueries({ queryKey: ['identity_provider', 'gitlab_config', 'summary'] });
     },
   });
 }
@@ -88,6 +89,7 @@ export function useUpdateGitLabConfigurationMutation() {
           total: 1,
         },
       });
+      client.invalidateQueries({ queryKey: ['identity_provider', 'gitlab_config', 'summary'] });
       if (canSyncNow && data.provisioningType === ProvisioningType.auto) {
         synchronizeNow();
       }
@@ -110,13 +112,14 @@ export function useDeleteGitLabConfigurationMutation() {
           total: 0,
         },
       });
+      client.invalidateQueries({ queryKey: ['identity_provider', 'gitlab_config', 'summary'] });
     },
   });
 }
 
 export function useGitLabConfigurationsSummaryQuery() {
   return useQuery({
-    queryKey: ['identity_provider', 'gitlab_config'],
+    queryKey: ['identity_provider', 'gitlab_config', 'summary'],
     queryFn: fetchGitLabConfigurationsSummary,
     staleTime: StaleTime.LONG,
   });

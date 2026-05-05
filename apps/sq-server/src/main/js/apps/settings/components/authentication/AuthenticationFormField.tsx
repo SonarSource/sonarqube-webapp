@@ -19,9 +19,9 @@
  */
 
 import styled from '@emotion/styled';
-import { IconError, Text } from '@sonarsource/echoes-react';
+import { IconError, Label, Text, TextInput } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { FormField, InputField, RequiredIcon } from '~design-system';
+import { RequiredIcon } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { ExtendedSettingDefinition, SettingType } from '~shared/types/settings';
 import { DefinitionV2 } from '~sq-server-commons/types/settings';
@@ -43,23 +43,21 @@ interface Props {
 export default function AuthenticationFormField(props: Readonly<Props>) {
   const { mandatory = false, definition, settingValue, isNotSet, error, className } = props;
 
-  const intl = useIntl();
+  const { formatMessage } = useIntl();
 
   const name = getPropertyName(definition);
   const description = getPropertyDescription(definition);
+  const hasError = isDefined(error) && error !== '';
 
   if (!isSecuredDefinition(definition) && definition.type === SettingType.BOOLEAN) {
     return (
       <>
         <div className="sw-flex">
-          <Text className="sw-mb-4 sw-mr-4 sw-flex sw-items-center sw-gap-2" isHighlighted>
+          <Text className="sw-mb-4 sw-mr-4 sw-flex sw-items-center" isHighlighted>
             <StyledLabel aria-label={name} htmlFor={definition.key}>
               {name}
               {mandatory && (
-                <RequiredIcon
-                  aria-label={intl.formatMessage({ id: 'required' })}
-                  className="sw-ml-1"
-                />
+                <RequiredIcon aria-label={formatMessage({ id: 'required' })} className="sw-ml-1" />
               )}
             </StyledLabel>
           </Text>
@@ -81,58 +79,34 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
     );
   }
 
-  return (
-    <FormField
-      ariaLabel={name}
-      className={className}
-      description={description}
-      htmlFor={definition.key}
-      label={name}
-      required={mandatory}
-    >
-      {definition.multiValues && (
-        <AuthenticationMultiValueField
-          definition={definition}
-          onFieldChange={(value) => {
-            props.onFieldChange(definition.key, value);
-          }}
-          settingValue={settingValue as string[]}
-        />
-      )}
-      {isSecuredDefinition(definition) && (
-        <>
-          <AuthenticationSecuredField
-            definition={definition}
-            isClearable={!mandatory}
-            isNotSet={isNotSet}
-            onFieldChange={props.onFieldChange}
-            settingValue={String(settingValue ?? '')}
-          />
-          {isDefined(error) && error !== '' && (
-            <Text className="sw-mt-2" colorOverride="echoes-color-text-danger">
-              <IconError className="sw-mr-1" />
-              {error}
-            </Text>
+  if (definition.multiValues || isSecuredDefinition(definition)) {
+    return (
+      <FieldWrapper className={className}>
+        <Label className="sw-mb-2 sw-flex sw-items-center" htmlFor={definition.key}>
+          {name}
+          {mandatory && (
+            <RequiredIcon aria-label={formatMessage({ id: 'required' })} className="sw-ml-1" />
           )}
-        </>
-      )}
-      {!isSecuredDefinition(definition) &&
-        definition.type === undefined &&
-        !definition.multiValues && (
+        </Label>
+        {definition.multiValues && (
+          <AuthenticationMultiValueField
+            definition={definition}
+            onFieldChange={(value) => {
+              props.onFieldChange(definition.key, value);
+            }}
+            settingValue={settingValue as string[]}
+          />
+        )}
+        {isSecuredDefinition(definition) && (
           <>
-            <InputField
-              id={definition.key}
-              isInvalid={isDefined(error) && error !== ''}
-              maxLength={4000}
-              name={definition.key}
-              onChange={(e) => {
-                props.onFieldChange(definition.key, e.currentTarget.value);
-              }}
-              size="full"
-              type="text"
-              value={String(settingValue ?? '')}
+            <AuthenticationSecuredField
+              definition={definition}
+              isClearable={!mandatory}
+              isNotSet={isNotSet}
+              onFieldChange={props.onFieldChange}
+              settingValue={String(settingValue ?? '')}
             />
-            {isDefined(error) && error !== '' && (
+            {hasError && (
               <Text className="sw-mt-2" colorOverride="echoes-color-text-danger">
                 <IconError className="sw-mr-1" />
                 {error}
@@ -140,7 +114,33 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
             )}
           </>
         )}
-    </FormField>
+        {description !== undefined && (
+          <Text className="sw-mt-2" isSubtle>
+            {description}
+          </Text>
+        )}
+      </FieldWrapper>
+    );
+  }
+
+  return (
+    <TextInput
+      className={className}
+      helpText={description}
+      id={definition.key}
+      isRequired={mandatory}
+      label={name}
+      maxLength={4000}
+      messageInvalid={error}
+      name={definition.key}
+      onChange={(e) => {
+        props.onFieldChange(definition.key, e.currentTarget.value);
+      }}
+      type="text"
+      validation={hasError ? 'invalid' : undefined}
+      value={String(settingValue ?? '')}
+      width="full"
+    />
   );
 }
 
@@ -148,4 +148,10 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
 // when clicking/hovering on the label. More info https://stackoverflow.com/questions/9098581/why-is-hover-for-input-triggered-on-corresponding-label-in-css
 const StyledLabel = styled.label`
   pointer-events: none;
+`;
+
+const FieldWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 `;

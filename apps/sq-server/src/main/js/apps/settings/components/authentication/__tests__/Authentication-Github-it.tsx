@@ -86,14 +86,14 @@ const ui = {
     name: 'settings.authentication.form.create',
   }),
   clientId: byRole('textbox', {
-    name: 'property.clientId.name',
+    name: 'property.clientId.name required',
   }),
   appId: byRole('textbox', { name: 'property.applicationId.name' }),
   privateKey: byRole('textbox', {
-    name: 'property.privateKey.name',
+    name: 'property.privateKey.name required',
   }),
   clientSecret: byRole('textbox', {
-    name: 'property.clientSecret.name',
+    name: 'property.clientSecret.name required',
   }),
   githubApiUrl: byRole('textbox', { name: 'property.apiUrl.name' }),
   githubWebUrl: byRole('textbox', { name: 'property.webUrl.name' }),
