@@ -19599,16 +19599,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mixpanel-browser@npm:2.77.0":
-  version: 2.77.0
-  resolution: "mixpanel-browser@npm:2.77.0"
+"mixpanel-browser@npm:2.78.0":
+  version: 2.78.0
+  resolution: "mixpanel-browser@npm:2.78.0"
   dependencies:
     "@mixpanel/rrweb": "npm:2.0.0-alpha.18.4"
     "@mixpanel/rrweb-plugin-console-record": "npm:2.0.0-alpha.18.4"
     "@mixpanel/rrweb-utils": "npm:2.0.0-alpha.18.4"
     "@types/json-logic-js": "npm:2.0.5"
     json-logic-js: "npm:2.0.5"
-  checksum: 10/d5be8e06d1d15e23320935a49602face0c94d7c864a3113fb6862c80acdcc36b43bf687eab5301460bcd7227bb7c2a213e7afa54e6b56af42f84dd5fa53d945c
+  checksum: 10/4b5021df8a5f6fb1b500b05dd6ce7a3e9448c8f427db68bf1f679e885e4ed509024715017b389a66cb9b0adcdde87eef8c5e68617437f66e9533a0c14ffe70e7
   languageName: node
   linkType: hard
 
@@ -23115,7 +23115,7 @@ __metadata:
     lodash: "npm:4.18.1"
     lunr: "npm:2.3.9"
     memoize-one: "npm:6.0.0"
-    mixpanel-browser: "npm:2.77.0"
+    mixpanel-browser: "npm:2.78.0"
     msw: "npm:2.4.9"
     nx: "npm:22.6.4"
     nyc: "npm:18.0.0"
