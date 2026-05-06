@@ -2440,6 +2440,11 @@ export const defaultMessages = {
   'architecture.directives.rename.create.title': 'Create rename directive',
   'architecture.directives.rename.component': 'Component',
   'architecture.directives.rename.new_name': 'New name',
+  'architecture.organization.page': 'Organization architecture',
+  'architecture.organization.title': 'Organization architecture',
+  'architecture.organization.empty': 'No organization-wide architecture data available.',
+  'architecture.organization.node.unmapped_boundaries':
+    '{count, plural, one {# other external interface found needs to be confirmed.} other {# other external interfaces found need to be confirmed.}}',
   //------------------------------------------------------------------------------
 
   //------------------------------------------------------------------------------

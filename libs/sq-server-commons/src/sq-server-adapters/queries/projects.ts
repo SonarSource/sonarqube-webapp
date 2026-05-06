@@ -27,7 +27,7 @@ export function useOrgProjectsQuery() {
     queryKey: ['org-projects'],
     queryFn: () =>
       searchProjects({ ps: 500 }).then((r) =>
-        r.components.map((c) => ({ label: c.name, value: c.key })),
+        r.components.map((c) => ({ name: c.name, uuid: c.key })),
       ),
     staleTime: StaleTime.LONG,
   });
