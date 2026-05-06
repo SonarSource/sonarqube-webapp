@@ -69,7 +69,7 @@
     "@stripe/stripe-js": "8.3.0",
     "@tanstack/react-query": "5.56.2",
     "@xyflow/react": "12.10.1",
-    "axios": "1.15.0",
+    "axios": "1.15.2",
     "classnames": "2.5.1",
     "clipboard": "2.0.11",
     "d3-array": "3.2.4",
@@ -234,7 +234,7 @@
   },
   "resolutions": {
     "@types/d3-selection": "3.0.11",
-    "axios": "^1.15.0",
+    "axios": "1.15.2",
     "debug": "^4.4.0",
     "json5": "^2.2.0",
     "jsdom": "patch:jsdom@26.1.0#./config/patches/jsdom-npm-26.1.0-3857255f02.patch",
