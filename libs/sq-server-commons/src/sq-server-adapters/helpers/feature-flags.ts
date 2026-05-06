@@ -30,7 +30,7 @@ interface SQSFlagSet extends FlagSet {
 // Add features flags here as needed in shared code, especially useful if you want a default value other than falsy for SQS.
 const defaultFlags: SQSFlagSet = {
   scaEnableReachabilityFrontend: false,
-  scaKeyChangesPrView: true,
+  scaKeyChangesPrView: false,
 };
 
 export function useFlags(): SQSFlagSet {
