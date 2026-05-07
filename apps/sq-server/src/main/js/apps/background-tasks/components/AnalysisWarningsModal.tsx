@@ -20,8 +20,8 @@
 
 import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FlagMessage, HtmlFormatter, Modal } from '~design-system';
-import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
+import { FlagMessage, Modal } from '~design-system';
+import { SanitizeLevel } from '~shared/helpers/sanitize';
 import { dismissAnalysisWarning, getTask } from '~sq-server-commons/api/ce';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -29,6 +29,7 @@ import { TaskWarning } from '~sq-server-commons/types/tasks';
 import { CurrentUser } from '~sq-server-commons/types/users';
 
 import { FormattedMessage } from 'react-intl';
+import { HtmlFormatter } from '~shared/components/typography/HtmlFormatter';
 
 interface Props {
   componentKey?: string;
@@ -120,12 +121,10 @@ export class AnalysisWarningsModal extends React.PureComponent<Props, State> {
             <li key={key}>
               <div className="sw-flex sw-items-center sw-mt-2">
                 <FlagMessage variant="warning">
-                  <HtmlFormatter>
-                    <SafeHTMLInjection
-                      htmlAsString={message.trim().replace(/\n/g, '<br />')}
-                      sanitizeLevel={SanitizeLevel.RESTRICTED}
-                    />
-                  </HtmlFormatter>
+                  <HtmlFormatter
+                    htmlAsString={message.trim().replace(/\n/g, '<br />')}
+                    sanitizeLevel={SanitizeLevel.RESTRICTED}
+                  />
                 </FlagMessage>
               </div>
               <div>

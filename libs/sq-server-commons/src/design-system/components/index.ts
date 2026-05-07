@@ -54,7 +54,6 @@ export * from './HighlightedSection';
 export * from './HighlightRing';
 export { Histogram } from './Histogram';
 export { HotspotRating } from './HotspotRating';
-export * from './HtmlFormatter';
 export * from './icons';
 export { IllustratedSelectionCard } from './IlllustredSelectionCard';
 export * from './input';

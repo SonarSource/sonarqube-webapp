@@ -36,7 +36,7 @@ export default function FormattingTips({ className }: Readonly<FormattingTipsPro
       window.open(
         formattingHelpUrl,
         'Formatting Tips',
-        'height=300,width=600,scrollbars=1,resizable=1',
+        'height=500,width=750,scrollbars=1,resizable=1',
       );
     },
     [formattingHelpUrl],

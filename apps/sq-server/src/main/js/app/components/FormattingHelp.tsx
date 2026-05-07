@@ -19,7 +19,8 @@
  */
 
 import { Helmet } from 'react-helmet-async';
-import { CellComponent, ContentCell, HtmlFormatter, Table, TableRow, Title } from '~design-system';
+import { CellComponent, ContentCell, Table, TableRow, Title } from '~design-system';
+import { HtmlFormatter } from '~shared/components/typography/HtmlFormatter';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
 const COLUMNS = ['50%', '50%'];

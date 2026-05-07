@@ -19,10 +19,7 @@
  */
 
 import { SubnavigationLinkItemProps } from '~shared/types/design-system';
-import {
-  HtmlFormatter as LegacyHtmlFormatter,
-  SubnavigationLinkItem as LegacySubnavigationLinkItem,
-} from '../../design-system';
+import { SubnavigationLinkItem as LegacySubnavigationLinkItem } from '../../design-system';
 
 /**
  * This file exports the legacy design system components that are needed by shared code
@@ -37,8 +34,3 @@ import {
 export function SubnavigationLinkItem(props: Readonly<SubnavigationLinkItemProps>) {
   return <LegacySubnavigationLinkItem {...props} />;
 }
-
-/**
- * @deprecated Stop using design-system in shared code.
- */
-export const HtmlFormatter = LegacyHtmlFormatter;

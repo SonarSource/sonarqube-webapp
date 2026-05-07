@@ -20,7 +20,7 @@
 
 import { Label, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { ContentCell, HtmlFormatter, Table, TableRow } from '~design-system';
+import { ContentCell, Table, TableRow } from '~design-system';
 import { SafeHTMLInjection } from '~shared/helpers/sanitize';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { WebApi } from '~sq-server-commons/types/types';
@@ -28,6 +28,7 @@ import DeprecatedBadge from './DeprecatedBadge';
 import InternalBadge from './InternalBadge';
 
 import { FormattedMessage } from 'react-intl';
+import { HtmlFormatter } from '~shared/components/typography/HtmlFormatter';
 
 interface Props {
   params: WebApi.Param[];
@@ -43,7 +44,7 @@ export default class Params extends React.PureComponent<Props> {
       <ContentCell>
         <div>
           <HtmlFormatter>
-            <code className="sw-code">{param.key}</code>
+            <code>{param.key}</code>
           </HtmlFormatter>
 
           {param.internal && (

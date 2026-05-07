@@ -37,6 +37,7 @@ import { useUpdateRuleMutation } from '~sq-server-commons/queries/rules';
 import RemoveExtendedDescriptionModal from './RemoveExtendedDescriptionModal';
 
 import { FormattedMessage } from 'react-intl';
+import { HtmlFormatter } from '~shared/components/typography/HtmlFormatter';
 
 interface Props {
   canWrite: boolean | undefined;
@@ -63,12 +64,13 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
   const renderExtendedDescription = () => (
     <div id="coding-rules-detail-description-extra">
       {ruleDetails.htmlNote !== undefined && (
-        <CodeSyntaxHighlighter
-          className="markdown sw-my-6"
-          htmlAsString={ruleDetails.htmlNote}
-          language={ruleDetails.lang}
-          sanitizeLevel={SanitizeLevel.USER_INPUT}
-        />
+        <HtmlFormatter className="sw-my-6">
+          <CodeSyntaxHighlighter
+            htmlAsString={ruleDetails.htmlNote}
+            language={ruleDetails.lang}
+            sanitizeLevel={SanitizeLevel.USER_INPUT}
+          />
+        </HtmlFormatter>
       )}
 
       <div className="sw-my-6">

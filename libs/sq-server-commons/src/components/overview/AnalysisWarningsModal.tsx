@@ -20,9 +20,10 @@
 
 import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
+import { HtmlFormatter } from '~shared/components/typography/HtmlFormatter';
+import { SanitizeLevel } from '~shared/helpers/sanitize';
 import withCurrentUserContext from '../../context/current-user/withCurrentUserContext';
-import { FlagMessage, HtmlFormatter, Modal } from '../../design-system';
+import { FlagMessage, Modal } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { useDismissBranchWarningMutation } from '../../queries/branch';
 import { TaskWarning } from '../../types/tasks';
@@ -51,12 +52,10 @@ export function AnalysisWarningsModal(props: Props) {
         <React.Fragment key={key}>
           <div className="sw-flex sw-items-center sw-mt-2">
             <FlagMessage variant="warning">
-              <HtmlFormatter>
-                <SafeHTMLInjection
-                  htmlAsString={message.trim().replace(/\n/g, '<br />')}
-                  sanitizeLevel={SanitizeLevel.RESTRICTED}
-                />
-              </HtmlFormatter>
+              <HtmlFormatter
+                htmlAsString={message.trim().replace(/\n/g, '<br />')}
+                sanitizeLevel={SanitizeLevel.RESTRICTED}
+              />
             </FlagMessage>
           </div>
           <div>

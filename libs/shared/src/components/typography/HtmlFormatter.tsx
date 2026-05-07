@@ -89,7 +89,7 @@ const HtmlFormatterStyled = styled.div<HtmlFormatterProps>`
   blockquote {
     ${tw`sw-typo-default`}
     ${tw`sw-px-4`}
-    border-left: ${cssVar('color-border-weak')};
+    border-left: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 
     cite {
       color: ${cssVar('color-text-subtle')};
@@ -148,6 +148,7 @@ const HtmlFormatterStyled = styled.div<HtmlFormatterProps>`
   pre > code {
     ${tw`sw-p-0`}
     ${tw`sw-whitespace-pre`}
+    border: none;
     background-color: transparent;
   }
 

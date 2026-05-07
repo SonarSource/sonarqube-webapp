@@ -21,9 +21,10 @@
 import styled from '@emotion/styled';
 import { Text } from '@sonarsource/echoes-react';
 import Avatar from '~adapters/components/ui/Avatar';
-import { HtmlFormatter, themeBorder } from '~design-system';
+import { themeBorder } from '~design-system';
 import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import IssueChangelogDiff from '~shared/components/issues/IssueChangelogDiff';
+import { HtmlFormatter } from '~shared/components/typography/HtmlFormatter';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import CommentActions from '~sq-server-commons/components/findings/CommentActions';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';

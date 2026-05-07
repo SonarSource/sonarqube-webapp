@@ -20,13 +20,13 @@
 
 import styled from '@emotion/styled';
 import * as React from 'react';
+import { HtmlFormatter } from '~shared/components/typography/HtmlFormatter';
 import { SanitizeLevel } from '~shared/helpers/sanitize';
 import { isDefined } from '~shared/helpers/types';
 import { RuleDescriptionSection, RuleDescriptionSections } from '~shared/types/rules';
 import {
   CodeSyntaxHighlighter,
   FlagMessage,
-  HtmlFormatter,
   ToggleButton,
   themeBorder,
   themeColor,

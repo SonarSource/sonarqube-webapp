@@ -19,11 +19,12 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, TextArea } from '@sonarsource/echoes-react';
+import { Button, IconEdit, TextArea } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { HtmlFormatter, PencilIcon, themeBorder, themeColor } from '~design-system';
-import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
+import { themeBorder, themeColor } from '~design-system';
+import { HtmlFormatter } from '~shared/components/typography/HtmlFormatter';
+import { SanitizeLevel } from '~shared/helpers/sanitize';
 import FormattingTipsWithLink from '~sq-server-commons/components/common/FormattingTipsWithLink';
 import { DefaultSpecializedInputProps, getPropertyName } from '../../utils';
 
@@ -58,16 +59,14 @@ function InputForFormattedText(
     </div>
   ) : (
     <>
-      <HtmlFormatter>
-        <SafeHTMLInjection
+      <FormattedPreviewBox>
+        <HtmlFormatter
           htmlAsString={formattedValue ?? ''}
           sanitizeLevel={SanitizeLevel.USER_INPUT}
-        >
-          <FormattedPreviewBox />
-        </SafeHTMLInjection>
-      </HtmlFormatter>
+        />
+      </FormattedPreviewBox>
 
-      <Button className="sw-mt-2" onClick={props.onEditing} prefix={<PencilIcon />}>
+      <Button className="sw-mt-2 sw-self-start" onClick={props.onEditing} prefix={<IconEdit />}>
         <FormattedMessage id="edit" />
       </Button>
     </>
