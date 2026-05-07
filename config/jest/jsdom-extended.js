@@ -33,6 +33,11 @@ class JSDOMEnvironmentExtended extends JSDOMEnvironment {
     this.global.fetch = fetch;
 
     this.global.structuredClone = structuredClone;
+
+    // Stubs for some methods called by clicks inside a toast notification
+    this.global.Element.prototype.setPointerCapture = () => {};
+    this.global.Element.prototype.releasePointerCapture = () => {};
+    this.global.Element.prototype.hasPointerCapture = () => false;
   }
 }
 
