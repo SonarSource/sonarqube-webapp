@@ -50,6 +50,7 @@ import { NoticeType } from '../../types/users';
 import { mapRestRuleToRule } from '../../utils/coding-rules';
 import {
   COMPLIANCE_STANDARDS_BACKEND_KEYS,
+  extractCweNumber,
   parseComplianceStandards,
 } from '../../utils/compliance-standards';
 import { getComponentData } from '../components';
@@ -284,8 +285,8 @@ export default class CodingRulesServiceMock {
       filteredRules = filteredRules.filter((r) => matchingRules.includes(r.key));
     }
     if (cwe) {
-      const normalizedCwe = cwe.replace(/^CWE-/i, '');
-      const matchingRules = STANDARDS_TO_RULES[StandardsInformationKey.CWE]?.[normalizedCwe] ?? [];
+      const cweNumber = extractCweNumber(cwe);
+      const matchingRules = STANDARDS_TO_RULES[StandardsInformationKey.CWE]?.[cweNumber] ?? [];
       filteredRules = filteredRules.filter((r) => matchingRules.includes(r.key));
     }
     if (q && q.length > 2) {

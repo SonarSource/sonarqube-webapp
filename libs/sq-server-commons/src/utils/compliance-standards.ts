@@ -30,7 +30,9 @@ export {
   buildComplianceStandards,
   buildComplianceStandardsForCategory,
   COMPLIANCE_STANDARDS_BACKEND_KEYS,
+  extractCweNumber,
   mapFacetToBackendName,
+  normalizeCategory,
   parseComplianceStandards,
   populateStandardsFromParsed,
 } from '~shared/helpers/compliance-standards-registry';

@@ -1887,6 +1887,8 @@ export const defaultMessages = {
   'dependencies.risks.reanalyze': 'Reanalyze',
   'dependencies.risks.reanalyze.success': 'Branch queued for reanalysis',
   'dependencies.risks.reanalyze.error': 'Failure queueing branch for reanalysis',
+  'dependencies.risks.security_category': 'Security category',
+  'dependencies.risks.filter_category': 'Category',
   'dependencies.risks.last_analysis': 'Last analysis {date}',
   'dependencies.risk.how.title': 'Update the dependency',
   'dependencies.risk.how.body':

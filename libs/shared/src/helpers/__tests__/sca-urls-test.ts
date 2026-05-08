@@ -21,7 +21,14 @@
 import { useLocation } from 'react-router-dom';
 import { MetricKey } from '../../types/metrics';
 import { mockLocation } from '../mocks/router';
-import { getRisksUrlForComponent, useScaBaseUrl } from '../sca-urls';
+import {
+  getReleaseDetailsUrl,
+  getRiskDetailsTabUrl,
+  getRiskDetailsUrl,
+  getRisksUrlForComponent,
+  RiskDetailsTab,
+  useScaBaseUrl,
+} from '../sca-urls';
 
 // Mock react-router-dom
 jest.mock('react-router-dom', () => {
@@ -94,6 +101,92 @@ describe('sca-urls', () => {
       expect(getRisksUrlForComponent({ ...BASE_PARAMS, threshold: '10' })).toEqual({
         pathname: '/dependency-risks',
         search: '?id=1&severities=LOW%2CMEDIUM%2CHIGH%2CBLOCKER&riskStatuses=OPEN%2CCONFIRM',
+      });
+    });
+
+    it('should handle standard without standardCategory', () => {
+      expect(getRisksUrlForComponent({ ...BASE_PARAMS, standard: 'owaspTop10' })).toEqual({
+        pathname: '/dependency-risks',
+        search: '?id=1&standard=owaspTop10&riskStatuses=OPEN%2CCONFIRM',
+      });
+    });
+
+    it('should handle standardCategory without standard (else-if branch)', () => {
+      expect(getRisksUrlForComponent({ ...BASE_PARAMS, standardCategory: 'A6' })).toEqual({
+        pathname: '/dependency-risks',
+        search: '?id=1&standardCategory=A6&riskStatuses=OPEN%2CCONFIRM',
+      });
+    });
+
+    it('should normalize standardCategory with standard for OWASP Top 10 2025', () => {
+      expect(
+        getRisksUrlForComponent({
+          ...BASE_PARAMS,
+          standard: 'owaspTop10',
+          standardVersion: '2025',
+          standardCategory: 'a6',
+        }),
+      ).toEqual({
+        pathname: '/dependency-risks',
+        search:
+          '?id=1&standard=owaspTop10&standardCategory=A06&standardVersion=2025&riskStatuses=OPEN%2CCONFIRM',
+      });
+    });
+
+    it('should handle standard and standardVersion and standardCategory together', () => {
+      expect(
+        getRisksUrlForComponent({
+          ...BASE_PARAMS,
+          standard: 'pciDss',
+          standardVersion: '4.0',
+          standardCategory: '1',
+        }),
+      ).toEqual({
+        pathname: '/dependency-risks',
+        search:
+          '?id=1&standard=pciDss&standardCategory=1&standardVersion=4.0&riskStatuses=OPEN%2CCONFIRM',
+      });
+    });
+  });
+
+  describe('getReleaseDetailsUrl', () => {
+    it('should build a release details URL', () => {
+      expect(getReleaseDetailsUrl({ key: 'release-123' }, '', '/sca/')).toEqual({
+        pathname: '/sca/dependencies/release-123',
+        search: undefined,
+      });
+    });
+  });
+
+  describe('getRiskDetailsUrl', () => {
+    it('should build a risk details URL', () => {
+      expect(getRiskDetailsUrl({ riskId: 'risk-456' }, '', '/')).toEqual({
+        pathname: '/dependency-risks/risk-456',
+        search: undefined,
+      });
+    });
+  });
+
+  describe('getRiskDetailsTabUrl', () => {
+    it('should build a risk details tab URL without showRiskSelector', () => {
+      expect(
+        getRiskDetailsTabUrl({ riskId: 'risk-456', tab: RiskDetailsTab.WHAT }, '', '/'),
+      ).toEqual({
+        pathname: '/dependency-risks/risk-456/what',
+        search: undefined,
+      });
+    });
+
+    it('should build a risk details tab URL with showRiskSelector', () => {
+      expect(
+        getRiskDetailsTabUrl(
+          { riskId: 'risk-456', tab: RiskDetailsTab.WHERE, showRiskSelector: true },
+          '',
+          '/',
+        ),
+      ).toEqual({
+        pathname: '/dependency-risks/risk-456/where',
+        search: '?showRiskSelector=true',
       });
     });
 

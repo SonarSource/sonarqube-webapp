@@ -39,8 +39,13 @@ import {
   isStandardAvailableInPDFReports,
   mapBackendFacetKeyToQueryProp,
   mapFacetToBackendName,
+  mapOpenFacetsToBackendFacets,
   parseComplianceStandards,
+  parseStandardsFromQuery,
   populateStandardsFromParsed,
+  shouldOpenSonarSourceSecurityFacet,
+  shouldOpenStandardsChildFacet,
+  shouldOpenStandardsFacet,
 } from '../compliance-standards-registry';
 import { STANDARDS_REGISTRY } from '../compliance-standards-registry-definitions';
 
@@ -523,6 +528,143 @@ describe('compliance-standards-registry', () => {
 
       expect(stigGroup).toBeDefined();
       expect(stigGroup?.options.length).toBeGreaterThanOrEqual(2); // V5R3 and V6
+    });
+  });
+
+  describe('parseStandardsFromQuery', () => {
+    const parseArrayOrEmpty = (value: unknown): string[] => {
+      return Array.isArray(value) ? (value as string[]) : [];
+    };
+
+    it('should parse complianceStandards from query', () => {
+      const sonarKey = 'sonar_standard:urn:sonar-security-standard:sonar:standard:unversioned';
+      const query = {
+        complianceStandards: `${sonarKey}=xss,sql-injection`,
+      };
+      const result = parseStandardsFromQuery(query, () => []);
+
+      expect(result.sonarsourceSecurity).toEqual(['xss', 'sql-injection']);
+    });
+
+    it('should parse individual standard queryProp from query', () => {
+      const query = { sonarsourceSecurity: ['xss'] };
+      const result = parseStandardsFromQuery(query, parseArrayOrEmpty);
+
+      expect(result.sonarsourceSecurity).toEqual(['xss']);
+    });
+
+    it('should populate empty arrays for standards not in query', () => {
+      const query = { sonarsourceSecurity: ['xss'] };
+      const result = parseStandardsFromQuery(query, parseArrayOrEmpty);
+
+      expect(result['pciDss-4.0']).toEqual([]);
+    });
+  });
+
+  describe('shouldOpenStandardsFacet', () => {
+    it('should return true when standards facet is explicitly open', () => {
+      const openFacets = { standards: true };
+      expect(shouldOpenStandardsFacet(openFacets, {})).toBe(true);
+    });
+
+    it('should return true when filtered by VULNERABILITY type', () => {
+      const openFacets = {};
+      const query = { types: ['VULNERABILITY'] };
+      expect(shouldOpenStandardsFacet(openFacets, query)).toBe(true);
+    });
+
+    it('should return true when a standard child facet is open', () => {
+      const openFacets = { sonarsourceSecurity: true };
+      const query = {};
+      expect(shouldOpenStandardsFacet(openFacets, query)).toBe(true);
+    });
+
+    it('should return false when nothing opens it', () => {
+      const openFacets = { standards: false };
+      const query = {};
+      expect(shouldOpenStandardsFacet(openFacets, query)).toBe(false);
+    });
+  });
+
+  describe('shouldOpenStandardsChildFacet', () => {
+    it('should return true when child facet is explicitly open', () => {
+      const openFacets = { owaspTop10: true };
+      expect(shouldOpenStandardsChildFacet(openFacets, {}, 'owaspTop10')).toBe(true);
+    });
+
+    it('should return true when parent is not closed and filter is active', () => {
+      const openFacets = { standards: true };
+      const query = { owaspTop10: ['A01'] };
+      expect(shouldOpenStandardsChildFacet(openFacets, query, 'owaspTop10')).toBe(true);
+    });
+
+    it('should return false for CWE facet when not explicitly open and no filter', () => {
+      const openFacets = {};
+      const query = {};
+      expect(shouldOpenStandardsChildFacet(openFacets, query, StandardsInformationKey.CWE)).toBe(
+        false,
+      );
+    });
+
+    it('should return false when parent is explicitly closed', () => {
+      const openFacets = { standards: false, owaspTop10: true };
+      expect(shouldOpenStandardsChildFacet(openFacets, {}, 'owaspTop10')).toBe(false);
+    });
+  });
+
+  describe('shouldOpenSonarSourceSecurityFacet', () => {
+    it('should return true when SonarSource Security child is explicitly open', () => {
+      const openFacets = { [StandardsInformationKey.SONARSOURCE]: true };
+      expect(shouldOpenSonarSourceSecurityFacet(openFacets, {})).toBe(true);
+    });
+
+    it('should return true when parent is open and no other child facet is open', () => {
+      const openFacets = { standards: true };
+      const query = {};
+      expect(shouldOpenSonarSourceSecurityFacet(openFacets, query)).toBe(true);
+    });
+
+    it('should return false when parent is closed', () => {
+      const openFacets = { standards: false, [StandardsInformationKey.SONARSOURCE]: true };
+      expect(shouldOpenSonarSourceSecurityFacet(openFacets, {})).toBe(false);
+    });
+  });
+
+  describe('mapOpenFacetsToBackendFacets', () => {
+    it('should map frontend facet names to backend equivalents', () => {
+      const openFacets = { languages: true, severities: true };
+      const result = mapOpenFacetsToBackendFacets(openFacets, () => true);
+
+      expect(result).toContain('languages');
+      expect(result).toContain('severities');
+    });
+
+    it('should deduplicate complianceStandards from multiple standard facets', () => {
+      const openFacets = {
+        sonarsourceSecurity: true,
+        'owaspTop10-2025': true,
+        'pciDss-4.0': true,
+      };
+      const result = mapOpenFacetsToBackendFacets(openFacets, () => true);
+
+      const complianceStandardsCount = result.filter((f) => f === 'complianceStandards').length;
+      expect(complianceStandardsCount).toBe(1);
+    });
+
+    it('should filter facets using shouldRequest function', () => {
+      const openFacets = { languages: true, severities: true };
+      const result = mapOpenFacetsToBackendFacets(openFacets, (facet) => facet === 'languages');
+
+      expect(result).toContain('languages');
+      expect(result).not.toContain('severities');
+    });
+
+    it('should not include closed facets', () => {
+      const openFacets = { languages: true, severities: false };
+      const result = mapOpenFacetsToBackendFacets(openFacets, () => true);
+
+      expect(result).toContain('languages');
+      expect(result).not.toContain('severities');
     });
   });
 

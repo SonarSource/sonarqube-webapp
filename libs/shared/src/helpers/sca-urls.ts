@@ -23,6 +23,11 @@ import { BranchLikeBase } from '../types/branch-like';
 import { MetricKey } from '../types/metrics';
 import { RiskStatus } from '../types/sca';
 import { getBranchLikeQuery } from './branch-like';
+import {
+  getStandardDefinition,
+  getStandardsInformationKeyFromRegistry,
+  normalizeCategory,
+} from './compliance-standards-registry';
 import { queryToSearchString } from './query';
 import { getScaMetricUrlParams, scaFilterConditionsBySeverity } from './sca';
 
@@ -110,6 +115,9 @@ const RISKS_OPTIONAL_PARAMS = [
   'severities',
   'types',
   'id',
+  'standard',
+  'standardCategory',
+  'standardVersion',
 ] as const;
 
 type RisksUrlNewParams = NewParams<(typeof RISKS_OPTIONAL_PARAMS)[number]>;
@@ -177,12 +185,18 @@ export function getRisksUrlForComponent({
   newlyIntroduced,
   riskTypes,
   threshold,
+  standard,
+  standardCategory,
+  standardVersion,
 }: {
   branchLike?: BranchLikeBase;
   componentKey: string;
   metricKey?: MetricKey;
   newlyIntroduced?: string;
   riskTypes?: Array<string>;
+  standard?: string;
+  standardCategory?: string;
+  standardVersion?: string;
   threshold?: string;
 }) {
   const newParams: RisksUrlNewParams = {
@@ -202,6 +216,28 @@ export function getRisksUrlForComponent({
 
   if (threshold) {
     newParams.severities = scaFilterConditionsBySeverity(threshold).join(',');
+  }
+
+  if (standard) {
+    newParams.standard = standard;
+  }
+
+  if (standardCategory && standard) {
+    // Normalize the category according to the standard's normalization rules from the registry
+    // Use both standard and version to find the correct definition (critical for OWASP 2025 vs 2017, etc.)
+    const informationKey = getStandardsInformationKeyFromRegistry(standard, standardVersion);
+    const standardDefinition = getStandardDefinition(informationKey);
+    const normalizedCategory = normalizeCategory(
+      standardDefinition?.categoryNormalization,
+      standardCategory,
+    );
+    newParams.standardCategory = normalizedCategory;
+  } else if (standardCategory) {
+    newParams.standardCategory = standardCategory;
+  }
+
+  if (standardVersion) {
+    newParams.standardVersion = standardVersion;
   }
 
   return getRisksUrl({ newParams });

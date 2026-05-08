@@ -446,7 +446,7 @@ export function buildComplianceStandards(query: object): string | undefined {
 /**
  * Normalizes a category value based on the standard's normalization rule from the registry.
  */
-function normalizeCategory(
+export function normalizeCategory(
   normalization: CategoryNormalization | undefined,
   category: string,
 ): string {
@@ -460,6 +460,24 @@ function normalizeCategory(
     default:
       return category;
   }
+}
+
+/**
+ * Normalizes a CWE category key to include the "CWE-" prefix.
+ * Bare numeric IDs (e.g. "119") become "CWE-119".
+ * Keys already prefixed (e.g. "CWE-119") are returned unchanged.
+ */
+export function normalizeCweCategory(key: string): string {
+  return /^CWE-/i.test(key) ? key : `CWE-${key}`;
+}
+
+/**
+ * Extracts the numeric CWE ID from a CWE category key.
+ * Removes the "CWE-" prefix if present.
+ * "CWE-119" → "119", "119" → "119"
+ */
+export function extractCweNumber(key: string): string {
+  return key.replace(/^CWE-/i, '');
 }
 
 /**
