@@ -131,9 +131,5 @@ export function SQCBUpdateBanners({ data, isGlobalBanner }: Readonly<Props>) {
     );
   }
 
-  if (!isGlobalBanner && !isEmpty(banners)) {
-    return <div className="sw-flex sw-flex-col sw-gap-y-4 sw-mt-8">{banners}</div>;
-  }
-
   return banners;
 }

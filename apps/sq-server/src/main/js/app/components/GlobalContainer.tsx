@@ -81,7 +81,7 @@ function Banners() {
 
       <NonProductionDatabaseWarning />
 
-      <MonitoringAlerts />
+      <MonitoringAlerts isGlobalBanner />
 
       {(hasFeature(Feature.FixSuggestions) || hasFeature(Feature.FixSuggestionsMarketing)) && (
         <EnableAiCodeFixMessage />

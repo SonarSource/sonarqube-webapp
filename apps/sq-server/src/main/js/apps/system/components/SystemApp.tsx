@@ -24,6 +24,7 @@ import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, Router } from '~shared/types/router';
+import { addons } from '~sq-server-addons/index';
 import { getSystemInfo } from '~sq-server-commons/api/system';
 import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -45,6 +46,8 @@ import ClusterSysInfos from './ClusterSysInfos';
 import { PageActions } from './PageActions';
 import PageHeader from './PageHeader';
 import StandaloneSysInfos from './StandaloneSysInfos';
+
+const MonitoringAlerts = addons.monitoringAlerts?.MonitoringAlerts || (() => undefined);
 
 interface Props {
   location: Location;
@@ -150,7 +153,8 @@ class SystemApp extends React.PureComponent<Props, State> {
       >
         <Helmet defer={false} title={translate('system_info.page')} />
 
-        <div>
+        <div className="sw-flex sw-flex-col sw-gap-y-4 sw-mb-8 empty:sw-mb-0">
+          <MonitoringAlerts />
           <UpdateNotification />
         </div>
         {sysInfoData && (

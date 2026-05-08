@@ -98,7 +98,7 @@ export function SQSUpdateBanner({ data, isGlobalBanner }: Readonly<Props>) {
   ) : (
     <MessageCallout
       action={action}
-      className={`it__upgrade-prompt-${useCase} sw-mt-8`}
+      className={`it__upgrade-prompt-${useCase}`}
       variety={MESSAGE_CALLOUT_VARIANT[useCase]}
     >
       {content}
