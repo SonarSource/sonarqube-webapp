@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import axios, { type AxiosResponse } from 'axios';
+import axios from 'axios';
 import {
   axiosClientResponseInterceptors,
   axiosToCatchResponseInterceptors,
@@ -38,20 +38,3 @@ void setupAxiosClient(axiosClient, axiosClientResponseInterceptors);
 export const axiosToCatch = axios.create();
 
 void setupAxiosClient(axiosToCatch, axiosToCatchResponseInterceptors);
-
-function unwrapAxiosData<T>(response: AxiosResponse<T>): T {
-  return response.data;
-}
-
-/**
- * This instance is for fetching presigned / cross-origin URLs returned in API
- * payloads (e.g. S3 download URLs). It deliberately omits app credentials,
- * XSRF, and baseURL so that:
- *   - the browser issues a simple GET (no preflight),
- *   - no session cookies leak to a third-party host,
- *   - the URL stands on its own as the authorization.
- * The response interceptor unwraps `response.data` to match the other clients.
- */
-export const externalAxiosClient = axios.create();
-
-externalAxiosClient.interceptors.response.use(unwrapAxiosData);

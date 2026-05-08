@@ -3,7 +3,6 @@
     {
       "id": "111-structural-issues-111",
       "analysisId": "AZfpWoF7WM0AmmyYLGYJ",
-      "downloadUrl": "https://mocked-bucket.s3.amazonaws.com/architecture/graphs/111-structural-issues-111?X-Amz-Signature=mocked",
       "organizationId": "7fcb0a1f-15e9-447c-9ded-38913c626337",
       "type": "structural_issues",
       "ecosystem": "java",
@@ -12,7 +11,6 @@
     {
       "id": "222-namespace-graph-222",
       "analysisId": "AZnIcXvfZG9ul_fEcl4Q",
-      "downloadUrl": "https://mocked-bucket.s3.amazonaws.com/architecture/graphs/222-namespace-graph-222?X-Amz-Signature=mocked",
       "ecosystem": "java",
       "graphVersion": "2.0.0",
       "organizationId": "f7a23dc6-8dd7-43a9-96a2-b315731facf0",
@@ -22,7 +20,6 @@
     {
       "id": "333-namespace-graph-333",
       "analysisId": "AZnIcXvfZG9ul_fEcl4Q",
-      "downloadUrl": "https://mocked-bucket.s3.amazonaws.com/architecture/graphs/333-namespace-graph-333?X-Amz-Signature=mocked",
       "ecosystem": "java",
       "graphVersion": "2.0.0",
       "organizationId": "f7a23dc6-8dd7-43a9-96a2-b315731facf0",
