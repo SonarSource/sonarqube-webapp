@@ -37,6 +37,7 @@ import { PromotionNotificationManager } from './promotion-notification/Promotion
 import { UpdateNotification } from './update-notification/UpdateNotification';
 
 const StartupLicenseCheckBanner = addons.license?.StartupLicenseCheckBanner || (() => undefined);
+const MonitoringAlerts = addons.monitoringAlerts?.MonitoringAlerts || (() => undefined);
 
 export default function GlobalContainer() {
   const { hasFeature } = useAvailableFeatures();
@@ -57,6 +58,7 @@ export default function GlobalContainer() {
 
         {/* spotlight tours and modals */}
         {hasFeature(Feature.Architecture) && canAdmin && addons.architecture?.spotlight({})}
+
         {hasFeature(Feature.FromSonarQubeUpdate) && addons.issueSandbox?.SandboxIssuesIntro && (
           <addons.issueSandbox.SandboxIssuesIntro />
         )}
@@ -74,17 +76,27 @@ function Banners() {
   return (
     <>
       <StartupLicenseCheckBanner />
+
       <SystemAnnouncement />
+
       <NonProductionDatabaseWarning />
+
+      <MonitoringAlerts />
+
       {(hasFeature(Feature.FixSuggestions) || hasFeature(Feature.FixSuggestionsMarketing)) && (
         <EnableAiCodeFixMessage />
       )}
+
       {hasFeature(Feature.Architecture) &&
         canAdmin &&
         addons.architecture?.ArchitectureAdminBanner({})}
+
       <NCDAutoUpdateMessage />
+
       <UpdateNotification isGlobalBanner />
+
       <IndexationNotification />
+
       <CalculationChangeMessage />
     </>
   );
