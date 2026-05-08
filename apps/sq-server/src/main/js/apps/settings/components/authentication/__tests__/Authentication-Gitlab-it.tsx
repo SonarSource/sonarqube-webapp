@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { within } from '@testing-library/react';
+import { waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import ComputeEngineServiceMock from '~sq-server-commons/api/mocks/ComputeEngineServiceMock';
@@ -1010,6 +1010,86 @@ describe('Gitlab Provisioning', () => {
     expect(custom3Checkboxes[4]).not.toBeChecked();
     expect(custom3Checkboxes[5]).not.toBeChecked();
     await user.click(ui.mappingDialogCancel.get());
+  });
+});
+
+describe('GitLab.com-specific behavior (isGitLabCom)', () => {
+  it.each(['gitlab.com', 'https://gitlab.com', 'https://gitlab.com/'])(
+    'should treat "%s" as GitLab.com and hide the allow-all/specific radio buttons in Auto mode',
+    async (url) => {
+      handler.setGitlabConfigurations([
+        mockGitlabConfiguration({
+          enabled: true,
+          url,
+          provisioningType: ProvisioningType.auto,
+          allowAllGroups: false,
+          allowedGroups: ['my-group'],
+          isProvisioningTokenSet: true,
+        }),
+      ]);
+      renderAuthentication([Feature.GitlabProvisioning]);
+
+      expect(await ui.editConfigButton.find()).toBeInTheDocument();
+      expect(ui.allowAllGroupsRadio.query()).not.toBeInTheDocument();
+      expect(ui.allowSpecificGroupsRadio.query()).not.toBeInTheDocument();
+      expect(ui.groups.get()).toBeInTheDocument();
+    },
+  );
+
+  it('should force allowAllGroups to false when URL is gitlab.com, even if the configuration has it set to true', async () => {
+    const user = userEvent.setup();
+    handler.setGitlabConfigurations([
+      mockGitlabConfiguration({
+        enabled: true,
+        url: 'gitlab.com',
+        provisioningType: ProvisioningType.auto,
+        allowAllGroups: true,
+        allowedGroups: [],
+        isProvisioningTokenSet: true,
+      }),
+    ]);
+    renderAuthentication([Feature.GitlabProvisioning]);
+
+    expect(await ui.editConfigButton.find()).toBeInTheDocument();
+    expect(ui.allowAllGroupsRadio.query()).not.toBeInTheDocument();
+    // groups input is visible because allowAllGroups is forced to false
+    expect(ui.groups.get()).toBeInTheDocument();
+
+    // Making an unrelated change and saving should reset allowAllGroups to false on the server.
+    await user.click(ui.autoProvisioningUpdateTokenButton.get());
+    await user.type(ui.autoProvisioningToken.get(), 'newtoken');
+    await user.type(ui.groups.get(), 'my-group');
+    await user.click(ui.saveProvisioning.get());
+
+    await waitFor(() => {
+      expect(handler.gitlabConfigurations[0].allowAllGroups).toBe(false);
+    });
+  });
+
+  it('should force allowAllGroups to false when saving the edit-configuration modal with a gitlab.com URL', async () => {
+    const user = userEvent.setup();
+    handler.setGitlabConfigurations([
+      mockGitlabConfiguration({
+        enabled: true,
+        url: 'https://www.gitlab.com',
+        provisioningType: ProvisioningType.auto,
+        allowAllGroups: true,
+        allowedGroups: ['my-group'],
+        isProvisioningTokenSet: true,
+      }),
+    ]);
+    renderAuthentication([Feature.GitlabProvisioning]);
+
+    await user.click(await ui.editConfigButton.find());
+    expect(await ui.editDialog.find()).toBeInTheDocument();
+
+    await user.clear(ui.applicationId.get());
+    await user.type(ui.applicationId.get(), 'new-app-id');
+    await user.click(ui.saveConfigButton.get());
+
+    await waitFor(() => {
+      expect(handler.gitlabConfigurations[0].allowAllGroups).toBe(false);
+    });
   });
 });
 

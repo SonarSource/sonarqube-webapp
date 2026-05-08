@@ -52,9 +52,9 @@ function LastSyncAlert({ info, provisionedBy, short }: Readonly<LastSyncProps>) 
       <div>
         <div className="sw-ml-2">
           {warningMessage ? (
-            <IconWarning className="sw-mr-2" variety="success" />
+            <IconWarning className="sw-mr-2" color="echoes-color-icon-warning" />
           ) : (
-            <IconCheck className="sw-mr-2" height={32} variety="success" width={32} />
+            <IconCheck className="sw-mr-2" color="echoes-color-icon-success" />
           )}
         </div>
 

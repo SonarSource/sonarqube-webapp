@@ -19,6 +19,7 @@
  */
 
 import { Button, MessageCallout, RadioButtonGroup, Spinner, Text } from '@sonarsource/echoes-react';
+import classNames from 'classnames';
 import { isEmpty, omitBy } from 'lodash';
 import { FormEvent, useContext, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -29,6 +30,7 @@ import { AvailableFeaturesContext } from '~sq-server-commons/context/available-f
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useIdentityProviderQuery } from '~sq-server-commons/queries/identity-provider/common';
 import {
+  isGitLabComUrl,
   useDeleteGitLabConfigurationMutation,
   useGitLabConfigurationsQuery,
   useSyncWithGitLabNow,
@@ -71,6 +73,7 @@ interface AllowedGroupsFieldProps {
   className?: string;
   definition: DefinitionV2;
   isAutoProvisioning?: boolean;
+  isGitLabCom: boolean;
   mandatory?: boolean;
   onAllowAllGroupsChange: (value: boolean) => void;
   onAllowedGroupsChange: (value: string[]) => void;
@@ -82,6 +85,7 @@ function AllowedGroupsField(props: Readonly<AllowedGroupsFieldProps>) {
     allowedGroups,
     className,
     definition,
+    isGitLabCom,
     mandatory = false,
     onAllowAllGroupsChange,
     onAllowedGroupsChange,
@@ -99,9 +103,17 @@ function AllowedGroupsField(props: Readonly<AllowedGroupsFieldProps>) {
           <RequiredIcon aria-label={formatMessage({ id: 'required' })} className="sw-ml-1" />
         )}
       </Text>
-      {description !== undefined && <Text isSubtle>{description}</Text>}
+      {isAutoProvisioning && isGitLabCom ? (
+        <Text isSubtle>
+          {formatMessage({
+            id: 'settings.authentication.gitlab.form.allowedGroups.allow_specific.help',
+          })}
+        </Text>
+      ) : (
+        description !== undefined && <Text isSubtle>{description}</Text>
+      )}
 
-      {isAutoProvisioning && (
+      {isAutoProvisioning && !isGitLabCom && (
         <RadioButtonGroup
           ariaLabel={name}
           className="sw-mt-3"
@@ -120,7 +132,7 @@ function AllowedGroupsField(props: Readonly<AllowedGroupsFieldProps>) {
                     id: 'settings.authentication.gitlab.form.allowedGroups.allow_all.help',
                   })}
                   {allowAllGroups && isAutoProvisioning && (
-                    <MessageCallout className="sw-mt-2" variety="warning">
+                    <MessageCallout className="sw-my-2" variety="warning">
                       <FormattedMessage id="settings.authentication.gitlab.form.allowedGroups.allow_all.warning" />
                     </MessageCallout>
                   )}
@@ -142,14 +154,14 @@ function AllowedGroupsField(props: Readonly<AllowedGroupsFieldProps>) {
       )}
 
       {(!allowAllGroups || !isAutoProvisioning) && (
-        <div className={`sw-mt-3 ${isAutoProvisioning ? 'sw-ml-6' : ''}`}>
+        <div className={classNames('sw-mt-3', { 'sw-ml-6': isAutoProvisioning && !isGitLabCom })}>
           <label className="sw-sr-only" htmlFor={definition.key}>
             {name}
           </label>
           <AuthenticationMultiValueField
             definition={definition}
             onFieldChange={onAllowedGroupsChange}
-            placeHolder={formatMessage({
+            placeholder={formatMessage({
               id: 'settings.authentication.gitlab.form.allowedGroups.placeholder',
             })}
             settingValue={allowedGroups}
@@ -223,6 +235,9 @@ export default function GitLabAuthenticationTab() {
   const definitions = useDefinitions(
     changes?.provisioningType ?? configuration?.provisioningType ?? ProvisioningType.jit,
   );
+
+  const isGitLabCom = isGitLabComUrl(configuration?.url);
+
   const toggleEnable = () => {
     if (!configuration) {
       return;
@@ -295,7 +310,9 @@ export default function GitLabAuthenticationTab() {
   const provisioningType = changes?.provisioningType ?? configuration?.provisioningType;
   const synchronizeGroups = configuration?.synchronizeGroups ?? false;
   const allowUsersToSignUp = changes?.allowUsersToSignUp ?? configuration?.allowUsersToSignUp;
-  const allowAllGroups = changes?.allowAllGroups ?? configuration?.allowAllGroups ?? false;
+  const allowAllGroups = isGitLabCom
+    ? false
+    : (changes?.allowAllGroups ?? configuration?.allowAllGroups ?? false);
   const allowedGroups = changes?.allowedGroups ?? configuration?.allowedGroups;
   const provisioningToken = changes?.provisioningToken;
 
@@ -432,6 +449,7 @@ export default function GitLabAuthenticationTab() {
                     className="sw-mt-8"
                     definition={allowedGroupsDefinition}
                     isAutoProvisioning
+                    isGitLabCom={isGitLabCom}
                     mandatory
                     onAllowAllGroupsChange={(value) => {
                       setChangesWithCheck({
@@ -514,6 +532,7 @@ export default function GitLabAuthenticationTab() {
                     allowedGroups={allowedGroups}
                     className="sw-mt-8"
                     definition={allowedGroupsDefinition}
+                    isGitLabCom={false}
                     onAllowAllGroupsChange={(value) => {
                       setChangesWithCheck({
                         ...changes,

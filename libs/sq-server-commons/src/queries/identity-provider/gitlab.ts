@@ -36,8 +36,28 @@ import {
 } from '../../api/gitlab-provisioning';
 import { addGlobalSuccessMessage } from '../../design-system';
 import { translate } from '../../helpers/l10n';
-import { AlmSyncStatus, DevopsRolesMapping, ProvisioningType } from '../../types/provisioning';
+import {
+  AlmSyncStatus,
+  DevopsRolesMapping,
+  GitlabConfiguration,
+  ProvisioningType,
+} from '../../types/provisioning';
 import { TaskStatuses, TaskTypes } from '../../types/tasks';
+
+export function isGitLabComUrl(url: string | undefined): boolean {
+  if (!url) {
+    return false;
+  }
+  if (url === 'gitlab.com') {
+    return true;
+  }
+  try {
+    const { hostname } = new URL(url);
+    return hostname === 'gitlab.com' || hostname === 'www.gitlab.com';
+  } catch {
+    return false;
+  }
+}
 
 export function useGitLabConfigurationsQuery() {
   return useQuery({
@@ -76,7 +96,17 @@ export function useUpdateGitLabConfigurationMutation() {
     }: {
       data: Parameters<typeof updateGitLabConfiguration>[1];
       id: Parameters<typeof updateGitLabConfiguration>[0];
-    }) => updateGitLabConfiguration(id, data),
+    }) => {
+      const cached = client.getQueryData<{ gitlabConfigurations: GitlabConfiguration[] }>([
+        'identity_provider',
+        'gitlab_config',
+        'list',
+      ]);
+      const currentUrl = cached?.gitlabConfigurations.find((c) => c.id === id)?.url;
+      const resultingUrl = data.url ?? currentUrl;
+      const finalData = isGitLabComUrl(resultingUrl) ? { ...data, allowAllGroups: false } : data;
+      return updateGitLabConfiguration(id, finalData);
+    },
     onSuccess(data) {
       client.invalidateQueries({
         queryKey: ['identity_provider', 'users_and_groups_provider'],

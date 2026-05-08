@@ -28,12 +28,12 @@ import { getPropertyName } from '../../utils';
 interface Props {
   definition: ExtendedSettingDefinition | DefinitionV2;
   onFieldChange: (value: string[]) => void;
-  placeHolder?: string;
+  placeholder?: string;
   settingValue?: string[];
 }
 
 export default function AuthenticationMultiValueField(props: Props) {
-  const { settingValue = [], definition, placeHolder } = props;
+  const { settingValue = [], definition, placeholder: placeHolder } = props;
 
   const displayValue = [...settingValue, ''];
 
