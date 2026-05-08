@@ -2066,6 +2066,9 @@ export const defaultMessages = {
   'sca.dependencies.key_changes.no_changes':
     'This pull request does not create or fix any dependency risks.',
 
+  'sca.dependencies.key_changes.beta_callout.title': 'Key changes view now in Beta',
+  'sca.dependencies.key_changes.beta_callout.description':
+    'Find what risks your pull request introduces, and which ones it fixes. <link>Share feedback with us</link>',
   //------------------------------------------------------------------------------
   //
   // ARCHITECTURE PAGE
