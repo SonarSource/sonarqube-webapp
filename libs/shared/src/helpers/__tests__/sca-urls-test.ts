@@ -96,5 +96,34 @@ describe('sca-urls', () => {
         search: '?id=1&severities=LOW%2CMEDIUM%2CHIGH%2CBLOCKER&riskStatuses=OPEN%2CCONFIRM',
       });
     });
+
+    it.each([
+      [MetricKey.sca_count_vulnerability, 'VULNERABILITY'],
+      [MetricKey.sca_count_licensing, 'PROHIBITED_LICENSE'],
+      [MetricKey.sca_count_malware, 'MALWARE'],
+      [MetricKey.sca_rating_vulnerability, 'VULNERABILITY'],
+      [MetricKey.sca_severity_licensing, 'PROHIBITED_LICENSE'],
+    ])('should set types filter for metric %s', (metricKey, expectedType) => {
+      const result = getRisksUrlForComponent({ componentKey: '1', metricKey });
+      expect(result.pathname).toBe('/dependency-risks');
+      const params = new URLSearchParams(result.search!);
+      expect(params.get('types')).toBe(expectedType);
+      expect(params.get('qualities')).toBeNull();
+      expect(params.get('id')).toBe('1');
+      expect(params.get('riskStatuses')).toBe('OPEN,CONFIRM');
+    });
+
+    it.each([MetricKey.sca_count_any_security, MetricKey.sca_rating_any_security])(
+      'should set qualities=SECURITY filter for metric %s',
+      (metricKey) => {
+        const result = getRisksUrlForComponent({ componentKey: '1', metricKey });
+        expect(result.pathname).toBe('/dependency-risks');
+        const params = new URLSearchParams(result.search!);
+        expect(params.get('qualities')).toBe('SECURITY');
+        expect(params.get('types')).toBeNull();
+        expect(params.get('id')).toBe('1');
+        expect(params.get('riskStatuses')).toBe('OPEN,CONFIRM');
+      },
+    );
   });
 });

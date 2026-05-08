@@ -22,10 +22,10 @@ import { FormFieldWidth, Select, Text, TextInput, TextSize } from '@sonarsource/
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import {
+  getScaMetricUrlParams,
   getScaRiskMetricThresholds,
   RISK_SEVERITY_LABELS,
   RISK_TYPE_QUALITY_GATE_LABEL,
-  SCA_METRIC_TYPE_MAP,
 } from '../../helpers/sca';
 import { isStringDefined } from '../../helpers/types';
 import { Metric } from '../../types/measures';
@@ -95,7 +95,7 @@ export default function ThresholdInput({
   }
 
   if (metric.type === MetricType.ScaRisk) {
-    const scaMetricType = SCA_METRIC_TYPE_MAP[metric.key as MetricKey];
+    const { types } = getScaMetricUrlParams(metric.key as MetricKey);
     const options = Object.entries(getScaRiskMetricThresholds(metric.key)).map(
       ([value, option]) => ({
         value,
@@ -111,9 +111,9 @@ export default function ThresholdInput({
           data={options}
           onChange={handleSelectChange}
         />
-        {options.length === 1 && scaMetricType && (
+        {options.length === 1 && types && (
           <Text as="p" className="sw-mt-3" size={TextSize.Small}>
-            <FormattedMessage id={`${RISK_TYPE_QUALITY_GATE_LABEL[scaMetricType]}.description`} />
+            <FormattedMessage id={`${RISK_TYPE_QUALITY_GATE_LABEL[types]}.description`} />
           </Text>
         )}
       </div>

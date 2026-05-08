@@ -24,7 +24,7 @@ import { MetricKey } from '../types/metrics';
 import { RiskStatus } from '../types/sca';
 import { getBranchLikeQuery } from './branch-like';
 import { queryToSearchString } from './query';
-import { SCA_METRIC_TYPE_MAP, scaFilterConditionsBySeverity } from './sca';
+import { getScaMetricUrlParams, scaFilterConditionsBySeverity } from './sca';
 
 export const RELEASES_ROUTE_NAME = 'dependencies';
 export const RISKS_ROUTE_NAME = 'dependency-risks';
@@ -106,6 +106,7 @@ const RISKS_OPTIONAL_PARAMS = [
   ...OPTIONAL_PARAMS,
   'riskStatuses',
   'newlyIntroduced',
+  'qualities',
   'severities',
   'types',
   'id',
@@ -185,7 +186,9 @@ export function getRisksUrlForComponent({
   threshold?: string;
 }) {
   const newParams: RisksUrlNewParams = {
-    types: metricKey === undefined ? riskTypes?.join(',') : SCA_METRIC_TYPE_MAP[metricKey],
+    ...(metricKey === undefined
+      ? { types: riskTypes?.join(',') }
+      : getScaMetricUrlParams(metricKey)),
     id: componentKey,
   };
 

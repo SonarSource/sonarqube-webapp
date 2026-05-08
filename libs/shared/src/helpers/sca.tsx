@@ -21,7 +21,12 @@
 import { useMemo } from 'react';
 import { Metric } from '../types/measures';
 import { MetricKey, MetricType } from '../types/metrics';
-import { L10nMessageType, ReleaseRiskSeverity, ReleaseRiskType } from '../types/sca';
+import {
+  L10nMessageType,
+  ReleaseRiskQuality,
+  ReleaseRiskSeverity,
+  ReleaseRiskType,
+} from '../types/sca';
 
 /**
  * TODO: Backend tech debt:
@@ -65,8 +70,12 @@ export const RISK_SEVERITY_LABELS: Record<ReleaseRiskSeverity, L10nMessageType> 
   [ReleaseRiskSeverity.Blocker]: 'severity_impact.BLOCKER',
 };
 
-export const RISK_TYPE_QUALITY_GATE_LABEL: Record<ReleaseRiskType | 'Any', L10nMessageType> = {
+export const RISK_TYPE_QUALITY_GATE_LABEL: Record<
+  ReleaseRiskType | 'Any' | 'AnySecurity',
+  L10nMessageType
+> = {
   Any: 'sca.quality_gates.metric.sca_severity_any_issue',
+  AnySecurity: 'sca.quality_gates.metric.sca_severity_any_security',
   [ReleaseRiskType.Vulnerability]: 'sca.quality_gates.metric.sca_severity_vulnerability',
   [ReleaseRiskType.ProhibitedLicense]: 'sca.quality_gates.metric.sca_severity_licensing',
   [ReleaseRiskType.Malware]: 'sca.quality_gates.metric.sca_severity_malware',
@@ -97,64 +106,47 @@ export function getScaRiskMetricThresholds(metricKey: string) {
  * These are the metrics keys for which the SCA_RISK_METRIC_OPTIONS apply
  * and that should have the MetricType.ScaRisk type.
  */
-export const SCA_ISSUE_RISK_SEVERITY_METRICS = [
-  /** Overall metrics */
-  MetricKey.sca_severity_any_issue,
-  MetricKey.sca_severity_licensing,
-  MetricKey.sca_severity_vulnerability,
-  MetricKey.sca_severity_malware,
-  /** New metrics */
-  MetricKey.new_sca_severity_any_issue,
-  MetricKey.new_sca_severity_licensing,
-  MetricKey.new_sca_severity_vulnerability,
-  MetricKey.new_sca_severity_malware,
-] as string[];
+export const SCA_ISSUE_RISK_SEVERITY_METRICS: string[] = Object.values(MetricKey).filter(
+  (k) => k.startsWith('sca_severity_') || k.startsWith('new_sca_severity_'),
+);
 
-export const SCA_ISSUE_RISK_RATING_METRICS = [
-  /** Overall metrics */
-  MetricKey.sca_rating_any_issue,
-  MetricKey.sca_rating_licensing,
-  // MetricKey.sca_rating_malware,
-  MetricKey.sca_rating_vulnerability,
-  /** New metrics */
-  MetricKey.new_sca_rating_any_issue,
-  MetricKey.new_sca_rating_licensing,
-  // MetricKey.new_sca_rating_malware,
-  MetricKey.new_sca_rating_vulnerability,
-] as string[];
+export const SCA_ISSUE_RISK_RATING_METRICS: string[] = Object.values(MetricKey).filter(
+  (k) => k.startsWith('sca_rating_') || k.startsWith('new_sca_rating_'),
+);
 
-export const SCA_ISSUE_RISK_COUNT_METRICS = [
-  MetricKey.sca_count_any_issue,
-  MetricKey.new_sca_count_any_issue,
-] as string[];
+export const SCA_ISSUE_RISK_COUNT_METRICS: string[] = Object.values(MetricKey).filter(
+  (k) => k.startsWith('sca_count_') || k.startsWith('new_sca_count_'),
+);
 
 export const SCA_RISK_ALL_METRICS = [
   ...SCA_ISSUE_RISK_SEVERITY_METRICS,
   ...SCA_ISSUE_RISK_RATING_METRICS,
   ...SCA_ISSUE_RISK_COUNT_METRICS,
-  // TODO: Uncomment above when backend is updated
-  MetricKey.sca_rating_malware,
-  MetricKey.new_sca_rating_malware,
-] as string[];
+];
 
-export const SCA_METRIC_TYPE_MAP: Partial<Record<MetricKey, ReleaseRiskType>> = {
-  /** Overall rating */
-  [MetricKey.sca_rating_licensing]: ReleaseRiskType.ProhibitedLicense,
-  [MetricKey.sca_rating_malware]: ReleaseRiskType.Malware,
-  [MetricKey.sca_rating_vulnerability]: ReleaseRiskType.Vulnerability,
-  /** Overall severity */
-  [MetricKey.sca_severity_licensing]: ReleaseRiskType.ProhibitedLicense,
-  [MetricKey.sca_severity_malware]: ReleaseRiskType.Malware,
-  [MetricKey.sca_severity_vulnerability]: ReleaseRiskType.Vulnerability,
-  /** New rating */
-  [MetricKey.new_sca_rating_licensing]: ReleaseRiskType.ProhibitedLicense,
-  [MetricKey.new_sca_rating_malware]: ReleaseRiskType.Malware,
-  [MetricKey.new_sca_rating_vulnerability]: ReleaseRiskType.Vulnerability,
-  /** New severity */
-  [MetricKey.new_sca_severity_licensing]: ReleaseRiskType.ProhibitedLicense,
-  [MetricKey.new_sca_severity_malware]: ReleaseRiskType.Malware,
-  [MetricKey.new_sca_severity_vulnerability]: ReleaseRiskType.Vulnerability,
-};
+/**
+ * Returns the dependency-risks URL filter params appropriate for a given SCA metric key,
+ * derived from the metric key suffix. New metric keys are handled automatically without
+ * needing to update a hardcoded map.
+ */
+export function getScaMetricUrlParams(metricKey: MetricKey): {
+  qualities?: ReleaseRiskQuality;
+  types?: ReleaseRiskType;
+} {
+  if (metricKey.endsWith('_any_security')) {
+    return { qualities: ReleaseRiskQuality.Security };
+  }
+  if (metricKey.endsWith('_vulnerability')) {
+    return { types: ReleaseRiskType.Vulnerability };
+  }
+  if (metricKey.endsWith('_licensing')) {
+    return { types: ReleaseRiskType.ProhibitedLicense };
+  }
+  if (metricKey.endsWith('_malware')) {
+    return { types: ReleaseRiskType.Malware };
+  }
+  return {};
+}
 
 /**
  * TODO: Backend tech debt:

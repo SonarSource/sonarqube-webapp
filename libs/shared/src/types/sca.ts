@@ -51,6 +51,11 @@ export enum ReleaseRiskType {
   ProhibitedLicense = 'PROHIBITED_LICENSE',
 }
 
+export enum ReleaseRiskQuality {
+  Security = 'SECURITY',
+  Maintainability = 'MAINTAINABILITY',
+}
+
 export enum RiskStatus {
   Accept = 'ACCEPT',
   Confirm = 'CONFIRM',

@@ -25,9 +25,9 @@ import { FormattedMessage } from 'react-intl';
 import { Path } from 'react-router-dom';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import {
+  getScaMetricUrlParams,
   RISK_TYPE_QUALITY_GATE_LABEL,
   SCA_LICENSE_SEVERITY_RISK_METRIC_KEYS,
-  SCA_METRIC_TYPE_MAP,
   SCA_RISK_ALL_METRICS,
   scaFilterConditionsBySeverity,
 } from '~shared/helpers/sca';
@@ -128,7 +128,7 @@ export class QualityGateCondition extends React.PureComponent<Props> {
               ...getBranchLikeQuery(this.props.branchLike),
               newlyIntroduced: condition.period != null ? 'true' : undefined,
               severities: scaFilterConditionsBySeverity(threshold).join(','),
-              types: SCA_METRIC_TYPE_MAP[metricKey as MetricKey],
+              ...getScaMetricUrlParams(metricKey as MetricKey),
               id: this.props.component.key,
             },
           });
@@ -220,10 +220,9 @@ export class QualityGateCondition extends React.PureComponent<Props> {
     const metric = this.getMetric();
 
     if (metric.type === MetricType.ScaRisk) {
-      const metricType = SCA_METRIC_TYPE_MAP[metric.key as MetricKey];
-      const metricTypeLabel = metricType
-        ? RISK_TYPE_QUALITY_GATE_LABEL[metricType]
-        : RISK_TYPE_QUALITY_GATE_LABEL.Any;
+      const { types, qualities } = getScaMetricUrlParams(metric.key as MetricKey);
+      const metricTypeLabel =
+        RISK_TYPE_QUALITY_GATE_LABEL[types ?? (qualities ? 'AnySecurity' : 'Any')];
 
       return <FormattedMessage id={metricTypeLabel} />;
     }
