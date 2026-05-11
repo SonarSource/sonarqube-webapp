@@ -72,7 +72,7 @@ export enum DocLink {
   InstanceAdminReindexation = '/server-update-and-maintenance/maintenance/reindexing',
   InstanceAdminSecurity = '/instance-administration/system-functions/security/',
   InstanceAdminSandboxIssues = '/instance-administration/analysis-functions/quality-standards#setting-up-the-sandbox-feature-at-the-instance-level',
-  InstanceMonitoring = '/server-update-and-maintenance/monitoring/instance',
+  InstanceMonitoring = '/server-update-and-maintenance/troubleshooting/performance-issues',
   IssueResolutions = '/user-guide/issues/solution-overview/#deprecated-features',
   Issues = '/user-guide/issues/introduction/',
   IssuesManaging = '/user-guide/issues/managing/',
