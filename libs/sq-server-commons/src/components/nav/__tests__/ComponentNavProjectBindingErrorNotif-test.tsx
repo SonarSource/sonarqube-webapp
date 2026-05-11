@@ -19,6 +19,9 @@
  */
 
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { validateProjectAlmBinding } from '../../../api/alm-settings';
 import { mockComponent } from '../../../helpers/mocks/component';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
 import { Feature } from '../../../types/features';
@@ -28,6 +31,7 @@ import ComponentNavProjectBindingErrorNotif, {
 
 jest.mock('~sq-server-commons/api/alm-settings', () => {
   return {
+    deleteProjectAlmBinding: jest.fn().mockResolvedValue(undefined),
     validateProjectAlmBinding: jest
       .fn()
       .mockResolvedValue(
@@ -67,6 +71,42 @@ it('should show a link if use is allowed', async () => {
       name: 'component_navigation.pr_deco.action.check_project_settings',
     }),
   ).toBeInTheDocument();
+});
+
+it('should only call the binding validation API once across re-renders', async () => {
+  // Regression guard: the old code called validateProjectAlmBinding inside a useEffect
+  // whose dependency array included hasFeature — a function recreated on every render.
+  // Any parent re-render therefore triggered a new API call. The fix moves to
+  // useValidateProjectAlmBindingQuery (staleTime: NEVER), so remounts and re-renders
+  // are served from cache without a network round-trip.
+  function RerenderWrapper() {
+    const [count, setCount] = React.useState(0);
+    return (
+      <>
+        <button
+          onClick={() => {
+            setCount((n) => n + 1);
+          }}
+          type="button"
+        >
+          trigger rerender {count}
+        </button>
+        <ComponentNavProjectBindingErrorNotif component={mockComponent()} />
+      </>
+    );
+  }
+
+  const user = userEvent.setup();
+  renderComponent(<RerenderWrapper />, '', { featureList: [Feature.BranchSupport] });
+
+  expect(
+    await screen.findByText(/component_navigation.pr_deco.action.contact_project_admin/),
+  ).toBeInTheDocument();
+  expect(validateProjectAlmBinding).toHaveBeenCalledTimes(1);
+
+  await user.click(screen.getByRole('button', { name: /trigger rerender/ }));
+
+  expect(validateProjectAlmBinding).toHaveBeenCalledTimes(1);
 });
 
 function renderComponentNavProjectBindingErrorNotif(

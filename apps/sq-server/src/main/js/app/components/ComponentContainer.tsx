@@ -81,14 +81,15 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
   }, [component, projectComponent]);
 
   /* If we have no branch support, redirect to main branch */
+  const hasBranchSupport = hasFeature(Feature.BranchSupport);
   React.useEffect(() => {
-    if (!hasFeature(Feature.BranchSupport) && isDefined(branch)) {
+    if (!hasBranchSupport && isDefined(branch)) {
       router.setSearchParams((params) => {
         params.delete('branch');
         return params;
       });
     }
-  }, [branch, hasFeature, router]);
+  }, [branch, hasBranchSupport, router]);
 
   //prefetch isStandardExperienceMode
   useStandardExperienceModeQuery();

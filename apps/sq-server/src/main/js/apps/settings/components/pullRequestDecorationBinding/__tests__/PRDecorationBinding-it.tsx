@@ -18,9 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
+import ComponentNavProjectBindingErrorNotif from '~sq-server-commons/components/nav/ComponentNavProjectBindingErrorNotif';
 import CurrentUserContextProvider from '~sq-server-commons/context/current-user/CurrentUserContextProvider';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
@@ -29,6 +31,7 @@ import {
   AlmKeys,
   ProjectAlmBindingConfigurationErrorScope,
 } from '~sq-server-commons/types/alm-settings';
+import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import { CurrentUser } from '~sq-server-commons/types/users';
 import PRDecorationBinding, { isDataSame } from '../PRDecorationBinding';
@@ -143,6 +146,55 @@ it.each([
     expect(ui.input('', 'switch').query()).not.toBeInTheDocument();
   },
 );
+
+it('should update the nav binding error notif after saving a binding', async () => {
+  // Regression guard: saving or deleting a binding calls useSetProjectBindingMutation /
+  // useDeleteProjectAlmBindingMutation, whose onSuccess invalidates the
+  // useValidateProjectAlmBindingQuery cache. ComponentNavProjectBindingErrorNotif observes
+  // that cache. If the query key for invalidation ever drifts, the nav notif will remain
+  // stale after a binding change. Render both in the same provider to catch this end-to-end.
+  almSettings.setProjectBindingConfigurationErrors({
+    scope: ProjectAlmBindingConfigurationErrorScope.Global,
+    errors: [{ msg: 'binding error' }],
+  });
+
+  const { ui, user } = getPageObjects();
+  const component = mockComponent();
+  renderComponent(
+    <>
+      <MockedPRDecorationBinding component={component} currentUser={mockCurrentUser()} />
+      <ComponentNavProjectBindingErrorNotif component={component} />
+    </>,
+    '',
+    { featureList: [Feature.BranchSupport] },
+  );
+
+  expect(await ui.mainTitle.find()).toBeInTheDocument();
+  // Nav shows the binding error because the initial validation returned errors.
+  expect(
+    await screen.findByText(/component_navigation.pr_deco.action.contact_project_admin/),
+  ).toBeInTheDocument();
+
+  // Select GitHub and fill in the required repository field.
+  await user.click(ui.input('name', 'combobox').get());
+  await user.click(byRole('option', { name: /conf-github-1/ }).get());
+  await ui.setInput('github.repository', 'my-org/my-repo');
+
+  // Clear the error before saving so the refetch returns no errors.
+  almSettings.setProjectBindingConfigurationErrors(undefined);
+  await user.click(ui.saveButton.get());
+
+  // After the mutation succeeds it invalidates useValidateProjectAlmBindingQuery.
+  // ComponentNavProjectBindingErrorNotif (an active observer) refetches and finds no
+  // errors, so it renders null and the error text disappears.
+  // (userEvent.click flushes microtasks, so the refetch may complete before
+  // waitForElementToBeRemoved can run its initial check — use waitFor instead.)
+  await waitFor(() => {
+    expect(
+      screen.queryByText(/component_navigation.pr_deco.action.contact_project_admin/),
+    ).not.toBeInTheDocument();
+  });
+});
 
 it('should correctly detect form change', () => {
   expect(isDataSame({ key: '1' }, { key: '1' })).toBe(true);

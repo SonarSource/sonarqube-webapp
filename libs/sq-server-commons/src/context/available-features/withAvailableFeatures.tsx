@@ -53,7 +53,10 @@ export default function withAvailableFeatures<P>(
 export function useAvailableFeatures() {
   const availableFeatures = React.useContext(AvailableFeaturesContext);
 
-  return {
-    hasFeature: (feature: Feature) => availableFeatures.includes(feature),
-  };
+  return React.useMemo(
+    () => ({
+      hasFeature: (feature: Feature) => availableFeatures.includes(feature),
+    }),
+    [availableFeatures],
+  );
 }

@@ -82,6 +82,7 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
     selectedMetric,
   );
 
+  const hasPrioritizedRulesFeature = hasFeature(Feature.PrioritizedRules);
   const availableMetrics = React.useMemo(() => {
     return differenceWith(
       map(metrics, (metric) => metric).filter(
@@ -94,15 +95,12 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
               ? Object.values(STANDARD_CONDITIONS_MAP)
               : Object.values(MQR_CONDITIONS_MAP)
           ).includes(metric.key as MetricKey) &&
-          !(
-            metric.key === MetricKey.prioritized_rule_issues &&
-            !hasFeature(Feature.PrioritizedRules)
-          ),
+          !(metric.key === MetricKey.prioritized_rule_issues && !hasPrioritizedRulesFeature),
       ),
       conditions,
       (metric, condition) => metric.key === condition.metric,
     );
-  }, [conditions, hasFeature, metrics, isStandardMode]);
+  }, [conditions, hasPrioritizedRulesFeature, metrics, isStandardMode]);
 
   const handleFormSubmit = React.useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {

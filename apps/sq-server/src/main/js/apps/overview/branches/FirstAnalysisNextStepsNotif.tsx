@@ -50,9 +50,9 @@ export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifPr
     return null;
   }
 
-  const branchesEnabled = hasFeature(Feature.BranchSupport);
+  const hasBranchSupport = hasFeature(Feature.BranchSupport);
 
-  const showConfigurePullRequestDecoNotif = branchesEnabled && projectBinding == null;
+  const showConfigurePullRequestDecoNotif = hasBranchSupport && projectBinding == null;
 
   const showConfigureCINotif =
     detectedCIOnLastAnalysis !== undefined ? !detectedCIOnLastAnalysis : false;

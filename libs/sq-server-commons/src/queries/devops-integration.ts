@@ -32,6 +32,7 @@ import {
   setProjectGitlabBinding,
 } from '../api/alm-settings';
 import { AlmKeys, ProjectAlmBindingParams, ProjectAlmBindingResponse } from '../types/alm-settings';
+import { useInvalidateValidateProjectAlmBindingQuery } from './alm-settings';
 
 function useProjectKeyFromLocation() {
   const location = useLocation();
@@ -78,9 +79,11 @@ export function useIsGitLabProjectQuery(project?: string) {
 export function useDeleteProjectAlmBindingMutation(project?: string) {
   const keyFromUrl = useProjectKeyFromLocation();
   const client = useQueryClient();
+  const invalidateValidateProjectAlmBindingQuery = useInvalidateValidateProjectAlmBindingQuery();
+
+  const key = project ?? keyFromUrl;
   return useMutation({
     mutationFn: () => {
-      const key = project ?? keyFromUrl;
       if (key === null) {
         throw new Error('No project key');
       }
@@ -88,8 +91,9 @@ export function useDeleteProjectAlmBindingMutation(project?: string) {
     },
     onSuccess: () => {
       client.invalidateQueries({
-        queryKey: ['devops_integration', project ?? keyFromUrl, 'binding'],
+        queryKey: ['devops_integration', key, 'binding'],
       });
+      invalidateValidateProjectAlmBindingQuery(key as string);
     },
   });
 }
@@ -188,12 +192,14 @@ type SetBindingParams = ProjectAlmBindingParams & {
 
 export function useSetProjectBindingMutation() {
   const client = useQueryClient();
+  const invalidateValidateProjectAlmBindingQuery = useInvalidateValidateProjectAlmBindingQuery();
   return useMutation({
     mutationFn: (data: SetBindingParams) => getSetProjectBindingFn(data),
     onSuccess: (_, variables) => {
       client.invalidateQueries({
         queryKey: ['devops_integration', variables.project, 'binding'],
       });
+      invalidateValidateProjectAlmBindingQuery(variables.project);
     },
   });
 }

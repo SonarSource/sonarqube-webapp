@@ -19,14 +19,12 @@
  */
 
 import { Link, MessageCallout } from '@sonarsource/echoes-react';
-import { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ComponentQualifier } from '~shared/types/component';
-import { validateProjectAlmBinding } from '../../api/alm-settings';
 import { PULL_REQUEST_DECORATION_BINDING_CATEGORY } from '../../constants/settings';
 import { useAvailableFeatures } from '../../context/available-features/withAvailableFeatures';
 import { getProjectSettingsUrl } from '../../helpers/urls';
-import { ProjectAlmBindingConfigurationErrors } from '../../types/alm-settings';
+import { useValidateProjectAlmBindingQuery } from '../../queries/alm-settings';
 import { Feature } from '../../types/features';
 import { Component } from '../../types/types';
 
@@ -39,33 +37,14 @@ export default function ComponentNavProjectBindingErrorNotif(
 ) {
   const { component } = props;
   const { hasFeature } = useAvailableFeatures();
-  const [projectBindingErrors, setProjectBindingErrors] =
-    useState<ProjectAlmBindingConfigurationErrors>();
+  const hasBranchSupport = hasFeature(Feature.BranchSupport);
 
-  const fetchProjectBindingErrors = useCallback(
-    async (component: Component) => {
-      if (
-        component.qualifier === ComponentQualifier.Project &&
-        component.analysisDate === undefined &&
-        hasFeature(Feature.BranchSupport)
-      ) {
-        try {
-          const projectBindingErrors = await validateProjectAlmBinding(component.key);
-          setProjectBindingErrors(projectBindingErrors);
-        } catch {
-          setProjectBindingErrors(undefined);
-        }
-      }
-    },
-    [hasFeature],
-  );
-
-  // Fetch errors when component has changed
-  useEffect(() => {
-    if (component) {
-      fetchProjectBindingErrors(component);
-    }
-  }, [component, fetchProjectBindingErrors]);
+  const { data: projectBindingErrors } = useValidateProjectAlmBindingQuery(component.key, {
+    enabled:
+      component.qualifier === ComponentQualifier.Project &&
+      component.analysisDate === undefined &&
+      hasBranchSupport,
+  });
 
   if (!projectBindingErrors) {
     return null;
