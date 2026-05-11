@@ -4770,9 +4770,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/core@patch:@mantine/core@7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::locator=%40sonarsource%2Fechoes-react%40npm%3A2.2.0":
+"@mantine/core@patch:@mantine/core@7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::locator=%40sonarsource%2Fechoes-react%40npm%3A3.0.0":
   version: 7.12.2
-  resolution: "@mantine/core@patch:@mantine/core@npm%3A7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::version=7.12.2&hash=cab555&locator=%40sonarsource%2Fechoes-react%40npm%3A2.2.0"
+  resolution: "@mantine/core@patch:@mantine/core@npm%3A7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::version=7.12.2&hash=cab555&locator=%40sonarsource%2Fechoes-react%40npm%3A3.0.0"
   dependencies:
     "@floating-ui/react": "npm:^0.26.9"
     clsx: "npm:^2.1.1"
@@ -6672,9 +6672,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-radio-group@patch:@radix-ui/react-radio-group@npm%3A1.3.8#./.yarn/patches/@radix-ui-react-radio-group-npm-1.3.8-6cdda6336a.patch::locator=%40sonarsource%2Fechoes-react%40npm%3A2.2.0":
+"@radix-ui/react-radio-group@patch:@radix-ui/react-radio-group@npm%3A1.3.8#./.yarn/patches/@radix-ui-react-radio-group-npm-1.3.8-6cdda6336a.patch::locator=%40sonarsource%2Fechoes-react%40npm%3A3.0.0":
   version: 1.3.8
-  resolution: "@radix-ui/react-radio-group@patch:@radix-ui/react-radio-group@npm%3A1.3.8#./.yarn/patches/@radix-ui-react-radio-group-npm-1.3.8-6cdda6336a.patch::version=1.3.8&hash=ecd358&locator=%40sonarsource%2Fechoes-react%40npm%3A2.2.0"
+  resolution: "@radix-ui/react-radio-group@patch:@radix-ui/react-radio-group@npm%3A1.3.8#./.yarn/patches/@radix-ui-react-radio-group-npm-1.3.8-6cdda6336a.patch::version=1.3.8&hash=ecd358&locator=%40sonarsource%2Fechoes-react%40npm%3A3.0.0"
   dependencies:
     "@radix-ui/primitive": "npm:1.1.3"
     "@radix-ui/react-compose-refs": "npm:1.1.2"
@@ -8405,9 +8405,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sonarsource/echoes-react@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@sonarsource/echoes-react@npm:2.2.0"
+"@sonarsource/echoes-react@npm:3.0.0":
+  version: 3.0.0
+  resolution: "@sonarsource/echoes-react@npm:3.0.0"
   dependencies:
     "@mantine/core": "patch:@mantine/core@7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch"
     "@mantine/hooks": "npm:7.12.2"
@@ -8433,7 +8433,7 @@ __metadata:
     react-dom: ^19.0.0
     react-intl: ^10.0.0
     react-router-dom: ^6.0.0
-  checksum: 10/1f673970e2c5ced693c336a0b6e828b9526e9290db88437f6bbdf904befe98d0a65f2fb9ca987a96ea50571514de7df3e2139480fa90806dfe1d272b0acb80c2
+  checksum: 10/045d861affc6c36908dca8442d69f2cc208f9299283a06636ca1bb6b3bc8c20f2125de85d4747bc43dfd9f774731b0463bbbc2edc4e54ea1ed87c5444312d743
   languageName: node
   linkType: hard
 
@@ -22766,7 +22766,7 @@ __metadata:
     "@rollup/plugin-replace": "npm:6.0.3"
     "@sentry/browser": "npm:10.46.0"
     "@sentry/react": "npm:10.46.0"
-    "@sonarsource/echoes-react": "npm:2.2.0"
+    "@sonarsource/echoes-react": "npm:3.0.0"
     "@sprig-technologies/sprig-browser": "npm:2.41.1"
     "@stripe/react-stripe-js": "npm:5.3.0"
     "@stripe/stripe-js": "npm:8.3.0"

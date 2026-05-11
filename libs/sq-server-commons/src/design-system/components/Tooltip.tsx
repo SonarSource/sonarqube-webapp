@@ -496,7 +496,7 @@ const TooltipWrapperArrow = styled.div`
   width: 0;
   height: 0;
   ${tw`sw-border-solid`};
-  border-color: ${cssVar('color-support-transparent')};
+  border-color: ${cssVar('color-roles-support-transparent')};
 
   ${TooltipWrapper}.top & {
     border-width: ${ARROW_HEIGHT}px ${ARROW_WIDTH}px 0;
