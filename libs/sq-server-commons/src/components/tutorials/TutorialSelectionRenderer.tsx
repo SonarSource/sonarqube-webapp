@@ -21,6 +21,7 @@
 import {
   BreadcrumbsItems,
   Heading,
+  Layout,
   LinkStandalone,
   MessageCallout,
   MessageVariety,
@@ -253,68 +254,76 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
       breadcrumbs={selectedTutorialBreadcrumbs}
       description={pageDescription}
       disableBranchSelector
+      skipPageContentWrapper
       title={pageTitle}
     >
-      <AnalysisStatus className="sw-mb-4 sw-w-max" component={component} />
+      <Layout.PageContent className="sw-overflow-hidden">
+        <AnalysisStatus className="sw-mb-4 sw-w-max" component={component} />
 
-      {selectedTutorial === TutorialModes.Local && (
-        <OtherTutorial baseUrl={baseUrl} component={component} currentUser={currentUser} isLocal />
-      )}
+        {selectedTutorial === TutorialModes.Local && (
+          <OtherTutorial
+            baseUrl={baseUrl}
+            component={component}
+            currentUser={currentUser}
+            isLocal
+          />
+        )}
 
-      {selectedTutorial === TutorialModes.OtherCI && (
-        <OtherTutorial baseUrl={baseUrl} component={component} currentUser={currentUser} />
-      )}
+        {selectedTutorial === TutorialModes.OtherCI && (
+          <OtherTutorial baseUrl={baseUrl} component={component} currentUser={currentUser} />
+        )}
 
-      {selectedTutorial === TutorialModes.BitbucketPipelines && (
-        <BitbucketPipelinesTutorial
-          almBinding={almBinding}
-          baseUrl={baseUrl}
-          component={component}
-          currentUser={currentUser}
-          mainBranchName={mainBranchName}
-          willRefreshAutomatically={willRefreshAutomatically}
-        />
-      )}
+        {selectedTutorial === TutorialModes.BitbucketPipelines && (
+          <BitbucketPipelinesTutorial
+            almBinding={almBinding}
+            baseUrl={baseUrl}
+            component={component}
+            currentUser={currentUser}
+            mainBranchName={mainBranchName}
+            willRefreshAutomatically={willRefreshAutomatically}
+          />
+        )}
 
-      {selectedTutorial === TutorialModes.GitHubActions && (
-        <GitHubActionTutorial
-          almBinding={almBinding}
-          baseUrl={baseUrl}
-          component={component}
-          currentUser={currentUser}
-          mainBranchName={mainBranchName}
-          monorepo={projectBinding?.monorepo}
-          willRefreshAutomatically={willRefreshAutomatically}
-        />
-      )}
+        {selectedTutorial === TutorialModes.GitHubActions && (
+          <GitHubActionTutorial
+            almBinding={almBinding}
+            baseUrl={baseUrl}
+            component={component}
+            currentUser={currentUser}
+            mainBranchName={mainBranchName}
+            monorepo={projectBinding?.monorepo}
+            willRefreshAutomatically={willRefreshAutomatically}
+          />
+        )}
 
-      {selectedTutorial === TutorialModes.Jenkins && (
-        <JenkinsTutorial
-          almBinding={almBinding}
-          baseUrl={baseUrl}
-          component={component}
-          willRefreshAutomatically={willRefreshAutomatically}
-        />
-      )}
+        {selectedTutorial === TutorialModes.Jenkins && (
+          <JenkinsTutorial
+            almBinding={almBinding}
+            baseUrl={baseUrl}
+            component={component}
+            willRefreshAutomatically={willRefreshAutomatically}
+          />
+        )}
 
-      {selectedTutorial === TutorialModes.GitLabCI && (
-        <GitLabCITutorial
-          baseUrl={baseUrl}
-          component={component}
-          currentUser={currentUser}
-          willRefreshAutomatically={willRefreshAutomatically}
-        />
-      )}
+        {selectedTutorial === TutorialModes.GitLabCI && (
+          <GitLabCITutorial
+            baseUrl={baseUrl}
+            component={component}
+            currentUser={currentUser}
+            willRefreshAutomatically={willRefreshAutomatically}
+          />
+        )}
 
-      {selectedTutorial === TutorialModes.AzurePipelines && (
-        <AzurePipelinesTutorial
-          alm={projectBinding?.alm}
-          baseUrl={baseUrl}
-          component={component}
-          currentUser={currentUser}
-          willRefreshAutomatically={willRefreshAutomatically}
-        />
-      )}
+        {selectedTutorial === TutorialModes.AzurePipelines && (
+          <AzurePipelinesTutorial
+            alm={projectBinding?.alm}
+            baseUrl={baseUrl}
+            component={component}
+            currentUser={currentUser}
+            willRefreshAutomatically={willRefreshAutomatically}
+          />
+        )}
+      </Layout.PageContent>
     </ProjectPageTemplate>
   );
 }
