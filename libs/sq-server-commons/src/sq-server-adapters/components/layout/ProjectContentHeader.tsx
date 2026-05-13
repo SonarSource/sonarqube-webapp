@@ -37,7 +37,7 @@ import { Feature } from '../../../types/features';
 
 type SelectedContentHeaderProps = Pick<
   ContentHeaderProps,
-  'actions' | 'callout' | 'description' | 'metadata' | 'title'
+  'actions' | 'callout' | 'description' | 'metadata' | 'navigation' | 'title'
 >;
 
 interface Props extends SelectedContentHeaderProps {
@@ -56,6 +56,7 @@ export function ProjectContentHeader(props: Readonly<Props>) {
     disableBranchSelector = false,
     disableQualityGateStatus = false,
     metadata,
+    navigation,
     overrideBranchSelectorPath,
     title,
   } = props;
@@ -106,6 +107,7 @@ export function ProjectContentHeader(props: Readonly<Props>) {
       description={description}
       hasDivider
       metadata={metadata && <StyledMetadata>{metadata}</StyledMetadata>}
+      navigation={navigation}
       title={
         <Layout.ContentHeader.Title
           headingLevel="h1"

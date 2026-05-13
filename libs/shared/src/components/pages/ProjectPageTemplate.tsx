@@ -57,6 +57,8 @@ interface Props extends PropsWithChildren, ProjectContentHeaderProps {
   contentHeaderTitle?: ContentHeaderProps['title'];
   /** Additional Page header, displayed under the Content header, not needed for most pages, must be wrapped in a Layout.PageHeader component */
   header?: ReactNode;
+  /** Additional Page header navigation, displayed under the Content header, not needed for most pages, must be wrapped in a Layout.PageHeader.Navigation component */
+  navigation?: ContentHeaderProps['navigation'];
   /** Additional class name to apply to the page grid */
   pageClassName?: string;
   /** Whether to skip wrapping the page content in a Layout.PageContent, useful when finer control is needed, like when using the fullWindow layout for example */
