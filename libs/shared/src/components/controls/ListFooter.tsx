@@ -118,12 +118,12 @@ export default function ListFooter(props: Readonly<ListFooterProps>) {
       tabIndex={-1}
     >
       <output aria-busy={loading}>
-        {total !== undefined
-          ? formatMessage(
+        {total === undefined
+          ? formatMessage({ id: 'x_show' }, { '0': numberFormatter(count) })
+          : formatMessage(
               { id: messageKey },
               { '0': numberFormatter(count), '1': numberFormatter(total) },
-            )
-          : formatMessage({ id: 'x_show' }, { '0': numberFormatter(count) })}
+            )}
       </output>
       {button}
       <Spinner className="sw-ml-2" isLoading={loading} />
