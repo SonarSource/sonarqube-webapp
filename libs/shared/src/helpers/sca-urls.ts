@@ -117,6 +117,7 @@ const RISKS_OPTIONAL_PARAMS = [
   'id',
   'standard',
   'standardCategory',
+  'standardLevel',
   'standardVersion',
 ] as const;
 
@@ -187,6 +188,7 @@ export function getRisksUrlForComponent({
   threshold,
   standard,
   standardCategory,
+  standardLevel,
   standardVersion,
 }: {
   branchLike?: BranchLikeBase;
@@ -196,6 +198,7 @@ export function getRisksUrlForComponent({
   riskTypes?: Array<string>;
   standard?: string;
   standardCategory?: string;
+  standardLevel?: string;
   standardVersion?: string;
   threshold?: string;
 }) {
@@ -238,6 +241,10 @@ export function getRisksUrlForComponent({
 
   if (standardVersion) {
     newParams.standardVersion = standardVersion;
+  }
+
+  if (standardLevel) {
+    newParams.standardLevel = standardLevel;
   }
 
   return getRisksUrl({ newParams });

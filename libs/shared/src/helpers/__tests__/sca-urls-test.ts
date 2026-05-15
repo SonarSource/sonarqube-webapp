@@ -147,6 +147,19 @@ describe('sca-urls', () => {
           '?id=1&standard=pciDss&standardCategory=1&standardVersion=4.0&riskStatuses=OPEN%2CCONFIRM',
       });
     });
+
+    it('should include standardLevel in URL when provided', () => {
+      const result = getRisksUrlForComponent({
+        ...BASE_PARAMS,
+        standard: 'owaspAsvs',
+        standardVersion: '4.0',
+        standardCategory: '1',
+        standardLevel: 'Level 1',
+      });
+      expect(result.pathname).toBe('/dependency-risks');
+      const params = new URLSearchParams(result.search!);
+      expect(params.get('standardLevel')).toBe('Level 1');
+    });
   });
 
   describe('getReleaseDetailsUrl', () => {

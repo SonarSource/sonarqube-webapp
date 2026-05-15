@@ -24,6 +24,7 @@ export enum SecurityStandard {
   OWASP_ASVS_4_0 = 'owaspAsvs-4.0',
   OWASP_ASVS_5_0 = 'owaspAsvs-5.0',
   OWASP_LLM_TOP10 = 'owaspLlmTop10-2025',
+  // Note: MASVS uses 'v2' suffix (not a numeric version like ASVS 4.0/5.0)
   OWASP_MASVS = 'owaspMasvs-v2',
   OWASP_MOBILE_TOP10_2024 = 'owaspMobileTop10-2024',
   OWASP_TOP10 = 'owaspTop10',
