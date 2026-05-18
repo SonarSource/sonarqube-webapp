@@ -93,7 +93,7 @@ When you need to use echoes components, always use the `echoes-components` skill
 ## Localization
 
 - If you make a new localization key, say so when you summarize your changes!
-- Do not try to update the localization file (messages.json or default.ts)
+- Localization updates goes into files: messages.json for SQC or default.ts for SQS.
 - Do not use default messages in code. Only use a key.
 
 ```ts
