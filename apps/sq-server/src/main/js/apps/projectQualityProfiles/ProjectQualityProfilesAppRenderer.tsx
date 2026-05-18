@@ -47,7 +47,6 @@ import { addons } from '~sq-server-addons/index';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getRulesUrl } from '~sq-server-commons/helpers/urls';
 import { Feature } from '~sq-server-commons/types/features';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
@@ -181,9 +180,9 @@ export default function ProjectQualityProfilesAppRenderer(
                         <ActionCell>
                           <ButtonIcon
                             Icon={IconEdit}
-                            ariaLabel={translateWithParameters(
-                              'project_quality_profile.change_profile_x',
-                              profile.languageName,
+                            ariaLabel={intl.formatMessage(
+                              { id: 'project_quality_profile.change_profile_x' },
+                              { x: profile.languageName },
                             )}
                             onClick={() => {
                               props.onOpenSetProfileModal(projectProfile);
