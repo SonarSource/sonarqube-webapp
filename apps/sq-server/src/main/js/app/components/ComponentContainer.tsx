@@ -54,10 +54,12 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
   const watchStatusTimer = React.useRef<number | undefined>(undefined);
   const oldTasksInProgress = React.useRef<Task[] | undefined>(undefined);
   const oldCurrentTask = React.useRef<Task | undefined>(undefined);
+
   const {
     query: { id: key, branch, pullRequest, fixedInPullRequest },
     pathname,
   } = useLocation();
+
   const router = useRouter();
   const intl = useIntl();
 
@@ -67,9 +69,14 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
   const [tasksInProgress, setTasksInProgress] = React.useState<Task[]>();
   const [loading, setLoading] = React.useState(true);
   const [isPending, setIsPending] = React.useState(false);
+
   const { data: branchLike, isFetching } = useCurrentBranchQuery(
     fixedInPullRequest ? component : undefined,
   );
+
+  const fixedInPullRequestBranch = fixedInPullRequest
+    ? (branchLike as Branch | undefined)
+    : undefined;
 
   const componentWithTags = React.useMemo(() => {
     return component
@@ -82,10 +89,12 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
 
   /* If we have no branch support, redirect to main branch */
   const hasBranchSupport = hasFeature(Feature.BranchSupport);
+
   React.useEffect(() => {
     if (!hasBranchSupport && isDefined(branch)) {
       router.setSearchParams((params) => {
         params.delete('branch');
+
         return params;
       });
     }
@@ -102,6 +111,7 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
       if (component?.key !== key) {
         setLoading(true);
       }
+
       let projectComponentWithQualifier;
       let componentWithQualifier;
 
@@ -117,6 +127,7 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
         ]);
 
         componentWithQualifier = addQualifier({ ...nav, ...component });
+
         projectComponentWithQualifier = addQualifier({
           ...nav,
           ...projComponent,
@@ -140,12 +151,14 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
       try {
         const { current, queue } = await getTasksForComponent(componentKey);
         const newCurrentTask = getCurrentTask(current, branch, pullRequest, isInTutorials);
+
         const pendingTasks = getReportRelatedPendingTasks(
           queue,
           branch,
           pullRequest,
           isInTutorials,
         );
+
         const newTasksInProgress = getInProgressTasks(pendingTasks);
 
         const isPending = pendingTasks.some((task) => task.status === TaskStatuses.Pending);
@@ -200,6 +213,7 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
     }
 
     const tasks = tasksInProgress ?? [];
+
     const hasUpdatedTasks = computeHasUpdatedTasks(
       oldTasksInProgress.current,
       tasks,
@@ -215,6 +229,7 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
       const projectKey = key as string;
 
       let url;
+
       if (pullRequestKey !== undefined) {
         url = getPullRequestUrl(projectKey, pullRequestKey);
       } else if (branchName !== undefined) {
@@ -252,19 +267,27 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
 
   // Refetch component when a new branch is analyzed
   React.useEffect(() => {
+    if (fixedInPullRequest) {
+      // the next useEffect will be used for that, returning now avoids a possible race condition
+      return;
+    }
+
     if (branchLike?.analysisDate && !component?.analysisDate) {
       fetchComponent();
     }
-  }, [branchLike, component, fetchComponent]);
+  }, [branchLike, component, fetchComponent, fixedInPullRequest]);
+
+  const fixedInPullRequestBranchNameToFetch =
+    component && fixedInPullRequestBranch && component.branch !== fixedInPullRequestBranch.name
+      ? fixedInPullRequestBranch.name
+      : undefined;
 
   // Refetch component when target branch for fixing pull request is fetched
   React.useEffect(() => {
-    const branch = branchLike as Branch;
-
-    if (fixedInPullRequest && !isFetching && branch && component?.branch !== branch.name) {
-      fetchComponent(branch.name);
+    if (fixedInPullRequest && !isFetching && fixedInPullRequestBranchNameToFetch) {
+      fetchComponent(fixedInPullRequestBranchNameToFetch);
     }
-  }, [fetchComponent, component, branchLike, fixedInPullRequest, isFetching]);
+  }, [fetchComponent, fixedInPullRequest, fixedInPullRequestBranchNameToFetch, isFetching]);
 
   // Redirects
   React.useEffect(() => {
@@ -290,6 +313,16 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
 
   const isInProgress = tasksInProgress && tasksInProgress.length > 0;
 
+  // This prevents flickering: while we are on a fixed-issues page, keep showing the container
+  // spinner if the target branch is still being resolved, or if the currently loaded component
+  // is not yet the target-branch component. This prevents the child issues page from rendering
+  // with stale component data.
+  const isLoadingFixedInPullRequestBranch =
+    fixedInPullRequest && (isFetching || fixedInPullRequestBranchNameToFetch);
+
+  const isLoading = loading || isLoadingFixedInPullRequestBranch;
+  //
+
   const componentProviderProps = React.useMemo(
     () => ({
       component: componentWithTags,
@@ -312,7 +345,7 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
   // Show not found component when, after loading:
   // - component is not found
   // - target branch is not found (for pull requests fixing issues in a branch)
-  if (!loading && (!component || (fixedInPullRequest && !isFetching && !branchLike))) {
+  if (!isLoading && (!component || (fixedInPullRequest && !isFetching && !branchLike))) {
     return <ComponentContainerNotFound isPortfolioLike={pathname.includes('portfolio')} />;
   }
 
@@ -325,10 +358,11 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
           { project: component?.name ?? '' },
         )}
       />
+
       {component && !isFile(component.qualifier) && <ComponentNav component={component} />}
 
       <Layout.ContentGrid>
-        {loading ? (
+        {isLoading ? (
           <Layout.PageGrid>
             <Layout.PageContent>
               <Spinner className="sw-mt-10" />
@@ -448,6 +482,7 @@ function computeHasUpdatedTasks(
       ) || Boolean(component.analysisDate && tasksInProgress?.length)
     );
   }
+
   return false;
 }
 
@@ -458,6 +493,7 @@ export default function ContainerWithRedirects() {
   // GH UI adds extra query params in a breaking format like '?param1=value1?ghPrId=123'
   // we remove gh pr key and everything after it
   const splitParams = search.split('?');
+
   if (splitParams[2]) {
     return <Navigate replace to={{ pathname, search: splitParams[1] }} />;
   }

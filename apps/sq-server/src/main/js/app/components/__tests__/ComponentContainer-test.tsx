@@ -27,6 +27,7 @@ import { byRole, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { HttpStatus } from '~shared/types/request';
 import { validateProjectAlmBinding } from '~sq-server-commons/api/alm-settings';
+import { getBranches, getPullRequests } from '~sq-server-commons/api/branches';
 import { getTasksForComponent } from '~sq-server-commons/api/ce';
 import { getComponentData } from '~sq-server-commons/api/components';
 import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServiceMock';
@@ -70,8 +71,8 @@ jest.mock('~sq-server-commons/api/navigation', () => ({
 }));
 
 jest.mock('~sq-server-commons/api/branches', () => ({
-  getBranches: jest.fn().mockResolvedValue([mockBranch()]),
-  getPullRequests: jest.fn().mockResolvedValue([mockPullRequest({ target: 'dropped-branch' })]),
+  getBranches: jest.fn(),
+  getPullRequests: jest.fn(),
 }));
 
 jest.mock('~sq-server-commons/api/alm-settings', () => ({
@@ -107,19 +108,35 @@ const ui = {
 beforeEach(() => {
   settingsHandler.reset();
   measuresHandler.reset();
+  jest.mocked(getBranches).mockReset();
+  jest.mocked(getPullRequests).mockReset();
+  jest.mocked(getBranches).mockResolvedValue([mockBranch()]);
+  jest.mocked(getPullRequests).mockResolvedValue([mockPullRequest({ target: 'dropped-branch' })]);
 });
 
 afterEach(() => {
   jest.clearAllMocks();
 });
 
+function createManuallyResolvedPromise<T>() {
+  let resolvePromise: (value: T) => void = () => undefined;
+
+  const promise = new Promise<T>((resolve) => {
+    resolvePromise = resolve;
+  });
+
+  return { promise, resolve: resolvePromise };
+}
+
 it('should render the component nav correctly for portfolio', async () => {
   renderComponentContainerAsComponent();
   expect(await ui.portfolioTitle.find()).toBeInTheDocument();
+
   expect(ui.issuesPageLink.get()).toHaveAttribute(
     'href',
     '/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=portfolioKey',
   );
+
   expect(ui.measuresPageLink.get()).toHaveAttribute('href', '/component_measures?id=portfolioKey');
   expect(ui.activityPageLink.get()).toHaveAttribute('href', '/project/activity?id=portfolioKey');
 
@@ -148,10 +165,12 @@ it('should render the component nav correctly for projects', async () => {
   renderComponentContainerAsComponent();
   expect(await ui.projectTitle.find()).toBeInTheDocument();
   expect(ui.overviewPageLink.get()).toHaveAttribute('href', '/dashboard?id=project-key');
+
   expect(ui.issuesPageLink.get()).toHaveAttribute(
     'href',
     '/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=project-key',
   );
+
   expect(ui.hotspotsPageLink.get()).toHaveAttribute('href', '/security_hotspots?id=project-key');
   expect(ui.measuresPageLink.get()).toHaveAttribute('href', '/component_measures?id=project-key');
   expect(ui.codePageLink.get()).toHaveAttribute('href', '/code?id=project-key');
@@ -168,7 +187,9 @@ it('should be able to change component', async () => {
   expect(
     byRole('navigation', { name: 'qualifier.VW' }).byText('component name').get(),
   ).toBeInTheDocument();
+
   await user.click(screen.getByRole('button', { name: 'change component' }));
+
   expect(
     byRole('navigation', { name: 'qualifier.TRK' }).byText('new component name').get(),
   ).toBeInTheDocument();
@@ -191,16 +212,97 @@ it('should show component not found if target branch is not found for fixing pul
   expect(await ui.dashboardNotFound.find()).toBeInTheDocument();
 });
 
+it('should wait for the fixed pull request target branch before rendering children', async () => {
+  const targetBranch = mockBranch({ name: 'develop' });
+  const projectBreadcrumb = { key: 'foo', name: 'Foo', qualifier: ComponentQualifier.Project };
+
+  const mainNavigation = {
+    breadcrumbs: [projectBreadcrumb],
+    key: 'foo',
+  } as Awaited<ReturnType<typeof getComponentNavigation>>;
+
+  const mainComponent = {
+    ancestors: [],
+    component: mockComponent({
+      breadcrumbs: [projectBreadcrumb],
+      key: 'foo',
+      name: 'main component',
+    }),
+  } as Awaited<ReturnType<typeof getComponentData>>;
+
+  const targetNavigation =
+    createManuallyResolvedPromise<Awaited<ReturnType<typeof getComponentNavigation>>>();
+
+  const targetComponent =
+    createManuallyResolvedPromise<Awaited<ReturnType<typeof getComponentData>>>();
+
+  jest.mocked(getBranches).mockResolvedValueOnce([targetBranch]);
+
+  jest
+    .mocked(getPullRequests)
+    .mockResolvedValueOnce([mockPullRequest({ key: '1001', target: targetBranch.name })]);
+
+  jest
+    .mocked(getComponentNavigation)
+    // initial navigation
+    .mockResolvedValueOnce(mainNavigation)
+    // target-branch navigation
+    .mockReturnValueOnce(targetNavigation.promise);
+
+  jest
+    .mocked(getComponentData)
+    // initial component data
+    .mockResolvedValueOnce(mainComponent)
+    // initial project component data
+    .mockResolvedValueOnce(mainComponent)
+    // target-branch component data
+    .mockReturnValueOnce(targetComponent.promise)
+    // target-branch project component data
+    .mockResolvedValueOnce(mainComponent);
+
+  renderComponentContainer('?id=foo&fixedInPullRequest=1001');
+
+  await waitFor(() => {
+    expect(getComponentNavigation).toHaveBeenCalledWith({
+      branch: targetBranch.name,
+      component: 'foo',
+      pullRequest: undefined,
+    });
+  });
+
+  // the target-branch component data is still pending, so the child route must not render yet
+  expect(screen.queryByText('This is a test component')).not.toBeInTheDocument();
+
+  targetNavigation.resolve(mainNavigation);
+
+  targetComponent.resolve({
+    ancestors: [],
+    component: mockComponent({
+      analysisDate: '2018-01-01',
+      branch: targetBranch.name,
+      breadcrumbs: [projectBreadcrumb],
+      key: 'foo',
+      name: 'target branch component',
+    }),
+  } as Awaited<ReturnType<typeof getComponentData>>);
+
+  const testComponent = await screen.findByText('This is a test component');
+
+  expect(testComponent).toBeInTheDocument();
+  expect(testComponent).toHaveTextContent('target branch component');
+});
+
 describe('getTasksForComponent', () => {
   beforeEach(() => {
     jest.useFakeTimers();
   });
+
   afterEach(() => {
     jest.runOnlyPendingTimers();
     jest.useRealTimers();
   });
 
-  it('reload component after task progress finished', async () => {
+  it('should reload the component after task progress finished', async () => {
     jest
       .mocked(getTasksForComponent)
       .mockResolvedValueOnce({
@@ -247,7 +349,7 @@ describe('getTasksForComponent', () => {
     expect(jest.getTimerCount()).toBe(0);
   });
 
-  it('reloads component after task progress finished, and moves straight to current', async () => {
+  it('should reload the component after task progress finished, and moves straight to current', async () => {
     jest.mocked(getComponentData).mockResolvedValueOnce({
       component: { key: 'bar' },
     } as unknown as Awaited<ReturnType<typeof getComponentData>>);
@@ -273,7 +375,7 @@ describe('getTasksForComponent', () => {
       expect(getTasksForComponent).toHaveBeenCalledTimes(1);
     });
 
-    // Despite the fact taht we don't have any tasks in the queue, the component.analysisDate is undefined, so we trigger setTimeout
+    // Despite the fact that we don't have any tasks in the queue, the component.analysisDate is undefined, so we trigger setTimeout
     expect(jest.getTimerCount()).toBeGreaterThan(0);
     jest.runOnlyPendingTimers();
 
@@ -297,7 +399,7 @@ describe('getTasksForComponent', () => {
     expect(getTasksForComponent).toHaveBeenCalledTimes(3);
   });
 
-  it('only fully loads a non-empty component once', async () => {
+  it('should only fully load a non-empty component once', async () => {
     jest.mocked(getComponentData).mockResolvedValueOnce({
       component: { key: 'bar', analysisDate: '2019-01-01' },
     } as unknown as Awaited<ReturnType<typeof getComponentData>>);
@@ -321,7 +423,7 @@ describe('getTasksForComponent', () => {
     expect(getTasksForComponent).toHaveBeenCalledTimes(1);
   });
 
-  it('only fully reloads a non-empty component if there was previously some task in progress', async () => {
+  it('should only fully reload a non-empty component if there was previously some task in progress', async () => {
     jest.mocked(getComponentData).mockResolvedValueOnce({
       component: { key: 'bar', analysisDate: '2019-01-01' },
     } as unknown as Awaited<ReturnType<typeof getComponentData>>);
@@ -375,6 +477,7 @@ describe('redirects', () => {
       .mockRejectedValueOnce(new Response(null, { status: HttpStatus.Forbidden }));
 
     renderComponentContainer();
+
     await waitFor(() => {
       expect(handleRequiredAuthorization).toHaveBeenCalled();
     });
@@ -430,13 +533,14 @@ it.each([
       >);
 
     renderComponentContainer();
+
     await waitFor(() => {
       expect(validateProjectAlmBinding).not.toHaveBeenCalled();
     });
   },
 );
 
-it('isSameBranch util returns expected result', () => {
+it('should return expected results from isSameBranch', () => {
   expect(isSameBranch(mockTask())).toBe(true);
   expect(isSameBranch(mockTask({ branch: 'branch' }), 'branch')).toBe(true);
   expect(isSameBranch(mockTask({ pullRequest: 'pr' }), undefined, 'pr')).toBe(true);
@@ -445,6 +549,7 @@ it('isSameBranch util returns expected result', () => {
 describe('tutorials', () => {
   it('should redirect to project main branch dashboard from tutorials when receiving new related scan report', async () => {
     const componentKey = 'foo-component';
+
     jest.mocked(getComponentData).mockResolvedValue({
       ancestors: [],
       component: {
@@ -454,6 +559,7 @@ describe('tutorials', () => {
         visibility: Visibility.Public,
       },
     });
+
     jest
       .mocked(getTasksForComponent)
       .mockResolvedValueOnce({ queue: [] })
@@ -462,6 +568,7 @@ describe('tutorials', () => {
       } as unknown as Awaited<ReturnType<typeof getTasksForComponent>>);
 
     const mockedReplace = jest.fn();
+
     jest.spyOn(withRouter, 'useRouter').mockReturnValue({
       replace: mockedReplace,
       push: jest.fn(),
@@ -477,6 +584,7 @@ describe('tutorials', () => {
     await waitFor(() => {
       expect(getTasksForComponent).toHaveBeenCalledTimes(1);
     });
+
     expect(mockedReplace).not.toHaveBeenCalled();
 
     // Since component.analysisDate is undefined we trigger setTimeout
@@ -497,6 +605,7 @@ describe('tutorials', () => {
   it('should redirect to project branch dashboard from tutorials when receiving new related scan report', async () => {
     const componentKey = 'foo-component';
     const branchName = 'fooBranch';
+
     jest.mocked(getComponentData).mockResolvedValue({
       ancestors: [],
       component: {
@@ -506,6 +615,7 @@ describe('tutorials', () => {
         visibility: Visibility.Public,
       },
     });
+
     jest
       .mocked(getTasksForComponent)
       .mockResolvedValueOnce({ queue: [] })
@@ -514,6 +624,7 @@ describe('tutorials', () => {
       } as unknown as Awaited<ReturnType<typeof getTasksForComponent>>);
 
     const mockedReplace = jest.fn();
+
     jest.spyOn(withRouter, 'useRouter').mockReturnValue({
       replace: mockedReplace,
       push: jest.fn(),
@@ -529,6 +640,7 @@ describe('tutorials', () => {
     await waitFor(() => {
       expect(getTasksForComponent).toHaveBeenCalledTimes(1);
     });
+
     expect(mockedReplace).not.toHaveBeenCalled();
 
     // Since component.analysisDate is undefined we trigger setTimeout
@@ -549,6 +661,7 @@ describe('tutorials', () => {
   it('should redirect to project pull request dashboard from tutorials when receiving new related scan report', async () => {
     const componentKey = 'foo-component';
     const pullRequestKey = 'fooPR';
+
     jest.mocked(getComponentData).mockResolvedValue({
       ancestors: [],
       component: {
@@ -558,6 +671,7 @@ describe('tutorials', () => {
         visibility: Visibility.Public,
       },
     });
+
     jest
       .mocked(getTasksForComponent)
       .mockResolvedValueOnce({ queue: [] })
@@ -568,6 +682,7 @@ describe('tutorials', () => {
       } as unknown as Awaited<ReturnType<typeof getTasksForComponent>>);
 
     const mockedReplace = jest.fn();
+
     jest.spyOn(withRouter, 'useRouter').mockReturnValue({
       replace: mockedReplace,
       push: jest.fn(),
@@ -583,6 +698,7 @@ describe('tutorials', () => {
     await waitFor(() => {
       expect(getTasksForComponent).toHaveBeenCalledTimes(1);
     });
+
     expect(mockedReplace).not.toHaveBeenCalled();
 
     // Since component.analysisDate is undefined we trigger setTimeout
