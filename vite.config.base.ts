@@ -40,7 +40,8 @@ export const port = Number(process.env.PORT || DEFAULT_DEV_SERVER_PORT);
 export const wsProxyPort = Number(process.env.WS_PORT || DEFAULT_WS_PROXY_PORT);
 export const proxyTarget = (process.env.PROXY || 'http://localhost:9000').replace(/\/$/, '');
 export const isProduction = process.env.NODE_ENV === 'production';
-export const analyzeBundle = process.env.BUNDLE_ANALYSIS === 'true' || false;
+export const isCI = process.env.CI === 'true';
+export const analyzeBundle = process.env.BUNDLE_ANALYSIS === 'true';
 
 export const projectRoot = process.cwd();
 export const workspaceRoot = __dirname;
@@ -149,7 +150,7 @@ export const baseViteConfig = {
     analyzeBundle &&
       analyzer({
         fileName: resolve(projectRoot, 'build/bundle-metrics.json'),
-        analyzerMode: 'json',
+        analyzerMode: isCI ? 'json' : 'server',
       }),
   ],
   // This is the static folder we have to copy to build/webapp folder after build

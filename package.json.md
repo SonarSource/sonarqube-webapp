@@ -60,10 +60,6 @@ Used by `.github/scripts/report-bundle-metrics/send-bundle-metrics.js` to send m
 
 Library used to generate CycloneDX SBOM.
 
-### @rollup/plugin-replace
-
-Used by sq-cloud vite config to remove (tree-shake) Sentry debug logs. See https://docs.sentry.io/platforms/javascript/configuration/tree-shaking/#tree-shaking-optional-code.
-
 ### @sprig-technologies/sprig-browser
 
 Used by sq-cloud to show feedback forms created on the Sprig platform to our users.
@@ -139,6 +135,10 @@ Peer dependency of @vitejs/plugin-legacy.
 ### @sentry/browser
 
 This package is needed for any worker.ts functions outside of react and reports to sentry from the browser
+
+### @sentry/vite-plugin
+
+A Vite plugin that provides source map and release management support for Sentry.
 
 ### @types/d3-selection
 
