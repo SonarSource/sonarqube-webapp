@@ -64,6 +64,7 @@ import backgroundTasksRoutes from '../../apps/background-tasks/routes';
 import codeRoutes from '../../apps/code/routes';
 import codingRulesRoutes from '../../apps/coding-rules/routes';
 import componentMeasuresRoutes from '../../apps/component-measures/routes';
+import costSavingsRoutes from '../../apps/cost-savings/routes';
 import groupsRoutes from '../../apps/groups/routes';
 import { globalIssuesRoutes, projectIssuesRoutes } from '../../apps/issues/routes';
 import maintenanceRoutes from '../../apps/maintenance/routes';
@@ -301,6 +302,7 @@ const router = ({
 
               {projectsRoutes()}
 
+              {costSavingsRoutes()}
               {qualityGatesRoutes()}
               {qualityProfilesRoutes()}
 
