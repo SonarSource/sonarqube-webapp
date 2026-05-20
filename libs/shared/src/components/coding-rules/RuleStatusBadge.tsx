@@ -36,6 +36,12 @@ const RuleStatusLabels: Record<RuleStatus, string> = {
   [RuleStatus.Ready]: 'rules.status.READY',
 };
 
+const RuleStatusVarieties: Partial<Record<RuleStatus, BadgeVariety>> = {
+  [RuleStatus.Beta]: BadgeVariety.Info,
+  [RuleStatus.Deprecated]: BadgeVariety.Danger,
+  [RuleStatus.Removed]: BadgeVariety.Danger,
+};
+
 interface RuleStatusBadgeProps {
   rule: {
     status: string;
@@ -45,14 +51,15 @@ interface RuleStatusBadgeProps {
 export function RuleStatusBadge({ rule }: Readonly<RuleStatusBadgeProps>) {
   const description = RuleStatusDescriptions[rule.status as RuleStatus] || 'status';
   const label = RuleStatusLabels[rule.status as RuleStatus];
+  const variety = RuleStatusVarieties[rule.status as RuleStatus];
 
-  if (!label) {
+  if (!label || !variety) {
     return null;
   }
 
   return (
     <Tooltip content={<FormattedMessage id={description} />}>
-      <Badge variety={BadgeVariety.Danger}>
+      <Badge variety={variety}>
         <FormattedMessage id={label} />
       </Badge>
     </Tooltip>

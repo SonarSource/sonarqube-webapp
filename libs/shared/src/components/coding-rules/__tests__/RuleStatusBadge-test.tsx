@@ -19,16 +19,40 @@
  */
 
 import { screen } from '@testing-library/react';
-import { ComponentProps } from 'react';
+import { ComponentProps, ReactNode } from 'react';
 import { renderWithContext } from '../../../helpers/test-utils';
 import { RuleStatus } from '../../../types/rules';
 import { RuleStatusBadge } from '../RuleStatusBadge';
+
+jest.mock('@sonarsource/echoes-react', () => ({
+  ...jest.requireActual<typeof import('@sonarsource/echoes-react')>('@sonarsource/echoes-react'),
+  Badge: ({ children, variety }: { children: ReactNode; variety: string }) => (
+    <span data-testid="mocked-badge" data-variety={variety}>
+      {children}
+    </span>
+  ),
+  Tooltip: ({ children }: { children: ReactNode }) => children,
+}));
 
 it('should display beta badge', () => {
   setupWithProps({
     rule: { status: RuleStatus.Beta },
   });
+
   expect(screen.getByText('rules.status.BETA')).toBeVisible();
+  expect(screen.getByTestId('mocked-badge')).toHaveAttribute('data-variety', 'info');
+});
+
+it.each([
+  [RuleStatus.Deprecated, 'rules.status.DEPRECATED'],
+  [RuleStatus.Removed, 'rules.status.REMOVED'],
+])('should display %s badge with danger sentiment', (status, label) => {
+  setupWithProps({
+    rule: { status },
+  });
+
+  expect(screen.getByText(label)).toBeVisible();
+  expect(screen.getByTestId('mocked-badge')).toHaveAttribute('data-variety', 'danger');
 });
 
 it('shoud not display badge unknown status', () => {
