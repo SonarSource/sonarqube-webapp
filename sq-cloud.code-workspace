@@ -20,8 +20,8 @@
       "*.snap": "html",
     },
 
+    "js/ts.validate.enabled": true,
     "js/ts.format.enabled": false,
-    "js/ts.validate.enabled": false,
     "js/ts.tsdk.path": "./node_modules/typescript/lib",
     "tailwindCSS.experimental.configFile": "private/apps/sq-cloud/config/theme/tailwind.config.js",
 
