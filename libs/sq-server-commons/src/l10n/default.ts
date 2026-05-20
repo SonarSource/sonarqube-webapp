@@ -1890,6 +1890,7 @@ export const defaultMessages = {
   'dependencies.risks.security_category': 'Security category',
   'dependencies.risks.filter_category': 'Category',
   'dependencies.risks.last_analysis': 'Last analysis {date}',
+  'dependencies.risks.cwe.unknown': 'No CWE associated',
   'dependencies.risk.how.title': 'Update the dependency',
   'dependencies.risk.how.body':
     'If an updated version of the dependency that fixes the vulnerability is available, update to that version. Always test your application thoroughly after updating a dependency to ensure nothing breaks.',
