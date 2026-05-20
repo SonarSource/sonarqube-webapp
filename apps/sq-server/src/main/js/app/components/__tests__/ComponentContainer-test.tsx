@@ -34,13 +34,19 @@ import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServic
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { getComponentNavigation } from '~sq-server-commons/api/navigation';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
-import { mockBranch, mockPullRequest } from '~sq-server-commons/helpers/mocks/branch-like';
+import {
+  mockBranch,
+  mockMainBranch,
+  mockPullRequest,
+} from '~sq-server-commons/helpers/mocks/branch-like';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockTask } from '~sq-server-commons/helpers/mocks/tasks';
 import { renderAppRoutes, renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { getProjectUrl, getPullRequestUrl } from '~sq-server-commons/helpers/urls';
+import { withBranchLikes, WithBranchLikesProps } from '~sq-server-commons/queries/branch';
 import { Feature } from '~sq-server-commons/types/features';
 import { TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
+import { Component } from '~sq-server-commons/types/types';
 import handleRequiredAuthorization from '../../utils/handleRequiredAuthorization';
 import ComponentContainer, { isSameBranch } from '../ComponentContainer';
 
@@ -213,7 +219,7 @@ it('should show component not found if target branch is not found for fixing pul
 });
 
 it('should wait for the fixed pull request target branch before rendering children', async () => {
-  const targetBranch = mockBranch({ name: 'develop' });
+  const targetBranch = mockMainBranch({ name: 'main' });
   const projectBreadcrumb = { key: 'foo', name: 'Foo', qualifier: ComponentQualifier.Project };
 
   const mainNavigation = {
@@ -273,13 +279,15 @@ it('should wait for the fixed pull request target branch before rendering childr
   // the target-branch component data is still pending, so the child route must not render yet
   expect(screen.queryByText('This is a test component')).not.toBeInTheDocument();
 
-  targetNavigation.resolve(mainNavigation);
+  targetNavigation.resolve({
+    ...mainNavigation,
+    branch: targetBranch.name,
+  });
 
   targetComponent.resolve({
     ancestors: [],
     component: mockComponent({
       analysisDate: '2018-01-01',
-      branch: targetBranch.name,
       breadcrumbs: [projectBreadcrumb],
       key: 'foo',
       name: 'target branch component',
@@ -290,6 +298,54 @@ it('should wait for the fixed pull request target branch before rendering childr
 
   expect(testComponent).toBeInTheDocument();
   expect(testComponent).toHaveTextContent('target branch component');
+});
+
+it('should keep rendering children when the fixed pull request branch is refetched', async () => {
+  const targetBranch = mockMainBranch({ name: 'main' });
+  const projectBreadcrumb = { key: 'foo', name: 'Foo', qualifier: ComponentQualifier.Project };
+  const pullRequests = [mockPullRequest({ key: '1001', target: targetBranch.name })];
+
+  const branchRefetch = createManuallyResolvedPromise<Awaited<ReturnType<typeof getBranches>>>();
+
+  const mainNavigation = {
+    branch: targetBranch.name,
+    breadcrumbs: [projectBreadcrumb],
+    key: 'foo',
+  } as Awaited<ReturnType<typeof getComponentNavigation>>;
+
+  const mainComponent = {
+    ancestors: [],
+    component: mockComponent({
+      analysisDate: '2018-01-01',
+      breadcrumbs: [projectBreadcrumb],
+      key: 'foo',
+      name: 'main component',
+    }),
+  } as Awaited<ReturnType<typeof getComponentData>>;
+
+  jest
+    .mocked(getBranches)
+    .mockResolvedValue([targetBranch])
+    .mockResolvedValueOnce([targetBranch])
+    .mockReturnValueOnce(branchRefetch.promise);
+
+  jest.mocked(getPullRequests).mockResolvedValue(pullRequests);
+
+  jest.mocked(getComponentNavigation).mockResolvedValueOnce(mainNavigation);
+
+  jest
+    .mocked(getComponentData)
+    .mockResolvedValueOnce(mainComponent)
+    .mockResolvedValueOnce(mainComponent);
+
+  renderComponentContainerWithBranchAwareChild('?id=foo&fixedInPullRequest=1001');
+
+  expect(await screen.findByText('branch fetching')).toBeInTheDocument();
+  expect(screen.getByText('This is a branch-aware test component')).toBeInTheDocument();
+
+  branchRefetch.resolve([targetBranch]);
+
+  expect(await screen.findByText('branch ready')).toBeInTheDocument();
 });
 
 describe('getTasksForComponent', () => {
@@ -744,6 +800,21 @@ function renderComponentContainer(
   );
 }
 
+function renderComponentContainerWithBranchAwareChild(navigateTo = '?id=foo') {
+  renderAppRoutes(
+    '/',
+    () => (
+      <Route element={<ComponentContainer />}>
+        <Route element={<BranchAwareTestComponent />} path="*" />
+      </Route>
+    ),
+    {
+      featureList: [Feature.BranchSupport],
+      navigateTo,
+    },
+  );
+}
+
 function TestComponent() {
   const { component, onComponentChange } = useContext(ComponentContext);
   const { query } = withRouter.useLocation();
@@ -770,4 +841,28 @@ function TestComponent() {
       </button>
     </div>
   );
+}
+
+interface BranchAwareTestComponentInnerProps extends WithBranchLikesProps {
+  component?: Component;
+}
+
+function BranchAwareTestComponentInner({
+  isFetchingBranch,
+}: Readonly<BranchAwareTestComponentInnerProps>) {
+  return (
+    <div>
+      <span>This is a branch-aware test component</span>
+
+      <span>{isFetchingBranch ? 'branch fetching' : 'branch ready'}</span>
+    </div>
+  );
+}
+
+const BranchAwareTestComponentWithBranchLikes = withBranchLikes(BranchAwareTestComponentInner);
+
+function BranchAwareTestComponent() {
+  const { component } = useContext(ComponentContext);
+
+  return <BranchAwareTestComponentWithBranchLikes component={component} />;
 }

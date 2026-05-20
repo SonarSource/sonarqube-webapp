@@ -70,7 +70,10 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
   const [loading, setLoading] = React.useState(true);
   const [isPending, setIsPending] = React.useState(false);
 
-  const { data: branchLike, isFetching } = useCurrentBranchQuery(
+  const [loadedFixedInPullRequestBranchLoadKey, setLoadedFixedInPullRequestBranchLoadKey] =
+    React.useState<string>();
+
+  const { data: branchLike, isLoading: isLoadingBranch } = useCurrentBranchQuery(
     fixedInPullRequest ? component : undefined,
   );
 
@@ -277,17 +280,43 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
     }
   }, [branchLike, component, fetchComponent, fixedInPullRequest]);
 
+  const fixedInPullRequestBranchLoadKey = fixedInPullRequestBranch
+    ? `${key}:${fixedInPullRequest}:${fixedInPullRequestBranch.name}`
+    : undefined;
+
+  const isFixedInPullRequestBranchComponentLoaded =
+    isDefined(fixedInPullRequestBranchLoadKey) &&
+    isDefined(fixedInPullRequestBranch) &&
+    (component?.branch === fixedInPullRequestBranch.name ||
+      (!isDefined(component?.branch) &&
+        loadedFixedInPullRequestBranchLoadKey === fixedInPullRequestBranchLoadKey));
+
   const fixedInPullRequestBranchNameToFetch =
-    component && fixedInPullRequestBranch && component.branch !== fixedInPullRequestBranch.name
+    component && fixedInPullRequestBranch && !isFixedInPullRequestBranchComponentLoaded
       ? fixedInPullRequestBranch.name
       : undefined;
 
-  // Refetch component when target branch for fixing pull request is fetched
+  // Fetch the component from the fixed pull request's target branch once that branch is resolved
   React.useEffect(() => {
-    if (fixedInPullRequest && !isFetching && fixedInPullRequestBranchNameToFetch) {
-      fetchComponent(fixedInPullRequestBranchNameToFetch);
+    if (
+      isDefined(fixedInPullRequestBranchLoadKey) &&
+      isDefined(fixedInPullRequestBranchNameToFetch) &&
+      !isLoadingBranch
+    ) {
+      fetchComponent(fixedInPullRequestBranchNameToFetch)
+        .then(() => {
+          setLoadedFixedInPullRequestBranchLoadKey(fixedInPullRequestBranchLoadKey);
+        })
+        .catch(() => {
+          /* noop */
+        });
     }
-  }, [fetchComponent, fixedInPullRequest, fixedInPullRequestBranchNameToFetch, isFetching]);
+  }, [
+    fetchComponent,
+    fixedInPullRequestBranchLoadKey,
+    fixedInPullRequestBranchNameToFetch,
+    isLoadingBranch,
+  ]);
 
   // Redirects
   React.useEffect(() => {
@@ -314,14 +343,12 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
   const isInProgress = tasksInProgress && tasksInProgress.length > 0;
 
   // This prevents flickering: while we are on a fixed-issues page, keep showing the container
-  // spinner if the target branch is still being resolved, or if the currently loaded component
-  // is not yet the target-branch component. This prevents the child issues page from rendering
-  // with stale component data.
-  const isLoadingFixedInPullRequestBranch =
-    fixedInPullRequest && (isFetching || fixedInPullRequestBranchNameToFetch);
+  // spinner until the target branch is resolved and the matching component fetch has completed.
+  const isLoadingFixedInPullRequestBranch = Boolean(
+    fixedInPullRequest && (isLoadingBranch || fixedInPullRequestBranchNameToFetch),
+  );
 
   const isLoading = loading || isLoadingFixedInPullRequestBranch;
-  //
 
   const componentProviderProps = React.useMemo(
     () => ({
@@ -345,7 +372,7 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
   // Show not found component when, after loading:
   // - component is not found
   // - target branch is not found (for pull requests fixing issues in a branch)
-  if (!isLoading && (!component || (fixedInPullRequest && !isFetching && !branchLike))) {
+  if (!isLoading && (!component || (fixedInPullRequest && !isLoadingBranch && !branchLike))) {
     return <ComponentContainerNotFound isPortfolioLike={pathname.includes('portfolio')} />;
   }
 
