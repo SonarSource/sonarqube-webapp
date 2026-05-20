@@ -2448,6 +2448,14 @@ export const defaultMessages = {
   'architecture.organization.empty': 'No organization-wide architecture data available.',
   'architecture.organization.node.unmapped_boundaries':
     '{count, plural, one {# other external interface found needs to be confirmed.} other {# other external interfaces found need to be confirmed.}}',
+  'architecture.organization.intended.page': 'Intended Architecture',
+  'architecture.organization.intended.empty':
+    'No intended architecture defined yet. Add a project from the sidebar to get started.',
+  'architecture.organization.intended.spotlight.projects': 'Projects',
+  'architecture.organization.intended.spotlight.no_projects':
+    'All projects are already part of the intended architecture.',
+  'architecture.organization.intended.save_success': 'Intended architecture saved.',
+  'architecture.organization.intended.save_error': 'Failed to save intended architecture.',
   //------------------------------------------------------------------------------
 
   //------------------------------------------------------------------------------
