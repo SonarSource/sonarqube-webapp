@@ -213,7 +213,7 @@
     "otpauth": "9.5.0",
     "postcss": "8.5.10",
     "postcss-calc": "10.1.1",
-    "prettier": "3.8.1",
+    "prettier": "3.8.3",
     "prettier-plugin-organize-imports": "4.3.0",
     "react-scanner": "1.2.0",
     "regenerator-runtime": "0.14.1",
