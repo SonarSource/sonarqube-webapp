@@ -2456,6 +2456,19 @@ export const defaultMessages = {
     'All projects are already part of the intended architecture.',
   'architecture.organization.intended.save_success': 'Intended architecture saved.',
   'architecture.organization.intended.save_error': 'Failed to save intended architecture.',
+  'architecture.organization.dashboard.deviations': 'Deviations',
+  'architecture.organization.dashboard.deviations.description':
+    "Mismatches between the organization's intended and current architecture.",
+  'architecture.organization.dashboard.forbidden_relationships': 'Forbidden relationships',
+  'architecture.organization.dashboard.forbidden_relationships.count':
+    '{count, plural, one {<bold>#</bold> forbidden relationship} other {<bold>#</bold> forbidden relationships}}',
+  'architecture.organization.dashboard.pending_external_interfaces': 'Pending external interfaces',
+  'architecture.organization.dashboard.pending_external_interfaces.column':
+    'Pending interfaces count',
+  'architecture.organization.dashboard.pending_external_interfaces.count':
+    '{count, plural, one {<bold>#</bold> project} other {<bold>#</bold> projects}}',
+  'architecture.organization.dashboard.intended_architecture_link':
+    '<link>Intended architecture</link> of the organization.',
   //------------------------------------------------------------------------------
 
   //------------------------------------------------------------------------------
