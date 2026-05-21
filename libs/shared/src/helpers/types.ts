@@ -25,3 +25,7 @@ export function isDefined<T>(x: T | undefined | null): x is T {
 export function isStringDefined<T extends string>(x: T | undefined | null): x is T {
   return isDefined(x) && x !== '';
 }
+
+export function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
