@@ -21,7 +21,13 @@
 import { Metric } from '../../types/measures';
 import { MetricKey, MetricType } from '../../types/metrics';
 import { QualityGateConditionOperator } from '../../types/quality-gates';
-import { getOperatorLabelId } from '../quality-gates';
+import {
+  QUALITY_GATE_AGENTIC_AI,
+  QUALITY_GATE_SONAR_WAY,
+  getBuiltInQualityGateHelperTextKey,
+  getOperatorLabelId,
+  isAgenticQualityGate,
+} from '../quality-gates';
 
 type OperatorLabelDataSet = {
   expectedResult: string;
@@ -74,5 +80,56 @@ describe('getOperatorLabelId', () => {
     },
   ])('should handle $test', ({ op, metric, expectedResult }) => {
     expect(getOperatorLabelId(op, metric)).toEqual(expectedResult);
+  });
+});
+
+describe('isAgenticQualityGate', () => {
+  it('should return true for AICA builtin gate', () => {
+    const gate = { isBuiltIn: true, name: QUALITY_GATE_AGENTIC_AI };
+    expect(isAgenticQualityGate(gate)).toBe(true);
+  });
+
+  it('should return false when isBuiltIn is false', () => {
+    const gate = { isBuiltIn: false, name: QUALITY_GATE_AGENTIC_AI };
+    expect(isAgenticQualityGate(gate)).toBe(false);
+  });
+
+  it('should return false for other builtin gates', () => {
+    const gate = { isBuiltIn: true, name: 'Built-in Gate' };
+    expect(isAgenticQualityGate(gate)).toBe(false);
+  });
+
+  it('should return false for custom gates', () => {
+    const gate = { isBuiltIn: false, name: 'Custom Gate' };
+    expect(isAgenticQualityGate(gate)).toBe(false);
+  });
+});
+
+describe('getBuiltInQualityGateHelperTextKey', () => {
+  it('should return AICA help key for AICA builtin gate', () => {
+    const gate = { isBuiltIn: true, name: QUALITY_GATE_AGENTIC_AI };
+    expect(getBuiltInQualityGateHelperTextKey(gate)).toBe(
+      'project_quality_gate.aica_builtin_gate_help',
+    );
+  });
+
+  it('should return Sonar way help key for Sonar way builtin gate', () => {
+    const gate = { isBuiltIn: true, name: QUALITY_GATE_SONAR_WAY };
+    expect(getBuiltInQualityGateHelperTextKey(gate)).toBe('project_quality_gate.sonar_way_help');
+  });
+
+  it('should return undefined for other builtin gates', () => {
+    const gate = { isBuiltIn: true, name: 'Other Builtin Gate' };
+    expect(getBuiltInQualityGateHelperTextKey(gate)).toBeUndefined();
+  });
+
+  it('should return undefined for custom gates', () => {
+    const gate = { isBuiltIn: false, name: 'Custom Gate' };
+    expect(getBuiltInQualityGateHelperTextKey(gate)).toBeUndefined();
+  });
+
+  it('should return undefined when both isBuiltIn is false but name is Aica qualified gate', () => {
+    const gate = { isBuiltIn: false, name: QUALITY_GATE_AGENTIC_AI };
+    expect(getBuiltInQualityGateHelperTextKey(gate)).toBeUndefined();
   });
 });

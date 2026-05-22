@@ -18,27 +18,23 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Badge, BadgeProps, BadgeVariety } from '@sonarsource/echoes-react';
-import { forwardRef } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { Badge, BadgeVariety } from '@sonarsource/echoes-react';
+import { useIntl } from 'react-intl';
 import { Expiration } from '../Expiration';
 
-type Props = Readonly<
-  Pick<BadgeProps, 'className' | 'isInteractive'> & {
-    expirationDate: string | number | Date;
-  }
->;
+interface Props {
+  className?: string;
+  expirationDate: string | number | Date;
+}
 
-export const NewBadge = forwardRef<HTMLButtonElement, Props>((props, ref) => {
-  const { expirationDate, ...badgeProps } = props;
+export function NewBadge({ className, expirationDate }: Readonly<Props>) {
+  const { formatMessage } = useIntl();
 
   return (
     <Expiration date={expirationDate}>
-      <Badge variety={BadgeVariety.Highlight} {...badgeProps} ref={ref}>
-        <FormattedMessage id="new" />
+      <Badge className={className} isHighContrast variety={BadgeVariety.Neutral}>
+        {formatMessage({ id: 'quality_gates.new_badge' })}
       </Badge>
     </Expiration>
   );
-});
-
-NewBadge.displayName = 'NewBadge';
+}

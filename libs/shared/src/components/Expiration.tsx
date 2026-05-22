@@ -18,27 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Badge, BadgeProps, BadgeVariety } from '@sonarsource/echoes-react';
-import { forwardRef } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Expiration } from '../Expiration';
+interface Props {
+  children: React.ReactNode;
+  date: string | number | Date;
+}
 
-type Props = Readonly<
-  Pick<BadgeProps, 'className' | 'isInteractive'> & {
-    expirationDate: string | number | Date;
+export function Expiration({ children, date }: Readonly<Props>) {
+  const expirationTimestamp = new Date(date).getTime();
+  const isExpired = Number.isNaN(expirationTimestamp) || Date.now() > expirationTimestamp;
+
+  if (isExpired) {
+    return null;
   }
->;
 
-export const NewBadge = forwardRef<HTMLButtonElement, Props>((props, ref) => {
-  const { expirationDate, ...badgeProps } = props;
-
-  return (
-    <Expiration date={expirationDate}>
-      <Badge variety={BadgeVariety.Highlight} {...badgeProps} ref={ref}>
-        <FormattedMessage id="new" />
-      </Badge>
-    </Expiration>
-  );
-});
-
-NewBadge.displayName = 'NewBadge';
+  return children;
+}

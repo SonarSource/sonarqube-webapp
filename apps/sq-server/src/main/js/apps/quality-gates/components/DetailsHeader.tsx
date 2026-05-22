@@ -33,6 +33,7 @@ import { countBy } from 'lodash';
 import * as React from 'react';
 import { useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import BuiltInQualityGateBadge from '~shared/components/quality-gates/BuiltInQualityGateBadge';
 import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
 import {
   useGetAllQualityGateProjectsQuery,
@@ -40,7 +41,6 @@ import {
   useSetQualityGateAsDefaultMutation,
 } from '~sq-server-commons/queries/quality-gates';
 import { CaycStatus, QualityGate } from '~sq-server-commons/types/types';
-import BuiltInQualityGateBadge from './BuiltInQualityGateBadge';
 import CopyQualityGateForm from './CopyQualityGateForm';
 import DeleteQualityGateForm from './DeleteQualityGateForm';
 import DisqualifyAiQualityGateForm from './DisqualifyAiQualityGateForm';

@@ -197,3 +197,11 @@ export function augmentMetrics(metrics: Metric[]): Metric[] {
     return metric;
   });
 }
+
+export function isScaMeasure(metricKey: string) {
+  return (
+    SCA_ISSUE_RISK_COUNT_METRICS.includes(metricKey) ||
+    SCA_ISSUE_RISK_RATING_METRICS.includes(metricKey) ||
+    SCA_ISSUE_RISK_SEVERITY_METRICS.includes(metricKey)
+  );
+}
