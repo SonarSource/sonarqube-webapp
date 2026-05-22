@@ -79,7 +79,7 @@ it('should cancel filter selection when search is active', async () => {
   });
 
   const query = 'test';
-  await user.type(screen.getByPlaceholderText('search'), query);
+  await user.type(screen.getByPlaceholderText('search_verb'), query);
 
   expect(onSearch).toHaveBeenCalledWith({
     query,
@@ -88,7 +88,7 @@ it('should cancel filter selection when search is active', async () => {
     pageSize: 6,
   });
 
-  await user.clear(screen.getByPlaceholderText('search'));
+  await user.clear(screen.getByPlaceholderText('search_verb'));
 
   // After clearing search, it should research with the previous filter
   expect(onSearch).toHaveBeenCalledWith({

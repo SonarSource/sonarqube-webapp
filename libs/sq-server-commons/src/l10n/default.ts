@@ -60,6 +60,7 @@ export const defaultMessages = {
   'branch.small': 'branch',
   branches: 'Branches',
   breadcrumbs: 'Breadcrumbs',
+  expand_breadcrumb: 'Expand breadcrumb',
   expand_breadcrumbs: 'Expand breadcrumbs',
   by_: 'by',
   calendar: 'Calendar',
@@ -1703,6 +1704,7 @@ export const defaultMessages = {
     '{license} is prohibited by the {profile} license profile.',
   'dependencies.risk.what.license.more': 'More about copyleft licenses',
   'dependencies.risk.comment.explain_why': 'Explain your decision',
+  'dependencies.risk.comment.error': 'An unexpected error occurred.',
 
   'dependencies.bill_of_materials': 'Dependencies',
   'dependencies.labels.severity_dependency_license.description':
@@ -3563,6 +3565,10 @@ export const defaultMessages = {
   'aicodefix.cancel.modal.description':
     'You have unsaved changes. All unsaved changes will be lost.',
   'aicodefix.cancel.modal.continue_editing': 'Continue editing',
+  'property.sca.cancel.modal.title': 'Are you sure you want to cancel?',
+  'property.sca.cancel.modal.description':
+    'You have unsaved changes. All unsaved changes will be lost.',
+  'property.sca.cancel.modal.continue_editing': 'Continue editing',
 
   //------------------------------------------------------------------------------
   //

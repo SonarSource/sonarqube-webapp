@@ -294,6 +294,7 @@ module.exports = {
     'local-rules/use-visibility-enum': 'warn',
     'local-rules/no-direct-analytics-sdk-calls': 'error',
     'local-rules/no-explicit-undefined-enabled-in-react-query': 'error',
+    'local-rules/valid-l10n-message-key': ['error', { platform: 'auto' }],
 
     'max-depth': 'error',
     'no-alert': 'error',

@@ -40,4 +40,5 @@ module.exports = {
   'use-proper-query-name': require('./use-proper-query-name'),
   'use-visibility-enum': require('./use-visibility-enum'),
   'no-explicit-undefined-enabled-in-react-query': require('./no-explicit-undefined-enabled-in-react-query'),
+  'valid-l10n-message-key': require('./valid-l10n-message-key'),
 };

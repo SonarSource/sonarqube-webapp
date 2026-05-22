@@ -199,10 +199,7 @@ export function SelectList<T>(props: Readonly<SelectListProps<T>>) {
           onChange={(e) => {
             handleQueryChange(e.target.value);
           }}
-          placeholder={
-            searchInputPlaceholder ??
-            intl.formatMessage({ id: 'search', defaultMessage: 'Search...' })
-          }
+          placeholder={searchInputPlaceholder ?? intl.formatMessage({ id: 'search_verb' })}
           prefix={
             <>
               <Spinner isLoading={loading} />
