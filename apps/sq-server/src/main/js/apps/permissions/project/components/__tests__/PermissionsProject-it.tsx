@@ -132,12 +132,13 @@ describe('rendering', () => {
 });
 
 describe('filtering', () => {
-  it('should allow to filter permission holders', async () => {
+  it('should allow to filter permission holders and by specific permission', async () => {
     const user = userEvent.setup();
     const ui = getPageObject(user);
     renderPermissionsProjectApp();
     await ui.appLoaded();
 
+    // Filter by users/groups/all
     expect(screen.getByText('sonar-users')).toBeInTheDocument();
     expect(screen.getByText('johndoe')).toBeInTheDocument();
 
@@ -161,17 +162,8 @@ describe('filtering', () => {
     await ui.clearSearch();
     expect(screen.getByText('sonar-users')).toBeInTheDocument();
     expect(screen.getByText('johndoe')).toBeInTheDocument();
-  });
 
-  it('should allow to show only permission holders with a specific permission', async () => {
-    const user = userEvent.setup();
-    const ui = getPageObject(user);
-    renderPermissionsProjectApp();
-    await ui.appLoaded();
-
-    // The await above is not enough to wait for the UI to load...
-    expect(await ui.pageTitle.find()).toBeInTheDocument();
-
+    // Filter by specific permission
     expect((await screen.findAllByRole('row')).length).toBe(9);
     await ui.toggleFilterByPermission(Permissions.Admin);
     expect(screen.getAllByRole('row').length).toBe(3);
@@ -181,26 +173,23 @@ describe('filtering', () => {
 });
 
 describe('assigning/revoking permissions', () => {
-  it('should allow to apply a permission template', async () => {
+  // Sections share one render. applyPermissionTemplate mock does not mutate permission rows,
+  // so subsequent sections still see the original state. If the mock changes, split the test.
+  it('should handle permission operations: template, visibility, group and user permissions', async () => {
     const user = userEvent.setup();
     const ui = getPageObject(user);
     renderPermissionsProjectApp();
     await ui.appLoaded();
 
+    // --- Apply permission template ---
     await ui.openTemplateModal();
     expect(ui.confirmApplyTemplateBtn.get()).toBeDisabled();
     await ui.chooseTemplate('Permission Template 2');
     expect(ui.templateSuccessfullyApplied.get()).toBeInTheDocument();
     await ui.closeTemplateModal();
     expect(ui.templateSuccessfullyApplied.query()).not.toBeInTheDocument();
-  });
 
-  it('should allow to turn a public project private (and vice-versa)', async () => {
-    const user = userEvent.setup();
-    const ui = getPageObject(user);
-    renderPermissionsProjectApp();
-    await ui.appLoaded();
-
+    // --- Toggle visibility public/private ---
     expect(ui.visibilityRadio(Visibility.Public).get()).toBeChecked();
     expect(
       ui.projectPermissionCheckbox('sonar-users', Permissions.Browse).query(),
@@ -215,37 +204,21 @@ describe('assigning/revoking permissions', () => {
     expect(ui.makePublicDisclaimer.get()).toBeInTheDocument();
     await ui.confirmTurnProjectPublic();
     expect(ui.visibilityRadio(Visibility.Public).get()).toBeChecked();
-  });
 
-  it('should add and remove permissions to/from a group', async () => {
-    const user = userEvent.setup();
-    const ui = getPageObject(user);
-    renderPermissionsProjectApp();
-    await ui.appLoaded();
-
+    // --- Toggle group permission ---
     expect(ui.projectPermissionCheckbox('sonar-users', Permissions.Admin).get()).not.toBeChecked();
-
     await ui.toggleProjectPermission('sonar-users', Permissions.Admin);
     await ui.appLoaded();
     expect(ui.projectPermissionCheckbox('sonar-users', Permissions.Admin).get()).toBeChecked();
-
     await ui.toggleProjectPermission('sonar-users', Permissions.Admin);
     await ui.appLoaded();
     expect(ui.projectPermissionCheckbox('sonar-users', Permissions.Admin).get()).not.toBeChecked();
-  });
 
-  it('should add and remove permissions to/from a user', async () => {
-    const user = userEvent.setup();
-    const ui = getPageObject(user);
-    renderPermissionsProjectApp();
-    await ui.appLoaded();
-
+    // --- Toggle user permission ---
     expect(ui.projectPermissionCheckbox('johndoe', Permissions.Scan).get()).not.toBeChecked();
-
     await ui.toggleProjectPermission('johndoe', Permissions.Scan);
     await ui.appLoaded();
     expect(ui.projectPermissionCheckbox('johndoe', Permissions.Scan).get()).toBeChecked();
-
     await ui.toggleProjectPermission('johndoe', Permissions.Scan);
     await ui.appLoaded();
     expect(ui.projectPermissionCheckbox('johndoe', Permissions.Scan).get()).not.toBeChecked();

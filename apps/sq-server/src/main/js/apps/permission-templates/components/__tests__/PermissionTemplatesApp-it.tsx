@@ -62,7 +62,7 @@ beforeEach(() => {
 });
 
 describe('rendering', () => {
-  it('should render the list of templates', async () => {
+  it('should render the list of templates and show correct tooltips', async () => {
     const user = userEvent.setup();
     const ui = getPageObject(user);
     renderPermissionTemplatesApp();
@@ -82,10 +82,6 @@ describe('rendering', () => {
     await user.keyboard('{Escape}');
 
     // Check summaries.
-    // Note: because of the intricacies of these table cells, and the verbosity
-    // this would introduce in this test, I went ahead and relied on snapshots.
-    // The snapshots only focus on the text content, so any updates in styling
-    // or DOM structure should not alter the snapshots.
     const row1 = within(screen.getByRole('row', { name: /Permission Template 1/ }));
     PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE.forEach((permission, i) => {
       expect(row1.getAllByRole('cell').at(i + 1)?.textContent).toMatchSnapshot(
@@ -98,6 +94,14 @@ describe('rendering', () => {
         `Permission Template 2: ${permission}`,
       );
     });
+
+    // Check each permission tooltip independently (no loop, so failures don't mask each other).
+    await ui.checkTooltip(user, 0, `projects_role.${Permissions.Browse}.desc`);
+    await ui.checkTooltip(user, 1, `projects_role.${Permissions.CodeViewer}.desc`);
+    await ui.checkTooltip(user, 2, `projects_role.${Permissions.IssueAdmin}.desc`);
+    await ui.checkTooltip(user, 3, `projects_role.${Permissions.SecurityHotspotAdmin}.desc`);
+    await ui.checkTooltip(user, 4, `projects_role.${Permissions.Admin}.desc`);
+    await ui.checkTooltip(user, 5, 'projects_role.scan.desc');
   });
 
   it('should render the correct template', async () => {
@@ -113,43 +117,6 @@ describe('rendering', () => {
     expect(ui.githubWarning.query()).not.toBeInTheDocument();
 
     expect(screen.getByText('This is permission template 1')).toBeInTheDocument();
-  });
-
-  it.each(
-    PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE.filter((p) => p !== Permissions.Scan).map((p) => {
-      const i = PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE.indexOf(p);
-      return [p, i] as const;
-    }),
-  )('should show the correct tooltips for %s', async (permission, i) => {
-    const user = userEvent.setup();
-    const ui = getPageObject(user);
-    renderPermissionTemplatesApp();
-    await ui.appLoaded();
-    expect(await ui.templateLink('Permission Template 1').find()).toBeInTheDocument();
-
-    await user.click(ui.getHeaderTooltipIconByIndex(i));
-    const dialog = await screen.findByRole('dialog');
-    const descId = `projects_role.${permission}.desc`;
-    await waitFor(() => {
-      expect(dialog).toHaveTextContent(descId);
-    });
-    await user.keyboard('{Escape}');
-  });
-
-  it('should show the correct tooltips for scan including rich projects_role.scan.desc markup', async () => {
-    const user = userEvent.setup();
-    const ui = getPageObject(user);
-    renderPermissionTemplatesApp();
-    await ui.appLoaded();
-    expect(await ui.templateLink('Permission Template 1').find()).toBeInTheDocument();
-
-    const scanColumnIndex = PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE.indexOf(Permissions.Scan);
-    await user.click(ui.getHeaderTooltipIconByIndex(scanColumnIndex));
-    const dialog = await screen.findByRole('dialog');
-    await waitFor(() => {
-      expect(dialog).toHaveTextContent('projects_role.scan.desc');
-    });
-    await user.keyboard('{Escape}');
   });
 });
 
@@ -167,34 +134,54 @@ describe('CRUD', () => {
     expect(screen.getByText('New template description')).toBeInTheDocument();
   });
 
-  it('should allow the create modal to be opened and closed', async () => {
+  it('should allow modals to be opened and closed, and prevent deleting default template', async () => {
     const user = userEvent.setup();
     const ui = getPageObject(user);
     renderPermissionTemplatesApp();
     await ui.appLoaded();
 
+    // Create modal open/close
     await ui.openCreateModal();
     await ui.closeModal();
-
     expect(ui.modal.query()).not.toBeInTheDocument();
+
+    // Update modal open/close
+    await ui.openUpdateModal('Permission Template 2');
+    await ui.closeModal();
+    expect(ui.modal.query()).not.toBeInTheDocument();
+
+    // Delete modal open/close
+    await ui.openDeleteModal('Permission Template 2');
+    await ui.closeModal();
+    expect(ui.modal.query()).not.toBeInTheDocument();
+
+    // Default template should not have delete option
+    await user.click(ui.cogMenuBtn('Permission Template 1').get());
+    expect(ui.deleteBtn.query()).not.toBeInTheDocument();
   });
 
-  it('should allow template details to be updated from the list', async () => {
+  it('should allow template update and delete from the list', async () => {
     const user = userEvent.setup();
     const ui = getPageObject(user);
     renderPermissionTemplatesApp();
     await ui.appLoaded();
 
+    // Update template from the list
     await ui.updateTemplate(
       'Permission Template 2',
       'Updated name',
       'Updated description',
       '/new pattern/',
     );
-
     expect(ui.templateLink('Updated name').get()).toBeInTheDocument();
     expect(screen.getByText('Updated description')).toBeInTheDocument();
     expect(screen.getByText('/new pattern/')).toBeInTheDocument();
+
+    // Delete the updated template from the list
+    await ui.deleteTemplate('Updated name');
+    await ui.appLoaded();
+    expect(ui.templateLink('Permission Template 1').get()).toBeInTheDocument();
+    expect(ui.templateLink('Updated name').query()).not.toBeInTheDocument();
   });
 
   it('should allow template details to be updated from the template page directly', async () => {
@@ -218,31 +205,6 @@ describe('CRUD', () => {
     expect(screen.getByText('/new pattern/')).toBeInTheDocument();
   });
 
-  it('should allow the update modal to be opened and closed', async () => {
-    const user = userEvent.setup();
-    const ui = getPageObject(user);
-    renderPermissionTemplatesApp();
-    await ui.appLoaded();
-
-    await ui.openUpdateModal('Permission Template 2');
-    await ui.closeModal();
-
-    expect(ui.modal.query()).not.toBeInTheDocument();
-  });
-
-  it('should allow templates to be deleted from the list', async () => {
-    const user = userEvent.setup();
-    const ui = getPageObject(user);
-    renderPermissionTemplatesApp();
-    await ui.appLoaded();
-
-    await ui.deleteTemplate('Permission Template 2');
-    await ui.appLoaded();
-
-    expect(ui.templateLink('Permission Template 1').get()).toBeInTheDocument();
-    expect(ui.templateLink('Permission Template 2').query()).not.toBeInTheDocument();
-  });
-
   it('should allow templates to be deleted from the template page directly', async () => {
     const user = userEvent.setup();
     const ui = getPageObject(user);
@@ -258,33 +220,10 @@ describe('CRUD', () => {
     expect(ui.templateLink('Permission Template 1').get()).toBeInTheDocument();
     expect(ui.templateLink('Permission Template 2').query()).not.toBeInTheDocument();
   });
-
-  it('should allow the delete modal to be opened and closed', async () => {
-    const user = userEvent.setup();
-    const ui = getPageObject(user);
-    renderPermissionTemplatesApp();
-    await ui.appLoaded();
-
-    await ui.openDeleteModal('Permission Template 2');
-    await ui.closeModal();
-
-    expect(ui.modal.query()).not.toBeInTheDocument();
-  });
-
-  it('should not allow a default template to be deleted', async () => {
-    const user = userEvent.setup();
-    const ui = getPageObject(user);
-    renderPermissionTemplatesApp();
-    await ui.appLoaded();
-
-    await user.click(ui.cogMenuBtn('Permission Template 1').get());
-
-    expect(ui.deleteBtn.query()).not.toBeInTheDocument();
-  });
 });
 
 describe('filtering', () => {
-  it('should allow to filter permission holders', async () => {
+  it('should allow to filter permission holders and by specific permission', async () => {
     const user = userEvent.setup();
     const ui = getPageObject(user);
     renderPermissionTemplatesApp();
@@ -293,6 +232,7 @@ describe('filtering', () => {
     await ui.openTemplateDetails('Permission Template 1');
     await ui.appLoaded();
 
+    // Filter by users/groups/all
     expect(screen.getByText('sonar-users')).toBeInTheDocument();
     expect(screen.getByText('johndoe')).toBeInTheDocument();
 
@@ -316,20 +256,8 @@ describe('filtering', () => {
     await ui.clearSearch();
     expect(screen.getByText('sonar-users')).toBeInTheDocument();
     expect(screen.getByText('johndoe')).toBeInTheDocument();
-  });
 
-  it('should allow to show only permission holders with a specific permission', async () => {
-    const user = userEvent.setup();
-    const ui = getPageObject(user);
-    renderPermissionTemplatesApp();
-    await ui.appLoaded();
-
-    // additional waiting
-    expect(await ui.pageTitle.find()).toBeInTheDocument();
-
-    await ui.openTemplateDetails('Permission Template 1');
-    await ui.appLoaded();
-
+    // Filter by specific permission
     expect(screen.getAllByRole('row').length).toBe(10);
     await ui.toggleFilterByPermission(Permissions.Admin);
     expect(screen.getAllByRole('row').length).toBe(3);
@@ -339,7 +267,7 @@ describe('filtering', () => {
 });
 
 describe('assigning/revoking permissions', () => {
-  it('should add and remove permissions to/from a group', async () => {
+  it('should add and remove permissions to/from groups and users', async () => {
     const user = userEvent.setup();
     const ui = getPageObject(user);
     renderPermissionTemplatesApp();
@@ -348,32 +276,20 @@ describe('assigning/revoking permissions', () => {
     await ui.openTemplateDetails('Permission Template 1');
     await ui.appLoaded();
 
+    // Toggle group permission
     expect(ui.permissionCheckbox('sonar-users', Permissions.Admin).get()).not.toBeChecked();
-
     await ui.togglePermission('sonar-users', Permissions.Admin);
     await ui.appLoaded();
     expect(ui.permissionCheckbox('sonar-users', Permissions.Admin).get()).toBeChecked();
-
     await ui.togglePermission('sonar-users', Permissions.Admin);
     await ui.appLoaded();
     expect(ui.permissionCheckbox('sonar-users', Permissions.Admin).get()).not.toBeChecked();
-  });
 
-  it('should add and remove permissions to/from a user', async () => {
-    const user = userEvent.setup();
-    const ui = getPageObject(user);
-    renderPermissionTemplatesApp();
-    await ui.appLoaded();
-
-    await ui.openTemplateDetails('Permission Template 1');
-    await ui.appLoaded();
-
+    // Toggle user permission
     expect(ui.permissionCheckbox('johndoe', Permissions.Scan).get()).not.toBeChecked();
-
     await ui.togglePermission('johndoe', Permissions.Scan);
     await ui.appLoaded();
     expect(ui.permissionCheckbox('johndoe', Permissions.Scan).get()).toBeChecked();
-
     await ui.togglePermission('johndoe', Permissions.Scan);
     await ui.appLoaded();
     expect(ui.permissionCheckbox('johndoe', Permissions.Scan).get()).not.toBeChecked();
@@ -596,8 +512,15 @@ function getPageObject(user: UserEvent) {
       await user.click(ui.cogMenuBtn(name).get());
       await user.click(ui.setDefaultBtn(qualifier).get());
     },
+    async checkTooltip(userEvent: UserEvent, columnIndex: number, expectedText: string) {
+      await userEvent.click(this.getHeaderTooltipIconByIndex(columnIndex));
+      const dialog = await screen.findByRole('dialog');
+      await waitFor(() => {
+        expect(dialog).toHaveTextContent(expectedText);
+      });
+      await userEvent.keyboard('{Escape}');
+    },
     getHeaderTooltipIconByIndex(i: number) {
-      // Get all toggle tip buttons in column headers (skipping first header which is the template name)
       const toggleTips = byRole('columnheader')
         .byRole('button', { name: 'toggletip.help' })
         .getAll();

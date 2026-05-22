@@ -157,109 +157,117 @@ describe('Rules app list', () => {
   });
 
   describe('filtering', () => {
-    it('combine facet filters', async () => {
+    it('should filter by language, date, repository, quality profile and tags', async () => {
       const { ui, user } = getPageObjects();
       renderCodingRulesApp(mockCurrentUser());
       await ui.listLoaded();
 
       expect(ui.getAllRuleListItems()).toHaveLength(11);
 
-      // Filter by language facet
+      // --- Combine facet filters: language + date ---
       await user.type(ui.facetSearchInput('search.search_for_languages').get(), 'ja');
       await user.click(ui.facetItem(/Ja\svaScript/).get());
       expect(ui.getAllRuleListItems()).toHaveLength(2);
-      // Clear language facet and search box, and filter by python language
       await user.clear(ui.facetSearchInput('search.search_for_languages').get());
       await user.click(ui.facetItem(/Python/).get());
       expect(ui.getAllRuleListItems()).toHaveLength(6);
 
-      // Filter by date facet
       await user.click(await ui.availableSinceFacet.find());
       await user.click(screen.getByPlaceholderText('date'));
       const monthSelector = within(ui.dateInputMonthSelect.get()).getByRole('combobox');
-
       await user.click(monthSelector);
       await user.click(ui.dateInputMonthSelect.byRole('combobox').get());
       await user.click(byRole('option', { name: 'Nov' }).get());
-
       const yearSelector = within(ui.dateInputYearSelect.get()).getByRole('combobox');
-
       await user.click(yearSelector);
       await user.click(ui.dateInputYearSelect.byRole('combobox').get());
       await user.click(byRole('option', { name: '2022' }).get());
-
       await user.click(await screen.findByText('1', { selector: 'button' }));
-
       expect(ui.getAllRuleListItems()).toHaveLength(1);
-    });
 
-    it('filter by repository', async () => {
-      const { ui, user } = getPageObjects();
-      renderCodingRulesApp(mockCurrentUser());
-      await ui.listLoaded();
-
+      await user.click(ui.clearAllFiltersButton.get());
       expect(ui.getAllRuleListItems()).toHaveLength(11);
 
-      // Filter by repository
+      // --- Filter by repository ---
       await user.click(ui.repositoriesFacet.get());
       await user.click(ui.facetItem(/Repository 1/).get());
       expect(ui.getAllRuleListItems()).toHaveLength(2);
-
-      // Search second repository
       await user.type(ui.facetSearchInput('search.search_for_repositories').get(), 'y 2');
       await user.click(ui.facetItem(/Repositor\sy 2/).get());
       expect(ui.getAllRuleListItems()).toHaveLength(1);
-    });
 
-    it('filter by quality profile, tag and search by tag, does not show prioritized rule', async () => {
-      const { ui, user } = getPageObjects();
-      renderCodingRulesApp(mockCurrentUser());
-      await ui.listLoaded();
-
+      await user.click(ui.clearAllFiltersButton.get());
       expect(ui.getAllRuleListItems()).toHaveLength(11);
 
-      // Filter by quality profile
+      // --- Filter by quality profile, tag, search by tag ---
       await user.click(ui.qpFacet.get());
       await user.click(ui.facetItem('QP Foo Java').get());
       expect(ui.getAllRuleListItems()).toHaveLength(1);
-
       expect(ui.prioritizedRuleFacet.query()).not.toBeInTheDocument();
 
-      // Filter by tag
-      await user.click(ui.facetClear('clear-coding_rules.facet.qprofile').get()); // Clear quality profile facet
+      await user.click(ui.facetClear('clear-coding_rules.facet.qprofile').get());
       await user.click(ui.tagsFacet.get());
-
       await user.click(ui.facetItem(/awesome\s/).get());
       expect(ui.getAllRuleListItems()).toHaveLength(5);
-
-      // Search by tag
       await user.type(ui.facetSearchInput('search.search_for_tags').get(), 'te');
       expect(ui.facetItem(/cu\ste/).get()).toBeInTheDocument();
       await user.click(ui.facetItem(/cu\ste/).get());
       expect(ui.getAllRuleListItems()).toHaveLength(1);
     });
 
-    it('filter by clean code category, software quality and severity', async () => {
+    it('should filter by clean code, standards and search', async () => {
       const { ui, user } = getPageObjects();
       renderCodingRulesApp(mockCurrentUser());
       await ui.listLoaded();
 
       expect(ui.getAllRuleListItems()).toHaveLength(11);
-      // Filter by clean code category
+
+      // --- Filter by clean code category, software quality, severity ---
       await user.click(ui.cleanCodeCategoriesFacet.get());
       await user.click(
         await ui.facetItem('issue.clean_code_attribute_category.INTENTIONAL').find(),
       );
-
       expect(ui.getAllRuleListItems()).toHaveLength(9);
-
-      // Filter by software quality
       await user.click(ui.facetItem('software_quality.MAINTAINABILITY').get());
       expect(ui.getAllRuleListItems()).toHaveLength(8);
-
-      // Filter by severity
       await user.click(ui.facetItem(/severity_impact.HIGH/).get());
       expect(ui.getAllRuleListItems()).toHaveLength(4);
+
+      await user.click(ui.clearAllFiltersButton.get());
+      expect(ui.getAllRuleListItems()).toHaveLength(11);
+
+      // --- Filter by standards ---
+      await user.click(ui.standardsFacet.get());
+      await user.click(ui.facetItem(/Buffer Overflow/).get());
+      expect(ui.getAllRuleListItems()).toHaveLength(6);
+      await user.click(ui.standardsOwasp2021Top10Facet.get());
+      await user.click(ui.facetItem(/A2 - Cryptographic Failures/).get());
+      await user.click(ui.standardsOwasp2021Top10Facet.get());
+      expect(ui.getAllRuleListItems()).toHaveLength(5);
+      await user.click(ui.standardsOwasp2017Top10Facet.get());
+      await user.click(ui.facetItem(/A3 - Sensitive Data Exposure/).get());
+      expect(ui.getAllRuleListItems()).toHaveLength(4);
+      await user.click(ui.standardsCweFacet.get());
+      await user.click(ui.facetItem(/CWE-102 - Struts: Duplicate Validation Forms/).get());
+      expect(ui.getAllRuleListItems()).toHaveLength(3);
+      await user.type(ui.facetSearchInput('search.search_for_cwe').get(), 'Certificate');
+      await user.click(
+        ui.facetItem(/CWE-297 - Improper Validation of Certificate with Host Mismatch/).get(),
+      );
+      expect(ui.getAllRuleListItems()).toHaveLength(2);
+      await user.clear(ui.facetSearchInput('search.search_for_cwe').get());
+      await user.type(ui.facetSearchInput('search.search_for_cwe').get(), 'CWE-14');
+      await user.click(ui.facetItem(/CWE-14 - Compiler Removal of Code to Clear Buffers/).get());
+      expect(ui.getAllRuleListItems()).toHaveLength(0);
+      await user.click(ui.facetClear('clear-issues.facet.standards').get());
+      expect(ui.getAllRuleListItems()).toHaveLength(11);
+
+      // --- Search ---
+      await user.type(ui.searchInput.get(), 'Python');
+      expect(ui.getAllRuleListItems()).toHaveLength(4);
+      await user.clear(ui.searchInput.get());
+      await user.type(ui.searchInput.get(), 'Hot hotspot');
+      expect(ui.getAllRuleListItems()).toHaveLength(1);
     });
 
     it('filter by type and severity in standard mode', async () => {
@@ -277,57 +285,6 @@ describe('Rules app list', () => {
       // Filter by severity
       await user.click(ui.facetItem(/severity.MAJOR/).get());
       expect(ui.getAllRuleListItems()).toHaveLength(5);
-    });
-
-    it('filter by standards', async () => {
-      const { ui, user } = getPageObjects();
-      renderCodingRulesApp(mockCurrentUser());
-      await ui.listLoaded();
-
-      expect(ui.getAllRuleListItems()).toHaveLength(11);
-      await user.click(ui.standardsFacet.get());
-      await user.click(ui.facetItem(/Buffer Overflow/).get());
-      expect(ui.getAllRuleListItems()).toHaveLength(6);
-
-      await user.click(ui.standardsOwasp2021Top10Facet.get());
-      await user.click(ui.facetItem(/A2 - Cryptographic Failures/).get());
-      await user.click(ui.standardsOwasp2021Top10Facet.get()); // Close facet
-      expect(ui.getAllRuleListItems()).toHaveLength(5);
-
-      await user.click(ui.standardsOwasp2017Top10Facet.get());
-      await user.click(ui.facetItem(/A3 - Sensitive Data Exposure/).get());
-      expect(ui.getAllRuleListItems()).toHaveLength(4);
-
-      await user.click(ui.standardsCweFacet.get());
-      await user.click(ui.facetItem(/CWE-102 - Struts: Duplicate Validation Forms/).get());
-      expect(ui.getAllRuleListItems()).toHaveLength(3);
-
-      await user.type(ui.facetSearchInput('search.search_for_cwe').get(), 'Certificate');
-      await user.click(
-        ui.facetItem(/CWE-297 - Improper Validation of Certificate with Host Mismatch/).get(),
-      );
-      expect(ui.getAllRuleListItems()).toHaveLength(2);
-
-      await user.clear(ui.facetSearchInput('search.search_for_cwe').get());
-      await user.type(ui.facetSearchInput('search.search_for_cwe').get(), 'CWE-14');
-      await user.click(ui.facetItem(/CWE-14 - Compiler Removal of Code to Clear Buffers/).get());
-      expect(ui.getAllRuleListItems()).toHaveLength(0);
-
-      await user.click(ui.facetClear('clear-issues.facet.standards').get());
-      expect(ui.getAllRuleListItems()).toHaveLength(11);
-    });
-
-    it('filters by search', async () => {
-      const { ui, user } = getPageObjects();
-      renderCodingRulesApp(mockCurrentUser());
-      await ui.listLoaded();
-
-      await user.type(ui.searchInput.get(), 'Python');
-      expect(ui.getAllRuleListItems()).toHaveLength(4);
-
-      await user.clear(ui.searchInput.get());
-      await user.type(ui.searchInput.get(), 'Hot hotspot');
-      expect(ui.getAllRuleListItems()).toHaveLength(1);
     });
 
     it('filter by quality profile and prioritizedRule', async () => {
@@ -430,63 +387,44 @@ describe('Rules app list', () => {
   });
 
   describe('bulk change', () => {
-    it('no quality profile for bulk change based on language search', async () => {
+    it('should handle bulk activate, deactivate, and no QP for language filter', async () => {
       const { ui, user } = getPageObjects();
       rulesHandler.setIsAdmin();
       renderCodingRulesApp(mockLoggedInUser());
       await ui.listLoaded();
 
+      // --- No QP for C language filter ---
       await user.click(ui.facetItem('C 1').get());
       await user.click(ui.bulkChangeButton.get());
       await user.click(ui.activateIn.get());
-
       const dialog = ui.bulkChangeDialog(1);
       expect(dialog.get()).toBeInTheDocument();
-
       await user.click(ui.activateInSelect.get());
-
       expect(ui.noQualityProfiles.get(dialog.get())).toBeInTheDocument();
-    });
+      await user.keyboard('{Escape}');
+      await user.click(ui.clearAllFiltersButton.get());
 
-    it('should be able to bulk activate quality profile', async () => {
-      const { ui, user } = getPageObjects();
-      rulesHandler.setIsAdmin();
-      renderCodingRulesApp(mockLoggedInUser());
-      await ui.listLoaded();
-
+      // --- Bulk activate with success + warning ---
       const [selectQPSuccess, selectQPWarning] = rulesHandler.allQualityProfile('java');
-
       const rulesCount = rulesHandler.allRulesCount();
       await ui.bulkActivate(rulesCount, selectQPSuccess);
-
       expect(
         ui.bulkSuccessMessage(selectQPSuccess.name, selectQPSuccess.languageName, rulesCount).get(),
       ).toBeInTheDocument();
-
       await user.click(ui.bulkClose.get());
 
-      // Try bulk change when quality profile has warnning.
       rulesHandler.activateWithWarning();
-
       await ui.bulkActivate(rulesCount, selectQPWarning);
       expect(
         ui
           .bulkWarningMessage(selectQPWarning.name, selectQPWarning.languageName, rulesCount - 1)
           .get(),
       ).toBeInTheDocument();
-    });
+      await user.click(ui.bulkClose.get());
 
-    it('should be able to bulk deactivate quality profile', async () => {
-      const { ui } = getPageObjects();
-      rulesHandler.setIsAdmin();
-      renderCodingRulesApp(mockLoggedInUser());
-      await ui.listLoaded();
-
+      // --- Bulk deactivate ---
       const [selectQP] = rulesHandler.allQualityProfile('java');
-      const rulesCount = rulesHandler.allRulesCount();
-
       await ui.bulkDeactivate(rulesCount, selectQP);
-
       expect(
         ui.bulkSuccessMessage(selectQP.name, selectQP.languageName, rulesCount).get(),
       ).toBeInTheDocument();
@@ -564,7 +502,7 @@ describe('Rules app list', () => {
       expect(ui.activateButton.getAll()).toHaveLength(2);
     });
 
-    it('can revert to parent definition specific rule for quality profile', async () => {
+    it('can revert to parent definition and should not override when no changes', async () => {
       const { ui, user } = getPageObjects();
       settingsHandler.set(SettingsKey.QPAdminCanDisableInheritedRules, 'false');
       rulesHandler.setIsAdmin();
@@ -581,14 +519,12 @@ describe('Rules app list', () => {
       expect(ui.deactivateButton.getAll()).toHaveLength(3);
       expect(ui.revertToParentDefinitionButton().get()).toBeInTheDocument();
 
+      // --- Revert to parent definition for RULE_10 ---
       await user.type(ui.searchInput.get(), RULE_10);
-
-      // Only 1 rule left after search
       expect(ui.getAllRuleListItems()).toHaveLength(1);
       expect(ui.revertToParentDefinitionButton().get()).toBeInTheDocument();
       expect(ui.changeButton('QP Bar').get()).toBeInTheDocument();
 
-      // Check that severity is reflected correctly
       await user.click(ui.changeButton('QP Bar').get());
       expect(ui.oldSeveritySelect.get(ui.changeQPDialog.get())).toHaveValue('severity.MAJOR');
       expect(ui.notRecommendedSeverity.get()).toBeInTheDocument();
@@ -599,8 +535,6 @@ describe('Rules app list', () => {
       await user.click(ui.revertToParentDefinitionButton().get());
       await user.click(ui.yesButton.get());
 
-      // The button is removed asynchronously after the revert request completes.
-      // Assert disappearance via waitFor to avoid a race with immediate DOM checks.
       await waitFor(() => {
         expect(ui.revertToParentDefinitionButton().query()).not.toBeInTheDocument();
       });
@@ -609,7 +543,6 @@ describe('Rules app list', () => {
       expect(ui.deactivateButton.get()).toBeDisabled();
       expect(ui.changeButton('QP Bar').get()).toBeInTheDocument();
 
-      // Check that severity is reflected correctly
       await user.click(ui.changeButton('QP Bar').get());
       expect(ui.oldSeveritySelect.get(ui.changeQPDialog.get())).toHaveValue(
         'coding_rules.custom_severity.severity_with_recommended.severity.MINOR',
@@ -617,28 +550,16 @@ describe('Rules app list', () => {
       expect(ui.notRecommendedSeverity.query()).not.toBeInTheDocument();
       expect(ui.prioritizedSwitch.get(ui.changeQPDialog.get())).not.toBeChecked();
       await user.click(ui.cancelButton.get(ui.changeQPDialog.get()));
-    });
 
-    it('should not make rule overriden if no changes were done', async () => {
-      const { ui, user } = getPageObjects();
-      settingsHandler.set(SettingsKey.QPAdminCanDisableInheritedRules, 'false');
-      rulesHandler.setIsAdmin();
-      renderCodingRulesApp(mockLoggedInUser(), undefined, [Feature.PrioritizedRules]);
-      await ui.facetsLoaded();
-
-      await user.click(ui.qpFacet.get());
-      await user.click(ui.facetItem('QP Bar Python').get());
-
-      // filter out everything except INHERITED rule
+      // --- No override when saving without changes (RULE_9) ---
+      await user.clear(ui.searchInput.get());
       await user.type(ui.searchInput.get(), RULE_9);
 
-      // Only 1 rule left after search
       expect(ui.getAllRuleListItems()).toHaveLength(1);
       expect(ui.deactivateButton.get()).toBeInTheDocument();
       expect(ui.deactivateButton.get()).toBeDisabled();
       expect(ui.changeButton('QP Bar').get()).toBeInTheDocument();
 
-      // Check that severity is reflected correctly
       await user.click(ui.changeButton('QP Bar').get());
       expect(ui.oldSeveritySelect.get(ui.changeQPDialog.get())).toHaveValue('severity.MAJOR');
       expect(ui.notRecommendedSeverity.get()).toBeInTheDocument();
@@ -787,7 +708,7 @@ describe('Rules app list', () => {
       await user.click(ui.cancelButton.get(ui.changeQPDialog.get()));
     });
 
-    it('should not make rule overriden if no changes were done', async () => {
+    it('should not override when no changes and should ignore excessive impacts', async () => {
       const { ui, user } = getPageObjects();
       settingsHandler.set(SettingsKey.QPAdminCanDisableInheritedRules, 'false');
       rulesHandler.setIsAdmin();
@@ -797,11 +718,10 @@ describe('Rules app list', () => {
       await user.click(ui.qpFacet.get());
       await user.click(ui.facetItem('QP Bar Python').get());
 
-      // filter out everything except INHERITED rule
+      // --- No override when saving without changes (RULE_9) ---
       await user.type(ui.searchInput.get(), RULE_9);
       expect(ui.changeButton('QP Bar').get()).toBeInTheDocument();
 
-      // Check that severity is reflected correctly
       await user.click(ui.changeButton('QP Bar').get());
       expect(ui.newSeveritySelect(SoftwareQuality.Reliability).get()).toHaveValue(
         'severity_impact.MEDIUM',
@@ -811,20 +731,10 @@ describe('Rules app list', () => {
       expect(ui.notRecommendedSeverity.get()).toBeInTheDocument();
       expect(ui.notRecommendedSeverity.get()).toHaveTextContent('severity_impact.LOW');
       await user.click(ui.saveButton.get(ui.changeQPDialog.get()));
-
       expect(ui.revertToParentDefinitionButton().query()).not.toBeInTheDocument();
-    });
 
-    it('should ignore excessive activation impacts', async () => {
-      const { ui, user } = getPageObjects();
-      settingsHandler.set(SettingsKey.QPAdminCanDisableInheritedRules, 'false');
-      rulesHandler.setIsAdmin();
-      renderCodingRulesApp(mockLoggedInUser(), undefined, []);
-      await ui.facetsLoaded();
-
-      await user.click(ui.qpFacet.get());
-      await user.click(ui.facetItem('QP Bar Python').get());
-
+      // --- Ignore excessive activation impacts (RULE_7) ---
+      await user.clear(ui.searchInput.get());
       await user.type(ui.searchInput.get(), RULE_7);
       expect(ui.changeButton('QP Bar').get()).toBeInTheDocument();
 
