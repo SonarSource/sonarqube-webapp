@@ -60,7 +60,7 @@ export function splitByTokens(code: NodeListOf<ChildNode>, rootClassName = ''): 
 }
 
 export function highlightSymbol(tokens: Token[], symbol: string): Token[] {
-  const symbolRegExp = new RegExp(`\\b${symbol}\\b`);
+  const symbolRegExp = new RegExp(String.raw`\b${symbol}\b`);
   return tokens.map((token) =>
     symbolRegExp.test(token.className)
       ? { ...token, className: `${token.className} highlighted` }

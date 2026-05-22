@@ -85,8 +85,8 @@ export function BubbleChart<T>(props: BubbleChartProps<T>) {
     displayYTicks = true,
     displayXGrid = true,
     displayYGrid = true,
-    formatXTick = (d: number) => String(d),
-    formatYTick = (d: number) => String(d),
+    formatXTick = String,
+    formatYTick = String,
   } = props;
 
   const [transform, setTransform] = React.useState({ x: 0, y: 0, k: 1 });

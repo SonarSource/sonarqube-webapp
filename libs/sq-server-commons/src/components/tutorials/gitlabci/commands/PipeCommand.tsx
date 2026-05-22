@@ -67,12 +67,12 @@ const BUILD_TOOL_SPECIFIC: {
   },
   [BuildTools.DotNet]: {
     image: 'mcr.microsoft.com/dotnet/sdk:7.0',
-    script: (projectKey: string) => `
+    script: (projectKey: string) => String.raw`
       - "dotnet tool install --global dotnet-sonarscanner"
-      - "export PATH=\\"$PATH:$HOME/.dotnet/tools\\""
-      - "dotnet sonarscanner begin /k:\\"${projectKey}\\" /d:sonar.token=\\"$SONAR_TOKEN\\" /d:\\"sonar.host.url=$SONAR_HOST_URL\\" "
+      - "export PATH=\"$PATH:$HOME/.dotnet/tools\""
+      - "dotnet sonarscanner begin /k:\"${projectKey}\" /d:sonar.token=\"$SONAR_TOKEN\" /d:\"sonar.host.url=$SONAR_HOST_URL\" "
       - "dotnet build"
-      - "dotnet sonarscanner end /d:sonar.token=\\"$SONAR_TOKEN\\""`,
+      - "dotnet sonarscanner end /d:sonar.token=\"$SONAR_TOKEN\""`,
   },
   [BuildTools.Cpp]: {
     image: 'gcc',
