@@ -45,11 +45,12 @@ export const analyzeBundle = process.env.BUNDLE_ANALYSIS === 'true';
 
 export const projectRoot = process.cwd();
 export const workspaceRoot = __dirname;
+const buildOutputDir = process.env.BUILD_OUTPUT_DIR || 'build/webapp';
 
 // https://vitejs.dev/config/
 export const baseViteConfig = {
   build: {
-    outDir: resolve(projectRoot, 'build/webapp'),
+    outDir: resolve(projectRoot, buildOutputDir),
     rollupOptions: {
       // we define all the places where a user can land that requires its own bundle entry point.
       // one main entry point by default that can be overriden by projects
@@ -93,7 +94,7 @@ export const baseViteConfig = {
             },
             output: {
               // Output file into build/webapp directory which is included in the build output
-              file: path.join(projectRoot, 'build/webapp', 'vendor.LICENSE.txt'),
+              file: path.join(projectRoot, buildOutputDir, 'vendor.LICENSE.txt'),
               template(dependencies) {
                 return dependencies.map((dependency) => generateLicenseText(dependency)).join('\n');
               },

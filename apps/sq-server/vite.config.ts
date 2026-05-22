@@ -29,11 +29,12 @@ import { viteDevServerHtmlPlugin } from './config/vite-dev-server-html-plugin.mj
 export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
-  // check if private folder exists
-  const addonsAlias =
-    existsSync(resolve(workspaceRoot, 'private')) && process.env['EDITION'] !== 'public'
-      ? resolve(workspaceRoot, 'private/libs/sq-server-addons/src/index.ts')
-      : resolve(workspaceRoot, 'libs/sq-server-addons/src/index.ts');
+  const isPublicEdition =
+    !existsSync(resolve(workspaceRoot, 'private')) || process.env['EDITION'] === 'public';
+
+  const addonsAlias = isPublicEdition
+    ? resolve(workspaceRoot, 'libs/sq-server-addons/src/index.ts')
+    : resolve(workspaceRoot, 'private/libs/sq-server-addons/src/index.ts');
 
   return defineConfig({
     ...baseViteConfig,
