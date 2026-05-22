@@ -28,11 +28,11 @@ import {
   getLocalizedMetricNameNoDiffMetric,
 } from '~sq-server-commons/helpers/quality-gates';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
-import { Condition } from '~sq-server-commons/types/types';
+import { DecoratedCondition } from '../hooks/useConditions';
 import { BuiltInStyledContentCell, BuiltInStyledItem } from './BuiltInConditionWrappers';
 
 interface Props {
-  condition: Condition;
+  condition: DecoratedCondition;
   metric: Metric;
   metrics: Record<string, Metric>;
 }
@@ -53,28 +53,42 @@ function NewCodeBuiltInCondition({ condition, metric, metrics }: Readonly<Props>
     metric.key as MetricKey,
   );
 
+  const { suffix, isDisabled } = condition;
+  const colorOverride = isDisabled ? 'echoes-color-text-disabled' : undefined;
+
   return (
     <BuiltInStyledItem>
-      <span>
-        <Text>{formatMessage({ id: `metric.${metric.key}.description.positive` })}</Text>
+      <span className="sw-flex sw-items-center sw-gap-2">
+        <Text colorOverride={colorOverride}>
+          {formatMessage(
+            { id: `metric.${metric.key}.description.positive` },
+            { value: conditionError },
+          )}
+        </Text>
+
+        {suffix}
       </span>
-      {shouldRenderOperator && (
-        <BuiltInStyledContentCell>
-          <FormattedMessage
-            id="quality_gates.conditions.builtin_new_code.metric"
-            values={{
-              metric: getLocalizedMetricNameNoDiffMetric(metric, metrics),
-              operator: renderOperator(),
-              value: <Text>&nbsp;{conditionError}</Text>,
-            }}
-          />
-          <ToggleTip
-            ariaLabel={formatMessage({ id: 'toggle_tip.aria_label.threshold' })}
-            className="sw-ml-2"
-            description={formatMessage({ id: 'quality_gates.conditions.threshold.hint' })}
-          />
-        </BuiltInStyledContentCell>
-      )}
+      <div className="sw-flex sw-items-center sw-gap-1">
+        {shouldRenderOperator && (
+          <BuiltInStyledContentCell>
+            <Text colorOverride={colorOverride}>
+              <FormattedMessage
+                id="quality_gates.conditions.builtin_new_code.metric"
+                values={{
+                  metric: getLocalizedMetricNameNoDiffMetric(metric, metrics),
+                  operator: renderOperator(),
+                  value: <Text colorOverride={colorOverride}>&nbsp;{conditionError}</Text>,
+                }}
+              />
+            </Text>
+            <ToggleTip
+              ariaLabel={formatMessage({ id: 'toggle_tip.aria_label.threshold' })}
+              className="sw-ml-2"
+              description={formatMessage({ id: 'quality_gates.conditions.threshold.hint' })}
+            />
+          </BuiltInStyledContentCell>
+        )}
+      </div>
     </BuiltInStyledItem>
   );
 }

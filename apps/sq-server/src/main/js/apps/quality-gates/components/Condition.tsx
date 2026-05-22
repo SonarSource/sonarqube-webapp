@@ -18,16 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import styled from '@emotion/styled';
 import {
   Button,
   ButtonIcon,
   ButtonSize,
   ButtonVariety,
+  cssVar,
   IconDelete,
   IconRefresh,
   ModalAlert,
   Text,
 } from '@sonarsource/echoes-react';
+import classNames from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import {
   ActionCell,
@@ -51,24 +54,21 @@ import {
 } from '~sq-server-commons/helpers/quality-gates';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { useDeleteConditionMutation } from '~sq-server-commons/queries/quality-gates';
-import {
-  CaycStatus,
-  Condition as ConditionType,
-  QualityGate,
-} from '~sq-server-commons/types/types';
+import { CaycStatus, QualityGate } from '~sq-server-commons/types/types';
+import { DecoratedCondition } from '../hooks/useConditions';
 import ConditionValue from './ConditionValue';
 import EditConditionModal from './EditConditionModal';
 import UpdateConditionsFromOtherModeModal from './UpdateConditionsFromOtherModeModal';
 
 interface Props {
   canEdit: boolean;
-  condition: ConditionType;
+  condition: DecoratedCondition;
   isCaycModal?: boolean;
   metric: Metric;
   qualityGate: QualityGate;
 }
 
-export default function ConditionComponent({
+export function Condition({
   condition,
   canEdit,
   metric,
@@ -79,7 +79,7 @@ export default function ConditionComponent({
   const metrics = useMetrics();
   const intl = useIntl();
   const { data: isStandard } = useStandardExperienceModeQuery();
-  const { op = 'GT' } = condition;
+  const { op = 'GT', suffix, isDisabled } = condition;
 
   const isCaycCompliantAndOverCompliant = qualityGate.caycStatus !== CaycStatus.NonCompliant;
   const isMetricFromOtherMode = isStandard
@@ -87,8 +87,8 @@ export default function ConditionComponent({
     : STANDARD_CONDITIONS_MAP[condition.metric as MetricKey] !== undefined;
 
   return (
-    <TableRow>
-      <ContentCell>
+    <StyledTableRow className={classNames({ disabled: isDisabled })}>
+      <ContentCell className="sw-gap-2">
         {getLocalizedMetricNameNoDiffMetric(metric, metrics)}
         {isMetricFromOtherMode && canEdit && (
           <Pill className="sw-ml-2" highlight={PillHighlight.Medium} variant={PillVariant.Neutral}>
@@ -98,10 +98,11 @@ export default function ConditionComponent({
           </Pill>
         )}
         {metric.hidden && (
-          <Text className="sw-ml-1" colorOverride="echoes-color-text-danger">
+          <Text colorOverride="echoes-color-text-danger">
             <FormattedMessage id="deprecated" />
           </Text>
         )}
+        {suffix}
       </ContentCell>
       <ContentCell className="sw-whitespace-nowrap">{getOperatorLabel(op, metric)}</ContentCell>
       <NumericalCell className="sw-whitespace-nowrap">
@@ -173,6 +174,12 @@ export default function ConditionComponent({
           </>
         )}
       </ActionCell>
-    </TableRow>
+    </StyledTableRow>
   );
 }
+
+const StyledTableRow = styled(TableRow)`
+  &.disabled td div {
+    color: ${cssVar('color-text-disabled')};
+  }
+`;

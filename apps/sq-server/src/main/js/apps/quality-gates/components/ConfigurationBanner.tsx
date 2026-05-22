@@ -20,16 +20,20 @@
 
 import {
   Button,
+  Heading,
+  Link,
   LinkHighlight,
   MessageCallout,
   MessageVariety,
   Text,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { AiCodeAssuredIcon } from '~shared/components/ai-code-assurance/AiCodeAssuredIcon';
 import useLocalStorage from '~shared/helpers/useLocalStorage';
 import { MetricKey } from '~shared/types/metrics';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import AIAssuredIcon from '~sq-server-commons/components/icon-mappers/AIAssuredIcon';
+import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
 import { CardWithPrimaryBackground } from '~sq-server-commons/design-system';
@@ -39,6 +43,7 @@ import {
   MQR_CONDITIONS_MAP,
   STANDARD_CONDITIONS_MAP,
 } from '~sq-server-commons/helpers/quality-gates';
+import { getQualityProfilesUrl } from '~sq-server-commons/helpers/urls';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { Feature } from '~sq-server-commons/types/features';
 import { CaycStatus, QualityGate } from '~sq-server-commons/types/types';
@@ -128,12 +133,45 @@ function GateBuiltInBanner() {
 }
 
 function GateBuiltInAiBanner() {
+  const { canAdmin } = useAppState();
+
   return (
-    <CardWithPrimaryBackground className="sw-p-4 sw-pl-6">
-      <AIAssuredIcon className="sw-mr-2" />
-      <Text>
-        <FormattedMessage id="quality_gates.banner.builtin.ai.title" />
-      </Text>
+    <CardWithPrimaryBackground className="sw-flex sw-my-8 sw-p-6">
+      <AiCodeAssuredIcon className="sw-mr-2" />
+      <div>
+        <Heading as="h3" className="sw-mb-4">
+          <FormattedMessage id="quality_gates.aica.builtin.title" />
+        </Heading>
+        <FormattedMessage
+          id="quality_gates.aica.builtin.description"
+          values={{
+            bold: (text) => <Text isHighlighted>{text}</Text>,
+            link: (text) => (
+              <DocumentationLink
+                enableOpenInNewTab
+                highlight={LinkHighlight.CurrentColor}
+                to={DocLink.AiCodeAssurance}
+              >
+                {text}
+              </DocumentationLink>
+            ),
+          }}
+        />
+        {canAdmin && (
+          <p className="sw-mt-4">
+            <FormattedMessage
+              id="quality_gates.aica.builtin.description.admin"
+              values={{
+                link: (text) => (
+                  <Link highlight={LinkHighlight.CurrentColor} to={getQualityProfilesUrl()}>
+                    {text}
+                  </Link>
+                ),
+              }}
+            />
+          </p>
+        )}
+      </div>
     </CardWithPrimaryBackground>
   );
 }

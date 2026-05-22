@@ -759,6 +759,8 @@ export const defaultMessages = {
   'project_quality_gate.page': 'Quality gate',
   'project_quality_gate.page.description':
     'Choose which quality gate is associated with this project.',
+  'project_quality_gate.aica_builtin_gate_help': 'Recommended quality gate for agentic work',
+  'project_quality_gate.sonar_way_help': 'Recommended quality gate for human centered work',
 
   'update_key.page': 'Update key',
   'update_key.page.description':
@@ -4013,11 +4015,10 @@ export const defaultMessages = {
   'project_quality_gate.select_specific_qg': 'Select Quality Gate',
   'project_quality_gate.requires_new_analysis': 'Changes will be applied after the next analysis.',
   'project_quality_gate.no_condition':
-    'This Quality Gate is empty. To make it usable, add conditions to the {link}.',
+    'This Quality Gate is empty. To make it usable, add conditions.',
   'project_quality_gate.no_condition_on_new_code':
     'This Quality Gate sets conditions on overall code but not on new code. It will not appear on pull requests. To enable it for pull requests, add conditions to the {link}.',
   'project_quality_gate.no_condition.link': 'Quality Gate definition',
-  'project_quality_gate.no_condition.reason': 'No conditions',
   'project_quality_gate.ai_assured_quality_gate':
     'This quality gate is qualified for AI Code Assurance',
   'project_quality_gate.not_ai_assured_quality_gate':
@@ -4028,7 +4029,7 @@ export const defaultMessages = {
   'project_quality_gate.ai_generated_code_not_protected.title':
     'Protect your AI-generated code with ‘AI Code Assurance’',
   'project_quality_gate.ai_generated_code_not_protected.description':
-    '<p>This project contains AI-generated code. We recommend using a qualified quality gate to enable <link>AI Code Assurance</link>.</p><p>You may use <linkSonarWay>Sonar way for AI code</linkSonarWay> or <linkQualifyDoc>qualify your own custom quality gates for AI Code Assurance</linkQualifyDoc>.</p>',
+    '<p>This project contains AI-generated code. We recommend using a qualified quality gate to enable <link>AI Code Assurance</link>.</p><p>You may use <linkSonarWay>Sonar way for Agentic AI</linkSonarWay> or <linkQualifyDoc>qualify your own custom quality gates for AI Code Assurance</linkQualifyDoc>.</p>',
 
   //------------------------------------------------------------------------------
   //
@@ -4315,6 +4316,10 @@ export const defaultMessages = {
   'quality_gates.copy': 'Copy Quality Gate',
   'quality_gates.copy_x': 'Copy {name} Quality Gate',
   'quality_gates.set_as_default_x': 'Set {name} as Default Quality Gate',
+  'quality_gates.upgrade_badge.tooltip':
+    'SonarQube Advanced Security add-on is required for this condition to work. <a>Learn more</a>.',
+  'quality_gates.upgrade_badge.tooltip.aria':
+    'SonarQube Advanced Security add-on is required for this condition to work.',
   'quality_gates.is_default_no_conditions':
     'This is the default quality gate, but it has no configured conditions. Please configure at least 1 condition for this quality gate.',
   'quality_gates.is_built_in.description': 'Sonar way is recommended for most projects. {link}',
@@ -4349,10 +4354,6 @@ export const defaultMessages = {
   'quality_gates.conditions.error_message.default': 'Value is invalid',
   'quality_gates.no_conditions': 'No Conditions',
   'quality_gates.health_icons': 'Project health icons represent:',
-  'quality_gates.upgrade_badge.tooltip':
-    'SonarQube Advanced Security add-on is required for this condition to work. <a>Learn more</a>.',
-  'quality_gates.upgrade_badge.tooltip.aria':
-    'SonarQube Advanced Security add-on is required for this condition to work.',
   'quality_gates.projects_for_default':
     'Every project not specifically associated to a quality gate will be associated to this one by default.',
   'quality_gates.projects.with': 'With',
@@ -4493,6 +4494,11 @@ export const defaultMessages = {
     'This quality gate is qualified for AI Code Assurance',
   'quality_gates.recommended_and_ai.tooltip':
     'This gate has all recommended conditions and is marked as qualified for AI-generated code',
+  'quality_gates.aica.builtin.title': 'The gate designed to ensure safety of AI-generated code',
+  'quality_gates.aica.builtin.description':
+    'The Sonar way for Agentic AI quality gate is Sonar recommended pass/fail conditions for projects built with AI agents. It enforces <link>AI Code Assurance</link> guardrails by blocking on the security and reliability issues, including dependency risks, most likely to appear in AI-generated code, while relaxing conditions that are less relevant to agentic workflows.',
+  'quality_gates.aica.builtin.description.admin':
+    'Pair it with the <link>Sonar way for Agentic quality profile</link> to set a consistent, repeatable standard for AI-accelerated delivery.',
 
   'quality_gates.mqr_mode_update.tooltip.message': 'Update the metrics of this quality gate',
   'quality_gates.mqr_mode_update.single_metric.tooltip.message': 'Update {metric} metric to {mode}',
@@ -5711,19 +5717,19 @@ export const defaultMessages = {
   'metric.sca_count_malware.description': 'Malicious packages dependency risks',
   'metric.sca_count_malware.name': 'Malicious package dependency risks',
   'metric.new_sca_severity_any_issue.description.positive':
-    'No new dependency risk with severity greater or equal to low are introduced',
+    'No new dependency risk with severity greater or equal to low',
   'metric.new_bugs_severity.description.positive':
-    'No new bugs with severity greater or equal to minor are introduced',
+    'No new bugs with severity greater or equal to minor',
   'metric.new_code_smells_severity.description.positive':
-    'No new code smells with severity greater or equal to minor are introduced',
+    'No new code smells with severity greater or equal to minor',
   'metric.new_vulnerabilities_severity.description.positive':
-    'No new vulnerabilities with severity greater or equal to major are introduced',
+    'No new vulnerabilities with severity greater or equal to major',
   'metric.new_software_quality_reliability_severity.description.positive':
-    'No new reliability issues with severity greater or equal to low are introduced',
+    'No new reliability issues with severity greater or equal to low',
   'metric.new_software_quality_security_severity.description.positive':
-    'No new security issues with severity greater or equal to low are introduced',
+    'No new security issues with severity greater or equal to low',
   'metric.new_software_quality_maintainability_severity.description.positive':
-    'No new maintainability issues with severity greater or equal to medium are introduced',
+    'No new maintainability issues with severity greater or equal to medium',
   'metric.software_quality_releasability_rating.description': 'Releasability Rating',
   'metric.software_quality_releasability_rating.name': 'Releasability Rating',
   'metric.software_quality_reliability_rating.description': 'Reliability rating',

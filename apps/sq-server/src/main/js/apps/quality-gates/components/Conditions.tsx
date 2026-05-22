@@ -26,15 +26,15 @@ import {
   Text,
   ToggleTip,
 } from '@sonarsource/echoes-react';
-import { uniqBy } from 'lodash';
 import { useIntl } from 'react-intl';
 import { HighlightedSection } from '~design-system';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
 import { getLocalizedMetricName } from '~sq-server-commons/helpers/l10n';
-import { groupAndSortByPriorityConditions } from '~sq-server-commons/helpers/quality-gates';
 import { Feature } from '~sq-server-commons/types/features';
-import { Condition as ConditionType, QualityGate } from '~sq-server-commons/types/types';
+import { QualityGate } from '~sq-server-commons/types/types';
+import { usePurchasableFeature } from '../../settings/utils';
+import { useConditions } from '../hooks/useConditions';
 import AddConditionModal from './AddConditionModal';
 import ConditionsTable from './ConditionsTable';
 import CaycCondition from './NewCodeBuiltInCondition';
@@ -48,32 +48,26 @@ interface Props {
 export default function Conditions({ qualityGate, isFetching }: Readonly<Props>) {
   const intl = useIntl();
   const { isBuiltIn, actions, conditions = [], isAiCodeSupported } = qualityGate;
-
-  const metrics = useMetrics();
-  const { hasFeature } = useAvailableFeatures();
-
   const canEdit = Boolean(actions?.manageConditions);
-  const existingConditions = conditions.filter((condition) => metrics[condition.metric]);
+  const { hasFeature } = useAvailableFeatures();
+  const scaFeature = usePurchasableFeature(Feature.Sca);
+  const metrics = useMetrics();
+
   const {
     overallCodeConditions,
     newCodeConditions,
     builtInNewCodeConditions,
     builtInOverallConditions,
-  } = groupAndSortByPriorityConditions(existingConditions, metrics, isBuiltIn, isAiCodeSupported);
-
-  const duplicates: ConditionType[] = [];
-  const savedConditions = existingConditions.filter((condition) => condition.id != null);
-  savedConditions.forEach((condition) => {
-    const sameCount = savedConditions.filter((sample) => sample.metric === condition.metric).length;
-    if (sameCount > 1) {
-      duplicates.push(condition);
-    }
+    uniqDuplicates,
+    existingConditions,
+  } = useConditions({
+    conditions,
+    isBuiltIn,
+    isAiCodeSupported,
+    metrics,
+    isScaEnabled: scaFeature?.isEnabled,
+    isScaAvailable: scaFeature?.isAvailable,
   });
-
-  const uniqDuplicates = uniqBy(duplicates, (d) => d.metric).map((condition) => ({
-    ...condition,
-    metric: metrics[condition.metric],
-  }));
 
   const isBuiltInAiCodeSupported = isBuiltIn && isAiCodeSupported;
 
@@ -122,7 +116,6 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
                   : intl.formatMessage({ id: 'quality_gates.conditions.builtin' })}
               </Heading>
             </div>
-
             <HighlightedSection className="sw-p-0 sw-my-2">
               <ul
                 aria-label={intl.formatMessage({
@@ -138,7 +131,6 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
                 ))}
               </ul>
             </HighlightedSection>
-
             {hasFeature(Feature.BranchSupport) && (
               <Text className="sw-mb-2" isSubtle>
                 {intl.formatMessage({ id: 'quality_gates.conditions.description' })}
@@ -159,7 +151,6 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
                 </Text>
               )}
             </div>
-
             <ConditionsTable
               canEdit={canEdit}
               conditions={newCodeConditions}
@@ -169,7 +160,6 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
             />
           </div>
         )}
-
         {overallCodeConditions.length > 0 && (
           <div className="sw-mt-5">
             <div className="sw-flex sw-justify-between">
@@ -214,7 +204,6 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
           </div>
         )}
       </div>
-
       {existingConditions.length === 0 && (
         <div className="sw-mt-4 sw-typo-default">
           <Text as="p">{intl.formatMessage({ id: 'quality_gates.no_conditions' })}</Text>

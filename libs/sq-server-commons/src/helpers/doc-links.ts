@@ -27,7 +27,8 @@ export const DOC_URL = 'https://docs.sonarsource.com/sonarqube/latest';
 export enum DocLink {
   AccountTokens = '/user-guide/managing-tokens/',
   ActiveVersions = '/server-update-and-maintenance/update/release-cycle-model',
-  AiCodeAssurance = '/ai-capabilities/overview/',
+  AdvancedSecurity = '/advanced-security/introduction/',
+  AiCodeAssurance = '/ai-capabilities/',
   AiCodeAssuranceProfiles = '/quality-standards-administration/ai-code-assurance/quality-profiles-for-ai-code/',
   AiCodeDetection = '/ai-capabilities/autodetect-ai-code/',
   AiCodeFixEnabling = '/instance-administration/ai-features/enable-ai-codefix/',

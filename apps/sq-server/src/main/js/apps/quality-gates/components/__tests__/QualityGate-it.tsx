@@ -21,23 +21,37 @@
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { noop } from 'lodash';
+import { registerServiceMocks } from '~shared/api/mocks/server';
 import { byLabelText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
-import { MetricKey } from '~shared/types/metrics';
+import { MetricKey, MetricType } from '~shared/types/metrics';
+import { CurrentUser } from '~shared/types/users';
+import {
+  EntitlementsServiceDefaultDataset,
+  EntitlementsServiceMock,
+  mockPurchaseableFeature,
+} from '~sq-server-commons/api/mocks/EntitlementsServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import { QualityGatesServiceMock } from '~sq-server-commons/api/mocks/QualityGatesServiceMock';
 import UsersServiceMock from '~sq-server-commons/api/mocks/UsersServiceMock';
 import { searchProjects, searchUsers } from '~sq-server-commons/api/quality-gates';
 import { IMPACT_SEVERITIES, SEVERITIES } from '~sq-server-commons/helpers/constants';
-import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { DEFAULT_METRICS } from '~sq-server-commons/helpers/mocks/metrics';
+import { mockLoggedInUser, mockMetric } from '~sq-server-commons/helpers/testMocks';
 import { renderAppRoutes, RenderContext } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { flushPromises } from '~sq-server-commons/helpers/testUtils';
 import { Feature } from '~sq-server-commons/types/features';
 import { Mode } from '~sq-server-commons/types/mode';
-import { CaycStatus } from '~sq-server-commons/types/types';
+import { CaycStatus, Condition } from '~sq-server-commons/types/types';
 import routes from '../../routes';
 
-function addStandardSeverityConditionToQg(qgName: string, error: string) {
-  const qg = qualityGateHandler.list.find((q) => q.name === qgName);
+function createQgWithStandardSeverityCondition({
+  error,
+  isBuiltIn = false,
+}: {
+  error: string;
+  isBuiltIn?: boolean;
+}) {
+  const qgName = 'QG with standard severity condition';
   const condition = {
     id: 'condition-severity-test',
     metric: MetricKey.new_bugs_severity,
@@ -45,12 +59,26 @@ function addStandardSeverityConditionToQg(qgName: string, error: string) {
     error,
     isCaycCondition: true,
   };
-  qg?.conditions?.push(condition);
-  return condition;
+  qualityGateHandler.list.push({
+    name: qgName,
+    conditions: [condition],
+    isDefault: false,
+    isBuiltIn,
+    hasStandardConditions: true,
+    hasMQRConditions: false,
+    caycStatus: CaycStatus.NonCompliant,
+  });
+  return { name: qgName, condition };
 }
 
-function addMqrSeverityConditionToQg(qgName: string, error: string) {
-  const qg = qualityGateHandler.list.find((q) => q.name === qgName);
+function createQgWithMqrSeverityCondition({
+  error,
+  isBuiltIn = false,
+}: {
+  error: string;
+  isBuiltIn?: boolean;
+}) {
+  const qgName = 'QG with MQR severity condition';
   const condition = {
     id: 'condition-severity-test',
     metric: MetricKey.new_software_quality_maintainability_severity,
@@ -58,8 +86,16 @@ function addMqrSeverityConditionToQg(qgName: string, error: string) {
     error,
     isCaycCondition: true,
   };
-  qg?.conditions?.push(condition);
-  return condition;
+  qualityGateHandler.list.push({
+    name: qgName,
+    conditions: [condition],
+    isDefault: false,
+    isBuiltIn,
+    hasStandardConditions: false,
+    hasMQRConditions: true,
+    caycStatus: CaycStatus.NonCompliant,
+  });
+  return { name: qgName, condition };
 }
 
 const ui = {
@@ -100,28 +136,37 @@ const ui = {
     name: /quality_gates.actions.disqualify_for_ai_code_assurance_x/,
   }),
   delete: byRole('menuitem', { name: /quality_gates.delete_x/ }),
+
+  gateTitle: (name: string) => byRole('heading', { level: 2, name }),
+  conditionUpgradeIcon: byRole('img', { name: 'quality_gates.upgrade_badge.tooltip.aria' }),
+  scaConditionTooltip: byRole('button', { name: 'toggle_tip.aria_label.sca_condition' }),
 };
 
 let qualityGateHandler: QualityGatesServiceMock;
 let usersHandler: UsersServiceMock;
 let modeHandler: ModeServiceMock;
+let entitlementsMock: EntitlementsServiceMock;
 
 beforeAll(() => {
   qualityGateHandler = new QualityGatesServiceMock();
   usersHandler = new UsersServiceMock();
   modeHandler = new ModeServiceMock();
+  entitlementsMock = new EntitlementsServiceMock(EntitlementsServiceDefaultDataset);
 });
 
-afterEach(() => {
+beforeEach(() => {
+  registerServiceMocks(entitlementsMock);
   qualityGateHandler.reset();
   usersHandler.reset();
   modeHandler.reset();
+  entitlementsMock.reset();
 });
 
 it('should open the default quality gates', async () => {
+  const defaultQualityGate = qualityGateHandler.getDefaultQualityGate();
+
   renderQualityGateApp();
 
-  const defaultQualityGate = qualityGateHandler.getDefaultQualityGate();
   expect(
     await screen.findByRole('button', {
       current: 'page',
@@ -247,13 +292,15 @@ it('should be able to set as default any quality gate', async () => {
   renderQualityGateApp();
 
   const notDefaultQualityGate = await screen.findByRole('button', {
-    name: /Sonar way for AI code/,
+    name: /Sonar way for Agentic AI/,
   });
   await user.click(notDefaultQualityGate);
   await user.click(await ui.actionsMenu.find());
   await user.click(ui.setAsDefault.get());
 
-  expect(await ui.qualityGateListItem(/Sonar way for AI code default/).find()).toBeInTheDocument();
+  expect(
+    await ui.qualityGateListItem(/Sonar way for Agentic AI.*default/).find(),
+  ).toBeInTheDocument();
 });
 
 it('should be able to qualify/disqualify a quality gate for AI code assurance', async () => {
@@ -558,8 +605,8 @@ describe('Configuration banner', () => {
     qualityGateHandler.setIsAdmin(true);
     renderQualityGateApp({ featureList: [Feature.AiCodeAssurance] });
 
-    await user.click(await ui.qualityGateListItem(/Sonar way for AI code/).find());
-    expect(await screen.findByText('quality_gates.banner.builtin.ai.title')).toBeInTheDocument();
+    await user.click(await ui.qualityGateListItem(/Sonar way for Agentic AI/).find());
+    expect(await screen.findByText('quality_gates.aica.builtin.description')).toBeInTheDocument();
   });
 
   it('shows recommendation banner to align with recommended conditions and should be able to update them', async () => {
@@ -1096,28 +1143,30 @@ describe('Mode transition', () => {
     });
 
     it('should display issue severity type correctly in conditions table for built-in quality gate', async () => {
-      const user = userEvent.setup();
       qualityGateHandler.setIsAdmin(true);
-      const condition = addMqrSeverityConditionToQg('Sonar way', '9');
+      const { name: qgName, condition } = createQgWithMqrSeverityCondition({
+        error: '9',
+        isBuiltIn: true,
+      });
 
-      renderQualityGateApp();
+      renderQualityGates(`quality_gates/show/${qgName}`, mockLoggedInUser());
 
-      await user.click(await ui.qualityGateListItem('Sonar way quality_gates.built_in').find());
+      const items = await byRole('list', { name: 'quality_gates.condition_simplification_list' })
+        .byRole('listitem')
+        .findAll();
 
-      expect(
-        await ui.builtInNewConditions
-          .byText(`metric.${condition.metric}.description.positive`)
-          .find(),
-      ).toBeInTheDocument();
+      const mqrItem = items.find((item) =>
+        item.textContent?.includes(`metric.${condition.metric}.description.positive`),
+      );
+      expect(mqrItem).toBeDefined();
     });
 
     it('should display issue severity type correctly in conditions table', async () => {
       const user = userEvent.setup();
       qualityGateHandler.setIsAdmin(true);
-      const gateName = 'SonarSource way - CFamily';
-      addMqrSeverityConditionToQg(gateName, '9');
+      const { name: gateName } = createQgWithMqrSeverityCondition({ error: '9' });
 
-      renderQualityGateApp();
+      renderQualityGates(`quality_gates/show/${gateName}`, mockLoggedInUser());
 
       await user.click(await ui.qualityGateListItem(gateName).find());
 
@@ -1172,10 +1221,9 @@ describe('Mode transition', () => {
     it('can edit a condition with issue severity type', async () => {
       const user = userEvent.setup();
       qualityGateHandler.setIsAdmin(true);
-      const gateName = 'SonarSource way - CFamily';
-      addMqrSeverityConditionToQg(gateName, '9');
+      const { name: gateName } = createQgWithMqrSeverityCondition({ error: '9' });
 
-      renderQualityGateApp();
+      renderQualityGates(`quality_gates/show/${gateName}`, mockLoggedInUser());
 
       await user.click(await ui.qualityGateListItem(gateName).find());
 
@@ -1316,29 +1364,35 @@ describe('Mode transition', () => {
     });
 
     it('should display issue severity type correctly in conditions table for built-in quality gate', async () => {
-      const user = userEvent.setup();
       qualityGateHandler.setIsAdmin(true);
-      const condition = addStandardSeverityConditionToQg('Sonar way', '9');
+      const { name: qgName, condition } = createQgWithStandardSeverityCondition({
+        error: '9',
+        isBuiltIn: true,
+      });
 
-      renderQualityGateApp();
+      renderQualityGates(`quality_gates/show/${qgName}`, mockLoggedInUser());
 
-      await user.click(await ui.qualityGateListItem('Sonar way quality_gates.built_in').find());
+      const items = await byRole('list', { name: 'quality_gates.condition_simplification_list' })
+        .byRole('listitem')
+        .findAll();
 
-      expect(
-        await ui.builtInNewConditions
-          .byText(`metric.${condition.metric}.description.positive`)
-          .find(),
-      ).toBeInTheDocument();
+      const mqrItem = items.find((item) =>
+        item.textContent?.includes(`metric.${condition.metric}.description.positive`),
+      );
+      expect(mqrItem).toBeDefined();
     });
 
     it('should display issue severity type correctly in conditions table', async () => {
       const user = userEvent.setup();
       qualityGateHandler.setIsAdmin(true);
-      addStandardSeverityConditionToQg('SonarSource way - CFamily', '9');
+      const { name: gateName } = createQgWithStandardSeverityCondition({
+        error: '9',
+        isBuiltIn: false,
+      });
 
       renderQualityGateApp();
 
-      await user.click(await ui.qualityGateListItem('SonarSource way - CFamily').find());
+      await user.click(await ui.qualityGateListItem(gateName).find());
 
       const newConditions = byTestId('quality-gates__conditions-new');
 
@@ -1349,11 +1403,14 @@ describe('Mode transition', () => {
     it('can edit a condition with issue severity type', async () => {
       const user = userEvent.setup();
       qualityGateHandler.setIsAdmin(true);
-      addStandardSeverityConditionToQg('SonarSource way - CFamily', '9');
+      const { name: gateName } = createQgWithStandardSeverityCondition({
+        error: '9',
+        isBuiltIn: false,
+      });
 
       renderQualityGateApp();
 
-      await user.click(await ui.qualityGateListItem('SonarSource way - CFamily').find());
+      await user.click(await ui.qualityGateListItem(gateName).find());
 
       const newConditions = byTestId('quality-gates__conditions-new');
       await user.click(
@@ -1379,6 +1436,87 @@ describe('Mode transition', () => {
     });
   });
 });
+
+describe('SCA conditions', () => {
+  beforeEach(() => {
+    qualityGateHandler.list.push({
+      name: 'QG with SCA condition',
+      conditions: [mockScaCondition('sca-condition-1')],
+      isDefault: false,
+      isBuiltIn: true,
+      hasStandardConditions: false,
+      hasMQRConditions: false,
+      caycStatus: CaycStatus.NonCompliant,
+    });
+  });
+
+  it('shows upgrade icon for SCA-related condition when org does not have advanced security for built-in QG', async () => {
+    renderQualityGates('quality_gates/show/QG with SCA condition', mockLoggedInUser());
+    expect(await ui.gateTitle('QG with SCA condition').find()).toBeInTheDocument();
+
+    const items = await byRole('list', { name: 'quality_gates.condition_simplification_list' })
+      .byRole('listitem')
+      .findAll();
+
+    const scaItem = items.find((item) =>
+      item.textContent?.includes('metric.new_sca_count_any_issue.description.positive'),
+    );
+    expect(scaItem).toBeDefined();
+    expect(await ui.conditionUpgradeIcon.find()).toBeInTheDocument();
+  });
+
+  it('show tooltip for SCA-related condition when advanced security is available but SCA is disabled for built-in QG', async () => {
+    grantAdvancedSecurityToDefaultOrg();
+
+    renderQualityGates('quality_gates/show/QG with SCA condition', mockLoggedInUser());
+    expect(await ui.gateTitle('QG with SCA condition').find()).toBeInTheDocument();
+
+    const items = await byRole('list', { name: 'quality_gates.condition_simplification_list' })
+      .byRole('listitem')
+      .findAll();
+
+    const scaItem = items.find((item) =>
+      item.textContent?.includes('metric.new_sca_count_any_issue.description.positive'),
+    );
+    expect(scaItem).toBeDefined();
+    expect(ui.conditionUpgradeIcon.query(scaItem)).not.toBeInTheDocument();
+    expect(ui.scaConditionTooltip.get(scaItem)).toBeInTheDocument();
+  });
+});
+
+function mockScaCondition(id: string): Condition {
+  return {
+    id,
+    metric: MetricKey.new_sca_count_any_issue,
+    op: 'GT',
+    error: '0',
+    isCaycCondition: true,
+  };
+}
+
+function grantAdvancedSecurityToDefaultOrg() {
+  entitlementsMock.setPurchasableFeatures([
+    mockPurchaseableFeature({ featureKey: 'sca', isAvailable: true, isEnabled: false }),
+  ]);
+}
+
+function renderQualityGates(
+  navigateTo = 'quality_gates/show/Sonar way',
+  currentUser?: CurrentUser,
+) {
+  return renderQualityGateApp({
+    navigateTo,
+    metrics: {
+      ...DEFAULT_METRICS,
+      [MetricKey.new_sca_count_any_issue]: mockMetric({
+        key: MetricKey.new_sca_count_any_issue,
+        name: 'New dependency risks',
+        type: MetricType.Integer,
+      }),
+    },
+    currentUser,
+  });
+}
 
 function renderQualityGateApp(context?: RenderContext) {
   return renderAppRoutes('quality_gates', routes, context);

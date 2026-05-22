@@ -1,0 +1,52 @@
+/*
+ * SonarQube
+ * Copyright (C) 2009-2025 SonarSource Sàrl
+ * mailto:info AT sonarsource DOT com
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+import { cssVar } from '@sonarsource/echoes-react';
+
+export function AiCodeAssuredIcon(props: Readonly<React.SVGProps<SVGSVGElement>>) {
+  return (
+    <svg
+      aria-hidden
+      fill={cssVar('color-icon-accent')}
+      height="84"
+      viewBox="0 0 84 84"
+      width="84"
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M40.8399 73.0814C33.8704 71.118 28.0496 66.9802 23.3452 60.5083C18.4336 53.7515 15.9998 46.3027 15.9998 38.0783V19.5001C15.9998 19.0833 16.2583 18.7102 16.6486 18.5638L40.6488 9.56373C40.8752 9.47884 41.1247 9.47884 41.3511 9.56373L65.3513 18.5638C65.7416 18.7102 66.0002 19.0833 66.0002 19.5001V38.0783C66.0002 43.7012 64.8626 48.9615 62.5733 53.886C63.6414 53.9098 64.6805 54.0511 65.6782 54.2975C67.8929 49.2276 69.0002 43.8212 69.0002 38.0783V19.5001C69.0002 17.8328 67.9659 16.3403 66.4047 15.7548L42.4045 6.75474C41.4989 6.41517 40.501 6.41517 39.5955 6.75474L15.5953 15.7548C14.034 16.3403 12.9998 17.8328 12.9998 19.5001V38.0783C12.9998 46.945 15.6394 55.0097 20.9186 62.2722C25.985 69.2421 32.3543 73.8077 40.0264 75.969C40.6628 76.1483 41.3371 76.1483 41.9735 75.969C44.4198 75.2798 46.7337 74.3462 48.9151 73.1682C48.5537 72.2118 48.2923 71.2064 48.1436 70.1647C45.9593 71.4152 43.6319 72.385 41.16 73.0814C41.0556 73.1108 40.9443 73.1108 40.8399 73.0814Z"
+        fill="inherit"
+      />
+      <path
+        clipRule="evenodd"
+        d="M62.2501 79.3824C68.4633 79.3824 73.5001 74.3456 73.5001 68.1324C73.5001 61.9192 68.4633 56.8824 62.2501 56.8824C56.0369 56.8824 51.0001 61.9192 51.0001 68.1324C51.0001 74.3456 56.0369 79.3824 62.2501 79.3824ZM61.5003 73.0038L69.0609 65.4431L66.9396 63.3218L61.5003 68.7611L59.0609 66.3218L56.9396 68.4431L61.5003 73.0038Z"
+        fill="inherit"
+        fillRule="evenodd"
+      />
+      <path
+        clipRule="evenodd"
+        d="M31.9605 39.0965C30.8657 39.7626 29.7089 40.339 28.4999 40.8158C29.7089 41.2926 30.8657 41.869 31.9605 42.5351C35.0523 44.4164 37.6494 47.0134 39.5306 50.1052C40.1967 51.2 40.7731 52.3568 41.2499 53.5658C41.7267 52.3568 42.3031 51.2 42.9692 50.1052C44.8505 47.0134 47.4475 44.4164 50.5393 42.5351C51.6341 41.869 52.7909 41.2926 53.9999 40.8158C52.7909 40.339 51.6341 39.7626 50.5393 39.0965C47.4475 37.2152 44.8505 34.6182 42.9692 31.5264C42.3031 30.4316 41.7267 29.2748 41.2499 28.0658C40.7731 29.2748 40.1967 30.4316 39.5306 31.5264C37.6494 34.6182 35.0523 37.2152 31.9605 39.0965ZM34.8165 40.8158C37.327 42.5593 39.5064 44.7387 41.2499 47.2492C42.9934 44.7387 45.1728 42.5593 47.6834 40.8158C45.1728 39.0723 42.9934 36.8929 41.2499 34.3823C39.5064 36.8929 37.327 39.0723 34.8165 40.8158Z"
+        fill="inherit"
+        fillRule="evenodd"
+      />
+    </svg>
+  );
+}

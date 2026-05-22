@@ -23,7 +23,7 @@ import { FormattedMessage } from 'react-intl';
 import { ContentCell, NumericalCell, Table, TableRow } from '~design-system';
 import { Metric } from '~shared/types/measures';
 import { Condition as ConditionType, QualityGate } from '~sq-server-commons/types/types';
-import Condition from './Condition';
+import { Condition } from './Condition';
 
 interface Props {
   canEdit: boolean;

@@ -82,9 +82,6 @@ export function getOperatorLabelId(op: QualityGateConditionOperator, metric: Met
 export const QUALITY_GATE_SONAR_WAY = 'Sonar way';
 export const QUALITY_GATE_AGENTIC_AI = 'Sonar way for Agentic AI';
 
-// this date corresponds to the introduction of the new agentic quality gate Sonar way for Agentic AI
-export const AGENTIC_QUALITY_GATE_NEW_BADGE_EXPIRATION = '2026-08-19T23:59:59.999Z';
-
 export function isAgenticQualityGate(gate: { isBuiltIn: boolean; name: string }): boolean {
   return gate.isBuiltIn && gate.name === QUALITY_GATE_AGENTIC_AI;
 }

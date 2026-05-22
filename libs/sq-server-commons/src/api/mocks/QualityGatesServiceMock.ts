@@ -226,7 +226,7 @@ export class QualityGatesServiceMock {
         isAiCodeSupported: false,
       }),
       mockQualityGate({
-        name: 'Sonar way for AI code',
+        name: 'Sonar way for Agentic AI',
         conditions: [
           {
             id: 'AXJMbIUHPAOIsUIE3eQQ',

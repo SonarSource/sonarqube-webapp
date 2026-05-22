@@ -60,7 +60,7 @@ const PORTFOLIO_METRICS = [
 /**
  * Aggregate ratings for all code in portfolios with projects that are AI code
  * assured. A project is AI code assured if it contains AI code and it is
- * configured to use the "Sonar way for AI code" quality gate.
+ * configured to use the "Sonar way for Agentic AI" quality gate.
  */
 const PORTFOLIO_METRICS_WITH_AICA = [
   MetricKey.releasability_rating_with_aica,
@@ -111,7 +111,7 @@ const NEW_PORTFOLIO_METRICS = [
 /**
  * Aggregate ratings for new code in portfolios with projects that are AI code
  * assured. A project is AI code assured if it contains AI code and it is
- * configured to use the "Sonar way for AI code" quality gate.
+ * configured to use the "Sonar way for Agentic AI" quality gate.
  */
 const NEW_PORTFOLIO_METRICS_WITH_AICA = [
   MetricKey.releasability_rating_with_aica,

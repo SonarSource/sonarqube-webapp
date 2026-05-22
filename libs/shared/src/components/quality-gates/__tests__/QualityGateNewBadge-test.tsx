@@ -22,22 +22,20 @@ import { screen } from '@testing-library/react';
 import { renderWithContext } from '../../../helpers/test-utils';
 import { QualityGateNewBadge } from '../QualityGateNewBadge';
 
-beforeEach(() => {
-  jest.useFakeTimers({ advanceTimers: true }).setSystemTime(new Date('2026-04-10T12:00:00.000Z'));
-});
-
 afterEach(() => {
   jest.useRealTimers();
 });
 
 it('should render before expiration date', () => {
-  renderWithContext(<QualityGateNewBadge expirationDate="2026-05-02T23:59:59.999Z" />);
+  jest.useFakeTimers({ advanceTimers: true }).setSystemTime(new Date('2026-04-10T12:00:00.000Z'));
+  renderWithContext(<QualityGateNewBadge />);
 
   expect(screen.getByText('new')).toBeVisible();
 });
 
 it('should not render after expiration date', () => {
-  renderWithContext(<QualityGateNewBadge expirationDate="2026-04-09T23:59:59.999Z" />);
+  jest.useFakeTimers({ advanceTimers: true }).setSystemTime(new Date('2026-09-01T12:00:00.000Z'));
+  renderWithContext(<QualityGateNewBadge />);
 
   expect(screen.queryByText('new')).not.toBeInTheDocument();
 });

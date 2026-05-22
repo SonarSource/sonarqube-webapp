@@ -342,6 +342,12 @@ export function getQualityGatesUrl(): To {
   };
 }
 
+export function getQualityProfilesUrl(): To {
+  return {
+    pathname: PROFILE_PATH,
+  };
+}
+
 export function getGlobalSettingsUrl(
   category?: string,
   query?: Record<string, string | undefined | number>,

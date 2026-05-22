@@ -29,14 +29,13 @@ import {
 } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { components, OptionProps, SingleValueProps } from 'react-select';
-import { FlagMessage, InputSelect, RadioButton } from '~design-system';
+import { FlagMessage, RadioButton } from '~design-system';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { BuiltInQualityGateBadge } from '~shared/components/quality-gates/BuiltInQualityGateBadge';
+import { QUALITY_GATE_AGENTIC_AI } from '~shared/helpers/quality-gates';
 import { ComponentQualifier } from '~shared/types/component';
 import { AiCodeAssuranceStatus } from '~sq-server-commons/api/ai-code-assurance';
-import DisableableSelectOption from '~sq-server-commons/components/common/DisableableSelectOption';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import AIAssuredIcon, {
   AiIconColor,
@@ -48,9 +47,7 @@ import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
-import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
 import { getQualityGateUrl } from '~sq-server-commons/helpers/urls';
 import {
   useProjectBranchesAiCodeAssuranceStatusQuery,
@@ -65,6 +62,7 @@ import { Component, QualityGate } from '~sq-server-commons/types/types';
 import AiAssuranceSuccessMessage from './AiAssuranceSuccessMessage';
 import AiAssuranceWarningMessage from './AiAssuranceWarningMessage';
 import { USE_SYSTEM_DEFAULT } from './constants';
+import { QualityGateSelect } from './QualityGateSelect';
 
 export interface ProjectQualityGateAppRendererProps extends WithAvailableFeaturesProps {
   allQualityGates?: QualityGate[];
@@ -78,51 +76,6 @@ export interface ProjectQualityGateAppRendererProps extends WithAvailableFeature
 
 function hasConditionOnNewCode(qualityGate: QualityGate): boolean {
   return !!qualityGate.conditions?.some((condition) => isDiffMetric(condition.metric));
-}
-
-interface QualityGateOption extends LabelValueSelectOption {
-  isAiAssured: boolean;
-  isDisabled: boolean;
-}
-
-function renderOption(data: QualityGateOption) {
-  return (
-    <div className="sw-flex sw-items-center sw-justify-between">
-      <DisableableSelectOption
-        className="sw-mr-2"
-        disableTooltipOverlay={() => (
-          <FormattedMessage
-            id="project_quality_gate.no_condition"
-            values={{
-              link: (
-                <Link to={getQualityGateUrl(data.label)}>
-                  <FormattedMessage id="project_quality_gate.no_condition.link" />
-                </Link>
-              ),
-            }}
-          />
-        )}
-        disabledReason={translate('project_quality_gate.no_condition.reason')}
-        option={data}
-      />
-      {data.isAiAssured && (
-        <AIAssuredIcon
-          color={AiIconColor.Subtle}
-          height={16}
-          variant={AiCodeAssuranceStatus.AI_CODE_ASSURED_ON}
-          width={16}
-        />
-      )}
-    </div>
-  );
-}
-
-function renderQualityGateOption(props: OptionProps<QualityGateOption, false>) {
-  return <components.Option {...props}>{renderOption(props.data)}</components.Option>;
-}
-
-function singleValueRenderer(props: SingleValueProps<QualityGateOption, false>) {
-  return <components.SingleValue {...props}>{renderOption(props.data)}</components.SingleValue>;
 }
 
 function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRendererProps>) {
@@ -205,13 +158,6 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
 
   const selectedQualityGate = allQualityGates.find((qg) => qg.name === selectedQualityGateName);
 
-  const options: QualityGateOption[] = allQualityGates.map((g) => ({
-    isDisabled: g.conditions === undefined || g.conditions.length === 0,
-    isAiAssured: g.isAiCodeSupported ?? false,
-    label: g.name,
-    value: g.name,
-  }));
-
   return (
     <ProjectPageTemplate
       description={
@@ -229,7 +175,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
           aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_PASS ||
           aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_FAIL) && (
           <AiCodeAssuranceBanner
-            className="sw-mb-10 sw-w-abs-800"
+            className="sw-mb-10 sw-w-full"
             description={
               <FormattedMessage
                 id="project_quality_gate.ai_generated_code_protected.description"
@@ -255,7 +201,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
 
         {aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF && (
           <AiCodeAssuranceBanner
-            className="sw-mb-10 sw-w-abs-800"
+            className="sw-mb-10 sw-w-full"
             description={
               <FormattedMessage
                 id="project_quality_gate.ai_generated_code_not_protected.description"
@@ -273,9 +219,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                   linkSonarWay: (text) => (
                     <Link
                       highlight={LinkHighlight.Default}
-                      to={{
-                        pathname: '/quality_gates/show/Sonar%20way%20for%20AI%20Code',
-                      }}
+                      to={getQualityGateUrl(QUALITY_GATE_AGENTIC_AI)}
                     >
                       {text}
                     </Link>
@@ -300,6 +244,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
         )}
 
         <form
+          className="sw-w-1/2"
           id="project_quality_gate"
           onSubmit={async (e) => {
             e.preventDefault();
@@ -311,7 +256,6 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
           <p className="sw-mb-4">
             <FormattedMessage id="project_quality_gate.page.description" />
           </p>
-
           <div className="sw-mb-4">
             <RadioButton
               checked={usesDefault}
@@ -360,7 +304,6 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
               </div>
             </RadioButton>
           </div>
-
           <div className="sw-mb-4">
             <RadioButton
               checked={!usesDefault}
@@ -381,22 +324,17 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
               </div>
             </RadioButton>
             <div className="sw-ml-6">
-              <InputSelect
-                aria-label={translate('project_quality_gate.select_specific_qg')}
-                className="it__project-quality-gate-select"
-                components={{
-                  Option: renderQualityGateOption,
-                  SingleValue: singleValueRenderer,
-                }}
-                isClearable={usesDefault}
+              <QualityGateSelect
+                allQualityGates={allQualityGates}
                 isDisabled={submitting || usesDefault}
-                onChange={({ value }: QualityGateOption) => {
-                  setIsUserEditing(true);
-                  props.onSelect(value);
+                isLoading={loading}
+                onChange={(value) => {
+                  if (value) {
+                    setIsUserEditing(true);
+                    props.onSelect(value);
+                  }
                 }}
-                options={options}
-                size="large"
-                value={options.find((o) => o.value === selectedQualityGateName)}
+                value={usesDefault ? currentQualityGate.name : selectedQualityGateName}
               />
             </div>
             {containsAiCode &&
@@ -434,7 +372,6 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
               </FlagMessage>
             )}
           </div>
-
           <div>
             <Button
               form="project_quality_gate"

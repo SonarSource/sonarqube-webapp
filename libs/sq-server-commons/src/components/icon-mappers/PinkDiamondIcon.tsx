@@ -18,23 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { BadgeVariety } from '@sonarsource/echoes-react';
-import { NewBadge } from '../badges/NewBadge';
+import styled from '@emotion/styled';
+import { IconDiamond } from '~shared/components/icon-mappers/IconDiamond';
 
-// this date corresponds to the introduction of the new agentic quality gate Sonar way for Agentic AI
-export const AGENTIC_QUALITY_GATE_NEW_BADGE_EXPIRATION = '2026-08-19T23:59:59.999Z';
-
-export function QualityGateNewBadge({
-  className,
-}: Readonly<{
-  className?: string;
-}>) {
+// This component will be replaceable once diamond is an icon font
+export function PinkDiamond() {
   return (
-    <NewBadge
-      className={className}
-      expirationDate={AGENTIC_QUALITY_GATE_NEW_BADGE_EXPIRATION}
-      isHighContrast
-      variety={BadgeVariety.Neutral}
-    />
+    <PinkDiamondSpan>
+      <IconDiamond />
+    </PinkDiamondSpan>
   );
 }
+
+// the color corresponds to COLORS.upgradePlanColors.pink[2] in sq-cloud
+const PinkDiamondSpan = styled.span`
+  color: rgb(212, 42, 161);
+`;

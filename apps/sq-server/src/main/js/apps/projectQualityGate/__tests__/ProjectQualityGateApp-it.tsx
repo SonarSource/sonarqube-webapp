@@ -224,7 +224,7 @@ it('should show success/warning when selecting quality gate', async () => {
   expect(ui.qualityGatesSelect.get()).toBeEnabled();
 
   await user.click(ui.qualityGatesSelect.get());
-  await user.click(byText('Sonar way for AI code').get());
+  await user.click(byText('Sonar way for Agentic AI').get());
   expect(ui.qgAssuredSelectedSuccessMessage.get()).toBeInTheDocument();
 
   await user.click(ui.qualityGatesSelect.get());

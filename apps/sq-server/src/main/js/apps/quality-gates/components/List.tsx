@@ -18,23 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  Badge,
-  BadgeVariety,
-  IconRefresh,
-  Spinner,
-  Tooltip,
-  TooltipSide,
-} from '@sonarsource/echoes-react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { IconRefresh, Spinner, Tooltip, TooltipSide } from '@sonarsource/echoes-react';
+import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import { BareButton, SubnavigationGroup, SubnavigationItem } from '~design-system';
 import { BuiltInQualityGateBadge } from '~shared/components/quality-gates/BuiltInQualityGateBadge';
+import { DefaultBadge } from '~shared/components/quality-gates/DefaultBadge';
+import { QualityGateNewBadge } from '~shared/components/quality-gates/QualityGateNewBadge';
+import { isAgenticQualityGate } from '~shared/helpers/quality-gates';
 import AIAssuredIcon, {
   AiIconColor,
 } from '~sq-server-commons/components/icon-mappers/AIAssuredIcon';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getQualityGateUrl } from '~sq-server-commons/helpers/urls';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { Feature } from '~sq-server-commons/types/features';
@@ -47,34 +42,34 @@ interface Props {
 }
 
 export default function List({ qualityGates, currentQualityGate }: Readonly<Props>) {
-  const intl = useIntl();
+  const { formatMessage } = useIntl();
   const navigateTo = useNavigate();
   const { hasFeature } = useAvailableFeatures();
   const { data: isStandard, isLoading } = useStandardExperienceModeQuery();
 
   const getTooltipContent = (qualityGate: QualityGate) => {
     if (shouldShowQualityGateUpdateIcon(qualityGate)) {
-      return intl.formatMessage({ id: 'quality_gates.mqr_mode_update.tooltip.message' });
+      return formatMessage({ id: 'quality_gates.mqr_mode_update.tooltip.message' });
     }
 
     if (qualityGate.isBuiltIn && qualityGate.isAiCodeSupported) {
-      return intl.formatMessage({ id: 'quality_gates.is_built_in.ai.tooltip' });
+      return formatMessage({ id: 'quality_gates.is_built_in.ai.tooltip' });
     }
 
     if (qualityGate.isBuiltIn) {
-      return intl.formatMessage({ id: 'quality_gates.is_built_in.tooltip' });
+      return formatMessage({ id: 'quality_gates.is_built_in.tooltip' });
     }
 
     if (qualityGate.isAiCodeSupported && qualityGate.caycStatus !== CaycStatus.NonCompliant) {
-      return intl.formatMessage({ id: 'quality_gates.recommended_and_ai.tooltip' });
+      return formatMessage({ id: 'quality_gates.recommended_and_ai.tooltip' });
     }
 
     if (qualityGate.isAiCodeSupported) {
-      return intl.formatMessage({ id: 'quality_gates.ai_generated.tooltip.message' });
+      return formatMessage({ id: 'quality_gates.ai_generated.tooltip.message' });
     }
 
     if (qualityGate.caycStatus !== CaycStatus.NonCompliant) {
-      return intl.formatMessage({ id: 'quality_gates.recommended.tooltip.message' });
+      return formatMessage({ id: 'quality_gates.recommended.tooltip.message' });
     }
 
     return null;
@@ -95,8 +90,10 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
     <SubnavigationGroup as="ul" className="sw-box-border">
       {qualityGates.map((qualityGate) => {
         const { name, isDefault, isBuiltIn, caycStatus, isAiCodeSupported } = qualityGate;
-        const isDefaultTitle = isDefault ? ` ${translate('default')}` : '';
-        const isBuiltInTitle = isBuiltIn ? ` ${translate('quality_gates.built_in')}` : '';
+        const isDefaultTitle = isDefault ? ` ${formatMessage({ id: 'default' })}` : '';
+        const isBuiltInTitle = isBuiltIn
+          ? ` ${formatMessage({ id: 'quality_gates.built_in' })}`
+          : '';
         const isAICodeAssuranceQualityGate =
           hasFeature(Feature.AiCodeAssurance) && isAiCodeSupported;
 
@@ -125,12 +122,12 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
 
                     {(isDefault || isBuiltIn) && (
                       <div className="sw-mt-2">
-                        {isDefault && (
-                          <Badge className="sw-mr-2" variety={BadgeVariety.Neutral}>
-                            <FormattedMessage id="default" />
-                          </Badge>
+                        {isAgenticQualityGate({ isBuiltIn: isBuiltIn ?? false, name }) && (
+                          <QualityGateNewBadge className="sw-mr-2" />
                         )}
-                        {isBuiltIn && <BuiltInQualityGateBadge />}
+
+                        {isDefault && <DefaultBadge className="sw-mr-2" />}
+                        {isBuiltIn && <BuiltInQualityGateBadge className="sw-mr-2" />}
                       </div>
                     )}
                   </div>
