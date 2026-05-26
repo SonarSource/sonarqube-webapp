@@ -24,9 +24,10 @@ import { FormattedMessage } from 'react-intl';
 import { Expiration } from '../Expiration';
 
 type Props = Readonly<
-  Pick<BadgeProps, 'className' | 'isInteractive'> & {
-    expirationDate: string | number | Date;
-  }
+  Pick<BadgeProps, 'className' | 'isInteractive'> &
+    Partial<Pick<BadgeProps, 'isHighContrast' | 'variety'>> & {
+      expirationDate: string | number | Date;
+    }
 >;
 
 export const NewBadge = forwardRef<HTMLButtonElement, Props>((props, ref) => {

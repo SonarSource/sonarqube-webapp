@@ -21,7 +21,7 @@
 import { Route } from 'react-router-dom';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 
-const App = lazyLoadComponent(() => import('./components/App'));
+const App = lazyLoadComponent(() => import('./components/QualityGatesApp'));
 
 const routes = () => (
   <Route path="quality_gates">

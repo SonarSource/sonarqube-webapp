@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { IssueSeverity } from '../types/issues';
 import { Metric } from '../types/measures';
 import { MetricType } from '../types/metrics';
 import { QualityGateConditionOperator } from '../types/quality-gates';
@@ -32,6 +33,13 @@ const QUALITY_GATE_OPERATOR_LABEL_IDS: Record<
     LT: 'quality_gates.operator.LT.rating',
     GTE: 'quality_gates.operator.GTE.rating',
   },
+  // Based on the backend implementation, GT maps to GTE for issue severity metrics
+  // the stored threshold value is already DB_value - 1, so > threshold is semantically >= severity
+  issueSeverity: {
+    GT: 'quality_gates.operator.GTE.issueSeverity',
+    LT: 'quality_gates.operator.LT.issueSeverity',
+    GTE: 'quality_gates.operator.GTE.issueSeverity',
+  },
   other: {
     GT: 'quality_gates.operator.GT',
     LT: 'quality_gates.operator.LT',
@@ -44,6 +52,10 @@ export function getOperatorLabelId(op: QualityGateConditionOperator, metric: Met
 
   if (metric.type === MetricType.Rating) {
     return QUALITY_GATE_OPERATOR_LABEL_IDS.rating[opOverride];
+  }
+
+  if (metric.type === MetricType.IssueSeverity) {
+    return QUALITY_GATE_OPERATOR_LABEL_IDS.issueSeverity[opOverride];
   }
 
   return QUALITY_GATE_OPERATOR_LABEL_IDS.other[opOverride];
@@ -73,3 +85,15 @@ export function getBuiltInQualityGateHelperTextKey(gate: {
 
   return undefined;
 }
+
+/**
+ * These levels are modeled in the DB as 5, 10, 15, 20, 25
+ * In order to get the GreaterThanOrEqual operator, we need to subtract 1
+ */
+export const ISSUE_SEVERITY_CONDITION_MAPPING: Record<string, IssueSeverity> = {
+  '4': IssueSeverity.Info,
+  '9': IssueSeverity.Minor,
+  '14': IssueSeverity.Major,
+  '19': IssueSeverity.Critical,
+  '24': IssueSeverity.Blocker,
+};

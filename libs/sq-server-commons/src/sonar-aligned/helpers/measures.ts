@@ -22,6 +22,7 @@ import {
   durationFormatter,
   floatFormatter,
   intFormatter,
+  issueSeverityFormatter,
   levelFormatter,
   millisecondsFormatter,
   noFormatter,
@@ -35,9 +36,12 @@ import {
   SCA_RISK_SEVERITY_METRIC_THRESHOLDS,
   SCA_RISK_SEVERITY_METRIC_VALUES,
 } from '~shared/helpers/sca';
-import { MetricType } from '~shared/types/metrics';
+import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import { ReleaseRiskSeverity } from '~shared/types/sca';
 import { getIntl } from '../../helpers/l10nBundle';
+import { getModeForMetric } from '../../helpers/quality-gates';
+import { Mode } from '../../types/mode';
 
 type FormatterOption =
   | { roundingFunc?: (x: number) => number }
@@ -53,8 +57,9 @@ export function formatMeasure(
   value: string | number | undefined,
   type: string,
   options?: FormatterOption,
+  metricKey?: MetricKey,
 ): string {
-  const formatter = getFormatter(type);
+  const formatter = getFormatter(type, metricKey);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return useFormatter(value, formatter, options);
 }
@@ -67,7 +72,7 @@ function useFormatter(
   return value !== undefined && value !== '' ? formatter(value, options) : '';
 }
 
-function getFormatter(type: string): Formatter {
+function getFormatter(type: string, metricKey?: MetricKey): Formatter {
   const { formatMessage } = getIntl();
   const FORMATTERS: Record<string, Formatter> = {
     INT: intFormatter,
@@ -80,6 +85,7 @@ function getFormatter(type: string): Formatter {
     LEVEL: levelFormatter.bind(null, formatMessage),
     MILLISEC: millisecondsFormatter,
     [MetricType.ScaRisk]: makeRiskMetricOptionsFormatter(),
+    [MetricType.IssueSeverity]: getIssueSeverityFormatter(metricKey),
   };
   return FORMATTERS[type] || noFormatter;
 }
@@ -99,3 +105,32 @@ export function makeRiskMetricOptionsFormatter() {
     return formatMessage({ id: 'unknown' });
   };
 }
+
+/**
+ * These levels are modeled in the DB as 5, 10, 15, 20, 25
+ * In order to get the GreaterThanOrEqual operator, we need to subtract 1
+ */
+export const ISSUE_SEVERITY_MQR_MAPPING: Record<string, SoftwareImpactSeverity> = {
+  '4': SoftwareImpactSeverity.Info,
+  '9': SoftwareImpactSeverity.Low,
+  '14': SoftwareImpactSeverity.Medium,
+  '19': SoftwareImpactSeverity.High,
+  '24': SoftwareImpactSeverity.Blocker,
+};
+
+export const getIssueSeverityFormatter = (metricKey?: MetricKey): Formatter => {
+  const { formatMessage } = getIntl();
+  const mode = getModeForMetric(metricKey);
+
+  if (mode === Mode.MQR) {
+    return (value: string | number): string => {
+      const severity = ISSUE_SEVERITY_MQR_MAPPING[value];
+      if (severity === undefined) {
+        return value.toString();
+      }
+
+      return formatMessage({ id: `severity_impact.${severity}` });
+    };
+  }
+  return issueSeverityFormatter.bind(null, formatMessage);
+};

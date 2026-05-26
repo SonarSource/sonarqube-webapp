@@ -21,7 +21,11 @@
 import styled from '@emotion/styled';
 import classNames from 'classnames';
 import { themeColor } from '~design-system';
+import SoftwareImpactSeverityIcon from '~shared/components/icon-mappers/SoftwareImpactSeverityIcon';
+import { isIssueSeverityMetric } from '~shared/helpers/metrics';
+import { ISSUE_SEVERITY_CONDITION_MAPPING } from '~shared/helpers/quality-gates';
 import { Metric } from '~shared/types/measures';
+import { MetricKey } from '~shared/types/metrics';
 import { getCorrectCaycCondition } from '~sq-server-commons/helpers/quality-gates';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { Condition } from '~sq-server-commons/types/types';
@@ -40,18 +44,28 @@ function ConditionValue({
   metric,
   isCaycCompliantAndOverCompliant,
 }: Props) {
+  const conditionError = formatMeasure(
+    condition.error,
+    metric.type,
+    undefined,
+    metric.key as MetricKey,
+  );
+
   if (isCaycModal) {
     const isToBeModified = condition.error !== getCorrectCaycCondition(condition).error;
 
     return (
       <>
         {isToBeModified && (
-          <RedColorText className="sw-line-through sw-mr-2">
-            {formatMeasure(condition.error, metric.type)}
-          </RedColorText>
+          <RedColorText className="sw-line-through sw-mr-2">{conditionError}</RedColorText>
         )}
         <GreenColorText className={classNames('sw-mr-2')} isToBeModified={isToBeModified}>
-          {formatMeasure(getCorrectCaycCondition(condition).error, metric.type)}
+          {formatMeasure(
+            getCorrectCaycCondition(condition).error,
+            metric.type,
+            undefined,
+            metric.key as MetricKey,
+          )}
         </GreenColorText>
         <ConditionValueDescription
           condition={getCorrectCaycCondition(condition)}
@@ -64,7 +78,14 @@ function ConditionValue({
 
   return (
     <>
-      <span className="sw-mr-2">{formatMeasure(condition.error, metric.type)}</span>
+      <span className="sw-mr-2 sw-flex sw-items-center sw-gap-1">
+        {isIssueSeverityMetric(metric.key) && (
+          <SoftwareImpactSeverityIcon
+            severity={ISSUE_SEVERITY_CONDITION_MAPPING[condition.error]}
+          />
+        )}
+        {conditionError}
+      </span>
       {isCaycCompliantAndOverCompliant && condition.isCaycCondition && (
         <ConditionValueDescription condition={condition} metric={metric} />
       )}

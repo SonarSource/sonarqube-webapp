@@ -19,6 +19,7 @@
  */
 
 import { MetricKey } from '~shared/types/metrics';
+import { Mode } from '../../types/mode';
 import { Condition } from '../../types/types';
 import {
   mockQualityGateApplicationStatus,
@@ -28,6 +29,7 @@ import {
   extractStatusConditionsFromApplicationStatusChildProject,
   extractStatusConditionsFromProjectStatus,
   getLocalizedMetricNameNoDiffMetric,
+  getModeForMetric,
   groupAndSortByPriorityConditions,
 } from '../quality-gates';
 import { mockCondition, mockMetric } from '../testMocks';
@@ -210,5 +212,21 @@ describe('groupAndSortByPriorityConditions', () => {
       expectConditionsOrderOverallCode,
     );
     expect(result.builtInNewCodeConditions.map(conditionsMap)).toEqual([]);
+  });
+});
+
+describe('getModeForMetric', () => {
+  describe('MQR mode', () => {
+    it('should return MQR mode for MQR metric', () => {
+      const mode = getModeForMetric(MetricKey.new_software_quality_reliability_severity);
+
+      expect(mode).toBe(Mode.MQR);
+    });
+
+    it('should return Standard mode for Standard metric', () => {
+      const mode = getModeForMetric(MetricKey.new_code_smells_severity);
+
+      expect(mode).toBe(Mode.Standard);
+    });
   });
 });

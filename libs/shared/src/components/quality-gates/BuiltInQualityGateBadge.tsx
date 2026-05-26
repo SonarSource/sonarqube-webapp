@@ -18,17 +18,21 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Badge, BadgeVariety } from '@sonarsource/echoes-react';
-import { FormattedMessage } from 'react-intl';
+import { Badge, BadgeVariety, Tooltip } from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 interface Props {
   className?: string;
 }
 
-export default function BuiltInQualityGateBadge({ className }: Readonly<Props>) {
+export function BuiltInQualityGateBadge({ className }: Readonly<Props>) {
+  const { formatMessage } = useIntl();
+
   return (
-    <Badge className={className} variety={BadgeVariety.Neutral}>
-      <FormattedMessage id="quality_gates.built_in" />
-    </Badge>
+    <Tooltip content={formatMessage({ id: 'quality_gates.built_in.helper' })}>
+      <Badge className={className} variety={BadgeVariety.Neutral}>
+        <FormattedMessage id="quality_gates.built_in" />
+      </Badge>
+    </Tooltip>
   );
 }

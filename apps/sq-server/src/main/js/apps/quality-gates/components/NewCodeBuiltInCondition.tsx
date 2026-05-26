@@ -19,10 +19,10 @@
  */
 
 import { Text, ToggleTip } from '@sonarsource/echoes-react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Metric } from '~shared/types/measures';
+import { MetricKey } from '~shared/types/metrics';
 import withMetricsContext from '~sq-server-commons/context/metrics/withMetricsContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   getCaycConditionMetadata,
   getLocalizedMetricNameNoDiffMetric,
@@ -39,18 +39,25 @@ interface Props {
 
 function NewCodeBuiltInCondition({ condition, metric, metrics }: Readonly<Props>) {
   const { shouldRenderOperator } = getCaycConditionMetadata(condition);
+  const { formatMessage } = useIntl();
 
   const renderOperator = () => {
     const { op = 'GT' } = condition;
-    return translate('quality_gates.operator.inverted', op);
+    return formatMessage({ id: `quality_gates.operator.inverted.${op}` });
   };
+
+  const conditionError = formatMeasure(
+    condition.error,
+    metric.type,
+    undefined,
+    metric.key as MetricKey,
+  );
 
   return (
     <BuiltInStyledItem>
       <span>
-        <Text isHighlighted>{translate(`metric.${metric.key}.description.positive`)}</Text>
+        <Text>{formatMessage({ id: `metric.${metric.key}.description.positive` })}</Text>
       </span>
-
       {shouldRenderOperator && (
         <BuiltInStyledContentCell>
           <FormattedMessage
@@ -58,13 +65,13 @@ function NewCodeBuiltInCondition({ condition, metric, metrics }: Readonly<Props>
             values={{
               metric: getLocalizedMetricNameNoDiffMetric(metric, metrics),
               operator: renderOperator(),
-              value: <Text isHighlighted>&nbsp;{formatMeasure(condition.error, metric.type)}</Text>,
+              value: <Text>&nbsp;{conditionError}</Text>,
             }}
           />
           <ToggleTip
-            ariaLabel={translate('toggle_tip.aria_label.threshold')}
+            ariaLabel={formatMessage({ id: 'toggle_tip.aria_label.threshold' })}
             className="sw-ml-2"
-            description={translate('quality_gates.conditions.threshold.hint')}
+            description={formatMessage({ id: 'quality_gates.conditions.threshold.hint' })}
           />
         </BuiltInStyledContentCell>
       )}

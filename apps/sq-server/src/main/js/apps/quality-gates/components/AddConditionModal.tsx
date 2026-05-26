@@ -42,6 +42,7 @@ import { Feature } from '~sq-server-commons/types/features';
 import { Condition, QualityGate } from '~sq-server-commons/types/types';
 import ConditionOperator from './ConditionOperator';
 import MetricSelect from './MetricSelect';
+import { ThresholdInputIssueSeverity } from './ThresholdInputIssueSeverity';
 
 interface Props {
   qualityGate: QualityGate;
@@ -208,17 +209,27 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
                 onOperatorChange={handleOperatorChange}
                 op={selectedOperator}
               />
-              <ThresholdInput
-                disabled={
-                  isNonEditableMetric(selectedMetric.key as MetricKey) ||
-                  Boolean(similarMetricFromAnotherMode)
-                }
-                isInvalid={!isValid}
-                metric={selectedMetric}
-                name="error"
-                onChange={handleErrorChange}
-                value={errorThreshold}
-              />
+              {selectedMetric.type === MetricType.IssueSeverity ? (
+                <ThresholdInputIssueSeverity
+                  isInvalid={!isValid}
+                  metric={selectedMetric}
+                  name="error"
+                  onChange={handleErrorChange}
+                  value={errorThreshold}
+                />
+              ) : (
+                <ThresholdInput
+                  disabled={
+                    isNonEditableMetric(selectedMetric.key as MetricKey) ||
+                    Boolean(similarMetricFromAnotherMode)
+                  }
+                  isInvalid={!isValid}
+                  metric={selectedMetric}
+                  name="error"
+                  onChange={handleErrorChange}
+                  value={errorThreshold}
+                />
+              )}
             </div>
           </Form.Section>
         )}

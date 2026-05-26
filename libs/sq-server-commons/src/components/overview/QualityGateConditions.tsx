@@ -24,7 +24,7 @@ import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { CardSeparator, Link } from '../../design-system';
 import { translate } from '../../helpers/l10n';
-import { CAYC_CONDITION_ORDER_PRIORITIES } from '../../helpers/quality-gates';
+import { CONDITION_ORDER_PRIORITIES } from '../../helpers/quality-gates';
 import { BranchLike } from '../../types/branch-like';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
 import { Component } from '../../types/types';
@@ -63,7 +63,7 @@ export function QualityGateConditions(props: Readonly<QualityGateConditionsProps
   );
 
   const sortedConditions = sortBy(failedConditions, [
-    (condition) => CAYC_CONDITION_ORDER_PRIORITIES[condition.metric],
+    (condition) => CONDITION_ORDER_PRIORITIES[condition.metric],
     (condition) => LEVEL_ORDER.indexOf(condition.level),
   ]);
 

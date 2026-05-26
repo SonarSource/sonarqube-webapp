@@ -23,6 +23,7 @@ import { IntlShape } from 'react-intl';
 import { getCurrentLocale } from '~adapters/helpers/l10n';
 import { isDefined } from '../helpers/types';
 import { Measure } from '../types/measures';
+import { ISSUE_SEVERITY_CONDITION_MAPPING } from './quality-gates';
 import {
   RISK_SEVERITY_LABELS,
   SCA_RISK_SEVERITY_METRIC_THRESHOLD_KEYS,
@@ -339,11 +340,23 @@ function addSpaceIfNeeded(value: string): string {
   return value.length > 0 ? `${value} ` : value;
 }
 
+function issueSeverityFormatter(
+  formatMessage: FormatMessageFunction,
+  value: number | string,
+): string {
+  const severity = ISSUE_SEVERITY_CONDITION_MAPPING[String(value)];
+  if (severity === undefined) {
+    return value.toString();
+  }
+  return formatMessage({ id: `severity.${severity}` });
+}
+
 export {
   durationFormatter,
   floatFormatter,
   getLanguagesSortedByNCLOC,
   intFormatter,
+  issueSeverityFormatter,
   levelFormatter,
   millisecondsFormatter,
   noFormatter,

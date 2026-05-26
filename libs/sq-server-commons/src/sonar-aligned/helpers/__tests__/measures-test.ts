@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MetricType } from '~shared/types/metrics';
-import { formatMeasure } from '../measures';
+import { MetricKey, MetricType } from '~shared/types/metrics';
+import { formatMeasure, getIssueSeverityFormatter } from '../measures';
 
 const HOURS_IN_DAY = 8;
 const ONE_MINUTE = 1;
@@ -217,5 +217,77 @@ describe('#formatMeasure()', () => {
 
   it('should not fail with undefined', () => {
     expect(formatMeasure(undefined, MetricType.Integer)).toBe('');
+  });
+});
+
+describe('#getIssueSeverityFormatter()', () => {
+  describe('MQR mode', () => {
+    it('should format all MQR severity impact thresholds correctly', () => {
+      const formatter = getIssueSeverityFormatter(
+        MetricKey.new_software_quality_reliability_severity,
+      );
+
+      expect(formatter('4')).toBe('severity_impact.INFO');
+      expect(formatter('9')).toBe('severity_impact.LOW');
+      expect(formatter('14')).toBe('severity_impact.MEDIUM');
+      expect(formatter('19')).toBe('severity_impact.HIGH');
+      expect(formatter('24')).toBe('severity_impact.BLOCKER');
+    });
+
+    it('should handle numeric values in MQR mode', () => {
+      const formatter = getIssueSeverityFormatter(
+        MetricKey.new_software_quality_maintainability_severity,
+      );
+
+      expect(formatter(4)).toBe('severity_impact.INFO');
+      expect(formatter(9)).toBe('severity_impact.LOW');
+      expect(formatter(14)).toBe('severity_impact.MEDIUM');
+      expect(formatter(19)).toBe('severity_impact.HIGH');
+      expect(formatter(24)).toBe('severity_impact.BLOCKER');
+    });
+
+    it('should return value for unmapped values', () => {
+      const formatter = getIssueSeverityFormatter(
+        MetricKey.new_software_quality_maintainability_severity,
+      );
+
+      expect(formatter('5')).toBe('5');
+      expect(formatter('100')).toBe('100');
+      expect(formatter(0)).toBe('0');
+      expect(formatter(1)).toBe('1');
+      expect(formatter(3)).toBe('3');
+    });
+  });
+
+  describe('Standard mode', () => {
+    it('should format all Standard severity impact thresholds correctly', () => {
+      const formatter = getIssueSeverityFormatter(MetricKey.new_code_smells_severity);
+
+      expect(formatter('4')).toBe('severity.INFO');
+      expect(formatter('9')).toBe('severity.MINOR');
+      expect(formatter('14')).toBe('severity.MAJOR');
+      expect(formatter('19')).toBe('severity.CRITICAL');
+      expect(formatter('24')).toBe('severity.BLOCKER');
+    });
+
+    it('should handle numeric values in Standard mode', () => {
+      const formatter = getIssueSeverityFormatter(MetricKey.new_code_smells_severity);
+
+      expect(formatter(4)).toBe('severity.INFO');
+      expect(formatter(9)).toBe('severity.MINOR');
+      expect(formatter(14)).toBe('severity.MAJOR');
+      expect(formatter(19)).toBe('severity.CRITICAL');
+      expect(formatter(24)).toBe('severity.BLOCKER');
+    });
+
+    it('should return value for unmapped values', () => {
+      const formatter = getIssueSeverityFormatter(MetricKey.new_code_smells_severity);
+
+      expect(formatter('5')).toBe('5');
+      expect(formatter('100')).toBe('100');
+      expect(formatter(0)).toBe('0');
+      expect(formatter(1)).toBe('1');
+      expect(formatter(3)).toBe('3');
+    });
   });
 });

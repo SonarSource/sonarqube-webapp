@@ -34,7 +34,7 @@ import Details from './Details';
 import List from './List';
 import ListHeader from './ListHeader';
 
-export default function App() {
+export default function QualityGatesApp() {
   const { data, isLoading } = useQualityGatesQuery();
   const intl = useIntl();
   const { name } = useParams();

@@ -22,10 +22,12 @@ import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { noop } from 'lodash';
 import { byLabelText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
+import { MetricKey } from '~shared/types/metrics';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import { QualityGatesServiceMock } from '~sq-server-commons/api/mocks/QualityGatesServiceMock';
 import UsersServiceMock from '~sq-server-commons/api/mocks/UsersServiceMock';
 import { searchProjects, searchUsers } from '~sq-server-commons/api/quality-gates';
+import { IMPACT_SEVERITIES, SEVERITIES } from '~sq-server-commons/helpers/constants';
 import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderAppRoutes, RenderContext } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { flushPromises } from '~sq-server-commons/helpers/testUtils';
@@ -33,6 +35,32 @@ import { Feature } from '~sq-server-commons/types/features';
 import { Mode } from '~sq-server-commons/types/mode';
 import { CaycStatus } from '~sq-server-commons/types/types';
 import routes from '../../routes';
+
+function addStandardSeverityConditionToQg(qgName: string, error: string) {
+  const qg = qualityGateHandler.list.find((q) => q.name === qgName);
+  const condition = {
+    id: 'condition-severity-test',
+    metric: MetricKey.new_bugs_severity,
+    op: 'GT',
+    error,
+    isCaycCondition: true,
+  };
+  qg?.conditions?.push(condition);
+  return condition;
+}
+
+function addMqrSeverityConditionToQg(qgName: string, error: string) {
+  const qg = qualityGateHandler.list.find((q) => q.name === qgName);
+  const condition = {
+    id: 'condition-severity-test',
+    metric: MetricKey.new_software_quality_maintainability_severity,
+    op: 'GT',
+    error,
+    isCaycCondition: true,
+  };
+  qg?.conditions?.push(condition);
+  return condition;
+}
 
 const ui = {
   createButton: byRole('button', { name: 'quality_gates.create' }),
@@ -56,6 +84,9 @@ const ui = {
   cancelBtn: byRole('button', { name: 'cancel' }),
   standardBadge: byText('quality_gates.metric.standard_mode_short'),
   mqrBadge: byText('quality_gates.metric.mqr_mode_short'),
+  builtInNewConditions: byRole('list', {
+    name: 'quality_gates.condition_simplification_list',
+  }),
 
   // actions
   actionsMenu: byLabelText('actions'),
@@ -654,9 +685,7 @@ it('should render builtin conditions on a separate table if Sonar way', async ()
 
   await user.click(await ui.qualityGateListItem('Sonar way quality_gates.built_in').find());
   expect(await screen.findByText('quality_gates.banner.builtin.title')).toBeInTheDocument();
-  expect(
-    await screen.findByRole('list', { name: 'quality_gates.condition_simplification_list' }),
-  ).toBeInTheDocument();
+  expect(await ui.builtInNewConditions.find()).toBeInTheDocument();
 });
 
 it('should show AI indicator for Sonar AI Way based in DE+ editions', async () => {
@@ -1065,6 +1094,115 @@ describe('Mode transition', () => {
       ).toBeInTheDocument();
       expect(dialog.byRole('button', { name: 'quality_gates.add_condition' }).get()).toBeDisabled();
     });
+
+    it('should display issue severity type correctly in conditions table for built-in quality gate', async () => {
+      const user = userEvent.setup();
+      qualityGateHandler.setIsAdmin(true);
+      const condition = addMqrSeverityConditionToQg('Sonar way', '9');
+
+      renderQualityGateApp();
+
+      await user.click(await ui.qualityGateListItem('Sonar way quality_gates.built_in').find());
+
+      expect(
+        await ui.builtInNewConditions
+          .byText(`metric.${condition.metric}.description.positive`)
+          .find(),
+      ).toBeInTheDocument();
+    });
+
+    it('should display issue severity type correctly in conditions table', async () => {
+      const user = userEvent.setup();
+      qualityGateHandler.setIsAdmin(true);
+      const gateName = 'SonarSource way - CFamily';
+      addMqrSeverityConditionToQg(gateName, '9');
+
+      renderQualityGateApp();
+
+      await user.click(await ui.qualityGateListItem(gateName).find());
+
+      const newConditions = byTestId('quality-gates__conditions-new');
+
+      expect(await newConditions.byText('severity_impact.LOW').find()).toBeInTheDocument();
+      expect(newConditions.byText('severity.MINOR').query()).not.toBeInTheDocument();
+    });
+
+    it('can add a condition with issue severity type', async () => {
+      const user = userEvent.setup();
+      qualityGateHandler.setIsAdmin(true);
+      const gateName = 'SonarSource way - CFamily';
+
+      renderQualityGateApp();
+
+      await user.click(await ui.qualityGateListItem(gateName).find());
+
+      const newConditions = byTestId('quality-gates__conditions-new');
+      await user.click(ui.addConditionButton.get());
+
+      const dialog = byRole('dialog');
+      await user.click(dialog.byRole('radio', { name: 'quality_gates.conditions.new_code' }).get());
+
+      await user.click(
+        dialog.byRole('combobox', { name: 'quality_gates.conditions.fails_when' }).get(),
+      );
+      await user.click(
+        dialog.byRole('option', { name: 'New Software Quality Security Severity' }).get(),
+      );
+      await user.click(
+        dialog.byRole('combobox', { name: 'quality_gates.conditions.threshold' }).get(),
+      );
+
+      IMPACT_SEVERITIES.forEach((level) => {
+        expect(
+          dialog.byRole('option', { name: `severity_impact.${level}` }).get(),
+        ).toBeInTheDocument();
+      });
+
+      await user.click(dialog.byRole('option', { name: 'severity_impact.HIGH' }).get());
+      expect(
+        await dialog.byRole('button', { name: 'quality_gates.add_condition' }).find(),
+      ).toBeEnabled();
+      await user.click(
+        await dialog.byRole('button', { name: 'quality_gates.add_condition' }).find(),
+      );
+
+      expect(await newConditions.byText('severity_impact.HIGH').find()).toBeInTheDocument();
+    });
+
+    it('can edit a condition with issue severity type', async () => {
+      const user = userEvent.setup();
+      qualityGateHandler.setIsAdmin(true);
+      const gateName = 'SonarSource way - CFamily';
+      addMqrSeverityConditionToQg(gateName, '9');
+
+      renderQualityGateApp();
+
+      await user.click(await ui.qualityGateListItem(gateName).find());
+
+      const newConditions = byTestId('quality-gates__conditions-new');
+      await user.click(
+        await newConditions
+          .byLabelText('quality_gates.condition.edit.New Software Quality Maintainability Severity')
+          .find(),
+      );
+
+      const dialog = byRole('dialog');
+      await user.click(
+        dialog.byRole('combobox', { name: 'quality_gates.conditions.threshold' }).get(),
+      );
+
+      IMPACT_SEVERITIES.forEach((level) => {
+        expect(
+          dialog.byRole('option', { name: `severity_impact.${level}` }).get(),
+        ).toBeInTheDocument();
+      });
+      expect(dialog.byRole('option', { name: 'severity.MINOR' }).query()).not.toBeInTheDocument();
+
+      await user.click(dialog.byRole('option', { name: 'severity_impact.BLOCKER' }).get());
+      await user.click(dialog.byRole('button', { name: 'quality_gates.update_condition' }).get());
+
+      expect(await newConditions.byText('severity_impact.BLOCKER').find()).toBeInTheDocument();
+    });
   });
 
   describe('Standard mode', () => {
@@ -1175,6 +1313,69 @@ describe('Mode transition', () => {
         ).get(),
       ).toBeInTheDocument();
       expect(dialog.byRole('button', { name: 'quality_gates.add_condition' }).get()).toBeDisabled();
+    });
+
+    it('should display issue severity type correctly in conditions table for built-in quality gate', async () => {
+      const user = userEvent.setup();
+      qualityGateHandler.setIsAdmin(true);
+      const condition = addStandardSeverityConditionToQg('Sonar way', '9');
+
+      renderQualityGateApp();
+
+      await user.click(await ui.qualityGateListItem('Sonar way quality_gates.built_in').find());
+
+      expect(
+        await ui.builtInNewConditions
+          .byText(`metric.${condition.metric}.description.positive`)
+          .find(),
+      ).toBeInTheDocument();
+    });
+
+    it('should display issue severity type correctly in conditions table', async () => {
+      const user = userEvent.setup();
+      qualityGateHandler.setIsAdmin(true);
+      addStandardSeverityConditionToQg('SonarSource way - CFamily', '9');
+
+      renderQualityGateApp();
+
+      await user.click(await ui.qualityGateListItem('SonarSource way - CFamily').find());
+
+      const newConditions = byTestId('quality-gates__conditions-new');
+
+      expect(await newConditions.byText('severity.MINOR').find()).toBeInTheDocument();
+      expect(newConditions.byText('severity_impact.LOW').query()).not.toBeInTheDocument();
+    });
+
+    it('can edit a condition with issue severity type', async () => {
+      const user = userEvent.setup();
+      qualityGateHandler.setIsAdmin(true);
+      addStandardSeverityConditionToQg('SonarSource way - CFamily', '9');
+
+      renderQualityGateApp();
+
+      await user.click(await ui.qualityGateListItem('SonarSource way - CFamily').find());
+
+      const newConditions = byTestId('quality-gates__conditions-new');
+      await user.click(
+        await newConditions.byLabelText('quality_gates.condition.edit.New Bugs Severity').find(),
+      );
+
+      const dialog = byRole('dialog');
+      await user.click(
+        dialog.byRole('combobox', { name: 'quality_gates.conditions.threshold' }).get(),
+      );
+
+      SEVERITIES.forEach((level) => {
+        expect(dialog.byRole('option', { name: `severity.${level}` }).get()).toBeInTheDocument();
+      });
+      expect(
+        dialog.byRole('option', { name: 'severity_impact.LOW' }).query(),
+      ).not.toBeInTheDocument();
+
+      await user.click(dialog.byRole('option', { name: 'severity.BLOCKER' }).get());
+      await user.click(dialog.byRole('button', { name: 'quality_gates.update_condition' }).get());
+
+      expect(await newConditions.byText('severity.BLOCKER').find()).toBeInTheDocument();
     });
   });
 });

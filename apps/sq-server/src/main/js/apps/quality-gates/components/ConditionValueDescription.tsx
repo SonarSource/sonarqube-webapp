@@ -33,6 +33,13 @@ const NO_DESCRIPTION_CONDITION = [
   MetricKey.new_reliability_rating,
   MetricKey.new_security_rating,
   MetricKey.new_maintainability_rating,
+  MetricKey.new_bugs_severity,
+  MetricKey.new_code_smells_severity,
+  MetricKey.new_sca_severity_any_issue,
+  MetricKey.new_vulnerabilities_severity,
+  MetricKey.new_software_quality_reliability_severity,
+  MetricKey.new_software_quality_security_severity,
+  MetricKey.new_software_quality_maintainability_severity,
 ];
 
 interface Props {

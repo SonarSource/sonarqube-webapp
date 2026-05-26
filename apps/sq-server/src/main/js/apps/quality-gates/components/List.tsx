@@ -29,7 +29,7 @@ import {
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import { BareButton, SubnavigationGroup, SubnavigationItem } from '~design-system';
-import BuiltInQualityGateBadge from '~shared/components/quality-gates/BuiltInQualityGateBadge';
+import { BuiltInQualityGateBadge } from '~shared/components/quality-gates/BuiltInQualityGateBadge';
 import AIAssuredIcon, {
   AiIconColor,
 } from '~sq-server-commons/components/icon-mappers/AIAssuredIcon';

@@ -20,6 +20,7 @@
 
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
+import { augmentMetricsForIssueSeverity } from '~shared/helpers/metrics';
 import { augmentMetrics } from '~shared/helpers/sca';
 import { Metric } from '~shared/types/measures';
 
@@ -53,6 +54,10 @@ export function getAllMetrics(data?: {
       .then((r) => ({
         ...r,
         metrics: augmentMetrics(r.metrics),
+      }))
+      .then((r) => ({
+        ...r,
+        metrics: augmentMetricsForIssueSeverity(r.metrics),
       }))
       .then((r) => {
         const result = prev ? prev.metrics.concat(r.metrics) : r.metrics;

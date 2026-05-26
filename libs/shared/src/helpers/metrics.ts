@@ -19,11 +19,35 @@
  */
 
 import { Metric } from '../types/measures';
-import { MetricType } from '../types/metrics';
+import { MetricKey, MetricType } from '../types/metrics';
 
 export function isValidPercentageMetric(metric: Metric, value: string) {
   const floatValue = Number(value);
   return (
     metric.type === MetricType.Percent && !isNaN(floatValue) && floatValue >= 0 && floatValue <= 100
   );
+}
+
+const ISSUE_SEVERITY_METRICS = new Set([
+  MetricKey.new_bugs_severity,
+  MetricKey.new_vulnerabilities_severity,
+  MetricKey.new_code_smells_severity,
+  MetricKey.new_software_quality_maintainability_severity,
+  MetricKey.new_software_quality_reliability_severity,
+  MetricKey.new_software_quality_security_severity,
+]);
+
+export function isIssueSeverityMetric(metricKey: string): boolean {
+  return ISSUE_SEVERITY_METRICS.has(metricKey as MetricKey);
+}
+
+// Issue severity metrics are typed as INT in the backend
+// They should be converted to a new custom type 'ISSUE_SEVERITY' to be rendered differently.
+export function augmentMetricsForIssueSeverity(metrics: Metric[]): Metric[] {
+  return metrics.map((metric) => {
+    if (isIssueSeverityMetric(metric.key)) {
+      return { ...metric, type: MetricType.IssueSeverity };
+    }
+    return metric;
+  });
 }

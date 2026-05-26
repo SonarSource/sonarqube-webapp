@@ -18,23 +18,21 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Badge, BadgeVariety } from '@sonarsource/echoes-react';
-import { useIntl } from 'react-intl';
-import { Expiration } from '../Expiration';
+import { BadgeVariety } from '@sonarsource/echoes-react';
+import { NewBadge } from '../badges/NewBadge';
 
 interface Props {
   className?: string;
   expirationDate: string | number | Date;
 }
 
-export function NewBadge({ className, expirationDate }: Readonly<Props>) {
-  const { formatMessage } = useIntl();
-
+export function QualityGateNewBadge({ className, expirationDate }: Readonly<Props>) {
   return (
-    <Expiration date={expirationDate}>
-      <Badge className={className} isHighContrast variety={BadgeVariety.Neutral}>
-        {formatMessage({ id: 'quality_gates.new_badge' })}
-      </Badge>
-    </Expiration>
+    <NewBadge
+      className={className}
+      expirationDate={expirationDate}
+      isHighContrast
+      variety={BadgeVariety.Neutral}
+    />
   );
 }

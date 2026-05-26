@@ -98,7 +98,9 @@ export enum MetricKey {
   new_blocker_violations = 'new_blocker_violations',
   new_branch_coverage = 'new_branch_coverage',
   new_bugs = 'new_bugs',
+  new_bugs_severity = 'new_bugs_severity',
   new_code_smells = 'new_code_smells',
+  new_code_smells_severity = 'new_code_smells_severity',
   new_conditions_to_cover = 'new_conditions_to_cover',
   new_coverage = 'new_coverage',
   new_critical_violations = 'new_critical_violations',
@@ -125,6 +127,9 @@ export enum MetricKey {
   new_reliability_rating_with_aica = 'new_reliability_rating_with_aica',
   new_reliability_rating_without_aica = 'new_reliability_rating_without_aica',
   new_reliability_remediation_effort = 'new_reliability_remediation_effort',
+  new_software_quality_reliability_severity = 'new_software_quality_reliability_severity',
+  new_software_quality_security_severity = 'new_software_quality_security_severity',
+  new_software_quality_maintainability_severity = 'new_software_quality_maintainability_severity',
   new_sca_count_any_issue = 'new_sca_count_any_issue',
   new_sca_count_any_security = 'new_sca_count_any_security',
   new_sca_count_licensing = 'new_sca_count_licensing',
@@ -183,6 +188,7 @@ export enum MetricKey {
   new_violations = 'new_violations',
   new_violations_rating = 'new_violations_rating',
   new_vulnerabilities = 'new_vulnerabilities',
+  new_vulnerabilities_severity = 'new_vulnerabilities_severity',
   open_issues = 'open_issues',
   prioritized_rule_issues = 'prioritized_rule_issues',
   project_branch_count = 'project_branch_count',
@@ -304,4 +310,9 @@ export enum MetricType {
    * unlike other SonarQube metrics that are greater than or less than.
    */
   ScaRisk = 'SCA_RISK',
+  /*
+   * Front-end-only type used to display the correct severity value for condition with this type
+   * Follow SCA risk behavior
+   */
+  IssueSeverity = 'ISSUE_SEVERITY',
 }

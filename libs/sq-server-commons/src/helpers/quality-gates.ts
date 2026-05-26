@@ -23,6 +23,7 @@ import { getOperatorLabelId } from '~shared/helpers/quality-gates';
 import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { QualityGateConditionOperator } from '~shared/types/quality-gates';
+import { Mode } from '../types/mode';
 import {
   QualityGateApplicationStatusChildProject,
   QualityGateProjectStatus,
@@ -176,11 +177,18 @@ const ALL_CAYC_CONDITIONS: Record<
   ...UNOPTIMIZED_CAYC_CONDITIONS,
 };
 
-export const CAYC_CONDITION_ORDER_PRIORITIES: Record<string, number> = {
+export const CONDITION_ORDER_PRIORITIES: Record<string, number> = {
   [MetricKey.new_violations]: 1,
   [MetricKey.new_security_hotspots_reviewed]: 2,
-  [MetricKey.new_coverage]: 3,
-  [MetricKey.new_duplicated_lines_density]: 4,
+  [MetricKey.new_bugs_severity]: 3,
+  [MetricKey.new_software_quality_security_severity]: 4,
+  [MetricKey.new_vulnerabilities_severity]: 5,
+  [MetricKey.new_software_quality_reliability_severity]: 6,
+  [MetricKey.new_sca_severity_any_issue]: 7,
+  [MetricKey.new_software_quality_maintainability_severity]: 8,
+  [MetricKey.new_code_smells_severity]: 9,
+  [MetricKey.new_coverage]: 10,
+  [MetricKey.new_duplicated_lines_density]: 11,
 };
 
 export const AI_SUPPORTED_CONDITION_ORDER_PRIORITIES: Record<string, number> = {
@@ -216,6 +224,9 @@ export const STANDARD_CONDITIONS_MAP: Partial<Record<MetricKey, MetricKey>> = {
   [MetricKey.vulnerabilities]: MetricKey.software_quality_security_issues,
   [MetricKey.bugs]: MetricKey.software_quality_reliability_issues,
   [MetricKey.code_smells]: MetricKey.software_quality_maintainability_issues,
+  [MetricKey.new_code_smells_severity]: MetricKey.new_software_quality_maintainability_severity,
+  [MetricKey.new_vulnerabilities_severity]: MetricKey.new_software_quality_security_severity,
+  [MetricKey.new_bugs_severity]: MetricKey.new_software_quality_reliability_severity,
   ...SOFTWARE_QUALITY_RATING_METRICS_MAP,
 };
 
@@ -305,7 +316,7 @@ export function groupAndSortByPriorityConditions(
   const groupedConditions = groupConditionsByMetric(conditions, isBuiltInQG, isAiCodeSupportedQG);
 
   const sortFns = [
-    (condition: Condition) => CAYC_CONDITION_ORDER_PRIORITIES[condition.metric],
+    (condition: Condition) => CONDITION_ORDER_PRIORITIES[condition.metric],
     (condition: Condition) => metrics[condition.metric]?.name,
   ];
 
@@ -363,3 +374,15 @@ export function getLocalizedMetricNameNoDiffMetric(
 ) {
   return getLocalizedMetricName(getNoDiffMetric(metric, metrics));
 }
+
+export const getModeForMetric = (metricKey: MetricKey | undefined): Mode | undefined => {
+  if (!metricKey) {
+    return undefined;
+  }
+  if (STANDARD_CONDITIONS_MAP[metricKey]) {
+    return Mode.Standard;
+  } else if (MQR_CONDITIONS_MAP[metricKey]) {
+    return Mode.MQR;
+  }
+  return undefined;
+};

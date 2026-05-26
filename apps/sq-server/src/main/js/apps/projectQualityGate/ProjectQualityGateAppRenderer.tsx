@@ -33,7 +33,7 @@ import { components, OptionProps, SingleValueProps } from 'react-select';
 import { FlagMessage, InputSelect, RadioButton } from '~design-system';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
-import BuiltInQualityGateBadge from '~shared/components/quality-gates/BuiltInQualityGateBadge';
+import { BuiltInQualityGateBadge } from '~shared/components/quality-gates/BuiltInQualityGateBadge';
 import { ComponentQualifier } from '~shared/types/component';
 import { AiCodeAssuranceStatus } from '~sq-server-commons/api/ai-code-assurance';
 import DisableableSelectOption from '~sq-server-commons/components/common/DisableableSelectOption';

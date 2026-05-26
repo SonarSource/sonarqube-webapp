@@ -40,6 +40,7 @@ import { getPossibleOperators } from '~sq-server-commons/helpers/quality-gates';
 import { useUpdateConditionMutation } from '~sq-server-commons/queries/quality-gates';
 import { Condition, QualityGate } from '~sq-server-commons/types/types';
 import ConditionOperator from './ConditionOperator';
+import { ThresholdInputIssueSeverity } from './ThresholdInputIssueSeverity';
 
 interface Props {
   condition: Condition;
@@ -128,13 +129,23 @@ export default function EditConditionModal({ condition, metric, qualityGate }: R
             onOperatorChange={handleOperatorChange}
             op={selectedOperator}
           />
-          <ThresholdInput
-            isInvalid={!isValid}
-            metric={metric}
-            name="error"
-            onChange={handleErrorChange}
-            value={errorThreshold}
-          />
+          {metric.type === MetricType.IssueSeverity ? (
+            <ThresholdInputIssueSeverity
+              isInvalid={!isValid}
+              metric={metric}
+              name="error"
+              onChange={handleErrorChange}
+              value={errorThreshold}
+            />
+          ) : (
+            <ThresholdInput
+              isInvalid={!isValid}
+              metric={metric}
+              name="error"
+              onChange={handleErrorChange}
+              value={errorThreshold}
+            />
+          )}
         </div>
       </Form.Section>
     );
