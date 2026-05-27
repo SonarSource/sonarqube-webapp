@@ -47,8 +47,26 @@ const QUALITY_GATE_OPERATOR_LABEL_IDS: Record<
   },
 };
 
+export function getOverriddenConditionOperator(
+  op: QualityGateConditionOperator,
+  metric: Metric,
+): QualityGateConditionOperator {
+  const scaOperator = scaConditionOperator(metric.key);
+
+  if (scaOperator) {
+    return scaOperator;
+  }
+
+  if (metric.type === MetricType.IssueSeverity) {
+    // For issue severity metrics, only GTE is possible
+    return 'GTE';
+  }
+
+  return op;
+}
+
 export function getOperatorLabelId(op: QualityGateConditionOperator, metric: Metric) {
-  const opOverride = scaConditionOperator(metric.key) ?? op;
+  const opOverride = getOverriddenConditionOperator(op, metric);
 
   if (metric.type === MetricType.Rating) {
     return QUALITY_GATE_OPERATOR_LABEL_IDS.rating[opOverride];
@@ -97,3 +115,9 @@ export const ISSUE_SEVERITY_CONDITION_MAPPING: Record<string, IssueSeverity> = {
   '19': IssueSeverity.Critical,
   '24': IssueSeverity.Blocker,
 };
+
+export function getIssueSeverityBasedOnConditionValue(
+  value: string | number,
+): IssueSeverity | undefined {
+  return ISSUE_SEVERITY_CONDITION_MAPPING[String(Number(value) - 1)];
+}
