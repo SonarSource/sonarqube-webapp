@@ -1630,6 +1630,8 @@ export const defaultMessages = {
   'dependencies.risk.fixed_release_missing':
     'Information about where it was introduced is no longer available.',
   'dependencies.risk.header.risk_severity': 'Severity of impact',
+  'dependencies.risk.header.risk_severity.info_button_label':
+    'More information about severity of impact',
   'dependencies.risk.header.risk_severity.intro': 'How is the severity impact calculated?',
   'dependencies.risk.header.first_detected': 'First detected',
   'dependencies.risk.header.what_is_the_risk': "What's the risk?",
@@ -1640,6 +1642,8 @@ export const defaultMessages = {
   'dependencies.risk.what.basicInfo.withdrawnAt': 'Report withdrawn {date}',
   'dependencies.risk.what.basicInfo.severity': 'CVSS score',
   'dependencies.risk.what.basicInfo.no_severity': 'Unscored',
+  'dependencies.risk.what.basicInfo.severity.info_button_label':
+    'More information about CVSS score',
   'dependencies.risk.what.basicInfo.severity.tooltip':
     'CVSS (Common Vulnerability Scoring System) is a standardized metric that assesses the severity of software vulnerabilities on a scale of 0-10.',
   'dependencies.risk.what.basicInfo.severity.tooltip.link': 'Learn more about CVSS',
@@ -1653,6 +1657,8 @@ export const defaultMessages = {
     'Median vulnerability',
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.probabilityRankings.thisVulnerability':
     'This vulnerability',
+  'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.info_button_label':
+    'More information about chance of future exploitation',
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.tooltip.epss_description':
     'EPSS (Exploit Prediction Scoring System) v{version} estimates the percentage likelihood of a software vulnerability being exploited in the wild over the next 30 days, from 0 to 100%, and a percentile rank of how that likelihood compares to all other assessed vulnerabilities.',
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.tooltip.risk_calculation_description':
@@ -1662,6 +1668,8 @@ export const defaultMessages = {
   'dependencies.risk.what.basicInfo.cwe.weaknesses': 'Weaknesses',
   'dependencies.risk.what.basicInfo.knownExploited': 'Known exploited',
   'dependencies.risk.what.basicInfo.knownExploited.kev': '(KEV)',
+  'dependencies.risk.what.basicInfo.knownExploited.info_button_label':
+    'More information about known exploited vulnerabilities',
   'dependencies.risk.what.basicInfo.knownExploited.kev.tooltip':
     'KEV (Known Exploited Vulnerabilities) is a list of vulnerabilities that have been confirmed to be actively exploited in the wild',
   'dependencies.risk.what.basicInfo.knownExploited.kev.tooltip.link': 'Learn more about KEV',
@@ -1806,6 +1814,9 @@ export const defaultMessages = {
   'dependencies.risks.status.comment.placeholder.required': 'Please share (required)',
   'dependencies.risks.status_x_click_to_change':
     'Dependency risk status: {status}, click to change',
+  'dependencies.risks.status_x_click_to_change_for_y':
+    'Dependency risk status: {status} for {riskTitle}, click to change',
+  'dependencies.risks.assignee_for_risk': 'Assignee for {riskTitle}',
 
   'dependencies.risks.all': 'All risks',
   'dependencies.risks.type': 'Risk type',
@@ -1860,6 +1871,8 @@ export const defaultMessages = {
   'dependencies.risks.severity.picker_header':
     'Please note: If the severity rating for this risk is manually changed, it will no longer be updated automatically by Sonar, even if the data used in our severity calculation changes.',
   'dependencies.risks.severity.quality.button.static': '{severity} severity impact on {quality}.',
+  'dependencies.risks.severity.quality.button.dropdown':
+    '{severity} severity impact on {quality} for {riskTitle}.',
   'dependencies.risks.severity.BLOCKER.description': 'Known as exploited (KEV)',
   'dependencies.risks.severity.LOW.description': 'All other non-withdrawn vulnerabilities',
   'dependencies.risks.severity.INFO.description': 'Confirmed false positive or withdrawn',
@@ -2015,6 +2028,8 @@ export const defaultMessages = {
   'sca.licenses.category.uncategorized.name': 'Other',
   'sca.licenses.category.filter_by_category': 'All categories',
   'sca.licenses.profile.filter_by_policy': 'All policies',
+  'sca.licenses.profile.policy_select.aria_label': 'Policy for {name}',
+  'sca.licenses.license_override.more_info.aria_label': 'More information about {name}',
 
   'sca.licenses.category.permissive_standard':
     'This category includes the most commonly used permissive licenses. Permissive licenses grant broad permissions to use, and modify, with very minimal obligations (primarily attribution). Licenses in this category have all the essential elements of permissive open source licenses. Example standard permissive licenses include the MIT and Apache software licenses.',
