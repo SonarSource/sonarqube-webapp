@@ -1821,6 +1821,9 @@ export const defaultMessages = {
   'dependencies.risks.all': 'All risks',
   'dependencies.risks.type': 'Risk type',
   'dependencies.risks.type.license': 'Prohibited license',
+  'dependencies.risks.type.license.upgrade_callout.body':
+    'Upgrade to set license profiles and manage risk from open source licenses.',
+  'dependencies.risks.type.license.upgrade_callout.header': 'Manage license risk with Enterprise',
   'dependencies.risks.type.license_prohibited_description':
     'Dependencies with license {license} should not be used',
   'dependencies.risks.type.vulnerability': 'Vulnerability',
