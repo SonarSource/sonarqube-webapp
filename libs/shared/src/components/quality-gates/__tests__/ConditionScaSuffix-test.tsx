@@ -43,6 +43,7 @@ function renderConditionScaSuffix(
     <ConditionScaSuffix
       advancedSecurityDocsUrl={ADVANCED_SECURITY_DOCS_URL}
       advancedSecuritySettingsUrl={SETTINGS_URL}
+      isLoggedIn
       metricKey={MetricKey.new_sca_severity_any_issue}
       upgradeIcon={<span>upgrade</span>}
       {...overrides}

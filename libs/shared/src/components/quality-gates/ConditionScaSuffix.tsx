@@ -26,6 +26,7 @@ import { isScaMeasure } from '../../helpers/sca';
 type Props = Readonly<{
   advancedSecurityDocsUrl: string;
   advancedSecuritySettingsUrl: Partial<Path>;
+  isLoggedIn: boolean;
   isScaAvailable?: boolean;
   isScaEnabled?: boolean;
   metricKey: string;
@@ -39,10 +40,11 @@ export function ConditionScaSuffix({
   advancedSecuritySettingsUrl,
   advancedSecurityDocsUrl,
   upgradeIcon,
+  isLoggedIn,
 }: Props) {
   const { formatMessage } = useIntl();
 
-  if (!isScaMeasure(metricKey)) {
+  if (!isLoggedIn || !isScaMeasure(metricKey)) {
     return null;
   }
 
