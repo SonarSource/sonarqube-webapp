@@ -2027,7 +2027,6 @@ export const componentMap = {
   GraphsLegendStatic: 'Excluded',
   OrganizationLongLivedBranchesPattern: 'Excluded',
   SettingsSearchOverlay: 'Excluded',
-  DowngradeFeedback: 'Excluded',
   MetaOrganizationKey: 'Excluded',
   EnterprisePermissionsIntro: 'Excluded',
   PortfolioBreakdownTable: 'Excluded',
