@@ -236,5 +236,10 @@ export function mockStandards(): StandardsInformation {
         title: 'New CASA cat 1',
       },
     },
+    cra: {
+      '1.2.a': {
+        title: 'No known exploitable vulnerabilities',
+      },
+    },
   };
 }

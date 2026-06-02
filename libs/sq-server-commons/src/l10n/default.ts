@@ -1522,6 +1522,7 @@ export const defaultMessages = {
   'issues.facet.mode.effort': 'Effort',
   'issues.facet.standards': 'Security Category',
   'issues.facet.casa': 'CASA',
+  'issues.facet.cra': 'EU CRA',
   'issues.facet.owaspTop10': 'OWASP Top 10 2017',
   'issues.facet.owaspTop10_2021': 'OWASP Top 10 2021',
   'issues.facet.owaspTop10_2025': 'OWASP Top 10 2025',

@@ -61,6 +61,16 @@ describe('compliance-standards-registry', () => {
       );
     });
 
+    it('should contain the CRA standard', () => {
+      expect(STANDARDS_REGISTRY).toContainEqual(
+        expect.objectContaining({
+          key: StandardsInformationKey.CRA,
+          displayName: 'cra',
+          availableInPDFReports: false,
+        }),
+      );
+    });
+
     it('should have unique keys for each standard', () => {
       const keys = STANDARDS_REGISTRY.map((s) => s.key);
       const uniqueKeys = new Set(keys);
@@ -106,6 +116,15 @@ describe('compliance-standards-registry', () => {
       const definition = getStandardDefinition('non-existent-key' as StandardsInformationKey);
       expect(definition).toBeUndefined();
     });
+
+    it('should return the correct definition for CRA', () => {
+      const definition = getStandardDefinition(StandardsInformationKey.CRA);
+      expect(definition).toBeDefined();
+      expect(definition?.key).toBe(StandardsInformationKey.CRA);
+      expect(definition?.displayName).toBe('cra');
+      expect(definition?.queryProp).toBe('cra');
+      expect(definition?.availableInPDFReports).toBe(false);
+    });
   });
 
   describe('getStandardDefinitionByQueryProp', () => {
@@ -138,6 +157,10 @@ describe('compliance-standards-registry', () => {
 
     it('should return false for CWE standard (non-versioned)', () => {
       expect(isStandardAvailableInPDFReports(StandardsInformationKey.CWE)).toBe(false);
+    });
+
+    it('should return false for CRA', () => {
+      expect(isStandardAvailableInPDFReports(StandardsInformationKey.CRA)).toBe(false);
     });
 
     it('should return false for non-existent standard', () => {

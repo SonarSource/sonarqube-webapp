@@ -22,6 +22,7 @@ import { StandardsInformation } from '../../types/security';
 import {
   ExtendedStandardsInformation,
   renderCASACategory,
+  renderCRACategory,
   renderCWECategory,
   renderOwaspAsvs40Category,
   renderOwaspMasvsV2Category,
@@ -163,6 +164,16 @@ describe('standards renderers', () => {
     'stig-ASD_V6': {
       'v-456': {
         title: 'Stig requirement V6',
+      },
+    },
+    cra: {
+      '1': {
+        title: 'Part I - Cybersecurity requirements',
+        level: '1',
+      },
+      '1.2.a': {
+        title: 'be made available on the market without known exploitable vulnerabilities',
+        level: '3',
       },
     },
   };
@@ -343,5 +354,20 @@ describe('standards renderers', () => {
     expect(renderOwaspTop10ForLlm2025Category(standards, 'llm01')).toEqual(
       'LLM1 - Prompt Injection',
     );
+  });
+
+  describe('renderCRACategory', () => {
+    it('should render CRA categories with level', () => {
+      expect(renderCRACategory(standards, '1')).toBe(
+        '1 - Part I - Cybersecurity requirements (Level 1)',
+      );
+      expect(renderCRACategory(standards, '1.2.a')).toBe(
+        '1.2.a - be made available on the market without known exploitable vulnerabilities (Level 3)',
+      );
+    });
+
+    it('should return the raw key when category is not found', () => {
+      expect(renderCRACategory(standards, 'unknown')).toBe('unknown');
+    });
   });
 });

@@ -26,6 +26,7 @@ import {
 } from '../types/security';
 import {
   renderCASACategory,
+  renderCRACategory,
   renderCWECategory,
   renderOwaspAsvs40Category,
   renderOwaspAsvs50Category,
@@ -76,6 +77,17 @@ export const STANDARDS_REGISTRY: StandardDefinition[] = [
     queryProp: SecurityStandard.SONARSOURCE,
     renderCategory: renderSonarSourceSecurityCategory,
     showMoreEnabled: true,
+  },
+  {
+    availableInPDFReports: false,
+    backendKey: 'cra_standard:urn:sonar-security-standard:cra:standard:unversioned',
+    displayName: 'cra',
+    enumKey: 'CRA',
+    key: StandardsInformationKey.CRA,
+    queryProp: SecurityStandard.CRA,
+    renderCategory: renderCRACategory,
+    showMoreEnabled: false,
+    url: 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R2847#anx_I',
   },
   {
     availableInPDFReports: true,

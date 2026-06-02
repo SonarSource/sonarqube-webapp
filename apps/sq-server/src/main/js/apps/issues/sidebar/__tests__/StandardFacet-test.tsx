@@ -175,6 +175,7 @@ it('should clear standards facet including owaspMobileTop10-2024', async () => {
   expect(onChange).toHaveBeenCalledWith({
     standards: [],
     casa: [],
+    cra: [],
     cwe: [],
     'owaspAsvs-4.0': [],
     'owaspAsvs-5.0': [],

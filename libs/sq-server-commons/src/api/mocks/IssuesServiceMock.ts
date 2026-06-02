@@ -196,6 +196,15 @@ export default class IssuesServiceMock {
           { val: 'V-265635', count: 1 },
         ],
       },
+      {
+        property: 'cra_standard:urn:sonar-security-standard:cra:standard:unversioned',
+        values: [
+          { val: '1.2.a', count: 2 },
+          { val: '1.2.b', count: 1 },
+          { val: '1.2.c', count: 1 },
+          { val: '1.2.d', count: 1 },
+        ],
+      },
     ];
   }
 

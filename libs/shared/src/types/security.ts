@@ -20,6 +20,7 @@
 
 export enum SecurityStandard {
   CASA = 'casa',
+  CRA = 'cra',
   CWE = 'cwe',
   OWASP_ASVS_4_0 = 'owaspAsvs-4.0',
   OWASP_ASVS_5_0 = 'owaspAsvs-5.0',
@@ -47,6 +48,7 @@ export type StandardQueryProp =
 
 export enum StandardsInformationKey {
   CASA = 'casa',
+  CRA = 'cra',
   CWE = 'cwe',
   CWE_2024 = 'cwe-2024',
   CWE_2023 = 'cwe-2023',
