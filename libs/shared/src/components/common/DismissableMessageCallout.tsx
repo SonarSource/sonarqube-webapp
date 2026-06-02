@@ -29,7 +29,7 @@ export interface DismissableMessageCalloutProps extends Exclude<MessageCalloutPr
 export const DISMISSED_CALLOUT_STORAGE_KEY = 'sonarqube.dismissed_alert';
 
 export function DismissableMessageCallout(props: Readonly<DismissableMessageCalloutProps>) {
-  const { alertKey, children, className, variety } = props;
+  const { alertKey, children, className, title, variety } = props;
   const [dismissed, setDismissed] = useLocalStorage(`${DISMISSED_CALLOUT_STORAGE_KEY}.${alertKey}`);
 
   const handleCalloutDismiss = useCallback(() => {
@@ -41,7 +41,12 @@ export function DismissableMessageCallout(props: Readonly<DismissableMessageCall
   }
 
   return (
-    <MessageCallout className={className} onDismiss={handleCalloutDismiss} variety={variety}>
+    <MessageCallout
+      className={className}
+      onDismiss={handleCalloutDismiss}
+      title={title}
+      variety={variety}
+    >
       {children}
     </MessageCallout>
   );
