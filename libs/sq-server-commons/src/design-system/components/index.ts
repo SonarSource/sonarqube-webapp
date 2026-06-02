@@ -78,7 +78,6 @@ export * from './Separator';
 export * from './SizeIndicator';
 export * from './SonarCodeColorizer';
 export * from './SonarQubeLogo';
-export { Spinner } from './Spinner';
 export * from './subnavigation';
 export * from './Tabs';
 export * from './Tags';
