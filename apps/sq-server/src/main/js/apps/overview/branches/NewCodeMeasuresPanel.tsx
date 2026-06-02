@@ -39,6 +39,7 @@ import { isApplication } from '~shared/helpers/component';
 import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { getLeakValue } from '~sq-server-commons/components/measure/utils';
+import { CoverageMeasureCard } from '~sq-server-commons/components/overview/CoverageMeasureCard';
 import { IssueMeasuresCardInner } from '~sq-server-commons/components/overview/IssueMeasuresCardInner';
 import IssuesLinkCausedByUpgrade from '~sq-server-commons/components/overview/IssuesLinkCausedByUpgrade';
 import { MeasuresCardDependencyRisk } from '~sq-server-commons/components/overview/MeasuresCardDependencyRisk';
@@ -225,14 +226,13 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
           />
         </StyleMeasuresCard>
         <StyleMeasuresCard className="sw-col-span-4">
-          <MeasuresCardPercent
+          <CoverageMeasureCard
             branchLike={branch}
             componentKey={component.key}
             conditionMetric={MetricKey.new_coverage}
             conditions={conditions}
             label="overview.quality_gate.coverage"
             linesMetric={MetricKey.new_lines_to_cover}
-            measurementType={MeasurementType.Coverage}
             measures={measures}
             showRequired={!isApp}
             url={getComponentDrilldownUrl({

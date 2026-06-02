@@ -201,15 +201,24 @@ describe('project overview', () => {
     expect(screen.queryByText('projects.ai_code_detected.description')).not.toBeInTheDocument();
   });
 
-  it('renders measures panel with not computed coverage link', async () => {
+  it('renders measures panel with no coverage setup link when both coverage measures are absent', async () => {
     measuresHandler.deleteComponentMeasure('foo', MetricKey.coverage);
     measuresHandler.deleteComponentMeasure('foo', MetricKey.new_coverage);
     renderBranchOverview();
 
     expect(await screen.findByRole('heading', { name: 'overview.page' })).toBeInTheDocument();
     expect(
-      await byRole('link', { name: 'overview.coverage.not_computed_doc open_in_new_tab' }).find(),
+      await byRole('link', { name: 'overview.coverage.setup open_in_new_tab' }).find(),
     ).toHaveAttribute('href', expect.stringContaining(DocLink.TestCoverage));
+    expect(byText('overview.coverage.no_coverage.description').get()).toBeInTheDocument();
+  });
+
+  it('renders not enough lines message when only new coverage measure is absent', async () => {
+    measuresHandler.deleteComponentMeasure('foo', MetricKey.new_coverage);
+    renderBranchOverview();
+
+    expect(await screen.findByRole('heading', { name: 'overview.page' })).toBeInTheDocument();
+    expect(await byText('overview.coverage.not_enough_lines').find()).toBeInTheDocument();
   });
 
   it('should show a successful non-compliant QG', async () => {

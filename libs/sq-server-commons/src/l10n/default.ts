@@ -6663,6 +6663,10 @@ export const defaultMessages = {
   'overview.metric_not_computed': 'Not computed',
   'overview.coverage.not_computed':
     'Not computed. <doc>Check language support and import guides</doc>',
+  'overview.coverage.no_coverage.description':
+    'A few extra steps are needed to set up coverage analysis.',
+  'overview.coverage.setup': 'Set up coverage analysis',
+  'overview.coverage.not_enough_lines': 'There are not enough lines to compute coverage',
   'overview.about_this_portfolio': 'About This Portfolio',
   'overview.about_this_project.APP': 'About This Application',
   'overview.about_this_project.TRK': 'About This Project',

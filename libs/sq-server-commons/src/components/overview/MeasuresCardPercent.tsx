@@ -23,12 +23,11 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { To } from 'react-router-dom';
-import { isMainBranch, isPullRequest } from '~shared/helpers/branch-like';
+import { isPullRequest } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
 import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { CoverageIndicator, DuplicationsIndicator } from '../../design-system';
-import { DocLink } from '../../helpers/doc-links';
 import { findMeasure, localizeMetric } from '../../helpers/measures';
 import { getComponentDrilldownUrl } from '../../helpers/urls';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
@@ -40,7 +39,6 @@ import {
   getConditionRequiredLabel,
   getMeasurementMetricKey,
 } from '../../utils/overview-utils';
-import DocumentationLink from '../common/DocumentationLink';
 import { duplicationRatingConverter, getLeakValue } from '../measure/utils';
 import AfterMergeNote from './AfterMergeNote';
 import MeasuresCard from './MeasuresCard';
@@ -150,7 +148,7 @@ export default function MeasuresCardPercent(
               }}
             />
           ) : (
-            <NotComputedLabel {...props} />
+            <FormattedMessage id="overview.metric_not_computed" />
           )}
         </Text>
       </div>
@@ -168,34 +166,4 @@ function renderIcon(type: MeasurementType, value?: string) {
 
   const rating = duplicationRatingConverter(Number(value));
   return <DuplicationsIndicator aria-hidden="true" rating={rating} size="md" />;
-}
-
-function NotComputedLabel({ measurementType, branchLike, measures }: Readonly<Props>) {
-  if (measurementType === MeasurementType.Coverage && isMainBranch(branchLike)) {
-    const overallCoverage = findMeasure(measures, MetricKey.coverage);
-    const newCoverage = getLeakValue(findMeasure(measures, MetricKey.new_coverage));
-
-    if (!overallCoverage && !newCoverage) {
-      return (
-        <span>
-          <FormattedMessage
-            id="overview.coverage.not_computed"
-            values={{
-              doc: (text) => (
-                <DocumentationLink
-                  enableOpenInNewTab
-                  highlight={LinkHighlight.CurrentColor}
-                  to={DocLink.TestCoverage}
-                >
-                  {text}
-                </DocumentationLink>
-              ),
-            }}
-          />
-        </span>
-      );
-    }
-  }
-
-  return <FormattedMessage id="overview.metric_not_computed" />;
 }
