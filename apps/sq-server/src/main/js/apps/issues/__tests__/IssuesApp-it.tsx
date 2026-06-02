@@ -291,7 +291,7 @@ describe('issues app', () => {
 
       expect(ui.bulkChangeComment.query()).not.toBeInTheDocument();
 
-      await user.click(screen.getByRole('radio', { name: 'issue.transition.falsepositive' }));
+      await user.click(screen.getByRole('radio', { name: 'status_transition.falsepositive' }));
       await user.click(ui.bulkChangeComment.get());
       await user.keyboard('New Comment');
 

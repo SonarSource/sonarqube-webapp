@@ -21,16 +21,16 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { StatusTransition } from '~shared/components/status-transition/StatusTransition';
-import { useIssueCommentMutation, useIssueTransitionMutation } from '../../../queries/issues';
-import { IssueStatus } from '../../../types/issues';
-import { Issue } from '../../../types/types';
-import { updateIssue } from '../actions';
 import {
   isTransitionDeprecated,
   isTransitionVisible,
   orderIssueTransitions,
   transitionRequiresComment,
-} from '../helpers';
+} from '~shared/helpers/issues';
+import { useIssueCommentMutation, useIssueTransitionMutation } from '../../../queries/issues';
+import { IssueStatus } from '../../../types/issues';
+import { Issue } from '../../../types/types';
+import { updateIssue } from '../actions';
 
 interface Props {
   isOpen: boolean;

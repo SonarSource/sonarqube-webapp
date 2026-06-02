@@ -21,12 +21,12 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { byRole } from '~shared/helpers/testSelector';
+import { IssueTransition } from '~shared/types/issues';
 import { bulkChangeIssues } from '~sq-server-commons/api/issues';
 import CurrentUserContextProvider from '~sq-server-commons/context/current-user/CurrentUserContextProvider';
 import { mockIssue, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { ComponentPropsType } from '~sq-server-commons/helpers/testUtils';
-import { IssueTransition } from '~sq-server-commons/types/issues';
 import { Issue } from '~sq-server-commons/types/types';
 import { CurrentUser } from '~sq-server-commons/types/users';
 import BulkChangeModal, { MAX_PAGE_SIZE } from '../BulkChangeModal';
@@ -80,7 +80,7 @@ it('should render transitions correctly', async () => {
   ]);
 
   expect(await screen.findByText('issue.change_status')).toBeInTheDocument();
-  expect(await screen.findByText('issue.transition.falsepositive')).toBeInTheDocument();
+  expect(await screen.findByText('status_transition.falsepositive')).toBeInTheDocument();
 });
 
 it('should only render the comment field when necessary', async () => {
@@ -99,13 +99,13 @@ it('should only render the comment field when necessary', async () => {
   ]);
 
   // Open should not trigger comment
-  await user.click(await screen.findByText('issue.transition.reopen'));
+  await user.click(await screen.findByText('status_transition.reopen'));
   expect(
     screen.queryByRole('textbox', { name: /issue_bulk_change.resolution_comment/ }),
   ).not.toBeInTheDocument();
 
   // Accept should trigger comment
-  await user.click(await screen.findByText('issue.transition.accept'));
+  await user.click(await screen.findByText('status_transition.accept'));
   expect(
     await screen.findByRole('textbox', { name: /issue_bulk_change.resolution_comment/ }),
   ).toBeInTheDocument();
@@ -162,7 +162,7 @@ it('should properly submit', async () => {
   await user.click(await screen.findByText('Toto'));
 
   // Transition
-  await user.click(await screen.findByText('issue.transition.accept'));
+  await user.click(await screen.findByText('status_transition.accept'));
 
   // Add a tag
   await user.click(await ui.addTagsButton.find());

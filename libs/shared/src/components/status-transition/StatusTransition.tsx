@@ -28,12 +28,14 @@ import {
   Tooltip,
 } from '@sonarsource/echoes-react';
 import { PropsLabelAndHelpText } from '@sonarsource/echoes-react/dist/types/utils';
+import classNames from 'classnames';
 import * as React from 'react';
 import { ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { IssueTransitionCommentDialog } from './StatusTransitionCommentDialog';
 
 interface StatusTransitionItem<T extends string> {
+  className?: string;
   isDeprecated?: boolean;
   requiresComment?: boolean;
   value: T;
@@ -45,7 +47,8 @@ interface StatusTransitionProps<T extends string> {
   isOpen: boolean;
   isTransiting?: boolean;
   onOpenChange?: (isOpen: boolean) => void;
-  onTransition: (transition: T, comment?: string) => Promise<void>;
+  onTransition: (transition: T, comment?: string, isFeedback?: boolean) => Promise<void>;
+  showFeedbackCheckbox?: boolean;
   status: string;
   transitions: StatusTransitionItem<T>[];
 }
@@ -60,10 +63,13 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
     buttonTooltipContent,
     isTransiting,
     dropdownHeader,
+    showFeedbackCheckbox,
     status,
   } = props;
 
   const [selectedTransition, setSelectedTransition] = React.useState<T | null>(null);
+  const [pendingComment, setPendingComment] = React.useState('');
+  const [pendingIsFeedback, setPendingIsFeedback] = React.useState(false);
 
   const handleTransitionChange = (transition: StatusTransitionItem<T>) => {
     if (transition.requiresComment) {
@@ -84,7 +90,7 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
           <>
             {transitions.map((transition) => (
               <DropdownMenu.ItemButton
-                className="it__issue-transition-option"
+                className={classNames('it__issue-transition-option', transition.className)}
                 helpText={
                   <FormattedMessage id={`status_transition.${transition.value}.description`} />
                 }
@@ -130,16 +136,23 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
       </DropdownMenu>
       {selectedTransition && (
         <IssueTransitionCommentDialog
+          comment={pendingComment}
+          isFeedback={pendingIsFeedback}
           isOpen
           onClose={() => {
             setSelectedTransition(null);
           }}
-          onConfirm={(comment) => {
+          onCommentChange={setPendingComment}
+          onConfirm={(comment, isFeedback) => {
             if (selectedTransition) {
-              void onTransition(selectedTransition, comment);
+              void onTransition(selectedTransition, comment, isFeedback);
               setSelectedTransition(null);
+              setPendingComment('');
+              setPendingIsFeedback(false);
             }
           }}
+          onIsFeedbackChange={setPendingIsFeedback}
+          showFeedbackCheckbox={showFeedbackCheckbox}
           transition={selectedTransition}
         />
       )}

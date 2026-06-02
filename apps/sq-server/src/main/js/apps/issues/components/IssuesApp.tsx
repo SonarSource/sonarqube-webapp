@@ -42,6 +42,7 @@ import {
 } from '~shared/helpers/compliance-standards-registry';
 import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registry-definitions';
 import { isPortfolioLike, isProject } from '~shared/helpers/component';
+import { isDropdown } from '~shared/helpers/keyboard';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier } from '~shared/types/component';
 import { Paging } from '~shared/types/paging';
@@ -62,7 +63,6 @@ import { isSameBranchLike } from '~sq-server-commons/helpers/branch-like';
 import handleRequiredAuthentication from '~sq-server-commons/helpers/handleRequiredAuthentication';
 import { parseIssueFromResponse } from '~sq-server-commons/helpers/issues';
 import {
-  isDropdown,
   isInput,
   isRadioButton,
   isShortcut,

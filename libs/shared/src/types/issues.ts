@@ -40,3 +40,14 @@ export enum IssueStatus {
   Accepted = 'ACCEPTED',
   FalsePositive = 'FALSE_POSITIVE',
 }
+
+// The order should be kept for issue transition
+export enum IssueTransition {
+  UnConfirm = 'unconfirm',
+  Reopen = 'reopen',
+  Accept = 'accept',
+  FalsePositive = 'falsepositive',
+  Confirm = 'confirm',
+  Resolve = 'resolve',
+  WontFix = 'wontfix',
+}

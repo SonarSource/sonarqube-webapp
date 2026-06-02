@@ -38,12 +38,6 @@ export function isInput(event: KeyboardEvent): event is KeyboardEvent & {
   );
 }
 
-export function isDropdown(event: KeyboardEvent) {
-  const role = (event.target as HTMLElement | null)?.role ?? '';
-
-  return ['menu', 'menuitem'].includes(role);
-}
-
 export function isRadioButton(event: KeyboardEvent) {
   const role = (event.target as HTMLElement | null)?.role ?? '';
 

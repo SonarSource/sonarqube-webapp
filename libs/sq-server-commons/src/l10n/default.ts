@@ -1176,6 +1176,8 @@ export const defaultMessages = {
   'status_transition.comment.label': 'Why should the current status be changed to "{status}"?',
   'status_transition.comment.placeholder': 'Add the comment',
   'status_transition.comment.share': 'Share this comment with Sonar to help us improve analyzers',
+  'status_transition.comment.share.helper':
+    'The following details will be shared with SonarQube Server:<br></br><br></br>Current file: code, language, project key.<br></br>Issue details: creation and update date, line, location, resolution, severity, status.<br></br>Rule details: rule repository and key.<br></br>Feedback: comment, date.<br></br><br></br>Data is shared with SonarSource Sàrl for 1 month.',
   'status_transition.change_status': 'Change status',
 
   'issue.sandbox.title': 'Issue sandbox',

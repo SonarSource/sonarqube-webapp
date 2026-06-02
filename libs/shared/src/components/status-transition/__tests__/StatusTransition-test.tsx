@@ -73,7 +73,24 @@ it('should behave correctly', async () => {
   await user.type(byRole('textbox').get(), 'This is a comment');
   await user.click(byRole('button', { name: 'status_transition.change_status' }).get());
 
-  expect(onTransite).toHaveBeenLastCalledWith('transition-2', 'This is a comment');
+  expect(onTransite).toHaveBeenLastCalledWith('transition-2', 'This is a comment', false);
+});
+
+it('should pass isFeedback=true when checkbox is checked', async () => {
+  const { user } = renderStatusTransition({
+    showFeedbackCheckbox: true,
+  });
+
+  await user.click(
+    byRole('menuitem', {
+      name: 'status_transition.transition-2 status_transition.transition-2.description',
+    }).get(),
+  );
+
+  await user.click(byRole('checkbox').get());
+  await user.click(byRole('button', { name: 'status_transition.change_status' }).get());
+
+  expect(onTransite).toHaveBeenLastCalledWith('transition-2', '', true);
 });
 
 function renderStatusTransition(props: Partial<StatusTransitionProps> = {}) {

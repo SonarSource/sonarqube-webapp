@@ -33,15 +33,13 @@ import { FormattedMessage } from 'react-intl';
 import { throwGlobalError } from '~adapters/helpers/error';
 import { FlagMessage, FormField, InputTextArea } from '~design-system';
 import FormattingTips from '~shared/components/common/FormattingTips';
+import { isTransitionVisible, transitionRequiresComment } from '~shared/helpers/issues';
+import { IssueTransition } from '~shared/types/issues';
 import { Paging } from '~shared/types/paging';
 import { bulkChangeIssues, searchIssueTags } from '~sq-server-commons/api/issues';
-import {
-  isTransitionVisible,
-  transitionRequiresComment,
-} from '~sq-server-commons/components/issue/helpers';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { withBranchStatusRefresh } from '~sq-server-commons/queries/branch';
-import { IssueStatus, IssueTransition } from '~sq-server-commons/types/issues';
+import { IssueStatus } from '~sq-server-commons/types/issues';
 import { Issue } from '~sq-server-commons/types/types';
 import AssigneeSelect from './AssigneeSelect';
 import TagsSelect from './TagsSelect';
@@ -332,7 +330,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
             id="bulk-change-transition"
             onChange={this.handleRadioTransitionChange}
             options={transitions.map(({ transition, count }) => ({
-              label: translate('issue.transition', transition),
+              label: translate(`status_transition.${transition}`),
               value: transition,
               helpText: translateWithParameters('issue_bulk_change.x_issues', count),
             }))}

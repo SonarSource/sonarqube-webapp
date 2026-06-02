@@ -18,55 +18,96 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Label, Modal, TextArea } from '@sonarsource/echoes-react';
-import { useState } from 'react';
+import {
+  Button,
+  ButtonVariety,
+  Checkbox,
+  Label,
+  Modal,
+  TextArea,
+  ToggleTip,
+} from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 interface Props<T extends string> {
+  comment: string;
+  isFeedback: boolean;
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (comment: string) => void;
+  onCommentChange: (comment: string) => void;
+  onConfirm: (comment: string, isFeedback: boolean) => void;
+  onIsFeedbackChange: (isFeedback: boolean) => void;
+  showFeedbackCheckbox?: boolean;
   transition: T;
 }
 
 export function IssueTransitionCommentDialog<T extends string>({
+  comment,
+  isFeedback,
   isOpen,
   onClose,
-  transition,
+  onCommentChange,
   onConfirm,
+  onIsFeedbackChange,
+  showFeedbackCheckbox,
+  transition,
 }: Readonly<Props<T>>) {
-  const intl = useIntl();
-  const [comment, setComment] = useState('');
+  const { formatMessage } = useIntl();
 
   return (
     <Modal
       content={
-        <TextArea
-          label={
-            <Label>
-              <FormattedMessage
-                id="status_transition.comment.label"
-                values={{
-                  status: intl.formatMessage({
-                    id: `status_transition.${transition}.to_status`,
-                  }),
+        <div className="sw-flex sw-flex-col sw-gap-4">
+          <TextArea
+            isResizable
+            label={
+              <Label>
+                <FormattedMessage
+                  id="status_transition.comment.label"
+                  values={{
+                    status: formatMessage({
+                      id: `status_transition.${transition}.to_status`,
+                    }),
+                  }}
+                />
+              </Label>
+            }
+            onChange={(event) => {
+              onCommentChange(event.target.value);
+            }}
+            placeholder={formatMessage({ id: 'status_transition.comment.placeholder' })}
+            rows={5}
+            value={comment}
+          />
+          {showFeedbackCheckbox && (
+            <div className="sw-flex sw-gap-1">
+              <Checkbox
+                checked={isFeedback}
+                label={<FormattedMessage id="status_transition.comment.share" />}
+                onCheck={(checked) => {
+                  onIsFeedbackChange(checked === true);
                 }}
               />
-            </Label>
-          }
-          onChange={(event) => {
-            setComment(event.target.value);
-          }}
-          placeholder={intl.formatMessage({ id: 'status_transition.comment.placeholder' })}
-          value={comment}
-        />
+              <ToggleTip
+                className="sw-mt-1/2"
+                description={
+                  <FormattedMessage
+                    id="status_transition.comment.share.helper"
+                    values={{ br: () => <br /> }}
+                  />
+                }
+                side="top"
+              />
+            </div>
+          )}
+        </div>
       }
       isOpen={isOpen}
       onOpenChange={onClose}
       primaryButton={
         <Button
           onClick={() => {
-            onConfirm(comment);
+            onConfirm(comment, isFeedback);
           }}
           variety={ButtonVariety.Primary}
         >

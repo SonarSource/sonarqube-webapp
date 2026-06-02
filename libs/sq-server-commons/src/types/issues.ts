@@ -25,6 +25,7 @@ import {
   SoftwareQuality,
   SoftwareQualityImpact,
 } from '~shared/types/clean-code-taxonomy';
+import { IssueTransition } from '~shared/types/issues';
 import { Paging } from '~shared/types/paging';
 import { StandardsInformationKey } from '~shared/types/security';
 import { Issue, TextRange } from './types';
@@ -75,17 +76,6 @@ export enum IssueActions {
   SetSeverity = 'set_severity',
   Comment = 'comment',
   Assign = 'assign',
-}
-
-// The order should be kept for issue transition
-export enum IssueTransition {
-  UnConfirm = 'unconfirm',
-  Reopen = 'reopen',
-  Accept = 'accept',
-  FalsePositive = 'falsepositive',
-  Confirm = 'confirm',
-  Resolve = 'resolve',
-  WontFix = 'wontfix',
 }
 
 interface Comment {

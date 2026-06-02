@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IssueTransition } from '../../types/issues';
+import { IssueTransition } from '../types/issues';
 
 export function isTransitionDeprecated(transition: IssueTransition) {
   return transition === IssueTransition.Confirm || transition === IssueTransition.Resolve;
