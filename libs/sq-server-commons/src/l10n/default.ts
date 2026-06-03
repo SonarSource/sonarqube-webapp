@@ -2233,6 +2233,8 @@ export const defaultMessages = {
     'All components are already part of a relationship.',
   'architecture.page.model.spotlight.interface_design': 'Interface Design',
   'architecture.page.model.spotlight.component_structure': 'Component structure',
+  'architecture.page.model.spotlight.description': 'Description',
+  'architecture.page.model.node_no_description': 'No description.',
   'architecture.page.model.spotlight.add_placeholder.label': 'Add placeholder component',
   'architecture.page.model.spotlight.add_placeholder.name_placeholder': '<name>',
   'architecture.page.model.spotlight.add_placeholder.kind_placeholder': '<kind>',
