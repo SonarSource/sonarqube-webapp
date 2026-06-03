@@ -1775,6 +1775,9 @@ export const defaultMessages = {
   'dependencies.package_managers.UNKNOWN': 'Unknown',
   'dependencies.package_managers.VCPKG': 'vcpkg',
 
+  'dependencies.risks.breadcrumb.branch_label': 'Branch:',
+  'dependencies.risks.breadcrumb.pull_request_label': 'Pull request:',
+  'dependencies.risks.comments_count': '{count} {count, plural, one {comment} other {comments}}',
   'dependencies.risks.sort_by': 'Sort by',
   'dependencies.risks.sort_by.severity': 'Risk severity',
   'dependencies.risks.sort_by.cvss_score': 'CVSS score',
@@ -2018,6 +2021,7 @@ export const defaultMessages = {
   'sca.licenses.profile.categories.title': 'License category policies',
   'sca.licenses.profile.categories.help':
     'Save configuration time by choosing license categories to allow by default. You can always customize individual license policies even if you allow a category by default.',
+  'sca.licenses.profile.categories.manage': 'Manage categories',
   'sca.licenses.profile.projects_using': 'Projects using this profile',
   'sca.licenses.set_category_modal.title': 'Set default license policies',
   'sca.licenses.set_category_modal.body':
@@ -2030,8 +2034,8 @@ export const defaultMessages = {
   'sca.licenses.category.permissive_standard.name': 'Standard permissive',
   'sca.licenses.category.permissive_amateur.name': 'Non-standard permissive',
   'sca.licenses.category.uncategorized.name': 'Other',
-  'sca.licenses.category.filter_by_category': 'All categories',
-  'sca.licenses.profile.filter_by_policy': 'All policies',
+  'sca.licenses.category.filter_by_category': 'Filter by category',
+  'sca.licenses.profile.filter_by_policy': 'Filter by policy',
   'sca.licenses.profile.policy_select.aria_label': 'Policy for {name}',
   'sca.licenses.license_override.more_info.aria_label': 'More information about {name}',
 
