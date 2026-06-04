@@ -103,7 +103,7 @@ export const baseViteConfig = {
         }),
       ],
     },
-    sourcemap: isProduction, // enable source maps for production
+    sourcemap: false,
   },
   css: {
     postcss: {
