@@ -18,17 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Layout, Spinner } from '@sonarsource/echoes-react';
+import { Layout, LoadingSkeleton } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
 import { withRouter } from '~shared/components/hoc/withRouter';
+import { isDefined } from '~shared/helpers/types';
 import { Location, Router } from '~shared/types/router';
 import { addons } from '~sq-server-addons/index';
 import { getSystemInfo } from '~sq-server-commons/api/system';
 import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
+import { LogsLevels } from '~sq-server-commons/types/system';
 import { SysInfoCluster, SysInfoStandalone } from '~sq-server-commons/types/types';
 import { UpdateNotification } from '../../../app/components/update-notification/UpdateNotification';
 import '../styles.css';
@@ -55,6 +56,7 @@ interface Props {
 }
 
 interface State {
+  error: boolean;
   loading: boolean;
   sysInfoData?: SysInfoCluster | SysInfoStandalone;
 }
@@ -62,7 +64,7 @@ interface State {
 class SystemApp extends React.PureComponent<Props, State> {
   mounted = false;
   intl = getIntl();
-  state: State = { loading: true };
+  state: State = { error: false, loading: true };
 
   componentDidMount() {
     this.mounted = true;
@@ -83,7 +85,7 @@ class SystemApp extends React.PureComponent<Props, State> {
       },
       () => {
         if (this.mounted) {
-          this.setState({ loading: false });
+          this.setState({ error: true, loading: false });
         }
       },
     );
@@ -106,8 +108,8 @@ class SystemApp extends React.PureComponent<Props, State> {
   };
 
   renderSysInfo() {
-    const { sysInfoData } = this.state;
-    if (!sysInfoData) {
+    const { error, sysInfoData } = this.state;
+    if (!sysInfoData || error) {
       return null;
     }
 
@@ -131,45 +133,54 @@ class SystemApp extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { loading, sysInfoData } = this.state;
+    const { error, loading, sysInfoData } = this.state;
     return (
       <AdminPageTemplate
         actions={
-          <Layout.PageHeader.Actions>
-            <Spinner className="sw-mr-4 sw-mt-1" isLoading={loading} />
-
-            {sysInfoData && (
-              <PageActions
-                cluster={isCluster(sysInfoData)}
-                logLevel={getSystemLogsLevel(sysInfoData)}
-                onLogLevelChange={this.fetchSysInfo}
-                serverId={getServerId(sysInfoData)}
-              />
+          <LoadingSkeleton isLoading={loading} variety="rectangle">
+            {!error && (
+              <Layout.PageHeader.Actions>
+                <PageActions
+                  cluster={sysInfoData ? isCluster(sysInfoData) : false}
+                  logLevel={sysInfoData ? getSystemLogsLevel(sysInfoData) : LogsLevels.INFO}
+                  onLogLevelChange={this.fetchSysInfo}
+                  serverId={sysInfoData && getServerId(sysInfoData)}
+                />
+              </Layout.PageHeader.Actions>
             )}
-          </Layout.PageHeader.Actions>
+          </LoadingSkeleton>
         }
         breadcrumbs={[{ linkElement: <FormattedMessage id="system_info.page" /> }]}
+        isLoading={loading}
         title={this.intl.formatMessage({ id: 'system_info.page' })}
       >
-        <Helmet defer={false} title={translate('system_info.page')} />
+        <Helmet defer={false} title={this.intl.formatMessage({ id: 'system_info.page' })} />
 
         <div className="sw-flex sw-flex-col sw-gap-y-4 sw-mb-8 empty:sw-mb-0">
           <MonitoringAlerts />
           <UpdateNotification />
         </div>
-        {sysInfoData && (
-          <PageHeader
-            onLogLevelChange={this.fetchSysInfo}
-            serverId={getServerId(sysInfoData)}
-            version={
-              isCluster(sysInfoData) ? getClusterVersion(sysInfoData) : getVersion(sysInfoData)
-            }
-          />
-        )}
-        {this.renderSysInfo()}
+
+        <PageHeader
+          onLogLevelChange={this.fetchSysInfo}
+          serverId={sysInfoData && getServerId(sysInfoData)}
+          version={getSysInfoVersion(sysInfoData)}
+        />
+
+        <LoadingSkeleton className="sw-h-[400px] sw-w-3/4" variety="rectangle">
+          {this.renderSysInfo()}
+        </LoadingSkeleton>
       </AdminPageTemplate>
     );
   }
 }
 
 export default withRouter(SystemApp);
+
+function getSysInfoVersion(sysInfoData: SysInfoCluster | SysInfoStandalone | undefined) {
+  if (!isDefined(sysInfoData)) {
+    return undefined;
+  }
+
+  return isCluster(sysInfoData) ? getClusterVersion(sysInfoData) : getVersion(sysInfoData);
+}

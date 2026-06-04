@@ -35,6 +35,7 @@ interface Props extends PropsWithChildren {
   breadcrumbs?: BreadcrumbsProps['items'];
   description?: PageHeaderProps['description'];
   hasDivider?: boolean;
+  isLoading?: boolean;
   pageClassName?: string;
   scrollBehavior?: PageHeaderProps['scrollBehavior'];
   title: string;
@@ -43,7 +44,16 @@ interface Props extends PropsWithChildren {
 
 export const AdminPageTemplate = forwardRef<HTMLDivElement, Props>(
   (
-    { asideLeft, breadcrumbs, children, pageClassName, title, width = 'default', ...headerProps },
+    {
+      asideLeft,
+      breadcrumbs,
+      children,
+      isLoading,
+      pageClassName,
+      title,
+      width = 'default',
+      ...headerProps
+    },
     ref,
   ) => {
     return (
@@ -52,7 +62,7 @@ export const AdminPageTemplate = forwardRef<HTMLDivElement, Props>(
 
         {asideLeft}
 
-        <Layout.PageGrid className={pageClassName} ref={ref} width={width}>
+        <Layout.PageGrid className={pageClassName} isLoading={isLoading} ref={ref} width={width}>
           <Layout.PageHeader
             breadcrumbs={
               <Layout.PageHeader.Breadcrumbs

@@ -23,6 +23,7 @@ import userEvent from '@testing-library/user-event';
 import { first } from 'lodash';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
+import { getSystemInfo } from '~sq-server-commons/api/system';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { AppState } from '~sq-server-commons/types/appstate';
@@ -90,6 +91,17 @@ describe('System Info Standalone', () => {
 
     expect(ui.versionLabel('7.8').get()).toBeInTheDocument();
     expect(await ui.ltaDocumentationLinkActive.find()).toBeInTheDocument();
+  });
+
+  it('should hide system info and page actions on error', async () => {
+    jest.mocked(getSystemInfo).mockRejectedValueOnce(new Error('error'));
+    const { ui } = getPageObjects();
+    renderSystemApp();
+
+    expect(await ui.pageHeading.find()).toBeInTheDocument();
+
+    expect(screen.queryByText('asd564-asd54a-5dsfg45')).not.toBeInTheDocument();
+    expect(ui.downloadLogsButton.query()).not.toBeInTheDocument();
   });
 });
 

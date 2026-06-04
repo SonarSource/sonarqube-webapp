@@ -40,10 +40,11 @@ interface ButtonProps {
   copiedLabel?: ReactNode;
   copyValue: string;
   icon?: ReactNode;
+  isDisabled?: boolean;
 }
 
 export function ClipboardButton(props: Readonly<ButtonProps>) {
-  const { icon, className, children, copyValue, ariaLabel, copiedLabel } = props;
+  const { icon, className, children, copyValue, ariaLabel, copiedLabel, isDisabled } = props;
   const [copySuccess, handleCopy] = useCopyClipboardEffect(copyValue);
 
   return (
@@ -51,6 +52,7 @@ export function ClipboardButton(props: Readonly<ButtonProps>) {
       <Button
         aria-label={ariaLabel}
         className={classNames('sw-select-none', className)}
+        isDisabled={isDisabled}
         onClick={handleCopy}
         prefix={icon ?? <IconCopy />}
       >

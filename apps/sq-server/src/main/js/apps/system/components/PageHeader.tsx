@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { LoadingSkeleton } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { Card, FlagMessage } from '~design-system';
 import { ClipboardButton } from '~shared/components/clipboard';
@@ -36,46 +37,51 @@ export interface Props {
 function PageHeader(props: Readonly<Props>) {
   const { serverId, version, appState } = props;
   return (
-    serverId &&
-    version && (
-      <Card className="sw-max-w-1/2 sw-mb-8">
-        {!appState.productionDatabase && (
-          <FlagMessage className="sw-mb-2" variant="warning">
-            <FormattedMessage id="system.not_production_database_warning" />
-          </FlagMessage>
-        )}
-        <div className="sw-flex sw-items-center sw-justify-between">
-          <div>
-            <div className="sw-flex sw-items-center">
-              <strong className="sw-w-[128px]">
-                <FormattedMessage id="system.server_id" />
-              </strong>
-              <span className="sw-code">{serverId}</span>
-            </div>
-            <div className="sw-flex sw-items-center">
-              <strong className="sw-w-[128px]">
-                <FormattedMessage id="system.version" />
-              </strong>
-              <span>
-                <AppVersionStatus />
-              </span>
-            </div>
+    <Card className="sw-max-w-1/2 sw-mb-8">
+      {!appState.productionDatabase && (
+        <FlagMessage className="sw-mb-2" variant="warning">
+          <FormattedMessage id="system.not_production_database_warning" />
+        </FlagMessage>
+      )}
+      <div className="sw-flex sw-items-center sw-justify-between">
+        <div>
+          <div className="sw-flex sw-items-center">
+            <strong className="sw-w-[128px]">
+              <FormattedMessage id="system.server_id" />
+            </strong>
+            <span className="sw-code">
+              <LoadingSkeleton className="sw-w-[200px]" variety="text">
+                {serverId}
+              </LoadingSkeleton>
+            </span>
           </div>
-          <ClipboardButton
-            className="sw-ml-4"
-            copyValue={`SonarQube ID information
+          <div className="sw-flex sw-items-center">
+            <strong className="sw-w-[128px]">
+              <FormattedMessage id="system.version" />
+            </strong>
+            <span>
+              <LoadingSkeleton className="sw-w-[200px]" variety="text">
+                <AppVersionStatus />
+              </LoadingSkeleton>
+            </span>
+          </div>
+        </div>
+
+        <ClipboardButton
+          className="sw-ml-4"
+          copyValue={`SonarQube ID information
 Server ID: ${serverId}
 Version: ${version}
 Date: ${toShortISO8601String(Date.now())}
 `}
-          >
-            <span className="sw-ml-1 sw-whitespace-nowrap">
-              <FormattedMessage id="system.copy_id_info" />
-            </span>
-          </ClipboardButton>
-        </div>
-      </Card>
-    )
+          isDisabled={!serverId || !version}
+        >
+          <span className="sw-ml-1 sw-whitespace-nowrap">
+            <FormattedMessage id="system.copy_id_info" />
+          </span>
+        </ClipboardButton>
+      </div>
+    </Card>
   );
 }
 
