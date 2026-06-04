@@ -2380,6 +2380,8 @@ export const defaultMessages = {
     'No directive exists to remove this dependency.',
   'architecture.tangle.directive.deletion.success': 'Dependency removal cancelled',
   'architecture.tangle.directive.callout.message': 'Select a dependency to manage its removal.',
+  'architecture.directives.error.ecosystem_unresolved':
+    "Cannot determine the project's primary language. Please reload and try again.",
   'architecture.discovery.description': 'Discover the structure of your project.',
   'architecture.discovery.spotlight.path.copy': 'Copy: {path}',
   'architecture.discovery.spotlight.incoming_dependencies':
