@@ -2450,6 +2450,11 @@ export const defaultMessages = {
   'architecture.relationships.form.query': 'Query',
   'architecture.list.delete.confirm.title': 'Delete',
   'architecture.list.delete.confirm.body': 'Are you sure you want to delete "{name}"?',
+  'architecture.external_interfaces.modal.save_error':
+    "Sorry, we couldn't save the external interface. Please try again later.",
+  'architecture.external_interfaces.list.delete.confirm.title': 'Delete external interface',
+  'architecture.external_interfaces.list.delete.confirm.body':
+    'Deleting the external interface "{name}" will also remove it from any project relationships where it is currently used. This can\'t be undone.',
   'architecture.relationships.validate.breadcrumb': 'Validate',
   'architecture.relationships.validate.title': 'Validate relationships',
   'architecture.relationships.validate.component_label': 'Project component',
