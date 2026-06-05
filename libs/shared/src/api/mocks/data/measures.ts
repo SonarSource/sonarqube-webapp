@@ -35,7 +35,7 @@ export const mockComponentTreeFromHierarchy = (
   componentHierarchy: ComponentHierarchy,
 ): ComponentTree => {
   const component = mockComponent({
-    key: (ancestors.length ? ancestors[ancestors.length - 1].key + ':' : '') + componentKey,
+    key: (ancestors.length ? ancestors.at(-1)?.key + ':' : '') + componentKey,
     name: componentKey,
     qualifier: ComponentQualifier.Directory,
   });
