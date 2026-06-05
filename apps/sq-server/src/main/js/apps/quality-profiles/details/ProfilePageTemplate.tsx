@@ -18,15 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  Badge,
-  BreadcrumbsProps,
-  Layout,
-  Link,
-  LinkHighlight,
-  LinkStandalone,
-  Text,
-} from '@sonarsource/echoes-react';
+import { Badge, BreadcrumbsProps, Layout, LinkStandalone } from '@sonarsource/echoes-react';
 import { PropsWithChildren } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
@@ -38,8 +30,6 @@ import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
 import { PROFILE_PATH } from '~sq-server-commons/constants/paths';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { getProfilePath } from '~sq-server-commons/helpers/urls';
 import { Feature } from '~sq-server-commons/types/features';
 import { QualityProfileDetailsContextProps } from '~sq-server-commons/types/quality-profiles';
@@ -49,6 +39,7 @@ import {
 } from '~sq-server-commons/utils/quality-profiles-utils';
 import BuiltInQualityProfileBadge from '../components/BuiltInQualityProfileBadge';
 import ProfileActions from '../components/ProfileActions';
+import { ProfileDescription } from './ProfileDescription';
 
 interface Props {
   additionalBreadcrumbs?: BreadcrumbsProps['items'];
@@ -81,8 +72,6 @@ export function ProfilePageTemplate(props: PropsWithChildren<Props>) {
     hasAicaFeature && addons.aica?.isQualityProfileRecommendedForAI?.(profile),
   );
 
-  const getDocUrl = useDocUrl();
-
   return (
     <Layout.PageGrid width="fluid">
       <Helmet defer={false} title={helmetTitle} />
@@ -107,29 +96,7 @@ export function ProfilePageTemplate(props: PropsWithChildren<Props>) {
           />
         }
         className="it__quality-profiles__header"
-        description={
-          profile.isBuiltIn && (
-            <FormattedMessage
-              id={
-                showAicaIntro
-                  ? 'quality_profiles.built_in.aica_description'
-                  : 'quality_profiles.built_in.description'
-              }
-              values={{
-                aica: (text) => <Text>{text}</Text>,
-                link: (text) => (
-                  <Link
-                    enableOpenInNewTab
-                    highlight={LinkHighlight.CurrentColor}
-                    to={getDocUrl(DocLink.AiCodeAssuranceProfiles)}
-                  >
-                    {text}
-                  </Link>
-                ),
-              }}
-            />
-          )
-        }
+        description={<ProfileDescription profile={profile} showAicaIntro={showAicaIntro} />}
         metadata={
           !hideMetadata && (
             <Layout.PageHeader.Metadata className="sw-gap-3">

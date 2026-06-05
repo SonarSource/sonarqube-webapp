@@ -23,6 +23,7 @@ import userEvent from '@testing-library/user-event';
 import { byText } from '~shared/helpers/testSelector';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import QualityProfilesServiceMock from '~sq-server-commons/api/mocks/QualityProfilesServiceMock';
+import { QUALITY_PROFILE_SONAR_AGENTIC_AI } from '~sq-server-commons/helpers/quality-profiles';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { Feature } from '~sq-server-commons/types/features';
 import { Mode } from '~sq-server-commons/types/mode';
@@ -86,7 +87,9 @@ describe('Every Users', () => {
     await ui.waitForDataLoaded();
 
     expect(await byText('quality_profiles.built_in.description').find()).toBeInTheDocument();
-    expect(byText('quality_profiles.built_in.aica_description').query()).not.toBeInTheDocument();
+    expect(
+      byText('quality_profiles.built_in.description.learn_more').query(),
+    ).not.toBeInTheDocument();
   });
 
 

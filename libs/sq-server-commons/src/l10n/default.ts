@@ -3927,6 +3927,8 @@ export const defaultMessages = {
   'project_quality_profile.change_profile_x': 'Change {x} profile',
   'project_quality_profile.page': 'Quality profiles',
   'project_quality_profiles.page': 'Quality profiles',
+  'project_quality_profiles.agentic_recommendation':
+    'Use {agenticQpDocLink} for recommended quality profile for agent-related projects',
   'project_quality_profile.page.description':
     'Each language is automatically assigned the default quality profile of this instance. As a project administrator, you can override the default assignment and choose different profiles for languages used in this project.',
   'project_quality_profile.profiles_by_languages': 'Profiles by languages',
@@ -3934,7 +3936,7 @@ export const defaultMessages = {
     'For each language, choose the profile associated with this project.',
   'project_quality_profile.contains_ai_code.title': 'This project contains AI-generated code',
   'project_quality_profile.contains_ai_code.description':
-    'Sonar way is the recommended quality profile for AI generated code. Although it is not a mandatory step, we suggest you review your quality profiles to ensure protection. <p>Learn why in our documentation</p>',
+    '<b>{agenticQualityProfileName}</b> and <b>Sonar way</b> are the recommended quality profiles for AI generated code. Although it is not a mandatory step, we suggest you review your quality profiles to ensure protection. <p>Learn why in our documentation</p>',
 
   //------------------------------------------------------------------------------
   //
@@ -3969,7 +3971,7 @@ export const defaultMessages = {
   'ai_generated_code.review_profiles.title.aica_on':
     'AI Code Assurance is on. Consider reviewing this project’s quality profiles.',
   'ai_generated_code.review_profiles.description':
-    'Sonar way is the recommended quality profile for AI generated code. Although it is not a mandatory step, we suggest you review your quality profiles to ensure protection.',
+    '<b>{agenticQualityProfileName}</b> and <b>Sonar way</b> are the recommended quality profiles for AI generated code. Although it is not a mandatory step, we suggest you review your quality profiles to ensure protection.',
   'ai_generated_code.review_profiles.button': 'Review Quality Profiles',
   'ai_generated_code.review_profiles.link': 'Learn why in the documentation',
   //------------------------------------------------------------------------------
@@ -4107,6 +4109,8 @@ export const defaultMessages = {
     'The current profile is the default profile, but it has no active rules. Please activate at least 1 rule for this profile.',
   'quality_profiles.parent': 'Parent',
   'quality_profiles.parameter_set_to': 'Parameter {0} set to {1}',
+  'quality_profiles.sonar_agentic_ai.help_text': 'Recommended quality profile for agentic work',
+  'quality_profiles.sonar_way.help_text': 'Recommended quality profile for human centered work',
   'quality_profile.summary_additional': '{count} more {count, plural, one {rule} other {rules}}',
   'quality_profile.summary_fewer': '{count} {count, plural, one {rule} other {rules}}',
   'quality_profile.summary_differences1':
@@ -4209,10 +4213,13 @@ export const defaultMessages = {
   'quality_profiles.updated_': 'Updated:',
   'quality_profiles.used_': 'Used:',
   'quality_profiles.built_in': 'Built-in',
+  'quality_profiles.built_in.agentic.description':
+    'The {agenticQualityProfileName} quality profile is recommended for projects where AI agents generate or contribute significant amounts of Java, JavaScript/TypeScript, or Python code. It activates the security and reliability rules most relevant to AI-generated code, while reducing noise from maintainability rules and minor hotspots that are less critical in agentic workflows. Sonar maintains and updates this profile as AI coding patterns and risks evolve.',
+  'quality_profiles.built_in.agentic.description.learn_more':
+    '<link>Learn why in our documentation</link>',
   'quality_profiles.built_in.description':
-    'This is a built-in quality profile that might be updated automatically.',
-  'quality_profiles.built_in.aica_description':
-    'This is a built-in quality profile that might be updated automatically. <aica>We recommend using Sonar way for projects that contain AI-generated code, as a strict standard is needed to ensure safety of such code.</aica> <link>Learn why in our documentation</link>',
+    'Sonar way serves as the definitive baseline for codebases where human intuition and authorship drive the logic. While AI might assist, this profile is built on the principle that humans must still read, understand, and evolve the code over years of development.',
+  'quality_profiles.built_in.description.learn_more': '<link>Learn why in our documentation</link>',
   'quality_profiles.extends_built_in':
     'Because this quality profile inherits from a built-in quality profile, it might be updated automatically.',
   'quality_profiles.no_built_in_updates_warning':
@@ -4262,7 +4269,10 @@ export const defaultMessages = {
   'quality_profiles.creation.choose_copy_quality_profile': 'Profile to copy',
   'quality_profiles.name_invalid': 'Quality profile name should not be empty',
   'quality_profiles.actions': 'Open {0} {1} quality profile actions',
-  'quality_profiles.aica.tooltip.icon': 'This quality profile is recommended for AI-generated code',
+  'quality_profiles.aica.tooltip.icon':
+    'Standard for projects where human authorship drive the logic, although AI assisted',
+  'quality_profiles.aica.tooltip.icon.agentic':
+    'Projects using primarily agent-centric development. Filters out stylistic rules to prioritize high-impact risks like structural drift and security',
 
   //------------------------------------------------------------------------------
   //

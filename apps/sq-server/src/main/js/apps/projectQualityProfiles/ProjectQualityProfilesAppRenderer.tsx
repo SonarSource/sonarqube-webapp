@@ -89,6 +89,7 @@ export default function ProjectQualityProfilesAppRenderer(
   const { hasFeature } = useAvailableFeatures();
   const profilesByLanguage = groupBy(allProfiles, 'language');
   const orderedProfiles = orderBy(projectProfiles, (p) => p.profile.languageName);
+  const profiles = projectProfiles?.map((p) => p.profile) ?? [];
   const hasAICAFeature = hasFeature(Feature.AiCodeAssurance);
 
   const COLUMN_WIDTHS_WITH_PURGE_SETTING = ['auto', 'auto', 'auto', '5%'];
@@ -122,14 +123,13 @@ export default function ProjectQualityProfilesAppRenderer(
       <div>
         <Suggestions suggestion={DocLink.InstanceAdminQualityProfiles} />
         <A11ySkipTarget anchor="profiles_main" />
-
         {hasAICAFeature && (
           <ProfileAICodeSuggestionBanner
+            allProfiles={allProfiles}
             component={component}
-            profiles={projectProfiles?.map((p) => p.profile) ?? []}
+            profiles={profiles}
           />
         )}
-
         <Spinner isLoading={loading}>
           {!loading && orderedProfiles.length > 0 && (
             <Card className="sw-mt-6">

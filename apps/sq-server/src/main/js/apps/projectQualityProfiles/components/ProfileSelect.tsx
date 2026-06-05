@@ -19,9 +19,10 @@
  */
 
 import { Link, Select } from '@sonarsource/echoes-react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { addons } from '~sq-server-addons/index';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { getBuiltInQualityProfileHelpTextKey } from '~sq-server-commons/helpers/quality-profiles';
 import { getQualityProfileUrl } from '~sq-server-commons/helpers/urls';
 import { Feature } from '~sq-server-commons/types/features';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
@@ -30,24 +31,30 @@ type ProfileSelectProps = { profiles: BaseProfile[] } & Omit<Parameters<typeof S
 
 export default function ProfileSelect({ profiles, ...rest }: Readonly<ProfileSelectProps>) {
   const { hasFeature } = useAvailableFeatures();
+  const { formatMessage } = useIntl();
 
   const ProfileRecommendedForAiIcon = addons.aica?.ProfileRecommendedForAiIcon || (() => null);
 
-  const profileOptions = profiles.map((p) => ({
-    value: p.key,
-    label: p.name,
-    disabled: p.activeRuleCount === 0,
-    prefix: hasFeature(Feature.AiCodeAssurance) && <ProfileRecommendedForAiIcon profile={p} />,
-    suffix:
-      p.activeRuleCount === 0 ? (
-        <>
-          <FormattedMessage id="project_quality_profile.add_language_modal.no_active_rules" />
-          <Link to={getQualityProfileUrl(p.name, p.language)}>
-            <FormattedMessage id="project_quality_profile.add_language_modal.go_to_profile" />
-          </Link>
-        </>
-      ) : null,
-  }));
+  const profileOptions = profiles.map((p) => {
+    const helpTextKey = getBuiltInQualityProfileHelpTextKey(p);
+
+    return {
+      value: p.key,
+      label: p.name,
+      disabled: p.activeRuleCount === 0,
+      prefix: hasFeature(Feature.AiCodeAssurance) && <ProfileRecommendedForAiIcon profile={p} />,
+      suffix:
+        p.activeRuleCount === 0 ? (
+          <>
+            <FormattedMessage id="project_quality_profile.add_language_modal.no_active_rules" />
+            <Link to={getQualityProfileUrl(p.name, p.language)}>
+              <FormattedMessage id="project_quality_profile.add_language_modal.go_to_profile" />
+            </Link>
+          </>
+        ) : null,
+      helpText: helpTextKey ? formatMessage({ id: helpTextKey }) : undefined,
+    };
+  });
 
   const selectedProfile = profiles.find((p) => p.key === rest.value);
 

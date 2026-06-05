@@ -20,9 +20,11 @@
 
 import classNames from 'classnames';
 import { ContentCell, DiscreetLink, TableRow } from '~design-system';
+import { QualityProfileNewBadge } from '~shared/components/quality-profiles/QualityProfileNewBadge';
 import { addons } from '~sq-server-addons/index';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { QUALITY_PROFILE_SONAR_AGENTIC_AI } from '~sq-server-commons/helpers/quality-profiles';
 import { getRulesUrl } from '~sq-server-commons/helpers/urls';
 import { Feature } from '~sq-server-commons/types/features';
 import { ProfileInheritanceDetails } from '~sq-server-commons/types/types';
@@ -62,6 +64,9 @@ export default function ProfileInheritanceRow(props: Readonly<Props>) {
             </ProfileLink>
           ) : (
             <span>{profile.name}</span>
+          )}
+          {profile.name === QUALITY_PROFILE_SONAR_AGENTIC_AI && profile.isBuiltIn && (
+            <QualityProfileNewBadge />
           )}
           {profile.isBuiltIn && <BuiltInQualityProfileBadge />}
           {addons.aica && hasFeature(Feature.AiCodeAssurance) && (

@@ -23,9 +23,11 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { ActionCell, Badge, BaseLink, ContentCell, Link, TableRow } from '~design-system';
 import DateFromNow from '~shared/components/intl/DateFromNow';
+import { QualityProfileNewBadge } from '~shared/components/quality-profiles/QualityProfileNewBadge';
 import { addons } from '~sq-server-addons/index';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { QUALITY_PROFILE_SONAR_AGENTIC_AI } from '~sq-server-commons/helpers/quality-profiles';
 import { getRulesUrl } from '~sq-server-commons/helpers/urls';
 import { Feature } from '~sq-server-commons/types/features';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
@@ -61,13 +63,16 @@ export function ProfilesListRow(props: Readonly<ProfilesListRowProps>) {
       data-name={profile.name}
     >
       <ContentCell>
-        <div className="sw-flex sw-items-center" style={{ paddingLeft: offset }}>
+        <div className="sw-flex sw-items-center sw-gap-2" style={{ paddingLeft: offset }}>
           <ProfileLink language={profile.language} name={profile.name}>
             {profile.name}
           </ProfileLink>
-          {profile.isBuiltIn && <BuiltInQualityProfileBadge className="sw-ml-2" />}
+          {profile.name === QUALITY_PROFILE_SONAR_AGENTIC_AI && profile.isBuiltIn && (
+            <QualityProfileNewBadge />
+          )}
+          {profile.isBuiltIn && <BuiltInQualityProfileBadge />}
           {addons.aica && hasFeature(Feature.AiCodeAssurance) && (
-            <addons.aica.ProfileRecommendedForAiIcon className="sw-ml-1" profile={profile} />
+            <addons.aica.ProfileRecommendedForAiIcon profile={profile} />
           )}
         </div>
       </ContentCell>

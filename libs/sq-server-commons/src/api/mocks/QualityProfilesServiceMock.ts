@@ -28,6 +28,7 @@ import {
 import { IssueSeverity } from '~shared/types/issues';
 import { Paging } from '~shared/types/paging';
 import { RuleDetails } from '~shared/types/rules';
+import { QUALITY_PROFILE_SONAR_AGENTIC_AI } from '../../helpers/quality-profiles';
 import { RequestData } from '../../helpers/request';
 import {
   mockCompareResult,
@@ -227,6 +228,14 @@ export default class QualityProfilesServiceMock {
         name: 'PHP way',
         language: 'php',
         languageName: 'PHP',
+      }),
+      mockQualityProfile({
+        activeRuleCount: 3,
+        isBuiltIn: true,
+        key: 'py-sonar-agentic',
+        name: QUALITY_PROFILE_SONAR_AGENTIC_AI,
+        language: 'python',
+        languageName: 'Python',
       }),
     ];
   }
