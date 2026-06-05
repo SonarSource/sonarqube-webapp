@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { toast } from '@sonarsource/echoes-react';
 import { throwGlobalError } from '~adapters/helpers/error';
-import { addGlobalErrorMessage } from '../../design-system';
 
-jest.mock('../../design-system', () => ({
-  addGlobalErrorMessage: jest.fn(),
+jest.mock('@sonarsource/echoes-react', () => ({
+  toast: { error: jest.fn() },
 }));
 
 beforeEach(() => {
@@ -46,7 +46,7 @@ it('should display the error message', async () => {
     })
     .catch(() => {});
 
-  expect(addGlobalErrorMessage).toHaveBeenCalledWith('error 1');
+  expect(toast.error).toHaveBeenCalledWith(expect.objectContaining({ description: 'error 1' }));
 });
 
 it('should display the default error messsage', async () => {
@@ -60,17 +60,15 @@ it('should display the default error messsage', async () => {
     })
     .catch(() => {});
 
-  expect(addGlobalErrorMessage).toHaveBeenCalledWith('default_error_message');
+  expect(toast.error).toHaveBeenCalledWith(
+    expect.objectContaining({ description: 'default_error_message' }),
+  );
 });
 
 it('should handle weird response types', async () => {
   const response = { weird: 'response type' };
 
-  await expect(
-    throwGlobalError(response).then(() => {
-      throw new Error('Should throw');
-    }),
-  ).rejects.toBe(response);
+  await expect(throwGlobalError(response)).rejects.toThrow();
 });
 
 it('should unwrap response if necessary', async () => {

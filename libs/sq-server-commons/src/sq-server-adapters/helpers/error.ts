@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { AxiosError } from 'axios';
+import { toast } from '@sonarsource/echoes-react';
+import { isAxiosError, type AxiosError } from 'axios';
 import { HttpStatus } from '~shared/types/request';
-import { addGlobalErrorMessage } from '../../design-system';
 import handleRequiredAuthentication from '../../helpers/handleRequiredAuthentication';
 import { parseError } from '../../helpers/request';
 
@@ -30,37 +30,57 @@ interface ThrowGlobalErrorOptions {
 }
 
 export function throwGlobalError(
-  param: AxiosError | Response | any,
+  param: unknown,
   options: ThrowGlobalErrorOptions = {},
 ): Promise<never> {
-  if (param.response instanceof Response) {
+  if (!param) {
+    return Promise.reject(new Error('No error provided'));
+  }
+  let resolved: unknown = param;
+
+  if (
+    resolved !== null &&
+    typeof resolved === 'object' &&
+    'response' in resolved &&
+    (resolved as Record<string, unknown>).response instanceof Response
+  ) {
     /* eslint-disable-next-line no-console */
     console.warn('DEPRECATED: response should not be wrapped, pass it directly.');
-    param = param.response;
+    resolved = (resolved as Record<string, unknown>).response;
   }
 
+  if (resolved instanceof Response || isAxiosError(resolved)) {
+    return throwGlobalErrorInternal(resolved, options);
+  }
+
+  const error = param instanceof Error ? param : new Error('Unexpected error');
+  return Promise.reject(error);
+}
+
+async function throwGlobalErrorInternal(
+  param: AxiosError | Response,
+  options: ThrowGlobalErrorOptions,
+): Promise<never> {
   if (param instanceof Response) {
-    return parseError(param)
-      .then(
-        (...args) => {
-          addGlobalErrorMessage(...args);
-          if (options.redirectUnauthorizedNoReasons && param.status === HttpStatus.Unauthorized) {
-            handleRequiredAuthentication();
-          }
-        },
-        () => {
-          /* ignore parsing errors */
-        },
-      )
-      .then(() => Promise.reject(param));
+    await parseError(param).then(
+      (message) => {
+        toast.error({ description: message, id: message, duration: 'medium' });
+        if (options.redirectUnauthorizedNoReasons && param.status === HttpStatus.Unauthorized) {
+          handleRequiredAuthentication();
+        }
+      },
+      () => {
+        /* ignore parsing errors */
+      },
+    );
+    throw param;
   }
 
   // Axios response object
-  if (param.data?.message) {
-    addGlobalErrorMessage(param.data?.message);
-
-    return Promise.reject(param);
+  const message = (param.response?.data as { message?: string } | undefined)?.message;
+  if (message) {
+    toast.error({ description: message, id: message, duration: 'medium' });
   }
 
-  return Promise.reject(param);
+  throw param;
 }
