@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { isScaFacet } from '~shared/helpers/sca';
 import { isDefined } from '~shared/helpers/types';
 import { MetricKey } from '~shared/types/metrics';
 import { ProjectKeyValidationResult } from '../types/component';
@@ -54,6 +55,8 @@ export const propertyToMetricMapLegacy: Record<string, string | undefined> = {
   new_security_review: 'new_security_review_rating',
   maintainability: 'sqale_rating',
   new_maintainability: 'new_maintainability_rating',
+  sca_rating: 'sca_rating_any_issue',
+  new_sca_rating: 'new_sca_rating_any_issue',
   coverage: 'coverage',
   new_coverage: 'new_coverage',
   duplications: 'duplicated_lines_density',
@@ -110,10 +113,12 @@ export function convertToFilter(
     'security',
     'security_review',
     'maintainability',
+    'sca_rating',
     'new_reliability',
     'new_security',
     'new_security_review',
     'new_maintainability',
+    'new_sca_rating',
   ].forEach((property) => {
     pushMetricToArray(query, property, conditions, convertIssuesRating, isStandardMode);
   });
@@ -280,6 +285,7 @@ export const LEGACY_FACETS = [
   MetricKey.security_rating,
   MetricKey.security_review_rating,
   MetricKey.sqale_rating,
+  MetricKey.sca_rating_any_issue,
   MetricKey.coverage,
   MetricKey.duplicated_lines_density,
   MetricKey.ncloc,
@@ -294,6 +300,7 @@ export const FACETS = [
   MetricKey.software_quality_security_rating,
   MetricKey.software_quality_maintainability_rating,
   MetricKey.security_review_rating,
+  MetricKey.sca_rating_any_issue,
   MetricKey.coverage,
   MetricKey.duplicated_lines_density,
   MetricKey.ncloc,
@@ -308,6 +315,7 @@ export const LEGACY_LEAK_FACETS = [
   MetricKey.new_security_rating,
   MetricKey.new_security_review_rating,
   MetricKey.new_maintainability_rating,
+  MetricKey.new_sca_rating_any_issue,
   MetricKey.new_coverage,
   MetricKey.new_duplicated_lines_density,
   MetricKey.new_lines,
@@ -322,6 +330,7 @@ export const LEAK_FACETS = [
   MetricKey.new_software_quality_security_rating,
   MetricKey.new_software_quality_maintainability_rating,
   MetricKey.new_security_review_rating,
+  MetricKey.new_sca_rating_any_issue,
   MetricKey.new_coverage,
   MetricKey.new_duplicated_lines_density,
   MetricKey.new_lines,
@@ -331,7 +340,21 @@ export const LEAK_FACETS = [
   'qualifier',
 ];
 
-export function defineFacets(query: ProjectsQuery, isStandardMode: boolean): string[] {
+export function defineFacets(
+  query: ProjectsQuery,
+  isStandardMode: boolean,
+  scaEnabled = false,
+): string[] {
+  const facets = selectFacets(query, isStandardMode);
+
+  if (scaEnabled) {
+    return facets;
+  }
+
+  return facets.filter((f) => !isScaFacet(f));
+}
+
+function selectFacets(query: ProjectsQuery, isStandardMode: boolean): string[] {
   if (query.view === 'leak') {
     return isStandardMode ? LEGACY_LEAK_FACETS : LEAK_FACETS;
   }

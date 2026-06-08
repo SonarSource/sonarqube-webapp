@@ -47,6 +47,7 @@ export interface PageSidebarProps {
   onClearAll: () => void;
   onQueryChange: (change: RawQuery) => void;
   query: ProjectsQuery;
+  scaEnabled?: boolean;
   view: string;
 }
 
@@ -58,6 +59,7 @@ export default function PageSidebar(props: PageSidebarProps) {
     onClearAll,
     onQueryChange,
     query,
+    scaEnabled,
     view,
   } = props;
   const isFiltered = hasFilterParams(query);
@@ -122,6 +124,19 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.maintainability}
           />
 
+          {scaEnabled && (
+            <>
+              <Divider className="sw-my-2" />
+
+              <RatingFilter
+                {...facetProps}
+                facets={facets}
+                property="sca_rating"
+                value={query.sca_rating}
+              />
+            </>
+          )}
+
           <Divider className="sw-my-2" />
 
           <RatingFilter
@@ -178,6 +193,19 @@ export default function PageSidebar(props: PageSidebarProps) {
             property="new_maintainability"
             value={query.new_maintainability}
           />
+
+          {scaEnabled && (
+            <>
+              <Divider className="sw-my-2" />
+
+              <RatingFilter
+                {...facetProps}
+                facets={facets}
+                property="new_sca_rating"
+                value={query.new_sca_rating}
+              />
+            </>
+          )}
 
           <Divider className="sw-my-2" />
 

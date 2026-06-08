@@ -229,6 +229,7 @@ function AllProjects({ isFavorite }: Readonly<{ isFavorite: boolean }>) {
             onClearAll={handleClearAll}
             onQueryChange={updateLocationQuery}
             query={parsedQuery}
+            scaEnabled={scaEnabled}
             view={queryView}
           />
         </section>

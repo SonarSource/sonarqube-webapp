@@ -34,6 +34,8 @@ export function parseUrlQuery(urlQuery: RawQuery): ProjectsQuery {
     new_security_review: getAsNumericRating(urlQuery.new_security_review),
     maintainability: getAsNumericRating(urlQuery.maintainability),
     new_maintainability: getAsNumericRating(urlQuery.new_maintainability),
+    sca_rating: getAsNumericRating(urlQuery.sca_rating),
+    new_sca_rating: getAsNumericRating(urlQuery.new_sca_rating),
     coverage: getAsNumericRating(urlQuery[MetricKey.coverage]),
     new_coverage: getAsNumericRating(urlQuery[MetricKey.new_coverage]),
     duplications: getAsNumericRating(urlQuery.duplications),

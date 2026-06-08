@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { isScaFacet } from '~shared/helpers/sca';
 import { searchProjects } from '~sq-server-commons/api/components';
 import { ONE_SECOND } from '~sq-server-commons/helpers/constants';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
@@ -91,12 +92,14 @@ describe('formatDuration', () => {
 });
 
 describe('fetchProjects', () => {
+  const withoutSca = (facets: string[]) => facets.filter((f) => !isScaFacet(f));
+
   it('correctly converts the passed arguments to the desired query format', async () => {
     await utils.fetchProjects({ isFavorite: true, query: {}, isStandardMode: true });
 
     expect(searchProjects).toHaveBeenCalledWith({
       f: 'analysisDate,leakPeriodDate',
-      facets: LEGACY_FACETS.join(),
+      facets: withoutSca(LEGACY_FACETS).join(),
       filter: 'isFavorite',
       p: undefined,
       ps: 50,
@@ -116,7 +119,7 @@ describe('fetchProjects', () => {
 
     expect(searchProjects).toHaveBeenCalledWith({
       f: 'analysisDate,leakPeriodDate',
-      facets: LEGACY_LEAK_FACETS.join(),
+      facets: withoutSca(LEGACY_LEAK_FACETS).join(),
       filter: 'new_reliability_rating = 6 and query = "foo"',
       p: 3,
       ps: 50,
@@ -128,7 +131,7 @@ describe('fetchProjects', () => {
 
     expect(searchProjects).toHaveBeenCalledWith({
       f: 'analysisDate,leakPeriodDate',
-      facets: FACETS.join(),
+      facets: withoutSca(FACETS).join(),
       filter: 'isFavorite',
       p: undefined,
       ps: 50,
@@ -148,7 +151,7 @@ describe('fetchProjects', () => {
 
     expect(searchProjects).toHaveBeenCalledWith({
       f: 'analysisDate,leakPeriodDate',
-      facets: LEAK_FACETS.join(),
+      facets: withoutSca(LEAK_FACETS).join(),
       filter: 'new_software_quality_reliability_rating = 6 and query = "foo"',
       p: 3,
       ps: 50,

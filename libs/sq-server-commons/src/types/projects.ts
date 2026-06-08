@@ -34,10 +34,12 @@ export interface ProjectsQuery {
   new_lines?: number;
   new_maintainability?: number;
   new_reliability?: number;
+  new_sca_rating?: number;
   new_security?: number;
   new_security_review_rating?: number;
   qualifier?: ComponentQualifier;
   reliability?: number;
+  sca_rating?: number;
   search?: string;
   security?: number;
   security_review_rating?: number;

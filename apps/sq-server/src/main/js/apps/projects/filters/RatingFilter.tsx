@@ -56,6 +56,9 @@ function getFacetName(property: string) {
     case 'new_security_review':
     case 'security_review':
       return 'SecurityReview';
+    case 'new_sca_rating':
+    case 'sca_rating':
+      return 'DependencyRisks';
     default:
       return property;
   }

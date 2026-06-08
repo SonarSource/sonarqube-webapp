@@ -24,10 +24,29 @@ import { ReleaseRiskSeverity } from '../../types/sca';
 import {
   augmentMetrics,
   getScaRiskMetricThresholds,
+  isScaFacet,
   scaConditionOperator,
   scaFilterConditionsBySeverity,
   useScaOverviewMetrics,
 } from '../sca';
+
+describe('isScaFacet', () => {
+  it.each([
+    MetricKey.sca_rating_any_issue,
+    MetricKey.new_sca_rating_any_issue,
+    MetricKey.sca_severity_vulnerability,
+    MetricKey.new_sca_count_licensing,
+  ])('returns true for %s', (key) => {
+    expect(isScaFacet(key)).toBe(true);
+  });
+
+  it.each([MetricKey.reliability_rating, MetricKey.new_security_rating, MetricKey.coverage])(
+    'returns false for %s',
+    (key) => {
+      expect(isScaFacet(key)).toBe(false);
+    },
+  );
+});
 
 describe('getScaRiskMetricThresholds', () => {
   it('should return license risk thresholds for licensing metrics', () => {

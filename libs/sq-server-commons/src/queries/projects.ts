@@ -34,8 +34,10 @@ import {
 } from '~shared/queries/common';
 import { getScannableProjects, searchProjects } from '../api/components';
 import { deleteProject } from '../api/project-management';
+import { useAvailableFeatures } from '../context/available-features/withAvailableFeatures';
 import { convertToQueryData, defineFacets } from '../helpers/projects';
 import { RequestData } from '../helpers/request';
+import { Feature } from '../types/features';
 import { ProjectsQuery } from '../types/projects';
 import { removeMeasuresByComponentKey } from './measures';
 
@@ -62,9 +64,11 @@ export const useProjectsQuery = createInfiniteQueryHook(
     query: ProjectsQuery;
   }) => {
     const queryClient = useQueryClient();
+    const { hasFeature } = useAvailableFeatures();
+    const scaEnabled = hasFeature(Feature.Sca);
     const data = convertToQueryData(query, isFavorite, isStandardMode, {
       ps: PROJECTS_PAGE_SIZE,
-      facets: defineFacets(query, isStandardMode).join(),
+      facets: defineFacets(query, isStandardMode, scaEnabled).join(),
       f: 'analysisDate,leakPeriodDate',
     });
 

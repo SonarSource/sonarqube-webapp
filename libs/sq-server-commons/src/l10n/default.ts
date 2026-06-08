@@ -2613,6 +2613,11 @@ export const defaultMessages = {
   'projects.facets.rating_option.security_review.3': '≥ 50% to <70%',
   'projects.facets.rating_option.security_review.4': '≥ 30% to <50%',
   'projects.facets.rating_option.security_review.5': '< 30%',
+  'projects.facets.rating_option.sca_rating.1': '≥ 0 info risks',
+  'projects.facets.rating_option.sca_rating.2': '≥ 1 low risk',
+  'projects.facets.rating_option.sca_rating.3': '≥ 1 medium risk',
+  'projects.facets.rating_option.sca_rating.4': '≥ 1 high risk',
+  'projects.facets.rating_option.sca_rating.5': '≥ 1 blocker risk',
   'projects.facets.security_review.description':
     'The percentage of reviewed (fixed or safe) security hotspots',
   'projects.facets.maintainability.description':

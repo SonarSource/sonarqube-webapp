@@ -198,6 +198,10 @@ export function augmentMetrics(metrics: Metric[]): Metric[] {
   });
 }
 
+export function isScaFacet(facet: string) {
+  return /^(new_)?sca_/.test(facet);
+}
+
 export function isScaMeasure(metricKey: string) {
   return (
     SCA_ISSUE_RISK_COUNT_METRICS.includes(metricKey) ||
