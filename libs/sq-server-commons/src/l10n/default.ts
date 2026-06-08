@@ -2462,10 +2462,10 @@ export const defaultMessages = {
   'architecture.list.delete.confirm.title': 'Delete',
   'architecture.list.delete.confirm.body': 'Are you sure you want to delete "{name}"?',
   'architecture.external_interfaces.modal.save_error':
-    "Sorry, we couldn't save the external interface. Please try again later.",
-  'architecture.external_interfaces.list.delete.confirm.title': 'Delete external interface',
+    "Sorry, we couldn't save the system component. Please try again later.",
+  'architecture.external_interfaces.list.delete.confirm.title': 'Delete system component',
   'architecture.external_interfaces.list.delete.confirm.body':
-    'Deleting the external interface "{name}" will also remove it from any project relationships where it is currently used. This can\'t be undone.',
+    'Deleting the system component "{name}" will also remove it from any project relationships where it is currently used. This can\'t be undone.',
   'architecture.relationships.validate.breadcrumb': 'Validate',
   'architecture.relationships.validate.title': 'Validate relationships',
   'architecture.relationships.validate.component_label': 'Project component',
@@ -2490,8 +2490,8 @@ export const defaultMessages = {
   'architecture.organization.title': 'Organization architecture',
   'architecture.organization.empty': 'No organization-wide architecture data available.',
   'architecture.organization.node.unmapped_boundaries':
-    '{count, plural, one {# other external interface found needs to be confirmed.} other {# other external interfaces found need to be confirmed.}}',
-  'architecture.organization.intended.page': 'Intended Architecture',
+    '{count, plural, one {# other system component found needs to be confirmed.} other {# other system components found need to be confirmed.}}',
+  'architecture.organization.intended.page': 'Intended architecture',
   'architecture.organization.intended.empty':
     'No intended architecture defined yet. Add a project from the sidebar to get started.',
   'architecture.organization.intended.spotlight.projects': 'Projects',
@@ -2505,9 +2505,9 @@ export const defaultMessages = {
   'architecture.organization.dashboard.forbidden_relationships': 'Forbidden relationships',
   'architecture.organization.dashboard.forbidden_relationships.count':
     '{count, plural, one {<bold>#</bold> forbidden relationship} other {<bold>#</bold> forbidden relationships}}',
-  'architecture.organization.dashboard.pending_external_interfaces': 'Pending external interfaces',
+  'architecture.organization.dashboard.pending_external_interfaces': 'Pending system components',
   'architecture.organization.dashboard.pending_external_interfaces.column':
-    'Pending interfaces count',
+    'Pending components count',
   'architecture.organization.dashboard.pending_external_interfaces.count':
     '{count, plural, one {<bold>#</bold> project} other {<bold>#</bold> projects}}',
   'architecture.organization.dashboard.intended_architecture_link':
