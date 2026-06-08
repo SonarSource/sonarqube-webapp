@@ -2108,7 +2108,7 @@ export const defaultMessages = {
   'architecture.empty_state.body1': 'Supported Languages: {supported_languages}',
   'architecture.empty_state.body2': 'Active Languages: {active_languages}',
   'architecture.empty_state.get_started.title': 'Get started!',
-  'architecture.project_too_big.title': 'project too big to display',
+  'architecture.project_too_big.title': 'Project too big to display',
   'architecture.project_too_big.body': "This project is too big and can't be displayed.",
   'architecture.page': 'Architecture',
   'architecture.page.discovery': 'Current architecture',
@@ -2290,6 +2290,17 @@ export const defaultMessages = {
   'architecture.page.split_responsibility': 'Split responsibility details',
   'architecture.page.split_responsibilities.count':
     '{count, plural, one {<bold>1</bold> split responsibility component} other {<bold>{count}</bold> split responsibility components}}',
+  'architecture.page.oversized': 'Oversized',
+  'architecture.page.oversized.count':
+    '{count, plural, one {<bold>1</bold> oversized component} other {<bold>{count}</bold> oversized components}}',
+  'architecture.page.oversized_detail': 'Oversized component details',
+  'architecture.oversized.issue_name': 'Oversized component {index}',
+  'architecture.oversized.detail_breadcrumb':
+    '{container} · {children, plural, one {# child} other {# children}}',
+  'architecture.oversized.table.name': 'Name',
+  'architecture.oversized.table.children': 'Children',
+  'architecture.oversized.table.location': 'Location',
+  'architecture.oversized.table.empty': 'No oversized components found',
   'architecture.split_responsibility.issue_name': 'Split responsibility {index}',
   'architecture.split_responsibility.detail_breadcrumb':
     '{container} · depth {depth} · {fragments} fragments · {classes} classes',
