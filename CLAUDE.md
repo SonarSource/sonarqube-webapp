@@ -56,6 +56,8 @@ Other types of validation follow the pattern:
 When running tests, pick the most relevent platform (cloud or server) and narrowly scope the test run to the files you've modified as tests take time to run.
 
 - ALWAYS use `await selector.find()` instead of `waitfor()` when looking for a possibly not-yet-rendered selector.
+- Prefer testing-library assertions over snapshot tests when the behavior is easily assertable.
+- Private feature tests in public test files must be wrapped in `// BEGIN-PRIVATE-FEATURE-TESTS` / `// END-PRIVATE-FEATURE-TESTS` markers.
 
 When you need to write tests (and are NOT running `/browse-and-verify`), use the `webapp-testing` skill.
 
@@ -65,8 +67,19 @@ When you need to write tests (and are NOT running `/browse-and-verify`), use the
 - Never attempt to fix linting issues until you believe the implementation is correct.
 - Always fix typescript errors
 - For components, always prefer `export { ComponentName }` intead of `export default ComponentName()` (it prevents renaming of components at import)
+- When adding new dependencies to `package.json`, always add a corresponding entry in `package.json.md`.
 - **MANDATORY**: ALWAYS run `yarn prettier --write <file>` immediately after editing any file to ensure proper formatting.
 - **MANDATORY**: Before committing or declaring a task done, ALWAYS run `yarn nx run sq-cloud:ts-check` (or `sq-server` as appropriate). The IDE diagnostics tool is not sufficient — it misses real TypeScript errors that `tsc --noEmit` catches in CI.
+
+## Module boundaries and code placement
+
+- Code in `libs/shared` must never import from `private/`, `apps/sq-server*`, or `apps/sq-cloud*`.
+- Code in `apps/sq-server` must not import directly from `private/` — use the `libs/sq-server-addons` bridge.
+- Code in `sq-cloud` must not import from `sq-server*`.
+- If the same logic applies to both SQS and SQC, place it in `libs/shared` or a `libs/feature-*` module — don't duplicate across both apps.
+- New features belong in `libs/feature-*`, not inside `apps/`.
+- New or modified adapters in `sq-server-adapters` should have a corresponding update in `sq-cloud-adapters` (and vice versa) — type signatures must stay compatible.
+- New shared code using the `~adapters` alias must have both adapter implementations actually exporting the expected symbols.
 
 ## Tailwind and CSS
 
@@ -95,6 +108,7 @@ When you need to use echoes components, always use the `echoes-components` skill
 - If you make a new localization key, say so when you summarize your changes!
 - Localization updates goes into files: messages.json for SQC or default.ts for SQS.
 - Do not use default messages in code. Only use a key.
+- Never use the legacy `translate` or `translateWithParameter` helpers — use `formatMessage` or `<FormattedMessage>` instead.
 
 ```ts
 // Always destructure like this
