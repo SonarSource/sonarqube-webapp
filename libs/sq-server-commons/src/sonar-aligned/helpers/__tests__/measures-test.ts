@@ -223,9 +223,7 @@ describe('#formatMeasure()', () => {
 describe('#getIssueSeverityFormatter()', () => {
   describe('MQR mode', () => {
     it('should format all MQR severity impact thresholds correctly', () => {
-      const formatter = getIssueSeverityFormatter(
-        MetricKey.new_software_quality_reliability_severity,
-      );
+      const formatter = getIssueSeverityFormatter(MetricKey.new_reliability_issue_severity);
 
       expect(formatter('4')).toBe('severity_impact.INFO');
       expect(formatter('9')).toBe('severity_impact.LOW');
@@ -235,9 +233,7 @@ describe('#getIssueSeverityFormatter()', () => {
     });
 
     it('should handle numeric values in MQR mode', () => {
-      const formatter = getIssueSeverityFormatter(
-        MetricKey.new_software_quality_maintainability_severity,
-      );
+      const formatter = getIssueSeverityFormatter(MetricKey.new_maintainability_issue_severity);
 
       expect(formatter(4)).toBe('severity_impact.INFO');
       expect(formatter(9)).toBe('severity_impact.LOW');
@@ -247,9 +243,7 @@ describe('#getIssueSeverityFormatter()', () => {
     });
 
     it('should return value for unmapped values', () => {
-      const formatter = getIssueSeverityFormatter(
-        MetricKey.new_software_quality_maintainability_severity,
-      );
+      const formatter = getIssueSeverityFormatter(MetricKey.new_maintainability_issue_severity);
 
       expect(formatter('5')).toBe('5');
       expect(formatter('100')).toBe('100');

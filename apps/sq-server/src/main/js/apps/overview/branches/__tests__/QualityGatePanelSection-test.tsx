@@ -216,6 +216,67 @@ it('should render correct links for ratings with "new code" failed conditions', 
   );
 });
 
+it('should render correct links for issue severity with "new code" failed conditions', () => {
+  renderQualityGatePanelSection(
+    {
+      isApplication: false,
+      qgStatus: {
+        ...qgStatus,
+        failedConditions: [
+          mockCondition(MetricKey.new_code_smells_severity, MetricType.Integer, 'Issues', {
+            error: '4',
+          }),
+          mockCondition(MetricKey.new_bugs_severity, MetricType.Integer, 'Issues', { error: '9' }),
+          mockCondition(MetricKey.new_vulnerabilities_severity, MetricType.Integer, 'Issues', {
+            error: '14',
+          }),
+          mockCondition(MetricKey.new_security_issue_severity, MetricType.Integer, 'Issues', {
+            error: '14',
+          }),
+          mockCondition(
+            MetricKey.new_maintainability_issue_severity,
+            MetricType.Integer,
+            'Issues',
+            { error: '19' },
+          ),
+          mockCondition(MetricKey.new_reliability_issue_severity, MetricType.Integer, 'Issues', {
+            error: '24',
+          }),
+        ],
+      },
+      qualityGate: mockQualityGate({ isBuiltIn: true }),
+    },
+    mockLoggedInUser({
+      dismissedNotices: { [NoticeType.OVERVIEW_ZERO_NEW_ISSUES_SIMPLIFICATION]: true },
+    }),
+  );
+
+  expect(byRole('link', { name: /new_code_smells_severity/ }).get()).toHaveAttribute(
+    'href',
+    '/project/issues?issueStatuses=OPEN%2CCONFIRMED&types=CODE_SMELL&severities=INFO%2CMINOR%2CMAJOR%2CCRITICAL%2CBLOCKER&inNewCodePeriod=true&id=qgStatusKey',
+  );
+  expect(byRole('link', { name: /new_bugs_severity/ }).get()).toHaveAttribute(
+    'href',
+    '/project/issues?issueStatuses=OPEN%2CCONFIRMED&types=BUG&severities=MINOR%2CMAJOR%2CCRITICAL%2CBLOCKER&inNewCodePeriod=true&id=qgStatusKey',
+  );
+  expect(byRole('link', { name: /new_vulnerabilities_severity/ }).get()).toHaveAttribute(
+    'href',
+    '/project/issues?issueStatuses=OPEN%2CCONFIRMED&types=VULNERABILITY&severities=MAJOR%2CCRITICAL%2CBLOCKER&inNewCodePeriod=true&id=qgStatusKey',
+  );
+  expect(byRole('link', { name: /new_security_issue_severity/ }).get()).toHaveAttribute(
+    'href',
+    '/project/issues?issueStatuses=OPEN%2CCONFIRMED&impactSeverities=MEDIUM%2CHIGH%2CBLOCKER&impactSoftwareQualities=SECURITY&inNewCodePeriod=true&id=qgStatusKey',
+  );
+  expect(byRole('link', { name: /new_maintainability_issue_severity/ }).get()).toHaveAttribute(
+    'href',
+    '/project/issues?issueStatuses=OPEN%2CCONFIRMED&impactSeverities=HIGH%2CBLOCKER&impactSoftwareQualities=MAINTAINABILITY&inNewCodePeriod=true&id=qgStatusKey',
+  );
+  expect(byRole('link', { name: /new_reliability_issue_severity/ }).get()).toHaveAttribute(
+    'href',
+    '/project/issues?issueStatuses=OPEN%2CCONFIRMED&impactSeverities=BLOCKER&impactSoftwareQualities=RELIABILITY&inNewCodePeriod=true&id=qgStatusKey',
+  );
+});
+
 describe('Issues from SonarQube update', () => {
   beforeEach(() => {
     // Setup: 2 issues with fromSonarQubeUpdate=true, 1 regular issue

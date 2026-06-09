@@ -165,8 +165,9 @@ describe('useConditions', () => {
 
     expect(result.current.builtInNewCodeConditions.map((c) => c.metric)).toEqual([
       MetricKey.new_violations,
+      MetricKey.new_coverage,
     ]);
-    expect(result.current.newCodeConditions.map((c) => c.metric)).toEqual([MetricKey.new_coverage]);
+    expect(result.current.newCodeConditions.map((c) => c.metric)).toEqual([]);
   });
 
   it('detects duplicate conditions and returns one entry per duplicated metric', () => {

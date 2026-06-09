@@ -28,13 +28,13 @@ export function isValidPercentageMetric(metric: Metric, value: string) {
   );
 }
 
-const ISSUE_SEVERITY_METRICS = new Set([
+export const ISSUE_SEVERITY_METRICS = new Set([
   MetricKey.new_bugs_severity,
   MetricKey.new_vulnerabilities_severity,
   MetricKey.new_code_smells_severity,
-  MetricKey.new_software_quality_maintainability_severity,
-  MetricKey.new_software_quality_reliability_severity,
-  MetricKey.new_software_quality_security_severity,
+  MetricKey.new_maintainability_issue_severity,
+  MetricKey.new_reliability_issue_severity,
+  MetricKey.new_security_issue_severity,
 ]);
 
 export function isIssueSeverityMetric(metricKey: string): boolean {

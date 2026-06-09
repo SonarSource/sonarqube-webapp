@@ -149,7 +149,7 @@ describe('groupAndSortByPriorityConditions', () => {
       isCaycCondition: true,
     }),
   ];
-  const expectedConditionsOrderNewCode = [MetricKey.new_bugs, MetricKey.new_reliability_rating];
+  const expectedConditionsOrderNewCode: string[] = [];
   const expectConditionsOrderOverallCode = [
     MetricKey.bugs,
     MetricKey.code_smells,
@@ -161,6 +161,8 @@ describe('groupAndSortByPriorityConditions', () => {
     MetricKey.new_security_hotspots_reviewed,
     MetricKey.new_coverage,
     MetricKey.new_duplicated_lines_density,
+    MetricKey.new_bugs,
+    MetricKey.new_reliability_rating,
   ];
   const expectedConditionsOrderAIOverall = [
     MetricKey.software_quality_security_rating,
@@ -169,15 +171,17 @@ describe('groupAndSortByPriorityConditions', () => {
     MetricKey.coverage,
   ];
 
-  it('should return grouped conditions by overall/new code and sort them by CaYC order', () => {
+  it('should return grouped conditions by overall/new code and sort them by CaYC order for built-in gate', () => {
     const result = groupAndSortByPriorityConditions(conditions, METRICS, true);
     const conditionsMap = ({ metric }: Condition) => metric;
 
+    // all new code conditions should be in built-in array
+    expect(result.builtInNewCodeConditions.map(conditionsMap)).toEqual(expectedConditionsOrderCayc);
     expect(result.newCodeConditions.map(conditionsMap)).toEqual(expectedConditionsOrderNewCode);
+
     expect(result.overallCodeConditions.map(conditionsMap)).toEqual(
       expectConditionsOrderOverallCode,
     );
-    expect(result.builtInNewCodeConditions.map(conditionsMap)).toEqual(expectedConditionsOrderCayc);
   });
 
   it('should return grouped conditions by overall/new code and sort them for builtIn Ai QG', () => {
@@ -213,12 +217,31 @@ describe('groupAndSortByPriorityConditions', () => {
     );
     expect(result.builtInNewCodeConditions.map(conditionsMap)).toEqual([]);
   });
+
+  it('should place newcode conditions in builtInNewCodeConditions when QG is built-in', () => {
+    const newCodeConditions = [
+      mockCondition({ metric: MetricKey.new_bugs }),
+      mockCondition({ metric: MetricKey.new_coverage }),
+      mockCondition({ metric: MetricKey.new_violations }),
+    ];
+    const overallConditions = [mockCondition({ metric: MetricKey.bugs })];
+    const allConditions = [...newCodeConditions, ...overallConditions];
+
+    const result = groupAndSortByPriorityConditions(allConditions, METRICS, true, false);
+    const conditionsMap = ({ metric }: Condition) => metric;
+
+    expect(result.builtInNewCodeConditions.map(conditionsMap)).toContain(MetricKey.new_bugs);
+    expect(result.builtInNewCodeConditions.map(conditionsMap)).toContain(MetricKey.new_coverage);
+    expect(result.builtInNewCodeConditions.map(conditionsMap)).toContain(MetricKey.new_violations);
+    expect(result.overallCodeConditions.map(conditionsMap)).toContain(MetricKey.bugs);
+    expect(result.newCodeConditions).toEqual([]);
+  });
 });
 
 describe('getModeForMetric', () => {
   describe('MQR mode', () => {
     it('should return MQR mode for MQR metric', () => {
-      const mode = getModeForMetric(MetricKey.new_software_quality_reliability_severity);
+      const mode = getModeForMetric(MetricKey.new_reliability_issue_severity);
 
       expect(mode).toBe(Mode.MQR);
     });

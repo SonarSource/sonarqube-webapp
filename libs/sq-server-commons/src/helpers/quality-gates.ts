@@ -181,11 +181,11 @@ export const CONDITION_ORDER_PRIORITIES: Record<string, number> = {
   [MetricKey.new_violations]: 1,
   [MetricKey.new_security_hotspots_reviewed]: 2,
   [MetricKey.new_bugs_severity]: 3,
-  [MetricKey.new_software_quality_security_severity]: 4,
+  [MetricKey.new_security_issue_severity]: 4,
   [MetricKey.new_vulnerabilities_severity]: 5,
-  [MetricKey.new_software_quality_reliability_severity]: 6,
+  [MetricKey.new_reliability_issue_severity]: 6,
   [MetricKey.new_sca_severity_any_issue]: 7,
-  [MetricKey.new_software_quality_maintainability_severity]: 8,
+  [MetricKey.new_maintainability_issue_severity]: 8,
   [MetricKey.new_code_smells_severity]: 9,
   [MetricKey.new_coverage]: 10,
   [MetricKey.new_duplicated_lines_density]: 11,
@@ -224,9 +224,9 @@ export const STANDARD_CONDITIONS_MAP: Partial<Record<MetricKey, MetricKey>> = {
   [MetricKey.vulnerabilities]: MetricKey.software_quality_security_issues,
   [MetricKey.bugs]: MetricKey.software_quality_reliability_issues,
   [MetricKey.code_smells]: MetricKey.software_quality_maintainability_issues,
-  [MetricKey.new_code_smells_severity]: MetricKey.new_software_quality_maintainability_severity,
-  [MetricKey.new_vulnerabilities_severity]: MetricKey.new_software_quality_security_severity,
-  [MetricKey.new_bugs_severity]: MetricKey.new_software_quality_reliability_severity,
+  [MetricKey.new_code_smells_severity]: MetricKey.new_maintainability_issue_severity,
+  [MetricKey.new_vulnerabilities_severity]: MetricKey.new_security_issue_severity,
+  [MetricKey.new_bugs_severity]: MetricKey.new_reliability_issue_severity,
   ...SOFTWARE_QUALITY_RATING_METRICS_MAP,
 };
 
@@ -282,7 +282,7 @@ function groupConditionsByMetric(
   return conditions.reduce(
     (result, condition) => {
       const isNewCode = isDiffMetric(condition.metric);
-      if (condition.isCaycCondition && isBuiltInQG) {
+      if (isNewCode && isBuiltInQG) {
         result.builtInNewCodeConditions.push(condition);
       } else if (
         isBuiltInQG &&

@@ -55,6 +55,11 @@ jest.mock('~sq-server-commons/design-system', () => ({
   TrendUpCircleIcon: () => <span>sca-risk-icon</span>,
 }));
 
+jest.mock('~shared/components/icon-mappers/SoftwareImpactSeverityIcon', () => ({
+  __esModule: true,
+  default: ({ severity }: { severity: string }) => <span>{`severity-icon:${severity}`}</span>,
+}));
+
 describe('SQS adapter Measure', () => {
   beforeEach(() => {
     mockRatingComponent.mockClear();
@@ -114,5 +119,16 @@ describe('SQS adapter Measure', () => {
         size: RatingBadgeSize.Medium,
       }),
     );
+  });
+
+  it('renders issue severity icon for IssueSeverity metrics', () => {
+    render(
+      <Measure
+        metricKey={MetricKey.sqale_index}
+        metricType={MetricType.IssueSeverity}
+        value={10}
+      />,
+    );
+    expect(screen.getByText('severity-icon:MINOR')).toBeInTheDocument();
   });
 });

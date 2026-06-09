@@ -20,6 +20,7 @@
 
 import { groupBy, memoize, sortBy, toPairs } from 'lodash';
 import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
+import { ISSUE_SEVERITY_METRICS } from '~shared/helpers/metrics';
 import { SCA_RISK_ALL_METRICS } from '~shared/helpers/sca';
 import { ComponentQualifier } from '~shared/types/component';
 import { Measure, MeasureEnhanced, Metric } from '~shared/types/measures';
@@ -78,6 +79,7 @@ const DEPRECATED_DOMAINS_METRICS = [MetricKey.high_impact_accepted_issues];
 const HIDDEN_DOMAIN_METRICS = [
   ...DEPRECATED_DOMAINS_METRICS,
   ...SCA_RISK_ALL_METRICS,
+  ...ISSUE_SEVERITY_METRICS,
   MetricKey.blocker_violations,
   MetricKey.new_blocker_violations,
   MetricKey.critical_violations,

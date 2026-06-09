@@ -81,7 +81,7 @@ function createQgWithMqrSeverityCondition({
   const qgName = 'QG with MQR severity condition';
   const condition = {
     id: 'condition-severity-test',
-    metric: MetricKey.new_software_quality_maintainability_severity,
+    metric: MetricKey.new_maintainability_issue_severity,
     op: 'GT',
     error,
     isCaycCondition: true,
@@ -1159,6 +1159,9 @@ describe('Mode transition', () => {
         item.textContent?.includes(`metric.${condition.metric}.description.positive`),
       );
       expect(mqrItem).toBeDefined();
+      expect(mqrItem).toHaveTextContent(
+        `metric.${condition.metric}.description.positive.severity_impact.LOW`,
+      );
     });
 
     it('should display issue severity type correctly in conditions table', async () => {
@@ -1194,9 +1197,7 @@ describe('Mode transition', () => {
       await user.click(
         dialog.byRole('combobox', { name: 'quality_gates.conditions.fails_when' }).get(),
       );
-      await user.click(
-        dialog.byRole('option', { name: 'New Software Quality Security Severity' }).get(),
-      );
+      await user.click(dialog.byRole('option', { name: 'New Security Issue Severity' }).get());
       await user.click(
         dialog.byRole('combobox', { name: 'quality_gates.conditions.threshold' }).get(),
       );
@@ -1230,7 +1231,7 @@ describe('Mode transition', () => {
       const newConditions = byTestId('quality-gates__conditions-new');
       await user.click(
         await newConditions
-          .byLabelText('quality_gates.condition.edit.New Software Quality Maintainability Severity')
+          .byLabelText('quality_gates.condition.edit.New Maintainability Issue Severity')
           .find(),
       );
 

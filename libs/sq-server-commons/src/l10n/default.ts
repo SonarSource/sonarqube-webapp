@@ -4335,6 +4335,8 @@ export const defaultMessages = {
     'More information about Software Composition Analysis (SCA) related condition.',
   'quality_gates.conditions.enable_sca_hint':
     '<a>Enable SonarQube Advanced Security</a> to use this condition',
+  'quality_gates.conditions.new_sca_severity_any_issue.hint':
+    'This condition prevents agents from introducing malicious or vulnerable dependencies.',
   'quality_gates.projects': 'Projects',
   'quality_gates.projects.help':
     'The Default gate is applied to all projects not explicitly assigned to a gate. Quality Gate administrators can assign projects to a non-default gate, or always make it follow the system default. Project administrators may choose any gate.',
@@ -4397,6 +4399,20 @@ export const defaultMessages = {
   'quality_gates.conditions.description':
     'These conditions apply to the new code of all branches and to pull requests.',
   'quality_gates.conditions.builtin_new_code.metric': '{metric} is {operator} to {value}',
+  'quality_gates.conditions.builtin_new_code.severity.new_reliability_issue_severity.operator':
+    'Reliability severity is below {value}',
+  'quality_gates.conditions.builtin_new_code.severity.new_security_issue_severity.operator':
+    'Security severity is below {value}',
+  'quality_gates.conditions.builtin_new_code.severity.new_maintainability_issue_severity.operator':
+    'Maintainability severity is below {value}',
+  'quality_gates.conditions.builtin_new_code.severity.new_sca_severity_any_issue.operator':
+    'Dependency risk severity is below {value}',
+  'quality_gates.conditions.builtin_new_code.severity.new_bugs_severity.operator':
+    'Bugs severity is below {value}',
+  'quality_gates.conditions.builtin_new_code.severity.new_vulnerabilities_severity.operator':
+    'Vulnerabilities severity is below {value}',
+  'quality_gates.conditions.builtin_new_code.severity.new_code_smells_severity.operator':
+    'Code smells severity is below {value}',
   'quality_gates.conditions.hint':
     'The conditions below must be true for your project to pass the Quality Gate.',
   'quality_gates.conditions.threshold.hint':
@@ -5288,20 +5304,18 @@ export const defaultMessages = {
   'metric.code_smells.description': 'Code Smells',
   'metric.code_smells.name': 'Code Smells',
   'metric.code_smells.short_name': 'Code Smells',
-  'metric.new_bugs_severity.name': 'New bugs severity',
+  'metric.new_bugs_severity.name': 'Bugs severity',
   'metric.new_bugs_severity.short_name': 'Bugs severity',
-  'metric.new_code_smells_severity.name': 'New code smells severity',
+  'metric.new_code_smells_severity.name': 'Code smells severity',
   'metric.new_code_smells_severity.short_name': 'Code smells severity',
-  'metric.new_vulnerabilities_severity.name': 'New Vulnerabilities severity',
+  'metric.new_vulnerabilities_severity.name': 'Vulnerabilities severity',
   'metric.new_vulnerabilities_severity.short_name': 'Vulnerabilities severity',
-  'metric.new_software_quality_reliability_severity.name': 'New reliability issues severity',
-  'metric.new_software_quality_reliability_severity.short_name': 'Reliability issues severity',
-  'metric.new_software_quality_security_severity.name': 'New security issues severity',
-  'metric.new_software_quality_security_severity.short_name': 'Security issues severity',
-  'metric.new_software_quality_maintainability_severity.name':
-    'New maintainability issues severity',
-  'metric.new_software_quality_maintainability_severity.short_name':
-    'Maintainability issues severity',
+  'metric.new_reliability_issue_severity.name': 'Reliability severity',
+  'metric.new_reliability_issue_severity.short_name': 'Reliability severity',
+  'metric.new_security_issue_severity.name': 'Security severity',
+  'metric.new_security_issue_severity.short_name': 'Security severity',
+  'metric.new_maintainability_issue_severity.name': 'Maintainability severity',
+  'metric.new_maintainability_issue_severity.short_name': 'Maintainability severity',
   'metric.cognitive_complexity.description': 'Cognitive complexity',
   'metric.cognitive_complexity.name': 'Cognitive Complexity',
   'metric.commented_out_code_lines.description': 'Commented lines of code',
@@ -5721,14 +5735,14 @@ export const defaultMessages = {
   'metric.new_bugs_severity.description.positive':
     'No new bugs with severity greater or equal to minor',
   'metric.new_code_smells_severity.description.positive':
-    'No new code smells with severity greater or equal to minor',
+    'No new code smells with severity greater or equal to major',
   'metric.new_vulnerabilities_severity.description.positive':
-    'No new vulnerabilities with severity greater or equal to major',
-  'metric.new_software_quality_reliability_severity.description.positive':
+    'No new vulnerabilities with severity greater or equal to minor',
+  'metric.new_reliability_issue_severity.description.positive':
     'No new reliability issues with severity greater or equal to low',
-  'metric.new_software_quality_security_severity.description.positive':
+  'metric.new_security_issue_severity.description.positive':
     'No new security issues with severity greater or equal to low',
-  'metric.new_software_quality_maintainability_severity.description.positive':
+  'metric.new_maintainability_issue_severity.description.positive':
     'No new maintainability issues with severity greater or equal to medium',
   'metric.software_quality_releasability_rating.description': 'Releasability Rating',
   'metric.software_quality_releasability_rating.name': 'Releasability Rating',
@@ -6692,6 +6706,7 @@ export const defaultMessages = {
     '{count, plural, one {requires} other {require}} reviewing',
   'overview.quality_gate.required_x': 'Required {operator} {requirement}',
   'overview.quality_gate.required_x_reviewed': 'Required review: {requirement}',
+  'quality_gate_panel.below_X_required': 'below {0} required',
   'overview.quality_profiles': 'Quality Profiles used',
   'overview.new_code_period_x': 'New Code: {0}',
   'overview.max_new_code_period_from_x': 'Max New Code from: {0}',

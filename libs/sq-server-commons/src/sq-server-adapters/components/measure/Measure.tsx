@@ -22,6 +22,8 @@ import { RatingBadgeRating, RatingBadgeSize } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useCallback } from 'react';
 import { useIntl } from 'react-intl';
+import SoftwareImpactSeverityIcon from '~shared/components/icon-mappers/SoftwareImpactSeverityIcon';
+import { getIssueSeverityBasedOnConditionValue } from '~shared/helpers/quality-gates';
 import { QGStatus } from '~shared/types/common';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import RatingTooltipContent from '../../../components/measure/RatingTooltipContent';
@@ -132,6 +134,15 @@ export default function Measure({
         />
         <span className={small ? '' : 'sw-typo-lg'}>{formatted}</span>
       </>
+    );
+  }
+
+  if (metricType === MetricType.IssueSeverity) {
+    return (
+      <SoftwareImpactSeverityIcon
+        className={classNames(className, 'sw-text-md')}
+        severity={getIssueSeverityBasedOnConditionValue(value)}
+      />
     );
   }
 

@@ -49,6 +49,8 @@ import { IssueType } from '../../types/issues';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
 import { Component } from '../../types/types';
 import {
+  getIssueSeverityRange,
+  getMqrImpactSeverityRange,
   MQR_RATING_TO_SEVERITIES_MAPPING,
   RATING_TO_SEVERITIES_MAPPING,
 } from '../../utils/overview-utils';
@@ -106,11 +108,34 @@ export class QualityGateCondition extends React.PureComponent<Props> {
 
   getUrlForBugsOrVulnerabilities(type: string, inNewCodePeriod: boolean) {
     const { condition } = this.props;
+
     const threshold = condition.level === 'ERROR' ? condition.error : condition.warning;
 
     return this.getIssuesUrl(inNewCodePeriod, {
       types: type,
       severities: RATING_TO_SEVERITIES_MAPPING[Number(threshold) - 1],
+    });
+  }
+
+  getUrlForIssueSeverity(type: string, inNewCodePeriod: boolean) {
+    const { condition } = this.props;
+
+    const severities = getIssueSeverityRange(condition.error);
+
+    return this.getIssuesUrl(inNewCodePeriod, {
+      types: type,
+      severities,
+    });
+  }
+
+  getUrlForIssueSeverityMQR(type: string, inNewCodePeriod: boolean) {
+    const { condition } = this.props;
+
+    const impactSeverities = getMqrImpactSeverityRange(condition.error);
+
+    return this.getIssuesUrl(inNewCodePeriod, {
+      impactSeverities,
+      impactSoftwareQualities: type,
     });
   }
 
@@ -165,8 +190,13 @@ export class QualityGateCondition extends React.PureComponent<Props> {
         this.getUrlForBugsOrVulnerabilities(IssueType.Vulnerability, false),
       [MetricKey.new_security_rating]: () =>
         this.getUrlForBugsOrVulnerabilities(IssueType.Vulnerability, true),
+      [MetricKey.new_bugs_severity]: () => this.getUrlForIssueSeverity(IssueType.Bug, true),
+      [MetricKey.new_vulnerabilities_severity]: () =>
+        this.getUrlForIssueSeverity(IssueType.Vulnerability, true),
       [MetricKey.sqale_rating]: () => this.getUrlForCodeSmells(false),
       [MetricKey.new_maintainability_rating]: () => this.getUrlForCodeSmells(true),
+      [MetricKey.new_code_smells_severity]: () =>
+        this.getUrlForIssueSeverity(IssueType.CodeSmell, true),
       [MetricKey.security_hotspots_reviewed]: () => this.getUrlForSecurityHotspot(false),
       [MetricKey.new_security_hotspots_reviewed]: () => this.getUrlForSecurityHotspot(true),
       // MQR
@@ -182,6 +212,12 @@ export class QualityGateCondition extends React.PureComponent<Props> {
         this.getUrlForSoftwareQualityRatings(SoftwareQuality.Security, false),
       [MetricKey.software_quality_maintainability_rating]: () =>
         this.getUrlForSoftwareQualityRatings(SoftwareQuality.Maintainability, false),
+      [MetricKey.new_security_issue_severity]: () =>
+        this.getUrlForIssueSeverityMQR(SoftwareQuality.Security, true),
+      [MetricKey.new_maintainability_issue_severity]: () =>
+        this.getUrlForIssueSeverityMQR(SoftwareQuality.Maintainability, true),
+      [MetricKey.new_reliability_issue_severity]: () =>
+        this.getUrlForIssueSeverityMQR(SoftwareQuality.Reliability, true),
       [MetricKey.reopened_issues]: () =>
         this.getIssuesUrl(false, { issueStatuses: '', statuses: 'REOPENED' }),
       ...this.makeScaRiskRoutes(),
@@ -229,7 +265,7 @@ export class QualityGateCondition extends React.PureComponent<Props> {
 
     const subText = getLocalizedMetricNameNoDiffMetric(metric, this.props.metrics);
 
-    if (metric.type !== MetricType.Rating) {
+    if (metric.type !== MetricType.Rating && metric.type !== MetricType.IssueSeverity) {
       const actual = (condition.period ? measure.period?.value : measure.value) as string;
       const formattedValue = formatMeasure(actual, metric.type, {
         decimals: 1,
@@ -245,6 +281,19 @@ export class QualityGateCondition extends React.PureComponent<Props> {
     const { condition } = this.props;
     const operator = getOperatorLabel(condition.op, metric);
     const threshold = (condition.level === 'ERROR' ? condition.error : condition.warning) as string;
+
+    if (metric.type === MetricType.IssueSeverity) {
+      return (
+        <Text isSubtle>
+          <FormattedMessage
+            id="quality_gate_panel.below_X_required"
+            values={{
+              0: formatMeasure(threshold, metric.type, undefined, metric.key as MetricKey),
+            }}
+          />
+        </Text>
+      );
+    }
 
     if (metric.type === MetricType.ScaRisk) {
       if (SCA_LICENSE_SEVERITY_RISK_METRIC_KEYS.includes(metric.key)) {

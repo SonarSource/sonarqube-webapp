@@ -20,7 +20,9 @@
 
 import { memoize } from 'lodash';
 import { IntlShape } from 'react-intl';
+import { ISSUE_SEVERITY_CONDITION_MAPPING } from '~shared/helpers/quality-gates';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { IssueSeverity } from '~shared/types/issues';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { RawQuery } from '~shared/types/router';
 import { ISSUETYPE_METRIC_KEYS_MAP } from '../helpers/issues';
@@ -162,8 +164,48 @@ const MEASUREMENTS_MAP = {
   },
 };
 
+const SORTED_SEVERITY_CONDITION_MAPPING = Object.entries(ISSUE_SEVERITY_CONDITION_MAPPING).sort(
+  ([a], [b]) => Number(a) - Number(b),
+);
+
+const ISSUE_SEVERITY_URL_LABELS: Record<IssueSeverity, string> = {
+  [IssueSeverity.Blocker]: IssueSeverity.Blocker,
+  [IssueSeverity.Critical]: IssueSeverity.Critical,
+  [IssueSeverity.Major]: IssueSeverity.Major,
+  [IssueSeverity.Minor]: IssueSeverity.Minor,
+  [IssueSeverity.Info]: IssueSeverity.Info,
+};
+
+const MQR_SEVERITY_URL_LABELS: Record<IssueSeverity, string> = {
+  [IssueSeverity.Blocker]: SoftwareImpactSeverity.Blocker,
+  [IssueSeverity.Critical]: SoftwareImpactSeverity.High,
+  [IssueSeverity.Major]: SoftwareImpactSeverity.Medium,
+  [IssueSeverity.Minor]: SoftwareImpactSeverity.Low,
+  [IssueSeverity.Info]: SoftwareImpactSeverity.Info,
+};
+
+function buildSeverityRange(
+  value: string | number | undefined,
+  labels: Record<IssueSeverity, string>,
+): string {
+  const stringValue = String(value);
+  const index = SORTED_SEVERITY_CONDITION_MAPPING.findIndex(([key]) => key === stringValue);
+  const start = Math.max(0, index);
+  return SORTED_SEVERITY_CONDITION_MAPPING.slice(start)
+    .map(([, severity]) => labels[severity])
+    .join(',');
+}
+
+export function getIssueSeverityRange(value?: string | number): string {
+  return buildSeverityRange(value, ISSUE_SEVERITY_URL_LABELS);
+}
+
+export function getMqrImpactSeverityRange(value?: string | number): string {
+  return buildSeverityRange(value, MQR_SEVERITY_URL_LABELS);
+}
+
 export const RATING_TO_SEVERITIES_MAPPING = [
-  'BLOCKER,CRITICAL,MAJOR,MINOR',
+  'BLOCKER,CRITICAL,MAJOR,MINOR,INFO',
   'BLOCKER,CRITICAL,MAJOR',
   'BLOCKER,CRITICAL',
   'BLOCKER',

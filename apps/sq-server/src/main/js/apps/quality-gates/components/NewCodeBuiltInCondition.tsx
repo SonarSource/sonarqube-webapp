@@ -20,6 +20,7 @@
 
 import { Text, ToggleTip } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { isIssueSeverityMetric } from '~shared/helpers/metrics';
 import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import withMetricsContext from '~sq-server-commons/context/metrics/withMetricsContext';
@@ -69,6 +70,17 @@ function NewCodeBuiltInCondition({ condition, metric, metrics }: Readonly<Props>
         {suffix}
       </span>
       <div className="sw-flex sw-items-center sw-gap-1">
+        {(isIssueSeverityMetric(metric.key) ||
+          metric.key === MetricKey.new_sca_severity_any_issue) && (
+          <Text colorOverride={colorOverride}>
+            <FormattedMessage
+              id={`quality_gates.conditions.builtin_new_code.severity.${metric.key}.operator`}
+              values={{
+                value: <strong>{conditionError}</strong>,
+              }}
+            />
+          </Text>
+        )}
         {shouldRenderOperator && (
           <BuiltInStyledContentCell>
             <Text colorOverride={colorOverride}>
@@ -87,6 +99,15 @@ function NewCodeBuiltInCondition({ condition, metric, metrics }: Readonly<Props>
               description={formatMessage({ id: 'quality_gates.conditions.threshold.hint' })}
             />
           </BuiltInStyledContentCell>
+        )}
+
+        {metric.key === MetricKey.new_sca_severity_any_issue && (
+          <ToggleTip
+            className="sw-ml-1"
+            description={formatMessage({
+              id: 'quality_gates.conditions.new_sca_severity_any_issue.hint',
+            })}
+          />
         )}
       </div>
     </BuiltInStyledItem>
