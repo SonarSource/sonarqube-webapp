@@ -42,23 +42,24 @@ export function throwGlobalError(
     resolved !== null &&
     typeof resolved === 'object' &&
     'response' in resolved &&
-    (resolved as Record<string, unknown>).response instanceof Response
+    resolved.response instanceof Response
   ) {
     /* eslint-disable-next-line no-console */
     console.warn('DEPRECATED: response should not be wrapped, pass it directly.');
-    resolved = (resolved as Record<string, unknown>).response;
+    resolved = resolved.response;
   }
 
-  if (resolved instanceof Response || isAxiosError(resolved)) {
+  if (resolved instanceof Response || isAxiosError<{ message?: string }>(resolved)) {
     return throwGlobalErrorInternal(resolved, options);
   }
 
-  const error = param instanceof Error ? param : new Error('Unexpected error');
-  return Promise.reject(error);
+  return Promise.reject(
+    param instanceof Error ? param : new Error('Unexpected error', { cause: param }),
+  );
 }
 
 async function throwGlobalErrorInternal(
-  param: AxiosError | Response,
+  param: AxiosError<{ message?: string }> | Response,
   options: ThrowGlobalErrorOptions,
 ): Promise<never> {
   if (param instanceof Response) {
@@ -77,7 +78,7 @@ async function throwGlobalErrorInternal(
   }
 
   // Axios response object
-  const message = (param.response?.data as { message?: string } | undefined)?.message;
+  const message = param.response?.data?.message;
   if (message) {
     toast.error({ description: message, id: message, duration: 'medium' });
   }

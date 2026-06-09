@@ -68,7 +68,9 @@ it('should display the default error messsage', async () => {
 it('should handle weird response types', async () => {
   const response = { weird: 'response type' };
 
-  await expect(throwGlobalError(response)).rejects.toThrow();
+  await expect(throwGlobalError(response)).rejects.toEqual(
+    new Error('Unexpected error', { cause: response }),
+  );
 });
 
 it('should unwrap response if necessary', async () => {
