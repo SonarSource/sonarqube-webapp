@@ -1,8 +1,8 @@
 ---
-description: Architecture review — analyse your current branch or an existing PR for DRY violations, missing abstractions, SOLID issues, module boundary violations, and extensibility gaps in this NX monorepo.
+description: Webapp review — analyse your current branch or an existing PR for DRY violations, missing abstractions, SOLID issues, module boundary violations, and extensibility gaps in this NX monorepo.
 ---
 
-Run architecture review: $ARGUMENTS
+Run webapp review: $ARGUMENTS
 
 Parse arguments:
 
