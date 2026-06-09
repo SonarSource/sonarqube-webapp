@@ -128,25 +128,6 @@ it('should ask for PAT when it is not set yet and show the import project featur
   expect(screen.getByText('BitbucketCloud Repo 2')).toBeInTheDocument();
 });
 
-it('should ask for PAT when an app password is currently set', async () => {
-  const user = userEvent.setup();
-  renderCreateProject();
-
-  expect(screen.getByText('onboarding.create_project.bitbucketcloud.title')).toBeInTheDocument();
-
-  await user.click(await ui.instanceSelector.find());
-  await user.click(byRole('option', { name: /conf-bitbucketcloud-3/ }).get());
-
-  expect(
-    await screen.findByText('onboarding.create_project.bitbucket_cloud.enter_password'),
-  ).toBeInTheDocument();
-  expect(
-    screen.getByText('onboarding.create_project.enter_password.instructions.bitbucket_cloud'),
-  ).toBeInTheDocument();
-
-  expect(screen.getByText('Bitbucket App Passwords')).toBeInTheDocument();
-});
-
 it('should show import project feature when PAT is already set', async () => {
   const user = userEvent.setup();
   let projectItem;

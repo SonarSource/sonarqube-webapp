@@ -89,7 +89,7 @@ export default class AlmIntegrationsServiceMock {
     'conf-azure-2': { status: true },
     'conf-bitbucketcloud-1': { status: false },
     'conf-bitbucketcloud-2': { status: true },
-    'conf-bitbucketcloud-3': { error: 'Bitbucket App Passwords', status: false },
+    'conf-bitbucketcloud-3': { status: false },
     'conf-bitbucketserver-1': { status: false },
     'conf-bitbucketserver-2': { status: true },
   };

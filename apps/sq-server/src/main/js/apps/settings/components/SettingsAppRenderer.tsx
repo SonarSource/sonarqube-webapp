@@ -27,7 +27,6 @@ import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplat
 import { isDefined } from '~shared/helpers/types';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
 import ModeBanner from '~sq-server-commons/components/common/ModeBanner';
-import { BitbucketCloudAppDeprecationMessage } from '~sq-server-commons/components/devops-platform/BitbucketCloudAppDeprecationMessage';
 import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
 import { getGlobalSettingsUrl, getProjectSettingsUrl } from '~sq-server-commons/helpers/urls';
 import { Feature } from '~sq-server-commons/types/features';
@@ -112,8 +111,6 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
       breadcrumbs={breadcrumbs}
       component={component}
     >
-      {!isProjectSettings && <BitbucketCloudAppDeprecationMessage className="sw-mt-8" />}
-
       <ModeBanner as="wideBanner" />
 
       <div>
