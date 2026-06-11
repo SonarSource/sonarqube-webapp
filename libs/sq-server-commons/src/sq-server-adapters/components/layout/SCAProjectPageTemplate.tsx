@@ -27,6 +27,7 @@ interface Props extends PropsWithChildren {
   actions?: ReactNode;
   asideLeft?: ReactNode;
   breadcrumbs?: BreadcrumbsProps['items'];
+  description?: ReactNode;
   disableBranchSelector?: boolean;
   header?: ReactNode;
   overrideBranchSelectorPath?: To;
