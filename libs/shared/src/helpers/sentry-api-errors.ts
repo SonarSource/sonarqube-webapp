@@ -35,6 +35,7 @@ const API_ERROR_FINGERPRINT = 'api-error';
 const API_ERROR_SOURCE = 'api';
 const API_RESPONSE_ERROR_TYPE = 'ApiResponseError';
 const UNKNOWN_API_ENDPOINT = 'unknown_api_endpoint';
+const DEFAULT_API_ERROR_MESSAGE = 'API request failed';
 
 type ApiErrorKind = typeof API_BACKEND_ERROR_KIND | typeof API_CLIENT_ERROR_KIND;
 type ApiVersion = 'v1' | 'v2';
@@ -49,21 +50,10 @@ export interface ApiErrorForReporting {
   status: number;
 }
 
-export function getApiErrorForReporting<TError extends ApiErrorForReporting>(
-  message: string,
-  error: TError,
-  response: AxiosError | Response,
-): Error {
-  if (isAxiosError(response)) {
-    return response;
-  }
-
-  const apiError = new Error(
-    getApiResponseErrorMessage(error.status, getApiEndpoint(response), message),
-    {
-      cause: response,
-    },
-  );
+export function getApiErrorForReporting(message: string, response: AxiosError | Response): Error {
+  const apiError = new Error(message, {
+    cause: response,
+  });
 
   apiError.name = API_RESPONSE_ERROR_TYPE;
 
@@ -77,8 +67,18 @@ export function getApiErrorReportingContext<TError extends ApiErrorForReporting>
 ) {
   const apiEndpoint = getApiEndpoint(response);
 
+  const apiResponse = isResponse(response)
+    ? { apiResponse: getApiResponseExtra(response, apiEndpoint) }
+    : {};
+
   return {
-    extra: { apiEndpoint, error, isAxios: isAxiosError(response), response },
+    extra: {
+      apiEndpoint,
+      ...apiResponse,
+      error,
+      isAxios: isAxiosError(response),
+      response,
+    },
     fingerprint: getApiErrorFingerprint(apiEndpoint, error.status),
     tags: getApiTags(apiEndpoint, error.status, tags),
   };
@@ -96,7 +96,7 @@ export function addApiResponseErrorDetails(
   }
 
   const apiEndpoint = getApiEndpoint(originalException);
-  const message = getApiResponseErrorMessage(originalException.status, apiEndpoint);
+  const message = DEFAULT_API_ERROR_MESSAGE;
 
   return {
     ...event,
@@ -185,14 +185,6 @@ function getApiVersion(apiEndpoint: string | undefined): ApiVersion | undefined 
   }
 
   return undefined;
-}
-
-function getApiResponseErrorMessage(
-  status: number,
-  apiEndpoint: string | undefined,
-  message = 'API request failed',
-) {
-  return `${message}: ${status} ${apiEndpoint ?? 'unknown endpoint'}`;
 }
 
 function getApiResponseException(event: ErrorEvent, message: string): ErrorEvent['exception'] {

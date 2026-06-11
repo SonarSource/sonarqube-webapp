@@ -19,11 +19,9 @@
  */
 
 import type { ErrorEvent } from '@sentry/react';
-import { AxiosError, AxiosHeaders } from 'axios';
 import { HttpStatus } from '../../types/request';
 import {
   addApiResponseErrorDetails,
-  getApiEndpoint,
   getApiErrorForReporting,
   getApiErrorReportingContext,
 } from '../sentry-api-errors';
@@ -56,7 +54,7 @@ it('should enrich raw response rejections before sending them to Sentry', () => 
       values: [
         {
           type: 'ApiResponseError',
-          value: 'API request failed: 200 /api/issues/search',
+          value: 'API request failed',
         },
       ],
     },
@@ -69,7 +67,7 @@ it('should enrich raw response rejections before sending them to Sentry', () => 
       },
     },
     fingerprint: ['api-error', '/api/issues/search', String(HttpStatus.Ok)],
-    message: 'API request failed: 200 /api/issues/search',
+    message: 'API request failed',
     tags: {
       [API_ENDPOINT_TAG]: '/api/issues/search',
       [API_STATUS_CODE_TAG]: String(HttpStatus.Ok),
@@ -80,51 +78,102 @@ it('should enrich raw response rejections before sending them to Sentry', () => 
   });
 });
 
-it('should keep the original Axios API error for Sentry reporting', () => {
-  const axiosError = createAxiosError({
-    baseURL: '/web-api',
-    url: '/analysis/analysis-statuses',
-  });
-
-  expect(
-    getApiErrorForReporting(
-      'Internal server error',
-      {
-        msg: 'Internal server error',
-        status: HttpStatus.InternalServerError,
-      },
-      axiosError,
-    ),
-  ).toBe(axiosError);
-});
-
-it('should wrap raw Response API errors for Sentry reporting', () => {
+it('should only rewrite the last Sentry exception value for raw response rejections', () => {
   const response = new Response();
 
   Object.defineProperty(response, 'url', {
     value: 'https://sonarcloud.io/api/issues/search?componentKeys=project',
   });
 
-  const apiError = getApiErrorForReporting(
-    'Internal server error',
-    {
-      msg: 'Internal server error',
-      status: HttpStatus.InternalServerError,
+  const event = {
+    exception: {
+      values: [
+        { type: 'TypeError', value: 'Failed to fetch' },
+        { type: 'Error', value: '[object Response]' },
+      ],
     },
-    response,
+  } as ErrorEvent;
+
+  expect(addApiResponseErrorDetails(event, { originalException: response })).toEqual(
+    expect.objectContaining({
+      exception: {
+        values: [
+          { type: 'TypeError', value: 'Failed to fetch' },
+          { type: 'ApiResponseError', value: 'API request failed' },
+        ],
+      },
+    }),
   );
+});
+
+it('should ignore non-Response exceptions when enriching raw response rejections', () => {
+  const event = {
+    extra: {
+      preserved: true,
+    },
+  } as unknown as ErrorEvent;
+
+  expect(addApiResponseErrorDetails(event, { originalException: new Error('boom') })).toBe(event);
+});
+
+it('should wrap raw Response API errors for Sentry reporting', () => {
+  const response = new Response(undefined, { status: HttpStatus.InternalServerError });
+
+  Object.defineProperty(response, 'url', {
+    value: 'https://sonarcloud.io/api/issues/search?componentKeys=project',
+  });
+
+  const apiError = getApiErrorForReporting('Internal server error', response);
 
   expect(apiError).toEqual(
     expect.objectContaining({
       cause: response,
-      message: 'Internal server error: 500 /api/issues/search',
+      message: 'Internal server error',
       name: 'ApiResponseError',
     }),
   );
 });
 
+it('should create an ApiResponseError when the event has no exception values', () => {
+  const response = new Response(undefined, { status: HttpStatus.BadRequest });
+
+  Object.defineProperty(response, 'url', {
+    value: 'https://sonarcloud.io/api/issues/search',
+  });
+
+  const event = {} as ErrorEvent;
+
+  expect(addApiResponseErrorDetails(event, { originalException: response })).toEqual({
+    exception: {
+      values: [
+        {
+          type: 'ApiResponseError',
+          value: 'API request failed',
+        },
+      ],
+    },
+    extra: {
+      apiResponse: {
+        endpoint: '/api/issues/search',
+        status: HttpStatus.BadRequest,
+        statusText: '',
+        type: 'Response',
+      },
+    },
+    fingerprint: ['api-error', '/api/issues/search', String(HttpStatus.BadRequest)],
+    message: 'API request failed',
+    tags: {
+      [API_ENDPOINT_TAG]: '/api/issues/search',
+      [API_STATUS_CODE_TAG]: String(HttpStatus.BadRequest),
+      [API_VERSION_TAG]: 'v1',
+      [API_ERROR_KIND_TAG]: API_CLIENT_ERROR_KIND,
+      [API_ERROR_SOURCE_TAG]: API_ERROR_SOURCE,
+    },
+  });
+});
+
 it('should build Sentry context for raw Response API errors', () => {
-  const response = new Response();
+  const response = new Response(undefined, { status: HttpStatus.InternalServerError });
 
   Object.defineProperty(response, 'url', {
     value: 'https://sonarcloud.io/api/issues/search?componentKeys=project',
@@ -138,6 +187,12 @@ it('should build Sentry context for raw Response API errors', () => {
   expect(getApiErrorReportingContext(parsedError, response)).toEqual({
     extra: {
       apiEndpoint: '/api/issues/search',
+      apiResponse: {
+        endpoint: '/api/issues/search',
+        status: HttpStatus.InternalServerError,
+        statusText: '',
+        type: 'Response',
+      },
       error: parsedError,
       isAxios: false,
       response,
@@ -153,41 +208,8 @@ it('should build Sentry context for raw Response API errors', () => {
   });
 });
 
-it('should build Sentry context for Axios API errors', () => {
-  const axiosError = createAxiosError({
-    baseURL: '/web-api',
-    url: '/analysis/analysis-statuses',
-  });
-
-  const parsedError = {
-    msg: 'Internal server error',
-    status: HttpStatus.InternalServerError,
-  };
-
-  expect(getApiErrorReportingContext(parsedError, axiosError)).toEqual({
-    extra: {
-      apiEndpoint: '/web-api/analysis/analysis-statuses',
-      error: parsedError,
-      isAxios: true,
-      response: axiosError,
-    },
-    fingerprint: [
-      'api-error',
-      '/web-api/analysis/analysis-statuses',
-      String(HttpStatus.InternalServerError),
-    ],
-    tags: {
-      [API_ENDPOINT_TAG]: '/web-api/analysis/analysis-statuses',
-      [API_STATUS_CODE_TAG]: String(HttpStatus.InternalServerError),
-      [API_VERSION_TAG]: 'v2',
-      [API_ERROR_KIND_TAG]: API_BACKEND_ERROR_KIND,
-      [API_ERROR_SOURCE_TAG]: API_ERROR_SOURCE,
-    },
-  });
-});
-
 it('should allow product-specific tag names', () => {
-  const response = new Response();
+  const response = new Response(undefined, { status: HttpStatus.InternalServerError });
 
   Object.defineProperty(response, 'url', {
     value: 'https://sonarcloud.io/api/issues/search?componentKeys=project',
@@ -211,22 +233,8 @@ it('should allow product-specific tag names', () => {
   );
 });
 
-it('should prefer the resolved Axios request URL when available', () => {
-  const axiosError = createAxiosError(
-    {
-      baseURL: '/web-api',
-      url: '/fallback',
-    },
-    {
-      responseURL: 'https://sonarcloud.io/web-api/analysis/status?project=x',
-    },
-  );
-
-  expect(getApiEndpoint(axiosError)).toBe('/web-api/analysis/status');
-});
-
 it('should tag 4xx API errors separately from backend errors', () => {
-  const response = new Response();
+  const response = new Response(undefined, { status: HttpStatus.BadRequest });
 
   Object.defineProperty(response, 'url', {
     value: 'https://sonarcloud.io/web-api/organizations/measures-history',
@@ -257,7 +265,7 @@ it('should tag 4xx API errors separately from backend errors', () => {
 });
 
 it('should tag non-4xx API errors as backend errors', () => {
-  const response = new Response();
+  const response = new Response(undefined, { status: HttpStatus.ServiceUnavailable });
 
   Object.defineProperty(response, 'url', {
     value: 'https://sonarcloud.io/api/issues/search?componentKeys=project',
@@ -288,7 +296,7 @@ it('should tag non-4xx API errors as backend errors', () => {
 });
 
 it('should still build Sentry context when endpoint extraction fails', () => {
-  const response = new Response();
+  const response = new Response(undefined, { status: HttpStatus.InternalServerError });
 
   Object.defineProperty(response, 'url', {
     value: 'https://[',
@@ -302,6 +310,12 @@ it('should still build Sentry context when endpoint extraction fails', () => {
   expect(getApiErrorReportingContext(parsedError, response)).toEqual({
     extra: {
       apiEndpoint: undefined,
+      apiResponse: {
+        endpoint: undefined,
+        status: HttpStatus.InternalServerError,
+        statusText: '',
+        type: 'Response',
+      },
       error: parsedError,
       isAxios: false,
       response,
@@ -314,21 +328,3 @@ it('should still build Sentry context when endpoint extraction fails', () => {
     },
   });
 });
-
-function createAxiosError(
-  config: { baseURL: string; url: string },
-  request?: { responseURL: string },
-) {
-  const axiosConfig = {
-    ...config,
-    headers: new AxiosHeaders(),
-  };
-
-  return new AxiosError('Internal server error', undefined, axiosConfig, request, {
-    config: axiosConfig,
-    data: { message: 'Internal server error' },
-    headers: {},
-    status: HttpStatus.InternalServerError,
-    statusText: 'Internal server error',
-  });
-}
