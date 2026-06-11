@@ -2452,7 +2452,6 @@ export const defaultMessages = {
   'architecture.project_relationships.define.action': 'Go to relationships definition',
   'architecture.project_relationships.validate': 'Validate relationships',
   'architecture.project_relationships.validate.action': 'Go to relationships validation',
-  'architecture.project_relationships.define.not_architect': 'Only accessible for architects',
   'architecture.relationships.page': 'Define relationships',
   'architecture.relationships.define.breadcrumb': 'Define',
   'architecture.relationships.list.empty': 'No relationships defined yet.',
@@ -2498,7 +2497,6 @@ export const defaultMessages = {
   'architecture.directives.rename.create.title': 'Create rename directive',
   'architecture.directives.rename.component': 'Component',
   'architecture.directives.rename.new_name': 'New name',
-  'architecture.organization.page': 'Organization architecture',
   'architecture.organization.title': 'Organization architecture',
   'architecture.organization.empty': 'No organization-wide architecture data available.',
   'architecture.organization.node.unmapped_boundaries':
