@@ -48,6 +48,7 @@ export const enum SettingsKey {
 export enum GlobalSettingKeys {
   AnnouncementHTMLMessage = 'sonar.announcement.htmlMessage',
   AnnouncementMessage = 'sonar.announcement.message',
+  BannersVisibility = 'sonar.ui.banners.visibility',
   DeveloperAggregatedInfoDisabled = 'sonar.developerAggregatedInfo.disabled',
   DisplayAnnouncementMessage = 'sonar.announcement.displayMessage',
   EnableGravatar = 'sonar.lf.enableGravatar',

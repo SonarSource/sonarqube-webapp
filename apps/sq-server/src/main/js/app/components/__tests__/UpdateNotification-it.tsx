@@ -31,6 +31,7 @@ import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtil
 import { AppState } from '~sq-server-commons/types/appstate';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { Permissions } from '~sq-server-commons/types/permissions';
+import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import { ProductNameForUpgrade } from '~sq-server-commons/types/system';
 import { CurrentUser } from '~sq-server-commons/types/users';
 import { UpdateNotification } from '../update-notification/UpdateNotification';
@@ -69,10 +70,52 @@ describe('when running SQS', () => {
     expect(ui.updateMessage().query()).not.toBeInTheDocument();
   });
 
-  it('should not render update notification if user is not admin', () => {
-    renderUpdateNotification(undefined, { permissions: { global: [] } });
+  it('should not render update notification for non-admin when visibility is ADMINS_ONLY', () => {
+    renderUpdateNotification(
+      undefined,
+      { permissions: { global: [] } },
+      {
+        settings: { [GlobalSettingKeys.BannersVisibility]: 'ADMINS_ONLY' },
+      },
+    );
     expect(getSystemUpgrades).not.toHaveBeenCalled();
     expect(ui.updateMessage().query()).not.toBeInTheDocument();
+  });
+
+  it('should not render update notification when visibility is DISABLED', () => {
+    renderUpdateNotification(undefined, undefined, {
+      settings: { [GlobalSettingKeys.BannersVisibility]: 'DISABLED' },
+    });
+    expect(getSystemUpgrades).not.toHaveBeenCalled();
+    expect(ui.updateMessage().query()).not.toBeInTheDocument();
+  });
+
+  it('should not render update notification when visibility is DISABLED even for admins', () => {
+    renderUpdateNotification(undefined, undefined, {
+      settings: { [GlobalSettingKeys.BannersVisibility]: 'DISABLED' },
+    });
+    expect(getSystemUpgrades).not.toHaveBeenCalled();
+    expect(ui.updateMessage().query()).not.toBeInTheDocument();
+  });
+
+  it('should render update notification for non-admin when visibility is ALL', async () => {
+    jest.mocked(getSystemUpgrades).mockResolvedValue({
+      upgrades: [{ ...SQSUpgrade, version: '10.6.0' }],
+      latestLTA: '9.9',
+      updateCenterRefresh: '',
+      installedVersionActive: true,
+    });
+    renderUpdateNotification(
+      undefined,
+      { permissions: { global: [] } },
+      {
+        settings: { [GlobalSettingKeys.BannersVisibility]: 'ALL' },
+      },
+    );
+    expect(getSystemUpgrades).toHaveBeenCalled();
+    expect(
+      await ui.updateMessage(`admin_notification.update.${UpdateUseCase.NewVersion}`).find(),
+    ).toBeInTheDocument();
   });
 
   it('should not render update notification if no upgrades', () => {
