@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "@atlaskit/reduced-ui-pack": "19.1.2",
-    "@dagrejs/dagre": "2.0.4",
+    "@dagrejs/dagre": "3.0.0",
     "@date-fns/upgrade": "1.0.3",
     "@emotion/css": "11.13.5",
     "@emotion/is-prop-valid": "1.4.0",

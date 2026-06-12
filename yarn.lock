@@ -3464,19 +3464,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dagrejs/dagre@npm:2.0.4":
-  version: 2.0.4
-  resolution: "@dagrejs/dagre@npm:2.0.4"
+"@dagrejs/dagre@npm:3.0.0":
+  version: 3.0.0
+  resolution: "@dagrejs/dagre@npm:3.0.0"
   dependencies:
-    "@dagrejs/graphlib": "npm:3.0.4"
-  checksum: 10/fb2cec24ed581c024bb2fcfa982551226b91fe3d2d2c3d537a095429dc4e4c877d1054182a6fc9fbdb27f26ab08afb1ad31a20b7624663a8fb660ef8d0bb1568
+    "@dagrejs/graphlib": "npm:4.0.1"
+  checksum: 10/4b42954ee1ab0fe041ec70d3fc2d763be98ce0adc90b1ce19bebb309e822ebdf9606548fc1956e32b96b2a9278a077809065dff05bd42d593d7620e363f9d15e
   languageName: node
   linkType: hard
 
-"@dagrejs/graphlib@npm:3.0.4":
-  version: 3.0.4
-  resolution: "@dagrejs/graphlib@npm:3.0.4"
-  checksum: 10/c1c854da7f900f58d5e7ca63eb36d94792818d8d458ababe6b308c5c4ebdc3643c484df38a78831b79b4a52808fe70638f0fdce176da5ad4744c9888d3b1daf6
+"@dagrejs/graphlib@npm:4.0.1":
+  version: 4.0.1
+  resolution: "@dagrejs/graphlib@npm:4.0.1"
+  checksum: 10/2b013162e42b3d26633e2edc8f83ec36390312d10bb1c57e805708d23229a1b5c59ff95b52b29915b44a84857bfbbe327d502aed0ac1b5326c9235c983015c08
   languageName: node
   linkType: hard
 
@@ -23493,7 +23493,7 @@ __metadata:
     "@babel/preset-react": "npm:7.28.5"
     "@babel/preset-typescript": "npm:7.28.5"
     "@cyclonedx/cdxgen": "npm:12.3.3"
-    "@dagrejs/dagre": "npm:2.0.4"
+    "@dagrejs/dagre": "npm:3.0.0"
     "@date-fns/upgrade": "npm:1.0.3"
     "@emotion/babel-plugin": "npm:11.13.5"
     "@emotion/css": "npm:11.13.5"
