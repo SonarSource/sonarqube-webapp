@@ -25,6 +25,7 @@
     "includedScripts": [
       "dep-check",
       "format-check",
+      "knip",
       "test-eslint-local-rules"
     ]
   },
@@ -50,7 +51,9 @@
     "validate": "yarn nx run-many -t validate",
     "validate-l10n": "node private/config/validate-l10n.mts",
     "scan-components": "node tools/scan-components/index.js",
-    "ld-attribute-check": "node private/config/analyze-ld-context-attributes.mts"
+    "ld-attribute-check": "node private/config/analyze-ld-context-attributes.mts",
+    "knip": "NX_DAEMON=false knip",
+    "knip:ci": "NX_DAEMON=false knip --preprocessor ./config/knip/pr-changed-files-preprocessor.ts --no-config-hints --reporter github-actions --no-exit-code"
   },
   "dependencies": {
     "@atlaskit/reduced-ui-pack": "19.1.2",
@@ -206,6 +209,7 @@
     "jest-launchdarkly-mock": "2.2.1",
     "jest-slow-test-reporter": "1.0.0",
     "jest-watch-typeahead": "3.0.1",
+    "knip": "6.16.1",
     "msw": "2.4.9",
     "nx": "22.7.2",
     "nyc": "18.0.0",

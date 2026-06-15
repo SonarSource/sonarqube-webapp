@@ -5,6 +5,7 @@
     "esbenp.prettier-vscode",
     "SonarSource.sonarlint-vscode",
     "dbaeumer.vscode-eslint",
+    "webpro.vscode-knip",
     "mgmcdermott.vscode-language-babel",
     "styled-components.vscode-styled-components",
     "bradlc.vscode-tailwindcss",

@@ -114,6 +114,12 @@ Used by sq-cloud to mock LaunchDarkly flags in tests.
 
 Used in jest config files to improve the jest watch mode.
 
+### knip
+
+Finds unused files, dependencies, and exports across the monorepo. Configured in `knip.json` with plugins for Nx, Vite, Jest, ESLint, Playwright, Tailwind, Babel, and MSW. Run via `yarn knip`. Install the recommended [Knip VS Code extension](https://marketplace.visualstudio.com/items?itemName=webpro.vscode-knip) (`webpro.vscode-knip`) for inline diagnostics while editing. CI runs `yarn knip:ci` in advisory mode (annotations on PR-changed files, non-blocking).
+
+Both `knip` scripts prefix the command with `NX_DAEMON=false`. Knip loads tool configs (e.g. `jest.config.ts` via the Jest plugin), which can invoke Nx APIs and trip the background Nx daemon — often surfacing as `Daemon process terminated and closed the connection`. Disabling the daemon for read-only Knip runs is the [documented workaround](https://knip.dev/reference/known-issues#nx-daemon); it does not affect normal `yarn nx` usage.
+
 ### msw
 
 Used to mock API requests in tests and dev mode.

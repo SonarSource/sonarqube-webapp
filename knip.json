@@ -1,0 +1,151 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "ignoreDependencies": [
+    "@atlaskit/reduced-ui-pack",
+    "@babel/preset-env",
+    "@nx/plugin",
+    "@nx/web",
+    "@typescript-eslint/types",
+    "@yarnpkg/core",
+    "babel-plugin-macros",
+    "babel-plugin-twin",
+    "browserslist",
+    "browserslist-useragent-regexp",
+    "core-js",
+    "csstype",
+    "env-cmd",
+    "jest-environment-node",
+    "jsonc-eslint-parser",
+    "nyc",
+    "regenerator-runtime",
+    "ts-node"
+  ],
+  "ignoreUnresolved": ["~sq-server-commons/design-system"],
+  "workspaces": {
+    ".": {
+      "entry": [
+        "libs/**/src/index.{ts,tsx}",
+        "private/libs/**/src/index.{ts,tsx}",
+        ".github/scripts/**/*.{js,mjs}",
+        "config/**/*.{js,mjs,ts,mts}",
+        "eslint-local-rules/index.js"
+      ],
+      "project": [
+        "{libs,private/libs,config,eslint-local-rules,@types,tools/scan-components,.github/scripts}/**/*.{ts,tsx,js,mjs,mts}"
+      ],
+      "ignoreFiles": ["eslint-local-rules/test-config/react.tsx"],
+      "babel": {
+        "config": [
+          "babel.config.js",
+          "babel-plugin-macros.config.js",
+          "apps/sq-server/config/jest/JestPreprocess.js",
+          "config/jest/JestPreprocess.js",
+          "private/apps/sq-cloud/config/jest/JestPreprocess.js"
+        ]
+      },
+      "eslint": {
+        "config": [
+          ".eslintrc.js",
+          ".eslintrc.rules.js",
+          "private/.eslintrc-private.js",
+          "{libs,private/libs}/**/.eslintrc.js"
+        ]
+      },
+      "jest": {
+        "config": [
+          "config/jest/jest.config.base.js",
+          "eslint-local-rules/test-config/jest.config.js"
+        ]
+      },
+      "msw": {
+        "config": ["apps/sq-server/package.json", "private/apps/sq-cloud/package.json"],
+        "entry": [
+          "libs/**/api/mocks/**/*.{ts,tsx,js}",
+          "libs/**/api/mocks-v2/**/*.{ts,tsx,js}",
+          "private/**/api/mocks/**/*.{ts,tsx,js}"
+        ]
+      },
+      "nx": {
+        "config": [
+          "nx.json",
+          "project.json",
+          "{apps,libs,private,tools}/**/project.json",
+          "package.json"
+        ]
+      },
+      "tailwind": {
+        "entry": ["libs/**/tailwind*.config.js"]
+      },
+      "vite": {
+        "config": ["vite.config.base.ts"]
+      }
+    },
+    "apps/sq-server": {
+      "entry": ["index.html", "src/**/*.{ts,tsx}", "scripts/**/*.{js,ts}"],
+      "project": ["src/**/*.{ts,tsx,js}", "scripts/**/*.{js,ts}", "config/**/*.{js,mjs,ts}"],
+      "babel": {
+        "config": ["config/jest/JestPreprocess.js"]
+      },
+      "eslint": {
+        "config": [".eslintrc.js"]
+      },
+      "jest": {
+        "config": ["jest.config.js", "jest.config.ci.js"]
+      },
+      "msw": {
+        "config": ["package.json"],
+        "entry": ["__mocks__/**/*.{ts,tsx,js}", "config/jest/SetupMockServerWorkers.ts"]
+      },
+      "vite": {
+        "config": ["vite.config.ts"]
+      }
+    },
+    "private/apps/sq-cloud": {
+      "entry": ["index.html", "integration/**/index.html", "src/**/*.{ts,tsx}"],
+      "project": ["src/**/*.{ts,tsx,js}", "config/**/*.{js,ts}"],
+      "babel": {
+        "config": ["babel-plugin-macros.config.js", "config/jest/JestPreprocess.js"]
+      },
+      "eslint": {
+        "config": [".eslintrc.js"]
+      },
+      "jest": {
+        "config": ["config/jest/jest.config*.js"]
+      },
+      "msw": {
+        "config": ["package.json"],
+        "entry": ["src/helpers/mocks/**/*.{ts,tsx}", "src/helpers/testApiMock.ts"]
+      },
+      "tailwind": {
+        "entry": ["config/theme/tailwind.config.js"]
+      },
+      "vite": {
+        "config": ["vite.config.ts"]
+      }
+    },
+    "private/sq-cloud-e2e-tests": {
+      "entry": ["tests/**/*.{ts,tsx}", "fixtures/**/*.{ts,tsx}", "utils/**/*.{ts,tsx}"],
+      "project": ["**/*.{ts,tsx,js}", "!resources/**"],
+      "eslint": {
+        "config": [".eslintrc.js"]
+      },
+      "playwright": {
+        "config": ["playwright.config.ts"]
+      }
+    },
+    "private/sq-cloud-metrics": {
+      "entry": ["src/**/*.{js,mjs}"],
+      "project": ["src/**/*.{js,mjs}"]
+    },
+    "tools/nx-automation": {
+      "entry": ["src/index.ts", "src/generators/**/generator.ts"],
+      "project": ["src/**/*.{ts,js}", "!src/generators/**/files/**"],
+      "eslint": {
+        "config": [".eslintrc.js"]
+      },
+      "nx": {
+        "config": ["generators.json", "project.json"]
+      }
+    }
+  }
+}
