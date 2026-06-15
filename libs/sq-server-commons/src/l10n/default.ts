@@ -2172,13 +2172,14 @@ export const defaultMessages = {
   'architecture.page.model.saved': 'Saved successfully',
   'architecture.page.model.unsaved_changes': 'You have unsaved changes.',
   'architecture.page.model.seed.empty_model.title': 'Your intended architecture is empty',
-  'architecture.page.model.seed.empty_model.subtitle':
-    "Start with your project's main language: {language}.",
-  'architecture.page.model.seed.message':
-    "Draft the language's top-level components and the relationships between them.",
-  'architecture.page.model.seed.action': 'Generate draft',
+  'architecture.page.model.seed.empty_model.message':
+    'Generate a draft from the top-level components and relationships for your main language {language} or start from scratch.',
   'architecture.page.model.seed.empty_language.title':
     'The {language} intended architecture is empty',
+  'architecture.page.model.seed.empty_language.message':
+    'Generate a draft from the top-level components and relationships or start from scratch.',
+  'architecture.page.model.seed.action': 'Generate draft',
+  'architecture.page.model.seed.start_from_scratch': 'Start from scratch',
   'architecture.page.model.no_data': 'No model data',
   'architecture.page.model.no_architecture_available':
     "This project doesn't have an intended architecture defined. Architecture administrators are able to create it.",
