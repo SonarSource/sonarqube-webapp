@@ -18,9 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { DEFAULT_PERFORMANCE_LIMITS } from '~shared/helpers/architecture';
 import { FlagSet } from '~shared/types/feature-flags';
 
 interface SQSFlagSet extends FlagSet {
+  designArchitectureSquadPerformanceLimits: {
+    maxEdgesCount: number;
+    maxNodesCount: number;
+  };
   scaEnableReachabilityFrontend: boolean;
   scaKeyChangesPrView: boolean;
 }
@@ -29,6 +34,7 @@ interface SQSFlagSet extends FlagSet {
 // compatibility with SQC in shared code.
 // Add features flags here as needed in shared code, especially useful if you want a default value other than falsy for SQS.
 const defaultFlags: SQSFlagSet = {
+  designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
   scaEnableReachabilityFrontend: false,
   scaKeyChangesPrView: false,
 };

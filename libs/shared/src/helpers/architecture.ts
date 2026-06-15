@@ -18,12 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ArchitectureFlags, DEFAULT_PERFORMANCE_LIMITS } from '~shared/helpers/architecture';
+export type PerformanceLimits = {
+  maxEdgesCount: number;
+  maxNodesCount: number;
+};
 
-export function useArchitectureFlags(): ArchitectureFlags {
-  return {
-    designArchitectureSquadExtensionPack: true,
-    designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
-    isCurrentOrganizationMember: true,
+// investigation for threshold values linked here: https://sonarsource.atlassian.net/browse/SONARCH-1598
+export const DEFAULT_PERFORMANCE_LIMITS: PerformanceLimits = {
+  maxNodesCount: 7000,
+  maxEdgesCount: 14000,
+};
+
+export interface ArchitectureFlags {
+  designArchitectureSquadExtensionPack: boolean;
+  designArchitectureSquadPerformanceLimits: {
+    maxEdgesCount: number;
+    maxNodesCount: number;
   };
+  isCurrentOrganizationMember: boolean;
 }
