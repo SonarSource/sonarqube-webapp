@@ -147,7 +147,6 @@ it('should be able to interact with issue action', async () => {
       name: 'issue.assign.unassigned_click_to_assign',
     }),
   );
-  await user.click(screen.getByLabelText('search.search_for_users'));
   await user.keyboard('luke');
   expect(screen.getByText('Skywalker')).toBeInTheDocument();
 });

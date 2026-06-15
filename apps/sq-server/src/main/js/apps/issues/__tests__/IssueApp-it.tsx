@@ -306,17 +306,17 @@ describe('issue app', () => {
       await screen.findByLabelText('Fix that', undefined, { timeout: 10_000 }),
     );
     // Assign issue to a different user
-    await user.click(listItem.getByLabelText('issue.assign.unassigned_click_to_assign'));
-    await user.click(screen.getByLabelText('search.search_for_users'));
+    await user.click(
+      listItem.getByRole('combobox', { name: 'issue.assign.unassigned_click_to_assign' }),
+    );
     await user.keyboard('luke');
 
     expect(screen.getByText('Skywalker')).toBeInTheDocument();
 
     await user.click(screen.getByText('Skywalker'));
-    await listItem.findByLabelText('issue.assign.assigned_to_x_click_to_change.luke');
 
     expect(
-      listItem.getByLabelText('issue.assign.assigned_to_x_click_to_change.luke'),
+      listItem.getByRole('combobox', { name: 'issue.assign.assigned_to_x_click_to_change.luke' }),
     ).toBeInTheDocument();
   });
 
@@ -424,7 +424,10 @@ describe('issue app', () => {
     await user.keyboard('a');
 
     expect(
-      await screen.findByRole('searchbox', { name: 'search.search_for_users' }),
+      await screen.findByRole('combobox', {
+        expanded: true,
+        name: 'issue.assign.unassigned_click_to_assign',
+      }),
     ).toBeInTheDocument();
   });
 

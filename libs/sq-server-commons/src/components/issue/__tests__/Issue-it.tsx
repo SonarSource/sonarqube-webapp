@@ -200,7 +200,7 @@ describe('updating', () => {
     });
 
     await ui.updateAssignee('leia', 'Skywalker');
-    expect(ui.updateAssigneeBtn('luke').get()).toBeInTheDocument();
+    expect(ui.assigneeCombobox('luke').get()).toBeInTheDocument();
   });
 
   it('should allow updating the tags', async () => {
@@ -357,9 +357,9 @@ it('should correctly handle keyboard shortcuts', async () => {
   await ui.pressCheckShortcut();
   expect(onCheck).toHaveBeenCalled();
 
-  expect(ui.updateAssigneeBtn('luke').get()).toBeInTheDocument();
+  expect(ui.assigneeCombobox('luke').get()).toBeInTheDocument();
   await ui.pressAssignToMeShortcut();
-  expect(ui.updateAssigneeBtn('leia').get()).toBeInTheDocument();
+  expect(ui.assigneeCombobox('leia').get()).toBeInTheDocument();
 });
 
 function getPageObject() {
@@ -449,12 +449,11 @@ function getPageObject() {
     setStatusBtn: (transition: IssueTransition) => byText(`status_transition.${transition}`),
 
     // Assignee
-    assigneeSearchInput: byLabelText('search.search_for_users'),
-    updateAssigneeBtn: (currentAssignee: string) =>
+    assigneeCombobox: (currentAssignee: string) =>
       byRole('combobox', {
         name: `issue.assign.assigned_to_x_click_to_change.${currentAssignee}`,
       }),
-    setAssigneeBtn: (name: RegExp) => byLabelText(name),
+    setAssigneeBtn: (name: RegExp) => byRole('option', { name }),
 
     // Tags
     tagsSearchInput: byRole('searchbox'),
@@ -486,9 +485,9 @@ function getPageObject() {
       await user.click(selectors.setStatusBtn(transition).get());
     },
     async updateAssignee(currentAssignee: string, newAssignee: string) {
-      await user.click(selectors.updateAssigneeBtn(currentAssignee).get());
-      await user.type(selectors.assigneeSearchInput.get(), newAssignee);
-      await user.click(selectors.setAssigneeBtn(new RegExp(newAssignee)).get());
+      await user.click(selectors.assigneeCombobox(currentAssignee).get());
+      await user.type(await selectors.assigneeCombobox(currentAssignee).find(), newAssignee);
+      await user.click(await selectors.setAssigneeBtn(new RegExp(newAssignee)).find());
     },
     async addTag(tag: string, currentTagList?: string[]) {
       await user.click(selectors.updateTagsBtn(currentTagList).get());

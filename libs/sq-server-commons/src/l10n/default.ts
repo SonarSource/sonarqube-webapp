@@ -1077,7 +1077,7 @@ export const defaultMessages = {
   'issue.create_tag_x': 'Create Tag "{0}"',
   'issue.tags': 'Tags',
   'issue.permalink_copy': 'Copy permalink to current issue: "{title}"',
-  'issue.assign.assigned_to_x_click_to_change': 'Assigned to {0}, click to change',
+  'issue.assign.assigned_to_x_click_to_change': 'Assigned to {user}, click to change',
   'issue.assign.unassigned_click_to_assign': 'Unassigned, click to assign issue',
   'issue.assign.formlink': 'Assign',
   'issue.assign.to_me': 'to me',
