@@ -357,12 +357,10 @@ describe('standards renderers', () => {
   });
 
   describe('renderCRACategory', () => {
-    it('should render CRA categories with level', () => {
-      expect(renderCRACategory(standards, '1')).toBe(
-        '1 - Part I - Cybersecurity requirements (Level 1)',
-      );
+    it('should render CRA categories', () => {
+      expect(renderCRACategory(standards, '1')).toBe('1 - Part I - Cybersecurity requirements');
       expect(renderCRACategory(standards, '1.2.a')).toBe(
-        '1.2.a - be made available on the market without known exploitable vulnerabilities (Level 3)',
+        '1.2.a - be made available on the market without known exploitable vulnerabilities',
       );
     });
 

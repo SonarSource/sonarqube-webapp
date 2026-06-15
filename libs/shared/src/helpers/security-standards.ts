@@ -249,7 +249,7 @@ export const renderOwaspAsvs40Category = createRendererWithLevel(
 export const renderOwaspAsvs50Category = createRendererWithLevel(
   StandardsInformationKey.OWASP_ASVS_5_0,
 );
-export const renderCRACategory = createRendererWithLevel(StandardsInformationKey.CRA);
+export const renderCRACategory = createSimpleRenderer(StandardsInformationKey.CRA);
 
 function addPrefix(title: string, prefix: string, withPrefix: boolean) {
   return withPrefix ? `${prefix} ${title}` : title;
