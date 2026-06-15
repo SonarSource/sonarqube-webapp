@@ -25,6 +25,7 @@ import {
   TextInput,
   ToggleButtonGroup,
 } from '@sonarsource/echoes-react';
+import { debounce } from 'lodash';
 import { useCallback, useEffect, useId, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import ListFooter from './ListFooter';
@@ -72,6 +73,7 @@ export interface SelectListProps<T> {
 }
 
 const DEFAULT_PAGE_SIZE = 6;
+const SEARCH_DEBOUNCE_DELAY = 250;
 
 export function SelectList<T>(props: Readonly<SelectListProps<T>>) {
   const {
@@ -98,6 +100,7 @@ export function SelectList<T>(props: Readonly<SelectListProps<T>>) {
 
   const intl = useIntl();
   const searchInputId = useId();
+  const [inputValue, setInputValue] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState<SelectListFilter>(SelectListFilter.All);
   const [page, setPage] = useState(1);
@@ -127,9 +130,26 @@ export function SelectList<T>(props: Readonly<SelectListProps<T>>) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, filter]);
 
+  // Debounce keystrokes so we don't fire a request (and trigger the search effect) on every character.
+  const debouncedSetSearchQuery = useMemo(
+    () =>
+      debounce((query: string) => {
+        setSearchQuery(query);
+        setPage(1);
+      }, SEARCH_DEBOUNCE_DELAY),
+    [],
+  );
+
+  useEffect(
+    () => () => {
+      debouncedSetSearchQuery.cancel();
+    },
+    [debouncedSetSearchQuery],
+  );
+
   const handleQueryChange = (query: string) => {
-    setSearchQuery(query);
-    setPage(1);
+    setInputValue(query);
+    debouncedSetSearchQuery(query);
   };
 
   const handleFilterChange = (newFilter: string) => {
@@ -171,7 +191,7 @@ export function SelectList<T>(props: Readonly<SelectListProps<T>>) {
     <>
       <div className="sw-flex sw-items-center sw-mb-4">
         <ToggleButtonGroup
-          isDisabled={searchQuery !== ''}
+          isDisabled={inputValue !== ''}
           onChange={handleFilterChange}
           options={[
             {
@@ -207,7 +227,7 @@ export function SelectList<T>(props: Readonly<SelectListProps<T>>) {
             </>
           }
           type="search"
-          value={searchQuery}
+          value={inputValue}
         />
       </div>
       <div className="sw-overflow-y-auto sw-shrink">

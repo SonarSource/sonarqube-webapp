@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithContext } from '../../../helpers/test-utils';
 import { SelectList, SelectListFilter, SelectListProps } from '../SelectList';
@@ -81,21 +81,26 @@ it('should cancel filter selection when search is active', async () => {
   const query = 'test';
   await user.type(screen.getByPlaceholderText('search_verb'), query);
 
-  expect(onSearch).toHaveBeenCalledWith({
-    query,
-    filter: SelectListFilter.All, // Filter is forced to All when searching
-    page: 1,
-    pageSize: 6,
+  // Keystrokes are debounced, so the search fires once the user stops typing
+  await waitFor(() => {
+    expect(onSearch).toHaveBeenCalledWith({
+      query,
+      filter: SelectListFilter.All, // Filter is forced to All when searching
+      page: 1,
+      pageSize: 6,
+    });
   });
 
   await user.clear(screen.getByPlaceholderText('search_verb'));
 
   // After clearing search, it should research with the previous filter
-  expect(onSearch).toHaveBeenCalledWith({
-    query: '',
-    filter: SelectListFilter.Unselected,
-    page: 1,
-    pageSize: 6,
+  await waitFor(() => {
+    expect(onSearch).toHaveBeenCalledWith({
+      query: '',
+      filter: SelectListFilter.Unselected,
+      page: 1,
+      pageSize: 6,
+    });
   });
 });
 
