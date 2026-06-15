@@ -20,6 +20,7 @@
 
 import styled from '@emotion/styled';
 import { BreadcrumbsProps, ContentHeaderProps, Layout } from '@sonarsource/echoes-react';
+import { ReactNode } from 'react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { getBranchLikeDisplayName, getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
@@ -44,6 +45,7 @@ interface Props extends SelectedContentHeaderProps {
   breadcrumbs?: BreadcrumbsProps['items'];
   disableBranchSelector?: boolean;
   disableQualityGateStatus?: boolean;
+  extraTitleSuffix?: ReactNode;
   overrideBranchSelectorPath?: ProjectBranchSelectorProps['overridePath'];
 }
 
@@ -55,6 +57,7 @@ export function ProjectContentHeader(props: Readonly<Props>) {
     description,
     disableBranchSelector = false,
     disableQualityGateStatus = false,
+    extraTitleSuffix,
     metadata,
     navigation,
     overrideBranchSelectorPath,
@@ -132,6 +135,7 @@ export function ProjectContentHeader(props: Readonly<Props>) {
               {hasBranchSelector && !disableQualityGateStatus && branchLike && (
                 <QualityGateStatus branchLike={branchLike} indicatorSize="md" />
               )}
+              {extraTitleSuffix}
             </>
           }
         >

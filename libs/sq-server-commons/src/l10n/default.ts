@@ -2115,6 +2115,9 @@ export const defaultMessages = {
   'architecture.project_too_big.body': "This project is too big and can't be displayed.",
   'architecture.page': 'Architecture',
   'architecture.page.coverage': 'Coverage',
+  'architecture.page.model.coverage.badge': 'Coverage: {percentage}%',
+  'architecture.page.model.coverage.tooltip':
+    'Percentage of leaf artifacts (classes and files) covered by the intended architecture',
   'architecture.page.discovery': 'Current architecture',
   'architecture.page.discovery.copy_component_path_to_clipboard':
     'Copy the component path to the clipboard',
