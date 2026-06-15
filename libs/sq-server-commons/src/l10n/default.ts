@@ -2118,6 +2118,8 @@ export const defaultMessages = {
   'architecture.page.model.coverage.badge': 'Coverage: {percentage}%',
   'architecture.page.model.coverage.tooltip':
     'Percentage of leaf artifacts (classes and files) covered by the intended architecture',
+  'architecture.page.coverage.description':
+    'Architecture coverage is the amount of code in the main branch that is managed by the intended architecture. It gets updated after each analysis.',
   'architecture.page.discovery': 'Current architecture',
   'architecture.page.discovery.copy_component_path_to_clipboard':
     'Copy the component path to the clipboard',
