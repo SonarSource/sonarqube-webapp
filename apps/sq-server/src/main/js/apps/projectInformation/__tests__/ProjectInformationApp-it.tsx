@@ -19,7 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
-import { byRole } from '~shared/helpers/testSelector';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import {
@@ -75,7 +75,8 @@ const ui = {
   qualityGateHeader: byRole('heading', { name: 'project.info.quality_gate' }),
   qualityProfilesHeader: byRole('heading', { name: 'overview.quality_profiles' }),
   externalLinksHeader: byRole('heading', { name: 'overview.external_links' }),
-  tags: byRole('generic', { name: /tags:/ }),
+  tags: byRole('generic', { name: /tags_list_x/ }),
+  noTags: byText('no_tags'),
   size: byRole('link', { name: /project.info.see_more_info_on_x_locs/ }),
   newKeyInput: byRole('textbox'),
   updateInputButton: byRole('button', { name: 'update_verb' }),
@@ -180,7 +181,7 @@ it('should hide some fields for application', async () => {
   expect(screen.getByText('application.info.empty_description')).toBeInTheDocument();
   expect(screen.queryByText('project.info.ai_code_assurance.title')).not.toBeInTheDocument();
   expect(screen.getByText('visibility.public')).toBeInTheDocument();
-  expect(ui.tags.get()).toHaveTextContent('no_tags');
+  expect(ui.noTags.get()).toBeInTheDocument();
 });
 
 it('should not display ai code information', async () => {
@@ -258,7 +259,7 @@ it('should not show field that is not configured', async () => {
   expect(ui.qualityGateHeader.query()).not.toBeInTheDocument();
   expect(ui.qualityProfilesHeader.query()).not.toBeInTheDocument();
   expect(screen.getByText('visibility.public')).toBeInTheDocument();
-  expect(ui.tags.get()).toHaveTextContent('no_tags');
+  expect(ui.noTags.get()).toBeInTheDocument();
   expect(screen.getByText('project.info.empty_description')).toBeInTheDocument();
 });
 
@@ -272,7 +273,7 @@ it('should hide visibility if public', async () => {
   expect(ui.qualityGateHeader.query()).not.toBeInTheDocument();
   expect(ui.qualityProfilesHeader.query()).not.toBeInTheDocument();
   expect(screen.getByText('visibility.public')).toBeInTheDocument();
-  expect(ui.tags.get()).toHaveTextContent('no_tags');
+  expect(ui.noTags.get()).toBeInTheDocument();
   expect(screen.getByText('project.info.empty_description')).toBeInTheDocument();
 });
 

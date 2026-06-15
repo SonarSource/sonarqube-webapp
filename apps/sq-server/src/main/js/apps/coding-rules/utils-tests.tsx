@@ -144,7 +144,7 @@ const selectors = {
     byLabelText(new RegExp(`severity.${severity}.issue.type.${issueType}`)),
 
   // Rule tags
-  tagsDropdown: byLabelText(/tags_list_x/).byRole('button'),
+  tagsDropdown: byRole('button', { name: /tags\.(edit_button_label|add_tags)/ }),
   tagCheckbox: (tag: string) => byLabelText(tag),
   tagSearch: byRole('searchbox', { name: 'search.search_for_tags' }),
 

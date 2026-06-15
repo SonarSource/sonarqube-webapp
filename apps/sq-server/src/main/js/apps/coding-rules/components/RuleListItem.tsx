@@ -371,12 +371,7 @@ function RuleListItem(props: Readonly<Props>) {
               <>
                 <SeparatorCircleIcon aria-hidden as="li" />
                 <li>
-                  <TagsList
-                    allowUpdate={false}
-                    className="sw-typo-sm"
-                    tags={allTags}
-                    tagsClassName="sw-typo-sm"
-                  />
+                  <TagsList allowUpdate={false} className="sw-typo-sm" tags={allTags} />
                 </li>
               </>
             )}

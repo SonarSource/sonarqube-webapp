@@ -331,38 +331,38 @@ describe('issue app', () => {
     );
 
     // Change tags
-    expect(listItem.getByText('issue.no_tag')).toBeInTheDocument();
+    expect(listItem.getByText('no_tags')).toBeInTheDocument();
 
-    await user.click(listItem.getByText('issue.no_tag'));
+    await user.click(listItem.getByText('no_tags'));
 
-    expect(listItem.getByLabelText('search.search_for_tags')).toBeInTheDocument();
-    expect(listItem.getByText('android')).toBeInTheDocument();
-    expect(listItem.getByText('accessibility')).toBeInTheDocument();
+    expect(byLabelText('search.search_for_tags').get()).toBeInTheDocument();
+    expect(byText('android').get()).toBeInTheDocument();
+    expect(byText('accessibility').get()).toBeInTheDocument();
 
-    await user.click(listItem.getByText('accessibility'));
-    await user.click(listItem.getByText('android'));
+    await user.click(screen.getByText('accessibility'));
+    await user.click(screen.getByText('android'));
 
     await user.keyboard('{Escape}');
-    await expect(
-      byRole('button', { name: 'accessibility android +' }).byText('accessibility').get(),
-    ).toHaveATooltipWithContent('accessibility, android');
+    expect(
+      await byRole('button', { name: 'tags.edit_button_label.accessibility, android' }).find(),
+    ).toBeInTheDocument();
 
-    await user.click(listItem.getByRole('button', { name: 'accessibility android +' }));
+    await user.click(listItem.getByRole('button', { name: /tags.edit_button_label/ }));
 
     // Unselect
-    await user.click(screen.getByLabelText('accessibility'));
+    await user.click(byLabelText('accessibility').get());
 
     await user.keyboard('{Escape}');
-    await expect(
-      byRole('button', { name: 'android +' }).byText('android').get(),
-    ).toHaveATooltipWithContent('android');
+    expect(
+      await byRole('button', { name: 'tags.edit_button_label.android' }).find(),
+    ).toBeInTheDocument();
 
-    await user.click(listItem.getByRole('button', { name: 'android +' }));
+    await user.click(listItem.getByRole('button', { name: /tags.edit_button_label/ }));
 
-    await user.click(screen.getByLabelText('search.search_for_tags'));
+    await user.click(byLabelText('search.search_for_tags').get());
     await user.keyboard('addNewTag');
 
-    expect(screen.getByLabelText('issue.create_tag: addnewtag')).toBeInTheDocument();
+    expect(byLabelText('issue.create_tag: addnewtag').get()).toBeInTheDocument();
   });
 
   it('should not allow performing actions when user does not have permission', async () => {

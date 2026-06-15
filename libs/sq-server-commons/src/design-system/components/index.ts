@@ -80,7 +80,6 @@ export * from './SonarCodeColorizer';
 export * from './SonarQubeLogo';
 export * from './subnavigation';
 export * from './Tabs';
-export * from './Tags';
 export * from './TextAccordion';
 export { TopBar } from './TopBar';
 export * from './TreeMap';

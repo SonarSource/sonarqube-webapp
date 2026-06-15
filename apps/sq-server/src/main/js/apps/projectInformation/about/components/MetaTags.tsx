@@ -21,15 +21,14 @@
 import { Heading, Spinner } from '@sonarsource/echoes-react';
 import { difference, without } from 'lodash';
 import { useEffect, useState } from 'react';
-import { MultiSelector, Tags } from '~design-system';
+import { MultiSelector } from '~design-system';
+import { Tags } from '~shared/components/tags/Tags';
 import { ComponentQualifier } from '~shared/types/component';
 import {
   searchProjectTags,
   setApplicationTags,
   setProjectTags,
 } from '~sq-server-commons/api/components';
-import Tooltip from '~sq-server-commons/components/controls/Tooltip';
-import { PopupPlacement } from '~sq-server-commons/components/ui/popups';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Component } from '~sq-server-commons/types/types';
 
@@ -87,18 +86,14 @@ export default function MetaTags(props: Props) {
       </Heading>
       <Tags
         allowUpdate={canUpdateTags()}
-        ariaTagsListLabel={translate('tags')}
         className="project-info-tags"
-        emptyText={translate('no_tags')}
         overlay={
           <Spinner isLoading={loading}>
             <MetaTagsSelector selectedTags={tags} setProjectTags={handleSetProjectTags} />
           </Spinner>
         }
-        popupPlacement={PopupPlacement.Bottom}
         tags={tags}
         tagsToDisplay={2}
-        tooltip={Tooltip}
       />
     </>
   );

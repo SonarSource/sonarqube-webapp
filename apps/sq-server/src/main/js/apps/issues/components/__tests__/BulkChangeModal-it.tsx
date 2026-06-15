@@ -37,8 +37,8 @@ jest.mock('~sq-server-commons/api/issues', () => ({
 }));
 
 const ui = {
-  addTagsButton: byRole('button', { name: 'issue.add_tags' }),
-  removeTagsButton: byRole('button', { name: 'issue.remove_tags' }),
+  addTagsButton: byRole('button', { name: 'tags.add_tags' }),
+  removeTagsButton: byRole('button', { name: 'tags.remove_tags' }),
 };
 
 afterEach(() => {

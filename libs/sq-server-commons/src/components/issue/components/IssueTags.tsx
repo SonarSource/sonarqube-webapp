@@ -19,13 +19,11 @@
  */
 
 import * as React from 'react';
+import { Tags } from '~shared/components/tags/Tags';
 import { setIssueTags } from '../../../api/issues';
 import withComponentContext from '../../../context/componentContext/withComponentContext';
-import { PopupPlacement, Tags } from '../../../design-system';
-import { translate } from '../../../helpers/l10n';
 import { ComponentContextShape } from '../../../types/component';
 import { Issue } from '../../../types/types';
-import Tooltip from '../../controls/Tooltip';
 import { updateIssue } from '../actions';
 import IssueTagsPopup from '../popups/IssueTagsPopup';
 
@@ -35,14 +33,10 @@ interface Props extends ComponentContextShape {
   onChange: (issue: Issue) => void;
   open?: boolean;
   tagsToDisplay?: number;
-  togglePopup: (popup: string, show?: boolean) => void;
+  togglePopup?: (popup: string, show?: boolean) => void;
 }
 
 export class IssueTags extends React.PureComponent<Props> {
-  toggleSetTags = (open = false) => {
-    this.props.togglePopup('edit-tags', open);
-  };
-
   setTags = (tags: string[]) => {
     const { issue } = this.props;
     const newIssue = { ...issue, tags };
@@ -55,29 +49,20 @@ export class IssueTags extends React.PureComponent<Props> {
     );
   };
 
-  handleClose = () => {
-    this.toggleSetTags(false);
-  };
-
   render() {
-    const { component, issue, open, tagsToDisplay = 2 } = this.props;
+    const { component, issue, tagsToDisplay = 2 } = this.props;
     const { tags = [] } = issue;
 
     return (
       <Tags
         allowUpdate={this.props.canSetTags && !component?.needIssueSync}
-        ariaTagsListLabel={translate('issue.tags')}
         className="js-issue-edit-tags sw-typo-sm"
-        emptyText={translate('issue.no_tag')}
+        isOpen={this.props.open}
         menuId="issue-tags-menu"
-        onClose={this.handleClose}
-        open={open}
         overlay={<IssueTagsPopup selectedTags={tags} setTags={this.setTags} />}
-        popupPlacement={PopupPlacement.Bottom}
+        setIsOpen={(isOpen: boolean) => this.props.togglePopup?.('edit-tags', isOpen)}
         tags={tags}
-        tagsClassName="sw-typo-sm"
         tagsToDisplay={tagsToDisplay}
-        tooltip={Tooltip}
       />
     );
   }

@@ -18,17 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
-import { PopupPlacement, Tags } from '../../design-system';
-import { translate, translateWithParameters } from '../../helpers/l10n';
-import Tooltip from '../controls/Tooltip';
+import { ReactNode } from 'react';
+import { Tags } from '~shared/components/tags/Tags';
 
 interface Props {
   allowUpdate?: boolean;
   className?: string;
-  overlay?: React.ReactNode;
+  overlay?: ReactNode;
   tags: string[];
-  tagsClassName?: string;
   tagsToDisplay?: number;
 }
 
@@ -37,28 +34,16 @@ export default function TagsList({
   className,
   tags,
   overlay,
-  tagsClassName,
   tagsToDisplay = 2,
 }: Readonly<Props>) {
-  const [open, setOpen] = React.useState(false);
-
   return (
     <Tags
       allowUpdate={allowUpdate}
-      ariaTagsListLabel={translateWithParameters('tags_list_x', tags.join(', '))}
       className={className}
-      emptyText={translate('no_tags')}
       menuId="rule-tags-menu"
-      onClose={() => {
-        setOpen(false);
-      }}
-      open={open}
       overlay={overlay}
-      popupPlacement={PopupPlacement.Bottom}
       tags={tags}
-      tagsClassName={tagsClassName}
       tagsToDisplay={tagsToDisplay}
-      tooltip={Tooltip}
     />
   );
 }

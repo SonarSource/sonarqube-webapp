@@ -399,9 +399,9 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
         )}
 
         {this.renderAssigneeField()}
-        {!needIssueSync && this.renderTagsField(InputField.addTags, 'issue.add_tags', true)}
+        {!needIssueSync && this.renderTagsField(InputField.addTags, 'tags.add_tags', true)}
 
-        {!needIssueSync && this.renderTagsField(InputField.removeTags, 'issue.remove_tags', false)}
+        {!needIssueSync && this.renderTagsField(InputField.removeTags, 'tags.remove_tags', false)}
 
         {this.renderTransitionsField()}
         {this.renderCommentField()}

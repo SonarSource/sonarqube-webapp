@@ -21,6 +21,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+import { byRole } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
 import { setApplicationTags, setProjectTags } from '~sq-server-commons/api/components';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
@@ -33,6 +34,10 @@ jest.mock('~sq-server-commons/api/components', () => ({
   setProjectTags: jest.fn().mockResolvedValue(true),
   searchProjectTags: jest.fn().mockResolvedValue({ tags: ['best', 'useless'] }),
 }));
+
+const ui = {
+  editTagsButton: byRole('button', { name: /tags\.edit_button_label/ }),
+};
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -58,19 +63,20 @@ it('should allow to edit tags for a project', async () => {
 
   renderMetaTags(component);
 
-  expect(await screen.findByText('foo, bar')).toBeInTheDocument();
+  expect(await screen.findByText('foo')).toBeInTheDocument();
+  expect(await screen.findByText('bar')).toBeInTheDocument();
   expect(screen.getByRole('button')).toBeInTheDocument();
 
-  await user.click(screen.getByRole('button', { name: 'foo bar +' }));
+  await user.click(ui.editTagsButton.get());
 
   expect(await screen.findByRole('checkbox', { name: 'best' })).toBeInTheDocument();
 
   await user.click(screen.getByRole('checkbox', { name: 'best' }));
-  expect(await screen.findByRole('button', { name: 'foo bar ... +' })).toBeInTheDocument();
+  expect(await ui.editTagsButton.find()).toBeInTheDocument();
 
   await user.click(screen.getByRole('checkbox', { name: 'bar' }));
 
-  expect(await screen.findByRole('button', { name: 'foo best +' })).toBeInTheDocument();
+  expect(await ui.editTagsButton.find()).toBeInTheDocument();
 
   expect(setProjectTags).toHaveBeenCalled();
   expect(setApplicationTags).not.toHaveBeenCalled();
@@ -90,7 +96,7 @@ it('should set tags for an app', async () => {
     }),
   );
 
-  await user.click(screen.getByRole('button', { name: 'no_tags +' }));
+  await user.click(screen.getByRole('button', { name: /tags\.add_tags/ }));
 
   await user.click(await screen.findByRole('checkbox', { name: 'best' }));
 

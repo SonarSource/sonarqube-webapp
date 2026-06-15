@@ -30,9 +30,10 @@ import {
 } from '@sonarsource/echoes-react';
 import { isEmpty } from 'lodash';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { QualityGateIndicator, SeparatorCircleIcon, Tags, themeColor } from '~design-system';
+import { QualityGateIndicator, SeparatorCircleIcon, themeColor } from '~design-system';
 import DateFromNow from '~shared/components/intl/DateFromNow';
 import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
+import { Tags } from '~shared/components/tags/Tags';
 import { isDefined, isStringDefined } from '~shared/helpers/types';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { QGStatus } from '~shared/types/common';
@@ -133,8 +134,6 @@ function CardTitle({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
 function CardInfo({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
   const { analysisDate, key, measures, tags } = project;
 
-  const intl = useIntl();
-
   return (
     <div className="sw-flex sw-justify-between sw-items-center sw-mt-3">
       <Text
@@ -209,14 +208,7 @@ function CardInfo({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
           <>
             <SeparatorCircleIcon className="sw-mx-1" />
 
-            <Tags
-              ariaTagsListLabel={intl.formatMessage({ id: 'issue.tags' })}
-              className="sw-typo-default"
-              emptyText={intl.formatMessage({ id: 'issue.no_tag' })}
-              tags={tags}
-              tagsToDisplay={2}
-              tooltip={Tooltip}
-            />
+            <Tags className="sw-typo-default" tags={tags} tagsToDisplay={2} />
           </>
         )}
       </Text>

@@ -51,7 +51,6 @@ export default function RuleDetailsHeaderActions(props: Readonly<Props>) {
           ) : undefined
         }
         tags={allTags.length > 0 ? allTags : [translate('coding_rules.no_tags')]}
-        tagsClassName="sw-typo-sm"
         tagsToDisplay={TAGS_TO_DISPLAY}
       />
     </span>
