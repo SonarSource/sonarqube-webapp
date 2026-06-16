@@ -23,7 +23,7 @@ import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
 import { themeColor } from '../../helpers/theme';
 
-export const SubnavigationSubheading = styled.div`
+export const SubnavigationSubheading = styled.h3`
   ${tw`sw-flex`}
   ${tw`sw-box-border`}
   ${tw`sw-typo-default`}
