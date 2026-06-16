@@ -22,14 +22,14 @@ import { Text, Tooltip } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Switch } from '~adapters/components/common/Switch';
-import { DefaultSpecializedInputProps } from '../../utils';
+import { DefaultSpecializedInputProps, getPropertyName } from '../../utils';
 
 interface Props extends DefaultSpecializedInputProps {
   value: string | boolean | undefined;
 }
 
 function InputForBoolean(
-  { onChange, name, value, isDisabled, disabledReason, ...other }: Readonly<Props>,
+  { onChange, name, value, isDisabled, disabledReason, setting, ...other }: Readonly<Props>,
   ref: React.ForwardedRef<HTMLButtonElement>,
 ) {
   const toggleValue = getToggleValue(value != null ? value : false);
@@ -39,6 +39,7 @@ function InputForBoolean(
       <Tooltip content={isDisabled ? disabledReason : undefined}>
         <div>
           <Switch
+            ariaLabel={getPropertyName(setting.definition)}
             disabled={isDisabled}
             name={name}
             onChange={onChange}
