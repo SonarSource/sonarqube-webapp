@@ -36,6 +36,7 @@ const DEFAULT_PADDING = [10, 10, 10, 10];
 const DEFAULT_SIZE_RANGE = [5, 45];
 
 interface BubbleItem<T> {
+  ariaLabel?: string;
   backgroundColor?: string;
   borderColor?: string;
   data?: T;
@@ -308,6 +309,7 @@ export function BubbleChart<T>(props: BubbleChartProps<T>) {
     const bubbles = sortBy(items, (b) => -b.size).map((item, index) => {
       return (
         <Bubble
+          ariaLabel={item.ariaLabel}
           backgroundColor={item.backgroundColor}
           borderColor={item.borderColor}
           data={item.data}
@@ -385,6 +387,7 @@ export function BubbleChart<T>(props: BubbleChartProps<T>) {
 }
 
 interface BubbleProps<T> {
+  ariaLabel?: string;
   backgroundColor?: string;
   borderColor?: string;
   data?: T;
@@ -397,18 +400,33 @@ interface BubbleProps<T> {
 }
 
 function Bubble<T>(props: BubbleProps<T>) {
-  const { backgroundColor, borderColor, data, onClick, r, scale, tooltip, x, y } = props;
+  const { ariaLabel, backgroundColor, borderColor, data, onClick, r, scale, tooltip, x, y } = props;
   const handleClick = React.useCallback(
-    (event: React.MouseEvent<HTMLAnchorElement>) => {
+    (event: React.MouseEvent<SVGGElement>) => {
       event.stopPropagation();
-      event.preventDefault();
       onClick?.(data);
     },
     [data, onClick],
   );
 
+  const handleKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<SVGGElement>) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        onClick?.(data);
+      }
+    },
+    [data, onClick],
+  );
+
   const circle = (
-    <a href="#" onClick={handleClick}>
+    <BubbleContainer
+      aria-label={ariaLabel}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      role="link"
+      tabIndex={0}
+    >
       <BubbleStyled
         r={r}
         style={{
@@ -417,7 +435,7 @@ function Bubble<T>(props: BubbleProps<T>) {
         }}
         transform={`translate(${x}, ${y}) scale(${scale})`}
       />
-    </a>
+    </BubbleContainer>
   );
 
   return (
@@ -426,6 +444,17 @@ function Bubble<T>(props: BubbleProps<T>) {
     </Tooltip>
   );
 }
+
+const BubbleContainer = styled.g`
+  &:focus-visible {
+    outline: none;
+
+    circle {
+      stroke: ${themeColor('inputFocus')};
+      stroke-width: 3;
+    }
+  }
+`;
 
 const BubbleStyled = styled.circle`
   ${tw`sw-cursor-pointer`}

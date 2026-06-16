@@ -116,6 +116,7 @@ export default function BubbleChartView(props: Readonly<Props>) {
         const bubbleColor = `bubble.${(colorRating ?? 1) as BubbleColorVal}` as const;
 
         return {
+          ariaLabel: component.name,
           x,
           y,
           size,
