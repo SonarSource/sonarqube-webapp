@@ -62,6 +62,12 @@ export default function SettingsSearchRenderer(props: Readonly<SettingsSearchRen
 
   return (
     <OutsideClickHandler onClickOutside={props.onClickOutside}>
+      {/* Always mounted so VoiceOver detects the content change when results go empty */}
+      <output aria-atomic="true" aria-live="polite" className="sw-sr-only">
+        {showResults && results?.length === 0 && (
+          <FormattedMessage id="no_results_for_x" values={{ 0: searchQuery }} />
+        )}
+      </output>
       <Popup
         allowResizing
         overlay={
@@ -96,7 +102,7 @@ export default function SettingsSearchRenderer(props: Readonly<SettingsSearchRen
                   </ResultItem>
                 ))
               ) : (
-                <div className="sw-p-4">
+                <div aria-hidden="true" className="sw-p-4">
                   <FormattedMessage id="no_results" />
                 </div>
               )}
