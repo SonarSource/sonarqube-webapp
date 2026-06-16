@@ -19,9 +19,15 @@
  */
 
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Semaphore } from '~shared/helpers/Semaphore';
 import { isStringDefined } from '~shared/helpers/types';
 import { isLoggedIn } from '~shared/helpers/users';
-import { createQueryHook, getNextPageParam, getPreviousPageParam } from '~shared/queries/common';
+import {
+  StaleTime,
+  createQueryHook,
+  getNextPageParam,
+  getPreviousPageParam,
+} from '~shared/queries/common';
 import { generateToken, getTokens, revokeToken } from '../api/user-tokens';
 import {
   deleteUser,
@@ -36,7 +42,9 @@ import { UserToken } from '../types/token';
 import { IdentityProvider } from '../types/types';
 import { NoticeType, RestUserDetailed } from '../types/users';
 
-const STALE_TIME = 4 * 60 * 1000;
+export const userTokensQueryKey = (login: string) => ['user', login, 'tokens'] as const;
+
+export const USERS_PAGE_SIZE = 25;
 
 export function useUsersQueries(
   getParams: Omit<Parameters<typeof getUsers>[0], 'pageSize' | 'pageIndex'>,
@@ -44,7 +52,8 @@ export function useUsersQueries(
 ) {
   return useInfiniteQuery({
     queryKey: ['user', 'list', getParams],
-    queryFn: ({ pageParam }) => getUsers({ ...getParams, pageIndex: pageParam }),
+    queryFn: ({ pageParam }) =>
+      getUsers({ ...getParams, pageIndex: pageParam, pageSize: USERS_PAGE_SIZE }),
     getNextPageParam,
     getPreviousPageParam,
     enabled,
@@ -64,11 +73,11 @@ export const useCurrentUserDetailsQuery = createQueryHook(() => {
   };
 });
 
-export function useUserTokensQuery(login: string) {
+export function useUserTokensQuery(login: string, semaphore?: Semaphore) {
   return useQuery({
-    queryKey: ['user', login, 'tokens'],
-    queryFn: () => getTokens(login),
-    staleTime: STALE_TIME,
+    queryKey: userTokensQueryKey(login),
+    queryFn: semaphore ? () => semaphore.run(() => getTokens(login)) : () => getTokens(login),
+    staleTime: StaleTime.LONG,
   });
 }
 
@@ -126,7 +135,7 @@ export function useGenerateTokenMutation() {
     mutationFn: (data: Parameters<typeof generateToken>[0] & { projectName?: string }) =>
       generateToken(data),
     onSuccess(data, variables) {
-      queryClient.setQueryData<UserToken[]>(['user', data.login, 'tokens'], (oldData) => {
+      queryClient.setQueryData<UserToken[]>(userTokensQueryKey(data.login), (oldData) => {
         const newData = {
           ...data,
           project:
@@ -146,9 +155,11 @@ export function useRevokeTokenMutation() {
   return useMutation({
     mutationFn: (data: Parameters<typeof revokeToken>[0]) => revokeToken(data),
     onSuccess(_, data) {
-      queryClient.setQueryData<UserToken[]>(['user', data.login, 'tokens'], (oldData) =>
-        oldData ? oldData.filter((token) => token.name !== data.name) : undefined,
-      );
+      if (data.login) {
+        queryClient.setQueryData<UserToken[]>(userTokensQueryKey(data.login), (oldData) =>
+          oldData ? oldData.filter((token) => token.name !== data.name) : undefined,
+        );
+      }
     },
   });
 }

@@ -39,6 +39,7 @@ import {
   mockRestUser,
 } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { USERS_PAGE_SIZE } from '~sq-server-commons/queries/users';
 import { Feature } from '~sq-server-commons/types/features';
 import { ProvisioningType } from '~sq-server-commons/types/provisioning';
 import { TaskStatuses } from '~sq-server-commons/types/tasks';
@@ -309,20 +310,20 @@ describe('in non managed mode', () => {
     const user = userEvent.setup();
     userHandler.users = [
       mockRestUser({ login: 'bob.marley', name: 'Bob Marley' }),
-      ...Array(10)
+      ...Array(USERS_PAGE_SIZE - 1)
         .fill(null)
         .map((_, i) => mockRestUser({ login: `user${i}` })),
       mockRestUser({ login: 'alice.merveille', name: 'Alice Merveille' }),
     ];
     renderUsersApp();
 
-    expect(await ui.userRows.findAll()).toHaveLength(10);
+    expect(await ui.userRows.findAll()).toHaveLength(USERS_PAGE_SIZE);
     expect(ui.bobRow.get()).toBeInTheDocument();
     expect(ui.aliceRow.query()).not.toBeInTheDocument();
 
     await user.click(await ui.showMore.find());
 
-    expect(ui.userRows.getAll()).toHaveLength(12);
+    expect(ui.userRows.getAll()).toHaveLength(USERS_PAGE_SIZE + 1);
     expect(ui.aliceRow.get()).toBeInTheDocument();
   });
 
@@ -528,7 +529,7 @@ describe('in manage mode', () => {
     renderUsersApp();
 
     expect(await ui.aliceRowWithLocalBadge.find()).toBeInTheDocument();
-    await user.click(ui.aliceViewGroupButton.get());
+    await user.click(await ui.aliceViewGroupButton.find());
     expect(ui.dialogViewGroups.get()).toBeInTheDocument();
     expect(ui.dialogViewGroups.byRole('checkbox').query()).not.toBeInTheDocument();
     await user.click(ui.buttonCloseDialogViewGroups.get());

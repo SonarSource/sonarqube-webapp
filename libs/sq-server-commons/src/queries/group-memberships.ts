@@ -19,7 +19,8 @@
  */
 
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getNextPageParam, getPreviousPageParam } from '~shared/queries/common';
+import { Semaphore } from '~shared/helpers/Semaphore';
+import { StaleTime, getNextPageParam, getPreviousPageParam } from '~shared/queries/common';
 import {
   addGroupMembership,
   getGroupMemberships,
@@ -33,6 +34,9 @@ import { translateWithParameters } from '../helpers/l10n';
 const DOMAIN = 'group-memberships';
 const GROUP_SUB_DOMAIN = 'users-of-group';
 const USER_SUB_DOMAIN = 'groups-of-user';
+
+const userGroupsCountQueryKey = (userId: string) =>
+  [DOMAIN, USER_SUB_DOMAIN, 'count', userId] as const;
 
 async function isUserAMember(userId: string, groupId: string) {
   const memberships = await getGroupMemberships({
@@ -143,10 +147,12 @@ export function useGroupMembersCountQuery(groupId: string) {
   });
 }
 
-export function useUserGroupsCountQuery(userId: string) {
+export function useUserGroupsCountQuery(userId: string, semaphore: Semaphore) {
   return useQuery({
-    queryKey: [DOMAIN, USER_SUB_DOMAIN, 'count', userId],
-    queryFn: () => getGroupMemberships({ userId, pageSize: 0 }).then((r) => r.page.total),
+    queryKey: userGroupsCountQueryKey(userId),
+    queryFn: () =>
+      semaphore.run(() => getGroupMemberships({ userId, pageSize: 0 }).then((r) => r.page.total)),
+    staleTime: StaleTime.LONG,
   });
 }
 
@@ -160,9 +166,8 @@ export function useAddGroupMembershipMutation() {
         [DOMAIN, GROUP_SUB_DOMAIN, 'count', data.groupId],
         (oldData) => (oldData !== undefined ? oldData + 1 : undefined),
       );
-      queryClient.setQueryData<number>(
-        [DOMAIN, USER_SUB_DOMAIN, 'count', data.userId],
-        (oldData) => (oldData !== undefined ? oldData + 1 : undefined),
+      queryClient.setQueryData<number>(userGroupsCountQueryKey(data.userId), (oldData) =>
+        oldData === undefined ? undefined : oldData + 1,
       );
       queryClient.invalidateQueries({
         queryKey: [DOMAIN, USER_SUB_DOMAIN, 'memberships', data.userId],
@@ -193,9 +198,8 @@ export function useRemoveGroupMembershipMutation() {
         [DOMAIN, GROUP_SUB_DOMAIN, 'count', data.groupId],
         (oldData) => (oldData !== undefined ? oldData - 1 : undefined),
       );
-      queryClient.setQueryData<number>(
-        [DOMAIN, USER_SUB_DOMAIN, 'count', data.userId],
-        (oldData) => (oldData !== undefined ? oldData - 1 : undefined),
+      queryClient.setQueryData<number>(userGroupsCountQueryKey(data.userId), (oldData) =>
+        oldData === undefined ? undefined : oldData - 1,
       );
       queryClient.invalidateQueries({
         queryKey: [DOMAIN, USER_SUB_DOMAIN, 'memberships', data.userId],

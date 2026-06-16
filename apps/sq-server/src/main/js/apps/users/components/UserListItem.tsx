@@ -33,6 +33,7 @@ import { useUserGroupsCountQuery } from '~sq-server-commons/queries/group-member
 import { useUserTokensQuery } from '~sq-server-commons/queries/users';
 import { IdentityProvider, Provider } from '~sq-server-commons/types/types';
 import { RestUserDetailed } from '~sq-server-commons/types/users';
+import { useUserFetchSemaphore } from '../UserFetchContext';
 import GroupsForm from './GroupsForm';
 import TokensFormModal from './TokensFormModal';
 import UserActions from './UserActions';
@@ -60,8 +61,9 @@ export default function UserListItem(props: Readonly<UserListItemProps>) {
 
   const [openTokenForm, setOpenTokenForm] = React.useState(false);
   const [openGroupForm, setOpenGroupForm] = React.useState(false);
-  const { data: tokens, isLoading: tokensAreLoading } = useUserTokensQuery(login);
-  const { data: groupsCount, isLoading: groupsAreLoading } = useUserGroupsCountQuery(id);
+  const semaphore = useUserFetchSemaphore();
+  const { data: tokens, isLoading: tokensAreLoading } = useUserTokensQuery(login, semaphore);
+  const { data: groupsCount, isLoading: groupsAreLoading } = useUserGroupsCountQuery(id, semaphore);
 
   return (
     <TableRow>

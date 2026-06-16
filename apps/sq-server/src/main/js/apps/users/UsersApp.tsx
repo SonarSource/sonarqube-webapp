@@ -47,6 +47,7 @@ import GitLabSynchronisationWarning from '../../app/components/GitLabSynchronisa
 import UserForm from './components/UserForm';
 import { USERS_ACTIVITY_OPTIONS, USER_INACTIVITY_DAYS_THRESHOLD } from './constants';
 import { UserActivity } from './types';
+import { UserFetchProvider } from './UserFetchContext';
 import UsersAppDescription from './UsersAppDescription';
 import UsersList from './UsersList';
 
@@ -180,11 +181,13 @@ export default function UsersApp() {
             </div>
 
             <Spinner isLoading={isLoading}>
-              <UsersList
-                identityProviders={identityProviders}
-                manageProvider={manageProvider?.provider}
-                users={users}
-              />
+              <UserFetchProvider>
+                <UsersList
+                  identityProviders={identityProviders}
+                  manageProvider={manageProvider?.provider}
+                  users={users}
+                />
+              </UserFetchProvider>
             </Spinner>
 
             <ListFooter
