@@ -65,7 +65,7 @@ export default function ProjectActivityPageFilters(props: ProjectActivityPageFil
     <div className="sw-flex sw-mb-5 sw-items-center sw-gap-8">
       {!isPortfolioLike(project.qualifier) && (
         <ButtonGroup>
-          <Label htmlFor="graph-type">
+          <Label htmlFor="events-filter">
             <FormattedMessage id="project_activity.filter_events" />
           </Label>
           <Select
