@@ -569,12 +569,12 @@ export const lightTheme = {
 
     // graph - chart
     graphPointCircleColor: COLORS.white,
-    'graphLineColor.0': COLORS.blue[500],
+    'graphLineColor.0': COLORS.blue[600],
     'graphLineColor.1': COLORS.blue[700],
-    'graphLineColor.2': COLORS.blue[300],
-    'graphLineColor.3': COLORS.blue[500],
+    'graphLineColor.2': COLORS.blue[800],
+    'graphLineColor.3': COLORS.blue[600],
     'graphLineColor.4': COLORS.blue[700],
-    'graphLineColor.5': COLORS.blue[300],
+    'graphLineColor.5': COLORS.blue[800],
     graphGridColor: COLORS.grey[50],
     newCodeHighlight: COLORS.indigo[300],
     graphZoomBackgroundColor: COLORS.blueGrey[25],

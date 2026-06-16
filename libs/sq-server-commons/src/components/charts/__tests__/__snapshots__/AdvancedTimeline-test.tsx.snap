@@ -246,7 +246,7 @@ exports[`should render correctly: Zoom enabled 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,16L20,8"
-        stroke="rgb(85,170,223)"
+        stroke="rgb(69,149,203)"
         stroke-dasharray="0"
       />
       <path
@@ -510,7 +510,7 @@ exports[`should render correctly: basisCurve 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,16L20,8"
-        stroke="rgb(85,170,223)"
+        stroke="rgb(69,149,203)"
         stroke-dasharray="0"
       />
       <path
@@ -774,7 +774,7 @@ exports[`should render correctly: default 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,16L20,8"
-        stroke="rgb(85,170,223)"
+        stroke="rgb(69,149,203)"
         stroke-dasharray="0"
       />
       <path
@@ -1198,7 +1198,7 @@ exports[`should render correctly: format y tick 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,16L20,8"
-        stroke="rgb(85,170,223)"
+        stroke="rgb(69,149,203)"
         stroke-dasharray="0"
       />
       <path
@@ -1470,7 +1470,7 @@ exports[`should render correctly: leakPeriodDate 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,16L20,8"
-        stroke="rgb(85,170,223)"
+        stroke="rgb(69,149,203)"
         stroke-dasharray="0"
       />
       <path
@@ -1617,7 +1617,7 @@ exports[`should render correctly: level metric 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,NaNL20,NaN"
-        stroke="rgb(85,170,223)"
+        stroke="rgb(69,149,203)"
         stroke-dasharray="0"
       />
       <path
@@ -1880,7 +1880,7 @@ exports[`should render correctly: no areas 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,16L20,8"
-        stroke="rgb(85,170,223)"
+        stroke="rgb(69,149,203)"
         stroke-dasharray="0"
       />
       <path
@@ -2049,7 +2049,7 @@ exports[`should render correctly: rating metric 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,0L20,6"
-        stroke="rgb(85,170,223)"
+        stroke="rgb(69,149,203)"
         stroke-dasharray="0"
       />
       <path
@@ -2313,7 +2313,7 @@ exports[`should render correctly: selected date 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,16L20,8"
-        stroke="rgb(85,170,223)"
+        stroke="rgb(69,149,203)"
         stroke-dasharray="0"
       />
       <path
@@ -2344,7 +2344,7 @@ exports[`should render correctly: selected date 1`] = `
       <circle
         cx="0"
         cy="16"
-        fill="rgb(85,170,223)"
+        fill="rgb(69,149,203)"
         r="4"
         stroke="white"
         stroke-width="1"
@@ -2602,7 +2602,7 @@ exports[`should render correctly: split point, but not Rating 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,16L20,8"
-        stroke="rgb(85,170,223)"
+        stroke="rgb(69,149,203)"
         stroke-dasharray="0"
       />
       <path
@@ -2874,7 +2874,7 @@ exports[`should render correctly: zoomSpeed 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,16L20,8"
-        stroke="rgb(85,170,223)"
+        stroke="rgb(69,149,203)"
         stroke-dasharray="0"
       />
       <path
