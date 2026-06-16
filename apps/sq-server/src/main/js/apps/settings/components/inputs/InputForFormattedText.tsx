@@ -21,7 +21,7 @@
 import styled from '@emotion/styled';
 import { Button, IconEdit, TextArea } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { themeBorder, themeColor } from '~design-system';
 import { HtmlFormatter } from '~shared/components/typography/HtmlFormatter';
 import { SanitizeLevel } from '~shared/helpers/sanitize';
@@ -32,6 +32,7 @@ function InputForFormattedText(
   props: DefaultSpecializedInputProps,
   ref: React.ForwardedRef<HTMLTextAreaElement>,
 ) {
+  const { formatMessage } = useIntl();
   const { isEditing, setting, name, value, id } = props;
   const { values, hasValue } = setting;
   const editMode = !hasValue || isEditing;
@@ -66,7 +67,12 @@ function InputForFormattedText(
         />
       </FormattedPreviewBox>
 
-      <Button className="sw-mt-2 sw-self-start" onClick={props.onEditing} prefix={<IconEdit />}>
+      <Button
+        ariaLabel={`${formatMessage({ id: 'edit' })} ${getPropertyName(setting.definition)}`}
+        className="sw-mt-2 sw-self-start"
+        onClick={props.onEditing}
+        prefix={<IconEdit />}
+      >
         <FormattedMessage id="edit" />
       </Button>
     </>
