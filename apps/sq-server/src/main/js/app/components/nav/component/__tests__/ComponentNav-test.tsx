@@ -65,7 +65,7 @@ const ui = {
   onboardingLink: byRole('link', { name: 'onboarding.project_analysis.menu_entry' }),
   overviewLink: byRole('link', { name: 'overview.page' }),
   issuesLink: byRole('link', { name: 'issues.page' }),
-  securityHotspotsLink: byRole('link', { name: 'layout.security_hotspots' }),
+  securityHotspotsLink: byRole('link', { name: 'layout.security_hotspots deprecated' }),
   securityReportsLink: byRole('link', { name: 'layout.security_reports' }),
   measuresLink: byRole('link', { name: 'layout.measures' }),
   appCodeLink: byRole('link', { name: 'view_projects.page' }),
@@ -118,7 +118,7 @@ describe('ComponentNav', () => {
       expect(ui.navigationItemsList()).toEqual([
         'overview.page',
         'issues.page',
-        'layout.security_hotspots',
+        'layout.security_hotspotsdeprecated',
         'layout.measures',
         'project_activity.page',
         'project_quality_profiles.page',
@@ -154,7 +154,7 @@ describe('ComponentNav', () => {
       expect(ui.navigationItemsList()).toEqual([
         'overview.page',
         'issues.page',
-        'layout.security_hotspots',
+        'layout.security_hotspotsdeprecated',
         'layout.measures',
         'project_activity.page',
         'code.page',
@@ -181,7 +181,7 @@ describe('ComponentNav', () => {
       expect(ui.navigationItemsList()).toEqual([
         'overview.page',
         'issues.page',
-        'layout.security_hotspots',
+        'layout.security_hotspotsdeprecated',
         'layout.measures',
         'project_activity.page',
         'code.page',
@@ -214,7 +214,7 @@ describe('ComponentNav', () => {
       expect(ui.navigationItemsList()).toEqual([
         'overview.page',
         'issues.page',
-        'layout.security_hotspots',
+        'layout.security_hotspotsdeprecated',
         'layout.measures',
         'project_activity.page',
         'view_projects.page',
@@ -297,7 +297,7 @@ describe('ComponentNav', () => {
       expect(ui.navigationItemsList()).toEqual([
         'overview.page',
         'issues.page',
-        'layout.security_hotspots',
+        'layout.security_hotspotsdeprecated',
         'Custom Extension',
         'layout.measures',
         'project_activity.page',

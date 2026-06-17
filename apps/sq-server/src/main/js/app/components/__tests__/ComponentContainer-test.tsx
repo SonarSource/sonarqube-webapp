@@ -102,7 +102,7 @@ const ui = {
   portfolioText: byText(/portfolio/i),
   overviewPageLink: byRole('link', { name: 'overview.page' }),
   issuesPageLink: byRole('link', { name: 'issues.page' }),
-  hotspotsPageLink: byRole('link', { name: 'layout.security_hotspots' }),
+  hotspotsPageLink: byRole('link', { name: 'layout.security_hotspots deprecated' }),
   measuresPageLink: byRole('link', { name: 'layout.measures' }),
   codePageLink: byRole('link', { name: 'code.page' }),
   activityPageLink: byRole('link', { name: 'project_activity.page' }),

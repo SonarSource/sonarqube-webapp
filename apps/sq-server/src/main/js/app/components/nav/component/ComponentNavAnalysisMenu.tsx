@@ -30,6 +30,7 @@ import {
 import { FormattedMessage } from 'react-intl';
 import { To } from 'react-router-dom';
 import { useCurrentUser } from '~adapters/helpers/users';
+import { DeprecatedBadge } from '~shared/components/badges/DeprecatedBadge';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike } from '~shared/helpers/component';
 import { getRisksUrl } from '~shared/helpers/sca-urls';
@@ -125,6 +126,7 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
       {!isPortfolio && (
         <Layout.SidebarNavigation.Item
           Icon={IconSecurityFinding}
+          suffix={<DeprecatedBadge />}
           to={getComponentSecurityHotspotsUrl(component.key, branchLike)}
         >
           <FormattedMessage id="layout.security_hotspots" />

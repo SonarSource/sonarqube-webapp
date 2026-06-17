@@ -45,6 +45,7 @@ import {
 import DomainSubnavigationItem from './DomainSubnavigationItem';
 
 import { FormattedMessage } from 'react-intl';
+import { DeprecatedBadge } from '~shared/components/badges/DeprecatedBadge';
 
 interface Props {
   componentKey: string;
@@ -66,6 +67,7 @@ export default function DomainSubnavigation(props: Readonly<Props>) {
   const hasCategories = items.some((item) => typeof item === 'string');
   const translateMetric = hasCategories ? getLocalizedCategoryMetricName : getLocalizedMetricName;
   let sortedItems = sortMeasures(domain.name, items);
+  const isSecurityReviewDomain = domain.name === 'SecurityReview';
 
   const hasOverview = (domain: string) => {
     return showFullMeasures && hasBubbleChart(bubbles, domain);
@@ -82,8 +84,11 @@ export default function DomainSubnavigation(props: Readonly<Props>) {
   return (
     <SubnavigationAccordion
       header={
-        <div className="sw-flex sw-items-center sw-gap-3">
-          <strong className="sw-typo-semibold">{getLocalizedMetricDomain(domain.name)}</strong>
+        <div className="sw-flex sw-items-center sw-gap-3 sw-min-w-0">
+          <strong className="sw-typo-semibold sw-truncate">
+            {getLocalizedMetricDomain(domain.name)}
+          </strong>
+          {isSecurityReviewDomain && <DeprecatedBadge />}
           {helper && (
             <HelpTooltip overlay={helper}>
               <HelperHintIcon aria-hidden="false" description={helper} />

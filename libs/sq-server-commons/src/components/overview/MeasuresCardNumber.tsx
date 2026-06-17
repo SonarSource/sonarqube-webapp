@@ -31,6 +31,7 @@ import MeasuresCard, { MeasuresCardProps } from './MeasuresCard';
 interface Props extends MeasuresCardProps {
   conditionMetric: MetricKey;
   conditions: QualityGateStatusConditionEnhanced[];
+  isDeprecated?: boolean;
   label: string;
   showRequired?: boolean;
   url: To;
@@ -40,7 +41,16 @@ interface Props extends MeasuresCardProps {
 export default function MeasuresCardNumber(
   props: React.PropsWithChildren<Props & React.HTMLAttributes<HTMLDivElement>>,
 ) {
-  const { label, value, conditions, url, conditionMetric, showRequired = false, ...rest } = props;
+  const {
+    label,
+    value,
+    conditions,
+    url,
+    conditionMetric,
+    showRequired = false,
+    isDeprecated,
+    ...rest
+  } = props;
 
   const intl = useIntl();
 
@@ -50,6 +60,7 @@ export default function MeasuresCardNumber(
   return (
     <MeasuresCard
       failed={conditionFailed}
+      isDeprecated={isDeprecated}
       label={label}
       url={url}
       value={formatMeasure(value, MetricType.ShortInteger)}

@@ -790,7 +790,7 @@ function getPageObject() {
       name: 'Security component_measures.domain_subnavigation.Security.help',
     }),
     securityReviewDomainBtn: byRole('button', {
-      name: 'SecurityReview component_measures.domain_subnavigation.SecurityReview.help',
+      name: 'SecurityReview deprecated component_measures.domain_subnavigation.SecurityReview.help',
     }),
     maintainabilityDomainBtn: byRole('button', {
       name: 'Maintainability component_measures.domain_subnavigation.Maintainability.help',

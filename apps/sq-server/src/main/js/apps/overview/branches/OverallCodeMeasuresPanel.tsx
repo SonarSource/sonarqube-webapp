@@ -212,6 +212,7 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
               <NoDataIcon size="md" />
             )
           }
+          isDeprecated
           label={
             securityHotspots === '1'
               ? 'issue.type.SECURITY_HOTSPOT'

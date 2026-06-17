@@ -22,6 +22,7 @@ import { Badge, Label, LinkHighlight, LinkStandalone } from '@sonarsource/echoes
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { To } from 'react-router-dom';
+import { DeprecatedBadge } from '~shared/components/badges/DeprecatedBadge';
 import { MetricKey } from '~shared/types/metrics';
 import { translateWithParameters } from '../../helpers/l10n';
 import { localizeMetric } from '../../helpers/measures';
@@ -29,6 +30,7 @@ import { localizeMetric } from '../../helpers/measures';
 export interface MeasuresCardProps {
   failed?: boolean;
   icon?: React.ReactElement<any>;
+  isDeprecated?: boolean;
   label: string;
   metric: MetricKey;
   url: To;
@@ -38,7 +40,7 @@ export interface MeasuresCardProps {
 export default function MeasuresCard(
   props: React.PropsWithChildren<MeasuresCardProps & React.HTMLAttributes<HTMLDivElement>>,
 ) {
-  const { failed, children, metric, icon, value, url, label } = props;
+  const { failed, children, metric, icon, value, url, label, isDeprecated } = props;
 
   return (
     <div>
@@ -47,6 +49,7 @@ export default function MeasuresCard(
           <FormattedMessage id={label} />
         </Label>
 
+        {isDeprecated && <DeprecatedBadge />}
         {failed && (
           <Badge variety="danger">
             <FormattedMessage id="overview.measures.failed_badge" />

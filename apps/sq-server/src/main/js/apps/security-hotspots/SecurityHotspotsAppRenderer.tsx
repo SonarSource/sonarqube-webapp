@@ -18,14 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Layout, Spinner } from '@sonarsource/echoes-react';
+import { Layout, Link, LinkHighlight, MessageCallout, Spinner } from '@sonarsource/echoes-react';
 import { isEmpty } from 'lodash';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isBranch } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import { StandardsInformation, StandardsInformationKey } from '~shared/types/security';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import {
   HotspotFilters,
@@ -95,6 +97,7 @@ export default function SecurityHotspotsAppRenderer(props: SecurityHotspotsAppRe
   } = props;
 
   const intl = useIntl();
+  const deprecationDocUrl = useDocUrl(DocLink.DeprecatedFeatures);
 
   if (component === undefined) {
     return null;
@@ -193,6 +196,28 @@ export default function SecurityHotspotsAppRenderer(props: SecurityHotspotsAppRe
             </Spinner>
           </div>
         </Layout.AsideLeft>
+      }
+      description={
+        <MessageCallout
+          className="sw-w-full"
+          title={intl.formatMessage({ id: 'hotspots.deprecated_feature_warning.title' })}
+          variety="warning"
+        >
+          <FormattedMessage
+            id="hotspots.deprecated_feature_warning.description"
+            values={{
+              link: (text) => (
+                <Link
+                  enableOpenInNewTab
+                  highlight={LinkHighlight.CurrentColor}
+                  to={deprecationDocUrl}
+                >
+                  {text}
+                </Link>
+              ),
+            }}
+          />
+        </MessageCallout>
       }
       pageClassName="it__security-hotspots-page"
       title={intl.formatMessage({ id: 'hotspots.page' })}

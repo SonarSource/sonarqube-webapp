@@ -1063,6 +1063,10 @@ export const defaultMessages = {
   'hotspots.update.success': 'Update successful',
   'hotspots.success_dialog.do_not_show': "Don't show this dialog next time",
 
+  'hotspots.deprecated_feature_warning.title': 'The concept of Security Hotspots is deprecated',
+  'hotspots.deprecated_feature_warning.description':
+    'Security Hotspot findings now appear as security issues or vulnerabilities in the Issues page. <link>Learn more in the documentation</link>.',
+
   //------------------------------------------------------------------------------
   //
   // ISSUES
@@ -3960,7 +3964,7 @@ export const defaultMessages = {
   'project_quality_profile.page': 'Quality profiles',
   'project_quality_profiles.page': 'Quality profiles',
   'project_quality_profiles.agentic_recommendation':
-    'Use {agenticQpDocLink} for recommended quality profile for agent-related projects',
+    'Use the recommended {agenticQpDocLink} quality profile for agent-related projects',
   'project_quality_profile.page.description':
     'Each language is automatically assigned the default quality profile of this instance. As a project administrator, you can override the default assignment and choose different profiles for languages used in this project.',
   'project_quality_profile.profiles_by_languages': 'Profiles by languages',
@@ -4245,7 +4249,7 @@ export const defaultMessages = {
   'quality_profiles.used_': 'Used:',
   'quality_profiles.built_in': 'Built-in',
   'quality_profiles.built_in.agentic.description':
-    'The {agenticQualityProfileName} quality profile is recommended for projects where AI agents generate or contribute significant amounts of Java, JavaScript/TypeScript, or Python code. It activates the security and reliability rules most relevant to AI-generated code, while reducing noise from maintainability rules and minor hotspots that are less critical in agentic workflows. Sonar maintains and updates this profile as AI coding patterns and risks evolve.',
+    'The {agenticQualityProfileName} quality profile is recommended for projects where AI agents generate or contribute significant amounts of Java, JavaScript/TypeScript, or Python code. It activates the security and reliability rules most relevant to AI-generated code, while reducing noise from maintainability rules that are less critical in agentic workflows. Sonar maintains and updates this profile as AI coding patterns and risks evolve.',
   'quality_profiles.built_in.agentic.description.learn_more':
     '<link>Learn why in our documentation</link>',
   'quality_profiles.built_in.description':

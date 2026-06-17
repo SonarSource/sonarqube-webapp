@@ -256,7 +256,7 @@ describe('project overview', () => {
     );
 
     expect(await screen.findByText('projects.ai_code_detected.description')).toBeInTheDocument();
-    expect(byText('deprecated').get()).toBeInTheDocument();
+    expect(byRole('button', { name: 'deprecated' }).get()).toBeInTheDocument();
     expect(
       screen.getByRole('link', { name: 'projects.ai_code_detected.link' }),
     ).toBeInTheDocument();

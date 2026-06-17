@@ -280,6 +280,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
                 <NoDataIcon size="md" />
               )
             }
+            isDeprecated
             label={
               newSecurityHotspots === '1'
                 ? 'issue.type.SECURITY_HOTSPOT'
