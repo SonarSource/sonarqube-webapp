@@ -197,9 +197,8 @@ export default function SecurityHotspotsAppRenderer(props: SecurityHotspotsAppRe
           </div>
         </Layout.AsideLeft>
       }
-      description={
+      callout={
         <MessageCallout
-          className="sw-w-full"
           title={intl.formatMessage({ id: 'hotspots.deprecated_feature_warning.title' })}
           variety="warning"
         >
