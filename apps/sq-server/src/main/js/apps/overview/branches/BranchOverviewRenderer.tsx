@@ -34,6 +34,7 @@ import HomePageSelect from '~sq-server-commons/components/controls/HomePageSelec
 import { ComponentNavBindingStatus } from '~sq-server-commons/components/nav/ComponentNavBindingStatus';
 import { AnalysisStatus } from '~sq-server-commons/components/overview/AnalysisStatus';
 import QGStatusComponent from '~sq-server-commons/components/overview/QualityGateStatus';
+import { CommunityBuildSecurityNotice } from '~sq-server-commons/components/promotion/CommunityBuildSecurityNotice';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { parseDate } from '~sq-server-commons/helpers/dates';
 import { getComponentAsHomepage } from '~sq-server-commons/helpers/homepage';
@@ -226,6 +227,8 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
                 />
               )}
             </TabsPanel>
+
+            <CommunityBuildSecurityNotice className="sw-mt-6" />
 
             <ActivityPanel
               analyses={analyses}

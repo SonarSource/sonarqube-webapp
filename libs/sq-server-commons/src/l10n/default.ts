@@ -7011,6 +7011,11 @@ export const defaultMessages = {
     'SonarQube Developer Edition can detect <b>260+ additional</b> distinct types of security issues across the languages of your projects.',
   'promotion.security_dev_edition.action': 'Compare benefits',
 
+  'promotion.community_build_security.title': 'Limited security analysis',
+  'promotion.community_build_security.text':
+    'SonarQube Community Build does not scan for critical injection vulnerabilities (SQL injection, XSS, and more).',
+  'promotion.community_build_security.action': 'Explore commercial editions',
+
   //------------------------------------------------------------------------------
   //
   // COMPONENT MEASURES

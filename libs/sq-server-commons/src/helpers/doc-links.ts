@@ -122,6 +122,7 @@ export enum SonarSourceLink {
   AdvancedSecurity = '/products/sonarqube/advanced-security/',
   PlansAndPricing = '/plans-and-pricing/sonarqube/',
   Downloads = '/products/sonarqube/downloads/',
+  WhyUpgrade = '/products/sonarqube/why-upgrade/',
 }
 
 export const DocTitle = {
