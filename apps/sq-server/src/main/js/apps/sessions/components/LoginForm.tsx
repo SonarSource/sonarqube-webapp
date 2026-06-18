@@ -93,15 +93,18 @@ export default function LoginForm({ collapsed, onExpandClick }: Readonly<Props>)
 
   return (
     <>
-      {showAuthenticationError && (
-        <MessageCallout className="sw-mt-6" variety={MessageVariety.Danger}>
-          {formatMessage({ id: 'login.authentication_failed' })}
-        </MessageCallout>
-      )}
+      <div role="alert">
+        {showAuthenticationError && (
+          <MessageCallout className="sw-mt-6" variety={MessageVariety.Danger}>
+            {formatMessage({ id: 'login.authentication_failed' })}
+          </MessageCallout>
+        )}
+      </div>
       <Form className="sw-w-full" onSubmit={handleSubmit}>
         <LoginFormCollapseContainer isCollapsed={collapsed}>
           <LoginFormCollapseUsername isCollapsed={collapsed}>
             <TextInput
+              autoComplete="username"
               id="login-input"
               isRequired
               label={formatMessage({ id: 'username' })}
@@ -119,6 +122,7 @@ export default function LoginForm({ collapsed, onExpandClick }: Readonly<Props>)
 
           <LoginFormCollapsePassword isCollapsed={collapsed}>
             <TextInput
+              autoComplete="current-password"
               id="password-input"
               isDisabled={isPending}
               isRequired
@@ -151,7 +155,7 @@ export default function LoginForm({ collapsed, onExpandClick }: Readonly<Props>)
 
         <Form.Footer className="sw-w-full">
           <LoginFormButton
-            aria-expanded={!collapsed}
+            aria-expanded={collapsed ? false : undefined}
             isDisabled={
               isPending || (collapsed ? false : password.length === 0 || login.length === 0)
             }

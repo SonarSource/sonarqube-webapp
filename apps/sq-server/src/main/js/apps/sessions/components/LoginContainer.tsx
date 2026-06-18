@@ -28,8 +28,10 @@ export default function LoginContainer() {
   return (
     <Layout.PageGrid width="fluid">
       <LoginContainerWrapper>
-        <div className="sw-flex-1 sw-flex sw-p-8 sw-justify-center sw-items-center">
-          <Login />
+        <div className="sw-flex-1 sw-flex sw-p-8 sw-justify-center sw-overflow-y-auto">
+          <div className="sw-my-auto">
+            <Login />
+          </div>
         </div>
         <div className="sw-flex-1 sw-flex">
           <MarketingPanel />
