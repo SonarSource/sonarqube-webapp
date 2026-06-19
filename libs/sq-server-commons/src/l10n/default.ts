@@ -2367,6 +2367,10 @@ export const defaultMessages = {
     "Sorry, we couldn't load the patterns. Please try again later.",
   'architecture.patterns.list.title': 'Patterns',
   'architecture.patterns.list.empty': 'There are no patterns defined yet.',
+  'architecture.patterns.delete.error.in_use':
+    "This pattern can't be deleted because it's being used by one or more projects.",
+  'architecture.patterns.delete.error.generic':
+    "Sorry, we couldn't delete the pattern. Please try again later.",
   'architecture.patterns.create': 'Create Pattern',
   'architecture.patterns.edit.title': 'Edit Pattern',
   'architecture.patterns.edit.saved': 'Pattern saved successfully.',
