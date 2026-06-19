@@ -18,9 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { memo } from 'react';
-import { DropdownMenu, ItemCopy } from '../../../design-system';
-import { translate } from '../../../helpers/l10n';
+import { DropdownMenu, toast } from '@sonarsource/echoes-react';
+import { noop } from 'lodash';
+import { memo, MouseEvent } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { useCopyClipboardEffect } from '~shared/components/clipboard';
 import { SourceLine } from '../../../types/types';
 import { getLineCodeAsPlainText } from '../helpers/lines';
 
@@ -29,26 +31,40 @@ interface Props {
   permalink: string;
 }
 
-export function LineOptionsPopup({ line, permalink }: Props) {
-  const lineCodeAsPlainText = getLineCodeAsPlainText(line.code);
-  return (
-    <DropdownMenu>
-      <ItemCopy
-        copyValue={permalink}
-        tooltipOverlay={translate('source_viewer.copied_to_clipboard')}
-      >
-        {translate('source_viewer.copy_permalink')}
-      </ItemCopy>
+const handleCopy = (e: MouseEvent, copyFn: (e: MouseEvent<HTMLButtonElement>) => Promise<void>) => {
+  copyFn(e as MouseEvent<HTMLButtonElement>)
+    .then(() => {
+      toast.success({
+        description: <FormattedMessage id="source_viewer.copied_to_clipboard" />,
+      });
+    })
+    .catch(noop);
+};
 
+export function LineOptionsPopup({ line, permalink }: Readonly<Props>) {
+  const lineCodeAsPlainText = getLineCodeAsPlainText(line.code);
+  const [, handleCopyPermalink] = useCopyClipboardEffect(permalink);
+  const [, handleCopyLine] = useCopyClipboardEffect(lineCodeAsPlainText ?? '');
+
+  return (
+    <>
+      <DropdownMenu.ItemButton
+        onClick={(e) => {
+          handleCopy(e, handleCopyPermalink);
+        }}
+      >
+        <FormattedMessage id="source_viewer.copy_permalink" />
+      </DropdownMenu.ItemButton>
       {lineCodeAsPlainText && (
-        <ItemCopy
-          copyValue={lineCodeAsPlainText}
-          tooltipOverlay={translate('source_viewer.copied_to_clipboard')}
+        <DropdownMenu.ItemButton
+          onClick={(e) => {
+            handleCopy(e, handleCopyLine);
+          }}
         >
-          {translate('source_viewer.copy_line')}
-        </ItemCopy>
+          <FormattedMessage id="source_viewer.copy_line" />
+        </DropdownMenu.ItemButton>
       )}
-    </DropdownMenu>
+    </>
   );
 }
 

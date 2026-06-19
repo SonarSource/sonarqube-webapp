@@ -19,11 +19,10 @@
  */
 
 import styled from '@emotion/styled';
-import { cssVar } from '@sonarsource/echoes-react';
-import { memo, useState } from 'react';
+import { DropdownMenu, DropdownMenuSide, cssVar } from '@sonarsource/echoes-react';
+import { memo } from 'react';
 import tw from 'twin.macro';
-import { PopupPlacement, PopupZLevel } from '../../helpers/positioning';
-import { DropdownToggler } from '../DropdownToggler';
+import { BareButton } from '../../sonar-aligned/components/buttons/BareButton';
 import { LineMeta } from './LineStyles';
 
 interface Props {
@@ -36,9 +35,13 @@ interface Props {
 
 const FILE_TOP_THRESHOLD = 10;
 
-function LineNumberFunc({ firstLineNumber, lineNumber, popup, displayOptions, ariaLabel }: Props) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
+function LineNumberFunc({
+  firstLineNumber,
+  lineNumber,
+  popup,
+  displayOptions,
+  ariaLabel,
+}: Readonly<Props>) {
   const hasLineNumber = Boolean(lineNumber);
   const isFileTop = lineNumber - FILE_TOP_THRESHOLD < firstLineNumber;
 
@@ -49,32 +52,14 @@ function LineNumberFunc({ firstLineNumber, lineNumber, popup, displayOptions, ar
   return (
     <LineMeta className="sw-pl-2" data-line-number={lineNumber}>
       {displayOptions ? (
-        <DropdownToggler
-          aria-labelledby={`line-number-trigger-${lineNumber}`}
+        <DropdownMenu
+          aria-label={ariaLabel}
           id={`line-number-dropdown-${lineNumber}`}
-          onRequestClose={() => {
-            setIsOpen(false);
-          }}
-          open={isOpen}
-          overlay={popup}
-          placement={isFileTop ? PopupPlacement.Bottom : PopupPlacement.Top}
-          zLevel={PopupZLevel.Global}
+          items={popup}
+          side={isFileTop ? DropdownMenuSide.Bottom : DropdownMenuSide.Top}
         >
-          <LineNumberStyled
-            aria-controls={`line-number-dropdown-${lineNumber}`}
-            aria-expanded={isOpen}
-            aria-haspopup="menu"
-            aria-label={ariaLabel}
-            id={`line-number-trigger-${lineNumber}`}
-            onClick={() => {
-              setIsOpen(true);
-            }}
-            role="button"
-            tabIndex={0}
-          >
-            {lineNumber}
-          </LineNumberStyled>
-        </DropdownToggler>
+          <LineNumberStyled>{lineNumber}</LineNumberStyled>
+        </DropdownMenu>
       ) : (
         lineNumber
       )}
@@ -84,11 +69,10 @@ function LineNumberFunc({ firstLineNumber, lineNumber, popup, displayOptions, ar
 
 export const LineNumber = memo(LineNumberFunc);
 
-const LineNumberStyled = styled.div`
-  outline: none;
-
-  ${tw`sw-pr-2`}
-  ${tw`sw-cursor-pointer`}
+const LineNumberStyled = styled(BareButton)`
+  ${tw`sw-px-1`}
+  min-width: 24px;
+  min-height: 24px;
 
   &:hover {
     color: ${cssVar('color-text-strong')};

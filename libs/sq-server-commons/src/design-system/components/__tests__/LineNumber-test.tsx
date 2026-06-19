@@ -23,7 +23,7 @@ import { FCProps } from '../../../types/misc';
 import { render } from '../../helpers/testUtils';
 import { LineNumber } from '../code-line/LineNumber';
 
-it('should a popup when clicked', async () => {
+it('should show a popup when clicked', async () => {
   const { user } = setupWithProps();
 
   expect(screen.getByRole('button', { name: 'aria-label' })).toBeVisible();

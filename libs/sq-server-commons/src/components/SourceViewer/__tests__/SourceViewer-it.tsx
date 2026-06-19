@@ -20,7 +20,7 @@
 
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { byLabelText } from '~shared/helpers/testSelector';
+import { byLabelText, byRole } from '~shared/helpers/testSelector';
 import { MetricKey } from '~shared/types/metrics';
 import { HttpStatus } from '~shared/types/request';
 import ComponentsServiceMock from '../../../api/mocks/ComponentsServiceMock';
@@ -72,40 +72,36 @@ beforeEach(() => {
 it('should show a permalink on line number', async () => {
   const user = userEvent.setup();
   renderSourceViewer();
-  let row = await screen.findByRole('row', { name: /\/\*$/ });
+  const row = await screen.findByRole('row', { name: /\/\*$/ });
   expect(row).toBeInTheDocument();
-  const rowScreen = within(row);
 
   await user.click(
-    rowScreen.getByRole('button', {
+    byRole('button', {
       name: 'source_viewer.line_X.1',
-    }),
+    }).get(row),
   );
 
   expect(
-    rowScreen.getByRole('menuitem', { name: 'source_viewer.copy_permalink' }),
+    await byRole('menuitem', { name: 'source_viewer.copy_permalink' }).find(),
   ).toBeInTheDocument();
 
   await user.keyboard('[Escape]');
 
   expect(
-    rowScreen.queryByRole('menuitem', { name: 'source_viewer.copy_permalink' }),
+    byRole('menuitem', { name: 'source_viewer.copy_permalink' }).query(),
   ).not.toBeInTheDocument();
 
-  row = await screen.findByRole('row', { name: / \* 6$/ });
-  expect(row).toBeInTheDocument();
-  const lowerRowScreen = within(row);
+  const lowerRow = await screen.findByRole('row', { name: / \* 6$/ });
+  expect(lowerRow).toBeInTheDocument();
 
   await user.click(
-    lowerRowScreen.getByRole('button', {
+    byRole('button', {
       name: 'source_viewer.line_X.6',
-    }),
+    }).get(lowerRow),
   );
 
   expect(
-    lowerRowScreen.getByRole('menuitem', {
-      name: 'source_viewer.copy_permalink',
-    }),
+    await byRole('menuitem', { name: 'source_viewer.copy_permalink' }).find(),
   ).toBeInTheDocument();
 });
 
