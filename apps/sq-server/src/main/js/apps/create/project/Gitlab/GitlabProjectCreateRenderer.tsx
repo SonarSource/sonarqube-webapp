@@ -156,7 +156,7 @@ export default function GitlabProjectCreateRenderer(
 
       <Spinner isLoading={loading} />
 
-      {!loading && almInstances && almInstances.length === 0 && !selectedAlmInstance && (
+      {!loading && almInstances?.length === 0 && !selectedAlmInstance && (
         <WrongBindingCountAlert alm={AlmKeys.GitLab} />
       )}
 

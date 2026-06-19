@@ -56,6 +56,14 @@ Schema validation library used by sq-cloud to validate dashboard and widget conf
 
 Used by `.github/scripts/report-bundle-metrics/send-bundle-metrics.js` to send metrics to CloudWatch.
 
+### @eslint/js
+
+Required explicit dependency in ESLint v10 — provides `eslint:recommended` and other built-in rule configs. Was previously bundled inside the `eslint` package in v9 but is now a standalone package that must be declared explicitly.
+
+### eslint-plugin-jest-dom (patched)
+
+`eslint-plugin-jest-dom@5.5.0` uses the deprecated `context.getSourceCode()` API that was removed in ESLint v10, causing a hard crash at lint time. We apply a yarn patch (`config/patches/eslint-plugin-jest-dom-npm-5.5.0-2554d97d16.patch`) that replaces all `context.getSourceCode()` / `(0, _context.getSourceCode)(context)` calls with the ESLint 10-compatible `context.sourceCode` across every rule file. No upstream fix has been released yet.
+
 ### @cyclonedx/cdxgen
 
 Library used to generate CycloneDX SBOM.
@@ -67,6 +75,10 @@ Used by sq-cloud to show feedback forms created on the Sprig platform to our use
 ### @tanstack/react-query-devtools
 
 Used in development mode to facilitate the debugging Tanstack Query's cache and state.
+
+### @tony.ganchev/eslint-plugin-header
+
+Replaces eslint-plugin-header, which has been abandoned.
 
 ### @typescript-eslint/rule-tester
 
@@ -137,6 +149,10 @@ Polyfill for async/await used in conjunction with @vitejs/plugin-legacy.
 Peer dependency of @vitejs/plugin-legacy.
 
 ## resolutions
+
+### @typescript-eslint/utils
+
+`@nx/eslint-plugin@22.x` bundles its own nested `@typescript-eslint/utils@8.19.0`, which still imports `FlatESLint` from `eslint/use-at-your-own-risk` — an export removed in ESLint v10. The root-level `@typescript-eslint/utils@8.61.1` has the fix (nullish-coalescing fallback to `eslint.ESLint`). This resolution forces the fixed version everywhere, preventing the nested stale copy from being installed.
 
 ### @sentry/browser
 

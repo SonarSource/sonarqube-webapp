@@ -22,12 +22,14 @@ const { RuleTester } = require('eslint');
 const rule = require('../no-direct-axios-import');
 
 const ruleTester = new RuleTester({
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
+  languageOptions: {
+    parser: require('@typescript-eslint/parser'),
+    parserOptions: {
+      ecmaFeatures: {
+        jsx: true,
+      },
     },
   },
-  parser: require.resolve('@typescript-eslint/parser'),
 });
 
 ruleTester.run('no-direct-axios-import', rule, {

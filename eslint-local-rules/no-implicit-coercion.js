@@ -67,8 +67,9 @@ const isVariableOrObjectField = (node) =>
   node.type === 'Identifier' || node.type === 'MemberExpression';
 
 function checkImplicitCoercion(context, argument) {
-  const tsNodeMap = context.parserServices.esTreeNodeToTSNodeMap;
-  const typeChecker = context.parserServices?.program?.getTypeChecker();
+  const parserServices = context.sourceCode.parserServices;
+  const tsNodeMap = parserServices?.esTreeNodeToTSNodeMap;
+  const typeChecker = parserServices?.program?.getTypeChecker();
   const type = typeChecker?.getTypeAtLocation(tsNodeMap.get(argument));
 
   if (!type || type.aliasSymbol?.name === 'ReactNode') {

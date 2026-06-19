@@ -63,7 +63,7 @@ export default function Changelog(props: Readonly<Props>) {
   const isSameEventAction = (
     thisEvent: ProfileChangelogEvent,
     otherEvent?: ProfileChangelogEvent,
-  ) => otherEvent !== undefined && otherEvent.action === thisEvent.action;
+  ) => otherEvent?.action === thisEvent.action;
 
   const rows = sortedRows.map((event, index) => {
     const prevRow = sortedRows[index - 1];

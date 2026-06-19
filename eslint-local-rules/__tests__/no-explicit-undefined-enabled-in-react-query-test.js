@@ -22,14 +22,16 @@ import { RuleTester } from '@typescript-eslint/rule-tester';
 import noExplicitUndefinedEnabledInReactQuery from '../no-explicit-undefined-enabled-in-react-query';
 
 const ruleTester = new RuleTester({
-  parserOptions: {
-    project: './tsconfig.json',
-    tsconfigRootDir: __dirname + '/../test-config',
-    ecmaFeatures: {
-      jsx: true,
+  languageOptions: {
+    parser: require('@typescript-eslint/parser'),
+    parserOptions: {
+      project: './tsconfig.json',
+      tsconfigRootDir: __dirname + '/../test-config',
+      ecmaFeatures: {
+        jsx: true,
+      },
     },
   },
-  parser: require.resolve('@typescript-eslint/parser'),
 });
 
 ruleTester.run(

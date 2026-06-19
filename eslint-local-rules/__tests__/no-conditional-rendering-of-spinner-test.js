@@ -22,10 +22,12 @@ const { RuleTester } = require('eslint');
 const noConditionalRenderingOfSpinner = require('../no-conditional-rendering-of-spinner');
 
 const ruleTester = new RuleTester({
-  parser: require.resolve('@typescript-eslint/parser'),
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
+  languageOptions: {
+    parser: require('@typescript-eslint/parser'),
+    parserOptions: {
+      ecmaFeatures: {
+        jsx: true,
+      },
     },
   },
 });

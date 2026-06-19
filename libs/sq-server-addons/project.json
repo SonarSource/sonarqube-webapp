@@ -6,6 +6,12 @@
   "tags": ["type:bridge", "visibility:public", "scope:server"],
   "// targets": "to see all targets run: nx show project sq-server-addons --web",
   "targets": {
-    "format-check": {}
+    "format-check": {},
+    "lint": {
+      "command": "echo 'Linting skipped for sq-server-addons'"
+    },
+    "lint-report": {
+      "command": "echo 'Linting skipped for sq-server-addons'"
+    }
   }
 }

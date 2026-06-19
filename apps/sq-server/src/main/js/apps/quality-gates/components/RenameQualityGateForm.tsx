@@ -51,7 +51,7 @@ export default function RenameQualityGateForm({ qualityGate, children }: Readonl
     router.push(getQualityGateUrl(name));
   };
 
-  const confirmDisable = !isStringDefined(name) || (qualityGate && qualityGate.name === name);
+  const confirmDisable = !isStringDefined(name) || qualityGate?.name === name;
 
   return (
     <ModalForm

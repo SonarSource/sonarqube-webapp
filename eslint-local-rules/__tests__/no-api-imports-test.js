@@ -22,12 +22,14 @@ const { RuleTester } = require('eslint');
 const noApiImports = require('../no-api-imports');
 
 const ruleTester = new RuleTester({
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
+  languageOptions: {
+    parser: require('@typescript-eslint/parser'),
+    parserOptions: {
+      ecmaFeatures: {
+        jsx: true,
+      },
     },
   },
-  parser: require.resolve('@typescript-eslint/parser'),
 });
 
 ruleTester.run('no-api-imports', noApiImports, {

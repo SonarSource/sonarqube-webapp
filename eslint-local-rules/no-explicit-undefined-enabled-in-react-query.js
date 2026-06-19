@@ -47,7 +47,7 @@ module.exports = {
   create(context) {
     // Accessing parser services directly from context, which is available
     // because `requiresTypeChecking` is true.
-    const parserServices = context.parserServices;
+    const parserServices = context.sourceCode.parserServices;
     const typeChecker = parserServices?.program?.getTypeChecker();
 
     if (!typeChecker || !parserServices) {
@@ -166,7 +166,7 @@ module.exports = {
       }
 
       // Check if queryOptions is imported from @tanstack/react-query
-      const currentScope = context.getScope();
+      const currentScope = context.sourceCode.getScope(node);
       let variable = null;
       let scope = currentScope;
 
@@ -279,7 +279,7 @@ module.exports = {
           // Look for patterns like: useModeQuery({ enabled: someValue })
           // where useModeQuery = createQueryHook(...)
           // Traverse up the scope chain to find the variable
-          let scopeToCheck = context.getScope();
+          let scopeToCheck = context.sourceCode.getScope(node);
           let variableToCheck = null;
 
           while (scopeToCheck && !variableToCheck) {
@@ -317,7 +317,7 @@ module.exports = {
 
         // Find the import declaration for this function
         // Traverse up the scope chain to find the variable
-        let currentScope = context.getScope();
+        let currentScope = context.sourceCode.getScope(node);
         let variable = null;
 
         while (currentScope && !variable) {

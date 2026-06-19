@@ -25,12 +25,14 @@ const testKeys = ['known.only'];
 const opts = [{ knownKeys: testKeys }];
 
 const ruleTester = new RuleTester({
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
+  languageOptions: {
+    parser: require('@typescript-eslint/parser'),
+    parserOptions: {
+      ecmaFeatures: {
+        jsx: true,
+      },
     },
   },
-  parser: require.resolve('@typescript-eslint/parser'),
 });
 
 ruleTester.run('valid-l10n-message-key', validL10nMessageKey, {

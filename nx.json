@@ -25,7 +25,6 @@
       "!{projectRoot}/jest.config.ci.[jt]s",
       "!{projectRoot}/__tests__/**/*-(test|smoke|it).(j|t)sx?",
       "!{projectRoot}/__tests__/**/*.snap",
-      "!{projectRoot}/.eslintrc.js",
       "!{workspaceRoot}/eslint-local-rules/**"
     ],
     "productionWithShared": [
@@ -35,7 +34,6 @@
       "!{workspaceRoot}/**/jest.config.ci.[jt]s",
       "!{workspaceRoot}/**/__tests__/**/*-(test|smoke|it).(j|t)sx?",
       "!{workspaceRoot}/**/__tests__/**/*.snap",
-      "!{workspaceRoot}/**/.eslintrc.js",
       "!{workspaceRoot}/eslint-local-rules/**"
     ],
     "sharedGlobals": []
@@ -87,12 +85,12 @@
     "lint": {
       "options": {
         "cwd": "{projectRoot}",
-        "command": "eslint --ext js,ts,tsx,snap --quiet src"
+        "command": "eslint --quiet src"
       }
     },
     "lint-report": {
       "options": {
-        "command": "eslint --ext js,ts,tsx,snap --format json --output-file build/reports/eslint-report/eslint-report.json src"
+        "command": "eslint --format json --output-file build/reports/eslint-report/eslint-report.json src"
       },
       "outputs": ["{projectRoot}/build/reports/eslint-report/**"]
     },

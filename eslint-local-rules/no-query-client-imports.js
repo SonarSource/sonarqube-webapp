@@ -34,7 +34,7 @@ module.exports = {
   },
   create(context) {
     const fnNames = [];
-    const currentFilePath = context.getFilename();
+    const currentFilePath = context.filename;
 
     if (
       ['testUtils.tsx', 'ProviderPyramid.tsx', 'query-client.ts'].some((path) =>

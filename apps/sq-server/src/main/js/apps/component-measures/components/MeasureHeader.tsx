@@ -93,8 +93,7 @@ export default function MeasureHeader(props: Readonly<Props>) {
           <LeakPeriodLegend component={component} period={leakPeriod} />
         )}
       </div>
-      {secondaryMeasure &&
-        secondaryMeasure.metric === MetricKey.ncloc_language_distribution &&
+      {secondaryMeasure?.metric === MetricKey.ncloc_language_distribution &&
         secondaryMeasure.value !== undefined && (
           <div className="sw-inline-block sw-mt-2">
             <LanguageDistribution distribution={secondaryMeasure.value} />

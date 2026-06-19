@@ -156,7 +156,7 @@ export function generateSeries(
 
   return sortBy(
     measuresHistory
-      .filter((measure) => displayedMetrics.indexOf(measure.metric) >= 0)
+      .filter((measure) => displayedMetrics.includes(measure.metric))
       .map((measure) => {
         if (measure.metric === MetricKey.uncovered_lines && !isCustomGraph(graph)) {
           return generateCoveredLinesMetric(measure, measuresHistory);

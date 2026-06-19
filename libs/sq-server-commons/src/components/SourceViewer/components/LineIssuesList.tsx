@@ -72,7 +72,7 @@ export default function LineIssuesList(props: LineIssuesListProps) {
           onChange={props.onIssueChange}
           onPopupToggle={props.onIssuePopupToggle}
           onSelect={props.onIssueClick}
-          openPopup={issuePopup && issuePopup.issue === issue.key ? issuePopup.name : undefined}
+          openPopup={issuePopup?.issue === issue.key ? issuePopup.name : undefined}
           selected={props.selectedIssue === issue.key}
         />
       ))}

@@ -22,10 +22,12 @@ const { RuleTester } = require('eslint');
 const convertClassToFunctionComponent = require('../convert-class-to-function-component');
 
 const ruleTester = new RuleTester({
-  parser: require.resolve('@typescript-eslint/parser'),
-  parserOptions: {
-    ecmaVersion: 2021,
-    sourceType: 'module',
+  languageOptions: {
+    parser: require('@typescript-eslint/parser'),
+    parserOptions: {
+      ecmaVersion: 2021,
+      sourceType: 'module',
+    },
   },
 });
 

@@ -35,7 +35,7 @@ module.exports = {
   // eslint-disable-next-line object-shorthand
   create: function (context) {
     const fnNames = [];
-    const currentFilePath = context.getFilename();
+    const currentFilePath = context.filename;
     const sourceCode = context.sourceCode;
     return {
       // eslint-disable-next-line object-shorthand

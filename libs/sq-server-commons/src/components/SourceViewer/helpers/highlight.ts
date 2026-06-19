@@ -113,10 +113,9 @@ export function highlightIssueLocations(
         nextTokens.push({ ...token, text: p1 });
       }
       if (p2.length) {
-        const newClassName =
-          token.className.indexOf(rootClassName) === -1
-            ? `${token.className} ${rootClassName}`
-            : token.className;
+        const newClassName = !token.className.includes(rootClassName)
+          ? `${token.className} ${rootClassName}`
+          : token.className;
         nextTokens.push({
           className: newClassName,
           modifiers: {

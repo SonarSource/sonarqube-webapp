@@ -347,8 +347,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
             {containsAiCode &&
               isUserEditing &&
               !usesDefault &&
-              selectedQualityGate &&
-              selectedQualityGate.isAiCodeSupported === false && (
+              selectedQualityGate?.isAiCodeSupported === false && (
                 <AiAssuranceWarningMessage className="sw-mt-1 sw-ml-6" />
               )}
 

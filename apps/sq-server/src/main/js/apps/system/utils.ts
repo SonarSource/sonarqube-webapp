@@ -19,7 +19,6 @@
  */
 
 import { each, memoize, omit, omitBy, pickBy, sortBy } from 'lodash';
-import { isDefined } from '~shared/helpers/types';
 import { MetricType } from '~shared/types/metrics';
 import { RawQuery } from '~shared/types/router';
 import {
@@ -121,7 +120,7 @@ export function getSearchNodes(sysInfoData: SysInfoCluster): SysInfoSearchNode[]
 export function isCluster(
   sysInfoData: SysInfoCluster | SysInfoStandalone,
 ): sysInfoData is SysInfoCluster {
-  return isDefined(sysInfoData[SYSTEM_FIELD]) && sysInfoData[SYSTEM_FIELD][HA_FIELD];
+  return sysInfoData[SYSTEM_FIELD]?.[HA_FIELD] === true;
 }
 
 export function isLogInfoBlock(sysInfoObject: SysInfoValueObject): sysInfoObject is SysInfoLogging {

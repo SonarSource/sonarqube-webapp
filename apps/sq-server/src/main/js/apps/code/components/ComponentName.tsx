@@ -249,8 +249,7 @@ function renderNameWithIcon(
 function renderName(component: ComponentMeasure, previous: ComponentMeasure | undefined) {
   const areBothDirs =
     component.qualifier === ComponentQualifier.Directory &&
-    previous &&
-    previous.qualifier === ComponentQualifier.Directory;
+    previous?.qualifier === ComponentQualifier.Directory;
 
   const prefix =
     areBothDirs && isDefined(previous)

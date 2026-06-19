@@ -91,6 +91,7 @@ export default function DataTableModal(props: DataTableModalProps) {
 
   const metrics = series.map(({ name }) => name);
   const rows = slice(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-unary-minus
     sortBy(Object.values(tableData), ({ date }) => -date),
     0,
     MAX_DATA_TABLE_ROWS,

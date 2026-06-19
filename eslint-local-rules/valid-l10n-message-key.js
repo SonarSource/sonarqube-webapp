@@ -218,7 +218,7 @@ module.exports = {
     const ruleOptions = context.options[0] ?? {};
     const configuredKeys = ruleOptions.knownKeys;
     const usesExplicitCatalogOverride = Array.isArray(configuredKeys) && configuredKeys.length > 0;
-    const platform = resolvePlatform(ruleOptions.platform, context.getFilename());
+    const platform = resolvePlatform(ruleOptions.platform, context.filename);
 
     if (!usesExplicitCatalogOverride && !localizationCatalogResolvable(platform)) {
       return {};

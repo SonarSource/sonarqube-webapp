@@ -22,14 +22,16 @@ const { RuleTester } = require('eslint');
 const noDirectEchoesDesignTokens = require('../no-direct-echoes-design-tokens');
 
 const ruleTester = new RuleTester({
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
+  languageOptions: {
+    parser: require('@typescript-eslint/parser'),
+    parserOptions: {
+      ecmaFeatures: {
+        jsx: true,
+      },
+      ecmaVersion: 2020,
+      sourceType: 'module',
     },
-    ecmaVersion: 2020,
-    sourceType: 'module',
   },
-  parser: require.resolve('@typescript-eslint/parser'),
 });
 
 ruleTester.run('no-direct-echoes-design-tokens', noDirectEchoesDesignTokens, {

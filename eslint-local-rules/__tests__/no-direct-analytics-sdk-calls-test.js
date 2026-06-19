@@ -22,12 +22,14 @@ const { RuleTester } = require('eslint');
 const noDirectAnalyticsSdkCalls = require('../no-direct-analytics-sdk-calls');
 
 const ruleTester = new RuleTester({
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
+  languageOptions: {
+    parser: require('@typescript-eslint/parser'),
+    parserOptions: {
+      ecmaFeatures: {
+        jsx: true,
+      },
     },
   },
-  parser: require.resolve('@typescript-eslint/parser'),
 });
 
 ruleTester.run('no-direct-analytics-sdk-calls', noDirectAnalyticsSdkCalls, {
@@ -39,7 +41,7 @@ ruleTester.run('no-direct-analytics-sdk-calls', noDirectAnalyticsSdkCalls, {
 
       const launchDarklyClient = useLDClient();
 
-      updateLaunchDarklyMultiContext(launchDarklyClient, {kind: 'multi', {someData: 'data'}});
+      updateLaunchDarklyMultiContext(launchDarklyClient, {kind: 'multi', user: {key: 'user-123'}});
       `,
     },
     {
@@ -52,7 +54,7 @@ ruleTester.run('no-direct-analytics-sdk-calls', noDirectAnalyticsSdkCalls, {
       function useTest() {
         const launchDarklyClient = useLDClient();
 
-        updateLaunchDarklyMultiContext(launchDarklyClient, {kind: 'multi', {someData: 'data'}});
+        updateLaunchDarklyMultiContext(launchDarklyClient, {kind: 'multi', user: {key: 'user-123'}});
       }
       `,
     },

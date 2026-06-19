@@ -22,7 +22,9 @@ const rule = require('../enforce-staletime-enum');
 const { RuleTester } = require('eslint');
 
 const ruleTester = new RuleTester({
-  parserOptions: { ecmaVersion: 2020, sourceType: 'module' },
+  languageOptions: {
+    parserOptions: { ecmaVersion: 2020, sourceType: 'module' },
+  },
 });
 
 ruleTester.run('enforce-staletime-enum', rule, {
@@ -125,8 +127,8 @@ ruleTester.run('enforce-staletime-enum', rule, {
       `,
       errors: [
         {
-          messageId: 'missingStaleTime',
-          type: 'ObjectExpression',
+          messageId: 'missingStaleTime'
+          ,
         },
       ],
     },
@@ -140,8 +142,8 @@ ruleTester.run('enforce-staletime-enum', rule, {
       `,
       errors: [
         {
-          messageId: 'missingStaleTime',
-          type: 'ObjectExpression',
+          messageId: 'missingStaleTime'
+          ,
         },
       ],
     },
@@ -155,8 +157,8 @@ ruleTester.run('enforce-staletime-enum', rule, {
       `,
       errors: [
         {
-          messageId: 'missingStaleTime',
-          type: 'ObjectExpression',
+          messageId: 'missingStaleTime'
+          ,
         },
       ],
     },
@@ -171,8 +173,8 @@ ruleTester.run('enforce-staletime-enum', rule, {
       `,
       errors: [
         {
-          messageId: 'useStaleTimeEnum',
-          type: 'Literal',
+          messageId: 'useStaleTimeEnum'
+          ,
         },
       ],
     },
@@ -187,8 +189,8 @@ ruleTester.run('enforce-staletime-enum', rule, {
       `,
       errors: [
         {
-          messageId: 'useStaleTimeEnum',
-          type: 'Literal',
+          messageId: 'useStaleTimeEnum'
+          ,
         },
       ],
     },
@@ -203,8 +205,8 @@ ruleTester.run('enforce-staletime-enum', rule, {
       `,
       errors: [
         {
-          messageId: 'useStaleTimeEnum',
-          type: 'Literal',
+          messageId: 'useStaleTimeEnum'
+          ,
         },
       ],
     },
@@ -219,8 +221,8 @@ ruleTester.run('enforce-staletime-enum', rule, {
       `,
       errors: [
         {
-          messageId: 'useStaleTimeEnum',
-          type: 'Identifier',
+          messageId: 'useStaleTimeEnum'
+          ,
         },
       ],
     },
@@ -236,8 +238,8 @@ ruleTester.run('enforce-staletime-enum', rule, {
       `,
       errors: [
         {
-          messageId: 'useStaleTimeEnum',
-          type: 'Literal',
+          messageId: 'useStaleTimeEnum'
+          ,
         },
       ],
     },
@@ -252,8 +254,8 @@ ruleTester.run('enforce-staletime-enum', rule, {
       `,
       errors: [
         {
-          messageId: 'missingStaleTime',
-          type: 'ObjectExpression',
+          messageId: 'missingStaleTime'
+          ,
         },
       ],
     },

@@ -45,7 +45,7 @@ Replace \`axios.{{ method }}\` with \`axiosClient.{{ method }}\` or \`axiosToCat
       'vite.config.ts',
     ]);
 
-    const filename = context.getFilename();
+    const filename = context.filename;
     const isAllowedFile = allowedFiles.has(filename.split('/').pop());
 
     if (isAllowedFile) {

@@ -451,8 +451,7 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
 
   handleIssuePopupToggle = (issue: string, popupName: string, open?: boolean) => {
     this.setState((state: State) => {
-      const samePopup =
-        state.issuePopup && state.issuePopup.name === popupName && state.issuePopup.issue === issue;
+      const samePopup = state.issuePopup?.name === popupName && state.issuePopup.issue === issue;
 
       if (open !== false && !samePopup) {
         return { issuePopup: { issue, name: popupName } };

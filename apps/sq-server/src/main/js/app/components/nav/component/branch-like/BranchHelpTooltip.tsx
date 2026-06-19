@@ -47,7 +47,7 @@ export default function BranchHelpTooltip({
 }: Props) {
   const helpIcon = <HelperHintIcon aria-label="help-tooltip" />;
   const { data: projectBinding } = useProjectBindingQuery(component.key);
-  const isGitLab = projectBinding != null && projectBinding.alm === AlmKeys.GitLab;
+  const isGitLab = projectBinding?.alm === AlmKeys.GitLab;
 
   const intl = useIntl();
 

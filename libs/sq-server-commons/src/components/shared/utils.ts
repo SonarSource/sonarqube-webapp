@@ -147,7 +147,7 @@ const issueParamsPerMetric: Record<string, Record<string, string>> = {
 };
 
 export function isIssueMeasure(metric: string) {
-  return ISSUE_MEASURES.indexOf(metric as MetricKey) !== -1;
+  return ISSUE_MEASURES.includes(metric as MetricKey);
 }
 
 export function propsToIssueParams(metric: string, inNewCodePeriod = false) {

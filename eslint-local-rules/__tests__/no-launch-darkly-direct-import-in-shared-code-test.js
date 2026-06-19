@@ -22,8 +22,10 @@ const { RuleTester } = require('eslint');
 const noLaunchDarklyDirectImportInSharedCode = require('../no-launch-darkly-direct-import-in-shared-code');
 
 const ruleTester = new RuleTester({
-  parserOptions: { ecmaFeatures: { jsx: true } },
-  parser: require.resolve('@typescript-eslint/parser'),
+  languageOptions: {
+    parser: require('@typescript-eslint/parser'),
+    parserOptions: { ecmaFeatures: { jsx: true } },
+  },
 });
 
 ruleTester.run(

@@ -102,8 +102,7 @@ export class LineCode extends PureComponent<React.PropsWithChildren<Props>> {
 
   addLineMarker = (marker: number, index: number, leadingMarker: boolean, markerIndex: number) => {
     const { highlightedLocationMessage, secondaryIssueLocations, hideLocationIndex } = this.props;
-    const selected =
-      highlightedLocationMessage !== undefined && highlightedLocationMessage.index === marker;
+    const selected = highlightedLocationMessage?.index === marker;
     const loc = secondaryIssueLocations.find((loc) => loc.index === marker);
     const message = loc?.text;
     const isLeading = leadingMarker && markerIndex === 0;

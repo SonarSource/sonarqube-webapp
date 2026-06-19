@@ -59,8 +59,7 @@ export default function SubnavigationIssuesList(props: Props) {
       <StyledList>
         {issues.map((issue, index) => {
           const previousIssue = index > 0 ? issues[index - 1] : undefined;
-          const displayComponentName =
-            !previousIssue || previousIssue.component !== issue.component;
+          const displayComponentName = previousIssue?.component !== issue.component;
 
           return (
             <React.Fragment key={index}>

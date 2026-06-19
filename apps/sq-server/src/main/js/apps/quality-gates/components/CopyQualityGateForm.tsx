@@ -57,8 +57,7 @@ export default function CopyQualityGateForm({ qualityGate, children }: Readonly<
     setName(qualityGate.name);
   };
 
-  const buttonDisabled =
-    !isStringDefined(name) || (qualityGate && qualityGate.name === name) || isSubmitting;
+  const buttonDisabled = !isStringDefined(name) || qualityGate?.name === name || isSubmitting;
 
   return (
     <ModalForm

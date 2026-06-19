@@ -52,7 +52,11 @@ jest.mock('~sq-server-commons/api/users', () => {
 });
 
 jest.mock('~sq-server-commons/api/auth', () => ({
-  logIn: jest.fn((_id, password) => (password === 'valid' ? Promise.resolve() : Promise.reject())),
+  logIn: jest.fn((_id, password) =>
+    password === 'valid'
+      ? Promise.resolve()
+      : Promise.reject(new Error('Wrong password, should be valid')),
+  ),
 }));
 
 jest.mock('~sq-server-commons/api/settings', () => ({

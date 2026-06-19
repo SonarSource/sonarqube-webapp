@@ -23,7 +23,9 @@ const { useEnum } = require('../use-enum');
 const useSomeEnum = useEnum(['Val1', 'Val2', 'Val3'], 'SomeEnum');
 
 const ruleTester = new RuleTester({
-  parser: require.resolve('@typescript-eslint/parser'),
+  languageOptions: {
+    parser: require('@typescript-eslint/parser'),
+  },
 });
 
 ruleTester.run('use-some-enum', useSomeEnum, {

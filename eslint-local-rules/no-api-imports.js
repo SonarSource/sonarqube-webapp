@@ -34,7 +34,7 @@ module.exports = {
   },
   create: function (context) {
     const fnNames = [];
-    const currentFilePath = context.getFilename();
+    const currentFilePath = context.filename;
 
     if (
       ['queries', 'mocks', 'mocks-v2', '__tests__'].some((path) =>

@@ -98,10 +98,8 @@ export default function IssuesList({
                   onCheck={onIssueCheck}
                   onPopupToggle={onPopupToggle}
                   onSelect={onIssueSelect}
-                  openPopup={
-                    openPopup && openPopup.issue === issue.key ? openPopup.name : undefined
-                  }
-                  selected={selectedIssue != null && selectedIssue.key === issue.key}
+                  openPopup={openPopup?.issue === issue.key ? openPopup.name : undefined}
+                  selected={selectedIssue?.key === issue.key}
                 />
               ))}
             </ul>

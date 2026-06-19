@@ -22,14 +22,16 @@ import { RuleTester } from '@typescript-eslint/rule-tester';
 import noJsxLiterals from '../no-jsx-literals';
 
 const ruleTester = new RuleTester({
-  parserOptions: {
-    project: './tsconfig.json',
-    tsconfigRootDir: __dirname + '/../test-config',
-    ecmaFeatures: {
-      jsx: true,
+  languageOptions: {
+    parser: require('@typescript-eslint/parser'),
+    parserOptions: {
+      project: './tsconfig.json',
+      tsconfigRootDir: __dirname + '/../test-config',
+      ecmaFeatures: {
+        jsx: true,
+      },
     },
   },
-  parser: require.resolve('@typescript-eslint/parser'),
 });
 
 ruleTester.run('no-jsx-literals', noJsxLiterals, {

@@ -362,13 +362,13 @@ function getPageObject() {
       const form = selectors.formDialog.get();
       return within(form)
         .getAllByRole('button')
-        .filter((b: HTMLButtonElement) => b.type === 'submit')[0];
+        .find((b: HTMLButtonElement) => b.type === 'submit');
     },
     formShouldNotBeValid: () => {
       expect(ui.getFormSubmitButton()).toBeDisabled();
     },
     submitForm: async () => {
-      const submitBtn = ui.getFormSubmitButton();
+      const submitBtn = ui.getFormSubmitButton() as HTMLElement;
       await user.click(submitBtn);
       await waitFor(() => {
         expect(selectors.formDialog.query()).not.toBeInTheDocument();

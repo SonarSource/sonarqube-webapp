@@ -68,10 +68,7 @@ export function MonorepoRepositorySelector({
     ((showOrganizations && !!selectedOrganization) || !showOrganizations);
   const showWarningMessage =
     error ||
-    (repositorySelectorEnabled &&
-      repositoryOptions &&
-      repositoryOptions.length === 0 &&
-      repositorySearchQuery === '');
+    (repositorySelectorEnabled && repositoryOptions?.length === 0 && repositorySearchQuery === '');
 
   return (
     <>

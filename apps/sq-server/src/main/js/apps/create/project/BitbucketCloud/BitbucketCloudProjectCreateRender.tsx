@@ -124,7 +124,7 @@ export default function BitbucketCloudProjectCreateRenderer(
 
       <Spinner isLoading={loading} />
 
-      {!loading && almInstances && almInstances.length === 0 && !selectedAlmInstance && (
+      {!loading && almInstances?.length === 0 && !selectedAlmInstance && (
         <WrongBindingCountAlert alm={AlmKeys.BitbucketCloud} />
       )}
 

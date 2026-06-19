@@ -22,12 +22,14 @@ const { RuleTester } = require('eslint');
 const useProperQueryName = require('../use-proper-query-name');
 
 const ruleTester = new RuleTester({
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
+  languageOptions: {
+    parser: require('@typescript-eslint/parser'),
+    parserOptions: {
+      ecmaFeatures: {
+        jsx: true,
+      },
     },
   },
-  parser: require.resolve('@typescript-eslint/parser'),
 });
 
 ruleTester.run('use-proper-query-name', useProperQueryName, {

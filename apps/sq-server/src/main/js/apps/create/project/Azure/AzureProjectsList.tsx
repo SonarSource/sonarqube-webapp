@@ -46,7 +46,7 @@ export default function AzureProjectsList(props: AzureProjectsListProps) {
 
   const [page, setPage] = React.useState(1);
 
-  if (searchResults && searchResults.length === 0) {
+  if (searchResults?.length === 0) {
     return (
       <MessageCallout variety={MessageVariety.Warning}>
         <FormattedMessage id="onboarding.create_project.azure.no_results" />

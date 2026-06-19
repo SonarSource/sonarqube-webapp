@@ -22,12 +22,14 @@ const { RuleTester } = require('eslint');
 const noQueryClientDirectUsage = require('../no-query-client-imports');
 
 const ruleTester = new RuleTester({
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
+  languageOptions: {
+    parser: require('@typescript-eslint/parser'),
+    parserOptions: {
+      ecmaFeatures: {
+        jsx: true,
+      },
     },
   },
-  parser: require.resolve('@typescript-eslint/parser'),
 });
 
 ruleTester.run('no-query-client-imports', noQueryClientDirectUsage, {
@@ -61,7 +63,6 @@ ruleTester.run('no-query-client-imports', noQueryClientDirectUsage, {
       import { useQuery } from '@tanstack/react-query';
       useQuery();
       `,
-      errors: [{ messageId: 'noQueryClientDirectUsage' }],
     },
   ],
   invalid: [

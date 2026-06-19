@@ -34,7 +34,7 @@ module.exports = {
     },
   },
   create(context) {
-    const currentFilePath = context.getFilename();
+    const currentFilePath = context.filename;
 
     if (!currentFilePath.split('/').includes('queries')) {
       return {};

@@ -32,7 +32,7 @@ module.exports = {
   },
   create(context) {
     const fnNames = [];
-    const currentFilePath = context.getFilename();
+    const currentFilePath = context.filename;
 
     // Do not raise issues for the useFlags adapters implementation
     if (currentFilePath.includes('sq-cloud-adapters/helpers/feature-flags')) {
