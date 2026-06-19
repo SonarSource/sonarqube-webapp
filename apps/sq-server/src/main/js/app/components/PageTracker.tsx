@@ -18,61 +18,43 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
+import { type PropsWithChildren, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { withRouter } from '~shared/components/hoc/withRouter';
-import { Location } from '~shared/types/router';
-import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
+import { useLocation } from 'react-router-dom';
+import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { installScript } from '~sq-server-commons/helpers/extensions';
 import { getWebAnalyticsPageHandlerFromCache } from '~sq-server-commons/helpers/extensionsHandler';
 import { getInstance } from '~sq-server-commons/helpers/system';
-import { AppState } from '~sq-server-commons/types/appstate';
 
-interface Props {
-  appState: AppState;
-  location: Location;
-}
+export function PageTracker({ children }: Readonly<PropsWithChildren<{}>>) {
+  const appState = useAppState();
+  const location = useLocation();
+  const lastTrackedPath = useRef<string | undefined>(undefined);
 
-interface State {
-  lastLocation?: string;
-}
-
-export class PageTracker extends React.Component<React.PropsWithChildren<Props>, State> {
-  state: State = {};
-
-  componentDidMount() {
-    const { appState } = this.props;
-
+  useEffect(() => {
     if (appState.webAnalyticsJsPath && !getWebAnalyticsPageHandlerFromCache()) {
       installScript(appState.webAnalyticsJsPath, 'head');
     }
-  }
+  }, [appState.webAnalyticsJsPath]);
 
-  trackPage = () => {
-    const { location } = this.props;
-    const { lastLocation } = this.state;
-    const locationChanged = location.pathname !== lastLocation;
+  useEffect(() => {
     const webAnalyticsPageChange = getWebAnalyticsPageHandlerFromCache();
-
-    if (webAnalyticsPageChange && locationChanged) {
-      this.setState({ lastLocation: location.pathname });
-      setTimeout(() => webAnalyticsPageChange(location.pathname), 500);
+    if (webAnalyticsPageChange && location.pathname !== lastTrackedPath.current) {
+      lastTrackedPath.current = location.pathname;
+      const path = location.pathname;
+      const timer = setTimeout(() => {
+        webAnalyticsPageChange(path);
+      }, 500);
+      return () => {
+        clearTimeout(timer);
+      };
     }
-  };
+    return undefined;
+  }, [location.pathname]);
 
-  render() {
-    const { appState } = this.props;
-
-    return (
-      <Helmet
-        defaultTitle={getInstance()}
-        defer={false}
-        onChangeClientState={appState.webAnalyticsJsPath ? this.trackPage : undefined}
-      >
-        {this.props.children}
-      </Helmet>
-    );
-  }
+  return (
+    <Helmet defaultTitle={getInstance()} defer={false}>
+      {children}
+    </Helmet>
+  );
 }
-
-export default withRouter(withAppStateContext(PageTracker));

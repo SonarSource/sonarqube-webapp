@@ -24,7 +24,7 @@ import withAppStateContext from '~sq-server-commons/context/app-state/withAppSta
 import { AppState } from '~sq-server-commons/types/appstate';
 import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import KeyboardShortcutsModal from './KeyboardShortcutsModal';
-import PageTracker from './PageTracker';
+import { PageTracker } from './PageTracker';
 
 interface Props {
   appState: AppState;

@@ -20,7 +20,7 @@
 
 import { Layout } from '@sonarsource/echoes-react';
 import { Outlet } from 'react-router-dom';
-import PageTracker from './PageTracker';
+import { PageTracker } from './PageTracker';
 
 export default function SimpleSessionsContainer() {
   return (

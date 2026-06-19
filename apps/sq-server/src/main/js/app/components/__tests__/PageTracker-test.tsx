@@ -26,7 +26,7 @@ import { installScript } from '~sq-server-commons/helpers/extensions';
 import { getWebAnalyticsPageHandlerFromCache } from '~sq-server-commons/helpers/extensionsHandler';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import PageTracker from '../PageTracker';
+import { PageTracker } from '../PageTracker';
 
 jest.mock('~sq-server-commons/helpers/extensions', () => ({
   installScript: jest.fn().mockResolvedValue({}),
