@@ -25,6 +25,7 @@ import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
 import { useSystemUpgrades } from '~sq-server-commons/queries/system';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { Permissions } from '~sq-server-commons/types/permissions';
+import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import { isLoggedIn } from '~sq-server-commons/types/users';
 import { parseVersion } from '~sq-server-commons/utils/update-notification-helpers';
 import { SQCBUpdateBanners } from './SQCBUpdateBanners';
@@ -38,8 +39,11 @@ export function UpdateNotification({ isGlobalBanner }: Readonly<Props>) {
   const appState = useAppState();
   const { currentUser } = useCurrentUser();
 
+  const isAdmin = isLoggedIn(currentUser) && hasGlobalPermission(currentUser, Permissions.Admin);
+  const visibility = appState.settings[GlobalSettingKeys.BannersVisibility] ?? 'ADMINS_ONLY';
+
   const canUserSeeNotification =
-    isLoggedIn(currentUser) && hasGlobalPermission(currentUser, Permissions.Admin);
+    visibility !== 'DISABLED' && isLoggedIn(currentUser) && (visibility === 'ALL' || isAdmin);
 
   const parsedVersion = parseVersion(appState.version);
 
