@@ -1824,6 +1824,20 @@ export const defaultMessages = {
   'dependencies.risks.status_x_click_to_change_for_y':
     'Dependency risk status: {status} for {riskTitle}, click to change',
   'dependencies.risks.assignee_for_risk': 'Assignee for {riskTitle}',
+  'dependencies.risks.bulk_change.select_all': 'Select all dependency risks',
+  'dependencies.risks.bulk_change.select_risk': 'Select {riskTitle}',
+  'dependencies.risks.bulk_change.modify': 'Change',
+  'dependencies.risks.bulk_change.selected': '{count} selected',
+  'dependencies.risks.bulk_change.too_many_selected':
+    'You can modify up to {max} dependency risks at once.',
+  'dependencies.risks.bulk_change.title': 'Modify selected risks',
+  'dependencies.risks.bulk_change.description':
+    'Apply changes to {count} selected {count, plural, one {dependency risk} other {dependency risks}}.',
+  'dependencies.risks.bulk_change.assignee': 'Bulk change assignee',
+  'dependencies.risks.bulk_change.severity': 'Change severity',
+  'dependencies.risks.bulk_change.status': 'Change status',
+  'dependencies.risks.bulk_change.success': 'Bulk change applied.',
+  'dependencies.risks.bulk_change.error': 'Bulk change failed.',
 
   'dependencies.risks.all': 'All risks',
   'dependencies.risks.type': 'Risk type',
