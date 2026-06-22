@@ -80,8 +80,9 @@ module.exports = [
       'private/libs/feature-dashboards/tailwind*.js',
       'private/libs/feature-dashboards/script/**',
       'private/libs/feature-dashboards/config/**',
-      // Snapshot files should never be linted
-      '**/*.snap',
+
+      // NX automation template files should never be linted
+      'tools/nx-automation/**/*.template',
     ],
   },
 
@@ -104,9 +105,9 @@ module.exports = [
     },
   },
 
-  // ─── Base JS config (all JS/TS/TSX/snap files) ────────────────────────────
+  // ─── Base JS config (all JS/TS/TSX files) ────────────────────────────
   {
-    files: ['**/*.{js,ts,tsx,snap}'],
+    files: ['**/*.{js,ts,tsx}'],
     ...js.configs.recommended,
     languageOptions: {
       ecmaVersion: 2022,
@@ -730,11 +731,14 @@ module.exports = [
     },
   },
 
-  // ─── nx-automation: disable header for .template files ───────────────────
+  // ─── sq-cloud-metrics ──
   {
-    files: ['tools/nx-automation/**/*.template'],
+    files: ['private/sq-cloud-metrics/**/*.{js,ts}'],
     rules: {
-      'header/header': 'off',
+      'import/extensions': 'off',
+      'no-console': 'off',
+      'no-unused-vars': ['error', { ignoreRestSiblings: true }],
+      'local-rules/no-direct-axios-import': 'off',
     },
   },
 
@@ -770,7 +774,7 @@ module.exports = [
 
   // ─── Private apps/libs: override with SonarSource Sàrl copyright ─────────
   {
-    files: ['private/**/*.{js,ts,tsx,snap}'],
+    files: ['private/**/*.{js,ts,tsx}'],
     rules: {
       'header/header': [
         'error',
