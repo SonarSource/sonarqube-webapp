@@ -24,7 +24,8 @@ module.exports = {
   ...baseConfig.globalConfig,
   ...baseConfig.projectConfig,
   rootDir: '../../', // We need to run it from the workspace root to get coverage from libs
-  roots: ['<rootDir>/eslint-local-rules/'],
+  roots: ['<rootDir>/eslint-local-rules/', '<rootDir>/config/knip/'],
+  testPathIgnorePatterns: ['/node_modules/', '/build/', '/scripts/', '/config/jest/'],
   coverageDirectory: '<rootDir>/eslint-local-rules/build/reports/coverage',
   collectCoverageFrom: [
     'eslint-local-rules/**/*.{ts,tsx,js}',

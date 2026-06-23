@@ -26,7 +26,9 @@
       "dep-check",
       "format-check",
       "knip",
-      "test-eslint-local-rules"
+      "knip:report",
+      "test-eslint-local-rules",
+      "test-knip-report"
     ]
   },
   "scripts": {
@@ -53,7 +55,8 @@
     "scan-components": "node tools/scan-components/index.js",
     "ld-attribute-check": "node private/config/analyze-ld-context-attributes.mts",
     "knip": "NX_DAEMON=false knip",
-    "knip:ci": "NX_DAEMON=false knip --preprocessor ./config/knip/pr-changed-files-preprocessor.ts --no-config-hints --reporter github-actions --no-exit-code"
+    "knip:report": "NX_DAEMON=false knip --reporter ./config/knip/knip-sonarqube-reporter.ts --no-config-hints --no-exit-code",
+    "test-knip-report": "yarn jest -c eslint-local-rules/test-config/jest.config.js config/knip/__tests__/knip-sonarqube-reporter-test.ts"
   },
   "dependencies": {
     "@atlaskit/reduced-ui-pack": "19.1.2",
