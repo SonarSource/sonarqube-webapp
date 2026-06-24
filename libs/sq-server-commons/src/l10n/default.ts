@@ -6061,6 +6061,9 @@ export const defaultMessages = {
   'projects_role.securityhotspotadmin': 'Administer Security Hotspots',
   'projects_role.securityhotspotadmin.desc':
     'Resolve a Security Hotspot as reviewed (fixed or safe), reset it as to review (for private projects, users also need the "Browse" permission).',
+  'projects_role.architectureadmin': 'Administer Architecture',
+  'projects_role.architectureadmin.desc':
+    "Permission to manage the project's intended architecture.",
   'projects_role.user': 'Browse',
   'projects_role.user.desc':
     'Access a project, browse its measures and issues, confirm issues, change the assignee, comment on issues and change tags.',
