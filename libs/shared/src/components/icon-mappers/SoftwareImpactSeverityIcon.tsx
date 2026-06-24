@@ -26,7 +26,6 @@ import {
   IconSeverityLow,
   IconSeverityMedium,
 } from '@sonarsource/echoes-react';
-import { DesignTokensColorsIcons } from '@sonarsource/echoes-react/dist/types/design-tokens';
 import { useIntl } from 'react-intl';
 import { SoftwareImpactSeverity } from '../../types/clean-code-taxonomy';
 import { IssueSeverity } from '../../types/issues';
@@ -40,7 +39,7 @@ const severityIcons: Record<
   string,
   {
     Icon: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<HTMLSpanElement>>;
-    color: DesignTokensColorsIcons;
+    color: NonNullable<IconProps['color']>;
     severityImpactLabel: string;
   }
 > = {

@@ -27,7 +27,6 @@ import {
   IconChevronDown,
   Tooltip,
 } from '@sonarsource/echoes-react';
-import { PropsLabelAndHelpText } from '@sonarsource/echoes-react/dist/types/utils';
 import classNames from 'classnames';
 import * as React from 'react';
 import { ReactNode } from 'react';
@@ -43,7 +42,7 @@ interface StatusTransitionItem<T extends string> {
 
 interface StatusTransitionProps<T extends string> {
   buttonTooltipContent?: ReactNode;
-  dropdownHeader?: PropsLabelAndHelpText;
+  dropdownHeader?: NonNullable<React.ComponentProps<typeof DropdownMenu>['header']>;
   isOpen: boolean;
   isTransiting?: boolean;
   onOpenChange?: (isOpen: boolean) => void;

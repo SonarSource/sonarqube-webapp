@@ -19,8 +19,7 @@
  */
 
 import { screen, waitFor, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import { uniq } from 'lodash';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';

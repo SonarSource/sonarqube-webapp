@@ -19,8 +19,7 @@
  */
 
 import { screen, waitFor, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import ComputeEngineServiceMock from '~sq-server-commons/api/mocks/ComputeEngineServiceMock';
 import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslationServiceMock';

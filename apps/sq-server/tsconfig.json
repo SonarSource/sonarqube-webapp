@@ -6,25 +6,25 @@
 
       /* shared libraries aliases, following token is used in the nx shared-library generator */
       /* <<shared-libraries-aliases>> */
-      "~feature-dashboards/*": ["private/libs/feature-dashboards/src/*"],
-      "~feature-architecture/*": ["private/libs/feature-architecture/src/*"],
-      "~feature-jira/*": ["private/libs/feature-jira/src/*"],
-      "~feature-rules/*": ["libs/feature-rules/src/*"],
-      "~feature-sca/*": ["private/libs/feature-sca/src/*"],
-      "~private-shared/*": ["private/libs/shared/src/*"],
-      "~shared/*": ["libs/shared/src/*"],
+      "~feature-dashboards/*": ["../../private/libs/feature-dashboards/src/*"],
+      "~feature-architecture/*": ["../../private/libs/feature-architecture/src/*"],
+      "~feature-jira/*": ["../../private/libs/feature-jira/src/*"],
+      "~feature-rules/*": ["../../libs/feature-rules/src/*"],
+      "~feature-sca/*": ["../../private/libs/feature-sca/src/*"],
+      "~private-shared/*": ["../../private/libs/shared/src/*"],
+      "~shared/*": ["../../libs/shared/src/*"],
 
       /* adapters aliases */
-      "~adapters/*": ["libs/sq-server-commons/src/sq-server-adapters/*"],
+      "~adapters/*": ["../../libs/sq-server-commons/src/sq-server-adapters/*"],
 
       /* sq-server specific modules aliases */
-      "~sq-server-addons/*": ["private/libs/sq-server-addons/src/*", "libs/sq-server-addons/src/*"],
-      "~sq-server-features/*": ["private/libs/sq-server-features/src/*"],
-      "~sq-server-commons/*": ["libs/sq-server-commons/src/*"],
+      "~sq-server-addons/*": ["../../private/libs/sq-server-addons/src/*", "../../libs/sq-server-addons/src/*"],
+      "~sq-server-features/*": ["../../private/libs/sq-server-features/src/*"],
+      "~sq-server-commons/*": ["../../libs/sq-server-commons/src/*"],
 
       /* internal aliases */
-      "~design-system": ["libs/sq-server-commons/src/design-system/index.ts"],
-      "*": ["apps/sq-server/src/main/js/@types/*"]
+      "~design-system": ["../../libs/sq-server-commons/src/design-system/index.ts"],
+      "*": ["./src/main/js/@types/*"]
     }
   },
   "include": ["config/**/*", "src/**/*", "__mocks__/**/*", "../../**/libs/**/src/**/*"]

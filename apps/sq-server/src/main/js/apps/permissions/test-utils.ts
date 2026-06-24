@@ -19,7 +19,7 @@
  */
 
 import { waitFor } from '@testing-library/react';
-import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
+import { UserEvent } from '@testing-library/user-event';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { Visibility } from '~shared/types/component';
 import { Permissions } from '~sq-server-commons/types/permissions';

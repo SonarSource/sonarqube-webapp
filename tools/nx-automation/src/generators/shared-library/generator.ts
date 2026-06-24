@@ -28,7 +28,7 @@ import {
   Tree,
 } from '@nx/devkit';
 import { addTsConfigPath as addTsConfigPathToRoot, getRelativePathToRootTsConfig } from '@nx/js';
-import * as path from 'path';
+import * as path from 'node:path';
 import { GeneratorSharedLibrarySchema } from './types';
 
 export async function generatorSharedLibrary(tree: Tree, options: GeneratorSharedLibrarySchema) {
@@ -94,10 +94,14 @@ export async function generatorSharedLibrary(tree: Tree, options: GeneratorShare
       const tsconfigPath = path.join(projectRoot, 'tsconfig.json');
       const tsconfig = tree.read(tsconfigPath)?.toString();
       if (tsconfig) {
+        // The app tsconfigs have no `baseUrl`, so path aliases are resolved
+        // relative to the tsconfig location. Compute the lookup path relative
+        // to the app root instead of injecting the raw workspace-root path.
+        const relativeLookupPath = path.posix.relative(projectRoot, lookupPath);
         // Use string replacement to keep the comments intact
         const newTSConfig = tsconfig.replace(
           '<<shared-libraries-aliases>> */',
-          `<<shared-libraries-aliases>> */\n      "${importPath}": ["${lookupPath}"],`,
+          `<<shared-libraries-aliases>> */\n      "${importPath}": ["${relativeLookupPath}"],`,
         );
         tree.write(tsconfigPath, newTSConfig);
       }

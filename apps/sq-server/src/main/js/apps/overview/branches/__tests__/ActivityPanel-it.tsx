@@ -19,8 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import { Route, useSearchParams } from 'react-router-dom';
 import { MetricKey } from '~shared/types/metrics';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';

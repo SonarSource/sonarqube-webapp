@@ -28,7 +28,7 @@ import {
   OptionsOrGroups,
 } from 'react-select';
 import { AsyncProps } from 'react-select/async';
-import Select from 'react-select/dist/declarations/src/Select';
+import type Select from 'react-select/base';
 import tw from 'twin.macro';
 import { SearchHighlighterContext } from '~shared/components/SearchHighlighter';
 import { PopupPlacement, PopupZLevel, themeBorder } from '../../helpers';
@@ -42,7 +42,7 @@ import { DropdownToggler } from '../DropdownToggler';
 import { SearchSelect } from './SearchSelect';
 import { SearchSelectDropdownControl } from './SearchSelectDropdownControl';
 
-declare module 'react-select/dist/declarations/src/Select' {
+declare module 'react-select/base' {
   export interface Props<Option, IsMulti extends boolean, Group extends GroupBase<Option>> {
     minLength?: number;
   }

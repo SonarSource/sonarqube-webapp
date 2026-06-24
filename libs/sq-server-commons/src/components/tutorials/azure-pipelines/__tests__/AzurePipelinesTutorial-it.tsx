@@ -19,8 +19,7 @@
  */
 
 import { screen, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import { LanguagesServiceMock } from '../../../../api/mocks/LanguagesServiceMock';
 import UserTokensMock from '../../../../api/mocks/UserTokensMock';
 import { mockComponent } from '../../../../helpers/mocks/component';

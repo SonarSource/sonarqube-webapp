@@ -19,6 +19,7 @@
  */
 
 // Types ordered alphabetically to prevent merge conflicts
+import type { JSX } from 'react';
 
 export interface A11ySkipLink {
   key: string;
@@ -33,3 +34,5 @@ export interface Extension {
 
 export type QGStatus = 'ERROR' | 'NONE' | 'OK';
 export type QGStatusExtended = QGStatus | 'NOT_COMPUTED';
+
+export type TextNode = JSX.Element | string | Iterable<TextNode>;

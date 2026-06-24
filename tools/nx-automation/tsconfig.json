@@ -1,10 +1,14 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "commonjs",
     "outDir": "./dist/out-tsc",
     "declaration": true,
-    "types": ["node"]
+    // This is a CommonJS Node package (see package.json "type"); emit CJS and
+    // resolve accordingly instead of inheriting the base ESNext/bundler setup.
+    "module": "node16",
+    "moduleResolution": "node16",
+    "types": ["node", "jest"]
   },
+  "files": [],
   "include": ["src/**/*"]
 }

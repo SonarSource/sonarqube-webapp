@@ -26,7 +26,10 @@ import {
   differenceInSeconds,
   differenceInYears,
 } from 'date-fns';
-import { Props as FormattedRelativeTimeProps } from 'react-intl/src/components/relative';
+import { ComponentProps } from 'react';
+import { FormattedRelativeTime } from 'react-intl';
+
+type FormattedRelativeTimeProps = ComponentProps<typeof FormattedRelativeTime>;
 
 const UPDATE_INTERVAL_IN_SECONDS = 10;
 

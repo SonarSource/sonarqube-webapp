@@ -18,14 +18,30 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Tree, readProjectConfiguration } from '@nx/devkit';
+import { addProjectConfiguration, readProjectConfiguration, Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { generatorSharedLibrary } from '../generator';
 import { GeneratorSharedLibrarySchema } from '../types';
 
+const TSCONFIG_WITH_MARKER = [
+  '{',
+  '  "compilerOptions": {',
+  '    "paths": {',
+  '      /* <<shared-libraries-aliases>> */',
+  '      "~shared/*": ["../shared/src/*"]',
+  '    }',
+  '  }',
+  '}',
+  '',
+].join('\n');
+
 describe('generator shared-library', () => {
   let tree: Tree;
-  const options: GeneratorSharedLibrarySchema = { name: 'test' };
+  const options: GeneratorSharedLibrarySchema = {
+    name: 'test',
+    type: 'type:util',
+    visibility: 'visibility:public',
+  };
 
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace();
@@ -35,5 +51,29 @@ describe('generator shared-library', () => {
     await generatorSharedLibrary(tree, options);
     const config = readProjectConfiguration(tree, 'test');
     expect(config).toBeDefined();
+  });
+
+  it('inserts library aliases relative to each app tsconfig (no baseUrl)', async () => {
+    addProjectConfiguration(tree, 'sq-server', {
+      root: 'apps/sq-server',
+      projectType: 'application',
+    });
+    addProjectConfiguration(tree, 'sq-cloud', {
+      root: 'private/apps/sq-cloud',
+      projectType: 'application',
+    });
+    tree.write('apps/sq-server/tsconfig.json', TSCONFIG_WITH_MARKER);
+    tree.write('private/apps/sq-cloud/tsconfig.json', TSCONFIG_WITH_MARKER);
+
+    await generatorSharedLibrary(tree, options);
+
+    // sq-server lives two levels below the workspace root.
+    expect(tree.read('apps/sq-server/tsconfig.json', 'utf-8')).toMatch(
+      /"~test\/\*":\s*\[\s*"\.\.\/\.\.\/libs\/test\/src\/\*"\s*\]/,
+    );
+    // sq-cloud lives three levels below the workspace root.
+    expect(tree.read('private/apps/sq-cloud/tsconfig.json', 'utf-8')).toMatch(
+      /"~test\/\*":\s*\[\s*"\.\.\/\.\.\/\.\.\/libs\/test\/src\/\*"\s*\]/,
+    );
   });
 });

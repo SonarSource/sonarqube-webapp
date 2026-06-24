@@ -19,8 +19,7 @@
  */
 
 import { RenderOptions, RenderResult, render as rtlRender } from '@testing-library/react';
-import userEvent, { UserEvent } from '@testing-library/user-event';
-import { Options as UserEventsOptions } from '@testing-library/user-event/dist/types/options';
+import userEvent, { UserEvent, Options as UserEventsOptions } from '@testing-library/user-event';
 import { InitialEntry } from 'history';
 import { ldClientMock } from 'jest-launchdarkly-mock';
 import { identity, kebabCase } from 'lodash';

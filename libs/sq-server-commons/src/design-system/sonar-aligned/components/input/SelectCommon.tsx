@@ -30,7 +30,7 @@ import {
   OptionProps,
   StylesConfig,
 } from 'react-select';
-import Select from 'react-select/dist/declarations/src/Select';
+import type Select from 'react-select/base';
 import SearchHighlighter from '~shared/components/SearchHighlighter';
 import { ChevronDownIcon } from '../../../components/icons';
 import { INPUT_SIZES } from '../../../helpers';

@@ -21,7 +21,7 @@
 import { EchoesProviderForTests } from '@sonarsource/echoes-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Matcher, RenderResult, render, screen, within } from '@testing-library/react';
-import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
+import { UserEvent } from '@testing-library/user-event';
 import { omit } from 'lodash';
 import * as React from 'react';
 import { HelmetProvider } from 'react-helmet-async';

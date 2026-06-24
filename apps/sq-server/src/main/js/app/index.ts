@@ -35,7 +35,7 @@ import { loadL10nBundle } from '~sq-server-commons/helpers/l10nBundle';
 import { getBaseUrl, getSystemStatus, initMockApi } from '~sq-server-commons/helpers/system';
 import { Feature } from '~sq-server-commons/types/features';
 import { SettingsKey } from '~sq-server-commons/types/settings';
-import './styles/sonar.ts';
+import './styles/sonar';
 
 initAppVariables();
 installWebAnalyticsHandler();
