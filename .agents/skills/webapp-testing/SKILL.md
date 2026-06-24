@@ -174,6 +174,8 @@ when waiting for something to happen on the screen
 
 .waitForElementToBeRemoved should be used instead of .findBy when waiting for something to disappear from the screen
 
+within() should not be used.  Use chaining instead.  i.e. `byRole(...).byRole(...)`
+
 don't forget to await when using waitFor, findBy or user events, otherwise the assertion won't be done (ESLint should remind you of that)
 
 when using RTL query functions, avoid using regexes unless necessary: it makes the test less readable with no real benefit
