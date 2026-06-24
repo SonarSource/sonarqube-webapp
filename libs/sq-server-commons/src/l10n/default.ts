@@ -7025,7 +7025,7 @@ export const defaultMessages = {
   'promotion.community_build_security.title': 'Limited security analysis',
   'promotion.community_build_security.text':
     'SonarQube Community Build does not scan for critical injection vulnerabilities (SQL injection, XSS, and more).',
-  'promotion.community_build_security.action': 'Explore commercial editions',
+  'promotion.community_build_security.action': 'Explore other editions',
 
   //------------------------------------------------------------------------------
   //
