@@ -64,6 +64,8 @@ const ui = {
   // Navigation items
   onboardingLink: byRole('link', { name: 'onboarding.project_analysis.menu_entry' }),
   overviewLink: byRole('link', { name: 'overview.page' }),
+  portfolioHealthDashboardLink: byRole('link', { name: 'portfolio_dashboards.health.page' }),
+  allDashboardsLink: byRole('link', { name: 'portfolio_dashboards.all.page' }),
   issuesLink: byRole('link', { name: 'issues.page' }),
   securityHotspotsLink: byRole('link', { name: 'layout.security_hotspots deprecated' }),
   securityReportsLink: byRole('link', { name: 'layout.security_reports' }),
@@ -266,6 +268,8 @@ describe('ComponentNav', () => {
 
       expect(ui.navigationItemsList()).toEqual([
         'overview.page',
+        'portfolio_dashboards.health.page',
+        'portfolio_dashboards.all.page',
         'portfolio_breakdown.page',
         'issues.page',
         'layout.security_reports',
@@ -273,6 +277,16 @@ describe('ComponentNav', () => {
         'project_activity.page',
       ]);
       expect(ui.overviewLink.get()).toBeInTheDocument();
+      expect(ui.portfolioHealthDashboardLink.get()).toBeInTheDocument();
+      expect(ui.portfolioHealthDashboardLink.get()).toHaveAttribute(
+        'href',
+        expect.stringContaining('/portfolio/dashboards/built-in/portfolio-health?id='),
+      );
+      expect(ui.allDashboardsLink.get()).toBeInTheDocument();
+      expect(ui.allDashboardsLink.get()).toHaveAttribute(
+        'href',
+        expect.stringContaining('/portfolio/dashboards?id='),
+      );
       expect(ui.issuesLink.get()).toBeInTheDocument();
       expect(ui.measuresLink.get()).toBeInTheDocument();
       expect(ui.activityLink.get()).toBeInTheDocument();

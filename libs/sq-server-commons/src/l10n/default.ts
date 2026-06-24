@@ -896,6 +896,9 @@ export const defaultMessages = {
   'issues.skip_to_list': 'Skip to issues list',
   'view_projects.page': 'Projects',
   'portfolios.page': 'Portfolios',
+  'portfolio_dashboards.page': 'Dashboards',
+  'portfolio_dashboards.health.page': 'Portfolio health dashboard',
+  'portfolio_dashboards.all.page': 'All dashboards',
   'portfolio_breakdown.page': 'Portfolio breakdown',
   'project_activity.page': 'Activity',
 
