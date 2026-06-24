@@ -26,6 +26,7 @@ export const PERMISSIONS_ORDER = [
   'codeviewer',
   'issueadmin',
   'securityhotspotadmin',
+  'architectureadmin',
   'admin',
   'scan',
 ];

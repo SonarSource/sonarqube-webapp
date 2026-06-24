@@ -28,6 +28,7 @@ export const PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE = [
   Permissions.CodeViewer,
   Permissions.IssueAdmin,
   Permissions.SecurityHotspotAdmin,
+  Permissions.ArchitectureAdmin,
   Permissions.Admin,
   Permissions.Scan,
 ];

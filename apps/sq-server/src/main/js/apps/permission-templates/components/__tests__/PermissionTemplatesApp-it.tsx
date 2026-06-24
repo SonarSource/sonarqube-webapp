@@ -99,8 +99,9 @@ describe('rendering', () => {
     await ui.checkTooltip(user, 1, `projects_role.${Permissions.CodeViewer}.desc`);
     await ui.checkTooltip(user, 2, `projects_role.${Permissions.IssueAdmin}.desc`);
     await ui.checkTooltip(user, 3, `projects_role.${Permissions.SecurityHotspotAdmin}.desc`);
-    await ui.checkTooltip(user, 4, `projects_role.${Permissions.Admin}.desc`);
-    await ui.checkTooltip(user, 5, 'projects_role.scan.desc');
+    await ui.checkTooltip(user, 4, `projects_role.${Permissions.ArchitectureAdmin}.desc`);
+    await ui.checkTooltip(user, 5, `projects_role.${Permissions.Admin}.desc`);
+    await ui.checkTooltip(user, 6, 'projects_role.scan.desc');
   });
 
   it('should render the correct template', async () => {
