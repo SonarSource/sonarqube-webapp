@@ -14,11 +14,13 @@
     "core-js",
     "csstype",
     "env-cmd",
+    "globals",
     "jest-environment-node",
     "jsonc-eslint-parser",
     "nyc",
     "regenerator-runtime",
-    "ts-node"
+    "ts-node",
+    "typescript-eslint"
   ],
   "ignoreUnresolved": ["~sq-server-commons/design-system"],
   "workspaces": {
@@ -44,12 +46,7 @@
         ]
       },
       "eslint": {
-        "config": [
-          ".eslintrc.js",
-          ".eslintrc.rules.js",
-          "private/.eslintrc-private.js",
-          "{libs,private/libs}/**/.eslintrc.js"
-        ]
+        "config": ["eslint.config.js"]
       },
       "jest": {
         "config": [
@@ -87,7 +84,7 @@
         "config": ["config/jest/JestPreprocess.js"]
       },
       "eslint": {
-        "config": [".eslintrc.js"]
+        "config": ["../../eslint.config.js"]
       },
       "jest": {
         "config": ["jest.config.js", "jest.config.ci.js"]
@@ -107,7 +104,7 @@
         "config": ["babel-plugin-macros.config.js", "config/jest/JestPreprocess.js"]
       },
       "eslint": {
-        "config": [".eslintrc.js"]
+        "config": ["../../../eslint.config.js"]
       },
       "jest": {
         "config": ["config/jest/jest.config*.js"]
@@ -127,7 +124,7 @@
       "entry": ["tests/**/*.{ts,tsx}", "fixtures/**/*.{ts,tsx}", "utils/**/*.{ts,tsx}"],
       "project": ["**/*.{ts,tsx,js}", "!resources/**"],
       "eslint": {
-        "config": [".eslintrc.js"]
+        "config": ["../../eslint.config.js"]
       },
       "playwright": {
         "config": ["playwright.config.ts"]
@@ -141,7 +138,7 @@
       "entry": ["src/index.ts", "src/generators/**/generator.ts"],
       "project": ["src/**/*.{ts,js}", "!src/generators/**/files/**"],
       "eslint": {
-        "config": [".eslintrc.js"]
+        "config": ["../../eslint.config.js"]
       },
       "nx": {
         "config": ["generators.json", "project.json"]
