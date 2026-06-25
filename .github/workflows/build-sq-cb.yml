@@ -66,7 +66,11 @@ jobs:
           if-no-files-found: warn
 
   unit-test:
-    name: Unit tests SQ-Community Build
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
+    name: Unit tests SQ-Community Build (shard ${{ matrix.shard }} of ${{ strategy.job-total }})
     runs-on: github-ubuntu-latest-l
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -76,15 +80,17 @@ jobs:
         shell: bash
         env:
           NODE_OPTIONS: --max-old-space-size=8192
-          SHARD_VALUE: 1
-          SHARD_TOTAL: 1
+          SHARD_VALUE: ${{ matrix.shard }}
+          SHARD_TOTAL: ${{ strategy.job-total }}
         run: |
           yarn nx test-ci-shard sq-server --output-style=static
+          mv $REPORTS_PATH/coverage/coverage-final.json $REPORTS_PATH/coverage/coverage-${SHARD_VALUE}.json
+          mv $REPORTS_PATH/ctrf/ctrf-report.json $REPORTS_PATH/ctrf/ctrf-report-${SHARD_VALUE}.json
       - name: Upload unit test results
-        if: success()
+        if: always()
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         with:
-          name: sq-cb-results-scan-coverage
+          name: sq-cb-results-test-unit-shard-${{ matrix.shard }}
           path: |
             ${{ env.REPORTS_PATH }}/**
           if-no-files-found: warn
@@ -104,12 +110,26 @@ jobs:
           # Disabling shallow clones is recommended for improving the relevance of reporting
           fetch-depth: 0
       - uses: ./.github/actions/yarn-install
-      - name: Download coverage and lint reports
+      - name: Download lint reports
         uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8
         with:
-          pattern: sq-cb-results-scan-*
+          pattern: sq-cb-results-scan-lint
           path: build/reports/
           merge-multiple: true
+      - name: Download unit test coverage reports
+        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8
+        with:
+          pattern: sq-cb-results-test-unit-*
+          path: ${{ env.REPORTS_PATH }}/
+          merge-multiple: true
+      - name: Merge test coverage
+        shell: bash
+        env:
+          NX_ISOLATE_PLUGINS: false
+        run: |
+          yarn nx test-coverage-merge sq-server --output-style=static
+          mkdir -p build/reports/coverage
+          cp $REPORTS_PATH/coverage/lcov.info build/reports/coverage/lcov.info
       - name: Scan SQ-Community Build on Next
         shell: bash
         env:
