@@ -11,6 +11,7 @@
 /*.js                                               @SonarSource/platform-front-end-eng-squad
 /*.ts                                               @SonarSource/platform-front-end-eng-squad
 /*.code-workspace                                   @SonarSource/platform-front-end-eng-squad
+/*.md                                               @SonarSource/platform-front-end-eng-squad
 
 # Apps' config files
 
@@ -22,6 +23,8 @@
 
 /.github/                                           @SonarSource/platform-front-end-eng-squad
 /.vscode/                                           @SonarSource/platform-front-end-eng-squad
+/.gitar/                                            @SonarSource/platform-front-end-eng-squad
+/.agents/                                           @SonarSource/platform-front-end-eng-squad
 /apps/sq-server/config                              @SonarSource/platform-front-end-eng-squad
 /apps/sq-server/public                              @SonarSource/platform-front-end-eng-squad
 /apps/sq-server/public/images                       # No owner for images
