@@ -20,7 +20,7 @@
 
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
-import { useCurrentBranchQuery } from '~adapters/queries/branch';
+import { useCurrentBranchQuery, useProjectBranchesQuery } from '~adapters/queries/branch';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isPullRequest } from '~shared/helpers/branch-like';
 import { isPortfolioLike } from '~shared/helpers/component';
@@ -44,10 +44,15 @@ export function App(props: AppProps) {
   const { hasFeature } = useAvailableFeatures();
   const { component } = props;
   const { data: branchLike } = useCurrentBranchQuery(component);
+  const { data: branchLikes = [] } = useProjectBranchesQuery(component);
 
   if (isPortfolioLike(component.qualifier) || !branchLike) {
     return null;
   }
+
+  // Keep the branch selector available when other branches exist, so users can
+  // navigate to an analyzed branch even if the current branch has no analysis yet.
+  const hasBranches = branchLikes.length > 1;
 
   const branchSupportEnabled = hasFeature(Feature.BranchSupport) && isDefined(addons.branches);
 
@@ -70,7 +75,7 @@ export function App(props: AppProps) {
 
           {!isStringDefined(component.analysisDate) && (
             <ProjectPageTemplate
-              disableBranchSelector
+              disableBranchSelector={!hasBranches}
               pageClassName="it__empty-overview"
               title={intl.formatMessage({ id: 'overview.page' })}
             >

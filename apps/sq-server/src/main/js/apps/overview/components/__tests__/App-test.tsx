@@ -19,6 +19,7 @@
  */
 
 import { screen, waitFor } from '@testing-library/react';
+import { ReactNode } from 'react';
 import { ComponentQualifier } from '~shared/types/component';
 import { getScannableProjects } from '~sq-server-commons/api/components';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
@@ -39,6 +40,23 @@ import { App } from '../App';
 
 jest.mock('~sq-server-addons/index', () => ({
   addons: { branches: { PullRequestOverview: () => 'PullRequestOverview' } },
+}));
+
+jest.mock('~shared/components/pages/ProjectPageTemplate', () => ({
+  ProjectPageTemplate: ({
+    children,
+    disableBranchSelector,
+  }: {
+    children: ReactNode;
+    disableBranchSelector?: boolean;
+  }) => (
+    <div>
+      <button disabled={disableBranchSelector} type="button">
+        mock branch selector
+      </button>
+      {children}
+    </div>
+  ),
 }));
 
 jest.mock('~sq-server-commons/api/components', () => ({
@@ -108,6 +126,37 @@ it('should render Empty Overview on main branch with multiple branches with bad 
       'provisioning.no_analysis_on_main_branch.bad_configuration.main.branches.main_branch',
     ),
   ).toBeInTheDocument();
+});
+
+it('should keep the branch selector enabled on the empty overview when other branches exist', async () => {
+  // Default mock has several branches, so the user must be able to navigate to
+  // an analyzed branch even though the current (main) branch has no analysis.
+  renderApp();
+
+  await appLoaded();
+
+  // The empty-overview warning confirms we are on the empty overview (and not the
+  // analyzed BranchOverview, which also renders a ProjectPageTemplate).
+  expect(
+    await screen.findByText(
+      'provisioning.no_analysis_on_main_branch.bad_configuration.main.branches.main_branch',
+    ),
+  ).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'mock branch selector' })).toBeEnabled();
+});
+
+it('should disable the branch selector on the empty overview when only the main branch exists', async () => {
+  handlerBranches.emptyBranchesAndPullRequest();
+  handlerBranches.addBranch(mockMainBranch({ name: 'main' }));
+
+  renderApp({}, mockCurrentUser());
+
+  await appLoaded();
+
+  expect(
+    await screen.findByText('provisioning.no_analysis_on_main_branch.main'),
+  ).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'mock branch selector' })).toBeDisabled();
 });
 
 it('should not render for portfolios and subportfolios', () => {
