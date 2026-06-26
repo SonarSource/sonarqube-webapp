@@ -61,6 +61,7 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
   const showAiGeneratedCode = isProj && hasFeature(Feature.AiCodeAssurance) && addons.aica;
   const isGovernanceEnabled = appState.qualifiers.includes(ComponentQualifier.Portfolio);
   const showPortfolioReportSettings = isPortfolio && isGovernanceEnabled;
+  const showApplicationReportSettings = isApp && isGovernanceEnabled;
   const showDeletion = [
     ComponentQualifier.Project,
     ComponentQualifier.Portfolio,
@@ -133,6 +134,16 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
           <FormattedMessage defaultMessage={name} id={name} />
         </Layout.SidebarNavigation.Item>
       ))}
+
+      {showApplicationReportSettings && (
+        <Layout.SidebarNavigation.Item
+          Icon={IconGear}
+          disableIconWhenSidebarOpen
+          to={{ pathname: '/project/admin/application-report', search }}
+        >
+          <FormattedMessage id="application_settings.report" />
+        </Layout.SidebarNavigation.Item>
+      )}
 
       {showPortfolioReportSettings && (
         <Layout.SidebarNavigation.Item

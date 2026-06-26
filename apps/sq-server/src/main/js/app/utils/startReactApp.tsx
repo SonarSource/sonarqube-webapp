@@ -120,14 +120,16 @@ import { GlobalStyles } from '../styles/GlobalStyles';
 import exportModulesAsGlobals from './exportModulesAsGlobals';
 
 function renderComponentRoutes({
+  hasAicaFeature,
+  hasApplicationFeature,
   hasArchitectureFeature,
   hasBranchSupport,
-  hasScaFeature,
-  hasAicaFeature,
   hasPortfolioFeature,
+  hasScaFeature,
   hasSecurityReportsFeature,
 }: {
   hasAicaFeature: boolean;
+  hasApplicationFeature: boolean;
   hasArchitectureFeature: boolean;
   hasBranchSupport: boolean;
   hasPortfolioFeature: boolean;
@@ -169,6 +171,9 @@ function renderComponentRoutes({
       <Route path="project">
         {/* Pages migrated to the new layout get their <main> from Layout.PageContent */}
         <Route element={<ProjectAdminContainer skipMainWrapper />}>
+          {/* Extensions moved to the monorepo */}
+          {hasApplicationFeature && addons.applicationReport?.componentRoutes()}
+
           {/* Migrated internal Sonar project admin extensions */}
           {projectAdminExtensionMigratedRoutes()}
 
@@ -324,6 +329,7 @@ const router = ({
                 hasScaFeature: availableFeatures.includes(Feature.Sca),
                 hasAicaFeature: availableFeatures.includes(Feature.AiCodeAssurance),
                 hasPortfolioFeature: governanceInstalled,
+                hasApplicationFeature: governanceInstalled,
                 hasSecurityReportsFeature: isEnterprise,
               })}
 
