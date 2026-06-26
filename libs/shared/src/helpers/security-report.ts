@@ -18,12 +18,23 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export function automaticReportDownload({ downloadLink }: { downloadLink: string }) {
+export function automaticReportDownload({
+  downloadLink,
+  downloadName,
+}: {
+  downloadLink: string;
+  downloadName?: string;
+}) {
   const link = document.createElement('a');
   link.href = downloadLink;
   link.hidden = true;
   link.rel = 'noopener noreferrer';
   link.target = '_blank';
+
+  if (downloadName) {
+    link.download = downloadName;
+  }
+
   document.body.appendChild(link);
   link.click();
   link.remove();

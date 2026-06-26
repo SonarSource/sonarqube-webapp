@@ -29,6 +29,7 @@ import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServic
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { AppState } from '~sq-server-commons/types/appstate';
+import { EditionKey } from '~sq-server-commons/types/editions';
 import { Feature } from '~sq-server-commons/types/features';
 import { ComponentNav } from '../ComponentNav';
 
@@ -253,18 +254,15 @@ describe('ComponentNav', () => {
   });
 
   describe('portfolio and security reports navigation', () => {
-    it('should render limited menu items for portfolios', () => {
+    it('should render limited menu items for portfolios (SQCB)', () => {
       const component = mockComponent({
         qualifier: ComponentQualifier.Portfolio,
         breadcrumbs: [{ key: 'foo', name: 'Foo', qualifier: ComponentQualifier.Portfolio }],
         analysisDate: '2024-01-01',
-        extensions: [
-          { key: 'governance/portfolio', name: 'Governance Portfolio' },
-          { key: 'securityreport/', name: 'Security Reports' },
-        ],
+        extensions: [{ key: 'governance/portfolio', name: 'Governance Portfolio' }],
       });
 
-      renderComponentNav({ component });
+      renderComponentNav({ component }, []);
 
       expect(ui.navigationItemsList()).toEqual([
         'overview.page',
@@ -272,31 +270,20 @@ describe('ComponentNav', () => {
         'portfolio_dashboards.all.page',
         'portfolio_breakdown.page',
         'issues.page',
-        'layout.security_reports',
         'layout.measures',
         'project_activity.page',
       ]);
       expect(ui.overviewLink.get()).toBeInTheDocument();
-      expect(ui.portfolioHealthDashboardLink.get()).toBeInTheDocument();
-      expect(ui.portfolioHealthDashboardLink.get()).toHaveAttribute(
-        'href',
-        expect.stringContaining('/portfolio/dashboards/built-in/portfolio-health?id='),
-      );
-      expect(ui.allDashboardsLink.get()).toBeInTheDocument();
-      expect(ui.allDashboardsLink.get()).toHaveAttribute(
-        'href',
-        expect.stringContaining('/portfolio/dashboards?id='),
-      );
       expect(ui.issuesLink.get()).toBeInTheDocument();
       expect(ui.measuresLink.get()).toBeInTheDocument();
       expect(ui.activityLink.get()).toBeInTheDocument();
-      expect(ui.securityReportsLink.get()).toBeInTheDocument();
 
       // Portfolios don't show security hotspots or code
       expect(ui.securityHotspotsLink.query()).not.toBeInTheDocument();
       expect(ui.codeLink.query()).not.toBeInTheDocument();
       expect(ui.appCodeLink.query()).not.toBeInTheDocument();
     });
+
   });
 
   describe('extensions menu', () => {
@@ -382,7 +369,11 @@ describe('ComponentNav', () => {
   });
 });
 
-function renderComponentNav(props: ComponentProps<typeof ComponentNav>, features: Feature[] = []) {
+function renderComponentNav(
+  props: ComponentProps<typeof ComponentNav>,
+  features: Feature[] = [],
+  edition = EditionKey.community,
+) {
   const { component, isInProgress = false, isPending = false } = props;
 
   measuresHandler.setComponents({ component, ancestors: [], children: [] });
@@ -391,7 +382,10 @@ function renderComponentNav(props: ComponentProps<typeof ComponentNav>, features
     <ComponentNav component={component} isInProgress={isInProgress} isPending={isPending} />,
     {
       availableFeatures: features,
-      appState: { qualifiers: [ComponentQualifier.Portfolio] } as AppState,
+      appState: {
+        edition,
+        qualifiers: [ComponentQualifier.Portfolio],
+      } as AppState,
     },
   );
 }

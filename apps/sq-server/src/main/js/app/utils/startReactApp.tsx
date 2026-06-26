@@ -56,6 +56,7 @@ import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { queryClient } from '~sq-server-commons/queries/queryClient';
 import A11ySkipLinks from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipLinks';
 import { AppState } from '~sq-server-commons/types/appstate';
+import { EditionKey } from '~sq-server-commons/types/editions';
 import { Feature } from '~sq-server-commons/types/features';
 import { CurrentUser } from '~sq-server-commons/types/users';
 import accountRoutes from '../../apps/account/routes';
@@ -123,12 +124,14 @@ function renderComponentRoutes({
   hasScaFeature,
   hasAicaFeature,
   hasPortfolioFeature,
+  hasSecurityReportsFeature,
 }: {
   hasAicaFeature: boolean;
   hasArchitectureFeature: boolean;
   hasBranchSupport: boolean;
   hasPortfolioFeature: boolean;
   hasScaFeature: boolean;
+  hasSecurityReportsFeature: boolean;
 }) {
   return (
     <Route element={<ComponentContainer />}>
@@ -138,6 +141,7 @@ function renderComponentRoutes({
         {componentMeasuresRoutes()}
         {overviewRoutes()}
         {hasPortfolioFeature && addons.portfolios?.componentRoutes()}
+        {hasSecurityReportsFeature && addons.securityReports?.componentRoutes()}
 
         {projectActivityRoutes()}
         <Route
@@ -240,10 +244,12 @@ const PluginRiskConsent = lazyLoadComponent(() => import('../components/PluginRi
 const router = ({
   availableFeatures,
   governanceInstalled,
+  isEnterprise,
   optInFeatures,
 }: {
   availableFeatures: Feature[];
   governanceInstalled: boolean;
+  isEnterprise: boolean;
   optInFeatures: Feature[];
 }) =>
   createBrowserRouter(
@@ -315,6 +321,7 @@ const router = ({
                 hasScaFeature: availableFeatures.includes(Feature.Sca),
                 hasAicaFeature: availableFeatures.includes(Feature.AiCodeAssurance),
                 hasPortfolioFeature: governanceInstalled,
+                hasSecurityReportsFeature: isEnterprise,
               })}
 
               {availableFeatures.includes(Feature.Sca) && addons.sca?.licenseRoutes}
@@ -376,6 +383,9 @@ export default function startReactApp(
   const root = createRoot(el as HTMLElement);
   const governanceInstalled = Boolean(appState?.qualifiers.includes(ComponentQualifier.Portfolio));
 
+  const isEnterprise =
+    appState?.edition === EditionKey.enterprise || appState?.edition === EditionKey.datacenter;
+
   root.render(
     <>
       <HelmetProvider>
@@ -390,7 +400,12 @@ export default function startReactApp(
                       <Helmet titleTemplate={translate('page_title.template.default')} />
 
                       <RouterProvider
-                        router={router({ availableFeatures, optInFeatures, governanceInstalled })}
+                        router={router({
+                          availableFeatures,
+                          optInFeatures,
+                          governanceInstalled,
+                          isEnterprise,
+                        })}
                       />
 
                       <ReactQueryDevtools initialIsOpen={false} />

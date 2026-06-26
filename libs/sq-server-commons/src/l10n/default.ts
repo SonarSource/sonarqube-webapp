@@ -9561,4 +9561,117 @@ export const defaultMessages = {
     "An error occurred. Please make sure you don't try to push the same issue twice to Jira.",
   'issue.jira.work_items_creation.success':
     'Jira work {count, plural, one {item} other {items}} <link>{jiraWorkItemKey}</link> has been successfully created and linked to {count} SonarQube {count, plural, one {issue} other {issues}}',
+
+  // ----------------------------------------------------------------------------
+  //
+  // Security Reports
+  //
+  // ----------------------------------------------------------------------------
+
+  'securityreport.name': 'Security Reports',
+  'securityreport.description_x':
+    'Track Issues impacting Security and Security Hotspots in your {component}. To learn more about security reports, visit our {link}',
+  'securityreport.description_x.link': 'user guide.',
+  'securityreport.activate_rules':
+    'Activate rules in this category to detect more security hotspots',
+  'securityreport.activate_rules.link': 'See all rules related to this category',
+  'securityreport.activate_hotspot_rules.link':
+    'See all security hotspot rules related to this category',
+  'securityreport.activate_rules.more_info': 'Activate rules',
+  'securityreport.cwe.description':
+    'The Common Weakness Enumeration (CWE™) is a community-developed list of software weaknesses. It provides a common reference, and as a baseline for weakness identification, mitigation, and prevention efforts.',
+  'securityreport.cwe.show': 'Show CWE distribution',
+  'securityreport.list.rank': 'Rank',
+  'securityreport.list.requirements': 'Requirements',
+  'securityreport.list.requirements.help':
+    'Issues and Hotspots may map to multiple requirements. For this reason the total number of Issues and Security Hotspots in this report might be superior to project metrics.',
+  'securityreport.list.cwe': 'CWEs',
+  'securityreport.list.cwe.help':
+    'Issues and Hotspots may map to multiple CWEs. For this reason the total number of Issues and Security Hotspots in this report might be superior to project metrics.',
+  'securityreport.list.categories': 'Categories',
+  'securityreport.list.categories.help':
+    'Issues and Security Hotspots may appear in multiple categories. This means that the sum of Issues or Security Hotspots in this section might be greater than the total number of Issues or Security Hotspots in the Project itself.',
+  'securityreport.list.vulnerabilities': 'Security',
+  'securityreport.list.security_hotspots': 'Security Hotspots',
+  'securityreport.list.dependency_risks': 'Dependency Risks',
+  'securityreport.line.reviewed': 'Reviewed',
+  'securityreport.owaspTop10': 'OWASP Top 10',
+  'securityreport.owaspMobileTop10': 'OWASP Mobile Top 10',
+  'securityreport.owaspLlmTop10': 'OWASP Top 10 for LLM',
+  'securityreport.owaspMasvs': 'OWASP MASVS',
+  'securityreport.pciDss': 'PCI DSS',
+  'securityreport.owaspAsvs': 'OWASP ASVS',
+  'securityreport.cweTop25': 'CWE Top 25',
+  'securityreport.sonarsourceSecurity': 'Sonar',
+  'securityreport.stig': 'STIG',
+  'securityreport.casa': 'CASA',
+  'securityreport.cra': 'EU CRA',
+  'securityreport.overall.vulnerabilities': 'Overall Security',
+  'securityreport.overall.review_rating': 'Overall Security Review',
+  'securityreport.review_rating': 'Security Review',
+  'securityreport.review_rating_help': 'Based on the percentage of reviewed Security Hotspots',
+  'securityreport.report.description':
+    'Security Issues and Security Hotspots conforming to the {0}.',
+  'securityreport.report.owaspTop10': 'OWASP Top 10 report',
+  'securityreport.report.owaspMobileTop10': 'OWASP Mobile Top 10 report',
+  'securityreport.report.owaspLlmTop10': 'OWASP Top 10 for LLM report',
+  'securityreport.report.owaspMasvs': 'OWASP Mobile Application Security Verification Standard',
+  'securityreport.report.pciDss': 'PCI DSS',
+  'securityreport.report.owaspAsvs': 'OWASP Application Security Verification Standard',
+  'securityreport.report.cweTop25': 'CWE Top 25 report',
+  'securityreport.report.sonarsourceSecurity': 'SonarSource standard',
+  'securityreport.report.stig': 'DISA Security Technical Implementation Guides',
+  'securityreport.report.casa': 'CASA',
+  'securityreport.report.cra': 'EU Cyber Resilience Act (CRA)',
+  'securityreport.context.portfolio': 'portfolio',
+  'securityreport.context.project': 'project',
+  'securityreport.download.pdf': 'Download security report {pdf}',
+  'securityreport.download.pdf.modal.title': 'Download Security report PDF',
+  'securityreport.download.pdf.modal.description':
+    'The Security report PDF provides an overview of Security issues and Security Hotspots for both New Code and Overall Code in your project.{br}{br}Additionally, you can customize which Security standards are included in the report.',
+  'securityreport.download.pdf.modal.submit_button_label': 'Download PDF',
+  'securityreport.download.pdf.modal.selected_count': '[{count}] Security standard(s) selected',
+  'securityreport.download.pdf.modal.selection_label':
+    'Choose Security standards to include in PDF',
+  'securityreport.download.pdf.modal.default_selection_text':
+    'Includes Security standards: Sonar, OWASP Top 10 2025, and CWE Top 25 2024',
+  'securityreport.download.pdf.modal.custom_selection_text':
+    'Choose one or more from the list of available Security standards',
+  'securityreport.download.pdf.modal.custom_selection_label': 'Select Security standard(s)',
+  'securityreport.download.pdf.modal.custom_selection_select_all': 'Select all',
+  'securityreport.download.pdf.modal.download_option.label.default': 'Default',
+  'securityreport.download.pdf.modal.download_option.label.custom': 'Custom selection',
+  'securityreport.standard.summary':
+    'Security issues and Security Hotspots conforming to {standard} security categories, ordered by impact. The report results are generated based on relevant active security rules in your {qualifier}.',
+  'securityreport.standard.summary.cra':
+    'Identify and remediate security gaps relative to the EU <link>Cyber Resilience Act</link> (CRA). This report tracks your progress across Annex I requirements, highlighting exactly where your software diverges from the standard.',
+  'securityreport.standard.summary.cra.information':
+    'Information: To meet EU Cyber Resilience Act requirements, please enable <advancedSecurityLink>SonarQube Advanced Security</advancedSecurityLink>. This provides the Software Bill of Materials (SBOM) and dependency analysis necessary for a compliant security posture.',
+  'securityreport.not_covered.warning':
+    'Not all {0} requirements can be detected using static analysis. Furthermore, some requirements that can be detected using static analysis are not yet supported by our analyzers. An empty or hidden requirement does not mean that the requirement is fulfilled.',
+  'securityreport.not_covered.warning.count': 'Currently, we analyze {0} requirements.',
+  'securityreport.total_vulnerabilities': 'Security issues to address',
+  'securityreport.total_hotspots': 'Security Hotspots that need review',
+  'securityreport.total_dependency_risks': 'Dependency Risks',
+  'securityreport.level': 'Level {0}',
+  'securityreport.label.version': 'Select {0} version',
+  'securityreport.label.owaspAsvs_level': 'Select OWASP ASVS level',
+  'securityreport.overview.title': 'Security reports overview',
+  'securityreport.overview.description':
+    'Track Security issues and Security Hotspots in your {qualifier}. Security Reports require an analysis to reflect any changes done to issues. Learn more about Security Reports in our <link>user guide.</link>',
+  'securityreport.overview_metric.security_rating.title': '{qualifier} overall Security rating',
+  'securityreport.overview_metric.security_review_rating.title':
+    '{qualifier} overall Security Review rating',
+  'securityreport.overview_metric.security_rating.description':
+    'Based on issues marked as potential weaknesses to hackers',
+  'securityreport.overview_metric.security_review_rating.description':
+    'Based on the percentage of hotspots reviewed',
+  'securityreport.overview_metric.sca_rating_any_security.title':
+    '{qualifier} overall Dependency Security Risk rating',
+  'securityreport.overview_metric.sca_rating_any_security.description':
+    'Based on severity of dependency security risks',
+  'securityreport.overview_metric.sca_rating_malware.title':
+    '{qualifier} overall Malicious Package Risk rating',
+  'securityreport.overview_metric.sca_rating_malware.description':
+    'Based on severity of malicious package risks',
 };

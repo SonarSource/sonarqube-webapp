@@ -20,7 +20,10 @@
 
 import { IconActivity, IconMeasures, IconReports, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { useIsEnterpriseTier } from '~adapters/helpers/plan';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
+import { isDefined } from '~shared/helpers/types';
+import { addons } from '~sq-server-addons/index';
 import { getActivityUrl } from '~sq-server-commons/helpers/urls';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Component } from '~sq-server-commons/types/types';
@@ -32,24 +35,23 @@ interface Props {
 
 export function ComponentNavReportingMenu(props: Readonly<Props>) {
   const { branchLike, component } = props;
-  const { extensions = [] } = component;
 
   const branchParameters = getBranchLikeQuery(branchLike);
   const search = new URLSearchParams({ id: component.key, ...branchParameters }).toString();
 
-  const isSecurityReportsEnabled =
-    !isPullRequest(branchLike) &&
-    extensions.some((extension) => extension.key.startsWith('securityreport/'));
+  const isEnterprise = useIsEnterpriseTier();
+
+  const isSecurityReportsEnabled = !isPullRequest(branchLike) && isEnterprise;
 
   return (
     <Layout.SidebarNavigation.Group
       label={<FormattedMessage id="navigation.project.group.reporting" />}
     >
-      {isSecurityReportsEnabled && (
+      {isSecurityReportsEnabled && isDefined(addons.securityReports) && (
         <Layout.SidebarNavigation.Item
           Icon={IconReports}
           to={{
-            pathname: '/project/extension/securityreport/securityreport',
+            pathname: '/project/security-reports',
             search,
           }}
         >
