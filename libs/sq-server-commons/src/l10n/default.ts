@@ -2561,8 +2561,15 @@ export const defaultMessages = {
   'architecture.relationships.validate.entry_point_placeholder': 'Select an entry point',
   'architecture.organization.title': 'Organization architecture',
   'architecture.organization.empty': 'No organization-wide architecture data available.',
-  'architecture.organization.node.unmapped_boundaries':
-    '{count, plural, one {# other system component found needs to be confirmed.} other {# other system components found need to be confirmed.}}',
+  'architecture.organization.node.not_mapped_yet': 'Not mapped yet: {boundaries}',
+  'architecture.organization.node.entry_points_count':
+    '{count, plural, one {# entry point} other {# entry points}}',
+  'architecture.organization.node.exit_points_count':
+    '{count, plural, one {# exit point} other {# exit points}}',
+  'architecture.organization.node.entry_points':
+    '{count, plural, one {Entry point} other {Entry points}}',
+  'architecture.organization.node.exit_points':
+    '{count, plural, one {Exit point} other {Exit points}}',
   'architecture.organization.intended.page': 'Intended architecture',
   'architecture.organization.intended.empty':
     'No intended architecture defined yet. Add a project from the sidebar to get started.',
