@@ -29,6 +29,13 @@ import routes from '../../routes';
 
 jest.mock('~sq-server-commons/helpers/handleRequiredAuthentication', () => jest.fn());
 
+jest.mock('~sq-server-commons/components/tutorials/TutorialSelection', () => ({
+  __esModule: true,
+  default() {
+    return <h1>onboarding.tutorial.choose_method</h1>;
+  },
+}));
+
 jest.mock('~sq-server-commons/api/components', () => ({
   getScannableProjects: jest.fn().mockResolvedValue({ projects: [] }),
 }));
