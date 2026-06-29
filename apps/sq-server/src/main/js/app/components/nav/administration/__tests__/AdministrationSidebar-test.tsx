@@ -20,9 +20,11 @@
 
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { Extension } from '~shared/types/common';
+import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { AdminPageExtension } from '~sq-server-commons/types/extension';
+import { AppState } from '~sq-server-commons/types/appstate';
 import { AdministrationSidebar } from '../AdministrationSidebar';
 
 jest.mock('~sq-server-addons/index', () => ({
@@ -65,14 +67,13 @@ it('render correctly with extensions', () => {
 });
 
 it('render correctly with governance extension', () => {
-  const extensions = [{ key: AdminPageExtension.GovernanceConsole, name: 'GovExt' }];
-  renderAdminSidebar(extensions);
+  renderAdminSidebar([], mockAppState({ qualifiers: [ComponentQualifier.Portfolio] }));
 
   expect(byRole('link').getAll()).toHaveLength(13);
   expect(byText('audit_logs.page').get()).toBeInTheDocument();
-  expect(byRole('link', { name: extensions[0].name }).get()).toBeInTheDocument();
+  expect(byText('portfolios.page').get()).toBeInTheDocument();
 });
 
-function renderAdminSidebar(extensions: Extension[] = []) {
-  renderApp('/', <AdministrationSidebar extensions={extensions} />, {});
+function renderAdminSidebar(extensions: Extension[] = [], appState?: AppState) {
+  renderApp('/', <AdministrationSidebar extensions={extensions} />, { appState });
 }

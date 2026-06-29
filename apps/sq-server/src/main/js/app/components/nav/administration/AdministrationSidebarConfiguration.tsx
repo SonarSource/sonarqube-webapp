@@ -25,10 +25,11 @@ import { addons } from '~sq-server-addons/index';
 
 interface Props {
   extensions: Extension[];
+  governanceInstalled: boolean;
 }
 
 export function AdministrationSidebarConfiguration(props: Readonly<Props>) {
-  const { extensions } = props;
+  const { extensions, governanceInstalled } = props;
 
   return (
     <Layout.SidebarNavigation.AccordionItem
@@ -59,6 +60,16 @@ export function AdministrationSidebarConfiguration(props: Readonly<Props>) {
       >
         <FormattedMessage id="webhooks.page" />
       </Layout.SidebarNavigation.Item>
+
+      {governanceInstalled && (
+        <Layout.SidebarNavigation.Item
+          Icon={IconGear}
+          disableIconWhenSidebarOpen
+          to="/admin/portfolios"
+        >
+          <FormattedMessage id="portfolios.page" />
+        </Layout.SidebarNavigation.Item>
+      )}
 
       {extensions.map(({ key, name }) => (
         <Layout.SidebarNavigation.Item

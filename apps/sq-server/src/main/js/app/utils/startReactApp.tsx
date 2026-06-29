@@ -173,6 +173,7 @@ function renderComponentRoutes({
         <Route element={<ProjectAdminContainer skipMainWrapper />}>
           {/* Extensions moved to the monorepo */}
           {hasApplicationFeature && addons.applicationReport?.componentRoutes()}
+          {hasPortfolioFeature && addons.portfolios?.componentAdminRoutes()}
 
           {/* Migrated internal Sonar project admin extensions */}
           {projectAdminExtensionMigratedRoutes()}
@@ -203,10 +204,12 @@ function renderComponentRoutes({
   );
 }
 
-function renderAdminRoutes() {
+function renderAdminRoutes({ hasPortfolioFeature }: { hasPortfolioFeature: boolean }) {
   return (
     <Route path="admin">
       <Route element={<AdminContainer />}>
+        {hasPortfolioFeature && addons.portfolios?.globalAdminRoutes()}
+
         {/* Migrated internal Sonar admin extensions */}
         {globalAdminExtensionMigratedRoutes()}
 
@@ -336,7 +339,7 @@ const router = ({
               {availableFeatures.includes(Feature.Sca) && addons.sca?.licenseRoutes}
               {governanceInstalled && addons.portfolios?.globalRoutes()}
 
-              {renderAdminRoutes()}
+              {renderAdminRoutes({ hasPortfolioFeature: governanceInstalled })}
 
               <Route element={<StateCallbackHandler />} path="callback" />
             </Route>

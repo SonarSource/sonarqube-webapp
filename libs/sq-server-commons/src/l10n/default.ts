@@ -9074,14 +9074,14 @@ export const defaultMessages = {
   'views.delete.project': 'Remove Project',
   'views.delete.subview': 'Delete Portfolio',
   'views.delete.view': 'Delete Portfolio',
-  'views.remove_x': 'Remove {0}',
+  'views.remove_x': 'Remove {qualifier}',
   'view.refresh.started': 'All portfolios will be recomputed soon',
   'view.refresh.started.one': 'Your portfolio will be recomputed soon',
   'views.do_you_want_to_change_selection_mode':
     'This action will replace any existing project selection on portfolio "{0}". Do you want to continue?',
   'views.is_referenced_by': 'This will automatically delete "{0}" from all its parent portfolios',
-  'views.do_you_want_to_delete_x': 'Are you sure that you want to delete "{0}"?',
-  'views.do_you_want_to_remove_x': 'Are you sure that you want to remove "{0}"?',
+  'views.do_you_want_to_delete_x': 'Are you sure that you want to delete "{portfolio}"?',
+  'views.do_you_want_to_remove_x': 'Are you sure that you want to remove "{portfolio}"?',
   'views.do_you_want_to_delete_subview': 'Are you sure that you want to delete portfolio "{0}"?',
   'views.do_you_want_to_delete_project_from_view':
     'Are you sure that you want to remove project "{0}" from portfolio "{1}"?',
@@ -9113,12 +9113,12 @@ export const defaultMessages = {
   'views.move': 'Move',
   'views.move.project': 'Move "{0}" into',
   'views.move.select.new.parent.view': 'Select destination',
-  'views.move.subview': 'Move "{0}" into',
+  'views.move.subview': 'Move "{portfolio}" into',
   'views.application.branches': 'Select branches to compute',
   'views.new_portfolio': 'Add Portfolio',
   'views.new_application': 'Add Application',
-  'views.new_child_to': 'Add Portfolio to "{0}"',
-  'views.new_application_to': 'Add Application to "{0}"',
+  'views.new_child_to': 'Add Portfolio to "{portfolio}"',
+  'views.new_application_to': 'Add Application to "{portfolio}"',
   'views.none': 'No portfolios',
   'views.no_project': 'No project',
   'views.no_server': 'No server',
@@ -9130,7 +9130,7 @@ export const defaultMessages = {
   'views.projects.add': 'Add Projects',
   'views.projects.associate': 'Associate Projects to "{0}"',
   'views.projects.associated': 'Associated Projects',
-  'views.referenced_x': 'Referenced {0}',
+  'views.referenced_x': 'Referenced {qualifier}',
 
   'views.structure.nav': 'Portfolio structure navigation menu',
 
@@ -9188,7 +9188,8 @@ export const defaultMessages = {
   'views.project_already_selected_in_x': 'Already manually selected in "{0}"',
   'views.project_already_selected.help':
     'Ensure that each project/branch is included only once in the portfolio hierarchy. The portfolio computation will fail otherwise. Please note that projects may still be selected multiple times, if a dynamic selection mode is used (by tag or by regular expression).',
-  'views.app_x_already_selected': 'Application "{0}" was already manually added to this hierarchy.',
+  'views.app_x_already_selected':
+    'Application "{appName}" was already manually added to this hierarchy.',
   'views.app_already_selected.help':
     'Ensure that each application/branch is included only once in the portfolio hierarchy. The portfolio computation will fail otherwise.',
 

@@ -27,8 +27,9 @@ import {
 } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Extension } from '~shared/types/common';
+import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
-import { AdminPageExtension } from '~sq-server-commons/types/extension';
+import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { AdministrationSidebarConfiguration } from './AdministrationSidebarConfiguration';
 import { AdministrationSidebarSecurity } from './AdministrationSidebarSecurity';
 import { AdministrationSidebarProjects } from './AdministrationSidebarSidebarProjects';
@@ -40,18 +41,21 @@ interface Props {
 export function AdministrationSidebar(props: Readonly<Props>) {
   const { extensions } = props;
 
-  const { formatMessage } = useIntl();
+  const appState = useAppState();
 
-  const hasGovernanceExtension = extensions.find(
-    (e) => e.key === AdminPageExtension.GovernanceConsole,
-  );
+  const governanceInstalled = Boolean(appState?.qualifiers.includes(ComponentQualifier.Portfolio));
+
+  const { formatMessage } = useIntl();
 
   return (
     <Layout.SidebarNavigation ariaLabel={formatMessage({ id: 'settings' })}>
       <Layout.SidebarNavigation.Header name={<FormattedMessage id="layout.settings" />} />
 
       <Layout.SidebarNavigation.Body>
-        <AdministrationSidebarConfiguration extensions={extensions} />
+        <AdministrationSidebarConfiguration
+          extensions={extensions}
+          governanceInstalled={governanceInstalled}
+        />
 
         <AdministrationSidebarSecurity />
 
@@ -65,7 +69,7 @@ export function AdministrationSidebar(props: Readonly<Props>) {
           <FormattedMessage id="marketplace.page" />
         </Layout.SidebarNavigation.Item>
 
-        {hasGovernanceExtension && (
+        {governanceInstalled && (
           <Layout.SidebarNavigation.Item Icon={IconLicense} to="/admin/audit">
             <FormattedMessage id="audit_logs.page" />
           </Layout.SidebarNavigation.Item>
