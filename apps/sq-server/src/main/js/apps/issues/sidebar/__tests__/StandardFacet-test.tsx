@@ -207,14 +207,18 @@ it('should show correct count when owaspMobileTop10-2024 values are selected', a
   });
 });
 
-it('should toggle owaspTop10-2025 sub-facet', async () => {
+it.each([
+  ['owaspTop10-2025', 'issues.facet.owaspTop10_2025'],
+  ['stig-ASD_V6', 'issues.facet.stigAsd_v6'],
+  ['stig-ASD_V5R3', 'issues.facet.stigAsd_v5r3'],
+] as const)('should toggle %s sub-facet', async (expectedKey, buttonName) => {
   const onToggle = jest.fn();
   const user = userEvent.setup();
 
   renderStandardFacet({ onToggle, open: true });
 
-  await user.click(await screen.findByRole('button', { name: 'issues.facet.owaspTop10_2025' }));
-  expect(onToggle).toHaveBeenLastCalledWith('owaspTop10-2025');
+  await user.click(await screen.findByRole('button', { name: buttonName }));
+  expect(onToggle).toHaveBeenLastCalledWith(expectedKey);
 });
 
 it('should select owaspTop10-2025 items', async () => {
@@ -236,16 +240,6 @@ it('should select owaspTop10-2025 items', async () => {
   });
 });
 
-it('should toggle stig-ASD_V6 sub-facet', async () => {
-  const onToggle = jest.fn();
-  const user = userEvent.setup();
-
-  renderStandardFacet({ onToggle, open: true });
-
-  await user.click(await screen.findByRole('button', { name: 'issues.facet.stigAsd_v6' }));
-  expect(onToggle).toHaveBeenLastCalledWith('stig-ASD_V6');
-});
-
 it('should select stig-ASD_V6 items', async () => {
   const onChange = jest.fn();
   const user = userEvent.setup();
@@ -263,16 +257,6 @@ it('should select stig-ASD_V6 items', async () => {
   expect(onChange).toHaveBeenLastCalledWith({
     'stig-ASD_V6': ['V-265634'],
   });
-});
-
-it('should toggle stig-ASD_V5R3 sub-facet', async () => {
-  const onToggle = jest.fn();
-  const user = userEvent.setup();
-
-  renderStandardFacet({ onToggle, open: true });
-
-  await user.click(await screen.findByRole('button', { name: 'issues.facet.stigAsd_v5r3' }));
-  expect(onToggle).toHaveBeenLastCalledWith('stig-ASD_V5R3');
 });
 
 it('should select stig-ASD_V5R3 items', async () => {
