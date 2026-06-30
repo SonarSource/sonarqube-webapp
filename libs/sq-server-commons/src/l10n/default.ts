@@ -2545,6 +2545,37 @@ export const defaultMessages = {
   'architecture.external_interfaces.list.delete.confirm.title': 'Delete system component',
   'architecture.external_interfaces.list.delete.confirm.body':
     'Deleting the system component "{name}" will also remove it from any project relationships where it is currently used. This can\'t be undone.',
+  'architecture.entry_points.nav': 'Entry points',
+  'architecture.entry_points.list.title': 'Entry points',
+  'architecture.entry_points.list.description':
+    "Helps detect cross-project relationships for components SonarQube doesn't support natively, like custom frameworks, internal libraries, and SDKs. Add a code signature found in projects that call into the target component. SonarQube will automatically include those relationships in the system architecture.",
+  'architecture.entry_points.list.info': 'Entry points information',
+  'architecture.entry_points.list.empty': 'There are no entry points defined yet.',
+  'architecture.entry_points.list.error':
+    "Sorry, we couldn't load the entry points. Please try again later.",
+  'architecture.entry_points.create': 'Create entry point',
+  'architecture.entry_points.list.column.name': 'Name',
+  'architecture.entry_points.list.column.target': 'Target',
+  'architecture.entry_points.list.column.language': 'Language',
+  'architecture.entry_points.list.column.signature': 'Code signature',
+  'architecture.entry_points.list.delete.confirm.title': 'Delete entry point',
+  'architecture.entry_points.list.delete.confirm.body':
+    'Deleting the entry point "{name}" will remove its detection signature. This can\'t be undone.',
+  'architecture.entry_points.list.delete.error':
+    "Sorry, we couldn't delete the entry point. Please try again later.",
+  'architecture.entry_points.form.create_title': 'Create entry point',
+  'architecture.entry_points.form.edit_title': 'Edit entry point',
+  'architecture.entry_points.form.name': 'Name',
+  'architecture.entry_points.form.target_component': 'Target component',
+  'architecture.entry_points.form.target_entry_point': 'Target entry point',
+  'architecture.entry_points.form.target_entry_point.placeholder': 'Select an entry point',
+  'architecture.entry_points.form.target_entry_point.placeholder_help':
+    'Entry point selection is only available for project components.',
+  'architecture.entry_points.form.signatures': 'Detection signature',
+  'architecture.entry_points.form.signature.language': 'Language',
+  'architecture.entry_points.form.signature.query': 'Code signature',
+  'architecture.entry_points.form.save_error':
+    "Sorry, we couldn't save the entry point. Please try again later.",
   'architecture.relationships.validate.breadcrumb': 'Exit points',
   'architecture.relationships.validate.title': 'Exit points',
   'architecture.relationships.validate.description':
