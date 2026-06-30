@@ -35,7 +35,7 @@ Snapshots
 These are frontend-only, and thus we must mock API calls.
 
 - ITs are scoped to app pages, or sufficiently complex component clusters (e.g. the activity graph, or the code viewer)
-- ITs validate happy paths and common use cases, not edge cases.
+- ITs validate the main user flow and the behavior under test, not every edge case in one file.
 - ITs use smart mocks that help play out user scenarios
 
 ### Unit Tests
@@ -50,7 +50,7 @@ We distinguish two types of unit tests:
 
 ### Snapshots
 
-Snapshot testing saves the result of a function, typically the DOM rendered by a component, and ensures that that result does not change between runs.  **We are moving away from snapshots**
+Snapshot testing saves the result of a function, typically the DOM rendered by a component, and ensures that that result does not change between runs. **We are moving away from snapshots**
 
 - Do Not snapshot test: styling, logic, DOM layout
 - Do snapshot test: Code samples, like in the Tutorials. Their exact contents are the feature!
@@ -72,7 +72,7 @@ import { http } from 'msw';
 import { AbstractServiceMock } from '../AbstractServiceMock';
 
 interface MyServiceData {
-  // Whatever data you want.   
+  // Whatever data you want.
   foo: string;
 }
 
@@ -112,7 +112,9 @@ beforeEach(() => {
 
 ## Critical Testing Rule
 
-### ⚠️ ALWAYS use `await selector.find()` instead of `waitFor()` for async elements
+### ⚠️ ALWAYS use `await selector.find()` instead of `waitFor()` when waiting for elements to appear
+
+Use `waitFor()` only when there is no observable UI change to await directly, for example when waiting for an async callback, a hook side effect, or an assertion on an already-rendered element to become true (see Other Guidelines below).
 
 ```tsx
 // ❌ Bad
@@ -154,6 +156,12 @@ const ui = {
 };
 ```
 
+## Performance and Reliability
+
+- Reliability matters more than test volume. A flaky test reduces trust in the whole suite. Do not paper over flakes with retries, arbitrary delays, or oversized timeouts.
+- Fast tests are better tests. Prefer the smallest, simplest, most deterministic test that still increases confidence.
+- Treat slowness and fragility as smells in the test, the mock, or the design under test.
+
 ## Other Guidelines
 
 Some good principles to keep in mind when writing RTL unit tests include:
@@ -168,13 +176,13 @@ use our custom render functions from ~helpers/testUtils.tsx, never the one comin
 
 when waiting for something to happen on the screen
 
-.findBy should be used in most cases instead of .waitFor: .findBy is basically a combination of .waitFor and .getBy, so use it as soon as you need to wait for some elements to appear on screen
+follow the Critical Testing Rule above: use `await ui.*.find()` or `await screen.findBy*` instead of `waitFor()` when waiting for elements to appear
 
-.waitFor should be used when waiting for some async callback to happen, or when the whole assertion has to be retried multiple times until true (it can usually be avoided by thinking about other content changes on the page)
+use `waitFor()` only when there is no direct element appearance to await, such as async callbacks, hook side effects, or assertions on already-rendered elements that must be retried until true
 
 .waitForElementToBeRemoved should be used instead of .findBy when waiting for something to disappear from the screen
 
-within() should not be used.  Use chaining instead.  i.e. `byRole(...).byRole(...)`
+within() should not be used. Use chaining instead. i.e. `byRole(...).byRole(...)`
 
 don't forget to await when using waitFor, findBy or user events, otherwise the assertion won't be done (ESLint should remind you of that)
 
