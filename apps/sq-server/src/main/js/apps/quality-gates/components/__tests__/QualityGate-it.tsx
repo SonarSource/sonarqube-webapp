@@ -43,6 +43,10 @@ import { Feature } from '~sq-server-commons/types/features';
 import { Mode } from '~sq-server-commons/types/mode';
 import { CaycStatus, Condition } from '~sq-server-commons/types/types';
 import routes from '../../routes';
+// Eagerly load the lazy-loaded CodingRulesApp chunk so its (potentially cold)
+// transform + module-eval cost is paid at module-load time, outside the findBy
+// timeout window. Prevents cold-transform-cache flakes on the first test in CI.
+import '../QualityGatesApp';
 
 function createQgWithStandardSeverityCondition({
   error,
@@ -846,8 +850,6 @@ describe('The Project section', () => {
     expect(reloadButton).toBeInTheDocument();
     await user.click(reloadButton);
 
-    // FP
-    // eslint-disable-next-line jest-dom/prefer-in-document
     expect(screen.getAllByRole('checkbox')).toHaveLength(3);
 
     // Show ai code assurance project
@@ -883,8 +885,6 @@ describe('The Project section', () => {
     await user.click(searchInput);
     await user.keyboard('test2{Enter}');
 
-    // FP
-    // eslint-disable-next-line jest-dom/prefer-in-document
     expect(screen.getAllByRole('checkbox')).toHaveLength(1);
   });
 

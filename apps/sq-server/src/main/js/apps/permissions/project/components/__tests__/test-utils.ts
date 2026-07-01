@@ -53,6 +53,10 @@ import { Permissions } from '~sq-server-commons/types/permissions';
 import { Component } from '~sq-server-commons/types/types';
 import { projectPermissionsRoutes } from '../../../routes';
 import { getPageObject } from '../../../test-utils';
+// Eagerly load the lazy-loaded CodingRulesApp chunk so its (potentially cold)
+// transform + module-eval cost is paid at module-load time, outside the findBy
+// timeout window. Prevents cold-transform-cache flakes on the first test in CI.
+import '../PermissionsProjectApp';
 
 const branchesService = new BranchesServiceMock(BranchesServiceDefaultDataset);
 const measuresService = new MeasuresServiceMock(MeasuresServiceDefaultDataset);

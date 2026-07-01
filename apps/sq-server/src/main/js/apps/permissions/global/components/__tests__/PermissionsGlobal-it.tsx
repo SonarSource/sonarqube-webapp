@@ -40,6 +40,10 @@ import { Permissions } from '~sq-server-commons/types/permissions';
 import { PermissionGroup, PermissionUser } from '~sq-server-commons/types/types';
 import { globalPermissionsRoutes } from '../../../routes';
 import { flattenPermissionsList, getPageObject } from '../../../test-utils';
+// Eagerly load the lazy-loaded CodingRulesApp chunk so its (potentially cold)
+// transform + module-eval cost is paid at module-load time, outside the findBy
+// timeout window. Prevents cold-transform-cache flakes on the first test in CI.
+import '../PermissionsGlobalApp';
 
 let serviceMock: PermissionsServiceMock;
 let dopTranslationHandler: DopTranslationServiceMock;

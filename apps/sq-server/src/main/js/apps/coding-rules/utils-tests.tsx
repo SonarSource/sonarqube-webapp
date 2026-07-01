@@ -39,6 +39,10 @@ import { IssueType } from '~sq-server-commons/types/issues';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import { CurrentUser } from '~sq-server-commons/types/users';
 import routes from './routes';
+// Eagerly load the lazy-loaded CodingRulesApp chunk so its (potentially cold)
+// transform + module-eval cost is paid at module-load time, outside the findBy
+// timeout window. Prevents cold-transform-cache flakes on the first test in CI.
+import './components/CodingRulesApp';
 
 const selectors = {
   loading: byText('loading'),
