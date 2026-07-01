@@ -21,8 +21,13 @@
 import { http } from 'msw';
 import { API_V2_MOCKS_PREFIX } from '~adapters/helpers/urls';
 import {
+  OnboardingDevopsPlatform,
   OnboardingOverview,
   OnboardingProject,
+  OnboardingProjectGateStatus,
+  OnboardingProjectOnboarding,
+  OnboardingProjectScanHealth,
+  OnboardingProjectScanMethod,
   OnboardingProjectsFilter,
   OnboardingProjectsFilterCounts,
 } from '../../types/onboarding';
@@ -41,6 +46,13 @@ export interface OnboardingServiceData {
   overview: OnboardingOverview;
   // Full project list; the projects endpoint applies search/filter/pagination server-side.
   projects: OnboardingProject[];
+  /**
+   * When set, the stale-filter endpoint reports this value as `page.total` instead of the
+   * real count of matching projects. Use setStaleTotalOverride() in tests to simulate an org
+   * with more stale projects than the display cap (STALE_PAGE_SIZE) without rendering hundreds
+   * of DOM rows.
+   */
+  staleTotalOverride?: number;
 }
 
 /** Mirrors the backend filter tabs so the mock can compute matches and per-tab counts. */
@@ -48,16 +60,20 @@ const FILTER_PREDICATES: Record<OnboardingProjectsFilter, (project: OnboardingPr
   {
     all: () => true,
     // eslint-disable-next-line camelcase
-    fully_onboarded: (p) => p.onboarding === 'ANALYSED' && p.scanHealth === 'HEALTHY',
+    fully_onboarded: (p) =>
+      p.onboarding === OnboardingProjectOnboarding.Analysed &&
+      p.scanHealth === OnboardingProjectScanHealth.Healthy,
     // eslint-disable-next-line camelcase
     needs_attention: (p) =>
-      p.scanHealth === 'FAILED' || p.gateStatus === 'FAILED' || p.onboarding === 'IMPORTED_EMPTY',
+      p.scanHealth === OnboardingProjectScanHealth.Failed ||
+      p.gateStatus === OnboardingProjectGateStatus.Failed ||
+      p.onboarding === OnboardingProjectOnboarding.ImportedEmpty,
     // eslint-disable-next-line camelcase
-    not_onboarded: (p) => p.onboarding === 'NOT_IMPORTED',
+    not_onboarded: (p) => p.onboarding === OnboardingProjectOnboarding.NotImported,
     // eslint-disable-next-line camelcase
-    failed_scans: (p) => p.scanHealth === 'FAILED',
-    autoscan: (p) => p.scanMethod === 'MANAGED',
-    local: (p) => p.scanMethod === 'LOCAL',
+    failed_scans: (p) => p.scanHealth === OnboardingProjectScanHealth.Failed,
+    autoscan: (p) => p.scanMethod === OnboardingProjectScanMethod.Managed,
+    local: (p) => p.scanMethod === OnboardingProjectScanMethod.Local,
     stale: (p) => p.stale,
   };
 
@@ -89,7 +105,7 @@ export function mockOnboardingOverview(
         discovered: 301,
         imported: 6,
         notYetImported: 295,
-        byAlm: [{ alm: 'github', discovered: 301, imported: 6 }],
+        byAlm: [{ alm: OnboardingDevopsPlatform.Github, discovered: 301, imported: 6 }],
       },
       projectsOnboarded: {
         onboarded: 1,
@@ -147,11 +163,11 @@ export function mockOnboardingOverview(
     devopsPlatforms: {
       total: 120,
       shares: [
-        { platform: 'github', count: 50, percentage: 42 },
-        { platform: 'bitbucket', count: 24, percentage: 20 },
-        { platform: 'gitlab', count: 16, percentage: 13 },
-        { platform: 'azure_devops', count: 16, percentage: 13 },
-        { platform: 'NOT_BOUND', count: 14, percentage: 12 },
+        { platform: OnboardingDevopsPlatform.Github, count: 50, percentage: 42 },
+        { platform: OnboardingDevopsPlatform.Bitbucket, count: 24, percentage: 20 },
+        { platform: OnboardingDevopsPlatform.Gitlab, count: 16, percentage: 13 },
+        { platform: OnboardingDevopsPlatform.AzureDevops, count: 16, percentage: 13 },
+        { platform: OnboardingDevopsPlatform.NotBound, count: 14, percentage: 12 },
       ],
     },
   };
@@ -164,11 +180,11 @@ export function mockOnboardingProjects(): OnboardingProject[] {
       name: 'platform-jobs',
       path: 'billing/platform-jobs',
       language: 'Kotlin',
-      alm: 'github',
-      onboarding: 'NOT_IMPORTED',
-      scanMethod: 'CI',
-      scanHealth: 'HEALTHY',
-      gateStatus: 'NOT_COMPUTED',
+      alm: OnboardingDevopsPlatform.Github,
+      onboarding: OnboardingProjectOnboarding.NotImported,
+      scanMethod: OnboardingProjectScanMethod.Ci,
+      scanHealth: OnboardingProjectScanHealth.Healthy,
+      gateStatus: OnboardingProjectGateStatus.NotComputed,
       stale: false,
     },
     {
@@ -176,12 +192,12 @@ export function mockOnboardingProjects(): OnboardingProject[] {
       name: 'payments-gateway',
       path: 'identity/payments-gateway',
       language: 'Java',
-      alm: 'github',
-      onboarding: 'ANALYSED',
-      scanMethod: 'CI',
+      alm: OnboardingDevopsPlatform.Github,
+      onboarding: OnboardingProjectOnboarding.Analysed,
+      scanMethod: OnboardingProjectScanMethod.Ci,
       ciSystem: 'Github Actions',
-      scanHealth: 'FAILED',
-      gateStatus: 'FAILED',
+      scanHealth: OnboardingProjectScanHealth.Failed,
+      gateStatus: OnboardingProjectGateStatus.Failed,
       lastScan: 1740528000000,
       coverage: 91.7,
       lastActivity: 1742947200000,
@@ -192,11 +208,11 @@ export function mockOnboardingProjects(): OnboardingProject[] {
       name: 'web-core',
       path: 'search/web-core',
       language: 'Kotlin',
-      alm: 'gitlab',
-      onboarding: 'ANALYSED',
-      scanMethod: 'LOCAL',
-      scanHealth: 'HEALTHY',
-      gateStatus: 'PASSED',
+      alm: OnboardingDevopsPlatform.Gitlab,
+      onboarding: OnboardingProjectOnboarding.Analysed,
+      scanMethod: OnboardingProjectScanMethod.Local,
+      scanHealth: OnboardingProjectScanHealth.Healthy,
+      gateStatus: OnboardingProjectGateStatus.Passed,
       lastScan: 1740528000000,
       coverage: 92.7,
       lastActivity: 1742947200000,
@@ -207,11 +223,11 @@ export function mockOnboardingProjects(): OnboardingProject[] {
       name: 'identity-lib',
       path: 'growth/identity-lib',
       language: 'Python',
-      alm: 'bitbucket',
-      onboarding: 'ANALYSED',
-      scanMethod: 'MANAGED',
-      scanHealth: 'HEALTHY',
-      gateStatus: 'PASSED',
+      alm: OnboardingDevopsPlatform.Bitbucket,
+      onboarding: OnboardingProjectOnboarding.Analysed,
+      scanMethod: OnboardingProjectScanMethod.Managed,
+      scanHealth: OnboardingProjectScanHealth.Healthy,
+      gateStatus: OnboardingProjectGateStatus.Passed,
       lastScan: 1741132800000,
       coverage: 64,
       lastActivity: 1742947200000,
@@ -222,11 +238,11 @@ export function mockOnboardingProjects(): OnboardingProject[] {
       name: 'mobile-worker',
       path: 'identity/mobile-worker',
       language: 'JavaScript',
-      alm: 'azure_devops',
-      onboarding: 'IMPORTED_EMPTY',
-      scanMethod: 'MANAGED',
-      scanHealth: 'HEALTHY',
-      gateStatus: 'NOT_COMPUTED',
+      alm: OnboardingDevopsPlatform.AzureDevops,
+      onboarding: OnboardingProjectOnboarding.ImportedEmpty,
+      scanMethod: OnboardingProjectScanMethod.Managed,
+      scanHealth: OnboardingProjectScanHealth.Healthy,
+      gateStatus: OnboardingProjectGateStatus.NotComputed,
       lastScan: 1741737600000,
       lastActivity: 1742947200000,
       stale: true,
@@ -257,6 +273,14 @@ export class OnboardingServiceMock extends AbstractServiceMock<OnboardingService
     this.data.projects = projects;
   };
 
+  /**
+   * Override the `page.total` returned for stale-filter requests. Pass `undefined` to
+   * revert to the real count. Cleared automatically by `reset()`.
+   */
+  setStaleTotalOverride = (total: number | undefined) => {
+    this.data.staleTotalOverride = total;
+  };
+
   handlers = [
     http.get(ONBOARDING_OVERVIEW_PATH, () => {
       if (this.data.failOverview) {
@@ -279,9 +303,16 @@ export class OnboardingServiceMock extends AbstractServiceMock<OnboardingService
       const start = (pageIndex - 1) * pageSize;
       const projects = pageSize <= 0 ? [] : filtered.slice(start, start + pageSize);
 
+      // Allow tests to override the reported total for stale requests so they can simulate an
+      // org with more stale projects than the display cap without creating hundreds of objects.
+      const total =
+        filter === 'stale' && this.data.staleTotalOverride !== undefined
+          ? this.data.staleTotalOverride
+          : filtered.length;
+
       return this.ok({
         filterCounts,
-        page: { pageIndex, pageSize, total: filtered.length },
+        page: { pageIndex, pageSize, total },
         projects,
       });
     }),

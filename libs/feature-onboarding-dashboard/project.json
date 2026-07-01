@@ -1,0 +1,12 @@
+{
+  "name": "feature-onboarding-dashboard",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/feature-onboarding-dashboard/src",
+  "tags": ["type:feature", "visibility:public", "scope:shared"],
+  "targets": {
+    "format-check": {},
+    "lint": {},
+    "lint-report": {}
+  }
+}

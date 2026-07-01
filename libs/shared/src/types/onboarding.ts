@@ -18,11 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-/** ALM platforms a discovered repository / project can originate from. */
-export type OnboardingAlm = 'github' | 'bitbucket' | 'bitbucket_cloud' | 'azure_devops' | 'gitlab';
+/** DevOps platform a discovered repository / project can originate from, including unbound. */
+export enum OnboardingDevopsPlatform {
+  AzureDevops = 'azure_devops',
+  Bitbucket = 'bitbucket',
+  BitbucketCloud = 'bitbucket_cloud',
+  Github = 'github',
+  Gitlab = 'gitlab',
+  /** Repository not bound to any ALM. */
+  NotBound = 'NOT_BOUND',
+}
 
-/** DevOps platform shares also account for repositories not bound to any ALM. */
-export type OnboardingDevopsPlatform = OnboardingAlm | 'NOT_BOUND';
+/** ALM platforms a discovered repository / project can originate from. */
+export type OnboardingAlm = Exclude<OnboardingDevopsPlatform, OnboardingDevopsPlatform.NotBound>;
 
 /**
  * Response of `GET /api/v2/onboarding/overview`.
@@ -167,10 +175,28 @@ export interface OnboardingDevopsPlatformShare {
   platform: OnboardingDevopsPlatform;
 }
 
-export type OnboardingProjectOnboarding = 'NOT_IMPORTED' | 'IMPORTED_EMPTY' | 'ANALYSED';
-export type OnboardingProjectScanMethod = 'CI' | 'LOCAL' | 'MANAGED';
-export type OnboardingProjectScanHealth = 'HEALTHY' | 'FAILED';
-export type OnboardingProjectGateStatus = 'PASSED' | 'FAILED' | 'NOT_COMPUTED';
+export enum OnboardingProjectOnboarding {
+  Analysed = 'ANALYSED',
+  ImportedEmpty = 'IMPORTED_EMPTY',
+  NotImported = 'NOT_IMPORTED',
+}
+
+export enum OnboardingProjectScanMethod {
+  Ci = 'CI',
+  Local = 'LOCAL',
+  Managed = 'MANAGED',
+}
+
+export enum OnboardingProjectScanHealth {
+  Failed = 'FAILED',
+  Healthy = 'HEALTHY',
+}
+
+export enum OnboardingProjectGateStatus {
+  Failed = 'FAILED',
+  NotComputed = 'NOT_COMPUTED',
+  Passed = 'PASSED',
+}
 
 export type OnboardingProjectsFilter =
   | 'all'

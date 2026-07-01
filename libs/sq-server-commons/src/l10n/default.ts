@@ -672,6 +672,7 @@ export const defaultMessages = {
   'layout.logout': 'Log out',
   'layout.measures': 'Measures',
   'layout.settings': 'Administration',
+  'layout.onboarding_dashboard': 'Onboarding Dashboard',
   'layout.architecture': 'Architecture',
   'layout.security_hotspots': 'Security hotspots',
   'layout.settings.TRK': 'Project settings',
@@ -9674,4 +9675,113 @@ export const defaultMessages = {
     '{qualifier} overall Malicious Package Risk rating',
   'securityreport.overview_metric.sca_rating_malware.description':
     'Based on severity of malicious package risks',
+  //------------------------------------------------------------------------------
+  //
+  // Onboarding dashboard
+  //
+  //------------------------------------------------------------------------------
+
+  'onboarding_dashboard.header.subtitle': 'Build your code confidence step by step.',
+  'onboarding_dashboard.cards.repositories_discovered.title': 'Repositories discovered',
+  'onboarding_dashboard.cards.repositories_discovered.subtitle':
+    'Across your connected DevOps platforms.',
+  'onboarding_dashboard.cards.projects_onboarded.title': 'Repositories imported',
+  'onboarding_dashboard.cards.projects_onboarded.subtitle': '{onboarded} of {total} imported.',
+  'onboarding_dashboard.cards.scan_health.title': 'Scans passing',
+  'onboarding_dashboard.cards.scan_health.subtitle': '{failed} of {total} scans failed.',
+  'onboarding_dashboard.cards.pr_integration.title': 'PR integrated',
+  'onboarding_dashboard.cards.pr_integration.subtitle':
+    '{count} repositories show scan results on pull requests.',
+  'onboarding_dashboard.checklist.title': 'Onboarding checklist',
+  'onboarding_dashboard.checklist.description':
+    'Your maturity path from discovery to full platform utilization.',
+  'onboarding_dashboard.checklist.percent': '{percent}%',
+  'onboarding_dashboard.checklist.maturity.Starting': 'Starting',
+  'onboarding_dashboard.checklist.maturity.Growing': 'Growing',
+  'onboarding_dashboard.checklist.maturity.Established': 'Established',
+  'onboarding_dashboard.checklist.maturity.Advanced': 'Advanced',
+  'onboarding_dashboard.checklist.item.discover.title': 'Discover repositories',
+  'onboarding_dashboard.checklist.item.discover.description':
+    '{completed} repositories detected from your DevOps platform.',
+  'onboarding_dashboard.checklist.item.onboard.title': 'Onboard repositories into SonarQube',
+  'onboarding_dashboard.checklist.item.onboard.description':
+    '{completed} of {total} onboarded · {remaining} remaining.',
+  'onboarding_dashboard.checklist.item.failing.title': 'Resolve failing scans',
+  'onboarding_dashboard.checklist.item.failing.description':
+    '{completed} of {total} projects scanning successfully.',
+  'onboarding_dashboard.checklist.item.full-ci.title': 'Move Autoscan-only to full CI',
+  'onboarding_dashboard.checklist.item.full-ci.description':
+    '{completed} of {total} projects running in full CI.',
+  'onboarding_dashboard.checklist.item.pr-deco.title': 'Enable PR decoration & DevOps integration',
+  'onboarding_dashboard.checklist.item.pr-deco.description':
+    '{completed} projects with PR decoration & DevOps integration configured.',
+  'onboarding_dashboard.momentum.title': 'Onboarding over time',
+  'onboarding_dashboard.momentum.description':
+    'Cumulative projects since install — total, unbound, imported, and onboarded.',
+  'onboarding_dashboard.momentum.headline_suffix': 'of {total} repos onboarded',
+  'onboarding_dashboard.momentum.legend.total': 'Total repositories',
+  'onboarding_dashboard.momentum.legend.imported': 'Imported',
+  'onboarding_dashboard.momentum.legend.onboarded': 'Onboarded',
+  'onboarding_dashboard.momentum.row.total': 'total repositories on your DevOps platform',
+  'onboarding_dashboard.momentum.row.onboarded': 'projects onboarded (scanned)',
+  'onboarding_dashboard.momentum.row.imported_unscanned': 'imported, not yet scanned',
+  'onboarding_dashboard.momentum.row.failing': 'failing scans',
+  'onboarding_dashboard.momentum.since': 'since {date}',
+  'onboarding_dashboard.momentum.since_unknown': 'since onboarding started',
+  'onboarding_dashboard.momentum.current': 'current',
+  'onboarding_dashboard.charts.total': 'Total',
+  'onboarding_dashboard.charts.coverage.title': 'Onboarding coverage',
+  'onboarding_dashboard.charts.scan_config.title': 'Scans passing',
+  'onboarding_dashboard.charts.scan_config.description':
+    'Full CI pipeline vs. Automatic Analysis vs. local/other scans.',
+  'onboarding_dashboard.charts.scan_config.full_ci': 'Full CI',
+  'onboarding_dashboard.charts.scan_config.autoscan': 'Autoscan only',
+  'onboarding_dashboard.charts.scan_config.local': 'Local (other)',
+  'onboarding_dashboard.charts.scan_config.not_onboarded': 'Not onboarded',
+  'onboarding_dashboard.charts.quality_gate.title': 'Quality gate status',
+  'onboarding_dashboard.charts.quality_gate.description':
+    'Latest gate result across onboarded projects.',
+  'onboarding_dashboard.charts.quality_gate.passing': 'Passing',
+  'onboarding_dashboard.charts.quality_gate.failing': 'Failing',
+  'onboarding_dashboard.charts.quality_gate.not_computed': 'Not computed',
+  'onboarding_dashboard.charts.quality_gate.not_onboarded': 'Not onboarded',
+  'onboarding_dashboard.devops.title': 'DevOps platforms',
+  'onboarding_dashboard.devops.description':
+    'How all repositories are distributed across DevOps platforms.',
+  'onboarding_dashboard.devops.not_bound': 'Not bound',
+  'onboarding_dashboard.devops.share': '{percent}%',
+  'onboarding_dashboard.devops.count': '{count} project(s)',
+  'onboarding_dashboard.devops.platform_count': '<b>{count}</b> platform(s)',
+  'onboarding_dashboard.stale.title': 'Commits not being scanned',
+  'onboarding_dashboard.stale.description':
+    "These projects have commits that haven't been scanned in the past 7 days.",
+  'onboarding_dashboard.projects.count': '<b>{count}</b> project(s)',
+  'onboarding_dashboard.stale.search': 'Search projects…',
+  'onboarding_dashboard.stale.col.repository': 'Repository',
+  'onboarding_dashboard.stale.col.commits': 'Commits',
+  'onboarding_dashboard.stale.col.last_scan': 'Last scan',
+  'onboarding_dashboard.stale.col.gate_status': 'Gate status',
+  'onboarding_dashboard.stale.capped': 'Showing first {count}',
+  'onboarding_dashboard.projects.title': 'All projects',
+  'onboarding_dashboard.projects.description':
+    'A complete overview of all projects that need your attention.',
+  'onboarding_dashboard.projects.search': 'Search repositories…',
+  'onboarding_dashboard.projects.col.repository': 'Repository',
+  'onboarding_dashboard.projects.col.onboarding': 'Scan status',
+  'onboarding_dashboard.projects.col.analysis_mode': 'Analysis mode',
+  'onboarding_dashboard.projects.col.gate_status': 'Gate status',
+  'onboarding_dashboard.projects.col.last_scan': 'Last scan',
+  'onboarding_dashboard.projects.col.test_coverage': 'Test coverage',
+  'onboarding_dashboard.projects.filter.all': 'All',
+  'onboarding_dashboard.projects.filter.not_onboarded': 'Not in connected mode',
+  'onboarding_dashboard.projects.filter.failed_scans': 'Failed scans',
+  'onboarding_dashboard.projects.filter.autoscan': 'Autoscan only',
+  'onboarding_dashboard.projects.onboarding.scanned': 'Scanned',
+  'onboarding_dashboard.projects.onboarding.scan_failed': 'Scan failed',
+  'onboarding_dashboard.projects.onboarding.imported_empty': 'Imported, not scanned',
+  'onboarding_dashboard.projects.onboarding.not_onboarded': 'Not onboarded',
+  'onboarding_dashboard.projects.analysis.full_ci': 'Full CI',
+  'onboarding_dashboard.projects.analysis.autoscan': 'Autoscan only',
+  'onboarding_dashboard.projects.analysis.local': 'Local (other)',
+  'onboarding_dashboard.projects.gate.not_computed': 'Not computed',
 };
