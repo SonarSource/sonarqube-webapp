@@ -2391,10 +2391,13 @@ export const defaultMessages = {
   'architecture.split_responsibility.table.classes': 'Classes',
   'architecture.split_responsibility.table.location': 'Location',
   'architecture.split_responsibility.table.empty': 'No split responsibility components found',
+  'architecture.split_responsibility.dismissible.interpret_visualization.message':
+    'This view highlights components whose child components are disconnected from each other, suggesting they carry mixed responsibilities. Resolve it by moving disconnected fragments into a new sibling component or rethinking the containment structure.',
   'architecture.page.smells': 'Smells',
   'architecture.page.smells_description':
-    'Shows potential structural problems in the codebase that may degrade maintainability over time. A common example is a weak tangle, where several files or classes are connected in a way that is close to forming cyclic dependencies.',
+    'Shows architecture problems that tend to worsen over time. Left unaddressed, they increase coupling and make changes harder to localize.',
   'architecture.page.deviations_card': 'Deviations',
+  'architecture.page.architecture_deviations': 'Deviations',
   'architecture.page.structural_flaws': 'Flaws',
   'architecture.page.deviations_card_description':
     'Shows how much and where the codebase diverges from the intended architecture. Deviations appear in structure, which describes how elements are organized, and in relationships, which describe how elements depend on each other.',
@@ -2463,6 +2466,8 @@ export const defaultMessages = {
   'architecture.tangles.issue_name': 'Tangle {index}',
   'architecture.weak_tangles.issue_name': 'Weak Tangle {index}',
   'architecture.weak_tangles.table.empty': 'No weak tangles found',
+  'architecture.weak_tangle.dismissible.interpret_visualization.message':
+    'This view highlights relationships that flow against the intended direction, forming a cycle between containers even when no files or classes are directly entangled. Resolve it by extracting the child component causing the reverse relationships or removing the relationships that close the cycle.',
   'architecture.tangle.directive.create.button': 'Request removal',
   'architecture.tangle.directive.remove.button': 'Cancel removal',
   'architecture.tangle.directive.create.description':
