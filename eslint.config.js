@@ -56,8 +56,10 @@ module.exports = [
       '**/node_modules/**',
       '**/build/**',
       '**/.nx/**',
+
       // Project-specific build artifacts
       'private/libs/feature-architecture/src/types/proto/generated/**',
+
       // Tool configs that were previously in ignorePatterns of individual .eslintrc.js files
       'apps/sq-server/babel.config.js',
       'apps/sq-server/jest.config.js',
@@ -71,15 +73,6 @@ module.exports = [
       'private/apps/sq-cloud/tailwind*.js',
       'private/apps/sq-cloud/script/**',
       'private/apps/sq-cloud/config/**',
-      'private/libs/feature-architecture/config/jest/SetupTestEnvironment.ts',
-      'private/libs/feature-jira/config/jest/SetupTestEnvironment.ts',
-      'private/libs/feature-sca/config/jest/SetupTestEnvironment.ts',
-      'private/libs/feature-dashboards/babel.config.js',
-      'private/libs/feature-dashboards/jest.config.js',
-      'private/libs/feature-dashboards/vite.config.ts',
-      'private/libs/feature-dashboards/tailwind*.js',
-      'private/libs/feature-dashboards/script/**',
-      'private/libs/feature-dashboards/config/**',
 
       // NX automation template files should never be linted
       'tools/nx-automation/**/*.template',
