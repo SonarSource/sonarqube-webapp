@@ -22,9 +22,11 @@ import { ButtonSize, ButtonVariety, Layout, TooltipSide } from '@sonarsource/ech
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useCurrentUser } from '~adapters/helpers/users';
+import { QualityGateHistoryLink } from '~feature-quality-gate-history/components/QualityGateHistoryLink';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
+import { isMainBranch } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { MeasureEnhanced, Metric } from '~shared/types/measures';
@@ -183,7 +185,14 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
             data-testid="overview__quality-gate-panel"
           >
             <div className="sw-flex sw-items-center">
-              <QGStatusComponent status={qgStatus} />
+              <QGStatusComponent
+                status={qgStatus}
+                statusSuffix={
+                  isMainBranch(branch) ? (
+                    <QualityGateHistoryLink projectKey={component.key} />
+                  ) : undefined
+                }
+              />
               <AICodeStatus branch={branch} component={component} />
             </div>
           </div>

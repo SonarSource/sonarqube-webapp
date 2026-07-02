@@ -20,6 +20,7 @@
 
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
+import { fetchAllProjectActivity } from '~shared/api/project-activity';
 import { BranchParameters } from '~shared/types/branch-like';
 import { Paging } from '~shared/types/paging';
 import { post, postJSON } from '../helpers/request';
@@ -53,36 +54,10 @@ export function getProjectActivity(data: ProjectActivityParams): Promise<Project
   return getJSON('/api/project_analyses/search', data).catch(throwGlobalError);
 }
 
-const PROJECT_ACTIVITY_PAGE_SIZE = 500;
-
 export function getAllTimeProjectActivity(
   data: ProjectActivityParams,
-  prev?: ProjectActivityResponse,
 ): Promise<ProjectActivityResponse> {
-  return getProjectActivity({
-    ...data,
-    ps: data.ps ?? PROJECT_ACTIVITY_PAGE_SIZE,
-  }).then((r) => {
-    const result = prev
-      ? {
-          analyses: prev.analyses.concat(r.analyses),
-          paging: r.paging,
-        }
-      : r;
-
-    if (result.paging.pageIndex * result.paging.pageSize >= result.paging.total) {
-      return result;
-    }
-
-    return getAllTimeProjectActivity(
-      {
-        ...data,
-        ps: data.ps ?? PROJECT_ACTIVITY_PAGE_SIZE,
-        p: result.paging.pageIndex + 1,
-      },
-      result,
-    );
-  });
+  return fetchAllProjectActivity(({ p, ps }) => getProjectActivity({ ...data, p, ps }), data.ps);
 }
 
 export interface CreateEventResponse {

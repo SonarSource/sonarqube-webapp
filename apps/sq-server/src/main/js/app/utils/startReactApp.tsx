@@ -34,6 +34,7 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import { lightTheme } from '~design-system';
+import { qualityGateHistoryRoutes } from '~feature-quality-gate-history/components/routes';
 import { A11yProvider } from '~shared/components/a11y/A11yProvider';
 import NotFound from '~shared/components/NotFound';
 import { ResetLayerStack } from '~shared/components/ResetLayerStack';
@@ -152,6 +153,7 @@ function renderComponentRoutes({
         {projectIssuesRoutes()}
         {hasScaFeature && addons?.sca?.projectRoutes}
         {securityHotspotsRoutes()}
+        {qualityGateHistoryRoutes()}
         {projectQualityGateRoutes()}
         {projectQualityProfilesRoutes()}
         {projectInfoRoutes()}

@@ -680,6 +680,46 @@ export const defaultMessages = {
   'layout.settings.VW': 'Portfolio settings',
   'layout.settings.SVW': 'Portfolio settings',
   'layout.security_reports': 'Security reports',
+
+  // Quality Gate History
+  'layout.quality_gate_history': 'Quality gate history',
+  'quality_gate_history.page_title': 'Quality gate history',
+  'quality_gate_history.page_description':
+    'This page helps you identify releases made while quality gate was failing.',
+  'quality_gate_history.intro':
+    'Each version released on the main branch is marked {safe} when its quality gate passed at release time, or {risky} when it failed.',
+  'quality_gate_history.safe': 'safe',
+  'quality_gate_history.risky': 'risky',
+  'quality_gate_history.percent': '{value}%',
+  'quality_gate_history.period.all': 'All time',
+  'quality_gate_history.period.30d': '30 days',
+  'quality_gate_history.period.6m': '6 months',
+  'quality_gate_history.period.1y': '1 year',
+  'quality_gate_history.timeframe.30d': '30 days',
+  'quality_gate_history.timeframe.6m': '6 months',
+  'quality_gate_history.timeframe.1y': 'year',
+  'quality_gate_history.link.label': 'View quality gate history',
+  'quality_gate_history.last_released': 'Last released: {version} on {date}',
+  'quality_gate_history.safe_releases': 'Safe releases',
+  'quality_gate_history.risky_releases': 'Risky releases',
+  'quality_gate_history.risky_releases.help':
+    'A release is risky when its quality gate was failing at the time the version was released. You can configure your CI tool to fail the pipeline when quality gate fails.',
+  'quality_gate_history.risky_releases.link': 'Understand quality gates',
+  'quality_gate_history.releases_count': '{count} of {total} releases',
+  'quality_gate_history.legend.OK': 'Gate passed (safe)',
+  'quality_gate_history.legend.ERROR': 'Gate failed (risky)',
+  'quality_gate_history.empty.non_compatible.title': "This project isn't using Project Version",
+  'quality_gate_history.empty.non_compatible.description':
+    'Set your New Code definition to the "Previous version" option to track the quality gate result of each released version.',
+  'quality_gate_history.empty.non_compatible.cta': 'Configure New Code definition',
+  'quality_gate_history.empty.no_releases.title': 'No versions have been released yet',
+  'quality_gate_history.empty.no_releases.description':
+    'Historical version releases will appear here after more releases are done.',
+  'quality_gate_history.empty.no_releases.cta': 'How does versioning work at Sonar',
+  'quality_gate_history.empty.no_releases_in_period.title':
+    'No version releases for the past {period}',
+  'quality_gate_history.empty.no_releases_in_period.description':
+    "Try widening the timeframe to see more of this project's release history.",
   'layout.nav.home_logo_alt': 'Logo, link to homepage',
   'layout.nav.home_sonarqube_logo_alt': '{productName} logo, link to homepage',
 

@@ -40,7 +40,8 @@
       "~sq-server-commons/*": ["./libs/sq-server-commons/src/*"],
       "~sq-server-features/*": ["./private/libs/sq-server-features/src/*"],
       "~feature-dashboards/*": ["./private/libs/feature-dashboards/src/*"],
-      "~feature-onboarding-dashboard/*": ["./libs/feature-onboarding-dashboard/src/*"]
+      "~feature-onboarding-dashboard/*": ["./libs/feature-onboarding-dashboard/src/*"],
+      "~feature-quality-gate-history/*": ["./libs/feature-quality-gate-history/src/*"]
     },
     "types": ["node", "vite/client", "jest", "@testing-library/jest-dom"],
     "outDir": "./dist"

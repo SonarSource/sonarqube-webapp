@@ -35,9 +35,11 @@ export enum SharedDocLink {
   JiraIntegrationTroubleshooting = '/instance-administration/jira-integration#troubleshooting',
   LicenseProfiles = '/advanced-security/managing-license-profiles-and-policies/',
   NewCodeDefinition = '/user-guide/about-new-code#new-code-definitions',
+  QualityGates = '/quality-standards-administration/managing-quality-gates/introduction-to-quality-gates/',
   SCATroubleshooting = '/advanced-security/troubleshooting/',
   SlackIntegration = '/instance-administration/system-functions/notifications/slack/setup',
   SlackSubscriptionSetup = '/user-guide/managing-your-account/subscribing-to-notifications/slack',
+  FailedPipelineGate = '/analyzing-source-code/ci-integration/not-integrated-tools',
 }
 
 /**

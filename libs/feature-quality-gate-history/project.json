@@ -1,0 +1,12 @@
+{
+  "name": "feature-quality-gate-history",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/feature-quality-gate-history/src",
+  "tags": ["type:feature", "visibility:public", "scope:shared"],
+  "targets": {
+    "format-check": {},
+    "lint": {},
+    "lint-report": {}
+  }
+}

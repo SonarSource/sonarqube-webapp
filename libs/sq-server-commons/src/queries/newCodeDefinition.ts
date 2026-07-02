@@ -23,9 +23,10 @@
 import { toast } from '@sonarsource/echoes-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
-import { createQueryHook } from '~shared/queries/common';
+import { createQueryHook, StaleTime } from '~shared/queries/common';
 import {
   getNewCodeDefinition,
+  listBranchesNewCodeDefinition,
   resetNewCodeDefinition,
   setNewCodeDefinition,
 } from '../api/newCodeDefinition';
@@ -49,6 +50,14 @@ export const useNewCodeDefinitionQuery = createQueryHook(
     };
   },
 );
+
+export const useBranchesNewCodeDefinitionQuery = createQueryHook((project: string) => {
+  return {
+    queryKey: ['new-code-definition', 'branches', project],
+    queryFn: () => listBranchesNewCodeDefinition({ project }),
+    staleTime: StaleTime.LONG,
+  };
+});
 
 export function useNewCodeDefinitionMutation() {
   const intl = useIntl();

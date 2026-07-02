@@ -19,16 +19,19 @@
  */
 
 import { Display, Text, ToggleTip } from '@sonarsource/echoes-react';
+import { ReactNode } from 'react';
 import { QGStatus } from '~shared/types/common';
 import { QualityGateIndicator } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 
 interface Props {
   status?: QGStatus;
+  /** Content rendered inline next to the status title (e.g. the Quality Gate History link). */
+  statusSuffix?: ReactNode;
 }
 
 export default function QualityGateStatus(props: Readonly<Props>) {
-  const { status = 'NONE' } = props;
+  const { status = 'NONE', statusSuffix } = props;
 
   return (
     <div className="sw-flex sw-gap-3" data-spotlight-id="cayc-promotion-3">
@@ -43,7 +46,12 @@ export default function QualityGateStatus(props: Readonly<Props>) {
             title={translate('overview.quality_gate')}
           />
         </div>
-        <Display>{translate('metric.level', status === 'NONE' ? 'NOT_COMPUTED' : status)}</Display>
+        <div className="sw-flex sw-items-center sw-gap-2">
+          <Display>
+            {translate('metric.level', status === 'NONE' ? 'NOT_COMPUTED' : status)}
+          </Display>
+          {statusSuffix}
+        </div>
       </div>
     </div>
   );

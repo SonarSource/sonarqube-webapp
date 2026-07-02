@@ -21,7 +21,13 @@
 import { IconActivity, IconMeasures, IconReports, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { useIsEnterpriseTier } from '~adapters/helpers/plan';
-import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
+import { IconPulse } from '~feature-quality-gate-history/components/IconPulse';
+import {
+  QUALITY_GATE_HISTORY_NEW_BADGE_EXPIRATION_DATE,
+  QUALITY_GATE_HISTORY_ROUTE_NAME,
+} from '~feature-quality-gate-history/constants';
+import { NewBadge } from '~shared/components/badges/NewBadge';
+import { getBranchLikeQuery, isMainBranch, isPullRequest } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
 import { getActivityUrl } from '~sq-server-commons/helpers/urls';
@@ -73,6 +79,18 @@ export function ComponentNavReportingMenu(props: Readonly<Props>) {
       >
         <FormattedMessage id="project_activity.page" />
       </Layout.SidebarNavigation.Item>
+      {isMainBranch(branchLike) && (
+        <Layout.SidebarNavigation.Item
+          Icon={IconPulse}
+          suffix={<NewBadge expirationDate={QUALITY_GATE_HISTORY_NEW_BADGE_EXPIRATION_DATE} />}
+          to={{
+            pathname: `/${QUALITY_GATE_HISTORY_ROUTE_NAME}`,
+            search,
+          }}
+        >
+          <FormattedMessage id="layout.quality_gate_history" />
+        </Layout.SidebarNavigation.Item>
+      )}
     </Layout.SidebarNavigation.Group>
   );
 }
