@@ -30,6 +30,7 @@ import {
   dismissNotice,
   getCurrentUser,
   getIdentityProviders,
+  getUserById,
   getUsers,
   postUser,
   updateUser,
@@ -105,6 +106,7 @@ export default class UsersServiceMock {
     this.groupMembershipsServiceMock = groupMembershipsServiceMock;
     jest.mocked(getIdentityProviders).mockImplementation(this.handleGetIdentityProviders);
     jest.mocked(getUsers).mockImplementation(this.handleGetUsers);
+    jest.mocked(getUserById).mockImplementation(this.handleGetUserById);
     jest.mocked(postUser).mockImplementation(this.handlePostUser);
     jest.mocked(updateUser).mockImplementation(this.handleUpdateUser);
     jest.mocked(changePassword).mockImplementation(this.handleChangePassword);
@@ -203,6 +205,14 @@ export default class UsersServiceMock {
       },
       users: users.slice((pageIndex - 1) * pageSize, pageIndex * pageSize),
     });
+  };
+
+  handleGetUserById: typeof getUserById = (id) => {
+    const user = this.users.find((u) => u.id === id);
+    if (!user) {
+      return Promise.reject(new Error('Not Found'));
+    }
+    return this.reply(user);
   };
 
   handlePostUser = (data: {

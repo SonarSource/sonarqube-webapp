@@ -937,9 +937,16 @@ export const defaultMessages = {
   'issues.skip_to_list': 'Skip to issues list',
   'view_projects.page': 'Projects',
   'portfolios.page': 'Portfolios',
-  'portfolio_dashboards.page': 'Dashboards',
+  'portfolio_dashboards.page': 'All dashboards',
+  'portfolio_dashboards.page.description':
+    'List of all dashboards in this portfolio including built-in and custom dashboards. {br} Learn more about <link>viewing and managing dashboards</link>',
   'portfolio_dashboards.health.page': 'Portfolio health dashboard',
   'portfolio_dashboards.all.page': 'All dashboards',
+  'portfolio_dashboards.create_dashboard': 'Create custom dashboard',
+  'portfolio_dashboards.delete_confirm_title': 'Delete dashboard',
+  'portfolio_dashboards.search_placeholder': 'Search for dashboard...',
+  'portfolio_dashboards.number_of_dashboards':
+    '<b>{count}</b> {count, plural, one {dashboard} other {dashboards}}',
   'portfolio_breakdown.page': 'Portfolio breakdown',
   'project_activity.page': 'Activity',
 
@@ -2780,6 +2787,40 @@ export const defaultMessages = {
   'dashboard.portfolio.not_found': 'The requested portfolio could not be found.',
   'dashboard.portfolio.not_found.2':
     'Either its parent has not been recomputed or it has been deleted.',
+
+  // Dashboard shared (DashboardTable, DashboardKebabMenu, DashboardDetailsModal in feature-dashboards)
+  'dashboard.dashboard_name': 'Dashboard name',
+  'dashboard.list.table.aria_label': 'Dashboards table',
+  'dashboard.list.table.column.last_edited': 'Last edited',
+  'dashboard.list.table.column.creator': 'Creator',
+  'dashboard.list.no_results': 'No dashboards found.',
+  'dashboard.list.removed_user': 'Removed user',
+  'dashboard.list.actions.aria_label': 'Dashboard actions for {dashboardName}',
+  'dashboard.list.actions.duplicate': 'Duplicate',
+  'dashboard.list.actions.delete': 'Delete',
+  'dashboard.edit_dashboard': 'Edit dashboard',
+  'dashboard.modal.delete_dashboard.title': 'Delete dashboard',
+  'dashboard.modal.delete_dashboard.description':
+    'Are you sure you want to delete the dashboard "{dashboardName}"?',
+  'dashboard.create_custom_dashboard': 'Create dashboard',
+  'dashboard.edit_dashboard_title': 'Edit dashboard',
+  'dashboard.type.built_in': 'Built-in',
+  'dashboard.type.custom': 'Custom',
+  'project_dashboard.dashboard_name': 'Name',
+  'project_dashboard.modal.dashboard_name_placeholder': 'Dashboard name',
+  'project_dashboard.dashboard_description': 'Description',
+  'project_dashboard.modal.dashboard_description_placeholder': 'Dashboard description',
+  'project_dashboard.duplicate_dashboard_title': 'Duplicate dashboard',
+  'project_dashboard.duplicate_dashboard_description':
+    'Duplicating a dashboard creates a copy with all the same widgets.',
+  'project_dashboard.modal.duplicate_dashboard_button': 'Duplicate',
+
+  // Portfolio dashboard list toasts
+  'portfolio_dashboard.list.toast.create_success': 'Dashboard "{dashboardName}" has been created.',
+  'portfolio_dashboard.list.toast.edit_success': 'Dashboard "{dashboardName}" has been updated.',
+  'portfolio_dashboard.list.toast.delete_success': 'Dashboard "{dashboardName}" has been deleted.',
+  'portfolio_dashboard.list.toast.duplicate_success':
+    'Dashboard "{dashboardName}" has been duplicated.',
 
   //------------------------------------------------------------------------------
   //

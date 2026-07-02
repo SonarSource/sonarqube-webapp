@@ -106,6 +106,10 @@ export function deleteUser({ id, anonymize }: { anonymize?: boolean; id: string 
   return axiosClient.delete(`${USERS_ENDPOINT}/${id}`, { params: { anonymize } });
 }
 
+export function getUserById(id: string) {
+  return axiosClient.get<RestUserDetailed>(`${USERS_ENDPOINT}/${id}`);
+}
+
 export function setHomePage(homepage: HomePage): Promise<void | Response> {
   return post('/api/users/set_homepage', homepage).catch(throwGlobalError);
 }

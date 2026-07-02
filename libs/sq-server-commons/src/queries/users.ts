@@ -18,7 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueries,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { Semaphore } from '~shared/helpers/Semaphore';
 import { isStringDefined } from '~shared/helpers/types';
 import { isLoggedIn } from '~shared/helpers/users';
@@ -33,6 +39,7 @@ import {
   deleteUser,
   dismissNotice,
   getIdentityProviders,
+  getUserById,
   getUsers,
   postUser,
   updateUser,
@@ -72,6 +79,26 @@ export const useCurrentUserDetailsQuery = createQueryHook(() => {
     enabled: isStringDefined(userLogin),
   };
 });
+
+export function useUsersByIdsQuery(ids: string[]) {
+  return useQueries({
+    queries: ids.map((id) => ({
+      queryKey: ['user', 'by-id', id] as const,
+      queryFn: () => getUserById(id),
+      staleTime: StaleTime.LONG,
+    })),
+    combine: (results) => {
+      const data: Record<string, { avatar: string; name: string }> = {};
+      results.forEach((result, index) => {
+        if (result.data) {
+          // Non-admin responses omit `id`, so key by the input UUID instead.
+          data[ids[index]] = { avatar: result.data.avatar, name: result.data.name };
+        }
+      });
+      return { data, isPending: results.some((r) => r.isPending) };
+    },
+  });
+}
 
 export function useUserTokensQuery(login: string, semaphore?: Semaphore) {
   return useQuery({

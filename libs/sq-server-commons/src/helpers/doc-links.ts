@@ -84,6 +84,7 @@ export enum DocLink {
   ManagingPortfolios = '/project-administration/managing-portfolios/',
   MetricDefinitions = '/user-guide/code-metrics/metrics-definition/',
   PermissionTemplates = '/instance-administration/user-management/user-permissions#permission-templates',
+  PortfolioManagementAllDashboards = '/managing-portfolios/portfolio-dashboards/viewing-and-managing-dashboards',
   ModeOverview = '/instance-administration/analysis-functions/instance-mode/instance-mode-overview',
   ModeMQR = '/instance-administration/analysis-functions/instance-mode/mqr-mode',
   ModeStandard = '/instance-administration/analysis-functions/instance-mode/standard-experience',
