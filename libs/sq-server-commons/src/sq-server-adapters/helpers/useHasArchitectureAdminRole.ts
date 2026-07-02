@@ -18,6 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export function useHasArchitectureAdminRole(): boolean {
+export function useHasArchitectureAdminRole(_resourceType: string, _resourceId: string): boolean {
   return false;
 }
