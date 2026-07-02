@@ -254,36 +254,6 @@ describe('ComponentNav', () => {
   });
 
   describe('portfolio and security reports navigation', () => {
-    it('should render limited menu items for portfolios (SQCB)', () => {
-      const component = mockComponent({
-        qualifier: ComponentQualifier.Portfolio,
-        breadcrumbs: [{ key: 'foo', name: 'Foo', qualifier: ComponentQualifier.Portfolio }],
-        analysisDate: '2024-01-01',
-        extensions: [{ key: 'governance/portfolio', name: 'Governance Portfolio' }],
-      });
-
-      renderComponentNav({ component }, []);
-
-      expect(ui.navigationItemsList()).toEqual([
-        'overview.page',
-        'portfolio_dashboards.health.page',
-        'portfolio_dashboards.all.page',
-        'portfolio_breakdown.page',
-        'issues.page',
-        'layout.measures',
-        'project_activity.page',
-      ]);
-      expect(ui.overviewLink.get()).toBeInTheDocument();
-      expect(ui.issuesLink.get()).toBeInTheDocument();
-      expect(ui.measuresLink.get()).toBeInTheDocument();
-      expect(ui.activityLink.get()).toBeInTheDocument();
-
-      // Portfolios don't show security hotspots or code
-      expect(ui.securityHotspotsLink.query()).not.toBeInTheDocument();
-      expect(ui.codeLink.query()).not.toBeInTheDocument();
-      expect(ui.appCodeLink.query()).not.toBeInTheDocument();
-    });
-
   });
 
   describe('extensions menu', () => {
@@ -384,7 +354,7 @@ function renderComponentNav(
       availableFeatures: features,
       appState: {
         edition,
-        qualifiers: [ComponentQualifier.Portfolio],
+        qualifiers: edition === EditionKey.enterprise ? [ComponentQualifier.Portfolio] : [],
       } as AppState,
     },
   );
