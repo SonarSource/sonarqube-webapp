@@ -37,6 +37,10 @@ import { ComponentContextShape } from '~sq-server-commons/types/component';
 import { Feature } from '~sq-server-commons/types/features';
 import { Mode } from '~sq-server-commons/types/mode';
 import routes from '../routes';
+// Eagerly load the lazy-loaded ComponentMeasuresApp chunk so its
+// transform + module-eval cost is paid at module-load time, outside the findBy
+// timeout window. Prevents cold-transform-cache flakes on the first test in CI.
+import '../components/ComponentMeasuresApp';
 
 jest.mock('lodash', () => ({
   ...jest.requireActual('lodash'),

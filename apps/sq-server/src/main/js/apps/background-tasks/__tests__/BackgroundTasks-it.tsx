@@ -38,6 +38,10 @@ import { EditionKey } from '~sq-server-commons/types/editions';
 import { TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
 import { PAGE_SIZE } from '../constants';
 import routes from '../routes';
+// Eagerly load the lazy-loaded BackgroundTasksApp chunk so its
+// transform + module-eval cost is paid at module-load time, outside the findBy
+// timeout window. Prevents cold-transform-cache flakes on the first test in CI.
+import '../components/BackgroundTasksApp';
 
 jest.mock('../constants', () => ({
   ...jest.requireActual('../constants'),
