@@ -42,6 +42,17 @@
         { "env": "SHARD_TOTAL" }
       ]
     },
+    "test-ci-shard": {
+      "options": {
+        "command": "jest -c {projectRoot}/jest.config.ci.js --ci --shard=$SHARD_VALUE/$SHARD_TOTAL"
+      },
+      "inputs": [
+        "defaultWithShared",
+        "^defaultWithShared",
+        { "env": "SHARD_VALUE" },
+        { "env": "SHARD_TOTAL" }
+      ]
+    },
     "test-coverage-merge": {},
     "update-cwes": {
       "executor": "nx:run-commands",
