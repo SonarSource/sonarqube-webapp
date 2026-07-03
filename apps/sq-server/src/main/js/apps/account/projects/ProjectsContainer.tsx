@@ -35,16 +35,10 @@ interface State {
 
 export default class ProjectsContainer extends React.PureComponent<{}, State> {
   intl = getIntl();
-  mounted = false;
   state: State = { loading: true, page: 1 };
 
   componentDidMount() {
-    this.mounted = true;
     this.loadProjects();
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
   }
 
   loadProjects(page = this.state.page) {
