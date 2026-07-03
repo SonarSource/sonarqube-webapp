@@ -22,7 +22,7 @@
       "!{workspaceRoot}/config/*",
       "!{projectRoot}/config/jest/*",
       "!{projectRoot}/jest.config.[jt]s",
-      "!{projectRoot}/jest.config.ci.[jt]s",
+      "!{projectRoot}/jest.config.*.ci.[jt]s",
       "!{projectRoot}/__tests__/**/*-(test|smoke|it).(j|t)sx?",
       "!{projectRoot}/__tests__/**/*.snap",
       "!{workspaceRoot}/eslint-local-rules/**"
@@ -31,7 +31,7 @@
       "defaultWithShared",
       "!{workspaceRoot}/**/config/*",
       "!{workspaceRoot}/**/jest.config.[jt]s",
-      "!{workspaceRoot}/**/jest.config.ci.[jt]s",
+      "!{workspaceRoot}/**/jest.config.*.ci.[jt]s",
       "!{workspaceRoot}/**/__tests__/**/*-(test|smoke|it).(j|t)sx?",
       "!{workspaceRoot}/**/__tests__/**/*.snap",
       "!{workspaceRoot}/eslint-local-rules/**"

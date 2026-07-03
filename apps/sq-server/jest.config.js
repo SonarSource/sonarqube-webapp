@@ -18,68 +18,28 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-const { existsSync } = require('fs');
 const baseConfig = require('../../config/jest/jest.config.base');
+const jestConfig = require('./jest.config.common');
 
-const isPrivateEdition = existsSync('private') && process.env['EDITION'] !== 'public';
-
+// Unit and integration tests run as separate Jest projects so the integration project can layer on
+// its own setup (React act() flush, default service-mock seeding) without affecting unit tests.
+// Options that Jest only honours at the top (global) level live here; per-project options live in
+// jest.config.common.js and the ut/it configs.
 module.exports = {
   ...baseConfig.globalConfig,
-  ...baseConfig.projectConfig,
   rootDir: '../../', // We need to run it from the workspace root to get coverage from libs
-  roots: [
-    '<rootDir>/apps/sq-server',
-    '<rootDir>/libs',
-    ...(isPrivateEdition ? ['<rootDir>/private/libs'] : []),
+  projects: [
+    '<rootDir>/apps/sq-server/jest.config.ut.js',
+    '<rootDir>/apps/sq-server/jest.config.it.js',
   ],
-  coverageDirectory: '<rootDir>/apps/sq-server/build/reports/coverage',
-  collectCoverageFrom: [
-    'apps/sq-server/src/**/*.{ts,tsx,js}',
-    'libs/**/*.{ts,tsx,js}',
-    'private/libs/**/*.{ts,tsx,js}',
-    '!helpers/{keycodes,testUtils}.{ts,tsx}',
-    '!**/node_modules/**',
-  ],
-  moduleNameMapper: {
-    ...baseConfig.projectConfig.moduleNameMapper,
-
-    // mock global footer to speed up tests
-    '~adapters/components/layout/GlobalFooter':
-      '<rootDir>/apps/sq-server/__mocks__/GlobalFooter.tsx',
-
-    // mock useProjectId so tests don't each have to jest.mock it (see the __mocks__ file)
-    '^~adapters/helpers/useProjectId$': '<rootDir>/apps/sq-server/__mocks__/useProjectId.ts',
-
-    // adapters aliases
-    '~adapters/(.+)': '<rootDir>/libs/sq-server-commons/src/sq-server-adapters/$1',
-
-    // sq-server specific modules aliases
-    '~sq-server-addons/(.+)': isPrivateEdition
-      ? '<rootDir>/private/libs/sq-server-addons/src/$1'
-      : '<rootDir>/libs/sq-server-addons/src/$1',
-    '~sq-server-features/(.+)': '<rootDir>/private/libs/sq-server-features/src/$1',
-    '~sq-server-commons/(.+)': '<rootDir>/libs/sq-server-commons/src/$1',
-
-    // internal aliases
-    '^~design-system': '<rootDir>/libs/sq-server-commons/src/design-system/index.ts',
-  },
-  // Architecture integration tests are disabled on SQS: they are MSW-heavy and flaky under the
-  // single unit+integration CI shards. Re-enabled via the SQC-style UT/IT jest split in SC-51973.
-  modulePathIgnorePatterns: ['<rootDir>/private/libs/feature-architecture/.*-it.tsx'],
-  setupFiles: [
-    ...baseConfig.projectConfig.setupFiles,
-    '<rootDir>/config/jest/SetupTestEnvironment.ts',
-    '<rootDir>/apps/sq-server/config/jest/SetupTheme.js',
-  ],
-  setupFilesAfterEnv: [
-    '<rootDir>/config/jest/SetupReactTestingLibrary.ts',
-    '<rootDir>/config/jest/SetupJestAxe.ts',
-    '<rootDir>/apps/sq-server/config/jest/SetupFailOnConsole.ts',
-    '<rootDir>/apps/sq-server/config/jest/SetupMockServerWorkers.ts',
-  ],
-  // Our ts,tsx and js files need some babel transformation to be understood by nodejs
-  transform: {
-    '^.+\\.[jt]sx?$': `<rootDir>/apps/sq-server/config/jest/JestPreprocess.js`,
-  },
+  coverageDirectory: jestConfig.coverageDirectory,
+  collectCoverageFrom: jestConfig.collectCoverageFrom,
+  maxWorkers: '50%',
+  workerIdleMemoryLimit: '1GB',
   testTimeout: 80000,
+  // Report the 5 slowest tests
+  reporters: [
+    'default',
+    ['jest-slow-test-reporter', { numTests: 5, warnOnSlowerThan: 10000, color: true }],
+  ],
 };

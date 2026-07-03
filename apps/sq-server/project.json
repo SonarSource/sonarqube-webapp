@@ -25,9 +25,15 @@
         "commands": ["jest -c {projectRoot}/jest.config.js"]
       }
     },
-    "test-ci-shard": {
+    "test-ci-ut": {
       "options": {
-        "command": "jest -c {projectRoot}/jest.config.ci.js --ci --shard=$SHARD_VALUE/$SHARD_TOTAL"
+        "command": "jest -c {projectRoot}/jest.config.ut.ci.js --ci"
+      },
+      "inputs": ["defaultWithShared", "^defaultWithShared"]
+    },
+    "test-ci-it-shard": {
+      "options": {
+        "command": "jest -c {projectRoot}/jest.config.it.ci.js --ci --shard=$SHARD_VALUE/$SHARD_TOTAL"
       },
       "inputs": [
         "defaultWithShared",

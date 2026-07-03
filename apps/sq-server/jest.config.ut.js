@@ -18,22 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-const jestConfig = require('./jest.config');
+const jestConfig = require('./jest.config.common');
 
 module.exports = {
   ...jestConfig,
-  collectCoverage: true,
-  coverageReporters: ['json', 'lcov'],
-  maxWorkers: 8, // We use sonar-l runner with 20 CPUs and 40 GB ram
-  workerIdleMemoryLimit: '5GB',
-  reporters: [
-    'default',
-    [
-      'jest-ctrf-json-reporter',
-      {
-        outputDir: './apps/sq-server/build/reports/ctrf',
-        outputFile: 'ctrf-report.json',
-      },
-    ],
-  ],
+  displayName: 'unit',
+  testRegex: '/__tests__/.*-test\\.[jt]sx?$', // Regex defining what is a unit test
+  slowTestThreshold: 5, // 5 seconds
 };

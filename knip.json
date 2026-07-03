@@ -87,7 +87,7 @@
         "config": ["../../eslint.config.js"]
       },
       "jest": {
-        "config": ["jest.config.js", "jest.config.ci.js"]
+        "config": ["jest.config*.js"]
       },
       "msw": {
         "config": ["package.json"],
