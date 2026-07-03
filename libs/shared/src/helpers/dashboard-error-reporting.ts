@@ -18,8 +18,62 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { isAxiosError } from 'axios';
 import type { ErrorInfo } from 'react';
+import { HttpStatus } from '../types/request';
 import { isRecord, isStringDefined } from './types';
+
+const TRANSIENT_AXIOS_CODES = new Set(['ECONNABORTED', 'ERR_CANCELED', 'ERR_NETWORK']);
+
+function getHttpStatusFromCaughtError(error: unknown): number | undefined {
+  if (typeof Response !== 'undefined' && error instanceof Response) {
+    return error.status;
+  }
+
+  if (isAxiosError(error) && error.response?.status !== undefined) {
+    return error.response.status;
+  }
+
+  return undefined;
+}
+
+/** Transient widget data-fetch failures (network, timeout, most 4xx) should not reach Sentry. */
+export function isTransientDashboardWidgetFetchError(error: unknown): boolean {
+  if (error == null) {
+    return false;
+  }
+
+  const status = getHttpStatusFromCaughtError(error);
+
+  if (status === HttpStatus.Forbidden) {
+    return false;
+  }
+
+  if (status !== undefined && status >= HttpStatus.InternalServerError) {
+    return false;
+  }
+
+  if (
+    isAxiosError(error) &&
+    ((error.code !== undefined && TRANSIENT_AXIOS_CODES.has(error.code)) || !error.response)
+  ) {
+    return true;
+  }
+
+  if (error instanceof TypeError && error.message.toLowerCase().includes('failed to fetch')) {
+    return true;
+  }
+
+  if (error instanceof Error && error.message === 'timeout exceeded') {
+    return true;
+  }
+
+  if (status !== undefined && status >= HttpStatus.BadRequest) {
+    return true;
+  }
+
+  return false;
+}
 
 const MAX_SERIALIZE_DEPTH = 6;
 

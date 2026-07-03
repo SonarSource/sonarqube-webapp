@@ -18,12 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { AxiosError, AxiosHeaders } from 'axios';
 import {
   getDashboardErrorReportingPayload,
+  isTransientDashboardWidgetFetchError,
   normalizeUnknownError,
   serializeValueForErrorReporting,
   stringifyErrorContext,
 } from '../dashboard-error-reporting';
+
+function makeAxiosErrorWithStatus(status: number): AxiosError {
+  const headers = new AxiosHeaders();
+  const axiosConfig = { headers };
+  return new AxiosError('error', undefined, axiosConfig, undefined, {
+    config: axiosConfig,
+    data: {},
+    headers: {},
+    status,
+    statusText: String(status),
+  });
+}
 
 describe('dashboard-error-reporting', () => {
   it('serializes primitive values', () => {
@@ -109,5 +123,82 @@ describe('dashboard-error-reporting', () => {
     expect(payload.context.errorMessage).toBe('widget failed');
     expect(payload.context.widgetKey).toBe('abc');
     expect(payload.serialized).toContain('widget failed');
+  });
+});
+
+describe('isTransientDashboardWidgetFetchError', () => {
+  it('returns false for null and undefined', () => {
+    expect(isTransientDashboardWidgetFetchError(null)).toBe(false);
+    expect(isTransientDashboardWidgetFetchError(undefined)).toBe(false);
+  });
+
+  it('returns false for 403 Forbidden Response', () => {
+    expect(isTransientDashboardWidgetFetchError(new Response(null, { status: 403 }))).toBe(false);
+  });
+
+  it('returns false for 5xx server errors via Response', () => {
+    expect(isTransientDashboardWidgetFetchError(new Response(null, { status: 500 }))).toBe(false);
+    expect(isTransientDashboardWidgetFetchError(new Response(null, { status: 503 }))).toBe(false);
+  });
+
+  it('returns false for 403 Forbidden via AxiosError with response', () => {
+    expect(isTransientDashboardWidgetFetchError(makeAxiosErrorWithStatus(403))).toBe(false);
+  });
+
+  it('returns false for 5xx server errors via AxiosError with response', () => {
+    expect(isTransientDashboardWidgetFetchError(makeAxiosErrorWithStatus(500))).toBe(false);
+    expect(isTransientDashboardWidgetFetchError(makeAxiosErrorWithStatus(503))).toBe(false);
+  });
+
+  it('returns true for Axios ECONNABORTED (timeout)', () => {
+    expect(isTransientDashboardWidgetFetchError(new AxiosError('timeout', 'ECONNABORTED'))).toBe(
+      true,
+    );
+  });
+
+  it('returns true for Axios ERR_CANCELED', () => {
+    expect(isTransientDashboardWidgetFetchError(new AxiosError('canceled', 'ERR_CANCELED'))).toBe(
+      true,
+    );
+  });
+
+  it('returns true for Axios ERR_NETWORK', () => {
+    expect(
+      isTransientDashboardWidgetFetchError(new AxiosError('network error', 'ERR_NETWORK')),
+    ).toBe(true);
+  });
+
+  it('returns true for Axios error with no response (network failure)', () => {
+    expect(isTransientDashboardWidgetFetchError(new AxiosError('Network Error'))).toBe(true);
+  });
+
+  it('returns true for TypeError with "failed to fetch" (case-insensitive)', () => {
+    expect(isTransientDashboardWidgetFetchError(new TypeError('Failed to fetch'))).toBe(true);
+    expect(isTransientDashboardWidgetFetchError(new TypeError('failed to fetch'))).toBe(true);
+  });
+
+  it('returns true for Error with "timeout exceeded"', () => {
+    expect(isTransientDashboardWidgetFetchError(new Error('timeout exceeded'))).toBe(true);
+  });
+
+  it('returns true for 4xx client errors (except 403)', () => {
+    expect(isTransientDashboardWidgetFetchError(new Response(null, { status: 400 }))).toBe(true);
+    expect(isTransientDashboardWidgetFetchError(new Response(null, { status: 401 }))).toBe(true);
+    expect(isTransientDashboardWidgetFetchError(new Response(null, { status: 404 }))).toBe(true);
+    expect(isTransientDashboardWidgetFetchError(new Response(null, { status: 409 }))).toBe(true);
+    expect(isTransientDashboardWidgetFetchError(new Response(null, { status: 422 }))).toBe(true);
+    expect(isTransientDashboardWidgetFetchError(new Response(null, { status: 429 }))).toBe(true);
+  });
+
+  it('returns true for 4xx AxiosError responses (except 403)', () => {
+    expect(isTransientDashboardWidgetFetchError(makeAxiosErrorWithStatus(400))).toBe(true);
+    expect(isTransientDashboardWidgetFetchError(makeAxiosErrorWithStatus(401))).toBe(true);
+    expect(isTransientDashboardWidgetFetchError(makeAxiosErrorWithStatus(404))).toBe(true);
+  });
+
+  it('returns false for non-error values without a known status', () => {
+    expect(isTransientDashboardWidgetFetchError('some string error')).toBe(false);
+    expect(isTransientDashboardWidgetFetchError(new Error('unexpected failure'))).toBe(false);
+    expect(isTransientDashboardWidgetFetchError({ code: 'ECONNABORTED' })).toBe(false);
   });
 });
