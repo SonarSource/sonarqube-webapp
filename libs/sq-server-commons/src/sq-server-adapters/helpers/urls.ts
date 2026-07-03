@@ -41,3 +41,5 @@ export const API_V2_MOCKS_PREFIX = '/api/v2';
  * This is the URL most like an overview for a SQS project.
  */
 export const PROJECT_BASE_URL = '/dashboard';
+
+export const MERGE_PATCH_CONTENT_TYPE = 'application/merge-patch+json';

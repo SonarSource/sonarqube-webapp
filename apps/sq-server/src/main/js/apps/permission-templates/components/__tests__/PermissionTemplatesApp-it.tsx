@@ -118,6 +118,20 @@ describe('rendering', () => {
 
     expect(screen.getByText('This is permission template 1')).toBeInTheDocument();
   });
+
+  it('should not show architectureadmin permission in template details when architecture feature is unavailable', async () => {
+    const user = userEvent.setup();
+    const ui = getPageObject(user);
+    renderPermissionTemplatesApp(undefined, []);
+    await ui.appLoaded();
+
+    await ui.openTemplateDetails('Permission Template 1');
+    await ui.appLoaded();
+
+    expect(
+      ui.permissionCheckbox('johndoe', Permissions.ArchitectureAdmin).query(),
+    ).not.toBeInTheDocument();
+  });
 });
 
 describe('CRUD', () => {
@@ -531,7 +545,7 @@ function getPageObject(user: UserEvent) {
 
 function renderPermissionTemplatesApp(
   qualifiers = [ComponentQualifier.Project],
-  featureList: Feature[] = [],
+  featureList: Feature[] = [Feature.Architecture],
 ) {
   renderAppWithAdminContext('admin/permission_templates', routes, {
     appState: mockAppState({ qualifiers }),

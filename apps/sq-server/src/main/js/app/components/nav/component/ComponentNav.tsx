@@ -28,11 +28,14 @@ import { History, RecentHistory } from '~shared/helpers/recent-history';
 import { isDefined } from '~shared/helpers/types';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { ComponentQualifier } from '~shared/types/component';
+import { addons } from '~sq-server-addons/index';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import {
   getPortfolioUrl,
   getProjectsUrl,
   getProjectTutorialLocation,
 } from '~sq-server-commons/helpers/urls';
+import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import { ComponentNavAnalysisMenu } from './ComponentNavAnalysisMenu';
 import { ComponentNavExtensionsMenu } from './ComponentNavExtensionsMenu';
@@ -50,6 +53,7 @@ interface Props {
 export function ComponentNav(props: Readonly<Props>) {
   const intl = useIntl();
   const { component, isInProgress, isPending } = props;
+  const { hasFeature } = useAvailableFeatures();
   const { data: branchLikes = [] } = useProjectBranchesQuery(component);
   const { data: branchLike } = useCurrentBranchQuery(component);
   const { breadcrumbs, key, name } = component;
@@ -93,6 +97,15 @@ export function ComponentNav(props: Readonly<Props>) {
           </Layout.SidebarNavigation.Item>
         )}
         {isAnalyzed && <ComponentNavAnalysisMenu branchLike={branchLike} component={component} />}
+
+        {isAnalyzed &&
+          hasFeature(Feature.Architecture) &&
+          addons.architecture?.ArchitectureNavMenu && (
+            <addons.architecture.ArchitectureNavMenu
+              branchLike={branchLike}
+              component={component}
+            />
+          )}
 
         {!isApplicationChildInaccessible && (
           <ComponentNavExtensionsMenu branchLike={branchLike} component={component} />

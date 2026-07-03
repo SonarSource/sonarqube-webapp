@@ -175,10 +175,12 @@ it('should show right option when keeping log for year', async () => {
   handler.set(SettingsKey.AuditHouseKeeping, HousekeepingPolicy.Yearly);
   renderAuditLogs();
   expect(await ui.pageTitle.find()).toBeInTheDocument();
+  // The trimester option only appears after the async housekeeping-policy fetch resolves and
+  // re-renders (the initial render defaults to Monthly). Await it before the synchronous checks.
+  expect(await ui.trimesterRadio.find()).toBeInTheDocument();
   expect(ui.todayRadio.get()).toBeInTheDocument();
   expect(ui.weekRadio.get()).toBeInTheDocument();
   expect(ui.monthRadio.get()).toBeInTheDocument();
-  expect(ui.trimesterRadio.get()).toBeInTheDocument();
   expect(ui.customRadio.get()).toBeInTheDocument();
 });
 

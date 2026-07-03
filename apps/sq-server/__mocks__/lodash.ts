@@ -23,6 +23,13 @@ module.exports = {
   debounce: (fn: Function) => {
     const result = (...args: any[]) => fn(...args);
     result.cancel = () => {}; // required to satisfy the Cancelable interface
+    result.flush = () => {}; // required to satisfy the Cancelable interface
+    return result;
+  },
+  throttle: (fn: Function) => {
+    const result = (...args: any[]) => fn(...args);
+    result.cancel = () => {};
+    result.flush = () => {};
     return result;
   },
 };

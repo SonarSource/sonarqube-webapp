@@ -24,7 +24,6 @@ import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
 import { getAvailableFeatures } from '~sq-server-commons/api/features';
 import { getGlobalNavigation } from '~sq-server-commons/api/navigation';
-import { getValue } from '~sq-server-commons/api/settings';
 import { getCurrentUser } from '~sq-server-commons/api/users';
 import { initAppVariables } from '~sq-server-commons/helpers/browser';
 import {
@@ -34,13 +33,12 @@ import {
 import { loadL10nBundle } from '~sq-server-commons/helpers/l10nBundle';
 import { getBaseUrl, getSystemStatus, initMockApi } from '~sq-server-commons/helpers/system';
 import { Feature } from '~sq-server-commons/types/features';
-import { SettingsKey } from '~sq-server-commons/types/settings';
 import './styles/sonar';
 
 initAppVariables();
 installWebAnalyticsHandler();
 installExtensionsHandler();
-initMockApi()
+initMockApi(addons.architecture?.getArchitectureDevMockHandlers?.() ?? [])
   .then(initApplication)
   .catch((e) => {
     throw e;
@@ -55,18 +53,15 @@ async function initApplication() {
       })
     : undefined;
 
-  const [l10nBundle, currentUser, availableFeatures, architectureOptIn] = await Promise.all([
+  const [l10nBundle, currentUser, availableFeatures] = await Promise.all([
     loadL10nBundle(appState),
     isMainApp() ? getCurrentUser() : undefined,
     isMainApp() ? getAvailableFeatures() : undefined,
-    isMainApp() ? getValue({ key: SettingsKey.DesignAndArchitecture }) : undefined,
   ]).catch((error) => {
     // eslint-disable-next-line no-console
     console.error('Application failed to start', error);
     throw error;
   });
-
-  const optInFeatures = architectureOptIn?.value === 'true' ? [Feature.Architecture] : [];
 
   const filteredFeatures = availableFeatures?.filter((f) => {
     if (f === Feature.BranchSupport) {
@@ -77,7 +72,7 @@ async function initApplication() {
   });
 
   const startReactApp = await import('./utils/startReactApp').then((i) => i.default);
-  startReactApp(l10nBundle, currentUser, appState, filteredFeatures, optInFeatures);
+  startReactApp(l10nBundle, currentUser, appState, filteredFeatures);
 }
 
 function isMainApp() {

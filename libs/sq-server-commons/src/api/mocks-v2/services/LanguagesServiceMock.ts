@@ -20,39 +20,22 @@
 
 import { http } from 'msw';
 import { AbstractServiceMock } from '~shared/api/mocks/AbstractServiceMock';
-import { mockRestUser } from '../../../helpers/testMocks';
-import { RestUser } from '../../../types/users';
+import { Language } from '~shared/types/languages';
 
-interface UsersServiceData {
-  users: RestUser[];
+export interface LanguagesServiceData {
+  languages: Language[];
 }
 
-export class UsersServiceMock extends AbstractServiceMock<UsersServiceData> {
-  handlers = [
-    http.get('/api/users/current', () =>
-      this.ok({
-        isLoggedIn: true,
-        login: 'admin',
-        name: 'Admin',
-        local: true,
-        email: 'admin@example.com',
-        avatar: '',
-        groups: ['sonar-administrators'],
-        scmAccounts: [],
-        permissions: { global: ['admin', 'profileadmin', 'gateadmin', 'scan', 'provisioning'] },
-      }),
-    ),
-  ];
+export class LanguagesServiceMock extends AbstractServiceMock<LanguagesServiceData> {
+  handlers = [http.get('/api/languages/list', () => this.ok({ languages: this.data.languages }))];
 }
 
-export const UsersServiceDefaultDataset: UsersServiceData = {
-  users: [
-    mockRestUser({
-      id: 'uuid-1',
-      login: 'john.doe',
-      name: 'John Doe',
-      email: 'john.doe@fakemail.com',
-      externalProvider: 'github',
-    }),
+export const LanguagesServiceDefaultDataset: LanguagesServiceData = {
+  languages: [
+    { key: 'java', name: 'Java' },
+    { key: 'ts', name: 'TypeScript' },
+    { key: 'js', name: 'JavaScript' },
+    { key: 'py', name: 'Python' },
+    { key: 'cs', name: 'C#' },
   ],
 };

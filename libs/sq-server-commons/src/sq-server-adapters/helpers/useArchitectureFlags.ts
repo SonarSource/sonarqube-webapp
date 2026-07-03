@@ -22,7 +22,7 @@ import { ArchitectureFlags, DEFAULT_PERFORMANCE_LIMITS } from '~shared/helpers/a
 
 export function useArchitectureFlags(): ArchitectureFlags {
   return {
-    designArchitectureSquadExtensionPack: true,
+    designArchitectureSquadExtensionPack: false,
     designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
     isCurrentOrganizationMember: true,
   };

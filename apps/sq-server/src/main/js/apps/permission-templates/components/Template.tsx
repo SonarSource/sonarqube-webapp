@@ -27,11 +27,16 @@ import * as api from '~sq-server-commons/api/permissions';
 import AllHoldersList from '~sq-server-commons/components/permissions/AllHoldersList';
 import { FilterOption } from '~sq-server-commons/components/permissions/SearchForm';
 import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
+import withAvailableFeatures, {
+  WithAvailableFeaturesProps,
+} from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE,
   convertToPermissionDefinitions,
+  removeArchitectureAdminPermission,
 } from '~sq-server-commons/helpers/permissions';
+import { Feature } from '~sq-server-commons/types/features';
 import {
   PermissionGroup,
   PermissionTemplate,
@@ -42,7 +47,7 @@ import ActionsCell from './ActionsCell';
 import ProvisioningWarning from './ProvisioningWarning';
 import TemplateDetails from './TemplateDetails';
 
-interface Props {
+interface Props extends WithAvailableFeaturesProps {
   refresh: () => void;
   template: PermissionTemplate;
   topQualifiers: string[];
@@ -59,7 +64,7 @@ interface State {
   usersPaging?: Paging;
 }
 
-export default class Template extends React.PureComponent<Props, State> {
+class Template extends React.PureComponent<Props, State> {
   mounted = false;
   state: State = {
     filter: 'all',
@@ -326,10 +331,10 @@ export default class Template extends React.PureComponent<Props, State> {
     const { template, topQualifiers } = this.props;
     const { users, loading, groups, groupsPaging, usersPaging, selectedPermission, filter, query } =
       this.state;
-    const permissions = convertToPermissionDefinitions(
-      PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE,
-      'projects_role',
-    );
+    const order = this.props.hasFeature(Feature.Architecture)
+      ? PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE
+      : removeArchitectureAdminPermission(PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE);
+    const permissions = convertToPermissionDefinitions(order, 'projects_role');
     const allUsers = [...users];
 
     const creatorPermissions = template.permissions
@@ -410,3 +415,5 @@ export default class Template extends React.PureComponent<Props, State> {
     );
   }
 }
+
+export default withAvailableFeatures(Template);

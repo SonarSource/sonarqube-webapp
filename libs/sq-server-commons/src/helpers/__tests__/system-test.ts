@@ -24,6 +24,7 @@ import { initMockApi } from '../system';
 jest.mock('../../api/mocks-v2/browser', () => ({
   worker: {
     start: jest.fn().mockResolvedValue({}),
+    use: jest.fn(),
   },
 }));
 

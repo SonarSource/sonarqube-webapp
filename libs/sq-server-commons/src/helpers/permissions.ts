@@ -108,6 +108,15 @@ export function filterPermissions(
   });
 }
 
+/**
+ * Removes the "Administer Architecture" permission from an order array. Centralizes the
+ * architectureadmin filtering shared by the project and permission-template permission pages;
+ * callers apply it based on Feature.Architecture availability.
+ */
+export function removeArchitectureAdminPermission(order: string[]): string[] {
+  return order.filter((permission) => permission !== Permissions.ArchitectureAdmin);
+}
+
 export function convertToPermissionDefinitions(
   permissions: Array<string | { category: string; permissions: string[] }>,
   l10nPrefix: string,

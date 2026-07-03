@@ -19,6 +19,7 @@
  */
 
 import { isAfter } from 'date-fns';
+import { HttpHandler } from 'msw';
 import { getEnhancedWindow } from './browser';
 import { parseDate } from './dates';
 
@@ -40,9 +41,10 @@ export function isCurrentVersionEOLActive(versionEOL: string) {
   return isAfter(parseDate(versionEOL), new Date());
 }
 
-export async function initMockApi() {
+export async function initMockApi(extraHandlers: HttpHandler[] = []) {
   if (process.env.NODE_ENV === 'development' && process.env.WITH_MOCK_API === 'true') {
     const { worker } = await import('../api/mocks-v2/browser');
+    worker.use(...extraHandlers);
     return worker
       .start({
         onUnhandledRequest: (req, print) => {

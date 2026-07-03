@@ -23,7 +23,6 @@ import { Outlet } from 'react-router-dom';
 import { addons } from '~sq-server-addons/index';
 import NCDAutoUpdateMessage from '~sq-server-commons/components/new-code-definition/NCDAutoUpdateMessage';
 import Workspace from '~sq-server-commons/components/workspace/Workspace';
-import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import IndexationNotification from '~sq-server-commons/context/indexation/IndexationNotification';
 import MetricsContextProvider from '~sq-server-commons/context/metrics/MetricsContextProvider';
@@ -41,7 +40,6 @@ const MonitoringAlerts = addons.monitoringAlerts?.MonitoringAlerts || (() => und
 
 export default function GlobalContainer() {
   const { hasFeature } = useAvailableFeatures();
-  const { canAdmin } = useAppState();
 
   return (
     <MetricsContextProvider>
@@ -56,9 +54,6 @@ export default function GlobalContainer() {
           <Outlet />
         </Layout>
 
-        {/* spotlight tours and modals */}
-        {hasFeature(Feature.Architecture) && canAdmin && addons.architecture?.spotlight({})}
-
         {hasFeature(Feature.FromSonarQubeUpdate) && addons.issueSandbox?.SandboxIssuesIntro && (
           <addons.issueSandbox.SandboxIssuesIntro />
         )}
@@ -71,7 +66,6 @@ export default function GlobalContainer() {
 
 function Banners() {
   const { hasFeature } = useAvailableFeatures();
-  const { canAdmin } = useAppState();
 
   return (
     <>
@@ -86,10 +80,6 @@ function Banners() {
       {(hasFeature(Feature.FixSuggestions) || hasFeature(Feature.FixSuggestionsMarketing)) && (
         <EnableAiCodeFixMessage />
       )}
-
-      {hasFeature(Feature.Architecture) &&
-        canAdmin &&
-        addons.architecture?.ArchitectureAdminBanner({})}
 
       <NCDAutoUpdateMessage />
 

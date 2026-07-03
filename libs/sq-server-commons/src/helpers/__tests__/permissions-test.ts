@@ -19,7 +19,21 @@
  */
 
 import { isValidElement } from 'react';
-import { convertToPermissionDefinitions } from '../permissions';
+import { Permissions } from '../../types/permissions';
+import {
+  PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE,
+  convertToPermissionDefinitions,
+  removeArchitectureAdminPermission,
+} from '../permissions';
+
+describe('removeArchitectureAdminPermission', () => {
+  it('removes the architecture admin permission from the order', () => {
+    const filtered = removeArchitectureAdminPermission(PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE);
+
+    expect(filtered).not.toContain(Permissions.ArchitectureAdmin);
+    expect(filtered).toContain(Permissions.Admin);
+  });
+});
 
 describe('convertToPermissionDefinitions', () => {
   it('should convert and translate a permission definition', () => {

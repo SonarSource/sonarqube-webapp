@@ -47,6 +47,9 @@ module.exports = {
     '~adapters/components/layout/GlobalFooter':
       '<rootDir>/apps/sq-server/__mocks__/GlobalFooter.tsx',
 
+    // mock useProjectId so tests don't each have to jest.mock it (see the __mocks__ file)
+    '^~adapters/helpers/useProjectId$': '<rootDir>/apps/sq-server/__mocks__/useProjectId.ts',
+
     // adapters aliases
     '~adapters/(.+)': '<rootDir>/libs/sq-server-commons/src/sq-server-adapters/$1',
 
@@ -60,6 +63,8 @@ module.exports = {
     // internal aliases
     '^~design-system': '<rootDir>/libs/sq-server-commons/src/design-system/index.ts',
   },
+  // Architecture integration tests are disabled on SQS: they are MSW-heavy and flaky under the
+  // single unit+integration CI shards. Re-enabled via the SQC-style UT/IT jest split in SC-51973.
   modulePathIgnorePatterns: ['<rootDir>/private/libs/feature-architecture/.*-it.tsx'],
   setupFiles: [
     ...baseConfig.projectConfig.setupFiles,

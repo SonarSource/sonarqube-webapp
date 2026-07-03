@@ -20,17 +20,9 @@
 
 import { Heading, Text, TextSize } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { CardSeparator } from '~design-system';
-import { isDefined } from '~shared/helpers/types';
-import { addons } from '~sq-server-addons/index';
-import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { Feature } from '~sq-server-commons/types/features';
 
 export function EarlyAccessFeatures() {
-  const { hasFeature } = useAvailableFeatures();
   const intl = useIntl();
-
-  const Architecture = addons.architecture?.ArchitectureEnablementForm;
 
   return (
     <>
@@ -40,14 +32,6 @@ export function EarlyAccessFeatures() {
       <Text as="p" className="sw-mb-4" size={TextSize.Large}>
         {intl.formatMessage({ id: 'settings.early_access.description' })}
       </Text>
-      <div className="sw-flex sw-flex-col sw-gap-4">
-        {hasFeature(Feature.Architecture) && isDefined(Architecture) && (
-          <>
-            <CardSeparator />
-            <Architecture />
-          </>
-        )}
-      </div>
     </>
   );
 }

@@ -40,7 +40,6 @@ export const enum SettingsKey {
   MQRMode = 'sonar.multi-quality-mode.enabled',
   CodeSuggestion = 'sonar.ai.suggestions.enabled',
   AutodetectAICode = 'sonar.autodetect.ai.code',
-  DesignAndArchitecture = 'sonar.architecture.visualization.enabled',
   IssueResolutionEnabled = 'sonar.issues.issueResolution.enabled',
   IssueResolutionGlobalEnabled = 'sonar.issues.issueResolution.global.enabled',
 }

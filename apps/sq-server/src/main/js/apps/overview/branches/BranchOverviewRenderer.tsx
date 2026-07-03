@@ -27,28 +27,22 @@ import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isMainBranch } from '~shared/helpers/branch-like';
-import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { MeasureEnhanced, Metric } from '~shared/types/measures';
-import { addons } from '~sq-server-addons/index';
 import Favorite from '~sq-server-commons/components/controls/Favorite';
 import HomePageSelect from '~sq-server-commons/components/controls/HomePageSelect';
 import { ComponentNavBindingStatus } from '~sq-server-commons/components/nav/ComponentNavBindingStatus';
 import { AnalysisStatus } from '~sq-server-commons/components/overview/AnalysisStatus';
 import QGStatusComponent from '~sq-server-commons/components/overview/QualityGateStatus';
 import { CommunityBuildSecurityNotice } from '~sq-server-commons/components/promotion/CommunityBuildSecurityNotice';
-import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { parseDate } from '~sq-server-commons/helpers/dates';
 import { getComponentAsHomepage } from '~sq-server-commons/helpers/homepage';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
 import { CodeScope } from '~sq-server-commons/helpers/urls';
-import { useGetValueQuery } from '~sq-server-commons/queries/settings';
 import { ApplicationPeriod } from '~sq-server-commons/types/application';
 import { Branch } from '~sq-server-commons/types/branch-like';
-import { Feature } from '~sq-server-commons/types/features';
 import { Analysis, GraphType, MeasureHistory } from '~sq-server-commons/types/project-activity';
 import { QualityGateStatus } from '~sq-server-commons/types/quality-gates';
-import { SettingsKey } from '~sq-server-commons/types/settings';
 import { Component, Period, QualityGate } from '~sq-server-commons/types/types';
 import { QGStatusEnum } from '~sq-server-commons/utils/overview-utils';
 import ActivityPanel from './ActivityPanel';
@@ -101,16 +95,11 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
     qualityGate,
   } = props;
 
-  const { ArchitectureUserBanner } = addons.architecture ?? {};
   const { isLoggedIn } = useCurrentUser();
   const { query } = useLocation();
   const router = useRouter();
   const intl = useIntl();
 
-  const { hasFeature } = useAvailableFeatures();
-  const { data: architectureEnabled } = useGetValueQuery({
-    key: SettingsKey.DesignAndArchitecture,
-  });
   const currentPage = getComponentAsHomepage(component, branch);
 
   const tab = query.codeScope === CodeScope.Overall ? CodeScope.Overall : CodeScope.New;
@@ -157,17 +146,10 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
         </Layout.ContentHeader.Actions>
       }
       callout={
-        <>
-          <FirstAnalysisNextStepsNotif
-            component={component}
-            detectedCIOnLastAnalysis={detectedCIOnLastAnalysis}
-          />
-          {architectureEnabled?.value === 'true' &&
-            hasFeature(Feature.Architecture) &&
-            isDefined(ArchitectureUserBanner) && (
-              <ArchitectureUserBanner projectKey={component.key} />
-            )}
-        </>
+        <FirstAnalysisNextStepsNotif
+          component={component}
+          detectedCIOnLastAnalysis={detectedCIOnLastAnalysis}
+        />
       }
       disableQualityGateStatus
       metadata={<MetaContentHeader branch={branch} component={component} measures={measures} />}

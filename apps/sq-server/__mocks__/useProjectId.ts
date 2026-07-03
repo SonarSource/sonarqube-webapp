@@ -18,25 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export enum Feature {
-  AiCodeAssurance = 'ai-code-assurance',
-  Announcement = 'announcement',
-  Architecture = 'architecture',
-  AdvancedSAST = 'asast',
-  BranchSupport = 'branch-support',
-  FixSuggestions = 'fix-suggestions',
-  FixSuggestionsMarketing = 'fix-suggestions-marketing',
-  FromSonarQubeUpdate = 'from-sonarqube-update',
-  GithubProvisioning = 'github-provisioning',
-  GitlabProvisioning = 'gitlab-provisioning',
-  JiraIntegration = 'jira',
-  LoginMessage = 'login-message',
-  MonoRepositoryPullRequestDecoration = 'monorepo',
-  MultipleAlm = 'multiple-alm',
-  PrioritizedRules = 'prioritized-rules',
-  ProjectImport = 'project-import',
-  RegulatoryReport = 'regulatory-reports',
-  Sca = 'sca',
-  Scim = 'scim',
-  SlackIntegration = 'slack',
+// Central test mock for the useProjectId adapter, wired via jest moduleNameMapper so tests don't
+// each have to jest.mock it. Returns a stable UUID; tests that need a specific id can still
+// jest.mock('~adapters/helpers/useProjectId') locally to override.
+export function useProjectId(): string {
+  return 'test-project-uuid';
 }

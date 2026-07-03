@@ -92,6 +92,20 @@ describe('rendering', () => {
       expect(ui.projectPermissionCheckbox('johndoe', permission).get()).toBeInTheDocument();
     });
   });
+
+  it('should not show architectureadmin permission when architecture feature is unavailable', async () => {
+    const user = userEvent.setup();
+    const ui = getPageObject(user);
+    renderPermissionsProjectApp(
+      { qualifier: ComponentQualifier.Project, visibility: Visibility.Private },
+      { featureList: [] },
+    );
+
+    expect(await screen.findByText('roles.page.description2')).toBeInTheDocument();
+    expect(
+      ui.projectPermissionCheckbox('johndoe', Permissions.ArchitectureAdmin).query(),
+    ).not.toBeInTheDocument();
+  });
 });
 
 describe('filtering', () => {

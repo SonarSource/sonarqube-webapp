@@ -149,7 +149,12 @@ function renderComponentRoutes({
           element={<ProjectPageExtension />}
           path="project/extension/:pluginKey/:extensionKey"
         />
-        {hasArchitectureFeature && addons.architecture?.routes()}
+        {hasArchitectureFeature && (
+          <Route path="project">
+            {addons.architecture?.routes()}
+            {addons.architecture?.policiesRoutes?.()}
+          </Route>
+        )}
         {projectIssuesRoutes()}
         {hasScaFeature && addons?.sca?.projectRoutes}
         {securityHotspotsRoutes()}
@@ -247,12 +252,10 @@ const router = ({
   availableFeatures,
   governanceInstalled,
   isEnterprise,
-  optInFeatures,
 }: {
   availableFeatures: Feature[];
   governanceInstalled: boolean;
   isEnterprise: boolean;
-  optInFeatures: Feature[];
 }) =>
   createBrowserRouter(
     createRoutesFromElements(
@@ -316,9 +319,7 @@ const router = ({
               {webAPIRoutesV2()}
 
               {renderComponentRoutes({
-                hasArchitectureFeature:
-                  availableFeatures.includes(Feature.Architecture) &&
-                  optInFeatures.includes(Feature.Architecture),
+                hasArchitectureFeature: availableFeatures.includes(Feature.Architecture),
                 hasBranchSupport: availableFeatures.includes(Feature.BranchSupport),
                 hasScaFeature: availableFeatures.includes(Feature.Sca),
                 hasAicaFeature: availableFeatures.includes(Feature.AiCodeAssurance),
@@ -377,7 +378,6 @@ export default function startReactApp(
   currentUser?: CurrentUser,
   appState?: AppState,
   availableFeatures: Feature[] = DEFAULT_AVAILABLE_FEATURES,
-  optInFeatures: Feature[] = [],
 ) {
   exportModulesAsGlobals();
 
@@ -404,7 +404,6 @@ export default function startReactApp(
                       <RouterProvider
                         router={router({
                           availableFeatures,
-                          optInFeatures,
                           governanceInstalled,
                           isEnterprise,
                         })}

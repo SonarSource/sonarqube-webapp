@@ -76,7 +76,10 @@ describe('rendering', () => {
     const ui = getPageObject(user);
     renderPermissionsGlobalApp();
 
-    expect(await ui.pageTitle.find()).toBeInTheDocument();
+    // Wait for the permission holders to load before the synchronous checkbox assertions.
+    expect(
+      await ui.globalPermissionCheckbox('johndoe', Permissions.Admin).find(),
+    ).toBeInTheDocument();
 
     without(
       flattenPermissionsList(PERMISSIONS_ORDER_GLOBAL),
@@ -101,7 +104,10 @@ describe('rendering', () => {
     const ui = getPageObject(user);
     renderPermissionsGlobalApp(mockAppState({ qualifiers: [qualifier] }));
 
-    expect(await ui.pageTitle.find()).toBeInTheDocument();
+    // Wait for the permission holders to load before the synchronous checkbox assertions.
+    expect(
+      await ui.globalPermissionCheckbox('johndoe', Permissions.Admin).find(),
+    ).toBeInTheDocument();
 
     permissions.forEach((permission) => {
       expect(ui.globalPermissionCheckbox('johndoe', permission).get()).toBeInTheDocument();

@@ -90,7 +90,8 @@ describe('RegulatoryReport tests', () => {
     renderRegulatoryReportApp(compatibleBranch);
 
     expect(await ui.page.find()).toBeInTheDocument();
-    expect(ui.downloadButton.get()).toBeInTheDocument();
+    // The download button renders only once the branches load and a branch is auto-selected.
+    expect(await ui.downloadButton.find()).toBeInTheDocument();
     expect(ui.downloadButton.get()).toHaveAttribute(
       'href',
       `/api/regulatory_reports/download?project=&branch=${compatibleBranch.name}`,
@@ -109,7 +110,8 @@ describe('RegulatoryReport tests', () => {
     renderRegulatoryReportApp(notCompatibleBranch);
 
     expect(await ui.page.find()).toBeInTheDocument();
-    expect(ui.downloadButton.get()).toBeInTheDocument();
+    // The download button renders only once the branches load and a branch is auto-selected.
+    expect(await ui.downloadButton.find()).toBeInTheDocument();
     expect(ui.downloadButton.get()).toHaveAttribute(
       'href',
       `/api/regulatory_reports/download?project=&branch=${mainBranch.name}`,

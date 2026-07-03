@@ -81,6 +81,8 @@ export function getContextWrapper({
         value: useMemo(
           () => ({
             branchId: analysisContext?.branchId,
+            organizationId: analysisContext?.organizationId,
+            organizationKey: analysisContext?.organizationKey,
           }),
           [],
         ),

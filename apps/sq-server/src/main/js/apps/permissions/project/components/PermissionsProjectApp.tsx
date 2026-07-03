@@ -30,12 +30,15 @@ import * as api from '~sq-server-commons/api/permissions';
 import { getComponents } from '~sq-server-commons/api/project-management';
 import AllHoldersList from '~sq-server-commons/components/permissions/AllHoldersList';
 import { FilterOption } from '~sq-server-commons/components/permissions/SearchForm';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
 import {
   convertToPermissionDefinitions,
   PERMISSIONS_ORDER_BY_QUALIFIER,
+  removeArchitectureAdminPermission,
 } from '~sq-server-commons/helpers/permissions';
 import { ComponentContextShape } from '~sq-server-commons/types/component';
+import { Feature } from '~sq-server-commons/types/features';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { Component, PermissionGroup, PermissionUser } from '~sq-server-commons/types/types';
 import '../../styles.css';
@@ -48,6 +51,7 @@ import PublicProjectDisclaimer from './PublicProjectDisclaimer';
 
 interface Props extends ComponentContextShape {
   component: Component;
+  hasArchitectureFeature: boolean;
   intl: IntlShape;
 }
 
@@ -365,6 +369,7 @@ class PermissionsProjectApp extends React.PureComponent<Props, State> {
     if (component.visibility === Visibility.Public) {
       order = without(order, Permissions.Browse, Permissions.CodeViewer);
     }
+    order = this.props.hasArchitectureFeature ? order : removeArchitectureAdminPermission(order);
     const permissions = convertToPermissionDefinitions(order, 'projects_role');
     const pageTitle = intl.formatMessage({ id: 'permissions.page' });
 
@@ -445,11 +450,19 @@ class PermissionsProjectApp extends React.PureComponent<Props, State> {
 
 export default function PermissionsProjectAppContainer() {
   const { component, ...componentContext } = useComponent();
+  const { hasFeature } = useAvailableFeatures();
   const intl = useIntl();
 
   if (!component) {
     return null;
   }
 
-  return <PermissionsProjectApp component={component} intl={intl} {...componentContext} />;
+  return (
+    <PermissionsProjectApp
+      component={component}
+      hasArchitectureFeature={hasFeature(Feature.Architecture)}
+      intl={intl}
+      {...componentContext}
+    />
+  );
 }

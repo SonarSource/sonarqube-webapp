@@ -20,39 +20,39 @@
 
 import { http } from 'msw';
 import { AbstractServiceMock } from '~shared/api/mocks/AbstractServiceMock';
-import { mockRestUser } from '../../../helpers/testMocks';
-import { RestUser } from '../../../types/users';
+import { ComponentQualifier } from '~shared/types/component';
+import { PROJECT_KEY, PROJECT_NAME } from './devMockConstants';
 
-interface UsersServiceData {
-  users: RestUser[];
+interface ComponentsServiceData {
+  analysisDate: string;
+  componentKey: string;
+  componentName: string;
 }
 
-export class UsersServiceMock extends AbstractServiceMock<UsersServiceData> {
+export class ComponentsServiceMock extends AbstractServiceMock<ComponentsServiceData> {
   handlers = [
-    http.get('/api/users/current', () =>
+    http.get('/api/components/show', () =>
       this.ok({
-        isLoggedIn: true,
-        login: 'admin',
-        name: 'Admin',
-        local: true,
-        email: 'admin@example.com',
-        avatar: '',
-        groups: ['sonar-administrators'],
-        scmAccounts: [],
-        permissions: { global: ['admin', 'profileadmin', 'gateadmin', 'scan', 'provisioning'] },
+        component: {
+          key: this.data.componentKey,
+          name: this.data.componentName,
+          qualifier: ComponentQualifier.Project,
+          breadcrumbs: [
+            {
+              key: this.data.componentKey,
+              name: this.data.componentName,
+              qualifier: ComponentQualifier.Project,
+            },
+          ],
+          analysisDate: this.data.analysisDate,
+        },
       }),
     ),
   ];
 }
 
-export const UsersServiceDefaultDataset: UsersServiceData = {
-  users: [
-    mockRestUser({
-      id: 'uuid-1',
-      login: 'john.doe',
-      name: 'John Doe',
-      email: 'john.doe@fakemail.com',
-      externalProvider: 'github',
-    }),
-  ],
+export const ComponentsServiceDefaultDataset: ComponentsServiceData = {
+  analysisDate: '2025-01-01T00:00:00+0000',
+  componentKey: PROJECT_KEY,
+  componentName: PROJECT_NAME,
 };

@@ -2178,7 +2178,7 @@ export const defaultMessages = {
   'architecture.empty_state.get_started.title': 'Get started!',
   'architecture.project_too_big.title': 'Project too big to display',
   'architecture.project_too_big.body': "This project is too big and can't be displayed.",
-  'architecture.page': 'Architecture',
+  'architecture.page.deviations': 'Deviations',
   'architecture.page.coverage': 'Coverage',
   'architecture.page.model.coverage.badge': 'Coverage: {percentage}%',
   'architecture.page.model.coverage.tooltip':
@@ -2266,8 +2266,7 @@ export const defaultMessages = {
   'architecture.page.model.errors.group.duplicate_sibling_labels':
     'Two sibling components cannot have the same name: "{groupKey}".',
   'architecture.page.model.errors.invalid_model': 'Unable to change model. {errors}',
-  'architecture.page.model.errors.action_needed':
-    'Failed to save. You must define relationships first.',
+  'architecture.page.model.errors.save_failed': 'Failed to save the model.',
   'architecture.page.model.errors.group.name_must_be_alphanumeric':
     'A component name can only contain alphanumeric characters and dashes.',
   'architecture.page.model.errors.group.name_conflicts_with_artifact':
@@ -2319,8 +2318,8 @@ export const defaultMessages = {
   'architecture.page.model.spotlight.description': 'Description',
   'architecture.page.model.node_no_description': 'No description.',
   'architecture.page.model.spotlight.add_placeholder.label': 'Add placeholder component',
-  'architecture.page.model.spotlight.add_placeholder.name_placeholder': '<name>',
-  'architecture.page.model.spotlight.add_placeholder.kind_placeholder': '<kind>',
+  'architecture.page.model.spotlight.add_placeholder.name_placeholder': "'<name>'",
+  'architecture.page.model.spotlight.add_placeholder.kind_placeholder': "'<kind>'",
   'architecture.page.model.spotlight.enable_interfaces': 'Enable interfaces',
   'architecture.page.model.spotlight.patterns': 'Patterns',
   'architecture.page.model.pattern_select.label': 'Apply a pattern',
@@ -2398,9 +2397,9 @@ export const defaultMessages = {
   'architecture.page.smells': 'Smells',
   'architecture.page.smells_description':
     'Shows potential structural problems in the codebase that may degrade maintainability over time. A common example is a weak tangle, where several files or classes are connected in a way that is close to forming cyclic dependencies.',
-  'architecture.page.architecture_deviations': 'Deviations',
+  'architecture.page.deviations_card': 'Deviations',
   'architecture.page.structural_flaws': 'Flaws',
-  'architecture.page.architecture_deviations_description':
+  'architecture.page.deviations_card_description':
     'Shows how much and where the codebase diverges from the intended architecture. Deviations appear in structure, which describes how elements are organized, and in relationships, which describe how elements depend on each other.',
   'architecture.page.structural_flaws_description':
     'Shows problems in the codebase that exist regardless of the intended architecture. A common example is a tangle, where several files or classes form overlapping cyclic dependencies and each can reach the others through dependency links.',
@@ -2446,7 +2445,7 @@ export const defaultMessages = {
   'architecture.patterns.edit.spotlight.interface_design': 'Interface design',
   'architecture.patterns.edit.spotlight.structure.title': 'Structure',
   'architecture.patterns.edit.spotlight.structure.label': 'Add child component',
-  'architecture.patterns.edit.spotlight.structure.placeholder': '<name>',
+  'architecture.patterns.edit.spotlight.structure.placeholder': "'<name>'",
   'architecture.patterns.column.projects': 'Projects',
   'architecture.nodes.orphans.label': 'Orphans ({orphansCount})',
   'architecture.nodes.orphans.name': 'Orphans',
@@ -2582,6 +2581,45 @@ export const defaultMessages = {
     '{count, plural, one {<bold>#</bold> project} other {<bold>#</bold> projects}}',
   'architecture.organization.dashboard.intended_architecture_link':
     '<link>Intended architecture</link> of the organization.',
+  'architecture.organization.intended.spotlight.components': 'Components',
+
+  // Discovery page
+  'architecture.discovery.dismissible.explore_codebase.title': 'Explore the map of your codebase',
+  'architecture.discovery.dismissible.explore_codebase.message.0':
+    'Zoom and pan to understand the topology of the project.',
+  'architecture.discovery.dismissible.explore_codebase.message.1':
+    'Select an element to focus on its relationships.',
+  'architecture.discovery.dismissible.explore_codebase.action': 'Got it',
+  'architecture.page.discovery.selected_node_not_found': '"{nodeKey}" not found',
+
+  // Intended architecture (model) page
+  'architecture.page.model.actions.delete_architecture': 'Delete intended architecture',
+  'architecture.page.model.modal.delete_architecture.title': 'Delete intended architecture?',
+  'architecture.page.model.modal.delete_architecture.confirm':
+    'You are about to delete the intended architecture for this project. Previous changes will be lost and cannot be recovered. This allows you to start from scratch.',
+  'architecture.page.model.modal.delete_architecture.delete_button': 'Delete intended architecture',
+  'architecture.page.model.modal.delete_architecture.cancel_button': 'Do not delete',
+  'architecture.page.model.pattern_badge.tooltip': 'Pattern: {name}',
+
+  // Tangles
+  'architecture.tangle.directive.removal.title': 'Removal Requested',
+  'architecture.tangle.dismissible.manage_removal.message':
+    'You can select a relationship to manage its removal.',
+
+  // Directives
+  'architecture.directives.create.error': 'Failed to save relationship. Please try again.',
+  'architecture.directives.delete.error': 'Failed to delete relationship. Please try again.',
+
+  // External interfaces (out of scope for server milestone 1, but referenced in the bundle)
+  'architecture.external_interfaces.modal.name_label': 'Name',
+  'architecture.external_interfaces.modal.type_label': 'Type',
+  'architecture.external_interfaces.type.app': 'Application',
+  'architecture.external_interfaces.type.db': 'Database',
+  'architecture.external_interfaces.type.queue': 'Queue',
+  'architecture.external_interfaces.type.other': 'Other',
+
+  // Issues count badge (used in deviation drill-downs)
+  'architecture.issues.count': '{count, plural, one {1 issue} other {{count} issues}}',
   //------------------------------------------------------------------------------
 
   //------------------------------------------------------------------------------
@@ -3898,6 +3936,7 @@ export const defaultMessages = {
   //------------------------------------------------------------------------------
   'navigation.view_all': 'View all',
   'navigation.project.group.analysis': 'Analysis',
+  'navigation.project.group.architecture': 'Architecture',
   'navigation.project.group.policies': 'Policies',
   'navigation.project.group.project': 'Project',
   'navigation.project.group.reporting': 'Reporting',
@@ -6148,7 +6187,7 @@ export const defaultMessages = {
     'Resolve a Security Hotspot as reviewed (fixed or safe), reset it as to review (for private projects, users also need the "Browse" permission).',
   'projects_role.architectureadmin': 'Administer Architecture',
   'projects_role.architectureadmin.desc':
-    "Permission to manage the project's intended architecture.",
+    'Ability to manage the intended architecture of projects.',
   'projects_role.user': 'Browse',
   'projects_role.user.desc':
     'Access a project, browse its measures and issues, confirm issues, change the assignee, comment on issues and change tags.',

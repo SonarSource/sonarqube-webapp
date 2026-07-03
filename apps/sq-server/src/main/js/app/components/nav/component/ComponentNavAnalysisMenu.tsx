@@ -19,7 +19,6 @@
  */
 
 import {
-  IconArchitecture,
   IconDashboard,
   IconDependencyRisk,
   IconFileCode,
@@ -30,7 +29,6 @@ import {
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { To, useLocation } from 'react-router-dom';
-import { useCurrentUser } from '~adapters/helpers/users';
 import { DeprecatedBadge } from '~shared/components/badges/DeprecatedBadge';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike } from '~shared/helpers/component';
@@ -43,11 +41,9 @@ import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { getCodeUrl, getPortfolioUrl, getProjectQueryUrl } from '~sq-server-commons/helpers/urls';
-import { useGetValueQuery } from '~sq-server-commons/queries/settings';
 import { getComponentSecurityHotspotsUrl } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
-import { SettingsKey } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 
 interface Props {
@@ -80,7 +76,6 @@ function isBuiltInPortfolioDashboardNavActive(
 export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
   const location = useLocation();
   const { hasFeature } = useAvailableFeatures();
-  const { isLoggedIn } = useCurrentUser();
   const appState = useAppState();
   const { branchLike, component } = props;
   const { qualifier } = component;
@@ -93,10 +88,6 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
     ? addons.portfolios?.getPortfolioHealthDashboardRoute?.(portfolioHealthDashboardDefaultKey)
     : undefined;
 
-  const { data: architectureOptIn, isLoading: isLoadingArchitectureOptIn } = useGetValueQuery({
-    key: SettingsKey.DesignAndArchitecture,
-  });
-
   const isApplicationChildInaccessible =
     isApplication(component.qualifier) && !component.canBrowseAllChildProjects;
 
@@ -106,12 +97,6 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
     isGovernanceEnabled &&
     isStringDefined(portfolioDashboardsListRoute) &&
     isStringDefined(portfolioHealthDashboardRoute);
-
-  const isArchitectureEnabled =
-    isLoggedIn &&
-    !isLoadingArchitectureOptIn &&
-    architectureOptIn?.value === 'true' &&
-    hasFeature(Feature.Architecture);
 
   const portfolioDashboardSearchParams = new URLSearchParams({ id: component.key }).toString();
   const portfolioGovernanceEnabled = isPortfolio && isGovernanceEnabled;
@@ -217,17 +202,6 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
           to={getRisksUrl({ newParams: { id: component.key, ...branchParameters } })}
         >
           <FormattedMessage id="dependencies.risks" />
-        </Layout.SidebarNavigation.Item>
-      )}
-      {isArchitectureEnabled && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconArchitecture}
-          to={{
-            pathname: '/architecture',
-            search: new URLSearchParams({ id: component.key, ...branchParameters }).toString(),
-          }}
-        >
-          <FormattedMessage id="layout.architecture" />
         </Layout.SidebarNavigation.Item>
       )}
     </Layout.SidebarNavigation.Group>

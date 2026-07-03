@@ -49,6 +49,7 @@ import {
 } from '~sq-server-commons/helpers/testReactTestingUtils';
 
 import { ComponentContextShape } from '~sq-server-commons/types/component';
+import { Feature } from '~sq-server-commons/types/features';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { Component } from '~sq-server-commons/types/types';
 import { projectPermissionsRoutes } from '../../../routes';
@@ -217,7 +218,9 @@ function renderPermissionsProjectApp(
   return renderAppWithComponentContext(
     'project_roles?id=my-project',
     projectPermissionsRoutes,
-    contextOverride,
+    // Architecture is available by default so the standard permission tests exercise the full
+    // project permission set; the dedicated negative test opts out with `{ featureList: [] }`.
+    { featureList: [Feature.Architecture], ...contextOverride },
     {
       component: mockComponent({
         visibility: Visibility.Public,
