@@ -34,25 +34,33 @@ interface State {
 }
 
 export default class ProjectsContainer extends React.PureComponent<{}, State> {
+  mounted = false;
   intl = getIntl();
   state: State = { loading: true, page: 1 };
 
   componentDidMount() {
+    this.mounted = true;
     this.loadProjects();
   }
 
-  loadProjects(page = this.state.page) {
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
+  loadProjects = (page = this.state.page) => {
     this.setState({ loading: true });
     const data = { p: page, ps: 100 };
     return getMyProjects(data).then(({ paging, projects }) => {
-      this.setState((state) => ({
-        projects: page > 1 ? [...(state.projects || []), ...projects] : projects,
-        loading: false,
-        page: paging.pageIndex,
-        total: paging.total,
-      }));
+      if (this.mounted) {
+        this.setState((state) => ({
+          projects: page > 1 ? [...(state.projects || []), ...projects] : projects,
+          loading: false,
+          page: paging.pageIndex,
+          total: paging.total,
+        }));
+      }
     });
-  }
+  };
 
   loadMore = () => {
     this.loadProjects(this.state.page + 1);

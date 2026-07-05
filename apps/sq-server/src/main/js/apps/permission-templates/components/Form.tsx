@@ -44,8 +44,6 @@ interface State {
 }
 
 export default class Form extends React.PureComponent<Props, State> {
-  mounted = false;
-
   constructor(props: Props) {
     super(props);
     this.state = {
