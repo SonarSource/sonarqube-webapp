@@ -26,7 +26,7 @@ const ONE_MINUTE = 1;
 const ONE_HOUR = ONE_MINUTE * 60;
 const ONE_DAY = HOURS_IN_DAY * ONE_HOUR;
 
-const messages = {
+const mockMessages = {
   'work_duration.x_days': '{0}d',
   'work_duration.x_hours': '{0}h',
   'work_duration.x_minutes': '{0}min',
@@ -42,10 +42,10 @@ const messages = {
 jest.mock('../../../helpers/l10nBundle', () => {
   const getIntl = () => ({
     formatMessage: jest.fn(({ id }: { id: string }, values: Record<string, string>) => {
-      if (messages[id] && values) {
-        return messages[id].replace('{0}', values['0']);
+      if (mockMessages[id] && values) {
+        return mockMessages[id].replace('{0}', values['0']);
       }
-      return messages[id] ?? id;
+      return mockMessages[id] ?? id;
     }),
   });
 

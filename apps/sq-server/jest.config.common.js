@@ -45,6 +45,8 @@ module.exports = {
   moduleNameMapper: {
     ...baseConfig.projectConfig.moduleNameMapper,
 
+    'l10n-real-messages.json': '<rootDir>/private/apps/sq-cloud/src/l10n/messages.json',
+
     // mock global footer to speed up tests
     '~adapters/components/layout/GlobalFooter':
       '<rootDir>/apps/sq-server/__mocks__/GlobalFooter.tsx',
