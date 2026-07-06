@@ -56,7 +56,7 @@ export class NavigationServiceMock extends AbstractServiceMock<NavigationService
             qualifier: ComponentQualifier.Project,
           },
         ],
-        configuration: { showSettings: true },
+        configuration: { showSettings: true, canAdminArchitecture: true },
       }),
     ),
   ];

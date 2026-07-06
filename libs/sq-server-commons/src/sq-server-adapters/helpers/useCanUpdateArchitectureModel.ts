@@ -22,5 +22,5 @@ import { useComponent } from '../../context/componentContext/withComponentContex
 
 export function useCanUpdateArchitectureModel(): boolean {
   const { component } = useComponent();
-  return component?.configuration?.showSettings ?? false;
+  return component?.configuration?.canAdminArchitecture ?? false;
 }

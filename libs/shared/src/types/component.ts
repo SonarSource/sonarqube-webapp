@@ -41,6 +41,7 @@ export interface LightComponentConfiguration {
 }
 
 export interface ComponentConfiguration extends LightComponentConfiguration {
+  canAdminArchitecture?: boolean;
   canApplyPermissionTemplate?: boolean;
   canBrowseProject?: boolean;
   canScanProject?: boolean;
