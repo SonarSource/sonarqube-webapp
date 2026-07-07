@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { differenceInHours } from 'date-fns';
+import { differenceInHours, differenceInMinutes } from 'date-fns';
 import * as React from 'react';
 import { FormattedRelativeTime, useIntl } from 'react-intl';
 import DateTimeFormatter from './DateTimeFormatter';
@@ -30,6 +30,7 @@ export interface DateFromNowProps {
   date?: string | number | Date;
   hourPrecision?: boolean;
   isNumericAuto?: boolean;
+  minutePrecision?: boolean;
 }
 
 export default function DateFromNow(props: Readonly<DateFromNowProps>) {
@@ -39,6 +40,7 @@ export default function DateFromNow(props: Readonly<DateFromNowProps>) {
     hourPrecision,
     className,
     isNumericAuto,
+    minutePrecision,
   } = props;
   let children = originalChildren;
   const { formatMessage } = useIntl();
@@ -56,6 +58,10 @@ export default function DateFromNow(props: Readonly<DateFromNowProps>) {
 
   if (hourPrecision && differenceInHours(Date.now(), parsedDate) < 1) {
     children = () => originalChildren(formatMessage({ id: 'less_than_1_hour_ago' }));
+  }
+
+  if (minutePrecision && differenceInMinutes(Date.now(), parsedDate) < 1) {
+    children = () => originalChildren(formatMessage({ id: 'less_than_1_minute_ago' }));
   }
 
   const relativeTimeProps = getRelativeTimeProps(parsedDate);

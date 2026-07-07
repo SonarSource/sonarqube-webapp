@@ -374,6 +374,7 @@ export const defaultMessages = {
   hidden_for_security: 'Hidden for security',
   last_analysis_before: 'Last analysis before',
   less_than_1_hour_ago: '< 1 hour ago',
+  less_than_1_minute_ago: '< 1 minute ago',
   local: 'Local',
   logging_out: "You're logging out, please wait...",
   manage: 'Manage',
