@@ -19,6 +19,7 @@
  */
 
 import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
+import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, Link, getTabId, getTabPanelId } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -33,6 +34,7 @@ import AlmBindingDefinitionBox from './AlmBindingDefinitionBox';
 import AlmBindingDefinitionForm from './AlmBindingDefinitionForm';
 import { AlmTabs } from './AlmIntegration';
 import CreationTooltip from './CreationTooltip';
+import GithubManifestCreationModal from './GithubManifestCreationModal';
 
 export interface AlmTabRendererProps {
   afterSubmit: (config: AlmBindingDefinitionBase) => void;
@@ -73,6 +75,8 @@ export default function AlmTabRenderer(props: Readonly<AlmTabRendererProps>) {
 
   const preventCreation = loadingProjectCount || (!multipleAlmEnabled && definitions.length > 0);
 
+  const [manifestModalOpen, setManifestModalOpen] = React.useState(false);
+
   return (
     <div aria-labelledby={getTabId(almTab)} id={getTabPanelId(almTab)} role="tabpanel">
       <div>
@@ -81,7 +85,7 @@ export default function AlmTabRenderer(props: Readonly<AlmTabRendererProps>) {
             <p className="sw-mt-2">{translate('settings.almintegration.empty', almTab)}</p>
           )}
 
-          <div className={definitions.length > 0 ? 'sw-mb-5' : 'sw-my-3'}>
+          <div className={`sw-flex sw-gap-2 ${definitions.length > 0 ? 'sw-mb-5' : 'sw-my-3'}`}>
             <CreationTooltip alm={almTab} preventCreation={preventCreation}>
               <Button
                 data-test="settings__alm-create"
@@ -92,7 +96,29 @@ export default function AlmTabRenderer(props: Readonly<AlmTabRendererProps>) {
                 <FormattedMessage id="settings.almintegration.create" />
               </Button>
             </CreationTooltip>
+            {almTab === AlmKeys.GitHub && (
+              <CreationTooltip alm={almTab} preventCreation={preventCreation}>
+                <Button
+                  data-test="settings__alm-create-manifest"
+                  isDisabled={preventCreation}
+                  onClick={() => {
+                    setManifestModalOpen(true);
+                  }}
+                  variety={ButtonVariety.Default}
+                >
+                  <FormattedMessage id="settings.almintegration.github.manifest.create" />
+                </Button>
+              </CreationTooltip>
+            )}
           </div>
+          {manifestModalOpen && (
+            <GithubManifestCreationModal
+              onClose={() => {
+                setManifestModalOpen(false);
+              }}
+              primaryScope="devops"
+            />
+          )}
           {definitions.map((def) => (
             <AlmBindingDefinitionBox
               alm={isBitbucketCloudBindingDefinition(def) ? AlmKeys.BitbucketCloud : almTab}

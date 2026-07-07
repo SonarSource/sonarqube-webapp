@@ -19,12 +19,13 @@
  */
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { BasicSeparator, SubHeading } from '~design-system';
 
 interface Props {
   configurationValidity?: ReactElement<any>;
+  extraAction?: ReactNode;
   onCreate: () => void;
   showCreate: boolean;
   title: string;
@@ -35,15 +36,21 @@ export default function TabHeader({
   showCreate,
   onCreate,
   configurationValidity,
+  extraAction,
 }: Readonly<Props>) {
   return (
     <>
       <div className="sw-mb-4">
         <SubHeading as="h4">{title}</SubHeading>
-        {showCreate && (
-          <Button className="sw-mt-2" onClick={onCreate} variety={ButtonVariety.Primary}>
-            <FormattedMessage id="settings.authentication.form.create" />
-          </Button>
+        {(showCreate || extraAction) && (
+          <div className="sw-mt-2 sw-flex sw-gap-2">
+            {showCreate && (
+              <Button onClick={onCreate} variety={ButtonVariety.Primary}>
+                <FormattedMessage id="settings.authentication.form.create" />
+              </Button>
+            )}
+            {extraAction}
+          </div>
         )}
       </div>
       {configurationValidity}

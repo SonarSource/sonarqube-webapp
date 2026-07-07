@@ -2954,6 +2954,31 @@ export const defaultMessages = {
   'settings.almintegration.create.tooltip':
     'Upgrade to {link} to integrate with multiple {alm} instances.',
   'settings.almintegration.create.tooltip.link': 'Enterprise Edition',
+  'settings.almintegration.github.manifest.create': 'Create app for me',
+  'settings.almintegration.github.manifest.title': 'Create a GitHub App automatically',
+  'settings.almintegration.github.manifest.info':
+    'SonarQube will pre-configure a GitHub App with the required permissions and webhook for you.',
+  'settings.almintegration.github.manifest.name.help':
+    'A unique name for this DevOps Platform configuration in SonarQube.',
+  'settings.almintegration.github.manifest.name.placeholder': 'your-sonar-organization-name',
+  'settings.almintegration.github.manifest.organization': 'GitHub organization',
+  'settings.almintegration.github.manifest.organization.help':
+    'The GitHub organization the App will be created under. Leave empty to create it under your personal account.',
+  'settings.almintegration.github.manifest.organization.placeholder':
+    'your-github-organization-name',
+  'settings.almintegration.github.manifest.continue': 'Continue to GitHub',
+  'settings.almintegration.github.manifest.also_auth':
+    'Also set up GitHub authentication (sign-in) with this App',
+  'settings.almintegration.github.manifest.also_devops':
+    'Also set up the DevOps Platform integration (project import) with this App',
+  'settings.almintegration.github.manifest.success':
+    'The GitHub App for configuration "{0}" was created successfully.',
+  'settings.almintegration.github.manifest.error':
+    'Failed to create the GitHub App through the manifest flow. {0}',
+  'settings.almintegration.github.manifest.installed':
+    'The GitHub App was created and installed successfully.',
+  'settings.almintegration.github.manifest.install_requested':
+    'The GitHub App was created. Its installation is pending approval from an organization owner.',
   'settings.almintegration.check_configuration': 'Check configuration',
   'settings.almintegration.check_configuration_x': 'Check configuration "{0}"',
   'settings.almintegration.edit_configuration': 'Edit configuration "{0}"',

@@ -18,14 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Modal } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, MessageCallout, Modal, Text } from '@sonarsource/echoes-react';
 import { isEmpty, keyBy } from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { FlagMessage } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   useCreateGitHubConfigurationMutation,
   useUpdateGitHubConfigurationMutation,
@@ -66,6 +64,7 @@ interface FormData {
 
 export default function GitHubConfigurationForm(props: Readonly<Props>) {
   const { gitHubConfiguration, isStandardModeConfiguration, onClose } = props;
+  const { formatMessage } = useIntl();
   const isCreate = gitHubConfiguration === undefined;
 
   const [errors, setErrors] = useState<Partial<Record<GitHubAuthFormFields, ErrorValue>>>({});
@@ -78,7 +77,11 @@ export default function GitHubConfigurationForm(props: Readonly<Props>) {
     getInitialGitHubFormData(gitHubConfiguration),
   );
 
-  const header = translate('settings.authentication.github.form', isCreate ? 'create' : 'edit');
+  const header = formatMessage({
+    id: isCreate
+      ? 'settings.authentication.github.form.create'
+      : 'settings.authentication.github.form.edit',
+  });
 
   // In case of API/Web URL update, the user must provide the private key again
   // This relation is specific to API/Web URL & Private Key so no need for a generic solution here
@@ -154,7 +157,7 @@ export default function GitHubConfigurationForm(props: Readonly<Props>) {
     } else {
       const errors = Object.entries(formData)
         .filter(([_, v]) => v.required && Boolean(v.value) !== false)
-        .map(([key]) => ({ key, message: translate('field_required') }));
+        .map(([key]) => ({ key, message: formatMessage({ id: 'field_required' }) }));
       setErrors(keyBy(errors, 'key'));
     }
   };
@@ -163,11 +166,8 @@ export default function GitHubConfigurationForm(props: Readonly<Props>) {
 
   const formBody = (
     <form id={FORM_ID} onSubmit={handleSubmit}>
-      <FlagMessage
-        className="sw-w-full sw-mb-8"
-        variant={isStandardModeConfiguration ? 'warning' : 'info'}
-      >
-        <span>
+      {isStandardModeConfiguration ? (
+        <MessageCallout className="sw-mb-8" variety="warning">
           <FormattedMessage
             id={`settings.authentication.${helpMessage}`}
             values={{
@@ -178,8 +178,21 @@ export default function GitHubConfigurationForm(props: Readonly<Props>) {
               ),
             }}
           />
-        </span>
-      </FlagMessage>
+        </MessageCallout>
+      ) : (
+        <Text as="p" className="sw-mb-8" isSubtle>
+          <FormattedMessage
+            id={`settings.authentication.${helpMessage}`}
+            values={{
+              link: (
+                <DocumentationLink to={DocLink.AlmGitHubAuth}>
+                  <FormattedMessage id="settings.authentication.help.link" />
+                </DocumentationLink>
+              ),
+            }}
+          />
+        </Text>
+      )}
 
       {GITHUB_AUTH_FORM_FIELDS_ORDER.map((key) => {
         const { value, required, definition } = formData[key];
@@ -208,9 +221,9 @@ export default function GitHubConfigurationForm(props: Readonly<Props>) {
         ...errors,
         privateKey: {
           key: 'privateKey',
-          message: translate(
-            'settings.authentication.github.form.private_key.required_for_url_change',
-          ),
+          message: formatMessage({
+            id: 'settings.authentication.github.form.private_key.required_for_url_change',
+          }),
         },
       });
     }

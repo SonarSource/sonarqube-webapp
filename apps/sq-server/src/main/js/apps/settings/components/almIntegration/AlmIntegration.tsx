@@ -19,18 +19,15 @@
  */
 
 import { noop } from 'lodash';
-import * as React from 'react';
-import { withRouter } from '~shared/components/hoc/withRouter';
-import { Location, Router } from '~shared/types/router';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import {
   countBoundProjects,
   deleteConfiguration,
   getAlmDefinitions,
   validateAlmSettings,
 } from '~sq-server-commons/api/alm-settings';
-import withAvailableFeatures, {
-  WithAvailableFeaturesProps,
-} from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import {
   AlmBindingDefinitionBase,
   AlmKeys,
@@ -40,212 +37,180 @@ import {
 } from '~sq-server-commons/types/alm-settings';
 import { Feature } from '~sq-server-commons/types/features';
 import AlmIntegrationRenderer from './AlmIntegrationRenderer';
-
-interface Props extends WithAvailableFeaturesProps {
-  hasFeature: (feature: Feature) => boolean;
-  location: Location;
-  router: Router;
-}
+import { useGithubManifestReturn } from './hooks/useGithubManifestReturn';
 
 export type AlmTabs = AlmKeys.Azure | AlmKeys.GitHub | AlmKeys.GitLab | AlmKeys.BitbucketServer;
 
-interface State {
-  currentAlmTab: AlmTabs;
-  definitionKeyForDeletion?: string;
-  definitionStatus: Record<string, AlmSettingsBindingStatus>;
-  definitions: AlmSettingsBindingDefinitions;
-  loadingAlmDefinitions: boolean;
-  loadingProjectCount: boolean;
-  projectCount?: number;
+function getInitialAlmTab(alm: AlmKeys): AlmTabs {
+  return alm === AlmKeys.BitbucketCloud ? AlmKeys.BitbucketServer : alm;
 }
 
-export class AlmIntegration extends React.PureComponent<Props, State> {
-  mounted = false;
-  state: State;
+export default function AlmIntegration() {
+  const location = useLocation();
+  const router = useRouter();
+  const { hasFeature } = useAvailableFeatures();
 
-  constructor(props: Props) {
-    super(props);
+  useGithubManifestReturn();
 
-    let currentAlmTab = props.location.query.alm || AlmKeys.GitHub;
-    if (currentAlmTab === AlmKeys.BitbucketCloud) {
-      currentAlmTab = AlmKeys.BitbucketServer;
-    }
+  const [currentAlmTab, setCurrentAlmTab] = useState<AlmTabs>(() =>
+    getInitialAlmTab((location.query.alm as AlmKeys | undefined) || AlmKeys.GitHub),
+  );
+  const [definitionKeyForDeletion, setDefinitionKeyForDeletion] = useState<string>();
+  const [definitionStatus, setDefinitionStatus] = useState<
+    Record<string, AlmSettingsBindingStatus>
+  >({});
+  const [definitions, setDefinitions] = useState<AlmSettingsBindingDefinitions>({
+    [AlmKeys.Azure]: [],
+    [AlmKeys.BitbucketServer]: [],
+    [AlmKeys.BitbucketCloud]: [],
+    [AlmKeys.GitHub]: [],
+    [AlmKeys.GitLab]: [],
+  });
+  const [loadingAlmDefinitions, setLoadingAlmDefinitions] = useState(true);
+  const [loadingProjectCount, setLoadingProjectCount] = useState(false);
+  const [projectCount, setProjectCount] = useState<number>();
 
-    this.state = {
-      currentAlmTab,
-      definitions: {
-        [AlmKeys.Azure]: [],
-        [AlmKeys.BitbucketServer]: [],
-        [AlmKeys.BitbucketCloud]: [],
-        [AlmKeys.GitHub]: [],
-        [AlmKeys.GitLab]: [],
-      },
-      definitionStatus: {},
-      loadingAlmDefinitions: true,
-      loadingProjectCount: false,
-    };
-  }
-
-  componentDidMount() {
-    this.mounted = true;
-    return this.fetchPullRequestDecorationSetting().then((definitions) => {
-      if (definitions) {
-        // Validate all alms on load:
-        [
-          AlmKeys.Azure,
-          AlmKeys.BitbucketCloud,
-          AlmKeys.BitbucketServer,
-          AlmKeys.GitHub,
-          AlmKeys.GitLab,
-        ].forEach((alm) => {
-          definitions[alm].forEach((def: AlmBindingDefinitionBase) => {
-            this.handleCheck(def.key, false);
-          });
-        });
-      }
-    });
-  }
-
-  componentDidUpdate() {
-    const { location } = this.props;
-    if (location.query.alm && this.mounted) {
-      this.setState({ currentAlmTab: location.query.alm });
-    }
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  handleConfirmDelete = async (definitionKey: string) => {
-    try {
-      await deleteConfiguration(definitionKey);
-      await this.fetchPullRequestDecorationSetting();
-    } finally {
-      if (this.mounted) {
-        this.setState({ definitionKeyForDeletion: undefined, projectCount: undefined });
-      }
-    }
-  };
-
-  fetchPullRequestDecorationSetting = async () => {
-    this.setState({ loadingAlmDefinitions: true });
-    try {
-      const definitions = await getAlmDefinitions();
-
-      if (this.mounted) {
-        this.setState({
-          definitions,
-          loadingAlmDefinitions: false,
-        });
-      }
-      return definitions;
-    } catch {
-      if (this.mounted) {
-        this.setState({ loadingAlmDefinitions: false });
-      }
-    }
-  };
-
-  handleSelectAlm = (currentAlmTab: AlmTabs) => {
-    const { location, router } = this.props;
-    location.query.alm = currentAlmTab;
-    location.hash = '';
-    router.push(location);
-    this.setState({ currentAlmTab });
-  };
-
-  handleCancelDelete = () => {
-    this.setState({ definitionKeyForDeletion: undefined, projectCount: undefined });
-  };
-
-  handleDelete = (definitionKey: string) => {
-    this.setState({ loadingProjectCount: true });
-    return countBoundProjects(definitionKey)
-      .then((projectCount) => {
-        if (this.mounted) {
-          this.setState({
-            definitionKeyForDeletion: definitionKey,
-            loadingProjectCount: false,
-            projectCount,
-          });
-        }
-      })
-      .catch(() => {
-        if (this.mounted) {
-          this.setState({ loadingProjectCount: false });
-        }
-      });
-  };
-
-  handleCheck = (definitionKey: string, alertSuccess = true) => {
-    this.setState(({ definitionStatus }) => {
-      definitionStatus[definitionKey] = {
-        ...definitionStatus[definitionKey],
+  const handleCheck = useCallback((definitionKey: string, alertSuccess = true) => {
+    setDefinitionStatus((current) => ({
+      ...current,
+      [definitionKey]: {
+        ...current[definitionKey],
         type: AlmSettingsBindingStatusType.Validating,
-      };
-
-      return { definitionStatus: { ...definitionStatus } };
-    });
+      },
+    }));
 
     validateAlmSettings(definitionKey)
       .then(
-        (failureMessage) => {
-          const type = failureMessage
+        (failureMessage) => ({
+          type: failureMessage
             ? AlmSettingsBindingStatusType.Failure
-            : AlmSettingsBindingStatusType.Success;
-
-          return { type, failureMessage };
-        },
+            : AlmSettingsBindingStatusType.Success,
+          failureMessage,
+        }),
         () => ({ type: AlmSettingsBindingStatusType.Warning, failureMessage: '' }),
       )
       .then(({ type, failureMessage }) => {
-        if (this.mounted) {
-          this.setState(({ definitionStatus }) => {
-            definitionStatus[definitionKey] = {
-              alertSuccess,
-              failureMessage,
-              type,
-            };
-
-            return { definitionStatus: { ...definitionStatus } };
-          });
-        }
+        setDefinitionStatus((current) => ({
+          ...current,
+          [definitionKey]: { alertSuccess, failureMessage, type },
+        }));
       })
       .catch(noop);
-  };
+  }, []);
 
-  render() {
-    const {
-      currentAlmTab,
-      definitionKeyForDeletion,
-      definitions,
-      definitionStatus,
-      loadingAlmDefinitions,
-      loadingProjectCount,
-      projectCount,
-    } = this.state;
+  const fetchPullRequestDecorationSetting = useCallback(async () => {
+    setLoadingAlmDefinitions(true);
+    try {
+      const definitions = await getAlmDefinitions();
+      setDefinitions(definitions);
+      return definitions;
+    } catch {
+      return undefined;
+    } finally {
+      setLoadingAlmDefinitions(false);
+    }
+  }, []);
 
-    return (
-      <AlmIntegrationRenderer
-        branchesEnabled={this.props.hasFeature(Feature.BranchSupport)}
-        currentAlmTab={currentAlmTab}
-        definitionKeyForDeletion={definitionKeyForDeletion}
-        definitionStatus={definitionStatus}
-        definitions={definitions}
-        loadingAlmDefinitions={loadingAlmDefinitions}
-        loadingProjectCount={loadingProjectCount}
-        multipleAlmEnabled={this.props.hasFeature(Feature.MultipleAlm)}
-        onCancelDelete={this.handleCancelDelete}
-        onCheckConfiguration={this.handleCheck}
-        onConfirmDelete={this.handleConfirmDelete}
-        onDelete={this.handleDelete}
-        onSelectAlmTab={this.handleSelectAlm}
-        onUpdateDefinitions={this.fetchPullRequestDecorationSetting}
-        projectCount={projectCount}
-      />
-    );
-  }
+  const handleConfirmDelete = useCallback(
+    async (definitionKey: string) => {
+      try {
+        await deleteConfiguration(definitionKey);
+        await fetchPullRequestDecorationSetting();
+      } finally {
+        setDefinitionKeyForDeletion(undefined);
+        setProjectCount(undefined);
+      }
+    },
+    [fetchPullRequestDecorationSetting],
+  );
+
+  const handleSelectAlm = useCallback(
+    (almTab: AlmTabs) => {
+      location.query.alm = almTab;
+      location.hash = '';
+      router.push(location);
+      setCurrentAlmTab(almTab);
+    },
+    [location, router],
+  );
+
+  const handleCancelDelete = useCallback(() => {
+    setDefinitionKeyForDeletion(undefined);
+    setProjectCount(undefined);
+  }, []);
+
+  const handleDelete = useCallback(async (definitionKey: string) => {
+    setLoadingProjectCount(true);
+    try {
+      const projectCount = (await countBoundProjects(definitionKey)) as number;
+      setDefinitionKeyForDeletion(definitionKey);
+      setProjectCount(projectCount);
+    } catch {
+      // Failing to count bound projects should not block the rest of the UI.
+    } finally {
+      setLoadingProjectCount(false);
+    }
+  }, []);
+
+  const validateAllDefinitions = useCallback(
+    (loadedDefinitions: AlmSettingsBindingDefinitions) => {
+      [
+        AlmKeys.Azure,
+        AlmKeys.BitbucketCloud,
+        AlmKeys.BitbucketServer,
+        AlmKeys.GitHub,
+        AlmKeys.GitLab,
+      ].forEach((alm) => {
+        loadedDefinitions[alm].forEach((def: AlmBindingDefinitionBase) => {
+          handleCheck(def.key, false);
+        });
+      });
+    },
+    [handleCheck],
+  );
+
+  useEffect(() => {
+    // Validate all alms on load:
+    void fetchPullRequestDecorationSetting().then((definitions) => {
+      if (definitions) {
+        validateAllDefinitions(definitions);
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const didMountRef = useRef(false);
+  useEffect(() => {
+    if (didMountRef.current && location.query.alm) {
+      setCurrentAlmTab(location.query.alm as AlmTabs);
+    } else {
+      didMountRef.current = true;
+    }
+  }, [location.query.alm]);
+
+  return (
+    <AlmIntegrationRenderer
+      branchesEnabled={hasFeature(Feature.BranchSupport)}
+      currentAlmTab={currentAlmTab}
+      definitionKeyForDeletion={definitionKeyForDeletion}
+      definitionStatus={definitionStatus}
+      definitions={definitions}
+      loadingAlmDefinitions={loadingAlmDefinitions}
+      loadingProjectCount={loadingProjectCount}
+      multipleAlmEnabled={hasFeature(Feature.MultipleAlm)}
+      onCancelDelete={handleCancelDelete}
+      onCheckConfiguration={handleCheck}
+      onConfirmDelete={(definitionKey) => {
+        void handleConfirmDelete(definitionKey);
+      }}
+      onDelete={(definitionKey) => {
+        void handleDelete(definitionKey);
+      }}
+      onSelectAlmTab={handleSelectAlm}
+      onUpdateDefinitions={() => {
+        void fetchPullRequestDecorationSetting();
+      }}
+      projectCount={projectCount}
+    />
+  );
 }
-
-export default withRouter(withAvailableFeatures(AlmIntegration));

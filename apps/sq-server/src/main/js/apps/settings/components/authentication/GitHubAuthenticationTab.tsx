@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, Spinner, Text } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner, Text } from '@sonarsource/echoes-react';
 import { isEmpty, omitBy } from 'lodash';
 import React, { FormEvent, useContext, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -39,6 +39,8 @@ import { Feature } from '~sq-server-commons/types/features';
 import { ProvisioningType } from '~sq-server-commons/types/provisioning';
 import { Provider } from '~sq-server-commons/types/types';
 import GitHubSynchronisationWarning from '../../../../app/components/GitHubSynchronisationWarning';
+import GithubManifestCreationModal from '../almIntegration/GithubManifestCreationModal';
+import { useGithubManifestReturn } from '../almIntegration/hooks/useGithubManifestReturn';
 import AuthenticationFormField from './AuthenticationFormField';
 import AutoProvisioningConsent from './AutoProvisionningConsent';
 import ConfigurationDetails from './ConfigurationDetails';
@@ -56,10 +58,13 @@ type ChangesForm = Partial<
 
 export default function GitHubAuthenticationTab() {
   const [isFormOpen, setIsFormOpen] = React.useState(false);
+  const [isManifestModalOpen, setIsManifestModalOpen] = React.useState(false);
   const [changes, setChanges] = React.useState<ChangesForm | undefined>(undefined);
   const [tokenKey, setTokenKey] = React.useState<number>(0);
   const [isConfirmProvisioningModalOpen, setIsConfirmProvisioningModalOpen] = React.useState(false);
   const [isMappingModalOpen, setIsMappingModalOpen] = useState(false);
+
+  useGithubManifestReturn();
 
   const hasGithubProvisioning = useContext(AvailableFeaturesContext).includes(
     Feature.GithubProvisioning,
@@ -178,6 +183,18 @@ export default function GitHubAuthenticationTab() {
                 />
               )}
             </>
+          }
+          extraAction={
+            !hasConfiguration || hasLegacyConfiguration ? (
+              <Button
+                onClick={() => {
+                  setIsManifestModalOpen(true);
+                }}
+                variety={ButtonVariety.Default}
+              >
+                <FormattedMessage id="settings.almintegration.github.manifest.create" />
+              </Button>
+            ) : undefined
           }
           onCreate={() => {
             setIsFormOpen(true);
@@ -366,6 +383,15 @@ export default function GitHubAuthenticationTab() {
             onClose={() => {
               setIsFormOpen(false);
             }}
+          />
+        )}
+
+        {isManifestModalOpen && (
+          <GithubManifestCreationModal
+            onClose={() => {
+              setIsManifestModalOpen(false);
+            }}
+            primaryScope="auth"
           />
         )}
 

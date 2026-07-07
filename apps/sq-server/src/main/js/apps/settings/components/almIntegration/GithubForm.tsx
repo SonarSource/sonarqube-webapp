@@ -18,11 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { FormattedMessage } from 'react-intl';
-import { FlagMessage, Link } from '~design-system';
+import { Text } from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { useDocUrl } from '~sq-server-commons/helpers/docs';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { GithubBindingDefinition } from '~sq-server-commons/types/alm-settings';
 import { AlmBindingDefinitionFormField } from './AlmBindingDefinitionFormField';
 
@@ -33,26 +32,25 @@ export interface GithubFormProps {
 
 export default function GithubForm(props: GithubFormProps) {
   const { formData, onFieldChange } = props;
-  const toStatic = useDocUrl(DocLink.AlmGitHubIntegration);
+  const { formatMessage } = useIntl();
+
   return (
     <>
-      <FlagMessage className="sw-mb-8" variant="info">
-        <span>
-          <FormattedMessage
-            id="settings.almintegration.github.info"
-            values={{
-              link: (
-                <Link to={toStatic}>
-                  <FormattedMessage id="learn_more" />
-                </Link>
-              ),
-            }}
-          />
-        </span>
-      </FlagMessage>
+      <Text as="p" className="sw-mb-8" isSubtle>
+        <FormattedMessage
+          id="settings.almintegration.github.info"
+          values={{
+            link: (
+              <DocumentationLink to={DocLink.AlmGitHubIntegration}>
+                <FormattedMessage id="learn_more" />
+              </DocumentationLink>
+            ),
+          }}
+        />
+      </Text>
       <AlmBindingDefinitionFormField
         autoFocus
-        help={translate('settings.almintegration.form.name.github.help')}
+        help={formatMessage({ id: 'settings.almintegration.form.name.github.help' })}
         id="name.github"
         maxLength={200}
         onFieldChange={onFieldChange}
@@ -82,7 +80,7 @@ export default function GithubForm(props: GithubFormProps) {
         value={formData.url}
       />
       <AlmBindingDefinitionFormField
-        help={translate('settings.almintegration.form.app_id.github.help')}
+        help={formatMessage({ id: 'settings.almintegration.form.app_id.github.help' })}
         id="app_id"
         maxLength={80}
         onFieldChange={onFieldChange}
@@ -90,7 +88,7 @@ export default function GithubForm(props: GithubFormProps) {
         value={formData.appId}
       />
       <AlmBindingDefinitionFormField
-        help={translate('settings.almintegration.form.client_id.github.help')}
+        help={formatMessage({ id: 'settings.almintegration.form.client_id.github.help' })}
         id="client_id.github"
         maxLength={80}
         onFieldChange={onFieldChange}
@@ -98,7 +96,7 @@ export default function GithubForm(props: GithubFormProps) {
         value={formData.clientId}
       />
       <AlmBindingDefinitionFormField
-        help={translate('settings.almintegration.form.client_secret.github.help')}
+        help={formatMessage({ id: 'settings.almintegration.form.client_secret.github.help' })}
         id="client_secret.github"
         isSecret
         maxLength={160}
@@ -108,7 +106,7 @@ export default function GithubForm(props: GithubFormProps) {
         value={formData.clientSecret}
       />
       <AlmBindingDefinitionFormField
-        help={translate('settings.almintegration.form.private_key.github.help')}
+        help={formatMessage({ id: 'settings.almintegration.form.private_key.github.help' })}
         id="private_key"
         isSecret
         isTextArea
@@ -119,7 +117,7 @@ export default function GithubForm(props: GithubFormProps) {
         value={formData.privateKey}
       />
       <AlmBindingDefinitionFormField
-        help={translate('settings.almintegration.form.webhook_secret.github.help')}
+        help={formatMessage({ id: 'settings.almintegration.form.webhook_secret.github.help' })}
         id="webhook_secret.github"
         isSecret
         maxLength={160}

@@ -18,19 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button } from '@sonarsource/echoes-react';
+import { Button, Label, Text, TextArea, TextInput } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { FlagMessage, FormField, InputField, InputTextArea, Link } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { useDocUrl } from '~sq-server-commons/helpers/docs';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { AlmBindingDefinitionBase } from '~sq-server-commons/types/alm-settings';
 import '../../styles.css';
 
 export interface AlmBindingDefinitionFormFieldProps<B extends AlmBindingDefinitionBase> {
   autoFocus?: boolean;
-  help?: React.ReactNode;
+  help?: React.ReactElement | string;
   id: string;
   isInvalid?: boolean;
   isSecret?: boolean;
@@ -60,81 +58,98 @@ export function AlmBindingDefinitionFormField<B extends AlmBindingDefinitionBase
     isSecret,
   } = props;
   const [showField, setShowField] = React.useState(!overwriteOnly);
+  const { formatMessage } = useIntl();
 
-  const toStatic = useDocUrl(DocLink.InstanceAdminEncryption);
+  const label = formatMessage({
+    id: `settings.almintegration.form.${id}`,
+  });
 
   return (
-    <FormField
-      className="sw-mb-8"
-      description={help}
-      htmlFor={id}
-      label={translate('settings.almintegration.form', id)}
-      required={!optional}
-    >
-      {!showField && overwriteOnly && (
-        <div className="sw-flex sw-items-center">
-          <p className="sw-mr-2">
-            <FormattedMessage id="settings.almintegration.form.secret.field" />
-          </p>
-          <Button
-            aria-label={translateWithParameters(
-              'settings.almintegration.form.secret.update_field_x',
-              translate('settings.almintegration.form', id),
-            )}
-            onClick={() => {
-              props.onFieldChange(propKey, '');
-              setShowField(true);
-            }}
-          >
-            <FormattedMessage id="settings.almintegration.form.secret.update_field" />
-          </Button>
-        </div>
-      )}
-      {showField &&
-        (isTextArea ? (
-          <InputTextArea
-            id={id}
-            isInvalid={isInvalid}
-            maxLength={maxLength || 2000}
-            onChange={(e) => {
-              props.onFieldChange(propKey, e.currentTarget.value);
-            }}
-            required={!optional}
-            rows={5}
-            size="full"
-            value={value}
-          />
-        ) : (
-          <InputField
-            autoFocus={autoFocus}
-            id={id}
-            isInvalid={isInvalid}
-            maxLength={maxLength || 100}
-            name={id}
-            onChange={(e) => {
-              props.onFieldChange(propKey, e.currentTarget.value);
-            }}
-            size="full"
-            type="text"
-            value={value}
-          />
-        ))}
-      {showField && isSecret && (
-        <FlagMessage className="sw-mt-2" variant="info">
-          <span>
-            <FormattedMessage
-              id="settings.almintegration.form.secret.can_encrypt"
-              values={{
-                learn_more: (
-                  <Link to={toStatic}>
-                    <FormattedMessage id="learn_more" />
-                  </Link>
-                ),
+    <div className="sw-mb-8">
+      {!showField && overwriteOnly ? (
+        <>
+          <Label className="sw-mb-2 sw-block" htmlFor={id}>
+            {label}
+          </Label>
+          {help && (
+            <Text as="p" className="sw-mb-2" isSubtle>
+              {help}
+            </Text>
+          )}
+          <div className="sw-flex sw-items-center">
+            <p className="sw-mr-2">
+              <FormattedMessage id="settings.almintegration.form.secret.field" />
+            </p>
+            <Button
+              aria-label={formatMessage(
+                {
+                  id: 'settings.almintegration.form.secret.update_field_x',
+                },
+                { 0: label },
+              )}
+              onClick={() => {
+                props.onFieldChange(propKey, '');
+                setShowField(true);
               }}
-            />
-          </span>
-        </FlagMessage>
+            >
+              <FormattedMessage id="settings.almintegration.form.secret.update_field" />
+            </Button>
+          </div>
+        </>
+      ) : (
+        showField && (
+          <>
+            {isTextArea ? (
+              <TextArea
+                helpText={help}
+                id={id}
+                isRequired={!optional}
+                label={label}
+                maxLength={maxLength ?? 2000}
+                name={id}
+                onChange={(e) => {
+                  props.onFieldChange(propKey, e.currentTarget.value);
+                }}
+                rows={5}
+                validation={isInvalid ? 'invalid' : 'none'}
+                value={value}
+                width="full"
+              />
+            ) : (
+              <TextInput
+                autoFocus={autoFocus}
+                helpText={help}
+                id={id}
+                isRequired={!optional}
+                label={label}
+                maxLength={maxLength ?? 100}
+                name={id}
+                onChange={(e) => {
+                  props.onFieldChange(propKey, e.currentTarget.value);
+                }}
+                type="text"
+                validation={isInvalid ? 'invalid' : 'none'}
+                value={value}
+                width="full"
+              />
+            )}
+            {isSecret && (
+              <Text as="p" className="sw-mt-2" isSubtle>
+                <FormattedMessage
+                  id="settings.almintegration.form.secret.can_encrypt"
+                  values={{
+                    learn_more: (
+                      <DocumentationLink to={DocLink.InstanceAdminEncryption}>
+                        <FormattedMessage id="learn_more" />
+                      </DocumentationLink>
+                    ),
+                  }}
+                />
+              </Text>
+            )}
+          </>
+        )
       )}
-    </FormField>
+    </div>
   );
 }

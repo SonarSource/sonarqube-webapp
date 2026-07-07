@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
+import { toast } from '@sonarsource/echoes-react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
@@ -35,6 +36,17 @@ import AlmIntegration from '../AlmIntegration';
 jest.mock('~sq-server-commons/api/alm-settings');
 jest.mock('~sq-server-commons/api/settings');
 
+jest.mock('@sonarsource/echoes-react', () => ({
+  ...jest.requireActual<typeof import('@sonarsource/echoes-react')>('@sonarsource/echoes-react'),
+  toast: Object.assign(jest.fn(), {
+    success: jest.fn(),
+    error: jest.fn(),
+    info: jest.fn(),
+    warning: jest.fn(),
+    dismiss: jest.fn(),
+  }),
+}));
+
 let almSettings: AlmSettingsServiceMock;
 let settings: SettingsServiceMock;
 
@@ -46,6 +58,9 @@ beforeAll(() => {
 afterEach(() => {
   almSettings.reset();
   settings.reset();
+  jest.mocked(toast.success).mockClear();
+  jest.mocked(toast.error).mockClear();
+  jest.mocked(toast.info).mockClear();
 });
 
 it('should not display the serverBaseURL message when it is defined', async () => {
@@ -180,6 +195,106 @@ describe('bitbucket tab', () => {
   });
 });
 
+it('closes the configuration form when the modal is dismissed', async () => {
+  const { ui, user } = getPageObjects();
+  renderAlmIntegration();
+  expect(await ui.almHeading.find()).toBeInTheDocument();
+
+  await user.click(await ui.createConfigurationButton.find());
+  expect(await ui.saveConfigurationButton.find()).toBeInTheDocument();
+
+  // Dismissing the modal (e.g. via Escape) should cancel the form, not just the cancel button.
+  await user.keyboard('{Escape}');
+  expect(ui.saveConfigurationButton.query()).not.toBeInTheDocument();
+});
+
+describe('github app manifest return flow', () => {
+  it('shows a success toast when returning from a successful manifest creation', async () => {
+    const { ui } = getPageObjects();
+    renderAlmIntegration([], '/?almManifestResult=success&almKey=my-github');
+    expect(await ui.almHeading.find()).toBeInTheDocument();
+
+    // The intl mock echoes the message key and appends interpolated params, so the returned
+    // configuration key ('my-github') proves it was passed through to the success message.
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith({
+        description: 'settings.almintegration.github.manifest.success.my-github',
+      });
+    });
+    expect(toast.error).not.toHaveBeenCalled();
+  });
+
+  it('shows the error returned by GitHub when the manifest creation failed', async () => {
+    const { ui } = getPageObjects();
+    renderAlmIntegration([], '/?almManifestResult=error&almError=Something+went+wrong');
+    expect(await ui.almHeading.find()).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith({ description: 'Something went wrong' });
+    });
+    expect(toast.success).not.toHaveBeenCalled();
+  });
+
+  it('falls back to a generic error message when GitHub returns no error detail', async () => {
+    const { ui } = getPageObjects();
+    renderAlmIntegration([], '/?almManifestResult=error');
+    expect(await ui.almHeading.find()).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith({
+        description: 'settings.almintegration.github.manifest.error',
+      });
+    });
+  });
+
+  it('does not show any toast when there is no manifest result in the URL', async () => {
+    const { ui } = getPageObjects();
+    renderAlmIntegration();
+    expect(await ui.almHeading.find()).toBeInTheDocument();
+
+    expect(toast.success).not.toHaveBeenCalled();
+    expect(toast.error).not.toHaveBeenCalled();
+  });
+
+  it('shows a success toast when GitHub returns after a successful App installation', async () => {
+    const { ui } = getPageObjects();
+    // The happy path returns via the App setup_url with setup_action/installation_id, not almManifestResult.
+    renderAlmIntegration([], '/?setup_action=install&installation_id=12345');
+    expect(await ui.almHeading.find()).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith({
+        description: 'settings.almintegration.github.manifest.installed',
+      });
+    });
+    expect(toast.error).not.toHaveBeenCalled();
+  });
+
+  it('shows an info toast when the App installation is pending approval', async () => {
+    const { ui } = getPageObjects();
+    renderAlmIntegration([], '/?setup_action=request&installation_id=12345');
+    expect(await ui.almHeading.find()).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(toast.info).toHaveBeenCalledWith({
+        description: 'settings.almintegration.github.manifest.install_requested',
+      });
+    });
+    expect(toast.success).not.toHaveBeenCalled();
+  });
+
+  it('does not surface a success toast for an unrecognized return state', async () => {
+    const { ui } = getPageObjects();
+    renderAlmIntegration([], '/?almManifestResult=unexpected');
+    expect(await ui.almHeading.find()).toBeInTheDocument();
+
+    // An unknown state must not be conflated with success.
+    expect(toast.success).not.toHaveBeenCalled();
+    expect(toast.error).not.toHaveBeenCalled();
+    expect(toast.info).not.toHaveBeenCalled();
+  });
+});
+
 function getPageObjects() {
   const user = userEvent.setup();
 
@@ -193,7 +308,9 @@ function getPageObjects() {
     bitbucketConfiguration: (almKey: AlmKeys.BitbucketCloud | AlmKeys.BitbucketServer) =>
       byRole('radio', { name: `alm.${almKey}.long` }),
     configurationInput: (id: string) =>
-      byRole('textbox', { name: `settings.almintegration.form.${id} required` }),
+      byRole('textbox', {
+        name: new RegExp(`settings\\.almintegration\\.form\\.${id.replace(/\./g, '\\.')}`),
+      }),
     updateSecretValueButton: (key: string) =>
       byRole('button', {
         name: `settings.almintegration.form.secret.update_field_x.settings.almintegration.form.${key}`,
@@ -284,10 +401,11 @@ function getPageObjects() {
   };
 }
 
-function renderAlmIntegration(features: Feature[] = []) {
+function renderAlmIntegration(features: Feature[] = [], pathname = '/') {
   return renderComponent(
     <AvailableFeaturesContext.Provider value={features}>
       <AlmIntegration />
     </AvailableFeaturesContext.Provider>,
+    pathname,
   );
 }

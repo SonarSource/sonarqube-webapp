@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { toast } from '@sonarsource/echoes-react';
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
@@ -36,6 +37,17 @@ import { Feature } from '~sq-server-commons/types/features';
 import { GitHubProvisioningStatus, ProvisioningType } from '~sq-server-commons/types/provisioning';
 import { TaskStatuses } from '~sq-server-commons/types/tasks';
 import Authentication from '../Authentication';
+
+jest.mock('@sonarsource/echoes-react', () => ({
+  ...jest.requireActual<typeof import('@sonarsource/echoes-react')>('@sonarsource/echoes-react'),
+  toast: Object.assign(jest.fn(), {
+    success: jest.fn(),
+    error: jest.fn(),
+    info: jest.fn(),
+    warning: jest.fn(),
+    dismiss: jest.fn(),
+  }),
+}));
 
 let handler: GithubProvisioningServiceMock;
 let system: SystemServiceMock;
@@ -67,6 +79,8 @@ afterEach(() => {
   computeEngineHandler.reset();
   dopTranslationHandler.reset();
   gitlabHandler.reset();
+  jest.mocked(toast.success).mockClear();
+  jest.mocked(toast.error).mockClear();
 });
 
 const ghContainer = byRole('tabpanel', { name: 'github GitHub' });
@@ -1030,15 +1044,37 @@ describe('Github tab', () => {
   });
 });
 
+it('surfaces the GitHub App Manifest result when returning to the authentication tab', async () => {
+  renderAuthentication([], '&almManifestResult=success&almKey=my-github');
+
+  // The manifest flow can be launched from the auth tab, so its return must be handled here too.
+  await waitFor(() => {
+    expect(toast.success).toHaveBeenCalledWith({
+      description: 'settings.almintegration.github.manifest.success.my-github',
+    });
+  });
+});
+
+it('surfaces the App installation return on the authentication tab', async () => {
+  // Happy path: GitHub redirects to the App setup_url (this tab) with setup_action/installation_id.
+  renderAuthentication([], '&setup_action=install&installation_id=12345');
+
+  await waitFor(() => {
+    expect(toast.success).toHaveBeenCalledWith({
+      description: 'settings.almintegration.github.manifest.installed',
+    });
+  });
+});
+
 const assertAppIsLoaded = () => {
   expect(screen.queryByText('loading')).not.toBeInTheDocument();
 };
 
-function renderAuthentication(features: Feature[] = []) {
+function renderAuthentication(features: Feature[] = [], extraQuery = '') {
   renderComponent(
     <AvailableFeaturesContext.Provider value={features}>
       <Authentication definitions={definitions} />
     </AvailableFeaturesContext.Provider>,
-    `?tab=${AlmKeys.GitHub}`,
+    `?tab=${AlmKeys.GitHub}${extraQuery}`,
   );
 }

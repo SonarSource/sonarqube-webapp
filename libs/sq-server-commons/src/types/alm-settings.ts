@@ -63,6 +63,12 @@ export interface GithubBindingDefinition extends AlmBindingDefinitionBase {
   webhookSecret: string;
 }
 
+export interface GithubManifestSetup {
+  githubAppUrl: string;
+  manifest: string;
+  state: string;
+}
+
 export interface GitlabBindingDefinition extends AlmBindingDefinitionBase {
   personalAccessToken: string;
   url?: string;

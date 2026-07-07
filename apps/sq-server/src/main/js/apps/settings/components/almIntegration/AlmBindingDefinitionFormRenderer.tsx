@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Modal, ModalSize } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FlagMessage, Modal } from '~design-system';
+import { FlagMessage } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   AlmBindingDefinition,
@@ -130,25 +130,32 @@ export default class AlmBindingDefinitionFormRenderer extends React.PureComponen
 
     return (
       <Modal
-        body={formBody}
-        headerTitle={header}
-        isScrollable
-        onClose={this.props.onCancel}
+        content={formBody}
+        isOpen
+        onOpenChange={(open) => {
+          if (!open) {
+            this.props.onCancel();
+          }
+        }}
         primaryButton={
-          <>
-            <Spinner isLoading={submitting} />
-            <Button
-              form={FORM_ID}
-              hasAutoFocus
-              isDisabled={!canSubmit || submitting}
-              type="submit"
-              variety={ButtonVariety.Primary}
-            >
-              <FormattedMessage id="settings.almintegration.form.save" />
-            </Button>
-          </>
+          <Button
+            form={FORM_ID}
+            hasAutoFocus
+            isDisabled={!canSubmit || submitting}
+            isLoading={submitting}
+            type="submit"
+            variety={ButtonVariety.Primary}
+          >
+            <FormattedMessage id="settings.almintegration.form.save" />
+          </Button>
         }
-        secondaryButtonLabel={translate('cancel')}
+        secondaryButton={
+          <Button onClick={this.props.onCancel}>
+            <FormattedMessage id="cancel" />
+          </Button>
+        }
+        size={ModalSize.Default}
+        title={header}
       />
     );
   }

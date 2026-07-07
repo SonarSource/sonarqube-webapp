@@ -18,11 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { FormattedMessage } from 'react-intl';
-import { FlagMessage, Link } from '~design-system';
+import { Link, Text } from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { BitbucketCloudBindingDefinition } from '~sq-server-commons/types/alm-settings';
 import { BITBUCKET_CLOUD_WORKSPACE_ID_FORMAT } from '../../constants';
 import { AlmBindingDefinitionFormField } from './AlmBindingDefinitionFormField';
@@ -34,38 +33,37 @@ export interface BitbucketCloudFormProps {
 
 export default function BitbucketCloudForm(props: BitbucketCloudFormProps) {
   const { formData } = props;
+  const { formatMessage } = useIntl();
   const workspaceIDIsInvalid = Boolean(
     formData.workspace && !BITBUCKET_CLOUD_WORKSPACE_ID_FORMAT.test(formData.workspace),
   );
 
   return (
     <>
-      <FlagMessage className="sw-mb-8" variant="info">
-        <div>
-          <FormattedMessage
-            id="settings.almintegration.bitbucketcloud.info"
-            values={{
-              oauth: (
-                <Link
-                  target="_blank"
-                  to="https://support.atlassian.com/bitbucket-cloud/docs/use-oauth-on-bitbucket-cloud/"
-                >
-                  <FormattedMessage id="settings.almintegration.bitbucketcloud.oauth" />
-                </Link>
-              ),
-              permission: <strong>Pull Requests: Read</strong>,
-              doc_link: (
-                <DocumentationLink to={DocLink.AlmBitBucketCloudIntegration}>
-                  <FormattedMessage id="learn_more" />
-                </DocumentationLink>
-              ),
-            }}
-          />
-        </div>
-      </FlagMessage>
+      <Text as="p" className="sw-mb-8" isSubtle>
+        <FormattedMessage
+          id="settings.almintegration.bitbucketcloud.info"
+          values={{
+            oauth: (
+              <Link
+                enableOpenInNewTab
+                to="https://support.atlassian.com/bitbucket-cloud/docs/use-oauth-on-bitbucket-cloud/"
+              >
+                <FormattedMessage id="settings.almintegration.bitbucketcloud.oauth" />
+              </Link>
+            ),
+            permission: <strong>Pull Requests: Read</strong>,
+            doc_link: (
+              <DocumentationLink to={DocLink.AlmBitBucketCloudIntegration}>
+                <FormattedMessage id="learn_more" />
+              </DocumentationLink>
+            ),
+          }}
+        />
+      </Text>
       <AlmBindingDefinitionFormField
         autoFocus
-        help={translate('settings.almintegration.form.name.bitbucketcloud.help')}
+        help={formatMessage({ id: 'settings.almintegration.form.name.bitbucketcloud.help' })}
         id="name.bitbucket"
         maxLength={200}
         onFieldChange={props.onFieldChange}
@@ -100,7 +98,9 @@ export default function BitbucketCloudForm(props: BitbucketCloudFormProps) {
         value={formData.workspace || ''}
       />
       <AlmBindingDefinitionFormField
-        help={translate('settings.almintegration.form.oauth_key.bitbucketcloud.help')}
+        help={formatMessage({
+          id: 'settings.almintegration.form.oauth_key.bitbucketcloud.help',
+        })}
         id="client_id.bitbucketcloud"
         maxLength={80}
         onFieldChange={props.onFieldChange}
@@ -108,7 +108,9 @@ export default function BitbucketCloudForm(props: BitbucketCloudFormProps) {
         value={formData.clientId || ''}
       />
       <AlmBindingDefinitionFormField
-        help={translate('settings.almintegration.form.oauth_secret.bitbucketcloud.help')}
+        help={formatMessage({
+          id: 'settings.almintegration.form.oauth_secret.bitbucketcloud.help',
+        })}
         id="client_secret.bitbucketcloud"
         isSecret
         maxLength={160}

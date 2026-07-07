@@ -18,14 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Modal, ModalSize, Spinner, Text } from '@sonarsource/echoes-react';
 import { keyBy } from 'lodash';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { FlagMessage, Modal } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { AlmAuthDocLinkKeys } from '~sq-server-commons/helpers/doc-links';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { useSaveValuesMutation } from '~sq-server-commons/queries/settings';
 import { AuthenticationTabs } from './Authentication';
 import AuthenticationFormField from './AuthenticationFormField';
@@ -51,11 +49,14 @@ const FORM_ID = 'configuration-form';
 
 export default function ConfigurationForm(props: Readonly<Props>) {
   const { canBeSave, create, excludedField, loading, setNewValue, tab, values } = props;
+  const { formatMessage } = useIntl();
   const [errors, setErrors] = React.useState<Record<string, ErrorValue>>({});
 
   const { mutateAsync: changeConfig } = useSaveValuesMutation();
 
-  const header = translate('settings.authentication.form', create ? 'create' : 'edit', tab);
+  const header = formatMessage({
+    id: `settings.authentication.form.${create ? 'create' : 'edit'}.${tab}`,
+  });
 
   const handleSubmit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -65,7 +66,7 @@ export default function ConfigurationForm(props: Readonly<Props>) {
     } else {
       const errors = Object.values(values)
         .filter((v) => v.newValue === undefined && v.value === undefined && v.mandatory)
-        .map((v) => ({ key: v.key, message: translate('field_required') }));
+        .map((v) => ({ key: v.key, message: formatMessage({ id: 'field_required' }) }));
 
       setErrors(keyBy(errors, 'key'));
     }
@@ -76,7 +77,10 @@ export default function ConfigurationForm(props: Readonly<Props>) {
 
     const errors = data
       .filter(({ success }) => !success)
-      .map(({ key }) => ({ key, message: translate('default_save_field_error_message') }));
+      .map(({ key }) => ({
+        key,
+        message: formatMessage({ id: 'default_save_field_error_message' }),
+      }));
 
     setErrors(keyBy(errors, 'key'));
 
@@ -87,21 +91,22 @@ export default function ConfigurationForm(props: Readonly<Props>) {
 
   const formBody = (
     <form id={FORM_ID} onSubmit={handleSubmit}>
-      <Spinner ariaLabel={translate('settings.authentication.form.loading')} isLoading={loading}>
-        <FlagMessage className="sw-w-full sw-mb-8" variant="info">
-          <span>
-            <FormattedMessage
-              id="settings.authentication.help"
-              values={{
-                link: (
-                  <DocumentationLink to={AlmAuthDocLinkKeys[tab]}>
-                    <FormattedMessage id="settings.authentication.help.link" />
-                  </DocumentationLink>
-                ),
-              }}
-            />
-          </span>
-        </FlagMessage>
+      <Spinner
+        ariaLabel={formatMessage({ id: 'settings.authentication.form.loading' })}
+        isLoading={loading}
+      >
+        <Text as="p" className="sw-mb-8" isSubtle>
+          <FormattedMessage
+            id="settings.authentication.help"
+            values={{
+              link: (
+                <DocumentationLink to={AlmAuthDocLinkKeys[tab]}>
+                  <FormattedMessage id="settings.authentication.help.link" />
+                </DocumentationLink>
+              ),
+            }}
+          />
+        </Text>
 
         {Object.values(values).map((val) => {
           if (excludedField.includes(val.key)) {
@@ -127,23 +132,32 @@ export default function ConfigurationForm(props: Readonly<Props>) {
 
   return (
     <Modal
-      body={formBody}
-      headerTitle={header}
-      isScrollable
-      onClose={props.onClose}
+      content={formBody}
+      isOpen
+      onOpenChange={(open) => {
+        if (!open) {
+          props.onClose();
+        }
+      }}
       primaryButton={
         <Button
           form={FORM_ID}
           hasAutoFocus
           isDisabled={!canBeSave}
+          isLoading={loading}
           type="submit"
           variety={ButtonVariety.Primary}
         >
           <FormattedMessage id="settings.almintegration.form.save" />
-
-          <Spinner className="sw-ml-2" isLoading={loading} />
         </Button>
       }
+      secondaryButton={
+        <Button onClick={props.onClose}>
+          <FormattedMessage id="cancel" />
+        </Button>
+      }
+      size={ModalSize.Default}
+      title={header}
     />
   );
 }

@@ -21,7 +21,7 @@
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { HttpStatus } from '~shared/types/request';
-import { get, parseError, parseJSON, post } from '../helpers/request';
+import { get, parseError, parseJSON, post, postJSON } from '../helpers/request';
 import {
   AlmSettingsBindingDefinitions,
   AlmSettingsInstance,
@@ -32,6 +32,7 @@ import {
   BitbucketProjectAlmBindingParams,
   BitbucketServerBindingDefinition,
   GithubBindingDefinition,
+  GithubManifestSetup,
   GithubProjectAlmBindingParams,
   GitlabBindingDefinition,
   GitlabProjectAlmBindingParams,
@@ -66,6 +67,16 @@ export function validateAlmSettings(key: string): Promise<string> {
 
 export function createGithubConfiguration(data: GithubBindingDefinition) {
   return post('/api/alm_settings/create_github', data).catch(throwGlobalError);
+}
+
+export function createGithubConfigurationFromManifest(data: {
+  auth: boolean;
+  devops: boolean;
+  key?: string;
+  name?: string;
+  organization?: string;
+}): Promise<GithubManifestSetup> {
+  return postJSON('/api/alm_settings/create_github_from_manifest', data).catch(throwGlobalError);
 }
 
 export function updateGithubConfiguration(data: GithubBindingDefinition & { newKey: string }) {

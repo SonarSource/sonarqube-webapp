@@ -101,6 +101,12 @@ export default ({ mode }) => {
           target: proxyTarget,
           changeOrigin: true,
         },
+        // Callback URL for GitHub manifest app workflow.
+        // Without this, you'll get a 404 error when trying to install the app while running the dev server.
+        '/github/manifest/callback': {
+          target: proxyTarget,
+          changeOrigin: true,
+        },
       },
     },
   });

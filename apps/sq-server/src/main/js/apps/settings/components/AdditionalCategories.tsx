@@ -25,7 +25,7 @@ import {
   INSTANCE_INTEGRATIONS_CATEGORY,
   NEW_CODE_PERIOD_CATEGORY,
 } from '~sq-server-commons/constants/settings';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import {
@@ -73,6 +73,8 @@ export interface AdditionalCategory {
   requiresOneOfFeatures?: Feature[];
 }
 
+const { formatMessage } = getIntl();
+
 /**
  * If your additional category also has associated `PropertyDefinition`s
  * from SQS, and you want to show both the custom UI and the standard
@@ -94,7 +96,7 @@ export interface AdditionalCategory {
 export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
   {
     key: LANGUAGES_CATEGORY,
-    name: translate('property.category.languages'),
+    name: formatMessage({ id: 'property.category.languages' }),
     renderComponent: getLanguagesComponent,
     availableGlobally: true,
     availableForProject: true,
@@ -102,7 +104,7 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
   },
   {
     key: NEW_CODE_PERIOD_CATEGORY,
-    name: translate('settings.new_code_period.category'),
+    name: formatMessage({ id: 'settings.new_code_period.category' }),
     renderComponent: getNewCodePeriodComponent,
     availableGlobally: true,
     availableForProject: false,
@@ -110,7 +112,7 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
   },
   {
     key: ANALYSIS_SCOPE_CATEGORY,
-    name: translate('property.category.exclusions'),
+    name: formatMessage({ id: 'property.category.exclusions' }),
     renderComponent: getAnalysisScopeComponent,
     availableGlobally: true,
     availableForProject: true,
@@ -118,7 +120,7 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
   },
   {
     key: ALM_INTEGRATION_CATEGORY,
-    name: translate('property.category.almintegration'),
+    name: formatMessage({ id: 'property.category.almintegration' }),
     renderComponent: getAlmIntegrationComponent,
     availableGlobally: true,
     availableForProject: false,
@@ -126,7 +128,7 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
   },
   {
     key: AI_CODE_FIX_CATEGORY,
-    name: translate('property.category.aicodefix'),
+    name: formatMessage({ id: 'property.category.aicodefix' }),
     renderComponent: getAiCodeFixComponent,
     availableGlobally: true,
     availableForProject: false,
@@ -134,7 +136,7 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
   },
   {
     key: PULL_REQUEST_DECORATION_BINDING_CATEGORY,
-    name: translate('settings.pr_decoration.binding.category'),
+    name: formatMessage({ id: 'settings.pr_decoration.binding.category' }),
     renderComponent: getPullRequestDecorationBindingComponent,
     availableGlobally: false,
     availableForProject: true,
@@ -143,7 +145,7 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
   },
   {
     key: AUTHENTICATION_CATEGORY,
-    name: translate('property.category.authentication'),
+    name: formatMessage({ id: 'property.category.authentication' }),
     renderComponent: getAuthenticationComponent,
     availableGlobally: true,
     availableForProject: false,
@@ -151,7 +153,7 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
   },
   {
     key: EMAIL_NOTIFICATION_CATEGORY,
-    name: translate('email_notification.category'),
+    name: formatMessage({ id: 'email_notification.category' }),
     renderComponent: getEmailNotificationComponent,
     availableGlobally: true,
     availableForProject: false,
@@ -159,7 +161,7 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
   },
   {
     key: MODE_CATEGORY,
-    name: translate('settings.mode.title'),
+    name: formatMessage({ id: 'settings.mode.title' }),
     renderComponent: getModeComponent,
     availableGlobally: true,
     availableForProject: false,
@@ -167,7 +169,7 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
   },
   {
     key: ADVANCED_SECURITY_CATEGORY,
-    name: translate('settings.advanced_security.title'),
+    name: formatMessage({ id: 'settings.advanced_security.title' }),
     renderComponent: getAdvancedSecurityComponent,
     availableGlobally: true,
     availableForProject: false,
@@ -175,7 +177,7 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
   },
   {
     key: EARLY_ACCESS_FEATURES_CATEGORY,
-    name: translate('settings.early_access.title'),
+    name: formatMessage({ id: 'settings.early_access.title' }),
     renderComponent: getEarlyAccessFeaturesComponent,
     availableGlobally: true,
     availableForProject: false,
@@ -183,7 +185,7 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
   },
   {
     key: INSTANCE_INTEGRATIONS_CATEGORY,
-    name: translate('settings.instance_integrations.title'),
+    name: formatMessage({ id: 'settings.instance_integrations.title' }),
     renderComponent: getInstanceIntegrationsComponent,
     availableGlobally: true,
     availableForProject: false,
@@ -192,7 +194,7 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
   },
   {
     key: JIRA_PROJECT_BINDING_CATEGORY,
-    name: translate('project_settings.category.jira_binding'),
+    name: formatMessage({ id: 'project_settings.category.jira_binding' }),
     renderComponent: getProjectJiraBindingComponent,
     availableGlobally: false,
     availableForProject: true,
@@ -213,8 +215,8 @@ function getAnalysisScopeComponent(props: AdditionalCategoryComponentProps) {
   return <AnalysisScope {...props} />;
 }
 
-function getAlmIntegrationComponent(props: AdditionalCategoryComponentProps) {
-  return <AlmIntegration {...props} />;
+function getAlmIntegrationComponent() {
+  return <AlmIntegration />;
 }
 
 function getAiCodeFixComponent() {

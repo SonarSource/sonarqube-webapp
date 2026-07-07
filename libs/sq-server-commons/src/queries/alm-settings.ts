@@ -18,9 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { queryOptions, useQueryClient } from '@tanstack/react-query';
+import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { createQueryHook, StaleTime } from '~shared/queries/common';
-import { validateProjectAlmBinding } from '../api/alm-settings';
+import {
+  createGithubConfigurationFromManifest,
+  validateProjectAlmBinding,
+} from '../api/alm-settings';
 import { ProjectAlmBindingConfigurationErrors } from '../types/alm-settings';
 
 export const useValidateProjectAlmBindingQuery = createQueryHook((projectKey: string) =>
@@ -40,4 +43,11 @@ export function useInvalidateValidateProjectAlmBindingQuery() {
     queryClient.invalidateQueries({
       queryKey: ['alm_settings', projectKey, 'validation'] as const,
     });
+}
+
+export function useCreateGithubConfigurationFromManifestMutation() {
+  return useMutation({
+    mutationFn: (data: Parameters<typeof createGithubConfigurationFromManifest>[0]) =>
+      createGithubConfigurationFromManifest(data),
+  });
 }

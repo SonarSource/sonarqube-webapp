@@ -18,15 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Modal, ModalSize, Text } from '@sonarsource/echoes-react';
 import { keyBy } from 'lodash';
 import { SyntheticEvent, useEffect, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { FlagMessage, Modal } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { SettingType } from '~shared/types/settings';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   useCreateGitLabConfigurationMutation,
   useUpdateGitLabConfigurationMutation,
@@ -63,15 +61,20 @@ export default function GitLabConfigurationForm(props: Readonly<Props>) {
   const [errors, setErrors] = useState<Record<string, ErrorValue>>({});
   const { mutate: createConfig, isPending: createLoading } = useCreateGitLabConfigurationMutation();
   const { mutate: updateConfig, isPending: updateLoading } = useUpdateGitLabConfigurationMutation();
+  const { formatMessage } = useIntl();
 
   const [formData, setFormData] = useState<Record<keyof GitLabConfigurationCreateBody, FormData>>({
     applicationId: {
       value: gitlabConfiguration?.applicationId ?? '',
       required: true,
       definition: {
-        name: translate('settings.authentication.gitlab.form.applicationId.name'),
+        name: formatMessage({
+          id: 'settings.authentication.gitlab.form.applicationId.name',
+        }),
         key: 'applicationId',
-        description: translate('settings.authentication.gitlab.form.applicationId.description'),
+        description: formatMessage({
+          id: 'settings.authentication.gitlab.form.applicationId.description',
+        }),
         secured: false,
       },
     },
@@ -79,36 +82,50 @@ export default function GitLabConfigurationForm(props: Readonly<Props>) {
       value: gitlabConfiguration?.url ?? DEFAULT_URL,
       required: true,
       definition: {
-        name: translate('settings.authentication.gitlab.form.url.name'),
+        name: formatMessage({
+          id: 'settings.authentication.gitlab.form.url.name',
+        }),
         secured: false,
         key: 'url',
-        description: translate('settings.authentication.gitlab.form.url.description'),
+        description: formatMessage({
+          id: 'settings.authentication.gitlab.form.url.description',
+        }),
       },
     },
     secret: {
       value: '',
       required: true,
       definition: {
-        name: translate('settings.authentication.gitlab.form.secret.name'),
+        name: formatMessage({
+          id: 'settings.authentication.gitlab.form.secret.name',
+        }),
         secured: true,
         key: 'secret',
-        description: translate('settings.authentication.gitlab.form.secret.description'),
+        description: formatMessage({
+          id: 'settings.authentication.gitlab.form.secret.description',
+        }),
       },
     },
     synchronizeGroups: {
       value: gitlabConfiguration?.synchronizeGroups ?? false,
       required: false,
       definition: {
-        name: translate('settings.authentication.gitlab.form.synchronizeGroups.name'),
+        name: formatMessage({
+          id: 'settings.authentication.gitlab.form.synchronizeGroups.name',
+        }),
         secured: false,
         key: 'synchronizeGroups',
-        description: translate('settings.authentication.gitlab.form.synchronizeGroups.description'),
+        description: formatMessage({
+          id: 'settings.authentication.gitlab.form.synchronizeGroups.description',
+        }),
         type: SettingType.BOOLEAN,
       },
     },
   });
 
-  const header = translate('settings.authentication.gitlab.form', isCreate ? 'create' : 'edit');
+  const header = formatMessage({
+    id: `settings.authentication.gitlab.form.${isCreate ? 'create' : 'edit'}`,
+  });
 
   // In case of URL update, the user must provide the secret again
   // This relation is specific to URL & Secret so no need for a generic solution here
@@ -150,27 +167,25 @@ export default function GitLabConfigurationForm(props: Readonly<Props>) {
     } else {
       const errors = Object.entries(formData)
         .filter(([_, v]) => v.required && Boolean(v.value) !== false)
-        .map(([key]) => ({ key, message: translate('field_required') }));
+        .map(([key]) => ({ key, message: formatMessage({ id: 'field_required' }) }));
       setErrors(keyBy(errors, 'key'));
     }
   };
 
   const formBody = (
     <form id={FORM_ID} onSubmit={handleSubmit}>
-      <FlagMessage className="sw-w-full sw-mb-8" variant="info">
-        <span>
-          <FormattedMessage
-            id="settings.authentication.help"
-            values={{
-              link: (
-                <DocumentationLink to={DocLink.AlmGitLabAuth}>
-                  <FormattedMessage id="settings.authentication.help.link" />
-                </DocumentationLink>
-              ),
-            }}
-          />
-        </span>
-      </FlagMessage>
+      <Text as="p" className="sw-mb-8" isSubtle>
+        <FormattedMessage
+          id="settings.authentication.help"
+          values={{
+            link: (
+              <DocumentationLink to={DocLink.AlmGitLabAuth}>
+                <FormattedMessage id="settings.authentication.help.link" />
+              </DocumentationLink>
+            ),
+          }}
+        />
+      </Text>
       {Object.entries(formData).map(
         ([key, { value, required, definition }]: [
           key: keyof GitLabConfigurationCreateBody,
@@ -199,7 +214,9 @@ export default function GitLabConfigurationForm(props: Readonly<Props>) {
         ...errors,
         secret: {
           key: 'secret',
-          message: translate('settings.authentication.gitlab.form.secret.required_for_url_change'),
+          message: formatMessage({
+            id: 'settings.authentication.gitlab.form.secret.required_for_url_change',
+          }),
         },
       });
     }
@@ -217,22 +234,31 @@ export default function GitLabConfigurationForm(props: Readonly<Props>) {
 
   return (
     <Modal
-      body={formBody}
-      headerTitle={header}
-      onClose={props.onClose}
+      content={formBody}
+      isOpen
+      onOpenChange={(open) => {
+        if (!open) {
+          props.onClose();
+        }
+      }}
       primaryButton={
-        <>
-          <Spinner isLoading={createLoading || updateLoading} />
-          <Button
-            form={FORM_ID}
-            isDisabled={!canBeSaved}
-            type="submit"
-            variety={ButtonVariety.Primary}
-          >
-            <FormattedMessage id="settings.almintegration.form.save" />
-          </Button>
-        </>
+        <Button
+          form={FORM_ID}
+          isDisabled={!canBeSaved}
+          isLoading={createLoading || updateLoading}
+          type="submit"
+          variety={ButtonVariety.Primary}
+        >
+          <FormattedMessage id="settings.almintegration.form.save" />
+        </Button>
       }
+      secondaryButton={
+        <Button onClick={props.onClose}>
+          <FormattedMessage id="cancel" />
+        </Button>
+      }
+      size={ModalSize.Default}
+      title={header}
     />
   );
 }
