@@ -77,91 +77,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@atlaskit/atlassian-context@npm:^0.2.0":
-  version: 0.2.0
-  resolution: "@atlaskit/atlassian-context@npm:0.2.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.0.0"
+"@atlaskit/reduced-ui-pack@npm:20.0.0":
+  version: 20.0.0
+  resolution: "@atlaskit/reduced-ui-pack@npm:20.0.0"
   peerDependencies:
+    "@atlaskit/css-reset": ^8.0.0
     react: ^18.2.0
-  checksum: 10/297bb6b1cc77e66da6cac7d5db6d4e171d4305c039086c8ff45ef79c71019cf2bb4c5fbe5e809074183cf071ad13c270545177d23f2701059c5edcf2751c6f96
-  languageName: node
-  linkType: hard
-
-"@atlaskit/ds-lib@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "@atlaskit/ds-lib@npm:6.0.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.0.0"
-    bind-event-listener: "npm:^3.0.0"
-    tiny-invariant: "npm:^1.2.0"
-  peerDependencies:
-    react: ^18.2.0 || ^19.0.0
-  checksum: 10/718ca27cb74ddc98bb09a34b70331f916c7eccb3062af3d724b652707903c07b3fc75a0572a33bcdc0cd670122f6b9de47b8ffe8f7c749ff59144b0735445e5b
-  languageName: node
-  linkType: hard
-
-"@atlaskit/feature-gate-js-client@npm:^4.25.0":
-  version: 4.26.2
-  resolution: "@atlaskit/feature-gate-js-client@npm:4.26.2"
-  dependencies:
-    "@atlaskit/atlassian-context": "npm:^0.2.0"
-    "@babel/runtime": "npm:^7.0.0"
-    "@statsig/client-core": "npm:^3.10.0"
-    "@statsig/js-client": "npm:^3.10.0"
-    eventemitter2: "npm:^4.1.0"
-  checksum: 10/472cc370aecf4fb17b0bd0f484d1302ca3420b68a168087aef8b3a2524f482896623a1072a59c3c5b436a2dccdea72e7504c1a325c7e2d08179d6bb82846571c
-  languageName: node
-  linkType: hard
-
-"@atlaskit/platform-feature-flags@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@atlaskit/platform-feature-flags@npm:1.1.0"
-  dependencies:
-    "@atlaskit/feature-gate-js-client": "npm:^4.25.0"
-    "@babel/runtime": "npm:^7.0.0"
-  checksum: 10/28bee8b3e1464317de21f9d0c44325a43c4d5ce2af31b73ea7e7e2474f7d4c409454815c03fdac0f78f1e32b78667097ecf766b54e52db3fb7a37f2fd157233a
-  languageName: node
-  linkType: hard
-
-"@atlaskit/reduced-ui-pack@npm:19.1.2":
-  version: 19.1.2
-  resolution: "@atlaskit/reduced-ui-pack@npm:19.1.2"
-  dependencies:
-    "@atlaskit/theme": "npm:^22.0.0"
-  peerDependencies:
-    "@atlaskit/css-reset": ^7.3.0
-    react: ^18.2.0
-  checksum: 10/3b302a17315a04540e438cf304ec411b04e64734bd5b0b7d25285b284551758df506ca5bb5f890a9bb7c9e8b1266d948babc839c349195a392c6f9e0094acdaf
-  languageName: node
-  linkType: hard
-
-"@atlaskit/theme@npm:^22.0.0":
-  version: 22.0.4
-  resolution: "@atlaskit/theme@npm:22.0.4"
-  dependencies:
-    "@atlaskit/ds-lib": "npm:^6.0.0"
-    "@atlaskit/tokens": "npm:^11.4.0"
-    "@babel/runtime": "npm:^7.0.0"
-  peerDependencies:
-    react: ^18.2.0
-  checksum: 10/5d58ea6a1406d01c27c6fb3326b04c68882c63e61ede16cececdbfa288b168701a0b2cb721fce7eefc36f11346cfc05dc970fd1196e8976501f77db324b463ba
-  languageName: node
-  linkType: hard
-
-"@atlaskit/tokens@npm:^11.4.0":
-  version: 11.4.3
-  resolution: "@atlaskit/tokens@npm:11.4.3"
-  dependencies:
-    "@atlaskit/ds-lib": "npm:^6.0.0"
-    "@atlaskit/platform-feature-flags": "npm:^1.1.0"
-    "@babel/runtime": "npm:^7.0.0"
-    "@babel/traverse": "npm:^7.23.2"
-    "@babel/types": "npm:^7.20.0"
-    bind-event-listener: "npm:^3.0.0"
-  peerDependencies:
-    react: ^18.2.0 || ^19.0.0
-  checksum: 10/5d2bae7c6f4c83dae282c68c165876251febb68826e23350a286b1b42d8cbc8b070ec465928988964ccec84743c1ebfc4e9dbb9d98c363029cba4bcf1ea44752
+  checksum: 10/a7f26645d198d3506ab4454e49a5f5126a80312c5e697b76a660a8895071d89e0ea427d4ba3aeb8bd96ef4071b2db7f87000f16722590cdf12e08264899b1258
   languageName: node
   linkType: hard
 
@@ -3018,7 +2940,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.12.0, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.20.13, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.22.6, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.7":
+"@babel/runtime@npm:^7.12.0, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.20.13, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.22.6, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.7":
   version: 7.27.1
   resolution: "@babel/runtime@npm:7.27.1"
   checksum: 10/34cefcbf781ea5a4f1b93f8563327b9ac82694bebdae91e8bd9d7f58d084cbe5b9a6e7f94d77076e15b0bcdaa0040a36cb30737584028df6c4673b4c67b2a31d
@@ -3080,7 +3002,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/traverse@npm:^7.16.0, @babel/traverse@npm:^7.22.5, @babel/traverse@npm:^7.23.2, @babel/traverse@npm:^7.27.1, @babel/traverse@npm:^7.28.0, @babel/traverse@npm:^7.28.3, @babel/traverse@npm:^7.28.4":
+"@babel/traverse@npm:^7.16.0, @babel/traverse@npm:^7.22.5, @babel/traverse@npm:^7.27.1, @babel/traverse@npm:^7.28.0, @babel/traverse@npm:^7.28.3, @babel/traverse@npm:^7.28.4":
   version: 7.28.4
   resolution: "@babel/traverse@npm:7.28.4"
   dependencies:
@@ -3125,7 +3047,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/types@npm:^7.0.0, @babel/types@npm:^7.20.0, @babel/types@npm:^7.20.7, @babel/types@npm:^7.21.3, @babel/types@npm:^7.22.5, @babel/types@npm:^7.27.1, @babel/types@npm:^7.27.3, @babel/types@npm:^7.28.2, @babel/types@npm:^7.28.4, @babel/types@npm:^7.4.4":
+"@babel/types@npm:^7.0.0, @babel/types@npm:^7.20.7, @babel/types@npm:^7.21.3, @babel/types@npm:^7.22.5, @babel/types@npm:^7.27.1, @babel/types@npm:^7.27.3, @babel/types@npm:^7.28.2, @babel/types@npm:^7.28.4, @babel/types@npm:^7.4.4":
   version: 7.28.4
   resolution: "@babel/types@npm:7.28.4"
   dependencies:
@@ -9065,22 +8987,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@statsig/client-core@npm:3.12.1, @statsig/client-core@npm:^3.10.0":
-  version: 3.12.1
-  resolution: "@statsig/client-core@npm:3.12.1"
-  checksum: 10/6b60146454c1d83f607057eed7827b147fe9825cf8a6d7ce9eea6c2b7926033da7970957e39e2727934fcc59c61cbf268122861a5b5b3eebb55277480505417d
-  languageName: node
-  linkType: hard
-
-"@statsig/js-client@npm:^3.10.0":
-  version: 3.12.1
-  resolution: "@statsig/js-client@npm:3.12.1"
-  dependencies:
-    "@statsig/client-core": "npm:3.12.1"
-  checksum: 10/f438577f4ace50f014dff1f843145c79c7793131eec2ef10315b63dc744c1b7b46c196489c81db343c8b08fdcfe94cb892ef4275109893ba923cb97dfa706e15
-  languageName: node
-  linkType: hard
-
 "@stripe/react-stripe-js@npm:6.7.0":
   version: 6.7.0
   resolution: "@stripe/react-stripe-js@npm:6.7.0"
@@ -12039,13 +11945,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bind-event-listener@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "bind-event-listener@npm:3.0.0"
-  checksum: 10/3d442307ee906b79f041433b065e7b259bd1e5231a74519271cc5beb485f7c469609da9c7f20fdd0b3ab340e4691fee826b76d003c71cf5ad955186aba5c256e
-  languageName: node
-  linkType: hard
-
 "bl@npm:4.1.0, bl@npm:^4.0.3":
   version: 4.1.0
   resolution: "bl@npm:4.1.0"
@@ -14627,13 +14526,6 @@ __metadata:
   version: 1.8.1
   resolution: "etag@npm:1.8.1"
   checksum: 10/571aeb3dbe0f2bbd4e4fadbdb44f325fc75335cd5f6f6b6a091e6a06a9f25ed5392f0863c5442acb0646787446e816f13cbfc6edce5b07658541dff573cab1ff
-  languageName: node
-  linkType: hard
-
-"eventemitter2@npm:^4.1.0":
-  version: 4.1.2
-  resolution: "eventemitter2@npm:4.1.2"
-  checksum: 10/c509bcd3fdac0f4b3df570ea216e3da7ccd0b95b4461bbce307ee57ec28e5f3fd8eb350503d0bdf8508930df0998da66cbf2cc7c0bc5baa4b1142e87777e88a9
   languageName: node
   linkType: hard
 
@@ -22849,7 +22741,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "sonarqube-webapp@workspace:."
   dependencies:
-    "@atlaskit/reduced-ui-pack": "npm:19.1.2"
+    "@atlaskit/reduced-ui-pack": "npm:20.0.0"
     "@aws-sdk/client-cloudwatch": "npm:3.1019.0"
     "@aws-sdk/client-cloudwatch-logs": "npm:3.1019.0"
     "@babel/core": "npm:7.29.0"
@@ -23894,13 +23786,6 @@ __metadata:
   version: 2.1.0
   resolution: "tiny-emitter@npm:2.1.0"
   checksum: 10/75633f4de4f47f43af56aff6162f25b87be7efc6f669fda256658f3c3f4a216f23dc0d13200c6fafaaf1b0c7142f0201352fb06aec0b77f68aea96be898f4516
-  languageName: node
-  linkType: hard
-
-"tiny-invariant@npm:^1.2.0":
-  version: 1.3.3
-  resolution: "tiny-invariant@npm:1.3.3"
-  checksum: 10/5e185c8cc2266967984ce3b352a4e57cb89dad5a8abb0dea21468a6ecaa67cd5bb47a3b7a85d08041008644af4f667fb8b6575ba38ba5fb00b3b5068306e59fe
   languageName: node
   linkType: hard
 

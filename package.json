@@ -59,7 +59,7 @@
     "test-knip-report": "yarn jest -c eslint-local-rules/test-config/jest.config.js config/knip/__tests__/knip-sonarqube-reporter-test.ts"
   },
   "dependencies": {
-    "@atlaskit/reduced-ui-pack": "19.1.2",
+    "@atlaskit/reduced-ui-pack": "20.0.0",
     "@dagrejs/dagre": "3.0.0",
     "@date-fns/upgrade": "1.0.3",
     "@emotion/css": "11.13.5",
