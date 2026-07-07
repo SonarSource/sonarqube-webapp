@@ -26,6 +26,7 @@ interface SQSFlagSet extends FlagSet {
     maxEdgesCount: number;
     maxNodesCount: number;
   };
+  organizationReportingEnablePortfolioDashboards: boolean;
   scaEnableReachabilityFrontend: boolean;
   scaKeyChangesPrView: boolean;
 }
@@ -35,6 +36,7 @@ interface SQSFlagSet extends FlagSet {
 // Add features flags here as needed in shared code, especially useful if you want a default value other than falsy for SQS.
 const defaultFlags: SQSFlagSet = {
   designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
+  organizationReportingEnablePortfolioDashboards: false,
   scaEnableReachabilityFrontend: false,
   scaKeyChangesPrView: false,
 };

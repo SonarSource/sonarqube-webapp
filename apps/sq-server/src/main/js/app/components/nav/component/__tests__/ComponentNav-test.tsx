@@ -20,6 +20,7 @@
 
 import { screen } from '@testing-library/react';
 import { ComponentProps } from 'react';
+import { useFlags } from '~adapters/helpers/feature-flags';
 import { RecentHistory } from '~shared/helpers/recent-history';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
@@ -32,6 +33,11 @@ import { AppState } from '~sq-server-commons/types/appstate';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { Feature } from '~sq-server-commons/types/features';
 import { ComponentNav } from '../ComponentNav';
+
+jest.mock('~adapters/helpers/feature-flags', () => ({
+  useFlags: jest.fn(),
+}));
+const mockUseFlags = useFlags as unknown as jest.Mock;
 
 jest.mock('~shared/helpers/recent-history', () => ({
   RecentHistory: {
@@ -49,6 +55,7 @@ const settingsHandler = new SettingsServiceMock();
 
 beforeEach(() => {
   jest.clearAllMocks();
+  mockUseFlags.mockReturnValue({ organizationReportingEnablePortfolioDashboards: false });
   branchesHandler.reset();
   measuresHandler.reset();
   settingsHandler.reset();
