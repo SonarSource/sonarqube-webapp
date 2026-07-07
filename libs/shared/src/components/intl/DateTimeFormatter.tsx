@@ -34,7 +34,7 @@ export const defaultFormatterOptions: FormatDateOptions = {
   minute: 'numeric',
 };
 
-export default function DateTimeFormatter({ children, date, ...rest }: Props) {
+export default function DateTimeFormatter({ children, date, ...rest }: Readonly<Props>) {
   const options = { ...defaultFormatterOptions, ...rest };
   return (
     <FormattedDate value={date} {...options}>
