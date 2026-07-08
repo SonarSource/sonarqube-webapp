@@ -18,15 +18,33 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Layout } from '@sonarsource/echoes-react';
 import { PropsWithChildren } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+import { withComponentContext } from '~adapters/context/withComponentContext';
+import NotFound from '~shared/components/NotFound';
+import { isProject } from '~shared/helpers/component';
+import { LightComponent } from '~shared/types/component';
 
 const BRANCH_LIKE_SEARCH_PARAMS = ['branch', 'pullRequest', 'fixedInPullRequest'];
 
-// This page is main-branch only, so strip any branch/PR context from the URL before it mounts.
-export function QualityGateHistoryGuard({ children }: Readonly<PropsWithChildren>) {
+interface Props {
+  component: LightComponent;
+}
+
+// This page is project-only and main-branch only. Any other qualifier (application,
+// portfolio, ...) gets a 404, and any branch/PR context is stripped before it mounts.
+function QualityGateHistoryGuard({ children, component }: Readonly<PropsWithChildren<Props>>) {
   const { pathname, search } = useLocation();
   const searchParams = new URLSearchParams(search);
+
+  if (!isProject(component.qualifier)) {
+    return (
+      <Layout.PageGrid>
+        <NotFound />
+      </Layout.PageGrid>
+    );
+  }
 
   if (BRANCH_LIKE_SEARCH_PARAMS.some((param) => searchParams.has(param))) {
     BRANCH_LIKE_SEARCH_PARAMS.forEach((param) => {
@@ -37,3 +55,5 @@ export function QualityGateHistoryGuard({ children }: Readonly<PropsWithChildren
 
   return children;
 }
+
+export default withComponentContext(QualityGateHistoryGuard);

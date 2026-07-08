@@ -44,10 +44,11 @@ import {
 import { mockComponent } from '~shared/helpers/mocks/component';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byTestId, byText } from '~shared/helpers/testSelector';
+import { ComponentQualifier, LightComponent } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import { NewCodeDefinitionType } from '~shared/types/new-code-definition';
 import QualityGateHistoryApp from '../QualityGateHistoryApp';
-import { QualityGateHistoryGuard } from '../QualityGateHistoryGuard';
+import QualityGateHistoryGuard from '../QualityGateHistoryGuard';
 
 // The shared page template pulls in adapter-level layout (content header, footer) and the
 // full-window context, none of which belong to this feature. We stub it down to its title + body
@@ -99,6 +100,9 @@ const ui = {
 
   // Current URL search string, surfaced by the test-only location probe.
   locationSearch: byTestId('location-search'),
+
+  // 404 shown for unsupported qualifiers (applications, portfolios, ...).
+  notFoundTitle: byRole('heading', { level: 2, name: 'page_not_found' }),
 };
 
 beforeAll(() => {
@@ -233,6 +237,20 @@ it.each(['branch', 'pullRequest', 'fixedInPullRequest'])(
   },
 );
 
+it.each([
+  ComponentQualifier.Application,
+  ComponentQualifier.Portfolio,
+  ComponentQualifier.SubPortfolio,
+])('shows a 404 for unsupported qualifier "%s"', async (qualifier) => {
+  seedReleases([{ version: '1.0', date: subDays(new Date(), 2), status: 'OK' }]);
+
+  renderQualityGateHistory(['/'], mockComponent({ key: 'my-project', qualifier }));
+
+  expect(await ui.notFoundTitle.find()).toBeInTheDocument();
+  // None of the page content is rendered for unsupported qualifiers.
+  expect(ui.pageTitle.query()).not.toBeInTheDocument();
+});
+
 interface SeededRelease {
   date: Date;
   status: 'OK' | 'ERROR';
@@ -271,7 +289,10 @@ function LocationProbe() {
   return <div data-testid="location-search">{search}</div>;
 }
 
-function renderQualityGateHistory(initialEntries: string[] = ['/']) {
+function renderQualityGateHistory(
+  initialEntries: string[] = ['/'],
+  component: LightComponent = mockComponent({ key: 'my-project', name: 'My Project' }),
+) {
   return renderWithRouter(
     <>
       <QualityGateHistoryGuard>
@@ -280,7 +301,7 @@ function renderQualityGateHistory(initialEntries: string[] = ['/']) {
       <LocationProbe />
     </>,
     {
-      componentContext: { component: mockComponent({ key: 'my-project', name: 'My Project' }) },
+      componentContext: { component },
       initialEntries,
     },
   );

@@ -21,7 +21,7 @@
 import { Route } from 'react-router-dom';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { QUALITY_GATE_HISTORY_ROUTE_NAME } from '../constants';
-import { QualityGateHistoryGuard } from './QualityGateHistoryGuard';
+import QualityGateHistoryGuard from './QualityGateHistoryGuard';
 
 const QualityGateHistoryApp = lazyLoadComponent(() => import('./QualityGateHistoryApp'));
 

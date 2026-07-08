@@ -28,6 +28,7 @@ import {
 } from '~feature-quality-gate-history/constants';
 import { NewBadge } from '~shared/components/badges/NewBadge';
 import { getBranchLikeQuery, isMainBranch, isPullRequest } from '~shared/helpers/branch-like';
+import { isProject } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
 import { getActivityUrl } from '~sq-server-commons/helpers/urls';
@@ -79,7 +80,7 @@ export function ComponentNavReportingMenu(props: Readonly<Props>) {
       >
         <FormattedMessage id="project_activity.page" />
       </Layout.SidebarNavigation.Item>
-      {isMainBranch(branchLike) && (
+      {isProject(component.qualifier) && isMainBranch(branchLike) && (
         <Layout.SidebarNavigation.Item
           Icon={IconPulse}
           suffix={<NewBadge expirationDate={QUALITY_GATE_HISTORY_NEW_BADGE_EXPIRATION_DATE} />}
