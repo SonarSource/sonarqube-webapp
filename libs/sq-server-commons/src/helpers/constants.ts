@@ -221,6 +221,7 @@ export const HIDDEN_METRICS = [
   MetricKey.open_issues,
   MetricKey.reopened_issues,
   MetricKey.high_impact_accepted_issues,
+  MetricKey.contains_ai_code,
 ];
 
 export const DEPRECATED_ACTIVITY_METRICS = [MetricKey.confirmed_issues];

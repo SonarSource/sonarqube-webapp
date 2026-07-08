@@ -21,6 +21,7 @@
 import { Button, IconChevronDown } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
 import * as React from 'react';
+import { isAicaMetric } from '~shared/helpers/metrics';
 import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { Dropdown, PopupZLevel } from '../../design-system';
@@ -67,6 +68,9 @@ export default function AddGraphMetric(props: Readonly<Props>) {
           return false;
         }
         if (HIDDEN_METRICS.includes(metric.key as MetricKey)) {
+          return false;
+        }
+        if (isAicaMetric(metric.key)) {
           return false;
         }
         if (

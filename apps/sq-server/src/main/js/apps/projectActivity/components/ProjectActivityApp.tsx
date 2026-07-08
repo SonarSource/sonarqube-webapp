@@ -127,12 +127,14 @@ export function ProjectActivityApp() {
         return false;
       }
 
-      // Application and Portfolio don't have these metrics
+      // Application and Portfolio don't have these metrics.
       if (
         (isApplication(component?.qualifier) || isPortfolioLike(component?.qualifier)) &&
         [
           MetricKey.effort_to_reach_software_quality_maintainability_rating_a,
           MetricKey.effort_to_reach_maintainability_rating_a,
+          MetricKey.sqale_debt_ratio,
+          MetricKey.software_quality_maintainability_debt_ratio,
         ].includes(metric.key as MetricKey)
       ) {
         return false;

@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { isCoverageMetric } from '~shared/helpers/metrics';
 import { NewCodeLegend } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { Serie } from '../../types/project-activity';
@@ -29,6 +30,14 @@ export interface GraphsLegendCustomProps {
   leakPeriodDate?: Date;
   removeMetric: (metric: string) => void;
   series: Serie[];
+}
+
+function getNoHistoryMessage(metricKey: string) {
+  return translate(
+    isCoverageMetric(metricKey)
+      ? 'project_activity.graphs.custom.metric_no_history.coverage'
+      : 'project_activity.graphs.custom.metric_no_history',
+  );
 }
 
 export default function GraphsLegendCustom(props: GraphsLegendCustomProps) {
@@ -50,13 +59,10 @@ export default function GraphsLegendCustom(props: GraphsLegendCustomProps) {
         );
 
         if (!hasData) {
+          const noHistoryMessage = getNoHistoryMessage(serie.name);
           return (
-            <li
-              aria-label={translate('project_activity.graphs.custom.metric_no_history')}
-              className="sw-mx-2"
-              key={serie.name}
-            >
-              <Tooltip content={translate('project_activity.graphs.custom.metric_no_history')}>
+            <li aria-label={noHistoryMessage} className="sw-mx-2" key={serie.name}>
+              <Tooltip content={noHistoryMessage}>
                 <span>{legendItem}</span>
               </Tooltip>
             </li>

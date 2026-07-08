@@ -141,6 +141,12 @@ it.each([
     expect(ui.metricCheckbox(`new_${bugs}`).query()).not.toBeInTheDocument();
     expect(ui.burnedBudgetCheckbox.query()).not.toBeInTheDocument();
 
+    // We should not see hidden (contains_ai_code) or AICA split metrics.
+    expect(ui.metricCheckbox(MetricKey.contains_ai_code).query()).not.toBeInTheDocument();
+    expect(
+      ui.metricCheckbox(MetricKey.reliability_rating_with_aica).query(),
+    ).not.toBeInTheDocument();
+
     // Select 3 Int types.
     await ui.clickOnMetric(bugs);
     await ui.clickOnMetric(codeSmells);
@@ -337,6 +343,10 @@ function renderActivityGraph(
     metrics.push(
       mockMetric({ key: MetricKey.new_bugs, type: MetricType.Integer }),
       mockMetric({ key: MetricKey.burned_budget, type: MetricType.Data }),
+      // Boolean project-configuration flag (hidden metric), not a time-series measure.
+      mockMetric({ key: MetricKey.contains_ai_code, type: MetricType.Integer }),
+      // AICA split metric, exposed for computation only.
+      mockMetric({ key: MetricKey.reliability_rating_with_aica, type: MetricType.Rating }),
     );
 
     // The following will not be filtered out, but has no values.

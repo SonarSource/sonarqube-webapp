@@ -41,6 +41,24 @@ export function isIssueSeverityMetric(metricKey: string): boolean {
   return ISSUE_SEVERITY_METRICS.has(metricKey as MetricKey);
 }
 
+const COVERAGE_METRICS = new Set<string>([
+  MetricKey.coverage,
+  MetricKey.line_coverage,
+  MetricKey.branch_coverage,
+  MetricKey.lines_to_cover,
+  MetricKey.uncovered_lines,
+  MetricKey.conditions_to_cover,
+  MetricKey.uncovered_conditions,
+]);
+
+export function isCoverageMetric(metricKey: string): boolean {
+  return COVERAGE_METRICS.has(metricKey);
+}
+
+export function isAicaMetric(metricKey: string): boolean {
+  return metricKey.endsWith('_with_aica') || metricKey.endsWith('_without_aica');
+}
+
 // Issue severity metrics are typed as INT in the backend
 // They should be converted to a new custom type 'ISSUE_SEVERITY' to be rendered differently.
 export function augmentMetricsForIssueSeverity(metrics: Metric[]): Metric[] {
