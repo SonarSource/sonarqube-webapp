@@ -636,8 +636,8 @@ export const defaultMessages = {
 
   'event.category.All': 'All',
   'event.category.VERSION': 'Version',
-  'event.category.QUALITY_GATE': 'Quality Gate',
-  'event.category.QUALITY_PROFILE': 'Quality Profile',
+  'event.category.QUALITY_GATE': 'Quality gate',
+  'event.category.QUALITY_PROFILE': 'Quality profile',
   'event.category.SQ_UPGRADE': '{productName} upgrade',
   'event.category.DEFINITION_CHANGE': 'Definition Change',
   'event.category.ISSUE_DETECTION': 'Issue Detection',
@@ -767,7 +767,7 @@ export const defaultMessages = {
   'coding_rule.page': '{0} rule: {1}',
   'global_permissions.page': 'Global permissions',
   'global_permissions.page.description':
-    'Grant and revoke permissions to make changes at the global level. These permissions include editing Quality Profiles, executing analysis, and performing global system administration.',
+    'Grant and revoke permissions to make changes at the global level. These permissions include editing quality profiles, executing analysis, and performing global system administration.',
   'roles.page': 'Project Permissions',
   'roles.page.description2':
     'Grant and revoke project-level permissions. Permissions can be granted to groups or individual users.',
@@ -1252,7 +1252,7 @@ export const defaultMessages = {
     'This issue is {status}. It was detected in the project below and is no longer being detected.',
   'issues.assignee.change_user': 'Click to change assignee',
   'issue.prioritized_rule.description':
-    'The associated rule has been designated as a priority in the Quality Profile, indicating that all corresponding issues in Overall Code should be fixed.',
+    'The associated rule has been designated as a priority in the quality profile, indicating that all corresponding issues in Overall Code should be fixed.',
 
   'issues.action_select': 'Select issue',
   'issues.action_select.label': 'Select issue {0}',
@@ -2733,9 +2733,9 @@ export const defaultMessages = {
   'projects.worse_of_reliablity_and_security': 'Worse of Reliability and Security',
   'projects.limited_set_of_projects':
     'Displayed project set limited to the top {0} projects based on current sort: {1}.',
-  'projects.facets.quality_gate': 'Quality Gate',
+  'projects.facets.quality_gate': 'Quality gate',
   'projects.facets.quality_gate.warning_help':
-    'Warning status is deprecated. This filter will disappear when no Warning Quality Gate remains.',
+    'Warning status is deprecated. This filter will disappear when no Warning quality gate remains.',
   'projects.facets.rating_x': '{0} rating',
   'projects.facets.rating_option.reliability.legacy.1': '≥ 0 info issues',
   'projects.facets.rating_option.reliability.legacy.2': '≥ 1 minor issue',
@@ -2847,7 +2847,7 @@ export const defaultMessages = {
   'projects.ai_code_assurance_pass.description': 'AI Code Assurance passed',
   'projects.ai_code_assurance_on.content':
     'This project contains AI-generated code and benefits from Sonar’s AI Code Assurance.',
-  'projects.ai_code_assurance.edit_quality_gate': 'Change Quality Gate',
+  'projects.ai_code_assurance.edit_quality_gate': 'Change quality gate',
   'projects.ai_code.tooltip.content': 'This project contains AI-generated code.',
   'projects.ai_code_assurance.tooltip.content':
     'This project contains AI-generated code and benefits from Sonar’s AI Code Assurance.',
@@ -2979,7 +2979,7 @@ export const defaultMessages = {
 
   'settings.almintegration.title': 'DevOps Platform Integrations',
   'settings.almintegration.description':
-    "DevOps Platform integrations allow {productName} to interact with your DevOps Platform. This enables things like authentication, or providing analysis details and a Quality Gate to your Pull Requests directly in your DevOps Platform's interface.",
+    "DevOps Platform integrations allow {productName} to interact with your DevOps Platform. This enables things like authentication, or providing analysis details and a quality gate to your Pull Requests directly in your DevOps Platform's interface.",
   'settings.almintegration.empty.server_base_url':
     'You need to set the Server Base URL in General > {serverBaseUrl} to have correct links from the DevOps Platform to your {productName} instance.',
   'settings.almintegration.empty.server_base_url.setting_link': 'Server Base URL',
@@ -2990,9 +2990,9 @@ export const defaultMessages = {
   'settings.almintegration.github.info':
     'You need to install a GitHub App with specific settings and permissions to enable Pull Request Decoration on your Organization or Repository. {link}',
   'settings.almintegration.github.additional_permission':
-    'If Quality Gate status reporting fails on private projects, you might need to add an additional permission to the GitHub App. {link}',
+    'If quality gate status reporting fails on private projects, you might need to add an additional permission to the GitHub App. {link}',
   'settings.almintegration.bitbucketcloud.info':
-    '{productName} needs you to create an {oauth} in your Bitbucket Cloud workspace settings to report the Quality Gate status on Pull Requests. It needs to be a private consumer with {permission} permission. An OAuth callback URL is required by Bitbucket Cloud but not used by {productName} so any URL works. {doc_link}',
+    '{productName} needs you to create an {oauth} in your Bitbucket Cloud workspace settings to report the quality gate status on Pull Requests. It needs to be a private consumer with {permission} permission. An OAuth callback URL is required by Bitbucket Cloud but not used by {productName} so any URL works. {doc_link}',
   'settings.almintegration.bitbucketcloud.oauth': 'OAuth consumer',
   'settings.almintegration.empty.azure':
     'Create your first Azure DevOps configuration to start analyzing your repositories on {productName}.',
@@ -3113,13 +3113,13 @@ export const defaultMessages = {
     'Leave this field empty unless you are using GitHub Code Scanning Alert feature. See documentation for more details.',
   'settings.almintegration.form.personal_access_token': 'Personal Access Token',
   'settings.almintegration.form.personal_access_token.azure.help':
-    '{productName} needs a {pat} to report the Quality Gate status on Pull Requests in Azure DevOps. To create this token, we recommend using a dedicated Azure DevOps account with administration permissions. The token itself needs {permission} permission. {doc_link}',
+    '{productName} needs a {pat} to report the quality gate status on Pull Requests in Azure DevOps. To create this token, we recommend using a dedicated Azure DevOps account with administration permissions. The token itself needs {permission} permission. {doc_link}',
   'settings.almintegration.form.personal_access_token.azure.help.url': 'Personal Access Token',
   'settings.almintegration.form.personal_access_token.gitlab.help':
-    '{productName} needs a {pat} to report the Quality Gate status on Merge Requests in GitLab. To create this token, we recommend using a dedicated GitLab account with {permission} permission to all target projects. The token itself needs the {scope} scope. {doc_link}',
+    '{productName} needs a {pat} to report the quality gate status on Merge Requests in GitLab. To create this token, we recommend using a dedicated GitLab account with {permission} permission to all target projects. The token itself needs the {scope} scope. {doc_link}',
   'settings.almintegration.form.personal_access_token.gitlab.help.url': 'Personal Access Token',
   'settings.almintegration.form.personal_access_token.bitbucket.help':
-    '{productName} needs a {pat} to report the Quality Gate status on Pull Requests in Bitbucket Server. To create this token, we recommend using a dedicated Bitbucket Server account with administration permissions. The token itself needs {permission} permission. {doc_link}',
+    '{productName} needs a {pat} to report the quality gate status on Pull Requests in Bitbucket Server. To create this token, we recommend using a dedicated Bitbucket Server account with administration permissions. The token itself needs {permission} permission. {doc_link}',
   'settings.almintegration.form.personal_access_token.bitbucket.help.url': 'Personal Access Token',
   'settings.almintegration.form.save': 'Save configuration',
   'settings.almintegration.form.cancel': 'Cancel',
@@ -3127,13 +3127,13 @@ export const defaultMessages = {
   'settings.almintegration.form.secret.update_field': 'Update field value',
   'settings.almintegration.form.secret.update_field_x': 'Update {0} value',
   'settings.almintegration.form.secret.can_encrypt': 'You can encrypt this value. {learn_more}',
-  'settings.almintegration.feature.status_reporting.title': 'Quality Gate status reporting',
+  'settings.almintegration.feature.status_reporting.title': 'Quality gate status reporting',
   'settings.almintegration.feature.status_reporting.description_pr':
-    "Add analysis and a Quality Gate to your Pull Requests directly in your DevOps Platform's interface.",
+    "Add analysis and a quality gate to your Pull Requests directly in your DevOps Platform's interface.",
   'settings.almintegration.feature.status_reporting.description_pr_and_commits':
-    "Add the Quality Gate status to your Pull Requests and on analyzed commits directly in your DevOps Platform's interface.",
+    "Add the quality gate status to your Pull Requests and on analyzed commits directly in your DevOps Platform's interface.",
   'settings.almintegration.feature.status_reporting.description_mr':
-    "Add analysis and a Quality Gate to your Merge Requests directly in your DevOps Platform's interface.",
+    "Add analysis and a quality gate to your Merge Requests directly in your DevOps Platform's interface.",
   'settings.almintegration.feature.pr_decoration.disabled': 'Disabled',
   'settings.almintegration.feature.pr_decoration.disabled.no_branches':
     'Upgrade to {link} to enable this feature.',
@@ -3433,7 +3433,7 @@ export const defaultMessages = {
   'settings.pr_decoration.binding.no_bindings.link': 'global configuration',
   'settings.pr_decoration.binding.title': 'DevOps Platform Integration',
   'settings.pr_decoration.binding.description':
-    'Display your Quality Gate status directly in your DevOps Platform.',
+    'Display your quality gate status directly in your DevOps Platform.',
   'settings.pr_decoration.binding.check_configuration': 'Check configuration',
   'settings.pr_decoration.binding.check_configuration.failure':
     'You have the following errors in your configuration:',
@@ -3509,7 +3509,7 @@ export const defaultMessages = {
     'Changing the mode will change how issues are categorized and ranked based on the results of the analysis.',
   'settings.mode.checking_instance': 'Checking your instance...',
   'settings.mode.instance_conditions_from_other_mode':
-    'Some of the Quality Gates in this instance are using metrics that belong to the {isStandardMode, select, true {Standard Experience} other {Multi-Quality Rule Mode}}. You will be able to update them once you save the changes.',
+    'Some of the quality gates in this instance are using metrics that belong to the {isStandardMode, select, true {Standard Experience} other {Multi-Quality Rule Mode}}. You will be able to update them once you save the changes.',
   'settings.mode.standard.name': 'Standard Experience',
   'settings.mode.mqr.name': 'Multi-Quality Rule (MQR) Mode',
   'settings.mode.standard.description.line1':
@@ -3660,8 +3660,8 @@ export const defaultMessages = {
   'property.category.general.databaseCleaner': 'Database Cleaner',
   'property.category.general.looknfeel': 'Look & Feel',
   'property.category.general.issues': 'Issues',
-  'property.category.general.qualityGate': 'Quality Gate',
-  'property.category.general.qualityProfile': 'Quality Profile',
+  'property.category.general.qualityGate': 'Quality gate',
+  'property.category.general.qualityProfile': 'Quality profile',
   'property.category.general.subProjects': 'Sub-projects',
   'property.category.general.subProjectCreation': 'Project Creation',
   'property.category.almintegration': 'DevOps Platform Integrations',
@@ -3887,7 +3887,7 @@ export const defaultMessages = {
   'search.search_for_files': 'Search for files...',
   'search.search_for_modules': 'Search for modules...',
   'search.search_for_metrics': 'Search for metrics...',
-  'search.search_for_profiles': 'Search for Quality Profiles...',
+  'search.search_for_profiles': 'Search for quality profiles...',
   'search.tooShort': 'Please enter at least {0} characters',
 
   'global_search.shortcut_hint': "Hint: Press 'S' from anywhere to open this search bar.",
@@ -4154,12 +4154,12 @@ export const defaultMessages = {
   //------------------------------------------------------------------------------
   'project_quality_profile.instance_default': 'Instance default:',
   'project_quality_profile.successfully_updated':
-    '{0} Quality Profile has been successfully updated.',
-  'project_quality_profile.subtitle': 'Manage project Quality Profiles',
-  'project_quality_profile.always_use_default': 'Always use the instance default Quality Profile',
-  'project_quality_profile.current': 'Current Quality Profile',
-  'project_quality_profile.always_use_specific': 'Always use a specific Quality Profile',
-  'project_quality_profile.change_lang_X_profile': 'Change {0} Quality Profile',
+    '{0} quality profile has been successfully updated.',
+  'project_quality_profile.subtitle': 'Manage project quality profiles',
+  'project_quality_profile.always_use_default': 'Always use the instance default quality profile',
+  'project_quality_profile.current': 'Current quality profile',
+  'project_quality_profile.always_use_specific': 'Always use a specific quality profile',
+  'project_quality_profile.change_lang_X_profile': 'Change {0} quality profile',
   'project_quality_profile.requires_new_analysis':
     'Changes will be applied after the next analysis.',
   'project_quality_profile.add_language.title': 'Configure a profile for new language',
@@ -4172,7 +4172,7 @@ export const defaultMessages = {
   'project_quality_profile.add_language_modal.no_active_rules': 'this profile has no active rules',
   'project_quality_profile.add_language_modal.profile_unavailable_no_active_rules':
     'This profile has no active rules, and cannot be used. Please enable at least 1 rule before using this profile.',
-  'project_quality_profile.add_language_modal.go_to_profile': 'Go to Quality Profile',
+  'project_quality_profile.add_language_modal.go_to_profile': 'Go to quality profile',
   'project_quality_profile.change_profile_x': 'Change {x} profile',
   'project_quality_profile.page': 'Quality profiles',
   'project_quality_profiles.page': 'Quality profiles',
@@ -4204,7 +4204,7 @@ export const defaultMessages = {
     'Protect your AI-generated code with ‘AI Code Assurance’',
   'ai_generated_code_not_protected.description':
     'The quality gate used by this project is not qualified for AI Code Assurance.',
-  'ai_generated_code.change_quality_gate': 'Change Quality Gate',
+  'ai_generated_code.change_quality_gate': 'Change quality gate',
   'ai_generated_code.success_message': 'AI-generated Code setting has been successfully updated.',
   'ai_generated_code.autodetect': 'Autodetect AI-Generated Code',
   'ai_generated_code.autodetect.description':
@@ -4221,7 +4221,7 @@ export const defaultMessages = {
     'AI Code Assurance is on. Consider reviewing this project’s quality profiles.',
   'ai_generated_code.review_profiles.description':
     '<b>{agenticQualityProfileName}</b> and <b>Sonar way</b> are the recommended quality profiles for AI generated code. Although it is not a mandatory step, we suggest you review your quality profiles to ensure protection.',
-  'ai_generated_code.review_profiles.button': 'Review Quality Profiles',
+  'ai_generated_code.review_profiles.button': 'Review quality profiles',
   'ai_generated_code.review_profiles.link': 'Learn why in the documentation',
   //------------------------------------------------------------------------------
   //
@@ -4229,16 +4229,16 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
   'project_quality_gate.default_qgate': 'Default',
-  'project_quality_gate.successfully_updated': 'Quality Gate has been successfully updated.',
-  'project_quality_gate.always_use_default': 'Always use the instance default Quality Gate',
-  'project_quality_gate.always_use_specific': 'Always use a specific Quality Gate',
-  'project_quality_gate.select_specific_qg': 'Select Quality Gate',
+  'project_quality_gate.successfully_updated': 'Quality gate has been successfully updated.',
+  'project_quality_gate.always_use_default': 'Always use the instance default quality gate',
+  'project_quality_gate.always_use_specific': 'Always use a specific quality gate',
+  'project_quality_gate.select_specific_qg': 'Select quality gate',
   'project_quality_gate.requires_new_analysis': 'Changes will be applied after the next analysis.',
   'project_quality_gate.no_condition':
-    'This Quality Gate is empty. To make it usable, add conditions.',
+    'This quality gate is empty. To make it usable, add conditions.',
   'project_quality_gate.no_condition_on_new_code':
-    'This Quality Gate sets conditions on overall code but not on new code. It will not appear on pull requests. To enable it for pull requests, add conditions to the {link}.',
-  'project_quality_gate.no_condition.link': 'Quality Gate definition',
+    'This quality gate sets conditions on overall code but not on new code. It will not appear on pull requests. To enable it for pull requests, add conditions to the {link}.',
+  'project_quality_gate.no_condition.link': 'Quality gate definition',
   'project_quality_gate.ai_assured_quality_gate':
     'This quality gate is qualified for AI Code Assurance',
   'project_quality_gate.not_ai_assured_quality_gate':
@@ -4282,7 +4282,7 @@ export const defaultMessages = {
   'project.info.description': 'Description',
   'project.info.empty_description': 'No description added for this project.',
   'application.info.empty_description': 'No description added for this application.',
-  'project.info.quality_gate': 'Quality Gate used',
+  'project.info.quality_gate': 'Quality gate used',
   'project.info.quality_gate.link_label':
     '{gate} - quality gate used for this project. Click to navigate to the quality gate page.',
   'project.info.to_notifications': 'Set notifications',
@@ -4321,7 +4321,7 @@ export const defaultMessages = {
 
   'quality_profiles.page_title_changelog_x': '{profile} Changelog',
   'quality_profiles.page_title_compare_x': '{profile} Comparison',
-  'quality_profiles.new_profile': 'New Quality Profile',
+  'quality_profiles.new_profile': 'New quality profile',
 
   'quality_profiles.compare_with': 'Compare with',
   'quality_profiles.filter_by': 'Filter by',
@@ -4434,7 +4434,7 @@ export const defaultMessages = {
   'quality_profiles.x_updated_on_y': '{name}, updated on {date}',
   'quality_profiles.change_projects': 'Change Projects',
   'quality_profiles.not_found': 'The requested quality profile was not found.',
-  'quality_profiles.back_to_list': 'Go back to the list of Quality Profiles',
+  'quality_profiles.back_to_list': 'Go back to the list of quality profiles',
   'quality_profiles.latest_new_rules': 'Recently Added Rules',
   'quality_profiles.latest_new_rules.activated': '{0}, activated on {1} profile(s)',
   'quality_profiles.latest_new_rules.not_activated': '{0}, not yet activated',
@@ -4479,7 +4479,7 @@ export const defaultMessages = {
   'quality_profiles.no_built_in_updates_warning.new_profile.2':
     'If you want to benefit from automatic updates, consider extending a built-in quality profile instead.',
   'quality_profiles.default_permissions':
-    'Users with the global "Administer Quality Profiles" permission and those listed below can manage this quality profile.',
+    'Users with the global "Administer quality profiles" permission and those listed below can manage this quality profile.',
   'quality_profiles.grant_permissions_to_more_users': 'Grant permissions to more users',
   'quality_profiles.grant_permissions_to_user_or_group': 'Grant permissions to a user or a group',
   'quality_profiles.additional_user_groups': 'Additional users / groups:',
@@ -4528,14 +4528,14 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
-  'quality_gates.create': 'Create Quality Gate',
-  'quality_gates.rename': 'Rename Quality Gate',
-  'quality_gates.rename_x': 'Rename {name} Quality Gate',
-  'quality_gates.delete': 'Delete Quality Gate',
-  'quality_gates.delete_x': 'Delete {name} Quality Gate',
-  'quality_gates.copy': 'Copy Quality Gate',
-  'quality_gates.copy_x': 'Copy {name} Quality Gate',
-  'quality_gates.set_as_default_x': 'Set {name} as Default Quality Gate',
+  'quality_gates.create': 'Create quality gate',
+  'quality_gates.rename': 'Rename quality gate',
+  'quality_gates.rename_x': 'Rename {name} quality gate',
+  'quality_gates.delete': 'Delete quality gate',
+  'quality_gates.delete_x': 'Delete {name} quality gate',
+  'quality_gates.copy': 'Copy quality gate',
+  'quality_gates.copy_x': 'Copy {name} quality gate',
+  'quality_gates.set_as_default_x': 'Set {name} as default quality gate',
   'quality_gates.upgrade_badge.tooltip':
     'SonarQube Advanced Security add-on is required for this condition to work. <a>Learn more</a>.',
   'quality_gates.upgrade_badge.tooltip.aria':
@@ -4548,7 +4548,7 @@ export const defaultMessages = {
     'Built-in quality gate reflecting recommended practices for AI-generated code',
   'quality_gates.conditions': 'Conditions',
   'quality_gates.conditions.help':
-    'Your project will fail the Quality Gate if it crosses any metric thresholds set for New Code or Overall Code.',
+    'Your project will fail the quality gate if it crosses any metric thresholds set for New Code or Overall Code.',
   'quality_gates.conditions.update': 'Update conditions on new code',
   'quality_gates.conditions.update_x': 'Update conditions on new code for {name} quality gate',
   'toggle_tip.aria_label.sca_condition':
@@ -4559,9 +4559,9 @@ export const defaultMessages = {
     'This condition prevents agents from introducing malicious or vulnerable dependencies.',
   'quality_gates.projects': 'Projects',
   'quality_gates.projects.help':
-    'The Default gate is applied to all projects not explicitly assigned to a gate. Quality Gate administrators can assign projects to a non-default gate, or always make it follow the system default. Project administrators may choose any gate.',
+    'The Default gate is applied to all projects not explicitly assigned to a gate. Quality gate administrators can assign projects to a non-default gate, or always make it follow the system default. Project administrators may choose any gate.',
   'quality_gates.add_condition': 'Add Condition',
-  'quality_gates.add_condition_x': 'Add Condition to {name} Quality Gate',
+  'quality_gates.add_condition_x': 'Add condition to {name} quality gate',
   'quality_gates.add_condition.metric_from_other_mode':
     'This quality gate already has an equivalent condition based on the same concept ("{metric}") that persists from the {isStandardMode, select, true {Standard Experience} other {Multi-Quality Rule Mode}}. Update the metric and you will be able to edit the condition.',
   'quality_gates.condition.edit': 'Edit condition on {metric}',
@@ -4612,7 +4612,7 @@ export const defaultMessages = {
   'quality_gates.condition_deleted': 'Successfully deleted condition',
   'quality_gates.delete_condition.confirm.message':
     'Are you sure you want to delete the "{metric}" condition?',
-  'quality_gates.conditions.fails_when': 'Quality Gate fails when',
+  'quality_gates.conditions.fails_when': 'Quality gate fails when',
   'quality_gates.conditions.metric': 'Metric',
   'quality_gates.conditions.builtin_overall.metric': '{metric} is {operator} {value}',
   'quality_gates.conditions.builtin': 'Conditions on New Code',
@@ -4634,9 +4634,9 @@ export const defaultMessages = {
   'quality_gates.conditions.builtin_new_code.severity.new_code_smells_severity.operator':
     'Code smells severity is below {value}',
   'quality_gates.conditions.hint':
-    'The conditions below must be true for your project to pass the Quality Gate.',
+    'The conditions below must be true for your project to pass the quality gate.',
   'quality_gates.conditions.threshold.hint':
-    'Sonar recommends this threshold. Create a new Quality Gate to set a different value.',
+    'Sonar recommends this threshold. Create a new quality gate to set a different value.',
   'quality_gates.conditions.new_code': 'On New Code',
   'quality_gates.conditions.new_code.long': 'Conditions on New Code',
   'quality_gates.conditions.new_code.description':
@@ -4657,18 +4657,18 @@ export const defaultMessages = {
   'quality_gates.conditions.where': 'Where?',
   'quality_gates.duplicated_conditions': 'This quality gate has duplicated conditions:',
   'quality_gates.intro.1':
-    'Quality Gate is the set of conditions the project must meet before it can be released into production.',
+    'Quality gate is the set of conditions the project must meet before it can be released into production.',
   'quality_gates.intro.2':
-    'It is possible to set a default Quality Gate, which will be applied to all projects not explicitly assigned to some other gate.',
+    'It is possible to set a default quality gate, which will be applied to all projects not explicitly assigned to some other gate.',
   'quality_gates.built_in': 'Built-in',
   'quality_gates.built_in.helper': 'Built-in, immutable quality gate reflecting best practices.',
   'quality_gates.built_in.description.1': 'This quality gate is provided by default.',
   'quality_gates.built_in.description.2':
     'It will automatically be updated with the latest recommendations.',
-  'quality_gates.status': 'Quality Gate status',
+  'quality_gates.status': 'Quality gate status',
   'quality_gates.help.title': 'What is a quality gate?',
   'quality_gates.help.desc':
-    "It`s a set of measure-based, Boolean conditions. It helps you know immediately whether your projects are production-ready. Ideally, all projects will use the same quality gate. Each project's Quality Gate status is displayed prominently on its homepage.",
+    "It`s a set of measure-based, Boolean conditions. It helps you know immediately whether your projects are production-ready. Ideally, all projects will use the same quality gate. Each project's quality gate status is displayed prominently on its homepage.",
   'quality_gates.help.link': 'Learn more about quality gates',
   'quality_gates.permissions': 'Permissions',
   'quality_gates.permissions.help':
@@ -4805,7 +4805,7 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
   'coding_rules.active_in_all_profiles':
-    'The rule is already activated on all available Quality Profiles.',
+    'The rule is already activated on all available quality profiles.',
   'coding_rules.severity_deprecated':
     'Changing rule severities is deprecated and will not be possible in the future.',
   'coding_rules.custom_severity.title': 'Rule severity in this quality profile',
@@ -4823,7 +4823,7 @@ export const defaultMessages = {
   'coding_rules.custom_severity.severity_with_recommended': '{severity} (recommended)',
   'coding_rules.activate': 'Activate',
   'coding_rules.activate_in': 'Activate In',
-  'coding_rules.activate_in_quality_profile': 'Activate In Quality Profile',
+  'coding_rules.activate_in_quality_profile': 'Activate in quality profile',
   'coding_rules.activation_severity': 'Activation Severity',
   'coding_rules.activation_custom_severity':
     'Custom {count, plural, one {severity} other {severities}}:',
@@ -4834,11 +4834,11 @@ export const defaultMessages = {
     '{2} rule(s) changed, {3} rule(s) ignored in profile {0} - {1}',
   'coding_rules.bulk_change.no_quality_profile': 'No quality profile.',
   'coding_rules.can_not_bulk_change':
-    'Bulk change is only available when you have a custom Quality Profile to target. You can create a customizable Quality Profile based on a built-in one by Copying or Extending it in the Quality Profiles list.',
+    'Bulk change is only available when you have a custom quality profile to target. You can create a customizable quality profile based on a built-in one by Copying or Extending it in the quality profiles list.',
   'coding_rules.deactivate_inherited_rules_disabled':
     'Deactivation of inherited rules is disabled by an administrative setting (sonar.qualityProfiles.allowDisableInheritedRules)',
-  'coding_rules.change_details': 'Change Details of Quality Profile',
-  'coding_rules.change_details_x': 'Change Details of Quality Profile {0}',
+  'coding_rules.change_details': 'Change details of quality profile',
+  'coding_rules.change_details_x': 'Change details of quality profile {0}',
   'coding_rules.context.others.title': 'How can I fix it in another component or framework?',
   'coding_rules.context.others.description.first':
     'Although the main framework or component you use in your project is not listed above, you may find helpful content in the instructions we provide.',
@@ -4867,8 +4867,8 @@ export const defaultMessages = {
   'coding_rules.custom_rule.removal':
     'Only custom rules may be deleted. When a custom rule is deleted, it is not removed from the {productName} instance. Instead its status is set to "REMOVED", allowing relevant issues to continue to be displayed properly.',
   'coding_rules.custom_rules': 'Custom Rules',
-  'coding_rules.deactivate_in_quality_profile': 'Deactivate In Quality Profile',
-  'coding_rules.deactivate_in_quality_profile_x': 'Deactivate In Quality Profile {0}',
+  'coding_rules.deactivate_in_quality_profile': 'Deactivate in quality profile',
+  'coding_rules.deactivate_in_quality_profile_x': 'Deactivate in quality profile {0}',
   'coding_rules.delete_rule': 'Delete Rule',
   'coding_rules.delete_rule_x': 'Delete Rule {name}',
   'coding_rules.delete.custom.confirm': 'Are you sure you want to delete custom rule "{name}"?',
@@ -4888,7 +4888,7 @@ export const defaultMessages = {
     '{count} more projects contain issues raised from this rule. {link}',
   'coding_rules.most_violating_projects.link': 'See full list of issues',
   'coding_rules.need_extend_or_copy':
-    "Rules in built-in Quality Profiles can't be changed. You can create a customizable Quality Profile based on a built-in one by Copying or Extending it in the Quality Profiles list.",
+    "Rules in built-in quality profiles can't be changed. You can create a customizable quality profile based on a built-in one by Copying or Extending it in the quality profiles list.",
   'coding_rules.no_results': 'No Coding Rules',
   'coding_rules.no_issue_detected_for_projects':
     'No issues were detected for this rule in the main project branches.',
@@ -4898,12 +4898,12 @@ export const defaultMessages = {
   'coding_rules.parameter.empty': '(empty)',
   'coding_rules.parameters': 'Parameters',
   'coding_rules.parameters.default_value': 'Default Value:',
-  'coding_rules.quality_profiles': 'Quality Profiles',
+  'coding_rules.quality_profiles': 'Quality profiles',
   'coding_rules.quality_profiles.description':
-    "List of all Quality Profiles where this rule is activated. Built-in profiles can't be changed.",
+    "List of all quality profiles where this rule is activated. Built-in profiles can't be changed.",
   'coding_rules.quality_profiles.template_caption':
     'This rule template was activated on the following profiles in previous versions of {instance}. It is not possible anymore to do so. Instead, please create a custom rule.',
-  'coding_rules.quality_profile': 'Quality Profile',
+  'coding_rules.quality_profile': 'Quality profile',
   'coding_rules.reactivate': 'Reactivate',
   'coding_rules.reactivate.help':
     'A rule with the same key has been previously deleted. Please reactivate the existing rule or modify the key to create a new rule.',
@@ -4952,17 +4952,17 @@ export const defaultMessages = {
   'coding_rules.filters.activation.active_rules': 'Active Rules',
   'coding_rules.filters.activation.inactive': 'Inactive',
   'coding_rules.filters.activation.help':
-    'Activation criterion is available when a Quality Profile is selected',
+    'Activation criterion is available when a quality profile is selected',
   'coding_rules.filters.active_severity': 'Active Severity',
   'coding_rules.filters.active_severity.inactive':
-    'Active severity criterion is available when a Quality Profile is selected',
+    'Active severity criterion is available when a quality profile is selected',
   'coding_rules.filters.availableSince': 'Available Since',
   'coding_rules.filters.characteristic': 'Characteristic',
   'coding_rules.filters.description': 'Description',
-  'coding_rules.filters.quality_profile': 'Quality Profile',
+  'coding_rules.filters.quality_profile': 'Quality profile',
   'coding_rules.filters.inheritance': 'Inheritance',
   'coding_rules.filters.inheritance.inactive':
-    'Inheritance criterion is available when an inherited Quality Profile is selected',
+    'Inheritance criterion is available when an inherited quality profile is selected',
   'coding_rules.filters.inheritance.none': 'Not Inherited',
   'coding_rules.filters.inheritance.inherited': 'Inherited',
   'coding_rules.filters.inheritance.x_inherited_from_y': '{count} inherited from "{name}"',
@@ -4970,7 +4970,7 @@ export const defaultMessages = {
   'coding_rules.filters.key': 'Key',
   'coding_rules.filters.language': 'Language',
   'coding_rules.filters.language.inactive':
-    'Language criterion is only available when no Quality Profile is selected',
+    'Language criterion is only available when no quality profile is selected',
   'coding_rules.filters.name': 'Name',
   'coding_rules.filters.repository': 'Repository',
   'coding_rules.filters.severity': 'Severity',
@@ -4981,7 +4981,7 @@ export const defaultMessages = {
   'coding_rules.filters.template.is_template': 'Show Templates Only',
   'coding_rules.filters.template.is_not_template': 'Hide Templates',
   'coding_rules.filters.prioritizedRule.disabled':
-    'Prioritized Rules criterion is available when Quality Profile is selected',
+    'Prioritized Rules criterion is available when quality profile is selected',
   'coding_rules.filters.prioritizedRule.true': 'Show Prioritized Only',
   'coding_rules.filters.prioritizedRule.false': 'Hide Prioritized',
   'coding_rules.facet.languages': 'Language',
@@ -4991,14 +4991,14 @@ export const defaultMessages = {
   'coding_rules.facet.cleanCodeAttributeCategories': 'Code attribute',
   'coding_rules.facet.impactSoftwareQualities': 'Software quality',
   'coding_rules.facet.tags': 'Tags',
-  'coding_rules.facet.qprofile': 'Quality Profile',
-  'coding_rules.facet.qprofile.help.title': 'Quality Profiles',
+  'coding_rules.facet.qprofile': 'Quality profile',
+  'coding_rules.facet.qprofile.help.title': 'Quality profiles',
   'coding_rules.facet.qprofile.help.desc':
-    'Quality Profiles are collections of Rules to apply during an analysis.',
+    'Quality profiles are collections of Rules to apply during an analysis.',
   'coding_rules.facet.qprofile.help.extra':
-    'When filtering active rules by Quality Profile, any customized rule severity associated with it will be shown.',
+    'When filtering active rules by quality profile, any customized rule severity associated with it will be shown.',
   'coding_rules.facet.qprofile.help.learn_more': 'Learn more about quality profiles',
-  'coding_rules.facet.qprofile.link': 'See also: Quality Profiles',
+  'coding_rules.facet.qprofile.link': 'See also: Quality profiles',
   'coding_rules.facet.debt_characteristics': 'Characteristic',
   'coding_rules.facet.severities': 'Severity',
   'coding_rules.facet.active_severities': 'Severity',
@@ -5505,7 +5505,7 @@ export const defaultMessages = {
   'metric.accessors.description': 'Accessors',
   'metric.accessors.name': 'Accessors',
   'metric.alert_status.description': 'The project status with regard to its quality gate.',
-  'metric.alert_status.name': 'Quality Gate Status',
+  'metric.alert_status.name': 'Quality gate status',
   'metric.authors_by_line.description': 'Authors by line',
   'metric.authors_by_line.name': 'Authors by Line',
   'metric.blocker_violations.description': 'Blocker issues',
@@ -5914,9 +5914,9 @@ export const defaultMessages = {
   'metric.portability.name': 'Portability',
   'metric.prioritized_rule_issues.name': 'Issues from prioritized rules',
   'metric.prioritized_rule_issues.description': 'Issues from prioritized rules',
-  'metric.profile.description': 'Selected Quality Profile',
+  'metric.profile.description': 'Selected quality profile',
   'metric.profile.name': 'Profile',
-  'metric.profile_version.description': 'Selected Quality Profile version',
+  'metric.profile_version.description': 'Selected quality profile version',
   'metric.profile_version.name': 'Profile Version',
   'metric.projects.description': 'Number of project branches',
   'metric.projects.name': 'Project branches',
@@ -5930,8 +5930,8 @@ export const defaultMessages = {
   'metric.public_undocumented_api.name': 'Public Undocumented API',
   'metric.quality_gate_details.description':
     'The project detailed status with regard to its quality gate',
-  'metric.quality_gate_details.name': 'Quality Gate Details',
-  'metric.quality_profiles.description': 'Details of Quality Profiles used during analysis',
+  'metric.quality_gate_details.name': 'Quality gate details',
+  'metric.quality_profiles.description': 'Details of quality profiles used during analysis',
   'metric.quality_profiles.name': 'Profiles',
   'metric.reliability.description': 'Reliability',
   'metric.reliability.name': 'Reliability',
@@ -6247,9 +6247,9 @@ export const defaultMessages = {
   'global_permissions.admin': 'Administer System',
   'global_permissions.admin.desc':
     'Ability to perform all administration functions for the instance.',
-  'global_permissions.profileadmin': 'Quality Profiles',
-  'global_permissions.profileadmin.desc': 'Ability to perform any action on Quality Profiles.',
-  'global_permissions.gateadmin': 'Quality Gates',
+  'global_permissions.profileadmin': 'Quality profiles',
+  'global_permissions.profileadmin.desc': 'Ability to perform any action on quality profiles.',
+  'global_permissions.gateadmin': 'Quality gates',
   'global_permissions.gateadmin.desc': 'Ability to perform any action on quality gates.',
   'global_permissions.scan': 'Execute Analysis',
   'global_permissions.scan.desc':
@@ -6910,7 +6910,7 @@ export const defaultMessages = {
   'overview.failed_condition.x_rating_required': '{rating} is {value}. Required {threshold}',
   'overview.failed_condition.x_required': '{metric}. Required {threshold}',
   'overview.fix_failed_conditions_with_sonarlint':
-    'Fix issues before they fail your Quality Gate with {link}. Power up with connected mode!',
+    'Fix issues before they fail your quality gate with {link}. Power up with connected mode!',
   'overview.new_issues': 'New issues',
   'overview.pull_request.fixed_issues': 'Fixed issues',
   'overview.pull_request.fixed_issues.help': 'Estimation of issues fixed by this PR',
@@ -6919,19 +6919,19 @@ export const defaultMessages = {
   'overview.pull_request.fixed_issues.disclaimer.2':
     'When the pull request and the target branch are not synchronized, issues introduced on the target branch may be incorrectly considered fixed by the pull request. Rebasing the pull request would give an updated value.',
   'overview.accepted_issues.help': 'Valid issues that were not fixed',
-  'overview.quality_gate': 'Quality Gate',
-  'overview.quality_gate_x': 'Quality Gate: {status}',
+  'overview.quality_gate': 'Quality gate',
+  'overview.quality_gate_x': 'Quality gate: {status}',
   'overview.quality_gate.help':
-    "A Quality Gate is a set of measure-based Boolean conditions. It helps you know immediately whether your project is production-ready. If your current status is not Passed, you'll see which measures caused the problem and the values required to pass.",
+    "A quality gate is a set of measure-based Boolean conditions. It helps you know immediately whether your project is production-ready. If your current status is not Passed, you'll see which measures caused the problem and the values required to pass.",
   'overview.quality_gate_failed_with_x': 'with {0} errors',
   'overview.quality_gate_code_clean': 'Your code is clean!',
   'overview.you_should_define_quality_gate': 'You should define a quality gate on this project.',
   'overview.quality_gate.ignored_conditions':
-    'Some Quality Gate conditions on New Code were ignored because of the small number of New Lines',
+    'Some quality gate conditions on New Code were ignored because of the small number of New Lines',
   'overview.quality_gate.ignored_conditions.tooltip':
-    "At the start of a new code period, if very few lines have been added or modified, it might be difficult to reach the desired level of code coverage or duplications. To prevent Quality Gate failure when there's little that can be done about it, Quality Gate conditions about duplications in new code and coverage on new code are ignored until the number of new lines is at least 20. An administrator can disable this in the general settings.",
+    "At the start of a new code period, if very few lines have been added or modified, it might be difficult to reach the desired level of code coverage or duplications. To prevent quality gate failure when there's little that can be done about it, quality gate conditions about duplications in new code and coverage on new code are ignored until the number of new lines is at least 20. An administrator can disable this in the general settings.",
   'overview.quality_gate.conditions_on_new_code':
-    'Only conditions on new code that are defined in the Quality Gate are checked. See the {link} associated to the project for details.',
+    'Only conditions on new code that are defined in the quality gate are checked. See the {link} associated to the project for details.',
   'overview.quality_gates.conditions.condition_simplification_tour.title':
     'One condition, zero issues',
   'overview.quality_gates.conditions.condition_simplification_tour.content':
@@ -6950,7 +6950,7 @@ export const defaultMessages = {
   'overview.quality_gate.required_x': 'Required {operator} {requirement}',
   'overview.quality_gate.required_x_reviewed': 'Required review: {requirement}',
   'quality_gate_panel.below_X_required': 'below {0} required',
-  'overview.quality_profiles': 'Quality Profiles used',
+  'overview.quality_profiles': 'Quality profiles used',
   'overview.new_code_period_x': 'New Code: {0}',
   'overview.max_new_code_period_from_x': 'Max New Code from: {0}',
   'overview.started_x': 'Started {0}',
@@ -7093,12 +7093,12 @@ export const defaultMessages = {
   'overview.complexity_tooltip.file': '{0} files have complexity around {1}',
 
   'overview.deprecated_profile':
-    'This Quality Profile uses {0} deprecated rules and should be updated.',
+    'This quality profile uses {0} deprecated rules and should be updated.',
   'overview.deleted_profile': '{0} has been deleted since the last analysis.',
   'overview.link_to_x_profile_y': 'Go to {0} profile "{1}"',
 
   'overview.sonarlint_ad.header':
-    'Catch issues before they fail your Quality Gate with our IDE extension, SonarQube for IDE',
+    'Catch issues before they fail your quality gate with our IDE extension, SonarQube for IDE',
   'overview.sonarlint_ad.details_1': 'The power of Sonar analyzers directly as you type',
   'overview.sonarlint_ad.details_2': 'No need to wait for your PR to pass all checks',
   'overview.sonarlint_ad.details_3': 'Repair flagged issues in real-time with quick fixes',
@@ -7133,7 +7133,7 @@ export const defaultMessages = {
     'Displays the current status of one metric of your portfolio.',
   'overview.badges.measure.description.APP':
     'Displays the current status of one metric of your application.',
-  'overview.badges.quality_gate': 'Quality Gate',
+  'overview.badges.quality_gate': 'Quality gate',
   'overview.badges.quality_gate.alt':
     'This is an image of a quality gate badge that displays the current quality gate status of your project.',
   'overview.badges.quality_gate.description':
@@ -7159,7 +7159,7 @@ export const defaultMessages = {
   'overview.badges.copy_snippet': 'Copy the snippet for your selected badge',
 
   'overview.quality_profiles_update_after_sq_upgrade.message':
-    'Update to {productName} {sqVersion} has updated your Quality Profiles. Issues on your project may have been affected. {link}',
+    'Update to {productName} {sqVersion} has updated your quality profiles. Issues on your project may have been affected. {link}',
   'overview.quality_profiles_update_after_sq_upgrade.link': 'See more details',
 
   'overview.activity.variations.new_analysis': 'New analysis:',
@@ -8571,11 +8571,11 @@ export const defaultMessages = {
   'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java.settings.sentence.option':
     'Run {productName} Analysis',
   'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.publish_qg.sentence':
-    "Add a new {task} task to publish {productName}'s Quality Gate results on your build pipeline summary.",
+    "Add a new {task} task to publish {productName}'s quality gate results on your build pipeline summary.",
   'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.publish_qg.info.sentence1':
     'This task may increase your build time as your pipeline will have to wait for {productName} to process the analysis report. It is highly recommended but optional.',
   'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.publish_qg.sentence.task':
-    'Publish Quality Gate Result',
+    'Publish quality gate result',
   'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.continous_integration.sentence':
     'Under the {tab} tab of your pipeline, check {continuous_integration} and select all the branches for which you want the {productName} analysis to run automatically.',
   'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.continous_integration.sentence.tab':
@@ -8660,8 +8660,8 @@ export const defaultMessages = {
   'portfolio.x_in_y': '{project_branches} in {rating}',
   'portfolio.project_branch': 'project branch',
   'portfolio.project_branches': 'project branches',
-  'portfolio.has_qg_status': 'Has Quality Gate Status',
-  'portfolio.have_qg_status': 'Have Quality Gate Status',
+  'portfolio.has_qg_status': 'Has quality gate status',
+  'portfolio.have_qg_status': 'Have quality gate status',
   'portfolio.empty': 'This portfolio is empty.',
   'portfolio.no_lines_of_code': 'All projects in this portfolio are empty',
   'portfolio.not_computed': 'This portfolio is not yet computed.',
@@ -8689,7 +8689,7 @@ export const defaultMessages = {
   //------------------------------------------------------------------------------
 
   'portfolio.metric_domain.releasability.help':
-    'Ratio of projects in the Portfolio that have passed the Quality Gate.',
+    'Ratio of projects in the Portfolio that have passed the quality gate.',
   'portfolio.metric_domain.reliability.help':
     'Average Reliability rating for all projects in the portfolio.',
   'portfolio.metric_domain.vulnerabilities.help':
@@ -9061,11 +9061,11 @@ export const defaultMessages = {
   // Sandboxed issues intro
   //
   //------------------------------------------------------------------------------
-  'sandboxed_issues_intro.title': 'Update without breaking your Quality Gate ',
+  'sandboxed_issues_intro.title': 'Update without breaking your quality gate ',
   'sandboxed_issues_intro.img_alt':
     'Image showing an example of sandbox issues on summary page that do not impact quality gate. Additionally, new issue status "In sandbox" is shown for an issue in issue list.',
   'sandboxed_issues_intro.description_1':
-    'Say goodbye to unexpected pipeline failures. We’re introducing the Issue Sandbox to make platform updates stress-free. New issues flagged by updated analyzers are placed in a "sandbox" — visible to you, but excluded from Quality Gate calculations.',
+    'Say goodbye to unexpected pipeline failures. We’re introducing the Issue Sandbox to make platform updates stress-free. New issues flagged by updated analyzers are placed in a "sandbox" — visible to you, but excluded from quality gate calculations.',
   'sandboxed_issues_intro.description_2':
     '<b>Enable this setting before your first project analysis</b> following the SonarQube update to keep your pipelines green and give your teams time to triage at their own pace.',
 
@@ -9450,15 +9450,15 @@ export const defaultMessages = {
 
   'portfolio_overview.releasability.title': 'Releasability',
   'portfolio_overview.releasability.description':
-    'Ratio of passing Quality Gates over failing ones. The Quality Gate of a project can have conditions both on New Code and Overall Code.',
+    'Ratio of passing quality gates over failing ones. The quality gate of a project can have conditions both on New Code and Overall Code.',
   'portfolio_overview.releasability.help':
-    "This rating is based on the ratio of passing Quality Gates over failing ones for all projects in your Portfolio. Projects' Quality Gates have conditions on both New Code and Overall Code.",
+    "This rating is based on the ratio of passing quality gates over failing ones for all projects in your Portfolio. Projects' quality gates have conditions on both New Code and Overall Code.",
   'portfolio_overview.releasability.rating.help':
-    'This rating is based on the ratio of passing Quality Gates over failing ones. The Quality Gate of a project can have conditions both on New Code and Overall Code.',
+    'This rating is based on the ratio of passing quality gates over failing ones. The quality gate of a project can have conditions both on New Code and Overall Code.',
   'portfolio_overview.releasability.portfolio_health': 'Portfolio health',
   'portfolio_overview.releasability.pagination': '{0} of {1}',
   'portfolio_overview.releasability.no_failing_projects':
-    'None of the projects have a failing Quality Gate.',
+    'None of the projects have a failing quality gate.',
   'portfolio_overview.releasability.project_inaccessible':
     'You do not have access to any of the failing project branches.',
 
