@@ -26,26 +26,26 @@ const ONE_MINUTE = 1;
 const ONE_HOUR = ONE_MINUTE * 60;
 const ONE_DAY = HOURS_IN_DAY * ONE_HOUR;
 
-const mockMessages = {
-  'work_duration.x_days': '{0}d',
-  'work_duration.x_hours': '{0}h',
-  'work_duration.x_minutes': '{0}min',
-  'work_duration.about': '~ {0}',
-  'metric.level.ERROR': 'Error',
-  'metric.level.WARN': 'Warning',
-  'metric.level.OK': 'Ok',
-  'short_number_suffix.g': 'G',
-  'short_number_suffix.k': 'k',
-  'short_number_suffix.m': 'M',
-} as Record<string, string>;
-
 jest.mock('../../../helpers/l10nBundle', () => {
+  const messages = {
+    'work_duration.x_days': '{0}d',
+    'work_duration.x_hours': '{0}h',
+    'work_duration.x_minutes': '{0}min',
+    'work_duration.about': '~ {0}',
+    'metric.level.ERROR': 'Error',
+    'metric.level.WARN': 'Warning',
+    'metric.level.OK': 'Ok',
+    'short_number_suffix.g': 'G',
+    'short_number_suffix.k': 'k',
+    'short_number_suffix.m': 'M',
+  } as Record<string, string>;
+
   const getIntl = () => ({
     formatMessage: jest.fn(({ id }: { id: string }, values: Record<string, string>) => {
-      if (mockMessages[id] && values) {
-        return mockMessages[id].replace('{0}', values['0']);
+      if (messages[id] && values) {
+        return messages[id].replace('{0}', values['0']);
       }
-      return mockMessages[id] ?? id;
+      return messages[id] ?? id;
     }),
   });
 

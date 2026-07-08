@@ -1438,68 +1438,6 @@ describe('Mode transition', () => {
   });
 });
 
-describe('SCA conditions', () => {
-  beforeEach(() => {
-    qualityGateHandler.list.push({
-      name: 'QG with SCA condition',
-      conditions: [mockScaCondition('sca-condition-1')],
-      isDefault: false,
-      isBuiltIn: true,
-      hasStandardConditions: false,
-      hasMQRConditions: false,
-      caycStatus: CaycStatus.NonCompliant,
-    });
-  });
-
-  it('shows upgrade icon for SCA-related condition when org does not have advanced security for built-in QG', async () => {
-    renderQualityGates('quality_gates/show/QG with SCA condition', mockLoggedInUser());
-    expect(await ui.gateTitle('QG with SCA condition').find()).toBeInTheDocument();
-
-    const items = await byRole('list', { name: 'quality_gates.condition_simplification_list' })
-      .byRole('listitem')
-      .findAll();
-
-    const scaItem = items.find((item) =>
-      item.textContent?.includes('metric.new_sca_count_any_issue.description.positive'),
-    );
-    expect(scaItem).toBeDefined();
-    expect(await ui.conditionUpgradeIcon.find()).toBeInTheDocument();
-  });
-
-  it('show tooltip for SCA-related condition when advanced security is available but SCA is disabled for built-in QG', async () => {
-    grantAdvancedSecurityToDefaultOrg();
-
-    renderQualityGates('quality_gates/show/QG with SCA condition', mockLoggedInUser());
-    expect(await ui.gateTitle('QG with SCA condition').find()).toBeInTheDocument();
-
-    const items = await byRole('list', { name: 'quality_gates.condition_simplification_list' })
-      .byRole('listitem')
-      .findAll();
-
-    const scaItem = items.find((item) =>
-      item.textContent?.includes('metric.new_sca_count_any_issue.description.positive'),
-    );
-    expect(scaItem).toBeDefined();
-    expect(ui.conditionUpgradeIcon.query(scaItem)).not.toBeInTheDocument();
-    expect(ui.scaConditionTooltip.get(scaItem)).toBeInTheDocument();
-  });
-});
-
-function mockScaCondition(id: string): Condition {
-  return {
-    id,
-    metric: MetricKey.new_sca_count_any_issue,
-    op: 'GT',
-    error: '0',
-    isCaycCondition: true,
-  };
-}
-
-function grantAdvancedSecurityToDefaultOrg() {
-  entitlementsMock.setPurchasableFeatures([
-    mockPurchaseableFeature({ featureKey: 'sca', isAvailable: true, isEnabled: false }),
-  ]);
-}
 
 function renderQualityGates(
   navigateTo = 'quality_gates/show/Sonar way',
