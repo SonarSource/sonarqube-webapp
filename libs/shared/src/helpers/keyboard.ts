@@ -50,11 +50,11 @@ export function isShortcut(event: KeyboardEvent | ReactKeyboardEvent): boolean {
   return event.ctrlKey || event.metaKey || event.altKey;
 }
 
-const INPUT_TAGS = ['INPUT', 'SELECT', 'TEXTAREA', 'UBCOMMENT'];
+const INPUT_TAGS = new Set(['INPUT', 'SELECT', 'TEXTAREA', 'UBCOMMENT']);
 
 export function isInput(event: KeyboardEvent | ReactKeyboardEvent): boolean {
   const { tagName } = event.target as HTMLElement;
-  return INPUT_TAGS.includes(tagName);
+  return INPUT_TAGS.has(tagName);
 }
 
 export function isTextarea(
