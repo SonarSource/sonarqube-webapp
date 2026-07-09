@@ -21,6 +21,7 @@
 import { Text, TextSize } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
+import { ALM_ICONS_BASE_URL } from '~adapters/helpers/urls';
 import { OnboardingProject } from '~shared/types/onboarding';
 import { PLATFORM_CONFIG } from '../devops/platformConfig';
 
@@ -43,7 +44,7 @@ export function RepositoryCell({ project }: Readonly<Props>) {
           alt={almLabel}
           className="sw-shrink-0"
           height={16}
-          src={`/images/alm/${imageKey}.svg`}
+          src={`${ALM_ICONS_BASE_URL}/${imageKey}.svg`}
         />
       )}
       <div className="sw-flex sw-min-w-0 sw-flex-col">

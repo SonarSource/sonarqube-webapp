@@ -23,7 +23,7 @@ import { OnboardingAlm, OnboardingDevopsPlatform } from '~shared/types/onboardin
 export interface PlatformConfig {
   /** Brand color applied to the platform name and its progress bar. */
   color: string;
-  /** ALM image key under /images/alm/{imageKey}.svg. Absent for the "not bound" row. */
+  /** ALM image key under /images/alm(s)/{imageKey}.svg. Absent for the "not bound" row. */
   imageKey?: string;
   /** Localization key for the display name. */
   labelKey: string;

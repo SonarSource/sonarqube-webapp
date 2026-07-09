@@ -20,6 +20,7 @@
 
 import { waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import { ALM_ICONS_BASE_URL } from '~adapters/helpers/urls';
 import {
   mockOnboardingProjects,
   OnboardingServiceMock,
@@ -28,6 +29,7 @@ import { registerServiceMocks, server } from '~shared/api/mocks/server';
 import { renderWithRoutes } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import routes from '../../routes';
+import { NO_DATA } from '../dashboardConstants';
 
 let onboardingMock: OnboardingServiceMock;
 
@@ -99,6 +101,7 @@ const ui = {
   notOnboardedFilter: byText('onboarding_dashboard.projects.filter.not_onboarded'),
   repoWebCore: byText('web-core'),
   repoPlatformJobs: byText('platform-jobs'),
+  repoGitlabIcon: byRole('img', { name: 'alm.gitlab' }),
 };
 
 function renderOnboardingDashboard() {
@@ -186,6 +189,19 @@ it('renders the potentially stale projects card listing only stale projects', as
   expect(ui.staleProjectsTable.byText('web-core').query()).not.toBeInTheDocument();
 });
 
+it('renders an empty-state row in the stale projects card when there are no stale projects', async () => {
+  // Seed only a non-stale project (web-core); the stale filter returns nothing, so the table
+  // still renders its header and a no-data row rather than collapsing to an empty card body.
+  onboardingMock.setProjects([mockOnboardingProjects()[2]]);
+  renderOnboardingDashboard();
+
+  const staleTable = await ui.staleProjectsTable.find();
+  expect(staleTable).toBeInTheDocument();
+  expect(ui.staleProjectsTable.byText('web-core').query()).not.toBeInTheDocument();
+  // One em-dash placeholder per data column (repository, gate status, last scan).
+  expect(ui.staleProjectsTable.byText(NO_DATA).getAll()).toHaveLength(3);
+});
+
 it('filters the repositories list by search and by filter chip', async () => {
   const user = userEvent.setup({ delay: null });
   renderOnboardingDashboard();
@@ -211,6 +227,15 @@ it('filters the repositories list by search and by filter chip', async () => {
     expect(ui.repoWebCore.query()).not.toBeInTheDocument();
   });
   expect(ui.repoPlatformJobs.get()).toBeInTheDocument();
+});
+
+it('renders the repository ALM icon from the app-specific images path', async () => {
+  // web-core is bound to GitLab; its icon must resolve to the per-app ALM images folder
+  // (/images/alm on SQS, /images/alms on SQC) — a hardcoded path breaks on one platform.
+  renderOnboardingDashboard();
+
+  const icon = await ui.repoGitlabIcon.find();
+  expect(icon).toHaveAttribute('src', expect.stringContaining(`${ALM_ICONS_BASE_URL}/gitlab.svg`));
 });
 
 it('clamps the checklist progress bar to 100 when completionPct exceeds 100', async () => {

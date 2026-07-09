@@ -42,4 +42,10 @@ export const API_V2_MOCKS_PREFIX = '/api/v2';
  */
 export const PROJECT_BASE_URL = '/dashboard';
 
+/**
+ * Base path for ALM provider icons. SQS serves them from `/images/alm`, whereas SQC
+ * uses `/images/alms`, so shared code must build icon URLs from this adapter constant.
+ */
+export const ALM_ICONS_BASE_URL = '/images/alm';
+
 export const MERGE_PATCH_CONTENT_TYPE = 'application/merge-patch+json';

@@ -97,48 +97,53 @@ export function OnboardingStaleProjectsCard() {
               </div>
             </div>
 
-            {staleProjects.length > 0 && (
-              <div className="sw-max-h-[320px] sw-overflow-y-auto">
-                <Table
-                  ariaLabel={title}
-                  gridTemplate="minmax(220px, 2fr) 1fr 1fr"
-                  variety={TableVariety.Surface}
-                >
-                  <Table.Header>
+            <div className="sw-w-full sw-max-h-[320px] sw-overflow-y-auto">
+              <Table
+                ariaLabel={title}
+                gridTemplate="minmax(220px, 2fr) 1fr 1fr"
+                variety={TableVariety.Surface}
+              >
+                <Table.Header>
+                  <Table.Row>
+                    <Table.ColumnHeaderCell
+                      label={formatMessage({ id: 'onboarding_dashboard.stale.col.repository' })}
+                    />
+                    <Table.ColumnHeaderCell
+                      label={formatMessage({ id: 'onboarding_dashboard.stale.col.gate_status' })}
+                    />
+                    <Table.ColumnHeaderCell
+                      label={formatMessage({ id: 'onboarding_dashboard.stale.col.last_scan' })}
+                    />
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {staleProjects.length === 0 && (
                     <Table.Row>
-                      <Table.ColumnHeaderCell
-                        label={formatMessage({ id: 'onboarding_dashboard.stale.col.repository' })}
-                      />
-                      <Table.ColumnHeaderCell
-                        label={formatMessage({ id: 'onboarding_dashboard.stale.col.gate_status' })}
-                      />
-                      <Table.ColumnHeaderCell
-                        label={formatMessage({ id: 'onboarding_dashboard.stale.col.last_scan' })}
-                      />
+                      <Table.Cell className="sw-justify-start">{NO_DATA}</Table.Cell>
+                      <Table.Cell>{NO_DATA}</Table.Cell>
+                      <Table.Cell>{NO_DATA}</Table.Cell>
                     </Table.Row>
-                  </Table.Header>
-                  <Table.Body>
-                    {staleProjects.map((project) => (
-                      <Table.Row key={project.key ?? project.name}>
-                        <Table.Cell>
-                          <RepositoryCell project={project} />
-                        </Table.Cell>
-                        <Table.Cell>
-                          <GateStatusBadge status={project.gateStatus} />
-                        </Table.Cell>
-                        <Table.Cell>
-                          {isDefined(project.lastScan) ? (
-                            <DateFromNow date={project.lastScan} />
-                          ) : (
-                            NO_DATA
-                          )}
-                        </Table.Cell>
-                      </Table.Row>
-                    ))}
-                  </Table.Body>
-                </Table>
-              </div>
-            )}
+                  )}
+                  {staleProjects.map((project) => (
+                    <Table.Row key={project.key ?? project.name}>
+                      <Table.Cell>
+                        <RepositoryCell project={project} />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <GateStatusBadge status={project.gateStatus} />
+                      </Table.Cell>
+                      <Table.Cell>
+                        {isDefined(project.lastScan) ? (
+                          <DateFromNow date={project.lastScan} />
+                        ) : (
+                          NO_DATA
+                        )}
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table>
+            </div>
           </div>
         </Card.Body>
       </Spinner>

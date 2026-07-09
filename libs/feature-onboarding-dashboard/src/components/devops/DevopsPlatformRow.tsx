@@ -21,6 +21,7 @@
 import { cssVar, IconSlash, Text, TextSize } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
+import { ALM_ICONS_BASE_URL } from '~adapters/helpers/urls';
 import { OnboardingDevopsPlatform, OnboardingDevopsPlatformShare } from '~shared/types/onboarding';
 import { DevopsProgressBar } from './DevopsProgressBar';
 import { PLATFORM_CONFIG } from './platformConfig';
@@ -50,7 +51,7 @@ export function DevopsPlatformRow({ share }: Readonly<Props>) {
           {config?.imageKey === undefined ? (
             <IconSlash color="echoes-color-icon-subtle" />
           ) : (
-            <Image alt="" height={20} src={`/images/alm/${config.imageKey}.svg`} />
+            <Image alt="" height={20} src={`${ALM_ICONS_BASE_URL}/${config.imageKey}.svg`} />
           )}
           <p className="sw-grow sw-truncate sw-font-semibold" style={{ color }}>
             {name}
