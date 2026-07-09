@@ -9871,6 +9871,8 @@ export const defaultMessages = {
   'securityreport.label.version': 'Select {0} version',
   'securityreport.label.owaspAsvs_level': 'Select OWASP ASVS level',
   'securityreport.overview.title': 'Security reports overview',
+  'securityreport.overview.hotspots_deprecated_warning':
+    'The concept of Security Hotspots is deprecated. Security Hotspot findings will appear as security issues / vulnerabilities. <link>Learn more in the documentation</link>',
   'securityreport.overview.description':
     'Track Security issues and Security Hotspots in your {qualifier}. Security Reports require an analysis to reflect any changes done to issues. Learn more about Security Reports in our <link>user guide.</link>',
   'securityreport.overview_metric.security_rating.title': '{qualifier} overall Security rating',
