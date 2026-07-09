@@ -34,6 +34,7 @@ import {
 import { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
+import { BetaBadge } from '~shared/components/badges/BetaBadge';
 import { RescanSettings } from '~shared/components/sca/RescanSettings';
 import useLocalStorage from '~shared/helpers/useLocalStorage';
 import { getAdvancedSecurityTermsOfServiceUrl } from '~sq-server-commons/helpers/urls';
@@ -101,6 +102,8 @@ export function Sca({
     (d) => d.subCategory === 'SCA' && d.key.startsWith('sonar.sca.rescan'),
   );
 
+  const scaAnalysisModeDefinition = definitions.find((d) => d.key === 'sonar.sca.analysisMode');
+
   /**
    * Other definitions includes:
    * - sonar.sca.enabled -- Whether to run SCA analysis in scans
@@ -109,6 +112,7 @@ export function Sca({
     (d) =>
       d.subCategory === 'SCA' &&
       d.key !== 'sonar.sca.featureEnabled' &&
+      d.key !== 'sonar.sca.analysisMode' &&
       !d.key.startsWith('sonar.sca.rescan'),
   );
 
@@ -199,19 +203,6 @@ export function Sca({
           )}
         </div>
       </div>
-      {isEnabled && (
-        <div className="sw-ml-12">
-          <hr className="sw-mx-0 sw-mb-6 sw-p-0" />
-          <Heading as="h3" hasMarginBottom>
-            <FormattedMessage id="property.sca.default.title" />
-          </Heading>
-          <div className="sw-my-6">
-            {scaOtherDefinitions.map((definition) => (
-              <Definition definition={definition} key={definition.key} />
-            ))}
-          </div>
-        </div>
-      )}
       {showEnabledMessage && isEnabled && (
         <MessageCallout
           action={
@@ -243,6 +234,25 @@ export function Sca({
             }}
           />
         </MessageCallout>
+      )}
+      {isEnabled && (
+        <div className="sw-ml-12 sw-mt-6">
+          {!showEnabledMessage && <hr className="sw-mx-0 sw-mb-6 sw-p-0" />}
+          <Heading as="h3" hasMarginBottom>
+            <FormattedMessage id="property.sca.default.title" />
+          </Heading>
+          <div className="sw-my-6 sw-flex sw-flex-col sw-gap-6">
+            {scaOtherDefinitions.map((definition) => (
+              <Definition definition={definition} key={definition.key} />
+            ))}
+            {scaAnalysisModeDefinition && (
+              <div>
+                <BetaBadge className="sw-mb-2" />
+                <Definition definition={scaAnalysisModeDefinition} />
+              </div>
+            )}
+          </div>
+        </div>
       )}
       {isScaEnabled && <ScaConnectivityTest />}
 
