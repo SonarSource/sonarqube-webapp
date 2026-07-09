@@ -21,18 +21,8 @@
 import { Route } from 'react-router-dom';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 
-const Wrapper = lazyLoadComponent(() => import('./components/OnboardingDashboardWrapper'));
 const App = lazyLoadComponent(() => import('./components/OnboardingDashboardApp'));
 
-const routes = (shouldUseContentGrid = false) => (
-  <Route
-    element={
-      <Wrapper shouldUseContentGrid={shouldUseContentGrid}>
-        <App />
-      </Wrapper>
-    }
-    path="onboarding-dashboard"
-  />
-);
+const routes = () => <Route element={<App />} path="onboarding-dashboard" />;
 
 export default routes;

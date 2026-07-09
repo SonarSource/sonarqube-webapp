@@ -674,6 +674,12 @@ module.exports = [
     },
   },
   {
+    files: ['libs/feature-onboarding-dashboard/**/*.{ts,tsx}'],
+    languageOptions: {
+      parserOptions: { tsconfigRootDir: `${__dirname}/libs/feature-onboarding-dashboard` },
+    },
+  },
+  {
     files: ['private/libs/shared/**/*.{ts,tsx}'],
     languageOptions: {
       parserOptions: { tsconfigRootDir: `${__dirname}/private/libs/shared` },
