@@ -4548,7 +4548,7 @@ export const defaultMessages = {
     'Built-in quality gate reflecting recommended practices for AI-generated code',
   'quality_gates.conditions': 'Conditions',
   'quality_gates.conditions.help':
-    'Your project will fail the quality gate if it crosses any metric thresholds set for New Code or Overall Code.',
+    'Your project will fail the quality gate if it crosses any metric thresholds set for new code or overall code.',
   'quality_gates.conditions.update': 'Update conditions on new code',
   'quality_gates.conditions.update_x': 'Update conditions on new code for {name} quality gate',
   'toggle_tip.aria_label.sca_condition':
