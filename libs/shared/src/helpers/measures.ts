@@ -23,12 +23,11 @@ import { IntlShape } from 'react-intl';
 import { getCurrentLocale } from '~adapters/helpers/l10n';
 import { isDefined } from '../helpers/types';
 import { Measure } from '../types/measures';
-import { ISSUE_SEVERITY_CONDITION_MAPPING } from './quality-gates';
 import {
-  RISK_SEVERITY_LABELS,
-  SCA_RISK_SEVERITY_METRIC_THRESHOLD_KEYS,
-  SCA_RISK_SEVERITY_METRIC_THRESHOLDS,
-} from './sca';
+  ISSUE_SEVERITY_CONDITION_MAPPING,
+  normalizeSeverityConditionThreshold,
+} from './quality-gates';
+import { RISK_SEVERITY_LABELS, SCA_RISK_SEVERITY_METRIC_THRESHOLDS } from './sca';
 
 type RatingLabel = Exclude<keyof typeof RatingBadgeRating, 'Null'>;
 type FormatMessageFunction = IntlShape['formatMessage'];
@@ -300,16 +299,18 @@ function shortDurationFormatter(
   return formatDurationShort(formatMessage, isNegative, days, hours, remainingValue);
 }
 
-function scaRiskFormatter(
-  formatMessage: FormatMessageFunction,
-  value: SCA_RISK_SEVERITY_METRIC_THRESHOLD_KEYS,
-): string {
-  const severity = SCA_RISK_SEVERITY_METRIC_THRESHOLDS[value];
-  if (severity === undefined) {
-    throw new Error(`Threshold '${value}' not valid`);
+function scaRiskFormatter(formatMessage: FormatMessageFunction, value: number | string): string {
+  const normalizedKey = normalizeSeverityConditionThreshold(
+    SCA_RISK_SEVERITY_METRIC_THRESHOLDS,
+    value,
+  );
+  if (normalizedKey === undefined) {
+    return value.toString();
   }
 
-  return formatMessage({ id: RISK_SEVERITY_LABELS[severity] });
+  return formatMessage({
+    id: RISK_SEVERITY_LABELS[SCA_RISK_SEVERITY_METRIC_THRESHOLDS[normalizedKey]],
+  });
 }
 
 /*
@@ -344,11 +345,14 @@ function issueSeverityFormatter(
   formatMessage: FormatMessageFunction,
   value: number | string,
 ): string {
-  const severity = ISSUE_SEVERITY_CONDITION_MAPPING[String(value)];
-  if (severity === undefined) {
+  const normalizedKey = normalizeSeverityConditionThreshold(
+    ISSUE_SEVERITY_CONDITION_MAPPING,
+    value,
+  );
+  if (normalizedKey === undefined) {
     return value.toString();
   }
-  return formatMessage({ id: `severity.${severity}` });
+  return formatMessage({ id: `severity.${ISSUE_SEVERITY_CONDITION_MAPPING[normalizedKey]}` });
 }
 
 export {

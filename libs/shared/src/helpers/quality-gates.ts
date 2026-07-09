@@ -118,3 +118,29 @@ export function getIssueSeverityBasedOnConditionValue(
 ): IssueSeverity | undefined {
   return ISSUE_SEVERITY_CONDITION_MAPPING[String(Number(value) - 1)];
 }
+
+/**
+ * Severity condition thresholds are stored using a `value - 1` offset and evaluated with a strict
+ * greater-than operator (see SonarQube `ScaMetrics.java`), so an arbitrary threshold behaves like
+ * the smallest valid key that is greater than or equal to it (e.g. `0` selects the same severities
+ * as `4`).
+ */
+export function normalizeSeverityConditionThreshold<T extends Record<string, unknown>>(
+  thresholds: T,
+  value: string | number,
+): keyof T | undefined {
+  // `Number('')` is `0`, so guard blank input explicitly to avoid mapping an unset threshold to
+  // the lowest severity.
+  if (typeof value === 'string' && value.trim() === '') {
+    return undefined;
+  }
+  const numericValue = Number(value);
+  if (Number.isNaN(numericValue)) {
+    return undefined;
+  }
+  const nearestKey = Object.keys(thresholds)
+    .map(Number)
+    .sort((a, b) => a - b)
+    .find((key) => key >= numericValue);
+  return nearestKey === undefined ? undefined : (String(nearestKey) as keyof T);
+}

@@ -21,6 +21,7 @@
 import { FormFieldWidth, Select, Text, TextInput, TextSize } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { normalizeSeverityConditionThreshold } from '../../helpers/quality-gates';
 import {
   getScaMetricUrlParams,
   getScaRiskMetricThresholds,
@@ -96,12 +97,14 @@ export default function ThresholdInput({
 
   if (metric.type === MetricType.ScaRisk) {
     const { types } = getScaMetricUrlParams(metric.key as MetricKey);
-    const options = Object.entries(getScaRiskMetricThresholds(metric.key)).map(
-      ([value, option]) => ({
-        value,
-        label: intl.formatMessage({ id: RISK_SEVERITY_LABELS[option] }),
-      }),
-    );
+    const thresholds = getScaRiskMetricThresholds(metric.key);
+    const options = Object.entries(thresholds).map(([value, option]) => ({
+      value,
+      label: intl.formatMessage({ id: RISK_SEVERITY_LABELS[option] }),
+    }));
+    // A stored threshold may fall outside the valid set (the backend does not constrain it);
+    // normalize it to the matching option so the Select preselects the right severity.
+    const normalizedValue = normalizeSeverityConditionThreshold(thresholds, value) ?? value;
 
     return (
       <div>
@@ -110,6 +113,7 @@ export default function ThresholdInput({
           className="sw-w-abs-150"
           data={options}
           onChange={handleSelectChange}
+          value={normalizedValue}
         />
         {options.length === 1 && types && (
           <Text as="p" className="sw-mt-3" size={TextSize.Small}>

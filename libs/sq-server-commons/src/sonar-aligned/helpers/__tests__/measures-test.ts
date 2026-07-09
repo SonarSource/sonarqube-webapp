@@ -242,14 +242,19 @@ describe('#getIssueSeverityFormatter()', () => {
       expect(formatter(24)).toBe('severity_impact.BLOCKER');
     });
 
-    it('should return value for unmapped values', () => {
+    it('should map out-of-range thresholds up to the nearest severity', () => {
       const formatter = getIssueSeverityFormatter(MetricKey.new_maintainability_issue_severity);
 
-      expect(formatter('5')).toBe('5');
+      expect(formatter(0)).toBe('severity_impact.INFO');
+      expect(formatter(1)).toBe('severity_impact.INFO');
+      expect(formatter(3)).toBe('severity_impact.INFO');
+      expect(formatter('5')).toBe('severity_impact.LOW');
+    });
+
+    it('should return the raw value when the threshold cannot be mapped', () => {
+      const formatter = getIssueSeverityFormatter(MetricKey.new_maintainability_issue_severity);
+
       expect(formatter('100')).toBe('100');
-      expect(formatter(0)).toBe('0');
-      expect(formatter(1)).toBe('1');
-      expect(formatter(3)).toBe('3');
     });
   });
 
@@ -274,14 +279,19 @@ describe('#getIssueSeverityFormatter()', () => {
       expect(formatter(24)).toBe('severity.BLOCKER');
     });
 
-    it('should return value for unmapped values', () => {
+    it('should map out-of-range thresholds up to the nearest severity', () => {
       const formatter = getIssueSeverityFormatter(MetricKey.new_code_smells_severity);
 
-      expect(formatter('5')).toBe('5');
+      expect(formatter(0)).toBe('severity.INFO');
+      expect(formatter(1)).toBe('severity.INFO');
+      expect(formatter(3)).toBe('severity.INFO');
+      expect(formatter('5')).toBe('severity.MINOR');
+    });
+
+    it('should return the raw value when the threshold cannot be mapped', () => {
+      const formatter = getIssueSeverityFormatter(MetricKey.new_code_smells_severity);
+
       expect(formatter('100')).toBe('100');
-      expect(formatter(0)).toBe('0');
-      expect(formatter(1)).toBe('1');
-      expect(formatter(3)).toBe('3');
     });
   });
 });

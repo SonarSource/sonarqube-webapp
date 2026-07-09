@@ -31,6 +31,7 @@ import {
   shortDurationFormatter,
   shortIntFormatter,
 } from '~shared/helpers/measures';
+import { normalizeSeverityConditionThreshold } from '~shared/helpers/quality-gates';
 import {
   RISK_SEVERITY_LABELS,
   SCA_RISK_SEVERITY_METRIC_THRESHOLDS,
@@ -124,12 +125,12 @@ export const getIssueSeverityFormatter = (metricKey?: MetricKey): Formatter => {
 
   if (mode === Mode.MQR) {
     return (value: string | number): string => {
-      const severity = ISSUE_SEVERITY_MQR_MAPPING[value];
-      if (severity === undefined) {
+      const normalizedKey = normalizeSeverityConditionThreshold(ISSUE_SEVERITY_MQR_MAPPING, value);
+      if (normalizedKey === undefined) {
         return value.toString();
       }
 
-      return formatMessage({ id: `severity_impact.${severity}` });
+      return formatMessage({ id: `severity_impact.${ISSUE_SEVERITY_MQR_MAPPING[normalizedKey]}` });
     };
   }
   return issueSeverityFormatter.bind(null, formatMessage);

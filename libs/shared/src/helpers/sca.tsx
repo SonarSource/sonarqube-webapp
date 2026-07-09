@@ -41,9 +41,6 @@ export const SCA_RISK_SEVERITY_METRIC_THRESHOLDS = {
   '24': ReleaseRiskSeverity.Blocker,
 };
 
-export type SCA_RISK_SEVERITY_METRIC_THRESHOLD_KEYS =
-  keyof typeof SCA_RISK_SEVERITY_METRIC_THRESHOLDS;
-
 /** HIGH risk is the only risk level for license related options. */
 const SCA_LICENSE_RISK_SEVERITY_METRIC_THRESHOLDS = {
   '19': ReleaseRiskSeverity.High,
@@ -91,7 +88,7 @@ export const SCA_MALWARE_SEVERITY_RISK_METRIC_KEYS = [
   MetricKey.new_sca_severity_malware,
 ] as string[];
 
-export function getScaRiskMetricThresholds(metricKey: string) {
+export function getScaRiskMetricThresholds(metricKey: string): Record<string, ReleaseRiskSeverity> {
   if (SCA_LICENSE_SEVERITY_RISK_METRIC_KEYS.includes(metricKey)) {
     return SCA_LICENSE_RISK_SEVERITY_METRIC_THRESHOLDS;
   }

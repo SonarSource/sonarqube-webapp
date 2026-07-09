@@ -18,11 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { scaRiskFormatter } from '../measures';
-import { SCA_RISK_SEVERITY_METRIC_THRESHOLD_KEYS } from '../sca';
+import { issueSeverityFormatter, scaRiskFormatter } from '../measures';
 
 describe('scaRiskFormatter', () => {
-  it('should format a found risk threshold', () => {
+  it('should format a valid risk threshold', () => {
     const formatMessage = jest.fn();
 
     scaRiskFormatter(formatMessage, '4');
@@ -30,13 +29,57 @@ describe('scaRiskFormatter', () => {
     expect(formatMessage).toHaveBeenCalledWith({ id: 'severity_impact.INFO' });
   });
 
-  it('should throw an error if the risk level is not found', () => {
+  it.each([
+    ['0', 'severity_impact.INFO'],
+    ['3', 'severity_impact.INFO'],
+    ['5', 'severity_impact.LOW'],
+    ['20', 'severity_impact.BLOCKER'],
+  ])(
+    'should map an out-of-range threshold (%s) up to the nearest severity',
+    (value, expectedLabel) => {
+      const formatMessage = jest.fn();
+
+      scaRiskFormatter(formatMessage, value);
+
+      expect(formatMessage).toHaveBeenCalledWith({ id: expectedLabel });
+    },
+  );
+
+  it.each(['25', '100', 'not-a-number', '', '   '])(
+    'should fall back to the raw value when the threshold cannot be mapped (%s)',
+    (value) => {
+      const formatMessage = jest.fn();
+
+      expect(scaRiskFormatter(formatMessage, value)).toBe(value);
+      expect(formatMessage).not.toHaveBeenCalled();
+    },
+  );
+});
+
+describe('issueSeverityFormatter', () => {
+  it('should format a valid severity threshold', () => {
     const formatMessage = jest.fn();
 
-    expect(() => {
-      scaRiskFormatter(formatMessage, '3' as SCA_RISK_SEVERITY_METRIC_THRESHOLD_KEYS);
-    }).toThrow(/Threshold '3' not valid/);
+    issueSeverityFormatter(formatMessage, '4');
 
-    expect(formatMessage).not.toHaveBeenCalled();
+    expect(formatMessage).toHaveBeenCalledWith({ id: 'severity.INFO' });
   });
+
+  it('should map an out-of-range threshold up to the nearest severity', () => {
+    const formatMessage = jest.fn();
+
+    issueSeverityFormatter(formatMessage, '0');
+
+    expect(formatMessage).toHaveBeenCalledWith({ id: 'severity.INFO' });
+  });
+
+  it.each(['25', ''])(
+    'should fall back to the raw value when the threshold cannot be mapped (%s)',
+    (value) => {
+      const formatMessage = jest.fn();
+
+      expect(issueSeverityFormatter(formatMessage, value)).toBe(value);
+      expect(formatMessage).not.toHaveBeenCalled();
+    },
+  );
 });
