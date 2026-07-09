@@ -9072,10 +9072,10 @@ export const defaultMessages = {
   'application_console.edit': 'Edit Application',
   'application_console.project_inaccessible': 'You do not have access to this project',
   'application_console.branches': 'Application Branches',
-  'application_console.branches.action_x': 'Open application branch {0} actions',
-  'application_console.branches.edit_x': 'Edit application branch {0}',
-  'application_console.branches.enable_x': 'Check to enable project {0} in this branch',
-  'application_console.branches.delete_x': 'Delete application branch {0}',
+  'application_console.branches.action_x': 'Open application branch {branchName} actions',
+  'application_console.branches.edit_x': 'Edit application branch {branchName}',
+  'application_console.branches.enable_x': 'Check to enable project {branchName} in this branch',
+  'application_console.branches.delete_x': 'Delete application branch {branchName}',
   'application_console.branches.cannot_access_all_child_projects':
     'You must have access to all projects in this Application in order to administer branches.',
   'application_console.branches.cancel': 'Cancel',
@@ -9085,7 +9085,8 @@ export const defaultMessages = {
   'application_console.branches.create.help':
     "For each project of your Application, choose a project branch that will be displayed inside the Application's branch.",
   'application_console.branches.delete': 'Delete branch',
-  'application_console.branches.delete.warning_x': 'Are you sure you want to delete "{0}" ?',
+  'application_console.branches.delete.warning_x':
+    'Are you sure you want to delete "{branchName}" ?',
   'application_console.branches.help':
     "Track branches other than the main branch of this application's projects.",
   'application_console.branches.main_branch': 'Main Branch',

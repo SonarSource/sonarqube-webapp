@@ -122,6 +122,7 @@ import exportModulesAsGlobals from './exportModulesAsGlobals';
 function renderComponentRoutes({
   hasAicaFeature,
   hasApplicationFeature,
+  hasApplicationReportFeature,
   hasArchitectureFeature,
   hasBranchSupport,
   hasPortfolioFeature,
@@ -130,6 +131,7 @@ function renderComponentRoutes({
 }: {
   hasAicaFeature: boolean;
   hasApplicationFeature: boolean;
+  hasApplicationReportFeature: boolean;
   hasArchitectureFeature: boolean;
   hasBranchSupport: boolean;
   hasPortfolioFeature: boolean;
@@ -172,7 +174,8 @@ function renderComponentRoutes({
         {/* Pages migrated to the new layout get their <main> from Layout.PageContent */}
         <Route element={<ProjectAdminContainer skipMainWrapper />}>
           {/* Extensions moved to the monorepo */}
-          {hasApplicationFeature && addons.applicationReport?.componentRoutes()}
+          {hasApplicationFeature && addons.applications?.componentRoutes()}
+          {hasApplicationReportFeature && addons.applicationReport?.componentRoutes()}
           {hasPortfolioFeature && addons.portfolios?.componentAdminRoutes()}
 
           {/* Migrated internal Sonar project admin extensions */}
@@ -259,10 +262,12 @@ const PluginRiskConsent = lazyLoadComponent(() => import('../components/PluginRi
 const router = ({
   availableFeatures,
   governanceInstalled,
+  hasApplicationFeature,
   isEnterprise,
 }: {
   availableFeatures: Feature[];
   governanceInstalled: boolean;
+  hasApplicationFeature: boolean;
   isEnterprise: boolean;
 }) =>
   createBrowserRouter(
@@ -332,7 +337,8 @@ const router = ({
                 hasScaFeature: availableFeatures.includes(Feature.Sca),
                 hasAicaFeature: availableFeatures.includes(Feature.AiCodeAssurance),
                 hasPortfolioFeature: governanceInstalled,
-                hasApplicationFeature: governanceInstalled,
+                hasApplicationFeature,
+                hasApplicationReportFeature: governanceInstalled,
                 hasSecurityReportsFeature: isEnterprise,
               })}
 
@@ -393,6 +399,9 @@ export default function startReactApp(
   const el = document.getElementById('content');
   const root = createRoot(el as HTMLElement);
   const governanceInstalled = Boolean(appState?.qualifiers.includes(ComponentQualifier.Portfolio));
+  const hasApplicationFeature = Boolean(
+    appState?.qualifiers.includes(ComponentQualifier.Application),
+  );
 
   const isEnterprise =
     appState?.edition === EditionKey.enterprise || appState?.edition === EditionKey.datacenter;
@@ -414,6 +423,7 @@ export default function startReactApp(
                         router={router({
                           availableFeatures,
                           governanceInstalled,
+                          hasApplicationFeature,
                           isEnterprise,
                         })}
                       />

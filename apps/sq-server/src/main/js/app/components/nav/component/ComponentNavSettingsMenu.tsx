@@ -60,6 +60,10 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
   const showBaseline = !isApp && !isPortfolio;
   const showAiGeneratedCode = isProj && hasFeature(Feature.AiCodeAssurance) && addons.aica;
   const isGovernanceEnabled = appState.qualifiers.includes(ComponentQualifier.Portfolio);
+
+  const showApplicationDefinition =
+    isApp && appState.qualifiers.includes(ComponentQualifier.Application);
+
   const showPortfolioDefinition = isPortfolio && isGovernanceEnabled;
   const showPortfolioReportSettings = isPortfolio && isGovernanceEnabled;
   const showApplicationReportSettings = isApp && isGovernanceEnabled;
@@ -135,6 +139,16 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
           <FormattedMessage defaultMessage={name} id={name} />
         </Layout.SidebarNavigation.Item>
       ))}
+
+      {showApplicationDefinition && (
+        <Layout.SidebarNavigation.Item
+          Icon={IconGear}
+          disableIconWhenSidebarOpen
+          to={{ pathname: '/project/admin/application-definition', search }}
+        >
+          <FormattedMessage id="application_console.page" />
+        </Layout.SidebarNavigation.Item>
+      )}
 
       {showPortfolioDefinition && (
         <Layout.SidebarNavigation.Item
