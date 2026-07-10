@@ -19,8 +19,6 @@
  */
 
 import { cssVar } from '@sonarsource/echoes-react';
-import { OnboardingChecklist } from '~shared/types/onboarding';
-import { DISCOVER_MILESTONE_ID } from './dashboardConstants';
 
 /**
  * Clamps `value` to the [0, 100] range.
@@ -67,19 +65,4 @@ export function getSeverityColorForPercent(percent: number): string {
     return COLOR_75_99;
   }
   return COLOR_100;
-}
-
-/**
- * Overall onboarding progress: the average completion across all checklist milestones, rounded to
- * a whole percent. Discovery is automatic (and ~always 100%), so it is excluded — overall progress
- * reflects only the milestones the user actively drives.
- */
-export function getOverallProgressPercent(checklist: OnboardingChecklist): number {
-  const actionableItems = checklist.items.filter((item) => item.id !== DISCOVER_MILESTONE_ID);
-  const clampedSum = actionableItems.reduce(
-    (acc, item) => acc + clampPercent(item.completionPct ?? 0),
-    0,
-  );
-  const overall = actionableItems.length === 0 ? 0 : clampedSum / actionableItems.length;
-  return Math.round(overall);
 }

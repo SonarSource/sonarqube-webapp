@@ -22,6 +22,7 @@ import { waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { ALM_ICONS_BASE_URL } from '~adapters/helpers/urls';
 import {
+  mockOnboardingOverview,
   mockOnboardingProjects,
   OnboardingServiceMock,
 } from '~shared/api/mocks/OnboardingServiceMock';
@@ -56,8 +57,19 @@ const ui = {
   prIntegrationTitle: byText('onboarding_dashboard.cards.pr_integration.title'),
   error: byText('default_error_message'),
 
-  // Header
+  // The react-intl mock renders the percent message as `<id>.<value>`. The mock's
+  // projectsOnboarded.percentOfImported (16.7) is unique across the fixture, so this text only
+  // appears if the card reads the correct API field (guards the percentOfTotal→percentOfImported fix).
+  projectsOnboardedPercent: byText('onboarding_dashboard.checklist.percent.16.7'),
+
+  // Header — the ring label reflects the backend overallMaturityPct (75 in the mock), also unique.
   headerSubtitle: byText('onboarding_dashboard.header.subtitle'),
+  headerProgress: byText('onboarding_dashboard.checklist.percent.75'),
+
+  // The bare percent message id (no numeric suffix) is never rendered on a healthy page — every
+  // percent has a value. It only appears if a null percentage reaches formatMessage, i.e. if a
+  // card's NO_DATA guard regressed to a value-less "%". Used as a regression guard.
+  barePercent: byText('onboarding_dashboard.checklist.percent'),
 
   // Checklist
   checklistTitle: byText('onboarding_dashboard.checklist.title'),
@@ -115,6 +127,34 @@ it('renders the four onboarding summary cards with their data', async () => {
   expect(ui.projectsOnboardedTitle.get()).toBeInTheDocument();
   expect(ui.scanHealthTitle.get()).toBeInTheDocument();
   expect(ui.prIntegrationTitle.get()).toBeInTheDocument();
+
+  // The projects-onboarded card renders its percentage from percentOfImported.
+  expect(ui.projectsOnboardedPercent.get()).toBeInTheDocument();
+});
+
+it('shows a no-data placeholder on the projects and PR cards when their percentage is null', async () => {
+  // A null percentage (no imported projects yet) must render the em-dash placeholder and omit the
+  // ring, rather than an empty "%". Covers the null branch of both percent-driven cards.
+  onboardingMock.setOverview(
+    mockOnboardingOverview({
+      projectsOnboarded: {
+        onboarded: 0,
+        totalProjects: 0,
+        importedEmpty: 0,
+        percentOfImported: null,
+      },
+      prIntegration: { prDecorationCount: 0, percentOfOnboarded: null },
+    }),
+  );
+  renderOnboardingDashboard();
+
+  // Wait for the cards to mount, then confirm neither shows a percentage value...
+  expect(await ui.projectsOnboardedTitle.find()).toBeInTheDocument();
+  expect(ui.projectsOnboardedPercent.query()).not.toBeInTheDocument();
+
+  // ...and neither regressed to a value-less "%": a null reaching formatMessage would render the
+  // bare message id. Its absence proves both cards took the NO_DATA (em-dash) branch instead.
+  expect(ui.barePercent.query()).not.toBeInTheDocument();
 });
 
 it('shows an error message when the overview request fails', async () => {
@@ -129,6 +169,9 @@ it('renders the page header with the progress tagline next to the heading', asyn
   renderOnboardingDashboard();
 
   expect(await ui.headerSubtitle.find()).toBeInTheDocument();
+  // The header ring shows the backend overallMaturityPct, not a client-side computed value.
+  // The ring only mounts once the overview query resolves, so wait for it.
+  expect(await ui.headerProgress.find()).toBeInTheDocument();
 });
 
 it('renders the onboarding checklist with maturity badge and progress bars', async () => {

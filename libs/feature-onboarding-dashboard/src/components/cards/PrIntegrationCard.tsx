@@ -36,13 +36,13 @@ export function PrIntegrationCard({ data }: Readonly<Props>) {
         { id: 'onboarding_dashboard.cards.pr_integration.subtitle' },
         { count: data.prDecorationCount },
       )}
-      donutPercent={data.percentOfTotal ?? undefined}
+      donutPercent={data.percentOfOnboarded ?? undefined}
       primaryValue={
-        data.percentOfTotal === null
+        data.percentOfOnboarded === null
           ? NO_DATA
           : formatMessage(
               { id: 'onboarding_dashboard.checklist.percent' },
-              { percent: data.percentOfTotal },
+              { percent: data.percentOfOnboarded },
             )
       }
       title={formatMessage({ id: 'onboarding_dashboard.cards.pr_integration.title' })}

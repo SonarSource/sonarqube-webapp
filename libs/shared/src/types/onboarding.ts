@@ -53,7 +53,7 @@ export interface OnboardingOverview {
   momentum: OnboardingMomentum;
 }
 
-export interface OnboardingCards {
+interface OnboardingCards {
   prIntegration: PrIntegrationCard;
   projectsOnboarded: ProjectsOnboardedCard;
   repositoriesDiscovered: RepositoriesDiscoveredCard;
@@ -68,7 +68,7 @@ export interface RepositoriesDiscoveredCard {
   notYetImported: number | null;
 }
 
-export interface RepositoriesDiscoveredByAlm {
+interface RepositoriesDiscoveredByAlm {
   alm: OnboardingAlm;
   discovered: number | null;
   imported: number;
@@ -77,7 +77,7 @@ export interface RepositoriesDiscoveredByAlm {
 export interface ProjectsOnboardedCard {
   importedEmpty: number;
   onboarded: number;
-  percentOfTotal: number | null;
+  percentOfImported: number | null;
   totalProjects: number;
 }
 
@@ -86,26 +86,26 @@ export interface ScanHealthCard {
   healthy: number;
 }
 
-export interface ScanMethodCard {
+interface ScanMethodCard {
   byCi: ScanMethodByCi[];
   ci: number;
   local: number;
   managed: number;
 }
 
-export interface ScanMethodByCi {
+interface ScanMethodByCi {
   count: number;
   system: string;
 }
 
 export interface PrIntegrationCard {
-  percentOfTotal: number | null;
+  percentOfOnboarded: number | null;
   prDecorationCount: number;
 }
 
-export type OnboardingChecklistStatus = 'DONE' | 'IN_PROGRESS' | 'NOT_STARTED' | 'UNKNOWN';
+type OnboardingChecklistStatus = 'DONE' | 'IN_PROGRESS' | 'NOT_STARTED' | 'UNKNOWN';
 
-export type OnboardingMaturityLabel = 'Starting' | 'Growing' | 'Established' | 'Advanced';
+type OnboardingMaturityLabel = 'Starting' | 'Growing' | 'Established' | 'Advanced';
 
 export interface OnboardingChecklist {
   items: OnboardingChecklistItem[];
@@ -131,13 +131,13 @@ export interface OnboardingMomentum {
   weeklyHistory: OnboardingMomentumWeek[];
 }
 
-export interface OnboardingMomentumWeek {
+interface OnboardingMomentumWeek {
   cumulativeImported: number;
   cumulativeOnboarded: number;
   weekStart: number;
 }
 
-export interface OnboardingMomentumState {
+interface OnboardingMomentumState {
   ciCount: number;
   failedScanCount: number;
   importedEmptyCount: number;
@@ -145,13 +145,13 @@ export interface OnboardingMomentumState {
   managedCount: number;
 }
 
-export interface OnboardingCharts {
+interface OnboardingCharts {
   onboardingCoverage: OnboardingCoverageChart;
   qualityGateStatus: QualityGateStatusChart;
   scanConfiguration: ScanConfigurationChart;
 }
 
-export interface OnboardingCoverageChart {
+interface OnboardingCoverageChart {
   failed: number;
   healthy: number;
   notOnboarded: number | null;
@@ -217,7 +217,7 @@ export type OnboardingProjectsFilter =
 
 export type OnboardingProjectsFilterCounts = Record<OnboardingProjectsFilter, number>;
 
-export interface OnboardingProjectsPage {
+interface OnboardingProjectsPage {
   pageIndex: number;
   pageSize: number;
   total: number;

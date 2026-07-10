@@ -21,7 +21,7 @@
 import { Heading, Text } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { OnboardingChecklist } from '~shared/types/onboarding';
-import { getOverallProgressPercent } from './dashboardSeverity';
+import { clampPercent } from './dashboardSeverity';
 import { OnboardingProgressDonut } from './progress/OnboardingProgressDonut';
 
 interface Props {
@@ -39,7 +39,10 @@ export function OnboardingDashboardHeader({ checklist, title }: Readonly<Props>)
   return (
     <div className="sw-mb-4 sw-flex sw-items-center sw-gap-4">
       {checklist !== undefined && (
-        <OnboardingProgressDonut showLabel value={getOverallProgressPercent(checklist)} />
+        <OnboardingProgressDonut
+          showLabel
+          value={clampPercent(Math.round(checklist.overallMaturityPct))}
+        />
       )}
 
       <div className="sw-flex sw-min-w-0 sw-flex-col sw-gap-1">

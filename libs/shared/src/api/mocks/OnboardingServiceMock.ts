@@ -111,7 +111,7 @@ export function mockOnboardingOverview(
         onboarded: 1,
         totalProjects: 6,
         importedEmpty: 5,
-        percentOfTotal: 16.7,
+        percentOfImported: 16.7,
       },
       scanHealth: { healthy: 1, failed: 0 },
       scanMethod: {
@@ -120,11 +120,11 @@ export function mockOnboardingOverview(
         managed: 0,
         byCi: [{ system: 'Github Actions', count: 1 }],
       },
-      prIntegration: { prDecorationCount: 6, percentOfTotal: 100 },
+      prIntegration: { prDecorationCount: 6, percentOfOnboarded: 100 },
       ...overrides,
     },
     checklist: {
-      overallMaturityPct: 180.1,
+      overallMaturityPct: 75,
       maturityLabel: 'Advanced',
       items: [
         { id: 'discover', completed: 301, total: null, completionPct: 100, status: 'DONE' },

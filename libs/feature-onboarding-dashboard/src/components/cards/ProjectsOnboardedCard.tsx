@@ -36,13 +36,13 @@ export function ProjectsOnboardedCard({ data }: Readonly<Props>) {
         { id: 'onboarding_dashboard.cards.projects_onboarded.subtitle' },
         { onboarded: data.onboarded, total: data.totalProjects },
       )}
-      donutPercent={data.percentOfTotal ?? undefined}
+      donutPercent={data.percentOfImported ?? undefined}
       primaryValue={
-        data.percentOfTotal === null
+        data.percentOfImported === null
           ? NO_DATA
           : formatMessage(
               { id: 'onboarding_dashboard.checklist.percent' },
-              { percent: data.percentOfTotal },
+              { percent: data.percentOfImported },
             )
       }
       title={formatMessage({ id: 'onboarding_dashboard.cards.projects_onboarded.title' })}
