@@ -37,6 +37,7 @@ export const useOnboardingOverviewQuery = createQueryHook((params: OnboardingOve
     queryKey: ['onboarding', 'overview', params],
     queryFn: () => getOnboardingOverview(params),
     staleTime: StaleTime.LONG,
+    retry: 2, // Temporary workaround until Backend initial load issue is fixed
   }),
 );
 
@@ -47,5 +48,6 @@ export const useOnboardingProjectsQuery = createQueryHook((params: OnboardingPro
     // Keep the previous page visible while the next one loads to avoid table flicker.
     placeholderData: keepPreviousData,
     staleTime: StaleTime.LONG,
+    retry: 2, // Temporary workaround until Backend initial load issue is fixed
   }),
 );

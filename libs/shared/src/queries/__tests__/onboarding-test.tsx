@@ -70,7 +70,9 @@ function Wrapper({ children }: Readonly<{ children: ReactNode }>) {
 beforeEach(() => {
   // eslint-disable-next-line local-rules/no-query-client-imports
   queryClient = new QueryClient({
-    defaultOptions: { queries: { retry: false } },
+    // The onboarding hooks set `retry: 2` themselves, which overrides any client
+    // default. `retryDelay: 0` keeps those retries instant so the tests stay fast.
+    defaultOptions: { queries: { retryDelay: 0 } },
   });
   jest.clearAllMocks();
 });
@@ -113,6 +115,19 @@ describe('useOnboardingOverviewQuery', () => {
     });
 
     expect(result.current.error).toEqual(new Error('boom'));
+  });
+
+  it('retries the request twice before surfacing the error', async () => {
+    jest.mocked(getOnboardingOverview).mockRejectedValue(new Error('boom'));
+
+    const { result } = renderHook(() => useOnboardingOverviewQuery({}), { wrapper: Wrapper });
+
+    await waitFor(() => {
+      expect(result.current.isError).toBe(true);
+    });
+
+    // 1 initial attempt + 2 retries
+    expect(getOnboardingOverview).toHaveBeenCalledTimes(3);
   });
 });
 
@@ -168,5 +183,19 @@ describe('useOnboardingProjectsQuery', () => {
       expect(result.current.data).toEqual(secondPage);
     });
     expect(result.current.isPlaceholderData).toBe(false);
+  });
+
+  it('retries the request twice before surfacing the error', async () => {
+    jest.mocked(getOnboardingProjects).mockRejectedValue(new Error('boom'));
+
+    const params = { filter: 'all' as const, pageIndex: 1, pageSize: 50 };
+    const { result } = renderHook(() => useOnboardingProjectsQuery(params), { wrapper: Wrapper });
+
+    await waitFor(() => {
+      expect(result.current.isError).toBe(true);
+    });
+
+    // 1 initial attempt + 2 retries
+    expect(getOnboardingProjects).toHaveBeenCalledTimes(3);
   });
 });
