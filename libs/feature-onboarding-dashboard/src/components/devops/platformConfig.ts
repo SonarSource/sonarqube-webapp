@@ -18,13 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { OnboardingAlm, OnboardingDevopsPlatform } from '~shared/types/onboarding';
+import { AlmIconKey, OnboardingAlm, OnboardingDevopsPlatform } from '~shared/types/onboarding';
 
 export interface PlatformConfig {
   /** Brand color applied to the platform name and its progress bar. */
   color: string;
   /** ALM image key under /images/alm(s)/{imageKey}.svg. Absent for the "not bound" row. */
-  imageKey?: string;
+  imageKey?: AlmIconKey;
   /** Localization key for the display name. */
   labelKey: string;
 }

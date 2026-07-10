@@ -26,6 +26,7 @@ import {
   Table,
   TableVariety,
   Text,
+  TextSize,
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { useOnboardingOrganizationKey } from '~adapters/queries/onboarding';
@@ -77,7 +78,7 @@ export function OnboardingStaleProjectsCard() {
               />
 
               <div className="sw-flex sw-flex-col sw-items-end">
-                <Text as="span" className="sw-text-sm sw-text-gray-500">
+                <Text as="span" isSubtle size={TextSize.Small}>
                   {formatMessage(
                     { id: 'onboarding_dashboard.projects.count' },
                     {
@@ -87,7 +88,7 @@ export function OnboardingStaleProjectsCard() {
                   )}
                 </Text>
                 {isCapped && (
-                  <Text as="span" isSubtle size="small">
+                  <Text as="span" isSubtle size={TextSize.Small}>
                     {formatMessage(
                       { id: 'onboarding_dashboard.stale.capped' },
                       { count: staleProjects.length },

@@ -22,6 +22,7 @@ import {
   Badge,
   Button,
   ButtonGroup,
+  ButtonVariety,
   Card,
   Pagination,
   SearchInput,
@@ -30,6 +31,7 @@ import {
   Table,
   TableVariety,
   Text,
+  TextSize,
 } from '@sonarsource/echoes-react';
 import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -101,18 +103,20 @@ export function OnboardingRepositoriesCard() {
                 <ButtonGroup isCombined>
                   {options.map((option) => (
                     <Button
-                      className={filter === option.value ? 'sw-bg-gray-100' : ''}
                       key={option.value}
                       onClick={() => {
                         setFilter(option.value);
                       }}
+                      variety={
+                        filter === option.value ? ButtonVariety.Primary : ButtonVariety.Default
+                      }
                     >
                       {option.label}
                     </Button>
                   ))}
                 </ButtonGroup>
               </div>
-              <Text as="span" className="sw-text-sm sw-text-gray-500">
+              <Text as="span" isSubtle size={TextSize.Small}>
                 {formatMessage(
                   { id: 'onboarding_dashboard.projects.count' },
                   {

@@ -21,7 +21,7 @@
 import { cssVar, IconSlash, Text, TextSize } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
-import { ALM_ICONS_BASE_URL } from '~adapters/helpers/urls';
+import { useAlmIconSrc } from '~adapters/helpers/almIcons';
 import { OnboardingDevopsPlatform, OnboardingDevopsPlatformShare } from '~shared/types/onboarding';
 import { DevopsProgressBar } from './DevopsProgressBar';
 import { PLATFORM_CONFIG } from './platformConfig';
@@ -39,6 +39,7 @@ export function DevopsPlatformRow({ share }: Readonly<Props>) {
     share.platform === OnboardingDevopsPlatform.NotBound
       ? undefined
       : PLATFORM_CONFIG[share.platform];
+  const iconSrc = useAlmIconSrc(config?.imageKey);
   const color = config?.color ?? NOT_BOUND_COLOR;
   const name = config
     ? formatMessage({ id: config.labelKey })
@@ -48,10 +49,10 @@ export function DevopsPlatformRow({ share }: Readonly<Props>) {
     <div className="sw-flex sw-flex-col sw-gap-2 sw-py-3">
       <div className="sw-flex sw-items-center sw-justify-between">
         <div className="sw-flex sw-shrink-0 sw-items-center sw-justify-center sw-gap-2 sw-w-[150px]">
-          {config?.imageKey === undefined ? (
+          {iconSrc === undefined ? (
             <IconSlash color="echoes-color-icon-subtle" />
           ) : (
-            <Image alt="" height={20} src={`${ALM_ICONS_BASE_URL}/${config.imageKey}.svg`} />
+            <Image alt="" height={20} src={iconSrc} />
           )}
           <p className="sw-grow sw-truncate sw-font-semibold" style={{ color }}>
             {name}

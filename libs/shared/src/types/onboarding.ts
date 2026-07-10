@@ -33,6 +33,13 @@ export enum OnboardingDevopsPlatform {
 export type OnboardingAlm = Exclude<OnboardingDevopsPlatform, OnboardingDevopsPlatform.NotBound>;
 
 /**
+ * ALM providers that have an icon asset under `/images/alm(s)/{key}.svg`. These keys
+ * must exist in each product's theme `images` map so the theme-aware icon resolver can
+ * look them up without an unchecked cast.
+ */
+export type AlmIconKey = 'azure' | 'bitbucket' | 'github' | 'gitlab';
+
+/**
  * Response of `GET /api/v2/onboarding/overview`.
  *
  * The endpoint returns `cards`, `checklist`, `momentum`, `charts` and
