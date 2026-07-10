@@ -2381,6 +2381,8 @@ export const defaultMessages = {
   'architecture.oversized.table.children': 'Children',
   'architecture.oversized.table.location': 'Location',
   'architecture.oversized.table.empty': 'No oversized components found',
+  'architecture.oversized.not_found.title': 'This oversized component no longer exists',
+  'architecture.oversized.not_found.go_back_text': 'Back to oversized components',
   'architecture.split_responsibility.issue_name': 'Split responsibility {index}',
   'architecture.split_responsibility.detail_breadcrumb':
     '{container} · depth {depth} · {fragments} fragments · {classes} classes',
@@ -2392,6 +2394,8 @@ export const defaultMessages = {
   'architecture.split_responsibility.table.classes': 'Classes',
   'architecture.split_responsibility.table.location': 'Location',
   'architecture.split_responsibility.table.empty': 'No split responsibility components found',
+  'architecture.split_responsibility.not_found.title': 'This split responsibility no longer exists',
+  'architecture.split_responsibility.not_found.go_back_text': 'Back to split responsibility',
   'architecture.split_responsibility.dismissible.interpret_visualization.message':
     'This view highlights components whose child components are disconnected from each other, suggesting they carry mixed responsibilities. Resolve it by moving disconnected fragments into a new sibling component or rethinking the containment structure.',
   'architecture.page.smells': 'Smells',
@@ -2464,9 +2468,15 @@ export const defaultMessages = {
   'architecture.tangles.table.files': 'Files',
   'architecture.tangles.table.location': 'Location',
   'architecture.tangles.table.empty': 'No tangles found',
+  'architecture.tangles.not_found.title': 'This tangle no longer exists',
+  'architecture.tangles.not_found.go_back_text': 'Back to tangles',
+  'architecture.common.not_found.body':
+    'It may have been removed or renumbered after a new analysis. Go back to the list to find the current items.',
   'architecture.tangles.issue_name': 'Tangle {index}',
   'architecture.weak_tangles.issue_name': 'Weak Tangle {index}',
   'architecture.weak_tangles.table.empty': 'No weak tangles found',
+  'architecture.weak_tangles.not_found.title': 'This weak tangle no longer exists',
+  'architecture.weak_tangles.not_found.go_back_text': 'Back to weak tangles',
   'architecture.weak_tangle.dismissible.interpret_visualization.message':
     'This view highlights relationships that flow against the intended direction, forming a cycle between containers even when no files or classes are directly entangled. Resolve it by extracting the child component causing the reverse relationships or removing the relationships that close the cycle.',
   'architecture.tangle.directive.create.button': 'Request removal',
