@@ -18,10 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import fs from 'fs';
-import fsp from 'fs/promises';
 import scanner from 'react-scanner';
-import { componentMap } from './componentMap.js';
+import { componentMap } from './componentMap.mjs';
 
 const config = {
   rootDir: '.',
@@ -32,9 +30,7 @@ const config = {
   processors: ['count-components'],
 };
 
-await run();
-
-async function run() {
+export async function scanComponents() {
   const echoesComponents = await countComponentsFrom(
     'echoes',
     '@sonarsource/echoes-react',
@@ -43,7 +39,7 @@ async function run() {
   const internalComponents = await countComponentsFrom('internal', /^~/);
   const relativeComponents = await countComponentsFrom('relative', /^\.\.?\//);
 
-  await writeOut([...echoesComponents, ...internalComponents, ...relativeComponents]);
+  return [...echoesComponents, ...internalComponents, ...relativeComponents];
 }
 
 async function countComponentsFrom(sourceName, source, covered) {
@@ -53,7 +49,7 @@ async function countComponentsFrom(sourceName, source, covered) {
     (result, key) => {
       // Combine echoes "Icon" components into a single category, exclude ButtonIcon
       if (sourceName === 'echoes' && key.includes('Icon') && key !== 'ButtonIcon') {
-        result.Icons = result.Icons + output[key];
+        result.Icons += output[key];
       } else {
         result[key] = output[key];
       }
@@ -69,15 +65,4 @@ async function countComponentsFrom(sourceName, source, covered) {
     match: covered ?? componentMap[key],
     source: sourceName,
   }));
-}
-
-async function writeOut(data) {
-  const csvRows = data
-    .map(({ component, count, match, source }) => `"${component}","${source}",${count},"${match}"`)
-    .join('\n');
-
-  if (!fs.existsSync('.componentscan')) {
-    await fsp.mkdir('.componentscan');
-  }
-  await fsp.writeFile('.componentscan/components.csv', csvRows, 'utf8');
 }
