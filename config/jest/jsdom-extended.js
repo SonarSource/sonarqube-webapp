@@ -27,6 +27,9 @@ class JSDOMEnvironmentExtended extends JSDOMEnvironment {
     this.global.TextDecoder = TextDecoder;
     this.global.TextEncoder = TextEncoder;
 
+    this.global.AbortController = AbortController;
+    this.global.AbortSignal = AbortSignal;
+
     this.global.Headers = Headers;
     this.global.Request = Request;
     this.global.Response = Response;
