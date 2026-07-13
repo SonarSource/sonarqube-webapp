@@ -2478,7 +2478,7 @@ export const defaultMessages = {
   'architecture.weak_tangles.not_found.title': 'This weak tangle no longer exists',
   'architecture.weak_tangles.not_found.go_back_text': 'Back to weak tangles',
   'architecture.weak_tangle.dismissible.interpret_visualization.message':
-    'This view highlights relationships that flow against the intended direction, forming a cycle between containers even when no files or classes are directly entangled. Resolve it by extracting the child component causing the reverse relationships or removing the relationships that close the cycle.',
+    'A Weak Tangle is a relationship cycle between containers where no files or classes are directly entangled. Remove the flagged relationships (dashed lines) that go against the overall direction, or extract the involved components to reverse the relationship direction.',
   'architecture.tangle.directive.create.button': 'Request removal',
   'architecture.tangle.directive.remove.button': 'Cancel removal',
   'architecture.tangle.directive.create.description':
@@ -2657,8 +2657,8 @@ export const defaultMessages = {
 
   // Tangles
   'architecture.tangle.directive.removal.title': 'Removal Requested',
-  'architecture.tangle.dismissible.manage_removal.message':
-    'You can select a relationship to manage its removal.',
+  'architecture.tangle.dismissible.interpret_visualization.message':
+    'A Tangle is a set of files or classes caught in a cycle where each can reach every other through relationship chains. Remove the flagged relationships (dashed lines) that go against the overall direction to break the cycles, or split the code to avoid the entanglement.',
 
   // Directives
   'architecture.directives.create.error': 'Failed to save relationship. Please try again.',
