@@ -508,7 +508,7 @@ export const defaultMessages = {
   'alm.azure.short': 'Azure DevOps',
   'alm.bitbucket': 'Bitbucket',
   'alm.bitbucket.short': 'Bitbucket',
-  'alm.bitbucket.long': 'Bitbucket Server',
+  'alm.bitbucket.long': 'Bitbucket Data Center',
   'alm.bitbucketcloud': 'Bitbucket',
   'alm.bitbucketcloud.short': 'Bitbucket',
   'alm.bitbucketcloud.long': 'Bitbucket Cloud',
@@ -3084,9 +3084,9 @@ export const defaultMessages = {
     'For Azure DevOps Server, provide the full collection URL:',
   'settings.almintegration.form.url.azure.help2':
     'For Azure DevOps Services, provide the full organization URL:',
-  'settings.almintegration.form.url.bitbucket': 'Bitbucket Server URL',
+  'settings.almintegration.form.url.bitbucket': 'Bitbucket Data Center URL',
   'settings.almintegration.form.url.bitbucket.help':
-    'Example: https://bitbucket-server.your-company.com',
+    'Example: https://bitbucket-datacenter.your-company.com',
   'settings.almintegration.form.url.github': 'GitHub API URL',
   'settings.almintegration.form.url.github.help1': 'Example for GitHub Enterprise:',
   'settings.almintegration.form.url.github.help2': 'If using GitHub.com:',
@@ -3119,7 +3119,7 @@ export const defaultMessages = {
     '{productName} needs a {pat} to report the quality gate status on Merge Requests in GitLab. To create this token, we recommend using a dedicated GitLab account with {permission} permission to all target projects. The token itself needs the {scope} scope. {doc_link}',
   'settings.almintegration.form.personal_access_token.gitlab.help.url': 'Personal Access Token',
   'settings.almintegration.form.personal_access_token.bitbucket.help':
-    '{productName} needs a {pat} to report the quality gate status on Pull Requests in Bitbucket Server. To create this token, we recommend using a dedicated Bitbucket Server account with administration permissions. The token itself needs {permission} permission. {doc_link}',
+    '{productName} needs a {pat} to report the quality gate status on Pull Requests in Bitbucket Data Center. To create this token, we recommend using a dedicated Bitbucket Data Center account with administration permissions. The token itself needs {permission} permission. {doc_link}',
   'settings.almintegration.form.personal_access_token.bitbucket.help.url': 'Personal Access Token',
   'settings.almintegration.form.save': 'Save configuration',
   'settings.almintegration.form.cancel': 'Cancel',
@@ -3471,10 +3471,10 @@ export const defaultMessages = {
     'When enabled, a summary is displayed under the GitHub Conversation tab. Notifications may be sent by GitHub depending on your settings.',
   'settings.pr_decoration.binding.form.bitbucket.repository': 'Project key',
   'settings.pr_decoration.binding.form.bitbucket.repository.help':
-    'The project key is part of your Bitbucket Server repository URL. This is case-sensitive!',
+    'The project key is part of your Bitbucket Data Center repository URL. This is case-sensitive!',
   'settings.pr_decoration.binding.form.bitbucket.slug': 'Repository slug',
   'settings.pr_decoration.binding.form.bitbucket.slug.help':
-    'The repository slug is part of your Bitbucket Server repository URL. This slug is case-sensitive!',
+    'The repository slug is part of your Bitbucket Data Center repository URL. This slug is case-sensitive!',
   'settings.pr_decoration.binding.form.bitbucketcloud.repository': 'Repository slug',
   'settings.pr_decoration.binding.form.bitbucketcloud.repository.help':
     'The repository slug is part of your Bitbucket Cloud repository URL.',
@@ -5355,7 +5355,7 @@ export const defaultMessages = {
   'my_account.add_project': 'Add Project',
   'my_account.add_project.manual': 'Local project',
   'my_account.add_project.azure': 'From Azure DevOps',
-  'my_account.add_project.bitbucket': 'From Bitbucket Server',
+  'my_account.add_project.bitbucket': 'From Bitbucket Data Center',
   'my_account.add_project.bitbucketcloud': 'From Bitbucket Cloud',
   'my_account.add_project.github': 'From GitHub',
   'my_account.add_project.gitlab': 'From GitLab',
@@ -7472,7 +7472,7 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
   'onboarding.alm.azure': 'Azure DevOps',
-  'onboarding.alm.bitbucket': 'Bitbucket Server',
+  'onboarding.alm.bitbucket': 'Bitbucket Data Center',
   'onboarding.alm.bitbucketcloud': 'Bitbucket Cloud',
   'onboarding.alm.gitlab': 'GitLab',
 
@@ -7498,13 +7498,13 @@ export const defaultMessages = {
     'First, you need to set up a DevOps platform configuration.',
   'onboarding.create_project.select_method.manual': 'Local project',
   'onboarding.create_project.select_method.azure': 'From Azure DevOps',
-  'onboarding.create_project.select_method.bitbucket': 'From Bitbucket Server',
+  'onboarding.create_project.select_method.bitbucket': 'From Bitbucket Data Center',
   'onboarding.create_project.select_method.bitbucketcloud': 'From Bitbucket Cloud',
   'onboarding.create_project.select_method.github': 'From GitHub',
   'onboarding.create_project.select_method.gitlab': 'From GitLab',
   'onboarding.create_project.import_select_method.manual': 'Create a local project',
   'onboarding.create_project.import_select_method.azure': 'Import from Azure DevOps',
-  'onboarding.create_project.import_select_method.bitbucket': 'Import from Bitbucket Server',
+  'onboarding.create_project.import_select_method.bitbucket': 'Import from Bitbucket Data Center',
   'onboarding.create_project.import_select_method.bitbucketcloud': 'Import from Bitbucket Cloud',
   'onboarding.create_project.import_select_method.github': 'Import from GitHub',
   'onboarding.create_project.import_select_method.gitlab': 'Import from GitLab',
@@ -7555,7 +7555,7 @@ export const defaultMessages = {
   'onboarding.create_project.pat_form.help.azure':
     '{productName} needs a personal access token to access and list your repositories from Azure DevOps.',
   'onboarding.create_project.pat_form.help.bitbucket':
-    '{productName} needs a personal access token to access and list your repositories from Bitbucket Server.',
+    '{productName} needs a personal access token to access and list your repositories from Bitbucket Data Center.',
   'onboarding.create_project.pat_form.help.bitbucket_cloud':
     '{productName} needs an API token to access and list your repositories from Bitbucket Cloud.',
   'onboarding.create_project.pat_form.help.gitlab':
@@ -7600,7 +7600,7 @@ export const defaultMessages = {
     'view our "API token with scopes" guide',
 
   'onboarding.create_project.pat_help.instructions.bitbucket_server':
-    'To create a Personal Access Token on BitBucket Server, go to {link} and click on “Create token”. Set a name, for example “{productName}” and select the following permissions “Projects: Read” “Repositories: Read”.',
+    'To create a Personal Access Token on Bitbucket Data Center, go to {link} and click on “Create token”. Set a name, for example “{productName}” and select the following permissions “Projects: Read” “Repositories: Read”.',
   'onboarding.create_project.pat_help.instructions.bitbucket_server.link': 'HTTP access tokens',
 
   'onboarding.create_project.pat_help.instructions2.bitbucket':
@@ -7613,7 +7613,7 @@ export const defaultMessages = {
   'onboarding.create_project.pat_help.gitlab.read_api_permission': 'read_api',
 
   'onboarding.create_project.no_bbs_projects':
-    'No projects could be fetched from Bitbucket Server. Contact your system administrator, or {link}.',
+    'No projects could be fetched from Bitbucket Data Center. Contact your system administrator, or {link}.',
   'onboarding.create_project.no_bbs_repos':
     'No repositories were found for this project. Contact your system administrator, or {link}.',
   'onboarding.create_project.update_your_token': 'update your personal access token',
@@ -7674,13 +7674,13 @@ export const defaultMessages = {
   'onboarding.create_project.gitlab.no_projects':
     'No projects could be fetched from GitLab. Contact your system administrator, or {link}.',
   'onboarding.create_project.gitlab.link': 'See on GitLab',
-  'onboarding.create_project.bitbucket.title': 'Bitbucket Server project onboarding',
+  'onboarding.create_project.bitbucket.title': 'Bitbucket Data Center project onboarding',
   'onboarding.create_project.bitbucket.subtitle.reset_pat':
-    'Reset your Bitbucket Server personal access token',
+    'Reset your Bitbucket Data Center personal access token',
   'onboarding.create_project.bitbucket.subtitle':
-    'Import projects from one of your Bitbucket server workspaces',
+    'Import projects from one of your Bitbucket Data Center workspaces',
   'onboarding.create_project.bitbucket.subtitle.with_monorepo':
-    'Import projects from one of your Bitbucket server workspaces or {monorepoSetupLink}.',
+    'Import projects from one of your Bitbucket Data Center workspaces or {monorepoSetupLink}.',
   'onboarding.create_project.x_repositories_selected':
     '{count} {count, plural, one {repository} other {repositories}} selected',
   'onboarding.create_project.x_repository_created':
@@ -8114,7 +8114,7 @@ export const defaultMessages = {
   'onboarding.tutorial.with.jenkins.multi_branch_pipeline.step2.bitbucket.creds.label':
     'Credentials',
   'onboarding.tutorial.with.jenkins.multi_branch_pipeline.step2.bitbucket.creds.action':
-    'select the Bitbucket Server credentials.',
+    'select the Bitbucket Data Center credentials.',
   'onboarding.tutorial.with.jenkins.multi_branch_pipeline.step2.bitbucket.owner.label': 'Owner',
   'onboarding.tutorial.with.jenkins.multi_branch_pipeline.step2.bitbucket.owner.action':
     'enter your project key.',
@@ -8278,7 +8278,8 @@ export const defaultMessages = {
   'onboarding.tutorial.with.jenkins.pipeline.step4.sentence': 'Click {save}.',
   'onboarding.tutorial.with.jenkins.pipeline.step4.sentence.save': 'Save',
 
-  'onboarding.tutorial.with.jenkins.webhook.bitbucket.title': 'Create a Bitbucket Server Webhook',
+  'onboarding.tutorial.with.jenkins.webhook.bitbucket.title':
+    'Create a Bitbucket Data Center Webhook',
   'onboarding.tutorial.with.jenkins.webhook.bitbucketcloud.title':
     'Create a Bitbucket Cloud Webhook',
   'onboarding.tutorial.with.jenkins.webhook.github.title': 'Create a GitHub Webhook',
@@ -8288,7 +8289,7 @@ export const defaultMessages = {
   'onboarding.tutorial.with.jenkins.webhook.step1.sentence':
     'Go to the {link} and enter the following information:',
   'onboarding.tutorial.with.jenkins.webhook.bitbucket.step1.link':
-    'Bitbucket Server Webhook creation page for your repository',
+    'Bitbucket Data Center Webhook creation page for your repository',
   'onboarding.tutorial.with.jenkins.webhook.bitbucketcloud.step1.link':
     'Bitbucket Cloud Webhook creation page for your repository',
   'onboarding.tutorial.with.jenkins.webhook.github.step1.link':
@@ -8301,7 +8302,7 @@ export const defaultMessages = {
   'onboarding.tutorial.with.jenkins.webhook.bitbucket.step1.url.action':
     'Enter the following URL, replacing the values between *** as needed:',
   'onboarding.tutorial.with.jenkins.webhook.bitbucket.step1.url.warning':
-    'The Bitbucket Server URL must be identical to the one in your Jenkins configuration. Watch out for any missing or extra "/" at the end.',
+    'The Bitbucket Data Center URL must be identical to the one in your Jenkins configuration. Watch out for any missing or extra "/" at the end.',
   'onboarding.tutorial.with.jenkins.webhook.github.step1.url.label': 'URL',
   'onboarding.tutorial.with.jenkins.webhook.github.step1.url.action':
     'Enter the following URL, replacing the values between *** as needed:',

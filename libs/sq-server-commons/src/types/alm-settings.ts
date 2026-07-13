@@ -238,7 +238,7 @@ export function isGitLabBindingDefinition(
 ): binding is GitlabBindingDefinition {
   // There's too much overlap with the others. We must not only validate that certain fields are
   // present, we must also validate that others are NOT present. And even so, we cannot be 100%
-  // sure, as right now, Azure, Bitbucket Server, and GitLab have the same signature.
+  // sure, as right now, Azure, Bitbucket Data Center, and GitLab have the same signature.
   return (
     binding !== undefined &&
     (binding as GithubBindingDefinition).appId === undefined &&

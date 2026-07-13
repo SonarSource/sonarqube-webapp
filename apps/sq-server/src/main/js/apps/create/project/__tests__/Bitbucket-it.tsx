@@ -276,8 +276,8 @@ it('should allow to search for projects', async () => {
   expect(screen.getAllByRole('listitem', { name: /Bitbucket Repo/ })).toHaveLength(2);
 });
 
-describe('Bitbucket Server monorepo project navigation', () => {
-  it('should be able to access monorepo setup page from Bitbucket Server project import page', async () => {
+describe('Bitbucket Data Center monorepo project navigation', () => {
+  it('should be able to access monorepo setup page from Bitbucket Data Center project import page', async () => {
     const user = userEvent.setup();
     renderCreateProject();
 
@@ -286,7 +286,7 @@ describe('Bitbucket Server monorepo project navigation', () => {
     expect(ui.monorepoTitle.get()).toBeInTheDocument();
   });
 
-  it('should be able to go back to Bitbucket Server onboarding page from monorepo setup page', async () => {
+  it('should be able to go back to Bitbucket Data Center onboarding page from monorepo setup page', async () => {
     const user = userEvent.setup();
     renderCreateProject({ isMonorepo: true });
 

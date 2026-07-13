@@ -160,15 +160,15 @@ export const ADDITIONAL_SETTING_DEFINITIONS: ExtendedSettingDefinition[] = [
   },
   {
     name: 'Bitbucket integration',
-    description: `bitbucket server cloud integration configuration
+    description: `bitbucket data center cloud integration configuration
       Configuration name
       Give your configuration a clear and succinct name.
       This name will be used at project level to identify the correct configured Bitbucket instance for a project.
-      Bitbucket Server URL
-      Example: https://bitbucket-server.your-company.com
+      Bitbucket Data Center URL
+      Example: https://bitbucket-datacenter.your-company.com
       Personal Access Token
-      SonarQube needs a Personal Access Token to report the Quality Gate status on Pull Requests in Bitbucket Server.
-      To create this token, we recommend using a dedicated Bitbucket Server account with administration permissions.
+      SonarQube needs a Personal Access Token to report the Quality Gate status on Pull Requests in Bitbucket Data Center.
+      To create this token, we recommend using a dedicated Bitbucket Data Center account with administration permissions.
       The token itself needs Read permission.
       Workspace ID
       The workspace ID is part of your bitbucket cloud URL https://bitbucket.org/{workspace}/{repository}

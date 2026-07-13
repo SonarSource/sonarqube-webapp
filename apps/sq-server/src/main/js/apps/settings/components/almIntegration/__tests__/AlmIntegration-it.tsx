@@ -155,7 +155,7 @@ describe('bitbucket tab', () => {
     await userEvent.click(ui.tab(AlmKeys.BitbucketServer).get());
     expect(ui.emptyIntro(AlmKeys.BitbucketServer).get()).toBeInTheDocument();
 
-    // Create new Bitbucket Server configuration
+    // Create new Bitbucket Data Center configuration
     await ui.createConfiguration(
       'Name',
       {
@@ -178,7 +178,7 @@ describe('bitbucket tab', () => {
       AlmKeys.BitbucketCloud,
     );
 
-    // Edit, check delete Bitbucket Server configuration
+    // Edit, check delete Bitbucket Data Center configuration
     await ui.editConfiguration(
       'New Name',
       'Name',

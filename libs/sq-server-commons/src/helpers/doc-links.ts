@@ -38,7 +38,7 @@ export enum DocLink {
   AlmBitBucketCloudIntegration = '/devops-platform-integration/bitbucket-integration/bitbucket-cloud-integration/',
   AlmBitBucketCloudIntegrationApiToken = '/devops-platform-integration/bitbucket-integration/bitbucket-cloud-integration/import-repos#step-1-create-an-api-token',
   AlmBitBucketCloudSettings = '/instance-administration/authentication/bitbucket-cloud/#setting-your-authentication-settings-in-sonarqube',
-  AlmBitBucketServerIntegration = '/devops-platform-integration/bitbucket-integration/bitbucket-server-integration/',
+  AlmBitBucketDataCenterIntegration = '/instance-administration/devops-platforms/bitbucket-data-center/',
   AlmGitHubAuth = '/instance-administration/authentication/github/',
   AlmGitHubIntegration = '/devops-platform-integration/github-integration/introduction/',
   AlmGitHubMonorepoWorkfileExample = '/devops-platform-integration/github-integration/adding-analysis-to-github-actions-workflow/#configuring-the-buildyml-file',

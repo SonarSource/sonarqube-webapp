@@ -33,7 +33,7 @@ export interface BitbucketServerFormProps {
 
 export default function BitbucketServerForm(props: BitbucketServerFormProps) {
   const { formData } = props;
-  const toStatic = useDocUrl(DocLink.AlmBitBucketServerIntegration);
+  const toStatic = useDocUrl(DocLink.AlmBitBucketDataCenterIntegration);
   return (
     <>
       <AlmBindingDefinitionFormField
@@ -68,7 +68,7 @@ export default function BitbucketServerForm(props: BitbucketServerFormProps) {
               pat: (
                 <Link
                   target="_blank"
-                  to="https://confluence.atlassian.com/bitbucketserver0515/personal-access-tokens-961275199.html"
+                  to="https://confluence.atlassian.com/bitbucketserver/personal-access-tokens-939515499.html"
                 >
                   <FormattedMessage id="settings.almintegration.form.personal_access_token.bitbucket.help.url" />
                 </Link>
