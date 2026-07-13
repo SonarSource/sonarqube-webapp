@@ -18,60 +18,49 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
-import { HelperHintIcon } from '~design-system';
+import { ToggleTip } from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Facet, { BasicProps } from '~sq-server-commons/components/facets/Facet';
-import { translate } from '~sq-server-commons/helpers/l10n';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
-
-import { FormattedMessage } from 'react-intl';
 
 interface Props extends Omit<BasicProps, 'onChange' | 'values'> {
   onChange: (changes: { template: boolean | undefined }) => void;
   value: boolean | undefined;
 }
 
-export default class TemplateFacet extends React.PureComponent<Props> {
-  handleChange = (changes: { template: string | any[] }) => {
+export default function TemplateFacet({ onChange, value, ...props }: Readonly<Props>) {
+  const { formatMessage } = useIntl();
+
+  const handleChange = (changes: { template: string | any[] }) => {
     const template =
       // empty array is returned when a user cleared the facet
       // otherwise `"true"`, `"false"` or `undefined` can be returned
       Array.isArray(changes.template) || changes.template === undefined
         ? undefined
         : changes.template === 'true';
-    this.props.onChange({ ...changes, template });
+    onChange({ ...changes, template });
   };
 
-  renderName = (template: string) =>
+  const renderName = (template: string) =>
     template === 'true'
-      ? translate('coding_rules.filters.template.is_template')
-      : translate('coding_rules.filters.template.is_not_template');
+      ? formatMessage({ id: 'coding_rules.filters.template.is_template' })
+      : formatMessage({ id: 'coding_rules.filters.template.is_not_template' });
 
-  render() {
-    const { onChange, value, ...props } = this.props;
-
-    return (
-      <Facet
-        {...props}
-        help={
-          <HelpTooltip
-            overlay={
-              <div className="sw-my-2">
-                <FormattedMessage id="coding_rules.rule_template.help" />
-              </div>
-            }
-          >
-            <HelperHintIcon />
-          </HelpTooltip>
-        }
-        onChange={this.handleChange}
-        options={['true', 'false']}
-        property="template"
-        renderName={this.renderName}
-        renderTextName={this.renderName}
-        singleSelection
-        values={value !== undefined ? [String(value)] : []}
-      />
-    );
-  }
+  return (
+    <Facet
+      {...props}
+      help={
+        <ToggleTip
+          ariaLabel={formatMessage({ id: 'help' })}
+          description={<FormattedMessage id="coding_rules.rule_template.help" />}
+        />
+      }
+      onChange={handleChange}
+      options={['true', 'false']}
+      property="template"
+      renderName={renderName}
+      renderTextName={renderName}
+      singleSelection
+      values={value !== undefined ? [String(value)] : []}
+    />
+  );
 }
