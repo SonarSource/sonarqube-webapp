@@ -38,7 +38,7 @@ const RuleStatusLabels: Record<RuleStatus, string> = {
 
 const RuleStatusVarieties: Partial<Record<RuleStatus, BadgeVariety>> = {
   [RuleStatus.Beta]: BadgeVariety.Info,
-  [RuleStatus.Deprecated]: BadgeVariety.Danger,
+  [RuleStatus.Deprecated]: BadgeVariety.Warning,
   [RuleStatus.Removed]: BadgeVariety.Danger,
 };
 

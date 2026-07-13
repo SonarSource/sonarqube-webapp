@@ -99,7 +99,7 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
                 }}
                 suffix={
                   transition.isDeprecated ? (
-                    <Badge variety={BadgeVariety.Neutral}>
+                    <Badge variety={BadgeVariety.Warning}>
                       <FormattedMessage id="deprecated" />
                     </Badge>
                   ) : null

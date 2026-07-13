@@ -43,15 +43,21 @@ it('should display beta badge', () => {
   expect(screen.getByTestId('mocked-badge')).toHaveAttribute('data-variety', 'info');
 });
 
-it.each([
-  [RuleStatus.Deprecated, 'rules.status.DEPRECATED'],
-  [RuleStatus.Removed, 'rules.status.REMOVED'],
-])('should display %s badge with danger sentiment', (status, label) => {
+it('should display deprecated badge with warning sentiment', () => {
   setupWithProps({
-    rule: { status },
+    rule: { status: RuleStatus.Deprecated },
   });
 
-  expect(screen.getByText(label)).toBeVisible();
+  expect(screen.getByText('rules.status.DEPRECATED')).toBeVisible();
+  expect(screen.getByTestId('mocked-badge')).toHaveAttribute('data-variety', 'warning');
+});
+
+it('should display removed badge with danger sentiment', () => {
+  setupWithProps({
+    rule: { status: RuleStatus.Removed },
+  });
+
+  expect(screen.getByText('rules.status.REMOVED')).toBeVisible();
   expect(screen.getByTestId('mocked-badge')).toHaveAttribute('data-variety', 'danger');
 });
 
