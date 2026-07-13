@@ -92,7 +92,9 @@ const ui = {
   localGroupWithALotOfSelected: byRole('row', { name: 'local-group 15' }),
   localGroupEditMembersButton: byRole('button', { name: 'groups.users.edit.local-group' }),
   localGroupRow2: byRole('row', { name: 'local-group 2 0 group 2 is loco!' }),
+  trimmedGroupRow: byRole('row', { name: 'local-group 2 0' }),
   editedLocalGroupRow: byRole('row', { name: 'local-group 3 3 group 3 rocks!' }),
+  editedLocalGroupRowName: byRole('row', { name: 'local-group 3 3' }),
   localEditButton: byRole('button', { name: 'groups.edit.local-group' }),
   localGroupRowWithLocalBadge: byRole('row', {
     name: 'local-group local 3',
@@ -154,6 +156,23 @@ describe('in non managed mode', () => {
     expect(await ui.localGroupRow2.find()).toBeInTheDocument();
   });
 
+  it('should trim leading and trailing whitespace when creating a group', async () => {
+    const user = userEvent.setup();
+    renderGroupsApp();
+
+    expect(await ui.description.find()).toBeInTheDocument();
+
+    await user.click(ui.createGroupButton.get());
+
+    expect(await ui.createGroupDialog.find()).toBeInTheDocument();
+
+    await user.type(ui.nameInput.get(), '  local-group 2  ');
+    await user.click(ui.createGroupDialogButton.get());
+
+    expect(await ui.trimmedGroupRow.find()).toBeInTheDocument();
+    expect(handler.groups.map((g) => g.name)).not.toContain('  local-group 2  ');
+  });
+
   it('should be able to delete a group', async () => {
     const user = userEvent.setup();
     renderGroupsApp();
@@ -189,6 +208,24 @@ describe('in non managed mode', () => {
 
     expect(await ui.managedGroupRow.find()).toBeInTheDocument();
     expect(await ui.editedLocalGroupRow.find()).toBeInTheDocument();
+  });
+
+  it('should trim leading and trailing whitespace when editing a group name', async () => {
+    const user = userEvent.setup();
+    renderGroupsApp();
+
+    await user.click(await ui.localEditButton.find());
+    await user.click(await ui.updateButton.find());
+
+    expect(ui.updateDialog.get()).toBeInTheDocument();
+
+    await user.clear(ui.nameInput.get());
+    await user.type(ui.nameInput.get(), '  local-group 3  ');
+
+    await user.click(ui.updateDialogButton.get());
+
+    expect(await ui.editedLocalGroupRowName.find()).toBeInTheDocument();
+    expect(handler.groups.map((g) => g.name)).not.toContain('  local-group 3  ');
   });
 
   it('should be able to edit the members of a group', async () => {

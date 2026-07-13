@@ -49,7 +49,7 @@ export default function GroupForm(props: Props) {
   const { mutate: updateGroup, isPending: isUpdating } = useUpdateGroupMutation();
 
   const handleCreateGroup = () => {
-    createGroup({ name, description }, { onSuccess: props.onClose });
+    createGroup({ name: name.trim(), description }, { onSuccess: props.onClose });
   };
 
   const handleUpdateGroup = () => {
@@ -60,7 +60,7 @@ export default function GroupForm(props: Props) {
       {
         id: group.id,
         data: {
-          name,
+          name: name.trim(),
           description,
         },
       },
@@ -105,7 +105,7 @@ export default function GroupForm(props: Props) {
       onClose={props.onClose}
       primaryButton={
         <Button
-          isDisabled={isUpdating || isCreating || name === ''}
+          isDisabled={isUpdating || isCreating || name.trim() === ''}
           onClick={create ? handleCreateGroup : handleUpdateGroup}
           variety={ButtonVariety.Primary}
         >
