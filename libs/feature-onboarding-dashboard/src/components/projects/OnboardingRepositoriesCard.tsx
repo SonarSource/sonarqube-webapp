@@ -24,10 +24,10 @@ import {
   ButtonGroup,
   ButtonVariety,
   Card,
+  LoadingContainer,
   Pagination,
   SearchInput,
   SearchInputWidth,
-  Spinner,
   Table,
   TableVariety,
   Text,
@@ -45,6 +45,7 @@ import { NO_DATA } from '../dashboardConstants';
 import { GateStatusBadge } from './GateStatusBadge';
 import { getAnalysisModeBadge, getOnboardingBadge } from './projectBadges';
 import { PROJECT_FILTERS } from './projectFilters';
+import { ProjectsTableRowsSkeleton } from './ProjectsTableRowsSkeleton';
 import { RepositoryCell } from './RepositoryCell';
 
 const PAGE_SIZE = 50;
@@ -90,7 +91,10 @@ export function OnboardingRepositoriesCard() {
         title={title}
       />
       <Card.Body>
-        <Spinner isLoading={isLoading}>
+        <LoadingContainer
+          isLoading={isLoading}
+          loadingMessage={formatMessage({ id: 'onboarding_dashboard.projects.loading' })}
+        >
           <div className="sw-flex sw-flex-col sw-gap-4">
             <div className="sw-w-full sw-flex sw-items-center sw-justify-between">
               <div className="sw-flex sw-items-center sw-gap-4">
@@ -165,57 +169,71 @@ export function OnboardingRepositoriesCard() {
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                  {projects.length === 0 && (
-                    <Table.Row>
-                      <Table.Cell className="sw-justify-start">{NO_DATA}</Table.Cell>
-                      <Table.Cell>{NO_DATA}</Table.Cell>
-                      <Table.Cell>{NO_DATA}</Table.Cell>
-                      <Table.Cell>{NO_DATA}</Table.Cell>
-                      <Table.Cell>{NO_DATA}</Table.Cell>
-                      <Table.Cell>{NO_DATA}</Table.Cell>
-                    </Table.Row>
-                  )}
-                  {projects.map((project) => {
-                    const onboardingBadge = getOnboardingBadge(project);
-                    const analysisBadge = getAnalysisModeBadge(project);
-                    const isImported =
-                      project.onboarding !== OnboardingProjectOnboarding.NotImported;
+                  {isLoading ? (
+                    <ProjectsTableRowsSkeleton columns={6} />
+                  ) : (
+                    <>
+                      {projects.length === 0 && (
+                        <Table.Row>
+                          <Table.Cell className="sw-justify-start">{NO_DATA}</Table.Cell>
+                          <Table.Cell>{NO_DATA}</Table.Cell>
+                          <Table.Cell>{NO_DATA}</Table.Cell>
+                          <Table.Cell>{NO_DATA}</Table.Cell>
+                          <Table.Cell>{NO_DATA}</Table.Cell>
+                          <Table.Cell>{NO_DATA}</Table.Cell>
+                        </Table.Row>
+                      )}
+                      {projects.map((project) => {
+                        const onboardingBadge = getOnboardingBadge(project);
+                        const analysisBadge = getAnalysisModeBadge(project);
+                        const isImported =
+                          project.onboarding !== OnboardingProjectOnboarding.NotImported;
 
-                    return (
-                      <Table.Row key={project.key ?? project.name}>
-                        <Table.Cell className="sw-justify-start">
-                          <RepositoryCell project={project} />
-                        </Table.Cell>
-                        <Table.Cell>
-                          <Badge variety={onboardingBadge.variety}>
-                            {formatMessage({ id: onboardingBadge.labelKey })}
-                          </Badge>
-                        </Table.Cell>
-                        <Table.Cell>
-                          {analysisBadge === undefined ? (
-                            NO_DATA
-                          ) : (
-                            <Badge variety={analysisBadge.variety}>
-                              {formatMessage({ id: analysisBadge.labelKey })}
-                            </Badge>
-                          )}
-                        </Table.Cell>
-                        <Table.Cell>
-                          {isImported ? <GateStatusBadge status={project.gateStatus} /> : NO_DATA}
-                        </Table.Cell>
-                        <Table.Cell>
-                          {isDefined(project.lastScan) ? (
-                            <DateFromNow date={project.lastScan} />
-                          ) : (
-                            NO_DATA
-                          )}
-                        </Table.Cell>
-                        <Table.Cell>
-                          {isDefined(project.coverage) ? <Text>{project.coverage}%</Text> : NO_DATA}
-                        </Table.Cell>
-                      </Table.Row>
-                    );
-                  })}
+                        return (
+                          <Table.Row key={project.key ?? project.name}>
+                            <Table.Cell className="sw-justify-start">
+                              <RepositoryCell project={project} />
+                            </Table.Cell>
+                            <Table.Cell>
+                              <Badge variety={onboardingBadge.variety}>
+                                {formatMessage({ id: onboardingBadge.labelKey })}
+                              </Badge>
+                            </Table.Cell>
+                            <Table.Cell>
+                              {analysisBadge === undefined ? (
+                                NO_DATA
+                              ) : (
+                                <Badge variety={analysisBadge.variety}>
+                                  {formatMessage({ id: analysisBadge.labelKey })}
+                                </Badge>
+                              )}
+                            </Table.Cell>
+                            <Table.Cell>
+                              {isImported ? (
+                                <GateStatusBadge status={project.gateStatus} />
+                              ) : (
+                                NO_DATA
+                              )}
+                            </Table.Cell>
+                            <Table.Cell>
+                              {isDefined(project.lastScan) ? (
+                                <DateFromNow date={project.lastScan} />
+                              ) : (
+                                NO_DATA
+                              )}
+                            </Table.Cell>
+                            <Table.Cell>
+                              {isDefined(project.coverage) ? (
+                                <Text>{project.coverage}%</Text>
+                              ) : (
+                                NO_DATA
+                              )}
+                            </Table.Cell>
+                          </Table.Row>
+                        );
+                      })}
+                    </>
+                  )}
                 </Table.Body>
               </Table>
             </div>
@@ -225,7 +243,7 @@ export function OnboardingRepositoriesCard() {
               </div>
             )}
           </div>
-        </Spinner>
+        </LoadingContainer>
       </Card.Body>
     </Card>
   );

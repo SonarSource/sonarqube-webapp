@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Layout, MessageCallout, Spinner } from '@sonarsource/echoes-react';
+import { Layout, LoadingContainer, MessageCallout } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
@@ -34,6 +34,7 @@ import { OnboardingChecklistCard } from './checklist/OnboardingChecklistCard';
 import { OnboardingDevopsPlatformsCard } from './devops/OnboardingDevopsPlatformsCard';
 import { OnboardingMomentumCard } from './momentum/OnboardingMomentumCard';
 import { OnboardingDashboardHeader } from './OnboardingDashboardHeader';
+import { OnboardingDashboardSkeleton } from './OnboardingDashboardSkeleton';
 import { OnboardingRepositoriesCard } from './projects/OnboardingRepositoriesCard';
 import { OnboardingStaleProjectsCard } from './projects/OnboardingStaleProjectsCard';
 
@@ -57,49 +58,56 @@ export default function OnboardingDashboardApp() {
           </MessageCallout>
         )}
 
-        <Spinner isLoading={isPending}>
-          <div className="sw-flex sw-flex-col sw-gap-4">
-            {cards !== undefined && (
-              <div className="sw-grid sw-grid-cols-4 sw-gap-4">
-                <RepositoriesDiscoveredCard data={cards.repositoriesDiscovered} />
-                <ProjectsOnboardedCard data={cards.projectsOnboarded} />
-                <ScanHealthCard data={cards.scanHealth} />
-                <PrIntegrationCard data={cards.prIntegration} />
-              </div>
-            )}
+        <LoadingContainer
+          isLoading={isPending}
+          loadingMessage={formatMessage({ id: 'onboarding_dashboard.loading' })}
+        >
+          {isPending ? (
+            <OnboardingDashboardSkeleton />
+          ) : (
+            <div className="sw-flex sw-flex-col sw-gap-4">
+              {cards !== undefined && (
+                <div className="sw-grid sw-grid-cols-4 sw-gap-4">
+                  <RepositoriesDiscoveredCard data={cards.repositoriesDiscovered} />
+                  <ProjectsOnboardedCard data={cards.projectsOnboarded} />
+                  <ScanHealthCard data={cards.scanHealth} />
+                  <PrIntegrationCard data={cards.prIntegration} />
+                </div>
+              )}
 
-            {checklist !== undefined && <OnboardingChecklistCard checklist={checklist} />}
+              {checklist !== undefined && <OnboardingChecklistCard checklist={checklist} />}
 
-            {(momentum !== undefined || charts !== undefined) && (
-              <div className="sw-grid sw-grid-cols-3 sw-items-start sw-gap-4">
-                {momentum !== undefined && (
-                  <div className="sw-col-span-2 sw-h-full">
-                    <OnboardingMomentumCard momentum={momentum} />
-                  </div>
-                )}
-                {charts !== undefined && (
-                  <div className="sw-flex sw-flex-col sw-gap-4">
-                    <ScanConfigurationCard data={charts.scanConfiguration} />
-                    <QualityGateStatusCard data={charts.qualityGateStatus} />
-                  </div>
-                )}
-              </div>
-            )}
+              {(momentum !== undefined || charts !== undefined) && (
+                <div className="sw-grid sw-grid-cols-3 sw-items-start sw-gap-4">
+                  {momentum !== undefined && (
+                    <div className="sw-col-span-2 sw-h-full">
+                      <OnboardingMomentumCard momentum={momentum} />
+                    </div>
+                  )}
+                  {charts !== undefined && (
+                    <div className="sw-flex sw-flex-col sw-gap-4">
+                      <ScanConfigurationCard data={charts.scanConfiguration} />
+                      <QualityGateStatusCard data={charts.qualityGateStatus} />
+                    </div>
+                  )}
+                </div>
+              )}
 
-            <div className="sw-grid sw-grid-cols-12 sw-items-start sw-gap-4">
-              <div className="sw-col-span-7 sw-h-full">
-                <OnboardingStaleProjectsCard />
+              <div className="sw-grid sw-grid-cols-12 sw-items-start sw-gap-4">
+                <div className="sw-col-span-7 sw-h-full">
+                  <OnboardingStaleProjectsCard />
+                </div>
+                <div className="sw-col-span-5 sw-h-full">
+                  {devopsPlatforms !== undefined && (
+                    <OnboardingDevopsPlatformsCard data={devopsPlatforms} />
+                  )}
+                </div>
               </div>
-              <div className="sw-col-span-5 sw-h-full">
-                {devopsPlatforms !== undefined && (
-                  <OnboardingDevopsPlatformsCard data={devopsPlatforms} />
-                )}
-              </div>
+
+              <OnboardingRepositoriesCard />
             </div>
-
-            <OnboardingRepositoriesCard />
-          </div>
-        </Spinner>
+          )}
+        </LoadingContainer>
       </Layout.PageContent>
       <GlobalFooter />
     </Layout.PageGrid>

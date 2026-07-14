@@ -20,9 +20,9 @@
 
 import {
   Card,
+  LoadingContainer,
   SearchInput,
   SearchInputWidth,
-  Spinner,
   Table,
   TableVariety,
   Text,
@@ -36,6 +36,7 @@ import { useDebouncedValue } from '~shared/helpers/useDebouncedValue';
 import { useOnboardingProjectsQuery } from '~shared/queries/onboarding';
 import { NO_DATA } from '../dashboardConstants';
 import { GateStatusBadge } from './GateStatusBadge';
+import { ProjectsTableRowsSkeleton } from './ProjectsTableRowsSkeleton';
 import { RepositoryCell } from './RepositoryCell';
 
 // The API has no dedicated "stale" filter, so fetch a large page. Orgs with more stale
@@ -66,7 +67,10 @@ export function OnboardingStaleProjectsCard() {
         description={formatMessage({ id: 'onboarding_dashboard.stale.description' })}
         title={title}
       />
-      <Spinner isLoading={isLoading}>
+      <LoadingContainer
+        isLoading={isLoading}
+        loadingMessage={formatMessage({ id: 'onboarding_dashboard.stale.loading' })}
+      >
         <Card.Body className="sw-min-h-[20rem]">
           <div className="sw-flex sw-flex-col sw-items-start sw-justify-start sw-gap-4">
             <div className="sw-w-full sw-flex sw-items-center sw-gap-2 sw-justify-between">
@@ -118,36 +122,42 @@ export function OnboardingStaleProjectsCard() {
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                  {staleProjects.length === 0 && (
-                    <Table.Row>
-                      <Table.Cell className="sw-justify-start">{NO_DATA}</Table.Cell>
-                      <Table.Cell>{NO_DATA}</Table.Cell>
-                      <Table.Cell>{NO_DATA}</Table.Cell>
-                    </Table.Row>
+                  {isLoading ? (
+                    <ProjectsTableRowsSkeleton columns={3} />
+                  ) : (
+                    <>
+                      {staleProjects.length === 0 && (
+                        <Table.Row>
+                          <Table.Cell className="sw-justify-start">{NO_DATA}</Table.Cell>
+                          <Table.Cell>{NO_DATA}</Table.Cell>
+                          <Table.Cell>{NO_DATA}</Table.Cell>
+                        </Table.Row>
+                      )}
+                      {staleProjects.map((project) => (
+                        <Table.Row key={project.key ?? project.name}>
+                          <Table.Cell>
+                            <RepositoryCell project={project} />
+                          </Table.Cell>
+                          <Table.Cell>
+                            <GateStatusBadge status={project.gateStatus} />
+                          </Table.Cell>
+                          <Table.Cell>
+                            {isDefined(project.lastScan) ? (
+                              <DateFromNow date={project.lastScan} />
+                            ) : (
+                              NO_DATA
+                            )}
+                          </Table.Cell>
+                        </Table.Row>
+                      ))}
+                    </>
                   )}
-                  {staleProjects.map((project) => (
-                    <Table.Row key={project.key ?? project.name}>
-                      <Table.Cell>
-                        <RepositoryCell project={project} />
-                      </Table.Cell>
-                      <Table.Cell>
-                        <GateStatusBadge status={project.gateStatus} />
-                      </Table.Cell>
-                      <Table.Cell>
-                        {isDefined(project.lastScan) ? (
-                          <DateFromNow date={project.lastScan} />
-                        ) : (
-                          NO_DATA
-                        )}
-                      </Table.Cell>
-                    </Table.Row>
-                  ))}
                 </Table.Body>
               </Table>
             </div>
           </div>
         </Card.Body>
-      </Spinner>
+      </LoadingContainer>
     </Card>
   );
 }

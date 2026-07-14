@@ -9997,6 +9997,9 @@ export const defaultMessages = {
   //------------------------------------------------------------------------------
 
   'onboarding_dashboard.header.subtitle': 'Build your code confidence step by step.',
+  'onboarding_dashboard.loading': 'Loading dashboard',
+  'onboarding_dashboard.projects.loading': 'Loading repositories',
+  'onboarding_dashboard.stale.loading': 'Loading stale projects',
   'onboarding_dashboard.cards.repositories_discovered.title': 'Repositories discovered',
   'onboarding_dashboard.cards.repositories_discovered.subtitle':
     'Across your connected DevOps platforms.',

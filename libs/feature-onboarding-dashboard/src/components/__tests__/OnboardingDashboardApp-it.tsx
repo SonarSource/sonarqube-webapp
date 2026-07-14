@@ -57,6 +57,10 @@ const ui = {
   prIntegrationTitle: byText('onboarding_dashboard.cards.pr_integration.title'),
   error: byText('default_error_message'),
 
+  // The overview LoadingContainer announces this message (the react-intl mock renders the key
+  // literally) while skeletons are shown; it clears once the data resolves.
+  loading: byText('onboarding_dashboard.loading'),
+
   // The react-intl mock renders the percent message as `<id>.<value>`. The mock's
   // projectsOnboarded.percentOfImported (16.7) is unique across the fixture, so this text only
   // appears if the card reads the correct API field (guards the percentOfTotal→percentOfImported fix).
@@ -165,6 +169,22 @@ it('shows an error message when the overview request fails', async () => {
   expect(ui.repositoriesDiscoveredTitle.query()).not.toBeInTheDocument();
 });
 
+it('shows loading skeletons before the dashboard data resolves', async () => {
+  renderOnboardingDashboard();
+
+  // The overview renders skeletons wrapped in a LoadingContainer, which announces the loading
+  // state to screen readers before any query resolves.
+  expect(ui.loading.getAll().length).toBeGreaterThan(0);
+
+  // Once the overview and project queries resolve, real content replaces the skeletons and the
+  // loading announcement clears.
+  expect(await ui.repositoriesDiscoveredTitle.find()).toBeInTheDocument();
+  expect(await ui.repoWebCore.find()).toBeInTheDocument();
+  await waitFor(() => {
+    expect(ui.loading.query()).not.toBeInTheDocument();
+  });
+});
+
 it('renders the page header with the progress tagline next to the heading', async () => {
   renderOnboardingDashboard();
 
@@ -241,8 +261,9 @@ it('renders an empty-state row in the stale projects card when there are no stal
   const staleTable = await ui.staleProjectsTable.find();
   expect(staleTable).toBeInTheDocument();
   expect(ui.staleProjectsTable.byText('web-core').query()).not.toBeInTheDocument();
-  // One em-dash placeholder per data column (repository, gate status, last scan).
-  expect(ui.staleProjectsTable.byText(NO_DATA).getAll()).toHaveLength(3);
+  // One em-dash placeholder per data column (repository, gate status, last scan). The table shows
+  // row skeletons while its own query loads, so wait for the no-data row to replace them.
+  expect(await ui.staleProjectsTable.byText(NO_DATA).findAll()).toHaveLength(3);
 });
 
 it('filters the repositories list by search and by filter chip', async () => {
