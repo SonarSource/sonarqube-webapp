@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { forwardRef, Ref } from 'react';
 import tw from 'twin.macro';
 import { themeBorder, themeColor, themeContrast, themeShadow } from '../../helpers/theme';
@@ -93,7 +94,7 @@ const LineFindingStyled = styled(BareButton)<{ selected: boolean }>`
   border: ${(props) =>
     props.selected
       ? themeBorder('default', 'issueBoxSelectedBorder')
-      : themeBorder('default', 'issueBoxBorder')};
+      : `${cssVar('border-width-default')} solid ${cssVar('color-border-danger-weak')}`};
   color: ${themeContrast('pageBlock')};
   word-break: break-word;
   background-color: ${themeColor('pageBlock')};

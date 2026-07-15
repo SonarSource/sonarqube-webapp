@@ -19,10 +19,11 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { Children, ElementType, Fragment, HtmlHTMLAttributes, ReactNode } from 'react';
 import tw from 'twin.macro';
 import { isDefined } from '~shared/helpers/types';
-import { themeBorder, themeColor } from '../../helpers/theme';
+import { themeColor } from '../../helpers/theme';
 
 interface Props extends HtmlHTMLAttributes<HTMLDivElement> {
   as?: ElementType;
@@ -50,7 +51,7 @@ const Group = styled.div`
   ${tw`sw-w-full`}
 
   background-color: ${themeColor('subnavigation')};
-  border: ${themeBorder('default', 'subnavigationBorder')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   box-sizing: border-box;
 `;
 
@@ -58,5 +59,5 @@ const Separator = styled.div`
   ${tw`sw-w-full`}
 
   height: 1px;
-  background-color: ${themeColor('subnavigationSeparator')};
+  background-color: ${cssVar('color-border-weaker')};
 `;

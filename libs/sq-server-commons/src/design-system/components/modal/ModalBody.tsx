@@ -19,10 +19,10 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
 import tw from 'twin.macro';
-import { themeColor } from '../../helpers/theme';
 
 interface Props {
   children: ReactNode;
@@ -50,7 +50,7 @@ const StyledMain = styled.div`
   ${tw`sw-my-12`}
   ${tw`sw-overflow-x-hidden`}
 
-  color: ${themeColor('pageContent')};
+  color: ${cssVar('color-text-default')};
 
   &.scrollable {
     overflow-y: auto;

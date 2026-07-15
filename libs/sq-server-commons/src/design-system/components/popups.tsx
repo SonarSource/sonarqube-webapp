@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { throttle } from 'lodash';
 import React, { AriaRole } from 'react';
@@ -30,7 +31,7 @@ import {
   getFirstVisibleChild,
   popupPositioning,
 } from '../helpers/positioning';
-import { themeBorder, themeColor, themeContrast, themeShadow } from '../helpers/theme';
+import { themeShadow } from '../helpers/theme';
 import ClickEventBoundary from './ClickEventBoundary';
 
 interface PopupBaseProps {
@@ -195,9 +196,9 @@ export class Popup extends React.PureComponent<PopupProps, State> {
 
 export const PopupWrapper = styled.div<{ zLevel: PopupZLevel }>`
   position: ${({ zLevel }) => (zLevel === PopupZLevel.Global ? 'fixed' : 'absolute')};
-  background-color: ${themeColor('popup')};
-  color: ${themeContrast('popup')};
-  border: ${themeBorder('default', 'popupBorder')};
+  background-color: ${cssVar('color-surface-default')};
+  color: ${cssVar('color-text-default')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
   box-shadow: ${themeShadow('md')};
 
   ${tw`sw-box-border`};

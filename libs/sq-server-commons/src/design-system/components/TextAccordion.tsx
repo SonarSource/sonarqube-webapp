@@ -19,12 +19,11 @@
  */
 
 import styled from '@emotion/styled';
-import { Text } from '@sonarsource/echoes-react';
+import { cssVar, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { uniqueId } from 'lodash';
 import React, { ReactNode } from 'react';
 import tw from 'twin.macro';
-import { themeColor } from '../helpers';
 import { BareButton } from '../sonar-aligned/components/buttons';
 import { OpenCloseIndicator } from './icons';
 
@@ -106,7 +105,7 @@ const AccordionTitle = styled.span`
   ${tw`sw-pt-4 sw-px-page sw-pb-2`}
 
   &:hover {
-    color: ${themeColor('linkDefault')};
+    color: ${cssVar('color-text-accent')};
   }
 `;
 

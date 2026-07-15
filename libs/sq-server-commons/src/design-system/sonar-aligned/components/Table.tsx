@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { isNumber, times } from 'lodash';
 import { ComponentProps, ReactNode, createContext, useContext } from 'react';
@@ -165,29 +166,33 @@ export const TableRowInteractive = styled(TableRowInteractiveBase)`
   &.selected > th,
   th.selected,
   td.selected {
-    background: ${themeColor('tableRowHover')};
+    background: ${cssVar('color-surface-hover')};
   }
 
   &.selected > td:first-of-type,
   &.selected > th:first-of-type,
   th.selected:first-of-type,
   td.selected:first-of-type {
-    border-left: ${themeBorder('default', 'tableRowSelected')};
+    border-left: ${cssVar('border-width-default')} solid
+      ${cssVar('color-background-selected-weak-default')};
   }
 
   &.selected > td,
   &.selected > th,
   th.selected,
   td.selected {
-    border-top: ${themeBorder('default', 'tableRowSelected')};
-    border-bottom: ${themeBorder('default', 'tableRowSelected')};
+    border-top: ${cssVar('border-width-default')} solid
+      ${cssVar('color-background-selected-weak-default')};
+    border-bottom: ${cssVar('border-width-default')} solid
+      ${cssVar('color-background-selected-weak-default')};
   }
 
   &.selected > td:last-child,
   &.selected > th:last-child,
   th.selected:last-child,
   td.selected:last-child {
-    border-right: ${themeBorder('default', 'tableRowSelected')};
+    border-right: ${cssVar('border-width-default')} solid
+      ${cssVar('color-background-selected-weak-default')};
   }
 
   &.selected + &:not(.selected) > td {
@@ -268,7 +273,7 @@ const StyledTable = styled.table<{ gridTemplate?: string }>`
 
   &.with-rounded-border {
     border-collapse: separate;
-    border: ${themeBorder('default', 'breakdownBorder')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
     ${tw`sw-rounded-1`};
 
     th:first-of-type {
@@ -285,7 +290,7 @@ const StyledTable = styled.table<{ gridTemplate?: string }>`
 `;
 
 const CellComponentStyled = styled.td`
-  color: ${themeColor('pageContent')};
+  color: ${cssVar('color-text-default')};
   ${tw`sw-items-center`}
   ${tw`sw-typo-default`}
   ${tw`sw-py-4 sw-px-2`}

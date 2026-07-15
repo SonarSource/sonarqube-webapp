@@ -20,6 +20,7 @@
 
 import styled from '@emotion/styled';
 import type * as Echoes from '@sonarsource/echoes-react';
+import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
 import { themeColor } from '../helpers/theme';
 
@@ -28,7 +29,7 @@ import { themeColor } from '../helpers/theme';
  */
 export const BasicSeparator = styled.hr`
   height: 1px;
-  background-color: ${themeColor('border')};
+  background-color: ${cssVar('color-border-weak')};
 
   ${tw`sw-my-1`}
   ${tw`sw-overflow-hidden`};
@@ -36,15 +37,15 @@ export const BasicSeparator = styled.hr`
 `;
 
 export const BlueGreySeparator = styled(BasicSeparator)`
-  background-color: ${themeColor('popupBorder')};
+  background-color: ${cssVar('color-border-bold')};
 `;
 
 export const CardSeparator = styled(BasicSeparator)`
-  background-color: ${themeColor('projectCardBorder')};
+  background-color: ${cssVar('color-border-weak')};
 `;
 
 export const GreySeparator = styled(BasicSeparator)`
-  background-color: ${themeColor('subnavigationBorder')};
+  background-color: ${cssVar('color-border-weak')};
 `;
 
 export const SubnavigationFlowSeparator = styled(BasicSeparator)`

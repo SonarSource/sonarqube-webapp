@@ -26,6 +26,7 @@ import {
   IconProject,
   LinkStandalone,
   Text,
+  cssVar,
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { ClipboardIconButton } from '~shared/components/clipboard';
@@ -42,8 +43,6 @@ import {
   PopupPlacement,
   PopupZLevel,
   QualifierIcon,
-  themeBorder,
-  themeColor,
 } from '../../design-system';
 import { SOFTWARE_QUALITIES } from '../../helpers/constants';
 import {
@@ -287,24 +286,24 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
 }
 
 const StyledDrilldownLink = styled(DrilldownLink)`
-  color: ${themeColor('linkDefault')};
+  color: ${cssVar('color-text-accent')};
 
   &:visited {
-    color: ${themeColor('linkDefault')};
+    color: ${cssVar('color-text-accent')};
   }
 
   &:active,
   &:focus,
   &:hover {
-    color: ${themeColor('linkActive')};
+    color: ${cssVar('color-text-accent')};
   }
 `;
 
 const StyledHeaderContainer = styled.div`
-  background-color: ${themeColor('backgroundSecondary')};
-  border-bottom: ${themeBorder('default', 'codeLineBorder')};
+  background-color: ${cssVar('color-surface-default')};
+  border-bottom: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 `;
 
 const StyledVerticalSeparator = styled.div`
-  border-right: ${themeBorder('default', 'codeLineBorder')};
+  border-right: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 `;

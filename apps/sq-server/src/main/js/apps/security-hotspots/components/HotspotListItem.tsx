@@ -128,5 +128,5 @@ const StyledHotspotInfo = styled.div`
 
 const StyledSeparator = styled.div`
   height: 1px;
-  background-color: ${themeColor('subnavigationExecutionFlowBorder')};
+  background-color: ${cssVar('color-border-bold')};
 `;

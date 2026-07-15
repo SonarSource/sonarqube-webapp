@@ -19,11 +19,12 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
-import { themeBorder, themeColor } from '../helpers';
+import { themeColor } from '../helpers';
 
 export const HighlightedSection = styled.div`
-  border: ${themeBorder('default', 'highlightedSectionBorder')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   background: ${themeColor('highlightedSection')};
 
   ${tw`sw-box-border`}

@@ -22,7 +22,7 @@ import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import { isDefined } from '~shared/helpers/types';
-import { Table, TableSeparator, ThemeProp, themeColor, withTheme } from '../../design-system';
+import { Table, TableSeparator } from '../../design-system';
 import { AnalysisEvent, GraphType, MeasureHistory, Serie } from '../../types/project-activity';
 import { Popup, PopupPlacement } from '../ui/popups';
 import GraphsTooltipsContent from './GraphsTooltipsContent';
@@ -30,7 +30,7 @@ import GraphsTooltipsContentCoverage from './GraphsTooltipsContentCoverage';
 import GraphsTooltipsContentDuplication from './GraphsTooltipsContentDuplication';
 import GraphsTooltipsContentEvents from './GraphsTooltipsContentEvents';
 
-interface PropsWithoutTheme {
+export interface Props {
   events: AnalysisEvent[];
   formatValue: (tick: number | string) => string;
   graph: string;
@@ -42,15 +42,13 @@ interface PropsWithoutTheme {
   tooltipPos: number;
 }
 
-export type Props = PropsWithoutTheme & ThemeProp;
-
 const TOOLTIP_WIDTH = 280;
 const TOOLTIP_LEFT_MARGIN = 60;
 const TOOLTIP_LEFT_FLIP_THRESHOLD = 50;
 
 const COLUMNS = 3;
 
-export class GraphsTooltipsClass extends React.PureComponent<Props> {
+export class GraphsTooltips extends React.PureComponent<Props> {
   renderContent() {
     const { tooltipIdx, series } = this.props;
 
@@ -74,16 +72,8 @@ export class GraphsTooltipsClass extends React.PureComponent<Props> {
   }
 
   render() {
-    const {
-      events,
-      measuresHistory,
-      tooltipIdx,
-      tooltipPos,
-      graph,
-      graphWidth,
-      selectedDate,
-      theme,
-    } = this.props;
+    const { events, measuresHistory, tooltipIdx, tooltipPos, graph, graphWidth, selectedDate } =
+      this.props;
 
     const top = 30;
     let left = tooltipPos + TOOLTIP_LEFT_MARGIN;
@@ -107,7 +97,7 @@ export class GraphsTooltipsClass extends React.PureComponent<Props> {
         <div className="sw-p-2">
           <div
             className="sw-typo-lg-semibold sw-whitespace-nowrap"
-            style={{ color: themeColor('selectionCardHeader')({ theme }) }}
+            style={{ color: cssVar('color-text-default') }}
           >
             <DateTimeFormatter date={selectedDate} />
           </div>
@@ -141,5 +131,3 @@ export class GraphsTooltipsClass extends React.PureComponent<Props> {
     );
   }
 }
-
-export const GraphsTooltips = withTheme<PropsWithoutTheme>(GraphsTooltipsClass);

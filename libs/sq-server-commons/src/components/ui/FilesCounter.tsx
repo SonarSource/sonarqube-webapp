@@ -19,11 +19,10 @@
  */
 
 import styled from '@emotion/styled';
-import { Text } from '@sonarsource/echoes-react';
+import { cssVar, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { isDefined } from '~shared/helpers/types';
 import { MetricType } from '~shared/types/metrics';
-import { themeColor } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 
@@ -48,5 +47,5 @@ export default function FilesCounter({ className, current, total }: Props) {
 FilesCounter.displayName = 'FilesCounter';
 
 const Counter = styled.strong`
-  color: ${themeColor('pageContent')};
+  color: ${cssVar('color-text-default')};
 `;

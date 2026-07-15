@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
@@ -92,7 +93,7 @@ export default class SingleFileLocationNavigator extends React.PureComponent<Pro
 }
 
 const StyledButton = styled.button`
-  color: ${themeColor('pageContent')};
+  color: ${cssVar('color-text-default')};
   cursor: pointer;
   outline: none;
   border: none;

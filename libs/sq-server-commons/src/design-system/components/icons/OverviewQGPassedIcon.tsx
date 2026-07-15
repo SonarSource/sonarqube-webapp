@@ -83,27 +83,21 @@ export function OverviewQGPassedIcon({
         stroke={themeColor('illustrationSecondary')({ theme })}
         strokeWidth="6"
       />
-      <ellipse
-        cx="22.5"
-        cy="122.676"
-        fill={themeColor('illustrationPrimary')({ theme })}
-        rx="22.5"
-        ry="22.5"
-      />
+      <ellipse cx="22.5" cy="122.676" fill={cssVar('color-icon-accent')} rx="22.5" ry="22.5" />
       <path d="M14 121.063L21 128.594L34 114.607" stroke="white" strokeWidth="6" />
       <path
         d="M108.684 52.7433C116.712 48.065 123.243 41.1875 127.5 32.9269C131.757 41.1875 138.288 48.065 146.316 52.7433C138.288 57.4216 131.757 64.2991 127.5 72.5597C123.243 64.2991 116.712 57.4216 108.684 52.7433Z"
-        stroke={themeColor('illustrationPrimary')({ theme })}
+        stroke={cssVar('color-icon-accent')}
         strokeWidth="6"
       />
       <path
         d="M94.8732 23.1563C99.0981 20.5339 102.585 16.8739 105 12.5277C107.415 16.8739 110.902 20.5339 115.127 23.1563C110.902 25.7786 107.415 29.4386 105 33.7848C102.585 29.4386 99.0981 25.7786 94.8732 23.1563Z"
-        stroke={themeColor('illustrationPrimary')({ theme })}
+        stroke={cssVar('color-icon-accent')}
         strokeWidth="4.5"
       />
       <path
         d="M123.126 8.6317C124.893 7.43681 126.384 5.87768 127.5 4.06049C128.616 5.87768 130.107 7.43681 131.874 8.6317C130.107 9.82658 128.616 11.3857 127.5 13.2029C126.384 11.3857 124.893 9.82658 123.126 8.6317Z"
-        stroke={themeColor('illustrationPrimary')({ theme })}
+        stroke={cssVar('color-icon-accent')}
         strokeWidth="3"
       />
     </svg>

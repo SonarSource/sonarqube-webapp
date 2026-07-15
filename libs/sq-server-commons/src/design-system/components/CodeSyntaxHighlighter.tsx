@@ -145,7 +145,6 @@ export function CodeSyntaxHighlighter(props: Readonly<Props>) {
   let highlightedHtmlAsString = htmlAsString;
 
   htmlAsString.match(GLOBAL_REGEXP)?.forEach((codeBlock) => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const [, tag, attributes, code] = SINGLE_REGEXP.exec(codeBlock)!;
 
     const unescapedCode = escapeDom ? htmlDecode(code) : code;

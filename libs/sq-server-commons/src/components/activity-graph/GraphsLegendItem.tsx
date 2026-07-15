@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { ButtonIcon, ButtonSize, IconWarning, IconX, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import { themeBorder } from '../../design-system';
 import { translateWithParameters } from '../../helpers/l10n';
 import { ChartLegend } from './ChartLegend';
 
@@ -80,5 +79,7 @@ const StyledLegendItem = styled.div<GraphPillsProps>`
   display: flex;
   align-items: center;
   border: ${(props) =>
-    props.isActionable ? themeBorder('default', 'buttonSecondaryBorder') : 'none'};
+    props.isActionable
+      ? `${cssVar('border-width-default')} solid ${cssVar('color-border-bold')}`
+      : 'none'};
 `;

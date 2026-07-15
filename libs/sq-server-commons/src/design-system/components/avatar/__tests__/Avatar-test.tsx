@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { cssVar } from '@sonarsource/echoes-react';
 import { fireEvent, screen } from '@testing-library/react';
 import { FCProps } from '../../../../types/misc';
 import { render } from '../../../helpers/testUtils';
@@ -27,7 +28,9 @@ const gravatarServerUrl = 'http://example.com/{EMAIL_MD5}.jpg?s={SIZE}';
 
 it('should render avatar with border', () => {
   setupWithProps({ border: true, hash: '7daf6c79d4802916d83f6266e24850af' });
-  expect(screen.getByRole('img')).toHaveStyle('border: 1px solid rgb(225,230,243)');
+  expect(screen.getByRole('img')).toHaveStyle({
+    border: `${cssVar('border-width-default')} solid ${cssVar('color-border-weak')}`,
+  });
 });
 
 it('should be able to render with hash only', () => {

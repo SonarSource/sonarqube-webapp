@@ -23,7 +23,7 @@ import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import tw from 'twin.macro';
 import { BasicSeparator } from '../../components/Separator';
-import { themeBorder, themeColor } from '../../helpers/theme';
+import { themeBorder } from '../../helpers/theme';
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -59,7 +59,7 @@ export function LightGreyCardTitle({ children }: Readonly<React.PropsWithChildre
 }
 
 export const CardWithPrimaryBackground = styled(Card)`
-  background-color: ${themeColor('backgroundPrimary')};
+  background-color: ${cssVar('color-surface-canvas-default')};
 `;
 
 export function InfoCard(props: Readonly<CardProps & { footer?: React.ReactNode }>) {
@@ -77,8 +77,8 @@ export function InfoCard(props: Readonly<CardProps & { footer?: React.ReactNode 
 }
 
 const CardStyled = styled.div`
-  background-color: ${themeColor('backgroundSecondary')};
-  border: ${themeBorder('default', 'projectCardBorder')};
+  background-color: ${cssVar('color-surface-default')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 
   ${tw`sw-p-6`};
   ${tw`sw-rounded-1`};

@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import React from 'react';
 import {
   ActionMeta,
@@ -31,7 +32,7 @@ import { AsyncProps } from 'react-select/async';
 import type Select from 'react-select/base';
 import tw from 'twin.macro';
 import { SearchHighlighterContext } from '~shared/components/SearchHighlighter';
-import { PopupPlacement, PopupZLevel, themeBorder } from '../../helpers';
+import { PopupPlacement, PopupZLevel } from '../../helpers';
 import {
   IconOption,
   LabelValueSelectOption,
@@ -220,7 +221,7 @@ const StyledSearchSelectWrapper = styled.div<{ isSearchable: boolean }>`
   ${tw`sw-rounded-2`};
 
   .react-select {
-    border: ${themeBorder('default', 'inputDisabledBorder')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-border-disabled')};
     ${tw`sw-rounded-2`};
   }
 

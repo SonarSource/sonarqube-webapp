@@ -19,9 +19,8 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { Image } from '~adapters/components/common/Image';
-import { OPACITY_20_PERCENT } from '../../../helpers/constants';
-import { themeBorder, themeColor, themeContrast } from '../../../helpers/theme';
 import { Button, ButtonProps } from './Button';
 
 interface ThirdPartyProps extends Omit<ButtonProps, 'Icon'> {
@@ -45,9 +44,9 @@ export function ThirdPartyButton({
 }
 
 const ThirdPartyButtonStyled = styled(Button)`
-  --background: ${themeColor('thirdPartyButton')};
-  --backgroundHover: ${themeColor('thirdPartyButtonHover')};
-  --color: ${themeContrast('thirdPartyButton')};
-  --focus: ${themeColor('thirdPartyButtonBorder', OPACITY_20_PERCENT)};
-  --border: ${themeBorder('default', 'thirdPartyButtonBorder')};
+  --background: ${cssVar('color-surface-default')};
+  --backgroundHover: ${cssVar('color-surface-hover')};
+  --color: ${cssVar('color-text-default')};
+  --focus: color-mix(in srgb, ${cssVar('color-border-bold')} 20%, transparent);
+  --border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
 `;

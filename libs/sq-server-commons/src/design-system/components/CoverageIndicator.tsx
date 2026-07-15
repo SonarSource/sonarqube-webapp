@@ -18,8 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
-import { themeColor } from '../helpers/theme';
+import { cssVar } from '@sonarsource/echoes-react';
 import { DonutChart } from './DonutChart';
 import { NoDataIcon } from './icons';
 
@@ -40,7 +39,6 @@ export function CoverageIndicator({
   value,
   ...rest
 }: Readonly<CoverageIndicatorProps>) {
-  const theme = useTheme();
   const width = SIZE_TO_WIDTH_MAPPING[size];
   const thickness = SIZE_TO_THICKNESS_MAPPING[size];
 
@@ -48,16 +46,13 @@ export function CoverageIndicator({
     return <NoDataIcon size={size} {...rest} />;
   }
 
-  const themeRed = themeColor('coverageRed')({ theme });
-  const themeGreen = themeColor('coverageGreen')({ theme });
-
   let padAngle = 0;
   const numberValue = Number(value || 0);
   const data = [
-    { value: numberValue, fill: themeGreen },
+    { value: numberValue, fill: cssVar('color-icon-success') },
     {
       value: FULL_PERCENT - numberValue,
-      fill: themeRed,
+      fill: cssVar('color-text-danger'),
     },
   ];
   if (numberValue !== 0 && numberValue < FULL_PERCENT) {

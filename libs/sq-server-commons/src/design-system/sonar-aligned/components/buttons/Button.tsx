@@ -24,8 +24,6 @@ import { cssVar } from '@sonarsource/echoes-react';
 import React, { MouseEvent, ReactNode, forwardRef, useCallback } from 'react';
 import tw from 'twin.macro';
 import { BaseLink, LinkProps } from '../../../components/Link';
-import { themeBorder, themeColor } from '../../../helpers/theme';
-import { ThemedProps } from '../../../types/theme';
 
 type AllowedButtonAttributes = Pick<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -118,7 +116,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) =>
 });
 Button.displayName = 'Button';
 
-export const buttonStyle = (props: ThemedProps) => css`
+export const buttonStyle = css`
   box-sizing: border-box;
   text-decoration: none;
   outline: none;
@@ -153,8 +151,8 @@ export const buttonStyle = (props: ThemedProps) => css`
   &:disabled,
   &:disabled:hover {
     color: ${cssVar('color-text-disabled')};
-    background-color: ${themeColor('buttonDisabled')(props)};
-    border: ${themeBorder('default', 'buttonDisabledBorder')(props)};
+    background-color: ${cssVar('color-surface-disabled')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-border-disabled')};
 
     ${tw`sw-cursor-not-allowed`}
   }
@@ -172,12 +170,12 @@ const BaseButtonLink = styled(BaseLink)`
     as link does not have disabled attribute, using props instead
   */
 
-  ${({ disabled, theme }) =>
+  ${({ disabled }) =>
     disabled
       ? `&, &:hover, &:focus, &:active {
         color: ${cssVar('color-text-disabled')};
-        background-color: ${themeColor('buttonDisabled')({ theme })};
-        border: ${themeBorder('default', 'buttonDisabledBorder')({ theme })};
+        background-color: ${cssVar('color-surface-disabled')};
+        border: ${cssVar('border-width-default')} solid ${cssVar('color-border-disabled')};
         cursor: not-allowed;
       }`
       : undefined};

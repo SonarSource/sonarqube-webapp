@@ -27,6 +27,7 @@ import {
   IconRecommended,
   IconWarning,
   IconX,
+  cssVar,
 } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { HTMLAttributes, type JSX } from 'react';
@@ -211,7 +212,7 @@ const DismissButton = styled.button<{
     background-color: ${({ theme, variantInfo }) =>
       `${themeColor(variantInfo.iconFocusBackground)({ theme })}`};
     box-shadow:
-      0px 0px 0px 1px ${themeColor('backgroundSecondary')},
+      0px 0px 0px 1px ${cssVar('color-surface-default')},
       0px 0px 0px 3px ${themeColor('flagMessageFocusBackground')};
   }
 

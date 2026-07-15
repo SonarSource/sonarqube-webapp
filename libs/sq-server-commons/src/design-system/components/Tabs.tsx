@@ -23,7 +23,7 @@ import { Badge, cssVar } from '@sonarsource/echoes-react';
 import { PropsWithChildren } from 'react';
 import { FormattedMessage } from 'react-intl';
 import tw from 'twin.macro';
-import { themeBorder, themeColor } from '../helpers';
+import { themeBorder } from '../helpers';
 import { BareButton } from '../sonar-aligned/components/buttons';
 import { getTabId, getTabPanelId } from '../sonar-aligned/helpers/tabs';
 
@@ -122,22 +122,24 @@ const TabButton = styled(BareButton)<{
   ${tw`sw-rounded-t-1`};
 
   height: 34px;
-  background: ${(props) => (props.selected ? themeColor('backgroundSecondary') : 'none')};
+  background: ${(props) => (props.selected ? cssVar('color-surface-default') : 'none')};
   color: ${(props) =>
     props.selected ? cssVar('color-text-accent') : cssVar('color-text-default')};
   border: ${(props) =>
     props.selected ? props.borderColor : themeBorder('default', 'transparent')};
   border-bottom: ${(props) =>
-    props.selected ? themeBorder('default', 'backgroundSecondary') : props.borderColor};
+    props.selected
+      ? `${cssVar('border-width-default')} solid ${cssVar('color-surface-default')}`
+      : props.borderColor};
 
   &:hover {
     background: ${(props) =>
-      props.selected ? themeColor('backgroundSecondary') : themeColor('tabHover')};
+      props.selected ? cssVar('color-surface-default') : cssVar('color-surface-hover')};
   }
 
   &:focus-visible {
     background: ${(props) =>
-      props.selected ? themeColor('backgroundSecondary') : themeColor('tabHover')};
+      props.selected ? cssVar('color-surface-default') : cssVar('color-surface-hover')};
     outline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
     z-index: 1;
   }
@@ -156,7 +158,7 @@ const TabButton = styled(BareButton)<{
     left: 0;
     width: calc(100%);
     height: 2px;
-    background: ${(props) => (props.selected ? themeColor('tabSelected') : 'none')};
+    background: ${(props) => (props.selected ? cssVar('color-text-accent') : 'none')};
   }
 `;
 

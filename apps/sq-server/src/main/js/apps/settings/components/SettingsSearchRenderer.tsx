@@ -30,7 +30,6 @@ import {
   Popup,
   PopupPlacement,
   PopupZLevel,
-  themeColor,
 } from '~design-system';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
 import { Component } from '~sq-server-commons/types/types';
@@ -156,10 +155,10 @@ function ResultItem({
 const StyledItem = styled.li`
   &:focus,
   &.active {
-    background-color: ${themeColor('dropdownMenuHover')};
+    background-color: ${cssVar('color-surface-hover')};
 
     h3 {
-      color: ${themeColor('linkActive')};
+      color: ${cssVar('color-text-accent')};
     }
 
     span {

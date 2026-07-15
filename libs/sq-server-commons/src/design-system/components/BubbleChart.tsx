@@ -183,7 +183,6 @@ export function BubbleChart<T>(props: BubbleChartProps<T>) {
         const [y1, y2] = yScale.range();
         return (
           <BubbleChartGrid
-            // eslint-disable-next-line react/no-array-index-key
             key={index}
             x1={x * transform.k + transform.x}
             x2={x * transform.k + transform.x}
@@ -209,7 +208,6 @@ export function BubbleChart<T>(props: BubbleChartProps<T>) {
         const [x1, x2] = xScale.range();
         return (
           <BubbleChartGrid
-            // eslint-disable-next-line react/no-array-index-key
             key={index}
             x1={transform.k > 1 ? 0 : x1}
             x2={x2 * transform.k}
@@ -268,7 +266,6 @@ export function BubbleChart<T>(props: BubbleChartProps<T>) {
           <BubbleChartTick
             dx="-0.5em"
             dy="0.3em"
-            // eslint-disable-next-line react/no-array-index-key
             key={index}
             style={{ '--align': 'end' }}
             x={x}
@@ -470,7 +467,7 @@ const BubbleStyled = styled.circle`
 
 const BubbleChartGrid = styled.line`
   shape-rendering: crispedges;
-  stroke: ${themeColor('bubbleChartLine')};
+  stroke: ${cssVar('color-border-weaker')};
 `;
 
 const BubbleChartTick = styled.text`

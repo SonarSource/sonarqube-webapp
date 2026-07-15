@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
 import { themeColor } from '../../helpers/theme';
 
@@ -30,7 +31,7 @@ export const NumberedListItem = styled.li`
   &::before {
     width: 19px;
     height: 19px;
-    color: ${themeColor('numberedListText')};
+    color: ${cssVar('color-text-accent')};
     background-color: ${themeColor('numberedList')};
     border-radius: 20px;
     content: counter(li);

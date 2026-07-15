@@ -18,13 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Global, css, useTheme } from '@emotion/react';
+import { Global, css } from '@emotion/react';
+import { cssVar } from '@sonarsource/echoes-react';
 import twDefaultTheme from 'tailwindcss/defaultTheme';
-import { themeColor } from '~design-system';
 
 export function GlobalStyles() {
-  const theme = useTheme();
-
   return (
     <Global
       styles={css`
@@ -34,13 +32,13 @@ export function GlobalStyles() {
           line-height: 1.25rem;
           font-weight: 400;
 
-          color: ${themeColor('pageContent')({ theme })};
+          color: ${cssVar('color-text-default')};
         }
 
         a {
           outline: none;
           text-decoration: none;
-          color: ${themeColor('pageContent')({ theme })};
+          color: ${cssVar('color-text-default')};
         }
 
         ol,

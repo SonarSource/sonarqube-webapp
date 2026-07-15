@@ -145,7 +145,7 @@ export function selectStyle<
   return {
     control: (base, { isFocused, menuIsOpen, isDisabled }) => ({
       ...base,
-      color: themeContrast('inputBackground')({ theme }),
+      color: cssVar('color-text-default'),
       cursor: 'pointer',
       background: themeColor('inputBackground')({ theme }),
       transition: 'border 0.2s ease, outline 0.2s ease',

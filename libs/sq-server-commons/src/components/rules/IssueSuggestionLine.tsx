@@ -25,7 +25,6 @@ import {
   LineMeta,
   LineStyled,
   SuggestedLineWrapper,
-  themeBorder,
   themeColor,
 } from '../../design-system';
 import { LineTypeEnum } from '../../queries/fix-suggestions';
@@ -124,7 +123,7 @@ const LineCodeLayers = styled.div`
 `;
 
 const LineDirectionMeta = styled(LineMeta)`
-  border-left: ${themeBorder('default', 'codeLineBorder')};
+  border-left: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 `;
 
 const LineCodeLayer = styled.div`

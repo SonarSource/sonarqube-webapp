@@ -20,6 +20,7 @@
 
 import { withTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
 import { themeColor } from '../../design-system';
@@ -51,5 +52,5 @@ export const AdminPageTitle = withTheme(styled.h1`
 `);
 
 export const AdminPageDescription = withTheme(styled.div`
-  color: ${themeColor('pageContent')};
+  color: ${cssVar('color-text-default')};
 `);

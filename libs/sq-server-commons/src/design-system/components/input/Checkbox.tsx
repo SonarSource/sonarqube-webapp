@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Spinner } from '@sonarsource/echoes-react';
+import { Spinner, cssVar } from '@sonarsource/echoes-react';
 import React from 'react';
 import tw from 'twin.macro';
 import { themeBorder, themeColor, themeContrast } from '../../helpers/theme';
@@ -117,7 +117,7 @@ function CheckboxIcon({ checked, thirdState }: CheckIconProps) {
 }
 
 const CheckboxContainer = styled.label<{ disabled?: boolean }>`
-  color: ${themeContrast('backgroundSecondary')};
+  color: ${cssVar('color-text-strong')};
   user-select: none;
 
   ${tw`sw-inline-flex sw-items-center`};
@@ -127,7 +127,7 @@ const CheckboxContainer = styled.label<{ disabled?: boolean }>`
   }
 
   &:disabled {
-    color: ${themeContrast('checkboxDisabled')};
+    color: ${cssVar('color-border-disabled')};
     ${tw`sw-cursor-not-allowed`}
   }
 `;
@@ -172,19 +172,19 @@ export const AccessibleCheckbox = styled.input`
 
   &:hover {
     &:not(:disabled) ~ ${StyledCheckbox} {
-      background: ${themeColor('checkboxHover')};
+      background: ${cssVar('color-surface-hover')};
       border: ${themeBorder('default', 'primary')};
     }
 
     &:checked:not(:disabled) ~ ${StyledCheckbox} {
-      background: ${themeColor('checkboxCheckedHover')};
-      border: ${themeBorder('default', 'checkboxCheckedHover')};
+      background: ${cssVar('color-background-accent-hover')};
+      border: ${cssVar('border-width-default')} solid ${cssVar('color-background-accent-hover')};
     }
   }
 
   &:disabled ~ ${StyledCheckbox} {
-    background: ${themeColor('checkboxDisabled')};
-    color: ${themeColor('checkboxDisabled')};
+    background: ${cssVar('color-surface-disabled')};
+    color: ${cssVar('color-surface-disabled')};
     border: ${themeBorder('default', 'checkboxDisabledChecked')};
   }
 `;

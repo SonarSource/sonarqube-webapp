@@ -19,18 +19,13 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { HtmlFormatter } from '~shared/components/typography/HtmlFormatter';
 import { SanitizeLevel } from '~shared/helpers/sanitize';
 import { isDefined } from '~shared/helpers/types';
 import { RuleDescriptionSection, RuleDescriptionSections } from '~shared/types/rules';
-import {
-  CodeSyntaxHighlighter,
-  FlagMessage,
-  ToggleButton,
-  themeBorder,
-  themeColor,
-} from '../../design-system';
+import { CodeSyntaxHighlighter, FlagMessage, ToggleButton, themeColor } from '../../design-system';
 import applyCodeDifferences from '../../helpers/code-difference';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import OtherContextOption from './OtherContextOption';
@@ -210,7 +205,7 @@ const StyledHtmlFormatter = styled(HtmlFormatter)`
 
   .code-difference-scrollable {
     background-color: ${themeColor('codeSnippetBackground')};
-    border: ${themeBorder('default', 'codeSnippetBorder')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
     border-radius: 0.5rem;
     padding: 1.5rem;
     overflow-x: auto;

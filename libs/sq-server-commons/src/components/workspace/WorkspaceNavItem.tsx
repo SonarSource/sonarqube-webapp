@@ -23,6 +23,7 @@ import {
   ButtonIcon,
   ButtonSize,
   ButtonVariety,
+  cssVar,
   IconX,
   ThemeProvider,
 } from '@sonarsource/echoes-react';
@@ -71,7 +72,7 @@ const StyledWorkspaceNavItem = styled.li`
   display: inline-flex;
   align-items: center;
   position: relative;
-  color: ${themeColor('workSpaceNavItem')};
+  color: ${cssVar('color-text-on-color')};
 `;
 
 const StyledWorkSpaceNavItemButton = styled.button`
@@ -80,11 +81,11 @@ const StyledWorkSpaceNavItemButton = styled.button`
   border: none;
   height: 2rem;
   background-color: ${themeColor('workSpaceNavItemBackground')};
-  color: ${themeColor('workSpaceNavItem')};
+  color: ${cssVar('color-text-on-color')};
 
   &:hover,
   &:focus {
-    color: ${themeColor('workSpaceNavItem')};
+    color: ${cssVar('color-text-on-color')};
     opacity: 0.9;
   }
 `;

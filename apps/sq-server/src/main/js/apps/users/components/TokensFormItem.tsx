@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -168,5 +168,5 @@ const StyledSpan = styled.span<{
   tokenIsExpired?: boolean;
 }>`
   color: ${({ tokenIsExpired }) =>
-    tokenIsExpired ? themeColor('iconWarning') : themeColor('pageContent')};
+    tokenIsExpired ? themeColor('iconWarning') : cssVar('color-text-default')};
 `;

@@ -19,11 +19,11 @@
  */
 
 import styled from '@emotion/styled';
-import { Text } from '@sonarsource/echoes-react';
+import { cssVar, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
 import tw from 'twin.macro';
-import { themeBorder, themeColor } from '../helpers/theme';
+import { themeBorder } from '../helpers/theme';
 import { BareButton } from '../sonar-aligned/components/buttons';
 
 interface Props {
@@ -54,14 +54,14 @@ export function IllustratedSelectionCard(props: Props) {
 const ImageContainer = styled.div`
   min-height: 116px;
   flex: 1;
-  background: ${themeColor('backgroundPrimary')};
+  background: ${cssVar('color-surface-canvas-default')};
   ${tw`sw-flex`}
   ${tw`sw-justify-center sw-items-center`}
   ${tw`sw-rounded-t-1`}
 `;
 
 const DescriptionContainer = styled.div`
-  background: ${themeColor('backgroundSecondary')};
+  background: ${cssVar('color-surface-default')};
   border-top: ${themeBorder()};
   ${tw`sw-rounded-b-1`}
   ${tw`sw-p-4`}

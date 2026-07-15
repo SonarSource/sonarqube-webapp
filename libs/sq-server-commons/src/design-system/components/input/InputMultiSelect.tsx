@@ -19,9 +19,8 @@
  */
 
 import styled from '@emotion/styled';
-import { Text } from '@sonarsource/echoes-react';
+import { Text, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import { themeBorder } from '../../helpers';
 import { ButtonProps } from '../../sonar-aligned/components/buttons';
 import { Badge } from '../Badge';
 import { WrapperButton } from '../buttons';
@@ -56,17 +55,17 @@ export function InputMultiSelect(props: Props) {
 }
 
 const StyledWrapper = styled(WrapperButton)`
-  border: ${themeBorder('default', 'inputBorder')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bolder')};
 
   &:hover {
-    border: ${themeBorder('default', 'inputFocus')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-focus-default')};
   }
 
   &:active,
   &:focus,
   &:focus-within,
   &:focus-visible {
-    border: ${themeBorder('default', 'inputFocus')};
-    outline: ${themeBorder('focus', 'inputFocus')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-focus-default')};
+    outline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
   }
 `;

@@ -19,7 +19,8 @@
  */
 
 import styled from '@emotion/styled';
-import { LAYOUT_GLOBAL_NAV_HEIGHT, Table, themeColor } from '~design-system';
+import { cssVar } from '@sonarsource/echoes-react';
+import { LAYOUT_GLOBAL_NAV_HEIGHT, Table } from '~design-system';
 
 export const LAYOUT_ADMIN_NAV_HEIGHT = 92;
 
@@ -28,7 +29,7 @@ export const StickyTable = styled(Table)<{ overrideTop?: number }>`
     position: sticky;
     top: ${({ overrideTop }) =>
       overrideTop ?? LAYOUT_ADMIN_NAV_HEIGHT + LAYOUT_GLOBAL_NAV_HEIGHT}px;
-    background: ${themeColor('backgroundSecondary')};
+    background: ${cssVar('color-surface-default')};
     z-index: 1;
   }
 `;

@@ -77,7 +77,7 @@ const accordionStyle = (props: ThemedProps) => css`
   box-sizing: border-box;
   text-decoration: none;
   outline: none;
-  border: ${themeBorder('default', 'buttonSecondaryBorder')(props)};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
   color: ${themeContrast('buttonSecondary')(props)};
   background-color: ${themeColor('buttonSecondary')(props)};
   transition:
@@ -92,7 +92,7 @@ const accordionStyle = (props: ThemedProps) => css`
 
   & > button:hover, & > button:active {
     color: ${themeContrast('buttonSecondary')(props)};
-    background-color: ${themeColor('buttonSecondaryHover')(props)};
+    background-color: ${cssVar('color-surface-hover')};
   }
 
   & > button:focus,
@@ -104,8 +104,8 @@ const accordionStyle = (props: ThemedProps) => css`
   & > button:disabled,
   & > button:disabled:hover {
     color: ${cssVar('color-text-disabled')};
-    background-color: ${themeColor('buttonDisabled')(props)};
-    border: ${themeBorder('default', 'buttonDisabledBorder')(props)};
+    background-color: ${cssVar('color-surface-disabled')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-border-disabled')};
 
     ${tw`sw-cursor-not-allowed`}
   }

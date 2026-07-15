@@ -19,7 +19,8 @@
  */
 
 import styled from '@emotion/styled';
-import { OPACITY_20_PERCENT, themeBorder, themeColor, themeContrast } from '../../../helpers';
+import { cssVar } from '@sonarsource/echoes-react';
+import { themeColor, themeContrast } from '../../../helpers';
 import { Button } from './Button';
 
 /**
@@ -37,8 +38,8 @@ import { Button } from './Button';
  */
 export const ButtonSecondary = styled(Button)`
   --background: ${themeColor('buttonSecondary')};
-  --backgroundHover: ${themeColor('buttonSecondaryHover')};
+  --backgroundHover: ${cssVar('color-surface-hover')};
   --color: ${themeContrast('buttonSecondary')};
-  --focus: ${themeColor('buttonSecondaryBorder', OPACITY_20_PERCENT)};
-  --border: ${themeBorder('default', 'buttonSecondaryBorder')};
+  --focus: ${cssVar('color-border-bold')};
+  --border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
 `;

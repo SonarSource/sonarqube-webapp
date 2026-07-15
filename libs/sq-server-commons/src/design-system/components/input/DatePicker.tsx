@@ -312,9 +312,9 @@ const DayPicker = styled(OriginalDayPicker)`
 
   .rdp-selected .rdp-day_button,
   .rdp-selected:focus-visible .rdp-day_button {
-    background: ${themeColor('datePickerSelected')};
+    background: ${cssVar('color-background-accent-default')};
     border-radius: 0;
-    color: ${themeContrast('datePickerSelected')};
+    color: ${cssVar('color-text-on-color')};
     border: none;
   }
 `;

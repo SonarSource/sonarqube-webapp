@@ -18,9 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { ButtonIcon, ButtonVariety, IconUnfold, Spinner, Text } from '@sonarsource/echoes-react';
+import {
+  ButtonIcon,
+  ButtonVariety,
+  cssVar,
+  IconUnfold,
+  Spinner,
+  Text,
+} from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
@@ -29,7 +35,7 @@ import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import { ComponentContext } from '../../../context/componentContext/ComponentContext';
 import { useCurrentUser } from '../../../context/current-user/CurrentUserContext';
-import { ChevronRightIcon, HoverLink, Link, themeColor } from '../../../design-system';
+import { ChevronRightIcon, HoverLink, Link } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { collapsedDirFromPath, fileFromPath } from '../../../helpers/path';
 import { getBranchLikeUrl } from '../../../helpers/urls';
@@ -81,14 +87,11 @@ export function IssueSourceViewerHeader(props: Readonly<Props>) {
     },
   );
   const { currentUser } = useCurrentUser();
-  const theme = useTheme();
 
   const isProjectRoot = q === ComponentQualifier.Project;
 
-  const borderColor = themeColor('codeLineBorder')({ theme });
-
   const IssueSourceViewerStyle = styled.section`
-    border: 1px solid ${borderColor};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
     border-bottom: none;
   `;
 

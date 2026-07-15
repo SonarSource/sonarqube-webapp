@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { max } from 'lodash';
 import { Fragment, useCallback, useEffect, useState } from 'react';
 import { ClipboardIconButton } from '~shared/components/clipboard';
@@ -27,7 +28,6 @@ import {
   CodeEllipsisIcon,
   LineCodeEllipsisStyled,
   SonarCodeColorizer,
-  themeColor,
 } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { useComponentForSourceViewer } from '../../queries/component';
@@ -213,5 +213,5 @@ const StyledClipboardIconButton = styled(ClipboardIconButton)`
 `;
 
 const SourceFileWrapper = styled.div`
-  border: 1px solid ${themeColor('codeLineBorder')};
+  border: 1px solid ${cssVar('color-border-weak')};
 `;

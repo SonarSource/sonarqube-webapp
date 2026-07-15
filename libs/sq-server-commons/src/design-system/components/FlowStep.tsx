@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
 import { themeColor } from '../helpers/theme';
 import { BaseLink } from './Link';
@@ -52,7 +53,7 @@ const StyledLink = styled(BaseLink)`
   ${tw`sw-flex sw-items-center sw-flex-wrap sw-gap-2`}
   ${tw`sw-typo-default`}
 
-  color: ${themeColor('pageContent')};
+  color: ${cssVar('color-text-default')};
   border-bottom: none;
 
   &.selected,

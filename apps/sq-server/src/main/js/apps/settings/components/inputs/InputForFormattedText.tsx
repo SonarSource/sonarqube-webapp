@@ -19,10 +19,9 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, IconEdit, TextArea } from '@sonarsource/echoes-react';
+import { Button, cssVar, IconEdit, TextArea } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { themeBorder, themeColor } from '~design-system';
 import { HtmlFormatter } from '~shared/components/typography/HtmlFormatter';
 import { SanitizeLevel } from '~shared/helpers/sanitize';
 import FormattingTipsWithLink from '~sq-server-commons/components/common/FormattingTipsWithLink';
@@ -81,8 +80,8 @@ function InputForFormattedText(
 
 const FormattedPreviewBox = styled.div`
   width: 450px;
-  background-color: ${themeColor('infoBackground')};
-  border: ${themeBorder('default', 'infoBorder')};
+  background-color: ${cssVar('color-background-info-weak-default')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-info-weak')};
   border-radius: 2px;
   padding: 16px;
   overflow-wrap: break-word;

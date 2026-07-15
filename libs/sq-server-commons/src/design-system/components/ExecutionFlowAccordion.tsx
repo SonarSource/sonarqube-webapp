@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
 import tw from 'twin.macro';
@@ -72,18 +73,18 @@ const Accordion = styled.div`
   ${tw`sw-flex sw-flex-col`}
   ${tw`sw-rounded-1/2`}
 
-  border: ${themeBorder('default', 'subnavigationExecutionFlowBorder')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
 
   &:hover {
-    border: ${themeBorder('default', 'subnavigationExecutionFlowActive')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-background-accent-default')};
   }
 
   &.expanded {
-    border: ${themeBorder('default', 'subnavigationExecutionFlowActive')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-background-accent-default')};
     outline: ${themeBorder('focus', 'primary')};
 
     ${Expander} {
-      border-bottom: ${themeBorder('default', 'subnavigationExecutionFlowBorder')};
+      border-bottom: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
     }
   }
 `;

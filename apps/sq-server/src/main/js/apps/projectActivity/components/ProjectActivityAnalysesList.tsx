@@ -19,18 +19,18 @@
  */
 
 import styled from '@emotion/styled';
-import { Layout, Spinner, Text } from '@sonarsource/echoes-react';
+import { cssVar, Layout, Spinner, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { isEqual } from 'date-fns';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Badge, HelperHintIcon, themeColor } from '~design-system';
+import { Badge, HelperHintIcon } from '~design-system';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import { ComponentQualifier } from '~shared/types/component';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { toShortISO8601String } from '~sq-server-commons/helpers/dates';
 import { ParsedAnalysis } from '~sq-server-commons/types/project-activity';
-import { AnalysesByDay, Query, activityQueryChanged, getAnalysesByVersionByDay } from '../utils';
+import { activityQueryChanged, AnalysesByDay, getAnalysesByVersionByDay, Query } from '../utils';
 import ProjectActivityAnalysis, { BaselineMarker } from './ProjectActivityAnalysis';
 
 interface Props {
@@ -216,5 +216,5 @@ export default class ProjectActivityAnalysesList extends React.PureComponent<Pro
 }
 
 const VersionTagStyled = styled.div`
-  background-color: ${themeColor('backgroundSecondary')};
+  background-color: ${cssVar('color-surface-default')};
 `;

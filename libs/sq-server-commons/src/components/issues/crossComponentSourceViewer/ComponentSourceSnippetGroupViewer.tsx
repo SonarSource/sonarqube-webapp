@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, ButtonVariety, IconSparkle, Spinner } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, IconSparkle, Spinner, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -28,7 +28,7 @@ import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessage
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isFile } from '~shared/helpers/component';
 import { enhanceSources } from '~shared/helpers/sources';
-import { FlagMessage, LineFinding, themeColor } from '../../../design-system';
+import { FlagMessage, LineFinding } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import {
   useGetFixSuggestionsIssuesQuery,
@@ -403,7 +403,7 @@ function isExpandable(snippets: Snippet[], snippetGroup: SnippetGroup) {
 }
 
 const FileLevelIssueStyle = styled.div`
-  border: 1px solid ${themeColor('codeLineBorder')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 `;
 
 function GetFixButton({ issue }: Readonly<{ issue: TypeIssue }>) {

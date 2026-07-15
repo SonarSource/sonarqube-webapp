@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
 import tw from 'twin.macro';
 import { themeColor } from '../../helpers/theme';
@@ -41,7 +42,7 @@ const Description = styled.p`
   ${tw`sw-typo-default`}
   ${tw`sw-mt-2`}
 
-  color: ${themeColor('pageContent')};
+  color: ${cssVar('color-text-default')};
 `;
 
 const Title = styled.h2`

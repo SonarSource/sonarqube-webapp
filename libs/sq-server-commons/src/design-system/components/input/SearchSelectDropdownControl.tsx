@@ -25,7 +25,7 @@ import { KeyboardEvent, MouseEvent } from 'react';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
 import { Key } from '~shared/helpers/keyboard';
-import { INPUT_SIZES, themeBorder, themeColor, themeContrast } from '../../helpers';
+import { INPUT_SIZES, themeColor } from '../../helpers';
 import { InputSizeKeys } from '../../types/theme';
 import { ChevronDownIcon } from '../icons';
 
@@ -112,9 +112,9 @@ export function SearchSelectDropdownControl(props: SearchSelectDropdownControlPr
 }
 
 const StyledControl = styled.div`
-  color: ${themeContrast('inputBackground')};
-  background: ${themeColor('inputBackground')};
-  border: ${themeBorder('default', 'inputBorder')};
+  color: ${cssVar('color-text-default')};
+  background: ${cssVar('color-surface-default')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bolder')};
   width: var(--inputSize);
 
   ${tw`sw-flex sw-justify-between sw-items-center`};
@@ -135,7 +135,7 @@ const StyledControl = styled.div`
   }
 
   &:hover {
-    border: ${themeBorder('default', 'inputFocus')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-focus-default')};
 
     &.is-discreet {
       ${tw`sw-border-none`};
@@ -146,7 +146,7 @@ const StyledControl = styled.div`
   &:focus,
   &:focus-visible,
   &:focus-within {
-    border: ${themeBorder('default', 'inputFocus')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-focus-default')};
     outline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
 
     &.is-discreet {
@@ -159,7 +159,7 @@ const StyledControl = styled.div`
 const InputValue = styled.span`
   height: 100%;
   width: 100%;
-  color: ${themeContrast('inputBackground')};
+  color: ${cssVar('color-text-default')};
 
   ${tw`sw-truncate`};
 

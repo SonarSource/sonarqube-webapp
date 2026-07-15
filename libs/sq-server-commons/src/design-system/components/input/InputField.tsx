@@ -25,7 +25,7 @@ import { cssVar } from '@sonarsource/echoes-react';
 import { forwardRef } from 'react';
 import tw from 'twin.macro';
 import { INPUT_SIZES } from '../../helpers/constants';
-import { themeBorder, themeColor, themeContrast } from '../../helpers/theme';
+import { themeBorder, themeColor } from '../../helpers/theme';
 import { InputSizeKeys, ThemedProps } from '../../types/theme';
 
 interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -81,9 +81,9 @@ export const InputTextArea = forwardRef<HTMLTextAreaElement, InputTextAreaProps>
 );
 InputTextArea.displayName = 'InputTextArea';
 
-const defaultStyle = (props: ThemedProps) => css`
-  --border: ${themeBorder('default', 'inputBorder')(props)};
-  --focusBorder: ${themeBorder('default', 'inputFocus')(props)};
+const defaultStyle = (_props: ThemedProps) => css`
+  --border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bolder')};
+  --focusBorder: ${cssVar('border-width-default')} solid ${cssVar('color-focus-default')};
   --focusOutline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
 `;
 
@@ -110,8 +110,8 @@ const getInputVariant = (props: ThemedProps & { isInvalid?: boolean; isValid?: b
 };
 
 const baseStyle = (props: ThemedProps) => css`
-  color: ${themeContrast('inputBackground')(props)};
-  background: ${themeColor('inputBackground')(props)};
+  color: ${cssVar('color-text-default')};
+  background: ${cssVar('color-surface-default')};
   border: var(--border);
   width: var(--inputSize);
   transition: border-color 0.2s ease;
@@ -142,7 +142,7 @@ const baseStyle = (props: ThemedProps) => css`
   &:disabled:hover {
     color: ${cssVar('color-text-disabled')};
     background-color: ${themeColor('inputDisabled')(props)};
-    border: ${themeBorder('default', 'inputDisabledBorder')(props)};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-border-disabled')};
     outline: none;
 
     ${tw`sw-cursor-not-allowed`};

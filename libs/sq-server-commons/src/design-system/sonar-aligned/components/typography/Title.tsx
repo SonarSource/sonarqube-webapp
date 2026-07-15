@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
 import { themeColor } from '../../../helpers/theme';
 
@@ -51,7 +52,7 @@ export const HeadingDark = styled.h2`
 export const SubHeading = styled.h3`
   ${tw`sw-typo-lg-semibold`}
   ${tw`sw-mb-2`}
-  color: ${themeColor('pageContent')};
+  color: ${cssVar('color-text-default')};
 `;
 
 /** @deprecated Use Heading from Echoes instead.

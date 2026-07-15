@@ -34,7 +34,7 @@ export function InProgressVisual() {
       />
       <path
         d="M50.94 16.79 34 9.79 37.8 4l13.14 12.79ZM48.5 24.46 38 27.93V21l10.5 3.46ZM125.55 37.07l3.63-9.07 5.1 4.7-8.73 4.37ZM125 43.46 141.5 40v6.93L125 43.46ZM56.93 10.59 50 2.57 56.51 0l.42 10.59Z"
-        fill={themeColor('illustrationPrimary')({ theme })}
+        fill={cssVar('color-icon-accent')}
       />
       <path
         d="M19 57.15v95h8v-95h-8ZM33 73.15h15v-8H33v8ZM56 73.15h15v-8H56v8Z"
@@ -56,14 +56,14 @@ export function InProgressVisual() {
         <path
           clipRule="evenodd"
           d="m115.17 46.11-7.2-4.15a24.21 24.21 0 0 0 1.72-6.41H118v-6.1h-8.31c-.28-2.24-.87-4.4-1.72-6.4l7.2-4.16-3.05-5.28-7.2 4.16a24.55 24.55 0 0 0-4.69-4.7l4.16-7.2-5.28-3.04-4.15 7.2a24.21 24.21 0 0 0-6.41-1.72V0h-6.1v8.31c-2.24.28-4.4.87-6.4 1.72l-4.16-7.2-5.28 3.05 4.16 7.2a24.52 24.52 0 0 0-4.7 4.69l-7.2-4.16-3.04 5.28 7.2 4.15a24.2 24.2 0 0 0-1.72 6.41H53v6.1h8.31c.28 2.24.87 4.4 1.72 6.4l-7.2 4.16 3.05 5.28 7.2-4.16a24.52 24.52 0 0 0 4.69 4.7l-4.16 7.2 5.28 3.04 4.15-7.2c2.02.85 4.17 1.44 6.41 1.72V65h6.1v-8.31a24.2 24.2 0 0 0 6.4-1.72l4.16 7.2 5.28-3.05-4.16-7.2a24.51 24.51 0 0 0 4.7-4.69l7.2 4.16 3.04-5.28ZM85.5 51a18.5 18.5 0 1 0 0-37 18.5 18.5 0 0 0 0 37Z"
-          fill={themeColor('illustrationPrimary')({ theme })}
+          fill={cssVar('color-icon-accent')}
           fillRule="evenodd"
         />
       </Wheel>
       <path
         clipRule="evenodd"
         d="M73 32.5a12.5 12.5 0 0 0 25 0h6a18.5 18.5 0 1 1-37 0h6Z"
-        fill={themeColor('illustrationInlineBorder')({ theme })}
+        fill={cssVar('color-border-weak')}
         fillRule="evenodd"
       />
       <WheelInverted>
@@ -74,7 +74,7 @@ export function InProgressVisual() {
           fillRule="evenodd"
         />
       </WheelInverted>
-      <circle cx="119" cy="73" fill={themeColor('illustrationPrimary')({ theme })} r="5" />
+      <circle cx="119" cy="73" fill={cssVar('color-icon-accent')} r="5" />
     </svg>
   );
 }

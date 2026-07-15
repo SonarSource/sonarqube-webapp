@@ -34,15 +34,13 @@ interface Props extends IconProps {
 const defaultIconfill = cssVar('color-icon-subtle');
 
 export function QualifierIcon({ qualifier, fill, ...iconProps }: Readonly<Props>) {
-  const theme = useTheme();
-
   if (!qualifier) {
     return null;
   }
 
   const icon = {
     app: ApplicationIcon({ fill: fill ?? defaultIconfill, ...iconProps }),
-    dir: <DirectoryIcon fill={fill ?? themeColor('iconDirectory')({ theme })} {...iconProps} />,
+    dir: <DirectoryIcon fill={fill ?? cssVar('color-icon-accent')} {...iconProps} />,
     fil: <FileIcon fill={fill ?? defaultIconfill} {...iconProps} />,
     svw: SubPortfolioIcon({ fill: fill ?? defaultIconfill, ...iconProps }),
     trk: <ProjectIcon fill={fill ?? defaultIconfill} {...iconProps} />,

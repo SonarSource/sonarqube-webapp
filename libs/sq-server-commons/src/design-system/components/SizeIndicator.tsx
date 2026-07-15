@@ -19,9 +19,10 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { inRange } from 'lodash';
 import tw from 'twin.macro';
-import { getProp, themeColor, themeContrast } from '../helpers/theme';
+import { getProp, themeColor } from '../helpers/theme';
 import { SizeLabel } from '../types/measures';
 
 export interface Props {
@@ -67,7 +68,7 @@ const StyledContainer = styled.div<{ size: string }>`
   width: ${getProp('size')};
   height: ${getProp('size')};
   font-size: ${({ size }) => (size === '2rem' ? '0.875rem' : `calc(${size}/2)`)};
-  color: ${themeContrast('sizeIndicator')};
+  color: ${cssVar('color-text-on-color')};
   background-color: ${themeColor('sizeIndicator')};
 
   ${tw`sw-inline-flex sw-items-center sw-justify-center`};

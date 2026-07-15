@@ -18,16 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-/* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-tabindex */
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import {
-  Card,
-  TutorialStep,
-  TutorialStepList,
-  themeBorder,
-  themeColor,
-} from '../../../design-system';
+import { Card, TutorialStep, TutorialStepList, themeBorder } from '../../../design-system';
 
 interface Props {
   finished?: boolean;
@@ -79,7 +73,7 @@ export default function Step(props: Props) {
 }
 
 const StyledCard = styled(Card)<{ clickable: boolean }>`
-  --focus: ${themeColor('buttonSecondaryBorder')};
+  --focus: ${cssVar('color-border-bold')};
 
   ${({ clickable, theme }) =>
     clickable &&

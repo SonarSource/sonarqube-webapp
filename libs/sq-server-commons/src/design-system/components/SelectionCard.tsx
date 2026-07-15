@@ -24,7 +24,7 @@ import { Text, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
-import { themeBorder, themeColor, themeContrast, themeShadow } from '../helpers/theme';
+import { themeBorder, themeContrast, themeShadow } from '../helpers/theme';
 import { RecommendedIcon } from './icons/RecommendedIcon';
 import { RadioButtonStyled } from './input/RadioButton';
 
@@ -117,8 +117,8 @@ const StyledButton = styled.button`
   ${tw`sw-rounded-2`}
   ${tw`sw-box-border`}
 
-  background-color: ${themeColor('backgroundSecondary')};
-  border: ${themeBorder('default', 'selectionCardBorder')};
+  background-color: ${cssVar('color-surface-default')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   color: inherit;
 
   &:focus {
@@ -147,7 +147,7 @@ const StyledButton = styled.button`
   &.disabled {
     ${tw`sw-cursor-not-allowed`}
 
-    background-color: ${themeColor('selectionCardDisabled')};
+    background-color: ${cssVar('color-surface-disabled')};
     color: ${cssVar('color-text-disabled')};
     border: ${themeBorder('default', 'selectionCardBorderDisabled')};
   }
@@ -168,11 +168,11 @@ const StyledRecommended = styled.div`
   ${tw`sw-text-left`}
 
   color: ${themeContrast('infoBackground')};
-  background-color: ${themeColor('infoBackground')};
+  background-color: ${cssVar('color-background-info-weak-default')};
 `;
 
 const StyledRecommendedIcon = styled(RecommendedIcon)`
-  color: ${themeColor('iconInfo')};
+  color: ${cssVar('color-icon-info')};
   ${tw`sw-align-middle`}
 `;
 
@@ -181,7 +181,7 @@ const StyledLabel = styled.label`
   ${tw`sw-mb-3 sw-gap-2`}
   ${tw`sw-typo-semibold`}
 
-  color: ${themeColor('selectionCardHeader')};
+  color: ${cssVar('color-text-default')};
   cursor: inherit;
 
   .disabled & {

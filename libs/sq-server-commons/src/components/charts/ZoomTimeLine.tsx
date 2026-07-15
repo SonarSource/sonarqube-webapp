@@ -345,8 +345,8 @@ export class ZoomTimeLine extends React.PureComponent<Props> {
 
 const ZoomHighlight = styled.rect`
   cursor: move;
-  fill: ${themeColor('graphZoomBackgroundColor')};
-  stroke: ${themeColor('graphZoomBorderColor')};
+  fill: ${cssVar('color-surface-canvas-default')};
+  stroke: ${cssVar('color-border-weak')};
   fill-opacity: 0.2;
   shape-rendering: crispEdges;
 `;

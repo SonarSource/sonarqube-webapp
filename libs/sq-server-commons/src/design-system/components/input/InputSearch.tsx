@@ -28,7 +28,6 @@ import tw, { theme } from 'twin.macro';
 import { Key } from '~shared/helpers/keyboard';
 import { isDefined } from '~shared/helpers/types';
 import { DEBOUNCE_DELAY, INPUT_SIZES } from '../../helpers/constants';
-import { themeBorder, themeColor, themeContrast } from '../../helpers/theme';
 import { InputSizeKeys } from '../../types/theme';
 import { CloseIcon } from '../icons/CloseIcon';
 import { InteractiveIcon } from '../InteractiveIcon';
@@ -232,9 +231,9 @@ export const InputSearchWrapper = styled.div`
 
 export const StyledInputWrapper = styled.div`
   input {
-    background: ${themeColor('inputBackground')};
-    color: ${themeContrast('inputBackground')};
-    border: ${themeBorder('default', 'inputBorder')};
+    background: ${cssVar('color-surface-default')};
+    color: ${cssVar('color-text-default')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bolder')};
 
     ${tw`sw-rounded-2`}
     ${tw`sw-box-border`}
@@ -249,12 +248,12 @@ export const StyledInputWrapper = styled.div`
     }
 
     &:hover {
-      border: ${themeBorder('default', 'inputFocus')};
+      border: ${cssVar('border-width-default')} solid ${cssVar('color-focus-default')};
     }
 
     &:focus,
     &:active {
-      border: ${themeBorder('default', 'inputFocus')};
+      border: ${cssVar('border-width-default')} solid ${cssVar('color-focus-default')};
       outline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
       outline-offset: ${cssVar('focus-border-offset-default')};
     }

@@ -18,13 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { debounce, throttle } from 'lodash';
 import React from 'react';
 import { LinesOfCodeEllipses } from '~shared/components/code-viewer/LinesOfCodeEllipses';
 import { LinesOfCodeEllipsesDirection } from '~shared/types/code-viewer';
 import { SourceLine } from '~shared/types/source';
-import { SonarCodeColorizer, ThemeProp, themeColor, withTheme } from '../../../design-system';
+import { SonarCodeColorizer, ThemeProp, withTheme } from '../../../design-system';
 import {
   Duplication,
   ExpandDirection,
@@ -80,7 +81,6 @@ function SnippetViewer(props: Props) {
     isLoading = false,
     locationsByLine,
     snippet,
-    theme,
     className,
     hideLocationIndex,
     displayLineNumberOptions,
@@ -102,7 +102,7 @@ function SnippetViewer(props: Props) {
   const displayDuplications =
     Boolean(props.loadDuplications) && snippet.some((s) => !!s.duplicated);
 
-  const borderColor = themeColor('codeLineBorder')({ theme });
+  const borderColor = cssVar('color-border-weak');
 
   const THROTTLE_SHORT_DELAY = 10;
   const [hoveredLine, setHoveredLine] = React.useState<SourceLine | undefined>();

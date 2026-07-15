@@ -43,7 +43,7 @@ const StepDetails = styled.div`
     ${tw`sw-typo-semibold`}
     ${tw`sw-my-2`}
 
-    color: ${themeColor('pageContent')};
+    color: ${cssVar('color-text-default')};
   }
 
   &,
@@ -52,7 +52,7 @@ const StepDetails = styled.div`
     ${tw`sw-typo-default`}
     ${tw`sw-mb-2`}
 
-    color: ${themeColor('pageContent')};
+    color: ${cssVar('color-text-default')};
   }
 `;
 

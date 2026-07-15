@@ -66,20 +66,20 @@ export function FishVisual({ className, height = '168px', width = '168px' }: Rea
         />
         <path
           d="M152.238 54.288c-2.47.206-5.832 4.717-7.72 6.69l1.544 9.264c1.544 1.287 3.603 5.661 7.205 5.918 3.603.258 5.662-5.918 5.662-11.58 0-5.753-3.603-10.55-6.691-10.292Z"
-          fill={themeColor('illustrationPrimary')({ theme })}
+          fill={cssVar('color-icon-accent')}
         />
         <path
           d="M146.062 70.242c10.035 34.224-51.723 17.498-63.303 6.176-.772-.258-1.08-3.448 1.802-2.83 9.263 1.028 10.035-7.206 10.55-11.066.515-3.86 3.345-17.755 25.218-21.1 21.873-3.346 27.019 14.152 23.931 19.814 4.375-.258 7.72 6.433 1.802 9.006Z"
-          fill={themeColor('illustrationPrimary')({ theme })}
+          fill={cssVar('color-icon-accent')}
         />
         <path
           d="M100.49 70.868a5.844 5.844 0 1 0 11.689 0 5.844 5.844 0 0 0-11.689 0Z"
-          fill={themeColor('illustrationPrimary')({ theme })}
+          fill={cssVar('color-icon-accent')}
         />
         <path
           clipRule="evenodd"
           d="M106.334 72.878a2.01 2.01 0 1 1 0-4.02 2.01 2.01 0 0 1 0 4.02Zm0 3.834a5.844 5.844 0 1 1 0-11.688 5.844 5.844 0 0 1 0 11.688Z"
-          fill={themeColor('backgroundSecondary')({ theme })}
+          fill={cssVar('color-surface-default')}
           fillRule="evenodd"
         />
         <path
@@ -91,7 +91,7 @@ export function FishVisual({ className, height = '168px', width = '168px' }: Rea
       </g>
       <defs>
         <clipPath id="a">
-          <path d="M0 0h168v168H0z" fill={themeColor('backgroundSecondary')({ theme })} />
+          <path d="M0 0h168v168H0z" fill={cssVar('color-surface-default')} />
         </clipPath>
       </defs>
     </svg>

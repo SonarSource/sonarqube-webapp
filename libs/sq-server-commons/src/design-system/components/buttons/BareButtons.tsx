@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
-import { themeColor } from '../../helpers';
 import { BareButton } from '../../sonar-aligned/components/buttons';
 
 export const IssueIndicatorButton = styled(BareButton)`
@@ -32,7 +31,7 @@ export const IssueIndicatorButton = styled(BareButton)`
 `;
 
 export const DuplicationBlock = styled(BareButton)`
-  background-color: ${themeColor('codeLineDuplication')};
+  background-color: ${cssVar('color-border-bold')};
   outline: none;
 
   ${tw`sw-block`}

@@ -157,12 +157,11 @@ const IconButton = styled.button`
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3382706231/Button | Migration Guide} for more information.
  */
 export const InteractiveIcon = styled(InteractiveIconBase)`
-  --background: ${themeColor('interactiveIcon')};
-  --backgroundHover: ${themeColor('interactiveIconHover')};
-  --color: ${({ currentColor, theme }) =>
-    currentColor ? 'currentColor' : themeContrast('interactiveIcon')({ theme })};
-  --colorHover: ${themeContrast('interactiveIconHover')};
-  --focus: ${themeColor('interactiveIconFocus', OPACITY_20_PERCENT)};
+  --background: ${cssVar('color-surface-default')};
+  --backgroundHover: ${cssVar('color-surface-hover')};
+  --color: ${({ currentColor }) => (currentColor ? 'currentColor' : cssVar('color-focus-default'))};
+  --colorHover: ${cssVar('color-text-accent')};
+  --focus: ${cssVar('color-background-ghost-neutral-focus')};
 `;
 
 /**
@@ -202,10 +201,10 @@ export const DiscreetInteractiveIcon = styled(InteractiveIcon)`
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3382706231/Button | Migration Guide} for more information.
  */
 export const DestructiveIcon = styled(InteractiveIconBase)`
-  --background: ${themeColor('destructiveIcon')};
-  --backgroundHover: ${themeColor('destructiveIconHover')};
-  --color: ${themeContrast('destructiveIcon')};
-  --colorHover: ${themeContrast('destructiveIconHover')};
+  --background: ${cssVar('color-surface-default')};
+  --backgroundHover: ${cssVar('color-surface-hover')};
+  --color: ${cssVar('color-icon-danger')};
+  --colorHover: ${cssVar('color-background-ghost-danger-hover')};
   --focus: ${themeColor('destructiveIconFocus', OPACITY_20_PERCENT)};
 `;
 

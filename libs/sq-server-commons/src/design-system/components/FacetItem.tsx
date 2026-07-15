@@ -131,8 +131,10 @@ const StyledButton = styled(ButtonSecondary)<{
 
   ${({ small }) => (small ? tw`sw-typo-sm sw-pr-0` : '')};
 
-  --background: ${({ active }) => (active ? themeColor('facetItemSelected') : 'transparent')};
-  --backgroundHover: ${({ active }) => (active ? themeColor('facetItemSelected') : 'transparent')};
+  --background: ${({ active }) =>
+    active ? cssVar('color-background-selected-weak-default') : 'transparent'};
+  --backgroundHover: ${({ active }) =>
+    active ? cssVar('color-background-selected-weak-default') : 'transparent'};
 
   --border: none;
 
@@ -202,7 +204,7 @@ const FacetStatBarInner = styled.div`
   width: var(--statBarWidth);
   min-width: 5px;
   height: 10px;
-  background-color: ${themeColor('facetItemGraph')};
+  background-color: ${cssVar('color-border-bold')};
   transition: width 0.3s ease;
 `;
 
@@ -243,14 +245,14 @@ export const HighlightedFacetItems = styled.div`
     }
 
     &.active {
-      background-color: ${themeColor('facetItemSelected')};
+      background-color: ${cssVar('color-background-selected-weak-default')};
 
       & ~ ${FacetItem} {
-        background-color: ${themeColor('facetItemSelected')};
+        background-color: ${cssVar('color-background-selected-weak-default')};
       }
 
       & ~ ${FacetItem}:hover, & ~ ${FacetItem}:hover ~ ${FacetItem} {
-        background-color: ${themeColor('facetItemSelectedHover')};
+        background-color: ${cssVar('color-background-selected-weak-hover')};
       }
     }
 

@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { LocationMarker, StyledMarker, themeColor } from '~design-system';
@@ -99,7 +100,7 @@ const StyledLocation = styled.div`
 `;
 
 const StyledButton = styled.button`
-  color: ${themeColor('pageContent')};
+  color: ${cssVar('color-text-default')};
   border: none;
   background: none;
 `;

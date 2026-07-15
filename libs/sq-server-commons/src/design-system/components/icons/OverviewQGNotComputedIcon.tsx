@@ -42,13 +42,13 @@ export function OverviewQGNotComputedIcon({ className }: Readonly<Props>) {
       <path
         clipRule="evenodd"
         d="M149.542 26.472L141.248 37.2099C140.456 38.2345 140.645 39.7068 141.67 40.4983C142.695 41.2897 144.167 41.1007 144.959 40.076L153.253 29.3382C154.044 28.3135 153.855 26.8413 152.831 26.0498C151.806 25.2583 150.334 25.4473 149.542 26.472ZM137.915 45.3598C141.625 48.2252 146.955 47.5408 149.82 43.8312L158.114 33.0934C160.98 29.3837 160.295 24.0536 156.586 21.1883C152.876 18.3229 147.546 19.0072 144.681 22.7168L136.386 33.4547C133.521 37.1643 134.205 42.4944 137.915 45.3598Z"
-        fill={themeColor('illustrationPrimary')({ theme })}
+        fill={cssVar('color-icon-accent')}
         fillRule="evenodd"
       />
       <path
         clipRule="evenodd"
         d="M149.385 57.9371C149.385 46.1503 139.83 36.5952 128.043 36.5952C116.257 36.5952 106.702 46.1503 106.702 57.9371C106.702 69.7238 116.257 79.2789 128.043 79.2789C139.83 79.2789 149.385 69.7238 149.385 57.9371ZM155.528 57.9371C155.528 42.7576 143.223 30.4523 128.043 30.4523C112.864 30.4523 100.559 42.7576 100.559 57.9371C100.559 73.1165 112.864 85.4218 128.043 85.4218C143.223 85.4218 155.528 73.1165 155.528 57.9371Z"
-        fill={themeColor('illustrationPrimary')({ theme })}
+        fill={cssVar('color-icon-accent')}
         fillRule="evenodd"
       />
       <path
@@ -98,39 +98,39 @@ export function OverviewQGNotComputedIcon({ className }: Readonly<Props>) {
       />
       <path
         d="M51 128.953C51 141.379 40.9264 151.453 28.5 151.453C16.0736 151.453 6 141.379 6 128.953C6 116.526 16.0736 106.453 28.5 106.453C40.9264 106.453 51 116.526 51 128.953Z"
-        fill={themeColor('illustrationPrimary')({ theme })}
+        fill={cssVar('color-icon-accent')}
       />
       <path
         clipRule="evenodd"
         d="M25 131.953V113.953H31V131.953H25Z"
-        fill={themeColor('backgroundSecondary')({ theme })}
+        fill={cssVar('color-surface-default')}
         fillRule="evenodd"
       />
       <path
         clipRule="evenodd"
         d="M25 142.453L25 136.453L31 136.453L31 142.453L25 142.453Z"
-        fill={themeColor('backgroundSecondary')({ theme })}
+        fill={cssVar('color-surface-default')}
         fillRule="evenodd"
       />
       <path
         d="M105.398 35.2089L90.7238 24.2245L95.8489 19.5626L105.398 35.2089Z"
-        fill={themeColor('illustrationPrimary')({ theme })}
+        fill={cssVar('color-icon-accent')}
       />
       <path
         d="M99 41.5242L88.5 44.9883L88.5 38.0601L99 41.5242Z"
-        fill={themeColor('illustrationPrimary')({ theme })}
+        fill={cssVar('color-icon-accent')}
       />
       <path
         d="M139.228 86.8865L147.417 92.2112L141.826 96.3028L139.228 86.8865Z"
-        fill={themeColor('illustrationPrimary')({ theme })}
+        fill={cssVar('color-icon-accent')}
       />
       <path
         d="M132 88.5242L135.464 105.024H128.536L132 88.5242Z"
-        fill={themeColor('illustrationPrimary')({ theme })}
+        fill={cssVar('color-icon-accent')}
       />
       <path
         d="M114 29.5242L110.536 19.7742L117.464 19.7742L114 29.5242Z"
-        fill={themeColor('illustrationPrimary')({ theme })}
+        fill={cssVar('color-icon-accent')}
       />
     </svg>
   );

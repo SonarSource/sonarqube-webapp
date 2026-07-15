@@ -175,13 +175,13 @@ export const NakedLink = styled(BaseLink)`
   font-weight: 600;
   color: ${themeColor('linkNaked')};
 
-  ${({ disabled, theme }) =>
+  ${({ disabled }) =>
     disabled
       ? tw`sw-cursor-default`
       : `&:hover,
          &:focus,
          &:active {
-           color: ${themeColor('linkActive')({ theme })};
+           color: ${cssVar('color-text-link-hover')};
          }`};
 `;
 
@@ -195,11 +195,11 @@ export const DrilldownLink = styled(StyledBaseLink)`
   ${({ disabled, theme }) =>
     disabled
       ? tw`sw-cursor-default`
-      : `--active: ${themeColor('linkActive')({ theme })};
+      : `--active: ${cssVar('color-text-link-hover')};
          --border: ${themeBorder('default', 'linkBorder')({ theme })};
          --borderActive: ${themeBorder('default', 'linkBorder')({ theme })};`};
 
-  --color: ${themeColor('drilldown')};
+  --color: ${cssVar('color-text-default')};
 `;
 
 DrilldownLink.displayName = 'DrilldownLink';
@@ -210,7 +210,7 @@ export const HoverLink = styled(StyledBaseLink)`
   text-decoration: none;
 
   --color: ${themeColor('linkDiscreet')};
-  --active: ${themeColor('linkActive')};
+  --active: ${cssVar('color-text-link-hover')};
   --border: ${themeBorder('default', 'transparent')};
   --borderActive: ${themeBorder('default', 'linkBorder')};
 
@@ -285,8 +285,8 @@ export const StandoutLink = styled(StyledBaseLink)`
   ${tw`sw-font-semibold`}
   ${tw`sw-no-underline`}
 
-  --color: ${themeColor('linkDefault')};
-  --active: ${themeColor('linkActive')};
+  --color: ${cssVar('color-text-accent')};
+  --active: ${cssVar('color-text-link-hover')};
   --border: ${themeBorder('default', 'linkBorder')};
   --borderActive: ${themeBorder('default', 'linkBorder')};
 

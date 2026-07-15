@@ -10,7 +10,7 @@ exports[`renders with children 1`] = `
   margin-top: 3rem;
   margin-bottom: 3rem;
   overflow-x: hidden;
-  color: rgb(62,67,87);
+  color: var(--echoes-color-text-default);
 }
 
 .emotion-0.scrollable {

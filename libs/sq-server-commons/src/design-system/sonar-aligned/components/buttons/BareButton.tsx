@@ -19,13 +19,13 @@
  */
 
 import styled from '@emotion/styled';
-import { themeColor } from '../../../helpers';
+import { cssVar } from '@sonarsource/echoes-react';
 
 export const BareButton = styled.button`
   all: unset;
   cursor: pointer;
 
   &:focus-visible {
-    background-color: ${themeColor('dropdownMenuHover')};
+    background-color: ${cssVar('color-surface-hover')};
   }
 `;

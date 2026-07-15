@@ -29,7 +29,7 @@ exports[`should render with title and description 1`] = `
 .emotion-2 {
   font: var(--echoes-typography-text-default-regular);
   margin-top: 0.5rem;
-  color: rgb(62,67,87);
+  color: var(--echoes-color-text-default);
 }
 
 <div>

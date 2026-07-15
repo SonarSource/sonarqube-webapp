@@ -19,10 +19,10 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { scaleLinear } from 'd3-scale';
 import React from 'react';
 import tw from 'twin.macro';
-import { themeColor } from '../helpers';
 import { BasePlacement, PopupPlacement } from '../helpers/positioning';
 import { Tooltip } from './Tooltip';
 
@@ -120,7 +120,7 @@ const StyledCellLink = styled.a`
   ${tw`sw-border-0`};
   ${tw`sw-flex sw-flex-col sw-items-center sw-justify-center`};
 
-  color: ${themeColor('pageContent')};
+  color: ${cssVar('color-text-default')};
 
   &:hover,
   &:active,

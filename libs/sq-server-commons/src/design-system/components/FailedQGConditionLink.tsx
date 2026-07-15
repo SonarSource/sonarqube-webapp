@@ -19,8 +19,8 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
-import { themeColor } from '../helpers/theme';
 import { ButtonProps, DangerButtonSecondary } from '../sonar-aligned/components/buttons';
 import { ChevronRightIcon } from './icons/ChevronRightIcon';
 
@@ -38,7 +38,7 @@ const StyledFailedQGConditionLink = styled(DangerButtonSecondary)`
   &:focus-within,
   &:hover,
   &:visited {
-    border-bottom-color: ${themeColor('dangerButtonSecondaryBorder')};
+    border-bottom-color: ${cssVar('color-border-danger-weak')};
   }
 `;
 

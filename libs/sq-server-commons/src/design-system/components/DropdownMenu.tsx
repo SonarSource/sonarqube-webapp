@@ -26,7 +26,7 @@ import React, { ForwardedRef, forwardRef } from 'react';
 import tw from 'twin.macro';
 import { useCopyClipboardEffect } from '~shared/components/clipboard';
 import { INPUT_SIZES } from '../helpers/constants';
-import { themeColor, themeContrast } from '../helpers/theme';
+import { themeColor } from '../helpers/theme';
 import { InputSizeKeys, ThemedProps } from '../types/theme';
 import { Checkbox } from './input/Checkbox';
 import { BaseLink, LinkProps } from './Link';
@@ -174,7 +174,7 @@ export const ItemButton = forwardRef(
 ItemButton.displayName = 'ItemButton';
 
 export const ItemDangerButton = styled(ItemButton)`
-  --color: ${themeContrast('dropdownMenuDanger')};
+  --color: ${cssVar('color-icon-danger')};
 `;
 
 interface ItemCheckboxProps extends ListItemProps {
@@ -262,7 +262,7 @@ export function ItemDownload(props: ItemDownloadProps) {
 }
 
 export const ItemHeaderHighlight = styled.span`
-  color: ${themeContrast('searchHighlight')};
+  color: ${cssVar('color-text-default')};
   font-weight: 600;
 `;
 
@@ -270,7 +270,7 @@ export const ItemHeaderHighlight = styled.span`
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3354918914/DropdownMenus | Migration Guide}
  */
 export const ItemHeader = styled(UnstyledItemHeader)`
-  background-color: ${themeColor('dropdownMenuHeader')};
+  background-color: ${cssVar('color-surface-default')};
   color: ${cssVar('color-text-subtle')};
 
   ${tw`sw-py-2 sw-px-3`}
@@ -294,7 +294,7 @@ function UnstyledItemHeader({
  */
 export const ItemDivider = styled(UnstyledItemDivider)`
   height: 1px;
-  background-color: ${themeColor('popupBorder')};
+  background-color: ${cssVar('color-border-bold')};
 
   ${tw`sw-my-1 sw--mx-2`}
   ${tw`sw-overflow-hidden`};
@@ -313,8 +313,8 @@ function UnstyledItemDivider({
 }
 
 export const DropdownMenuWrapper = styled.ul`
-  background-color: ${themeColor('dropdownMenu')};
-  color: ${themeContrast('dropdownMenu')};
+  background-color: ${cssVar('color-surface-default')};
+  color: ${cssVar('color-text-default')};
   width: var(--inputSize);
   list-style: none;
 
@@ -331,7 +331,7 @@ export const DropdownMenuWrapper = styled.ul`
 
 const itemStyle = (props: ThemedProps) => css`
   color: var(--color);
-  background-color: ${themeColor('dropdownMenu')(props)};
+  background-color: ${cssVar('color-surface-default')};
   border: none;
   border-bottom: none;
   text-decoration: none;
@@ -377,7 +377,7 @@ const itemStyle = (props: ThemedProps) => css`
   &:disabled,
   &.disabled {
     color: ${cssVar('color-text-disabled')};
-    background-color: ${themeColor('dropdownMenuDisabled')(props)};
+    background-color: ${cssVar('color-surface-disabled')};
     pointer-events: none !important;
 
     ${tw`sw-cursor-not-allowed`};
@@ -393,26 +393,26 @@ const itemStyle = (props: ThemedProps) => css`
 `;
 
 const ItemNavLinkStyled = styled(NavLink)`
-  --color: ${themeContrast('dropdownMenu')};
+  --color: ${cssVar('color-text-default')};
   ${itemStyle};
 `;
 
 const ItemLinkStyled = styled(BaseLink)`
-  --color: ${themeContrast('dropdownMenu')};
+  --color: ${cssVar('color-text-default')};
   ${itemStyle}
 `;
 
 const ItemButtonStyled = styled.button`
-  --color: ${themeContrast('dropdownMenu')};
+  --color: ${cssVar('color-text-default')};
   ${itemStyle}
 `;
 
 const ItemDownloadStyled = styled.a`
-  --color: ${themeContrast('dropdownMenu')};
+  --color: ${cssVar('color-text-default')};
   ${itemStyle}
 `;
 
 const ItemCheckboxStyled = styled(Checkbox)`
-  --color: ${themeContrast('dropdownMenu')};
+  --color: ${cssVar('color-text-default')};
   ${itemStyle}
 `;

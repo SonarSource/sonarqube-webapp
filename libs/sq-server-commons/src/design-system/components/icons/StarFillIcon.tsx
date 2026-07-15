@@ -20,7 +20,7 @@
 
 import styled from '@emotion/styled';
 import { StarFillIcon as OcticonStarFillIcon } from '@primer/octicons-react';
-import { themeColor } from '../../helpers';
+import { cssVar } from '@sonarsource/echoes-react';
 import { OcticonHoc } from './Icon';
 
 /** @deprecated Use IconStar with the isFilled prop from Echoes instead, if possible.
@@ -31,7 +31,7 @@ import { OcticonHoc } from './Icon';
  */
 export const StarFillIcon = styled(OcticonHoc(OcticonStarFillIcon))`
   // provide a default fill color that is different from the default icon
-  fill: ${themeColor('iconFavorite')};
+  fill: ${cssVar('color-background-favourite-default')};
 `;
 
 StarFillIcon.displayName = 'StarFillIcon';

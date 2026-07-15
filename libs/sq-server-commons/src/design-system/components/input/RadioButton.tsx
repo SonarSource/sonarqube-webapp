@@ -102,7 +102,7 @@ const LabelStyled = styled.label<{ disabled?: boolean }>`
  */
 export const RadioButtonStyled = styled.input`
   appearance: none; //disables native style
-  border: ${themeBorder('default', 'radioBorder')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bolder')};
 
   ${tw`sw-cursor-pointer`}
 
@@ -113,12 +113,12 @@ export const RadioButtonStyled = styled.input`
   ${tw`sw-rounded-pill`}
 
   &:hover {
-    background: ${themeColor('radioHover')};
+    background: ${cssVar('color-surface-hover')};
   }
 
   &:focus,
   &:focus-visible {
-    background: ${themeColor('radioHover')};
+    background: ${cssVar('color-surface-hover')};
     border: ${themeBorder('default', 'radioFocusBorder')};
     outline: ${themeBorder('focus', 'radioFocusOutline')};
   }
@@ -131,28 +131,36 @@ export const RadioButtonStyled = styled.input`
     // Color cannot be used with multiple backgrounds, only image is allowed
     background-image:
       linear-gradient(to right, ${themeColor('radio')}, ${themeColor('radio')}),
-      linear-gradient(to right, ${themeColor('radioChecked')}, ${themeColor('radioChecked')});
+      linear-gradient(
+        to right,
+        ${cssVar('color-background-accent-weak-hover')},
+        ${cssVar('color-background-accent-weak-hover')}
+      );
     background-clip: content-box, padding-box;
-    border: ${themeBorder('default', 'radioBorder')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bolder')};
   }
 
   &.is-disabled,
   &:disabled {
-    background: ${themeColor('radioDisabledBackground')};
-    border: ${themeBorder('default', 'radioDisabledBorder')};
+    background: ${cssVar('color-surface-disabled')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-border-disabled')};
     background-clip: unset;
 
     &.is-checked,
     &:checked {
       background-image:
-        linear-gradient(to right, ${themeColor('radioDisabled')}, ${themeColor('radioDisabled')}),
         linear-gradient(
           to right,
-          ${themeColor('radioDisabledBackground')},
-          ${themeColor('radioDisabledBackground')}
+          ${cssVar('color-surface-disabled')},
+          ${cssVar('color-surface-disabled')}
+        ),
+        linear-gradient(
+          to right,
+          ${cssVar('color-surface-disabled')},
+          ${cssVar('color-surface-disabled')}
         );
       background-clip: content-box, padding-box;
-      border: ${themeBorder('default', 'radioDisabledBorder')};
+      border: ${cssVar('border-width-default')} solid ${cssVar('color-border-disabled')};
     }
   }
 `;

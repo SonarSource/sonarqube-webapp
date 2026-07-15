@@ -19,12 +19,13 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { escape as lodashEscape } from 'lodash';
 import tw from 'twin.macro';
 import { ClipboardButton } from '~shared/components/clipboard';
 import { isDefined } from '~shared/helpers/types';
-import { themeBorder, themeColor } from '../helpers/theme';
+import { themeColor } from '../helpers/theme';
 import { CodeSyntaxHighlighter } from './CodeSyntaxHighlighter';
 
 interface Props {
@@ -102,7 +103,7 @@ export function CodeSnippet(props: Readonly<Props>) {
 
 const Wrapper = styled.div`
   background-color: ${themeColor('codeSnippetBackground')};
-  border: ${themeBorder('default', 'codeSnippetBorder')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 
   ${tw`sw-rounded-2`}
   ${tw`sw-relative`}

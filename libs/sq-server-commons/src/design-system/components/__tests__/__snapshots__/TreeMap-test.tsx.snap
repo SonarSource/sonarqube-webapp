@@ -31,7 +31,7 @@ exports[`should render correctly and forward click event 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  color: rgb(62,67,87);
+  color: var(--echoes-color-text-default);
 }
 
 .emotion-4:hover,

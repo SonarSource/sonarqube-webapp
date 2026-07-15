@@ -19,7 +19,8 @@
  */
 
 import styled from '@emotion/styled';
-import { Theme, themeColor, themeShadow } from '../../design-system';
+import { cssVar } from '@sonarsource/echoes-react';
+import { Theme, themeShadow } from '../../design-system';
 
 interface StyledHeaderProps {
   headerHeight: number;
@@ -39,7 +40,7 @@ export const StyledHeader = styled.div<StyledHeaderProps>`
     top: 0;
     margin-top: -${PSEUDO_SHADOW_HEIGHT}px;
     box-sizing: border-box;
-    background-color: ${themeColor('backgroundSecondary')};
+    background-color: ${cssVar('color-surface-default')};
     z-index: 3;
   }
   &:before {
@@ -56,7 +57,7 @@ export const StyledHeader = styled.div<StyledHeaderProps>`
     height: ${PSEUDO_SHADOW_HEIGHT}px;
     position: sticky;
     background: linear-gradient(
-      ${themeColor('backgroundSecondary')} 10%,
+      ${cssVar('color-surface-default')} 10%,
       rgba(255, 255, 255, 0.8) 50%,
       rgba(255, 255, 255, 0.4) 70%,
       transparent

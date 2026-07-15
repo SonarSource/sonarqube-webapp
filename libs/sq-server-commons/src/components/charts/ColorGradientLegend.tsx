@@ -19,9 +19,10 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { ScaleLinear, ScaleOrdinal } from 'd3-scale';
 import * as React from 'react';
-import { CSSColor, themeColor } from '../../design-system';
+import { CSSColor } from '../../design-system';
 
 interface Props {
   className?: string;
@@ -59,7 +60,6 @@ export default function ColorGradientLegend({
       <defs>
         <linearGradient id="gradient-legend">
           {colorRange.map((color, idx) => (
-            // eslint-disable-next-line react/no-array-index-key
             <stop key={idx} offset={idx / lastColorIdx} stopColor={String(color)} />
           ))}
         </linearGradient>
@@ -94,13 +94,7 @@ export default function ColorGradientLegend({
       <g transform={`translate(${padding[3]}, ${padding[0]})`}>
         <rect fill="url(#gradient-legend)" height={rectHeight} width={widthNoPadding} x={0} y={0} />
         {colorDomain.map((d, idx) => (
-          <GradientLegendText
-            dy="-2px"
-            // eslint-disable-next-line react/no-array-index-key
-            key={idx}
-            x={widthNoPadding * (idx / lastDomainIdx)}
-            y={0}
-          >
+          <GradientLegendText dy="-2px" key={idx} x={widthNoPadding * (idx / lastDomainIdx)} y={0}>
             {d}
           </GradientLegendText>
         ))}
@@ -125,7 +119,7 @@ export default function ColorGradientLegend({
 
 const GradientLegendTextBase = styled.text`
   text-anchor: middle;
-  fill: ${themeColor('pageContent')};
+  fill: ${cssVar('color-text-default')};
   font-size: 10px;
 `;
 

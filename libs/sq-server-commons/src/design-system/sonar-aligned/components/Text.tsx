@@ -19,8 +19,8 @@
  */
 
 import styled from '@emotion/styled';
-import { themeColor } from '../../helpers/theme';
+import { cssVar } from '@sonarsource/echoes-react';
 
 export const PageContentFontWrapper = styled.div`
-  color: ${themeColor('pageContent')};
+  color: ${cssVar('color-text-default')};
 `;

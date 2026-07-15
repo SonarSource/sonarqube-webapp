@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { cssVar } from '@sonarsource/echoes-react';
 import { screen } from '@testing-library/react';
 import { render } from '~shared/helpers/test-utils';
 import { HighlightedSection } from '../HighlightedSection';
@@ -27,7 +28,7 @@ it('should render as expected', () => {
 
   expect(screen.getByText('content')).toHaveStyle({
     padding: '2rem',
-    border: '1px solid rgb(225,230,243)',
+    border: `${cssVar('border-width-default')} solid ${cssVar('color-border-weak')}`,
     background: 'rgb(252,252,253)',
   });
 });

@@ -19,10 +19,10 @@
  */
 
 import styled from '@emotion/styled';
-import { Button } from '@sonarsource/echoes-react';
+import { Button, cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { RuleDescriptionSection } from '~shared/types/rules';
-import { FlagMessage, SubTitle, themeBorder, themeColor } from '../../design-system';
+import { FlagMessage, SubTitle } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import RuleDescription from './RuleDescription';
 import DefenseInDepth from './educationPrinciples/DefenseInDepth';
@@ -114,8 +114,8 @@ export default class MoreInfoRuleDescription extends React.PureComponent<Props> 
 }
 
 const StyledEducationPrinciples = styled.div`
-  background-color: ${themeColor('educationPrincipleBackground')};
-  border: ${themeBorder('default', 'educationPrincipleBorder')};
+  background-color: ${cssVar('color-surface-default')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 
   & h3:first-of-type {
     margin-top: 0;

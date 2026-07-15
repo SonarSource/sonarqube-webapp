@@ -19,10 +19,11 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { ReactEventHandler, useState } from 'react';
 import tw from 'twin.macro';
 import { AvatarSize, sizeMap } from '~shared/components/avatar';
-import { themeBorder, themeColor } from '../../helpers/theme';
+import { themeColor } from '../../helpers/theme';
 import { GenericAvatar } from './GenericAvatar';
 
 interface AvatarProps {
@@ -69,12 +70,12 @@ export function Avatar({
       return (
         <StyledAvatar
           alt={resolvedName}
-          border={border}
           className={className}
           height={numberSize}
           onError={handleImgError}
           role="img"
           src={url}
+          style={borderStyle(border)}
           width={numberSize}
         />
       );
@@ -84,12 +85,12 @@ export function Avatar({
       return (
         <StyledAvatar
           alt={resolvedName}
-          border={border}
           className={className}
           height={numberSize}
           onError={handleImgError}
           role="img"
           src={organizationAvatar}
+          style={borderStyle(border)}
           width={numberSize}
         />
       );
@@ -103,12 +104,16 @@ export function Avatar({
   return <GenericAvatar className={className} name={resolvedName} size={size} />;
 }
 
-const StyledAvatar = styled.img<{ border?: boolean }>`
+const borderStyle = (border = false) =>
+  border
+    ? { border: `${cssVar('border-width-default')} solid ${cssVar('color-border-weak')}` }
+    : undefined;
+
+const StyledAvatar = styled.img`
   ${tw`sw-inline-flex`};
   ${tw`sw-items-center`};
   ${tw`sw-justify-center`};
   ${tw`sw-align-top`};
   ${tw`sw-rounded-1`};
-  border: ${({ border }) => (border ? themeBorder('default', 'avatarBorder') : '')};
   background: ${themeColor('avatarBackground')};
 `;
