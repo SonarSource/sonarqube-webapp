@@ -48,15 +48,15 @@ export function DevopsPlatformRow({ share }: Readonly<Props>) {
   return (
     <div className="sw-flex sw-flex-col sw-gap-2 sw-py-3">
       <div className="sw-flex sw-items-center sw-justify-between">
-        <div className="sw-flex sw-shrink-0 sw-items-center sw-justify-center sw-gap-2 sw-w-[150px]">
+        <div className="sw-flex sw-shrink-0 sw-items-center sw-justify-start sw-gap-2 sw-w-[150px]">
           {iconSrc === undefined ? (
             <IconSlash color="echoes-color-icon-subtle" />
           ) : (
             <Image alt="" height={20} src={iconSrc} />
           )}
-          <p className="sw-grow sw-truncate sw-font-semibold" style={{ color }}>
+          <Text isSubtle size={TextSize.Small}>
             {name}
-          </p>
+          </Text>
         </div>
 
         <Text as="p" isSubtle size={TextSize.Small}>

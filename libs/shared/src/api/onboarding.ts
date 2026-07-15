@@ -27,8 +27,8 @@ import {
 } from '../types/onboarding';
 
 const ONBOARDING_PATH = `${API_V2_BASE_URL}/onboarding`;
-export const ONBOARDING_OVERVIEW_PATH = `${ONBOARDING_PATH}/overview`;
-export const ONBOARDING_PROJECTS_PATH = `${ONBOARDING_PATH}/projects`;
+const ONBOARDING_OVERVIEW_PATH = `${ONBOARDING_PATH}/overview`;
+const ONBOARDING_PROJECTS_PATH = `${ONBOARDING_PATH}/projects`;
 
 export interface OnboardingProjectsQuery {
   filter?: OnboardingProjectsFilter;

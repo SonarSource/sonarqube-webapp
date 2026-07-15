@@ -20,9 +20,3 @@
 
 /** Placeholder rendered for values with no data (em dash). */
 export const NO_DATA = '—';
-
-/**
- * Backend id of the automatic "Discover repositories" checklist milestone. Excluded from the
- * overall onboarding progress, which reflects only the milestones the user actively drives.
- */
-export const DISCOVER_MILESTONE_ID = 'discover';
