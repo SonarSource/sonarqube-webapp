@@ -743,6 +743,12 @@ export const defaultMessages = {
   'ai_capabilities.remediation_agent.description':
     'An AI-powered agent that automatically proposes fixes for your issues — creating pull requests for your review and approval. {link}',
   'ai_capabilities.remediation_agent.description.link': 'Learn more in our documentation',
+  'ai_capabilities.remediation_agent.manual.title': 'Manual backlog remediation',
+  'ai_capabilities.remediation_agent.manual.description':
+    "Reduce technical debt by selecting issues from your project's issues list and letting the agent propose fixes in a pull request.",
+  'ai_capabilities.remediation_agent.scheduled.title': 'Automated backlog remediation',
+  'ai_capabilities.remediation_agent.scheduled.description':
+    'Reduce technical debt by automatically fixing high-priority issues on your main branch on a schedule.',
 
   //------------------------------------------------------------------------------
   //
