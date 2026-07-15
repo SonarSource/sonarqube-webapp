@@ -18,10 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconGear, Layout } from '@sonarsource/echoes-react';
+import { IconGear, IconSparkle, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { NewBadge } from '~shared/components/badges/NewBadge';
 import { Extension } from '~shared/types/common';
 import { addons } from '~sq-server-addons/index';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { Feature } from '~sq-server-commons/types/features';
 
 interface Props {
   extensions: Extension[];
@@ -30,6 +33,7 @@ interface Props {
 
 export function AdministrationSidebarConfiguration(props: Readonly<Props>) {
   const { extensions, governanceInstalled } = props;
+  const { hasFeature } = useAvailableFeatures();
 
   return (
     <Layout.SidebarNavigation.AccordionItem
@@ -44,6 +48,21 @@ export function AdministrationSidebarConfiguration(props: Readonly<Props>) {
       >
         <FormattedMessage id="settings.page" />
       </Layout.SidebarNavigation.Item>
+
+      {hasFeature(Feature.RemediationAgent) && addons.remediationAgent && (
+        <Layout.SidebarNavigation.Item
+          Icon={IconSparkle}
+          disableIconWhenSidebarOpen
+          suffix={
+            <NewBadge
+              expirationDate={addons.remediationAgent.AI_CAPABILITIES_NEW_BADGE_EXPIRATION_DATE}
+            />
+          }
+          to="/admin/agent"
+        >
+          <FormattedMessage id="sidebar.ai_capabilities" />
+        </Layout.SidebarNavigation.Item>
+      )}
 
       <Layout.SidebarNavigation.Item
         Icon={IconGear}

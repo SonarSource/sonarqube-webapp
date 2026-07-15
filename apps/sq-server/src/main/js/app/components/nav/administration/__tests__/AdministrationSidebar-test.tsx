@@ -25,6 +25,7 @@ import { addons } from '~sq-server-addons/index';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { AppState } from '~sq-server-commons/types/appstate';
+import { Feature } from '~sq-server-commons/types/features';
 import { AdministrationSidebar } from '../AdministrationSidebar';
 
 jest.mock('~sq-server-addons/index', () => ({
@@ -33,6 +34,7 @@ jest.mock('~sq-server-addons/index', () => ({
 
 beforeEach(() => {
   jest.mocked(addons).license = undefined;
+  jest.mocked(addons).remediationAgent = undefined;
 });
 
 it('render correctly', () => {
@@ -74,6 +76,30 @@ it('render correctly with governance extension', () => {
   expect(byText('portfolios.page').get()).toBeInTheDocument();
 });
 
-function renderAdminSidebar(extensions: Extension[] = [], appState?: AppState) {
-  renderApp('/', <AdministrationSidebar extensions={extensions} />, { appState });
+it('renders AI Capabilities item when the RemediationAgent feature is available', () => {
+  (jest.mocked(addons).remediationAgent as unknown) = true;
+  renderAdminSidebar([], undefined, [Feature.RemediationAgent]);
+
+  expect(byText('sidebar.ai_capabilities').get()).toBeInTheDocument();
+});
+
+it('hides the AI Capabilities item when the RemediationAgent feature is missing', () => {
+  (jest.mocked(addons).remediationAgent as unknown) = true;
+  renderAdminSidebar();
+
+  expect(byText('sidebar.ai_capabilities').query()).not.toBeInTheDocument();
+});
+
+it('hides the AI Capabilities item when the addon is not installed', () => {
+  renderAdminSidebar([], undefined, [Feature.RemediationAgent]);
+
+  expect(byText('sidebar.ai_capabilities').query()).not.toBeInTheDocument();
+});
+
+function renderAdminSidebar(
+  extensions: Extension[] = [],
+  appState?: AppState,
+  featureList?: Feature[],
+) {
+  renderApp('/', <AdministrationSidebar extensions={extensions} />, { appState, featureList });
 }

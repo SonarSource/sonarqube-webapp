@@ -724,11 +724,24 @@ export const defaultMessages = {
   'layout.nav.home_logo_alt': 'Logo, link to homepage',
   'layout.nav.home_sonarqube_logo_alt': '{productName} logo, link to homepage',
 
+  'sidebar.ai_capabilities': 'AI Capabilities',
   'sidebar.projects': 'Projects',
   'sidebar.project_settings': 'Configuration',
   'sidebar.security': 'Security',
   'sidebar.system': 'System',
   'sidebar.tools': 'Tools',
+
+  //------------------------------------------------------------------------------
+  //
+  // AI CAPABILITIES
+  //
+  //------------------------------------------------------------------------------
+
+  'ai_capabilities.title': 'AI Capabilities',
+  'ai_capabilities.remediation_agent.title': 'Remediation Agent',
+  'ai_capabilities.remediation_agent.description':
+    'An AI-powered agent that automatically proposes fixes for your issues — creating pull requests for your review and approval. {link}',
+  'ai_capabilities.remediation_agent.description.link': 'Learn more in our documentation',
 
   //------------------------------------------------------------------------------
   //
