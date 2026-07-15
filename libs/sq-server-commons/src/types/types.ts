@@ -237,6 +237,13 @@ export interface Issue extends Omit<RawIssue, 'flows' | 'comments'> {
   projectKey: string;
   projectName: string;
   pullRequest?: string;
+  // The following three `rule*` fields are NOT on the API response. They are
+  // injected at runtime by `parseIssueFromResponse` (via `injectRelational`
+  // over the accompanying rules list). They are only populated when the
+  // parser is given the rules array; otherwise they are undefined.
+  ruleKey?: string;
+  ruleLang?: string;
+  ruleLangName?: string;
   ruleName: string;
   secondaryLocations: FlowLocation[];
 }

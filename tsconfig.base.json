@@ -41,7 +41,8 @@
       "~sq-server-features/*": ["./private/libs/sq-server-features/src/*"],
       "~feature-dashboards/*": ["./private/libs/feature-dashboards/src/*"],
       "~feature-onboarding-dashboard/*": ["./libs/feature-onboarding-dashboard/src/*"],
-      "~feature-quality-gate-history/*": ["./libs/feature-quality-gate-history/src/*"]
+      "~feature-quality-gate-history/*": ["./libs/feature-quality-gate-history/src/*"],
+      "~feature-remediation-agent/*": ["./private/libs/feature-remediation-agent/src/*"]
     },
     "types": ["node", "vite/client", "jest", "@testing-library/jest-dom"],
     "outDir": "./dist"

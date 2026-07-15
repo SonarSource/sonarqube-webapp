@@ -47,6 +47,7 @@ import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier } from '~shared/types/component';
 import { Paging } from '~shared/types/paging';
 import { Location, RawQuery, Router } from '~shared/types/router';
+import { addons } from '~sq-server-addons/index';
 import { listIssues, searchIssues } from '~sq-server-commons/api/issues';
 import EmptySearch from '~sq-server-commons/components/common/EmptySearch';
 import FiltersHeader from '~sq-server-commons/components/common/FiltersHeader';
@@ -57,6 +58,9 @@ import withIndexationGuard from '~sq-server-commons/components/hoc/withIndexatio
 import { SecurityDevEditionPromoteBanner } from '~sq-server-commons/components/promotion/SecurityDevEditionPromoteBanner';
 import '~sq-server-commons/components/search-navigator.css';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
+import withAvailableFeatures, {
+  WithAvailableFeaturesProps,
+} from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { isSameBranchLike } from '~sq-server-commons/helpers/branch-like';
@@ -74,6 +78,7 @@ import { serializeDate } from '~sq-server-commons/helpers/query';
 import { withBranchLikes } from '~sq-server-commons/queries/branch';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { Feature } from '~sq-server-commons/types/features';
 import {
   ASSIGNEE_ME,
   Facet,
@@ -111,7 +116,7 @@ import NoIssues from './NoIssues';
 import NoMyIssues from './NoMyIssues';
 import PageActions from './PageActions';
 
-interface Props extends WithIndexationContextProps {
+interface Props extends WithIndexationContextProps, WithAvailableFeaturesProps {
   branchLike?: BranchLike;
   branchLikes?: BranchLike[];
   component?: Component;
@@ -973,7 +978,7 @@ export class App extends React.PureComponent<Props, State> {
   };
 
   renderBulkChange() {
-    const { component, currentUser } = this.props;
+    const { component, currentUser, hasFeature } = this.props;
     const { checkAll, bulkChangeModal, checked, issues, paging } = this.state;
 
     const isAllChecked = checked.length > 0 && issues.length === checked.length;
@@ -996,14 +1001,27 @@ export class App extends React.PureComponent<Props, State> {
           title={translate('issues.select_all_issues')}
         />
 
-        <Button
-          id="issues-bulk-change"
-          isDisabled={checked.length === 0}
-          onClick={this.handleOpenBulkChange}
-          ref={this.bulkButtonRef}
-        >
-          {this.getButtonLabel(checked, checkAll, paging)}
-        </Button>
+        <div className="sw-flex sw-gap-2">
+          <Button
+            id="issues-bulk-change"
+            isDisabled={checked.length === 0}
+            onClick={this.handleOpenBulkChange}
+            ref={this.bulkButtonRef}
+          >
+            {this.getButtonLabel(checked, checkAll, paging)}
+          </Button>
+
+          {hasFeature(Feature.RemediationAgent) &&
+            addons.remediationAgent &&
+            component?.key &&
+            isProject(component.qualifier) && (
+              <addons.remediationAgent.BacklogJobAssignButton
+                allIssues={issues}
+                checkedKeys={checked}
+                projectKey={component.key}
+              />
+            )}
+        </div>
 
         {bulkChangeModal && (
           <BulkChangeModal
@@ -1289,23 +1307,25 @@ function WrappedApp(props: Readonly<Omit<Props, 'isStandard'>>) {
 }
 
 export default withRouter(
-  withComponentContext(
-    withCurrentUserContext(
-      withBranchLikes(
-        withIndexationContext(
-          withIndexationGuard<Props & WithIndexationContextProps>({
-            Component: WrappedApp,
-            showIndexationMessage: ({
-              component,
-              indexationContext: {
-                status: { completedCount, hasFailures, isCompleted, total },
-              },
-            }) =>
-              (!component &&
-                (isCompleted === false || hasFailures === true || completedCount !== total)) ||
-              (component?.qualifier !== ComponentQualifier.Project &&
-                component?.needIssueSync === true),
-          }),
+  withAvailableFeatures(
+    withComponentContext(
+      withCurrentUserContext(
+        withBranchLikes(
+          withIndexationContext(
+            withIndexationGuard<Props & WithIndexationContextProps>({
+              Component: WrappedApp,
+              showIndexationMessage: ({
+                component,
+                indexationContext: {
+                  status: { completedCount, hasFailures, isCompleted, total },
+                },
+              }) =>
+                (!component &&
+                  (isCompleted === false || hasFailures === true || completedCount !== total)) ||
+                (component?.qualifier !== ComponentQualifier.Project &&
+                  component?.needIssueSync === true),
+            }),
+          ),
         ),
       ),
     ),

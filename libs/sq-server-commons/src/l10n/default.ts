@@ -1445,6 +1445,9 @@ export const defaultMessages = {
   'issues.loading_issues': 'Loading issues',
   'issues.return_to_list': 'Return to List',
   'issues.bulk_change_X_issues': 'Bulk Change {0} Issue(s)',
+  'issues.assign_to_agent': 'Assign to agent',
+  'project_issues.assign_to_agent.success.title':
+    '{issueCount, plural, one {# issue} other {# issues}} assigned to Agent',
   'issues.select_all_issues': 'Select all Issues',
   'issues.issues': 'issues',
   'issues.to_select_issues': 'Select issues',
