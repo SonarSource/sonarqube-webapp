@@ -126,6 +126,7 @@ function renderComponentRoutes({
   hasArchitectureFeature,
   hasBranchSupport,
   hasPortfolioFeature,
+  hasRemediationAgentFeature,
   hasScaFeature,
   hasSecurityReportsFeature,
 }: {
@@ -135,6 +136,7 @@ function renderComponentRoutes({
   hasArchitectureFeature: boolean;
   hasBranchSupport: boolean;
   hasPortfolioFeature: boolean;
+  hasRemediationAgentFeature: boolean;
   hasScaFeature: boolean;
   hasSecurityReportsFeature: boolean;
 }) {
@@ -160,6 +162,7 @@ function renderComponentRoutes({
           </Route>
         )}
         {projectIssuesRoutes()}
+        {hasRemediationAgentFeature && addons.remediationAgent?.projectRoutes()}
         {hasScaFeature && addons?.sca?.projectRoutes}
         {securityHotspotsRoutes()}
         {qualityGateHistoryRoutes()}
@@ -346,6 +349,7 @@ const router = ({
                 hasPortfolioFeature: governanceInstalled,
                 hasApplicationFeature,
                 hasApplicationReportFeature: governanceInstalled,
+                hasRemediationAgentFeature: availableFeatures.includes(Feature.RemediationAgent),
                 hasSecurityReportsFeature: isEnterprise,
               })}
 

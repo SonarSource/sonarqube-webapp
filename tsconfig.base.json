@@ -32,6 +32,7 @@
       "~design-system": ["./libs/sq-server-commons/src/design-system/index.ts"],
       "~feature-architecture/*": ["./private/libs/feature-architecture/src/*"],
       "~feature-jira/*": ["./private/libs/feature-jira/src/*"],
+      "~feature-remediation-agent/*": ["./private/libs/feature-remediation-agent/src/*"],
       "~feature-rules/*": ["./libs/feature-rules/src/*"],
       "~feature-sca/*": ["./private/libs/feature-sca/src/*"],
       "~private-shared/*": ["./private/libs/shared/src/*"],

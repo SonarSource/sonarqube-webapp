@@ -23,9 +23,11 @@ import {
   IconFileCode,
   IconGitBranch,
   IconInfo,
+  IconSparkle,
   Layout,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { NewBadge } from '~shared/components/badges/NewBadge';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/component';
 import { addons } from '~sq-server-addons/index';
@@ -84,6 +86,24 @@ export function ComponentNavProjectMenu(props: Readonly<Props>) {
           to={addons.sca.getReleasesUrl({ newParams: query })}
         >
           <FormattedMessage id="dependencies.bill_of_materials" />
+        </Layout.SidebarNavigation.Item>
+      )}
+      {isProj && hasFeature(Feature.RemediationAgent) && addons.remediationAgent && (
+        <Layout.SidebarNavigation.Item
+          Icon={IconSparkle}
+          suffix={
+            <NewBadge
+              expirationDate={
+                addons.remediationAgent.PROJECT_AGENT_ACTIVITY_NEW_BADGE_EXPIRATION_DATE
+              }
+            />
+          }
+          to={{
+            pathname: '/project/remediation_agent',
+            search: new URLSearchParams({ id: component.key }).toString(),
+          }}
+        >
+          <FormattedMessage id="project_agent_activity.title" />
         </Layout.SidebarNavigation.Item>
       )}
       {(isProj || isApp) && (
