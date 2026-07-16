@@ -51,7 +51,9 @@ export function PageUnavailableDueToIndexation() {
     <Layout.PageGrid>
       <Layout.PageContent>
         <MessageCallout className="sw-mt-10" variety="info">
-          <FormattedMessage id="indexation.page_unavailable.description" />{' '}
+          {indexationContext.status.statusMessage ?? (
+            <FormattedMessage id="indexation.page_unavailable.description" />
+          )}{' '}
           <FormattedMessage
             id="indexation.page_unavailable.description.additional_information"
             values={{

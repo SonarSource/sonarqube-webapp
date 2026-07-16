@@ -32,6 +32,8 @@ interface IndexationStatusCompleted {
 
 export type IndexationStatus = {
   hasFailures: boolean;
+  hasInconsistencies?: boolean;
+  statusMessage?: string;
 } & (IndexationStatusInProgress | IndexationStatusCompleted);
 
 export interface IndexationContextInterface {
