@@ -395,6 +395,9 @@ export const defaultMessages = {
   'no_results_search.favorites':
     "We couldn't find any results matching selected criteria in your favorites.",
   'no_results_search.2': 'Try to change filters to get some results.',
+  'select_list.no_items': 'No items',
+  'select_list.no_selected_items': 'No selected items',
+  'select_list.no_unselected_items': 'No unselected items',
   'no_results_search.favorites.2': 'Would you like to search among {url} projects?',
   opens_in_new_window: 'Opens in a new window',
   page_extension_failed: 'Page extension failed.',
@@ -739,6 +742,7 @@ export const defaultMessages = {
   //------------------------------------------------------------------------------
 
   'ai_capabilities.title': 'AI Capabilities',
+  'ai_capabilities.scheduled_jobs.automatic': 'Automatic',
   'ai_capabilities.remediation_agent.title': 'Remediation Agent',
   'ai_capabilities.remediation_agent.description':
     'An AI-powered agent that automatically proposes fixes for your issues — creating pull requests for your review and approval. {link}',
@@ -749,6 +753,49 @@ export const defaultMessages = {
   'ai_capabilities.remediation_agent.scheduled.title': 'Automated backlog remediation',
   'ai_capabilities.remediation_agent.scheduled.description':
     'Reduce technical debt by automatically fixing high-priority issues on your main branch on a schedule.',
+  'ai_capabilities.remediation_agent.scheduled.save_success':
+    'Scheduled remediation settings saved successfully.',
+  'ai_capabilities.remediation_agent.scheduled.frequency': 'Frequency',
+  'ai_capabilities.remediation_agent.scheduled.frequency.at': 'at',
+  'ai_capabilities.remediation_agent.scheduled.frequency.on': 'on',
+  'ai_capabilities.remediation_agent.scheduled.frequency.daily': 'Daily',
+  'ai_capabilities.remediation_agent.scheduled.frequency.weekly': 'Weekly',
+  'ai_capabilities.remediation_agent.scheduled.next_run_hint': '{date} at {time} {timeZone}',
+  'ai_capabilities.remediation_agent.scheduled.day_of_week': 'Day of week',
+  'ai_capabilities.remediation_agent.scheduled.hour': 'Hour',
+  'ai_capabilities.remediation_agent.scheduled.timezone': 'Timezone',
+  'ai_capabilities.remediation_agent.scheduled.timezone.placeholder': 'Europe/Paris (UTC+2)',
+  'ai_capabilities.remediation_agent.scheduled.run_schedule': 'Run schedule',
+  'ai_capabilities.remediation_agent.scheduled.pause_if_open_prs_reach':
+    'Pause when open PRs reach',
+  'ai_capabilities.remediation_agent.scheduled.pause_if_open_prs_reach.tooltip':
+    'The agent pauses creating new PRs when this number is reached. Existing PRs from other sources are not counted.',
+  'ai_capabilities.remediation_agent.scheduled.pause_if_open_prs_reach.tooltip.aria_label':
+    'More info',
+  'ai_capabilities.remediation_agent.scheduled.dont_pause': "Don't pause",
+  'ai_capabilities.remediation_agent.scheduled.run_summary':
+    'Next run: {nextRun} · Will open 1 PR for up to 5 issues in every selected repo · {pauseInfo}',
+  'ai_capabilities.remediation_agent.scheduled.run_summary.dont_pause': "Doesn't pause",
+  'ai_capabilities.remediation_agent.scheduled.run_summary.pauses_when':
+    'Pauses when {maxOpenPRs} PRs are open',
+  'ai_capabilities.remediation_agent.scheduled.project_selection.title':
+    'Choose which projects should have automated remediation',
+  'ai_capabilities.remediation_agent.scheduled.project_selection.all.label': 'All projects',
+  'ai_capabilities.remediation_agent.scheduled.project_selection.all.help':
+    'Enable on all existing and future projects',
+  'ai_capabilities.remediation_agent.scheduled.project_selection.some.label':
+    'Only selected projects',
+  'ai_capabilities.remediation_agent.scheduled.project_selection.some.help':
+    'Enable on selected projects only',
+  'ai_capabilities.remediation_agent.scheduled.project_selection.some.note':
+    'Automated remediation will not be automatically enabled on new projects.',
+  'ai_capabilities.remediation_agent.scheduled.monday': 'Monday',
+  'ai_capabilities.remediation_agent.scheduled.tuesday': 'Tuesday',
+  'ai_capabilities.remediation_agent.scheduled.wednesday': 'Wednesday',
+  'ai_capabilities.remediation_agent.scheduled.thursday': 'Thursday',
+  'ai_capabilities.remediation_agent.scheduled.friday': 'Friday',
+  'ai_capabilities.remediation_agent.scheduled.saturday': 'Saturday',
+  'ai_capabilities.remediation_agent.scheduled.sunday': 'Sunday',
 
   //------------------------------------------------------------------------------
   //

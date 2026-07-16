@@ -24,6 +24,7 @@ import {
   Table,
   TextInput,
   ToggleButtonGroup,
+  cssVar,
 } from '@sonarsource/echoes-react';
 import { debounce } from 'lodash';
 import { useCallback, useEffect, useId, useMemo, useState } from 'react';
@@ -187,10 +188,20 @@ export function SelectList<T>(props: Readonly<SelectListProps<T>>) {
     return `max-content ${columns.map((c) => c.width || '1fr').join(' ')}`;
   }, [columns]);
 
+  const emptyMessageId =
+    inputValue !== ''
+      ? 'select_list.no_items'
+      : {
+          [SelectListFilter.All]: 'select_list.no_items',
+          [SelectListFilter.Selected]: 'select_list.no_selected_items',
+          [SelectListFilter.Unselected]: 'select_list.no_unselected_items',
+        }[filter];
+
   return (
     <>
       <div className="sw-flex sw-items-center sw-mb-4">
         <ToggleButtonGroup
+          className="sw-mr-4"
           isDisabled={inputValue !== ''}
           onChange={handleFilterChange}
           options={[
@@ -212,8 +223,6 @@ export function SelectList<T>(props: Readonly<SelectListProps<T>>) {
           ]}
           selected={filter}
         />
-      </div>
-      <div className="sw-mb-4">
         <TextInput
           id={searchInputId}
           onChange={(e) => {
@@ -222,7 +231,7 @@ export function SelectList<T>(props: Readonly<SelectListProps<T>>) {
           placeholder={searchInputPlaceholder ?? intl.formatMessage({ id: 'search_verb' })}
           prefix={
             <>
-              <Spinner isLoading={loading} />
+              <Spinner isLoading={loading === true} />
               {loading ? undefined : <IconSearch />}
             </>
           }
@@ -230,9 +239,23 @@ export function SelectList<T>(props: Readonly<SelectListProps<T>>) {
           value={inputValue}
         />
       </div>
-      <div className="sw-overflow-y-auto sw-shrink">
+
+      <div
+        className="sw-max-h-[320px] sw-overflow-y-auto sw-shrink"
+        style={{
+          border: `${cssVar('border-width-default')} solid ${cssVar('color-border-weak')}`,
+        }}
+      >
         <Table ariaLabel={ariaLabel} gridTemplate={gridTemplate}>
           <Table.Body>
+            {!loading && items.length === 0 && (
+              <Table.Row>
+                <Table.CellText
+                  className="sw-col-span-full sw-justify-center sw-py-8"
+                  content={intl.formatMessage({ id: emptyMessageId })}
+                />
+              </Table.Row>
+            )}
             {items.map((item) => {
               const key = itemKey(item);
               const isSelected = selectedKeys.has(key);

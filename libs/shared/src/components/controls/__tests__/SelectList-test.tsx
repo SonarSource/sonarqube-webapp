@@ -54,6 +54,19 @@ it('should render items', () => {
   expect(screen.getByText('Baz')).toBeInTheDocument();
 });
 
+it('should render an empty message matching the active filter', async () => {
+  const user = userEvent.setup();
+  renderSelectList({ items: [] });
+
+  expect(screen.getByText('select_list.no_items')).toBeInTheDocument();
+
+  await user.click(screen.getByRole('radio', { name: 'selected' }));
+  expect(screen.getByText('select_list.no_selected_items')).toBeInTheDocument();
+
+  await user.click(screen.getByRole('radio', { name: 'unselected' }));
+  expect(screen.getByText('select_list.no_unselected_items')).toBeInTheDocument();
+});
+
 it('should cancel filter selection when search is active', async () => {
   const user = userEvent.setup();
   const onSearch = jest.fn().mockResolvedValue(undefined);
