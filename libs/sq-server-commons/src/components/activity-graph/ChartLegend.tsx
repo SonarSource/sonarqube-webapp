@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
 import classNames from 'classnames';
-import { Theme, themeColor } from '../../design-system';
+import { getChartCategoricalColor } from '~shared/helpers/charts';
 import { LINE_CHART_DASHES } from './utils';
 
 interface Props {
@@ -29,8 +28,6 @@ interface Props {
 }
 
 export function ChartLegend({ index, className }: Readonly<Props>) {
-  const theme = useTheme() as Theme;
-
   return (
     <svg
       className={className}
@@ -47,9 +44,7 @@ export function ChartLegend({ index, className }: Readonly<Props>) {
         className={classNames('line-chart-path', `line-chart-path-${index}`)}
         d="M0 8 L 16 8"
         style={{
-          stroke: themeColor(`graphLineColor.${index}` as Parameters<typeof themeColor>[0])({
-            theme,
-          }),
+          stroke: getChartCategoricalColor(index),
           strokeDasharray: LINE_CHART_DASHES[index],
         }}
       />

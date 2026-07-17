@@ -18,9 +18,25 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { cssVar } from '@sonarsource/echoes-react';
 import { ScaleTime } from 'd3-scale';
 import { sortBy } from 'lodash';
 import * as React from 'react';
+
+export const CHART_CATEGORICAL_COLORS = [
+  cssVar('color-charts-categorical-1'),
+  cssVar('color-charts-categorical-2'),
+  cssVar('color-charts-categorical-3'),
+  cssVar('color-charts-categorical-4'),
+  cssVar('color-charts-categorical-5'),
+  cssVar('color-charts-categorical-6'),
+  cssVar('color-charts-categorical-7'),
+  cssVar('color-charts-categorical-8'),
+] as const;
+
+export function getChartCategoricalColor(index: number) {
+  return CHART_CATEGORICAL_COLORS[index % CHART_CATEGORICAL_COLORS.length];
+}
 
 export type ZoomXScale = ScaleTime<number, number>;
 

@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { filter, slice, sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -194,7 +195,7 @@ const StyledTable = styled.table`
     vertical-align: top;
     line-height: 18px;
     padding: 8px 10px;
-    border-bottom: 1px solid #e6e6e6;
+    border-bottom: 1px solid ${cssVar('color-border-weak')};
     font-weight: 600;
   }
 
@@ -206,7 +207,7 @@ const StyledTable = styled.table`
 
   & > tfoot > tr > td {
     font-size: 93%;
-    color: #656565;
+    color: ${cssVar('color-text-subtle')};
     padding: 5px;
   }
 

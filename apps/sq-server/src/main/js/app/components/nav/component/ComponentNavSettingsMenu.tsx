@@ -108,7 +108,6 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
       {showSettings && (
         <Layout.SidebarNavigation.Item
           Icon={IconGear}
-          disableIconWhenSidebarOpen
           to={{ pathname: '/project/settings', search }}
         >
           <FormattedMessage id="project_settings.page" />
@@ -118,7 +117,6 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
       {showBaseline && (
         <Layout.SidebarNavigation.Item
           Icon={IconGear}
-          disableIconWhenSidebarOpen
           to={{ pathname: '/project/baseline', search }}
         >
           <FormattedMessage id="project_baseline.page" />
@@ -128,7 +126,6 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
       {adminExtensions.map(({ key, name }) => (
         <Layout.SidebarNavigation.Item
           Icon={IconGear}
-          disableIconWhenSidebarOpen
           key={key}
           to={{
             pathname: pathForExtension(key, true),
@@ -143,7 +140,6 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
       {showApplicationDefinition && (
         <Layout.SidebarNavigation.Item
           Icon={IconGear}
-          disableIconWhenSidebarOpen
           to={{ pathname: '/project/admin/application-definition', search }}
         >
           <FormattedMessage id="application_console.page" />
@@ -153,7 +149,6 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
       {showPortfolioDefinition && (
         <Layout.SidebarNavigation.Item
           Icon={IconGear}
-          disableIconWhenSidebarOpen
           to={{ pathname: '/project/admin/definition', search }}
         >
           <FormattedMessage id="application_console.page" />
@@ -163,7 +158,6 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
       {showApplicationReportSettings && (
         <Layout.SidebarNavigation.Item
           Icon={IconGear}
-          disableIconWhenSidebarOpen
           to={{ pathname: '/project/admin/application-report', search }}
         >
           <FormattedMessage id="application_settings.report" />
@@ -173,7 +167,6 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
       {showPortfolioReportSettings && (
         <Layout.SidebarNavigation.Item
           Icon={IconGear}
-          disableIconWhenSidebarOpen
           to={{ pathname: '/portfolio/report', search }}
         >
           <FormattedMessage id="report.page" />
@@ -183,7 +176,6 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
       {showAiGeneratedCode && addons.aica && (
         <Layout.SidebarNavigation.Item
           Icon={IconGear}
-          disableIconWhenSidebarOpen
           to={{ pathname: `/project/${addons.aica.AICA_SETTINGS_PATH}`, search }}
         >
           <FormattedMessage id="ai_generated_code.page" />
@@ -193,7 +185,6 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
       {isProj && (
         <Layout.SidebarNavigation.Item
           Icon={IconGear}
-          disableIconWhenSidebarOpen
           to={{ pathname: '/project/import_export', search }}
         >
           <FormattedMessage id="project_dump.page" />
@@ -201,21 +192,13 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
       )}
 
       {configuration.showLinks && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGear}
-          disableIconWhenSidebarOpen
-          to={{ pathname: '/project/links', search }}
-        >
+        <Layout.SidebarNavigation.Item Icon={IconGear} to={{ pathname: '/project/links', search }}>
           <FormattedMessage id="project_links.page" />
         </Layout.SidebarNavigation.Item>
       )}
 
       {configuration.showPermissions && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGear}
-          disableIconWhenSidebarOpen
-          to={{ pathname: '/project_roles', search }}
-        >
+        <Layout.SidebarNavigation.Item Icon={IconGear} to={{ pathname: '/project_roles', search }}>
           <FormattedMessage id="permissions.page" />
         </Layout.SidebarNavigation.Item>
       )}
@@ -223,7 +206,6 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
       {configuration.showBackgroundTasks && (
         <Layout.SidebarNavigation.Item
           Icon={IconGear}
-          disableIconWhenSidebarOpen
           to={{ pathname: '/project/background_tasks', search }}
         >
           <FormattedMessage id="background_tasks.page" />
@@ -231,11 +213,7 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
       )}
 
       {configuration.showUpdateKey && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGear}
-          disableIconWhenSidebarOpen
-          to={{ pathname: '/project/key', search }}
-        >
+        <Layout.SidebarNavigation.Item Icon={IconGear} to={{ pathname: '/project/key', search }}>
           <FormattedMessage id="update_key.page" />
         </Layout.SidebarNavigation.Item>
       )}
@@ -243,7 +221,6 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
       {isProj && (
         <Layout.SidebarNavigation.Item
           Icon={IconWebhook}
-          disableIconWhenSidebarOpen
           to={{ pathname: '/project/webhooks', search }}
         >
           <FormattedMessage id="webhooks.page" />
@@ -253,7 +230,6 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
       {showDeletion && (
         <Layout.SidebarNavigation.Item
           Icon={IconGear}
-          disableIconWhenSidebarOpen
           to={{ pathname: '/project/deletion', search }}
         >
           <FormattedMessage id="deletion.page" />

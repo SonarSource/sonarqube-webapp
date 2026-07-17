@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import { ComponentProps } from 'react';
 import { useFlags } from '~adapters/helpers/feature-flags';
 import { RecentHistory } from '~shared/helpers/recent-history';
@@ -70,23 +70,23 @@ const ui = {
       .map((n) => n.textContent),
 
   // Navigation items
-  onboardingLink: byRole('link', { name: 'onboarding.project_analysis.menu_entry' }),
-  overviewLink: byRole('link', { name: 'overview.page' }),
-  portfolioHealthDashboardLink: byRole('link', { name: 'portfolio_dashboards.health.page' }),
-  allDashboardsLink: byRole('link', { name: 'portfolio_dashboards.all.page' }),
-  issuesLink: byRole('link', { name: 'issues.page' }),
-  securityHotspotsLink: byRole('link', { name: 'layout.security_hotspots deprecated' }),
-  securityReportsLink: byRole('link', { name: 'layout.security_reports' }),
-  measuresLink: byRole('link', { name: 'layout.measures' }),
-  appCodeLink: byRole('link', { name: 'view_projects.page' }),
-  codeLink: byRole('link', { name: 'code.page' }),
-  activityLink: byRole('link', { name: 'project_activity.page' }),
-  projectInfoLink: byRole('link', { name: 'project.info.title' }),
-  applicationInfoLink: byRole('link', { name: 'application.info.title' }),
-  qualityProfilesLink: byRole('link', { name: 'project_quality_profiles.page' }),
-  qualityGateLink: byRole('link', { name: 'project_quality_gate.page' }),
+  onboardingLink: byText('onboarding.project_analysis.menu_entry'),
+  overviewLink: byText('overview.page'),
+  portfolioHealthDashboardLink: byText('portfolio_dashboards.health.page'),
+  allDashboardsLink: byText('portfolio_dashboards.all.page'),
+  issuesLink: byText('issues.page'),
+  securityHotspotsLink: byText('layout.security_hotspots'),
+  securityReportsLink: byText('layout.security_reports'),
+  measuresLink: byText('layout.measures'),
+  appCodeLink: byText('view_projects.page'),
+  codeLink: byText('code.page'),
+  activityLink: byText('project_activity.page'),
+  projectInfoLink: byText('project.info.title'),
+  applicationInfoLink: byText('application.info.title'),
+  qualityProfilesLink: byText('project_quality_profiles.page'),
+  qualityGateLink: byText('project_quality_gate.page'),
   navigationItemsList: () =>
-    byRole('link')
+    byRole('link', { hidden: true })
       .getAll()
       .map((n) => n.textContent.slice(1)),
 
@@ -293,7 +293,7 @@ describe('ComponentNav', () => {
       });
 
       renderComponentNav({ component }, [Feature.Sca]);
-      expect(byRole('link', { name: 'dependencies.risks' }).get()).toBeInTheDocument();
+      expect(byText('dependencies.risks').get()).toBeInTheDocument();
     });
 
     it('should not render risks link when SCA feature is disabled', () => {
@@ -302,7 +302,7 @@ describe('ComponentNav', () => {
       });
 
       renderComponentNav({ component }, []);
-      expect(byRole('link', { name: 'dependencies.risks' }).query()).not.toBeInTheDocument();
+      expect(byText('dependencies.risks').query()).not.toBeInTheDocument();
     });
   });
 
@@ -331,9 +331,9 @@ describe('ComponentNav', () => {
         analysisDate: '2024-01-01',
       });
 
-      const { user } = renderComponentNav({ component: projectComponent });
+      renderComponentNav({ component: projectComponent });
 
-      await user.click(byRole('button', { name: /MyProject/ }).get());
+      fireEvent.keyDown(getInteractiveElement(byText('MyProject').get()), { key: 'ArrowDown' });
 
       expect(await ui.headerMenu.find()).toBeInTheDocument();
       expect(ui.headerMenuItemsList()).toEqual([
@@ -366,3 +366,16 @@ function renderComponentNav(
     },
   );
 }
+
+/* eslint-disable testing-library/no-node-access -- The standalone sidebar is aria-hidden. */
+function getInteractiveElement(element: HTMLElement) {
+  // The standalone sidebar is aria-hidden, so role queries cannot reach its interactive parent.
+  const interactiveElement = element.closest('a, button');
+
+  if (interactiveElement === null) {
+    throw new Error('Expected navigation label to have an interactive parent');
+  }
+
+  return interactiveElement;
+}
+/* eslint-enable testing-library/no-node-access */

@@ -51,7 +51,6 @@ export function ComponentNavExtensionsMenu(props: Readonly<Props>) {
       {withoutOfficialExtensions.map((extension) => (
         <Layout.SidebarNavigation.Item
           Icon={IconDashboard}
-          disableIconWhenSidebarOpen
           key={extension.key}
           to={{
             pathname: `/project/extension/${extension.key}`,

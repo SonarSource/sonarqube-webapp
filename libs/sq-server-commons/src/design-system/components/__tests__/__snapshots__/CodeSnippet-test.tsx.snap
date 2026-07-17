@@ -47,6 +47,8 @@ exports[`should highlight code content correctly 1`] = `
   --button-background-active: var(--echoes-color-surface-active);
   --button-background-focus: var(--echoes-color-surface-default);
   --button-background-disabled: var(--echoes-color-surface-disabled);
+  --spinner-color-override: var(--echoes-color-icon-default);
+  --spinner-track-color-override: var(--echoes-color-border-bold);
   --button-padding: var(--echoes-dimension-space-150);
   --button-height: var(--echoes-sizes-buttons-large);
   -webkit-user-select: none;
@@ -291,6 +293,8 @@ exports[`should show full size when multiline with no editing 1`] = `
   --button-background-active: var(--echoes-color-surface-active);
   --button-background-focus: var(--echoes-color-surface-default);
   --button-background-disabled: var(--echoes-color-surface-disabled);
+  --spinner-color-override: var(--echoes-color-icon-default);
+  --spinner-track-color-override: var(--echoes-color-border-bold);
   --button-padding: var(--echoes-dimension-space-150);
   --button-height: var(--echoes-sizes-buttons-large);
   -webkit-user-select: none;
@@ -536,6 +540,8 @@ exports[`should show reduced size when single line with no editing 1`] = `
   --button-background-active: var(--echoes-color-surface-active);
   --button-background-focus: var(--echoes-color-surface-default);
   --button-background-disabled: var(--echoes-color-surface-disabled);
+  --spinner-color-override: var(--echoes-color-icon-default);
+  --spinner-track-color-override: var(--echoes-color-border-bold);
   --button-padding: var(--echoes-dimension-space-150);
   --button-height: var(--echoes-sizes-buttons-large);
   -webkit-user-select: none;

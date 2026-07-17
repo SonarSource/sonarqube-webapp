@@ -144,7 +144,6 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
         >
           <Layout.SidebarNavigation.Item
             Icon={IconDashboard}
-            disableIconWhenSidebarOpen
             isActive={isBuiltInPortfolioDashboardNavActive(
               location.pathname,
               portfolioDashboardsListRoute,
@@ -158,7 +157,6 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
           </Layout.SidebarNavigation.Item>
           <Layout.SidebarNavigation.Item
             Icon={IconDashboard}
-            disableIconWhenSidebarOpen
             isActive={isPortfolioDashboardsListNavActive(
               location.pathname,
               portfolioDashboardsListRoute,

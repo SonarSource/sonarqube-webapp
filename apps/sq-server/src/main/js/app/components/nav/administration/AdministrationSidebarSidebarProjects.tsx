@@ -29,7 +29,6 @@ export function AdministrationSidebarProjects() {
     >
       <Layout.SidebarNavigation.Item
         Icon={IconProject}
-        disableIconWhenSidebarOpen
         isMatchingFullPath
         to="/admin/projects_management"
       >
@@ -38,7 +37,6 @@ export function AdministrationSidebarProjects() {
 
       <Layout.SidebarNavigation.Item
         Icon={IconProject}
-        disableIconWhenSidebarOpen
         isMatchingFullPath
         to="/admin/background_tasks"
       >

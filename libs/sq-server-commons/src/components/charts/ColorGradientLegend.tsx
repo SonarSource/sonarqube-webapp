@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import { ScaleLinear, ScaleOrdinal } from 'd3-scale';
 import * as React from 'react';
-import { CSSColor } from '../../design-system';
 
 interface Props {
   className?: string;
@@ -31,7 +30,7 @@ interface Props {
     | ScaleLinear<string, string | number>;
   height: number;
   // used for RATING or PERCENT type
-  naColors?: [CSSColor, CSSColor];
+  naColors?: [string, string];
   padding?: [number, number, number, number];
   showColorNA?: boolean;
   width: number;
@@ -46,7 +45,7 @@ export default function ColorGradientLegend({
   padding = [12, 24, 0, 0],
   height,
   showColorNA = false,
-  naColors = ['rgb(36,36,36)', 'rgb(120,120,120)'],
+  naColors = [cssVar('color-charts-placeholder-default'), cssVar('color-border-bold')],
   width,
 }: Props) {
   const colorRange: Array<string | number> = colorScale.range();

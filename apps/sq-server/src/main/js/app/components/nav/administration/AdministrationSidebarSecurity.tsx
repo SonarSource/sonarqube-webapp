@@ -29,7 +29,6 @@ export function AdministrationSidebarSecurity() {
     >
       <Layout.SidebarNavigation.Item
         Icon={IconSecurityFinding}
-        disableIconWhenSidebarOpen
         isMatchingFullPath
         to="/admin/users"
       >
@@ -38,7 +37,6 @@ export function AdministrationSidebarSecurity() {
 
       <Layout.SidebarNavigation.Item
         Icon={IconSecurityFinding}
-        disableIconWhenSidebarOpen
         isMatchingFullPath
         to="/admin/groups"
       >
@@ -47,7 +45,6 @@ export function AdministrationSidebarSecurity() {
 
       <Layout.SidebarNavigation.Item
         Icon={IconSecurityFinding}
-        disableIconWhenSidebarOpen
         isMatchingFullPath
         to="/admin/permissions"
       >
@@ -56,7 +53,6 @@ export function AdministrationSidebarSecurity() {
 
       <Layout.SidebarNavigation.Item
         Icon={IconSecurityFinding}
-        disableIconWhenSidebarOpen
         isMatchingFullPath
         to="/admin/permission_templates"
       >

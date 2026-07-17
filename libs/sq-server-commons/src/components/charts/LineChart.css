@@ -23,13 +23,13 @@
 }
 
 .line-chart-point {
-  fill: #fff;
-  stroke: #4b9fd5;
+  fill: var(--echoes-color-surface-default);
+  stroke: var(--echoes-color-charts-categorical-1);
   stroke-width: 2px;
 }
 
 .line-chart-tick {
-  fill: #656565;
+  fill: var(--echoes-color-text-subtle);
 }
 
 .line-chart-tick-x {
@@ -42,5 +42,5 @@
 
 .line-chart-grid {
   shape-rendering: crispedges;
-  stroke: #eee;
+  stroke: var(--echoes-color-border-weaker);
 }

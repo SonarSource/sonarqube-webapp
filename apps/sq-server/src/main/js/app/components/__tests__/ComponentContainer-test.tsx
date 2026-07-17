@@ -23,7 +23,7 @@ import userEvent from '@testing-library/user-event';
 import { useContext } from 'react';
 import { Route } from 'react-router-dom';
 import * as withRouter from '~shared/components/hoc/withRouter';
-import { byRole, byText } from '~shared/helpers/testSelector';
+import { byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { HttpStatus } from '~shared/types/request';
 import { validateProjectAlmBinding } from '~sq-server-commons/api/alm-settings';
@@ -100,13 +100,13 @@ const ui = {
   projectText: byText('project'),
   portfolioTitle: byText('component name'),
   portfolioText: byText(/portfolio/i),
-  overviewPageLink: byRole('link', { name: 'overview.page' }),
-  issuesPageLink: byRole('link', { name: 'issues.page' }),
-  hotspotsPageLink: byRole('link', { name: 'layout.security_hotspots deprecated' }),
-  measuresPageLink: byRole('link', { name: 'layout.measures' }),
-  codePageLink: byRole('link', { name: 'code.page' }),
-  activityPageLink: byRole('link', { name: 'project_activity.page' }),
-  projectInfoLink: byRole('link', { name: 'project.info.title' }),
+  overviewPageLink: byText('overview.page'),
+  issuesPageLink: byText('issues.page'),
+  hotspotsPageLink: byText('layout.security_hotspots'),
+  measuresPageLink: byText('layout.measures'),
+  codePageLink: byText('code.page'),
+  activityPageLink: byText('project_activity.page'),
+  projectInfoLink: byText('project.info.title'),
   dashboardNotFound: byText('dashboard.project.not_found'),
   goBackToHomePageLink: byRole('link', { name: 'go_back_to_homepage' }),
 };
@@ -138,13 +138,19 @@ it('should render the component nav correctly for portfolio', async () => {
   renderComponentContainerAsComponent();
   expect(await ui.portfolioTitle.find()).toBeInTheDocument();
 
-  expect(ui.issuesPageLink.get()).toHaveAttribute(
+  expect(getInteractiveElement(ui.issuesPageLink.get())).toHaveAttribute(
     'href',
     '/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=portfolioKey',
   );
 
-  expect(ui.measuresPageLink.get()).toHaveAttribute('href', '/component_measures?id=portfolioKey');
-  expect(ui.activityPageLink.get()).toHaveAttribute('href', '/project/activity?id=portfolioKey');
+  expect(getInteractiveElement(ui.measuresPageLink.get())).toHaveAttribute(
+    'href',
+    '/component_measures?id=portfolioKey',
+  );
+  expect(getInteractiveElement(ui.activityPageLink.get())).toHaveAttribute(
+    'href',
+    '/project/activity?id=portfolioKey',
+  );
 
   await waitFor(() => {
     expect(getTasksForComponent).toHaveBeenCalledWith('portfolioKey');
@@ -170,18 +176,36 @@ it('should render the component nav correctly for projects', async () => {
 
   renderComponentContainerAsComponent();
   expect(await ui.projectTitle.find()).toBeInTheDocument();
-  expect(ui.overviewPageLink.get()).toHaveAttribute('href', '/dashboard?id=project-key');
+  expect(getInteractiveElement(ui.overviewPageLink.get())).toHaveAttribute(
+    'href',
+    '/dashboard?id=project-key',
+  );
 
-  expect(ui.issuesPageLink.get()).toHaveAttribute(
+  expect(getInteractiveElement(ui.issuesPageLink.get())).toHaveAttribute(
     'href',
     '/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=project-key',
   );
 
-  expect(ui.hotspotsPageLink.get()).toHaveAttribute('href', '/security_hotspots?id=project-key');
-  expect(ui.measuresPageLink.get()).toHaveAttribute('href', '/component_measures?id=project-key');
-  expect(ui.codePageLink.get()).toHaveAttribute('href', '/code?id=project-key');
-  expect(ui.activityPageLink.get()).toHaveAttribute('href', '/project/activity?id=project-key');
-  expect(ui.projectInfoLink.get()).toHaveAttribute('href', '/project/information?id=project-key');
+  expect(getInteractiveElement(ui.hotspotsPageLink.get())).toHaveAttribute(
+    'href',
+    '/security_hotspots?id=project-key',
+  );
+  expect(getInteractiveElement(ui.measuresPageLink.get())).toHaveAttribute(
+    'href',
+    '/component_measures?id=project-key',
+  );
+  expect(getInteractiveElement(ui.codePageLink.get())).toHaveAttribute(
+    'href',
+    '/code?id=project-key',
+  );
+  expect(getInteractiveElement(ui.activityPageLink.get())).toHaveAttribute(
+    'href',
+    '/project/activity?id=project-key',
+  );
+  expect(getInteractiveElement(ui.projectInfoLink.get())).toHaveAttribute(
+    'href',
+    '/project/information?id=project-key',
+  );
 });
 
 it('should be able to change component', async () => {
@@ -190,14 +214,12 @@ it('should be able to change component', async () => {
   expect(await screen.findByText('This is a test component')).toBeInTheDocument();
   expect(screen.getByRole('button', { name: 'change component' })).toBeInTheDocument();
 
-  expect(
-    byRole('navigation', { name: 'qualifier.VW' }).byText('component name').get(),
-  ).toBeInTheDocument();
+  expect(byTestId('sidebar-navigation-wrapper').byText('component name').get()).toBeInTheDocument();
 
   await user.click(screen.getByRole('button', { name: 'change component' }));
 
   expect(
-    byRole('navigation', { name: 'qualifier.TRK' }).byText('new component name').get(),
+    byTestId('sidebar-navigation-wrapper').byText('new component name').get(),
   ).toBeInTheDocument();
 });
 
@@ -866,3 +888,14 @@ function BranchAwareTestComponent() {
 
   return <BranchAwareTestComponentWithBranchLikes component={component} />;
 }
+
+/* eslint-disable testing-library/no-node-access -- The standalone sidebar is aria-hidden. */
+function getInteractiveElement(element: HTMLElement) {
+  // The standalone sidebar is aria-hidden, so role queries cannot reach its interactive parent.
+  const interactiveElement = element.closest('a, button');
+  if (interactiveElement === null) {
+    throw new Error('Expected navigation label to have an interactive parent');
+  }
+  return interactiveElement;
+}
+/* eslint-enable testing-library/no-node-access */

@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { bisector, extent, max } from 'd3-array';
 import {
@@ -33,9 +34,9 @@ import {
 import { area, curveBasis, line as d3Line } from 'd3-shape';
 import { flatten, isEqual, sortBy, throttle, uniq } from 'lodash';
 import * as React from 'react';
+import { getChartCategoricalColor } from '~shared/helpers/charts';
 import { isDefined } from '~shared/helpers/types';
 import { MetricType } from '~shared/types/metrics';
-import { CSSColor, ThemeProp, themeColor, withTheme } from '../../design-system';
 import { Chart } from '../../types/types';
 import { LINE_CHART_DASHES } from '../activity-graph/utils';
 import './AdvancedTimeline.css';
@@ -69,7 +70,7 @@ export interface PropsWithoutTheme {
   zoomSpeed?: number;
 }
 
-export type Props = PropsWithoutTheme & ThemeProp;
+type Props = PropsWithoutTheme;
 
 const DEFAULT_PADDING = [26, 10, 50, 50];
 
@@ -89,7 +90,7 @@ interface State {
   yScale: YScale;
 }
 
-export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
+export class AdvancedTimeline extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
 
@@ -393,7 +394,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
   };
 
   renderLeak = () => {
-    const { leakPeriodDate, theme } = this.props;
+    const { leakPeriodDate } = this.props;
 
     if (!leakPeriodDate) {
       return null;
@@ -416,7 +417,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
     return (
       <rect
         className="leak-chart-rect"
-        fill={themeColor('newCodeLegend')({ theme })}
+        fill={cssVar('color-icon-on-color')}
         height={yRange[0] - yRange[yRange.length - 1]}
         width={leakWidth}
         x={leakStart}
@@ -426,7 +427,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
   };
 
   renderLines = () => {
-    const { series, theme } = this.props;
+    const { series } = this.props;
     const { xScale, yScale } = this.state;
 
     const lineGenerator = d3Line<Chart.Point>()
@@ -445,9 +446,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
             className={classNames('line-chart-path', `line-chart-path-${idx}`)}
             d={lineGenerator(serie.data) ?? undefined}
             key={serie.name}
-            stroke={themeColor(`graphLineColor.${idx}` as Parameters<typeof themeColor>[0])({
-              theme,
-            })}
+            stroke={getChartCategoricalColor(idx)}
             strokeDasharray={LINE_CHART_DASHES[idx]}
           />
         ))}
@@ -456,7 +455,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
   };
 
   renderDots = () => {
-    const { series, theme } = this.props;
+    const { series } = this.props;
     const { xScale, yScale } = this.state;
 
     return (
@@ -481,14 +480,10 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
                   <circle
                     cx={xScale(point.x)}
                     cy={yScale(point.y as YPoint)}
-                    fill={themeColor(
-                      `graphLineColor.${serieIdx}` as Parameters<typeof themeColor>[0],
-                    )({
-                      theme,
-                    })}
+                    fill={getChartCategoricalColor(serieIdx)}
                     key={`${serie.name}${point.x.toString()}${point.y}`}
                     r="2"
-                    stroke="white"
+                    stroke={cssVar('color-icon-on-color')}
                     strokeWidth={1}
                   />
                 );
@@ -524,7 +519,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
   };
 
   renderSelectedDate = () => {
-    const { series, theme } = this.props;
+    const { series } = this.props;
     const { selectedDateIdx, selectedDateXPos, yScale } = this.state;
     const firstSerie = series[0];
 
@@ -552,12 +547,10 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
             <circle
               cx={selectedDateXPos}
               cy={yScale(point.y as YPoint)}
-              fill={themeColor(`graphLineColor.${idx}` as Parameters<typeof themeColor>[0])({
-                theme,
-              })}
+              fill={getChartCategoricalColor(idx)}
               key={serie.name}
               r="4"
-              stroke="white"
+              stroke={cssVar('color-icon-on-color')}
               strokeWidth={1}
             />
           );
@@ -670,7 +663,6 @@ const AREA_OPACITY = 0.15;
 
 const StyledArea = styled.path<{ index: number }>`
   clip-path: url(#chart-clip);
-  fill: ${({ index }) => themeColor(`graphLineColor.${index}` as CSSColor, AREA_OPACITY)};
+  fill: ${({ index }) => getChartCategoricalColor(index)};
+  fill-opacity: ${AREA_OPACITY};
 `;
-
-export const AdvancedTimeline = withTheme<PropsWithoutTheme>(AdvancedTimelineClass);

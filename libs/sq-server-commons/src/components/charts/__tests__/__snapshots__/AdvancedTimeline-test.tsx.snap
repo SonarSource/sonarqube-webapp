@@ -246,13 +246,13 @@ exports[`should render correctly: Zoom enabled 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,16L20,8"
-        stroke="rgb(69,149,203)"
+        stroke="var(--echoes-color-charts-categorical-1)"
         stroke-dasharray="0"
       />
       <path
         class="line-chart-path line-chart-path-1"
         d="M40,0Z"
-        stroke="rgb(58,127,173)"
+        stroke="var(--echoes-color-charts-categorical-2)"
         stroke-dasharray="3"
       />
     </g>
@@ -260,9 +260,9 @@ exports[`should render correctly: Zoom enabled 1`] = `
       <circle
         cx="40"
         cy="0"
-        fill="rgb(58,127,173)"
+        fill="var(--echoes-color-charts-categorical-2)"
         r="2"
-        stroke="white"
+        stroke="var(--echoes-color-icon-on-color)"
         stroke-width="1"
       />
     </g>
@@ -510,13 +510,13 @@ exports[`should render correctly: basisCurve 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,16L20,8"
-        stroke="rgb(69,149,203)"
+        stroke="var(--echoes-color-charts-categorical-1)"
         stroke-dasharray="0"
       />
       <path
         class="line-chart-path line-chart-path-1"
         d="M40,0Z"
-        stroke="rgb(58,127,173)"
+        stroke="var(--echoes-color-charts-categorical-2)"
         stroke-dasharray="3"
       />
     </g>
@@ -524,9 +524,9 @@ exports[`should render correctly: basisCurve 1`] = `
       <circle
         cx="40"
         cy="0"
-        fill="rgb(58,127,173)"
+        fill="var(--echoes-color-charts-categorical-2)"
         r="2"
-        stroke="white"
+        stroke="var(--echoes-color-icon-on-color)"
         stroke-width="1"
       />
     </g>
@@ -774,13 +774,13 @@ exports[`should render correctly: default 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,16L20,8"
-        stroke="rgb(69,149,203)"
+        stroke="var(--echoes-color-charts-categorical-1)"
         stroke-dasharray="0"
       />
       <path
         class="line-chart-path line-chart-path-1"
         d="M40,0Z"
-        stroke="rgb(58,127,173)"
+        stroke="var(--echoes-color-charts-categorical-2)"
         stroke-dasharray="3"
       />
     </g>
@@ -788,9 +788,9 @@ exports[`should render correctly: default 1`] = `
       <circle
         cx="40"
         cy="0"
-        fill="rgb(58,127,173)"
+        fill="var(--echoes-color-charts-categorical-2)"
         r="2"
-        stroke="white"
+        stroke="var(--echoes-color-icon-on-color)"
         stroke-width="1"
       />
     </g>
@@ -1198,13 +1198,13 @@ exports[`should render correctly: format y tick 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,16L20,8"
-        stroke="rgb(69,149,203)"
+        stroke="var(--echoes-color-charts-categorical-1)"
         stroke-dasharray="0"
       />
       <path
         class="line-chart-path line-chart-path-1"
         d="M40,0Z"
-        stroke="rgb(58,127,173)"
+        stroke="var(--echoes-color-charts-categorical-2)"
         stroke-dasharray="3"
       />
     </g>
@@ -1212,9 +1212,9 @@ exports[`should render correctly: format y tick 1`] = `
       <circle
         cx="40"
         cy="0"
-        fill="rgb(58,127,173)"
+        fill="var(--echoes-color-charts-categorical-2)"
         r="2"
-        stroke="white"
+        stroke="var(--echoes-color-icon-on-color)"
         stroke-width="1"
       />
     </g>
@@ -1238,7 +1238,7 @@ exports[`should render correctly: leakPeriodDate 1`] = `
   >
     <rect
       class="leak-chart-rect"
-      fill="rgba(159,169,237,0.15)"
+      fill="var(--echoes-color-icon-on-color)"
       height="24"
       width="20"
       x="20"
@@ -1470,13 +1470,13 @@ exports[`should render correctly: leakPeriodDate 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,16L20,8"
-        stroke="rgb(69,149,203)"
+        stroke="var(--echoes-color-charts-categorical-1)"
         stroke-dasharray="0"
       />
       <path
         class="line-chart-path line-chart-path-1"
         d="M40,0Z"
-        stroke="rgb(58,127,173)"
+        stroke="var(--echoes-color-charts-categorical-2)"
         stroke-dasharray="3"
       />
     </g>
@@ -1484,9 +1484,9 @@ exports[`should render correctly: leakPeriodDate 1`] = `
       <circle
         cx="40"
         cy="0"
-        fill="rgb(58,127,173)"
+        fill="var(--echoes-color-charts-categorical-2)"
         r="2"
-        stroke="white"
+        stroke="var(--echoes-color-icon-on-color)"
         stroke-width="1"
       />
     </g>
@@ -1617,22 +1617,22 @@ exports[`should render correctly: level metric 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,NaNL20,NaN"
-        stroke="rgb(69,149,203)"
+        stroke="var(--echoes-color-charts-categorical-1)"
         stroke-dasharray="0"
       />
       <path
         class="line-chart-path line-chart-path-1"
         d="M40,NaNZ"
-        stroke="rgb(58,127,173)"
+        stroke="var(--echoes-color-charts-categorical-2)"
         stroke-dasharray="3"
       />
     </g>
     <g>
       <circle
         cx="40"
-        fill="rgb(58,127,173)"
+        fill="var(--echoes-color-charts-categorical-2)"
         r="2"
-        stroke="white"
+        stroke="var(--echoes-color-icon-on-color)"
         stroke-width="1"
       />
     </g>
@@ -1880,13 +1880,13 @@ exports[`should render correctly: no areas 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,16L20,8"
-        stroke="rgb(69,149,203)"
+        stroke="var(--echoes-color-charts-categorical-1)"
         stroke-dasharray="0"
       />
       <path
         class="line-chart-path line-chart-path-1"
         d="M40,0Z"
-        stroke="rgb(58,127,173)"
+        stroke="var(--echoes-color-charts-categorical-2)"
         stroke-dasharray="3"
       />
     </g>
@@ -1894,9 +1894,9 @@ exports[`should render correctly: no areas 1`] = `
       <circle
         cx="40"
         cy="0"
-        fill="rgb(58,127,173)"
+        fill="var(--echoes-color-charts-categorical-2)"
         r="2"
-        stroke="white"
+        stroke="var(--echoes-color-icon-on-color)"
         stroke-width="1"
       />
     </g>
@@ -2049,13 +2049,13 @@ exports[`should render correctly: rating metric 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,0L20,6"
-        stroke="rgb(69,149,203)"
+        stroke="var(--echoes-color-charts-categorical-1)"
         stroke-dasharray="0"
       />
       <path
         class="line-chart-path line-chart-path-1"
         d="M40,12Z"
-        stroke="rgb(58,127,173)"
+        stroke="var(--echoes-color-charts-categorical-2)"
         stroke-dasharray="3"
       />
     </g>
@@ -2063,9 +2063,9 @@ exports[`should render correctly: rating metric 1`] = `
       <circle
         cx="40"
         cy="12"
-        fill="rgb(58,127,173)"
+        fill="var(--echoes-color-charts-categorical-2)"
         r="2"
-        stroke="white"
+        stroke="var(--echoes-color-icon-on-color)"
         stroke-width="1"
       />
     </g>
@@ -2313,13 +2313,13 @@ exports[`should render correctly: selected date 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,16L20,8"
-        stroke="rgb(69,149,203)"
+        stroke="var(--echoes-color-charts-categorical-1)"
         stroke-dasharray="0"
       />
       <path
         class="line-chart-path line-chart-path-1"
         d="M40,0Z"
-        stroke="rgb(58,127,173)"
+        stroke="var(--echoes-color-charts-categorical-2)"
         stroke-dasharray="3"
       />
     </g>
@@ -2327,9 +2327,9 @@ exports[`should render correctly: selected date 1`] = `
       <circle
         cx="40"
         cy="0"
-        fill="rgb(58,127,173)"
+        fill="var(--echoes-color-charts-categorical-2)"
         r="2"
-        stroke="white"
+        stroke="var(--echoes-color-icon-on-color)"
         stroke-width="1"
       />
     </g>
@@ -2344,17 +2344,17 @@ exports[`should render correctly: selected date 1`] = `
       <circle
         cx="0"
         cy="16"
-        fill="rgb(69,149,203)"
+        fill="var(--echoes-color-charts-categorical-1)"
         r="4"
-        stroke="white"
+        stroke="var(--echoes-color-icon-on-color)"
         stroke-width="1"
       />
       <circle
         cx="0"
         cy="0"
-        fill="rgb(58,127,173)"
+        fill="var(--echoes-color-charts-categorical-2)"
         r="4"
-        stroke="white"
+        stroke="var(--echoes-color-icon-on-color)"
         stroke-width="1"
       />
     </g>
@@ -2602,13 +2602,13 @@ exports[`should render correctly: split point, but not Rating 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,16L20,8"
-        stroke="rgb(69,149,203)"
+        stroke="var(--echoes-color-charts-categorical-1)"
         stroke-dasharray="0"
       />
       <path
         class="line-chart-path line-chart-path-1"
         d="M40,0Z"
-        stroke="rgb(58,127,173)"
+        stroke="var(--echoes-color-charts-categorical-2)"
         stroke-dasharray="3"
       />
     </g>
@@ -2616,9 +2616,9 @@ exports[`should render correctly: split point, but not Rating 1`] = `
       <circle
         cx="40"
         cy="0"
-        fill="rgb(58,127,173)"
+        fill="var(--echoes-color-charts-categorical-2)"
         r="2"
-        stroke="white"
+        stroke="var(--echoes-color-icon-on-color)"
         stroke-width="1"
       />
     </g>
@@ -2874,13 +2874,13 @@ exports[`should render correctly: zoomSpeed 1`] = `
       <path
         class="line-chart-path line-chart-path-0"
         d="M0,16L20,8"
-        stroke="rgb(69,149,203)"
+        stroke="var(--echoes-color-charts-categorical-1)"
         stroke-dasharray="0"
       />
       <path
         class="line-chart-path line-chart-path-1"
         d="M40,0Z"
-        stroke="rgb(58,127,173)"
+        stroke="var(--echoes-color-charts-categorical-2)"
         stroke-dasharray="3"
       />
     </g>
@@ -2888,9 +2888,9 @@ exports[`should render correctly: zoomSpeed 1`] = `
       <circle
         cx="40"
         cy="0"
-        fill="rgb(58,127,173)"
+        fill="var(--echoes-color-charts-categorical-2)"
         r="2"
-        stroke="white"
+        stroke="var(--echoes-color-icon-on-color)"
         stroke-width="1"
       />
     </g>

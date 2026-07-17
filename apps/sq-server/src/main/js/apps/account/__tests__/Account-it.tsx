@@ -178,6 +178,7 @@ it('should render the top menu', async () => {
   renderAccountApp(mockLoggedInUser({ name }));
 
   expect(await screen.findByText(name)).toBeInTheDocument();
+  const navigation = await screen.findByTestId('sidebar-navigation-wrapper');
 
   const topMenuNavigationItems = [
     'my_account.profile',
@@ -186,7 +187,7 @@ it('should render the top menu', async () => {
     'my_account.projects',
   ];
   topMenuNavigationItems.forEach((itemName) => {
-    expect(byRole('navigation').byRole('link', { name: itemName }).get()).toBeInTheDocument();
+    expect(byText(itemName).get(navigation)).toBeInTheDocument();
   });
 });
 

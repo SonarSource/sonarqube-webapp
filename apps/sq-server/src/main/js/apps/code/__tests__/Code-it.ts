@@ -758,7 +758,7 @@ function getPageObject(user: UserEvent) {
     componentIsEmptyTxt: (qualifier: ComponentQualifier) =>
       byText(`code_viewer.no_source_code_displayed_due_to_empty_analysis.${qualifier}`),
     searchInput: byRole('searchbox'),
-    previewToggle: byRole('group'),
+    previewToggle: byRole('radiogroup'),
     previewToggleOption: (name = 'preview') =>
       byRole('radio', {
         name,

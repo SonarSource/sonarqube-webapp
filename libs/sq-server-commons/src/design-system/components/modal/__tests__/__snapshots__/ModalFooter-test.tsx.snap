@@ -10,10 +10,10 @@ exports[`should render with primary and secondary buttons 1`] = `
   }
 
   to {
-    -webkit-transform: rotate(-360deg);
-    -moz-transform: rotate(-360deg);
-    -ms-transform: rotate(-360deg);
-    transform: rotate(-360deg);
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
@@ -56,19 +56,7 @@ exports[`should render with primary and secondary buttons 1`] = `
 }
 
 .emotion-6 {
-  border: 2px solid transparent;
-  background: var(
-      --spinner-background,
-      linear-gradient(0deg, var(--echoes-color-background-accent-default) 50%, transparent 50% 100%)
-        border-box,
-      linear-gradient(90deg, var(--echoes-color-background-accent-default) 25%, transparent 75% 100%)
-        border-box
-    );
-  -webkit-mask: linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  -webkit-mask-composite: exclude;
-  mask-composite: exclude;
+  position: relative;
   -webkit-animation: animation-0 1s infinite linear;
   animation: animation-0 1s infinite linear;
   display: inline-block;
@@ -77,6 +65,24 @@ exports[`should render with primary and secondary buttons 1`] = `
   width: var(--echoes-dimension-width-200);
   border-radius: var(--echoes-border-radius-full);
   vertical-align: text-bottom;
+}
+
+.emotion-6::before,
+.emotion-6::after {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  border-radius: inherit;
+  content: '';
+}
+
+.emotion-6::before {
+  border: 2px solid var(--spinner-track-color, var(--echoes-color-border-weak));
+}
+
+.emotion-6::after {
+  border: 2px solid transparent;
+  border-top-color: var(--spinner-color, var(--echoes-color-surface-inverse-default));
 }
 
 .emotion-8 {
@@ -142,10 +148,10 @@ exports[`should render with secondary button 1`] = `
   }
 
   to {
-    -webkit-transform: rotate(-360deg);
-    -moz-transform: rotate(-360deg);
-    -ms-transform: rotate(-360deg);
-    transform: rotate(-360deg);
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
@@ -188,19 +194,7 @@ exports[`should render with secondary button 1`] = `
 }
 
 .emotion-6 {
-  border: 2px solid transparent;
-  background: var(
-      --spinner-background,
-      linear-gradient(0deg, var(--echoes-color-background-accent-default) 50%, transparent 50% 100%)
-        border-box,
-      linear-gradient(90deg, var(--echoes-color-background-accent-default) 25%, transparent 75% 100%)
-        border-box
-    );
-  -webkit-mask: linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  -webkit-mask-composite: exclude;
-  mask-composite: exclude;
+  position: relative;
   -webkit-animation: animation-0 1s infinite linear;
   animation: animation-0 1s infinite linear;
   display: inline-block;
@@ -209,6 +203,24 @@ exports[`should render with secondary button 1`] = `
   width: var(--echoes-dimension-width-200);
   border-radius: var(--echoes-border-radius-full);
   vertical-align: text-bottom;
+}
+
+.emotion-6::before,
+.emotion-6::after {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  border-radius: inherit;
+  content: '';
+}
+
+.emotion-6::before {
+  border: 2px solid var(--spinner-track-color, var(--echoes-color-border-weak));
+}
+
+.emotion-6::after {
+  border: 2px solid transparent;
+  border-top-color: var(--spinner-color, var(--echoes-color-surface-inverse-default));
 }
 
 .emotion-8 {

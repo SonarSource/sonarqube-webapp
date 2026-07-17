@@ -40,7 +40,7 @@ beforeEach(() => {
 it('render correctly', () => {
   renderAdminSidebar();
 
-  expect(byRole('link').getAll()).toHaveLength(11);
+  expect(byRole('link', { hidden: true }).getAll()).toHaveLength(11);
 
   expect(byText('audit_logs.page').query()).not.toBeInTheDocument();
   expect(byText('support').query()).not.toBeInTheDocument();
@@ -51,7 +51,7 @@ it('render correctly with license', () => {
   (jest.mocked(addons).license as unknown) = true;
   renderAdminSidebar();
 
-  expect(byRole('link').getAll()).toHaveLength(13);
+  expect(byRole('link', { hidden: true }).getAll()).toHaveLength(13);
   expect(byText('support').get()).toBeInTheDocument();
   expect(byText('license.feature_name').get()).toBeInTheDocument();
 });
@@ -63,15 +63,15 @@ it('render correctly with extensions', () => {
   ];
   renderAdminSidebar(extensions);
 
-  expect(byRole('link').getAll()).toHaveLength(13);
-  expect(byRole('link', { name: extensions[0].name }).get()).toBeInTheDocument();
-  expect(byRole('link', { name: extensions[1].name }).get()).toBeInTheDocument();
+  expect(byRole('link', { hidden: true }).getAll()).toHaveLength(13);
+  expect(byText(extensions[0].name).get()).toBeInTheDocument();
+  expect(byText(extensions[1].name).get()).toBeInTheDocument();
 });
 
 it('render correctly with governance extension', () => {
   renderAdminSidebar([], mockAppState({ qualifiers: [ComponentQualifier.Portfolio] }));
 
-  expect(byRole('link').getAll()).toHaveLength(13);
+  expect(byRole('link', { hidden: true }).getAll()).toHaveLength(13);
   expect(byText('audit_logs.page').get()).toBeInTheDocument();
   expect(byText('portfolios.page').get()).toBeInTheDocument();
 });

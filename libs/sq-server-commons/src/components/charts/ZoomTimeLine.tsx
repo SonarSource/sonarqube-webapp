@@ -26,6 +26,7 @@ import { area, curveBasis, line as d3Line } from 'd3-shape';
 import { flatten, sortBy, throttle } from 'lodash';
 import * as React from 'react';
 import {
+  getChartCategoricalColor,
   makeOverlayPointerDown,
   makeOverlayPointerMove,
   makeOverlayPointerUp,
@@ -33,7 +34,7 @@ import {
   makeZoomHandlePointerDown,
 } from '~shared/helpers/charts';
 import { MetricType } from '~shared/types/metrics';
-import { CSSColor, DraggableIcon, themeColor } from '../../design-system';
+import { DraggableIcon } from '../../design-system';
 import { Chart } from '../../types/types';
 import { LINE_CHART_DASHES } from '../activity-graph/utils';
 
@@ -369,23 +370,24 @@ const AREA_OPACITY = 0.15;
 
 const StyledArea = styled.path<{ index: number }>`
   clip-path: url(#chart-clip);
-  fill: ${({ index }) => themeColor(`graphLineColor.${index}` as CSSColor, AREA_OPACITY)};
+  fill: ${({ index }) => getChartCategoricalColor(index)};
+  fill-opacity: ${AREA_OPACITY};
   stroke-width: 0;
 `;
 
 const StyledPath = styled.path<{ index: number }>`
   clip-path: url(#chart-clip);
   fill: none;
-  stroke: ${({ index }) => themeColor(`graphLineColor.${index}` as CSSColor)};
+  stroke: ${({ index }) => getChartCategoricalColor(index)};
   stroke-dasharray: ${({ index }) => LINE_CHART_DASHES[index]};
   stroke-width: 2px;
 `;
 
 const StyledNewCodeLegend = styled.rect`
-  fill: ${themeColor('newCodeLegend')};
+  fill: ${cssVar('color-icon-on-color')};
 `;
 
 const StyledBaseLine = styled('line')`
   shape-rendering: crispedges;
-  stroke: ${themeColor('graphGridColor')};
+  stroke: ${cssVar('color-border-weaker')};
 `;

@@ -40,19 +40,13 @@ export function AdministrationSidebarConfiguration(props: Readonly<Props>) {
       Icon={IconGear}
       label={<FormattedMessage id="sidebar.project_settings" />}
     >
-      <Layout.SidebarNavigation.Item
-        Icon={IconGear}
-        disableIconWhenSidebarOpen
-        isMatchingFullPath
-        to="/admin/settings"
-      >
+      <Layout.SidebarNavigation.Item Icon={IconGear} isMatchingFullPath to="/admin/settings">
         <FormattedMessage id="settings.page" />
       </Layout.SidebarNavigation.Item>
 
       {hasFeature(Feature.RemediationAgent) && addons.remediationAgent && (
         <Layout.SidebarNavigation.Item
           Icon={IconSparkle}
-          disableIconWhenSidebarOpen
           suffix={
             <NewBadge
               expirationDate={addons.remediationAgent.AI_CAPABILITIES_NEW_BADGE_EXPIRATION_DATE}
@@ -64,49 +58,28 @@ export function AdministrationSidebarConfiguration(props: Readonly<Props>) {
         </Layout.SidebarNavigation.Item>
       )}
 
-      <Layout.SidebarNavigation.Item
-        Icon={IconGear}
-        disableIconWhenSidebarOpen
-        to="/admin/settings/encryption"
-      >
+      <Layout.SidebarNavigation.Item Icon={IconGear} to="/admin/settings/encryption">
         <FormattedMessage id="property.category.security.encryption" />
       </Layout.SidebarNavigation.Item>
 
-      <Layout.SidebarNavigation.Item
-        Icon={IconGear}
-        disableIconWhenSidebarOpen
-        to="/admin/webhooks"
-      >
+      <Layout.SidebarNavigation.Item Icon={IconGear} to="/admin/webhooks">
         <FormattedMessage id="webhooks.page" />
       </Layout.SidebarNavigation.Item>
 
       {governanceInstalled && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGear}
-          disableIconWhenSidebarOpen
-          to="/admin/portfolios"
-        >
+        <Layout.SidebarNavigation.Item Icon={IconGear} to="/admin/portfolios">
           <FormattedMessage id="portfolios.page" />
         </Layout.SidebarNavigation.Item>
       )}
 
       {extensions.map(({ key, name }) => (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGear}
-          disableIconWhenSidebarOpen
-          key={key}
-          to={`/admin/extension/${key}`}
-        >
+        <Layout.SidebarNavigation.Item Icon={IconGear} key={key} to={`/admin/extension/${key}`}>
           {name}
         </Layout.SidebarNavigation.Item>
       ))}
 
       {addons.license && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGear}
-          disableIconWhenSidebarOpen
-          to="/admin/license/app"
-        >
+        <Layout.SidebarNavigation.Item Icon={IconGear} to="/admin/license/app">
           <FormattedMessage id="license.feature_name" />
         </Layout.SidebarNavigation.Item>
       )}

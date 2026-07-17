@@ -19,7 +19,7 @@
  */
 .line-tooltip {
   fill: none;
-  stroke: #656565;
+  stroke: var(--echoes-color-text-subtle);
   stroke-width: 1px;
   shape-rendering: crispEdges;
 }
@@ -36,31 +36,4 @@
 
 .chart-zoomed .leak-chart-rect {
   clip-path: url(#chart-clip);
-}
-
-.line-chart-event {
-  fill: #fff;
-  stroke: #4b9fd5;
-  stroke-width: 2px;
-}
-
-.line-chart-event.VERSION {
-  stroke: #4b9fd5;
-}
-
-.line-chart-event.QUALITY_GATE {
-  stroke: #00aa00;
-}
-
-.line-chart-event.QUALITY_PROFILE {
-  stroke: #ed7d20;
-}
-
-.line-chart-event.OTHER {
-  stroke: #9139d4;
-}
-
-.new-code-legend {
-  fill: #656565;
-  font-size: 12px;
 }
