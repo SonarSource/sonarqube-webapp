@@ -20,7 +20,7 @@
 
 import { renderHook } from '@testing-library/react';
 import { useComponent } from '../../../context/componentContext/withComponentContext';
-import { useGetProjectQuery } from '../../../queries/project-managements';
+import { useProjectQuery } from '../../../queries/projects';
 // Relative import so we exercise the real adapter, bypassing the global `~adapters/helpers/useProjectId` jest mock.
 import { useProjectId } from '../useProjectId';
 
@@ -28,12 +28,12 @@ jest.mock('../../../context/componentContext/withComponentContext', () => ({
   useComponent: jest.fn(),
 }));
 
-jest.mock('../../../queries/project-managements', () => ({
-  useGetProjectQuery: jest.fn(),
+jest.mock('../../../queries/projects', () => ({
+  useProjectQuery: jest.fn(),
 }));
 
 const mockedUseComponent = jest.mocked(useComponent);
-const mockedUseGetProjectQuery = jest.mocked(useGetProjectQuery);
+const mockedUseProjectQuery = jest.mocked(useProjectQuery);
 
 function mockComponentKey(key: string | undefined) {
   mockedUseComponent.mockReturnValue({ component: key ? { key } : undefined } as ReturnType<
@@ -41,10 +41,10 @@ function mockComponentKey(key: string | undefined) {
   >);
 }
 
-function mockProjectQuery(projectUuid: string | undefined) {
-  mockedUseGetProjectQuery.mockReturnValue({
-    data: projectUuid ? { projectUuid } : undefined,
-  } as ReturnType<typeof useGetProjectQuery>);
+function mockProjectQuery(uuid: string | undefined) {
+  mockedUseProjectQuery.mockReturnValue({
+    data: uuid ? { uuid } : undefined,
+  } as ReturnType<typeof useProjectQuery>);
 }
 
 beforeEach(() => {
@@ -59,7 +59,7 @@ describe('useProjectId', () => {
     const { result } = renderHook(() => useProjectId());
 
     expect(result.current).toBe('project-uuid-1');
-    expect(mockedUseGetProjectQuery).toHaveBeenCalledWith('my-project', { enabled: true });
+    expect(mockedUseProjectQuery).toHaveBeenCalledWith('my-project', { enabled: true });
   });
 
   it('disables the query and returns undefined when there is no component key', () => {
@@ -69,7 +69,7 @@ describe('useProjectId', () => {
     const { result } = renderHook(() => useProjectId());
 
     expect(result.current).toBeUndefined();
-    expect(mockedUseGetProjectQuery).toHaveBeenCalledWith('', { enabled: false });
+    expect(mockedUseProjectQuery).toHaveBeenCalledWith('', { enabled: false });
   });
 
   it('returns undefined when the query has no data yet', () => {

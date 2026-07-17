@@ -19,13 +19,13 @@
  */
 
 import { useComponent } from '../../context/componentContext/withComponentContext';
-import { useGetProjectQuery } from '../../queries/project-managements';
+import { useProjectQuery } from '../../queries/projects';
 
 /**
  * Returns the projects UUID
  */
 export function useProjectId(): string | undefined {
   const projectKey = useComponent().component?.key;
-  const { data } = useGetProjectQuery(projectKey ?? '', { enabled: Boolean(projectKey) });
-  return data?.projectUuid;
+  const { data } = useProjectQuery(projectKey ?? '', { enabled: Boolean(projectKey) });
+  return data?.uuid;
 }
