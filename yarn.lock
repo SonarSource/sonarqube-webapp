@@ -55,12 +55,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@appthreat/cdx-proto@npm:1.3.0":
-  version: 1.3.0
-  resolution: "@appthreat/cdx-proto@npm:1.3.0"
+"@appthreat/cdx-proto@npm:2.0.1":
+  version: 2.0.1
+  resolution: "@appthreat/cdx-proto@npm:2.0.1"
   dependencies:
-    "@bufbuild/protobuf": "npm:2.11.0"
-  checksum: 10/af023f1ad02cf970aaa3ed52d50cdd12b8d7eb6b9a0ee632614645a162026cd9fd9bf11916cb7b5f96e199b7dcb04b7abaa1fcfb9f28d50fbc382944c2f943c7
+    "@bufbuild/protobuf": "npm:2.12.0"
+  checksum: 10/a090f82dac933ed091ed133b2234d168e39f796460832ee9c888928d040c6fb05795f86a570049fb801928a97986cc1d0d2639089b34ab952ae8cf21d18aa8a5
   languageName: node
   linkType: hard
 
@@ -1233,14 +1233,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/parser@npm:7.29.2":
-  version: 7.29.2
-  resolution: "@babel/parser@npm:7.29.2"
+"@babel/parser@npm:7.29.3":
+  version: 7.29.3
+  resolution: "@babel/parser@npm:7.29.3"
   dependencies:
     "@babel/types": "npm:^7.29.0"
   bin:
     parser: ./bin/babel-parser.js
-  checksum: 10/45d050bf75aa5194b3255f156173e8553d615ff5a2434674cc4a10cdc7c261931befb8618c996a1c449b87f0ef32a3407879af2ac967d95dc7b4fdbae7037efa
+  checksum: 10/10e8f34e0fdaa495b9db8be71f4eb29b16d8a57e0818c1bb1c4084015b0383803fd77812ed41597760cbf3d9ab3ae9f4af54f39ff5e5d8e081ba43593232f0ca
   languageName: node
   linkType: hard
 
@@ -3117,10 +3117,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bufbuild/protobuf@npm:2.11.0":
-  version: 2.11.0
-  resolution: "@bufbuild/protobuf@npm:2.11.0"
-  checksum: 10/dddab84c2dc92f15b467449dc9d951b9aef6ea335dba448f8d4028f9b52fdb790d3b856a1dceb4dbcfe7f182072f0d1cd6ce05b2a95ff40132eea6a428e84883
+"@bufbuild/protobuf@npm:2.12.0":
+  version: 2.12.0
+  resolution: "@bufbuild/protobuf@npm:2.12.0"
+  checksum: 10/a21ee54b053672827f52e3525477972f7ea75ce82150d6599ee3544f00b442a49093608b7557581bc8846d066193220bece20cf4712bb44d8aba5067a8eeb035
   languageName: node
   linkType: hard
 
@@ -3152,79 +3152,86 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cdxgen/cdxgen-plugins-bin-darwin-amd64@npm:2.0.3":
-  version: 2.0.3
-  resolution: "@cdxgen/cdxgen-plugins-bin-darwin-amd64@npm:2.0.3"
+"@cdxgen/cdx-hbom@npm:0.5.0":
+  version: 0.5.0
+  resolution: "@cdxgen/cdx-hbom@npm:0.5.0"
+  checksum: 10/a591afa62a54c8d29cd4f2e923e47f6f5d5352d2da49abcfa3315a734450b4ae01a3d8af9e4a96418d46d638615b0797144c6b5a1dbf2ec658c2a6aef4151399
+  languageName: node
+  linkType: hard
+
+"@cdxgen/cdxgen-plugins-bin-darwin-amd64@npm:2.1.3":
+  version: 2.1.3
+  resolution: "@cdxgen/cdxgen-plugins-bin-darwin-amd64@npm:2.1.3"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@cdxgen/cdxgen-plugins-bin-darwin-arm64@npm:2.0.3":
-  version: 2.0.3
-  resolution: "@cdxgen/cdxgen-plugins-bin-darwin-arm64@npm:2.0.3"
+"@cdxgen/cdxgen-plugins-bin-darwin-arm64@npm:2.1.3":
+  version: 2.1.3
+  resolution: "@cdxgen/cdxgen-plugins-bin-darwin-arm64@npm:2.1.3"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@cdxgen/cdxgen-plugins-bin-linux-amd64@npm:2.0.3":
-  version: 2.0.3
-  resolution: "@cdxgen/cdxgen-plugins-bin-linux-amd64@npm:2.0.3"
+"@cdxgen/cdxgen-plugins-bin-linux-amd64@npm:2.1.3":
+  version: 2.1.3
+  resolution: "@cdxgen/cdxgen-plugins-bin-linux-amd64@npm:2.1.3"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"@cdxgen/cdxgen-plugins-bin-linux-arm64@npm:2.0.3":
-  version: 2.0.3
-  resolution: "@cdxgen/cdxgen-plugins-bin-linux-arm64@npm:2.0.3"
+"@cdxgen/cdxgen-plugins-bin-linux-arm64@npm:2.1.3":
+  version: 2.1.3
+  resolution: "@cdxgen/cdxgen-plugins-bin-linux-arm64@npm:2.1.3"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"@cdxgen/cdxgen-plugins-bin-linux-arm@npm:2.0.3":
-  version: 2.0.3
-  resolution: "@cdxgen/cdxgen-plugins-bin-linux-arm@npm:2.0.3"
+"@cdxgen/cdxgen-plugins-bin-linux-arm@npm:2.1.3":
+  version: 2.1.3
+  resolution: "@cdxgen/cdxgen-plugins-bin-linux-arm@npm:2.1.3"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
 
-"@cdxgen/cdxgen-plugins-bin-linux-ppc64@npm:2.0.3":
-  version: 2.0.3
-  resolution: "@cdxgen/cdxgen-plugins-bin-linux-ppc64@npm:2.0.3"
+"@cdxgen/cdxgen-plugins-bin-linux-ppc64@npm:2.1.3":
+  version: 2.1.3
+  resolution: "@cdxgen/cdxgen-plugins-bin-linux-ppc64@npm:2.1.3"
   conditions: os=linux & cpu=ppc64
   languageName: node
   linkType: hard
 
-"@cdxgen/cdxgen-plugins-bin-linuxmusl-amd64@npm:2.0.3":
-  version: 2.0.3
-  resolution: "@cdxgen/cdxgen-plugins-bin-linuxmusl-amd64@npm:2.0.3"
+"@cdxgen/cdxgen-plugins-bin-linuxmusl-amd64@npm:2.1.3":
+  version: 2.1.3
+  resolution: "@cdxgen/cdxgen-plugins-bin-linuxmusl-amd64@npm:2.1.3"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"@cdxgen/cdxgen-plugins-bin-linuxmusl-arm64@npm:2.0.3":
-  version: 2.0.3
-  resolution: "@cdxgen/cdxgen-plugins-bin-linuxmusl-arm64@npm:2.0.3"
+"@cdxgen/cdxgen-plugins-bin-linuxmusl-arm64@npm:2.1.3":
+  version: 2.1.3
+  resolution: "@cdxgen/cdxgen-plugins-bin-linuxmusl-arm64@npm:2.1.3"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"@cdxgen/cdxgen-plugins-bin-windows-amd64@npm:2.0.3":
-  version: 2.0.3
-  resolution: "@cdxgen/cdxgen-plugins-bin-windows-amd64@npm:2.0.3"
+"@cdxgen/cdxgen-plugins-bin-windows-amd64@npm:2.1.3":
+  version: 2.1.3
+  resolution: "@cdxgen/cdxgen-plugins-bin-windows-amd64@npm:2.1.3"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"@cdxgen/cdxgen-plugins-bin-windows-arm64@npm:2.0.3":
-  version: 2.0.3
-  resolution: "@cdxgen/cdxgen-plugins-bin-windows-arm64@npm:2.0.3"
+"@cdxgen/cdxgen-plugins-bin-windows-arm64@npm:2.1.3":
+  version: 2.1.3
+  resolution: "@cdxgen/cdxgen-plugins-bin-windows-arm64@npm:2.1.3"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@cdxgen/cdxgen-plugins-bin@npm:2.0.3":
-  version: 2.0.3
-  resolution: "@cdxgen/cdxgen-plugins-bin@npm:2.0.3"
+"@cdxgen/cdxgen-plugins-bin@npm:2.1.3":
+  version: 2.1.3
+  resolution: "@cdxgen/cdxgen-plugins-bin@npm:2.1.3"
   conditions: cpu=x64
   languageName: node
   linkType: hard
@@ -3293,27 +3300,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cyclonedx/cdxgen@npm:12.3.3":
-  version: 12.3.3
-  resolution: "@cyclonedx/cdxgen@npm:12.3.3"
+"@cyclonedx/cdxgen@npm:12.4.3":
+  version: 12.4.3
+  resolution: "@cyclonedx/cdxgen@npm:12.4.3"
   dependencies:
     "@appthreat/atom": "npm:2.5.2"
     "@appthreat/atom-parsetools": "npm:1.1.4"
-    "@appthreat/cdx-proto": "npm:1.3.0"
-    "@babel/parser": "npm:7.29.2"
+    "@appthreat/cdx-proto": "npm:2.0.1"
+    "@babel/parser": "npm:7.29.3"
     "@babel/traverse": "npm:7.29.0"
-    "@bufbuild/protobuf": "npm:2.11.0"
-    "@cdxgen/cdxgen-plugins-bin": "npm:2.0.3"
-    "@cdxgen/cdxgen-plugins-bin-darwin-amd64": "npm:2.0.3"
-    "@cdxgen/cdxgen-plugins-bin-darwin-arm64": "npm:2.0.3"
-    "@cdxgen/cdxgen-plugins-bin-linux-amd64": "npm:2.0.3"
-    "@cdxgen/cdxgen-plugins-bin-linux-arm": "npm:2.0.3"
-    "@cdxgen/cdxgen-plugins-bin-linux-arm64": "npm:2.0.3"
-    "@cdxgen/cdxgen-plugins-bin-linux-ppc64": "npm:2.0.3"
-    "@cdxgen/cdxgen-plugins-bin-linuxmusl-amd64": "npm:2.0.3"
-    "@cdxgen/cdxgen-plugins-bin-linuxmusl-arm64": "npm:2.0.3"
-    "@cdxgen/cdxgen-plugins-bin-windows-amd64": "npm:2.0.3"
-    "@cdxgen/cdxgen-plugins-bin-windows-arm64": "npm:2.0.3"
+    "@bufbuild/protobuf": "npm:2.12.0"
+    "@cdxgen/cdx-hbom": "npm:0.5.0"
+    "@cdxgen/cdxgen-plugins-bin": "npm:2.1.3"
+    "@cdxgen/cdxgen-plugins-bin-darwin-amd64": "npm:2.1.3"
+    "@cdxgen/cdxgen-plugins-bin-darwin-arm64": "npm:2.1.3"
+    "@cdxgen/cdxgen-plugins-bin-linux-amd64": "npm:2.1.3"
+    "@cdxgen/cdxgen-plugins-bin-linux-arm": "npm:2.1.3"
+    "@cdxgen/cdxgen-plugins-bin-linux-arm64": "npm:2.1.3"
+    "@cdxgen/cdxgen-plugins-bin-linux-ppc64": "npm:2.1.3"
+    "@cdxgen/cdxgen-plugins-bin-linuxmusl-amd64": "npm:2.1.3"
+    "@cdxgen/cdxgen-plugins-bin-linuxmusl-arm64": "npm:2.1.3"
+    "@cdxgen/cdxgen-plugins-bin-windows-amd64": "npm:2.1.3"
+    "@cdxgen/cdxgen-plugins-bin-windows-arm64": "npm:2.1.3"
     "@iarna/toml": "npm:2.2.5"
     "@isaacs/string-locale-compare": "npm:1.1.0"
     "@npmcli/fs": "npm:5.0.0"
@@ -3342,14 +3350,14 @@ __metadata:
     proc-log: "npm:6.1.0"
     properties-reader: "npm:3.0.1"
     read-package-json-fast: "npm:5.0.0"
-    semver: "npm:7.7.4"
+    semver: "npm:7.8.0"
     ssri: "npm:13.0.1"
-    tar: "npm:7.5.13"
+    tar: "npm:7.5.15"
     treeverse: "npm:3.0.0"
     uuid: "npm:14.0.0"
     walk-up-path: "npm:4.0.0"
     xml-js: "npm:1.6.11"
-    yaml: "npm:2.8.3"
+    yaml: "npm:2.8.4"
     yargs: "npm:18.0.0"
     yoctocolors: "npm:2.1.2"
   dependenciesMeta:
@@ -3360,6 +3368,8 @@ __metadata:
     "@appthreat/cdx-proto":
       optional: true
     "@bufbuild/protobuf":
+      optional: true
+    "@cdxgen/cdx-hbom":
       optional: true
     "@cdxgen/cdxgen-plugins-bin":
       optional: true
@@ -3402,10 +3412,11 @@ __metadata:
     cdxgen-secure: bin/cdxgen.js
     cdxi: bin/repl.js
     evinse: bin/evinse.js
+    hbom: bin/hbom.js
     obom: bin/cdxgen.js
     saasbom: bin/cdxgen.js
     spdxgen: bin/cdxgen.js
-  checksum: 10/028f7516308e8aa6e0a1d91b02fedc54c0ed118fd081754f238b4e46f949909faff0e2efebe2f8046ef4f7d5bae6a4ac5f900ce41673b3eb8260ff30464232cb
+  checksum: 10/9cb3191c4d84e6e14b1bf7da7d4d9f5848ac34cd4c64cdd2e834db4c60fe1d42e88cacf6362cb886cab98b37f11e778cbb1646873f8aac0354dcbba76010cf69
   languageName: node
   linkType: hard
 
@@ -22771,7 +22782,7 @@ __metadata:
     "@babel/preset-env": "npm:7.29.2"
     "@babel/preset-react": "npm:7.28.5"
     "@babel/preset-typescript": "npm:7.28.5"
-    "@cyclonedx/cdxgen": "npm:12.3.3"
+    "@cyclonedx/cdxgen": "npm:12.4.3"
     "@dagrejs/dagre": "npm:3.0.0"
     "@date-fns/upgrade": "npm:1.0.3"
     "@emotion/babel-plugin": "npm:11.13.5"
@@ -23670,16 +23681,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tar@npm:7.5.13":
-  version: 7.5.13
-  resolution: "tar@npm:7.5.13"
+"tar@npm:7.5.15":
+  version: 7.5.15
+  resolution: "tar@npm:7.5.15"
   dependencies:
     "@isaacs/fs-minipass": "npm:^4.0.0"
     chownr: "npm:^3.0.0"
     minipass: "npm:^7.1.2"
     minizlib: "npm:^3.1.0"
     yallist: "npm:^5.0.0"
-  checksum: 10/2bc2b6f0349038a6621dbba1c4522d45752d5071b2994692257113c2050cd23fafc30308f820e5f8ad6fda3f7d7f92adc9a432aa733daa04c42af2061c021c3f
+  checksum: 10/b4cb6acd822159867f81ebda8d765c6941ec8292f1cf2f870d3713f4933c14bf0ed7bf4a92338143c31e8815ca0a1fdd62aa03ddb48a42ae187f7ef696583ffe
   languageName: node
   linkType: hard
 

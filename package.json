@@ -126,7 +126,7 @@
     "@babel/preset-env": "7.29.2",
     "@babel/preset-react": "7.28.5",
     "@babel/preset-typescript": "7.28.5",
-    "@cyclonedx/cdxgen": "12.3.3",
+    "@cyclonedx/cdxgen": "12.4.3",
     "@emotion/babel-plugin": "11.13.5",
     "@emotion/jest": "11.14.2",
     "@eslint/js": "10.0.1",
