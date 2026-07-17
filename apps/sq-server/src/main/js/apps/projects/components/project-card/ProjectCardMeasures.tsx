@@ -19,197 +19,29 @@
  */
 
 import { Text } from '@sonarsource/echoes-react';
-import * as React from 'react';
+import { useIntl } from 'react-intl';
 import { CoverageIndicator, DuplicationsIndicator } from '~design-system';
-import { isDefined } from '~shared/helpers/types';
+import { getProjectCardMeasureList } from '~shared/helpers/projectCardMeasures';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { duplicationRatingConverter } from '~sq-server-commons/components/measure/utils';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import RatingComponent from '~sq-server-commons/context/metrics/RatingComponent';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
 import { Feature } from '~sq-server-commons/types/features';
 import ProjectCardMeasure from './ProjectCardMeasure';
 
 export interface ProjectCardMeasuresProps {
-  // eslint-disable-next-line react/no-unused-prop-types
   componentKey: string;
   componentQualifier: ComponentQualifier;
   isNewCode: boolean;
   measures: Record<string, string | undefined>;
 }
 
-function renderNewIssues(props: ProjectCardMeasuresProps) {
-  const { measures, isNewCode, componentKey } = props;
-
-  if (!isNewCode) {
-    return null;
-  }
-
-  return (
-    <ProjectCardMeasure
-      label={translate(`metric.${MetricKey.new_violations}.description`)}
-      metricKey={MetricKey.new_violations}
-    >
-      <Measure
-        className="sw-ml-2 sw-typo-lg-semibold"
-        componentKey={componentKey}
-        metricKey={MetricKey.new_violations}
-        metricType={MetricType.ShortInteger}
-        value={measures[MetricKey.new_violations]}
-      />
-    </ProjectCardMeasure>
-  );
-}
-
-function renderCoverage(props: ProjectCardMeasuresProps) {
-  const { measures, isNewCode, componentKey } = props;
-  const coverageMetric = isNewCode ? MetricKey.new_coverage : MetricKey.coverage;
-
-  return (
-    <ProjectCardMeasure label={translate('metric.coverage.name')} metricKey={coverageMetric}>
-      <div>
-        {measures[coverageMetric] && <CoverageIndicator value={measures[coverageMetric]} />}
-        <Measure
-          className="sw-ml-2 sw-typo-lg-semibold"
-          componentKey={componentKey}
-          decimals={2}
-          metricKey={coverageMetric}
-          metricType={MetricType.Percent}
-          value={measures[coverageMetric]}
-        />
-      </div>
-    </ProjectCardMeasure>
-  );
-}
-
-function renderDuplication(props: ProjectCardMeasuresProps) {
-  const { measures, isNewCode, componentKey } = props;
-  const duplicationMetric = isNewCode
-    ? MetricKey.new_duplicated_lines_density
-    : MetricKey.duplicated_lines_density;
-
-  const rating =
-    measures[duplicationMetric] !== undefined
-      ? duplicationRatingConverter(Number(measures[duplicationMetric]))
-      : undefined;
-
-  return (
-    <ProjectCardMeasure
-      label={translate('metric.duplicated_lines_density.short_name')}
-      metricKey={duplicationMetric}
-    >
-      <div>
-        {measures[duplicationMetric] != null && <DuplicationsIndicator rating={rating} />}
-        <Measure
-          className="sw-ml-2 sw-typo-lg-semibold"
-          componentKey={componentKey}
-          decimals={2}
-          metricKey={duplicationMetric}
-          metricType={MetricType.Percent}
-          value={measures[duplicationMetric]}
-        />
-      </div>
-    </ProjectCardMeasure>
-  );
-}
-
-function renderRatings(
-  props: ProjectCardMeasuresProps,
-  isStandardMode: boolean,
-  renderSCA: boolean,
-) {
-  const { isNewCode, measures, componentKey } = props;
-
-  const measuresByCodeLeak = isNewCode
-    ? []
-    : [
-        {
-          iconLabel: translate(
-            `metric.${isStandardMode ? MetricKey.vulnerabilities : MetricKey.software_quality_security_issues}.short_name`,
-          ),
-          noShrink: true,
-          metricKey:
-            isStandardMode || measures[MetricKey.software_quality_security_issues] === undefined
-              ? MetricKey.vulnerabilities
-              : MetricKey.software_quality_security_issues,
-          metricRatingKey: MetricKey.security_rating,
-          metricType: MetricType.ShortInteger,
-        },
-        {
-          iconLabel: translate(
-            `metric.${isStandardMode ? MetricKey.bugs : MetricKey.software_quality_reliability_issues}.short_name`,
-          ),
-          metricKey:
-            isStandardMode || measures[MetricKey.software_quality_reliability_issues] === undefined
-              ? MetricKey.bugs
-              : MetricKey.software_quality_reliability_issues,
-          metricRatingKey: MetricKey.reliability_rating,
-          metricType: MetricType.ShortInteger,
-        },
-        {
-          iconLabel: translate(
-            `metric.${isStandardMode ? MetricKey.code_smells : MetricKey.software_quality_maintainability_issues}.short_name`,
-          ),
-          metricKey:
-            isStandardMode ||
-            measures[MetricKey.software_quality_maintainability_issues] === undefined
-              ? MetricKey.code_smells
-              : MetricKey.software_quality_maintainability_issues,
-          metricRatingKey: MetricKey.sqale_rating,
-          metricType: MetricType.ShortInteger,
-        },
-      ];
-
-  const measureList = [
-    ...measuresByCodeLeak,
-    {
-      iconKey: MetricKey.security_hotspots,
-      iconLabel: translate('projects.security_hotspots_reviewed'),
-      metricKey: isNewCode
-        ? MetricKey.new_security_hotspots_reviewed
-        : MetricKey.security_hotspots_reviewed,
-      metricRatingKey: isNewCode
-        ? MetricKey.new_security_review_rating
-        : MetricKey.security_review_rating,
-      metricType: MetricType.Percent,
-    },
-  ];
-
-  if (renderSCA) {
-    measureList.push({
-      iconLabel: translate('dependencies.risks'),
-      noShrink: true,
-      metricKey: isNewCode ? MetricKey.new_sca_count_any_issue : MetricKey.sca_count_any_issue,
-      metricRatingKey: isNewCode
-        ? MetricKey.new_sca_rating_any_issue
-        : MetricKey.sca_rating_any_issue,
-      metricType: MetricType.ShortInteger,
-    });
-  }
-
-  return measureList.map((measure) => {
-    const { iconLabel, metricKey, metricRatingKey, metricType } = measure;
-
-    return (
-      <ProjectCardMeasure key={metricKey} label={iconLabel} metricKey={metricKey}>
-        <RatingComponent componentKey={componentKey} ratingMetric={metricRatingKey} />
-        <Measure
-          className="sw-ml-2 sw-typo-lg-semibold"
-          componentKey={componentKey}
-          metricKey={metricKey}
-          metricType={metricType}
-          value={measures[metricKey]}
-        />
-      </ProjectCardMeasure>
-    );
-  });
-}
-
-export default function ProjectCardMeasures(props: ProjectCardMeasuresProps) {
-  const { isNewCode, measures, componentQualifier } = props;
+export default function ProjectCardMeasures(props: Readonly<ProjectCardMeasuresProps>) {
+  const { formatMessage } = useIntl();
+  const { isNewCode, measures, componentKey, componentQualifier } = props;
   const { data: isStandardMode } = useStandardExperienceModeQuery();
   const { hasFeature } = useAvailableFeatures();
 
@@ -219,25 +51,82 @@ export default function ProjectCardMeasures(props: ProjectCardMeasuresProps) {
     return (
       <Text className="sw-py-4" isSubtle>
         {componentQualifier === ComponentQualifier.Application
-          ? translate('portfolio.app.empty')
-          : translate('overview.project.main_branch_empty')}
+          ? formatMessage({ id: 'portfolio.app.empty' })
+          : formatMessage({ id: 'overview.project.main_branch_empty' })}
       </Text>
     );
   }
 
-  const measureList = [
-    renderNewIssues(props),
-    ...renderRatings(props, !!isStandardMode, hasFeature(Feature.Sca)),
-    renderCoverage(props),
-    renderDuplication(props),
-  ].filter(isDefined);
+  const coverageMetric = isNewCode ? MetricKey.new_coverage : MetricKey.coverage;
+  const duplicationMetric = isNewCode
+    ? MetricKey.new_duplicated_lines_density
+    : MetricKey.duplicated_lines_density;
+  const duplicationRating =
+    measures[duplicationMetric] !== undefined
+      ? duplicationRatingConverter(Number(measures[duplicationMetric]))
+      : undefined;
+
+  const measureList = getProjectCardMeasureList({
+    isNewCode,
+    measures,
+    isStandardMode: Boolean(isStandardMode),
+    isScaEnabled: hasFeature(Feature.Sca),
+  });
 
   return (
     <div className="sw-flex sw-items-center sw-gap-6">
-      {measureList.map((measure, i) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <React.Fragment key={i}>{measure}</React.Fragment>
+      {measureList.map(({ labelKey, metricKey, metricRatingKey, metricType }) => (
+        <ProjectCardMeasure
+          key={metricKey}
+          label={formatMessage({ id: labelKey })}
+          metricKey={metricKey}
+        >
+          {metricRatingKey && (
+            <RatingComponent componentKey={componentKey} ratingMetric={metricRatingKey} />
+          )}
+          <Measure
+            className="sw-ml-2 sw-typo-lg-semibold"
+            componentKey={componentKey}
+            metricKey={metricKey}
+            metricType={metricType}
+            value={measures[metricKey]}
+          />
+        </ProjectCardMeasure>
       ))}
+      <ProjectCardMeasure
+        label={formatMessage({ id: 'metric.coverage.name' })}
+        metricKey={coverageMetric}
+      >
+        <div>
+          {measures[coverageMetric] && <CoverageIndicator value={measures[coverageMetric]} />}
+          <Measure
+            className="sw-ml-2 sw-typo-lg-semibold"
+            componentKey={componentKey}
+            decimals={2}
+            metricKey={coverageMetric}
+            metricType={MetricType.Percent}
+            value={measures[coverageMetric]}
+          />
+        </div>
+      </ProjectCardMeasure>
+      <ProjectCardMeasure
+        label={formatMessage({ id: 'metric.duplicated_lines_density.short_name' })}
+        metricKey={duplicationMetric}
+      >
+        <div>
+          {measures[duplicationMetric] != null && (
+            <DuplicationsIndicator rating={duplicationRating} />
+          )}
+          <Measure
+            className="sw-ml-2 sw-typo-lg-semibold"
+            componentKey={componentKey}
+            decimals={2}
+            metricKey={duplicationMetric}
+            metricType={MetricType.Percent}
+            value={measures[duplicationMetric]}
+          />
+        </div>
+      </ProjectCardMeasure>
     </div>
   );
 }

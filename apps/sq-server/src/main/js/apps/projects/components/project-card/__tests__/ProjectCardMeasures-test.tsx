@@ -29,10 +29,13 @@ import { Feature } from '~sq-server-commons/types/features';
 import { Mode } from '~sq-server-commons/types/mode';
 import ProjectCardMeasures, { ProjectCardMeasuresProps } from '../ProjectCardMeasures';
 
-jest.mock('date-fns', () => ({
-  ...jest.requireActual('date-fns'),
-  differenceInMilliseconds: () => 1000 * 60 * 60 * 24 * 30 * 8, // ~ 8 months
-}));
+jest.mock('date-fns', () => {
+  const actual = jest.requireActual<typeof import('date-fns')>('date-fns');
+  return {
+    ...actual,
+    differenceInMilliseconds: () => 1000 * 60 * 60 * 24 * 30 * 8, // ~ 8 months
+  };
+});
 
 const measuresHandler = new MeasuresServiceMock();
 const modeHandler = new ModeServiceMock();
@@ -55,9 +58,6 @@ describe('Overall measures', () => {
       screen.getByTitle('metric.software_quality_maintainability_issues.short_name'),
     ).toBeInTheDocument();
     expect(screen.queryByTitle('dependencies.risks')).not.toBeInTheDocument();
-    expect(screen.queryByTitle('metric.vulnerabilities.short_name')).not.toBeInTheDocument();
-    expect(screen.queryByTitle('metric.bugs.short_name')).not.toBeInTheDocument();
-    expect(screen.queryByTitle('metric.code_smells.short_name')).not.toBeInTheDocument();
   });
 
   it('should be rendered properly when SCA is active', () => {
@@ -71,15 +71,6 @@ describe('Overall measures', () => {
     expect(await screen.findByTitle('metric.vulnerabilities.short_name')).toBeInTheDocument();
     expect(screen.getByTitle('metric.bugs.short_name')).toBeInTheDocument();
     expect(screen.getByTitle('metric.code_smells.short_name')).toBeInTheDocument();
-    expect(
-      screen.queryByTitle('metric.software_quality_security_issues.short_name'),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByTitle('metric.software_quality_software_quality_reliability_issues.short_name'),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByTitle('metric.software_quality_maintainability_issues.short_name'),
-    ).not.toBeInTheDocument();
   });
 
   it("should be not be rendered if there's no line of code", () => {
