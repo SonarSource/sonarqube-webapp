@@ -55,6 +55,14 @@ Other types of validation follow the pattern:
 
 When running tests, pick the most relevent platform (cloud or server) and narrowly scope the test run to the files you've modified as tests take time to run.
 
+**WARNING**: `yarn nx run sq-cloud:test` can run the entire test suite, spawning dozens of parallel worker processes that can exhaust system memory. To target a single test file safely, invoke jest directly:
+
+```bash
+node node_modules/.bin/jest -c private/apps/sq-cloud/config/jest/jest.config.js --testPathPatterns="<filename-or-pattern>"
+```
+
+This also applies when passing extra jest flags like `--updateSnapshot`. Never use `yarn nx run sq-cloud:test <path> -- --updateSnapshot` — use the direct jest invocation instead.
+
 When you need to write tests (and are NOT running `/browse-and-verify`), use the `webapp-testing` skill.
 
 # Writing Code
