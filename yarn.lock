@@ -669,16 +669,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:7.29.0, @babel/core@npm:^7.18.5, @babel/core@npm:^7.29.0":
-  version: 7.29.0
-  resolution: "@babel/core@npm:7.29.0"
+"@babel/core@npm:7.29.6":
+  version: 7.29.6
+  resolution: "@babel/core@npm:7.29.6"
   dependencies:
     "@babel/code-frame": "npm:^7.29.0"
-    "@babel/generator": "npm:^7.29.0"
+    "@babel/generator": "npm:^7.29.6"
     "@babel/helper-compilation-targets": "npm:^7.28.6"
     "@babel/helper-module-transforms": "npm:^7.28.6"
-    "@babel/helpers": "npm:^7.28.6"
-    "@babel/parser": "npm:^7.29.0"
+    "@babel/helpers": "npm:^7.29.2"
+    "@babel/parser": "npm:^7.29.3"
     "@babel/template": "npm:^7.28.6"
     "@babel/traverse": "npm:^7.29.0"
     "@babel/types": "npm:^7.29.0"
@@ -688,7 +688,7 @@ __metadata:
     gensync: "npm:^1.0.0-beta.2"
     json5: "npm:^2.2.3"
     semver: "npm:^6.3.1"
-  checksum: 10/25f4e91688cdfbaf1365831f4f245b436cdaabe63d59389b75752013b8d61819ee4257101b52fc328b0546159fd7d0e74457ed7cf12c365fea54be4fb0a40229
+  checksum: 10/b81c3f35c1ab0b75634f4cf2bcfb1c28ed5a973cf926c5e864fd63b600024768392768f2b21befc68381f5182c0767342e247830046e8b160c01612314a3593d
   languageName: node
   linkType: hard
 
@@ -712,6 +712,29 @@ __metadata:
     json5: "npm:^2.2.3"
     semver: "npm:^6.3.1"
   checksum: 10/0593295241fac9be567145ef16f3858d34fc91390a9438c6d47476be9823af4cc0488c851c59702dd46b968e9fd46d17ddf0105ea30195ca85f5a66b4044c519
+  languageName: node
+  linkType: hard
+
+"@babel/core@npm:^7.18.5, @babel/core@npm:^7.29.0":
+  version: 7.29.0
+  resolution: "@babel/core@npm:7.29.0"
+  dependencies:
+    "@babel/code-frame": "npm:^7.29.0"
+    "@babel/generator": "npm:^7.29.0"
+    "@babel/helper-compilation-targets": "npm:^7.28.6"
+    "@babel/helper-module-transforms": "npm:^7.28.6"
+    "@babel/helpers": "npm:^7.28.6"
+    "@babel/parser": "npm:^7.29.0"
+    "@babel/template": "npm:^7.28.6"
+    "@babel/traverse": "npm:^7.29.0"
+    "@babel/types": "npm:^7.29.0"
+    "@jridgewell/remapping": "npm:^2.3.5"
+    convert-source-map: "npm:^2.0.0"
+    debug: "npm:^4.1.0"
+    gensync: "npm:^1.0.0-beta.2"
+    json5: "npm:^2.2.3"
+    semver: "npm:^6.3.1"
+  checksum: 10/25f4e91688cdfbaf1365831f4f245b436cdaabe63d59389b75752013b8d61819ee4257101b52fc328b0546159fd7d0e74457ed7cf12c365fea54be4fb0a40229
   languageName: node
   linkType: hard
 
@@ -777,7 +800,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/generator@npm:^7.29.7":
+"@babel/generator@npm:^7.29.6, @babel/generator@npm:^7.29.7":
   version: 7.29.7
   resolution: "@babel/generator@npm:7.29.7"
   dependencies:
@@ -1200,7 +1223,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helpers@npm:^7.29.7":
+"@babel/helpers@npm:^7.29.2, @babel/helpers@npm:^7.29.7":
   version: 7.29.7
   resolution: "@babel/helpers@npm:7.29.7"
   dependencies:
@@ -1232,7 +1255,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/parser@npm:^7.24.4, @babel/parser@npm:^7.29.7":
+"@babel/parser@npm:^7.24.4, @babel/parser@npm:^7.29.3, @babel/parser@npm:^7.29.7":
   version: 7.29.7
   resolution: "@babel/parser@npm:7.29.7"
   dependencies:
@@ -22744,7 +22767,7 @@ __metadata:
     "@atlaskit/reduced-ui-pack": "npm:20.0.0"
     "@aws-sdk/client-cloudwatch": "npm:3.1019.0"
     "@aws-sdk/client-cloudwatch-logs": "npm:3.1019.0"
-    "@babel/core": "npm:7.29.0"
+    "@babel/core": "npm:7.29.6"
     "@babel/preset-env": "npm:7.29.2"
     "@babel/preset-react": "npm:7.28.5"
     "@babel/preset-typescript": "npm:7.28.5"
