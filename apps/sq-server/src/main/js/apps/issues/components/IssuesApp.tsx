@@ -163,7 +163,7 @@ enum TOGGLE_OPTION {
 // When opening a specific issue, number of issues to fetch through pagination before loading it specifically
 const MAX_INITAL_FETCH = 400;
 const VARIANTS_FACET = 'codeVariants';
-const ISSUES_PAGE_SIZE = 100;
+const ISSUES_PAGE_SIZE = 50;
 
 export class App extends React.PureComponent<Props, State> {
   intl = getIntl();
