@@ -2507,6 +2507,7 @@ export const componentMap = {
   PullRequestOverview: 'Excluded',
   licenseRoutes: 'Excluded',
   projectRoutes: 'Excluded',
+  projectSettingsRoutes: 'Excluded',
   ArchitectureAdminBanner: 'Excluded',
   TypeHelper: 'Excluded',
   LicenseProfileListApp: 'Excluded',

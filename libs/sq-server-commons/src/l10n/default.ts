@@ -755,6 +755,8 @@ export const defaultMessages = {
     'Reduce technical debt by automatically fixing high-priority issues on your main branch on a schedule.',
   'ai_capabilities.remediation_agent.scheduled.save_success':
     'Scheduled remediation settings saved successfully.',
+  'ai_capabilities.remediation_agent.scheduled.save_error':
+    'Something went wrong. Failed to save the schedule configuration.',
   'ai_capabilities.remediation_agent.scheduled.frequency': 'Frequency',
   'ai_capabilities.remediation_agent.scheduled.frequency.at': 'at',
   'ai_capabilities.remediation_agent.scheduled.frequency.on': 'on',
@@ -796,6 +798,44 @@ export const defaultMessages = {
   'ai_capabilities.remediation_agent.scheduled.friday': 'Friday',
   'ai_capabilities.remediation_agent.scheduled.saturday': 'Saturday',
   'ai_capabilities.remediation_agent.scheduled.sunday': 'Sunday',
+  'ai_capabilities.project.not_available':
+    'Automated backlog remediation is not enabled for this project. Please contact your administrator to enable the feature.',
+  'ai_capabilities.project.not_available.admin':
+    'Automated backlog remediation is not enabled for this project.',
+  'ai_capabilities.project.not_available.admin_cta': 'Enable Automated backlog remediation',
+  'ai_capabilities.project.remediation_agent.description':
+    'This setting allows project administrators to customize the automated schedule for their project. The default can be adjusted in the {link}.',
+  'ai_capabilities.project.remediation_agent.settings_link': 'AI capabilities settings',
+  'ai_capabilities.project.remediation_agent.use_default': 'Use default schedule',
+  'ai_capabilities.project.remediation_agent.customize': 'Customize for this project',
+  'ai_capabilities.project.remediation_agent.customize.description':
+    'Override the default schedule with a custom frequency for this project.',
+  'ai_capabilities.project.remediation_agent.run_summary':
+    'Next run: {nextRun} · Will open 1 PR for up to 5 issues in this repo · {pauseInfo}',
+  'ai_capabilities.project.remediation_agent.update.success': 'Automated scheduler updated.',
+  'ai_capabilities.project.remediation_agent.disabled.success':
+    'Automated scheduler has been disabled for this project.',
+  'ai_capabilities.project.remediation_agent.reset.success':
+    'The project will use the default schedule.',
+  'ai_capabilities.project.remediation_agent.reset.error':
+    'Something went wrong. Failed to update the project configuration.',
+  'ai_capabilities.project.default_schedule_summary':
+    'Default schedule: {frequency} at {hour} {timezone}',
+  'ai_capabilities.project.default_schedule_summary.weekly':
+    'Default schedule: {frequency} on {dayOfWeek} at {hour} {timezone}',
+  'ai_capabilities.project.max_open_prs_summary': 'Max open PRs: {count}',
+  'ai_capabilities.project.remediation_agent.not_bound':
+    "The Remediation Agent is not enabled for this project. Please contact your organization's admin to enable the Remediation Agent.",
+  'ai_capabilities.project.remediation_agent.not_bound.admin':
+    'The Remediation Agent is not enabled for this project.',
+  'ai_capabilities.project.remediation_agent.not_bound.admin_cta':
+    'Enable the Remediation Agent for this project',
+  'ai_capabilities.project.remediation_agent.project_not_bound_to_scm':
+    "This project isn't bound to a repository. Contact your organization admin to set up project binding so the Remediation Agent can run.",
+  'ai_capabilities.project.remediation_agent.project_not_bound_to_scm.admin':
+    "This project isn't bound to a repository.",
+  'ai_capabilities.project.remediation_agent.project_not_bound_to_scm.admin_cta':
+    'Set up project binding',
 
   //------------------------------------------------------------------------------
   //

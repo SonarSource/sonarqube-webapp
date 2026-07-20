@@ -192,6 +192,7 @@ function renderComponentRoutes({
 
           {hasBranchSupport && addons.branches?.routes()}
           {hasAicaFeature && addons.aica?.aicaSettingsRoutes()}
+          {hasRemediationAgentFeature && addons.remediationAgent?.projectSettingsRoutes()}
 
           {backgroundTasksRoutes()}
           {projectDeletionRoutes()}

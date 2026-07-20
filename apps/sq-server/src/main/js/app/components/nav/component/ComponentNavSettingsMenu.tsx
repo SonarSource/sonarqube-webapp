@@ -59,6 +59,8 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
   const showSettings = !isApp && !isPortfolio;
   const showBaseline = !isApp && !isPortfolio;
   const showAiGeneratedCode = isProj && hasFeature(Feature.AiCodeAssurance) && addons.aica;
+  const showAiCapabilities =
+    isProj && hasFeature(Feature.RemediationAgent) && addons.remediationAgent;
   const isGovernanceEnabled = appState.qualifiers.includes(ComponentQualifier.Portfolio);
 
   const showApplicationDefinition =
@@ -87,6 +89,7 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
     !isProj &&
     !showDeletion &&
     !showAiGeneratedCode &&
+    !showAiCapabilities &&
     adminExtensions.length === 0
   ) {
     return null;
@@ -179,6 +182,18 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
           to={{ pathname: `/project/${addons.aica.AICA_SETTINGS_PATH}`, search }}
         >
           <FormattedMessage id="ai_generated_code.page" />
+        </Layout.SidebarNavigation.Item>
+      )}
+
+      {showAiCapabilities && addons.remediationAgent && (
+        <Layout.SidebarNavigation.Item
+          Icon={IconGear}
+          to={{
+            pathname: `/project/${addons.remediationAgent.AI_CAPABILITIES_SETTINGS_PATH}`,
+            search,
+          }}
+        >
+          <FormattedMessage id="ai_capabilities.title" />
         </Layout.SidebarNavigation.Item>
       )}
 
