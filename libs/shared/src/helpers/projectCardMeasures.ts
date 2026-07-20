@@ -73,12 +73,13 @@ const SERVER_LABEL_KEY_MAP: Partial<Record<MetricKey, string>> = {
 } as const;
 
 // Label map for cloud (uses "short_name" for all labels, preserving original cloud behavior)
+// standard metrics should default to their corresponding MQR metrics
 const CLOUD_LABEL_KEY_MAP: Partial<Record<MetricKey, string>> = {
-  [MetricKey.vulnerabilities]: 'metric.vulnerabilities.short_name',
+  [MetricKey.vulnerabilities]: 'metric.security_issues.short_name',
   [MetricKey.security_issues]: 'metric.security_issues.short_name',
-  [MetricKey.bugs]: 'metric.bugs.short_name',
+  [MetricKey.bugs]: 'metric.reliability_issues.short_name',
   [MetricKey.reliability_issues]: 'metric.reliability_issues.short_name',
-  [MetricKey.code_smells]: 'metric.code_smells.short_name',
+  [MetricKey.code_smells]: 'metric.maintainability_issues.short_name',
   [MetricKey.maintainability_issues]: 'metric.maintainability_issues.short_name',
   [MetricKey.new_violations]: 'metric.new_violations.short_name',
   [MetricKey.security_hotspots_reviewed]: 'metric.security_hotspots_reviewed.short_name',
