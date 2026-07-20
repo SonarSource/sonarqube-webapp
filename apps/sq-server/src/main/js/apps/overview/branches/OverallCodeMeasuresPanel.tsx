@@ -29,6 +29,7 @@ import {
 } from '~shared/components/overview/BranchSummaryStyles';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication } from '~shared/helpers/component';
+import { MeasurementType, getMeasurementMetricKey } from '~shared/helpers/overview';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
@@ -49,7 +50,6 @@ import { Branch } from '~sq-server-commons/types/branch-like';
 import { IssueStatus } from '~sq-server-commons/types/issues';
 import { QualityGateStatus } from '~sq-server-commons/types/quality-gates';
 import { Component, QualityGate } from '~sq-server-commons/types/types';
-import { MeasurementType, getMeasurementMetricKey } from '~sq-server-commons/utils/overview-utils';
 import { IssuesInSandboxSection } from './issues-sandbox/IssuesInSandboxSection';
 import QualityGatePanel from './QualityGatePanel';
 import SoftwareImpactMeasureCard from './SoftwareImpactMeasureCard';

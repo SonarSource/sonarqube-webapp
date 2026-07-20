@@ -21,12 +21,12 @@
 import * as React from 'react';
 import { NoCoverageCard } from '~shared/components/overview/NoCoverageCard';
 import { NotEnoughLinesCoverageCard } from '~shared/components/overview/NotEnoughLinesCoverageCard';
+import { MeasurementType, getMeasurementMetricKey } from '~shared/helpers/overview';
 import { isDefined } from '~shared/helpers/types';
 import { MetricKey } from '~shared/types/metrics';
 import { DocLink } from '../../helpers/doc-links';
 import { useDocUrl } from '../../helpers/docs';
 import { findMeasure } from '../../helpers/measures';
-import { MeasurementType, getMeasurementMetricKey } from '../../utils/overview-utils';
 import { getLeakValue } from '../measure/utils';
 import MeasuresCardPercent from './MeasuresCardPercent';
 

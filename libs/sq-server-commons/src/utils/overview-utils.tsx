@@ -143,26 +143,10 @@ const MEASURES_VARIATIONS_METRICS = [
   MetricKey.violations,
 ];
 
-export enum MeasurementType {
-  Coverage = 'COVERAGE',
-  Duplication = 'DUPLICATION',
-}
-
 export enum QGStatusEnum {
   OK = 'OK',
   ERROR = 'ERROR',
 }
-
-const MEASUREMENTS_MAP = {
-  [MeasurementType.Coverage]: {
-    metric: MetricKey.coverage,
-    newMetric: MetricKey.new_coverage,
-  },
-  [MeasurementType.Duplication]: {
-    metric: MetricKey.duplicated_lines_density,
-    newMetric: MetricKey.new_duplicated_lines_density,
-  },
-};
 
 const SORTED_SEVERITY_CONDITION_MAPPING = Object.entries(ISSUE_SEVERITY_CONDITION_MAPPING).sort(
   ([a], [b]) => Number(a) - Number(b),
@@ -258,10 +242,6 @@ export function getIssueRatingMetricKey(type: IssueType, useDiffMetric: boolean)
   return useDiffMetric
     ? ISSUETYPE_METRIC_KEYS_MAP[type].newRating
     : ISSUETYPE_METRIC_KEYS_MAP[type].rating;
-}
-
-export function getMeasurementMetricKey(type: MeasurementType, useDiffMetric: boolean) {
-  return useDiffMetric ? MEASUREMENTS_MAP[type].newMetric : MEASUREMENTS_MAP[type].metric;
 }
 
 export const parseQuery = memoize((urlQuery: RawQuery): { codeScope: string } => {

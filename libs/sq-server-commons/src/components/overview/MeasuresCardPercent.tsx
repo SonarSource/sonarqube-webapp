@@ -23,7 +23,9 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { To } from 'react-router-dom';
+import AfterMergeNote from '~shared/components/overview/AfterMergeNote';
 import { isPullRequest } from '~shared/helpers/branch-like';
+import { MeasurementType, getMeasurementMetricKey } from '~shared/helpers/overview';
 import { isDefined } from '~shared/helpers/types';
 import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
@@ -33,14 +35,8 @@ import { getComponentDrilldownUrl } from '../../helpers/urls';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 import { BranchLike } from '../../types/branch-like';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
-import {
-  MeasurementType,
-  QGStatusEnum,
-  getConditionRequiredLabel,
-  getMeasurementMetricKey,
-} from '../../utils/overview-utils';
+import { QGStatusEnum, getConditionRequiredLabel } from '../../utils/overview-utils';
 import { duplicationRatingConverter, getLeakValue } from '../measure/utils';
-import AfterMergeNote from './AfterMergeNote';
 import MeasuresCard from './MeasuresCard';
 
 interface Props {
@@ -97,6 +93,9 @@ export default function MeasuresCardPercent(
   const conditionFailed = condition?.level === QGStatusEnum.ERROR;
   const shouldRenderRequiredLabel = showRequired && condition;
   const formattedMeasure = formatMeasure(linesValue ?? '0', MetricType.ShortInteger);
+  const afterMergeValue = overallConditionMetric
+    ? findMeasure(measures, overallConditionMetric)?.value
+    : undefined;
 
   return (
     <MeasuresCard
@@ -152,8 +151,8 @@ export default function MeasuresCardPercent(
           )}
         </Text>
       </div>
-      {overallConditionMetric && isPullRequest(branchLike) && (
-        <AfterMergeNote measures={measures} overallMetric={overallConditionMetric} />
+      {isPullRequest(branchLike) && afterMergeValue && (
+        <AfterMergeNote formattedValue={formatMeasure(afterMergeValue, MetricType.Percent)} />
       )}
     </MeasuresCard>
   );

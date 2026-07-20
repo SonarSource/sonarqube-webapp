@@ -19,24 +19,19 @@
  */
 
 import { HelperText } from '@sonarsource/echoes-react';
+import classNames from 'classnames';
 import { FormattedMessage } from 'react-intl';
-import { MeasureEnhanced } from '~shared/types/measures';
-import { MetricKey, MetricType } from '~shared/types/metrics';
-import { findMeasure } from '../../helpers/measures';
-import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 
 interface Props {
-  measures: MeasureEnhanced[];
-  overallMetric: MetricKey;
+  className?: string;
+  formattedValue: string;
 }
 
-export default function AfterMergeNote({ measures, overallMetric }: Readonly<Props>) {
-  const afterMergeValue = findMeasure(measures, overallMetric)?.value;
-
-  return afterMergeValue ? (
-    <HelperText className="sw-mt-2 sw-inline-block">
-      <strong className="sw-mr-1">{formatMeasure(afterMergeValue, MetricType.Percent)}</strong>
+export default function AfterMergeNote({ className, formattedValue }: Readonly<Props>) {
+  return (
+    <HelperText className={classNames('sw-mt-2 sw-inline-block', className)}>
+      <strong className="sw-mr-1">{formattedValue}</strong>
       <FormattedMessage id="component_measures.facet_category.overall_category.estimated" />
     </HelperText>
-  ) : null;
+  );
 }
