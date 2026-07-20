@@ -20,10 +20,10 @@
 
 import { withTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Spinner } from '@sonarsource/echoes-react';
+import { cssVar, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage, themeColor } from '~design-system';
+import { FlagMessage } from '~design-system';
 import SnippetViewer from '~sq-server-commons/components/issues/crossComponentSourceViewer/SnippetViewer';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Hotspot } from '~sq-server-commons/types/security-hotspots';
@@ -185,5 +185,5 @@ export default function HotspotSnippetContainerRenderer(
 }
 
 const SourceFileWrapper = withTheme(styled.div`
-  background-color: ${themeColor('codeLine')};
+  background-color: ${cssVar('color-surface-default')};
 `);

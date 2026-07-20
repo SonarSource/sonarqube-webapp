@@ -22,7 +22,7 @@ import { withTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { groupBy } from 'lodash';
 import * as React from 'react';
-import { HotspotRating, HotspotRatingEnum, SubnavigationHeading, themeColor } from '~design-system';
+import { HotspotRating, HotspotRatingEnum, SubnavigationHeading } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { RawHotspot } from '~sq-server-commons/types/security-hotspots';
@@ -30,6 +30,7 @@ import { StandardSecurityCategories } from '~sq-server-commons/types/types';
 import { RISK_EXPOSURE_LEVELS, groupByCategory } from '../utils';
 import HotspotCategory from './HotspotCategory';
 
+import { cssVar } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 
 interface Props {
@@ -174,5 +175,5 @@ export default class HotspotList extends React.Component<Props, State> {
 }
 
 const StyledContainer = withTheme(styled.div`
-  background-color: ${themeColor('subnavigation')};
+  background-color: ${cssVar('color-surface-default')};
 `);

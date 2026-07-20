@@ -2,7 +2,7 @@
 
 exports[`should highlight code content correctly 1`] = `
 .emotion-0 {
-  background-color: rgb(252,252,253);
+  background-color: var(--echoes-color-background-neutral-subtle-default);
   border: var(--echoes-border-width-default) solid var(--echoes-color-border-weak);
   border-radius: 0.5rem;
   position: relative;
@@ -132,7 +132,7 @@ exports[`should highlight code content correctly 1`] = `
 
 .emotion-11 code {
   font: var(--echoes-typography-code-default);
-  background: rgb(252,252,253);
+  background: var(--echoes-color-background-neutral-subtle-default);
   color: rgb(51,53,60);
 }
 
@@ -248,7 +248,7 @@ exports[`should highlight code content correctly 1`] = `
 
 exports[`should show full size when multiline with no editing 1`] = `
 .emotion-0 {
-  background-color: rgb(252,252,253);
+  background-color: var(--echoes-color-background-neutral-subtle-default);
   border: var(--echoes-border-width-default) solid var(--echoes-color-border-weak);
   border-radius: 0.5rem;
   position: relative;
@@ -378,7 +378,7 @@ exports[`should show full size when multiline with no editing 1`] = `
 
 .emotion-11 code {
   font: var(--echoes-typography-code-default);
-  background: rgb(252,252,253);
+  background: var(--echoes-color-background-neutral-subtle-default);
   color: rgb(51,53,60);
 }
 
@@ -495,7 +495,7 @@ bar
 
 exports[`should show reduced size when single line with no editing 1`] = `
 .emotion-0 {
-  background-color: rgb(252,252,253);
+  background-color: var(--echoes-color-background-neutral-subtle-default);
   border: var(--echoes-border-width-default) solid var(--echoes-color-border-weak);
   border-radius: 0.5rem;
   position: relative;
@@ -627,7 +627,7 @@ exports[`should show reduced size when single line with no editing 1`] = `
 
 .emotion-11 code {
   font: var(--echoes-typography-code-default);
-  background: rgb(252,252,253);
+  background: var(--echoes-color-background-neutral-subtle-default);
   color: rgb(51,53,60);
 }
 

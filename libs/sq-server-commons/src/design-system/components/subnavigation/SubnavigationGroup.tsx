@@ -23,7 +23,6 @@ import { cssVar } from '@sonarsource/echoes-react';
 import { Children, ElementType, Fragment, HtmlHTMLAttributes, ReactNode } from 'react';
 import tw from 'twin.macro';
 import { isDefined } from '~shared/helpers/types';
-import { themeColor } from '../../helpers/theme';
 
 interface Props extends HtmlHTMLAttributes<HTMLDivElement> {
   as?: ElementType;
@@ -50,7 +49,7 @@ const Group = styled.div`
   ${tw`sw-flex sw-flex-col`}
   ${tw`sw-w-full`}
 
-  background-color: ${themeColor('subnavigation')};
+  background-color: ${cssVar('color-surface-default')};
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   box-sizing: border-box;
 `;

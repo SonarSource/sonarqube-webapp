@@ -23,7 +23,7 @@ import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
 import tw from 'twin.macro';
-import { themeBorder, themeColor, themeContrast } from '../helpers/theme';
+import { themeBorder, themeContrast } from '../helpers/theme';
 import { BareButton } from '../sonar-aligned/components/buttons';
 import { OpenCloseIndicator } from './icons/OpenCloseIndicator';
 
@@ -66,7 +66,7 @@ const Expander = styled(BareButton)`
   ${tw`sw-cursor-pointer`}
 
   color: ${themeContrast('subnavigationExecutionFlow')};
-  background-color: ${themeColor('subnavigationExecutionFlow')};
+  background-color: ${cssVar('color-background-neutral-subtle-default')};
 `;
 
 const Accordion = styled.div`
@@ -92,7 +92,7 @@ const Accordion = styled.div`
 const Body = styled.div`
   ${tw`sw-p-2`}
 
-  background-color: ${themeColor('subnavigationExecutionFlow')};
+  background-color: ${cssVar('color-background-neutral-subtle-default')};
 `;
 
 ExecutionFlowAccordion.displayName = 'ExecutionFlowAccordion';

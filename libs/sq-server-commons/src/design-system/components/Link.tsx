@@ -173,7 +173,7 @@ export const NakedLink = styled(BaseLink)`
   padding-bottom: 1px;
 
   font-weight: 600;
-  color: ${themeColor('linkNaked')};
+  color: ${cssVar('color-text-strong')};
 
   ${({ disabled }) =>
     disabled

@@ -102,7 +102,7 @@ const StyledButton = styled.button`
   &.selected,
   &:hover,
   &:focus {
-    background-color: ${themeColor('subnavigationSelected')};
+    background-color: ${cssVar('color-background-selected-weak-default')};
   }
 
   &:hover ${StyledMarker} {

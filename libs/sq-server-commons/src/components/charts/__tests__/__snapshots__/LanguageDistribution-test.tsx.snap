@@ -2,7 +2,7 @@
 
 exports[`should render correctly 1`] = `
 .emotion-0 {
-  fill: rgb(93,108,208);
+  fill: var(--echoes-color-background-accent-default);
 }
 
 .emotion-2 {

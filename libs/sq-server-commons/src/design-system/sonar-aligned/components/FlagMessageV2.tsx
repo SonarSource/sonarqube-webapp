@@ -213,7 +213,7 @@ const DismissButton = styled.button<{
       `${themeColor(variantInfo.iconFocusBackground)({ theme })}`};
     box-shadow:
       0px 0px 0px 1px ${cssVar('color-surface-default')},
-      0px 0px 0px 3px ${themeColor('flagMessageFocusBackground')};
+      0px 0px 0px 3px ${cssVar('color-background-accent-hover')};
   }
 
   &:hover {

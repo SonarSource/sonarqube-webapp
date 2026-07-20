@@ -23,6 +23,7 @@ import {
   ButtonIcon,
   ButtonSize,
   ButtonVariety,
+  cssVar,
   DropdownMenu,
   IconMoreVertical,
 } from '@sonarsource/echoes-react';
@@ -265,6 +266,6 @@ export const BaselineMarker = styled.li`
   border-bottom: ${themeBorder('default', 'newCodeHighlight')};
 
   & span {
-    background-color: ${themeColor('dropdownMenuFocus')};
+    background-color: ${cssVar('color-background-accent-weak-focus')};
   }
 `;

@@ -19,6 +19,7 @@
  */
 
 import { useTheme } from '@emotion/react';
+import { cssVar } from '@sonarsource/echoes-react';
 import { HTMLAttributes } from 'react';
 import { themeColor } from '../../helpers/theme';
 import { LineStyled } from './LineStyles';
@@ -43,7 +44,7 @@ export function LineWrapper(props: Props) {
         '--columns': `44px ${SCMCol}26px ${duplicationCols}${coverageCol}1fr`,
         '--line-background': highlighted
           ? themeColor('codeLineHighlighted')({ theme })
-          : themeColor('codeLine')({ theme }),
+          : cssVar('color-surface-default'),
       }}
       {...htmlProps}
     />
@@ -51,13 +52,12 @@ export function LineWrapper(props: Props) {
 }
 
 export function SuggestedLineWrapper(props: Readonly<HTMLAttributes<HTMLDivElement>>) {
-  const theme = useTheme();
   return (
     <LineStyled
       as="div"
       style={{
         '--columns': `44px 26px 1rem 1fr`,
-        '--line-background': themeColor('codeLine')({ theme }),
+        '--line-background': cssVar('color-surface-default'),
       }}
       {...props}
     />

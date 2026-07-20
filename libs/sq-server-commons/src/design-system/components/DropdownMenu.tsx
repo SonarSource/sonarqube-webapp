@@ -368,7 +368,7 @@ const itemStyle = (props: ThemedProps) => css`
   &.active:focus,
   &.active:focus-within {
     color: var(--color);
-    background-color: ${themeColor('dropdownMenuFocus')(props)};
+    background-color: ${cssVar('color-background-accent-weak-focus')};
     text-decoration: none;
     border: none;
     border-bottom: none;

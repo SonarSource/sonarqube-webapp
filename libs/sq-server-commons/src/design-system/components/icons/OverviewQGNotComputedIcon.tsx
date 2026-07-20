@@ -54,7 +54,7 @@ export function OverviewQGNotComputedIcon({ className }: Readonly<Props>) {
       <path
         clipRule="evenodd"
         d="M143.6 57.937C143.6 49.3459 136.635 42.3814 128.044 42.3814C119.453 42.3814 112.489 49.3459 112.489 57.937C112.489 66.5281 119.453 73.4925 128.044 73.4925C136.635 73.4925 143.6 66.528 143.6 57.937ZM149.743 57.937C149.743 45.9532 140.028 36.2385 128.044 36.2385C116.06 36.2385 106.346 45.9532 106.346 57.937C106.346 69.9207 116.06 79.6355 128.044 79.6355C140.028 79.6355 149.743 69.9207 149.743 57.937Z"
-        fill={themeColor('illustrationShade')({ theme })}
+        fill={cssVar('color-background-accent-weak-default')}
         fillRule="evenodd"
       />
       <path d="M24 40L24 135H32L32 40H24Z" fill={themeColor('illustrationSecondary')({ theme })} />

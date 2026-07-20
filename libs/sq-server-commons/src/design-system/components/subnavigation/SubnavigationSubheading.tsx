@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
-import { themeColor } from '../../helpers/theme';
 
 export const SubnavigationSubheading = styled.h3`
   ${tw`sw-flex`}
@@ -31,6 +30,6 @@ export const SubnavigationSubheading = styled.h3`
   ${tw`sw-w-full`}
 
   color: ${cssVar('color-text-subtle')};
-  background-color: ${themeColor('subnavigationSubheading')};
+  background-color: ${cssVar('color-background-neutral-subtle-default')};
 `;
 SubnavigationSubheading.displayName = 'SubnavigationSubheading';

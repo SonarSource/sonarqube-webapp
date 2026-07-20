@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { ReactNode, useCallback, useState } from 'react';
 import tw from 'twin.macro';
 import { themeColor, themeContrast } from '../../helpers/theme';
@@ -89,7 +90,7 @@ const SubnavigationAccordionItem = styled(BareButton)`
   ${tw`sw-cursor-pointer`}
 
   color: ${themeContrast('subnavigation')};
-  background-color: ${themeColor('subnavigation')};
+  background-color: ${cssVar('color-surface-default')};
   transition: 0.2 ease;
   transition-property: border-left, background-color, color;
 

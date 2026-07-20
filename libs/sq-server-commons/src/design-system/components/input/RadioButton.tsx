@@ -23,7 +23,7 @@ import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React from 'react';
 import tw from 'twin.macro';
-import { themeBorder, themeColor } from '../../helpers/theme';
+import { themeBorder } from '../../helpers/theme';
 
 type AllowedRadioButtonAttributes = Pick<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -130,7 +130,11 @@ export const RadioButtonStyled = styled.input`
   &:checked {
     // Color cannot be used with multiple backgrounds, only image is allowed
     background-image:
-      linear-gradient(to right, ${themeColor('radio')}, ${themeColor('radio')}),
+      linear-gradient(
+        to right,
+        ${cssVar('color-background-accent-default')},
+        ${cssVar('color-background-accent-default')}
+      ),
       linear-gradient(
         to right,
         ${cssVar('color-background-accent-weak-hover')},

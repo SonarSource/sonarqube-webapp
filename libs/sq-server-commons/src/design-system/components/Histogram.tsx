@@ -25,7 +25,6 @@ import { max } from 'd3-array';
 import { scaleBand, ScaleBand, scaleLinear, ScaleLinear } from 'd3-scale';
 import React from 'react';
 import tw from 'twin.macro';
-import { themeColor } from '../helpers';
 
 interface Props {
   bars: number[];
@@ -147,5 +146,5 @@ const HistogramTick = styled.text`
 `;
 
 const HistogramBar = styled.rect`
-  fill: ${themeColor('primary')};
+  fill: ${cssVar('color-background-accent-default')};
 `;

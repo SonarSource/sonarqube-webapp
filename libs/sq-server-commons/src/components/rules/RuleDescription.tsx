@@ -204,7 +204,7 @@ const StyledHtmlFormatter = styled(HtmlFormatter)`
   }
 
   .code-difference-scrollable {
-    background-color: ${themeColor('codeSnippetBackground')};
+    background-color: ${cssVar('color-background-neutral-subtle-default')};
     border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
     border-radius: 0.5rem;
     padding: 1.5rem;

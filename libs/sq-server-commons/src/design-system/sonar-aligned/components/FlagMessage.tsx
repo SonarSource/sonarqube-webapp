@@ -20,6 +20,7 @@
 
 import styled from '@emotion/styled';
 import * as Echoes from '@sonarsource/echoes-react';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
@@ -160,7 +161,7 @@ const StyledFlag = styled.div<{
   ${tw`sw-rounded-1`}
   ${tw`sw-box-border`}
   border: ${({ borderColor }) => themeBorder('default', borderColor)};
-  background-color: ${themeColor('flagMessageBackground')};
+  background-color: ${cssVar('color-surface-default')};
 
   :empty {
     display: none;

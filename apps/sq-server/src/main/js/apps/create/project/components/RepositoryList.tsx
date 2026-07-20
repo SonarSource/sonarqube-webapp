@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, ButtonVariety, Checkbox, Text } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Checkbox, cssVar, Text } from '@sonarsource/echoes-react';
 import { useCallback, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { InputSearch, themeBorder, themeColor } from '~design-system';
@@ -175,7 +175,7 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
 
 const SetupBox = styled.form`
   max-height: 280px;
-  background: ${themeColor('highlightedSection')};
+  background: ${cssVar('color-background-neutral-subtle-default')};
   border: ${themeBorder('default', 'highlightedSectionBorder')};
 `;
 

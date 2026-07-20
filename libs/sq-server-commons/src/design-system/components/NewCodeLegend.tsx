@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Text } from '@sonarsource/echoes-react';
+import { cssVar, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import tw from 'twin.macro';
 import { themeColor } from '../helpers/theme';
@@ -31,7 +31,7 @@ export const NewCodeLegendIcon = styled.span`
   ${tw`sw-inline-block`}
   ${tw`sw-w-200`}
   background-color: ${themeColor('newCodeLegend')};
-  border: 1px solid ${themeColor('newCodeLegendBorder')};
+  border: 1px solid ${cssVar('color-border-weak')};
 `;
 
 export function NewCodeLegend(props: Readonly<{ className?: string; text: string }>) {

@@ -30,7 +30,7 @@ export function InProgressVisual() {
     <svg className="svg-animated" height="168" width="168" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M149 151.15v-61.5c-6 48.4-49.17 61.34-70 61.5h70Z"
-        fill={themeColor('illustrationShade')({ theme })}
+        fill={cssVar('color-background-accent-weak-default')}
       />
       <path
         d="M50.94 16.79 34 9.79 37.8 4l13.14 12.79ZM48.5 24.46 38 27.93V21l10.5 3.46ZM125.55 37.07l3.63-9.07 5.1 4.7-8.73 4.37ZM125 43.46 141.5 40v6.93L125 43.46ZM56.93 10.59 50 2.57 56.51 0l.42 10.59Z"

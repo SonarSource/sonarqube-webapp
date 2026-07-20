@@ -20,6 +20,7 @@
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ReactNode, SyntheticEvent, useCallback } from 'react';
 import tw, { theme as twTheme } from 'twin.macro';
@@ -79,7 +80,7 @@ const ItemBaseStyle = (props: ThemedProps) => css`
 
   padding-left: calc(${twTheme('spacing.4')} - 3px);
   color: ${themeContrast('subnavigation')(props)};
-  background-color: ${themeColor('subnavigation')(props)};
+  background-color: ${cssVar('color-surface-default')};
   border-bottom: none;
   border-left: ${themeBorder('active', 'transparent')(props)};
   transition: 0.2 ease;

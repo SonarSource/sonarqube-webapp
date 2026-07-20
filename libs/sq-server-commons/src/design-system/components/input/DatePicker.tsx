@@ -282,7 +282,7 @@ const DayPicker = styled(OriginalDayPicker)`
 
   .rdp-disabled .rdp-day_button {
     cursor: not-allowed;
-    background: ${themeColor('datePickerDisabled')};
+    background: ${cssVar('color-surface-default')};
     color: ${cssVar('color-text-subtle')};
   }
 
@@ -301,7 +301,7 @@ const DayPicker = styled(OriginalDayPicker)`
   }
 
   .rdp-highlighted:not(.rdp-selected) .rdp-day_button {
-    background: ${themeColor('datePickerRange')};
+    background: ${cssVar('color-background-selected-weak-default')};
     color: ${themeContrast('datePickerRange')};
   }
 

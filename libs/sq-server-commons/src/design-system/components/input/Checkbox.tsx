@@ -22,7 +22,7 @@ import styled from '@emotion/styled';
 import { Spinner, cssVar } from '@sonarsource/echoes-react';
 import React from 'react';
 import tw from 'twin.macro';
-import { themeBorder, themeColor, themeContrast } from '../../helpers/theme';
+import { themeBorder, themeContrast } from '../../helpers/theme';
 import { CheckIcon } from '../icons/CheckIcon';
 import { CustomIcon } from '../icons/Icon';
 
@@ -163,10 +163,10 @@ export const AccessibleCheckbox = styled.input`
 
   &:checked {
     & ~ ${StyledCheckbox} {
-      background: ${themeColor('primary')};
+      background: ${cssVar('color-background-accent-default')};
     }
     &:disabled ~ ${StyledCheckbox} {
-      background: ${themeColor('checkboxDisabledChecked')};
+      background: ${cssVar('color-icon-disabled')};
     }
   }
 

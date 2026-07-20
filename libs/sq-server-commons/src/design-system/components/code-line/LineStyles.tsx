@@ -25,7 +25,7 @@ import { themeBorder, themeColor, themeContrast } from '../../helpers/theme';
 import { BareButton } from '../../sonar-aligned';
 
 export const SCMHighlight = styled.h6`
-  color: ${themeColor('tooltipHighlight')};
+  color: ${cssVar('color-border-bold')};
 
   ${tw`sw-typo-semibold`};
   ${tw`sw-text-right`};
@@ -49,7 +49,7 @@ export const LineSCMStyledDiv = styled.div`
 `;
 
 export const DuplicationHighlight = styled.h6`
-  color: ${themeColor('tooltipHighlight')};
+  color: ${cssVar('color-border-bold')};
 
   ${tw`sw-mb-2 sw-font-semibold`};
 `;

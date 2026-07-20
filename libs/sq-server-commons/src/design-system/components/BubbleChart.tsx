@@ -447,7 +447,7 @@ const BubbleContainer = styled.g`
     outline: none;
 
     circle {
-      stroke: ${themeColor('inputFocus')};
+      stroke: ${cssVar('color-focus-default')};
       stroke-width: 3;
     }
   }

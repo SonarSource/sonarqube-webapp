@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { cssVar, Tooltip } from '@sonarsource/echoes-react';
 import { max } from 'd3-array';
 import { ScaleBand, scaleBand, ScaleLinear, scaleLinear } from 'd3-scale';
-import { themeColor } from '../helpers';
 
 interface DataPoint {
   description: string;
@@ -100,7 +99,6 @@ function Xvalues<T>(
       <BarChartTick
         className="sw-typo-default sw-cursor-pointer"
         dy="-0.5em"
-        // eslint-disable-next-line react/no-array-index-key
         key={index}
         onClick={() => {
           props.onBarClick(point);
@@ -130,7 +128,6 @@ function Bars<T>(
     const y = Math.round(yScale(point.y)) - /* minimum bar height */ 1;
     const height = maxY - y;
     const rect = (
-      // eslint-disable-next-line react/no-array-index-key
       <Tooltip content={point.tooltip} key={index}>
         <BarChartBar
           aria-label={point.description}
@@ -156,9 +153,9 @@ const BarChartTick = styled.text`
 `;
 
 const BarChartBar = styled.rect`
-  fill: ${themeColor('primary')};
+  fill: ${cssVar('color-background-accent-default')};
 
   &:hover {
-    fill: ${themeColor('primaryDark')};
+    fill: ${cssVar('color-background-accent-hover')};
   }
 `;

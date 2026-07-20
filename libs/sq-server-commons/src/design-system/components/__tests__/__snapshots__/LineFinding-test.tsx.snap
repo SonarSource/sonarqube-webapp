@@ -29,7 +29,7 @@ exports[`should render correctly as button 1`] = `
   border: 1px solid rgb(253,162,155);
   color: rgb(62,67,87);
   word-break: break-word;
-  background-color: rgb(255,255,255);
+  background-color: var(--echoes-color-surface-default);
 }
 
 .emotion-0:focus-visible {

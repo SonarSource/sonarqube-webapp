@@ -25,7 +25,7 @@ import { cssVar } from '@sonarsource/echoes-react';
 import { forwardRef } from 'react';
 import tw from 'twin.macro';
 import { INPUT_SIZES } from '../../helpers/constants';
-import { themeBorder, themeColor } from '../../helpers/theme';
+import { themeBorder } from '../../helpers/theme';
 import { InputSizeKeys, ThemedProps } from '../../types/theme';
 
 interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -109,7 +109,7 @@ const getInputVariant = (props: ThemedProps & { isInvalid?: boolean; isValid?: b
   return defaultStyle;
 };
 
-const baseStyle = (props: ThemedProps) => css`
+const baseStyle = css`
   color: ${cssVar('color-text-default')};
   background: ${cssVar('color-surface-default')};
   border: var(--border);
@@ -141,7 +141,7 @@ const baseStyle = (props: ThemedProps) => css`
   &:disabled,
   &:disabled:hover {
     color: ${cssVar('color-text-disabled')};
-    background-color: ${themeColor('inputDisabled')(props)};
+    background-color: ${cssVar('color-surface-disabled')};
     border: ${cssVar('border-width-default')} solid ${cssVar('color-border-disabled')};
     outline: none;
 

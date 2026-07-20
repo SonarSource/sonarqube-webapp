@@ -20,8 +20,8 @@
 
 import { withTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { BadgeCounter } from '@sonarsource/echoes-react';
-import { QualifierIcon, SubnavigationAccordion, themeColor } from '~design-system';
+import { BadgeCounter, cssVar } from '@sonarsource/echoes-react';
+import { QualifierIcon, SubnavigationAccordion } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { ComponentQualifier } from '~shared/types/component';
 import { StandardsInformation, StandardsInformationKey } from '~shared/types/security';
@@ -125,5 +125,5 @@ const SubNavigationContainer = styled.div`
 `;
 
 const StyledContainer = withTheme(styled.div`
-  background-color: ${themeColor('subnavigation')};
+  background-color: ${cssVar('color-surface-default')};
 `);

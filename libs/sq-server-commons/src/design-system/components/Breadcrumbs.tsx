@@ -31,12 +31,7 @@ import React, { type JSX } from 'react';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
 import { useResizeObserver } from '~shared/helpers/useResizeObserver';
-import {
-  LAYOUT_VIEWPORT_MAX_WIDTH_LARGE,
-  PopupPlacement,
-  PopupZLevel,
-  themeColor,
-} from '../helpers';
+import { LAYOUT_VIEWPORT_MAX_WIDTH_LARGE, PopupPlacement, PopupZLevel } from '../helpers';
 import { Dropdown } from './Dropdown';
 import { Tooltip } from './Tooltip';
 import { ChevronRightIcon } from './icons';
@@ -190,5 +185,5 @@ const BreadcrumbWrapper = styled.nav`
   ${tw`sw-typo-default`}
 
   color: ${cssVar('color-text-subtle')};
-  background-color: ${themeColor('breadcrumb')};
+  background-color: ${cssVar('color-background-utility-transparent')};
 `;

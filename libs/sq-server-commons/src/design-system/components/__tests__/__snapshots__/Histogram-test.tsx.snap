@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 .emotion-0 {
-  fill: rgb(93,108,208);
+  fill: var(--echoes-color-background-accent-default);
 }
 
 <div>
@@ -49,7 +49,7 @@ exports[`renders correctly 1`] = `
 
 exports[`renders correctly with yValues 1`] = `
 .emotion-0 {
-  fill: rgb(93,108,208);
+  fill: var(--echoes-color-background-accent-default);
 }
 
 .emotion-2 {
@@ -131,7 +131,7 @@ exports[`renders correctly with yValues 1`] = `
 
 exports[`renders correctly with yValues and yTicks 1`] = `
 .emotion-0 {
-  fill: rgb(93,108,208);
+  fill: var(--echoes-color-background-accent-default);
 }
 
 .emotion-2 {
@@ -243,7 +243,7 @@ exports[`renders correctly with yValues and yTicks 1`] = `
 
 exports[`renders correctly with yValues, yTicks, and yTooltips 1`] = `
 .emotion-0 {
-  fill: rgb(93,108,208);
+  fill: var(--echoes-color-background-accent-default);
 }
 
 .emotion-2 {

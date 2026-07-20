@@ -29,6 +29,6 @@ it('should render as expected', () => {
   expect(screen.getByText('content')).toHaveStyle({
     padding: '2rem',
     border: `${cssVar('border-width-default')} solid ${cssVar('color-border-weak')}`,
-    background: 'rgb(252,252,253)',
+    background: cssVar('color-background-neutral-subtle-default'),
   });
 });

@@ -34,7 +34,6 @@ import {
   PopupPlacement,
   popupPositioning,
 } from '../helpers/positioning';
-import { themeColor } from '../helpers/theme';
 
 const MILLISECONDS_IN_A_SECOND = 1000;
 
@@ -500,7 +499,7 @@ const TooltipWrapperArrow = styled.div`
 
   ${TooltipWrapper}.top & {
     border-width: ${ARROW_HEIGHT}px ${ARROW_WIDTH}px 0;
-    border-top-color: ${themeColor('tooltipBackground')};
+    border-top-color: ${cssVar('color-surface-inverse-default')};
     transform: translateX(-${ARROW_WIDTH}px);
 
     ${tw`sw-bottom-0`};
@@ -509,7 +508,7 @@ const TooltipWrapperArrow = styled.div`
 
   ${TooltipWrapper}.right & {
     border-width: ${ARROW_WIDTH}px ${ARROW_HEIGHT}px ${ARROW_WIDTH}px 0;
-    border-right-color: ${themeColor('tooltipBackground')};
+    border-right-color: ${cssVar('color-surface-inverse-default')};
     transform: translateY(-${ARROW_WIDTH}px);
 
     ${tw`sw-top-1/2`};
@@ -518,7 +517,7 @@ const TooltipWrapperArrow = styled.div`
 
   ${TooltipWrapper}.left & {
     border-width: ${ARROW_WIDTH}px 0 ${ARROW_WIDTH}px ${ARROW_HEIGHT}px;
-    border-left-color: ${themeColor('tooltipBackground')};
+    border-left-color: ${cssVar('color-surface-inverse-default')};
     transform: translateY(-${ARROW_WIDTH}px);
 
     ${tw`sw-top-1/2`};
@@ -527,7 +526,7 @@ const TooltipWrapperArrow = styled.div`
 
   ${TooltipWrapper}.bottom & {
     border-width: 0 ${ARROW_WIDTH}px ${ARROW_HEIGHT}px;
-    border-bottom-color: ${themeColor('tooltipBackground')};
+    border-bottom-color: ${cssVar('color-surface-inverse-default')};
     transform: translateX(-${ARROW_WIDTH}px);
 
     ${tw`sw-top-0`};

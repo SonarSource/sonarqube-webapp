@@ -25,7 +25,7 @@ import { KeyboardEvent, MouseEvent } from 'react';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
 import { Key } from '~shared/helpers/keyboard';
-import { INPUT_SIZES, themeColor } from '../../helpers';
+import { INPUT_SIZES } from '../../helpers';
 import { InputSizeKeys } from '../../types/theme';
 import { ChevronDownIcon } from '../icons';
 
@@ -139,7 +139,7 @@ const StyledControl = styled.div`
 
     &.is-discreet {
       ${tw`sw-border-none`};
-      color: ${themeColor('discreetButtonHover')};
+      color: ${cssVar('color-text-accent')};
     }
   }
 

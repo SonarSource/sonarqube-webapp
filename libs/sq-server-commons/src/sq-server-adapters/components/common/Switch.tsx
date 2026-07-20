@@ -124,7 +124,7 @@ const StyledSwitch = styled.button<StyledProps>`
   }
 
   &:disabled {
-    background: ${themeColor('switchDisabled')};
+    background: ${cssVar('color-surface-disabled')};
   }
 
   &:focus:not(:disabled),

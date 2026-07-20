@@ -17,7 +17,7 @@ exports[`should display DuplicationsIndicator with rating 1`] = `
       <path
         clip-rule="evenodd"
         d="M8 14c3.3137 0 6-2.6863 6-6 0-3.31371-2.6863-6-6-6-3.31371 0-6 2.68629-6 6 0 3.3137 2.68629 6 6 6Zm0 2c4.4183 0 8-3.5817 8-8 0-4.41828-3.5817-8-8-8-4.41828 0-8 3.58172-8 8 0 4.4183 3.58172 8 8 8Z"
-        fill="rgb(239,242,249)"
+        fill="var(--echoes-color-background-neutral-bolder-default)"
         fill-rule="evenodd"
       />
       <circle
@@ -48,7 +48,7 @@ exports[`should display DuplicationsIndicator with rating 2`] = `
       <path
         clip-rule="evenodd"
         d="M8 14c3.3137 0 6-2.6863 6-6 0-3.31371-2.6863-6-6-6-3.31371 0-6 2.68629-6 6 0 3.3137 2.68629 6 6 6Zm0 2c4.4183 0 8-3.5817 8-8 0-4.41828-3.5817-8-8-8-4.41828 0-8 3.58172-8 8 0 4.4183 3.58172 8 8 8Z"
-        fill="rgb(239,242,249)"
+        fill="var(--echoes-color-background-neutral-bolder-default)"
         fill-rule="evenodd"
       />
       <path
@@ -77,7 +77,7 @@ exports[`should display DuplicationsIndicator with rating 3`] = `
       <path
         clip-rule="evenodd"
         d="M8 14c3.3137 0 6-2.6863 6-6 0-3.31371-2.6863-6-6-6-3.31371 0-6 2.68629-6 6 0 3.3137 2.68629 6 6 6Zm0 2c4.4183 0 8-3.5817 8-8 0-4.41828-3.5817-8-8-8-4.41828 0-8 3.58172-8 8 0 4.4183 3.58172 8 8 8Z"
-        fill="rgb(239,242,249)"
+        fill="var(--echoes-color-background-neutral-bolder-default)"
         fill-rule="evenodd"
       />
       <path
@@ -106,7 +106,7 @@ exports[`should display DuplicationsIndicator with rating 4`] = `
       <path
         clip-rule="evenodd"
         d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14ZM8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16Z"
-        fill="rgb(239,242,249)"
+        fill="var(--echoes-color-background-neutral-bolder-default)"
         fill-rule="evenodd"
       />
       <path
@@ -135,7 +135,7 @@ exports[`should display DuplicationsIndicator with rating 5`] = `
       <path
         clip-rule="evenodd"
         d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14ZM8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16Z"
-        fill="rgb(239,242,249)"
+        fill="var(--echoes-color-background-neutral-bolder-default)"
         fill-rule="evenodd"
       />
       <path
@@ -164,7 +164,7 @@ exports[`should display DuplicationsIndicator with rating 6`] = `
       <path
         clip-rule="evenodd"
         d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14ZM8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16Z"
-        fill="rgb(239,242,249)"
+        fill="var(--echoes-color-background-neutral-bolder-default)"
         fill-rule="evenodd"
       />
       <path

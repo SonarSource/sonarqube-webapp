@@ -147,7 +147,7 @@ export function selectStyle<
       ...base,
       color: cssVar('color-text-default'),
       cursor: 'pointer',
-      background: themeColor('inputBackground')({ theme }),
+      background: cssVar('form-control-colors-background-default'),
       transition: 'border 0.2s ease, outline 0.2s ease',
       outline:
         isFocused && !menuIsOpen
@@ -156,7 +156,7 @@ export function selectStyle<
       borderRadius: '4px',
       ...(isDisabled && {
         color: cssVar('color-text-disabled'),
-        background: themeColor('inputDisabled')({ theme }),
+        background: cssVar('color-surface-disabled'),
         border: themeBorder('default', 'inputDisabledBorder')({ theme }),
         outline: 'none',
       }),

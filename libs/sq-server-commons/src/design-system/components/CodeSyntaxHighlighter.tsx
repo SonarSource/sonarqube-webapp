@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { HighlightResult } from 'highlight.js';
 import hljs from 'highlight.js/lib/core';
@@ -190,7 +191,7 @@ const StyledSpan = styled.span`
   code {
     ${tw`sw-code`};
 
-    background: ${themeColor('codeSnippetBackground')};
+    background: ${cssVar('color-background-neutral-subtle-default')};
     color: ${themeColor('codeSnippetBody')};
 
     &.hljs {

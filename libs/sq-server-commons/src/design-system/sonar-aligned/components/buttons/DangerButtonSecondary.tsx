@@ -41,7 +41,7 @@ import { Button } from './Button';
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3382706231/Button | Migration Guide} for more information.
  */
 export const DangerButtonSecondary = styled(Button)`
-  --background: ${themeColor('dangerButtonSecondary')};
+  --background: ${cssVar('color-surface-default')};
   --backgroundHover: ${cssVar('color-surface-hover')};
   --color: ${themeContrast('dangerButtonSecondary')};
   --focus: ${themeColor('dangerButtonSecondaryFocus', OPACITY_20_PERCENT)};

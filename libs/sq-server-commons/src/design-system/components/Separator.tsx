@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import type * as Echoes from '@sonarsource/echoes-react';
 import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
-import { themeColor } from '../helpers/theme';
 
 /**
  * @deprecated Use {@link Echoes.Divider | Divider} from Echoes instead.
@@ -49,5 +48,5 @@ export const GreySeparator = styled(BasicSeparator)`
 `;
 
 export const SubnavigationFlowSeparator = styled(BasicSeparator)`
-  background-color: ${themeColor('subnavigationExecutionFlowSeparator')};
+  background-color: ${cssVar('color-background-neutral-bolder-default')};
 `;

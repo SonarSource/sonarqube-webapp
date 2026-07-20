@@ -20,8 +20,8 @@
 
 import { withTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { LinkHighlight, LinkStandalone, Text } from '@sonarsource/echoes-react';
-import { QualifierIcon, themeBorder, themeColor } from '~design-system';
+import { cssVar, LinkHighlight, LinkStandalone, Text } from '@sonarsource/echoes-react';
+import { QualifierIcon, themeBorder } from '~design-system';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import { ComponentQualifier } from '~shared/types/component';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
@@ -87,7 +87,7 @@ function HotspotSnippetHeader(props: HotspotSnippetHeaderProps) {
 }
 
 const StyledHeader = withTheme(styled.div`
-  background-color: ${themeColor('codeLine')};
+  background-color: ${cssVar('color-surface-default')};
   border: ${themeBorder('default', 'codeLineBorder')};
 `);
 

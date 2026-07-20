@@ -19,15 +19,15 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
-import { themeBorder, themeColor } from '../../helpers/theme';
 
 export const SeparatorCircleIcon = styled.div`
   ${tw`sw-inline-block`}
   ${tw`sw-rounded-1`}
 
-  background-color: ${themeColor('separatorCircle')};
-  border: ${themeBorder('default', 'separatorCircle')};
+  background-color: ${cssVar('color-border-bold')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
   height: 2px;
   width: 2px;
 `;

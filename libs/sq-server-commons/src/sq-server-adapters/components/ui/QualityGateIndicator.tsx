@@ -19,11 +19,12 @@
  */
 
 import { useTheme } from '@emotion/react';
+import { cssVar } from '@sonarsource/echoes-react';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { theme as twTheme } from 'twin.macro';
 import { QGStatus, QGStatusExtended } from '~shared/types/common';
-import { BasePlacement, themeColor, themeContrast } from '../../../design-system';
+import { BasePlacement, themeContrast } from '../../../design-system';
 
 const SIZE = {
   sm: twTheme('spacing.4'),
@@ -118,7 +119,7 @@ function QGNotComputed({ rx, size, ...sizeProps }: Readonly<IconProps>) {
 
   return (
     <>
-      <rect fill={themeColor('qgIndicatorNotComputed')({ theme })} rx={rx} {...sizeProps} />
+      <rect fill={cssVar('color-icon-disabled')} rx={rx} {...sizeProps} />
       {
         {
           xl: <path d="M42 31v3H22v-3z" fill={contrastColor} />,
@@ -136,7 +137,7 @@ function QGPassed({ rx, size, ...sizeProps }: Readonly<IconProps>) {
 
   return (
     <>
-      <rect fill={themeColor('qgIndicatorPassed')({ theme })} rx={rx} {...sizeProps} />
+      <rect fill={cssVar('color-background-success-weak-active')} rx={rx} {...sizeProps} />
       {
         {
           xl: (
@@ -169,7 +170,7 @@ function QGFailed({ rx, size, ...sizeProps }: Readonly<IconProps>) {
 
   return (
     <>
-      <rect fill={themeColor('qgIndicatorFailed')({ theme })} rx={rx} {...sizeProps} />
+      <rect fill={cssVar('color-background-danger-weak-active')} rx={rx} {...sizeProps} />
       {
         {
           xl: (

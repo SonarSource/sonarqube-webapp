@@ -19,6 +19,7 @@
  */
 
 import { useTheme } from '@emotion/react';
+import { cssVar } from '@sonarsource/echoes-react';
 import { isDefined } from '~shared/helpers/types';
 import { themeColor } from '../helpers/theme';
 import { DuplicationEnum, DuplicationLabel } from '../types/measures';
@@ -42,9 +43,7 @@ export function DuplicationsIndicator({ size = 'sm', rating, ...rest }: Readonly
   }
 
   const primaryColor = themeColor(`duplicationsIndicator.${rating}`)({ theme });
-  const secondaryColor = themeColor('duplicationsIndicatorSecondary')({
-    theme,
-  });
+  const secondaryColor = cssVar('color-background-neutral-bolder-default');
 
   return (
     <RatingSVG

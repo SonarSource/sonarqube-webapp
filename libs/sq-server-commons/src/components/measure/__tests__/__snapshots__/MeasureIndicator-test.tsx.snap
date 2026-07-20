@@ -49,7 +49,7 @@ exports[`renders correctly for failed quality gate 1`] = `
           overview.quality_gate_x.metric.level.ERROR
         </title>
         <rect
-          fill="rgb(254,205,202)"
+          fill="var(--echoes-color-background-danger-weak-active)"
           height="1rem"
           rx="2"
           width="1rem"
@@ -91,7 +91,7 @@ exports[`renders correctly for passed quality gate 1`] = `
           overview.quality_gate_x.metric.level.OK
         </title>
         <rect
-          fill="rgb(209,250,223)"
+          fill="var(--echoes-color-background-success-weak-active)"
           height="1.5rem"
           rx="2"
           width="1.5rem"
