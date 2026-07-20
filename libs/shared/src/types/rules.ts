@@ -18,13 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  CodeAttribute,
-  CodeAttributeCategory,
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-  SoftwareQualityImpact,
-} from './clean-code-taxonomy';
+import { CodeAttribute, CodeAttributeCategory, SoftwareQualityImpact } from './clean-code-taxonomy';
 
 export interface Rule {
   cleanCodeAttribute?: CodeAttribute;
@@ -74,13 +68,11 @@ export interface RuleActivation {
   params: { key: string; value: string }[];
   qProfile: string;
   severity: string;
+  impacts?: SoftwareQualityImpact[];
 }
 
 export interface RuleActivationAdvanced extends RuleActivation {
-  impacts: {
-    severity: SoftwareImpactSeverity;
-    softwareQuality: SoftwareQuality;
-  }[];
+  impacts: SoftwareQualityImpact[];
   prioritizedRule: boolean;
 }
 

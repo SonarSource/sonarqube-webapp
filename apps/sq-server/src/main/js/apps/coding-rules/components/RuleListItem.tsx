@@ -37,7 +37,7 @@ import {
   themeBorder,
 } from '~design-system';
 import { RuleStatusBadge } from '~shared/components/coding-rules/RuleStatusBadge';
-import { SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
+import { getImpactsDiffBySeverity } from '~shared/helpers/rules';
 import { IssueSeverity } from '~shared/types/issues';
 import { Rule, RuleActivationAdvanced, RuleStatus } from '~shared/types/rules';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
@@ -101,7 +101,10 @@ function RuleListItem(props: Readonly<Props>) {
       ? data.actives?.find((item) => item.qProfile === selectedProfile?.key)
       : initialActivation;
 
-  const { activationImpacts, ruleImpacts } = getImpactsDiffBySeverity(rule, activation);
+  const { activationImpacts, ruleImpacts } = getImpactsDiffBySeverity(
+    rule.impacts,
+    activation?.impacts,
+  );
 
   React.useEffect(() => {
     if (data && selectedProfile) {
@@ -390,27 +393,5 @@ const ListItemStyled = styled.li<{ selected: boolean }>`
     props.selected ? themeBorder('heavy', 'primary') : themeBorder('default', 'almCardBorder')};
   outline-offset: -2px;
 `;
-
-function getImpactsDiffBySeverity({ impacts = [] }: Rule, activation?: RuleActivationAdvanced) {
-  return impacts.reduce<{
-    activationImpacts: SoftwareQualityImpact[];
-    ruleImpacts: SoftwareQualityImpact[];
-  }>(
-    (res, impact) => {
-      const actImpact = activation?.impacts.find(
-        (actImpact) => actImpact.softwareQuality === impact.softwareQuality,
-      );
-
-      if (actImpact && actImpact.severity !== impact.severity) {
-        res.activationImpacts.push(actImpact);
-      } else {
-        res.ruleImpacts.push(impact);
-      }
-
-      return res;
-    },
-    { ruleImpacts: [], activationImpacts: [] },
-  );
-}
 
 export default React.memo(RuleListItem);
