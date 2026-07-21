@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Heading } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -75,9 +76,9 @@ export function Analysis(props: Readonly<AnalysisProps>) {
   return (
     <div className="sw-typo-default" data-analysis-key={analysis.key}>
       <div className="sw-flex sw-justify-between sw-mb-1">
-        <div className="sw-typo-semibold">
+        <Heading as="h3">
           <DateTimeFormatter date={analysis.date} />
-        </div>
+        </Heading>
         {qualityGateStatus !== undefined && (
           <div className="sw-flex sw-items-center">
             <FormattedMessage

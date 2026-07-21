@@ -56,6 +56,7 @@ async function expectGraphs(user: UserEvent) {
   expect(screen.getByText(/event.category.OTHER/)).toBeInTheDocument();
   expect(screen.getByText(/event.category.DEFINITION_CHANGE/)).toBeInTheDocument();
   expect(screen.getByText('event.sqUpgrade.10.2')).toBeInTheDocument();
+  expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(4);
 
   // Checking measures variations
   expect(await screen.findAllByText(/% project_activity\.graphs\.coverage$/)).toHaveLength(3);
