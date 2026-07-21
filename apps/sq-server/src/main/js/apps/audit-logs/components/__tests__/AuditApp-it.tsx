@@ -22,16 +22,15 @@ import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { getDate, getMonth, getYear, subDays } from 'date-fns';
 import { byPlaceholderText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
+import { ComponentQualifier } from '~shared/types/component';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { now } from '~sq-server-commons/helpers/dates';
 import { getShortMonthName } from '~sq-server-commons/helpers/l10n';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderAppWithAdminContext } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { HousekeepingPolicy } from '~sq-server-commons/types/audit-logs';
-import { AdminPageExtension } from '~sq-server-commons/types/extension';
 import { SettingsKey } from '~sq-server-commons/types/settings';
 import routes from '../../routes';
-
-const extensions = [{ key: AdminPageExtension.GovernanceConsole, name: 'Portfolios' }];
 
 jest.mock('date-fns', () => {
   // Timezone will not play well so we fake the response from lib.
@@ -77,7 +76,7 @@ afterEach(() => handler.reset());
 it('should handle download button click', async () => {
   const user = userEvent.setup();
   handler.set(SettingsKey.AuditHouseKeeping, HousekeepingPolicy.Yearly);
-  renderAuditLogs();
+  renderAuditLogs(true);
   const downloadButton = await ui.downloadButton.find();
   // Prevent the link navigation! This is important to avoid having an error logged by jsdom
   downloadButton.addEventListener('click', (e) => {
@@ -155,14 +154,14 @@ it('should handle download button click', async () => {
   expect(await ui.downloadButton.find()).toHaveAttribute('aria-disabled', 'false');
 });
 
-it('should not render if governance is not enable', () => {
-  renderAuditLogs([]);
+it('should not render if governance is not enabled', () => {
+  renderAuditLogs(false);
   expect(ui.pageTitle.query()).not.toBeInTheDocument();
 });
 
 it('should show right option when keeping log for month', async () => {
   handler.emptySettings();
-  renderAuditLogs();
+  renderAuditLogs(true);
   expect(await ui.pageTitle.find()).toBeInTheDocument();
   expect(ui.todayRadio.get()).toBeInTheDocument();
   expect(ui.weekRadio.get()).toBeInTheDocument();
@@ -173,7 +172,7 @@ it('should show right option when keeping log for month', async () => {
 
 it('should show right option when keeping log for year', async () => {
   handler.set(SettingsKey.AuditHouseKeeping, HousekeepingPolicy.Yearly);
-  renderAuditLogs();
+  renderAuditLogs(true);
   expect(await ui.pageTitle.find()).toBeInTheDocument();
   // The trimester option only appears after the async housekeeping-policy fetch resolves and
   // re-renders (the initial render defaults to Monthly). Await it before the synchronous checks.
@@ -184,6 +183,8 @@ it('should show right option when keeping log for year', async () => {
   expect(ui.customRadio.get()).toBeInTheDocument();
 });
 
-function renderAuditLogs(adminPages = extensions) {
-  renderAppWithAdminContext('admin/audit', routes, {}, { adminPages });
+function renderAuditLogs(governance: boolean) {
+  renderAppWithAdminContext('admin/audit', routes, {
+    appState: mockAppState({ qualifiers: governance ? [ComponentQualifier.Portfolio] : [] }),
+  });
 }

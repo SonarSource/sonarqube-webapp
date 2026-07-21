@@ -19,17 +19,17 @@
  */
 
 import * as React from 'react';
-import { Extension } from '~shared/types/common';
+import { ComponentQualifier } from '~shared/types/component';
 import { getValue } from '~sq-server-commons/api/settings';
+import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
+import { AppState } from '~sq-server-commons/types/appstate';
 import { HousekeepingPolicy, RangeOption } from '~sq-server-commons/types/audit-logs';
-import { AdminPageExtension } from '~sq-server-commons/types/extension';
 import { SettingsKey } from '~sq-server-commons/types/settings';
-import withAdminPagesOutletContext from '../../../app/components/admin/withAdminPagesOutletContext';
 import '../style.css';
 import AuditAppRenderer from './AuditAppRenderer';
 
 interface Props {
-  adminPages: Extension[];
+  appState: AppState;
 }
 
 interface State {
@@ -66,9 +66,7 @@ export class AuditApp extends React.PureComponent<Props, State> {
   };
 
   hasGovernanceExtension = () => {
-    return Boolean(
-      this.props.adminPages?.find((e) => e.key === AdminPageExtension.GovernanceConsole),
-    );
+    return Boolean(this.props.appState?.qualifiers.includes(ComponentQualifier.Portfolio));
   };
 
   handleDateSelection = (dateRange: { from?: Date; to?: Date }) => {
@@ -101,4 +99,4 @@ export class AuditApp extends React.PureComponent<Props, State> {
   }
 }
 
-export default withAdminPagesOutletContext(AuditApp);
+export default withAppStateContext(AuditApp);
