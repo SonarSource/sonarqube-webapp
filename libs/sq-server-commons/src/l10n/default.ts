@@ -10037,7 +10037,8 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
-  'onboarding_dashboard.header.subtitle': 'Build your code confidence step by step.',
+  'onboarding_dashboard.header.subtitle':
+    'Your journey to a 100% validated code security and quality.',
   'onboarding_dashboard.loading': 'Loading dashboard',
   'onboarding_dashboard.projects.loading': 'Loading repositories',
   'onboarding_dashboard.stale.loading': 'Loading stale projects',
