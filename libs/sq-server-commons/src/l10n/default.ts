@@ -9637,6 +9637,7 @@ export const defaultMessages = {
     'Installing a Commercial Edition on top of a non-official distribution of SonarQube Server is not supported. As a consequence, all analyses are suspended. Please download and install {link} provided by SonarSource.',
   'license.callout.non-official.title': "You're using a non-official SQS distribution",
   'license.cant_connect_to_license_server': "SonarQube can't connect to the license server",
+  'license.datetime.utc': 'UTC',
   'license.disabled_by_sonar.popover': 'The license was disabled by Sonar.',
   'license.disabled_by_sonar': 'Disabled by Sonar',
   'license.enter_your_license_key_for_x': 'Enter your license key for {0}',
