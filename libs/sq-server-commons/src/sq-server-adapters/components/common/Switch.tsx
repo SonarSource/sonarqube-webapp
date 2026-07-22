@@ -22,7 +22,7 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import { ForwardedRef, forwardRef } from 'react';
 import tw from 'twin.macro';
-import { CheckIcon, themeColor, themeContrast, themeShadow } from '../../../design-system';
+import { CheckIcon } from '../../../design-system';
 
 interface Props {
   ariaDescribedby?: string;
@@ -91,11 +91,10 @@ const CheckIconContainer = styled.div<StyledProps>`
   ${tw`sw-flex sw-items-center sw-justify-center`}
   ${tw`sw-w-200 sw-h-400`}
   color: ${({ disabled }) =>
-    disabled ? cssVar('color-icon-disabled') : themeContrast('switchButton')};
-  background: ${({ disabled }) =>
-    disabled ? themeColor('switchButtonDisabled') : themeColor('switchButton')};
+    disabled ? cssVar('color-icon-disabled') : cssVar('color-icon-accent')};
+  background: ${cssVar('color-surface-default')};
   border: none;
-  box-shadow: ${themeShadow('xs')};
+  box-shadow: ${cssVar('box-shadow-xsmall')};
   transform: ${({ active }) => (active ? 'translateX(1rem)' : 'translateX(0)')};
   cursor: inherit;
   transition: transform 0.3s ease;
@@ -108,19 +107,16 @@ const StyledSwitch = styled.button<StyledProps>`
   ${tw`sw-cursor-pointer`}
   width: 2.25rem;
   height: 1.25rem;
-  background: ${({ active }) => (active ? themeColor('switchActive') : themeColor('switch'))};
+  background: ${({ active }) =>
+    active ? cssVar('color-background-accent-default') : cssVar('color-border-bold')};
   border: none;
+  outline: none;
   transition: 0.3s ease;
-  transition-property: background;
+  transition-property: background, box-shadow;
 
-  &:hover:not(:disabled),
-  &:active:not(:disabled),
-  &:focus:not(:disabled) {
+  &:hover:not(:disabled) {
     background: ${({ active }) =>
-      active ? themeColor('switchHoverActive') : themeColor('switchHover')};
-    ${CheckIconContainer} {
-      color: ${themeContrast('switchHover')};
-    }
+      active ? cssVar('color-background-accent-hover') : cssVar('color-icon-disabled')};
   }
 
   &:disabled {
@@ -129,8 +125,19 @@ const StyledSwitch = styled.button<StyledProps>`
 
   &:focus:not(:disabled),
   &:active:not(:disabled) {
-    outline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
+    background: ${({ active }) =>
+      active ? cssVar('color-background-accent-default') : cssVar('color-border-bold')};
+  }
+
+  &:focus-visible:not(:disabled) {
+    background: ${({ active }) =>
+      active ? cssVar('color-background-accent-default') : cssVar('color-border-bold')};
+    outline: ${cssVar('focus-border-width-default')} solid transparent;
     outline-offset: ${cssVar('focus-border-offset-default')};
+    box-shadow:
+      0 0 0 ${cssVar('focus-border-offset-default')} ${cssVar('color-surface-default')},
+      0 0 0 calc(${cssVar('focus-border-offset-default')} + ${cssVar('focus-border-width-default')})
+        ${cssVar('color-focus-default')};
   }
 `;
 

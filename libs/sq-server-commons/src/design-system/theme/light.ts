@@ -154,15 +154,6 @@ export const lightTheme = {
     radioDisabledBackground: secondary.light,
     radioDisabledBorder: secondary.default,
 
-    // switch
-    switch: secondary.default,
-    switchDisabled: COLORS.blueGrey[100],
-    switchActive: primary.default,
-    switchHover: COLORS.blueGrey[300],
-    switchHoverActive: primary.light,
-    switchButton: COLORS.white,
-    switchButtonDisabled: secondary.light,
-
     //separator-circle
     separatorCircle: COLORS.blueGrey[200],
 
@@ -700,10 +691,6 @@ export const lightTheme = {
     backgroundSecondary: COLORS.blueGrey[900],
     primaryLight: secondary.darker,
     primary: COLORS.white,
-
-    // switch
-    switchHover: primary.light,
-    switchButton: primary.default,
 
     // flag message
     flagMessageBackground: secondary.darker,
