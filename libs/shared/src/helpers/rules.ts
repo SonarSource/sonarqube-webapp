@@ -19,6 +19,7 @@
  */
 
 import { SoftwareQualityImpact } from '../types/clean-code-taxonomy';
+import { Rule, RuleActivation, RuleDetails } from '../types/rules';
 
 export function getImpactsDiffBySeverity(
   ruleImpacts: SoftwareQualityImpact[] = [],
@@ -43,4 +44,25 @@ export function getImpactsDiffBySeverity(
     },
     { ruleImpacts: [], activationImpacts: [] },
   );
+}
+
+export function getRuleParams({
+  rule,
+  activation,
+}: {
+  rule: Rule | RuleDetails;
+  activation?: RuleActivation;
+}) {
+  const params: Record<string, string> = {};
+  if (rule.params) {
+    for (const param of rule.params) {
+      params[param.key] = param.defaultValue ?? '';
+    }
+    if (activation?.params) {
+      for (const param of activation.params) {
+        params[param.key] = param.value;
+      }
+    }
+  }
+  return params;
 }
