@@ -70,6 +70,17 @@ const ui = {
   headerSubtitle: byText('onboarding_dashboard.header.subtitle'),
   headerProgress: byText('onboarding_dashboard.checklist.percent.75'),
 
+  // Journey stepper — three selectable step cards rendered as buttons (aria-label === title).
+  stepperBinding: byRole('button', {
+    name: 'onboarding_dashboard.journey.step.binding.title',
+  }),
+  stepperRepositories: byRole('button', {
+    name: 'onboarding_dashboard.journey.step.repositories.title',
+  }),
+  stepperProjects: byRole('button', {
+    name: 'onboarding_dashboard.journey.step.projects.title',
+  }),
+
   // The bare percent message id (no numeric suffix) is never rendered on a healthy page — every
   // percent has a value. It only appears if a null percentage reaches formatMessage, i.e. if a
   // card's NO_DATA guard regressed to a value-less "%". Used as a regression guard.
@@ -189,9 +200,38 @@ it('renders the page header with the progress tagline next to the heading', asyn
   renderOnboardingDashboard();
 
   expect(await ui.headerSubtitle.find()).toBeInTheDocument();
-  // The header ring shows the backend overallMaturityPct, not a client-side computed value.
-  // The ring only mounts once the overview query resolves, so wait for it.
+
+  // The header shows the backend overallMaturityPct ring (not a client-side computed value). The
+  // 75% label is unique to the header ring — the stepper donuts use importedPct/analyzedPct — so it
+  // appears exactly once. The ring only mounts once the overview query resolves.
   expect(await ui.headerProgress.find()).toBeInTheDocument();
+});
+
+it('renders the journey stepper with the three step cards, defaulting the active step', async () => {
+  renderOnboardingDashboard();
+
+  // All three step cards render as selectable buttons.
+  expect(await ui.stepperBinding.find()).toBeInTheDocument();
+  expect(ui.stepperRepositories.get()).toBeInTheDocument();
+  expect(ui.stepperProjects.get()).toBeInTheDocument();
+
+  // The default mock is bound with analysed projects, so deriveJourneyState selects the "projects"
+  // step; only its card is pressed.
+  expect(ui.stepperProjects.get()).toHaveAttribute('aria-pressed', 'true');
+  expect(ui.stepperBinding.get()).toHaveAttribute('aria-pressed', 'false');
+});
+
+it('moves the stepper selection to the card the user clicks', async () => {
+  const user = userEvent.setup({ delay: null });
+  renderOnboardingDashboard();
+
+  // "projects" is selected by default; clicking the binding card moves the pressed state to it.
+  expect(await ui.stepperProjects.find()).toHaveAttribute('aria-pressed', 'true');
+
+  await user.click(ui.stepperBinding.get());
+
+  expect(ui.stepperBinding.get()).toHaveAttribute('aria-pressed', 'true');
+  expect(ui.stepperProjects.get()).toHaveAttribute('aria-pressed', 'false');
 });
 
 it('renders the onboarding checklist with maturity badge and progress bars', async () => {

@@ -18,37 +18,53 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Text } from '@sonarsource/echoes-react';
-import { useIntl } from 'react-intl';
-import { OnboardingChecklist } from '~shared/types/onboarding';
-import { clampPercent } from './dashboardSeverity';
+import { Heading, MessageCallout, Text } from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { OnboardingProgressDonut } from './progress/OnboardingProgressDonut';
 
 interface Props {
-  checklist?: OnboardingChecklist;
-  title: string;
+  discovered: number;
+  overallPct: number;
+  showCongrats: boolean;
+  showProgress: boolean;
 }
 
 /**
  * Dashboard page header: the overall onboarding progress ring next to the page title and tagline.
  * The ring is omitted while the checklist data is still loading.
  */
-export function OnboardingDashboardHeader({ checklist, title }: Readonly<Props>) {
+export function OnboardingDashboardHeader({
+  discovered,
+  overallPct,
+  showCongrats,
+  showProgress,
+}: Readonly<Props>) {
   const { formatMessage } = useIntl();
 
   return (
-    <div className="sw-mb-4 sw-flex sw-items-center sw-gap-4">
-      {checklist !== undefined && (
-        <OnboardingProgressDonut
-          showLabel
-          value={clampPercent(Math.round(checklist.overallMaturityPct))}
-        />
-      )}
-
-      <div className="sw-flex sw-min-w-0 sw-flex-col sw-gap-1">
-        <Heading as="h1">{title}</Heading>
-        <Text isSubtle>{formatMessage({ id: 'onboarding_dashboard.header.subtitle' })}</Text>
+    <div className="sw-mb-12 sw-flex sw-items-start sw-justify-between sw-gap-4">
+      <div className="sw-flex sw-items-center sw-gap-4">
+        {showProgress && (
+          <OnboardingProgressDonut showLabel size={56} thickness={7} value={overallPct} />
+        )}
+        <div className="sw-flex sw-flex-col">
+          <Heading as="h1">{formatMessage({ id: 'layout.onboarding_dashboard' })}</Heading>
+          <Text isSubtle>{formatMessage({ id: 'onboarding_dashboard.header.subtitle' })}</Text>
+        </div>
       </div>
+
+      {showCongrats && (
+        <MessageCallout
+          className="sw-max-w-[420px]"
+          title={formatMessage({ id: 'onboarding_dashboard.journey.congrats.title' })}
+          variety="success"
+        >
+          <FormattedMessage
+            id="onboarding_dashboard.journey.congrats.message"
+            values={{ b: (chunks) => <Text isHighlighted>{chunks}</Text>, count: discovered }}
+          />
+        </MessageCallout>
+      )}
     </div>
   );
 }

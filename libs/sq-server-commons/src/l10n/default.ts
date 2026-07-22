@@ -10047,6 +10047,15 @@ export const defaultMessages = {
 
   'onboarding_dashboard.header.subtitle':
     'Your journey to a 100% validated code security and quality.',
+  'onboarding_dashboard.journey.congrats.title': 'Congratulations!',
+  'onboarding_dashboard.journey.congrats.message':
+    'You have successfully bound your DevOps platform! We found <b>{count}</b> repositories ready to be imported.',
+  'onboarding_dashboard.journey.step.binding.title': 'Organization binding',
+  'onboarding_dashboard.journey.step.binding.unbound': 'Unbound',
+  'onboarding_dashboard.journey.step.binding.bound': 'Bound',
+  'onboarding_dashboard.journey.step.repositories.title': 'Repositories imported',
+  'onboarding_dashboard.journey.step.projects.title': 'Projects analyzed',
+  'onboarding_dashboard.journey.step.count': '{done} / {total}',
   'onboarding_dashboard.loading': 'Loading dashboard',
   'onboarding_dashboard.projects.loading': 'Loading repositories',
   'onboarding_dashboard.stale.loading': 'Loading stale projects',
