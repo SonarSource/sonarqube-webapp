@@ -29,13 +29,7 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import {
-  Badge,
-  InheritanceIcon,
-  OverridenIcon,
-  SeparatorCircleIcon,
-  themeBorder,
-} from '~design-system';
+import { Badge, InheritanceIcon, OverridenIcon, SeparatorCircleIcon } from '~design-system';
 import { RuleStatusBadge } from '~shared/components/coding-rules/RuleStatusBadge';
 import { getImpactsDiffBySeverity } from '~shared/helpers/rules';
 import { IssueSeverity } from '~shared/types/issues';
@@ -390,7 +384,9 @@ function RuleListItem(props: Readonly<Props>) {
 const ListItemStyled = styled.li<{ selected: boolean }>`
   background-color: ${cssVar('color-surface-default')};
   outline: ${(props) =>
-    props.selected ? themeBorder('heavy', 'primary') : themeBorder('default', 'almCardBorder')};
+    props.selected
+      ? `${cssVar('focus-border-width-default')} solid ${cssVar('color-border-accent-default')}`
+      : `${cssVar('border-width-default')} solid ${cssVar('color-border-weak')}`};
   outline-offset: -2px;
 `;
 

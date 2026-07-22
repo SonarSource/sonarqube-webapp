@@ -30,7 +30,7 @@ import {
 import classNames from 'classnames';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { HelperHintIcon, themeBorder, themeColor } from '~design-system';
+import { HelperHintIcon, themeColor } from '~design-system';
 import { defaultFormatterOptions } from '~shared/components/intl/DateTimeFormatter';
 import TimeFormatter from '~shared/components/intl/TimeFormatter';
 import ClickEventBoundary from '~sq-server-commons/components/controls/ClickEventBoundary';
@@ -238,11 +238,11 @@ const ActivityTime = styled.div`
 `;
 
 const ActivityAnalysisListItem = styled.li`
-  border-bottom: ${themeBorder('default')};
-  border-left: ${themeBorder('active', 'transparent')};
+  border-bottom: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
+  border-left: 4px solid ${cssVar('color-border-none')};
 
   &:first-of-type {
-    border-top: ${themeBorder('default')};
+    border-top: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   }
 
   &:focus {
@@ -256,14 +256,14 @@ const ActivityAnalysisListItem = styled.li`
   }
 
   &.active {
-    border-left: ${themeBorder('active')};
+    border-left: 4px solid ${cssVar('color-border-accent-default')};
   }
 `;
 
 export const BaselineMarker = styled.li`
   display: flex;
   align-items: center;
-  border-bottom: ${themeBorder('default', 'newCodeHighlight')};
+  border-bottom: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
 
   & span {
     background-color: ${cssVar('color-background-accent-weak-focus')};

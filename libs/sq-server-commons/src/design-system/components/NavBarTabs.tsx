@@ -24,7 +24,7 @@ import classNames from 'classnames';
 import React, { forwardRef } from 'react';
 import tw, { theme } from 'twin.macro';
 import { isDefined } from '~shared/helpers/types';
-import { themeBorder, themeColor, themeContrast } from '../helpers/theme';
+import { themeColor, themeContrast } from '../helpers/theme';
 import NavLink, { NavLinkProps } from './NavLink';
 import { Tooltip } from './Tooltip';
 
@@ -108,7 +108,7 @@ const NavBarTabLinkWrapper = styled.li`
 
     color: ${themeContrast('buttonSecondary')};
     text-decoration: none;
-    border-bottom: ${themeBorder('xsActive', 'transparent')};
+    border-bottom: 3px solid ${cssVar('color-border-none')};
     padding-bottom: calc(${theme('spacing.3')} + 1px); // 12px spacing + 3px border + 1px = 16px
   }
 
@@ -152,7 +152,7 @@ const NavBarTabLinkWrapper = styled.li`
   & > * > a.disabled-link:hover,
   & > * > a.disabled-link.hover {
     ${tw`sw-cursor-default`};
-    border-bottom: ${themeBorder('xsActive', 'transparent')};
+    border-bottom: 3px solid ${cssVar('color-border-none')};
     color: ${cssVar('color-text-disabled')};
   }
 `;

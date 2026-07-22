@@ -73,19 +73,19 @@ export const StyledSelectionCard = styled(BareButton)`
   ${tw`sw-rounded-1`};
 
   min-width: 146px;
-  border: ${themeBorder('default')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   transition: border 0.3s ease;
 
   &:hover,
   &:active {
-    border: ${themeBorder('default', 'primary')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
   }
 
   &:focus {
-    outline: ${themeBorder('focus', 'primary')};
+    outline: 4px solid ${cssVar('color-border-accent-default')};
   }
 
   &.selected {
-    border: ${themeBorder('default', 'primary')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
   }
 `;

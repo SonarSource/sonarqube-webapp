@@ -21,7 +21,7 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
-import { themeBorder, themeColor, themeContrast } from '../helpers/theme';
+import { themeColor, themeContrast } from '../helpers/theme';
 import { ThemeColors } from '../types/theme';
 
 type BadgeVariant = 'default' | 'new' | 'deleted' | 'counter' | 'counterFailed';
@@ -113,11 +113,11 @@ const StyledCounter = styled.span<{
 
   color: ${({ variantInfo }) => getColor(variantInfo)};
   background-color: ${({ variantInfo }) => themeColor(variantInfo)};
-  border: ${({ variantInfo }) =>
-    themeBorder(
-      'default',
-      variantInfo === 'badgeCounterFailed' ? 'badgeCounterFailedBorder' : 'transparent',
-    )};
+  border: ${cssVar('border-width-default')} solid
+    ${({ variantInfo }) =>
+      variantInfo === 'badgeCounterFailed'
+        ? cssVar('color-border-danger-weak')
+        : cssVar('color-border-none')};
 
   &:empty {
     ${tw`sw-hidden`}

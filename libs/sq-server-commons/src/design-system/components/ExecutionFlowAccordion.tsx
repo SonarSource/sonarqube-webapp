@@ -23,7 +23,7 @@ import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
 import tw from 'twin.macro';
-import { themeBorder, themeContrast } from '../helpers/theme';
+import { themeContrast } from '../helpers/theme';
 import { BareButton } from '../sonar-aligned/components/buttons';
 import { OpenCloseIndicator } from './icons/OpenCloseIndicator';
 
@@ -76,12 +76,12 @@ const Accordion = styled.div`
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
 
   &:hover {
-    border: ${cssVar('border-width-default')} solid ${cssVar('color-background-accent-default')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
   }
 
   &.expanded {
-    border: ${cssVar('border-width-default')} solid ${cssVar('color-background-accent-default')};
-    outline: ${themeBorder('focus', 'primary')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
+    outline: 4px solid ${cssVar('color-border-accent-default')};
 
     ${Expander} {
       border-bottom: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};

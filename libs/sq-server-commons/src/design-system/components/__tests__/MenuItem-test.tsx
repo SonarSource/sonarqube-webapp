@@ -44,7 +44,7 @@ it('should render active link', () => {
 
   expect(screen.getByText('Hi')).toHaveStyle({
     color: 'rgb(62, 67, 87)',
-    'border-bottom': '4px solid rgba(123,135,217,1)',
+    'border-bottom': '4px solid var(--echoes-color-border-accent-default)',
   });
 });
 
@@ -57,6 +57,6 @@ it('should render hovered link', () => {
 
   expect(screen.getByText('Hi')).toHaveStyle({
     color: 'rgb(42, 47, 64)',
-    'border-bottom': '4px solid rgba(123,135,217,1)',
+    'border-bottom': '4px solid var(--echoes-color-border-accent-default)',
   });
 });

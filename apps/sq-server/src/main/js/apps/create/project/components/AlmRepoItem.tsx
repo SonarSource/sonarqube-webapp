@@ -19,12 +19,19 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, Link, LinkHighlight, LinkStandalone, Text } from '@sonarsource/echoes-react';
+import {
+  Button,
+  cssVar,
+  Link,
+  LinkHighlight,
+  LinkStandalone,
+  Text,
+} from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
-import { CheckIcon, Checkbox, themeBorder } from '~design-system';
+import { Checkbox, CheckIcon } from '~design-system';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
 
 type AlmRepoItemProps = {
@@ -158,6 +165,8 @@ export default function AlmRepoItem({
 const RepositoryItem = styled.li<{ imported?: boolean; selected?: boolean }>`
   box-sizing: border-box;
   border: ${({ selected }) =>
-    selected ? themeBorder('default', 'primary') : themeBorder('default')};
+    selected
+      ? `${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')}`
+      : `${cssVar('border-width-default')} solid ${cssVar('color-border-weak')}`};
   cursor: ${({ imported }) => imported && 'default'};
 `;

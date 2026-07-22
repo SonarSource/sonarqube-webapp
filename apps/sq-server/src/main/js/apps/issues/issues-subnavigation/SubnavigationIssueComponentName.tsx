@@ -19,8 +19,8 @@
  */
 
 import styled from '@emotion/styled';
-import { Text } from '@sonarsource/echoes-react';
-import { SubnavigationHeading, themeBorder } from '~design-system';
+import { cssVar, Text } from '@sonarsource/echoes-react';
+import { SubnavigationHeading } from '~design-system';
 import { collapsePath } from '~sq-server-commons/helpers/path';
 
 const COLLAPSE_PATH_LIMIT = 8;
@@ -41,6 +41,6 @@ export default function SubnavigationIssueComponentName({ path }: Props) {
 
 const StyledHeading = styled(SubnavigationHeading)`
   &:not(:last-child) {
-    border-bottom: ${themeBorder('default')};
+    border-bottom: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   }
 `;

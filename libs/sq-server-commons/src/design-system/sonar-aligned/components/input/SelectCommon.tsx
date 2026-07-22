@@ -157,7 +157,7 @@ export function selectStyle<
       ...(isDisabled && {
         color: cssVar('color-text-disabled'),
         background: cssVar('color-surface-disabled'),
-        border: themeBorder('default', 'inputDisabledBorder')({ theme }),
+        border: `${cssVar('border-width-default')} solid ${cssVar('color-border-disabled')}`,
         outline: 'none',
       }),
       ...(isFocused && {

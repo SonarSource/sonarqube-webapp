@@ -23,7 +23,7 @@ import { cssVar } from '@sonarsource/echoes-react';
 import { debounce, findLast, maxBy, minBy, sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage, themeBorder } from '~design-system';
+import { FlagMessage } from '~design-system';
 import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import GraphsHeader from '~sq-server-commons/components/activity-graph/GraphsHeader';
@@ -292,6 +292,6 @@ export default class ProjectActivityGraphs extends React.PureComponent<Props, St
 }
 
 const ProjectActivityWrapper = styled.div`
-  border: ${themeBorder('default', 'pageBlockBorder')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   background-color: ${cssVar('color-surface-default')};
 `;

@@ -19,11 +19,11 @@
  */
 
 import styled from '@emotion/styled';
-import { Heading, Text } from '@sonarsource/echoes-react';
+import { cssVar, Heading, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { debounce, groupBy, sortBy } from 'lodash';
 import * as React from 'react';
-import { BasicSeparator, themeBorder } from '~design-system';
+import { BasicSeparator } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { Location } from '~shared/types/router';
@@ -183,7 +183,7 @@ class SubCategoryDefinitionsList extends React.PureComponent<SubCategoryDefiniti
 
 const StyledListItem = styled.li`
   & + & {
-    border-top: ${themeBorder('default')};
+    border-top: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   }
 `;
 

@@ -25,7 +25,7 @@ import { isNumber, times } from 'lodash';
 import { ComponentProps, ReactNode, createContext, useContext } from 'react';
 import tw from 'twin.macro';
 import { FCProps } from '../../../types/misc';
-import { themeBorder, themeColor } from '../../helpers/theme';
+import { themeColor } from '../../helpers/theme';
 
 interface TableBaseProps extends ComponentProps<'table'> {
   caption?: ReactNode;
@@ -105,13 +105,13 @@ export function Table(props: Readonly<TableProps>) {
 
 export const TableSeparator = styled.tr`
   ${tw`sw-h-400`}
-  border-top: ${themeBorder('default')};
+  border-top: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 `;
 
 export const TableRow = styled.tr`
   td,
   th {
-    border-top: ${themeBorder('default')};
+    border-top: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   }
 
   .no-header-top-border & th {
@@ -122,8 +122,8 @@ export const TableRow = styled.tr`
   th:first-of-type,
   td:last-child,
   th:last-child {
-    border-right: ${themeBorder('default', 'transparent')};
-    border-left: ${themeBorder('default', 'transparent')};
+    border-right: ${cssVar('border-width-default')} solid ${cssVar('color-border-none')};
+    border-left: ${cssVar('border-width-default')} solid ${cssVar('color-border-none')};
   }
 
   .no-side-padding & {
@@ -139,7 +139,7 @@ export const TableRow = styled.tr`
   }
 
   &:last-child > td {
-    border-bottom: ${themeBorder('default')};
+    border-bottom: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   }
 `;
 

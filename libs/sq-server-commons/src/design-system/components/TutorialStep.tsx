@@ -21,7 +21,7 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
-import { themeBorder, themeColor } from '../helpers/theme';
+import { themeColor } from '../helpers/theme';
 
 interface Props {
   children: React.ReactNode;
@@ -79,7 +79,7 @@ const Step = styled.li<{ stepNumber?: number }>`
   }
 
   & + & {
-    border-top: ${themeBorder('default')};
+    border-top: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
     ${tw`sw-mt-10`}
     ${tw`sw-pt-10`}
   }

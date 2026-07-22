@@ -22,7 +22,7 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
 import { Badge } from '../../components/Badge';
-import { themeBorder, themeColor, themeContrast } from '../../helpers/theme';
+import { themeColor, themeContrast } from '../../helpers/theme';
 import { getTabId, getTabPanelId } from '../helpers/tabs';
 import { ButtonSecondary } from './buttons';
 
@@ -93,7 +93,7 @@ export function ToggleButton<T extends ToggleButtonValueType>(props: ButtonToggl
 }
 
 const Wrapper = styled.div`
-  border: ${themeBorder('default', 'toggleBorder')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
 
   ${tw`sw-inline-flex`}
   ${tw`sw-h-control`}
@@ -122,7 +122,7 @@ const OptionButton = styled(ButtonSecondary)<{ selected: boolean }>`
   }
 
   &:not(:last-of-type) {
-    border-right: ${themeBorder('default', 'toggleBorder')};
+    border-right: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
   }
 
   &:hover {

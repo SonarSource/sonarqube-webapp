@@ -19,9 +19,9 @@
  */
 
 import styled from '@emotion/styled';
-import { Divider, Text } from '@sonarsource/echoes-react';
+import { cssVar, Divider, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { Checkbox, themeBorder } from '../../design-system';
+import { Checkbox } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { SelectListFilter } from './SelectList';
 import SelectListListElement from './SelectListListElement';
@@ -127,5 +127,5 @@ export default class SelectListListContainer extends React.PureComponent<Props, 
 const ListContainer = styled.div`
   overflow: auto;
   height: 330px;
-  border: ${themeBorder('default')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 `;

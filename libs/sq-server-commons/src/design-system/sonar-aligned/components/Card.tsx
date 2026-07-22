@@ -23,7 +23,6 @@ import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import tw from 'twin.macro';
 import { BasicSeparator } from '../../components/Separator';
-import { themeBorder } from '../../helpers/theme';
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -85,11 +84,11 @@ const CardStyled = styled.div`
 `;
 
 const LightGreyCardStyled = styled(CardStyled)`
-  border: ${themeBorder('default')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 `;
 
 const GreyCardStyled = styled(CardStyled)`
-  border: ${themeBorder('default', 'almCardBorder')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 `;
 
 const BlueCard = styled.div`

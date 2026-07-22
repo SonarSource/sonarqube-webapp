@@ -22,6 +22,7 @@ import styled from '@emotion/styled';
 import {
   Badge,
   BadgeVariety,
+  cssVar,
   IconSparkle,
   Link,
   LinkHighlight,
@@ -30,7 +31,7 @@ import {
   TextSize,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { HelperHintIcon, themeBorder } from '~design-system';
+import { HelperHintIcon } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
 import { AiCodeAssuranceStatus } from '~sq-server-commons/api/ai-code-assurance';
@@ -158,5 +159,5 @@ export default function AICodeStatus(props: Readonly<Props>) {
 }
 
 const AICodeAssuranceStatusWrapper = styled.div`
-  border-left: ${themeBorder('default', 'pageBlockBorder')};
+  border-left: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 `;

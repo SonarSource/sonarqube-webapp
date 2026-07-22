@@ -19,8 +19,8 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { themeBorder } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { Paging } from '~shared/types/paging';
 import { Issue } from '~sq-server-commons/types/types';
@@ -97,7 +97,7 @@ export default function SubnavigationIssuesList(props: Props) {
 
 const StyledList = styled.ul`
   li:not(:last-child) {
-    border-bottom: ${themeBorder('default')};
+    border-bottom: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   }
 `;
 

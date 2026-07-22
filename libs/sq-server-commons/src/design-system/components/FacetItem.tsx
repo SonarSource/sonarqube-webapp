@@ -24,7 +24,7 @@ import classNames from 'classnames';
 import * as React from 'react';
 import tw from 'twin.macro';
 import { isDefined } from '~shared/helpers/types';
-import { themeBorder, themeColor } from '../helpers';
+import { themeColor } from '../helpers';
 import { ButtonProps, ButtonSecondary } from '../sonar-aligned/components/buttons';
 
 export type FacetItemProps = Omit<ButtonProps, 'name' | 'onClick'> & {
@@ -174,22 +174,18 @@ const StyledButton = styled(ButtonSecondary)<{
   }
 `;
 
-/*&:hover {
-    --border: ${themeBorder('default', 'facetItemSelectedBorder')};
-  }*/
-
 const StyledItem = styled.span<{ active: boolean }>`
   border: ${({ active }) =>
     active
-      ? themeBorder('default', 'facetItemSelectedBorder')
-      : themeBorder('default', 'transparent')};
+      ? `${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')}`
+      : `${cssVar('border-width-default')} solid ${cssVar('color-border-none')}`};
 
   border-radius: 0.25rem;
 
   &:hover,
   &:active,
   &:focus {
-    border-color: ${themeColor('facetItemSelectedBorder')};
+    border-color: ${cssVar('color-border-accent-default')};
   }
 `;
 
@@ -215,7 +211,7 @@ export const HighlightedFacetItems = styled.div`
 
   ${FacetItem} {
     &:is(:hover, .active) {
-      border-color: ${themeColor('facetItemSelectedBorder')};
+      border-color: ${cssVar('color-border-accent-default')};
       padding-bottom: 1px;
       border-bottom-width: 0;
       border-bottom-right-radius: 0rem;
@@ -228,7 +224,7 @@ export const HighlightedFacetItems = styled.div`
       }
 
       & ~ ${FacetItem} {
-        border-color: ${themeColor('facetItemSelectedBorder')};
+        border-color: ${cssVar('color-border-accent-default')};
         padding-bottom: 1px;
         padding-top: 1px;
         border-top-width: 0;

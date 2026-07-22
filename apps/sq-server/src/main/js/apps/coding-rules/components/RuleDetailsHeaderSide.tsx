@@ -19,9 +19,8 @@
  */
 
 import styled from '@emotion/styled';
-import { Text } from '@sonarsource/echoes-react';
+import { cssVar, Text } from '@sonarsource/echoes-react';
 import React from 'react';
-import { themeBorder } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { IssueSeverity } from '~shared/types/issues';
 import { RuleDetails } from '~shared/types/rules';
@@ -95,5 +94,5 @@ function RuleHeaderInfo({ children, title, ...props }: Readonly<RuleHeaderMetaIt
 }
 
 const StyledSection = styled.div`
-  border-left: ${themeBorder('default', 'pageBlockBorder')};
+  border-left: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 `;

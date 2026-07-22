@@ -30,7 +30,7 @@ import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-cod
 import { IssueSeverity } from '~shared/types/issues';
 import { setIssueSeverity } from '../../../api/issues';
 import { useComponent } from '../../../context/componentContext/withComponentContext';
-import { addGlobalSuccessMessage, BasicSeparator, themeBorder } from '../../../design-system';
+import { addGlobalSuccessMessage, BasicSeparator } from '../../../design-system';
 import { translate, translateWithParameters } from '../../../helpers/l10n';
 import { getIssuesUrl } from '../../../helpers/urls';
 import { getComponentIssuesUrl } from '../../../sonar-aligned/helpers/urls';
@@ -230,11 +230,11 @@ export default function IssueView(props: Readonly<Props>) {
 
 const IssueItem = styled.li`
   background-color: ${cssVar('color-surface-default')};
-  outline: ${themeBorder('default', 'almCardBorder')};
+  outline: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   outline-offset: -1px;
 
   &.selected {
-    outline: ${themeBorder('heavy', 'primary')};
+    outline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-border-accent-default')};
     outline-offset: -2px;
   }
 `;

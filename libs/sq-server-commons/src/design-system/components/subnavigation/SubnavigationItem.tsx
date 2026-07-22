@@ -24,7 +24,7 @@ import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ReactNode, SyntheticEvent, useCallback } from 'react';
 import tw, { theme as twTheme } from 'twin.macro';
-import { themeBorder, themeColor, themeContrast } from '../../helpers/theme';
+import { themeColor, themeContrast } from '../../helpers/theme';
 import { ThemedProps } from '../../types';
 import NavLink, { NavLinkProps } from '../NavLink';
 
@@ -82,7 +82,7 @@ const ItemBaseStyle = (props: ThemedProps) => css`
   color: ${themeContrast('subnavigation')(props)};
   background-color: ${cssVar('color-surface-default')};
   border-bottom: none;
-  border-left: ${themeBorder('active', 'transparent')(props)};
+  border-left: 4px solid ${cssVar('color-border-none')};
   transition: 0.2 ease;
   transition-property: border-left, background-color, color;
 
@@ -94,7 +94,7 @@ const ItemBaseStyle = (props: ThemedProps) => css`
 
   &.active {
     color: ${themeContrast('subnavigationHover')(props)};
-    border-left: ${themeBorder('active')(props)};
+    border-left: 4px solid ${cssVar('color-border-accent-default')};
   }
 `;
 

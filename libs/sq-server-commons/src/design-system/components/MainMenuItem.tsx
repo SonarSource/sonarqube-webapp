@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
 import { LAYOUT_GLOBAL_NAV_HEIGHT } from '../helpers/constants';
 import { themeBorder, themeContrast } from '../helpers/theme';
@@ -45,19 +46,19 @@ export const MainMenuItem = styled.li`
     &:active,
     &.active,
     &:focus {
-      border-bottom: ${themeBorder('active', 'menuBorder', 1)};
+      border-bottom: 4px solid ${cssVar('color-border-accent-default')};
       color: ${themeContrast('mainBar')};
     }
 
     &:hover,
     &.hover {
-      border-bottom: ${themeBorder('active', 'menuBorder', 1)};
+      border-bottom: 4px solid ${cssVar('color-border-accent-default')};
       color: ${themeContrast('mainBarHover')};
     }
   }
 
   &[aria-expanded='true'] a {
-    border-bottom: ${themeBorder('active', 'menuBorder', 1)};
+    border-bottom: 4px solid ${cssVar('color-border-accent-default')};
     color: ${themeContrast('mainBarHover')};
   }
 `;

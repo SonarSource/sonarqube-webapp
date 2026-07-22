@@ -24,7 +24,7 @@ import { Text, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
-import { themeBorder, themeContrast, themeShadow } from '../helpers/theme';
+import { themeContrast, themeShadow } from '../helpers/theme';
 import { RecommendedIcon } from './icons/RecommendedIcon';
 import { RadioButtonStyled } from './input/RadioButton';
 
@@ -122,7 +122,7 @@ const StyledButton = styled.button`
   color: inherit;
 
   &:focus {
-    outline: ${themeBorder('focus', 'selectionCardBorderSelected')};
+    outline: 4px solid ${cssVar('color-border-accent-default')};
     box-shadow: ${themeShadow('sm')};
   }
 
@@ -135,12 +135,12 @@ const StyledButton = styled.button`
     ${tw`sw-cursor-pointer`}
 
     &:hover {
-      border: ${themeBorder('default', 'selectionCardBorderHover')};
+      border: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
       box-shadow: ${themeShadow('sm')};
     }
 
     &.selected {
-      border: ${themeBorder('default', 'selectionCardBorderSelected')};
+      border: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
     }
   }
 
@@ -149,7 +149,7 @@ const StyledButton = styled.button`
 
     background-color: ${cssVar('color-surface-disabled')};
     color: ${cssVar('color-text-disabled')};
-    border: ${themeBorder('default', 'selectionCardBorderDisabled')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-border-disabled')};
   }
 `;
 

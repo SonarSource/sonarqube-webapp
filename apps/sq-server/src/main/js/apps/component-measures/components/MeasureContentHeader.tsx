@@ -19,8 +19,8 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { themeBorder } from '~design-system';
 
 interface Props {
   left: React.ReactNode;
@@ -37,5 +37,5 @@ export default function MeasureContentHeader({ left, right }: Props) {
 }
 
 const StyledHeader = styled.div`
-  border-bottom: ${themeBorder('default', 'pageBlockBorder')};
+  border-bottom: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 `;

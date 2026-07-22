@@ -128,8 +128,10 @@ export const BaseLink = React.forwardRef(BaseLinkWithRef);
 
 const StyledBaseLink = styled(BaseLink)`
   color: var(--color);
-  border-bottom: ${({ children, icon, theme }) =>
-    icon && !children ? themeBorder('default', 'transparent')({ theme }) : 'var(--border)'};
+  border-bottom: ${({ children, icon }) =>
+    icon && !children
+      ? `${cssVar('border-width-default')} solid ${cssVar('color-border-none')}`
+      : 'var(--border)'};
 
   &:visited {
     color: var(--color);
@@ -139,8 +141,10 @@ const StyledBaseLink = styled(BaseLink)`
   &:focus,
   &:active {
     color: var(--active);
-    border-bottom: ${({ children, icon, theme }) =>
-      icon && !children ? themeBorder('default', 'transparent')({ theme }) : 'var(--borderActive)'};
+    border-bottom: ${({ children, icon }) =>
+      icon && !children
+        ? `${cssVar('border-width-default')} solid ${cssVar('color-border-none')}`
+        : 'var(--borderActive)'};
 
     ${ExternalIcon} {
       color: ${themeColor('linkExternalIconActive')};
@@ -192,12 +196,12 @@ export const DrilldownLink = styled(StyledBaseLink)`
   ${tw`sw-tracking-tight`}
   ${tw`sw-whitespace-nowrap`}
 
-  ${({ disabled, theme }) =>
+  ${({ disabled }) =>
     disabled
       ? tw`sw-cursor-default`
       : `--active: ${cssVar('color-text-link-hover')};
-         --border: ${themeBorder('default', 'linkBorder')({ theme })};
-         --borderActive: ${themeBorder('default', 'linkBorder')({ theme })};`};
+         --border: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
+         --borderActive: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};`};
 
   --color: ${cssVar('color-text-default')};
 `;
@@ -211,12 +215,12 @@ export const HoverLink = styled(StyledBaseLink)`
 
   --color: ${themeColor('linkDiscreet')};
   --active: ${cssVar('color-text-link-hover')};
-  --border: ${themeBorder('default', 'transparent')};
-  --borderActive: ${themeBorder('default', 'linkBorder')};
+  --border: ${cssVar('border-width-default')} solid ${cssVar('color-border-none')};
+  --borderActive: ${cssVar('border-width-default')} solid ${cssVar('color-text-link-hover')};
 
   ${TooltipWrapperInner} & {
     --active: ${themeColor('linkTooltipActive')};
-    --borderActive: ${themeBorder('default', 'linkBorder')};
+    --borderActive: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
   }
 
   ${ExternalIcon} {
@@ -266,7 +270,7 @@ DiscreetLink.displayName = 'DiscreetLink';
  */
 export const ContentLink = styled(HoverLink)`
   --color: ${themeColor('pageTitle')};
-  --border: ${themeBorder('default', 'contentLinkBorder')};
+  --border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
 
   ${({ disabled }) => (disabled ? tw`sw-cursor-default` : '')};
 
@@ -287,14 +291,14 @@ export const StandoutLink = styled(StyledBaseLink)`
 
   --color: ${cssVar('color-text-accent')};
   --active: ${cssVar('color-text-link-hover')};
-  --border: ${themeBorder('default', 'linkBorder')};
-  --borderActive: ${themeBorder('default', 'linkBorder')};
+  --border: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
+  --borderActive: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
 
   ${TooltipWrapperInner} & {
     --color: ${themeColor('linkTooltipDefault')};
     --active: ${themeColor('linkTooltipActive')};
-    --border: ${themeBorder('default', 'linkBorder')};
-    --borderActive: ${themeBorder('default', 'linkBorder')};
+    --border: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
+    --borderActive: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
   }
 `;
 StandoutLink.displayName = 'StandoutLink';

@@ -25,7 +25,6 @@ import { cssVar } from '@sonarsource/echoes-react';
 import { forwardRef } from 'react';
 import tw from 'twin.macro';
 import { INPUT_SIZES } from '../../helpers/constants';
-import { themeBorder } from '../../helpers/theme';
 import { InputSizeKeys, ThemedProps } from '../../types/theme';
 
 interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -81,22 +80,22 @@ export const InputTextArea = forwardRef<HTMLTextAreaElement, InputTextAreaProps>
 );
 InputTextArea.displayName = 'InputTextArea';
 
-const defaultStyle = (_props: ThemedProps) => css`
+const defaultStyle = css`
   --border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bolder')};
   --focusBorder: ${cssVar('border-width-default')} solid ${cssVar('color-focus-default')};
   --focusOutline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
 `;
 
-const dangerStyle = (props: ThemedProps) => css`
-  --border: ${themeBorder('default', 'inputDanger')(props)};
-  --focusBorder: ${themeBorder('default', 'inputDangerFocus')(props)};
+const dangerStyle = css`
+  --border: ${cssVar('border-width-default')} solid ${cssVar('color-border-danger-default')};
+  --focusBorder: ${cssVar('border-width-default')} solid ${cssVar('color-border-danger-weak')};
   --focusOutline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
 `;
 
-const successStyle = (props: ThemedProps) => css`
-  --border: ${themeBorder('default', 'inputSuccess')(props)};
-  --focusBorder: ${themeBorder('default', 'inputSuccessFocus')(props)};
-  --focusOutline: ${themeBorder('focus', 'inputSuccessFocus')(props)};
+const successStyle = css`
+  --border: ${cssVar('border-width-default')} solid ${cssVar('color-border-success-default')};
+  --focusBorder: ${cssVar('border-width-default')} solid ${cssVar('color-border-success-weak')};
+  --focusOutline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
 `;
 
 const getInputVariant = (props: ThemedProps & { isInvalid?: boolean; isValid?: boolean }) => {

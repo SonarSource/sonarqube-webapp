@@ -119,7 +119,7 @@ export const RadioButtonStyled = styled.input`
   &:focus,
   &:focus-visible {
     background: ${cssVar('color-surface-hover')};
-    border: ${themeBorder('default', 'radioFocusBorder')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-focus-default')};
     outline: ${themeBorder('focus', 'radioFocusOutline')};
   }
 

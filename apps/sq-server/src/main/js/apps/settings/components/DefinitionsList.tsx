@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { themeBorder } from '~design-system';
+import { cssVar } from '@sonarsource/echoes-react';
 import { SettingDefinitionAndValue } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import Definition from './Definition';
@@ -55,6 +55,6 @@ export default function DefinitionsList(props: Readonly<Props>) {
 
 const StyledListItem = styled.li`
   & + & {
-    border-top: ${themeBorder('default')};
+    border-top: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   }
 `;

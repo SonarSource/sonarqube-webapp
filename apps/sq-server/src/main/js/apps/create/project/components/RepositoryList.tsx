@@ -184,5 +184,5 @@ const SetupBoxTitle = styled.h2`
 `;
 
 const SetupBoxContent = styled.div`
-  border-bottom: ${themeBorder('default')};
+  border-bottom: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 `;

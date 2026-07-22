@@ -126,7 +126,9 @@ const TabButton = styled(BareButton)<{
   color: ${(props) =>
     props.selected ? cssVar('color-text-accent') : cssVar('color-text-default')};
   border: ${(props) =>
-    props.selected ? props.borderColor : themeBorder('default', 'transparent')};
+    props.selected
+      ? props.borderColor
+      : `${cssVar('border-width-default')} solid ${cssVar('color-border-none')}`};
   border-bottom: ${(props) =>
     props.selected
       ? `${cssVar('border-width-default')} solid ${cssVar('color-surface-default')}`
