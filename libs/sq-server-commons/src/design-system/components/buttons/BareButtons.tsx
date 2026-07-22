@@ -31,7 +31,7 @@ export const IssueIndicatorButton = styled(BareButton)`
 `;
 
 export const DuplicationBlock = styled(BareButton)`
-  background-color: ${cssVar('color-border-bold')};
+  background-color: var(--code-viewer-duplication-marker-background);
   outline: none;
 
   ${tw`sw-block`}

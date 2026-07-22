@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import classNames from 'classnames';
 import { forwardRef, Ref, useCallback, useRef } from 'react';
 import tw from 'twin.macro';
-import { themeColor, themeContrast } from '../../helpers/theme';
 import { LocationMarker } from '../LocationMarker';
 
 interface Props {
@@ -69,8 +68,8 @@ const Message = styled.div`
   bottom: calc(100% + 0.25rem);
   width: max-content;
   max-width: var(--max-width);
-  color: ${themeContrast('codeLineIssueMessageTooltip')};
-  background-color: ${themeColor('codeLineIssueMessageTooltip')};
+  color: var(--code-viewer-issue-message-tooltip-text);
+  background-color: var(--code-viewer-issue-message-tooltip-background);
   visibility: hidden;
 
   &.message-right {

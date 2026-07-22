@@ -213,5 +213,5 @@ const StyledClipboardIconButton = styled(ClipboardIconButton)`
 `;
 
 const SourceFileWrapper = styled.div`
-  border: 1px solid ${cssVar('color-border-weak')};
+  border: ${cssVar('border-width-default')} solid var(--code-viewer-line-border);
 `;

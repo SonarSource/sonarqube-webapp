@@ -403,7 +403,7 @@ function isExpandable(snippets: Snippet[], snippetGroup: SnippetGroup) {
 }
 
 const FileLevelIssueStyle = styled.div`
-  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
+  border: ${cssVar('border-width-default')} solid var(--code-viewer-line-border);
 `;
 
 function GetFixButton({ issue }: Readonly<{ issue: TypeIssue }>) {

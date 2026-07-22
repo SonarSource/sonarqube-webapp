@@ -21,11 +21,10 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
-import { themeBorder, themeColor, themeContrast } from '../../helpers/theme';
 import { BareButton } from '../../sonar-aligned';
 
 export const SCMHighlight = styled.h6`
-  color: ${cssVar('color-border-bold')};
+  color: var(--code-viewer-tooltip-highlight-text);
 
   ${tw`sw-typo-semibold`};
   ${tw`sw-text-right`};
@@ -49,7 +48,7 @@ export const LineSCMStyledDiv = styled.div`
 `;
 
 export const DuplicationHighlight = styled.h6`
-  color: ${cssVar('color-border-bold')};
+  color: var(--code-viewer-tooltip-highlight-text);
 
   ${tw`sw-mb-2 sw-font-semibold`};
 `;
@@ -74,7 +73,7 @@ export const LineMeta = styled.td`
   ${tw`sw-select-none`}
 
   ${LineStyled}:hover & {
-    background-color: ${themeColor('codeLineHover')};
+    background-color: var(--code-viewer-line-background-hover);
   }
 `;
 
@@ -90,10 +89,10 @@ export const LineCodeLayers = styled.td`
   display: grid;
   height: 100%;
   background-color: var(--line-background);
-  border-left: ${themeBorder('default', 'codeLineBorder')};
+  border-left: 1px solid var(--code-viewer-line-border);
 
   ${LineStyled}:hover & {
-    background-color: ${themeColor('codeLineHover')};
+    background-color: var(--code-viewer-line-background-hover);
   }
 `;
 
@@ -106,8 +105,8 @@ export const UnderlineLabels = styled.div<{ transparentBackground?: boolean }>`
 
   height: 1.125rem;
   margin-top: -1.125rem;
-  background-color: ${({ transparentBackground, theme }) =>
-    themeColor(transparentBackground ? 'transparent' : 'codeLine')({ theme })};
+  background-color: ${({ transparentBackground }) =>
+    transparentBackground ? 'transparent' : 'var(--code-viewer-line-background)'};
 `;
 
 export const UnderlineLabel = styled.span`
@@ -116,18 +115,18 @@ export const UnderlineLabel = styled.span`
 `;
 
 export const NewCodeUnderlineLabel = styled(UnderlineLabel)`
-  color: ${themeContrast('codeLineNewCodeUnderline')};
-  background-color: ${themeColor('codeLineNewCodeUnderline')};
+  color: var(--code-viewer-new-code-underline-text);
+  background-color: var(--code-viewer-new-code-underline-background);
 `;
 
 export const CoveredUnderlineLabel = styled(UnderlineLabel)`
-  color: ${themeContrast('codeLineCoveredUnderline')};
-  background-color: ${themeColor('codeLineCoveredUnderline')};
+  color: var(--code-viewer-covered-underline-text);
+  background-color: var(--code-viewer-covered-underline-background);
 `;
 
 export const UncoveredUnderlineLabel = styled(UnderlineLabel)`
-  color: ${themeContrast('codeLineUncoveredUnderline')};
-  background-color: ${themeColor('codeLineUncoveredUnderline')};
+  color: var(--code-viewer-uncovered-underline-text);
+  background-color: var(--code-viewer-uncovered-underline-background);
 `;
 
 export const LineCodeEllipsisStyled = styled(BareButton)`
@@ -137,13 +136,13 @@ export const LineCodeEllipsisStyled = styled(BareButton)`
   ${tw`sw-w-full`}
   ${tw`sw-box-border`}
 
-  border-top: ${themeBorder('default', 'codeLineBorder')};
-  border-bottom: ${themeBorder('default', 'codeLineBorder')};
+  border-top: 1px solid var(--code-viewer-line-border);
+  border-bottom: 1px solid var(--code-viewer-line-border);
 
   color: ${cssVar('color-text-subtle')};
-  background-color: ${themeColor('codeLineEllipsis')};
+  background-color: var(--code-viewer-ellipsis-background);
 
   &:hover {
-    background-color: ${themeColor('codeLineEllipsisHover')};
+    background-color: var(--code-viewer-ellipsis-background-hover);
   }
 `;

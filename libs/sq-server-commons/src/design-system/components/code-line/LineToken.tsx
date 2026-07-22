@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import classNames from 'classnames';
 import { ReactNode, RefObject } from 'react';
 import tw from 'twin.macro';
-import { themeColor } from '../../helpers/theme';
 import { LineIssuePointer } from './LineIssuePointer';
 
 export interface TokenModifiers {
@@ -66,27 +65,27 @@ const TokenStyled = styled.span`
   }
 
   &.sym.highlighted {
-    background-color: ${themeColor('codeLineLocationHighlighted')};
+    background-color: var(--code-viewer-location-highlighted-background);
     transition: background-color 0.3s;
   }
 
   &.issue-underline {
     position: relative;
     z-index: 1;
-    text-decoration: underline ${themeColor('codeLineIssueSquiggle')};
-    text-decoration: underline ${themeColor('codeLineIssueSquiggle')} wavy;
+    text-decoration: underline var(--code-viewer-issue-squiggle);
+    text-decoration: underline var(--code-viewer-issue-squiggle) wavy;
     text-decoration-thickness: 2px;
     text-decoration-skip-ink: none;
   }
 
   &.issue-location {
     line-height: 1.125rem;
-    background-color: ${themeColor('codeLineIssueLocation')};
+    background-color: var(--code-viewer-issue-location-background);
     transition: background-color 0.3s ease;
   }
 
   &.issue-location.selected {
-    background-color: ${themeColor('codeLineIssueLocationSelected')};
+    background-color: var(--code-viewer-issue-location-background-selected);
   }
 
   &.issue-location.has-marker {

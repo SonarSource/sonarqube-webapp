@@ -45,7 +45,7 @@ it('should properly setup css grid columns', () => {
 it('should set a highlighted background color in css props', () => {
   const { container } = setupWithProps({ highlighted: true });
   expect(container.firstChild).toHaveStyle({
-    '--line-background': 'rgb(225,230,243)',
+    '--line-background': 'var(--code-viewer-line-highlighted)',
   });
 });
 

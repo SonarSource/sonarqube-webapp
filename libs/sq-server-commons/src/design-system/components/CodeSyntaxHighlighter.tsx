@@ -237,8 +237,8 @@ const StyledSpan = styled.span`
   }
 
   .sonar-underline {
-    text-decoration: underline ${themeColor('codeLineIssueSquiggle')}; // Fallback
-    text-decoration: underline ${themeColor('codeLineIssueSquiggle')} wavy;
+    text-decoration: underline var(--code-viewer-issue-squiggle); /* Fallback */
+    text-decoration: underline var(--code-viewer-issue-squiggle) wavy;
     text-decoration-thickness: 2px;
     text-decoration-skip-ink: none;
   }

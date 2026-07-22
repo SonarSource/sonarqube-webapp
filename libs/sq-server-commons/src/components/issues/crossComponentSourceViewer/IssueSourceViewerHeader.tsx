@@ -87,13 +87,7 @@ export function IssueSourceViewerHeader(props: Readonly<Props>) {
     },
   );
   const { currentUser } = useCurrentUser();
-
   const isProjectRoot = q === ComponentQualifier.Project;
-
-  const IssueSourceViewerStyle = styled.section`
-    border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
-    border-bottom: none;
-  `;
 
   return (
     <IssueSourceViewerStyle
@@ -181,3 +175,8 @@ export function IssueSourceViewerHeader(props: Readonly<Props>) {
     </IssueSourceViewerStyle>
   );
 }
+
+const IssueSourceViewerStyle = styled.section`
+  border: ${cssVar('border-width-default')} solid var(--code-viewer-line-border);
+  border-bottom: none;
+`;

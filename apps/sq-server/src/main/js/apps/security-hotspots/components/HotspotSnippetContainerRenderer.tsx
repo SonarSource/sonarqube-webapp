@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { withTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { cssVar, Spinner } from '@sonarsource/echoes-react';
+import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage } from '~design-system';
@@ -184,6 +183,6 @@ export default function HotspotSnippetContainerRenderer(
   );
 }
 
-const SourceFileWrapper = withTheme(styled.div`
-  background-color: ${cssVar('color-surface-default')};
-`);
+const SourceFileWrapper = styled.div`
+  background-color: var(--code-viewer-line-background);
+`;

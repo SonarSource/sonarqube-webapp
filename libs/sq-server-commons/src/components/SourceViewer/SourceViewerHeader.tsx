@@ -295,15 +295,15 @@ const StyledDrilldownLink = styled(DrilldownLink)`
   &:active,
   &:focus,
   &:hover {
-    color: ${cssVar('color-text-accent')};
+    color: ${cssVar('color-text-link-hover')};
   }
 `;
 
 const StyledHeaderContainer = styled.div`
   background-color: ${cssVar('color-surface-default')};
-  border-bottom: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
+  border-bottom: ${cssVar('border-width-default')} solid var(--code-viewer-line-border);
 `;
 
 const StyledVerticalSeparator = styled.div`
-  border-right: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
+  border-right: ${cssVar('border-width-default')} solid var(--code-viewer-line-border);
 `;

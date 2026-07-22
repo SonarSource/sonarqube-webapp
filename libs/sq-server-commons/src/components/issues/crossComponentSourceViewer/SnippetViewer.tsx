@@ -25,7 +25,7 @@ import React from 'react';
 import { LinesOfCodeEllipses } from '~shared/components/code-viewer/LinesOfCodeEllipses';
 import { LinesOfCodeEllipsesDirection } from '~shared/types/code-viewer';
 import { SourceLine } from '~shared/types/source';
-import { SonarCodeColorizer, ThemeProp, withTheme } from '../../../design-system';
+import { SonarCodeColorizer } from '../../../design-system';
 import {
   Duplication,
   ExpandDirection,
@@ -67,9 +67,7 @@ export interface SnippetViewerProps {
   snippetSourcesMap?: LineMap;
 }
 
-type Props = SnippetViewerProps & ThemeProp;
-
-function SnippetViewer(props: Props) {
+function SnippetViewer(props: Readonly<SnippetViewerProps>) {
   const expandBlock = (direction: ExpandDirection) => () => {
     props.expandBlock(props.index, direction);
   };
@@ -102,8 +100,6 @@ function SnippetViewer(props: Props) {
   const displayDuplications =
     Boolean(props.loadDuplications) && snippet.some((s) => !!s.duplicated);
 
-  const borderColor = cssVar('color-border-weak');
-
   const THROTTLE_SHORT_DELAY = 10;
   const [hoveredLine, setHoveredLine] = React.useState<SourceLine | undefined>();
 
@@ -130,7 +126,7 @@ function SnippetViewer(props: Props) {
   return (
     <div
       className={classNames('it__source-viewer-code', className)}
-      style={{ border: `1px solid ${borderColor}` }}
+      style={{ border: `${cssVar('border-width-default')} solid var(--code-viewer-line-border)` }}
     >
       <SonarCodeColorizer>
         {snippet[0].line > 1 && (
@@ -212,4 +208,4 @@ function SnippetViewer(props: Props) {
   );
 }
 
-export default withTheme(SnippetViewer);
+export default SnippetViewer;

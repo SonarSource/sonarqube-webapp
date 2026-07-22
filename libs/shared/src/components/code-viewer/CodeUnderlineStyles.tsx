@@ -27,19 +27,19 @@ export const LineCodeLayer = styled.div`
 `;
 
 export const NewCodeUnderline = styled(LineCodeLayer)`
-  background-color: ${cssVar('color-background-accent-weak-default')};
+  background-color: var(--code-viewer-new-code-underline-background);
 `;
 
 export const CoveredUnderline = styled(LineCodeLayer)`
-  background-color: ${cssVar('color-background-success-weak-default')};
+  background-color: var(--code-viewer-covered-underline-background);
 `;
 
 export const UncoveredUnderline = styled(LineCodeLayer)`
-  background-color: ${cssVar('color-background-danger-weak-default')};
+  background-color: var(--code-viewer-uncovered-underline-background);
 `;
 
 export const PartiallyCoveredUnderline = styled(LineCodeLayer)`
-  background-color: ${cssVar('color-background-warning-weak-default')};
+  background-color: var(--code-viewer-partially-covered-underline-background);
 `;
 
 const UnderlineLabel = styled.span`
@@ -51,21 +51,21 @@ const UnderlineLabel = styled.span`
 `;
 
 export const NewCodeUnderlineLabel = styled(UnderlineLabel)`
-  color: ${cssVar('color-background-selected-bold-pressed')};
-  background-color: ${cssVar('color-background-accent-weak-default')};
+  color: var(--code-viewer-new-code-underline-text);
+  background-color: var(--code-viewer-new-code-underline-background);
 `;
 
 export const CoveredUnderlineLabel = styled(UnderlineLabel)`
-  color: ${cssVar('color-background-success-active')};
-  background-color: ${cssVar('color-background-success-weak-default')};
+  color: var(--code-viewer-covered-underline-text);
+  background-color: var(--code-viewer-covered-underline-background);
 `;
 
 export const UncoveredUnderlineLabel = styled(UnderlineLabel)`
-  color: ${cssVar('color-text-danger')};
-  background-color: ${cssVar('color-background-danger-weak-default')};
+  color: var(--code-viewer-uncovered-underline-text);
+  background-color: var(--code-viewer-uncovered-underline-background);
 `;
 
 export const PartiallyCoveredUnderlineLabel = styled(UnderlineLabel)`
-  color: ${cssVar('color-text-warning')};
-  background-color: ${cssVar('color-background-warning-weak-default')};
+  color: var(--code-viewer-partially-covered-underline-text);
+  background-color: var(--code-viewer-partially-covered-underline-background);
 `;

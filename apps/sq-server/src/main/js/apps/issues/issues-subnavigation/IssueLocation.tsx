@@ -22,7 +22,7 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
-import { LocationMarker, StyledMarker, themeColor } from '~design-system';
+import { LocationMarker, StyledMarker } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
@@ -91,11 +91,11 @@ export default function IssueLocation(props: Readonly<Props>) {
 const StyledLocation = styled.div`
   &.selected,
   &:hover {
-    background-color: ${themeColor('codeLineLocationSelected')};
+    background-color: var(--code-viewer-location-selected-background);
   }
 
   &:hover ${StyledMarker} {
-    background-color: ${themeColor('codeLineLocationMarkerSelected')};
+    background-color: var(--code-viewer-location-marker-background-selected);
   }
 `;
 

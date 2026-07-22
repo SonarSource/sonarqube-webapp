@@ -18,9 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-/*
- * The esbuild postcss plugin fails to handle CSS `@import`
- */
 import './inter.css';
 import './ubuntu.css';
 

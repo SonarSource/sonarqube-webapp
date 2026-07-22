@@ -18,10 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { withTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { cssVar, LinkHighlight, LinkStandalone, Text } from '@sonarsource/echoes-react';
-import { QualifierIcon, themeBorder } from '~design-system';
+import { LinkHighlight, LinkStandalone, Text } from '@sonarsource/echoes-react';
+import { QualifierIcon } from '~design-system';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import { ComponentQualifier } from '~shared/types/component';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
@@ -86,9 +85,9 @@ function HotspotSnippetHeader(props: HotspotSnippetHeaderProps) {
   );
 }
 
-const StyledHeader = withTheme(styled.div`
-  background-color: ${cssVar('color-surface-default')};
-  border: ${themeBorder('default', 'codeLineBorder')};
-`);
+const StyledHeader = styled.div`
+  background-color: var(--code-viewer-line-background);
+  border: 1px solid var(--code-viewer-line-border);
+`;
 
 export default withCurrentUserContext(HotspotSnippetHeader);

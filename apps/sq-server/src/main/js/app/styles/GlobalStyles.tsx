@@ -21,32 +21,36 @@
 import { Global, css } from '@emotion/react';
 import { cssVar } from '@sonarsource/echoes-react';
 import twDefaultTheme from 'tailwindcss/defaultTheme';
+import CodeViewerStyle from '~shared/components/code-viewer/CodeViewerStyle';
 
 export function GlobalStyles() {
   return (
-    <Global
-      styles={css`
-        body {
-          font-family: Inter, ${twDefaultTheme.fontFamily.sans.join(', ')};
-          font-size: 0.875rem;
-          line-height: 1.25rem;
-          font-weight: 400;
+    <>
+      <CodeViewerStyle />
+      <Global
+        styles={css`
+          body {
+            font-family: Inter, ${twDefaultTheme.fontFamily.sans.join(', ')};
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            font-weight: 400;
 
-          color: ${cssVar('color-text-default')};
-        }
+            color: ${cssVar('color-text-default')};
+          }
 
-        a {
-          outline: none;
-          text-decoration: none;
-          color: ${cssVar('color-text-default')};
-        }
+          a {
+            outline: none;
+            text-decoration: none;
+            color: ${cssVar('color-text-default')};
+          }
 
-        ol,
-        ul {
-          padding-left: 0;
-          list-style: none;
-        }
-      `}
-    />
+          ol,
+          ul {
+            padding-left: 0;
+            list-style: none;
+          }
+        `}
+      />
+    </>
   );
 }

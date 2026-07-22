@@ -18,10 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
-import { cssVar } from '@sonarsource/echoes-react';
 import { HTMLAttributes } from 'react';
-import { themeColor } from '../../helpers/theme';
 import { LineStyled } from './LineStyles';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -33,7 +30,6 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
 export function LineWrapper(props: Props) {
   const { displayCoverage, displaySCM, duplicationsCount, highlighted, ...htmlProps } = props;
-  const theme = useTheme();
   const SCMCol = displaySCM ? '50px ' : '';
   const duplicationCols = duplicationsCount > 0 ? `repeat(${duplicationsCount}, 6px) ` : '';
   const coverageCol = displayCoverage ? '8px ' : '';
@@ -43,8 +39,8 @@ export function LineWrapper(props: Props) {
       style={{
         '--columns': `44px ${SCMCol}26px ${duplicationCols}${coverageCol}1fr`,
         '--line-background': highlighted
-          ? themeColor('codeLineHighlighted')({ theme })
-          : cssVar('color-surface-default'),
+          ? 'var(--code-viewer-line-highlighted)'
+          : 'var(--code-viewer-line-background)',
       }}
       {...htmlProps}
     />
@@ -57,7 +53,7 @@ export function SuggestedLineWrapper(props: Readonly<HTMLAttributes<HTMLDivEleme
       as="div"
       style={{
         '--columns': `44px 26px 1rem 1fr`,
-        '--line-background': cssVar('color-surface-default'),
+        '--line-background': 'var(--code-viewer-line-background)',
       }}
       {...props}
     />

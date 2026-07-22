@@ -23,7 +23,6 @@ import classNames from 'classnames';
 import { forwardRef, LegacyRef } from 'react';
 import tw from 'twin.macro';
 import { isDefined } from '~shared/helpers/types';
-import { themeColor, themeContrast } from '../helpers/theme';
 import { IssueLocationIcon } from './icons/IssueLocationIcon';
 
 interface Props {
@@ -60,12 +59,12 @@ export const StyledMarker = styled.div`
   ${tw`sw-rounded-1/2`}
 
   height: 1.125rem;
-  color: ${themeContrast('codeLineLocationMarker')};
-  background-color: ${themeColor('codeLineLocationMarker')};
+  color: var(--code-viewer-location-marker-text);
+  background-color: var(--code-viewer-location-marker-background);
 
   &.selected,
   &:hover {
-    background-color: ${themeColor('codeLineLocationMarkerSelected')};
+    background-color: var(--code-viewer-location-marker-background-selected);
   }
 
   &:not(.concealed) {

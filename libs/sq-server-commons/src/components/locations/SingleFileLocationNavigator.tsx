@@ -23,7 +23,7 @@ import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
-import { LocationMarker, StyledMarker, themeColor } from '../../design-system';
+import { LocationMarker, StyledMarker } from '../../design-system';
 import { translateWithParameters } from '../../helpers/l10n';
 import { MessageFormatting } from '../../types/issues';
 import LocationMessage from '../common/LocationMessage';
@@ -106,6 +106,6 @@ const StyledButton = styled.button`
   }
 
   &:hover ${StyledMarker} {
-    background-color: ${themeColor('codeLineLocationMarkerSelected')};
+    background-color: var(--code-viewer-location-marker-background-selected);
   }
 `;

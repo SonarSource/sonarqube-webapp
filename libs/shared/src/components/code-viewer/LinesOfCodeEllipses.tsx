@@ -131,23 +131,18 @@ const LinesOfCodeEllipsesStyled = styled.div<Pick<LinesOfCodeEllipsesProps, 'dir
 
   padding: 0 ${cssVar('dimension-space-200')};
 
-  background-color: ${cssVar('color-surface-default')};
+  background-color: var(--code-viewer-ellipsis-background);
 
-  /* This is a temporary fix to match the legacy border colors of the code viewer */
-  --lines-ellipsis-border-color: ${cssVar('color-border-weak')};
-
-  [data-echoes-theme='dark'] & {
-    --lines-ellipsis-border-color: ${cssVar('color-border-weaker')};
+  &:hover {
+    background-color: var(--code-viewer-ellipsis-background-hover);
   }
 
-  border-top: 1px solid
-    ${(props) =>
-      props.direction === LinesOfCodeEllipsesDirection.Up
-        ? 'none'
-        : 'var(--lines-ellipsis-border-color)'};
-  border-bottom: 1px solid
-    ${(props) =>
-      props.direction === LinesOfCodeEllipsesDirection.Down
-        ? 'none'
-        : 'var(--lines-ellipsis-border-color)'};
+  border-top: ${(props) =>
+    props.direction === LinesOfCodeEllipsesDirection.Up
+      ? 'none'
+      : '1px solid var(--code-viewer-line-border)'};
+  border-bottom: ${(props) =>
+    props.direction === LinesOfCodeEllipsesDirection.Down
+      ? 'none'
+      : '1px solid var(--code-viewer-line-border)'};
 `;

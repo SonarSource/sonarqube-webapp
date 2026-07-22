@@ -20,9 +20,9 @@
 .source-viewer {
   width: 100%;
   min-height: 200px;
-  border: 1px solid #cdcdcd;
+  border: 1px solid var(--code-viewer-line-border);
   box-sizing: border-box;
-  background-color: #fff;
+  background-color: var(--code-viewer-line-background);
 }
 
 .source-table {
@@ -32,13 +32,13 @@
 }
 
 .issue-location.highlighted {
-  border-color: #e1e1f2;
-  background-color: #e1e1f2;
+  border-color: var(--code-viewer-legacy-issue-location-highlighted-background);
+  background-color: var(--code-viewer-legacy-issue-location-highlighted-background);
 }
 
 .issue-location.selected {
-  border-color: #f4b1b0;
-  background-color: #f4b1b0;
+  border-color: var(--code-viewer-legacy-issue-location-selected-background);
+  background-color: var(--code-viewer-legacy-issue-location-selected-background);
 }
 
 .measures-viewer {

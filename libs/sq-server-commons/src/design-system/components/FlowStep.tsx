@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
-import { themeColor } from '../helpers/theme';
 import { BaseLink } from './Link';
 import { LocationMarker, StyledMarker } from './LocationMarker';
 
@@ -58,10 +57,10 @@ const StyledLink = styled(BaseLink)`
 
   &.selected,
   &:hover {
-    background-color: ${themeColor('codeLineLocationSelected')};
+    background-color: var(--code-viewer-location-selected-background);
   }
 
   &:hover ${StyledMarker} {
-    background-color: ${themeColor('codeLineLocationMarkerSelected')};
+    background-color: var(--code-viewer-location-marker-background-selected);
   }
 `;

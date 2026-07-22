@@ -25,7 +25,7 @@ import { HtmlFormatter } from '~shared/components/typography/HtmlFormatter';
 import { SanitizeLevel } from '~shared/helpers/sanitize';
 import { isDefined } from '~shared/helpers/types';
 import { RuleDescriptionSection, RuleDescriptionSections } from '~shared/types/rules';
-import { CodeSyntaxHighlighter, FlagMessage, ToggleButton, themeColor } from '../../design-system';
+import { CodeSyntaxHighlighter, FlagMessage, ToggleButton } from '../../design-system';
 import applyCodeDifferences from '../../helpers/code-difference';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import OtherContextOption from './OtherContextOption';
@@ -221,11 +221,11 @@ const StyledHtmlFormatter = styled(HtmlFormatter)`
   }
 
   .code-difference-scrollable .code-added {
-    background-color: ${themeColor('codeLineCoveredUnderline')};
+    background-color: var(--code-viewer-covered-underline-background);
   }
 
   .code-difference-scrollable .code-removed {
-    background-color: ${themeColor('codeLineUncoveredUnderline')};
+    background-color: var(--code-viewer-uncovered-underline-background);
   }
 
   a:has(code) {

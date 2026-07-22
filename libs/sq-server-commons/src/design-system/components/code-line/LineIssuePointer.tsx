@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { createRef, RefObject, useEffect, useState } from 'react';
 import tw from 'twin.macro';
-import { themeColor } from '../../helpers/theme';
 
 const POINTER_HANDLE_HEIGHT_OFFSET = 2;
 const POINTER_HANDLE_MAX_HEIGHT = 10;
@@ -63,8 +62,8 @@ const EmptyIssuePointer = styled.div`
 `;
 
 const IssuePointer = styled(EmptyIssuePointer)<{ distance: number }>`
-  background-color: ${themeColor('codeLineIssueSquiggle')};
-  border-color: ${themeColor('codeLineIssuePointerBorder')};
+  background-color: var(--code-viewer-issue-squiggle);
+  border-color: var(--code-viewer-issue-pointer-border);
 
   &::after {
     position: absolute;
@@ -73,7 +72,7 @@ const IssuePointer = styled(EmptyIssuePointer)<{ distance: number }>`
     display: block;
     width: 1px;
     height: ${({ distance }) => `${distance + POINTER_HANDLE_HEIGHT_OFFSET}px`};
-    background-color: ${themeColor('codeLineIssueSquiggle')};
+    background-color: var(--code-viewer-issue-squiggle);
     content: '';
   }
 `;

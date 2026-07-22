@@ -177,10 +177,10 @@ exports[`should highlight code content correctly 1`] = `
 }
 
 .emotion-11 .sonar-underline {
-  -webkit-text-decoration: underline rgb(253,162,155);
-  text-decoration: underline rgb(253,162,155);
-  -webkit-text-decoration: underline rgb(253,162,155) wavy;
-  text-decoration: underline rgb(253,162,155) wavy;
+  -webkit-text-decoration: underline var(--code-viewer-issue-squiggle);
+  text-decoration: underline var(--code-viewer-issue-squiggle);
+  -webkit-text-decoration: underline var(--code-viewer-issue-squiggle) wavy;
+  text-decoration: underline var(--code-viewer-issue-squiggle) wavy;
   text-decoration-thickness: 2px;
   text-decoration-skip-ink: none;
 }
@@ -423,10 +423,10 @@ exports[`should show full size when multiline with no editing 1`] = `
 }
 
 .emotion-11 .sonar-underline {
-  -webkit-text-decoration: underline rgb(253,162,155);
-  text-decoration: underline rgb(253,162,155);
-  -webkit-text-decoration: underline rgb(253,162,155) wavy;
-  text-decoration: underline rgb(253,162,155) wavy;
+  -webkit-text-decoration: underline var(--code-viewer-issue-squiggle);
+  text-decoration: underline var(--code-viewer-issue-squiggle);
+  -webkit-text-decoration: underline var(--code-viewer-issue-squiggle) wavy;
+  text-decoration: underline var(--code-viewer-issue-squiggle) wavy;
   text-decoration-thickness: 2px;
   text-decoration-skip-ink: none;
 }
@@ -672,10 +672,10 @@ exports[`should show reduced size when single line with no editing 1`] = `
 }
 
 .emotion-11 .sonar-underline {
-  -webkit-text-decoration: underline rgb(253,162,155);
-  text-decoration: underline rgb(253,162,155);
-  -webkit-text-decoration: underline rgb(253,162,155) wavy;
-  text-decoration: underline rgb(253,162,155) wavy;
+  -webkit-text-decoration: underline var(--code-viewer-issue-squiggle);
+  text-decoration: underline var(--code-viewer-issue-squiggle);
+  -webkit-text-decoration: underline var(--code-viewer-issue-squiggle) wavy;
+  text-decoration: underline var(--code-viewer-issue-squiggle) wavy;
   text-decoration-thickness: 2px;
   text-decoration-skip-ink: none;
 }

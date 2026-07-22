@@ -25,7 +25,6 @@ import {
   LineMeta,
   LineStyled,
   SuggestedLineWrapper,
-  themeColor,
 } from '../../design-system';
 import { LineTypeEnum } from '../../queries/fix-suggestions';
 
@@ -118,12 +117,12 @@ const LineCodeLayers = styled.div`
   background-color: var(--line-background);
 
   ${LineStyled}:hover & {
-    background-color: ${themeColor('codeLineHover')};
+    background-color: var(--code-viewer-line-background-hover);
   }
 `;
 
 const LineDirectionMeta = styled(LineMeta)`
-  border-left: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
+  border-left: ${cssVar('border-width-default')} solid var(--code-viewer-line-border);
 `;
 
 const LineCodeLayer = styled.div`
@@ -143,11 +142,11 @@ const LineCodePreFormatted = styled.pre`
 `;
 
 const AddedLineLayer = styled.div`
-  background-color: ${themeColor('codeLineCoveredUnderline')};
+  background-color: var(--code-viewer-covered-underline-background);
   height: 100%;
 `;
 
 const RemovedLineLayer = styled.div`
-  background-color: ${themeColor('codeLineUncoveredUnderline')};
+  background-color: var(--code-viewer-uncovered-underline-background);
   height: 100%;
 `;

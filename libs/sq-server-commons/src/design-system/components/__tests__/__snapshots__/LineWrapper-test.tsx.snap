@@ -15,7 +15,7 @@ exports[`should render with correct styling 1`] = `
 <tbody>
   <tr
     class="emotion-0 emotion-1"
-    style="--columns: 44px 50px 26px repeat(2, 6px) 8px 1fr; --line-background: var(--echoes-color-surface-default);"
+    style="--columns: 44px 50px 26px repeat(2, 6px) 8px 1fr; --line-background: var(--code-viewer-line-background);"
   />
 </tbody>
 `;
