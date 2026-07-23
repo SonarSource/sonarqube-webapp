@@ -385,3 +385,17 @@ it('shows pagination in the repositories card when the total exceeds the page si
   // (formatMessage({id:'pagination.page_x'}, {page:'2'}) → [id, '2'].join('.')).
   expect(await byRole('button', { name: 'pagination.page_x.2' }).find()).toBeInTheDocument();
 });
+
+it('renders the detail panel for the active step and swaps it when another step is selected', async () => {
+  const user = userEvent.setup({ delay: null });
+  renderOnboardingDashboard();
+
+  // The default mock is bound with analysed projects, so the derived active step is "projects" and
+  // the analyze detail panel renders (its title is unique to the panel, not the stepper card).
+  expect(await byText('onboarding_dashboard.journey.analyze.title').find()).toBeInTheDocument();
+
+  // Selecting the binding step swaps the detail panel to the organization-binding panel.
+  await user.click(ui.stepperBinding.get());
+  expect(await byText('onboarding_dashboard.journey.binding.title').find()).toBeInTheDocument();
+  expect(byText('onboarding_dashboard.journey.analyze.title').query()).not.toBeInTheDocument();
+});

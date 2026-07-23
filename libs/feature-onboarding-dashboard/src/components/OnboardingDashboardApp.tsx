@@ -35,6 +35,7 @@ import { QualityGateStatusCard } from './charts/QualityGateStatusCard';
 import { ScanConfigurationCard } from './charts/ScanConfigurationCard';
 import { OnboardingChecklistCard } from './checklist/OnboardingChecklistCard';
 import { OnboardingDevopsPlatformsCard } from './devops/OnboardingDevopsPlatformsCard';
+import { DetailPanel } from './journey/panels/DetailPanel';
 import { JourneyStepper } from './journey/stepper/JourneyStepper';
 import { OnboardingMomentumCard } from './momentum/OnboardingMomentumCard';
 import { OnboardingDashboardHeader } from './OnboardingDashboardHeader';
@@ -76,6 +77,15 @@ export default function OnboardingDashboardApp() {
               />
             </div>
           </>
+        )}
+
+        {journeyState !== undefined && (
+          <div className="sw-mb-4">
+            <DetailPanel
+              selectedStep={selectedStep ?? journeyState.activeStep}
+              state={journeyState}
+            />
+          </div>
         )}
 
         {isError && (
