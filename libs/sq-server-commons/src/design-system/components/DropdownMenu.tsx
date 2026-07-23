@@ -31,6 +31,7 @@ import { InputSizeKeys, ThemedProps } from '../types/theme';
 import { Checkbox } from './input/Checkbox';
 import { BaseLink, LinkProps } from './Link';
 import NavLink from './NavLink';
+import { selectableItemState } from './SelectableItemStateStyles';
 import { Tooltip } from './Tooltip';
 
 interface Props extends React.HtmlHTMLAttributes<HTMLMenuElement> {
@@ -359,8 +360,13 @@ const itemStyle = (props: ThemedProps) => css`
   }
 
   &.branch-like-active {
-    background-color: ${themeColor('dropdownMenuHover')(props)};
-    box-shadow: inset 3px 0px 0px 0px ${cssVar('color-focus-default')};
+    background-color: ${selectableItemState.selectedBackground};
+    box-shadow: inset ${selectableItemState.selectedBorderWidth} 0px 0px 0px
+      ${selectableItemState.selectedBorderColor};
+  }
+
+  &.branch-like-active:hover {
+    background-color: ${selectableItemState.selectedHoverBackground};
   }
 
   &:focus,
@@ -372,6 +378,11 @@ const itemStyle = (props: ThemedProps) => css`
     text-decoration: none;
     border: none;
     border-bottom: none;
+  }
+
+  &.branch-like-active:focus,
+  &.branch-like-active:focus-within {
+    background-color: ${selectableItemState.selectedHoverBackground};
   }
 
   &:disabled,

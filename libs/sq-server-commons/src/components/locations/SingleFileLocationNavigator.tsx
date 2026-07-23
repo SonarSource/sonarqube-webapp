@@ -24,10 +24,10 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { LocationMarker, StyledMarker } from '../../design-system';
+import { selectableItemState } from '../../design-system/components';
 import { translateWithParameters } from '../../helpers/l10n';
 import { MessageFormatting } from '../../types/issues';
 import LocationMessage from '../common/LocationMessage';
-import './SingleFileLocationNavigator.css';
 
 interface Props {
   concealedMarker?: boolean;
@@ -97,12 +97,20 @@ const StyledButton = styled.button`
   cursor: pointer;
   outline: none;
   border: none;
-  background: transparent;
+  background: ${selectableItemState.defaultBackground};
 
-  &.selected,
   &:hover,
   &:focus {
-    background-color: ${cssVar('color-background-selected-weak-default')};
+    background-color: ${selectableItemState.hoverBackground};
+  }
+
+  &.selected {
+    background-color: ${selectableItemState.selectedBackground};
+  }
+
+  &.selected:hover,
+  &.selected:focus {
+    background-color: ${selectableItemState.selectedHoverBackground};
   }
 
   &:hover ${StyledMarker} {

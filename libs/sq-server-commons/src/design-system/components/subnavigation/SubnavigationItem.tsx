@@ -20,13 +20,11 @@
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ReactNode, SyntheticEvent, useCallback } from 'react';
 import tw, { theme as twTheme } from 'twin.macro';
-import { themeColor, themeContrast } from '../../helpers/theme';
-import { ThemedProps } from '../../types';
 import NavLink, { NavLinkProps } from '../NavLink';
+import { selectableItemState } from '../SelectableItemStateStyles';
 
 interface Props {
   active?: boolean;
@@ -34,6 +32,7 @@ interface Props {
   ariaLabel?: string;
   children: ReactNode;
   className?: string;
+  disabled?: boolean;
   id?: string;
   innerRef?: (node: HTMLAnchorElement) => void;
   onClick: (value?: string) => void;
@@ -41,36 +40,63 @@ interface Props {
 }
 
 export function SubnavigationItem(props: Readonly<Props>) {
-  const { active, ariaCurrent, ariaLabel, className, children, id, innerRef, onClick, value } =
-    props;
+  const {
+    active,
+    ariaCurrent,
+    ariaLabel,
+    className,
+    children,
+    disabled,
+    id,
+    innerRef,
+    onClick,
+    value,
+  } = props;
   const handleClick = useCallback(
     (e: SyntheticEvent<HTMLAnchorElement>) => {
       e.preventDefault();
+      if (disabled) {
+        return;
+      }
       onClick(value);
     },
-    [onClick, value],
+    [disabled, onClick, value],
   );
   return (
     <StyledSubnavigationItem
       aria-current={ariaCurrent}
+      aria-disabled={disabled || undefined}
       aria-label={ariaLabel}
-      className={classNames({ active }, className)}
+      className={classNames({ active, disabled }, className)}
       data-testid="js-subnavigation-item"
       href="#"
       id={id}
       onClick={handleClick}
       ref={innerRef}
+      tabIndex={disabled ? -1 : undefined}
     >
       {children}
     </StyledSubnavigationItem>
   );
 }
 
-export function SubnavigationLinkItem({ children, ...props }: NavLinkProps) {
-  return <SubnavigationLinkItemStyled {...props}>{children}</SubnavigationLinkItemStyled>;
+export function SubnavigationLinkItem(props: Readonly<NavLinkProps>) {
+  const { children, className, disabled, tabIndex, ...linkProps } = props;
+
+  return (
+    <SubnavigationLinkItemStyled
+      aria-disabled={disabled || undefined}
+      className={classNames({ disabled }, className)}
+      disabled={disabled}
+      tabIndex={disabled ? -1 : tabIndex}
+      {...linkProps}
+    >
+      {children}
+    </SubnavigationLinkItemStyled>
+  );
 }
 
-const ItemBaseStyle = (props: ThemedProps) => css`
+const ItemBaseStyle = css`
   ${tw`sw-flex sw-items-center sw-justify-between`}
   ${tw`sw-box-border`}
   ${tw`sw-typo-default`}
@@ -79,22 +105,35 @@ const ItemBaseStyle = (props: ThemedProps) => css`
   ${tw`sw-cursor-pointer`}
 
   padding-left: calc(${twTheme('spacing.4')} - 3px);
-  color: ${themeContrast('subnavigation')(props)};
-  background-color: ${cssVar('color-surface-default')};
+  color: ${selectableItemState.text};
+  background-color: ${selectableItemState.defaultBackground};
   border-bottom: none;
-  border-left: 4px solid ${cssVar('color-border-none')};
+  border-left: ${selectableItemState.inactiveBorder};
   transition: 0.2 ease;
   transition-property: border-left, background-color, color;
 
   &:hover,
-  &:focus,
-  &.active {
-    background-color: ${themeColor('subnavigationHover')(props)};
+  &:focus {
+    background-color: ${selectableItemState.hoverBackground};
   }
 
   &.active {
-    color: ${themeContrast('subnavigationHover')(props)};
-    border-left: 4px solid ${cssVar('color-border-accent-default')};
+    background-color: ${selectableItemState.selectedBackground};
+    border-left: ${selectableItemState.selectedBorder};
+  }
+
+  &.active:hover,
+  &.active:focus {
+    background-color: ${selectableItemState.selectedHoverBackground};
+  }
+
+  &.disabled,
+  &[aria-disabled='true'] {
+    ${tw`sw-cursor-not-allowed`}
+
+    color: ${selectableItemState.disabledText};
+    background-color: ${selectableItemState.disabledBackground};
+    border-left: ${selectableItemState.inactiveBorder};
   }
 `;
 

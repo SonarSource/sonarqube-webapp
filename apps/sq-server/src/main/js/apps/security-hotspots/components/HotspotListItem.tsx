@@ -22,7 +22,12 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import { useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { BareButton, ExecutionFlowIcon, SubnavigationItem } from '~design-system';
+import {
+  BareButton,
+  ExecutionFlowIcon,
+  SubnavigationItem,
+  selectableItemState,
+} from '~design-system';
 import SingleFileLocationNavigator from '~sq-server-commons/components/locations/SingleFileLocationNavigator';
 import { RawHotspot } from '~sq-server-commons/types/security-hotspots';
 import { getLocations } from '../utils';
@@ -118,7 +123,7 @@ export default function HotspotListItem(props: Readonly<HotspotListItemProps>) {
 
 const StyledHotspotTitle = styled(BareButton)`
   &:focus {
-    background-color: ${cssVar('color-background-selected-weak-default')};
+    background-color: ${selectableItemState.selectedHoverBackground};
   }
 `;
 

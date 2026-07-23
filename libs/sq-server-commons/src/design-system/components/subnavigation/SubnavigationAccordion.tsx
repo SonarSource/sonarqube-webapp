@@ -19,12 +19,11 @@
  */
 
 import styled from '@emotion/styled';
-import { cssVar } from '@sonarsource/echoes-react';
 import { ReactNode, useCallback, useState } from 'react';
 import tw from 'twin.macro';
-import { themeColor, themeContrast } from '../../helpers/theme';
 import { BareButton } from '../../sonar-aligned/components/buttons';
 import { OpenCloseIndicator } from '../icons/OpenCloseIndicator';
+import { selectableItemState } from '../SelectableItemStateStyles';
 import { SubnavigationGroup } from './SubnavigationGroup';
 
 interface CommonProps {
@@ -89,14 +88,14 @@ const SubnavigationAccordionItem = styled(BareButton)`
   ${tw`sw-w-full`}
   ${tw`sw-cursor-pointer`}
 
-  color: ${themeContrast('subnavigation')};
-  background-color: ${cssVar('color-surface-default')};
+  color: ${selectableItemState.text};
+  background-color: ${selectableItemState.defaultBackground};
   transition: 0.2 ease;
   transition-property: border-left, background-color, color;
 
   &:hover,
   &:focus {
-    background-color: ${themeColor('subnavigationHover')};
+    background-color: ${selectableItemState.hoverBackground};
   }
 `;
 SubnavigationAccordionItem.displayName = 'SubnavigationAccordionItem';

@@ -20,21 +20,23 @@
 
 import styled from '@emotion/styled';
 import {
+  Button,
   ButtonIcon,
   ButtonSize,
   ButtonVariety,
   cssVar,
   DropdownMenu,
   IconMoreVertical,
+  IconQuestionMark,
 } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { HelperHintIcon, themeColor } from '~design-system';
 import { defaultFormatterOptions } from '~shared/components/intl/DateTimeFormatter';
 import TimeFormatter from '~shared/components/intl/TimeFormatter';
 import ClickEventBoundary from '~sq-server-commons/components/controls/ClickEventBoundary';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import { selectableItemState } from '~sq-server-commons/design-system/components';
 import { parseDate } from '~sq-server-commons/helpers/dates';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import {
@@ -64,7 +66,7 @@ export enum Dialog {
 
 export default function ProjectActivityAnalysis(props: Readonly<ProjectActivityAnalysisProps>) {
   let node: HTMLLIElement | null = null;
-  const { formatDate } = useIntl();
+  const { formatDate, formatMessage } = useIntl();
   const { analysis, isBaseline, isFirst, canAdmin, canCreateVersion, selected } = props;
 
   React.useEffect(() => {
@@ -224,7 +226,13 @@ export default function ProjectActivityAnalysis(props: Readonly<ProjectActivityA
             {translate('project_activity.new_code_period_start')}
           </span>
           <Tooltip content={translate('project_activity.new_code_period_start.help')} side="top">
-            <HelperHintIcon className="sw-ml-1" />
+            <Button
+              ariaLabel={formatMessage({ id: 'help' })}
+              className="sw-ml-1 sw-h-fit sw-min-h-fit sw-p-0"
+              variety={ButtonVariety.DefaultGhost}
+            >
+              <IconQuestionMark color="echoes-color-icon-subtle" />
+            </Button>
           </Tooltip>
         </BaselineMarker>
       )}
@@ -239,7 +247,7 @@ const ActivityTime = styled.div`
 
 const ActivityAnalysisListItem = styled.li`
   border-bottom: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
-  border-left: 4px solid ${cssVar('color-border-none')};
+  border-left: ${selectableItemState.inactiveBorder};
 
   &:first-of-type {
     border-top: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
@@ -250,13 +258,18 @@ const ActivityAnalysisListItem = styled.li`
   }
 
   &:hover,
-  &:focus,
-  &.active {
-    background-color: ${themeColor('subnavigationHover')};
+  &:focus {
+    background-color: ${selectableItemState.hoverBackground};
   }
 
   &.active {
-    border-left: 4px solid ${cssVar('color-border-accent-default')};
+    border-left: ${selectableItemState.selectedBorder};
+    background-color: ${selectableItemState.selectedBackground};
+  }
+
+  &.active:hover,
+  &.active:focus {
+    background-color: ${selectableItemState.selectedHoverBackground};
   }
 `;
 

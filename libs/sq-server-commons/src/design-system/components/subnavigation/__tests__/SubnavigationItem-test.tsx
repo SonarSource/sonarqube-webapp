@@ -27,14 +27,26 @@ it('should call onClick with value when clicked', async () => {
   const onClick = jest.fn();
   const { user } = setupWithProps({ onClick });
 
-  await user.click(screen.getByRole('button'));
+  await user.click(screen.getByRole('link', { name: 'Foo' }));
   expect(onClick).toHaveBeenCalledWith('foo');
+});
+
+it('should not call onClick when disabled', async () => {
+  const onClick = jest.fn();
+  const { user } = setupWithProps({ disabled: true, onClick });
+
+  const item = screen.getByRole('link', { name: 'Foo' });
+  expect(item).toHaveAttribute('aria-disabled', 'true');
+
+  await user.click(item);
+
+  expect(onClick).not.toHaveBeenCalled();
 });
 
 function setupWithProps(props: Partial<FCProps<typeof SubnavigationItem>> = {}) {
   return render(
     <SubnavigationItem active={false} onClick={jest.fn()} value="foo" {...props}>
-      <button type="button">Foo</button>
+      Foo
     </SubnavigationItem>,
   );
 }

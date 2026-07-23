@@ -19,9 +19,8 @@
  */
 
 import styled from '@emotion/styled';
-import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
-import { themeContrast } from '../../helpers/theme';
+import { selectableItemState } from '../SelectableItemStateStyles';
 
 export const SubnavigationHeading = styled.div`
   ${tw`sw-flex sw-items-center sw-justify-between`}
@@ -30,7 +29,7 @@ export const SubnavigationHeading = styled.div`
   ${tw`sw-p-4`}
   ${tw`sw-w-full`}
 
-  color: ${themeContrast('subnavigation')};
-  background-color: ${cssVar('color-surface-default')};
+  color: ${selectableItemState.text};
+  background-color: ${selectableItemState.defaultBackground};
 `;
 SubnavigationHeading.displayName = 'SubnavigationHeading';
