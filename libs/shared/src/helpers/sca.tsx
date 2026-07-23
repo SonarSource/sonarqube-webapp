@@ -108,7 +108,9 @@ export const SCA_ISSUE_RISK_SEVERITY_METRICS: string[] = Object.values(MetricKey
 );
 
 export const SCA_ISSUE_RISK_RATING_METRICS: string[] = Object.values(MetricKey).filter(
-  (k) => k.startsWith('sca_rating_') || k.startsWith('new_sca_rating_'),
+  (k) =>
+    (k.startsWith('sca_rating_') || k.startsWith('new_sca_rating_')) &&
+    !k.endsWith('_distribution'),
 );
 
 export const SCA_ISSUE_RISK_COUNT_METRICS: string[] = Object.values(MetricKey).filter(
