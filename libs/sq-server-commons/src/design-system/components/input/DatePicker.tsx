@@ -26,7 +26,7 @@ import * as React from 'react';
 import { Matcher, DayPicker as OriginalDayPicker } from 'react-day-picker';
 import 'react-day-picker/style.css';
 import tw from 'twin.macro';
-import { PopupPlacement, PopupZLevel, themeColor, themeContrast } from '../../helpers';
+import { PopupPlacement, PopupZLevel, themeColor } from '../../helpers';
 import { InputSizeKeys } from '../../types/theme';
 import EscKeydownHandler from '../EscKeydownHandler';
 import { FocusOutHandler } from '../FocusOutHandler';
@@ -267,7 +267,7 @@ const DayPicker = styled(OriginalDayPicker)`
   .rdp-day {
     height: 28px;
     width: 33px;
-    color: ${themeContrast('datePickerDefault')};
+    color: ${cssVar('color-text-strong')};
     opacity: 1;
   }
 
@@ -288,7 +288,7 @@ const DayPicker = styled(OriginalDayPicker)`
 
   .rdp-day:hover:not(.rdp-outside):not(.rdp-disabled):not(.rdp-selected) .rdp-day_button {
     background: ${themeColor('datePickerHover')};
-    color: ${themeContrast('datePickerHover')};
+    color: ${cssVar('color-text-strong')};
   }
 
   .rdp-today:not(.rdp-selected) .rdp-day_button {
@@ -302,7 +302,7 @@ const DayPicker = styled(OriginalDayPicker)`
 
   .rdp-highlighted:not(.rdp-selected) .rdp-day_button {
     background: ${cssVar('color-background-selected-weak-default')};
-    color: ${themeContrast('datePickerRange')};
+    color: ${cssVar('color-text-strong')};
   }
 
   .rdp-selected {

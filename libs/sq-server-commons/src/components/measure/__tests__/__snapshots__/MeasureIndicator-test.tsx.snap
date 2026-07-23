@@ -56,11 +56,11 @@ exports[`renders correctly for failed quality gate 1`] = `
         />
         <path
           d="m10.227 5 .871.871-5.227 5.227L5 10.227z"
-          fill="rgb(128,27,20)"
+          fill="var(--echoes-color-icon-danger)"
         />
         <path
           d="m11.098 10.227-.871.87L5 5.872 5.87 5z"
-          fill="rgb(128,27,20)"
+          fill="var(--echoes-color-icon-danger)"
         />
       </svg>
     </div>

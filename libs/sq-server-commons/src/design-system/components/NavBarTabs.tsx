@@ -24,7 +24,7 @@ import classNames from 'classnames';
 import React, { forwardRef } from 'react';
 import tw, { theme } from 'twin.macro';
 import { isDefined } from '~shared/helpers/types';
-import { themeColor, themeContrast } from '../helpers/theme';
+import { themeColor } from '../helpers';
 import NavLink, { NavLinkProps } from './NavLink';
 import { Tooltip } from './Tooltip';
 
@@ -106,7 +106,7 @@ const NavBarTabLinkWrapper = styled.li`
     ${tw`sw-box-border`};
     ${tw`sw-transition-none`};
 
-    color: ${themeContrast('buttonSecondary')};
+    color: ${cssVar('color-text-default')};
     text-decoration: none;
     border-bottom: 3px solid ${cssVar('color-border-none')};
     padding-bottom: calc(${theme('spacing.3')} + 1px); // 12px spacing + 3px border + 1px = 16px

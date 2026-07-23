@@ -21,7 +21,7 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import { PureComponent } from 'react';
-import { BareButton, themeBorder, themeContrast } from '~design-system';
+import { BareButton, themeBorder } from '~design-system';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { collapsePath } from '~sq-server-commons/helpers/path';
 import { FlowLocation, Issue } from '~sq-server-commons/types/types';
@@ -197,7 +197,7 @@ const GroupBody = styled.div`
 `;
 
 const ComponentName = styled.div`
-  color: ${themeContrast('subnavigation')};
+  color: ${cssVar('color-text-default')};
 `;
 
 const ExpandButton = styled(BareButton)`

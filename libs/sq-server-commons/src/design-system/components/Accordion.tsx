@@ -25,7 +25,7 @@ import classNames from 'classnames';
 import { uniqueId } from 'lodash';
 import React from 'react';
 import tw from 'twin.macro';
-import { themeBorder, themeContrast } from '../helpers';
+import { themeBorder } from '../helpers';
 import { BareButton } from '../sonar-aligned/components/buttons';
 import { ThemedProps } from '../types';
 import { OpenCloseIndicator } from './icons/OpenCloseIndicator';
@@ -78,7 +78,7 @@ const accordionStyle = (props: ThemedProps) => css`
   text-decoration: none;
   outline: none;
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
-  color: ${themeContrast('buttonSecondary')(props)};
+  color: ${cssVar('color-text-default')};
   background-color: ${cssVar('color-surface-default')};
   transition:
     background-color 0.2s ease,
@@ -91,13 +91,13 @@ const accordionStyle = (props: ThemedProps) => css`
   ${tw`sw-overflow-hidden`}
 
   & > button:hover, & > button:active {
-    color: ${themeContrast('buttonSecondary')(props)};
+    color: ${cssVar('color-text-default')};
     background-color: ${cssVar('color-surface-hover')};
   }
 
   & > button:focus,
   & > button:active {
-    color: ${themeContrast('buttonSecondary')(props)};
+    color: ${cssVar('color-text-default')};
     outline: ${themeBorder('focus', 'var(--focus)')(props)};
   }
 

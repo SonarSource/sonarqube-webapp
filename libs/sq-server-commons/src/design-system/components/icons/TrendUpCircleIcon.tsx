@@ -19,14 +19,15 @@
  */
 
 import { useTheme } from '@emotion/react';
-import { themeColor, themeContrast } from '../../helpers';
+import { cssVar } from '@sonarsource/echoes-react';
+import { themeColor } from '../../helpers';
 import { CustomIcon, IconProps } from './Icon';
 
 export function TrendUpCircleIcon(props: Readonly<IconProps>) {
   const theme = useTheme();
 
   const bgColor = themeColor('overviewCardErrorIcon')({ theme });
-  const iconColor = themeContrast('overviewCardErrorIcon')({ theme });
+  const iconColor = cssVar('color-icon-danger');
 
   return (
     <CustomIcon height="36" viewBox="0 0 36 36" width="36" {...props}>

@@ -21,7 +21,7 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { BareButton, SubnavigationItem, themeContrast } from '~design-system';
+import { BareButton, SubnavigationItem } from '~design-system';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { Issue } from '~sq-server-commons/types/types';
 import IssueItemLocationsQuantity from './IssueItemLocationsQuantity';
@@ -80,6 +80,6 @@ const IssueInfo = styled.div`
 
   .active &,
   :hover & {
-    color: ${themeContrast('subnavigation')};
+    color: ${cssVar('color-text-default')};
   }
 `;

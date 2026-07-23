@@ -48,11 +48,16 @@ export interface BadgeProps extends React.PropsWithChildren {
 }
 
 function getColor(variantInfo: ThemeColors) {
-  if (variantInfo === 'badgeCounterFailed') {
-    return cssVar('color-text-danger');
+  switch (variantInfo) {
+    case 'badgeCounter':
+      return cssVar('color-text-default');
+    case 'badgeCounterFailed':
+      return cssVar('color-text-danger');
+    case 'badgeDefault':
+      return cssVar('color-text-strong');
+    default:
+      return themeContrast(variantInfo);
   }
-
-  return themeContrast(variantInfo);
 }
 
 /** @deprecated Use Badge or BadgeCounter from Echoes instead
@@ -90,7 +95,7 @@ const StyledBadge = styled.span<{
   ${tw`sw-px-[0.125rem] sw-py-[0.03125rem]`};
   ${tw`sw-rounded-1/2`};
 
-  color: ${({ variantInfo }) => themeContrast(variantInfo)};
+  color: ${({ variantInfo }) => getColor(variantInfo)};
   background-color: ${({ variantInfo }) => themeColor(variantInfo)};
   text-transform: uppercase;
 

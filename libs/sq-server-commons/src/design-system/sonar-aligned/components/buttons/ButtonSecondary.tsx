@@ -20,7 +20,6 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import { themeContrast } from '../../../helpers';
 import { Button } from './Button';
 
 /**
@@ -39,7 +38,7 @@ import { Button } from './Button';
 export const ButtonSecondary = styled(Button)`
   --background: ${cssVar('color-surface-default')};
   --backgroundHover: ${cssVar('color-surface-hover')};
-  --color: ${themeContrast('buttonSecondary')};
+  --color: ${cssVar('color-text-default')};
   --focus: ${cssVar('color-border-bold')};
   --border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
 `;

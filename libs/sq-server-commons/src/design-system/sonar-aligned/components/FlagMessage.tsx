@@ -33,7 +33,7 @@ import {
   FlagSuccessIcon,
   FlagWarningIcon,
 } from '../../components/icons';
-import { themeBorder, themeColor, themeContrast } from '../../helpers/theme';
+import { themeBorder, themeColor } from '../../helpers/theme';
 import { ThemeColors } from '../../types/theme';
 
 /**
@@ -185,15 +185,15 @@ const StyledFlag = styled.div<{
     ${tw`sw-text-left`}
     ${tw`sw-px-3 sw-py-2`}
     ${tw`sw-typo-default`}
-    color: ${themeContrast('flagMessageBackground')};
+    color: ${cssVar('color-text-default')};
   }
 `;
 
 const DismissIcon = styled(InteractiveIcon)`
   --background: ${themeColor('productNews')};
   --backgroundHover: ${themeColor('productNewsHover')};
-  --color: ${themeContrast('productNews')};
-  --colorHover: ${themeContrast('productNewsHover')};
+  --color: ${cssVar('color-text-default')};
+  --colorHover: ${cssVar('color-text-default')};
   --focus: ${themeColor('interactiveIconFocus', 0.2)};
 
   height: 28px;

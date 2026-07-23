@@ -22,7 +22,7 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
 import { LAYOUT_VIEWPORT_MIN_WIDTH } from '../helpers';
-import { themeColor, themeContrast } from '../helpers/theme';
+import { themeColor } from '../helpers/theme';
 
 export const TopBarNewLayoutCompatible = styled.nav`
   ${tw`sw-px-6 sw-pt-4`}
@@ -32,7 +32,7 @@ export const TopBarNewLayoutCompatible = styled.nav`
   ${tw`sw-text-sm`}
 
   background-color: ${themeColor('navbar')};
-  color: ${themeContrast('navbar')};
+  color: ${cssVar('color-text-default')};
   border-bottom: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 `;
 

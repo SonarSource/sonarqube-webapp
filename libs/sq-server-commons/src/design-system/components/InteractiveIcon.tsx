@@ -26,7 +26,7 @@ import React, { ForwardedRef, MouseEvent, forwardRef, useCallback } from 'react'
 import tw from 'twin.macro';
 import { isDefined } from '~shared/helpers/types';
 import { OPACITY_20_PERCENT } from '../helpers/constants';
-import { themeBorder, themeColor, themeContrast } from '../helpers/theme';
+import { themeBorder, themeColor } from '../helpers/theme';
 import { ThemedProps } from '../types/theme';
 import { IconProps } from './icons/Icon';
 
@@ -227,8 +227,8 @@ export const DestructiveIcon = styled(InteractiveIconBase)`
 export const DismissProductNewsIcon = styled(InteractiveIcon)`
   --background: ${themeColor('productNews')};
   --backgroundHover: ${themeColor('productNewsHover')};
-  --color: ${themeContrast('productNews')};
-  --colorHover: ${themeContrast('productNewsHover')};
+  --color: ${cssVar('color-text-default')};
+  --colorHover: ${cssVar('color-text-default')};
   --focus: ${themeColor('interactiveIconFocus', OPACITY_20_PERCENT)};
 
   height: 28px;

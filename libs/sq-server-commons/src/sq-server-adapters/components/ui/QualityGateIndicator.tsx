@@ -165,8 +165,7 @@ function QGPassed({ rx, size, ...sizeProps }: Readonly<IconProps>) {
 }
 
 function QGFailed({ rx, size, ...sizeProps }: Readonly<IconProps>) {
-  const theme = useTheme();
-  const contrastColor = themeContrast('qgIndicatorFailed')({ theme });
+  const contrastColor = cssVar('color-icon-danger');
 
   return (
     <>

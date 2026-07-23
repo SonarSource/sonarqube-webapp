@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { Spinner, cssVar } from '@sonarsource/echoes-react';
 import React from 'react';
 import tw from 'twin.macro';
-import { themeContrast } from '../../helpers/theme';
 import { CheckIcon } from '../icons/CheckIcon';
 import { CustomIcon } from '../icons/Icon';
 
@@ -134,7 +133,7 @@ const CheckboxContainer = styled.label<{ disabled?: boolean }>`
 
 export const StyledCheckbox = styled.span`
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
-  color: ${themeContrast('primary')};
+  color: ${cssVar('color-icon-on-color')};
 
   ${tw`sw-w-200 sw-h-400`};
   ${tw`sw-rounded-1/2`};

@@ -20,6 +20,7 @@
 
 import styled from '@emotion/styled';
 import {
+  Badge,
   Button,
   ButtonIcon,
   ButtonSize,
@@ -32,15 +33,7 @@ import {
 } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
-import {
-  ActionCell,
-  ContentCell,
-  NumericalCell,
-  Pill,
-  PillHighlight,
-  PillVariant,
-  TableRow,
-} from '~design-system';
+import { ActionCell, ContentCell, NumericalCell, TableRow } from '~design-system';
 import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
@@ -91,11 +84,11 @@ export function Condition({
       <ContentCell className="sw-gap-2">
         {getLocalizedMetricNameNoDiffMetric(metric, metrics)}
         {isMetricFromOtherMode && canEdit && (
-          <Pill className="sw-ml-2" highlight={PillHighlight.Medium} variant={PillVariant.Neutral}>
+          <Badge className="sw-ml-2" variety="neutral">
             {intl.formatMessage({
               id: `quality_gates.metric.${isStandard ? 'mqr' : 'standard'}_mode_short`,
             })}
-          </Pill>
+          </Badge>
         )}
         {metric.hidden && (
           <Text colorOverride="echoes-color-text-danger">
