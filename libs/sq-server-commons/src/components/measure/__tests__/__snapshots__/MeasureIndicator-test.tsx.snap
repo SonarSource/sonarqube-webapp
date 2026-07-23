@@ -49,18 +49,18 @@ exports[`renders correctly for failed quality gate 1`] = `
           overview.quality_gate_x.metric.level.ERROR
         </title>
         <rect
-          fill="var(--echoes-color-background-danger-weak-active)"
+          fill="var(--echoes-ratings-colors-background-rating-e-default)"
           height="1rem"
           rx="2"
           width="1rem"
         />
         <path
           d="m10.227 5 .871.871-5.227 5.227L5 10.227z"
-          fill="var(--echoes-color-icon-danger)"
+          fill="var(--echoes-ratings-colors-text-rating-e-default)"
         />
         <path
           d="m11.098 10.227-.871.87L5 5.872 5.87 5z"
-          fill="var(--echoes-color-icon-danger)"
+          fill="var(--echoes-ratings-colors-text-rating-e-default)"
         />
       </svg>
     </div>
@@ -91,18 +91,18 @@ exports[`renders correctly for passed quality gate 1`] = `
           overview.quality_gate_x.metric.level.OK
         </title>
         <rect
-          fill="var(--echoes-color-background-success-weak-active)"
+          fill="var(--echoes-ratings-colors-background-rating-a-default)"
           height="1.5rem"
           rx="2"
           width="1.5rem"
         />
         <path
           d="m16.95 7.5 1.308 1.307-7.84 7.84-1.308-1.306z"
-          fill="rgb(5,96,58)"
+          fill="var(--echoes-ratings-colors-text-rating-a-default)"
         />
         <path
           d="m11.79 15.34-1.307 1.307-4.484-4.483 1.307-1.306z"
-          fill="rgb(5,96,58)"
+          fill="var(--echoes-ratings-colors-text-rating-a-default)"
         />
       </svg>
     </div>

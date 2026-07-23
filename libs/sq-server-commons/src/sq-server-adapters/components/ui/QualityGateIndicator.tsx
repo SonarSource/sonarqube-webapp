@@ -18,13 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
 import { cssVar } from '@sonarsource/echoes-react';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { theme as twTheme } from 'twin.macro';
 import { QGStatus, QGStatusExtended } from '~shared/types/common';
-import { BasePlacement, themeContrast } from '../../../design-system';
+import { BasePlacement } from '../../../design-system';
 
 const SIZE = {
   sm: twTheme('spacing.4'),
@@ -44,6 +43,21 @@ const COMMON_PROPS = {
   fill: 'none',
   role: 'img',
   xmlns: 'http://www.w3.org/2000/svg',
+};
+
+const STATUS_COLORS = {
+  failed: {
+    background: cssVar('ratings-colors-background-rating-e-default'),
+    icon: cssVar('ratings-colors-text-rating-e-default'),
+  },
+  notComputed: {
+    background: cssVar('color-surface-disabled'),
+    icon: cssVar('color-text-disabled'),
+  },
+  passed: {
+    background: cssVar('ratings-colors-background-rating-a-default'),
+    icon: cssVar('ratings-colors-text-rating-a-default'),
+  },
 };
 
 interface Props {
@@ -114,17 +128,14 @@ interface IconProps {
 }
 
 function QGNotComputed({ rx, size, ...sizeProps }: Readonly<IconProps>) {
-  const theme = useTheme();
-  const contrastColor = themeContrast('qgIndicatorNotComputed')({ theme });
-
   return (
     <>
-      <rect fill={cssVar('color-icon-disabled')} rx={rx} {...sizeProps} />
+      <rect fill={STATUS_COLORS.notComputed.background} rx={rx} {...sizeProps} />
       {
         {
-          xl: <path d="M42 31v3H22v-3z" fill={contrastColor} />,
-          md: <path d="M18 12v1.5H6V12z" fill={contrastColor} />,
-          sm: <path d="M12 8v1H4V8z" fill={contrastColor} />,
+          xl: <path d="M42 31v3H22v-3z" fill={STATUS_COLORS.notComputed.icon} />,
+          md: <path d="M18 12v1.5H6V12z" fill={STATUS_COLORS.notComputed.icon} />,
+          sm: <path d="M12 8v1H4V8z" fill={STATUS_COLORS.notComputed.icon} />,
         }[size]
       }
     </>
@@ -132,30 +143,39 @@ function QGNotComputed({ rx, size, ...sizeProps }: Readonly<IconProps>) {
 }
 
 function QGPassed({ rx, size, ...sizeProps }: Readonly<IconProps>) {
-  const theme = useTheme();
-  const contrastColor = themeContrast('qgIndicatorPassed')({ theme });
-
   return (
     <>
-      <rect fill={cssVar('color-background-success-weak-active')} rx={rx} {...sizeProps} />
+      <rect fill={STATUS_COLORS.passed.background} rx={rx} {...sizeProps} />
       {
         {
           xl: (
             <>
-              <path d="M38.974 25 41 27.026 28.847 39.178l-2.025-2.025z" fill={contrastColor} />
-              <path d="M30.974 37.153 28.95 39.18 22 32.229l2.026-2.025z" fill={contrastColor} />
+              <path
+                d="M38.974 25 41 27.026 28.847 39.178l-2.025-2.025z"
+                fill={STATUS_COLORS.passed.icon}
+              />
+              <path
+                d="M30.974 37.153 28.95 39.18 22 32.229l2.026-2.025z"
+                fill={STATUS_COLORS.passed.icon}
+              />
             </>
           ),
           md: (
             <>
-              <path d="m16.95 7.5 1.308 1.307-7.84 7.84-1.308-1.306z" fill={contrastColor} />
-              <path d="m11.79 15.34-1.307 1.307-4.484-4.483 1.307-1.306z" fill={contrastColor} />
+              <path
+                d="m16.95 7.5 1.308 1.307-7.84 7.84-1.308-1.306z"
+                fill={STATUS_COLORS.passed.icon}
+              />
+              <path
+                d="m11.79 15.34-1.307 1.307-4.484-4.483 1.307-1.306z"
+                fill={STATUS_COLORS.passed.icon}
+              />
             </>
           ),
           sm: (
             <>
-              <path d="m11.3 5 .871.87-5.227 5.228-.87-.871z" fill={contrastColor} />
-              <path d="m7.86 10.227-.872.871L4 8.11l.871-.871z" fill={contrastColor} />
+              <path d="m11.3 5 .871.87-5.227 5.228-.87-.871z" fill={STATUS_COLORS.passed.icon} />
+              <path d="m7.86 10.227-.872.871L4 8.11l.871-.871z" fill={STATUS_COLORS.passed.icon} />
             </>
           ),
         }[size]
@@ -165,29 +185,39 @@ function QGPassed({ rx, size, ...sizeProps }: Readonly<IconProps>) {
 }
 
 function QGFailed({ rx, size, ...sizeProps }: Readonly<IconProps>) {
-  const contrastColor = cssVar('color-icon-danger');
-
   return (
     <>
-      <rect fill={cssVar('color-background-danger-weak-active')} rx={rx} {...sizeProps} />
+      <rect fill={STATUS_COLORS.failed.background} rx={rx} {...sizeProps} />
       {
         {
           xl: (
             <>
-              <path d="m37.153 25 2.026 2.026-12.153 12.152L25 37.153z" fill={contrastColor} />
-              <path d="m39.178 37.153-2.025 2.026L25 27.026 27.026 25z" fill={contrastColor} />
+              <path
+                d="m37.153 25 2.026 2.026-12.153 12.152L25 37.153z"
+                fill={STATUS_COLORS.failed.icon}
+              />
+              <path
+                d="m39.178 37.153-2.025 2.026L25 27.026 27.026 25z"
+                fill={STATUS_COLORS.failed.icon}
+              />
             </>
           ),
           md: (
             <>
-              <path d="m15.34 7.5 1.307 1.307-7.84 7.84L7.5 15.34z" fill={contrastColor} />
-              <path d="m16.647 15.34-1.307 1.307-7.84-7.84L8.806 7.5z" fill={contrastColor} />
+              <path
+                d="m15.34 7.5 1.307 1.307-7.84 7.84L7.5 15.34z"
+                fill={STATUS_COLORS.failed.icon}
+              />
+              <path
+                d="m16.647 15.34-1.307 1.307-7.84-7.84L8.806 7.5z"
+                fill={STATUS_COLORS.failed.icon}
+              />
             </>
           ),
           sm: (
             <>
-              <path d="m10.227 5 .871.871-5.227 5.227L5 10.227z" fill={contrastColor} />
-              <path d="m11.098 10.227-.871.87L5 5.872 5.87 5z" fill={contrastColor} />
+              <path d="m10.227 5 .871.871-5.227 5.227L5 10.227z" fill={STATUS_COLORS.failed.icon} />
+              <path d="m11.098 10.227-.871.87L5 5.872 5.87 5z" fill={STATUS_COLORS.failed.icon} />
             </>
           ),
         }[size]
