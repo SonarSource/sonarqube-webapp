@@ -2037,7 +2037,15 @@ export const defaultMessages = {
   'dependencies.risks.reachability.snippet_message':
     'Your code directly calls this vulnerable function, making this risk reachable.',
   'dependencies.risks.reachability.title': 'This vulnerability is reachable',
+  'dependencies.risks.reachability.tooltip':
+    'Sonar found a place where your code calls vulnerable code',
   'dependencies.risks.reachable': 'Reachable',
+  'dependencies.risks.reachable_false': 'Unreachable',
+  'dependencies.risks.reachable_false.tooltip':
+    'Sonar did not find a direct call from your code into vulnerable code. A dependency may still call this transitively',
+  'dependencies.risks.reachable_not_analyzed': 'Not analyzed',
+  'dependencies.risks.reachable_not_analyzed.tooltip':
+    'Sonar did not analyze this vulnerability for reachability. This vulnerability is not yet supported for reachability analysis.',
   'dependencies.risks.empty_state.title':
     'No {branchType, select, pullRequest {new } other {}}open dependency risks were found',
   'dependencies.risks.empty_state.body':
