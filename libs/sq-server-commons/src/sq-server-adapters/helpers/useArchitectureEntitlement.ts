@@ -24,7 +24,9 @@ export interface ArchitectureEntitlement {
 }
 
 export function useArchitectureEntitlement(): ArchitectureEntitlement {
-  // Org architecture is SQC-only: the SQS adapter returns allowed=false so the flag
-  // remains the sole gate on SQS, and the billing entitlement endpoint is never called.
-  return { allowed: false, isLoading: false };
+  // TODO: temporary — SQS has no entitlement backend yet, so access is granted unconditionally
+  // here. This is the sole gate for architecture add-on access on SQS (see feature-flags.ts, which
+  // keeps designArchitectureSquadExtensionPack off). Once Server has a real entitlement check, flip
+  // this single return to call it — mirror the SQC adapter's useEntitlementCheckQuery shape.
+  return { allowed: true, isLoading: false };
 }

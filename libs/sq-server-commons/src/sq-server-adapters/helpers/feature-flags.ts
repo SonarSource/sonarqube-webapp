@@ -22,6 +22,7 @@ import { DEFAULT_PERFORMANCE_LIMITS } from '~shared/helpers/architecture';
 import { FlagSet } from '~shared/types/feature-flags';
 
 interface SQSFlagSet extends FlagSet {
+  designArchitectureSquadExtensionPack: boolean;
   designArchitectureSquadPerformanceLimits: {
     maxEdgesCount: number;
     maxNodesCount: number;
@@ -40,6 +41,9 @@ interface SQSFlagSet extends FlagSet {
 // compatibility with SQC in shared code.
 // Add features flags here as needed in shared code, especially useful if you want a default value other than falsy for SQS.
 const defaultFlags: SQSFlagSet = {
+  // Always off on SQS (no LaunchDarkly to read it from): architecture add-on access is decided by
+  // useArchitectureEntitlement() instead, see that adapter for how SQS grants access today.
+  designArchitectureSquadExtensionPack: false,
   designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
   // Keep false on master; flip true on epic/UI branches when developing License products UI.
   licenseEnableUsageProductsUi: false,

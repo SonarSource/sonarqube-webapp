@@ -18,17 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { renderHook } from '@testing-library/react';
-import { useFlags } from '../feature-flags';
-
-describe('useFlags', () => {
-  it('should expose the default SQS flag values', () => {
-    const { result } = renderHook(() => useFlags());
-
-    expect(result.current).toMatchObject({
-      designArchitectureSquadExtensionPack: false,
-      scaEnableReachabilityFrontend: false,
-      scaKeyChangesPrView: false,
-    });
-  });
-});
+// TODO: temporary — exit points is org-scoped and its backend isn't available on Server yet, so
+// it stays SQC-only until the rest of architecture is ported. Remove this adapter (and its SQC
+// counterpart) once Server has an exit points backend, and let it share the directives gate again.
+export function useShowArchitectureExitPoints(): boolean {
+  return false;
+}

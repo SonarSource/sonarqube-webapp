@@ -30,6 +30,7 @@ import { isFile, isPortfolioLike } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { HttpStatus } from '~shared/types/request';
+import { addons } from '~sq-server-addons/index';
 import { getTasksForComponent } from '~sq-server-commons/api/ce';
 import { getComponentData } from '~sq-server-commons/api/components';
 import { getComponentNavigation } from '~sq-server-commons/api/navigation';
@@ -376,32 +377,42 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
     return <ComponentContainerNotFound isPortfolioLike={pathname.includes('portfolio')} />;
   }
 
+  // Provides the architecture add-on's access context to the project nav and its routed pages
+  // (e.g. Directives); falls back to a no-op for community builds where the addon is absent.
+  const ArchitectureAddonProvider: React.ComponentType<React.PropsWithChildren> =
+    addons.architecture?.ArchitectureAddonProvider ?? React.Fragment;
+
   return (
-    <>
-      <Helmet
-        defer={false}
-        titleTemplate={intl.formatMessage(
-          { id: 'page_title.template.with_instance' },
-          { project: component?.name ?? '' },
-        )}
-      />
+    <ArchitectureAddonProvider>
+      {/*
+       * ComponentContext.Provider wraps ComponentNav too (not just the routed Outlet) so that
+       * anything rendered inside the nav (e.g. addon nav items reading useComponent()) sees the
+       * real fetched component instead of ComponentContext's empty default.
+       */}
+      <ComponentContext.Provider value={componentProviderProps}>
+        <Helmet
+          defer={false}
+          titleTemplate={intl.formatMessage(
+            { id: 'page_title.template.with_instance' },
+            { project: component?.name ?? '' },
+          )}
+        />
 
-      {component && !isFile(component.qualifier) && <ComponentNav component={component} />}
+        {component && !isFile(component.qualifier) && <ComponentNav component={component} />}
 
-      <Layout.ContentGrid>
-        {isLoading ? (
-          <Layout.PageGrid>
-            <Layout.PageContent>
-              <Spinner className="sw-mt-10" />
-            </Layout.PageContent>
-          </Layout.PageGrid>
-        ) : (
-          <ComponentContext.Provider value={componentProviderProps}>
+        <Layout.ContentGrid>
+          {isLoading ? (
+            <Layout.PageGrid>
+              <Layout.PageContent>
+                <Spinner className="sw-mt-10" />
+              </Layout.PageContent>
+            </Layout.PageGrid>
+          ) : (
             <Outlet />
-          </ComponentContext.Provider>
-        )}
-      </Layout.ContentGrid>
-    </>
+          )}
+        </Layout.ContentGrid>
+      </ComponentContext.Provider>
+    </ArchitectureAddonProvider>
   );
 }
 
