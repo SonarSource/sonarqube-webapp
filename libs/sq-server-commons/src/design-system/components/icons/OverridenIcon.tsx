@@ -18,13 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
-import { themeColor } from '../../helpers/theme';
 import { CustomIcon, IconProps } from './Icon';
 
-export function OverridenIcon({ fill = 'currentColor', ...iconProps }: Readonly<IconProps>) {
-  const theme = useTheme();
-  const fillColor = themeColor(fill)({ theme });
+export function OverridenIcon({ fill, ...iconProps }: Readonly<IconProps>) {
+  const fillColor = fill ?? 'currentColor';
+
   return (
     <CustomIcon {...iconProps}>
       <path

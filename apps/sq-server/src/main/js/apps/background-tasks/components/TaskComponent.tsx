@@ -19,14 +19,8 @@
  */
 
 import styled from '@emotion/styled';
-import { Text } from '@sonarsource/echoes-react';
-import {
-  BranchIcon,
-  ContentCell,
-  PullRequestIcon,
-  QualifierIcon,
-  StandoutLink,
-} from '~design-system';
+import { IconGitBranch, IconPullrequest, Text } from '@sonarsource/echoes-react';
+import { ContentCell, QualifierIcon, StandoutLink } from '~design-system';
 import { isPortfolioLike } from '~shared/helpers/component';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -103,11 +97,11 @@ const StyledSpan = styled.span`
 
 function TaskComponentIndicator({ task }: Readonly<Props>) {
   if (task.branch !== undefined) {
-    return <BranchIcon />;
+    return <IconGitBranch />;
   }
 
   if (task.pullRequest !== undefined) {
-    return <PullRequestIcon />;
+    return <IconPullrequest />;
   }
 
   if (task.componentQualifier) {

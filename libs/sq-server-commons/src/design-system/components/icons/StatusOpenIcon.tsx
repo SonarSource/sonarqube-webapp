@@ -18,8 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
-import { themeColor } from '../../helpers/theme';
+import { cssVar } from '@sonarsource/echoes-react';
 import { CustomIcon, IconProps } from './Icon';
 
 /** @deprecated Use IconStatusOpen from Echoes instead, if possible.
@@ -28,12 +27,16 @@ import { CustomIcon, IconProps } from './Icon';
  * to replace all of the icons yet. There are situations where it is OK to ignore this deprecation
  * warning when revisiting old code, but all new code should use the icons from Echoes.
  */
-export function StatusOpenIcon({ fill = 'iconStatus', ...iconProps }: IconProps) {
-  const theme = useTheme();
-
+export function StatusOpenIcon({ fill, ...iconProps }: IconProps) {
   return (
     <CustomIcon {...iconProps}>
-      <circle cx="8" cy="8" r="6.25" stroke={themeColor(fill)({ theme })} strokeWidth="1.5" />
+      <circle
+        cx="8"
+        cy="8"
+        r="6.25"
+        stroke={fill ?? cssVar('color-icon-subtle')}
+        strokeWidth="1.5"
+      />
     </CustomIcon>
   );
 }

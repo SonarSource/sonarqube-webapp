@@ -110,7 +110,7 @@ function CheckboxIcon({ checked, thirdState }: CheckIconProps) {
       </CustomIcon>
     );
   } else if (checked) {
-    return <CheckIcon fill="buttonSecondary" />;
+    return <CheckIcon fill={cssVar('color-icon-on-color')} />;
   }
   return null;
 }

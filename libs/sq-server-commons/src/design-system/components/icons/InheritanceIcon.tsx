@@ -18,8 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
-import { themeColor } from '../../helpers/theme';
 import { CustomIcon, IconProps } from './Icon';
 
 /** @deprecated Use IconInheritance from Echoes instead, if possible.
@@ -28,9 +26,9 @@ import { CustomIcon, IconProps } from './Icon';
  * to replace all of the icons yet. There are situations where it is OK to ignore this deprecation
  * warning when revisiting old code, but all new code should use the icons from Echoes.
  */
-export function InheritanceIcon({ fill = 'currentColor', ...iconProps }: Readonly<IconProps>) {
-  const theme = useTheme();
-  const fillColor = themeColor(fill)({ theme });
+export function InheritanceIcon({ fill, ...iconProps }: Readonly<IconProps>) {
+  const fillColor = fill ?? 'currentColor';
+
   return (
     <CustomIcon {...iconProps}>
       <mask fill="white" id="path-1-inside-1_3266_8058">

@@ -18,8 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
-import { themeColor } from '../../helpers/theme';
+import { cssVar } from '@sonarsource/echoes-react';
 import { CustomIcon, IconProps } from './Icon';
 
 /** @deprecated Use IconWarning from Echoes instead, if possible.
@@ -28,13 +27,12 @@ import { CustomIcon, IconProps } from './Icon';
  * to replace all of the icons yet. There are situations where it is OK to ignore this deprecation
  * warning when revisiting old code, but all new code should use the icons from Echoes.
  */
-export function FlagWarningIcon({ fill = 'iconWarning', ...iconProps }: IconProps) {
-  const theme = useTheme();
+export function FlagWarningIcon({ fill, ...iconProps }: IconProps) {
   return (
     <CustomIcon {...iconProps}>
       <path
         d="M14.41 12.55a1 1 0 0 1-.893 1.45H2.625a1 1 0 0 1-.892-1.45L7.178 1.766a1 1 0 0 1 1.786 0l5.445 10.782ZM7 6a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0V6Zm1 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z"
-        style={{ fill: themeColor(fill)({ theme }) }}
+        style={{ fill: fill ?? cssVar('color-icon-warning') }}
       />
     </CustomIcon>
   );

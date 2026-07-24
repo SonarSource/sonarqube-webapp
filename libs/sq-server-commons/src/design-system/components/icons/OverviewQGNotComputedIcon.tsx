@@ -18,17 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
 import { cssVar } from '@sonarsource/echoes-react';
-import { themeColor } from '../../helpers/theme';
 
 interface Props {
   className?: string;
 }
 
 export function OverviewQGNotComputedIcon({ className }: Readonly<Props>) {
-  const theme = useTheme();
-
   return (
     <svg
       className={className}
@@ -57,14 +53,14 @@ export function OverviewQGNotComputedIcon({ className }: Readonly<Props>) {
         fill={cssVar('color-background-accent-weak-default')}
         fillRule="evenodd"
       />
-      <path d="M24 40L24 135H32L32 40H24Z" fill={themeColor('illustrationSecondary')({ theme })} />
+      <path d="M24 40L24 135H32L32 40H24Z" fill={cssVar('color-background-accent-weak-active')} />
       <path
         d="M38 56L53 56L53 48L38 48L38 56Z"
-        fill={themeColor('illustrationSecondary')({ theme })}
+        fill={cssVar('color-background-accent-weak-active')}
       />
       <path
         d="M61 56L76 56L76 48L61 48L61 56Z"
-        fill={themeColor('illustrationSecondary')({ theme })}
+        fill={cssVar('color-background-accent-weak-active')}
       />
       <path
         clipRule="evenodd"
@@ -81,19 +77,19 @@ export function OverviewQGNotComputedIcon({ className }: Readonly<Props>) {
       <path
         clipRule="evenodd"
         d="M69.2432 103.219L78.7954 93.6672L74.5527 89.4245L60.7578 103.219L74.5527 117.014L78.7954 112.771L69.2432 103.219Z"
-        fill={themeColor('illustrationSecondary')({ theme })}
+        fill={cssVar('color-background-accent-weak-active')}
         fillRule="evenodd"
       />
       <path
         clipRule="evenodd"
         d="M108.906 103.219L99.3538 93.6672L103.596 89.4246L117.391 103.219L103.596 117.014L99.3538 112.771L108.906 103.219Z"
-        fill={themeColor('illustrationSecondary')({ theme })}
+        fill={cssVar('color-background-accent-weak-active')}
         fillRule="evenodd"
       />
       <path
         clipRule="evenodd"
         d="M81.7179 119.862L91.0929 84.2365L96.8953 85.7635L87.5203 121.388L81.7179 119.862Z"
-        fill={themeColor('illustrationSecondary')({ theme })}
+        fill={cssVar('color-background-accent-weak-active')}
         fillRule="evenodd"
       />
       <path

@@ -18,8 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
-import { themeColor } from '../../helpers/theme';
+import { cssVar } from '@sonarsource/echoes-react';
 import { CustomIcon, IconProps } from './Icon';
 
 /** @deprecated Use IconStatusConfirmed from Echoes instead, if possible.
@@ -28,9 +27,8 @@ import { CustomIcon, IconProps } from './Icon';
  * to replace all of the icons yet. There are situations where it is OK to ignore this deprecation
  * warning when revisiting old code, but all new code should use the icons from Echoes.
  */
-export function StatusConfirmedIcon({ fill = 'iconStatus', ...iconProps }: IconProps) {
-  const theme = useTheme();
-  const fillColor = themeColor(fill)({ theme });
+export function StatusConfirmedIcon({ fill, ...iconProps }: IconProps) {
+  const fillColor = fill ?? cssVar('color-icon-subtle');
 
   return (
     <CustomIcon {...iconProps}>

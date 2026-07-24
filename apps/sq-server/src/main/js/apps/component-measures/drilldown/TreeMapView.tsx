@@ -18,18 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Text } from '@sonarsource/echoes-react';
+import { cssVar, Text } from '@sonarsource/echoes-react';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import { isEmpty } from 'lodash';
 import * as React from 'react';
 import {
   CSSColor,
   QualifierIcon,
+  themeColor,
   ThemeColors,
   ThemeProp,
   TreeMap,
   TreeMapItem,
-  themeColor,
   withTheme,
 } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
@@ -118,7 +118,9 @@ export class TreeMapView extends React.PureComponent<Props, State> {
           key: getComponentMeasureUniqueKey(component) ?? '',
           color: isDefined(colorValue) ? (colorScale as Function)(colorValue) : undefined,
           gradient: !isDefined(colorValue) ? this.getNAGradient() : undefined,
-          icon: <QualifierIcon fill="pageContent" qualifier={component.qualifier} />,
+          icon: (
+            <QualifierIcon fill={cssVar('color-icon-default')} qualifier={component.qualifier} />
+          ),
           label: [component.name, component.branch].filter((s) => !!s).join(' / '),
           size: sizeValue,
           measureValue: colorValue,

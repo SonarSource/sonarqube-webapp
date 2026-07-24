@@ -133,11 +133,7 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
       <StyleMeasuresCard>
         <MeasuresCard
           failed={false}
-          icon={
-            <SnoozeCircleIcon
-              color={acceptedIssues === '0' ? 'overviewCardDefaultIcon' : 'overviewCardWarningIcon'}
-            />
-          }
+          icon={<SnoozeCircleIcon disabled={acceptedIssues === '0'} />}
           label="overview.accepted_issues"
           metric={MetricKey.accepted_issues}
           url={getComponentIssuesUrl(component.key, {

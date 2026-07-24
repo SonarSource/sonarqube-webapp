@@ -18,15 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
 import { cssVar } from '@sonarsource/echoes-react';
-import { themeColor } from '../../helpers';
 import { CustomIcon, IconProps } from './Icon';
 
 export function TrendUpCircleIcon(props: Readonly<IconProps>) {
-  const theme = useTheme();
-
-  const bgColor = themeColor('overviewCardErrorIcon')({ theme });
+  const bgColor = cssVar('color-background-danger-weak-default');
   const iconColor = cssVar('color-icon-danger');
 
   return (

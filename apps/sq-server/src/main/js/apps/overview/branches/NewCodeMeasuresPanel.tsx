@@ -205,13 +205,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
             header={intl.formatMessage({
               id: 'overview.accepted_issues',
             })}
-            icon={
-              <SnoozeCircleIcon
-                color={
-                  newAcceptedIssues === '0' ? 'overviewCardDefaultIcon' : 'overviewCardWarningIcon'
-                }
-              />
-            }
+            icon={<SnoozeCircleIcon disabled={newAcceptedIssues === '0'} />}
             metric={MetricKey.new_accepted_issues}
             url={getComponentIssuesUrl(component.key, {
               ...getBranchLikeQuery(branch),

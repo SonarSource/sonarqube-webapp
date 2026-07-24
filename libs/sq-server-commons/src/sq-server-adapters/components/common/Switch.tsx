@@ -75,7 +75,11 @@ function SwitchWithRef(props: Readonly<Props>, ref: ForwardedRef<HTMLButtonEleme
       type="button"
     >
       <CheckIconContainer active={value} disabled={disabled}>
-        {value && <CheckIcon fill="currentColor" />}
+        {value && (
+          <CheckIcon
+            fill={disabled ? cssVar('color-icon-disabled') : cssVar('color-icon-accent')}
+          />
+        )}
       </CheckIconContainer>
     </StyledSwitch>
   );
@@ -90,8 +94,6 @@ const CheckIconContainer = styled.div<StyledProps>`
   ${tw`sw-rounded-pill`}
   ${tw`sw-flex sw-items-center sw-justify-center`}
   ${tw`sw-w-200 sw-h-400`}
-  color: ${({ disabled }) =>
-    disabled ? cssVar('color-icon-disabled') : cssVar('color-icon-accent')};
   background: ${cssVar('color-surface-default')};
   border: none;
   box-shadow: ${cssVar('box-shadow-xsmall')};

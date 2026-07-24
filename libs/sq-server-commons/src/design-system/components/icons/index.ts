@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export { AddNewIcon } from './AddNewIcon';
 export { BranchIcon } from './BranchIcon';
 export { BugIcon } from './BugIcon';
 export { CalendarIcon } from './CalendarIcon';
@@ -78,11 +77,7 @@ export { SeverityInfoIcon } from './SeverityInfoIcon';
 export { SeverityMajorIcon } from './SeverityMajorIcon';
 export { SeverityMinorIcon } from './SeverityMinorIcon';
 export { SnoozeCircleIcon } from './SnoozeCircleIcon';
-export { SoftwareImpactSeverityBlockerIcon } from './SoftwareImpactSeverityBlockerIcon';
-export { SoftwareImpactSeverityHighIcon } from './SoftwareImpactSeverityHighIcon';
 export { SoftwareImpactSeverityInfoIcon } from './SoftwareImpactSeverityInfoIcon';
-export { SoftwareImpactSeverityLowIcon } from './SoftwareImpactSeverityLowIcon';
-export { SoftwareImpactSeverityMediumIcon } from './SoftwareImpactSeverityMediumIcon';
 export { SortAscendIcon } from './SortAscendIcon';
 export { SortDescendIcon } from './SortDescendIcon';
 export { StarFillIcon } from './StarFillIcon';

@@ -18,19 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
-import { themeColor, themeContrast } from '../../helpers/theme';
+import { cssVar } from '@sonarsource/echoes-react';
 import { CustomIcon, IconProps } from './Icon';
 
-export function SeverityMinorIcon({ fill = 'iconSeverityMinor', ...iconProps }: IconProps) {
-  const theme = useTheme();
-
+export function SeverityMinorIcon({ fill, ...iconProps }: IconProps) {
   return (
     <CustomIcon {...iconProps}>
-      <circle cx="8" cy="8" fill={themeColor(fill)({ theme })} r="7" />
+      <circle cx="8" cy="8" fill={fill ?? cssVar('color-icon-success')} r="7" />
       <path
         d="M5.23223 6.93223L8 9.7L10.7678 6.93223"
-        stroke={themeContrast(fill)({ theme })}
+        stroke={cssVar('color-icon-on-color')}
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.5"

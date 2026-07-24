@@ -18,8 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
-import { themeColor } from '../../helpers/theme';
+import { cssVar } from '@sonarsource/echoes-react';
 import { CustomIcon, IconProps } from './Icon';
 
 /** @deprecated Use IconHome with the isFilled prop from Echoes instead, if possible.
@@ -28,14 +27,12 @@ import { CustomIcon, IconProps } from './Icon';
  * to replace all of the icons yet. There are situations where it is OK to ignore this deprecation
  * warning when revisiting old code, but all new code should use the icons from Echoes.
  */
-export function HomeFillIcon({ fill = 'iconFavorite', ...iconProps }: IconProps) {
-  const theme = useTheme();
-  const fillColor = themeColor(fill)({ theme });
+export function HomeFillIcon({ fill, ...iconProps }: IconProps) {
   return (
     <CustomIcon {...iconProps}>
       <path
         d="M6.9995 0.280296C6.602 0.280296 6.21634 0.415622 5.906 0.664003L0.657 4.864C0.242 5.196 0 5.699 0 6.23V13.25C0 13.7141 0.184374 14.1593 0.512563 14.4874C0.840752 14.8156 1.28587 15 1.75 15H5.25C5.44891 15 5.63968 14.921 5.78033 14.7803C5.92098 14.6397 6 14.4489 6 14.25V9H8V14.25C8 14.4489 8.07902 14.6397 8.21967 14.7803C8.36032 14.921 8.55109 15 8.75 15H12.25C12.7141 15 13.1592 14.8156 13.4874 14.4874C13.8156 14.1593 14 13.7141 14 13.25V6.231C14 5.699 13.758 5.196 13.343 4.864L8.093 0.664003C7.78266 0.415622 7.397 0.280296 6.9995 0.280296Z"
-        fill={fillColor}
+        fill={fill ?? cssVar('color-background-favourite-default')}
       />
     </CustomIcon>
   );

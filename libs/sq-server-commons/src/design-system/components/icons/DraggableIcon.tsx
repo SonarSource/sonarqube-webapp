@@ -18,24 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { themeColor, themeContrast } from '../../helpers/theme';
 import { CustomIcon, IconProps } from './Icon';
 
-export function DraggableIcon({
-  fill = 'currentColor',
-  ...iconProps
-}: IconProps & { x: number; y: number }) {
-  const theme = useTheme();
-  const fillColor = themeColor(fill)({ theme });
-  const innerFillColor = themeContrast(fill)({ theme });
+export function DraggableIcon({ fill, ...iconProps }: IconProps & { x: number; y: number }) {
+  const fillColor = fill ?? 'currentColor';
 
   return (
     <StyledCustomIcon {...iconProps}>
       <circle cx="8" cy="8" fill={fillColor} r="8" />
-      <rect fill={innerFillColor} height="7" width="1" x="6" y="5" />
-      <rect fill={innerFillColor} height="7" width="1" x="9" y="5" />
+      <rect fill={fillColor} height="7" width="1" x="6" y="5" />
+      <rect fill={fillColor} height="7" width="1" x="9" y="5" />
     </StyledCustomIcon>
   );
 }

@@ -18,8 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
-import { themeColor } from '../../helpers/theme';
 import { CustomIcon, IconProps } from './Icon';
 
 /** @deprecated Use IconCollapse from Echoes instead, if possible.
@@ -28,14 +26,13 @@ import { CustomIcon, IconProps } from './Icon';
  * to replace all of the icons yet. There are situations where it is OK to ignore this deprecation
  * warning when revisiting old code, but all new code should use the icons from Echoes.
  */
-export function CollapseIcon({ fill = 'currentColor', ...iconProps }: Readonly<IconProps>) {
-  const theme = useTheme();
+export function CollapseIcon({ fill, ...iconProps }: Readonly<IconProps>) {
   return (
     <CustomIcon {...iconProps}>
       <path
         clipRule="evenodd"
         d="M2.82364 9h4.146a.25.25 0 0 1 .25.25v4.146a.2499.2499 0 0 1-.04199.1391.2503.2503 0 0 1-.11227.0923.24953.24953 0 0 1-.14463.0142.24976.24976 0 0 1-.12811-.0686l-1.543-1.543-2.98844 2.9884a.75009.75009 0 0 1-.52453.2012.75044.75044 0 0 1-.5171-.2196.75.75 0 0 1-.01837-1.0416L4.18964 10.97l-1.543-1.543a.24997.24997 0 0 1-.05439-.27273A.24995.24995 0 0 1 2.82364 9ZM13.396 7.24258H9.24996a.25.25 0 0 1-.25-.25v-4.146a.25.25 0 0 1 .427-.177l1.54304 1.543 3.0112-3.01129a.74997.74997 0 0 1 1.0416.01838.75042.75042 0 0 1 .2196.5171.75005.75005 0 0 1-.2012.52452L12.03 5.27258l1.543 1.543a.2505.2505 0 0 1 .0686.12811.25036.25036 0 0 1-.0142.14463.2503.2503 0 0 1-.0923.11227.2499.2499 0 0 1-.1391.04199Z"
-        fill={themeColor(fill)({ theme })}
+        fill={fill ?? 'currentColor'}
         fillRule="evenodd"
       />
     </CustomIcon>

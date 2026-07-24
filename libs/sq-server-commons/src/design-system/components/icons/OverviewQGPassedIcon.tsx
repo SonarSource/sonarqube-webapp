@@ -18,9 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
 import { cssVar } from '@sonarsource/echoes-react';
-import { themeColor } from '../../helpers';
 
 interface OverviewQGPassedIconProps {
   className?: string;
@@ -36,7 +34,6 @@ export function OverviewQGPassedIcon({
   height,
   width,
 }: Readonly<OverviewQGPassedIconProps>) {
-  const theme = useTheme();
   const actualWidth = width ?? DEFAULT_WIDTH;
   const actualHeight = height ?? DEFAULT_HEIGHT;
 
@@ -52,15 +49,15 @@ export function OverviewQGPassedIcon({
     >
       <path
         d="M18 26.3839L18 128.594H26L26 26.3839H18Z"
-        fill={themeColor('illustrationSecondary')({ theme })}
+        fill={cssVar('color-background-accent-weak-active')}
       />
       <path
         d="M32 43.5982L47 43.5982L47 34.9911L32 34.9911L32 43.5982Z"
-        fill={themeColor('illustrationSecondary')({ theme })}
+        fill={cssVar('color-background-accent-weak-active')}
       />
       <path
         d="M55 43.5982L70 43.5982L70 34.9911L55 34.9911L55 43.5982Z"
-        fill={themeColor('illustrationSecondary')({ theme })}
+        fill={cssVar('color-background-accent-weak-active')}
       />
       <path d="M15 52.2054L87 52.2054" stroke={cssVar('color-icon-subtle')} strokeWidth="6" />
       <path
@@ -70,17 +67,17 @@ export function OverviewQGPassedIcon({
       />
       <path
         d="M70.6736 103.733L59 91.1733L70.6736 78.614"
-        stroke={themeColor('illustrationSecondary')({ theme })}
+        stroke={cssVar('color-background-accent-weak-active')}
         strokeWidth="6"
       />
       <path
         d="M95.4744 78.614L107.148 91.1733L95.4744 103.733"
-        stroke={themeColor('illustrationSecondary')({ theme })}
+        stroke={cssVar('color-background-accent-weak-active')}
         strokeWidth="6"
       />
       <path
         d="M87.9937 71.5714L78.6187 109.9"
-        stroke={themeColor('illustrationSecondary')({ theme })}
+        stroke={cssVar('color-background-accent-weak-active')}
         strokeWidth="6"
       />
       <ellipse cx="22.5" cy="122.676" fill={cssVar('color-icon-accent')} rx="22.5" ry="22.5" />

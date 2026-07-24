@@ -18,8 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
-import { themeColor } from '../../helpers/theme';
+import { cssVar } from '@sonarsource/echoes-react';
 import { CustomIcon, IconProps } from './Icon';
 
 /** @deprecated Use IconCheckCircle from Echoes instead, if possible.
@@ -28,13 +27,12 @@ import { CustomIcon, IconProps } from './Icon';
  * to replace all of the icons yet. There are situations where it is OK to ignore this deprecation
  * warning when revisiting old code, but all new code should use the icons from Echoes.
  */
-export function FlagSuccessIcon({ fill = 'iconSuccess', ...iconProps }: IconProps) {
-  const theme = useTheme();
+export function FlagSuccessIcon({ fill, ...iconProps }: IconProps) {
   return (
     <CustomIcon {...iconProps}>
       <path
         d="M8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12Zm3.207-6.793a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l3.5-3.5Z"
-        style={{ fill: themeColor(fill)({ theme }) }}
+        style={{ fill: fill ?? cssVar('color-icon-success') }}
       />
     </CustomIcon>
   );

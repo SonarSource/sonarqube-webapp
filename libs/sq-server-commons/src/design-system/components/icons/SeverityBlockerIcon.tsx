@@ -18,17 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
-import { themeColor, themeContrast } from '../../helpers/theme';
+import { cssVar } from '@sonarsource/echoes-react';
 import { CustomIcon, IconProps } from './Icon';
 
-export function SeverityBlockerIcon({ fill = 'iconSeverityMajor', ...iconProps }: IconProps) {
-  const theme = useTheme();
-
+export function SeverityBlockerIcon({ fill, ...iconProps }: IconProps) {
   return (
     <CustomIcon {...iconProps}>
-      <circle cx="8" cy="8" fill={themeColor(fill)({ theme })} r="7" />
-      <rect fill={themeContrast(fill)({ theme })} height="1.5" rx="0.75" width="6" x="5" y="7.2" />
+      <circle
+        cx="8"
+        cy="8"
+        fill={fill ?? cssVar('severity-badge-colors-background-severity-blocker-prefix-default')}
+        r="7"
+      />
+      <rect fill={cssVar('color-icon-on-color')} height="1.5" rx="0.75" width="6" x="5" y="7.2" />
     </CustomIcon>
   );
 }

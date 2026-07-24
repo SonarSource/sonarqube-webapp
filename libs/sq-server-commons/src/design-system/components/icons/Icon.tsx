@@ -18,12 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
 import { OcticonProps } from '@primer/octicons-react';
 import React from 'react';
 import { theme } from 'twin.macro';
-import { themeColor } from '../../helpers/theme';
-import { CSSColor, ThemeColors } from '../../types/theme';
+import { CSSColor } from '../../types/theme';
 
 interface Props {
   'aria-hidden'?: boolean | 'true' | 'false';
@@ -49,7 +47,7 @@ interface Props {
  */
 export interface IconProps extends Omit<Props, 'children'> {
   ['data-guiding-id']?: string;
-  fill?: ThemeColors | CSSColor;
+  fill?: CSSColor;
   height?: number;
   transform?: string;
   viewBox?: string;
@@ -108,18 +106,9 @@ export function OcticonHoc(
   displayName?: string,
 ): React.ComponentType<React.PropsWithChildren<IconProps>> {
   function IconWrapper({ fill, ...props }: IconProps) {
-    const theme = useTheme();
-
     const size = props.width ?? props.height ?? 'small';
 
-    return (
-      <WrappedOcticon
-        fill={fill && themeColor(fill)({ theme })}
-        size={size}
-        verticalAlign="middle"
-        {...props}
-      />
-    );
+    return <WrappedOcticon fill={fill} size={size} verticalAlign="middle" {...props} />;
   }
 
   IconWrapper.displayName = displayName ?? WrappedOcticon.displayName ?? WrappedOcticon.name;

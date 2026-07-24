@@ -18,34 +18,46 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { CheckIcon, CloseIcon, Link } from '../../design-system';
-import { translate } from '../../helpers/l10n';
+import { IconCheck, IconX, Link } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 
 export default function OtherContextOption() {
   return (
     <>
-      <h2>{translate('coding_rules.context.others.title')}</h2>
-      <p>{translate('coding_rules.context.others.description.first')}</p>
-      <p>{translate('coding_rules.context.others.description.second')}</p>
+      <h2>
+        <FormattedMessage id="coding_rules.context.others.title" />
+      </h2>
+      <p>
+        <FormattedMessage id="coding_rules.context.others.description.first" />
+      </p>
+      <p>
+        <FormattedMessage id="coding_rules.context.others.description.second" />
+      </p>
       <p>
         <span className="sw-flex sw-items-center sw-ml-4">
-          <CheckIcon className="sw-mr-2" fill="iconSuccess" />
-          {translate('coding_rules.context.others.description.do')}
+          <IconCheck className="sw-mr-2" color="echoes-color-icon-success" />
+          <FormattedMessage id="coding_rules.context.others.description.do" />
         </span>
         <span className="sw-flex sw-items-center sw-ml-4">
-          <CloseIcon className="sw-mr-2" fill="iconError" />
-          {translate('coding_rules.context.others.description.dont')}
+          <IconX className="sw-mr-2" color="echoes-color-icon-danger" />
+          <FormattedMessage id="coding_rules.context.others.description.dont" />
         </span>
       </p>
-      <h2>{translate('coding_rules.context.others.title_feedback')}</h2>
-      <p>{translate('coding_rules.context.others.feedback_description_1')}</p>
+      <h2>
+        <FormattedMessage id="coding_rules.context.others.title_feedback" />
+      </h2>
+      <p>
+        <FormattedMessage id="coding_rules.context.others.feedback_description_1" />
+      </p>
       <Link
-        target="_blank"
+        enableOpenInNewTab
         to="https://portal.productboard.com/sonarsource/3-sonarqube/submit-idea"
       >
-        {translate('coding_rules.context.others.feedback_description.link')}
+        <FormattedMessage id="coding_rules.context.others.feedback_description.link" />
       </Link>
-      <p>{translate('coding_rules.context.others.feedback_description_2')}</p>
+      <p>
+        <FormattedMessage id="coding_rules.context.others.feedback_description_2" />
+      </p>
     </>
   );
 }

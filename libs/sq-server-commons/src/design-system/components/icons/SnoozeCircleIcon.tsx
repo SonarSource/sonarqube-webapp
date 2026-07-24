@@ -18,21 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
-import { themeColor, themeContrast } from '../../helpers';
-import { ThemeColors } from '../../types';
+import { cssVar } from '@sonarsource/echoes-react';
 import { CustomIcon, IconProps } from './Icon';
 
 interface SnoozeCircleIconProps extends IconProps {
-  color?: ThemeColors;
+  disabled: boolean;
 }
 
 export function SnoozeCircleIcon(props: Readonly<SnoozeCircleIconProps>) {
-  const { color = 'overviewCardWarningIcon', ...rest } = props;
-  const theme = useTheme();
+  const { disabled, ...rest } = props;
 
-  const bgColor = themeColor(color)({ theme });
-  const iconColor = themeContrast(color)({ theme });
+  const bgColor = disabled
+    ? cssVar('color-surface-disabled')
+    : cssVar('color-background-warning-weak-default');
+  const iconColor = disabled ? cssVar('color-icon-default') : cssVar('color-icon-warning');
 
   return (
     <CustomIcon height="36" viewBox="0 0 36 36" width="36" {...rest}>

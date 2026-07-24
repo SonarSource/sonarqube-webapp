@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { IconSeverityHigh, IconSeverityLow, IconSeverityMedium } from '@sonarsource/echoes-react';
 import { HotspotRatingEnum, HotspotRatingLabel } from '../types/measures';
-import { SeverityCriticalIcon, SeverityMajorIcon, SeverityMinorIcon } from './icons';
 
 interface Props extends React.AriaAttributes {
   className?: string;
@@ -39,13 +39,25 @@ export function HotspotRating({ className, rating = HotspotRatingEnum.LOW, ...re
 }
 
 function HotspotRatingHigh(props: Props) {
-  return <SeverityCriticalIcon {...props} fill="rating.E" />;
+  return (
+    <IconSeverityHigh
+      {...props}
+      color="echoes-severity-badge-colors-foreground-high-icon-default"
+    />
+  );
 }
 
 function HotspotRatingMedium(props: Props) {
-  return <SeverityMajorIcon {...props} fill="rating.D" />;
+  return (
+    <IconSeverityMedium
+      {...props}
+      color="echoes-severity-badge-colors-foreground-medium-icon-default"
+    />
+  );
 }
 
 function HotspotRatingLow(props: Props) {
-  return <SeverityMinorIcon {...props} fill="rating.C" />;
+  return (
+    <IconSeverityLow {...props} color="echoes-severity-badge-colors-foreground-low-icon-default" />
+  );
 }

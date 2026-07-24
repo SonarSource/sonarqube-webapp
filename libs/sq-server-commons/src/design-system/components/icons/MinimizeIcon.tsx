@@ -18,8 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
-import { themeColor } from '../../helpers/theme';
 import { CustomIcon, IconProps } from './Icon';
 
 /** @deprecated Use IconDash from Echoes instead, if possible.
@@ -28,11 +26,10 @@ import { CustomIcon, IconProps } from './Icon';
  * to replace all of the icons yet. There are situations where it is OK to ignore this deprecation
  * warning when revisiting old code, but all new code should use the icons from Echoes.
  */
-export function MinimizeIcon({ fill = 'currentColor', ...iconProps }: Readonly<IconProps>) {
-  const theme = useTheme();
+export function MinimizeIcon({ fill, ...iconProps }: Readonly<IconProps>) {
   return (
     <CustomIcon {...iconProps}>
-      <rect fill={themeColor(fill)({ theme })} height="2" rx="1" width="12" x="2" y="11" />
+      <rect fill={fill ?? 'currentColor'} height="2" rx="1" width="12" x="2" y="11" />
     </CustomIcon>
   );
 }

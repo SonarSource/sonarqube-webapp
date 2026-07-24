@@ -18,8 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
-import { themeColor } from '../../helpers/theme';
+import { cssVar } from '@sonarsource/echoes-react';
 import { CustomIcon, IconProps } from './Icon';
 
 /** @deprecated Use IconError from Echoes instead, if possible.
@@ -28,13 +27,12 @@ import { CustomIcon, IconProps } from './Icon';
  * to replace all of the icons yet. There are situations where it is OK to ignore this deprecation
  * warning when revisiting old code, but all new code should use the icons from Echoes.
  */
-export function FlagErrorIcon({ fill = 'iconError', ...iconProps }: IconProps) {
-  const theme = useTheme();
+export function FlagErrorIcon({ fill, ...iconProps }: IconProps) {
   return (
     <CustomIcon {...iconProps}>
       <path
         d="M7.364 1.707a1 1 0 0 1 1.414 0l5.657 5.657a1 1 0 0 1 0 1.414l-5.657 5.657a1 1 0 0 1-1.414 0L1.707 8.778a1 1 0 0 1 0-1.414l5.657-5.657ZM7 5a1 1 0 0 1 2 0v3a1 1 0 1 1-2 0V5Zm1 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z"
-        style={{ fill: themeColor(fill)({ theme }) }}
+        style={{ fill: fill ?? cssVar('color-icon-danger') }}
       />
     </CustomIcon>
   );

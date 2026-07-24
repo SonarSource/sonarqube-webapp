@@ -18,14 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { keyframes, useTheme } from '@emotion/react';
+import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import { themeColor } from '../../helpers/theme';
 
 export function InProgressVisual() {
-  const theme = useTheme();
-
   return (
     <svg className="svg-animated" height="168" width="168" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -38,7 +35,7 @@ export function InProgressVisual() {
       />
       <path
         d="M19 57.15v95h8v-95h-8ZM33 73.15h15v-8H33v8ZM56 73.15h15v-8H56v8Z"
-        fill={themeColor('illustrationSecondary')({ theme })}
+        fill={cssVar('color-background-accent-weak-active')}
       />
       <path
         clipRule="evenodd"
@@ -49,7 +46,7 @@ export function InProgressVisual() {
       <path
         clipRule="evenodd"
         d="M91 112.15H66v-6h25v6ZM62.09 129.5 48.6 142.54l-8.72-8.61 4.22-4.27 4.55 4.49 9.25-8.97 4.18 4.32ZM62.09 105.31 48.6 118.35l-8.72-8.6 4.22-4.28 4.55 4.5L57.9 101l4.18 4.31ZM91 137.34H66v-6h25v6Z"
-        fill={themeColor('illustrationSecondary')({ theme })}
+        fill={cssVar('color-background-accent-weak-active')}
         fillRule="evenodd"
       />
       <Wheel>
@@ -70,7 +67,7 @@ export function InProgressVisual() {
         <path
           clipRule="evenodd"
           d="m105.3 54.74 4.74-2.74 1.93 3.34a18.95 18.95 0 0 1 14.2.06l1.97-3.4 4.74 2.74-1.98 3.44A18.98 18.98 0 0 1 137.76 70H142v6h-4.24a18.98 18.98 0 0 1-6.98 11.91l2.1 3.65-4.74 2.74-2.1-3.64a18.95 18.95 0 0 1-13.93.05l-2.07 3.6-4.74-2.75 2.05-3.55A18.98 18.98 0 0 1 100.24 76H96v-6h4.24a18.98 18.98 0 0 1 6.99-11.91l-1.93-3.35ZM119 86a13 13 0 1 0 0-26 13 13 0 0 0 0 26Z"
-          fill={themeColor('illustrationSecondary')({ theme })}
+          fill={cssVar('color-background-accent-weak-active')}
           fillRule="evenodd"
         />
       </WheelInverted>

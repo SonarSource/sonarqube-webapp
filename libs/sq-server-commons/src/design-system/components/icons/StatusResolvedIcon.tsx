@@ -18,9 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
 import { cssVar } from '@sonarsource/echoes-react';
-import { themeColor } from '../../helpers/theme';
 import { CustomIcon, IconProps } from './Icon';
 
 /** @deprecated Use IconStatusResolved from Echoes instead, if possible.
@@ -33,11 +31,9 @@ export function StatusResolvedIcon({
   fill = cssVar('color-icon-subtle'),
   ...iconProps
 }: IconProps) {
-  const theme = useTheme();
-
   return (
     <CustomIcon {...iconProps}>
-      <circle cx="8" cy="8" fill={themeColor(fill)({ theme })} r="7" />
+      <circle cx="8" cy="8" fill={fill} r="7" />
       <path
         clipRule="evenodd"
         d="M11.3105 6.22789c.2884.29737.2811.77219-.0163 1.06054L8.27211 10.25c-.29414.2852-.76273.2816-1.05244-.0081l-2-1.99999c-.29289-.2929-.29289-.76777 0-1.06066.29289-.2929.76777-.2929 1.06066 0L7.7581 8.65901 10.25 6.21158c.2974-.28835.7722-.28105 1.0605.01631Z"
