@@ -52,9 +52,7 @@ export function isApplication(
 export function isView(
   componentQualifier?: string | ComponentQualifier,
 ): componentQualifier is
-  | ComponentQualifier.Application
-  | ComponentQualifier.Portfolio
-  | ComponentQualifier.SubPortfolio {
+  ComponentQualifier.Application | ComponentQualifier.Portfolio | ComponentQualifier.SubPortfolio {
   return isPortfolioLike(componentQualifier) || isApplication(componentQualifier);
 }
 

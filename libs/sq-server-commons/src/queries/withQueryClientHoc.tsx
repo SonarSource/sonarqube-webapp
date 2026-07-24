@@ -23,8 +23,7 @@ import { ComponentClass, FC } from 'react';
 
 export function withQueryClient<P>(
   Component:
-    | ComponentClass<P & { queryClient: QueryClient }>
-    | FC<P & { queryClient: QueryClient }>,
+    ComponentClass<P & { queryClient: QueryClient }> | FC<P & { queryClient: QueryClient }>,
 ): FC<Omit<P, 'queryClient'>> {
   return function WithQueryClient(props: P) {
     const queryClient = useQueryClient();

@@ -55,9 +55,9 @@ jest.mock('~sq-server-commons/api/alm-settings', () => {
       .fn()
       .mockResolvedValue(
         jest
-          .requireActual<
-            typeof import('~sq-server-commons/helpers/mocks/alm-settings')
-          >('~sq-server-commons/helpers/mocks/alm-settings')
+          .requireActual<typeof import('~sq-server-commons/helpers/mocks/alm-settings')>(
+            '~sq-server-commons/helpers/mocks/alm-settings',
+          )
           .mockProjectAlmBindingConfigurationErrors(),
       ),
   };

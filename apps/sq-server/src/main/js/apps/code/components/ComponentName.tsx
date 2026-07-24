@@ -130,9 +130,7 @@ export default function ComponentName({
 
 type AIBadgeWithTooltipProps = {
   componentQualifier:
-    | ComponentQualifier.Application
-    | ComponentQualifier.Project
-    | ComponentQualifier.SubPortfolio;
+    ComponentQualifier.Application | ComponentQualifier.Project | ComponentQualifier.SubPortfolio;
 };
 
 function AIBadgeWithTooltip({ componentQualifier }: Readonly<AIBadgeWithTooltipProps>) {
@@ -269,9 +267,7 @@ function renderName(component: ComponentMeasure, previous: ComponentMeasure | un
 
 function showAiBadge(component: ComponentMeasure): component is ComponentMeasure & {
   qualifier:
-    | ComponentQualifier.Application
-    | ComponentQualifier.Project
-    | ComponentQualifier.SubPortfolio;
+    ComponentQualifier.Application | ComponentQualifier.Project | ComponentQualifier.SubPortfolio;
 } {
   if (!containsAICode(component)) {
     return false;

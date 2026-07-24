@@ -42,10 +42,7 @@ interface Props {
 }
 
 export type AuthenticationTabs =
-  | typeof SAML
-  | AlmKeys.GitHub
-  | AlmKeys.GitLab
-  | AlmKeys.BitbucketServer;
+  typeof SAML | AlmKeys.GitHub | AlmKeys.GitLab | AlmKeys.BitbucketServer;
 
 function renderDevOpsIcon(key: string) {
   return <Image alt={key} className="sw-mr-2" height={16} src={`/images/alm/${key}.svg`} />;

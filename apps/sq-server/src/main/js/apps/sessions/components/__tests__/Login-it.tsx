@@ -30,13 +30,10 @@ import LoginContainer from '../LoginContainer';
 
 const mockUseLocation = jest.fn();
 
-jest.mock(
-  '~shared/components/hoc/withRouter',
-  (): Record<string, unknown> => ({
-    ...(jest.requireActual('~shared/components/hoc/withRouter') as Record<string, unknown>),
-    useLocation: (): unknown => mockUseLocation(),
-  }),
-);
+jest.mock('~shared/components/hoc/withRouter', (): Record<string, unknown> => ({
+  ...(jest.requireActual('~shared/components/hoc/withRouter') as Record<string, unknown>),
+  useLocation: (): unknown => mockUseLocation(),
+}));
 
 jest.mock('~sq-server-commons/helpers/system', () => ({
   getBaseUrl: jest.fn().mockReturnValue(''),

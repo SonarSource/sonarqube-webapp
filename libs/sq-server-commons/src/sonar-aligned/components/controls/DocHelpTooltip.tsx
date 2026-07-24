@@ -37,8 +37,7 @@ export interface DocHelpTooltipProps {
   linkTextLabel?: string;
   links?: Array<
     { inPlace?: boolean; label?: string } & (
-      | { doc?: true; href: DocLink }
-      | { doc: false; href: string }
+      { doc?: true; href: DocLink } | { doc: false; href: string }
     )
   >;
   placement?: Placement;

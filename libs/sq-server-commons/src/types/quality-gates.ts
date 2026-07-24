@@ -116,9 +116,9 @@ export function isUser(item: UserBase | Group): item is UserBase {
 }
 
 export enum QGBadgeType {
-  'Missing' = 'missing',
-  'Weak' = 'weak',
-  'Ok' = 'ok',
+  Missing = 'missing',
+  Weak = 'weak',
+  Ok = 'ok',
 }
 
 export enum BadgeTarget {

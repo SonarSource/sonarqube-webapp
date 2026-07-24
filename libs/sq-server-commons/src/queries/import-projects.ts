@@ -38,22 +38,21 @@ export type MutationArg<AlmImport extends ImportProjectParam = ImportProjectPara
     projects: (infer R)[];
   }
     ? { almSetting: string; creationMode: A; monorepo: false } & R
-    :
-        | {
-            creationMode: CreateProjectModes.Manual;
-            mainBranch: string;
-            monorepo: false;
-            name: string;
-            project: string;
-          }
-        | {
-            creationMode: CreateProjectModes;
-            devOpsPlatformSettingId: string;
-            monorepo: true;
-            projectKey: string;
-            projectName: string;
-            repositoryIdentifier: string;
-          };
+    : | {
+          creationMode: CreateProjectModes.Manual;
+          mainBranch: string;
+          monorepo: false;
+          name: string;
+          project: string;
+        }
+      | {
+          creationMode: CreateProjectModes;
+          devOpsPlatformSettingId: string;
+          monorepo: true;
+          projectKey: string;
+          projectName: string;
+          repositoryIdentifier: string;
+        };
 
 export function useImportProjectMutation() {
   return useMutation({

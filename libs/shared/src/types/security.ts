@@ -40,11 +40,7 @@ export enum SecurityStandard {
 
 /** Query param names for compliance standards (SecurityStandard + CWE year-specific keys used in the registry) */
 export type StandardQueryProp =
-  | SecurityStandard
-  | 'cwe-2024'
-  | 'cwe-2023'
-  | 'cwe-2022'
-  | 'cwe-2021';
+  SecurityStandard | 'cwe-2024' | 'cwe-2023' | 'cwe-2022' | 'cwe-2021';
 
 export enum StandardsInformationKey {
   CASA = 'casa',

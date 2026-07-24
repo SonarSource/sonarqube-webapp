@@ -57,9 +57,9 @@ jest.mock('~sq-server-commons/components/shared/ComponentMissingMqrMetricsMessag
 jest.mock('~adapters/queries/branch', () => ({
   useCurrentBranchQuery: jest.fn().mockReturnValue({
     data: jest
-      .requireActual<
-        typeof import('../../../../helpers/mocks/branch-like')
-      >('../../../../helpers/mocks/branch-like')
+      .requireActual<typeof import('../../../../helpers/mocks/branch-like')>(
+        '../../../../helpers/mocks/branch-like',
+      )
       .mockMainBranch({ analysisDate: '2021-01-01' }),
   }),
 }));

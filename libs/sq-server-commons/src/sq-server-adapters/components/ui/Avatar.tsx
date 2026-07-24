@@ -24,10 +24,7 @@ import { Avatar as BaseAvatar } from '../../../design-system';
 import { GlobalSettingKeys } from '../../../types/settings';
 
 type ExcludedProps =
-  | 'enableGravatar'
-  | 'gravatarServerUrl'
-  | 'organizationAvatar'
-  | 'organizationName';
+  'enableGravatar' | 'gravatarServerUrl' | 'organizationAvatar' | 'organizationName';
 
 type Props = Omit<ComponentProps<typeof BaseAvatar>, ExcludedProps> & {
   /**

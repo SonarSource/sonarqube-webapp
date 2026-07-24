@@ -45,8 +45,7 @@ import { getModeForMetric } from '../../helpers/quality-gates';
 import { Mode } from '../../types/mode';
 
 type FormatterOption =
-  | { roundingFunc?: (x: number) => number }
-  | { decimals?: number; omitExtraDecimalZeros?: boolean };
+  { roundingFunc?: (x: number) => number } | { decimals?: number; omitExtraDecimalZeros?: boolean };
 
 type Formatter = (value: string | number, options?: FormatterOption) => string;
 /**

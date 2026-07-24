@@ -76,9 +76,7 @@ export interface CurrentUserSetting {
 }
 
 export type CurrentUserSettingNames =
-  | 'notifications.optOut'
-  | 'notifications.readDate'
-  | 'tutorials.jenkins.skipBitbucketPreReqs';
+  'notifications.optOut' | 'notifications.readDate' | 'tutorials.jenkins.skipBitbucketPreReqs';
 
 export type UserActive = UserBase & UserActiveShared;
 

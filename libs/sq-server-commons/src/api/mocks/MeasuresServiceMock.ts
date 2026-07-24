@@ -46,8 +46,7 @@ export class MeasuresServiceMock {
   constructor(options?: { components?: ComponentTree; measures?: MeasureRecords; period?: Period });
   constructor(
     arg1?:
-      | ComponentTree
-      | { components?: ComponentTree; measures?: MeasureRecords; period?: Period },
+      ComponentTree | { components?: ComponentTree; measures?: MeasureRecords; period?: Period },
     arg2?: MeasureRecords,
     arg3?: Period,
   ) {

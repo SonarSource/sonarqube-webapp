@@ -49,19 +49,16 @@ export function filterPlugins(plugins: Plugin[], search?: string): Plugin[] {
 }
 
 export const DEFAULT_FILTER = 'all';
-export const parseQuery = memoize(
-  (urlQuery: RawQuery): Query => ({
-    filter: parseAsString(urlQuery.filter) || DEFAULT_FILTER,
-    search: parseAsString(urlQuery.search),
-  }),
-);
+export const parseQuery = memoize((urlQuery: RawQuery): Query => ({
+  filter: parseAsString(urlQuery.filter) || DEFAULT_FILTER,
+  search: parseAsString(urlQuery.search),
+}));
 
-export const serializeQuery = memoize(
-  (query: Query): RawQuery =>
-    cleanQuery({
-      filter: query.filter === DEFAULT_FILTER ? undefined : serializeString(query.filter),
-      search: query.search ? serializeString(query.search) : undefined,
-    }),
+export const serializeQuery = memoize((query: Query): RawQuery =>
+  cleanQuery({
+    filter: query.filter === DEFAULT_FILTER ? undefined : serializeString(query.filter),
+    search: query.search ? serializeString(query.search) : undefined,
+  }),
 );
 
 function getLastUpdates(updates: undefined | Update[]): Update[] {

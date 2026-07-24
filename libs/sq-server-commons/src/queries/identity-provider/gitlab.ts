@@ -189,9 +189,7 @@ export const useGitLabSyncStatusQuery = createQueryHook(() => {
           ? lastSync.warnings?.join(', ')
           : undefined,
       status: lastSync?.status as
-        | TaskStatuses.Success
-        | TaskStatuses.Failed
-        | TaskStatuses.Canceled,
+        TaskStatuses.Success | TaskStatuses.Failed | TaskStatuses.Canceled,
       ...(lastSync.status === TaskStatuses.Success ? { summary } : {}),
       ...(lastSync.status !== TaskStatuses.Success ? { errorMessage } : {}),
     };
