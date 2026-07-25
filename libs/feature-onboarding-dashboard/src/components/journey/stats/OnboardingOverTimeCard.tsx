@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { cssVar, Text, TextSize } from '@sonarsource/echoes-react';
+import { Card, cssVar, Text, TextSize } from '@sonarsource/echoes-react';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { line as d3Line } from 'd3-shape';
 import { useRef, useState } from 'react';
@@ -30,56 +30,115 @@ import { OnboardingMomentum } from '~shared/types/onboarding';
 const MIN_HEIGHT = 200;
 const MARGIN = { top: 16, right: 16, bottom: 28, left: 40 };
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
-const TOOLTIP_WIDTH = 180;
+const TOOLTIP_WIDTH = 200;
+const X_TICK_COUNT = 5;
+const Y_TICK_COUNT = 5;
 
-const COLOR_ONBOARDED = cssVar('color-background-success-default');
+const COLOR_PLATFORMS = cssVar('color-background-success-default');
 const COLOR_IMPORTED = cssVar('color-background-info-default');
-const COLOR_TOTAL = cssVar('color-background-neutral-bolder-default');
 const COLOR_AXIS = cssVar('color-border-weak');
 const COLOR_CURSOR = cssVar('color-border-bold');
 const COLOR_LABEL = cssVar('color-text-subtle');
 const COLOR_SURFACE = cssVar('color-surface-default');
-
-const LEGEND_ITEMS = [
-  { color: COLOR_TOTAL, labelId: 'onboarding_dashboard.momentum.legend.total' },
-  { color: COLOR_IMPORTED, labelId: 'onboarding_dashboard.momentum.legend.imported' },
-  { color: COLOR_ONBOARDED, labelId: 'onboarding_dashboard.momentum.legend.onboarded' },
-];
+const FONT_SIZE_AXIS_LABEL = cssVar('font-size-10');
 
 interface Point {
   x: Date;
   y: number;
 }
 
-interface Props {
-  momentum: OnboardingMomentum;
+interface Series {
+  color: string;
+  labelId: string;
+  points: Point[];
 }
 
-export function MomentumChart({ momentum }: Readonly<Props>) {
+interface Props {
+  momentum: OnboardingMomentum;
+  showImportedSeries: boolean;
+}
+
+/**
+ * "Onboarding over time" card: the weekly onboarding history as a line chart. The legend — and the
+ * plotted series — grow with the journey level: the platforms-bound series is always shown, the
+ * repositories-imported series only once at least one repository has been imported.
+ */
+export function OnboardingOverTimeCard({ momentum, showImportedSeries }: Readonly<Props>) {
+  const { formatMessage } = useIntl();
+
+  return (
+    <Card className="sw-flex sw-h-full sw-flex-col">
+      <Card.Header
+        description={formatMessage({ id: 'onboarding_dashboard.journey.overtime.description' })}
+        title={formatMessage({ id: 'onboarding_dashboard.journey.overtime.title' })}
+      />
+      <Card.Body className="sw-flex sw-min-h-0 sw-grow sw-flex-col">
+        <OverTimeChart momentum={momentum} showImportedSeries={showImportedSeries} />
+      </Card.Body>
+    </Card>
+  );
+}
+
+/**
+ * Builds the plotted series from the weekly history. Every series shares the same x values, so the
+ * first one doubles as the x-axis reference.
+ *
+ * ⚠️ ASSUMPTION: the overview exposes no per-week platform-binding history, so the
+ * "Platforms bound" series is approximated by the cumulative onboarded count. Revisit once the
+ * backend exposes a dedicated series.
+ */
+function buildSeries(
+  weeks: OnboardingMomentum['weeklyHistory'],
+  showImportedSeries: boolean,
+): Series[] {
+  const series: Series[] = [
+    {
+      color: COLOR_PLATFORMS,
+      labelId: 'onboarding_dashboard.journey.overtime.legend.platforms_bound',
+      points: weeks.map((week) => ({ x: new Date(week.weekStart), y: week.cumulativeOnboarded })),
+    },
+  ];
+
+  if (showImportedSeries) {
+    series.push({
+      color: COLOR_IMPORTED,
+      labelId: 'onboarding_dashboard.journey.overtime.legend.repositories_imported',
+      points: weeks.map((week) => ({ x: new Date(week.weekStart), y: week.cumulativeImported })),
+    });
+  }
+
+  return series;
+}
+
+interface ChartProps {
+  momentum: OnboardingMomentum;
+  showImportedSeries: boolean;
+}
+
+function OverTimeChart({ momentum, showImportedSeries }: Readonly<ChartProps>) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, height] = useResizeObserver(containerRef);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
-  const points = [...momentum.weeklyHistory].sort((a, b) => a.weekStart - b.weekStart);
-  const hasData = points.length > 0;
+  const weeks = [...momentum.weeklyHistory].sort((a, b) => a.weekStart - b.weekStart);
+  const series = buildSeries(weeks, showImportedSeries);
   const chartHeight = Math.max(height ?? 0, MIN_HEIGHT);
-  const canRender = width !== undefined && width > 0 && hasData;
+  const canRender = width !== undefined && width > 0 && weeks.length > 0;
 
   return (
     <div className="sw-flex sw-h-full sw-flex-col sw-gap-4">
       <div className="sw-relative sw-min-h-0 sw-w-full sw-min-w-0 sw-grow" ref={containerRef}>
         {canRender && (
-          <MomentumGraph
+          <OverTimeGraph
             height={chartHeight}
             hoverIndex={hoverIndex}
-            momentum={momentum}
-            points={points}
+            series={series}
             setHoverIndex={setHoverIndex}
             width={width}
           />
         )}
       </div>
-      <MomentumLegend />
+      <OverTimeLegend series={series} />
     </div>
   );
 }
@@ -87,33 +146,21 @@ export function MomentumChart({ momentum }: Readonly<Props>) {
 interface GraphProps {
   height: number;
   hoverIndex: number | null;
-  momentum: OnboardingMomentum;
-  points: OnboardingMomentum['weeklyHistory'];
+  series: Series[];
   setHoverIndex: (index: number | null) => void;
   width: number;
 }
 
-function MomentumGraph({
-  height,
-  hoverIndex,
-  momentum,
-  points,
-  setHoverIndex,
-  width,
-}: Readonly<GraphProps>) {
+function OverTimeGraph({ height, hoverIndex, series, setHoverIndex, width }: Readonly<GraphProps>) {
   const { formatDate, formatMessage } = useIntl();
 
-  const minX = points.at(0)?.weekStart ?? 0;
-  const lastX = points.at(-1)?.weekStart ?? 0;
+  // Every series shares the same weekly x values.
+  const xValues = series[0].points.map((point) => point.x);
+  const timestamps = xValues.map((date) => date.getTime());
+  const minX = Math.min(...timestamps);
+  const lastX = Math.max(...timestamps);
   const maxX = lastX === minX ? minX + WEEK_MS : lastX;
-
-  const totalRepos = momentum.totalRepos ?? 0;
-  const yMax = Math.max(
-    totalRepos,
-    ...points.map((p) => p.cumulativeImported),
-    ...points.map((p) => p.cumulativeOnboarded),
-    1,
-  );
+  const yMax = Math.max(...series.flatMap((s) => s.points.map((point) => point.y)), 1);
 
   const xScale = scaleTime()
     .domain([new Date(minX), new Date(maxX)])
@@ -123,30 +170,18 @@ function MomentumGraph({
     .nice()
     .range([height - MARGIN.bottom, MARGIN.top]);
 
-  const onboardedData: Point[] = points.map((p) => ({
-    x: new Date(p.weekStart),
-    y: p.cumulativeOnboarded,
-  }));
-  const importedData: Point[] = points.map((p) => ({
-    x: new Date(p.weekStart),
-    y: p.cumulativeImported,
-  }));
-
   const lineGen = d3Line<Point>()
-    .x((d) => xScale(d.x))
-    .y((d) => yScale(d.y));
+    .x((point) => xScale(point.x))
+    .y((point) => yScale(point.y));
 
-  const totalY = yScale(totalRepos);
-  const xTicks = xScale.ticks(Math.min(5, Math.max(points.length, 2)));
-  const yTicks = yScale.ticks(5);
-  const pointX = points.map((p) => xScale(new Date(p.weekStart)));
+  const xTicks = xScale.ticks(X_TICK_COUNT);
+  const yTicks = yScale.ticks(Y_TICK_COUNT);
+  const pointX = xValues.map((date) => xScale(date));
 
-  const handleMove = (event: React.MouseEvent<SVGRectElement>) => {
-    const svg = event.currentTarget.ownerSVGElement;
-    if (svg === null) {
-      return;
-    }
-    const x = event.clientX - svg.getBoundingClientRect().left;
+  // Hover is captured on the whole plot rather than on an overlay rectangle, so that the chart
+  // stays reachable as a single labelled graphic.
+  const handleMove = (event: React.MouseEvent<SVGSVGElement>) => {
+    const x = event.clientX - event.currentTarget.getBoundingClientRect().left;
     let nearest = 0;
     let best = Infinity;
     pointX.forEach((px, index) => {
@@ -159,13 +194,17 @@ function MomentumGraph({
     setHoverIndex(nearest);
   };
 
-  const hovered = isDefined(hoverIndex) ? points[hoverIndex] : undefined;
+  const hoveredDate = isDefined(hoverIndex) ? xValues[hoverIndex] : undefined;
 
   return (
     <>
       <svg
-        aria-label={formatMessage({ id: 'onboarding_dashboard.momentum.title' })}
+        aria-label={formatMessage({ id: 'onboarding_dashboard.journey.overtime.title' })}
         height={height}
+        onMouseLeave={() => {
+          setHoverIndex(null);
+        }}
+        onMouseMove={handleMove}
         role="img"
         width={width}
       >
@@ -182,7 +221,7 @@ function MomentumGraph({
             <text
               dominantBaseline="middle"
               fill={COLOR_LABEL}
-              fontSize={10}
+              fontSize={FONT_SIZE_AXIS_LABEL}
               textAnchor="end"
               x={MARGIN.left - 6}
               y={yScale(tick)}
@@ -196,7 +235,7 @@ function MomentumGraph({
         {xTicks.map((tick) => (
           <text
             fill={COLOR_LABEL}
-            fontSize={10}
+            fontSize={FONT_SIZE_AXIS_LABEL}
             key={`x-${tick.getTime()}`}
             textAnchor="middle"
             x={xScale(tick)}
@@ -206,96 +245,50 @@ function MomentumGraph({
           </text>
         ))}
 
-        {/* Total repositories reference line (flat, dashed) */}
-        {momentum.totalRepos !== null && (
-          <line
-            stroke={COLOR_TOTAL}
-            strokeDasharray="4 4"
-            x1={MARGIN.left}
-            x2={width - MARGIN.right}
-            y1={totalY}
-            y2={totalY}
-          />
-        )}
-
-        {/* Imported series */}
-        <path
-          d={lineGen(importedData) ?? undefined}
-          fill="none"
-          stroke={COLOR_IMPORTED}
-          strokeWidth={2}
-        />
-        {importedData.map((d) => (
-          <circle
-            cx={xScale(d.x)}
-            cy={yScale(d.y)}
-            fill={COLOR_IMPORTED}
-            key={`i-${d.x.getTime()}`}
-            r={2.5}
-          />
-        ))}
-
-        {/* Onboarded series */}
-        <path
-          d={lineGen(onboardedData) ?? undefined}
-          fill="none"
-          stroke={COLOR_ONBOARDED}
-          strokeWidth={2}
-        />
-        {onboardedData.map((d) => (
-          <circle
-            cx={xScale(d.x)}
-            cy={yScale(d.y)}
-            fill={COLOR_ONBOARDED}
-            key={`o-${d.x.getTime()}`}
-            r={2.5}
-          />
+        {series.map((s) => (
+          <g key={s.labelId}>
+            <path d={lineGen(s.points) ?? undefined} fill="none" stroke={s.color} strokeWidth={2} />
+            {s.points.map((point) => (
+              <circle
+                cx={xScale(point.x)}
+                cy={yScale(point.y)}
+                fill={s.color}
+                key={point.x.getTime()}
+                r={2.5}
+              />
+            ))}
+          </g>
         ))}
 
         {/* Hover cursor line + emphasized points */}
-        {hovered !== undefined && (
+        {hoveredDate !== undefined && isDefined(hoverIndex) && (
           <g>
             <line
               stroke={COLOR_CURSOR}
-              x1={xScale(new Date(hovered.weekStart))}
-              x2={xScale(new Date(hovered.weekStart))}
+              x1={xScale(hoveredDate)}
+              x2={xScale(hoveredDate)}
               y1={MARGIN.top}
               y2={height - MARGIN.bottom}
             />
-            <circle
-              cx={xScale(new Date(hovered.weekStart))}
-              cy={yScale(hovered.cumulativeImported)}
-              fill={COLOR_IMPORTED}
-              r={4}
-            />
-            <circle
-              cx={xScale(new Date(hovered.weekStart))}
-              cy={yScale(hovered.cumulativeOnboarded)}
-              fill={COLOR_ONBOARDED}
-              r={4}
-            />
+            {series.map((s) => (
+              <circle
+                cx={xScale(hoveredDate)}
+                cy={yScale(s.points[hoverIndex].y)}
+                fill={s.color}
+                key={s.labelId}
+                r={4}
+              />
+            ))}
           </g>
         )}
-
-        {/* Transparent overlay capturing hover */}
-        <rect
-          fill="transparent"
-          height={Math.max(0, height - MARGIN.top - MARGIN.bottom)}
-          onMouseLeave={() => {
-            setHoverIndex(null);
-          }}
-          onMouseMove={handleMove}
-          width={Math.max(0, width - MARGIN.left - MARGIN.right)}
-          x={MARGIN.left}
-          y={MARGIN.top}
-        />
       </svg>
 
-      {hovered !== undefined && (
-        <MomentumTooltip
-          cursorX={xScale(new Date(hovered.weekStart))}
-          momentum={momentum}
-          week={hovered}
+      {hoveredDate !== undefined && isDefined(hoverIndex) && (
+        <OverTimeTooltip
+          cursorX={xScale(hoveredDate)}
+          date={hoveredDate}
+          hoverIndex={hoverIndex}
+          series={series}
           width={width}
         />
       )}
@@ -305,39 +298,20 @@ function MomentumGraph({
 
 interface TooltipProps {
   cursorX: number;
-  momentum: OnboardingMomentum;
-  week: OnboardingMomentum['weeklyHistory'][number];
+  date: Date;
+  hoverIndex: number;
+  series: Series[];
   width: number;
 }
 
-function MomentumTooltip({ cursorX, momentum, week, width }: Readonly<TooltipProps>) {
+function OverTimeTooltip({ cursorX, date, hoverIndex, series, width }: Readonly<TooltipProps>) {
   const { formatDate, formatMessage } = useIntl();
   const placeRight = cursorX < width - TOOLTIP_WIDTH;
-
-  const rows: Array<{ color: string; labelId: string; value: number }> = [];
-  if (momentum.totalRepos !== null) {
-    rows.push({
-      color: COLOR_TOTAL,
-      labelId: 'onboarding_dashboard.momentum.legend.total',
-      value: momentum.totalRepos,
-    });
-  }
-  rows.push(
-    {
-      color: COLOR_IMPORTED,
-      labelId: 'onboarding_dashboard.momentum.legend.imported',
-      value: week.cumulativeImported,
-    },
-    {
-      color: COLOR_ONBOARDED,
-      labelId: 'onboarding_dashboard.momentum.legend.onboarded',
-      value: week.cumulativeOnboarded,
-    },
-  );
 
   return (
     <div
       className="sw-pointer-events-none sw-absolute sw-flex sw-flex-col sw-gap-1 sw-whitespace-nowrap sw-rounded-2 sw-border sw-px-3 sw-py-2 sw-shadow-sm"
+      role="tooltip"
       style={{
         background: COLOR_SURFACE,
         borderColor: COLOR_AXIS,
@@ -348,22 +322,23 @@ function MomentumTooltip({ cursorX, momentum, week, width }: Readonly<TooltipPro
       }}
     >
       <Text isHighlighted size={TextSize.Small}>
-        {formatDate(new Date(week.weekStart), { month: 'short', year: 'numeric' })}
+        {formatDate(date, { month: 'short', year: 'numeric' })}
       </Text>
-      {rows.map((row) => (
-        <div className="sw-flex sw-items-center sw-justify-between sw-gap-4" key={row.labelId}>
+
+      {series.map((s) => (
+        <div className="sw-flex sw-items-center sw-justify-between sw-gap-4" key={s.labelId}>
           <span className="sw-flex sw-items-center sw-gap-1">
             <span
               aria-hidden
               className="sw-inline-block sw-shrink-0 sw-rounded-pill"
-              style={{ backgroundColor: row.color, height: '0.625rem', width: '0.625rem' }}
+              style={{ backgroundColor: s.color, height: '0.625rem', width: '0.625rem' }}
             />
             <Text isSubtle size={TextSize.Small}>
-              {formatMessage({ id: row.labelId })}
+              {formatMessage({ id: s.labelId })}
             </Text>
           </span>
           <Text isHighlighted size={TextSize.Small}>
-            {row.value}
+            {s.points[hoverIndex].y}
           </Text>
         </div>
       ))}
@@ -371,24 +346,28 @@ function MomentumTooltip({ cursorX, momentum, week, width }: Readonly<TooltipPro
   );
 }
 
-function MomentumLegend() {
+interface LegendProps {
+  series: Series[];
+}
+
+function OverTimeLegend({ series }: Readonly<LegendProps>) {
   const { formatMessage } = useIntl();
 
   return (
     <div className="sw-flex sw-flex-wrap sw-justify-start sw-gap-2">
-      {LEGEND_ITEMS.map((item) => (
+      {series.map((s) => (
         <div
           className="sw-flex sw-items-center sw-gap-1 sw-rounded-pill sw-border sw-px-2 sw-py-1"
-          key={item.labelId}
+          key={s.labelId}
           style={{ borderColor: COLOR_AXIS }}
         >
           <span
             aria-hidden
             className="sw-inline-block sw-shrink-0 sw-rounded-pill"
-            style={{ backgroundColor: item.color, height: '0.5rem', width: '0.5rem' }}
+            style={{ backgroundColor: s.color, height: '0.5rem', width: '0.5rem' }}
           />
           <Text isSubtle size={TextSize.Small}>
-            {formatMessage({ id: item.labelId })}
+            {formatMessage({ id: s.labelId })}
           </Text>
         </div>
       ))}

@@ -95,12 +95,16 @@ const ui = {
     name: 'onboarding_dashboard.checklist.item.discover.title',
   }),
 
-  // Momentum
-  momentumTitle: byText('onboarding_dashboard.momentum.title'),
-  momentumChart: byRole('img', { name: 'onboarding_dashboard.momentum.title' }),
-  legendTotal: byText('onboarding_dashboard.momentum.legend.total'),
-  legendImported: byText('onboarding_dashboard.momentum.legend.imported'),
-  legendOnboarded: byText('onboarding_dashboard.momentum.legend.onboarded'),
+  // Journey statistics — progressively unlocked by JourneyLevel.
+  overTimeChart: byRole('img', { name: 'onboarding_dashboard.journey.overtime.title' }),
+  overTimePlatformsLegend: byText('onboarding_dashboard.journey.overtime.legend.platforms_bound'),
+  overTimeImportedLegend: byText(
+    'onboarding_dashboard.journey.overtime.legend.repositories_imported',
+  ),
+  lockedStatsTitle: byText('onboarding_dashboard.journey.locked.stats.title'),
+  lockedStatsCta: byRole('button', { name: 'onboarding_dashboard.journey.locked.stats.cta' }),
+  lockedMoreTitle: byText('onboarding_dashboard.journey.locked.more.title'),
+  lockedMoreCta: byRole('button', { name: 'onboarding_dashboard.journey.locked.more.cta' }),
 
   // Charts
   scanConfigTitle: byText('onboarding_dashboard.charts.scan_config.title'),
@@ -247,17 +251,6 @@ it('renders the onboarding checklist with maturity badge and progress bars', asy
   expect(discoverProgressBar).toHaveAttribute('aria-valuenow', '100');
 });
 
-it('renders the onboarding momentum card with chart and legend', async () => {
-  renderOnboardingDashboard();
-
-  expect(await ui.momentumTitle.find()).toBeInTheDocument();
-  expect(ui.momentumChart.get()).toBeInTheDocument();
-
-  expect(ui.legendTotal.get()).toBeInTheDocument();
-  expect(ui.legendImported.get()).toBeInTheDocument();
-  expect(ui.legendOnboarded.get()).toBeInTheDocument();
-});
-
 it('renders the charts section with the scan configuration and quality gate donuts', async () => {
   renderOnboardingDashboard();
 
@@ -398,4 +391,54 @@ it('renders the detail panel for the active step and swaps it when another step 
   await user.click(ui.stepperBinding.get());
   expect(await byText('onboarding_dashboard.journey.binding.title').find()).toBeInTheDocument();
   expect(byText('onboarding_dashboard.journey.analyze.title').query()).not.toBeInTheDocument();
+});
+
+it('unlocks both over-time series and no placeholder once repositories are imported', async () => {
+  // The default mock is bound with imported repositories — the "Imported" journey level.
+  renderOnboardingDashboard();
+
+  expect(await ui.overTimeChart.find()).toBeInTheDocument();
+  expect(ui.overTimePlatformsLegend.get()).toBeInTheDocument();
+  expect(ui.overTimeImportedLegend.get()).toBeInTheDocument();
+
+  // Nothing is left to unlock at this level.
+  expect(ui.lockedStatsTitle.query()).not.toBeInTheDocument();
+  expect(ui.lockedMoreTitle.query()).not.toBeInTheDocument();
+});
+
+it('shows the single-series chart and the "unlock more" placeholder before any import', async () => {
+  onboardingMock.setOverview(
+    mockOnboardingOverview({
+      repositoriesDiscovered: { discovered: 301, imported: 0, notYetImported: 301, byAlm: [] },
+    }),
+  );
+  renderOnboardingDashboard();
+
+  expect(await ui.overTimeChart.find()).toBeInTheDocument();
+  expect(ui.overTimePlatformsLegend.get()).toBeInTheDocument();
+
+  // The imported series stays locked until the first repository is imported.
+  expect(ui.overTimeImportedLegend.query()).not.toBeInTheDocument();
+
+  expect(ui.lockedMoreTitle.get()).toBeInTheDocument();
+  expect(ui.lockedMoreCta.get()).toBeInTheDocument();
+  expect(ui.lockedStatsTitle.query()).not.toBeInTheDocument();
+});
+
+it('replaces the chart with the "unlock statistics" placeholder while the org is unbound', async () => {
+  // No bound DevOps platform: deriveJourneyState reports the Unbound level.
+  onboardingMock.setOverview({
+    ...mockOnboardingOverview(),
+    devopsPlatforms: { total: 0, shares: [] },
+  });
+  renderOnboardingDashboard();
+
+  expect(await ui.lockedStatsTitle.find()).toBeInTheDocument();
+  expect(ui.lockedStatsCta.get()).toBeInTheDocument();
+
+  // The over-time chart is fully locked at this level, and the "unlock more" variant belongs to
+  // the next one.
+  expect(ui.overTimeChart.query()).not.toBeInTheDocument();
+  expect(ui.overTimePlatformsLegend.query()).not.toBeInTheDocument();
+  expect(ui.lockedMoreTitle.query()).not.toBeInTheDocument();
 });

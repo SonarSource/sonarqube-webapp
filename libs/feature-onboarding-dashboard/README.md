@@ -6,7 +6,7 @@ This library was generated with [Nx](https://nx.dev) using our internal `shared-
 
 It contains the shared code of the onboarding dashboard feature for SQ-Server and SQ-Cloud. The
 onboarding dashboard surfaces a project's setup progress (repositories discovered, projects onboarded,
-scan health, PR integration, checklist, momentum, DevOps platforms, etc.). The only product difference
+scan health, PR integration, checklist, onboarding over time, DevOps platforms, etc.). The only product difference
 is that SQ-Cloud scopes the data by `organizationKey`; that difference is injected through the
 `~adapters/queries/onboarding` layer rather than in this lib.
 

@@ -22,7 +22,6 @@ import { Card, LoadingSkeleton, Text, TextSize } from '@sonarsource/echoes-react
 import { StatCardSkeleton } from './StatCardSkeleton';
 
 const DONUT_SIZE = 'sw-h-[176px] sw-w-[176px]';
-const CHART_HEIGHT = 'sw-h-[200px]';
 
 /** Card header placeholder: a title line and a subtle description line. */
 function CardHeaderSkeleton() {
@@ -159,25 +158,9 @@ export function OnboardingDashboardSkeleton() {
         </Card.Body>
       </Card>
 
-      <div className="sw-grid sw-grid-cols-3 sw-items-start sw-gap-4">
-        <div className="sw-col-span-2 sw-h-full">
-          <Card className="sw-flex sw-h-full sw-flex-col">
-            <CardHeaderSkeleton />
-            <Card.Body className="sw-flex sw-grow sw-flex-col">
-              <div className="sw-flex sw-flex-col sw-gap-4">
-                <Text isHighlighted size={TextSize.Large}>
-                  <LoadingSkeleton className="sw-w-48" variety="text" />
-                </Text>
-                <LoadingSkeleton className={`${CHART_HEIGHT} sw-w-full`} variety="rectangle" />
-              </div>
-            </Card.Body>
-          </Card>
-        </div>
-
-        <div className="sw-flex sw-flex-col sw-gap-4">
-          <DonutCardSkeleton />
-          <DonutCardSkeleton />
-        </div>
+      <div className="sw-grid sw-grid-cols-2 sw-items-start sw-gap-4">
+        <DonutCardSkeleton />
+        <DonutCardSkeleton />
       </div>
 
       <div className="sw-grid sw-grid-cols-12 sw-items-start sw-gap-4">
