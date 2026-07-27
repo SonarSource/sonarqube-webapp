@@ -43,17 +43,6 @@ const danger = {
   darker: COLORS.red[800],
 };
 
-const codeSnippetLight = {
-  annotations: [34, 84, 192],
-  body: [51, 53, 60],
-  constants: [126, 83, 5],
-  comments: [109, 111, 119],
-  keyword: [152, 29, 150],
-  string: [32, 105, 31],
-  'keyword-light': [28, 28, 163], // Not used currently in code snippet
-  'preprocessing-directive': [47, 103, 48],
-};
-
 export const lightTheme = {
   id: 'light-theme',
   highlightTheme: 'atom-one-light.css',
@@ -220,20 +209,6 @@ export const lightTheme = {
     toggleHover: secondary.light,
     toggleFocus: [...secondary.default, OPACITY_20_PERCENT],
 
-    // code snippet
-    codeSnippetBackground: COLORS.blueGrey[25],
-    codeSnippetBorder: COLORS.blueGrey[100],
-    codeSnippetHighlight: secondary.default,
-    codeSnippetBody: codeSnippetLight.body,
-    codeSnippetAnnotations: codeSnippetLight.annotations,
-    codeSnippetComments: codeSnippetLight.comments,
-    codeSnippetConstants: codeSnippetLight.constants,
-    codeSnippetKeyword: codeSnippetLight.keyword,
-    codeSnippetString: codeSnippetLight.string,
-    codeSnippetKeywordLight: codeSnippetLight['keyword-light'],
-    codeSnippetPreprocessingDirective: codeSnippetLight['preprocessing-directive'],
-    codeSnippetInline: COLORS.blueGrey[500],
-
     // code viewer
     codeLine: COLORS.white,
     codeLineBorder: COLORS.grey[100],
@@ -259,16 +234,6 @@ export const lightTheme = {
     codeLineIssueLocation: [...danger.lighter, 0.15],
     codeLineIssueLocationSelected: [...danger.lighter, 0.5],
     codeLineIssueMessageTooltip: secondary.darker,
-
-    // code syntax highlight
-    codeSyntaxBody: COLORS.codeSyntaxLight.body,
-    codeSyntaxAnnotations: COLORS.codeSyntaxLight.annotations,
-    codeSyntaxConstants: COLORS.codeSyntaxLight.constants,
-    codeSyntaxComments: COLORS.codeSyntaxLight.comments,
-    codeSyntaxKeyword: COLORS.codeSyntaxLight.keyword,
-    codeSyntaxString: COLORS.codeSyntaxLight.string,
-    codeSyntaxKeywordLight: COLORS.codeSyntaxLight['keyword-light'],
-    codeSyntaxPreprocessingDirective: COLORS.codeSyntaxLight['preprocessing-directive'],
 
     // checkbox
     checkboxHover: COLORS.indigo[50],
@@ -727,9 +692,6 @@ export const lightTheme = {
     codeLineLocationMarker: COLORS.red[900],
     codeLineLocationMarkerSelected: COLORS.red[900],
     codeLineIssueMessageTooltip: COLORS.blueGrey[25],
-
-    // code snippet
-    codeSnippetHighlight: danger.default,
 
     // checkbox
     checkboxDisabled: secondary.default,

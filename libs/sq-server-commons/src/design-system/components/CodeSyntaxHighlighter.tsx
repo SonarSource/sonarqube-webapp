@@ -58,7 +58,6 @@ import cobol from 'highlightjs-cobol';
 import abap from 'highlightjs-sap-abap';
 import tw from 'twin.macro';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
-import { themeColor } from '../helpers/theme'; // NOSONAR: The code syntax palette has no one-to-one Echoes replacement yet.
 import { hljsIssueIndicatorPlugin, hljsUnderlinePlugin } from '../sonar-aligned';
 
 // Supported Languages: https://highlightjs.readthedocs.io/en/latest/supported-languages.html
@@ -191,8 +190,8 @@ const StyledSpan = styled.span`
   code {
     ${tw`sw-code`};
 
-    background: ${cssVar('color-background-neutral-subtle-default')};
-    color: ${themeColor('codeSnippetBody')};
+    background: ${cssVar('color-code-background-default')};
+    color: ${cssVar('color-code-text-default')};
 
     &.hljs {
       padding: unset;
@@ -201,39 +200,39 @@ const StyledSpan = styled.span`
 
   .hljs-meta,
   .hljs-variable {
-    color: ${themeColor('codeSnippetBody')};
+    color: ${cssVar('color-code-text-default')};
   }
 
   .hljs-doctag,
   .hljs-title,
   .hljs-title.class_,
   .hljs-title.function_ {
-    color: ${themeColor('codeSnippetAnnotations')};
+    color: ${cssVar('color-code-text-annotation')};
   }
 
   .hljs-comment {
     ${tw`sw-code-comment`}
 
-    color: ${themeColor('codeSnippetComments')};
+    color: ${cssVar('color-code-text-comment')};
   }
 
   .hljs-keyword,
   .hljs-tag,
   .hljs-type {
-    color: ${themeColor('codeSnippetKeyword')};
+    color: ${cssVar('color-code-text-keyword')};
   }
 
   .hljs-literal,
   .hljs-number {
-    color: ${themeColor('codeSnippetConstants')};
+    color: ${cssVar('color-code-text-constant')};
   }
 
   .hljs-string {
-    color: ${themeColor('codeSnippetString')};
+    color: ${cssVar('color-code-text-string')};
   }
 
   .hljs-meta .hljs-keyword {
-    color: ${themeColor('codeSnippetPreprocessingDirective')};
+    color: ${cssVar('color-code-text-preprocessing-directive')};
   }
 
   .sonar-underline {
@@ -258,7 +257,7 @@ const StyledSpan = styled.span`
     ${tw`sw-p-1`}
     ${tw`sw-rounded-1`}
 
-    background-color: ${themeColor('codeSnippetHighlight')};
-    color: ${cssVar('color-text-danger')};
+    background-color: ${cssVar('color-code-background-highlight')};
+    color: ${cssVar('color-code-text-highlight')};
   }
 `;

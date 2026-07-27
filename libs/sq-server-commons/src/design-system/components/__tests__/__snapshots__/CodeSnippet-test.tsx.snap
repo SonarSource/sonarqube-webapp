@@ -2,8 +2,8 @@
 
 exports[`should highlight code content correctly 1`] = `
 .emotion-0 {
-  background-color: var(--echoes-color-background-neutral-subtle-default);
-  border: var(--echoes-border-width-default) solid var(--echoes-color-border-weak);
+  background-color: var(--echoes-color-code-background-default);
+  border: var(--echoes-border-width-default) solid var(--echoes-color-code-border-default);
   border-radius: 0.5rem;
   position: relative;
   margin-top: 0.5rem;
@@ -132,8 +132,8 @@ exports[`should highlight code content correctly 1`] = `
 
 .emotion-11 code {
   font: var(--echoes-typography-code-default);
-  background: var(--echoes-color-background-neutral-subtle-default);
-  color: rgb(51,53,60);
+  background: var(--echoes-color-code-background-default);
+  color: var(--echoes-color-code-text-default);
 }
 
 .emotion-11 code.hljs {
@@ -142,38 +142,38 @@ exports[`should highlight code content correctly 1`] = `
 
 .emotion-11 .hljs-meta,
 .emotion-11 .hljs-variable {
-  color: rgb(51,53,60);
+  color: var(--echoes-color-code-text-default);
 }
 
 .emotion-11 .hljs-doctag,
 .emotion-11 .hljs-title,
 .emotion-11 .hljs-title.class_,
 .emotion-11 .hljs-title.function_ {
-  color: rgb(34,84,192);
+  color: var(--echoes-color-code-text-annotation);
 }
 
 .emotion-11 .hljs-comment {
   font: var(--echoes-typography-code-comment);
-  color: rgb(109,111,119);
+  color: var(--echoes-color-code-text-comment);
 }
 
 .emotion-11 .hljs-keyword,
 .emotion-11 .hljs-tag,
 .emotion-11 .hljs-type {
-  color: rgb(152,29,150);
+  color: var(--echoes-color-code-text-keyword);
 }
 
 .emotion-11 .hljs-literal,
 .emotion-11 .hljs-number {
-  color: rgb(126,83,5);
+  color: var(--echoes-color-code-text-constant);
 }
 
 .emotion-11 .hljs-string {
-  color: rgb(32,105,31);
+  color: var(--echoes-color-code-text-string);
 }
 
 .emotion-11 .hljs-meta .hljs-keyword {
-  color: rgb(47,103,48);
+  color: var(--echoes-color-code-text-preprocessing-directive);
 }
 
 .emotion-11 .sonar-underline {
@@ -199,8 +199,8 @@ exports[`should highlight code content correctly 1`] = `
   font-weight: 400;
   padding: 0.25rem;
   border-radius: 0.25rem;
-  background-color: rgb(197,205,223);
-  color: var(--echoes-color-text-danger);
+  background-color: var(--echoes-color-code-background-highlight);
+  color: var(--echoes-color-code-text-highlight);
 }
 
 <div>
@@ -248,8 +248,8 @@ exports[`should highlight code content correctly 1`] = `
 
 exports[`should show full size when multiline with no editing 1`] = `
 .emotion-0 {
-  background-color: var(--echoes-color-background-neutral-subtle-default);
-  border: var(--echoes-border-width-default) solid var(--echoes-color-border-weak);
+  background-color: var(--echoes-color-code-background-default);
+  border: var(--echoes-border-width-default) solid var(--echoes-color-code-border-default);
   border-radius: 0.5rem;
   position: relative;
   margin-top: 0.5rem;
@@ -378,8 +378,8 @@ exports[`should show full size when multiline with no editing 1`] = `
 
 .emotion-11 code {
   font: var(--echoes-typography-code-default);
-  background: var(--echoes-color-background-neutral-subtle-default);
-  color: rgb(51,53,60);
+  background: var(--echoes-color-code-background-default);
+  color: var(--echoes-color-code-text-default);
 }
 
 .emotion-11 code.hljs {
@@ -388,38 +388,38 @@ exports[`should show full size when multiline with no editing 1`] = `
 
 .emotion-11 .hljs-meta,
 .emotion-11 .hljs-variable {
-  color: rgb(51,53,60);
+  color: var(--echoes-color-code-text-default);
 }
 
 .emotion-11 .hljs-doctag,
 .emotion-11 .hljs-title,
 .emotion-11 .hljs-title.class_,
 .emotion-11 .hljs-title.function_ {
-  color: rgb(34,84,192);
+  color: var(--echoes-color-code-text-annotation);
 }
 
 .emotion-11 .hljs-comment {
   font: var(--echoes-typography-code-comment);
-  color: rgb(109,111,119);
+  color: var(--echoes-color-code-text-comment);
 }
 
 .emotion-11 .hljs-keyword,
 .emotion-11 .hljs-tag,
 .emotion-11 .hljs-type {
-  color: rgb(152,29,150);
+  color: var(--echoes-color-code-text-keyword);
 }
 
 .emotion-11 .hljs-literal,
 .emotion-11 .hljs-number {
-  color: rgb(126,83,5);
+  color: var(--echoes-color-code-text-constant);
 }
 
 .emotion-11 .hljs-string {
-  color: rgb(32,105,31);
+  color: var(--echoes-color-code-text-string);
 }
 
 .emotion-11 .hljs-meta .hljs-keyword {
-  color: rgb(47,103,48);
+  color: var(--echoes-color-code-text-preprocessing-directive);
 }
 
 .emotion-11 .sonar-underline {
@@ -445,8 +445,8 @@ exports[`should show full size when multiline with no editing 1`] = `
   font-weight: 400;
   padding: 0.25rem;
   border-radius: 0.25rem;
-  background-color: rgb(197,205,223);
-  color: var(--echoes-color-text-danger);
+  background-color: var(--echoes-color-code-background-highlight);
+  color: var(--echoes-color-code-text-highlight);
 }
 
 <div>
@@ -495,8 +495,8 @@ bar
 
 exports[`should show reduced size when single line with no editing 1`] = `
 .emotion-0 {
-  background-color: var(--echoes-color-background-neutral-subtle-default);
-  border: var(--echoes-border-width-default) solid var(--echoes-color-border-weak);
+  background-color: var(--echoes-color-code-background-default);
+  border: var(--echoes-border-width-default) solid var(--echoes-color-code-border-default);
   border-radius: 0.5rem;
   position: relative;
   margin-top: 0.5rem;
@@ -627,8 +627,8 @@ exports[`should show reduced size when single line with no editing 1`] = `
 
 .emotion-11 code {
   font: var(--echoes-typography-code-default);
-  background: var(--echoes-color-background-neutral-subtle-default);
-  color: rgb(51,53,60);
+  background: var(--echoes-color-code-background-default);
+  color: var(--echoes-color-code-text-default);
 }
 
 .emotion-11 code.hljs {
@@ -637,38 +637,38 @@ exports[`should show reduced size when single line with no editing 1`] = `
 
 .emotion-11 .hljs-meta,
 .emotion-11 .hljs-variable {
-  color: rgb(51,53,60);
+  color: var(--echoes-color-code-text-default);
 }
 
 .emotion-11 .hljs-doctag,
 .emotion-11 .hljs-title,
 .emotion-11 .hljs-title.class_,
 .emotion-11 .hljs-title.function_ {
-  color: rgb(34,84,192);
+  color: var(--echoes-color-code-text-annotation);
 }
 
 .emotion-11 .hljs-comment {
   font: var(--echoes-typography-code-comment);
-  color: rgb(109,111,119);
+  color: var(--echoes-color-code-text-comment);
 }
 
 .emotion-11 .hljs-keyword,
 .emotion-11 .hljs-tag,
 .emotion-11 .hljs-type {
-  color: rgb(152,29,150);
+  color: var(--echoes-color-code-text-keyword);
 }
 
 .emotion-11 .hljs-literal,
 .emotion-11 .hljs-number {
-  color: rgb(126,83,5);
+  color: var(--echoes-color-code-text-constant);
 }
 
 .emotion-11 .hljs-string {
-  color: rgb(32,105,31);
+  color: var(--echoes-color-code-text-string);
 }
 
 .emotion-11 .hljs-meta .hljs-keyword {
-  color: rgb(47,103,48);
+  color: var(--echoes-color-code-text-preprocessing-directive);
 }
 
 .emotion-11 .sonar-underline {
@@ -694,8 +694,8 @@ exports[`should show reduced size when single line with no editing 1`] = `
   font-weight: 400;
   padding: 0.25rem;
   border-radius: 0.25rem;
-  background-color: rgb(197,205,223);
-  color: var(--echoes-color-text-danger);
+  background-color: var(--echoes-color-code-background-highlight);
+  color: var(--echoes-color-code-text-highlight);
 }
 
 <div>

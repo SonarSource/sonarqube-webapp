@@ -19,69 +19,69 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
-import { themeColor } from '../helpers/theme';
 
 export const SonarCodeColorizer = styled.div`
   & pre {
     ${tw`sw-code`}
 
-    color: ${themeColor('codeSyntaxBody')};
+    color: ${cssVar('color-code-text-default')};
   }
 
   /* for example java annotations */
   & .a {
-    color: ${themeColor('codeSyntaxAnnotations')};
+    color: ${cssVar('color-code-text-annotation')};
   }
 
   /* constants */
   & .c {
     ${tw`sw-code-highlight`}
 
-    color: ${themeColor('codeSyntaxConstants')};
+    color: ${cssVar('color-code-text-constant')};
   }
 
   /* classic comment */
   & .cd {
     ${tw`sw-code-comment`}
 
-    color: ${themeColor('codeSyntaxComments')};
+    color: ${cssVar('color-code-text-comment')};
   }
 
   /* javadoc */
   & .j {
     ${tw`sw-code-comment`}
 
-    color: ${themeColor('codeSyntaxComments')};
+    color: ${cssVar('color-code-text-comment')};
   }
 
   /* C++ doc */
   & .cppd {
     ${tw`sw-code-comment`}
 
-    color: ${themeColor('codeSyntaxComments')};
+    color: ${cssVar('color-code-text-comment')};
   }
 
   /* keyword */
   & .k {
     ${tw`sw-code-highlight`}
 
-    color: ${themeColor('codeSyntaxKeyword')};
+    color: ${cssVar('color-code-text-keyword')};
   }
 
   /* string */
   & .s {
-    color: ${themeColor('codeSyntaxString')};
+    color: ${cssVar('color-code-text-string')};
   }
 
   /* keyword light */
   & .h {
-    color: ${themeColor('codeSyntaxKeywordLight')};
+    color: ${cssVar('color-code-text-keyword-subtle')};
   }
 
   /* preprocessing directive */
   & .p {
-    color: ${themeColor('codeSyntaxPreprocessingDirective')};
+    color: ${cssVar('color-code-text-preprocessing-directive')};
   }
 `;
 SonarCodeColorizer.displayName = 'SonarCodeColorizer';

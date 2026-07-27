@@ -101,8 +101,8 @@ export function CodeSnippet(props: Readonly<Props>) {
 }
 
 const Wrapper = styled.div`
-  background-color: ${cssVar('color-background-neutral-subtle-default')};
-  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
+  background-color: ${cssVar('color-code-background-default')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-code-border-default')};
 
   ${tw`sw-rounded-2`}
   ${tw`sw-relative`}
