@@ -58,7 +58,7 @@ import cobol from 'highlightjs-cobol';
 import abap from 'highlightjs-sap-abap';
 import tw from 'twin.macro';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
-import { themeColor, themeContrast } from '../helpers/theme';
+import { themeColor } from '../helpers/theme'; // NOSONAR: The code syntax palette has no one-to-one Echoes replacement yet.
 import { hljsIssueIndicatorPlugin, hljsUnderlinePlugin } from '../sonar-aligned';
 
 // Supported Languages: https://highlightjs.readthedocs.io/en/latest/supported-languages.html
@@ -259,6 +259,6 @@ const StyledSpan = styled.span`
     ${tw`sw-rounded-1`}
 
     background-color: ${themeColor('codeSnippetHighlight')};
-    color: ${themeContrast('codeSnippetHighlight')};
+    color: ${cssVar('color-text-danger')};
   }
 `;

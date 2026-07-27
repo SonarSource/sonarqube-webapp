@@ -29,7 +29,6 @@ import { sortBy, uniq } from 'lodash';
 import * as React from 'react';
 import tw from 'twin.macro';
 import { useResizeObserver } from '~shared/helpers/useResizeObserver';
-import { themeColor, themeContrast } from '../helpers';
 
 const TICKS_COUNT = 5;
 const DEFAULT_PADDING = [10, 10, 10, 10];
@@ -457,8 +456,8 @@ const BubbleStyled = styled.circle`
   ${tw`sw-cursor-pointer`}
 
   transition: fill-opacity 0.2s ease;
-  fill: ${themeColor('bubbleDefault')};
-  stroke: ${themeContrast('bubbleDefault')};
+  fill: ${cssVar('color-charts-categorical-1')};
+  stroke: ${cssVar('color-charts-categorical-1')};
 
   &:hover {
     fill-opacity: 0.8;

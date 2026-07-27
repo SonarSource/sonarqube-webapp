@@ -23,7 +23,6 @@ import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
 import tw from 'twin.macro';
-import { themeContrast } from '../helpers/theme';
 import { BareButton } from '../sonar-aligned/components/buttons';
 import { OpenCloseIndicator } from './icons/OpenCloseIndicator';
 
@@ -65,7 +64,7 @@ const Expander = styled(BareButton)`
   ${tw`sw-w-full`}
   ${tw`sw-cursor-pointer`}
 
-  color: ${themeContrast('subnavigationExecutionFlow')};
+  color: ${cssVar('color-text-strong')};
   background-color: ${cssVar('color-background-neutral-subtle-default')};
 `;
 

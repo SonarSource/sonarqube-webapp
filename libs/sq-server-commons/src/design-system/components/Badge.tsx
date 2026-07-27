@@ -55,6 +55,10 @@ function getColor(variantInfo: ThemeColors) {
       return cssVar('color-text-danger');
     case 'badgeDefault':
       return cssVar('color-text-strong');
+    case 'badgeNew':
+      return cssVar('color-text-default');
+    case 'badgeDeleted':
+      return cssVar('color-text-danger');
     default:
       return themeContrast(variantInfo);
   }

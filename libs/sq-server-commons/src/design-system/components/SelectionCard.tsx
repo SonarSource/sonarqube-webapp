@@ -24,7 +24,6 @@ import { Text, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
-import { themeContrast, themeShadow } from '../helpers/theme';
 import { RecommendedIcon } from './icons/RecommendedIcon';
 import { RadioButtonStyled } from './input/RadioButton';
 
@@ -123,7 +122,7 @@ const StyledButton = styled.button`
 
   &:focus {
     outline: 4px solid ${cssVar('color-border-accent-default')};
-    box-shadow: ${themeShadow('sm')};
+    box-shadow: ${cssVar('box-shadow-small')};
   }
 
   &.card-vertical {
@@ -136,7 +135,7 @@ const StyledButton = styled.button`
 
     &:hover {
       border: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
-      box-shadow: ${themeShadow('sm')};
+      box-shadow: ${cssVar('box-shadow-small')};
     }
 
     &.selected {
@@ -167,7 +166,7 @@ const StyledRecommended = styled.div`
   ${tw`sw-w-full`}
   ${tw`sw-text-left`}
 
-  color: ${themeContrast('infoBackground')};
+  color: ${cssVar('color-text-info')};
   background-color: ${cssVar('color-background-info-weak-default')};
 `;
 
