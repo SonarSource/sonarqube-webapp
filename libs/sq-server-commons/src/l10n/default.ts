@@ -1554,7 +1554,7 @@ export const defaultMessages = {
   'project_agent_activity.table.outcome': 'Outcome',
   'project_agent_activity.status.pending': 'Pending',
   'project_agent_activity.status.in_progress': 'In progress',
-  'project_agent_activity.status.succeeded': 'Succeeded',
+  'project_agent_activity.status.completed': 'Completed',
   'project_agent_activity.status.failed': 'Failed',
   'project_agent_activity.source.backlog': 'Backlog issues',
   'project_agent_activity.started.today': 'Today',
