@@ -65,9 +65,11 @@ export function themeAvatarColor(name: string, contrast = false) {
     // Reduces number length to avoid modulo's limit.
     hash = parseInt(hash.toString().slice(-5), 10);
     if (contrast) {
-      return getColor(theme, theme.avatar.contrast[hash % theme.avatar.contrast.length]);
+      const color = theme.avatar.contrast[hash % theme.avatar.contrast.length];
+      return typeof color === 'string' ? color : getColor(theme, color);
     }
-    return getColor(theme, theme.avatar.color[hash % theme.avatar.color.length]);
+    const color = theme.avatar.color[hash % theme.avatar.color.length];
+    return typeof color === 'string' ? color : getColor(theme, color);
   };
 }
 

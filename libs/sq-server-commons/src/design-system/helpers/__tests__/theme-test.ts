@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { cssVar } from '@sonarsource/echoes-react';
 import { lightTheme } from '../../theme';
 import * as ThemeHelper from '../theme';
 
@@ -54,7 +55,7 @@ describe('themeColor', () => {
       ThemeHelper.themeColor(ThemeHelper.themeAvatarColor('luke')({ theme: lightTheme }))({
         theme: lightTheme,
       }),
-    ).toEqual('rgb(209,215,254)');
+    ).toEqual(cssVar('color-charts-categorical-3'));
   });
 });
 

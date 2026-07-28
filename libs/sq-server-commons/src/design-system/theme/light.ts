@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { avatarColorPalette, avatarContrastPalette } from '~shared/components/avatar';
 import { OPACITY_20_PERCENT, OPACITY_75_PERCENT } from '../helpers/constants';
 import COLORS from './colors';
 
@@ -804,28 +805,8 @@ export const lightTheme = {
   },
 
   avatar: {
-    color: [
-      COLORS.blueGrey[100],
-      COLORS.indigo[100],
-      COLORS.tangerine[100],
-      COLORS.green[100],
-      COLORS.yellowGreen[100],
-      COLORS.yellow[100],
-      COLORS.orange[100],
-      COLORS.red[100],
-      COLORS.blue[100],
-    ],
-    contrast: [
-      COLORS.blueGrey[900],
-      COLORS.indigo[900],
-      COLORS.tangerine[900],
-      COLORS.green[900],
-      COLORS.yellowGreen[900],
-      COLORS.yellow[900],
-      COLORS.orange[900],
-      COLORS.red[900],
-      COLORS.blue[900],
-    ],
+    color: avatarColorPalette,
+    contrast: avatarContrastPalette,
   },
 
   // Theme specific icons and images
