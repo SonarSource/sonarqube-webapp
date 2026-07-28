@@ -20,7 +20,7 @@
 
 import styled from '@emotion/styled';
 import * as Echoes from '@sonarsource/echoes-react';
-import { cssVar, EchoesCSSVarString } from '@sonarsource/echoes-react';
+import { cssVar, type EchoesDesignTokens } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
@@ -33,43 +33,66 @@ import {
   FlagSuccessIcon,
   FlagWarningIcon,
 } from '../../components/icons';
-import { themeColor } from '../../helpers/theme';
-import { ThemeColors } from '../../types/theme';
 
 /**
  * @deprecated Use {@link Echoes.MessageVariety | MessageVariety} from Echoes instead.
  */
 export type Variant = 'error' | 'warning' | 'success' | 'info';
 
+type FlagMessageVariant = 'error' | 'warning' | 'success' | 'info';
+
 interface Props {
-  variant: Variant;
+  variant: FlagMessageVariant;
 }
 
-function getVariantInfo(variant: Variant) {
-  const variantList = {
+function getVariantInfo(variant: FlagMessageVariant) {
+  const variantList: Record<
+    FlagMessageVariant,
+    {
+      backgroundColor: EchoesDesignTokens;
+      borderColor: EchoesDesignTokens;
+      icon: React.ReactNode;
+    }
+  > = {
     error: {
       icon: <FlagErrorIcon />,
-      borderColor: cssVar('color-border-danger-default'),
-      backGroundColor: 'errorBackground',
+      borderColor: 'color-border-danger-weak',
+      backgroundColor: 'color-background-danger-weak-default',
     },
     warning: {
       icon: <FlagWarningIcon />,
-      borderColor: cssVar('color-border-warning-weak'),
-      backGroundColor: 'warningBackground',
+      borderColor: 'color-border-warning-weak',
+      backgroundColor: 'color-background-warning-weak-default',
     },
     success: {
       icon: <FlagSuccessIcon />,
-      borderColor: cssVar('color-border-success-default'),
-      backGroundColor: 'successBackground',
+      borderColor: 'color-border-success-weak',
+      backgroundColor: 'color-background-success-weak-default',
     },
     info: {
       icon: <FlagInfoIcon />,
-      borderColor: cssVar('color-border-info-weak'),
-      backGroundColor: 'infoBackground',
+      borderColor: 'color-border-info-weak',
+      backgroundColor: 'color-background-info-weak-default',
     },
-  } as const;
+  };
 
   return variantList[variant];
+}
+
+function FlagMessageBase(props: Props & React.HTMLAttributes<HTMLDivElement>) {
+  const { className, variant, ...domProps } = props;
+  const variantInfo = getVariantInfo(variant);
+
+  return (
+    <StyledFlag className={classNames('alert', className)} variantInfo={variantInfo} {...domProps}>
+      {props.children && (
+        <div className="flag-inner">
+          <div className="flag-icon">{variantInfo.icon}</div>
+          <div className="flag-content">{props.children}</div>
+        </div>
+      )}
+    </StyledFlag>
+  );
 }
 
 /**
@@ -90,24 +113,7 @@ function getVariantInfo(variant: Variant) {
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3774447676/Messages | Migration Guide} for more information.
  */
 export function FlagMessage(props: Props & React.HTMLAttributes<HTMLDivElement>) {
-  const { className, variant, ...domProps } = props;
-  const variantInfo = getVariantInfo(variant);
-
-  return (
-    <StyledFlag
-      backGroundColor={variantInfo.backGroundColor}
-      borderColor={variantInfo.borderColor}
-      className={classNames('alert', className)}
-      {...domProps}
-    >
-      {props.children && (
-        <div className="flag-inner">
-          <div className="flag-icon">{variantInfo.icon}</div>
-          <div className="flag-content">{props.children}</div>
-        </div>
-      )}
-    </StyledFlag>
-  );
+  return <FlagMessageBase {...props} />;
 }
 
 FlagMessage.displayName = 'FlagMessage'; // so that tests don't see the obfuscated production name
@@ -137,7 +143,7 @@ export function DismissableFlagMessage(
   const { onDismiss, children, ...flagMessageProps } = props;
   const intl = useIntl();
   return (
-    <FlagMessage {...flagMessageProps}>
+    <FlagMessageBase {...flagMessageProps}>
       {children}
       <DismissIcon
         Icon={CloseIcon}
@@ -146,21 +152,19 @@ export function DismissableFlagMessage(
         onClick={onDismiss}
         size="small"
       />
-    </FlagMessage>
+    </FlagMessageBase>
   );
 }
 
 DismissableFlagMessage.displayName = 'DismissableFlagMessage'; // so that tests don't see the obfuscated production name
 
-const StyledFlag = styled.div<{
-  backGroundColor: ThemeColors;
-  borderColor: EchoesCSSVarString;
-}>`
+const StyledFlag = styled.div<{ variantInfo: ReturnType<typeof getVariantInfo> }>`
   ${tw`sw-inline-flex`}
   ${tw`sw-min-h-1000`}
   ${tw`sw-rounded-1`}
   ${tw`sw-box-border`}
-  border: ${({ borderColor }) => `${cssVar('border-width-default')} solid ${borderColor}`};
+  border: ${cssVar('border-width-default')} solid
+    ${({ variantInfo }) => cssVar(variantInfo.borderColor)};
   background-color: ${cssVar('color-surface-default')};
 
   :empty {
@@ -176,7 +180,7 @@ const StyledFlag = styled.div<{
     ${tw`sw-flex sw-justify-center sw-items-center`}
     ${tw`sw-rounded-l-1`}
     ${tw`sw-px-3`}
-    background-color: ${({ backGroundColor }) => themeColor(backGroundColor)};
+    background-color: ${({ variantInfo }) => cssVar(variantInfo.backgroundColor)};
   }
 
   & .flag-content {
@@ -190,11 +194,11 @@ const StyledFlag = styled.div<{
 `;
 
 const DismissIcon = styled(InteractiveIcon)`
-  --background: ${themeColor('productNews')};
-  --backgroundHover: ${themeColor('productNewsHover')};
-  --color: ${cssVar('color-text-default')};
-  --colorHover: ${cssVar('color-text-default')};
-  --focus: ${themeColor('interactiveIconFocus', 0.2)};
+  --background: ${cssVar('color-background-ghost-neutral-default')};
+  --backgroundHover: ${cssVar('color-background-ghost-neutral-hover')};
+  --color: ${cssVar('color-icon-default')};
+  --colorHover: ${cssVar('color-icon-default')};
+  --focus: ${cssVar('color-focus-default')};
 
   height: 28px;
 `;

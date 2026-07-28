@@ -25,7 +25,6 @@ import { isNumber, times } from 'lodash';
 import { ComponentProps, ReactNode, createContext, useContext } from 'react';
 import tw from 'twin.macro';
 import { FCProps } from '../../../types/misc';
-import { themeColor } from '../../helpers/theme';
 
 interface TableBaseProps extends ComponentProps<'table'> {
   caption?: ReactNode;
@@ -297,7 +296,7 @@ const CellComponentStyled = styled.td`
   ${tw`sw-align-middle`}
 
   thead > tr > & {
-    color: ${themeColor('pageTitle')};
+    color: ${cssVar('color-text-strong')};
 
     ${tw`sw-typo-semibold`}
   }

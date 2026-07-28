@@ -20,7 +20,6 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import { OPACITY_20_PERCENT, themeColor } from '../../../helpers';
 import { Button } from './Button';
 
 /**
@@ -44,6 +43,5 @@ export const DangerButtonSecondary = styled(Button)`
   --background: ${cssVar('color-surface-default')};
   --backgroundHover: ${cssVar('color-surface-hover')};
   --color: ${cssVar('color-text-danger')};
-  --focus: ${themeColor('dangerButtonSecondaryFocus', OPACITY_20_PERCENT)};
   --border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
 `;

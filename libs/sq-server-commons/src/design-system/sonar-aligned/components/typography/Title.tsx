@@ -21,14 +21,13 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
-import { themeColor } from '../../../helpers/theme';
 
 /** @deprecated Use Heading from Echoes instead.
  */
 export const Title = styled.h1`
   ${tw`sw-heading-xl`}
   ${tw`sw-mb-4`}
-  color: ${themeColor('pageTitle')};
+  color: ${cssVar('color-text-strong')};
 `;
 
 /** @deprecated Use Heading from Echoes instead.
@@ -36,13 +35,13 @@ export const Title = styled.h1`
 export const SubTitle = styled.h2`
   ${tw`sw-heading-lg`}
   ${tw`sw-mb-4`}
-  color: ${themeColor('pageTitle')};
+  color: ${cssVar('color-text-strong')};
 `;
 
 /** @deprecated Use Heading from Echoes instead.
  */
 export const HeadingDark = styled.h2`
-  color: ${themeColor('pageContentDark')};
+  color: ${cssVar('color-text-strong')};
 
   ${tw`sw-typo-semibold`}
 `;
@@ -58,5 +57,5 @@ export const SubHeading = styled.h3`
 /** @deprecated Use Heading from Echoes instead.
  */
 export const SubHeadingHighlight = styled(SubHeading)`
-  color: ${themeColor('pageContentDark')};
+  color: ${cssVar('color-text-strong')};
 `;

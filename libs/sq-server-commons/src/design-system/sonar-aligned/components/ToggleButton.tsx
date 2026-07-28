@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
 import { Badge } from '../../components/Badge';
-import { themeColor } from '../../helpers/theme';
 import { getTabId, getTabPanelId } from '../helpers/tabs';
 import { ButtonSecondary } from './buttons';
 
@@ -103,7 +102,8 @@ const Wrapper = styled.div`
 `;
 
 const OptionButton = styled(ButtonSecondary)<{ selected: boolean }>`
-  background: ${(props) => (props.selected ? themeColor('toggleHover') : themeColor('toggle'))};
+  background: ${(props) =>
+    cssVar(props.selected ? 'color-background-selected-weak-default' : 'color-surface-default')};
   border: none;
   color: ${cssVar('color-text-default')};
   font-weight: ${(props) =>
@@ -126,7 +126,8 @@ const OptionButton = styled(ButtonSecondary)<{ selected: boolean }>`
   }
 
   &:hover {
-    background: ${themeColor('toggleHover')};
+    background: ${(props) =>
+      cssVar(props.selected ? 'color-background-selected-weak-hover' : 'color-surface-hover')};
     color: ${cssVar('color-text-default')};
   }
 

@@ -18,11 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { matchers } from '@emotion/jest';
+import { cssVar } from '@sonarsource/echoes-react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { FCProps } from '../../../../../types/misc';
 import { renderWithContext } from '../../../../helpers/testUtils';
 import { InputSelect } from '../InputSelect';
+
+expect.extend(matchers);
 
 it('should render select input and be able to click and change', async () => {
   const setValue = jest.fn();
@@ -71,6 +75,19 @@ it('should render select input with disabled prop', () => {
   });
   expect(screen.getByText('placeholder-foo')).toBeInTheDocument();
   expect(screen.getByRole('combobox')).toBeDisabled();
+});
+
+it('should use the selected hover background for a focused selected option', async () => {
+  const { user } = setupWithProps({ value: { label: 'foo-bar', value: 'foo' } });
+  await user.click(screen.getByRole('combobox'));
+  const selectedOption = screen.getByRole('option', { name: 'foo-bar' });
+  await user.hover(selectedOption);
+
+  expect(selectedOption).toHaveAttribute('aria-selected', 'true');
+  expect(selectedOption).toHaveStyleRule(
+    'background',
+    cssVar('color-background-selected-weak-hover'),
+  );
 });
 
 it('should render the select options with sorting when shouldSortOption is true and getOptionLabel passed', async () => {

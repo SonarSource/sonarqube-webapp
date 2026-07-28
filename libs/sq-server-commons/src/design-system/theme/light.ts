@@ -87,7 +87,6 @@ export const lightTheme = {
     dangerButtonSecondary: COLORS.white,
     dangerButtonSecondaryBorder: danger.lighter,
     dangerButtonSecondaryHover: danger.lightest,
-    dangerButtonSecondaryFocus: danger.light,
 
     // third party button
     thirdPartyButton: COLORS.white,
@@ -150,63 +149,12 @@ export const lightTheme = {
     breakdownBorder: COLORS.grey[100],
     breakdownHeaderBackground: COLORS.blueGrey[50],
 
-    // flag message
-    flagMessageBackground: COLORS.white,
-    flagMessageFocusBackground: COLORS.indigo[600],
-    flagMessageText: COLORS.blueGrey[500],
-
-    errorBorder: danger.light,
-    errorBackground: danger.lightest,
-    errorIconBackground: danger.lightest,
-    errorText: danger.dark,
-    errorIcon: COLORS.red[600],
-    errorIconHover: COLORS.red[800],
-    errorIconHoverBackground: COLORS.red[100],
-    errorIconFocusBackground: COLORS.red[50],
-
-    warningBorder: COLORS.yellow[400],
-    warningBackground: COLORS.yellow[50],
-    warningIconBackground: COLORS.yellow[50],
-    warningText: COLORS.yellow[900],
-    warningIcon: COLORS.yellow[700],
-    warningIconHover: COLORS.yellow[800],
-    warningIconHoverBackground: COLORS.yellow[100],
-    warningIconFocusBackground: COLORS.yellow[50],
-
-    successBorder: COLORS.yellowGreen[400],
-    successBackground: COLORS.green[50],
-    successIconBackground: COLORS.yellowGreen[50],
-    successText: COLORS.green[900],
-    successIcon: COLORS.yellowGreen[600],
-    successIconHover: COLORS.yellowGreen[800],
-    successIconHoverBackground: COLORS.yellowGreen[100],
-    successIconFocusBackground: COLORS.yellowGreen[50],
-
-    infoBorder: COLORS.blue[300],
-    infoBackground: COLORS.blue[50],
-    infoIconBackground: COLORS.blue[50],
-    infoContrast: COLORS.blue[900],
-    infoText: COLORS.blue[900],
-    infoIcon: COLORS.blue[600],
-    infoIconHover: COLORS.blue[800],
-    infoIconHoverBackground: COLORS.blue[100],
-    infoIconFocusBackground: COLORS.blue[50],
-
-    recommendedBorder: COLORS.indigo[500],
-    recommendedBackground: COLORS.indigo[50],
-    recommendedIcon: COLORS.indigo[500],
-    recommendedIconHover: COLORS.indigo[800],
-    recommendedIconHoverBackground: COLORS.indigo[50],
-    recommendedIconFocusBackground: COLORS.indigo[50],
-
     // banner message
     bannerMessage: danger.lightest,
     bannerMessageIcon: danger.darker,
 
     // toggle buttons
-    toggle: COLORS.white,
     toggleBorder: secondary.default,
-    toggleHover: secondary.light,
     toggleFocus: [...secondary.default, OPACITY_20_PERCENT],
 
     // code viewer
@@ -528,7 +476,6 @@ export const lightTheme = {
     // page
     pageTitle: COLORS.blueGrey[700],
     pageContent: secondary.darker,
-    pageContentDark: COLORS.blueGrey[600],
     pageBlock: COLORS.white,
     pageBlockBorder: COLORS.blueGrey[100],
 
@@ -656,12 +603,6 @@ export const lightTheme = {
     primaryLight: secondary.darker,
     primary: COLORS.white,
 
-    // flag message
-    flagMessageBackground: secondary.darker,
-
-    // info message
-    infoBackground: COLORS.blue[900],
-
     // banner message
     bannerMessage: COLORS.red[900],
 
@@ -680,10 +621,6 @@ export const lightTheme = {
 
     // dropdown menu
     dropdownMenu: secondary.darker,
-
-    // toggle buttons
-    toggle: secondary.darker,
-    toggleHover: secondary.darker,
 
     // code viewer
     codeLineNewCodeUnderline: COLORS.indigo[500],

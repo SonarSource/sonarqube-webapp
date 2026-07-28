@@ -18,11 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { matchers } from '@emotion/jest';
+import { cssVar, type EchoesDesignTokens } from '@sonarsource/echoes-react';
 import { screen } from '@testing-library/react';
 import { IntlShape } from 'react-intl';
 import { FCProps } from '../../../../types/misc';
 import { render } from '../../../helpers/testUtils';
 import { DismissableFlagMessage, FlagMessage, Variant } from '../FlagMessage';
+
+expect.extend(matchers);
 
 jest.mock(
   'react-intl',
@@ -36,20 +40,19 @@ jest.mock(
     }) as IntlShape,
 );
 
-it.each([
-  ['error', 'var(--echoes-border-width-default) solid var(--echoes-color-border-danger-default)'],
-  ['warning', 'var(--echoes-border-width-default) solid var(--echoes-color-border-warning-weak)'],
-  [
-    'success',
-    'var(--echoes-border-width-default) solid var(--echoes-color-border-success-default)',
-  ],
-  ['info', 'var(--echoes-border-width-default) solid var(--echoes-color-border-info-weak)'],
-])('should render properly for "%s" variant', (variant: Variant, color) => {
+it.each<[Variant, EchoesDesignTokens]>([
+  ['error', 'color-border-danger-weak'],
+  ['warning', 'color-border-warning-weak'],
+  ['success', 'color-border-success-weak'],
+  ['info', 'color-border-info-weak'],
+])('should render the semantic border for "%s" variant', (variant, borderColor) => {
   renderFlagMessage({ variant });
 
-  const item = screen.getByRole('status');
-  expect(item).toBeInTheDocument();
-  expect(item).toHaveStyle({ border: color });
+  expect(screen.getByRole('status')).toHaveStyleRule(
+    'border',
+    `${cssVar('border-width-default')} solid ${cssVar(borderColor)}`,
+  );
+  expect(screen.getByText('This is an error!')).toBeInTheDocument();
 });
 
 it('should render Dismissable flag message properly', () => {
@@ -57,9 +60,6 @@ it('should render Dismissable flag message properly', () => {
   render(<DismissableFlagMessage onDismiss={dismissFunc} role="status" variant="error" />);
   const item = screen.getByRole('status');
   expect(item).toBeInTheDocument();
-  expect(item).toHaveStyle({
-    border: 'var(--echoes-border-width-default) solid var(--echoes-color-border-danger-default)',
-  });
   const dismissButton = screen.getByRole('button');
   expect(dismissButton).toBeInTheDocument();
   dismissButton.click();

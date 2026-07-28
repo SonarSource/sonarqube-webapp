@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme as themeInfo } from '@emotion/react';
 import { ButtonIcon, ButtonSize, ButtonVariety, cssVar, IconX } from '@sonarsource/echoes-react';
 import { RefObject, type JSX } from 'react';
 import { useIntl } from 'react-intl';
@@ -34,7 +33,6 @@ import type Select from 'react-select/base';
 import SearchHighlighter from '~shared/components/SearchHighlighter';
 import { ChevronDownIcon } from '../../../components/icons';
 import { INPUT_SIZES } from '../../../helpers';
-import { themeColor } from '../../../helpers/theme';
 import { InputSizeKeys } from '../../../types/theme';
 
 export interface ExtensionProps<
@@ -140,8 +138,6 @@ export function selectStyle<
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>,
 >({ size }: { size: InputSizeKeys }): StylesConfig<Option, IsMulti, Group> {
-  const theme = themeInfo();
-
   return {
     control: (base, { isFocused, menuIsOpen, isDisabled }) => ({
       ...base,
@@ -161,7 +157,9 @@ export function selectStyle<
         outline: 'none',
       }),
       ...(isFocused && {
-        border: `${cssVar('border-width-default')} solid ${cssVar('color-border-bolder')}`,
+        border: `${cssVar('border-width-default')} solid ${cssVar(
+          'form-control-colors-border-default',
+        )}`,
       }),
     }),
     menu: (base) => ({
@@ -172,7 +170,7 @@ export function selectStyle<
       ...base,
       borderLeft: '2px solid transparent',
       ...((isSelected || isFocused) && {
-        background: themeColor('selectOptionSelected')({ theme }),
+        background: getOptionBackground(isFocused, isSelected),
         color: cssVar('color-text-default'),
         borderLeftColor: cssVar('color-focus-default'),
       }),
@@ -186,6 +184,16 @@ export function selectStyle<
       color: cssVar('color-text-placeholder'),
     }),
   };
+}
+
+function getOptionBackground(isFocused: boolean, isSelected: boolean) {
+  if (isSelected) {
+    return cssVar(
+      isFocused ? 'color-background-selected-weak-hover' : 'color-background-selected-weak-default',
+    );
+  }
+
+  return cssVar('color-surface-hover');
 }
 
 export interface LabelValueSelectOption<V = string> {
