@@ -68,7 +68,7 @@ describe('app should render correctly', () => {
       name: 'Global webhook 1',
       url: 'https://example.com/1',
       secret: false,
-      lastDeliveryDate: 'June 24, 2019',
+      lastDeliveryDate: 'Jun 24, 2019',
     });
     ui.checkWebhookRow(1, {
       name: 'Global webhook 2',
@@ -88,7 +88,7 @@ describe('app should render correctly', () => {
       name: 'Project 1 webhook 1',
       url: 'https://example.com/1',
       secret: false,
-      lastDeliveryDate: 'June 24, 2019',
+      lastDeliveryDate: 'Jun 24, 2019',
     });
     ui.checkWebhookRow(1, {
       name: 'Project 1 webhook 2',
@@ -207,19 +207,19 @@ describe('should properly show deliveries', () => {
 
     await ui.clickWebhookRowAction(0, 'Global webhook 1', 'webhooks.deliveries.show', 'menuitem');
     ui.checkDeliveryRow(0, {
-      date: 'June 24, 2019',
+      date: 'Jun 24, 2019',
       status: 'success',
     });
     ui.checkDeliveryRow(1, {
-      date: 'June 23, 2019',
+      date: 'Jun 23, 2019',
       status: 'success',
     });
     ui.checkDeliveryRow(2, {
-      date: 'June 22, 2019',
+      date: 'Jun 22, 2019',
       status: 'error',
     });
     ui.checkDeliveryRow(3, {
-      date: 'June 21, 2019',
+      date: 'Jun 21, 2019',
       status: 'success',
     });
 

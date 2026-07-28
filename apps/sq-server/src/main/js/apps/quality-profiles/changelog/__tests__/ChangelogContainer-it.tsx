@@ -91,7 +91,7 @@ it('should see the changelog in MQR', async () => {
   expect(rows).toHaveLength(7);
   expect(ui.emptyPage.query()).not.toBeInTheDocument();
   ui.checkRow(1, 'May 23, 2019', 'System', 'quality_profiles.changelog.ACTIVATED', 'Rule 0');
-  ui.checkRow(2, 'April 23, 2019', 'System', 'quality_profiles.changelog.DEACTIVATED', 'Rule 0', [
+  ui.checkRow(2, 'Apr 23, 2019', 'System', 'quality_profiles.changelog.DEACTIVATED', 'Rule 0', [
     /^$/, // Should be empty
   ]);
   ui.checkRow(3, '', '', '', 'Rule 1', [
@@ -99,10 +99,10 @@ it('should see the changelog in MQR', async () => {
     /quality_profiles.changelog.impact_added.severity_impact.*MEDIUM.*RELIABILITY/,
     /quality_profiles.changelog.impact_removed.+severity_impact.HIGH.*MAINTAINABILITY/,
   ]);
-  ui.checkRow(5, 'March 23, 2019', 'John Doe', 'quality_profiles.changelog.ACTIVATED', 'Rule 2', [
+  ui.checkRow(5, 'Mar 23, 2019', 'John Doe', 'quality_profiles.changelog.ACTIVATED', 'Rule 2', [
     /quality_profiles.parameter_set_to.credentialWords.foo,bar/,
   ]);
-  ui.checkRow(6, 'February 23, 2019', 'System', 'quality_profiles.changelog.UPDATED', 'Rule 5', [
+  ui.checkRow(6, 'Feb 23, 2019', 'System', 'quality_profiles.changelog.UPDATED', 'Rule 5', [
     /quality_profiles.changelog.cca_and_category_changed.*COMPLETE.*INTENTIONAL.*LAWFUL.*RESPONSIBLE/,
     /quality_profiles.changelog.impact_added.severity_impact.*MEDIUM.*RELIABILITY/,
     /quality_profiles.changelog.impact_removed.+severity_impact.HIGH.*MAINTAINABILITY/,
@@ -122,10 +122,10 @@ it('should return standard mode changelogs only', async () => {
   ui.checkRow(1, 'May 23, 2019', 'System', 'quality_profiles.changelog.ACTIVATED', 'Rule 0', [
     /^$/,
   ]);
-  ui.checkRow(2, 'April 23, 2019', 'System', 'quality_profiles.changelog.DEACTIVATED', 'Rule 0', [
+  ui.checkRow(2, 'Apr 23, 2019', 'System', 'quality_profiles.changelog.DEACTIVATED', 'Rule 0', [
     /quality_profiles.severity_set_to severity.MAJOR/,
   ]);
-  ui.checkRow(6, 'January 23, 2019', 'System', 'quality_profiles.changelog.UPDATED', 'Rule 6', [
+  ui.checkRow(6, 'Jan 23, 2019', 'System', 'quality_profiles.changelog.UPDATED', 'Rule 6', [
     /quality_profiles.severity_set_to severity.CRITICAL/,
   ]);
 });

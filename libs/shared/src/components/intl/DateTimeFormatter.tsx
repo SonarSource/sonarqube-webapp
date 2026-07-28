@@ -28,8 +28,8 @@ interface Props extends Intl.DateTimeFormatOptions {
 
 export const defaultFormatterOptions: FormatDateOptions = {
   year: 'numeric',
-  month: 'long',
-  day: 'numeric',
+  month: 'short',
+  day: '2-digit',
   hour: 'numeric',
   minute: 'numeric',
 };
