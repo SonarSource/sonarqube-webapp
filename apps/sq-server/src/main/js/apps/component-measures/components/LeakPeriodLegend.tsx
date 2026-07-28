@@ -19,10 +19,10 @@
  */
 
 import styled from '@emotion/styled';
-import { Text } from '@sonarsource/echoes-react';
+import { cssVar, Text } from '@sonarsource/echoes-react';
 import { differenceInDays } from 'date-fns';
 import * as React from 'react';
-import { themeBorder, themeColor } from '~design-system';
+import { themeColor } from '~design-system';
 import DateFormatter, { longFormatterOption } from '~shared/components/intl/DateFormatter';
 import DateFromNow from '~shared/components/intl/DateFromNow';
 import DateTimeFormatter, {
@@ -103,5 +103,5 @@ export default class LeakPeriodLegend extends React.PureComponent<LeakPeriodLege
 
 const LeakPeriodLabel = styled(Text)`
   background-color: ${themeColor('newCodeLegend')};
-  border: ${themeBorder('default', 'newCodeLegendBorder')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weaker')};
 `;

@@ -26,7 +26,7 @@ exports[`should render correctly as button 1`] = `
   padding-bottom: 0.75rem;
   font: var(--echoes-typography-text-large-semi-bold);
   cursor: default;
-  border: 1px solid rgb(253,162,155);
+  border: var(--echoes-border-width-default) solid var(--echoes-color-border-danger-default);
   color: var(--echoes-color-text-default);
   word-break: break-word;
   background-color: var(--echoes-color-surface-default);

@@ -19,11 +19,10 @@
  */
 
 import styled from '@emotion/styled';
-import { Badge, cssVar } from '@sonarsource/echoes-react';
+import { Badge, cssVar, EchoesCSSVarString } from '@sonarsource/echoes-react';
 import { PropsWithChildren } from 'react';
 import { FormattedMessage } from 'react-intl';
 import tw from 'twin.macro';
-import { themeBorder } from '../helpers';
 import { BareButton } from '../sonar-aligned/components/buttons';
 import { getTabId, getTabPanelId } from '../sonar-aligned/helpers/tabs';
 
@@ -37,7 +36,7 @@ export interface TabOption<T extends TabValueType> {
 }
 
 export interface TabsProps<T extends TabValueType> {
-  borderColor?: ReturnType<typeof themeBorder>;
+  borderColor?: EchoesCSSVarString;
   className?: string;
   disabled?: boolean;
   label?: string;
@@ -56,7 +55,7 @@ export function Tabs<T extends TabValueType>(props: PropsWithChildren<TabsProps<
     className,
     children,
     large = false,
-    borderColor = themeBorder('default'),
+    borderColor = cssVar('color-border-weak'),
   } = props;
 
   return (
@@ -96,13 +95,13 @@ export function Tabs<T extends TabValueType>(props: PropsWithChildren<TabsProps<
 }
 
 const TabsContainer = styled.div<{
-  borderColor: ReturnType<typeof themeBorder>;
+  borderColor: EchoesCSSVarString;
   large: boolean;
 }>`
   ${tw`sw-w-full`};
   ${(props) => !props.large && tw`sw-pl-4`}
   ${tw`sw-flex sw-justify-between`};
-  border-bottom: ${(props) => props.borderColor};
+  border-bottom: ${cssVar('border-width-default')} solid ${(props) => props.borderColor};
 `;
 
 const TabList = styled.div`
@@ -110,7 +109,7 @@ const TabList = styled.div`
 `;
 
 const TabButton = styled(BareButton)<{
-  borderColor: ReturnType<typeof themeBorder>;
+  borderColor: EchoesCSSVarString;
   large: boolean;
   selected: boolean;
 }>`
@@ -127,12 +126,12 @@ const TabButton = styled(BareButton)<{
     props.selected ? cssVar('color-text-accent') : cssVar('color-text-default')};
   border: ${(props) =>
     props.selected
-      ? props.borderColor
+      ? `${cssVar('border-width-default')} solid ${props.borderColor}`
       : `${cssVar('border-width-default')} solid ${cssVar('color-border-none')}`};
   border-bottom: ${(props) =>
     props.selected
       ? `${cssVar('border-width-default')} solid ${cssVar('color-surface-default')}`
-      : props.borderColor};
+      : `${cssVar('border-width-default')} solid ${props.borderColor}`};
 
   &:hover {
     background: ${(props) =>

@@ -23,7 +23,6 @@ import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React from 'react';
 import tw from 'twin.macro';
-import { themeBorder } from '../../helpers/theme';
 
 type AllowedRadioButtonAttributes = Pick<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -120,7 +119,7 @@ export const RadioButtonStyled = styled.input`
   &:focus-visible {
     background: ${cssVar('color-surface-hover')};
     border: ${cssVar('border-width-default')} solid ${cssVar('color-focus-default')};
-    outline: ${themeBorder('focus', 'radioFocusOutline')};
+    outline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
   }
 
   &.is-checked,

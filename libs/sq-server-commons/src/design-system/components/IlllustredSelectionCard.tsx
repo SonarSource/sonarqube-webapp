@@ -23,7 +23,6 @@ import { cssVar, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
 import tw from 'twin.macro';
-import { themeBorder } from '../helpers/theme';
 import { BareButton } from '../sonar-aligned/components/buttons';
 
 interface Props {
@@ -62,7 +61,7 @@ const ImageContainer = styled.div`
 
 const DescriptionContainer = styled.div`
   background: ${cssVar('color-surface-default')};
-  border-top: ${themeBorder()};
+  border-top: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   ${tw`sw-rounded-b-1`}
   ${tw`sw-p-4`}
 `;

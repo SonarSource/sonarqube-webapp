@@ -22,7 +22,7 @@ import styled from '@emotion/styled';
 import { Button, ButtonVariety, Checkbox, cssVar, Text } from '@sonarsource/echoes-react';
 import { useCallback, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { InputSearch, themeBorder, themeColor } from '~design-system';
+import { InputSearch, themeColor } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { Paging } from '~shared/types/paging';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
@@ -176,7 +176,7 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
 const SetupBox = styled.form`
   max-height: 280px;
   background: ${cssVar('color-background-neutral-subtle-default')};
-  border: ${themeBorder('default', 'highlightedSectionBorder')};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 `;
 
 const SetupBoxTitle = styled.h2`

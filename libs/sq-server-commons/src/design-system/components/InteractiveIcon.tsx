@@ -26,7 +26,7 @@ import React, { ForwardedRef, MouseEvent, forwardRef, useCallback } from 'react'
 import tw from 'twin.macro';
 import { isDefined } from '~shared/helpers/types';
 import { OPACITY_20_PERCENT } from '../helpers/constants';
-import { themeBorder, themeColor } from '../helpers/theme';
+import { themeColor } from '../helpers/theme';
 import { ThemedProps } from '../types/theme';
 import { IconProps } from './icons/Icon';
 
@@ -123,7 +123,7 @@ const buttonIconStyle = (props: ThemedProps & { size: InteractiveIconSize }) => 
 
   &:focus,
   &:active {
-    outline: ${themeBorder('focus', 'var(--focus)')(props)};
+    outline: 4px solid var(--focus);
   }
 
   &:disabled,

@@ -101,27 +101,6 @@ describe('themeContrast', () => {
   });
 });
 
-describe('themeBorder', () => {
-  it('should work for light theme', () => {
-    expect(ThemeHelper.themeBorder()({ theme: lightTheme })).toEqual('1px solid rgb(235,235,235)');
-  });
-  it('should allow to override the color of the border', () => {
-    expect(ThemeHelper.themeBorder('focus', 'primaryLight')({ theme: lightTheme })).toEqual(
-      '4px solid rgba(123,135,217,0.2)',
-    );
-  });
-  it('should allow to override the opacity of the border', () => {
-    expect(ThemeHelper.themeBorder('focus', undefined, 0.5)({ theme: lightTheme })).toEqual(
-      '4px solid rgba(197,205,223,0.5)',
-    );
-  });
-  it('should allow to pass a CSS prop as color name', () => {
-    expect(
-      ThemeHelper.themeBorder('focus', 'var(--outlineColor)', 0.5)({ theme: lightTheme }),
-    ).toEqual('4px solid var(--outlineColor)');
-  });
-});
-
 describe('themeShadow', () => {
   it('should work for light theme', () => {
     expect(ThemeHelper.themeShadow('xs')({ theme: lightTheme })).toEqual(

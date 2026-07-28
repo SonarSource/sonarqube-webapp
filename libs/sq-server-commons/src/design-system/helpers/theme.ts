@@ -47,21 +47,6 @@ export function themeContrast(name: ThemeColors | CSSColor) {
 
 /**
  * @deprecated MIUI theme is deprecated, use Echoes css variables instead, for example
- * `border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')}`.
- */
-export function themeBorder(
-  name: keyof Theme['borders'] = 'default',
-  color?: ThemeColors | CSSColor,
-  opacity?: number,
-) {
-  return function ({ theme }: ThemedProps) {
-    const [width, style, ...rgba] = theme.borders[name];
-    return `${width} ${style} ${getColor(theme, rgba as number[], color, opacity)}`;
-  };
-}
-
-/**
- * @deprecated MIUI theme is deprecated, use Echoes css variables instead, for example
  * `box-shadow: ${cssVar('box-shadow-small')}`.
  */
 export function themeShadow(

@@ -34,7 +34,7 @@ import type Select from 'react-select/base';
 import SearchHighlighter from '~shared/components/SearchHighlighter';
 import { ChevronDownIcon } from '../../../components/icons';
 import { INPUT_SIZES } from '../../../helpers';
-import { themeBorder, themeColor } from '../../../helpers/theme';
+import { themeColor } from '../../../helpers/theme';
 import { InputSizeKeys } from '../../../types/theme';
 
 export interface ExtensionProps<
@@ -161,7 +161,7 @@ export function selectStyle<
         outline: 'none',
       }),
       ...(isFocused && {
-        border: themeBorder('default', 'inputBorder')({ theme }),
+        border: `${cssVar('border-width-default')} solid ${cssVar('color-border-bolder')}`,
       }),
     }),
     menu: (base) => ({

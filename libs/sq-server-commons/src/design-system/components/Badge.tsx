@@ -21,18 +21,8 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
-import { themeColor, themeContrast } from '../helpers/theme';
-import { ThemeColors } from '../types/theme';
 
 type BadgeVariant = 'default' | 'new' | 'deleted' | 'counter' | 'counterFailed';
-
-const variantList: Record<BadgeVariant, ThemeColors> = {
-  default: 'badgeDefault',
-  new: 'badgeNew',
-  deleted: 'badgeDeleted',
-  counter: 'badgeCounter',
-  counterFailed: 'badgeCounterFailed',
-};
 
 /** @deprecated Use Badge or BadgeCounter from Echoes instead
  *
@@ -45,23 +35,6 @@ export interface BadgeProps extends React.PropsWithChildren {
   className?: string;
   title?: string;
   variant?: BadgeVariant;
-}
-
-function getColor(variantInfo: ThemeColors) {
-  switch (variantInfo) {
-    case 'badgeCounter':
-      return cssVar('color-text-default');
-    case 'badgeCounterFailed':
-      return cssVar('color-text-danger');
-    case 'badgeDefault':
-      return cssVar('color-text-strong');
-    case 'badgeNew':
-      return cssVar('color-text-default');
-    case 'badgeDeleted':
-      return cssVar('color-text-danger');
-    default:
-      return themeContrast(variantInfo);
-  }
 }
 
 /** @deprecated Use Badge or BadgeCounter from Echoes instead
@@ -77,19 +50,16 @@ export function Badge({ className, children, title, variant = 'default' }: Badge
     className,
     role: title ? 'img' : 'presentation',
     title,
+    variant,
   };
 
   const Component = ['counter', 'counterFailed'].includes(variant) ? StyledCounter : StyledBadge;
 
-  return (
-    <Component variantInfo={variantList[variant]} {...commonProps}>
-      {children}
-    </Component>
-  );
+  return <Component {...commonProps}>{children}</Component>;
 }
 
 const StyledBadge = styled.span<{
-  variantInfo: ThemeColors;
+  variant: BadgeVariant;
 }>`
   ${tw`sw-text-[0.75rem]`};
   ${tw`sw-leading-[0.938rem]`};
@@ -99,8 +69,8 @@ const StyledBadge = styled.span<{
   ${tw`sw-px-[0.125rem] sw-py-[0.03125rem]`};
   ${tw`sw-rounded-1/2`};
 
-  color: ${({ variantInfo }) => getColor(variantInfo)};
-  background-color: ${({ variantInfo }) => themeColor(variantInfo)};
+  ${getBadgeVariantStyles}
+
   text-transform: uppercase;
 
   &:empty {
@@ -109,7 +79,7 @@ const StyledBadge = styled.span<{
 `;
 
 const StyledCounter = styled.span<{
-  variantInfo: ThemeColors;
+  variant: BadgeVariant;
 }>`
   ${tw`sw-min-w-250 sw-min-h-500`};
   ${tw`sw-text-[0.75rem]`};
@@ -120,15 +90,36 @@ const StyledCounter = styled.span<{
   ${tw`sw-items-center sw-justify-center`};
   ${tw`sw-rounded-pill`};
 
-  color: ${({ variantInfo }) => getColor(variantInfo)};
-  background-color: ${({ variantInfo }) => themeColor(variantInfo)};
-  border: ${cssVar('border-width-default')} solid
-    ${({ variantInfo }) =>
-      variantInfo === 'badgeCounterFailed'
-        ? cssVar('color-border-danger-weak')
-        : cssVar('color-border-none')};
+  ${getBadgeVariantStyles}
 
   &:empty {
     ${tw`sw-hidden`}
   }
 `;
+
+function getBadgeVariantStyles({ variant }: { variant: BadgeVariant }) {
+  switch (variant) {
+    case 'default':
+      return `
+        background-color: ${cssVar('color-background-neutral-subtle-default')};
+        color: ${cssVar('color-text-default')};`;
+    case 'new':
+      return `
+        background-color: ${cssVar('color-background-accent-weak-default')};
+        color: ${cssVar('color-text-accent')};`;
+    case 'deleted':
+      return `
+        background-color: ${cssVar('color-background-danger-weak-active')};
+        color: ${cssVar('color-text-danger')};`;
+    case 'counter':
+      return `
+        background-color: ${cssVar('color-background-neutral-subtle-default')};
+        color: ${cssVar('color-text-default')};
+        border: ${cssVar('border-width-default')} solid ${cssVar('color-border-none')};`;
+    case 'counterFailed':
+      return `
+        background-color: ${cssVar('color-background-danger-weak-default')};
+        color: ${cssVar('color-text-danger')};
+        border: ${cssVar('border-width-default')} solid ${cssVar('color-border-danger-weak')};`;
+  }
+}

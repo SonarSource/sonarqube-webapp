@@ -20,7 +20,7 @@
 
 import styled from '@emotion/styled';
 import * as Echoes from '@sonarsource/echoes-react';
-import { cssVar } from '@sonarsource/echoes-react';
+import { cssVar, EchoesCSSVarString } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
@@ -33,7 +33,7 @@ import {
   FlagSuccessIcon,
   FlagWarningIcon,
 } from '../../components/icons';
-import { themeBorder, themeColor } from '../../helpers/theme';
+import { themeColor } from '../../helpers/theme';
 import { ThemeColors } from '../../types/theme';
 
 /**
@@ -49,22 +49,22 @@ function getVariantInfo(variant: Variant) {
   const variantList = {
     error: {
       icon: <FlagErrorIcon />,
-      borderColor: 'errorBorder',
+      borderColor: cssVar('color-border-danger-default'),
       backGroundColor: 'errorBackground',
     },
     warning: {
       icon: <FlagWarningIcon />,
-      borderColor: 'warningBorder',
+      borderColor: cssVar('color-border-warning-weak'),
       backGroundColor: 'warningBackground',
     },
     success: {
       icon: <FlagSuccessIcon />,
-      borderColor: 'successBorder',
+      borderColor: cssVar('color-border-success-default'),
       backGroundColor: 'successBackground',
     },
     info: {
       icon: <FlagInfoIcon />,
-      borderColor: 'infoBorder',
+      borderColor: cssVar('color-border-info-weak'),
       backGroundColor: 'infoBackground',
     },
   } as const;
@@ -154,13 +154,13 @@ DismissableFlagMessage.displayName = 'DismissableFlagMessage'; // so that tests 
 
 const StyledFlag = styled.div<{
   backGroundColor: ThemeColors;
-  borderColor: ThemeColors;
+  borderColor: EchoesCSSVarString;
 }>`
   ${tw`sw-inline-flex`}
   ${tw`sw-min-h-1000`}
   ${tw`sw-rounded-1`}
   ${tw`sw-box-border`}
-  border: ${({ borderColor }) => themeBorder('default', borderColor)};
+  border: ${({ borderColor }) => `${cssVar('border-width-default')} solid ${borderColor}`};
   background-color: ${cssVar('color-surface-default')};
 
   :empty {

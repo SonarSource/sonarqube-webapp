@@ -22,7 +22,7 @@ import { Link, Spinner } from '@sonarsource/echoes-react';
 import { isBefore, sub } from 'date-fns';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Card, FlagMessage, Tabs, themeBorder } from '~design-system';
+import { Card, FlagMessage, Tabs } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
@@ -133,7 +133,6 @@ export default function TabsPanel(props: React.PropsWithChildren<MeasuresPanelPr
           )}
           <div className="sw-flex sw-items-center">
             <Tabs
-              borderColor={themeBorder('default', 'projectCardBorder')}
               large
               onChange={props.onTabSelect}
               options={tabs}

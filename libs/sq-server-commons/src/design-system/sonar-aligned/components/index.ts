@@ -21,7 +21,6 @@
 export * from './buttons';
 export * from './Card';
 export * from './FlagMessage';
-export { FlagMessageV2 } from './FlagMessageV2';
 export * from './input';
 export * from './Table';
 export * from './Text';

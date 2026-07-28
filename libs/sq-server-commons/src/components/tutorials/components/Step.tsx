@@ -21,7 +21,7 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { Card, TutorialStep, TutorialStepList, themeBorder } from '../../../design-system';
+import { Card, TutorialStep, TutorialStepList } from '../../../design-system';
 
 interface Props {
   finished?: boolean;
@@ -75,7 +75,7 @@ export default function Step(props: Props) {
 const StyledCard = styled(Card)<{ clickable: boolean }>`
   --focus: ${cssVar('color-border-bold')};
 
-  ${({ clickable, theme }) =>
+  ${({ clickable }) =>
     clickable &&
     `
     cursor: pointer;
@@ -83,7 +83,7 @@ const StyledCard = styled(Card)<{ clickable: boolean }>`
 
     &:focus,
     &:active {
-      outline: ${themeBorder('focus', 'var(--focus)')({ theme })}
+      outline: 4px solid var(--focus);
     }
 `};
 `;

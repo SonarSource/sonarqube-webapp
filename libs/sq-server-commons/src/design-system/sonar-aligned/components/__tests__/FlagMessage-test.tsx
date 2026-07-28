@@ -37,10 +37,13 @@ jest.mock(
 );
 
 it.each([
-  ['error', '1px solid rgb(249,112,102)'],
-  ['warning', '1px solid rgb(248,205,92)'],
-  ['success', '1px solid rgb(166,208,91)'],
-  ['info', '1px solid rgb(143,202,234)'],
+  ['error', 'var(--echoes-border-width-default) solid var(--echoes-color-border-danger-default)'],
+  ['warning', 'var(--echoes-border-width-default) solid var(--echoes-color-border-warning-weak)'],
+  [
+    'success',
+    'var(--echoes-border-width-default) solid var(--echoes-color-border-success-default)',
+  ],
+  ['info', 'var(--echoes-border-width-default) solid var(--echoes-color-border-info-weak)'],
 ])('should render properly for "%s" variant', (variant: Variant, color) => {
   renderFlagMessage({ variant });
 
@@ -54,7 +57,9 @@ it('should render Dismissable flag message properly', () => {
   render(<DismissableFlagMessage onDismiss={dismissFunc} role="status" variant="error" />);
   const item = screen.getByRole('status');
   expect(item).toBeInTheDocument();
-  expect(item).toHaveStyle({ border: '1px solid rgb(249,112,102)' });
+  expect(item).toHaveStyle({
+    border: 'var(--echoes-border-width-default) solid var(--echoes-color-border-danger-default)',
+  });
   const dismissButton = screen.getByRole('button');
   expect(dismissButton).toBeInTheDocument();
   dismissButton.click();

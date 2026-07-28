@@ -19,9 +19,8 @@
  */
 
 import styled from '@emotion/styled';
-import { Text } from '@sonarsource/echoes-react';
+import { cssVar, Text } from '@sonarsource/echoes-react';
 import Avatar from '~adapters/components/ui/Avatar';
-import { themeBorder } from '~design-system';
 import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import IssueChangelogDiff from '~shared/components/issues/IssueChangelogDiff';
 import { HtmlFormatter } from '~shared/components/typography/HtmlFormatter';
@@ -98,5 +97,5 @@ export default function HotspotReviewHistory(props: Readonly<HotspotReviewHistor
 }
 
 const CommentBox = styled(HtmlFormatter)`
-  border-left: ${themeBorder('default', 'activityCommentPipe')};
+  border-left: ${cssVar('border-width-default')} solid ${cssVar('color-border-danger-weak')};
 `;

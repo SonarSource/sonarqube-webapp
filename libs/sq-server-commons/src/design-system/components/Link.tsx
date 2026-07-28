@@ -24,7 +24,7 @@ import { cssVar } from '@sonarsource/echoes-react';
 import React, { HTMLAttributeAnchorTarget } from 'react';
 import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom';
 import tw, { theme as twTheme } from 'twin.macro';
-import { themeBorder, themeColor } from '../helpers/theme';
+import { themeColor } from '../helpers/theme';
 import { TooltipWrapperInner } from './Tooltip';
 import { OpenNewTabIcon } from './icons/OpenNewTabIcon';
 
@@ -262,7 +262,7 @@ LinkBox.displayName = 'DiscreetLinkBox';
 /** @deprecated Use either Link or LinkStandalone from Echoes instead.
  */
 export const DiscreetLink = styled(HoverLink)`
-  --border: ${themeBorder('default', 'linkDiscreet')};
+  --border: ${cssVar('border-width-default')} solid currentColor;
 `;
 DiscreetLink.displayName = 'DiscreetLink';
 

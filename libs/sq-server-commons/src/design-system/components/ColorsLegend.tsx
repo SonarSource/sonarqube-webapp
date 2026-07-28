@@ -20,8 +20,9 @@
 
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
-import { themeBorder, themeColor, themeContrast } from '../helpers';
+import { themeColor, themeContrast } from '../helpers';
 import { BubbleColorVal } from '../types';
 import { Tooltip } from './Tooltip';
 import { Checkbox } from './input/Checkbox';
@@ -97,7 +98,7 @@ const ColorRating = styled.div`
   height: 20px;
   line-height: 20px;
   border-radius: 50%;
-  border: ${themeBorder()};
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   ${tw`sw-flex sw-justify-center`}
   ${tw`sw-ml-1`}
 `;

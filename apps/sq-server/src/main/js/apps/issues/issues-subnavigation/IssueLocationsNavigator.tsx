@@ -19,13 +19,9 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { Fragment, useCallback, useRef } from 'react';
-import {
-  BareButton,
-  ExecutionFlowAccordion,
-  SubnavigationFlowSeparator,
-  themeBorder,
-} from '~design-system';
+import { BareButton, ExecutionFlowAccordion, SubnavigationFlowSeparator } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { Flow, FlowType, Issue } from '~sq-server-commons/types/types';
 import { getLocations, getTypedFlows } from '~sq-server-commons/utils/issues-utils';
@@ -172,5 +168,5 @@ function getExecutionFlowLabel(flow: Flow, hasFlowsWithType: boolean) {
 }
 
 const StyledBareButton = styled(BareButton)`
-  border-bottom: ${themeBorder('default', 'currentColor')};
+  border-bottom: ${cssVar('border-width-default')} solid currentColor;
 `;

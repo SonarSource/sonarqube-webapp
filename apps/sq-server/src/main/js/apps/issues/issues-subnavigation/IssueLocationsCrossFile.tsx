@@ -21,7 +21,7 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import { PureComponent } from 'react';
-import { BareButton, themeBorder } from '~design-system';
+import { BareButton } from '~design-system';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { collapsePath } from '~sq-server-commons/helpers/path';
 import { FlowLocation, Issue } from '~sq-server-commons/types/types';
@@ -193,7 +193,7 @@ export default class IssueLocationsCrossFile extends PureComponent<Props, State>
 }
 
 const GroupBody = styled.div`
-  border-left: ${themeBorder('default', 'subnavigationExecutionFlowBorder')};
+  border-left: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
 `;
 
 const ComponentName = styled.div`
@@ -202,5 +202,5 @@ const ComponentName = styled.div`
 
 const ExpandButton = styled(BareButton)`
   color: ${cssVar('color-text-subtle')};
-  border-bottom: ${themeBorder('default', 'currentColor')};
+  border-bottom: ${cssVar('border-width-default')} solid currentColor;
 `;

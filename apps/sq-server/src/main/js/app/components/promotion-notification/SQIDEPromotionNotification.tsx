@@ -19,10 +19,10 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, Text, Theme, ThemeProvider } from '@sonarsource/echoes-react';
+import { Button, cssVar, Text, Theme, ThemeProvider } from '@sonarsource/echoes-react';
 import { useCallback, useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { themeBorder, themeColor } from '~design-system';
+import { themeColor } from '~design-system';
 import { dismissNotice } from '~sq-server-commons/api/users';
 import { SonarQubeIDEPromotionIllustration } from '~sq-server-commons/components/branding/SonarQubeIDEPromotionIllustration';
 import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
@@ -94,5 +94,5 @@ const PromotionNotificationWrapper = styled.div`
 `;
 
 const PromotionNotificationContent = styled.div`
-  border-right: ${themeBorder('default', 'promotionNotificationSeparator')};
+  border-right: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
 `;

@@ -25,9 +25,7 @@ import classNames from 'classnames';
 import { uniqueId } from 'lodash';
 import React from 'react';
 import tw from 'twin.macro';
-import { themeBorder } from '../helpers';
 import { BareButton } from '../sonar-aligned/components/buttons';
-import { ThemedProps } from '../types';
 import { OpenCloseIndicator } from './icons/OpenCloseIndicator';
 
 interface AccordionProps {
@@ -73,7 +71,7 @@ export function Accordion(props: AccordionProps) {
   );
 }
 
-const accordionStyle = (props: ThemedProps) => css`
+const accordionStyle = css`
   box-sizing: border-box;
   text-decoration: none;
   outline: none;
@@ -98,7 +96,7 @@ const accordionStyle = (props: ThemedProps) => css`
   & > button:focus,
   & > button:active {
     color: ${cssVar('color-text-default')};
-    outline: ${themeBorder('focus', 'var(--focus)')(props)};
+    outline: 4px solid var(--focus);
   }
 
   & > button:disabled,
