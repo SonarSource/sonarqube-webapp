@@ -45,5 +45,7 @@ declare module 'axios' {
     ): Promise<T>;
 
     post<T = any, D = any>(url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<T>;
+
+    put<T = any, D = any>(url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<T>;
   }
 }
