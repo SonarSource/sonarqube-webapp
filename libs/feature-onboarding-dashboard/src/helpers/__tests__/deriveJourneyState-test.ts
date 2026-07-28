@@ -63,11 +63,11 @@ it('derives a fully bound, analysed state from the overview', () => {
   expect(state.imported).toBe(6);
   expect(state.notYetImported).toBe(295);
   expect(state.analyzed).toBe(1);
-  expect(state.totalProjects).toBe(6);
+  expect(state.totalProjects).toBe(301);
 
-  // Rounded, clamped percentages: 6/301 → 2, 1/6 → 17, header ring uses overallMaturityPct.
+  // Rounded, clamped percentages: 6/301 → 2, 1/301 → 0, header ring uses overallMaturityPct.
   expect(state.importedPct).toBe(2);
-  expect(state.analyzedPct).toBe(17);
+  expect(state.analyzedPct).toBe(0);
   expect(state.overallPct).toBe(75);
 
   // Analyze breakdown is approximated from the overview charts.

@@ -42,7 +42,6 @@ export function deriveJourneyState(overview: OnboardingOverview): JourneyState {
   const notYetImported =
     cards.repositoriesDiscovered.notYetImported ?? Math.max(discovered - imported, 0);
 
-  const { totalProjects } = cards.projectsOnboarded;
   const analyzed = cards.projectsOnboarded.onboarded;
 
   // The overview has no explicit binding flag. Treat the org as bound when the DevOps
@@ -71,7 +70,6 @@ export function deriveJourneyState(overview: OnboardingOverview): JourneyState {
 
   return {
     activeStep,
-    // Approximate cohorts — the backend does not expose these exact buckets yet.
     analyze: {
       autoscan: scanConfiguration.managed,
       fullCi: scanConfiguration.ci,
@@ -81,7 +79,7 @@ export function deriveJourneyState(overview: OnboardingOverview): JourneyState {
       notScanned: charts.onboardingCoverage.failed,
     },
     analyzed,
-    analyzedPct: toPercent(analyzed, totalProjects),
+    analyzedPct: toPercent(analyzed, discovered),
     discovered,
     imported,
     importedPct: toPercent(imported, discovered),
@@ -89,6 +87,6 @@ export function deriveJourneyState(overview: OnboardingOverview): JourneyState {
     level,
     notYetImported,
     overallPct: Math.round(clampPercent(checklist.overallMaturityPct)),
-    totalProjects,
+    totalProjects: discovered,
   };
 }
