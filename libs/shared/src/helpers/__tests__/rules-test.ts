@@ -23,7 +23,8 @@ import {
   SoftwareQuality,
   SoftwareQualityImpact,
 } from '../../types/clean-code-taxonomy';
-import { getImpactsDiffBySeverity } from '../rules';
+import { RuleActivation, RuleParameter } from '../../types/rules';
+import { getImpactsDiffBySeverity, getRuleParams, mergeImpacts } from '../rules';
 
 describe('rules helpers', () => {
   describe('getImpactsDiffBySeverity', () => {
@@ -160,6 +161,135 @@ describe('rules helpers', () => {
 
       expect(result.ruleImpacts).toHaveLength(1);
       expect(result.ruleImpacts[0].softwareQuality).toBe(SoftwareQuality.Security);
+    });
+  });
+
+  describe('getRuleParams', () => {
+    it('should return empty object when ruleParams is undefined', () => {
+      const result = getRuleParams({ ruleParams: undefined });
+
+      expect(result).toEqual({});
+    });
+
+    it('should return empty object when ruleParams is empty', () => {
+      const result = getRuleParams({ ruleParams: [] });
+
+      expect(result).toEqual({});
+    });
+
+    it('should use default values when there are no activation params', () => {
+      const ruleParams: RuleParameter[] = [
+        { key: 'format', type: 'STRING', defaultValue: 'yyyy-MM-dd' },
+        { key: 'max', type: 'INTEGER' },
+      ];
+
+      const result = getRuleParams({ ruleParams });
+
+      expect(result).toEqual({ format: 'yyyy-MM-dd', max: '' });
+    });
+
+    it('should override default values with activation params', () => {
+      const ruleParams: RuleParameter[] = [
+        { key: 'format', type: 'STRING', defaultValue: 'yyyy-MM-dd' },
+        { key: 'max', type: 'INTEGER', defaultValue: '10' },
+      ];
+      const activationParams: RuleActivation['params'] = [{ key: 'max', value: '20' }];
+
+      const result = getRuleParams({ ruleParams, activationParams });
+
+      expect(result).toEqual({ format: 'yyyy-MM-dd', max: '20' });
+    });
+
+    it('should not apply activation params when ruleParams is undefined', () => {
+      const activationParams: RuleActivation['params'] = [{ key: 'max', value: '20' }];
+
+      const result = getRuleParams({ ruleParams: undefined, activationParams });
+
+      expect(result).toEqual({});
+    });
+  });
+
+  describe('mergeImpacts', () => {
+    it('should merge activation impacts over rule impacts for matching qualities', () => {
+      const ruleImpacts: SoftwareQualityImpact[] = [
+        {
+          softwareQuality: SoftwareQuality.Maintainability,
+          severity: SoftwareImpactSeverity.Medium,
+        },
+      ];
+      const activationImpacts: SoftwareQualityImpact[] = [
+        { softwareQuality: SoftwareQuality.Maintainability, severity: SoftwareImpactSeverity.High },
+      ];
+
+      const result = mergeImpacts(ruleImpacts, activationImpacts);
+
+      expect(result.get(SoftwareQuality.Maintainability)).toBe(SoftwareImpactSeverity.High);
+      expect(result.size).toBe(1);
+    });
+
+    it('should keep rule impacts when there are no activation impacts', () => {
+      const ruleImpacts: SoftwareQualityImpact[] = [
+        { softwareQuality: SoftwareQuality.Reliability, severity: SoftwareImpactSeverity.Low },
+      ];
+
+      const result = mergeImpacts(ruleImpacts);
+
+      expect(result.get(SoftwareQuality.Reliability)).toBe(SoftwareImpactSeverity.Low);
+      expect(result.size).toBe(1);
+    });
+
+    it('should ignore activation impacts without a corresponding rule impact', () => {
+      const ruleImpacts: SoftwareQualityImpact[] = [
+        {
+          softwareQuality: SoftwareQuality.Maintainability,
+          severity: SoftwareImpactSeverity.Medium,
+        },
+      ];
+      const activationImpacts: SoftwareQualityImpact[] = [
+        { softwareQuality: SoftwareQuality.Security, severity: SoftwareImpactSeverity.High },
+      ];
+
+      const result = mergeImpacts(ruleImpacts, activationImpacts);
+
+      expect(result.has(SoftwareQuality.Security)).toBe(false);
+      expect(result.get(SoftwareQuality.Maintainability)).toBe(SoftwareImpactSeverity.Medium);
+      expect(result.size).toBe(1);
+    });
+
+    it('should override with changedImpactSeveritiesMap regardless of rule or activation impacts', () => {
+      const ruleImpacts: SoftwareQualityImpact[] = [
+        {
+          softwareQuality: SoftwareQuality.Maintainability,
+          severity: SoftwareImpactSeverity.Medium,
+        },
+      ];
+      const activationImpacts: SoftwareQualityImpact[] = [
+        { softwareQuality: SoftwareQuality.Maintainability, severity: SoftwareImpactSeverity.High },
+      ];
+      const changedImpactSeveritiesMap = new Map<SoftwareQuality, SoftwareImpactSeverity>([
+        [SoftwareQuality.Maintainability, SoftwareImpactSeverity.Low],
+      ]);
+
+      const result = mergeImpacts(ruleImpacts, activationImpacts, changedImpactSeveritiesMap);
+
+      expect(result.get(SoftwareQuality.Maintainability)).toBe(SoftwareImpactSeverity.Low);
+    });
+
+    it('should ignore changedImpactSeveritiesMap qualities absent from rule impacts', () => {
+      const changedImpactSeveritiesMap = new Map<SoftwareQuality, SoftwareImpactSeverity>([
+        [SoftwareQuality.Security, SoftwareImpactSeverity.Blocker],
+      ]);
+
+      const result = mergeImpacts([], [], changedImpactSeveritiesMap);
+
+      expect(result.has(SoftwareQuality.Security)).toBe(false);
+      expect(result.size).toBe(0);
+    });
+
+    it('should return an empty map when no impacts are provided', () => {
+      const result = mergeImpacts();
+
+      expect(result.size).toBe(0);
     });
   });
 });

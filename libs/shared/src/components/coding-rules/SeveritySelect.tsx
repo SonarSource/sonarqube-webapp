@@ -21,9 +21,9 @@
 import { HelperText, Select } from '@sonarsource/echoes-react';
 import { isEmpty, isUndefined } from 'lodash';
 import { FormattedMessage, useIntl } from 'react-intl';
-import SoftwareImpactSeverityIcon from '~shared/components/icon-mappers/SoftwareImpactSeverityIcon';
-import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
-import { SEVERITIES } from '~sq-server-commons/helpers/constants';
+import { SoftwareImpactSeverity } from '../../types/clean-code-taxonomy';
+import { IssueSeverity } from '../../types/issues';
+import SoftwareImpactSeverityIcon from '../icon-mappers/SoftwareImpactSeverityIcon';
 
 export interface SeveritySelectProps {
   id: string;
@@ -32,12 +32,18 @@ export interface SeveritySelectProps {
   label: string;
   onChange: (value: string) => void;
   recommendedSeverity?: string;
-  severity: string;
+  severity?: string;
+  className?: string;
 }
 
+const SEVERITIES = Object.values(IssueSeverity);
+
 export function SeveritySelect(props: Readonly<SeveritySelectProps>) {
-  const { isDisabled, severity, recommendedSeverity, impactSeverity, id, label } = props;
+  const { isDisabled, severity, recommendedSeverity, impactSeverity, id, label, className } = props;
   const intl = useIntl();
+
+  const isRecommended = recommendedSeverity && recommendedSeverity === severity;
+
   const getSeverityTranslation = (severity: string) =>
     impactSeverity
       ? intl.formatMessage({ id: `severity_impact.${severity}` })
@@ -57,7 +63,7 @@ export function SeveritySelect(props: Readonly<SeveritySelectProps>) {
   );
 
   return (
-    <div className="sw-mb-6">
+    <div className={className}>
       <Select
         data={severityOption}
         id={id}
@@ -72,7 +78,7 @@ export function SeveritySelect(props: Readonly<SeveritySelectProps>) {
         value={severity}
         valueIcon={<SoftwareImpactSeverityIcon severity={severity} />}
       />
-      {severity !== recommendedSeverity && !isUndefined(recommendedSeverity) && (
+      {!isRecommended && !isUndefined(recommendedSeverity) && (
         <HelperText className="sw-mt-2">
           <FormattedMessage
             id="coding_rules.custom_severity.not_recommended"

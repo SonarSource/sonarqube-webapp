@@ -57,9 +57,9 @@ import {
   CleanCodeCategoryField,
   SoftwareQualitiesFields,
 } from './CustomRuleFormFieldsCCT';
-import { SeveritySelect } from './SeveritySelect';
 
 import { FormattedMessage } from 'react-intl';
+import { SeveritySelect } from '~shared/components/coding-rules/SeveritySelect';
 
 interface Props {
   customRule?: RuleDetails;

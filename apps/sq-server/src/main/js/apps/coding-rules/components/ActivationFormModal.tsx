@@ -35,7 +35,9 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { SeveritySelect } from '~shared/components/coding-rules/SeveritySelect';
 import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
+import { getRuleParams, mergeImpacts } from '~shared/helpers/rules';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { IssueSeverity } from '~shared/types/issues';
@@ -48,7 +50,6 @@ import { useActivateRuleMutation } from '~sq-server-commons/queries/quality-prof
 import { Feature } from '~sq-server-commons/types/features';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import { sortProfiles } from '~sq-server-commons/utils/quality-profiles-utils';
-import { SeveritySelect } from './SeveritySelect';
 
 interface Props {
   activation?: RuleActivationAdvanced;
@@ -98,16 +99,16 @@ export default function ActivationFormModal(props: Readonly<Props>) {
   const prioritizedRule =
     changedPrioritizedRule ?? (activation ? activation.prioritizedRule : false);
   const profile = profiles.find((p) => p.key === changedProfile) ?? profilesWithDepth[0];
-  const params = changedParams ?? getRuleParams({ activation, rule });
+  const params =
+    changedParams ??
+    getRuleParams({ activationParams: activation?.params, ruleParams: rule.params });
   const severity =
     changedSeverity ?? ((activation ? activation.severity : rule.severity) as IssueSeverity);
-  const impacts = new Map<SoftwareQuality, SoftwareImpactSeverity>([
-    ...(rule.impacts ?? []).map((impact) => [impact.softwareQuality, impact.severity] as const),
-    ...(activation?.impacts
-      ?.filter((impact) => rule.impacts?.some((i) => i.softwareQuality === impact.softwareQuality))
-      .map((impact) => [impact.softwareQuality, impact.severity] as const) ?? []),
-    ...changedImpactSeveritiesMap,
-  ]);
+  const impacts = mergeImpacts(
+    rule.impacts ?? [],
+    activation?.impacts ?? [],
+    changedImpactSeveritiesMap,
+  );
   const profileOptions = profilesWithDepth.map((p) => ({
     label: p.name,
     value: p.key,
@@ -281,6 +282,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                   const id = `coding-rules-custom-severity-${quality}-select`;
                   return (
                     <SeveritySelect
+                      className="sw-mb-4"
                       id={id}
                       impactSeverity
                       isDisabled={submitting || !impact}
@@ -294,8 +296,8 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                           ),
                         );
                       }}
-                      recommendedSeverity={impact?.severity ?? ''}
-                      severity={impacts.get(quality) ?? ''}
+                      recommendedSeverity={impact?.severity}
+                      severity={impacts.get(quality)}
                     />
                   );
                 })}
@@ -391,25 +393,4 @@ function getQualityProfilesWithDepth(
     // Decrease depth by 1, so the top level starts at 0
     depth: profile.depth - 1,
   }));
-}
-
-function getRuleParams({
-  activation,
-  rule,
-}: {
-  activation?: RuleActivationAdvanced;
-  rule: RuleDetails | Rule;
-}) {
-  const params: Record<string, string> = {};
-  if (rule.params) {
-    for (const param of rule.params) {
-      params[param.key] = param.defaultValue ?? '';
-    }
-    if (activation?.params) {
-      for (const param of activation.params) {
-        params[param.key] = param.value;
-      }
-    }
-  }
-  return params;
 }

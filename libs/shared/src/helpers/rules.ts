@@ -18,8 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { SoftwareQualityImpact } from '../types/clean-code-taxonomy';
-import { Rule, RuleActivation, RuleDetails } from '../types/rules';
+import {
+  SoftwareImpactSeverity,
+  SoftwareQuality,
+  SoftwareQualityImpact,
+} from '../types/clean-code-taxonomy';
+import { Rule, RuleActivation } from '../types/rules';
 
 export function getImpactsDiffBySeverity(
   ruleImpacts: SoftwareQualityImpact[] = [],
@@ -47,22 +51,40 @@ export function getImpactsDiffBySeverity(
 }
 
 export function getRuleParams({
-  rule,
-  activation,
+  ruleParams,
+  activationParams,
 }: {
-  rule: Rule | RuleDetails;
-  activation?: RuleActivation;
+  ruleParams: Rule['params'];
+  activationParams?: RuleActivation['params'];
 }) {
   const params: Record<string, string> = {};
-  if (rule.params) {
-    for (const param of rule.params) {
+  if (ruleParams) {
+    for (const param of ruleParams) {
       params[param.key] = param.defaultValue ?? '';
     }
-    if (activation?.params) {
-      for (const param of activation.params) {
+    if (activationParams) {
+      for (const param of activationParams) {
         params[param.key] = param.value;
       }
     }
   }
   return params;
+}
+
+export function mergeImpacts(
+  ruleImpacts: SoftwareQualityImpact[] = [],
+  activationImpacts: SoftwareQualityImpact[] = [],
+  changedImpactSeveritiesMap = new Map<SoftwareQuality, SoftwareImpactSeverity>(),
+) {
+  const impacts = new Map<SoftwareQuality, SoftwareImpactSeverity>([
+    ...ruleImpacts.map((impact) => [impact.softwareQuality, impact.severity] as const),
+    ...activationImpacts
+      .filter((impact) => ruleImpacts.some((i) => i.softwareQuality === impact.softwareQuality))
+      .map((impact) => [impact.softwareQuality, impact.severity] as const),
+    ...[...changedImpactSeveritiesMap].filter(([quality]) =>
+      ruleImpacts.some((i) => i.softwareQuality === quality),
+    ),
+  ]);
+
+  return impacts;
 }
