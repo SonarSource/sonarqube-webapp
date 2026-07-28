@@ -47,16 +47,16 @@ const COMMON_PROPS = {
 
 const STATUS_COLORS = {
   failed: {
-    background: cssVar('ratings-colors-background-rating-e-default'),
-    icon: cssVar('ratings-colors-text-rating-e-default'),
+    background: cssVar('quality-gate-indicator-colors-failed-background'),
+    icon: cssVar('quality-gate-indicator-colors-failed-icon'),
   },
   notComputed: {
     background: cssVar('color-surface-disabled'),
-    icon: cssVar('color-text-disabled'),
+    icon: cssVar('color-icon-disabled'),
   },
   passed: {
-    background: cssVar('ratings-colors-background-rating-a-default'),
-    icon: cssVar('ratings-colors-text-rating-a-default'),
+    background: cssVar('quality-gate-indicator-colors-passed-background'),
+    icon: cssVar('quality-gate-indicator-colors-passed-icon'),
   },
 };
 
