@@ -26,6 +26,11 @@ interface SQSFlagSet extends FlagSet {
     maxEdgesCount: number;
     maxNodesCount: number;
   };
+  /**
+   * Dev/WIP gate for the MMF-5715 License products UI (usage-based products table, etc.).
+   * Not a BE /api/features/list entitlement — flip off (or remove) before shipping if needed.
+   */
+  licenseEnableUsageProductsUi: boolean;
   organizationReportingEnablePortfolioDashboards: boolean;
   scaEnableReachabilityFrontend: boolean;
   scaKeyChangesPrView: boolean;
@@ -36,6 +41,8 @@ interface SQSFlagSet extends FlagSet {
 // Add features flags here as needed in shared code, especially useful if you want a default value other than falsy for SQS.
 const defaultFlags: SQSFlagSet = {
   designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
+  // Keep false on master; flip true on epic/UI branches when developing License products UI.
+  licenseEnableUsageProductsUi: false,
   organizationReportingEnablePortfolioDashboards: false,
   scaEnableReachabilityFrontend: false,
   scaKeyChangesPrView: false,

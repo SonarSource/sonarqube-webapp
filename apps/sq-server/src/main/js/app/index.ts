@@ -38,7 +38,10 @@ import './styles/sonar';
 initAppVariables();
 installWebAnalyticsHandler();
 installExtensionsHandler();
-initMockApi(addons.architecture?.getArchitectureDevMockHandlers?.() ?? [])
+initMockApi([
+  ...(addons.architecture?.getArchitectureDevMockHandlers?.() ?? []),
+  ...(addons.license?.getLicenseDevMockHandlers?.() ?? []),
+])
   .then(initApplication)
   .catch((e) => {
     throw e;

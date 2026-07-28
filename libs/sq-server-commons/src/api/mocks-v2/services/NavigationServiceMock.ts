@@ -33,6 +33,8 @@ export class NavigationServiceMock extends AbstractServiceMock<NavigationService
   handlers = [
     http.get('/api/navigation/global', () =>
       this.ok({
+        // Required for AdminContainer (e.g. /admin/license) under start-w-mocks.
+        canAdmin: true,
         edition: EditionKey.enterprise,
         productionDatabase: true,
         qualifiers: [ComponentQualifier.Project],
