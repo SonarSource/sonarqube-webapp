@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { cssVar } from '@sonarsource/echoes-react';
 import { CSSColor } from '../types/theme';
-
-/* eslint-disable no-bitwise, no-mixed-operators */
 
 export function stringToColor(str: string) {
   let hash = 0;
@@ -63,3 +62,19 @@ export function getTextColor(background: string, dark = '#222', light = '#fff') 
 export function getRGBAString([r, g, b]: Array<number | string>, a?: number | string) {
   return (a !== undefined ? `rgba(${r},${g},${b},${a})` : `rgb(${r},${g},${b})`) as CSSColor;
 }
+
+export const BUBBLE_COLORS = {
+  1: cssVar('ratings-colors-background-rating-a-default'),
+  2: cssVar('ratings-colors-background-rating-b-default'),
+  3: cssVar('ratings-colors-background-rating-c-default'),
+  4: cssVar('ratings-colors-background-rating-d-default'),
+  5: cssVar('ratings-colors-background-rating-e-default'),
+};
+
+export const BUBBLE_BORDER_COLORS = {
+  1: cssVar('ratings-colors-border-rating-a-default'),
+  2: cssVar('ratings-colors-border-rating-b-default'),
+  3: cssVar('ratings-colors-border-rating-c-default'),
+  4: cssVar('ratings-colors-border-rating-d-default'),
+  5: cssVar('ratings-colors-border-rating-e-default'),
+};

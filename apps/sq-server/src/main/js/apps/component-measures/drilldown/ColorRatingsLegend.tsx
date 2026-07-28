@@ -18,13 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
 import {
+  BUBBLE_BORDER_COLORS,
+  BUBBLE_COLORS,
   BubbleColorVal,
   ColorFilterOption,
   ColorsLegend,
-  themeColor,
-  themeContrast,
 } from '~design-system';
 import { MetricType } from '~shared/types/metrics';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
@@ -38,7 +37,6 @@ export interface ColorRatingsLegendProps {
 
 export default function ColorRatingsLegend(props: ColorRatingsLegendProps) {
   const { className, filters } = props;
-  const theme = useTheme();
   const RATINGS = [1, 2, 3, 4, 5];
 
   const ratingsColors = RATINGS.map((rating: BubbleColorVal) => {
@@ -49,12 +47,8 @@ export default function ColorRatingsLegend(props: ColorRatingsLegendProps) {
       label: formattedMeasure,
       value: rating,
       selected: !filters[rating],
-      backgroundColor: themeColor(`bubble.${rating}`)({
-        theme,
-      }),
-      borderColor: themeContrast(`bubble.${rating}`)({
-        theme,
-      }),
+      backgroundColor: BUBBLE_COLORS[rating],
+      borderColor: BUBBLE_BORDER_COLORS[rating],
     };
   });
 

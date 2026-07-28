@@ -18,15 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Heading, IconQuestionMark, LinkStandalone, cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import {
+  BUBBLE_BORDER_COLORS,
+  BUBBLE_COLORS,
   BubbleColorVal,
   BubbleChart as OriginalBubbleChart,
-  themeColor,
-  themeContrast,
 } from '~design-system';
 import { isProject, isView } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
@@ -85,7 +84,6 @@ export default function BubbleChartView(props: Readonly<Props>) {
     branchLike,
     bubblesByDomain,
   } = props;
-  const theme = useTheme();
   const bubbleMetrics = getBubbleMetrics(bubblesByDomain, domain, metrics);
   const [ratingFilters, setRatingFilters] = React.useState<{ [rating: number]: boolean }>({});
 
@@ -113,15 +111,16 @@ export default function BubbleChartView(props: Readonly<Props>) {
           return undefined;
         }
 
-        const bubbleColor = `bubble.${(colorRating ?? 1) as BubbleColorVal}` as const;
+        const backgroundColor = BUBBLE_COLORS[(colorRating ?? 1) as BubbleColorVal];
+        const borderColor = BUBBLE_BORDER_COLORS[(colorRating ?? 1) as BubbleColorVal];
 
         return {
           ariaLabel: component.name,
           x,
           y,
           size,
-          backgroundColor: themeColor(bubbleColor)({ theme }),
-          borderColor: themeContrast(bubbleColor)({ theme }),
+          backgroundColor,
+          borderColor,
           data: component,
           tooltip: getTooltip(component, { x, y, size, colors }, bubbleMetrics),
         };

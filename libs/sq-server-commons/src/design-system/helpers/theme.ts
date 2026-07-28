@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { CSSColor, Theme, ThemeColors, ThemeContrasts, ThemedProps } from '../types/theme';
+import { CSSColor, Theme, ThemeColors, ThemedProps } from '../types/theme';
 import { getRGBAString } from './colors';
 
 export function getProp<T>(name: keyof Omit<T, keyof ThemedProps>) {
@@ -32,16 +32,6 @@ export function getProp<T>(name: keyof Omit<T, keyof ThemedProps>) {
 export function themeColor(name: ThemeColors | CSSColor, opacity?: number) {
   return function ({ theme }: ThemedProps) {
     return getColor(theme, [], name, opacity);
-  };
-}
-
-/**
- * @deprecated MIUI theme is deprecated, use Echoes css variables instead, for example
- * `color: ${cssVar('color-text-on-color')}`.
- */
-export function themeContrast(name: ThemeColors | CSSColor) {
-  return function ({ theme }: ThemedProps) {
-    return getContrast(theme, name);
   };
 }
 
@@ -109,25 +99,4 @@ function getColor(
   }
 
   return getRGBAString(color, opacityOverride ?? (color[3] as number | string | undefined) ?? a);
-}
-
-// Simplified version of getColor for contrast colors, fallback to colors if contrast isn't found
-function getContrast(theme: Theme, colorOverride: ThemeContrasts | ThemeColors | CSSColor) {
-  // Custom CSS property or rgb(a) color, return it directly
-  if (
-    colorOverride.startsWith('var(--') ||
-    colorOverride.startsWith('rgb(') ||
-    colorOverride.startsWith('rgba(')
-  ) {
-    return colorOverride as CSSColor;
-  }
-
-  // For contrast we always require a color override (it's the principle of a contrast)
-  const color =
-    theme.contrasts[colorOverride as ThemeContrasts] || theme.colors[colorOverride as ThemeColors];
-  if (typeof color === 'string') {
-    return color as CSSColor;
-  }
-
-  return getRGBAString(color, color[3]);
 }

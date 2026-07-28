@@ -51,53 +51,10 @@ describe('themeColor', () => {
     expect(ThemeHelper.themeColor('rgb(0,0,0)')({ theme: lightTheme })).toEqual('rgb(0,0,0)');
     expect(ThemeHelper.themeColor('rgba(0,0,0,1)')({ theme: lightTheme })).toEqual('rgba(0,0,0,1)');
     expect(
-      ThemeHelper.themeColor(ThemeHelper.themeContrast('backgroundPrimary')({ theme: lightTheme }))(
-        {
-          theme: lightTheme,
-        },
-      ),
-    ).toEqual('rgb(8,9,12)');
-    expect(
       ThemeHelper.themeColor(ThemeHelper.themeAvatarColor('luke')({ theme: lightTheme }))({
         theme: lightTheme,
       }),
     ).toEqual('rgb(209,215,254)');
-  });
-});
-
-describe('themeContrast', () => {
-  it('should work for light theme', () => {
-    expect(ThemeHelper.themeContrast('backgroundPrimary')({ theme: lightTheme })).toEqual(
-      'rgb(8,9,12)',
-    );
-  });
-
-  it('should work for all kind of color parameters', () => {
-    expect(ThemeHelper.themeContrast('var(--test)')({ theme: lightTheme })).toEqual('var(--test)');
-    expect(ThemeHelper.themeContrast('rgb(0,0,0)')({ theme: lightTheme })).toEqual('rgb(0,0,0)');
-    expect(ThemeHelper.themeContrast('rgba(0,0,0,1)')({ theme: lightTheme })).toEqual(
-      'rgba(0,0,0,1)',
-    );
-    expect(
-      ThemeHelper.themeContrast(ThemeHelper.themeColor('backgroundPrimary')({ theme: lightTheme }))(
-        {
-          theme: lightTheme,
-        },
-      ),
-    ).toEqual('rgb(252,252,253)');
-    expect(
-      ThemeHelper.themeContrast(ThemeHelper.themeAvatarColor('luke')({ theme: lightTheme }))({
-        theme: lightTheme,
-      }),
-    ).toEqual('rgb(209,215,254)');
-    expect(
-      ThemeHelper.themeContrast('backgroundPrimary')({
-        theme: {
-          ...lightTheme,
-          contrasts: { ...lightTheme.contrasts, backgroundPrimary: 'inherit' },
-        },
-      }),
-    ).toEqual('inherit');
   });
 });
 

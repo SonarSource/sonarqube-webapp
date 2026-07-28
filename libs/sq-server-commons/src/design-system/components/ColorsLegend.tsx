@@ -18,11 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
-import { themeColor, themeContrast } from '../helpers';
+import { BUBBLE_BORDER_COLORS, BUBBLE_COLORS } from '../helpers';
 import { BubbleColorVal } from '../types';
 import { Tooltip } from './Tooltip';
 import { Checkbox } from './input/Checkbox';
@@ -45,7 +44,6 @@ interface ColorLegendProps {
 
 export function ColorsLegend(props: ColorLegendProps) {
   const { className, colors } = props;
-  const theme = useTheme();
 
   return (
     <ColorsLegendWrapper className={className}>
@@ -65,15 +63,10 @@ export function ColorsLegend(props: ColorLegendProps) {
                     color.selected
                       ? {
                           backgroundColor:
-                            color.backgroundColor ??
-                            themeColor(`bubble.${(idx + 1) as BubbleColorVal}`)({
-                              theme,
-                            }),
+                            color.backgroundColor ?? BUBBLE_COLORS[(idx + 1) as BubbleColorVal],
+
                           borderColor:
-                            color.borderColor ??
-                            themeContrast(`bubble.${(idx + 1) as BubbleColorVal}`)({
-                              theme,
-                            }),
+                            color.borderColor ?? BUBBLE_BORDER_COLORS[(idx + 1) as BubbleColorVal],
                         }
                       : {}
                   }
