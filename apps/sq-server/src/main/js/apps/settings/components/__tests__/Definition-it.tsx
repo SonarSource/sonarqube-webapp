@@ -54,7 +54,6 @@ const ui = {
   urlKindInput: byRole('textbox', { name: /sonar.auth.gitlab.url/ }),
   nameInput: byRole('textbox', { name: /property.name.name/ }),
   valueInput: byRole('textbox', { name: /property.value.name/ }),
-  savedMsg: byText('settings.state.saved'),
   validationMsg: byText(/settings.state.validation_failed/),
   jsonFormatStatus: byText('settings.json.format_error'),
   jsonFormatButton: byRole('button', { name: 'settings.json.format' }),
@@ -73,6 +72,7 @@ const ui = {
   deleteFieldsButton: byRole('button', {
     name: /settings.definitions.delete_fields/,
   }),
+  savedNotification: byText(/settings.authentication.form.settings.save_success/),
 };
 
 it.each([SettingType.TEXT, SettingType.STRING, SettingType.PASSWORD, 'uknown type'])(
@@ -95,7 +95,7 @@ it.each([SettingType.TEXT, SettingType.STRING, SettingType.PASSWORD, 'uknown typ
     await user.click(await ui.saveButton.find());
     expect(ui.validationMsg.query()).not.toBeInTheDocument();
     expect(ui.announcementInput.get()).toHaveValue(' Testing');
-    expect(ui.savedMsg.get()).toBeInTheDocument();
+    expect(await ui.savedNotification.find()).toBeInTheDocument();
 
     // Validation message when clearing input to empty
     await user.clear(ui.announcementInput.get());
@@ -173,7 +173,7 @@ it('renders definition for SettingType = JSON and can do operations', async () =
   expect(ui.jsonFormatStatus.query()).not.toBeInTheDocument();
 
   await user.click(ui.saveButton.get());
-  expect(ui.savedMsg.get()).toBeInTheDocument();
+  expect(await ui.savedNotification.find()).toBeInTheDocument();
 });
 
 it('renders definition for SettingType = BOOLEAN and can do operations', async () => {
@@ -198,7 +198,7 @@ it('renders definition for SettingType = BOOLEAN and can do operations', async (
   await user.click(ui.toggleButton.get());
   await user.click(ui.saveButton.get());
   expect(ui.toggleButton.get()).toBeChecked();
-  expect(ui.savedMsg.get()).toBeInTheDocument();
+  expect(await ui.savedNotification.find()).toBeInTheDocument();
 
   // Can reset toggle
   await user.click(
@@ -236,7 +236,7 @@ it('renders definition for SettingType = SINGLE_SELECT_LIST and can do operation
   await user.click(ui.selectInput.get());
   await user.click(ui.selectOption('second').get());
   await user.click(ui.saveButton.get());
-  expect(ui.savedMsg.get()).toBeInTheDocument();
+  expect(await ui.savedNotification.find()).toBeInTheDocument();
 
   // Can reset
   await user.click(
@@ -270,7 +270,7 @@ it('renders definition for SettingType = FORMATTED_TEXT and can do operations', 
   // Can save formatted message
   await user.type(ui.announcementInput.get(), 'https://ok.com');
   await user.click(ui.saveButton.get());
-  expect(ui.savedMsg.get()).toBeInTheDocument();
+  expect(await ui.savedNotification.find()).toBeInTheDocument();
   expect(ui.announcementInput.query()).not.toBeInTheDocument();
 });
 
@@ -305,7 +305,7 @@ it('renders definition for multiValues type and can do operations', async () => 
   // Can update values and save
   await user.type(last(ui.multiValuesInput.getAll()) as HTMLElement, 'new value');
   await user.click(ui.saveButton.get());
-  expect(ui.savedMsg.get()).toBeInTheDocument();
+  expect(await ui.savedNotification.find()).toBeInTheDocument();
   expect(ui.multiValuesInput.getAll()).toHaveLength(5);
 
   // Can reset to default
@@ -340,7 +340,7 @@ it('renders definition for SettingType = PROPERTY_SET and can do operations', as
   await user.type(ui.valueInput.getAll()[0], 'any value');
   await user.click(ui.saveButton.get());
 
-  expect(ui.savedMsg.get()).toBeInTheDocument();
+  expect(await ui.savedNotification.find()).toBeInTheDocument();
   expect(ui.nameInput.getAll()[0]).toHaveValue('any name');
   expect(ui.valueInput.getAll()[0]).toHaveValue('any value');
 
@@ -352,7 +352,7 @@ it('renders definition for SettingType = PROPERTY_SET and can do operations', as
   await user.click(ui.resetButton(/settings.definition.reset/).get());
   await user.click(ui.resetButton().get());
 
-  expect(ui.savedMsg.get()).toBeInTheDocument();
+  expect(await ui.savedNotification.find()).toBeInTheDocument();
   expect(ui.nameInput.get()).toHaveValue('');
   expect(ui.valueInput.get()).toHaveValue('');
 });
@@ -389,7 +389,7 @@ it('renders secured definition and can do operations', async () => {
   // Can save new value
   await user.type(ui.securedInput.get(), 'Anything');
   await user.click(ui.saveButton.get());
-  expect(ui.savedMsg.get()).toBeInTheDocument();
+  expect(await ui.savedNotification.find()).toBeInTheDocument();
   expect(ui.securedInput.query()).not.toBeInTheDocument();
 
   // Can change value by unlocking input
@@ -400,7 +400,7 @@ it('renders secured definition and can do operations', async () => {
   await user.click(ui.resetButton(/settings.definition.reset/).get());
   await user.click(ui.resetButton().get());
 
-  expect(ui.savedMsg.get()).toBeInTheDocument();
+  expect(await ui.savedNotification.find()).toBeInTheDocument();
 });
 
 it('renders correctly for URL kind definition', async () => {
@@ -432,13 +432,13 @@ it('renders correctly with confirmation message', async () => {
   expect(ui.confirmDialog.get()).toBeInTheDocument();
   await user.click(ui.confirmDialog.by(ui.cancelButton).get());
   expect(ui.saveButton.get()).toBeInTheDocument();
-  expect(ui.savedMsg.query()).not.toBeInTheDocument();
+  expect(ui.savedNotification.query()).not.toBeInTheDocument();
 
   await user.click(ui.saveButton.get());
   expect(ui.confirmDialog.get()).toBeInTheDocument();
   await user.click(ui.confirmDialog.by(ui.confirmButton).get());
   expect(ui.saveButton.query()).not.toBeInTheDocument();
-  expect(ui.savedMsg.get()).toBeInTheDocument();
+  expect(await ui.savedNotification.find()).toBeInTheDocument();
 });
 
 it.each(DEPRECATED_SETTINGS_KEYS)('renders correctly for deprecated definition', (key) => {

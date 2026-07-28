@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { toast } from '@sonarsource/echoes-react';
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createQueryHook } from '~shared/queries/common';
 import { ExtendedSettingDefinition, SettingValue } from '~shared/types/settings';
@@ -84,6 +85,7 @@ export function useResetSettingsMutation() {
         });
       });
       queryClient.invalidateQueries({ queryKey: ['settings', 'values'] });
+      toast.success({ description: getSettingsSaveSuccessMessage() });
     },
   });
 }
@@ -127,7 +129,7 @@ export function useSaveValuesMutation() {
           queryClient.invalidateQueries({ queryKey: queryKeys.details(key) });
         });
         queryClient.invalidateQueries({ queryKey: ['settings', 'values'] });
-        addGlobalSuccessMessage(getSettingsSaveSuccessMessage());
+        toast.success({ description: getSettingsSaveSuccessMessage() });
       }
     },
   });

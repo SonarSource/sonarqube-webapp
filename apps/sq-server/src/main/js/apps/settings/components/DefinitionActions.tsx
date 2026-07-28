@@ -39,6 +39,8 @@ type Props = {
   onReset: () => void;
   onSave: () => void;
   setting: Setting;
+  isSaving: boolean;
+  isResetting: boolean;
 };
 
 type State = { reseting: boolean };
@@ -102,7 +104,8 @@ export default class DefinitionActions extends React.PureComponent<Props, State>
           {hasValueChanged && (
             <Button
               ariaLabel={saveButtonLabel}
-              isDisabled={hasError}
+              isDisabled={hasError || this.props.isSaving}
+              isLoading={this.props.isSaving}
               onClick={this.props.onSave}
               variety={ButtonVariety.Primary}
             >
@@ -116,6 +119,8 @@ export default class DefinitionActions extends React.PureComponent<Props, State>
                 'settings.definition.reset',
                 getPropertyName(setting.definition),
               )}
+              isDisabled={this.props.isResetting}
+              isLoading={this.props.isResetting}
               onClick={this.handleReset}
             >
               <FormattedMessage id="reset_verb" />

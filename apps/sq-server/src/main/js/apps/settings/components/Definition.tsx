@@ -25,13 +25,11 @@ import {
   MessageInline,
   MessageVariety,
   Modal,
-  Spinner,
-  Text,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ExtendedSettingDefinition, SettingType, SettingValue } from '~shared/types/settings';
-import { hasMessage, translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { hasMessage } from '~sq-server-commons/helpers/l10n';
 import { parseError } from '~sq-server-commons/helpers/request';
 import {
   useGetValueQuery,
@@ -44,7 +42,6 @@ import { SETTING_DISABLED_WHEN } from '../constants';
 import {
   combineDefinitionAndSettingValue,
   getSettingValue,
-  getUniqueName,
   isDefaultOrInherited,
   isEmptyValue,
   isURLKind,
@@ -60,7 +57,6 @@ interface Props {
   initialSettingValue?: SettingValue;
 }
 
-const SAFE_SET_STATE_DELAY = 3000;
 const formNoop = (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 };
@@ -68,16 +64,13 @@ type FieldValue = string | string[] | boolean;
 
 export default function Definition(props: Readonly<Props>) {
   const { component, definition, initialSettingValue } = props;
-  const timeout = React.useRef<number | undefined>(undefined);
+  const intl = useIntl();
+  const { formatMessage } = intl;
   const [isEditing, setIsEditing] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
   const [isOpenConfirmation, setIsOpenConfirmation] = React.useState(false);
-  const [success, setSuccess] = React.useState(false);
   const [changedValue, setChangedValue] = React.useState<FieldValue>();
   const [validationMessage, setValidationMessage] = React.useState<string>();
   const ref = React.useRef<HTMLElement>(null);
-  const name = getUniqueName(definition);
-  const intl = useIntl();
 
   const { data: loadedSettingValue, isLoading } = useGetValueQuery({
     key: definition.key,
@@ -104,48 +97,30 @@ export default function Definition(props: Readonly<Props>) {
   const disabledReasonKey = `property.${definition.key}.disabled_reason`;
   const disabledReason =
     isDisabled && hasMessage(disabledReasonKey)
-      ? intl.formatMessage({ id: disabledReasonKey })
+      ? formatMessage({ id: disabledReasonKey })
       : undefined;
 
   const requiresConfirmation = props.getConfirmationMessage != null;
 
-  const { mutateAsync: resetSettingValue } = useResetSettingsMutation();
-  const { mutateAsync: saveSettingValue } = useSaveValueMutation();
+  const { mutateAsync: resetSettingValue, isPending: isResetting } = useResetSettingsMutation();
+  const { mutateAsync: saveSettingValue, isPending: isSaving } = useSaveValueMutation();
 
-  React.useEffect(
-    () => () => {
-      clearTimeout(timeout.current);
-    },
-    [],
-  );
+  const isPending = isResetting || isSaving;
 
   const handleChange = (changedValue: FieldValue) => {
-    clearTimeout(timeout.current);
-
     setChangedValue(changedValue);
-    setSuccess(false);
     handleCheck(changedValue);
   };
 
   const handleReset = async () => {
-    setLoading(true);
-    setSuccess(false);
-
     try {
       await resetSettingValue({ keys: [definition.key], component: component?.key });
 
       setChangedValue(undefined);
-      setLoading(false);
-      setSuccess(true);
       ref.current?.focus();
       setValidationMessage(undefined);
-
-      timeout.current = window.setTimeout(() => {
-        setSuccess(false);
-      }, SAFE_SET_STATE_DELAY);
     } catch (e) {
       const validationMessage = await parseError(e as Response);
-      setLoading(false);
       setValidationMessage(validationMessage);
       ref.current?.focus();
     }
@@ -160,9 +135,11 @@ export default function Definition(props: Readonly<Props>) {
   const handleCheck = (value?: FieldValue) => {
     if (isEmptyValue(definition, value)) {
       if (definition.defaultValue === undefined) {
-        setValidationMessage(translate('settings.state.value_cant_be_empty_no_default'));
+        setValidationMessage(
+          formatMessage({ id: 'settings.state.value_cant_be_empty_no_default' }),
+        );
       } else {
-        setValidationMessage(translate('settings.state.value_cant_be_empty'));
+        setValidationMessage(formatMessage({ id: 'settings.state.value_cant_be_empty' }));
       }
       ref.current?.focus();
 
@@ -175,7 +152,7 @@ export default function Definition(props: Readonly<Props>) {
         new URL(value?.toString() ?? '');
       } catch (e) {
         setValidationMessage(
-          translateWithParameters('settings.state.url_not_valid', value?.toString() ?? ''),
+          formatMessage({ id: 'settings.state.url_not_valid' }, { url: value?.toString() ?? '' }),
         );
         ref.current?.focus();
 
@@ -205,16 +182,12 @@ export default function Definition(props: Readonly<Props>) {
   const handleSave = async () => {
     setIsOpenConfirmation(false);
     if (changedValue !== undefined) {
-      setSuccess(false);
-
       if (isEmptyValue(definition, changedValue)) {
-        setValidationMessage(translate('settings.state.value_cant_be_empty'));
+        setValidationMessage(formatMessage({ id: 'settings.state.value_cant_be_empty' }));
         ref.current?.focus();
 
         return;
       }
-
-      setLoading(true);
 
       try {
         await saveSettingValue({
@@ -226,16 +199,9 @@ export default function Definition(props: Readonly<Props>) {
 
         setChangedValue(undefined);
         setIsEditing(false);
-        setLoading(false);
-        setSuccess(true);
         ref.current?.focus();
-
-        timeout.current = window.setTimeout(() => {
-          setSuccess(false);
-        }, SAFE_SET_STATE_DELAY);
       } catch (e) {
         const validationMessage = await parseError(e as Response);
-        setLoading(false);
         setValidationMessage(validationMessage);
         ref.current?.focus();
       }
@@ -256,7 +222,6 @@ export default function Definition(props: Readonly<Props>) {
       <div className="sw-flex-1">
         <Form onSubmit={formNoop}>
           <Input
-            ariaDescribedBy={`definition-stats-${name}`}
             disabledReason={disabledReason}
             hasValueChanged={hasValueChanged}
             isDisabled={isDisabled}
@@ -274,18 +239,8 @@ export default function Definition(props: Readonly<Props>) {
           />
 
           <div className="sw-mt-2">
-            {loading && (
-              <div className="sw-flex" id={`definition-stats-${name}`}>
-                <Spinner aria-busy />
-
-                <Text className="sw-ml-2" isSubtle>
-                  <FormattedMessage id="settings.state.saving" />
-                </Text>
-              </div>
-            )}
-
             <output>
-              {!loading && validationMessage && (
+              {!isPending && validationMessage && (
                 <MessageInline variety={MessageVariety.Danger}>
                   <FormattedMessage
                     id="settings.state.validation_failed"
@@ -294,12 +249,6 @@ export default function Definition(props: Readonly<Props>) {
                 </MessageInline>
               )}
             </output>
-
-            {!loading && !hasError && success && (
-              <MessageInline variety={MessageVariety.Success}>
-                <FormattedMessage id="settings.state.saved" />
-              </MessageInline>
-            )}
           </div>
 
           <DefinitionActions
@@ -309,6 +258,8 @@ export default function Definition(props: Readonly<Props>) {
             hasValueChanged={hasValueChanged}
             isDefault={isDefault}
             isEditing={isEditing}
+            isResetting={isResetting}
+            isSaving={isSaving}
             onCancel={handleCancel}
             onReset={handleReset}
             onSave={requiresConfirmation ? handleConfirmation : handleSave}

@@ -3067,7 +3067,7 @@ export const defaultMessages = {
   'settings.state.value_cant_be_empty':
     'Provide a value or use "Reset" to set the value to the default one.',
   'settings.state.value_cant_be_empty_no_default': 'Provide a value.',
-  'settings.state.url_not_valid': '{0} is not a valid URL',
+  'settings.state.url_not_valid': '{url} is not a valid URL',
   'settings._default': '(default)',
   'settings.boolean.true': 'True',
   'settings.boolean.false': 'False',
