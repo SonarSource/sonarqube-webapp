@@ -34,8 +34,6 @@ import { OnboardingChecklistCard } from './checklist/OnboardingChecklistCard';
 import { OnboardingDevopsPlatformsCard } from './devops/OnboardingDevopsPlatformsCard';
 import { OnboardingJourney } from './journey/OnboardingJourney';
 import { OnboardingDashboardSkeleton } from './OnboardingDashboardSkeleton';
-import { OnboardingRepositoriesCard } from './projects/OnboardingRepositoriesCard';
-import { OnboardingStaleProjectsCard } from './projects/OnboardingStaleProjectsCard';
 
 export default function OnboardingDashboardApp() {
   const { formatMessage } = useIntl();
@@ -83,18 +81,9 @@ export default function OnboardingDashboardApp() {
                 </div>
               )}
 
-              <div className="sw-grid sw-grid-cols-12 sw-items-start sw-gap-4">
-                <div className="sw-col-span-7 sw-h-full">
-                  <OnboardingStaleProjectsCard />
-                </div>
-                <div className="sw-col-span-5 sw-h-full">
-                  {devopsPlatforms !== undefined && (
-                    <OnboardingDevopsPlatformsCard data={devopsPlatforms} />
-                  )}
-                </div>
-              </div>
-
-              <OnboardingRepositoriesCard />
+              {devopsPlatforms !== undefined && (
+                <OnboardingDevopsPlatformsCard data={devopsPlatforms} />
+              )}
             </div>
           )}
         </LoadingContainer>

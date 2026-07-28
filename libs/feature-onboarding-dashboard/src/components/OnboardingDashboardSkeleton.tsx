@@ -98,36 +98,6 @@ function DonutCardSkeleton() {
   );
 }
 
-interface TableCardSkeletonProps {
-  rows?: number;
-}
-
-/** Table card placeholder: a search field and a stack of row bars. */
-function TableCardSkeleton({ rows = 5 }: Readonly<TableCardSkeletonProps>) {
-  return (
-    <Card className="sw-min-w-0">
-      <CardHeaderSkeleton />
-      <Card.Body>
-        <div className="sw-flex sw-flex-col sw-gap-4">
-          <div className="sw-flex sw-items-center sw-justify-between">
-            <LoadingSkeleton className="sw-h-8 sw-w-64" variety="rectangle" />
-            <LoadingSkeleton className="sw-w-24" variety="text" />
-          </div>
-          <div className="sw-flex sw-flex-col sw-gap-3">
-            {Array.from({ length: rows }, (_, index) => (
-              <LoadingSkeleton
-                className="sw-h-8 sw-w-full"
-                key={`row-${index}`}
-                variety="rectangle"
-              />
-            ))}
-          </div>
-        </div>
-      </Card.Body>
-    </Card>
-  );
-}
-
 /**
  * Full-page loading placeholder for the onboarding dashboard overview. Mirrors the real grid so
  * the layout stays stable when data arrives. Meant to render inside a LoadingContainer, from which
@@ -163,25 +133,16 @@ export function OnboardingDashboardSkeleton() {
         <DonutCardSkeleton />
       </div>
 
-      <div className="sw-grid sw-grid-cols-12 sw-items-start sw-gap-4">
-        <div className="sw-col-span-7 sw-h-full">
-          <TableCardSkeleton rows={4} />
-        </div>
-        <div className="sw-col-span-5 sw-h-full">
-          <Card className="sw-min-w-0">
-            <CardHeaderSkeleton />
-            <Card.Body>
-              <div className="sw-flex sw-flex-col">
-                {Array.from({ length: 4 }, (_, index) => (
-                  <DevopsRowSkeleton key={`devops-${index}`} />
-                ))}
-              </div>
-            </Card.Body>
-          </Card>
-        </div>
-      </div>
-
-      <TableCardSkeleton />
+      <Card className="sw-min-w-0">
+        <CardHeaderSkeleton />
+        <Card.Body>
+          <div className="sw-flex sw-flex-col">
+            {Array.from({ length: 4 }, (_, index) => (
+              <DevopsRowSkeleton key={`devops-${index}`} />
+            ))}
+          </div>
+        </Card.Body>
+      </Card>
     </div>
   );
 }

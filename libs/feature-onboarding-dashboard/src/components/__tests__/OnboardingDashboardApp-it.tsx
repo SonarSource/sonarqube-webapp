@@ -122,14 +122,18 @@ const ui = {
   devopsNotBound: byText('onboarding_dashboard.devops.not_bound'),
   devopsGithubBar: byRole('progressbar', { name: 'alm.github' }),
 
-  // Potentially stale projects
-  staleTitle: byText('onboarding_dashboard.stale.title'),
-  staleProjectsTable: byRole('table', { name: 'onboarding_dashboard.stale.title' }),
-
-  // Repositories & projects
-  repositoriesTitle: byText('onboarding_dashboard.projects.title'),
+  // All projects table
+  projectsTitle: byText('onboarding_dashboard.projects.title'),
+  projectsTable: byRole('table', { name: 'onboarding_dashboard.projects.title' }),
+  projectsTableColumnHeaders: byRole('table', {
+    name: 'onboarding_dashboard.projects.title',
+  }).byRole('columnheader'),
   searchInput: byRole('searchbox', { name: 'onboarding_dashboard.projects.search' }),
   notOnboardedFilter: byText('onboarding_dashboard.projects.filter.not_onboarded'),
+  colRepository: byText('onboarding_dashboard.projects.col.repository'),
+  colScanStatus: byText('onboarding_dashboard.projects.col.onboarding'),
+  colAnalysisMode: byText('onboarding_dashboard.projects.col.analysis_mode'),
+  colGateStatus: byText('onboarding_dashboard.projects.col.gate_status'),
   repoWebCore: byText('web-core'),
   repoPlatformJobs: byText('platform-jobs'),
   repoGitlabIcon: byRole('img', { name: 'alm.gitlab' }),
@@ -274,37 +278,35 @@ it('renders the DevOps platforms card with brand rows and a not-bound row', asyn
   expect(ui.devopsGithubBar.get()).toBeInTheDocument();
 });
 
-it('renders the potentially stale projects card listing only stale projects', async () => {
+it('renders the all-projects table with only the four redesigned columns', async () => {
   renderOnboardingDashboard();
 
-  expect(await ui.staleTitle.find()).toBeInTheDocument();
+  expect(await ui.projectsTable.find()).toBeInTheDocument();
+  expect(ui.colRepository.get()).toBeInTheDocument();
+  expect(ui.colScanStatus.get()).toBeInTheDocument();
+  expect(ui.colAnalysisMode.get()).toBeInTheDocument();
+  expect(ui.colGateStatus.get()).toBeInTheDocument();
 
-  // The stale table only lists projects with stale commits (payments-gateway), not healthy ones
-  // (web-core), which the API filters server-side.
-  expect(await ui.staleProjectsTable.byText('payments-gateway').find()).toBeInTheDocument();
-  expect(ui.staleProjectsTable.byText('web-core').query()).not.toBeInTheDocument();
+  // Exactly four — the legacy "last scan" and "test coverage" columns went away with the old
+  // table and must not creep back in.
+  expect(ui.projectsTableColumnHeaders.getAll()).toHaveLength(4);
 });
 
-it('renders an empty-state row in the stale projects card when there are no stale projects', async () => {
-  // Seed only a non-stale project (web-core); the stale filter returns nothing, so the table
-  // still renders its header and a no-data row rather than collapsing to an empty card body.
-  onboardingMock.setProjects([mockOnboardingProjects()[2]]);
+it('renders a no-data row in the all-projects table when the organization has no projects', async () => {
+  onboardingMock.setProjects([]);
   renderOnboardingDashboard();
 
-  const staleTable = await ui.staleProjectsTable.find();
-  expect(staleTable).toBeInTheDocument();
-  expect(ui.staleProjectsTable.byText('web-core').query()).not.toBeInTheDocument();
-  // One em-dash placeholder per data column (repository, gate status, last scan). The table shows
-  // row skeletons while its own query loads, so wait for the no-data row to replace them.
-  expect(await ui.staleProjectsTable.byText(NO_DATA).findAll()).toHaveLength(3);
+  // One em-dash placeholder per column. The table shows row skeletons while its own query
+  // loads, so wait for the no-data row to replace them.
+  expect(await ui.projectsTable.byText(NO_DATA).findAll()).toHaveLength(4);
 });
 
-it('filters the repositories list by search and by filter chip', async () => {
+it('filters the all-projects table by search and by filter chip', async () => {
   const user = userEvent.setup({ delay: null });
   renderOnboardingDashboard();
 
-  expect(await ui.repositoriesTitle.find()).toBeInTheDocument();
-  // web-core is a non-stale project (only appears in the repositories table)
+  expect(await ui.projectsTitle.find()).toBeInTheDocument();
+  // web-core is one of the seeded projects and is listed by default.
   expect(await ui.repoWebCore.find()).toBeInTheDocument();
 
   // Search narrows the list to matching repositories (debounced + server-side)
@@ -346,32 +348,17 @@ it('clamps the checklist progress bar to 100 when completionPct exceeds 100', as
   expect(prDecoBar).toHaveAttribute('aria-valuenow', '100');
 });
 
-it('shows a cap note in the stale card when the total exceeds the fetched page', async () => {
-  // Simulate an org with more stale projects than the 500-row display cap.
-  // setProjects provides a 1-item stale list; setStaleTotalOverride makes the mock server
-  // report 501 as page.total so isCapped becomes true — without creating hundreds of DOM rows.
-  onboardingMock.setProjects([mockOnboardingProjects()[1]]);
-  onboardingMock.setStaleTotalOverride(501);
-  renderOnboardingDashboard();
-
-  expect(await ui.staleTitle.find()).toBeInTheDocument();
-  // The "Showing first {count}" note must appear once the total exceeds the 500-project cap.
-  // The react-intl mock joins id + primitive values with dots, so formatMessage({id}, {count: 1})
-  // produces 'onboarding_dashboard.stale.capped.1' (count == staleProjects.length == 1).
-  expect(await byText('onboarding_dashboard.stale.capped.1').find()).toBeInTheDocument();
-});
-
-it('shows pagination in the repositories card when the total exceeds the page size', async () => {
-  // Seed 51 projects (all non-stale) to trigger pagination (PAGE_SIZE = 50).
+it('shows pagination in the all-projects table when the total exceeds the page size', async () => {
+  // Seed 51 projects to trigger pagination (PAGE_SIZE = 50).
   // Pagination only appears when data.page.total > PAGE_SIZE, confirming the header
   // count uses the server total rather than the local page slice.
-  const baseProject = mockOnboardingProjects()[2]; // web-core — non-stale, analysed
+  const baseProject = mockOnboardingProjects()[2]; // web-core — analysed
   onboardingMock.setProjects(
     Array.from({ length: 51 }, (_, i) => ({ ...baseProject, key: `repo-${i}`, name: `repo-${i}` })),
   );
   renderOnboardingDashboard();
 
-  expect(await ui.repositoriesTitle.find()).toBeInTheDocument();
+  expect(await ui.projectsTitle.find()).toBeInTheDocument();
   // Pagination is only rendered when totalPages > 1, which requires data.page.total > 50.
   // Echoes' Pagination component renders a <div> wrapper, not a <nav>, so we probe for the
   // page-2 button whose aria-label is produced by the react-intl mock as 'pagination.page_x.2'

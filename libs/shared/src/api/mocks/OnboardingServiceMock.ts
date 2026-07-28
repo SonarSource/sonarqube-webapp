@@ -46,13 +46,6 @@ export interface OnboardingServiceData {
   overview: OnboardingOverview;
   // Full project list; the projects endpoint applies search/filter/pagination server-side.
   projects: OnboardingProject[];
-  /**
-   * When set, the stale-filter endpoint reports this value as `page.total` instead of the
-   * real count of matching projects. Use setStaleTotalOverride() in tests to simulate an org
-   * with more stale projects than the display cap (STALE_PAGE_SIZE) without rendering hundreds
-   * of DOM rows.
-   */
-  staleTotalOverride?: number;
 }
 
 /** Mirrors the backend filter tabs so the mock can compute matches and per-tab counts. */
@@ -273,14 +266,6 @@ export class OnboardingServiceMock extends AbstractServiceMock<OnboardingService
     this.data.projects = projects;
   };
 
-  /**
-   * Override the `page.total` returned for stale-filter requests. Pass `undefined` to
-   * revert to the real count. Cleared automatically by `reset()`.
-   */
-  setStaleTotalOverride = (total: number | undefined) => {
-    this.data.staleTotalOverride = total;
-  };
-
   handlers = [
     http.get(ONBOARDING_OVERVIEW_PATH, () => {
       if (this.data.failOverview) {
@@ -303,12 +288,7 @@ export class OnboardingServiceMock extends AbstractServiceMock<OnboardingService
       const start = (pageIndex - 1) * pageSize;
       const projects = pageSize <= 0 ? [] : filtered.slice(start, start + pageSize);
 
-      // Allow tests to override the reported total for stale requests so they can simulate an
-      // org with more stale projects than the display cap without creating hundreds of objects.
-      const total =
-        filter === 'stale' && this.data.staleTotalOverride !== undefined
-          ? this.data.staleTotalOverride
-          : filtered.length;
+      const total = filtered.length;
 
       return this.ok({
         filterCounts,

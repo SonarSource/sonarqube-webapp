@@ -10112,7 +10112,6 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.locked.more.cta': 'Import repositories',
   'onboarding_dashboard.loading': 'Loading dashboard',
   'onboarding_dashboard.projects.loading': 'Loading repositories',
-  'onboarding_dashboard.stale.loading': 'Loading stale projects',
   'onboarding_dashboard.cards.repositories_discovered.title': 'Repositories discovered',
   'onboarding_dashboard.cards.repositories_discovered.subtitle':
     'Across your connected DevOps platforms.',
@@ -10169,16 +10168,7 @@ export const defaultMessages = {
   'onboarding_dashboard.devops.share': '{percent}%',
   'onboarding_dashboard.devops.count': '{count} project(s)',
   'onboarding_dashboard.devops.platform_count': '<b>{count}</b> platform(s)',
-  'onboarding_dashboard.stale.title': 'Commits not being scanned',
-  'onboarding_dashboard.stale.description':
-    "These projects have commits that haven't been scanned in the past 7 days.",
   'onboarding_dashboard.projects.count': '<b>{count}</b> project(s)',
-  'onboarding_dashboard.stale.search': 'Search projects…',
-  'onboarding_dashboard.stale.col.repository': 'Repository',
-  'onboarding_dashboard.stale.col.commits': 'Commits',
-  'onboarding_dashboard.stale.col.last_scan': 'Last scan',
-  'onboarding_dashboard.stale.col.gate_status': 'Gate status',
-  'onboarding_dashboard.stale.capped': 'Showing first {count}',
   'onboarding_dashboard.projects.title': 'All projects',
   'onboarding_dashboard.projects.description':
     'A complete overview of all projects that need your attention.',
@@ -10187,8 +10177,6 @@ export const defaultMessages = {
   'onboarding_dashboard.projects.col.onboarding': 'Scan status',
   'onboarding_dashboard.projects.col.analysis_mode': 'Analysis mode',
   'onboarding_dashboard.projects.col.gate_status': 'Gate status',
-  'onboarding_dashboard.projects.col.last_scan': 'Last scan',
-  'onboarding_dashboard.projects.col.test_coverage': 'Test coverage',
   'onboarding_dashboard.projects.filter.all': 'All',
   'onboarding_dashboard.projects.filter.not_onboarded': 'Not in connected mode',
   'onboarding_dashboard.projects.filter.failed_scans': 'Failed scans',
