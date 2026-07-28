@@ -66,6 +66,7 @@ export const CATEGORY_OVERRIDES: Record<string, string> = {
   json: LANGUAGES_CATEGORY,
   kotlin: LANGUAGES_CATEGORY,
   kubernetes: LANGUAGES_CATEGORY,
+  mulesoft: LANGUAGES_CATEGORY,
   php: LANGUAGES_CATEGORY,
   'pl/i': LANGUAGES_CATEGORY,
   'pl/sql': LANGUAGES_CATEGORY,
