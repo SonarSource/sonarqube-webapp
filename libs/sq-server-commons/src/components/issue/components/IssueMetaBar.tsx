@@ -19,17 +19,17 @@
  */
 
 import styled from '@emotion/styled';
-import { cssVar } from '@sonarsource/echoes-react';
+import { cssVar, IconComment, Tooltip } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
+import { useIntl } from 'react-intl';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import DateFromNow from '~shared/components/intl/DateFromNow';
+import { ExternalRuleEngineBadge } from '~shared/components/issues/ExternalRuleEngineBadge';
 import { isDefined } from '~shared/helpers/types';
-import { Badge, CommentIcon, SeparatorCircleIcon } from '../../../design-system';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
+import { SeparatorCircleIcon } from '../../../design-system';
 import { useStandardExperienceModeQuery } from '../../../queries/mode';
 import { Issue } from '../../../types/types';
-import Tooltip from '../../controls/Tooltip';
 import { WorkspaceContext } from '../../workspace/context';
 import IssuePrioritized from './IssuePrioritized';
 import IssueSeverity from './IssueSeverity';
@@ -45,6 +45,7 @@ export default function IssueMetaBar(props: Readonly<Props>) {
   const { issue, showLine } = props;
   const location = useLocation();
 
+  const { formatMessage } = useIntl();
   const { externalRulesRepoNames } = React.useContext(WorkspaceContext);
   const { data: isStandardMode } = useStandardExperienceModeQuery();
 
@@ -59,16 +60,6 @@ export default function IssueMetaBar(props: Readonly<Props>) {
 
   return (
     <ul className="sw-flex sw-items-center sw-gap-1 sw-typo-sm sw-whitespace-nowrap">
-      {issue.line && (
-        <>
-          <IssueMetaListItem className={issueMetaListItemClassNames}>
-            L{issue.line}
-          </IssueMetaListItem>
-
-          <SeparatorCircleIcon aria-hidden as="li" />
-        </>
-      )}
-
       {issue.quickFixAvailable && (
         <>
           <li className={issueMetaListItemClassNames}>
@@ -81,14 +72,21 @@ export default function IssueMetaBar(props: Readonly<Props>) {
       {ruleEngine && (
         <>
           <li className={issueMetaListItemClassNames}>
-            <Tooltip
-              content={translateWithParameters('issue.from_external_rule_engine', ruleEngine)}
-            >
-              <span>
-                <Badge>{ruleEngine}</Badge>
-              </span>
-            </Tooltip>
+            <ExternalRuleEngineBadge
+              externalRuleEngine={issue.externalRuleEngine!}
+              label={ruleEngine}
+            />
           </li>
+          <SeparatorCircleIcon aria-hidden as="li" />
+        </>
+      )}
+
+      {issue.line && (
+        <>
+          <IssueMetaListItem className={issueMetaListItemClassNames}>
+            L{issue.line}
+          </IssueMetaListItem>
+
           <SeparatorCircleIcon aria-hidden as="li" />
         </>
       )}
@@ -99,8 +97,8 @@ export default function IssueMetaBar(props: Readonly<Props>) {
             <Tooltip content={issue.codeVariants.join(', ')}>
               <span>
                 {issue.codeVariants.length > 1
-                  ? translateWithParameters('issue.x_code_variants', issue.codeVariants.length)
-                  : translate('issue.1_code_variant')}
+                  ? formatMessage({ id: 'issue.x_code_variants' }, { 0: issue.codeVariants.length })
+                  : formatMessage({ id: 'issue.1_code_variant' })}
               </span>
             </Tooltip>
           </IssueMetaListItem>
@@ -113,7 +111,7 @@ export default function IssueMetaBar(props: Readonly<Props>) {
           <IssueMetaListItem
             className={classNames(issueMetaListItemClassNames, 'sw-flex sw-gap-1')}
           >
-            <CommentIcon aria-label={translate('issue.comment.formlink')} />
+            <IconComment aria-label={formatMessage({ id: 'issue.comment.formlink' })} />
             {issue.comments?.length}
           </IssueMetaListItem>
 
@@ -123,9 +121,9 @@ export default function IssueMetaBar(props: Readonly<Props>) {
 
       {showLine && isDefined(issue.textRange) && (
         <>
-          <Tooltip content={translate('line_number')}>
+          <Tooltip content={formatMessage({ id: 'line_number' })}>
             <IssueMetaListItem className={issueMetaListItemClassNames}>
-              {translateWithParameters('issue.ncloc_x.short', issue.textRange.endLine)}
+              {formatMessage({ id: 'issue.ncloc_x.short' }, { 0: issue.textRange.endLine })}
             </IssueMetaListItem>
           </Tooltip>
 
@@ -136,7 +134,7 @@ export default function IssueMetaBar(props: Readonly<Props>) {
       {issue.effort && (
         <>
           <IssueMetaListItem className={issueMetaListItemClassNames}>
-            {translateWithParameters('issue.x_effort', issue.effort)}
+            {formatMessage({ id: 'issue.x_effort' }, { 0: issue.effort })}
           </IssueMetaListItem>
 
           <SeparatorCircleIcon aria-hidden as="li" />

@@ -20,6 +20,9 @@
 
 import { IssueTransition } from '../types/issues';
 
+const HUNTER_AGENT_EXTERNAL_RULE_ENGINE = 'hunter-agent';
+const EXTERNAL_RULE_REPO_PREFIX = 'external_';
+
 export function isTransitionDeprecated(transition: IssueTransition) {
   return transition === IssueTransition.Confirm || transition === IssueTransition.Resolve;
 }
@@ -35,4 +38,14 @@ export function transitionRequiresComment(transition: IssueTransition) {
 export function orderIssueTransitions(transitions: IssueTransition[]) {
   const order = Object.values(IssueTransition);
   return transitions.sort((a, b) => order.indexOf(a) - order.indexOf(b));
+}
+
+export function isHunterAgentRuleEngine(externalRuleEngine?: string) {
+  return externalRuleEngine?.toLowerCase() === HUNTER_AGENT_EXTERNAL_RULE_ENGINE;
+}
+
+export function getExternalRuleKey(ruleKey: string) {
+  return ruleKey.startsWith(EXTERNAL_RULE_REPO_PREFIX)
+    ? ruleKey.slice(EXTERNAL_RULE_REPO_PREFIX.length)
+    : ruleKey;
 }

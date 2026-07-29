@@ -18,22 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  Badge,
-  BadgeVariety,
-  Divider,
-  IconLink,
-  Layout,
-  Link,
-  Text,
-  toast,
-} from '@sonarsource/echoes-react';
+import { Divider, IconLink, Layout, Link, Text, toast } from '@sonarsource/echoes-react';
 import { memo, ReactNode, useCallback, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import { RuleStatusBadge } from '~shared/components/coding-rules/RuleStatusBadge';
+import { ExternalRuleEngineBadge } from '~shared/components/issues/ExternalRuleEngineBadge';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { getExternalRuleKey } from '~shared/helpers/issues';
 import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { IssueSeverity } from '~shared/types/issues';
@@ -194,6 +187,7 @@ function IssueHeader(props: Readonly<Props>) {
   });
 
   const canSetTags = issue.actions.includes(IssueActions.SetTags);
+  const externalRuleKey = getExternalRuleKey(ruleDetails.key);
 
   return (
     <Layout.PageHeader
@@ -216,7 +210,7 @@ function IssueHeader(props: Readonly<Props>) {
               {ruleDetails.name}
             </Text>
             {ruleDetails.isExternal ? (
-              <Text isSubtle>({ruleDetails.key})</Text>
+              externalRuleKey !== ruleDetails.name && <Text isSubtle>({externalRuleKey})</Text>
             ) : (
               <Link enableOpenInNewTab to={getRuleUrl(ruleDetails.key)}>
                 {ruleDetails.key}
@@ -224,18 +218,18 @@ function IssueHeader(props: Readonly<Props>) {
             )}
             <WorkspaceContext.Consumer>
               {({ externalRulesRepoNames }) => {
-                const ruleEngine =
-                  (issue.externalRuleEngine && externalRulesRepoNames[issue.externalRuleEngine]) ||
-                  issue.externalRuleEngine;
-                if (ruleEngine) {
-                  return (
-                    <Badge className="sw-ml-1" variety={BadgeVariety.Neutral}>
-                      {ruleEngine}
-                    </Badge>
-                  );
+                if (!issue.externalRuleEngine) {
+                  return null;
                 }
-
-                return null;
+                const label =
+                  externalRulesRepoNames[issue.externalRuleEngine] || issue.externalRuleEngine;
+                return (
+                  <ExternalRuleEngineBadge
+                    className="sw-ml-1"
+                    externalRuleEngine={issue.externalRuleEngine}
+                    label={label}
+                  />
+                );
               }}
             </WorkspaceContext.Consumer>
 

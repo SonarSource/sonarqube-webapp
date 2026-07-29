@@ -126,6 +126,19 @@ it('renders correctly for Standard mode', async () => {
   ).not.toBeInTheDocument();
 });
 
+it('shows a badge for hunter-agent external issues', () => {
+  renderIssueHeader({
+    issue: mockIssue(false, { externalRuleEngine: 'hunter-agent' }),
+    ruleDetails: mockRuleDetails({
+      key: 'external_hunter-agent:some-rule',
+      name: 'hunter-agent:some-rule',
+      isExternal: true,
+    }),
+  });
+
+  expect(byText('hunter-agent').get()).toBeInTheDocument();
+});
+
 it('renders correctly when some data is not provided', () => {
   const issue = mockIssue();
   renderIssueHeader({
