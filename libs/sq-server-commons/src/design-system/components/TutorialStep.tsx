@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
-import { themeColor } from '../helpers/theme';
 
 interface Props {
   children: React.ReactNode;
@@ -61,7 +60,7 @@ const Title = styled.h2`
   ${tw`sw-inline-block`}
   ${tw`sw-mb-4`}
 
-  color: ${themeColor('pageTitle')};
+  color: ${cssVar('color-text-strong')};
 `;
 
 const Step = styled.li<{ stepNumber?: number }>`

@@ -24,7 +24,6 @@ import classNames from 'classnames';
 import React, { forwardRef } from 'react';
 import tw, { theme } from 'twin.macro';
 import { isDefined } from '~shared/helpers/types';
-import { themeColor } from '../helpers';
 import NavLink, { NavLinkProps } from './NavLink';
 import { Tooltip } from './Tooltip';
 
@@ -122,7 +121,7 @@ const NavBarTabLinkWrapper = styled.li`
   & > * > a:hover,
   & > * > a:focus,
   & > * > a[aria-expanded='true'] {
-    border-bottom-color: ${themeColor('tabBorder')};
+    border-bottom-color: ${cssVar('color-border-accent-default')};
   }
 
   & > a.active > span[data-text],

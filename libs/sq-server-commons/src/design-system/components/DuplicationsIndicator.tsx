@@ -18,10 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
 import { cssVar } from '@sonarsource/echoes-react';
 import { isDefined } from '~shared/helpers/types';
-import { themeColor } from '../helpers/theme';
 import { DuplicationEnum, DuplicationLabel } from '../types/measures';
 import { NoDataIcon } from './icons';
 
@@ -34,15 +32,23 @@ interface Props {
 
 const SIZE_TO_PX_MAPPING = { xs: 16, sm: 24, md: 36 };
 
+const DUPLICATIONS_INDICATOR_COLORS: Record<DuplicationLabel, string> = {
+  A: cssVar('ratings-colors-background-rating-a-default'),
+  B: cssVar('ratings-colors-background-rating-b-default'),
+  C: cssVar('ratings-colors-background-rating-c-default'),
+  D: cssVar('ratings-colors-background-rating-d-default'),
+  E: cssVar('ratings-colors-background-rating-e-default'),
+  F: cssVar('color-background-danger-default'),
+};
+
 export function DuplicationsIndicator({ size = 'sm', rating, ...rest }: Readonly<Props>) {
-  const theme = useTheme();
   const sizePX = SIZE_TO_PX_MAPPING[size];
 
   if (rating === undefined) {
     return <NoDataIcon size={size} />;
   }
 
-  const primaryColor = themeColor(`duplicationsIndicator.${rating}`)({ theme });
+  const primaryColor = DUPLICATIONS_INDICATOR_COLORS[rating];
   const secondaryColor = cssVar('color-background-neutral-bolder-default');
 
   return (

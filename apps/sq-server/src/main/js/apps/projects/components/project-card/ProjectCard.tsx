@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
 import {
   Badge,
   Card,
@@ -30,7 +29,7 @@ import {
 } from '@sonarsource/echoes-react';
 import { isEmpty } from 'lodash';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { QualityGateIndicator, SeparatorCircleIcon, themeColor } from '~design-system';
+import { QualityGateIndicator, SeparatorCircleIcon } from '~design-system';
 import DateFromNow from '~shared/components/intl/DateFromNow';
 import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import { Tags } from '~shared/components/tags/Tags';
@@ -270,7 +269,7 @@ export default function ProjectCard(props: Readonly<ProjectCardProps>) {
   const formatted = formatMeasure(project.measures[MetricKey.alert_status], MetricType.Level);
 
   return (
-    <ProjectCardWrapper className="it__project_card" data-key={project.key}>
+    <Card className="it__project_card" data-key={project.key}>
       <Card.Header
         description={CardInfo({ project, isNewCode })}
         hasDivider
@@ -293,12 +292,6 @@ export default function ProjectCard(props: Readonly<ProjectCardProps>) {
         title={<CardTitle isNewCode={isNewCode} project={project} />}
       />
       <Card.Body>{CardDetails({ project, isNewCode })}</Card.Body>
-    </ProjectCardWrapper>
+    </Card>
   );
 }
-
-const ProjectCardWrapper = styled(Card)`
-  &.project-card-disabled *:not(g):not(path) {
-    color: ${themeColor('projectCardDisabled')} !important;
-  }
-`;

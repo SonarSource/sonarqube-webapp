@@ -25,8 +25,6 @@ import classNames from 'classnames';
 import React, { ForwardedRef, MouseEvent, forwardRef, useCallback } from 'react';
 import tw from 'twin.macro';
 import { isDefined } from '~shared/helpers/types';
-import { OPACITY_20_PERCENT } from '../helpers/constants';
-import { themeColor } from '../helpers/theme';
 import { ThemedProps } from '../types/theme';
 import { IconProps } from './icons/Icon';
 
@@ -184,54 +182,4 @@ export const InteractiveIcon = styled(InteractiveIconBase)`
  */
 export const DiscreetInteractiveIcon = styled(InteractiveIcon)`
   --color: ${cssVar('color-icon-subtle')};
-`;
-
-/**
- * @deprecated Use ButtonIcon from Echoes instead, with the ButtonVariety.DangerGhost variety.
- *
- * Some of the props have changed or been renamed:
- * - `disabled` is now `isDisabled`, note that an Echoes Tooltip won't work
- * on a disabled button, use a text notice or ToggleTip next to the disabled button instead.
- * - `Icon` is restricted to Echoes' Icons
- * - `aria-label` is now `ariaLabel`
- * - `size` now requires a value from the ButtonSize enum
- *
- * New props:
- * - `tooltipContent` overrides the content of the tooltip (which defaults to the value of ariaLabel!)
- * - `tooltipProps` allows you to customize the tooltip positioning (`align` and `side`)
- *
- * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3382706231/Button | Migration Guide} for more information.
- */
-export const DestructiveIcon = styled(InteractiveIconBase)`
-  --background: ${cssVar('color-surface-default')};
-  --backgroundHover: ${cssVar('color-surface-hover')};
-  --color: ${cssVar('color-icon-danger')};
-  --colorHover: ${cssVar('color-background-ghost-danger-hover')};
-  --focus: ${themeColor('destructiveIconFocus', OPACITY_20_PERCENT)};
-`;
-
-/**
- * @deprecated Use ButtonIcon from Echoes instead, with the ButtonVariety.DefaultGhost variety.
- *
- * Some of the props have changed or been renamed:
- * - `disabled` is now `isDisabled`, note that an Echoes Tooltip won't work
- * on a disabled button, use a text notice or ToggleTip next to the disabled button instead.
- * - `Icon` is restricted to Echoes' Icons
- * - `aria-label` is now `ariaLabel`
- * - `size` now requires a value from the ButtonSize enum
- *
- * New props:
- * - `tooltipContent` overrides the content of the tooltip (which defaults to the value of ariaLabel!)
- * - `tooltipProps` allows you to customize the tooltip positioning (`align` and `side`)
- *
- * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3382706231/Button | Migration Guide} for more information.
- */
-export const DismissProductNewsIcon = styled(InteractiveIcon)`
-  --background: ${themeColor('productNews')};
-  --backgroundHover: ${themeColor('productNewsHover')};
-  --color: ${cssVar('color-text-default')};
-  --colorHover: ${cssVar('color-text-default')};
-  --focus: ${themeColor('interactiveIconFocus', OPACITY_20_PERCENT)};
-
-  height: 28px;
 `;

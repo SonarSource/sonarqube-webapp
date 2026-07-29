@@ -11,7 +11,7 @@ exports[`should display DuplicationsIndicator with rating 1`] = `
       <circle
         cx="8"
         cy="8"
-        fill="rgb(18,183,106)"
+        fill="var(--echoes-ratings-colors-background-rating-a-default)"
         r="2"
       />
       <path
@@ -23,7 +23,7 @@ exports[`should display DuplicationsIndicator with rating 1`] = `
       <circle
         cx="8"
         cy="8"
-        fill="rgb(18,183,106)"
+        fill="var(--echoes-ratings-colors-background-rating-a-default)"
         r="2"
       />
     </svg>
@@ -42,7 +42,7 @@ exports[`should display DuplicationsIndicator with rating 2`] = `
       <circle
         cx="8"
         cy="8"
-        fill="rgb(18,183,106)"
+        fill="var(--echoes-ratings-colors-background-rating-b-default)"
         r="2"
       />
       <path
@@ -53,7 +53,7 @@ exports[`should display DuplicationsIndicator with rating 2`] = `
       />
       <path
         d="M8 0c.81879 0 1.63272.125698 2.4134.372702L9.81002 2.27953A5.99976 5.99976 0 0 0 8 2V0Z"
-        fill="rgb(18,183,106)"
+        fill="var(--echoes-ratings-colors-background-rating-b-default)"
       />
     </svg>
   </div>
@@ -71,7 +71,7 @@ exports[`should display DuplicationsIndicator with rating 3`] = `
       <circle
         cx="8"
         cy="8"
-        fill="rgb(110,183,18)"
+        fill="var(--echoes-ratings-colors-background-rating-c-default)"
         r="2"
       />
       <path
@@ -82,7 +82,7 @@ exports[`should display DuplicationsIndicator with rating 3`] = `
       />
       <path
         d="M8 0c1.89071 2e-8 3.7203.669649 5.1643 1.89017l-1.2911 1.52746C10.7902 2.50224 9.41803 2 8 2V0Z"
-        fill="rgb(110,183,18)"
+        fill="var(--echoes-ratings-colors-background-rating-c-default)"
       />
     </svg>
   </div>
@@ -100,7 +100,7 @@ exports[`should display DuplicationsIndicator with rating 4`] = `
       <circle
         cx="8"
         cy="8"
-        fill="rgb(245,184,64)"
+        fill="var(--echoes-ratings-colors-background-rating-d-default)"
         r="2"
       />
       <path
@@ -111,7 +111,7 @@ exports[`should display DuplicationsIndicator with rating 4`] = `
       />
       <path
         d="M8 0a7.9999 7.9999 0 0 1 4.5815 1.44181 7.99949 7.99949 0 0 1 2.9301 3.80574l-1.8779.68811A6.00009 6.00009 0 0 0 8 2V0Z"
-        fill="rgb(245,184,64)"
+        fill="var(--echoes-ratings-colors-background-rating-d-default)"
       />
     </svg>
   </div>
@@ -129,7 +129,7 @@ exports[`should display DuplicationsIndicator with rating 5`] = `
       <circle
         cx="8"
         cy="8"
-        fill="rgb(247,95,9)"
+        fill="var(--echoes-ratings-colors-background-rating-e-default)"
         r="2"
       />
       <path
@@ -140,7 +140,7 @@ exports[`should display DuplicationsIndicator with rating 5`] = `
       />
       <path
         d="M8 0a8 8 0 0 1 5.0686 1.81054 8.00033 8.00033 0 0 1 2.7744 4.61211l-1.9608.39434a5.99958 5.99958 0 0 0-2.0808-3.45908A5.99972 5.99972 0 0 0 8 2V0Z"
-        fill="rgb(247,95,9)"
+        fill="var(--echoes-ratings-colors-background-rating-e-default)"
       />
     </svg>
   </div>
@@ -158,7 +158,7 @@ exports[`should display DuplicationsIndicator with rating 6`] = `
       <circle
         cx="8"
         cy="8"
-        fill="rgb(240,68,56)"
+        fill="var(--echoes-color-background-danger-default)"
         r="2"
       />
       <path
@@ -169,7 +169,7 @@ exports[`should display DuplicationsIndicator with rating 6`] = `
       />
       <path
         d="M8 0a8.0002 8.0002 0 0 1 5.6569 13.6569l-1.4143-1.4143a5.9993 5.9993 0 0 0 1.3007-6.5387A5.9999 5.9999 0 0 0 8 2V0Z"
-        fill="rgb(240,68,56)"
+        fill="var(--echoes-color-background-danger-default)"
       />
     </svg>
   </div>

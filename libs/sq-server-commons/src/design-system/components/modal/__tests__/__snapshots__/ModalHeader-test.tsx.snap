@@ -4,7 +4,7 @@ exports[`should render with title 1`] = `
 .emotion-0 {
   font: var(--echoes-typography-heading-xlarge);
   letter-spacing: var(--echoes-letter-spacing-decreased);
-  color: rgb(29,33,47);
+  color: var(--echoes-color-text-strong);
 }
 
 <div>
@@ -23,7 +23,7 @@ exports[`should render with title and description 1`] = `
 .emotion-0 {
   font: var(--echoes-typography-heading-xlarge);
   letter-spacing: var(--echoes-letter-spacing-decreased);
-  color: rgb(29,33,47);
+  color: var(--echoes-color-text-strong);
 }
 
 .emotion-2 {
@@ -53,7 +53,7 @@ exports[`should use the default title if not provided 1`] = `
 .emotion-0 {
   font: var(--echoes-typography-heading-xlarge);
   letter-spacing: var(--echoes-letter-spacing-decreased);
-  color: rgb(29,33,47);
+  color: var(--echoes-color-text-strong);
 }
 
 <div>

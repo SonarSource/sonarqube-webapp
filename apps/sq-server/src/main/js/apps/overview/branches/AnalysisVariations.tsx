@@ -19,8 +19,9 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { TrendDirection, TrendIcon, TrendType, themeColor } from '~design-system';
+import { TrendDirection, TrendIcon, TrendType } from '~design-system';
 import { MetricType } from '~shared/types/metrics';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { AnalysisMeasuresVariations } from '~sq-server-commons/types/project-activity';
@@ -121,5 +122,5 @@ export function AnalysisVariations(props: Readonly<AnalysisVariationsProps>) {
 }
 
 const SeparatorContainer = styled.span`
-  color: ${themeColor('iconStatus')};
+  color: ${cssVar('color-icon-subtle')};
 `;

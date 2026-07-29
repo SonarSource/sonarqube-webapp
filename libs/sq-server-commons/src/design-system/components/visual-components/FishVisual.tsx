@@ -18,9 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
 import { cssVar } from '@sonarsource/echoes-react';
-import { themeColor } from '../../helpers/theme';
 
 interface Props {
   className?: string;
@@ -29,8 +27,6 @@ interface Props {
 }
 
 export function FishVisual({ className, height = '168px', width = '168px' }: Readonly<Props>) {
-  const theme = useTheme();
-
   return (
     <svg
       className={className}
@@ -46,7 +42,7 @@ export function FishVisual({ className, height = '168px', width = '168px' }: Rea
         />
         <path
           d="M134 133.844C120.137 144.595 102.699 151 83.758 151 57.4 151 33.956 138.598 19 119.341c61.278-7.139 76.068 16.657 115 14.503Z"
-          fill={themeColor('illustrationSecondary')({ theme })}
+          fill={cssVar('color-background-accent-weak-default')}
         />
         <path
           clipRule="evenodd"
@@ -62,7 +58,7 @@ export function FishVisual({ className, height = '168px', width = '168px' }: Rea
         />
         <path
           d="M68 19a5 5 0 1 0 10 0 5 5 0 0 0-10 0ZM76 40.925a5 5 0 1 0 10 0 5 5 0 0 0-10 0ZM68 62.12a5 5 0 1 0 10 0 5 5 0 0 0-10 0Z"
-          fill={themeColor('illustrationSecondary')({ theme })}
+          fill={cssVar('color-background-accent-weak-default')}
         />
         <path
           d="M152.238 54.288c-2.47.206-5.832 4.717-7.72 6.69l1.544 9.264c1.544 1.287 3.603 5.661 7.205 5.918 3.603.258 5.662-5.918 5.662-11.58 0-5.753-3.603-10.55-6.691-10.292Z"

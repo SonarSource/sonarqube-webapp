@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { cssVar, Text } from '@sonarsource/echoes-react';
 import { differenceInDays } from 'date-fns';
 import * as React from 'react';
-import { themeColor } from '~design-system';
 import DateFormatter, { longFormatterOption } from '~shared/components/intl/DateFormatter';
 import DateFromNow from '~shared/components/intl/DateFromNow';
 import DateTimeFormatter, {
@@ -102,6 +101,6 @@ export default class LeakPeriodLegend extends React.PureComponent<LeakPeriodLege
 }
 
 const LeakPeriodLabel = styled(Text)`
-  background-color: ${themeColor('newCodeLegend')};
+  background-color: ${cssVar('color-background-accent-weak-default')};
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weaker')};
 `;

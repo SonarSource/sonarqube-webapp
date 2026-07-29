@@ -19,16 +19,10 @@
  */
 
 import styled from '@emotion/styled';
-import { RatingBadgeSize, Text, TextSize } from '@sonarsource/echoes-react';
+import { RatingBadgeSize, Text, TextSize, cssVar } from '@sonarsource/echoes-react';
 import { isEmpty } from 'lodash';
 import { FormattedMessage, useIntl } from 'react-intl';
-import {
-  NoDataIcon,
-  SnoozeCircleIcon,
-  TrendUpCircleIcon,
-  getTabPanelId,
-  themeColor,
-} from '~design-system';
+import { NoDataIcon, SnoozeCircleIcon, TrendUpCircleIcon, getTabPanelId } from '~design-system';
 import {
   GridContainer,
   StyleMeasuresCard,
@@ -301,5 +295,5 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
 }
 
 const StyledInfoMessage = styled.div`
-  background-color: ${themeColor('projectCardInfo')};
+  background-color: ${cssVar('color-background-neutral-subtle-default')};
 `;

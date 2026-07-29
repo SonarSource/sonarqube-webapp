@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
 import tw from 'twin.macro';
-import { themeColor } from '../../helpers/theme';
 
 interface Props {
   description?: string | ReactNode;
@@ -48,5 +47,5 @@ const Description = styled.p`
 const Title = styled.h2`
   ${tw`sw-heading-xl`}
 
-  color: ${themeColor('pageTitle')};
+  color: ${cssVar('color-text-strong')};
 `;

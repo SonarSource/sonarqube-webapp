@@ -22,7 +22,7 @@ import styled from '@emotion/styled';
 import { Button, ButtonVariety, Checkbox, cssVar, Text } from '@sonarsource/echoes-react';
 import { useCallback, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { InputSearch, themeColor } from '~design-system';
+import { InputSearch } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { Paging } from '~shared/types/paging';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
@@ -180,7 +180,7 @@ const SetupBox = styled.form`
 `;
 
 const SetupBoxTitle = styled.h2`
-  color: ${themeColor('pageTitle')};
+  color: ${cssVar('color-text-strong')};
 `;
 
 const SetupBoxContent = styled.div`

@@ -19,8 +19,8 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { themeColor } from '~design-system';
 import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 
 interface Props {
@@ -63,7 +63,7 @@ export function MigrationProgress({ progress }: Props) {
 
 const MigrationBackgroundBar = styled.div`
   height: 0.5rem;
-  background-color: ${themeColor('progressBarBackground')};
+  background-color: ${cssVar('color-background-accent-weak-active')};
   width: 100%;
   border-radius: 0.25rem;
 `;
@@ -75,7 +75,7 @@ const MigrationForegroundBar = styled.div<{ width: string }>`
   top: 0;
   width: ${({ width }) => width};
   height: 0.5rem;
-  background-color: ${themeColor('progressBarForeground')};
+  background-color: ${cssVar('color-background-accent-default')};
 `;
 
 const MigrationProgressContainer = styled.div`

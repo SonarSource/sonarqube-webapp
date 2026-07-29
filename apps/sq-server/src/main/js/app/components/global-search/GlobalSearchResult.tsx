@@ -21,7 +21,7 @@
 import styled from '@emotion/styled';
 import { cssVar, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import { ClockIcon, ItemLink, StarFillIcon, themeColor } from '~design-system';
+import { ClockIcon, ItemLink, StarFillIcon } from '~design-system';
 import { SafeHTMLInjection } from '~shared/helpers/sanitize';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
@@ -83,7 +83,7 @@ const StyledText = styled(Text)`
   mark {
     display: inline-block;
 
-    background: ${themeColor('searchHighlight')};
+    background: ${cssVar('color-background-neutral-bolder-default')};
     color: ${cssVar('color-text-default')};
   }
 `;

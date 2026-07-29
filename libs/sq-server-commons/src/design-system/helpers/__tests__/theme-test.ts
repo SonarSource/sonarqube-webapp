@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { cssVar } from '@sonarsource/echoes-react';
 import { lightTheme } from '../../theme';
 import * as ThemeHelper from '../theme';
 
@@ -29,33 +28,6 @@ const props = {
 describe('getProp', () => {
   it('should work', () => {
     expect(ThemeHelper.getProp('color')(props)).toEqual('rgb(0,0,0)');
-  });
-});
-
-describe('themeColor', () => {
-  it('should work for light theme', () => {
-    expect(ThemeHelper.themeColor('backgroundPrimary')({ theme: lightTheme })).toEqual(
-      'rgb(252,252,253)',
-    );
-  });
-
-  it('should work with a theme-defined opacity', () => {
-    expect(ThemeHelper.themeColor('bannerIconHover')({ theme: lightTheme })).toEqual(
-      'rgba(217,45,32,0.2)',
-    );
-  });
-
-  it('should work for all kind of color parameters', () => {
-    expect(ThemeHelper.themeColor('transparent')({ theme: lightTheme })).toEqual('transparent');
-    expect(ThemeHelper.themeColor('currentColor')({ theme: lightTheme })).toEqual('currentColor');
-    expect(ThemeHelper.themeColor('var(--test)')({ theme: lightTheme })).toEqual('var(--test)');
-    expect(ThemeHelper.themeColor('rgb(0,0,0)')({ theme: lightTheme })).toEqual('rgb(0,0,0)');
-    expect(ThemeHelper.themeColor('rgba(0,0,0,1)')({ theme: lightTheme })).toEqual('rgba(0,0,0,1)');
-    expect(
-      ThemeHelper.themeColor(ThemeHelper.themeAvatarColor('luke')({ theme: lightTheme }))({
-        theme: lightTheme,
-      }),
-    ).toEqual(cssVar('color-charts-categorical-3'));
   });
 });
 

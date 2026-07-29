@@ -33,7 +33,6 @@ import { uniqueId } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
-import { themeColor } from '../helpers';
 import { BareButton } from '../sonar-aligned/components/buttons';
 import { Badge } from './Badge';
 import { Tooltip as SCTooltip } from './Tooltip';
@@ -235,7 +234,7 @@ const HeaderTitle = styled.span<{
   ${tw`sw-typo-semibold`};
 
   color: ${({ disabled }) =>
-    disabled ? cssVar('color-text-disabled') : themeColor('facetHeader')};
+    disabled ? cssVar('color-text-disabled') : cssVar('color-text-default')};
 
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'inherit')};
 `;

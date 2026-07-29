@@ -24,7 +24,6 @@ import classNames from 'classnames';
 import * as React from 'react';
 import tw from 'twin.macro';
 import { isDefined } from '~shared/helpers/types';
-import { themeColor } from '../helpers';
 import { ButtonProps, ButtonSecondary } from '../sonar-aligned/components/buttons';
 
 export type FacetItemProps = Omit<ButtonProps, 'name' | 'onClick'> & {
@@ -149,7 +148,7 @@ const StyledButton = styled(ButtonSecondary)<{
       ${tw`sw-truncate`};
 
       & mark {
-        background-color: ${themeColor('searchHighlight')};
+        background-color: ${cssVar('color-code-background-highlight')};
         font-weight: 400;
       }
     }

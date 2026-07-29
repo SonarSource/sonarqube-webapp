@@ -19,10 +19,10 @@
  */
 
 import styled from '@emotion/styled';
-import { Text } from '@sonarsource/echoes-react';
+import { Text, cssVar } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
 import * as React from 'react';
-import { FacetBox, FacetItem, themeColor } from '~design-system';
+import { FacetBox, FacetItem } from '~design-system';
 import { FacetHelp } from '~sq-server-commons/components/facets/FacetHelp';
 import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
@@ -216,16 +216,16 @@ export default class ProfileFacet extends React.PureComponent<Props> {
 
 const FacetToggleActiveStyle = styled.span<{ selected: boolean }>`
   background-color: ${(props) =>
-    props.selected ? themeColor('facetToggleActive') : 'transparent'};
-  color: ${(props) => (props.selected ? '#fff' : undefined)};
+    props.selected ? cssVar('color-background-success-default') : 'transparent'};
+  color: ${(props) => (props.selected ? cssVar('color-text-on-color') : undefined)};
   padding: 2px;
   border-radius: 4px;
 `;
 
 const FacetToggleInActiveStyle = styled.span<{ selected: boolean }>`
   background-color: ${(props) =>
-    props.selected ? themeColor('facetToggleInactive') : 'transparent'};
-  color: ${(props) => (props.selected ? '#fff' : undefined)};
+    props.selected ? cssVar('color-background-danger-default') : 'transparent'};
+  color: ${(props) => (props.selected ? cssVar('color-text-on-color') : undefined)};
   padding: 2px;
   border-radius: 4px;
 `;

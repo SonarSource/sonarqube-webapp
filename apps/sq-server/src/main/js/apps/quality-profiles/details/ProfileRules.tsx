@@ -19,11 +19,11 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, ButtonVariety, Heading, Spinner } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, cssVar, Heading, Spinner } from '@sonarsource/echoes-react';
 import { keyBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { ContentCell, NumericalCell, Table, TableRow, themeColor } from '~design-system';
+import { ContentCell, NumericalCell, Table, TableRow } from '~design-system';
 import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import { isDefined } from '~shared/helpers/types';
 import { StaleTime } from '~shared/queries/common';
@@ -279,5 +279,5 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
 }
 
 const StyledTableRowHeader = styled(TableRow)`
-  background-color: ${themeColor('breakdownHeaderBackground')};
+  background-color: ${cssVar('color-background-neutral-subtle-default')};
 `;

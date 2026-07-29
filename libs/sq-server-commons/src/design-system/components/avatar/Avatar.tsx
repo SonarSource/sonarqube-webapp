@@ -23,7 +23,6 @@ import { cssVar } from '@sonarsource/echoes-react';
 import { ReactEventHandler, useState } from 'react';
 import tw from 'twin.macro';
 import { AvatarSize, sizeMap } from '~shared/components/avatar';
-import { themeColor } from '../../helpers/theme';
 import { GenericAvatar } from './GenericAvatar';
 
 interface AvatarProps {
@@ -115,5 +114,5 @@ const StyledAvatar = styled.img`
   ${tw`sw-justify-center`};
   ${tw`sw-align-top`};
   ${tw`sw-rounded-1`};
-  background: ${themeColor('avatarBackground')};
+  background: ${cssVar('color-surface-default')};
 `;

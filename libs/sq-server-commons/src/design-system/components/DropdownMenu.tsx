@@ -26,8 +26,7 @@ import React, { ForwardedRef, forwardRef } from 'react';
 import tw from 'twin.macro';
 import { useCopyClipboardEffect } from '~shared/components/clipboard';
 import { INPUT_SIZES } from '../helpers/constants';
-import { themeColor } from '../helpers/theme';
-import { InputSizeKeys, ThemedProps } from '../types/theme';
+import { InputSizeKeys } from '../types/theme';
 import { Checkbox } from './input/Checkbox';
 import { BaseLink, LinkProps } from './Link';
 import NavLink from './NavLink';
@@ -330,7 +329,7 @@ export const DropdownMenuWrapper = styled.ul`
   }
 `;
 
-const itemStyle = (props: ThemedProps) => css`
+const itemStyle = css`
   color: var(--color);
   background-color: ${cssVar('color-surface-default')};
   border: none;
@@ -353,7 +352,7 @@ const itemStyle = (props: ThemedProps) => css`
   &:hover,
   &.active:hover {
     color: var(--color);
-    background-color: ${themeColor('dropdownMenuHover')(props)};
+    background-color: ${cssVar('color-background-neutral-subtle-default')};
     text-decoration: none;
     border: none;
     border-bottom: none;
@@ -395,7 +394,7 @@ const itemStyle = (props: ThemedProps) => css`
   }
 
   &.selected {
-    background-color: ${themeColor('selectOptionSelected')(props)};
+    background-color: ${cssVar('color-background-neutral-subtle-default')};
   }
 
   & > svg {

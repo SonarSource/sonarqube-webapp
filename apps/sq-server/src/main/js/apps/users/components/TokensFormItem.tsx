@@ -19,11 +19,11 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, ButtonVariety, cssVar } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, cssVar, IconWarning } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ContentCell, FlagWarningIcon, TableRow, themeColor } from '~design-system';
+import { ContentCell, TableRow } from '~design-system';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import DateFromNow from '~shared/components/intl/DateFromNow';
 import ConfirmButton from '~sq-server-commons/components/controls/ConfirmButton';
@@ -76,7 +76,7 @@ export default function TokensFormItem(props: Readonly<Props>) {
           {token.isExpired && (
             <StyledSpan tokenIsExpired>
               <div className="sw-mt-1">
-                <FlagWarningIcon className="sw-mr-1" />
+                <IconWarning className="sw-mr-1" color="echoes-color-icon-warning" />
 
                 <FormattedMessage id="my_account.tokens.expired" />
               </div>
@@ -168,5 +168,5 @@ const StyledSpan = styled.span<{
   tokenIsExpired?: boolean;
 }>`
   color: ${({ tokenIsExpired }) =>
-    tokenIsExpired ? themeColor('iconWarning') : cssVar('color-text-default')};
+    tokenIsExpired ? cssVar('color-text-warning') : cssVar('color-text-default')};
 `;

@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { Button, cssVar, Text, Theme, ThemeProvider } from '@sonarsource/echoes-react';
 import { useCallback, useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { themeColor } from '~design-system';
 import { dismissNotice } from '~sq-server-commons/api/users';
 import { SonarQubeIDEPromotionIllustration } from '~sq-server-commons/components/branding/SonarQubeIDEPromotionIllustration';
 import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
@@ -89,8 +88,8 @@ const PromotionNotificationWrapper = styled.div`
   position: fixed;
   right: 10px;
 
-  background: ${themeColor('promotionNotificationBackground')};
-  color: ${themeColor('promotionNotification')};
+  background: ${cssVar('color-surface-inverse-hover')};
+  color: ${cssVar('color-text-on-color')};
 `;
 
 const PromotionNotificationContent = styled.div`

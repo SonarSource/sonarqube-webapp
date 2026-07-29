@@ -26,7 +26,7 @@ import * as React from 'react';
 import { Matcher, DayPicker as OriginalDayPicker } from 'react-day-picker';
 import 'react-day-picker/style.css';
 import tw from 'twin.macro';
-import { PopupPlacement, PopupZLevel, themeColor } from '../../helpers';
+import { PopupPlacement, PopupZLevel } from '../../helpers';
 import { InputSizeKeys } from '../../types/theme';
 import EscKeydownHandler from '../EscKeydownHandler';
 import { FocusOutHandler } from '../FocusOutHandler';
@@ -287,7 +287,7 @@ const DayPicker = styled(OriginalDayPicker)`
   }
 
   .rdp-day:hover:not(.rdp-outside):not(.rdp-disabled):not(.rdp-selected) .rdp-day_button {
-    background: ${themeColor('datePickerHover')};
+    background: ${cssVar('color-background-neutral-subtle-hover')};
     color: ${cssVar('color-text-strong')};
   }
 

@@ -22,16 +22,7 @@ import { cssVar, Text } from '@sonarsource/echoes-react';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import { isEmpty } from 'lodash';
 import * as React from 'react';
-import {
-  CSSColor,
-  QualifierIcon,
-  themeColor,
-  ThemeColors,
-  ThemeProp,
-  TreeMap,
-  TreeMapItem,
-  withTheme,
-} from '~design-system';
+import { CSSColor, QualifierIcon, TreeMap, TreeMapItem } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { useResizeObserver } from '~shared/helpers/useResizeObserver';
 import { Metric } from '~shared/types/measures';
@@ -53,7 +44,7 @@ interface TreeMapViewProps {
   metric: Metric;
 }
 
-type Props = TreeMapViewProps & ThemeProp;
+type Props = TreeMapViewProps;
 
 interface State {
   treemapItems: Array<TreeMapItem<ComponentMeasureIntern>>;
@@ -63,13 +54,16 @@ const PERCENT_SCALE_DOMAIN = [0, 25, 50, 75, 100];
 const RATING_SCALE_DOMAIN = [1, 2, 3, 4, 5];
 
 const HEIGHT = 500;
-const NA_COLORS: [ThemeColors, ThemeColors] = ['treeMap.NA1', 'treeMap.NA2'];
-const TREEMAP_COLORS: ThemeColors[] = [
-  'treeMap.A',
-  'treeMap.B',
-  'treeMap.C',
-  'treeMap.D',
-  'treeMap.E',
+const NA_COLORS: [string, string] = [
+  cssVar('color-background-neutral-bolder-default'),
+  cssVar('color-charts-placeholder-default'),
+];
+const TREEMAP_COLORS = [
+  cssVar('ratings-colors-background-rating-a-default'),
+  cssVar('ratings-colors-background-rating-b-default'),
+  cssVar('ratings-colors-background-rating-c-default'),
+  cssVar('ratings-colors-background-rating-d-default'),
+  cssVar('ratings-colors-background-rating-e-default'),
 ];
 
 export class TreeMapView extends React.PureComponent<Props, State> {
@@ -139,15 +133,13 @@ export class TreeMapView extends React.PureComponent<Props, State> {
   };
 
   getNAGradient = () => {
-    const { theme } = this.props;
-    const [shade1, shade2] = NA_COLORS.map((c) => themeColor(c)({ theme }));
+    const [shade1, shade2] = NA_COLORS;
 
     return `linear-gradient(-45deg, ${shade1} 25%, ${shade2} 25%, ${shade2} 50%, ${shade1} 50%, ${shade1} 75%, ${shade2} 75%, ${shade2} 100%)`;
   };
 
   getMappedThemeColors = (): string[] => {
-    const { theme } = this.props;
-    return TREEMAP_COLORS.map((c) => themeColor(c)({ theme }));
+    return TREEMAP_COLORS;
   };
 
   getLevelColorScale = () =>
@@ -214,7 +206,7 @@ export class TreeMapView extends React.PureComponent<Props, State> {
   }
 
   renderLegend() {
-    const { metric, theme } = this.props;
+    const { metric } = this.props;
     const colorScale = this.getColorScale(metric);
     if ([MetricType.Level, MetricType.Rating].includes(metric.type as MetricType)) {
       return <ColorBoxLegend colorScale={colorScale} metricType={metric.type} />;
@@ -223,7 +215,7 @@ export class TreeMapView extends React.PureComponent<Props, State> {
       <ColorGradientLegend
         colorScale={colorScale}
         height={30}
-        naColors={NA_COLORS.map((c) => themeColor(c)({ theme })) as [CSSColor, CSSColor]}
+        naColors={NA_COLORS as [CSSColor, CSSColor]}
         showColorNA
         width={200}
       />
@@ -298,4 +290,4 @@ function TreeMapAutoSizer({
   );
 }
 
-export default withTheme(TreeMapView);
+export default TreeMapView;

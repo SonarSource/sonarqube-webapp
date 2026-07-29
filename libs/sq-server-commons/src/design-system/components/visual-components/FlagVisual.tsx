@@ -18,17 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
 import { cssVar } from '@sonarsource/echoes-react';
-import { themeColor } from '../../helpers/theme';
 
 interface Props {
   className?: string;
 }
 
 export function FlagVisual({ className }: Props) {
-  const theme = useTheme();
-
   return (
     <svg
       className={className}
@@ -39,7 +35,7 @@ export function FlagVisual({ className }: Props) {
     >
       <path
         d="M49.05 153.5c-10.87-1-15.29 5-15.97 8.5H16.44c1.7-6.5 14.26-19.5 32.61-8.5Z"
-        fill={themeColor('illustrationSecondary')({ theme })}
+        fill={cssVar('color-background-accent-weak-default')}
       />
       <path
         clipRule="evenodd"
@@ -49,7 +45,7 @@ export function FlagVisual({ className }: Props) {
       />
       <path
         d="M46 98h87c-32.68-4.13-67.2-4.58-81.02-55H46v55ZM42 12c-9 5-6.5 11-4.5 16.5l-5-.5c-5.5-9.5 0-15 9.5-16Z"
-        fill={themeColor('illustrationSecondary')({ theme })}
+        fill={cssVar('color-background-accent-weak-default')}
       />
       <path
         clipRule="evenodd"

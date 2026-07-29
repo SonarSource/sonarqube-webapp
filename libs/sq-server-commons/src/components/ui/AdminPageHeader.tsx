@@ -23,7 +23,6 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
-import { themeColor } from '../../design-system';
 
 interface Props {
   children?: ReactNode;
@@ -48,7 +47,7 @@ export function AdminPageHeader({ children, className, description, title }: Rea
   );
 }
 export const AdminPageTitle = withTheme(styled.h1`
-  color: ${themeColor('pageTitle')};
+  color: ${cssVar('color-text-strong')};
 `);
 
 export const AdminPageDescription = withTheme(styled.div`

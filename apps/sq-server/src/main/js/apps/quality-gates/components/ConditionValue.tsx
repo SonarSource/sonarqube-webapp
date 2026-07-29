@@ -19,8 +19,8 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import { themeColor } from '~design-system';
 import SoftwareImpactSeverityIcon from '~shared/components/icon-mappers/SoftwareImpactSeverityIcon';
 import { isIssueSeverityMetric } from '~shared/helpers/metrics';
 import { ISSUE_SEVERITY_CONDITION_MAPPING } from '~shared/helpers/quality-gates';
@@ -96,9 +96,9 @@ function ConditionValue({
 export default ConditionValue;
 
 const RedColorText = styled.span`
-  color: ${themeColor('qgConditionNotCayc')};
+  color: ${cssVar('color-text-danger')};
 `;
 
 export const GreenColorText = styled.span<{ isToBeModified: boolean }>`
-  color: ${(props) => (props.isToBeModified ? themeColor('qgConditionCayc') : 'inherit')};
+  color: ${(props) => (props.isToBeModified ? cssVar('color-text-success') : 'inherit')};
 `;

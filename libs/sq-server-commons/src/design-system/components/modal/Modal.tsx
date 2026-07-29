@@ -18,16 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Global, css, useTheme } from '@emotion/react';
-import { Button } from '@sonarsource/echoes-react';
+import { Global, css } from '@emotion/react';
+import { Button, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { Fragment, ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 import ReactModal from 'react-modal';
 import tw from 'twin.macro';
-import { themeColor } from '../../helpers';
+
 import { REACT_DOM_CONTAINER } from '../../helpers/constants';
-import { Theme } from '../../types/theme';
 import { ModalBody } from './ModalBody';
 import { ModalFooter } from './ModalFooter';
 import { ModalHeader } from './ModalHeader';
@@ -108,11 +107,10 @@ export function Modal({
   onClose,
   ...props
 }: Props) {
-  const theme = useTheme();
   const intl = useIntl();
   return (
     <Fragment>
-      <Global styles={globalStyles({ theme })} />
+      <Global styles={globalStyles} />
 
       <ReactModal
         aria={{ labelledby: 'modal_header_title' }}
@@ -158,7 +156,7 @@ export function Modal({
   );
 }
 
-const globalStyles = ({ theme }: { theme: Theme }) => css`
+const globalStyles = css`
   .design-system-modal-contents {
     ${tw`sw-container sw-flex sw-flex-col`}
     ${tw`sw-p-9`}
@@ -166,7 +164,7 @@ const globalStyles = ({ theme }: { theme: Theme }) => css`
     ${tw`sw-z-modal`}
     ${tw`sw-box-border`}
 
-    background-color: ${themeColor('modalContents')({ theme })};
+    background-color: ${cssVar('color-surface-default')};
     max-height: calc(100vh - 200px);
     min-height: 160px;
     width: 544px;
@@ -182,7 +180,7 @@ const globalStyles = ({ theme }: { theme: Theme }) => css`
     ${tw`sw-flex sw-items-center sw-justify-center`}
     ${tw`sw-z-modal-overlay`}
 
-    background-color: ${themeColor('modalOverlay')({ theme })};
+    background-color: ${cssVar('color-overlays-back-drop-default')};
   }
 `;
 

@@ -28,7 +28,6 @@ import {
   ThemeProvider,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { themeColor } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 
 export interface Props {
@@ -80,7 +79,7 @@ const StyledWorkSpaceNavItemButton = styled.button`
   align-items: center;
   border: none;
   height: 2rem;
-  background-color: ${themeColor('workSpaceNavItemBackground')};
+  background-color: ${cssVar('color-text-default')};
   color: ${cssVar('color-text-on-color')};
 
   &:hover,

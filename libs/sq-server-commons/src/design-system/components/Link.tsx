@@ -24,7 +24,7 @@ import { cssVar } from '@sonarsource/echoes-react';
 import React, { HTMLAttributeAnchorTarget } from 'react';
 import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom';
 import tw, { theme as twTheme } from 'twin.macro';
-import { themeColor } from '../helpers/theme';
+
 import { TooltipWrapperInner } from './Tooltip';
 import { OpenNewTabIcon } from './icons/OpenNewTabIcon';
 
@@ -119,7 +119,7 @@ function BaseLinkWithRef(props: LinkProps, ref: React.ForwardedRef<HTMLAnchorEle
 }
 
 const ExternalIcon = styled(OpenNewTabIcon)`
-  color: ${themeColor('linkExternalIcon')};
+  color: ${cssVar('color-icon-accent')};
 `;
 
 /** @deprecated Use either Link or LinkStandalone from Echoes, or react-router-dom's Link instead.
@@ -147,7 +147,7 @@ const StyledBaseLink = styled(BaseLink)`
         : 'var(--borderActive)'};
 
     ${ExternalIcon} {
-      color: ${themeColor('linkExternalIconActive')};
+      color: ${cssVar('color-icon-accent')};
     }
   }
 
@@ -213,18 +213,18 @@ DrilldownLink.displayName = 'DrilldownLink';
 export const HoverLink = styled(StyledBaseLink)`
   text-decoration: none;
 
-  --color: ${themeColor('linkDiscreet')};
+  --color: currentColor;
   --active: ${cssVar('color-text-link-hover')};
   --border: ${cssVar('border-width-default')} solid ${cssVar('color-border-none')};
   --borderActive: ${cssVar('border-width-default')} solid ${cssVar('color-text-link-hover')};
 
   ${TooltipWrapperInner} & {
-    --active: ${themeColor('linkTooltipActive')};
+    --active: ${cssVar('color-background-accent-default')};
     --borderActive: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
   }
 
   ${ExternalIcon} {
-    color: ${themeColor('linkDiscreet')};
+    color: currentColor;
   }
 `;
 HoverLink.displayName = 'HoverLink';
@@ -237,7 +237,7 @@ export const LinkBox = styled(StyledBaseLink)`
   &:hover,
   &:focus,
   &:active {
-    background-color: ${themeColor('dropdownMenuHover')};
+    background-color: ${cssVar('color-surface-hover')};
     display: block;
   }
 `;
@@ -269,14 +269,14 @@ DiscreetLink.displayName = 'DiscreetLink';
 /** @deprecated Use either Link or LinkStandalone from Echoes instead.
  */
 export const ContentLink = styled(HoverLink)`
-  --color: ${themeColor('pageTitle')};
+  --color: ${cssVar('color-text-strong')};
   --border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
 
   ${({ disabled }) => (disabled ? tw`sw-cursor-default` : '')};
 
-  ${({ disabled, theme }) =>
+  ${({ disabled }) =>
     disabled
-      ? `--active: ${themeColor('pageTitle')({ theme })};
+      ? `--active: ${cssVar('color-text-strong')};
          --border: none;
          --borderActive: none;`
       : ''}
@@ -295,8 +295,8 @@ export const StandoutLink = styled(StyledBaseLink)`
   --borderActive: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
 
   ${TooltipWrapperInner} & {
-    --color: ${themeColor('linkTooltipDefault')};
-    --active: ${themeColor('linkTooltipActive')};
+    --color: ${cssVar('color-background-accent-weak-default')};
+    --active: ${cssVar('color-background-accent-default')};
     --border: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
     --borderActive: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
   }

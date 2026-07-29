@@ -19,10 +19,11 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { sortBy, times } from 'lodash';
 import { useState } from 'react';
 import tw from 'twin.macro';
-import { ContentCell, Table, TableRow, themeColor } from '~design-system';
+import { ContentCell, Table, TableRow } from '~design-system';
 import { isPortfolioLike } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
@@ -187,5 +188,5 @@ export default withKeyboardNavigation(Components);
 
 const SubHeader = styled(ContentCell)`
   ${tw`sw-font-semibold`}
-  color: ${themeColor('pageTitle')}
+  color: ${cssVar('color-text-strong')}
 `;
