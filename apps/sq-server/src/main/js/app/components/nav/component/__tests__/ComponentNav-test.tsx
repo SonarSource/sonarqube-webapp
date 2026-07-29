@@ -340,7 +340,7 @@ describe('ComponentNav', () => {
         expect.stringContaining('MyProject'),
         expect.stringContaining('Foo'),
         expect.stringContaining('PortFoolio'),
-        'navigation.view_all_projects',
+        'navigation.view_all',
       ]);
     });
   });

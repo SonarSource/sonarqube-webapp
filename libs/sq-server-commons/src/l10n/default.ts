@@ -730,8 +730,6 @@ export const defaultMessages = {
 
   'sidebar.ai_capabilities': 'AI Capabilities',
   'sidebar.projects': 'Projects',
-  'sidebar.dropdown.recently_browsed': 'Recently browsed',
-  'navigation.view_all_projects': 'View all projects',
   'sidebar.project_settings': 'Configuration',
   'sidebar.security': 'Security',
   'sidebar.system': 'System',

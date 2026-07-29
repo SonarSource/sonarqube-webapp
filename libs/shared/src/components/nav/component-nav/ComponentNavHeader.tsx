@@ -19,69 +19,64 @@
  */
 
 import { DropdownMenu, Layout, Tooltip } from '@sonarsource/echoes-react';
-import { ReactNode, forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { To } from 'react-router-dom';
 import Avatar from '~adapters/components/ui/Avatar';
 import { History, RecentHistory } from '../../../helpers/recent-history';
 import { getProjectOverviewUrl } from '../../../helpers/urls';
 import { LightComponent } from '../../../types/component';
-import { SidebarEntityDropdown } from './SidebarEntityDropdown';
 
 interface Props {
   allProjectsUrl: To;
   component: LightComponent;
   getItemUrl?: (component: History) => To;
-  recentlyBrowsedLabel?: ReactNode;
   recentHistoryFilter?: (history: History) => boolean;
 }
 
 const MAX_RECENTLY_BROWSED = 8;
 
 export function ComponentNavHeader(props: Readonly<Props>) {
-  const {
-    allProjectsUrl,
-    component,
-    getItemUrl,
-    recentlyBrowsedLabel,
-    recentHistoryFilter = () => true,
-  } = props;
+  const { allProjectsUrl, component, getItemUrl, recentHistoryFilter = () => true } = props;
   const recentlyBrowsed = RecentHistory.get()
     .filter((c) => c.key !== component.key && recentHistoryFilter(c))
     .slice(0, MAX_RECENTLY_BROWSED);
 
+  if (recentlyBrowsed.length < 1) {
+    return <SidebarNavigationHeader component={component} />;
+  }
+
   return (
-    <SidebarEntityDropdown
-      currentItem={
+    <DropdownMenu
+      align="start"
+      id="component-nav-dropdown-menu"
+      items={[
         <DropdownMenu.ItemButtonCheckable
           isChecked
-          prefix={<Avatar name={component.name} size="xs" />}
-        >
-          {component.name}
-        </DropdownMenu.ItemButtonCheckable>
-      }
-      groupLabel={
-        recentlyBrowsedLabel ?? <FormattedMessage id="sidebar.dropdown.recently_browsed" />
-      }
-      id="component-nav-dropdown-menu"
-      items={recentlyBrowsed.map((component) => (
-        <DropdownMenu.ItemLink
-          isActive={false}
           key={component.key}
           prefix={<Avatar name={component.name} size="xs" />}
-          to={getItemUrl ? getItemUrl(component) : getProjectOverviewUrl(component.key)}
         >
           {component.name}
-        </DropdownMenu.ItemLink>
-      ))}
-      viewAllItem={
-        <DropdownMenu.ItemLink key="all-projects" to={allProjectsUrl}>
-          <FormattedMessage id="navigation.view_all_projects" />
-        </DropdownMenu.ItemLink>
-      }
+        </DropdownMenu.ItemButtonCheckable>,
+        ...recentlyBrowsed.map((component) => (
+          <DropdownMenu.ItemLink
+            isActive={false}
+            key={component.key}
+            prefix={<Avatar name={component.name} size="xs" />}
+            to={getItemUrl ? getItemUrl(component) : getProjectOverviewUrl(component.key)}
+          >
+            {component.name}
+          </DropdownMenu.ItemLink>
+        )),
+        <DropdownMenu.Separator key="separator" />,
+        <DropdownMenu.ItemLink className="sw-min-w-abs-250" key="all-projects" to={allProjectsUrl}>
+          <FormattedMessage id="navigation.view_all" />
+        </DropdownMenu.ItemLink>,
+      ]}
+      side="right"
     >
       <SidebarNavigationHeader component={component} isInteractive />
-    </SidebarEntityDropdown>
+    </DropdownMenu>
   );
 }
 
