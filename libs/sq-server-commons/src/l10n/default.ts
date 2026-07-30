@@ -10112,6 +10112,7 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.locked.more.cta': 'Import repositories',
   'onboarding_dashboard.loading': 'Loading dashboard',
   'onboarding_dashboard.projects.loading': 'Loading repositories',
+  'onboarding_dashboard.stale.loading': 'Loading stale projects',
   'onboarding_dashboard.percent': '{percent}%',
   'onboarding_dashboard.devops.title': 'DevOps platforms',
   'onboarding_dashboard.devops.description':
@@ -10120,6 +10121,13 @@ export const defaultMessages = {
   'onboarding_dashboard.devops.share': '{percent}%',
   'onboarding_dashboard.devops.count': '{count} project(s)',
   'onboarding_dashboard.devops.platform_count': '<b>{count}</b> platform(s)',
+  'onboarding_dashboard.stale.title': 'Commits not being scanned',
+  'onboarding_dashboard.stale.description':
+    "These projects have commits that haven't been scanned in the past 7 days.",
+  'onboarding_dashboard.stale.search': 'Search projects…',
+  'onboarding_dashboard.stale.col.project': 'Project',
+  'onboarding_dashboard.stale.col.gate_status': 'Gate status',
+  'onboarding_dashboard.stale.col.last_scan': 'Last scan',
   'onboarding_dashboard.projects.count': '<b>{count}</b> project(s)',
   'onboarding_dashboard.projects.title': 'All projects',
   'onboarding_dashboard.projects.description':

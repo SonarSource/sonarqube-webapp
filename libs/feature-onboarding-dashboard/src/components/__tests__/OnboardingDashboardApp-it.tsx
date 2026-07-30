@@ -108,6 +108,17 @@ const ui = {
   repoWebCore: byText('web-core'),
   repoPlatformJobs: byText('platform-jobs'),
   repoGitlabIcon: byRole('img', { name: 'alm.gitlab' }),
+
+  // Stale projects table ("Commits not being scanned")
+  staleTitle: byText('onboarding_dashboard.stale.title'),
+  staleTable: byRole('table', { name: 'onboarding_dashboard.stale.title' }),
+  staleTableColumnHeaders: byRole('table', {
+    name: 'onboarding_dashboard.stale.title',
+  }).byRole('columnheader'),
+  staleSearchInput: byRole('searchbox', { name: 'onboarding_dashboard.stale.search' }),
+  staleColProject: byText('onboarding_dashboard.stale.col.project'),
+  staleColGateStatus: byText('onboarding_dashboard.stale.col.gate_status'),
+  staleColLastScan: byText('onboarding_dashboard.stale.col.last_scan'),
 };
 
 function renderOnboardingDashboard() {
@@ -263,6 +274,67 @@ it('shows pagination in the all-projects table when the total exceeds the page s
   // page-2 button whose aria-label is produced by the react-intl mock as 'pagination.page_x.2'
   // (formatMessage({id:'pagination.page_x'}, {page:'2'}) → [id, '2'].join('.')).
   expect(await byRole('button', { name: 'pagination.page_x.2' }).find()).toBeInTheDocument();
+});
+
+it('renders the stale-projects table above the all-projects table', async () => {
+  renderOnboardingDashboard();
+
+  const staleTable = await ui.staleTable.find();
+  const projectsTable = ui.projectsTable.get();
+
+  // The "Commits not being scanned" card sits above "All projects" in the journey column.
+  // getAll() returns matches in document order, so comparing indices asserts the ordering.
+  const tablesInDocumentOrder = byRole('table').getAll();
+  expect(tablesInDocumentOrder.indexOf(staleTable)).toBeLessThan(
+    tablesInDocumentOrder.indexOf(projectsTable),
+  );
+
+  expect(ui.staleColProject.get()).toBeInTheDocument();
+  expect(ui.staleColGateStatus.get()).toBeInTheDocument();
+  expect(ui.staleColLastScan.get()).toBeInTheDocument();
+
+  // Project / Gate status / Last scan only — the design's "Commits" column has no backing data yet.
+  expect(ui.staleTableColumnHeaders.getAll()).toHaveLength(3);
+});
+
+it('lists only stale projects in the stale-projects table, with their last scan date', async () => {
+  renderOnboardingDashboard();
+
+  // payments-gateway is flagged stale in the fixture; web-core is not.
+  expect(await ui.staleTable.byText('payments-gateway').find()).toBeInTheDocument();
+  expect(ui.staleTable.byText('web-core').query()).not.toBeInTheDocument();
+
+  // web-core is still listed by the all-projects table, which has no stale filter.
+  expect(ui.projectsTable.byText('web-core').get()).toBeInTheDocument();
+
+  // The last scan is rendered as an absolute date badge (lastScan 1740528000000 → 26 Feb 2025).
+  expect(ui.staleTable.byText('Feb 26, 2025').get()).toBeInTheDocument();
+});
+
+it('filters the stale-projects table by search', async () => {
+  const user = userEvent.setup({ delay: null });
+  renderOnboardingDashboard();
+
+  expect(await ui.staleTable.byText('payments-gateway').find()).toBeInTheDocument();
+  expect(ui.staleTable.byText('identity-lib').get()).toBeInTheDocument();
+
+  // Search is debounced and applied server-side, on top of the stale filter.
+  await user.type(ui.staleSearchInput.get(), 'identity-lib');
+  await waitFor(() => {
+    expect(ui.staleTable.byText('payments-gateway').query()).not.toBeInTheDocument();
+  });
+  expect(ui.staleTable.byText('identity-lib').get()).toBeInTheDocument();
+});
+
+it('renders a no-data row in the stale-projects table when nothing is stale', async () => {
+  onboardingMock.setProjects(
+    mockOnboardingProjects().map((project) => ({ ...project, stale: false })),
+  );
+  renderOnboardingDashboard();
+
+  // One em-dash placeholder per column, scoped to the stale table so the all-projects
+  // table (which still lists every project) can't satisfy the assertion.
+  expect(await ui.staleTable.byText(NO_DATA).findAll()).toHaveLength(3);
 });
 
 it('renders the detail panel for the active step and swaps it when another step is selected', async () => {

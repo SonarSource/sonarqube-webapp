@@ -27,6 +27,7 @@ import { JourneyLevel, JourneyStep } from '../../types/types';
 import { OnboardingDashboardHeader } from '../OnboardingDashboardHeader';
 import { DetailPanel } from './panels/DetailPanel';
 import { AllProjectsCard } from './projects/AllProjectsCard';
+import { StaleProjectsCard } from './projects/StaleProjectsCard';
 import { LockedStatisticsCard } from './stats/LockedStatisticsCard';
 import { OnboardingOverTimeCard } from './stats/OnboardingOverTimeCard';
 import { JourneyStepper } from './stepper/JourneyStepper';
@@ -58,9 +59,9 @@ interface Props {
 
 /**
  * The onboarding journey section: header, stepper, the detail panel of the selected step, the
- * statistics unlocked at the current journey level and the all-projects table. Derives its whole
+ * statistics unlocked at the current journey level and the project tables. Derives its whole
  * view model from the overview, so everything it renders is available as soon as the overview is —
- * the projects table fetches its own paged data.
+ * the project tables fetch their own paged data.
  */
 export function OnboardingJourney({ overview }: Readonly<Props>) {
   const { formatMessage } = useIntl();
@@ -108,6 +109,8 @@ export function OnboardingJourney({ overview }: Readonly<Props>) {
             title={formatMessage({ id: lockedStatistics.title })}
           />
         )}
+
+        <StaleProjectsCard />
 
         <AllProjectsCard />
       </div>
