@@ -2796,8 +2796,10 @@ export const defaultMessages = {
   'architecture.entry_points.form.target_component': 'Target component',
   'architecture.entry_points.form.target_entry_point': 'Target entry point',
   'architecture.entry_points.form.target_entry_point.placeholder': 'Select an entry point',
-  'architecture.entry_points.form.target_entry_point.placeholder_help':
-    'Entry point selection is only available for project components.',
+  'architecture.entry_points.form.target_entry_point.empty':
+    'No entry points found for this component. Define them under Architecture > Entry points, then reanalyze.',
+  'architecture.entry_points.form.target_entry_point.load_error':
+    "Sorry, we couldn't load entry points for this component. Please try again later.",
   'architecture.entry_points.form.signatures': 'Detection signature',
   'architecture.entry_points.form.signature.language': 'Language',
   'architecture.entry_points.form.signature.query': 'Code signature',
@@ -2811,9 +2813,18 @@ export const defaultMessages = {
   'architecture.relationships.validate.save_error': 'Failed to save relationships',
   'architecture.relationships.validate.exit_points': 'Exit points',
   'architecture.relationships.validate.exit_points.empty': 'No exit points found for this project.',
+  'architecture.relationships.validate.exit_points.unregistered':
+    'This project is not registered as an architecture component, so exit points cannot be loaded.',
+  'architecture.relationships.validate.exit_points.load_error':
+    "Sorry, we couldn't load exit points for this project. Please try again later.",
   'architecture.relationships.validate.boundary_column': 'Exit point',
+  'architecture.relationships.validate.target_column': 'Target',
+  'architecture.relationships.validate.target_component_label': 'Target component',
+  'architecture.relationships.validate.target_component_placeholder': 'Select a component',
   'architecture.relationships.validate.entry_point_label': 'Entry point',
   'architecture.relationships.validate.entry_point_placeholder': 'Select an entry point',
+  'architecture.relationships.validate.entry_point_incomplete':
+    'Select an entry point to finish mapping this exit point.',
   'architecture.organization.title': 'Organization architecture',
   'architecture.organization.empty': 'No organization-wide architecture data available.',
   'architecture.organization.node.not_mapped_yet': 'Not mapped yet: {boundaries}',
