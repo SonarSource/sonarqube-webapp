@@ -159,6 +159,9 @@ function renderComponentRoutes({
           <Route path="project">
             {addons.architecture?.routes()}
             {addons.architecture?.policiesRoutes?.()}
+            {addons.architecture?.patternsRoutes?.()}
+            {addons.architecture?.orgArchitectureRoutes?.()}
+            {addons.architecture?.externalInterfacesRoutes?.()}
           </Route>
         )}
         {projectIssuesRoutes()}

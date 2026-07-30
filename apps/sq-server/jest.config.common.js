@@ -54,6 +54,10 @@ module.exports = {
     // mock useProjectId so tests don't each have to jest.mock it (see the __mocks__ file)
     '^~adapters/helpers/useProjectId$': '<rootDir>/apps/sq-server/__mocks__/useProjectId.ts',
 
+    // mock useOrganizationId so tests don't each have to jest.mock it (see the __mocks__ file)
+    '^~adapters/helpers/useOrganizationId$':
+      '<rootDir>/apps/sq-server/__mocks__/useOrganizationId.ts',
+
     // adapters aliases
     '~adapters/(.+)': '<rootDir>/libs/sq-server-commons/src/sq-server-adapters/$1',
 

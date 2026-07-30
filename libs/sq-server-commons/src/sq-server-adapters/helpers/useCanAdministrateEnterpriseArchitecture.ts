@@ -18,18 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useFlags } from '~adapters/helpers/feature-flags';
-import { ArchitectureFlags } from '~shared/helpers/architecture';
+import { useAppState } from '../../context/app-state/withAppStateContext';
 
-export function useArchitectureFlags(): ArchitectureFlags {
-  const flags = useFlags();
-
-  return {
-    // SonarQube Server has no extension-pack entitlement concept. The in-model patterns
-    // picker is gated on architecture add-on access (flag or entitlement) instead, so this
-    // field is kept only to satisfy the ArchitectureFlags interface.
-    designArchitectureSquadExtensionPack: false,
-    designArchitectureSquadPerformanceLimits: flags.designArchitectureSquadPerformanceLimits,
-    isCurrentOrganizationMember: true,
-  };
+// Enterprise architecture admin items (patterns, entry points, system components) require a
+// global admin account on SonarQube Server — not the project's architectureadmin permission.
+export function useCanAdministrateEnterpriseArchitecture(): boolean {
+  return useAppState().canAdmin ?? false;
 }

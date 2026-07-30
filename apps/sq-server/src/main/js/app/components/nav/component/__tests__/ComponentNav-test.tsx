@@ -39,6 +39,7 @@ jest.mock('~adapters/helpers/feature-flags', () => ({
 }));
 const mockUseFlags = useFlags as unknown as jest.Mock;
 
+
 jest.mock('~shared/helpers/recent-history', () => ({
   RecentHistory: {
     add: jest.fn(),
@@ -95,6 +96,8 @@ const ui = {
   projectGroup: byText('navigation.project.group.project'),
   reportingGroup: byText('navigation.project.group.reporting'),
   policiesGroup: byText('navigation.project.group.policies'),
+  architectureGroup: byText('navigation.project.group.architecture'),
+  enterpriseArchitectureGroup: byText('navigation.project.group.enterprise_architecture'),
 };
 
 describe('ComponentNav', () => {
@@ -261,6 +264,9 @@ describe('ComponentNav', () => {
   });
 
   describe('portfolio and security reports navigation', () => {
+  });
+
+  describe('architecture navigation', () => {
   });
 
   describe('extensions menu', () => {

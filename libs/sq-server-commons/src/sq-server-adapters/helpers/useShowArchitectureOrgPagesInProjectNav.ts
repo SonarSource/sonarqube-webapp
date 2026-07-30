@@ -18,18 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useFlags } from '~adapters/helpers/feature-flags';
-import { ArchitectureFlags } from '~shared/helpers/architecture';
-
-export function useArchitectureFlags(): ArchitectureFlags {
-  const flags = useFlags();
-
-  return {
-    // SonarQube Server has no extension-pack entitlement concept. The in-model patterns
-    // picker is gated on architecture add-on access (flag or entitlement) instead, so this
-    // field is kept only to satisfy the ArchitectureFlags interface.
-    designArchitectureSquadExtensionPack: false,
-    designArchitectureSquadPerformanceLimits: flags.designArchitectureSquadPerformanceLimits,
-    isCurrentOrganizationMember: true,
-  };
+// On SonarCloud, cross-project architecture, entry points, and system components are reached
+// from the organization sidebar, not the project nav. SonarQube Server has no organization
+// sidebar, so the project nav is the only entry point.
+export function useShowArchitectureOrgPagesInProjectNav(): boolean {
+  return true;
 }

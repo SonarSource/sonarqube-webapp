@@ -2646,13 +2646,14 @@ export const defaultMessages = {
   'architecture.patterns.list.error':
     "Sorry, we couldn't load the patterns. Please try again later.",
   'architecture.patterns.list.title': 'Patterns',
+  'architecture.patterns.nav': 'Patterns',
   'architecture.patterns.list.empty': 'There are no patterns defined yet.',
   'architecture.patterns.delete.error.in_use':
     "This pattern can't be deleted because it's being used by one or more projects.",
   'architecture.patterns.delete.error.generic':
     "Sorry, we couldn't delete the pattern. Please try again later.",
   'architecture.patterns.create': 'Create Pattern',
-  'architecture.patterns.edit.title': 'Edit Pattern',
+  'architecture.patterns.edit.title': 'Edit {name}',
   'architecture.patterns.edit.saved': 'Pattern saved successfully.',
   'architecture.patterns.edit.unsaved_changes': 'You have unsaved changes.',
   'architecture.patterns.edit.spotlight.name': 'Pattern name',
@@ -2772,6 +2773,9 @@ export const defaultMessages = {
   'architecture.external_interfaces.list.delete.confirm.title': 'Delete system component',
   'architecture.external_interfaces.list.delete.confirm.body':
     'Deleting the system component "{name}" will also remove it from any project relationships where it is currently used. This can\'t be undone.',
+  'architecture.organization.cross_project.title': 'Cross-project architecture',
+  'architecture.organization.current.page': 'Current architecture',
+  'architecture.external_interfaces.nav': 'System components',
   'architecture.entry_points.nav': 'Entry points',
   'architecture.entry_points.list.title': 'Entry points',
   'architecture.entry_points.list.description':
@@ -2886,7 +2890,14 @@ export const defaultMessages = {
   'architecture.directives.create.error': 'Failed to save relationship. Please try again.',
   'architecture.directives.delete.error': 'Failed to delete relationship. Please try again.',
 
-  // External interfaces (out of scope for server milestone 1, but referenced in the bundle)
+  // External interfaces (system components)
+  'architecture.external_interfaces.list.title': 'System components',
+  'architecture.external_interfaces.list.empty': 'There are no system components defined yet.',
+  'architecture.external_interfaces.list.error':
+    "Sorry, we couldn't load the system components. Please try again later.",
+  'architecture.external_interfaces.create': 'Create system component',
+  'architecture.external_interfaces.modal.create_title': 'Create system component',
+  'architecture.external_interfaces.modal.edit_title': 'Rename system component',
   'architecture.external_interfaces.modal.name_label': 'Name',
   'architecture.external_interfaces.modal.type_label': 'Type',
   'architecture.external_interfaces.type.app': 'Application',
@@ -4238,6 +4249,7 @@ export const defaultMessages = {
   'navigation.view_all': 'View all',
   'navigation.project.group.analysis': 'Analysis',
   'navigation.project.group.architecture': 'Architecture',
+  'navigation.project.group.enterprise_architecture': 'Enterprise architecture',
   'navigation.project.group.policies': 'Policies',
   'navigation.project.group.project': 'Project',
   'navigation.project.group.reporting': 'Reporting',

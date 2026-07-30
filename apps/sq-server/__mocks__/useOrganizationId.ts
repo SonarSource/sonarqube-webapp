@@ -18,18 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useFlags } from '~adapters/helpers/feature-flags';
-import { ArchitectureFlags } from '~shared/helpers/architecture';
-
-export function useArchitectureFlags(): ArchitectureFlags {
-  const flags = useFlags();
-
-  return {
-    // SonarQube Server has no extension-pack entitlement concept. The in-model patterns
-    // picker is gated on architecture add-on access (flag or entitlement) instead, so this
-    // field is kept only to satisfy the ArchitectureFlags interface.
-    designArchitectureSquadExtensionPack: false,
-    designArchitectureSquadPerformanceLimits: flags.designArchitectureSquadPerformanceLimits,
-    isCurrentOrganizationMember: true,
-  };
+// Central test mock for the useOrganizationId adapter, wired via jest moduleNameMapper
+// so tests don't each have to jest.mock it. Returns a stable UUID; tests that need a specific id
+// can still jest.mock('~adapters/helpers/useOrganizationId') locally to override.
+export function useOrganizationId(): string {
+  return 'test-organization-uuid';
 }
