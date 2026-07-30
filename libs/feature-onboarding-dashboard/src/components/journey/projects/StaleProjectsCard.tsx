@@ -30,6 +30,10 @@ import {
 } from '../../../types/types';
 import { NO_DATA } from '../../dashboardConstants';
 import { GateStatusBadge } from '../../projects/GateStatusBadge';
+import {
+  PROJECT_ROW_ACTIONS_COLUMN,
+  ProjectRowActionsCell,
+} from '../../projects/ProjectRowActionsCell';
 import { ProjectsFilterSelect } from '../../projects/ProjectsFilterSelect';
 import {
   ProjectsTableCard,
@@ -44,6 +48,7 @@ const COLUMNS: ProjectsTableColumn[] = [
   { labelKey: 'onboarding_dashboard.stale.col.project' },
   { justify: TableCellJustify.Start, labelKey: 'onboarding_dashboard.stale.col.gate_status' },
   { justify: TableCellJustify.Start, labelKey: 'onboarding_dashboard.stale.col.last_scan' },
+  PROJECT_ROW_ACTIONS_COLUMN,
 ];
 
 /**
@@ -94,6 +99,8 @@ function StaleProjectRow({ project }: Readonly<ProjectsTableRowProps>) {
       ) : (
         <Table.Cell className="sw-justify-start">{NO_DATA}</Table.Cell>
       )}
+
+      <ProjectRowActionsCell project={project} />
     </Table.Row>
   );
 }

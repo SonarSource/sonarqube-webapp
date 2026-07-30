@@ -119,9 +119,36 @@ const ui = {
   colScanStatus: byText('onboarding_dashboard.projects.col.onboarding'),
   colAnalysisMode: byText('onboarding_dashboard.projects.col.analysis_mode'),
   colGateStatus: byText('onboarding_dashboard.projects.col.gate_status'),
+  // Both tables carry the actions column, so this one has to be scoped to the all-projects table.
+  colActions: byRole('table', { name: 'onboarding_dashboard.projects.title' }).byText(
+    'onboarding_dashboard.projects.col.actions',
+  ),
   repoWebCore: byText('web-core'),
   repoPlatformJobs: byText('platform-jobs'),
   repoGitlabIcon: byRole('img', { name: 'alm.gitlab' }),
+
+  // Row actions menu. The react-intl mock joins the message id with its values, so the trigger's
+  // accessible name is the label key suffixed with the project name.
+  rowActionsButton: (projectName: string) =>
+    byRole('button', {
+      name: `onboarding_dashboard.projects.actions.label.${projectName}`,
+    }),
+  rowActionItems: byRole('menuitem'),
+  importRepositoryAction: byRole('menuitem', {
+    name: 'onboarding_dashboard.projects.action.import_repository',
+  }),
+  configureCiAction: byRole('menuitem', {
+    name: 'onboarding_dashboard.projects.action.configure_ci',
+  }),
+  rerunAutomaticAnalysisAction: byRole('menuitem', {
+    name: 'onboarding_dashboard.projects.action.rerun_automatic_analysis',
+  }),
+  restoreAccessAction: byRole('menuitem', {
+    name: 'onboarding_dashboard.projects.action.restore_access',
+  }),
+  viewProjectAction: byRole('menuitem', {
+    name: 'onboarding_dashboard.projects.action.view_project',
+  }),
 
   // Stale projects table ("Commits not being scanned")
   staleTitle: byText('onboarding_dashboard.stale.title'),
@@ -217,7 +244,7 @@ it('renders the DevOps platforms card with brand rows and a not-bound row', asyn
   expect(ui.devopsGithubBar.get()).toBeInTheDocument();
 });
 
-it('renders the all-projects table with only the four redesigned columns', async () => {
+it('renders the all-projects table with the four redesigned columns and the actions column', async () => {
   renderOnboardingDashboard();
 
   expect(await ui.projectsTable.find()).toBeInTheDocument();
@@ -226,18 +253,57 @@ it('renders the all-projects table with only the four redesigned columns', async
   expect(ui.colAnalysisMode.get()).toBeInTheDocument();
   expect(ui.colGateStatus.get()).toBeInTheDocument();
 
-  // Exactly four — the legacy "last scan" and "test coverage" columns went away with the old
-  // table and must not creep back in.
-  expect(ui.projectsTableColumnHeaders.getAll()).toHaveLength(4);
+  // The actions column header is only exposed to assistive technology — the design shows it blank.
+  expect(ui.colActions.get()).toBeInTheDocument();
+
+  // Five — the legacy "last scan" and "test coverage" columns went away with the old table and
+  // must not creep back in.
+  expect(ui.projectsTableColumnHeaders.getAll()).toHaveLength(5);
+});
+
+it('offers only the import action on a row whose repository is not imported yet', async () => {
+  const user = userEvent.setup({ delay: null });
+  renderOnboardingDashboard();
+
+  expect(await ui.repoPlatformJobs.find()).toBeInTheDocument();
+
+  // platform-jobs is NOT_IMPORTED. The fixture still reports a CI scan method for it, so a menu
+  // built from the analysis mode alone would wrongly offer the CI actions here.
+  await user.click(ui.rowActionsButton('platform-jobs').get());
+
+  expect(await ui.importRepositoryAction.find()).toBeInTheDocument();
+  expect(ui.rowActionItems.getAll()).toHaveLength(1);
+});
+
+it('offers the automatic-analysis actions on a row scanned by autoscan', async () => {
+  const user = userEvent.setup({ delay: null });
+  renderOnboardingDashboard();
+
+  expect(await ui.repoWebCore.find()).toBeInTheDocument();
+
+  // identity-lib is ANALYSED by automatic analysis (MANAGED). It is also stale, so it appears in
+  // both tables — scope the trigger lookup to the all-projects one.
+  await user.click(ui.projectsTable.byRole('button', { name: /identity-lib/ }).get());
+
+  expect(await ui.configureCiAction.find()).toBeInTheDocument();
+  expect(ui.rerunAutomaticAnalysisAction.get()).toBeInTheDocument();
+  expect(ui.restoreAccessAction.get()).toBeInTheDocument();
+  expect(ui.viewProjectAction.get()).toBeInTheDocument();
+  expect(ui.rowActionItems.getAll()).toHaveLength(4);
+
+  // The actions themselves land in a follow-up change, so nothing is clickable yet.
+  ui.rowActionItems.getAll().forEach((item) => {
+    expect(item).toHaveAttribute('aria-disabled', 'true');
+  });
 });
 
 it('renders a no-data row in the all-projects table when the organization has no projects', async () => {
   onboardingMock.setProjects([]);
   renderOnboardingDashboard();
 
-  // One em-dash placeholder per column. The table shows row skeletons while its own query
-  // loads, so wait for the no-data row to replace them.
-  expect(await ui.projectsTable.byText(NO_DATA).findAll()).toHaveLength(4);
+  // One em-dash placeholder per column, actions included. The table shows row skeletons while its
+  // own query loads, so wait for the no-data row to replace them.
+  expect(await ui.projectsTable.byText(NO_DATA).findAll()).toHaveLength(5);
 });
 
 it('filters the all-projects table by search and by the scan-status dropdown', async () => {
@@ -363,8 +429,9 @@ it('renders the stale-projects table above the all-projects table', async () => 
   expect(ui.staleColGateStatus.get()).toBeInTheDocument();
   expect(ui.staleColLastScan.get()).toBeInTheDocument();
 
-  // Project / Gate status / Last scan only — the design's "Commits" column has no backing data yet.
-  expect(ui.staleTableColumnHeaders.getAll()).toHaveLength(3);
+  // Project / Gate status / Last scan plus the actions column — the design's "Commits" column has
+  // no backing data yet.
+  expect(ui.staleTableColumnHeaders.getAll()).toHaveLength(4);
 });
 
 it('lists only stale projects in the stale-projects table, with their last scan date', async () => {
@@ -434,9 +501,9 @@ it('renders a no-data row in the stale-projects table when nothing is stale', as
   );
   renderOnboardingDashboard();
 
-  // One em-dash placeholder per column, scoped to the stale table so the all-projects
-  // table (which still lists every project) can't satisfy the assertion.
-  expect(await ui.staleTable.byText(NO_DATA).findAll()).toHaveLength(3);
+  // One em-dash placeholder per column, actions included, scoped to the stale table so the
+  // all-projects table (which still lists every project) can't satisfy the assertion.
+  expect(await ui.staleTable.byText(NO_DATA).findAll()).toHaveLength(4);
 });
 
 it('renders the detail panel for the active step and swaps it when another step is selected', async () => {

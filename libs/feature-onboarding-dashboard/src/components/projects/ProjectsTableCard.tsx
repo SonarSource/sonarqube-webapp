@@ -45,8 +45,15 @@ const COLUMN_TEMPLATE = 'minmax(120px, 1fr)';
 
 export interface ProjectsTableColumn {
   className?: string;
+  /**
+   * Keep the header label out of the visual design but available to assistive technology, for
+   * columns the design shows without a heading.
+   */
+  isLabelHidden?: boolean;
   justify?: TableCellJustify;
   labelKey: string;
+  /** Grid track of this column. Defaults to a flexible one, wider for the first column. */
+  width?: string;
 }
 
 export interface ProjectsTableRowProps {
@@ -117,10 +124,9 @@ export function ProjectsTableCard({
   const totalPages = data === undefined ? 0 : Math.ceil(data.page.total / data.page.pageSize);
 
   const title = formatMessage({ id: titleKey });
-  const gridTemplate = [
-    FIRST_COLUMN_TEMPLATE,
-    ...Array.from({ length: columns.length - 1 }, () => COLUMN_TEMPLATE),
-  ].join(' ');
+  const gridTemplate = columns
+    .map(({ width }, index) => width ?? (index === 0 ? FIRST_COLUMN_TEMPLATE : COLUMN_TEMPLATE))
+    .join(' ');
 
   return (
     <Card>
@@ -153,14 +159,18 @@ export function ProjectsTableCard({
             <Table ariaLabel={title} gridTemplate={gridTemplate} variety={TableVariety.Surface}>
               <Table.Header>
                 <Table.Row>
-                  {columns.map(({ className, justify, labelKey }) => (
-                    <Table.ColumnHeaderCell
-                      className={className}
-                      justify={justify}
-                      key={labelKey}
-                      label={formatMessage({ id: labelKey })}
-                    />
-                  ))}
+                  {columns.map(({ className, isLabelHidden, justify, labelKey }) => {
+                    const label = formatMessage({ id: labelKey });
+
+                    return (
+                      <Table.ColumnHeaderCell
+                        className={className}
+                        justify={justify}
+                        key={labelKey}
+                        label={isLabelHidden ? <span className="sw-sr-only">{label}</span> : label}
+                      />
+                    );
+                  })}
                 </Table.Row>
               </Table.Header>
 

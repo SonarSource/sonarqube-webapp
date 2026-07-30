@@ -33,6 +33,10 @@ import {
 import { NO_DATA } from '../../dashboardConstants';
 import { GateStatusBadge } from '../../projects/GateStatusBadge';
 import { getAnalysisModeBadge, getOnboardingBadge } from '../../projects/projectBadges';
+import {
+  PROJECT_ROW_ACTIONS_COLUMN,
+  ProjectRowActionsCell,
+} from '../../projects/ProjectRowActionsCell';
 import { ProjectsFilterSelect } from '../../projects/ProjectsFilterSelect';
 import {
   ProjectsTableCard,
@@ -48,6 +52,7 @@ const COLUMNS: ProjectsTableColumn[] = [
   { className: 'sw-justify-center', labelKey: 'onboarding_dashboard.projects.col.onboarding' },
   { className: 'sw-justify-center', labelKey: 'onboarding_dashboard.projects.col.analysis_mode' },
   { className: 'sw-justify-center', labelKey: 'onboarding_dashboard.projects.col.gate_status' },
+  PROJECT_ROW_ACTIONS_COLUMN,
 ];
 
 /**
@@ -123,6 +128,8 @@ function ProjectRow({ project }: Readonly<ProjectsTableRowProps>) {
       <Table.Cell>
         {isImported ? <GateStatusBadge status={project.gateStatus} /> : NO_DATA}
       </Table.Cell>
+
+      <ProjectRowActionsCell project={project} />
     </Table.Row>
   );
 }
