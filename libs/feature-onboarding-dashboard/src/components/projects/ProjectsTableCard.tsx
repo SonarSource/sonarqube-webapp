@@ -57,15 +57,17 @@ interface Props {
   /** Column headers, in order. Their count also drives the grid template. */
   columns: ProjectsTableColumn[];
   descriptionKey: string;
-  /** Server-side filter applied to the query. Changing it resets to the first page. */
-  filter: OnboardingProjectsFilter;
+  /**
+   * Server-side filter tokens, AND-ed by the backend. Changing them resets to the first page.
+   */
+  filters: OnboardingProjectsFilter[];
   loadingMessageKey: string;
   pageSize: number;
   /** Rendered once per project; must render exactly one `Table.Row` of `columns.length` cells. */
   projectRow: ComponentType<Readonly<ProjectsTableRowProps>>;
   searchPlaceholderKey: string;
   titleKey: string;
-  /** Extra toolbar controls rendered next to the search input, e.g. filter chips. */
+  /** Extra toolbar controls rendered next to the search input, e.g. the filter dropdowns. */
   toolbarControls?: ReactNode;
 }
 
@@ -80,7 +82,7 @@ interface Props {
 export function ProjectsTableCard({
   columns,
   descriptionKey,
-  filter,
+  filters,
   loadingMessageKey,
   pageSize,
   projectRow: ProjectRow,
@@ -94,14 +96,17 @@ export function ProjectsTableCard({
   const [pageIndex, setPageIndex] = useState(1);
   const organizationKey = useOnboardingOrganizationKey();
 
-  // Reset to the first page whenever the filter or search query changes.
+  // Callers rebuild the array on every render, so key the reset off the tokens themselves.
+  const filtersKey = filters.join(',');
+
+  // Reset to the first page whenever the filters or the search query change.
   useEffect(() => {
     setPageIndex(1);
-  }, [filter, query]);
+  }, [filtersKey, query]);
 
   const { data, isLoading } = useOnboardingProjectsQuery({
     organizationKey,
-    filter,
+    filters,
     pageIndex,
     pageSize,
     q: query === '' ? undefined : query,

@@ -18,14 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Badge, Button, ButtonGroup, ButtonVariety, Table } from '@sonarsource/echoes-react';
+import { Badge, Table } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { OnboardingProjectOnboarding, OnboardingProjectsFilter } from '~shared/types/onboarding';
+import { OnboardingProjectOnboarding } from '~shared/types/onboarding';
+import { composeProjectFilters } from '../../../helpers/onboarding-projects';
+import {
+  ANALYSIS_MODE_FILTER_OPTIONS,
+  ANY_PROJECTS_FILTER,
+  AnalysisModeFilterValue,
+  SCAN_STATUS_FILTER_OPTIONS,
+  ScanStatusFilterValue,
+} from '../../../types/types';
 import { NO_DATA } from '../../dashboardConstants';
 import { GateStatusBadge } from '../../projects/GateStatusBadge';
 import { getAnalysisModeBadge, getOnboardingBadge } from '../../projects/projectBadges';
-import { PROJECT_FILTERS } from '../../projects/projectFilters';
+import { ProjectsFilterSelect } from '../../projects/ProjectsFilterSelect';
 import {
   ProjectsTableCard,
   ProjectsTableColumn,
@@ -43,38 +51,41 @@ const COLUMNS: ProjectsTableColumn[] = [
 ];
 
 /**
- * "All projects" table of the redesigned onboarding journey: search, filter chips and the four
- * columns the design calls for.
+ * "All projects" table of the redesigned onboarding journey: search, the scan status and analysis
+ * mode filter dropdowns, and the four columns the design calls for.
  */
 export function AllProjectsCard() {
-  const { formatMessage } = useIntl();
-
-  const [filter, setFilter] = useState<OnboardingProjectsFilter>('all');
+  const [scanStatus, setScanStatus] = useState<ScanStatusFilterValue>(ANY_PROJECTS_FILTER);
+  const [analysisMode, setAnalysisMode] = useState<AnalysisModeFilterValue>(ANY_PROJECTS_FILTER);
 
   return (
     <ProjectsTableCard
       columns={COLUMNS}
       descriptionKey="onboarding_dashboard.projects.description"
-      filter={filter}
+      filters={composeProjectFilters([scanStatus, analysisMode])}
       loadingMessageKey="onboarding_dashboard.projects.loading"
       pageSize={PAGE_SIZE}
       projectRow={ProjectRow}
       searchPlaceholderKey="onboarding_dashboard.projects.search"
       titleKey="onboarding_dashboard.projects.title"
       toolbarControls={
-        <ButtonGroup isCombined>
-          {PROJECT_FILTERS.map(({ key, labelKey }) => (
-            <Button
-              key={key}
-              onClick={() => {
-                setFilter(key);
-              }}
-              variety={filter === key ? ButtonVariety.Primary : ButtonVariety.Default}
-            >
-              {formatMessage({ id: labelKey })}
-            </Button>
-          ))}
-        </ButtonGroup>
+        <>
+          <ProjectsFilterSelect
+            id="onboarding-projects-scan-status-filter"
+            labelKey="onboarding_dashboard.projects.filter.scan_status.label"
+            onChange={setScanStatus}
+            options={SCAN_STATUS_FILTER_OPTIONS}
+            value={scanStatus}
+          />
+
+          <ProjectsFilterSelect
+            id="onboarding-projects-analysis-mode-filter"
+            labelKey="onboarding_dashboard.projects.filter.analysis_mode.label"
+            onChange={setAnalysisMode}
+            options={ANALYSIS_MODE_FILTER_OPTIONS}
+            value={analysisMode}
+          />
+        </>
       }
     />
   );

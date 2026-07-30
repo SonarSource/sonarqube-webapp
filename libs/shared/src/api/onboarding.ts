@@ -31,7 +31,8 @@ const ONBOARDING_OVERVIEW_PATH = `${ONBOARDING_PATH}/overview`;
 const ONBOARDING_PROJECTS_PATH = `${ONBOARDING_PATH}/projects`;
 
 export interface OnboardingProjectsQuery {
-  filter?: OnboardingProjectsFilter;
+  /** AND-ed filter tokens, serialized as the comma-separated `filter` param. */
+  filters?: OnboardingProjectsFilter[];
   /** Only sent by SQ-Cloud, where the feature is scoped to an organization. */
   organizationKey?: string;
   pageIndex?: number;
@@ -48,6 +49,11 @@ export function getOnboardingOverview(params: OnboardingOverviewQuery = {}) {
   return axiosClient.get<OnboardingOverview>(ONBOARDING_OVERVIEW_PATH, { params });
 }
 
-export function getOnboardingProjects(params: OnboardingProjectsQuery = {}) {
-  return axiosClient.get<OnboardingProjectsResponse>(ONBOARDING_PROJECTS_PATH, { params });
+export function getOnboardingProjects({ filters, ...params }: OnboardingProjectsQuery = {}) {
+  return axiosClient.get<OnboardingProjectsResponse>(ONBOARDING_PROJECTS_PATH, {
+    params: {
+      ...params,
+      filter: filters !== undefined && filters.length > 0 ? filters.join(',') : undefined,
+    },
+  });
 }

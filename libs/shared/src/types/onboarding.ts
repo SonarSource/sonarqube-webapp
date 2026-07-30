@@ -205,7 +205,8 @@ export enum OnboardingProjectGateStatus {
   Passed = 'PASSED',
 }
 
-export type OnboardingProjectsFilter =
+/** The legacy filter tabs — the only tokens the backend reports counts for. */
+export type OnboardingProjectsCountFilter =
   | 'all'
   | 'fully_onboarded'
   | 'needs_attention'
@@ -215,7 +216,40 @@ export type OnboardingProjectsFilter =
   | 'stale'
   | 'local';
 
-export type OnboardingProjectsFilterCounts = Record<OnboardingProjectsFilter, number>;
+/** "Scan status" dimension of the `filter` param. */
+export enum OnboardingProjectsScanStatusFilter {
+  Scanned = 'scanned',
+  NotScanned = 'not_scanned',
+  NotOnboarded = 'not_onboarded',
+}
+
+/** "Analysis mode" dimension of the `filter` param. */
+export enum OnboardingProjectsAnalysisModeFilter {
+  Ci = 'ci',
+  Autoscan = 'autoscan',
+  NoAnalysisMode = 'no_analysis_mode',
+}
+
+/**
+ * "Gate status" dimension of the `filter` param.
+ */
+export enum OnboardingProjectsGateStatusFilter {
+  GatePassed = 'gate_passed',
+  GateFailed = 'gate_failed',
+  GateNotComputed = 'gate_not_computed',
+}
+
+/**
+ * Any single token accepted by the `filter` param. Several tokens can be sent comma-separated; the
+ * backend ANDs them across dimensions, e.g. `filter=scanned,ci`.
+ */
+export type OnboardingProjectsFilter =
+  | OnboardingProjectsCountFilter
+  | OnboardingProjectsScanStatusFilter
+  | OnboardingProjectsAnalysisModeFilter
+  | OnboardingProjectsGateStatusFilter;
+
+export type OnboardingProjectsFilterCounts = Record<OnboardingProjectsCountFilter, number>;
 
 interface OnboardingProjectsPage {
   pageIndex: number;

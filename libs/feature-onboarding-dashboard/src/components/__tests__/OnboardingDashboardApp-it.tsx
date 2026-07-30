@@ -29,6 +29,7 @@ import {
 import { registerServiceMocks, server } from '~shared/api/mocks/server';
 import { renderWithRoutes } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
+import { OnboardingProjectGateStatus } from '~shared/types/onboarding';
 import routes from '../../routes';
 import { NO_DATA } from '../dashboardConstants';
 
@@ -100,7 +101,20 @@ const ui = {
     name: 'onboarding_dashboard.projects.title',
   }).byRole('columnheader'),
   searchInput: byRole('searchbox', { name: 'onboarding_dashboard.projects.search' }),
-  notOnboardedFilter: byText('onboarding_dashboard.projects.filter.not_onboarded'),
+  // Filter dropdowns. Echoes' Select renders a role=combobox input whose accessible name comes
+  // from the sibling <Label htmlFor>, so the label message key is the queryable name.
+  scanStatusFilter: byRole('combobox', {
+    name: 'onboarding_dashboard.projects.filter.scan_status.label',
+  }),
+  analysisModeFilter: byRole('combobox', {
+    name: 'onboarding_dashboard.projects.filter.analysis_mode.label',
+  }),
+  scannedOption: byRole('option', { name: 'onboarding_dashboard.projects.filter.scanned' }),
+  // The "Not imported" option is backed by the `not_onboarded` wire token.
+  notImportedOption: byRole('option', {
+    name: 'onboarding_dashboard.projects.filter.not_onboarded',
+  }),
+  ciOption: byRole('option', { name: 'onboarding_dashboard.projects.filter.ci' }),
   colRepository: byText('onboarding_dashboard.projects.col.repository'),
   colScanStatus: byText('onboarding_dashboard.projects.col.onboarding'),
   colAnalysisMode: byText('onboarding_dashboard.projects.col.analysis_mode'),
@@ -119,6 +133,10 @@ const ui = {
   staleColProject: byText('onboarding_dashboard.stale.col.project'),
   staleColGateStatus: byText('onboarding_dashboard.stale.col.gate_status'),
   staleColLastScan: byText('onboarding_dashboard.stale.col.last_scan'),
+  staleGateStatusFilter: byRole('combobox', {
+    name: 'onboarding_dashboard.stale.filter.gate_status.label',
+  }),
+  gateFailedOption: byRole('option', { name: 'metric.level.ERROR' }),
 };
 
 function renderOnboardingDashboard() {
@@ -222,7 +240,7 @@ it('renders a no-data row in the all-projects table when the organization has no
   expect(await ui.projectsTable.byText(NO_DATA).findAll()).toHaveLength(4);
 });
 
-it('filters the all-projects table by search and by filter chip', async () => {
+it('filters the all-projects table by search and by the scan-status dropdown', async () => {
   const user = userEvent.setup({ delay: null });
   renderOnboardingDashboard();
 
@@ -241,12 +259,41 @@ it('filters the all-projects table by search and by filter chip', async () => {
   await user.clear(ui.searchInput.get());
   expect(await ui.repoWebCore.find()).toBeInTheDocument();
 
-  // Filtering by "Not onboarded" keeps only NOT_IMPORTED projects
-  await user.click(ui.notOnboardedFilter.get());
+  // Picking "Not imported" keeps only NOT_IMPORTED projects
+  await user.click(ui.scanStatusFilter.get());
+  await user.click(await ui.notImportedOption.find());
   await waitFor(() => {
     expect(ui.repoWebCore.query()).not.toBeInTheDocument();
   });
   expect(ui.repoPlatformJobs.get()).toBeInTheDocument();
+});
+
+it('ANDs the scan-status and analysis-mode dropdowns of the all-projects table', async () => {
+  const user = userEvent.setup({ delay: null });
+  renderOnboardingDashboard();
+
+  // Of the three analysed fixture projects, only payments-gateway is also scanned by CI —
+  // web-core is LOCAL and identity-lib is MANAGED. Both tokens must reach the backend together
+  // (`filter=scanned,ci`) for this to hold; sending only the last one picked would keep all three.
+  expect(await ui.repoWebCore.find()).toBeInTheDocument();
+
+  await user.click(ui.scanStatusFilter.get());
+  await user.click(await ui.scannedOption.find());
+
+  // platform-jobs is NOT_IMPORTED, so the scan-status token alone already excludes it.
+  await waitFor(() => {
+    expect(ui.repoPlatformJobs.query()).not.toBeInTheDocument();
+  });
+  expect(ui.repoWebCore.get()).toBeInTheDocument();
+
+  await user.click(ui.analysisModeFilter.get());
+  await user.click(await ui.ciOption.find());
+
+  await waitFor(() => {
+    expect(ui.repoWebCore.query()).not.toBeInTheDocument();
+  });
+  expect(ui.projectsTable.byText('payments-gateway').get()).toBeInTheDocument();
+  expect(ui.projectsTable.byText('identity-lib').query()).not.toBeInTheDocument();
 });
 
 it('renders the repository ALM icon from the app-specific images path', async () => {
@@ -274,6 +321,29 @@ it('shows pagination in the all-projects table when the total exceeds the page s
   // page-2 button whose aria-label is produced by the react-intl mock as 'pagination.page_x.2'
   // (formatMessage({id:'pagination.page_x'}, {page:'2'}) → [id, '2'].join('.')).
   expect(await byRole('button', { name: 'pagination.page_x.2' }).find()).toBeInTheDocument();
+});
+
+it('stays on the selected page until a filter or the search actually changes', async () => {
+  const user = userEvent.setup({ delay: null });
+  // 51 analysed projects: page 1 holds repo-0…repo-49, page 2 holds repo-50 alone.
+  const baseProject = mockOnboardingProjects()[2]; // web-core — analysed
+  onboardingMock.setProjects(
+    Array.from({ length: 51 }, (_, i) => ({ ...baseProject, key: `repo-${i}`, name: `repo-${i}` })),
+  );
+  renderOnboardingDashboard();
+
+  await user.click(await byRole('button', { name: 'pagination.page_x.2' }).find());
+
+  // The cards rebuild their filter array on every render, so a page reset keyed off the array
+  // identity would bounce straight back to page 1 and re-show repo-0.
+  expect(await ui.projectsTable.byText('repo-50').find()).toBeInTheDocument();
+  expect(ui.projectsTable.byText('repo-0').query()).not.toBeInTheDocument();
+
+  // Changing a filter, on the other hand, must reset to the first page.
+  await user.click(ui.scanStatusFilter.get());
+  await user.click(await ui.scannedOption.find());
+
+  expect(await ui.projectsTable.byText('repo-0').find()).toBeInTheDocument();
 });
 
 it('renders the stale-projects table above the all-projects table', async () => {
@@ -324,6 +394,38 @@ it('filters the stale-projects table by search', async () => {
     expect(ui.staleTable.byText('payments-gateway').query()).not.toBeInTheDocument();
   });
   expect(ui.staleTable.byText('identity-lib').get()).toBeInTheDocument();
+});
+
+it('ANDs the hardcoded stale filter with the gate-status dropdown', async () => {
+  const user = userEvent.setup({ delay: null });
+
+  // web-core (third in the fixture) fails its gate but isn't stale, so it must stay out of this
+  // table even once the dropdown asks for failing gates — proof that `stale` is still sent
+  // alongside `gate_failed`.
+  const [platformJobs, paymentsGateway, webCore, ...others] = mockOnboardingProjects();
+  onboardingMock.setProjects([
+    platformJobs,
+    paymentsGateway,
+    { ...webCore, gateStatus: OnboardingProjectGateStatus.Failed },
+    ...others,
+  ]);
+  renderOnboardingDashboard();
+
+  // All three stale fixture projects are listed, one per gate status.
+  expect(await ui.staleTable.byText('payments-gateway').find()).toBeInTheDocument();
+  expect(ui.staleTable.byText('identity-lib').get()).toBeInTheDocument();
+  expect(ui.staleTable.byText('mobile-worker').get()).toBeInTheDocument();
+
+  await user.click(ui.staleGateStatusFilter.get());
+  await user.click(await ui.gateFailedOption.find());
+
+  // payments-gateway is the only project that is both stale and failing its gate.
+  await waitFor(() => {
+    expect(ui.staleTable.byText('identity-lib').query()).not.toBeInTheDocument();
+  });
+  expect(ui.staleTable.byText('mobile-worker').query()).not.toBeInTheDocument();
+  expect(ui.staleTable.byText('web-core').query()).not.toBeInTheDocument();
+  expect(ui.staleTable.byText('payments-gateway').get()).toBeInTheDocument();
 });
 
 it('renders a no-data row in the stale-projects table when nothing is stale', async () => {

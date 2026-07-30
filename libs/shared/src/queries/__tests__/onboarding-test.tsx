@@ -26,7 +26,10 @@ import {
   mockOnboardingProjects,
 } from '../../api/mocks/OnboardingServiceMock';
 import { getOnboardingOverview, getOnboardingProjects } from '../../api/onboarding';
-import { OnboardingProjectsResponse } from '../../types/onboarding';
+import {
+  OnboardingProjectsResponse,
+  OnboardingProjectsScanStatusFilter,
+} from '../../types/onboarding';
 import { useOnboardingOverviewQuery, useOnboardingProjectsQuery } from '../onboarding';
 
 jest.mock('../../api/onboarding', () => ({
@@ -136,7 +139,12 @@ describe('useOnboardingProjectsQuery', () => {
     const response = mockProjectsResponse();
     jest.mocked(getOnboardingProjects).mockResolvedValue(response);
 
-    const params = { filter: 'all' as const, pageIndex: 1, pageSize: 50, q: 'web' };
+    const params = {
+      filters: [OnboardingProjectsScanStatusFilter.Scanned],
+      pageIndex: 1,
+      pageSize: 50,
+      q: 'web',
+    };
     const { result } = renderHook(() => useOnboardingProjectsQuery(params), { wrapper: Wrapper });
 
     await waitFor(() => {
@@ -188,7 +196,11 @@ describe('useOnboardingProjectsQuery', () => {
   it('retries the request twice before surfacing the error', async () => {
     jest.mocked(getOnboardingProjects).mockRejectedValue(new Error('boom'));
 
-    const params = { filter: 'all' as const, pageIndex: 1, pageSize: 50 };
+    const params = {
+      filters: [OnboardingProjectsScanStatusFilter.Scanned],
+      pageIndex: 1,
+      pageSize: 50,
+    };
     const { result } = renderHook(() => useOnboardingProjectsQuery(params), { wrapper: Wrapper });
 
     await waitFor(() => {

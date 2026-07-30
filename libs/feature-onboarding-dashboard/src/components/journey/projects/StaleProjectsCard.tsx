@@ -19,10 +19,18 @@
  */
 
 import { BadgeVariety, Table, TableCellJustify } from '@sonarsource/echoes-react';
+import { useState } from 'react';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import { isDefined } from '~shared/helpers/types';
+import { composeProjectFilters } from '../../../helpers/onboarding-projects';
+import {
+  ANY_PROJECTS_FILTER,
+  GATE_STATUS_FILTER_OPTIONS,
+  GateStatusFilterValue,
+} from '../../../types/types';
 import { NO_DATA } from '../../dashboardConstants';
 import { GateStatusBadge } from '../../projects/GateStatusBadge';
+import { ProjectsFilterSelect } from '../../projects/ProjectsFilterSelect';
 import {
   ProjectsTableCard,
   ProjectsTableColumn,
@@ -40,19 +48,30 @@ const COLUMNS: ProjectsTableColumn[] = [
 
 /**
  * "Commits not being scanned" table: the projects the backend flags as stale, i.e. with commits
- * that haven't been scanned recently.
+ * that haven't been scanned recently, optionally narrowed down to a single gate status.
  */
 export function StaleProjectsCard() {
+  const [gateStatus, setGateStatus] = useState<GateStatusFilterValue>(ANY_PROJECTS_FILTER);
+
   return (
     <ProjectsTableCard
       columns={COLUMNS}
       descriptionKey="onboarding_dashboard.stale.description"
-      filter="stale"
+      filters={composeProjectFilters(['stale', gateStatus])}
       loadingMessageKey="onboarding_dashboard.stale.loading"
       pageSize={PAGE_SIZE}
       projectRow={StaleProjectRow}
       searchPlaceholderKey="onboarding_dashboard.stale.search"
       titleKey="onboarding_dashboard.stale.title"
+      toolbarControls={
+        <ProjectsFilterSelect
+          id="onboarding-stale-gate-status-filter"
+          labelKey="onboarding_dashboard.stale.filter.gate_status.label"
+          onChange={setGateStatus}
+          options={GATE_STATUS_FILTER_OPTIONS}
+          value={gateStatus}
+        />
+      }
     />
   );
 }

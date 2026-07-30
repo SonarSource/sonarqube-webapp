@@ -18,6 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import {
+  OnboardingProjectsAnalysisModeFilter,
+  OnboardingProjectsFilter,
+  OnboardingProjectsGateStatusFilter,
+  OnboardingProjectsScanStatusFilter,
+} from '~shared/types/onboarding';
+
 /** The three onboarding steps, in order, that the dashboard guides users through. */
 export enum JourneyStep {
   Binding = 'BINDING',
@@ -87,3 +94,72 @@ export interface JourneyState {
   /** Total number of projects across the organization. */
   totalProjects: number;
 }
+
+/**
+ * The backend's dimension-agnostic "no constraint" token, reused as the value of every dropdown's
+ * "All" option so the select always holds a value and needs no synthetic sentinel.
+ */
+export const ANY_PROJECTS_FILTER = 'all' as const;
+
+export interface ProjectFilterOption<T extends OnboardingProjectsFilter> {
+  labelKey: string;
+  value: T;
+}
+
+export type ScanStatusFilterValue = OnboardingProjectsScanStatusFilter | typeof ANY_PROJECTS_FILTER;
+
+export type AnalysisModeFilterValue =
+  OnboardingProjectsAnalysisModeFilter | typeof ANY_PROJECTS_FILTER;
+
+export type GateStatusFilterValue = OnboardingProjectsGateStatusFilter | typeof ANY_PROJECTS_FILTER;
+
+/**
+ * Options of the dropdowns shown above the project tables. Filtering itself is done server-side —
+ * these only drive the option labels/order.
+ */
+export const SCAN_STATUS_FILTER_OPTIONS: ReadonlyArray<ProjectFilterOption<ScanStatusFilterValue>> =
+  [
+    { labelKey: 'onboarding_dashboard.projects.filter.all', value: ANY_PROJECTS_FILTER },
+    {
+      labelKey: 'onboarding_dashboard.projects.filter.scanned',
+      value: OnboardingProjectsScanStatusFilter.Scanned,
+    },
+    {
+      labelKey: 'onboarding_dashboard.projects.filter.not_scanned',
+      value: OnboardingProjectsScanStatusFilter.NotScanned,
+    },
+    {
+      labelKey: 'onboarding_dashboard.projects.filter.not_onboarded',
+      value: OnboardingProjectsScanStatusFilter.NotOnboarded,
+    },
+  ];
+
+export const ANALYSIS_MODE_FILTER_OPTIONS: ReadonlyArray<
+  ProjectFilterOption<AnalysisModeFilterValue>
+> = [
+  { labelKey: 'onboarding_dashboard.projects.filter.all', value: ANY_PROJECTS_FILTER },
+  {
+    labelKey: 'onboarding_dashboard.projects.filter.ci',
+    value: OnboardingProjectsAnalysisModeFilter.Ci,
+  },
+  {
+    labelKey: 'onboarding_dashboard.projects.filter.autoscan',
+    value: OnboardingProjectsAnalysisModeFilter.Autoscan,
+  },
+  {
+    labelKey: 'onboarding_dashboard.projects.filter.no_analysis_mode',
+    value: OnboardingProjectsAnalysisModeFilter.NoAnalysisMode,
+  },
+];
+
+/** Reuses the gate status labels of `GateStatusBadge` so filter and badge wording stay in sync. */
+export const GATE_STATUS_FILTER_OPTIONS: ReadonlyArray<ProjectFilterOption<GateStatusFilterValue>> =
+  [
+    { labelKey: 'onboarding_dashboard.projects.filter.all', value: ANY_PROJECTS_FILTER },
+    { labelKey: 'metric.level.OK', value: OnboardingProjectsGateStatusFilter.GatePassed },
+    { labelKey: 'metric.level.ERROR', value: OnboardingProjectsGateStatusFilter.GateFailed },
+    {
+      labelKey: 'onboarding_dashboard.projects.gate.not_computed',
+      value: OnboardingProjectsGateStatusFilter.GateNotComputed,
+    },
+  ];

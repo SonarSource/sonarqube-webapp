@@ -28,8 +28,12 @@ import {
   OnboardingProjectOnboarding,
   OnboardingProjectScanHealth,
   OnboardingProjectScanMethod,
+  OnboardingProjectsAnalysisModeFilter,
+  OnboardingProjectsCountFilter,
   OnboardingProjectsFilter,
   OnboardingProjectsFilterCounts,
+  OnboardingProjectsGateStatusFilter,
+  OnboardingProjectsScanStatusFilter,
 } from '../../types/onboarding';
 import { HttpStatus } from '../../types/request';
 import { AbstractServiceMock } from './AbstractServiceMock';
@@ -48,27 +52,55 @@ export interface OnboardingServiceData {
   projects: OnboardingProject[];
 }
 
-/** Mirrors the backend filter tabs so the mock can compute matches and per-tab counts. */
-const FILTER_PREDICATES: Record<OnboardingProjectsFilter, (project: OnboardingProject) => boolean> =
-  {
-    all: () => true,
-    // eslint-disable-next-line camelcase
-    fully_onboarded: (p) =>
-      p.onboarding === OnboardingProjectOnboarding.Analysed &&
-      p.scanHealth === OnboardingProjectScanHealth.Healthy,
-    // eslint-disable-next-line camelcase
-    needs_attention: (p) =>
-      p.scanHealth === OnboardingProjectScanHealth.Failed ||
-      p.gateStatus === OnboardingProjectGateStatus.Failed ||
-      p.onboarding === OnboardingProjectOnboarding.ImportedEmpty,
-    // eslint-disable-next-line camelcase
-    not_onboarded: (p) => p.onboarding === OnboardingProjectOnboarding.NotImported,
-    // eslint-disable-next-line camelcase
-    failed_scans: (p) => p.scanHealth === OnboardingProjectScanHealth.Failed,
-    autoscan: (p) => p.scanMethod === OnboardingProjectScanMethod.Managed,
-    local: (p) => p.scanMethod === OnboardingProjectScanMethod.Local,
-    stale: (p) => p.stale,
-  };
+type ProjectPredicate = (project: OnboardingProject) => boolean;
+
+/* eslint-disable camelcase */
+
+/** Mirrors the backend's legacy filter tabs — the only tokens `filterCounts` reports. */
+const COUNT_FILTER_PREDICATES: Record<OnboardingProjectsCountFilter, ProjectPredicate> = {
+  all: () => true,
+  fully_onboarded: (p) =>
+    p.onboarding === OnboardingProjectOnboarding.Analysed &&
+    p.scanHealth === OnboardingProjectScanHealth.Healthy,
+  needs_attention: (p) =>
+    p.scanHealth === OnboardingProjectScanHealth.Failed ||
+    p.gateStatus === OnboardingProjectGateStatus.Failed ||
+    p.onboarding === OnboardingProjectOnboarding.ImportedEmpty,
+  not_onboarded: (p) => p.onboarding === OnboardingProjectOnboarding.NotImported,
+  failed_scans: (p) => p.scanHealth === OnboardingProjectScanHealth.Failed,
+  autoscan: (p) => p.scanMethod === OnboardingProjectScanMethod.Managed,
+  local: (p) => p.scanMethod === OnboardingProjectScanMethod.Local,
+  stale: (p) => p.stale,
+};
+
+/* eslint-enable camelcase */
+
+/**
+ * Tokens sent by the filter dropdowns that the legacy tabs don't already cover; the backend ANDs
+ * them with each other. `not_onboarded`, `autoscan` and `local` are shared with the tabs above.
+ */
+const DIMENSION_FILTER_PREDICATES: Record<
+  Exclude<OnboardingProjectsFilter, OnboardingProjectsCountFilter>,
+  ProjectPredicate
+> = {
+  [OnboardingProjectsScanStatusFilter.Scanned]: (p) =>
+    p.onboarding === OnboardingProjectOnboarding.Analysed,
+  [OnboardingProjectsScanStatusFilter.NotScanned]: (p) =>
+    p.onboarding === OnboardingProjectOnboarding.ImportedEmpty,
+  [OnboardingProjectsAnalysisModeFilter.Ci]: (p) => p.scanMethod === OnboardingProjectScanMethod.Ci,
+  [OnboardingProjectsAnalysisModeFilter.NoAnalysisMode]: (p) => p.scanMethod === null,
+  [OnboardingProjectsGateStatusFilter.GatePassed]: (p) =>
+    p.gateStatus === OnboardingProjectGateStatus.Passed,
+  [OnboardingProjectsGateStatusFilter.GateFailed]: (p) =>
+    p.gateStatus === OnboardingProjectGateStatus.Failed,
+  [OnboardingProjectsGateStatusFilter.GateNotComputed]: (p) =>
+    p.gateStatus === OnboardingProjectGateStatus.NotComputed,
+};
+
+const FILTER_PREDICATES: Record<OnboardingProjectsFilter, ProjectPredicate> = {
+  ...COUNT_FILTER_PREDICATES,
+  ...DIMENSION_FILTER_PREDICATES,
+};
 
 function matchesSearch(project: OnboardingProject, query: string) {
   const needle = query.trim().toLowerCase();
@@ -82,9 +114,9 @@ function matchesSearch(project: OnboardingProject, query: string) {
 
 function computeFilterCounts(projects: OnboardingProject[]): OnboardingProjectsFilterCounts {
   return Object.fromEntries(
-    (Object.keys(FILTER_PREDICATES) as OnboardingProjectsFilter[]).map((key) => [
+    (Object.keys(COUNT_FILTER_PREDICATES) as OnboardingProjectsCountFilter[]).map((key) => [
       key,
-      projects.filter(FILTER_PREDICATES[key]).length,
+      projects.filter(COUNT_FILTER_PREDICATES[key]).length,
     ]),
   ) as OnboardingProjectsFilterCounts;
 }
@@ -277,13 +309,19 @@ export class OnboardingServiceMock extends AbstractServiceMock<OnboardingService
     http.get(ONBOARDING_PROJECTS_PATH, ({ request }) => {
       const url = new URL(request.url);
       const q = url.searchParams.get('q') ?? '';
-      const filter = (url.searchParams.get('filter') ?? 'all') as OnboardingProjectsFilter;
+      // The `filter` param carries several comma-separated tokens, AND-ed together.
+      const filters = (url.searchParams.get('filter') ?? '')
+        .split(',')
+        .map((token) => token.trim())
+        .filter((token) => token !== '') as OnboardingProjectsFilter[];
       const pageIndex = Number(url.searchParams.get('pageIndex') ?? '1');
       const pageSize = Number(url.searchParams.get('pageSize') ?? '50');
 
       const searched = this.data.projects.filter((project) => matchesSearch(project, q));
       const filterCounts = computeFilterCounts(searched);
-      const filtered = searched.filter(FILTER_PREDICATES[filter] ?? FILTER_PREDICATES.all);
+      const filtered = searched.filter((project) =>
+        filters.every((token) => (FILTER_PREDICATES[token] ?? FILTER_PREDICATES.all)(project)),
+      );
 
       const start = (pageIndex - 1) * pageSize;
       const projects = pageSize <= 0 ? [] : filtered.slice(start, start + pageSize);

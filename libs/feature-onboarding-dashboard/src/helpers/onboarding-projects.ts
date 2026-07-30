@@ -19,14 +19,10 @@
  */
 
 import { OnboardingProjectsFilter } from '~shared/types/onboarding';
+import { ANY_PROJECTS_FILTER } from '../types/types';
 
-/**
- * Filter tabs shown above the repositories table. Filtering itself is done server-side — these
- * only drive the tab labels/order; per-tab counts come from the API response `filterCounts`.
- */
-export const PROJECT_FILTERS: Array<{ key: OnboardingProjectsFilter; labelKey: string }> = [
-  { key: 'all', labelKey: 'onboarding_dashboard.projects.filter.all' },
-  { key: 'failed_scans', labelKey: 'onboarding_dashboard.projects.filter.failed_scans' },
-  { key: 'autoscan', labelKey: 'onboarding_dashboard.projects.filter.autoscan' },
-  { key: 'not_onboarded', labelKey: 'onboarding_dashboard.projects.filter.not_onboarded' },
-];
+export function composeProjectFilters(
+  values: readonly OnboardingProjectsFilter[],
+): OnboardingProjectsFilter[] {
+  return values.filter((value) => value !== ANY_PROJECTS_FILTER);
+}
