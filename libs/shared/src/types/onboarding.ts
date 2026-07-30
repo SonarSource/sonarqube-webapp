@@ -61,7 +61,7 @@ interface OnboardingCards {
   scanMethod: ScanMethodCard;
 }
 
-export interface RepositoriesDiscoveredCard {
+interface RepositoriesDiscoveredCard {
   byAlm: RepositoriesDiscoveredByAlm[];
   discovered: number | null;
   imported: number;
@@ -74,14 +74,14 @@ interface RepositoriesDiscoveredByAlm {
   imported: number;
 }
 
-export interface ProjectsOnboardedCard {
+interface ProjectsOnboardedCard {
   importedEmpty: number;
   onboarded: number;
   percentOfImported: number | null;
   totalProjects: number;
 }
 
-export interface ScanHealthCard {
+interface ScanHealthCard {
   failed: number;
   healthy: number;
 }
@@ -98,7 +98,7 @@ interface ScanMethodByCi {
   system: string;
 }
 
-export interface PrIntegrationCard {
+interface PrIntegrationCard {
   percentOfOnboarded: number | null;
   prDecorationCount: number;
 }
@@ -107,13 +107,13 @@ type OnboardingChecklistStatus = 'DONE' | 'IN_PROGRESS' | 'NOT_STARTED' | 'UNKNO
 
 type OnboardingMaturityLabel = 'Starting' | 'Growing' | 'Established' | 'Advanced';
 
-export interface OnboardingChecklist {
+interface OnboardingChecklist {
   items: OnboardingChecklistItem[];
   maturityLabel: OnboardingMaturityLabel;
   overallMaturityPct: number;
 }
 
-export interface OnboardingChecklistItem {
+interface OnboardingChecklistItem {
   completed: number | null;
   completionPct: number | null;
   id: string;
@@ -157,14 +157,14 @@ interface OnboardingCoverageChart {
   notOnboarded: number | null;
 }
 
-export interface ScanConfigurationChart {
+interface ScanConfigurationChart {
   ci: number;
   local: number;
   managed: number;
   notOnboarded: number | null;
 }
 
-export interface QualityGateStatusChart {
+interface QualityGateStatusChart {
   failing: number;
   notComputed: number;
   notOnboarded: number | null;

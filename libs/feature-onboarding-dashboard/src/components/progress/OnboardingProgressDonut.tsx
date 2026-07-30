@@ -61,7 +61,7 @@ export function OnboardingProgressDonut({
       {showLabel && (
         <div className="sw-absolute sw-inset-0 sw-flex sw-items-center sw-justify-center">
           <Text isHighlighted>
-            {formatMessage({ id: 'onboarding_dashboard.checklist.percent' }, { percent: value })}
+            {formatMessage({ id: 'onboarding_dashboard.percent' }, { percent: value })}
           </Text>
         </div>
       )}

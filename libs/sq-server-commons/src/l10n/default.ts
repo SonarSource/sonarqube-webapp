@@ -10112,55 +10112,7 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.locked.more.cta': 'Import repositories',
   'onboarding_dashboard.loading': 'Loading dashboard',
   'onboarding_dashboard.projects.loading': 'Loading repositories',
-  'onboarding_dashboard.cards.repositories_discovered.title': 'Repositories discovered',
-  'onboarding_dashboard.cards.repositories_discovered.subtitle':
-    'Across your connected DevOps platforms.',
-  'onboarding_dashboard.cards.projects_onboarded.title': 'Repositories imported',
-  'onboarding_dashboard.cards.projects_onboarded.subtitle': '{onboarded} of {total} imported.',
-  'onboarding_dashboard.cards.scan_health.title': 'Scans passing',
-  'onboarding_dashboard.cards.scan_health.subtitle': '{failed} of {total} scans failed.',
-  'onboarding_dashboard.cards.pr_integration.title': 'PR integrated',
-  'onboarding_dashboard.cards.pr_integration.subtitle':
-    '{count} repositories show scan results on pull requests.',
-  'onboarding_dashboard.checklist.title': 'Onboarding checklist',
-  'onboarding_dashboard.checklist.description':
-    'Your maturity path from discovery to full platform utilization.',
-  'onboarding_dashboard.checklist.percent': '{percent}%',
-  'onboarding_dashboard.checklist.maturity.Starting': 'Starting',
-  'onboarding_dashboard.checklist.maturity.Growing': 'Growing',
-  'onboarding_dashboard.checklist.maturity.Established': 'Established',
-  'onboarding_dashboard.checklist.maturity.Advanced': 'Advanced',
-  'onboarding_dashboard.checklist.item.discover.title': 'Discover repositories',
-  'onboarding_dashboard.checklist.item.discover.description':
-    '{completed} repositories detected from your DevOps platform.',
-  'onboarding_dashboard.checklist.item.onboard.title': 'Onboard repositories into SonarQube',
-  'onboarding_dashboard.checklist.item.onboard.description':
-    '{completed} of {total} onboarded · {remaining} remaining.',
-  'onboarding_dashboard.checklist.item.failing.title': 'Resolve failing scans',
-  'onboarding_dashboard.checklist.item.failing.description':
-    '{completed} of {total} projects scanning successfully.',
-  'onboarding_dashboard.checklist.item.full-ci.title': 'Move Autoscan-only to full CI',
-  'onboarding_dashboard.checklist.item.full-ci.description':
-    '{completed} of {total} projects running in full CI.',
-  'onboarding_dashboard.checklist.item.pr-deco.title': 'Enable PR decoration & DevOps integration',
-  'onboarding_dashboard.checklist.item.pr-deco.description':
-    '{completed} projects with PR decoration & DevOps integration configured.',
-  'onboarding_dashboard.charts.total': 'Total',
-  'onboarding_dashboard.charts.coverage.title': 'Onboarding coverage',
-  'onboarding_dashboard.charts.scan_config.title': 'Scans passing',
-  'onboarding_dashboard.charts.scan_config.description':
-    'Full CI pipeline vs. Automatic Analysis vs. local/other scans.',
-  'onboarding_dashboard.charts.scan_config.full_ci': 'Full CI',
-  'onboarding_dashboard.charts.scan_config.autoscan': 'Autoscan only',
-  'onboarding_dashboard.charts.scan_config.local': 'Local (other)',
-  'onboarding_dashboard.charts.scan_config.not_onboarded': 'Not onboarded',
-  'onboarding_dashboard.charts.quality_gate.title': 'Quality gate status',
-  'onboarding_dashboard.charts.quality_gate.description':
-    'Latest gate result across onboarded projects.',
-  'onboarding_dashboard.charts.quality_gate.passing': 'Passing',
-  'onboarding_dashboard.charts.quality_gate.failing': 'Failing',
-  'onboarding_dashboard.charts.quality_gate.not_computed': 'Not computed',
-  'onboarding_dashboard.charts.quality_gate.not_onboarded': 'Not onboarded',
+  'onboarding_dashboard.percent': '{percent}%',
   'onboarding_dashboard.devops.title': 'DevOps platforms',
   'onboarding_dashboard.devops.description':
     'How all repositories are distributed across DevOps platforms.',

@@ -51,24 +51,16 @@ afterEach(() => {
 });
 
 const ui = {
-  repositoriesDiscoveredTitle: byText('onboarding_dashboard.cards.repositories_discovered.title'),
-  projectsOnboardedTitle: byText('onboarding_dashboard.cards.projects_onboarded.title'),
-  scanHealthTitle: byText('onboarding_dashboard.cards.scan_health.title'),
-  prIntegrationTitle: byText('onboarding_dashboard.cards.pr_integration.title'),
   error: byText('default_error_message'),
 
   // The overview LoadingContainer announces this message (the react-intl mock renders the key
   // literally) while skeletons are shown; it clears once the data resolves.
   loading: byText('onboarding_dashboard.loading'),
 
-  // The react-intl mock renders the percent message as `<id>.<value>`. The mock's
-  // projectsOnboarded.percentOfImported (16.7) is unique across the fixture, so this text only
-  // appears if the card reads the correct API field (guards the percentOfTotal→percentOfImported fix).
-  projectsOnboardedPercent: byText('onboarding_dashboard.checklist.percent.16.7'),
-
-  // Header — the ring label reflects the backend overallMaturityPct (75 in the mock), also unique.
+  // Header — the ring label reflects the backend overallMaturityPct (75 in the mock), which is
+  // unique across the fixture (the stepper donuts use importedPct/analyzedPct).
   headerSubtitle: byText('onboarding_dashboard.header.subtitle'),
-  headerProgress: byText('onboarding_dashboard.checklist.percent.75'),
+  headerProgress: byText('onboarding_dashboard.percent.75'),
 
   // Journey stepper — three selectable step cards rendered as buttons (aria-label === title).
   stepperBinding: byRole('button', {
@@ -81,20 +73,6 @@ const ui = {
     name: 'onboarding_dashboard.journey.step.projects.title',
   }),
 
-  // The bare percent message id (no numeric suffix) is never rendered on a healthy page — every
-  // percent has a value. It only appears if a null percentage reaches formatMessage, i.e. if a
-  // card's NO_DATA guard regressed to a value-less "%". Used as a regression guard.
-  barePercent: byText('onboarding_dashboard.checklist.percent'),
-
-  // Checklist
-  checklistTitle: byText('onboarding_dashboard.checklist.title'),
-  maturityBadge: byText('onboarding_dashboard.checklist.maturity.Advanced'),
-  discoverItemTitle: byText('onboarding_dashboard.checklist.item.discover.title'),
-  onboardItemTitle: byText('onboarding_dashboard.checklist.item.onboard.title'),
-  discoverProgressBar: byRole('progressbar', {
-    name: 'onboarding_dashboard.checklist.item.discover.title',
-  }),
-
   // Journey statistics — progressively unlocked by JourneyLevel.
   overTimeChart: byRole('img', { name: 'onboarding_dashboard.journey.overtime.title' }),
   overTimePlatformsLegend: byText('onboarding_dashboard.journey.overtime.legend.platforms_bound'),
@@ -105,13 +83,6 @@ const ui = {
   lockedStatsCta: byRole('button', { name: 'onboarding_dashboard.journey.locked.stats.cta' }),
   lockedMoreTitle: byText('onboarding_dashboard.journey.locked.more.title'),
   lockedMoreCta: byRole('button', { name: 'onboarding_dashboard.journey.locked.more.cta' }),
-
-  // Charts
-  scanConfigTitle: byText('onboarding_dashboard.charts.scan_config.title'),
-  scanConfigFullCiLegend: byText('onboarding_dashboard.charts.scan_config.full_ci'),
-  qualityGateTitle: byText('onboarding_dashboard.charts.quality_gate.title'),
-  qualityGatePassingLegend: byText('onboarding_dashboard.charts.quality_gate.passing'),
-  qualityGateNotOnboardedLegend: byText('onboarding_dashboard.charts.quality_gate.not_onboarded'),
 
   // DevOps platforms
   devopsTitle: byText('onboarding_dashboard.devops.title'),
@@ -143,49 +114,12 @@ function renderOnboardingDashboard() {
   return renderWithRoutes(routes(), { initialEntries: ['/onboarding-dashboard'] });
 }
 
-it('renders the four onboarding summary cards with their data', async () => {
-  renderOnboardingDashboard();
-
-  expect(await ui.repositoriesDiscoveredTitle.find()).toBeInTheDocument();
-  expect(ui.projectsOnboardedTitle.get()).toBeInTheDocument();
-  expect(ui.scanHealthTitle.get()).toBeInTheDocument();
-  expect(ui.prIntegrationTitle.get()).toBeInTheDocument();
-
-  // The projects-onboarded card renders its percentage from percentOfImported.
-  expect(ui.projectsOnboardedPercent.get()).toBeInTheDocument();
-});
-
-it('shows a no-data placeholder on the projects and PR cards when their percentage is null', async () => {
-  // A null percentage (no imported projects yet) must render the em-dash placeholder and omit the
-  // ring, rather than an empty "%". Covers the null branch of both percent-driven cards.
-  onboardingMock.setOverview(
-    mockOnboardingOverview({
-      projectsOnboarded: {
-        onboarded: 0,
-        totalProjects: 0,
-        importedEmpty: 0,
-        percentOfImported: null,
-      },
-      prIntegration: { prDecorationCount: 0, percentOfOnboarded: null },
-    }),
-  );
-  renderOnboardingDashboard();
-
-  // Wait for the cards to mount, then confirm neither shows a percentage value...
-  expect(await ui.projectsOnboardedTitle.find()).toBeInTheDocument();
-  expect(ui.projectsOnboardedPercent.query()).not.toBeInTheDocument();
-
-  // ...and neither regressed to a value-less "%": a null reaching formatMessage would render the
-  // bare message id. Its absence proves both cards took the NO_DATA (em-dash) branch instead.
-  expect(ui.barePercent.query()).not.toBeInTheDocument();
-});
-
 it('shows an error message when the overview request fails', async () => {
   onboardingMock.setFailOverview(true);
   renderOnboardingDashboard();
 
   expect(await ui.error.find()).toBeInTheDocument();
-  expect(ui.repositoriesDiscoveredTitle.query()).not.toBeInTheDocument();
+  expect(ui.headerSubtitle.query()).not.toBeInTheDocument();
 });
 
 it('shows loading skeletons before the dashboard data resolves', async () => {
@@ -197,7 +131,7 @@ it('shows loading skeletons before the dashboard data resolves', async () => {
 
   // Once the overview and project queries resolve, real content replaces the skeletons and the
   // loading announcement clears.
-  expect(await ui.repositoriesDiscoveredTitle.find()).toBeInTheDocument();
+  expect(await ui.headerSubtitle.find()).toBeInTheDocument();
   expect(await ui.repoWebCore.find()).toBeInTheDocument();
   await waitFor(() => {
     expect(ui.loading.query()).not.toBeInTheDocument();
@@ -240,30 +174,6 @@ it('moves the stepper selection to the card the user clicks', async () => {
 
   expect(ui.stepperBinding.get()).toHaveAttribute('aria-pressed', 'true');
   expect(ui.stepperProjects.get()).toHaveAttribute('aria-pressed', 'false');
-});
-
-it('renders the onboarding checklist with maturity badge and progress bars', async () => {
-  renderOnboardingDashboard();
-
-  expect(await ui.checklistTitle.find()).toBeInTheDocument();
-  expect(ui.maturityBadge.get()).toBeInTheDocument();
-  expect(ui.discoverItemTitle.get()).toBeInTheDocument();
-  expect(ui.onboardItemTitle.get()).toBeInTheDocument();
-
-  const discoverProgressBar = ui.discoverProgressBar.get();
-  expect(discoverProgressBar).toBeInTheDocument();
-  expect(discoverProgressBar).toHaveAttribute('aria-valuenow', '100');
-});
-
-it('renders the charts section with the scan configuration and quality gate donuts', async () => {
-  renderOnboardingDashboard();
-
-  expect(await ui.scanConfigTitle.find()).toBeInTheDocument();
-  expect(ui.scanConfigFullCiLegend.get()).toBeInTheDocument();
-
-  expect(ui.qualityGateTitle.get()).toBeInTheDocument();
-  expect(ui.qualityGatePassingLegend.get()).toBeInTheDocument();
-  expect(ui.qualityGateNotOnboardedLegend.get()).toBeInTheDocument();
 });
 
 it('renders the DevOps platforms card with brand rows and a not-bound row', async () => {
@@ -335,17 +245,6 @@ it('renders the repository ALM icon from the app-specific images path', async ()
 
   const icon = await ui.repoGitlabIcon.find();
   expect(icon).toHaveAttribute('src', expect.stringContaining(`${ALM_ICONS_BASE_URL}/gitlab.svg`));
-});
-
-it('clamps the checklist progress bar to 100 when completionPct exceeds 100', async () => {
-  // The mock data includes pr-deco with completionPct: 600.
-  // After the fix both the bar and the label must be capped at 100.
-  renderOnboardingDashboard();
-
-  const prDecoBar = await byRole('progressbar', {
-    name: 'onboarding_dashboard.checklist.item.pr-deco.title',
-  }).find();
-  expect(prDecoBar).toHaveAttribute('aria-valuenow', '100');
 });
 
 it('shows pagination in the all-projects table when the total exceeds the page size', async () => {

@@ -184,3 +184,11 @@ it('falls back to zero when discovered/notYetImported are null and denominators 
   expect(state.importedPct).toBe(0);
   expect(state.analyzedPct).toBe(0);
 });
+
+it('clamps the header percentage to 100 when overallMaturityPct exceeds 100', () => {
+  // The backend can report a maturity above 100; the header ring must never render past a full
+  // circle, so deriveJourneyState caps it.
+  const state = deriveJourneyState(buildOverview({ checklist: { overallMaturityPct: 600 } }));
+
+  expect(state.overallPct).toBe(100);
+});

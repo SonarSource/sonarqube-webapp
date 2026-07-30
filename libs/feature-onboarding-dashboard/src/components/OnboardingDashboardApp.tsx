@@ -24,13 +24,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import { useOnboardingOrganizationKey } from '~adapters/queries/onboarding';
 import { useOnboardingOverviewQuery } from '~shared/queries/onboarding';
-import { PrIntegrationCard } from './cards/PrIntegrationCard';
-import { ProjectsOnboardedCard } from './cards/ProjectsOnboardedCard';
-import { RepositoriesDiscoveredCard } from './cards/RepositoriesDiscoveredCard';
-import { ScanHealthCard } from './cards/ScanHealthCard';
-import { QualityGateStatusCard } from './charts/QualityGateStatusCard';
-import { ScanConfigurationCard } from './charts/ScanConfigurationCard';
-import { OnboardingChecklistCard } from './checklist/OnboardingChecklistCard';
 import { OnboardingDevopsPlatformsCard } from './devops/OnboardingDevopsPlatformsCard';
 import { OnboardingJourney } from './journey/OnboardingJourney';
 import { OnboardingDashboardSkeleton } from './OnboardingDashboardSkeleton';
@@ -41,14 +34,12 @@ export default function OnboardingDashboardApp() {
   const { data, isPending, isError } = useOnboardingOverviewQuery({ organizationKey });
 
   const title = formatMessage({ id: 'layout.onboarding_dashboard' });
-  const { cards, checklist, charts, devopsPlatforms } = data ?? {};
+  const { devopsPlatforms } = data ?? {};
 
   return (
     <Layout.PageGrid>
       <Helmet defer={false} title={title} />
       <Layout.PageContent>
-        {data !== undefined && <OnboardingJourney overview={data} />}
-
         {isError && (
           <MessageCallout variety="danger">
             <FormattedMessage id="default_error_message" />
@@ -62,25 +53,8 @@ export default function OnboardingDashboardApp() {
           {isPending ? (
             <OnboardingDashboardSkeleton />
           ) : (
-            <div className="sw-flex sw-flex-col sw-gap-4">
-              {cards !== undefined && (
-                <div className="sw-grid sw-grid-cols-4 sw-gap-4">
-                  <RepositoriesDiscoveredCard data={cards.repositoriesDiscovered} />
-                  <ProjectsOnboardedCard data={cards.projectsOnboarded} />
-                  <ScanHealthCard data={cards.scanHealth} />
-                  <PrIntegrationCard data={cards.prIntegration} />
-                </div>
-              )}
-
-              {checklist !== undefined && <OnboardingChecklistCard checklist={checklist} />}
-
-              {charts !== undefined && (
-                <div className="sw-grid sw-grid-cols-2 sw-items-start sw-gap-4">
-                  <ScanConfigurationCard data={charts.scanConfiguration} />
-                  <QualityGateStatusCard data={charts.qualityGateStatus} />
-                </div>
-              )}
-
+            <div>
+              {data !== undefined && <OnboardingJourney overview={data} />}
               {devopsPlatforms !== undefined && (
                 <OnboardingDevopsPlatformsCard data={devopsPlatforms} />
               )}

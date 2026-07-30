@@ -28,7 +28,7 @@ const ui = {
   subtitle: byText('onboarding_dashboard.header.subtitle'),
   congratsTitle: byText('onboarding_dashboard.journey.congrats.title'),
   // The progress ring label is rendered by OnboardingProgressDonut as `percent.<value>`.
-  progressLabel: (value: number) => byText(`onboarding_dashboard.checklist.percent.${value}`),
+  progressLabel: (value: number) => byText(`onboarding_dashboard.percent.${value}`),
 };
 
 function renderHeader(props: Partial<ComponentProps<typeof OnboardingDashboardHeader>> = {}) {

@@ -29,7 +29,7 @@ const ui = {
   secondaryLine: byText('secondary caption'),
   // The donut label is rendered by OnboardingProgressDonut via the react-intl mock as
   // `<id>.<value>`, so the value is embedded in the text (percent.0 when donutPercent is omitted).
-  donutLabel: (value: number) => byText(`onboarding_dashboard.checklist.percent.${value}`),
+  donutLabel: (value: number) => byText(`onboarding_dashboard.percent.${value}`),
 };
 
 function renderStepCard(props: Partial<ComponentProps<typeof StepCard>> = {}) {
