@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, cssVar, Text, Theme, ThemeProvider } from '@sonarsource/echoes-react';
+import { Button, cssVar, Text } from '@sonarsource/echoes-react';
 import { useCallback, useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { dismissNotice } from '~sq-server-commons/api/users';
@@ -45,53 +45,47 @@ export function SQIDEPromotionNotification() {
   }
 
   return (
-    <ThemeProvider theme={Theme.dark}>
-      <PromotionNotificationWrapper className="it__promotion_notification sw-z-global-popup sw-rounded-1 sw-flex sw-items-center sw-px-4">
-        <div className="sw-mr-2">
-          <SonarQubeIDEPromotionIllustration />
-        </div>
+    <PromotionNotificationWrapper className="it__promotion_notification sw-z-global-popup sw-rounded-1 sw-flex sw-items-center sw-px-4">
+      <div className="sw-mr-2">
+        <SonarQubeIDEPromotionIllustration />
+      </div>
 
-        <PromotionNotificationContent className="sw-flex-1 sw-px-2 sw-py-4">
-          <Text isHighlighted>
-            <FormattedMessage id="promotion.sqide.title" />
-          </Text>
+      <div className="sw-flex-1 sw-px-2 sw-py-4">
+        <Text isHighlighted>
+          <FormattedMessage id="promotion.sqide.title" />
+        </Text>
 
-          <Text as="p" className="sw-mt-2">
-            <FormattedMessage id="promotion.sqide.content" />
-          </Text>
-        </PromotionNotificationContent>
+        <Text as="p" className="sw-mt-2" isSubtle>
+          <FormattedMessage id="promotion.sqide.content" />
+        </Text>
+      </div>
 
-        <div className="sw-ml-2 sw-pl-2 sw-flex sw-flex-col sw-items-stretch">
-          <Button
-            className="sw-mb-4"
-            enableOpenInNewTab
-            onClick={onClick}
-            to="https://www.sonarsource.com/products/sonarlint/?referrer=sonarqube-welcome"
-            variety="primary"
-          >
-            <FormattedMessage id="learn_more" />
-          </Button>
+      <div className="sw-ml-2 sw-pl-2 sw-flex sw-flex-col sw-items-stretch">
+        <Button
+          className="sw-mb-4"
+          enableOpenInNewTab
+          onClick={onClick}
+          to="https://www.sonarsource.com/products/sonarlint/?referrer=sonarqube-welcome"
+          variety="primary"
+        >
+          <FormattedMessage id="learn_more" />
+        </Button>
 
-          <Button className="sw-justify-center" onClick={onClick}>
-            <FormattedMessage id="dismiss" />
-          </Button>
-        </div>
-      </PromotionNotificationWrapper>
-    </ThemeProvider>
+        <Button className="sw-justify-center" onClick={onClick}>
+          <FormattedMessage id="dismiss" />
+        </Button>
+      </div>
+    </PromotionNotificationWrapper>
   );
 }
 
 const PromotionNotificationWrapper = styled.div`
   bottom: 10px;
-  box-shadow: 1px 1px 5px 0px black;
+  box-shadow: ${cssVar('box-shadow-medium')};
   max-width: 600px;
   position: fixed;
   right: 10px;
+  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 
-  background: ${cssVar('color-surface-inverse-hover')};
-  color: ${cssVar('color-text-on-color')};
-`;
-
-const PromotionNotificationContent = styled.div`
-  border-right: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
+  background: ${cssVar('color-surface-default')};
 `;
