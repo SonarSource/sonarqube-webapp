@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Divider, Heading } from '@sonarsource/echoes-react';
+import { Button, Divider, Heading } from '@sonarsource/echoes-react';
 import { flatMap } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -85,8 +85,8 @@ export default function PageSidebar(props: PageSidebarProps) {
         </Heading>
 
         {isFiltered && (
-          <Button onClick={clearAll} variety={ButtonVariety.DangerOutline}>
-            <FormattedMessage id="clear_all_filters" />
+          <Button onClick={clearAll}>
+            <FormattedMessage id="projects.sidebar.clear_all_filters" />
           </Button>
         )}
       </div>

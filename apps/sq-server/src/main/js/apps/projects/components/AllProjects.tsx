@@ -257,7 +257,7 @@ function AllProjects({ isFavorite }: Readonly<{ isFavorite: boolean }>) {
             <output>
               <Spinner isLoading={isLoading}>
                 {readyProjects.length === 0 && isFiltered && isFavorite && (
-                  <EmptyFavoriteSearch query={parsedQuery} />
+                  <EmptyFavoriteSearch onClearAll={handleClearAll} />
                 )}
                 {readyProjects.length === 0 && isFiltered && !isFavorite && <EmptySearch />}
                 {readyProjects.length === 0 && !isFiltered && isFavorite && <NoFavoriteProjects />}

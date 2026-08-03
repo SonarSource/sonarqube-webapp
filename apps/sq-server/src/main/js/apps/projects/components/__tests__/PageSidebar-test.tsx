@@ -74,7 +74,9 @@ it('should allow to clear all filters', async () => {
     query: { size: 3, reliability: 3 },
   });
 
-  const clearAllButton = screen.getByRole('button', { name: 'clear_all_filters' });
+  const clearAllButton = screen.getByRole('button', {
+    name: 'projects.sidebar.clear_all_filters',
+  });
   expect(clearAllButton).toBeInTheDocument();
 
   await user.click(clearAllButton);

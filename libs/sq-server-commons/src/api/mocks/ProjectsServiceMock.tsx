@@ -67,14 +67,24 @@ export class ProjectsServiceMock {
      */
     const facetKeys = facets.split(',');
 
-    const filters = filter.split('and');
+    const filters = filter.split(' and ');
     const favorite = filters.includes('isFavorite');
+    const search = filters
+      .find((condition) => condition.startsWith('query = '))
+      ?.match(/query = "(.*)"/)?.[1]
+      .toLowerCase();
 
     /*
      * Build response
      */
     const results = this.projects.filter((p) => {
-      return !favorite || p.isFavorite === favorite;
+      const matchesFavorite = !favorite || p.isFavorite === favorite;
+      const matchesSearch =
+        search === undefined ||
+        p.name.toLowerCase().includes(search) ||
+        p.key.toLowerCase().includes(search);
+
+      return matchesFavorite && matchesSearch;
     });
 
     const sorted = s === 'ncloc' ? results.sort(this.nclocSort) : results;
@@ -128,6 +138,10 @@ export class ProjectsServiceMock {
   };
 
   reset = () => {
-    this.initData();
+    const { facets, measures, projects } = this.initData();
+
+    this.projects = projects;
+    this.measuresByProjectByMetric = measures;
+    this.facets = facets;
   };
 }

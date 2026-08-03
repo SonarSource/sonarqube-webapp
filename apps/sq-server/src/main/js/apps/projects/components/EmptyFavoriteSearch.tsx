@@ -18,36 +18,25 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, Text, TextSize } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, EmptyState, IconSearch } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { FishVisual } from '~design-system';
-import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
-import { ProjectsQuery } from '~sq-server-commons/types/projects';
 
-export default function EmptyFavoriteSearch({ query }: { query: ProjectsQuery }) {
+export default function EmptyFavoriteSearch({ onClearAll }: Readonly<{ onClearAll: () => void }>) {
   return (
-    <div className="sw-flex sw-flex-col sw-items-center sw-py-8">
-      <FishVisual />
-      <Text className="sw-mt-6" isHighlighted size={TextSize.Large}>
-        <FormattedMessage id="no_results_search.favorites" />
-      </Text>
-      <div className="sw-my-4 sw-typo-default">
-        <FormattedMessage
-          id="no_results_search.favorites.2"
-          values={{
-            url: (
-              <Link
-                to={{
-                  pathname: '/projects',
-                  search: queryToSearchString(query as Record<string, string | undefined | number>),
-                }}
-              >
-                <FormattedMessage id="all" />
-              </Link>
-            ),
-          }}
-        />
-      </div>
+    <div className="sw-flex sw-justify-center sw-py-8">
+      <EmptyState
+        action={
+          <Button onClick={onClearAll} variety={ButtonVariety.Primary}>
+            <FormattedMessage id="projects.favorite_search.clear_all_filters" />
+          </Button>
+        }
+        className="sw-py-8"
+        graphic={<IconSearch />}
+        text={<FormattedMessage id="no_results_search.favorites" />}
+        title={<FormattedMessage id="projects.favorite_search.empty.title" />}
+        titleAs="h3"
+        titleSize="medium"
+      />
     </div>
   );
 }

@@ -394,6 +394,9 @@ export const defaultMessages = {
   no_results_search: "We couldn't find any results matching selected criteria.",
   'no_results_search.favorites':
     "We couldn't find any results matching selected criteria in your favorites.",
+  'projects.favorite_search.empty.title': 'No matching favorite projects',
+  'projects.favorite_search.clear_all_filters': 'Clear all filters',
+  'projects.sidebar.clear_all_filters': 'Clear all filters',
   'no_results_search.2': 'Try to change filters to get some results.',
   'select_list.no_items': 'No items',
   'select_list.no_selected_items': 'No selected items',

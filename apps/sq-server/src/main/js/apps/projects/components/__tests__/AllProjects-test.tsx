@@ -108,6 +108,18 @@ it('handles showing favorite projects on load', async () => {
   expect(await ui.projects.findAll()).toHaveLength(20);
 });
 
+it('renders favorite search empty state and clears filters', async () => {
+  const user = userEvent.setup();
+  renderProjects(`${BASE_PATH}/favorite?search=dndn`);
+
+  expect(await ui.favoriteSearchEmptyStateTitle.find()).toBeInTheDocument();
+  expect(ui.favoriteSearchEmptyStateDescription.get()).toBeInTheDocument();
+
+  await user.click(ui.favoriteSearchClearFilters.get());
+
+  expect(await ui.projects.findAll()).toHaveLength(2);
+});
+
 it('shows the empty favorite state when the user has no favorite projects', async () => {
   projectHandler.projects.forEach((project) => {
     project.isFavorite = false;
@@ -138,6 +150,13 @@ const ui = {
   noFavoriteProjectsDescription: byText('projects.no_favorite_projects.engagement'),
   noFavoriteProjectsTitle: byRole('heading', { name: 'projects.no_favorite_projects' }),
   projects: byLabelText('list_of_projects').byRole('listitem'),
+  favoriteSearchEmptyStateTitle: byRole('heading', {
+    name: 'projects.favorite_search.empty.title',
+  }),
+  favoriteSearchEmptyStateDescription: byText('no_results_search.favorites'),
+  favoriteSearchClearFilters: byRole('button', {
+    name: 'projects.favorite_search.clear_all_filters',
+  }),
   perspectiveSelect: byLabelText('projects.perspective'),
   sortSelect: byLabelText('projects.sort_by'),
 };
