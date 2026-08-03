@@ -60,7 +60,7 @@ it('should add shadow when scrolled', () => {
   fireEvent.scroll(document, { target: { scrollTop: 100 } });
 
   expect(screen.getByRole('banner')).toHaveStyle({
-    'box-shadow': '0px 4px 8px -2px rgba(29,33,47,0.1),0px 2px 15px -2px rgba(29,33,47,0.06)',
+    'box-shadow': cssVar('box-shadow-medium'),
   });
 });
 

@@ -22,6 +22,7 @@ import { Global, css } from '@emotion/react';
 import { cssVar } from '@sonarsource/echoes-react';
 import twDefaultTheme from 'tailwindcss/defaultTheme';
 import CodeViewerStyle from '~shared/components/code-viewer/CodeViewerStyle';
+import { LegacyTokensStyle } from '~shared/helpers/LegacyTokensStyle';
 
 export function GlobalStyles() {
   return (
@@ -51,6 +52,7 @@ export function GlobalStyles() {
           }
         `}
       />
+      <LegacyTokensStyle />
     </>
   );
 }

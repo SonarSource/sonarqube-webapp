@@ -22,19 +22,7 @@ import { lightTheme } from '../theme';
 
 export type InputSizeKeys = 'small' | 'medium' | 'large' | 'full' | 'auto';
 
-type LightTheme = typeof lightTheme;
-type ThemeColor = string | number[];
-export interface Theme extends Omit<LightTheme, 'colors' | 'contrasts'> {
-  colors: {
-    [key in keyof LightTheme['colors']]: ThemeColor;
-  };
-  contrasts: {
-    [key in keyof LightTheme['colors'] & keyof LightTheme['contrasts']]: ThemeColor;
-  };
-}
-
-export type ThemeColors = keyof Theme['colors'];
-export type ThemeContrasts = keyof Theme['contrasts'];
+export type Theme = typeof lightTheme;
 
 type RGBColor = `rgb(${number},${number},${number})`;
 type RGBAColor = `rgba(${number},${number},${number},${number})`;

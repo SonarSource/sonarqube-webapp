@@ -123,7 +123,7 @@ const StyledButton = styled(Button)<{
       ${tw`sw-truncate`};
 
       & mark {
-        background-color: rgb(250, 230, 220); // this color does not exist in the design system
+        background-color: ${cssVar('color-background-neutral-bolder-default')}; // this color does not exist in the design system
         color: ${cssVar('color-text-default')};
         font-weight: 400;
       }

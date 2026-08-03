@@ -18,13 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Layout } from '@sonarsource/echoes-react';
+import { Layout, cssVar } from '@sonarsource/echoes-react';
 import { throttle } from 'lodash';
 import React from 'react';
 import { LAYOUT_VIEWPORT_MIN_WIDTH, THROTTLE_SCROLL_DELAY } from '../helpers/constants';
-import { themeShadow } from '../helpers/theme';
 
 const MainAppBarHeader = styled.header`
   min-width: ${LAYOUT_VIEWPORT_MIN_WIDTH}px;
@@ -34,19 +32,18 @@ export function MainAppBar({
   children,
   Logo,
 }: React.PropsWithChildren<{ Logo: React.ElementType }>) {
-  const theme = useTheme();
   const [boxShadow, setBoxShadow] = React.useState('none');
 
   React.useEffect(() => {
     const handleScroll = throttle(() => {
-      setBoxShadow(document.documentElement?.scrollTop > 0 ? themeShadow('md')({ theme }) : 'none');
+      setBoxShadow(document.documentElement?.scrollTop > 0 ? cssVar('box-shadow-medium') : 'none');
     }, THROTTLE_SCROLL_DELAY);
 
     document.addEventListener('scroll', handleScroll);
     return () => {
       document.removeEventListener('scroll', handleScroll);
     };
-  }, [theme]);
+  }, []);
 
   return (
     <MainAppBarHeader style={{ boxShadow }}>

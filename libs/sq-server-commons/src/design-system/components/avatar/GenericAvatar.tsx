@@ -18,12 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
 import tw from 'twin.macro';
 import { AvatarSize, iconSizeMap, sizeMap } from '~shared/components/avatar';
-import { themeAvatarColor } from '../../helpers/theme';
+import { themeAvatarColor } from '~shared/helpers/avatar';
 import { IconProps } from '../icons/Icon';
 
 export interface GenericAvatarProps {
@@ -39,7 +38,6 @@ export function GenericAvatar({
   name,
   size = 'sm',
 }: Readonly<GenericAvatarProps>) {
-  const theme = useTheme();
   const text = name.length > 0 ? name[0].toUpperCase() : '';
 
   const iconSize = iconSizeMap[size];
@@ -53,7 +51,7 @@ export function GenericAvatar({
       size={sizeMap[size]}
     >
       {Icon ? (
-        <Icon fill={themeAvatarColor(name, true)({ theme })} height={iconSize} width={iconSize} />
+        <Icon fill={themeAvatarColor(name, true)()} height={iconSize} width={iconSize} />
       ) : (
         text
       )}
@@ -72,8 +70,8 @@ export const StyledGenericAvatar = styled.div<{ name: string; size: number }>`
   ${tw`sw-justify-center`};
   height: ${({ size }) => size}px;
   width: ${({ size }) => size}px;
-  background-color: ${({ name, theme }) => themeAvatarColor(name)({ theme })};
-  color: ${({ name, theme }) => themeAvatarColor(name, true)({ theme })};
+  background-color: ${({ name }) => themeAvatarColor(name)()};
+  color: ${({ name }) => themeAvatarColor(name, true)()};
   font-size: ${({ size }) => Math.max(Math.floor(size / 2), 8)}px;
   line-height: ${({ size }) => size}px;
 `;

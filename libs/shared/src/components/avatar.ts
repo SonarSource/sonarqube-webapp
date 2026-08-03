@@ -18,8 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { cssVar } from '@sonarsource/echoes-react';
-
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg';
 
 export const sizeMap: Record<AvatarSize, number> = {
@@ -35,16 +33,3 @@ export const iconSizeMap: Record<AvatarSize, number> = {
   md: 24,
   lg: 24,
 };
-
-export const avatarColorPalette = [
-  cssVar('color-charts-categorical-4'),
-  cssVar('color-charts-categorical-1'),
-  cssVar('color-charts-categorical-7'),
-  cssVar('color-charts-categorical-3'),
-  cssVar('color-charts-categorical-8'),
-  cssVar('color-charts-categorical-2'),
-  cssVar('color-charts-categorical-5'),
-  cssVar('color-charts-categorical-6'),
-];
-
-export const avatarContrastPalette = avatarColorPalette.map(() => cssVar('color-text-on-color'));

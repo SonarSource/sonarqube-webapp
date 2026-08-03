@@ -31,7 +31,6 @@ import {
   getFirstVisibleChild,
   popupPositioning,
 } from '../helpers/positioning';
-import { themeShadow } from '../helpers/theme';
 import ClickEventBoundary from './ClickEventBoundary';
 
 interface PopupBaseProps {
@@ -199,7 +198,7 @@ export const PopupWrapper = styled.div<{ zLevel: PopupZLevel }>`
   background-color: ${cssVar('color-surface-default')};
   color: ${cssVar('color-text-default')};
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
-  box-shadow: ${themeShadow('md')};
+  box-shadow: ${cssVar('box-shadow-medium')};
 
   ${tw`sw-box-border`};
   ${tw`sw-rounded-2`};

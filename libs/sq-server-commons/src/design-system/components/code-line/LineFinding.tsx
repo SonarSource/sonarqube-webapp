@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import { forwardRef, Ref } from 'react';
 import tw from 'twin.macro';
-import { themeShadow } from '../../helpers/theme';
 import { BareButton } from '../../sonar-aligned/components/buttons';
 
 interface Props {
@@ -100,6 +99,6 @@ const LineFindingStyled = styled(BareButton)<{ selected: boolean }>`
   background-color: ${cssVar('color-surface-default')};
 
   :hover {
-    box-shadow: ${themeShadow('sm')};
+    box-shadow: ${cssVar('box-shadow-small')};
   }
 `;

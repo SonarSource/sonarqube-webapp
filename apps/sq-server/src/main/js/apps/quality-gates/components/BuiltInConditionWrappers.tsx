@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 
 export const BuiltInStyledItem = styled.li`
   display: flex;
@@ -29,8 +30,8 @@ export const BuiltInStyledItem = styled.li`
 
   &:not(:last-child):after {
     content: '';
-    border-bottom: 1px solid rgb(235, 235, 235);
-    width: calc(100% - 1rem);
+    border-bottom: 1px solid ${cssVar('color-border-bold')};
+    width: calc(100% - 2rem);
     position: absolute;
     bottom: 0;
   }

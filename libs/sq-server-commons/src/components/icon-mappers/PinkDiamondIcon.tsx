@@ -30,7 +30,6 @@ export function PinkDiamond() {
   );
 }
 
-// the color corresponds to COLORS.upgradePlanColors.pink[2] in sq-cloud
 const PinkDiamondSpan = styled.span`
-  color: rgb(212, 42, 161);
+  color: var(--legacy-upgrade-pink);
 `;

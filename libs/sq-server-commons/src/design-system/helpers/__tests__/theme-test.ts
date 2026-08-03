@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { lightTheme } from '../../theme';
 import * as ThemeHelper from '../theme';
 
 const props = {
@@ -28,31 +27,5 @@ const props = {
 describe('getProp', () => {
   it('should work', () => {
     expect(ThemeHelper.getProp('color')(props)).toEqual('rgb(0,0,0)');
-  });
-});
-
-describe('themeShadow', () => {
-  it('should work for light theme', () => {
-    expect(ThemeHelper.themeShadow('xs')({ theme: lightTheme })).toEqual(
-      '0px 1px 2px 0px rgba(29,33,47,0.05)',
-    );
-  });
-  it('should allow to override the color of the shadow', () => {
-    expect(ThemeHelper.themeShadow('xs', 'backgroundPrimary')({ theme: lightTheme })).toEqual(
-      '0px 1px 2px 0px rgba(252,252,253,0.05)',
-    );
-    expect(ThemeHelper.themeShadow('xs', 'transparent')({ theme: lightTheme })).toEqual(
-      '0px 1px 2px 0px transparent',
-    );
-  });
-  it('should allow to override the opacity of the shadow', () => {
-    expect(ThemeHelper.themeShadow('xs', 'backgroundPrimary', 0.8)({ theme: lightTheme })).toEqual(
-      '0px 1px 2px 0px rgba(252,252,253,0.8)',
-    );
-  });
-  it('should allow to pass a CSS prop as color name', () => {
-    expect(ThemeHelper.themeShadow('xs', 'var(--shadowColor)')({ theme: lightTheme })).toEqual(
-      '0px 1px 2px 0px var(--shadowColor)',
-    );
   });
 });
