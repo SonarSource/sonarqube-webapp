@@ -33,6 +33,16 @@ import { OnboardingProjectGateStatus } from '~shared/types/onboarding';
 import routes from '../../routes';
 import { NO_DATA } from '../dashboardConstants';
 
+// Resolving the bound organization names is product-specific and, on SQ-Cloud, pulls in the DevOps
+// platform binding queries. Those live behind `private/`, so their service mocks cannot be reached
+// from a shared test.
+jest.mock('~adapters/helpers/useOnboardingCurrentBinding', () => ({
+  useOnboardingCurrentBinding: () => ({
+    devopsOrganizationName: 'acme-devops',
+    organizationName: 'Acme',
+  }),
+}));
+
 let onboardingMock: OnboardingServiceMock;
 
 beforeAll(() => {

@@ -18,7 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export const ALM_INTEGRATION_CATEGORY = 'almintegration';
-export const INSTANCE_INTEGRATIONS_CATEGORY = 'instance_integrations';
-export const NEW_CODE_PERIOD_CATEGORY = 'new_code_period';
-export const PULL_REQUEST_DECORATION_BINDING_CATEGORY = 'pull_request_decoration_binding';
+import { Path } from 'react-router-dom';
+import { ALM_INTEGRATION_CATEGORY } from '../../constants/settings';
+import { getGlobalSettingsUrl } from '../../helpers/urls';
+
+/**
+ * Where to send a user who wants to review the DevOps platform binding. SQ-Server has no
+ * organizations, so bindings are configured instance-wide from the global settings; the SQ-Cloud
+ * adapter points at the current organization's binding settings instead.
+ *
+ * Returns `undefined` when the destination cannot be resolved, in which case callers should not
+ * render the link at all.
+ */
+export function useBindingSettingsUrl(): Partial<Path> | undefined {
+  return getGlobalSettingsUrl(ALM_INTEGRATION_CATEGORY);
+}

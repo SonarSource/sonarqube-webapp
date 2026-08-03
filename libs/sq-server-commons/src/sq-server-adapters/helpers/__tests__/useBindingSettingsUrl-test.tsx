@@ -18,7 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export const ALM_INTEGRATION_CATEGORY = 'almintegration';
-export const INSTANCE_INTEGRATIONS_CATEGORY = 'instance_integrations';
-export const NEW_CODE_PERIOD_CATEGORY = 'new_code_period';
-export const PULL_REQUEST_DECORATION_BINDING_CATEGORY = 'pull_request_decoration_binding';
+import { renderHook } from '@testing-library/react';
+import { useBindingSettingsUrl } from '../useBindingSettingsUrl';
+
+it('points at the instance-wide DevOps platform integration settings', () => {
+  const { result } = renderHook(() => useBindingSettingsUrl());
+
+  expect(result.current).toEqual({
+    pathname: '/admin/settings',
+    search: '?category=almintegration',
+  });
+});

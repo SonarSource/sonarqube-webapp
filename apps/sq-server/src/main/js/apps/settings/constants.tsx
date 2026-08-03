@@ -23,13 +23,14 @@ import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { SettingDefinitionAndValue, SettingsKey } from '~sq-server-commons/types/settings';
 
+export { ALM_INTEGRATION_CATEGORY } from '~sq-server-commons/constants/settings';
+
 /**
  * Uses a space in order to integrate properly with existing
  * settings app approach for PropertyDefinitions sent from
  * SQS.
  */
 export const ADVANCED_SECURITY_CATEGORY = 'advanced security';
-export const ALM_INTEGRATION_CATEGORY = 'almintegration';
 export const AI_CODE_FIX_CATEGORY = 'ai_codefix';
 export const AUTHENTICATION_CATEGORY = 'authentication';
 export const ANALYSIS_SCOPE_CATEGORY = 'exclusions';

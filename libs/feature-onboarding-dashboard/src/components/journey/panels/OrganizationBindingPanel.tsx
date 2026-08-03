@@ -27,11 +27,9 @@ import {
   Text,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useBindingSettingsUrl } from '~adapters/helpers/useBindingSettingsUrl';
+import { useOnboardingCurrentBinding } from '~adapters/helpers/useOnboardingCurrentBinding';
 import { JourneyState } from '../../../types/types';
-
-// placeholders until the backend provides them
-const ORG_NAME_PLACEHOLDER = '[Org name]';
-const DEVOPS_ORG_NAME_PLACEHOLDER = '[DevOps org name]';
 
 interface Props {
   state: JourneyState;
@@ -39,10 +37,12 @@ interface Props {
 
 /**
  * "Organization binding" detail panel. Shows an unbound call-to-action or, once the org is bound,
- * the current binding plus the (non-functional) auto-import controls. All CTAs are placeholders.
+ * the current binding plus a link to the binding settings.
  */
 export function OrganizationBindingPanel({ state }: Readonly<Props>) {
   const { formatMessage } = useIntl();
+  const bindingSettingsUrl = useBindingSettingsUrl();
+  const currentBinding = useOnboardingCurrentBinding();
 
   return (
     <div className="sw-flex sw-flex-col sw-gap-4">
@@ -56,21 +56,25 @@ export function OrganizationBindingPanel({ state }: Readonly<Props>) {
 
       {state.isBound ? (
         <>
-          <div className="sw-flex sw-items-center sw-gap-2">
-            <Text isSubtle>
-              {formatMessage({ id: 'onboarding_dashboard.journey.binding.current' })}
-            </Text>
-            <IconLink color="echoes-color-icon-subtle" />
-            <Text isHighlighted>{ORG_NAME_PLACEHOLDER}</Text>
-            <Text isSubtle>→</Text>
-            <Text isHighlighted>{DEVOPS_ORG_NAME_PLACEHOLDER}</Text>
-          </div>
+          {currentBinding !== undefined && (
+            <div className="sw-flex sw-items-center sw-gap-2">
+              <Text isSubtle>
+                {formatMessage({ id: 'onboarding_dashboard.journey.binding.current' })}
+              </Text>
+              <IconLink color="echoes-color-icon-subtle" />
+              <Text isHighlighted>{currentBinding.organizationName}</Text>
+              <Text isSubtle>→</Text>
+              <Text isHighlighted>{currentBinding.devopsOrganizationName}</Text>
+            </div>
+          )}
 
-          <div>
-            <Button variety={ButtonVariety.Default}>
-              {formatMessage({ id: 'onboarding_dashboard.journey.binding.view_cta' })}
-            </Button>
-          </div>
+          {bindingSettingsUrl !== undefined && (
+            <div>
+              <Button to={bindingSettingsUrl} variety={ButtonVariety.Default}>
+                {formatMessage({ id: 'onboarding_dashboard.journey.binding.view_cta' })}
+              </Button>
+            </div>
+          )}
         </>
       ) : (
         <div>

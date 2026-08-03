@@ -40,6 +40,19 @@ export type OnboardingAlm = Exclude<OnboardingDevopsPlatform, OnboardingDevopsPl
 export type AlmIconKey = 'azure' | 'bitbucket' | 'github' | 'gitlab';
 
 /**
+ * The two ends of an organization's DevOps platform binding, as displayed by the onboarding
+ * dashboard. Not part of any API response — the overview endpoint does not carry these names, so
+ * each product resolves them through `~adapters/queries/onboarding`. Declared here so both adapter
+ * implementations agree on the shape.
+ */
+export interface OnboardingCurrentBinding {
+  /** Name of the DevOps platform organization the Sonar organization is bound to. */
+  devopsOrganizationName: string;
+  /** Name of the Sonar organization. */
+  organizationName: string;
+}
+
+/**
  * Response of `GET /api/v2/onboarding/overview`.
  *
  * The endpoint returns `cards`, `checklist`, `momentum`, `charts` and

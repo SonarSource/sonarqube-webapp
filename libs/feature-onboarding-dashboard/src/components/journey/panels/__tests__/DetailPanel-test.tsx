@@ -18,10 +18,31 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useBindingSettingsUrl } from '~adapters/helpers/useBindingSettingsUrl';
+import { useOnboardingCurrentBinding } from '~adapters/helpers/useOnboardingCurrentBinding';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { JourneyLevel, JourneyState, JourneyStep } from '../../../../types/types';
 import { DetailPanel } from '../DetailPanel';
+
+// Both the binding settings destination and the bound organization names come from the product
+// (SQS has no organizations at all), so the shared panel test pins them to stubs. What each product
+// actually resolves is covered by its own adapter test.
+const BINDING_SETTINGS_URL = { pathname: '/binding-settings', search: '?category=binding' };
+const CURRENT_BINDING = { devopsOrganizationName: 'acme-devops', organizationName: 'Acme' };
+
+jest.mock('~adapters/helpers/useBindingSettingsUrl', () => ({
+  useBindingSettingsUrl: jest.fn(),
+}));
+
+jest.mock('~adapters/helpers/useOnboardingCurrentBinding', () => ({
+  useOnboardingCurrentBinding: jest.fn(),
+}));
+
+beforeEach(() => {
+  jest.mocked(useBindingSettingsUrl).mockReturnValue(BINDING_SETTINGS_URL);
+  jest.mocked(useOnboardingCurrentBinding).mockReturnValue(CURRENT_BINDING);
+});
 
 // A fully-bound org with imported + analysed repositories (the "everything unlocked" state).
 const boundState: JourneyState = {
@@ -67,8 +88,10 @@ const ui = {
 
   // Binding panel
   bindCta: byRole('button', { name: 'onboarding_dashboard.journey.binding.bind_cta' }),
-  viewCta: byRole('button', { name: 'onboarding_dashboard.journey.binding.view_cta' }),
+  viewCta: byRole('link', { name: 'onboarding_dashboard.journey.binding.view_cta' }),
   currentBinding: byText('onboarding_dashboard.journey.binding.current'),
+  boundOrgName: byText('Acme'),
+  boundDevopsOrgName: byText('acme-devops'),
 
   // Import panel
   toImport: byText('onboarding_dashboard.journey.import.to_import'),
@@ -127,11 +150,37 @@ it('renders the unbound binding panel with only the bind call-to-action', () => 
 it('renders the bound binding panel with the current binding and auto-import controls', () => {
   renderPanel(JourneyStep.Binding, boundState);
 
+  // Both ends of the binding are named: Sonar organization → DevOps organization.
   expect(ui.currentBinding.get()).toBeInTheDocument();
-  expect(ui.viewCta.get()).toBeInTheDocument();
+  expect(ui.boundOrgName.get()).toBeInTheDocument();
+  expect(ui.boundDevopsOrgName.get()).toBeInTheDocument();
+
+  // "View binding" links to the product's binding settings page rather than acting as a button.
+  expect(ui.viewCta.get()).toHaveAttribute('href', '/binding-settings?category=binding');
 
   // The unbound call-to-action is replaced by "View binding".
   expect(ui.bindCta.query()).not.toBeInTheDocument();
+});
+
+it('omits the current-binding row when the bound organizations are unknown', () => {
+  jest.mocked(useOnboardingCurrentBinding).mockReturnValue(undefined);
+
+  renderPanel(JourneyStep.Binding, boundState);
+
+  expect(ui.currentBinding.query()).not.toBeInTheDocument();
+
+  // The link to the binding settings is independent of the names and still renders.
+  expect(ui.viewCta.get()).toBeInTheDocument();
+});
+
+it('hides the view-binding link when the binding settings page cannot be resolved', () => {
+  jest.mocked(useBindingSettingsUrl).mockReturnValue(undefined);
+
+  renderPanel(JourneyStep.Binding, boundState);
+
+  // The rest of the bound panel still renders — only the link is dropped.
+  expect(ui.currentBinding.get()).toBeInTheDocument();
+  expect(ui.viewCta.query()).not.toBeInTheDocument();
 });
 
 it('renders the import panel breakdown before any repository is imported', () => {

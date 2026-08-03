@@ -18,7 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export const ALM_INTEGRATION_CATEGORY = 'almintegration';
-export const INSTANCE_INTEGRATIONS_CATEGORY = 'instance_integrations';
-export const NEW_CODE_PERIOD_CATEGORY = 'new_code_period';
-export const PULL_REQUEST_DECORATION_BINDING_CATEGORY = 'pull_request_decoration_binding';
+import { OnboardingCurrentBinding } from '~shared/types/onboarding';
+
+/**
+ * SQ-Server has no organizations, and DevOps platform configurations are instance-wide rather than
+ * bound to one DevOps organization, so there is no "organization → DevOps organization" pair to
+ * show. Always `undefined`, which tells callers to omit the current-binding row.
+ */
+export function useOnboardingCurrentBinding(): OnboardingCurrentBinding | undefined {
+  return undefined;
+}
