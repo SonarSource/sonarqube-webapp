@@ -315,7 +315,7 @@ export class OnboardingServiceMock extends AbstractServiceMock<OnboardingService
         .map((token) => token.trim())
         .filter((token) => token !== '') as OnboardingProjectsFilter[];
       const pageIndex = Number(url.searchParams.get('pageIndex') ?? '1');
-      const pageSize = Number(url.searchParams.get('pageSize') ?? '50');
+      const pageSize = Number(this.overridePageSize ?? url.searchParams.get('pageSize') ?? '50');
 
       const searched = this.data.projects.filter((project) => matchesSearch(project, q));
       const filterCounts = computeFilterCounts(searched);

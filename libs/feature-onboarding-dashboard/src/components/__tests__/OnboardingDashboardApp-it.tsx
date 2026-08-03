@@ -19,14 +19,14 @@
  */
 
 import { waitFor } from '@testing-library/react';
-import { userEvent } from '@testing-library/user-event';
+import { PointerEventsCheckLevel, userEvent } from '@testing-library/user-event';
 import { ALM_ICONS_BASE_URL } from '~adapters/helpers/urls';
 import {
   mockOnboardingOverview,
   mockOnboardingProjects,
   OnboardingServiceMock,
 } from '~shared/api/mocks/OnboardingServiceMock';
-import { registerServiceMocks, server } from '~shared/api/mocks/server';
+import { registerServiceMocks } from '~shared/api/mocks/server';
 import { renderWithRoutes } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { OnboardingProjectGateStatus } from '~shared/types/onboarding';
@@ -37,19 +37,34 @@ let onboardingMock: OnboardingServiceMock;
 
 beforeAll(() => {
   onboardingMock = new OnboardingServiceMock();
-});
-
-beforeEach(() => {
   registerServiceMocks(onboardingMock);
 });
 
 afterEach(() => {
   onboardingMock.reset();
-  // Remove any handlers added by individual tests (e.g. via server.use()) so they
-  // don't bleed into the next test. SetupTests-it.ts re-registers shared handlers in
-  // its own beforeEach, so this is safe to call unconditionally.
-  server.resetHandlers();
 });
+
+/**
+ * `pointerEventsCheck` is disabled because it walks the ancestor chain calling `getComputedStyle`
+ * for every pointer event, which dominates the runtime of these tests — the dashboard renders two
+ * Echoes tables whose every row carries a dropdown menu.
+ */
+function setupUser() {
+  return userEvent.setup({
+    delay: null,
+    pointerEventsCheck: PointerEventsCheckLevel.Never,
+  });
+}
+
+/**
+ * Types into a search box in one shot. `user.type` dispatches a full event sequence per character
+ * and each one re-renders the surrounding table; the components only ever read the final value
+ * (debounced), so a single paste exercises the same behaviour for a fraction of the cost.
+ */
+async function search(user: ReturnType<typeof setupUser>, input: HTMLElement, query: string) {
+  await user.click(input);
+  await user.paste(query);
+}
 
 const ui = {
   error: byText('default_error_message'),
@@ -182,8 +197,10 @@ it('shows loading skeletons before the dashboard data resolves', async () => {
   renderOnboardingDashboard();
 
   // The overview renders skeletons wrapped in a LoadingContainer, which announces the loading
-  // state to screen readers before any query resolves.
-  expect(ui.loading.getAll().length).toBeGreaterThan(0);
+  // state to screen readers before any query resolves. Awaited rather than read synchronously
+  // because the route mounts the app through `lazyLoadComponent`, whose Suspense fallback is
+  // `null` — nothing is in the DOM until the dynamic import resolves a tick later.
+  expect((await ui.loading.findAll()).length).toBeGreaterThan(0);
 
   // Once the overview and project queries resolve, real content replaces the skeletons and the
   // loading announcement clears.
@@ -220,7 +237,7 @@ it('renders the journey stepper with the three step cards, defaulting the active
 });
 
 it('moves the stepper selection to the card the user clicks', async () => {
-  const user = userEvent.setup({ delay: null });
+  const user = setupUser();
   renderOnboardingDashboard();
 
   // "projects" is selected by default; clicking the binding card moves the pressed state to it.
@@ -262,7 +279,7 @@ it('renders the all-projects table with the four redesigned columns and the acti
 });
 
 it('offers only the import action on a row whose repository is not imported yet', async () => {
-  const user = userEvent.setup({ delay: null });
+  const user = setupUser();
   renderOnboardingDashboard();
 
   expect(await ui.repoPlatformJobs.find()).toBeInTheDocument();
@@ -276,7 +293,7 @@ it('offers only the import action on a row whose repository is not imported yet'
 });
 
 it('offers the automatic-analysis actions on a row scanned by autoscan', async () => {
-  const user = userEvent.setup({ delay: null });
+  const user = setupUser();
   renderOnboardingDashboard();
 
   expect(await ui.repoWebCore.find()).toBeInTheDocument();
@@ -307,7 +324,7 @@ it('renders a no-data row in the all-projects table when the organization has no
 });
 
 it('filters the all-projects table by search and by the scan-status dropdown', async () => {
-  const user = userEvent.setup({ delay: null });
+  const user = setupUser();
   renderOnboardingDashboard();
 
   expect(await ui.projectsTitle.find()).toBeInTheDocument();
@@ -315,7 +332,7 @@ it('filters the all-projects table by search and by the scan-status dropdown', a
   expect(await ui.repoWebCore.find()).toBeInTheDocument();
 
   // Search narrows the list to matching repositories (debounced + server-side)
-  await user.type(ui.searchInput.get(), 'platform');
+  await search(user, ui.searchInput.get(), 'platform');
   await waitFor(() => {
     expect(ui.repoWebCore.query()).not.toBeInTheDocument();
   });
@@ -335,7 +352,7 @@ it('filters the all-projects table by search and by the scan-status dropdown', a
 });
 
 it('ANDs the scan-status and analysis-mode dropdowns of the all-projects table', async () => {
-  const user = userEvent.setup({ delay: null });
+  const user = setupUser();
   renderOnboardingDashboard();
 
   // Of the three analysed fixture projects, only payments-gateway is also scanned by CI —
@@ -371,18 +388,32 @@ it('renders the repository ALM icon from the app-specific images path', async ()
   expect(icon).toHaveAttribute('src', expect.stringContaining(`${ALM_ICONS_BASE_URL}/gitlab.svg`));
 });
 
-it('shows pagination in the all-projects table when the total exceeds the page size', async () => {
-  // Seed 51 projects to trigger pagination (PAGE_SIZE = 50).
-  // Pagination only appears when data.page.total > PAGE_SIZE, confirming the header
-  // count uses the server total rather than the local page slice.
+/**
+ * Seeds `count` analysed projects named repo-0…repo-(count-1) and shrinks the page the mock backend
+ * serves to `pageSize`, so pagination shows up without rendering a full 50-row page. The cards
+ * derive `totalPages` from the page metadata the backend returns rather than from the page size they
+ * requested, so overriding it server-side is what the component actually reacts to.
+ */
+function seedPagedProjects(count: number, pageSize: number) {
   const baseProject = mockOnboardingProjects()[2]; // web-core — analysed
   onboardingMock.setProjects(
-    Array.from({ length: 51 }, (_, i) => ({ ...baseProject, key: `repo-${i}`, name: `repo-${i}` })),
+    Array.from({ length: count }, (_, i) => ({
+      ...baseProject,
+      key: `repo-${i}`,
+      name: `repo-${i}`,
+    })),
   );
+  onboardingMock.overridePageSize = pageSize;
+}
+
+it('shows pagination in the all-projects table when the total exceeds the page size', async () => {
+  // Three projects over a page of two: the total the backend reports exceeds its page size, which
+  // is the only thing that makes pagination appear — confirming the count comes from the server
+  // total and not from the length of the page slice.
+  seedPagedProjects(3, 2);
   renderOnboardingDashboard();
 
   expect(await ui.projectsTitle.find()).toBeInTheDocument();
-  // Pagination is only rendered when totalPages > 1, which requires data.page.total > 50.
   // Echoes' Pagination component renders a <div> wrapper, not a <nav>, so we probe for the
   // page-2 button whose aria-label is produced by the react-intl mock as 'pagination.page_x.2'
   // (formatMessage({id:'pagination.page_x'}, {page:'2'}) → [id, '2'].join('.')).
@@ -390,19 +421,16 @@ it('shows pagination in the all-projects table when the total exceeds the page s
 });
 
 it('stays on the selected page until a filter or the search actually changes', async () => {
-  const user = userEvent.setup({ delay: null });
-  // 51 analysed projects: page 1 holds repo-0…repo-49, page 2 holds repo-50 alone.
-  const baseProject = mockOnboardingProjects()[2]; // web-core — analysed
-  onboardingMock.setProjects(
-    Array.from({ length: 51 }, (_, i) => ({ ...baseProject, key: `repo-${i}`, name: `repo-${i}` })),
-  );
+  const user = setupUser();
+  // Page 1 holds repo-0 and repo-1, page 2 holds repo-2 alone.
+  seedPagedProjects(3, 2);
   renderOnboardingDashboard();
 
   await user.click(await byRole('button', { name: 'pagination.page_x.2' }).find());
 
   // The cards rebuild their filter array on every render, so a page reset keyed off the array
   // identity would bounce straight back to page 1 and re-show repo-0.
-  expect(await ui.projectsTable.byText('repo-50').find()).toBeInTheDocument();
+  expect(await ui.projectsTable.byText('repo-2').find()).toBeInTheDocument();
   expect(ui.projectsTable.byText('repo-0').query()).not.toBeInTheDocument();
 
   // Changing a filter, on the other hand, must reset to the first page.
@@ -449,14 +477,14 @@ it('lists only stale projects in the stale-projects table, with their last scan 
 });
 
 it('filters the stale-projects table by search', async () => {
-  const user = userEvent.setup({ delay: null });
+  const user = setupUser();
   renderOnboardingDashboard();
 
   expect(await ui.staleTable.byText('payments-gateway').find()).toBeInTheDocument();
   expect(ui.staleTable.byText('identity-lib').get()).toBeInTheDocument();
 
   // Search is debounced and applied server-side, on top of the stale filter.
-  await user.type(ui.staleSearchInput.get(), 'identity-lib');
+  await search(user, ui.staleSearchInput.get(), 'identity-lib');
   await waitFor(() => {
     expect(ui.staleTable.byText('payments-gateway').query()).not.toBeInTheDocument();
   });
@@ -464,7 +492,7 @@ it('filters the stale-projects table by search', async () => {
 });
 
 it('ANDs the hardcoded stale filter with the gate-status dropdown', async () => {
-  const user = userEvent.setup({ delay: null });
+  const user = setupUser();
 
   // web-core (third in the fixture) fails its gate but isn't stale, so it must stay out of this
   // table even once the dropdown asks for failing gates — proof that `stale` is still sent
@@ -507,7 +535,7 @@ it('renders a no-data row in the stale-projects table when nothing is stale', as
 });
 
 it('renders the detail panel for the active step and swaps it when another step is selected', async () => {
-  const user = userEvent.setup({ delay: null });
+  const user = setupUser();
   renderOnboardingDashboard();
 
   // The default mock is bound with analysed projects, so the derived active step is "projects" and
