@@ -2829,8 +2829,8 @@ export const defaultMessages = {
     'Here is how you can analyze new projects',
   'projects.no_favorite_projects': "You don't have any favorite projects yet.",
   'projects.no_favorite_projects.engagement':
-    'Discover and mark as favorites projects you are interested in to have a quick access to them.',
-  'projects.explore_projects': 'Explore Projects',
+    'Discover and mark projects as favorites to access them quickly here.',
+  'projects.explore_projects': 'Explore projects',
   'projects.not_analyzed.TRK': "Project's Main Branch is not analyzed yet.",
   'projects.not_analyzed.APP': "None of the Application's projects have been analyzed.",
   'projects.no_new_code_period.TRK': 'Project has no new code data yet.',

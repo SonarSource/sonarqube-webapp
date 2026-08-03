@@ -18,23 +18,23 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, Text, TextSize } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, EmptyState, IconProject } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 
 export default function NoFavoriteProjects() {
   return (
-    <div className="sw-flex sw-flex-col sw-items-center sw-py-8">
-      <Text className="sw-mb-2" isHighlighted size={TextSize.Large}>
-        <FormattedMessage id="projects.no_favorite_projects" />
-      </Text>
-      <p className="sw-mt-2 sw-typo-default">
-        <FormattedMessage id="projects.no_favorite_projects.engagement" />
-      </p>
-      <p className="sw-mt-6">
-        <Link className="sw-mt-6 sw-typo-semibold" to="/projects/all">
-          <FormattedMessage id="projects.explore_projects" />
-        </Link>
-      </p>
+    <div className="sw-flex sw-justify-center sw-py-16">
+      <EmptyState
+        action={
+          <Button to="/projects/all" variety={ButtonVariety.Primary}>
+            <FormattedMessage id="projects.explore_projects" />
+          </Button>
+        }
+        graphic={<IconProject />}
+        text={<FormattedMessage id="projects.no_favorite_projects.engagement" />}
+        title={<FormattedMessage id="projects.no_favorite_projects" />}
+        titleSize="medium"
+      />
     </div>
   );
 }

@@ -108,6 +108,18 @@ it('handles showing favorite projects on load', async () => {
   expect(await ui.projects.findAll()).toHaveLength(20);
 });
 
+it('shows the empty favorite state when the user has no favorite projects', async () => {
+  projectHandler.projects.forEach((project) => {
+    project.isFavorite = false;
+  });
+
+  renderProjects(`${BASE_PATH}/favorite`);
+
+  expect(await ui.noFavoriteProjectsTitle.find()).toBeInTheDocument();
+  expect(ui.noFavoriteProjectsDescription.get()).toBeInTheDocument();
+  expect(ui.exploreProjectsLink.get()).toHaveAttribute('href', '/projects/all');
+});
+
 function renderProjects(navigateTo?: string) {
   return renderAppRoutes(BASE_PATH, projectRoutes, {
     appState: mockAppState({
@@ -122,6 +134,9 @@ const ui = {
   loading: byText('loading'),
   myFavoritesToggleOption: byRole('radio', { name: 'my_favorites' }),
   allToggleOption: byRole('radio', { name: 'all' }),
+  exploreProjectsLink: byRole('link', { name: 'projects.explore_projects' }),
+  noFavoriteProjectsDescription: byText('projects.no_favorite_projects.engagement'),
+  noFavoriteProjectsTitle: byRole('heading', { name: 'projects.no_favorite_projects' }),
   projects: byLabelText('list_of_projects').byRole('listitem'),
   perspectiveSelect: byLabelText('projects.perspective'),
   sortSelect: byLabelText('projects.sort_by'),
