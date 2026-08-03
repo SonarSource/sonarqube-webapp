@@ -25,8 +25,8 @@ export type PerformanceLimits = {
 
 // investigation for threshold values linked here: https://sonarsource.atlassian.net/browse/SONARCH-1598
 export const DEFAULT_PERFORMANCE_LIMITS: PerformanceLimits = {
-  maxNodesCount: 7000,
-  maxEdgesCount: 14000,
+  maxNodesCount: 99999,
+  maxEdgesCount: 99999,
 };
 
 export interface ArchitectureFlags {

@@ -18,12 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ArchitectureFlags, DEFAULT_PERFORMANCE_LIMITS } from '~shared/helpers/architecture';
+import { useFlags } from '~adapters/helpers/feature-flags';
+import { ArchitectureFlags } from '~shared/helpers/architecture';
 
 export function useArchitectureFlags(): ArchitectureFlags {
+  const flags = useFlags();
+
   return {
     designArchitectureSquadExtensionPack: false,
-    designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
+    designArchitectureSquadPerformanceLimits: flags.designArchitectureSquadPerformanceLimits,
     isCurrentOrganizationMember: true,
   };
 }
