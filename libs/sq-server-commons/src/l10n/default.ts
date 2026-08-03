@@ -355,7 +355,7 @@ export const defaultMessages = {
   bulleted_point: 'Bulleted point',
   clear: 'Clear',
   clear_x_filter: 'Clear {0} Filters',
-  clear_all_filters: 'Clear All Filters',
+  clear_all_filters: 'Clear all filters',
   coding_rules: 'Rules',
   copy_permalink: 'Copy permalink',
   copy_to_clipboard: 'Click to copy to clipboard',
