@@ -163,7 +163,7 @@ enum TOGGLE_OPTION {
 // When opening a specific issue, number of issues to fetch through pagination before loading it specifically
 const MAX_INITAL_FETCH = 400;
 const VARIANTS_FACET = 'codeVariants';
-const ISSUES_PAGE_SIZE = 50;
+const ISSUES_PAGE_SIZE = 100;
 
 export class App extends React.PureComponent<Props, State> {
   intl = getIntl();
@@ -487,6 +487,10 @@ export class App extends React.PureComponent<Props, State> {
 
   createdAfterIncludesTime = () => Boolean(this.props.location.query.createdAfter?.includes('T'));
 
+  get defaultSort() {
+    return this.props.isStandard ? 'TYPE_SEVERITY' : 'QUALITY_SEVERITY';
+  }
+
   fetchIssuesHelper = async (query: RawQuery) => {
     if (this.props.component?.needIssueSync) {
       const response = await listIssues(query);
@@ -530,20 +534,22 @@ export class App extends React.PureComponent<Props, State> {
     }
 
     const serializedQuery = serializeQuery(query);
+    const { defaultSort } = this;
 
     const parameters: Record<string, string | undefined> = component?.needIssueSync
       ? {
           ...getBranchLikeQuery(this.props.branchLike, true),
           project: component?.key,
           ...serializedQuery,
+          s: (serializedQuery.s as string | undefined) ?? defaultSort,
           ps: `${ISSUES_PAGE_SIZE}`,
           ...additional,
         }
       : {
           ...getBranchLikeQuery(this.props.branchLike),
           components: component?.key,
-          s: 'FILE_LINE',
           ...serializedQuery,
+          s: (serializedQuery.s as string | undefined) ?? defaultSort,
           ps: `${ISSUES_PAGE_SIZE}`,
           facets,
           ...additional,
@@ -804,13 +810,14 @@ export class App extends React.PureComponent<Props, State> {
     const { myIssues, query } = this.state;
 
     const serializedQuery = serializeQuery({ ...query, ...changes });
+    const { defaultSort } = this;
 
     const parameters = {
       ...getBranchLikeQuery(this.props.branchLike),
       components: component?.key,
       facets: mapFacetToBackendName(property),
-      s: 'FILE_LINE',
       ...serializedQuery,
+      s: (serializedQuery.s as string | undefined) ?? defaultSort,
       ps: 1,
     };
 
