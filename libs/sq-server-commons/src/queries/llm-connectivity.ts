@@ -25,13 +25,19 @@ import {
   deleteLlmProvider,
   getLlmProviderDefinitions,
   getLlmProviders,
+  getLlmProviderSelections,
   updateLlmProvider,
+  upsertLlmProviderSelection,
 } from '../api/llm-connectivity';
-import { LlmProviderUpdate } from '../types/llm-connectivity';
+import { AiCapability, LlmProviderUpdate } from '../types/llm-connectivity';
 
 const llmConnectivityQueryKeys = {
   definitions: () => ['llm-connectivity', 'llm-provider-definitions'] as const,
   providers: () => ['llm-connectivity', 'llm-providers'] as const,
+  providersForCapability: (aiCapability: `${AiCapability}`) =>
+    ['llm-connectivity', 'llm-providers', aiCapability] as const,
+  selection: (aiCapability: `${AiCapability}`) =>
+    ['llm-connectivity', 'llm-provider-mappings', aiCapability] as const,
 };
 
 export const useLlmProviderDefinitionsQuery = createQueryHook(() =>
@@ -45,7 +51,26 @@ export const useLlmProviderDefinitionsQuery = createQueryHook(() =>
 export const useLlmProvidersQuery = createQueryHook(() =>
   queryOptions({
     queryKey: llmConnectivityQueryKeys.providers(),
-    queryFn: getLlmProviders,
+    queryFn: () => getLlmProviders(),
+    staleTime: StaleTime.NEVER,
+  }),
+);
+
+/** The providers a given AI capability accepts, which excludes the `SONAR` provider. */
+export const useCapabilityLlmProvidersQuery = createQueryHook((aiCapability: AiCapability) =>
+  queryOptions({
+    queryKey: llmConnectivityQueryKeys.providersForCapability(aiCapability),
+    queryFn: () => getLlmProviders(aiCapability),
+    staleTime: StaleTime.NEVER,
+  }),
+);
+
+/** There is at most one selection per capability, so the list collapses to a single entry. */
+export const useLlmProviderSelectionQuery = createQueryHook((aiCapability: AiCapability) =>
+  queryOptions({
+    queryKey: llmConnectivityQueryKeys.selection(aiCapability),
+    queryFn: () => getLlmProviderSelections(aiCapability),
+    select: (selections) => selections.find((selection) => selection.aiCapability === aiCapability),
     staleTime: StaleTime.NEVER,
   }),
 );
@@ -80,6 +105,17 @@ export function useDeleteLlmProviderMutation() {
     mutationFn: deleteLlmProvider,
     onSuccess() {
       client.invalidateQueries({ queryKey: llmConnectivityQueryKeys.providers() });
+    },
+  });
+}
+
+export function useUpsertLlmProviderSelectionMutation() {
+  const client = useQueryClient();
+
+  return useMutation({
+    mutationFn: upsertLlmProviderSelection,
+    onSuccess(_, { aiCapability }) {
+      client.invalidateQueries({ queryKey: llmConnectivityQueryKeys.selection(aiCapability) });
     },
   });
 }

@@ -29,6 +29,12 @@ export enum LlmProviderType {
   Sonar = 'SONAR',
 }
 
+export enum AiCapability {
+  AiCodefix = 'AI_CODEFIX',
+  HunterAgent = 'HUNTER_AGENT',
+  RemediationAgent = 'REMEDIATION_AGENT',
+}
+
 export enum LlmProviderFieldType {
   HttpHeaders = 'HTTP_HEADERS',
   String = 'STRING',
@@ -90,4 +96,20 @@ export interface LlmProviderCreate {
 export interface LlmProviderUpdate {
   configuration: LlmProviderConfigurationWrite;
   label: string;
+}
+
+/**
+ * There is one selection per AI capability. `llmProviderId` is null until an admin
+ * picks one, and `modelIdentifier` is null when the capability runs on a fixed model.
+ */
+export interface LlmProviderSelection {
+  aiCapability: `${AiCapability}`;
+  llmProviderId: string | null;
+  modelIdentifier: string | null;
+}
+
+export interface LlmProviderSelectionUpsert {
+  aiCapability: `${AiCapability}`;
+  llmProviderId: string;
+  modelIdentifier: string | null;
 }

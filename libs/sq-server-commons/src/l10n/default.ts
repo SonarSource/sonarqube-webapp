@@ -803,6 +803,25 @@ export const defaultMessages = {
   'ai_capabilities.remediation_agent.description':
     'An AI-powered agent that automatically proposes fixes for your issues — creating pull requests for your review and approval. {link}',
   'ai_capabilities.remediation_agent.description.link': 'Learn more in our documentation',
+  'ai_capabilities.remediation_agent.provider.title': 'Choose your provider',
+  'ai_capabilities.remediation_agent.provider.placeholder': 'Select a provider',
+  'ai_capabilities.remediation_agent.provider.help':
+    'Pick a provider compatible with Remediation Agent. Manage providers in <link>LLM providers</link>.',
+  'ai_capabilities.remediation_agent.provider.empty':
+    'No LLM providers connected yet. Connect one to choose it here.',
+  'ai_capabilities.remediation_agent.provider.empty.link': 'Go to LLM providers',
+  'ai_capabilities.remediation_agent.provider.model.label': 'Choose your model',
+  'ai_capabilities.remediation_agent.provider.model.placeholder': 'Leave blank to use the default',
+  'ai_capabilities.remediation_agent.provider.model.help':
+    'Remediation Agent only runs on a supported model. An unsupported one is rejected on save.',
+  // The button reads "Save", but the page has a second Save further down, so screen
+  // readers get the longer form.
+  'ai_capabilities.remediation_agent.provider.save.aria_label': 'Save provider selection',
+  'ai_capabilities.remediation_agent.provider.saved': 'Provider selection saved.',
+  'ai_capabilities.remediation_agent.provider.error':
+    "Couldn't save this selection. Check the provider and model, then try again.",
+  'ai_capabilities.remediation_agent.enable_agent.title': 'Enable agent',
+  'ai_capabilities.remediation_agent.enable_agent.disabled_reason': 'Choose a provider first',
   'ai_capabilities.remediation_agent.manual.title': 'Manual backlog remediation',
   'ai_capabilities.remediation_agent.manual.description':
     "Reduce technical debt by selecting issues from your project's issues list and letting the agent propose fixes in a pull request.",

@@ -20,15 +20,19 @@
 
 import { axiosClient, axiosToCatch } from '~shared/helpers/axios-clients';
 import {
+  AiCapability,
   LlmProvider,
   LlmProviderCreate,
   LlmProviderDefinition,
+  LlmProviderSelection,
+  LlmProviderSelectionUpsert,
   LlmProviderUpdate,
 } from '../types/llm-connectivity';
 
 export const LLM_CONNECTIVITY_PATH = '/api/v2/llm-connectivity';
 export const LLM_PROVIDER_DEFINITIONS_PATH = `${LLM_CONNECTIVITY_PATH}/llm-provider-definitions`;
 export const LLM_PROVIDERS_PATH = `${LLM_CONNECTIVITY_PATH}/llm-providers`;
+export const LLM_PROVIDER_MAPPINGS_PATH = `${LLM_CONNECTIVITY_PATH}/llm-provider-mappings`;
 
 export function getLlmProviderDefinitions() {
   return axiosClient
@@ -36,10 +40,23 @@ export function getLlmProviderDefinitions() {
     .then((response) => response.providerDefinitions);
 }
 
-export function getLlmProviders() {
+/**
+ * Filtering by `aiCapability` narrows the list to the providers that capability
+ * accepts, which is also what excludes the pre-seeded `SONAR` provider from the
+ * Remediation Agent and Hunter Agent pages.
+ */
+export function getLlmProviders(aiCapability?: `${AiCapability}`) {
   return axiosClient
-    .get<{ providers: LlmProvider[] }>(LLM_PROVIDERS_PATH)
+    .get<{ providers: LlmProvider[] }>(LLM_PROVIDERS_PATH, { params: { aiCapability } })
     .then((response) => response.providers);
+}
+
+export function getLlmProviderSelections(aiCapability?: `${AiCapability}`) {
+  return axiosClient
+    .get<{ providerMappings: LlmProviderSelection[] }>(LLM_PROVIDER_MAPPINGS_PATH, {
+      params: { aiCapability },
+    })
+    .then((response) => response.providerMappings);
 }
 
 /*
@@ -57,4 +74,11 @@ export function updateLlmProvider(id: string, data: LlmProviderUpdate) {
 
 export function deleteLlmProvider(id: string) {
   return axiosToCatch.delete(`${LLM_PROVIDERS_PATH}/${id}`);
+}
+
+export function upsertLlmProviderSelection(data: LlmProviderSelectionUpsert) {
+  return axiosToCatch.post<LlmProviderSelection, LlmProviderSelectionUpsert>(
+    LLM_PROVIDER_MAPPINGS_PATH,
+    data,
+  );
 }

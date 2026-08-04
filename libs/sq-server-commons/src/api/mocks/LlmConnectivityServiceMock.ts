@@ -23,6 +23,7 @@ import { http, HttpResponse } from 'msw';
 import { AbstractServiceMock } from '~shared/api/mocks/AbstractServiceMock';
 import { HttpStatus } from '~shared/types/request';
 import {
+  AiCapability,
   LlmHttpHeader,
   LlmHttpHeaderWrite,
   LlmProvider,
@@ -32,11 +33,17 @@ import {
   LlmProviderCreate,
   LlmProviderDefinition,
   LlmProviderFieldType,
+  LlmProviderSelection,
+  LlmProviderSelectionUpsert,
   LlmProviderType,
   LlmProviderUpdate,
   MAX_LLM_PROVIDERS,
 } from '../../types/llm-connectivity';
-import { LLM_PROVIDER_DEFINITIONS_PATH, LLM_PROVIDERS_PATH } from '../llm-connectivity';
+import {
+  LLM_PROVIDER_DEFINITIONS_PATH,
+  LLM_PROVIDER_MAPPINGS_PATH,
+  LLM_PROVIDERS_PATH,
+} from '../llm-connectivity';
 
 export const SONAR_PROVIDER_ID = '00000000-0000-0000-0000-00000000s0nr';
 
@@ -77,12 +84,16 @@ export const CUSTOM_PROXY_DEFINITION: LlmProviderDefinition = {
 export interface LlmConnectivityServiceData {
   definitions: LlmProviderDefinition[];
   providers: LlmProvider[];
+  selections: LlmProviderSelection[];
 }
 
 export const LlmConnectivityServiceDefaultDataset: LlmConnectivityServiceData = {
   definitions: [CUSTOM_PROXY_DEFINITION],
   providers: [SONAR_PROVIDER],
+  selections: [],
 };
+
+const INCOMPATIBLE_PROVIDER_MESSAGE = 'This provider is not compatible with this AI capability.';
 
 function isHttpHeaders(value: unknown): value is LlmHttpHeaderWrite[] {
   return Array.isArray(value);
@@ -115,6 +126,7 @@ export default class LlmConnectivityServiceMock extends AbstractServiceMock<LlmC
   #connectionFailureMessage: string | undefined;
   #deleteBlockedMessage: string | undefined;
   #definitionsFailureMessage: string | undefined;
+  #mappingFailureMessage: string | undefined;
   #nextId = 1;
   #providersFailureMessage: string | undefined;
 
@@ -124,8 +136,21 @@ export default class LlmConnectivityServiceMock extends AbstractServiceMock<LlmC
     return this.data.providers;
   }
 
+  get selections() {
+    return this.data.selections;
+  }
+
   setProviders = (providers: LlmProvider[]) => {
     this.data.providers = cloneDeep(providers);
+  };
+
+  setSelection = (selection: LlmProviderSelection) => {
+    this.data.selections = [
+      ...this.data.selections.filter(
+        (currentSelection) => currentSelection.aiCapability !== selection.aiCapability,
+      ),
+      cloneDeep(selection),
+    ];
   };
 
   fillToLimit = () => {
@@ -150,6 +175,10 @@ export default class LlmConnectivityServiceMock extends AbstractServiceMock<LlmC
     this.#providersFailureMessage = message;
   };
 
+  setMappingFailure = (message: string = INCOMPATIBLE_PROVIDER_MESSAGE) => {
+    this.#mappingFailureMessage = message;
+  };
+
   buildCustomProxy = (index: number): LlmProvider => ({
     id: `custom-proxy-${index}`,
     provider: LlmProviderType.CustomProxy,
@@ -162,6 +191,7 @@ export default class LlmConnectivityServiceMock extends AbstractServiceMock<LlmC
     this.#connectionFailureMessage = undefined;
     this.#deleteBlockedMessage = undefined;
     this.#definitionsFailureMessage = undefined;
+    this.#mappingFailureMessage = undefined;
     this.#nextId = 1;
     this.#providersFailureMessage = undefined;
     this.lastUpdateRequest = undefined;
@@ -174,11 +204,45 @@ export default class LlmConnectivityServiceMock extends AbstractServiceMock<LlmC
         : this.errorsWithStatus(HttpStatus.BadRequest, this.#definitionsFailureMessage),
     ),
 
-    http.get(LLM_PROVIDERS_PATH, () =>
-      this.#providersFailureMessage === undefined
-        ? this.ok({ providers: this.data.providers })
-        : this.errorsWithStatus(HttpStatus.BadRequest, this.#providersFailureMessage),
-    ),
+    http.get(LLM_PROVIDERS_PATH, ({ request }) => {
+      if (this.#providersFailureMessage !== undefined) {
+        return this.errorsWithStatus(HttpStatus.BadRequest, this.#providersFailureMessage);
+      }
+
+      const aiCapability = this.getQueryParams(request).get('aiCapability');
+      const providers =
+        aiCapability === null || aiCapability === AiCapability.AiCodefix
+          ? this.data.providers
+          : this.data.providers.filter((provider) => provider.provider !== LlmProviderType.Sonar);
+
+      return this.ok({ providers });
+    }),
+
+    http.get(LLM_PROVIDER_MAPPINGS_PATH, ({ request }) => {
+      const aiCapability = this.getQueryParams(request).get('aiCapability');
+      const providerMappings =
+        aiCapability === null
+          ? this.data.selections
+          : this.data.selections.filter((selection) => selection.aiCapability === aiCapability);
+
+      return this.ok({ providerMappings });
+    }),
+
+    http.post(LLM_PROVIDER_MAPPINGS_PATH, async ({ request }) => {
+      if (this.#mappingFailureMessage !== undefined) {
+        return this.badRequest(this.#mappingFailureMessage);
+      }
+
+      const data = (await request.json()) as LlmProviderSelectionUpsert;
+      const selection: LlmProviderSelection = {
+        aiCapability: data.aiCapability,
+        llmProviderId: data.llmProviderId,
+        modelIdentifier: data.modelIdentifier,
+      };
+      this.setSelection(selection);
+
+      return this.ok(selection);
+    }),
 
     http.post(LLM_PROVIDERS_PATH, async ({ request }) => {
       if (this.#connectionFailureMessage !== undefined) {
