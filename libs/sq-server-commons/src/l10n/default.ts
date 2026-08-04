@@ -10113,6 +10113,12 @@ export const defaultMessages = {
   'securityreport.total_vulnerabilities': 'Security issues to address',
   'securityreport.total_hotspots': 'Security Hotspots that need review',
   'securityreport.total_dependency_risks': 'Dependency Risks',
+  'securityreport.total_vulnerabilities.screen_reader':
+    '{count} Security {count, plural, one {Vulnerability} other {Vulnerabilities}} to address',
+  'securityreport.total_hotspots.screen_reader':
+    '{count} Security {count, plural, one {Hotspot} other {Hotspots}} that need review',
+  'securityreport.total_dependency_risks.screen_reader':
+    '{count} Dependency {count, plural, one {Risk} other {Risks}} to address',
   'securityreport.level': 'Level {0}',
   'securityreport.label.version': 'Select {0} version',
   'securityreport.label.owaspAsvs_level': 'Select OWASP ASVS level',
