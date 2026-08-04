@@ -18,6 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
+import { grantPermissionToUser } from '../../api/permissions';
+
 /**
  * The onboarding dashboard is not organization-scoped on SQ-Server, so no
  * `organizationKey` is sent. The SQ-Cloud adapter returns the current
@@ -25,5 +28,27 @@
  * `~shared/queries/onboarding` hooks.
  */
 export function useOnboardingOrganizationKey(): string | undefined {
+  return undefined;
+}
+
+/**
+ * Grants a project permission to a user. SQ-Cloud additionally scopes the call to the current
+ * organization, which is the only reason this goes through the adapter.
+ */
+export function useGrantProjectPermissionMutation() {
+  return useMutation({
+    mutationFn: async (data: { login: string; permission: string; projectKey: string }) => {
+      await grantPermissionToUser(data);
+    },
+  });
+}
+
+/**
+ * Triggers a new automatic analysis of a project, or `undefined` on products without automatic
+ * analysis — which makes the row menu drop the action instead of offering a dead entry. Automatic
+ * analysis is a SQ-Cloud feature, so SQ-Server has nothing to re-run.
+ */
+export function useTriggerAutomaticAnalysisMutation():
+  UseMutationResult<boolean, Error, string> | undefined {
   return undefined;
 }

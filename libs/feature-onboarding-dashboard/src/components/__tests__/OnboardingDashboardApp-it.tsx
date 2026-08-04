@@ -20,6 +20,7 @@
 
 import { waitFor } from '@testing-library/react';
 import { PointerEventsCheckLevel, userEvent } from '@testing-library/user-event';
+import { IS_AUTOMATIC_ANALYSIS_SUPPORTED } from '~adapters/helpers/onboarding-actions';
 import { ALM_ICONS_BASE_URL } from '~adapters/helpers/urls';
 import {
   mockOnboardingOverview,
@@ -53,6 +54,15 @@ beforeAll(() => {
 afterEach(() => {
   onboardingMock.reset();
 });
+
+/**
+ * Entries the row menu of a project scanned by automatic analysis offers: configure CI, restore
+ * access and view project, plus the re-run entry on the products that run automatic analysis —
+ * elsewhere it is dropped rather than shown as a dead end. Resolved here so the tests below stay
+ * free of product branching.
+ */
+const RERUN_AUTOMATIC_ANALYSIS_ENTRIES = IS_AUTOMATIC_ANALYSIS_SUPPORTED ? 1 : 0;
+const AUTOSCANNED_ROW_ENTRIES = 3 + RERUN_AUTOMATIC_ANALYSIS_ENTRIES;
 
 /**
  * `pointerEventsCheck` is disabled because it walks the ancestor chain calling `getComputedStyle`
@@ -313,15 +323,13 @@ it('offers the automatic-analysis actions on a row scanned by autoscan', async (
   await user.click(ui.projectsTable.byRole('button', { name: /identity-lib/ }).get());
 
   expect(await ui.configureCiAction.find()).toBeInTheDocument();
-  expect(ui.rerunAutomaticAnalysisAction.get()).toBeInTheDocument();
   expect(ui.restoreAccessAction.get()).toBeInTheDocument();
   expect(ui.viewProjectAction.get()).toBeInTheDocument();
-  expect(ui.rowActionItems.getAll()).toHaveLength(4);
 
-  // The actions themselves land in a follow-up change, so nothing is clickable yet.
-  ui.rowActionItems.getAll().forEach((item) => {
-    expect(item).toHaveAttribute('aria-disabled', 'true');
-  });
+  // Automatic analysis is a SQ-Cloud feature: rather than offer a dead entry, SQ-Server drops it.
+  // What each entry then does is covered by ProjectRowActionsCell-it.
+  expect(ui.rerunAutomaticAnalysisAction.queryAll()).toHaveLength(RERUN_AUTOMATIC_ANALYSIS_ENTRIES);
+  expect(ui.rowActionItems.getAll()).toHaveLength(AUTOSCANNED_ROW_ENTRIES);
 });
 
 it('renders a no-data row in the all-projects table when the organization has no projects', async () => {

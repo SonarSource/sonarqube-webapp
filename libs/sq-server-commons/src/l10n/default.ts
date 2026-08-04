@@ -10217,7 +10217,15 @@ export const defaultMessages = {
   'onboarding_dashboard.projects.action.import_repository': 'Import repository',
   'onboarding_dashboard.projects.action.configure_ci': 'Configure CI analysis',
   'onboarding_dashboard.projects.action.rerun_automatic_analysis': 'Re-run automatic analysis',
+  'onboarding_dashboard.projects.action.rerun_automatic_analysis.success':
+    'Automatic analysis has been triggered.',
+  'onboarding_dashboard.projects.action.rerun_automatic_analysis.error':
+    "Automatic analysis couldn't be triggered. Please try again later.",
+  'onboarding_dashboard.projects.action.rerun_automatic_analysis.not_eligible':
+    'This project is not eligible for automatic analysis.',
   'onboarding_dashboard.projects.action.restore_access': 'Restore access',
+  'onboarding_dashboard.projects.action.restore_access.success':
+    'Your permissions on this project have been restored.',
   'onboarding_dashboard.projects.action.how_to_run_new_scan': 'How to run a new scan',
   'onboarding_dashboard.projects.action.view_project': 'View project',
   'onboarding_dashboard.projects.filter.scan_status.label': 'Scan status',

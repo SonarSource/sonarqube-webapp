@@ -25,10 +25,13 @@ import {
   Table,
   TableCellJustify,
 } from '@sonarsource/echoes-react';
+import { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { OnboardingProject } from '~shared/types/onboarding';
+import { PROJECT_ROW_ACTION_LABEL_KEYS } from './projectRowActions';
 import { ProjectsTableColumn } from './ProjectsTableCard';
-import { getProjectRowActions, PROJECT_ROW_ACTION_LABEL_KEYS } from './projectRowActions';
+import { RestoreProjectAccessModal } from './RestoreProjectAccessModal';
+import { useProjectRowActionItems } from './useProjectRowActionItems';
 
 /**
  * Header of the actions column. The design leaves it blank, so the label is only exposed to
@@ -47,31 +50,60 @@ interface Props {
 
 /**
  * Trailing cell of a project row: a "more actions" menu whose entries depend on how far along the
- * onboarding of that project is — see {@link getProjectRowActions}.
+ * onboarding of that project is — see {@link useProjectRowActionItems}.
  *
- * Every entry is disabled for now; the actions themselves are wired up separately.
+ * Only "Restore access" needs a confirmation step, so this is where its modal lives; every other
+ * entry navigates or fires straight away.
  */
 export function ProjectRowActionsCell({ project }: Readonly<Props>) {
   const { formatMessage } = useIntl();
+  const [isRestoreAccessModalOpen, setIsRestoreAccessModalOpen] = useState(false);
 
-  const actions = getProjectRowActions(project);
+  const openRestoreAccessModal = useCallback(() => {
+    setIsRestoreAccessModalOpen(true);
+  }, []);
+
+  const closeRestoreAccessModal = useCallback(() => {
+    setIsRestoreAccessModalOpen(false);
+  }, []);
+
+  const items = useProjectRowActionItems(project, { onRestoreAccess: openRestoreAccessModal });
 
   return (
-    <DropdownMenu
-      align={DropdownMenuAlign.End}
-      items={actions.map((action) => (
-        <DropdownMenu.ItemButton isDisabled key={action}>
-          {formatMessage({ id: PROJECT_ROW_ACTION_LABEL_KEYS[action] })}
-        </DropdownMenu.ItemButton>
-      ))}
-    >
-      <Table.CellButtonIcon
-        Icon={IconMoreVertical}
-        ariaLabel={formatMessage(
-          { id: 'onboarding_dashboard.projects.actions.label' },
-          { name: project.name },
-        )}
-      />
-    </DropdownMenu>
+    <>
+      <DropdownMenu
+        align={DropdownMenuAlign.End}
+        items={items.map((item) => {
+          const label = formatMessage({ id: PROJECT_ROW_ACTION_LABEL_KEYS[item.action] });
+
+          return item.kind === 'link' ? (
+            <DropdownMenu.ItemLink
+              enableOpenInNewTab={item.isExternal}
+              hasExternalIcon={item.isExternal}
+              key={item.action}
+              to={item.to}
+            >
+              {label}
+            </DropdownMenu.ItemLink>
+          ) : (
+            <DropdownMenu.ItemButton key={item.action} onClick={item.onClick}>
+              {label}
+            </DropdownMenu.ItemButton>
+          );
+        })}
+      >
+        <Table.CellButtonIcon
+          Icon={IconMoreVertical}
+          ariaLabel={formatMessage(
+            { id: 'onboarding_dashboard.projects.actions.label' },
+            { name: project.name },
+          )}
+        />
+      </DropdownMenu>
+
+      {isRestoreAccessModalOpen && project.key !== null && (
+        <RestoreProjectAccessModal onClose={closeRestoreAccessModal} projectKey={project.key} />
+      )}
+    </>
   );
 }

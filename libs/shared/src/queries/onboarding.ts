@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { keepPreviousData, queryOptions } from '@tanstack/react-query';
+import { keepPreviousData, queryOptions, useQueryClient } from '@tanstack/react-query';
+import { useCallback } from 'react';
 import {
   getOnboardingOverview,
   getOnboardingProjects,
@@ -26,6 +27,9 @@ import {
   OnboardingProjectsQuery,
 } from '../api/onboarding';
 import { createQueryHook, StaleTime } from './common';
+
+/** Prefix of every onboarding query key, so one call can invalidate the whole feature. */
+const ONBOARDING_QUERY_KEY_PREFIX = ['onboarding'];
 
 /**
  * Base hooks shared by SQ-Server and SQ-Cloud. The `organizationKey` is only
@@ -51,3 +55,16 @@ export const useOnboardingProjectsQuery = createQueryHook((params: OnboardingPro
     retry: 2, // Temporary workaround until Backend initial load issue is fixed
   }),
 );
+
+/**
+ * Refetches every onboarding query. Actions that change how far along the onboarding of a project
+ * is use it so the dashboard tables and the overview reflect the change.
+ */
+export function useInvalidateOnboardingQueries() {
+  const queryClient = useQueryClient();
+
+  return useCallback(
+    async () => queryClient.invalidateQueries({ queryKey: ONBOARDING_QUERY_KEY_PREFIX }),
+    [queryClient],
+  );
+}
