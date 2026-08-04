@@ -745,7 +745,60 @@ export const defaultMessages = {
   //------------------------------------------------------------------------------
 
   'ai_capabilities.title': 'AI Capabilities',
+  'ai_capabilities.description':
+    'Enable agents to remediate tech debt, find complex security issues, and automate fix suggestions.',
   'ai_capabilities.scheduled_jobs.automatic': 'Automatic',
+  'ai_capabilities.llm_providers.title': 'LLM Providers',
+  'ai_capabilities.llm_providers.description':
+    'Manage the LLM providers shared by all AI features.',
+  'ai_capabilities.llm_providers.add': 'Add provider',
+  'ai_capabilities.llm_providers.remove': 'Remove provider',
+  'ai_capabilities.llm_providers.actions': 'Actions for {name}',
+  'ai_capabilities.llm_providers.empty.title': 'No provider yet',
+  'ai_capabilities.llm_providers.empty.description': 'Add your first one to get started.',
+  'ai_capabilities.llm_providers.table.aria_label': 'Configured LLM providers',
+  'ai_capabilities.llm_providers.table.provider': 'Provider',
+  'ai_capabilities.llm_providers.edit': 'Edit provider',
+  'ai_capabilities.llm_providers.limit_reached':
+    "You've reached the limit of {count} providers. Remove one to add another.",
+  'ai_capabilities.llm_providers.add.disabled_tooltip':
+    'Remove a provider to add a new one (limit: {count})',
+  'ai_capabilities.llm_providers.added': 'Provider added.',
+  'ai_capabilities.llm_providers.updated': 'Provider updated.',
+  'ai_capabilities.llm_providers.removed': 'Provider removed.',
+  'ai_capabilities.llm_providers.form.add.title': 'Add a new provider',
+  'ai_capabilities.llm_providers.form.edit.title': 'Edit provider',
+  'ai_capabilities.llm_providers.form.provider': 'Provider',
+  'ai_capabilities.llm_providers.form.provider.placeholder': 'Select provider',
+  'ai_capabilities.llm_providers.form.name': 'Name',
+  'ai_capabilities.llm_providers.form.name.placeholder': 'A name to identify this connection',
+  'ai_capabilities.llm_providers.form.secure_note':
+    'Your credentials are encrypted and stored securely.',
+  'ai_capabilities.llm_providers.form.secret.placeholder':
+    '{0} (leave blank to keep the current value)',
+  'ai_capabilities.llm_providers.form.cancel': 'Cancel',
+  'ai_capabilities.llm_providers.form.submit.add': 'Add provider',
+  'ai_capabilities.llm_providers.form.submit.save': 'Save',
+  'ai_capabilities.llm_providers.form.error.connection':
+    "Couldn't connect to this provider. Check your details and try again.",
+  'ai_capabilities.llm_providers.error.retry': 'Retry',
+  'ai_capabilities.llm_providers.headers.name': 'Header name',
+  'ai_capabilities.llm_providers.headers.value': 'Value',
+  'ai_capabilities.llm_providers.headers.secret': 'Secret',
+  'ai_capabilities.llm_providers.headers.delete': 'Delete header {name}',
+  'ai_capabilities.llm_providers.headers.add': 'Add custom header',
+  'ai_capabilities.llm_providers.supported_models.title':
+    'Make sure your provider offers a supported model',
+  'ai_capabilities.llm_providers.supported_models.description':
+    'Supported models differ by capability:',
+  'ai_capabilities.llm_providers.supported_models.ai_codefix': 'AI CodeFix — any model',
+  'ai_capabilities.llm_providers.supported_models.hunter_agent': 'Hunter Agent — Claude Opus 4.8',
+  'ai_capabilities.llm_providers.supported_models.remediation_agent':
+    'Remediation Agent — Claude Opus 4.6, GPT-5.1',
+  'ai_capabilities.llm_providers.delete.modal.title': 'Remove provider?',
+  'ai_capabilities.llm_providers.delete.modal.description':
+    'The provider "{name}" will be removed. AI features using it will stop working until another provider is selected.',
+  'ai_capabilities.llm_providers.delete.modal.confirm': 'Remove provider',
   'ai_capabilities.remediation_agent.title': 'Remediation Agent',
   'ai_capabilities.remediation_agent.description':
     'An AI-powered agent that automatically proposes fixes for your issues — creating pull requests for your review and approval. {link}',
