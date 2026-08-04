@@ -18,10 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Select } from '@sonarsource/echoes-react';
+import { Heading, Select } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { SubHeading } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, Router } from '~shared/types/router';
 import { CATEGORY_OVERRIDES, LANGUAGES_CATEGORY } from '../constants';
@@ -50,9 +49,9 @@ export function Languages(props: Readonly<LanguagesProps>) {
 
   return (
     <>
-      <SubHeading id="languages-category-title">
+      <Heading as="h2" className="sw-mb-4" id="languages-category-title">
         <FormattedMessage id="property.category.languages" />
-      </SubHeading>
+      </Heading>
       <div data-test="language-select">
         <Select
           ariaLabelledBy="languages-category-title"
