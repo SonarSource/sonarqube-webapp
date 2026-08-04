@@ -259,8 +259,6 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
 
     const formBody = (
       <Form id={FORM_ID} onSubmit={this.handleFormSubmit}>
-        {this.state.results.map(this.renderResult)}
-
         {!this.state.finished && !this.state.submitting && (
           <div>
             {profile ? (
@@ -284,7 +282,14 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
 
     return (
       <Modal
-        body={<Spinner isLoading={this.state.submitting}>{formBody}</Spinner>}
+        body={
+          <>
+            <div aria-live="polite" aria-relevant="additions">
+              {this.state.results.map(this.renderResult)}
+            </div>
+            <Spinner isLoading={this.state.submitting}>{formBody}</Spinner>
+          </>
+        }
         headerTitle={header}
         isScrollable
         onClose={this.handleClose}
