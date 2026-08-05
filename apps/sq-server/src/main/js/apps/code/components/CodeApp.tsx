@@ -27,6 +27,7 @@ import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { Metric } from '~shared/types/measures';
 import { Location, Router } from '~shared/types/router';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import withMetricsContext from '~sq-server-commons/context/metrics/withMetricsContext';
 import { CodeScope, getCodeUrl, getProjectUrl } from '~sq-server-commons/helpers/urls';
@@ -36,6 +37,7 @@ import {
   useComponentQuery,
 } from '~sq-server-commons/queries/component';
 import { useComponentTreeQuery } from '~sq-server-commons/queries/measures';
+import { Feature } from '~sq-server-commons/types/features';
 import { Component, ComponentMeasure } from '~sq-server-commons/types/types';
 import { getCodeMetrics } from '../utils';
 import CodeAppRenderer from './CodeAppRenderer';
@@ -55,6 +57,7 @@ function CodeApp(props: Readonly<Props>) {
   const [newCodeSelected, setNewCodeSelected] = React.useState<boolean>(true);
   const [searchResults, setSearchResults] = React.useState<ComponentMeasure[] | undefined>();
 
+  const hasSca = useAvailableFeatures().hasFeature(Feature.Sca);
   const { data: branchLike } = useCurrentBranchQuery(component);
 
   const { data: breadcrumbs, isLoading: isBreadcrumbsLoading } = useComponentBreadcrumbsQuery({
@@ -64,7 +67,9 @@ function CodeApp(props: Readonly<Props>) {
   const { data: baseComponent, isLoading: isBaseComponentLoading } = useComponentQuery(
     {
       component: location.query.selected ?? component.key,
-      metricKeys: getCodeMetrics(component.qualifier, branchLike).join(),
+      metricKeys: getCodeMetrics(component.qualifier, branchLike, {
+        includeScaRating: hasSca,
+      }).join(),
       ...getBranchLikeQuery(branchLike),
     },
     {
@@ -81,6 +86,7 @@ function CodeApp(props: Readonly<Props>) {
     metrics: getCodeMetrics(component.qualifier, branchLike, {
       includeContainsAiCode: true,
       includeQGStatus: true,
+      includeScaRating: hasSca,
     }),
     additionalData: {
       ps: PAGE_SIZE,
@@ -160,6 +166,7 @@ function CodeApp(props: Readonly<Props>) {
       handleSelect={handleSelect}
       handleSelectNewCode={handleSelectNewCode}
       highlighted={highlighted}
+      isScaEnabled={hasSca}
       loading={loading}
       location={location}
       metrics={metrics}

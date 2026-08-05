@@ -6018,6 +6018,7 @@ export const defaultMessages = {
   'metric.new_reliability_remediation_effort.extra_short_name': 'Remediation Effort',
   'metric.new_sca_count_any_issue.description': 'Dependency risks',
   'metric.new_sca_count_any_issue.name': 'New dependency risks',
+  'metric.new_sca_count_any_issue.short_name': 'Dependency Risks',
   'metric.new_sca_count_any_security.description': 'Dependency security risks',
   'metric.new_sca_count_any_security.name': 'New dependency security risks',
   'metric.new_sca_count_vulnerability.description': 'Number of dependencies with vulnerabilities',
@@ -6185,6 +6186,7 @@ export const defaultMessages = {
   'metric.releasability_rating.name': 'Releasability Rating',
   'metric.sca_count_any_issue.description': 'Dependency risks',
   'metric.sca_count_any_issue.name': 'Dependency risks',
+  'metric.sca_count_any_issue.short_name': 'Dependency Risks',
   'metric.sca_count_any_security.description': 'Dependency security risks',
   'metric.sca_count_any_security.name': 'Dependency security risks',
   'metric.sca_count_vulnerability.description': 'Number of dependencies with vulnerabilities',
@@ -9711,6 +9713,10 @@ export const defaultMessages = {
   'portfolio_overview.sqale_rating.title': 'Maintainability',
   'portfolio_overview.sqale_rating.description':
     'Average maintainability rating. Issues in this domain mark code that will be more difficult to update competently than it should.',
+
+  'portfolio_overview.sca_rating_any_issue.title': 'Dependency Risks',
+  'portfolio_overview.sca_rating_any_issue.description':
+    'Average dependency risk rating. Issues in this domain mark dependencies with known vulnerabilities, malicious code, or prohibited licenses.',
 
   //------------------------------------------------------------------------------
   //

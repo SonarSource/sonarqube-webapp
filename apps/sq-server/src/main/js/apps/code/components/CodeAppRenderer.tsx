@@ -76,7 +76,7 @@ interface Props {
   handleSelect: (component: ComponentMeasure) => void;
   handleSelectNewCode: (newCodeSelected: boolean) => void;
   highlighted?: ComponentMeasure;
-
+  isScaEnabled?: boolean;
   loading: boolean;
   location: Location;
   metrics: Record<string, Metric>;
@@ -95,6 +95,7 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
     breadcrumbs,
     components = [],
     highlighted,
+    isScaEnabled,
     loading,
     metrics,
     newCodeSelected,
@@ -115,7 +116,10 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
 
   const getMetricKeys = (portfolioMetrics: PortfolioMetrics) =>
     intersection(
-      getCodeMetrics(component.qualifier, branchLike, { portfolioMetrics }),
+      getCodeMetrics(component.qualifier, branchLike, {
+        portfolioMetrics,
+        includeScaRating: isScaEnabled,
+      }),
       Object.keys(metrics),
     );
 
@@ -273,6 +277,7 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
                 branchLike={branchLike}
                 components={components}
                 cycle
+                isScaEnabled={isScaEnabled}
                 metrics={aicaAgnosticMetrics}
                 newCodeSelected={newCodeSelected}
                 onEndOfList={props.handleLoadMore}

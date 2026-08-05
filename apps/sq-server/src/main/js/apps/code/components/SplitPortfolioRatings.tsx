@@ -31,6 +31,7 @@ type Props = {
   aicaEnabledMetrics: Metric[];
   component: ComponentMeasureType;
   expanded?: boolean;
+  isScaEnabled?: boolean;
   showAnalysisDate?: boolean;
 };
 
@@ -39,6 +40,7 @@ export function SplitPortfolioRatings({
   aicaEnabledMetrics,
   component,
   expanded = false,
+  isScaEnabled,
   showAnalysisDate = false,
 }: Readonly<Props>) {
   return (
@@ -46,6 +48,7 @@ export function SplitPortfolioRatings({
       <AggregateRatingRow
         component={component}
         expanded={expanded}
+        isScaEnabled={isScaEnabled}
         metrics={aicaEnabledMetrics}
         showAnalysisDate={showAnalysisDate}
         type={AggregateRatingType.AicaEnabled}
@@ -53,6 +56,7 @@ export function SplitPortfolioRatings({
       <AggregateRatingRow
         component={component}
         expanded={expanded}
+        isScaEnabled={isScaEnabled}
         metrics={aicaDisabledMetrics}
         showAnalysisDate={showAnalysisDate}
         type={AggregateRatingType.AicaDisabled}
@@ -80,6 +84,7 @@ export const RowIds = {
 export type AggregateRatingRowProps = {
   component: ComponentMeasureType;
   expanded: boolean;
+  isScaEnabled?: boolean;
   metrics: Metric[];
   showAnalysisDate: boolean;
   type: `${AggregateRatingType}`;
@@ -88,6 +93,7 @@ export type AggregateRatingRowProps = {
 export function AggregateRatingRow({
   component,
   expanded,
+  isScaEnabled,
   metrics,
   showAnalysisDate,
   type,
@@ -115,6 +121,8 @@ export function AggregateRatingRow({
       {metrics.map((metric) => (
         <ComponentMeasure component={component} key={metric.key} metric={metric} />
       ))}
+
+      {isScaEnabled && <NumericalCell />}
 
       {showAnalysisDate && <NumericalCell className="sw-whitespace-nowrap" />}
     </TableRowInteractive>

@@ -71,7 +71,7 @@ describe('getProjectCardMeasureList', () => {
 
       const sca = result.find((m) => m.metricKey === MetricKey.new_sca_count_any_issue);
       expect(sca).toMatchObject({
-        labelKey: 'dependencies.risks',
+        labelKey: 'metric.new_sca_count_any_issue.short_name',
         metricRatingKey: MetricKey.new_sca_rating_any_issue,
       });
     });
@@ -195,7 +195,7 @@ describe('getProjectCardMeasureList', () => {
 
       const sca = result.find((m) => m.metricKey === MetricKey.sca_count_any_issue);
       expect(sca).toMatchObject({
-        labelKey: 'dependencies.risks',
+        labelKey: 'metric.sca_count_any_issue.short_name',
         metricRatingKey: MetricKey.sca_rating_any_issue,
         metricType: MetricType.ShortInteger,
       });

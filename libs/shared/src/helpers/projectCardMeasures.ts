@@ -68,8 +68,8 @@ const SERVER_LABEL_KEY_MAP: Partial<Record<MetricKey, string>> = {
   [MetricKey.new_violations]: 'metric.new_violations.description',
   [MetricKey.security_hotspots_reviewed]: 'projects.security_hotspots_reviewed',
   [MetricKey.new_security_hotspots_reviewed]: 'projects.security_hotspots_reviewed',
-  [MetricKey.sca_count_any_issue]: 'dependencies.risks',
-  [MetricKey.new_sca_count_any_issue]: 'dependencies.risks',
+  [MetricKey.sca_count_any_issue]: 'metric.sca_count_any_issue.short_name',
+  [MetricKey.new_sca_count_any_issue]: 'metric.new_sca_count_any_issue.short_name',
 } as const;
 
 // Label map for cloud (uses "short_name" for all labels, preserving original cloud behavior)

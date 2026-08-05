@@ -45,6 +45,7 @@ interface ComponentsProps {
   baseComponent?: ComponentMeasure;
   branchLike?: BranchLike;
   components: ComponentMeasure[];
+  isScaEnabled?: boolean;
   metrics: Metric[];
   newCodeSelected?: boolean;
   rootComponent: ComponentMeasure;
@@ -59,6 +60,7 @@ function Components(props: ComponentsProps) {
     baseComponent,
     branchLike,
     components,
+    isScaEnabled,
     rootComponent,
     selected,
     metrics,
@@ -104,6 +106,7 @@ function Components(props: ComponentsProps) {
               <ComponentsHeader
                 baseComponent={baseComponent}
                 canBePinned={canBePinned}
+                isScaEnabled={isScaEnabled}
                 metrics={metrics.map((metric) => metric.key)}
                 rootComponent={rootComponent}
                 showAnalysisDate={showAnalysisDate}
@@ -141,6 +144,7 @@ function Components(props: ComponentsProps) {
                   aicaEnabledMetrics={aicaEnabledMetrics}
                   component={baseComponent}
                   expanded={splitPortfolioExpanded}
+                  isScaEnabled={isScaEnabled}
                   showAnalysisDate={showAnalysisDate}
                 />
               )

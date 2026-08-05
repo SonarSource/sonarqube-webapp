@@ -65,6 +65,24 @@ describe('getCodeMetrics', () => {
     },
   );
 
+  it.each`
+    portfolioMetrics
+    ${PortfolioMetrics.AllCodeAicaAgnostic}
+    ${PortfolioMetrics.NewCodeAicaAgnostic}
+    ${PortfolioMetrics.Unspecified}
+    ${PortfolioMetrics.AllCodeAicaDisabled}
+  `(
+    'should include SCA rating metrics when includeScaRating is true for portfolioMetrics: $portfolioMetrics',
+    ({ portfolioMetrics }: GetCodeMetricsOptions) => {
+      expect(
+        getCodeMetrics(ComponentQualifier.Portfolio, undefined, {
+          includeScaRating: true,
+          portfolioMetrics,
+        }),
+      ).toMatchSnapshot();
+    },
+  );
+
   it('should return the right metrics for apps', () => {
     expect(getCodeMetrics(ComponentQualifier.Application)).toMatchSnapshot();
   });

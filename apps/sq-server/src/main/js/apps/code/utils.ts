@@ -192,6 +192,10 @@ export type GetCodeMetricsOptions = {
   includeContainsAiCode?: boolean;
   includeQGStatus?: boolean;
   /**
+   * When set to true, includes SCA rating metrics in portfolio metrics.
+   */
+  includeScaRating?: boolean;
+  /**
    * Narrow the portfolio metrics to a specific set of metrics.
    */
   portfolioMetrics?: PortfolioMetrics;
@@ -234,6 +238,25 @@ export function getCodeMetrics(
       case PortfolioMetrics.NewCodeAicaEnabled:
         metrics = [...NEW_PORTFOLIO_METRICS_WITH_AICA];
         break;
+    }
+
+    if (options.includeScaRating) {
+      const isAllCode = [
+        PortfolioMetrics.AllCodeAicaAgnostic,
+        PortfolioMetrics.Unspecified,
+      ].includes(portfolioMetrics);
+      const isNewCode = [
+        PortfolioMetrics.NewCodeAicaAgnostic,
+        PortfolioMetrics.Unspecified,
+      ].includes(portfolioMetrics);
+      if (isAllCode) {
+        const idx = metrics.indexOf(MetricKey.ncloc);
+        metrics.splice(idx !== -1 ? idx : metrics.length, 0, MetricKey.sca_rating_any_issue);
+      }
+      if (isNewCode) {
+        const idx = metrics.indexOf(MetricKey.new_lines);
+        metrics.splice(idx !== -1 ? idx : metrics.length, 0, MetricKey.new_sca_rating_any_issue);
+      }
     }
 
     if (options?.includeContainsAiCode) {

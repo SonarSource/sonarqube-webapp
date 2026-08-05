@@ -57,12 +57,12 @@ describe('Overall measures', () => {
     expect(
       screen.getByTitle('metric.software_quality_maintainability_issues.short_name'),
     ).toBeInTheDocument();
-    expect(screen.queryByTitle('dependencies.risks')).not.toBeInTheDocument();
+    expect(screen.queryByTitle('metric.sca_count_any_issue.short_name')).not.toBeInTheDocument();
   });
 
   it('should be rendered properly when SCA is active', () => {
     renderProjectCardMeasures({}, {}, [Feature.Sca]);
-    expect(screen.getByTitle('dependencies.risks')).toBeInTheDocument();
+    expect(screen.getByTitle('metric.sca_count_any_issue.short_name')).toBeInTheDocument();
   });
 
   it('should be rendered properly in Standard mode', async () => {
@@ -91,12 +91,14 @@ describe('New code measures', () => {
   it('should be rendered properly', () => {
     renderProjectCardMeasures({}, { isNewCode: true });
     expect(screen.getByTitle('metric.new_violations.description')).toBeInTheDocument();
-    expect(screen.queryByTitle('dependencies.risks')).not.toBeInTheDocument();
+    expect(
+      screen.queryByTitle('metric.new_sca_count_any_issue.short_name'),
+    ).not.toBeInTheDocument();
   });
 
   it('should be rendered properly when SCA is active', () => {
     renderProjectCardMeasures({}, { isNewCode: true }, [Feature.Sca]);
-    expect(screen.getByTitle('dependencies.risks')).toBeInTheDocument();
+    expect(screen.getByTitle('metric.new_sca_count_any_issue.short_name')).toBeInTheDocument();
   });
 });
 

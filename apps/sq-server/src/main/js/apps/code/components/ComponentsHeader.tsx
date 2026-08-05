@@ -32,6 +32,7 @@ import { ComponentMeasure } from '~sq-server-commons/types/types';
 interface ComponentsHeaderProps {
   baseComponent?: ComponentMeasure;
   canBePinned?: boolean;
+  isScaEnabled?: boolean;
   metrics: string[];
   rootComponent: ComponentMeasure;
   showAnalysisDate?: boolean;
@@ -50,6 +51,7 @@ export default function ComponentsHeader(props: ComponentsHeaderProps) {
   const {
     baseComponent,
     canBePinned = true,
+    isScaEnabled,
     metrics,
     rootComponent,
     showAnalysisDate,
@@ -66,6 +68,7 @@ export default function ComponentsHeader(props: ComponentsHeaderProps) {
       translate('metric_domain.Reliability'),
       translate('metric_domain.Maintainability'),
       translate('portfolio.metric_domain.security_review'),
+      ...(isScaEnabled ? [translate('metric_domain.DependencyRisks')] : []),
       translate('metric.ncloc.name'),
     ];
 

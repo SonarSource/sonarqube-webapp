@@ -1,5 +1,105 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
+exports[`getCodeMetrics should include SCA rating metrics when includeScaRating is true for portfolioMetrics: AicaAgnostic 1`] = `
+[
+  "releasability_rating",
+  "new_security_rating",
+  "new_software_quality_security_rating",
+  "new_reliability_rating",
+  "new_software_quality_reliability_rating",
+  "new_maintainability_rating",
+  "new_software_quality_maintainability_rating",
+  "new_security_review_rating",
+  "new_sca_rating_any_issue",
+  "new_lines",
+]
+`;
+
+exports[`getCodeMetrics should include SCA rating metrics when includeScaRating is true for portfolioMetrics: AllCodeAicaAgnostic 1`] = `
+[
+  "releasability_rating",
+  "security_rating",
+  "software_quality_security_rating",
+  "reliability_rating",
+  "software_quality_reliability_rating",
+  "sqale_rating",
+  "software_quality_maintainability_rating",
+  "security_review_rating",
+  "sca_rating_any_issue",
+  "ncloc",
+]
+`;
+
+exports[`getCodeMetrics should include SCA rating metrics when includeScaRating is true for portfolioMetrics: AllCodeAicaDisabled 1`] = `
+[
+  "releasability_rating_without_aica",
+  "security_rating_without_aica",
+  "software_quality_security_rating_without_aica",
+  "reliability_rating_without_aica",
+  "software_quality_reliability_rating_without_aica",
+  "sqale_rating_without_aica",
+  "software_quality_maintainability_rating_without_aica",
+  "security_review_rating_without_aica",
+  "ncloc_without_aica",
+]
+`;
+
+exports[`getCodeMetrics should include SCA rating metrics when includeScaRating is true for portfolioMetrics: Unspecified 1`] = `
+[
+  "releasability_rating",
+  "new_security_rating",
+  "new_software_quality_security_rating",
+  "new_reliability_rating",
+  "new_software_quality_reliability_rating",
+  "new_maintainability_rating",
+  "new_software_quality_maintainability_rating",
+  "new_security_review_rating",
+  "new_sca_rating_any_issue",
+  "new_lines",
+  "releasability_rating_with_aica",
+  "new_security_rating_with_aica",
+  "new_software_quality_security_rating_with_aica",
+  "new_reliability_rating_with_aica",
+  "new_software_quality_reliability_rating_with_aica",
+  "new_maintainability_rating_with_aica",
+  "new_software_quality_maintainability_rating_with_aica",
+  "new_security_review_rating_with_aica",
+  "releasability_rating_without_aica",
+  "new_security_rating_without_aica",
+  "new_software_quality_security_rating_without_aica",
+  "new_reliability_rating_without_aica",
+  "new_software_quality_reliability_rating_without_aica",
+  "new_maintainability_rating_without_aica",
+  "new_software_quality_maintainability_rating_without_aica",
+  "new_security_review_rating_without_aica",
+  "security_rating",
+  "software_quality_security_rating",
+  "reliability_rating",
+  "software_quality_reliability_rating",
+  "sqale_rating",
+  "software_quality_maintainability_rating",
+  "security_review_rating",
+  "sca_rating_any_issue",
+  "ncloc",
+  "security_rating_with_aica",
+  "software_quality_security_rating_with_aica",
+  "reliability_rating_with_aica",
+  "software_quality_reliability_rating_with_aica",
+  "sqale_rating_with_aica",
+  "software_quality_maintainability_rating_with_aica",
+  "security_review_rating_with_aica",
+  "ncloc_with_aica",
+  "security_rating_without_aica",
+  "software_quality_security_rating_without_aica",
+  "reliability_rating_without_aica",
+  "software_quality_reliability_rating_without_aica",
+  "sqale_rating_without_aica",
+  "software_quality_maintainability_rating_without_aica",
+  "security_review_rating_without_aica",
+  "ncloc_without_aica",
+]
+`;
+
 exports[`getCodeMetrics should return the right metrics for apps 1`] = `
 [
   "alert_status",
