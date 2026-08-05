@@ -1631,6 +1631,8 @@ export const defaultMessages = {
   'project_agent_activity.status.completed': 'Completed',
   'project_agent_activity.status.failed': 'Failed',
   'project_agent_activity.source.backlog': 'Backlog issues',
+  'project_agent_activity.source.scheduled': 'Scheduled',
+  'project_agent_activity.outcome.view_pull_request': 'View pull request',
   'project_agent_activity.started.today': 'Today',
   'project_agent_activity.started.yesterday': 'Yesterday',
   'project_agent_activity.total_shown': '{total} shown',
