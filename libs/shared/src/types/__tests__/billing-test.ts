@@ -18,8 +18,36 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as entitlements from './feature-license/entitlements';
+import { getEffectiveLimit } from '../billing';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AddonsType = { [key: string]: any | undefined };
-export const addons: AddonsType = { entitlements };
+describe('getEffectiveLimit', () => {
+  it('returns the base limit when overage is disabled', () => {
+    expect(
+      getEffectiveLimit({
+        base: 100,
+        overage: 50,
+        overageEnabled: false,
+      }),
+    ).toBe(100);
+  });
+
+  it('adds overage when enabled', () => {
+    expect(
+      getEffectiveLimit({
+        base: 100,
+        overage: 50,
+        overageEnabled: true,
+      }),
+    ).toBe(150);
+  });
+
+  it('treats a null overage as zero when enabled', () => {
+    expect(
+      getEffectiveLimit({
+        base: 100,
+        overage: null,
+        overageEnabled: true,
+      }),
+    ).toBe(100);
+  });
+});

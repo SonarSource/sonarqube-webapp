@@ -23,8 +23,6 @@ import { throwGlobalError } from '~adapters/helpers/error';
 import { axiosToCatch } from '~shared/helpers/axios-clients';
 import { LicenseV2, PurchaseableFeature } from '../types/editions';
 
-const DOMAIN = '/api/v2/entitlements';
-
 export const axiosErrorHandler = (error: AxiosError) => {
   const responseData = error.response?.data;
 
@@ -42,17 +40,19 @@ export const axiosErrorHandler = (error: AxiosError) => {
 };
 
 export function getCurrentLicense(): Promise<LicenseV2 | null> {
-  return axiosToCatch.get<LicenseV2 | null>(`${DOMAIN}/license`).catch((response: Response) => {
-    if (response.status === 404) {
-      return null;
-    }
+  return axiosToCatch
+    .get<LicenseV2 | null>('/api/v2/entitlements/license')
+    .catch((error: Response) => {
+      if (error.status === 404) {
+        return null;
+      }
 
-    return throwGlobalError(response);
-  });
+      return throwGlobalError(error);
+    });
 }
 
 export function getPurchasableFeatures(): Promise<PurchaseableFeature[]> {
   return axiosToCatch
-    .get<PurchaseableFeature[]>(`${DOMAIN}/purchasable-features`)
+    .get<PurchaseableFeature[]>('/api/v2/entitlements/purchasable-features')
     .catch(axiosErrorHandler);
 }

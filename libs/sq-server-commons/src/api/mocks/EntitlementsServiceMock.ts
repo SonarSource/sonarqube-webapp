@@ -22,8 +22,6 @@ import { http } from 'msw';
 import { AbstractServiceMock } from '~shared/api/mocks/AbstractServiceMock';
 import { LicenseV2, PurchaseableFeature } from '../../types/editions';
 
-const DOMAIN = '/api/v2/entitlements';
-
 export interface EntitlementsServiceData {
   license?: LicenseV2 | null;
   purchasableFeatures?: PurchaseableFeature[];
@@ -73,7 +71,9 @@ export const EntitlementsServiceDefaultDataset: EntitlementsServiceData = {
   purchasableFeatures: mockPurchaseableFeatures(),
 };
 
-export class EntitlementsServiceMock extends AbstractServiceMock<EntitlementsServiceData> {
+export class EntitlementsServiceMock<
+  T extends EntitlementsServiceData = EntitlementsServiceData,
+> extends AbstractServiceMock<T> {
   setLicenseSupported = (supported: boolean) => {
     this.data.license = mockLicenseV2({ ...this.data.license, supported });
   };
@@ -82,14 +82,24 @@ export class EntitlementsServiceMock extends AbstractServiceMock<EntitlementsSer
     this.data.purchasableFeatures = features;
   };
 
-  handlers = [
-    http.get(`${DOMAIN}/license`, () => {
+  /**
+   * Handler groups are exposed separately so subclasses can replace `handlers`
+   * and re-compose only the groups they want. SQS substitutes its own licence
+   * handlers, so changes here do not reach the private license feature.
+   */
+  licenseHandlers = [
+    http.get('/api/v2/entitlements/license', () => {
       return this.ok(this.data.license ?? null);
     }),
-    http.get(`${DOMAIN}/purchasable-features`, () => {
+  ];
+
+  purchasableFeaturesHandlers = [
+    http.get('/api/v2/entitlements/purchasable-features', () => {
       this.data.purchasableFeatures ??= mockPurchaseableFeatures();
 
       return this.ok(this.data.purchasableFeatures);
     }),
   ];
+
+  handlers = [...this.licenseHandlers, ...this.purchasableFeaturesHandlers];
 }

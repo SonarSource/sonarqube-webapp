@@ -18,8 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as entitlements from './feature-license/entitlements';
+import { addons } from '../index';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AddonsType = { [key: string]: any | undefined };
-export const addons: AddonsType = { entitlements };
+it('exposes the community entitlement stub on the public addons barrel', () => {
+  expect(addons.entitlements).toBeDefined();
+  expect(typeof addons.entitlements.useEntitlementCheckQuery).toBe('function');
+  expect(typeof addons.entitlements.useEntitlementChecksQuery).toBe('function');
+});
