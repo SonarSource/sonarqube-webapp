@@ -62,17 +62,18 @@ module.exports = [
 
       // Tool configs that were previously in ignorePatterns of individual .eslintrc.js files
       'apps/sq-server/babel.config.js',
-      'apps/sq-server/jest.config.js',
-      'apps/sq-server/vite.config.mjs',
+      'apps/sq-server/jest.config*.js',
+      'apps/sq-server/vite.config.*',
       'apps/sq-server/tailwind*.js',
-      'apps/sq-server/script/**',
+      'apps/sq-server/scripts/**',
       'apps/sq-server/config/**',
       'private/apps/sq-cloud/babel.config.js',
-      'private/apps/sq-cloud/jest.config.js',
-      'private/apps/sq-cloud/vite.config.mjs',
+      'private/apps/sq-cloud/jest.config*.js',
+      'private/apps/sq-cloud/vite.config.*',
       'private/apps/sq-cloud/tailwind*.js',
-      'private/apps/sq-cloud/script/**',
+      'private/apps/sq-cloud/scripts/**',
       'private/apps/sq-cloud/config/**',
+      'private/apps/sq-cloud/public/**',
 
       // NX automation template files should never be linted
       'tools/nx-automation/**/*.template',
