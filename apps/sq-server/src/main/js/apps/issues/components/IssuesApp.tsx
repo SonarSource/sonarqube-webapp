@@ -488,7 +488,7 @@ export class App extends React.PureComponent<Props, State> {
   createdAfterIncludesTime = () => Boolean(this.props.location.query.createdAfter?.includes('T'));
 
   get defaultSort() {
-    return this.props.isStandard ? 'TYPE_SEVERITY' : 'QUALITY_SEVERITY';
+    return this.props.isStandard ? 'TYPE_SEVERITY' : 'IMPACT_RANK';
   }
 
   fetchIssuesHelper = async (query: RawQuery) => {

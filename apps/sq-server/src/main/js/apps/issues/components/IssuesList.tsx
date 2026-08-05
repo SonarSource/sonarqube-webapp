@@ -19,13 +19,41 @@
  */
 
 import { Spinner } from '@sonarsource/echoes-react';
-import { groupBy } from 'lodash';
 import * as React from 'react';
 import { addons } from '~sq-server-addons/index';
 import IssueItem from '~sq-server-commons/components/issue/Issue';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Component, Issue } from '~sq-server-commons/types/types';
 import ComponentBreadcrumbs from './ComponentBreadcrumbs';
+
+interface IssueGroup {
+  issues: Issue[];
+  key: string;
+}
+
+/**
+ * Groups consecutive issues for the same component, without merging groups separated by issues
+ * for other components. `issues` is already sorted (e.g. by severity, not just by file), so the
+ * same component's issues aren't necessarily contiguous - merging every occurrence of a component
+ * into a single group (e.g. via lodash's groupBy) would render that group at the position of its
+ * first occurrence, moving later issues out of their sorted position.
+ */
+function groupConsecutiveIssuesByComponent(issues: Issue[]): IssueGroup[] {
+  const groups: IssueGroup[] = [];
+
+  issues.forEach((issue) => {
+    const key = `${issue.component} : ${issue.branch}`;
+    const lastGroup = groups.at(-1);
+
+    if (lastGroup?.key === key) {
+      lastGroup.issues.push(issue);
+    } else {
+      groups.push({ issues: [issue], key });
+    }
+  });
+
+  return groups;
+}
 
 interface IssuesListProps {
   branchLike: BranchLike | undefined;
@@ -54,10 +82,7 @@ export default function IssuesList({
 }: Readonly<IssuesListProps>) {
   const [prerender, setPrerender] = React.useState(true);
 
-  const issuesByComponent = React.useMemo(
-    () => groupBy(issues, (issue) => `(${issue.component} : ${issue.branch})`),
-    [issues],
-  );
+  const issueGroups = React.useMemo(() => groupConsecutiveIssuesByComponent(issues), [issues]);
 
   const additionalIssueActions = React.useMemo(() => {
     const additionalActions = [] as Required<
@@ -83,8 +108,8 @@ export default function IssuesList({
   return (
     <Spinner isLoading={prerender}>
       <ul>
-        {Object.entries(issuesByComponent).map(([key, issues]: [string, Issue[]]) => (
-          <li key={key}>
+        {issueGroups.map(({ key, issues }) => (
+          <li key={`${key} : ${issues[0].key}`}>
             <ComponentBreadcrumbs component={component} issue={issues[0]} />
             <ul>
               {issues.map((issue) => (
