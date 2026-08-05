@@ -811,7 +811,6 @@ export const defaultMessages = {
     'No LLM providers connected yet. Connect one to choose it here.',
   'ai_capabilities.remediation_agent.provider.empty.link': 'Go to LLM providers',
   'ai_capabilities.remediation_agent.provider.model.label': 'Choose your model',
-  'ai_capabilities.remediation_agent.provider.model.placeholder': 'Leave blank to use the default',
   'ai_capabilities.remediation_agent.provider.model.help':
     'Remediation Agent only runs on a supported model. An unsupported one is rejected on save.',
   // The button reads "Save", but the page has a second Save further down, so screen
