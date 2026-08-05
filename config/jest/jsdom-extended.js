@@ -24,6 +24,9 @@ class JSDOMEnvironmentExtended extends JSDOMEnvironment {
     super(...args);
 
     this.global.ReadableStream = ReadableStream;
+    this.global.WritableStream = WritableStream;
+    this.global.TransformStream = TransformStream;
+    this.global.BroadcastChannel = BroadcastChannel;
     this.global.TextDecoder = TextDecoder;
     this.global.TextEncoder = TextEncoder;
 

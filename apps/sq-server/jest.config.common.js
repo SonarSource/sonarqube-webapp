@@ -84,7 +84,7 @@ module.exports = {
   ],
   // Our ts,tsx and js files need some babel transformation to be understood by nodejs
   transform: {
-    '^.+\\.[jt]sx?$': `<rootDir>/apps/sq-server/config/jest/JestPreprocess.js`,
+    '^.+\\.(mjs|[jt]sx?)$': `<rootDir>/apps/sq-server/config/jest/JestPreprocess.js`,
   },
   testTimeout: 80000,
 };

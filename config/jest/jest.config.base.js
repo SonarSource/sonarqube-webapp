@@ -71,6 +71,12 @@ const esModules = [
   '@ungap/structured-clone',
   '@xyflow/react',
   '@xyflow/system',
+  // ESM-only dependencies introduced by msw 2.15.0
+  'rettime',
+  'until-async',
+  // match both top-level and nested (msw/node_modules) locations
+  '@open-draft/deferred-promise',
+  'msw/node_modules/@open-draft/deferred-promise',
 ].join('|');
 
 /*
@@ -94,7 +100,7 @@ const projectConfig = {
   globalSetup: `${__dirname}/GlobalSetup.js`,
 
   // File extension used by our modules, from most to less used
-  moduleFileExtensions: ['tsx', 'ts', 'js', 'json'],
+  moduleFileExtensions: ['tsx', 'ts', 'js', 'mjs', 'json'],
 
   moduleNameMapper: {
     // Files not needed in tests stubs

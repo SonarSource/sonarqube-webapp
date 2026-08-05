@@ -32,6 +32,11 @@ export const server = setupServer();
 let defaultHandlers: RequestHandler[] = [];
 
 export function startServer(options?: Partial<SharedOptions>) {
+  // close() is a safe no-op when already stopped; calling it first lets tests
+  // call startServer() again with different options (e.g. onUnhandledRequest)
+  // even when the global setupFilesAfterEnv has already started the server.
+  // Required by MSW 2.15.0 which throws if configure() is called while enabled.
+  server.close();
   server.listen(options);
 }
 
