@@ -21,7 +21,7 @@
 import { IssueSeverity } from '../types/issues';
 import { Metric } from '../types/measures';
 import { MetricType } from '../types/metrics';
-import { QualityGateConditionOperator } from '../types/quality-gates';
+import { QualityGateConditionOperator, QualityGateStatusCondition } from '../types/quality-gates';
 import { scaConditionOperator } from './sca';
 
 const QUALITY_GATE_OPERATOR_LABEL_IDS: Record<
@@ -46,6 +46,19 @@ const QUALITY_GATE_OPERATOR_LABEL_IDS: Record<
     GTE: 'quality_gates.operator.GTE',
   },
 };
+
+export function filterConditions<T extends QualityGateStatusCondition>(conditions: T[] = []) {
+  const failedConditions = conditions.filter((condition) => condition.level === 'ERROR');
+
+  return {
+    failedNewCodeConditions: failedConditions.filter((condition) =>
+      condition.metric.startsWith('new_'),
+    ),
+    failedOverallConditions: failedConditions.filter(
+      (condition) => !condition.metric.startsWith('new_'),
+    ),
+  };
+}
 
 export function getOverriddenConditionOperator(
   op: QualityGateConditionOperator,

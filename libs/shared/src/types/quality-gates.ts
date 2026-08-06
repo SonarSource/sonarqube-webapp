@@ -19,3 +19,8 @@
  */
 
 export type QualityGateConditionOperator = 'GT' | 'LT' | 'GTE';
+
+export interface QualityGateStatusCondition {
+  level: string;
+  metric: string;
+}
