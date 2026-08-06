@@ -18,25 +18,28 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { queryOptions } from '@tanstack/react-query';
-import { keyBy } from 'lodash';
-import { createQueryHook, StaleTime } from '~shared/queries/common';
-import { getAllMetrics } from '../../api/metrics';
 import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
-import type { DashboardWidgetQueryResult } from './dashboard-widget-adapter-types';
+import type {
+  DashboardCountTrendData,
+  DashboardEntityType,
+  DashboardLineChartSeries,
+  DashboardWidgetQueryResult,
+} from './dashboard-widget-adapter-types';
 
-interface PortfolioWidgetMetricMetadata {
-  metrics: Array<{ direction: string; key: string; type: string }>;
+export function useOrgScaResolutionCountWidgetData(_params: {
+  entityId: string;
+  entityType: DashboardEntityType;
+  measureFilters?: unknown;
+}): DashboardWidgetQueryResult<DashboardCountTrendData> {
+  return unsupportedDashboardWidgetAdapter();
 }
 
-export const useWidgetMetricMetadataQuery = createQueryHook(() =>
-  queryOptions({
-    queryKey: ['metrics', 'dashboard-widget'],
-    queryFn: async () => keyBy(await getAllMetrics(), 'key'),
-    staleTime: StaleTime.NEVER,
-  }),
-);
-
-export function usePortfolioWidgetMetricMetadataQuery(): DashboardWidgetQueryResult<PortfolioWidgetMetricMetadata> {
+export function useOrgScaResolutionLineChartWidgetData(_params: {
+  entityId: string;
+  entityType: DashboardEntityType;
+  historyRange: string;
+  measureFilters?: unknown;
+  metricName: string;
+}): DashboardWidgetQueryResult<DashboardLineChartSeries[]> & { isError: boolean } {
   return unsupportedDashboardWidgetAdapter();
 }

@@ -18,25 +18,41 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { queryOptions } from '@tanstack/react-query';
-import { keyBy } from 'lodash';
-import { createQueryHook, StaleTime } from '~shared/queries/common';
-import { getAllMetrics } from '../../api/metrics';
 import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
-import type { DashboardWidgetQueryResult } from './dashboard-widget-adapter-types';
 
-interface PortfolioWidgetMetricMetadata {
-  metrics: Array<{ direction: string; key: string; type: string }>;
+interface PortfolioComputedProject {
+  measures: ReadonlyArray<{ name: string; value: string }>;
 }
 
-export const useWidgetMetricMetadataQuery = createQueryHook(() =>
-  queryOptions({
-    queryKey: ['metrics', 'dashboard-widget'],
-    queryFn: async () => keyBy(await getAllMetrics(), 'key'),
-    staleTime: StaleTime.NEVER,
-  }),
-);
+interface PortfolioComputedProjectMeasuresParams {
+  filterMetric?: string;
+  filterMetricValue?: string;
+  metrics: string[];
+  pageIndex?: number;
+  pageSize?: number;
+  portfolioId: string;
+  sort?: string;
+}
 
-export function usePortfolioWidgetMetricMetadataQuery(): DashboardWidgetQueryResult<PortfolioWidgetMetricMetadata> {
+type PortfolioMeasures = Record<string, string | number | Record<string, number>>;
+
+export function usePortfolioRatingBadgeMeasuresQuery(
+  _portfolioId: string,
+  _options?: { enabled?: boolean },
+): {
+  data: PortfolioMeasures | undefined;
+  isLoading: boolean;
+  isPending: boolean;
+} {
+  return unsupportedDashboardWidgetAdapter();
+}
+
+export function usePortfolioRatingBadgeComputedMeasuresQuery(
+  _params: PortfolioComputedProjectMeasuresParams,
+  _options?: { enabled?: boolean },
+): {
+  data: { projects: PortfolioComputedProject[] } | undefined;
+  isPending: boolean;
+} {
   return unsupportedDashboardWidgetAdapter();
 }

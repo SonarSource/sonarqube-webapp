@@ -18,25 +18,39 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { queryOptions } from '@tanstack/react-query';
-import { keyBy } from 'lodash';
-import { createQueryHook, StaleTime } from '~shared/queries/common';
-import { getAllMetrics } from '../../api/metrics';
+import type { MetricKey } from '~shared/types/metrics';
 import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
-import type { DashboardWidgetQueryResult } from './dashboard-widget-adapter-types';
+import type {
+  DashboardEntityType,
+  DashboardLineChartSeries,
+} from './dashboard-widget-adapter-types';
 
-interface PortfolioWidgetMetricMetadata {
-  metrics: Array<{ direction: string; key: string; type: string }>;
+export function organizationLineChartRequestKey(
+  _metric: unknown,
+  _scope: string,
+  _actualMetricKey: MetricKey,
+): string {
+  return unsupportedDashboardWidgetAdapter();
 }
 
-export const useWidgetMetricMetadataQuery = createQueryHook(() =>
-  queryOptions({
-    queryKey: ['metrics', 'dashboard-widget'],
-    queryFn: async () => keyBy(await getAllMetrics(), 'key'),
-    staleTime: StaleTime.NEVER,
-  }),
-);
-
-export function usePortfolioWidgetMetricMetadataQuery(): DashboardWidgetQueryResult<PortfolioWidgetMetricMetadata> {
+export function useOrganizationLineChartSeriesData(
+  _args: Readonly<{
+    actualMetricKey: MetricKey | undefined;
+    entityId: string;
+    entityType: DashboardEntityType;
+    groupBy: string;
+    historyRange: string;
+    measureFilters: unknown;
+    measuresHistoryKey: string;
+    metric: unknown;
+    metricName: string;
+    metricType: string | undefined;
+    queriesEnabled?: boolean;
+  }>,
+): {
+  isMeasuresHistoryPending: boolean;
+  lineChartHasFetchError: boolean;
+  series: DashboardLineChartSeries[];
+} {
   return unsupportedDashboardWidgetAdapter();
 }

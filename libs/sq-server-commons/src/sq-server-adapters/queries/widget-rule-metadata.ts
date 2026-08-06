@@ -18,25 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { queryOptions } from '@tanstack/react-query';
-import { keyBy } from 'lodash';
-import { createQueryHook, StaleTime } from '~shared/queries/common';
-import { getAllMetrics } from '../../api/metrics';
 import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
-import type { DashboardWidgetQueryResult } from './dashboard-widget-adapter-types';
+import type { DashboardRuleMetadataByKey } from './dashboard-widget-adapter-types';
 
-interface PortfolioWidgetMetricMetadata {
-  metrics: Array<{ direction: string; key: string; type: string }>;
-}
+export type DashboardRuleLabelsEntity =
+  | { isResolvingOrganization: boolean; organization: string | undefined; type: 'PORTFOLIO' }
+  | { organization: string; type: 'PROJECT' };
 
-export const useWidgetMetricMetadataQuery = createQueryHook(() =>
-  queryOptions({
-    queryKey: ['metrics', 'dashboard-widget'],
-    queryFn: async () => keyBy(await getAllMetrics(), 'key'),
-    staleTime: StaleTime.NEVER,
-  }),
-);
-
-export function usePortfolioWidgetMetricMetadataQuery(): DashboardWidgetQueryResult<PortfolioWidgetMetricMetadata> {
+export function useDashboardRuleLabels(_args: {
+  enabled?: boolean;
+  entity: DashboardRuleLabelsEntity;
+  ruleKeys: readonly string[];
+}): {
+  isError: boolean;
+  isPending: boolean;
+  organization: string | undefined;
+  rulesByKey: DashboardRuleMetadataByKey;
+} {
   return unsupportedDashboardWidgetAdapter();
 }

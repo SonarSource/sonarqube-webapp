@@ -18,25 +18,38 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { queryOptions } from '@tanstack/react-query';
-import { keyBy } from 'lodash';
-import { createQueryHook, StaleTime } from '~shared/queries/common';
-import { getAllMetrics } from '../../api/metrics';
+import type { Measure } from '~shared/types/measures';
 import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
-import type { DashboardWidgetQueryResult } from './dashboard-widget-adapter-types';
 
-interface PortfolioWidgetMetricMetadata {
-  metrics: Array<{ direction: string; key: string; type: string }>;
+interface QualityGateStatusCondition {
+  actual?: string;
+  error?: string;
+  level: string;
+  metric: string;
+  op: string;
+  period?: number;
 }
 
-export const useWidgetMetricMetadataQuery = createQueryHook(() =>
-  queryOptions({
-    queryKey: ['metrics', 'dashboard-widget'],
-    queryFn: async () => keyBy(await getAllMetrics(), 'key'),
-    staleTime: StaleTime.NEVER,
-  }),
-);
+export function useProjectRatingBadgeMeasuresQuery(
+  _params: { component: string; metricKeys: string },
+  _options?: { enabled?: boolean },
+): { data: Measure[] | undefined; isLoading: boolean } {
+  return unsupportedDashboardWidgetAdapter();
+}
 
-export function usePortfolioWidgetMetricMetadataQuery(): DashboardWidgetQueryResult<PortfolioWidgetMetricMetadata> {
+export function useProjectQualityGateStatusWidgetQuery(
+  _projectKey: string,
+  _branchLike?: unknown,
+  _options?: { enabled?: boolean },
+): {
+  data:
+    | {
+        conditions: QualityGateStatusCondition[];
+        ignoredConditions: boolean;
+        status: string;
+      }
+    | undefined;
+  isLoading: boolean;
+} {
   return unsupportedDashboardWidgetAdapter();
 }
