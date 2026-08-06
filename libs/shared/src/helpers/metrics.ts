@@ -59,6 +59,15 @@ export function isAicaMetric(metricKey: string): boolean {
   return metricKey.endsWith('_with_aica') || metricKey.endsWith('_without_aica');
 }
 
+export function parsePortfolioMetricDirection(direction: string | undefined): number | undefined {
+  if (direction === undefined) {
+    return undefined;
+  }
+
+  const parsedDirection = Number.parseFloat(direction);
+  return Number.isNaN(parsedDirection) ? undefined : parsedDirection;
+}
+
 // Issue severity metrics are typed as INT in the backend
 // They should be converted to a new custom type 'ISSUE_SEVERITY' to be rendered differently.
 export function augmentMetricsForIssueSeverity(metrics: Metric[]): Metric[] {

@@ -20,7 +20,7 @@
 
 import { Metric } from '../../types/measures';
 import { MetricKey, MetricType } from '../../types/metrics';
-import { augmentMetricsForIssueSeverity } from '../metrics';
+import { augmentMetricsForIssueSeverity, parsePortfolioMetricDirection } from '../metrics';
 
 function buildMetric(overrides: Partial<Metric> & Pick<Metric, 'key'>): Metric {
   return {
@@ -50,5 +50,17 @@ describe('augmentMetricsForIssueSeverity', () => {
     ];
 
     expect(augmentMetricsForIssueSeverity(metrics)).toEqual(metrics);
+  });
+});
+
+describe('parsePortfolioMetricDirection', () => {
+  it('returns undefined without a valid direction', () => {
+    expect(parsePortfolioMetricDirection(undefined)).toBeUndefined();
+    expect(parsePortfolioMetricDirection('not-a-number')).toBeUndefined();
+  });
+
+  it('parses positive and negative directions', () => {
+    expect(parsePortfolioMetricDirection('1.5')).toBe(1.5);
+    expect(parsePortfolioMetricDirection('-2')).toBe(-2);
   });
 });
