@@ -18,7 +18,43 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { queryToSearchString } from '../query';
+import { parseAsArray, parseAsString, queryToSearchString } from '../query';
+
+describe('parseAsString', () => {
+  it('should return the value as-is when defined', () => {
+    expect(parseAsString('hello')).toBe('hello');
+  });
+
+  it('should return an empty string when value is undefined', () => {
+    expect(parseAsString(undefined)).toBe('');
+  });
+
+  it('should return an empty string when value is null', () => {
+    expect(parseAsString(null)).toBe('');
+  });
+
+  it('should return an empty string when value is an empty string', () => {
+    expect(parseAsString('')).toBe('');
+  });
+});
+
+describe('parseAsArray', () => {
+  it('should split a comma-separated string and parse each item', () => {
+    expect(parseAsArray('1,2,3', Number)).toEqual([1, 2, 3]);
+  });
+
+  it('should return a single-item array when there is no comma', () => {
+    expect(parseAsArray('a', String)).toEqual(['a']);
+  });
+
+  it('should return an empty array when value is undefined', () => {
+    expect(parseAsArray(undefined, String)).toEqual([]);
+  });
+
+  it('should return an empty array when value is an empty string', () => {
+    expect(parseAsArray('', String)).toEqual([]);
+  });
+});
 
 describe('queryToSearchString', () => {
   it('should handle query as array', () => {

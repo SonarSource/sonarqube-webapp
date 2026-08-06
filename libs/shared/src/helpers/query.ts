@@ -26,6 +26,14 @@ export function cleanQuery(query: RawQuery): RawQuery {
   return omitBy(query, isNil);
 }
 
+export function parseAsString<T extends string>(value: string | undefined | null): T {
+  return (value ?? '') as T;
+}
+
+export function parseAsArray<T>(value: string | undefined, itemParser: (x: string) => T): T[] {
+  return value ? value.split(',').map(itemParser) : [];
+}
+
 export function queryToSearchString(query: RawQuery | URLSearchParamsInit = {}) {
   let filteredQuery = query;
 

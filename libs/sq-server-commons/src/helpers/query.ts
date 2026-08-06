@@ -19,10 +19,11 @@
  */
 
 import { isEqual } from 'lodash';
+import { parseAsArray } from '~shared/helpers/query';
 import { RawQuery } from '~shared/types/router';
 import { isValidDate, parseDate, toISO8601WithOffsetString, toShortISO8601String } from './dates';
 
-export { cleanQuery } from '~shared/helpers/query';
+export { cleanQuery, parseAsArray, parseAsString } from '~shared/helpers/query';
 
 export function queriesEqual(a: RawQuery, b: RawQuery): boolean {
   const keysA = Object.keys(a);
@@ -80,16 +81,8 @@ export function parseAsDate(value?: string): Date | undefined {
   return undefined;
 }
 
-export function parseAsString<T extends string>(value: string | undefined): T {
-  return (value ?? '') as T;
-}
-
 export function parseAsOptionalString(value: string | undefined): string | undefined {
   return value || undefined;
-}
-
-export function parseAsArray<T>(value: string | undefined, itemParser: (x: string) => T): T[] {
-  return value ? value.split(',').map(itemParser) : [];
 }
 
 export function parseAsOptionalArray<T>(

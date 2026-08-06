@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { isEmpty } from 'lodash';
+import { parseSeverities } from '~shared/helpers/coding-rules';
 import { getAllComplianceStandardFacets } from '~shared/helpers/compliance-standards-registry';
 import {
   CodeAttributeCategory,
@@ -124,36 +124,6 @@ export function serializeQuery(query: CodingRulesQuery): RawQuery {
     types: serializeStringArray(query.types),
     prioritizedRule: serializeOptionalBoolean(query.prioritizedRule),
   });
-}
-
-function parseSeverities<P extends string>(
-  query: RawQuery,
-  key: P extends SoftwareImpactSeverity ? 'impactSeverities' : 'severities',
-  activeKey: P extends SoftwareImpactSeverity ? 'active_impactSeverities' : 'active_severities',
-) {
-  const hasActiveProfileFilter = Boolean(query.activation === 'true' && query.qprofile);
-
-  if (hasActiveProfileFilter) {
-    return {
-      [key]: [],
-      [activeKey]: parseAsArray<P>(
-        !isEmpty(query[key]) && isEmpty(query[activeKey]) ? query[key] : query[activeKey],
-        parseAsString,
-      ),
-    } as {
-      [K in typeof key | typeof activeKey]: P[];
-    };
-  }
-
-  return {
-    [activeKey]: [],
-    [key]: parseAsArray<P>(
-      !isEmpty(query[activeKey]) && isEmpty(query[key]) ? query[activeKey] : query[key],
-      parseAsString,
-    ),
-  } as {
-    [K in typeof key | typeof activeKey]: P[];
-  };
 }
 
 export function areQueriesEqual(a: RawQuery, b: RawQuery) {
