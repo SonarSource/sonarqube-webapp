@@ -73,6 +73,7 @@ export const CATEGORY_OVERRIDES: Record<string, string> = {
   'pl/sql': LANGUAGES_CATEGORY,
   powershell: LANGUAGES_CATEGORY,
   python: LANGUAGES_CATEGORY,
+  r: LANGUAGES_CATEGORY,
   rpg: LANGUAGES_CATEGORY,
   ruby: LANGUAGES_CATEGORY,
   rust: LANGUAGES_CATEGORY,
