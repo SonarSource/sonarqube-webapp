@@ -27,6 +27,7 @@ import {
   Layout,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { useCurrentUser } from '~adapters/helpers/users';
 import { NewBadge } from '~shared/components/badges/NewBadge';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/component';
@@ -46,6 +47,7 @@ interface Props {
 export function ComponentNavProjectMenu(props: Readonly<Props>) {
   const { branchLike, component, isAnalyzed } = props;
   const { hasFeature } = useAvailableFeatures();
+  const { isLoggedIn } = useCurrentUser();
   const { qualifier } = component;
 
   const branchParameters = getBranchLikeQuery(branchLike);
@@ -88,7 +90,7 @@ export function ComponentNavProjectMenu(props: Readonly<Props>) {
           <FormattedMessage id="dependencies.bill_of_materials" />
         </Layout.SidebarNavigation.Item>
       )}
-      {isProj && hasFeature(Feature.RemediationAgent) && addons.remediationAgent && (
+      {isProj && isLoggedIn && hasFeature(Feature.RemediationAgent) && addons.remediationAgent && (
         <Layout.SidebarNavigation.Item
           Icon={IconSparkle}
           suffix={
