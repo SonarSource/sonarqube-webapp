@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ThemeProvider } from '@emotion/react';
 import { EchoesProvider } from '@sonarsource/echoes-react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -33,13 +32,13 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
-import { lightTheme } from '~design-system';
 import { qualityGateHistoryRoutes } from '~feature-quality-gate-history/components/routes';
 import { A11yProvider } from '~shared/components/a11y/A11yProvider';
 import NotFound from '~shared/components/NotFound';
 import { ResetLayerStack } from '~shared/components/ResetLayerStack';
 import StateCallbackHandler from '~shared/components/StateCallbackHandler';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
+import { ThemeController } from '~shared/helpers/ThemeController';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
 import SuggestionsProvider from '~sq-server-commons/components/embed-docs-modal/SuggestionsProvider';
@@ -432,23 +431,22 @@ export default function startReactApp(
             <AddonsContext.Provider value={addons}>
               <CurrentUserContextProvider currentUser={currentUser}>
                 <RawIntlProvider value={l10nBundle}>
-                  <ThemeProvider theme={lightTheme}>
-                    <QueryClientProvider client={queryClient}>
-                      <GlobalStyles />
-                      <Helmet titleTemplate={translate('page_title.template.default')} />
+                  <ThemeController />
+                  <QueryClientProvider client={queryClient}>
+                    <GlobalStyles />
+                    <Helmet titleTemplate={translate('page_title.template.default')} />
 
-                      <RouterProvider
-                        router={router({
-                          availableFeatures,
-                          governanceInstalled,
-                          hasApplicationFeature,
-                          isEnterprise,
-                        })}
-                      />
+                    <RouterProvider
+                      router={router({
+                        availableFeatures,
+                        governanceInstalled,
+                        hasApplicationFeature,
+                        isEnterprise,
+                      })}
+                    />
 
-                      <ReactQueryDevtools initialIsOpen={false} />
-                    </QueryClientProvider>
-                  </ThemeProvider>
+                    <ReactQueryDevtools initialIsOpen={false} />
+                  </QueryClientProvider>
                 </RawIntlProvider>
               </CurrentUserContextProvider>
             </AddonsContext.Provider>

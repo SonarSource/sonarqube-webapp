@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { keyframes, ThemeContext } from '@emotion/react';
+import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
@@ -157,8 +157,6 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
     this.removeEventListeners();
     this.clearTimeouts();
   }
-
-  static contextType = ThemeContext;
 
   onUpdatePlacement = (visibleHasChanged: boolean) => {
     this.setState({ placement: this.props.placement }, () => {

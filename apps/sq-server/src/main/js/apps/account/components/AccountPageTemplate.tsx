@@ -61,7 +61,7 @@ export function AccountPageTemplate({
       />
     ),
     description: <Layout.ContentHeader.Description>{description}</Layout.ContentHeader.Description>,
-    title: <Layout.ContentHeader.Title>{title}</Layout.ContentHeader.Title>,
+    title: <Layout.ContentHeader.Title headingLevel="h1">{title}</Layout.ContentHeader.Title>,
   };
 
   return (

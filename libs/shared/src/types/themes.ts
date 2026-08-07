@@ -18,22 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Route } from 'react-router-dom';
-import Account from './Account';
-import Appearance from './appearance/Appearance';
-import Notifications from './notifications/Notifications';
-import Profile from './profile/Profile';
-import ProjectsContainer from './projects/ProjectsContainer';
-import Security from './security/Security';
+export const THEME_MODE_LOCAL_STORAGE_KEY = 'sonarqube.theme_mode';
 
-const routes = () => (
-  <Route element={<Account />} path="account">
-    <Route element={<Profile />} index />
-    <Route element={<Security />} path="security" />
-    <Route element={<ProjectsContainer />} path="projects" />
-    <Route element={<Notifications />} path="notifications" />
-    <Route element={<Appearance />} path="appearance" />
-  </Route>
-);
-
-export default routes;
+export enum ThemeMode {
+  System = 'system',
+  Dark = 'dark-theme',
+  Light = 'light-theme',
+}

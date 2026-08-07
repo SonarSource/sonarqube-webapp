@@ -18,22 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Route } from 'react-router-dom';
-import Account from './Account';
-import Appearance from './appearance/Appearance';
-import Notifications from './notifications/Notifications';
-import Profile from './profile/Profile';
-import ProjectsContainer from './projects/ProjectsContainer';
-import Security from './security/Security';
+import { Heading, Text } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
+import { ThemeModeSelect } from './ThemeModeSelect';
 
-const routes = () => (
-  <Route element={<Account />} path="account">
-    <Route element={<Profile />} index />
-    <Route element={<Security />} path="security" />
-    <Route element={<ProjectsContainer />} path="projects" />
-    <Route element={<Notifications />} path="notifications" />
-    <Route element={<Appearance />} path="appearance" />
-  </Route>
-);
-
-export default routes;
+export function AppearanceSelectTheme() {
+  return (
+    <>
+      <Heading as="h2" hasMarginBottom>
+        <FormattedMessage id="my_account.appearance.customize_theme" />
+      </Heading>
+      <Text as="p" className="sw-mb-6" isSubtle>
+        <FormattedMessage id="my_account.appearance.description" />
+      </Text>
+      <ThemeModeSelect />
+    </>
+  );
+}

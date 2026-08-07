@@ -18,22 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Route } from 'react-router-dom';
-import Account from './Account';
-import Appearance from './appearance/Appearance';
-import Notifications from './notifications/Notifications';
-import Profile from './profile/Profile';
-import ProjectsContainer from './projects/ProjectsContainer';
-import Security from './security/Security';
+import { renderWithRouter } from '~shared/helpers/test-utils';
+import { byRole, byText } from '~shared/helpers/testSelector';
+import Appearance from '../Appearance';
 
-const routes = () => (
-  <Route element={<Account />} path="account">
-    <Route element={<Profile />} index />
-    <Route element={<Security />} path="security" />
-    <Route element={<ProjectsContainer />} path="projects" />
-    <Route element={<Notifications />} path="notifications" />
-    <Route element={<Appearance />} path="appearance" />
-  </Route>
-);
+it('should render correctly', () => {
+  renderWithRouter(<Appearance />);
+  expect(byRole('heading', { level: 1 }).get()).toHaveTextContent('my_account.appearance.title');
+  expect(
+    byRole('heading', { level: 2, name: 'my_account.appearance.customize_theme' }).get(),
+  ).toBeInTheDocument();
 
-export default routes;
+  expect(byText('my_account.appearance.description').get()).toBeInTheDocument();
+});

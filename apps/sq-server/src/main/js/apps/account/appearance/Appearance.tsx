@@ -18,22 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Route } from 'react-router-dom';
-import Account from './Account';
-import Appearance from './appearance/Appearance';
-import Notifications from './notifications/Notifications';
-import Profile from './profile/Profile';
-import ProjectsContainer from './projects/ProjectsContainer';
-import Security from './security/Security';
+import { useIntl } from 'react-intl';
+import { AppearanceSelectTheme } from '~shared/components/appearance/AppearanceSelectTheme';
+import { AccountPageTemplate } from '../components/AccountPageTemplate';
 
-const routes = () => (
-  <Route element={<Account />} path="account">
-    <Route element={<Profile />} index />
-    <Route element={<Security />} path="security" />
-    <Route element={<ProjectsContainer />} path="projects" />
-    <Route element={<Notifications />} path="notifications" />
-    <Route element={<Appearance />} path="appearance" />
-  </Route>
-);
+export default function Appearance() {
+  const { formatMessage } = useIntl();
 
-export default routes;
+  return (
+    <AccountPageTemplate title={formatMessage({ id: 'my_account.appearance.title' })}>
+      <AppearanceSelectTheme />
+    </AccountPageTemplate>
+  );
+}

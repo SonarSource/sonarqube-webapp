@@ -5609,6 +5609,14 @@ export const defaultMessages = {
   'my_account.preferences.keyboard_shortcuts.description':
     "Some actions can be performed using keyboard shortcuts. If you do not want to use these shortcuts, you can disable them here (this won't disable navigation shortcuts, which include the arrows, escape, and enter keys). For a list of available keyboard shortcuts, use the question mark shortcut (hit {questionMark} on your keyboard).",
 
+  'my_account.appearance.customize_theme': 'Customize theme',
+  'my_account.appearance.description':
+    'Customize how SonarQube Server looks. Select a theme of your choice, or sync your theme to your operating system settings.',
+
+  'theme_select_card_title.dark-theme': 'Dark theme',
+  'theme_select_card_title.light-theme': 'Light theme',
+  'theme_select_card_title.system': 'Sync with system',
+
   //------------------------------------------------------------------------------
   //
   // PROJECT PROVISIONING
