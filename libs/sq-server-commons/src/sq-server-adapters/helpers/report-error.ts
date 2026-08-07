@@ -21,7 +21,7 @@
 import { noop } from 'lodash';
 
 export function reportError(
-  _exception: string,
+  _exception: string | Error,
   _captureContext: Record<string, unknown> = {},
 ): () => void {
   return noop;
