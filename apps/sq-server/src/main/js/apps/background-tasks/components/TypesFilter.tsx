@@ -18,48 +18,41 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
-import { InputSelect, LabelValueSelectOption } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { Select, SelectOption } from '@sonarsource/echoes-react';
+import { useIntl } from 'react-intl';
 import { ALL_TYPES } from '../constants';
 
 interface Props {
   id: string;
-  onChange: Function;
+  onChange: (v: string) => void;
   types: string[];
   value: string;
 }
 
-export default class TypesFilter extends React.PureComponent<Props> {
-  handleChange = ({ value }: LabelValueSelectOption) => {
-    this.props.onChange(value);
-  };
+export function TypesFilter(props: Readonly<Props>) {
+  const { formatMessage } = useIntl();
+  const { value, types, id, onChange } = props;
+  const options = types.map((t) => {
+    return {
+      value: t,
+      label: formatMessage({ id: `background_task.type.${t}` }),
+    };
+  });
 
-  render() {
-    const { value, types, id } = this.props;
-    const options = types.map((t) => {
-      return {
-        value: t,
-        label: translate('background_task.type', t),
-      };
-    });
+  const allOptions: SelectOption[] = [
+    { value: ALL_TYPES, label: formatMessage({ id: 'background_task.type.ALL' }) },
+    ...options,
+  ];
 
-    const allOptions: LabelValueSelectOption[] = [
-      { value: ALL_TYPES, label: translate('background_task.type.ALL') },
-      ...options,
-    ];
-
-    return (
-      <InputSelect
-        aria-labelledby="background-task-type-filter-label"
-        className="sw-w-abs-200"
-        id={id}
-        isClearable={false}
-        onChange={this.handleChange}
-        options={allOptions}
-        size="medium"
-        value={allOptions.find((o) => o.value === value)}
-      />
-    );
-  }
+  return (
+    <Select
+      ariaLabelledBy="background-task-type-filter-label"
+      data={allOptions}
+      isNotClearable
+      name={id}
+      onChange={onChange}
+      value={value}
+      width="medium"
+    />
+  );
 }

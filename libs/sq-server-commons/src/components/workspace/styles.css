@@ -17,16 +17,6 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-.workspace-viewer {
-  position: fixed;
-  z-index: 450;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  box-sizing: border-box;
-  background-color: #fff;
-  box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.175);
-}
 
 .workspace-viewer-resize {
   position: absolute;

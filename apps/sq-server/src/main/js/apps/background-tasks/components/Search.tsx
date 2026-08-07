@@ -27,7 +27,7 @@ import { Query } from '../utils';
 import CurrentsFilter from './CurrentsFilter';
 import DateFilter from './DateFilter';
 import StatusFilter from './StatusFilter';
-import TypesFilter from './TypesFilter';
+import { TypesFilter } from './TypesFilter';
 
 import { FormattedMessage } from 'react-intl';
 
@@ -90,7 +90,7 @@ export default class Search extends React.PureComponent<Props> {
     return (
       <section className="sw-my-4">
         <ul className="sw-flex sw-items-center sw-flex-wrap sw-gap-4">
-          <li>
+          <li className="sw-flex sw-items-center">
             <Label
               className="sw-mr-2"
               htmlFor="status-filter"
@@ -103,7 +103,7 @@ export default class Search extends React.PureComponent<Props> {
           </li>
 
           {types.length > 1 && (
-            <li>
+            <li className="sw-flex sw-items-center">
               <Label
                 className="sw-mr-2"
                 htmlFor="types-filter"

@@ -30,6 +30,7 @@ import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
 import { AlmKeys, AlmSettingsInstance } from '~sq-server-commons/types/alm-settings';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { LoggedInUser } from '~sq-server-commons/types/users';
+import { ProjectCreationMode } from '../types';
 import ProjectCreationMenuItem from './ProjectCreationMenuItem';
 
 interface Props {
@@ -37,7 +38,7 @@ interface Props {
 }
 
 interface State {
-  boundAlms: Array<string>;
+  boundAlms: Array<AlmKeys>;
 }
 
 const almSettingsValidators = {
@@ -109,7 +110,7 @@ export class ProjectCreationMenu extends React.PureComponent<Props, State> {
         id="project-creation-menu"
         overlay={
           <>
-            {[...boundAlms, 'manual'].map((alm) => (
+            {[...boundAlms, 'manual'].map((alm: ProjectCreationMode) => (
               <ProjectCreationMenuItem alm={alm} key={alm} />
             ))}
             {boundAlms.length < IMPORT_COMPATIBLE_ALMS.length && (

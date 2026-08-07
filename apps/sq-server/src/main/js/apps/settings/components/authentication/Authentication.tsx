@@ -18,18 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, MessageInline, Text } from '@sonarsource/echoes-react';
+import { Link, MessageInline, Text, Theme } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSearchParams } from 'react-router-dom';
 import { Image } from '~adapters/components/common/Image';
 import { getTabId, getTabPanelId, SubTitle, ToggleButton } from '~design-system';
+import { useCurrentTheme } from '~shared/helpers/css';
 import { searchParamsToQuery } from '~shared/helpers/router';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { almIconUrl, almKeyToIconKey } from '~sq-server-commons/helpers/almIcons';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { Feature } from '~sq-server-commons/types/features';
 import BitbucketAuthenticationTab from './BitbucketAuthenticationTab';
@@ -44,14 +46,22 @@ interface Props {
 export type AuthenticationTabs =
   typeof SAML | AlmKeys.GitHub | AlmKeys.GitLab | AlmKeys.BitbucketServer;
 
-function renderDevOpsIcon(key: string) {
-  return <Image alt={key} className="sw-mr-2" height={16} src={`/images/alm/${key}.svg`} />;
+function renderDevOpsIcon(theme: Theme, key: AlmKeys) {
+  return (
+    <Image
+      alt={key}
+      className="sw-mr-2"
+      height={16}
+      src={almIconUrl(theme, almKeyToIconKey(key))}
+    />
+  );
 }
 
 export function Authentication(props: Props & WithAvailableFeaturesProps) {
   const { definitions } = props;
 
   const [query, setSearchParams] = useSearchParams();
+  const currentTheme = useCurrentTheme() as Theme;
 
   const currentTab = (query.get('tab') ?? SAML) as AuthenticationTabs;
 
@@ -64,7 +74,7 @@ export function Authentication(props: Props & WithAvailableFeaturesProps) {
       value: AlmKeys.GitHub,
       label: (
         <>
-          {renderDevOpsIcon(AlmKeys.GitHub)}
+          {renderDevOpsIcon(currentTheme, AlmKeys.GitHub)}
           GitHub
         </>
       ),
@@ -73,7 +83,7 @@ export function Authentication(props: Props & WithAvailableFeaturesProps) {
       value: AlmKeys.BitbucketServer,
       label: (
         <>
-          {renderDevOpsIcon(AlmKeys.BitbucketServer)}
+          {renderDevOpsIcon(currentTheme, AlmKeys.BitbucketServer)}
           Bitbucket
         </>
       ),
@@ -82,7 +92,7 @@ export function Authentication(props: Props & WithAvailableFeaturesProps) {
       value: AlmKeys.GitLab,
       label: (
         <>
-          {renderDevOpsIcon(AlmKeys.GitLab)}
+          {renderDevOpsIcon(currentTheme, AlmKeys.GitLab)}
           GitLab
         </>
       ),

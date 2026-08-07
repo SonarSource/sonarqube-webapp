@@ -21,12 +21,13 @@
 import { Link, MessageCallout, MessageVariety, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useAlmIconSrc } from '~adapters/helpers/almIcons';
 import { Accordion } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import SearchHighlighter from '~shared/components/SearchHighlighter';
-import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { AzureProject, AzureRepository } from '~sq-server-commons/types/alm-integration';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import AlmRepoItem from '../components/AlmRepoItem';
 
@@ -55,6 +56,8 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
 
   const [page, setPage] = React.useState(1);
   const limitedRepositories = repositories.slice(0, page * PAGE_SIZE);
+
+  const iconUrl = useAlmIconSrc(AlmKeys.Azure);
 
   return (
     <Accordion
@@ -95,7 +98,7 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
               <ul className="sw-flex sw-flex-col sw-gap-3">
                 {limitedRepositories.map((r) => (
                   <AlmRepoItem
-                    almIconSrc={`${getBaseUrl()}/images/alm/azure.svg`}
+                    almIconSrc={iconUrl}
                     almKey={r.name}
                     key={r.name}
                     onImport={() => {

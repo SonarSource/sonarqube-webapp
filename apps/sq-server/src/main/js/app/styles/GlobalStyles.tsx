@@ -23,6 +23,7 @@ import { cssVar } from '@sonarsource/echoes-react';
 import twDefaultTheme from 'tailwindcss/defaultTheme';
 import CodeViewerStyle from '~shared/components/code-viewer/CodeViewerStyle';
 import { LegacyTokensStyle } from '~shared/helpers/LegacyTokensStyle';
+import ScrollbarStyle from '~shared/styles/ScrollbarStyle';
 
 export function GlobalStyles() {
   return (
@@ -53,6 +54,7 @@ export function GlobalStyles() {
         `}
       />
       <LegacyTokensStyle />
+      <ScrollbarStyle />
     </>
   );
 }

@@ -18,6 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import {
   WorkspaceHeader,
@@ -75,7 +77,7 @@ export default class WorkspaceComponentViewer extends React.PureComponent<Props>
     const { component } = this.props;
 
     return (
-      <div className="workspace-viewer">
+      <StyledContainer className="workspace-viewer">
         <WorkspaceHeader
           maximized={this.props.maximized}
           onClose={this.handleClose}
@@ -103,7 +105,18 @@ export default class WorkspaceComponentViewer extends React.PureComponent<Props>
             onLoaded={this.handleLoaded}
           />
         </div>
-      </div>
+      </StyledContainer>
     );
   }
 }
+
+const StyledContainer = styled.div`
+  position: fixed;
+  z-index: 450;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+  background-color: ${cssVar('color-surface-default')};
+  box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.175);
+`;

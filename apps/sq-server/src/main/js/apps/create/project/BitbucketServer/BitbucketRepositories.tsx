@@ -19,9 +19,10 @@
  */
 
 import { Spinner } from '@sonarsource/echoes-react';
+import { useAlmIconSrc } from '~adapters/helpers/almIcons';
 import ListFooter from '~shared/components/controls/ListFooter';
-import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { BitbucketRepository } from '~sq-server-commons/types/alm-integration';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import AlmRepoItem from '../components/AlmRepoItem';
 
 export interface BitbucketRepositoriesProps {
@@ -35,12 +36,14 @@ export interface BitbucketRepositoriesProps {
 export default function BitbucketRepositories(props: Readonly<BitbucketRepositoriesProps>) {
   const { canFetchMore, isLoading, onFetchMore, onImportRepository, repositories } = props;
 
+  const iconUrl = useAlmIconSrc(AlmKeys.BitbucketServer);
+
   return (
     <Spinner isLoading={isLoading && repositories.length === 0}>
       <ul className="sw-flex sw-flex-col sw-gap-3">
         {repositories.map((r) => (
           <AlmRepoItem
-            almIconSrc={`${getBaseUrl()}/images/alm/bitbucket.svg`}
+            almIconSrc={iconUrl}
             almKey={r.name}
             key={r.id}
             onImport={() => {

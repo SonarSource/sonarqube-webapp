@@ -18,8 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-/* eslint-disable react/no-unused-prop-types */
-
 import {
   Button,
   Heading,
@@ -28,13 +26,20 @@ import {
   LinkStandalone,
   Spinner,
   Text,
+  Theme,
   ToggleTip,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage, MessageDescriptor, useIntl } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
 import { GreyCard } from '~design-system';
+import { useCurrentTheme } from '~shared/helpers/css';
 import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
+import {
+  almIconUrl,
+  almIconUrlUnthemed,
+  almKeyToIconKey,
+} from '~sq-server-commons/helpers/almIcons';
 import { getCreateProjectModeLocation } from '~sq-server-commons/helpers/urls';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { AppState } from '~sq-server-commons/types/appstate';
@@ -67,6 +72,7 @@ function renderAlmOption(
   alm: AlmKeys,
   mode: CreateProjectModes,
   formatMessage: (descriptor: MessageDescriptor) => string,
+  currentTheme: Theme,
 ) {
   const {
     almCounts,
@@ -79,14 +85,17 @@ function renderAlmOption(
   const disabled = loadingBindings || (!hasConfig && !canAdmin);
   const configMode = alm === AlmKeys.BitbucketCloud ? AlmKeys.BitbucketServer : alm;
 
-  const svgFileName = alm === AlmKeys.BitbucketCloud ? AlmKeys.BitbucketServer : alm;
-  const svgFileNameGrey = `${svgFileName}_grey`;
+  const iconKey = almKeyToIconKey(alm);
 
   const icon = (
     <Image
       alt="" // Should be ignored by screen readers
       className="sw-h-400 sw-w-200"
-      src={`/images/alm/${!disabled && hasConfig ? svgFileName : svgFileNameGrey}.svg`}
+      src={
+        !disabled && hasConfig
+          ? almIconUrl(currentTheme, iconKey)
+          : almIconUrlUnthemed(`${iconKey}_grey`)
+      }
     />
   );
 
@@ -149,6 +158,7 @@ export function CreateProjectModeSelection(props: Readonly<CreateProjectModeSele
   } = props;
 
   const { formatMessage } = useIntl();
+  const currentTheme = useCurrentTheme() as Theme;
 
   const almTotalCount = Object.values(almCounts).reduce((prev, cur) => prev + cur, 0);
   const filteredAlm = separateAvailableOptions(almCounts);
@@ -172,10 +182,10 @@ export function CreateProjectModeSelection(props: Readonly<CreateProjectModeSele
       )}
       <div className="sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12 sw-mt-4">
         {filteredAlm.availableOptions.map(({ key, mode }) =>
-          renderAlmOption(props, key, mode, formatMessage),
+          renderAlmOption(props, key, mode, formatMessage, currentTheme),
         )}
         {filteredAlm.unavailableOptions.map(({ key, mode }) =>
-          renderAlmOption(props, key, mode, formatMessage),
+          renderAlmOption(props, key, mode, formatMessage, currentTheme),
         )}
       </div>
       <Label className="sw-block sw-mb-4 sw-mt-10">

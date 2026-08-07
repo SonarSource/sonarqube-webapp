@@ -20,6 +20,7 @@
 
 import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { AiCodeAssuranceStatus } from '~sq-server-commons/api/ai-code-assurance';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 
 export interface Project {
   aiCodeAssurance?: AiCodeAssuranceStatus;
@@ -44,3 +45,5 @@ export interface Facet {
 export interface Facets {
   [property: string]: Facet;
 }
+
+export type ProjectCreationMode = AlmKeys | 'manual';

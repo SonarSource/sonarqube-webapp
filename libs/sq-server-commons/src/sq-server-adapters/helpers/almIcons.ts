@@ -18,10 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
+import { useCurrentTheme } from '~shared/helpers/css';
 import { AlmIconKey } from '~shared/types/onboarding';
-import { themeImage } from '../../design-system/helpers/theme';
-import { ALM_ICONS_BASE_URL } from './urls';
+import { almIconUrl } from '../../helpers/almIcons';
 
 /**
  * Resolves the theme-aware ALM provider icon URL. The active theme's `images` map
@@ -29,14 +28,14 @@ import { ALM_ICONS_BASE_URL } from './urls';
  * only, it always returns the light variant. Returns `undefined` when no icon key
  * is provided so callers can render their own placeholder.
  */
+export function useAlmIconSrc(imageKey: AlmIconKey): string;
+export function useAlmIconSrc(imageKey?: AlmIconKey): string | undefined;
 export function useAlmIconSrc(imageKey?: AlmIconKey): string | undefined {
-  const theme = useTheme();
+  const theme = useCurrentTheme();
 
   if (imageKey === undefined) {
     return undefined;
   }
 
-  const fileName = themeImage(imageKey)({ theme });
-
-  return fileName ? `${ALM_ICONS_BASE_URL}/${fileName}` : undefined;
+  return almIconUrl(theme, imageKey);
 }

@@ -18,24 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ThemeProvider } from '@emotion/react';
-import { renderHook } from '@testing-library/react';
-import { PropsWithChildren } from 'react';
-import { lightTheme } from '../../../design-system/theme/light';
-import { useAlmIconSrc } from '../almIcons';
+import { ALM_ICONS_BASE_URL } from '~adapters/helpers/urls';
+import { AlmIconKey } from '~shared/types/onboarding';
+import { AlmKeys } from '../types/alm-settings';
+import { getBaseUrl } from './system';
 
-function Wrapper({ children }: Readonly<PropsWithChildren>) {
-  return <ThemeProvider theme={lightTheme}>{children}</ThemeProvider>;
+export function almIconUrl(theme: string, imageKey: AlmIconKey) {
+  return `${getBaseUrl()}/${ALM_ICONS_BASE_URL}/${theme}/${imageKey}.svg`;
 }
 
-it('returns the light icon variant (SQS is light only)', () => {
-  const { result } = renderHook(() => useAlmIconSrc('github'), { wrapper: Wrapper });
+export function almIconUrlUnthemed(imageKey: string) {
+  return `${getBaseUrl()}/${ALM_ICONS_BASE_URL}/${imageKey}.svg`;
+}
 
-  expect(result.current).toBe('/images/alm/light/github.svg');
-});
-
-it('returns undefined when no icon key is provided', () => {
-  const { result } = renderHook(() => useAlmIconSrc(undefined), { wrapper: Wrapper });
-
-  expect(result.current).toBeUndefined();
-});
+export function almKeyToIconKey(almKey: AlmKeys): AlmIconKey {
+  // Both bitbuckets get the same icon. Map `bitbucketcloud` to `bitbucket`
+  return almKey === AlmKeys.BitbucketCloud ? AlmKeys.BitbucketServer : almKey;
+}

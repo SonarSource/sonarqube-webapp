@@ -20,12 +20,13 @@
 
 import { Link, MessageCallout, MessageVariety, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { useAlmIconSrc } from '~adapters/helpers/almIcons';
 import { InputSearch } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { BitbucketCloudRepository } from '~sq-server-commons/types/alm-integration';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import AlmRepoItem from '../components/AlmRepoItem';
 import { REPOSITORY_PAGE_SIZE } from '../constants';
@@ -47,6 +48,8 @@ function getRepositoryUrl(workspace: string, slug: string) {
 
 export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchFormProps) {
   const { isLastPage, loadingMore, repositories = [], searching, searchQuery } = props;
+
+  const iconUrl = useAlmIconSrc(AlmKeys.BitbucketServer);
 
   if (repositories.length === 0 && searchQuery.length === 0 && !searching) {
     return (
@@ -95,7 +98,7 @@ export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchForm
         <ul className="sw-flex sw-flex-col sw-gap-3">
           {repositories.map((r) => (
             <AlmRepoItem
-              almIconSrc={`${getBaseUrl()}/images/alm/bitbucket.svg`}
+              almIconSrc={iconUrl}
               almKey={r.slug}
               almUrl={getRepositoryUrl(r.workspace, r.slug)}
               almUrlText={translate('onboarding.create_project.bitbucketcloud.link')}

@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-/* eslint-disable prefer-destructuring */
-
+import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import ClickEventBoundary from '../controls/ClickEventBoundary';
@@ -59,7 +59,7 @@ interface PopupProps {
 function PopupBase(props: PopupProps, ref: React.Ref<HTMLDivElement>) {
   const { useEventBoundary = true, noArrow = false, placement = PopupPlacement.Bottom } = props;
   const inner = (
-    <div
+    <StyledPopup
       className={classNames(
         'popup',
         `is-${placement}`,
@@ -71,13 +71,17 @@ function PopupBase(props: PopupProps, ref: React.Ref<HTMLDivElement>) {
     >
       {props.children}
       {!noArrow && <PopupArrow style={props.arrowStyle} />}
-    </div>
+    </StyledPopup>
   );
   if (useEventBoundary) {
     return <ClickEventBoundary>{inner}</ClickEventBoundary>;
   }
   return inner;
 }
+
+const StyledPopup = styled.div`
+  background-color: ${cssVar('color-surface-default')};
+`;
 
 interface PopupArrowProps {
   style?: React.CSSProperties;

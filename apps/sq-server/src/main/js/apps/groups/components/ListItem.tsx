@@ -38,6 +38,8 @@ import GroupForm from './GroupForm';
 import Members from './Members';
 
 import { FormattedMessage } from 'react-intl';
+import { useCurrentTheme } from '~shared/helpers/css';
+import { almIconUrl } from '~sq-server-commons/helpers/almIcons';
 
 export interface ListItemProps {
   group: Group;
@@ -52,6 +54,8 @@ export default function ListItem(props: Readonly<ListItemProps>) {
   const [groupToEdit, setGroupToEdit] = useState<Group | undefined>();
 
   const { data: membersCount, isLoading, refetch } = useGroupMembersCountQuery(group.id);
+
+  const currentTheme = useCurrentTheme();
 
   const isManaged = () => {
     return manageProvider !== undefined;
@@ -71,7 +75,7 @@ export default function ListItem(props: Readonly<ListItemProps>) {
         alt={identityProvider}
         className="sw-ml-2 sw-mr-2"
         height={16}
-        src={`/images/alm/${identityProvider}.svg`}
+        src={almIconUrl(currentTheme, identityProvider)}
       />
     );
   };

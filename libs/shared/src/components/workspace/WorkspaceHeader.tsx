@@ -29,10 +29,12 @@ import {
   IconDash,
   IconExpand,
   IconX,
+  Theme,
   ThemeProvider,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
+import { getCurrentRootTheme } from '../../helpers/css';
 
 export interface WorkspaceHeaderProps {
   children: React.ReactNode;
@@ -77,20 +79,22 @@ export function WorkspaceHeader({
     lastY.current = null;
   }, []);
 
+  const inverseTheme = getCurrentRootTheme() === Theme.dark ? Theme.light : Theme.dark;
+
   return (
-    <StyledWorkSpaceHeader>
-      <StyledWorkspaceName className="sw-typo-default sw-inline-flex sw-items-center fs-mask">
-        {children}
-      </StyledWorkspaceName>
+    <ThemeProvider theme={inverseTheme}>
+      <StyledWorkSpaceHeader>
+        <StyledWorkspaceName className="sw-typo-default sw-inline-flex sw-items-center fs-mask">
+          {children}
+        </StyledWorkspaceName>
 
-      <StyledWorkspaceResizer
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-      />
+        <StyledWorkspaceResizer
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+        />
 
-      <div className="it__workspace-viewer-actions sw-flex sw-gap-1">
-        <ThemeProvider theme="dark">
+        <div className="it__workspace-viewer-actions sw-flex sw-gap-1">
           <WorkspaceHeaderButton
             icon={IconDash}
             onClick={onCollapse}
@@ -112,9 +116,9 @@ export function WorkspaceHeader({
           )}
 
           <WorkspaceHeaderButton icon={IconX} onClick={onClose} tooltipContent="workspace.close" />
-        </ThemeProvider>
-      </div>
-    </StyledWorkSpaceHeader>
+        </div>
+      </StyledWorkSpaceHeader>
+    </ThemeProvider>
   );
 }
 
@@ -125,12 +129,12 @@ const StyledWorkSpaceHeader = styled.header`
   box-sizing: border-box;
   padding: 3px 10px;
   font-weight: 300;
-  background-color: ${cssVar('color-surface-inverse-default')};
-  color: ${cssVar('color-text-on-color')};
+  background-color: ${cssVar('color-surface-default')};
+  color: ${cssVar('color-text-default')};
 `;
 
 const StyledWorkspaceName = styled.h6`
-  color: ${cssVar('color-text-on-color')};
+  color: ${cssVar('color-text-default')};
 `;
 
 const StyledWorkspaceResizer = styled.div`

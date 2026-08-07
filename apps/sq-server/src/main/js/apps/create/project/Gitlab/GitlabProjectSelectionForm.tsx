@@ -20,14 +20,15 @@
 
 import { Link, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { useAlmIconSrc } from '~adapters/helpers/almIcons';
 import { FlagMessage, InputSearch } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { Paging } from '~shared/types/paging';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { GitlabProject } from '~sq-server-commons/types/alm-integration';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import AlmRepoItem from '../components/AlmRepoItem';
 
@@ -46,6 +47,8 @@ export default function GitlabProjectSelectionForm(
   props: Readonly<GitlabProjectSelectionFormProps>,
 ) {
   const { loadingMore, projects = [], projectsPaging, searching, searchQuery } = props;
+
+  const iconUrl = useAlmIconSrc(AlmKeys.GitLab);
 
   if (projects.length === 0 && searchQuery.length === 0 && !searching) {
     return (
@@ -92,7 +95,7 @@ export default function GitlabProjectSelectionForm(
         <ul className="sw-flex sw-flex-col sw-gap-3">
           {projects.map((project) => (
             <AlmRepoItem
-              almIconSrc={`${getBaseUrl()}/images/alm/gitlab.svg`}
+              almIconSrc={iconUrl}
               almKey={project.id}
               almUrl={project.url}
               almUrlText={translate('onboarding.create_project.gitlab.link')}

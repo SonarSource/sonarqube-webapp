@@ -19,7 +19,9 @@
  */
 
 import { Image } from '~adapters/components/common/Image';
+import { useAlmIconSrc } from '~adapters/helpers/almIcons';
 import { translate, translateWithParameters } from '../../helpers/l10n';
+import { AlmKeys } from '../../types/alm-settings';
 
 interface Props {
   isGitHubUser: boolean | undefined;
@@ -27,6 +29,9 @@ interface Props {
 }
 
 export function IntegrationIcon({ isGitHubUser, isGitLabUser }: Readonly<Props>) {
+  const githubIconSrc = useAlmIconSrc(AlmKeys.GitHub);
+  const gitlabIconSrc = useAlmIconSrc(AlmKeys.GitLab);
+
   if (isGitHubUser) {
     return (
       <Image
@@ -34,7 +39,7 @@ export function IntegrationIcon({ isGitHubUser, isGitLabUser }: Readonly<Props>)
         aria-label={translateWithParameters('project_permission.managed', translate('alm.github'))}
         className="sw-ml-2"
         height={16}
-        src="/images/alm/github.svg"
+        src={githubIconSrc}
       />
     );
   }
@@ -46,7 +51,7 @@ export function IntegrationIcon({ isGitHubUser, isGitLabUser }: Readonly<Props>)
         aria-label={translateWithParameters('project_permission.managed', translate('alm.gitlab'))}
         className="sw-ml-2"
         height={16}
-        src="/images/alm/gitlab.svg"
+        src={gitlabIconSrc}
       />
     );
   }

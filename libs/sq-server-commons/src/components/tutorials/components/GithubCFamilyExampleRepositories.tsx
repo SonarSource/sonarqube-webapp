@@ -21,8 +21,10 @@
 import { LinkStandalone, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { Image } from '~adapters/components/common/Image';
+import { useAlmIconSrc } from '~adapters/helpers/almIcons';
 import { Card } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
+import { AlmKeys } from '../../../types/alm-settings';
 import { OSs, TutorialModes } from '../types';
 
 export interface GithubCFamilyExampleRepositoriesProps {
@@ -51,6 +53,8 @@ export default function GithubCFamilyExampleRepositories(
   props: Readonly<GithubCFamilyExampleRepositoriesProps>,
 ) {
   const { className, os, ci } = props;
+  const githubIconUrl = useAlmIconSrc(AlmKeys.GitHub);
+
   const queryParams = ['sq', os ? OS_SEARCH_MAP[os] : undefined, ci ? CI_SEARCH_MAP[ci] : undefined]
     .filter((s) => !!s)
     .join('+');
@@ -63,7 +67,7 @@ export default function GithubCFamilyExampleRepositories(
           alt="" // Should be ignored by screen readers
           className="sw-mr-2"
           height={20}
-          src="/images/alm/github.svg"
+          src={githubIconUrl}
         />
         <LinkStandalone enableOpenInNewTab to={link}>
           sonarsource-cfamily-examples

@@ -18,24 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ThemeProvider } from '@emotion/react';
-import { renderHook } from '@testing-library/react';
-import { PropsWithChildren } from 'react';
-import { lightTheme } from '../../../design-system/theme/light';
-import { useAlmIconSrc } from '../almIcons';
+import { Theme } from '@sonarsource/echoes-react';
+import { renderWithContext } from '../../helpers/test-utils';
+import ScrollbarStyle, { scrollbarStyle } from '../ScrollbarStyle';
 
-function Wrapper({ children }: Readonly<PropsWithChildren>) {
-  return <ThemeProvider theme={lightTheme}>{children}</ThemeProvider>;
+it('should not render and have correct styles', () => {
+  const { container } = setup();
+  expect(container).toBeEmptyDOMElement();
+  expect(scrollbarStyle({ theme: Theme.light })).toMatchSnapshot();
+});
+
+function setup() {
+  return renderWithContext(<ScrollbarStyle />);
 }
-
-it('returns the light icon variant (SQS is light only)', () => {
-  const { result } = renderHook(() => useAlmIconSrc('github'), { wrapper: Wrapper });
-
-  expect(result.current).toBe('/images/alm/light/github.svg');
-});
-
-it('returns undefined when no icon key is provided', () => {
-  const { result } = renderHook(() => useAlmIconSrc(undefined), { wrapper: Wrapper });
-
-  expect(result.current).toBeUndefined();
-});

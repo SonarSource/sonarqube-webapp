@@ -25,9 +25,11 @@ import {
   ButtonVariety,
   cssVar,
   IconX,
+  Theme,
   ThemeProvider,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { getCurrentRootTheme } from '~shared/helpers/css';
 import { translate } from '../../helpers/l10n';
 
 export interface Props {
@@ -44,9 +46,11 @@ export default class WorkspaceNavItem extends React.PureComponent<Props> {
   };
 
   render() {
+    const inverseTheme = getCurrentRootTheme() === Theme.dark ? Theme.light : Theme.dark;
+
     return (
       <StyledWorkspaceNavItem className="sw-mr-2">
-        <ThemeProvider theme="dark">
+        <ThemeProvider theme={inverseTheme}>
           <StyledWorkSpaceNavItemButton
             className="sw-typo-default sw-pr-10 sw-pl-2"
             onClick={this.handleNameClick}
@@ -56,7 +60,7 @@ export default class WorkspaceNavItem extends React.PureComponent<Props> {
           <ButtonIcon
             Icon={IconX}
             ariaLabel={translate('workspace.close')}
-            className="js-close sw-absolute sw-top-0 sw-right-0 sw-m-1/2"
+            className="js-close sw-absolute sw-top-0 sw-right-0 sw-mx-1/2"
             onClick={this.props.onClose}
             size={ButtonSize.Medium}
             variety={ButtonVariety.DefaultGhost}
@@ -71,7 +75,7 @@ const StyledWorkspaceNavItem = styled.li`
   display: inline-flex;
   align-items: center;
   position: relative;
-  color: ${cssVar('color-text-on-color')};
+  color: ${cssVar('color-text-default')};
 `;
 
 const StyledWorkSpaceNavItemButton = styled.button`
@@ -79,12 +83,11 @@ const StyledWorkSpaceNavItemButton = styled.button`
   align-items: center;
   border: none;
   height: 2rem;
-  background-color: ${cssVar('color-text-default')};
-  color: ${cssVar('color-text-on-color')};
+  background-color: ${cssVar('color-surface-default')};
+  color: ${cssVar('color-text-default')};
 
   &:hover,
   &:focus {
-    color: ${cssVar('color-text-on-color')};
-    opacity: 0.9;
+    background-color: ${cssVar('color-surface-hover')};
   }
 `;

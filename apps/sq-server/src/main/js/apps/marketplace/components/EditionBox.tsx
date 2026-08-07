@@ -18,8 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Text } from '@sonarsource/echoes-react';
-import { Image } from '~adapters/components/common/Image';
+import { LogoSonarQubeServer, Text } from '@sonarsource/echoes-react';
 import { Link, SubHeading } from '~design-system';
 import { Edition, EditionKey } from '~sq-server-commons/types/editions';
 
@@ -32,13 +31,8 @@ export default function EditionBox({ edition }: Readonly<Props>) {
     case EditionKey.datacenter:
       return (
         <div>
-          <SubHeading as="h2" id="data-center-edition">
-            <Image
-              alt="SonarQube logo"
-              className="sw-mr-2"
-              src="/images/embed-doc/sq-icon.svg"
-              width={16}
-            />
+          <SubHeading as="h2" className="sw-flex sw-items-center" id="data-center-edition">
+            <LogoSonarQubeServer className="sw-mr-4" size="small" />
             <span>Data Center Edition</span>
           </SubHeading>
           <p className="sw-mt-4">
@@ -66,13 +60,8 @@ export default function EditionBox({ edition }: Readonly<Props>) {
     case EditionKey.enterprise:
       return (
         <div>
-          <SubHeading as="h2" id="enterprise-edition">
-            <Image
-              alt="SonarQube logo"
-              className="sw-mr-2"
-              src="/images/embed-doc/sq-icon.svg"
-              width={16}
-            />
+          <SubHeading as="h2" className="sw-flex sw-items-center" id="enterprise-edition">
+            <LogoSonarQubeServer className="sw-mr-4" size="small" />
             <span>Enterprise Edition</span>
           </SubHeading>
           <p className="sw-mt-4">
@@ -104,13 +93,8 @@ export default function EditionBox({ edition }: Readonly<Props>) {
     case EditionKey.developer:
       return (
         <div>
-          <SubHeading as="h2" id="developer-edition">
-            <Image
-              alt="SonarQube logo"
-              className="sw-mr-2"
-              src="/images/embed-doc/sq-icon.svg"
-              width={16}
-            />
+          <SubHeading as="h2" className="sw-flex sw-items-center" id="developer-edition">
+            <LogoSonarQubeServer className="sw-mr-4" size="small" />
             <span>Developer Edition</span>
           </SubHeading>
           <p className="sw-mt-4">

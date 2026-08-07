@@ -33,7 +33,9 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useProjectBranchesQuery } from '~adapters/queries/branch';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isMainBranch } from '~shared/helpers/branch-like';
+import { useCurrentTheme } from '~shared/helpers/css';
 import { GreyCard } from '../../design-system';
+import { almIconUrl } from '../../helpers/almIcons';
 import { getProjectTutorialLocation } from '../../helpers/urls';
 import { Image } from '../../sq-server-adapters/components/common/Image';
 import { AlmKeys, AlmSettingsInstance, ProjectAlmBindingResponse } from '../../types/alm-settings';
@@ -101,6 +103,7 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
   } = props;
 
   const intl = useIntl();
+  const currentTheme = useCurrentTheme();
   const { data: branchLikes = [] } = useProjectBranchesQuery(component);
 
   const mainBranchName =
@@ -195,7 +198,7 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
                 <Image
                   alt="" // Should be ignored by screen readers
                   className="sw-h-400 sw-w-200"
-                  src="/images/tutorials/github-actions.svg"
+                  src={almIconUrl(currentTheme, AlmKeys.GitHub)}
                 />,
               )}
 
@@ -206,7 +209,7 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
                 <Image
                   alt="" // Should be ignored by screen readers
                   className="sw-h-400 sw-w-200"
-                  src="/images/alm/bitbucket.svg"
+                  src={almIconUrl(currentTheme, AlmKeys.BitbucketServer)}
                 />,
               )}
 
@@ -217,7 +220,7 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
                 <Image
                   alt="" // Should be ignored by screen readers
                   className="sw-h-400 sw-w-200"
-                  src="/images/alm/gitlab.svg"
+                  src={almIconUrl(currentTheme, AlmKeys.GitLab)}
                 />,
               )}
 

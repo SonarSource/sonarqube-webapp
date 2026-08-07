@@ -20,6 +20,8 @@
 
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
+import { useAlmIconSrc } from '~adapters/helpers/almIcons';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { Component } from '~sq-server-commons/types/types';
 import { useProjectProvisionedStatus } from './useProjectProvisionedStatus';
 
@@ -37,6 +39,8 @@ export function PermissionsProjectPageTitle(props: Readonly<Props>) {
     isProjectManaged,
   );
 
+  const iconUrl = useAlmIconSrc(provisionedByGitHub ? AlmKeys.GitHub : AlmKeys.GitLab);
+
   return (
     <>
       <FormattedMessage id="permissions.page" />
@@ -53,7 +57,7 @@ export function PermissionsProjectPageTitle(props: Readonly<Props>) {
           )}
           className="sw-mx-2 sw-align-baseline"
           height={16}
-          src={`/images/alm/${provisionedByGitHub ? 'github' : 'gitlab'}.svg`}
+          src={iconUrl}
         />
       )}
     </>

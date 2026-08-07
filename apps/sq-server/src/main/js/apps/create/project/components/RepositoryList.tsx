@@ -22,10 +22,10 @@ import styled from '@emotion/styled';
 import { Button, ButtonVariety, Checkbox, cssVar, Text } from '@sonarsource/echoes-react';
 import { useCallback, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useAlmIconSrc } from '~adapters/helpers/almIcons';
 import { InputSearch } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { Paging } from '~shared/types/paging';
-import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { GithubRepository, GitlabProject } from '~sq-server-commons/types/alm-integration';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import AlmRepoItem from '../components/AlmRepoItem';
@@ -76,6 +76,8 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
     }
   }, [areAllRepositoriesChecked, checkAll, uncheckAll]);
 
+  const iconUrl = useAlmIconSrc(almKey);
+
   if (!repositories) {
     return null;
   }
@@ -110,7 +112,7 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
           <ul className="sw-flex sw-flex-col sw-gap-3">
             {repositories.map(({ id, name, sqProjectKey, url, ...repo }) => (
               <AlmRepoItem
-                almIconSrc={`${getBaseUrl()}/images/alm/${almKey}.svg`}
+                almIconSrc={iconUrl}
                 almKey={almKey === AlmKeys.GitHub ? (repo as GithubRepository).key : id}
                 almUrl={url}
                 almUrlText={formatMessage(

@@ -20,27 +20,32 @@
 
 import { Image } from '~adapters/components/common/Image';
 import { ItemLink } from '~design-system';
+import { useCurrentTheme } from '~shared/helpers/css';
+import { almIconUrl, almKeyToIconKey } from '~sq-server-commons/helpers/almIcons';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
-import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { ProjectCreationMode } from '../types';
 
 export interface ProjectCreationMenuItemProps {
-  alm: string;
+  alm: ProjectCreationMode;
 }
 
 export default function ProjectCreationMenuItem(props: ProjectCreationMenuItemProps) {
   const { alm } = props;
-  let almIcon = alm;
-  if (alm === AlmKeys.BitbucketCloud) {
-    almIcon = 'bitbucket';
-  }
+  const currentTheme = useCurrentTheme();
+
   return (
     <ItemLink
       className="sw-flex sw-items-center"
       to={{ pathname: '/projects/create', search: queryToSearchString({ mode: alm }) }}
     >
       {alm !== 'manual' && (
-        <Image alt={alm} className="sw-mr-2" src={`/images/alm/${almIcon}.svg`} width={16} />
+        <Image
+          alt={alm}
+          className="sw-mr-2"
+          src={almIconUrl(currentTheme, almKeyToIconKey(alm))}
+          width={16}
+        />
       )}
       {translate('my_account.add_project', alm)}
     </ItemLink>

@@ -19,10 +19,13 @@
  */
 
 import { Link } from '@sonarsource/echoes-react';
+import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
 import { FlagMessage, SubTitle, ToggleButton } from '~design-system';
+import { useCurrentTheme } from '~shared/helpers/css';
 import { isDefined } from '~shared/helpers/types';
+import { almIconUrl, almKeyToIconKey } from '~sq-server-commons/helpers/almIcons';
 import { useGetValuesQuery } from '~sq-server-commons/queries/settings';
 import {
   AlmKeys,
@@ -52,44 +55,7 @@ export interface AlmIntegrationRendererProps {
   projectCount?: number;
 }
 
-const tabs = [
-  {
-    label: (
-      <>
-        <Image alt="github" className="sw-mr-2" height={16} src="/images/alm/github.svg" />
-        <FormattedMessage id="settings.almintegration.tab.github" />
-      </>
-    ),
-    value: AlmKeys.GitHub,
-  },
-  {
-    label: (
-      <>
-        <Image alt="bitbucket" className="sw-mr-2" height={16} src="/images/alm/bitbucket.svg" />
-        <FormattedMessage id="settings.almintegration.tab.bitbucket" />
-      </>
-    ),
-    value: AlmKeys.BitbucketServer,
-  },
-  {
-    label: (
-      <>
-        <Image alt="azure" className="sw-mr-2" height={16} src="/images/alm/azure.svg" />
-        <FormattedMessage id="settings.almintegration.tab.azure" />
-      </>
-    ),
-    value: AlmKeys.Azure,
-  },
-  {
-    label: (
-      <>
-        <Image alt="gitlab" className="sw-mr-2" height={16} src="/images/alm/gitlab.svg" />
-        <FormattedMessage id="settings.almintegration.tab.gitlab" />
-      </>
-    ),
-    value: AlmKeys.GitLab,
-  },
-];
+const TABS = [AlmKeys.GitHub, AlmKeys.BitbucketServer, AlmKeys.Azure, AlmKeys.GitLab];
 
 export default function AlmIntegrationRenderer(props: Readonly<AlmIntegrationRendererProps>) {
   const {
@@ -110,6 +76,26 @@ export default function AlmIntegrationRenderer(props: Readonly<AlmIntegrationRen
     [AlmKeys.GitHub]: definitions.github,
     [AlmKeys.BitbucketServer]: [...definitions.bitbucket, ...definitions.bitbucketcloud],
   };
+
+  const currentTheme = useCurrentTheme();
+  const tabs = useMemo(
+    () =>
+      TABS.map((almKey) => ({
+        label: (
+          <>
+            <Image
+              alt={almKey}
+              className="sw-mr-2"
+              height={16}
+              src={almIconUrl(currentTheme, almKeyToIconKey(almKey))}
+            />
+            <FormattedMessage id={`settings.almintegration.tab.${almKey}`} />
+          </>
+        ),
+        value: almKey,
+      })),
+    [currentTheme],
+  );
 
   const { data, isLoading } = useGetValuesQuery([SettingsKey.ServerBaseUrl]);
   const hasServerBaseUrl = data?.length === 1 && data[0]?.value !== undefined;

@@ -25,8 +25,10 @@ import { Image } from '~adapters/components/common/Image';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { isPullRequest } from '~shared/helpers/branch-like';
+import { useCurrentTheme } from '~shared/helpers/css';
 import { PULL_REQUEST_DECORATION_BINDING_CATEGORY } from '../../constants/settings';
 import { useAvailableFeatures } from '../../context/available-features/withAvailableFeatures';
+import { almIconUrl, almKeyToIconKey } from '../../helpers/almIcons';
 import { getProjectSettingsUrl } from '../../helpers/urls';
 import { useProjectBindingQuery } from '../../queries/devops-integration';
 import { AlmKeys } from '../../types/alm-settings';
@@ -37,14 +39,6 @@ interface ComponentNavBindingStatusProps {
   component: Component;
   prLinkAddon?: ReactNode;
 }
-
-const DOP_LOGOS = {
-  [AlmKeys.Azure]: '/images/alm/azure.svg',
-  [AlmKeys.BitbucketCloud]: '/images/alm/bitbucket.svg',
-  [AlmKeys.BitbucketServer]: '/images/alm/bitbucket.svg',
-  [AlmKeys.GitHub]: '/images/alm/github.svg',
-  [AlmKeys.GitLab]: '/images/alm/gitlab.svg',
-};
 
 const DOP_LABEL_IDS: Record<AlmKeys, string> = {
   [AlmKeys.Azure]: 'alm.azure',
@@ -58,6 +52,7 @@ export function ComponentNavBindingStatus(props: Readonly<ComponentNavBindingSta
   const { component, prLinkAddon } = props;
   const { hasFeature } = useAvailableFeatures();
   const { isLoggedIn } = useCurrentUser();
+  const currentTheme = useCurrentTheme();
   const { data: currentBranchLike } = useCurrentBranchQuery(component);
   const { data: projectBinding, isLoading: isLoadingProjectBinding } = useProjectBindingQuery(
     component.key,
@@ -81,7 +76,14 @@ export function ComponentNavBindingStatus(props: Readonly<ComponentNavBindingSta
           >
             <Button
               isDisabled={!projectBinding?.repositoryUrl}
-              prefix={<Image alt={almKey} height={16} src={DOP_LOGOS[almKey]} width={16} />}
+              prefix={
+                <Image
+                  alt={almKey}
+                  height={16}
+                  src={almIconUrl(currentTheme, almKeyToIconKey(almKey))}
+                  width={16}
+                />
+              }
               to={projectBinding.repositoryUrl}
             >
               {projectBinding?.repositoryUrl ? (

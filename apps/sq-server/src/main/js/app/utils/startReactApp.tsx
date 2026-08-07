@@ -431,9 +431,12 @@ export default function startReactApp(
             <AddonsContext.Provider value={addons}>
               <CurrentUserContextProvider currentUser={currentUser}>
                 <RawIntlProvider value={l10nBundle}>
-                  <ThemeController />
                   <QueryClientProvider client={queryClient}>
-                    <GlobalStyles />
+                    <ThemeController>
+                      {/* GlobalStyles needs to be a child of ThemeController,
+                      to ensure it watches the theme properly */}
+                      <GlobalStyles />
+                    </ThemeController>
                     <Helmet titleTemplate={translate('page_title.template.default')} />
 
                     <RouterProvider

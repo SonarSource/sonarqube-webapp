@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Select, SelectOption } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { InputSelect, LabelValueSelectOption } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { useIntl } from 'react-intl';
 import { TaskStatuses } from '~sq-server-commons/types/tasks';
 import { STATUSES } from '../constants';
 
@@ -31,37 +31,44 @@ interface StatusFilterProps {
 }
 
 export default function StatusFilter(props: Readonly<StatusFilterProps>) {
+  const { formatMessage } = useIntl();
   const { id, value, onChange } = props;
 
-  const options: LabelValueSelectOption[] = [
-    { value: STATUSES.ALL, label: translate('background_task.status.ALL') },
+  const options: SelectOption[] = [
+    { value: STATUSES.ALL, label: formatMessage({ id: 'background_task.status.ALL' }) },
     {
       value: STATUSES.ALL_EXCEPT_PENDING,
-      label: translate('background_task.status.ALL_EXCEPT_PENDING'),
+      label: formatMessage({ id: 'background_task.status.ALL_EXCEPT_PENDING' }),
     },
-    { value: TaskStatuses.Pending, label: translate('background_task.status.PENDING') },
-    { value: TaskStatuses.InProgress, label: translate('background_task.status.IN_PROGRESS') },
-    { value: TaskStatuses.Success, label: translate('background_task.status.SUCCESS') },
-    { value: TaskStatuses.Failed, label: translate('background_task.status.FAILED') },
-    { value: TaskStatuses.Canceled, label: translate('background_task.status.CANCELED') },
+    { value: TaskStatuses.Pending, label: formatMessage({ id: 'background_task.status.PENDING' }) },
+    {
+      value: TaskStatuses.InProgress,
+      label: formatMessage({ id: 'background_task.status.IN_PROGRESS' }),
+    },
+    { value: TaskStatuses.Success, label: formatMessage({ id: 'background_task.status.SUCCESS' }) },
+    { value: TaskStatuses.Failed, label: formatMessage({ id: 'background_task.status.FAILED' }) },
+    {
+      value: TaskStatuses.Canceled,
+      label: formatMessage({ id: 'background_task.status.CANCELED' }),
+    },
   ];
 
   const handleChange = React.useCallback(
-    ({ value }: LabelValueSelectOption) => {
+    (value: string) => {
       onChange(value);
     },
     [onChange],
   );
 
   return (
-    <InputSelect
-      aria-labelledby="background-task-status-filter-label"
-      className="sw-w-abs-200"
-      id={id}
+    <Select
+      ariaLabelledBy="background-task-status-filter-label"
+      data={options}
+      isNotClearable
+      name={id}
       onChange={handleChange}
-      options={options}
-      size="medium"
-      value={options.find((o) => o.value === value)}
+      value={value}
+      width="medium"
     />
   );
 }

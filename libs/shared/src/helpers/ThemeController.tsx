@@ -19,7 +19,7 @@
  */
 
 import { Theme as EchoesTheme, setTheme } from '@sonarsource/echoes-react';
-import { useEffect, useMemo } from 'react';
+import { PropsWithChildren, useEffect, useMemo } from 'react';
 import { useThemeMode } from '~adapters/helpers/useThemeMode';
 import { ThemeMode } from '../types/themes';
 import useMediaQueryMatcher from './useMediaQueryMatcher';
@@ -27,7 +27,7 @@ import useMediaQueryMatcher from './useMediaQueryMatcher';
 /**
  * This component listens to changes to the themeMode and sets the theme
  */
-export function ThemeController() {
+export function ThemeController({ children }: Readonly<PropsWithChildren>) {
   const [themeMode] = useThemeMode();
   const isPrintMode = useMediaQueryMatcher('print');
   const isBrowserDarkColorSchemePreferred = useMediaQueryMatcher('(prefers-color-scheme: dark)');
@@ -48,5 +48,5 @@ export function ThemeController() {
     setTheme(selectedTheme);
   }, [selectedTheme]);
 
-  return null;
+  return children;
 }

@@ -39,9 +39,9 @@ const navigationHandler = new NavigationServiceMock();
 
 const ui = {
   title: byRole('heading', { name: 'marketplace.page.plugins' }),
-  deTitle: byRole('heading', { name: 'SonarQube logo Developer Edition' }),
-  eeTitle: byRole('heading', { name: 'SonarQube logo Enterprise Edition' }),
-  dceTitle: byRole('heading', { name: 'SonarQube logo Data Center Edition' }),
+  deTitle: byRole('heading', { name: 'logo.sonarqube.server Developer Edition' }),
+  eeTitle: byRole('heading', { name: 'logo.sonarqube.server Enterprise Edition' }),
+  dceTitle: byRole('heading', { name: 'logo.sonarqube.server Data Center Edition' }),
   pluginRow: byRole('table', { name: 'marketplace.page.plugins' }).byRole('row'),
   filterAll: byRole('radio', { name: 'marketplace.all' }),
   filterInstalled: byRole('radio', { name: 'marketplace.installed' }),

@@ -164,6 +164,7 @@ export function selectStyle<
     }),
     menu: (base) => ({
       ...base,
+      backgroundColor: cssVar('color-surface-default'),
       width: INPUT_SIZES[size],
     }),
     option: (base, { isFocused, isSelected }) => ({
