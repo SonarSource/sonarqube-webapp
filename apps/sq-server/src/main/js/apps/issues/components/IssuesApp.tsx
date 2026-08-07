@@ -34,6 +34,7 @@ import { FormattedMessage } from 'react-intl';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { withRouter } from '~shared/components/hoc/withRouter';
+import { IssuesFilteredResultsAnnouncement } from '~shared/components/issues/IssuesFilteredResultsAnnouncement';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
 import {
   STANDARDS,
@@ -1214,6 +1215,12 @@ export class App extends React.PureComponent<Props, State> {
             />
           </div>
         </div>
+
+        <IssuesFilteredResultsAnnouncement
+          isFiltered={this.isFiltered()}
+          loading={loading}
+          total={paging?.total ?? 0}
+        />
 
         <Spinner
           ariaLabel={translate('issues.loading_issues')}

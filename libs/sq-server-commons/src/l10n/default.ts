@@ -398,6 +398,7 @@ export const defaultMessages = {
   'projects.favorite_search.clear_all_filters': 'Clear all filters',
   'projects.sidebar.clear_all_filters': 'Clear all filters',
   'no_results_search.2': 'Try to change filters to get some results.',
+  'issues.x_results_found': '{count, plural, one {# result found} other {# results found}}',
   'select_list.no_items': 'No items',
   'select_list.no_selected_items': 'No selected items',
   'select_list.no_unselected_items': 'No unselected items',
