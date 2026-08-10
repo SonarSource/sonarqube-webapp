@@ -109,7 +109,7 @@ it('should not display an empty card description', () => {
     aiCodeAssurance: AiCodeAssuranceStatus.NONE,
   });
 
-  expect(screen.getByRole('heading').nextElementSibling).toBeNull();
+  expect(screen.queryByTestId('project-card-description')).not.toBeInTheDocument();
 });
 
 it('should display tags', async () => {

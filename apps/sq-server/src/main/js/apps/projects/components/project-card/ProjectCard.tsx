@@ -149,7 +149,10 @@ function CardInfo({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
   }
 
   return (
-    <div className="sw-flex sw-justify-between sw-items-center sw-mt-3">
+    <div
+      className="sw-flex sw-justify-between sw-items-center sw-mt-3"
+      data-testid="project-card-description"
+    >
       <Text
         as="div"
         className="sw-flex sw-max-w-full sw-flex-wrap sw-items-center sw-min-w-0"
