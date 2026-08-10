@@ -38,6 +38,7 @@ import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { QGStatus } from '~shared/types/common';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey, MetricType } from '~shared/types/metrics';
+import { AiCodeAssuranceStatus } from '~sq-server-commons/api/ai-code-assurance';
 import ChangeInCalculation from '~sq-server-commons/components/common/ChangeInCalculationPill';
 import Favorite from '~sq-server-commons/components/controls/Favorite';
 import { ContainsAICodeBadge } from '~sq-server-commons/components/shared/ContainsAICodeBadge';
@@ -131,7 +132,21 @@ function CardTitle({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
 }
 
 function CardInfo({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
-  const { analysisDate, key, measures, tags } = project;
+  const { aiCodeAssurance, analysisDate, key, measures, tags } = project;
+  const hasCodeStatistics = isNewCode
+    ? measures[MetricKey.new_lines] != null
+    : measures[MetricKey.ncloc] != null;
+  const hasAiCodeAssurance =
+    isDefined(aiCodeAssurance) && aiCodeAssurance !== AiCodeAssuranceStatus.NONE;
+
+  if (
+    !isStringDefined(analysisDate) &&
+    !hasCodeStatistics &&
+    tags.length === 0 &&
+    !hasAiCodeAssurance
+  ) {
+    return undefined;
+  }
 
   return (
     <div className="sw-flex sw-justify-between sw-items-center sw-mt-3">
@@ -211,9 +226,7 @@ function CardInfo({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
           </>
         )}
       </Text>
-      {project.aiCodeAssurance && (
-        <AICodeAssuranceStatus aiCodeAssuranceStatus={project.aiCodeAssurance} />
-      )}
+      {hasAiCodeAssurance && <AICodeAssuranceStatus aiCodeAssuranceStatus={aiCodeAssurance} />}
     </div>
   );
 }
