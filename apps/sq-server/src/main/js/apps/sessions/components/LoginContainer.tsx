@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Layout } from '@sonarsource/echoes-react';
+import { Layout, ThemeProvider } from '@sonarsource/echoes-react';
 import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import Login from './Login';
 import MarketingPanel from './MarketingPanel';
@@ -33,9 +33,11 @@ export default function LoginContainer() {
             <Login />
           </div>
         </div>
-        <div className="sw-flex-1 sw-flex">
-          <MarketingPanel />
-        </div>
+        <ThemeProvider asChild theme="light">
+          <div className="sw-flex-1 sw-flex">
+            <MarketingPanel />
+          </div>
+        </ThemeProvider>
       </LoginContainerWrapper>
       <GlobalFooter hideLoggedInInfo />
     </Layout.PageGrid>
