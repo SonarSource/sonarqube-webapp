@@ -81,7 +81,11 @@ export function OverviewQGPassedIcon({
         strokeWidth="6"
       />
       <ellipse cx="22.5" cy="122.676" fill={cssVar('color-icon-accent')} rx="22.5" ry="22.5" />
-      <path d="M14 121.063L21 128.594L34 114.607" stroke="white" strokeWidth="6" />
+      <path
+        d="M14 121.063L21 128.594L34 114.607"
+        stroke={cssVar('color-surface-default')}
+        strokeWidth="6"
+      />
       <path
         d="M108.684 52.7433C116.712 48.065 123.243 41.1875 127.5 32.9269C131.757 41.1875 138.288 48.065 146.316 52.7433C138.288 57.4216 131.757 64.2991 127.5 72.5597C123.243 64.2991 116.712 57.4216 108.684 52.7433Z"
         stroke={cssVar('color-icon-accent')}

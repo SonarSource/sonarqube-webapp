@@ -21,13 +21,11 @@
 import { Button, ButtonVariety, IconSparkle } from '@sonarsource/echoes-react';
 import { AxiosError } from 'axios';
 import { FormattedMessage } from 'react-intl';
+import { OverviewQGNotComputedIcon } from '~shared/components/visual-components/OverviewQGNotComputedIcon';
+import { OverviewQGPassedIcon } from '~shared/components/visual-components/OverviewQGPassedIcon';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { HttpStatus } from '~shared/types/request';
-import {
-  InProgressVisual,
-  OverviewQGNotComputedIcon,
-  OverviewQGPassedIcon,
-} from '../../design-system';
+import { InProgressVisual } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { usePrefetchSuggestion, useUnifiedSuggestionsQuery } from '../../queries/fix-suggestions';
 import { useRawSourceQuery } from '../../queries/sources';

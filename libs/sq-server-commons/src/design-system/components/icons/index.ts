@@ -61,8 +61,6 @@ export { NoDataIcon } from './NoDataIcon';
 export { OpenCloseIndicator } from './OpenCloseIndicator';
 export { OpenNewTabIcon } from './OpenNewTabIcon';
 export { OverridenIcon } from './OverridenIcon';
-export { OverviewQGNotComputedIcon } from './OverviewQGNotComputedIcon';
-export { OverviewQGPassedIcon } from './OverviewQGPassedIcon';
 export { PencilIcon } from './PencilIcon';
 export { PinIcon } from './PinIcon';
 export { ProjectIcon } from './ProjectIcon';
