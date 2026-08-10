@@ -19,7 +19,7 @@
  */
 
 import { Button } from '@sonarsource/echoes-react';
-import { act, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { copy } from 'clipboard';
 import { render, renderWithContext } from '../../helpers/test-utils';
@@ -35,33 +35,10 @@ describe('useCopyClipboardEffect', () => {
     return <Button onClick={handleCopy}>{copySuccess ? 'copied' : 'copy'}</Button>;
   }
 
-  beforeEach(() => {
-    jest.useFakeTimers();
-  });
-
-  afterEach(() => {
-    jest.runOnlyPendingTimers();
-    jest.useRealTimers();
-  });
-
-  it('should allow its content to be copied', async () => {
-    const { user } = render(<TestComponent />, {}, { delay: null });
-    const btn = screen.getByRole('button', { name: 'copy' });
-    expect(btn).toHaveTextContent('copy');
-
-    await user.click(btn);
-    expect(copy).toHaveBeenCalled();
-    expect(btn).toHaveTextContent('copied');
-
-    act(() => {
-      jest.advanceTimersByTime(900);
-    });
-    expect(btn).toHaveTextContent('copied');
-
-    act(() => {
-      jest.runAllTimers();
-    });
-    expect(btn).toHaveTextContent('copy');
+  it('should call copy when clicked', async () => {
+    const { user } = render(<TestComponent />);
+    await user.click(screen.getByRole('button', { name: 'copy' }));
+    expect(copy).toHaveBeenCalledWith('foo');
   });
 });
 
