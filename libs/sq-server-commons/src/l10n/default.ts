@@ -2656,6 +2656,8 @@ export const defaultMessages = {
     "Sorry, we couldn't delete the pattern. Please try again later.",
   'architecture.patterns.create': 'Create Pattern',
   'architecture.patterns.edit.title': 'Edit {name}',
+  'architecture.patterns.edit.load.error':
+    "Sorry, we couldn't open that pattern. Please try again later.",
   'architecture.patterns.edit.saved': 'Pattern saved successfully.',
   'architecture.patterns.edit.unsaved_changes': 'You have unsaved changes.',
   'architecture.patterns.edit.spotlight.name': 'Pattern name',
