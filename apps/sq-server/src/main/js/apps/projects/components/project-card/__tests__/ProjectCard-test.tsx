@@ -101,6 +101,17 @@ it('should not display the quality gate', () => {
   expect(screen.getByText('projects.not_analyzed.TRK')).toBeInTheDocument();
 });
 
+it('should not display an empty card description', () => {
+  renderProjectCard({
+    ...PROJECT,
+    analysisDate: undefined,
+    measures: {},
+    aiCodeAssurance: AiCodeAssuranceStatus.NONE,
+  });
+
+  expect(screen.getByRole('heading').nextElementSibling).toBeNull();
+});
+
 it('should display tags', async () => {
   const project = { ...PROJECT, tags: ['foo', 'bar'] };
   renderProjectCard(project);
