@@ -56,6 +56,24 @@ export function registerServiceMocks(...mocks: AbstractServiceMock<unknown>[]) {
 }
 
 /**
+ * Records the URL of every request made through the shared MSW server while tracking is active.
+ * Useful for asserting on request parameters (query string, path) that a service mock's handler
+ * doesn't otherwise expose. Call stopTracking() once done to remove the listener.
+ */
+export function trackRequestedUrls() {
+  const requestedUrls: string[] = [];
+  const listener = ({ request }: { request: Request }) => {
+    requestedUrls.push(request.url);
+  };
+  server.events.on('request:start', listener);
+
+  return {
+    requestedUrls,
+    stopTracking: () => server.events.removeListener('request:start', listener),
+  };
+}
+
+/**
  * Registers mocks whose handlers persist across resetServiceMocks() calls. Use for cross-cutting
  * endpoints hit by the shared page shell (e.g. the clean-code-policy mode on SonarQube Server) that
  * individual tests don't care about but must not leave unhandled. Tests can still override them by
