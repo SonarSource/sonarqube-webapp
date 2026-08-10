@@ -77,7 +77,7 @@ function percentFormatter(
   { decimals, omitExtraDecimalZeros }: { decimals?: number; omitExtraDecimalZeros?: boolean } = {},
 ): string {
   if (typeof value === 'string') {
-    value = parseFloat(value);
+    value = Number.parseFloat(value);
   }
   if (value === 100) {
     return '100%';
@@ -89,7 +89,7 @@ function percentFormatter(
 
 function ratingFormatter(value: string | number): RatingLabel {
   if (typeof value === 'string') {
-    value = parseInt(value, 10);
+    value = Number.parseInt(value, 10);
   }
   return String.fromCharCode(97 + value - 1).toUpperCase() as RatingLabel;
 }
@@ -110,7 +110,7 @@ function millisecondsFormatter(value: string | number): string {
   const ONE_MINUTE = 60 * ONE_SECOND;
 
   if (typeof value === 'string') {
-    value = parseInt(value, 10);
+    value = Number.parseInt(value, 10);
   }
   if (value >= ONE_MINUTE) {
     const minutes = Math.round(value / ONE_MINUTE);
@@ -132,7 +132,7 @@ function numberFormatter(
     maximumFractionDigits,
   });
   if (typeof value === 'string') {
-    return format(parseFloat(value));
+    return format(Number.parseFloat(value));
   }
   return format(value);
 }
@@ -161,7 +161,7 @@ function shortIntFormatter(
 
   const roundingFunc = option?.roundingFunc;
   if (typeof value === 'string') {
-    value = parseFloat(value);
+    value = Number.parseFloat(value);
   }
   for (let i = 0; i < shortIntFormats.length; i++) {
     const { unit, formatUnit, fraction, suffix } = shortIntFormats[i];
@@ -264,7 +264,7 @@ function formatDurationShort(
 
 function durationFormatter(formatMessage: FormatMessageFunction, value: string | number): string {
   if (typeof value === 'string') {
-    value = parseInt(value, 10);
+    value = Number.parseInt(value, 10);
   }
   if (value === 0) {
     return '0';
@@ -284,7 +284,7 @@ function shortDurationFormatter(
   value: string | number,
 ): string {
   if (typeof value === 'string') {
-    value = parseInt(value, 10);
+    value = Number.parseInt(value, 10);
   }
   if (value === 0) {
     return '0';

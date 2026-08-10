@@ -24,7 +24,10 @@ import { MetricKey, MetricType } from '../types/metrics';
 export function isValidPercentageMetric(metric: Metric, value: string) {
   const floatValue = Number(value);
   return (
-    metric.type === MetricType.Percent && !isNaN(floatValue) && floatValue >= 0 && floatValue <= 100
+    metric.type === MetricType.Percent &&
+    !Number.isNaN(floatValue) &&
+    floatValue >= 0 &&
+    floatValue <= 100
   );
 }
 

@@ -161,10 +161,10 @@ export function scaConditionOperator(metricKey: string) {
 
 /** Get severity enum values that are greater than or equal to a given value */
 export function scaFilterConditionsBySeverity(threshold: string): ReleaseRiskSeverity[] {
-  const intThreshold = parseInt(threshold, 10);
+  const intThreshold = Number.parseInt(threshold, 10);
   return Object.entries(SCA_RISK_SEVERITY_METRIC_VALUES)
     .filter(([value]) => {
-      return parseInt(value, 10) >= intThreshold;
+      return Number.parseInt(value, 10) >= intThreshold;
     })
     .map(([_, severity]) => severity);
 }
