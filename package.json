@@ -217,7 +217,7 @@
     "nyc": "18.0.0",
     "openapi-types": "12.1.3",
     "otpauth": "9.5.1",
-    "postcss": "8.5.19",
+    "postcss": "8.5.23",
     "postcss-calc": "10.1.1",
     "prettier": "3.9.5",
     "prettier-plugin-organize-imports": "4.3.0",
