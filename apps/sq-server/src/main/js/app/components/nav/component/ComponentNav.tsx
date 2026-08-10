@@ -59,7 +59,15 @@ export function ComponentNav(props: Readonly<Props>) {
   const { breadcrumbs, key, name } = component;
   const { qualifier } = breadcrumbs.at(-1) ?? {};
   const hasBranches = branchLikes.length > 1;
+  const isPortfolio = isPortfolioLike(component.qualifier);
   const isAnalyzed = hasBranches || isInProgress || isPending || isDefined(component.analysisDate);
+  /**
+   * Portfolios aren't set up via a scanner, so there's no onboarding step for them: they
+   * should never show the "set up analysis" tutorial, and their overview/issues navigation
+   * should always be reachable, even before their first computation.
+   */
+  const showOnboarding = !isPortfolio && !isAnalyzed;
+  const showAnalysisMenu = isAnalyzed || isPortfolio;
 
   const isApplicationChildInaccessible =
     isApplication(component.qualifier) && !component.canBrowseAllChildProjects;
@@ -88,7 +96,7 @@ export function ComponentNav(props: Readonly<Props>) {
       />
 
       <Layout.SidebarNavigation.Body>
-        {!isAnalyzed && (
+        {showOnboarding && (
           <Layout.SidebarNavigation.Item
             Icon={IconRocket}
             to={getProjectTutorialLocation(component.key)}
@@ -96,7 +104,9 @@ export function ComponentNav(props: Readonly<Props>) {
             <FormattedMessage id="onboarding.project_analysis.menu_entry" />
           </Layout.SidebarNavigation.Item>
         )}
-        {isAnalyzed && <ComponentNavAnalysisMenu branchLike={branchLike} component={component} />}
+        {showAnalysisMenu && (
+          <ComponentNavAnalysisMenu branchLike={branchLike} component={component} />
+        )}
 
         {isAnalyzed &&
           hasFeature(Feature.Architecture) &&

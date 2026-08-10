@@ -56,11 +56,32 @@ export function ComponentNavProjectMenu(props: Readonly<Props>) {
   const isPortfolio = isPortfolioLike(qualifier);
   const isApp = isApplication(qualifier);
   const isProj = isProject(qualifier);
-  const showBranches =
+  const showBranches = Boolean(
     isProj &&
     component.configuration?.showSettings &&
     hasFeature(Feature.BranchSupport) &&
-    addons.branches;
+    addons.branches,
+  );
+  const showCode = !isPortfolio && isAnalyzed;
+  const scaAddon = addons.sca;
+  const showDependencies = showCode && hasFeature(Feature.Sca) && scaAddon !== undefined;
+  const remediationAgentAddon = addons.remediationAgent;
+  const showRemediationAgent =
+    isProj &&
+    isLoggedIn &&
+    hasFeature(Feature.RemediationAgent) &&
+    remediationAgentAddon !== undefined;
+  const showInformation = isProj || isApp;
+
+  if (
+    !showBranches &&
+    !showCode &&
+    !showDependencies &&
+    !showRemediationAgent &&
+    !showInformation
+  ) {
+    return null;
+  }
 
   return (
     <Layout.SidebarNavigation.Group
@@ -74,7 +95,7 @@ export function ComponentNavProjectMenu(props: Readonly<Props>) {
           <FormattedMessage id="project_branch_pull_request.page" />
         </Layout.SidebarNavigation.Item>
       )}
-      {!isPortfolio && isAnalyzed && (
+      {showCode && (
         <Layout.SidebarNavigation.Item
           Icon={IconFileCode}
           to={getCodeUrl(component.key, branchLike)}
@@ -82,21 +103,21 @@ export function ComponentNavProjectMenu(props: Readonly<Props>) {
           <FormattedMessage id={isApp ? 'view_projects.page' : 'code.page'} />
         </Layout.SidebarNavigation.Item>
       )}
-      {isAnalyzed && hasFeature(Feature.Sca) && addons.sca && (
+      {showDependencies && scaAddon && (
         <Layout.SidebarNavigation.Item
           Icon={IconDependency}
-          to={addons.sca.getReleasesUrl({ newParams: query })}
+          to={scaAddon.getReleasesUrl({ newParams: query })}
         >
           <FormattedMessage id="dependencies.bill_of_materials" />
         </Layout.SidebarNavigation.Item>
       )}
-      {isProj && isLoggedIn && hasFeature(Feature.RemediationAgent) && addons.remediationAgent && (
+      {showRemediationAgent && remediationAgentAddon && (
         <Layout.SidebarNavigation.Item
           Icon={IconSparkle}
           suffix={
             <NewBadge
               expirationDate={
-                addons.remediationAgent.PROJECT_AGENT_ACTIVITY_NEW_BADGE_EXPIRATION_DATE
+                remediationAgentAddon.PROJECT_AGENT_ACTIVITY_NEW_BADGE_EXPIRATION_DATE
               }
             />
           }
@@ -108,7 +129,7 @@ export function ComponentNavProjectMenu(props: Readonly<Props>) {
           <FormattedMessage id="project_agent_activity.title" />
         </Layout.SidebarNavigation.Item>
       )}
-      {(isProj || isApp) && (
+      {showInformation && (
         <Layout.SidebarNavigation.Item
           Icon={IconInfo}
           to={{

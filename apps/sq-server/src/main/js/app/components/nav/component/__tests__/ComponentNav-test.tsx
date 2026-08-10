@@ -310,6 +310,26 @@ describe('ComponentNav', () => {
       renderComponentNav({ component }, []);
       expect(byText('dependencies.risks').query()).not.toBeInTheDocument();
     });
+
+    it('should render dependencies link for analyzed projects when SCA feature is enabled', () => {
+      const component = mockComponent({
+        analysisDate: '2024-01-01',
+      });
+
+      renderComponentNav({ component }, [Feature.Sca]);
+      expect(byText('dependencies.bill_of_materials').get()).toBeInTheDocument();
+    });
+
+    it('should not render dependencies link for portfolios even when SCA feature is enabled', () => {
+      const component = mockComponent({
+        qualifier: ComponentQualifier.Portfolio,
+        breadcrumbs: [{ key: 'foo', name: 'Foo', qualifier: ComponentQualifier.Portfolio }],
+        analysisDate: '2024-01-01',
+      });
+
+      renderComponentNav({ component }, [Feature.Sca], EditionKey.enterprise);
+      expect(byText('dependencies.bill_of_materials').query()).not.toBeInTheDocument();
+    });
   });
 
   describe('recent history', () => {
