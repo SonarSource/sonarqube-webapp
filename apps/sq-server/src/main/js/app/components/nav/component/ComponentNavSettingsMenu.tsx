@@ -20,6 +20,7 @@
 
 import { IconGear, IconWebhook, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { NewBadge } from '~shared/components/badges/NewBadge';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
@@ -188,6 +189,13 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
       {showAiCapabilities && addons.remediationAgent && (
         <Layout.SidebarNavigation.Item
           Icon={IconGear}
+          suffix={
+            <NewBadge
+              expirationDate={
+                addons.remediationAgent.PROJECT_AGENT_ACTIVITY_NEW_BADGE_EXPIRATION_DATE
+              }
+            />
+          }
           to={{
             pathname: `/project/${addons.remediationAgent.AI_CAPABILITIES_SETTINGS_PATH}`,
             search,

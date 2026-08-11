@@ -873,6 +873,15 @@ export const defaultMessages = {
   'ai_capabilities.remediation_agent.scheduled.friday': 'Friday',
   'ai_capabilities.remediation_agent.scheduled.saturday': 'Saturday',
   'ai_capabilities.remediation_agent.scheduled.sunday': 'Sunday',
+  'ai_capabilities.enabled': 'Enabled',
+  'ai_capabilities.disabled': 'Disabled',
+  'ai_capabilities.project.manual.available':
+    'Manual backlog remediation is enabled for your SonarQube instance.',
+  'ai_capabilities.project.manual.not_available':
+    'Manual backlog remediation is not enabled for your SonarQube instance. Please contact your administrator to enable the feature.',
+  'ai_capabilities.project.manual.not_available.admin':
+    'Manual backlog remediation is not enabled for your SonarQube instance.',
+  'ai_capabilities.project.manual.not_available.admin_cta': 'Enable Manual backlog remediation',
   'ai_capabilities.project.not_available':
     'Automated backlog remediation is not enabled for this project. Please contact your administrator to enable the feature.',
   'ai_capabilities.project.not_available.admin':
