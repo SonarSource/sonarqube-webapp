@@ -10214,6 +10214,10 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.import.view_all': 'View all',
   'onboarding_dashboard.journey.import.legend.imported': 'Imported',
   'onboarding_dashboard.journey.import.legend.not_imported': 'Not imported',
+  'onboarding_dashboard.journey.import.modal.title': 'Repositories',
+  'onboarding_dashboard.journey.import.modal.col.repository': 'Repository name',
+  'onboarding_dashboard.journey.import.modal.col.visibility': 'Visibility',
+  'onboarding_dashboard.journey.import.modal.col.status': 'Status',
   'onboarding_dashboard.journey.analyze.title': 'Analyze your projects',
   'onboarding_dashboard.journey.analyze.description':
     'For full coverage and deep insights, consider moving as many projects as you can to a Full CI configuration.',
@@ -10248,6 +10252,7 @@ export const defaultMessages = {
     'Import your first repositories to see your onboarding momentum and adoption metrics!',
   'onboarding_dashboard.journey.locked.more.cta': 'Import repositories',
   'onboarding_dashboard.loading': 'Loading dashboard',
+  'onboarding_dashboard.table.results_size': '{size}/{total} results',
   'onboarding_dashboard.projects.loading': 'Loading repositories',
   'onboarding_dashboard.stale.loading': 'Loading stale projects',
   'onboarding_dashboard.percent': '{percent}%',
@@ -10266,7 +10271,6 @@ export const defaultMessages = {
   'onboarding_dashboard.stale.col.gate_status': 'Gate status',
   'onboarding_dashboard.stale.col.last_scan': 'Last scan',
   'onboarding_dashboard.stale.filter.gate_status.label': 'Gate status',
-  'onboarding_dashboard.projects.count': '<b>{count}</b> project(s)',
   'onboarding_dashboard.projects.title': 'All projects',
   'onboarding_dashboard.projects.description':
     'A complete overview of all projects that need your attention.',

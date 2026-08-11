@@ -135,7 +135,11 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
           { done: analyzed, total: totalProjects },
         )}
         segments={segments}
-        viewAllLabel={formatMessage({ id: 'onboarding_dashboard.journey.import.view_all' })}
+        viewAll={
+          <Button variety={ButtonVariety.PrimaryGhost}>
+            {formatMessage({ id: 'onboarding_dashboard.journey.import.view_all' })}
+          </Button>
+        }
       />
 
       <div className="sw-flex sw-min-w-0 sw-flex-1 sw-flex-col sw-gap-4">

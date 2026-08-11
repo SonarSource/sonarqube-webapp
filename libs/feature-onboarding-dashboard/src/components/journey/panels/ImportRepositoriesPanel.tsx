@@ -36,6 +36,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { Switch } from '~adapters/components/common/Switch';
 import { JourneyState } from '../../../types/types';
 import { PanelDonut, PanelDonutSegment } from '../charts/PanelDonut';
+import { ImportRepositoriesModal } from '../modals/ImportRepositoriesModal';
 
 interface Props {
   state: JourneyState;
@@ -76,7 +77,15 @@ export function ImportRepositoriesPanel({ state }: Readonly<Props>) {
           { done: imported, total: discovered },
         )}
         segments={segments}
-        viewAllLabel={formatMessage({ id: 'onboarding_dashboard.journey.import.view_all' })}
+        viewAll={
+          <ImportRepositoriesModal
+            trigger={
+              <Button variety={ButtonVariety.PrimaryGhost}>
+                {formatMessage({ id: 'onboarding_dashboard.journey.import.view_all' })}
+              </Button>
+            }
+          />
+        }
       />
 
       <div className="sw-flex sw-min-w-0 sw-flex-1 sw-flex-col sw-gap-4">

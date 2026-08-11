@@ -281,6 +281,7 @@ export interface OnboardingProject {
   ciSystem?: string;
   coverage?: number;
   gateStatus: OnboardingProjectGateStatus | null;
+  isPrivate: boolean;
   key: string | null;
   language?: string;
   lastActivity?: number;

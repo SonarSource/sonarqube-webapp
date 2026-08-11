@@ -49,6 +49,7 @@ const PROJECT_KEY = 'identity-lib';
 const AUTOSCANNED_PROJECT: OnboardingProject = {
   alm: OnboardingDevopsPlatform.Github,
   gateStatus: OnboardingProjectGateStatus.Passed,
+  isPrivate: false,
   key: PROJECT_KEY,
   name: PROJECT_KEY,
   onboarding: OnboardingProjectOnboarding.Analysed,

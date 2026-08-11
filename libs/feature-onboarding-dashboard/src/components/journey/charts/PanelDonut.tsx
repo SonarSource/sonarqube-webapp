@@ -19,7 +19,8 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, ButtonVariety, Card, cssVar, Text, TextSize } from '@sonarsource/echoes-react';
+import { Card, cssVar, Text, TextSize } from '@sonarsource/echoes-react';
+import { ReactNode } from 'react';
 import { DonutChart } from '~shared/components/charts/DonutChart';
 
 const DONUT_SIZE = 150;
@@ -38,25 +39,17 @@ interface Props {
   centerPercent: number;
   /** Secondary line under the center percentage, e.g. "48 / 120". */
   centerSubLabel: string;
-  /** Invoked when the "View all" link is clicked (the link is rendered only with `viewAllLabel`). */
-  onViewAll?: () => void;
   /** Segments driving both the ring and the legend. */
   segments: PanelDonutSegment[];
-  /** When set, renders a "View all" link below the legend. */
-  viewAllLabel?: string;
+  /** When set, renders below the legend — typically a modal with its own trigger. */
+  viewAll?: ReactNode;
 }
 
 /**
  * A donut with a centered percentage, a legend, and an optional "View all" link. Shared by the
  * "Import repositories" and "Analyze your projects" detail panels of the onboarding dashboard.
  */
-export function PanelDonut({
-  centerPercent,
-  centerSubLabel,
-  onViewAll,
-  segments,
-  viewAllLabel,
-}: Readonly<Props>) {
+export function PanelDonut({ centerPercent, centerSubLabel, segments, viewAll }: Readonly<Props>) {
   return (
     <StyledCard className="sw-min-w-0 sw-max-w-[300px]">
       <Card.Body className="sw-flex sw-items-center sw-justify-center sw-gap-8">
@@ -97,11 +90,7 @@ export function PanelDonut({
               </span>
             ))}
           </div>
-          {viewAllLabel !== undefined && (
-            <Button enablePreventDefault onClick={onViewAll} variety={ButtonVariety.PrimaryGhost}>
-              {viewAllLabel}
-            </Button>
-          )}
+          {viewAll}
         </div>
       </Card.Body>
     </StyledCard>

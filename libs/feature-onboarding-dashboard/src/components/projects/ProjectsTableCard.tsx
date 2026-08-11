@@ -18,60 +18,21 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  Card,
-  LoadingContainer,
-  Pagination,
-  SearchInput,
-  SearchInputWidth,
-  Table,
-  TableCellJustify,
-  TableVariety,
-  Text,
-  TextSize,
-} from '@sonarsource/echoes-react';
-import { ComponentType, ReactNode, useEffect, useState } from 'react';
+import { Card } from '@sonarsource/echoes-react';
+import { ReactNode } from 'react';
 import { useIntl } from 'react-intl';
-import { useOnboardingOrganizationKey } from '~adapters/queries/onboarding';
-import { useDebouncedValue } from '~shared/helpers/useDebouncedValue';
-import { useOnboardingProjectsQuery } from '~shared/queries/onboarding';
 import { OnboardingProject, OnboardingProjectsFilter } from '~shared/types/onboarding';
-import { ProjectsTableEmptyRow } from './ProjectsTableEmptyRow';
-import { ProjectsTableRowsSkeleton } from './ProjectsTableRowsSkeleton';
+import { ProjectsTable, ProjectsTableColumn } from './ProjectsTable';
 
-/** The first column holds the project name, so it gets more room than the others. */
-const FIRST_COLUMN_TEMPLATE = 'minmax(240px, 2.5fr)';
-const COLUMN_TEMPLATE = 'minmax(120px, 1fr)';
-
-export interface ProjectsTableColumn {
-  className?: string;
-  /**
-   * Keep the header label out of the visual design but available to assistive technology, for
-   * columns the design shows without a heading.
-   */
-  isLabelHidden?: boolean;
-  justify?: TableCellJustify;
-  labelKey: string;
-  /** Grid track of this column. Defaults to a flexible one, wider for the first column. */
-  width?: string;
-}
-
-export interface ProjectsTableRowProps {
-  project: OnboardingProject;
-}
+export type { ProjectsTableColumn, ProjectsTableRowProps } from './ProjectsTable';
 
 interface Props {
-  /** Column headers, in order. Their count also drives the grid template. */
   columns: ProjectsTableColumn[];
   descriptionKey: string;
-  /**
-   * Server-side filter tokens, AND-ed by the backend. Changing them resets to the first page.
-   */
   filters: OnboardingProjectsFilter[];
   loadingMessageKey: string;
   pageSize: number;
-  /** Rendered once per project; must render exactly one `Table.Row` of `columns.length` cells. */
-  projectRow: ComponentType<Readonly<ProjectsTableRowProps>>;
+  renderRow: (project: OnboardingProject) => ReactNode;
   searchPlaceholderKey: string;
   titleKey: string;
   /** Extra toolbar controls rendered next to the search input, e.g. the filter dropdowns. */
@@ -79,12 +40,9 @@ interface Props {
 }
 
 /**
- * Card wrapping a paged, searchable table of onboarding projects: header, toolbar with the search
- * input and result count, the table itself and its pagination. Searching, filtering and paging are
- * all server-side, driven by `useOnboardingProjectsQuery`.
- *
- * Callers supply the columns and the row renderer; everything else is shared so the project tables
- * of the onboarding dashboard stay consistent.
+ * Card shell around {@link ProjectsTable}: header (title + description), body, and the shared
+ * "N project(s)" result-count label. Used by the onboarding-dashboard project tables that live
+ * on the page (as opposed to inside a modal).
  */
 export function ProjectsTableCard({
   columns,
@@ -92,109 +50,28 @@ export function ProjectsTableCard({
   filters,
   loadingMessageKey,
   pageSize,
-  projectRow: ProjectRow,
+  renderRow,
   searchPlaceholderKey,
   titleKey,
   toolbarControls,
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
-
-  const [searchValue, query, handleSearch] = useDebouncedValue();
-  const [pageIndex, setPageIndex] = useState(1);
-  const organizationKey = useOnboardingOrganizationKey();
-
-  // Callers rebuild the array on every render, so key the reset off the tokens themselves.
-  const filtersKey = filters.join(',');
-
-  // Reset to the first page whenever the filters or the search query change.
-  useEffect(() => {
-    setPageIndex(1);
-  }, [filtersKey, query]);
-
-  const { data, isLoading } = useOnboardingProjectsQuery({
-    organizationKey,
-    filters,
-    pageIndex,
-    pageSize,
-    q: query === '' ? undefined : query,
-  });
-
-  const projects = data?.projects ?? [];
-  const total = data?.page.total ?? 0;
-  const totalPages = data === undefined ? 0 : Math.ceil(data.page.total / data.page.pageSize);
-
   const title = formatMessage({ id: titleKey });
-  const gridTemplate = columns
-    .map(({ width }, index) => width ?? (index === 0 ? FIRST_COLUMN_TEMPLATE : COLUMN_TEMPLATE))
-    .join(' ');
 
   return (
     <Card>
       <Card.Header description={formatMessage({ id: descriptionKey })} title={title} />
       <Card.Body>
-        <LoadingContainer
-          isLoading={isLoading}
-          loadingMessage={formatMessage({ id: loadingMessageKey })}
-        >
-          <div className="sw-flex sw-flex-col sw-gap-4">
-            <div className="sw-flex sw-w-full sw-items-center sw-justify-between">
-              <div className="sw-flex sw-items-center sw-gap-4">
-                <SearchInput
-                  onChange={handleSearch}
-                  placeholderLabel={formatMessage({ id: searchPlaceholderKey })}
-                  value={searchValue}
-                  width={SearchInputWidth.Large}
-                />
-                {toolbarControls}
-              </div>
-
-              <Text as="span" isSubtle size={TextSize.Small}>
-                {formatMessage(
-                  { id: 'onboarding_dashboard.projects.count' },
-                  { b: (chunks) => <Text isHighlighted>{chunks}</Text>, count: total },
-                )}
-              </Text>
-            </div>
-
-            <Table ariaLabel={title} gridTemplate={gridTemplate} variety={TableVariety.Surface}>
-              <Table.Header>
-                <Table.Row>
-                  {columns.map(({ className, isLabelHidden, justify, labelKey }) => {
-                    const label = formatMessage({ id: labelKey });
-
-                    return (
-                      <Table.ColumnHeaderCell
-                        className={className}
-                        justify={justify}
-                        key={labelKey}
-                        label={isLabelHidden ? <span className="sw-sr-only">{label}</span> : label}
-                      />
-                    );
-                  })}
-                </Table.Row>
-              </Table.Header>
-
-              <Table.Body>
-                {isLoading && <ProjectsTableRowsSkeleton columns={columns.length} />}
-
-                {!isLoading && projects.length === 0 && (
-                  <ProjectsTableEmptyRow columns={columns.length} />
-                )}
-
-                {!isLoading &&
-                  projects.map((project) => (
-                    <ProjectRow key={project.key ?? project.name} project={project} />
-                  ))}
-              </Table.Body>
-            </Table>
-
-            {totalPages > 1 && (
-              <div className="sw-flex sw-justify-center">
-                <Pagination onChange={setPageIndex} page={pageIndex} totalPages={totalPages} />
-              </div>
-            )}
-          </div>
-        </LoadingContainer>
+        <ProjectsTable
+          ariaLabel={title}
+          columns={columns}
+          filters={filters}
+          loadingMessageKey={loadingMessageKey}
+          pageSize={pageSize}
+          renderRow={renderRow}
+          searchPlaceholderKey={searchPlaceholderKey}
+          toolbarControls={toolbarControls}
+        />
       </Card.Body>
     </Card>
   );

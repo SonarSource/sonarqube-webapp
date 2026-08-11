@@ -70,7 +70,7 @@ export function AllProjectsCard() {
       filters={composeProjectFilters([scanStatus, analysisMode])}
       loadingMessageKey="onboarding_dashboard.projects.loading"
       pageSize={PAGE_SIZE}
-      projectRow={ProjectRow}
+      renderRow={(project) => <ProjectRow key={project.key ?? project.name} project={project} />}
       searchPlaceholderKey="onboarding_dashboard.projects.search"
       titleKey="onboarding_dashboard.projects.title"
       toolbarControls={

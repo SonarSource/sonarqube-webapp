@@ -32,6 +32,7 @@ function mockProject(overrides: Partial<OnboardingProject> = {}): OnboardingProj
   return {
     alm: OnboardingDevopsPlatform.Github,
     gateStatus: OnboardingProjectGateStatus.Passed,
+    isPrivate: false,
     key: 'web-core',
     name: 'web-core',
     onboarding: OnboardingProjectOnboarding.Analysed,

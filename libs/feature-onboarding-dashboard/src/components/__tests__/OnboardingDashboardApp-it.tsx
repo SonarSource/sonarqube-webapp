@@ -185,6 +185,15 @@ const ui = {
     name: 'onboarding_dashboard.projects.action.view_project',
   }),
 
+  // "View all repositories" modal (triggered from the Repositories step's donut).
+  viewAllRepositoriesButton: byRole('button', {
+    name: 'onboarding_dashboard.journey.import.view_all',
+  }),
+  importModal: byRole('dialog', { name: 'onboarding_dashboard.journey.import.modal.title' }),
+  importModalCloseButton: byRole('dialog', {
+    name: 'onboarding_dashboard.journey.import.modal.title',
+  }).byRole('button', { name: 'close' }),
+
   // Stale projects table ("Commits not being scanned")
   staleTitle: byText('onboarding_dashboard.stale.title'),
   staleTable: byRole('table', { name: 'onboarding_dashboard.stale.title' }),
@@ -625,4 +634,26 @@ describe.skip('OnboardingDashboardApp', () => {
     expect(ui.overTimePlatformsLegend.query()).not.toBeInTheDocument();
     expect(ui.lockedMoreTitle.query()).not.toBeInTheDocument();
   });
+});
+
+it('opens the "import repositories" modal when clicking the view-all button', async () => {
+  const user = setupUser();
+
+  renderOnboardingDashboard();
+  await user.click(await ui.stepperRepositories.find());
+  await user.click(ui.viewAllRepositoriesButton.get());
+
+  expect(await ui.importModal.find()).toBeInTheDocument();
+});
+
+it('closes the "import repositories" modal when clicking the close button', async () => {
+  const user = setupUser();
+
+  renderOnboardingDashboard();
+  await user.click(await ui.stepperRepositories.find());
+  await user.click(ui.viewAllRepositoriesButton.get());
+
+  await user.click(await ui.importModalCloseButton.find());
+
+  expect(ui.importModal.query()).not.toBeInTheDocument();
 });

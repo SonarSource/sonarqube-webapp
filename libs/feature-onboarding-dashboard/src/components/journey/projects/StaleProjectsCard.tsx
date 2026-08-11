@@ -65,7 +65,9 @@ export function StaleProjectsCard() {
       filters={composeProjectFilters(['stale', gateStatus])}
       loadingMessageKey="onboarding_dashboard.stale.loading"
       pageSize={PAGE_SIZE}
-      projectRow={StaleProjectRow}
+      renderRow={(project) => (
+        <StaleProjectRow key={project.key ?? project.name} project={project} />
+      )}
       searchPlaceholderKey="onboarding_dashboard.stale.search"
       titleKey="onboarding_dashboard.stale.title"
       toolbarControls={
