@@ -18,10 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen, waitForElementToBeRemoved, within } from '@testing-library/react';
+import { screen, waitFor, waitForElementToBeRemoved, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
+import type * as IssuesApi from '~sq-server-commons/api/issues';
 import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { IssueType } from '~sq-server-commons/types/issues';
 import { NoticeType } from '~sq-server-commons/types/users';
@@ -33,6 +34,12 @@ import {
   usersHandler,
 } from '~sq-server-commons/utils/issues-test-utils';
 import { renderIssueApp, renderProjectIssuesApp } from '../test-utils';
+
+// IssuesServiceMock registers its mock implementation via `jest.mock('../../api/issues')`, so this
+// must be fetched lazily from the mock registry rather than imported at module scope, which would
+// bind to the real module if evaluated before that mock registration runs.
+const getSearchIssuesMock = () =>
+  jest.mocked(jest.requireMock<typeof IssuesApi>('~sq-server-commons/api/issues').searchIssues);
 
 jest.mock('../sidebar/Sidebar', () => {
   const fakeSidebar = () => {
@@ -52,6 +59,7 @@ beforeEach(() => {
   usersHandler.reset();
   window.scrollTo = jest.fn();
   window.HTMLElement.prototype.scrollTo = jest.fn();
+  localStorage.clear();
 });
 
 describe('issues app', () => {
@@ -96,6 +104,85 @@ describe('issues app', () => {
 
       await user.click(byRole('button', { name: 'message_callout.dismiss' }).get());
       expect(byText('issue.sandbox.title').query()).not.toBeInTheDocument();
+    });
+  });
+
+  describe('sort', () => {
+    it('should default to Priority sort and let the user switch to File Name sort', async () => {
+      const user = userEvent.setup();
+      renderIssueApp();
+
+      await waitForElementToBeRemoved(screen.queryByText('issues.loading_issues'));
+
+      expect(getSearchIssuesMock()).toHaveBeenLastCalledWith(
+        expect.objectContaining({ s: 'IMPACT_RANK' }),
+      );
+
+      await user.click(screen.getByRole('combobox', { name: 'issues.sort.label' }));
+      await user.click(screen.getByRole('option', { name: 'issues.sort.FILE_LINE' }));
+
+      await waitFor(() => {
+        expect(getSearchIssuesMock()).toHaveBeenLastCalledWith(
+          expect.objectContaining({ s: 'FILE_LINE' }),
+        );
+      });
+    });
+
+    it('should sort DESC when Creation Date sort is selected', async () => {
+      const user = userEvent.setup();
+      renderIssueApp();
+
+      await waitForElementToBeRemoved(screen.queryByText('issues.loading_issues'));
+
+      await user.click(screen.getByRole('combobox', { name: 'issues.sort.label' }));
+      await user.click(screen.getByRole('option', { name: 'issues.sort.CREATION_DATE' }));
+
+      await waitFor(() => {
+        expect(getSearchIssuesMock()).toHaveBeenLastCalledWith(
+          expect.objectContaining({ s: 'CREATION_DATE', asc: 'false' }),
+        );
+      });
+    });
+
+    it('should persist the selected sort field across remounts', async () => {
+      const user = userEvent.setup();
+      const { unmount } = renderIssueApp();
+
+      await waitForElementToBeRemoved(screen.queryByText('issues.loading_issues'));
+
+      await user.click(screen.getByRole('combobox', { name: 'issues.sort.label' }));
+      await user.click(screen.getByRole('option', { name: 'issues.sort.FILE_LINE' }));
+
+      await waitFor(() => {
+        expect(getSearchIssuesMock()).toHaveBeenLastCalledWith(
+          expect.objectContaining({ s: 'FILE_LINE' }),
+        );
+      });
+
+      unmount();
+      renderIssueApp();
+
+      await waitForElementToBeRemoved(screen.queryByText('issues.loading_issues'));
+
+      expect(getSearchIssuesMock()).toHaveBeenLastCalledWith(
+        expect.objectContaining({ s: 'FILE_LINE' }),
+      );
+    });
+
+    it('should use and display an explicit URL sort value verbatim even when the dropdown has no matching option', async () => {
+      const user = userEvent.setup();
+      renderIssueApp(undefined, [], 'issues?s=SEVERITY');
+
+      await waitForElementToBeRemoved(screen.queryByText('issues.loading_issues'));
+
+      expect(getSearchIssuesMock()).toHaveBeenLastCalledWith(
+        expect.objectContaining({ s: 'SEVERITY' }),
+      );
+
+      await user.click(screen.getByRole('combobox', { name: 'issues.sort.label' }));
+      expect(screen.getByRole('option', { name: 'SEVERITY' })).toBeInTheDocument();
+      // The 3 known options are still offered, without their raw values being confused with SEVERITY.
+      expect(screen.getByRole('option', { name: 'issues.sort.PRIORITY' })).toBeInTheDocument();
     });
   });
 

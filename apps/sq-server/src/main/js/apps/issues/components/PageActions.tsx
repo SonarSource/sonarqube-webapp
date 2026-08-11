@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { ReactNode } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { KeyboardHint } from '~shared/components/KeyboardHint';
 import { Paging } from '~shared/types/paging';
@@ -30,10 +31,11 @@ export interface PageActionsProps {
   canSetHome: boolean;
   effortTotal: number | undefined;
   paging?: Paging;
+  sortSelect?: ReactNode;
 }
 
 export default function PageActions(props: PageActionsProps) {
-  const { canSetHome, effortTotal, paging } = props;
+  const { canSetHome, effortTotal, paging, sortSelect } = props;
 
   return (
     <div className="sw-typo-default sw-flex sw-items-center sw-gap-6 sw-justify-end sw-flex-1">
@@ -51,6 +53,7 @@ export default function PageActions(props: PageActionsProps) {
       )}
 
       {canSetHome && <HomePageSelect currentPage={{ type: 'ISSUES' }} />}
+      {sortSelect}
     </div>
   );
 }

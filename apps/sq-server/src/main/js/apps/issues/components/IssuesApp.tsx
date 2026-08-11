@@ -84,6 +84,7 @@ import {
   ASSIGNEE_ME,
   Facet,
   FetchIssuesPromise,
+  IssueListSortField,
   IssueStatus,
   IssueType,
   IssuesQuery,
@@ -99,8 +100,10 @@ import {
   areQueriesEqual,
   getOpen,
   getOpenIssue,
+  getStoredIssueListSortField,
   parseFacets,
   parseQuery,
+  saveIssueListSortField,
   saveMyIssues,
   serializeQuery,
 } from '~sq-server-commons/utils/issues-utils';
@@ -109,6 +112,7 @@ import { Sidebar } from '../sidebar/Sidebar';
 import '../styles.css';
 import BulkChangeModal, { MAX_PAGE_SIZE } from './BulkChangeModal';
 import IssueDetails from './IssueDetails';
+import { IssueListSortSelect } from './IssueListSortSelect';
 import IssueSandboxCallout from './IssueSandboxCallout';
 import IssuesList from './IssuesList';
 import IssuesListTitle from './IssuesListTitle';
@@ -250,6 +254,25 @@ export class App extends React.PureComponent<Props, State> {
       return;
     }
 
+    // No sort in the URL yet: default to the stored preference (or the mode-aware default), and
+    // make that default explicit in the URL so it's reflected in the sort control and stays
+    // stable on reload. Deferred to a microtask - replacing the location synchronously here, while
+    // the component is still mounting, re-triggers route matching before the fetch below gets a
+    // chance to start.
+    if (!this.props.router.searchParams.has('s')) {
+      const sort = this.rawValueForField(getStoredIssueListSortField() ?? 'PRIORITY');
+      Promise.resolve()
+        .then(() => {
+          if (this.mounted) {
+            this.props.router.replace({
+              pathname: this.props.location.pathname,
+              query: { ...this.props.location.query, s: sort },
+            });
+          }
+        })
+        .catch(() => undefined);
+    }
+
     this.attachShortcuts();
 
     if (!this.props.isFetchingBranch) {
@@ -284,6 +307,9 @@ export class App extends React.PureComponent<Props, State> {
       return;
     }
 
+    // `sort` is a regular field of the parsed IssuesQuery, so a dropdown-driven `s` update (or a
+    // genuine navigation landing on a different one) is already covered by areQueriesEqual below -
+    // no separate tracking needed.
     if (
       prevProps.component !== this.props.component ||
       !isSameBranchLike(prevProps.branchLike, this.props.branchLike) ||
@@ -492,6 +518,16 @@ export class App extends React.PureComponent<Props, State> {
     return this.props.isStandard ? 'TYPE_SEVERITY' : 'IMPACT_RANK';
   }
 
+  rawValueForField = (field: IssueListSortField): string =>
+    field === 'PRIORITY' ? this.defaultSort : field;
+
+  sortFieldForRaw = (raw: string): IssueListSortField | undefined => {
+    if (raw === 'FILE_LINE' || raw === 'CREATION_DATE') {
+      return raw;
+    }
+    return raw === this.defaultSort ? 'PRIORITY' : undefined;
+  };
+
   fetchIssuesHelper = async (query: RawQuery) => {
     if (this.props.component?.needIssueSync) {
       const response = await listIssues(query);
@@ -535,22 +571,21 @@ export class App extends React.PureComponent<Props, State> {
     }
 
     const serializedQuery = serializeQuery(query);
-    const { defaultSort } = this;
 
     const parameters: Record<string, string | undefined> = component?.needIssueSync
       ? {
           ...getBranchLikeQuery(this.props.branchLike, true),
           project: component?.key,
+          s: this.defaultSort,
           ...serializedQuery,
-          s: (serializedQuery.s as string | undefined) ?? defaultSort,
           ps: `${ISSUES_PAGE_SIZE}`,
           ...additional,
         }
       : {
           ...getBranchLikeQuery(this.props.branchLike),
           components: component?.key,
+          s: this.defaultSort,
           ...serializedQuery,
-          s: (serializedQuery.s as string | undefined) ?? defaultSort,
           ps: `${ISSUES_PAGE_SIZE}`,
           facets,
           ...additional,
@@ -560,8 +595,8 @@ export class App extends React.PureComponent<Props, State> {
       parameters.createdAfter = serializeDate(query.createdAfter);
     }
 
-    // only sorting by CREATION_DATE is allowed, so let's sort DESC
-    if (query.sort) {
+    // Newest-first is more useful than the API's default ascending order for creation date.
+    if (query.sort === 'CREATION_DATE') {
       Object.assign(parameters, { asc: 'false' });
     }
 
@@ -730,7 +765,9 @@ export class App extends React.PureComponent<Props, State> {
   };
 
   isFiltered = () => {
-    const serialized = serializeQuery(this.state.query);
+    // sort is excluded: it defaults to an explicit value in the URL, which must not by itself
+    // count as "filtered".
+    const serialized = omit(serializeQuery(this.state.query), 's');
 
     return !areQueriesEqual(serialized, DEFAULT_ISSUES_QUERY);
   };
@@ -806,19 +843,29 @@ export class App extends React.PureComponent<Props, State> {
     });
   };
 
+  // Only persists to localStorage on an explicit dropdown selection, never on the soft-redirect
+  // that fills in a missing `s` param. Doesn't setState/fetch directly - componentDidUpdate picks
+  // up the resulting `s` change once the router applies it, the same path a plain navigation uses.
+  handleSortFieldChange = (sortField: IssueListSortField) => {
+    saveIssueListSortField(sortField);
+    this.props.router.replace({
+      pathname: this.props.location.pathname,
+      query: { ...this.props.location.query, s: this.rawValueForField(sortField) },
+    });
+  };
+
   loadSearchResultCount = (property: string, changes: Partial<IssuesQuery>) => {
     const { component } = this.props;
     const { myIssues, query } = this.state;
 
     const serializedQuery = serializeQuery({ ...query, ...changes });
-    const { defaultSort } = this;
 
     const parameters = {
       ...getBranchLikeQuery(this.props.branchLike),
       components: component?.key,
       facets: mapFacetToBackendName(property),
+      s: this.defaultSort,
       ...serializedQuery,
-      s: (serializedQuery.s as string | undefined) ?? defaultSort,
       ps: 1,
     };
 
@@ -1212,6 +1259,13 @@ export class App extends React.PureComponent<Props, State> {
               canSetHome={!this.props.component}
               effortTotal={this.state.effortTotal}
               paging={this.props.component?.needIssueSync ? undefined : paging}
+              sortSelect={
+                <IssueListSortSelect
+                  knownField={this.sortFieldForRaw(query.sort)}
+                  onChange={this.handleSortFieldChange}
+                  rawValue={query.sort}
+                />
+              }
             />
           </div>
         </div>

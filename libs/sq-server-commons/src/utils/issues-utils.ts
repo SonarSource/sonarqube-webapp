@@ -46,6 +46,7 @@ import { formatMeasure } from '../sonar-aligned/helpers/measures';
 import {
   Facet,
   IssueDeprecatedStatus,
+  IssueListSortField,
   IssueResolution,
   IssuesQuery,
   IssueStatus,
@@ -59,8 +60,6 @@ import {
   populateStandardsFromParsed,
 } from './compliance-standards';
 
-// allow sorting by CREATION_DATE only
-const parseAsSort = (sort: string) => (sort === 'CREATION_DATE' ? 'CREATION_DATE' : '');
 const ISSUES_DEFAULT = 'sonarqube.issues.default';
 
 export function parseQuery(query: RawQuery, needIssueSync = false): IssuesQuery {
@@ -95,7 +94,7 @@ export function parseQuery(query: RawQuery, needIssueSync = false): IssuesQuery 
     rules: parseAsArray(query.rules, parseAsString),
     scopes: parseAsArray(query.scopes, parseAsString),
     severities: parseAsArray(query.severities, parseAsString),
-    sort: parseAsSort(query.s),
+    sort: parseAsString(query.s),
     statuses: parseAsArray(query.statuses, parseAsString),
     issueStatuses: parseIssueStatuses(query),
     tags: parseAsArray(query.tags, parseAsString),
@@ -258,6 +257,22 @@ export const isMySet = () => {
 export const saveMyIssues = (myIssues: boolean) => {
   save(ISSUES_DEFAULT, myIssues ? LOCALSTORAGE_MY : LOCALSTORAGE_ALL);
 };
+
+const ISSUES_SORT = 'sonarqube.issues.sort';
+export const ISSUE_LIST_SORT_FIELDS: IssueListSortField[] = [
+  'PRIORITY',
+  'FILE_LINE',
+  'CREATION_DATE',
+];
+
+export function getStoredIssueListSortField(): IssueListSortField | undefined {
+  const stored = get(ISSUES_SORT);
+  return ISSUE_LIST_SORT_FIELDS.find((field) => field === stored);
+}
+
+export function saveIssueListSortField(sortField: IssueListSortField): void {
+  save(ISSUES_SORT, sortField);
+}
 
 export function getTypedFlows(flows: Flow[]) {
   return flows.map((flow) => ({

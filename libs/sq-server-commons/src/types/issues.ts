@@ -33,6 +33,13 @@ import { UserBase } from './users';
 
 export const ASSIGNEE_ME = '__me__';
 
+/**
+ * 'PRIORITY' resolves to the mode-aware default sort (TYPE_SEVERITY in Standard mode,
+ * IMPACT_RANK in MQR mode) rather than a literal `s` value, since that mapping can only
+ * be resolved once the current mode is known.
+ */
+export type IssueListSortField = 'PRIORITY' | 'FILE_LINE' | 'CREATION_DATE';
+
 export enum IssueType {
   CodeSmell = 'CODE_SMELL',
   Vulnerability = 'VULNERABILITY',
