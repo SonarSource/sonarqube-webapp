@@ -882,6 +882,23 @@ export const defaultMessages = {
   'ai_capabilities.project.manual.not_available.admin':
     'Manual backlog remediation is not enabled for your SonarQube instance.',
   'ai_capabilities.project.manual.not_available.admin_cta': 'Enable Manual backlog remediation',
+
+  'ai_capabilities.remediation_agent.add_on_promo.badge': 'New',
+  'ai_capabilities.remediation_agent.add_on_promo.heading': 'Your backlog, fixed while you build.',
+  'ai_capabilities.remediation_agent.add_on_promo.body':
+    'The Remediation agent turns issues into ready-to-review pull requests, so tech debt clears in the background. Your team just reviews and merges.',
+  'ai_capabilities.remediation_agent.add_on_promo.bullet.manual.label': 'Manual',
+  'ai_capabilities.remediation_agent.add_on_promo.bullet.manual':
+    '{label}: Pick issues from your backlog and let the agent propose fixes in a PR.',
+  'ai_capabilities.remediation_agent.add_on_promo.bullet.scheduled.label': 'Scheduled',
+  'ai_capabilities.remediation_agent.add_on_promo.bullet.scheduled':
+    '{label}: Auto-create PRs to fix backlog issues on a cadence.',
+  'ai_capabilities.remediation_agent.add_on_promo.bullet.pr.label': 'On failing PRs',
+  'ai_capabilities.remediation_agent.add_on_promo.bullet.pr':
+    '{label}: When the Quality Gate fails, the agent proposes fixes before you merge.',
+  'ai_capabilities.remediation_agent.add_on_promo.cta.sales': 'Talk to sales',
+  'ai_capabilities.remediation_agent.add_on_promo.cta.docs': 'Read the docs',
+  'ai_capabilities.remediation_agent.add_on_promo.illustration_alt': '',
   'ai_capabilities.project.not_available':
     'Automated backlog remediation is not enabled for this project. Please contact your administrator to enable the feature.',
   'ai_capabilities.project.not_available.admin':
@@ -7529,6 +7546,11 @@ export const defaultMessages = {
   'promotion.community_build_security.text':
     'SonarQube Community Build does not scan for critical injection vulnerabilities (SQL injection, XSS, and more).',
   'promotion.community_build_security.action': 'Explore other editions',
+  'promotion.remediation_agent_add_on.title': 'Fix issues with Remediation Agent',
+  'promotion.remediation_agent_add_on.badge': 'New',
+  'promotion.remediation_agent_add_on.text':
+    'Issues can be fixed automatically with Remediation Agent, available as an add-on.',
+  'promotion.remediation_agent_add_on.action.sales': 'Talk to sales',
 
   //------------------------------------------------------------------------------
   //

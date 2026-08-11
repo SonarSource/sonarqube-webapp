@@ -122,6 +122,7 @@ export enum SonarSourceLink {
   AiCodeFixTerms = '/legal/ai-codefix-terms/',
   TermsAndConditions = '/legal/sonarqube/terms-and-conditions/',
   AdvancedSecurity = '/products/sonarqube/advanced-security/',
+  ContactSales = '/products/sonarqube/contact-sales/',
   PlansAndPricing = '/plans-and-pricing/sonarqube/',
   Downloads = '/products/sonarqube/downloads/',
   WhyUpgrade = '/products/sonarqube/why-upgrade/',
