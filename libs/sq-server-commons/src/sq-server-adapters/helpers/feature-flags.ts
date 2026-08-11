@@ -45,7 +45,6 @@ const defaultFlags: SQSFlagSet = {
   // useArchitectureEntitlement() instead, see that adapter for how SQS grants access today.
   designArchitectureSquadExtensionPack: false,
   designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
-  // Keep false on master; flip true on epic/UI branches when developing License products UI.
   licenseEnableUsageProductsUi: false,
   organizationReportingEnablePortfolioDashboards: false,
   scaEnableReachabilityFrontend: false,

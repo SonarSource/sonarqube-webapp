@@ -33,6 +33,9 @@ export enum EntitlementCheckFeatureKey {
   ContextAugmentation = 'contextAugmentation',
   HunterAgent = 'hunterAgent',
   LinesOfCode = 'linesOfCode',
+  Architecture = 'architecture',
+  Vortex = 'vortex',
+  SQAS = 'sqas', // For SQS backend compatibility, advancedSecurity features return sqas as parent key
 }
 
 /** Current billing window for a metered product. */
@@ -81,8 +84,4 @@ export interface EntitlementCheck {
   value: number | null;
   /** Exclusion list for ENABLED features; empty (never null) otherwise. */
   excludedValues: string[];
-}
-
-export function getEffectiveLimit(limit: EntitlementLimit): number {
-  return limit.base + (limit.overageEnabled ? (limit.overage ?? 0) : 0);
 }

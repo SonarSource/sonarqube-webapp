@@ -18,36 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { getEffectiveLimit } from '../billing';
+import { EntitlementConsumption, EntitlementLimit } from '../types/billing';
 
-describe('getEffectiveLimit', () => {
-  it('returns the base limit when overage is disabled', () => {
-    expect(
-      getEffectiveLimit({
-        base: 100,
-        overage: 50,
-        overageEnabled: false,
-      }),
-    ).toBe(100);
-  });
+export function getEffectiveLimit(limit: EntitlementLimit): number {
+  return limit.base + (limit.overageEnabled ? (limit.overage ?? 0) : 0);
+}
 
-  it('adds overage when enabled', () => {
-    expect(
-      getEffectiveLimit({
-        base: 100,
-        overage: 50,
-        overageEnabled: true,
-      }),
-    ).toBe(150);
-  });
-
-  it('treats a null overage as zero when enabled', () => {
-    expect(
-      getEffectiveLimit({
-        base: 100,
-        overage: null,
-        overageEnabled: true,
-      }),
-    ).toBe(100);
-  });
-});
+export function getBaseUsage(consumption: EntitlementConsumption): number {
+  return Math.max(0, Math.min(consumption.metering.used, consumption.limit.base));
+}

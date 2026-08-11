@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { SystemUpgradeDownloadUrls } from './system';
 
 export enum EditionKey {
@@ -61,7 +62,7 @@ export type LicenseV2Features = Array<{
    * Stable product key (matches entitlement-check `featureKey`).
    * Null when this license row has no unified counterpart.
    */
-  featureKey?: string | null;
+  featureKey?: EntitlementCheckFeatureKey | null;
   /** Purchased monthly allowance for metered products. */
   maxConsumption?: number | null;
   /** Extra monthly allowance when overage is on; null if unset. */
@@ -69,6 +70,8 @@ export type LicenseV2Features = Array<{
   name: string;
   /** Customer opted into overage for this feature. */
   overageEnabled?: boolean;
+  /** Key of the parent product this feature rolls up into, if any. */
+  parent?: EntitlementCheckFeatureKey | null;
   /** When the feature entitlement started. */
   startDate: string | null;
 }>;

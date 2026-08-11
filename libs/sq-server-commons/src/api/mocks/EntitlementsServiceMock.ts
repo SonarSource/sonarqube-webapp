@@ -20,7 +20,15 @@
 
 import { http } from 'msw';
 import { AbstractServiceMock } from '~shared/api/mocks/AbstractServiceMock';
-import { LicenseV2, PurchaseableFeature } from '../../types/editions';
+import { EntitlementCheckFeatureKey } from '~shared/types/billing';
+import { LicenseV2, LicenseV2Features, PurchaseableFeature } from '../../types/editions';
+
+const FEATURE_DATES = {
+  endDate: null,
+  maxOverage: null,
+  overageEnabled: false,
+  startDate: '2026-01-01T00:00:00.000Z',
+};
 
 export interface EntitlementsServiceData {
   license?: LicenseV2 | null;
@@ -66,8 +74,53 @@ export function mockPurchaseableFeatures(): PurchaseableFeature[] {
   return [mockPurchaseableFeature({ featureKey: 'fictional' }), mockPurchaseableFeature()];
 }
 
+/**
+ * Shaped like SQRP-481: `name` stays the LicenseSpring code, `featureKey` carries the unified key,
+ * and `maxConsumption` is set only on metered products. The Active Products table intentionally
+ * skips `LOC`; the existing license-usage section reads LOC from the top-level `loc` / `maxLoc`
+ * fields instead.
+ */
+export function mockLicenseV2Features(): LicenseV2Features {
+  return [
+    {
+      ...FEATURE_DATES,
+      name: 'SCA',
+      featureKey: EntitlementCheckFeatureKey.AdvancedSecurity,
+      maxConsumption: null,
+      parent: EntitlementCheckFeatureKey.SQAS,
+    },
+    {
+      ...FEATURE_DATES,
+      name: 'SQRA',
+      featureKey: EntitlementCheckFeatureKey.RemediationAgent,
+      maxConsumption: 5_000,
+    },
+    {
+      ...FEATURE_DATES,
+      name: 'SQAA',
+      featureKey: EntitlementCheckFeatureKey.AgenticAnalysis,
+      maxConsumption: 10_000,
+      parent: EntitlementCheckFeatureKey.Vortex,
+    },
+    {
+      ...FEATURE_DATES,
+      name: 'CAG',
+      featureKey: EntitlementCheckFeatureKey.ContextAugmentation,
+      maxConsumption: 10_000,
+      parent: EntitlementCheckFeatureKey.Vortex,
+    },
+    {
+      ...FEATURE_DATES,
+      name: 'SQHA',
+      featureKey: EntitlementCheckFeatureKey.HunterAgent,
+      maxConsumption: 1_000,
+    },
+    { ...FEATURE_DATES, name: 'LOC', featureKey: null, maxConsumption: null },
+  ];
+}
+
 export const EntitlementsServiceDefaultDataset: EntitlementsServiceData = {
-  license: mockLicenseV2(),
+  license: mockLicenseV2({ features: mockLicenseV2Features() }),
   purchasableFeatures: mockPurchaseableFeatures(),
 };
 

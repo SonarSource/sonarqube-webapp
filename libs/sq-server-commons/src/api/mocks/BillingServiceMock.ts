@@ -20,6 +20,7 @@
 
 import { http } from 'msw';
 import { AbstractServiceMock } from '~shared/api/mocks/AbstractServiceMock';
+import { getEffectiveLimit } from '~shared/helpers/billing';
 import {
   EntitlementCheck,
   EntitlementCheckFeatureKey,
@@ -27,7 +28,6 @@ import {
   EntitlementLimit,
   EntitlementMetering,
   EntitlementPeriod,
-  getEffectiveLimit,
 } from '~shared/types/billing';
 import { HttpStatus } from '~shared/types/request';
 
@@ -89,19 +89,31 @@ export function mockEntitlementCheck(overrides: Partial<EntitlementCheck> = {}):
   };
 }
 
+/** Metered product, sized to its license allowance. */
+function mockMeteredCheck(featureKey: EntitlementCheckFeatureKey, base: number, used: number) {
+  return mockEntitlementCheck({
+    featureKey,
+    consumption: mockEntitlementConsumption({
+      limit: mockEntitlementLimit({ base, overage: null }),
+      metering: mockEntitlementMetering({ used }),
+    }),
+  });
+}
+
+/** Covers every feature the mock license carries, since each one gets its own check call. */
 export function mockEntitlementChecks(): EntitlementCheck[] {
   return [
+    mockMeteredCheck(EntitlementCheckFeatureKey.LinesOfCode, 1_000_000, 650_000),
+    mockMeteredCheck(EntitlementCheckFeatureKey.RemediationAgent, 5_000, 1_240),
+    // Mirrored keys for one normalized Vortex product — same consumption on both.
+    mockMeteredCheck(EntitlementCheckFeatureKey.AgenticAnalysis, 10_000, 1_806),
+    mockMeteredCheck(EntitlementCheckFeatureKey.ContextAugmentation, 10_000, 1_806),
+    mockMeteredCheck(EntitlementCheckFeatureKey.HunterAgent, 1_000, 995),
+    // ENABLED product: entitled, but nothing metered.
     mockEntitlementCheck({
-      featureKey: EntitlementCheckFeatureKey.LinesOfCode,
-      consumption: mockEntitlementConsumption({
-        limit: mockEntitlementLimit({
-          base: 1_000_000,
-          overage: null,
-        }),
-        metering: mockEntitlementMetering({ used: 650_000 }),
-      }),
+      featureKey: EntitlementCheckFeatureKey.AdvancedSecurity,
+      consumption: null,
     }),
-    mockEntitlementCheck(),
   ];
 }
 
