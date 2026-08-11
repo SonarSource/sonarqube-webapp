@@ -1237,7 +1237,7 @@ export class App extends React.PureComponent<Props, State> {
   }
 
   renderIssueList() {
-    const { hasFeature } = this.props;
+    const { component, hasFeature } = this.props;
     const { checkAll, loading, paging, showSecurityDevPromotion, query } = this.state;
 
     const hasSecurityFilter =
@@ -1253,9 +1253,12 @@ export class App extends React.PureComponent<Props, State> {
           {showSecurityDevPromotion && hasSecurityFilter && (
             <SecurityDevEditionPromoteBanner className="sw-mb-4 sw-w-full sw-box-border" isWide />
           )}
-          {hasFeature(Feature.RemediationAgent) && addons.remediationAgent && (
-            <addons.remediationAgent.RemediationAgentAddOnBanner className="sw-mb-4 sw-w-full sw-box-border" />
-          )}
+          {hasFeature(Feature.RemediationAgent) &&
+            addons.remediationAgent &&
+            component?.key &&
+            isProject(component.qualifier) && (
+              <addons.remediationAgent.RemediationAgentAddOnBanner className="sw-mb-4 sw-w-full sw-box-border" />
+            )}
           <div className="sw-flex sw-w-full sw-items-center sw-justify-between sw-box-border">
             {this.renderBulkChange()}
 

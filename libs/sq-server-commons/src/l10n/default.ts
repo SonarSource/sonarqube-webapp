@@ -899,6 +899,30 @@ export const defaultMessages = {
   'ai_capabilities.remediation_agent.add_on_promo.cta.sales': 'Talk to sales',
   'ai_capabilities.remediation_agent.add_on_promo.cta.docs': 'Read the docs',
   'ai_capabilities.remediation_agent.add_on_promo.illustration_alt': '',
+  'ai_capabilities.remediation_agent.consumption.warning.title':
+    'Remediation agent nearing its monthly limit',
+  'ai_capabilities.remediation_agent.consumption.danger.title':
+    'Remediation agent monthly limit reached',
+  'ai_capabilities.remediation_agent.consumption.activate.warning.body.admin':
+    'Your instance has used {used} of its {limit} monthly Remediation agent suggestions. Activate overage now, or wait until it resets on {resetDate}.',
+  'ai_capabilities.remediation_agent.consumption.activate.warning.body.nonadmin':
+    'Your instance has used {used} of its {limit} monthly Remediation agent suggestions. Contact an instance admin to activate overage and avoid interruptions before it resets on {resetDate}.',
+  'ai_capabilities.remediation_agent.consumption.activate.danger.body.admin':
+    'Your instance has used all {limit} monthly Remediation agent suggestions. Activate overage to resume now, or wait until it resets on {resetDate}.',
+  'ai_capabilities.remediation_agent.consumption.activate.danger.body.nonadmin':
+    'Your instance has used all {limit} monthly Remediation agent suggestions, so new jobs are paused. Contact an instance admin to activate overage, or wait until it resets on {resetDate}.',
+  'ai_capabilities.remediation_agent.consumption.manage.warning.body.admin':
+    'Your instance has used {used} of its {limit} Remediation agent overage credits. Increase overage to avoid interruptions before it resets on {resetDate}.',
+  'ai_capabilities.remediation_agent.consumption.manage.warning.body.nonadmin':
+    'Your instance has used {used} of its {limit} Remediation agent overage credits. Contact an instance admin to increase overage and avoid interruptions before it resets on {resetDate}.',
+  'ai_capabilities.remediation_agent.consumption.manage.danger.body.admin':
+    'Your instance has used all {limit} monthly Remediation agent overage credits, so new jobs are paused. Increase overage to resume now, or wait until it resets on {resetDate}.',
+  'ai_capabilities.remediation_agent.consumption.manage.danger.body.nonadmin':
+    'Your instance has used all {limit} monthly Remediation agent overage credits, so new jobs are paused. Contact an instance admin to increase overage and avoid interruptions before it resets on {resetDate}.',
+  'ai_capabilities.remediation_agent.consumption.cta.activate': 'Activate overage',
+  'ai_capabilities.remediation_agent.consumption.cta.manage': 'Manage overage',
+  'ai_capabilities.remediation_agent.issue.assign_to_agent.limit_reached_toggletip':
+    'Monthly limit reached. New Remediation Agent jobs are paused.',
   'ai_capabilities.project.not_available':
     'Automated backlog remediation is not enabled for this project. Please contact your administrator to enable the feature.',
   'ai_capabilities.project.not_available.admin':
