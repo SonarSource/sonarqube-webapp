@@ -34,6 +34,7 @@ import {
   OnboardingProjectsFilterCounts,
   OnboardingProjectsGateStatusFilter,
   OnboardingProjectsScanStatusFilter,
+  OnboardingProjectsVisibilityFilter,
 } from '../../types/onboarding';
 import { HttpStatus } from '../../types/request';
 import { AbstractServiceMock } from './AbstractServiceMock';
@@ -95,6 +96,8 @@ const DIMENSION_FILTER_PREDICATES: Record<
     p.gateStatus === OnboardingProjectGateStatus.Failed,
   [OnboardingProjectsGateStatusFilter.GateNotComputed]: (p) =>
     p.gateStatus === OnboardingProjectGateStatus.NotComputed,
+  [OnboardingProjectsVisibilityFilter.Private]: (p) => p.isPrivate === true,
+  [OnboardingProjectsVisibilityFilter.Public]: (p) => p.isPrivate === false,
 };
 
 const FILTER_PREDICATES: Record<OnboardingProjectsFilter, ProjectPredicate> = {

@@ -252,6 +252,12 @@ export enum OnboardingProjectsGateStatusFilter {
   GateNotComputed = 'gate_not_computed',
 }
 
+/** "Visibility" dimension of the `filter` param. */
+export enum OnboardingProjectsVisibilityFilter {
+  Private = 'private',
+  Public = 'public',
+}
+
 /**
  * Any single token accepted by the `filter` param. Several tokens can be sent comma-separated; the
  * backend ANDs them across dimensions, e.g. `filter=scanned,ci`.
@@ -260,7 +266,8 @@ export type OnboardingProjectsFilter =
   | OnboardingProjectsCountFilter
   | OnboardingProjectsScanStatusFilter
   | OnboardingProjectsAnalysisModeFilter
-  | OnboardingProjectsGateStatusFilter;
+  | OnboardingProjectsGateStatusFilter
+  | OnboardingProjectsVisibilityFilter;
 
 export type OnboardingProjectsFilterCounts = Record<OnboardingProjectsCountFilter, number>;
 

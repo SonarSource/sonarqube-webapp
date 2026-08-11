@@ -22,6 +22,13 @@ import { Badge, BadgeVariety, Button, Modal, Table, Text } from '@sonarsource/ec
 import { ReactNode, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { OnboardingProject, OnboardingProjectOnboarding } from '~shared/types/onboarding';
+import { composeProjectFilters } from '../../../helpers/onboarding-projects';
+import {
+  ANY_PROJECTS_FILTER,
+  VISIBILITY_FILTER_OPTIONS,
+  VisibilityFilterValue,
+} from '../../../types/types';
+import { ProjectsFilterSelect } from '../../projects/ProjectsFilterSelect';
 import { ProjectsTable, ProjectsTableColumn } from '../../projects/ProjectsTable';
 import { RepositoryCell } from '../../projects/RepositoryCell';
 
@@ -47,6 +54,7 @@ export function ImportRepositoriesModal({ trigger }: Readonly<Props>) {
   const { formatMessage } = useIntl();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [visibility, setVisibility] = useState<VisibilityFilterValue>(ANY_PROJECTS_FILTER);
 
   const title = formatMessage({ id: 'onboarding_dashboard.journey.import.modal.title' });
 
@@ -58,13 +66,23 @@ export function ImportRepositoriesModal({ trigger }: Readonly<Props>) {
           columns={COLUMNS}
           containerClassName="sw-max-h-[calc(80vh-10rem)]"
           enabled={isOpen}
-          filters={[]}
+          filters={composeProjectFilters([visibility])}
           pageSize={PAGE_SIZE}
           renderRow={(project) => (
             <RepositoryRow key={project.key ?? project.name} project={project} />
           )}
+          searchPlaceholderKey="onboarding_dashboard.journey.import.modal.search"
           stickyHeader
           tableClassName="sw-overflow-y-auto sw-content-start"
+          toolbarControls={
+            <ProjectsFilterSelect
+              id="import-projects-visibility-filter"
+              labelKey="onboarding_dashboard.projects.filter.visibility.label"
+              onChange={setVisibility}
+              options={VISIBILITY_FILTER_OPTIONS}
+              value={visibility}
+            />
+          }
         />
       }
       onOpenChange={setIsOpen}

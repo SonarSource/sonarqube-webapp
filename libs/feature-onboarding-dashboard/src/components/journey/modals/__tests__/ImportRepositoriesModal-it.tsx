@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { waitFor } from '@testing-library/react';
 import {
   mockOnboardingProjects,
   OnboardingServiceMock,
@@ -60,12 +61,33 @@ const ui = {
   azureIcon: byRole('img', { name: 'alm.azure' }),
   resultsCount: (size: number, total: number) =>
     byText(`onboarding_dashboard.table.results_size.${size}.${total}`),
+
+  searchInput: byRole('searchbox', {
+    name: 'onboarding_dashboard.journey.import.modal.search',
+  }),
+  visibilityFilter: byRole('combobox', {
+    name: 'onboarding_dashboard.projects.filter.visibility.label',
+  }),
 };
 
 function renderModal() {
   return renderWithContext(
     <ImportRepositoriesModal trigger={<button type="button">{TRIGGER_LABEL}</button>} />,
   );
+}
+
+/**
+ * Pastes a query in one shot instead of dispatching per-character events. The search is debounced,
+ * so firing a single paste exercises the same behaviour for a fraction of the cost.
+ */
+async function search(
+  user: ReturnType<typeof renderModal>['user'],
+  input: HTMLElement,
+  term: string,
+) {
+  await user.click(input);
+  await user.clear(input);
+  await user.paste(term);
 }
 
 it('renders the table with all repository rows when open', async () => {
@@ -211,4 +233,108 @@ it('renders a project using its name as the row key when the project key is null
   await user.click(ui.openButton.get());
 
   expect(await ui.table.byText('keyless-repo').find()).toBeInTheDocument();
+});
+
+it('renders the search input and the visibility filter', async () => {
+  const { user } = renderModal();
+  await user.click(ui.openButton.get());
+  await ui.modal.find();
+
+  expect(ui.searchInput.get()).toBeInTheDocument();
+  expect(ui.visibilityFilter.get()).toBeInTheDocument();
+});
+
+it('lists all visibility options in the filter dropdown', async () => {
+  const { user } = renderModal();
+  await user.click(ui.openButton.get());
+  await ui.modal.find();
+
+  await user.click(await ui.visibilityFilter.find());
+
+  expect(
+    await byRole('option', { name: 'onboarding_dashboard.projects.filter.all' }).find(),
+  ).toBeInTheDocument();
+  expect(
+    byRole('option', { name: 'onboarding_dashboard.projects.filter.private' }).get(),
+  ).toBeInTheDocument();
+  expect(
+    byRole('option', { name: 'onboarding_dashboard.projects.filter.public' }).get(),
+  ).toBeInTheDocument();
+});
+
+it('filters the repository list by search term', async () => {
+  const { user } = renderModal();
+  await user.click(ui.openButton.get());
+
+  // All five mock repositories are visible once the modal opens.
+  expect(await ui.table.byText('platform-jobs').find()).toBeInTheDocument();
+  expect(ui.table.byText('web-core').get()).toBeInTheDocument();
+
+  await search(user, ui.searchInput.get(), 'platform');
+
+  // Only the repository whose name contains "platform" stays visible.
+  await waitFor(() => {
+    expect(ui.table.byText('web-core').query()).not.toBeInTheDocument();
+  });
+  expect(ui.table.byText('platform-jobs').get()).toBeInTheDocument();
+
+  await search(user, ui.searchInput.get(), '');
+
+  // After clearing the input, every repositories are restored.
+  expect(await ui.table.byText('platform-jobs').find()).toBeInTheDocument();
+  expect(ui.table.byText('web-core').get()).toBeInTheDocument();
+});
+
+it('filters the repository list to private repositories', async () => {
+  const { user } = renderModal();
+  await user.click(ui.openButton.get());
+
+  // All five mock repositories are visible once the modal opens.
+  expect(await ui.table.byText('platform-jobs').find()).toBeInTheDocument();
+
+  await user.click(ui.visibilityFilter.get());
+  await user.click(
+    await byRole('option', { name: 'onboarding_dashboard.projects.filter.private' }).find(),
+  );
+
+  // payments-gateway and identity-lib are private; the three public repositories are gone.
+  await waitFor(() => {
+    expect(ui.table.byText('platform-jobs').query()).not.toBeInTheDocument();
+  });
+  expect(ui.table.byText('payments-gateway').get()).toBeInTheDocument();
+  expect(ui.table.byText('identity-lib').get()).toBeInTheDocument();
+  expect(ui.table.byText('web-core').query()).not.toBeInTheDocument();
+  expect(ui.table.byText('mobile-worker').query()).not.toBeInTheDocument();
+
+  await user.click(ui.visibilityFilter.get());
+  await user.click(
+    await byRole('option', { name: 'onboarding_dashboard.projects.filter.all' }).find(),
+  );
+
+  // After clearing the filter, every rrepositories are restored.
+  expect(await ui.table.byText('platform-jobs').find()).toBeInTheDocument();
+});
+
+it('ANDs the search term and the visibility filter', async () => {
+  const { user } = renderModal();
+  await user.click(ui.openButton.get());
+
+  // Start: all five repositories visible.
+  expect(await ui.table.byText('payments-gateway').find()).toBeInTheDocument();
+
+  // Filter to private — payments-gateway and identity-lib remain.
+  await user.click(ui.visibilityFilter.get());
+  await user.click(
+    await byRole('option', { name: 'onboarding_dashboard.projects.filter.private' }).find(),
+  );
+  await waitFor(() => {
+    expect(ui.table.byText('platform-jobs').query()).not.toBeInTheDocument();
+  });
+
+  // Narrow further with a search term — only payments-gateway matches both 'gateway' and private.
+  await search(user, ui.searchInput.get(), 'gateway');
+  await waitFor(() => {
+    expect(ui.table.byText('identity-lib').query()).not.toBeInTheDocument();
+  });
+  expect(ui.table.byText('payments-gateway').get()).toBeInTheDocument();
 });
