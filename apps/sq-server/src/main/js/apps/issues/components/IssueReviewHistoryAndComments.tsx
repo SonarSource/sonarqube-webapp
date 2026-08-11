@@ -21,13 +21,15 @@
 import { Button, Heading } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { CommentModal } from '~shared/components/common/CommentModal';
 import {
   addIssueComment,
   deleteIssueComment,
   editIssueComment,
 } from '~sq-server-commons/api/issues';
-import HotspotCommentModal from '~sq-server-commons/components/findings/HotspotCommentModal';
+import FormattingTipsWithLink from '~sq-server-commons/components/common/FormattingTipsWithLink';
 import { updateIssue } from '~sq-server-commons/components/issue/actions';
+import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { IssueActions } from '~sq-server-commons/types/issues';
 import { Issue } from '~sq-server-commons/types/types';
 import IssueReviewHistory from './IssueReviewHistory';
@@ -42,6 +44,8 @@ interface State {
 }
 
 export default class IssueReviewHistoryAndComments extends React.PureComponent<Props, State> {
+  intl = getIntl();
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -96,12 +100,16 @@ export default class IssueReviewHistoryAndComments extends React.PureComponent<P
         />
         {/* <IssueChangeLogContent issue={issue} /> */}
         {showAddCommentModal && (
-          <HotspotCommentModal
+          <CommentModal
+            commentHeader={this.intl.formatMessage({ id: 'hotspots.status.add_comment' })}
+            fieldLabel={this.intl.formatMessage({ id: 'hotspots.comment.field' })}
+            helpText={<FormattingTipsWithLink />}
             onCancel={this.handleHideCommentModal}
             onSubmit={(comment) => {
-              this.handleSubmitComment(comment);
+              void this.handleSubmitComment(comment);
               this.setState({ showAddCommentModal: false });
             }}
+            submitButtonText={this.intl.formatMessage({ id: 'issue.comment.add_comment.submit' })}
           />
         )}
       </div>

@@ -278,7 +278,7 @@ describe('CRUD', () => {
 
   it('should be able to add, edit and remove own comments', async () => {
     const uiComment = {
-      saveButton: byRole('button', { name: 'hotspots.comment.submit' }),
+      saveButton: byRole('button', { name: 'save' }),
       deleteButton: byRole('button', { name: 'delete' }),
     };
 

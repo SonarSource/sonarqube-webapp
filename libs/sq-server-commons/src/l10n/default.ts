@@ -1333,6 +1333,7 @@ export const defaultMessages = {
   'issue.quick_fix_available_with_sonarlint': 'Quick fix available in {link}',
   'issue.quick_fix_available_with_sonarlint_no_link': 'Quick fix available in SonarQube for IDE',
   'issue.comment.add_comment': 'Add Comment',
+  'issue.comment.add_comment.submit': 'Comment',
   'issue.comment.add_comment.cancel': 'Cancel adding comment',
   'issue.comment.enter_comment': 'Enter Comment',
   'issue.comment.formlink': 'Comment',

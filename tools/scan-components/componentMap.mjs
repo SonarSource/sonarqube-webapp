@@ -338,7 +338,6 @@ export const componentMap = {
   GitHubSynchronisationWarning: 'MessageCallout',
   WrongBindingCountAlert: 'MessageCallout',
   CategoryDefinitionsList: 'Excluded',
-  HotspotCommentModal: 'Modal',
   Extension: 'Excluded',
   PersonalAccessTokenForm: 'Excluded',
   SubCategoryDefinitionsList: 'Excluded',

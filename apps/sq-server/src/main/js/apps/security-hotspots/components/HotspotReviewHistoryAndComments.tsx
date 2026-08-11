@@ -21,12 +21,14 @@
 import { Button, Heading } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { CommentModal } from '~shared/components/common/CommentModal';
 import {
   commentSecurityHotspot,
   deleteSecurityHotspotComment,
   editSecurityHotspotComment,
 } from '~sq-server-commons/api/security-hotspots';
-import HotspotCommentModal from '~sq-server-commons/components/findings/HotspotCommentModal';
+import FormattingTipsWithLink from '~sq-server-commons/components/common/FormattingTipsWithLink';
+import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { Hotspot } from '~sq-server-commons/types/security-hotspots';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 import HotspotReviewHistory from './HotspotReviewHistory';
@@ -42,6 +44,8 @@ interface State {
 }
 
 export default class HotspotReviewHistoryAndComments extends React.PureComponent<Props, State> {
+  intl = getIntl();
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -95,11 +99,15 @@ export default class HotspotReviewHistoryAndComments extends React.PureComponent
           onEditComment={this.handleEditComment}
         />
         {showAddCommentModal && (
-          <HotspotCommentModal
+          <CommentModal
+            commentHeader={this.intl.formatMessage({ id: 'hotspots.status.add_comment' })}
+            fieldLabel={this.intl.formatMessage({ id: 'hotspots.comment.field' })}
+            helpText={<FormattingTipsWithLink />}
             onCancel={this.handleHideCommentModal}
             onSubmit={(comment) => {
-              this.handleSubmitComment(comment);
+              void this.handleSubmitComment(comment);
             }}
+            submitButtonText={this.intl.formatMessage({ id: 'hotspots.comment.submit' })}
           />
         )}
       </div>

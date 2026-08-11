@@ -28,8 +28,9 @@ import {
 } from '@sonarsource/echoes-react';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { CommentModal } from '~shared/components/common/CommentModal';
 import { Modal } from '../../design-system';
-import HotspotCommentModal from './HotspotCommentModal';
+import FormattingTipsWithLink from '../common/FormattingTipsWithLink';
 
 interface Props {
   commentKey: string;
@@ -71,7 +72,11 @@ export default function CommentActions(props: Props) {
       </div>
 
       {editCommentKey === commentKey && (
-        <HotspotCommentModal
+        <CommentModal
+          comment={markdown}
+          commentHeader={intl.formatMessage({ id: 'issue.comment.edit' })}
+          fieldLabel={intl.formatMessage({ id: 'issue.comment.enter_comment' })}
+          helpText={<FormattingTipsWithLink />}
           onCancel={() => {
             setEditCommentKey('');
           }}
@@ -79,7 +84,6 @@ export default function CommentActions(props: Props) {
             setEditCommentKey('');
             onEditComment(commentKey, text);
           }}
-          value={markdown}
         />
       )}
 

@@ -74,7 +74,7 @@ it('should be able to add or update comment', async () => {
   await user.click(ui.issueActivityAddComment.get());
   await user.click(screen.getByRole('textbox'));
   await user.keyboard('activity comment');
-  await user.click(screen.getByText('hotspots.comment.submit'));
+  await user.click(screen.getByText('issue.comment.add_comment.submit'));
 
   expect(screen.getByText('activity comment')).toBeInTheDocument();
 
@@ -90,7 +90,7 @@ it('should be able to add or update comment', async () => {
   await user.click(ui.issueAcitivityEditComment.get());
   await user.click(screen.getByRole('textbox'));
   await user.keyboard(' new');
-  await user.click(screen.getByText('hotspots.comment.submit'));
+  await user.click(screen.getByText('save'));
 
   expect(screen.getByText('activity comment new')).toBeInTheDocument();
 
