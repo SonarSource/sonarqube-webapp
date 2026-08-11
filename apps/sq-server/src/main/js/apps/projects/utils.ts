@@ -21,7 +21,6 @@
 import { invert } from 'lodash';
 import { MetricKey } from '~shared/types/metrics';
 import { Facet, getScannableProjects, searchProjects } from '~sq-server-commons/api/components';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import {
   convertToQueryData,
   defineFacets,
@@ -134,10 +133,6 @@ export const LEAK_METRICS = [
 const REVERSED_FACETS = ['coverage', 'new_coverage'];
 let scannableProjectsCached: { key: string; name: string }[] | null = null;
 
-export function localizeSorting(sort?: string): string {
-  return translate('projects.sort', sort ?? 'name');
-}
-
 export function parseSorting(sort: string): { sortDesc: boolean; sortValue: string } {
   const desc = sort.startsWith('-');
 
@@ -230,57 +225,4 @@ export function getFacetsMap(facets: Facet[], isStandardMode: boolean) {
   });
 
   return map;
-}
-
-const ONE_MINUTE = 60000;
-const ONE_HOUR = 60 * ONE_MINUTE;
-const ONE_DAY = 24 * ONE_HOUR;
-const ONE_MONTH = 30 * ONE_DAY;
-const ONE_YEAR = 12 * ONE_MONTH;
-
-function format(periods: Array<{ label: string; value: number }>) {
-  let result = '';
-  let count = 0;
-  let lastId = -1;
-
-  for (let i = 0; i < periods.length && count < 2; i++) {
-    if (periods[i].value > 0) {
-      count++;
-
-      if (lastId < 0 || lastId + 1 === i) {
-        lastId = i;
-        result += translateWithParameters(periods[i].label, periods[i].value) + ' ';
-      }
-    }
-  }
-
-  return result;
-}
-
-export function formatDuration(ms: number) {
-  if (ms < ONE_MINUTE) {
-    return translate('duration.seconds');
-  }
-
-  const years = Math.floor(ms / ONE_YEAR);
-  ms -= years * ONE_YEAR;
-
-  const months = Math.floor(ms / ONE_MONTH);
-  ms -= months * ONE_MONTH;
-
-  const days = Math.floor(ms / ONE_DAY);
-  ms -= days * ONE_DAY;
-
-  const hours = Math.floor(ms / ONE_HOUR);
-  ms -= hours * ONE_HOUR;
-
-  const minutes = Math.floor(ms / ONE_MINUTE);
-
-  return format([
-    { value: years, label: 'duration.years' },
-    { value: months, label: 'duration.months' },
-    { value: days, label: 'duration.days' },
-    { value: hours, label: 'duration.hours' },
-    { value: minutes, label: 'duration.minutes' },
-  ]);
 }

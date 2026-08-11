@@ -181,7 +181,7 @@ function shortIntFormatter(
   return numberFormatter(value);
 }
 
-function formatDuration(
+function formatWorkDuration(
   formatMessage: FormatMessageFunction,
   isNegative: boolean,
   days: number,
@@ -218,7 +218,7 @@ function formatDuration(
   return formatted;
 }
 
-function formatDurationShort(
+function formatWorkDurationShort(
   formatMessage: FormatMessageFunction,
   isNegative: boolean,
   days: number,
@@ -276,7 +276,7 @@ function durationFormatter(formatMessage: FormatMessageFunction, value: string |
   let remainingValue = absValue - days * hoursInDay * 60;
   const hours = Math.floor(remainingValue / 60);
   remainingValue -= hours * 60;
-  return formatDuration(formatMessage, isNegative, days, hours, remainingValue);
+  return formatWorkDuration(formatMessage, isNegative, days, hours, remainingValue);
 }
 
 function shortDurationFormatter(
@@ -296,7 +296,7 @@ function shortDurationFormatter(
   let remainingValue = absValue - Math.floor(days) * hoursInDay * 60;
   const hours = remainingValue / 60;
   remainingValue -= Math.floor(hours) * 60;
-  return formatDurationShort(formatMessage, isNegative, days, hours, remainingValue);
+  return formatWorkDurationShort(formatMessage, isNegative, days, hours, remainingValue);
 }
 
 function scaRiskFormatter(formatMessage: FormatMessageFunction, value: number | string): string {

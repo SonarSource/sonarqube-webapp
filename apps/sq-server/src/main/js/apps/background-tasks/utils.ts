@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ONE_SECOND } from '~sq-server-commons/helpers/constants';
 import { toShortISO8601String } from '~sq-server-commons/helpers/dates';
 import { ActivityRequestParameters, Task, TaskStatuses } from '~sq-server-commons/types/tasks';
 import { ALL_TYPES, CURRENTS, STATUSES } from './constants';
@@ -79,34 +78,4 @@ export function mapFiltersToParameters(filters: Partial<Query> = {}) {
   }
 
   return parameters;
-}
-
-const ONE_MINUTE = 60 * ONE_SECOND;
-const ONE_HOUR = 60 * ONE_MINUTE;
-
-function format(int: number, suffix: string) {
-  return `${int}${suffix}`;
-}
-
-export function formatDuration(value: number | undefined) {
-  if (!value) {
-    return '';
-  }
-  if (value < ONE_SECOND) {
-    return format(value, 'ms');
-  } else if (value < ONE_SECOND * 10) {
-    const seconds = Math.floor(value / ONE_SECOND);
-    const ms = value - seconds * ONE_SECOND;
-    return seconds + '.' + format(ms, 's');
-  } else if (value < ONE_MINUTE) {
-    const seconds = Math.floor(value / ONE_SECOND);
-    return format(seconds, 's');
-  } else if (value < ONE_MINUTE * 10) {
-    const minutes = Math.floor(value / ONE_MINUTE);
-    const seconds = Math.floor((value - minutes * ONE_MINUTE) / ONE_SECOND);
-    return format(minutes, 'min') + ' ' + format(seconds, 's');
-  }
-  const hours = Math.floor(value / ONE_HOUR);
-  const minutes = Math.floor((value - hours * ONE_HOUR) / ONE_MINUTE);
-  return format(hours, 'h') + ' ' + format(minutes, 'min');
 }

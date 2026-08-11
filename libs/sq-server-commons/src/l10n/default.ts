@@ -1668,6 +1668,14 @@ export const defaultMessages = {
   'issues.assign_to_agent': 'Assign to agent',
   'project_issues.assign_to_agent.success.title':
     '{issueCount, plural, one {# issue} other {# issues}} assigned to Agent',
+  'agent_activity.status.pending': 'Pending',
+  'agent_activity.status.in_progress': 'In progress',
+  'agent_activity.status.in_progress.description': 'Please wait...',
+  'agent_activity.status.completed': 'Completed',
+  'agent_activity.status.failed': 'Failed',
+  'agent_activity.status.failed.description': 'Try again later',
+  'agent_activity.status.skipped': 'Skipped',
+  'agent_activity.status.skipped.description': 'No changes since last run',
   'project_agent_activity.title': 'Remediation Agent',
   'project_agent_activity.description':
     'Track your Remediation Agent activity for this project. Monitor jobs, observe their progress, and access detailed information for each task.',
@@ -1678,10 +1686,6 @@ export const defaultMessages = {
   'project_agent_activity.table.started': 'Started',
   'project_agent_activity.table.source': 'Source',
   'project_agent_activity.table.outcome': 'Outcome',
-  'project_agent_activity.status.pending': 'Pending',
-  'project_agent_activity.status.in_progress': 'In progress',
-  'project_agent_activity.status.completed': 'Completed',
-  'project_agent_activity.status.failed': 'Failed',
   'project_agent_activity.source.backlog': 'Backlog issues',
   'project_agent_activity.source.scheduled': 'Scheduled',
   'project_agent_activity.outcome.view_pull_request': 'View pull request',
@@ -6776,23 +6780,6 @@ export const defaultMessages = {
   'keyboard_shortcuts_modal.rules_page': ' Rules page',
   'keyboard_shortcuts_modal.rules_page.navigate_between_rule': ' Navigate between rules',
   'keyboard_shortcuts_modal.rules_page.open_rule': ' Open rule',
-
-  //------------------------------------------------------------------------------
-  //
-  // DURATION
-  //
-  //------------------------------------------------------------------------------
-  'duration.seconds': 'less than a minute',
-  'duration.minute': 'about a minute',
-  'duration.minutes': '{0} minutes',
-  'duration.hour': 'about an hour',
-  'duration.hours': '{0} hours',
-  'duration.day': 'a day',
-  'duration.days': '{0} days',
-  'duration.month': 'about a month',
-  'duration.months': '{0} months',
-  'duration.year': 'about a year',
-  'duration.years': '{0} years',
 
   //------------------------------------------------------------------------------
   //

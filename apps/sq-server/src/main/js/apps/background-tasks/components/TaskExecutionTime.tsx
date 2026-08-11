@@ -19,7 +19,7 @@
  */
 
 import { NumericalCell } from '~design-system';
-import { formatDuration } from '../utils';
+import { formatDurationShort } from '~shared/helpers/duration';
 
 interface Props {
   ms?: number;
@@ -28,7 +28,7 @@ interface Props {
 export default function TaskExecutionTime({ ms }: Readonly<Props>) {
   return (
     <NumericalCell className="sw-whitespace-nowrap">
-      {ms !== undefined && formatDuration(ms)}
+      {ms !== undefined && formatDurationShort(ms)}
     </NumericalCell>
   );
 }
