@@ -236,8 +236,8 @@ export default function PageSidebar(props: PageSidebarProps) {
 
           <NewLinesFilter
             {...facetProps}
-            facet={getFacet(facets, MetricKey.new_lines)}
-            value={query.new_lines}
+            facet={getFacet(facets, MetricKey.new_ncloc)}
+            value={query.new_ncloc}
           />
         </>
       )}

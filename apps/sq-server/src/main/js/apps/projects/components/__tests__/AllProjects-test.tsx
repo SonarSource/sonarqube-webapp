@@ -93,7 +93,7 @@ it('changes sort and perspective', async () => {
 
   expect(save).toHaveBeenCalledWith(LS_PROJECTS_VIEW, '"leak"');
   // sort should also be updated
-  expect(save).toHaveBeenCalledWith(LS_PROJECTS_SORT, `"${MetricKey.new_lines}"`);
+  expect(save).toHaveBeenCalledWith(LS_PROJECTS_SORT, `"${MetricKey.new_ncloc}"`);
 });
 
 it('handles showing favorite projects on load', async () => {

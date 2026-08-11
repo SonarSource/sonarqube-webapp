@@ -19,6 +19,7 @@
  */
 
 import { isScaFacet } from '~shared/helpers/sca';
+import { MetricKey } from '~shared/types/metrics';
 import { searchProjects } from '~sq-server-commons/api/components';
 import { ONE_SECOND } from '~sq-server-commons/helpers/constants';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
@@ -203,6 +204,8 @@ describe('fetchProjects', () => {
 describe('defineMetrics', () => {
   it('returns the correct list of metrics', () => {
     expect(utils.defineMetrics({ view: 'leak' })).toBe(utils.LEAK_METRICS);
+    expect(utils.LEAK_METRICS).toContain(MetricKey.new_ncloc);
+    expect(utils.LEAK_METRICS).not.toContain(MetricKey.new_lines);
     expect(utils.defineMetrics({ view: 'overall' })).toBe(utils.METRICS);
     expect(utils.defineMetrics({})).toBe(utils.METRICS);
   });
@@ -212,6 +215,16 @@ describe('defineMetrics', () => {
     expect(utils.defineMetrics({ view: 'overall' }, true)).toEqual(utils.METRICS_WITH_SCA);
     expect(utils.defineMetrics({}, true)).toEqual(utils.METRICS_WITH_SCA);
   });
+});
+
+describe('new-code facets', () => {
+  it.each([[LEGACY_LEAK_FACETS], [LEAK_FACETS]])(
+    'uses new ncloc instead of new lines',
+    (facets) => {
+      expect(facets).toContain(MetricKey.new_ncloc);
+      expect(facets).not.toContain(MetricKey.new_lines);
+    },
+  );
 });
 
 describe('convertToSorting', () => {

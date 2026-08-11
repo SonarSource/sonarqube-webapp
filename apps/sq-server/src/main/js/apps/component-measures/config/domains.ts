@@ -165,6 +165,7 @@ export const domains: Domains = {
   Size: {
     order: [
       MetricKey.new_lines,
+      MetricKey.new_ncloc,
 
       MetricKey.ncloc,
       MetricKey.lines,

@@ -19,6 +19,7 @@
  */
 
 import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
 import { mockMainBranch, mockPullRequest } from '~sq-server-commons/helpers/mocks/branch-like';
 import {
   getCodeMetrics,
@@ -85,6 +86,18 @@ describe('getCodeMetrics', () => {
 
   it('should return the right metrics for apps', () => {
     expect(getCodeMetrics(ComponentQualifier.Application)).toMatchSnapshot();
+  });
+
+  it.each([
+    PortfolioMetrics.NewCodeAicaAgnostic,
+    PortfolioMetrics.NewCodeAicaDisabled,
+    PortfolioMetrics.NewCodeAicaEnabled,
+    PortfolioMetrics.Unspecified,
+  ])('uses new ncloc for portfolio new-code size (%s)', (portfolioMetrics) => {
+    const metrics = getCodeMetrics(ComponentQualifier.Portfolio, undefined, { portfolioMetrics });
+
+    expect(metrics).toContain(MetricKey.new_ncloc);
+    expect(metrics).not.toContain(MetricKey.new_lines);
   });
 
   it('should return the right metrics for projects', () => {

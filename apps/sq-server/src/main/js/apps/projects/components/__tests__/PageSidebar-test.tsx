@@ -43,7 +43,7 @@ it('should render the right facets for overview', () => {
 
   expect(screen.getByText('projects.facets.qualifier')).toBeInTheDocument();
 
-  expect(screen.queryByText('projects.facets.new_lines')).not.toBeInTheDocument();
+  expect(screen.queryByText('projects.facets.new_ncloc')).not.toBeInTheDocument();
 });
 
 it('should not show the qualifier facet with no applications', () => {
@@ -62,7 +62,7 @@ it('should show "new lines" instead of "size" when in `leak` view', () => {
   });
 
   expect(screen.queryByText('metric_domain.Size')).not.toBeInTheDocument();
-  expect(screen.getByText('projects.facets.new_lines')).toBeInTheDocument();
+  expect(screen.getByText('projects.facets.new_ncloc')).toBeInTheDocument();
 });
 
 it('should allow to clear all filters', async () => {

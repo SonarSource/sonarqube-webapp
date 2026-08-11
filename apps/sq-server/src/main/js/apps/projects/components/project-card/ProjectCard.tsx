@@ -156,22 +156,22 @@ function CardInfo({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
         )}
 
         {isNewCode
-          ? measures[MetricKey.new_lines] != null && (
+          ? measures[MetricKey.new_ncloc] != null && (
               <>
                 <SeparatorCircleIcon className="sw-mx-1" />
 
                 <div>
-                  <span className="sw-typo-semibold sw-mr-1" data-key={MetricKey.new_lines}>
+                  <span className="sw-typo-semibold sw-mr-1" data-key={MetricKey.new_ncloc}>
                     <Measure
                       componentKey={key}
-                      metricKey={MetricKey.new_lines}
+                      metricKey={MetricKey.new_ncloc}
                       metricType={MetricType.ShortInteger}
-                      value={measures.new_lines}
+                      value={measures.new_ncloc}
                     />
                   </span>
 
                   <span className="sw-typo-default">
-                    <FormattedMessage id="metric.new_lines.name" />
+                    <FormattedMessage id="metric.new_ncloc.name" />
                   </span>
                 </div>
               </>

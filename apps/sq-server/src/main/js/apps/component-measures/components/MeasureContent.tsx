@@ -364,7 +364,7 @@ function getComponentRequestParams(
     opts.metricSort = metricForSort;
     setMetricSort();
   } else if (view === MeasurePageView.treemap) {
-    const sizeMetric = isDiff ? MetricKey.new_lines : MetricKey.ncloc;
+    const sizeMetric = isDiff ? MetricKey.new_ncloc : MetricKey.ncloc;
     metricKeys.push(...(complementary[metric.key] || []));
     metricKeys.push(sizeMetric);
     opts.asc = false;

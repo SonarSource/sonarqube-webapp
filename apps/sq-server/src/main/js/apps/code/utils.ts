@@ -105,7 +105,7 @@ const NEW_PORTFOLIO_METRICS = [
   MetricKey.new_maintainability_rating,
   MetricKey.new_software_quality_maintainability_rating,
   MetricKey.new_security_review_rating,
-  MetricKey.new_lines,
+  MetricKey.new_ncloc,
 ];
 
 /**
@@ -122,7 +122,7 @@ const NEW_PORTFOLIO_METRICS_WITH_AICA = [
   MetricKey.new_maintainability_rating_with_aica,
   MetricKey.new_software_quality_maintainability_rating_with_aica,
   MetricKey.new_security_review_rating_with_aica,
-  MetricKey.new_lines,
+  MetricKey.new_ncloc,
 ];
 
 /**
@@ -139,11 +139,11 @@ const NEW_PORTFOLIO_METRICS_WITHOUT_AICA = [
   MetricKey.new_maintainability_rating_without_aica,
   MetricKey.new_software_quality_maintainability_rating_without_aica,
   MetricKey.new_security_review_rating_without_aica,
-  MetricKey.new_lines,
+  MetricKey.new_ncloc,
 ];
 
 const LEAK_METRICS = [
-  MetricKey.new_lines,
+  MetricKey.new_ncloc,
   ...CCT_SOFTWARE_QUALITY_METRICS,
   ...OLD_TAXONOMY_METRICS,
   MetricKey.security_hotspots,
@@ -254,7 +254,7 @@ export function getCodeMetrics(
         metrics.splice(idx !== -1 ? idx : metrics.length, 0, MetricKey.sca_rating_any_issue);
       }
       if (isNewCode) {
-        const idx = metrics.indexOf(MetricKey.new_lines);
+        const idx = metrics.indexOf(MetricKey.new_ncloc);
         metrics.splice(idx !== -1 ? idx : metrics.length, 0, MetricKey.new_sca_rating_any_issue);
       }
     }

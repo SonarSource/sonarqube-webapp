@@ -62,7 +62,7 @@ export const propertyToMetricMapLegacy: Record<string, string | undefined> = {
   duplications: 'duplicated_lines_density',
   new_duplications: 'new_duplicated_lines_density',
   size: 'ncloc',
-  new_lines: 'new_lines',
+  new_ncloc: 'new_ncloc',
   gate: 'alert_status',
   languages: 'languages',
   tags: 'tags',
@@ -104,7 +104,7 @@ export function convertToFilter(
     pushMetricToArray(query, property, conditions, convertDuplications, isStandardMode);
   });
 
-  ['size', MetricKey.new_lines].forEach((property) => {
+  ['size', MetricKey.new_ncloc].forEach((property) => {
     pushMetricToArray(query, property, conditions, convertSize, isStandardMode);
   });
 
@@ -318,7 +318,7 @@ export const LEGACY_LEAK_FACETS = [
   MetricKey.new_sca_rating_any_issue,
   MetricKey.new_coverage,
   MetricKey.new_duplicated_lines_density,
-  MetricKey.new_lines,
+  MetricKey.new_ncloc,
   MetricKey.alert_status,
   'languages',
   'tags',
@@ -333,7 +333,7 @@ export const LEAK_FACETS = [
   MetricKey.new_sca_rating_any_issue,
   MetricKey.new_coverage,
   MetricKey.new_duplicated_lines_density,
-  MetricKey.new_lines,
+  MetricKey.new_ncloc,
   MetricKey.alert_status,
   'languages',
   'tags',

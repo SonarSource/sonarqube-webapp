@@ -41,7 +41,7 @@ export function parseUrlQuery(urlQuery: RawQuery): ProjectsQuery {
     duplications: getAsNumericRating(urlQuery.duplications),
     new_duplications: getAsNumericRating(urlQuery.new_duplications),
     size: getAsNumericRating(urlQuery.size),
-    new_lines: getAsNumericRating(urlQuery[MetricKey.new_lines]),
+    new_ncloc: getAsNumericRating(urlQuery[MetricKey.new_ncloc]),
     languages: getAsStringArray(urlQuery.languages),
     tags: getAsStringArray(urlQuery.tags),
     qualifier: getAsQualifier(urlQuery.qualifier),

@@ -120,6 +120,11 @@ export const MeasuresServiceDefaultDataset: MeasuresServiceData = {
         component: COMPONENT_FOO.key,
       },
       {
+        metric: MetricKey.new_ncloc,
+        periods: [{ index: 1, value: '22000' }],
+        component: COMPONENT_FOO.key,
+      },
+      {
         metric: MetricKey.new_bugs,
         periods: [{ index: 1, value: '1', bestValue: false }],
         component: COMPONENT_FOO.key,
@@ -203,6 +208,7 @@ export const MeasuresServiceDefaultDataset: MeasuresServiceData = {
       { metric: MetricKey.duplicated_lines_density, value: '6.0', component: COMPONENT_BAR.key },
       { metric: MetricKey.ncloc, value: '342', component: COMPONENT_BAR.key },
       { metric: MetricKey.new_lines, value: '342', component: COMPONENT_BAR.key },
+      { metric: MetricKey.new_ncloc, value: '320', component: COMPONENT_BAR.key },
       { metric: MetricKey.vulnerabilities, value: '1', component: COMPONENT_BAR.key },
       { metric: MetricKey.security_hotspots_reviewed, value: '98.7', component: COMPONENT_BAR.key },
       { metric: MetricKey.coverage, value: '88.2', component: COMPONENT_BAR.key },
@@ -216,6 +222,7 @@ export const MeasuresServiceDefaultDataset: MeasuresServiceData = {
       { metric: MetricKey.alert_status, value: 'OK', component: COMPONENT_BAZ.key },
       { metric: MetricKey.ncloc, value: '342', component: COMPONENT_BAZ.key },
       { metric: MetricKey.new_lines, value: '342', component: COMPONENT_BAZ.key },
+      { metric: MetricKey.new_ncloc, value: '320', component: COMPONENT_BAZ.key },
     ],
   },
   componentsKeysToIdsRelation: {

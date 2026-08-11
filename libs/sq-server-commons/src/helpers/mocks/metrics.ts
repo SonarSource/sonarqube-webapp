@@ -977,6 +977,17 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
+  new_ncloc: {
+    id: 'AXJMbImPPAOIsUIE3gu3',
+    key: 'new_ncloc',
+    type: 'INT',
+    name: 'New Lines of Code',
+    description: 'Non commenting lines of code on new code',
+    domain: 'Size',
+    direction: -1,
+    qualitative: false,
+    hidden: false,
+  },
   new_software_quality_low_issues: {
     id: '8ecc3d65-72e7-4a36-9d1b-84344ba017f3',
     key: 'new_software_quality_low_issues',

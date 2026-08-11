@@ -62,7 +62,7 @@ export const SORTING_LEAK_METRICS: SortingOption[] = [
   { value: 'new_maintainability', class: 'projects-leak-sorting-option' },
   { value: 'new_coverage', class: 'projects-leak-sorting-option' },
   { value: 'new_duplications', class: 'projects-leak-sorting-option' },
-  { value: 'new_lines', class: 'projects-leak-sorting-option' },
+  { value: 'new_ncloc', class: 'projects-leak-sorting-option' },
 ];
 
 export const SORTING_SWITCH: Record<string, string> = {
@@ -74,14 +74,14 @@ export const SORTING_SWITCH: Record<string, string> = {
   maintainability: 'new_maintainability',
   coverage: 'new_coverage',
   duplications: 'new_duplications',
-  size: 'new_lines',
+  size: 'new_ncloc',
   new_reliability: 'reliability',
   new_security: 'security',
   new_security_review: 'security_review',
   new_maintainability: 'maintainability',
   new_coverage: 'coverage',
   new_duplications: 'duplications',
-  new_lines: 'size',
+  new_ncloc: 'size',
 };
 
 export const VIEWS = [
@@ -127,7 +127,7 @@ export const LEAK_METRICS = [
   MetricKey.new_security_review_rating,
   MetricKey.new_coverage,
   MetricKey.new_duplicated_lines_density,
-  MetricKey.new_lines,
+  MetricKey.new_ncloc,
   MetricKey.projects,
 ];
 

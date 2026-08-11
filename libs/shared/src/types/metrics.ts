@@ -121,6 +121,7 @@ export enum MetricKey {
   new_maintainability_rating_without_aica = 'new_maintainability_rating_without_aica',
   new_major_violations = 'new_major_violations',
   new_minor_violations = 'new_minor_violations',
+  new_ncloc = 'new_ncloc',
   new_reliability_issues = 'new_reliability_issues',
   new_reliability_rating = 'new_reliability_rating',
   new_reliability_rating_distribution = 'new_reliability_rating_distribution',

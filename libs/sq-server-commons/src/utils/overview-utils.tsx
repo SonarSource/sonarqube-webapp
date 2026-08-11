@@ -102,6 +102,7 @@ export const BRANCH_OVERVIEW_METRICS: string[] = [
   MetricKey.projects,
   MetricKey.lines,
   MetricKey.new_lines,
+  MetricKey.new_ncloc,
 
   // others
   MetricKey.violations,
@@ -117,6 +118,7 @@ export const PR_METRICS: string[] = [
   MetricKey.duplicated_lines_density,
   MetricKey.new_duplicated_lines_density,
   MetricKey.new_lines,
+  MetricKey.new_ncloc,
   MetricKey.new_code_smells,
   MetricKey.new_maintainability_rating,
   MetricKey.new_bugs,

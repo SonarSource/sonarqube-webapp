@@ -11,7 +11,7 @@ exports[`getCodeMetrics should include SCA rating metrics when includeScaRating 
   "new_software_quality_maintainability_rating",
   "new_security_review_rating",
   "new_sca_rating_any_issue",
-  "new_lines",
+  "new_ncloc",
 ]
 `;
 
@@ -55,7 +55,7 @@ exports[`getCodeMetrics should include SCA rating metrics when includeScaRating 
   "new_software_quality_maintainability_rating",
   "new_security_review_rating",
   "new_sca_rating_any_issue",
-  "new_lines",
+  "new_ncloc",
   "releasability_rating_with_aica",
   "new_security_rating_with_aica",
   "new_software_quality_security_rating_with_aica",
@@ -126,7 +126,7 @@ exports[`getCodeMetrics should return the right metrics for portfolios with opti
   "new_maintainability_rating",
   "new_software_quality_maintainability_rating",
   "new_security_review_rating",
-  "new_lines",
+  "new_ncloc",
 ]
 `;
 
@@ -182,7 +182,7 @@ exports[`getCodeMetrics should return the right metrics for portfolios with opti
   "new_maintainability_rating_without_aica",
   "new_software_quality_maintainability_rating_without_aica",
   "new_security_review_rating_without_aica",
-  "new_lines",
+  "new_ncloc",
 ]
 `;
 
@@ -196,7 +196,7 @@ exports[`getCodeMetrics should return the right metrics for portfolios with opti
   "new_maintainability_rating_with_aica",
   "new_software_quality_maintainability_rating_with_aica",
   "new_security_review_rating_with_aica",
-  "new_lines",
+  "new_ncloc",
 ]
 `;
 
@@ -210,7 +210,7 @@ exports[`getCodeMetrics should return the right metrics for portfolios with opti
   "new_maintainability_rating",
   "new_software_quality_maintainability_rating",
   "new_security_review_rating",
-  "new_lines",
+  "new_ncloc",
   "releasability_rating_with_aica",
   "new_security_rating_with_aica",
   "new_software_quality_security_rating_with_aica",
@@ -264,7 +264,7 @@ exports[`getCodeMetrics should return the right metrics for portfolios with opti
   "new_maintainability_rating",
   "new_software_quality_maintainability_rating",
   "new_security_review_rating",
-  "new_lines",
+  "new_ncloc",
   "alert_status",
 ]
 `;
@@ -324,7 +324,7 @@ exports[`getCodeMetrics should return the right metrics for portfolios with opti
   "new_maintainability_rating_without_aica",
   "new_software_quality_maintainability_rating_without_aica",
   "new_security_review_rating_without_aica",
-  "new_lines",
+  "new_ncloc",
   "alert_status",
 ]
 `;
@@ -339,7 +339,7 @@ exports[`getCodeMetrics should return the right metrics for portfolios with opti
   "new_maintainability_rating_with_aica",
   "new_software_quality_maintainability_rating_with_aica",
   "new_security_review_rating_with_aica",
-  "new_lines",
+  "new_ncloc",
   "alert_status",
 ]
 `;
@@ -354,7 +354,7 @@ exports[`getCodeMetrics should return the right metrics for portfolios with opti
   "new_maintainability_rating",
   "new_software_quality_maintainability_rating",
   "new_security_review_rating",
-  "new_lines",
+  "new_ncloc",
   "releasability_rating_with_aica",
   "new_security_rating_with_aica",
   "new_software_quality_security_rating_with_aica",
@@ -409,7 +409,7 @@ exports[`getCodeMetrics should return the right metrics for portfolios with opti
   "new_maintainability_rating",
   "new_software_quality_maintainability_rating",
   "new_security_review_rating",
-  "new_lines",
+  "new_ncloc",
   "contains_ai_code",
 ]
 `;
@@ -469,7 +469,7 @@ exports[`getCodeMetrics should return the right metrics for portfolios with opti
   "new_maintainability_rating_without_aica",
   "new_software_quality_maintainability_rating_without_aica",
   "new_security_review_rating_without_aica",
-  "new_lines",
+  "new_ncloc",
   "contains_ai_code",
 ]
 `;
@@ -484,7 +484,7 @@ exports[`getCodeMetrics should return the right metrics for portfolios with opti
   "new_maintainability_rating_with_aica",
   "new_software_quality_maintainability_rating_with_aica",
   "new_security_review_rating_with_aica",
-  "new_lines",
+  "new_ncloc",
   "contains_ai_code",
 ]
 `;
@@ -499,7 +499,7 @@ exports[`getCodeMetrics should return the right metrics for portfolios with opti
   "new_maintainability_rating",
   "new_software_quality_maintainability_rating",
   "new_security_review_rating",
-  "new_lines",
+  "new_ncloc",
   "releasability_rating_with_aica",
   "new_security_rating_with_aica",
   "new_software_quality_security_rating_with_aica",
@@ -554,7 +554,7 @@ exports[`getCodeMetrics should return the right metrics for portfolios with opti
   "new_maintainability_rating",
   "new_software_quality_maintainability_rating",
   "new_security_review_rating",
-  "new_lines",
+  "new_ncloc",
   "contains_ai_code",
   "alert_status",
 ]
@@ -618,7 +618,7 @@ exports[`getCodeMetrics should return the right metrics for portfolios with opti
   "new_maintainability_rating_without_aica",
   "new_software_quality_maintainability_rating_without_aica",
   "new_security_review_rating_without_aica",
-  "new_lines",
+  "new_ncloc",
   "contains_ai_code",
   "alert_status",
 ]
@@ -634,7 +634,7 @@ exports[`getCodeMetrics should return the right metrics for portfolios with opti
   "new_maintainability_rating_with_aica",
   "new_software_quality_maintainability_rating_with_aica",
   "new_security_review_rating_with_aica",
-  "new_lines",
+  "new_ncloc",
   "contains_ai_code",
   "alert_status",
 ]
@@ -650,7 +650,7 @@ exports[`getCodeMetrics should return the right metrics for portfolios with opti
   "new_maintainability_rating",
   "new_software_quality_maintainability_rating",
   "new_security_review_rating",
-  "new_lines",
+  "new_ncloc",
   "releasability_rating_with_aica",
   "new_security_rating_with_aica",
   "new_software_quality_security_rating_with_aica",
@@ -713,7 +713,7 @@ exports[`getCodeMetrics should return the right metrics for projects 1`] = `
 
 exports[`getCodeMetrics should return the right metrics for projects 2`] = `
 [
-  "new_lines",
+  "new_ncloc",
   "software_quality_security_issues",
   "software_quality_reliability_issues",
   "software_quality_maintainability_issues",

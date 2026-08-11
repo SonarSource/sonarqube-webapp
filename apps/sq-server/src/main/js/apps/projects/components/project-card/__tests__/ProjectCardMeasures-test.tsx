@@ -131,6 +131,7 @@ function renderProjectCardMeasures(
     [MetricKey.new_duplicated_lines_density]: '0.55',
     [MetricKey.new_violations]: '10',
     [MetricKey.new_lines]: '87',
+    [MetricKey.new_ncloc]: '72',
     [MetricKey.sca_count_any_issue]: '42',
     [MetricKey.sca_rating_any_issue]: '2.0',
     ...measuresOverride,

@@ -42,7 +42,7 @@ interface ComponentsHeaderProps {
 const SHORT_NAME_METRICS = [
   ...CCT_SOFTWARE_QUALITY_METRICS,
   MetricKey.duplicated_lines_density,
-  MetricKey.new_lines,
+  MetricKey.new_ncloc,
   MetricKey.new_coverage,
   MetricKey.new_duplicated_lines_density,
 ];

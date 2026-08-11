@@ -2964,6 +2964,7 @@ export const defaultMessages = {
   'projects.sorting.new_coverage': 'Coverage',
   'projects.sorting.new_duplications': 'Duplications',
   'projects.sorting.new_lines': 'New Lines',
+  'projects.sorting.new_ncloc': 'New Lines of Code',
   'projects.view.overall': 'Overall Status',
   'projects.view.overall_code': 'Overall Code',
   'projects.view.new_code': 'New Code',
@@ -3018,6 +3019,7 @@ export const defaultMessages = {
   'projects.facets.languages': 'Languages',
   'projects.facets.search.languages': 'Search for languages',
   'projects.facets.new_lines': 'New Lines',
+  'projects.facets.new_ncloc': 'New Lines of Code',
   'projects.facets.tags': 'Tags',
   'projects.facets.search.tags': 'Search for tags',
   'projects.facets.qualifier': 'Type',
@@ -3037,6 +3039,15 @@ export const defaultMessages = {
   'projects.facets.new_lines.label.3': 'Click to filter projects with 10k new lines or more',
   'projects.facets.new_lines.label.4': 'Click to filter projects with 100k new lines or more',
   'projects.facets.new_lines.label.5': 'Click to filter projects with more than 500k new lines',
+  'projects.facets.new_ncloc.label.1':
+    'Click to filter projects with fewer than 1k new lines of code',
+  'projects.facets.new_ncloc.label.2': 'Click to filter projects with 1k new lines of code or more',
+  'projects.facets.new_ncloc.label.3':
+    'Click to filter projects with 10k new lines of code or more',
+  'projects.facets.new_ncloc.label.4':
+    'Click to filter projects with 100k new lines of code or more',
+  'projects.facets.new_ncloc.label.5':
+    'Click to filter projects with more than 500k new lines of code',
   'projects.facets.coverage.label.1': 'Click to filter projects with more than 80% coverage',
   'projects.facets.coverage.label.2': 'Click to filter projects with less than 80% coverage',
   'projects.facets.coverage.label.3': 'Click to filter projects with less than 70% coverage',
@@ -6002,6 +6013,9 @@ export const defaultMessages = {
   'metric.new_lines.name': 'New Lines',
   'metric.new_lines.description': 'New lines',
   'metric.new_lines.short_name': 'Lines',
+  'metric.new_ncloc.name': 'New Lines of Code',
+  'metric.new_ncloc.description': 'Non commenting lines of code on new code',
+  'metric.new_ncloc.short_name': 'Lines of Code',
   'metric.new_overall_branch_coverage.description':
     'Condition coverage of new/changed code by all tests',
   'metric.new_overall_branch_coverage.name': 'Overall Condition Coverage on New Code',

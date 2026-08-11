@@ -31,7 +31,7 @@ export interface ProjectsQuery {
   maintainability?: number;
   new_coverage?: number;
   new_duplications?: number;
-  new_lines?: number;
+  new_ncloc?: number;
   new_maintainability?: number;
   new_reliability?: number;
   new_sca_rating?: number;

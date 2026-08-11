@@ -861,6 +861,7 @@ function generateMeasures(
       ...[
         MetricKey.ncloc,
         MetricKey.new_lines,
+        MetricKey.new_ncloc,
         MetricKey.bugs,
         MetricKey.new_bugs,
         MetricKey.vulnerabilities,

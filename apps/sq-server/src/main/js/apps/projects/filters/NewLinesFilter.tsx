@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useIntl } from 'react-intl';
 import { MetricKey } from '~shared/types/metrics';
 import { RawQuery } from '~shared/types/router';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getSizeRatingLabel } from '~sq-server-commons/helpers/ratings';
 import { Facet } from '../types';
 import RangeFacetBase from './RangeFacetBase';
@@ -34,13 +34,18 @@ export interface Props {
 }
 
 export default function NewLinesFilter(props: Props) {
-  const { facet, maxFacetValue, property = MetricKey.new_lines, value } = props;
+  const { formatMessage } = useIntl();
+  const { facet, maxFacetValue, property = MetricKey.new_ncloc, value } = props;
+
+  function renderAccessibleLabel(option: number) {
+    return formatMessage({ id: `projects.facets.new_ncloc.label.${option}` });
+  }
 
   return (
     <RangeFacetBase
       facet={facet}
       getFacetValueForOption={getFacetValueForOption}
-      header={translate('projects.facets.new_lines')}
+      header={formatMessage({ id: 'projects.facets.new_ncloc' })}
       highlightUnder={1}
       maxFacetValue={maxFacetValue}
       onQueryChange={props.onQueryChange}
@@ -60,8 +65,4 @@ function getFacetValueForOption(facet: Facet, option: number) {
 
 function renderOption(option: number) {
   return <span>{getSizeRatingLabel(option)}</span>;
-}
-
-function renderAccessibleLabel(option: number) {
-  return translate('projects.facets.new_lines.label', option.toString());
 }

@@ -523,8 +523,8 @@ export function mockProjectMeasures() {
         component: 'org.sonarsource.orchestrator:orchestrator-parent',
         bestValue: true,
       },
-      new_lines: {
-        metric: 'new_lines',
+      new_ncloc: {
+        metric: 'new_ncloc',
         value: '69',
         component: 'org.sonarsource.orchestrator:orchestrator-parent',
       },
@@ -605,8 +605,8 @@ export function mockProjectMeasures() {
         component: 'org.sonarsource.python:python',
         bestValue: false,
       },
-      new_lines: {
-        metric: 'new_lines',
+      new_ncloc: {
+        metric: 'new_ncloc',
         value: '59',
         component: 'org.sonarsource.python:python',
       },
@@ -687,8 +687,8 @@ export function mockProjectMeasures() {
         component: 'org.sonarsource.javascript:javascript',
         bestValue: false,
       },
-      new_lines: {
-        metric: 'new_lines',
+      new_ncloc: {
+        metric: 'new_ncloc',
         value: '189',
         component: 'org.sonarsource.javascript:javascript',
       },
@@ -769,8 +769,8 @@ export function mockProjectMeasures() {
         component: 'org.sonarsource.sonarlint.core:sonarlint-core-parent',
         bestValue: false,
       },
-      new_lines: {
-        metric: 'new_lines',
+      new_ncloc: {
+        metric: 'new_ncloc',
         value: '24',
         component: 'org.sonarsource.sonarlint.core:sonarlint-core-parent',
       },
@@ -851,8 +851,8 @@ export function mockProjectMeasures() {
         component: 'org.sonarsource.sonarlint.daemon:sonarlint-daemon-parent',
         bestValue: false,
       },
-      new_lines: {
-        metric: 'new_lines',
+      new_ncloc: {
+        metric: 'new_ncloc',
         value: '38',
         component: 'org.sonarsource.sonarlint.daemon:sonarlint-daemon-parent',
       },
@@ -927,8 +927,8 @@ export function mockProjectMeasures() {
         component: 'org.sonarsource.sonarlint.eclipse:sonarlint-eclipse-parent',
         bestValue: false,
       },
-      new_lines: {
-        metric: 'new_lines',
+      new_ncloc: {
+        metric: 'new_ncloc',
         value: '26',
         component: 'org.sonarsource.sonarlint.eclipse:sonarlint-eclipse-parent',
       },
@@ -1003,8 +1003,8 @@ export function mockProjectMeasures() {
         component: 'org.sonarsource.sonarlint.intellij:sonarlint-intellij',
         bestValue: true,
       },
-      new_lines: {
-        metric: 'new_lines',
+      new_ncloc: {
+        metric: 'new_ncloc',
         value: '76',
         component: 'org.sonarsource.sonarlint.intellij:sonarlint-intellij',
       },
@@ -1085,8 +1085,8 @@ export function mockProjectMeasures() {
         component: 'org.sonarsource.sonarlint.vscode:sonarlint-vscode',
         bestValue: true,
       },
-      new_lines: {
-        metric: 'new_lines',
+      new_ncloc: {
+        metric: 'new_ncloc',
         value: '4',
         component: 'org.sonarsource.sonarlint.vscode:sonarlint-vscode',
       },
@@ -1167,8 +1167,8 @@ export function mockProjectMeasures() {
         component: 'sonarqube',
         bestValue: false,
       },
-      new_lines: {
-        metric: 'new_lines',
+      new_ncloc: {
+        metric: 'new_ncloc',
         value: '389',
         component: 'sonarqube',
       },
@@ -1316,8 +1316,8 @@ export function mockProjectMeasures() {
         component: 'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
         bestValue: true,
       },
-      new_lines: {
-        metric: 'new_lines',
+      new_ncloc: {
+        metric: 'new_ncloc',
         value: '0',
         component: 'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
       },
@@ -1392,8 +1392,8 @@ export function mockProjectMeasures() {
         component: 'macos-cmake-azure-sq_AYAYt3nkMi_-8diYBjJ9',
         bestValue: true,
       },
-      new_lines: {
-        metric: 'new_lines',
+      new_ncloc: {
+        metric: 'new_ncloc',
         value: '1',
         component: 'macos-cmake-azure-sq_AYAYt3nkMi_-8diYBjJ9',
       },
@@ -1468,8 +1468,8 @@ export function mockProjectMeasures() {
         component: 'macos-cmake-compdb-gh-actions-sq_AYCKCNO5nBwJQJjdVHcK',
         bestValue: true,
       },
-      new_lines: {
-        metric: 'new_lines',
+      new_ncloc: {
+        metric: 'new_ncloc',
         value: '4',
         component: 'macos-cmake-compdb-gh-actions-sq_AYCKCNO5nBwJQJjdVHcK',
       },
@@ -1544,8 +1544,8 @@ export function mockProjectMeasures() {
         component: 'macos-cmake-gh-actions-sq_AYAYs22XMi_-8diYBjH_',
         bestValue: true,
       },
-      new_lines: {
-        metric: 'new_lines',
+      new_ncloc: {
+        metric: 'new_ncloc',
         value: '3',
         component: 'macos-cmake-gh-actions-sq_AYAYs22XMi_-8diYBjH_',
       },
@@ -1620,8 +1620,8 @@ export function mockProjectMeasures() {
         component: 'macos-xcode-azure-sq_AYAYr_NcQUWaRZD6h1ua',
         bestValue: true,
       },
-      new_lines: {
-        metric: 'new_lines',
+      new_ncloc: {
+        metric: 'new_ncloc',
         value: '3',
         component: 'macos-xcode-azure-sq_AYAYr_NcQUWaRZD6h1ua',
       },
@@ -1696,8 +1696,8 @@ export function mockProjectMeasures() {
         component: 'macos-xcode-gh-actions-sq_AYAYsHe3y0k_ZlpkA-kQ',
         bestValue: true,
       },
-      new_lines: {
-        metric: 'new_lines',
+      new_ncloc: {
+        metric: 'new_ncloc',
         value: '1',
         component: 'macos-xcode-gh-actions-sq_AYAYsHe3y0k_ZlpkA-kQ',
       },
@@ -1772,8 +1772,8 @@ export function mockProjectMeasures() {
         component: 'macos-xcode-otherci-sq_AYAYrm2RwUGdjBp0BJBc',
         bestValue: true,
       },
-      new_lines: {
-        metric: 'new_lines',
+      new_ncloc: {
+        metric: 'new_ncloc',
         value: '19',
         component: 'macos-xcode-otherci-sq_AYAYrm2RwUGdjBp0BJBc',
       },
@@ -1848,8 +1848,8 @@ export function mockProjectMeasures() {
         component: 'rspec-frontend',
         bestValue: true,
       },
-      new_lines: {
-        metric: 'new_lines',
+      new_ncloc: {
+        metric: 'new_ncloc',
         value: '0',
         component: 'rspec-frontend',
       },
@@ -1926,8 +1926,8 @@ export function mockProjectMeasures() {
         component: 'org.sonarsource.api.plugin:sonar-plugin-api',
         bestValue: false,
       },
-      new_lines: {
-        metric: 'new_lines',
+      new_ncloc: {
+        metric: 'new_ncloc',
         value: '642',
         component: 'org.sonarsource.api.plugin:sonar-plugin-api',
       },
