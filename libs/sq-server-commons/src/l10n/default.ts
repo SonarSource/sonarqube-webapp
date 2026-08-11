@@ -2508,6 +2508,8 @@ export const defaultMessages = {
     'You cannot move this component to its own location.',
   'architecture.page.model.modal.move_component.disabled_selected':
     'You cannot move this component to itself.',
+  'architecture.page.model.modal.move_component.disabled_descendant':
+    'You cannot move this component into one of its own children.',
   'architecture.page.model.modal.move_component.disabled_kind':
     'You cannot move this component to {kind}.',
   'architecture.page.model.modal.rename_component.title': 'Rename "{label}"',
