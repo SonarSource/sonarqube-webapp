@@ -71,6 +71,7 @@ import {
   setIssueType,
 } from '../issues';
 import { getRuleDetails, searchRules } from '../rules';
+import { HUNTER_AGENT_RULE } from './data/ids';
 import { IssueData, mockIssuesList } from './data/issues';
 import { mockRuleList } from './data/rules';
 import UsersServiceMock from './UsersServiceMock';
@@ -301,6 +302,40 @@ export default class IssuesServiceMock {
             {
               key: RuleDescriptionSections.Resources,
               content: '<h1>Link</h1>',
+            },
+          ],
+        }),
+      });
+    }
+    if (parameters.key === HUNTER_AGENT_RULE) {
+      return this.reply({
+        rule: mockRuleDetails({
+          key: parameters.key,
+          name: 'Hunter agent rule',
+          descriptionSections: [
+            {
+              key: RuleDescriptionSections.RootCause,
+              content: '<h1>Because</h1>',
+            },
+            {
+              content: '<p>Assess content</p>',
+              key: RuleDescriptionSections.AssessTheProblem,
+              context: {
+                key: 'spring',
+                displayName: 'Spring',
+              },
+            },
+            {
+              key: RuleDescriptionSections.HowToFix,
+              content: '<h1>Fix with</h1>',
+            },
+            {
+              content: '<p>Resources content</p>',
+              key: RuleDescriptionSections.Resources,
+              context: {
+                key: 'spring',
+                displayName: 'Spring',
+              },
             },
           ],
         }),

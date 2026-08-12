@@ -20,10 +20,15 @@
 
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { range } from 'lodash';
+import { cloneDeep, range } from 'lodash';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { IssueTransition } from '~shared/types/issues';
-import { ISSUE_101, ISSUE_1101, ISSUE_2 } from '~sq-server-commons/api/mocks/data/ids';
+import {
+  HUNTER_AGENT_RULE,
+  ISSUE_101,
+  ISSUE_1101,
+  ISSUE_2,
+} from '~sq-server-commons/api/mocks/data/ids';
 import { TabKeys } from '~sq-server-commons/components/rules/RuleTabViewer';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
@@ -251,6 +256,36 @@ describe('issue app', () => {
       ),
     );
     expect(screen.getByRole('heading', { name: 'Defense-in-depth', level: 3 })).toBeInTheDocument();
+  });
+
+  it('should hide the rule description context selector for Hunter agent issues', async () => {
+    const user = userEvent.setup();
+    const list = cloneDeep(issuesHandler.defaultList);
+    list.forEach(({ issue }) => {
+      if (issue.key === ISSUE_2) {
+        issue.rule = HUNTER_AGENT_RULE;
+        issue.externalRuleEngine = 'hunter-agent';
+      }
+    });
+    issuesHandler.setIssueList(list);
+
+    renderProjectIssuesApp('project/issues?issues=issue2&open=issue2&id=myproject');
+
+    await user.click(
+      await screen.findByRole(
+        'tab',
+        { name: 'coding_rules.description_section.title.assess_the_problem' },
+        { timeout: 10_000 },
+      ),
+    );
+    expect(byText(/Assess content/).get()).toBeInTheDocument();
+    expect(screen.queryByRole('radio', { name: 'Spring' })).not.toBeInTheDocument();
+
+    await user.click(
+      screen.getByRole('tab', { name: 'coding_rules.description_section.title.more_info' }),
+    );
+    expect(byText(/Resources content/).get()).toBeInTheDocument();
+    expect(screen.queryByRole('radio', { name: 'Spring' })).not.toBeInTheDocument();
   });
 
   it('should be able to change the issue status', async () => {

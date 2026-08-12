@@ -23,6 +23,7 @@ import classNames from 'classnames';
 import { cloneDeep, debounce, groupBy } from 'lodash';
 import * as React from 'react';
 import { Location } from 'react-router-dom';
+import { isHunterAgentRuleEngine } from '~shared/helpers/issues';
 import { RuleDescriptionSections, RuleDetails } from '~shared/types/rules';
 import { dismissNotice } from '../../api/users';
 import { CurrentUserContextInterface } from '../../context/current-user/CurrentUserContext';
@@ -201,6 +202,8 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
       aiSuggestionAvailable,
     } = this.props;
 
+    const isHunterAgent = isHunterAgentRuleEngine(issue.externalRuleEngine);
+
     // As we might tamper with the description later on, we clone to avoid any side effect
     const descriptionSectionsByKey = cloneDeep(
       groupBy(descriptionSections, (section) => section.key),
@@ -234,6 +237,7 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
           descriptionSectionsByKey[RuleDescriptionSections.RootCause]) && (
           <RuleDescription
             defaultContextKey={ruleDescriptionContextKey}
+            isHunterAgent={isHunterAgent}
             language={ruleLanguage}
             sections={(
               descriptionSectionsByKey[RuleDescriptionSections.Default] ??
@@ -248,6 +252,7 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
         label: translate('coding_rules.description_section.title', TabKeys.AssessTheIssue),
         content: descriptionSectionsByKey[RuleDescriptionSections.AssessTheProblem] && (
           <RuleDescription
+            isHunterAgent={isHunterAgent}
             language={ruleLanguage}
             sections={descriptionSectionsByKey[RuleDescriptionSections.AssessTheProblem]}
           />
@@ -260,6 +265,7 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
         content: descriptionSectionsByKey[RuleDescriptionSections.HowToFix] && (
           <RuleDescription
             defaultContextKey={ruleDescriptionContextKey}
+            isHunterAgent={isHunterAgent}
             language={ruleLanguage}
             sections={descriptionSectionsByKey[RuleDescriptionSections.HowToFix]}
           />
@@ -292,6 +298,7 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
             displayEducationalPrinciplesNotification={displayEducationalPrinciplesNotification}
             educationPrinciples={educationPrinciples}
             educationPrinciplesRef={this.educationPrinciplesRef}
+            isHunterAgent={isHunterAgent}
             language={ruleLanguage}
             sections={descriptionSectionsByKey[RuleDescriptionSections.Resources]}
           />

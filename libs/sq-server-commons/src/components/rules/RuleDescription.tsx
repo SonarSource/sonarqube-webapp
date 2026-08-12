@@ -35,6 +35,7 @@ const OTHERS_KEY = 'others';
 interface Props {
   className?: string;
   defaultContextKey?: string;
+  isHunterAgent?: boolean;
   language?: string;
   sections: RuleDescriptionSection[];
 }
@@ -48,6 +49,7 @@ interface RuleDescriptionContextDisplay {
 export default function RuleDescription({
   className,
   defaultContextKey,
+  isHunterAgent,
   language,
   sections,
 }: Readonly<Props>) {
@@ -117,9 +119,11 @@ export default function RuleDescription({
           applyCodeDifferences(node);
         }}
       >
-        <h2 className="sw-typo-semibold sw-mb-4">
-          {translate('coding_rules.description_context.title')}
-        </h2>
+        {!isHunterAgent && (
+          <h2 className="sw-typo-semibold sw-mb-4">
+            {translate('coding_rules.description_context.title')}
+          </h2>
+        )}
         {isDefined(introductionSection) && (
           <CodeSyntaxHighlighter
             className="rule-desc"
@@ -128,7 +132,7 @@ export default function RuleDescription({
             sanitizeLevel={SanitizeLevel.FORBID_SVG_MATHML}
           />
         )}
-        {defaultContext && (
+        {!isHunterAgent && defaultContext && (
           <FlagMessage className="sw-mb-4" variant="info">
             {translateWithParameters(
               'coding_rules.description_context.default_information',
@@ -136,25 +140,27 @@ export default function RuleDescription({
             )}
           </FlagMessage>
         )}
-        <div className="sw-mb-4">
-          {/* Changing this ToggleButton to the Echoes ToggleButtonGroup requires changing the one
-              from RuleTabViewer, which is supposed to be Tabs. */}
-          <ToggleButton
-            label={translate('coding_rules.description_context.title')}
-            onChange={handleToggleContext}
-            options={options}
-            value={selectedContext.displayName}
-          />
+        {!isHunterAgent && (
+          <div className="sw-mb-4">
+            {/* Changing this ToggleButton to the Echoes ToggleButtonGroup requires changing the one
+                from RuleTabViewer, which is supposed to be Tabs. */}
+            <ToggleButton
+              label={translate('coding_rules.description_context.title')}
+              onChange={handleToggleContext}
+              options={options}
+              value={selectedContext.displayName}
+            />
 
-          {selectedContext.key !== OTHERS_KEY && (
-            <h2>
-              {translateWithParameters(
-                'coding_rules.description_context.subtitle',
-                selectedContext.displayName,
-              )}
-            </h2>
-          )}
-        </div>
+            {selectedContext.key !== OTHERS_KEY && (
+              <h2>
+                {translateWithParameters(
+                  'coding_rules.description_context.subtitle',
+                  selectedContext.displayName,
+                )}
+              </h2>
+            )}
+          </div>
+        )}
         {selectedContext.key === OTHERS_KEY ? (
           <OtherContextOption />
         ) : (

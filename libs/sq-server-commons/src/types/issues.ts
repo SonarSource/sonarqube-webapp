@@ -122,6 +122,7 @@ export interface RawIssue {
   comments?: Comment[];
   component: string;
   creationDate: string;
+  externalRuleEngine?: string;
   flows?: Array<{
     description?: string;
     locations?: RawFlowLocation[];

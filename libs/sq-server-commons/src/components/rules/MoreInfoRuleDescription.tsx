@@ -32,6 +32,7 @@ interface Props {
   displayEducationalPrinciplesNotification?: boolean;
   educationPrinciples?: string[];
   educationPrinciplesRef?: React.RefObject<HTMLDivElement | null>;
+  isHunterAgent?: boolean;
   language?: string;
   sections?: RuleDescriptionSection[];
 }
@@ -57,6 +58,7 @@ export default class MoreInfoRuleDescription extends React.PureComponent<Props> 
   render() {
     const {
       displayEducationalPrinciplesNotification,
+      isHunterAgent,
       language,
       sections = [],
       educationPrinciples = [],
@@ -83,7 +85,11 @@ export default class MoreInfoRuleDescription extends React.PureComponent<Props> 
         {sections.length > 0 && (
           <>
             <SubTitle>{translate('coding_rules.more_info.resources.title')}</SubTitle>
-            <RuleDescription language={language} sections={sections} />
+            <RuleDescription
+              isHunterAgent={isHunterAgent}
+              language={language}
+              sections={sections}
+            />
           </>
         )}
 

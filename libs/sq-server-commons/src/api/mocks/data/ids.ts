@@ -37,6 +37,7 @@ export const FILE8_KEY = 'in.tsx';
 // Rules.
 export const SIMPLE_RULE = 'simpleRuleId';
 export const ADVANCED_RULE = 'advancedRuleId';
+export const HUNTER_AGENT_RULE = 'hunterAgentRuleId';
 export const S6069_RULE = 'cpp:S6069';
 export const S131_RULE = 'tsql:S131';
 export const RULE_1 = 'rule1';
