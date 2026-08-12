@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { KeyboardHint } from '~shared/components/KeyboardHint';
 import { Paging } from '~shared/types/paging';
 import PageCounter from '~sq-server-commons/components/common/PageCounter';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -30,9 +29,6 @@ export interface PageActionsProps {
 export default function PageActions(props: Readonly<PageActionsProps>) {
   return (
     <div className="sw-typo-default sw-flex sw-items-center sw-gap-6 sw-justify-end sw-flex-1">
-      <KeyboardHint command="ArrowUp ArrowDown" title={translate('coding_rules.to_select_rules')} />
-      <KeyboardHint command="ArrowLeft ArrowRight" title={translate('coding_rules.to_navigate')} />
-
       {props.paging && (
         <PageCounter
           className="sw-ml-2"

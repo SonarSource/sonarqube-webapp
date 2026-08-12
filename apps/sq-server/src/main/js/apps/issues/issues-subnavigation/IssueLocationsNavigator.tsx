@@ -26,7 +26,6 @@ import { translate, translateWithParameters } from '~sq-server-commons/helpers/l
 import { Flow, FlowType, Issue } from '~sq-server-commons/types/types';
 import { getLocations, getTypedFlows } from '~sq-server-commons/utils/issues-utils';
 import IssueLocations from './IssueLocations';
-import IssueLocationsNavigatorKeyboardHint from './IssueLocationsNavigatorKeyboardHint';
 
 interface Props {
   issue: Pick<
@@ -86,7 +85,6 @@ export default function IssueLocationsNavigator(props: Readonly<Props>) {
             selectedLocationIndex={selectedLocationIndex}
           />
         </div>
-        {locations.length > 1 && <IssueLocationsNavigatorKeyboardHint showLeftRightHint={false} />}
       </>
     );
   }
@@ -98,61 +96,56 @@ export default function IssueLocationsNavigator(props: Readonly<Props>) {
 
   if (flows.length > 0) {
     return (
-      <>
-        <div className="sw-flex sw-flex-col sw-gap-4 sw-mt-4">
-          {flows.map((flow, index) => (
-            <Fragment key={`${issue.key}-flow-${index}`}>
-              <ExecutionFlowAccordion
-                expanded={index === selectedFlowIndex}
-                header={
-                  <span>
-                    <strong>
-                      {flow.locations.length > 1
-                        ? translateWithParameters('issue.flow.x_steps', flow.locations.length)
-                        : translate('issue.flow.1_step')}
-                    </strong>{' '}
-                    {getExecutionFlowLabel(flow, hasFlowsWithType)}
-                  </span>
-                }
-                hidden={
-                  index !== selectedFlowIndex &&
-                  flow.type === FlowType.EXECUTION &&
-                  hasFlowsWithType
-                }
-                id={`${issue.key}-flow-${index}`}
-                innerRef={(n) => (accordionElement.current = n)}
-                onClick={() => {
-                  handleAccordionClick(index);
-                }}
-              >
-                <IssueLocations
-                  issue={issue}
-                  locations={flow.locations}
-                  onLocationSelect={onLocationSelect}
-                  selectedLocationIndex={selectedLocationIndex}
-                />
-              </ExecutionFlowAccordion>
-              {index !== selectedFlowIndex &&
-                flow.type === FlowType.EXECUTION &&
-                hasFlowsWithType && (
-                  <div>
-                    <StyledBareButton
-                      onClick={() => {
-                        handleAccordionClick(index);
-                      }}
-                    >
-                      {translateWithParameters(
-                        'issue.show_full_execution_flow',
-                        flow.locations.length,
-                      )}
-                    </StyledBareButton>
-                  </div>
-                )}
-            </Fragment>
-          ))}
-        </div>
-        <IssueLocationsNavigatorKeyboardHint showLeftRightHint />
-      </>
+      <div className="sw-flex sw-flex-col sw-gap-4 sw-mt-4">
+        {flows.map((flow, index) => (
+          <Fragment key={`${issue.key}-flow-${index}`}>
+            <ExecutionFlowAccordion
+              expanded={index === selectedFlowIndex}
+              header={
+                <span>
+                  <strong>
+                    {flow.locations.length > 1
+                      ? translateWithParameters('issue.flow.x_steps', flow.locations.length)
+                      : translate('issue.flow.1_step')}
+                  </strong>{' '}
+                  {getExecutionFlowLabel(flow, hasFlowsWithType)}
+                </span>
+              }
+              hidden={
+                index !== selectedFlowIndex && flow.type === FlowType.EXECUTION && hasFlowsWithType
+              }
+              id={`${issue.key}-flow-${index}`}
+              innerRef={(n) => (accordionElement.current = n)}
+              onClick={() => {
+                handleAccordionClick(index);
+              }}
+            >
+              <IssueLocations
+                issue={issue}
+                locations={flow.locations}
+                onLocationSelect={onLocationSelect}
+                selectedLocationIndex={selectedLocationIndex}
+              />
+            </ExecutionFlowAccordion>
+            {index !== selectedFlowIndex &&
+              flow.type === FlowType.EXECUTION &&
+              hasFlowsWithType && (
+                <div>
+                  <StyledBareButton
+                    onClick={() => {
+                      handleAccordionClick(index);
+                    }}
+                  >
+                    {translateWithParameters(
+                      'issue.show_full_execution_flow',
+                      flow.locations.length,
+                    )}
+                  </StyledBareButton>
+                </div>
+              )}
+          </Fragment>
+        ))}
+      </div>
     );
   }
 

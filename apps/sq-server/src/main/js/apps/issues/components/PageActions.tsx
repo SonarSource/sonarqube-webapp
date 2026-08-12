@@ -20,10 +20,8 @@
 
 import { ReactNode } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { KeyboardHint } from '~shared/components/KeyboardHint';
 import { Paging } from '~shared/types/paging';
 import HomePageSelect from '~sq-server-commons/components/controls/HomePageSelect';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import IssuesCounter from './IssuesCounter';
 
@@ -39,9 +37,6 @@ export default function PageActions(props: PageActionsProps) {
 
   return (
     <div className="sw-typo-default sw-flex sw-items-center sw-gap-6 sw-justify-end sw-flex-1">
-      <KeyboardHint command="ArrowUp ArrowDown" title={translate('issues.to_select_issues')} />
-      <KeyboardHint command="ArrowLeft ArrowRight" title={translate('issues.to_navigate')} />
-
       {paging != null && <IssuesCounter total={paging.total} />}
       {effortTotal !== undefined && (
         <span>

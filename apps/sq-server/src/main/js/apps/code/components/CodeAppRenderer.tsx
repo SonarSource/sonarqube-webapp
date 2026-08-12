@@ -32,7 +32,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { Card } from '~design-system';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import ListFooter from '~shared/components/controls/ListFooter';
-import { KeyboardHint } from '~shared/components/KeyboardHint';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isApplication, isPortfolioLike } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
@@ -48,7 +47,6 @@ import {
   SOFTWARE_QUALITY_RATING_METRICS,
 } from '~sq-server-commons/helpers/constants';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import {
   areCCTMeasuresComputed,
   areSoftwareQualityRatingsComputed,
@@ -240,20 +238,6 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
                 />
               )}
             </div>
-
-            {(showComponentList || showSearch) && (
-              <Text className="sw-flex sw-items-end sw-gap-4 sw-ml-6 sw-mb-50">
-                <KeyboardHint
-                  command={`${KeyboardKeys.DownArrow} ${KeyboardKeys.UpArrow}`}
-                  title={intl.formatMessage({ id: 'component_measures.select_files' })}
-                />
-
-                <KeyboardHint
-                  command={`${KeyboardKeys.LeftArrow} ${KeyboardKeys.RightArrow}`}
-                  title={intl.formatMessage({ id: 'component_measures.navigate' })}
-                />
-              </Text>
-            )}
           </div>
         )}
 
