@@ -18,7 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
+import { useMemo } from 'react';
+import {
+  useDashboardMeasuresHistoryQuery,
+  useDashboardProjectMeasuresQueries,
+} from '../../queries/dashboard-history';
+import {
+  organizationsHistoryStartDateWithRetentionBuffer,
+  portfolioMeasuresLatestRecord,
+} from '../helpers/dashboard-widget-data';
+import { useWidgetMetricMetadataQuery } from './widget-metric-metadata';
 
 interface PortfolioComputedProject {
   measures: ReadonlyArray<{ name: string; value: string }>;
@@ -37,22 +46,89 @@ interface PortfolioComputedProjectMeasuresParams {
 type PortfolioMeasures = Record<string, string | number | Record<string, number>>;
 
 export function usePortfolioRatingBadgeMeasuresQuery(
-  _portfolioId: string,
-  _options?: { enabled?: boolean },
+  portfolioId: string,
+  options: { enabled?: boolean } = {},
 ): {
   data: PortfolioMeasures | undefined;
   isLoading: boolean;
   isPending: boolean;
 } {
-  return unsupportedDashboardWidgetAdapter();
+  const enabled = options.enabled ?? true;
+  const metadataQuery = useWidgetMetricMetadataQuery({ enabled });
+  const metricMetadata = metadataQuery.data;
+  const metricKeys = useMemo(() => Object.keys(metricMetadata ?? {}), [metricMetadata]);
+  const historyQuery = useDashboardMeasuresHistoryQuery(
+    {
+      entityId: portfolioId,
+      entityType: 'PORTFOLIO',
+      metricKeys,
+      startDate: organizationsHistoryStartDateWithRetentionBuffer(),
+    },
+    {
+      enabled: enabled && Boolean(portfolioId) && metricKeys.length > 0,
+      refetchOnWindowFocus: false,
+      select: (response) => portfolioMeasuresLatestRecord(response.measuresHistory, metricMetadata),
+    },
+  );
+
+  const isPending =
+    enabled && (metadataQuery.isPending || (metricKeys.length > 0 && historyQuery.isPending));
+
+  return {
+    data: historyQuery.data,
+    isLoading: isPending,
+    isPending,
+  };
 }
 
 export function usePortfolioRatingBadgeComputedMeasuresQuery(
-  _params: PortfolioComputedProjectMeasuresParams,
-  _options?: { enabled?: boolean },
+  params: PortfolioComputedProjectMeasuresParams,
+  options: { enabled?: boolean } = {},
 ): {
   data: { projects: PortfolioComputedProject[] } | undefined;
   isPending: boolean;
 } {
-  return unsupportedDashboardWidgetAdapter();
+  const isFilterSupported =
+    params.filterMetric === undefined ||
+    (params.metrics.length === 1 && params.filterMetric === params.metrics[0]);
+  const enabled = (options.enabled ?? true) && Boolean(params.portfolioId) && isFilterSupported;
+  const queries = useDashboardProjectMeasuresQueries(
+    {
+      entityType: undefined,
+      entityId: undefined,
+      metrics: params.metrics,
+      nameContains: undefined,
+      pageIndex: params.pageIndex,
+      pageSize: params.pageSize,
+      portfolioId: params.portfolioId,
+      metricValue: params.filterMetricValue,
+      referenceDate: undefined,
+      requireValue: false,
+      sort: params.sort === undefined ? undefined : [params.sort],
+    },
+    { enabled },
+  );
+
+  const projectsByBranchId = new Map<string, PortfolioComputedProject>();
+  queries.forEach((query) => {
+    query.data?.projectMeasures.forEach((projectMeasure) => {
+      const project = projectsByBranchId.get(projectMeasure.branchId) ?? { measures: [] };
+      project.measures = [
+        ...project.measures,
+        {
+          name: projectMeasure.measure.metric,
+          value: projectMeasure.measure.currentValue ?? '',
+        },
+      ];
+      projectsByBranchId.set(projectMeasure.branchId, project);
+    });
+  });
+
+  return {
+    data:
+      queries.length > 0 && queries.every((query) => query.data !== undefined)
+        ? { projects: [...projectsByBranchId.values()] }
+        : undefined,
+    isPending: enabled && queries.some((query) => query.isPending),
+  };
 }

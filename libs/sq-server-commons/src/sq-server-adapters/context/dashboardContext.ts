@@ -19,6 +19,7 @@
  */
 
 import { useCallback } from 'react';
+import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
 import type {
   DashboardPortfolioContext,
   DashboardPortfolioMetric,
@@ -26,16 +27,27 @@ import type {
 } from '~shared/types/dashboard-context';
 import type { MetricKey } from '~shared/types/metrics';
 import { useComponent } from '../../context/componentContext/withComponentContext';
+import { useCurrentBranchQuery } from '../queries/branch';
 import { useWidgetMetricMetadataQuery } from '../queries/widget-metric-metadata';
 
 export function useDashboardProjectContext(): DashboardProjectContext {
   const { component, isPending } = useComponent();
+  const { data: currentBranch, isPending: isBranchPending } = useCurrentBranchQuery(component);
+  let projectEntityId: string | undefined;
+
+  if (isBranch(currentBranch)) {
+    projectEntityId = currentBranch.branchId;
+  } else if (isPullRequest(currentBranch)) {
+    projectEntityId = currentBranch.pullRequestId;
+  }
 
   return {
     componentKey: component?.key ?? '',
-    isLoading: Boolean(isPending),
-    organization: '',
-    projectEntityId: component?.key,
+    isLoading: Boolean(isPending) || isBranchPending,
+    // Server has no organization concept. The project key is only used as a non-empty value by
+    // the shared dashboard context; Server rule metadata queries do not consume it.
+    organization: component?.key ?? '',
+    projectEntityId,
   };
 }
 

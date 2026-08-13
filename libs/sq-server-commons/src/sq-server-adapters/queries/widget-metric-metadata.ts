@@ -22,7 +22,6 @@ import { queryOptions } from '@tanstack/react-query';
 import { keyBy } from 'lodash';
 import { createQueryHook, StaleTime } from '~shared/queries/common';
 import { getAllMetrics } from '../../api/metrics';
-import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
 import type { DashboardWidgetQueryResult } from './dashboard-widget-adapter-types';
 
 interface PortfolioWidgetMetricMetadata {
@@ -38,5 +37,19 @@ export const useWidgetMetricMetadataQuery = createQueryHook(() =>
 );
 
 export function usePortfolioWidgetMetricMetadataQuery(): DashboardWidgetQueryResult<PortfolioWidgetMetricMetadata> {
-  return unsupportedDashboardWidgetAdapter();
+  const { data: metrics, isPending } = useWidgetMetricMetadataQuery();
+
+  return {
+    data:
+      metrics === undefined
+        ? undefined
+        : {
+            metrics: Object.values(metrics).map((metric) => ({
+              direction: String(metric.direction ?? 0),
+              key: metric.key,
+              type: metric.type,
+            })),
+          },
+    isPending,
+  };
 }

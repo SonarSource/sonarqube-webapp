@@ -18,12 +18,30 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
+import { useComponent } from '../../context/componentContext/withComponentContext';
+import { useIssueCountSearchQuery } from '../../queries/dashboard-issue-count';
+import { type CodeScopeValue, type MeasureFilters } from '../helpers/dashboard-widget-data';
+import { useCurrentBranchQuery } from './branch';
 
 export function useProjectLegacyIssueCountWidgetQuery(_params: {
   componentKey: string;
   measureFilters: unknown;
   scope: string;
 }): { data: number | undefined; isLoading: boolean } {
-  return unsupportedDashboardWidgetAdapter();
+  const { component } = useComponent();
+  const branchQuery = useCurrentBranchQuery(component);
+  const query = useIssueCountSearchQuery(
+    {
+      branchLike: branchQuery.data,
+      componentKey: _params.componentKey,
+      measureFilters: _params.measureFilters as MeasureFilters | undefined,
+      scope: _params.scope as CodeScopeValue,
+    },
+    { enabled: Boolean(_params.componentKey) && !branchQuery.isPending },
+  );
+
+  return {
+    data: query.data,
+    isLoading: branchQuery.isPending || query.isLoading,
+  };
 }

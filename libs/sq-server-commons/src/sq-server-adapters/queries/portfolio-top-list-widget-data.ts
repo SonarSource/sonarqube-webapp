@@ -18,16 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
+import type { TopListWidget } from '../helpers/dashboard-widget-data';
 import type {
   DashboardRuleMetadataByKey,
   DashboardTrendData,
 } from './dashboard-widget-adapter-types';
+import { usePortfolioRulesMetadataOrganization } from './portfolio-widget-organization-data';
+import {
+  type UseTopListIssueCountDataOptions,
+  useTopListIssueCountData,
+} from './top-list-issue-count-data';
+import { useDashboardRuleLabels } from './widget-rule-metadata';
 
 export function usePortfolioTopListData(
   _widget: unknown,
   _portfolioId: string,
-  _options: { fetchTrendHistory?: boolean } = {},
+  _options: UseTopListIssueCountDataOptions = {},
 ): {
   counts: Record<string, number>;
   getRuleTrendData: (ruleKey: string) => DashboardTrendData | null;
@@ -36,5 +42,28 @@ export function usePortfolioTopListData(
   rulesByKey: DashboardRuleMetadataByKey;
   rulesOrganization: string | undefined;
 } {
-  return unsupportedDashboardWidgetAdapter();
+  const widget = _widget as TopListWidget;
+  const { counts, getRuleTrendData, isError, isPending, topRuleKeys } = useTopListIssueCountData(
+    widget,
+    _portfolioId,
+    'PORTFOLIO',
+    _options,
+  );
+  const { isLoading: isResolvingOrganization, organization } =
+    usePortfolioRulesMetadataOrganization(_portfolioId, {
+      enabled: topRuleKeys.length > 0,
+    });
+  const rulesQuery = useDashboardRuleLabels({
+    entity: { isResolvingOrganization, organization, type: 'PORTFOLIO' },
+    ruleKeys: topRuleKeys,
+  });
+
+  return {
+    counts,
+    getRuleTrendData,
+    isError: isError || rulesQuery.isError,
+    isPending: isPending || rulesQuery.isPending,
+    rulesByKey: rulesQuery.rulesByKey,
+    rulesOrganization: rulesQuery.organization,
+  };
 }

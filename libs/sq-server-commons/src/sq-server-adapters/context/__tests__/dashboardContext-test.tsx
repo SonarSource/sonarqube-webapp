@@ -22,11 +22,16 @@ import { renderHook } from '@testing-library/react';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { useComponent } from '../../../context/componentContext/withComponentContext';
 import { mockComponent } from '../../../helpers/mocks/component';
+import { useCurrentBranchQuery } from '../../queries/branch';
 import { useWidgetMetricMetadataQuery } from '../../queries/widget-metric-metadata';
 import { useDashboardPortfolioContext, useDashboardProjectContext } from '../dashboardContext';
 
 jest.mock('../../../context/componentContext/withComponentContext', () => ({
   useComponent: jest.fn(),
+}));
+
+jest.mock('../../queries/branch', () => ({
+  useCurrentBranchQuery: jest.fn(),
 }));
 
 jest.mock('../../queries/widget-metric-metadata', () => ({
@@ -39,6 +44,10 @@ describe('dashboard context adapter', () => {
       component: mockComponent({ key: 'component-key' }),
       isPending: false,
     } as ReturnType<typeof useComponent>);
+    jest.mocked(useCurrentBranchQuery).mockReturnValue({
+      data: { branchId: 'branch-id', isMain: true, name: 'main' },
+      isPending: false,
+    } as ReturnType<typeof useCurrentBranchQuery>);
     jest.mocked(useWidgetMetricMetadataQuery).mockReturnValue({
       data: {
         [MetricKey.coverage]: {
@@ -56,9 +65,27 @@ describe('dashboard context adapter', () => {
     expect(result.current).toEqual({
       componentKey: 'component-key',
       isLoading: false,
-      organization: '',
-      projectEntityId: 'component-key',
+      organization: 'component-key',
+      projectEntityId: 'branch-id',
     });
+  });
+
+  it('uses the active pull request as the dashboard project resource', () => {
+    jest.mocked(useCurrentBranchQuery).mockReturnValue({
+      data: {
+        base: 'main',
+        branch: 'feature',
+        key: 'pull-request-key',
+        pullRequestId: 'pull-request-id',
+        target: 'main',
+        title: 'Feature',
+      },
+      isPending: false,
+    } as ReturnType<typeof useCurrentBranchQuery>);
+
+    const { result } = renderHook(() => useDashboardProjectContext());
+
+    expect(result.current.projectEntityId).toBe('pull-request-id');
   });
 
   it('uses the active component and metric metadata for portfolio widgets', () => {

@@ -18,17 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
+import type { TopListWidget } from '../helpers/dashboard-widget-data';
 import type {
   DashboardRuleMetadataByKey,
   DashboardTrendData,
 } from './dashboard-widget-adapter-types';
+import {
+  type UseTopListIssueCountDataOptions,
+  useTopListIssueCountData,
+} from './top-list-issue-count-data';
+import { useDashboardRuleLabels } from './widget-rule-metadata';
 
 export function useProjectTopListData(
   _widget: unknown,
   _branchEntityId: string,
   _organization: string,
-  _options: { fetchTrendHistory?: boolean } = {},
+  _options: UseTopListIssueCountDataOptions = {},
 ): {
   counts: Record<string, number>;
   getRuleTrendData: (ruleKey: string) => DashboardTrendData | null;
@@ -36,5 +41,24 @@ export function useProjectTopListData(
   isPending: boolean;
   rulesByKey: DashboardRuleMetadataByKey;
 } {
-  return unsupportedDashboardWidgetAdapter();
+  const { enabled = true } = _options;
+  const { counts, getRuleTrendData, isError, isPending, topRuleKeys } = useTopListIssueCountData(
+    _widget as TopListWidget,
+    _branchEntityId,
+    'PROJECT_BRANCH',
+    _options,
+  );
+  const rulesQuery = useDashboardRuleLabels({
+    enabled: enabled && Boolean(_branchEntityId),
+    entity: { organization: _organization, type: 'PROJECT' },
+    ruleKeys: topRuleKeys,
+  });
+
+  return {
+    counts,
+    getRuleTrendData,
+    isError: isError || rulesQuery.isError,
+    isPending: isPending || rulesQuery.isPending,
+    rulesByKey: rulesQuery.rulesByKey,
+  };
 }

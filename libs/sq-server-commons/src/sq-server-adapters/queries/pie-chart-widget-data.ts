@@ -18,14 +18,199 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useMemo } from 'react';
+import { useIntl, type IntlShape } from 'react-intl';
+import { useLanguagesQuery } from '~shared/queries/languages';
+import { MetricKey } from '~shared/types/metrics';
+import {
+  useDashboardIssueCountHistoryQuery,
+  useDashboardMeasuresHistoryQuery,
+} from '../../queries/dashboard-history';
+import {
+  aggregateSmallSegments,
+  CodeScope,
+  DEFAULT_ISSUE_IMPACTS,
+  formatPercentage,
+  formatPieChartSegmentLabel,
+  getDisplayedPieChartSegmentValues,
+  getSegmentColor,
+  HistoryRange,
+  isQualityGateStatusWidget,
+  issueCountHistoryToPieCounts,
+  lineChartSinceDate,
+  lineCountMeasureKeys,
+  mapPieChartToIssueHistoryParams,
+  organizationMeasuresToLineCountPieData,
+  organizationsHistoryStartDateWithRetentionBuffer,
+  PieChartHotspotSlice,
+  PieChartIssueSlice,
+  PieChartLineSlice,
+  PieChartMetric,
+  portfolioMeasuresLatestRecord,
+  qualityGateCounts,
+  sortSegments,
+  tryQualityGateDistributionMessageId,
+  type PieChartWidget,
+} from '../helpers/dashboard-widget-data';
 import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
 import type {
   DashboardEntityType,
   DashboardPieChartSegment,
 } from './dashboard-widget-adapter-types';
+import { usePortfolioRulesMetadataOrganization } from './portfolio-widget-organization-data';
+import { useSonarSourceSecurityCategoriesQuery } from './security-standards';
+import { useDashboardRuleLabels } from './widget-rule-metadata';
+
+const MIN_SEGMENT_PERCENT = 1;
+const EMPTY_COUNTS: Record<string, number> = {};
+
+type OrganizationPieChartQueryState = Readonly<{
+  counts: Record<string, number>;
+  error: unknown;
+  isPending: boolean;
+}>;
+
+type PieChartQueryRequirements = Readonly<{
+  isLineCountChart: boolean;
+  isQualityGateStatusChart: boolean;
+  needsLanguageMetadata: boolean;
+  needsRulesMetadata: boolean;
+  needsSecurityCategoryMetadata: boolean;
+}>;
+
+function getPieChartQueryRequirements(
+  widget: PieChartWidget,
+  entityType: DashboardEntityType,
+): PieChartQueryRequirements {
+  const isLineCountChart = widget.metric === PieChartMetric.LineCount;
+  return {
+    isLineCountChart,
+    isQualityGateStatusChart: entityType === 'PORTFOLIO' && isQualityGateStatusWidget(widget),
+    needsLanguageMetadata: isLineCountChart && widget.slice === PieChartLineSlice.Language,
+    needsRulesMetadata:
+      widget.metric === PieChartMetric.IssueCount && widget.slice === PieChartIssueSlice.Rules,
+    needsSecurityCategoryMetadata:
+      widget.metric === PieChartMetric.HotspotCount &&
+      widget.slice === PieChartHotspotSlice.SecurityCategory,
+  };
+}
+
+function resolveOrganizationPieChartQueryState(
+  args: Readonly<{
+    isIssuePiePending: boolean;
+    isLineCountChart: boolean;
+    isQualityGatePending: boolean;
+    isQualityGateStatusChart: boolean;
+    isRulesMetadataPending: boolean;
+    issueCounts: Record<string, number> | undefined;
+    issueError: unknown;
+    issueMetadataError: boolean;
+    languageMetadataPending: boolean;
+    lineCountData: Record<string, number>;
+    lineCountPending: boolean;
+    lineCountError: unknown;
+    qualityGateCounts: Record<string, number> | undefined;
+    qualityGateError: unknown;
+    securityCategoryMetadataPending: boolean;
+  }>,
+): OrganizationPieChartQueryState {
+  if (args.isQualityGateStatusChart) {
+    return {
+      counts: args.qualityGateCounts ?? EMPTY_COUNTS,
+      error: args.qualityGateError,
+      isPending: args.isQualityGatePending,
+    };
+  }
+
+  if (args.isLineCountChart) {
+    return {
+      counts: args.lineCountData,
+      error: args.lineCountError,
+      isPending: args.lineCountPending || args.languageMetadataPending,
+    };
+  }
+
+  return {
+    counts: args.issueCounts ?? EMPTY_COUNTS,
+    error:
+      args.issueError ??
+      (args.issueMetadataError ? new Error('Unable to load pie chart metadata') : null),
+    isPending:
+      args.isIssuePiePending || args.isRulesMetadataPending || args.securityCategoryMetadataPending,
+  };
+}
+
+type PieCountsToSegmentsArgs = Readonly<{
+  counts: Record<string, number>;
+  formatMessage: IntlShape['formatMessage'];
+  isQualityGateStatusChart: boolean;
+  languages: Record<string, { name: string }> | undefined;
+  metric: string;
+  rules: Record<string, { name: string }> | undefined;
+  securityCategories: Record<string, { title: string }> | undefined;
+  slice: string;
+}>;
+
+function pieCountsToSegments(args: PieCountsToSegmentsArgs): DashboardPieChartSegment[] {
+  const {
+    counts,
+    formatMessage,
+    isQualityGateStatusChart,
+    languages,
+    metric,
+    rules,
+    securityCategories,
+    slice,
+  } = args;
+  const entries = Object.entries(counts).filter(([, count]) => count > 0);
+  const sortedEntries = sortSegments(entries, slice, metric);
+  const total = sortedEntries.reduce((sum, [, count]) => sum + count, 0);
+  if (total === 0) {
+    return [];
+  }
+
+  return aggregateSmallSegments(sortedEntries, total).map(
+    ([value, count], index): DashboardPieChartSegment => {
+      const rawPercentage = (count / total) * 100;
+      const qualityGateMessageId = isQualityGateStatusChart
+        ? tryQualityGateDistributionMessageId(value)
+        : undefined;
+      const label =
+        qualityGateMessageId === undefined
+          ? formatPieChartSegmentLabel(value, formatMessage, metric, slice, {
+              languages,
+              rules,
+              securityCategories,
+            })
+          : formatMessage({ id: qualityGateMessageId });
+
+      return {
+        color: getSegmentColor(value, index, slice),
+        count,
+        label,
+        percentage: formatPercentage(rawPercentage),
+        value,
+        visualCount:
+          rawPercentage < MIN_SEGMENT_PERCENT && rawPercentage > 0
+            ? (total * MIN_SEGMENT_PERCENT) / 100
+            : undefined,
+      };
+    },
+  );
+}
+
+function shouldFailPieChartAdapter(widget: PieChartWidget): boolean {
+  return (
+    widget.metric === PieChartMetric.HotspotCount ||
+    (widget.metric === PieChartMetric.IssueCount &&
+      (widget.scope === CodeScope.New ||
+        widget.slice === PieChartIssueSlice.CleanCodeAttributeCategories ||
+        widget.slice === PieChartIssueSlice.Languages))
+  );
+}
 
 export function useOrganizationPieChartData(
-  _args: Readonly<{
+  args: Readonly<{
     enabled?: boolean;
     entity: Readonly<{ entityId: string; entityType: DashboardEntityType }>;
     organization?: string;
@@ -37,5 +222,174 @@ export function useOrganizationPieChartData(
   isPending: boolean;
   segments: DashboardPieChartSegment[];
 } {
-  return unsupportedDashboardWidgetAdapter();
+  const { enabled = true, entity, organization, widget: unknownWidget } = args;
+  const widget = unknownWidget as PieChartWidget;
+  const { entityId, entityType } = entity;
+  const { formatMessage } = useIntl();
+  const isUnsupported = shouldFailPieChartAdapter(widget);
+  const {
+    isLineCountChart,
+    isQualityGateStatusChart,
+    needsLanguageMetadata,
+    needsRulesMetadata,
+    needsSecurityCategoryMetadata,
+  } = getPieChartQueryRequirements(widget, entityType);
+  const historyParams = useMemo(
+    () =>
+      mapPieChartToIssueHistoryParams({
+        entityId,
+        entityType,
+        filter: widget.filter,
+        metric: widget.metric,
+        slice: widget.slice,
+      }),
+    [entityId, entityType, widget.filter, widget.metric, widget.slice],
+  );
+  const issueQuery = useDashboardIssueCountHistoryQuery(
+    historyParams === null
+      ? {
+          entityId,
+          entityType,
+          impacts: [...DEFAULT_ISSUE_IMPACTS],
+          sliceBy: 'SEVERITY',
+          startDate: organizationsHistoryStartDateWithRetentionBuffer(),
+          statuses: ['OPEN'],
+        }
+      : {
+          ...historyParams,
+          startDate: organizationsHistoryStartDateWithRetentionBuffer(),
+        },
+    {
+      enabled: enabled && Boolean(historyParams) && !isQualityGateStatusChart && !isUnsupported,
+      refetchOnWindowFocus: false,
+      select: (response) => ({
+        counts: issueCountHistoryToPieCounts(response.issueCountHistory),
+      }),
+    },
+  );
+
+  const lineCountKeys = useMemo(() => lineCountMeasureKeys(widget.scope), [widget.scope]);
+  const measuresHistoryStartDate =
+    entityType === 'PORTFOLIO'
+      ? organizationsHistoryStartDateWithRetentionBuffer()
+      : lineChartSinceDate(HistoryRange.LastMonth);
+  const lineCountQuery = useDashboardMeasuresHistoryQuery(
+    {
+      entityId,
+      entityType,
+      metricKeys: lineCountKeys,
+      startDate: measuresHistoryStartDate,
+    },
+    {
+      enabled: enabled && isLineCountChart && Boolean(entityId) && !isUnsupported,
+      refetchOnWindowFocus: false,
+      select: (response) => portfolioMeasuresLatestRecord(response.measuresHistory, undefined),
+    },
+  );
+  const qualityGateQuery = useDashboardMeasuresHistoryQuery(
+    {
+      entityId,
+      entityType,
+      metricKeys: [MetricKey.releasability_status_distribution],
+      startDate: measuresHistoryStartDate,
+    },
+    {
+      enabled: enabled && isQualityGateStatusChart && Boolean(entityId) && !isUnsupported,
+      refetchOnWindowFocus: false,
+      select: (response) => ({
+        counts: qualityGateCounts(
+          portfolioMeasuresLatestRecord(response.measuresHistory, undefined),
+        ),
+      }),
+    },
+  );
+  const securityCategoriesQuery = useSonarSourceSecurityCategoriesQuery({
+    enabled: enabled && needsSecurityCategoryMetadata && !isUnsupported,
+  });
+  const languagesQuery = useLanguagesQuery({
+    enabled: enabled && needsLanguageMetadata && !isUnsupported,
+  });
+  const { isLoading: isResolvingOrganization, organization: portfolioOrganization } =
+    usePortfolioRulesMetadataOrganization(entityId, {
+      enabled: enabled && entityType === 'PORTFOLIO' && needsRulesMetadata && !isUnsupported,
+    });
+  const issueCounts = issueQuery.data?.counts;
+  const ruleKeys = useMemo(
+    () =>
+      needsRulesMetadata && issueCounts !== undefined
+        ? getDisplayedPieChartSegmentValues(issueCounts, widget.slice, widget.metric)
+        : [],
+    [issueCounts, needsRulesMetadata, widget.metric, widget.slice],
+  );
+  const rulesQuery = useDashboardRuleLabels({
+    enabled: enabled && needsRulesMetadata && !isUnsupported,
+    entity:
+      entityType === 'PORTFOLIO'
+        ? {
+            isResolvingOrganization,
+            organization: portfolioOrganization,
+            type: 'PORTFOLIO',
+          }
+        : { organization: organization ?? '', type: 'PROJECT' },
+    ruleKeys,
+  });
+
+  const lineCountData = useMemo(
+    () =>
+      isLineCountChart && !isQualityGateStatusChart
+        ? organizationMeasuresToLineCountPieData(lineCountQuery.data, widget.slice, widget.scope)
+            .counts
+        : EMPTY_COUNTS,
+    [isLineCountChart, isQualityGateStatusChart, lineCountQuery.data, widget.scope, widget.slice],
+  );
+  const {
+    counts: selectedCounts,
+    error,
+    isPending,
+  } = resolveOrganizationPieChartQueryState({
+    isIssuePiePending: issueQuery.isPending,
+    isLineCountChart,
+    isQualityGatePending: qualityGateQuery.isPending,
+    isQualityGateStatusChart,
+    isRulesMetadataPending: needsRulesMetadata && rulesQuery.isPending,
+    issueCounts,
+    issueError: issueQuery.error,
+    issueMetadataError: rulesQuery.isError || securityCategoriesQuery.isError,
+    languageMetadataPending: needsLanguageMetadata && languagesQuery.isPending,
+    lineCountData,
+    lineCountPending: lineCountQuery.isPending,
+    lineCountError: lineCountQuery.error,
+    qualityGateCounts: qualityGateQuery.data?.counts,
+    qualityGateError: qualityGateQuery.error,
+    securityCategoryMetadataPending:
+      needsSecurityCategoryMetadata && securityCategoriesQuery.isPending,
+  });
+
+  const segments = useMemo(() => {
+    return pieCountsToSegments({
+      counts: selectedCounts,
+      formatMessage,
+      isQualityGateStatusChart,
+      languages: languagesQuery.data,
+      metric: widget.metric,
+      rules: rulesQuery.rulesByKey,
+      securityCategories: securityCategoriesQuery.data,
+      slice: widget.slice,
+    });
+  }, [
+    formatMessage,
+    isQualityGateStatusChart,
+    languagesQuery.data,
+    securityCategoriesQuery.data,
+    rulesQuery.rulesByKey,
+    selectedCounts,
+    widget.metric,
+    widget.slice,
+  ]);
+
+  if (isUnsupported) {
+    return unsupportedDashboardWidgetAdapter();
+  }
+
+  return { error, isPending, segments };
 }

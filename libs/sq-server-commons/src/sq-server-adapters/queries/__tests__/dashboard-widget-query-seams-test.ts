@@ -22,29 +22,15 @@ import {
   DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE,
   unsupportedDashboardWidgetAdapter,
 } from '../../helpers/unsupported-dashboard-widget-adapter';
-import * as countWidgetData from '../count-widget-data';
 import * as issueDensityWidgetData from '../issue-density-widget-data';
 import * as issueResolutionWidgetData from '../issue-resolution-widget-data';
-import * as lineChartWidgetData from '../line-chart-widget-data';
-import * as pieChartWidgetData from '../pie-chart-widget-data';
-import * as portfolioRatingBadgeWidgetData from '../portfolio-rating-badge-widget-data';
-import * as portfolioTopListWidgetData from '../portfolio-top-list-widget-data';
-import * as portfolioWidgetOrganizationData from '../portfolio-widget-organization-data';
-import * as projectCountWidgetData from '../project-count-widget-data';
-import * as projectPieChartWidgetData from '../project-pie-chart-widget-data';
-import * as projectRatingBadgeWidgetData from '../project-rating-badge-widget-data';
-import * as projectTopListWidgetData from '../project-top-list-widget-data';
 import * as scaResolutionWidgetData from '../sca-resolution-widget-data';
-import * as widgetMetricMetadata from '../widget-metric-metadata';
-import * as widgetRuleMetadata from '../widget-rule-metadata';
 
 type UnsupportedAdapter = (...args: never[]) => unknown;
 
 const unsupportedAdapters: ReadonlyArray<
   readonly [name: string, adapter: UnsupportedAdapter, args: never[]]
 > = [
-  ['useOrgIssueCountWidgetData', countWidgetData.useOrgIssueCountWidgetData, [{} as never]],
-  ['useOrgMeasuresCountWidgetData', countWidgetData.useOrgMeasuresCountWidgetData, [{} as never]],
   [
     'useOrgIssueDensityCountWidgetData',
     issueDensityWidgetData.useOrgIssueDensityCountWidgetData,
@@ -66,67 +52,6 @@ const unsupportedAdapters: ReadonlyArray<
     [{} as never],
   ],
   [
-    'organizationLineChartRequestKey',
-    lineChartWidgetData.organizationLineChartRequestKey,
-    [{} as never, '' as never, '' as never],
-  ],
-  [
-    'useOrganizationLineChartSeriesData',
-    lineChartWidgetData.useOrganizationLineChartSeriesData,
-    [{} as never],
-  ],
-  ['useOrganizationPieChartData', pieChartWidgetData.useOrganizationPieChartData, [{} as never]],
-  [
-    'usePortfolioRatingBadgeMeasuresQuery',
-    portfolioRatingBadgeWidgetData.usePortfolioRatingBadgeMeasuresQuery,
-    ['' as never],
-  ],
-  [
-    'usePortfolioRatingBadgeComputedMeasuresQuery',
-    portfolioRatingBadgeWidgetData.usePortfolioRatingBadgeComputedMeasuresQuery,
-    [{} as never],
-  ],
-  [
-    'usePortfolioTopListData',
-    portfolioTopListWidgetData.usePortfolioTopListData,
-    [{} as never, '' as never],
-  ],
-  [
-    'usePortfolioRulesMetadataOrganization',
-    portfolioWidgetOrganizationData.usePortfolioRulesMetadataOrganization,
-    ['' as never],
-  ],
-  [
-    'useProjectLegacyIssueCountWidgetQuery',
-    projectCountWidgetData.useProjectLegacyIssueCountWidgetQuery,
-    [{} as never],
-  ],
-  [
-    'projectPieChartUsesLegacyIssueData',
-    projectPieChartWidgetData.projectPieChartUsesLegacyIssueData,
-    [{} as never],
-  ],
-  [
-    'useProjectPieChartSegmentsLegacyQuery',
-    projectPieChartWidgetData.useProjectPieChartSegmentsLegacyQuery,
-    [{} as never, '' as never],
-  ],
-  [
-    'useProjectRatingBadgeMeasuresQuery',
-    projectRatingBadgeWidgetData.useProjectRatingBadgeMeasuresQuery,
-    [{} as never],
-  ],
-  [
-    'useProjectQualityGateStatusWidgetQuery',
-    projectRatingBadgeWidgetData.useProjectQualityGateStatusWidgetQuery,
-    ['' as never],
-  ],
-  [
-    'useProjectTopListData',
-    projectTopListWidgetData.useProjectTopListData,
-    [{} as never, '' as never, '' as never],
-  ],
-  [
     'useOrgScaResolutionCountWidgetData',
     scaResolutionWidgetData.useOrgScaResolutionCountWidgetData,
     [{} as never],
@@ -135,12 +60,6 @@ const unsupportedAdapters: ReadonlyArray<
     'useOrgScaResolutionLineChartWidgetData',
     scaResolutionWidgetData.useOrgScaResolutionLineChartWidgetData,
     [{} as never],
-  ],
-  ['useDashboardRuleLabels', widgetRuleMetadata.useDashboardRuleLabels, [{} as never]],
-  [
-    'usePortfolioWidgetMetricMetadataQuery',
-    widgetMetricMetadata.usePortfolioWidgetMetricMetadataQuery,
-    [],
   ],
 ];
 

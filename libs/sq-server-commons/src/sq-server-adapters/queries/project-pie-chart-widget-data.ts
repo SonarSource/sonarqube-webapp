@@ -18,11 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import {
+  PieChartMetric,
+  supportsOrganizationPieChartIssueHistory,
+  type PieChartWidget,
+} from '../helpers/dashboard-widget-data';
 import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
 import type { DashboardPieChartSegment } from './dashboard-widget-adapter-types';
 
 export function projectPieChartUsesLegacyIssueData(_widget: unknown): boolean {
-  return unsupportedDashboardWidgetAdapter();
+  const widget = _widget as PieChartWidget;
+  if (widget.metric === PieChartMetric.LineCount) {
+    return false;
+  }
+  return !supportsOrganizationPieChartIssueHistory(widget.metric, widget.slice);
 }
 
 export function useProjectPieChartSegmentsLegacyQuery(

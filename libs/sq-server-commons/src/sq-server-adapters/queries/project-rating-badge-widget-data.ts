@@ -18,8 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import type { Measure } from '~shared/types/measures';
-import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
+import { useComponent } from '../../context/componentContext/withComponentContext';
+import { extractStatusConditionsFromProjectStatus } from '../../helpers/quality-gates';
+import { useProjectQualityGateStatus } from '../../queries/quality-gates';
+import type { BranchLike } from '../../types/branch-like';
+import { useCurrentBranchQuery } from './branch';
+import { useMeasuresComponentQuery } from './measures';
 
 interface QualityGateStatusCondition {
   actual?: string;
@@ -31,16 +37,31 @@ interface QualityGateStatusCondition {
 }
 
 export function useProjectRatingBadgeMeasuresQuery(
-  _params: { component: string; metricKeys: string },
-  _options?: { enabled?: boolean },
+  params: { component: string; metricKeys: string },
+  options?: { enabled?: boolean },
 ): { data: Measure[] | undefined; isLoading: boolean } {
-  return unsupportedDashboardWidgetAdapter();
+  const { component } = useComponent();
+  const branchQuery = useCurrentBranchQuery(component);
+  const enabled = options?.enabled ?? true;
+  const measuresQuery = useMeasuresComponentQuery(
+    {
+      branchLike: branchQuery.data,
+      componentKey: params.component,
+      metricKeys: params.metricKeys.split(',').filter(Boolean),
+    },
+    { enabled: enabled && !branchQuery.isPending },
+  );
+
+  return {
+    data: measuresQuery.data?.component.measures,
+    isLoading: enabled && (branchQuery.isPending || measuresQuery.isLoading),
+  };
 }
 
 export function useProjectQualityGateStatusWidgetQuery(
-  _projectKey: string,
-  _branchLike?: unknown,
-  _options?: { enabled?: boolean },
+  projectKey: string,
+  branchLike?: unknown,
+  options?: { enabled?: boolean },
 ): {
   data:
     | {
@@ -51,5 +72,29 @@ export function useProjectQualityGateStatusWidgetQuery(
     | undefined;
   isLoading: boolean;
 } {
-  return unsupportedDashboardWidgetAdapter();
+  const { component } = useComponent();
+  const currentBranchQuery = useCurrentBranchQuery(component);
+  const enabled = options?.enabled ?? true;
+  const selectedBranchLike = (branchLike ?? currentBranchQuery.data) as BranchLike | undefined;
+  const statusQuery = useProjectQualityGateStatus(
+    {
+      branchParameters: getBranchLikeQuery(selectedBranchLike),
+      projectKey,
+    },
+    { enabled: enabled && (branchLike !== undefined || !currentBranchQuery.isPending) },
+  );
+
+  return {
+    data:
+      statusQuery.data === undefined
+        ? undefined
+        : {
+            conditions: extractStatusConditionsFromProjectStatus(statusQuery.data),
+            ignoredConditions: statusQuery.data.ignoredConditions,
+            status: statusQuery.data.status,
+          },
+    isLoading:
+      enabled &&
+      ((branchLike === undefined && currentBranchQuery.isPending) || statusQuery.isLoading),
+  };
 }

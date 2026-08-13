@@ -18,11 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export function usePortfolioRulesMetadataOrganization(
-  _portfolioId: string,
-  _options: { enabled?: boolean } = {},
-): { isLoading: boolean; organization: string | undefined } {
-  // Server rule metadata is not organization-scoped. The legacy rules/search API can resolve
-  // rule labels directly, so there is no organization to resolve or use for a rule-details link.
-  return { isLoading: false, organization: undefined };
-}
+import { getStandards } from '~shared/helpers/security-standards';
+import { createQueryHook, StaleTime } from '~shared/queries/common';
+import { StandardsInformationKey } from '~shared/types/security';
+
+export const useSonarSourceSecurityCategoriesQuery = createQueryHook(() => ({
+  queryKey: ['dashboard', 'pie-chart-sonarsource-security-categories'] as const,
+  queryFn: async () => {
+    const standards = await getStandards();
+    return standards[StandardsInformationKey.SONARSOURCE] ?? {};
+  },
+  staleTime: StaleTime.LONG,
+}));

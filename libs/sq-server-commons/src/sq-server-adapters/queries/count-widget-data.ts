@@ -18,7 +18,23 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import type { MetricKey, MetricType } from '~shared/types/metrics';
+import { MetricKey, MetricType } from '~shared/types/metrics';
+import {
+  useDashboardIssueCountHistoryQuery,
+  useDashboardMeasuresHistoryQuery,
+} from '../../queries/dashboard-history';
+import {
+  type MeasureFilters,
+  RichMetricKey,
+  issueHistoryQueryExtras,
+  organizationsHistoryStartDateWithRetentionBuffer,
+  portfolioIssueCountHistoryLatestTotal,
+  portfolioIssueHistoryToSparklineSeries,
+  portfolioIssueHistoryToTrend,
+  portfolioMeasuresHistoryLatestValue,
+  portfolioMeasuresHistoryToSparklineSeries,
+  portfolioMeasuresHistoryToTrend,
+} from '../helpers/dashboard-widget-data';
 import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
 import type {
   DashboardEntityType,
@@ -49,7 +65,33 @@ export function useOrgIssueCountWidgetData(_params: {
   resolvedIssueMetricKey: MetricKey;
   richMetricKey: string;
 }): DashboardWidgetQueryResult<IssueCountData> {
-  return unsupportedDashboardWidgetAdapter();
+  const { entityId, entityType, measureFilters, resolvedIssueMetricKey, richMetricKey } = _params;
+  const filters = measureFilters as MeasureFilters | undefined;
+  const isUnsupported = richMetricKey === RichMetricKey.Hotspots;
+
+  const query = useDashboardIssueCountHistoryQuery(
+    {
+      entityId,
+      entityType,
+      startDate: organizationsHistoryStartDateWithRetentionBuffer(),
+      ...issueHistoryQueryExtras(filters, richMetricKey, resolvedIssueMetricKey),
+    },
+    {
+      enabled: Boolean(entityId) && !isUnsupported,
+      refetchOnWindowFocus: false,
+      select: (response): IssueCountData => ({
+        historicalValues: portfolioIssueHistoryToTrend(response.issueCountHistory),
+        latestTotal: portfolioIssueCountHistoryLatestTotal(response.issueCountHistory),
+        sparklineSeries: portfolioIssueHistoryToSparklineSeries(response.issueCountHistory),
+      }),
+    },
+  );
+
+  if (isUnsupported) {
+    return unsupportedDashboardWidgetAdapter();
+  }
+
+  return query;
 }
 
 export function useOrgMeasuresCountWidgetData(_params: {
@@ -58,5 +100,40 @@ export function useOrgMeasuresCountWidgetData(_params: {
   metricKeyForRequest: string;
   metricType: MetricType | string | undefined;
 }): DashboardWidgetQueryResult<MeasuresCountData> {
-  return unsupportedDashboardWidgetAdapter();
+  const { entityId, entityType, metricKeyForRequest, metricType } = _params;
+  const isUnsupported =
+    metricKeyForRequest === MetricKey.security_hotspots ||
+    metricKeyForRequest === MetricKey.new_security_hotspots;
+
+  const query = useDashboardMeasuresHistoryQuery(
+    {
+      entityId,
+      entityType,
+      metricKeys: [metricKeyForRequest],
+      startDate: organizationsHistoryStartDateWithRetentionBuffer(),
+    },
+    {
+      enabled: Boolean(entityId) && !isUnsupported,
+      refetchOnWindowFocus: false,
+      select: (response): MeasuresCountData => ({
+        latestValue: portfolioMeasuresHistoryLatestValue(
+          response.measuresHistory,
+          metricKeyForRequest,
+        ),
+        sparklineSeries: portfolioMeasuresHistoryToSparklineSeries(
+          response.measuresHistory,
+          metricKeyForRequest,
+          metricType,
+          undefined,
+        ),
+        trend: portfolioMeasuresHistoryToTrend(response.measuresHistory, metricKeyForRequest),
+      }),
+    },
+  );
+
+  if (isUnsupported) {
+    return unsupportedDashboardWidgetAdapter();
+  }
+
+  return query;
 }
