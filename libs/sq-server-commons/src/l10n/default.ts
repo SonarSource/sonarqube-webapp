@@ -732,12 +732,47 @@ export const defaultMessages = {
   'layout.nav.home_logo_alt': 'Logo, link to homepage',
   'layout.nav.home_sonarqube_logo_alt': '{productName} logo, link to homepage',
 
+  'sidebar.agentic_tasks': 'Agentic tasks',
   'sidebar.ai_capabilities': 'AI Capabilities',
   'sidebar.projects': 'Projects',
   'sidebar.project_settings': 'Configuration',
   'sidebar.security': 'Security',
   'sidebar.system': 'System',
   'sidebar.tools': 'Tools',
+
+  //------------------------------------------------------------------------------
+  //
+  // AGENTIC TASKS
+  //
+  //------------------------------------------------------------------------------
+
+  'agentic_tasks.page': 'Agentic tasks',
+  'agentic_tasks.page.description':
+    'This page allows for the continuous monitoring of tasks performed by Hunter Agent, Remediation Agent, and Agentic Analysis.',
+  'agentic_tasks.empty': 'No agentic tasks found',
+  'agentic_tasks.error.title': 'Something went wrong while loading agentic tasks.',
+  'agentic_tasks.error.retry': 'Retry',
+  'agentic_tasks.date_filter': 'Date',
+  'agentic_tasks.search_by_id': 'Search by Task ID',
+  'agentic_tasks.status.ALL': 'All',
+  'agentic_tasks.status.ALL_EXCEPT_PENDING': 'All Except Pending',
+  'agentic_tasks.status.PENDING': 'Pending',
+  'agentic_tasks.status.IN_PROGRESS': 'In Progress',
+  'agentic_tasks.status.COMPLETED': 'Completed',
+  'agentic_tasks.status.FAILED': 'Failed',
+  'agentic_tasks.type.ALL': 'All',
+  'agentic_tasks.type.HUNTER': 'Hunter Agent',
+  'agentic_tasks.type.REMEDIATION': 'Remediation Agent',
+  'agentic_tasks.table.status': 'Status',
+  'agentic_tasks.table.task': 'Task',
+  'agentic_tasks.table.task.id': 'ID',
+  'agentic_tasks.table.submitted': 'Submitted',
+  'agentic_tasks.table.started': 'Started',
+  'agentic_tasks.table.finished': 'Finished',
+  'agentic_tasks.table.duration': 'Duration',
+  'agentic_tasks.in_progress': 'in progress',
+  'agentic_tasks.in_progress.description':
+    'The number of agentic tasks that are currently in progress.',
 
   //------------------------------------------------------------------------------
   //

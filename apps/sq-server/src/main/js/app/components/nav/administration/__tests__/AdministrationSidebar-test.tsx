@@ -96,6 +96,26 @@ it('hides the AI Capabilities item when the addon is not installed', () => {
   expect(byText('sidebar.ai_capabilities').query()).not.toBeInTheDocument();
 });
 
+it('renders the Agentic tasks item under Projects when the RemediationAgent feature is available', () => {
+  (jest.mocked(addons).remediationAgent as unknown) = true;
+  renderAdminSidebar([], undefined, [Feature.RemediationAgent]);
+
+  expect(byText('sidebar.agentic_tasks').get()).toBeInTheDocument();
+});
+
+it('hides the Agentic tasks item when the RemediationAgent feature is missing', () => {
+  (jest.mocked(addons).remediationAgent as unknown) = true;
+  renderAdminSidebar();
+
+  expect(byText('sidebar.agentic_tasks').query()).not.toBeInTheDocument();
+});
+
+it('hides the Agentic tasks item when the addon is not installed', () => {
+  renderAdminSidebar([], undefined, [Feature.RemediationAgent]);
+
+  expect(byText('sidebar.agentic_tasks').query()).not.toBeInTheDocument();
+});
+
 function renderAdminSidebar(
   extensions: Extension[] = [],
   appState?: AppState,

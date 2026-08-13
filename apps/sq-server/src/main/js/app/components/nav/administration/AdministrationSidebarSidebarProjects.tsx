@@ -20,8 +20,13 @@
 
 import { IconProject, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { addons } from '~sq-server-addons/index';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { Feature } from '~sq-server-commons/types/features';
 
 export function AdministrationSidebarProjects() {
+  const { hasFeature } = useAvailableFeatures();
+
   return (
     <Layout.SidebarNavigation.AccordionItem
       Icon={IconProject}
@@ -34,6 +39,16 @@ export function AdministrationSidebarProjects() {
       >
         <FormattedMessage id="management" />
       </Layout.SidebarNavigation.Item>
+
+      {hasFeature(Feature.RemediationAgent) && addons.remediationAgent && (
+        <Layout.SidebarNavigation.Item
+          Icon={IconProject}
+          isMatchingFullPath
+          to="/admin/agentic_tasks"
+        >
+          <FormattedMessage id="sidebar.agentic_tasks" />
+        </Layout.SidebarNavigation.Item>
+      )}
 
       <Layout.SidebarNavigation.Item
         Icon={IconProject}
