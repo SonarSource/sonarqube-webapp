@@ -57,7 +57,10 @@ jest.mock('~adapters/helpers/useAutoImportToggle', () => ({
 
 let onboardingMock: OnboardingServiceMock;
 
-beforeAll(() => {
+beforeAll(async () => {
+  // The dashboard route lazy-loads this module. Preloading it once keeps the first active test
+  // from timing out on the cold import before any UI is mounted.
+  await import('../OnboardingDashboardApp');
   onboardingMock = new OnboardingServiceMock();
   registerServiceMocks(onboardingMock);
 });

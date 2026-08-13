@@ -167,9 +167,17 @@ A Vite plugin that provides source map and release management support for Sentry
 d3-zoom expects @types/d3-selection@3.0.x, so it may install a different version that breaks type resolution.
 We force it to use the explicit version we declare (3.0.11)
 
+### adm-zip
+
+`sonarqube-scanner@4.3.8` still depends on `adm-zip@0.5.17`, which is reported as vulnerable on the SonarQube dependency-risks page. We keep the scanner on 4.3.8 because the repository imports it programmatically in the sq-cloud e2e helpers, and force `adm-zip@0.6.0` across transitive deps instead of taking a scanner major bump just to clear that archive dependency.
+
 ### axios
 
 Some of our dependencies are requiring an older version of axios with vulnerabilities, we force them to use a more recent version that is not vulnerable.
+
+### browserslist
+
+Several build-time dependencies (`@vitejs/plugin-legacy`, `autoprefixer`, `core-js-compat`, `webpack`, and the direct root dependency) can otherwise resolve different `browserslist` patch versions, including versions reported as vulnerable on the SonarQube dependency-risks page. We pin `browserslist@4.28.8` everywhere so the browser-targeting toolchain stays aligned on the same fixed version.
 
 ### debug
 
