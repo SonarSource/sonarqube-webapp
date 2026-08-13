@@ -10284,6 +10284,9 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.import.archived': '<b>{count}</b> Archived',
   'onboarding_dashboard.journey.import.cta': 'Import repositories',
   'onboarding_dashboard.journey.import.auto': 'Automatically import new repositories',
+  'onboarding_dashboard.journey.import.auto_toggle_error':
+    'Failed to update auto-import setting. Please try again.',
+  'onboarding_dashboard.journey.import.auto_edit_aria_label': 'Edit auto-import setting',
   'onboarding_dashboard.journey.import.auto_help':
     '"All repositories" must be selected in GitHub\'s <link>Repository Access settings</link>',
   'onboarding_dashboard.journey.import.recommended': 'Recommended',

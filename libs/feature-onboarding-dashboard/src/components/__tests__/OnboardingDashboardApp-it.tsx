@@ -44,6 +44,17 @@ jest.mock('~adapters/helpers/useOnboardingCurrentBinding', () => ({
   }),
 }));
 
+jest.mock('~adapters/helpers/useAutoImportToggle', () => ({
+  useAutoImportToggle: () => ({
+    autoImportEnabled: false,
+    isEnabledOnFirstLoad: false,
+    isLoading: false,
+    isPending: false,
+    repositoryAccessUrl: undefined,
+    toggleAutoImport: jest.fn(),
+  }),
+}));
+
 let onboardingMock: OnboardingServiceMock;
 
 beforeAll(() => {

@@ -25,15 +25,20 @@ import {
   ButtonVariety,
   Card,
   cssVar,
+  Divider,
   Heading,
   HeadingSize,
+  IconCheckCircle,
   IconRecommended,
   LinkStandalone,
+  Spinner,
   Text,
   TextSize,
 } from '@sonarsource/echoes-react';
+import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Switch } from '~adapters/components/common/Switch';
+import { useAutoImportToggle } from '~adapters/helpers/useAutoImportToggle';
 import { JourneyState } from '../../../types/types';
 import { PanelDonut, PanelDonutSegment } from '../charts/PanelDonut';
 import { ImportRepositoriesModal } from '../modals/ImportRepositoriesModal';
@@ -103,6 +108,8 @@ export function ImportRepositoriesPanel({ state }: Readonly<Props>) {
           <AutoImportRow />
         )}
 
+        <Divider className="sw-max-w-[650px]" />
+
         <div className="sw-flex sw-gap-2">
           <Button variety={ButtonVariety.Primary}>
             {formatMessage({ id: 'onboarding_dashboard.journey.import.cta' })}
@@ -145,41 +152,97 @@ function RepositoriesToImport({ notYetImported }: Readonly<{ notYetImported: num
 }
 
 /**
- * The (non-functional) "automatically import new repositories" control shown once importing began:
- * a bordered card with a right-aligned toggle and a helper line pointing at the GitHub settings.
+ * The "automatically import new repositories" control shown once importing began. Organizations
+ * that already had the setting on when the panel loaded get a compact confirmation instead of a
+ * control they have no reason to touch, until they click "Edit" to reveal the toggle anyway.
  */
 function AutoImportRow() {
   const { formatMessage } = useIntl();
   const autoImportLabel = formatMessage({ id: 'onboarding_dashboard.journey.import.auto' });
 
+  const {
+    autoImportEnabled,
+    isEnabledOnFirstLoad,
+    isLoading,
+    isPending,
+    toggleAutoImport,
+    repositoryAccessUrl,
+  } = useAutoImportToggle();
+
+  // Revealing the toggle saves nothing, so this disclosure is the panel's own business.
+  const [hasClickedEdit, setHasClickedEdit] = useState(false);
+
+  if (!isLoading && !toggleAutoImport) {
+    return null;
+  }
+
+  if (isLoading) {
+    return (
+      <Card className="sw-max-w-[650px]">
+        <Card.Body>
+          <Spinner isLoading />
+        </Card.Body>
+      </Card>
+    );
+  }
+
+  if (isEnabledOnFirstLoad && !hasClickedEdit) {
+    return (
+      <Card className="sw-max-w-[650px]">
+        <Card.Body className="sw-flex sw-items-center sw-gap-2">
+          <IconCheckCircle color="echoes-color-icon-success" />
+          <Text isHighlighted>{autoImportLabel}</Text>
+          <Button
+            ariaLabel={formatMessage({
+              id: 'onboarding_dashboard.journey.import.auto_edit_aria_label',
+            })}
+            className="sw-ml-auto"
+            onClick={() => {
+              setHasClickedEdit(true);
+            }}
+            variety={ButtonVariety.PrimaryGhost}
+          >
+            {formatMessage({ id: 'edit' })}
+          </Button>
+        </Card.Body>
+      </Card>
+    );
+  }
+
   return (
     <Card className="sw-max-w-[650px]">
       <Card.Body className="sw-flex sw-items-center sw-justify-between">
         <div className="sw-flex sw-flex-col sw-gap-4">
-          <div className="sw-flex sw-items-center sw-justify-between sw-gap-2">
-            <span className="sw-flex sw-min-w-0 sw-items-center sw-gap-2">
-              <IconRecommended color="echoes-color-icon-accent" isFilled />
-              <Text isHighlighted>{autoImportLabel}</Text>
-              <Badge variety={BadgeVariety.Highlight}>
-                {formatMessage({ id: 'onboarding_dashboard.journey.import.recommended' })}
-              </Badge>
-            </span>
-          </div>
+          <span className="sw-flex sw-min-w-0 sw-items-center sw-gap-2">
+            <IconRecommended color="echoes-color-icon-accent" isFilled />
+            <Text isHighlighted>{autoImportLabel}</Text>
+            <Badge variety={BadgeVariety.Highlight}>
+              {formatMessage({ id: 'onboarding_dashboard.journey.import.recommended' })}
+            </Badge>
+          </span>
 
           <Text as="p" isSubtle size={TextSize.Small}>
             <FormattedMessage
               id="onboarding_dashboard.journey.import.auto_help"
               values={{
-                link: (chunks) => (
-                  <LinkStandalone enableOpenInNewTab enablePreventDefault to={{}}>
-                    {chunks}
-                  </LinkStandalone>
-                ),
+                link: (chunks) =>
+                  repositoryAccessUrl ? (
+                    <LinkStandalone enableOpenInNewTab to={repositoryAccessUrl}>
+                      {chunks}
+                    </LinkStandalone>
+                  ) : (
+                    <>{chunks}</>
+                  ),
               }}
             />
           </Text>
         </div>
-        <Switch ariaLabel={autoImportLabel} value={false} />
+        <Switch
+          ariaLabel={autoImportLabel}
+          disabled={isPending || isLoading}
+          onChange={toggleAutoImport}
+          value={autoImportEnabled}
+        />
       </Card.Body>
     </Card>
   );

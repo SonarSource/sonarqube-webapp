@@ -18,6 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import userEvent from '@testing-library/user-event';
+import { useAutoImportToggle } from '~adapters/helpers/useAutoImportToggle';
 import { useBindingSettingsUrl } from '~adapters/helpers/useBindingSettingsUrl';
 import { useOnboardingCurrentBinding } from '~adapters/helpers/useOnboardingCurrentBinding';
 import { renderWithRouter } from '~shared/helpers/test-utils';
@@ -31,8 +33,29 @@ import { DetailPanel } from '../DetailPanel';
 const BINDING_SETTINGS_URL = { pathname: '/binding-settings', search: '?category=binding' };
 const CURRENT_BINDING = { devopsOrganizationName: 'acme-devops', organizationName: 'Acme' };
 
+// How the product answers `isEnabledOnFirstLoad` is covered by its own adapter test; the panel only
+// decides which card that answer maps to, and owns the "Edit" disclosure on top of it.
+const AUTO_IMPORT_OFF = {
+  autoImportEnabled: false,
+  isEnabledOnFirstLoad: false,
+  isLoading: false,
+  isPending: false,
+  repositoryAccessUrl: undefined,
+  toggleAutoImport: jest.fn(),
+};
+
+const AUTO_IMPORT_ON_AT_LOAD = {
+  ...AUTO_IMPORT_OFF,
+  autoImportEnabled: true,
+  isEnabledOnFirstLoad: true,
+};
+
 jest.mock('~adapters/helpers/useBindingSettingsUrl', () => ({
   useBindingSettingsUrl: jest.fn(),
+}));
+
+jest.mock('~adapters/helpers/useAutoImportToggle', () => ({
+  useAutoImportToggle: jest.fn(),
 }));
 
 jest.mock('~adapters/helpers/useOnboardingCurrentBinding', () => ({
@@ -40,7 +63,10 @@ jest.mock('~adapters/helpers/useOnboardingCurrentBinding', () => ({
 }));
 
 beforeEach(() => {
+  jest.clearAllMocks();
+
   jest.mocked(useBindingSettingsUrl).mockReturnValue(BINDING_SETTINGS_URL);
+  jest.mocked(useAutoImportToggle).mockReturnValue(AUTO_IMPORT_OFF);
   jest.mocked(useOnboardingCurrentBinding).mockReturnValue(CURRENT_BINDING);
 });
 
@@ -101,8 +127,15 @@ const ui = {
   autoImportRepoSwitch: byRole('switch', {
     name: 'onboarding_dashboard.journey.import.auto',
   }),
+  autoEditButton: byRole('button', {
+    name: 'onboarding_dashboard.journey.import.auto_edit_aria_label',
+  }),
+  autoHelpAccessLink: byRole('link', {
+    name: /onboarding_dashboard\.journey\.import\.auto_help_link/,
+  }),
   recommendedBadge: byText('onboarding_dashboard.journey.import.recommended'),
   nextCta: byRole('button', { name: 'next' }),
+  spinner: byRole('status'),
 
   // Analyze panel
   fullCiLegend: byText('onboarding_dashboard.journey.analyze.legend.full_ci'),
@@ -214,6 +247,103 @@ it('renders the import panel auto-import control once repositories are imported'
 
   // The pre-import breakdown is not shown in this variant.
   expect(ui.toImport.query()).not.toBeInTheDocument();
+});
+
+it('shows a spinner inside the toggle card while the binding query is loading', () => {
+  jest.mocked(useAutoImportToggle).mockReturnValue({ ...AUTO_IMPORT_OFF, isLoading: true });
+
+  renderPanel(JourneyStep.Repositories, boundState);
+
+  expect(ui.autoImportRepoSwitch.query()).not.toBeInTheDocument();
+  expect(ui.autoEditButton.query()).not.toBeInTheDocument();
+  expect(ui.spinner.get()).toBeInTheDocument();
+});
+
+it('renders the full toggle card when auto-import was off on load', async () => {
+  renderPanel(JourneyStep.Repositories, boundState);
+
+  expect(await ui.autoImportRepoSwitch.find()).toBeInTheDocument();
+  expect(ui.recommendedBadge.get()).toBeInTheDocument();
+  expect(ui.autoEditButton.query()).not.toBeInTheDocument();
+});
+
+it('renders the compact card when auto-import was already on at load', async () => {
+  jest.mocked(useAutoImportToggle).mockReturnValue(AUTO_IMPORT_ON_AT_LOAD);
+
+  renderPanel(JourneyStep.Repositories, boundState);
+
+  expect(await ui.autoEditButton.find()).toBeInTheDocument();
+  expect(ui.autoImportRepoSwitch.query()).not.toBeInTheDocument();
+  expect(ui.recommendedBadge.query()).not.toBeInTheDocument();
+});
+
+it('reveals the toggle, already on, when Edit is clicked on the compact card', async () => {
+  const user = userEvent.setup();
+  jest.mocked(useAutoImportToggle).mockReturnValue(AUTO_IMPORT_ON_AT_LOAD);
+
+  renderPanel(JourneyStep.Repositories, boundState);
+
+  await user.click(await ui.autoEditButton.find());
+
+  expect(await ui.autoImportRepoSwitch.find()).toBeChecked();
+  expect(ui.autoEditButton.query()).not.toBeInTheDocument();
+});
+
+it('keeps the toggle visible after auto-import is turned on', async () => {
+  // Once a save has happened the product reports isEnabledOnFirstLoad=false, so it can be undone.
+  jest.mocked(useAutoImportToggle).mockReturnValue({
+    ...AUTO_IMPORT_OFF,
+    autoImportEnabled: true,
+  });
+
+  renderPanel(JourneyStep.Repositories, boundState);
+
+  expect(await ui.autoImportRepoSwitch.find()).toBeChecked();
+  expect(ui.autoEditButton.query()).not.toBeInTheDocument();
+});
+
+it('calls toggleAutoImport when the switch is clicked', async () => {
+  const toggleAutoImport = jest.fn();
+  const user = userEvent.setup();
+  jest.mocked(useAutoImportToggle).mockReturnValue({ ...AUTO_IMPORT_OFF, toggleAutoImport });
+
+  renderPanel(JourneyStep.Repositories, boundState);
+
+  await user.click(await ui.autoImportRepoSwitch.find());
+
+  expect(toggleAutoImport).toHaveBeenCalledWith(true);
+});
+
+it('disables the switch while the mutation is pending', async () => {
+  jest.mocked(useAutoImportToggle).mockReturnValue({ ...AUTO_IMPORT_OFF, isPending: true });
+
+  renderPanel(JourneyStep.Repositories, boundState);
+
+  expect(await ui.autoImportRepoSwitch.find()).toBeDisabled();
+});
+
+it('renders nothing when the product has no auto-import setting', () => {
+  jest.mocked(useAutoImportToggle).mockReturnValue({
+    ...AUTO_IMPORT_ON_AT_LOAD,
+    toggleAutoImport: undefined,
+  });
+
+  renderPanel(JourneyStep.Repositories, boundState);
+
+  expect(ui.autoImportRepoSwitch.query()).not.toBeInTheDocument();
+  expect(ui.autoEditButton.query()).not.toBeInTheDocument();
+});
+
+it('renders a link with the repositoryAccessUrl in the auto-import help text', async () => {
+  const accessUrl = 'https://github.com/organizations/acme/settings/installations/123';
+  jest.mocked(useAutoImportToggle).mockReturnValue({
+    ...AUTO_IMPORT_OFF,
+    repositoryAccessUrl: accessUrl,
+  });
+
+  renderPanel(JourneyStep.Repositories, boundState);
+
+  expect(await ui.autoHelpAccessLink.find()).toHaveAttribute('href', accessUrl);
 });
 
 it('renders the analyze panel with five legend entries and three action rows', () => {

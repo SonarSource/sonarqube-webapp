@@ -40,6 +40,34 @@ export type OnboardingAlm = Exclude<OnboardingDevopsPlatform, OnboardingDevopsPl
 export type AlmIconKey = 'azure' | 'bitbucket' | 'github' | 'gitlab';
 
 /**
+ * Return shape of the `useAutoImportToggle` adapter hook. Declared here so both adapter
+ * implementations agree on the shape without circular imports.
+ */
+export interface AutoImportToggle {
+  /** Whether new repositories are imported automatically, as last known from the server. */
+  autoImportEnabled: boolean;
+
+  /**
+   * Whether the setting was already on when the panel loaded, i.e. it is on and nothing has been
+   * saved since. Lets callers greet organizations that need no action with a confirmation instead
+   * of a control they have no reason to touch.
+   */
+  isEnabledOnFirstLoad: boolean;
+
+  /** Whether the setting is still being fetched for the first time. */
+  isLoading: boolean;
+
+  /** Whether a change is currently being saved. */
+  isPending: boolean;
+
+  /** Undefined on products that have no organization-level auto-import setting. */
+  toggleAutoImport: ((enabled: boolean) => void) | undefined;
+
+  /** Installation-specific permissions URL */
+  repositoryAccessUrl: string | undefined;
+}
+
+/**
  * The two ends of an organization's DevOps platform binding, as displayed by the onboarding
  * dashboard. Not part of any API response — the overview endpoint does not carry these names, so
  * each product resolves them through `~adapters/queries/onboarding`. Declared here so both adapter
