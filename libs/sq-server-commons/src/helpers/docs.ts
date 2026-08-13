@@ -20,27 +20,39 @@
 
 import React from 'react';
 import { AppStateContext } from '../context/app-state/AppStateContext';
-import { DocLink } from './doc-links';
+import { AGENT_CENTRIC_DOC_BASE_URL, AgentCentricDocLink, DocLinkUnion } from './doc-links';
+
+function buildDocUrl(baseUrl: string, href: string) {
+  const path = href.replace(/^\//, '');
+  return `${baseUrl}/${path}`;
+}
 
 // This is only meant to be used directly for DocumentationRedirect. For all other uses,
 // please use useDocUrl instead (it forces the use of a catalogued documentation link)
 export function useUncataloguedDocUrl(to?: string) {
   const { documentationUrl: docUrl } = React.useContext(AppStateContext);
 
-  const formatDocUrl = React.useCallback(
-    (href: string) => {
-      const path = href.replace(/^\//, '');
-
-      return `${docUrl}/${path}`;
-    },
-    [docUrl],
-  );
+  const formatDocUrl = React.useCallback((href: string) => buildDocUrl(docUrl, href), [docUrl]);
 
   return to ? formatDocUrl(to) : formatDocUrl;
 }
 
-export function useDocUrl(to: DocLink): string;
-export function useDocUrl(): (to: DocLink) => string;
-export function useDocUrl(to?: DocLink) {
-  return useUncataloguedDocUrl(to);
+const AGENT_CENTRIC_DOC_LINKS: ReadonlySet<string> = new Set(Object.values(AgentCentricDocLink));
+
+export function useDocUrl(to: DocLinkUnion): string;
+export function useDocUrl(): (to: DocLinkUnion) => string;
+export function useDocUrl(to?: DocLinkUnion) {
+  const { documentationUrl: serverDocUrl } = React.useContext(AppStateContext);
+
+  const getDocUrl = React.useCallback(
+    (documentationLink: DocLinkUnion) => {
+      const baseUrl = AGENT_CENTRIC_DOC_LINKS.has(documentationLink)
+        ? AGENT_CENTRIC_DOC_BASE_URL
+        : serverDocUrl;
+      return buildDocUrl(baseUrl, documentationLink);
+    },
+    [serverDocUrl],
+  );
+
+  return to === undefined ? getDocUrl : getDocUrl(to);
 }

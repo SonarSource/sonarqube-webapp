@@ -9889,12 +9889,21 @@ export const defaultMessages = {
   'license.products.additional.title': 'Active products',
   'license.products.architecture.title': 'Architecture',
   'license.products.sqas.title': 'Advanced Security',
+  'license.products.sqas.features':
+    '<ul><li>Detect vulnerabilities in your third-party dependencies</li><li>Catch when malicious packages are used by developers</li><li>Use quality gates to prevent new risks from being added to your code</li></ul>',
   'license.products.vortex.title': 'Vortex',
   'license.products.vortex.usage': '{used}/{limit} tools called',
+  'license.products.vortex.features':
+    '<ul><li>Automatically analyzes files modified by the agent to find issues in less than 5 seconds</li><li>Advanced code navigation tools for token reduction</li><li>Third party dependency Risks and policy checks before code generation happens</li></ul>',
   'license.products.hunterAgent.title': 'Hunter Agent',
   'license.products.hunterAgent.usage': '{used}/{limit} credits used',
+  'license.products.hunterAgent.features':
+    "<ul><li>Find high-impact security flaws that static analysis misses, such as broken access control and business-logic errors</li><li>Work with findings as regular issues you triage, assign, and track like any other, with no new tool to learn</li><li>Run the analysis on Sonar's infrastructure, with nothing to install or run locally</li></ul>",
   'license.products.remediationAgent.title': 'Remediation Agent',
   'license.products.remediationAgent.usage': '{used}/{limit} suggestions used',
+  'license.products.remediationAgent.features':
+    "<ul><li>Generates and verifies fixes with Sonar's own analysis engine — automatically on a schedule, from your backlog, or in PRs</li><li>Creates ready-to-review pull requests, keeping developers in full control before anything is merged</li><li>Covers a broad range of issue types including security, reliability, maintainability, and dependency risks</li></ul>",
+  'license.products.key_features': 'Key features',
   'license.products.badge.new': 'New',
   'license.products.column.monthly_usage.help':
     '<p>This shows your product usage against your purchased limit.</p><p>The limit will reset the beginning of every calendar month at 00:00 UTC</p>',
@@ -9906,6 +9915,7 @@ export const defaultMessages = {
   'license.products.enable_now': 'Enable now',
   'license.products.enabled': 'Enabled',
   'license.products.full_access': 'Full access',
+  'license.products.read_docs': 'Read the doc',
   'license.products.percentage_used': '{value}% used',
   'license.products.usage_limit_reached.description':
     'You have reached your monthly limit. Your limit resets on {resetDate}.',
@@ -9913,6 +9923,8 @@ export const defaultMessages = {
   'license.products.usage_limit_warning.description':
     'You are close to your monthly limit. Your limit resets on {resetDate}.',
   'license.products.usage_limit_warning.title': '80% of monthly limit used',
+  'license.products.valid_until': 'Valid until',
+  'license.products.view_demo': 'View demo',
   'license.refresh_license': 'Refresh license',
   'license.refresh_limit_hit': 'Daily refresh limit of 10 reached',
   'license.refresh_your_license_offline': 'Refresh your license offline',

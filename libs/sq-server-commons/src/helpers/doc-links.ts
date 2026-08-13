@@ -24,6 +24,17 @@ export const COMMUNITY_FORUM_URL = 'https://community.sonarsource.com/c/help/sq'
 
 export const DOC_URL = 'https://docs.sonarsource.com/sonarqube/latest';
 
+export const AGENT_CENTRIC_DOC_BASE_URL =
+  'https://docs.sonarsource.com/agent-centric-development-cycle';
+
+export enum AgentCentricDocLink {
+  AgenticAnalysis = '/verify/sonar-vortex-agentic-analysis',
+  ContextAugmentation = '/guide/sonar-vortex-context-augmentation',
+  HunterAgent = '/verify/hunter-agent',
+  RemediationAgent = '/solve/remediation-agent#sca-basic-remediation',
+  Vortex = '/inside-your-agent-the-agentic-loop/sonar-vortex',
+}
+
 export enum DocLink {
   AccountTokens = '/user-guide/managing-tokens/',
   ActiveVersions = '/server-update-and-maintenance/update/release-cycle-model',
@@ -117,6 +128,8 @@ export enum DocLink {
   TestCoverage = '/analyzing-source-code/test-coverage/overview',
   Webhooks = '/project-administration/webhooks/',
 }
+
+export type DocLinkUnion = AgentCentricDocLink | DocLink;
 
 export enum SonarSourceLink {
   AiCodeFixTerms = '/legal/ai-codefix-terms/',
