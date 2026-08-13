@@ -25,7 +25,7 @@ import { ActivityRequestParameters } from '../types/tasks';
 
 export const useLastActivityQuery = createQueryHook((data: ActivityRequestParameters) => {
   return queryOptions({
-    queryKey: ['ce', 'activity', data.component, data.type, data.status],
+    queryKey: ['ce', 'activity', data],
     queryFn: () => getActivity(data).then(({ tasks }) => (tasks.length > 0 ? tasks[0] : null)),
   });
 });

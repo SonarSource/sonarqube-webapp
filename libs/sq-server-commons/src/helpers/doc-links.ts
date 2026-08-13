@@ -93,6 +93,7 @@ export enum DocLink {
   MainBranchAnalysis = '/project-administration/maintaining-project/maintaining-the-branches-of-your-project',
   MaintainBranches = '/project-administration/maintaining-project/maintaining-the-branches-of-your-project#keep-specific-branches-from-deletion',
   ManagingPortfolios = '/project-administration/managing-portfolios/',
+  ManagingPortfoliosAvoidingDuplications = '/project-administration/managing-portfolios#avoiding-duplications-in-portfolios',
   MetricDefinitions = '/user-guide/code-metrics/metrics-definition/',
   PermissionTemplates = '/instance-administration/user-management/user-permissions#permission-templates',
   PortfolioManagementAllDashboards = '/managing-portfolios/portfolio-dashboards/viewing-and-managing-dashboards',

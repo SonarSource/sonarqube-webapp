@@ -43,8 +43,9 @@ export function getAnalysisStatus(data: {
 
 export function getActivity(
   data: ActivityRequestParameters,
+  options?: { bypassRedirect?: boolean },
 ): Promise<{ paging: Paging; tasks: Task[] }> {
-  return getJSON('/api/ce/activity', data);
+  return getJSON('/api/ce/activity', data, options);
 }
 
 export function getStatus(component?: string): Promise<{
@@ -60,14 +61,14 @@ export function getTask(id: string, additionalFields?: string[]): Promise<Task> 
   return getJSON('/api/ce/task', { id, additionalFields }).then((r) => r.task);
 }
 
-export function cancelTask(id: string): Promise<any> {
+export function cancelTask(id: string): Promise<Task> {
   return post('/api/ce/cancel', { id }).then(
     () => getTask(id),
     () => getTask(id),
   );
 }
 
-export function cancelAllTasks(): Promise<any> {
+export function cancelAllTasks(): Promise<void> {
   return post('/api/ce/cancel_all');
 }
 

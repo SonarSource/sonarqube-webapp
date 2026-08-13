@@ -9660,6 +9660,25 @@ export const defaultMessages = {
   // background task
   'background_task.type.VIEW_REFRESH': 'Portfolio Recomputation',
 
+  'portfolio.refresh_failure.title': 'Portfolio recomputation failed',
+  'portfolio.refresh_failure.generic_description': 'The latest portfolio recomputation failed.',
+  'portfolio.refresh_failure.duplicate_details':
+    'The project {projectName} on branch "{branch}" appears more than once in portfolio {portfolioName}.',
+  'portfolio.refresh_failure.duplicate_references':
+    'It appears in the following portfolio locations:',
+  'portfolio.refresh_failure.duplicate_reference': '{name}',
+  'portfolio.refresh_failure.documentation': 'Learn how to avoid duplications in portfolios',
+  'portfolio.refresh_failure.details': 'Details: {errorMessage}',
+  'portfolio.refresh_failure.edit_definition':
+    'Remove one of the duplicate project branches from the portfolio tree, then recompute the portfolio. {link}',
+  'portfolio.refresh_failure.edit_definition.link': 'Edit portfolio definition',
+  'portfolio.refresh_failure.fix':
+    'Remove one of the duplicate project branches from the portfolio tree, then recompute the portfolio.',
+  'portfolio.refresh_failure.generic_edit_definition':
+    'Review the error details and recompute the portfolio. {link}',
+  'portfolio.refresh_failure.generic_fix':
+    'Review the error details, then recompute the portfolio.',
+
   // Governance Page
   'governance.x_portfolios': '{count} portfolios',
   'governance.section.releasability': 'Releasability',
