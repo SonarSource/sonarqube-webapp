@@ -25,19 +25,15 @@ import * as React from 'react';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isDefined } from '~shared/helpers/types';
+import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
+import { addons } from '~sq-server-addons/index';
 import ModeBanner from '~sq-server-commons/components/common/ModeBanner';
 import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
 import { getGlobalSettingsUrl, getProjectSettingsUrl } from '~sq-server-commons/helpers/urls';
-import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import { CATEGORY_OVERRIDES } from '../constants';
-import {
-  DEFAULT_CATEGORY,
-  getCategoryName,
-  getDefaultCategory,
-  usePurchasableFeature,
-} from '../utils';
+import { DEFAULT_CATEGORY, getCategoryName, getDefaultCategory } from '../utils';
 import { ADDITIONAL_CATEGORIES } from './AdditionalCategories';
 import AllCategoriesList from './AllCategoriesList';
 import CategoryDefinitionsList from './CategoryDefinitionsList';
@@ -53,7 +49,10 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
   const { definitions, component } = props;
 
   const location = useLocation();
-  const scaFeature = usePurchasableFeature(Feature.Sca);
+  const { data: isScaAvailable = false } = addons.entitlements.useEntitlementCheckQuery(
+    { featureKey: EntitlementCheckFeatureKey.AdvancedSecurity },
+    { select: (data) => data.entitled },
+  );
 
   const categories = React.useMemo(() => {
     return uniqBy(
@@ -98,7 +97,7 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
           <SettingsSearch
             component={component}
             definitions={definitions}
-            showAdvancedSecurity={scaFeature?.isAvailable ?? false}
+            showAdvancedSecurity={isScaAvailable}
           />
           <AllCategoriesList
             categories={categories}

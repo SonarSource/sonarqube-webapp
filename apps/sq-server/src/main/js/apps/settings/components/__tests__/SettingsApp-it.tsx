@@ -25,6 +25,10 @@ import { registerServiceMocks } from '~shared/api/mocks/server';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
 import {
+  BillingServiceDefaultDataset,
+  BillingServiceMock,
+} from '~sq-server-commons/api/mocks/BillingServiceMock';
+import {
   EntitlementsServiceDefaultDataset,
   EntitlementsServiceMock,
   mockPurchaseableFeature,
@@ -58,6 +62,7 @@ let settingsMock: SettingsServiceMock;
 let scaSettingsMock: ScaServiceSettingsMock;
 let modeHandler: ModeServiceMock;
 let entitlementsMock: EntitlementsServiceMock;
+let billingMock: BillingServiceMock;
 
 beforeAll(() => {
   almSettingsMock = new AlmSettingsServiceMock();
@@ -65,6 +70,7 @@ beforeAll(() => {
   scaSettingsMock = new ScaServiceSettingsMock();
   modeHandler = new ModeServiceMock();
   entitlementsMock = new EntitlementsServiceMock(EntitlementsServiceDefaultDataset);
+  billingMock = new BillingServiceMock(BillingServiceDefaultDataset);
 });
 
 afterEach(() => {
@@ -73,11 +79,12 @@ afterEach(() => {
   scaSettingsMock.reset();
   modeHandler.reset();
   entitlementsMock.reset();
+  billingMock.reset();
 });
 
 beforeEach(() => {
   jest.clearAllMocks();
-  registerServiceMocks(entitlementsMock);
+  registerServiceMocks(entitlementsMock, billingMock);
 });
 
 const ui = {
@@ -135,6 +142,9 @@ describe('Global Settings', () => {
   it('renders Language category and can select any language', async () => {
     const user = userEvent.setup();
     renderSettingsApp();
+
+    // Wait for the page to be fully loaded before navigating
+    await ui.announcementHeading.find();
 
     // Navigating to Languages category
     await user.click(await ui.categoryLink('property.category.languages').find());
@@ -196,8 +206,10 @@ describe('Global Settings', () => {
     const user = userEvent.setup();
     renderSettingsApp();
 
+    await ui.announcementHeading.find();
+
     await user.click(await ui.categoryLink('settings.mode.title').find());
-    expect(byRole('radio', { name: /settings.mode.standard/ }).get()).toBeInTheDocument();
+    expect(await byRole('radio', { name: /settings.mode.standard/ }).find()).toBeInTheDocument();
   });
 });
 

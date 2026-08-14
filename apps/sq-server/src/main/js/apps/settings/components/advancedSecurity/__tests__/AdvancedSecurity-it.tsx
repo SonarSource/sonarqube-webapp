@@ -23,7 +23,13 @@ import userEvent from '@testing-library/user-event';
 import { registerServiceMocks } from '~shared/api/mocks/server';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { isDefined } from '~shared/helpers/types';
+import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
+import {
+  BillingServiceDefaultDataset,
+  BillingServiceMock,
+  mockEntitlementCheck,
+} from '~sq-server-commons/api/mocks/BillingServiceMock';
 import {
   EntitlementsServiceMock,
   mockPurchaseableFeature,
@@ -34,6 +40,7 @@ import { AdvancedSecurity } from '../AdvancedSecurity';
 
 let scaServiceSettingsMock: ScaServiceSettingsMock;
 let entitlementsMock: EntitlementsServiceMock;
+let billingMock: BillingServiceMock;
 
 const SCA_FEATURE_ENABLED_KEY = 'sonar.sca.featureEnabled';
 const WRONG_CATEGORY_KEY = 'sonar.other.enabled';
@@ -80,15 +87,17 @@ beforeAll(() => {
   entitlementsMock = new EntitlementsServiceMock({
     purchasableFeatures: [mockPurchaseableFeature({ isAvailable: true, isEnabled: true })],
   });
+  billingMock = new BillingServiceMock(BillingServiceDefaultDataset);
 });
 
 beforeEach(() => {
-  registerServiceMocks(entitlementsMock);
+  registerServiceMocks(entitlementsMock, billingMock);
 });
 
 afterEach(() => {
   scaServiceSettingsMock.reset();
   entitlementsMock.reset();
+  billingMock.reset();
 });
 
 const ui = {

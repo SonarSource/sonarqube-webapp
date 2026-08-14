@@ -23,8 +23,13 @@ import userEvent from '@testing-library/user-event';
 import { noop } from 'lodash';
 import { registerServiceMocks } from '~shared/api/mocks/server';
 import { byLabelText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
+import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { CurrentUser } from '~shared/types/users';
+import {
+  BillingServiceMock,
+  mockEntitlementCheck,
+} from '~sq-server-commons/api/mocks/BillingServiceMock';
 import {
   EntitlementsServiceDefaultDataset,
   EntitlementsServiceMock,
@@ -150,20 +155,31 @@ let qualityGateHandler: QualityGatesServiceMock;
 let usersHandler: UsersServiceMock;
 let modeHandler: ModeServiceMock;
 let entitlementsMock: EntitlementsServiceMock;
+let billingMock: BillingServiceMock;
 
 beforeAll(() => {
   qualityGateHandler = new QualityGatesServiceMock();
   usersHandler = new UsersServiceMock();
   modeHandler = new ModeServiceMock();
   entitlementsMock = new EntitlementsServiceMock(EntitlementsServiceDefaultDataset);
+  billingMock = new BillingServiceMock({
+    entitlementChecks: [
+      mockEntitlementCheck({
+        featureKey: EntitlementCheckFeatureKey.AdvancedSecurity,
+        entitled: false,
+        consumption: null,
+      }),
+    ],
+  });
 });
 
 beforeEach(() => {
-  registerServiceMocks(entitlementsMock);
+  registerServiceMocks(entitlementsMock, billingMock);
   qualityGateHandler.reset();
   usersHandler.reset();
   modeHandler.reset();
   entitlementsMock.reset();
+  billingMock.reset();
 });
 
 it('should open the default quality gates', async () => {

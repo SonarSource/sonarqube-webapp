@@ -37,14 +37,14 @@ import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
 import { BetaBadge } from '~shared/components/badges/BetaBadge';
 import { RescanSettings } from '~shared/components/sca/RescanSettings';
 import useLocalStorage from '~shared/helpers/useLocalStorage';
+import { EntitlementCheckFeatureKey } from '~shared/types/billing';
+import { addons } from '~sq-server-addons/index';
 import { getAdvancedSecurityTermsOfServiceUrl } from '~sq-server-commons/helpers/urls';
 import {
   useGetScaFeatureEnablementQuery,
   useUpdateScaFeatureEnablementMutation,
 } from '~sq-server-commons/queries/sca';
 import { useGetValueQuery } from '~sq-server-commons/queries/settings';
-import { Feature } from '~sq-server-commons/types/features';
-import { usePurchasableFeature } from '../../utils';
 import { AdditionalCategoryComponentProps } from '../AdditionalCategories';
 import Definition from '../Definition';
 import ScaConnectivityTest from './ScaConnectivityTest';
@@ -56,11 +56,10 @@ export function Sca({
   definitions,
 }: Readonly<Pick<AdditionalCategoryComponentProps, 'definitions'>>) {
   const intl = useIntl();
-
-  /**
-   * Feature enablement is driven by sonar.sca.featureEnabled
-   */
-  const scaFeature = usePurchasableFeature(Feature.Sca);
+  const { data: isScaAvailable = false } = addons.entitlements.useEntitlementCheckQuery(
+    { featureKey: EntitlementCheckFeatureKey.AdvancedSecurity },
+    { select: (data) => data.entitled },
+  );
   const [isEnabled, setIsEnabled] = useState(false);
   const [showEnabledMessage, setShowEnabledMessage] = useLocalStorage(
     DISMISSABLE_MESSAGE_STORAGE_KEY,
@@ -120,7 +119,7 @@ export function Sca({
     setIsEnabled(Boolean(isScaEnabled));
   }, [isScaEnabled]);
 
-  if (!scaFeature?.isAvailable) {
+  if (!isScaAvailable) {
     return null;
   }
 

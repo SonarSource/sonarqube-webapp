@@ -20,6 +20,10 @@
 
 import * as entitlements from './feature-license/entitlements';
 
+const globalAddons = {
+  entitlements,
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AddonsType = { [key: string]: any | undefined };
-export const addons: AddonsType = { entitlements };
+export type AddonsType = { [key: string]: any | undefined } & typeof globalAddons;
+export const addons: AddonsType = { ...globalAddons };

@@ -22,6 +22,8 @@ import { sortBy } from 'lodash';
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SubnavigationGroup, SubnavigationItem } from '~design-system';
+import { EntitlementCheckFeatureKey } from '~shared/types/billing';
+import { addons } from '~sq-server-addons/index';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
@@ -30,7 +32,7 @@ import { getGlobalSettingsUrl, getProjectSettingsUrl } from '~sq-server-commons/
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import { ADVANCED_SECURITY_CATEGORY, AI_CODE_FIX_CATEGORY, CATEGORY_OVERRIDES } from '../constants';
-import { getCategoryName, usePurchasableFeature } from '../utils';
+import { getCategoryName } from '../utils';
 import { ADDITIONAL_CATEGORIES } from './AdditionalCategories';
 
 export interface CategoriesListProps extends WithAvailableFeaturesProps {
@@ -44,7 +46,10 @@ function AllCategoriesList(props: Readonly<CategoriesListProps>) {
   const { categories, component, defaultCategory, selectedCategory } = props;
 
   const navigate = useNavigate();
-  const scaFeature = usePurchasableFeature(Feature.Sca);
+  const { data: isScaAvailable = false } = addons.entitlements.useEntitlementCheckQuery(
+    { featureKey: EntitlementCheckFeatureKey.AdvancedSecurity },
+    { select: (data) => data.entitled },
+  );
 
   const openCategory = React.useCallback(
     (category: string | undefined) => {
@@ -61,7 +66,7 @@ function AllCategoriesList(props: Readonly<CategoriesListProps>) {
     .filter((key) => CATEGORY_OVERRIDES[key.toLowerCase()] === undefined)
     .filter(
       (key) =>
-        (key.toLowerCase() === ADVANCED_SECURITY_CATEGORY && scaFeature?.isAvailable) ||
+        (key.toLowerCase() === ADVANCED_SECURITY_CATEGORY && isScaAvailable) ||
         key.toLowerCase() !== ADVANCED_SECURITY_CATEGORY,
     )
     .map((key) => ({

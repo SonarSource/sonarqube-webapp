@@ -28,6 +28,8 @@ import {
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { HighlightedSection } from '~design-system';
+import { EntitlementCheckFeatureKey } from '~shared/types/billing';
+import { addons } from '~sq-server-addons/index';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
 import { getLocalizedMetricName } from '~sq-server-commons/helpers/l10n';
@@ -51,6 +53,10 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
   const canEdit = Boolean(actions?.manageConditions);
   const { hasFeature } = useAvailableFeatures();
   const scaFeature = usePurchasableFeature(Feature.Sca);
+  const { data: isScaAvailable = false } = addons.entitlements.useEntitlementCheckQuery(
+    { featureKey: EntitlementCheckFeatureKey.AdvancedSecurity },
+    { select: (data) => data.entitled },
+  );
   const metrics = useMetrics();
 
   const {
@@ -66,7 +72,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
     isAiCodeSupported,
     metrics,
     isScaEnabled: scaFeature?.isEnabled,
-    isScaAvailable: scaFeature?.isAvailable,
+    isScaAvailable,
   });
 
   const isBuiltInAiCodeSupported = isBuiltIn && isAiCodeSupported;

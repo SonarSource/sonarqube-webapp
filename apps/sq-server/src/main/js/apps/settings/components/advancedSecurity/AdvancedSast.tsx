@@ -21,15 +21,20 @@
 import { Checkbox, Heading, Text } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import { FormattedMessage } from 'react-intl';
+import { EntitlementCheckFeatureKey } from '~shared/types/billing';
+import { addons } from '~sq-server-addons/index';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { Feature } from '~sq-server-commons/types/features';
-import { usePurchasableFeature } from '../../utils';
 
 export function AdvancedSast() {
   const asastEnabled = useAvailableFeatures().hasFeature(Feature.AdvancedSAST);
-  const advancedSastFeature = usePurchasableFeature(Feature.AdvancedSAST);
+  const { data: isAdvancedSecurityAvailable = false } =
+    addons.entitlements.useEntitlementCheckQuery(
+      { featureKey: EntitlementCheckFeatureKey.AdvancedSecurity },
+      { select: (data) => data.entitled },
+    );
 
-  if (!advancedSastFeature?.isAvailable) {
+  if (!isAdvancedSecurityAvailable) {
     return null;
   }
 
