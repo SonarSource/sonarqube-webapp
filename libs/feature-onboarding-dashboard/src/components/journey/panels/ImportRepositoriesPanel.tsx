@@ -39,11 +39,12 @@ import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Switch } from '~adapters/components/common/Switch';
 import { useAutoImportToggle } from '~adapters/helpers/useAutoImportToggle';
-import { JourneyState } from '../../../types/types';
+import { JourneyState, JourneyStep } from '../../../types/types';
 import { PanelDonut, PanelDonutSegment } from '../charts/PanelDonut';
 import { ImportRepositoriesModal } from '../modals/ImportRepositoriesModal';
 
 interface Props {
+  onSelectStep: (step: JourneyStep) => void;
   state: JourneyState;
 }
 
@@ -52,7 +53,7 @@ interface Props {
  * Right: a breakdown of repositories still to import (before any import) or the auto-import control
  * (once at least one repository has been imported). All CTAs are non-functional this pass.
  */
-export function ImportRepositoriesPanel({ state }: Readonly<Props>) {
+export function ImportRepositoriesPanel({ onSelectStep, state }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const { discovered, imported, importedPct, notYetImported } = state;
 
@@ -114,7 +115,14 @@ export function ImportRepositoriesPanel({ state }: Readonly<Props>) {
           <Button variety={ButtonVariety.Primary}>
             {formatMessage({ id: 'onboarding_dashboard.journey.import.cta' })}
           </Button>
-          <Button variety={ButtonVariety.Default}>{formatMessage({ id: 'next' })}</Button>
+          <Button
+            onClick={() => {
+              onSelectStep(JourneyStep.Projects);
+            }}
+            variety={ButtonVariety.Default}
+          >
+            {formatMessage({ id: 'next' })}
+          </Button>
         </div>
       </div>
     </div>

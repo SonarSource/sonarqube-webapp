@@ -154,9 +154,15 @@ const ui = {
   fullCiDesc: byText('onboarding_dashboard.journey.analyze.full_ci.desc.8'),
 };
 
-function renderPanel(selectedStep: JourneyStep, state: JourneyState) {
+function renderPanel(
+  selectedStep: JourneyStep,
+  state: JourneyState,
+  onSelectStep: (step: JourneyStep) => void = jest.fn(),
+) {
   // Rendered within a router: the import panel's auto-import helper uses a LinkStandalone.
-  return renderWithRouter(<DetailPanel selectedStep={selectedStep} state={state} />);
+  return renderWithRouter(
+    <DetailPanel onSelectStep={onSelectStep} selectedStep={selectedStep} state={state} />,
+  );
 }
 
 it.each([
@@ -312,6 +318,17 @@ it('calls toggleAutoImport when the switch is clicked', async () => {
   await user.click(await ui.autoImportRepoSwitch.find());
 
   expect(toggleAutoImport).toHaveBeenCalledWith(true);
+});
+
+it('navigates to the analyze step when the next button is clicked', async () => {
+  const user = userEvent.setup();
+  const onSelectStep = jest.fn();
+
+  renderPanel(JourneyStep.Repositories, boundState, onSelectStep);
+
+  await user.click(await ui.nextCta.find());
+
+  expect(onSelectStep).toHaveBeenCalledWith(JourneyStep.Projects);
 });
 
 it('disables the switch while the mutation is pending', async () => {

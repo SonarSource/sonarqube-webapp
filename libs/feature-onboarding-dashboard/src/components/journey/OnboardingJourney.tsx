@@ -89,7 +89,7 @@ export function OnboardingJourney({ overview }: Readonly<Props>) {
       </div>
 
       <div className="sw-mb-4">
-        <DetailPanel selectedStep={step} state={state} />
+        <DetailPanel onSelectStep={setSelectedStep} selectedStep={step} state={state} />
       </div>
 
       <Divider className="sw-mb-4" role="separator" />

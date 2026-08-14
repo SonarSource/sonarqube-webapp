@@ -25,16 +25,21 @@ import { ImportRepositoriesPanel } from './ImportRepositoriesPanel';
 import { OrganizationBindingPanel } from './OrganizationBindingPanel';
 
 interface Props {
+  onSelectStep: (step: JourneyStep) => void;
   selectedStep: JourneyStep;
   state: JourneyState;
 }
 
-function renderPanel(selectedStep: JourneyStep, state: JourneyState) {
+function renderPanel(
+  selectedStep: JourneyStep,
+  state: JourneyState,
+  onSelectStep: (step: JourneyStep) => void,
+) {
   switch (selectedStep) {
     case JourneyStep.Binding:
       return <OrganizationBindingPanel state={state} />;
     case JourneyStep.Repositories:
-      return <ImportRepositoriesPanel state={state} />;
+      return <ImportRepositoriesPanel onSelectStep={onSelectStep} state={state} />;
     case JourneyStep.Projects:
       return <AnalyzeProjectsPanel state={state} />;
   }
@@ -44,10 +49,10 @@ function renderPanel(selectedStep: JourneyStep, state: JourneyState) {
  * Renders the detail panel for the currently-selected onboarding step inside a single bordered card
  * under the stepper. Purely a router — each step's content lives in its own panel component.
  */
-export function DetailPanel({ selectedStep, state }: Readonly<Props>) {
+export function DetailPanel({ onSelectStep, selectedStep, state }: Readonly<Props>) {
   return (
     <Card>
-      <Card.Body>{renderPanel(selectedStep, state)}</Card.Body>
+      <Card.Body>{renderPanel(selectedStep, state, onSelectStep)}</Card.Body>
     </Card>
   );
 }
