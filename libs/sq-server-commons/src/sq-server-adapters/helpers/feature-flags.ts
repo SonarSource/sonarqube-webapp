@@ -46,7 +46,7 @@ const defaultFlags: SQSFlagSet = {
   designArchitectureSquadExtensionPack: false,
   designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
   licenseEnableUsageProductsUi: false,
-  organizationReportingEnablePortfolioDashboards: false,
+  organizationReportingEnablePortfolioDashboards: true,
   scaEnableReachabilityFrontend: false,
   scaKeyChangesPrView: false,
 };

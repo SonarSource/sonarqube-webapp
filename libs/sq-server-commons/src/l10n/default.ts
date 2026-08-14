@@ -289,6 +289,7 @@ export const defaultMessages = {
   size: 'Size',
   skip: 'Skip',
   skip_to_content: 'Skip to main content',
+  sonar: 'Sonar',
   status: 'Status',
   submit: 'Submit',
   support: 'Support',
@@ -3233,16 +3234,18 @@ export const defaultMessages = {
   'dashboard.list.removed_user': 'Removed user',
   'dashboard.list.actions.aria_label': 'Dashboard actions for {dashboardName}',
   'dashboard.list.actions.duplicate': 'Duplicate',
-  'dashboard.list.actions.delete': 'Delete',
+  'dashboard.list.actions.delete': 'Delete dashboard',
   'dashboard.edit_dashboard': 'Edit dashboard',
   'dashboard.modal.delete_dashboard.title': 'Delete dashboard',
   'dashboard.modal.delete_dashboard.description':
-    'Are you sure you want to delete the dashboard "{dashboardName}"?',
-  'dashboard.create_custom_dashboard': 'Create dashboard',
-  'dashboard.edit_dashboard_title': 'Edit dashboard',
+    'Are you sure you want to delete the dashboard, "{dashboardName}"? This action is irreversible.',
+  'dashboard.create_custom_dashboard': 'Create custom dashboard',
+  'dashboard.edit_dashboard_title': 'Edit name and description',
+  'dashboard.view_all_dashboards': 'View all dashboards',
   'dashboard.type.built_in': 'Built-in',
   'dashboard.type.custom': 'Custom',
   'project_dashboard.dashboard_name': 'Name',
+  'project_dashboard.last_edited_by': 'Last edited <b>{lastUpdatedAt}</b> by <b>{user}</b>',
   'project_dashboard.modal.dashboard_name_placeholder': 'Dashboard name',
   'project_dashboard.dashboard_description': 'Description',
   'project_dashboard.modal.dashboard_description_placeholder': 'Dashboard description',
@@ -3257,6 +3260,56 @@ export const defaultMessages = {
   'portfolio_dashboard.list.toast.delete_success': 'Dashboard "{dashboardName}" has been deleted.',
   'portfolio_dashboard.list.toast.duplicate_success':
     'Dashboard "{dashboardName}" has been duplicated.',
+
+  // Dashboard widgets (shared widget header/body components in feature-dashboards)
+  'dashboard.about_this_dashboard': 'About this dashboard',
+  'dashboard_widget.codescope.overall': 'Overall code',
+  'dashboard_widget.codescope.new': 'New code',
+  'dashboard_widget.time_range.last_30_days': 'Last 30 days',
+  'dashboard_widget.time_range.rolling_30_day_average': 'Rolling 30-day average',
+  'dashboard.widget.no_data': 'No data available to display',
+  'dashboard.widget.error': "We couldn't load this data",
+  'dashboard.widget.error.description': 'Something went wrong while fetching results',
+  'dashboard.widget.loading_visualization': 'Loading visualization',
+  'dashboard.widget.title.over_time': '{title} over time',
+  'dashboard.chart.legend.more': '+{count} more',
+  'project_dashboard.widget.pie_chart.aria_label': '{title}. {breakdown}',
+  'project_dashboard.widget.pie_chart.aria_label.segment': '{label}: {count} ({percentage}%)',
+  'project_dashboard.widget.tooltip.count': 'Count: {count}',
+  'project_dashboard.widget.tooltip.percentage': 'Percentage: {percentage}',
+  'portfolio_dashboard.widget.releasability_rating_over_time': 'Releasability rating over time',
+  'portfolio_dashboard.widget.line_chart.aria_label': 'Line chart showing {metric} over time',
+
+  // Dashboard pie/donut chart header (PieChartHeader in feature-dashboards)
+  'dashboard.pie_chart.header.title.portfolio_projects_by_quality_gate':
+    'Projects by quality gate status',
+  'dashboard.pie_chart.header.open_prefix': 'Open',
+  'dashboard.pie_chart.header.join_by': 'by',
+  'dashboard.pie_chart.header.metric.issue_count': 'Issues',
+  'dashboard.pie_chart.header.metric.hotspot_count': 'Security Hotspots',
+  'dashboard.pie_chart.header.metric.line_count': 'Lines',
+  'dashboard.pie_chart.header.metric.project_count': 'Projects',
+  'dashboard.pie_chart.header.metric.quality_gate': 'Quality gate',
+  'dashboard.pie_chart.header.slice.impact_software_qualities': 'Software Quality',
+  'dashboard.pie_chart.header.slice.impact_severities': 'Severity',
+  'dashboard.pie_chart.header.slice.clean_code_attribute_categories': 'Code Attribute',
+  'dashboard.pie_chart.header.slice.issue_statuses': 'Status',
+  'dashboard.pie_chart.header.slice.languages': 'Language',
+  'dashboard.pie_chart.header.slice.rules': 'Rule',
+  'dashboard.pie_chart.header.slice.review_priority': 'Priority',
+  'dashboard.pie_chart.header.slice.review_status': 'Review status',
+  'dashboard.pie_chart.header.slice.security_category': 'Security Category',
+  'dashboard.pie_chart.header.slice.language': 'Language',
+  'dashboard.pie_chart.header.slice.coverage': 'Coverage',
+  'dashboard.pie_chart.header.slice.duplications': 'Duplications',
+  'dashboard.pie_chart.header.slice.project_status': 'Quality gate status',
+
+  // Dashboard widget filter-line segments (shared by pie/line chart headers)
+  'dashboard.add_widget_modal.define_widget.slice_by': 'Slice by',
+  'dashboard.add_widget_modal.apply_filters_section.select.software_quality.label':
+    'Software quality',
+  'dashboard.add_widget_modal.apply_filters_section.select.status.label': 'Status',
+  'dashboard.add_widget_modal.apply_filters_section.select.severity.label': 'Severity',
 
   //------------------------------------------------------------------------------
   //
@@ -6464,6 +6517,9 @@ export const defaultMessages = {
   'metric.sqale_rating.description': 'A-to-E rating based on the technical debt ratio',
   'metric.sqale_rating.name': 'Maintainability Rating',
   'metric.sqale_rating.extra_short_name': 'Rating',
+  'metric.maintainability_rating.description': 'A-to-E rating based on the technical debt ratio',
+  'metric.maintainability_rating.name': 'Maintainability Rating',
+  'metric.maintainability_rating.extra_short_name': 'Rating',
   'metric.sqale_rating.tooltip':
     'Maintainability rating is {0} when the technical debt ratio is greater than {1}',
   'metric.sqale_rating.tooltip.A':

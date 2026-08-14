@@ -569,6 +569,18 @@ describe('redirects', () => {
     expect(await ui.portfolioText.find()).toBeInTheDocument(); // breadcrumb link text + route div
   });
 
+  it('should not redirect away from a built-in portfolio dashboard path', async () => {
+    renderComponentContainer(
+      'portfolio/dashboards/built-in/portfolio-health?id=foo',
+      '/portfolio/dashboards/built-in/portfolio-health',
+    );
+
+    // The path contains "dashboard" (as part of "dashboards"), but it's not the legacy
+    // /dashboard route, so it must not be redirected to the portfolio overview route.
+    expect(await screen.findByText('This is a test component')).toBeInTheDocument();
+    expect(ui.portfolioText.query()).not.toBeInTheDocument();
+  });
+
   it('should fix broken query parameters from GH UI', async () => {
     renderComponentContainer('?id=foo&pullRequest=4?pr=123', '/dashboard');
 

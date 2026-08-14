@@ -326,7 +326,7 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
      * Links should be fixed to not rely on this redirect, but:
      * This is a fail-safe in case there are still some faulty links remaining.
      */
-    if (pathname.includes('dashboard') && component && isPortfolioLike(component.qualifier)) {
+    if (pathname === '/dashboard' && component && isPortfolioLike(component.qualifier)) {
       router.replace(getPortfolioUrl(component.key));
     }
 
