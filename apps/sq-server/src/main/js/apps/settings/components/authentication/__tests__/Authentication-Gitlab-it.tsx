@@ -506,7 +506,7 @@ it('should change from just-in-time to Auto Provisioning if auto was set before'
   expect(await ui.editConfigButton.find()).toBeInTheDocument();
   expect(ui.jitProvisioningRadioButton.get()).toBeChecked();
 
-  user.click(ui.autoProvisioningRadioButton.get());
+  await user.click(ui.autoProvisioningRadioButton.get());
   expect(await ui.autoProvisioningRadioButton.find()).toBeEnabled();
   expect(await ui.saveProvisioning.find()).toBeEnabled();
 

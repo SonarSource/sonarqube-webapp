@@ -54,7 +54,7 @@ it('should behave correctly', async () => {
   expect(
     screen.getByRole('button', { name: 'onboarding.token.generate.long' }),
   ).toBeInTheDocument();
-  user.click(screen.getByRole('button', { name: 'onboarding.token.generate.long' }));
+  await user.click(screen.getByRole('button', { name: 'onboarding.token.generate.long' }));
 
   expect(
     await screen.findByRole('heading', {
@@ -125,7 +125,7 @@ it('should allow setting a preferred token type', async () => {
     screen.getByRole('button', { name: 'onboarding.token.generate.long' }),
   ).toBeInTheDocument();
 
-  user.click(screen.getByRole('button', { name: 'onboarding.token.generate.long' }));
+  await user.click(screen.getByRole('button', { name: 'onboarding.token.generate.long' }));
 
   const tokenNameInput = await screen.findByRole('textbox', {
     name: 'onboarding.token.name.label',
@@ -151,7 +151,7 @@ it('should fallback to project tokens if the user cannot generate global tokens'
   expect(
     screen.getByRole('button', { name: 'onboarding.token.generate.long' }),
   ).toBeInTheDocument();
-  user.click(screen.getByRole('button', { name: 'onboarding.token.generate.long' }));
+  await user.click(screen.getByRole('button', { name: 'onboarding.token.generate.long' }));
 
   expect(
     await screen.findByRole('heading', {
