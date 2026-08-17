@@ -50,8 +50,8 @@ export interface EntitlementMetering {
   /** How much you've used this period. */
   used: number;
   /** Last time usage was updated (ISO). */
-  updatedAt: string;
-  period: EntitlementPeriod;
+  updatedAt: string | null;
+  period: EntitlementPeriod | null;
 }
 
 export interface EntitlementLimit {

@@ -77,12 +77,12 @@ type ResultType<TOptions extends SuspenseQueryOptions, TError, SelectType> = TOp
   ? UseSuspenseQueryResult<SelectType, TError>
   : UseQueryResult<SelectType, TError>;
 
-type QueryOptionsType<
+export type QueryOptionsType<
   TQueryData,
   TError,
   SelectType,
   TQueryKey extends QueryKey,
-  TOptions extends SuspenseQueryOptions,
+  TOptions extends SuspenseQueryOptions = {},
 > = TOptions extends {
   isSuspense: true;
 }

@@ -46,7 +46,9 @@ describe('dashboard issue count queries', () => {
       { wrapper: getContextWrapper() },
     );
 
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
     expect(result.current.data).toBe(7);
     expect(searchIssues).toHaveBeenCalledWith(
       expect.objectContaining({ componentKeys: 'project-1', sinceLeakPeriod: true, ps: 1 }),

@@ -65,7 +65,9 @@ describe('dashboard metadata queries', () => {
       wrapper: getContextWrapper(),
     });
 
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
     expect(result.current.data).toEqual({
       [MetricKey.coverage]: { direction: 1, key: MetricKey.coverage, type: MetricType.Percent },
     });
@@ -73,7 +75,9 @@ describe('dashboard metadata queries', () => {
     const portfolioResult = renderHook(() => usePortfolioWidgetMetricMetadataQuery(), {
       wrapper: getContextWrapper(),
     });
-    await waitFor(() => expect(portfolioResult.result.current.data).toBeDefined());
+    await waitFor(() => {
+      expect(portfolioResult.result.current.data).toBeDefined();
+    });
     expect(portfolioResult.result.current.data).toEqual({
       metrics: [{ direction: '1', key: MetricKey.coverage, type: MetricType.Percent }],
     });
@@ -84,7 +88,9 @@ describe('dashboard metadata queries', () => {
       wrapper: getContextWrapper(),
     });
 
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
     expect(result.current.data).toEqual({ 'sql-injection': { title: 'SQL Injection' } });
   });
 

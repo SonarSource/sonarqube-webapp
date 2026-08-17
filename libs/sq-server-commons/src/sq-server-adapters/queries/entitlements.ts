@@ -18,23 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ComponentType, createContext, useContext } from 'react';
 import { EntitlementCheckQueryFunctionType } from '~shared/queries/entitlement-checks';
-import { ProjectBranchSelectorProps } from '~shared/types/branch-like';
+import { useAddons } from '../../context/addons/AddonsContext';
 
-export interface AddonsContextShape {
-  branches?: {
-    ProjectBranchSelector?: ComponentType<ProjectBranchSelectorProps>;
-  };
-  entitlements?: {
-    useEntitlementCheckQuery: EntitlementCheckQueryFunctionType;
-  };
-}
-
-// AddonsContext is defined specifically to make addons available in sq-server-adapters, importing
-// the addons barrel from there directly creates a circular dependency.
-export const AddonsContext = createContext<AddonsContextShape>({});
-
-export function useAddons() {
-  return useContext(AddonsContext);
-}
+export const useEntitlementCheckQuery: EntitlementCheckQueryFunctionType = (
+  { featureKey, resourceId, resourceType },
+  options = {},
+) => {
+  const { useEntitlementCheckQuery } = useAddons().entitlements ?? {};
+  if (!useEntitlementCheckQuery) {
+    throw new Error('Entitlements addon is not available');
+  }
+  return useEntitlementCheckQuery?.({ featureKey, resourceId, resourceType }, options);
+};
