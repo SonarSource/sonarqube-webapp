@@ -30,8 +30,10 @@ import { Location, Router } from '~shared/types/router';
 import { addons } from '~sq-server-addons/index';
 import { AiCodeFixTab } from '~sq-server-commons/components/rules/AiCodeFixTab';
 import IssueTabViewer from '~sq-server-commons/components/rules/IssueTabViewer';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { fillBranchLike } from '~sq-server-commons/helpers/branch-like';
 import { useRuleDetailsQuery } from '~sq-server-commons/queries/rules';
+import { Feature } from '~sq-server-commons/types/features';
 import { Component, Issue } from '~sq-server-commons/types/types';
 import SubnavigationIssuesList from '../issues-subnavigation/SubnavigationIssuesList';
 import IssueReviewHistoryAndComments from './IssueReviewHistoryAndComments';
@@ -67,6 +69,7 @@ export default function IssueDetails(props: Readonly<IssueDetailsProps>) {
   const openRuleDetails = ruleData?.rule;
 
   const intl = useIntl();
+  const { hasFeature } = useAvailableFeatures();
 
   const additionalIssueActions = useMemo(() => {
     const additionalActions = [] as Required<
@@ -165,6 +168,15 @@ export default function IssueDetails(props: Readonly<IssueDetailsProps>) {
               }
               extendedDescription={openRuleDetails.htmlNote}
               issue={openIssue}
+              navigationActions={
+                hasFeature(Feature.Architecture) &&
+                addons.architecture?.OpenIntendedArchitecture && (
+                  <addons.architecture.OpenIntendedArchitecture
+                    projectKey={openIssue.project}
+                    ruleKey={openIssue.rule}
+                  />
+                )
+              }
               onIssueChange={handleIssueChange}
               ruleDescriptionContextKey={openIssue.ruleDescriptionContextKey}
               ruleDetails={openRuleDetails}

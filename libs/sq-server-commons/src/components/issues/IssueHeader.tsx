@@ -255,11 +255,10 @@ function IssueHeader(props: Readonly<Props>) {
           />
         </>
       }
-      navigation={
-        <Layout.PageHeader.Navigation>
-          <div className="sw-mb-300">{navigation}</div>
-        </Layout.PageHeader.Navigation>
-      }
+      // `Layout.PageHeader.Navigation` is deliberately not used here: it renders a Radix nav
+      // `<ul>`, semantically wrong for the tablist we render, and shrinks its child to content
+      // width, which caused the action button to stop short of the header's right edge.
+      navigation={<div className="sw-mb-300">{navigation}</div>}
       scrollBehavior="sticky"
       title={
         <Layout.PageHeader.Title headingLevel="h3">

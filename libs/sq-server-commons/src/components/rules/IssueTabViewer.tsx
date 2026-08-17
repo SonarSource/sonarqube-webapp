@@ -49,6 +49,11 @@ interface IssueTabViewerProps extends CurrentUserContextInterface {
   extendedDescription?: string;
   issue: Issue;
   location: Location;
+  /**
+   * Rendered to the right of the tab strip, in the page header navigation row.
+   * Used by SonarQube Server to inject addon actions (e.g. "Intended architecture").
+   */
+  navigationActions?: React.ReactNode;
   onIssueChange: (issue: Issue) => void;
   ruleDescriptionContextKey?: string;
   ruleDetails: RuleDetails;
@@ -369,7 +374,7 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
   };
 
   render() {
-    const { additionalIssueActions, issue, ruleDetails } = this.props;
+    const { additionalIssueActions, issue, navigationActions, ruleDetails } = this.props;
     const { tabs, selectedTab } = this.state;
 
     if (!tabs || tabs.length === 0 || !selectedTab) {
@@ -383,13 +388,17 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
           branchLike={fillBranchLike(issue.branch, issue.pullRequest)}
           issue={issue}
           navigation={
-            /* This toggle button is used as tabs, do not replace it with Echoes ToggleButtonGroup */
-            <ToggleButton
-              onChange={this.handleSelectTabs}
-              options={tabs}
-              role="tablist"
-              value={selectedTab.key}
-            />
+            // No bottom margin here: IssueHeader already wraps `navigation` in `sw-mb-300`.
+            <div className="sw-flex sw-justify-between sw-items-center">
+              {/* This toggle button is used as tabs, do not replace it with Echoes ToggleButtonGroup */}
+              <ToggleButton
+                onChange={this.handleSelectTabs}
+                options={tabs}
+                role="tablist"
+                value={selectedTab.key}
+              />
+              {navigationActions}
+            </div>
           }
           onIssueChange={this.props.onIssueChange}
           ruleDetails={ruleDetails}
