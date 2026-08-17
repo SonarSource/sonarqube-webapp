@@ -689,7 +689,7 @@ export const defaultMessages = {
   'layout.settings.APP': 'Application settings',
   'layout.settings.VW': 'Portfolio settings',
   'layout.settings.SVW': 'Portfolio settings',
-  'layout.security_reports': 'Security reports',
+  'layout.security_reports': 'Compliance reports',
 
   // Quality Gate History
   'layout.quality_gate_history': 'Quality gate history',
@@ -10298,6 +10298,39 @@ export const defaultMessages = {
   'securityreport.stig': 'STIG',
   'securityreport.casa': 'CASA',
   'securityreport.cra': 'EU CRA',
+  'compliancereport.navigation.filter.title': 'Browse by standard type',
+  'compliancereport.navigation.filter.all': 'All standards',
+  'compliancereport.navigation.filter.security': 'Security-focused',
+  'compliancereport.navigation.filter.regulatory': 'Regulatory',
+  'compliancereport.navigation.filter.accessibility': 'Accessibility',
+  'compliancereport.navigation.filter.select_from': 'Select from:',
+  'compliancereport.overview.title': 'Compliance reports',
+  'compliancereport.misra': 'MISRA',
+  'compliancereport.misra.description':
+    'Identify and address issues based on <link>MISRA</link> guidelines. The report results are generated based on relevant active MISRA rules for this project.',
+  'compliancereport.misra.banner.title': 'MISRA analysis is not available for this project',
+  'compliancereport.misra.no_active_rules.admin.description':
+    'To generate a MISRA report, select a Sonar MISRA quality profile or a custom C/C++ quality profile with MISRA rules activated. Then re-run analysis. Learn more about <link>MISRA rules and quality profiles.</link>',
+  'compliancereport.misra.no_active_rules.admin.label': 'Go to quality profiles',
+  'compliancereport.misra.no_active_rules.member.description':
+    "Ask your project administrator to select a Sonar MISRA quality profile or activate MISRA rules for this project's C/C++ quality profile. Then re-run analysis. You can view this project's quality profiles in the Project Information page. Learn more about <link>MISRA rules and quality profiles.</link>",
+  'compliancereport.misra.no_active_rules.member.label': 'View quality profiles',
+  'compliancereport.misra.no_c_family_code.description':
+    'For MISRA results to appear, your project must include C/C++ code and use a C/C++ quality profile with MISRA rules activated.',
+  'compliancereport.misra.no_c_family_code.label':
+    'Learn more about MISRA rules and quality profiles',
+  'compliancereport.wcag': 'WCAG',
+  'compliancereport.wcag.description':
+    'Identify and address accessibility issues based on the <link>Web Content Accessibility Guidelines</link> (WCAG). The report results are generated based on relevant active accessibility rules for this project.',
+  'compliancereport.wcag.issue_count_label': 'accessibility',
+  'compliancereport.category.classification': 'Classification',
+  'compliancereport.category.classification.help':
+    'Issues may belong to multiple classifications. This means that the total number of issues in this report might be greater than the total number of issues in the project itself.',
+  'compliancereport.category.categories': 'Categories',
+  'compliancereport.category.categories.help':
+    'Issues may appear in multiple categories. This means that the sum of issues in this section might be greater than the total number of issues in the project itself.',
+  'compliancereport.category.issues': 'Issues',
+  'compliancereport.total_issues': '{Category} issues to address',
   'securityreport.overall.vulnerabilities': 'Overall Security',
   'securityreport.overall.review_rating': 'Overall Security Review',
   'securityreport.review_rating': 'Security Review',

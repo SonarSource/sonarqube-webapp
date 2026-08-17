@@ -162,6 +162,13 @@ export function getProjectQualityProfileSettingsUrl(project: string): To {
   };
 }
 
+export function getProjectInformationUrl(project: string): To {
+  return {
+    pathname: '/project/information',
+    search: queryToSearchString({ id: project }),
+  };
+}
+
 export function getComponentBackgroundTaskUrl(
   componentKey: string,
   status?: string,

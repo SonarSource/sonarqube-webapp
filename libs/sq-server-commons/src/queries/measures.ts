@@ -35,7 +35,7 @@ import {
   getPreviousPageParam,
   StaleTime,
 } from '~shared/queries/common';
-import { BranchParameters } from '~shared/types/branch-like';
+import { BranchLikeBase, BranchParameters } from '~shared/types/branch-like';
 import { Measure } from '~shared/types/measures';
 import { getComponentTree } from '../api/components';
 import {
@@ -44,7 +44,6 @@ import {
   getMeasuresWithPeriodAndMetrics,
 } from '../api/measures';
 import { getAllTimeMachineData } from '../api/time-machine';
-import { BranchLike } from '../types/branch-like';
 import { PROJECTS_PAGE_SIZE } from './projects';
 
 const measureQueryKeys = {
@@ -254,7 +253,7 @@ export const useMeasuresAndLeakQuery = createQueryHook(
     metricKeys,
     branchLike,
   }: {
-    branchLike?: BranchLike;
+    branchLike?: BranchLikeBase;
     componentKey: string;
     metricKeys: string[];
   }) => {
@@ -295,7 +294,7 @@ export const useMeasureQuery = createQueryHook(
     metricKey,
     branchLike,
   }: {
-    branchLike?: BranchLike;
+    branchLike?: BranchLikeBase;
     componentKey: string;
     metricKey: string;
   }) => {
@@ -311,7 +310,7 @@ export const useMeasureQuery = createQueryHook(
         metricKey,
       ],
       queryFn: () =>
-        getMeasures({ component: componentKey, metricKeys: metricKey }).then(
+        getMeasures({ component: componentKey, metricKeys: metricKey, ...branchLikeQuery }).then(
           (measures) => measures[0] ?? null,
         ),
       staleTime: Infinity,
@@ -325,7 +324,7 @@ export const useMeasuresQuery = createQueryHook(
     metricKeys,
     branchLike,
   }: {
-    branchLike?: BranchLike;
+    branchLike?: BranchLikeBase;
     componentKey: string;
     metricKeys: string;
   }) => {
@@ -345,6 +344,7 @@ export const useMeasuresQuery = createQueryHook(
         const measures = await getMeasures({
           component: componentKey,
           metricKeys,
+          ...branchLikeQuery,
         });
 
         const measuresMapByMetricKey = groupBy(measures, 'metric');

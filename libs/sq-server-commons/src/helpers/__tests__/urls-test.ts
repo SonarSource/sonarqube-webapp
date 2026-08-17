@@ -36,6 +36,7 @@ import {
   getCreateProjectModeLocation,
   getGlobalSettingsUrl,
   getIssuesUrl,
+  getProjectInformationUrl,
   getProjectSettingsUrl,
   getQualityGateUrl,
   getQualityGatesUrl,
@@ -85,6 +86,15 @@ describe('getComponentAdminUrl', () => {
     ['Project', ComponentQualifier.Project, { pathname: '/dashboard', search: '?id=key' }],
   ])('should work for %s', (_qualifierName, qualifier, result) => {
     expect(getComponentAdminUrl('key', qualifier)).toEqual(result);
+  });
+});
+
+describe('getProjectInformationUrl', () => {
+  it('should return the project information URL', () => {
+    expect(getProjectInformationUrl('key')).toEqual({
+      pathname: '/project/information',
+      search: queryToSearchString({ id: 'key' }),
+    });
   });
 });
 
