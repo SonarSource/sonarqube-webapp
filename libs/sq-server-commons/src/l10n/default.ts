@@ -2890,6 +2890,7 @@ export const defaultMessages = {
   'architecture.sdks.list.error': "Sorry, we couldn't load the SDKs. Please try again later.",
   'architecture.sdks.create': 'Create SDK',
   'architecture.sdks.list.column.name': 'Name',
+  'architecture.sdks.list.column.key': 'Key',
   'architecture.sdks.list.column.target': 'Target',
   'architecture.sdks.list.column.language': 'Language',
   'architecture.sdks.list.column.signature': 'Code signature',
@@ -2902,14 +2903,13 @@ export const defaultMessages = {
   'architecture.sdks.form.edit_title': 'Edit SDK',
   'architecture.sdks.form.name': 'Name',
   'architecture.sdks.form.target_component': 'Target component',
-  'architecture.entry_points.form.target_entry_point': 'Target entry point',
-  'architecture.entry_points.form.target_entry_point.placeholder': 'Select an entry point',
   'architecture.entry_points.form.target_entry_point.empty':
     'No entry points found for this component. Define them under Architecture > SDKs, then reanalyze.',
   'architecture.entry_points.form.target_entry_point.load_error':
     "Sorry, we couldn't load entry points for this component. Please try again later.",
   'architecture.sdks.form.signatures': 'Detection signature',
   'architecture.sdks.form.signature.language': 'Language',
+  'architecture.sdks.form.signature.language.configured': 'Signature configured',
   'architecture.sdks.form.signature.query': 'Code signature',
   'architecture.sdks.form.save_error': "Sorry, we couldn't save the SDK. Please try again later.",
   'architecture.relationships.validate.breadcrumb': 'Exit points',
