@@ -63,6 +63,7 @@ it('should be able to create application when user is logged in and has permissi
     configuration: { showSettings: true },
     name: 'name',
     breadcrumbs: [{ key: 'b-key', qualifier: ComponentQualifier.Project, name: 'b-name' }],
+    id: 'component-id',
     key: 'key',
   });
 

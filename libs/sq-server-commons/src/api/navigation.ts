@@ -25,10 +25,18 @@ import { Extension } from '~shared/types/common';
 import { AppState } from '../types/appstate';
 import { NavigationComponent } from '../types/types';
 
+export type NavigationComponentResponse = NavigationComponent & { id: string };
+
 export function getComponentNavigation(
   data: { component: string } & BranchParameters,
-): Promise<NavigationComponent> {
+): Promise<NavigationComponentResponse> {
   return getJSON('/api/navigation/component', data);
+}
+
+export function getComponentNavigationId(
+  data: { component: string } & BranchParameters,
+): Promise<string> {
+  return getComponentNavigation(data).then(({ id }) => id);
 }
 
 export function getMarketplaceNavigation(): Promise<{

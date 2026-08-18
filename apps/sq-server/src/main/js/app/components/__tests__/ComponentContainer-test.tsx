@@ -72,6 +72,7 @@ jest.mock('~sq-server-commons/queries/mode', () => ({
 jest.mock('~sq-server-commons/api/navigation', () => ({
   getComponentNavigation: jest.fn().mockResolvedValue({
     breadcrumbs: [{ key: 'portfolioKey', name: 'portfolio', qualifier: 'VW' }],
+    id: 'portfolio-id',
     key: 'portfolioKey',
   }),
 }));
@@ -577,8 +578,13 @@ describe('redirects', () => {
 
     // The path contains "dashboard" (as part of "dashboards"), but it's not the legacy
     // /dashboard route, so it must not be redirected to the portfolio overview route.
-    expect(await screen.findByText('This is a test component')).toBeInTheDocument();
-    expect(ui.portfolioText.query()).not.toBeInTheDocument();
+    expect(await screen.findByText('built-in portfolio dashboard')).toBeInTheDocument();
+  });
+
+  it('should not redirect from the portfolio dashboards path', async () => {
+    renderComponentContainer('portfolio/dashboards?id=foo', '/portfolio/dashboards');
+
+    expect(await screen.findByText('portfolio dashboards')).toBeInTheDocument();
   });
 
   it('should fix broken query parameters from GH UI', async () => {
@@ -824,6 +830,11 @@ function renderComponentContainer(
       <Route element={<ComponentContainer />}>
         <Route element={<TestComponent />} path="*" />
         <Route element={<div>portfolio</div>} path="portfolio" />
+        <Route element={<div>portfolio dashboards</div>} path="portfolio/dashboards" />
+        <Route
+          element={<div>built-in portfolio dashboard</div>}
+          path="portfolio/dashboards/built-in/portfolio-health"
+        />
         <Route element={<div>project</div>} path="dashboard" />
       </Route>
     ),

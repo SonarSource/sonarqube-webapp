@@ -22,6 +22,7 @@ import { renderHook } from '@testing-library/react';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { useComponent } from '../../../context/componentContext/withComponentContext';
 import { mockComponent } from '../../../helpers/mocks/component';
+import { useComponentNavigationIdQuery } from '../../../queries/navigation';
 import { useCurrentBranchQuery } from '../../queries/branch';
 import { useWidgetMetricMetadataQuery } from '../../queries/widget-metric-metadata';
 import { useDashboardPortfolioContext, useDashboardProjectContext } from '../dashboardContext';
@@ -34,6 +35,10 @@ jest.mock('../../queries/branch', () => ({
   useCurrentBranchQuery: jest.fn(),
 }));
 
+jest.mock('../../../queries/navigation', () => ({
+  useComponentNavigationIdQuery: jest.fn(),
+}));
+
 jest.mock('../../queries/widget-metric-metadata', () => ({
   useWidgetMetricMetadataQuery: jest.fn(),
 }));
@@ -44,6 +49,9 @@ describe('dashboard context adapter', () => {
       component: mockComponent({ key: 'component-key' }),
       isPending: false,
     } as ReturnType<typeof useComponent>);
+    jest.mocked(useComponentNavigationIdQuery).mockReturnValue({
+      data: 'component-id',
+    } as ReturnType<typeof useComponentNavigationIdQuery>);
     jest.mocked(useCurrentBranchQuery).mockReturnValue({
       data: { branchId: 'branch-id', isMain: true, name: 'main' },
       isPending: false,
@@ -91,7 +99,11 @@ describe('dashboard context adapter', () => {
   it('uses the active component and metric metadata for portfolio widgets', () => {
     const { result } = renderHook(() => useDashboardPortfolioContext());
 
-    expect(result.current.portfolioId).toBe('component-key');
+    expect(useComponentNavigationIdQuery).toHaveBeenCalledWith(
+      { component: 'component-key' },
+      expect.objectContaining({ enabled: true }),
+    );
+    expect(result.current.portfolioId).toBe('component-id');
     expect(result.current.getPortfolioMetric(MetricKey.coverage)).toEqual({
       direction: -1,
       key: MetricKey.coverage,

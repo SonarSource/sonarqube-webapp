@@ -59,7 +59,8 @@ import type {
 } from './dashboard-widget-adapter-types';
 import { usePortfolioRulesMetadataOrganization } from './portfolio-widget-organization-data';
 import { useSonarSourceSecurityCategoriesQuery } from './security-standards';
-import { useDashboardRuleLabels } from './widget-rule-metadata';
+import { useWidgetMetricMetadataQuery } from './widget-metric-metadata';
+import { useDashboardRuleLabels, type DashboardRuleLabelsEntity } from './widget-rule-metadata';
 
 const MIN_SEGMENT_PERCENT = 1;
 const EMPTY_COUNTS: Record<string, number> = {};
@@ -209,6 +210,21 @@ function shouldFailPieChartAdapter(widget: PieChartWidget): boolean {
   );
 }
 
+function getDashboardRuleLabelsEntity(
+  entityType: DashboardEntityType,
+  isResolvingOrganization: boolean,
+  organization: string | undefined,
+  portfolioOrganization: string | undefined,
+): DashboardRuleLabelsEntity {
+  return entityType === 'PORTFOLIO'
+    ? {
+        isResolvingOrganization,
+        organization: portfolioOrganization,
+        type: 'PORTFOLIO',
+      }
+    : { organization: organization ?? '', type: 'PROJECT' };
+}
+
 export function useOrganizationPieChartData(
   args: Readonly<{
     enabled?: boolean;
@@ -273,6 +289,11 @@ export function useOrganizationPieChartData(
     entityType === 'PORTFOLIO'
       ? organizationsHistoryStartDateWithRetentionBuffer()
       : lineChartSinceDate(HistoryRange.LastMonth);
+  const metricMetadataQuery = useWidgetMetricMetadataQuery({
+    enabled: enabled && isQualityGateStatusChart && !isUnsupported,
+  });
+  const hasQualityGateDistributionMetric =
+    metricMetadataQuery.data?.[MetricKey.releasability_status_distribution] !== undefined;
   const lineCountQuery = useDashboardMeasuresHistoryQuery(
     {
       entityId,
@@ -294,7 +315,12 @@ export function useOrganizationPieChartData(
       startDate: measuresHistoryStartDate,
     },
     {
-      enabled: enabled && isQualityGateStatusChart && Boolean(entityId) && !isUnsupported,
+      enabled:
+        enabled &&
+        isQualityGateStatusChart &&
+        Boolean(entityId) &&
+        !isUnsupported &&
+        hasQualityGateDistributionMetric,
       refetchOnWindowFocus: false,
       select: (response) => ({
         counts: qualityGateCounts(
@@ -323,14 +349,12 @@ export function useOrganizationPieChartData(
   );
   const rulesQuery = useDashboardRuleLabels({
     enabled: enabled && needsRulesMetadata && !isUnsupported,
-    entity:
-      entityType === 'PORTFOLIO'
-        ? {
-            isResolvingOrganization,
-            organization: portfolioOrganization,
-            type: 'PORTFOLIO',
-          }
-        : { organization: organization ?? '', type: 'PROJECT' },
+    entity: getDashboardRuleLabelsEntity(
+      entityType,
+      isResolvingOrganization,
+      organization,
+      portfolioOrganization,
+    ),
     ruleKeys,
   });
 
@@ -349,7 +373,9 @@ export function useOrganizationPieChartData(
   } = resolveOrganizationPieChartQueryState({
     isIssuePiePending: issueQuery.isPending,
     isLineCountChart,
-    isQualityGatePending: qualityGateQuery.isPending,
+    isQualityGatePending:
+      metricMetadataQuery.isPending ||
+      (hasQualityGateDistributionMetric && qualityGateQuery.isPending),
     isQualityGateStatusChart,
     isRulesMetadataPending: needsRulesMetadata && rulesQuery.isPending,
     issueCounts,
@@ -360,7 +386,7 @@ export function useOrganizationPieChartData(
     lineCountPending: lineCountQuery.isPending,
     lineCountError: lineCountQuery.error,
     qualityGateCounts: qualityGateQuery.data?.counts,
-    qualityGateError: qualityGateQuery.error,
+    qualityGateError: metricMetadataQuery.error ?? qualityGateQuery.error,
     securityCategoryMetadataPending:
       needsSecurityCategoryMetadata && securityCategoriesQuery.isPending,
   });

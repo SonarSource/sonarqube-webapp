@@ -22,40 +22,47 @@ import { cloneDeep } from 'lodash';
 import { Extension } from '~shared/types/common';
 import { mockAppState } from '../../helpers/testMocks';
 import { AppState } from '../../types/appstate';
-import { NavigationComponent } from '../../types/types';
 import {
   getComponentNavigation,
+  getComponentNavigationId,
   getGlobalNavigation,
   getMarketplaceNavigation,
   getSettingsNavigation,
+  type NavigationComponentResponse,
 } from '../navigation';
 
 jest.mock('../navigation');
 
-const defaultComponentNavigation: NavigationComponent = {
-  name: 'foo',
+const defaultComponentNavigation: NavigationComponentResponse = {
+  id: 'foo-id',
   key: 'foo',
+  name: 'foo',
   breadcrumbs: [],
 };
 
 export class NavigationServiceMock {
-  componentNavigation: NavigationComponent;
+  componentNavigation: NavigationComponentResponse;
 
   constructor() {
     this.componentNavigation = cloneDeep(defaultComponentNavigation);
 
     jest.mocked(getComponentNavigation).mockImplementation(this.handleGetComponentNavigation);
+    jest.mocked(getComponentNavigationId).mockImplementation(this.handleGetComponentNavigationId);
     jest.mocked(getMarketplaceNavigation).mockImplementation(this.handleGetMarketplaceNavigation);
     jest.mocked(getSettingsNavigation).mockImplementation(this.handleGetSettingsNavigation);
     jest.mocked(getGlobalNavigation).mockImplementation(this.handleGetGlobalNavigation);
   }
 
-  setComponentNavigation = (componentNavigation: NavigationComponent) => {
+  setComponentNavigation = (componentNavigation: NavigationComponentResponse) => {
     this.componentNavigation = cloneDeep(componentNavigation);
   };
 
-  handleGetComponentNavigation = (): Promise<NavigationComponent> => {
+  handleGetComponentNavigation = (): Promise<NavigationComponentResponse> => {
     return Promise.resolve(this.componentNavigation);
+  };
+
+  handleGetComponentNavigationId = (): Promise<string> => {
+    return Promise.resolve(this.componentNavigation.id);
   };
 
   handleGetMarketplaceNavigation(): Promise<{

@@ -21,12 +21,12 @@
 import { http } from 'msw';
 import { AbstractServiceMock } from '~shared/api/mocks/AbstractServiceMock';
 import { ComponentQualifier } from '~shared/types/component';
+import type { NavigationComponentResponse } from '../../../api/navigation';
 import { EditionKey } from '../../../types/editions';
-import { NavigationComponent } from '../../../types/types';
 import { PROJECT_KEY, PROJECT_NAME } from './devMockConstants';
 
 interface NavigationServiceData {
-  componentNavigation: NavigationComponent;
+  componentNavigation: NavigationComponentResponse;
 }
 
 export class NavigationServiceMock extends AbstractServiceMock<NavigationServiceData> {
@@ -49,6 +49,7 @@ export class NavigationServiceMock extends AbstractServiceMock<NavigationService
 
     http.get('/api/navigation/component', () =>
       this.ok({
+        id: this.data.componentNavigation.id,
         key: this.data.componentNavigation.key,
         name: this.data.componentNavigation.name,
         breadcrumbs: [
@@ -65,5 +66,10 @@ export class NavigationServiceMock extends AbstractServiceMock<NavigationService
 }
 
 export const NavigationServiceDefaultDataset: NavigationServiceData = {
-  componentNavigation: { key: PROJECT_KEY, name: PROJECT_NAME, breadcrumbs: [] },
+  componentNavigation: {
+    breadcrumbs: [],
+    id: 'project-id',
+    key: PROJECT_KEY,
+    name: PROJECT_NAME,
+  },
 };

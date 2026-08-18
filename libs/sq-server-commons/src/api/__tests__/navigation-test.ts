@@ -18,22 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { queryOptions } from '@tanstack/react-query';
-import { createQueryHook, StaleTime } from '~shared/queries/common';
-import { getComponentNavigationId, getMarketplaceNavigation } from '../api/navigation';
+import { getJSON } from '~adapters/helpers/request';
+import { getComponentNavigationId } from '../navigation';
 
-export const useComponentNavigationIdQuery = createQueryHook(
-  (data: Parameters<typeof getComponentNavigationId>[0]) =>
-    queryOptions({
-      queryKey: ['navigation', 'component-id', data] as const,
-      queryFn: () => getComponentNavigationId(data),
-      staleTime: StaleTime.LONG,
-    }),
-);
+jest.mock('~adapters/helpers/request', () => ({
+  getJSON: jest.fn(),
+}));
 
-export const useMarketplaceNavigationQuery = createQueryHook(() =>
-  queryOptions({
-    queryKey: ['navigation', 'marketplace'] as const,
-    queryFn: getMarketplaceNavigation,
-  }),
-);
+describe('navigation API', () => {
+  it('reads the component ID from the navigation response', async () => {
+    jest.mocked(getJSON).mockResolvedValue({ id: 'portfolio-id' });
+
+    await expect(getComponentNavigationId({ component: 'portfolio-key' })).resolves.toBe(
+      'portfolio-id',
+    );
+    expect(getJSON).toHaveBeenCalledWith('/api/navigation/component', {
+      component: 'portfolio-key',
+    });
+  });
+});

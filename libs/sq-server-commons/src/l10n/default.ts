@@ -1362,12 +1362,15 @@ export const defaultMessages = {
   'hotspot.filters.clear': 'Clear filters',
   'hotspot.filters.status': 'Status filter',
   'hotspot.filters.status.to_review': 'To review',
+  'hotspot.filters.status.TO_REVIEW': 'To review',
   'hotspot.filters.status.acknowledged': 'Acknowledged',
   'hotspot.filters.status.fixed': 'Fixed',
+  'hotspot.filters.status.FIXED': 'Fixed',
   'hotspot.filters.period': 'Period filter',
   'hotspot.filters.period.since_leak_period': 'New Code',
   'hotspot.filters.period.overall': 'Overall code',
   'hotspot.filters.status.safe': 'Safe',
+  'hotspot.filters.status.SAFE': 'Safe',
   'hotspot.filters.by_file_or_list_x': 'Your hotspots are currently filtered, {show_all_link}',
   'hotspot.filters.show_all': 'show all hotspots',
   'hotspot.section.activity': 'Activity',
@@ -1659,6 +1662,7 @@ export const defaultMessages = {
   'issue.status.RESOLVED': 'Resolved',
   'issue.status.OPEN': 'Open',
   'issue.status.CONFIRMED': 'Confirmed',
+  'issue.status.FALSE_POSITIVE': 'False Positive',
   'issue.status.CLOSED': 'Closed',
   'issue.status.TO_REVIEW': 'To Review',
   'issue.status.IN_REVIEW': 'In Review',
@@ -3236,51 +3240,133 @@ export const defaultMessages = {
   'dashboard.list.actions.duplicate': 'Duplicate',
   'dashboard.list.actions.delete': 'Delete dashboard',
   'dashboard.edit_dashboard': 'Edit dashboard',
-  'dashboard.modal.delete_dashboard.title': 'Delete dashboard',
-  'dashboard.modal.delete_dashboard.description':
-    'Are you sure you want to delete the dashboard, "{dashboardName}"? This action is irreversible.',
-  'dashboard.create_custom_dashboard': 'Create custom dashboard',
-  'dashboard.edit_dashboard_title': 'Edit name and description',
-  'dashboard.view_all_dashboards': 'View all dashboards',
-  'dashboard.type.built_in': 'Built-in',
-  'dashboard.type.custom': 'Custom',
-  'project_dashboard.dashboard_name': 'Name',
-  'project_dashboard.last_edited_by': 'Last edited <b>{lastUpdatedAt}</b> by <b>{user}</b>',
-  'project_dashboard.modal.dashboard_name_placeholder': 'Dashboard name',
-  'project_dashboard.dashboard_description': 'Description',
-  'project_dashboard.modal.dashboard_description_placeholder': 'Dashboard description',
-  'project_dashboard.duplicate_dashboard_title': 'Duplicate dashboard',
-  'project_dashboard.duplicate_dashboard_description':
-    'Duplicating a dashboard creates a copy with all the same widgets.',
-  'project_dashboard.modal.duplicate_dashboard_button': 'Duplicate',
-
-  // Portfolio dashboard list toasts
-  'portfolio_dashboard.list.toast.create_success': 'Dashboard "{dashboardName}" has been created.',
-  'portfolio_dashboard.list.toast.edit_success': 'Dashboard "{dashboardName}" has been updated.',
-  'portfolio_dashboard.list.toast.delete_success': 'Dashboard "{dashboardName}" has been deleted.',
-  'portfolio_dashboard.list.toast.duplicate_success':
-    'Dashboard "{dashboardName}" has been duplicated.',
-
-  // Dashboard widgets (shared widget header/body components in feature-dashboards)
   'dashboard.about_this_dashboard': 'About this dashboard',
-  'dashboard_widget.codescope.overall': 'Overall code',
-  'dashboard_widget.codescope.new': 'New code',
-  'dashboard_widget.time_range.last_30_days': 'Last 30 days',
-  'dashboard_widget.time_range.rolling_30_day_average': 'Rolling 30-day average',
-  'dashboard.widget.no_data': 'No data available to display',
-  'dashboard.widget.error': "We couldn't load this data",
-  'dashboard.widget.error.description': 'Something went wrong while fetching results',
-  'dashboard.widget.loading_visualization': 'Loading visualization',
-  'dashboard.widget.title.over_time': '{title} over time',
-  'dashboard.chart.legend.more': '+{count} more',
-  'project_dashboard.widget.pie_chart.aria_label': '{title}. {breakdown}',
-  'project_dashboard.widget.pie_chart.aria_label.segment': '{label}: {count} ({percentage}%)',
-  'project_dashboard.widget.tooltip.count': 'Count: {count}',
-  'project_dashboard.widget.tooltip.percentage': 'Percentage: {percentage}',
+  'dashboard.add_widget': 'Add widget',
+  'dashboard.add_widget_modal.title': 'Add new widget',
+  'dashboard.add_widget_modal.add_to_dashboard': 'Add to dashboard',
+  'dashboard.edit_widget_modal.title': 'Edit widget',
+  'dashboard.edit_widget_modal.save': 'Save changes',
+  'dashboard.add_widget_modal.apply_filters': '2. Apply filters',
+  'dashboard.add_widget_modal.apply_filters.warning':
+    'Select a visualization and metric first to filter your data',
+  'dashboard.add_widget_modal.apply_filters_section.select.scope.help_text.metric_overall_code_only':
+    "''{metric}'' metric is only available for the overall code scope.",
+  'dashboard.add_widget_modal.customize_visualization': '3. Customize visualization',
+  'dashboard.add_widget_modal.customize_visualization.checkbox.show_breakdown.description':
+    'Only appears if the quality gate fails. Displays the number of failed conditions in new and overall code separately.',
+  'dashboard.add_widget_modal.customize_visualization.checkbox.show_breakdown.header':
+    'Show failed conditions breakdown',
+  'dashboard.add_widget_modal.customize_visualization.checkbox.show_legend': 'Show legend',
+  'dashboard.add_widget_modal.customize_visualization.checkbox.show_trend_indicator':
+    'Show trend indicator and sparkline',
+  'dashboard.add_widget_modal.customize_visualization.checkbox.show_trend_indicator.help_text':
+    'Displays change over the last 30 days.',
+  'dashboard.add_widget_modal.customize_visualization.checkbox.show_trend_indicator.issue_count_unavailable':
+    'Not available for issue count metrics on new code.',
+  'dashboard.add_widget_modal.customize_visualization.rating_badge_info':
+    'The badge automatically displays based on your metric. No further customization is needed.',
+  'dashboard.add_widget_modal.customize_visualization.top_list_info':
+    'No customization options are available for the top list visualization.',
+  'dashboard.add_widget_modal.customize_visualization.warning':
+    'Select a visualization and metric first to enable customization options.',
   'portfolio_dashboard.widget.releasability_rating_over_time': 'Releasability rating over time',
   'portfolio_dashboard.widget.line_chart.aria_label': 'Line chart showing {metric} over time',
-
-  // Dashboard pie/donut chart header (PieChartHeader in feature-dashboards)
+  'dashboard.add_widget_modal.define_widget.metric.issue_count': 'Issue count',
+  'dashboard.widget.count.issue_density.unit': 'issues / 1K LOC',
+  'dashboard.add_widget_modal.define_widget.metric.line_count': 'Line count',
+  'dashboard.add_widget_modal.define_widget.metric.project_count': 'Project count',
+  'dashboard.add_widget_modal.define_widget.metric.security_hotspot_count':
+    'Security hotspot count',
+  'dashboard.widget.header.title.issues_closed_tooltip':
+    'Total issues closed in the last 30 days.<br></br><br></br>Issues are considered closed when they no longer appear in subsequent analysis. <br></br><br></br>This metric <b>excludes</b> open, accepted, and false positive issues.<br></br><br></br><link>Learn more about metrics</link>',
+  'dashboard.widget.header.tooltip.mttr.title': 'Mean time to resolve (MTTR) issues',
+  'dashboard.widget.header.tooltip.recent_mttr.title':
+    'Mean time to resolve (MTTR) newly introduced issues',
+  'dashboard.widget.header.tooltip.sca_mttr.title': 'Mean time to resolve (MTTR) dependency risks',
+  'mttr.x_minutes': '{value} min',
+  'quality_gate.breakdown.distribution_title': 'Failed conditions distribution',
+  'quality_gate.breakdown.new_code': 'New code: {count}',
+  'quality_gate.breakdown.overall_code': 'Overall code: {count}',
+  'dashboard.widget.header.title.mttr_tooltip':
+    'Average time to resolve issues in the last 30 days.<br></br><br></br>Includes issues that are closed (no longer appear in a subsequent analysis) in the last 30 days.<br></br><br></br>This metric <b>excludes</b> open, accepted, and false positive issues.<br></br><br></br><link>Learn more about metrics</link>',
+  'dashboard.widget.header.title.recent_mttr_tooltip':
+    'Average time to resolve issues that were introduced and detected in the last 30 days, and closed during that same period.<br></br><br></br>An issue is considered closed when it no longer appears in subsequent analysis.<br></br><br></br>This metric <b>excludes</b> open, accepted, and false positive issues.<br></br><br></br><link>Learn more about metrics</link>',
+  'dashboard.widget.header.title.sca_mttr_tooltip':
+    'Average time to resolve dependency risks in the last 30 days.<br></br><br></br>Includes dependency risks that are closed (no longer appear in a subsequent analysis) and those that are marked safe within the last 30 days.<br></br><br></br>This metric <b>excludes</b> confirmed and false positive dependency risks.<br></br><br></br><link>Learn more about metrics</link>',
+  'dashboard.widget.header.title.issue_density_tooltip':
+    'The number of issues relative to lines of code, normalized as issues per 1K LOC.<br></br><br></br>Issue density helps you compare projects more fairly, regardless of size.<br></br><br></br><link>Learn more about metrics</link>',
+  'dashboard.add_widgets': 'Add widgets',
+  'dashboard.add_widget_modal.define_widget.visualization': 'Visualization',
+  'dashboard.add_widget_modal.define_widget.visualization.select': 'Select visualization',
+  'dashboard.add_widget_modal.define_widget.visualization.group.single_value': 'Single value',
+  'dashboard.add_widget_modal.define_widget.visualization.group.charts': 'Charts',
+  'dashboard.add_widget_modal.define_widget.visualization.donut_chart': 'Donut chart',
+  'dashboard.add_widget_modal.define_widget.visualization.line_chart': 'Line chart',
+  'dashboard.add_widget_modal.define_widget.visualization.pie_chart': 'Pie chart',
+  'dashboard.add_widget_modal.define_widget.visualization.top_list': 'Top list',
+  'dashboard.add_widget_modal.define_widget.top_list.limit': 'Number of rows',
+  'dashboard.add_widget_modal.define_widget.top_list.limit.five': 'Top 5',
+  'dashboard.add_widget_modal.define_widget.top_list.limit.ten': 'Top 10',
+  'dashboard.add_widget_modal.define_widget.top_list.limit.fifteen': 'Top 15',
+  'dashboard.add_widget_modal.define_widget.top_list.rank_by': 'Rank by',
+  'dashboard.top_list.aria_label': 'Top {limit} ranked list',
+  'dashboard.top_list.count_link.aria_label': '{label}: {count}',
+  'dashboard.top_list.column.rank_by.rule': 'Rule',
+  'dashboard.top_list.column.metric.issue_count': 'Issues',
+  'dashboard.top_list.column.trend': 'Trend',
+  'dashboard.top_list.title.rank_by.rule': 'rules',
+  'dashboard.top_list.title.metric.issue_count': 'issues',
+  'dashboard.top_list.widget_title': 'Top {limit} {rankBy} by {metric}',
+  'dashboard.widget.title.over_time': '{title} over time',
+  'dashboard.add_widget_modal.define_widget.visualization.count': 'Count',
+  'dashboard.add_widget_modal.define_widget.visualization.rating_badge': 'Badge',
+  'dashboard.add_widget_modal.define_widget.metric': 'Metric',
+  'dashboard.add_widget_modal.define_widget.metric.select': 'Select metric',
+  'dashboard.add_widget_modal.define_widget.slice_by': 'Slice by',
+  'dashboard.add_widget_modal.define_widget.slice_by.select': 'Select a slice',
+  'dashboard.add_widget_modal.define_widget.group_by': 'Group by',
+  'dashboard.line_chart.group_by.label': 'Group by',
+  'dashboard.line_chart.group_by.none': 'None',
+  'dashboard.line_chart.group_by.severity': 'Severity',
+  'dashboard.line_chart.group_by.software_quality': 'Software Quality',
+  'dashboard.line_chart.group_by.status': 'Status',
+  'dashboard.line_chart.group_by.rule': 'Rule',
+  'dashboard.add_widget_modal.define_widget.slice.by_software_quality': 'By Software Quality',
+  'dashboard.add_widget_modal.define_widget.slice.by_severity': 'By Severity',
+  'dashboard.add_widget_modal.define_widget.slice.by_code_attribute': 'By Code Attribute',
+  'dashboard.add_widget_modal.define_widget.slice.by_status': 'By Status',
+  'dashboard.add_widget_modal.define_widget.slice.by_quality_gate_status': 'By quality gate status',
+  'dashboard.add_widget_modal.define_widget.slice_by.pie_requires_category':
+    'Pie charts require a category to divide data into slices.',
+  'dashboard.add_widget_modal.define_widget.slice.by_language': 'By Language',
+  'dashboard.add_widget_modal.define_widget.slice.by_rule': 'By Rule',
+  'dashboard.add_widget_modal.define_widget.slice.by_review_priority': 'By Review Priority',
+  'dashboard.add_widget_modal.define_widget.slice.by_review_status': 'By Review Status',
+  'dashboard.add_widget_modal.define_widget.slice.by_security_category': 'By Security Category',
+  'dashboard.add_widget_modal.define_widget.slice.by_coverage': 'By Coverage',
+  'dashboard.add_widget_modal.define_widget.slice.by_duplications': 'By Duplications',
+  'dashboard.add_widget_modal.define_widget.facet_type': 'Facet Type',
+  'dashboard.add_widget_modal.define_widget.facet_type.select': 'Select facet type',
+  'dashboard.add_widget_modal.define_widget': '1. Define your widget',
+  'dashboard.add_widget_modal.define_widget.description':
+    'Start by choosing a visualization, then decide which metrics to show. Learn more about <link>metric definitions.</link>',
+  'dashboard.add_widget_modal.apply_filters.pie_software_quality_slice_help':
+    'Software quality filters are not available when the chart is sliced by software quality.',
+  'dashboard.add_widget_modal.apply_filters.pie_hotspot_count_filter_help':
+    'Filters are not available for security hotspot charts.',
+  'dashboard.add_widget_modal.apply_filters.pie_hotspot_review_status_slice_filter_help':
+    'Status filter is not available when the chart is already grouped by review status.',
+  'dashboard.add_widget_modal.apply_filters.pie_filter.all_issues': 'All issues',
+  'dashboard.add_widget_modal.apply_filters.pie_filter.security_issues': 'Security issues',
+  'dashboard.add_widget_modal.apply_filters.pie_filter.reliability_issues': 'Reliability issues',
+  'dashboard.add_widget_modal.apply_filters.pie_filter.maintainability_issues':
+    'Maintainability issues',
+  'dashboard.add_widget_modal.apply_filters.pie_filter.all_hotspots': 'All hotspots',
+  'dashboard.add_widget_modal.apply_filters.pie_filter.hotspots_to_review': 'To review',
+  'dashboard.add_widget_modal.apply_filters.pie_filter.hotspots_fixed': 'Fixed',
+  'dashboard.add_widget_modal.apply_filters.pie_filter.hotspots_safe': 'Safe',
+  'dashboard.add_widget_modal.apply_filters.pie_filter.no_filter': 'No filter',
+  'dashboard.add_widget_modal.apply_filters_section.pie_filter.label': 'Filter',
   'dashboard.pie_chart.header.title.portfolio_projects_by_quality_gate':
     'Projects by quality gate status',
   'dashboard.pie_chart.header.open_prefix': 'Open',
@@ -3303,13 +3389,176 @@ export const defaultMessages = {
   'dashboard.pie_chart.header.slice.coverage': 'Coverage',
   'dashboard.pie_chart.header.slice.duplications': 'Duplications',
   'dashboard.pie_chart.header.slice.project_status': 'Quality gate status',
-
-  // Dashboard widget filter-line segments (shared by pie/line chart headers)
-  'dashboard.add_widget_modal.define_widget.slice_by': 'Slice by',
+  'dashboard.sparkline.aria.trend_down':
+    'Downward trend of {percent} from the first to the last value.',
+  'dashboard.add_widget_modal.preview.title': 'Preview',
+  'dashboard.add_widget_modal.apply_filters_section.select.scope.label': 'Scope',
+  'dashboard.add_widget_modal.apply_filters_section.select.scope.option.overall_code':
+    'Overall code',
+  'dashboard.add_widget_modal.apply_filters_section.select.scope.option.new_code': 'New code',
+  'dashboard.add_widget_modal.apply_filters_section.select.scope.help_text.line_count':
+    'Line count is only available for overall code scope',
+  'dashboard.add_widget_modal.apply_filters_section.select.scope.help_text.issue_count_history':
+    'Scope filtering is not available for issue count metrics.',
+  'dashboard.add_widget_modal.apply_filters_section.select.scope.help_text.line_chart_metric_overall_code_only':
+    "Line charts and the ''{metric}'' metric are only available for overall code scope.",
+  'dashboard.add_widget_modal.apply_filters_section.select.scope.help_text.new_code_unavailable':
+    'New code scope is not available for this metric.',
+  'dashboard.add_widget_modal.apply_filters_section.select.scope.help_text.quality_gate_status':
+    'Quality gate status is not filterable by scope.',
+  'dashboard.add_widget_modal.apply_filters_section.select.time_range.label': 'Time range',
+  'dashboard.add_widget_modal.apply_filters_section.select.time_range.option.last_12_months':
+    'Last 12 months',
+  'dashboard.add_widget_modal.apply_filters_section.select.time_range.option.last_6_months':
+    'Last 6 months',
+  'dashboard.add_widget_modal.apply_filters_section.select.time_range.option.last_3_months':
+    'Last 3 months',
+  'dashboard.add_widget_modal.apply_filters_section.select.time_range.option.last_month':
+    'Last month',
+  'dashboard.add_widget_modal.apply_filters_section.checkbox.show_legend': 'Show legend',
+  'dashboard.add_widget_modal.customize_visualization.checkbox.show_trend_indicator.overall_code_only':
+    '(Overall code only)',
+  'dashboard.add_widget_modal.apply_filters_section.select.severity.label': 'Severity',
+  'dashboard.add_widget_modal.apply_filters_section.select.severity.placeholder':
+    'Select severities',
   'dashboard.add_widget_modal.apply_filters_section.select.software_quality.label':
     'Software quality',
+  'dashboard.add_widget_modal.apply_filters_section.select.software_quality.placeholder':
+    'Select software quality',
+  'dashboard.add_widget_modal.apply_filters_section.software_quality.all': 'All',
   'dashboard.add_widget_modal.apply_filters_section.select.status.label': 'Status',
-  'dashboard.add_widget_modal.apply_filters_section.select.severity.label': 'Severity',
+  'dashboard.add_widget_modal.apply_filters_section.select.status.placeholder': 'Select statuses',
+  'dashboard.widget.error.description': 'Something went wrong while fetching results',
+  'dashboard.widget.trend_indicator': '{change} (last 30 days)',
+  'dashboard.widget.trend_indicator.absolute': '{change} (last 30 days)',
+  'dashboard.widget.trend_indicator.badge.absolute': '{change}',
+  'dashboard.widget.trend_indicator.badge.relative': '{change}',
+  'dashboard.widget.trend_indicator.no_change': 'No change (last 30 days)',
+  'dashboard.line_chart.limited_history_warning': 'Data available from March 2026 onwards.',
+  'dashboard.line_chart.single_data': 'Only one data point available to display',
+  'dashboard.chart.legend.more': '+{count} more',
+  'dashboard.drag_to_reorder': 'Drag to reorder',
+  'dashboard.edit_widget': 'Edit widget',
+  'dashboard.edit_section_title': 'Edit section',
+  'dashboard.delete_section_title': 'Delete Section',
+  'dashboard.delete_section_confirm':
+    'Are you sure you want to delete this section? This will permanently remove the section and all its widgets.',
+  'dashboard.list.number_of_dashboards': '<b>{count}</b> dashboard(s)',
+  'dashboard.modal.permission_access.title': 'Permissions and access',
+  'dashboard.view_all_dashboards': 'View all dashboards',
+  'dashboard.download_schema': 'Save dashboard schema',
+  'project_dashboard.widget.no_issues': 'No issues found',
+  'project_dashboard.widget.other': 'Other',
+  'project_dashboard.widget.tooltip.count': 'Count: {count}',
+  'project_dashboard.widget.tooltip.percentage': 'Percentage: {percentage}',
+  'project_dashboard.widget.pie_chart': 'Pie chart',
+  'project_dashboard.widget.pie_chart.aria_label': '{title}. {breakdown}',
+  'project_dashboard.widget.pie_chart.aria_label.segment': '{label}: {count} ({percentage}%)',
+  'project_dashboard.widget.line_chart.aria_label': 'Line chart showing {metric} over time',
+  'dashboard_widget.time_range.last_30_days': 'Last 30 days',
+  'dashboard_widget.time_range.rolling_30_day_average': 'Rolling 30-day average',
+  'dashboard_widget.codescope.overall': 'Overall code',
+  'dashboard_widget.codescope.new': 'New code',
+  'dashboard.add_widget_modal.define_widget.metric.issue_density': 'Issue density',
+  'dashboard.add_widget_modal.define_widget.metric.mttr': 'MTTR for issues',
+  'dashboard.add_widget_modal.define_widget.metric.recent_mttr': 'MTTR for newly introduced issues',
+  'dashboard.add_widget_modal.define_widget.metric.resolved_issues': 'Issues closed',
+  'dashboard.add_widget_modal.define_widget.metric.sca_mttr': 'MTTR for dependency risks',
+  'dashboard.add_widget_modal.preview.placeholder':
+    'Select a visualization and metric to see a preview',
+  'dashboard.collapse': 'Collapse',
+  'dashboard.delete_section': 'Delete section',
+  'dashboard.delete_widget': 'Delete widget',
+  'dashboard.drag_section_to_reorder': 'Drag section to reorder',
+  'dashboard.edit_section': 'Edit section',
+  'dashboard.expand': 'Expand',
+  'dashboard.section_actions': 'Section actions',
+  'dashboard.section_name': 'Section name',
+  'dashboard.section_name_placeholder': 'Give this section a name',
+  'dashboard.section_description': 'Description',
+  'dashboard.section_description_placeholder': 'Include an optional description for this section',
+  'dashboard.section_creation_help':
+    'Use sections to organize widgets into groups. You can add widgets and customize the layout after creating the section.',
+  'dashboard.sparkline.aria.flat': 'Trend is flat; the first and last values are the same.',
+  'dashboard.sparkline.aria.increase_from_zero': 'Trend increased from zero to {value}.',
+  'dashboard.sparkline.aria.no_historical_data': 'No historical data to show the trend.',
+  'dashboard.sparkline.aria.trend_up':
+    'Upward trend of {percent} from the first to the last value.',
+  'dashboard.widget.error': "We couldn't load this data",
+  'dashboard.widget.loading_visualization': 'Loading visualization',
+  'dashboard.widget.no_data': 'No data available to display',
+  'dashboard.widget.trend_indicator.badge.no_change': 'No change',
+  'dashboard.widget.trend_indicator.change_last_30_days': 'Change in the last 30 days',
+  'dashboard.widget.trend_indicator.no_historical_data':
+    'No historical data available for this metric',
+  'dashboard.widget.trend_indicator.vs_last_30_days': 'vs last 30 days',
+  'dashboard.widget_actions': 'Widget actions',
+  'dashboard.empty.title': 'Your dashboard is currently empty',
+  'dashboard.empty.title_non_member': 'This dashboard is currently empty',
+  'dashboard.empty.description': 'Enter edit mode to add widgets and start building your view.',
+  'dashboard.empty.learn_more': 'Learn more about customizing dashboards',
+  'dashboard.empty.description_non_member':
+    'The owner has not yet added any content to this dashboard.',
+  'dashboard.empty.learn_more_non_member': 'Learn more about custom dashboards',
+  'dashboard.modal.delete_dashboard.title': 'Delete dashboard',
+  'dashboard.modal.delete_dashboard.description':
+    'Are you sure you want to delete the dashboard, "{dashboardName}"? This action is irreversible.',
+  'dashboard.create_custom_dashboard': 'Create custom dashboard',
+  'dashboard.edit_dashboard_title': 'Edit name and description',
+  'dashboard.type.built_in': 'Built-in',
+  'dashboard.type.custom': 'Custom',
+  'project_dashboard.dashboard_name': 'Name',
+  'project_dashboard.last_edited_by': 'Last edited <b>{lastUpdatedAt}</b> by <b>{user}</b>',
+  'project_dashboard.modal.dashboard_name_placeholder': 'Dashboard name',
+  'project_dashboard.dashboard_description': 'Description',
+  'project_dashboard.modal.dashboard_description_placeholder': 'Dashboard description',
+  'project_dashboard.duplicate_dashboard_title': 'Duplicate dashboard',
+  'project_dashboard.duplicate_dashboard_description':
+    'Duplicating a dashboard creates a copy with all the same widgets.',
+  'project_dashboard.modal.duplicate_dashboard_button': 'Duplicate',
+  'project_dashboard.save_changes_message': 'Unsaved changes',
+  'project_dashboard.save_changes': 'Save changes',
+  'project_dashboard.empty.button.enter_edit_mode': 'Enter edit mode',
+  'project_dashboard.cancel_changes': 'Cancel and exit',
+  'project_dashboard.exit_without_saving_title': 'Exit without saving?',
+  'project_dashboard.exit_without_saving_message':
+    'You have unsaved edits in your dashboard. Leaving now will discard your changes.',
+  'project_dashboard.exit_without_saving': 'Exit without saving',
+  'project_dashboard.go_back_to_editing': 'Go back to editing',
+  'project_dashboard.new_section': 'Add section',
+  'project_dashboard.create_section': 'Add to dashboard',
+  'project_dashboard.create_section_title': 'Add new section',
+  'hook.use_native_browser_navigation_blocker.exit_without_saving_message':
+    'You have unsaved changes. Leaving now will discard your changes.',
+
+  // Portfolio dashboard list toasts
+  'portfolio_dashboard.list.toast.create_success': 'Dashboard "{dashboardName}" has been created.',
+  'portfolio_dashboard.list.toast.edit_success': 'Dashboard "{dashboardName}" has been updated.',
+  'portfolio_dashboard.list.toast.delete_success': 'Dashboard "{dashboardName}" has been deleted.',
+  'portfolio_dashboard.list.toast.duplicate_success':
+    'Dashboard "{dashboardName}" has been duplicated.',
+  'portfolio_dashboard.list.error.description': 'We could not load dashboards. Try again later.',
+  'portfolio_dashboard.list.title': 'All dashboards',
+  'portfolio_dashboard.custom.error.description':
+    'We could not load this dashboard. Try again later.',
+  'portfolio_dashboard.custom.error.invalid_layout.description':
+    "This dashboard's saved layout is invalid or corrupted and cannot be shown.",
+  'portfolio_dashboard.custom.error.invalid_layout.title': 'Dashboard layout is invalid',
+  'portfolio_dashboard.custom.error.title': 'Something went wrong',
+  'portfolio_dashboard.custom.toast.save_success': 'Dashboard saved.',
+  'portfolio_dashboard.custom.not_found.back_to_list': 'Back to all dashboards',
+  'portfolio_dashboard.custom.not_found.description':
+    'This dashboard may have been deleted or the link is incorrect.',
+  'portfolio_dashboard.custom.not_found.title': 'Dashboard not found',
+  retry: 'Retry',
+  'project_dashboard.edit_mode_message': 'Editing dashboard',
+  'project_dashboard.last_edited': 'Last edited {lastUpdatedAt}',
+  'portfolio_dashboard.custom.toast.save_error': 'We could not save your dashboard. Try again.',
+
+  'editable_multigrid.error.description':
+    'An error occurred while rendering the dashboard layout. Please refresh the page to recover.',
+  'editable_multigrid.error.details': 'Error details',
+  'editable_multigrid.error.title': 'Layout Error',
 
   //------------------------------------------------------------------------------
   //
@@ -5815,6 +6064,9 @@ export const defaultMessages = {
   'severity.MINOR.description': 'Potential for moderate to minor impact.',
   'severity.INFO': 'Info',
   'severity.INFO.description': 'Neither a bug nor a quality flaw. Just a finding.',
+  'severity.HIGH': 'High',
+  'severity.MEDIUM': 'Medium',
+  'severity.LOW': 'Low',
 
   // New severities
   'severity_impact.title': '{x} severity of impact',
@@ -6330,6 +6582,8 @@ export const defaultMessages = {
   'metric.profile_version.name': 'Profile Version',
   'metric.projects.description': 'Number of project branches',
   'metric.projects.name': 'Project branches',
+  'metric.project_branch_count.name': 'Project branches',
+  'metric.matched_project_branch_count.name': 'Matched project branches',
   'metric.public_api.description': 'Public API',
   'metric.public_api.name': 'Public API',
   'metric.public_documented_api_density.description':
@@ -7322,6 +7576,11 @@ export const defaultMessages = {
     "A quality gate is a set of measure-based Boolean conditions. It helps you know immediately whether your project is production-ready. If your current status is not Passed, you'll see which measures caused the problem and the values required to pass.",
   'overview.quality_gate_failed_with_x': 'with {0} errors',
   'overview.quality_gate_code_clean': 'Your code is clean!',
+  'overview.quality_gate.all_conditions_passed': 'All conditions passed',
+  'overview.quality_gate.conditions_failed': 'Some conditions failed',
+  'overview.quality_gate.run_analysis': 'Run analysis to generate status',
+  'summary.x_conditions_failed.formatted':
+    '{conditionsFormatted} {conditions, plural, one {condition} other {conditions}} failed',
   'overview.you_should_define_quality_gate': 'You should define a quality gate on this project.',
   'overview.quality_gate.ignored_conditions':
     'Some quality gate conditions on New Code were ignored because of the small number of New Lines',

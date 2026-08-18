@@ -45,6 +45,10 @@ import type {
   DashboardEntityType,
   DashboardLineChartSeries,
 } from './dashboard-widget-adapter-types';
+import {
+  isKnownUnsupportedDashboardHistoryMetric,
+  useWidgetMetricMetadataQuery,
+} from './widget-metric-metadata';
 
 export function organizationLineChartRequestKey(
   metric: unknown,
@@ -115,21 +119,24 @@ export function useOrganizationLineChartSeriesData(
     isRawHotspotsMetric;
   const richMetricKey = metric.type === DashboardMetricType.Rich ? metric.metricKey : undefined;
   const useGroupedIssueQuery = groupedIssueHistory && groupByEligible;
+  const metricMetadataQuery = useWidgetMetricMetadataQuery({
+    enabled: queriesEnabled && metric.type === DashboardMetricType.Raw,
+  });
+  const isKnownMeasureMetric =
+    metricMetadataQuery.data?.[measuresHistoryKey] !== undefined &&
+    !isKnownUnsupportedDashboardHistoryMetric(measuresHistoryKey);
 
-  const measuresQueryEnabled =
-    queriesEnabled &&
-    Boolean(actualMetricKey) &&
-    metric.type === DashboardMetricType.Raw &&
-    !isRawHotspotsMetric &&
-    !useGroupedIssueQuery &&
-    Boolean(entityId) &&
-    !isUnsupported;
-  const issueQueryEnabled =
-    queriesEnabled &&
-    Boolean(resolvedIssueMetricKey) &&
-    (metric.type === DashboardMetricType.Rich || isRawHotspotsMetric || useGroupedIssueQuery) &&
-    Boolean(entityId) &&
-    !isUnsupported;
+  const { issueQueryEnabled, measuresQueryEnabled } = getLineChartQueryEnablement({
+    actualMetricKey,
+    entityId,
+    isKnownMeasureMetric,
+    isRawHotspotsMetric,
+    isUnsupported,
+    metric,
+    queriesEnabled,
+    resolvedIssueMetricKey,
+    useGroupedIssueQuery,
+  });
 
   const {
     data: measuresSeries,
@@ -209,9 +216,57 @@ export function useOrganizationLineChartSeriesData(
   }
 
   return {
-    isMeasuresHistoryPending: usesIssueQuery ? isIssuePending : isMeasuresPending,
-    lineChartHasFetchError: usesIssueQuery ? isIssueError : isMeasuresError,
+    isMeasuresHistoryPending: usesIssueQuery
+      ? isIssuePending
+      : metricMetadataQuery.isPending || (isKnownMeasureMetric && isMeasuresPending),
+    lineChartHasFetchError: usesIssueQuery
+      ? isIssueError
+      : metricMetadataQuery.isError || isMeasuresError,
     series: usesIssueQuery ? (issueSeries ?? []) : (measuresSeries ?? []),
+  };
+}
+
+function getLineChartQueryEnablement(
+  args: Readonly<{
+    actualMetricKey: MetricKey | undefined;
+    entityId: string;
+    isKnownMeasureMetric: boolean;
+    isRawHotspotsMetric: boolean;
+    isUnsupported: boolean;
+    metric: DashboardMetric;
+    queriesEnabled: boolean;
+    resolvedIssueMetricKey: MetricKey | undefined;
+    useGroupedIssueQuery: boolean;
+  }>,
+) {
+  const {
+    actualMetricKey,
+    entityId,
+    isKnownMeasureMetric,
+    isRawHotspotsMetric,
+    isUnsupported,
+    metric,
+    queriesEnabled,
+    resolvedIssueMetricKey,
+    useGroupedIssueQuery,
+  } = args;
+
+  return {
+    issueQueryEnabled:
+      queriesEnabled &&
+      Boolean(resolvedIssueMetricKey) &&
+      (metric.type === DashboardMetricType.Rich || isRawHotspotsMetric || useGroupedIssueQuery) &&
+      Boolean(entityId) &&
+      !isUnsupported,
+    measuresQueryEnabled:
+      queriesEnabled &&
+      Boolean(actualMetricKey) &&
+      metric.type === DashboardMetricType.Raw &&
+      !isRawHotspotsMetric &&
+      !useGroupedIssueQuery &&
+      Boolean(entityId) &&
+      !isUnsupported &&
+      isKnownMeasureMetric,
   };
 }
 

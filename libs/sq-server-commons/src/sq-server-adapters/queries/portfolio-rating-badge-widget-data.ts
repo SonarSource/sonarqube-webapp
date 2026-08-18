@@ -19,6 +19,7 @@
  */
 
 import { useMemo } from 'react';
+import { MetricType } from '~shared/types/metrics';
 import {
   useDashboardMeasuresHistoryQuery,
   useDashboardProjectMeasuresQueries,
@@ -27,7 +28,10 @@ import {
   organizationsHistoryStartDateWithRetentionBuffer,
   portfolioMeasuresLatestRecord,
 } from '../helpers/dashboard-widget-data';
-import { useWidgetMetricMetadataQuery } from './widget-metric-metadata';
+import {
+  isKnownUnsupportedDashboardHistoryMetric,
+  useWidgetMetricMetadataQuery,
+} from './widget-metric-metadata';
 
 interface PortfolioComputedProject {
   measures: ReadonlyArray<{ name: string; value: string }>;
@@ -50,13 +54,29 @@ export function usePortfolioRatingBadgeMeasuresQuery(
   options: { enabled?: boolean } = {},
 ): {
   data: PortfolioMeasures | undefined;
+  isError: boolean;
   isLoading: boolean;
   isPending: boolean;
 } {
   const enabled = options.enabled ?? true;
   const metadataQuery = useWidgetMetricMetadataQuery({ enabled });
   const metricMetadata = metadataQuery.data;
-  const metricKeys = useMemo(() => Object.keys(metricMetadata ?? {}), [metricMetadata]);
+  const metricKeys = useMemo(() => {
+    const metrics = Object.values(metricMetadata ?? {});
+    const ratingMetricKeys = new Set(
+      metrics.filter((metric) => metric.type === MetricType.Rating).map((metric) => metric.key),
+    );
+
+    return metrics
+      .filter(
+        (metric) =>
+          !isKnownUnsupportedDashboardHistoryMetric(metric.key) &&
+          (metric.type === MetricType.Rating ||
+            (metric.key.endsWith('_distribution') &&
+              ratingMetricKeys.has(metric.key.replace(/_distribution$/, '')))),
+      )
+      .map((metric) => metric.key);
+  }, [metricMetadata]);
   const historyQuery = useDashboardMeasuresHistoryQuery(
     {
       entityId: portfolioId,
@@ -76,6 +96,7 @@ export function usePortfolioRatingBadgeMeasuresQuery(
 
   return {
     data: historyQuery.data,
+    isError: metadataQuery.isError || historyQuery.isError,
     isLoading: isPending,
     isPending,
   };

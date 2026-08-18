@@ -29,7 +29,6 @@ import {
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { To, useLocation } from 'react-router-dom';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { DeprecatedBadge } from '~shared/components/badges/DeprecatedBadge';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike } from '~shared/helpers/component';
@@ -78,7 +77,6 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
   const location = useLocation();
   const { hasFeature } = useAvailableFeatures();
   const appState = useAppState();
-  const { organizationReportingEnablePortfolioDashboards } = useFlags();
   const { branchLike, component } = props;
   const { qualifier } = component;
 
@@ -87,7 +85,10 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
   const portfolioDashboardsListRoute = addons.portfolios?.PortfolioDashboardsListRoute;
   const portfolioHealthDashboardDefaultKey = addons.portfolios?.PortfolioHealthDashboardDefaultKey;
   const portfolioHealthDashboardRoute = portfolioHealthDashboardDefaultKey
-    ? addons.portfolios?.getPortfolioHealthDashboardRoute?.(portfolioHealthDashboardDefaultKey)
+    ? addons.portfolios?.getPortfolioHealthDashboardRoute?.(
+        portfolioHealthDashboardDefaultKey,
+        component.key,
+      )
     : undefined;
 
   const isApplicationChildInaccessible =
@@ -97,7 +98,6 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
   const showPortfolioGovernanceNav =
     isPortfolio &&
     isGovernanceEnabled &&
-    organizationReportingEnablePortfolioDashboards &&
     isStringDefined(portfolioDashboardsListRoute) &&
     isStringDefined(portfolioHealthDashboardRoute);
 
@@ -148,10 +148,7 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
               location.pathname,
               portfolioDashboardsListRoute,
             )}
-            to={{
-              pathname: portfolioHealthDashboardRoute,
-              search: portfolioDashboardSearchParams,
-            }}
+            to={portfolioHealthDashboardRoute}
           >
             <FormattedMessage id="portfolio_dashboards.health.page" />
           </Layout.SidebarNavigation.Item>

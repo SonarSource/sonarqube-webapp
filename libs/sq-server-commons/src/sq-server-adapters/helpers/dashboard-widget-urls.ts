@@ -21,6 +21,7 @@
 import type { Path } from 'history';
 import type { To } from 'react-router-dom';
 import type { MetricKey } from '~shared/types/metrics';
+import { getPortfolioUrl } from '../../helpers/urls';
 import { unsupportedDashboardWidgetAdapter } from './unsupported-dashboard-widget-adapter';
 
 export function getDashboardDocumentationUrl(_docLink: string): string {
@@ -87,16 +88,21 @@ export function getProjectDashboardTopListRowUrl(
 }
 
 export function getPortfolioDashboardMeasuresUrl(
-  _portfolioId: string,
+  portfolioId: string,
   _enterpriseKey: string,
   _metric: MetricKey,
 ): To {
-  return unsupportedDashboardWidgetAdapter();
+  return getPortfolioUrl(portfolioId);
 }
 
 export function getPortfolioDashboardWidgetDrilldownUrl(
-  _widgetKey: string | undefined,
-  _query?: string,
+  widgetKey: string | undefined,
+  query?: string,
 ): string | undefined {
-  return unsupportedDashboardWidgetAdapter();
+  if (!widgetKey) {
+    return undefined;
+  }
+
+  const search = query ? new URLSearchParams({ q: query }).toString() : '';
+  return search ? `breakdown/${widgetKey}?${search}` : `breakdown/${widgetKey}`;
 }

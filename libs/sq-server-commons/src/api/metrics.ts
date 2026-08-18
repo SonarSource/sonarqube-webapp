@@ -51,14 +51,8 @@ export function getAllMetrics(data?: {
     prev?: MetricsResponse,
   ): Promise<Metric[]> {
     return getMetrics(data)
-      .then((r) => ({
-        ...r,
-        metrics: augmentMetrics(r.metrics),
-      }))
-      .then((r) => ({
-        ...r,
-        metrics: augmentMetricsForIssueSeverity(r.metrics),
-      }))
+      .then((r) => ({ ...r, metrics: augmentMetrics(r.metrics) }))
+      .then((r) => ({ ...r, metrics: augmentMetricsForIssueSeverity(r.metrics) }))
       .then((r) => {
         const result = prev ? prev.metrics.concat(r.metrics) : r.metrics;
         if (r.p * r.ps >= r.total) {

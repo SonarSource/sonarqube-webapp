@@ -18,6 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { MetricKey } from '~shared/types/metrics';
+import { getPortfolioUrl } from '../../../helpers/urls';
 import * as dashboardWidgetUrls from '../dashboard-widget-urls';
 import { DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE } from '../unsupported-dashboard-widget-adapter';
 
@@ -64,16 +66,6 @@ const unsupportedAdapters: ReadonlyArray<
     dashboardWidgetUrls.getProjectDashboardTopListRowUrl,
     ['' as never, '' as never, {} as never],
   ],
-  [
-    'getPortfolioDashboardMeasuresUrl',
-    dashboardWidgetUrls.getPortfolioDashboardMeasuresUrl,
-    ['' as never, '' as never, '' as never],
-  ],
-  [
-    'getPortfolioDashboardWidgetDrilldownUrl',
-    dashboardWidgetUrls.getPortfolioDashboardWidgetDrilldownUrl,
-    ['' as never],
-  ],
 ];
 
 describe('Server dashboard widget URL seams', () => {
@@ -83,4 +75,17 @@ describe('Server dashboard widget URL seams', () => {
       expect(() => fn(...args)).toThrow(DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE);
     },
   );
+
+  it('builds safe portfolio links', () => {
+    expect(
+      dashboardWidgetUrls.getPortfolioDashboardMeasuresUrl('portfolio-key', '', MetricKey.coverage),
+    ).toEqual(getPortfolioUrl('portfolio-key'));
+    expect(dashboardWidgetUrls.getPortfolioDashboardWidgetDrilldownUrl(undefined)).toBeUndefined();
+    expect(dashboardWidgetUrls.getPortfolioDashboardWidgetDrilldownUrl('widget-key')).toBe(
+      'breakdown/widget-key',
+    );
+    expect(
+      dashboardWidgetUrls.getPortfolioDashboardWidgetDrilldownUrl('widget-key', 'java:S1'),
+    ).toBe('breakdown/widget-key?q=java%3AS1');
+  });
 });

@@ -94,6 +94,7 @@ jest.mock('../security-standards', () => ({
 }));
 
 jest.mock('../widget-metric-metadata', () => ({
+  ...jest.requireActual('../widget-metric-metadata'),
   useWidgetMetricMetadataQuery: (...args: unknown[]) => mockUseWidgetMetricMetadataQuery(...args),
 }));
 
@@ -125,7 +126,7 @@ function setupMocks() {
   );
   mockUseWidgetMetricMetadataQuery.mockReturnValue(
     queryResult({
-      [MetricKey.coverage]: { type: MetricType.Percent },
+      [MetricKey.coverage]: { key: MetricKey.coverage, type: MetricType.Percent },
     }),
   );
 }
@@ -345,6 +346,61 @@ describe('dashboard widget adapter queries', () => {
       ).toEqual([expect.objectContaining({ id: 'total', label: 'Issues' })]);
       jest.useRealTimers();
     });
+
+    it('does not request measure history for a synthetic metric missing from Server metadata', () => {
+      mockUseWidgetMetricMetadataQuery.mockReturnValue(queryResult({}));
+
+      const { result } = renderHook(
+        () =>
+          useOrganizationLineChartSeriesData({
+            actualMetricKey: MetricKey.releasability_rating,
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            groupBy: LineChartGroupBy.None,
+            historyRange: '3',
+            measureFilters: undefined,
+            measuresHistoryKey: MetricKey.releasability_rating,
+            metric: {
+              metricKey: MetricKey.releasability_rating,
+              type: DashboardMetricType.Raw,
+            },
+            metricName: 'Releasability rating',
+            metricType: MetricType.Rating,
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(mockUseDashboardMeasuresHistoryQuery).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({ enabled: false }),
+      );
+      expect(result.current.isMeasuresHistoryPending).toBe(false);
+    });
+
+    it('surfaces metric metadata failures for measure line charts', () => {
+      mockUseWidgetMetricMetadataQuery.mockReturnValue(
+        queryResult(undefined, { error: new Error('metadata failed'), isError: true }),
+      );
+
+      const { result } = renderHook(
+        () =>
+          useOrganizationLineChartSeriesData({
+            actualMetricKey: MetricKey.coverage,
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            groupBy: LineChartGroupBy.None,
+            historyRange: '3',
+            measureFilters: undefined,
+            measuresHistoryKey: MetricKey.coverage,
+            metric: { metricKey: MetricKey.coverage, type: DashboardMetricType.Raw },
+            metricName: 'Coverage',
+            metricType: MetricType.Percent,
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(result.current.lineChartHasFetchError).toBe(true);
+    });
   });
 
   describe('pie-chart queries', () => {
@@ -428,22 +484,95 @@ describe('dashboard widget adapter queries', () => {
         }),
       ).toBe(true);
     });
+
+    it('does not request a virtual quality-gate distribution missing from Server metadata', () => {
+      mockUseWidgetMetricMetadataQuery.mockReturnValue(queryResult({}));
+
+      const { result } = renderHook(
+        () =>
+          useOrganizationPieChartData({
+            entity: { entityId: 'portfolio-1', entityType: 'PORTFOLIO' },
+            widget: {
+              filter: '',
+              metric: PieChartMetric.ProjectCount,
+              scope: CodeScope.Overall,
+              slice: 'status',
+            },
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(mockUseDashboardMeasuresHistoryQuery).toHaveBeenCalledWith(
+        expect.objectContaining({
+          metricKeys: [MetricKey.releasability_status_distribution],
+        }),
+        expect.objectContaining({ enabled: false }),
+      );
+      expect(result.current.isPending).toBe(false);
+    });
+
+    it('surfaces metric metadata failures for quality-gate pie charts', () => {
+      const metadataError = new Error('metadata failed');
+      mockUseWidgetMetricMetadataQuery.mockReturnValue(
+        queryResult(undefined, { error: metadataError, isError: true }),
+      );
+
+      const { result } = renderHook(
+        () =>
+          useOrganizationPieChartData({
+            entity: { entityId: 'portfolio-1', entityType: 'PORTFOLIO' },
+            widget: {
+              filter: '',
+              metric: PieChartMetric.ProjectCount,
+              scope: CodeScope.Overall,
+              slice: 'status',
+            },
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(result.current.error).toBe(metadataError);
+    });
   });
 
   describe('portfolio and project wrappers', () => {
     it('uses the latest portfolio measure history record and computed project measures', () => {
       mockUseWidgetMetricMetadataQuery.mockReturnValue(
-        queryResult({ [MetricKey.coverage]: { type: MetricType.Percent } }),
+        queryResult({
+          [MetricKey.releasability_rating]: {
+            key: MetricKey.releasability_rating,
+            type: MetricType.Rating,
+          },
+          [MetricKey.reliability_rating]: {
+            key: MetricKey.reliability_rating,
+            type: MetricType.Rating,
+          },
+          [MetricKey.reliability_rating_distribution]: {
+            key: MetricKey.reliability_rating_distribution,
+            type: MetricType.Data,
+          },
+          [MetricKey.ncloc_language_distribution]: {
+            key: MetricKey.ncloc_language_distribution,
+            type: MetricType.Data,
+          },
+        }),
       );
       mockUseDashboardMeasuresHistoryQuery.mockReturnValue(
-        queryResult({ [MetricKey.coverage]: '80' }),
+        queryResult({ [MetricKey.reliability_rating]: 'A' }),
       );
 
       const { result } = renderHook(() => usePortfolioRatingBadgeMeasuresQuery('portfolio-1'), {
         wrapper: getContextWrapper(),
       });
-      expect(result.current.data).toEqual({ [MetricKey.coverage]: '80' });
+      expect(result.current.data).toEqual({ [MetricKey.reliability_rating]: 'A' });
+      expect(result.current.isError).toBe(false);
       expect(result.current.isPending).toBe(false);
+      expect(mockUseDashboardMeasuresHistoryQuery).toHaveBeenCalledWith(
+        expect.objectContaining({
+          metricKeys: [MetricKey.reliability_rating, MetricKey.reliability_rating_distribution],
+        }),
+        expect.anything(),
+      );
 
       mockUseDashboardProjectMeasuresQueries.mockReturnValue([
         queryResult({
@@ -466,6 +595,18 @@ describe('dashboard widget adapter queries', () => {
       expect(computed.result.current.data).toEqual({
         projects: [{ measures: [{ name: MetricKey.coverage, value: '80' }] }],
       });
+    });
+
+    it('surfaces metric metadata failures for portfolio rating badges', () => {
+      mockUseWidgetMetricMetadataQuery.mockReturnValue(
+        queryResult(undefined, { error: new Error('metadata failed'), isError: true }),
+      );
+
+      const { result } = renderHook(() => usePortfolioRatingBadgeMeasuresQuery('portfolio-1'), {
+        wrapper: getContextWrapper(),
+      });
+
+      expect(result.current.isError).toBe(true);
     });
 
     it('combines top-list counts, trends and rule metadata for both entity types', () => {
@@ -502,7 +643,9 @@ describe('dashboard widget adapter queries', () => {
       const { result } = renderHook(() => useWidgetMetricMetadataQuery(), {
         wrapper: getContextWrapper(),
       });
-      expect(result.current.data).toEqual({ [MetricKey.coverage]: { type: MetricType.Percent } });
+      expect(result.current.data).toEqual({
+        [MetricKey.coverage]: { key: MetricKey.coverage, type: MetricType.Percent },
+      });
       expect(mockUseWidgetMetricMetadataQuery).toHaveBeenCalledWith();
 
       expect(usePortfolioRulesMetadataOrganization('portfolio-1')).toEqual({

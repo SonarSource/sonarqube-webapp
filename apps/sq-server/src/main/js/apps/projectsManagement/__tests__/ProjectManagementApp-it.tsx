@@ -70,14 +70,15 @@ beforeAll(() => {
       permission: Permissions.Admin,
     });
 
-    return Promise.resolve(
-      mockComponent({
+    return Promise.resolve({
+      ...mockComponent({
         configuration: {
           canBrowseProject: canBrowseProjectResponse.users.length > 0,
           showPermissions: showPermissionsResponse.users.length > 0,
         },
       }),
-    );
+      id: component,
+    });
   });
 });
 

@@ -27,6 +27,7 @@ import type {
 } from '~shared/types/dashboard-context';
 import type { MetricKey } from '~shared/types/metrics';
 import { useComponent } from '../../context/componentContext/withComponentContext';
+import { useComponentNavigationIdQuery } from '../../queries/navigation';
 import { useCurrentBranchQuery } from '../queries/branch';
 import { useWidgetMetricMetadataQuery } from '../queries/widget-metric-metadata';
 
@@ -53,6 +54,12 @@ export function useDashboardProjectContext(): DashboardProjectContext {
 
 export function useDashboardPortfolioContext(): DashboardPortfolioContext {
   const { component } = useComponent();
+  const { data: portfolioId } = useComponentNavigationIdQuery(
+    { component: component?.key ?? '' },
+    {
+      enabled: Boolean(component?.key),
+    },
+  );
   const { data: metrics } = useWidgetMetricMetadataQuery();
   const getPortfolioMetric = useCallback(
     (key: MetricKey): DashboardPortfolioMetric | undefined => {
@@ -72,6 +79,6 @@ export function useDashboardPortfolioContext(): DashboardPortfolioContext {
 
   return {
     getPortfolioMetric,
-    portfolioId: component?.key ?? '',
+    portfolioId: portfolioId ?? '',
   };
 }
