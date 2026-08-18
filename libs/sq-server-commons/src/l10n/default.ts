@@ -1743,6 +1743,7 @@ export const defaultMessages = {
   'project_agent_activity.table.outcome': 'Outcome',
   'project_agent_activity.source.backlog': 'Backlog issues',
   'project_agent_activity.source.scheduled': 'Scheduled',
+  'project_agent_activity.source.pull_request': 'Pull request remediation',
   'project_agent_activity.outcome.view_pull_request': 'View pull request',
   'project_agent_activity.started.today': 'Today',
   'project_agent_activity.started.yesterday': 'Yesterday',
