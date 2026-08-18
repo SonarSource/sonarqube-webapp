@@ -18,15 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useCurrentUser } from './users';
+
 export interface ArchitectureEntitlement {
   allowed: boolean;
   isLoading: boolean;
 }
 
 export function useArchitectureEntitlement(): ArchitectureEntitlement {
-  // TODO: temporary — SQS has no entitlement backend yet, so access is granted unconditionally
-  // here. This is the sole gate for architecture add-on access on SQS (see feature-flags.ts, which
-  // keeps designArchitectureSquadExtensionPack off). Once Server has a real entitlement check, flip
-  // this single return to call it — mirror the SQC adapter's useEntitlementCheckQuery shape.
-  return { allowed: true, isLoading: false };
+  const { isLoggedIn } = useCurrentUser();
+
+  // TODO: temporary — SQS has no entitlement backend yet, so access is granted to any logged-in
+  // user (mirrors the SQC adapter's guard for logged-out users, see SONAR-31643). This is the sole
+  // gate for architecture add-on access on SQS (see feature-flags.ts, which keeps
+  // designArchitectureSquadExtensionPack off). Once Server has a real entitlement check, flip this
+  // single return to call it — mirror the SQC adapter's useEntitlementCheckQuery shape.
+  return { allowed: isLoggedIn, isLoading: false };
 }
