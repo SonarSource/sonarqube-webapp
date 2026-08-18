@@ -19,13 +19,13 @@
  */
 
 import { RefObject, useEffect, useState } from 'react';
-import { isDefined } from '~shared/helpers/types';
+import { isDefined } from '../helpers/types';
 
 interface Options extends IntersectionObserverInit {
   freezeOnceVisible?: boolean;
 }
 
-export default function useIntersectionObserver<T extends Element>(
+export function useIntersectionObserver<T extends Element>(
   ref: RefObject<T | null>,
   options: Options = {},
 ) {
@@ -36,7 +36,7 @@ export default function useIntersectionObserver<T extends Element>(
 
   useEffect(() => {
     if (!isDefined(IntersectionObserver) || !isDefined(ref.current) || frozen) {
-      return;
+      return undefined;
     }
 
     const observer = new IntersectionObserver(
@@ -48,6 +48,7 @@ export default function useIntersectionObserver<T extends Element>(
     );
 
     observer.observe(ref.current);
+
     return () => {
       observer.disconnect();
     };

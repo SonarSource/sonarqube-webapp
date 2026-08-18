@@ -1,0 +1,12 @@
+{
+  "name": "feature-dashboards",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/feature-dashboards/src",
+  "tags": ["type:feature", "visibility:public", "scope:shared"],
+  "targets": {
+    "format-check": {},
+    "lint": {},
+    "lint-report": {}
+  }
+}

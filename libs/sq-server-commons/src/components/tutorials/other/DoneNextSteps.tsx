@@ -23,12 +23,12 @@ import { animated, config, useSpring } from '@react-spring/web';
 import { LinkStandalone as Link } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useIntersectionObserver } from '~shared/hooks/useIntersectionObserver';
 import withAppStateContext from '../../../context/app-state/withAppStateContext';
 import { BasicSeparator, FlagVisual } from '../../../design-system';
 import { DocLink } from '../../../helpers/doc-links';
 import { useDocUrl } from '../../../helpers/docs';
 import { translate } from '../../../helpers/l10n';
-import useIntersectionObserver from '../../../hooks/useIntersectionObserver';
 import { AppState } from '../../../types/appstate';
 import { EditionKey } from '../../../types/editions';
 

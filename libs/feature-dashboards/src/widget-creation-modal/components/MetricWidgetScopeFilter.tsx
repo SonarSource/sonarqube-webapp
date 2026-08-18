@@ -1,0 +1,58 @@
+/*
+ * SonarQube
+ * Copyright (C) 2009-2025 SonarSource Sàrl
+ * mailto:info AT sonarsource DOT com
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+import { Select, Text, TextSize } from '@sonarsource/echoes-react';
+import { useIntl } from 'react-intl';
+import { CodeScope } from '../../types/widget-common';
+import type { ScopeFilterSlice } from '../hooks/applyFiltersViewModelSlices';
+import { buildPieChartScopeSelectData } from './applyFilterAccordionHelpers';
+
+interface MetricWidgetScopeFilterProps {
+  slice: ScopeFilterSlice;
+}
+
+export function MetricWidgetScopeFilter({ slice }: Readonly<MetricWidgetScopeFilterProps>) {
+  const { formatMessage } = useIntl();
+  const { isQualityGateStatus, isScopeSelectDisabled, scope, scopeHelpText, setScope } = slice;
+
+  if (isQualityGateStatus) {
+    return (
+      <Text isSubtle size={TextSize.Small}>
+        {scopeHelpText}
+      </Text>
+    );
+  }
+
+  return (
+    <Select
+      data={buildPieChartScopeSelectData(formatMessage)}
+      helpText={scopeHelpText}
+      isDisabled={isScopeSelectDisabled}
+      isNotClearable
+      label={formatMessage({
+        id: 'dashboard.add_widget_modal.apply_filters_section.select.scope.label',
+      })}
+      onChange={(value) => {
+        setScope(value as CodeScope);
+      }}
+      value={scope}
+    />
+  );
+}

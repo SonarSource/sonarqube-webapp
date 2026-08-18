@@ -22,12 +22,12 @@ import styled from '@emotion/styled';
 import { animated, config, useSpring } from '@react-spring/web';
 import { Heading, IconCheck } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { useIntersectionObserver } from '~shared/hooks/useIntersectionObserver';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '../../../context/available-features/withAvailableFeatures';
 import { FlagVisual } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
-import useIntersectionObserver from '../../../hooks/useIntersectionObserver';
 import { AlmKeys } from '../../../types/alm-settings';
 import { Feature } from '../../../types/features';
 

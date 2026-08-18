@@ -715,9 +715,9 @@ module.exports = [
     },
   },
   {
-    files: ['private/libs/feature-dashboards/**/*.{ts,tsx}'],
+    files: ['libs/feature-dashboards/**/*.{ts,tsx}'],
     languageOptions: {
-      parserOptions: { tsconfigRootDir: `${__dirname}/private/libs/feature-dashboards` },
+      parserOptions: { tsconfigRootDir: `${__dirname}/libs/feature-dashboards` },
     },
   },
   {
