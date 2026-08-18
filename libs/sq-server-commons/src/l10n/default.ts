@@ -2580,6 +2580,7 @@ export const defaultMessages = {
     'Two sibling components cannot have the same name: "{groupKey}".',
   'architecture.page.model.errors.invalid_model': 'Unable to change model. {errors}',
   'architecture.page.model.errors.save_failed': 'Failed to save the model.',
+  'architecture.page.model.errors.delete_failed': 'Failed to delete the model.',
   'architecture.page.model.errors.group.name_must_be_alphanumeric':
     'A component name can only contain alphanumeric characters and dashes.',
   'architecture.page.model.errors.group.name_conflicts_with_artifact':
