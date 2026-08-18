@@ -1708,6 +1708,9 @@ export const defaultMessages = {
   'issues.assign_to_agent': 'Assign to agent',
   'project_issues.assign_to_agent.success.title':
     '{issueCount, plural, one {# issue} other {# issues}} assigned to Agent',
+  'project_issues.assign_to_agent.error.title': 'Failed to assign issues',
+  'project_issues.assign_to_agent.error.description':
+    'Unable to create the Agent job. Please try again.',
   'agent_activity.status.pending': 'Pending',
   'agent_activity.status.in_progress': 'In progress',
   'agent_activity.status.in_progress.description': 'Please wait...',
@@ -1716,6 +1719,18 @@ export const defaultMessages = {
   'agent_activity.status.failed.description': 'Try again later',
   'agent_activity.status.skipped': 'Skipped',
   'agent_activity.status.skipped.description': 'No changes since last run',
+  'pull_request.assign_to_agent': 'Assign to Agent',
+  'pull_request.assign_to_agent.fix_issues': 'Fix {count, plural, one {# issue} other {# issues}}',
+  'pull_request.assign_to_agent.opens_pr': 'Opens 1 PR',
+  'pull_request.assign_to_agent.loading': 'Assigning issues to Agent',
+  'pull_request.assign_to_agent.success.title':
+    '{issueCount, plural, one {# issue} other {# issues}} assigned to Agent',
+  'pull_request.assign_to_agent.success.description':
+    'The Agent job for this pull request has started.',
+  'pull_request.assign_to_agent.error.title': 'Failed to assign issues',
+  'pull_request.assign_to_agent.error.description':
+    'Unable to create the Agent job. Please try again.',
+  'pull_request.assign_to_agent.view_agent_activity': 'View Agent Activity',
   'project_agent_activity.title': 'Remediation Agent',
   'project_agent_activity.description':
     'Track your Remediation Agent activity for this project. Monitor jobs, observe their progress, and access detailed information for each task.',

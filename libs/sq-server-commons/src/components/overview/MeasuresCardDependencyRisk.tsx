@@ -25,11 +25,10 @@ import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { getRisksUrl } from '~shared/helpers/sca-urls';
 import { PullRequest } from '~shared/types/branch-like';
 import { MetricKey } from '~shared/types/metrics';
-import { useAvailableFeatures } from '../../context/available-features/withAvailableFeatures';
 import RatingComponent from '../../context/metrics/RatingComponent';
 import { NoDataIcon } from '../../design-system';
+import { useHasDependencyRiskCard } from '../../hooks/useHasDependencyRiskCard';
 import { Branch } from '../../types/branch-like';
-import { Feature } from '../../types/features';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
 import { Component } from '../../types/types';
 import MeasuresCardNumber from './MeasuresCardNumber';
@@ -56,9 +55,9 @@ export function MeasuresCardDependencyRisk(
     dependencyRiskRating,
     ratingMetricKey,
   } = props;
-  const { hasFeature } = useAvailableFeatures();
+  const hasDependencyRiskCard = useHasDependencyRiskCard(dependencyRiskCount);
   const intl = useIntl();
-  if (dependencyRiskCount !== undefined && hasFeature(Feature.Sca)) {
+  if (hasDependencyRiskCard) {
     return (
       <StyleMeasuresCardRightBorder className={className}>
         <MeasuresCardNumber
