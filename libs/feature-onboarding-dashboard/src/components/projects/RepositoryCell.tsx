@@ -18,10 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Text, TextSize } from '@sonarsource/echoes-react';
+import { LinkHighlight, LinkStandalone, Text, TextSize } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
 import { useAlmIconSrc } from '~adapters/helpers/almIcons';
+import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { OnboardingProject } from '~shared/types/onboarding';
 import { PLATFORM_CONFIG } from '../devops/platformConfig';
 
@@ -43,7 +44,13 @@ export function RepositoryCell({ project }: Readonly<Props>) {
         <Image alt={almLabel} className="sw-shrink-0" height={16} src={iconSrc} />
       )}
       <div className="sw-flex sw-min-w-0 sw-flex-col">
-        <Text isHighlighted>{project.name}</Text>
+        {project.key !== null ? (
+          <LinkStandalone highlight={LinkHighlight.Default} to={getProjectOverviewUrl(project.key)}>
+            {project.name}
+          </LinkStandalone>
+        ) : (
+          <Text isHighlighted>{project.name}</Text>
+        )}
         {meta !== '' && (
           <Text className="sw-truncate" isSubtle size={TextSize.Small}>
             {meta}

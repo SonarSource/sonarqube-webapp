@@ -24,7 +24,7 @@ import {
   OnboardingServiceMock,
 } from '~shared/api/mocks/OnboardingServiceMock';
 import { registerServiceMocks } from '~shared/api/mocks/server';
-import { renderWithContext } from '~shared/helpers/test-utils';
+import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { NO_DATA } from '../../../dashboardConstants';
 import { ImportRepositoriesModal } from '../ImportRepositoriesModal';
@@ -71,7 +71,7 @@ const ui = {
 };
 
 function renderModal() {
-  return renderWithContext(
+  return renderWithRouter(
     <ImportRepositoriesModal trigger={<button type="button">{TRIGGER_LABEL}</button>} />,
   );
 }
