@@ -91,6 +91,8 @@ export const CATEGORY_OVERRIDES: Record<string, string> = {
   yaml: LANGUAGES_CATEGORY,
 };
 
+export const DASHBOARD_HISTORY_RETENTION_KEY = 'sonar.dbcleaner.daysBeforeDeletingHistory';
+
 export const SUB_CATEGORY_EXCLUSIONS: Record<string, string[]> = {
   general: ['email'],
 };

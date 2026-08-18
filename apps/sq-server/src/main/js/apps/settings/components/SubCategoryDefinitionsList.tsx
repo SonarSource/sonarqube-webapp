@@ -19,11 +19,10 @@
  */
 
 import styled from '@emotion/styled';
-import { cssVar, Heading, Text } from '@sonarsource/echoes-react';
+import { cssVar, Divider, Heading, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { debounce, groupBy, sortBy } from 'lodash';
 import * as React from 'react';
-import { BasicSeparator } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { Location } from '~shared/types/router';
@@ -31,8 +30,11 @@ import { SettingDefinitionAndValue } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import { SUB_CATEGORY_EXCLUSIONS } from '../constants';
 import { getSubCategoryDescription, getSubCategoryName } from '../utils';
-import { ADDITIONAL_SUB_CATEGORY_SETTINGS } from './AdditionalSubCategories';
 import DefinitionsList from './DefinitionsList';
+import {
+  CUSTOM_SUB_CATEGORY_SECTIONS,
+  SUBCATEGORY_APPENDED_SECTIONS,
+} from './SubCategoryExtensions';
 
 export interface SubCategoryDefinitionsListProps {
   category: string;
@@ -92,7 +94,7 @@ class SubCategoryDefinitionsList extends React.PureComponent<SubCategoryDefiniti
 
   renderExtraSubCategorySettings(subCategory: string | undefined) {
     const { category, component } = this.props;
-    const filteredExtraSubCategories = ADDITIONAL_SUB_CATEGORY_SETTINGS.filter(
+    const filteredExtraSubCategories = SUBCATEGORY_APPENDED_SECTIONS.filter(
       ({ subCategoryKey, categoryKey }) => {
         return subCategory === subCategoryKey && category === categoryKey;
       },
@@ -127,55 +129,123 @@ class SubCategoryDefinitionsList extends React.PureComponent<SubCategoryDefiniti
       component,
       noPadding,
     } = this.props;
-    const bySubCategory = groupBy(settings, (setting) => setting.definition.subCategory);
-    const subCategories = Object.keys(bySubCategory).map((key) => ({
+    // 1. Custom subcategory setup
+    const eligibleCustomSubCategorySections = CUSTOM_SUB_CATEGORY_SECTIONS.filter(
+      ({ categoryKey, availableForProject, availableGlobally }) =>
+        categoryKey === category &&
+        ((availableGlobally && !component) || (availableForProject && Boolean(component))),
+    );
+    const definitionKeysToSuppress = new Set(
+      eligibleCustomSubCategorySections.map((section) => section.suppressedDefinitionKey),
+    );
+    const frontendDefinedSubCategoryKeys = new Set(
+      eligibleCustomSubCategorySections.map((section) => section.subCategoryKey),
+    );
+
+    // 2. Backend settings — filtered and grouped
+    const visibleSettings = settings.filter(
+      (setting) => !definitionKeysToSuppress.has(setting.definition.key),
+    );
+    const settingsBySubCategory = groupBy(
+      visibleSettings,
+      (setting) => setting.definition.subCategory,
+    );
+    const backendSubCategories = Object.keys(settingsBySubCategory).map((key) => ({
       key,
-      name: getSubCategoryName(bySubCategory[key][0].definition.category, key),
-      description: getSubCategoryDescription(bySubCategory[key][0].definition.category, key),
+      name: getSubCategoryName(settingsBySubCategory[key][0].definition.category, key),
+      description: getSubCategoryDescription(
+        settingsBySubCategory[key][0].definition.category,
+        key,
+      ),
     }));
-    const sortedSubCategories = sortBy(subCategories, (subCategory) =>
+    const sortedBackendSubCategories = sortBy(backendSubCategories, (subCategory) =>
       subCategory.name.toLowerCase(),
     );
-    const filteredSubCategories = subCategory
-      ? sortedSubCategories.filter((c) => c.key === subCategory)
-      : sortedSubCategories.filter((c) => !SUB_CATEGORY_EXCLUSIONS[category]?.includes(c.key));
+
+    // 3. Build backend-defined and frontend-defined subcategories
+    const isRenderedAsBackend = (c: { key: string }) =>
+      !SUB_CATEGORY_EXCLUSIONS[category]?.includes(c.key) &&
+      !frontendDefinedSubCategoryKeys.has(c.key);
+
+    const backendDefinedSubCategories = subCategory
+      ? sortedBackendSubCategories.filter((c) => c.key === subCategory)
+      : sortedBackendSubCategories.filter(isRenderedAsBackend);
+
+    // Frontend-defined replacements for backend subcategories, used when a setting requires richer UI than the auto-generated generic inputs — e.g. radio buttons or a destructive-action modal.
+    const frontendDefinedSubCategories = subCategory
+      ? []
+      : eligibleCustomSubCategorySections.map((setting) => ({
+          key: setting.subCategoryKey,
+          name: getSubCategoryName(category, setting.subCategoryKey),
+          description: getSubCategoryDescription(category, setting.subCategoryKey) ?? undefined,
+          customSubCategorySection: setting,
+          isFrontendDefined: true as const,
+        }));
+
+    // 4. Merge into alphabetically sorted list
+    const allSubCategories = sortBy(
+      [
+        ...backendDefinedSubCategories.map((subCategory) => ({
+          ...subCategory,
+          isFrontendDefined: false as const,
+        })),
+        ...frontendDefinedSubCategories,
+      ],
+      (subCategory) => subCategory.name.toLowerCase(),
+    );
 
     return (
       <ul className={classNames({ 'sw-mx-6': !noPadding })}>
-        {filteredSubCategories.map((subCategory, index) => (
-          <li className={classNames({ 'sw-py-6': !noPadding })} key={subCategory.key}>
-            {displaySubCategoryTitle && (
-              <Heading
-                as="h3"
-                data-key={subCategory.key}
-                ref={this.scrollToSubCategoryOrDefinition}
-              >
-                {subCategory.name}
-              </Heading>
-            )}
+        {allSubCategories.map((subCategory, index) => {
+          const isLast = index === allSubCategories.length - 1;
+          const SubCategoryComponent = subCategory.isFrontendDefined
+            ? subCategory.customSubCategorySection.SubCategoryComponent
+            : null;
 
-            {subCategory.description != null && (
-              <SafeHTMLInjection
-                htmlAsString={subCategory.description}
-                sanitizeLevel={SanitizeLevel.RESTRICTED}
-              >
-                <Text className="markdown" isSubtle />
-              </SafeHTMLInjection>
-            )}
-
-            <BasicSeparator className="sw-mt-6" />
-            <DefinitionsList
-              component={component}
-              scrollToDefinition={this.scrollToSubCategoryOrDefinition}
-              settings={bySubCategory[subCategory.key]}
-            />
-            {
-              // Add a separator to all but the last element
-              index !== filteredSubCategories.length - 1 && <BasicSeparator />
-            }
-            {this.renderExtraSubCategorySettings(subCategory.key)}
-          </li>
-        ))}
+          return (
+            <li
+              className={classNames({ 'sw-py-6': !noPadding })}
+              data-scroll-key={
+                subCategory.isFrontendDefined
+                  ? subCategory.customSubCategorySection['data-scroll-key']?.toLowerCase()
+                  : undefined
+              }
+              key={subCategory.key}
+            >
+              {displaySubCategoryTitle && (
+                <Heading
+                  as="h3"
+                  data-key={subCategory.key}
+                  ref={this.scrollToSubCategoryOrDefinition}
+                >
+                  {subCategory.name}
+                </Heading>
+              )}
+              {subCategory.description != null && (
+                <SafeHTMLInjection
+                  htmlAsString={subCategory.description}
+                  sanitizeLevel={SanitizeLevel.RESTRICTED}
+                >
+                  <Text className="markdown" isSubtle />
+                </SafeHTMLInjection>
+              )}
+              <Divider className="sw-mt-6" />
+              {SubCategoryComponent ? (
+                <SubCategoryComponent component={component} />
+              ) : (
+                <>
+                  <DefinitionsList
+                    component={component}
+                    scrollToDefinition={this.scrollToSubCategoryOrDefinition}
+                    settings={settingsBySubCategory[subCategory.key]}
+                  />
+                  {this.renderExtraSubCategorySettings(subCategory.key)}
+                </>
+              )}
+              {!isLast && <Divider />}
+            </li>
+          );
+        })}
       </ul>
     );
   }

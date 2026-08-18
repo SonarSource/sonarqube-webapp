@@ -4407,6 +4407,31 @@ export const defaultMessages = {
   'property.category.housekeeping.general': 'General',
   'property.category.housekeeping.branchesAndPullRequests': 'Branches and Pull Requests',
   'property.category.housekeeping.auditLogs': 'Audit Logs',
+  'property.category.housekeeping.dashboards': 'Dashboards',
+
+  'settings.dashboard.retention.title': 'Dashboard history retention',
+  'settings.dashboard.retention.description1':
+    'Manage how long historical data is kept for project and portfolio dashboards. <bold>Data older than the retention period is automatically deleted.</bold> Longer retention uses more database storage.',
+  'settings.dashboard.retention.description2':
+    'This setting only affects dashboard history data and does not change data storage for analysis retention or scanner cache cleanup. Learn more about <link>dashboard history retention</link>.',
+  'settings.dashboard.retention.option.365': '365 days (Recommended)',
+  'settings.dashboard.retention.option.180': '180 days',
+  'settings.dashboard.retention.option.90': '90 days',
+  'settings.dashboard.retention.option.custom': 'Custom',
+  'settings.dashboard.retention.custom.label': 'Define custom period',
+  'settings.dashboard.retention.custom.hint': 'Must be a whole number',
+  'settings.dashboard.retention.custom.days_unit': 'days',
+  'settings.dashboard.retention.display_limit.title': 'Dashboard display limit',
+  'settings.dashboard.retention.display_limit.description':
+    'Dashboard charts can display up to 365 days of historical data. Historical data retained beyond this period is available only through the API.',
+  'settings.dashboard.retention.reduce_modal.title': 'Reduce dashboard history retention?',
+  'settings.dashboard.retention.reduce_modal.description':
+    'Dashboard history data older than {days} days will be <bold>permanently deleted immediately</bold>. Increasing the retention period later will not restore this data.',
+  'settings.dashboard.retention.reduce_modal.confirm': 'Reduce retention',
+  'settings.dashboard.retention.success':
+    'Dashboard history retention period has been successfully updated.',
+  'settings.dashboard.retention.unsaved_changes':
+    'You have unsaved changes to the dashboard retention setting. Are you sure you want to leave?',
 
   'settings.advanced_security.title': 'Advanced Security',
   'settings.advanced_security.description':

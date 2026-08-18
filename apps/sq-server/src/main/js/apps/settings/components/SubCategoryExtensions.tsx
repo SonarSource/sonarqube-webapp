@@ -23,27 +23,37 @@ import { addons } from '~sq-server-addons/index';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
+import { DASHBOARD_HISTORY_RETENTION_KEY } from '../constants';
 import { DEFAULT_CATEGORY } from '../utils';
+import { DashboardRetentionSection } from './dashboardRetention/DashboardRetentionSection';
 
-export interface AdditionalSubCategorySettingComponentProps {
+export interface SubCategoryAppendedSectionComponentProps {
   component?: Component;
 }
 
-export interface AdditionalSubCategorySetting {
-  SubCategoryComponent: FunctionComponent<AdditionalSubCategorySettingComponentProps>;
+interface SubCategoryComponentBase {
+  SubCategoryComponent: FunctionComponent<SubCategoryAppendedSectionComponentProps>;
   availableForProject: boolean;
   availableGlobally: boolean;
   categoryKey: string;
   'data-scroll-key'?: string;
-  key: string;
   subCategoryKey: string;
 }
 
+export interface SubCategoryAppendedSection extends SubCategoryComponentBase {
+  key: string;
+}
+
+export interface CustomSubCategorySection extends SubCategoryComponentBase {
+  suppressedDefinitionKey: string;
+}
+
 /*
- * If you want to insert custom component under subcategories in definitions list,
- * you can do it by adding it to the ADDITIONAL_SUB_CATEGORY_SETTINGS array below.
+ * Components in this list are appended inside an existing subcategory's section,
+ * after its standard definitions. The component renders within the subcategory's <li>,
+ * not as a separate peer section.
  */
-export const ADDITIONAL_SUB_CATEGORY_SETTINGS: AdditionalSubCategorySetting[] = [
+export const SUBCATEGORY_APPENDED_SECTIONS: SubCategoryAppendedSection[] = [
   {
     subCategoryKey: 'issues',
     key: 'sandbox-issues',
@@ -55,7 +65,24 @@ export const ADDITIONAL_SUB_CATEGORY_SETTINGS: AdditionalSubCategorySetting[] = 
   },
 ];
 
-function SandboxIssues(props: Readonly<AdditionalSubCategorySettingComponentProps>) {
+/*
+ * Use this registry to replace a backend-defined subcategory with a custom component.
+ * Each entry suppresses the standard definitions UI for the listed keys and renders
+ * the custom component as a peer section in its place.
+ */
+export const CUSTOM_SUB_CATEGORY_SECTIONS: CustomSubCategorySection[] = [
+  {
+    categoryKey: 'housekeeping',
+    subCategoryKey: 'dashboards',
+    suppressedDefinitionKey: DASHBOARD_HISTORY_RETENTION_KEY,
+    SubCategoryComponent: DashboardRetentionSection,
+    availableGlobally: true,
+    availableForProject: false,
+    'data-scroll-key': DASHBOARD_HISTORY_RETENTION_KEY,
+  },
+];
+
+function SandboxIssues(props: Readonly<SubCategoryAppendedSectionComponentProps>) {
   const { hasFeature } = useAvailableFeatures();
 
   if (hasFeature(Feature.FromSonarQubeUpdate) && addons.issueSandbox) {
