@@ -1731,6 +1731,14 @@ export const defaultMessages = {
   'pull_request.assign_to_agent.error.description':
     'Unable to create the Agent job. Please try again.',
   'pull_request.assign_to_agent.view_agent_activity': 'View Agent Activity',
+  'pull_request.assign_to_agent.status_loading': 'Loading Agent status',
+  'pull_request.assigned_to_agent': 'Assigned to Agent',
+  'pull_request.assign_to_agent.ready_to_review': 'Ready to review',
+  'pull_request.assign_to_agent.pr_opened': '1 PR opened',
+  'pull_request.assign_to_agent.fix_pr_number': 'Fix PR #{prNumber}',
+  'pull_request.assign_to_agent.failed.title': 'Could not fix Quality Gate failure',
+  'pull_request.assign_to_agent.failed.description': 'Remediation Agent encountered an error',
+  'pull_request.assign_to_agent.retry': 'Retry',
   'project_agent_activity.title': 'Remediation Agent',
   'project_agent_activity.description':
     'Track your Remediation Agent activity for this project. Monitor jobs, observe their progress, and access detailed information for each task.',
