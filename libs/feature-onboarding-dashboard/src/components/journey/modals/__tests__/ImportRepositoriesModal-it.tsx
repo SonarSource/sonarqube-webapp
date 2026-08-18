@@ -281,8 +281,8 @@ it('filters the repository list by search term', async () => {
   await search(user, ui.searchInput.get(), '');
 
   // After clearing the input, every repositories are restored.
-  expect(await ui.table.byText('platform-jobs').find()).toBeInTheDocument();
-  expect(ui.table.byText('web-core').get()).toBeInTheDocument();
+  expect(await ui.table.byText('web-core').find()).toBeInTheDocument();
+  expect(ui.table.byText('platform-jobs').get()).toBeInTheDocument();
 });
 
 it('filters the repository list to private repositories', async () => {
