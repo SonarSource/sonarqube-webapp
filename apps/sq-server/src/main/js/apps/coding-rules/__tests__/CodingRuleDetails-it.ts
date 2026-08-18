@@ -135,7 +135,7 @@ describe('rendering', () => {
     expect(ui.otherContextTitle.get()).toBeInTheDocument();
   });
 
-  it('should show CaYC notification for rule advanced section and removes it after user`s visit', async () => {
+  it('should show CaYC notification for rule advanced section and not remove it after tab navigation without scrolling', async () => {
     const { ui, user } = getPageObjects();
     renderCodingRulesApp(mockLoggedInUser(), 'coding_rules?open=rule10');
     await ui.detailsloaded();
@@ -143,11 +143,10 @@ describe('rendering', () => {
 
     expect(ui.caycNotificationButton.get()).toBeInTheDocument();
 
-    // navigate away and come back
     await user.click(ui.howToFixTab.get());
     await user.click(ui.moreInfoTab.get());
 
-    expect(ui.caycNotificationButton.query()).not.toBeInTheDocument();
+    expect(ui.caycNotificationButton.get()).toBeInTheDocument();
   });
 
   it('should show CaYC notification for rule advanced section and removes it when user scrolls to the principles', async () => {

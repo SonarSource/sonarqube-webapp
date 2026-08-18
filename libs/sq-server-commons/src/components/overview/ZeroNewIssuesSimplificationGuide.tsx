@@ -19,26 +19,24 @@
  */
 
 import { Link, Spotlight, SpotlightModalPlacement, SpotlightStep } from '@sonarsource/echoes-react';
-import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { dismissNotice } from '../../api/users';
-import { CurrentUserContext } from '../../context/current-user/CurrentUserContext';
+import { useDismissNotice, useIsNoticeDismissed } from '~adapters/helpers/notices';
+import { useCurrentUser } from '~adapters/helpers/users';
 import { QualityGate } from '../../types/types';
-import { NoticeType, isLoggedIn } from '../../types/users';
+import { NoticeType } from '../../types/users';
 
 interface Props {
   qualityGate: QualityGate;
 }
 
 export default function ZeroNewIssuesSimplificationGuide({ qualityGate }: Readonly<Props>) {
-  const { currentUser, updateDismissedNotices } = React.useContext(CurrentUserContext);
+  const { isLoggedIn } = useCurrentUser();
+  const isDismissed = useIsNoticeDismissed(NoticeType.OVERVIEW_ZERO_NEW_ISSUES_SIMPLIFICATION);
+  const { dismissNotice } = useDismissNotice();
 
   const intl = useIntl();
 
-  const shouldRun =
-    Boolean(qualityGate.isBuiltIn) &&
-    isLoggedIn(currentUser) &&
-    !currentUser.dismissedNotices?.[NoticeType.OVERVIEW_ZERO_NEW_ISSUES_SIMPLIFICATION];
+  const shouldRun = Boolean(qualityGate.isBuiltIn) && isLoggedIn && !isDismissed;
 
   const steps: SpotlightStep[] = [
     {
@@ -62,11 +60,9 @@ export default function ZeroNewIssuesSimplificationGuide({ qualityGate }: Readon
     },
   ];
 
-  const onCallback = async (props: { action: string; type: string }) => {
+  const onCallback = (props: { action: string; type: string }) => {
     if (props.action === 'close' && props.type === 'tour:end' && shouldRun) {
-      await dismissNotice(NoticeType.OVERVIEW_ZERO_NEW_ISSUES_SIMPLIFICATION);
-
-      updateDismissedNotices(NoticeType.OVERVIEW_ZERO_NEW_ISSUES_SIMPLIFICATION, true);
+      dismissNotice(NoticeType.OVERVIEW_ZERO_NEW_ISSUES_SIMPLIFICATION);
     }
   };
 

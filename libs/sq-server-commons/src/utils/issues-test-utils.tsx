@@ -19,6 +19,7 @@
  */
 
 import { waitFor } from '@testing-library/react';
+import { registerServiceMocks } from '~shared/api/mocks/server';
 import { byPlaceholderText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import {
   CodeAttributeCategory,
@@ -42,6 +43,9 @@ export const sourcesHandler = new SourcesServiceMock();
 export const branchHandler = new BranchesServiceMock();
 export const fixIssueHandler = new FixSuggestionsServiceMock();
 export const modeHandler = new ModeServiceMock();
+
+// Register handlers with MSW
+registerServiceMocks(usersHandler);
 
 export const ui = {
   loading: byText('issues.loading_issues'),

@@ -192,12 +192,7 @@ export function useRevokeTokenMutation() {
 }
 
 export function useDismissNoticeMutation() {
-  const { updateDismissedNotices } = useCurrentUser();
-
   return useMutation({
     mutationFn: (data: NoticeType) => dismissNotice(data),
-    onSuccess(_, data) {
-      updateDismissedNotices(data, true);
-    },
   });
 }

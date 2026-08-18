@@ -22,10 +22,9 @@ import classNames from 'classnames';
 import { cloneDeep, debounce, groupBy, isEqual } from 'lodash';
 import * as React from 'react';
 import { Location } from 'react-router-dom';
+import { useDismissNotice, useIsNoticeDismissed } from '~adapters/helpers/notices';
+import { useCurrentUser } from '~adapters/helpers/users';
 import { RuleDescriptionSections, RuleDetails } from '~shared/types/rules';
-import { dismissNotice } from '../../api/users';
-import { CurrentUserContextInterface } from '../../context/current-user/CurrentUserContext';
-import withCurrentUserContext from '../../context/current-user/withCurrentUserContext';
 import { ToggleButton, getTabId, getTabPanelId } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { NoticeType } from '../../types/users';
@@ -33,8 +32,11 @@ import withLocation from '../hoc/withLocation';
 import MoreInfoRuleDescription from './MoreInfoRuleDescription';
 import RuleDescription from './RuleDescription';
 
-interface RuleTabViewerProps extends CurrentUserContextInterface {
+interface RuleTabViewerProps {
+  isEducationPrinciplesDismissed: boolean;
+  isLoggedIn: boolean;
   location: Location;
+  onDismissEducationPrinciples?: () => void;
   ruleDetails: RuleDetails;
 }
 
@@ -66,6 +68,7 @@ const DEBOUNCE_FOR_SCROLL = 250;
 export class RuleTabViewer extends React.PureComponent<RuleTabViewerProps, State> {
   state: State = {
     tabs: [],
+    educationalPrinciplesNotificationHasBeenDismissed: false,
   };
 
   educationPrinciplesRef: React.RefObject<HTMLDivElement | null>;
@@ -97,29 +100,28 @@ export class RuleTabViewer extends React.PureComponent<RuleTabViewerProps, State
   }
 
   componentDidUpdate(prevProps: RuleTabViewerProps, prevState: State) {
-    const { ruleDetails, currentUser } = this.props;
+    const { ruleDetails, isLoggedIn, isEducationPrinciplesDismissed } = this.props;
 
     const { selectedTab } = this.state;
 
     if (
       !isEqual(prevProps.ruleDetails, ruleDetails) ||
-      !isEqual(prevProps.currentUser, currentUser)
+      prevProps.isLoggedIn !== isLoggedIn ||
+      prevProps.isEducationPrinciplesDismissed !== isEducationPrinciplesDismissed
     ) {
       this.setState((pState) =>
         this.computeState(pState, prevProps.ruleDetails.key !== ruleDetails.key),
       );
     }
 
-    if (selectedTab?.value === TabKeys.MoreInfo) {
-      this.checkIfEducationPrinciplesAreVisible();
-    }
-
+    // When the user navigates away from the MoreInfo tab after having scrolled to see the principles,
+    // hide the notification locally (the backend was already persisted via the scroll handler)
     if (
       prevState.selectedTab?.value === TabKeys.MoreInfo &&
-      prevState.displayEducationalPrinciplesNotification &&
+      selectedTab?.value !== TabKeys.MoreInfo &&
       prevState.educationalPrinciplesNotificationHasBeenDismissed
     ) {
-      this.props.updateDismissedNotices(NoticeType.EDUCATION_PRINCIPLES, true);
+      this.setState({ displayEducationalPrinciplesNotification: false });
     }
   }
 
@@ -128,16 +130,13 @@ export class RuleTabViewer extends React.PureComponent<RuleTabViewerProps, State
   }
 
   computeState = (prevState: State, resetSelectedTab = false) => {
-    const {
-      ruleDetails,
-      currentUser: { isLoggedIn, dismissedNotices },
-    } = this.props;
+    const { ruleDetails, isLoggedIn, isEducationPrinciplesDismissed } = this.props;
 
     const displayEducationalPrinciplesNotification =
       !!ruleDetails.educationPrinciples &&
       ruleDetails.educationPrinciples.length > 0 &&
       isLoggedIn &&
-      !dismissedNotices?.[NoticeType.EDUCATION_PRINCIPLES];
+      !isEducationPrinciplesDismissed;
 
     const tabs = this.computeTabs(displayEducationalPrinciplesNotification);
 
@@ -145,6 +144,8 @@ export class RuleTabViewer extends React.PureComponent<RuleTabViewerProps, State
       tabs,
       selectedTab: resetSelectedTab || !prevState.selectedTab ? tabs[0] : prevState.selectedTab,
       displayEducationalPrinciplesNotification,
+      educationalPrinciplesNotificationHasBeenDismissed:
+        prevState.educationalPrinciplesNotificationHasBeenDismissed ?? false,
     };
   };
 
@@ -233,6 +234,7 @@ export class RuleTabViewer extends React.PureComponent<RuleTabViewerProps, State
       displayEducationalPrinciplesNotification,
       educationalPrinciplesNotificationHasBeenDismissed,
     } = this.state;
+    const { onDismissEducationPrinciples } = this.props;
 
     if (this.educationPrinciplesRef.current) {
       const rect = this.educationPrinciplesRef.current.getBoundingClientRect();
@@ -243,16 +245,13 @@ export class RuleTabViewer extends React.PureComponent<RuleTabViewerProps, State
         displayEducationalPrinciplesNotification &&
         !educationalPrinciplesNotificationHasBeenDismissed
       ) {
-        dismissNotice(NoticeType.EDUCATION_PRINCIPLES)
-          .then(() => {
-            this.detachScrollEvent();
-            this.setState({
-              educationalPrinciplesNotificationHasBeenDismissed: true,
-            });
-          })
-          .catch(() => {
-            /* noop */
-          });
+        if (onDismissEducationPrinciples) {
+          onDismissEducationPrinciples();
+        }
+        this.detachScrollEvent();
+        this.setState({
+          educationalPrinciplesNotificationHasBeenDismissed: true,
+        });
       }
     }
   };
@@ -307,4 +306,28 @@ export class RuleTabViewer extends React.PureComponent<RuleTabViewerProps, State
   }
 }
 
-export default withCurrentUserContext(withLocation(RuleTabViewer));
+interface RuleTabViewerContainerProps extends Omit<
+  RuleTabViewerProps,
+  'isEducationPrinciplesDismissed' | 'isLoggedIn' | 'onDismissEducationPrinciples'
+> {}
+
+function RuleTabViewerContainer(props: Readonly<RuleTabViewerContainerProps>) {
+  const isDismissed = useIsNoticeDismissed(NoticeType.EDUCATION_PRINCIPLES);
+  const { isLoggedIn } = useCurrentUser();
+  const { dismissNotice } = useDismissNotice();
+
+  const handleDismiss = async () => {
+    await dismissNotice(NoticeType.EDUCATION_PRINCIPLES);
+  };
+
+  return (
+    <RuleTabViewer
+      {...props}
+      isEducationPrinciplesDismissed={isDismissed}
+      isLoggedIn={isLoggedIn}
+      onDismissEducationPrinciples={handleDismiss}
+    />
+  );
+}
+
+export default withLocation(RuleTabViewerContainer);

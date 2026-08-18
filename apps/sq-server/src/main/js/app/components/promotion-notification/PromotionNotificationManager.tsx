@@ -20,19 +20,19 @@
 
 import { useContext } from 'react';
 import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import { useIsNoticeDismissed } from '~sq-server-commons/sq-server-adapters/helpers/notices';
 import { isLoggedIn, NoticeType } from '~sq-server-commons/types/users';
 import { SQIDEPromotionNotification } from './SQIDEPromotionNotification';
 
 export function PromotionNotificationManager() {
   const { currentUser } = useContext(CurrentUserContext);
+  const isDismissed = useIsNoticeDismissed(NoticeType.SONARLINT_AD);
 
   if (!isLoggedIn(currentUser)) {
     return undefined;
   }
 
-  const hasSQIDEPromotion = !currentUser.dismissedNotices?.[NoticeType.SONARLINT_AD];
-
-  if (hasSQIDEPromotion) {
+  if (!isDismissed) {
     return <SQIDEPromotionNotification />;
   }
 

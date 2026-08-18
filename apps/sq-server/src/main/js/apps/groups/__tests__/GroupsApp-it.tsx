@@ -20,6 +20,7 @@
 
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslationServiceMock';
 import GithubProvisioningServiceMock from '~sq-server-commons/api/mocks/GithubProvisioningServiceMock';
@@ -109,6 +110,7 @@ const ui = {
 };
 
 beforeEach(() => {
+  resetServiceMocks();
   settingsHandler.reset();
   handler.reset();
   systemHandler.reset();
@@ -116,6 +118,7 @@ beforeEach(() => {
   githubHandler.reset();
   userHandler.reset();
   groupMembershipsHandler.reset();
+  registerServiceMocks(userHandler);
   groupMembershipsHandler.memberships = [
     mockGroupMembership({ groupId: '1', userId: '1' }),
     mockGroupMembership({ groupId: '1', userId: '2' }),

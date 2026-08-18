@@ -20,27 +20,25 @@
 
 import styled from '@emotion/styled';
 import { Button, cssVar, Text } from '@sonarsource/echoes-react';
-import { useCallback, useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { dismissNotice } from '~sq-server-commons/api/users';
 import { SonarQubeIDEPromotionIllustration } from '~sq-server-commons/components/branding/SonarQubeIDEPromotionIllustration';
-import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
-import { isLoggedIn, NoticeType } from '~sq-server-commons/types/users';
+import {
+  useDismissNotice,
+  useIsNoticeDismissed,
+} from '~sq-server-commons/sq-server-adapters/helpers/notices';
+import { useCurrentUser } from '~sq-server-commons/sq-server-adapters/helpers/users';
+import { NoticeType } from '~sq-server-commons/types/users';
 
 export function SQIDEPromotionNotification() {
-  const { currentUser, updateDismissedNotices } = useContext(CurrentUserContext);
+  const { isLoggedIn } = useCurrentUser();
+  const isDismissed = useIsNoticeDismissed(NoticeType.SONARLINT_AD);
+  const { dismissNotice } = useDismissNotice();
 
-  const onClick = useCallback(() => {
-    return dismissNotice(NoticeType.SONARLINT_AD)
-      .then(() => {
-        updateDismissedNotices(NoticeType.SONARLINT_AD, true);
-      })
-      .catch(() => {
-        /* noop */
-      });
-  }, [updateDismissedNotices]);
+  const onClick = () => {
+    dismissNotice(NoticeType.SONARLINT_AD);
+  };
 
-  if (!isLoggedIn(currentUser) || currentUser.dismissedNotices?.[NoticeType.SONARLINT_AD]) {
+  if (!isLoggedIn || isDismissed) {
     return null;
   }
 

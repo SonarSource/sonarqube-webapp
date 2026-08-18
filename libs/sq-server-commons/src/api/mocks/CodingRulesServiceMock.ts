@@ -35,7 +35,7 @@ import {
 import { StandardsInformationKey } from '~shared/types/security';
 import { IMPACT_SEVERITIES } from '../../helpers/constants';
 import {
-  mockCurrentUser,
+  mockLoggedInUser,
   mockPaging,
   mockRestRuleDetails,
   mockRuleActivationAdvanced,
@@ -857,7 +857,7 @@ export default class CodingRulesServiceMock {
 
   handleGetCurrentUser = () => {
     return this.reply(
-      mockCurrentUser({
+      mockLoggedInUser({
         dismissedNotices: {
           educationPrinciples: this.dismissedNoticesEP,
         },

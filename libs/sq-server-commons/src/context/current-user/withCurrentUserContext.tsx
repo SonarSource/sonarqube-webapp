@@ -30,7 +30,7 @@ export default function withCurrentUserContext<P>(
   >,
 ) {
   return class WithCurrentUserContext extends React.PureComponent<
-    Omit<P, 'currentUser' | 'updateCurrentUserHomepage' | 'updateDismissedNotices'>
+    Omit<P, 'currentUser' | 'updateCurrentUserHomepage'>
   > {
     static displayName = getWrappedDisplayName(WrappedComponent, 'withCurrentUserContext');
 

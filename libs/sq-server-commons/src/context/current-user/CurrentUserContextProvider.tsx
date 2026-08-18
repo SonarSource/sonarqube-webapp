@@ -18,61 +18,51 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { CurrentUser, HomePage, NoticeType } from '../../types/users';
-import { CurrentUserContext } from './CurrentUserContext';
+import { CurrentUserContext, DismissNoticesUpdaterContext } from './CurrentUserContext';
 
 interface Props {
   currentUser?: CurrentUser;
 }
 
-interface State {
-  currentUser: CurrentUser;
-}
+export default function CurrentUserContextProvider({
+  currentUser: initialCurrentUser,
+  children,
+}: React.PropsWithChildren<Props>) {
+  const [currentUser, setCurrentUser] = useState<CurrentUser>(
+    initialCurrentUser ?? {
+      isLoggedIn: false,
+      dismissedNotices: {},
+    },
+  );
 
-export default class CurrentUserContextProvider extends React.PureComponent<
-  React.PropsWithChildren<Props>,
-  State
-> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      currentUser: props.currentUser ?? {
-        isLoggedIn: false,
-        dismissedNotices: {},
-      },
-    };
-  }
+  const updateCurrentUserHomepage = useCallback((homepage: HomePage) => {
+    setCurrentUser((prev) => ({ ...prev, homepage }));
+  }, []);
 
-  updateCurrentUserHomepage = (homepage: HomePage) => {
-    this.setState((prevState) => ({
-      currentUser: { ...prevState.currentUser, homepage },
-    }));
-  };
-
-  updateDismissedNotices = (key: NoticeType, value: boolean) => {
-    this.setState((prevState) => ({
-      currentUser: {
-        ...prevState.currentUser,
-        dismissedNotices: {
-          ...prevState.currentUser.dismissedNotices,
-          [key]: value,
-        },
+  const updateDismissedNotices = useCallback((key: NoticeType, value: boolean) => {
+    setCurrentUser((prev) => ({
+      ...prev,
+      dismissedNotices: {
+        ...prev.dismissedNotices,
+        [key]: value,
       },
     }));
-  };
+  }, []);
 
-  render() {
-    return (
-      <CurrentUserContext.Provider
-        value={{
-          currentUser: this.state.currentUser,
-          updateCurrentUserHomepage: this.updateCurrentUserHomepage,
-          updateDismissedNotices: this.updateDismissedNotices,
-        }}
-      >
-        {this.props.children}
-      </CurrentUserContext.Provider>
-    );
-  }
+  const contextValue = useMemo(
+    () => ({ currentUser, updateCurrentUserHomepage }),
+    [currentUser, updateCurrentUserHomepage],
+  );
+
+  const dismissContextValue = useMemo(() => ({ updateDismissedNotices }), [updateDismissedNotices]);
+
+  return (
+    <CurrentUserContext.Provider value={contextValue}>
+      <DismissNoticesUpdaterContext.Provider value={dismissContextValue}>
+        {children}
+      </DismissNoticesUpdaterContext.Provider>
+    </CurrentUserContext.Provider>
+  );
 }

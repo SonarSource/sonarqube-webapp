@@ -20,6 +20,7 @@
 
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
 import { byLabelText, byRole } from '~shared/helpers/testSelector';
 import { MetricKey } from '~shared/types/metrics';
 import { HttpStatus } from '~shared/types/request';
@@ -62,11 +63,13 @@ const modeHandler = new ModeServiceMock();
 const message = 'First Issue';
 
 beforeEach(() => {
+  resetServiceMocks();
   issuesHandler.reset();
   componentsHandler.reset();
   usersHandler.reset();
   modeHandler.reset();
   usersHandler.users = [mockLoggedInUser() as unknown as RestUserDetailed];
+  registerServiceMocks(usersHandler);
 });
 
 it('should show a permalink on line number', async () => {

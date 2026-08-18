@@ -25,7 +25,10 @@ import { byLabelText, byRole, byTestId, byText } from '~shared/helpers/testSelec
 import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
 import * as settingsApi from '~sq-server-commons/api/settings';
 import * as api from '~sq-server-commons/api/system';
-import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import {
+  CurrentUserContext,
+  DismissNoticesUpdaterContext,
+} from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { mockEmailConfiguration } from '~sq-server-commons/helpers/mocks/system';
 import { mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
@@ -549,10 +552,15 @@ function renderEmailNotifications() {
           permissions: { global: [Permissions.Admin] },
         }),
         updateCurrentUserHomepage: () => {},
-        updateDismissedNotices: () => {},
       }}
     >
-      <EmailNotification />
+      <DismissNoticesUpdaterContext.Provider
+        value={{
+          updateDismissedNotices: () => {},
+        }}
+      >
+        <EmailNotification />
+      </DismissNoticesUpdaterContext.Provider>
     </CurrentUserContext.Provider>,
   );
 }

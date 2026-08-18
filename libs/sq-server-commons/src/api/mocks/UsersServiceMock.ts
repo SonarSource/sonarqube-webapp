@@ -20,10 +20,17 @@
 
 import { isAfter, isBefore } from 'date-fns';
 import { cloneDeep, isEmpty, isUndefined, omitBy } from 'lodash';
+import { http } from 'msw';
+import { AbstractServiceMock } from '~shared/api/mocks/AbstractServiceMock';
 import { HttpStatus } from '~shared/types/request';
 import { mockIdentityProvider, mockLoggedInUser, mockRestUser } from '../../helpers/testMocks';
 import { IdentityProvider } from '../../types/types';
-import { ChangePasswordResults, LoggedInUser, NoticeType } from '../../types/users';
+import {
+  ChangePasswordResults,
+  LoggedInUser,
+  NoticeType,
+  RestUserDetailed,
+} from '../../types/users';
 import {
   changePassword,
   deleteUser,
@@ -37,7 +44,21 @@ import {
 } from '../users';
 import GroupMembershipsServiceMock from './GroupMembersipsServiceMock';
 
-jest.mock('../users');
+// Note: We still mock some API functions for backward compatibility with handlers that use jest.mocked()
+// but we do NOT mock getUsers and getCurrentUser since they're intercepted by MSW (Mock Service Worker) handlers
+jest.mock('../users', () => ({
+  changePassword: jest.fn(),
+  deleteUser: jest.fn(),
+  dismissNotice: jest.fn(),
+  getIdentityProviders: jest.fn(),
+  getUserById: jest.fn(),
+  postUser: jest.fn(),
+  updateUser: jest.fn(),
+  // getUsers and getCurrentUser are NOT mocked here - they make real HTTP calls
+  // that MSW (Mock Service Worker) intercepts
+  getUsers: jest.requireActual('../users').getUsers,
+  getCurrentUser: jest.requireActual('../users').getCurrentUser,
+}));
 
 const DEFAULT_USERS = [
   mockRestUser({
@@ -96,23 +117,73 @@ const DEFAULT_USERS = [
 
 const DEFAULT_PASSWORD = 'test';
 
-export default class UsersServiceMock {
+interface UsersServiceMockData {
+  users: RestUserDetailed[];
+}
+
+export default class UsersServiceMock extends AbstractServiceMock<UsersServiceMockData> {
   isManaged = true;
-  users = cloneDeep(DEFAULT_USERS);
   currentUser = mockLoggedInUser();
   password = DEFAULT_PASSWORD;
   groupMembershipsServiceMock?: GroupMembershipsServiceMock = undefined;
+
+  handlers = [
+    http.get('/api/v2/users-management/users', ({ request }) => {
+      const url = new URL(request.url);
+      const q = url.searchParams.get('q');
+      const managedStr = url.searchParams.get('managed');
+      const managed = managedStr !== null ? managedStr === 'true' : undefined;
+      const pageIndex = Number.parseInt(url.searchParams.get('pageIndex') || '1', 10);
+      const pageSize = Number.parseInt(url.searchParams.get('pageSize') || '10', 10);
+      const sonarQubeLastConnectionDateFrom =
+        url.searchParams.get('sonarQubeLastConnectionDateFrom') ?? undefined;
+      const sonarQubeLastConnectionDateTo =
+        url.searchParams.get('sonarQubeLastConnectionDateTo') ?? undefined;
+      const sonarLintLastConnectionDateFrom =
+        url.searchParams.get('sonarLintLastConnectionDateFrom') ?? undefined;
+      const sonarLintLastConnectionDateTo =
+        url.searchParams.get('sonarLintLastConnectionDateTo') ?? undefined;
+      const groupId = url.searchParams.get('groupId') ?? undefined;
+      const groupIdExclude = url.searchParams.get('groupId!') ?? undefined;
+
+      const filteredUsers = this.getFilteredRestUsers({
+        q: q ?? '',
+        managed,
+        sonarQubeLastConnectionDateFrom,
+        sonarQubeLastConnectionDateTo,
+        sonarLintLastConnectionDateFrom,
+        sonarLintLastConnectionDateTo,
+        groupId,
+        'groupId!': groupIdExclude,
+      });
+
+      return this.ok({
+        page: {
+          pageIndex,
+          pageSize,
+          total: filteredUsers.length,
+        },
+        users: filteredUsers.slice((pageIndex - 1) * pageSize, pageIndex * pageSize),
+      });
+    }),
+    http.get('/api/users/current', () => this.ok(this.currentUser)),
+  ];
+
   constructor(groupMembershipsServiceMock?: GroupMembershipsServiceMock) {
+    super({ users: cloneDeep(DEFAULT_USERS) });
     this.groupMembershipsServiceMock = groupMembershipsServiceMock;
+
+    // Set up jest mocks for non-HTTP functions
     jest.mocked(getIdentityProviders).mockImplementation(this.handleGetIdentityProviders);
-    jest.mocked(getUsers).mockImplementation(this.handleGetUsers);
     jest.mocked(getUserById).mockImplementation(this.handleGetUserById);
     jest.mocked(postUser).mockImplementation(this.handlePostUser);
     jest.mocked(updateUser).mockImplementation(this.handleUpdateUser);
     jest.mocked(changePassword).mockImplementation(this.handleChangePassword);
     jest.mocked(deleteUser).mockImplementation(this.handleDeactivateUser);
     jest.mocked(dismissNotice).mockImplementation(this.handleDismissNotification);
-    jest.mocked(getCurrentUser).mockImplementation(this.handleGetCurrentUser);
+
+    // Note: getUsers and getCurrentUser are NOT mocked here - they make real HTTP calls
+    // that are intercepted by MSW handlers
   }
 
   getFilteredRestUsers = (filterParams: Parameters<typeof getUsers>[0]) => {
@@ -126,7 +197,7 @@ export default class UsersServiceMock {
       groupId,
       'groupId!': groupIdExclude,
     } = filterParams;
-    let { users } = this;
+    let { users } = this.data;
     if (groupId || groupIdExclude) {
       if (!this.groupMembershipsServiceMock) {
         throw new Error(
@@ -208,7 +279,7 @@ export default class UsersServiceMock {
   };
 
   handleGetUserById: typeof getUserById = (id) => {
-    const user = this.users.find((u) => u.id === id);
+    const user = this.data.users.find((u) => u.id === id);
     if (!user) {
       return Promise.reject(new Error('Not Found'));
     }
@@ -239,13 +310,13 @@ export default class UsersServiceMock {
       name,
       scmAccounts,
     });
-    this.users.push(newUser);
+    this.data.users.push(newUser);
     return this.reply(newUser);
   };
 
   handleUpdateUser: typeof updateUser = (id, data) => {
     const { email, name, scmAccounts } = data;
-    const user = this.users.find((u) => u.id === id);
+    const user = this.data.users.find((u) => u.id === id);
     if (!user) {
       return Promise.reject('No such user');
     }
@@ -275,8 +346,8 @@ export default class UsersServiceMock {
   };
 
   handleDeactivateUser: typeof deleteUser = (data) => {
-    const index = this.users.findIndex((u) => u.id === data.id);
-    const user = this.users.splice(index, 1)[0];
+    const index = this.data.users.findIndex((u) => u.id === data.id);
+    const user = this.data.users.splice(index, 1)[0];
     user.active = false;
     return this.reply(undefined);
   };
@@ -297,9 +368,17 @@ export default class UsersServiceMock {
     return this.reply(this.currentUser);
   };
 
+  get users(): RestUserDetailed[] {
+    return this.data.users;
+  }
+
+  set users(users: RestUserDetailed[]) {
+    this.data.users = users;
+  }
+
   reset = () => {
+    super.reset();
     this.isManaged = true;
-    this.users = cloneDeep(DEFAULT_USERS);
     this.password = DEFAULT_PASSWORD;
     this.currentUser = mockLoggedInUser();
   };

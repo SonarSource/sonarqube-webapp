@@ -21,7 +21,10 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
-import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import {
+  CurrentUserContext,
+  DismissNoticesUpdaterContext,
+} from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { Mode } from '~sq-server-commons/types/mode';
@@ -114,18 +117,23 @@ function renderPageSidebar(overrides: Partial<PageSidebarProps> = {}, currentUse
       value={{
         currentUser: currentUser ?? mockCurrentUser(),
         updateCurrentUserHomepage: jest.fn(),
-        updateDismissedNotices: jest.fn(),
       }}
     >
-      <PageSidebar
-        applicationsEnabled
-        loadSearchResultCount={jest.fn().mockResolvedValue({})}
-        onClearAll={jest.fn()}
-        onQueryChange={jest.fn()}
-        query={{ view: 'overall' }}
-        view="overall"
-        {...overrides}
-      />
+      <DismissNoticesUpdaterContext.Provider
+        value={{
+          updateDismissedNotices: jest.fn(),
+        }}
+      >
+        <PageSidebar
+          applicationsEnabled
+          loadSearchResultCount={jest.fn().mockResolvedValue({})}
+          onClearAll={jest.fn()}
+          onQueryChange={jest.fn()}
+          query={{ view: 'overall' }}
+          view="overall"
+          {...overrides}
+        />
+      </DismissNoticesUpdaterContext.Provider>
     </CurrentUserContext.Provider>,
   ).container;
 }

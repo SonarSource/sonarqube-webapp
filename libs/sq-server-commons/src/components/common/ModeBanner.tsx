@@ -32,9 +32,8 @@ import {
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
-import { dismissNotice } from '../../api/users';
-import { useCurrentUser } from '../../context/current-user/CurrentUserContext';
-import {} from '../../design-system';
+import { useDismissNotice, useIsNoticeDismissed } from '~adapters/helpers/notices';
+import { useCurrentUser } from '~adapters/helpers/users';
 import { useModeModifiedQuery, useStandardExperienceModeQuery } from '../../queries/mode';
 import { Permissions } from '../../types/permissions';
 import { NoticeType } from '../../types/users';
@@ -45,15 +44,14 @@ interface Props {
 
 export default function ModeBanner({ as }: Readonly<Props>) {
   const intl = useIntl();
-  const { currentUser, updateDismissedNotices } = useCurrentUser();
+  const { currentUser } = useCurrentUser();
+  const isDismissed = useIsNoticeDismissed(NoticeType.MQR_MODE_ADVERTISEMENT_BANNER);
+  const { dismissNotice } = useDismissNotice();
   const { data: isStandardMode } = useStandardExperienceModeQuery();
   const { data: isModified, isLoading } = useModeModifiedQuery();
 
   const onDismiss = () => {
-    updateDismissedNotices(NoticeType.MQR_MODE_ADVERTISEMENT_BANNER, true);
-    dismissNotice(NoticeType.MQR_MODE_ADVERTISEMENT_BANNER).catch(() => {
-      /* noop */
-    });
+    dismissNotice(NoticeType.MQR_MODE_ADVERTISEMENT_BANNER);
   };
 
   const renderSettingsLink = (text: string[]) => (
@@ -64,7 +62,7 @@ export default function ModeBanner({ as }: Readonly<Props>) {
 
   if (
     !currentUser.permissions?.global.includes(Permissions.Admin) ||
-    currentUser.dismissedNotices?.[NoticeType.MQR_MODE_ADVERTISEMENT_BANNER] ||
+    isDismissed ||
     isLoading ||
     isModified
   ) {

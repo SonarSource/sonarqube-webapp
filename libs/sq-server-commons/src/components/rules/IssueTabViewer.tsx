@@ -23,10 +23,9 @@ import classNames from 'classnames';
 import { cloneDeep, debounce, groupBy } from 'lodash';
 import * as React from 'react';
 import { Location } from 'react-router-dom';
+import { useDismissNotice, useIsNoticeDismissed } from '~adapters/helpers/notices';
 import { isHunterAgentRuleEngine } from '~shared/helpers/issues';
 import { RuleDescriptionSections, RuleDetails } from '~shared/types/rules';
-import { dismissNotice } from '../../api/users';
-import { CurrentUserContextInterface } from '../../context/current-user/CurrentUserContext';
 import withCurrentUserContext from '../../context/current-user/withCurrentUserContext';
 import { ToggleButton } from '../../design-system';
 import { fillBranchLike } from '../../helpers/branch-like';
@@ -40,13 +39,14 @@ import MoreInfoRuleDescription from './MoreInfoRuleDescription';
 import RuleDescription from './RuleDescription';
 import { TabSelectorContext } from './TabSelectorContext';
 
-interface IssueTabViewerProps extends CurrentUserContextInterface {
+interface IssueTabViewerProps {
   activityTabContent?: React.ReactNode;
   additionalIssueActions?: React.ComponentType<{ issue: Issue }>[];
-  aiSuggestionAvailable: boolean;
+  aiSuggestionAvailable?: boolean;
   codeTabContent?: React.ReactNode;
-  currentUser: CurrentUser;
   extendedDescription?: string;
+  isEducationPrinciplesDismissed?: boolean;
+  isLoggedIn?: boolean;
   issue: Issue;
   location: Location;
   /**
@@ -54,6 +54,7 @@ interface IssueTabViewerProps extends CurrentUserContextInterface {
    * Used by SonarQube Server to inject addon actions (e.g. "Intended architecture").
    */
   navigationActions?: React.ReactNode;
+  onDismissEducationPrinciples?: () => void;
   onIssueChange: (issue: Issue) => void;
   ruleDescriptionContextKey?: string;
   ruleDetails: RuleDetails;
@@ -112,7 +113,7 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
 
     const tabs = this.computeTabs(Boolean(this.state.displayEducationalPrinciplesNotification));
 
-    const query = new URLSearchParams(this.props.location.search);
+    const query = new URLSearchParams(this.props.location?.search);
 
     if (query.has('why')) {
       this.setState({
@@ -121,11 +122,12 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
     }
   }
 
-  componentDidUpdate(prevProps: IssueTabViewerProps, prevState: State) {
+  componentDidUpdate(prevProps: IssueTabViewerProps) {
     const {
       ruleDetails,
       ruleDescriptionContextKey,
-      currentUser,
+      isEducationPrinciplesDismissed,
+      isLoggedIn,
       issue,
       selectedFlowIndex,
       selectedLocationIndex,
@@ -140,7 +142,8 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
       prevProps.issue !== issue ||
       prevProps.selectedFlowIndex !== selectedFlowIndex ||
       (prevProps.selectedLocationIndex ?? -1) !== (selectedLocationIndex ?? -1) ||
-      prevProps.currentUser !== currentUser ||
+      prevProps.isEducationPrinciplesDismissed !== isEducationPrinciplesDismissed ||
+      prevProps.isLoggedIn !== isLoggedIn ||
       prevProps.aiSuggestionAvailable !== aiSuggestionAvailable
     ) {
       this.setState((pState) =>
@@ -157,14 +160,6 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
     if (selectedTab?.key === TabKeys.MoreInfo) {
       this.checkIfEducationPrinciplesAreVisible();
     }
-
-    if (
-      prevState.selectedTab?.key === TabKeys.MoreInfo &&
-      prevState.displayEducationalPrinciplesNotification &&
-      prevState.educationalPrinciplesNotificationHasBeenDismissed
-    ) {
-      this.props.updateDismissedNotices(NoticeType.EDUCATION_PRINCIPLES, true);
-    }
   }
 
   componentWillUnmount() {
@@ -172,16 +167,13 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
   }
 
   computeState = (prevState: State, resetSelectedTab = false) => {
-    const {
-      ruleDetails,
-      currentUser: { isLoggedIn, dismissedNotices },
-    } = this.props;
+    const { ruleDetails, isLoggedIn = false, isEducationPrinciplesDismissed = false } = this.props;
 
     const displayEducationalPrinciplesNotification =
       !!ruleDetails.educationPrinciples &&
       ruleDetails.educationPrinciples.length > 0 &&
       isLoggedIn &&
-      !dismissedNotices?.[NoticeType.EDUCATION_PRINCIPLES];
+      !isEducationPrinciplesDismissed;
 
     const tabs = this.computeTabs(displayEducationalPrinciplesNotification);
 
@@ -341,6 +333,7 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
       displayEducationalPrinciplesNotification,
       educationalPrinciplesNotificationHasBeenDismissed,
     } = this.state;
+    const { onDismissEducationPrinciples } = this.props;
 
     if (this.educationPrinciplesRef.current) {
       const rect = this.educationPrinciplesRef.current.getBoundingClientRect();
@@ -351,16 +344,13 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
         displayEducationalPrinciplesNotification &&
         !educationalPrinciplesNotificationHasBeenDismissed
       ) {
-        dismissNotice(NoticeType.EDUCATION_PRINCIPLES)
-          .then(() => {
-            this.detachScrollEvent();
-            this.setState({
-              educationalPrinciplesNotificationHasBeenDismissed: true,
-            });
-          })
-          .catch(() => {
-            /* noop */
-          });
+        if (onDismissEducationPrinciples) {
+          onDismissEducationPrinciples();
+        }
+        this.detachScrollEvent();
+        this.setState({
+          educationalPrinciplesNotificationHasBeenDismissed: true,
+        });
       }
     }
   };
@@ -432,6 +422,33 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
   }
 }
 
+interface IssueTabViewerContainerProps extends Omit<
+  IssueTabViewerProps,
+  'isEducationPrinciplesDismissed' | 'isLoggedIn' | 'onDismissEducationPrinciples'
+> {
+  aiSuggestionAvailable: boolean;
+  currentUser: CurrentUser;
+  location: Location;
+}
+
+function IssueTabViewerContainer(props: Readonly<IssueTabViewerContainerProps>) {
+  const isDismissed = useIsNoticeDismissed(NoticeType.EDUCATION_PRINCIPLES);
+  const { dismissNotice } = useDismissNotice();
+
+  const handleDismiss = () => {
+    dismissNotice(NoticeType.EDUCATION_PRINCIPLES);
+  };
+
+  return (
+    <IssueTabViewer
+      {...props}
+      isEducationPrinciplesDismissed={isDismissed}
+      isLoggedIn={props.currentUser.isLoggedIn}
+      onDismissEducationPrinciples={handleDismiss}
+    />
+  );
+}
+
 export default withCurrentUserContext(
-  withLocation(withUseGetFixSuggestionsIssues<IssueTabViewerProps>(IssueTabViewer)),
+  withLocation(withUseGetFixSuggestionsIssues<IssueTabViewerProps>(IssueTabViewerContainer)),
 );

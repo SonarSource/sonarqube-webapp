@@ -23,6 +23,7 @@ import userEvent from '@testing-library/user-event';
 import { omit, pick } from 'lodash';
 import * as React from 'react';
 import { Route } from 'react-router-dom';
+import { registerServiceMocks } from '~shared/api/mocks/server';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import {
   CodeAttributeCategory,
@@ -56,6 +57,7 @@ beforeEach(() => {
   usersHandler.reset();
   modeHandler.reset();
   usersHandler.users = [mockLoggedInUser() as unknown as RestUserDetailed];
+  registerServiceMocks(usersHandler);
 });
 
 describe('rendering', () => {

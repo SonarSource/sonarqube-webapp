@@ -27,7 +27,6 @@ import { CurrentUser, HomePage, LoggedInUser, NoticeType } from '../../types/use
 export interface CurrentUserContextInterface {
   currentUser: CurrentUser;
   updateCurrentUserHomepage: (homepage: HomePage) => void;
-  updateDismissedNotices: (key: NoticeType, value: boolean) => void;
 }
 
 export const CurrentUserContext = React.createContext<CurrentUserContextInterface>({
@@ -36,12 +35,25 @@ export const CurrentUserContext = React.createContext<CurrentUserContextInterfac
     dismissedNotices: {},
   },
   updateCurrentUserHomepage: noop,
-  updateDismissedNotices: noop,
 });
 
 /**
+ * Internal context for updating dismissed notices.
+ * This is separate from the public API to allow gradual migration.
+ * @internal
+ */
+export interface DismissNoticesUpdaterContextInterface {
+  updateDismissedNotices: (key: NoticeType, value: boolean) => void;
+}
+
+export const DismissNoticesUpdaterContext =
+  React.createContext<DismissNoticesUpdaterContextInterface>({
+    updateDismissedNotices: noop,
+  });
+
+/**
  * @deprecated Use `useCurrentUser` from `~adapters/helpers/users` instead.
- * updateCurrentUserHomepage and updateDismissedNotices should likely be separated from the current user context.
+ * updateCurrentUserHomepage should likely be separated from the current user context.
  */
 export function useCurrentUser() {
   return useContext(CurrentUserContext);

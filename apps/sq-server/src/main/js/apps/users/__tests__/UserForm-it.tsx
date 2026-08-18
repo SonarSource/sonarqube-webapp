@@ -19,6 +19,7 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
 import { byLabelText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import UsersServiceMock from '~sq-server-commons/api/mocks/UsersServiceMock';
 import { mockRestUser } from '~sq-server-commons/helpers/testMocks';
@@ -57,7 +58,9 @@ const ui = {
 };
 
 beforeEach(() => {
+  resetServiceMocks();
   userHandler.reset();
+  registerServiceMocks(userHandler);
 });
 
 describe('in non-managed mode', () => {

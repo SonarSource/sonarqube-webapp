@@ -340,13 +340,14 @@ describe('issue app', () => {
     const listItem = within(
       await screen.findByLabelText('Fix that', undefined, { timeout: 10_000 }),
     );
-    // Assign issue to a different user
+
     await user.click(
       listItem.getByRole('combobox', { name: 'issue.assign.unassigned_click_to_assign' }),
     );
+
     await user.keyboard('luke');
 
-    expect(screen.getByText('Skywalker')).toBeInTheDocument();
+    expect(await screen.findByText('Skywalker')).toBeInTheDocument();
 
     await user.click(screen.getByText('Skywalker'));
 

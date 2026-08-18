@@ -636,7 +636,6 @@ function renderUpdateNotification(
           ...user,
         }),
         updateCurrentUserHomepage: () => {},
-        updateDismissedNotices: () => {},
       }}
     >
       <AppStateContext.Provider

@@ -20,6 +20,7 @@
 
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import ComponentsServiceMock from '~sq-server-commons/api/mocks/ComponentsServiceMock';
 import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslationServiceMock';
@@ -161,6 +162,7 @@ const ui = {
 };
 
 beforeEach(() => {
+  resetServiceMocks();
   tokenHandler.reset();
   userHandler.reset();
   componentsHandler.reset();
@@ -170,6 +172,7 @@ beforeEach(() => {
   githubHandler.reset();
   membershipHandler.reset();
   groupsHandler.reset();
+  registerServiceMocks(userHandler);
 });
 
 describe('different filters combinations', () => {
@@ -804,7 +807,6 @@ it('accessibility', async () => {
 });
 
 function renderUsersApp(featureList: Feature[] = [], currentUser?: CurrentUser) {
-  // eslint-disable-next-line testing-library/no-unnecessary-act
   renderApp('admin/users', <UsersApp />, {
     currentUser: mockCurrentUser(currentUser),
     featureList,
