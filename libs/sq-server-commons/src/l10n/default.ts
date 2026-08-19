@@ -10297,6 +10297,7 @@ export const defaultMessages = {
   'license.features.enablement': 'Enablement',
   'license.features.feature_name': 'Name',
   'license.features.feature.sqas': 'SonarQube Advanced Security',
+  'license.features.feature.vortex': 'Vortex',
   'license.features': 'Features',
   'license.how_to_fix_it': 'How to fix it',
   'license.i_accept_the_terms_and_conditions_with_link': 'I accept the {link}',
@@ -10339,7 +10340,9 @@ export const defaultMessages = {
   'license.prompt.link': 'Go to License page',
   'license.prompt.title': 'License needed:',
   'license.products.additional.title': 'Active products',
-  'license.products.architecture.title': 'Architecture',
+  'license.products.explore.title': 'Explore new products',
+  'license.products.explore.trial_prompt': 'To try new products. {link}',
+  'license.products.explore.talk_to_sales': 'Talk to sales',
   'license.products.sqas.title': 'Advanced Security',
   'license.products.sqas.features':
     '<ul><li>Detect vulnerabilities in your third-party dependencies</li><li>Catch when malicious packages are used by developers</li><li>Use quality gates to prevent new risks from being added to your code</li></ul>',
