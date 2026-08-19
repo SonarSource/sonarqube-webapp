@@ -1041,10 +1041,42 @@ export function organizationMeasuresToLineCountPieData(
   return { counts: {} };
 }
 
+function ratingDistributionToQualityGateCounts(
+  ratingDistribution: Record<string, number>,
+): Record<string, number> {
+  return {
+    ERROR: ['B', 'C', 'D', 'E'].reduce((sum, rating) => sum + (ratingDistribution[rating] ?? 0), 0),
+    OK: ratingDistribution.A ?? 0,
+  };
+}
+
+type PortfolioMeasures = Record<string, string | number | Record<string, number>>;
+
+export function adaptServerReleasabilityDistribution(
+  measures: PortfolioMeasures | undefined,
+): PortfolioMeasures | undefined {
+  const ratingDistribution = measures?.[MetricKey.releasability_rating_distribution];
+  if (typeof ratingDistribution !== 'object') {
+    return measures;
+  }
+  return {
+    ...measures,
+    [MetricKey.releasability_status_distribution]:
+      ratingDistributionToQualityGateCounts(ratingDistribution),
+  };
+}
+
 export function qualityGateCounts(
   measures: Record<string, unknown> | undefined,
 ): Record<string, number> {
-  return distributionCounts(measures?.[MetricKey.releasability_status_distribution]);
+  const statusDistribution = distributionCounts(
+    measures?.[MetricKey.releasability_status_distribution],
+  );
+  return Object.keys(statusDistribution).length > 0
+    ? statusDistribution
+    : ratingDistributionToQualityGateCounts(
+        distributionCounts(measures?.[MetricKey.releasability_rating_distribution]),
+      );
 }
 
 export function tryQualityGateDistributionMessageId(value: string): string | undefined {
@@ -1098,7 +1130,7 @@ export function computeTrendData(args: {
 
 export function portfolioMeasuresLatestRecord(
   history: MeasuresHistoryDay[] | undefined,
-  metadata: Record<string, { type: string }> | undefined,
+  metadata?: Record<string, { type: string }>,
 ): Record<string, string | number | Record<string, number>> | undefined {
   const latest = latestHistoryDay(history);
   if (!latest) {
@@ -1106,10 +1138,11 @@ export function portfolioMeasuresLatestRecord(
   }
   return Object.fromEntries(
     latest.measures.map((measure) => {
-      if (
-        (metadata?.[measure.metric]?.type ?? measure.type) !== MetricType.Distribution &&
-        !measure.value.trim().startsWith('{')
-      ) {
+      const metricType = metadata?.[measure.metric]?.type ?? measure.type;
+      if (metricType === MetricType.Rating) {
+        return [measure.metric, normalizeRatingIndex(measure.value)];
+      }
+      if (metricType !== MetricType.Distribution && !measure.value.trim().startsWith('{')) {
         return [measure.metric, measure.value];
       }
       try {
@@ -1117,12 +1150,7 @@ export function portfolioMeasuresLatestRecord(
         return [
           measure.metric,
           typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed)
-            ? Object.fromEntries(
-                Object.entries(parsed).flatMap(([key, value]) => {
-                  const number = Number(value);
-                  return Number.isNaN(number) ? [] : [[key, number]];
-                }),
-              )
+            ? normalizeDistribution(parsed, measure.metric.endsWith('_rating_distribution'))
             : measure.value,
         ];
       } catch {
@@ -1130,6 +1158,29 @@ export function portfolioMeasuresLatestRecord(
       }
     }),
   );
+}
+
+function normalizeDistribution(
+  distribution: Record<string, unknown>,
+  isRatingDistribution: boolean,
+): Record<string, number> {
+  return Object.fromEntries(
+    Object.entries(distribution).flatMap(([key, value]) => {
+      const number = Number(value);
+      if (Number.isNaN(number)) {
+        return [];
+      }
+      return [[isRatingDistribution ? normalizeRatingIndex(key) : key, number]];
+    }),
+  );
+}
+
+function normalizeRatingIndex(value: string): string {
+  const rating = Number(value);
+  const ratingLabels = ['A', 'B', 'C', 'D', 'E'] as const;
+  return Number.isInteger(rating) && rating >= 1 && rating <= ratingLabels.length
+    ? ratingLabels[rating - 1]
+    : value;
 }
 
 export function portfolioIssueHistoryToMultiLineSeries(

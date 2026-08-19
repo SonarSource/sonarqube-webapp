@@ -46,7 +46,7 @@ jest.mock('../../queries/widget-metric-metadata', () => ({
 describe('dashboard context adapter', () => {
   beforeEach(() => {
     jest.mocked(useComponent).mockReturnValue({
-      component: mockComponent({ key: 'component-key' }),
+      component: mockComponent({ key: 'component-key', id: 'portfolio-uuid' }),
       isPending: false,
     } as ReturnType<typeof useComponent>);
     jest.mocked(useComponentNavigationIdQuery).mockReturnValue({

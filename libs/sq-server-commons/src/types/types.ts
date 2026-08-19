@@ -83,6 +83,8 @@ export interface Component extends ComponentBase {
   canBrowseAllChildProjects?: boolean;
   configuration?: ComponentConfiguration;
   extensions?: Extension[];
+  // Only returned by /api/navigation/component (as `id`), not by /api/components/show.
+  id?: string;
   isAiCodeFixEnabled?: boolean;
   needIssueSync?: boolean;
 }

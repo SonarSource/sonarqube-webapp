@@ -28,8 +28,10 @@ import { getPortfolioDashboardMeasuresUrl } from '~adapters/helpers/dashboard-wi
 import {
   usePortfolioRatingBadgeComputedMeasuresQuery,
   usePortfolioRatingBadgeMeasuresQuery,
+  usePortfolioRatingBadgeMetricKeysQuery,
 } from '~adapters/queries/portfolio-rating-badge-widget-data';
 import { useWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-metadata';
+import { isTransientDashboardWidgetFetchError } from '~shared/helpers/dashboard-error-reporting';
 import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinner';
@@ -109,6 +111,16 @@ function getWidgetRatingValue(args: {
   );
 }
 
+function handlePortfolioRatingFetchError(error: unknown): boolean {
+  if (error == null) {
+    return false;
+  }
+  if (isTransientDashboardWidgetFetchError(error)) {
+    return true;
+  }
+  throw error;
+}
+
 /** Standard (non-donut) portfolio rating badge body for metrics outside the breakdown allowlist. */
 export function PortfolioStandardRatingBadgeWidgetWrapper(
   props: Readonly<PortfolioStandardRatingBadgeWidgetProps>,
@@ -117,28 +129,53 @@ export function PortfolioStandardRatingBadgeWidgetWrapper(
   const { enterpriseKey = '' } = useParams<{ enterpriseKey?: string }>();
   const { portfolioId } = useDashboardPortfolioContext();
   const isScopeNew = scope === CodeScope.New;
-  const metricKeyForRequest = getPortfolioDashboardMeasureRequestKey(metricKey, isScopeNew);
+  const requestedMetricKey = getPortfolioDashboardMeasureRequestKey(metricKey, isScopeNew);
   const isPortfolioPotentialRatingMetric = isRatingMetric(metricKey, undefined);
+  const requestedAggregateMetricKey = NON_LINKABLE_RATING_METRICS.has(metricKey)
+    ? MetricKey.releasability_rating
+    : requestedMetricKey;
+  const {
+    error: metricResolutionError,
+    isPending: isMetricResolutionPending,
+    metricKeys: [metricKeyForRequest, aggregateMetricKey],
+  } = usePortfolioRatingBadgeMetricKeysQuery([requestedMetricKey, requestedAggregateMetricKey]);
 
-  const { data: portfolioMeasuresData, isPending: isPortfolioMeasuresPending } =
-    usePortfolioRatingBadgeComputedMeasuresQuery(
-      {
-        metrics: [metricKeyForRequest],
-        pageIndex: 1,
-        pageSize: 500,
-        portfolioId,
-      },
-      { enabled: Boolean(portfolioId) },
-    );
+  const {
+    data: portfolioMeasuresData,
+    error: portfolioMeasuresError,
+    isPending: isPortfolioMeasuresPending,
+  } = usePortfolioRatingBadgeComputedMeasuresQuery(
+    {
+      metrics: [metricKeyForRequest],
+      pageIndex: 1,
+      pageSize: 500,
+      portfolioId,
+    },
+    {
+      enabled: Boolean(portfolioId) && !isMetricResolutionPending && metricResolutionError == null,
+    },
+  );
   const {
     data: portfolioAggregateMeasures,
-    isError: isPortfolioAggregateMeasuresError,
+    error: portfolioAggregateMeasuresError,
     isPending: isPortfolioAggregateMeasuresPending,
   } = usePortfolioRatingBadgeMeasuresQuery(portfolioId, {
-    enabled: isPortfolioPotentialRatingMetric,
+    enabled:
+      isPortfolioPotentialRatingMetric &&
+      !isMetricResolutionPending &&
+      metricResolutionError == null,
+    metricKeys: [aggregateMetricKey],
   });
-
   const { data: metrics, isLoading: isMetricsListLoading } = useWidgetMetricMetadataQuery();
+
+  const fetchError =
+    metricResolutionError ??
+    portfolioMeasuresError ??
+    (isPortfolioPotentialRatingMetric ? portfolioAggregateMeasuresError : null);
+  if (handlePortfolioRatingFetchError(fetchError)) {
+    return <WidgetNoData />;
+  }
+
   const metricMetadata = metrics?.[metricKey];
   const metricType = metricMetadata?.type;
   const isRatingForMeasure = isRatingMetric(metricKey, metricType);
@@ -158,15 +195,12 @@ export function PortfolioStandardRatingBadgeWidgetWrapper(
   });
 
   const isPortfolioDataLoading =
+    isMetricResolutionPending ||
     isPortfolioMeasuresPending ||
     (isPortfolioPotentialRatingMetric && isPortfolioAggregateMeasuresPending);
 
   if (isMetricsListLoading || isPortfolioDataLoading) {
     return <WidgetLoadingSpinner />;
-  }
-
-  if (isPortfolioAggregateMeasuresError) {
-    return <WidgetNoData />;
   }
 
   if (metricKey === MetricKey.alert_status) {

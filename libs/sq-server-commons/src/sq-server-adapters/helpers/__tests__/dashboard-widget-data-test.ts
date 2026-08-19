@@ -422,6 +422,30 @@ describe('dashboard widget data helpers', () => {
         ),
       ).toEqual({ security_issues: { HIGH: 3 } });
     });
+
+    it('normalizes Server rating values and distribution buckets', () => {
+      expect(
+        portfolioMeasuresLatestRecord(
+          [
+            measureDay('2026-03-01', [
+              { metric: MetricKey.security_rating, type: MetricType.Rating, value: '2.0' },
+              {
+                metric: MetricKey.security_rating_distribution,
+                type: MetricType.Distribution,
+                value: '{"1":"3","5":"2"}',
+              },
+            ]),
+          ],
+          {
+            [MetricKey.security_rating]: { type: MetricType.Rating },
+            [MetricKey.security_rating_distribution]: { type: MetricType.Distribution },
+          },
+        ),
+      ).toEqual({
+        [MetricKey.security_rating]: 'B',
+        [MetricKey.security_rating_distribution]: { A: 3, E: 2 },
+      });
+    });
   });
 
   describe('pie chart data', () => {
@@ -690,6 +714,11 @@ describe('dashboard widget data helpers', () => {
           [MetricKey.releasability_status_distribution]: '{"OK": "2", "ERROR": "x"}',
         }),
       ).toEqual({ OK: 2 });
+      expect(
+        qualityGateCounts({
+          [MetricKey.releasability_rating_distribution]: { A: 4, E: 2 },
+        }),
+      ).toEqual({ ERROR: 2, OK: 4 });
     });
 
     it('maps all supported history filters', () => {

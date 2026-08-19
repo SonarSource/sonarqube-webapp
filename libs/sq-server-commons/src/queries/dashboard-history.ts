@@ -58,16 +58,16 @@ function normalizeIssueHistoryDay(
 
   return {
     date: day.date,
-    distribution: day.distribution.flatMap((entry) =>
+    distribution: (day.distribution ?? []).flatMap((entry) =>
       entry.key != null && entry.value != null ? [{ key: entry.key, value: entry.value }] : [],
     ),
   };
 }
 
 function normalizeIssueHistory(
-  history: DashboardIssueHistoryDay[],
+  history: DashboardIssueHistoryDay[] | undefined,
 ): NormalizedDashboardIssueHistoryDay[] {
-  return history.flatMap((day) => {
+  return (history ?? []).flatMap((day) => {
     const normalized = normalizeIssueHistoryDay(day);
     return normalized === undefined ? [] : [normalized];
   });
@@ -82,7 +82,7 @@ function normalizeMeasuresHistoryDay(
 
   return {
     date: day.date,
-    measures: day.measures.flatMap((measure) =>
+    measures: (day.measures ?? []).flatMap((measure) =>
       measure.metric != null && measure.value != null
         ? [{ metric: measure.metric, type: measure.type ?? '', value: measure.value }]
         : [],
@@ -91,9 +91,9 @@ function normalizeMeasuresHistoryDay(
 }
 
 function normalizeMeasuresHistory(
-  history: DashboardMeasureHistoryDay[],
+  history: DashboardMeasureHistoryDay[] | undefined,
 ): NormalizedDashboardMeasuresHistoryDay[] {
-  return history.flatMap((day) => {
+  return (history ?? []).flatMap((day) => {
     const normalized = normalizeMeasuresHistoryDay(day);
     return normalized === undefined ? [] : [normalized];
   });
@@ -123,20 +123,23 @@ export const useDashboardMeasuresHistoryQuery = createQueryHook(
     }),
 );
 
-export function useDashboardProjectMeasuresQueries(
+export function useDashboardProjectMeasuresQuery(
   params: Omit<DashboardProjectMeasuresParams, 'metricKey'> & { metrics: string[] },
   options: { enabled?: boolean } = {},
 ) {
   const { metrics, ...sharedParams } = params;
-
   return useQueries({
-    queries: metrics.map((metricKey) =>
-      queryOptions({
-        queryKey: ['dashboard', 'project-measures', { ...sharedParams, metricKey }],
-        queryFn: () => getDashboardProjectMeasures({ ...sharedParams, metricKey }),
+    queries: metrics.map((metricKey) => {
+      const projectMeasuresParams: DashboardProjectMeasuresParams = {
+        ...sharedParams,
+        metricKey,
+      };
+      return queryOptions({
+        queryKey: ['dashboard', 'project-measures', projectMeasuresParams],
+        queryFn: () => getDashboardProjectMeasures(projectMeasuresParams),
         enabled: options.enabled ?? true,
         staleTime: StaleTime.SHORT,
-      }),
-    ),
+      });
+    }),
   });
 }

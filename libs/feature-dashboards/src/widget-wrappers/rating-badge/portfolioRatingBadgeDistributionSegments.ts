@@ -59,6 +59,15 @@ export function getPortfolioRatingBadgeDistributionMetricKey(
   return `${ratingMetricKey}_distribution`;
 }
 
+export function getPortfolioRatingBadgeHistoryMetricKeys(
+  metricKey: MetricKey,
+  isScopeNew: boolean,
+): string[] {
+  const ratingMetricKey = getPortfolioDashboardMeasureRequestKey(metricKey, isScopeNew);
+  const distributionMetricKey = getPortfolioRatingBadgeDistributionMetricKey(metricKey, isScopeNew);
+  return [ratingMetricKey, distributionMetricKey];
+}
+
 export function isPortfolioRatingBadgeRatingValue(value: unknown): value is RatingBadgeRating {
   return v.safeParse(portfolioRatingBadgeRatingSchema, value).success;
 }

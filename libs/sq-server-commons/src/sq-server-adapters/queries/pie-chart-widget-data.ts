@@ -293,7 +293,7 @@ export function useOrganizationPieChartData(
     enabled: enabled && isQualityGateStatusChart && !isUnsupported,
   });
   const hasQualityGateDistributionMetric =
-    metricMetadataQuery.data?.[MetricKey.releasability_status_distribution] !== undefined;
+    metricMetadataQuery.data?.[MetricKey.releasability_rating_distribution] !== undefined;
   const lineCountQuery = useDashboardMeasuresHistoryQuery(
     {
       entityId,
@@ -304,14 +304,14 @@ export function useOrganizationPieChartData(
     {
       enabled: enabled && isLineCountChart && Boolean(entityId) && !isUnsupported,
       refetchOnWindowFocus: false,
-      select: (response) => portfolioMeasuresLatestRecord(response.measuresHistory, undefined),
+      select: (response) => portfolioMeasuresLatestRecord(response.measuresHistory),
     },
   );
   const qualityGateQuery = useDashboardMeasuresHistoryQuery(
     {
       entityId,
       entityType,
-      metricKeys: [MetricKey.releasability_status_distribution],
+      metricKeys: [MetricKey.releasability_rating_distribution],
       startDate: measuresHistoryStartDate,
     },
     {
@@ -323,9 +323,7 @@ export function useOrganizationPieChartData(
         hasQualityGateDistributionMetric,
       refetchOnWindowFocus: false,
       select: (response) => ({
-        counts: qualityGateCounts(
-          portfolioMeasuresLatestRecord(response.measuresHistory, undefined),
-        ),
+        counts: qualityGateCounts(portfolioMeasuresLatestRecord(response.measuresHistory)),
       }),
     },
   );

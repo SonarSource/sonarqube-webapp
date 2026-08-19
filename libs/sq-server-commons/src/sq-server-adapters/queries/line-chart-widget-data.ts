@@ -55,13 +55,13 @@ export function organizationLineChartRequestKey(
   scope: string,
   actualMetricKey: MetricKey,
 ): string {
+  const dashboardMetric = metric as DashboardMetric;
   if (
     actualMetricKey === MetricKey.security_hotspots ||
     actualMetricKey === MetricKey.new_security_hotspots
   ) {
     return unsupportedDashboardWidgetAdapter();
   }
-  const dashboardMetric = metric as DashboardMetric;
   return dashboardMetric.type === DashboardMetricType.Raw
     ? getPortfolioDashboardMeasureRequestKey(actualMetricKey, scope === CodeScope.New)
     : actualMetricKey;
@@ -109,14 +109,12 @@ export function useOrganizationLineChartSeriesData(
     (metric.type === DashboardMetricType.Rich && metric.metricKey === RichMetricKey.Issues) ||
     (metric.type === DashboardMetricType.Raw && metric.metricKey === MetricKey.violations);
   const resolvedIssueMetricKey = getActualMetricKey(metric);
-  const isRawHotspotsMetric =
-    metric.type === DashboardMetricType.Raw &&
-    (measuresHistoryKey === MetricKey.security_hotspots ||
-      measuresHistoryKey === MetricKey.new_security_hotspots);
   const isUnsupported =
     actualMetricKey === MetricKey.security_hotspots ||
     actualMetricKey === MetricKey.new_security_hotspots ||
-    isRawHotspotsMetric;
+    measuresHistoryKey === MetricKey.security_hotspots ||
+    measuresHistoryKey === MetricKey.new_security_hotspots ||
+    (metric.type === DashboardMetricType.Rich && metric.metricKey === RichMetricKey.Hotspots);
   const richMetricKey = metric.type === DashboardMetricType.Rich ? metric.metricKey : undefined;
   const useGroupedIssueQuery = groupedIssueHistory && groupByEligible;
   const metricMetadataQuery = useWidgetMetricMetadataQuery({
@@ -130,7 +128,6 @@ export function useOrganizationLineChartSeriesData(
     actualMetricKey,
     entityId,
     isKnownMeasureMetric,
-    isRawHotspotsMetric,
     isUnsupported,
     metric,
     queriesEnabled,
@@ -174,9 +171,7 @@ export function useOrganizationLineChartSeriesData(
     entityId,
     entityType,
     startDate: organizationsHistoryStartDateWithRetentionBuffer(),
-    ...(isRawHotspotsMetric
-      ? { issueTypes: ['SECURITY_HOTSPOT'] }
-      : issueHistoryQueryExtras(measureFilters, richMetricKey, resolvedIssueMetricKey)),
+    ...issueHistoryQueryExtras(measureFilters, richMetricKey, resolvedIssueMetricKey),
     ...(mapLineChartGroupByToSliceBy(groupBy)
       ? { sliceBy: mapLineChartGroupByToSliceBy(groupBy) }
       : {}),
@@ -208,8 +203,7 @@ export function useOrganizationLineChartSeriesData(
     },
   });
 
-  const usesIssueQuery =
-    metric.type === DashboardMetricType.Rich || isRawHotspotsMetric || useGroupedIssueQuery;
+  const usesIssueQuery = metric.type === DashboardMetricType.Rich || useGroupedIssueQuery;
 
   if (isUnsupported) {
     return unsupportedDashboardWidgetAdapter();
@@ -231,7 +225,6 @@ function getLineChartQueryEnablement(
     actualMetricKey: MetricKey | undefined;
     entityId: string;
     isKnownMeasureMetric: boolean;
-    isRawHotspotsMetric: boolean;
     isUnsupported: boolean;
     metric: DashboardMetric;
     queriesEnabled: boolean;
@@ -243,7 +236,6 @@ function getLineChartQueryEnablement(
     actualMetricKey,
     entityId,
     isKnownMeasureMetric,
-    isRawHotspotsMetric,
     isUnsupported,
     metric,
     queriesEnabled,
@@ -255,14 +247,13 @@ function getLineChartQueryEnablement(
     issueQueryEnabled:
       queriesEnabled &&
       Boolean(resolvedIssueMetricKey) &&
-      (metric.type === DashboardMetricType.Rich || isRawHotspotsMetric || useGroupedIssueQuery) &&
+      (metric.type === DashboardMetricType.Rich || useGroupedIssueQuery) &&
       Boolean(entityId) &&
       !isUnsupported,
     measuresQueryEnabled:
       queriesEnabled &&
       Boolean(actualMetricKey) &&
       metric.type === DashboardMetricType.Raw &&
-      !isRawHotspotsMetric &&
       !useGroupedIssueQuery &&
       Boolean(entityId) &&
       !isUnsupported &&

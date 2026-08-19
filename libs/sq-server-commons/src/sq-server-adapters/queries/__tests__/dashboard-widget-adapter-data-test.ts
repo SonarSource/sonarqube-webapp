@@ -42,6 +42,7 @@ import { useOrganizationPieChartData } from '../pie-chart-widget-data';
 import {
   usePortfolioRatingBadgeComputedMeasuresQuery,
   usePortfolioRatingBadgeMeasuresQuery,
+  usePortfolioRatingBadgeMetricKeysQuery,
 } from '../portfolio-rating-badge-widget-data';
 import { usePortfolioTopListData } from '../portfolio-top-list-widget-data';
 import { usePortfolioRulesMetadataOrganization } from '../portfolio-widget-organization-data';
@@ -55,7 +56,8 @@ import { useWidgetMetricMetadataQuery } from '../widget-metric-metadata';
 
 const mockUseDashboardIssueCountHistoryQuery = jest.fn();
 const mockUseDashboardMeasuresHistoryQuery = jest.fn();
-const mockUseDashboardProjectMeasuresQueries = jest.fn();
+const mockUseDashboardProjectMeasuresQuery = jest.fn<unknown[], unknown[]>();
+const mockUseStandardExperienceModeQuery = jest.fn();
 const mockUseComponent = jest.fn();
 const mockUseCurrentBranchQuery = jest.fn();
 const mockUseLanguagesQuery = jest.fn();
@@ -68,8 +70,13 @@ jest.mock('../../../queries/dashboard-history', () => ({
     mockUseDashboardIssueCountHistoryQuery(...args),
   useDashboardMeasuresHistoryQuery: (...args: unknown[]) =>
     mockUseDashboardMeasuresHistoryQuery(...args),
-  useDashboardProjectMeasuresQueries: (...args: unknown[]) =>
-    mockUseDashboardProjectMeasuresQueries(...args),
+  useDashboardProjectMeasuresQuery: (...args: unknown[]) =>
+    mockUseDashboardProjectMeasuresQuery(...args),
+}));
+
+jest.mock('../../../queries/mode', () => ({
+  useStandardExperienceModeQuery: (...args: unknown[]) =>
+    mockUseStandardExperienceModeQuery(...args),
 }));
 
 jest.mock('../../../context/componentContext/withComponentContext', () => ({
@@ -111,7 +118,8 @@ function queryResult(data: unknown, extra: Record<string, unknown> = {}) {
 function setupMocks() {
   mockUseDashboardIssueCountHistoryQuery.mockReturnValue(queryResult(undefined));
   mockUseDashboardMeasuresHistoryQuery.mockReturnValue(queryResult(undefined));
-  mockUseDashboardProjectMeasuresQueries.mockReturnValue([]);
+  mockUseDashboardProjectMeasuresQuery.mockReturnValue([]);
+  mockUseStandardExperienceModeQuery.mockReturnValue(queryResult(true));
   mockUseComponent.mockReturnValue({ component: 'component-key' });
   mockUseCurrentBranchQuery.mockReturnValue(queryResult(undefined));
   mockUseLanguagesQuery.mockReturnValue(queryResult({ java: { name: 'Java' } }));
@@ -401,10 +409,83 @@ describe('dashboard widget adapter queries', () => {
 
       expect(result.current.lineChartHasFetchError).toBe(true);
     });
+
+    it.each([
+      [MetricKey.security_hotspots, CodeScope.Overall, 'Security hotspots'],
+      [MetricKey.new_security_hotspots, CodeScope.New, 'New security hotspots'],
+    ])('keeps the deprecated raw %s line chart unsupported', (metricKey, scope, metricName) => {
+      const metric = {
+        metricKey,
+        type: DashboardMetricType.Raw,
+      };
+      expect(() => organizationLineChartRequestKey(metric, scope, metricKey)).toThrow(
+        DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE,
+      );
+
+      expect(() =>
+        renderHook(
+          () =>
+            useOrganizationLineChartSeriesData({
+              actualMetricKey: metricKey,
+              entityId: 'portfolio-1',
+              entityType: 'PORTFOLIO',
+              groupBy: LineChartGroupBy.None,
+              historyRange: '3',
+              measureFilters: undefined,
+              measuresHistoryKey: metricKey,
+              metric,
+              metricName,
+              metricType: MetricType.Integer,
+            }),
+          { wrapper: getContextWrapper() },
+        ),
+      ).toThrow(DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE);
+      expect(mockUseDashboardIssueCountHistoryQuery).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({ enabled: false }),
+      );
+    });
+
+    it('keeps rich hotspot line charts unsupported', () => {
+      const metric = {
+        metricKey: RichMetricKey.Hotspots,
+        type: DashboardMetricType.Rich,
+      };
+      expect(() =>
+        organizationLineChartRequestKey(metric, CodeScope.Overall, MetricKey.security_hotspots),
+      ).toThrow(DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE);
+
+      expect(() =>
+        renderHook(
+          () =>
+            useOrganizationLineChartSeriesData({
+              actualMetricKey: MetricKey.security_hotspots,
+              entityId: 'portfolio-1',
+              entityType: 'PORTFOLIO',
+              groupBy: LineChartGroupBy.None,
+              historyRange: '3',
+              measureFilters: undefined,
+              measuresHistoryKey: MetricKey.security_hotspots,
+              metric,
+              metricName: 'Security hotspots',
+              metricType: MetricType.Integer,
+            }),
+          { wrapper: getContextWrapper() },
+        ),
+      ).toThrow(DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE);
+      expect(mockUseDashboardIssueCountHistoryQuery).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({ enabled: false }),
+      );
+    });
   });
 
   describe('pie-chart queries', () => {
-    it('fails deprecated hotspot pie data through the shared adapter error', () => {
+    it.each([
+      [CodeScope.Overall, PieChartHotspotSlice.SecurityCategory],
+      [CodeScope.Overall, PieChartHotspotSlice.ReviewStatus],
+      [CodeScope.New, PieChartHotspotSlice.ReviewStatus],
+    ])('keeps hotspot %s/%s pie charts unsupported', (scope, slice) => {
       expect(() =>
         renderHook(
           () =>
@@ -413,13 +494,51 @@ describe('dashboard widget adapter queries', () => {
               widget: {
                 filter: '',
                 metric: PieChartMetric.HotspotCount,
-                scope: CodeScope.Overall,
-                slice: PieChartHotspotSlice.SecurityCategory,
+                scope,
+                slice,
               },
             }),
           { wrapper: getContextWrapper() },
         ),
       ).toThrow(DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE);
+      expect(mockUseDashboardIssueCountHistoryQuery).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({ enabled: false }),
+      );
+    });
+
+    it('requests the Server releasability distribution for the quality-gate donut', () => {
+      mockUseWidgetMetricMetadataQuery.mockReturnValue(
+        queryResult({
+          [MetricKey.releasability_rating_distribution]: {
+            key: MetricKey.releasability_rating_distribution,
+            type: MetricType.Distribution,
+          },
+        }),
+      );
+
+      renderHook(
+        () =>
+          useOrganizationPieChartData({
+            entity: { entityId: 'portfolio-1', entityType: 'PORTFOLIO' },
+            widget: {
+              filter: '',
+              metric: PieChartMetric.ProjectCount,
+              scope: CodeScope.Overall,
+              slice: 'status',
+            },
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(mockUseDashboardMeasuresHistoryQuery).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          entityId: 'portfolio-1',
+          entityType: 'PORTFOLIO',
+          metricKeys: [MetricKey.releasability_rating_distribution],
+        }),
+        expect.objectContaining({ enabled: true }),
+      );
     });
 
     it('fails New-code issue pie data through the shared adapter error', () => {
@@ -485,7 +604,7 @@ describe('dashboard widget adapter queries', () => {
       ).toBe(true);
     });
 
-    it('does not request a virtual quality-gate distribution missing from Server metadata', () => {
+    it('does not request a quality-gate distribution missing from Server metadata', () => {
       mockUseWidgetMetricMetadataQuery.mockReturnValue(queryResult({}));
 
       const { result } = renderHook(
@@ -504,7 +623,7 @@ describe('dashboard widget adapter queries', () => {
 
       expect(mockUseDashboardMeasuresHistoryQuery).toHaveBeenCalledWith(
         expect.objectContaining({
-          metricKeys: [MetricKey.releasability_status_distribution],
+          metricKeys: [MetricKey.releasability_rating_distribution],
         }),
         expect.objectContaining({ enabled: false }),
       );
@@ -537,35 +656,20 @@ describe('dashboard widget adapter queries', () => {
 
   describe('portfolio and project wrappers', () => {
     it('uses the latest portfolio measure history record and computed project measures', () => {
-      mockUseWidgetMetricMetadataQuery.mockReturnValue(
-        queryResult({
-          [MetricKey.releasability_rating]: {
-            key: MetricKey.releasability_rating,
-            type: MetricType.Rating,
-          },
-          [MetricKey.reliability_rating]: {
-            key: MetricKey.reliability_rating,
-            type: MetricType.Rating,
-          },
-          [MetricKey.reliability_rating_distribution]: {
-            key: MetricKey.reliability_rating_distribution,
-            type: MetricType.Data,
-          },
-          [MetricKey.ncloc_language_distribution]: {
-            key: MetricKey.ncloc_language_distribution,
-            type: MetricType.Data,
-          },
-        }),
-      );
       mockUseDashboardMeasuresHistoryQuery.mockReturnValue(
         queryResult({ [MetricKey.reliability_rating]: 'A' }),
       );
 
-      const { result } = renderHook(() => usePortfolioRatingBadgeMeasuresQuery('portfolio-1'), {
-        wrapper: getContextWrapper(),
-      });
+      const { result } = renderHook(
+        () =>
+          usePortfolioRatingBadgeMeasuresQuery('portfolio-1', {
+            metricKeys: [MetricKey.reliability_rating, MetricKey.reliability_rating_distribution],
+          }),
+        {
+          wrapper: getContextWrapper(),
+        },
+      );
       expect(result.current.data).toEqual({ [MetricKey.reliability_rating]: 'A' });
-      expect(result.current.isError).toBe(false);
       expect(result.current.isPending).toBe(false);
       expect(mockUseDashboardMeasuresHistoryQuery).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -574,7 +678,7 @@ describe('dashboard widget adapter queries', () => {
         expect.anything(),
       );
 
-      mockUseDashboardProjectMeasuresQueries.mockReturnValue([
+      mockUseDashboardProjectMeasuresQuery.mockReturnValue([
         queryResult({
           projectMeasures: [
             {
@@ -595,18 +699,121 @@ describe('dashboard widget adapter queries', () => {
       expect(computed.result.current.data).toEqual({
         projects: [{ measures: [{ name: MetricKey.coverage, value: '80' }] }],
       });
+      expect(mockUseDashboardProjectMeasuresQuery).toHaveBeenCalledWith(
+        expect.objectContaining({
+          entityId: 'portfolio-1',
+          entityType: 'PORTFOLIO',
+        }),
+        expect.anything(),
+      );
     });
 
-    it('surfaces metric metadata failures for portfolio rating badges', () => {
-      mockUseWidgetMetricMetadataQuery.mockReturnValue(
-        queryResult(undefined, { error: new Error('metadata failed'), isError: true }),
+    it('requests only the supplied metrics and adapts Server history to shared badge values', () => {
+      renderHook(
+        () =>
+          usePortfolioRatingBadgeMeasuresQuery('portfolio-1', {
+            metricKeys: [
+              MetricKey.releasability_rating,
+              MetricKey.releasability_rating_distribution,
+            ],
+          }),
+        {
+          wrapper: getContextWrapper(),
+        },
       );
 
-      const { result } = renderHook(() => usePortfolioRatingBadgeMeasuresQuery('portfolio-1'), {
-        wrapper: getContextWrapper(),
-      });
+      expect(mockUseDashboardMeasuresHistoryQuery).toHaveBeenCalledWith(
+        expect.objectContaining({
+          metricKeys: [MetricKey.releasability_rating, MetricKey.releasability_rating_distribution],
+        }),
+        expect.anything(),
+      );
 
-      expect(result.current.isError).toBe(true);
+      expect(
+        selectFrom(mockUseDashboardMeasuresHistoryQuery.mock.calls[0])({
+          measuresHistory: [
+            {
+              date: '2026-03-20',
+              measures: [
+                {
+                  metric: MetricKey.releasability_rating,
+                  type: MetricType.Rating,
+                  value: '1.0',
+                },
+                {
+                  metric: MetricKey.releasability_rating_distribution,
+                  type: MetricType.Distribution,
+                  value: '{"1":"4","5":"2"}',
+                },
+              ],
+            },
+          ],
+        }),
+      ).toEqual(
+        expect.objectContaining({
+          [MetricKey.releasability_rating]: 'A',
+          [MetricKey.releasability_rating_distribution]: { A: 4, E: 2 },
+          [MetricKey.releasability_status_distribution]: { ERROR: 2, OK: 4 },
+        }),
+      );
+    });
+
+    it.each([
+      [true, MetricKey.sqale_rating, MetricKey.maintainability_rating_distribution],
+      [
+        false,
+        MetricKey.software_quality_maintainability_rating,
+        MetricKey.software_quality_maintainability_rating_distribution,
+      ],
+    ])(
+      'resolves maintainability metrics for the current mode',
+      (isStandardMode, expectedRatingMetric, expectedDistributionMetric) => {
+        mockUseStandardExperienceModeQuery.mockReturnValue(queryResult(isStandardMode));
+        const { result } = renderHook(
+          () =>
+            usePortfolioRatingBadgeMetricKeysQuery([
+              MetricKey.maintainability_rating,
+              MetricKey.maintainability_rating_distribution,
+            ]),
+          { wrapper: getContextWrapper() },
+        );
+
+        expect(result.current).toEqual({
+          error: null,
+          isPending: false,
+          metricKeys: [expectedRatingMetric, expectedDistributionMetric],
+        });
+      },
+    );
+
+    it('resolves the shared releasability distribution key to the Server history metric', () => {
+      const { result } = renderHook(
+        () =>
+          usePortfolioRatingBadgeMetricKeysQuery([
+            MetricKey.releasability_rating,
+            MetricKey.releasability_status_distribution,
+          ]),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(result.current.metricKeys).toEqual([
+        MetricKey.releasability_rating,
+        MetricKey.releasability_rating_distribution,
+      ]);
+    });
+
+    it('exposes mode resolution errors to rating widgets', () => {
+      const modeError = new Error('mode request failed');
+      mockUseStandardExperienceModeQuery.mockReturnValue(
+        queryResult(undefined, { error: modeError }),
+      );
+
+      const { result } = renderHook(
+        () => usePortfolioRatingBadgeMetricKeysQuery([MetricKey.maintainability_rating]),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(result.current.error).toBe(modeError);
     });
 
     it('combines top-list counts, trends and rule metadata for both entity types', () => {

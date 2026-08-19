@@ -197,7 +197,8 @@ export function getPortfolioDashboardWidgetDrilldownUrl(
   }
 
   const search = query ? new URLSearchParams({ q: query }).toString() : '';
-  return search ? `breakdown/${widgetKey}?${search}` : `breakdown/${widgetKey}`;
+  const path = `breakdown/${encodeURIComponent(widgetKey)}`;
+  return search ? `${path}?${search}` : path;
 }
 
 function getMetricKeyForScope(metricKey: string, isNewCode: boolean): string {

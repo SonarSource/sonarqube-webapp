@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { MetricKey } from '~shared/types/metrics';
 import {
   getDashboardIssueCountHistory,
   getDashboardMeasuresHistory,
@@ -51,14 +52,17 @@ describe('dashboard history API', () => {
     });
 
     expect(mockGet).toHaveBeenCalledWith('/api/v2/history/issue-count-history', {
-      params: expect.objectContaining({
+      params: {
         entityId: 'portfolio-1',
+        entityType: 'PORTFOLIO',
         impacts: 'SECURITY:HIGH',
         issueTypes: 'CODE_SMELL',
         ruleKeys: 'java:S100',
         severities: 'HIGH',
+        sliceBy: 'SEVERITY',
+        startDate: '2026-01-01',
         statuses: 'OPEN',
-      }),
+      },
     });
   });
 
@@ -66,11 +70,12 @@ describe('dashboard history API', () => {
     await getDashboardMeasuresHistory({
       entityId: 'portfolio-1',
       entityType: 'PORTFOLIO',
-      metricKeys: ['coverage', 'ncloc'],
+      metricKeys: [MetricKey.coverage, MetricKey.ncloc],
       startDate: '2026-01-01',
     });
     await getDashboardProjectIssueCounts({
       entityId: 'portfolio-1',
+      entityType: 'PORTFOLIO',
       impacts: ['SECURITY:HIGH'],
       issueTypes: ['BUG'],
       ruleKeys: ['java:S100'],
@@ -79,26 +84,39 @@ describe('dashboard history API', () => {
       statuses: ['OPEN'],
     });
     await getDashboardProjectMeasures({
-      metricKey: 'coverage',
-      portfolioId: 'portfolio-1',
+      entityId: 'portfolio-1',
+      entityType: 'PORTFOLIO',
+      metricKey: MetricKey.coverage,
       sort: ['currentValue'],
     });
 
     expect(mockGet).toHaveBeenNthCalledWith(1, '/api/v2/history/measures-history', {
-      params: expect.objectContaining({ metricKeys: 'coverage,ncloc' }),
+      params: {
+        entityId: 'portfolio-1',
+        entityType: 'PORTFOLIO',
+        metricKeys: 'coverage,ncloc',
+        startDate: '2026-01-01',
+      },
     });
     expect(mockGet).toHaveBeenNthCalledWith(2, '/api/v2/history/project-issue-counts', {
-      params: expect.objectContaining({
+      params: {
+        entityId: 'portfolio-1',
+        entityType: 'PORTFOLIO',
         impacts: 'SECURITY:HIGH',
         issueTypes: 'BUG',
         ruleKeys: 'java:S100',
         severities: 'HIGH',
         sort: 'issueCount',
         statuses: 'OPEN',
-      }),
+      },
     });
     expect(mockGet).toHaveBeenNthCalledWith(3, '/api/v2/history/project-measures', {
-      params: expect.objectContaining({ sort: 'currentValue' }),
+      params: {
+        entityId: 'portfolio-1',
+        entityType: 'PORTFOLIO',
+        metricKey: MetricKey.coverage,
+        sort: 'currentValue',
+      },
     });
   });
 });

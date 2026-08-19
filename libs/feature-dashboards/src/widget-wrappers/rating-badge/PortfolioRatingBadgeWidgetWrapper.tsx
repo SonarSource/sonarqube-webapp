@@ -30,7 +30,11 @@ import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import { useDashboardPortfolioContext } from '~adapters/context/dashboardContext';
 import { getPortfolioDashboardWidgetDrilldownUrl } from '~adapters/helpers/dashboard-widget-urls';
-import { usePortfolioRatingBadgeMeasuresQuery } from '~adapters/queries/portfolio-rating-badge-widget-data';
+import {
+  usePortfolioRatingBadgeMeasuresQuery,
+  usePortfolioRatingBadgeMetricKeysQuery,
+} from '~adapters/queries/portfolio-rating-badge-widget-data';
+import { isTransientDashboardWidgetFetchError } from '~shared/helpers/dashboard-error-reporting';
 import { useResizeObserver } from '~shared/helpers/useResizeObserver';
 import { MetricKey } from '~shared/types/metrics';
 import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinner';
@@ -43,12 +47,11 @@ import { PieChart } from '../../components/visualizations/pie-chart/PieChart';
 import { useOptionalWidgetInstanceContext } from '../../dashboard-layout/shared/WidgetInstanceContext';
 import { PieChartPastry, PieChartSegment } from '../../types/visualization';
 import { CodeScope, WidgetMode } from '../../types/widget-common';
-import { getPortfolioDashboardMeasureRequestKey } from '../../utils/portfolioMeasures';
 import { isPortfolioDashboardRatingBadgeBreakdownMetricKey } from '../../utils/portfolioRatingBadgeBreakdown';
 import { PORTFOLIO_RATING_COLOR_STYLES } from './portfolioRatingBadgeColors';
 import {
   buildPortfolioRatingBadgePieChartSegments,
-  getPortfolioRatingBadgeDistributionMetricKey,
+  getPortfolioRatingBadgeHistoryMetricKeys,
   isPortfolioRatingBadgeDistributionValue,
   isPortfolioRatingBadgeRatingValue,
   PORTFOLIO_RATING_BADGE_DONUT_INNER_RADIUS_EXTRA_PX,
@@ -88,27 +91,51 @@ function getPortfolioRatingBadgeSegmentDrilldownUrl(
 }
 
 export function PortfolioRatingBadgeWidgetWrapper(props: Readonly<Props>) {
+  if (!isPortfolioDashboardRatingBadgeBreakdownMetricKey(props.metricKey)) {
+    return <PortfolioStandardRatingBadgeWidgetWrapper {...props} />;
+  }
+
+  return <PortfolioRatingBadgeBreakdownWidget {...props} />;
+}
+
+function PortfolioRatingBadgeBreakdownWidget(props: Readonly<Props>) {
   const { metricKey, mode, scope, showBreakdown = false } = props;
   const widgetInstance = useOptionalWidgetInstanceContext();
   const { portfolioId } = useDashboardPortfolioContext();
   const isScopeNew = scope === CodeScope.New;
   const drilldownEnabled = mode !== WidgetMode.Edit;
-  const { data: measures, isError, isLoading } = usePortfolioRatingBadgeMeasuresQuery(portfolioId);
+  const requestedMetricKeys = getPortfolioRatingBadgeHistoryMetricKeys(metricKey, isScopeNew);
+  const {
+    error: metricResolutionError,
+    isPending: isMetricResolutionPending,
+    metricKeys,
+  } = usePortfolioRatingBadgeMetricKeysQuery(requestedMetricKeys);
+  const {
+    data: measures,
+    error: measuresError,
+    isPending: isMeasuresPending,
+  } = usePortfolioRatingBadgeMeasuresQuery(portfolioId, {
+    enabled: !isMetricResolutionPending && metricResolutionError == null,
+    metricKeys,
+  });
 
-  if (!isPortfolioDashboardRatingBadgeBreakdownMetricKey(metricKey)) {
-    return <PortfolioStandardRatingBadgeWidgetWrapper {...props} />;
+  const error = metricResolutionError ?? measuresError;
+  if (error != null) {
+    if (isTransientDashboardWidgetFetchError(error)) {
+      return <WidgetNoData />;
+    }
+    throw error;
   }
 
-  if (isLoading) {
+  if (isMetricResolutionPending || isMeasuresPending) {
     return <WidgetLoadingSpinner />;
   }
 
-  if (isError) {
-    return <WidgetNoData />;
-  }
-
-  const ratingMetricKey = getPortfolioDashboardMeasureRequestKey(metricKey, isScopeNew);
-  const distributionMetricKey = getPortfolioRatingBadgeDistributionMetricKey(metricKey, isScopeNew);
+  const [ratingMetricKey, resolvedDistributionMetricKey] = metricKeys;
+  const distributionMetricKey =
+    metricKey === MetricKey.releasability_rating
+      ? requestedMetricKeys[1]
+      : resolvedDistributionMetricKey;
   const rating = measures?.[ratingMetricKey];
   const distribution = measures?.[distributionMetricKey];
 

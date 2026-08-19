@@ -28,6 +28,12 @@ const PROJECT_ISSUE_COUNTS_ENDPOINT = '/api/v2/history/project-issue-counts';
 const PROJECT_MEASURES_ENDPOINT = '/api/v2/history/project-measures';
 
 type DashboardEntityType = 'PORTFOLIO' | 'PROJECT_BRANCH';
+type DashboardProjectCollectionEntityType = 'APPLICATION' | 'PORTFOLIO';
+
+interface DashboardProjectCollectionSelector {
+  entityId: string;
+  entityType: DashboardProjectCollectionEntityType;
+}
 
 interface DashboardIssueHistoryDistribution {
   key?: string | null;
@@ -36,11 +42,11 @@ interface DashboardIssueHistoryDistribution {
 
 export interface DashboardIssueHistoryDay {
   date?: string | null;
-  distribution: DashboardIssueHistoryDistribution[];
+  distribution?: DashboardIssueHistoryDistribution[];
 }
 
 export interface DashboardIssueCountHistoryResponse {
-  issueCountHistory: DashboardIssueHistoryDay[];
+  issueCountHistory?: DashboardIssueHistoryDay[];
 }
 
 interface DashboardMeasureHistoryEntry {
@@ -51,11 +57,11 @@ interface DashboardMeasureHistoryEntry {
 
 export interface DashboardMeasureHistoryDay {
   date?: string | null;
-  measures: DashboardMeasureHistoryEntry[];
+  measures?: DashboardMeasureHistoryEntry[];
 }
 
 export interface DashboardMeasuresHistoryResponse {
-  measuresHistory: DashboardMeasureHistoryDay[];
+  measuresHistory?: DashboardMeasureHistoryDay[];
 }
 
 export interface DashboardIssueHistoryParams {
@@ -94,22 +100,19 @@ export interface DashboardProjectIssueCountsResponse {
   projectIssueCounts: DashboardProjectIssueCount[];
 }
 
-export interface DashboardProjectIssueCountsParams {
-  entityId?: string;
-  entityType?: string;
+export type DashboardProjectIssueCountsParams = DashboardProjectCollectionSelector & {
   impacts?: string[];
   issueTypes?: string[];
   nameContains?: string;
   pageIndex?: number;
   pageSize?: number;
-  portfolioId?: string;
   referenceDate?: string;
   requireIssues?: boolean;
   ruleKeys?: string[];
   severities?: string[];
   sort?: string[];
   statuses?: string[];
-}
+};
 
 interface DashboardProjectMeasure {
   branchId: string;
@@ -130,19 +133,16 @@ export interface DashboardProjectMeasuresResponse {
   projectMeasures: DashboardProjectMeasure[];
 }
 
-export interface DashboardProjectMeasuresParams {
-  entityId?: string;
-  entityType?: string;
+export type DashboardProjectMeasuresParams = DashboardProjectCollectionSelector & {
   metricKey: string;
   metricValue?: string;
   nameContains?: string;
   pageIndex?: number;
   pageSize?: number;
-  portfolioId?: string;
   referenceDate?: string;
   requireValue?: boolean;
   sort?: string[];
-}
+};
 
 function serializeIssueHistoryParams(params: DashboardIssueHistoryParams) {
   return {

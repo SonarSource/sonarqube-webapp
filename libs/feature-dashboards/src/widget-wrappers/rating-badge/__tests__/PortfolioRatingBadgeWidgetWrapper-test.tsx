@@ -20,7 +20,10 @@
 
 import { screen } from '@testing-library/react';
 import { useDashboardPortfolioContext } from '~adapters/context/dashboardContext';
-import { usePortfolioRatingBadgeMeasuresQuery } from '~adapters/queries/portfolio-rating-badge-widget-data';
+import {
+  usePortfolioRatingBadgeMeasuresQuery,
+  usePortfolioRatingBadgeMetricKeysQuery,
+} from '~adapters/queries/portfolio-rating-badge-widget-data';
 import { renderWithContext, renderWithRouter } from '~shared/helpers/test-utils';
 import { MetricKey } from '~shared/types/metrics';
 import { WidgetInstanceProvider } from '../../../dashboard-layout/shared/WidgetInstanceContext';
@@ -39,6 +42,7 @@ jest.mock('react-router-dom', () => ({
 
 jest.mock('~adapters/queries/portfolio-rating-badge-widget-data', () => ({
   usePortfolioRatingBadgeMeasuresQuery: jest.fn(),
+  usePortfolioRatingBadgeMetricKeysQuery: jest.fn(),
 }));
 
 jest.mock('../PortfolioStandardRatingBadgeWidgetWrapper', () => ({
@@ -62,6 +66,11 @@ beforeEach(() => {
     getPortfolioMetric: jest.fn(),
     portfolioId: 'portfolio-1',
   });
+  jest.mocked(usePortfolioRatingBadgeMetricKeysQuery).mockImplementation((metricKeys) => ({
+    error: null,
+    isPending: false,
+    metricKeys,
+  }));
 
   jest.mocked(usePortfolioRatingBadgeMeasuresQuery).mockReturnValue({
     data: {
@@ -74,13 +83,14 @@ beforeEach(() => {
 });
 
 describe('PortfolioRatingBadgeWidget', () => {
-  it('keeps hook order stable when switching from a fallback metric to a portfolio metric', () => {
+  it('only mounts breakdown data hooks for supported breakdown metrics', () => {
     const { rerender } = renderWithContext(
       <PortfolioRatingBadgeWidget metricKey={MetricKey.coverage} scope={CodeScope.Overall} />,
     );
 
     expect(screen.getByText('portfolio-standard-rating-badge')).toBeInTheDocument();
-    expect(usePortfolioRatingBadgeMeasuresQuery).toHaveBeenCalledWith('portfolio-1');
+    expect(usePortfolioRatingBadgeMeasuresQuery).not.toHaveBeenCalled();
+    expect(usePortfolioRatingBadgeMetricKeysQuery).not.toHaveBeenCalled();
 
     expect(() => {
       rerender(
@@ -90,6 +100,14 @@ describe('PortfolioRatingBadgeWidget', () => {
         />,
       );
     }).not.toThrow();
+    expect(usePortfolioRatingBadgeMetricKeysQuery).toHaveBeenLastCalledWith([
+      MetricKey.security_rating,
+      MetricKey.security_rating_distribution,
+    ]);
+    expect(usePortfolioRatingBadgeMeasuresQuery).toHaveBeenLastCalledWith('portfolio-1', {
+      enabled: true,
+      metricKeys: [MetricKey.security_rating, MetricKey.security_rating_distribution],
+    });
   });
 
   it('forwards edit mode to standard portfolio rating badge widgets', () => {
@@ -140,5 +158,36 @@ describe('PortfolioRatingBadgeWidget', () => {
     );
 
     expect(screen.queryByRole('link')).not.toBeInTheDocument();
+  });
+
+  it('uses the shared status distribution after resolving the Server history metric', () => {
+    jest.mocked(usePortfolioRatingBadgeMetricKeysQuery).mockReturnValue({
+      error: null,
+      isPending: false,
+      metricKeys: [MetricKey.releasability_rating, MetricKey.releasability_rating_distribution],
+    });
+    jest.mocked(usePortfolioRatingBadgeMeasuresQuery).mockReturnValue({
+      data: {
+        [MetricKey.releasability_rating]: 'A',
+        [MetricKey.releasability_rating_distribution]: { A: 4, E: 2 },
+        [MetricKey.releasability_status_distribution]: { ERROR: 2, OK: 4 },
+      },
+      isPending: false,
+    } as unknown as ReturnType<typeof usePortfolioRatingBadgeMeasuresQuery>);
+
+    renderWithContext(
+      <PortfolioRatingBadgeWidget
+        metricKey={MetricKey.releasability_rating}
+        scope={CodeScope.Overall}
+        showBreakdown
+      />,
+    );
+
+    expect(usePortfolioRatingBadgeMeasuresQuery).toHaveBeenCalledWith('portfolio-1', {
+      enabled: true,
+      metricKeys: [MetricKey.releasability_rating, MetricKey.releasability_rating_distribution],
+    });
+    expect(screen.getAllByText('metric.level.ERROR')).not.toHaveLength(0);
+    expect(screen.getAllByText('metric.level.OK')).not.toHaveLength(0);
   });
 });

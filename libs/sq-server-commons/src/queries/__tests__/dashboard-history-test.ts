@@ -64,6 +64,9 @@ describe('dashboard history queries', () => {
             { key: 'CODE_SMELL', value: null },
           ],
         },
+        {
+          date: '2026-01-03',
+        },
       ],
     });
 
@@ -76,7 +79,10 @@ describe('dashboard history queries', () => {
     });
 
     expect(result.current.data).toEqual({
-      issueCountHistory: [{ date: '2026-01-02', distribution: [{ key: 'BUG', value: 3 }] }],
+      issueCountHistory: [
+        { date: '2026-01-02', distribution: [{ key: 'BUG', value: 3 }] },
+        { date: '2026-01-03', distribution: [] },
+      ],
     });
   });
 
@@ -90,6 +96,9 @@ describe('dashboard history queries', () => {
             { metric: null, type: 'integer', value: '3' },
             { metric: MetricKey.bugs, type: 'integer', value: null },
           ],
+        },
+        {
+          date: '2026-01-05',
         },
       ],
     });
@@ -115,7 +124,38 @@ describe('dashboard history queries', () => {
           date: '2026-01-04',
           measures: [{ metric: MetricKey.coverage, type: '', value: '80' }],
         },
+        {
+          date: '2026-01-05',
+          measures: [],
+        },
       ],
     });
+  });
+
+  it('defaults omitted history arrays to empty responses', async () => {
+    jest.mocked(getDashboardIssueCountHistory).mockResolvedValue({});
+    jest.mocked(getDashboardMeasuresHistory).mockResolvedValue({});
+
+    const issueQuery = renderHook(() => useDashboardIssueCountHistoryQuery(historyParams), {
+      wrapper: getContextWrapper(),
+    });
+    const measuresQuery = renderHook(
+      () =>
+        useDashboardMeasuresHistoryQuery({
+          ...historyParams,
+          metricKeys: [MetricKey.coverage],
+        }),
+      { wrapper: getContextWrapper() },
+    );
+
+    await waitFor(() => {
+      expect(issueQuery.result.current.isSuccess).toBe(true);
+    });
+    await waitFor(() => {
+      expect(measuresQuery.result.current.isSuccess).toBe(true);
+    });
+
+    expect(issueQuery.result.current.data).toEqual({ issueCountHistory: [] });
+    expect(measuresQuery.result.current.data).toEqual({ measuresHistory: [] });
   });
 });

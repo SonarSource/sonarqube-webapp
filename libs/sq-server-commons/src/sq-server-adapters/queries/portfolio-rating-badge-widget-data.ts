@@ -18,20 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useMemo } from 'react';
-import { MetricType } from '~shared/types/metrics';
+import { MetricKey } from '~shared/types/metrics';
+import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from '../../helpers/constants';
 import {
   useDashboardMeasuresHistoryQuery,
-  useDashboardProjectMeasuresQueries,
+  useDashboardProjectMeasuresQuery,
 } from '../../queries/dashboard-history';
+import { useStandardExperienceModeQuery } from '../../queries/mode';
 import {
+  adaptServerReleasabilityDistribution,
   organizationsHistoryStartDateWithRetentionBuffer,
   portfolioMeasuresLatestRecord,
 } from '../helpers/dashboard-widget-data';
-import {
-  isKnownUnsupportedDashboardHistoryMetric,
-  useWidgetMetricMetadataQuery,
-} from './widget-metric-metadata';
 
 interface PortfolioComputedProject {
   measures: ReadonlyArray<{ name: string; value: string }>;
@@ -47,37 +45,43 @@ interface PortfolioComputedProjectMeasuresParams {
   sort?: string;
 }
 
-type PortfolioMeasures = Record<string, string | number | Record<string, number>>;
+function resolvePortfolioMetricKey(metricKey: string, isStandardMode: boolean): string {
+  const serverHistoryMetricKey =
+    metricKey === MetricKey.releasability_status_distribution
+      ? MetricKey.releasability_rating_distribution
+      : metricKey;
+  const standardMetricKey =
+    serverHistoryMetricKey === MetricKey.maintainability_rating
+      ? MetricKey.sqale_rating
+      : serverHistoryMetricKey;
+  return isStandardMode
+    ? standardMetricKey
+    : (SOFTWARE_QUALITY_RATING_METRICS_MAP[standardMetricKey] ?? standardMetricKey);
+}
+
+function resolvePortfolioMetricKeys(metricKeys: string[], isStandardMode: boolean): string[] {
+  return metricKeys.map((metricKey) => resolvePortfolioMetricKey(metricKey, isStandardMode));
+}
+
+export function usePortfolioRatingBadgeMetricKeysQuery(metricKeys: string[]): {
+  error: unknown;
+  isPending: boolean;
+  metricKeys: string[];
+} {
+  const modeQuery = useStandardExperienceModeQuery();
+  return {
+    error: modeQuery.error,
+    isPending: modeQuery.isPending,
+    metricKeys: resolvePortfolioMetricKeys(metricKeys, modeQuery.data ?? true),
+  };
+}
 
 export function usePortfolioRatingBadgeMeasuresQuery(
   portfolioId: string,
-  options: { enabled?: boolean } = {},
-): {
-  data: PortfolioMeasures | undefined;
-  isError: boolean;
-  isLoading: boolean;
-  isPending: boolean;
-} {
-  const enabled = options.enabled ?? true;
-  const metadataQuery = useWidgetMetricMetadataQuery({ enabled });
-  const metricMetadata = metadataQuery.data;
-  const metricKeys = useMemo(() => {
-    const metrics = Object.values(metricMetadata ?? {});
-    const ratingMetricKeys = new Set(
-      metrics.filter((metric) => metric.type === MetricType.Rating).map((metric) => metric.key),
-    );
-
-    return metrics
-      .filter(
-        (metric) =>
-          !isKnownUnsupportedDashboardHistoryMetric(metric.key) &&
-          (metric.type === MetricType.Rating ||
-            (metric.key.endsWith('_distribution') &&
-              ratingMetricKeys.has(metric.key.replace(/_distribution$/, '')))),
-      )
-      .map((metric) => metric.key);
-  }, [metricMetadata]);
-  const historyQuery = useDashboardMeasuresHistoryQuery(
+  options: { enabled?: boolean; metricKeys: string[] },
+) {
+  const { enabled = true, metricKeys } = options;
+  return useDashboardMeasuresHistoryQuery(
     {
       entityId: portfolioId,
       entityType: 'PORTFOLIO',
@@ -87,19 +91,12 @@ export function usePortfolioRatingBadgeMeasuresQuery(
     {
       enabled: enabled && Boolean(portfolioId) && metricKeys.length > 0,
       refetchOnWindowFocus: false,
-      select: (response) => portfolioMeasuresLatestRecord(response.measuresHistory, metricMetadata),
+      select: (response) =>
+        adaptServerReleasabilityDistribution(
+          portfolioMeasuresLatestRecord(response.measuresHistory),
+        ),
     },
   );
-
-  const isPending =
-    enabled && (metadataQuery.isPending || (metricKeys.length > 0 && historyQuery.isPending));
-
-  return {
-    data: historyQuery.data,
-    isError: metadataQuery.isError || historyQuery.isError,
-    isLoading: isPending,
-    isPending,
-  };
 }
 
 export function usePortfolioRatingBadgeComputedMeasuresQuery(
@@ -107,21 +104,21 @@ export function usePortfolioRatingBadgeComputedMeasuresQuery(
   options: { enabled?: boolean } = {},
 ): {
   data: { projects: PortfolioComputedProject[] } | undefined;
+  error: unknown;
   isPending: boolean;
 } {
   const isFilterSupported =
     params.filterMetric === undefined ||
     (params.metrics.length === 1 && params.filterMetric === params.metrics[0]);
   const enabled = (options.enabled ?? true) && Boolean(params.portfolioId) && isFilterSupported;
-  const queries = useDashboardProjectMeasuresQueries(
+  const queries = useDashboardProjectMeasuresQuery(
     {
-      entityType: undefined,
-      entityId: undefined,
+      entityType: 'PORTFOLIO',
+      entityId: params.portfolioId,
       metrics: params.metrics,
       nameContains: undefined,
       pageIndex: params.pageIndex,
       pageSize: params.pageSize,
-      portfolioId: params.portfolioId,
       metricValue: params.filterMetricValue,
       referenceDate: undefined,
       requireValue: false,
@@ -150,6 +147,7 @@ export function usePortfolioRatingBadgeComputedMeasuresQuery(
       queries.length > 0 && queries.every((query) => query.data !== undefined)
         ? { projects: [...projectsByBranchId.values()] }
         : undefined,
+    error: queries.find((query) => query.error != null)?.error,
     isPending: enabled && queries.some((query) => query.isPending),
   };
 }
