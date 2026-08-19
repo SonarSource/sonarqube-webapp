@@ -3579,10 +3579,13 @@ export const defaultMessages = {
 
   // Portfolio dashboard list toasts
   'portfolio_dashboard.list.toast.create_success': 'Dashboard "{dashboardName}" has been created.',
+  'portfolio_dashboard.list.toast.create_error': 'We could not create your dashboard. Try again.',
   'portfolio_dashboard.list.toast.edit_success': 'Dashboard "{dashboardName}" has been updated.',
   'portfolio_dashboard.list.toast.delete_success': 'Dashboard "{dashboardName}" has been deleted.',
   'portfolio_dashboard.list.toast.duplicate_success':
     'Dashboard "{dashboardName}" has been duplicated.',
+  'portfolio_dashboard.list.toast.duplicate_error':
+    'We could not duplicate your dashboard. Try again.',
   'portfolio_dashboard.list.error.description': 'We could not load dashboards. Try again later.',
   'portfolio_dashboard.list.title': 'All dashboards',
   'portfolio_dashboard.custom.error.description':
