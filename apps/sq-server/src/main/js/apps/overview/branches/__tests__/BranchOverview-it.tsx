@@ -178,7 +178,7 @@ describe('project overview', () => {
     renderBranchOverview({}, { featureList: [Feature.AiCodeAssurance, Feature.Sca] });
 
     // Meta info
-    expect(await screen.findByRole('heading', { name: 'overview.page' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'summary.page' })).toBeInTheDocument();
     expect(screen.getByText(/version-1\.0/)).toBeInTheDocument();
 
     // QG panel
@@ -206,7 +206,7 @@ describe('project overview', () => {
     measuresHandler.deleteComponentMeasure('foo', MetricKey.new_coverage);
     renderBranchOverview();
 
-    expect(await screen.findByRole('heading', { name: 'overview.page' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'summary.page' })).toBeInTheDocument();
     expect(
       await byRole('link', { name: 'overview.coverage.setup open_in_new_tab' }).find(),
     ).toHaveAttribute('href', expect.stringContaining(DocLink.TestCoverage));
@@ -217,7 +217,7 @@ describe('project overview', () => {
     measuresHandler.deleteComponentMeasure('foo', MetricKey.new_coverage);
     renderBranchOverview();
 
-    expect(await screen.findByRole('heading', { name: 'overview.page' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'summary.page' })).toBeInTheDocument();
     expect(await byText('overview.coverage.not_enough_lines').find()).toBeInTheDocument();
   });
 

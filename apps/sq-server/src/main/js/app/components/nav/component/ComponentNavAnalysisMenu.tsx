@@ -23,8 +23,8 @@ import {
   IconDependencyRisk,
   IconFileCode,
   IconIssues,
-  IconOverview,
   IconSecurityFinding,
+  IconSummary,
   Layout,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
@@ -117,8 +117,8 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
         label={<FormattedMessage id="navigation.project.group.analysis" />}
       >
         {dashboardUrl && (
-          <Layout.SidebarNavigation.Item Icon={IconOverview} to={dashboardUrl}>
-            <FormattedMessage id="overview.page" />
+          <Layout.SidebarNavigation.Item Icon={IconSummary} to={dashboardUrl}>
+            <FormattedMessage id="summary.page" />
           </Layout.SidebarNavigation.Item>
         )}
       </Layout.SidebarNavigation.Group>
@@ -131,11 +131,11 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
     >
       {dashboardUrl && (
         <Layout.SidebarNavigation.Item
-          Icon={IconOverview}
+          Icon={IconSummary}
           isMatchingFullPath={portfolioGovernanceEnabled}
           to={dashboardUrl}
         >
-          <FormattedMessage id="overview.page" />
+          <FormattedMessage id="summary.page" />
         </Layout.SidebarNavigation.Item>
       )}
 

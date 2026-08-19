@@ -101,7 +101,7 @@ const ui = {
   projectText: byText('project'),
   portfolioTitle: byText('component name'),
   portfolioText: byText(/portfolio/i),
-  overviewPageLink: byText('overview.page'),
+  overviewPageLink: byText('summary.page'),
   issuesPageLink: byText('issues.page'),
   hotspotsPageLink: byText('layout.security_hotspots'),
   measuresPageLink: byText('layout.measures'),

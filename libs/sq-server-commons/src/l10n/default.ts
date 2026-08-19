@@ -1196,6 +1196,7 @@ export const defaultMessages = {
   'page_title.template.with_category': '%s - {page} - {productName}',
   'page_title.template.with_instance': '{project} - %s - {productName}',
   'overview.page': 'Overview',
+  'summary.page': 'Summary',
   'code.page': 'Code',
   'permissions.page': 'Permissions',
   'quality_profiles.page': 'Quality profiles',

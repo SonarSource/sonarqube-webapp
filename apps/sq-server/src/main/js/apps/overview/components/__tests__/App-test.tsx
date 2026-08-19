@@ -46,11 +46,14 @@ jest.mock('~shared/components/pages/ProjectPageTemplate', () => ({
   ProjectPageTemplate: ({
     children,
     disableBranchSelector,
+    title,
   }: {
     children: ReactNode;
     disableBranchSelector?: boolean;
+    title: string;
   }) => (
     <div>
+      <h1>{title}</h1>
       <button disabled={disableBranchSelector} type="button">
         mock branch selector
       </button>
@@ -97,6 +100,7 @@ it('should render Empty Overview on main branch with no analysis', async () => {
   expect(
     await screen.findByText('provisioning.no_analysis_on_main_branch.main'),
   ).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: 'summary.page' })).toBeInTheDocument();
 });
 
 it('should redirect to tutorial when the user can scan a project that has no analysis yet', async () => {

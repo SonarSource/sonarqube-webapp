@@ -65,7 +65,7 @@ const ui = {
 
   // Navigation items
   onboardingLink: byText('onboarding.project_analysis.menu_entry'),
-  overviewLink: byText('overview.page'),
+  overviewLink: byText('summary.page'),
   portfolioHealthDashboardLink: byText('portfolio_dashboards.health.page'),
   allDashboardsLink: byText('portfolio_dashboards.all.page'),
   allProjectDashboardsLink: byText('project_dashboards.all.page'),
@@ -138,7 +138,7 @@ describe('ComponentNav', () => {
       renderComponentNav({ component });
 
       expect(ui.navigationItemsList()).toEqual([
-        'overview.page',
+        'summary.page',
         'project_dashboards.all.page',
         'issues.page',
         'layout.security_hotspotsdeprecated',
@@ -175,7 +175,7 @@ describe('ComponentNav', () => {
       renderComponentNav({ component });
 
       expect(ui.navigationItemsList()).toEqual([
-        'overview.page',
+        'summary.page',
         'project_dashboards.all.page',
         'issues.page',
         'layout.security_hotspotsdeprecated',
@@ -203,7 +203,7 @@ describe('ComponentNav', () => {
       renderComponentNav({ component });
 
       expect(ui.navigationItemsList()).toEqual([
-        'overview.page',
+        'summary.page',
         'project_dashboards.all.page',
         'issues.page',
         'layout.security_hotspotsdeprecated',
@@ -248,7 +248,7 @@ describe('ComponentNav', () => {
       renderComponentNav({ component });
 
       expect(ui.navigationItemsList()).toEqual([
-        'overview.page',
+        'summary.page',
         'issues.page',
         'layout.security_hotspotsdeprecated',
         'layout.measures',
@@ -282,7 +282,7 @@ describe('ComponentNav', () => {
       expect(ui.projectGroup.query()).not.toBeInTheDocument();
       expect(ui.policiesGroup.query()).not.toBeInTheDocument();
 
-      expect(ui.navigationItemsList()).toEqual(['overview.page']);
+      expect(ui.navigationItemsList()).toEqual(['summary.page']);
     });
   });
 
@@ -302,7 +302,7 @@ describe('ComponentNav', () => {
       renderComponentNav({ component: projectComponent });
 
       expect(ui.navigationItemsList()).toEqual([
-        'overview.page',
+        'summary.page',
         'project_dashboards.all.page',
         'issues.page',
         'layout.security_hotspotsdeprecated',

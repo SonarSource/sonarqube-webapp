@@ -29,7 +29,7 @@ import { addons } from '~sq-server-addons/index';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { getProjectQueryUrl } from '~sq-server-commons/helpers/urls';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import BranchOverview from '../branches/BranchOverview';
@@ -39,8 +39,8 @@ interface AppProps {
   component: Component;
 }
 
-export function App(props: AppProps) {
-  const intl = useIntl();
+export function App(props: Readonly<AppProps>) {
+  const { formatMessage } = useIntl();
   const { hasFeature } = useAvailableFeatures();
   const { component } = props;
   const { data: branchLike } = useCurrentBranchQuery(component);
@@ -60,7 +60,7 @@ export function App(props: AppProps) {
 
   return (
     <>
-      <Helmet defer={false} title={translate('overview.page')} />
+      <Helmet defer={false} title={formatMessage({ id: 'summary.page' })} />
       {isPullRequest(branchLike) ? (
         <>
           <Suggestions suggestionGroup="pull_requests" />
@@ -76,8 +76,9 @@ export function App(props: AppProps) {
           {!isStringDefined(component.analysisDate) && (
             <ProjectPageTemplate
               disableBranchSelector={!hasBranches}
+              overrideBranchSelectorPath={getProjectQueryUrl(component.key)}
               pageClassName="it__empty-overview"
-              title={intl.formatMessage({ id: 'overview.page' })}
+              title={formatMessage({ id: 'summary.page' })}
             >
               <EmptyOverview branchLike={branchLike} component={component} />
             </ProjectPageTemplate>

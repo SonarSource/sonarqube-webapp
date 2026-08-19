@@ -38,7 +38,7 @@ import { CommunityBuildSecurityNotice } from '~sq-server-commons/components/prom
 import { parseDate } from '~sq-server-commons/helpers/dates';
 import { getComponentAsHomepage } from '~sq-server-commons/helpers/homepage';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
-import { CodeScope } from '~sq-server-commons/helpers/urls';
+import { CodeScope, getProjectQueryUrl } from '~sq-server-commons/helpers/urls';
 import { ApplicationPeriod } from '~sq-server-commons/types/application';
 import { Branch } from '~sq-server-commons/types/branch-like';
 import { Analysis, GraphType, MeasureHistory } from '~sq-server-commons/types/project-activity';
@@ -153,8 +153,9 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
       }
       disableQualityGateStatus
       metadata={<MetaContentHeader branch={branch} component={component} measures={measures} />}
+      overrideBranchSelectorPath={getProjectQueryUrl(component.key)}
       pageClassName="it__overview"
-      title={intl.formatMessage({ id: 'overview.page' })}
+      title={intl.formatMessage({ id: 'summary.page' })}
     >
       <A11ySkipTarget anchor="overview_main" />
 
