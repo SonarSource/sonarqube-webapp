@@ -95,6 +95,7 @@ export function ProjectRatingBadgeWidgetWrapper(props: Readonly<Props>) {
       {metricTypeForMeasure === MetricType.Rating ? (
         <RatingBadgeDisplay
           badgeSize={RatingBadgeSize.ExtraLarge}
+          componentKey={component}
           linkTo={ratingLinkTo}
           metricKey={metricKey}
           value={value}

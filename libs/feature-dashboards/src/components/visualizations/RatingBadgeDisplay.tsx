@@ -26,6 +26,7 @@ import { MetricKey, MetricType } from '~shared/types/metrics';
 export interface RatingBadgeDisplayProps {
   badgeSize?: `${RatingBadgeSize}`;
   className?: string;
+  componentKey?: string;
   linkTo?: To;
   metricKey: MetricKey;
   value: string;
@@ -44,6 +45,7 @@ function isNonEmptyLinkTarget(linkTo: To | undefined): linkTo is To {
 export function RatingBadgeDisplay({
   badgeSize = RatingBadgeSize.Small,
   className,
+  componentKey,
   linkTo,
   metricKey,
   value,
@@ -51,6 +53,7 @@ export function RatingBadgeDisplay({
   const badge = (
     <Measure
       badgeSize={badgeSize}
+      componentKey={componentKey}
       metricKey={metricKey}
       metricType={MetricType.Rating}
       value={value}

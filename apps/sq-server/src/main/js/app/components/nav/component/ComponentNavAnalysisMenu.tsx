@@ -45,6 +45,7 @@ import { getComponentSecurityHotspotsUrl } from '~sq-server-commons/sonar-aligne
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
+import { ProjectDashboardsListRoute } from '../../../../apps/projectDashboards/routes';
 
 interface Props {
   branchLike?: BranchLike;
@@ -103,6 +104,7 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
 
   const portfolioDashboardSearchParams = new URLSearchParams({ id: component.key }).toString();
   const portfolioGovernanceEnabled = isPortfolio && isGovernanceEnabled;
+  const showProjectDashboardsNav = qualifier === ComponentQualifier.Project;
 
   let dashboardUrl: To | null = getProjectQueryUrl(component.key, branchParameters);
   if (isPortfolio) {
@@ -137,7 +139,20 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
         </Layout.SidebarNavigation.Item>
       )}
 
-      {showPortfolioGovernanceNav && (
+      {showProjectDashboardsNav && (
+        <Layout.SidebarNavigation.Item
+          Icon={IconDashboard}
+          isActive={location.pathname.startsWith(ProjectDashboardsListRoute)}
+          to={{
+            pathname: ProjectDashboardsListRoute,
+            search: new URLSearchParams({ id: component.key }).toString(),
+          }}
+        >
+          <FormattedMessage id="project_dashboards.all.page" />
+        </Layout.SidebarNavigation.Item>
+      )}
+
+      {showPortfolioGovernanceNav && portfolioHealthDashboardRoute && (
         <Layout.SidebarNavigation.AccordionItem
           Icon={IconDashboard}
           label={<FormattedMessage id="portfolio_dashboards.page" />}

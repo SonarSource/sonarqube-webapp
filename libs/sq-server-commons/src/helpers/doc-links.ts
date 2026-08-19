@@ -107,6 +107,8 @@ export enum DocLink {
   PortfolioBreakdown = '/user-guide/viewing-reports/portfolios/#portfolio-breakdown',
   PortfolioManagementAllDashboards = '/managing-portfolios/portfolio-dashboards/viewing-and-managing-dashboards',
   Portfolios = '/user-guide/viewing-reports/portfolios/',
+  ProjectManagementAllDashboards = '/managing-your-projects/dashboards',
+  ProjectManagementCreateDashboards = '/managing-your-projects/dashboards/creating-dashboards',
   ProjectRegulatoryReports = '/user-guide/viewing-reports/regulatory-reports/',
   PullRequestAnalysis = '/analyzing-source-code/pull-request-analysis/introduction/',
   QualityGates = '/quality-standards-administration/managing-quality-gates/introduction-to-quality-gates/',

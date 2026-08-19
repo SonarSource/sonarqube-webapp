@@ -20,71 +20,164 @@
 
 import type { Path } from 'history';
 import type { To } from 'react-router-dom';
-import type { MetricKey } from '~shared/types/metrics';
-import { getPortfolioUrl } from '../../helpers/urls';
-import { unsupportedDashboardWidgetAdapter } from './unsupported-dashboard-widget-adapter';
+import { getComponentIssuesUrl, getPathUrlAsString, getRuleUrl } from '~shared/helpers/urls';
+import { MetricKey } from '~shared/types/metrics';
+import {
+  getComponentDrilldownUrl,
+  getMeasureHistoryUrl,
+  getPortfolioUrl,
+} from '../../helpers/urls';
+import {
+  CodeScope,
+  DashboardMetricType,
+  PieChartHotspotSlice,
+  PieChartIssueFilter,
+  PieChartIssueSlice,
+  PieChartMetric,
+  type CodeScopeValue,
+  type MeasureFilters,
+  type PieChartWidget,
+  type TopListWidgetLinkProps,
+} from './dashboard-widget-data';
 
-export function getDashboardDocumentationUrl(_docLink: string): string {
-  return unsupportedDashboardWidgetAdapter();
+export function getDashboardDocumentationUrl(docLink: string): string {
+  return docLink;
 }
 
 export function getProjectDashboardMeasureHistoryUrl(
-  _component: string,
-  _metric: string,
+  component: string,
+  metric: string,
 ): Partial<Path> {
-  return unsupportedDashboardWidgetAdapter();
+  return getMeasureHistoryUrl(component, metric);
 }
 
-export function getProjectDashboardMeasuresUrl(_props: {
+export function getProjectDashboardMeasuresUrl(props: {
   component: string;
   metric: string;
   sinceLeakPeriod?: boolean;
 }): To {
-  return unsupportedDashboardWidgetAdapter();
+  return getComponentDrilldownUrl({
+    componentKey: props.component,
+    metric: getMetricKeyForScope(props.metric, props.sinceLeakPeriod === true),
+  });
 }
 
-export function getProjectDashboardSummaryUrl(_component: string, _overall = false): To {
-  return unsupportedDashboardWidgetAdapter();
+export function getProjectDashboardSummaryUrl(component: string, overall = false): To {
+  return {
+    pathname: '/dashboard',
+    search: new URLSearchParams({
+      codeScope: overall ? CodeScope.Overall : CodeScope.New,
+      id: component,
+    }).toString(),
+  };
 }
 
-export function getProjectDashboardRuleUrl(_rule: string, _organization?: string): string {
-  return unsupportedDashboardWidgetAdapter();
+export function getProjectDashboardRuleUrl(rule: string, organization?: string): string {
+  return getPathUrlAsString(getRuleUrl(rule, organization));
 }
 
 export function buildProjectRichCountWidgetLink(
-  _component: string,
-  _measureFilters: unknown,
-  _scope: string,
+  component: string,
+  measureFilters: MeasureFilters | undefined,
+  scope: CodeScopeValue,
 ): To {
-  return unsupportedDashboardWidgetAdapter();
+  return getComponentIssuesUrl(component, {
+    impactSeverities: measureFilters?.impactSeverities?.join(','),
+    impactSoftwareQualities: measureFilters?.impactSoftwareQuality,
+    issueStatuses: measureFilters?.issueStatus ?? 'OPEN,CONFIRMED',
+    ...(scope === CodeScope.New ? { sinceLeakPeriod: 'true' } : {}),
+  });
 }
 
 export function buildProjectRawCountWidgetLink(
-  _component: string,
-  _metricKey: MetricKey,
-  _scope: string,
+  component: string,
+  metricKey: MetricKey,
+  scope: CodeScopeValue,
 ): To {
-  return unsupportedDashboardWidgetAdapter();
+  return getComponentDrilldownUrl({
+    componentKey: component,
+    metric: getMetricKeyForScope(metricKey, scope === CodeScope.New),
+  });
 }
 
-export function serializeDashboardWidgetUrl(_url: To): string {
-  return unsupportedDashboardWidgetAdapter();
+export function serializeDashboardWidgetUrl(url: To): string {
+  if (typeof url === 'string') {
+    return url;
+  }
+
+  const search = typeof url.search === 'string' ? prefixUrlFragment(url.search, '?') : '';
+  const hash = typeof url.hash === 'string' ? prefixUrlFragment(url.hash, '#') : '';
+
+  return `${url.pathname ?? ''}${search}${hash}`;
 }
 
 export function getProjectDashboardPieChartSegmentUrl(
-  _projectKey: string,
-  _value: string,
-  _props: unknown,
+  projectKey: string,
+  value: string,
+  props: PieChartWidget,
 ): string {
-  return unsupportedDashboardWidgetAdapter();
+  const { filter, metric, scope, slice } = props;
+  const params = new URLSearchParams({ id: projectKey });
+
+  if (metric === PieChartMetric.IssueCount) {
+    if (scope === CodeScope.New) {
+      params.set('sinceLeakPeriod', 'true');
+    }
+    if (slice !== PieChartIssueSlice.IssueStatuses) {
+      params.set('issueStatuses', 'OPEN,CONFIRMED');
+    }
+    params.set(slice, value);
+    addIssueQualityFilter(params, filter);
+    return `/project/issues?${params.toString()}`;
+  }
+
+  if (metric === PieChartMetric.HotspotCount) {
+    if (scope === CodeScope.New) {
+      params.set('inNewCodePeriod', 'true');
+    }
+    if (slice === PieChartHotspotSlice.ReviewStatus) {
+      addHotspotStatusFilter(params, value);
+    }
+    return `/security_hotspots?${params.toString()}`;
+  }
+
+  if (metric === PieChartMetric.LineCount) {
+    return `/code?${params.toString()}`;
+  }
+
+  return `/dashboard?${params.toString()}`;
 }
 
 export function getProjectDashboardTopListRowUrl(
-  _projectKey: string,
-  _facetValue: string,
-  _props: unknown,
+  projectKey: string,
+  facetValue: string,
+  props: TopListWidgetLinkProps,
 ): string {
-  return unsupportedDashboardWidgetAdapter();
+  const { metric, scope } = props;
+  const params = new URLSearchParams({
+    id: projectKey,
+    issueStatuses: 'OPEN,CONFIRMED',
+    rules: facetValue,
+  });
+
+  if (scope === CodeScope.New) {
+    params.set('sinceLeakPeriod', 'true');
+  }
+
+  if (metric.type === DashboardMetricType.Rich) {
+    const filters = metric.measureFilters;
+    if (filters?.issueStatus) {
+      params.set('issueStatuses', filters.issueStatus);
+    }
+    if (filters?.impactSoftwareQuality) {
+      params.set('impactSoftwareQualities', filters.impactSoftwareQuality);
+    }
+    if (filters?.impactSeverities?.length) {
+      params.set('impactSeverities', filters.impactSeverities.join(','));
+    }
+  }
+
+  return `/project/issues?${params.toString()}`;
 }
 
 export function getPortfolioDashboardMeasuresUrl(
@@ -105,4 +198,37 @@ export function getPortfolioDashboardWidgetDrilldownUrl(
 
   const search = query ? new URLSearchParams({ q: query }).toString() : '';
   return search ? `breakdown/${widgetKey}?${search}` : `breakdown/${widgetKey}`;
+}
+
+function getMetricKeyForScope(metricKey: string, isNewCode: boolean): string {
+  if (!isNewCode || metricKey.startsWith('new_')) {
+    return metricKey;
+  }
+
+  return metricKey === MetricKey.sqale_rating
+    ? MetricKey.new_maintainability_rating
+    : `new_${metricKey}`;
+}
+
+function addIssueQualityFilter(params: URLSearchParams, filter: string): void {
+  const quality = {
+    [PieChartIssueFilter.Maintainability]: 'MAINTAINABILITY',
+    [PieChartIssueFilter.Reliability]: 'RELIABILITY',
+    [PieChartIssueFilter.Security]: 'SECURITY',
+  }[filter];
+
+  if (quality) {
+    params.set('impactSoftwareQualities', quality);
+  }
+}
+
+function addHotspotStatusFilter(params: URLSearchParams, value: string): void {
+  const status = value.toUpperCase();
+  if (status === 'TO_REVIEW' || status === 'FIXED' || status === 'SAFE') {
+    params.set('status', status);
+  }
+}
+
+function prefixUrlFragment(fragment: string, prefix: '?' | '#'): string {
+  return fragment.length > 0 && !fragment.startsWith(prefix) ? `${prefix}${fragment}` : fragment;
 }

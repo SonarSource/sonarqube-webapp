@@ -1216,6 +1216,23 @@ export const defaultMessages = {
   'portfolio_dashboards.search_placeholder': 'Search for dashboard...',
   'portfolio_dashboards.number_of_dashboards':
     '<b>{count}</b> {count, plural, one {dashboard} other {dashboards}}',
+  'project_dashboards.page': 'Dashboards',
+  'project_dashboards.page.description': 'Manage custom dashboards for this project.',
+  'project_dashboards.all.page': 'All dashboards',
+  'project_dashboards.create_dashboard': 'Create custom dashboard',
+  'project_dashboards.search_placeholder': 'Search for dashboard...',
+  'project_dashboards.number_of_dashboards':
+    '<b>{count}</b> {count, plural, one {dashboard} other {dashboards}}',
+  'project_dashboard.list.toast.create_success': 'Dashboard {dashboardName} created.',
+  'project_dashboard.list.toast.delete_success': 'Dashboard {dashboardName} deleted.',
+  'project_dashboard.list.toast.create_error': 'We could not create your dashboard. Try again.',
+  'project_dashboard.list.toast.delete_error': 'We could not delete your dashboard. Try again.',
+  'project_dashboard.list.toast.edit_error': 'We could not edit your dashboard. Try again.',
+  'project_dashboard.list.toast.duplicate_error':
+    'We could not duplicate your dashboard. Try again.',
+  'project_dashboard.list.toast.edit_success': 'Dashboard {dashboardName} updated.',
+  'project_dashboard.list.toast.duplicate_success': 'Dashboard {dashboardName} duplicated.',
+  'project_dashboard.built_in': 'Built-in dashboard',
   'portfolio_breakdown.page': 'Portfolio breakdown',
   'project_activity.page': 'Activity',
 
@@ -1577,6 +1594,11 @@ export const defaultMessages = {
   'issue.clean_code_attribute_category.RESPONSIBLE.title': 'This is a responsibility issue.',
   'issue.clean_code_attribute_category.RESPONSIBLE.advice':
     'To be responsible, the code must take into account its ethical obligations on data and potential impact of societal norms.',
+
+  'cct.clean_code_attribute_category.CONSISTENT': 'Consistency',
+  'cct.clean_code_attribute_category.INTENTIONAL': 'Intentionality',
+  'cct.clean_code_attribute_category.ADAPTABLE': 'Adaptability',
+  'cct.clean_code_attribute_category.RESPONSIBLE': 'Responsibility',
 
   'issue.clean_code_attribute': 'Code attribute',
   'issue.clean_code_attribute.CLEAR': 'Not clear',
@@ -3577,6 +3599,19 @@ export const defaultMessages = {
   'project_dashboard.edit_mode_message': 'Editing dashboard',
   'project_dashboard.last_edited': 'Last edited {lastUpdatedAt}',
   'portfolio_dashboard.custom.toast.save_error': 'We could not save your dashboard. Try again.',
+  'project_dashboard.custom.error.description':
+    'We could not load this dashboard. Try again later.',
+  'project_dashboard.custom.error.invalid_layout.description':
+    "This dashboard's saved layout is invalid or corrupted and cannot be shown.",
+  'project_dashboard.custom.error.invalid_layout.title': 'Dashboard layout is invalid',
+  'project_dashboard.custom.error.title': 'Something went wrong',
+  'project_dashboard.custom.toast.save_error': 'We could not save your dashboard. Try again.',
+  'project_dashboard.custom.toast.save_success': 'Dashboard saved.',
+  'project_dashboard.custom.toast.delete_error': 'We could not delete your dashboard. Try again.',
+  'project_dashboard.custom.not_found.back_to_list': 'Back to dashboards',
+  'project_dashboard.custom.not_found.description':
+    'This dashboard may have been deleted or the link is incorrect.',
+  'project_dashboard.custom.not_found.title': 'Dashboard not found',
 
   'editable_multigrid.error.description':
     'An error occurred while rendering the dashboard layout. Please refresh the page to recover.',

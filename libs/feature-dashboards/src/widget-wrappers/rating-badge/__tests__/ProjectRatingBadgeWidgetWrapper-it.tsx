@@ -28,7 +28,9 @@ import { ProjectRatingBadgeWidgetWrapper } from '../ProjectRatingBadgeWidgetWrap
 
 jest.mock('~adapters/components/measure/Measure', () => ({
   __esModule: true,
-  default: ({ value }: { value: string }) => <div data-testid="measure">{value}</div>,
+  default: ({ componentKey, value }: { componentKey?: string; value: string }) => (
+    <div data-testid="measure">{`${componentKey}:${value}`}</div>
+  ),
 }));
 
 jest.mock('~adapters/helpers/dashboard-measures', () => ({
@@ -79,7 +81,7 @@ describe('ProjectRatingBadgeWidgetWrapper integration', () => {
   it('renders a rating returned by the project adapter', () => {
     renderWidget(MetricKey.reliability_rating);
 
-    expect(screen.getByText('2')).toBeInTheDocument();
+    expect(screen.getByText('project-key:2')).toBeInTheDocument();
     expect(useProjectRatingBadgeMeasuresQuery).toHaveBeenCalledWith(
       expect.objectContaining({ component: 'project-key' }),
       { enabled: true },

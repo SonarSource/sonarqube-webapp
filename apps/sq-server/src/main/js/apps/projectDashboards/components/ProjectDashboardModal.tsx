@@ -18,21 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MetricKey } from '~shared/types/metrics';
-import { DEFAULT_LOCALE } from '../../design-system/helpers/constants';
-import { getLocalizedMetricName } from '../../helpers/l10n';
-import { getL10nBundleFromCache } from '../../helpers/l10nBundleCache';
+import {
+  DashboardDetailsModal,
+  DashboardDetailsModalProps,
+} from '~feature-dashboards/dashboard-list/DashboardDetailsModal';
+import type { ProjectDashboardData } from '../../../types/project-dashboards';
 
-export function getCurrentLocale() {
-  return getL10nBundleFromCache().locale ?? DEFAULT_LOCALE;
-}
+export type ProjectDashboardModalProps = Omit<
+  DashboardDetailsModalProps<ProjectDashboardData>,
+  'trailingContent'
+>;
 
-export function getDashboardLocalizedMetricName(
-  metric: Parameters<typeof getLocalizedMetricName>[0],
-  short = false,
-) {
-  return getLocalizedMetricName(
-    metric.key === MetricKey.issues ? { ...metric, key: MetricKey.violations } : metric,
-    short,
-  );
+export function ProjectDashboardModal(props: Readonly<ProjectDashboardModalProps>) {
+  return <DashboardDetailsModal {...props} />;
 }

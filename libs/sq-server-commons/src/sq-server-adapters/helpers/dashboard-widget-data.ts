@@ -103,6 +103,12 @@ export interface TopListWidget {
   metric: DashboardMetric;
 }
 
+export interface TopListWidgetLinkProps {
+  metric: DashboardMetric;
+  rankBy: string;
+  scope: CodeScopeValue;
+}
+
 export interface HistoryDay {
   date: string;
   distribution: Array<{ key: string; value: number }>;

@@ -74,6 +74,7 @@ import overviewRoutes from '../../apps/overview/routes';
 import permissionTemplatesRoutes from '../../apps/permission-templates/routes';
 import { globalPermissionsRoutes, projectPermissionsRoutes } from '../../apps/permissions/routes';
 import projectActivityRoutes from '../../apps/projectActivity/routes';
+import { componentRoutes as projectDashboardRoutes } from '../../apps/projectDashboards/routes';
 import projectDeletionRoutes from '../../apps/projectDeletion/routes';
 import projectDumpRoutes from '../../apps/projectDump/routes';
 import projectInfoRoutes from '../../apps/projectInformation/routes';
@@ -147,6 +148,7 @@ function renderComponentRoutes({
         {componentMeasuresRoutes()}
         {overviewRoutes()}
         {hasPortfolioFeature && addons.portfolios?.componentRoutes()}
+        {projectDashboardRoutes()}
         {hasSecurityReportsFeature && addons.securityReports?.componentRoutes()}
 
         {projectActivityRoutes()}

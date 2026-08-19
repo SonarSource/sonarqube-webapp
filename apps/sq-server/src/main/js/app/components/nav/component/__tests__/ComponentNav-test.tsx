@@ -68,6 +68,7 @@ const ui = {
   overviewLink: byText('overview.page'),
   portfolioHealthDashboardLink: byText('portfolio_dashboards.health.page'),
   allDashboardsLink: byText('portfolio_dashboards.all.page'),
+  allProjectDashboardsLink: byText('project_dashboards.all.page'),
   issuesLink: byText('issues.page'),
   securityHotspotsLink: byText('layout.security_hotspots'),
   securityReportsLink: byText('layout.security_reports'),
@@ -95,6 +96,21 @@ const ui = {
 
 describe('ComponentNav', () => {
   describe('project navigation', () => {
+    it('renders project dashboards for Community Build projects', () => {
+      renderComponentNav(
+        {
+          component: mockComponent({
+            analysisDate: '2024-01-01',
+            qualifier: ComponentQualifier.Project,
+          }),
+        },
+        [],
+        EditionKey.community,
+      );
+
+      expect(ui.allProjectDashboardsLink.get()).toBeInTheDocument();
+    });
+
     it('should render onboarding link when project is not analyzed', () => {
       const component = mockComponent({
         analysisDate: undefined,
@@ -123,6 +139,7 @@ describe('ComponentNav', () => {
 
       expect(ui.navigationItemsList()).toEqual([
         'overview.page',
+        'project_dashboards.all.page',
         'issues.page',
         'layout.security_hotspotsdeprecated',
         'layout.measures',
@@ -159,6 +176,7 @@ describe('ComponentNav', () => {
 
       expect(ui.navigationItemsList()).toEqual([
         'overview.page',
+        'project_dashboards.all.page',
         'issues.page',
         'layout.security_hotspotsdeprecated',
         'layout.measures',
@@ -186,6 +204,7 @@ describe('ComponentNav', () => {
 
       expect(ui.navigationItemsList()).toEqual([
         'overview.page',
+        'project_dashboards.all.page',
         'issues.page',
         'layout.security_hotspotsdeprecated',
         'layout.measures',
@@ -207,6 +226,17 @@ describe('ComponentNav', () => {
   });
 
   describe('application navigation', () => {
+    it('does not render project dashboards for applications', () => {
+      const component = mockComponent({
+        qualifier: ComponentQualifier.Application,
+        canBrowseAllChildProjects: true,
+      });
+
+      renderComponentNav({ component }, [], EditionKey.enterprise);
+
+      expect(ui.allProjectDashboardsLink.query()).not.toBeInTheDocument();
+    });
+
     it('should render analysis and information menus for applications', () => {
       const component = mockComponent({
         qualifier: ComponentQualifier.Application,
@@ -273,6 +303,7 @@ describe('ComponentNav', () => {
 
       expect(ui.navigationItemsList()).toEqual([
         'overview.page',
+        'project_dashboards.all.page',
         'issues.page',
         'layout.security_hotspotsdeprecated',
         'Custom Extension',
