@@ -21,7 +21,7 @@
 module.exports = {
   collectCoverage: true,
   coverageReporters: ['json', 'lcov'],
-  maxWorkers: 8, // We use sonar-l runner with 20 CPUs and 40 GB ram
+  maxWorkers: 7, // We use sonar-l runner with 20 CPUs and 40 GB ram
   workerIdleMemoryLimit: '5GB',
   reporters: [
     'default',
