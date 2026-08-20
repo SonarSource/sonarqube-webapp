@@ -1032,8 +1032,23 @@ export class App extends React.PureComponent<Props, State> {
     this.setState(actions.selectPreviousFlow);
   };
 
+  /** The project key to gate remediation-agent UI on, or `undefined` if it shouldn't be shown. */
+  getRemediationAgentProjectKey(): string | undefined {
+    const { component, hasFeature } = this.props;
+
+    if (
+      !hasFeature(Feature.RemediationAgent) ||
+      !component?.key ||
+      !isProject(component.qualifier)
+    ) {
+      return undefined;
+    }
+
+    return component.key;
+  }
+
   renderBulkChange() {
-    const { component, currentUser, hasFeature } = this.props;
+    const { branchLike, component, currentUser } = this.props;
     const { checkAll, bulkChangeModal, checked, issues, paging } = this.state;
 
     const isAllChecked = checked.length > 0 && issues.length === checked.length;
@@ -1043,6 +1058,9 @@ export class App extends React.PureComponent<Props, State> {
     if (!currentUser.isLoggedIn) {
       return null;
     }
+
+    const pullRequestKey = isPullRequest(branchLike) ? branchLike.key : undefined;
+    const remediationAgentProjectKey = this.getRemediationAgentProjectKey();
 
     return (
       <div className="sw-float-left sw-flex sw-items-center">
@@ -1066,16 +1084,14 @@ export class App extends React.PureComponent<Props, State> {
             {this.getButtonLabel(checked, checkAll, paging)}
           </Button>
 
-          {hasFeature(Feature.RemediationAgent) &&
-            addons.remediationAgent &&
-            component?.key &&
-            isProject(component.qualifier) && (
-              <addons.remediationAgent.BacklogJobAssignButton
-                allIssues={issues}
-                checkedKeys={checked}
-                projectKey={component.key}
-              />
-            )}
+          {remediationAgentProjectKey && addons.remediationAgent && (
+            <addons.remediationAgent.BacklogJobAssignButton
+              allIssues={issues}
+              checkedKeys={checked}
+              projectKey={remediationAgentProjectKey}
+              pullRequestKey={pullRequestKey}
+            />
+          )}
         </div>
 
         {bulkChangeModal && (
@@ -1237,14 +1253,15 @@ export class App extends React.PureComponent<Props, State> {
   }
 
   renderIssueList() {
-    const { component, hasFeature } = this.props;
-    const { checkAll, loading, paging, showSecurityDevPromotion, query } = this.state;
+    const { checkAll, checked, issues, loading, paging, showSecurityDevPromotion, query } =
+      this.state;
 
     const hasSecurityFilter =
       query.impactSoftwareQualities.includes(SoftwareQuality.Security) ||
       query.types.includes(IssueType.Vulnerability);
 
     const showMaxBulkItemsMessage = checkAll && paging && paging.total > MAX_PAGE_SIZE;
+    const remediationAgentProjectKey = this.getRemediationAgentProjectKey();
 
     return (
       <div className="it__layout-page-main-inner" id="issues-page">
@@ -1253,12 +1270,9 @@ export class App extends React.PureComponent<Props, State> {
           {showSecurityDevPromotion && hasSecurityFilter && (
             <SecurityDevEditionPromoteBanner className="sw-mb-4 sw-w-full sw-box-border" isWide />
           )}
-          {hasFeature(Feature.RemediationAgent) &&
-            addons.remediationAgent &&
-            component?.key &&
-            isProject(component.qualifier) && (
-              <addons.remediationAgent.RemediationAgentAddOnBanner className="sw-mb-4 sw-w-full sw-box-border" />
-            )}
+          {remediationAgentProjectKey && addons.remediationAgent && (
+            <addons.remediationAgent.RemediationAgentAddOnBanner className="sw-mb-4 sw-w-full sw-box-border" />
+          )}
           <div className="sw-flex sw-w-full sw-items-center sw-justify-between sw-box-border">
             {this.renderBulkChange()}
 
@@ -1311,6 +1325,14 @@ export class App extends React.PureComponent<Props, State> {
               </span>
             )}
           </output>
+
+          {remediationAgentProjectKey && addons.remediationAgent && (
+            <addons.remediationAgent.AgentUnsupportedIssuesMessage
+              allIssues={issues}
+              checkedKeys={checked}
+              className="sw-mt-3"
+            />
+          )}
 
           {this.renderList()}
         </Spinner>

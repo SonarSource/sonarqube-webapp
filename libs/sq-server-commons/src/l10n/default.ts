@@ -1734,6 +1734,18 @@ export const defaultMessages = {
   'project_issues.assign_to_agent.error.title': 'Failed to assign issues',
   'project_issues.assign_to_agent.error.description':
     'Unable to create the Agent job. Please try again.',
+  'project_issues.assign_to_agent.all_unsupported.languages':
+    'All selected issues have unsupported languages and cannot be assigned to the Agent.',
+  'project_issues.assign_to_agent.all_unsupported.status':
+    'All selected issues have a status that cannot be assigned to the Agent.',
+  'project_issues.assign_to_agent.all_unsupported.multiple_reasons':
+    'All selected issues cannot be assigned to the Agent.',
+  'project_issues.assign_to_agent.some_unsupported.languages':
+    '{count} selected issue(s) have unsupported languages and will not be assigned to the Agent.',
+  'project_issues.assign_to_agent.some_unsupported.status':
+    '{count} selected issue(s) have a status that cannot be assigned to the Agent.',
+  'project_issues.assign_to_agent.some_unsupported.multiple_reasons':
+    '{count} selected issue(s) cannot be assigned to the Agent.',
   'agent_activity.status.pending': 'Pending',
   'agent_activity.status.in_progress': 'In progress',
   'agent_activity.status.in_progress.description': 'Please wait...',
