@@ -48,7 +48,7 @@ export interface SettingFieldDefinition extends SettingDefinition {
   name: string;
 }
 
-export interface ExtendedSettingDefinitionNoFields extends SettingDefinition {
+interface ExtendedSettingDefinitionNoFields extends SettingDefinition {
   category: string;
   defaultValue?: string;
   deprecatedKey?: string;

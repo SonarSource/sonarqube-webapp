@@ -39,7 +39,7 @@ export enum IssueResolutionStatistic {
 }
 
 /** Dimension axes supported by the issue-resolution-history slice API. */
-export type IssueResolutionSliceBy = 'SEVERITY' | 'SOFTWARE_QUALITY' | 'TYPE';
+type IssueResolutionSliceBy = 'SEVERITY' | 'SOFTWARE_QUALITY' | 'TYPE';
 
 /** Response shape for `GET /organizations/issue-resolution-history`. */
 export interface IssueResolutionHistoryResponse {

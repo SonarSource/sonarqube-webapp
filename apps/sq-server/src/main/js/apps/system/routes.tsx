@@ -23,6 +23,6 @@ import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 
 const SystemApp = lazyLoadComponent(() => import('./components/SystemApp'));
 
-export const routes = () => <Route element={<SystemApp />} path="system" />;
+const routes = () => <Route element={<SystemApp />} path="system" />;
 
 export default routes;

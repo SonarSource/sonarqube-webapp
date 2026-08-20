@@ -22,7 +22,7 @@ export interface ScaEnablementPayload {
   enablement: boolean;
 }
 
-export interface ScaSelfTestCheckDetails {
+interface ScaSelfTestCheckDetails {
   attemptedMethod: string;
   attemptedUrl: string;
   responseBody: string;

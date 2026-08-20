@@ -21,7 +21,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { getSystemStatus } from '~sq-server-commons/helpers/system';
 
-export function MigrationContainer() {
+function MigrationContainer() {
   if (getSystemStatus() !== 'UP') {
     const returnTo = window.location.pathname + window.location.search + window.location.hash;
     const to = {

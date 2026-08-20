@@ -36,7 +36,6 @@ export const RISKS_ROUTE_NAME = 'dependency-risks';
 export const RISKS_PROMO_ROUTE_NAME = 'dependency-risks/promo';
 
 export const LICENSE_EXTERNAL_COPYLEFT_DETAILS_LINK = 'https://blueoakcouncil.org/copyleft';
-export const LICENSE_EXTERNAL_GENERAL_DETAILS_LINK = 'https://blueoakcouncil.org/list';
 
 const OPTIONAL_PARAMS = ['id', 'branch', 'pullRequest'] as const;
 

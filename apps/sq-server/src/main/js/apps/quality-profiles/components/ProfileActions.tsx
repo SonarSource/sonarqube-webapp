@@ -49,7 +49,7 @@ interface Props {
   profile: Profile;
 }
 
-export function ProfileActions({ fromList, isComparable, profile }: Readonly<Props>) {
+function ProfileActions({ fromList, isComparable, profile }: Readonly<Props>) {
   const router = useRouter();
   const {
     query: { language },

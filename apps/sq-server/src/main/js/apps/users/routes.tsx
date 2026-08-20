@@ -23,6 +23,6 @@ import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 
 const UsersApp = lazyLoadComponent(() => import('./UsersApp'));
 
-export const routes = () => <Route element={<UsersApp />} path="users" />;
+const routes = () => <Route element={<UsersApp />} path="users" />;
 
 export default routes;

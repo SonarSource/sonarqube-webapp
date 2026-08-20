@@ -32,7 +32,7 @@ import {
 import { QualityProfilesContextProps } from '~sq-server-commons/types/quality-profiles';
 import { sortProfiles } from '~sq-server-commons/utils/quality-profiles-utils';
 
-export function QualityProfilesApp() {
+function QualityProfilesApp() {
   const languagesWithRules = useLanguagesWithRules();
 
   const { data: profilesData, isLoading: isProfilesLoading } =

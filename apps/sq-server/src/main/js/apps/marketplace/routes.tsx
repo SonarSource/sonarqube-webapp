@@ -23,6 +23,6 @@ import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 
 const MarketplaceAppContainer = lazyLoadComponent(() => import('./MarketplaceAppContainer'));
 
-export const routes = () => <Route element={<MarketplaceAppContainer />} path="marketplace" />;
+const routes = () => <Route element={<MarketplaceAppContainer />} path="marketplace" />;
 
 export default routes;

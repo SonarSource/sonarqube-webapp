@@ -66,7 +66,7 @@ const TREEMAP_COLORS = [
   cssVar('ratings-colors-background-rating-e-default'),
 ];
 
-export class TreeMapView extends React.PureComponent<Props, State> {
+class TreeMapView extends React.PureComponent<Props, State> {
   state: State;
 
   constructor(props: Props) {

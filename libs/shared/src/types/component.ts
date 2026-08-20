@@ -36,7 +36,7 @@ export interface ComponentBase extends LightComponent {
   visibility?: Visibility;
 }
 
-export interface LightComponentConfiguration {
+interface LightComponentConfiguration {
   showSettings?: boolean;
 }
 

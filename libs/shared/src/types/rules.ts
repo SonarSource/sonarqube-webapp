@@ -85,7 +85,7 @@ export enum RuleDescriptionSections {
   Resources = 'resources',
 }
 
-export interface RuleDescriptionContext {
+interface RuleDescriptionContext {
   displayName: string;
   key: string;
 }

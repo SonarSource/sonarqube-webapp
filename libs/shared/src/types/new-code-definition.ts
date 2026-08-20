@@ -33,11 +33,6 @@ export interface NewCodeDefinition {
   value: string;
 }
 
-export interface VersionOption {
-  label: string;
-  value: string;
-}
-
 export const isValueDate = (value: string): boolean => {
   return Date.parse(value) > 0;
 };

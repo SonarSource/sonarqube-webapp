@@ -57,7 +57,7 @@ export interface SoftwareImpactBreakdownCardProps {
   softwareQuality: SoftwareQuality;
 }
 
-export function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdownCardProps>) {
+function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdownCardProps>) {
   const { component, conditions, softwareQuality, ratingMetricKey, measures, branch } = props;
 
   const intl = useIntl();

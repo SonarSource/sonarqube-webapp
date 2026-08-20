@@ -22,7 +22,7 @@ import styled from '@emotion/styled';
 import { cssVar, IconChevronDown, IconChevronRight } from '@sonarsource/echoes-react';
 import { forwardRef, useCallback, useEffect, useState } from 'react';
 
-export interface AccordionProps {
+interface AccordionProps {
   /**
    * aria-label is not required by the ARIA spec for <details> elements, but has been included for backward compatibility
    */

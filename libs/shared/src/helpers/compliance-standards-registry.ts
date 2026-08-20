@@ -463,15 +463,6 @@ export function normalizeCategory(
 }
 
 /**
- * Normalizes a CWE category key to include the "CWE-" prefix.
- * Bare numeric IDs (e.g. "119") become "CWE-119".
- * Keys already prefixed (e.g. "CWE-119") are returned unchanged.
- */
-export function normalizeCweCategory(key: string): string {
-  return /^CWE-/i.test(key) ? key : `CWE-${key}`;
-}
-
-/**
  * Extracts the numeric CWE ID from a CWE category key.
  * Removes the "CWE-" prefix if present.
  * "CWE-119" → "119", "119" → "119"

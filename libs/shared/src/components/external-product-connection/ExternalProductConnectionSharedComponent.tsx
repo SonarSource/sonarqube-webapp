@@ -43,7 +43,7 @@ export enum ExternalProductKind {
   UNKNOWN = 'unknown',
 }
 
-export interface ExternalProductDescription {
+interface ExternalProductDescription {
   displayName: string;
   productHost?: string;
 }

@@ -36,7 +36,7 @@ export interface SoftwareImpactMeasureRatingProps {
   softwareQuality: SoftwareQuality;
 }
 
-export function SoftwareImpactMeasureRating(props: Readonly<SoftwareImpactMeasureRatingProps>) {
+function SoftwareImpactMeasureRating(props: Readonly<SoftwareImpactMeasureRatingProps>) {
   const { ratingMetricKey, componentKey, softwareQuality, branch } = props;
   const { data: isStandardMode = false } = useStandardExperienceModeQuery();
 

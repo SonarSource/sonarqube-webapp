@@ -31,7 +31,7 @@ import { addTsConfigPath as addTsConfigPathToRoot, getRelativePathToRootTsConfig
 import * as path from 'node:path';
 import { GeneratorSharedLibrarySchema } from './types';
 
-export async function generatorSharedLibrary(tree: Tree, options: GeneratorSharedLibrarySchema) {
+async function generatorSharedLibrary(tree: Tree, options: GeneratorSharedLibrarySchema) {
   const existingProjects = getProjects(tree);
   const isPrivate = options.visibility === 'visibility:private';
   const resolvedName = names(

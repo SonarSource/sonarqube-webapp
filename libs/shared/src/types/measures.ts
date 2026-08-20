@@ -72,7 +72,7 @@ export interface Period {
   parameter?: string;
 }
 
-export type PeriodMode =
+type PeriodMode =
   'days' | 'date' | 'version' | 'previous_analysis' | 'previous_version' | 'manual_baseline';
 
 export interface MeasuresByComponents {

@@ -32,7 +32,7 @@ interface Props {
   ruleKey: string;
 }
 
-export function ComparisonResultActivation(props: React.PropsWithChildren<Props>) {
+function ComparisonResultActivation(props: React.PropsWithChildren<Props>) {
   const { profile, ruleKey } = props;
   const [isOpen, setIsOpen] = React.useState(false);
   const intl = useIntl();

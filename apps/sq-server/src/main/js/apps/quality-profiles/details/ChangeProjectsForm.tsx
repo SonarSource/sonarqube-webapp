@@ -37,7 +37,7 @@ interface Props {
   profile: Profile;
 }
 
-export function ChangeProjectsForm({ profile }: Readonly<Props>) {
+function ChangeProjectsForm({ profile }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const [lastSearchParams, setLastSearchParams] = React.useState<SelectListSearchParams>();
   const [needToReload, setNeedToReload] = React.useState(false);
