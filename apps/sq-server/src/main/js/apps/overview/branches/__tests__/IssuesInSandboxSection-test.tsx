@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ComponentContext } from '~adapters/helpers/test-utils';
 import {
   BranchesServiceDefaultDataset,
   BranchesServiceMock,
@@ -29,6 +28,7 @@ import { IssueSeverity } from '~shared/types/issues';
 import { MetricKey } from '~shared/types/metrics';
 import IssuesServiceMock from '~sq-server-commons/api/mocks/IssuesServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
+import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 import { SOFTWARE_QUALITIES } from '~sq-server-commons/helpers/constants';
 import { getIssueTypeBySoftwareQuality } from '~sq-server-commons/helpers/issues';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';

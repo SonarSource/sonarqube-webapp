@@ -20,16 +20,13 @@
 
 import { MetricKey } from '~shared/types/metrics';
 import {
-  useDashboardIssueCountHistoryQuery,
-  useDashboardMeasuresHistoryQuery,
-} from '../../queries/dashboard-history';
-import {
   CodeScope,
   DashboardMetricType,
   LineChartGroupBy,
   RichMetricKey,
   getActualMetricKey,
   getPortfolioDashboardMeasureRequestKey,
+  isKnownUnsupportedDashboardHistoryMetric,
   issueHistoryQueryExtras,
   lineChartDataToSingleSeries,
   lineChartSinceDate,
@@ -39,16 +36,17 @@ import {
   portfolioMeasuresToLineData,
   type DashboardMetric,
   type MeasureFilters,
-} from '../helpers/dashboard-widget-data';
-import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
+} from '../../helpers/dashboard-widget-data';
+import { unsupportedDashboardWidgetAdapter } from '../../helpers/unsupported-dashboard-widget-adapter';
+import {
+  useDashboardIssueCountHistoryQuery,
+  useDashboardMeasuresHistoryQuery,
+} from '../../queries/dashboard-history';
 import type {
   DashboardEntityType,
   DashboardLineChartSeries,
-} from './dashboard-widget-adapter-types';
-import {
-  isKnownUnsupportedDashboardHistoryMetric,
-  useWidgetMetricMetadataQuery,
-} from './widget-metric-metadata';
+} from '../../types/dashboard-widget-adapter-types';
+import { useWidgetMetricMetadataQuery } from './widget-metric-metadata';
 
 export function organizationLineChartRequestKey(
   metric: unknown,

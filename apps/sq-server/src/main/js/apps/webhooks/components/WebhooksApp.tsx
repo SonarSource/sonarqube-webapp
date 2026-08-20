@@ -21,7 +21,6 @@
 import { Layout, Link, Spinner } from '@sonarsource/echoes-react';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { ComponentContext } from '~adapters/helpers/test-utils';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isDefined } from '~shared/helpers/types';
 import {
@@ -32,6 +31,7 @@ import {
 } from '~sq-server-commons/api/webhooks';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
 import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
+import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { WebhookResponse } from '~sq-server-commons/types/webhook';

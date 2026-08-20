@@ -20,7 +20,7 @@
 
 import { useMemo } from 'react';
 import { useListRulesQuery } from '../../queries/rules';
-import type { DashboardRuleMetadataByKey } from './dashboard-widget-adapter-types';
+import type { DashboardRuleMetadataByKey } from '../../types/dashboard-widget-adapter-types';
 
 export type DashboardRuleLabelsEntity =
   | { isResolvingOrganization: boolean; organization: string | undefined; type: 'PORTFOLIO' }

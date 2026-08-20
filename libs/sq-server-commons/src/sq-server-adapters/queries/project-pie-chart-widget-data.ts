@@ -22,9 +22,9 @@ import {
   PieChartMetric,
   supportsOrganizationPieChartIssueHistory,
   type PieChartWidget,
-} from '../helpers/dashboard-widget-data';
-import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
-import type { DashboardPieChartSegment } from './dashboard-widget-adapter-types';
+} from '../../helpers/dashboard-widget-data';
+import { unsupportedDashboardWidgetAdapter } from '../../helpers/unsupported-dashboard-widget-adapter';
+import type { DashboardPieChartSegment } from '../../types/dashboard-widget-adapter-types';
 
 export function projectPieChartUsesLegacyIssueData(_widget: unknown): boolean {
   const widget = _widget as PieChartWidget;

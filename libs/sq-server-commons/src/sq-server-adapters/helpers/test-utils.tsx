@@ -38,8 +38,6 @@ import { BranchLike } from '../../types/branch-like';
 import { Feature } from '../../types/features';
 import { CurrentUser } from '../../types/users';
 
-export { ComponentContext } from '../../context/componentContext/ComponentContext';
-
 export interface ContextWrapperInitProps {
   analysisContext?: { branchId: string; organizationId?: string; organizationKey?: string };
   appState?: Partial<BaseAppState>;

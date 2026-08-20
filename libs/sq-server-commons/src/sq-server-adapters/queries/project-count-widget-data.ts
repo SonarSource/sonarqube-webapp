@@ -19,8 +19,8 @@
  */
 
 import { useComponent } from '../../context/componentContext/withComponentContext';
+import { type CodeScopeValue, type MeasureFilters } from '../../helpers/dashboard-widget-data';
 import { useIssueCountSearchQuery } from '../../queries/dashboard-issue-count';
-import { type CodeScopeValue, type MeasureFilters } from '../helpers/dashboard-widget-data';
 import { useCurrentBranchQuery } from './branch';
 
 export function useProjectLegacyIssueCountWidgetQuery(_params: {

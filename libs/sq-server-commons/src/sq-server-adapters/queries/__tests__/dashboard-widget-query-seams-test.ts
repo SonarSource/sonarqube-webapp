@@ -21,7 +21,7 @@
 import {
   DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE,
   unsupportedDashboardWidgetAdapter,
-} from '../../helpers/unsupported-dashboard-widget-adapter';
+} from '../../../helpers/unsupported-dashboard-widget-adapter';
 
 describe('Server dashboard widget query seams', () => {
   it('uses one explicit unsupported-adapter failure', () => {

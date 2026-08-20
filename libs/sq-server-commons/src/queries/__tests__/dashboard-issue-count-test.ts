@@ -21,7 +21,7 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { getContextWrapper } from '~adapters/helpers/test-utils';
 import { searchIssues } from '../../api/issues';
-import { CodeScope } from '../../sq-server-adapters/helpers/dashboard-widget-data';
+import { CodeScope } from '../../helpers/dashboard-widget-data';
 import { useIssueCountSearchQuery } from '../dashboard-issue-count';
 
 jest.mock('../../api/issues', () => ({

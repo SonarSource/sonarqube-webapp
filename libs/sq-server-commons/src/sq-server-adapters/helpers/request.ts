@@ -18,20 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { RequestOptions } from '~shared/types/request';
 import { RequestData, get, parseJSON } from '../../helpers/request';
-
-interface CustomHeader {
-  accept?: string;
-  apiVersion?: string;
-  isJSON?: boolean;
-}
-
-interface RequestOptions {
-  bypassRedirect?: boolean;
-  customHeaders?: CustomHeader; // used only in SonarCloud
-  isExternal?: boolean; // used only in SonarCloud
-  useQueryParams?: boolean; // used only in SonarCloud
-}
 
 /**
  * Shortcut to do a GET request and return response json

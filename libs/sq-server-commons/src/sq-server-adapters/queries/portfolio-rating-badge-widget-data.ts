@@ -21,15 +21,15 @@
 import { MetricKey } from '~shared/types/metrics';
 import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from '../../helpers/constants';
 import {
+  adaptServerReleasabilityDistribution,
+  organizationsHistoryStartDateWithRetentionBuffer,
+  portfolioMeasuresLatestRecord,
+} from '../../helpers/dashboard-widget-data';
+import {
   useDashboardMeasuresHistoryQuery,
   useDashboardProjectMeasuresQuery,
 } from '../../queries/dashboard-history';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
-import {
-  adaptServerReleasabilityDistribution,
-  organizationsHistoryStartDateWithRetentionBuffer,
-  portfolioMeasuresLatestRecord,
-} from '../helpers/dashboard-widget-data';
 
 interface PortfolioComputedProject {
   measures: ReadonlyArray<{ name: string; value: string }>;

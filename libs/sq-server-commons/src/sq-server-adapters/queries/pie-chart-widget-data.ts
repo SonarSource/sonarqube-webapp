@@ -23,10 +23,6 @@ import { useIntl, type IntlShape } from 'react-intl';
 import { useLanguagesQuery } from '~shared/queries/languages';
 import { MetricKey } from '~shared/types/metrics';
 import {
-  useDashboardIssueCountHistoryQuery,
-  useDashboardMeasuresHistoryQuery,
-} from '../../queries/dashboard-history';
-import {
   aggregateSmallSegments,
   CodeScope,
   DEFAULT_ISSUE_IMPACTS,
@@ -51,14 +47,18 @@ import {
   sortSegments,
   tryQualityGateDistributionMessageId,
   type PieChartWidget,
-} from '../helpers/dashboard-widget-data';
-import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
+} from '../../helpers/dashboard-widget-data';
+import { unsupportedDashboardWidgetAdapter } from '../../helpers/unsupported-dashboard-widget-adapter';
+import {
+  useDashboardIssueCountHistoryQuery,
+  useDashboardMeasuresHistoryQuery,
+} from '../../queries/dashboard-history';
+import { useSonarSourceSecurityCategoriesQuery } from '../../queries/security-standards';
 import type {
   DashboardEntityType,
   DashboardPieChartSegment,
-} from './dashboard-widget-adapter-types';
+} from '../../types/dashboard-widget-adapter-types';
 import { usePortfolioRulesMetadataOrganization } from './portfolio-widget-organization-data';
-import { useSonarSourceSecurityCategoriesQuery } from './security-standards';
 import { useWidgetMetricMetadataQuery } from './widget-metric-metadata';
 import { useDashboardRuleLabels, type DashboardRuleLabelsEntity } from './widget-rule-metadata';
 

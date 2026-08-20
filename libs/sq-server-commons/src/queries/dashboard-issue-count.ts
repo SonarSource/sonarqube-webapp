@@ -26,7 +26,7 @@ import {
   CodeScope,
   type CodeScopeValue,
   type MeasureFilters,
-} from '../sq-server-adapters/helpers/dashboard-widget-data';
+} from '../helpers/dashboard-widget-data';
 import type { BranchLike } from '../types/branch-like';
 
 export const useIssueCountSearchQuery = createQueryHook(

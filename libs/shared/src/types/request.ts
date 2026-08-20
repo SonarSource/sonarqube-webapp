@@ -40,3 +40,20 @@ export enum HttpStatus {
   ServiceUnavailable = 503,
   GatewayTimeout = 504,
 }
+
+export interface CustomHeader {
+  accept?: string;
+  apiVersion?: string;
+  devOpsPlatformAccessToken?: string;
+  isJSON?: boolean;
+}
+
+export interface RequestOptions {
+  bypassRedirect?: boolean;
+  customHeaders?: CustomHeader;
+  /**
+   * @deprecated use axios for v2 endpoints
+   */
+  isExternal?: boolean;
+  useQueryParams?: boolean;
+}

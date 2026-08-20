@@ -21,7 +21,7 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { getContextWrapper } from '~adapters/helpers/test-utils';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { useSonarSourceSecurityCategoriesQuery } from '../security-standards';
+import { useSonarSourceSecurityCategoriesQuery } from '../../../queries/security-standards';
 import {
   usePortfolioWidgetMetricMetadataQuery,
   useWidgetMetricMetadataQuery,

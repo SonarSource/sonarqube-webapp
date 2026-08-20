@@ -21,8 +21,9 @@
 import { renderHook } from '@testing-library/react';
 import { useAppState } from '../../../context/app-state/withAppStateContext';
 // Relative imports so we exercise the real adapters, bypassing jest moduleNameMapper mocks.
+import { DEFAULT_ORGANIZATION_ID } from '../../../constants/organizations';
 import { useCanAdministrateEnterpriseArchitecture } from '../useCanAdministrateEnterpriseArchitecture';
-import { DEFAULT_ORGANIZATION_ID, useOrganizationId } from '../useOrganizationId';
+import { useOrganizationId } from '../useOrganizationId';
 import { useShowArchitectureOrgPagesInProjectNav } from '../useShowArchitectureOrgPagesInProjectNav';
 
 jest.mock('../../../context/app-state/withAppStateContext', () => ({

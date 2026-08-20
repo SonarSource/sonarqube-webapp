@@ -20,9 +20,10 @@
 
 import { cssVar } from '@sonarsource/echoes-react';
 import { CHART_CATEGORICAL_COLORS } from '~shared/helpers/charts';
+import { isAicaMetric } from '~shared/helpers/metrics';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { formatDashboardMeasure } from './dashboard-measures';
+import { formatDashboardMeasure } from '../sq-server-adapters/helpers/dashboard-measures';
 
 export const DashboardMetricType = { Raw: 'raw', Rich: 'rich' } as const;
 export const RichMetricKey = {
@@ -1252,4 +1253,12 @@ export function portfolioIssueHistoryToMultiLineSeries(
     id: key,
     label: key.startsWith('OTHER_') ? `Other (${key.split('_')[1]})` : titleCase(key),
   }));
+}
+
+export function isKnownUnsupportedDashboardHistoryMetric(metricKey: string) {
+  return (
+    metricKey === MetricKey.releasability_rating ||
+    metricKey.startsWith('mule_') ||
+    isAicaMetric(metricKey)
+  );
 }

@@ -28,7 +28,7 @@ import {
   PieChartIssueFilter,
   PieChartIssueSlice,
   PieChartMetric,
-} from '../dashboard-widget-data';
+} from '../../../helpers/dashboard-widget-data';
 import {
   buildProjectRawCountWidgetLink,
   buildProjectRichCountWidgetLink,

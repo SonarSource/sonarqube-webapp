@@ -23,10 +23,7 @@ import { MetricKey } from '~shared/types/metrics';
 import { getAllMetrics } from '../../../api/metrics';
 import { mockMetric } from '../../../helpers/testMocks';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import {
-  isKnownUnsupportedDashboardHistoryMetric,
-  useWidgetMetricMetadataQuery,
-} from '../widget-metric-metadata';
+import { useWidgetMetricMetadataQuery } from '../widget-metric-metadata';
 
 jest.mock('../../../api/metrics', () => ({
   getAllMetrics: jest.fn(),
@@ -50,20 +47,6 @@ describe('useWidgetMetricMetadataQuery', () => {
     expect(await byText('Bugs').find()).toBeInTheDocument();
     expect(await byText('Coverage').find()).toBeInTheDocument();
     expect(getAllMetrics).toHaveBeenCalledTimes(1);
-  });
-});
-
-describe('isKnownUnsupportedDashboardHistoryMetric', () => {
-  const muleMetricKey = ['mule', MetricKey.coverage].join('_');
-
-  it.each([
-    [MetricKey.coverage, false],
-    [MetricKey.releasability_rating, true],
-    [MetricKey.security_rating_with_aica, true],
-    [MetricKey.new_security_rating_without_aica, true],
-    [muleMetricKey, true],
-  ])('identifies metrics known to be rejected by the history API', (metricKey, expected) => {
-    expect(isKnownUnsupportedDashboardHistoryMetric(metricKey)).toBe(expected);
   });
 });
 

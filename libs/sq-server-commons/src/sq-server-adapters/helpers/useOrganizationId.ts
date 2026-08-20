@@ -18,18 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-// SonarQube Server has no organizations. Architecture pages are still scoped to an
-// organization id on the backend, so we key them on the default organization — this UUID
-// matches the backend's `DefaultOrganizationProvider.ID` and is what the server auto-fills
-// via `@OrganizationId` when the parameter is omitted (an empty string and an absent param
-// are accepted too, all resolving to the same default org).
-//
-// Keep this value non-empty. The shared architecture query hooks gate on
-// `enabled: Boolean(organizationId)`, so returning '' or undefined here would silently
-// disable the org-scoped pages (blank lists, no requests fired) instead of failing loudly.
-// Those guards are load-bearing on SonarCloud too — e.g. the project-relationships surface,
-// where the org id resolves asynchronously — so don't "simplify" this to ''.
-export const DEFAULT_ORGANIZATION_ID = '00000000-0000-4000-0000-000000000000';
+import { DEFAULT_ORGANIZATION_ID } from '../../constants/organizations';
 
 export function useOrganizationId(): string | undefined {
   return DEFAULT_ORGANIZATION_ID;

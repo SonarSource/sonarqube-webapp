@@ -42,6 +42,7 @@ import {
   getSegmentColor,
   getThirtyDayTrendWindow,
   historySinceIsoDate,
+  isKnownUnsupportedDashboardHistoryMetric,
   isQualityGateStatusWidget,
   issueCountHistoryRuleToTrend,
   issueCountHistoryToPieCounts,
@@ -924,5 +925,19 @@ describe('dashboard widget data helpers', () => {
         }),
       ).toEqual({ impacts: ['SECURITY:HIGH'] });
     });
+  });
+});
+
+describe('isKnownUnsupportedDashboardHistoryMetric', () => {
+  const muleMetricKey = ['mule', MetricKey.coverage].join('_');
+
+  it.each([
+    [MetricKey.coverage, false],
+    [MetricKey.releasability_rating, true],
+    [MetricKey.security_rating_with_aica, true],
+    [MetricKey.new_security_rating_without_aica, true],
+    [muleMetricKey, true],
+  ])('identifies metrics known to be rejected by the history API', (metricKey, expected) => {
+    expect(isKnownUnsupportedDashboardHistoryMetric(metricKey)).toBe(expected);
   });
 });

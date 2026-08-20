@@ -23,11 +23,6 @@ import type { To } from 'react-router-dom';
 import { getComponentIssuesUrl, getPathUrlAsString, getRuleUrl } from '~shared/helpers/urls';
 import { MetricKey } from '~shared/types/metrics';
 import {
-  getComponentDrilldownUrl,
-  getMeasureHistoryUrl,
-  getPortfolioUrl,
-} from '../../helpers/urls';
-import {
   CodeScope,
   DashboardMetricType,
   PieChartHotspotSlice,
@@ -38,7 +33,12 @@ import {
   type MeasureFilters,
   type PieChartWidget,
   type TopListWidgetLinkProps,
-} from './dashboard-widget-data';
+} from '../../helpers/dashboard-widget-data';
+import {
+  getComponentDrilldownUrl,
+  getMeasureHistoryUrl,
+  getPortfolioUrl,
+} from '../../helpers/urls';
 
 export function getDashboardDocumentationUrl(docLink: string): string {
   return docLink;

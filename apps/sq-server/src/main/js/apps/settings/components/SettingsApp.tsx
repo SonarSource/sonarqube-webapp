@@ -20,9 +20,9 @@
 
 import { Spinner } from '@sonarsource/echoes-react';
 import { useContext, useEffect, useState } from 'react';
-import { ComponentContext } from '~adapters/helpers/test-utils';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
 import { getDefinitions } from '~sq-server-commons/api/settings';
+import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 import '../styles.css';
 import SettingsAppRenderer from './SettingsAppRenderer';
 

@@ -20,22 +20,12 @@
 
 import { queryOptions } from '@tanstack/react-query';
 import { keyBy } from 'lodash';
-import { isAicaMetric } from '~shared/helpers/metrics';
 import { createQueryHook, StaleTime } from '~shared/queries/common';
-import { MetricKey } from '~shared/types/metrics';
 import { getAllMetrics } from '../../api/metrics';
-import type { DashboardWidgetQueryResult } from './dashboard-widget-adapter-types';
+import type { DashboardWidgetQueryResult } from '../../types/dashboard-widget-adapter-types';
 
 interface PortfolioWidgetMetricMetadata {
   metrics: Array<{ direction: string; key: string; type: string }>;
-}
-
-export function isKnownUnsupportedDashboardHistoryMetric(metricKey: string) {
-  return (
-    metricKey === MetricKey.releasability_rating ||
-    metricKey.startsWith('mule_') ||
-    isAicaMetric(metricKey)
-  );
 }
 
 export const useWidgetMetricMetadataQuery = createQueryHook(() =>

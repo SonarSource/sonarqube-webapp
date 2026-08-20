@@ -20,7 +20,6 @@
 
 import { useCallback, useMemo } from 'react';
 import { MetricKey } from '~shared/types/metrics';
-import { useDashboardIssueCountHistoryQuery } from '../../queries/dashboard-history';
 import {
   DashboardMetricType,
   type MeasureFilters,
@@ -34,8 +33,9 @@ import {
   issueHistoryTrendStartDate,
   organizationsHistoryStartDateWithRetentionBuffer,
   resolveRichCountTrendMetricMetadata,
-} from '../helpers/dashboard-widget-data';
-import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
+} from '../../helpers/dashboard-widget-data';
+import { unsupportedDashboardWidgetAdapter } from '../../helpers/unsupported-dashboard-widget-adapter';
+import { useDashboardIssueCountHistoryQuery } from '../../queries/dashboard-history';
 
 export type UseTopListIssueCountDataOptions = {
   enabled?: boolean;

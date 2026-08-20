@@ -19,7 +19,6 @@
  */
 
 import { act, screen, waitFor } from '@testing-library/react';
-import { ComponentContext } from '~adapters/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier } from '~shared/types/component';
@@ -41,6 +40,7 @@ import { TimeMachineServiceMock } from '~sq-server-commons/api/mocks/TimeMachine
 import UsersServiceMock from '~sq-server-commons/api/mocks/UsersServiceMock';
 import { getProjectActivity } from '~sq-server-commons/api/projectActivity';
 import { getQualityGateProjectStatus } from '~sq-server-commons/api/quality-gates';
+import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 import { parseDate } from '~sq-server-commons/helpers/dates';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { mockMainBranch } from '~sq-server-commons/helpers/mocks/branch-like';

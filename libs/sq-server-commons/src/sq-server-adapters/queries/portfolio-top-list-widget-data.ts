@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import type { TopListWidget } from '../helpers/dashboard-widget-data';
+import type { TopListWidget } from '../../helpers/dashboard-widget-data';
 import type {
   DashboardRuleMetadataByKey,
   DashboardTrendData,
-} from './dashboard-widget-adapter-types';
+} from '../../types/dashboard-widget-adapter-types';
 import { usePortfolioRulesMetadataOrganization } from './portfolio-widget-organization-data';
 import {
   type UseTopListIssueCountDataOptions,

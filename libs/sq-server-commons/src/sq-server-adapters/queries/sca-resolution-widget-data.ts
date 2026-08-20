@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useDashboardScaResolutionHistoryQuery } from '../../queries/dashboard-history';
 import {
   issueHistoryFilterParams,
   lineChartDataToSingleSeries,
@@ -29,13 +28,14 @@ import {
   portfolioIssueHistoryToSparklineSeries,
   portfolioIssueHistoryToTrend,
   type MeasureFilters,
-} from '../helpers/dashboard-widget-data';
+} from '../../helpers/dashboard-widget-data';
+import { useDashboardScaResolutionHistoryQuery } from '../../queries/dashboard-history';
 import type {
   DashboardCountTrendData,
   DashboardEntityType,
   DashboardLineChartSeries,
   DashboardWidgetQueryResult,
-} from './dashboard-widget-adapter-types';
+} from '../../types/dashboard-widget-adapter-types';
 
 const SCA_RESOLUTION_STATISTIC = 'SCA_MTTR';
 

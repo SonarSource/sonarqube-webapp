@@ -19,6 +19,7 @@
  */
 
 module.exports = {
+  'adapter-api-parity': require('./adapter-api-parity'),
   'convert-class-to-function-component': require('./convert-class-to-function-component'),
   'enforce-staletime-enum': require('./enforce-staletime-enum'),
   'no-api-imports': require('./no-api-imports'),

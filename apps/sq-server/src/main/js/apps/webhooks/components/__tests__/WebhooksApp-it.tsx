@@ -20,7 +20,6 @@
 
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ComponentContext } from '~adapters/helpers/test-utils';
 import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
 import {
   BranchesServiceDefaultDataset,
@@ -32,6 +31,7 @@ import {
 } from '~shared/api/mocks/services/MeasuresServiceMock';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import WebhooksMock from '~sq-server-commons/api/mocks/WebhooksMock';
+import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockWebhook } from '~sq-server-commons/helpers/mocks/webhook';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';

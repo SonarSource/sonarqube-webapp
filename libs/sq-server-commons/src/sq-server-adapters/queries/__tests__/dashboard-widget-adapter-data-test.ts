@@ -33,8 +33,8 @@ import {
   lineChartSinceDate,
   organizationsHistoryStartDateWithRetentionBuffer,
   type DashboardMetric,
-} from '../../helpers/dashboard-widget-data';
-import { DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE } from '../../helpers/unsupported-dashboard-widget-adapter';
+} from '../../../helpers/dashboard-widget-data';
+import { DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE } from '../../../helpers/unsupported-dashboard-widget-adapter';
 import { useOrgIssueCountWidgetData, useOrgMeasuresCountWidgetData } from '../count-widget-data';
 import {
   useOrgIssueDensityCountWidgetData,
@@ -118,7 +118,7 @@ jest.mock('../widget-rule-metadata', () => ({
   useDashboardRuleLabels: (...args: unknown[]) => mockUseDashboardRuleLabels(...args),
 }));
 
-jest.mock('../security-standards', () => ({
+jest.mock('~sq-server-commons/queries/security-standards', () => ({
   useSonarSourceSecurityCategoriesQuery: (...args: unknown[]) =>
     mockUseSonarSourceSecurityCategoriesQuery(...args),
 }));

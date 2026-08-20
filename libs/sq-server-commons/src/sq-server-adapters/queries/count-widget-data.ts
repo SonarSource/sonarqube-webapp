@@ -20,10 +20,6 @@
 
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
-  useDashboardIssueCountHistoryQuery,
-  useDashboardMeasuresHistoryQuery,
-} from '../../queries/dashboard-history';
-import {
   type MeasureFilters,
   RichMetricKey,
   issueHistoryQueryExtras,
@@ -34,12 +30,16 @@ import {
   portfolioMeasuresHistoryLatestValue,
   portfolioMeasuresHistoryToSparklineSeries,
   portfolioMeasuresHistoryToTrend,
-} from '../helpers/dashboard-widget-data';
-import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
+} from '../../helpers/dashboard-widget-data';
+import { unsupportedDashboardWidgetAdapter } from '../../helpers/unsupported-dashboard-widget-adapter';
+import {
+  useDashboardIssueCountHistoryQuery,
+  useDashboardMeasuresHistoryQuery,
+} from '../../queries/dashboard-history';
 import type {
   DashboardEntityType,
   DashboardWidgetQueryResult,
-} from './dashboard-widget-adapter-types';
+} from '../../types/dashboard-widget-adapter-types';
 
 interface Trend {
   current: string | null;
