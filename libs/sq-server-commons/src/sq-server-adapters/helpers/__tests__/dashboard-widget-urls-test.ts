@@ -19,6 +19,7 @@
  */
 
 import type { To } from 'react-router-dom';
+import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
 import {
   CodeScope,
@@ -77,7 +78,7 @@ describe('Server dashboard widget URL seams', () => {
       buildProjectRichCountWidgetLink(
         'project-key',
         {
-          impactSeverities: ['HIGH', 'LOW'],
+          impactSeverities: [SoftwareImpactSeverity.High, SoftwareImpactSeverity.Low],
           impactSoftwareQuality: 'SECURITY',
           issueStatus: 'ACCEPTED',
         },
@@ -205,7 +206,7 @@ describe('Server dashboard widget URL seams', () => {
       getProjectDashboardTopListRowUrl('project-key', 'typescript:S1', {
         metric: {
           measureFilters: {
-            impactSeverities: ['HIGH'],
+            impactSeverities: [SoftwareImpactSeverity.High],
             impactSoftwareQuality: 'RELIABILITY',
             issueStatus: 'ACCEPTED',
           },

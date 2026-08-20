@@ -23,11 +23,17 @@ import { getContextWrapper } from '~adapters/helpers/test-utils';
 import { MetricKey } from '~shared/types/metrics';
 import {
   getDashboardIssueCountHistory,
+  getDashboardIssueDensityHistory,
+  getDashboardIssueResolutionHistory,
   getDashboardMeasuresHistory,
+  getDashboardScaResolutionHistory,
 } from '../../api/dashboard-history';
 import {
   useDashboardIssueCountHistoryQuery,
+  useDashboardIssueDensityHistoryQuery,
+  useDashboardIssueResolutionHistoryQuery,
   useDashboardMeasuresHistoryQuery,
+  useDashboardScaResolutionHistoryQuery,
 } from '../dashboard-history';
 
 jest.mock('../../api/dashboard-history', () => ({
@@ -35,7 +41,10 @@ jest.mock('../../api/dashboard-history', () => ({
     '../../api/dashboard-history',
   ),
   getDashboardIssueCountHistory: jest.fn(),
+  getDashboardIssueDensityHistory: jest.fn(),
+  getDashboardIssueResolutionHistory: jest.fn(),
   getDashboardMeasuresHistory: jest.fn(),
+  getDashboardScaResolutionHistory: jest.fn(),
 }));
 
 const historyParams = {
@@ -83,6 +92,85 @@ describe('dashboard history queries', () => {
         { date: '2026-01-02', distribution: [{ key: 'BUG', value: 3 }] },
         { date: '2026-01-03', distribution: [] },
       ],
+    });
+  });
+
+  it('normalizes issue-density history rows and distribution entries', async () => {
+    jest.mocked(getDashboardIssueDensityHistory).mockResolvedValue({
+      issueDensityHistory: [
+        { date: null, distribution: [{ key: 'all', value: 3 }] },
+        {
+          date: '2026-01-02',
+          distribution: [
+            { key: 'all', value: 5 },
+            { key: null, value: 1 },
+          ],
+        },
+      ],
+    });
+
+    const { result } = renderHook(() => useDashboardIssueDensityHistoryQuery(historyParams), {
+      wrapper: getContextWrapper(),
+    });
+
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
+
+    expect(result.current.data).toEqual({
+      issueDensityHistory: [{ date: '2026-01-02', distribution: [{ key: 'all', value: 5 }] }],
+    });
+  });
+
+  it('normalizes issue-resolution history rows and distribution entries', async () => {
+    jest.mocked(getDashboardIssueResolutionHistory).mockResolvedValue({
+      issueResolutionHistory: [
+        { date: null, distribution: [{ key: 'all', value: 3 }] },
+        {
+          date: '2026-01-02',
+          distribution: [
+            { key: 'all', value: 5 },
+            { key: 'all', value: null },
+          ],
+        },
+      ],
+      statistic: 'MTTR',
+    });
+
+    const { result } = renderHook(
+      () => useDashboardIssueResolutionHistoryQuery({ ...historyParams, statistic: 'MTTR' }),
+      { wrapper: getContextWrapper() },
+    );
+
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
+
+    expect(result.current.data).toEqual({
+      issueResolutionHistory: [{ date: '2026-01-02', distribution: [{ key: 'all', value: 5 }] }],
+    });
+  });
+
+  it('normalizes sca-resolution history rows and distribution entries', async () => {
+    jest.mocked(getDashboardScaResolutionHistory).mockResolvedValue({
+      scaResolutionHistory: [
+        { date: null, distribution: [{ key: 'all', value: 3 }] },
+        { date: '2026-01-02', distribution: [{ key: 'all', value: 5 }] },
+      ],
+      statistic: 'SCA_MTTR',
+    });
+
+    const { result } = renderHook(
+      () => useDashboardScaResolutionHistoryQuery({ ...historyParams, statistic: 'SCA_MTTR' }),
+      { wrapper: getContextWrapper() },
+    );
+
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
+
+    expect(result.current.data).toEqual({
+      scaResolutionHistory: [{ date: '2026-01-02', distribution: [{ key: 'all', value: 5 }] }],
     });
   });
 

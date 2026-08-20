@@ -18,7 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
+import { useDashboardIssueDensityHistoryQuery } from '../../queries/dashboard-history';
+import {
+  issueHistoryFilterParams,
+  lineChartDataToSingleSeries,
+  lineChartSinceDate,
+  organizationsHistoryStartDateWithRetentionBuffer,
+  portfolioIssueCountHistoryLatestTotal,
+  portfolioIssueHistoryToLineData,
+  portfolioIssueHistoryToSparklineSeries,
+  portfolioIssueHistoryToTrend,
+  type MeasureFilters,
+} from '../helpers/dashboard-widget-data';
 import type {
   DashboardCountTrendData,
   DashboardEntityType,
@@ -26,20 +37,58 @@ import type {
   DashboardWidgetQueryResult,
 } from './dashboard-widget-adapter-types';
 
-export function useOrgIssueDensityCountWidgetData(_params: {
+export function useOrgIssueDensityCountWidgetData(params: {
   entityId: string;
   entityType: DashboardEntityType;
   measureFilters?: unknown;
 }): DashboardWidgetQueryResult<DashboardCountTrendData> {
-  return unsupportedDashboardWidgetAdapter();
+  const { entityId, entityType, measureFilters } = params;
+  const filters = measureFilters as MeasureFilters | undefined;
+
+  return useDashboardIssueDensityHistoryQuery(
+    {
+      entityId,
+      entityType,
+      startDate: organizationsHistoryStartDateWithRetentionBuffer(),
+      ...issueHistoryFilterParams(filters),
+    },
+    {
+      enabled: Boolean(entityId),
+      refetchOnWindowFocus: false,
+      select: (response): DashboardCountTrendData => ({
+        latestValue: portfolioIssueCountHistoryLatestTotal(response.issueDensityHistory),
+        sparklineSeries: portfolioIssueHistoryToSparklineSeries(response.issueDensityHistory),
+        trend: portfolioIssueHistoryToTrend(response.issueDensityHistory),
+      }),
+    },
+  );
 }
 
-export function useOrgIssueDensityLineChartWidgetData(_params: {
+export function useOrgIssueDensityLineChartWidgetData(params: {
   entityId: string;
   entityType: DashboardEntityType;
   historyRange: string;
   measureFilters?: unknown;
   metricName: string;
 }): DashboardWidgetQueryResult<DashboardLineChartSeries[]> & { isError: boolean } {
-  return unsupportedDashboardWidgetAdapter();
+  const { entityId, entityType, historyRange, measureFilters, metricName } = params;
+  const filters = measureFilters as MeasureFilters | undefined;
+
+  return useDashboardIssueDensityHistoryQuery(
+    {
+      entityId,
+      entityType,
+      startDate: lineChartSinceDate(historyRange),
+      ...issueHistoryFilterParams(filters),
+    },
+    {
+      enabled: Boolean(entityId),
+      retry: false,
+      select: (response): DashboardLineChartSeries[] =>
+        lineChartDataToSingleSeries(
+          portfolioIssueHistoryToLineData(response.issueDensityHistory, historyRange),
+          metricName,
+        ),
+    },
+  );
 }

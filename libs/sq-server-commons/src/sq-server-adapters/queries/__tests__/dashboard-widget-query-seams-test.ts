@@ -22,46 +22,6 @@ import {
   DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE,
   unsupportedDashboardWidgetAdapter,
 } from '../../helpers/unsupported-dashboard-widget-adapter';
-import * as issueDensityWidgetData from '../issue-density-widget-data';
-import * as issueResolutionWidgetData from '../issue-resolution-widget-data';
-import * as scaResolutionWidgetData from '../sca-resolution-widget-data';
-
-type UnsupportedAdapter = (...args: never[]) => unknown;
-
-const unsupportedAdapters: ReadonlyArray<
-  readonly [name: string, adapter: UnsupportedAdapter, args: never[]]
-> = [
-  [
-    'useOrgIssueDensityCountWidgetData',
-    issueDensityWidgetData.useOrgIssueDensityCountWidgetData,
-    [{} as never],
-  ],
-  [
-    'useOrgIssueDensityLineChartWidgetData',
-    issueDensityWidgetData.useOrgIssueDensityLineChartWidgetData,
-    [{} as never],
-  ],
-  [
-    'useOrgIssueResolutionCountWidgetData',
-    issueResolutionWidgetData.useOrgIssueResolutionCountWidgetData,
-    [{} as never],
-  ],
-  [
-    'useOrgIssueResolutionLineChartWidgetData',
-    issueResolutionWidgetData.useOrgIssueResolutionLineChartWidgetData,
-    [{} as never],
-  ],
-  [
-    'useOrgScaResolutionCountWidgetData',
-    scaResolutionWidgetData.useOrgScaResolutionCountWidgetData,
-    [{} as never],
-  ],
-  [
-    'useOrgScaResolutionLineChartWidgetData',
-    scaResolutionWidgetData.useOrgScaResolutionLineChartWidgetData,
-    [{} as never],
-  ],
-];
 
 describe('Server dashboard widget query seams', () => {
   it('uses one explicit unsupported-adapter failure', () => {
@@ -69,11 +29,4 @@ describe('Server dashboard widget query seams', () => {
       DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE,
     );
   });
-
-  it.each(unsupportedAdapters)(
-    '%s fails loudly until its Server API is available',
-    (_, fn, args) => {
-      expect(() => fn(...args)).toThrow(DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE);
-    },
-  );
 });

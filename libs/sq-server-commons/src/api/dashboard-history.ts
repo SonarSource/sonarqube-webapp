@@ -23,11 +23,16 @@ import type { Paging } from '~shared/types/paging';
 import { serializeStringArray } from '../helpers/query';
 
 const ISSUE_COUNT_HISTORY_ENDPOINT = '/api/v2/history/issue-count-history';
+const ISSUE_DENSITY_HISTORY_ENDPOINT = '/api/v2/history/issue-density-history';
+const ISSUE_RESOLUTION_HISTORY_ENDPOINT = '/api/v2/history/issue-resolution-history';
+const SCA_RESOLUTION_HISTORY_ENDPOINT = '/api/v2/history/sca-resolution-history';
 const MEASURES_HISTORY_ENDPOINT = '/api/v2/history/measures-history';
 const PROJECT_ISSUE_COUNTS_ENDPOINT = '/api/v2/history/project-issue-counts';
 const PROJECT_MEASURES_ENDPOINT = '/api/v2/history/project-measures';
 
-type DashboardEntityType = 'PORTFOLIO' | 'PROJECT_BRANCH';
+type DashboardEntityType = 'APPLICATION' | 'PORTFOLIO' | 'PROJECT_BRANCH';
+
+export type IssueResolutionStatistic = 'MTTR' | 'RECENT_MTTR' | 'RESOLVED_ISSUES';
 type DashboardProjectCollectionEntityType = 'APPLICATION' | 'PORTFOLIO';
 
 interface DashboardProjectCollectionSelector {
@@ -45,8 +50,32 @@ export interface DashboardIssueHistoryDay {
   distribution?: DashboardIssueHistoryDistribution[];
 }
 
+interface DashboardScaResolutionDistribution {
+  key: string;
+  value: number;
+}
+
+interface DashboardScaResolutionHistoryDay {
+  date: string | null;
+  distribution: DashboardScaResolutionDistribution[];
+}
+
 export interface DashboardIssueCountHistoryResponse {
   issueCountHistory?: DashboardIssueHistoryDay[];
+}
+
+export interface DashboardIssueDensityHistoryResponse {
+  issueDensityHistory?: DashboardIssueHistoryDay[];
+}
+
+export interface DashboardIssueResolutionHistoryResponse {
+  issueResolutionHistory: DashboardIssueHistoryDay[];
+  statistic: 'MTTR' | 'RECENT_MTTR' | 'RESOLVED_ISSUES';
+}
+
+export interface DashboardScaResolutionHistoryResponse {
+  scaResolutionHistory: DashboardScaResolutionHistoryDay[];
+  statistic: 'SCA_MTTR';
 }
 
 interface DashboardMeasureHistoryEntry {
@@ -63,7 +92,6 @@ export interface DashboardMeasureHistoryDay {
 export interface DashboardMeasuresHistoryResponse {
   measuresHistory?: DashboardMeasureHistoryDay[];
 }
-
 export interface DashboardIssueHistoryParams {
   endDate?: string;
   entityId: string;
@@ -75,6 +103,20 @@ export interface DashboardIssueHistoryParams {
   sliceBy?: string;
   startDate: string;
   statuses?: string[];
+}
+
+export interface DashboardIssueResolutionHistoryParams extends DashboardIssueHistoryParams {
+  statistic: IssueResolutionStatistic;
+}
+
+export interface DashboardScaResolutionHistoryParams {
+  endDate?: string | null;
+  entityId: string;
+  entityType: DashboardEntityType;
+  severities?: string[];
+  sliceBy?: 'SEVERITY' | null;
+  startDate: string;
+  statistic: 'SCA_MTTR';
 }
 
 export interface DashboardMeasuresHistoryParams {
@@ -160,6 +202,34 @@ export function getDashboardIssueCountHistory(
 ): Promise<DashboardIssueCountHistoryResponse> {
   return axiosClient.get<DashboardIssueCountHistoryResponse>(ISSUE_COUNT_HISTORY_ENDPOINT, {
     params: serializeIssueHistoryParams(params),
+  });
+}
+
+export function getDashboardIssueDensityHistory(
+  params: DashboardIssueHistoryParams,
+): Promise<DashboardIssueDensityHistoryResponse> {
+  return axiosClient.get<DashboardIssueDensityHistoryResponse>(ISSUE_DENSITY_HISTORY_ENDPOINT, {
+    params: serializeIssueHistoryParams(params),
+  });
+}
+
+export function getDashboardIssueResolutionHistory(
+  params: DashboardIssueResolutionHistoryParams,
+): Promise<DashboardIssueResolutionHistoryResponse> {
+  return axiosClient.get<DashboardIssueResolutionHistoryResponse>(
+    ISSUE_RESOLUTION_HISTORY_ENDPOINT,
+    { params: serializeIssueHistoryParams(params) },
+  );
+}
+
+export function getDashboardScaResolutionHistory(
+  params: DashboardScaResolutionHistoryParams,
+): Promise<DashboardScaResolutionHistoryResponse> {
+  return axiosClient.get<DashboardScaResolutionHistoryResponse>(SCA_RESOLUTION_HISTORY_ENDPOINT, {
+    params: {
+      ...params,
+      severities: serializeStringArray(params.severities ?? []),
+    },
   });
 }
 

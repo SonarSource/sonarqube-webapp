@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
   CodeScope,
@@ -45,6 +45,7 @@ import {
   isQualityGateStatusWidget,
   issueCountHistoryRuleToTrend,
   issueCountHistoryToPieCounts,
+  issueHistoryFilterParams,
   issueHistoryQueryExtras,
   issueHistoryTrendStartDate,
   lineChartDataToSingleSeries,
@@ -233,13 +234,20 @@ describe('dashboard widget data helpers', () => {
     it('builds issue-history extras for filters, rich metrics and inferred qualities', () => {
       expect(
         issueHistoryQueryExtras(
-          { impactSeverities: ['HIGH'], impactSoftwareQuality: SoftwareQuality.Security },
+          {
+            impactSeverities: [SoftwareImpactSeverity.High],
+            impactSoftwareQuality: SoftwareQuality.Security,
+          },
           RichMetricKey.Issues,
           undefined,
         ),
       ).toEqual({ impacts: ['SECURITY:HIGH'], statuses: ['OPEN'] });
       expect(
-        issueHistoryQueryExtras({ impactSeverities: ['LOW'] }, RichMetricKey.Issues, undefined),
+        issueHistoryQueryExtras(
+          { impactSeverities: [SoftwareImpactSeverity.Low] },
+          RichMetricKey.Issues,
+          undefined,
+        ),
       ).toEqual({
         impacts: ['SECURITY:LOW', 'RELIABILITY:LOW', 'MAINTAINABILITY:LOW'],
         statuses: ['OPEN'],
@@ -317,7 +325,7 @@ describe('dashboard widget data helpers', () => {
           history,
           MetricKey.security_issues,
           MetricType.Data,
-          { impactSeverities: ['HIGH'] },
+          { impactSeverities: [SoftwareImpactSeverity.High] },
         ),
       ).toEqual([3]);
       expect(
@@ -882,6 +890,39 @@ describe('dashboard widget data helpers', () => {
         ).some((series) => series.id.startsWith('OTHER_')),
       ).toBe(true);
       jest.useRealTimers();
+    });
+  });
+
+  describe('issueHistoryFilterParams', () => {
+    it('returns no filters when measure filters are absent', () => {
+      expect(issueHistoryFilterParams(undefined)).toEqual({});
+      expect(issueHistoryFilterParams({})).toEqual({});
+    });
+
+    it('maps impact severities to the severities filter', () => {
+      expect(
+        issueHistoryFilterParams({
+          impactSeverities: [SoftwareImpactSeverity.High, SoftwareImpactSeverity.Medium],
+        }),
+      ).toEqual({ severities: [SoftwareImpactSeverity.High, SoftwareImpactSeverity.Medium] });
+    });
+
+    it('maps a software quality (with optional severities) to the impacts filter', () => {
+      expect(issueHistoryFilterParams({ impactSoftwareQuality: 'SECURITY' })).toEqual({
+        impacts: [
+          'SECURITY:BLOCKER',
+          'SECURITY:HIGH',
+          'SECURITY:MEDIUM',
+          'SECURITY:LOW',
+          'SECURITY:INFO',
+        ],
+      });
+      expect(
+        issueHistoryFilterParams({
+          impactSoftwareQuality: 'SECURITY',
+          impactSeverities: [SoftwareImpactSeverity.High],
+        }),
+      ).toEqual({ impacts: ['SECURITY:HIGH'] });
     });
   });
 });

@@ -18,7 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { unsupportedDashboardWidgetAdapter } from '../helpers/unsupported-dashboard-widget-adapter';
+import { useDashboardScaResolutionHistoryQuery } from '../../queries/dashboard-history';
+import {
+  issueHistoryFilterParams,
+  lineChartDataToSingleSeries,
+  lineChartSinceDate,
+  organizationsHistoryStartDateWithRetentionBuffer,
+  portfolioIssueCountHistoryLatestTotal,
+  portfolioIssueHistoryToLineData,
+  portfolioIssueHistoryToSparklineSeries,
+  portfolioIssueHistoryToTrend,
+  type MeasureFilters,
+} from '../helpers/dashboard-widget-data';
 import type {
   DashboardCountTrendData,
   DashboardEntityType,
@@ -26,20 +37,62 @@ import type {
   DashboardWidgetQueryResult,
 } from './dashboard-widget-adapter-types';
 
-export function useOrgScaResolutionCountWidgetData(_params: {
+const SCA_RESOLUTION_STATISTIC = 'SCA_MTTR';
+
+export function useOrgScaResolutionCountWidgetData(params: {
   entityId: string;
   entityType: DashboardEntityType;
   measureFilters?: unknown;
 }): DashboardWidgetQueryResult<DashboardCountTrendData> {
-  return unsupportedDashboardWidgetAdapter();
+  const { entityId, entityType, measureFilters } = params;
+  const filters = measureFilters as MeasureFilters | undefined;
+
+  return useDashboardScaResolutionHistoryQuery(
+    {
+      entityId,
+      entityType,
+      startDate: organizationsHistoryStartDateWithRetentionBuffer(),
+      statistic: SCA_RESOLUTION_STATISTIC,
+      ...issueHistoryFilterParams(filters),
+    },
+    {
+      enabled: Boolean(entityId),
+      refetchOnWindowFocus: false,
+      select: (response): DashboardCountTrendData => ({
+        latestValue: portfolioIssueCountHistoryLatestTotal(response.scaResolutionHistory),
+        sparklineSeries: portfolioIssueHistoryToSparklineSeries(response.scaResolutionHistory),
+        trend: portfolioIssueHistoryToTrend(response.scaResolutionHistory),
+      }),
+    },
+  );
 }
 
-export function useOrgScaResolutionLineChartWidgetData(_params: {
+export function useOrgScaResolutionLineChartWidgetData(params: {
   entityId: string;
   entityType: DashboardEntityType;
   historyRange: string;
   measureFilters?: unknown;
   metricName: string;
 }): DashboardWidgetQueryResult<DashboardLineChartSeries[]> & { isError: boolean } {
-  return unsupportedDashboardWidgetAdapter();
+  const { entityId, entityType, historyRange, measureFilters, metricName } = params;
+  const filters = measureFilters as MeasureFilters | undefined;
+
+  return useDashboardScaResolutionHistoryQuery(
+    {
+      entityId,
+      entityType,
+      startDate: lineChartSinceDate(historyRange),
+      statistic: SCA_RESOLUTION_STATISTIC,
+      ...issueHistoryFilterParams(filters),
+    },
+    {
+      enabled: Boolean(entityId),
+      retry: false,
+      select: (response): DashboardLineChartSeries[] =>
+        lineChartDataToSingleSeries(
+          portfolioIssueHistoryToLineData(response.scaResolutionHistory, historyRange),
+          metricName,
+        ),
+    },
+  );
 }

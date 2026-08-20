@@ -23,12 +23,17 @@ import { createQueryHook, StaleTime } from '~shared/queries/common';
 import {
   DashboardIssueHistoryDay,
   DashboardIssueHistoryParams,
+  DashboardIssueResolutionHistoryParams,
   DashboardMeasureHistoryDay,
   DashboardMeasuresHistoryParams,
   DashboardProjectMeasuresParams,
+  DashboardScaResolutionHistoryParams,
   getDashboardIssueCountHistory,
+  getDashboardIssueDensityHistory,
+  getDashboardIssueResolutionHistory,
   getDashboardMeasuresHistory,
   getDashboardProjectMeasures,
+  getDashboardScaResolutionHistory,
 } from '../api/dashboard-history';
 
 export interface NormalizedDashboardIssueHistoryDay {
@@ -43,6 +48,18 @@ export interface NormalizedDashboardMeasuresHistoryDay {
 
 export interface NormalizedDashboardIssueCountHistoryResponse {
   issueCountHistory: NormalizedDashboardIssueHistoryDay[];
+}
+
+export interface NormalizedDashboardIssueDensityHistoryResponse {
+  issueDensityHistory: NormalizedDashboardIssueHistoryDay[];
+}
+
+export interface NormalizedDashboardIssueResolutionHistoryResponse {
+  issueResolutionHistory: NormalizedDashboardIssueHistoryDay[];
+}
+
+export interface NormalizedDashboardScaResolutionHistoryResponse {
+  scaResolutionHistory: NormalizedDashboardIssueHistoryDay[];
 }
 
 export interface NormalizedDashboardMeasuresHistoryResponse {
@@ -105,7 +122,45 @@ export const useDashboardIssueCountHistoryQuery = createQueryHook(
       queryKey: ['dashboard', 'issue-count-history', params],
       queryFn: async (): Promise<NormalizedDashboardIssueCountHistoryResponse> => {
         const response = await getDashboardIssueCountHistory(params);
-        return { issueCountHistory: normalizeIssueHistory(response.issueCountHistory) };
+        return { issueCountHistory: normalizeIssueHistory(response.issueCountHistory ?? []) };
+      },
+      staleTime: StaleTime.SHORT,
+    }),
+);
+
+export const useDashboardIssueDensityHistoryQuery = createQueryHook(
+  (params: DashboardIssueHistoryParams) =>
+    queryOptions({
+      queryKey: ['dashboard', 'issue-density-history', params],
+      queryFn: async (): Promise<NormalizedDashboardIssueDensityHistoryResponse> => {
+        const response = await getDashboardIssueDensityHistory(params);
+        return { issueDensityHistory: normalizeIssueHistory(response.issueDensityHistory ?? []) };
+      },
+      staleTime: StaleTime.SHORT,
+    }),
+);
+
+export const useDashboardIssueResolutionHistoryQuery = createQueryHook(
+  (params: DashboardIssueResolutionHistoryParams) =>
+    queryOptions({
+      queryKey: ['dashboard', 'issue-resolution-history', params],
+      queryFn: async (): Promise<NormalizedDashboardIssueResolutionHistoryResponse> => {
+        const response = await getDashboardIssueResolutionHistory(params);
+        return {
+          issueResolutionHistory: normalizeIssueHistory(response.issueResolutionHistory ?? []),
+        };
+      },
+      staleTime: StaleTime.SHORT,
+    }),
+);
+
+export const useDashboardScaResolutionHistoryQuery = createQueryHook(
+  (params: DashboardScaResolutionHistoryParams) =>
+    queryOptions({
+      queryKey: ['dashboard', 'sca-resolution-history', params],
+      queryFn: async (): Promise<NormalizedDashboardScaResolutionHistoryResponse> => {
+        const response = await getDashboardScaResolutionHistory(params);
+        return { scaResolutionHistory: normalizeIssueHistory(response.scaResolutionHistory ?? []) };
       },
       staleTime: StaleTime.SHORT,
     }),
@@ -117,7 +172,7 @@ export const useDashboardMeasuresHistoryQuery = createQueryHook(
       queryKey: ['dashboard', 'measures-history', params],
       queryFn: async (): Promise<NormalizedDashboardMeasuresHistoryResponse> => {
         const response = await getDashboardMeasuresHistory(params);
-        return { measuresHistory: normalizeMeasuresHistory(response.measuresHistory) };
+        return { measuresHistory: normalizeMeasuresHistory(response.measuresHistory ?? []) };
       },
       staleTime: StaleTime.SHORT,
     }),

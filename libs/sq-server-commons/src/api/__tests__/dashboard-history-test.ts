@@ -21,9 +21,12 @@
 import { MetricKey } from '~shared/types/metrics';
 import {
   getDashboardIssueCountHistory,
+  getDashboardIssueDensityHistory,
+  getDashboardIssueResolutionHistory,
   getDashboardMeasuresHistory,
   getDashboardProjectIssueCounts,
   getDashboardProjectMeasures,
+  getDashboardScaResolutionHistory,
 } from '../dashboard-history';
 
 const mockGet = jest.fn();
@@ -63,6 +66,60 @@ describe('dashboard history API', () => {
         startDate: '2026-01-01',
         statuses: 'OPEN',
       },
+    });
+  });
+
+  it('serializes issue-density history filters', async () => {
+    await getDashboardIssueDensityHistory({
+      entityId: 'portfolio-1',
+      entityType: 'PORTFOLIO',
+      impacts: ['SECURITY:HIGH'],
+      severities: ['HIGH'],
+      startDate: '2026-01-01',
+    });
+
+    expect(mockGet).toHaveBeenCalledWith('/api/v2/history/issue-density-history', {
+      params: expect.objectContaining({
+        entityId: 'portfolio-1',
+        impacts: 'SECURITY:HIGH',
+        severities: 'HIGH',
+      }),
+    });
+  });
+
+  it('serializes issue-resolution history filters and statistic', async () => {
+    await getDashboardIssueResolutionHistory({
+      entityId: 'portfolio-1',
+      entityType: 'PORTFOLIO',
+      severities: ['HIGH'],
+      startDate: '2026-01-01',
+      statistic: 'MTTR',
+    });
+
+    expect(mockGet).toHaveBeenCalledWith('/api/v2/history/issue-resolution-history', {
+      params: expect.objectContaining({
+        entityId: 'portfolio-1',
+        severities: 'HIGH',
+        statistic: 'MTTR',
+      }),
+    });
+  });
+
+  it('serializes sca-resolution history severities and statistic', async () => {
+    await getDashboardScaResolutionHistory({
+      entityId: 'portfolio-1',
+      entityType: 'PORTFOLIO',
+      severities: ['HIGH'],
+      startDate: '2026-01-01',
+      statistic: 'SCA_MTTR',
+    });
+
+    expect(mockGet).toHaveBeenCalledWith('/api/v2/history/sca-resolution-history', {
+      params: expect.objectContaining({
+        entityId: 'portfolio-1',
+        severities: 'HIGH',
+        statistic: 'SCA_MTTR',
+      }),
     });
   });
 

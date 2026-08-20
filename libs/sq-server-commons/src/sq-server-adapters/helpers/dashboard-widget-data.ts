@@ -20,7 +20,7 @@
 
 import { cssVar } from '@sonarsource/echoes-react';
 import { CHART_CATEGORICAL_COLORS } from '~shared/helpers/charts';
-import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { formatDashboardMeasure } from './dashboard-measures';
 
@@ -80,7 +80,7 @@ export const PieChartIssueFilter = {
 } as const;
 
 export interface MeasureFilters {
-  impactSeverities?: string[];
+  impactSeverities?: SoftwareImpactSeverity[];
   impactSoftwareQuality?: string;
   issueStatus?: string;
 }
@@ -355,6 +355,28 @@ function impactsForQuality(
   severities: string[] = ['BLOCKER', 'HIGH', 'MEDIUM', 'LOW', 'INFO'],
 ): string[] {
   return severities.map((severity) => `${quality}:${severity}`);
+}
+
+export function issueHistoryFilterParams(measureFilters: MeasureFilters | undefined): {
+  impacts?: string[];
+  severities?: SoftwareImpactSeverity[];
+} {
+  if (!measureFilters) {
+    return {};
+  }
+  const { impactSeverities, impactSoftwareQuality } = measureFilters;
+  if (impactSoftwareQuality) {
+    return {
+      impacts: impactsForQuality(
+        impactSoftwareQuality,
+        impactSeverities?.length ? impactSeverities : undefined,
+      ),
+    };
+  }
+  if (impactSeverities && impactSeverities.length > 0) {
+    return { severities: impactSeverities };
+  }
+  return {};
 }
 
 function getIssueHistoryImpacts(

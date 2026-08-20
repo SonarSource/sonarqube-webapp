@@ -30,10 +30,20 @@ import {
   PieChartLineSlice,
   PieChartMetric,
   RichMetricKey,
+  lineChartSinceDate,
+  organizationsHistoryStartDateWithRetentionBuffer,
   type DashboardMetric,
 } from '../../helpers/dashboard-widget-data';
 import { DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE } from '../../helpers/unsupported-dashboard-widget-adapter';
 import { useOrgIssueCountWidgetData, useOrgMeasuresCountWidgetData } from '../count-widget-data';
+import {
+  useOrgIssueDensityCountWidgetData,
+  useOrgIssueDensityLineChartWidgetData,
+} from '../issue-density-widget-data';
+import {
+  useOrgIssueResolutionCountWidgetData,
+  useOrgIssueResolutionLineChartWidgetData,
+} from '../issue-resolution-widget-data';
 import {
   organizationLineChartRequestKey,
   useOrganizationLineChartSeriesData,
@@ -51,10 +61,17 @@ import {
   useProjectPieChartSegmentsLegacyQuery,
 } from '../project-pie-chart-widget-data';
 import { useProjectTopListData } from '../project-top-list-widget-data';
+import {
+  useOrgScaResolutionCountWidgetData,
+  useOrgScaResolutionLineChartWidgetData,
+} from '../sca-resolution-widget-data';
 import { useTopListIssueCountData } from '../top-list-issue-count-data';
 import { useWidgetMetricMetadataQuery } from '../widget-metric-metadata';
 
 const mockUseDashboardIssueCountHistoryQuery = jest.fn();
+const mockUseDashboardIssueDensityHistoryQuery = jest.fn();
+const mockUseDashboardIssueResolutionHistoryQuery = jest.fn();
+const mockUseDashboardScaResolutionHistoryQuery = jest.fn();
 const mockUseDashboardMeasuresHistoryQuery = jest.fn();
 const mockUseDashboardProjectMeasuresQuery = jest.fn<unknown[], unknown[]>();
 const mockUseStandardExperienceModeQuery = jest.fn();
@@ -68,6 +85,12 @@ const mockUseWidgetMetricMetadataQuery = jest.fn();
 jest.mock('../../../queries/dashboard-history', () => ({
   useDashboardIssueCountHistoryQuery: (...args: unknown[]) =>
     mockUseDashboardIssueCountHistoryQuery(...args),
+  useDashboardIssueDensityHistoryQuery: (...args: unknown[]) =>
+    mockUseDashboardIssueDensityHistoryQuery(...args),
+  useDashboardIssueResolutionHistoryQuery: (...args: unknown[]) =>
+    mockUseDashboardIssueResolutionHistoryQuery(...args),
+  useDashboardScaResolutionHistoryQuery: (...args: unknown[]) =>
+    mockUseDashboardScaResolutionHistoryQuery(...args),
   useDashboardMeasuresHistoryQuery: (...args: unknown[]) =>
     mockUseDashboardMeasuresHistoryQuery(...args),
   useDashboardProjectMeasuresQuery: (...args: unknown[]) =>
@@ -117,6 +140,9 @@ function queryResult(data: unknown, extra: Record<string, unknown> = {}) {
 
 function setupMocks() {
   mockUseDashboardIssueCountHistoryQuery.mockReturnValue(queryResult(undefined));
+  mockUseDashboardIssueDensityHistoryQuery.mockReturnValue(queryResult(undefined));
+  mockUseDashboardIssueResolutionHistoryQuery.mockReturnValue(queryResult(undefined));
+  mockUseDashboardScaResolutionHistoryQuery.mockReturnValue(queryResult(undefined));
   mockUseDashboardMeasuresHistoryQuery.mockReturnValue(queryResult(undefined));
   mockUseDashboardProjectMeasuresQuery.mockReturnValue([]);
   mockUseStandardExperienceModeQuery.mockReturnValue(queryResult(true));
@@ -859,6 +885,205 @@ describe('dashboard widget adapter queries', () => {
         isLoading: false,
         organization: undefined,
       });
+    });
+  });
+
+  describe('issue-density adapters', () => {
+    it('configures the count query with the retention buffer and transforms density history', () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date('2026-03-30T12:00:00.000Z'));
+
+      renderHook(
+        () =>
+          useOrgIssueDensityCountWidgetData({
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            measureFilters: { impactSeverities: ['HIGH'] },
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(mockUseDashboardIssueDensityHistoryQuery).toHaveBeenCalledWith(
+        expect.objectContaining({
+          entityId: 'portfolio-1',
+          entityType: 'PORTFOLIO',
+          severities: ['HIGH'],
+          startDate: organizationsHistoryStartDateWithRetentionBuffer(),
+        }),
+        expect.objectContaining({ enabled: true }),
+      );
+      expect(
+        selectFrom(mockUseDashboardIssueDensityHistoryQuery.mock.calls[0])({
+          issueDensityHistory: [{ date: '2026-03-20', distribution: [{ key: 'all', value: 7 }] }],
+        }),
+      ).toEqual({
+        latestValue: 7,
+        sparklineSeries: [7],
+        trend: { current: '7', past: '7' },
+      });
+      jest.useRealTimers();
+    });
+
+    it('configures the line-chart query with the range start date and single series', () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date('2026-03-30T12:00:00.000Z'));
+
+      renderHook(
+        () =>
+          useOrgIssueDensityLineChartWidgetData({
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            historyRange: '3',
+            measureFilters: undefined,
+            metricName: 'Density',
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(mockUseDashboardIssueDensityHistoryQuery).toHaveBeenCalledWith(
+        expect.objectContaining({ startDate: lineChartSinceDate('3') }),
+        expect.objectContaining({ enabled: true }),
+      );
+      expect(
+        selectFrom(mockUseDashboardIssueDensityHistoryQuery.mock.calls[0])({
+          issueDensityHistory: [{ date: '2026-03-20', distribution: [{ key: 'all', value: 7 }] }],
+        }),
+      ).toEqual([expect.objectContaining({ id: 'total', label: 'Density' })]);
+      jest.useRealTimers();
+    });
+  });
+
+  describe('issue-resolution adapters', () => {
+    it('passes the statistic and filters through the count query', () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date('2026-03-30T12:00:00.000Z'));
+
+      renderHook(
+        () =>
+          useOrgIssueResolutionCountWidgetData({
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            measureFilters: { impactSeverities: ['HIGH'] },
+            statistic: 'MTTR',
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(mockUseDashboardIssueResolutionHistoryQuery).toHaveBeenCalledWith(
+        expect.objectContaining({
+          severities: ['HIGH'],
+          startDate: organizationsHistoryStartDateWithRetentionBuffer(),
+          statistic: 'MTTR',
+        }),
+        expect.objectContaining({ enabled: true }),
+      );
+      expect(
+        selectFrom(mockUseDashboardIssueResolutionHistoryQuery.mock.calls[0])({
+          issueResolutionHistory: [
+            { date: '2026-03-20', distribution: [{ key: 'all', value: 42 }] },
+          ],
+        }),
+      ).toEqual({
+        latestValue: 42,
+        sparklineSeries: [42],
+        trend: { current: '42', past: '42' },
+      });
+      jest.useRealTimers();
+    });
+
+    it('passes the statistic through the line-chart query', () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date('2026-03-30T12:00:00.000Z'));
+
+      renderHook(
+        () =>
+          useOrgIssueResolutionLineChartWidgetData({
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            historyRange: '3',
+            measureFilters: undefined,
+            metricName: 'MTTR',
+            statistic: 'MTTR',
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(mockUseDashboardIssueResolutionHistoryQuery).toHaveBeenCalledWith(
+        expect.objectContaining({ startDate: lineChartSinceDate('3'), statistic: 'MTTR' }),
+        expect.objectContaining({ enabled: true }),
+      );
+      expect(
+        selectFrom(mockUseDashboardIssueResolutionHistoryQuery.mock.calls[0])({
+          issueResolutionHistory: [
+            { date: '2026-03-20', distribution: [{ key: 'all', value: 42 }] },
+          ],
+        }),
+      ).toEqual([expect.objectContaining({ id: 'total', label: 'MTTR' })]);
+      jest.useRealTimers();
+    });
+  });
+
+  describe('sca-resolution adapters', () => {
+    it('hardcodes the SCA_MTTR statistic and transforms count history', () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date('2026-03-30T12:00:00.000Z'));
+
+      renderHook(
+        () =>
+          useOrgScaResolutionCountWidgetData({
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            measureFilters: { impactSeverities: ['HIGH'] },
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(mockUseDashboardScaResolutionHistoryQuery).toHaveBeenCalledWith(
+        expect.objectContaining({
+          severities: ['HIGH'],
+          startDate: organizationsHistoryStartDateWithRetentionBuffer(),
+          statistic: 'SCA_MTTR',
+        }),
+        expect.objectContaining({ enabled: true }),
+      );
+      expect(
+        selectFrom(mockUseDashboardScaResolutionHistoryQuery.mock.calls[0])({
+          scaResolutionHistory: [{ date: '2026-03-20', distribution: [{ key: 'all', value: 9 }] }],
+        }),
+      ).toEqual({
+        latestValue: 9,
+        sparklineSeries: [9],
+        trend: { current: '9', past: '9' },
+      });
+      jest.useRealTimers();
+    });
+
+    it('hardcodes the SCA_MTTR statistic on the line-chart query', () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date('2026-03-30T12:00:00.000Z'));
+
+      renderHook(
+        () =>
+          useOrgScaResolutionLineChartWidgetData({
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            historyRange: '3',
+            measureFilters: undefined,
+            metricName: 'SCA MTTR',
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(mockUseDashboardScaResolutionHistoryQuery).toHaveBeenCalledWith(
+        expect.objectContaining({ startDate: lineChartSinceDate('3'), statistic: 'SCA_MTTR' }),
+        expect.objectContaining({ enabled: true }),
+      );
+      expect(
+        selectFrom(mockUseDashboardScaResolutionHistoryQuery.mock.calls[0])({
+          scaResolutionHistory: [{ date: '2026-03-20', distribution: [{ key: 'all', value: 9 }] }],
+        }),
+      ).toEqual([expect.objectContaining({ id: 'total', label: 'SCA MTTR' })]);
+      jest.useRealTimers();
     });
   });
 });
