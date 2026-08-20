@@ -44,7 +44,7 @@ const defaultFlags: SQSFlagSet = {
   // useArchitectureEntitlement() instead, see that adapter for how SQS grants access today.
   designArchitectureSquadExtensionPack: false,
   designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
-  licenseEnableUsageProductsUi: false,
+  licenseEnableUsageProductsUi: true,
   scaEnableReachabilityFrontend: false,
   scaKeyChangesPrView: false,
 };
