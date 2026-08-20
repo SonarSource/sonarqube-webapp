@@ -42,6 +42,7 @@ interface StatusTransitionItem<T extends string> {
 
 interface StatusTransitionProps<T extends string> {
   buttonTooltipContent?: ReactNode;
+  defaultIsFeedback?: boolean;
   dropdownHeader?: NonNullable<React.ComponentProps<typeof DropdownMenu>['header']>;
   isOpen: boolean;
   isTransiting?: boolean;
@@ -60,15 +61,22 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
     onOpenChange,
     transitions,
     buttonTooltipContent,
+    defaultIsFeedback: configuredDefaultIsFeedback = false,
     isTransiting,
     dropdownHeader,
     showFeedbackCheckbox,
     status,
   } = props;
 
+  const defaultIsFeedback = Boolean(showFeedbackCheckbox && configuredDefaultIsFeedback);
+
   const [selectedTransition, setSelectedTransition] = React.useState<T | null>(null);
   const [pendingComment, setPendingComment] = React.useState('');
-  const [pendingIsFeedback, setPendingIsFeedback] = React.useState(false);
+  const [pendingIsFeedback, setPendingIsFeedback] = React.useState(defaultIsFeedback);
+
+  React.useEffect(() => {
+    setPendingIsFeedback(defaultIsFeedback);
+  }, [defaultIsFeedback]);
 
   const handleTransitionChange = (transition: StatusTransitionItem<T>) => {
     if (transition.requiresComment) {
@@ -140,6 +148,8 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
           isOpen
           onClose={() => {
             setSelectedTransition(null);
+            setPendingComment('');
+            setPendingIsFeedback(defaultIsFeedback);
           }}
           onCommentChange={setPendingComment}
           onConfirm={(comment, isFeedback) => {
@@ -147,7 +157,7 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
               void onTransition(selectedTransition, comment, isFeedback);
               setSelectedTransition(null);
               setPendingComment('');
-              setPendingIsFeedback(false);
+              setPendingIsFeedback(defaultIsFeedback);
             }
           }}
           onIsFeedbackChange={setPendingIsFeedback}

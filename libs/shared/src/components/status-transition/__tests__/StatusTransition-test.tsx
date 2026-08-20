@@ -93,8 +93,92 @@ it('should pass isFeedback=true when checkbox is checked', async () => {
   expect(onTransite).toHaveBeenLastCalledWith('transition-2', '', true);
 });
 
+it('should not pass isFeedback when the feedback checkbox is hidden', async () => {
+  const { user } = renderStatusTransition({ defaultIsFeedback: true });
+
+  await user.click(
+    byRole('menuitem', {
+      name: 'status_transition.transition-2 status_transition.transition-2.description',
+    }).get(),
+  );
+  await user.click(byRole('button', { name: 'status_transition.change_status' }).get());
+
+  expect(onTransite).toHaveBeenLastCalledWith('transition-2', '', false);
+});
+
+it('should reset isFeedback to its configured default after a transition', async () => {
+  const { user } = renderStatusTransition({
+    defaultIsFeedback: true,
+    showFeedbackCheckbox: true,
+  });
+
+  await user.click(
+    byRole('menuitem', {
+      name: 'status_transition.transition-2 status_transition.transition-2.description',
+    }).get(),
+  );
+
+  expect(byRole('checkbox').get()).toBeChecked();
+
+  await user.click(byRole('checkbox').get());
+  await user.click(byRole('button', { name: 'status_transition.change_status' }).get());
+
+  await user.click(
+    byRole('menuitem', {
+      name: 'status_transition.transition-2 status_transition.transition-2.description',
+    }).get(),
+  );
+
+  expect(byRole('checkbox').get()).toBeChecked();
+});
+
+it('should reset isFeedback to its configured default after cancelling a transition', async () => {
+  const { user } = renderStatusTransition({
+    defaultIsFeedback: true,
+    showFeedbackCheckbox: true,
+  });
+
+  await user.click(
+    byRole('menuitem', {
+      name: 'status_transition.transition-2 status_transition.transition-2.description',
+    }).get(),
+  );
+  await user.type(byRole('textbox').get(), 'A draft comment');
+  await user.click(byRole('checkbox').get());
+  await user.click(byRole('button', { name: 'cancel' }).get());
+
+  await user.click(
+    byRole('menuitem', {
+      name: 'status_transition.transition-2 status_transition.transition-2.description',
+    }).get(),
+  );
+
+  expect(byRole('checkbox').get()).toBeChecked();
+  expect(byRole('textbox').get()).toHaveValue('');
+});
+
+it('should update isFeedback when its configured default changes', async () => {
+  const { rerender, user } = renderStatusTransition({ showFeedbackCheckbox: true });
+
+  rerender(
+    renderStatusTransitionComponent({ defaultIsFeedback: true, showFeedbackCheckbox: true }),
+  );
+
+  await user.click(
+    byRole('menuitem', {
+      name: 'status_transition.transition-2 status_transition.transition-2.description',
+    }).get(),
+  );
+
+  expect(byRole('checkbox').get()).toBeChecked();
+});
+
 function renderStatusTransition(props: Partial<StatusTransitionProps> = {}) {
-  return renderWithContext(
+  return renderWithContext(renderStatusTransitionComponent(props));
+}
+
+function renderStatusTransitionComponent(props: Partial<StatusTransitionProps> = {}) {
+  return (
     <StatusTransition
       buttonTooltipContent="tooltip-text"
       isOpen
@@ -102,6 +186,6 @@ function renderStatusTransition(props: Partial<StatusTransitionProps> = {}) {
       status="transition-status"
       transitions={defaultTransitions}
       {...props}
-    />,
+    />
   );
 }
