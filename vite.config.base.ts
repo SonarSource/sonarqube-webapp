@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import legacy from '@vitejs/plugin-legacy';
 import react from '@vitejs/plugin-react';
 import autoprefixer from 'autoprefixer';
@@ -29,6 +28,7 @@ import { UserConfig } from 'vite';
 import { analyzer } from 'vite-bundle-analyzer';
 import macrosPlugin from 'vite-plugin-babel-macros';
 import requireTransform from 'vite-plugin-require-transform';
+import tsconfigPaths from 'vite-tsconfig-paths';
 import babelConfig from './babel.config';
 import { ALLOWED_LICENSE_TEXT, ALLOWED_LICENSES, generateLicenseText } from './config/license';
 import packageJson from './package.json';
@@ -130,7 +130,7 @@ export const baseViteConfig = {
   },
   plugins: [
     // setup additional vite aliases to resolve dependencies between mono-repo packages
-    nxViteTsPaths(),
+    tsconfigPaths(),
 
     // additional plugins to allow for the transformation of our existing code to what vite is expecting.
     requireTransform({}),

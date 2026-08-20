@@ -88,6 +88,10 @@ Used to test our custom eslint rules in `./eslint-local-rules`.
 
 Used by vite to provide polyfills for older browsers.
 
+### vite-tsconfig-paths
+
+Vite plugin used to resolve TypeScript path aliases from tsconfig files.
+
 ### agentation
 
 Tool to do UI annotations that are used by LLM do generate code changes.
