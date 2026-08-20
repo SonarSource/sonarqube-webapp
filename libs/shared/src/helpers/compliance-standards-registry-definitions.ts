@@ -28,6 +28,7 @@ import {
   renderCASACategory,
   renderCRACategory,
   renderCWECategory,
+  renderMISRACategory,
   renderOwaspAsvs40Category,
   renderOwaspAsvs50Category,
   renderOwaspMasvsV2Category,
@@ -41,6 +42,9 @@ import {
   renderSonarSourceSecurityCategory,
   renderStigCategory,
   renderStigV6Category,
+  renderWCAG20Category,
+  renderWCAG21Category,
+  renderWCAG22Category,
 } from './security-standards';
 
 // Category values are normalized before building compliance standards queries because
@@ -52,6 +56,7 @@ export type CategoryNormalization = 'cwe-prefix' | 'owasp-padded' | 'owasp-unpad
 
 export interface StandardDefinition {
   availableInPDFReports?: boolean;
+  availableInSecurity?: boolean;
   backendKey: string;
   categoryNormalization?: CategoryNormalization;
   displayName: string;
@@ -326,5 +331,56 @@ export const STANDARDS_REGISTRY: StandardDefinition[] = [
     queryProp: SecurityStandard.CASA,
     renderCategory: renderCASACategory,
     showMoreEnabled: true,
+  },
+  {
+    availableInPDFReports: false,
+    availableInSecurity: false,
+    backendKey: 'misra:urn:sonar-compliance-standard:misra:2023',
+    displayName: 'misra',
+    enumKey: 'MISRA',
+    key: StandardsInformationKey.MISRA,
+    pdfLabel: 'MISRA',
+    queryProp: SecurityStandard.MISRA,
+    renderCategory: renderMISRACategory,
+    showMoreEnabled: false,
+  },
+  {
+    availableInPDFReports: false,
+    availableInSecurity: false,
+    backendKey: 'wcag:2.2',
+    displayName: 'wcag_2.2',
+    enumKey: 'WCAG',
+    key: StandardsInformationKey.WCAG_2_2,
+    pdfLabel: 'WCAG',
+    queryProp: SecurityStandard.WCAG_2_2,
+    renderCategory: renderWCAG22Category,
+    showMoreEnabled: false,
+    version: '2.2',
+  },
+  {
+    availableInPDFReports: false,
+    availableInSecurity: false,
+    backendKey: 'wcag:2.1',
+    displayName: 'wcag_2.1',
+    enumKey: 'WCAG',
+    key: StandardsInformationKey.WCAG_2_1,
+    pdfLabel: 'WCAG',
+    queryProp: SecurityStandard.WCAG_2_1,
+    renderCategory: renderWCAG21Category,
+    showMoreEnabled: false,
+    version: '2.1',
+  },
+  {
+    availableInPDFReports: false,
+    availableInSecurity: false,
+    backendKey: 'wcag:2.0',
+    displayName: 'wcag_2.0',
+    enumKey: 'WCAG',
+    key: StandardsInformationKey.WCAG_2_0,
+    pdfLabel: 'WCAG',
+    queryProp: SecurityStandard.WCAG_2_0,
+    renderCategory: renderWCAG20Category,
+    showMoreEnabled: false,
+    version: '2.0',
   },
 ];

@@ -11865,5 +11865,9 @@
     "V-265634": {
       "title": "The application must implement NSA-approved cryptography to protect classified information in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, and standards."
     }
-  }
+  },
+  "misra": {},
+  "wcag-2.2": {},
+  "wcag-2.1": {},
+  "wcag-2.0": {}
 }

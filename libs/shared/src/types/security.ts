@@ -36,6 +36,10 @@ export enum SecurityStandard {
   SONARSOURCE = 'sonarsourceSecurity',
   STIG_V5R3 = 'stig-ASD_V5R3',
   STIG_V6 = 'stig-ASD_V6',
+  MISRA = 'misra',
+  WCAG_2_0 = 'wcag-2.0',
+  WCAG_2_1 = 'wcag-2.1',
+  WCAG_2_2 = 'wcag-2.2',
 }
 
 /** Query param names for compliance standards (SecurityStandard + CWE year-specific keys used in the registry) */
@@ -63,6 +67,10 @@ export enum StandardsInformationKey {
   SONARSOURCE = 'sonarsourceSecurity',
   STIG_ASD_V5R3 = 'stig-ASD_V5R3',
   STIG_ASD_V6 = 'stig-ASD_V6',
+  MISRA = 'misra',
+  WCAG_2_0 = 'wcag-2.0',
+  WCAG_2_1 = 'wcag-2.1',
+  WCAG_2_2 = 'wcag-2.2',
 }
 
 export type StandardsInformation = {

@@ -166,6 +166,10 @@ describe('standards renderers', () => {
         title: 'Stig requirement V6',
       },
     },
+    misra: {},
+    'wcag-2.0': {},
+    'wcag-2.1': {},
+    'wcag-2.2': {},
     cra: {
       '1': {
         title: 'Part I - Cybersecurity requirements',

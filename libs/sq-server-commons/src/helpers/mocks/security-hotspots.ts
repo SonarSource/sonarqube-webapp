@@ -241,5 +241,9 @@ export function mockStandards(): StandardsInformation {
         title: 'No known exploitable vulnerabilities',
       },
     },
+    misra: {},
+    'wcag-2.0': {},
+    'wcag-2.1': {},
+    'wcag-2.2': {},
   };
 }

@@ -190,6 +190,10 @@ it('should clear standards facet including owaspMobileTop10-2024', async () => {
     sonarsourceSecurity: [],
     'stig-ASD_V5R3': [],
     'stig-ASD_V6': [],
+    misra: [],
+    'wcag-2.0': [],
+    'wcag-2.1': [],
+    'wcag-2.2': [],
   });
 });
 

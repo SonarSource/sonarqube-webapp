@@ -73,6 +73,10 @@ export function getStandardsAvailableInPDFReports(): StandardDefinition[] {
   return STANDARDS_REGISTRY.filter((s) => s.availableInPDFReports);
 }
 
+function getSecurityStandardsAvailable(): StandardDefinition[] {
+  return STANDARDS_REGISTRY.filter((standard) => standard.availableInSecurity !== false);
+}
+
 function getSecurityStandardValue(definition: StandardDefinition): string {
   // For most standards, derive from the displayName (e.g., 'pciDss_4.0' -> 'pciDss')
   const baseStandard = definition.displayName.split('_')[0];
@@ -102,8 +106,8 @@ function getSecurityStandardValue(definition: StandardDefinition): string {
 
 const SecurityStandardRuntime = Object.fromEntries(
   // Get unique enum keys (deduplicate versioned standards like PCI_DSS)
-  Array.from(new Set(STANDARDS_REGISTRY.map((s) => s.enumKey))).map((enumKey) => {
-    const definition = STANDARDS_REGISTRY.find((s) => s.enumKey === enumKey);
+  Array.from(new Set(getSecurityStandardsAvailable().map((s) => s.enumKey))).map((enumKey) => {
+    const definition = getSecurityStandardsAvailable().find((s) => s.enumKey === enumKey);
     return [enumKey, getSecurityStandardValue(definition as StandardDefinition)];
   }),
 ) as Record<string, string>;
@@ -259,7 +263,11 @@ export function getStandardLevels(key: StandardsInformationKey): string[] {
 }
 
 export function getAllSecurityStandards(): string[] {
-  return Array.from(new Set(Object.values(STANDARDS_KEY_TO_SECURITY_STANDARD_MAP)));
+  return Array.from(
+    new Set(
+      getSecurityStandardsAvailable().map(({ key }) => STANDARDS_KEY_TO_SECURITY_STANDARD_MAP[key]),
+    ),
+  );
 }
 
 export function getAllStandardLevels(): string[] {

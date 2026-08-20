@@ -299,6 +299,8 @@ describe('compliance-standards-registry', () => {
       expect(standards).toContain('pciDss');
       expect(standards).toContain('owaspTop10');
       expect(standards).toContain('cweTop25');
+      expect(standards).not.toContain('misra');
+      expect(standards).not.toContain('wcag');
     });
 
     it('should not contain duplicates', () => {
