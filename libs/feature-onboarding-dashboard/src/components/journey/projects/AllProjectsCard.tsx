@@ -22,7 +22,6 @@ import { Badge, Table } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { OnboardingProjectOnboarding } from '~shared/types/onboarding';
-import { composeProjectFilters } from '../../../helpers/onboarding-projects';
 import {
   ANALYSIS_MODE_FILTER_OPTIONS,
   ANY_PROJECTS_FILTER,
@@ -67,7 +66,6 @@ export function AllProjectsCard() {
     <ProjectsTableCard
       columns={COLUMNS}
       descriptionKey="onboarding_dashboard.projects.description"
-      filters={composeProjectFilters([scanStatus, analysisMode])}
       loadingMessageKey="onboarding_dashboard.projects.loading"
       pageSize={PAGE_SIZE}
       renderRow={(project) => <ProjectRow key={project.key ?? project.name} project={project} />}
@@ -92,6 +90,7 @@ export function AllProjectsCard() {
           />
         </>
       }
+      userFilters={[scanStatus, analysisMode]}
     />
   );
 }

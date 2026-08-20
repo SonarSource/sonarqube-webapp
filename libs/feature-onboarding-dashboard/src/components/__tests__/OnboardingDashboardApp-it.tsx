@@ -146,6 +146,7 @@ const ui = {
   // All projects table
   projectsTitle: byText('onboarding_dashboard.projects.title'),
   projectsTable: byRole('table', { name: 'onboarding_dashboard.projects.title' }),
+  projectsLoading: byText('onboarding_dashboard.projects.loading'),
   projectsTableColumnHeaders: byRole('table', {
     name: 'onboarding_dashboard.projects.title',
   }).byRole('columnheader'),
@@ -222,6 +223,7 @@ const ui = {
     name: 'onboarding_dashboard.stale.filter.gate_status.label',
   }),
   gateFailedOption: byRole('option', { name: 'metric.level.ERROR' }),
+  staleLoading: byText('onboarding_dashboard.stale.loading'),
 };
 
 function renderOnboardingDashboard() {
@@ -362,13 +364,44 @@ describe.skip('OnboardingDashboardApp', () => {
     expect(ui.rowActionItems.getAll()).toHaveLength(AUTOSCANNED_ROW_ENTRIES);
   });
 
-  it('renders a no-data row in the all-projects table when the organization has no projects', async () => {
+  it('hides both project cards when the organization has no project at all', async () => {
     onboardingMock.setProjects([]);
     renderOnboardingDashboard();
 
-    // One em-dash placeholder per column, actions included. The table shows row skeletons while its
-    // own query loads, so wait for the no-data row to replace them.
-    expect(await ui.projectsTable.byText(NO_DATA).findAll()).toHaveLength(5);
+    expect(await ui.headerSubtitle.find()).toBeInTheDocument();
+
+    // Each card announces its own loading state while its query runs, so waiting for both
+    // announcements to clear is what tells us the tables had their chance to render.
+    await waitFor(() => {
+      expect(ui.projectsLoading.query()).not.toBeInTheDocument();
+    });
+    await waitFor(() => {
+      expect(ui.staleLoading.query()).not.toBeInTheDocument();
+    });
+
+    // Nothing to show and nothing the user could widen: both cards go away entirely rather than
+    // leaving empty tables behind.
+    expect(ui.projectsTitle.query()).not.toBeInTheDocument();
+    expect(ui.projectsTable.query()).not.toBeInTheDocument();
+    expect(ui.staleTitle.query()).not.toBeInTheDocument();
+    expect(ui.staleTable.query()).not.toBeInTheDocument();
+  });
+
+  it('keeps the all-projects table, with a no-data row, when the search empties it', async () => {
+    const user = setupUser();
+    renderOnboardingDashboard();
+
+    expect(await ui.repoWebCore.find()).toBeInTheDocument();
+
+    await search(user, ui.searchInput.get(), 'no-such-repository');
+
+    // The card stays so the search box that emptied it remains reachable, showing one em-dash
+    // placeholder per column, actions included. Polled rather than awaited once: the not-imported
+    // row listed before the search already carries em-dashes of its own, which a single `findAll`
+    // would happily match while the debounced search is still in flight.
+    await waitFor(() => {
+      expect(ui.projectsTable.byText(NO_DATA).getAll()).toHaveLength(5);
+    });
   });
 
   it('filters the all-projects table by search and by the scan-status dropdown', async () => {
@@ -574,15 +607,34 @@ describe.skip('OnboardingDashboardApp', () => {
     expect(ui.staleTable.byText('payments-gateway').get()).toBeInTheDocument();
   });
 
-  it('renders a no-data row in the stale-projects table when nothing is stale', async () => {
+  it('hides the stale-projects card when nothing is stale', async () => {
     onboardingMock.setProjects(
       mockOnboardingProjects().map((project) => ({ ...project, stale: false })),
     );
     renderOnboardingDashboard();
 
-    // One em-dash placeholder per column, actions included, scoped to the stale table so the
-    // all-projects table (which still lists every project) can't satisfy the assertion.
-    expect(await ui.staleTable.byText(NO_DATA).findAll()).toHaveLength(4);
+    // The all-projects table still lists every project, so its content is a reliable signal that the
+    // project queries have resolved — at which point the stale card must be gone rather than left
+    // behind as an empty shell.
+    expect(await ui.projectsTable.byText('web-core').find()).toBeInTheDocument();
+
+    expect(ui.staleTitle.query()).not.toBeInTheDocument();
+    expect(ui.staleTable.query()).not.toBeInTheDocument();
+  });
+
+  it('keeps the stale-projects table, with a no-data row, when the search empties it', async () => {
+    const user = setupUser();
+    renderOnboardingDashboard();
+
+    expect(await ui.staleTable.byText('payments-gateway').find()).toBeInTheDocument();
+
+    await search(user, ui.staleSearchInput.get(), 'no-such-repository');
+
+    // An empty result the user brought about themselves has to keep its card, or the search box that
+    // caused it disappears along with it. One em-dash placeholder per column, actions included.
+    await waitFor(() => {
+      expect(ui.staleTable.byText(NO_DATA).getAll()).toHaveLength(4);
+    });
   });
 
   it('renders the detail panel for the active step and swaps it when another step is selected', async () => {

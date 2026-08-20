@@ -22,7 +22,7 @@ import { BadgeVariety, Table, TableCellJustify } from '@sonarsource/echoes-react
 import { useState } from 'react';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import { isDefined } from '~shared/helpers/types';
-import { composeProjectFilters } from '../../../helpers/onboarding-projects';
+import { OnboardingProjectsFilter } from '~shared/types/onboarding';
 import {
   ANY_PROJECTS_FILTER,
   GATE_STATUS_FILTER_OPTIONS,
@@ -44,6 +44,9 @@ import { RepositoryCell } from '../../projects/RepositoryCell';
 
 const PAGE_SIZE = 10;
 
+/** This table is about stale projects, so the token is sent whatever the user picks. */
+const BASE_FILTERS: OnboardingProjectsFilter[] = ['stale'];
+
 const COLUMNS: ProjectsTableColumn[] = [
   { labelKey: 'onboarding_dashboard.stale.col.project' },
   { justify: TableCellJustify.Start, labelKey: 'onboarding_dashboard.stale.col.gate_status' },
@@ -60,9 +63,9 @@ export function StaleProjectsCard() {
 
   return (
     <ProjectsTableCard
+      baseFilters={BASE_FILTERS}
       columns={COLUMNS}
       descriptionKey="onboarding_dashboard.stale.description"
-      filters={composeProjectFilters(['stale', gateStatus])}
       loadingMessageKey="onboarding_dashboard.stale.loading"
       pageSize={PAGE_SIZE}
       renderRow={(project) => (
@@ -79,6 +82,7 @@ export function StaleProjectsCard() {
           value={gateStatus}
         />
       }
+      userFilters={[gateStatus]}
     />
   );
 }
