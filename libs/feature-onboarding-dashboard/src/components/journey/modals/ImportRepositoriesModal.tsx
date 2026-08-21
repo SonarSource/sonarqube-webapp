@@ -83,7 +83,7 @@ function RepositoryRow({ repository }: Readonly<{ repository: OnboardingReposito
       <Table.Cell>
         <Badge variety={isImported ? BadgeVariety.Neutral : BadgeVariety.Warning}>
           {formatMessage({
-            id: repository.isImported
+            id: isImported
               ? 'onboarding_dashboard.journey.import.legend.imported'
               : 'onboarding_dashboard.journey.import.legend.not_imported',
           })}

@@ -10818,6 +10818,7 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.import.modal.col.repository': 'Repository name',
   'onboarding_dashboard.journey.import.modal.col.visibility': 'Visibility',
   'onboarding_dashboard.journey.import.modal.col.status': 'Status',
+  'onboarding_dashboard.journey.import.modal.platform_select.label': 'Choose platform',
   'onboarding_dashboard.journey.analyze.title': 'Analyze your projects',
   'onboarding_dashboard.journey.analyze.description':
     'For full coverage and deep insights, consider moving as many projects as you can to a Full CI configuration.',
@@ -10876,7 +10877,7 @@ export const defaultMessages = {
   'onboarding_dashboard.stale.col.last_scan': 'Last scan',
   'onboarding_dashboard.stale.filter.gate_status.label': 'Gate status',
   'onboarding_dashboard.projects.title': 'All projects',
-  'onboarding_dashboard.projects.loading': 'Loading repositories',
+  'onboarding_dashboard.projects.loading': 'Loading projects',
   'onboarding_dashboard.projects.description':
     'A complete overview of all projects that need your attention.',
   'onboarding_dashboard.projects.search': 'Search projects...',

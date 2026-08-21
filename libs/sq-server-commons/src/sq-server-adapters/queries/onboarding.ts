@@ -18,12 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useMutation, UseMutationResult } from '@tanstack/react-query';
+import { useMutation, UseMutationResult, useQuery } from '@tanstack/react-query';
+import { StaleTime } from '~shared/queries/common';
 import {
+  OnboardingAlm,
+  OnboardingDevopsPlatform,
+  OnboardingDopSettingsQueryData,
   OnboardingRepositoriesQuery,
   OnboardingRepositoriesResponse,
 } from '~shared/types/onboarding';
+import { getDopSettings } from '../../api/dop-translation';
 import { grantPermissionToUser } from '../../api/permissions';
+import { AlmKeys } from '../../types/alm-settings';
+
+const ALM_KEYS_TO_ONBOARDING_ALM: Record<AlmKeys, OnboardingAlm> = {
+  [AlmKeys.Azure]: OnboardingDevopsPlatform.AzureDevops,
+  [AlmKeys.BitbucketCloud]: OnboardingDevopsPlatform.BitbucketCloud,
+  [AlmKeys.BitbucketServer]: OnboardingDevopsPlatform.Bitbucket,
+  [AlmKeys.GitHub]: OnboardingDevopsPlatform.Github,
+  [AlmKeys.GitLab]: OnboardingDevopsPlatform.Gitlab,
+};
 
 /**
  * The onboarding dashboard is not organization-scoped on SQ-Server, so no
@@ -55,6 +69,26 @@ export function useGrantProjectPermissionMutation() {
 export function useTriggerAutomaticAnalysisMutation():
   UseMutationResult<boolean, Error, string> | undefined {
   return undefined;
+}
+
+/**
+ * Returns the list of DevOps platform configurations available on SQ-Server so the
+ * "Import repositories" modal can offer a platform selector. `data` is widened to include `null`
+ * so the SQ-Cloud stub's `useQuery`-shaped return can align on the same type without either
+ * adapter having to wrap the query in a custom `{ data, isLoading }` interface.
+ */
+export function useOnboardingDopSettingsQuery() {
+  return useQuery({
+    queryKey: ['dop-settings'],
+    queryFn: getDopSettings,
+    staleTime: StaleTime.LONG,
+    select: (data): OnboardingDopSettingsQueryData =>
+      data.dopSettings.map((s) => ({
+        id: s.id,
+        key: s.key,
+        type: ALM_KEYS_TO_ONBOARDING_ALM[s.type],
+      })),
+  });
 }
 
 /**

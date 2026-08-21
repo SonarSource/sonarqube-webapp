@@ -55,6 +55,14 @@ jest.mock('~adapters/helpers/useAutoImportToggle', () => ({
   }),
 }));
 
+jest.mock('~adapters/queries/onboarding', () => ({
+  useGrantProjectPermissionMutation: jest.fn().mockReturnValue({ mutate: jest.fn() }),
+  useOnboardingDopSettingsQuery: jest.fn().mockReturnValue({ data: null, isLoading: false }),
+  useOnboardingOrganizationKey: jest.fn().mockReturnValue(undefined),
+  useOnboardingRepositoriesQuery: jest.fn().mockReturnValue({ data: undefined, isLoading: false }),
+  useTriggerAutomaticAnalysisMutation: jest.fn().mockReturnValue(undefined),
+}));
+
 let onboardingMock: OnboardingServiceMock;
 
 beforeAll(async () => {

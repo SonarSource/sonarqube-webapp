@@ -19,10 +19,13 @@
  */
 
 import {
+  FormFieldWidth,
+  Label,
   LoadingContainer,
   Pagination,
   SearchInput,
   SearchInputWidth,
+  Select,
   Table,
   TableVariety,
   Text,
@@ -30,14 +33,22 @@ import {
 } from '@sonarsource/echoes-react';
 import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { Image } from '~adapters/components/common/Image';
+import { useAlmIconSrc } from '~adapters/helpers/almIcons';
 import { useOnboardingRepositoriesQuery } from '~adapters/queries/onboarding';
-import { OnboardingRepositoriesVisibility, OnboardingRepository } from '~shared/types/onboarding';
+import {
+  OnboardingAlm,
+  OnboardingRepositoriesVisibility,
+  OnboardingRepository,
+} from '~shared/types/onboarding';
 import { REPOSITORY_VISIBILITY_FILTER_OPTIONS } from '../../types/types';
+import { PLATFORM_CONFIG } from '../devops/platformConfig';
 import { ProjectsFilterSelect } from './ProjectsFilterSelect';
 import { ProjectsTableColumn } from './ProjectsTable';
 import { TableBodyRows } from './TableBodyRows';
 import { TableHeaderRows } from './TableHeaderRows';
 import { usePaginatedTableState } from './usePaginatedTableState';
+import { usePlatformSelection } from './usePlatformSelection';
 
 /** The first column holds the repository name, so it gets more room than the others. */
 const FIRST_COLUMN_TEMPLATE = 'minmax(240px, 2.5fr)';
@@ -56,6 +67,7 @@ interface Props {
 
 /**
  * Paged, searchable table of DevOps-platform repositories discovered for the current organization.
+ * Includes a platform selector on SQ-Server when multiple DevOps integrations are configured.
  */
 export function RepositoriesTable({
   ariaLabel,
@@ -74,12 +86,42 @@ export function RepositoriesTable({
   const { onPageChange, onSearchChange, pageIndex, query, searchValue } =
     usePaginatedTableState(visibility);
 
-  const { data, isPending } = useOnboardingRepositoriesQuery({
-    pageIndex,
-    pageSize,
-    q: query === '' ? undefined : query,
-    visibility,
-  });
+  const {
+    effectiveEntry,
+    isLoading: isPlatformsLoading,
+    platformEntries,
+    selectedDopSettingId,
+    setSelectedDopSettingId,
+    showPlatformSelect,
+  } = usePlatformSelection();
+
+  const platformSelectData = useMemo(
+    () =>
+      platformEntries.map((entry) => ({
+        label: entry.key,
+        prefix: <PlatformIcon alm={entry.type} />,
+        value: entry.id,
+      })),
+    [platformEntries],
+  );
+
+  // Reset search, visibility, and page when the user explicitly changes platform.
+  useEffect(() => {
+    setVisibility(OnboardingRepositoriesVisibility.All);
+    onSearchChange('');
+    onPageChange(1);
+  }, [selectedDopSettingId, onPageChange, onSearchChange]);
+
+  const { data, isPending } = useOnboardingRepositoriesQuery(
+    {
+      dopSettingId: effectiveEntry?.id,
+      pageIndex,
+      pageSize,
+      q: query === '' ? undefined : query,
+      visibility,
+    },
+    { enabled: !isPlatformsLoading },
+  );
 
   // Scroll the (scrollable) table body back to the top whenever a new page lands.
   useEffect(() => {
@@ -96,36 +138,61 @@ export function RepositoriesTable({
 
   return (
     <LoadingContainer
-      isLoading={isPending}
+      isLoading={isPlatformsLoading || isPending}
       loadingMessage={formatMessage({ id: 'onboarding_dashboard.repositories.loading' })}
     >
       <div className={`sw-flex sw-flex-col sw-gap-4 ${containerClassName ?? ''}`.trim()}>
-        <div className="sw-flex sw-w-full sw-items-center sw-justify-between">
-          <div className="sw-flex sw-items-center sw-gap-4">
-            <SearchInput
-              onChange={onSearchChange}
-              placeholderLabel={formatMessage({
-                id: 'onboarding_dashboard.repositories.search',
+        <div className="sw-flex sw-flex-col sw-gap-2">
+          {/* This label is placed separately so that 'x/y results' is aligned with the controls */}
+          {showPlatformSelect && (
+            <Label className="sw-w-fit" htmlFor="import-repositories-platform-select">
+              {formatMessage({
+                id: 'onboarding_dashboard.journey.import.modal.platform_select.label',
               })}
-              value={searchValue}
-              width={SearchInputWidth.Large}
-            />
+            </Label>
+          )}
+          <div className="sw-flex sw-w-full sw-items-center sw-justify-between">
+            <div className="sw-flex sw-items-center sw-gap-4">
+              {showPlatformSelect && (
+                <Select
+                  data={platformSelectData}
+                  id="import-repositories-platform-select"
+                  isNotClearable
+                  onChange={(value) => {
+                    setSelectedDopSettingId(value ?? undefined);
+                  }}
+                  value={effectiveEntry?.id}
+                  valueIcon={
+                    effectiveEntry ? <PlatformIcon alm={effectiveEntry.type} /> : undefined
+                  }
+                  width={FormFieldWidth.Medium}
+                />
+              )}
+              <SearchInput
+                onChange={onSearchChange}
+                placeholderLabel={formatMessage({
+                  id: 'onboarding_dashboard.repositories.search',
+                })}
+                value={searchValue}
+                width={SearchInputWidth.Large}
+              />
 
-            <ProjectsFilterSelect
-              id="import-repositories-visibility-filter"
-              labelKey="onboarding_dashboard.repositories.filter.visibility.label"
-              onChange={setVisibility}
-              options={REPOSITORY_VISIBILITY_FILTER_OPTIONS}
-              value={visibility}
-            />
+              <ProjectsFilterSelect
+                id="import-repositories-visibility-filter"
+                labelKey="onboarding_dashboard.repositories.filter.visibility.label"
+                onChange={setVisibility}
+                options={REPOSITORY_VISIBILITY_FILTER_OPTIONS}
+                value={visibility}
+              />
+            </div>
+
+            <Text as="span" className="sw-ml-auto" isSubtle size={TextSize.Small}>
+              {formatMessage(
+                { id: 'onboarding_dashboard.table.results_size' },
+                { size: repositories.length, total },
+              )}
+            </Text>
           </div>
-
-          <Text as="span" className="sw-ml-auto" isSubtle size={TextSize.Small}>
-            {formatMessage(
-              { id: 'onboarding_dashboard.table.results_size' },
-              { size: repositories.length, total },
-            )}
-          </Text>
         </div>
 
         <Table
@@ -157,4 +224,15 @@ export function RepositoriesTable({
       </div>
     </LoadingContainer>
   );
+}
+
+function PlatformIcon({ alm }: Readonly<{ alm: OnboardingAlm }>) {
+  const { formatMessage } = useIntl();
+  const { imageKey, labelKey } = PLATFORM_CONFIG[alm];
+  const iconSrc = useAlmIconSrc(imageKey);
+
+  if (iconSrc === undefined) {
+    return null;
+  }
+  return <Image alt={formatMessage({ id: labelKey })} height={16} src={iconSrc} width={16} />;
 }

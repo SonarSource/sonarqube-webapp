@@ -336,6 +336,8 @@ interface OnboardingRepositoriesPage {
 
 /** Params accepted by {@link useOnboardingRepositoriesQuery}, normalized across products. */
 export interface OnboardingRepositoriesQuery {
+  /** SQ-Server only: the DOP setting to scope the repository search to. */
+  dopSettingId?: string;
   pageIndex: number;
   pageSize: number;
   q?: string;
@@ -350,6 +352,26 @@ export interface OnboardingRepositoriesResponse {
   page: OnboardingRepositoriesPage;
   repositories: OnboardingRepository[];
 }
+
+/**
+ * Normalized DevOps platform configuration entry returned by the `useOnboardingDopSettingsQuery`
+ * adapter hook. On SQ-Server, each entry corresponds to a bound DOP setting the admin configured.
+ */
+export interface OnboardingDopSetting {
+  /** Stable identifier used as the select value. */
+  id: string;
+  /** Human-readable label (the admin-given config key) shown in the platform dropdown. */
+  key: string;
+  /** The ALM platform type, used to derive the subtitle and icon. */
+  type: OnboardingAlm;
+}
+
+/**
+ * `data` shape returned by both `useOnboardingDopSettingsQuery` adapter implementations. Widened
+ * to include `null` so the SQ-Cloud stub can signal "platform selector not applicable" without
+ * diverging from the SQ-Server hook's full `UseQueryResult` shape.
+ */
+export type OnboardingDopSettingsQueryData = OnboardingDopSetting[] | null;
 
 /**
  * Discovered repository as displayed in the "Import repositories" table. A subset of what

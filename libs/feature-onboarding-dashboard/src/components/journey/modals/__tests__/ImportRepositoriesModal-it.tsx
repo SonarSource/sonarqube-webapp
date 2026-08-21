@@ -20,11 +20,16 @@
 
 import { waitFor } from '@testing-library/react';
 import {
+  useOnboardingDopSettingsQuery,
+  useOnboardingRepositoriesQuery,
+} from '~adapters/queries/onboarding';
+import {
   OnboardingRepositoriesMock,
   OnboardingRepositoriesQueryParams,
 } from '~shared/api/mocks/OnboardingRepositoriesMock';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
+import { OnboardingDevopsPlatform, OnboardingDopSetting } from '~shared/types/onboarding';
 import { NO_DATA } from '../../../dashboardConstants';
 import { ImportRepositoriesModal } from '../ImportRepositoriesModal';
 
@@ -32,26 +37,69 @@ const TRIGGER_LABEL = 'Open';
 
 const mockRepositories = new OnboardingRepositoriesMock();
 
+/**
+ * Adapter hooks are re-mocked per test so we can flip between the SQ-Cloud (`data: null`) path and
+ * the SQ-Server (`data: OnboardingDopSetting[]`) multi-platform path without duplicating the file.
+ */
 jest.mock('~adapters/queries/onboarding', () => ({
+  useOnboardingDopSettingsQuery: jest.fn().mockReturnValue({ data: null, isLoading: false }),
   useOnboardingOrganizationKey: jest.fn().mockReturnValue('my-org'),
-  useOnboardingRepositoriesQuery: (
-    params: OnboardingRepositoriesQueryParams,
-    options?: { enabled?: boolean },
-  ) => {
-    if (options?.enabled === false) {
-      return { data: undefined, isPending: false };
-    }
-    return { data: mockRepositories.applyQuery(params), isPending: false };
-  },
+  useOnboardingRepositoriesQuery: jest.fn(),
 }));
+
+const mockedDopSettingsQuery = jest.mocked(useOnboardingDopSettingsQuery);
+const mockedRepositoriesQuery = jest.mocked(useOnboardingRepositoriesQuery);
+
+function useMockRepositoriesQuery(
+  params: OnboardingRepositoriesQueryParams,
+  options?: { enabled?: boolean },
+) {
+  if (options?.enabled === false) {
+    return { data: undefined, isPending: false };
+  }
+  return { data: mockRepositories.applyQuery(params), isPending: false };
+}
 
 beforeAll(() => {
   HTMLElement.prototype.scrollTo = jest.fn();
 });
 
+beforeEach(() => {
+  mockedDopSettingsQuery.mockReturnValue({ data: null, isLoading: false } as unknown as ReturnType<
+    typeof useOnboardingDopSettingsQuery
+  >);
+  mockedRepositoriesQuery.mockImplementation(useMockRepositoriesQuery);
+});
+
 afterEach(() => {
   mockRepositories.reset();
+  jest.clearAllMocks();
 });
+
+const GITLAB_SETTING: OnboardingDopSetting = {
+  id: 'gl-1',
+  key: 'GitLab Main',
+  type: OnboardingDevopsPlatform.Gitlab,
+};
+
+const AZURE_SETTING: OnboardingDopSetting = {
+  id: 'az-1',
+  key: 'Azure Main',
+  type: OnboardingDevopsPlatform.AzureDevops,
+};
+
+const GITHUB_SETTING: OnboardingDopSetting = {
+  id: 'gh-1',
+  key: 'GitHub Main',
+  type: OnboardingDevopsPlatform.Github,
+};
+
+function mockServerSetup(dopSettings: OnboardingDopSetting[]) {
+  mockedDopSettingsQuery.mockReturnValue({
+    data: dopSettings,
+    isLoading: false,
+  } as unknown as ReturnType<typeof useOnboardingDopSettingsQuery>);
+}
 
 const ui = {
   openButton: byRole('button', { name: TRIGGER_LABEL }),
@@ -65,6 +113,14 @@ const ui = {
   gitlabIcon: byRole('img', { name: 'alm.gitlab' }),
   bitbucketIcon: byRole('img', { name: 'alm.bitbucket' }),
   azureIcon: byRole('img', { name: 'alm.azure' }),
+  platformSelect: byRole('combobox', {
+    name: 'onboarding_dashboard.journey.import.modal.platform_select.label',
+  }),
+  /**
+   * Options in the platform Select carry a leading `<img alt="alm.*">` that gets folded into the
+   * accessible name, so we match the label as a substring instead of asserting an exact name.
+   */
+  platformOption: (name: string) => byRole('option', { name: new RegExp(name) }),
   resultsCount: (size: number, total: number) =>
     byText(`onboarding_dashboard.table.results_size.${size}.${total}`),
   searchInput: byRole('searchbox', {
@@ -327,4 +383,90 @@ it('ANDs the search term and the visibility filter', async () => {
     expect(ui.table.byText('identity-lib').query()).not.toBeInTheDocument();
   });
   expect(ui.table.byText('payments-gateway').get()).toBeInTheDocument();
+});
+
+describe('SQ-Server platform selector', () => {
+  it('does not render the selector on SQ-Cloud (adapter returns null)', async () => {
+    // By default, dopSettings === null, so SQ-Cloud path.
+    const { user } = renderModal();
+    await user.click(ui.openButton.get());
+    await ui.modal.find();
+
+    expect(ui.platformSelect.query()).not.toBeInTheDocument();
+  });
+
+  it('does not render the selector when only a single platform entry exists', async () => {
+    mockServerSetup([GITLAB_SETTING]);
+
+    const { user } = renderModal();
+    await user.click(ui.openButton.get());
+    await ui.modal.find();
+
+    expect(ui.platformSelect.query()).not.toBeInTheDocument();
+  });
+
+  it('renders the selector when multiple platforms are configured', async () => {
+    mockServerSetup([GITLAB_SETTING, AZURE_SETTING]);
+
+    const { user } = renderModal();
+    await user.click(ui.openButton.get());
+
+    expect(await ui.platformSelect.find()).toBeInTheDocument();
+  });
+
+  it('lists every non-github DOP setting as an option and hides github ones', async () => {
+    mockServerSetup([GITHUB_SETTING, GITLAB_SETTING, AZURE_SETTING]);
+
+    const { user } = renderModal();
+    await user.click(ui.openButton.get());
+    await user.click(await ui.platformSelect.find());
+
+    expect(await ui.platformOption(GITLAB_SETTING.key).find()).toBeInTheDocument();
+    expect(ui.platformOption(AZURE_SETTING.key).get()).toBeInTheDocument();
+    expect(ui.platformOption(GITHUB_SETTING.key).query()).not.toBeInTheDocument();
+  });
+
+  it('shows the platform logo as a prefix on each option', async () => {
+    mockServerSetup([GITLAB_SETTING, AZURE_SETTING]);
+
+    const { user } = renderModal();
+    await user.click(ui.openButton.get());
+    await user.click(await ui.platformSelect.find());
+
+    const gitlabOption = ui.platformOption(GITLAB_SETTING.key).byRole('img');
+    expect(await gitlabOption.find()).toHaveAttribute('src', expect.stringContaining('gitlab'));
+
+    const azureOption = ui.platformOption(AZURE_SETTING.key).byRole('img');
+    expect(azureOption.get()).toHaveAttribute('src', expect.stringContaining('azure'));
+  });
+
+  it('passes the auto-selected dopSettingId to the repositories query', async () => {
+    mockServerSetup([GITLAB_SETTING, AZURE_SETTING]);
+
+    const { user } = renderModal();
+    await user.click(ui.openButton.get());
+    await ui.modal.find();
+
+    // The first non-github entry (Gitlab) is auto-selected.
+    expect(mockedRepositoriesQuery).toHaveBeenCalledWith(
+      expect.objectContaining({ dopSettingId: GITLAB_SETTING.id }),
+      expect.objectContaining({ enabled: true }),
+    );
+  });
+
+  it('passes the newly-selected dopSettingId when the user picks another platform', async () => {
+    mockServerSetup([GITLAB_SETTING, AZURE_SETTING]);
+
+    const { user } = renderModal();
+    await user.click(ui.openButton.get());
+    await user.click(await ui.platformSelect.find());
+    await user.click(await ui.platformOption(AZURE_SETTING.key).find());
+
+    await waitFor(() => {
+      expect(mockedRepositoriesQuery).toHaveBeenLastCalledWith(
+        expect.objectContaining({ dopSettingId: AZURE_SETTING.id }),
+        expect.objectContaining({ enabled: true }),
+      );
+    });
+  });
 });
