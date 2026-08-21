@@ -29,3 +29,23 @@ export function isStringDefined<T extends string>(x: T | undefined | null): x is
 export function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
+
+/**
+ * Narrows a possibly-nullish value to its non-nullable type, throwing when the
+ * invariant is violated.
+ *
+ * Use for values that cannot legitimately be absent, in place of a `!` non-null
+ * assertion: this fails at the violation with a readable message instead of
+ * failing later as `Cannot read properties of undefined`.
+ *
+ * For values that CAN legitimately be absent, narrow with `isDefined` and handle
+ * the empty case instead.
+ */
+export function ensure<T>(value: T | undefined | null, message: string): NonNullable<T> {
+  if (value === undefined || value === null) {
+    // we don't need to call reportError() explicitely, it will be caught by the global handler
+    throw new Error(message);
+  }
+
+  return value;
+}

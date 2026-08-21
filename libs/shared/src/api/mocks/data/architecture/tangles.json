@@ -12,79 +12,77 @@
     {
       "id": 1093,
       "name": "config",
-      "type": "group",
+      "kind": "folder",
       "separator": "/",
-      "group-description": "config description",
-      "group-patterns": "[config*]",
       "edges": [],
       "nodes": [
         {
           "id": 1094,
           "name": "config",
-          "type": "group",
+          "kind": "folder",
           "separator": "/",
           "edges": [],
           "nodes": [
             {
               "id": 1095,
               "name": "src",
-              "type": "group",
+              "kind": "folder",
               "separator": "/",
               "edges": [],
               "nodes": [
                 {
                   "id": 1096,
                   "name": "main",
-                  "type": "group",
+                  "kind": "folder",
                   "separator": "/",
                   "edges": [],
                   "nodes": [
                     {
                       "id": 1097,
                       "name": "java",
-                      "type": "group",
+                      "kind": "folder",
                       "separator": "/",
                       "edges": [],
                       "nodes": [
                         {
                           "id": 1098,
                           "name": "com",
-                          "type": "group",
+                          "kind": "folder",
                           "separator": "/",
                           "edges": [],
                           "nodes": [
                             {
                               "id": 1099,
                               "name": "sonar",
-                              "type": "group",
+                              "kind": "folder",
                               "separator": "/",
                               "edges": [],
                               "nodes": [
                                 {
                                   "id": 1100,
                                   "name": "plugins",
-                                  "type": "group",
+                                  "kind": "folder",
                                   "separator": "/",
                                   "edges": [],
                                   "nodes": [
                                     {
                                       "id": 1101,
                                       "name": "security",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
                                         {
                                           "id": 1102,
                                           "name": "api",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
                                             {
                                               "id": 1103,
                                               "name": "stubs",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -108,14 +106,14 @@
                                 {
                                   "id": 1105,
                                   "name": "security",
-                                  "type": "group",
+                                  "kind": "folder",
                                   "separator": "/",
                                   "edges": [],
                                   "nodes": [
                                     {
                                       "id": 1106,
                                       "name": "config",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
@@ -255,7 +253,7 @@
                                         {
                                           "id": 1116,
                                           "name": "provider",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
@@ -406,7 +404,7 @@
                                         {
                                           "id": 1127,
                                           "name": "resources",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
@@ -424,7 +422,7 @@
                                         {
                                           "id": 1129,
                                           "name": "spec",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
@@ -581,89 +579,85 @@
     {
       "id": 1141,
       "name": "e2e",
-      "type": "group",
+      "kind": "folder",
       "separator": "/",
-      "group-description": "e2e description",
-      "group-patterns": "[e2e*]",
       "edges": [],
       "nodes": []
     },
     {
       "id": 1142,
       "name": "frontend",
-      "type": "group",
+      "kind": "folder",
       "separator": "/",
-      "group-description": "frontend description",
-      "group-patterns": "[frontend*]",
       "edges": [],
       "nodes": [
         {
           "id": 1143,
           "name": "frontend",
-          "type": "group",
+          "kind": "folder",
           "separator": "/",
           "edges": [],
           "nodes": [
             {
               "id": 1144,
               "name": "commons-test-fixtures",
-              "type": "group",
+              "kind": "folder",
               "separator": "/",
               "edges": [],
               "nodes": [
                 {
                   "id": 1145,
                   "name": "src",
-                  "type": "group",
+                  "kind": "folder",
                   "separator": "/",
                   "edges": [],
                   "nodes": [
                     {
                       "id": 1146,
                       "name": "main",
-                      "type": "group",
+                      "kind": "folder",
                       "separator": "/",
                       "edges": [],
                       "nodes": [
                         {
                           "id": 1147,
                           "name": "java",
-                          "type": "group",
+                          "kind": "folder",
                           "separator": "/",
                           "edges": [],
                           "nodes": [
                             {
                               "id": 1148,
                               "name": "com",
-                              "type": "group",
+                              "kind": "folder",
                               "separator": "/",
                               "edges": [],
                               "nodes": [
                                 {
                                   "id": 1149,
                                   "name": "sonar",
-                                  "type": "group",
+                                  "kind": "folder",
                                   "separator": "/",
                                   "edges": [],
                                   "nodes": [
                                     {
                                       "id": 1150,
                                       "name": "security",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
                                         {
                                           "id": 1151,
                                           "name": "frontend",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
                                             {
                                               "id": 1152,
                                               "name": "ucfg",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -705,56 +699,56 @@
             {
               "id": 1154,
               "name": "commons",
-              "type": "group",
+              "kind": "folder",
               "separator": "/",
               "edges": [],
               "nodes": [
                 {
                   "id": 1155,
                   "name": "src",
-                  "type": "group",
+                  "kind": "folder",
                   "separator": "/",
                   "edges": [],
                   "nodes": [
                     {
                       "id": 1156,
                       "name": "main",
-                      "type": "group",
+                      "kind": "folder",
                       "separator": "/",
                       "edges": [],
                       "nodes": [
                         {
                           "id": 1157,
                           "name": "java",
-                          "type": "group",
+                          "kind": "folder",
                           "separator": "/",
                           "edges": [],
                           "nodes": [
                             {
                               "id": 1158,
                               "name": "com",
-                              "type": "group",
+                              "kind": "folder",
                               "separator": "/",
                               "edges": [],
                               "nodes": [
                                 {
                                   "id": 1159,
                                   "name": "sonar",
-                                  "type": "group",
+                                  "kind": "folder",
                                   "separator": "/",
                                   "edges": [],
                                   "nodes": [
                                     {
                                       "id": 1160,
                                       "name": "security",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
                                         {
                                           "id": 1161,
                                           "name": "frontend",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
@@ -779,7 +773,7 @@
                                             {
                                               "id": 1164,
                                               "name": "caching",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -797,7 +791,7 @@
                                             {
                                               "id": 1166,
                                               "name": "monitoring",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -815,14 +809,14 @@
                                             {
                                               "id": 1168,
                                               "name": "ucfg",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
                                                 {
                                                   "id": 1169,
                                                   "name": "framework",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -840,7 +834,7 @@
                                                 {
                                                   "id": 1171,
                                                   "name": "jvm",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -858,7 +852,7 @@
                                                 {
                                                   "id": 1173,
                                                   "name": "utils",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -915,56 +909,56 @@
             {
               "id": 1177,
               "name": "go",
-              "type": "group",
+              "kind": "folder",
               "separator": "/",
               "edges": [],
               "nodes": [
                 {
                   "id": 1178,
                   "name": "src",
-                  "type": "group",
+                  "kind": "folder",
                   "separator": "/",
                   "edges": [],
                   "nodes": [
                     {
                       "id": 1179,
                       "name": "main",
-                      "type": "group",
+                      "kind": "folder",
                       "separator": "/",
                       "edges": [],
                       "nodes": [
                         {
                           "id": 1180,
                           "name": "java",
-                          "type": "group",
+                          "kind": "folder",
                           "separator": "/",
                           "edges": [],
                           "nodes": [
                             {
                               "id": 1181,
                               "name": "com",
-                              "type": "group",
+                              "kind": "folder",
                               "separator": "/",
                               "edges": [],
                               "nodes": [
                                 {
                                   "id": 1182,
                                   "name": "sonar",
-                                  "type": "group",
+                                  "kind": "folder",
                                   "separator": "/",
                                   "edges": [],
                                   "nodes": [
                                     {
                                       "id": 1183,
                                       "name": "security",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
                                         {
                                           "id": 1184,
                                           "name": "frontend",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
@@ -983,7 +977,7 @@
                                             {
                                               "id": 1186,
                                               "name": "go",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -1032,7 +1026,7 @@
                                                 {
                                                   "id": 1190,
                                                   "name": "rules",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -1143,7 +1137,7 @@
                                                 {
                                                   "id": 1202,
                                                   "name": "ucfg",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -1224,7 +1218,7 @@
                                                     {
                                                       "id": 1207,
                                                       "name": "processor",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -1441,7 +1435,7 @@
                                                 {
                                                   "id": 1221,
                                                   "name": "utils",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -1477,63 +1471,63 @@
             {
               "id": 1223,
               "name": "java",
-              "type": "group",
+              "kind": "folder",
               "separator": "/",
               "edges": [],
               "nodes": [
                 {
                   "id": 1224,
                   "name": "src",
-                  "type": "group",
+                  "kind": "folder",
                   "separator": "/",
                   "edges": [],
                   "nodes": [
                     {
                       "id": 1225,
                       "name": "main",
-                      "type": "group",
+                      "kind": "folder",
                       "separator": "/",
                       "edges": [],
                       "nodes": [
                         {
                           "id": 1226,
                           "name": "java",
-                          "type": "group",
+                          "kind": "folder",
                           "separator": "/",
                           "edges": [],
                           "nodes": [
                             {
                               "id": 1227,
                               "name": "com",
-                              "type": "group",
+                              "kind": "folder",
                               "separator": "/",
                               "edges": [],
                               "nodes": [
                                 {
                                   "id": 1228,
                                   "name": "sonar",
-                                  "type": "group",
+                                  "kind": "folder",
                                   "separator": "/",
                                   "edges": [],
                                   "nodes": [
                                     {
                                       "id": 1229,
                                       "name": "security",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
                                         {
                                           "id": 1230,
                                           "name": "frontend",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
                                             {
                                               "id": 1231,
                                               "name": "java",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -1633,7 +1627,7 @@
                                                 {
                                                   "id": 1238,
                                                   "name": "rules",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -1888,7 +1882,7 @@
                                                 {
                                                   "id": 1266,
                                                   "name": "thymeleaf",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -1946,7 +1940,7 @@
                                                 {
                                                   "id": 1270,
                                                   "name": "visitor",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -2065,7 +2059,7 @@
                                                     {
                                                       "id": 1278,
                                                       "name": "caching",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -2099,7 +2093,7 @@
                                                     {
                                                       "id": 1281,
                                                       "name": "utils",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -2175,7 +2169,7 @@
                                                         {
                                                           "id": 1287,
                                                           "name": "framework",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -2304,63 +2298,63 @@
             {
               "id": 1294,
               "name": "js",
-              "type": "group",
+              "kind": "folder",
               "separator": "/",
               "edges": [],
               "nodes": [
                 {
                   "id": 1295,
                   "name": "src",
-                  "type": "group",
+                  "kind": "folder",
                   "separator": "/",
                   "edges": [],
                   "nodes": [
                     {
                       "id": 1296,
                       "name": "main",
-                      "type": "group",
+                      "kind": "folder",
                       "separator": "/",
                       "edges": [],
                       "nodes": [
                         {
                           "id": 1297,
                           "name": "java",
-                          "type": "group",
+                          "kind": "folder",
                           "separator": "/",
                           "edges": [],
                           "nodes": [
                             {
                               "id": 1298,
                               "name": "com",
-                              "type": "group",
+                              "kind": "folder",
                               "separator": "/",
                               "edges": [],
                               "nodes": [
                                 {
                                   "id": 1299,
                                   "name": "sonar",
-                                  "type": "group",
+                                  "kind": "folder",
                                   "separator": "/",
                                   "edges": [],
                                   "nodes": [
                                     {
                                       "id": 1300,
                                       "name": "security",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
                                         {
                                           "id": 1301,
                                           "name": "frontend",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
                                             {
                                               "id": 1302,
                                               "name": "js",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -2442,7 +2436,7 @@
                                                 {
                                                   "id": 1309,
                                                   "name": "rules",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -2604,56 +2598,56 @@
             {
               "id": 1325,
               "name": "kotlin",
-              "type": "group",
+              "kind": "folder",
               "separator": "/",
               "edges": [],
               "nodes": [
                 {
                   "id": 1326,
                   "name": "src",
-                  "type": "group",
+                  "kind": "folder",
                   "separator": "/",
                   "edges": [],
                   "nodes": [
                     {
                       "id": 1327,
                       "name": "main",
-                      "type": "group",
+                      "kind": "folder",
                       "separator": "/",
                       "edges": [],
                       "nodes": [
                         {
                           "id": 1328,
                           "name": "java",
-                          "type": "group",
+                          "kind": "folder",
                           "separator": "/",
                           "edges": [],
                           "nodes": [
                             {
                               "id": 1329,
                               "name": "com",
-                              "type": "group",
+                              "kind": "folder",
                               "separator": "/",
                               "edges": [],
                               "nodes": [
                                 {
                                   "id": 1330,
                                   "name": "sonar",
-                                  "type": "group",
+                                  "kind": "folder",
                                   "separator": "/",
                                   "edges": [],
                                   "nodes": [
                                     {
                                       "id": 1331,
                                       "name": "security",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
                                         {
                                           "id": 1332,
                                           "name": "frontend",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
@@ -2672,7 +2666,7 @@
                                             {
                                               "id": 1334,
                                               "name": "kotlin",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -2701,7 +2695,7 @@
                                                 {
                                                   "id": 1337,
                                                   "name": "ucfg",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -2933,7 +2927,7 @@
                                                     {
                                                       "id": 1350,
                                                       "name": "calls",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -3063,7 +3057,7 @@
                                                     {
                                                       "id": 1358,
                                                       "name": "generators",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -3139,7 +3133,7 @@
                                                     {
                                                       "id": 1363,
                                                       "name": "processor",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -3720,7 +3714,7 @@
                                                         {
                                                           "id": 1397,
                                                           "name": "string",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -3804,7 +3798,7 @@
                                                         {
                                                           "id": 1403,
                                                           "name": "when",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -3874,7 +3868,7 @@
                                                     {
                                                       "id": 1408,
                                                       "name": "utils",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -3949,7 +3943,7 @@
                                                         {
                                                           "id": 1414,
                                                           "name": "framework",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -3997,63 +3991,63 @@
             {
               "id": 1416,
               "name": "php",
-              "type": "group",
+              "kind": "folder",
               "separator": "/",
               "edges": [],
               "nodes": [
                 {
                   "id": 1417,
                   "name": "src",
-                  "type": "group",
+                  "kind": "folder",
                   "separator": "/",
                   "edges": [],
                   "nodes": [
                     {
                       "id": 1418,
                       "name": "main",
-                      "type": "group",
+                      "kind": "folder",
                       "separator": "/",
                       "edges": [],
                       "nodes": [
                         {
                           "id": 1419,
                           "name": "java",
-                          "type": "group",
+                          "kind": "folder",
                           "separator": "/",
                           "edges": [],
                           "nodes": [
                             {
                               "id": 1420,
                               "name": "com",
-                              "type": "group",
+                              "kind": "folder",
                               "separator": "/",
                               "edges": [],
                               "nodes": [
                                 {
                                   "id": 1421,
                                   "name": "sonar",
-                                  "type": "group",
+                                  "kind": "folder",
                                   "separator": "/",
                                   "edges": [],
                                   "nodes": [
                                     {
                                       "id": 1422,
                                       "name": "security",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
                                         {
                                           "id": 1423,
                                           "name": "frontend",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
                                             {
                                               "id": 1424,
                                               "name": "php",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -4125,7 +4119,7 @@
                                                 {
                                                   "id": 1429,
                                                   "name": "rules",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -4308,7 +4302,7 @@
                                                 {
                                                   "id": 1449,
                                                   "name": "ucfg",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -4614,7 +4608,7 @@
                                                     {
                                                       "id": 1471,
                                                       "name": "handler",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -4717,7 +4711,7 @@
                                                     {
                                                       "id": 1478,
                                                       "name": "includes",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -4756,7 +4750,7 @@
                                                     {
                                                       "id": 1482,
                                                       "name": "symbols",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -4805,63 +4799,63 @@
             {
               "id": 1485,
               "name": "python",
-              "type": "group",
+              "kind": "folder",
               "separator": "/",
               "edges": [],
               "nodes": [
                 {
                   "id": 1486,
                   "name": "src",
-                  "type": "group",
+                  "kind": "folder",
                   "separator": "/",
                   "edges": [],
                   "nodes": [
                     {
                       "id": 1487,
                       "name": "main",
-                      "type": "group",
+                      "kind": "folder",
                       "separator": "/",
                       "edges": [],
                       "nodes": [
                         {
                           "id": 1488,
                           "name": "java",
-                          "type": "group",
+                          "kind": "folder",
                           "separator": "/",
                           "edges": [],
                           "nodes": [
                             {
                               "id": 1489,
                               "name": "com",
-                              "type": "group",
+                              "kind": "folder",
                               "separator": "/",
                               "edges": [],
                               "nodes": [
                                 {
                                   "id": 1490,
                                   "name": "sonar",
-                                  "type": "group",
+                                  "kind": "folder",
                                   "separator": "/",
                                   "edges": [],
                                   "nodes": [
                                     {
                                       "id": 1491,
                                       "name": "security",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
                                         {
                                           "id": 1492,
                                           "name": "frontend",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
                                             {
                                               "id": 1493,
                                               "name": "python",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -4956,7 +4950,7 @@
                                                 {
                                                   "id": 1499,
                                                   "name": "rules",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -5167,7 +5161,7 @@
                                                 {
                                                   "id": 1522,
                                                   "name": "templating",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -5270,7 +5264,7 @@
                                                     {
                                                       "id": 1529,
                                                       "name": "api",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -5343,7 +5337,7 @@
                                                     {
                                                       "id": 1536,
                                                       "name": "impl",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -5412,7 +5406,7 @@
                                                 {
                                                   "id": 1542,
                                                   "name": "ucfg",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -5660,79 +5654,77 @@
     {
       "id": 1556,
       "name": "its",
-      "type": "group",
+      "kind": "folder",
       "separator": "/",
-      "group-description": "its description",
-      "group-patterns": "[its*]",
       "edges": [],
       "nodes": [
         {
           "id": 1557,
           "name": "its",
-          "type": "group",
+          "kind": "folder",
           "separator": "/",
           "edges": [],
           "nodes": [
             {
               "id": 1558,
               "name": "kotlin",
-              "type": "group",
+              "kind": "folder",
               "separator": "/",
               "edges": [],
               "nodes": [
                 {
                   "id": 1559,
                   "name": "src",
-                  "type": "group",
+                  "kind": "folder",
                   "separator": "/",
                   "edges": [],
                   "nodes": [
                     {
                       "id": 1560,
                       "name": "main",
-                      "type": "group",
+                      "kind": "folder",
                       "separator": "/",
                       "edges": [],
                       "nodes": [
                         {
                           "id": 1561,
                           "name": "java",
-                          "type": "group",
+                          "kind": "folder",
                           "separator": "/",
                           "edges": [],
                           "nodes": [
                             {
                               "id": 1562,
                               "name": "com",
-                              "type": "group",
+                              "kind": "folder",
                               "separator": "/",
                               "edges": [],
                               "nodes": [
                                 {
                                   "id": 1563,
                                   "name": "sonar",
-                                  "type": "group",
+                                  "kind": "folder",
                                   "separator": "/",
                                   "edges": [],
                                   "nodes": [
                                     {
                                       "id": 1564,
                                       "name": "security",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
                                         {
                                           "id": 1565,
                                           "name": "its",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
                                             {
                                               "id": 1566,
                                               "name": "kotlin",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -5779,65 +5771,63 @@
     {
       "id": 1569,
       "name": "monitoring",
-      "type": "group",
+      "kind": "folder",
       "separator": "/",
-      "group-description": "monitoring description",
-      "group-patterns": "[monitoring*]",
       "edges": [],
       "nodes": [
         {
           "id": 1570,
           "name": "monitoring",
-          "type": "group",
+          "kind": "folder",
           "separator": "/",
           "edges": [],
           "nodes": [
             {
               "id": 1571,
               "name": "src",
-              "type": "group",
+              "kind": "folder",
               "separator": "/",
               "edges": [],
               "nodes": [
                 {
                   "id": 1572,
                   "name": "main",
-                  "type": "group",
+                  "kind": "folder",
                   "separator": "/",
                   "edges": [],
                   "nodes": [
                     {
                       "id": 1573,
                       "name": "java",
-                      "type": "group",
+                      "kind": "folder",
                       "separator": "/",
                       "edges": [],
                       "nodes": [
                         {
                           "id": 1574,
                           "name": "com",
-                          "type": "group",
+                          "kind": "folder",
                           "separator": "/",
                           "edges": [],
                           "nodes": [
                             {
                               "id": 1575,
                               "name": "sonar",
-                              "type": "group",
+                              "kind": "folder",
                               "separator": "/",
                               "edges": [],
                               "nodes": [
                                 {
                                   "id": 1576,
                                   "name": "security",
-                                  "type": "group",
+                                  "kind": "folder",
                                   "separator": "/",
                                   "edges": [],
                                   "nodes": [
                                     {
                                       "id": 1577,
                                       "name": "monitoring",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
@@ -5862,7 +5852,7 @@
                                         {
                                           "id": 1580,
                                           "name": "models",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
@@ -5916,72 +5906,70 @@
     {
       "id": 1584,
       "name": "sonar-security-plugin",
-      "type": "group",
+      "kind": "folder",
       "separator": "/",
-      "group-description": "sonar-security-plugin description",
-      "group-patterns": "[sonar-security-plugin*]",
       "edges": [],
       "nodes": [
         {
           "id": 1585,
           "name": "sonar-security-plugin",
-          "type": "group",
+          "kind": "folder",
           "separator": "/",
           "edges": [],
           "nodes": [
             {
               "id": 1586,
               "name": "src",
-              "type": "group",
+              "kind": "folder",
               "separator": "/",
               "edges": [],
               "nodes": [
                 {
                   "id": 1587,
                   "name": "main",
-                  "type": "group",
+                  "kind": "folder",
                   "separator": "/",
                   "edges": [],
                   "nodes": [
                     {
                       "id": 1588,
                       "name": "java",
-                      "type": "group",
+                      "kind": "folder",
                       "separator": "/",
                       "edges": [],
                       "nodes": [
                         {
                           "id": 1589,
                           "name": "com",
-                          "type": "group",
+                          "kind": "folder",
                           "separator": "/",
                           "edges": [],
                           "nodes": [
                             {
                               "id": 1590,
                               "name": "sonar",
-                              "type": "group",
+                              "kind": "folder",
                               "separator": "/",
                               "edges": [],
                               "nodes": [
                                 {
                                   "id": 1591,
                                   "name": "plugins",
-                                  "type": "group",
+                                  "kind": "folder",
                                   "separator": "/",
                                   "edges": [],
                                   "nodes": [
                                     {
                                       "id": 1592,
                                       "name": "security",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
                                         {
                                           "id": 1593,
                                           "name": "api",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
@@ -6074,7 +6062,7 @@
                                         {
                                           "id": 1601,
                                           "name": "telemetry",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
@@ -6096,7 +6084,7 @@
                                 {
                                   "id": 1603,
                                   "name": "security",
-                                  "type": "group",
+                                  "kind": "folder",
                                   "separator": "/",
                                   "edges": [],
                                   "nodes": [
@@ -6447,7 +6435,7 @@
                                     {
                                       "id": 1615,
                                       "name": "aws",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
@@ -6485,7 +6473,7 @@
                                         {
                                           "id": 1619,
                                           "name": "sam",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
@@ -6544,7 +6532,7 @@
                                         {
                                           "id": 1624,
                                           "name": "serverless",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
@@ -6692,7 +6680,7 @@
                                         {
                                           "id": 1636,
                                           "name": "ucfg",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
@@ -6739,7 +6727,7 @@
                                             {
                                               "id": 1640,
                                               "name": "js",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -6775,7 +6763,7 @@
                                             {
                                               "id": 1643,
                                               "name": "python",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -6815,7 +6803,7 @@
                                     {
                                       "id": 1646,
                                       "name": "cache",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
@@ -6859,7 +6847,7 @@
                                     {
                                       "id": 1650,
                                       "name": "entrypoints",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
@@ -6930,7 +6918,7 @@
                                     {
                                       "id": 1655,
                                       "name": "monitoring",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
@@ -6956,7 +6944,7 @@
                                         {
                                           "id": 1657,
                                           "name": "models",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
@@ -7022,7 +7010,7 @@
                                     {
                                       "id": 1663,
                                       "name": "rules",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
@@ -7499,79 +7487,77 @@
     {
       "id": 1700,
       "name": "symbolic-analysis",
-      "type": "group",
+      "kind": "folder",
       "separator": "/",
-      "group-description": "symbolic-analysis description",
-      "group-patterns": "[symbolic-analysis*]",
       "edges": [],
       "nodes": [
         {
           "id": 1701,
           "name": "symbolic-analysis",
-          "type": "group",
+          "kind": "folder",
           "separator": "/",
           "edges": [],
           "nodes": [
             {
               "id": 1702,
               "name": "src",
-              "type": "group",
+              "kind": "folder",
               "separator": "/",
               "edges": [],
               "nodes": [
                 {
                   "id": 1703,
                   "name": "main",
-                  "type": "group",
+                  "kind": "folder",
                   "separator": "/",
                   "edges": [],
                   "nodes": [
                     {
                       "id": 1704,
                       "name": "java",
-                      "type": "group",
+                      "kind": "folder",
                       "separator": "/",
                       "edges": [],
                       "nodes": [
                         {
                           "id": 1705,
                           "name": "com",
-                          "type": "group",
+                          "kind": "folder",
                           "separator": "/",
                           "edges": [],
                           "nodes": [
                             {
                               "id": 1706,
                               "name": "sonar",
-                              "type": "group",
+                              "kind": "folder",
                               "separator": "/",
                               "edges": [],
                               "nodes": [
                                 {
                                   "id": 1707,
                                   "name": "plugins",
-                                  "type": "group",
+                                  "kind": "folder",
                                   "separator": "/",
                                   "edges": [],
                                   "nodes": [
                                     {
                                       "id": 1708,
                                       "name": "security",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
                                         {
                                           "id": 1709,
                                           "name": "api",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
                                             {
                                               "id": 1710,
                                               "name": "stubs",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -8300,14 +8286,14 @@
                                 {
                                   "id": 1740,
                                   "name": "security",
-                                  "type": "group",
+                                  "kind": "folder",
                                   "separator": "/",
                                   "edges": [],
                                   "nodes": [
                                     {
                                       "id": 1741,
                                       "name": "analysis",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
@@ -8374,7 +8360,7 @@
                                         {
                                           "id": 1746,
                                           "name": "metrics",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
@@ -8451,7 +8437,7 @@
                                         {
                                           "id": 1751,
                                           "name": "simulation",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
@@ -8799,7 +8785,7 @@
                                             {
                                               "id": 1766,
                                               "name": "flow",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -9220,7 +9206,7 @@
                                             {
                                               "id": 1792,
                                               "name": "summaries",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -9362,7 +9348,7 @@
                                             {
                                               "id": 1797,
                                               "name": "symbols",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -9877,7 +9863,7 @@
                                             {
                                               "id": 1826,
                                               "name": "visitor",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -10767,7 +10753,7 @@
                                                 {
                                                   "id": 1858,
                                                   "name": "js",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -10846,7 +10832,7 @@
                                                 {
                                                   "id": 1862,
                                                   "name": "php",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -10948,7 +10934,7 @@
                                                 {
                                                   "id": 1867,
                                                   "name": "python",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -11006,7 +10992,7 @@
                                         {
                                           "id": 1870,
                                           "name": "stubs",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
@@ -11203,7 +11189,7 @@
                                             {
                                               "id": 1881,
                                               "name": "csharp",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -11328,21 +11314,21 @@
                                                 {
                                                   "id": 1887,
                                                   "name": "aspnetcore",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
                                                     {
                                                       "id": 1888,
                                                       "name": "components",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
                                                         {
                                                           "id": 1889,
                                                           "name": "rendering",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -11381,7 +11367,7 @@
                                                     {
                                                       "id": 1891,
                                                       "name": "http",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -11509,7 +11495,7 @@
                                                         {
                                                           "id": 1897,
                                                           "name": "headers",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -11542,7 +11528,7 @@
                                                     {
                                                       "id": 1899,
                                                       "name": "mvc",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -11642,7 +11628,7 @@
                                                 {
                                                   "id": 1904,
                                                   "name": "internal",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -11692,7 +11678,7 @@
                                                 {
                                                   "id": 1907,
                                                   "name": "jsinterop",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -11764,7 +11750,7 @@
                                                 {
                                                   "id": 1911,
                                                   "name": "system",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -11876,14 +11862,14 @@
                                                     {
                                                       "id": 1916,
                                                       "name": "collections",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
                                                         {
                                                           "id": 1917,
                                                           "name": "generic",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -11950,7 +11936,7 @@
                                                         {
                                                           "id": 1921,
                                                           "name": "immutable",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -12057,7 +12043,7 @@
                                                         {
                                                           "id": 1926,
                                                           "name": "objectmodel",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -12095,7 +12081,7 @@
                                                         {
                                                           "id": 1928,
                                                           "name": "specialized",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -12137,14 +12123,14 @@
                                                     {
                                                       "id": 1930,
                                                       "name": "componentmodel",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
                                                         {
                                                           "id": 1931,
                                                           "name": "dataannotations",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -12181,7 +12167,7 @@
                                                     {
                                                       "id": 1933,
                                                       "name": "diagnostics",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -12235,7 +12221,7 @@
                                                     {
                                                       "id": 1936,
                                                       "name": "io",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -12322,7 +12308,7 @@
                                                         {
                                                           "id": 1941,
                                                           "name": "pipelines",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -12352,28 +12338,28 @@
                                                     {
                                                       "id": 1943,
                                                       "name": "runtime",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
                                                         {
                                                           "id": 1944,
                                                           "name": "serialization",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
                                                             {
                                                               "id": 1945,
                                                               "name": "formatters",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
                                                                 {
                                                                   "id": 1946,
                                                                   "name": "binary",
-                                                                  "type": "group",
+                                                                  "kind": "folder",
                                                                   "separator": "/",
                                                                   "edges": [],
                                                                   "nodes": [
@@ -12442,7 +12428,7 @@
                                                     {
                                                       "id": 1948,
                                                       "name": "web",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -12499,14 +12485,14 @@
                                                         {
                                                           "id": 1951,
                                                           "name": "script",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
                                                             {
                                                               "id": 1952,
                                                               "name": "serialization",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
@@ -12547,7 +12533,7 @@
                                                     {
                                                       "id": 1954,
                                                       "name": "xml",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -12585,7 +12571,7 @@
                                             {
                                               "id": 1956,
                                               "name": "declarative",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -12615,7 +12601,7 @@
                                                 {
                                                   "id": 1958,
                                                   "name": "builders",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -12646,7 +12632,7 @@
                                             {
                                               "id": 1960,
                                               "name": "go",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -12667,7 +12653,7 @@
                                             {
                                               "id": 1962,
                                               "name": "java",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -12829,14 +12815,14 @@
                                                 {
                                                   "id": 1967,
                                                   "name": "android",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
                                                     {
                                                       "id": 1968,
                                                       "name": "app",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -12868,7 +12854,7 @@
                                                     {
                                                       "id": 1970,
                                                       "name": "content",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -12905,7 +12891,7 @@
                                                     {
                                                       "id": 1973,
                                                       "name": "webkit",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -12947,28 +12933,28 @@
                                                 {
                                                   "id": 1975,
                                                   "name": "com",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
                                                     {
                                                       "id": 1976,
                                                       "name": "fasterxml",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
                                                         {
                                                           "id": 1977,
                                                           "name": "jackson",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
                                                             {
                                                               "id": 1978,
                                                               "name": "core",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
@@ -13005,7 +12991,7 @@
                                                     {
                                                       "id": 1980,
                                                       "name": "mongodb",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -13055,7 +13041,7 @@
                                                 {
                                                   "id": 1983,
                                                   "name": "internal",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -13080,14 +13066,14 @@
                                                 {
                                                   "id": 1985,
                                                   "name": "io",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
                                                     {
                                                       "id": 1986,
                                                       "name": "micronaut",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -13132,21 +13118,21 @@
                                                         {
                                                           "id": 1989,
                                                           "name": "core",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
                                                             {
                                                               "id": 1990,
                                                               "name": "convert",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
                                                                 {
                                                                   "id": 1991,
                                                                   "name": "value",
-                                                                  "type": "group",
+                                                                  "kind": "folder",
                                                                   "separator": "/",
                                                                   "edges": [],
                                                                   "nodes": [
@@ -13211,7 +13197,7 @@
                                                             {
                                                               "id": 1993,
                                                               "name": "io",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
@@ -13272,7 +13258,7 @@
                                                                 {
                                                                   "id": 1996,
                                                                   "name": "file",
-                                                                  "type": "group",
+                                                                  "kind": "folder",
                                                                   "separator": "/",
                                                                   "edges": [],
                                                                   "nodes": [
@@ -13309,7 +13295,7 @@
                                                             {
                                                               "id": 1998,
                                                               "name": "type",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
@@ -13334,7 +13320,7 @@
                                                         {
                                                           "id": 2000,
                                                           "name": "http",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -13401,7 +13387,7 @@
                                                             {
                                                               "id": 2005,
                                                               "name": "netty",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
@@ -13424,7 +13410,7 @@
                                                             {
                                                               "id": 2007,
                                                               "name": "simple",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
@@ -13449,7 +13435,7 @@
                                                         {
                                                           "id": 2009,
                                                           "name": "internal",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -13481,21 +13467,21 @@
                                                     {
                                                       "id": 2011,
                                                       "name": "vertx",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
                                                         {
                                                           "id": 2012,
                                                           "name": "core",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
                                                             {
                                                               "id": 2013,
                                                               "name": "http",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
@@ -13528,14 +13514,14 @@
                                                         {
                                                           "id": 2015,
                                                           "name": "ext",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
                                                             {
                                                               "id": 2016,
                                                               "name": "sql",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
@@ -13572,14 +13558,14 @@
                                                 {
                                                   "id": 2018,
                                                   "name": "java",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
                                                     {
                                                       "id": 2019,
                                                       "name": "io",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -13730,7 +13716,7 @@
                                                     {
                                                       "id": 2027,
                                                       "name": "lang",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -13873,7 +13859,7 @@
                                                     {
                                                       "id": 2034,
                                                       "name": "net",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -13932,14 +13918,14 @@
                                                     {
                                                       "id": 2037,
                                                       "name": "nio",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
                                                         {
                                                           "id": 2038,
                                                           "name": "file",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -13972,7 +13958,7 @@
                                                     {
                                                       "id": 2040,
                                                       "name": "util",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -14103,7 +14089,7 @@
                                                         {
                                                           "id": 2049,
                                                           "name": "function",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -14138,14 +14124,14 @@
                                                 {
                                                   "id": 2051,
                                                   "name": "javaxjakarta",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
                                                     {
                                                       "id": 2052,
                                                       "name": "script",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -14193,7 +14179,7 @@
                                                     {
                                                       "id": 2055,
                                                       "name": "servlet",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -14257,7 +14243,7 @@
                                                         {
                                                           "id": 2058,
                                                           "name": "http",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -14292,14 +14278,14 @@
                                                     {
                                                       "id": 2060,
                                                       "name": "xml",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
                                                         {
                                                           "id": 2061,
                                                           "name": "parsers",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -14339,28 +14325,28 @@
                                                 {
                                                   "id": 2063,
                                                   "name": "org",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
                                                     {
                                                       "id": 2064,
                                                       "name": "apache",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
                                                         {
                                                           "id": 2065,
                                                           "name": "commons",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
                                                             {
                                                               "id": 2066,
                                                               "name": "exec",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
@@ -14383,7 +14369,7 @@
                                                             {
                                                               "id": 2068,
                                                               "name": "io",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
@@ -14415,14 +14401,14 @@
                                                         {
                                                           "id": 2070,
                                                           "name": "http",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
                                                             {
                                                               "id": 2071,
                                                               "name": "client",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
@@ -14454,7 +14440,7 @@
                                                                 {
                                                                   "id": 2073,
                                                                   "name": "methods",
-                                                                  "type": "group",
+                                                                  "kind": "folder",
                                                                   "separator": "/",
                                                                   "edges": [],
                                                                   "nodes": [
@@ -14525,21 +14511,21 @@
                                                         {
                                                           "id": 2075,
                                                           "name": "wicket",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
                                                             {
                                                               "id": 2076,
                                                               "name": "protocol",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
                                                                 {
                                                                   "id": 2077,
                                                                   "name": "http",
-                                                                  "type": "group",
+                                                                  "kind": "folder",
                                                                   "separator": "/",
                                                                   "edges": [],
                                                                   "nodes": [
@@ -14584,7 +14570,7 @@
                                                                     {
                                                                       "id": 2079,
                                                                       "name": "servlet",
-                                                                      "type": "group",
+                                                                      "kind": "folder",
                                                                       "separator": "/",
                                                                       "edges": [],
                                                                       "nodes": [
@@ -14635,14 +14621,14 @@
                                                             {
                                                               "id": 2081,
                                                               "name": "request",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
                                                                 {
                                                                   "id": 2082,
                                                                   "name": "http",
-                                                                  "type": "group",
+                                                                  "kind": "folder",
                                                                   "separator": "/",
                                                                   "edges": [],
                                                                   "nodes": [
@@ -14695,35 +14681,35 @@
                                                     {
                                                       "id": 2084,
                                                       "name": "glassfish",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
                                                         {
                                                           "id": 2085,
                                                           "name": "jersey",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
                                                             {
                                                               "id": 2086,
                                                               "name": "server",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
                                                                 {
                                                                   "id": 2087,
                                                                   "name": "internal",
-                                                                  "type": "group",
+                                                                  "kind": "folder",
                                                                   "separator": "/",
                                                                   "edges": [],
                                                                   "nodes": [
                                                                     {
                                                                       "id": 2088,
                                                                       "name": "routing",
-                                                                      "type": "group",
+                                                                      "kind": "folder",
                                                                       "separator": "/",
                                                                       "edges": [],
                                                                       "nodes": [
@@ -14790,14 +14776,14 @@
                                                     {
                                                       "id": 2090,
                                                       "name": "rapidoid",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
                                                         {
                                                           "id": 2091,
                                                           "name": "http",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -14834,14 +14820,14 @@
                                                     {
                                                       "id": 2093,
                                                       "name": "springframework",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
                                                         {
                                                           "id": 2094,
                                                           "name": "beans",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -14877,14 +14863,14 @@
                                                         {
                                                           "id": 2096,
                                                           "name": "core",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
                                                             {
                                                               "id": 2097,
                                                               "name": "log",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
@@ -14909,7 +14895,7 @@
                                                         {
                                                           "id": 2099,
                                                           "name": "data",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -14940,7 +14926,7 @@
                                                         {
                                                           "id": 2101,
                                                           "name": "http",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -15031,7 +15017,7 @@
                                                         {
                                                           "id": 2105,
                                                           "name": "internal",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -15090,14 +15076,14 @@
                                                         {
                                                           "id": 2108,
                                                           "name": "jdbc",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
                                                             {
                                                               "id": 2109,
                                                               "name": "core",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
@@ -15132,7 +15118,7 @@
                                                         {
                                                           "id": 2111,
                                                           "name": "web",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -15166,7 +15152,7 @@
                                                             {
                                                               "id": 2113,
                                                               "name": "client",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
@@ -15203,7 +15189,7 @@
                                                             {
                                                               "id": 2115,
                                                               "name": "reactive",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
@@ -15238,7 +15224,7 @@
                                                                 {
                                                                   "id": 2117,
                                                                   "name": "view",
-                                                                  "type": "group",
+                                                                  "kind": "folder",
                                                                   "separator": "/",
                                                                   "edges": [],
                                                                   "nodes": [
@@ -15319,7 +15305,7 @@
                                                             {
                                                               "id": 2119,
                                                               "name": "servlet",
-                                                              "type": "group",
+                                                              "kind": "folder",
                                                               "separator": "/",
                                                               "edges": [],
                                                               "nodes": [
@@ -15350,7 +15336,7 @@
                                                                 {
                                                                   "id": 2121,
                                                                   "name": "tags",
-                                                                  "type": "group",
+                                                                  "kind": "folder",
                                                                   "separator": "/",
                                                                   "edges": [],
                                                                   "nodes": [
@@ -15443,7 +15429,7 @@
                                                     {
                                                       "id": 2123,
                                                       "name": "thymeleaf",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -15510,14 +15496,14 @@
                                                     {
                                                       "id": 2126,
                                                       "name": "zeroturnaround",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
                                                         {
                                                           "id": 2127,
                                                           "name": "exec",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -15546,7 +15532,7 @@
                                             {
                                               "id": 2129,
                                               "name": "js",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -15596,7 +15582,7 @@
                                                 {
                                                   "id": 2132,
                                                   "name": "builtins",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -15767,7 +15753,7 @@
                                                     {
                                                       "id": 2140,
                                                       "name": "functions",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -16254,7 +16240,7 @@
                                                     {
                                                       "id": 2163,
                                                       "name": "objects",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -16755,7 +16741,7 @@
                                                 {
                                                   "id": 2181,
                                                   "name": "modules",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -18904,7 +18890,7 @@
                                                     {
                                                       "id": 2280,
                                                       "name": "angular",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -18981,7 +18967,7 @@
                                                     {
                                                       "id": 2283,
                                                       "name": "react",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -19141,7 +19127,7 @@
                                                     {
                                                       "id": 2291,
                                                       "name": "utils",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -19178,7 +19164,7 @@
                                                 {
                                                   "id": 2293,
                                                   "name": "types",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -19219,7 +19205,7 @@
                                             {
                                               "id": 2297,
                                               "name": "kotlin",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -19249,7 +19235,7 @@
                                                 {
                                                   "id": 2299,
                                                   "name": "internal",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -19286,7 +19272,7 @@
                                                 {
                                                   "id": 2302,
                                                   "name": "kotlin",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -19432,7 +19418,7 @@
                                                     {
                                                       "id": 2310,
                                                       "name": "collections",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -19476,7 +19462,7 @@
                                             {
                                               "id": 2312,
                                               "name": "php",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -19631,7 +19617,7 @@
                                                 {
                                                   "id": 2318,
                                                   "name": "cake",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -19754,7 +19740,7 @@
                                                     {
                                                       "id": 2324,
                                                       "name": "database",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -19817,7 +19803,7 @@
                                                 {
                                                   "id": 2328,
                                                   "name": "codeigniter",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -19840,7 +19826,7 @@
                                                 {
                                                   "id": 2330,
                                                   "name": "core",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -20375,7 +20361,7 @@
                                                 {
                                                   "id": 2353,
                                                   "name": "joomla",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -20402,7 +20388,7 @@
                                                 {
                                                   "id": 2355,
                                                   "name": "laravel",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -20509,7 +20495,7 @@
                                                 {
                                                   "id": 2360,
                                                   "name": "symfony",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -20674,7 +20660,7 @@
                                                 {
                                                   "id": 2367,
                                                   "name": "utils",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -20723,7 +20709,7 @@
                                                 {
                                                   "id": 2370,
                                                   "name": "wordpress",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -20971,7 +20957,7 @@
                                                 {
                                                   "id": 2383,
                                                   "name": "yii",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -21020,7 +21006,7 @@
                                                 {
                                                   "id": 2386,
                                                   "name": "zend",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -21129,7 +21115,7 @@
                                             {
                                               "id": 2391,
                                               "name": "python",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -21192,7 +21178,7 @@
                                                 {
                                                   "id": 2394,
                                                   "name": "aiohttp",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -21231,7 +21217,7 @@
                                                 {
                                                   "id": 2396,
                                                   "name": "athena",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -21263,7 +21249,7 @@
                                                 {
                                                   "id": 2398,
                                                   "name": "builtins",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -21435,14 +21421,14 @@
                                                 {
                                                   "id": 2406,
                                                   "name": "django",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
                                                     {
                                                       "id": 2407,
                                                       "name": "http",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -21478,7 +21464,7 @@
                                                         {
                                                           "id": 2409,
                                                           "name": "request",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -21512,14 +21498,14 @@
                                                     {
                                                       "id": 2411,
                                                       "name": "utils",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
                                                         {
                                                           "id": 2412,
                                                           "name": "safestring",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -21555,7 +21541,7 @@
                                                 {
                                                   "id": 2414,
                                                   "name": "flask",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -21578,14 +21564,14 @@
                                                 {
                                                   "id": 2416,
                                                   "name": "http",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
                                                     {
                                                       "id": 2417,
                                                       "name": "server",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -21621,7 +21607,7 @@
                                                 {
                                                   "id": 2419,
                                                   "name": "internal",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -21780,7 +21766,7 @@
                                                 {
                                                   "id": 2426,
                                                   "name": "io",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -21821,7 +21807,7 @@
                                                 {
                                                   "id": 2428,
                                                   "name": "os",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -21852,7 +21838,7 @@
                                                 {
                                                   "id": 2430,
                                                   "name": "regex",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -21879,7 +21865,7 @@
                                                 {
                                                   "id": 2433,
                                                   "name": "requests",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -21914,7 +21900,7 @@
                                                 {
                                                   "id": 2435,
                                                   "name": "shlex",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -21937,7 +21923,7 @@
                                                 {
                                                   "id": 2437,
                                                   "name": "starlette",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -22006,7 +21992,7 @@
                                                 {
                                                   "id": 2440,
                                                   "name": "subprocess",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -22040,7 +22026,7 @@
                                                 {
                                                   "id": 2442,
                                                   "name": "urllib",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -22075,7 +22061,7 @@
                                                 {
                                                   "id": 2444,
                                                   "name": "urlparse",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -22098,14 +22084,14 @@
                                                 {
                                                   "id": 2446,
                                                   "name": "werkzeug",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
                                                     {
                                                       "id": 2447,
                                                       "name": "datastructures",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
@@ -22139,14 +22125,14 @@
                                                     {
                                                       "id": 2449,
                                                       "name": "urls",
-                                                      "type": "group",
+                                                      "kind": "folder",
                                                       "separator": "/",
                                                       "edges": [],
                                                       "nodes": [
                                                         {
                                                           "id": 2450,
                                                           "name": "url",
-                                                          "type": "group",
+                                                          "kind": "folder",
                                                           "separator": "/",
                                                           "edges": [],
                                                           "nodes": [
@@ -22175,7 +22161,7 @@
                                             {
                                               "id": 2452,
                                               "name": "utils",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -22269,7 +22255,7 @@
                                                 {
                                                   "id": 2459,
                                                   "name": "regex",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -22303,7 +22289,7 @@
                                         {
                                           "id": 2462,
                                           "name": "taint",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
@@ -22352,7 +22338,7 @@
                                             {
                                               "id": 2464,
                                               "name": "issue",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -22410,7 +22396,7 @@
                                             {
                                               "id": 2468,
                                               "name": "stringcontext",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -22778,7 +22764,7 @@
                                                 {
                                                   "id": 2489,
                                                   "name": "csharp",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -22920,7 +22906,7 @@
                                                 {
                                                   "id": 2496,
                                                   "name": "java",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -23010,7 +22996,7 @@
                                                 {
                                                   "id": 2501,
                                                   "name": "js",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -23037,7 +23023,7 @@
                                                 {
                                                   "id": 2503,
                                                   "name": "php",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -23080,7 +23066,7 @@
                                                 {
                                                   "id": 2506,
                                                   "name": "python",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -23147,7 +23133,7 @@
                                     {
                                       "id": 2510,
                                       "name": "collections",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
@@ -23183,7 +23169,7 @@
                                     {
                                       "id": 2514,
                                       "name": "location",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
@@ -23219,7 +23205,7 @@
                                     {
                                       "id": 2517,
                                       "name": "preprocessing",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
@@ -23255,7 +23241,7 @@
                                         {
                                           "id": 2520,
                                           "name": "callgraph",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
@@ -23358,7 +23344,7 @@
                                             {
                                               "id": 2527,
                                               "name": "heuristics",
-                                              "type": "group",
+                                              "kind": "folder",
                                               "separator": "/",
                                               "edges": [],
                                               "nodes": [
@@ -23377,7 +23363,7 @@
                                                 {
                                                   "id": 2529,
                                                   "name": "python",
-                                                  "type": "group",
+                                                  "kind": "folder",
                                                   "separator": "/",
                                                   "edges": [],
                                                   "nodes": [
@@ -23399,7 +23385,7 @@
                                         {
                                           "id": 2531,
                                           "name": "vta",
-                                          "type": "group",
+                                          "kind": "folder",
                                           "separator": "/",
                                           "edges": [],
                                           "nodes": [
@@ -23490,7 +23476,7 @@
                                     {
                                       "id": 2537,
                                       "name": "stats",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [
@@ -23553,58 +23539,56 @@
     {
       "id": 2540,
       "name": "ucfg",
-      "type": "group",
+      "kind": "folder",
       "separator": "/",
-      "group-description": "ucfg description",
-      "group-patterns": "[ucfg*]",
       "edges": [],
       "nodes": [
         {
           "id": 2541,
           "name": "ucfg",
-          "type": "group",
+          "kind": "folder",
           "separator": "/",
           "edges": [],
           "nodes": [
             {
               "id": 2542,
               "name": "src",
-              "type": "group",
+              "kind": "folder",
               "separator": "/",
               "edges": [],
               "nodes": [
                 {
                   "id": 2543,
                   "name": "main",
-                  "type": "group",
+                  "kind": "folder",
                   "separator": "/",
                   "edges": [],
                   "nodes": [
                     {
                       "id": 2544,
                       "name": "java",
-                      "type": "group",
+                      "kind": "folder",
                       "separator": "/",
                       "edges": [],
                       "nodes": [
                         {
                           "id": 2545,
                           "name": "com",
-                          "type": "group",
+                          "kind": "folder",
                           "separator": "/",
                           "edges": [],
                           "nodes": [
                             {
                               "id": 2546,
                               "name": "sonar",
-                              "type": "group",
+                              "kind": "folder",
                               "separator": "/",
                               "edges": [],
                               "nodes": [
                                 {
                                   "id": 2547,
                                   "name": "types",
-                                  "type": "group",
+                                  "kind": "folder",
                                   "separator": "/",
                                   "edges": [],
                                   "nodes": [
@@ -23631,7 +23615,7 @@
                                 {
                                   "id": 2550,
                                   "name": "ucfg",
-                                  "type": "group",
+                                  "kind": "folder",
                                   "separator": "/",
                                   "edges": [],
                                   "nodes": [
@@ -23793,7 +23777,7 @@
                                     {
                                       "id": 2562,
                                       "name": "util",
-                                      "type": "group",
+                                      "kind": "folder",
                                       "separator": "/",
                                       "edges": [],
                                       "nodes": [

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { isDefined, isStringDefined } from '../types';
+import { ensure, isDefined, isStringDefined } from '../types';
 
 describe('isDefined', () => {
   it('should return true if value is defined', () => {
@@ -45,5 +45,23 @@ describe('isStringDefined', () => {
     expect(isStringDefined(undefined)).toBe(false);
     expect(isStringDefined(null)).toBe(false);
     expect(isStringDefined('')).toBe(false);
+  });
+});
+
+describe('ensure', () => {
+  it('should return the value if it is defined', () => {
+    expect(ensure('foo', 'message')).toBe('foo');
+    expect(ensure('', 'message')).toBe('');
+    expect(ensure(0, 'message')).toBe(0);
+    expect(ensure(false, 'message')).toBe(false);
+    expect(ensure({}, 'message')).toEqual({});
+  });
+
+  it('should throw with the given message if value is undefined', () => {
+    expect(() => ensure(undefined, 'value was missing')).toThrow('value was missing');
+  });
+
+  it('should throw with the given message if value is null', () => {
+    expect(() => ensure(null, 'value was missing')).toThrow('value was missing');
   });
 });

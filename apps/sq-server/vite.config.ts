@@ -88,6 +88,7 @@ export default ({ mode }) => {
         // worker.ts files are not bundled the same way as the rest of the webapp.
         // This is required for aliases to work from worker.ts files
         '~adapters': resolve(workspaceRoot, 'libs/sq-server-commons/src/sq-server-adapters'),
+        '~shared': resolve(workspaceRoot, 'libs/shared/src'),
       },
     },
     server: {
