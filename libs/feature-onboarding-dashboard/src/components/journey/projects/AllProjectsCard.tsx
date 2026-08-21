@@ -97,6 +97,7 @@ export function AllProjectsCard() {
 
 function ProjectRow({ project }: Readonly<ProjectsTableRowProps>) {
   const { formatMessage } = useIntl();
+  const { alm, language, name, path, key } = project;
 
   const onboardingBadge = getOnboardingBadge(project);
   const analysisBadge = getAnalysisModeBadge(project);
@@ -105,7 +106,7 @@ function ProjectRow({ project }: Readonly<ProjectsTableRowProps>) {
   return (
     <Table.Row>
       <Table.Cell className="sw-justify-start">
-        <RepositoryCell project={project} />
+        <RepositoryCell alm={alm} language={language} name={name} path={path} projectKey={key} />
       </Table.Cell>
 
       <Table.Cell>

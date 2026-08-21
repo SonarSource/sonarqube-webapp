@@ -21,10 +21,13 @@
 import { FormFieldWidth, Label, Select } from '@sonarsource/echoes-react';
 import { useCallback, useMemo } from 'react';
 import { useIntl } from 'react-intl';
-import { OnboardingProjectsFilter } from '~shared/types/onboarding';
+import {
+  OnboardingProjectsFilter,
+  OnboardingRepositoriesVisibility,
+} from '~shared/types/onboarding';
 import { ProjectFilterOption } from '../../types/types';
 
-interface Props<T extends OnboardingProjectsFilter> {
+interface Props<T extends OnboardingProjectsFilter | OnboardingRepositoriesVisibility> {
   /** Ties the external label to the select, which is how it gets its accessible name. */
   id: string;
   labelKey: string;
@@ -41,13 +44,9 @@ interface Props<T extends OnboardingProjectsFilter> {
  * A single filter dimension of the project tables, rendered as a compact labelled dropdown. Every
  * dimension always offers an "All" option, so the select never holds an empty value.
  */
-export function ProjectsFilterSelect<T extends OnboardingProjectsFilter>({
-  id,
-  labelKey,
-  onChange,
-  options,
-  value,
-}: Readonly<Props<T>>) {
+export function ProjectsFilterSelect<
+  T extends OnboardingProjectsFilter | OnboardingRepositoriesVisibility,
+>({ id, labelKey, onChange, options, value }: Readonly<Props<T>>) {
   const { formatMessage } = useIntl();
 
   const data = useMemo(

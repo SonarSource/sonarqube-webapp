@@ -109,13 +109,11 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
     {
       badge: <Badge variety={BadgeVariety.Neutral}>{projectsCount(analyze.notImported)}</Badge>,
       cta: (
-        <ImportRepositoriesModal
-          trigger={
-            <Button>
-              {formatMessage({ id: 'onboarding_dashboard.journey.analyze.not_imported.cta' })}
-            </Button>
-          }
-        />
+        <ImportRepositoriesModal>
+          <Button>
+            {formatMessage({ id: 'onboarding_dashboard.journey.analyze.not_imported.cta' })}
+          </Button>
+        </ImportRepositoriesModal>
       ),
       description: formatMessage({ id: 'onboarding_dashboard.journey.analyze.not_imported.desc' }),
       icon: <IconDot color="echoes-color-icon-disabled" isFilled />,

@@ -84,13 +84,11 @@ export function ImportRepositoriesPanel({ onSelectStep, state }: Readonly<Props>
         )}
         segments={segments}
         viewAll={
-          <ImportRepositoriesModal
-            trigger={
-              <Button variety={ButtonVariety.PrimaryGhost}>
-                {formatMessage({ id: 'onboarding_dashboard.journey.import.view_all' })}
-              </Button>
-            }
-          />
+          <ImportRepositoriesModal>
+            <Button variety={ButtonVariety.PrimaryGhost}>
+              {formatMessage({ id: 'onboarding_dashboard.journey.import.view_all' })}
+            </Button>
+          </ImportRepositoriesModal>
         }
       />
 

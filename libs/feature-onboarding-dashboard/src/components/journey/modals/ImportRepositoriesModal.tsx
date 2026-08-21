@@ -19,22 +19,15 @@
  */
 
 import { Badge, BadgeVariety, Button, Modal, Table, Text } from '@sonarsource/echoes-react';
-import { ReactNode, useState } from 'react';
+import { PropsWithChildren } from 'react';
 import { useIntl } from 'react-intl';
-import { OnboardingProject, OnboardingProjectOnboarding } from '~shared/types/onboarding';
-import { composeProjectFilters } from '../../../helpers/onboarding-projects';
-import {
-  ANY_PROJECTS_FILTER,
-  VISIBILITY_FILTER_OPTIONS,
-  VisibilityFilterValue,
-} from '../../../types/types';
-import { ProjectsFilterSelect } from '../../projects/ProjectsFilterSelect';
-import { ProjectsTable, ProjectsTableColumn } from '../../projects/ProjectsTable';
+import { OnboardingRepository } from '~shared/types/onboarding';
+import { RepositoriesTable, RepositoriesTableColumn } from '../../projects/RepositoriesTable';
 import { RepositoryCell } from '../../projects/RepositoryCell';
 
 const PAGE_SIZE = 10;
 
-const COLUMNS: ProjectsTableColumn[] = [
+const COLUMNS: RepositoriesTableColumn[] = [
   { labelKey: 'onboarding_dashboard.journey.import.modal.col.repository' },
   {
     className: 'sw-justify-center',
@@ -46,73 +39,51 @@ const COLUMNS: ProjectsTableColumn[] = [
   },
 ];
 
-interface Props {
-  trigger: ReactNode;
-}
-
-export function ImportRepositoriesModal({ trigger }: Readonly<Props>) {
+export function ImportRepositoriesModal({ children }: Readonly<PropsWithChildren>) {
   const { formatMessage } = useIntl();
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [visibility, setVisibility] = useState<VisibilityFilterValue>(ANY_PROJECTS_FILTER);
 
   const title = formatMessage({ id: 'onboarding_dashboard.journey.import.modal.title' });
 
   return (
     <Modal
       content={
-        <ProjectsTable
+        <RepositoriesTable
           ariaLabel={title}
           columns={COLUMNS}
           containerClassName="sw-max-h-[calc(80vh-10rem)]"
-          enabled={isOpen}
-          filters={composeProjectFilters([visibility])}
           pageSize={PAGE_SIZE}
-          renderRow={(project) => (
-            <RepositoryRow key={project.key ?? project.name} project={project} />
-          )}
-          searchPlaceholderKey="onboarding_dashboard.journey.import.modal.search"
-          toolbarControls={
-            <ProjectsFilterSelect
-              id="import-projects-visibility-filter"
-              labelKey="onboarding_dashboard.projects.filter.visibility.label"
-              onChange={setVisibility}
-              options={VISIBILITY_FILTER_OPTIONS}
-              value={visibility}
-            />
-          }
+          renderRow={(repository) => <RepositoryRow key={repository.id} repository={repository} />}
         />
       }
-      onOpenChange={setIsOpen}
       primaryButton={<Button>{formatMessage({ id: 'close' })}</Button>}
       size="wide"
       title={title}
     >
-      {trigger}
+      {children}
     </Modal>
   );
 }
 
-function RepositoryRow({ project }: Readonly<{ project: OnboardingProject }>) {
+function RepositoryRow({ repository }: Readonly<{ repository: OnboardingRepository }>) {
   const { formatMessage } = useIntl();
-  const isImported = project.onboarding !== OnboardingProjectOnboarding.NotImported;
+  const { alm, name, slug, isImported, isPrivate } = repository;
 
   return (
     <Table.Row>
       <Table.Cell className="sw-justify-start">
-        <RepositoryCell project={project} />
+        <RepositoryCell alm={alm} name={name} path={slug} />
       </Table.Cell>
       <Table.Cell>
         <Text>
           {formatMessage({
-            id: project.isPrivate ? 'visibility.private' : 'visibility.public',
+            id: isPrivate ? 'visibility.private' : 'visibility.public',
           })}
         </Text>
       </Table.Cell>
       <Table.Cell>
         <Badge variety={isImported ? BadgeVariety.Neutral : BadgeVariety.Warning}>
           {formatMessage({
-            id: isImported
+            id: repository.isImported
               ? 'onboarding_dashboard.journey.import.legend.imported'
               : 'onboarding_dashboard.journey.import.legend.not_imported',
           })}

@@ -102,7 +102,7 @@ export function ConfigureProjectsModal({
           columns={COLUMNS}
           containerClassName="sw-max-h-[calc(80vh-12rem)]"
           filters={composeProjectFilters([scanStatus, analysisMode])}
-          loadingMessageKey="loading"
+          loadingMessageKey="onboarding_dashboard.projects.loading"
           pageSize={PAGE_SIZE}
           renderRow={(project) => (
             <ConfigureProjectRow key={project.key ?? project.name} project={project} />
@@ -157,7 +157,12 @@ function ConfigureProjectRow({ project }: Readonly<{ project: OnboardingProject 
   return (
     <Table.Row>
       <Table.Cell className="sw-justify-start">
-        <RepositoryCell project={project} />
+        <RepositoryCell
+          alm={project.alm}
+          language={project.language}
+          name={project.name}
+          path={project.path}
+        />
       </Table.Cell>
 
       <Table.CellBadge variety={onboardingBadge.variety}>

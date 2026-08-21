@@ -20,10 +20,9 @@
 
 import { waitFor } from '@testing-library/react';
 import {
-  mockOnboardingProjects,
-  OnboardingServiceMock,
-} from '~shared/api/mocks/OnboardingServiceMock';
-import { registerServiceMocks } from '~shared/api/mocks/server';
+  OnboardingRepositoriesMock,
+  OnboardingRepositoriesQueryParams,
+} from '~shared/api/mocks/OnboardingRepositoriesMock';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { NO_DATA } from '../../../dashboardConstants';
@@ -31,20 +30,27 @@ import { ImportRepositoriesModal } from '../ImportRepositoriesModal';
 
 const TRIGGER_LABEL = 'Open';
 
+const mockRepositories = new OnboardingRepositoriesMock();
+
 jest.mock('~adapters/queries/onboarding', () => ({
   useOnboardingOrganizationKey: jest.fn().mockReturnValue('my-org'),
+  useOnboardingRepositoriesQuery: (
+    params: OnboardingRepositoriesQueryParams,
+    options?: { enabled?: boolean },
+  ) => {
+    if (options?.enabled === false) {
+      return { data: undefined, isPending: false };
+    }
+    return { data: mockRepositories.applyQuery(params), isPending: false };
+  },
 }));
 
-let onboardingMock: OnboardingServiceMock;
-
 beforeAll(() => {
-  onboardingMock = new OnboardingServiceMock();
-  registerServiceMocks(onboardingMock);
   HTMLElement.prototype.scrollTo = jest.fn();
 });
 
 afterEach(() => {
-  onboardingMock.reset();
+  mockRepositories.reset();
 });
 
 const ui = {
@@ -61,18 +67,19 @@ const ui = {
   azureIcon: byRole('img', { name: 'alm.azure' }),
   resultsCount: (size: number, total: number) =>
     byText(`onboarding_dashboard.table.results_size.${size}.${total}`),
-
   searchInput: byRole('searchbox', {
-    name: 'onboarding_dashboard.journey.import.modal.search',
+    name: 'onboarding_dashboard.repositories.search',
   }),
   visibilityFilter: byRole('combobox', {
-    name: 'onboarding_dashboard.projects.filter.visibility.label',
+    name: 'onboarding_dashboard.repositories.filter.visibility.label',
   }),
 };
 
 function renderModal() {
   return renderWithRouter(
-    <ImportRepositoriesModal trigger={<button type="button">{TRIGGER_LABEL}</button>} />,
+    <ImportRepositoriesModal>
+      <button type="button">{TRIGGER_LABEL}</button>
+    </ImportRepositoriesModal>,
   );
 }
 
@@ -113,7 +120,7 @@ it('displays correct visibility and import status for each row', async () => {
   expect(ui.table.byText('visibility.private').getAll()).toHaveLength(2);
   expect(ui.table.byText('visibility.public').getAll()).toHaveLength(3);
 
-  // Only platform-jobs is NOT_IMPORTED, the remaining four are imported.
+  // Only platform-jobs is not imported, the remaining four are imported.
   expect(
     ui.table.byText('onboarding_dashboard.journey.import.legend.not_imported').getAll(),
   ).toHaveLength(1);
@@ -133,7 +140,7 @@ it('closes the modal when the close button is clicked', async () => {
 });
 
 it('shows a no-data row when the organization has no repositories', async () => {
-  onboardingMock.setProjects([]);
+  mockRepositories.repositories = [];
   const { user } = renderModal();
   await user.click(ui.openButton.get());
 
@@ -160,14 +167,6 @@ it('renders all ALM icons from the mocked repositories', async () => {
   expect(ui.azureIcon.get()).toHaveAttribute('src', expect.stringContaining('azure.svg'));
 });
 
-it('shows path and language metadata in the repository cell', async () => {
-  const { user } = renderModal();
-  await user.click(ui.openButton.get());
-
-  expect(await ui.table.byText('search/web-core · Kotlin').find()).toBeInTheDocument();
-  expect(ui.table.byText('billing/platform-jobs · Kotlin').get()).toBeInTheDocument();
-});
-
 it('shows the correct results count for a full page', async () => {
   const { user } = renderModal();
   await user.click(ui.openButton.get());
@@ -176,8 +175,8 @@ it('shows the correct results count for a full page', async () => {
 });
 
 it('shows the correct results count when results span multiple pages', async () => {
-  // 5 projects, page size 3, page 1 shows 3 out of 5 total.
-  onboardingMock.overridePageSize = 3;
+  // 5 repositories, page size 3, page 1 shows 3 out of 5 total.
+  mockRepositories.overridePageSize = 3;
   const { user } = renderModal();
   await user.click(ui.openButton.get());
 
@@ -185,7 +184,7 @@ it('shows the correct results count when results span multiple pages', async () 
 });
 
 it('does not show pagination when all repositories fit on a single page', async () => {
-  // Default: 5 projects, PAGE_SIZE=10, no pagination rendered.
+  // Default: 5 repositories, PAGE_SIZE=10, no pagination rendered.
   const { user } = renderModal();
   await user.click(ui.openButton.get());
 
@@ -194,8 +193,8 @@ it('does not show pagination when all repositories fit on a single page', async 
 });
 
 it('shows pagination when the total exceeds the page size', async () => {
-  // 5 projects served 3 per page, totalPages = 2.
-  onboardingMock.overridePageSize = 3;
+  // 5 repositories served 3 per page, totalPages = 2.
+  mockRepositories.overridePageSize = 3;
   const { user } = renderModal();
   await user.click(ui.openButton.get());
 
@@ -205,7 +204,7 @@ it('shows pagination when the total exceeds the page size', async () => {
 it('navigates to the next page when a pagination button is clicked', async () => {
   // Page 1 (pageSize=3): platform-jobs, payments-gateway, web-core.
   // Page 2 (pageSize=3): identity-lib, mobile-worker.
-  onboardingMock.overridePageSize = 3;
+  mockRepositories.overridePageSize = 3;
   const { user } = renderModal();
   await user.click(ui.openButton.get());
 
@@ -224,15 +223,6 @@ it('navigates to the next page when a pagination button is clicked', async () =>
 
   expect(await ui.table.byText('identity-lib').find()).toBeInTheDocument();
   expect(ui.table.byText('mobile-worker').query()).toBeInTheDocument();
-});
-
-it('renders a project using its name as the row key when the project key is null', async () => {
-  const [first, ...rest] = mockOnboardingProjects();
-  onboardingMock.setProjects([{ ...first, key: null, name: 'keyless-repo' }, ...rest]);
-  const { user } = renderModal();
-  await user.click(ui.openButton.get());
-
-  expect(await ui.table.byText('keyless-repo').find()).toBeInTheDocument();
 });
 
 it('renders the search input and the visibility filter', async () => {
@@ -255,10 +245,10 @@ it('lists all visibility options in the filter dropdown', async () => {
     await byRole('option', { name: 'onboarding_dashboard.projects.filter.all' }).find(),
   ).toBeInTheDocument();
   expect(
-    byRole('option', { name: 'onboarding_dashboard.projects.filter.private' }).get(),
+    byRole('option', { name: 'onboarding_dashboard.repositories.filter.private' }).get(),
   ).toBeInTheDocument();
   expect(
-    byRole('option', { name: 'onboarding_dashboard.projects.filter.public' }).get(),
+    byRole('option', { name: 'onboarding_dashboard.repositories.filter.public' }).get(),
   ).toBeInTheDocument();
 });
 
@@ -294,7 +284,7 @@ it('filters the repository list to private repositories', async () => {
 
   await user.click(ui.visibilityFilter.get());
   await user.click(
-    await byRole('option', { name: 'onboarding_dashboard.projects.filter.private' }).find(),
+    await byRole('option', { name: 'onboarding_dashboard.repositories.filter.private' }).find(),
   );
 
   // payments-gateway and identity-lib are private; the three public repositories are gone.
@@ -325,7 +315,7 @@ it('ANDs the search term and the visibility filter', async () => {
   // Filter to private — payments-gateway and identity-lib remain.
   await user.click(ui.visibilityFilter.get());
   await user.click(
-    await byRole('option', { name: 'onboarding_dashboard.projects.filter.private' }).find(),
+    await byRole('option', { name: 'onboarding_dashboard.repositories.filter.private' }).find(),
   );
   await waitFor(() => {
     expect(ui.table.byText('platform-jobs').query()).not.toBeInTheDocument();

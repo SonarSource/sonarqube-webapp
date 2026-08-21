@@ -24,97 +24,61 @@ import {
   SearchInput,
   SearchInputWidth,
   Table,
-  TableCellJustify,
   TableVariety,
   Text,
   TextSize,
 } from '@sonarsource/echoes-react';
-import { ReactNode, useEffect, useMemo, useRef } from 'react';
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useOnboardingOrganizationKey } from '~adapters/queries/onboarding';
-import { useOnboardingProjectsQuery } from '~shared/queries/onboarding';
-import { OnboardingProject, OnboardingProjectsFilter } from '~shared/types/onboarding';
+import { useOnboardingRepositoriesQuery } from '~adapters/queries/onboarding';
+import { OnboardingRepositoriesVisibility, OnboardingRepository } from '~shared/types/onboarding';
+import { REPOSITORY_VISIBILITY_FILTER_OPTIONS } from '../../types/types';
+import { ProjectsFilterSelect } from './ProjectsFilterSelect';
+import { ProjectsTableColumn } from './ProjectsTable';
 import { TableBodyRows } from './TableBodyRows';
 import { TableHeaderRows } from './TableHeaderRows';
 import { usePaginatedTableState } from './usePaginatedTableState';
 
-/** The first column holds the project name, so it gets more room than the others. */
+/** The first column holds the repository name, so it gets more room than the others. */
 const FIRST_COLUMN_TEMPLATE = 'minmax(240px, 2.5fr)';
 const COLUMN_TEMPLATE = 'minmax(120px, 1fr)';
 
-export interface ProjectsTableColumn {
-  className?: string;
-  /**
-   * Keep the header label out of the visual design but available to assistive technology, for
-   * columns the design shows without a heading.
-   */
-  isLabelHidden?: boolean;
-  justify?: TableCellJustify;
-  labelKey: string;
-  /** Grid track of this column. Defaults to a flexible one, wider for the first column. */
-  width?: string;
-}
-
-export interface ProjectsTableRowProps {
-  project: OnboardingProject;
-}
+/** Same shape as {@link ProjectsTableColumn} — reused so both tables share one header renderer. */
+export type RepositoriesTableColumn = ProjectsTableColumn;
 
 interface Props {
   ariaLabel: string;
-  columns: ProjectsTableColumn[];
-  /** Extra class for the outer wrapper — e.g. modal-mode uses it to cap the height. */
+  columns: RepositoriesTableColumn[];
   containerClassName?: string;
-  /**
-   * Server-side filter tokens, AND-ed by the backend. Changing them resets to the first page.
-   */
-  filters: OnboardingProjectsFilter[];
-  loadingMessageKey?: string;
   pageSize: number;
-  /**
-   * Called once per project — must return a `Table.Row` element with a stable `key`. A function
-   * (rather than a component) lets callers close over parent state such as row selection.
-   */
-  renderRow: (project: OnboardingProject) => ReactNode;
-  /** Placeholder for the search input. Omit to render the toolbar without a search box. */
-  searchPlaceholderKey?: string;
-  searchWidth?: SearchInputWidth;
-  /** Extra toolbar controls rendered next to the search input, e.g. the filter dropdowns. */
-  toolbarControls?: ReactNode;
+  renderRow: (repository: OnboardingRepository) => ReactNode;
 }
 
 /**
- * Paged, searchable table of onboarding projects: a toolbar (optional search + filters + result
- * count), the table itself (with skeleton and empty states), and pagination. Searching, filtering
- * and paging are all server-side, driven by `useOnboardingProjectsQuery`.
+ * Paged, searchable table of DevOps-platform repositories discovered for the current organization.
  */
-export function ProjectsTable({
+export function RepositoriesTable({
   ariaLabel,
   columns,
   containerClassName,
-  filters,
-  loadingMessageKey,
   pageSize,
   renderRow,
-  searchPlaceholderKey,
-  searchWidth,
-  toolbarControls,
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const tableRef = useRef<HTMLTableElement>(null);
 
-  const organizationKey = useOnboardingOrganizationKey();
+  const [visibility, setVisibility] = useState<OnboardingRepositoriesVisibility>(
+    OnboardingRepositoriesVisibility.All,
+  );
 
-  // Callers rebuild the array on every render, so key the reset off the tokens themselves.
-  const filtersKey = filters.join(',');
   const { onPageChange, onSearchChange, pageIndex, query, searchValue } =
-    usePaginatedTableState(filtersKey);
+    usePaginatedTableState(visibility);
 
-  const { data, isLoading } = useOnboardingProjectsQuery({
-    organizationKey,
-    filters,
+  const { data, isPending } = useOnboardingRepositoriesQuery({
     pageIndex,
     pageSize,
     q: query === '' ? undefined : query,
+    visibility,
   });
 
   // Scroll the (scrollable) table body back to the top whenever a new page lands.
@@ -122,7 +86,7 @@ export function ProjectsTable({
     tableRef.current?.scrollTo?.({ top: 0 });
   }, [data]);
 
-  const projects = useMemo(() => data?.projects ?? [], [data?.projects]);
+  const repositories = useMemo(() => data?.repositories ?? [], [data?.repositories]);
   const total = data?.page.total ?? 0;
   const totalPages = data === undefined ? 0 : Math.ceil(data.page.total / data.page.pageSize);
 
@@ -132,27 +96,34 @@ export function ProjectsTable({
 
   return (
     <LoadingContainer
-      isLoading={isLoading}
-      loadingMessage={formatMessage({ id: loadingMessageKey ?? 'loading' })}
+      isLoading={isPending}
+      loadingMessage={formatMessage({ id: 'onboarding_dashboard.repositories.loading' })}
     >
       <div className={`sw-flex sw-flex-col sw-gap-4 ${containerClassName ?? ''}`.trim()}>
         <div className="sw-flex sw-w-full sw-items-center sw-justify-between">
           <div className="sw-flex sw-items-center sw-gap-4">
-            {searchPlaceholderKey !== undefined && (
-              <SearchInput
-                onChange={onSearchChange}
-                placeholderLabel={formatMessage({ id: searchPlaceholderKey })}
-                value={searchValue}
-                width={searchWidth ?? SearchInputWidth.Large}
-              />
-            )}
-            {toolbarControls}
+            <SearchInput
+              onChange={onSearchChange}
+              placeholderLabel={formatMessage({
+                id: 'onboarding_dashboard.repositories.search',
+              })}
+              value={searchValue}
+              width={SearchInputWidth.Large}
+            />
+
+            <ProjectsFilterSelect
+              id="import-repositories-visibility-filter"
+              labelKey="onboarding_dashboard.repositories.filter.visibility.label"
+              onChange={setVisibility}
+              options={REPOSITORY_VISIBILITY_FILTER_OPTIONS}
+              value={visibility}
+            />
           </div>
 
           <Text as="span" className="sw-ml-auto" isSubtle size={TextSize.Small}>
             {formatMessage(
               { id: 'onboarding_dashboard.table.results_size' },
-              { size: projects.length, total },
+              { size: repositories.length, total },
             )}
           </Text>
         </div>
@@ -171,8 +142,8 @@ export function ProjectsTable({
           <Table.Body>
             <TableBodyRows
               columnCount={columns.length}
-              isLoading={isLoading}
-              items={projects}
+              isLoading={isPending}
+              items={repositories}
               renderRow={renderRow}
             />
           </Table.Body>

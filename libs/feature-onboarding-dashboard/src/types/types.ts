@@ -20,10 +20,9 @@
 
 import {
   OnboardingProjectsAnalysisModeFilter,
-  OnboardingProjectsFilter,
   OnboardingProjectsGateStatusFilter,
   OnboardingProjectsScanStatusFilter,
-  OnboardingProjectsVisibilityFilter,
+  OnboardingRepositoriesVisibility,
 } from '~shared/types/onboarding';
 
 /** The three onboarding steps, in order, that the dashboard guides users through. */
@@ -102,7 +101,7 @@ export interface JourneyState {
  */
 export const ANY_PROJECTS_FILTER = 'all' as const;
 
-export interface ProjectFilterOption<T extends OnboardingProjectsFilter> {
+export interface ProjectFilterOption<T extends string> {
   labelKey: string;
   value: T;
 }
@@ -113,8 +112,6 @@ export type AnalysisModeFilterValue =
   OnboardingProjectsAnalysisModeFilter | typeof ANY_PROJECTS_FILTER;
 
 export type GateStatusFilterValue = OnboardingProjectsGateStatusFilter | typeof ANY_PROJECTS_FILTER;
-
-export type VisibilityFilterValue = OnboardingProjectsVisibilityFilter | typeof ANY_PROJECTS_FILTER;
 
 /**
  * Options of the dropdowns shown above the project tables. Filtering itself is done server-side —
@@ -167,15 +164,20 @@ export const GATE_STATUS_FILTER_OPTIONS: ReadonlyArray<ProjectFilterOption<GateS
     },
   ];
 
-export const VISIBILITY_FILTER_OPTIONS: ReadonlyArray<ProjectFilterOption<VisibilityFilterValue>> =
-  [
-    { labelKey: 'onboarding_dashboard.projects.filter.all', value: ANY_PROJECTS_FILTER },
-    {
-      labelKey: 'onboarding_dashboard.projects.filter.private',
-      value: OnboardingProjectsVisibilityFilter.Private,
-    },
-    {
-      labelKey: 'onboarding_dashboard.projects.filter.public',
-      value: OnboardingProjectsVisibilityFilter.Public,
-    },
-  ];
+/** Filter dropdown options for the repositories modal. */
+export const REPOSITORY_VISIBILITY_FILTER_OPTIONS: ReadonlyArray<
+  ProjectFilterOption<OnboardingRepositoriesVisibility>
+> = [
+  {
+    labelKey: 'onboarding_dashboard.projects.filter.all',
+    value: OnboardingRepositoriesVisibility.All,
+  },
+  {
+    labelKey: 'onboarding_dashboard.repositories.filter.private',
+    value: OnboardingRepositoriesVisibility.Private,
+  },
+  {
+    labelKey: 'onboarding_dashboard.repositories.filter.public',
+    value: OnboardingRepositoriesVisibility.Public,
+  },
+];

@@ -88,10 +88,12 @@ export function StaleProjectsCard() {
 }
 
 function StaleProjectRow({ project }: Readonly<ProjectsTableRowProps>) {
+  const { alm, language, name, path, key } = project;
+
   return (
     <Table.Row>
       <Table.Cell className="sw-justify-start">
-        <RepositoryCell project={project} />
+        <RepositoryCell alm={alm} language={language} name={name} path={path} projectKey={key} />
       </Table.Cell>
 
       <Table.Cell className="sw-justify-start">

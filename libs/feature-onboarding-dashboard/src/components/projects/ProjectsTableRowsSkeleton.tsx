@@ -39,7 +39,7 @@ export function ProjectsTableRowsSkeleton({ columns, rows = 5 }: Readonly<Props>
         <Table.Row key={`skeleton-row-${rowIndex}`}>
           {Array.from({ length: columns }, (_, columnIndex) => (
             <Table.Cell key={`skeleton-cell-${rowIndex}-${columnIndex}`}>
-              <LoadingSkeleton className="sw-w-3/4" isLoading variety="text" />
+              <LoadingSkeleton className="sw-w-3/4" variety="text" />
             </Table.Cell>
           ))}
         </Table.Row>

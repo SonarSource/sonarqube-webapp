@@ -280,12 +280,6 @@ export enum OnboardingProjectsGateStatusFilter {
   GateNotComputed = 'gate_not_computed',
 }
 
-/** "Visibility" dimension of the `filter` param. */
-export enum OnboardingProjectsVisibilityFilter {
-  Private = 'private',
-  Public = 'public',
-}
-
 /**
  * Any single token accepted by the `filter` param. Several tokens can be sent comma-separated; the
  * backend ANDs them across dimensions, e.g. `filter=scanned,ci`.
@@ -294,8 +288,7 @@ export type OnboardingProjectsFilter =
   | OnboardingProjectsCountFilter
   | OnboardingProjectsScanStatusFilter
   | OnboardingProjectsAnalysisModeFilter
-  | OnboardingProjectsGateStatusFilter
-  | OnboardingProjectsVisibilityFilter;
+  | OnboardingProjectsGateStatusFilter;
 
 export type OnboardingProjectsFilterCounts = Record<OnboardingProjectsCountFilter, number>;
 
@@ -327,4 +320,47 @@ export interface OnboardingProject {
   scanHealth: OnboardingProjectScanHealth | null;
   scanMethod: OnboardingProjectScanMethod | null;
   stale: boolean;
+}
+
+export enum OnboardingRepositoriesVisibility {
+  All = 'ALL',
+  Private = 'PRIVATE',
+  Public = 'PUBLIC',
+}
+
+interface OnboardingRepositoriesPage {
+  pageIndex: number;
+  pageSize: number;
+  total: number;
+}
+
+/** Params accepted by {@link useOnboardingRepositoriesQuery}, normalized across products. */
+export interface OnboardingRepositoriesQuery {
+  pageIndex: number;
+  pageSize: number;
+  q?: string;
+  visibility: OnboardingRepositoriesVisibility;
+}
+
+/**
+ * Normalized response of the repositories adapter query. Concrete adapters fetch from different
+ * transports and map into this shared shape so the feature-level `RepositoriesTable` stays product-agnostic.
+ */
+export interface OnboardingRepositoriesResponse {
+  page: OnboardingRepositoriesPage;
+  repositories: OnboardingRepository[];
+}
+
+/**
+ * Discovered repository as displayed in the "Import repositories" table. A subset of what
+ * an imported project (see {@link OnboardingProject}) carries, since not-yet-imported repositories
+ * have no scan/gate/coverage data.
+ */
+export interface OnboardingRepository {
+  alm: OnboardingAlm | null;
+  id: string;
+  isImported: boolean;
+  isPrivate: boolean;
+  name: string;
+  slug?: string;
 }

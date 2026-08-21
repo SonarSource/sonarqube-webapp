@@ -19,6 +19,10 @@
  */
 
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
+import {
+  OnboardingRepositoriesQuery,
+  OnboardingRepositoriesResponse,
+} from '~shared/types/onboarding';
 import { grantPermissionToUser } from '../../api/permissions';
 
 /**
@@ -51,4 +55,14 @@ export function useGrantProjectPermissionMutation() {
 export function useTriggerAutomaticAnalysisMutation():
   UseMutationResult<boolean, Error, string> | undefined {
   return undefined;
+}
+
+/**
+ * Fetches repositories discovered on the bound DevOps platform(s).
+ */
+export function useOnboardingRepositoriesQuery(
+  _params: OnboardingRepositoriesQuery,
+  _options?: { enabled?: boolean },
+): { data: OnboardingRepositoriesResponse | undefined; isPending: boolean } {
+  return { data: undefined, isPending: false };
 }

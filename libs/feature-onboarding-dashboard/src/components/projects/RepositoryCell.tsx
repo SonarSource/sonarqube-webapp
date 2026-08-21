@@ -23,20 +23,24 @@ import { useIntl } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
 import { useAlmIconSrc } from '~adapters/helpers/almIcons';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
-import { OnboardingProject } from '~shared/types/onboarding';
+import { OnboardingAlm } from '~shared/types/onboarding';
 import { PLATFORM_CONFIG } from '../devops/platformConfig';
 
 interface Props {
-  project: OnboardingProject;
+  alm: OnboardingAlm | null;
+  language?: string;
+  name: string;
+  path?: string;
+  projectKey?: string | null;
 }
 
-export function RepositoryCell({ project }: Readonly<Props>) {
+export function RepositoryCell({ alm, language, name, path, projectKey }: Readonly<Props>) {
   const { formatMessage } = useIntl();
-  const platformConfig = project.alm ? PLATFORM_CONFIG[project.alm] : undefined;
+  const platformConfig = alm ? PLATFORM_CONFIG[alm] : undefined;
   const iconSrc = useAlmIconSrc(platformConfig?.imageKey);
   const almLabel = platformConfig ? formatMessage({ id: platformConfig.labelKey }) : '';
 
-  const meta = [project.path, project.language].filter(Boolean).join(' · ');
+  const meta = [path, language].filter(Boolean).join(' · ');
 
   return (
     <div className="sw-flex sw-min-w-0 sw-items-center sw-justify-start sw-gap-2">
@@ -44,12 +48,12 @@ export function RepositoryCell({ project }: Readonly<Props>) {
         <Image alt={almLabel} className="sw-shrink-0" height={16} src={iconSrc} />
       )}
       <div className="sw-flex sw-min-w-0 sw-flex-col">
-        {project.key !== null ? (
-          <LinkStandalone highlight={LinkHighlight.Default} to={getProjectOverviewUrl(project.key)}>
-            {project.name}
+        {projectKey ? (
+          <LinkStandalone highlight={LinkHighlight.Default} to={getProjectOverviewUrl(projectKey)}>
+            {name}
           </LinkStandalone>
         ) : (
-          <Text isHighlighted>{project.name}</Text>
+          <Text isHighlighted>{name}</Text>
         )}
         {meta !== '' && (
           <Text className="sw-truncate" isSubtle size={TextSize.Small}>
