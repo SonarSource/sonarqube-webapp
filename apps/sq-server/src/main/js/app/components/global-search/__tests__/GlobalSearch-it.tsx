@@ -21,39 +21,45 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { byRole, byText } from '~shared/helpers/testSelector';
+import { ComponentQualifier } from '~shared/types/component';
 import { getSuggestions } from '~sq-server-commons/api/components';
 import { mockRouter } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import GlobalSearch, { GlobalSearch as GlobalSearchWithoutRouter } from '../GlobalSearch';
 
-jest.mock('~sq-server-commons/api/components', () => ({
-  getSuggestions: jest.fn().mockResolvedValue({
-    results: [
-      {
-        q: 'TRK',
-        more: 1,
-        items: [
-          {
-            isFavorite: true,
-            isRecentlyBrowsed: true,
-            key: 'sonarqube',
-            match: 'SonarQube',
-            name: 'SonarQube',
-            project: '',
-          },
-          {
-            isFavorite: false,
-            isRecentlyBrowsed: false,
-            key: 'sonarcloud',
-            match: 'Sonarcloud',
-            name: 'Sonarcloud',
-            project: '',
-          },
-        ],
-      },
-    ],
-  }),
-}));
+jest.mock('~sq-server-commons/api/components', () => {
+  const { ComponentQualifier: mockComponentQualifier } =
+    jest.requireActual<typeof import('~shared/types/component')>('~shared/types/component');
+
+  return {
+    getSuggestions: jest.fn().mockResolvedValue({
+      results: [
+        {
+          q: mockComponentQualifier.Project,
+          more: 1,
+          items: [
+            {
+              isFavorite: true,
+              isRecentlyBrowsed: true,
+              key: 'sonarqube',
+              match: 'SonarQube',
+              name: 'SonarQube',
+              project: '',
+            },
+            {
+              isFavorite: false,
+              isRecentlyBrowsed: false,
+              key: 'sonarcloud',
+              match: 'Sonarcloud',
+              name: 'Sonarcloud',
+              project: '',
+            },
+          ],
+        },
+      ],
+    }),
+  };
+});
 
 const ui = {
   searchButton: byRole('button', { name: 'search_verb' }),
@@ -87,7 +93,7 @@ it('selects the results', async () => {
   await user.click(ui.searchInput.get());
   await user.keyboard('son');
   expect(ui.searchItem.getAll()[1]).toHaveClass('active');
-  expect(ui.searchItem.getAll()[1]).toHaveTextContent('SonarQubesonarqube');
+  expect(ui.searchItem.getAll()[1]).toHaveTextContent(/SonarQube.*sonarqube/);
 
   await user.keyboard('{arrowdown}');
   expect(ui.searchItem.getAll()[2]).toHaveClass('active');
@@ -133,14 +139,18 @@ it('load more results', async () => {
           },
         ],
         more: 0,
-        q: 'TRK',
+        q: ComponentQualifier.Project,
       },
     ],
   });
 
   await user.click(ui.showMoreButton.get());
-  expect(getSuggestions).toHaveBeenLastCalledWith('foo', [], 'TRK');
-  expect(ui.searchItem.getAll()[3]).toHaveTextContent('Barbar');
+  expect(getSuggestions).toHaveBeenLastCalledWith('foo', [], ComponentQualifier.Project);
+
+  expect(await byRole('menuitem', { name: /^Bar/i }).find()).toHaveAttribute(
+    'href',
+    '/dashboard?id=bar',
+  );
 });
 
 it('shows warning about short input', async () => {
@@ -159,12 +169,14 @@ it('shows warning about short input', async () => {
 it('should display no results message', async () => {
   const user = userEvent.setup();
   renderGlobalSearch();
-  (getSuggestions as jest.Mock).mockResolvedValue({
+
+  jest.mocked(getSuggestions).mockResolvedValue({
+    projects: [],
     results: [
       {
         items: [],
         more: 0,
-        q: 'TRK',
+        q: ComponentQualifier.Project,
       },
     ],
   });
@@ -178,7 +190,8 @@ it('should display no results message', async () => {
 });
 
 it('should open selected', async () => {
-  (getSuggestions as jest.Mock).mockResolvedValueOnce({
+  jest.mocked(getSuggestions).mockResolvedValueOnce({
+    projects: [],
     results: [
       {
         items: [
@@ -192,10 +205,11 @@ it('should open selected', async () => {
           },
         ],
         more: 0,
-        q: 'TRK',
+        q: ComponentQualifier.Project,
       },
     ],
   });
+
   const user = userEvent.setup();
   const router = mockRouter();
   renderComponent(<GlobalSearchWithoutRouter router={router} />);
@@ -204,6 +218,7 @@ it('should open selected', async () => {
   await user.click(ui.searchInput.get());
   await user.keyboard('{arrowdown}');
   await user.keyboard('{enter}');
+
   expect(router.push).toHaveBeenCalledWith({
     pathname: '/dashboard',
     search: '?id=sonarqube',

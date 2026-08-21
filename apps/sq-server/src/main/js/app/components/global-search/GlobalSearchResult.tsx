@@ -19,11 +19,11 @@
  */
 
 import styled from '@emotion/styled';
-import { cssVar, Text } from '@sonarsource/echoes-react';
+import { cssVar, IconClock, IconStar, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import { ClockIcon, ItemLink, StarFillIcon } from '~design-system';
+import { useIntl } from 'react-intl';
+import { ItemLink } from '~design-system';
 import { SafeHTMLInjection } from '~shared/helpers/sanitize';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
 import { ComponentResult } from './utils';
 
@@ -33,7 +33,9 @@ interface Props {
   onClose: () => void;
   selected: boolean;
 }
+
 export function GlobalSearchResult(props: Readonly<Props>) {
+  const { formatMessage } = useIntl();
   const { component, innerRef, onClose, selected } = props;
 
   return (
@@ -50,13 +52,26 @@ export function GlobalSearchResult(props: Readonly<Props>) {
     >
       <div className="sw-flex sw-justify-between sw-items-center sw-w-full">
         <SearchedText match={component.match} name={component.name} />
+
         <div className="sw-ml-2">
-          {component.isFavorite && <StarFillIcon />}
+          {component.isFavorite && (
+            <>
+              <span className="sw-sr-only">{formatMessage({ id: 'favorite' })}</span>
+
+              <StyledFavoriteIcon isFilled />
+            </>
+          )}
+
           {!component.isFavorite && component.isRecentlyBrowsed && (
-            <ClockIcon aria-label={translate('recently_browsed')} />
+            <>
+              <span className="sw-sr-only">{formatMessage({ id: 'recently_browsed' })}</span>
+
+              <IconClock />
+            </>
           )}
         </div>
       </div>
+
       <Text isSubtle>{component.key}</Text>
     </ItemLink>
   );
@@ -86,4 +101,8 @@ const StyledText = styled(Text)`
     background: ${cssVar('color-background-neutral-bolder-default')};
     color: ${cssVar('color-text-default')};
   }
+`;
+
+const StyledFavoriteIcon = styled(IconStar)`
+  color: ${cssVar('color-background-favourite-default')};
 `;
