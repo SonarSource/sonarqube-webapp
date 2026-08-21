@@ -209,6 +209,15 @@ const ui = {
     name: 'onboarding_dashboard.journey.import.modal.title',
   }).byRole('button', { name: 'close' }),
 
+  // "Configure projects" modal (triggered from the Analyze step's donut and CTAs).
+  configureModal: byRole('dialog', { name: 'onboarding_dashboard.journey.analyze.modal.title' }),
+  notScannedCta: byRole('button', {
+    name: 'onboarding_dashboard.journey.analyze.not_scanned.cta',
+  }),
+  fullCiCta: byRole('button', {
+    name: 'onboarding_dashboard.journey.analyze.full_ci.cta',
+  }),
+
   // Stale projects table ("Commits not being scanned")
   staleTitle: byText('onboarding_dashboard.stale.title'),
   staleTable: byRole('table', { name: 'onboarding_dashboard.stale.title' }),
@@ -722,4 +731,22 @@ it('closes the "import repositories" modal when clicking the close button', asyn
   await user.click(await ui.importModalCloseButton.find());
 
   expect(ui.importModal.query()).not.toBeInTheDocument();
+});
+
+it('opens the "configure projects" modal when clicking the not-scanned CTA', async () => {
+  const user = setupUser();
+
+  renderOnboardingDashboard();
+  await user.click(await ui.notScannedCta.find());
+
+  expect(await ui.configureModal.find()).toBeInTheDocument();
+});
+
+it('opens the "configure projects" modal when clicking the full-CI CTA', async () => {
+  const user = setupUser();
+
+  renderOnboardingDashboard();
+  await user.click(await ui.fullCiCta.find());
+
+  expect(await ui.configureModal.find()).toBeInTheDocument();
 });

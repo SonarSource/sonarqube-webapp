@@ -10840,6 +10840,11 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.analyze.legend.local': 'Local (other)',
   'onboarding_dashboard.journey.analyze.legend.not_scanned': 'Not scanned',
   'onboarding_dashboard.journey.analyze.legend.not_imported': 'Not imported',
+  'onboarding_dashboard.journey.analyze.modal.title': 'Projects',
+  'onboarding_dashboard.journey.analyze.modal.description':
+    'Projects with the status "not scanned" need CI configuration to get analysis results.',
+  'onboarding_dashboard.journey.analyze.modal.configure': 'Configure',
+  'onboarding_dashboard.journey.analyze.modal.how_to_configure': 'How to configure projects',
   'onboarding_dashboard.journey.overtime.title': 'Onboarding over time',
   'onboarding_dashboard.journey.overtime.description': 'We encourage everyone to contribute',
   'onboarding_dashboard.journey.overtime.legend.platforms_bound': 'Platforms bound',
@@ -10875,8 +10880,9 @@ export const defaultMessages = {
   'onboarding_dashboard.projects.title': 'All projects',
   'onboarding_dashboard.projects.description':
     'A complete overview of all projects that need your attention.',
-  'onboarding_dashboard.projects.search': 'Search repositories…',
+  'onboarding_dashboard.projects.search': 'Search projects...',
   'onboarding_dashboard.projects.col.repository': 'Repository',
+  'onboarding_dashboard.projects.col.project': 'Project',
   'onboarding_dashboard.projects.col.onboarding': 'Scan status',
   'onboarding_dashboard.projects.col.analysis_mode': 'Analysis mode',
   'onboarding_dashboard.projects.col.gate_status': 'Gate status',

@@ -34,6 +34,10 @@ export function getFormattingHelpUrl(): string {
   return `${getBaseUrl()}/formatting/help`;
 }
 
+export function getConfigureProjectUrl(key: string): Partial<Path> {
+  return { pathname: '/tutorials', search: queryToSearchString({ id: key }) };
+}
+
 export const API_V2_BASE_URL = '/api/v2';
 export const API_V2_MOCKS_PREFIX = '/api/v2';
 

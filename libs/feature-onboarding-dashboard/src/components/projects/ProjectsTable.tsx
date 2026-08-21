@@ -95,13 +95,6 @@ interface Props {
   /** Placeholder for the search input. Omit to render the toolbar without a search box. */
   searchPlaceholderKey?: string;
   searchWidth?: SearchInputWidth;
-  /**
-   * Whether to stick the header row to the top of the scroll container. Modal callers combine this
-   * with a `tableClassName` that adds an internal scroll to keep the header visible.
-   */
-  stickyHeader?: boolean;
-  /** Extra class for the `Table` — modal-mode uses it to make the body scroll. */
-  tableClassName?: string;
   /** Extra toolbar controls rendered next to the search input, e.g. the filter dropdowns. */
   toolbarControls?: ReactNode;
 }
@@ -125,8 +118,6 @@ export function ProjectsTable({
   renderRow,
   searchPlaceholderKey,
   searchWidth,
-  stickyHeader = false,
-  tableClassName,
   toolbarControls,
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
@@ -197,7 +188,7 @@ export function ProjectsTable({
 
         <Table
           ariaLabel={ariaLabel}
-          className={tableClassName}
+          className="sw-overflow-y-auto sw-content-start"
           gridTemplate={gridTemplate}
           ref={tableRef}
           variety={TableVariety.Surface}
@@ -205,18 +196,18 @@ export function ProjectsTable({
           <Table.Header>
             <Table.Row>
               {columns.map(({ className, isLabelHidden, justify, labelKey, renderHeaderCell }) => {
-                const stickyClass = stickyHeader ? STICKY_HEADER_CLASSES : undefined;
-
                 if (renderHeaderCell !== undefined) {
-                  return <Fragment key={labelKey}>{renderHeaderCell(stickyClass)}</Fragment>;
+                  return (
+                    <Fragment key={labelKey}>{renderHeaderCell(STICKY_HEADER_CLASSES)}</Fragment>
+                  );
                 }
 
                 const label = formatMessage({ id: labelKey });
-                const headerClass = [stickyClass, className].filter(Boolean).join(' ');
+                const headerClass = [STICKY_HEADER_CLASSES, className].filter(Boolean).join(' ');
 
                 return (
                   <Table.ColumnHeaderCell
-                    className={headerClass === '' ? undefined : headerClass}
+                    className={headerClass}
                     justify={justify}
                     key={labelKey}
                     label={isLabelHidden ? <span className="sw-sr-only">{label}</span> : label}

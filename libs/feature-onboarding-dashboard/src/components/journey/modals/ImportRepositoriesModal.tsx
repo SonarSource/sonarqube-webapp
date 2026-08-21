@@ -72,8 +72,6 @@ export function ImportRepositoriesModal({ trigger }: Readonly<Props>) {
             <RepositoryRow key={project.key ?? project.name} project={project} />
           )}
           searchPlaceholderKey="onboarding_dashboard.journey.import.modal.search"
-          stickyHeader
-          tableClassName="sw-overflow-y-auto sw-content-start"
           toolbarControls={
             <ProjectsFilterSelect
               id="import-projects-visibility-filter"

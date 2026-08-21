@@ -34,8 +34,11 @@ import {
 } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
 import { useIntl } from 'react-intl';
+import { OnboardingProjectsScanStatusFilter } from '~shared/types/onboarding';
 import { JourneyState } from '../../../types/types';
 import { PanelDonut, PanelDonutSegment } from '../charts/PanelDonut';
+import { ConfigureProjectsModal } from '../modals/ConfigureProjectsModal';
+import { ImportRepositoriesModal } from '../modals/ImportRepositoriesModal';
 
 interface Props {
   state: JourneyState;
@@ -83,8 +86,7 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
 
   const rows: Array<{
     badge: ReactNode;
-    ctaId: string;
-    ctaVariety: ButtonVariety;
+    cta: ReactNode;
     description: string;
     icon: ReactNode;
     key: string;
@@ -92,8 +94,13 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
   }> = [
     {
       badge: <Badge variety={BadgeVariety.Danger}>{projectsCount(analyze.notScanned)}</Badge>,
-      ctaId: 'onboarding_dashboard.journey.analyze.not_scanned.cta',
-      ctaVariety: ButtonVariety.Primary,
+      cta: (
+        <ConfigureProjectsModal defaultScanStatus={OnboardingProjectsScanStatusFilter.NotScanned}>
+          <Button variety={ButtonVariety.Primary}>
+            {formatMessage({ id: 'onboarding_dashboard.journey.analyze.not_scanned.cta' })}
+          </Button>
+        </ConfigureProjectsModal>
+      ),
       description: formatMessage({ id: 'onboarding_dashboard.journey.analyze.not_scanned.desc' }),
       icon: <IconDot color="echoes-color-icon-danger" isFilled />,
       key: 'not-scanned',
@@ -101,8 +108,15 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
     },
     {
       badge: <Badge variety={BadgeVariety.Neutral}>{projectsCount(analyze.notImported)}</Badge>,
-      ctaId: 'onboarding_dashboard.journey.analyze.not_imported.cta',
-      ctaVariety: ButtonVariety.Default,
+      cta: (
+        <ImportRepositoriesModal
+          trigger={
+            <Button>
+              {formatMessage({ id: 'onboarding_dashboard.journey.analyze.not_imported.cta' })}
+            </Button>
+          }
+        />
+      ),
       description: formatMessage({ id: 'onboarding_dashboard.journey.analyze.not_imported.desc' }),
       icon: <IconDot color="echoes-color-icon-disabled" isFilled />,
       key: 'not-imported',
@@ -114,8 +128,13 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
           {formatMessage({ id: 'onboarding_dashboard.journey.import.recommended' })}
         </Badge>
       ),
-      ctaId: 'onboarding_dashboard.journey.analyze.full_ci.cta',
-      ctaVariety: ButtonVariety.Default,
+      cta: (
+        <ConfigureProjectsModal>
+          <Button>
+            {formatMessage({ id: 'onboarding_dashboard.journey.analyze.full_ci.cta' })}
+          </Button>
+        </ConfigureProjectsModal>
+      ),
       description: formatMessage(
         { id: 'onboarding_dashboard.journey.analyze.full_ci.desc' },
         { count: analyze.moveToFullCi },
@@ -135,11 +154,6 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
           { done: analyzed, total: totalProjects },
         )}
         segments={segments}
-        viewAll={
-          <Button variety={ButtonVariety.PrimaryGhost}>
-            {formatMessage({ id: 'onboarding_dashboard.journey.import.view_all' })}
-          </Button>
-        }
       />
 
       <div className="sw-flex sw-min-w-0 sw-flex-1 sw-flex-col sw-gap-4">
@@ -169,7 +183,7 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
                     </div>
                   </div>
 
-                  <Button variety={row.ctaVariety}>{formatMessage({ id: row.ctaId })}</Button>
+                  {row.cta}
                 </div>
               </Card.Body>
             </Card>
