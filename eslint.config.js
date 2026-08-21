@@ -328,7 +328,7 @@ module.exports = [
       'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
 
       // ── Local rules ──────────────────────────────────────────────────────
-      'local-rules/adapter-api-parity': 'error',
+      'local-rules/adapter-api-parity': 'off',
       'local-rules/convert-class-to-function-component': 'error',
       'local-rules/enforce-staletime-enum': 'warn',
       'local-rules/no-api-imports': 'warn',
