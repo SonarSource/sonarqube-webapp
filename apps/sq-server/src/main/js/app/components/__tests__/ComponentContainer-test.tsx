@@ -24,6 +24,7 @@ import { useContext } from 'react';
 import { Route } from 'react-router-dom';
 import * as withRouter from '~shared/components/hoc/withRouter';
 import { byRole, byTestId, byText } from '~shared/helpers/testSelector';
+import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { HttpStatus } from '~shared/types/request';
 import { validateProjectAlmBinding } from '~sq-server-commons/api/alm-settings';
@@ -101,7 +102,7 @@ const ui = {
   projectText: byText('project'),
   portfolioTitle: byText('component name'),
   portfolioText: byText(/portfolio/i),
-  overviewPageLink: byText('summary.page'),
+  summaryPageLink: byText('summary.page'),
   issuesPageLink: byText('issues.page'),
   hotspotsPageLink: byText('layout.security_hotspots'),
   measuresPageLink: byText('layout.measures'),
@@ -177,7 +178,7 @@ it('should render the component nav correctly for projects', async () => {
 
   renderComponentContainerAsComponent();
   expect(await ui.projectTitle.find()).toBeInTheDocument();
-  expect(getInteractiveElement(ui.overviewPageLink.get())).toHaveAttribute(
+  expect(getInteractiveElement(ui.summaryPageLink.get())).toHaveAttribute(
     'href',
     '/dashboard?id=project-key',
   );
@@ -694,7 +695,7 @@ describe('tutorials', () => {
 
     // getTasksForComponent is called but not finished yet, so we need to wait for it to finish
     await waitFor(() => {
-      expect(mockedReplace).toHaveBeenCalledWith(getProjectUrl(componentKey));
+      expect(mockedReplace).toHaveBeenCalledWith(getProjectOverviewUrl(componentKey));
     });
   });
 

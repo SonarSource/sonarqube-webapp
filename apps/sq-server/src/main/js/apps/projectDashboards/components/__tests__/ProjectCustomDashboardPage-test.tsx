@@ -33,14 +33,6 @@ const mockResetTargetSection = jest.fn();
 let mockDashboardId = '77acc15a-1742-42ff-9469-7e4de1faa19f';
 let mockQuery: { data?: unknown; error?: unknown; isPending: boolean; refetch: () => void };
 
-const DashboardCustomDashboardState = {
-  Error: 'error',
-  InvalidLayout: 'invalid-layout',
-  Loading: 'loading',
-  NotFound: 'not-found',
-  Ready: 'ready',
-} as const;
-
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual<typeof import('react-router-dom')>('react-router-dom'),
   useNavigate: () => jest.fn(),
@@ -63,40 +55,50 @@ jest.mock('../../../../queries/project-dashboards', () => ({
   useUpdateProjectDashboardMutation: () => ({ isPending: false, mutate: mockUpdate }),
 }));
 
-jest.mock('~feature-dashboards/dashboard-layout/DashboardCustomDashboardViews', () => ({
-  DashboardCustomDashboardGenericError: ({ onRetry }: { onRetry: () => void }) => (
-    <button onClick={onRetry} type="button">
-      generic-error
-    </button>
-  ),
-  DashboardCustomDashboardInvalidLayout: () => <div>invalid-layout</div>,
-  DashboardCustomDashboardLoading: () => <div>loading-dashboard</div>,
-  DashboardCustomDashboardNotFound: () => <div>dashboard-not-found</div>,
-  DashboardCustomDashboardState,
-  getDashboardCustomDashboardState: ({
-    error,
-    isLoading,
-    dashboard,
-  }: {
-    error?: unknown;
-    isLoading: boolean;
-    dashboard?: unknown;
-  }) => {
-    if (isLoading) {
-      return DashboardCustomDashboardState.Loading;
-    }
-    if (error === 'not-found') {
-      return DashboardCustomDashboardState.NotFound;
-    }
-    if (error === 'invalid-layout') {
-      return DashboardCustomDashboardState.InvalidLayout;
-    }
-    if (error || !dashboard) {
-      return DashboardCustomDashboardState.Error;
-    }
-    return DashboardCustomDashboardState.Ready;
-  },
-}));
+jest.mock('~feature-dashboards/dashboard-layout/DashboardCustomDashboardViews', () => {
+  const mockDashboardCustomDashboardState = {
+    Error: 'error',
+    InvalidLayout: 'invalid-layout',
+    Loading: 'loading',
+    NotFound: 'not-found',
+    Ready: 'ready',
+  } as const;
+
+  return {
+    DashboardCustomDashboardGenericError: ({ onRetry }: { onRetry: () => void }) => (
+      <button onClick={onRetry} type="button">
+        generic-error
+      </button>
+    ),
+    DashboardCustomDashboardInvalidLayout: () => <div>invalid-layout</div>,
+    DashboardCustomDashboardLoading: () => <div>loading-dashboard</div>,
+    DashboardCustomDashboardNotFound: () => <div>dashboard-not-found</div>,
+    DashboardCustomDashboardState: mockDashboardCustomDashboardState,
+    getDashboardCustomDashboardState: ({
+      error,
+      isLoading,
+      dashboard,
+    }: {
+      error?: unknown;
+      isLoading: boolean;
+      dashboard?: unknown;
+    }) => {
+      if (isLoading) {
+        return mockDashboardCustomDashboardState.Loading;
+      }
+      if (error === 'not-found') {
+        return mockDashboardCustomDashboardState.NotFound;
+      }
+      if (error === 'invalid-layout') {
+        return mockDashboardCustomDashboardState.InvalidLayout;
+      }
+      if (error || !dashboard) {
+        return mockDashboardCustomDashboardState.Error;
+      }
+      return mockDashboardCustomDashboardState.Ready;
+    },
+  };
+});
 
 jest.mock('~feature-dashboards/hooks/useAddWidget', () => ({
   useAddWidget: () => ({

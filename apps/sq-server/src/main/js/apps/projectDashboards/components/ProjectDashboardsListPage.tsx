@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, Pagination, Text, toast } from '@sonarsource/echoes-react';
+import { Button, IconPeople, Pagination, Text, toast } from '@sonarsource/echoes-react';
 import { debounce } from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -35,8 +35,11 @@ import {
 import type { ProjectDashboardWidgetPropMap } from '~feature-dashboards/types/dashboard-widget';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isDefined } from '~shared/helpers/types';
+import { Visibility } from '~shared/types/component';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useUsersByIdsQuery } from '~sq-server-commons/queries/users';
 import { useProjectId } from '~sq-server-commons/sq-server-adapters/helpers/useProjectId';
 import { useCurrentUser } from '~sq-server-commons/sq-server-adapters/helpers/users';
@@ -151,6 +154,34 @@ export function ProjectDashboardsListPage() {
       <FormattedMessage id="project_dashboards.create_dashboard" />
     </Button>
   ) : undefined;
+  const description = (
+    <Text>
+      <FormattedMessage
+        id="project_dashboards.page.description"
+        values={{
+          link: (text) => (
+            <DocumentationLink enableOpenInNewTab to={DocLink.ProjectManagementAllDashboards}>
+              {text}
+            </DocumentationLink>
+          ),
+        }}
+      />
+    </Text>
+  );
+  const metadata = (
+    <div className="sw-flex sw-items-center sw-gap-2">
+      <IconPeople />
+      <Text isSubtle>
+        <FormattedMessage
+          id={
+            component?.visibility === Visibility.Public
+              ? 'project_dashboards.page.public_project_message'
+              : 'project_dashboards.page.private_project_message'
+          }
+        />
+      </Text>
+    </div>
+  );
   const builtInFilterOption = {
     label: formatMessage({ id: 'dashboard.type.built_in' }),
     value: DashboardFilter.BuiltIn,
@@ -166,7 +197,9 @@ export function ProjectDashboardsListPage() {
   return (
     <ProjectPageTemplate
       actions={createButton}
-      description={<Text>{formatMessage({ id: 'project_dashboards.page.description' })}</Text>}
+      description={description}
+      disableBranchSelector
+      metadata={metadata}
       title={formatMessage({ id: 'project_dashboards.page' })}
     >
       {canEdit && (

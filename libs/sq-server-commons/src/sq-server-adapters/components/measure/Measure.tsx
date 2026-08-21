@@ -63,19 +63,23 @@ interface Props {
   value: string | number | undefined;
 }
 
-function toSupportedBadgeSize(
+function toRatingBadgeSize(
   badgeSize?: `${RatingBadgeSize}` | RatingBadgeSize,
-): RatingBadgeSize.ExtraSmall | RatingBadgeSize.Small | RatingBadgeSize.Medium {
-  if (badgeSize === RatingBadgeSize.ExtraLarge || badgeSize === RatingBadgeSize.Large) {
-    return RatingBadgeSize.Medium;
+): RatingBadgeSize | undefined {
+  switch (badgeSize) {
+    case RatingBadgeSize.ExtraSmall:
+      return RatingBadgeSize.ExtraSmall;
+    case RatingBadgeSize.Small:
+      return RatingBadgeSize.Small;
+    case RatingBadgeSize.Medium:
+      return RatingBadgeSize.Medium;
+    case RatingBadgeSize.Large:
+      return RatingBadgeSize.Large;
+    case RatingBadgeSize.ExtraLarge:
+      return RatingBadgeSize.ExtraLarge;
+    default:
+      return undefined;
   }
-  if (badgeSize === RatingBadgeSize.ExtraSmall) {
-    return RatingBadgeSize.ExtraSmall;
-  }
-  if (badgeSize === RatingBadgeSize.Small) {
-    return RatingBadgeSize.Small;
-  }
-  return RatingBadgeSize.Medium;
 }
 
 export default function Measure({
@@ -174,8 +178,7 @@ export default function Measure({
         getTooltip={getTooltip}
         ratingMetric={metricKey as MetricKey}
         size={
-          toSupportedBadgeSize(badgeSize) ??
-          (small ? RatingBadgeSize.Small : RatingBadgeSize.Medium)
+          toRatingBadgeSize(badgeSize) ?? (small ? RatingBadgeSize.Small : RatingBadgeSize.Medium)
         }
       />
     </span>

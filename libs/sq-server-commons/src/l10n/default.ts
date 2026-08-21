@@ -1239,9 +1239,14 @@ export const defaultMessages = {
   'issues.skip_to_list': 'Skip to issues list',
   'view_projects.page': 'Projects',
   'portfolios.page': 'Portfolios',
+  'portfolio_dashboards.nav': 'Dashboards',
   'portfolio_dashboards.page': 'All dashboards',
   'portfolio_dashboards.page.description':
-    'List of all dashboards in this portfolio including built-in and custom dashboards. {br} Learn more about <link>viewing and managing dashboards</link>',
+    'List of all dashboards in this portfolio including built-in and custom dashboards. {br} Learn more about <link>viewing and managing portfolio dashboards</link>',
+  'portfolio_dashboards.page.private_portfolio_message':
+    'Anyone with access to this portfolio can view, create, and edit dashboards.',
+  'portfolio_dashboards.page.public_portfolio_message':
+    'Anyone can view. Only authenticated users can create and edit dashboards.',
   'portfolio_dashboards.health.page': 'Portfolio health dashboard',
   'portfolio_dashboards.all.page': 'All dashboards',
   'portfolio_dashboards.create_dashboard': 'Create custom dashboard',
@@ -1249,9 +1254,14 @@ export const defaultMessages = {
   'portfolio_dashboards.search_placeholder': 'Search for dashboard...',
   'portfolio_dashboards.number_of_dashboards':
     '<b>{count}</b> {count, plural, one {dashboard} other {dashboards}}',
-  'project_dashboards.page': 'Dashboards',
-  'project_dashboards.page.description': 'Manage custom dashboards for this project.',
-  'project_dashboards.all.page': 'All dashboards',
+  'project_dashboards.page': 'All dashboards',
+  'project_dashboards.page.description':
+    'List of all dashboards in this project, including Built-in and custom dashboards. Learn more about <link>viewing and managing project dashboards</link>.',
+  'project_dashboards.page.private_project_message':
+    'Anyone with access to this project can view, create, and edit dashboards.',
+  'project_dashboards.page.public_project_message':
+    'Anyone can view. Only authenticated users can create and edit dashboards.',
+  'project_dashboards.all.page': 'Dashboards',
   'project_dashboards.create_dashboard': 'Create custom dashboard',
   'project_dashboards.search_placeholder': 'Search for dashboard...',
   'project_dashboards.number_of_dashboards':
@@ -1266,6 +1276,9 @@ export const defaultMessages = {
   'project_dashboard.list.toast.edit_success': 'Dashboard {dashboardName} updated.',
   'project_dashboard.list.toast.duplicate_success': 'Dashboard {dashboardName} duplicated.',
   'project_dashboard.built_in': 'Built-in dashboard',
+  'project_dashboard.overview.banner.title': 'Meet the new Overview',
+  'project_dashboard.overview.banner.description':
+    "The Overview page has a new look, putting your project health metrics front and center. Looking for the previous Overview page? It's still available, now as the <link>analysis summary page.</link>",
   'portfolio_breakdown.page': 'Portfolio breakdown',
   'project_activity.page': 'Activity',
 
@@ -3539,6 +3552,14 @@ export const defaultMessages = {
     'Are you sure you want to delete this section? This will permanently remove the section and all its widgets.',
   'dashboard.list.number_of_dashboards': '<b>{count}</b> dashboard(s)',
   'dashboard.modal.permission_access.title': 'Permissions and access',
+  'project_dashboard.modal.permission_access.private_project_description':
+    'Visible and editable by anyone with browse access to this private project.',
+  'project_dashboard.modal.permission_access.public_project_description':
+    'Anyone can view. Only authenticated users can create and edit dashboards.',
+  'portfolio_dashboard.modal.permission_access.private_portfolio_description':
+    'Visible and editable by anyone with browse access to this private portfolio.',
+  'portfolio_dashboard.modal.permission_access.public_portfolio_description':
+    'Anyone can view. Only authenticated users can create and edit dashboards.',
   'dashboard.view_all_dashboards': 'View all dashboards',
   'dashboard.download_schema': 'Save dashboard schema',
   'project_dashboard.widget.no_issues': 'No issues found',
@@ -3636,6 +3657,9 @@ export const defaultMessages = {
     'We could not duplicate your dashboard. Try again.',
   'portfolio_dashboard.list.error.description': 'We could not load dashboards. Try again later.',
   'portfolio_dashboard.list.title': 'All dashboards',
+  'portfolio_dashboard.built_in.introduction.title': 'Introducing portfolio dashboards',
+  'portfolio_dashboard.built_in.introduction.description':
+    'Dive into metrics by exploring the Built-in dashboard or creating your own.',
   'portfolio_dashboard.custom.error.description':
     'We could not load this dashboard. Try again later.',
   'portfolio_dashboard.custom.error.invalid_layout.description':
@@ -9813,7 +9837,8 @@ export const defaultMessages = {
   'component_report.report': '{0} report',
   'component_report.download': 'Download {0} report (PDF)',
   'component_report.download.help_text': 'Key metrics for new code and quality gate status',
-  'component_report.no_email_to_subscribe': 'Email subscription requires an email address.',
+  'component_report.no_email_to_subscribe':
+    'Subscribing to monthly reports requires an email address associated with your user account.',
   'component_report.subscribe_x': 'Subscribe to {0} report',
   'component_report.unsubscribe_x': 'Unsubscribe from {0} report',
   'component_report.unsubscribe': 'Unsubscribe from report',

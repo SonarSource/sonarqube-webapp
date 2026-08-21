@@ -149,7 +149,7 @@ it('should show import project feature when the authentication is successful', a
   expect(ui.project1.byRole('link', { name: /Github repo 1/ }).get()).toBeInTheDocument();
   expect(ui.project1.byRole('link', { name: /Github repo 1/ }).get()).toHaveAttribute(
     'href',
-    '/dashboard?id=key123',
+    '/project/dashboards/built-in/project-health?id=key123',
   );
 
   expect(ui.project2Checkbox.get()).not.toBeChecked();
@@ -171,7 +171,9 @@ it('should show import project feature when the authentication is successful', a
   expect(ui.createProjectButton.get()).toBeEnabled();
   await user.click(ui.createProjectButton.get());
 
-  expect(await screen.findByText('/dashboard?id=key')).toBeInTheDocument();
+  expect(
+    await screen.findByText('/project/dashboards/built-in/project-health?id=key'),
+  ).toBeInTheDocument();
 });
 
 it('should import several projects', async () => {

@@ -128,7 +128,10 @@ it('should show import project feature when PAT is already set', async () => {
   await user.click(await byRole('option', { name: /conf-final-2/ }).find());
 
   expect(await ui.project1.find()).toBeInTheDocument();
-  expect(ui.project1Link.get()).toHaveAttribute('href', '/dashboard?id=key');
+  expect(ui.project1Link.get()).toHaveAttribute(
+    'href',
+    '/project/dashboards/built-in/project-health?id=key',
+  );
   expect(ui.project1GitlabLink.get()).toHaveAttribute(
     'href',
     'https://gitlab.company.com/best-projects/awesome-project-exclamation',

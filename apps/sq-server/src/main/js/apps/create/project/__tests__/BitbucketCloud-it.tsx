@@ -152,7 +152,7 @@ it('should show import project feature when PAT is already set', async () => {
   ).toBeInTheDocument();
   expect(within(projectItem).getByRole('link', { name: /BitbucketCloud Repo 1/ })).toHaveAttribute(
     'href',
-    '/dashboard?id=key',
+    '/project/dashboards/built-in/project-health?id=key',
   );
 
   projectItem = screen.getByRole('listitem', { name: /BitbucketCloud Repo 2/ });
@@ -175,7 +175,9 @@ it('should show import project feature when PAT is already set', async () => {
     }),
   );
 
-  expect(await screen.findByText('/dashboard?id=key')).toBeInTheDocument();
+  expect(
+    await screen.findByText('/project/dashboards/built-in/project-health?id=key'),
+  ).toBeInTheDocument();
 });
 
 it('should show search filter when PAT is already set', async () => {

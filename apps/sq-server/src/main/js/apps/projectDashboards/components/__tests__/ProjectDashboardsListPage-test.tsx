@@ -21,6 +21,7 @@
 import { act, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { renderWithRouter } from '~shared/helpers/test-utils';
+import { Visibility } from '~shared/types/component';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { ProjectDashboardsListPage } from '../ProjectDashboardsListPage';
@@ -33,6 +34,7 @@ const mockCreate: jest.MockedFunction<
 > = jest.fn();
 const mockNavigate = jest.fn();
 const mockSetSearchParams = jest.fn();
+let mockVisibility = Visibility.Private;
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual<typeof import('react-router-dom')>('react-router-dom'),
@@ -45,7 +47,7 @@ jest.mock('~sq-server-commons/sq-server-adapters/helpers/useProjectId', () => ({
   useProjectId: () => 'project-id',
 }));
 jest.mock('~sq-server-commons/context/componentContext/withComponentContext', () => ({
-  useComponent: () => ({ component: { key: 'project-key' } }),
+  useComponent: () => ({ component: { key: 'project-key', visibility: mockVisibility } }),
 }));
 jest.mock('~sq-server-commons/sq-server-adapters/helpers/users', () => ({
   useCurrentUser: () => ({ isLoggedIn: true }),
@@ -170,14 +172,22 @@ jest.mock('~shared/components/pages/ProjectPageTemplate', () => ({
   ProjectPageTemplate: ({
     actions,
     children,
+    description,
+    disableBranchSelector,
+    metadata,
     title,
   }: {
     actions?: ReactNode;
     children: ReactNode;
+    description?: ReactNode;
+    disableBranchSelector?: boolean;
+    metadata?: ReactNode;
     title: ReactNode;
   }) => (
-    <div>
-      {title}
+    <div data-disable-branch-selector={disableBranchSelector} data-testid="project-page-template">
+      <h1>{title}</h1>
+      {description}
+      {metadata}
       {actions}
       {children}
     </div>
@@ -191,15 +201,33 @@ function renderProjectDashboardsListPage(edition = EditionKey.developer) {
 }
 
 describe('ProjectDashboardsListPage', () => {
-  beforeEach(() => jest.clearAllMocks());
+  beforeEach(() => {
+    jest.clearAllMocks();
+    mockVisibility = Visibility.Private;
+  });
 
   it('renders built-in and custom dashboards with the all filter', () => {
     renderProjectDashboardsListPage();
 
+    expect(screen.getByRole('heading', { name: 'project_dashboards.page' })).toBeInTheDocument();
+    expect(screen.getByText('project_dashboards.page.description')).toBeInTheDocument();
+    expect(screen.getByText('project_dashboards.page.private_project_message')).toBeInTheDocument();
     expect(screen.getByTestId('dashboard-table')).toHaveTextContent(
       'Project Health,Custom dashboard',
     );
+    expect(screen.getByTestId('project-page-template')).toHaveAttribute(
+      'data-disable-branch-selector',
+      'true',
+    );
     expect(screen.getByTestId('total')).toHaveTextContent('2');
+  });
+
+  it('shows the public project permission message', () => {
+    mockVisibility = Visibility.Public;
+
+    renderProjectDashboardsListPage();
+
+    expect(screen.getByText('project_dashboards.page.public_project_message')).toBeInTheDocument();
   });
 
   it('changes the filter and resets the page', async () => {

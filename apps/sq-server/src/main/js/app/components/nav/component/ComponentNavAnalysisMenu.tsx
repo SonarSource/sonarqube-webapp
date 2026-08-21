@@ -23,13 +23,16 @@ import {
   IconDependencyRisk,
   IconFileCode,
   IconIssues,
+  IconOverview,
   IconSecurityFinding,
   IconSummary,
   Layout,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { To, useLocation } from 'react-router-dom';
+import { DASHBOARDS_NEW_BADGE_EXPIRATION_DATE } from '~feature-dashboards/constants';
 import { DeprecatedBadge } from '~shared/components/badges/DeprecatedBadge';
+import { NewBadge } from '~shared/components/badges/NewBadge';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike } from '~shared/helpers/component';
 import { getRisksUrl } from '~shared/helpers/sca-urls';
@@ -45,7 +48,6 @@ import { getComponentSecurityHotspotsUrl } from '~sq-server-commons/sonar-aligne
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
-import { ProjectDashboardsListRoute } from '../../../../apps/projectDashboards/routes';
 
 interface Props {
   branchLike?: BranchLike;
@@ -104,7 +106,7 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
 
   const portfolioDashboardSearchParams = new URLSearchParams({ id: component.key }).toString();
   const portfolioGovernanceEnabled = isPortfolio && isGovernanceEnabled;
-  const showProjectDashboardsNav = qualifier === ComponentQualifier.Project;
+  const isProject = qualifier === ComponentQualifier.Project;
 
   let dashboardUrl: To | null = getProjectQueryUrl(component.key, branchParameters);
   if (isPortfolio) {
@@ -117,8 +119,11 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
         label={<FormattedMessage id="navigation.project.group.analysis" />}
       >
         {dashboardUrl && (
-          <Layout.SidebarNavigation.Item Icon={IconSummary} to={dashboardUrl}>
-            <FormattedMessage id="summary.page" />
+          <Layout.SidebarNavigation.Item
+            Icon={isProject ? IconSummary : IconOverview}
+            to={dashboardUrl}
+          >
+            <FormattedMessage id={isProject ? 'summary.page' : 'overview.page'} />
           </Layout.SidebarNavigation.Item>
         )}
       </Layout.SidebarNavigation.Group>
@@ -131,31 +136,23 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
     >
       {dashboardUrl && (
         <Layout.SidebarNavigation.Item
-          Icon={IconSummary}
+          Icon={isProject ? IconSummary : IconOverview}
           isMatchingFullPath={portfolioGovernanceEnabled}
           to={dashboardUrl}
         >
-          <FormattedMessage id="summary.page" />
-        </Layout.SidebarNavigation.Item>
-      )}
-
-      {showProjectDashboardsNav && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconDashboard}
-          isActive={location.pathname.startsWith(ProjectDashboardsListRoute)}
-          to={{
-            pathname: ProjectDashboardsListRoute,
-            search: new URLSearchParams({ id: component.key }).toString(),
-          }}
-        >
-          <FormattedMessage id="project_dashboards.all.page" />
+          <FormattedMessage id={isProject ? 'summary.page' : 'overview.page'} />
         </Layout.SidebarNavigation.Item>
       )}
 
       {showPortfolioGovernanceNav && portfolioHealthDashboardRoute && (
         <Layout.SidebarNavigation.AccordionItem
           Icon={IconDashboard}
-          label={<FormattedMessage id="portfolio_dashboards.page" />}
+          label={
+            <span className="sw-flex sw-w-full sw-items-center sw-justify-between">
+              <FormattedMessage id="portfolio_dashboards.nav" />
+              <NewBadge expirationDate={DASHBOARDS_NEW_BADGE_EXPIRATION_DATE} />
+            </span>
+          }
         >
           <Layout.SidebarNavigation.Item
             Icon={IconDashboard}

@@ -20,7 +20,7 @@
 
 import { Path, To } from 'react-router-dom';
 import { getBaseUrl } from '~adapters/helpers/system';
-import { PROJECT_BASE_URL } from '~adapters/helpers/urls';
+import { PROJECT_SUMMARY_BASE_URL } from '~adapters/helpers/urls';
 import {
   getBranchLikeQuery,
   isBranch,
@@ -29,6 +29,7 @@ import {
 } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike } from '~shared/helpers/component';
 import { queryToSearchString } from '~shared/helpers/query';
+import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { BranchParameters } from '~shared/types/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import { DEFAULT_ISSUES_QUERY } from '../components/shared/utils';
@@ -103,7 +104,7 @@ export const getProjectUrl: GetProjectUrl = (
   codeScope?: CodeScopeType,
 ): Partial<Path> => {
   return {
-    pathname: PROJECT_BASE_URL,
+    pathname: PROJECT_SUMMARY_BASE_URL,
     search: queryToSearchString({
       id: project,
       branch,
@@ -125,7 +126,7 @@ export function getProjectQueryUrl(
   codeScope?: CodeScopeType,
 ): To {
   return {
-    pathname: PROJECT_BASE_URL,
+    pathname: PROJECT_SUMMARY_BASE_URL,
     search: queryToSearchString({
       id: project,
       ...branchParameters,
@@ -192,14 +193,14 @@ export function getBranchLikeUrl(project: string, branchLike?: BranchLike): Part
 
 export function getBranchUrl(project: string, branch: string): Partial<Path> {
   return {
-    pathname: PROJECT_BASE_URL,
+    pathname: PROJECT_SUMMARY_BASE_URL,
     search: queryToSearchString({ branch, id: project }),
   };
 }
 
 export function getPullRequestUrl(project: string, pullRequest: string): Partial<Path> {
   return {
-    pathname: PROJECT_BASE_URL,
+    pathname: PROJECT_SUMMARY_BASE_URL,
     search: queryToSearchString({ id: project, pullRequest }),
   };
 }
@@ -404,7 +405,7 @@ export function getHomePageUrl(homepage: HomePage) {
     case 'PROJECT':
       return homepage.branch
         ? getBranchUrl(homepage.component, homepage.branch)
-        : getProjectUrl(homepage.component);
+        : getProjectOverviewUrl(homepage.component);
     case 'PORTFOLIO':
       return getPortfolioUrl(homepage.component);
     case 'PORTFOLIOS':

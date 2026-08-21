@@ -933,7 +933,7 @@ describe('isKnownUnsupportedDashboardHistoryMetric', () => {
 
   it.each([
     [MetricKey.coverage, false],
-    [MetricKey.releasability_rating, true],
+    [MetricKey.releasability_rating, false],
     [MetricKey.security_rating_with_aica, true],
     [MetricKey.new_security_rating_without_aica, true],
     [muleMetricKey, true],

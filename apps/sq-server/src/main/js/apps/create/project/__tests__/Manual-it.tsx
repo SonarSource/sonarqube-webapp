@@ -91,7 +91,7 @@ const ui = {
   ncdOptionDaysInput: byRole('spinbutton', {
     name: /new_code_definition.specific_setting.number_of_days.input.label/,
   }),
-  projectDashboardText: byText('/dashboard?id=foo'),
+  projectDashboardText: byText('/project/dashboards/built-in/project-health?id=foo'),
   projectsPageTitle: byRole('heading', { name: 'projects.page' }),
 };
 

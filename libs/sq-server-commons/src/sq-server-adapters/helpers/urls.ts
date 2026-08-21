@@ -18,10 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Path } from 'react-router-dom';
+import { generatePath, Path } from 'react-router-dom';
 import { getBaseUrl } from '~adapters/helpers/system';
 import { queryToSearchString } from '~shared/helpers/query';
 import { RawQuery } from '~shared/types/router';
+import {
+  PROJECT_BUILT_IN_DASHBOARD_ROUTE,
+  PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY,
+} from '../../helpers/project-dashboard-routes';
 
 /**
  * Generate URL for the rules page
@@ -41,10 +45,10 @@ export function getConfigureProjectUrl(key: string): Partial<Path> {
 export const API_V2_BASE_URL = '/api/v2';
 export const API_V2_MOCKS_PREFIX = '/api/v2';
 
-/**
- * This is the URL most like an overview for a SQS project.
- */
-export const PROJECT_BASE_URL = '/dashboard';
+export const PROJECT_BASE_URL = generatePath(PROJECT_BUILT_IN_DASHBOARD_ROUTE, {
+  dashboardKey: PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY,
+});
+export const PROJECT_SUMMARY_BASE_URL = '/dashboard';
 
 /**
  * Base path for ALM provider icons. SQS serves them from `/images/alm`, whereas SQC

@@ -23,6 +23,7 @@ import { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDashboardProjectContext } from '~adapters/context/dashboardContext';
 import { useFlags } from '~adapters/helpers/feature-flags';
+import { shouldShowProjectDashboardLimitedHistoryWarning } from '~adapters/helpers/project-dashboard';
 import { useOrgIssueDensityLineChartWidgetData } from '~adapters/queries/issue-density-widget-data';
 import { useOrgIssueResolutionLineChartWidgetData } from '~adapters/queries/issue-resolution-widget-data';
 import { useOrgScaResolutionLineChartWidgetData } from '~adapters/queries/sca-resolution-widget-data';
@@ -87,13 +88,14 @@ function ProjectLineChartShell(
   const { organizationReportingEnableNewDashboardWidgets } = useFlags();
   const { formatMessage } = useIntl();
   const { historyRange, metricName, series, ...rest } = props;
-  const footerNode = isLongHistoryRange(historyRange) ? (
-    <MessageInline variety={MessageVariety.Info}>
-      <Text isSubtle size={TextSize.Small}>
-        {formatMessage({ id: 'dashboard.line_chart.limited_history_warning' })}
-      </Text>
-    </MessageInline>
-  ) : undefined;
+  const footerNode =
+    shouldShowProjectDashboardLimitedHistoryWarning() && isLongHistoryRange(historyRange) ? (
+      <MessageInline variety={MessageVariety.Info}>
+        <Text isSubtle size={TextSize.Small}>
+          {formatMessage({ id: 'dashboard.line_chart.limited_history_warning' })}
+        </Text>
+      </MessageInline>
+    ) : undefined;
 
   return (
     <div className="sw-h-full sw-min-h-0 sw-flex sw-flex-col">

@@ -20,6 +20,7 @@
 
 import { fireEvent, screen } from '@testing-library/react';
 import { ComponentProps } from 'react';
+import { DASHBOARDS_NEW_BADGE_EXPIRATION_DATE } from '~feature-dashboards/constants';
 import { RecentHistory } from '~shared/helpers/recent-history';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
@@ -43,6 +44,11 @@ jest.mock('~shared/helpers/recent-history', () => ({
     ]),
   },
 }));
+jest.mock('~shared/components/badges/NewBadge', () => ({
+  NewBadge: ({ expirationDate }: { expirationDate: string }) => (
+    <span aria-label={`new-badge-${expirationDate}`} />
+  ),
+}));
 
 const branchesHandler = new BranchesServiceMock();
 const measuresHandler = new MeasuresServiceMock();
@@ -65,7 +71,9 @@ const ui = {
 
   // Navigation items
   onboardingLink: byText('onboarding.project_analysis.menu_entry'),
-  overviewLink: byText('summary.page'),
+  overviewLink: byText('overview.page'),
+  summaryLink: byText('summary.page'),
+  portfolioDashboardsMenu: byText('portfolio_dashboards.nav'),
   portfolioHealthDashboardLink: byText('portfolio_dashboards.health.page'),
   allDashboardsLink: byText('portfolio_dashboards.all.page'),
   allProjectDashboardsLink: byText('project_dashboards.all.page'),
@@ -80,6 +88,7 @@ const ui = {
   applicationInfoLink: byText('application.info.title'),
   qualityProfilesLink: byText('project_quality_profiles.page'),
   qualityGateLink: byText('project_quality_gate.page'),
+  qualityGateHistoryLink: byText('layout.quality_gate_history'),
   navigationItemsList: () =>
     byRole('link', { hidden: true })
       .getAll()
@@ -87,6 +96,7 @@ const ui = {
 
   // Group labels
   analysisGroup: byText('navigation.project.group.analysis'),
+  navigationGroups: byRole('group', { hidden: true }),
   projectGroup: byText('navigation.project.group.project'),
   reportingGroup: byText('navigation.project.group.reporting'),
   policiesGroup: byText('navigation.project.group.policies'),
@@ -109,6 +119,9 @@ describe('ComponentNav', () => {
       );
 
       expect(ui.allProjectDashboardsLink.get()).toBeInTheDocument();
+      expect(
+        screen.getByLabelText(`new-badge-${DASHBOARDS_NEW_BADGE_EXPIRATION_DATE}`),
+      ).toBeInTheDocument();
     });
 
     it('should render onboarding link when project is not analyzed', () => {
@@ -123,10 +136,10 @@ describe('ComponentNav', () => {
         'project.info.title',
       ]);
       expect(ui.onboardingLink.get()).toBeInTheDocument();
-      expect(ui.overviewLink.query()).not.toBeInTheDocument();
+      expect(ui.summaryLink.query()).not.toBeInTheDocument();
     });
 
-    it('should render analysis menu when project is analyzed', () => {
+    it('should render analysis menu when project is analyzed', async () => {
       const component = mockComponent({
         analysisDate: '2024-01-01',
         configuration: {
@@ -136,10 +149,12 @@ describe('ComponentNav', () => {
       });
 
       renderComponentNav({ component });
+      expect(ui.overviewLink.get()).toBeInTheDocument();
 
       expect(ui.navigationItemsList()).toEqual([
-        'summary.page',
+        'overview.page',
         'project_dashboards.all.page',
+        'summary.page',
         'issues.page',
         'layout.security_hotspotsdeprecated',
         'layout.measures',
@@ -150,7 +165,20 @@ describe('ComponentNav', () => {
         'project.info.title',
       ]);
       expect(ui.onboardingLink.query()).not.toBeInTheDocument();
-      expect(ui.overviewLink.get()).toBeInTheDocument();
+      expect(ui.summaryLink.get()).toBeInTheDocument();
+      const analysisGroup = ui.navigationGroups
+        .getAll()
+        .find((group) => ui.analysisGroup.query(group));
+      expect(analysisGroup).not.toContainElement(ui.allProjectDashboardsLink.get());
+      expect(getInteractiveElement(ui.overviewLink.get())).toHaveAttribute(
+        'href',
+        '/project/dashboards/built-in/project-health?id=my-project',
+      );
+      expect(await ui.qualityGateHistoryLink.find()).toBeInTheDocument();
+      const reportingGroup = ui.navigationGroups
+        .getAll()
+        .find((group) => ui.reportingGroup.query(group));
+      expect(reportingGroup).toContainElement(ui.qualityGateHistoryLink.get());
       expect(ui.issuesLink.get()).toBeInTheDocument();
       expect(ui.securityHotspotsLink.get()).toBeInTheDocument();
       expect(ui.measuresLink.get()).toBeInTheDocument();
@@ -175,8 +203,9 @@ describe('ComponentNav', () => {
       renderComponentNav({ component });
 
       expect(ui.navigationItemsList()).toEqual([
-        'summary.page',
+        'overview.page',
         'project_dashboards.all.page',
+        'summary.page',
         'issues.page',
         'layout.security_hotspotsdeprecated',
         'layout.measures',
@@ -203,8 +232,9 @@ describe('ComponentNav', () => {
       renderComponentNav({ component });
 
       expect(ui.navigationItemsList()).toEqual([
-        'summary.page',
+        'overview.page',
         'project_dashboards.all.page',
+        'summary.page',
         'issues.page',
         'layout.security_hotspotsdeprecated',
         'layout.measures',
@@ -248,7 +278,7 @@ describe('ComponentNav', () => {
       renderComponentNav({ component });
 
       expect(ui.navigationItemsList()).toEqual([
-        'summary.page',
+        'overview.page',
         'issues.page',
         'layout.security_hotspotsdeprecated',
         'layout.measures',
@@ -282,7 +312,7 @@ describe('ComponentNav', () => {
       expect(ui.projectGroup.query()).not.toBeInTheDocument();
       expect(ui.policiesGroup.query()).not.toBeInTheDocument();
 
-      expect(ui.navigationItemsList()).toEqual(['summary.page']);
+      expect(ui.navigationItemsList()).toEqual(['overview.page']);
     });
   });
 
@@ -302,8 +332,9 @@ describe('ComponentNav', () => {
       renderComponentNav({ component: projectComponent });
 
       expect(ui.navigationItemsList()).toEqual([
-        'summary.page',
+        'overview.page',
         'project_dashboards.all.page',
+        'summary.page',
         'issues.page',
         'layout.security_hotspotsdeprecated',
         'Custom Extension',

@@ -18,10 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconRocket, Layout } from '@sonarsource/echoes-react';
+import { IconDashboard, IconOverview, IconRocket, Layout } from '@sonarsource/echoes-react';
 import { useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useLocation } from 'react-router-dom';
 import { useCurrentBranchQuery, useProjectBranchesQuery } from '~adapters/queries/branch';
+import { DASHBOARDS_NEW_BADGE_EXPIRATION_DATE } from '~feature-dashboards/constants';
+import { NewBadge } from '~shared/components/badges/NewBadge';
 import { ComponentNavHeader } from '~shared/components/nav/component-nav/ComponentNavHeader';
 import { isApplication, isPortfolioLike } from '~shared/helpers/component';
 import { History, RecentHistory } from '~shared/helpers/recent-history';
@@ -31,12 +34,17 @@ import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import {
+  PROJECT_DASHBOARDS_LIST_ROUTE,
+  PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY,
+} from '~sq-server-commons/helpers/project-dashboard-routes';
+import {
   getPortfolioUrl,
   getProjectsUrl,
   getProjectTutorialLocation,
 } from '~sq-server-commons/helpers/urls';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
+import { getProjectBuiltInDashboardRoute } from '../../../../apps/projectDashboards/routes';
 import { ComponentNavAnalysisMenu } from './ComponentNavAnalysisMenu';
 import { ComponentNavExtensionsMenu } from './ComponentNavExtensionsMenu';
 import { ComponentNavPoliciesMenu } from './ComponentNavPoliciesMenu';
@@ -52,6 +60,7 @@ interface Props {
 
 export function ComponentNav(props: Readonly<Props>) {
   const intl = useIntl();
+  const location = useLocation();
   const { component, isInProgress, isPending } = props;
   const { hasFeature } = useAvailableFeatures();
   const { data: branchLikes = [] } = useProjectBranchesQuery(component);
@@ -68,6 +77,10 @@ export function ComponentNav(props: Readonly<Props>) {
    */
   const showOnboarding = !isPortfolio && !isAnalyzed;
   const showAnalysisMenu = isAnalyzed || isPortfolio;
+  const showProjectNav = showAnalysisMenu && component.qualifier === ComponentQualifier.Project;
+  const projectOverviewRoute = getProjectBuiltInDashboardRoute(
+    PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY,
+  );
 
   const isApplicationChildInaccessible =
     isApplication(component.qualifier) && !component.canBrowseAllChildProjects;
@@ -102,6 +115,34 @@ export function ComponentNav(props: Readonly<Props>) {
             to={getProjectTutorialLocation(component.key)}
           >
             <FormattedMessage id="onboarding.project_analysis.menu_entry" />
+          </Layout.SidebarNavigation.Item>
+        )}
+        {showProjectNav && (
+          <Layout.SidebarNavigation.Item
+            Icon={IconOverview}
+            isActive={location.pathname === projectOverviewRoute}
+            to={getProjectBuiltInDashboardRoute(
+              PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY,
+              component.key,
+            )}
+          >
+            <FormattedMessage id="overview.page" />
+          </Layout.SidebarNavigation.Item>
+        )}
+        {showProjectNav && (
+          <Layout.SidebarNavigation.Item
+            Icon={IconDashboard}
+            isActive={
+              location.pathname.startsWith(PROJECT_DASHBOARDS_LIST_ROUTE) &&
+              location.pathname !== projectOverviewRoute
+            }
+            suffix={<NewBadge expirationDate={DASHBOARDS_NEW_BADGE_EXPIRATION_DATE} />}
+            to={{
+              pathname: PROJECT_DASHBOARDS_LIST_ROUTE,
+              search: new URLSearchParams({ id: component.key }).toString(),
+            }}
+          >
+            <FormattedMessage id="project_dashboards.all.page" />
           </Layout.SidebarNavigation.Item>
         )}
         {showAnalysisMenu && (

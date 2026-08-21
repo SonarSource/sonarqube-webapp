@@ -24,6 +24,11 @@ import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { ComponentQualifier } from '~shared/types/component';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
+import {
+  PROJECT_BUILT_IN_DASHBOARD_ROUTE,
+  PROJECT_CUSTOM_DASHBOARD_ROUTE,
+  PROJECT_DASHBOARDS_LIST_ROUTE,
+} from '~sq-server-commons/helpers/project-dashboard-routes';
 import { supportsCustomProjectDashboards } from './permissions';
 
 const ProjectDashboardsListPage = lazyLoadComponent(() =>
@@ -42,24 +47,23 @@ const ProjectBuiltInDashboardPage = lazyLoadComponent(() =>
   })),
 );
 
-export const ProjectDashboardsListRoute = '/project/dashboards';
-export const ProjectCustomDashboardRoute = '/project/dashboards/:dashboardId';
-export const ProjectBuiltInDashboardRoute = '/project/dashboards/built-in/:dashboardKey';
-
 function withProjectKey(path: string, projectKey?: string) {
   return projectKey ? `${path}?id=${encodeURIComponent(projectKey)}` : path;
 }
 
 export function getProjectDashboardsListRoute(projectKey?: string) {
-  return withProjectKey(ProjectDashboardsListRoute, projectKey);
+  return withProjectKey(PROJECT_DASHBOARDS_LIST_ROUTE, projectKey);
 }
 
 export function getProjectCustomDashboardRoute(dashboardId: string, projectKey?: string) {
-  return withProjectKey(generatePath(ProjectCustomDashboardRoute, { dashboardId }), projectKey);
+  return withProjectKey(generatePath(PROJECT_CUSTOM_DASHBOARD_ROUTE, { dashboardId }), projectKey);
 }
 
 export function getProjectBuiltInDashboardRoute(dashboardKey: string, projectKey?: string) {
-  return withProjectKey(generatePath(ProjectBuiltInDashboardRoute, { dashboardKey }), projectKey);
+  return withProjectKey(
+    generatePath(PROJECT_BUILT_IN_DASHBOARD_ROUTE, { dashboardKey }),
+    projectKey,
+  );
 }
 
 function ProjectDashboardsGuard() {
@@ -74,10 +78,10 @@ function ProjectCustomDashboardsGuard() {
 
 export const componentRoutes = () => (
   <Route element={<ProjectDashboardsGuard />}>
-    <Route element={<ProjectDashboardsListPage />} path={ProjectDashboardsListRoute} />
-    <Route element={<ProjectBuiltInDashboardPage />} path={ProjectBuiltInDashboardRoute} />
+    <Route element={<ProjectDashboardsListPage />} path={PROJECT_DASHBOARDS_LIST_ROUTE} />
+    <Route element={<ProjectBuiltInDashboardPage />} path={PROJECT_BUILT_IN_DASHBOARD_ROUTE} />
     <Route element={<ProjectCustomDashboardsGuard />}>
-      <Route element={<ProjectCustomDashboardPage />} path={ProjectCustomDashboardRoute} />
+      <Route element={<ProjectCustomDashboardPage />} path={PROJECT_CUSTOM_DASHBOARD_ROUTE} />
     </Route>
   </Route>
 );

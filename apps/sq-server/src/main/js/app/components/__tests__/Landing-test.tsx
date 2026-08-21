@@ -38,7 +38,7 @@ it('should redirect to homepage', () => {
       homepage: { type: 'PROJECT', branch: undefined, component: 'pk1' },
     }),
   });
-  expect(byText('/dashboard?id=pk1').get()).toBeInTheDocument();
+  expect(byText('/project/dashboards/built-in/project-health?id=pk1').get()).toBeInTheDocument();
 });
 
 function renderLanding(props: Partial<LandingProps> = {}) {

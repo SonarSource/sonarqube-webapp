@@ -22,6 +22,11 @@ import { screen } from '@testing-library/react';
 import { Route } from 'react-router-dom';
 import { renderWithRoutes } from '~shared/helpers/test-utils';
 import { ComponentQualifier } from '~shared/types/component';
+import {
+  PROJECT_BUILT_IN_DASHBOARD_ROUTE,
+  PROJECT_CUSTOM_DASHBOARD_ROUTE,
+  PROJECT_DASHBOARDS_LIST_ROUTE,
+} from '~sq-server-commons/helpers/project-dashboard-routes';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import {
@@ -29,9 +34,6 @@ import {
   getProjectBuiltInDashboardRoute,
   getProjectCustomDashboardRoute,
   getProjectDashboardsListRoute,
-  ProjectBuiltInDashboardRoute,
-  ProjectCustomDashboardRoute,
-  ProjectDashboardsListRoute,
 } from '../routes';
 
 let mockComponentQualifier = ComponentQualifier.Project;
@@ -67,7 +69,7 @@ describe('project dashboard routes', () => {
   });
 
   it.each([
-    [ProjectDashboardsListRoute, 'project-dashboards-list-page'],
+    [PROJECT_DASHBOARDS_LIST_ROUTE, 'project-dashboards-list-page'],
     [getProjectCustomDashboardRoute('custom-id'), 'project-custom-dashboard-page'],
     [getProjectBuiltInDashboardRoute('project-health'), 'project-built-in-dashboard-page'],
   ])('resolves %s to the expected page', async (path, testId) => {
@@ -78,9 +80,9 @@ describe('project dashboard routes', () => {
   });
 
   it('exports expected route patterns', () => {
-    expect(ProjectDashboardsListRoute).toBe('/project/dashboards');
-    expect(ProjectCustomDashboardRoute).toBe('/project/dashboards/:dashboardId');
-    expect(ProjectBuiltInDashboardRoute).toBe('/project/dashboards/built-in/:dashboardKey');
+    expect(PROJECT_DASHBOARDS_LIST_ROUTE).toBe('/project/dashboards');
+    expect(PROJECT_CUSTOM_DASHBOARD_ROUTE).toBe('/project/dashboards/:dashboardId');
+    expect(PROJECT_BUILT_IN_DASHBOARD_ROUTE).toBe('/project/dashboards/built-in/:dashboardKey');
   });
 
   it('preserves the project key in generated dashboard URLs', () => {
@@ -98,7 +100,7 @@ describe('project dashboard routes', () => {
   it('rejects project dashboard routes for applications', () => {
     mockComponentQualifier = ComponentQualifier.Application;
 
-    renderProjectRoutes(ProjectDashboardsListRoute);
+    renderProjectRoutes(PROJECT_DASHBOARDS_LIST_ROUTE);
 
     expect(screen.queryByTestId('project-dashboards-list-page')).not.toBeInTheDocument();
   });

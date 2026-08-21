@@ -101,7 +101,7 @@ describe('SQS adapter Measure', () => {
     expect(screen.getByText(`fmt:${MetricType.Percent}:86.2`)).toBeInTheDocument();
   });
 
-  it('renders rating component and normalizes badge size', () => {
+  it('renders rating component with the requested badge size', () => {
     render(
       <Measure
         badgeSize={RatingBadgeSize.ExtraLarge}
@@ -116,7 +116,7 @@ describe('SQS adapter Measure', () => {
       expect.objectContaining({
         componentKey: '',
         ratingMetric: MetricKey.reliability_rating,
-        size: RatingBadgeSize.Medium,
+        size: RatingBadgeSize.ExtraLarge,
       }),
     );
   });

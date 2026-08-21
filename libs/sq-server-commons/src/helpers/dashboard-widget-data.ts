@@ -1256,9 +1256,5 @@ export function portfolioIssueHistoryToMultiLineSeries(
 }
 
 export function isKnownUnsupportedDashboardHistoryMetric(metricKey: string) {
-  return (
-    metricKey === MetricKey.releasability_rating ||
-    metricKey.startsWith('mule_') ||
-    isAicaMetric(metricKey)
-  );
+  return metricKey.startsWith('mule_') || isAicaMetric(metricKey);
 }
