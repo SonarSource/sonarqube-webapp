@@ -36,7 +36,7 @@ export enum Feature {
   PrioritizedRules = 'prioritized-rules',
   ProjectImport = 'project-import',
   RegulatoryReport = 'regulatory-reports',
-  RemediationAgent = 'remediation-agent',
+  RemediationAgent = 'remediationAgent',
   Sca = 'sca',
   Scim = 'scim',
   SlackIntegration = 'slack',
