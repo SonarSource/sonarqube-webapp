@@ -114,6 +114,7 @@ export enum DocLink {
   QualityGates = '/quality-standards-administration/managing-quality-gates/introduction-to-quality-gates/',
   QualityGatesRecommendedConditions = '/quality-standards-administration/managing-quality-gates/introduction-to-quality-gates#quality-gate-and-new-code',
   RemediationAgent = '/ai-capabilities/sonarqube-remediation-agent',
+  RemediationAgentDopPermissions = '/instance-administration/ai-features/remediation-agent/enable#devops-platform-permissions',
   Root = '/',
   RuleSeverity = '/quality-standards-administration/managing-quality-profiles/#rule-severity',
   MQRSeverity = '/instance-administration/analysis-functions/instance-mode/mqr-mode/#mqr-severity',

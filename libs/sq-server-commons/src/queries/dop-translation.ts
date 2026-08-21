@@ -19,10 +19,12 @@
  */
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { StaleTime } from '~shared/queries/common';
 import {
   createGitHubConfiguration,
   deleteGitHubConfiguration,
   fetchGitHubConfiguration,
+  getDopPermissionChecks,
   getProjectBindings,
   searchGitHubConfigurations,
   updateGitHubConfiguration,
@@ -133,5 +135,20 @@ export function useDeleteGitHubConfigurationMutation() {
       });
       client.setQueryData(['dop-translation', 'github-configs', 'fetch'], undefined);
     },
+  });
+}
+
+/*
+ * Permission checks
+ */
+export function useDopPermissionChecksQuery(
+  { projectKey }: { projectKey?: string } = {},
+  { enabled = true }: { enabled?: boolean } = {},
+) {
+  return useQuery({
+    queryKey: ['dop-translation', 'permission-checks', projectKey ?? '__all__'],
+    queryFn: () => getDopPermissionChecks({ projectKey }),
+    enabled,
+    staleTime: StaleTime.LONG,
   });
 }

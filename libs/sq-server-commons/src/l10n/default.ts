@@ -922,7 +922,7 @@ export const defaultMessages = {
   'ai_capabilities.remediation_agent.add_on_promo.badge': 'New',
   'ai_capabilities.remediation_agent.add_on_promo.heading': 'Your backlog, fixed while you build.',
   'ai_capabilities.remediation_agent.add_on_promo.body':
-    'The Remediation agent turns issues into ready-to-review pull requests, so tech debt clears in the background. Your team just reviews and merges.',
+    'Remediation Agent turns issues into ready-to-review pull requests, so tech debt clears in the background. Your team just reviews and merges.',
   'ai_capabilities.remediation_agent.add_on_promo.bullet.manual.label': 'Manual',
   'ai_capabilities.remediation_agent.add_on_promo.bullet.manual':
     '{label}: Pick issues from your backlog and let the agent propose fixes in a PR.',
@@ -936,25 +936,25 @@ export const defaultMessages = {
   'ai_capabilities.remediation_agent.add_on_promo.cta.docs': 'Read the docs',
   'ai_capabilities.remediation_agent.add_on_promo.illustration_alt': '',
   'ai_capabilities.remediation_agent.consumption.warning.title':
-    'Remediation agent nearing its monthly limit',
+    'Remediation Agent nearing its monthly limit',
   'ai_capabilities.remediation_agent.consumption.danger.title':
-    'Remediation agent monthly limit reached',
+    'Remediation Agent monthly limit reached',
   'ai_capabilities.remediation_agent.consumption.activate.warning.body.admin':
-    'Your instance has used {used} of its {limit} monthly Remediation agent suggestions. Activate overage now{resetDate, select, none {} other {, or wait until it resets on {resetDate}}}.',
+    'Your instance has used {used} of its {limit} monthly Remediation Agent suggestions. Activate overage now{resetDate, select, none {} other {, or wait until it resets on {resetDate}}}.',
   'ai_capabilities.remediation_agent.consumption.activate.warning.body.nonadmin':
-    'Your instance has used {used} of its {limit} monthly Remediation agent suggestions. Contact an instance admin to activate overage and avoid interruptions{resetDate, select, none {} other { before it resets on {resetDate}}}.',
+    'Your instance has used {used} of its {limit} monthly Remediation Agent suggestions. Contact an instance admin to activate overage and avoid interruptions{resetDate, select, none {} other { before it resets on {resetDate}}}.',
   'ai_capabilities.remediation_agent.consumption.activate.danger.body.admin':
-    'Your instance has used all {limit} monthly Remediation agent suggestions. Activate overage to resume now{resetDate, select, none {} other {, or wait until it resets on {resetDate}}}.',
+    'Your instance has used all {limit} monthly Remediation Agent suggestions. Activate overage to resume now{resetDate, select, none {} other {, or wait until it resets on {resetDate}}}.',
   'ai_capabilities.remediation_agent.consumption.activate.danger.body.nonadmin':
-    'Your instance has used all {limit} monthly Remediation agent suggestions, so new jobs are paused. Contact an instance admin to activate overage{resetDate, select, none {} other {, or wait until it resets on {resetDate}}}.',
+    'Your instance has used all {limit} monthly Remediation Agent suggestions, so new jobs are paused. Contact an instance admin to activate overage{resetDate, select, none {} other {, or wait until it resets on {resetDate}}}.',
   'ai_capabilities.remediation_agent.consumption.manage.warning.body.admin':
-    'Your instance has used {used} of its {limit} Remediation agent overage credits. Increase overage to avoid interruptions{resetDate, select, none {} other { before it resets on {resetDate}}}.',
+    'Your instance has used {used} of its {limit} Remediation Agent overage credits. Increase overage to avoid interruptions{resetDate, select, none {} other { before it resets on {resetDate}}}.',
   'ai_capabilities.remediation_agent.consumption.manage.warning.body.nonadmin':
-    'Your instance has used {used} of its {limit} Remediation agent overage credits. Contact an instance admin to increase overage and avoid interruptions{resetDate, select, none {} other { before it resets on {resetDate}}}.',
+    'Your instance has used {used} of its {limit} Remediation Agent overage credits. Contact an instance admin to increase overage and avoid interruptions{resetDate, select, none {} other { before it resets on {resetDate}}}.',
   'ai_capabilities.remediation_agent.consumption.manage.danger.body.admin':
-    'Your instance has used all {limit} monthly Remediation agent overage credits, so new jobs are paused. Increase overage to resume now{resetDate, select, none {} other {, or wait until it resets on {resetDate}}}.',
+    'Your instance has used all {limit} monthly Remediation Agent overage credits, so new jobs are paused. Increase overage to resume now{resetDate, select, none {} other {, or wait until it resets on {resetDate}}}.',
   'ai_capabilities.remediation_agent.consumption.manage.danger.body.nonadmin':
-    'Your instance has used all {limit} monthly Remediation agent overage credits, so new jobs are paused. Contact an instance admin to increase overage and avoid interruptions{resetDate, select, none {} other { before it resets on {resetDate}}}.',
+    'Your instance has used all {limit} monthly Remediation Agent overage credits, so new jobs are paused. Contact an instance admin to increase overage and avoid interruptions{resetDate, select, none {} other { before it resets on {resetDate}}}.',
   'ai_capabilities.remediation_agent.consumption.cta.activate': 'Activate overage',
   'ai_capabilities.remediation_agent.consumption.cta.manage': 'Manage overage',
   'ai_capabilities.remediation_agent.issue.assign_to_agent.limit_reached_toggletip':
@@ -997,6 +997,38 @@ export const defaultMessages = {
     "This project isn't bound to a repository.",
   'ai_capabilities.project.remediation_agent.project_not_bound_to_scm.admin_cta':
     'Set up project binding',
+
+  // DevOps Platform permission warning — surfaces the outcome of
+  // GET /api/v2/dop-translation/permission-checks (see SONAR-31624/31625/31628).
+  'ai_capabilities.remediation_agent.issue.assign_to_agent.permission_blocked_toggletip':
+    "The Remediation Agent can't run on this project's DevOps Platform. See the warning above for details.",
+  'ai_capabilities.remediation_agent.dop_permission_warning.update_permissions_cta':
+    'Update permissions',
+  'ai_capabilities.remediation_agent.dop_permission_warning.required_permissions_link':
+    'required permissions',
+  'ai_capabilities.remediation_agent.dop_permission_warning.dop_row.status.sufficient': 'OK',
+  'ai_capabilities.remediation_agent.dop_permission_warning.dop_row.status.insufficient':
+    'Missing permissions',
+  'ai_capabilities.remediation_agent.dop_permission_warning.dop_row.status.check_failed':
+    'Check failed',
+  'ai_capabilities.remediation_agent.dop_permission_warning.dop_row.status.unknown':
+    'Cannot verify',
+
+  // Yellow banner (UNKNOWN — Azure DevOps advisory). One copy across all scopes.
+  'ai_capabilities.remediation_agent.dop_permission_warning.yellow.title':
+    'Check your Azure DevOps permissions',
+  'ai_capabilities.remediation_agent.dop_permission_warning.yellow.description':
+    "We can't verify Azure DevOps permissions automatically. Make sure your personal access token has Code (Read and write) and Pull Request (Contribute) before running the agent. See the {link}",
+
+  // Red banners (INSUFFICIENT / CHECK_FAILED). Split by scope only — instance vs project.
+  'ai_capabilities.remediation_agent.dop_permission_warning.red.instance.title':
+    'Remediation Agent is missing permissions',
+  'ai_capabilities.remediation_agent.dop_permission_warning.red.instance.description':
+    "Remediation Agent doesn't have the permissions it needs on one or more DevOps Platforms to clone repositories, create branches, and open pull requests. Please see the {link}.",
+  'ai_capabilities.remediation_agent.dop_permission_warning.red.project.title':
+    'Remediation Agent is missing permissions',
+  'ai_capabilities.remediation_agent.dop_permission_warning.red.project.description':
+    "Remediation Agent is connected to {platform}, but doesn't have all the permissions it needs to clone repositories, create branches, and open pull requests. Please see the {link}.",
 
   //------------------------------------------------------------------------------
   //

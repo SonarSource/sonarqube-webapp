@@ -70,3 +70,20 @@ export interface GitHubConfigurationResponse extends GitHubConfigurationBase {
   errorMessage?: string;
   id: string;
 }
+
+export enum PermissionCheckStatus {
+  Sufficient = 'SUFFICIENT',
+  Insufficient = 'INSUFFICIENT',
+  Unknown = 'UNKNOWN',
+  CheckFailed = 'CHECK_FAILED',
+}
+
+export interface PermissionCheckResource {
+  key: string;
+  status: PermissionCheckStatus;
+  type: AlmKeys;
+}
+
+export interface PermissionChecksResponse {
+  permissionChecks: PermissionCheckResource[];
+}

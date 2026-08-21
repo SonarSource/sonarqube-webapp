@@ -25,6 +25,7 @@ import {
   DopSetting,
   GitHubConfigurationPayload,
   GitHubConfigurationResponse,
+  PermissionChecksResponse,
   ProjectBinding,
 } from '../types/dop-translation';
 
@@ -33,6 +34,7 @@ const BOUND_PROJECTS_PATH = `${DOP_TRANSLATION_PATH}/bound-projects`;
 const DOP_SETTINGS_PATH = `${DOP_TRANSLATION_PATH}/dop-settings`;
 const PROJECT_BINDINGS_PATH = `${DOP_TRANSLATION_PATH}/project-bindings`;
 const GITHUB_CONFIGURATIONS_PATH = `${DOP_TRANSLATION_PATH}/github-configurations`;
+const PERMISSION_CHECKS_PATH = `${DOP_TRANSLATION_PATH}/permission-checks`;
 
 export function createBoundProject(data: BoundProject) {
   return axiosClient.post(BOUND_PROJECTS_PATH, data);
@@ -86,4 +88,10 @@ export function updateGitHubConfiguration(
 
 export function deleteGitHubConfiguration(id: string) {
   return axiosClient.delete(`${GITHUB_CONFIGURATIONS_PATH}/${id}`);
+}
+
+export function getDopPermissionChecks(params: { projectKey?: string }) {
+  return axiosClient.get<PermissionChecksResponse>(PERMISSION_CHECKS_PATH, {
+    params: params.projectKey ? { project: params.projectKey } : undefined,
+  });
 }
