@@ -20,14 +20,17 @@
 
 import { fireEvent, screen } from '@testing-library/react';
 import { ComponentProps } from 'react';
+import * as branchQueries from '~adapters/queries/branch';
 import { DASHBOARDS_NEW_BADGE_EXPIRATION_DATE } from '~feature-dashboards/constants';
 import { RecentHistory } from '~shared/helpers/recent-history';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
+import { addons } from '~sq-server-addons/index';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
 import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
+import { mockMainBranch } from '~sq-server-commons/helpers/mocks/branch-like';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { EditionKey } from '~sq-server-commons/types/editions';
@@ -53,13 +56,22 @@ jest.mock('~shared/components/badges/NewBadge', () => ({
 const branchesHandler = new BranchesServiceMock();
 const measuresHandler = new MeasuresServiceMock();
 const settingsHandler = new SettingsServiceMock();
+const originalScaAddon = addons.sca;
 
 beforeEach(() => {
   jest.clearAllMocks();
   branchesHandler.reset();
   measuresHandler.reset();
   settingsHandler.reset();
+  addons.sca = originalScaAddon;
 });
+
+function createMockScaAddon(): NonNullable<typeof addons.sca> {
+  return {
+    PROJECT_LICENSE_ROUTE_NAME: 'project/license_profiles',
+    getReleasesUrl: jest.fn().mockReturnValue('/project/dependencies?id=my-project'),
+  } as unknown as NonNullable<typeof addons.sca>;
+}
 
 const ui = {
   // Header menu
@@ -139,7 +151,7 @@ describe('ComponentNav', () => {
       expect(ui.summaryLink.query()).not.toBeInTheDocument();
     });
 
-    it('should render analysis menu when project is analyzed', async () => {
+    it('should render analysis menu when project is analyzed', () => {
       const component = mockComponent({
         analysisDate: '2024-01-01',
         configuration: {
@@ -174,11 +186,6 @@ describe('ComponentNav', () => {
         'href',
         '/project/dashboards/built-in/project-health?id=my-project',
       );
-      expect(await ui.qualityGateHistoryLink.find()).toBeInTheDocument();
-      const reportingGroup = ui.navigationGroups
-        .getAll()
-        .find((group) => ui.reportingGroup.query(group));
-      expect(reportingGroup).toContainElement(ui.qualityGateHistoryLink.get());
       expect(ui.issuesLink.get()).toBeInTheDocument();
       expect(ui.securityHotspotsLink.get()).toBeInTheDocument();
       expect(ui.measuresLink.get()).toBeInTheDocument();
@@ -189,6 +196,29 @@ describe('ComponentNav', () => {
       expect(ui.qualityGateLink.get()).toBeInTheDocument();
       expect(ui.projectGroup.get()).toBeInTheDocument();
       expect(ui.projectInfoLink.get()).toBeInTheDocument();
+    });
+
+    it('should render quality gate history link for analyzed projects on the main branch', async () => {
+      const component = mockComponent({
+        analysisDate: '2024-01-01',
+      });
+
+      const useCurrentBranchQuerySpy = jest.spyOn(branchQueries, 'useCurrentBranchQuery');
+      useCurrentBranchQuerySpy.mockReturnValue({
+        data: mockMainBranch({ analysisDate: '2024-01-01' }),
+      } as ReturnType<typeof branchQueries.useCurrentBranchQuery>);
+
+      try {
+        renderComponentNav({ component });
+
+        expect(await ui.qualityGateHistoryLink.find()).toBeInTheDocument();
+        const reportingGroup = ui.navigationGroups
+          .getAll()
+          .find((group) => ui.reportingGroup.query(group));
+        expect(reportingGroup).toContainElement(ui.qualityGateHistoryLink.get());
+      } finally {
+        useCurrentBranchQuerySpy.mockRestore();
+      }
     });
 
     it('should not render policies menu when configuration is disabled', () => {
@@ -366,25 +396,17 @@ describe('ComponentNav', () => {
       expect(byText('dependencies.risks').query()).not.toBeInTheDocument();
     });
 
-    it('should render dependencies link for analyzed projects when SCA feature is enabled', () => {
+    it('should not render dependencies link for analyzed projects when SCA addon is unavailable', () => {
       const component = mockComponent({
         analysisDate: '2024-01-01',
       });
+
+      addons.sca = undefined;
 
       renderComponentNav({ component }, [Feature.Sca]);
-      expect(byText('dependencies.bill_of_materials').get()).toBeInTheDocument();
-    });
-
-    it('should not render dependencies link for portfolios even when SCA feature is enabled', () => {
-      const component = mockComponent({
-        qualifier: ComponentQualifier.Portfolio,
-        breadcrumbs: [{ key: 'foo', name: 'Foo', qualifier: ComponentQualifier.Portfolio }],
-        analysisDate: '2024-01-01',
-      });
-
-      renderComponentNav({ component }, [Feature.Sca], EditionKey.enterprise);
       expect(byText('dependencies.bill_of_materials').query()).not.toBeInTheDocument();
     });
+
   });
 
   describe('recent history', () => {
