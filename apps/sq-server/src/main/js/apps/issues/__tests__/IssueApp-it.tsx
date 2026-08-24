@@ -442,7 +442,6 @@ describe('issue app', () => {
     await user.keyboard('f');
 
     expect(await ui.issueTransitionItem(IssueTransition.Confirm).find()).toBeInTheDocument();
-    expect(ui.issueTransitionItem(IssueTransition.Resolve).get()).toBeInTheDocument();
 
     // Open tags popup on key press 't'
     await user.keyboard('t');

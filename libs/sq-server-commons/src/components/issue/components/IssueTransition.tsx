@@ -22,7 +22,6 @@ import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { StatusTransition } from '~shared/components/status-transition/StatusTransition';
 import {
-  isTransitionDeprecated,
   isTransitionVisible,
   orderIssueTransitions,
   transitionRequiresComment,
@@ -69,7 +68,6 @@ export default function IssueTransition(props: Readonly<Props>) {
   const transitions = orderIssueTransitions(issue.transitions.filter(isTransitionVisible)).map(
     (transition) => ({
       value: transition,
-      isDeprecated: isTransitionDeprecated(transition),
       requiresComment: transitionRequiresComment(transition),
     }),
   );
@@ -79,7 +77,7 @@ export default function IssueTransition(props: Readonly<Props>) {
       return <FormattedMessage id="issue.transition.status_in_sandbox" />;
     }
 
-    if ([IssueStatus.Confirmed, IssueStatus.Fixed].includes(issue.issueStatus)) {
+    if (issue.issueStatus === IssueStatus.Fixed) {
       return <FormattedMessage id="issue.transition.status_deprecated" />;
     }
 

@@ -173,7 +173,7 @@ export const HIDDEN_METRICS = [
   MetricKey.contains_ai_code,
 ];
 
-export const DEPRECATED_ACTIVITY_METRICS = [MetricKey.confirmed_issues];
+export const DEPRECATED_ACTIVITY_METRICS: MetricKey[] = [];
 
 export const SOFTWARE_QUALITY_RATING_METRICS_MAP: Record<string, MetricKey> = {
   [MetricKey.sqale_rating]: MetricKey.software_quality_maintainability_rating,

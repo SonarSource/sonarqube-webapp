@@ -23,12 +23,8 @@ import { IssueTransition } from '../types/issues';
 const HUNTER_AGENT_EXTERNAL_RULE_ENGINE = 'hunter-agent';
 const EXTERNAL_RULE_REPO_PREFIX = 'external_';
 
-export function isTransitionDeprecated(transition: IssueTransition) {
-  return transition === IssueTransition.Confirm || transition === IssueTransition.Resolve;
-}
-
 export function isTransitionVisible(transition: IssueTransition) {
-  return transition !== IssueTransition.WontFix;
+  return transition !== IssueTransition.WontFix && transition !== IssueTransition.Resolve;
 }
 
 export function transitionRequiresComment(transition: IssueTransition) {

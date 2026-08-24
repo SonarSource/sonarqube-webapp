@@ -225,12 +225,7 @@ export function getAnalysisEventsForDate(analyses: ParsedAnalysis[], date?: Date
 export function getDeprecatedTranslationKeyForTooltip(metric: MetricKey) {
   const quality = OLD_TO_NEW_TAXONOMY_METRICS_MAP[metric];
 
-  let deprecatedKey = 'severity';
-  if (quality) {
-    deprecatedKey = 'quality';
-  } else if (metric === MetricKey.confirmed_issues) {
-    deprecatedKey = 'confirmed';
-  }
+  const deprecatedKey = quality ? 'quality' : 'severity';
 
   return `project_activity.custom_metric.deprecated.${deprecatedKey}`;
 }

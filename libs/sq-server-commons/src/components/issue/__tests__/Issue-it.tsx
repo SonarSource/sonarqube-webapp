@@ -167,7 +167,7 @@ describe('rendering', () => {
     });
 
     await user.click(await ui.updateStatusBtn(IssueStatus.InSandbox).find());
-    expect(byRole('menuitem').getAll()).toHaveLength(5);
+    expect(byRole('menuitem').getAll()).toHaveLength(4);
     expect(byText('issue.transition.in_sandbox_helptext').get()).toBeInTheDocument();
   });
 });

@@ -4941,8 +4941,6 @@ export const defaultMessages = {
     'Old severities and the corresponding filters are deprecated.',
   'project_activity.custom_metric.deprecated.quality':
     'Issue types and the corresponding filters are deprecated. You can use filters by Software Quality.',
-  'project_activity.custom_metric.deprecated.confirmed':
-    'Confirmed issues and the corresponding filter is deprecated.',
 
   //------------------------------------------------------------------------------
   //
