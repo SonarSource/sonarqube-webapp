@@ -21,8 +21,10 @@
 import { act, renderHook } from '@testing-library/react';
 import { MetricKey } from '~shared/types/metrics';
 import { createEmptyDashboard } from '../../dashboard-layout/logic/constants';
+import { HistoryRange, LineChartGroupBy } from '../../data/widgets/line-chart';
 import {
   DashboardMetricType,
+  RichMetricKey,
   type ProjectDashboardWidgetPropMap,
 } from '../../types/dashboard-widget';
 import { CodeScope, VisualizationType } from '../../types/widget-common';
@@ -124,6 +126,47 @@ describe('useAddWidget', () => {
         ],
       }),
     );
+  });
+
+  it('persists line chart grouping when adding a widget', () => {
+    const dashboard = createEmptyDashboard<ProjectDashboardWidgetPropMap>('custom').layout;
+    const setDashboardWithUnsavedChanges = jest.fn<
+      ReturnType<DashboardSetter>,
+      Parameters<DashboardSetter>
+    >();
+    const { result } = renderHook(() => useAddWidget({ setDashboardWithUnsavedChanges }));
+
+    act(() => {
+      result.current.handleAddWidget({
+        groupBy: LineChartGroupBy.Severity,
+        historyRange: HistoryRange.LastMonth,
+        metric: { metricKey: RichMetricKey.Issues, type: DashboardMetricType.Rich },
+        scope: CodeScope.Overall,
+        showLegend: false,
+        widgetType: VisualizationType.LineChart,
+      });
+    });
+
+    const update = setDashboardWithUnsavedChanges.mock.calls[0][0] as (
+      value: typeof dashboard,
+    ) => typeof dashboard;
+
+    expect(update(dashboard)).toMatchObject({
+      children: [
+        {
+          children: [
+            {
+              props: {
+                groupBy: LineChartGroupBy.Severity,
+                historyRange: HistoryRange.LastMonth,
+                scope: CodeScope.Overall,
+              },
+              type: VisualizationType.LineChart,
+            },
+          ],
+        },
+      ],
+    });
   });
 
   it('scrolls an off-screen newly added widget into view', () => {
