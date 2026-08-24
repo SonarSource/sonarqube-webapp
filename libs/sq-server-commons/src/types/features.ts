@@ -29,6 +29,7 @@ export enum Feature {
   FromSonarQubeUpdate = 'from-sonarqube-update',
   GithubProvisioning = 'github-provisioning',
   GitlabProvisioning = 'gitlab-provisioning',
+  HunterAgent = 'hunterAgent',
   JiraIntegration = 'jira',
   LoginMessage = 'login-message',
   MonoRepositoryPullRequestDecoration = 'monorepo',

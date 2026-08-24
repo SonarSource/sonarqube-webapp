@@ -83,7 +83,14 @@ it('renders AI Capabilities item when the RemediationAgent feature is available'
   expect(byText('sidebar.ai_capabilities').get()).toBeInTheDocument();
 });
 
-it('hides the AI Capabilities item when the RemediationAgent feature is missing', () => {
+it('renders AI Capabilities item when the HunterAgent feature is available', () => {
+  (jest.mocked(addons).remediationAgent as unknown) = true;
+  renderAdminSidebar([], undefined, [Feature.HunterAgent]);
+
+  expect(byText('sidebar.ai_capabilities').get()).toBeInTheDocument();
+});
+
+it('hides the AI Capabilities item when agent features are missing', () => {
   (jest.mocked(addons).remediationAgent as unknown) = true;
   renderAdminSidebar();
 

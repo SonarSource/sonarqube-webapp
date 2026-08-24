@@ -44,19 +44,20 @@ export function AdministrationSidebarConfiguration(props: Readonly<Props>) {
         <FormattedMessage id="settings.page" />
       </Layout.SidebarNavigation.Item>
 
-      {hasFeature(Feature.RemediationAgent) && addons.remediationAgent && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconSparkle}
-          suffix={
-            <NewBadge
-              expirationDate={addons.remediationAgent.AI_CAPABILITIES_NEW_BADGE_EXPIRATION_DATE}
-            />
-          }
-          to="/admin/agent"
-        >
-          <FormattedMessage id="sidebar.ai_capabilities" />
-        </Layout.SidebarNavigation.Item>
-      )}
+      {(hasFeature(Feature.RemediationAgent) || hasFeature(Feature.HunterAgent)) &&
+        addons.remediationAgent && (
+          <Layout.SidebarNavigation.Item
+            Icon={IconSparkle}
+            suffix={
+              <NewBadge
+                expirationDate={addons.remediationAgent.AI_CAPABILITIES_NEW_BADGE_EXPIRATION_DATE}
+              />
+            }
+            to="/admin/agent"
+          >
+            <FormattedMessage id="sidebar.ai_capabilities" />
+          </Layout.SidebarNavigation.Item>
+        )}
 
       <Layout.SidebarNavigation.Item Icon={IconGear} to="/admin/settings/encryption">
         <FormattedMessage id="property.category.security.encryption" />

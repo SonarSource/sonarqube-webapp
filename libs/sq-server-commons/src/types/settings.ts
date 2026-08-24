@@ -43,6 +43,7 @@ export const enum SettingsKey {
   IssueResolutionEnabled = 'sonar.issues.issueResolution.enabled',
   IssueResolutionGlobalEnabled = 'sonar.issues.issueResolution.global.enabled',
   RemediationAgentManualEnabled = 'sonar.ai.remediationAgent.manual.enabled',
+  HunterAgentEnabled = 'sonar.ai.hunterAgent.enabled',
 }
 
 export enum GlobalSettingKeys {
