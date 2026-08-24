@@ -47,7 +47,7 @@ interface State {
   tabs: Tab[];
 }
 
-export interface Tab {
+interface Tab {
   content: React.ReactNode;
   counter?: number;
   label: string;
@@ -65,7 +65,7 @@ export enum TabKeys {
 
 const DEBOUNCE_FOR_SCROLL = 250;
 
-export class RuleTabViewer extends React.PureComponent<RuleTabViewerProps, State> {
+class RuleTabViewer extends React.PureComponent<RuleTabViewerProps, State> {
   state: State = {
     tabs: [],
     educationalPrinciplesNotificationHasBeenDismissed: false,

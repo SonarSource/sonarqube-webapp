@@ -23,7 +23,7 @@ import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
 import { LAYOUT_VIEWPORT_MIN_WIDTH } from '../helpers';
 
-export const TopBarNewLayoutCompatible = styled.nav`
+const TopBarNewLayoutCompatible = styled.nav`
   ${tw`sw-px-6 sw-pt-4`}
   ${tw`sw-box-border`};
   ${tw`sw-w-full`};

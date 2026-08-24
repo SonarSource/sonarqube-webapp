@@ -30,14 +30,14 @@ import Gradle from './commands/Gradle';
 import JavaMaven from './commands/JavaMaven';
 import Others from './commands/Others';
 
-export interface AnalysisCommandProps extends WithAvailableFeaturesProps {
+interface AnalysisCommandProps extends WithAvailableFeaturesProps {
   component: Component;
   config: TutorialConfig;
   mainBranchName: string;
   monorepo?: boolean;
 }
 
-export function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
+function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
   const { config, component, mainBranchName, monorepo } = props;
   const branchSupportEnabled = props.hasFeature(Feature.BranchSupport);
 

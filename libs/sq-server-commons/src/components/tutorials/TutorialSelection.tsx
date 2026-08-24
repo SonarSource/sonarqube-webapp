@@ -42,7 +42,7 @@ export interface TutorialSelectionProps {
   willRefreshAutomatically?: boolean;
 }
 
-export function TutorialSelection(props: Readonly<TutorialSelectionProps>) {
+function TutorialSelection(props: Readonly<TutorialSelectionProps>) {
   const { component, currentUser, location, willRefreshAutomatically } = props;
   const [currentUserCanScanProject, setCurrentUserCanScanProject] = React.useState(false);
   const [baseUrl, setBaseUrl] = React.useState(getHostUrl());

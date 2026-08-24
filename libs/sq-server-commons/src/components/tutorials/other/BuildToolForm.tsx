@@ -41,7 +41,7 @@ interface Props {
   setOs: (os: OSs) => void;
 }
 
-export function BuildToolForm(props: Readonly<Props>) {
+function BuildToolForm(props: Readonly<Props>) {
   const { config, setConfig, os, setOs, arch, setArch, isLocal, hasCLanguageFeature } = props;
 
   function handleConfigChange(newConfig: TutorialConfig) {

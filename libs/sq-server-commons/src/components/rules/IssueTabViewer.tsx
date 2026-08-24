@@ -69,7 +69,7 @@ interface State {
   tabs: Tab[];
 }
 
-export interface Tab {
+interface Tab {
   content: React.ReactNode;
   counter?: number;
   key: TabKeys;
@@ -89,7 +89,7 @@ export enum TabKeys {
 
 const DEBOUNCE_FOR_SCROLL = 250;
 
-export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, State> {
+class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, State> {
   state: State = {
     tabs: [],
   };

@@ -24,7 +24,7 @@ import { withCLanguageFeature } from '../../hoc/withCLanguageFeature';
 import { TutorialConfig, TutorialModes } from '../types';
 import BuildConfigSelection from './BuildConfigSelection';
 
-export interface YamlFileStepProps {
+interface YamlFileStepProps {
   children?: (config: TutorialConfig) => React.ReactElement<{}>;
   ci: TutorialModes;
   config: TutorialConfig;
@@ -32,7 +32,7 @@ export interface YamlFileStepProps {
   setConfig: (config: TutorialConfig) => void;
 }
 
-export function YamlFileStep(props: YamlFileStepProps) {
+function YamlFileStep(props: YamlFileStepProps) {
   const { ci, config, setConfig, children, hasCLanguageFeature } = props;
 
   return (

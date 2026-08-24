@@ -82,7 +82,7 @@ export function getBranchLikeDisplayName(branchLike: BranchLikeBase): string {
   return isPullRequest(branchLike) ? getPullRequestDisplayName(branchLike) : branchLike.name;
 }
 
-export function getPullRequestDisplayName(pullRequest: PullRequestBase) {
+function getPullRequestDisplayName(pullRequest: PullRequestBase) {
   return `${pullRequest.key} – ${pullRequest.title}`;
 }
 

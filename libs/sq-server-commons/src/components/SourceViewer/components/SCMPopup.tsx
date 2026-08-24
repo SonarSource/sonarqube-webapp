@@ -28,7 +28,7 @@ interface Props {
   line: SourceLine;
 }
 
-export function SCMPopup({ line }: Props) {
+function SCMPopup({ line }: Props) {
   const hasAuthor = line.scmAuthor !== undefined && line.scmAuthor !== '';
   const hasDate = line.scmDate !== undefined;
   return (

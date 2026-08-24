@@ -72,7 +72,7 @@ export enum AuthMethod {
 }
 
 export type EmailConfiguration = EmailConfigurationAuth & EmailConfigurationCommon;
-export type EmailConfigurationAuth = EmailNotificationBasicAuth | EmailNotificationOAuth;
+type EmailConfigurationAuth = EmailNotificationBasicAuth | EmailNotificationOAuth;
 export type EmailConfigurationBasicAuth = EmailNotificationBasicAuth & EmailConfigurationCommon;
 export type EmailConfigurationOAuth = EmailNotificationOAuth & EmailConfigurationCommon;
 

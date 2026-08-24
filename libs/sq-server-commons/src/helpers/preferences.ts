@@ -20,7 +20,7 @@
 
 import { get, save } from '~shared/helpers/storage';
 
-export const KEYBOARD_SHORTCUTS_ENABLED = 'keyboard_shortcuts_enabled';
+const KEYBOARD_SHORTCUTS_ENABLED = 'keyboard_shortcuts_enabled';
 
 export function getKeyboardShortcutEnabled() {
   // true by default, so null =~= true

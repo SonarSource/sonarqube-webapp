@@ -62,10 +62,7 @@ export interface NewTokenInfo {
   token: string;
 }
 
-export const DEFAULT_EXTERNAL_PRODUCT_CONFIGS: Record<
-  ExternalProductKind,
-  ExternalProductDescription
-> = {
+const DEFAULT_EXTERNAL_PRODUCT_CONFIGS: Record<ExternalProductKind, ExternalProductDescription> = {
   [ExternalProductKind.SQ_IDE]: {
     displayName: 'SonarQube for IDE',
     productHost: 'IDE',
@@ -320,10 +317,7 @@ export function getProductKind(
   return ExternalProductKind.UNKNOWN;
 }
 
-export function identifyProduct(
-  productName: string | null,
-  ideName: string | null,
-): ExternalProduct {
+function identifyProduct(productName: string | null, ideName: string | null): ExternalProduct {
   const kind = getProductKind(productName, ideName);
   const config = DEFAULT_EXTERNAL_PRODUCT_CONFIGS[kind];
 

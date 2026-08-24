@@ -31,12 +31,12 @@ import { translate } from '../../../helpers/l10n';
 import { AlmKeys } from '../../../types/alm-settings';
 import { Feature } from '../../../types/features';
 
-export interface AllSetProps extends WithAvailableFeaturesProps {
+interface AllSetProps extends WithAvailableFeaturesProps {
   alm: AlmKeys;
   willRefreshAutomatically?: boolean;
 }
 
-export function AllSet(props: Readonly<AllSetProps>) {
+function AllSet(props: Readonly<AllSetProps>) {
   const outroRef = React.useRef<HTMLDivElement>(null);
   const { alm, willRefreshAutomatically } = props;
   const branchSupportEnabled = props.hasFeature(Feature.BranchSupport);

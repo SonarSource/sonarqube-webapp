@@ -65,7 +65,7 @@ interface Props {
   metrics: Record<string, Metric>;
 }
 
-export class QualityGateCondition extends React.PureComponent<Props> {
+class QualityGateCondition extends React.PureComponent<Props> {
   getIssuesUrl = (inNewCodePeriod: boolean, customQuery: Record<string, string>) => {
     const query: Record<string, string | undefined> = {
       ...DEFAULT_ISSUES_QUERY,

@@ -20,7 +20,7 @@
 
 import { cssVar, EchoesCSSVarString } from '@sonarsource/echoes-react';
 
-export const avatarColorPalette: EchoesCSSVarString[] = [
+const avatarColorPalette: EchoesCSSVarString[] = [
   cssVar('color-charts-categorical-4'),
   cssVar('color-charts-categorical-1'),
   cssVar('color-charts-categorical-7'),
@@ -31,7 +31,7 @@ export const avatarColorPalette: EchoesCSSVarString[] = [
   cssVar('color-charts-categorical-6'),
 ];
 
-export const avatarContrastPalette: EchoesCSSVarString[] = avatarColorPalette.map(() =>
+const avatarContrastPalette: EchoesCSSVarString[] = avatarColorPalette.map(() =>
   cssVar('color-text-on-color'),
 );
 

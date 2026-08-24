@@ -20,7 +20,7 @@
 
 import { QueryClient, QueryOptions } from '@tanstack/react-query';
 
-export const queryClientDefaultRetryFn: QueryOptions['retry'] = (failureCount, error) => {
+const queryClientDefaultRetryFn: QueryOptions['retry'] = (failureCount, error) => {
   if (typeof error === 'object' && error !== null && 'status' in error) {
     const { status } = error as unknown as Response;
 

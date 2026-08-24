@@ -457,7 +457,7 @@ const ARROW_WIDTH = 6;
 const ARROW_HEIGHT = 7;
 const ARROW_MARGIN = 3;
 
-export const TooltipWrapper = styled.div`
+const TooltipWrapper = styled.div`
   animation: ${fadeIn} 0.3s forwards;
 
   ${tw`sw-absolute`}

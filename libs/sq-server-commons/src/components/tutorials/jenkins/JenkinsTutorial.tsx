@@ -42,7 +42,7 @@ export interface JenkinsTutorialProps extends WithAvailableFeaturesProps {
   willRefreshAutomatically?: boolean;
 }
 
-export function JenkinsTutorial(props: Readonly<JenkinsTutorialProps>) {
+function JenkinsTutorial(props: Readonly<JenkinsTutorialProps>) {
   const { almBinding, baseUrl, component, willRefreshAutomatically } = props;
   const { data: projectBinding } = useProjectBindingQuery(component.key);
   const hasSelectAlmStep = projectBinding?.alm === undefined;

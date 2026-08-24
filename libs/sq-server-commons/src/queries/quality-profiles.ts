@@ -467,7 +467,7 @@ export function useDissociateProjectMutation() {
   });
 }
 
-export function useQualityProfilesInvalidation() {
+function useQualityProfilesInvalidation() {
   const queryClient = useQueryClient();
   return {
     invalidateSearch: () =>

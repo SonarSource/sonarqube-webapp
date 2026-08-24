@@ -66,7 +66,7 @@ const DescriptionContainer = styled.div`
   ${tw`sw-p-4`}
 `;
 
-export const StyledSelectionCard = styled(BareButton)`
+const StyledSelectionCard = styled(BareButton)`
   ${tw`sw-flex`}
   ${tw`sw-flex-col`}
   ${tw`sw-rounded-1`};

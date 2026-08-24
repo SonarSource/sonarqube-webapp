@@ -36,10 +36,7 @@ import {
   isLineChartGroupByActive,
 } from '../../widget-creation-modal/utils/lineChartGroupByHelpers';
 
-export type LocalizeMetricName = (
-  metric: { key: string; name?: string },
-  short?: boolean,
-) => string;
+type LocalizeMetricName = (metric: { key: string; name?: string }, short?: boolean) => string;
 
 type FormatMessage = IntlShape['formatMessage'];
 

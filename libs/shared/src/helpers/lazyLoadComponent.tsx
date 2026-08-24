@@ -55,7 +55,7 @@ interface ErrorBoundaryState {
   hasError: boolean;
 }
 
-export class LazyErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+class LazyErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   state: ErrorBoundaryState = { hasError: false };
 
   static getDerivedStateFromError() {

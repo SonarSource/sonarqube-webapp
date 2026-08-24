@@ -24,7 +24,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { LineMeta } from '../../../design-system';
 import { SourceLine } from '../../../types/types';
 
-export interface LineDuplicationBlockProps {
+interface LineDuplicationBlockProps {
   blocksLoaded: boolean;
   duplicated: boolean;
   index: number;
@@ -33,7 +33,7 @@ export interface LineDuplicationBlockProps {
   renderDuplicationPopup: (index: number, line: number) => ReactNode;
 }
 
-export function LineDuplicationBlock(props: LineDuplicationBlockProps) {
+function LineDuplicationBlock(props: LineDuplicationBlockProps) {
   const { blocksLoaded, duplicated, index, line, onClick } = props;
   const { formatMessage } = useIntl();
 

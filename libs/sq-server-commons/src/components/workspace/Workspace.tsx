@@ -37,9 +37,9 @@ interface State {
   open: { component?: string };
 }
 
-export const MIN_HEIGHT = 0.05;
-export const MAX_HEIGHT = 0.85;
-export const INITIAL_HEIGHT = 300;
+const MIN_HEIGHT = 0.05;
+const MAX_HEIGHT = 0.85;
+const INITIAL_HEIGHT = 300;
 
 export const TYPE_KEY = '__type__';
 export enum WorkspaceTypes {

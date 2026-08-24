@@ -38,7 +38,7 @@ interface Props {
   removeOnly?: boolean;
 }
 
-export const ANYONE = 'Anyone';
+const ANYONE = 'Anyone';
 
 export default function GroupHolder(props: Props) {
   const { group, isComponentPrivate, permissions, removeOnly, isGitHubUser, isGitLabUser } = props;

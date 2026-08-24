@@ -25,7 +25,7 @@ import { getPermissionTemplates } from '../api/permissions';
 
 export const PERMISSION_TEMPLATES_PAGE_SIZE = 50;
 
-export const permissionTemplatesQueryKeys = {
+const permissionTemplatesQueryKeys = {
   all: () => ['permission-templates'],
   list: (pageIndex?: number, q?: string) => [
     ...permissionTemplatesQueryKeys.all(),

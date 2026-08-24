@@ -39,13 +39,13 @@ import {
   useOptionalWidgetInstanceContext,
 } from '../../dashboard-layout/shared/WidgetInstanceContext';
 
-export enum TrendDirection {
+enum TrendDirection {
   Up = 'up',
   Down = 'down',
   Equal = 'equal',
 }
 
-export enum TrendType {
+enum TrendType {
   Positive = 'positive',
   Negative = 'negative',
   Neutral = 'neutral',

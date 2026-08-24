@@ -76,7 +76,7 @@ export function useQualityGateQuery(name: string) {
   return useQualityGateQueryInner(name);
 }
 
-export function useQualityGateForProjectQuery(project: string) {
+function useQualityGateForProjectQuery(project: string) {
   return useQuery({
     queryKey: qualityQuery.projectAssoc(project),
     queryFn: async ({ queryKey: [, , project] }) => {

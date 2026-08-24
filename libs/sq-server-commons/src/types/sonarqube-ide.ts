@@ -18,20 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export type { Capabilities, Ide } from '~shared/types/sonarqube-ide';
+export type { Ide } from '~shared/types/sonarqube-ide';
 
-export interface LineRange {
+interface LineRange {
   endLine: number;
   startLine: number;
 }
 
-export interface Changes {
+interface Changes {
   after: string;
   before: string;
   beforeLineRange: LineRange;
 }
 
-export interface EditFile {
+interface EditFile {
   changes: Changes[];
   path: string;
 }

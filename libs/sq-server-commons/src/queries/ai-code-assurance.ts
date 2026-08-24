@@ -30,7 +30,7 @@ import {
 import { Component } from '../types/types';
 import { invalidateProjectsListQuery } from './projects';
 
-export const AI_CODE_ASSURANCE_QUERY_PREFIX = 'project-ai-code-assurance';
+const AI_CODE_ASSURANCE_QUERY_PREFIX = 'project-ai-code-assurance';
 
 export const useProjectBranchesAiCodeAssuranceStatusQuery = createQueryHook(
   ({ project, branch }: { branch?: string; project: Component }) => {

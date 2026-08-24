@@ -41,7 +41,7 @@ const handleCopy = (e: MouseEvent, copyFn: (e: MouseEvent<HTMLButtonElement>) =>
     .catch(noop);
 };
 
-export function LineOptionsPopup({ line, permalink }: Readonly<Props>) {
+function LineOptionsPopup({ line, permalink }: Readonly<Props>) {
   const lineCodeAsPlainText = getLineCodeAsPlainText(line.code);
   const [, handleCopyPermalink] = useCopyClipboardEffect(permalink);
   const [, handleCopyLine] = useCopyClipboardEffect(lineCodeAsPlainText ?? '');

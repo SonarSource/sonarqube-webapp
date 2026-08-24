@@ -90,7 +90,7 @@ function getFormatter(type: string, metricKey?: MetricKey): Formatter {
   return FORMATTERS[type] || noFormatter;
 }
 
-export function makeRiskMetricOptionsFormatter() {
+function makeRiskMetricOptionsFormatter() {
   const { formatMessage } = getIntl();
   const scaRiskMetrics: Record<string, ReleaseRiskSeverity> = {
     ...SCA_RISK_SEVERITY_METRIC_THRESHOLDS,

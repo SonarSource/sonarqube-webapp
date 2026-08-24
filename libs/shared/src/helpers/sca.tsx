@@ -83,7 +83,7 @@ export const SCA_LICENSE_SEVERITY_RISK_METRIC_KEYS = [
   MetricKey.new_sca_severity_licensing,
 ] as string[];
 
-export const SCA_MALWARE_SEVERITY_RISK_METRIC_KEYS = [
+const SCA_MALWARE_SEVERITY_RISK_METRIC_KEYS = [
   MetricKey.sca_severity_malware,
   MetricKey.new_sca_severity_malware,
 ] as string[];
@@ -103,7 +103,7 @@ export function getScaRiskMetricThresholds(metricKey: string): Record<string, Re
  * These are the metrics keys for which the SCA_RISK_METRIC_OPTIONS apply
  * and that should have the MetricType.ScaRisk type.
  */
-export const SCA_ISSUE_RISK_SEVERITY_METRICS: string[] = Object.values(MetricKey).filter(
+const SCA_ISSUE_RISK_SEVERITY_METRICS: string[] = Object.values(MetricKey).filter(
   (k) => k.startsWith('sca_severity_') || k.startsWith('new_sca_severity_'),
 );
 

@@ -27,12 +27,12 @@ export interface TimeFormatterProps extends Intl.DateTimeFormatOptions {
   long?: boolean;
 }
 
-export const formatterOption: FormatDateOptions = {
+const formatterOption: FormatDateOptions = {
   hour: 'numeric',
   minute: 'numeric',
 };
 
-export const longFormatterOption: FormatDateOptions = {
+const longFormatterOption: FormatDateOptions = {
   hour: 'numeric',
   minute: 'numeric',
   second: 'numeric',

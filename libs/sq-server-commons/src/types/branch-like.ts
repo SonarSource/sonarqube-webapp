@@ -35,7 +35,7 @@ interface PullRequestWithAnyExtraProperty extends PullRequestBase {}
 
 export type BranchLike = Branch | PullRequestWithAnyExtraProperty;
 
-export interface BranchTree {
+interface BranchTree {
   branch: Branch;
   pullRequests: PullRequestWithAnyExtraProperty[];
 }

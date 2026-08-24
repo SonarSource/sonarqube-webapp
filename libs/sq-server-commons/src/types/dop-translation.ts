@@ -47,7 +47,7 @@ export interface ProjectBinding {
   slug: string;
 }
 
-export interface GitHubConfigurationBase {
+interface GitHubConfigurationBase {
   allowUsersToSignUp: boolean;
   allowedOrganizations: string[];
   apiUrl: string;

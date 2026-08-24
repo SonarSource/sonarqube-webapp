@@ -36,7 +36,7 @@ import gradleExample from './commands/Gradle';
 import mavenExample from './commands/Maven';
 import othersExample from './commands/Others';
 
-export interface AnalysisCommandProps extends WithAvailableFeaturesProps {
+interface AnalysisCommandProps extends WithAvailableFeaturesProps {
   arch: Arch;
   component: Component;
   config: TutorialConfig;
@@ -64,7 +64,7 @@ const YamlTemplate: Dictionary<BuildToolExampleBuilder> = {
   [BuildTools.Other]: othersExample,
 };
 
-export function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
+function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
   const { config, arch, mainBranchName, component } = props;
   const branchesEnabled = props.hasFeature(Feature.BranchSupport);
 

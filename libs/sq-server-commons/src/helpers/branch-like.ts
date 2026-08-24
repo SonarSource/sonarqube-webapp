@@ -33,7 +33,7 @@ export function sortPullRequests(pullRequests: PullRequest[]) {
   return orderBy(pullRequests, (pr) => getPullRequestDisplayName(pr));
 }
 
-export function getPullRequestDisplayName(pullRequest: PullRequest) {
+function getPullRequestDisplayName(pullRequest: PullRequest) {
   return `${pullRequest.key} – ${pullRequest.title}`;
 }
 

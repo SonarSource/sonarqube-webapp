@@ -32,7 +32,7 @@ import { translate } from '../../../helpers/l10n';
 import { AppState } from '../../../types/appstate';
 import { EditionKey } from '../../../types/editions';
 
-export interface Props {
+interface Props {
   appState: AppState;
 }
 

@@ -147,7 +147,7 @@ export function useDeleteGitLabConfigurationMutation() {
   });
 }
 
-export function useGitLabConfigurationsSummaryQuery() {
+function useGitLabConfigurationsSummaryQuery() {
   return useQuery({
     queryKey: ['identity_provider', 'gitlab_config', 'summary'],
     queryFn: fetchGitLabConfigurationsSummary,

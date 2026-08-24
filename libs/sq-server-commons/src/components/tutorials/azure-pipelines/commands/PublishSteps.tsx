@@ -30,9 +30,9 @@ import { translate } from '../../../../helpers/l10n';
 import { Feature } from '../../../../types/features';
 import SentenceWithHighlights from '../../components/SentenceWithHighlights';
 
-export interface PublishStepsProps extends WithAvailableFeaturesProps {}
+interface PublishStepsProps extends WithAvailableFeaturesProps {}
 
-export function PublishSteps(props: PublishStepsProps) {
+function PublishSteps(props: Readonly<PublishStepsProps>) {
   const branchSupportEnabled = props.hasFeature(Feature.BranchSupport);
 
   const docUrl = useDocUrl(DocLink.AlmAzureIntegration);

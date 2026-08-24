@@ -114,7 +114,7 @@ export enum RuleStatus {
   Removed = 'REMOVED',
 }
 
-export const RuleTypes = [
+const RuleTypes = [
   'BUG',
   'VULNERABILITY',
   'CODE_SMELL',

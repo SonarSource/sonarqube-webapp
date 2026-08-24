@@ -24,7 +24,7 @@ import { LoggedInUser } from '../../../types/users';
 import ProjectAnalysisStep from './ProjectAnalysisStep';
 import TokenStep from './TokenStep';
 
-export enum Steps {
+enum Steps {
   ANALYSIS,
   TOKEN,
 }

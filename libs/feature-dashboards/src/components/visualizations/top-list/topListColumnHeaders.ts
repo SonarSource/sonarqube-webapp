@@ -33,9 +33,9 @@ const METRIC_COLUMN_MESSAGE_ID: Record<TopListMetricValue, string> = {
   [TopListMetric.IssueCount]: 'dashboard.top_list.column.metric.issue_count',
 };
 
-export const TOP_LIST_TREND_COLUMN_MESSAGE_ID = 'dashboard.top_list.column.trend';
+const TOP_LIST_TREND_COLUMN_MESSAGE_ID = 'dashboard.top_list.column.trend';
 
-export function getTopListColumnHeaderMessageIds(
+function getTopListColumnHeaderMessageIds(
   rankBy: TopListRankByValue,
   metric: TopListMetricValue,
 ): {

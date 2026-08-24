@@ -34,7 +34,7 @@ import QualityGateSimplifiedCondition from './QualityGateSimplifiedCondition';
 
 const LEVEL_ORDER = ['ERROR', 'WARN'];
 
-export interface QualityGateConditionsProps {
+interface QualityGateConditionsProps {
   branchLike?: BranchLike;
   collapsible?: boolean;
   component: Pick<Component, 'key'>;
@@ -45,7 +45,7 @@ export interface QualityGateConditionsProps {
 
 const MAX_CONDITIONS = 5;
 
-export function QualityGateConditions(props: Readonly<QualityGateConditionsProps>) {
+function QualityGateConditions(props: Readonly<QualityGateConditionsProps>) {
   const { branchLike, collapsible, component, failedConditions, isBuiltInQualityGate, measures } =
     props;
   const [collapsed, toggleCollapsed] = React.useState(Boolean(collapsible));

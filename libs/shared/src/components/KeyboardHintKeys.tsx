@@ -77,7 +77,7 @@ export function KeyboardHintKeys({ command }: Readonly<KeyboardHintKeysProps>) {
   );
 }
 
-export const KeyBox = styled.span`
+const KeyBox = styled.span`
   ${tw`sw-flex sw-items-center sw-justify-center`}
   ${tw`sw-px-1/2`}
   ${tw`sw-rounded-1/2`}

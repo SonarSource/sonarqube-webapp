@@ -49,7 +49,7 @@ import {
 
 export type FacetKey = keyof CodingRulesQuery;
 
-export interface Facet {
+interface Facet {
   [value: string]: number;
 }
 

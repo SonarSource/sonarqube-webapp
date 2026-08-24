@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export interface BeamerNewsItemTranslation {
+interface BeamerNewsItemTranslation {
   category: string;
   content: string;
   contentHtml: string;

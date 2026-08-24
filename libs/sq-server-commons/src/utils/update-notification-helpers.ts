@@ -65,7 +65,7 @@ export const isCurrentVersionLTA = (parsedVersion: number[], latestLTS: string) 
   return currentMajor === ltsMajor && currentMinor === ltsMinor;
 };
 
-export const isMinorUpdate = (parsedVersion: number[], systemUpgrades: GroupedSystemUpdate) => {
+const isMinorUpdate = (parsedVersion: number[], systemUpgrades: GroupedSystemUpdate) => {
   const [currentMajor, currentMinor] = parsedVersion;
   const allMinor = systemUpgrades[currentMajor] ?? {};
 
@@ -74,7 +74,7 @@ export const isMinorUpdate = (parsedVersion: number[], systemUpgrades: GroupedSy
     .some((minor) => minor > currentMinor);
 };
 
-export const isLatestUpdatedAPatchUpdate = (
+const isLatestUpdatedAPatchUpdate = (
   parsedVersion: number[],
   systemUpgrades: GroupedSystemUpdate,
 ) => {

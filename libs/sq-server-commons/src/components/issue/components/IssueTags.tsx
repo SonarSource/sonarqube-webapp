@@ -36,7 +36,7 @@ interface Props extends ComponentContextShape {
   togglePopup?: (popup: string, show?: boolean) => void;
 }
 
-export class IssueTags extends React.PureComponent<Props> {
+class IssueTags extends React.PureComponent<Props> {
   setTags = (tags: string[]) => {
     const { issue } = this.props;
     const newIssue = { ...issue, tags };

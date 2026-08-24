@@ -20,7 +20,7 @@
 
 import { Issue } from '../../types/types';
 
-export type PathEntry =
+type PathEntry =
   | {
       key: string;
       type: 'object';
@@ -345,7 +345,7 @@ export class JsonIssueMapper {
   }
 }
 
-export function pathToCursorInCell(path: PathToCursor): {
+function pathToCursorInCell(path: PathToCursor): {
   cell: number;
   cursorOffset: number;
   line: number;

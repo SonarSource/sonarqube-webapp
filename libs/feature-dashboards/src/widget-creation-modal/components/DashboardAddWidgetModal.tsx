@@ -45,7 +45,7 @@ export enum DashboardAddWidgetModalMode {
   Edit = 'edit',
 }
 
-export interface DashboardAddWidgetModalRenderOptionsContext {
+interface DashboardAddWidgetModalRenderOptionsContext {
   dispatch: Dispatch<WidgetConfigAction>;
   isEditMode: boolean;
   metricPickerOptions: WidgetMetricPickerOptions;

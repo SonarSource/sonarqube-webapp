@@ -94,7 +94,7 @@ function part(str: string, from: number, to: number, acc: number): string {
 /**
  * Highlight issue locations in the list of tokens
  */
-export function highlightIssueLocations(
+function highlightIssueLocations(
   tokens: Token[],
   issueLocations: LinearIssueLocation[],
   modifier: keyof TokenModifiers,

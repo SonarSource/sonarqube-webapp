@@ -25,14 +25,14 @@ import BuildConfigSelection from '../components/BuildConfigSelection';
 import { TutorialConfig, TutorialModes } from '../types';
 import AnalysisCommand from './commands/AnalysisCommand';
 
-export interface BranchesAnalysisStepProps {
+interface BranchesAnalysisStepProps {
   component: Component;
   config: TutorialConfig;
   languages: Languages;
   setConfig: (config: TutorialConfig) => void;
 }
 
-export function BranchAnalysisStepContent(props: BranchesAnalysisStepProps) {
+function BranchAnalysisStepContent(props: BranchesAnalysisStepProps) {
   const { config, setConfig, component, languages } = props;
 
   return (

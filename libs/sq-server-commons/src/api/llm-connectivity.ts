@@ -29,7 +29,7 @@ import {
   LlmProviderUpdate,
 } from '../types/llm-connectivity';
 
-export const LLM_CONNECTIVITY_PATH = '/api/v2/llm-connectivity';
+const LLM_CONNECTIVITY_PATH = '/api/v2/llm-connectivity';
 export const LLM_PROVIDER_DEFINITIONS_PATH = `${LLM_CONNECTIVITY_PATH}/llm-provider-definitions`;
 export const LLM_PROVIDERS_PATH = `${LLM_CONNECTIVITY_PATH}/llm-providers`;
 export const LLM_PROVIDER_MAPPINGS_PATH = `${LLM_CONNECTIVITY_PATH}/llm-provider-mappings`;

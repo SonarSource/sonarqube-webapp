@@ -39,7 +39,7 @@ import { Arch, BuildTools, GradleBuildDSL, OSs, TutorialConfig, TutorialModes } 
 import { shouldShowArchSelector, shouldShowGithubCFamilyExampleRepositories } from '../utils';
 import PipeCommand from './commands/PipeCommand';
 
-export interface YmlFileStepProps extends WithAvailableFeaturesProps {
+interface YmlFileStepProps extends WithAvailableFeaturesProps {
   component: Component;
   hasCLanguageFeature: boolean;
   setDone: (done: boolean) => void;
@@ -116,7 +116,7 @@ const snippetLanguageForBuildTool = {
   [BuildTools.Other]: undefined,
 };
 
-export function YmlFileStep(props: Readonly<YmlFileStepProps>) {
+function YmlFileStep(props: Readonly<YmlFileStepProps>) {
   const { component, hasCLanguageFeature, setDone } = props;
   const [arch, setArch] = React.useState<Arch>(Arch.X86_64);
 

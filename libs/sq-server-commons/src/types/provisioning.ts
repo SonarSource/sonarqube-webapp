@@ -20,12 +20,12 @@
 
 import { TaskStatuses } from './tasks';
 
-export type GithubStatusDisabled = {
+type GithubStatusDisabled = {
   enabled: false;
   lastSync?: never;
   nextSync?: never;
 };
-export interface GithubStatusEnabled extends AlmSyncStatus {
+interface GithubStatusEnabled extends AlmSyncStatus {
   enabled: true;
 }
 

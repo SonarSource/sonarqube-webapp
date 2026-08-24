@@ -51,14 +51,14 @@ export interface LanguageProps {
   config: TutorialConfig;
 }
 
-export interface JenkinsfileStepProps {
+interface JenkinsfileStepProps {
   baseUrl: string;
   component: Component;
   hasCLanguageFeature: boolean;
   setDone: (done: boolean) => void;
 }
 
-export function JenkinsStep(props: Readonly<JenkinsfileStepProps>) {
+function JenkinsStep(props: Readonly<JenkinsfileStepProps>) {
   const { component, hasCLanguageFeature, baseUrl, setDone } = props;
 
   const [config, setConfig] = React.useState<TutorialConfig>({});

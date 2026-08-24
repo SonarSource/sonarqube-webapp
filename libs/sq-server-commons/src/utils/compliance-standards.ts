@@ -26,13 +26,10 @@ import { STANDARDS_REGISTRY } from '~shared/helpers/compliance-standards-registr
 import { StandardsInformation, StandardsInformationKey } from '~shared/types/security';
 
 export {
-  BACKEND_KEY_TO_FRONTEND,
   buildComplianceStandards,
-  buildComplianceStandardsForCategory,
   COMPLIANCE_STANDARDS_BACKEND_KEYS,
   extractCweNumber,
   mapFacetToBackendName,
-  normalizeCategory,
   parseComplianceStandards,
   populateStandardsFromParsed,
 } from '~shared/helpers/compliance-standards-registry';

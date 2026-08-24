@@ -23,7 +23,7 @@ import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import tw from 'twin.macro';
 
-export interface MessageFormatting {
+interface MessageFormatting {
   end: number;
   start: number;
   type: MessageFormattingType;

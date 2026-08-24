@@ -24,7 +24,7 @@ import { augmentMetricsForIssueSeverity } from '~shared/helpers/metrics';
 import { augmentMetrics } from '~shared/helpers/sca';
 import { Metric } from '~shared/types/measures';
 
-export interface MetricsResponse {
+interface MetricsResponse {
   metrics: Metric[];
   p: number;
   ps: number;

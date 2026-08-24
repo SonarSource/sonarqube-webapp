@@ -127,7 +127,7 @@ const COMMON_CONDITIONS: Record<
   },
 };
 
-export const OPTIMIZED_CAYC_CONDITIONS: Record<
+const OPTIMIZED_CAYC_CONDITIONS: Record<
   OptimizedCaycMetricKeys,
   Condition & { shouldRenderOperator?: boolean }
 > = {
@@ -191,7 +191,7 @@ export const CONDITION_ORDER_PRIORITIES: Record<string, number> = {
   [MetricKey.new_duplicated_lines_density]: 11,
 };
 
-export const AI_SUPPORTED_CONDITION_ORDER_PRIORITIES: Record<string, number> = {
+const AI_SUPPORTED_CONDITION_ORDER_PRIORITIES: Record<string, number> = {
   [MetricKey.software_quality_security_rating]: 1,
   [MetricKey.security_rating]: 1,
   [MetricKey.security_hotspots_reviewed]: 2,

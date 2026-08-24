@@ -46,10 +46,10 @@ export function AdminPageHeader({ children, className, description, title }: Rea
     </div>
   );
 }
-export const AdminPageTitle = withTheme(styled.h1`
+const AdminPageTitle = withTheme(styled.h1`
   color: ${cssVar('color-text-strong')};
 `);
 
-export const AdminPageDescription = withTheme(styled.div`
+const AdminPageDescription = withTheme(styled.div`
   color: ${cssVar('color-text-default')};
 `);

@@ -101,7 +101,7 @@ export default function LegacyTooltip(props: TooltipProps) {
   );
 }
 
-export class TooltipInner extends Component<TooltipProps, State> {
+class TooltipInner extends Component<TooltipProps, State> {
   throttledPositionTooltip: () => void;
   mouseEnterTimeout?: number;
   mouseLeaveTimeout?: number;

@@ -29,7 +29,7 @@ import {
 } from '../../types/dashboard-widget';
 
 /** Message id for the short slice dimension label (e.g. Severity, Review status). */
-export const PIE_CHART_SLICE_LABEL_MESSAGE_ID: Record<PieChartSlice, string> = {
+const PIE_CHART_SLICE_LABEL_MESSAGE_ID: Record<PieChartSlice, string> = {
   [PieChartIssueSlice.ImpactSoftwareQualities]:
     'dashboard.pie_chart.header.slice.impact_software_qualities',
   [PieChartIssueSlice.ImpactSeverities]: 'dashboard.pie_chart.header.slice.impact_severities',

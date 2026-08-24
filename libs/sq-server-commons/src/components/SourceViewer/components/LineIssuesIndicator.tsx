@@ -28,7 +28,7 @@ import Tooltip from '../../controls/Tooltip';
 
 const MOUSE_LEAVE_DELAY = 0.25;
 
-export interface LineIssuesIndicatorProps {
+interface LineIssuesIndicatorProps {
   as?: React.ElementType;
   issues: Issue[];
   issuesOpen?: boolean;
@@ -36,7 +36,7 @@ export interface LineIssuesIndicatorProps {
   onClick: () => void;
 }
 
-export function LineIssuesIndicator(props: LineIssuesIndicatorProps) {
+function LineIssuesIndicator(props: LineIssuesIndicatorProps) {
   const { issues, issuesOpen, line, as = 'td' } = props;
   const hasIssues = issues.length > 0;
   const intl = useIntl();

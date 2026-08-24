@@ -38,12 +38,9 @@ import {
 
 const key = 'topList' as const;
 
-export const rankBySchema = v.enum(TopListRankBy) satisfies GenericSchema<
-  unknown,
-  TopListRankByValue
->;
+const rankBySchema = v.enum(TopListRankBy) satisfies GenericSchema<unknown, TopListRankByValue>;
 
-export const limitSchema = v.enum(TopListLimit) satisfies GenericSchema<unknown, TopListLimitValue>;
+const limitSchema = v.enum(TopListLimit) satisfies GenericSchema<unknown, TopListLimitValue>;
 
 export type Props = {
   /** Number of rows the widget shows (5, 10, or 15). */

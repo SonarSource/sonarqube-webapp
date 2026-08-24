@@ -38,7 +38,7 @@ export interface AzurePipelinesTutorialProps {
   willRefreshAutomatically?: boolean;
 }
 
-export enum Steps {
+enum Steps {
   ExtensionInstallation = 'ExtensionInstallation',
   ServiceEndpoint = 'ServiceEndpoint',
   BranchAnalysis = 'BranchAnalysis',

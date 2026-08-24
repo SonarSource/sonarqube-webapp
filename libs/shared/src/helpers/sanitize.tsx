@@ -28,7 +28,7 @@ export enum SanitizeLevel {
   RESTRICTED, // adds even more restrictions on tags and attributes
 }
 
-export const sanitizeFunctionByLevel = (sanitizeLevel: SanitizeLevel) =>
+const sanitizeFunctionByLevel = (sanitizeLevel: SanitizeLevel) =>
   ({
     [SanitizeLevel.FORBID_STYLE]: sanitizeHTMLToPreventCSSInjection,
     [SanitizeLevel.FORBID_SVG_MATHML]: sanitizeHTMLNoSVGNoMathML,

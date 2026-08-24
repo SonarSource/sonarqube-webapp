@@ -33,13 +33,13 @@ import { AppState } from '../../types/appstate';
 import { GlobalSettingKeys } from '../../types/settings';
 import { KNOWN_RATINGS } from './utils';
 
-export interface RatingTooltipContentProps {
+interface RatingTooltipContentProps {
   appState: AppState;
   metricKey: MetricKey | string;
   value: number | string;
 }
 
-export function RatingTooltipContent(props: Readonly<RatingTooltipContentProps>) {
+function RatingTooltipContent(props: Readonly<RatingTooltipContentProps>) {
   const {
     appState: { settings },
     metricKey,

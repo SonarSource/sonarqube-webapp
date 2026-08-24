@@ -91,6 +91,6 @@ export function isInstalledPlugin(plugin: Plugin): plugin is InstalledPlugin {
   return isPendingPlugin(plugin) && (plugin as any).updatedAt !== undefined;
 }
 
-export function isPendingPlugin(plugin: Plugin): plugin is PendingPlugin {
+function isPendingPlugin(plugin: Plugin): plugin is PendingPlugin {
   return (plugin as any).version !== undefined;
 }

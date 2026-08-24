@@ -112,7 +112,7 @@ interface State {
   symbolsByLine: { [line: number]: string[] };
 }
 
-export class SourceViewerClass extends React.PureComponent<Props, State> {
+class SourceViewerClass extends React.PureComponent<Props, State> {
   mounted = false;
 
   static defaultProps = {
