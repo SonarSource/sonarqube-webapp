@@ -84,11 +84,12 @@ export const STANDARDS_REGISTRY: StandardDefinition[] = [
     showMoreEnabled: true,
   },
   {
-    availableInPDFReports: false,
+    availableInPDFReports: true,
     backendKey: 'cra_standard:urn:sonar-security-standard:cra:standard:unversioned',
     displayName: 'cra',
     enumKey: 'CRA',
     key: StandardsInformationKey.CRA,
+    pdfLabel: 'CRA',
     queryProp: SecurityStandard.CRA,
     renderCategory: renderCRACategory,
     showMoreEnabled: false,

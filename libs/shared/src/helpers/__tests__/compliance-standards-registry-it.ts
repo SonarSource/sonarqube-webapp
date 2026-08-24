@@ -66,7 +66,7 @@ describe('compliance-standards-registry', () => {
         expect.objectContaining({
           key: StandardsInformationKey.CRA,
           displayName: 'cra',
-          availableInPDFReports: false,
+          availableInPDFReports: true,
         }),
       );
     });
@@ -123,7 +123,8 @@ describe('compliance-standards-registry', () => {
       expect(definition?.key).toBe(StandardsInformationKey.CRA);
       expect(definition?.displayName).toBe('cra');
       expect(definition?.queryProp).toBe('cra');
-      expect(definition?.availableInPDFReports).toBe(false);
+      expect(definition?.availableInPDFReports).toBe(true);
+      expect(definition?.pdfLabel).toBe('CRA');
     });
   });
 
@@ -159,8 +160,8 @@ describe('compliance-standards-registry', () => {
       expect(isStandardAvailableInPDFReports(StandardsInformationKey.CWE)).toBe(false);
     });
 
-    it('should return false for CRA', () => {
-      expect(isStandardAvailableInPDFReports(StandardsInformationKey.CRA)).toBe(false);
+    it('should return true for CRA', () => {
+      expect(isStandardAvailableInPDFReports(StandardsInformationKey.CRA)).toBe(true);
     });
 
     it('should return false for non-existent standard', () => {
