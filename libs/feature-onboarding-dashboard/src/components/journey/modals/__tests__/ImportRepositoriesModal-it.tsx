@@ -23,13 +23,14 @@ import {
   useOnboardingDopSettingsQuery,
   useOnboardingRepositoriesQuery,
 } from '~adapters/queries/onboarding';
-import {
-  OnboardingRepositoriesMock,
-  OnboardingRepositoriesQueryParams,
-} from '~shared/api/mocks/OnboardingRepositoriesMock';
+import { OnboardingRepositoriesMock } from '~shared/api/mocks/OnboardingRepositoriesMock';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
-import { OnboardingDevopsPlatform, OnboardingDopSetting } from '~shared/types/onboarding';
+import {
+  OnboardingDevopsPlatform,
+  OnboardingDopSetting,
+  OnboardingRepositoriesQuery,
+} from '~shared/types/onboarding';
 import { NO_DATA } from '../../../dashboardConstants';
 import { ImportRepositoriesModal } from '../ImportRepositoriesModal';
 
@@ -51,13 +52,17 @@ const mockedDopSettingsQuery = jest.mocked(useOnboardingDopSettingsQuery);
 const mockedRepositoriesQuery = jest.mocked(useOnboardingRepositoriesQuery);
 
 function useMockRepositoriesQuery(
-  params: OnboardingRepositoriesQueryParams,
+  params: OnboardingRepositoriesQuery,
   options?: { enabled?: boolean },
 ) {
   if (options?.enabled === false) {
-    return { data: undefined, isPending: false };
+    return { data: undefined, isFetching: false } as unknown as ReturnType<
+      typeof useOnboardingRepositoriesQuery
+    >;
   }
-  return { data: mockRepositories.applyQuery(params), isPending: false };
+  return { data: mockRepositories.applyQuery(params), isFetching: false } as unknown as ReturnType<
+    typeof useOnboardingRepositoriesQuery
+  >;
 }
 
 beforeAll(() => {

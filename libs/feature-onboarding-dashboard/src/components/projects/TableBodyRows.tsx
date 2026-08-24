@@ -27,15 +27,22 @@ interface Props<T> {
   isLoading: boolean;
   items: T[];
   renderRow: (item: T) => ReactNode;
+  rowCount: number;
 }
 
 /**
  * Table body content shared by {@link ProjectsTable} and {@link RepositoriesTable}: a loading
  * skeleton, an empty-state row, or the rendered items — whichever applies.
  */
-export function TableBodyRows<T>({ columnCount, isLoading, items, renderRow }: Readonly<Props<T>>) {
+export function TableBodyRows<T>({
+  columnCount,
+  isLoading,
+  items,
+  renderRow,
+  rowCount,
+}: Readonly<Props<T>>) {
   if (isLoading) {
-    return <ProjectsTableRowsSkeleton columns={columnCount} />;
+    return <ProjectsTableRowsSkeleton columns={columnCount} rows={rowCount} />;
   }
 
   if (items.length === 0) {

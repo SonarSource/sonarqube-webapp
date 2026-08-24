@@ -338,6 +338,8 @@ interface OnboardingRepositoriesPage {
 export interface OnboardingRepositoriesQuery {
   /** SQ-Server only: the DOP setting to scope the repository search to. */
   dopSettingId?: string;
+  /** SQ-Server only: the GitHub organization to scope the repository search to. */
+  githubOrganization?: string;
   pageIndex: number;
   pageSize: number;
   q?: string;

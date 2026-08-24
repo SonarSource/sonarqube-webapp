@@ -59,7 +59,7 @@ jest.mock('~adapters/queries/onboarding', () => ({
   useGrantProjectPermissionMutation: jest.fn().mockReturnValue({ mutate: jest.fn() }),
   useOnboardingDopSettingsQuery: jest.fn().mockReturnValue({ data: null, isLoading: false }),
   useOnboardingOrganizationKey: jest.fn().mockReturnValue(undefined),
-  useOnboardingRepositoriesQuery: jest.fn().mockReturnValue({ data: undefined, isLoading: false }),
+  useOnboardingRepositoriesQuery: jest.fn().mockReturnValue({ data: undefined, isFetching: false }),
   useTriggerAutomaticAnalysisMutation: jest.fn().mockReturnValue(undefined),
 }));
 

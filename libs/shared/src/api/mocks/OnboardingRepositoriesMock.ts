@@ -21,17 +21,11 @@
 import {
   OnboardingAlm,
   OnboardingDevopsPlatform,
+  OnboardingRepositoriesQuery,
   OnboardingRepositoriesResponse,
   OnboardingRepositoriesVisibility,
   OnboardingRepository,
 } from '../../types/onboarding';
-
-export interface OnboardingRepositoriesQueryParams {
-  pageIndex?: number;
-  pageSize?: number;
-  q?: string;
-  visibility?: OnboardingRepositoriesVisibility;
-}
 
 export function mockOnboardingRepositories(): OnboardingRepository[] {
   return [
@@ -77,7 +71,7 @@ export class OnboardingRepositoriesMock {
   repositories: OnboardingRepository[] = mockOnboardingRepositories();
   overridePageSize?: number;
 
-  applyQuery(params: OnboardingRepositoriesQueryParams): OnboardingRepositoriesResponse {
+  applyQuery(params: OnboardingRepositoriesQuery): OnboardingRepositoriesResponse {
     const q = (params.q ?? '').trim().toLowerCase();
     const visibility = params.visibility ?? OnboardingRepositoriesVisibility.All;
 

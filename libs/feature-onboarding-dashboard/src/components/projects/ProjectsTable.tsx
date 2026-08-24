@@ -174,6 +174,7 @@ export function ProjectsTable({
               isLoading={isLoading}
               items={projects}
               renderRow={renderRow}
+              rowCount={pageSize}
             />
           </Table.Body>
         </Table>

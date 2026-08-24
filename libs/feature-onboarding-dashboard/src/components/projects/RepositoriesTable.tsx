@@ -112,7 +112,7 @@ export function RepositoriesTable({
     onPageChange(1);
   }, [selectedDopSettingId, onPageChange, onSearchChange]);
 
-  const { data, isPending } = useOnboardingRepositoriesQuery(
+  const { data, isFetching } = useOnboardingRepositoriesQuery(
     {
       dopSettingId: effectiveEntry?.id,
       pageIndex,
@@ -138,7 +138,7 @@ export function RepositoriesTable({
 
   return (
     <LoadingContainer
-      isLoading={isPlatformsLoading || isPending}
+      isLoading={isPlatformsLoading || isFetching}
       loadingMessage={formatMessage({ id: 'onboarding_dashboard.repositories.loading' })}
     >
       <div className={`sw-flex sw-flex-col sw-gap-4 ${containerClassName ?? ''}`.trim()}>
@@ -209,9 +209,10 @@ export function RepositoriesTable({
           <Table.Body>
             <TableBodyRows
               columnCount={columns.length}
-              isLoading={isPending}
+              isLoading={isFetching}
               items={repositories}
               renderRow={renderRow}
+              rowCount={pageSize}
             />
           </Table.Body>
         </Table>
