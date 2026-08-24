@@ -46,6 +46,9 @@ export enum IssueTransition {
   UnConfirm = 'unconfirm',
   Reopen = 'reopen',
   Accept = 'accept',
+  // Experimenting, Feature Flag is backend. UI-facing name is "Snooze"; the value stays 'defer'
+  // to match the existing backend/API contract (do_transition, issue.transitions, etc.).
+  Snooze = 'defer',
   FalsePositive = 'falsepositive',
   Confirm = 'confirm',
   Resolve = 'resolve',

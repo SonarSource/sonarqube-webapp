@@ -19,6 +19,7 @@
  */
 
 import { useIntl } from 'react-intl';
+import { CALENDAR_DATE_DISPLAY_FORMAT, parseCalendarDate } from '../../helpers/dates';
 import { durationFormatter } from '../../helpers/measures';
 import type { IssueChangelogDiff as TypeIssueChangelogDiff } from '../../types/issue';
 
@@ -27,7 +28,7 @@ interface Props {
 }
 
 export default function IssueChangelogDiff({ diff }: Readonly<Props>) {
-  const { formatMessage } = useIntl();
+  const { formatDate, formatMessage } = useIntl();
   const diffComputedValues = {
     newValue: diff.newValue ?? '',
     oldValue: diff.oldValue ?? '',
@@ -111,6 +112,11 @@ export default function IssueChangelogDiff({ diff }: Readonly<Props>) {
     diffComputedValues.oldValue = durationFormatter(formatMessage, diff.oldValue ?? 0);
   }
 
+  if (diff.key === 'deferralDate') {
+    diffComputedValues.newValue = formatChangelogDate(diffComputedValues.newValue, formatDate);
+    diffComputedValues.oldValue = formatChangelogDate(diffComputedValues.oldValue, formatDate);
+  }
+
   let message =
     diff.newValue !== undefined
       ? formatMessage(
@@ -137,4 +143,17 @@ export default function IssueChangelogDiff({ diff }: Readonly<Props>) {
   }
 
   return <p>{message}</p>;
+}
+
+function formatChangelogDate(
+  value: string,
+  formatDate: (date: Date, opts?: Intl.DateTimeFormatOptions) => string,
+) {
+  if (!value) {
+    return value;
+  }
+
+  const date = parseCalendarDate(value);
+
+  return date === undefined ? value : formatDate(date, CALENDAR_DATE_DISPLAY_FORMAT);
 }

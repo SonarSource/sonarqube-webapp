@@ -25,17 +25,27 @@ import {
   ButtonVariety,
   DropdownMenu,
   IconChevronDown,
+  Text,
   Tooltip,
 } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { BetaBadge } from '../badges/BetaBadge';
 import { IssueTransitionCommentDialog } from './StatusTransitionCommentDialog';
 
 interface StatusTransitionItem<T extends string> {
   className?: string;
+  isBeta?: boolean;
   isDeprecated?: boolean;
+  /**
+   * Renders this transition as a hover-triggered submenu (DropdownMenu.SubMenu) instead of a
+   * plain clickable item — the caller owns everything inside it (quick options, a "custom"
+   * escape hatch, etc.) and is responsible for transitioning and closing the dropdown itself.
+   * Takes precedence over requiresComment, which doesn't apply once set.
+   */
+  quickActions?: ReactNode;
   requiresComment?: boolean;
   value: T;
 }
@@ -95,27 +105,39 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
         isOpen={isOpen}
         items={
           <>
-            {transitions.map((transition) => (
-              <DropdownMenu.ItemButton
-                className={classNames('it__issue-transition-option', transition.className)}
-                helpText={
-                  <FormattedMessage id={`status_transition.${transition.value}.description`} />
-                }
-                key={transition.value}
-                onClick={() => {
-                  handleTransitionChange(transition);
-                }}
-                suffix={
-                  transition.isDeprecated ? (
-                    <Badge variety={BadgeVariety.Warning}>
-                      <FormattedMessage id="deprecated" />
-                    </Badge>
-                  ) : null
-                }
-              >
-                {<FormattedMessage id={`status_transition.${transition.value}`} />}
-              </DropdownMenu.ItemButton>
-            ))}
+            {transitions.map((transition) =>
+              transition.quickActions ? (
+                <DropdownMenu.SubMenu
+                  className={classNames('it__issue-transition-option', transition.className)}
+                  items={transition.quickActions}
+                  key={transition.value}
+                >
+                  <div className="sw-flex sw-flex-col sw-gap-1">
+                    <div className="sw-flex sw-items-center sw-justify-between sw-gap-2">
+                      <FormattedMessage id={`status_transition.${transition.value}`} />
+                      {renderTransitionBadge(transition)}
+                    </div>
+                    <Text isSubtle size="small">
+                      <FormattedMessage id={`status_transition.${transition.value}.description`} />
+                    </Text>
+                  </div>
+                </DropdownMenu.SubMenu>
+              ) : (
+                <DropdownMenu.ItemButton
+                  className={classNames('it__issue-transition-option', transition.className)}
+                  helpText={
+                    <FormattedMessage id={`status_transition.${transition.value}.description`} />
+                  }
+                  key={transition.value}
+                  onClick={() => {
+                    handleTransitionChange(transition);
+                  }}
+                  suffix={renderTransitionBadge(transition)}
+                >
+                  {<FormattedMessage id={`status_transition.${transition.value}`} />}
+                </DropdownMenu.ItemButton>
+              ),
+            )}
           </>
         }
         onClose={() => {
@@ -167,4 +189,18 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
       )}
     </>
   );
+}
+
+function renderTransitionBadge<T extends string>(transition: StatusTransitionItem<T>) {
+  if (transition.isDeprecated) {
+    return (
+      <Badge variety={BadgeVariety.Warning}>
+        <FormattedMessage id="deprecated" />
+      </Badge>
+    );
+  }
+  if (transition.isBeta) {
+    return <BetaBadge />;
+  }
+  return null;
 }

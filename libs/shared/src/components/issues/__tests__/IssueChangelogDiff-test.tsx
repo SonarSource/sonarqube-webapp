@@ -50,6 +50,23 @@ it.each([
     'issue.changelog.changed_to.issue.changelog.field.assign.newValue (issue.changelog.was.oldValue)',
     undefined,
   ],
+  [
+    'deferralDate',
+    'issue.changelog.changed_to.issue.changelog.field.deferralDate.Aug 28, 2026',
+    { newValue: '2026-08-28T00:00:00.000Z', oldValue: undefined },
+  ],
+  [
+    'deferralDate',
+    'issue.changelog.removed.issue.changelog.field.deferralDate (issue.changelog.was.Aug 28, 2026)',
+    { newValue: undefined, oldValue: '2026-08-28T00:00:00.000Z' },
+  ],
+  [
+    'deferralDate',
+    // Date-only values (no time/offset) must render the same calendar day regardless of the
+    // viewer's timezone — this used to be off by one for viewers behind UTC.
+    'issue.changelog.changed_to.issue.changelog.field.deferralDate.Aug 28, 2026',
+    { newValue: '2026-08-28', oldValue: undefined },
+  ],
   ['from_short_branch', 'issue.change.from_non_branch.oldValue.newValue', undefined],
 
   // This should be deprecated. Can this still happen?

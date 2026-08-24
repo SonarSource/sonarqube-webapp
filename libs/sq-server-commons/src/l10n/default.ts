@@ -1929,6 +1929,7 @@ export const defaultMessages = {
   'issue.changelog.field.type': 'Type',
   'issue.changelog.field.file': 'File',
   'issue.changelog.field.cleanCodeAttribute': 'Code attribute',
+  'issue.changelog.field.deferralDate': 'Snooze Date',
   'issue.changelog.impactSeverity': '{0} severity changed to {1} (was {2})',
 
   //------------------------------------------------------------------------------
