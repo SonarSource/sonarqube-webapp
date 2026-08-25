@@ -516,6 +516,24 @@ describe('organizationMeasuresToLineCountPieData', () => {
       },
     });
   });
+
+  it('falls back to new ncloc when physical new lines are unavailable', () => {
+    expect(
+      organizationMeasuresToLineCountPieData(
+        {
+          [MetricKey.new_ncloc]: '40',
+          [MetricKey.new_duplicated_lines_density]: '25',
+        },
+        PieChartLineSlice.Duplications,
+        CodeScope.New,
+      ),
+    ).toEqual({
+      counts: {
+        duplicated: 10,
+        'non-duplicated': 30,
+      },
+    });
+  });
 });
 
 describe('supportsOrganizationPieChartIssueHistory', () => {

@@ -73,11 +73,11 @@ export function organizationMeasuresToLineCountPieData(
   }
 
   if (slice === PieChartLineSlice.Duplications) {
+    const ncloc = getOrganizationMeasureValue(measures, MetricKey.ncloc, scope);
     const totalLines =
       scope === CodeScope.New
-        ? (parseOrganizationMeasureNumber(measures[MetricKey.new_lines]) ??
-          parseOrganizationMeasureNumber(measures[MetricKey.ncloc]))
-        : parseOrganizationMeasureNumber(measures[MetricKey.ncloc]);
+        ? (parseOrganizationMeasureNumber(measures[MetricKey.new_lines]) ?? ncloc)
+        : ncloc;
 
     const duplicatedLines = getOrganizationMeasureValue(
       measures,

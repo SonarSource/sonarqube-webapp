@@ -28,6 +28,7 @@ import {
 const PORTFOLIO_NEW_COMPUTED_KEYS_EXCEPT_DISTRIBUTION = [
   MetricKey.new_reliability_rating,
   MetricKey.new_coverage,
+  MetricKey.new_ncloc,
   MetricKey.new_lines_to_cover,
   MetricKey.new_branch_coverage,
   MetricKey.new_sqale_debt_ratio,
@@ -37,6 +38,7 @@ const PORTFOLIO_NEW_COMPUTED_KEYS_EXCEPT_DISTRIBUTION = [
 describe('portfolioDashboardMeasures', () => {
   it('exposes expected new-code scope keys', () => {
     expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.coverage)).toBe(true);
+    expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.ncloc)).toBe(true);
     expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.new_coverage)).toBe(false);
     expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.alert_status)).toBe(false);
     expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.sca_rating_any_issue)).toBe(
@@ -78,6 +80,12 @@ describe('portfolioDashboardMeasures', () => {
     it('prefixes new_ when scope is new and metric supports it', () => {
       expect(getPortfolioDashboardMeasureRequestKey(MetricKey.coverage, true)).toBe(
         MetricKey.new_coverage,
+      );
+    });
+
+    it('maps ncloc to new_ncloc when scope is new', () => {
+      expect(getPortfolioDashboardMeasureRequestKey(MetricKey.ncloc, true)).toBe(
+        MetricKey.new_ncloc,
       );
     });
 

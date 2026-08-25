@@ -23,6 +23,7 @@ import { MetricKey } from '~shared/types/metrics';
 export const PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE: ReadonlySet<MetricKey> = new Set([
   MetricKey.reliability_rating,
   MetricKey.maintainability_rating,
+  MetricKey.ncloc,
   MetricKey.security_rating,
   MetricKey.security_review_rating,
   MetricKey.coverage,
