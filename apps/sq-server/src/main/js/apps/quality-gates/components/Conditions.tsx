@@ -35,7 +35,6 @@ import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContex
 import { getLocalizedMetricName } from '~sq-server-commons/helpers/l10n';
 import { Feature } from '~sq-server-commons/types/features';
 import { QualityGate } from '~sq-server-commons/types/types';
-import { usePurchasableFeature } from '../../settings/utils';
 import { useConditions } from '../hooks/useConditions';
 import AddConditionModal from './AddConditionModal';
 import ConditionsTable from './ConditionsTable';
@@ -52,7 +51,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
   const { isBuiltIn, actions, conditions = [], isAiCodeSupported } = qualityGate;
   const canEdit = Boolean(actions?.manageConditions);
   const { hasFeature } = useAvailableFeatures();
-  const scaFeature = usePurchasableFeature(Feature.Sca);
+  const scaFeature = addons.entitlements.usePurchasableFeature(Feature.Sca);
   const { data: isScaAvailable = false } = addons.entitlements.useEntitlementCheckQuery(
     { featureKey: EntitlementCheckFeatureKey.AdvancedSecurity },
     { select: (data) => data.entitled },

@@ -28,10 +28,8 @@ import {
   SettingType,
   SettingValue,
 } from '~shared/types/settings';
-import { addons } from '~sq-server-addons/index';
 import { hasMessage, translate } from '~sq-server-commons/helpers/l10n';
 import { getGlobalSettingsUrl, getProjectSettingsUrl } from '~sq-server-commons/helpers/urls';
-import { usePurchasableFeaturesQuery } from '~sq-server-commons/queries/entitlements';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { DefinitionV2, Setting, SettingWithCategory } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
@@ -272,14 +270,4 @@ export function buildSettingLink(
     ...getGlobalSettingsUrl(category.toLocaleLowerCase(), query),
     hash: `#${escape(key.toLocaleLowerCase())}`,
   };
-}
-
-export function usePurchasableFeature(featureKey: string) {
-  const { data: purchasableFeatures } = usePurchasableFeaturesQuery({
-    // Addons are only available in enterprise edition builds
-    // so there's no need to call the query if the addon is not available.
-    enabled: isDefined(addons.license),
-  });
-
-  return purchasableFeatures?.find((f) => f.featureKey === featureKey);
 }

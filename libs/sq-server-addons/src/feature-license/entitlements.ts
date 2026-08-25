@@ -26,6 +26,7 @@ import {
   notEntitled,
 } from '~shared/queries/entitlement-checks';
 import { EntitlementCheckFeatureKey } from '~shared/types/billing';
+import { PurchaseableFeature } from '~sq-server-commons/types/editions';
 
 /**
  * Community edition stub. There is no billing backend, so every feature
@@ -54,4 +55,12 @@ export function useEntitlementChecksQuery(featureKeys: readonly EntitlementCheck
     ),
     combine: combineEntitlementChecks,
   });
+}
+
+/**
+ * Community edition stub. The `purchasable-features` endpoint returns nothing on CE, so no
+ * feature is ever purchasable.
+ */
+export function usePurchasableFeature(_featureKey: string): PurchaseableFeature | undefined {
+  return undefined;
 }
