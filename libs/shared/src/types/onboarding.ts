@@ -83,133 +83,65 @@ export interface OnboardingCurrentBinding {
 /**
  * Response of `GET /api/v2/onboarding/overview`.
  *
- * The endpoint returns `cards`, `checklist`, `momentum`, `charts` and
- * `devopsPlatforms` sections, all consumed by the dashboard.
+ * Mirrors `OnboardingOverviewResponse` in the onboarding capability's `openapi.yaml`. One contract
+ * serves both products — the capability ships as a single `onboarding-unified-app`.
+ *
+ * The per-project cohort breakdowns and the adoption history are not here; they live on
+ * `GET /api/v2/onboarding/statistics` ({@link OnboardingStatistics}).
  */
 export interface OnboardingOverview {
-  cards: OnboardingCards;
-  charts: OnboardingCharts;
-  checklist: OnboardingChecklist;
-  devopsPlatforms: OnboardingDevopsPlatforms;
-  momentum: OnboardingMomentum;
+  /** Overall journey completion, 0-100. */
+  progressPct: number;
+  steps: OnboardingSteps;
 }
 
-interface OnboardingCards {
-  prIntegration: PrIntegrationCard;
-  projectsOnboarded: ProjectsOnboardedCard;
-  repositoriesDiscovered: RepositoriesDiscoveredCard;
-  scanHealth: ScanHealthCard;
-  scanMethod: ScanMethodCard;
+/** The three sequential steps of the onboarding journey. */
+interface OnboardingSteps {
+  devopsPlatforms: OnboardingDevopsPlatformsStep;
+  projects: OnboardingProjectsStep;
+  repositories: OnboardingRepositoriesStep;
 }
 
-interface RepositoriesDiscoveredCard {
-  byAlm: RepositoriesDiscoveredByAlm[];
+interface OnboardingDevopsPlatformsStep {
+  /**
+   * Configured DevOps platform integrations. On Server this counts the instance's ALM
+   * configurations; on Cloud an organization binds to at most one, so it is 0 or 1.
+   */
+  configured: number;
+}
+
+interface OnboardingRepositoriesStep {
+  /** Null when no platform is configured, or when discovery is unavailable. */
   discovered: number | null;
   imported: number;
-  notYetImported: number | null;
+  /** Imported over discovered, 0-100. Null when `discovered` is null or zero. */
+  percent: number | null;
 }
 
-interface RepositoriesDiscoveredByAlm {
-  alm: OnboardingAlm;
-  discovered: number | null;
-  imported: number;
-}
-
-interface ProjectsOnboardedCard {
-  importedEmpty: number;
-  onboarded: number;
-  percentOfImported: number | null;
-  totalProjects: number;
-}
-
-interface ScanHealthCard {
-  failed: number;
-  healthy: number;
-}
-
-interface ScanMethodCard {
-  byCi: ScanMethodByCi[];
-  ci: number;
-  local: number;
-  managed: number;
-}
-
-interface ScanMethodByCi {
-  count: number;
-  system: string;
-}
-
-interface PrIntegrationCard {
-  percentOfOnboarded: number | null;
-  prDecorationCount: number;
-}
-
-type OnboardingChecklistStatus = 'DONE' | 'IN_PROGRESS' | 'NOT_STARTED' | 'UNKNOWN';
-
-type OnboardingMaturityLabel = 'Starting' | 'Growing' | 'Established' | 'Advanced';
-
-interface OnboardingChecklist {
-  items: OnboardingChecklistItem[];
-  maturityLabel: OnboardingMaturityLabel;
-  overallMaturityPct: number;
-}
-
-interface OnboardingChecklistItem {
-  completed: number | null;
-  completionPct: number | null;
-  id: string;
-  status: OnboardingChecklistStatus;
+interface OnboardingProjectsStep {
+  analyzed: number;
+  /** Discovered repositories with no project yet. Null when `discovered` is null. */
+  notImported: number | null;
+  notScanned: number;
+  percent: number | null;
+  /** Equal to discovered repositories. Null when `discovered` is null. */
   total: number | null;
 }
 
-export interface OnboardingMomentum {
-  currentState: OnboardingMomentumState;
-  importedCount: number;
-  onboardedCount: number;
-  startDate: number | null;
-  totalRepos: number | null;
-  weeklyDelta: number;
-  weeklyHistory: OnboardingMomentumWeek[];
+/** Response of `GET /api/v2/onboarding/statistics`. */
+export interface OnboardingStatistics {
+  devopsPlatforms: OnboardingDevopsPlatforms;
+  /** Current discovered-repository count, the chart's reference line. Null when unavailable. */
+  discoveredTotal: number | null;
+  /** Monthly cumulative adoption, oldest first. Empty when the scope has no projects. */
+  timeline: OnboardingTimelinePoint[];
 }
 
-interface OnboardingMomentumWeek {
-  cumulativeImported: number;
-  cumulativeOnboarded: number;
-  weekStart: number;
-}
-
-interface OnboardingMomentumState {
-  ciCount: number;
-  failedScanCount: number;
-  importedEmptyCount: number;
-  localCount: number;
-  managedCount: number;
-}
-
-interface OnboardingCharts {
-  onboardingCoverage: OnboardingCoverageChart;
-  qualityGateStatus: QualityGateStatusChart;
-  scanConfiguration: ScanConfigurationChart;
-}
-
-interface OnboardingCoverageChart {
-  failed: number;
-  healthy: number;
-  notOnboarded: number | null;
-}
-
-interface ScanConfigurationChart {
-  ci: number;
-  local: number;
-  managed: number;
-  notOnboarded: number | null;
-}
-
-interface QualityGateStatusChart {
-  failing: number;
-  notComputed: number;
-  notOnboarded: number | null;
-  passing: number;
+export interface OnboardingTimelinePoint {
+  /** First instant of the month, ISO-8601 with offset. */
+  date: string;
+  projectsScanned: number;
+  repositoriesImported: number;
 }
 
 export interface OnboardingDevopsPlatforms {
@@ -223,16 +155,21 @@ export interface OnboardingDevopsPlatformShare {
   platform: OnboardingDevopsPlatform;
 }
 
-export enum OnboardingProjectOnboarding {
-  Analysed = 'ANALYSED',
-  ImportedEmpty = 'IMPORTED_EMPTY',
-  NotImported = 'NOT_IMPORTED',
+/** Whether an imported project has ever been analysed. Mirrors the backend's `ScanStatus`. */
+export enum OnboardingProjectScanStatus {
+  NotScanned = 'NOT_SCANNED',
+  Scanned = 'SCANNED',
 }
 
-export enum OnboardingProjectScanMethod {
+/**
+ * How a project is analysed. Mirrors the backend's `AnalysisMode`: `None` covers both a project
+ * analysed without CI/automatic analysis (a locally run scanner) and one never analysed at all —
+ * the two are told apart by {@link OnboardingProjectScanStatus}.
+ */
+export enum OnboardingProjectAnalysisMode {
+  Automatic = 'AUTOMATIC',
   Ci = 'CI',
-  Local = 'LOCAL',
-  Managed = 'MANAGED',
+  None = 'NONE',
 }
 
 export enum OnboardingProjectScanHealth {
@@ -246,51 +183,15 @@ export enum OnboardingProjectGateStatus {
   Passed = 'PASSED',
 }
 
-/** The legacy filter tabs — the only tokens the backend reports counts for. */
-export type OnboardingProjectsCountFilter =
-  | 'all'
-  | 'fully_onboarded'
-  | 'needs_attention'
-  | 'not_onboarded'
-  | 'failed_scans'
-  | 'autoscan'
-  | 'stale'
-  | 'local';
-
-/** "Scan status" dimension of the `filter` param. */
-export enum OnboardingProjectsScanStatusFilter {
-  Scanned = 'scanned',
-  NotScanned = 'not_scanned',
-  NotOnboarded = 'not_onboarded',
-}
-
-/** "Analysis mode" dimension of the `filter` param. */
-export enum OnboardingProjectsAnalysisModeFilter {
-  Ci = 'ci',
-  Autoscan = 'autoscan',
-  NoAnalysisMode = 'no_analysis_mode',
-}
-
 /**
- * "Gate status" dimension of the `filter` param.
+ * "Gate status" filter dimension. Not part of the current `/onboarding/projects` contract — see
+ * `PROJECT_HEALTH_FEATURE_ENABLED` in the onboarding-dashboard feature.
  */
 export enum OnboardingProjectsGateStatusFilter {
   GatePassed = 'gate_passed',
   GateFailed = 'gate_failed',
   GateNotComputed = 'gate_not_computed',
 }
-
-/**
- * Any single token accepted by the `filter` param. Several tokens can be sent comma-separated; the
- * backend ANDs them across dimensions, e.g. `filter=scanned,ci`.
- */
-export type OnboardingProjectsFilter =
-  | OnboardingProjectsCountFilter
-  | OnboardingProjectsScanStatusFilter
-  | OnboardingProjectsAnalysisModeFilter
-  | OnboardingProjectsGateStatusFilter;
-
-export type OnboardingProjectsFilterCounts = Record<OnboardingProjectsCountFilter, number>;
 
 interface OnboardingProjectsPage {
   pageIndex: number;
@@ -299,27 +200,31 @@ interface OnboardingProjectsPage {
 }
 
 export interface OnboardingProjectsResponse {
-  filterCounts: OnboardingProjectsFilterCounts;
   page: OnboardingProjectsPage;
   projects: OnboardingProject[];
 }
 
 export interface OnboardingProject {
   alm: OnboardingAlm | null;
-  ciSystem?: string;
-  coverage?: number;
-  gateStatus: OnboardingProjectGateStatus | null;
-  isPrivate: boolean;
-  key: string | null;
-  language?: string;
-  lastActivity?: number;
+  analysisMode: OnboardingProjectAnalysisMode;
+  /** Always present — the endpoint only ever lists imported projects. */
+  key: string;
   lastScan?: number;
   name: string;
-  onboarding: OnboardingProjectOnboarding;
   path?: string;
-  scanHealth: OnboardingProjectScanHealth | null;
-  scanMethod: OnboardingProjectScanMethod | null;
-  stale: boolean;
+  scanStatus: OnboardingProjectScanStatus;
+
+  /**
+   * Quality gate status. Not part of the current `/onboarding/projects` contract — every real
+   * response omits it. Kept so the gate-status column/badge can switch back on via
+   * `PROJECT_HEALTH_FEATURE_ENABLED` the moment the backend adds it, without a rewrite.
+   */
+  gateStatus?: OnboardingProjectGateStatus;
+  /** Same caveat as {@link gateStatus}. */
+  scanHealth?: OnboardingProjectScanHealth;
+
+  /** Not part of the current contract — see `STALE_PROJECTS_FEATURE_ENABLED`. */
+  isStale?: boolean;
 }
 
 export enum OnboardingRepositoriesVisibility {

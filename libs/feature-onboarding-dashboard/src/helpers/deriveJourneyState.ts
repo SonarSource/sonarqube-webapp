@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { OnboardingDevopsPlatform, OnboardingOverview } from '~shared/types/onboarding';
+import { OnboardingOverview } from '~shared/types/onboarding';
 import { clampPercent } from '../components/dashboardSeverity';
 import { JourneyLevel, JourneyState, JourneyStep } from '../types/types';
 
@@ -28,29 +28,21 @@ function toPercent(part: number, whole: number): number {
 }
 
 /**
- * Reshapes the raw `OnboardingOverview` API response into the {@link JourneyState} view model
- * consumed by the onboarding dashboard. Pure and React-free so it can be unit-tested in isolation.
+ * Reshapes the `OnboardingOverview` API response into the {@link JourneyState} view model consumed
+ * by the onboarding dashboard. Pure and React-free so it can be unit-tested in isolation.
  *
- * Some design elements have no dedicated backend field yet and are approximated here (bound state,
- * the analyze breakdown).
+ * Percentages are taken from the response where the backend computed them, and derived locally
+ * otherwise (the backend returns null when the denominator is unknown).
  */
 export function deriveJourneyState(overview: OnboardingOverview): JourneyState {
-  const { cards, charts, checklist, devopsPlatforms } = overview;
+  const { progressPct, steps } = overview;
 
-  const discovered = cards.repositoriesDiscovered.discovered ?? 0;
-  const { imported } = cards.repositoriesDiscovered;
-  const notYetImported =
-    cards.repositoriesDiscovered.notYetImported ?? Math.max(discovered - imported, 0);
-
-  const analyzed = cards.projectsOnboarded.onboarded;
-
-  // The overview has no explicit binding flag. Treat the org as bound when the DevOps
-  // platform breakdown reports a positive total and at least one non-"not bound" platform.
-  const isBound =
-    (devopsPlatforms.total ?? 0) > 0 &&
-    devopsPlatforms.shares.some(
-      (share) => share.platform !== OnboardingDevopsPlatform.NotBound && share.count > 0,
-    );
+  const discovered = steps.repositories.discovered ?? 0;
+  const { imported } = steps.repositories;
+  const analyzed = steps.projects.analyzed;
+  const notYetImported = steps.projects.notImported ?? Math.max(discovered - imported, 0);
+  const totalProjects = steps.projects.total ?? discovered;
+  const isBound = steps.devopsPlatforms.configured > 0;
 
   let activeStep = JourneyStep.Projects;
   if (!isBound) {
@@ -66,27 +58,24 @@ export function deriveJourneyState(overview: OnboardingOverview): JourneyState {
     level = JourneyLevel.BoundNoImport;
   }
 
-  const { scanConfiguration } = charts;
-
   return {
     activeStep,
-    analyze: {
-      autoscan: scanConfiguration.managed,
-      fullCi: scanConfiguration.ci,
-      local: scanConfiguration.local,
-      moveToFullCi: scanConfiguration.managed + scanConfiguration.local,
-      notImported: notYetImported,
-      notScanned: charts.onboardingCoverage.failed,
-    },
+    analyze: { notImported: notYetImported, notScanned: steps.projects.notScanned },
     analyzed,
-    analyzedPct: toPercent(analyzed, discovered),
+    analyzedPct:
+      steps.projects.percent === null
+        ? toPercent(analyzed, totalProjects)
+        : Math.round(clampPercent(steps.projects.percent)),
     discovered,
     imported,
-    importedPct: toPercent(imported, discovered),
+    importedPct:
+      steps.repositories.percent === null
+        ? toPercent(imported, discovered)
+        : Math.round(clampPercent(steps.repositories.percent)),
     isBound,
     level,
     notYetImported,
-    overallPct: Math.round(clampPercent(checklist.overallMaturityPct)),
-    totalProjects: discovered,
+    overallPct: Math.round(clampPercent(progressPct)),
+    totalProjects,
   };
 }

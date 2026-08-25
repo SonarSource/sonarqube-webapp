@@ -101,7 +101,7 @@ export function ProjectRowActionsCell({ project }: Readonly<Props>) {
         />
       </DropdownMenu>
 
-      {isRestoreAccessModalOpen && project.key !== null && (
+      {isRestoreAccessModalOpen && (
         <RestoreProjectAccessModal onClose={closeRestoreAccessModal} projectKey={project.key} />
       )}
     </>

@@ -24,16 +24,11 @@ import {
   OnboardingDevopsPlatform,
   OnboardingOverview,
   OnboardingProject,
+  OnboardingProjectAnalysisMode,
   OnboardingProjectGateStatus,
-  OnboardingProjectOnboarding,
   OnboardingProjectScanHealth,
-  OnboardingProjectScanMethod,
-  OnboardingProjectsAnalysisModeFilter,
-  OnboardingProjectsCountFilter,
-  OnboardingProjectsFilter,
-  OnboardingProjectsFilterCounts,
-  OnboardingProjectsGateStatusFilter,
-  OnboardingProjectsScanStatusFilter,
+  OnboardingProjectScanStatus,
+  OnboardingStatistics,
 } from '../../types/onboarding';
 import { HttpStatus } from '../../types/request';
 import { AbstractServiceMock } from './AbstractServiceMock';
@@ -42,65 +37,19 @@ import { AbstractServiceMock } from './AbstractServiceMock';
 // which differs from the API client's `API_V2_BASE_URL`.
 const ONBOARDING_PATH = `${API_V2_MOCKS_PREFIX}/onboarding`;
 const ONBOARDING_OVERVIEW_PATH = `${ONBOARDING_PATH}/overview`;
+const ONBOARDING_STATISTICS_PATH = `${ONBOARDING_PATH}/statistics`;
 const ONBOARDING_PROJECTS_PATH = `${ONBOARDING_PATH}/projects`;
 
 export interface OnboardingServiceData {
   // When true, the overview endpoint responds with an error (used to test error states).
   failOverview: boolean;
+  // When true, the statistics endpoint responds with an error (used to test error states).
+  failStatistics: boolean;
   overview: OnboardingOverview;
+  statistics: OnboardingStatistics;
   // Full project list; the projects endpoint applies search/filter/pagination server-side.
   projects: OnboardingProject[];
 }
-
-type ProjectPredicate = (project: OnboardingProject) => boolean;
-
-/* eslint-disable camelcase */
-
-/** Mirrors the backend's legacy filter tabs — the only tokens `filterCounts` reports. */
-const COUNT_FILTER_PREDICATES: Record<OnboardingProjectsCountFilter, ProjectPredicate> = {
-  all: () => true,
-  fully_onboarded: (p) =>
-    p.onboarding === OnboardingProjectOnboarding.Analysed &&
-    p.scanHealth === OnboardingProjectScanHealth.Healthy,
-  needs_attention: (p) =>
-    p.scanHealth === OnboardingProjectScanHealth.Failed ||
-    p.gateStatus === OnboardingProjectGateStatus.Failed ||
-    p.onboarding === OnboardingProjectOnboarding.ImportedEmpty,
-  not_onboarded: (p) => p.onboarding === OnboardingProjectOnboarding.NotImported,
-  failed_scans: (p) => p.scanHealth === OnboardingProjectScanHealth.Failed,
-  autoscan: (p) => p.scanMethod === OnboardingProjectScanMethod.Managed,
-  local: (p) => p.scanMethod === OnboardingProjectScanMethod.Local,
-  stale: (p) => p.stale,
-};
-
-/* eslint-enable camelcase */
-
-/**
- * Tokens sent by the filter dropdowns that the legacy tabs don't already cover; the backend ANDs
- * them with each other. `not_onboarded`, `autoscan` and `local` are shared with the tabs above.
- */
-const DIMENSION_FILTER_PREDICATES: Record<
-  Exclude<OnboardingProjectsFilter, OnboardingProjectsCountFilter>,
-  ProjectPredicate
-> = {
-  [OnboardingProjectsScanStatusFilter.Scanned]: (p) =>
-    p.onboarding === OnboardingProjectOnboarding.Analysed,
-  [OnboardingProjectsScanStatusFilter.NotScanned]: (p) =>
-    p.onboarding === OnboardingProjectOnboarding.ImportedEmpty,
-  [OnboardingProjectsAnalysisModeFilter.Ci]: (p) => p.scanMethod === OnboardingProjectScanMethod.Ci,
-  [OnboardingProjectsAnalysisModeFilter.NoAnalysisMode]: (p) => p.scanMethod === null,
-  [OnboardingProjectsGateStatusFilter.GatePassed]: (p) =>
-    p.gateStatus === OnboardingProjectGateStatus.Passed,
-  [OnboardingProjectsGateStatusFilter.GateFailed]: (p) =>
-    p.gateStatus === OnboardingProjectGateStatus.Failed,
-  [OnboardingProjectsGateStatusFilter.GateNotComputed]: (p) =>
-    p.gateStatus === OnboardingProjectGateStatus.NotComputed,
-};
-
-const FILTER_PREDICATES: Record<OnboardingProjectsFilter, ProjectPredicate> = {
-  ...COUNT_FILTER_PREDICATES,
-  ...DIMENSION_FILTER_PREDICATES,
-};
 
 function matchesSearch(project: OnboardingProject, query: string) {
   const needle = query.trim().toLowerCase();
@@ -112,79 +61,32 @@ function matchesSearch(project: OnboardingProject, query: string) {
     .some((value) => value.toLowerCase().includes(needle));
 }
 
-function computeFilterCounts(projects: OnboardingProject[]): OnboardingProjectsFilterCounts {
-  return Object.fromEntries(
-    (Object.keys(COUNT_FILTER_PREDICATES) as OnboardingProjectsCountFilter[]).map((key) => [
-      key,
-      projects.filter(COUNT_FILTER_PREDICATES[key]).length,
-    ]),
-  ) as OnboardingProjectsFilterCounts;
-}
-
 export function mockOnboardingOverview(
-  overrides: Partial<OnboardingOverview['cards']> = {},
+  steps: Partial<OnboardingOverview['steps']> = {},
 ): OnboardingOverview {
   return {
-    cards: {
-      repositoriesDiscovered: {
-        discovered: 301,
-        imported: 6,
-        notYetImported: 295,
-        byAlm: [{ alm: OnboardingDevopsPlatform.Github, discovered: 301, imported: 6 }],
-      },
-      projectsOnboarded: {
-        onboarded: 1,
-        totalProjects: 6,
-        importedEmpty: 5,
-        percentOfImported: 16.7,
-      },
-      scanHealth: { healthy: 1, failed: 0 },
-      scanMethod: {
-        ci: 1,
-        local: 0,
-        managed: 0,
-        byCi: [{ system: 'Github Actions', count: 1 }],
-      },
-      prIntegration: { prDecorationCount: 6, percentOfOnboarded: 100 },
-      ...overrides,
+    progressPct: 75,
+    steps: {
+      devopsPlatforms: { configured: 1 },
+      projects: { analyzed: 1, notImported: 295, notScanned: 11, percent: null, total: 301 },
+      repositories: { discovered: 301, imported: 6, percent: null },
+      ...steps,
     },
-    checklist: {
-      overallMaturityPct: 75,
-      maturityLabel: 'Advanced',
-      items: [
-        { id: 'discover', completed: 301, total: null, completionPct: 100, status: 'DONE' },
-        { id: 'onboard', completed: 1, total: 301, completionPct: 0.3, status: 'IN_PROGRESS' },
-        { id: 'failing', completed: 1, total: 1, completionPct: 100, status: 'DONE' },
-        { id: 'full-ci', completed: 1, total: 1, completionPct: 100, status: 'DONE' },
-        { id: 'pr-deco', completed: 6, total: 1, completionPct: 600, status: 'DONE' },
-      ],
-    },
-    momentum: {
-      startDate: 1740528000000,
-      onboardedCount: 87,
-      importedCount: 106,
-      totalRepos: 120,
-      weeklyDelta: 12,
-      weeklyHistory: [
-        { weekStart: 1740528000000, cumulativeImported: 2, cumulativeOnboarded: 1 },
-        { weekStart: 1741132800000, cumulativeImported: 10, cumulativeOnboarded: 6 },
-        { weekStart: 1741737600000, cumulativeImported: 40, cumulativeOnboarded: 30 },
-        { weekStart: 1742342400000, cumulativeImported: 80, cumulativeOnboarded: 60 },
-        { weekStart: 1742947200000, cumulativeImported: 106, cumulativeOnboarded: 87 },
-      ],
-      currentState: {
-        ciCount: 70,
-        localCount: 10,
-        managedCount: 7,
-        failedScanCount: 11,
-        importedEmptyCount: 19,
-      },
-    },
-    charts: {
-      onboardingCoverage: { healthy: 76, failed: 11, notOnboarded: 33 },
-      scanConfiguration: { ci: 31, local: 12, managed: 44, notOnboarded: 33 },
-      qualityGateStatus: { passing: 42, failing: 23, notComputed: 11, notOnboarded: 33 },
-    },
+  };
+}
+
+export function mockOnboardingStatistics(
+  overrides: Partial<OnboardingStatistics> = {},
+): OnboardingStatistics {
+  return {
+    discoveredTotal: 301,
+    timeline: [
+      { date: '2025-02-01T00:00:00Z', projectsScanned: 1, repositoriesImported: 2 },
+      { date: '2025-03-01T00:00:00Z', projectsScanned: 6, repositoriesImported: 10 },
+      { date: '2025-04-01T00:00:00Z', projectsScanned: 30, repositoriesImported: 40 },
+      { date: '2025-05-01T00:00:00Z', projectsScanned: 60, repositoriesImported: 80 },
+      { date: '2025-06-01T00:00:00Z', projectsScanned: 87, repositoriesImported: 106 },
+    ],
     devopsPlatforms: {
       total: 120,
       shares: [
@@ -195,95 +97,84 @@ export function mockOnboardingOverview(
         { platform: OnboardingDevopsPlatform.NotBound, count: 14, percentage: 12 },
       ],
     },
+    ...overrides,
   };
 }
 
+/**
+ * `gateStatus`/`scanHealth`/`isStale` are populated here even though the real backend never sends
+ * them, so tests can flip `PROJECT_HEALTH_FEATURE_ENABLED`/`STALE_PROJECTS_FEATURE_ENABLED` on and
+ * prove the stubbed UI still renders correctly.
+ */
 export function mockOnboardingProjects(): OnboardingProject[] {
   return [
     {
       key: 'platform-jobs',
       name: 'platform-jobs',
       path: 'billing/platform-jobs',
-      language: 'Kotlin',
       alm: OnboardingDevopsPlatform.Github,
-      isPrivate: false,
-      onboarding: OnboardingProjectOnboarding.NotImported,
-      scanMethod: OnboardingProjectScanMethod.Ci,
+      scanStatus: OnboardingProjectScanStatus.NotScanned,
+      analysisMode: OnboardingProjectAnalysisMode.None,
       scanHealth: OnboardingProjectScanHealth.Healthy,
       gateStatus: OnboardingProjectGateStatus.NotComputed,
-      stale: false,
+      isStale: false,
     },
     {
       key: 'payments-gateway',
       name: 'payments-gateway',
       path: 'identity/payments-gateway',
-      language: 'Java',
       alm: OnboardingDevopsPlatform.Github,
-      isPrivate: true,
-      onboarding: OnboardingProjectOnboarding.Analysed,
-      scanMethod: OnboardingProjectScanMethod.Ci,
-      ciSystem: 'Github Actions',
+      scanStatus: OnboardingProjectScanStatus.Scanned,
+      analysisMode: OnboardingProjectAnalysisMode.Ci,
       scanHealth: OnboardingProjectScanHealth.Failed,
       gateStatus: OnboardingProjectGateStatus.Failed,
       lastScan: 1740528000000,
-      coverage: 91.7,
-      lastActivity: 1742947200000,
-      stale: true,
+      isStale: true,
     },
     {
       key: 'web-core',
       name: 'web-core',
       path: 'search/web-core',
-      language: 'Kotlin',
       alm: OnboardingDevopsPlatform.Gitlab,
-      isPrivate: false,
-      onboarding: OnboardingProjectOnboarding.Analysed,
-      scanMethod: OnboardingProjectScanMethod.Local,
+      scanStatus: OnboardingProjectScanStatus.Scanned,
+      analysisMode: OnboardingProjectAnalysisMode.None,
       scanHealth: OnboardingProjectScanHealth.Healthy,
       gateStatus: OnboardingProjectGateStatus.Passed,
       lastScan: 1740528000000,
-      coverage: 92.7,
-      lastActivity: 1742947200000,
-      stale: false,
+      isStale: false,
     },
     {
       key: 'identity-lib',
       name: 'identity-lib',
       path: 'growth/identity-lib',
-      language: 'Python',
       alm: OnboardingDevopsPlatform.Bitbucket,
-      isPrivate: true,
-      onboarding: OnboardingProjectOnboarding.Analysed,
-      scanMethod: OnboardingProjectScanMethod.Managed,
+      scanStatus: OnboardingProjectScanStatus.Scanned,
+      analysisMode: OnboardingProjectAnalysisMode.Automatic,
       scanHealth: OnboardingProjectScanHealth.Healthy,
       gateStatus: OnboardingProjectGateStatus.Passed,
       lastScan: 1741132800000,
-      coverage: 64,
-      lastActivity: 1742947200000,
-      stale: true,
+      isStale: true,
     },
     {
       key: 'mobile-worker',
       name: 'mobile-worker',
       path: 'identity/mobile-worker',
-      language: 'JavaScript',
       alm: OnboardingDevopsPlatform.AzureDevops,
-      isPrivate: false,
-      onboarding: OnboardingProjectOnboarding.ImportedEmpty,
-      scanMethod: OnboardingProjectScanMethod.Managed,
+      scanStatus: OnboardingProjectScanStatus.NotScanned,
+      analysisMode: OnboardingProjectAnalysisMode.None,
       scanHealth: OnboardingProjectScanHealth.Healthy,
       gateStatus: OnboardingProjectGateStatus.NotComputed,
-      lastScan: 1741737600000,
-      lastActivity: 1742947200000,
-      stale: true,
+      isStale: true,
     },
   ];
 }
 
 export const OnboardingServiceDefaultDataset: OnboardingServiceData = {
   failOverview: false,
+  failStatistics: false,
   overview: mockOnboardingOverview(),
   projects: mockOnboardingProjects(),
+  statistics: mockOnboardingStatistics(),
 };
 
 export class OnboardingServiceMock extends AbstractServiceMock<OnboardingServiceData> {
@@ -299,6 +190,10 @@ export class OnboardingServiceMock extends AbstractServiceMock<OnboardingService
     this.data.failOverview = failOverview;
   };
 
+  setFailStatistics = (failStatistics: boolean) => {
+    this.data.failStatistics = failStatistics;
+  };
+
   setProjects = (projects: OnboardingProject[]) => {
     this.data.projects = projects;
   };
@@ -311,22 +206,27 @@ export class OnboardingServiceMock extends AbstractServiceMock<OnboardingService
 
       return this.ok(this.data.overview);
     }),
+    http.get(ONBOARDING_STATISTICS_PATH, () => {
+      if (this.data.failStatistics) {
+        return this.errorsWithStatus(HttpStatus.InternalServerError);
+      }
+
+      return this.ok(this.data.statistics);
+    }),
     http.get(ONBOARDING_PROJECTS_PATH, ({ request }) => {
       const url = new URL(request.url);
       const q = url.searchParams.get('q') ?? '';
-      // The `filter` param carries several comma-separated tokens, AND-ed together.
-      const filters = (url.searchParams.get('filter') ?? '')
-        .split(',')
-        .map((token) => token.trim())
-        .filter((token) => token !== '') as OnboardingProjectsFilter[];
+      const scanStatus = url.searchParams.get('scanStatus') as OnboardingProjectScanStatus | null;
+      const analysisMode = url.searchParams.get(
+        'analysisMode',
+      ) as OnboardingProjectAnalysisMode | null;
       const pageIndex = Number(url.searchParams.get('pageIndex') ?? '1');
       const pageSize = Number(this.overridePageSize ?? url.searchParams.get('pageSize') ?? '50');
 
-      const searched = this.data.projects.filter((project) => matchesSearch(project, q));
-      const filterCounts = computeFilterCounts(searched);
-      const filtered = searched.filter((project) =>
-        filters.every((token) => (FILTER_PREDICATES[token] ?? FILTER_PREDICATES.all)(project)),
-      );
+      const filtered = this.data.projects
+        .filter((project) => matchesSearch(project, q))
+        .filter((project) => scanStatus === null || project.scanStatus === scanStatus)
+        .filter((project) => analysisMode === null || project.analysisMode === analysisMode);
 
       const start = (pageIndex - 1) * pageSize;
       const projects = pageSize <= 0 ? [] : filtered.slice(start, start + pageSize);
@@ -334,7 +234,6 @@ export class OnboardingServiceMock extends AbstractServiceMock<OnboardingService
       const total = filtered.length;
 
       return this.ok({
-        filterCounts,
         page: { pageIndex, pageSize, total },
         projects,
       });

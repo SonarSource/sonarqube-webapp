@@ -35,10 +35,10 @@ import { byRole, byText } from '~shared/helpers/testSelector';
 import {
   OnboardingDevopsPlatform,
   OnboardingProject,
+  OnboardingProjectAnalysisMode,
   OnboardingProjectGateStatus,
-  OnboardingProjectOnboarding,
   OnboardingProjectScanHealth,
-  OnboardingProjectScanMethod,
+  OnboardingProjectScanStatus,
 } from '~shared/types/onboarding';
 import { ProjectRowActionsCell } from '../ProjectRowActionsCell';
 
@@ -48,14 +48,12 @@ const PROJECT_KEY = 'identity-lib';
 /** Analysed by automatic analysis: the state whose menu offers the most actions. */
 const AUTOSCANNED_PROJECT: OnboardingProject = {
   alm: OnboardingDevopsPlatform.Github,
+  analysisMode: OnboardingProjectAnalysisMode.Automatic,
   gateStatus: OnboardingProjectGateStatus.Passed,
-  isPrivate: false,
   key: PROJECT_KEY,
   name: PROJECT_KEY,
-  onboarding: OnboardingProjectOnboarding.Analysed,
   scanHealth: OnboardingProjectScanHealth.Healthy,
-  scanMethod: OnboardingProjectScanMethod.Managed,
-  stale: false,
+  scanStatus: OnboardingProjectScanStatus.Scanned,
 };
 
 afterEach(() => {
@@ -73,9 +71,6 @@ const ui = {
   // The only entry that leaves the app, so its accessible name also carries the new-tab hint.
   howToRunNewScanAction: byRole('menuitem', {
     name: /^onboarding_dashboard\.projects\.action\.how_to_run_new_scan/,
-  }),
-  importRepositoryAction: byRole('menuitem', {
-    name: 'onboarding_dashboard.projects.action.import_repository',
   }),
   rerunAutomaticAnalysisAction: byRole('menuitem', {
     name: 'onboarding_dashboard.projects.action.rerun_automatic_analysis',
@@ -142,46 +137,6 @@ function renderProjectRowActionsCell(project = AUTOSCANNED_PROJECT) {
   );
 }
 
-it('sends a not-yet-imported repository to the project creation page', async () => {
-  const { user } = renderProjectRowActionsCell({
-    ...AUTOSCANNED_PROJECT,
-    key: null,
-    onboarding: OnboardingProjectOnboarding.NotImported,
-    scanMethod: null,
-  });
-
-  await user.click(ui.actionsButton.get());
-
-  // Neither product can deep-link the import of one repository, so the action leads to the project
-  // creation page — scoped to the organization on SQ-Cloud, to the platform on SQ-Server.
-  expect(await ui.importRepositoryAction.find()).toHaveAttribute(
-    'href',
-    expect.stringContaining('/projects/create'),
-  );
-
-  // Nothing exists in SonarQube yet, so no other action could work on this row.
-  expect(ui.actionItems.getAll()).toHaveLength(1);
-});
-
-it('sends a repository bound to no platform to the project creation page too', async () => {
-  const { user } = renderProjectRowActionsCell({
-    ...AUTOSCANNED_PROJECT,
-    alm: null,
-    key: null,
-    onboarding: OnboardingProjectOnboarding.NotImported,
-    scanMethod: null,
-  });
-
-  await user.click(ui.actionsButton.get());
-
-  // With no platform to preselect, SQ-Server falls back to the manual mode of the wizard, and
-  // SQ-Cloud to the same organization-scoped import page as any other repository.
-  expect(await ui.importRepositoryAction.find()).toHaveAttribute(
-    'href',
-    expect.stringContaining('/projects/create'),
-  );
-});
-
 it('links an autoscanned project to its CI setup page and its project home', async () => {
   const { user } = renderProjectRowActionsCell();
 
@@ -202,7 +157,7 @@ it('links an autoscanned project to its CI setup page and its project home', asy
 it('sends a project scanned by a CI pipeline to the scan documentation', async () => {
   const { user } = renderProjectRowActionsCell({
     ...AUTOSCANNED_PROJECT,
-    scanMethod: OnboardingProjectScanMethod.Ci,
+    analysisMode: OnboardingProjectAnalysisMode.Ci,
   });
 
   await user.click(ui.actionsButton.get());

@@ -28,8 +28,7 @@ import {
 import { registerServiceMocks } from '~shared/api/mocks/server';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
-import { OnboardingProjectsScanStatusFilter } from '~shared/types/onboarding';
-import { ANY_PROJECTS_FILTER } from '../../../types/types';
+import { OnboardingProjectScanStatus } from '~shared/types/onboarding';
 import { NO_DATA } from '../../dashboardConstants';
 import { ProjectsTableCard } from '../ProjectsTableCard';
 
@@ -72,7 +71,7 @@ function renderCard(props: Partial<ComponentProps<typeof ProjectsTableCard>> = {
       renderRow={(project) => (
         <Table.Row key={project.key}>
           <Table.Cell>{project.name}</Table.Cell>
-          <Table.Cell>{project.language}</Table.Cell>
+          <Table.Cell>{project.scanStatus}</Table.Cell>
         </Table.Row>
       )}
       searchPlaceholderKey="onboarding_dashboard.projects.search"
@@ -101,20 +100,6 @@ it('renders nothing when the organization has no project at all', async () => {
   expect(container).toBeEmptyDOMElement();
 });
 
-it('renders nothing when nothing matches the base filters, whatever else the organization holds', async () => {
-  onboardingMock.setProjects(
-    mockOnboardingProjects().map((project) => ({ ...project, stale: false })),
-  );
-  const { container } = renderCard({ baseFilters: ['stale'] });
-
-  // Every project is still there, only none of them is stale: the decision has to be keyed off this
-  // table's own base filters, not off the organization's total project count.
-  await waitForElementToBeRemoved(() => ui.title.query());
-
-  expect(container).toBeEmptyDOMElement();
-  expect(ui.table.query()).not.toBeInTheDocument();
-});
-
 it('keeps the card, with a no-data row, when the search empties it', async () => {
   const { user } = renderCard();
 
@@ -132,18 +117,16 @@ it('keeps the card, with a no-data row, when the search empties it', async () =>
 });
 
 it('keeps the card, with a no-data row, when a toolbar filter empties it', async () => {
-  // Nothing in the fixture is left to import, so the "not imported" filter matches no project while
-  // the unfiltered table still has plenty.
-  onboardingMock.setProjects(mockOnboardingProjects().filter((project) => project.stale));
-  renderCard({ userFilters: [OnboardingProjectsScanStatusFilter.NotOnboarded] });
+  // Every fixture project is scanned, so filtering for not-scanned matches none of them while the
+  // unfiltered table still has plenty.
+  onboardingMock.setProjects(
+    mockOnboardingProjects().map((project) => ({
+      ...project,
+      scanStatus: OnboardingProjectScanStatus.Scanned,
+    })),
+  );
+  renderCard({ filters: { scanStatus: OnboardingProjectScanStatus.NotScanned } });
 
   expect(await ui.noDataCell.findAll()).toHaveLength(COLUMN_COUNT);
   expect(ui.title.get()).toBeInTheDocument();
-});
-
-it('ignores the "any" filter token, which carries no constraint', async () => {
-  renderCard({ userFilters: [ANY_PROJECTS_FILTER] });
-
-  expect(await ui.table.byText('web-core').find()).toBeInTheDocument();
-  expect(ui.noDataCell.queryAll()).toHaveLength(0);
 });

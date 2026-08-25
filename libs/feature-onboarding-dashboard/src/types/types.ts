@@ -19,9 +19,9 @@
  */
 
 import {
-  OnboardingProjectsAnalysisModeFilter,
+  OnboardingProjectAnalysisMode,
+  OnboardingProjectScanStatus,
   OnboardingProjectsGateStatusFilter,
-  OnboardingProjectsScanStatusFilter,
   OnboardingRepositoriesVisibility,
 } from '~shared/types/onboarding';
 
@@ -61,15 +61,8 @@ export enum JourneyLevel {
 export interface JourneyState {
   /** The step selected by default (first incomplete step). */
   activeStep: JourneyStep;
-  /**
-   * Best-effort breakdown for the "Analyze your projects" panel. The backend does not expose these
-   * exact cohorts yet, so they are approximated from the overview charts — see `deriveJourneyState`.
-   */
+  /** Breakdown for the "Analyze your projects" panel. */
   analyze: {
-    autoscan: number;
-    fullCi: number;
-    local: number;
-    moveToFullCi: number;
     notImported: number;
     notScanned: number;
   };
@@ -106,10 +99,9 @@ export interface ProjectFilterOption<T extends string> {
   value: T;
 }
 
-export type ScanStatusFilterValue = OnboardingProjectsScanStatusFilter | typeof ANY_PROJECTS_FILTER;
+export type ScanStatusFilterValue = OnboardingProjectScanStatus | typeof ANY_PROJECTS_FILTER;
 
-export type AnalysisModeFilterValue =
-  OnboardingProjectsAnalysisModeFilter | typeof ANY_PROJECTS_FILTER;
+export type AnalysisModeFilterValue = OnboardingProjectAnalysisMode | typeof ANY_PROJECTS_FILTER;
 
 export type GateStatusFilterValue = OnboardingProjectsGateStatusFilter | typeof ANY_PROJECTS_FILTER;
 
@@ -122,15 +114,11 @@ export const SCAN_STATUS_FILTER_OPTIONS: ReadonlyArray<ProjectFilterOption<ScanS
     { labelKey: 'onboarding_dashboard.projects.filter.all', value: ANY_PROJECTS_FILTER },
     {
       labelKey: 'onboarding_dashboard.projects.filter.scanned',
-      value: OnboardingProjectsScanStatusFilter.Scanned,
+      value: OnboardingProjectScanStatus.Scanned,
     },
     {
       labelKey: 'onboarding_dashboard.projects.filter.not_scanned',
-      value: OnboardingProjectsScanStatusFilter.NotScanned,
-    },
-    {
-      labelKey: 'onboarding_dashboard.projects.filter.not_onboarded',
-      value: OnboardingProjectsScanStatusFilter.NotOnboarded,
+      value: OnboardingProjectScanStatus.NotScanned,
     },
   ];
 
@@ -140,19 +128,23 @@ export const ANALYSIS_MODE_FILTER_OPTIONS: ReadonlyArray<
   { labelKey: 'onboarding_dashboard.projects.filter.all', value: ANY_PROJECTS_FILTER },
   {
     labelKey: 'onboarding_dashboard.projects.filter.ci',
-    value: OnboardingProjectsAnalysisModeFilter.Ci,
+    value: OnboardingProjectAnalysisMode.Ci,
   },
   {
     labelKey: 'onboarding_dashboard.projects.filter.autoscan',
-    value: OnboardingProjectsAnalysisModeFilter.Autoscan,
+    value: OnboardingProjectAnalysisMode.Automatic,
   },
   {
     labelKey: 'onboarding_dashboard.projects.filter.no_analysis_mode',
-    value: OnboardingProjectsAnalysisModeFilter.NoAnalysisMode,
+    value: OnboardingProjectAnalysisMode.None,
   },
 ];
 
-/** Reuses the gate status labels of `GateStatusBadge` so filter and badge wording stay in sync. */
+/**
+ * Reuses the gate status labels of `GateStatusBadge` so filter and badge wording stay in sync.
+ * Dead until `PROJECT_HEALTH_FEATURE_ENABLED` is flipped — the backend doesn't serve gate status
+ * on `/onboarding/projects` yet.
+ */
 export const GATE_STATUS_FILTER_OPTIONS: ReadonlyArray<ProjectFilterOption<GateStatusFilterValue>> =
   [
     { labelKey: 'onboarding_dashboard.projects.filter.all', value: ANY_PROJECTS_FILTER },
@@ -163,6 +155,19 @@ export const GATE_STATUS_FILTER_OPTIONS: ReadonlyArray<ProjectFilterOption<GateS
       value: OnboardingProjectsGateStatusFilter.GateNotComputed,
     },
   ];
+
+/**
+ * Quality gate status and "scan failed" health aren't part of the current `/onboarding/projects`
+ * contract — every real response omits them. Flip this once the backend adds them to light back up
+ * the gate-status column/filter/badge and the failed-scan badge, without touching the components.
+ */
+export const PROJECT_HEALTH_FEATURE_ENABLED = false;
+
+/**
+ * Staleness isn't part of the current `/onboarding/projects` contract. Flip this once the backend
+ * adds it to bring back the "Commits not being scanned" card.
+ */
+export const STALE_PROJECTS_FEATURE_ENABLED = false;
 
 /** Filter dropdown options for the repositories modal. */
 export const REPOSITORY_VISIBILITY_FILTER_OPTIONS: ReadonlyArray<

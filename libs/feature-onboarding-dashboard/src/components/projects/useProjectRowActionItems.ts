@@ -20,10 +20,7 @@
 
 import { To } from 'react-router-dom';
 import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
-import {
-  getProjectCiConfigurationUrl,
-  useProjectImportUrl,
-} from '~adapters/helpers/onboarding-actions';
+import { getProjectCiConfigurationUrl } from '~adapters/helpers/onboarding-actions';
 import { isDefined } from '~shared/helpers/types';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { OnboardingProject } from '~shared/types/onboarding';
@@ -45,33 +42,29 @@ interface Options {
  * Turns the actions {@link getProjectRowActions} offers for a project into ready-to-render row menu
  * entries.
  *
- * An action the row cannot actually perform — because the product doesn't support it, or because the
- * repository has no project in SonarQube yet — is dropped rather than shown disabled, so the menu
- * never offers a dead end. Adding a new action means adding a builder below and a label key, not
- * another branch in the cell.
+ * An action the row cannot actually perform — because the product doesn't support it — is dropped
+ * rather than shown disabled, so the menu never offers a dead end. Adding a new action means adding
+ * a builder below and a label key, not another branch in the cell.
  */
 export function useProjectRowActionItems(
   project: OnboardingProject,
   { onRestoreAccess }: Readonly<Options>,
 ): ProjectRowActionItem[] {
-  const importUrl = useProjectImportUrl(project.alm);
   const scanDocUrl = useSharedDocUrl(SharedDocLink.CIAnalysisSetup);
   const rerunAutomaticAnalysis = useRerunAutomaticAnalysisMutation();
 
   const { key: projectKey } = project;
 
   const itemTargets: Record<ProjectRowAction, () => ProjectRowActionTarget | undefined> = {
-    [ProjectRowAction.ConfigureCi]: () =>
-      projectKey === null
-        ? undefined
-        : { kind: 'link', to: getProjectCiConfigurationUrl(projectKey) },
+    [ProjectRowAction.ConfigureCi]: () => ({
+      kind: 'link',
+      to: getProjectCiConfigurationUrl(projectKey),
+    }),
 
     [ProjectRowAction.HowToRunNewScan]: () => ({ isExternal: true, kind: 'link', to: scanDocUrl }),
 
-    [ProjectRowAction.ImportRepository]: () => ({ kind: 'link', to: importUrl }),
-
     [ProjectRowAction.RerunAutomaticAnalysis]: () =>
-      projectKey === null || rerunAutomaticAnalysis === undefined
+      rerunAutomaticAnalysis === undefined
         ? undefined
         : {
             kind: 'button',
@@ -80,11 +73,12 @@ export function useProjectRowActionItems(
             },
           },
 
-    [ProjectRowAction.RestoreAccess]: () =>
-      projectKey === null ? undefined : { kind: 'button', onClick: onRestoreAccess },
+    [ProjectRowAction.RestoreAccess]: () => ({ kind: 'button', onClick: onRestoreAccess }),
 
-    [ProjectRowAction.ViewProject]: () =>
-      projectKey === null ? undefined : { kind: 'link', to: getProjectOverviewUrl(projectKey) },
+    [ProjectRowAction.ViewProject]: () => ({
+      kind: 'link',
+      to: getProjectOverviewUrl(projectKey),
+    }),
   };
 
   return getProjectRowActions(project)

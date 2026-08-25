@@ -21,9 +21,8 @@
 import { Divider } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { OnboardingOverview } from '~shared/types/onboarding';
-import { deriveJourneyState } from '../../helpers/deriveJourneyState';
-import { JourneyLevel, JourneyStep } from '../../types/types';
+import { OnboardingTimelinePoint } from '~shared/types/onboarding';
+import { JourneyLevel, JourneyState, JourneyStep } from '../../types/types';
 import { OnboardingDashboardHeader } from '../OnboardingDashboardHeader';
 import { DetailPanel } from './panels/DetailPanel';
 import { AllProjectsCard } from './projects/AllProjectsCard';
@@ -54,7 +53,9 @@ const LOCKED_STATISTICS_KEYS: Partial<
 };
 
 interface Props {
-  overview: OnboardingOverview;
+  state: JourneyState;
+  /** Adoption history for the over-time chart, from the statistics endpoint. */
+  timeline: OnboardingTimelinePoint[];
 }
 
 /**
@@ -63,10 +64,8 @@ interface Props {
  * view model from the overview, so everything it renders is available as soon as the overview is —
  * the project tables fetch their own paged data.
  */
-export function OnboardingJourney({ overview }: Readonly<Props>) {
+export function OnboardingJourney({ state, timeline }: Readonly<Props>) {
   const { formatMessage } = useIntl();
-
-  const state = deriveJourneyState(overview);
 
   // The stepper selection is UI-only for now. It defaults to the derived active step and is
   // overridden once the user picks a card.
@@ -97,8 +96,8 @@ export function OnboardingJourney({ overview }: Readonly<Props>) {
       <div className="sw-mb-4 sw-flex sw-flex-col sw-gap-4">
         {state.level !== JourneyLevel.Unbound && (
           <OnboardingOverTimeCard
-            momentum={overview.momentum}
             showImportedSeries={state.level === JourneyLevel.Imported}
+            timeline={timeline}
           />
         )}
 

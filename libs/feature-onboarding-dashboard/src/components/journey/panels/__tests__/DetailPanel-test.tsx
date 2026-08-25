@@ -73,7 +73,7 @@ beforeEach(() => {
 // A fully-bound org with imported + analysed repositories (the "everything unlocked" state).
 const boundState: JourneyState = {
   activeStep: JourneyStep.Projects,
-  analyze: { autoscan: 5, fullCi: 10, local: 3, moveToFullCi: 8, notImported: 20, notScanned: 7 },
+  analyze: { notImported: 20, notScanned: 7 },
   analyzed: 72,
   analyzedPct: 60,
   discovered: 120,
@@ -138,20 +138,15 @@ const ui = {
   spinner: byRole('status'),
 
   // Analyze panel
-  fullCiLegend: byText('onboarding_dashboard.journey.analyze.legend.full_ci'),
-  autoscanLegend: byText('onboarding_dashboard.journey.analyze.legend.autoscan'),
-  localLegend: byText('onboarding_dashboard.journey.analyze.legend.local'),
   notScannedLegend: byText('onboarding_dashboard.journey.analyze.legend.not_scanned'),
   notImportedAnalyzeLegend: byText('onboarding_dashboard.journey.analyze.legend.not_imported'),
   fixCta: byRole('button', { name: 'onboarding_dashboard.journey.analyze.not_scanned.cta' }),
   importRowCta: byRole('button', { name: 'onboarding_dashboard.journey.analyze.not_imported.cta' }),
-  configureCta: byRole('button', { name: 'onboarding_dashboard.journey.analyze.full_ci.cta' }),
   // The react-intl mock joins the message id with primitive values by ".", so a `{count}` message
   // renders as `<id>.<count>` — lets us assert the derived counts reach the right rows.
   // Not-scanned/not-imported counts now live in a "{count} projects" badge; full CI keeps it inline.
   notScannedCount: byText('onboarding_dashboard.journey.analyze.projects_count.7'),
   notImportedCount: byText('onboarding_dashboard.journey.analyze.projects_count.20'),
-  fullCiDesc: byText('onboarding_dashboard.journey.analyze.full_ci.desc.8'),
 };
 
 function renderPanel(
@@ -363,26 +358,18 @@ it('renders a link with the repositoryAccessUrl in the auto-import help text', a
   expect(await ui.autoHelpAccessLink.find()).toHaveAttribute('href', accessUrl);
 });
 
-it('renders the analyze panel with five legend entries and three action rows', () => {
+it('renders the analyze panel with its two legend entries and two action rows', () => {
   renderPanel(JourneyStep.Projects, boundState);
 
-  // Donut legend — one entry per scan-configuration cohort.
-  expect(ui.fullCiLegend.get()).toBeInTheDocument();
-  expect(ui.autoscanLegend.get()).toBeInTheDocument();
-  expect(ui.localLegend.get()).toBeInTheDocument();
+  // Donut legend — the overview reports these two cohorts.
   expect(ui.notScannedLegend.get()).toBeInTheDocument();
   expect(ui.notImportedAnalyzeLegend.get()).toBeInTheDocument();
 
-  // Three action rows, each with its own CTA...
+  // Two action rows, each with its own CTA...
   expect(ui.fixCta.get()).toBeInTheDocument();
   expect(ui.importRowCta.get()).toBeInTheDocument();
-  expect(ui.configureCta.get()).toBeInTheDocument();
 
-  // ...and the derived cohort counts land on the matching row.
+  // ...and the cohort counts land on the matching row.
   expect(ui.notScannedCount.get()).toBeInTheDocument();
   expect(ui.notImportedCount.get()).toBeInTheDocument();
-  expect(ui.fullCiDesc.get()).toBeInTheDocument();
-
-  // The "Move to full CI" row carries the recommended badge.
-  expect(ui.recommendedBadge.get()).toBeInTheDocument();
 });

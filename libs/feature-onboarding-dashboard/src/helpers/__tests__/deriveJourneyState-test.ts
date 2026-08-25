@@ -19,176 +19,98 @@
  */
 
 import { mockOnboardingOverview } from '~shared/api/mocks/OnboardingServiceMock';
-import {
-  OnboardingDevopsPlatform,
-  OnboardingDevopsPlatforms,
-  OnboardingOverview,
-} from '~shared/types/onboarding';
+import { OnboardingOverview } from '~shared/types/onboarding';
 import { JourneyLevel, JourneyStep } from '../../types/types';
 import { deriveJourneyState } from '../deriveJourneyState';
 
-const boundPlatforms: OnboardingDevopsPlatforms = {
-  total: 10,
-  shares: [{ platform: OnboardingDevopsPlatform.Github, count: 10, percentage: 100 }],
-};
-
-function buildOverview({
-  cards,
-  charts,
-  checklist,
-  devopsPlatforms,
-}: {
-  cards?: Partial<OnboardingOverview['cards']>;
-  charts?: Partial<OnboardingOverview['charts']>;
-  checklist?: Partial<OnboardingOverview['checklist']>;
-  devopsPlatforms?: OnboardingOverview['devopsPlatforms'];
-} = {}): OnboardingOverview {
-  const base = mockOnboardingOverview(cards);
-  return {
-    ...base,
-    charts: charts ? { ...base.charts, ...charts } : base.charts,
-    checklist: checklist ? { ...base.checklist, ...checklist } : base.checklist,
-    devopsPlatforms: devopsPlatforms ?? base.devopsPlatforms,
-  };
+function buildOverview(
+  steps: Partial<OnboardingOverview['steps']> = {},
+  progressPct = 50,
+): OnboardingOverview {
+  return { ...mockOnboardingOverview(steps), progressPct };
 }
 
-it('derives a fully bound, analysed state from the overview', () => {
+it('maps the step counters onto the view model', () => {
   const state = deriveJourneyState(buildOverview());
 
-  expect(state.isBound).toBe(true);
-  expect(state.activeStep).toBe(JourneyStep.Projects);
-  expect(state.level).toBe(JourneyLevel.Imported);
-
-  expect(state.discovered).toBe(301);
-  expect(state.imported).toBe(6);
-  expect(state.notYetImported).toBe(295);
-  expect(state.analyzed).toBe(1);
-  expect(state.totalProjects).toBe(301);
-
-  // Rounded, clamped percentages: 6/301 → 2, 1/301 → 0, header ring uses overallMaturityPct.
-  expect(state.importedPct).toBe(2);
-  expect(state.analyzedPct).toBe(0);
-  expect(state.overallPct).toBe(75);
-
-  // Analyze breakdown is approximated from the overview charts.
-  expect(state.analyze).toEqual({
-    autoscan: 44,
-    fullCi: 31,
-    local: 12,
-    moveToFullCi: 56,
-    notImported: 295,
-    notScanned: 11,
+  expect(state).toMatchObject({
+    analyze: { notImported: 295, notScanned: 11 },
+    analyzed: 1,
+    discovered: 301,
+    imported: 6,
+    isBound: true,
+    notYetImported: 295,
+    overallPct: 50,
+    totalProjects: 301,
   });
 });
 
-it.each([{ total: 0 }, { total: null }])(
-  'marks the org unbound when the platform total is $total',
-  ({ total }) => {
-    const state = deriveJourneyState(buildOverview({ devopsPlatforms: { total, shares: [] } }));
-
-    expect(state.isBound).toBe(false);
-    expect(state.activeStep).toBe(JourneyStep.Binding);
-    expect(state.level).toBe(JourneyLevel.Unbound);
-  },
-);
-
-it('marks the org unbound when every share is not-bound or empty', () => {
-  const state = deriveJourneyState(
-    buildOverview({
-      devopsPlatforms: {
-        total: 5,
-        shares: [
-          { platform: OnboardingDevopsPlatform.NotBound, count: 5, percentage: 100 },
-          { platform: OnboardingDevopsPlatform.Github, count: 0, percentage: 0 },
-        ],
-      },
-    }),
-  );
+it('treats a configured platform count of zero as unbound', () => {
+  const state = deriveJourneyState(buildOverview({ devopsPlatforms: { configured: 0 } }));
 
   expect(state.isBound).toBe(false);
   expect(state.activeStep).toBe(JourneyStep.Binding);
   expect(state.level).toBe(JourneyLevel.Unbound);
 });
 
-it('selects the repositories step when bound but nothing is analysed yet', () => {
+it('reports the repositories step when bound but nothing is analysed yet', () => {
   const state = deriveJourneyState(
     buildOverview({
-      cards: {
-        projectsOnboarded: {
-          onboarded: 0,
-          totalProjects: 6,
-          importedEmpty: 5,
-          percentOfImported: 0,
-        },
-      },
-      devopsPlatforms: boundPlatforms,
+      projects: { analyzed: 0, notImported: 20, notScanned: 0, percent: null, total: 40 },
     }),
   );
 
-  expect(state.isBound).toBe(true);
   expect(state.activeStep).toBe(JourneyStep.Repositories);
-  expect(state.analyzed).toBe(0);
+  expect(state.level).toBe(JourneyLevel.Imported);
 });
 
-it('reports the BoundNoImport level when bound with no imported repositories', () => {
+it('reports BoundNoImport when bound with nothing imported', () => {
   const state = deriveJourneyState(
     buildOverview({
-      cards: {
-        repositoriesDiscovered: {
-          discovered: 120,
-          imported: 0,
-          notYetImported: 120,
-          byAlm: [],
-        },
-        projectsOnboarded: {
-          onboarded: 0,
-          totalProjects: 0,
-          importedEmpty: 0,
-          percentOfImported: null,
-        },
-      },
-      devopsPlatforms: boundPlatforms,
+      projects: { analyzed: 0, notImported: null, notScanned: 0, percent: null, total: null },
+      repositories: { discovered: null, imported: 0, percent: null },
     }),
   );
 
-  expect(state.isBound).toBe(true);
-  expect(state.imported).toBe(0);
   expect(state.level).toBe(JourneyLevel.BoundNoImport);
 });
 
-it('falls back to zero when discovered/notYetImported are null and denominators are zero', () => {
+it('computes percentages when the backend sends none', () => {
   const state = deriveJourneyState(
     buildOverview({
-      cards: {
-        repositoriesDiscovered: {
-          discovered: null,
-          imported: 5,
-          notYetImported: null,
-          byAlm: [],
-        },
-        projectsOnboarded: {
-          onboarded: 0,
-          totalProjects: 0,
-          importedEmpty: 0,
-          percentOfImported: null,
-        },
-      },
-      devopsPlatforms: boundPlatforms,
+      projects: { analyzed: 5, notImported: 20, notScanned: 3, percent: null, total: 40 },
+      repositories: { discovered: 40, imported: 10, percent: null },
     }),
   );
 
-  expect(state.discovered).toBe(0);
-  // notYetImported falls back to max(discovered - imported, 0) = max(0 - 5, 0) = 0.
-  expect(state.notYetImported).toBe(0);
-  // toPercent returns 0 when the denominator (discovered / totalProjects) is 0.
-  expect(state.importedPct).toBe(0);
-  expect(state.analyzedPct).toBe(0);
+  expect(state.importedPct).toBe(25);
+  expect(state.analyzedPct).toBe(13);
 });
 
-it('clamps the header percentage to 100 when overallMaturityPct exceeds 100', () => {
-  // The backend can report a maturity above 100; the header ring must never render past a full
-  // circle, so deriveJourneyState caps it.
-  const state = deriveJourneyState(buildOverview({ checklist: { overallMaturityPct: 600 } }));
+it('prefers backend-computed percentages when present', () => {
+  const state = deriveJourneyState(
+    buildOverview({
+      projects: { analyzed: 5, notImported: 20, notScanned: 3, percent: 42, total: 40 },
+      repositories: { discovered: 40, imported: 10, percent: 99 },
+    }),
+  );
 
-  expect(state.overallPct).toBe(100);
+  expect(state.importedPct).toBe(99);
+  expect(state.analyzedPct).toBe(42);
+});
+
+it('derives notYetImported from discovered minus imported when the backend omits it', () => {
+  const state = deriveJourneyState(
+    buildOverview({
+      projects: { analyzed: 5, notImported: null, notScanned: 3, percent: null, total: 40 },
+      repositories: { discovered: 40, imported: 10, percent: null },
+    }),
+  );
+
+  expect(state.notYetImported).toBe(30);
+});
+
+it('clamps an out-of-range progress percentage', () => {
+  expect(deriveJourneyState(buildOverview({}, 140)).overallPct).toBe(100);
+  expect(deriveJourneyState(buildOverview({}, -5)).overallPct).toBe(0);
 });

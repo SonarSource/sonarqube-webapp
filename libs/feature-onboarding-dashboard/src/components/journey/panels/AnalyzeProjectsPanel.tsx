@@ -27,14 +27,13 @@ import {
   cssVar,
   Heading,
   HeadingSize,
-  IconCheckCircle,
   IconDot,
   Text,
   TextSize,
 } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
 import { useIntl } from 'react-intl';
-import { OnboardingProjectsScanStatusFilter } from '~shared/types/onboarding';
+import { OnboardingProjectScanStatus } from '~shared/types/onboarding';
 import { JourneyState } from '../../../types/types';
 import { PanelDonut, PanelDonutSegment } from '../charts/PanelDonut';
 import { ConfigureProjectsModal } from '../modals/ConfigureProjectsModal';
@@ -45,30 +44,14 @@ interface Props {
 }
 
 /**
- * "Analyze your projects" detail panel. Left: a donut breaking analysed projects into their scan
- * configuration. Right: three action cards nudging the user to fix, import, or upgrade projects. The
- * cohorts are approximated from the overview (see {@link JourneyState.analyze}); CTAs are no-ops.
+ * "Analyze your projects" detail panel. Left: a donut breaking analysed projects into scanned vs.
+ * not-yet-imported. Right: action cards nudging the user to fix or import projects.
  */
 export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const { analyze, analyzed, analyzedPct, totalProjects } = state;
 
   const segments: PanelDonutSegment[] = [
-    {
-      color: cssVar('color-background-success-default'),
-      label: formatMessage({ id: 'onboarding_dashboard.journey.analyze.legend.full_ci' }),
-      value: analyze.fullCi,
-    },
-    {
-      color: cssVar('color-background-info-default'),
-      label: formatMessage({ id: 'onboarding_dashboard.journey.analyze.legend.autoscan' }),
-      value: analyze.autoscan,
-    },
-    {
-      color: cssVar('color-background-warning-default'),
-      label: formatMessage({ id: 'onboarding_dashboard.journey.analyze.legend.local' }),
-      value: analyze.local,
-    },
     {
       color: cssVar('color-background-danger-default'),
       label: formatMessage({ id: 'onboarding_dashboard.journey.analyze.legend.not_scanned' }),
@@ -95,7 +78,7 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
     {
       badge: <Badge variety={BadgeVariety.Danger}>{projectsCount(analyze.notScanned)}</Badge>,
       cta: (
-        <ConfigureProjectsModal defaultScanStatus={OnboardingProjectsScanStatusFilter.NotScanned}>
+        <ConfigureProjectsModal defaultScanStatus={OnboardingProjectScanStatus.NotScanned}>
           <Button variety={ButtonVariety.Primary}>
             {formatMessage({ id: 'onboarding_dashboard.journey.analyze.not_scanned.cta' })}
           </Button>
@@ -119,27 +102,6 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
       icon: <IconDot color="echoes-color-icon-disabled" isFilled />,
       key: 'not-imported',
       titleId: 'onboarding_dashboard.journey.analyze.not_imported.title',
-    },
-    {
-      badge: (
-        <Badge variety={BadgeVariety.Highlight}>
-          {formatMessage({ id: 'onboarding_dashboard.journey.import.recommended' })}
-        </Badge>
-      ),
-      cta: (
-        <ConfigureProjectsModal>
-          <Button>
-            {formatMessage({ id: 'onboarding_dashboard.journey.analyze.full_ci.cta' })}
-          </Button>
-        </ConfigureProjectsModal>
-      ),
-      description: formatMessage(
-        { id: 'onboarding_dashboard.journey.analyze.full_ci.desc' },
-        { count: analyze.moveToFullCi },
-      ),
-      icon: <IconCheckCircle color="echoes-color-icon-accent" />,
-      key: 'full-ci',
-      titleId: 'onboarding_dashboard.journey.analyze.full_ci.title',
     },
   ];
 

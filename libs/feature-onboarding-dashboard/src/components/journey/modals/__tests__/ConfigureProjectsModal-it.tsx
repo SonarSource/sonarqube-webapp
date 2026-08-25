@@ -25,7 +25,7 @@ import { OnboardingServiceMock } from '~shared/api/mocks/OnboardingServiceMock';
 import { registerServiceMocks } from '~shared/api/mocks/server';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole } from '~shared/helpers/testSelector';
-import { OnboardingProjectsScanStatusFilter } from '~shared/types/onboarding';
+import { OnboardingProjectScanStatus } from '~shared/types/onboarding';
 import { NO_DATA } from '../../../dashboardConstants';
 import { ConfigureProjectsModal } from '../ConfigureProjectsModal';
 
@@ -65,7 +65,7 @@ const ui = {
   }),
 };
 
-async function renderModal(defaultScanStatus?: OnboardingProjectsScanStatusFilter) {
+async function renderModal(defaultScanStatus?: OnboardingProjectScanStatus) {
   const result = renderWithRouter(
     <ConfigureProjectsModal defaultScanStatus={defaultScanStatus}>
       <Button>{OPEN_BUTTON_TRIGGER}</Button>
@@ -80,38 +80,32 @@ it('displays correct onboarding and analysis-mode badges for each row', async ()
 
   await ui.table.byText('platform-jobs').find();
 
-  // Onboarding badges, one per distinct state in the mock fixture.
-  expect(
-    ui.table.byText('onboarding_dashboard.projects.onboarding.not_onboarded').get(),
-  ).toBeInTheDocument(); // platform-jobs: NOT_IMPORTED
-  expect(
-    ui.table.byText('onboarding_dashboard.projects.onboarding.scan_failed').get(),
-  ).toBeInTheDocument(); // payments-gateway: scan health failed
+  // Onboarding badges, driven by scanStatus. PROJECT_HEALTH_FEATURE_ENABLED is off, so
+  // payments-gateway's failed scan health doesn't change its badge.
   expect(ui.table.byText('onboarding_dashboard.projects.onboarding.scanned').getAll()).toHaveLength(
-    2,
-  ); // web-core + identity-lib: ANALYSED
+    3,
+  ); // payments-gateway + web-core + identity-lib: SCANNED
   expect(
-    ui.table.byText('onboarding_dashboard.projects.onboarding.imported_empty').get(),
-  ).toBeInTheDocument(); // mobile-worker: IMPORTED_EMPTY
+    ui.table.byText('onboarding_dashboard.projects.onboarding.imported_empty').getAll(),
+  ).toHaveLength(2); // platform-jobs + mobile-worker: NOT_SCANNED
 
   // Analysis-mode badges.
   expect(
     ui.table.byText('onboarding_dashboard.projects.analysis.full_ci').get(),
   ).toBeInTheDocument(); // payments-gateway: CI
-  expect(ui.table.byText('onboarding_dashboard.projects.analysis.local').get()).toBeInTheDocument(); // web-core: Local
-  expect(ui.table.byText('onboarding_dashboard.projects.analysis.autoscan').getAll()).toHaveLength(
-    2,
-  ); // identity-lib + mobile-worker: Managed
-  expect(ui.table.byText('none').get()).toBeInTheDocument(); // platform-jobs: NOT_IMPORTED
+  expect(
+    ui.table.byText('onboarding_dashboard.projects.analysis.autoscan').get(),
+  ).toBeInTheDocument(); // identity-lib: AUTOMATIC
+  expect(ui.table.byText('none').getAll()).toHaveLength(3); // platform-jobs, web-core, mobile-worker: NONE
 });
 
-it('shows NO_DATA in the last-scan column only for not-imported projects', async () => {
+it('shows NO_DATA in the last-scan column only for projects with no scan', async () => {
   await renderModal();
 
   await ui.table.byText('platform-jobs').find();
 
-  // Only platform-jobs is NOT_IMPORTED, the remaining four have lastScan set.
-  expect(ui.table.byText(NO_DATA).getAll()).toHaveLength(1);
+  // Only platform-jobs and mobile-worker have no lastScan set.
+  expect(ui.table.byText(NO_DATA).getAll()).toHaveLength(2);
 });
 
 it('renders a link to the doc in the footer', async () => {
@@ -123,18 +117,21 @@ it('renders a link to the doc in the footer', async () => {
   );
 });
 
-it('renders a configure button for imported but not CI-configured projects', async () => {
+it('renders a configure button for every project not already on a CI pipeline', async () => {
   await renderModal();
 
   await ui.table.byText('mobile-worker').find();
 
-  // platform-jobs is not imported, payments-gateway is imported and CI-configured, only 3 remaining
-  expect(ui.configureButton.getAll()).toHaveLength(3);
+  // Only payments-gateway is CI-configured; the other four all get a configure button.
+  expect(ui.configureButton.getAll()).toHaveLength(4);
   const { pathname, search } = getConfigureProjectUrl('web-core');
-  expect(ui.configureButton.getAll()[0]).toHaveAttribute(
-    'href',
-    expect.stringContaining(`${pathname}${search}`),
-  );
+  expect(
+    byRole('row', { name: /web-core/ })
+      .byRole('link', {
+        name: /^onboarding_dashboard\.journey\.analyze\.modal\.configure/,
+      })
+      .get(),
+  ).toHaveAttribute('href', expect.stringContaining(`${pathname}${search}`));
 });
 
 it('renders the scan-status and analysis-mode filters', async () => {
@@ -157,9 +154,6 @@ it('lists all scan-status options', async () => {
   ).toBeInTheDocument();
   expect(
     byRole('option', { name: 'onboarding_dashboard.projects.filter.not_scanned' }).get(),
-  ).toBeInTheDocument();
-  expect(
-    byRole('option', { name: 'onboarding_dashboard.projects.filter.not_onboarded' }).get(),
   ).toBeInTheDocument();
 });
 
@@ -189,16 +183,17 @@ it('filters the project list by scan status', async () => {
 
   await user.click(ui.scanStatusFilter.get());
   await user.click(
-    await byRole('option', { name: 'onboarding_dashboard.projects.filter.not_onboarded' }).find(),
+    await byRole('option', { name: 'onboarding_dashboard.projects.filter.not_scanned' }).find(),
   );
 
-  // Only platform-jobs is NOT_IMPORTED (not_onboarded).
+  // platform-jobs and mobile-worker are NOT_SCANNED.
   await waitFor(() => {
     expect(ui.table.byText('payments-gateway').query()).not.toBeInTheDocument();
   });
   expect(ui.table.byText('platform-jobs').get()).toBeInTheDocument();
+  expect(ui.table.byText('mobile-worker').get()).toBeInTheDocument();
   expect(ui.table.byText('web-core').query()).not.toBeInTheDocument();
-  expect(ui.table.byText('mobile-worker').query()).not.toBeInTheDocument();
+  expect(ui.table.byText('identity-lib').query()).not.toBeInTheDocument();
 });
 
 it('filters the project list by analysis mode', async () => {
@@ -211,12 +206,12 @@ it('filters the project list by analysis mode', async () => {
     await byRole('option', { name: 'onboarding_dashboard.projects.filter.autoscan' }).find(),
   );
 
-  // identity-lib and mobile-worker use Managed (autoscan).
+  // Only identity-lib uses AUTOMATIC (autoscan).
   await waitFor(() => {
     expect(ui.table.byText('platform-jobs').query()).not.toBeInTheDocument();
   });
   expect(ui.table.byText('identity-lib').get()).toBeInTheDocument();
-  expect(ui.table.byText('mobile-worker').get()).toBeInTheDocument();
+  expect(ui.table.byText('mobile-worker').query()).not.toBeInTheDocument();
   expect(ui.table.byText('payments-gateway').query()).not.toBeInTheDocument();
   expect(ui.table.byText('web-core').query()).not.toBeInTheDocument();
 });
@@ -248,11 +243,11 @@ it('ANDs the scan-status and analysis-mode filters', async () => {
 });
 
 it('applies the defaultScanStatus prop as the initial filter when the modal opens', async () => {
-  // not_scanned maps to IMPORTED_EMPTY, only mobile-worker matches.
-  await renderModal(OnboardingProjectsScanStatusFilter.NotScanned);
+  // platform-jobs and mobile-worker are NOT_SCANNED.
+  await renderModal(OnboardingProjectScanStatus.NotScanned);
 
   expect(await ui.table.byText('mobile-worker').find()).toBeInTheDocument();
-  expect(ui.table.byText('platform-jobs').query()).not.toBeInTheDocument();
+  expect(ui.table.byText('platform-jobs').get()).toBeInTheDocument();
   expect(ui.table.byText('payments-gateway').query()).not.toBeInTheDocument();
   expect(ui.table.byText('web-core').query()).not.toBeInTheDocument();
   expect(ui.table.byText('identity-lib').query()).not.toBeInTheDocument();

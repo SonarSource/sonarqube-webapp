@@ -21,7 +21,7 @@
 import { ComponentProps } from 'react';
 import { renderWithContext } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
-import { OnboardingMomentum } from '~shared/types/onboarding';
+import { OnboardingTimelinePoint } from '~shared/types/onboarding';
 import { OnboardingOverTimeCard } from '../OnboardingOverTimeCard';
 
 // The chart only draws once its container has been measured, which never happens in jsdom.
@@ -29,30 +29,16 @@ jest.mock('~shared/helpers/useResizeObserver', () => ({
   useResizeObserver: jest.fn(() => [800, 300]),
 }));
 
-const WEEK_1 = new Date('2025-02-03T00:00:00Z').getTime();
-const WEEK_2 = new Date('2025-02-10T00:00:00Z').getTime();
-const WEEK_3 = new Date('2025-02-17T00:00:00Z').getTime();
+const MONTH_1 = '2025-02-01T00:00:00Z';
+const MONTH_2 = '2025-03-01T00:00:00Z';
+const MONTH_3 = '2025-04-01T00:00:00Z';
 
-const momentum: OnboardingMomentum = {
-  currentState: {
-    ciCount: 70,
-    failedScanCount: 11,
-    importedEmptyCount: 19,
-    localCount: 10,
-    managedCount: 7,
-  },
-  importedCount: 40,
-  onboardedCount: 25,
-  startDate: WEEK_1,
-  totalRepos: 120,
-  weeklyDelta: 12,
-  // Deliberately out of order: the chart sorts the history before plotting it.
-  weeklyHistory: [
-    { weekStart: WEEK_2, cumulativeImported: 18, cumulativeOnboarded: 12 },
-    { weekStart: WEEK_1, cumulativeImported: 7, cumulativeOnboarded: 3 },
-    { weekStart: WEEK_3, cumulativeImported: 40, cumulativeOnboarded: 25 },
-  ],
-};
+// Deliberately out of order: the chart sorts the timeline before plotting it.
+const timeline: OnboardingTimelinePoint[] = [
+  { date: MONTH_2, projectsScanned: 12, repositoriesImported: 18 },
+  { date: MONTH_1, projectsScanned: 3, repositoriesImported: 7 },
+  { date: MONTH_3, projectsScanned: 25, repositoriesImported: 40 },
+];
 
 const PLATFORMS_LEGEND = 'onboarding_dashboard.journey.overtime.legend.platforms_bound';
 const IMPORTED_LEGEND = 'onboarding_dashboard.journey.overtime.legend.repositories_imported';
@@ -70,7 +56,7 @@ const ui = {
 
 function renderCard(props: Partial<ComponentProps<typeof OnboardingOverTimeCard>> = {}) {
   return renderWithContext(
-    <OnboardingOverTimeCard momentum={momentum} showImportedSeries {...props} />,
+    <OnboardingOverTimeCard showImportedSeries timeline={timeline} {...props} />,
   );
 }
 
@@ -91,14 +77,14 @@ it('adds the repositories-imported series once repositories are imported', () =>
   expect(ui.importedLegend.get()).toBeInTheDocument();
 });
 
-it('shows a tooltip with the hovered week values and hides it again on mouse leave', async () => {
+it('shows a tooltip with the hovered month values and hides it again on mouse leave', async () => {
   const { user } = renderCard({ showImportedSeries: true });
 
   expect(ui.tooltip.query()).not.toBeInTheDocument();
 
   await user.hover(ui.chart.get());
 
-  // Hovering at the very left of the plot snaps to the earliest week of the sorted history.
+  // Hovering at the very left of the plot snaps to the earliest month of the sorted timeline.
   expect(await ui.tooltip.find()).toBeInTheDocument();
   expect(ui.tooltipPlatformsValue.get()).toBeInTheDocument();
   expect(ui.tooltipImportedValue.get()).toBeInTheDocument();
@@ -120,7 +106,7 @@ it('reports only the visible series in the tooltip', async () => {
 });
 
 it('keeps the legend but draws no graph when there is no history yet', () => {
-  renderCard({ momentum: { ...momentum, weeklyHistory: [] } });
+  renderCard({ timeline: [] });
 
   expect(ui.title.get()).toBeInTheDocument();
   expect(ui.platformsLegend.get()).toBeInTheDocument();

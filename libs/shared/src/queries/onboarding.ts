@@ -23,6 +23,7 @@ import { useCallback } from 'react';
 import {
   getOnboardingOverview,
   getOnboardingProjects,
+  getOnboardingStatistics,
   OnboardingOverviewQuery,
   OnboardingProjectsQuery,
 } from '../api/onboarding';
@@ -40,6 +41,16 @@ export const useOnboardingOverviewQuery = createQueryHook((params: OnboardingOve
   queryOptions({
     queryKey: ['onboarding', 'overview', params],
     queryFn: () => getOnboardingOverview(params),
+    staleTime: StaleTime.LONG,
+    retry: 2, // Temporary workaround until Backend initial load issue is fixed
+  }),
+);
+
+/** Adoption history and DevOps platform breakdown, shown alongside the journey. */
+export const useOnboardingStatisticsQuery = createQueryHook((params: OnboardingOverviewQuery) =>
+  queryOptions({
+    queryKey: ['onboarding', 'statistics', params],
+    queryFn: () => getOnboardingStatistics(params),
     staleTime: StaleTime.LONG,
     retry: 2, // Temporary workaround until Backend initial load issue is fixed
   }),

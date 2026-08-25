@@ -21,44 +21,29 @@
 import {
   OnboardingDevopsPlatform,
   OnboardingProject,
+  OnboardingProjectAnalysisMode,
   OnboardingProjectGateStatus,
-  OnboardingProjectOnboarding,
   OnboardingProjectScanHealth,
-  OnboardingProjectScanMethod,
+  OnboardingProjectScanStatus,
 } from '~shared/types/onboarding';
 import { getProjectRowActions, ProjectRowAction } from '../projectRowActions';
 
 function mockProject(overrides: Partial<OnboardingProject> = {}): OnboardingProject {
   return {
     alm: OnboardingDevopsPlatform.Github,
+    analysisMode: OnboardingProjectAnalysisMode.Ci,
     gateStatus: OnboardingProjectGateStatus.Passed,
-    isPrivate: false,
     key: 'web-core',
     name: 'web-core',
-    onboarding: OnboardingProjectOnboarding.Analysed,
     scanHealth: OnboardingProjectScanHealth.Healthy,
-    scanMethod: OnboardingProjectScanMethod.Ci,
-    stale: false,
+    scanStatus: OnboardingProjectScanStatus.Scanned,
     ...overrides,
   };
 }
 
-it('offers only the import action for a repository that is not imported yet', () => {
-  // The scan method the backend happens to report is irrelevant: nothing exists in SonarQube to
-  // configure, re-run or view yet.
+it('offers the first-scan actions for a project that has not been scanned yet', () => {
   expect(
-    getProjectRowActions(
-      mockProject({
-        onboarding: OnboardingProjectOnboarding.NotImported,
-        scanMethod: OnboardingProjectScanMethod.Ci,
-      }),
-    ),
-  ).toEqual([ProjectRowAction.ImportRepository]);
-});
-
-it('offers the first-scan actions for a project that is imported but not scanned', () => {
-  expect(
-    getProjectRowActions(mockProject({ onboarding: OnboardingProjectOnboarding.ImportedEmpty })),
+    getProjectRowActions(mockProject({ scanStatus: OnboardingProjectScanStatus.NotScanned })),
   ).toEqual([
     ProjectRowAction.ConfigureCi,
     ProjectRowAction.RestoreAccess,
@@ -68,7 +53,7 @@ it('offers the first-scan actions for a project that is imported but not scanned
 
 it('offers the re-run and upgrade actions for a project scanned by automatic analysis', () => {
   expect(
-    getProjectRowActions(mockProject({ scanMethod: OnboardingProjectScanMethod.Managed })),
+    getProjectRowActions(mockProject({ analysisMode: OnboardingProjectAnalysisMode.Automatic })),
   ).toEqual([
     ProjectRowAction.ConfigureCi,
     ProjectRowAction.RerunAutomaticAnalysis,
@@ -78,17 +63,21 @@ it('offers the re-run and upgrade actions for a project scanned by automatic ana
 });
 
 it('offers only guidance and the project link for a project scanned by CI', () => {
-  expect(getProjectRowActions(mockProject({ scanMethod: OnboardingProjectScanMethod.Ci }))).toEqual(
-    [ProjectRowAction.HowToRunNewScan, ProjectRowAction.ViewProject],
-  );
+  expect(
+    getProjectRowActions(mockProject({ analysisMode: OnboardingProjectAnalysisMode.Ci })),
+  ).toEqual([ProjectRowAction.HowToRunNewScan, ProjectRowAction.ViewProject]);
 });
 
-it.each([
-  // A failed scan takes precedence over the scan method, mirroring the scan status badge: the CI
-  // guidance would be misleading while the pipeline is broken.
-  ['a failed scan', { scanHealth: OnboardingProjectScanHealth.Failed }],
-  ['a local scan', { scanMethod: OnboardingProjectScanMethod.Local }],
-  ['no scan method at all', { scanMethod: null }],
-])('falls back to the project link only for %s', (_, overrides) => {
-  expect(getProjectRowActions(mockProject(overrides))).toEqual([ProjectRowAction.ViewProject]);
+it('falls back to the project link only for a scanned project with no CI/automatic analysis mode', () => {
+  expect(
+    getProjectRowActions(mockProject({ analysisMode: OnboardingProjectAnalysisMode.None })),
+  ).toEqual([ProjectRowAction.ViewProject]);
+});
+
+it('ignores scan health while PROJECT_HEALTH_FEATURE_ENABLED is off — the backend does not send it yet', () => {
+  // Once the flag flips on, a failed scan is meant to override with the view-only fallback; today
+  // it must not change the outcome at all.
+  expect(
+    getProjectRowActions(mockProject({ scanHealth: OnboardingProjectScanHealth.Failed })),
+  ).toEqual([ProjectRowAction.HowToRunNewScan, ProjectRowAction.ViewProject]);
 });

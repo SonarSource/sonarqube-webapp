@@ -33,7 +33,11 @@ import { ReactNode, useEffect, useMemo, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import { useOnboardingOrganizationKey } from '~adapters/queries/onboarding';
 import { useOnboardingProjectsQuery } from '~shared/queries/onboarding';
-import { OnboardingProject, OnboardingProjectsFilter } from '~shared/types/onboarding';
+import {
+  OnboardingProject,
+  OnboardingProjectAnalysisMode,
+  OnboardingProjectScanStatus,
+} from '~shared/types/onboarding';
 import { TableBodyRows } from './TableBodyRows';
 import { TableHeaderRows } from './TableHeaderRows';
 import { usePaginatedTableState } from './usePaginatedTableState';
@@ -59,15 +63,18 @@ export interface ProjectsTableRowProps {
   project: OnboardingProject;
 }
 
+/** The two filter dimensions the backend actually supports. Changing either resets to the first page. */
+export interface ProjectsTableFilters {
+  analysisMode?: OnboardingProjectAnalysisMode;
+  scanStatus?: OnboardingProjectScanStatus;
+}
+
 interface Props {
   ariaLabel: string;
   columns: ProjectsTableColumn[];
   /** Extra class for the outer wrapper — e.g. modal-mode uses it to cap the height. */
   containerClassName?: string;
-  /**
-   * Server-side filter tokens, AND-ed by the backend. Changing them resets to the first page.
-   */
-  filters: OnboardingProjectsFilter[];
+  filters: ProjectsTableFilters;
   loadingMessageKey?: string;
   pageSize: number;
   /**
@@ -104,14 +111,14 @@ export function ProjectsTable({
 
   const organizationKey = useOnboardingOrganizationKey();
 
-  // Callers rebuild the array on every render, so key the reset off the tokens themselves.
-  const filtersKey = filters.join(',');
+  // Callers rebuild the object on every render, so key the reset off its values.
+  const filtersKey = `${filters.scanStatus ?? ''},${filters.analysisMode ?? ''}`;
   const { onPageChange, onSearchChange, pageIndex, query, searchValue } =
     usePaginatedTableState(filtersKey);
 
   const { data, isLoading } = useOnboardingProjectsQuery({
     organizationKey,
-    filters,
+    ...filters,
     pageIndex,
     pageSize,
     q: query === '' ? undefined : query,

@@ -28,19 +28,16 @@ import { PLATFORM_CONFIG } from '../devops/platformConfig';
 
 interface Props {
   alm: OnboardingAlm | null;
-  language?: string;
   name: string;
   path?: string;
   projectKey?: string | null;
 }
 
-export function RepositoryCell({ alm, language, name, path, projectKey }: Readonly<Props>) {
+export function RepositoryCell({ alm, name, path, projectKey }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const platformConfig = alm ? PLATFORM_CONFIG[alm] : undefined;
   const iconSrc = useAlmIconSrc(platformConfig?.imageKey);
   const almLabel = platformConfig ? formatMessage({ id: platformConfig.labelKey }) : '';
-
-  const meta = [path, language].filter(Boolean).join(' · ');
 
   return (
     <div className="sw-flex sw-min-w-0 sw-items-center sw-justify-start sw-gap-2">
@@ -55,9 +52,9 @@ export function RepositoryCell({ alm, language, name, path, projectKey }: Readon
         ) : (
           <Text isHighlighted>{name}</Text>
         )}
-        {meta !== '' && (
+        {path !== undefined && (
           <Text className="sw-truncate" isSubtle size={TextSize.Small}>
-            {meta}
+            {path}
           </Text>
         )}
       </div>

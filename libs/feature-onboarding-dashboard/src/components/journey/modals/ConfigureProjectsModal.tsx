@@ -36,12 +36,7 @@ import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
 import { getConfigureProjectUrl } from '~adapters/helpers/urls';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import { isDefined } from '~shared/helpers/types';
-import {
-  OnboardingProject,
-  OnboardingProjectOnboarding,
-  OnboardingProjectScanMethod,
-} from '~shared/types/onboarding';
-import { composeProjectFilters } from '../../../helpers/onboarding-projects';
+import { OnboardingProject, OnboardingProjectAnalysisMode } from '~shared/types/onboarding';
 import {
   ANALYSIS_MODE_FILTER_OPTIONS,
   ANY_PROJECTS_FILTER,
@@ -101,12 +96,13 @@ export function ConfigureProjectsModal({
           ariaLabel={title}
           columns={COLUMNS}
           containerClassName="sw-max-h-[calc(80vh-12rem)]"
-          filters={composeProjectFilters([scanStatus, analysisMode])}
+          filters={{
+            scanStatus: scanStatus === ANY_PROJECTS_FILTER ? undefined : scanStatus,
+            analysisMode: analysisMode === ANY_PROJECTS_FILTER ? undefined : analysisMode,
+          }}
           loadingMessageKey="onboarding_dashboard.projects.loading"
           pageSize={PAGE_SIZE}
-          renderRow={(project) => (
-            <ConfigureProjectRow key={project.key ?? project.name} project={project} />
-          )}
+          renderRow={(project) => <ConfigureProjectRow key={project.key} project={project} />}
           searchPlaceholderKey="onboarding_dashboard.projects.search"
           searchWidth={SearchInputWidth.Medium}
           toolbarControls={
@@ -152,17 +148,11 @@ function ConfigureProjectRow({ project }: Readonly<{ project: OnboardingProject 
 
   const onboardingBadge = getOnboardingBadge(project);
   const analysisBadge = getAnalysisModeBadge(project);
-  const isImported = project.onboarding !== OnboardingProjectOnboarding.NotImported;
 
   return (
     <Table.Row>
       <Table.Cell className="sw-justify-start">
-        <RepositoryCell
-          alm={project.alm}
-          language={project.language}
-          name={project.name}
-          path={project.path}
-        />
+        <RepositoryCell alm={project.alm} name={project.name} path={project.path} />
       </Table.Cell>
 
       <Table.CellBadge variety={onboardingBadge.variety}>
@@ -176,7 +166,7 @@ function ConfigureProjectRow({ project }: Readonly<{ project: OnboardingProject 
       </Table.CellBadge>
 
       <Table.Cell className="sw-justify-start">
-        {isImported && isDefined(project.lastScan) ? (
+        {isDefined(project.lastScan) ? (
           <DateFormatter date={project.lastScan} />
         ) : (
           <Text>{NO_DATA}</Text>
@@ -184,17 +174,15 @@ function ConfigureProjectRow({ project }: Readonly<{ project: OnboardingProject 
       </Table.Cell>
 
       <Table.Cell>
-        {project.onboarding !== OnboardingProjectOnboarding.NotImported &&
-          project.scanMethod !== OnboardingProjectScanMethod.Ci &&
-          project.key && (
-            <Button
-              suffix={<IconLinkExternal />}
-              to={getConfigureProjectUrl(project.key)}
-              variety={ButtonVariety.Default}
-            >
-              {formatMessage({ id: 'onboarding_dashboard.journey.analyze.modal.configure' })}
-            </Button>
-          )}
+        {project.analysisMode !== OnboardingProjectAnalysisMode.Ci && (
+          <Button
+            suffix={<IconLinkExternal />}
+            to={getConfigureProjectUrl(project.key)}
+            variety={ButtonVariety.Default}
+          >
+            {formatMessage({ id: 'onboarding_dashboard.journey.analyze.modal.configure' })}
+          </Button>
+        )}
       </Table.Cell>
     </Table.Row>
   );

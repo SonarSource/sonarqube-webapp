@@ -23,7 +23,11 @@ import { Helmet } from 'react-helmet-async';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import { useOnboardingOrganizationKey } from '~adapters/queries/onboarding';
-import { useOnboardingOverviewQuery } from '~shared/queries/onboarding';
+import {
+  useOnboardingOverviewQuery,
+  useOnboardingStatisticsQuery,
+} from '~shared/queries/onboarding';
+import { deriveJourneyState } from '../helpers/deriveJourneyState';
 import { OnboardingDevopsPlatformsCard } from './devops/OnboardingDevopsPlatformsCard';
 import { OnboardingJourney } from './journey/OnboardingJourney';
 import { OnboardingDashboardSkeleton } from './OnboardingDashboardSkeleton';
@@ -32,9 +36,16 @@ export default function OnboardingDashboardApp() {
   const { formatMessage } = useIntl();
   const organizationKey = useOnboardingOrganizationKey();
   const { data, isPending, isError } = useOnboardingOverviewQuery({ organizationKey });
+  // The adoption history and platform breakdown live on a separate endpoint; the journey renders
+  // without them, so a slower or failing statistics call must not block or fail the page — it only
+  // replaces the DevOps platforms card with an error message instead of silently dropping it.
+  const { data: statistics, isError: isStatisticsError } = useOnboardingStatisticsQuery({
+    organizationKey,
+  });
 
   const title = formatMessage({ id: 'layout.onboarding_dashboard' });
-  const { devopsPlatforms } = data ?? {};
+
+  const journeyState = data === undefined ? undefined : deriveJourneyState(data);
 
   return (
     <Layout.PageGrid>
@@ -54,9 +65,17 @@ export default function OnboardingDashboardApp() {
             <OnboardingDashboardSkeleton />
           ) : (
             <div>
-              {data !== undefined && <OnboardingJourney overview={data} />}
-              {devopsPlatforms !== undefined && (
-                <OnboardingDevopsPlatformsCard data={devopsPlatforms} />
+              {journeyState !== undefined && (
+                <OnboardingJourney state={journeyState} timeline={statistics?.timeline ?? []} />
+              )}
+              {isStatisticsError ? (
+                <MessageCallout variety="danger">
+                  <FormattedMessage id="default_error_message" />
+                </MessageCallout>
+              ) : (
+                statistics !== undefined && (
+                  <OnboardingDevopsPlatformsCard data={statistics.devopsPlatforms} />
+                )
               )}
             </div>
           )}

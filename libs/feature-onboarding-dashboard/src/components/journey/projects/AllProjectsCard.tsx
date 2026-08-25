@@ -21,11 +21,11 @@
 import { Badge, Table } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { OnboardingProjectOnboarding } from '~shared/types/onboarding';
 import {
   ANALYSIS_MODE_FILTER_OPTIONS,
   ANY_PROJECTS_FILTER,
   AnalysisModeFilterValue,
+  PROJECT_HEALTH_FEATURE_ENABLED,
   SCAN_STATUS_FILTER_OPTIONS,
   ScanStatusFilterValue,
 } from '../../../types/types';
@@ -46,17 +46,28 @@ import { RepositoryCell } from '../../projects/RepositoryCell';
 
 const PAGE_SIZE = 50;
 
+/**
+ * The gate-status column is only included once `PROJECT_HEALTH_FEATURE_ENABLED` is flipped — the
+ * backend doesn't serve gate status on `/onboarding/projects` yet.
+ */
 const COLUMNS: ProjectsTableColumn[] = [
   { labelKey: 'onboarding_dashboard.projects.col.repository' },
   { className: 'sw-justify-center', labelKey: 'onboarding_dashboard.projects.col.onboarding' },
   { className: 'sw-justify-center', labelKey: 'onboarding_dashboard.projects.col.analysis_mode' },
-  { className: 'sw-justify-center', labelKey: 'onboarding_dashboard.projects.col.gate_status' },
+  ...(PROJECT_HEALTH_FEATURE_ENABLED
+    ? [
+        {
+          className: 'sw-justify-center',
+          labelKey: 'onboarding_dashboard.projects.col.gate_status',
+        },
+      ]
+    : []),
   PROJECT_ROW_ACTIONS_COLUMN,
 ];
 
 /**
  * "All projects" table of the redesigned onboarding journey: search, the scan status and analysis
- * mode filter dropdowns, and the four columns the design calls for.
+ * mode filter dropdowns, and the columns the design calls for.
  */
 export function AllProjectsCard() {
   const [scanStatus, setScanStatus] = useState<ScanStatusFilterValue>(ANY_PROJECTS_FILTER);
@@ -66,9 +77,13 @@ export function AllProjectsCard() {
     <ProjectsTableCard
       columns={COLUMNS}
       descriptionKey="onboarding_dashboard.projects.description"
+      filters={{
+        scanStatus: scanStatus === ANY_PROJECTS_FILTER ? undefined : scanStatus,
+        analysisMode: analysisMode === ANY_PROJECTS_FILTER ? undefined : analysisMode,
+      }}
       loadingMessageKey="onboarding_dashboard.projects.loading"
       pageSize={PAGE_SIZE}
-      renderRow={(project) => <ProjectRow key={project.key ?? project.name} project={project} />}
+      renderRow={(project) => <ProjectRow key={project.key} project={project} />}
       searchPlaceholderKey="onboarding_dashboard.projects.search"
       titleKey="onboarding_dashboard.projects.title"
       toolbarControls={
@@ -90,23 +105,21 @@ export function AllProjectsCard() {
           />
         </>
       }
-      userFilters={[scanStatus, analysisMode]}
     />
   );
 }
 
 function ProjectRow({ project }: Readonly<ProjectsTableRowProps>) {
   const { formatMessage } = useIntl();
-  const { alm, language, name, path, key } = project;
+  const { alm, name, path, key } = project;
 
   const onboardingBadge = getOnboardingBadge(project);
   const analysisBadge = getAnalysisModeBadge(project);
-  const isImported = project.onboarding !== OnboardingProjectOnboarding.NotImported;
 
   return (
     <Table.Row>
       <Table.Cell className="sw-justify-start">
-        <RepositoryCell alm={alm} language={language} name={name} path={path} projectKey={key} />
+        <RepositoryCell alm={alm} name={name} path={path} projectKey={key} />
       </Table.Cell>
 
       <Table.Cell>
@@ -125,9 +138,11 @@ function ProjectRow({ project }: Readonly<ProjectsTableRowProps>) {
         )}
       </Table.Cell>
 
-      <Table.Cell>
-        {isImported ? <GateStatusBadge status={project.gateStatus} /> : NO_DATA}
-      </Table.Cell>
+      {PROJECT_HEALTH_FEATURE_ENABLED && (
+        <Table.Cell>
+          <GateStatusBadge status={project.gateStatus} />
+        </Table.Cell>
+      )}
 
       <ProjectRowActionsCell project={project} />
     </Table.Row>

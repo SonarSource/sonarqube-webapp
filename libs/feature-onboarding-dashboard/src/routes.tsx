@@ -23,6 +23,11 @@ import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 
 const App = lazyLoadComponent(() => import('./components/OnboardingDashboardApp'));
 
+/**
+ * This is an admin-only page — both products nest these routes under their admin area, which also
+ * supplies the `Layout.ContentGrid` the dashboard's `Layout.PageGrid` needs to fill its `page` area:
+ * SonarQube Cloud via `OrgAdminAccessContainer`, SonarQube Server via `AdminContainer`.
+ */
 const routes = () => <Route element={<App />} path="onboarding-dashboard" />;
 
 export default routes;

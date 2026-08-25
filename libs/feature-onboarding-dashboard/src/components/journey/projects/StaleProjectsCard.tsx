@@ -22,11 +22,11 @@ import { BadgeVariety, Table, TableCellJustify } from '@sonarsource/echoes-react
 import { useState } from 'react';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import { isDefined } from '~shared/helpers/types';
-import { OnboardingProjectsFilter } from '~shared/types/onboarding';
 import {
   ANY_PROJECTS_FILTER,
   GATE_STATUS_FILTER_OPTIONS,
   GateStatusFilterValue,
+  STALE_PROJECTS_FEATURE_ENABLED,
 } from '../../../types/types';
 import { NO_DATA } from '../../dashboardConstants';
 import { GateStatusBadge } from '../../projects/GateStatusBadge';
@@ -44,9 +44,6 @@ import { RepositoryCell } from '../../projects/RepositoryCell';
 
 const PAGE_SIZE = 10;
 
-/** This table is about stale projects, so the token is sent whatever the user picks. */
-const BASE_FILTERS: OnboardingProjectsFilter[] = ['stale'];
-
 const COLUMNS: ProjectsTableColumn[] = [
   { labelKey: 'onboarding_dashboard.stale.col.project' },
   { justify: TableCellJustify.Start, labelKey: 'onboarding_dashboard.stale.col.gate_status' },
@@ -57,20 +54,25 @@ const COLUMNS: ProjectsTableColumn[] = [
 /**
  * "Commits not being scanned" table: the projects the backend flags as stale, i.e. with commits
  * that haven't been scanned recently, optionally narrowed down to a single gate status.
+ *
+ * Renders nothing until `STALE_PROJECTS_FEATURE_ENABLED` is flipped — the backend doesn't serve a
+ * staleness signal on `/onboarding/projects` yet, so there's no query this table could scope
+ * itself to. The gate-status dropdown below is local-only until then too.
  */
 export function StaleProjectsCard() {
   const [gateStatus, setGateStatus] = useState<GateStatusFilterValue>(ANY_PROJECTS_FILTER);
 
+  if (!STALE_PROJECTS_FEATURE_ENABLED) {
+    return null;
+  }
+
   return (
     <ProjectsTableCard
-      baseFilters={BASE_FILTERS}
       columns={COLUMNS}
       descriptionKey="onboarding_dashboard.stale.description"
       loadingMessageKey="onboarding_dashboard.stale.loading"
       pageSize={PAGE_SIZE}
-      renderRow={(project) => (
-        <StaleProjectRow key={project.key ?? project.name} project={project} />
-      )}
+      renderRow={(project) => <StaleProjectRow key={project.key} project={project} />}
       searchPlaceholderKey="onboarding_dashboard.stale.search"
       titleKey="onboarding_dashboard.stale.title"
       toolbarControls={
@@ -82,18 +84,17 @@ export function StaleProjectsCard() {
           value={gateStatus}
         />
       }
-      userFilters={[gateStatus]}
     />
   );
 }
 
 function StaleProjectRow({ project }: Readonly<ProjectsTableRowProps>) {
-  const { alm, language, name, path, key } = project;
+  const { alm, name, path, key } = project;
 
   return (
     <Table.Row>
       <Table.Cell className="sw-justify-start">
-        <RepositoryCell alm={alm} language={language} name={name} path={path} projectKey={key} />
+        <RepositoryCell alm={alm} name={name} path={path} projectKey={key} />
       </Table.Cell>
 
       <Table.Cell className="sw-justify-start">

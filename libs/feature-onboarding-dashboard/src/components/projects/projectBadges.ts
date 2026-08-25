@@ -21,10 +21,11 @@
 import { BadgeVariety } from '@sonarsource/echoes-react';
 import {
   OnboardingProject,
-  OnboardingProjectOnboarding,
+  OnboardingProjectAnalysisMode,
   OnboardingProjectScanHealth,
-  OnboardingProjectScanMethod,
+  OnboardingProjectScanStatus,
 } from '~shared/types/onboarding';
+import { PROJECT_HEALTH_FEATURE_ENABLED } from '../../types/types';
 
 export interface BadgeConfig {
   labelKey: string;
@@ -32,19 +33,13 @@ export interface BadgeConfig {
 }
 
 export function getOnboardingBadge(project: OnboardingProject): BadgeConfig {
-  if (project.onboarding === OnboardingProjectOnboarding.NotImported) {
-    return {
-      variety: BadgeVariety.Neutral,
-      labelKey: 'onboarding_dashboard.projects.onboarding.not_onboarded',
-    };
-  }
-  if (project.scanHealth === OnboardingProjectScanHealth.Failed) {
+  if (PROJECT_HEALTH_FEATURE_ENABLED && project.scanHealth === OnboardingProjectScanHealth.Failed) {
     return {
       variety: BadgeVariety.Danger,
       labelKey: 'onboarding_dashboard.projects.onboarding.scan_failed',
     };
   }
-  if (project.onboarding === OnboardingProjectOnboarding.Analysed) {
+  if (project.scanStatus === OnboardingProjectScanStatus.Scanned) {
     return {
       variety: BadgeVariety.Success,
       labelKey: 'onboarding_dashboard.projects.onboarding.scanned',
@@ -57,27 +52,18 @@ export function getOnboardingBadge(project: OnboardingProject): BadgeConfig {
 }
 
 export function getAnalysisModeBadge(project: OnboardingProject): BadgeConfig | undefined {
-  if (project.onboarding === OnboardingProjectOnboarding.NotImported) {
-    return undefined;
-  }
-  switch (project.scanMethod) {
-    case OnboardingProjectScanMethod.Ci:
+  switch (project.analysisMode) {
+    case OnboardingProjectAnalysisMode.Ci:
       return {
         variety: BadgeVariety.Info,
         labelKey: 'onboarding_dashboard.projects.analysis.full_ci',
       };
-    case OnboardingProjectScanMethod.Managed:
+    case OnboardingProjectAnalysisMode.Automatic:
       return {
         variety: BadgeVariety.Warning,
         labelKey: 'onboarding_dashboard.projects.analysis.autoscan',
       };
-    case OnboardingProjectScanMethod.Local:
-      return {
-        variety: BadgeVariety.Highlight,
-        labelKey: 'onboarding_dashboard.projects.analysis.local',
-      };
-    case null:
-    default:
+    case OnboardingProjectAnalysisMode.None:
       return undefined;
   }
 }

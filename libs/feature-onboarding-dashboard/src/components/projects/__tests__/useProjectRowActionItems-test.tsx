@@ -25,10 +25,10 @@ import { getContextWrapper } from '~adapters/helpers/test-utils';
 import {
   OnboardingDevopsPlatform,
   OnboardingProject,
+  OnboardingProjectAnalysisMode,
   OnboardingProjectGateStatus,
-  OnboardingProjectOnboarding,
   OnboardingProjectScanHealth,
-  OnboardingProjectScanMethod,
+  OnboardingProjectScanStatus,
 } from '~shared/types/onboarding';
 import { useRerunAutomaticAnalysisMutation } from '../projectRowActionMutations';
 import { ProjectRowAction } from '../projectRowActions';
@@ -48,14 +48,12 @@ const PROJECT_KEY = 'identity-lib';
 /** Analysed by automatic analysis: the state whose menu offers the most actions. */
 const AUTOSCANNED_PROJECT: OnboardingProject = {
   alm: OnboardingDevopsPlatform.Github,
+  analysisMode: OnboardingProjectAnalysisMode.Automatic,
   gateStatus: OnboardingProjectGateStatus.Passed,
-  isPrivate: false,
   key: PROJECT_KEY,
   name: PROJECT_KEY,
-  onboarding: OnboardingProjectOnboarding.Analysed,
   scanHealth: OnboardingProjectScanHealth.Healthy,
-  scanMethod: OnboardingProjectScanMethod.Managed,
-  stale: false,
+  scanStatus: OnboardingProjectScanStatus.Scanned,
 };
 
 const rerunAutomaticAnalysis = jest.fn();
@@ -135,24 +133,4 @@ it('opens the confirmation modal instead of restoring access straight away', () 
   activate(items, ProjectRowAction.RestoreAccess);
 
   expect(onRestoreAccess).toHaveBeenCalled();
-});
-
-it('keeps only the import entry for a repository that has no project yet', () => {
-  const items = renderProjectRowActionItems({
-    ...AUTOSCANNED_PROJECT,
-    key: null,
-    onboarding: OnboardingProjectOnboarding.NotImported,
-    scanMethod: null,
-  });
-
-  // Every other entry needs a project key, so the import page is all this row can lead to.
-  expect(items.map(({ action }) => action)).toEqual([ProjectRowAction.ImportRepository]);
-});
-
-it('offers nothing at all when an analysed project comes back without a key', () => {
-  const items = renderProjectRowActionItems({ ...AUTOSCANNED_PROJECT, key: null });
-
-  // Not a state the backend reports, but every entry of this menu addresses a project by key, so
-  // each one is dropped rather than rendered as a broken link.
-  expect(items).toEqual([]);
 });

@@ -30,7 +30,6 @@ import {
 import { registerServiceMocks } from '~shared/api/mocks/server';
 import { renderWithRoutes } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
-import { OnboardingProjectGateStatus } from '~shared/types/onboarding';
 import routes from '../../routes';
 import { NO_DATA } from '../dashboardConstants';
 
@@ -168,16 +167,11 @@ const ui = {
     name: 'onboarding_dashboard.projects.filter.analysis_mode.label',
   }),
   scannedOption: byRole('option', { name: 'onboarding_dashboard.projects.filter.scanned' }),
-  // The "Not imported" option is backed by the `not_onboarded` wire token.
-  notImportedOption: byRole('option', {
-    name: 'onboarding_dashboard.projects.filter.not_onboarded',
-  }),
+  notScannedOption: byRole('option', { name: 'onboarding_dashboard.projects.filter.not_scanned' }),
   ciOption: byRole('option', { name: 'onboarding_dashboard.projects.filter.ci' }),
   colRepository: byText('onboarding_dashboard.projects.col.repository'),
   colScanStatus: byText('onboarding_dashboard.projects.col.onboarding'),
   colAnalysisMode: byText('onboarding_dashboard.projects.col.analysis_mode'),
-  colGateStatus: byText('onboarding_dashboard.projects.col.gate_status'),
-  // Both tables carry the actions column, so this one has to be scoped to the all-projects table.
   colActions: byRole('table', { name: 'onboarding_dashboard.projects.title' }).byText(
     'onboarding_dashboard.projects.col.actions',
   ),
@@ -192,9 +186,6 @@ const ui = {
       name: `onboarding_dashboard.projects.actions.label.${projectName}`,
     }),
   rowActionItems: byRole('menuitem'),
-  importRepositoryAction: byRole('menuitem', {
-    name: 'onboarding_dashboard.projects.action.import_repository',
-  }),
   configureCiAction: byRole('menuitem', {
     name: 'onboarding_dashboard.projects.action.configure_ci',
   }),
@@ -222,25 +213,6 @@ const ui = {
   notScannedCta: byRole('button', {
     name: 'onboarding_dashboard.journey.analyze.not_scanned.cta',
   }),
-  fullCiCta: byRole('button', {
-    name: 'onboarding_dashboard.journey.analyze.full_ci.cta',
-  }),
-
-  // Stale projects table ("Commits not being scanned")
-  staleTitle: byText('onboarding_dashboard.stale.title'),
-  staleTable: byRole('table', { name: 'onboarding_dashboard.stale.title' }),
-  staleTableColumnHeaders: byRole('table', {
-    name: 'onboarding_dashboard.stale.title',
-  }).byRole('columnheader'),
-  staleSearchInput: byRole('searchbox', { name: 'onboarding_dashboard.stale.search' }),
-  staleColProject: byText('onboarding_dashboard.stale.col.project'),
-  staleColGateStatus: byText('onboarding_dashboard.stale.col.gate_status'),
-  staleColLastScan: byText('onboarding_dashboard.stale.col.last_scan'),
-  staleGateStatusFilter: byRole('combobox', {
-    name: 'onboarding_dashboard.stale.filter.gate_status.label',
-  }),
-  gateFailedOption: byRole('option', { name: 'metric.level.ERROR' }),
-  staleLoading: byText('onboarding_dashboard.stale.loading'),
 };
 
 function renderOnboardingDashboard() {
@@ -328,35 +300,35 @@ describe.skip('OnboardingDashboardApp', () => {
     expect(ui.devopsGithubBar.get()).toBeInTheDocument();
   });
 
-  it('renders the all-projects table with the four redesigned columns and the actions column', async () => {
+  it('renders the all-projects table with the three redesigned columns and the actions column', async () => {
     renderOnboardingDashboard();
 
     expect(await ui.projectsTable.find()).toBeInTheDocument();
     expect(ui.colRepository.get()).toBeInTheDocument();
     expect(ui.colScanStatus.get()).toBeInTheDocument();
     expect(ui.colAnalysisMode.get()).toBeInTheDocument();
-    expect(ui.colGateStatus.get()).toBeInTheDocument();
 
     // The actions column header is only exposed to assistive technology — the design shows it blank.
     expect(ui.colActions.get()).toBeInTheDocument();
 
-    // Five — the legacy "last scan" and "test coverage" columns went away with the old table and
-    // must not creep back in.
-    expect(ui.projectsTableColumnHeaders.getAll()).toHaveLength(5);
+    // Four — gate status isn't part of the backend contract yet (PROJECT_HEALTH_FEATURE_ENABLED is
+    // off), so its column must not appear.
+    expect(ui.projectsTableColumnHeaders.getAll()).toHaveLength(4);
   });
 
-  it('offers only the import action on a row whose repository is not imported yet', async () => {
+  it('offers the first-scan actions on a row that has not been scanned yet', async () => {
     const user = setupUser();
     renderOnboardingDashboard();
 
     expect(await ui.repoPlatformJobs.find()).toBeInTheDocument();
 
-    // platform-jobs is NOT_IMPORTED. The fixture still reports a CI scan method for it, so a menu
-    // built from the analysis mode alone would wrongly offer the CI actions here.
+    // platform-jobs has never been scanned.
     await user.click(ui.rowActionsButton('platform-jobs').get());
 
-    expect(await ui.importRepositoryAction.find()).toBeInTheDocument();
-    expect(ui.rowActionItems.getAll()).toHaveLength(1);
+    expect(await ui.configureCiAction.find()).toBeInTheDocument();
+    expect(ui.restoreAccessAction.get()).toBeInTheDocument();
+    expect(ui.viewProjectAction.get()).toBeInTheDocument();
+    expect(ui.rowActionItems.getAll()).toHaveLength(3);
   });
 
   it('offers the automatic-analysis actions on a row scanned by autoscan', async () => {
@@ -365,8 +337,7 @@ describe.skip('OnboardingDashboardApp', () => {
 
     expect(await ui.repoWebCore.find()).toBeInTheDocument();
 
-    // identity-lib is ANALYSED by automatic analysis (MANAGED). It is also stale, so it appears in
-    // both tables — scope the trigger lookup to the all-projects one.
+    // identity-lib is scanned by automatic analysis.
     await user.click(ui.projectsTable.byRole('button', { name: /identity-lib/ }).get());
 
     expect(await ui.configureCiAction.find()).toBeInTheDocument();
@@ -381,27 +352,22 @@ describe.skip('OnboardingDashboardApp', () => {
     expect(ui.rowActionItems.getAll()).toHaveLength(AUTOSCANNED_ROW_ENTRIES);
   });
 
-  it('hides both project cards when the organization has no project at all', async () => {
+  it('hides the all-projects card when the organization has no project at all', async () => {
     onboardingMock.setProjects([]);
     renderOnboardingDashboard();
 
     expect(await ui.headerSubtitle.find()).toBeInTheDocument();
 
-    // Each card announces its own loading state while its query runs, so waiting for both
-    // announcements to clear is what tells us the tables had their chance to render.
+    // The card announces its own loading state while its query runs, so waiting for that
+    // announcement to clear is what tells us the table had its chance to render.
     await waitFor(() => {
       expect(ui.projectsLoading.query()).not.toBeInTheDocument();
     });
-    await waitFor(() => {
-      expect(ui.staleLoading.query()).not.toBeInTheDocument();
-    });
 
-    // Nothing to show and nothing the user could widen: both cards go away entirely rather than
-    // leaving empty tables behind.
+    // Nothing to show and nothing the user could widen: the card goes away entirely rather than
+    // leaving an empty table behind.
     expect(ui.projectsTitle.query()).not.toBeInTheDocument();
     expect(ui.projectsTable.query()).not.toBeInTheDocument();
-    expect(ui.staleTitle.query()).not.toBeInTheDocument();
-    expect(ui.staleTable.query()).not.toBeInTheDocument();
   });
 
   it('keeps the all-projects table, with a no-data row, when the search empties it', async () => {
@@ -413,11 +379,11 @@ describe.skip('OnboardingDashboardApp', () => {
     await search(user, ui.searchInput.get(), 'no-such-repository');
 
     // The card stays so the search box that emptied it remains reachable, showing one em-dash
-    // placeholder per column, actions included. Polled rather than awaited once: the not-imported
-    // row listed before the search already carries em-dashes of its own, which a single `findAll`
-    // would happily match while the debounced search is still in flight.
+    // placeholder per column, actions included. Polled rather than awaited once: the row listed
+    // before the search already carries em-dashes of its own, which a single `findAll` would
+    // happily match while the debounced search is still in flight.
     await waitFor(() => {
-      expect(ui.projectsTable.byText(NO_DATA).getAll()).toHaveLength(5);
+      expect(ui.projectsTable.byText(NO_DATA).getAll()).toHaveLength(4);
     });
   });
 
@@ -440,9 +406,9 @@ describe.skip('OnboardingDashboardApp', () => {
     await user.clear(ui.searchInput.get());
     expect(await ui.repoWebCore.find()).toBeInTheDocument();
 
-    // Picking "Not imported" keeps only NOT_IMPORTED projects
+    // Picking "Not scanned" keeps only projects that have never been scanned
     await user.click(ui.scanStatusFilter.get());
-    await user.click(await ui.notImportedOption.find());
+    await user.click(await ui.notScannedOption.find());
     await waitFor(() => {
       expect(ui.repoWebCore.query()).not.toBeInTheDocument();
     });
@@ -453,15 +419,16 @@ describe.skip('OnboardingDashboardApp', () => {
     const user = setupUser();
     renderOnboardingDashboard();
 
-    // Of the three analysed fixture projects, only payments-gateway is also scanned by CI —
-    // web-core is LOCAL and identity-lib is MANAGED. Both tokens must reach the backend together
-    // (`filter=scanned,ci`) for this to hold; sending only the last one picked would keep all three.
+    // Of the three scanned fixture projects, only payments-gateway is also analysed by CI —
+    // web-core and identity-lib are not. Both params must reach the backend together for this to
+    // hold; sending only the last one picked would keep all three.
     expect(await ui.repoWebCore.find()).toBeInTheDocument();
 
     await user.click(ui.scanStatusFilter.get());
     await user.click(await ui.scannedOption.find());
 
-    // platform-jobs is NOT_IMPORTED, so the scan-status token alone already excludes it.
+    // platform-jobs and mobile-worker are not scanned, so the scan-status filter alone already
+    // excludes them.
     await waitFor(() => {
       expect(ui.repoPlatformJobs.query()).not.toBeInTheDocument();
     });
@@ -541,117 +508,17 @@ describe.skip('OnboardingDashboardApp', () => {
     expect(await ui.projectsTable.byText('repo-0').find()).toBeInTheDocument();
   });
 
-  it('renders the stale-projects table above the all-projects table', async () => {
+  it('does not render the stale-projects card — STALE_PROJECTS_FEATURE_ENABLED is off', async () => {
     renderOnboardingDashboard();
 
-    const staleTable = await ui.staleTable.find();
-    const projectsTable = ui.projectsTable.get();
-
-    // The "Commits not being scanned" card sits above "All projects" in the journey column.
-    // getAll() returns matches in document order, so comparing indices asserts the ordering.
-    const tablesInDocumentOrder = byRole('table').getAll();
-    expect(tablesInDocumentOrder.indexOf(staleTable)).toBeLessThan(
-      tablesInDocumentOrder.indexOf(projectsTable),
-    );
-
-    expect(ui.staleColProject.get()).toBeInTheDocument();
-    expect(ui.staleColGateStatus.get()).toBeInTheDocument();
-    expect(ui.staleColLastScan.get()).toBeInTheDocument();
-
-    // Project / Gate status / Last scan plus the actions column — the design's "Commits" column has
-    // no backing data yet.
-    expect(ui.staleTableColumnHeaders.getAll()).toHaveLength(4);
-  });
-
-  it('lists only stale projects in the stale-projects table, with their last scan date', async () => {
-    renderOnboardingDashboard();
-
-    // payments-gateway is flagged stale in the fixture; web-core is not.
-    expect(await ui.staleTable.byText('payments-gateway').find()).toBeInTheDocument();
-    expect(ui.staleTable.byText('web-core').query()).not.toBeInTheDocument();
-
-    // web-core is still listed by the all-projects table, which has no stale filter.
-    expect(ui.projectsTable.byText('web-core').get()).toBeInTheDocument();
-
-    // The last scan is rendered as an absolute date badge (lastScan 1740528000000 → 26 Feb 2025).
-    expect(ui.staleTable.byText('Feb 26, 2025').get()).toBeInTheDocument();
-  });
-
-  it('filters the stale-projects table by search', async () => {
-    const user = setupUser();
-    renderOnboardingDashboard();
-
-    expect(await ui.staleTable.byText('payments-gateway').find()).toBeInTheDocument();
-    expect(ui.staleTable.byText('identity-lib').get()).toBeInTheDocument();
-
-    // Search is debounced and applied server-side, on top of the stale filter.
-    await search(user, ui.staleSearchInput.get(), 'identity-lib');
-    await waitFor(() => {
-      expect(ui.staleTable.byText('payments-gateway').query()).not.toBeInTheDocument();
-    });
-    expect(ui.staleTable.byText('identity-lib').get()).toBeInTheDocument();
-  });
-
-  it('ANDs the hardcoded stale filter with the gate-status dropdown', async () => {
-    const user = setupUser();
-
-    // web-core (third in the fixture) fails its gate but isn't stale, so it must stay out of this
-    // table even once the dropdown asks for failing gates — proof that `stale` is still sent
-    // alongside `gate_failed`.
-    const [platformJobs, paymentsGateway, webCore, ...others] = mockOnboardingProjects();
-    onboardingMock.setProjects([
-      platformJobs,
-      paymentsGateway,
-      { ...webCore, gateStatus: OnboardingProjectGateStatus.Failed },
-      ...others,
-    ]);
-    renderOnboardingDashboard();
-
-    // All three stale fixture projects are listed, one per gate status.
-    expect(await ui.staleTable.byText('payments-gateway').find()).toBeInTheDocument();
-    expect(ui.staleTable.byText('identity-lib').get()).toBeInTheDocument();
-    expect(ui.staleTable.byText('mobile-worker').get()).toBeInTheDocument();
-
-    await user.click(ui.staleGateStatusFilter.get());
-    await user.click(await ui.gateFailedOption.find());
-
-    // payments-gateway is the only project that is both stale and failing its gate.
-    await waitFor(() => {
-      expect(ui.staleTable.byText('identity-lib').query()).not.toBeInTheDocument();
-    });
-    expect(ui.staleTable.byText('mobile-worker').query()).not.toBeInTheDocument();
-    expect(ui.staleTable.byText('web-core').query()).not.toBeInTheDocument();
-    expect(ui.staleTable.byText('payments-gateway').get()).toBeInTheDocument();
-  });
-
-  it('hides the stale-projects card when nothing is stale', async () => {
-    onboardingMock.setProjects(
-      mockOnboardingProjects().map((project) => ({ ...project, stale: false })),
-    );
-    renderOnboardingDashboard();
-
-    // The all-projects table still lists every project, so its content is a reliable signal that the
-    // project queries have resolved — at which point the stale card must be gone rather than left
-    // behind as an empty shell.
+    // The all-projects table's content is a reliable signal that the project queries have
+    // resolved, at which point the stale card — which has no backing data yet — must be absent.
     expect(await ui.projectsTable.byText('web-core').find()).toBeInTheDocument();
 
-    expect(ui.staleTitle.query()).not.toBeInTheDocument();
-    expect(ui.staleTable.query()).not.toBeInTheDocument();
-  });
-
-  it('keeps the stale-projects table, with a no-data row, when the search empties it', async () => {
-    const user = setupUser();
-    renderOnboardingDashboard();
-
-    expect(await ui.staleTable.byText('payments-gateway').find()).toBeInTheDocument();
-
-    await search(user, ui.staleSearchInput.get(), 'no-such-repository');
-
-    // An empty result the user brought about themselves has to keep its card, or the search box that
-    // caused it disappears along with it. One em-dash placeholder per column, actions included.
-    await waitFor(() => {
-      expect(ui.staleTable.byText(NO_DATA).getAll()).toHaveLength(4);
-    });
+    expect(byText('onboarding_dashboard.stale.title').query()).not.toBeInTheDocument();
+    expect(
+      byRole('table', { name: 'onboarding_dashboard.stale.title' }).query(),
+    ).not.toBeInTheDocument();
   });
 
   it('renders the detail panel for the active step and swaps it when another step is selected', async () => {
@@ -684,7 +551,7 @@ describe.skip('OnboardingDashboardApp', () => {
   it('shows the single-series chart and the "unlock more" placeholder before any import', async () => {
     onboardingMock.setOverview(
       mockOnboardingOverview({
-        repositoriesDiscovered: { discovered: 301, imported: 0, notYetImported: 301, byAlm: [] },
+        repositories: { discovered: 301, imported: 0, percent: null },
       }),
     );
     renderOnboardingDashboard();
@@ -701,11 +568,8 @@ describe.skip('OnboardingDashboardApp', () => {
   });
 
   it('replaces the chart with the "unlock statistics" placeholder while the org is unbound', async () => {
-    // No bound DevOps platform: deriveJourneyState reports the Unbound level.
-    onboardingMock.setOverview({
-      ...mockOnboardingOverview(),
-      devopsPlatforms: { total: 0, shares: [] },
-    });
+    // No configured DevOps platform: deriveJourneyState reports the Unbound level.
+    onboardingMock.setOverview(mockOnboardingOverview({ devopsPlatforms: { configured: 0 } }));
     renderOnboardingDashboard();
 
     expect(await ui.lockedStatsTitle.find()).toBeInTheDocument();
@@ -750,11 +614,10 @@ it('opens the "configure projects" modal when clicking the not-scanned CTA', asy
   expect(await ui.configureModal.find()).toBeInTheDocument();
 });
 
-it('opens the "configure projects" modal when clicking the full-CI CTA', async () => {
-  const user = setupUser();
-
+it('shows an error message instead of silently dropping the DevOps platforms card when statistics fail', async () => {
+  onboardingMock.setFailStatistics(true);
   renderOnboardingDashboard();
-  await user.click(await ui.fullCiCta.find());
 
-  expect(await ui.configureModal.find()).toBeInTheDocument();
+  expect(await ui.error.find()).toBeInTheDocument();
+  expect(ui.devopsTitle.query()).not.toBeInTheDocument();
 });

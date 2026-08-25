@@ -25,7 +25,7 @@ import { useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { isDefined } from '~shared/helpers/types';
 import { useResizeObserver } from '~shared/helpers/useResizeObserver';
-import { OnboardingMomentum } from '~shared/types/onboarding';
+import { OnboardingTimelinePoint } from '~shared/types/onboarding';
 
 const MIN_HEIGHT = 200;
 const MARGIN = { top: 16, right: 16, bottom: 28, left: 40 };
@@ -54,16 +54,16 @@ interface Series {
 }
 
 interface Props {
-  momentum: OnboardingMomentum;
   showImportedSeries: boolean;
+  timeline: OnboardingTimelinePoint[];
 }
 
 /**
- * "Onboarding over time" card: the weekly onboarding history as a line chart. The legend — and the
+ * "Onboarding over time" card: the monthly onboarding history as a line chart. The legend — and the
  * plotted series — grow with the journey level: the platforms-bound series is always shown, the
  * repositories-imported series only once at least one repository has been imported.
  */
-export function OnboardingOverTimeCard({ momentum, showImportedSeries }: Readonly<Props>) {
+export function OnboardingOverTimeCard({ showImportedSeries, timeline }: Readonly<Props>) {
   const { formatMessage } = useIntl();
 
   return (
@@ -73,29 +73,26 @@ export function OnboardingOverTimeCard({ momentum, showImportedSeries }: Readonl
         title={formatMessage({ id: 'onboarding_dashboard.journey.overtime.title' })}
       />
       <Card.Body className="sw-flex sw-min-h-0 sw-grow sw-flex-col">
-        <OverTimeChart momentum={momentum} showImportedSeries={showImportedSeries} />
+        <OverTimeChart showImportedSeries={showImportedSeries} timeline={timeline} />
       </Card.Body>
     </Card>
   );
 }
 
 /**
- * Builds the plotted series from the weekly history. Every series shares the same x values, so the
- * first one doubles as the x-axis reference.
+ * Builds the plotted series from the monthly timeline. Every series shares the same x values, so
+ * the first one doubles as the x-axis reference.
  *
- * ⚠️ ASSUMPTION: the overview exposes no per-week platform-binding history, so the
- * "Platforms bound" series is approximated by the cumulative onboarded count. Revisit once the
+ * ⚠️ ASSUMPTION: the statistics endpoint exposes no platform-binding history, so the
+ * "Platforms bound" series is approximated by the scanned-projects count. Revisit once the
  * backend exposes a dedicated series.
  */
-function buildSeries(
-  weeks: OnboardingMomentum['weeklyHistory'],
-  showImportedSeries: boolean,
-): Series[] {
+function buildSeries(points: OnboardingTimelinePoint[], showImportedSeries: boolean): Series[] {
   const series: Series[] = [
     {
       color: COLOR_PLATFORMS,
       labelId: 'onboarding_dashboard.journey.overtime.legend.platforms_bound',
-      points: weeks.map((week) => ({ x: new Date(week.weekStart), y: week.cumulativeOnboarded })),
+      points: points.map((point) => ({ x: new Date(point.date), y: point.projectsScanned })),
     },
   ];
 
@@ -103,7 +100,7 @@ function buildSeries(
     series.push({
       color: COLOR_IMPORTED,
       labelId: 'onboarding_dashboard.journey.overtime.legend.repositories_imported',
-      points: weeks.map((week) => ({ x: new Date(week.weekStart), y: week.cumulativeImported })),
+      points: points.map((point) => ({ x: new Date(point.date), y: point.repositoriesImported })),
     });
   }
 
@@ -111,19 +108,19 @@ function buildSeries(
 }
 
 interface ChartProps {
-  momentum: OnboardingMomentum;
   showImportedSeries: boolean;
+  timeline: OnboardingTimelinePoint[];
 }
 
-function OverTimeChart({ momentum, showImportedSeries }: Readonly<ChartProps>) {
+function OverTimeChart({ showImportedSeries, timeline }: Readonly<ChartProps>) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, height] = useResizeObserver(containerRef);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
-  const weeks = [...momentum.weeklyHistory].sort((a, b) => a.weekStart - b.weekStart);
-  const series = buildSeries(weeks, showImportedSeries);
+  const points = [...timeline].sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
+  const series = buildSeries(points, showImportedSeries);
   const chartHeight = Math.max(height ?? 0, MIN_HEIGHT);
-  const canRender = width !== undefined && width > 0 && weeks.length > 0;
+  const canRender = width !== undefined && width > 0 && points.length > 0;
 
   return (
     <div className="sw-flex sw-h-full sw-flex-col sw-gap-4">

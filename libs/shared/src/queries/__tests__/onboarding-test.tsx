@@ -26,10 +26,7 @@ import {
   mockOnboardingProjects,
 } from '../../api/mocks/OnboardingServiceMock';
 import { getOnboardingOverview, getOnboardingProjects } from '../../api/onboarding';
-import {
-  OnboardingProjectsResponse,
-  OnboardingProjectsScanStatusFilter,
-} from '../../types/onboarding';
+import { OnboardingProjectScanStatus, OnboardingProjectsResponse } from '../../types/onboarding';
 import { useOnboardingOverviewQuery, useOnboardingProjectsQuery } from '../onboarding';
 
 jest.mock('../../api/onboarding', () => ({
@@ -44,20 +41,6 @@ function mockProjectsResponse(
 ): OnboardingProjectsResponse {
   const projects = mockOnboardingProjects();
   return {
-    filterCounts: {
-      all: projects.length,
-      // eslint-disable-next-line camelcase
-      fully_onboarded: 0,
-      // eslint-disable-next-line camelcase
-      needs_attention: 0,
-      // eslint-disable-next-line camelcase
-      not_onboarded: 0,
-      // eslint-disable-next-line camelcase
-      failed_scans: 0,
-      autoscan: 0,
-      stale: 0,
-      local: 0,
-    },
     page: { pageIndex: 1, pageSize: 50, total: projects.length },
     projects,
     ...overrides,
@@ -140,7 +123,7 @@ describe('useOnboardingProjectsQuery', () => {
     jest.mocked(getOnboardingProjects).mockResolvedValue(response);
 
     const params = {
-      filters: [OnboardingProjectsScanStatusFilter.Scanned],
+      scanStatus: OnboardingProjectScanStatus.Scanned,
       pageIndex: 1,
       pageSize: 50,
       q: 'web',
@@ -197,7 +180,7 @@ describe('useOnboardingProjectsQuery', () => {
     jest.mocked(getOnboardingProjects).mockRejectedValue(new Error('boom'));
 
     const params = {
-      filters: [OnboardingProjectsScanStatusFilter.Scanned],
+      scanStatus: OnboardingProjectScanStatus.Scanned,
       pageIndex: 1,
       pageSize: 50,
     };

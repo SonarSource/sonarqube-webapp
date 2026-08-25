@@ -22,22 +22,25 @@ import { API_V2_BASE_URL } from '~adapters/helpers/urls';
 import { axiosClient } from '../helpers/axios-clients';
 import {
   OnboardingOverview,
-  OnboardingProjectsFilter,
+  OnboardingProjectAnalysisMode,
+  OnboardingProjectScanStatus,
   OnboardingProjectsResponse,
+  OnboardingStatistics,
 } from '../types/onboarding';
 
 const ONBOARDING_PATH = `${API_V2_BASE_URL}/onboarding`;
 const ONBOARDING_OVERVIEW_PATH = `${ONBOARDING_PATH}/overview`;
+const ONBOARDING_STATISTICS_PATH = `${ONBOARDING_PATH}/statistics`;
 const ONBOARDING_PROJECTS_PATH = `${ONBOARDING_PATH}/projects`;
 
 export interface OnboardingProjectsQuery {
-  /** AND-ed filter tokens, serialized as the comma-separated `filter` param. */
-  filters?: OnboardingProjectsFilter[];
+  analysisMode?: OnboardingProjectAnalysisMode;
   /** Only sent by SQ-Cloud, where the feature is scoped to an organization. */
   organizationKey?: string;
   pageIndex?: number;
   pageSize?: number;
   q?: string;
+  scanStatus?: OnboardingProjectScanStatus;
 }
 
 /** Only sent by SQ-Cloud, where the feature is scoped to an organization. */
@@ -49,11 +52,11 @@ export function getOnboardingOverview(params: OnboardingOverviewQuery = {}) {
   return axiosClient.get<OnboardingOverview>(ONBOARDING_OVERVIEW_PATH, { params });
 }
 
-export function getOnboardingProjects({ filters, ...params }: OnboardingProjectsQuery = {}) {
-  return axiosClient.get<OnboardingProjectsResponse>(ONBOARDING_PROJECTS_PATH, {
-    params: {
-      ...params,
-      filter: filters !== undefined && filters.length > 0 ? filters.join(',') : undefined,
-    },
-  });
+/** Adoption history and DevOps platform breakdown — the sections not carried by the overview. */
+export function getOnboardingStatistics(params: OnboardingOverviewQuery = {}) {
+  return axiosClient.get<OnboardingStatistics>(ONBOARDING_STATISTICS_PATH, { params });
+}
+
+export function getOnboardingProjects(params: OnboardingProjectsQuery = {}) {
+  return axiosClient.get<OnboardingProjectsResponse>(ONBOARDING_PROJECTS_PATH, { params });
 }

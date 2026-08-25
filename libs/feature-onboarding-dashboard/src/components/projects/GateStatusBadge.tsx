@@ -39,7 +39,7 @@ const GATE_STATUS_CONFIG: Record<OnboardingProjectGateStatus, { color: string; l
   };
 
 interface Props {
-  status: OnboardingProjectGateStatus | null;
+  status?: OnboardingProjectGateStatus;
 }
 
 export function GateStatusBadge({ status }: Readonly<Props>) {
