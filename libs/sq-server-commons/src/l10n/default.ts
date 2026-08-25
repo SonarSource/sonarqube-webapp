@@ -10347,6 +10347,9 @@ export const defaultMessages = {
   'license.callout.activated.suggestion':
     'Your SonarQube license is active. You have full access to all the features and capabilities included in your edition.',
   'license.callout.activated.title': 'License successfully activated',
+  'license.callout.new_products.suggestion':
+    "You've added new products to this instance. Enable each product individually in the Active products table before you can start using it.",
+  'license.callout.new_products.title': 'Enable your new products',
   'license.callout.expired.suggestion.grace_period':
     "We've granted you a {days}-day grace period so you can continue using all your features without interruption. To maintain full access, please set a new license or refresh your current one",
   'license.callout.expired.suggestion':
