@@ -21,9 +21,9 @@
 import { queryOptions, useQueryClient } from '@tanstack/react-query';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { createQueryHook, StaleTime } from '~shared/queries/common';
+import { BranchLikeBase } from '~shared/types/branch-like';
 import { Measure } from '~shared/types/measures';
 import { getMeasuresWithPeriodAndMetrics } from '../../api/measures';
-import { BranchLike } from '../../types/branch-like';
 
 export const useMeasuresComponentQuery = createQueryHook(
   ({
@@ -31,7 +31,7 @@ export const useMeasuresComponentQuery = createQueryHook(
     metricKeys,
     branchLike,
   }: {
-    branchLike?: BranchLike;
+    branchLike?: BranchLikeBase;
     componentKey: string;
     metricKeys: string[];
   }) => {

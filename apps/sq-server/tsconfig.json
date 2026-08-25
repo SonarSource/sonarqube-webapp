@@ -6,6 +6,7 @@
 
       /* shared libraries aliases, following token is used in the nx shared-library generator */
       /* <<shared-libraries-aliases>> */
+      "~feature-compliance-reports/*": ["../../private/libs/feature-compliance-reports/src/*"],
       "~feature-hunter-agent/*": ["../../private/libs/feature-hunter-agent/src/*"],
       "~feature-remediation-agent/*": ["../../private/libs/feature-remediation-agent/src/*"],
       "~feature-onboarding-dashboard/*": ["../../libs/feature-onboarding-dashboard/src/*"],

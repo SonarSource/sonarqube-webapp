@@ -20,6 +20,10 @@
 
 import { SecurityStandardOptionGroup, StandardsInformationKey } from '../types/security';
 import {
+  ComplianceReportFilter,
+  type ComplianceReportNavigationCategory,
+} from './compliance-report-filter';
+import {
   STANDARDS_REGISTRY,
   type CategoryNormalization,
   type StandardDefinition,
@@ -306,6 +310,36 @@ export function getStandardUrl(securityStandard: string): string | undefined {
     (def) => getSecurityStandardValue(def) === securityStandard,
   );
   return definition?.url;
+}
+
+// Navigation filter tags per security standard, keyed by the registry's standard-level
+// enumKey (categories are a per-standard fact, identical across versions and products).
+// Mirrors the tags on SonarQube Server's security-reports registry so the shared compliance
+// report sidebar can filter security standards alongside MISRA/WCAG compliance reports.
+const NAVIGATION_CATEGORIES_BY_ENUM_KEY: Record<
+  string,
+  readonly ComplianceReportNavigationCategory[]
+> = {
+  CASA: [ComplianceReportFilter.Security],
+  CRA: [ComplianceReportFilter.Security, ComplianceReportFilter.Regulatory],
+  CWE_TOP_25: [ComplianceReportFilter.Security],
+  OWASP_ASVS: [ComplianceReportFilter.Security],
+  OWASP_LLM_TOP10: [ComplianceReportFilter.Security],
+  OWASP_MASVS: [ComplianceReportFilter.Security],
+  OWASP_MOBILE_TOP10: [ComplianceReportFilter.Security],
+  OWASP_TOP10: [ComplianceReportFilter.Security],
+  PCI_DSS: [ComplianceReportFilter.Security, ComplianceReportFilter.Regulatory],
+  SONARSOURCE: [ComplianceReportFilter.Security],
+  STIG: [ComplianceReportFilter.Security, ComplianceReportFilter.Regulatory],
+};
+
+export function getStandardNavigationCategories(
+  securityStandard: string,
+): readonly ComplianceReportNavigationCategory[] {
+  const definition = STANDARDS_REGISTRY.find(
+    (def) => getSecurityStandardValue(def) === securityStandard,
+  );
+  return definition ? (NAVIGATION_CATEGORIES_BY_ENUM_KEY[definition.enumKey] ?? []) : [];
 }
 
 export function getDefaultPdfStandards(): string[] {

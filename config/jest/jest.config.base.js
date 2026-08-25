@@ -109,6 +109,7 @@ const projectConfig = {
 
     // Shared libraries aliases, following token is used in the nx shared-library generator
     // <<shared-libraries-aliases>>
+    '^~feature-compliance-reports/(.+)': '<rootDir>/private/libs/feature-compliance-reports/src/$1',
     '^~feature-hunter-agent/(.+)': '<rootDir>/private/libs/feature-hunter-agent/src/$1',
     '^~feature-remediation-agent/(.+)': '<rootDir>/private/libs/feature-remediation-agent/src/$1',
     '^~feature-quality-gate-history/(.+)': '<rootDir>/libs/feature-quality-gate-history/src/$1',

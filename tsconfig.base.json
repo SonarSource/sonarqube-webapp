@@ -43,6 +43,7 @@
       "~feature-dashboards/*": ["./libs/feature-dashboards/src/*"],
       "~feature-onboarding-dashboard/*": ["./libs/feature-onboarding-dashboard/src/*"],
       "~feature-quality-gate-history/*": ["./libs/feature-quality-gate-history/src/*"],
+      "~feature-compliance-reports/*": ["./private/libs/feature-compliance-reports/src/*"],
       "~feature-hunter-agent/*": ["./private/libs/feature-hunter-agent/src/*"]
     },
     "types": ["node", "vite/client", "jest", "@testing-library/jest-dom"],

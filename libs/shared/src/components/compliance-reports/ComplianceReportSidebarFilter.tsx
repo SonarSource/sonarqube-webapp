@@ -28,18 +28,13 @@ import {
   Text,
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
+import { ComplianceReportFilter } from '../../helpers/compliance-report-filter';
 
-export enum ComplianceReportFilter {
-  All = 'all',
-  Security = 'security',
-  Regulatory = 'regulatory',
-  Accessibility = 'accessibility',
-}
-
-export type ComplianceReportNavigationCategory = Exclude<
-  ComplianceReportFilter,
-  ComplianceReportFilter.All
->;
+// Re-exported so existing consumers can keep importing the filter enum/type from the filter
+// component. The canonical home is the plain helper, which non-React modules (e.g. the
+// security-standards registry) can import without dragging in React.
+export { ComplianceReportFilter } from '../../helpers/compliance-report-filter';
+export type { ComplianceReportNavigationCategory } from '../../helpers/compliance-report-filter';
 
 const FilterHeading = styled(Heading)`
   line-height: ${cssVar('line-height-20')};

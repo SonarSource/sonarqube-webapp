@@ -41,7 +41,12 @@ import { HomePage } from '../types/users';
 import { SonarSourceLink } from './doc-links';
 import { serializeOptionalBoolean } from './query';
 
-export { getFormattingHelpUrl, getRulesUrl, PROJECT_BASE_URL } from '~adapters/helpers/urls';
+export {
+  getFormattingHelpUrl,
+  getProjectInformationUrl,
+  getProjectQualityProfileSettingsUrl,
+  getRulesUrl,
+} from '~adapters/helpers/urls';
 export { getHostUrl, getPathUrlAsString, getRuleUrl } from '~shared/helpers/urls';
 
 export interface Location {
@@ -153,20 +158,6 @@ export function getApplicationAdminUrl(key: string): To {
   return {
     pathname: '/project/admin/extension/developer-server/application-console',
     search: queryToSearchString({ id: key }),
-  };
-}
-
-export function getProjectQualityProfileSettingsUrl(project: string): To {
-  return {
-    pathname: '/project/quality_profiles',
-    search: queryToSearchString({ id: project }),
-  };
-}
-
-export function getProjectInformationUrl(project: string): To {
-  return {
-    pathname: '/project/information',
-    search: queryToSearchString({ id: project }),
   };
 }
 

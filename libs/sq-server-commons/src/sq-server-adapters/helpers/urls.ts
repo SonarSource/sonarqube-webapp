@@ -57,3 +57,20 @@ export const PROJECT_SUMMARY_BASE_URL = '/dashboard';
 export const ALM_ICONS_BASE_URL = 'images/alm';
 
 export const MERGE_PATCH_CONTENT_TYPE = 'application/merge-patch+json';
+
+// Defined here (rather than in helpers/urls) so shared compliance-reports code can reach them via
+// ~adapters/helpers/urls; helpers/urls re-exports them for server-internal callers. Defining them
+// in the adapter avoids a helpers/urls <-> adapter import cycle.
+export function getProjectQualityProfileSettingsUrl(project: string): Partial<Path> {
+  return {
+    pathname: '/project/quality_profiles',
+    search: queryToSearchString({ id: project }),
+  };
+}
+
+export function getProjectInformationUrl(project: string): Partial<Path> {
+  return {
+    pathname: '/project/information',
+    search: queryToSearchString({ id: project }),
+  };
+}

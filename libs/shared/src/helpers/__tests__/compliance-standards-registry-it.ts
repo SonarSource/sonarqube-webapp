@@ -19,6 +19,7 @@
  */
 
 import { StandardsInformationKey } from '../../types/security';
+import { ComplianceReportFilter } from '../compliance-report-filter';
 import {
   buildComplianceStandards,
   buildComplianceStandardsForCategory,
@@ -30,6 +31,7 @@ import {
   getStandardDefinition,
   getStandardDefinitionByQueryProp,
   getStandardLevels,
+  getStandardNavigationCategories,
   getStandardsAvailableInIssuesFilter,
   getStandardsAvailableInPDFReports,
   getStandardsInformationKeyFromRegistry,
@@ -43,6 +45,7 @@ import {
   parseComplianceStandards,
   parseStandardsFromQuery,
   populateStandardsFromParsed,
+  SecurityStandard,
   shouldOpenSonarSourceSecurityFacet,
   shouldOpenStandardsChildFacet,
   shouldOpenStandardsFacet,
@@ -995,6 +998,40 @@ describe('compliance-standards-registry', () => {
       const result = buildComplianceStandardsForCategory('cwe-2024', '787');
       const parsed = parseComplianceStandards(result);
       expect(parsed['cwe-2024']).toEqual(['CWE-787']);
+    });
+  });
+
+  describe('getStandardNavigationCategories', () => {
+    it('tags security-only standards with the Security category', () => {
+      expect(getStandardNavigationCategories(SecurityStandard.SONARSOURCE)).toEqual([
+        ComplianceReportFilter.Security,
+      ]);
+      expect(getStandardNavigationCategories(SecurityStandard.CWE_TOP_25)).toEqual([
+        ComplianceReportFilter.Security,
+      ]);
+      expect(getStandardNavigationCategories(SecurityStandard.OWASP_TOP10)).toEqual([
+        ComplianceReportFilter.Security,
+      ]);
+    });
+
+    it('tags regulatory standards with both Security and Regulatory', () => {
+      const regulatory = [ComplianceReportFilter.Security, ComplianceReportFilter.Regulatory];
+
+      expect(getStandardNavigationCategories(SecurityStandard.PCI_DSS)).toEqual(regulatory);
+      expect(getStandardNavigationCategories(SecurityStandard.CRA)).toEqual(regulatory);
+      expect(getStandardNavigationCategories(SecurityStandard.STIG)).toEqual(regulatory);
+    });
+
+    it('returns an empty list for an unknown standard', () => {
+      expect(getStandardNavigationCategories('not-a-standard')).toEqual([]);
+    });
+
+    it('assigns at least one category to every registered security standard', () => {
+      // Guards against a standard being added to the registry without a navigation tag,
+      // which would silently drop it from the compliance report filter.
+      getAllSecurityStandards().forEach((standard) => {
+        expect(getStandardNavigationCategories(standard).length).toBeGreaterThan(0);
+      });
     });
   });
 });
