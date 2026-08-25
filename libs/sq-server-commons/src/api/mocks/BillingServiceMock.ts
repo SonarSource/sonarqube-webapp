@@ -30,9 +30,11 @@ import {
   EntitlementPeriod,
 } from '~shared/types/billing';
 import { HttpStatus } from '~shared/types/request';
+import { PurchaseableFeature } from '../../types/editions';
 
 export interface BillingServiceData {
   entitlementChecks?: EntitlementCheck[];
+  purchasableFeatures?: PurchaseableFeature[];
 }
 
 export function mockEntitlementPeriod(
@@ -117,8 +119,26 @@ export function mockEntitlementChecks(): EntitlementCheck[] {
   ];
 }
 
+/** Default purchasable-features payload matching the mock license — every feature the mock
+ * license carries reports as available and enabled. Tests can override via
+ * `setPurchasableFeatures`. */
+export function mockBillingPurchasableFeatures(): PurchaseableFeature[] {
+  return [
+    { featureKey: EntitlementCheckFeatureKey.RemediationAgent, isAvailable: true, isEnabled: true },
+    { featureKey: EntitlementCheckFeatureKey.AdvancedSecurity, isAvailable: true, isEnabled: true },
+    { featureKey: EntitlementCheckFeatureKey.AgenticAnalysis, isAvailable: true, isEnabled: true },
+    {
+      featureKey: EntitlementCheckFeatureKey.ContextAugmentation,
+      isAvailable: true,
+      isEnabled: true,
+    },
+    { featureKey: EntitlementCheckFeatureKey.HunterAgent, isAvailable: true, isEnabled: true },
+  ];
+}
+
 export const BillingServiceDefaultDataset: BillingServiceData = {
   entitlementChecks: mockEntitlementChecks(),
+  purchasableFeatures: mockBillingPurchasableFeatures(),
 };
 
 function isEntitlementCheckFeatureKey(value: string): value is EntitlementCheckFeatureKey {
@@ -128,6 +148,10 @@ function isEntitlementCheckFeatureKey(value: string): value is EntitlementCheckF
 export class BillingServiceMock extends AbstractServiceMock<BillingServiceData> {
   setEntitlementChecks = (checks: EntitlementCheck[]) => {
     this.data.entitlementChecks = checks;
+  };
+
+  setPurchasableFeatures = (features: PurchaseableFeature[]) => {
+    this.data.purchasableFeatures = features;
   };
 
   entitlementCheckHandlers = [
@@ -149,5 +173,12 @@ export class BillingServiceMock extends AbstractServiceMock<BillingServiceData> 
     }),
   ];
 
-  handlers = [...this.entitlementCheckHandlers];
+  purchasableFeaturesHandlers = [
+    http.get('/api/v2/entitlements/purchasable-features', () => {
+      this.data.purchasableFeatures ??= mockBillingPurchasableFeatures();
+      return this.ok(this.data.purchasableFeatures);
+    }),
+  ];
+
+  handlers = [...this.entitlementCheckHandlers, ...this.purchasableFeaturesHandlers];
 }

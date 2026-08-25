@@ -51,7 +51,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
   const { isBuiltIn, actions, conditions = [], isAiCodeSupported } = qualityGate;
   const canEdit = Boolean(actions?.manageConditions);
   const { hasFeature } = useAvailableFeatures();
-  const scaFeature = addons.entitlements.usePurchasableFeature(Feature.Sca);
+  const { data: scaFeature } = addons.entitlements.usePurchasableFeature(Feature.Sca);
   const { data: isScaAvailable = false } = addons.entitlements.useEntitlementCheckQuery(
     { featureKey: EntitlementCheckFeatureKey.AdvancedSecurity },
     { select: (data) => data.entitled },
