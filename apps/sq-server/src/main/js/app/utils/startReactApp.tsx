@@ -40,6 +40,7 @@ import { ResetLayerStack } from '~shared/components/ResetLayerStack';
 import StateCallbackHandler from '~shared/components/StateCallbackHandler';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { ThemeController } from '~shared/helpers/ThemeController';
+import { useFeatureCommunicationLimiter } from '~shared/hooks/feature-communication/useFeatureCommunicationLimiter';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
 import SuggestionsProvider from '~sq-server-commons/components/embed-docs-modal/SuggestionsProvider';
@@ -276,6 +277,25 @@ const ChangeAdminPasswordApp = lazyLoadComponent(
 );
 const PluginRiskConsent = lazyLoadComponent(() => import('../components/PluginRiskConsent'));
 
+function RootWrapper() {
+  useFeatureCommunicationLimiter();
+
+  return (
+    <EchoesProvider>
+      <ResetLayerStack>
+        <SuggestionsProvider>
+          <A11yProvider>
+            <A11ySkipLinks />
+            <IndexationContextProvider>
+              <Outlet />
+            </IndexationContextProvider>
+          </A11yProvider>
+        </SuggestionsProvider>
+      </ResetLayerStack>
+    </EchoesProvider>
+  );
+}
+
 const router = ({
   availableFeatures,
   governanceInstalled,
@@ -291,22 +311,7 @@ const router = ({
     createRoutesFromElements(
       // Wrapper to set containers and providers that need access to the router context for all routes.
       // This way we can use router context in toast message, for example render links
-      <Route
-        element={
-          <EchoesProvider>
-            <ResetLayerStack>
-              <SuggestionsProvider>
-                <A11yProvider>
-                  <A11ySkipLinks />
-                  <IndexationContextProvider>
-                    <Outlet />
-                  </IndexationContextProvider>
-                </A11yProvider>
-              </SuggestionsProvider>
-            </ResetLayerStack>
-          </EchoesProvider>
-        }
-      >
+      <Route element={<RootWrapper />}>
         {renderRedirects()}
 
         <Route element={<FormattingHelp />} path="formatting/help" />
