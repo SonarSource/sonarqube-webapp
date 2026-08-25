@@ -3059,6 +3059,9 @@ export const defaultMessages = {
   'architecture.relationships.validate.entry_point_placeholder': 'Select an entry point',
   'architecture.relationships.validate.entry_point_incomplete':
     'Select an entry point to finish mapping this exit point.',
+  'architecture.relationships.validate.automapped_badge': 'Auto-mapped',
+  'architecture.relationships.validate.automapped_tooltip':
+    "This mapping was found automatically and can't be modified.",
   'architecture.organization.title': 'Organization architecture',
   'architecture.organization.empty': 'No organization-wide architecture data available.',
   'architecture.organization.node.not_mapped_yet': 'Not mapped yet: {boundaries}',
