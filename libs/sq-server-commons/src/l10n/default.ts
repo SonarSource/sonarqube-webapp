@@ -749,7 +749,7 @@ export const defaultMessages = {
 
   'agentic_tasks.page': 'Agentic tasks',
   'agentic_tasks.page.description':
-    'This page allows for the continuous monitoring of tasks performed by Hunter Agent, Remediation Agent, and Agentic Analysis.',
+    'This page allows for the continuous monitoring of tasks performed by Hunter Agent and Remediation Agent.',
   'agentic_tasks.empty': 'No agentic tasks found',
   'agentic_tasks.error.title': 'Something went wrong while loading agentic tasks.',
   'agentic_tasks.error.retry': 'Retry',
@@ -771,6 +771,8 @@ export const defaultMessages = {
   'agentic_tasks.table.started': 'Started',
   'agentic_tasks.table.finished': 'Finished',
   'agentic_tasks.table.duration': 'Duration',
+  'agentic_tasks.actions': 'Actions for task {id}',
+  'agentic_tasks.actions.download_logs': 'Download logs',
   'agentic_tasks.in_progress': 'in progress',
   'agentic_tasks.in_progress.description':
     'The number of agentic tasks that are currently in progress.',
