@@ -45,3 +45,9 @@ export function getExternalRuleKey(ruleKey: string) {
     ? ruleKey.slice(EXTERNAL_RULE_REPO_PREFIX.length)
     : ruleKey;
 }
+
+export function isHunterAgentRuleKey(ruleKey: string) {
+  return getExternalRuleKey(ruleKey)
+    .toLowerCase()
+    .startsWith(`${HUNTER_AGENT_EXTERNAL_RULE_ENGINE}:`);
+}

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { getExternalRuleKey, isHunterAgentRuleEngine } from '../issues';
+import { getExternalRuleKey, isHunterAgentRuleEngine, isHunterAgentRuleKey } from '../issues';
 
 describe('isHunterAgentRuleEngine', () => {
   it('detects hunter-agent case-insensitively', () => {
@@ -43,5 +43,24 @@ describe('getExternalRuleKey', () => {
   it('returns the key unchanged when no external_ prefix is present', () => {
     expect(getExternalRuleKey('hunter-agent:some-rule')).toBe('hunter-agent:some-rule');
     expect(getExternalRuleKey('squid:S1337')).toBe('squid:S1337');
+  });
+});
+
+describe('isHunterAgentRuleKey', () => {
+  it('detects a hunter-agent rule key', () => {
+    expect(isHunterAgentRuleKey('hunter-agent:rule-test')).toBe(true);
+  });
+
+  it('detects a hunter-agent rule key with the external_ prefix', () => {
+    expect(isHunterAgentRuleKey('external_hunter-agent:rule-test')).toBe(true);
+  });
+
+  it('detects a hunter-agent rule key case-insensitively', () => {
+    expect(isHunterAgentRuleKey('external_Hunter-Agent:rule-test')).toBe(true);
+  });
+
+  it('returns false for rule keys from other repositories', () => {
+    expect(isHunterAgentRuleKey('squid:S1337')).toBe(false);
+    expect(isHunterAgentRuleKey('external_eslint:no-unused-vars')).toBe(false);
   });
 });
