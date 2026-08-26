@@ -246,4 +246,12 @@ describe('Server dashboard widget URL seams', () => {
       '/project/issues?id=project-key',
     );
   });
+
+  it('preserves the portfolio key when building a drilldown link', () => {
+    window.history.pushState({}, '', '/portfolio/dashboards/built-in/health?id=portfolio%2Fkey');
+
+    expect(getPortfolioDashboardWidgetDrilldownUrl('widget-key', 'java:S1')).toBe(
+      'breakdown/widget-key?q=java%3AS1&id=portfolio%2Fkey',
+    );
+  });
 });

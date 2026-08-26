@@ -196,7 +196,14 @@ export function getPortfolioDashboardWidgetDrilldownUrl(
     return undefined;
   }
 
-  const search = query ? new URLSearchParams({ q: query }).toString() : '';
+  const searchParams = new URLSearchParams(query ? { q: query } : undefined);
+  const portfolioKey = new URLSearchParams(window.location.search).get('id');
+
+  if (portfolioKey) {
+    searchParams.set('id', portfolioKey);
+  }
+
+  const search = searchParams.toString();
   const path = `breakdown/${encodeURIComponent(widgetKey)}`;
   return search ? `${path}?${search}` : path;
 }
