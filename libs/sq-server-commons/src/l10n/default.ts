@@ -3973,8 +3973,8 @@ export const defaultMessages = {
   'settings.almintegration.github.additional_permission':
     'If quality gate status reporting fails on private projects, you might need to add an additional permission to the GitHub App. {link}',
   'settings.almintegration.bitbucketcloud.info':
-    '{productName} needs you to create an {oauth} in your Bitbucket Cloud workspace settings to report the quality gate status on Pull Requests. It needs to be a private consumer with {permission} permission. An OAuth callback URL is required by Bitbucket Cloud but not used by {productName} so any URL works. {doc_link}',
-  'settings.almintegration.bitbucketcloud.oauth': 'OAuth consumer',
+    '{productName} needs you to create an {oauth} in your Bitbucket Cloud workspace settings to report the quality gate status on Pull Requests. It needs to be a private client with {permission} permission. An OAuth callback URL is required by Bitbucket Cloud but not used by {productName} so any URL works. {doc_link}',
+  'settings.almintegration.bitbucketcloud.oauth': 'OAuth client',
   'settings.almintegration.empty.azure':
     'Create your first Azure DevOps configuration to start analyzing your repositories on {productName}.',
   'settings.almintegration.empty.bitbucket':
@@ -4057,9 +4057,9 @@ export const defaultMessages = {
   'settings.almintegration.form.workspace.bitbucketcloud.help':
     'The workspace ID is part of your bitbucket cloud URL {example}',
   'settings.almintegration.form.oauth_key.bitbucketcloud.help':
-    'Bitbucket automatically creates an OAuth key when you create your OAuth consumer. You can find it in your Bitbucket Cloud workspace settings under OAuth consumers.',
+    'Bitbucket generates the Client ID when you create your OAuth client. You can find it in your Bitbucket Cloud workspace settings under OAuth clients.',
   'settings.almintegration.form.oauth_secret.bitbucketcloud.help':
-    'Bitbucket automatically creates an OAuth secret when you create your OAuth consumer. You can find it in your Bitbucket Cloud workspace settings under OAuth consumers.',
+    'Bitbucket generates the Client Secret when you create your OAuth client. You can find it in your Bitbucket Cloud workspace settings under OAuth clients.',
   'settings.almintegration.form.url.azure': 'Azure DevOps URL',
   'settings.almintegration.form.url.azure.help1':
     'For Azure DevOps Server, provide the full collection URL:',
@@ -4084,8 +4084,8 @@ export const defaultMessages = {
   'settings.almintegration.form.client_secret.github': 'Client Secret',
   'settings.almintegration.form.client_secret.github.help':
     "The Client secret is found on your GitHub App's page.",
-  'settings.almintegration.form.client_id.bitbucketcloud': 'OAuth Key',
-  'settings.almintegration.form.client_secret.bitbucketcloud': 'OAuth Secret',
+  'settings.almintegration.form.client_id.bitbucketcloud': 'Client ID',
+  'settings.almintegration.form.client_secret.bitbucketcloud': 'Client Secret',
   'settings.almintegration.form.private_key': 'Private Key',
   'settings.almintegration.form.private_key.github.help':
     "Your GitHub App's private key. You can generate a .pem file from your GitHub App's page under Private keys. Copy and paste the whole contents of the file here.",

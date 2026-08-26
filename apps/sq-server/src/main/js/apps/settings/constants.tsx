@@ -177,16 +177,16 @@ export const ADDITIONAL_SETTING_DEFINITIONS: ExtendedSettingDefinition[] = [
       The token itself needs Read permission.
       Workspace ID
       The workspace ID is part of your bitbucket cloud URL https://bitbucket.org/{workspace}/{repository}
-      SonarQube needs you to create an OAuth consumer in your Bitbucket Cloud workspace settings
+      SonarQube needs you to create an OAuth client in your Bitbucket Cloud workspace settings
       to report the Quality Gate status on Pull Requests.
-      It needs to be a private consumer with Pull Requests: Read permission.
+      It needs to be a private client with Pull Requests: Read permission.
       An OAuth callback URL is required by Bitbucket Cloud but not used by SonarQube so any URL works.
-      OAuth Key
-      Bitbucket automatically creates an OAuth key when you create your OAuth consumer.
-      You can find it in your Bitbucket Cloud workspace settings under OAuth consumers.
-      OAuth Secret
-      Bitbucket automatically creates an OAuth secret when you create your OAuth consumer.
-      You can find it in your Bitbucket Cloud workspace settings under OAuth consumers.
+      Client ID
+      Bitbucket generates the Client ID when you create your OAuth client.
+      You can find it in your Bitbucket Cloud workspace settings under OAuth clients.
+      Client Secret
+      Bitbucket generates the Client Secret when you create your OAuth client.
+      You can find it in your Bitbucket Cloud workspace settings under OAuth clients.
     `,
     category: 'almintegration',
     key: `sonar.almintegration.${AlmKeys.BitbucketServer}`,
