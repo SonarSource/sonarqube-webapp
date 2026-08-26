@@ -26,12 +26,14 @@ import {
   DashboardIssueResolutionHistoryParams,
   DashboardMeasureHistoryDay,
   DashboardMeasuresHistoryParams,
+  DashboardProjectIssueCountsParams,
   DashboardProjectMeasuresParams,
   DashboardScaResolutionHistoryParams,
   getDashboardIssueCountHistory,
   getDashboardIssueDensityHistory,
   getDashboardIssueResolutionHistory,
   getDashboardMeasuresHistory,
+  getDashboardProjectIssueCounts,
   getDashboardProjectMeasures,
   getDashboardScaResolutionHistory,
 } from '../api/dashboard-history';
@@ -174,6 +176,15 @@ export const useDashboardMeasuresHistoryQuery = createQueryHook(
         const response = await getDashboardMeasuresHistory(params);
         return { measuresHistory: normalizeMeasuresHistory(response.measuresHistory ?? []) };
       },
+      staleTime: StaleTime.SHORT,
+    }),
+);
+
+export const useDashboardProjectIssueCountsQuery = createQueryHook(
+  (params: DashboardProjectIssueCountsParams) =>
+    queryOptions({
+      queryKey: ['dashboard', 'project-issue-counts', params],
+      queryFn: () => getDashboardProjectIssueCounts(params),
       staleTime: StaleTime.SHORT,
     }),
 );

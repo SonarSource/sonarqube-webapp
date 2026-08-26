@@ -3672,6 +3672,26 @@ export const defaultMessages = {
   'portfolio_dashboard.built_in.introduction.title': 'Introducing portfolio dashboards',
   'portfolio_dashboard.built_in.introduction.description':
     'Dive into metrics by exploring the Built-in dashboard or creating your own.',
+  'portfolio_dashboard.breakdown.back_to_dashboard': 'Back to dashboard',
+  'portfolio_dashboard.breakdown.data_refreshing': 'Refreshing data',
+  'portfolio_dashboard.breakdown.table.label': 'Breakdown by projects',
+  'portfolio_dashboard.breakdown.not_found.title': 'Breakdown not available',
+  'portfolio_dashboard.breakdown.not_found.rule_required': 'Select a rule to see its breakdown.',
+  'portfolio_dashboard.breakdown.not_found.unknown_rule':
+    'The selected rule is not present in this widget.',
+  'portfolio_dashboard.breakdown.not_found.unsupported_widget':
+    'This widget does not support breakdown.',
+  'portfolio_dashboard.breakdown.viewing_filter.description': 'Viewing:',
+  'portfolio_dashboard.breakdown.slice_filter.description': 'Viewing slice:',
+  'portfolio_dashboard.breakdown.slice_filter.all': 'All',
+  'portfolio_dashboard.breakdown.slice_filter.dimension_with_value':
+    '<dim>{dimension} |</dim> <b>{value}</b>',
+  'portfolio_dashboard.breakdown.slice_filter.trigger_aria':
+    'Change {dimension}, currently {value}',
+  'portfolio_dashboard.breakdown.top_list.rule_details.subtitle': '{language} · Rule ID: {ruleKey}',
+  'portfolio_dashboard.breakdown.top_list.rule_details.subtitle_no_language': 'Rule ID: {ruleKey}',
+  'portfolio_dashboard.breakdown.top_list.rule_details.view_rule': 'View rule details',
+  'portfolios.breakdown.list.project_name': 'Project name',
   'portfolio_dashboard.custom.error.description':
     'We could not load this dashboard. Try again later.',
   'portfolio_dashboard.custom.error.invalid_layout.description':
