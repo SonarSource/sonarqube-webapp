@@ -230,9 +230,7 @@ export function PortfolioProjectBreakdownTable<Row extends PortfolioProjectBreak
           </>
         ) : (
           <div className="sw-flex sw-items-center sw-justify-center sw-h-[332px]">
-            <Text as="div" className="sw-flex sw-items-center sw-justify-center" isSubtle>
-              {emptyContent}
-            </Text>
+            {emptyContent}
           </div>
         )}
       </Card.Body>

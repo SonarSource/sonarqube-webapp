@@ -3674,6 +3674,15 @@ export const defaultMessages = {
     'Dive into metrics by exploring the Built-in dashboard or creating your own.',
   'portfolio_dashboard.breakdown.back_to_dashboard': 'Back to dashboard',
   'portfolio_dashboard.breakdown.data_refreshing': 'Refreshing data',
+  'portfolio_dashboard.breakdown.empty_state.no_projects': 'No projects to display',
+  'portfolio_dashboard.breakdown.empty_state.zero_issue_count.description':
+    'Only projects with an issue count greater than zero are shown',
+  'portfolio_dashboard.breakdown.empty_state.no_computed_rating.description':
+    'Projects require a second analysis to generate a rating',
+  'portfolio_dashboard.breakdown.empty_state.no_computed_rating.label': 'No rating computed',
+  'portfolio_dashboard.breakdown.empty_state.no_data.title': 'No data available to display',
+  'portfolio_dashboard.breakdown.permissions.none_accessible_rule':
+    'You do not have permissions to browse the {total} {total, plural, one {project that has} other {projects that have}} issues matching this rule.',
   'portfolio_dashboard.breakdown.table.label': 'Breakdown by projects',
   'portfolio_dashboard.breakdown.not_found.title': 'Breakdown not available',
   'portfolio_dashboard.breakdown.not_found.rule_required': 'Select a rule to see its breakdown.',
