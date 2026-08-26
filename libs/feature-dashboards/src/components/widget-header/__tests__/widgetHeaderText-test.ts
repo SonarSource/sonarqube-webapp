@@ -31,9 +31,15 @@ import {
   getRatingWidgetHeaderText,
 } from '../widgetHeaderText';
 
-const formatMessage = ((descriptor: { id: string }, values?: { title?: string }): string => {
+const formatMessage = ((
+  descriptor: { id: string },
+  values?: { softwareQuality?: string; title?: string },
+): string => {
   if (descriptor.id === 'dashboard.widget.title.over_time') {
     return `${values?.title} over time`;
+  }
+  if (descriptor.id === 'dashboard.widget.title.recent_mttr_with_software_quality') {
+    return `MTTR for newly introduced ${values?.softwareQuality} issues`;
   }
   return descriptor.id === 'severity.HIGH' ? 'High' : descriptor.id;
 }) as IntlShape['formatMessage'];
@@ -78,6 +84,21 @@ describe('getDashboardMetricTitle', () => {
         metric: { type: DashboardMetricType.IssueDensity },
       }),
     ).toBe('dashboard.add_widget_modal.define_widget.metric.issue_density');
+  });
+
+  it('places the software quality within the recent MTTR title', () => {
+    expect(
+      getDashboardMetricTitle({
+        formatMessage,
+        getLocalizedMetricName,
+        hasHistoryRange: false,
+        metric: {
+          measureFilters: { impactSoftwareQuality: SoftwareQuality.Security },
+          statistic: IssueResolutionStatistic.RecentMTTR,
+          type: DashboardMetricType.IssueResolution,
+        },
+      }),
+    ).toBe('MTTR for newly introduced software_quality.SECURITY issues');
   });
 
   it('maps hotspot and raw metrics to their localized names', () => {

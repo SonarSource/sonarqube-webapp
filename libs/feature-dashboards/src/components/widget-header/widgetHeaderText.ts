@@ -143,13 +143,7 @@ export function getDashboardMetricTitle({
   const descriptor = buildDashboardMetricTitleDescriptor(metric, hasHistoryRange);
 
   const title = descriptor.parts
-    .map((part) => {
-      if ('metricKey' in part) {
-        return getLocalizedMetricName({ key: part.metricKey }, part.useShortName);
-      }
-      const message = formatMessage({ id: part.messageId });
-      return part.suffix ? `${message}${part.suffix}` : message;
-    })
+    .map((part) => localizeTitlePart(part, formatMessage, getLocalizedMetricName))
     .join(' ');
 
   return descriptor.overTime
@@ -160,11 +154,37 @@ export function getDashboardMetricTitle({
 // ─── Private helpers ─────────────────────────────────────────────────────────
 
 type TitlePart =
-  { messageId: string; suffix?: string } | { metricKey: MetricKey; useShortName: boolean };
+  | {
+      messageId: string;
+      suffix?: string;
+      values?: Record<string, { messageId: string }>;
+    }
+  | { metricKey: MetricKey; useShortName: boolean };
 
 interface TitleDescriptor {
   overTime: boolean;
   parts: TitlePart[];
+}
+
+function localizeTitlePart(
+  part: TitlePart,
+  formatMessage: FormatMessage,
+  getLocalizedMetricName: LocalizeMetricName,
+): string {
+  if ('metricKey' in part) {
+    return getLocalizedMetricName({ key: part.metricKey }, part.useShortName);
+  }
+
+  const values = part.values
+    ? Object.fromEntries(
+        Object.entries(part.values).map(([key, value]) => [
+          key,
+          formatMessage({ id: value.messageId }),
+        ]),
+      )
+    : undefined;
+  const message = formatMessage({ id: part.messageId }, values);
+  return part.suffix ? `${message}${part.suffix}` : message;
 }
 
 function buildDashboardMetricTitleDescriptor(
@@ -176,6 +196,22 @@ function buildDashboardMetricTitleDescriptor(
   }
 
   if (metric.type === DashboardMetricType.IssueResolution) {
+    const softwareQuality = metric.measureFilters?.impactSoftwareQuality;
+    if (metric.statistic === IssueResolutionStatistic.RecentMTTR && softwareQuality !== undefined) {
+      return {
+        overTime: hasHistoryRange,
+        parts: [
+          ...getMeasureFilterTitleParts(metric.measureFilters, false),
+          {
+            messageId: 'dashboard.widget.title.recent_mttr_with_software_quality',
+            values: {
+              softwareQuality: { messageId: `software_quality.${softwareQuality}` },
+            },
+          },
+        ],
+      };
+    }
+
     return {
       overTime: hasHistoryRange,
       parts: [
@@ -237,7 +273,10 @@ function buildRawMetricTitleDescriptor(
   };
 }
 
-function getMeasureFilterTitleParts(measureFilters: MeasureFilters | undefined): TitlePart[] {
+function getMeasureFilterTitleParts(
+  measureFilters: MeasureFilters | undefined,
+  includeSoftwareQuality = true,
+): TitlePart[] {
   const parts: TitlePart[] = [];
   const severities = measureFilters?.impactSeverities;
 
@@ -261,7 +300,7 @@ function getMeasureFilterTitleParts(measureFilters: MeasureFilters | undefined):
   if (measureFilters?.issueStatus) {
     parts.push({ messageId: `issue.status.${measureFilters.issueStatus}` });
   }
-  if (measureFilters?.impactSoftwareQuality) {
+  if (includeSoftwareQuality && measureFilters?.impactSoftwareQuality) {
     parts.push({ messageId: `software_quality.${measureFilters.impactSoftwareQuality}` });
   }
 

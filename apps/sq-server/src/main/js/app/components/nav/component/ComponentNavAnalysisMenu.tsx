@@ -147,12 +147,8 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
       {showPortfolioGovernanceNav && portfolioHealthDashboardRoute && (
         <Layout.SidebarNavigation.AccordionItem
           Icon={IconDashboard}
-          label={
-            <span className="sw-flex sw-w-full sw-items-center sw-justify-between">
-              <FormattedMessage id="portfolio_dashboards.nav" />
-              <NewBadge expirationDate={DASHBOARDS_NEW_BADGE_EXPIRATION_DATE} />
-            </span>
-          }
+          label={<FormattedMessage id="portfolio_dashboards.nav" />}
+          suffix={<NewBadge expirationDate={DASHBOARDS_NEW_BADGE_EXPIRATION_DATE} />}
         >
           <Layout.SidebarNavigation.Item
             Icon={IconDashboard}

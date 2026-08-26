@@ -657,6 +657,27 @@ describe('dashboard widget adapter queries', () => {
   });
 
   describe('pie-chart queries', () => {
+    it('does not request issue history without an entity ID', () => {
+      renderHook(
+        () =>
+          useOrganizationPieChartData({
+            entity: { entityId: '', entityType: 'PORTFOLIO' },
+            widget: {
+              filter: '',
+              metric: PieChartMetric.IssueCount,
+              scope: CodeScope.Overall,
+              slice: PieChartIssueSlice.ImpactSeverities,
+            },
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(mockUseDashboardIssueCountHistoryQuery).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({ enabled: false }),
+      );
+    });
+
     it.each([
       [CodeScope.Overall, PieChartHotspotSlice.SecurityCategory],
       [CodeScope.Overall, PieChartHotspotSlice.ReviewStatus],
@@ -1182,7 +1203,7 @@ describe('dashboard widget adapter queries', () => {
   });
 
   describe('issue-resolution adapters', () => {
-    it('passes the statistic and filters through the count query', () => {
+    it('maps software quality and severity filters to standard severities for the count query', () => {
       jest.useFakeTimers();
       jest.setSystemTime(new Date('2026-03-30T12:00:00.000Z'));
 
@@ -1191,7 +1212,10 @@ describe('dashboard widget adapter queries', () => {
           useOrgIssueResolutionCountWidgetData({
             entityId: 'portfolio-1',
             entityType: 'PORTFOLIO',
-            measureFilters: { impactSeverities: ['HIGH'] },
+            measureFilters: {
+              impactSeverities: [SoftwareImpactSeverity.High],
+              impactSoftwareQuality: SoftwareQuality.Security,
+            },
             statistic: 'MTTR',
           }),
         { wrapper: getContextWrapper() },
@@ -1199,6 +1223,7 @@ describe('dashboard widget adapter queries', () => {
 
       expect(mockUseDashboardIssueResolutionHistoryQuery).toHaveBeenCalledWith(
         expect.objectContaining({
+          issueTypes: ['VULNERABILITY'],
           severities: ['CRITICAL'],
           startDate: organizationsHistoryStartDateWithRetentionBuffer(),
           statistic: 'MTTR',

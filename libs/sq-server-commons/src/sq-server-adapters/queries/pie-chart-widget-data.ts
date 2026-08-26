@@ -259,6 +259,7 @@ function resolvePieChartHistoryParams(
 function isPieChartIssueQueryEnabled(
   args: Readonly<{
     enabled: boolean;
+    hasEntityId: boolean;
     hasHistoryParams: boolean;
     isModeResolved: boolean;
     isQualityGateStatusChart: boolean;
@@ -268,6 +269,7 @@ function isPieChartIssueQueryEnabled(
 ): boolean {
   return (
     args.enabled &&
+    args.hasEntityId &&
     args.hasHistoryParams &&
     !args.isQualityGateStatusChart &&
     !args.isUnsupported &&
@@ -378,6 +380,7 @@ export function useOrganizationPieChartData(
     {
       enabled: isPieChartIssueQueryEnabled({
         enabled,
+        hasEntityId: Boolean(entityId),
         hasHistoryParams: Boolean(historyParams),
         isModeResolved,
         isQualityGateStatusChart,

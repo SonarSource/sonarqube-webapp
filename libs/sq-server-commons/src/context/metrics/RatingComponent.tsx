@@ -46,6 +46,7 @@ interface Props {
     value: string | undefined,
     metricKey?: MetricKey,
   ) => React.ReactNode;
+  providedValue?: string;
   ratingMetric: MetricKey;
   size?: RatingBadgeSize;
 }
@@ -89,30 +90,39 @@ export default function RatingComponent(props: Readonly<Props>) {
     getLabel,
     branchLike,
     getTooltip,
+    providedValue,
   } = props;
+  const useProvidedValue = providedValue !== undefined;
 
   const metricKey = useGetMetricKeyForRating(ratingMetric as RatingMetricKeys);
   const { data: isStandardMode } = useStandardExperienceModeQuery();
 
   const { data: targetMeasure, isLoading: isLoadingTargetMeasure } = useMeasureQuery(
     { componentKey, metricKey: metricKey ?? '', branchLike },
-    { enabled: !forceMetric && !!metricKey },
+    { enabled: !useProvidedValue && !forceMetric && !!metricKey },
   );
 
   const { data: oldMeasure, isLoading: isLoadingOldMeasure } = useMeasureQuery(
     { componentKey, metricKey: ratingMetric, branchLike },
     {
       enabled:
-        forceMetric ||
-        (!isStandardMode && !isNewRatingMetric(ratingMetric) && targetMeasure === null),
+        !useProvidedValue &&
+        (forceMetric ||
+          (!isStandardMode && !isNewRatingMetric(ratingMetric) && targetMeasure === null)),
     },
   );
 
-  const isLoading = isLoadingTargetMeasure || isLoadingOldMeasure;
+  const isLoading = !useProvidedValue && (isLoadingTargetMeasure || isLoadingOldMeasure);
 
-  const measure = forceMetric ? oldMeasure : (targetMeasure ?? oldMeasure);
+  const queriedMeasure = forceMetric ? oldMeasure : (targetMeasure ?? oldMeasure);
+  const measure = useProvidedValue
+    ? { metric: ratingMetric, value: providedValue }
+    : queriedMeasure;
 
-  const value = isDiffMetric(metricKey ?? '') ? getLeakValue(measure) : measure?.value;
+  let value = providedValue;
+  if (!useProvidedValue) {
+    value = isDiffMetric(metricKey ?? '') ? getLeakValue(measure) : measure?.value;
+  }
   const rating = formatMeasure(value, MetricType.Rating) as RatingBadgeRating;
 
   const badge = (

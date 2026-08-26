@@ -3591,6 +3591,8 @@ export const defaultMessages = {
   'dashboard.add_widget_modal.define_widget.metric.issue_density': 'Issue density',
   'dashboard.add_widget_modal.define_widget.metric.mttr': 'MTTR for issues',
   'dashboard.add_widget_modal.define_widget.metric.recent_mttr': 'MTTR for newly introduced issues',
+  'dashboard.widget.title.recent_mttr_with_software_quality':
+    'MTTR for newly introduced {softwareQuality} issues',
   'dashboard.add_widget_modal.define_widget.metric.resolved_issues': 'Issues closed',
   'dashboard.add_widget_modal.define_widget.metric.sca_mttr': 'MTTR for dependency risks',
   'dashboard.add_widget_modal.preview.placeholder':

@@ -20,6 +20,7 @@
 
 import { renderHook } from '@testing-library/react';
 import { getContextWrapper } from '~adapters/helpers/test-utils';
+import { mockPullRequest } from '~shared/helpers/mocks/branches';
 import { MetricKey } from '~shared/types/metrics';
 import { useProjectLegacyIssueCountWidgetQuery } from '../project-count-widget-data';
 import {
@@ -29,8 +30,8 @@ import {
 
 const mockUseComponent = jest.fn();
 const mockUseCurrentBranchQuery = jest.fn();
+const mockUseDashboardMeasuresHistoryQuery = jest.fn();
 const mockUseIssueCountSearchQuery = jest.fn();
-const mockUseMeasuresComponentQuery = jest.fn();
 const mockUseProjectQualityGateStatus = jest.fn();
 const mockExtractStatusConditionsFromProjectStatus = jest.fn();
 
@@ -46,8 +47,9 @@ jest.mock('../../../queries/dashboard-issue-count', () => ({
   useIssueCountSearchQuery: (...args: unknown[]) => mockUseIssueCountSearchQuery(...args),
 }));
 
-jest.mock('../measures', () => ({
-  useMeasuresComponentQuery: (...args: unknown[]) => mockUseMeasuresComponentQuery(...args),
+jest.mock('../../../queries/dashboard-history', () => ({
+  useDashboardMeasuresHistoryQuery: (...args: unknown[]) =>
+    mockUseDashboardMeasuresHistoryQuery(...args),
 }));
 
 jest.mock('../../../queries/quality-gates', () => ({
@@ -59,16 +61,20 @@ jest.mock('../../../helpers/quality-gates', () => ({
     mockExtractStatusConditionsFromProjectStatus(...args),
 }));
 
+function selectFrom(call: unknown[]): (value: unknown) => unknown {
+  return (call[1] as { select: (value: unknown) => unknown }).select;
+}
+
 describe('project dashboard adapter queries', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockUseComponent.mockReturnValue({ component: 'component-key' });
-    mockUseCurrentBranchQuery.mockReturnValue({ data: { branch: 'main' }, isPending: false });
-    mockUseIssueCountSearchQuery.mockReturnValue({ data: 4, isLoading: false });
-    mockUseMeasuresComponentQuery.mockReturnValue({
-      data: { component: { measures: [{ metric: MetricKey.coverage, value: '80' }] } },
-      isLoading: false,
+    mockUseCurrentBranchQuery.mockReturnValue({
+      data: { branchId: 'branch-id', isMain: true, name: 'main' },
+      isPending: false,
     });
+    mockUseIssueCountSearchQuery.mockReturnValue({ data: 4, isLoading: false });
+    mockUseDashboardMeasuresHistoryQuery.mockReturnValue({ data: undefined, isLoading: false });
     mockUseProjectQualityGateStatus.mockReturnValue({
       data: { ignoredConditions: false, status: 'OK' },
       isLoading: false,
@@ -91,12 +97,27 @@ describe('project dashboard adapter queries', () => {
 
     expect(result.current).toEqual({ data: 4, isLoading: false });
     expect(mockUseIssueCountSearchQuery).toHaveBeenCalledWith(
-      expect.objectContaining({ branchLike: { branch: 'main' }, componentKey: 'project-1' }),
+      expect.objectContaining({
+        branchLike: { branchId: 'branch-id', isMain: true, name: 'main' },
+        componentKey: 'project-1',
+      }),
       { enabled: true },
     );
   });
 
   it('maps project measures to the rating badge interface', () => {
+    mockUseDashboardMeasuresHistoryQuery.mockImplementation((...args: unknown[]) => ({
+      data: selectFrom(args)({
+        measuresHistory: [
+          {
+            date: '2026-08-20',
+            measures: [{ metric: MetricKey.coverage, type: 'PERCENT', value: '80' }],
+          },
+        ],
+      }),
+      isLoading: false,
+    }));
+
     const { result } = renderHook(
       () =>
         useProjectRatingBadgeMeasuresQuery(
@@ -110,6 +131,69 @@ describe('project dashboard adapter queries', () => {
       data: [{ metric: MetricKey.coverage, value: '80' }],
       isLoading: false,
     });
+    expect(mockUseDashboardMeasuresHistoryQuery).toHaveBeenCalledWith(
+      expect.objectContaining({
+        entityId: 'branch-id',
+        entityType: 'PROJECT_BRANCH',
+        metricKeys: [MetricKey.coverage],
+      }),
+      expect.objectContaining({ enabled: true }),
+    );
+  });
+
+  it('queries rating badge history using the pull request branch UUID', () => {
+    mockUseCurrentBranchQuery.mockReturnValue({
+      data: mockPullRequest({ pullRequestId: 'pull-request-branch-id' }),
+      isPending: false,
+    });
+
+    renderHook(
+      () =>
+        useProjectRatingBadgeMeasuresQuery(
+          { component: 'project-1', metricKeys: MetricKey.coverage },
+          { enabled: true },
+        ),
+      { wrapper: getContextWrapper() },
+    );
+
+    expect(mockUseDashboardMeasuresHistoryQuery).toHaveBeenCalledWith(
+      expect.objectContaining({
+        entityId: 'pull-request-branch-id',
+        entityType: 'PROJECT_BRANCH',
+        metricKeys: [MetricKey.coverage],
+      }),
+      expect.objectContaining({ enabled: true }),
+    );
+  });
+
+  it('maps new-code history values to the rating badge period interface', () => {
+    mockUseDashboardMeasuresHistoryQuery.mockImplementation((...args: unknown[]) => ({
+      data: selectFrom(args)({
+        measuresHistory: [
+          {
+            date: '2026-08-20',
+            measures: [{ metric: MetricKey.new_reliability_rating, type: 'RATING', value: '2' }],
+          },
+        ],
+      }),
+      isLoading: false,
+    }));
+
+    const { result } = renderHook(
+      () =>
+        useProjectRatingBadgeMeasuresQuery(
+          { component: 'project-1', metricKeys: MetricKey.new_reliability_rating },
+          { enabled: true },
+        ),
+      { wrapper: getContextWrapper() },
+    );
+
+    expect(result.current.data).toEqual([
+      {
+        metric: MetricKey.new_reliability_rating,
+        period: { index: 1, value: '2' },
+      },
+    ]);
   });
 
   it('maps project quality-gate status and conditions', () => {

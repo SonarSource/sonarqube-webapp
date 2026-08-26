@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { BreadcrumbsProps, Button, ButtonVariety, Text, toast } from '@sonarsource/echoes-react';
+import { BreadcrumbsProps, Button, ButtonVariety, toast } from '@sonarsource/echoes-react';
 import { SetStateAction, useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -42,6 +42,7 @@ import {
   DashboardKebabMenuItems,
 } from '~feature-dashboards/dashboard-list/DashboardKebabMenu';
 import { DashboardTypeBadge } from '~feature-dashboards/dashboard-list/DashboardTypeBadge';
+import { downloadDashboardSchema } from '~feature-dashboards/helpers/downloadDashboardSchema';
 import { useAddWidget } from '~feature-dashboards/hooks/useAddWidget';
 import { useNativeBrowserNavigationBlocker } from '~feature-dashboards/hooks/useNativeBrowserNavigationBlocker';
 import { DashboardMode, DashboardType } from '~feature-dashboards/types/dashboard-list';
@@ -52,18 +53,20 @@ import {
 import { DashboardCustomDashboardWidgetModal } from '~feature-dashboards/widget-creation-modal/components/DashboardCustomDashboardWidgetModal';
 import { useEditWidget } from '~feature-dashboards/widget-creation-modal/hooks/useEditWidget';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
-import DateFromNow from '~shared/components/intl/DateFromNow';
 import NotFound from '~shared/components/NotFound';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isApiResourceUuid } from '~shared/helpers/api-resource-validation';
 import { uuidv4 } from '~shared/helpers/crypto';
 import { isStringDefined } from '~shared/helpers/types';
+import { CustomDashboardEditStatus } from '~sq-server-commons/components/dashboards/CustomDashboardEditStatus';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
+import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
 import { useProjectId } from '~sq-server-commons/sq-server-adapters/helpers/useProjectId';
 import { useCurrentUser } from '~sq-server-commons/sq-server-adapters/helpers/users';
+import { Permissions } from '~sq-server-commons/types/permissions';
 import {
   useDeleteProjectDashboardMutation,
   useGetProjectDashboardQuery,
@@ -92,6 +95,7 @@ export function ProjectCustomDashboardPage() {
   const { dashboardId = '' } = useParams<{ dashboardId?: string }>();
   const projectId = useProjectId() ?? '';
   const canEdit = currentUser.isLoggedIn && supportsCustomProjectDashboards(edition);
+  const canDownloadSchema = hasGlobalPermission(currentUser, Permissions.Admin);
   const editDocumentationUrl = useDocUrl(DocLink.ProjectManagementCreateDashboards);
   const viewDocumentationUrl = useDocUrl(DocLink.ProjectManagementAllDashboards);
   const invalidId = Boolean(dashboardId) && !isApiResourceUuid(dashboardId);
@@ -294,6 +298,13 @@ export function ProjectCustomDashboardPage() {
                   },
                 );
               }}
+              onDownloadSchema={
+                canDownloadSchema
+                  ? () => {
+                      downloadDashboardSchema(dashboard);
+                    }
+                  : undefined
+              }
               onEditDashboard={() => {
                 setIsEditing(true);
               }}
@@ -314,17 +325,12 @@ export function ProjectCustomDashboardPage() {
         breadcrumbs={breadcrumbs}
         contentHeaderTitle={dashboard.name}
         description={
-          <Text isSubtle>
-            {isEditing ? (
-              formatMessage({ id: 'project_dashboard.edit_mode_message' })
-            ) : (
-              <DateFromNow date={dashboard.updatedAt}>
-                {(date) =>
-                  formatMessage({ id: 'project_dashboard.last_edited' }, { lastUpdatedAt: date })
-                }
-              </DateFromNow>
-            )}
-          </Text>
+          <CustomDashboardEditStatus
+            canShowEditor={canEdit}
+            isEditing={isEditing}
+            updatedAt={dashboard.updatedAt}
+            updatedById={dashboard.updatedById}
+          />
         }
         disableBranchSelector
         extraTitleSuffix={<DashboardTypeBadge dashboardType={DashboardType.Custom} />}

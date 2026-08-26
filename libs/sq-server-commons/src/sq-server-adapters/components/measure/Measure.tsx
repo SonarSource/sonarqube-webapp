@@ -60,6 +60,7 @@ interface Props {
   metricKey: string;
   metricType: string | MetricType;
   small?: boolean;
+  useProvidedRatingValue?: boolean;
   value: string | number | undefined;
 }
 
@@ -93,6 +94,7 @@ export default function Measure({
   metricKey,
   metricType,
   small,
+  useProvidedRatingValue,
   value,
 }: Readonly<Props>) {
   const intl = useIntl();
@@ -176,6 +178,7 @@ export default function Measure({
         forceMetric={forceRatingMetric}
         getLabel={getLabel}
         getTooltip={getTooltip}
+        providedValue={useProvidedRatingValue ? String(value) : undefined}
         ratingMetric={metricKey as MetricKey}
         size={
           toRatingBadgeSize(badgeSize) ?? (small ? RatingBadgeSize.Small : RatingBadgeSize.Medium)

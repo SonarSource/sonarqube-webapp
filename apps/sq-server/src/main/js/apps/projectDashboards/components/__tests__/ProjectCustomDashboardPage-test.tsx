@@ -24,12 +24,16 @@ import { DashboardType } from '~feature-dashboards/types/dashboard-list';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { EditionKey } from '~sq-server-commons/types/editions';
+import { Permissions } from '~sq-server-commons/types/permissions';
 import { ProjectCustomDashboardPage } from '../ProjectCustomDashboardPage';
 
 const mockUpdate = jest.fn();
 const mockDelete = jest.fn();
 const mockRetry = jest.fn();
 const mockResetTargetSection = jest.fn();
+const mockUseUsersByIdsQuery = jest.fn();
+const mockDownloadDashboardSchema = jest.fn();
+let mockCurrentUser: { isLoggedIn: boolean; permissions: { global: Permissions[] } };
 let mockDashboardId = '77acc15a-1742-42ff-9469-7e4de1faa19f';
 let mockQuery: { data?: unknown; error?: unknown; isPending: boolean; refetch: () => void };
 
@@ -46,7 +50,13 @@ jest.mock('~sq-server-commons/sq-server-adapters/helpers/useProjectId', () => ({
   useProjectId: () => 'project-id',
 }));
 jest.mock('~sq-server-commons/sq-server-adapters/helpers/users', () => ({
-  useCurrentUser: () => ({ isLoggedIn: true }),
+  useCurrentUser: () => mockCurrentUser,
+}));
+jest.mock('~sq-server-commons/queries/users', () => ({
+  useUsersByIdsQuery: (ids: string[]) => mockUseUsersByIdsQuery(ids),
+}));
+jest.mock('~feature-dashboards/helpers/downloadDashboardSchema', () => ({
+  downloadDashboardSchema: (dashboard: unknown) => mockDownloadDashboardSchema(dashboard),
 }));
 
 jest.mock('../../../../queries/project-dashboards', () => ({
@@ -277,14 +287,21 @@ jest.mock('~feature-dashboards/dashboard-list/DashboardKebabMenu', () => ({
     isVisible ? <div>{items}</div> : null,
   DashboardKebabMenuItems: ({
     onDelete,
+    onDownloadSchema,
     onEditDashboard,
     onEditNameDescription,
   }: {
     onDelete: (controls: { close: () => void }) => void;
+    onDownloadSchema?: () => void;
     onEditDashboard: () => void;
     onEditNameDescription: () => void;
   }) => (
     <div>
+      {onDownloadSchema && (
+        <button onClick={onDownloadSchema} type="button">
+          download-schema
+        </button>
+      )}
       <button onClick={onEditDashboard} type="button">
         edit-dashboard-action
       </button>
@@ -310,7 +327,8 @@ jest.mock('~feature-dashboards/dashboard-list/DashboardTypeBadge', () => ({
 }));
 jest.mock('~shared/components/a11y/A11ySkipTarget', () => () => null);
 jest.mock('~shared/components/intl/DateFromNow', () => ({
-  default: ({ children }: { children: (date: string) => ReactNode }) => children('today'),
+  __esModule: true,
+  default: ({ children }: { children: (date: string) => ReactNode }) => <>{children('today')}</>,
 }));
 jest.mock(
   '~shared/components/NotFound',
@@ -323,14 +341,17 @@ jest.mock('~shared/components/pages/ProjectPageTemplate', () => ({
   ProjectPageTemplate: ({
     actions,
     children,
+    description,
     title,
   }: {
     actions?: ReactNode;
     children: ReactNode;
+    description?: ReactNode;
     title: ReactNode;
   }) => (
     <div>
       <h1>{title}</h1>
+      {description}
       {actions}
       {children}
     </div>
@@ -344,6 +365,7 @@ const dashboard = {
   name: 'Custom project dashboard',
   type: DashboardType.Custom,
   updatedAt: 1,
+  updatedById: 'editor-id',
 };
 
 function setupQuery(overrides: Partial<typeof mockQuery> = {}) {
@@ -358,9 +380,17 @@ function renderProjectCustomDashboardPage(edition = EditionKey.developer) {
 
 describe('ProjectCustomDashboardPage', () => {
   beforeEach(() => {
+    mockCurrentUser = {
+      isLoggedIn: true,
+      permissions: { global: [Permissions.Admin] },
+    };
     mockDashboardId = '77acc15a-1742-42ff-9469-7e4de1faa19f';
     setupQuery();
     jest.clearAllMocks();
+    mockUseUsersByIdsQuery.mockReturnValue({
+      data: { 'editor-id': { avatar: 'avatar', name: 'Alice' } },
+      isPending: false,
+    });
   });
 
   it('renders the loading, not-found, invalid, and generic error states', async () => {
@@ -386,6 +416,15 @@ describe('ProjectCustomDashboardPage', () => {
 
     expect(screen.getByText('Custom project dashboard')).toBeInTheDocument();
     expect(screen.getByTestId('dashboard-content')).toHaveTextContent('editing:false');
+    const editStatus = screen.getByText(
+      (_content, element) =>
+        element?.tagName === 'SPAN' &&
+        element.textContent?.includes('project_dashboard.last_edited_by') === true &&
+        element.textContent.includes('Alice'),
+    );
+    expect(editStatus).toHaveTextContent('project_dashboard.last_edited_by');
+    expect(editStatus).toHaveTextContent('Alice');
+    expect(mockUseUsersByIdsQuery).toHaveBeenCalledWith(['editor-id']);
 
     await user.click(screen.getByRole('button', { name: 'dashboard.edit_dashboard' }));
     expect(screen.getByTestId('dashboard-content')).toHaveTextContent('editing:true');
@@ -396,6 +435,18 @@ describe('ProjectCustomDashboardPage', () => {
       expect.objectContaining({ dashboardId: 'dashboard-id', projectId: 'project-id' }),
       expect.any(Object),
     );
+  });
+
+  it('allows only system administrators to download the dashboard schema', async () => {
+    const { rerender, user } = renderProjectCustomDashboardPage();
+
+    await user.click(screen.getByRole('button', { name: 'download-schema' }));
+    expect(mockDownloadDashboardSchema).toHaveBeenCalledWith(dashboard);
+
+    mockCurrentUser = { isLoggedIn: true, permissions: { global: [] } };
+    rerender(<ProjectCustomDashboardPage />);
+
+    expect(screen.queryByRole('button', { name: 'download-schema' })).not.toBeInTheDocument();
   });
 
   it('renders not found for an invalid dashboard id', () => {

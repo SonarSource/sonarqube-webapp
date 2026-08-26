@@ -25,12 +25,15 @@ import {
   type DashboardWidgetType,
   type WidgetMetricPickerOptions,
 } from '~feature-dashboards/types/widget-common';
+import { appendIssueDensityOption } from '~feature-dashboards/widget-creation-modal/utils/issueDensityMetricOptions';
+import { appendIssueResolutionOptions } from '~feature-dashboards/widget-creation-modal/utils/issueResolutionMetricOptions';
 import { buildPieChartMetricSelectOptions } from '~feature-dashboards/widget-creation-modal/utils/pieChartMetricSelectOptions';
 import { MetricKey } from '~shared/types/metrics';
 import {
   buildMetricGroups,
   type MetricGroupDefinition,
 } from '~sq-server-commons/components/dashboards/metricPickerOptions';
+import { getLocalizedMetricDomain } from '~sq-server-commons/helpers/l10n';
 
 const PROJECT_WIDGET_METRIC_GROUPS: readonly MetricGroupDefinition[] = [
   { domain: 'Issues', keys: [MetricKey.violations] },
@@ -75,12 +78,16 @@ const PROJECT_WIDGET_METRIC_GROUPS: readonly MetricGroupDefinition[] = [
 
 const PROJECT_WIDGET_METRICS = new Set(PROJECT_WIDGET_METRIC_GROUPS.flatMap(({ keys }) => keys));
 
-const PROJECT_RATING_BADGE_METRICS = new Set([
-  MetricKey.alert_status,
-  MetricKey.security_rating,
-  MetricKey.reliability_rating,
-  MetricKey.sqale_rating,
-]);
+const PROJECT_RATING_BADGE_METRIC_GROUPS: readonly MetricGroupDefinition[] = [
+  { domain: 'Quality gate', keys: [MetricKey.alert_status] },
+  { domain: 'Security', keys: [MetricKey.security_rating] },
+  { domain: 'Reliability', keys: [MetricKey.reliability_rating] },
+  { domain: 'Maintainability', keys: [MetricKey.sqale_rating] },
+];
+
+const PROJECT_RATING_BADGE_METRICS = new Set(
+  PROJECT_RATING_BADGE_METRIC_GROUPS.flatMap(({ keys }) => keys),
+);
 
 function supportsNewCodeScopeForMetric(
   metricKey: MetricKey,
@@ -94,24 +101,28 @@ export function getSqsProjectWidgetMetricPickerOptions(
   intl: Pick<IntlShape, 'formatMessage'>,
 ): WidgetMetricPickerOptions {
   const { formatMessage } = intl;
+  const issuesGroupLabel = getLocalizedMetricDomain('Issues');
+  const projectMetrics = buildMetricGroups(
+    PROJECT_WIDGET_METRIC_GROUPS,
+    PROJECT_WIDGET_METRICS,
+    formatMessage,
+  );
+  const enrichedMetrics = appendIssueResolutionOptions(
+    appendIssueDensityOption(projectMetrics, formatMessage, issuesGroupLabel),
+    formatMessage,
+    issuesGroupLabel,
+  );
+
   return {
-    countMetrics: buildMetricGroups(
-      PROJECT_WIDGET_METRIC_GROUPS,
-      PROJECT_WIDGET_METRICS,
-      formatMessage,
-    ),
+    countMetrics: enrichedMetrics,
     enableNewDashboardWidgets: true,
     isPortfolioWidgetConfigurator: false,
-    lineChartMetrics: buildMetricGroups(
-      PROJECT_WIDGET_METRIC_GROUPS,
-      PROJECT_WIDGET_METRICS,
-      formatMessage,
-    ),
+    lineChartMetrics: enrichedMetrics,
     pieChartMetricOptions: buildPieChartMetricSelectOptions(formatMessage).filter(
       ({ value }) => value !== PieChartMetric.HotspotCount,
     ),
     ratingBadgeMetrics: buildMetricGroups(
-      PROJECT_WIDGET_METRIC_GROUPS,
+      PROJECT_RATING_BADGE_METRIC_GROUPS,
       PROJECT_RATING_BADGE_METRICS,
       formatMessage,
     ),

@@ -18,31 +18,44 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import type { ComponentProps } from 'react';
 import { useIntl } from 'react-intl';
+import { useSearchParams } from 'react-router-dom';
+import { extractDashboardMeasureValue } from '~adapters/helpers/dashboard-measures';
+import { getProjectDashboardMeasuresUrl } from '~adapters/helpers/dashboard-widget-urls';
 import { getDashboardLocalizedMetricName } from '~adapters/helpers/l10n';
+import { useProjectRatingBadgeMeasuresQuery } from '~adapters/queries/project-rating-badge-widget-data';
 import { MetricKey } from '~shared/types/metrics';
 import { WidgetFilterLine } from '../../dashboard-layout/shared/WidgetFilterLine';
 import { WidgetHeaderTitle } from '../../dashboard-layout/shared/WidgetHeaderTitle';
 import type { LineChartGroupByValue } from '../../data/widgets/line-chart';
 import type { DashboardMetric, TopListWidgetProps } from '../../types/dashboard-widget';
-import type { CodeScope } from '../../types/widget-common';
+import { WidgetMode, type CodeScope } from '../../types/widget-common';
+import { normalizeRatingValue } from '../../utils/ratingBadge';
+import { RatingBadgeDisplay } from '../visualizations/RatingBadgeDisplay';
 import { getTopListWidgetTitle } from '../visualizations/top-list/topListWidgetTitle';
+import { getProjectContextualRatingMetricKey } from './contextualRatingBadge';
 import { getMetricWidgetHeaderText, getRatingWidgetHeaderText } from './widgetHeaderText';
 
 type Props =
   | {
       filterLineScopeOnly?: boolean;
       metric: DashboardMetric;
+      mode?: WidgetMode;
       scope: CodeScope;
+      showContextualRatingBadge?: boolean;
       titleOverride?: string;
     }
   | {
       groupBy: LineChartGroupByValue;
       historyRange: string;
       metric: DashboardMetric;
+      mode?: WidgetMode;
       scope: CodeScope;
     }
-  | { metricKey: MetricKey; scope: CodeScope };
+  | { metricKey: MetricKey; mode?: WidgetMode; scope: CodeScope };
+
+type ContextualRatingBadgeProps = ComponentProps<typeof RatingBadgeDisplay>;
 
 export function WidgetHeader(props: Readonly<Props>) {
   const { formatMessage } = useIntl();
@@ -68,10 +81,21 @@ export function WidgetHeader(props: Readonly<Props>) {
     'titleOverride' in props && props.titleOverride !== undefined
       ? props.titleOverride
       : headerText.title;
+  const contextualRatingBadge = useContextualRatingBadge(props);
 
   return (
-    <div className="sw-flex sw-w-full sw-min-w-0 sw-flex-col sw-gap-1">
-      <WidgetHeaderTitle title={title} />
+    <div className="sw-flex sw-w-full sw-min-w-0 sw-flex-col sw-gap-1" data-testid="widget-header">
+      <div
+        className="sw-flex sw-w-full sw-items-center sw-justify-between sw-gap-2"
+        data-testid="widget-header-title-row"
+      >
+        <div className="sw-min-w-0 sw-flex-1">
+          <WidgetHeaderTitle title={title} />
+        </div>
+        {contextualRatingBadge ? (
+          <RatingBadgeDisplay {...contextualRatingBadge} className="sw-flex-shrink-0" />
+        ) : null}
+      </div>
       <WidgetFilterLine segments={headerText.filterSegments} />
     </div>
   );
@@ -89,7 +113,45 @@ export function TopListWidgetHeader({
     <WidgetHeader
       metric={metric}
       scope={scope}
+      showContextualRatingBadge={false}
       titleOverride={getTopListWidgetTitle(formatMessage, { limit, rankBy })}
     />
   );
+}
+
+function useContextualRatingBadge(props: Props): ContextualRatingBadgeProps | undefined {
+  const [searchParams] = useSearchParams();
+  const isCountWidget =
+    'metric' in props && !('historyRange' in props) && props.showContextualRatingBadge !== false;
+  const ratingMetricKey = isCountWidget
+    ? getProjectContextualRatingMetricKey(props.metric, props.scope)
+    : undefined;
+  const component = searchParams.get('id') ?? '';
+  const { data: measureData } = useProjectRatingBadgeMeasuresQuery(
+    {
+      component,
+      metricKeys: ratingMetricKey ?? MetricKey.alert_status,
+    },
+    { enabled: Boolean(component) && ratingMetricKey !== undefined },
+  );
+
+  if (ratingMetricKey === undefined) {
+    return undefined;
+  }
+
+  const normalizedValue = normalizeRatingValue(
+    extractDashboardMeasureValue(measureData?.[0], false),
+  );
+  if (normalizedValue === undefined) {
+    return undefined;
+  }
+
+  return {
+    linkTo:
+      props.mode === WidgetMode.Edit
+        ? undefined
+        : getProjectDashboardMeasuresUrl({ component, metric: ratingMetricKey }),
+    metricKey: ratingMetricKey,
+    value: normalizedValue,
+  };
 }

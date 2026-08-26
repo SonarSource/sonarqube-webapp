@@ -22,7 +22,11 @@ import { screen } from '@testing-library/react';
 import { useState } from 'react';
 import { createIntl } from 'react-intl';
 import { PieChartMetric } from '~feature-dashboards/types/dashboard-widget';
-import { VisualizationType } from '~feature-dashboards/types/widget-common';
+import { IssueResolutionStatistic } from '~feature-dashboards/types/organization-issue-resolution-history';
+import {
+  ISSUE_DENSITY_METRIC_OPTION_VALUE,
+  VisualizationType,
+} from '~feature-dashboards/types/widget-common';
 import { render } from '~shared/helpers/test-utils';
 import { MetricKey } from '~shared/types/metrics';
 import { getSqsProjectWidgetMetricPickerOptions } from '../projectWidgetMetricPickerOptions';
@@ -147,5 +151,49 @@ describe('ProjectWidgetOptions', () => {
     expect(pieChartMetricOptions.map(({ value }) => value)).not.toContain(
       PieChartMetric.HotspotCount,
     );
+  });
+
+  it('includes quality gate and rating metrics in the badge picker only', () => {
+    const options = getSqsProjectWidgetMetricPickerOptions(createIntl({ locale: 'en' }));
+    const lineChartMetrics = options.lineChartMetrics as NonNullable<
+      typeof options.lineChartMetrics
+    >;
+    const expectedRatingBadgeMetrics = [
+      MetricKey.alert_status,
+      MetricKey.security_rating,
+      MetricKey.reliability_rating,
+      MetricKey.sqale_rating,
+    ];
+    const ratingValues = options.ratingBadgeMetrics.flatMap(({ items }) =>
+      items.map(({ value }) => value),
+    );
+    const countValues = options.countMetrics.flatMap(({ items }) =>
+      items.map(({ value }) => value),
+    );
+    const lineValues = lineChartMetrics.flatMap(({ items }) => items.map(({ value }) => value));
+
+    expect(ratingValues).toEqual(expectedRatingBadgeMetrics);
+    expect(countValues).toEqual(expect.not.arrayContaining(expectedRatingBadgeMetrics));
+    expect(lineValues).toEqual(expect.not.arrayContaining(expectedRatingBadgeMetrics));
+  });
+
+  it('includes issue density and issue resolution metrics in count and line chart pickers', () => {
+    const options = getSqsProjectWidgetMetricPickerOptions(createIntl({ locale: 'en' }));
+    const lineChartMetrics = options.lineChartMetrics as NonNullable<
+      typeof options.lineChartMetrics
+    >;
+    const expectedMetrics = [
+      ISSUE_DENSITY_METRIC_OPTION_VALUE,
+      IssueResolutionStatistic.ResolvedIssues,
+      IssueResolutionStatistic.MTTR,
+      IssueResolutionStatistic.RecentMTTR,
+    ];
+    const countValues = options.countMetrics.flatMap(({ items }) =>
+      items.map(({ value }) => value),
+    );
+    const lineValues = lineChartMetrics.flatMap(({ items }) => items.map(({ value }) => value));
+
+    expect(countValues).toEqual(expect.arrayContaining(expectedMetrics));
+    expect(lineValues).toEqual(expect.arrayContaining(expectedMetrics));
   });
 });

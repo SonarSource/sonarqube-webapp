@@ -101,12 +101,13 @@ describe('SQS adapter Measure', () => {
     expect(screen.getByText(`fmt:${MetricType.Percent}:86.2`)).toBeInTheDocument();
   });
 
-  it('renders rating component with the requested badge size', () => {
+  it('renders the provided rating value with the requested badge size', () => {
     render(
       <Measure
         badgeSize={RatingBadgeSize.ExtraLarge}
         metricKey={MetricKey.reliability_rating}
         metricType={MetricType.Rating}
+        useProvidedRatingValue
         value="2"
       />,
     );
@@ -115,6 +116,7 @@ describe('SQS adapter Measure', () => {
     expect(mockRatingComponent).toHaveBeenCalledWith(
       expect.objectContaining({
         componentKey: '',
+        providedValue: '2',
         ratingMetric: MetricKey.reliability_rating,
         size: RatingBadgeSize.ExtraLarge,
       }),

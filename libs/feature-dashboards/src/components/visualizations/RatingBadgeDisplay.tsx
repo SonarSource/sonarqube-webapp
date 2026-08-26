@@ -56,6 +56,7 @@ export function RatingBadgeDisplay({
       componentKey={componentKey}
       metricKey={metricKey}
       metricType={MetricType.Rating}
+      useProvidedRatingValue
       value={value}
     />
   );

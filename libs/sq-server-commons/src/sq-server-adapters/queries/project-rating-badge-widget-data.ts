@@ -18,14 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { getBranchLikeQuery, isBranch, isPullRequest } from '~shared/helpers/branch-like';
 import type { Measure } from '~shared/types/measures';
 import { useComponent } from '../../context/componentContext/withComponentContext';
+import {
+  organizationsHistoryStartDateWithRetentionBuffer,
+  portfolioMeasuresHistoryLatestValue,
+} from '../../helpers/dashboard-widget-data';
 import { extractStatusConditionsFromProjectStatus } from '../../helpers/quality-gates';
+import { useDashboardMeasuresHistoryQuery } from '../../queries/dashboard-history';
 import { useProjectQualityGateStatus } from '../../queries/quality-gates';
 import type { BranchLike } from '../../types/branch-like';
 import { useCurrentBranchQuery } from './branch';
-import { useMeasuresComponentQuery } from './measures';
 
 interface QualityGateStatusCondition {
   actual?: string;
@@ -43,17 +47,38 @@ export function useProjectRatingBadgeMeasuresQuery(
   const { component } = useComponent();
   const branchQuery = useCurrentBranchQuery(component);
   const enabled = options?.enabled ?? true;
-  const measuresQuery = useMeasuresComponentQuery(
+  const metricKeys = params.metricKeys.split(',').filter(Boolean);
+  let entityId: string | undefined;
+  if (isBranch(branchQuery.data)) {
+    entityId = branchQuery.data.branchId;
+  } else if (isPullRequest(branchQuery.data)) {
+    entityId = branchQuery.data.pullRequestId;
+  }
+  const measuresQuery = useDashboardMeasuresHistoryQuery(
     {
-      branchLike: branchQuery.data,
-      componentKey: params.component,
-      metricKeys: params.metricKeys.split(',').filter(Boolean),
+      entityId: entityId ?? '',
+      entityType: 'PROJECT_BRANCH',
+      metricKeys,
+      startDate: organizationsHistoryStartDateWithRetentionBuffer(),
     },
-    { enabled: enabled && !branchQuery.isPending },
+    {
+      enabled: enabled && !branchQuery.isPending && Boolean(entityId) && metricKeys.length > 0,
+      refetchOnWindowFocus: false,
+      select: (response): Measure[] =>
+        metricKeys.flatMap((metric): Measure[] => {
+          const value = portfolioMeasuresHistoryLatestValue(response.measuresHistory, metric);
+          if (value === undefined) {
+            return [];
+          }
+          return metric.startsWith('new_')
+            ? [{ metric, period: { index: 1, value } }]
+            : [{ metric, value }];
+        }),
+    },
   );
 
   return {
-    data: measuresQuery.data?.component.measures,
+    data: measuresQuery.data,
     isLoading: enabled && (branchQuery.isPending || measuresQuery.isLoading),
   };
 }
