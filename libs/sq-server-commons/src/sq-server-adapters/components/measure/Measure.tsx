@@ -145,7 +145,7 @@ export default function Measure({
     return (
       <SoftwareImpactSeverityIcon
         className={classNames(className, 'sw-text-md')}
-        severity={getIssueSeverityBasedOnConditionValue(value)}
+        severity={getIssueSeverityBasedOnConditionValue(value, metricKey as MetricKey)}
       />
     );
   }

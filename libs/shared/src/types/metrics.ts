@@ -54,12 +54,12 @@ export enum MetricKey {
   executable_lines_data = 'executable_lines_data',
   false_positive_issues = 'false_positive_issues',
   file = 'file',
-  from_sonarqube_update_issues = 'from_sonarqube_update_issues',
   file_complexity = 'file_complexity',
   file_complexity_distribution = 'file_complexity_distribution',
   filename_size = 'filename_size',
   filename_size_rating = 'filename_size_rating',
   files = 'files',
+  from_sonarqube_update_issues = 'from_sonarqube_update_issues',
   function_complexity = 'function_complexity',
   function_complexity_distribution = 'function_complexity_distribution',
   functions = 'functions',
@@ -82,7 +82,11 @@ export enum MetricKey {
   line_coverage = 'line_coverage',
   lines = 'lines',
   lines_to_cover = 'lines_to_cover',
+  /**
+   * @deprecated Use `software_quality_maintainability_issues` instead
+   */
   maintainability_issues = 'maintainability_issues',
+  maintainability_issue_severity = 'maintainability_issue_severity',
   maintainability_rating = 'maintainability_rating',
   maintainability_rating_distribution = 'maintainability_rating_distribution',
   maintainability_rating_effort = 'maintainability_rating_effort',
@@ -114,6 +118,10 @@ export enum MetricKey {
   new_line_coverage = 'new_line_coverage',
   new_lines = 'new_lines',
   new_lines_to_cover = 'new_lines_to_cover',
+  new_maintainability_issue_severity = 'new_maintainability_issue_severity',
+  /**
+   * @deprecated Use `new_software_quality_maintainability_issues` instead
+   */
   new_maintainability_issues = 'new_maintainability_issues',
   new_maintainability_rating = 'new_maintainability_rating',
   new_maintainability_rating_distribution = 'new_maintainability_rating_distribution',
@@ -122,30 +130,31 @@ export enum MetricKey {
   new_major_violations = 'new_major_violations',
   new_minor_violations = 'new_minor_violations',
   new_ncloc = 'new_ncloc',
+  new_reliability_issue_severity = 'new_reliability_issue_severity',
+  /**
+   * @deprecated Use `new_software_quality_reliability_issues` instead
+   */
   new_reliability_issues = 'new_reliability_issues',
   new_reliability_rating = 'new_reliability_rating',
   new_reliability_rating_distribution = 'new_reliability_rating_distribution',
   new_reliability_rating_with_aica = 'new_reliability_rating_with_aica',
   new_reliability_rating_without_aica = 'new_reliability_rating_without_aica',
   new_reliability_remediation_effort = 'new_reliability_remediation_effort',
-  new_reliability_issue_severity = 'new_reliability_issue_severity',
-  new_security_issue_severity = 'new_security_issue_severity',
-  new_maintainability_issue_severity = 'new_maintainability_issue_severity',
   new_sca_count_any_issue = 'new_sca_count_any_issue',
   new_sca_count_any_security = 'new_sca_count_any_security',
   new_sca_count_licensing = 'new_sca_count_licensing',
-  new_sca_count_vulnerability = 'new_sca_count_vulnerability',
   new_sca_count_malware = 'new_sca_count_malware',
+  new_sca_count_vulnerability = 'new_sca_count_vulnerability',
   new_sca_rating_any_issue = 'new_sca_rating_any_issue',
   new_sca_rating_any_issue_distribution = 'new_sca_rating_any_issue_distribution',
   new_sca_rating_any_security = 'new_sca_rating_any_security',
   new_sca_rating_any_security_distribution = 'new_sca_rating_any_security_distribution',
   new_sca_rating_licensing = 'new_sca_rating_licensing',
   new_sca_rating_licensing_distribution = 'new_sca_rating_licensing_distribution',
-  new_sca_rating_vulnerability = 'new_sca_rating_vulnerability',
-  new_sca_rating_vulnerability_distribution = 'new_sca_rating_vulnerability_distribution',
   new_sca_rating_malware = 'new_sca_rating_malware',
   new_sca_rating_malware_distribution = 'new_sca_rating_malware_distribution',
+  new_sca_rating_vulnerability = 'new_sca_rating_vulnerability',
+  new_sca_rating_vulnerability_distribution = 'new_sca_rating_vulnerability_distribution',
   new_sca_severity_any_issue = 'new_sca_severity_any_issue',
   new_sca_severity_any_security = 'new_sca_severity_any_security',
   new_sca_severity_licensing = 'new_sca_severity_licensing',
@@ -153,6 +162,10 @@ export enum MetricKey {
   new_sca_severity_vulnerability = 'new_sca_severity_vulnerability',
   new_security_hotspots = 'new_security_hotspots',
   new_security_hotspots_reviewed = 'new_security_hotspots_reviewed',
+  new_security_issue_severity = 'new_security_issue_severity',
+  /**
+   * @deprecated Use `new_software_quality_security_issues` instead
+   */
   new_security_issues = 'new_security_issues',
   new_security_rating = 'new_security_rating',
   new_security_rating_distribution = 'new_security_rating_distribution',
@@ -211,7 +224,11 @@ export enum MetricKey {
   releasability_rating_with_aica = 'releasability_rating_with_aica',
   releasability_rating_without_aica = 'releasability_rating_without_aica',
   releasability_status_distribution = 'releasability_status_distribution',
+  /**
+   * @deprecated Use `software_quality_reliability_issues` instead
+   */
   reliability_issues = 'reliability_issues',
+  reliability_issue_severity = 'reliability_issue_severity',
   reliability_rating = 'reliability_rating',
   reliability_rating_distribution = 'reliability_rating_distribution',
   reliability_rating_effort = 'reliability_rating_effort',
@@ -241,7 +258,11 @@ export enum MetricKey {
   sca_severity_vulnerability = 'sca_severity_vulnerability',
   security_hotspots = 'security_hotspots',
   security_hotspots_reviewed = 'security_hotspots_reviewed',
+  /**
+   * @deprecated Use `software_quality_security_issues` instead
+   */
   security_issues = 'security_issues',
+  security_issue_severity = 'security_issue_severity',
   security_rating = 'security_rating',
   security_rating_distribution = 'security_rating_distribution',
   security_rating_effort = 'security_rating_effort',

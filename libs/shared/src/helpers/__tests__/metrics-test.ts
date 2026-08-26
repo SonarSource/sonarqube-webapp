@@ -20,7 +20,11 @@
 
 import { Metric } from '../../types/measures';
 import { MetricKey, MetricType } from '../../types/metrics';
-import { augmentMetricsForIssueSeverity, parsePortfolioMetricDirection } from '../metrics';
+import {
+  augmentMetricsForIssueSeverity,
+  isMqrSeverityMetric,
+  parsePortfolioMetricDirection,
+} from '../metrics';
 
 function buildMetric(overrides: Partial<Metric> & Pick<Metric, 'key'>): Metric {
   return {
@@ -51,6 +55,26 @@ describe('augmentMetricsForIssueSeverity', () => {
 
     expect(augmentMetricsForIssueSeverity(metrics)).toEqual(metrics);
   });
+});
+
+describe('isMqrSeverityMetric', () => {
+  it.each([
+    MetricKey.new_maintainability_issue_severity,
+    MetricKey.new_reliability_issue_severity,
+    MetricKey.new_security_issue_severity,
+    MetricKey.maintainability_issue_severity,
+    MetricKey.reliability_issue_severity,
+    MetricKey.security_issue_severity,
+  ])('returns true for %s', (key) => {
+    expect(isMqrSeverityMetric(key)).toBe(true);
+  });
+
+  it.each([MetricKey.bugs, MetricKey.coverage, MetricKey.new_bugs_severity])(
+    'returns false for %s',
+    (key) => {
+      expect(isMqrSeverityMetric(key)).toBe(false);
+    },
+  );
 });
 
 describe('parsePortfolioMetricDirection', () => {

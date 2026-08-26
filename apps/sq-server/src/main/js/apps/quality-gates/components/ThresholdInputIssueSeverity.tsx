@@ -21,15 +21,15 @@
 import { Select } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import SoftwareImpactSeverityIcon from '~shared/components/icon-mappers/SoftwareImpactSeverityIcon';
-import { ISSUE_SEVERITY_CONDITION_MAPPING } from '~shared/helpers/quality-gates';
+import {
+  ISSUE_SEVERITY_CONDITION_MAPPING,
+  MQR_SEVERITY_CONDITION_MAPPING,
+} from '~shared/helpers/quality-gates';
 import { isStringDefined } from '~shared/helpers/types';
 import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { getModeForMetric } from '~sq-server-commons/helpers/quality-gates';
-import {
-  getIssueSeverityFormatter,
-  ISSUE_SEVERITY_MQR_MAPPING,
-} from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { getIssueSeverityFormatter } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { Mode } from '~sq-server-commons/types/mode';
 
 interface Props {
@@ -53,7 +53,7 @@ export function ThresholdInputIssueSeverity({
 
   const mode = getModeForMetric(metric.key as MetricKey);
   const values =
-    mode === Mode.Standard ? ISSUE_SEVERITY_CONDITION_MAPPING : ISSUE_SEVERITY_MQR_MAPPING;
+    mode === Mode.Standard ? ISSUE_SEVERITY_CONDITION_MAPPING : MQR_SEVERITY_CONDITION_MAPPING;
 
   const formatter = getIssueSeverityFormatter(metric.key as MetricKey);
   const options = Object.entries(values).map(([k, v]) => ({

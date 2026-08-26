@@ -18,10 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { SoftwareImpactSeverity } from '../types/clean-code-taxonomy';
 import { IssueSeverity } from '../types/issues';
 import { Metric } from '../types/measures';
-import { MetricType } from '../types/metrics';
+import { MetricKey, MetricType } from '../types/metrics';
 import { QualityGateConditionOperator, QualityGateStatusCondition } from '../types/quality-gates';
+import { isMqrSeverityMetric } from './metrics';
 import { scaConditionOperator } from './sca';
 
 const QUALITY_GATE_OPERATOR_LABEL_IDS: Record<
@@ -126,10 +128,27 @@ export const ISSUE_SEVERITY_CONDITION_MAPPING: Record<string, IssueSeverity> = {
   '24': IssueSeverity.Blocker,
 };
 
+/**
+ * These levels are modeled in the DB as 5, 10, 15, 20, 25
+ * In order to get the GreaterThanOrEqual operator, we need to subtract 1
+ */
+export const MQR_SEVERITY_CONDITION_MAPPING: Record<string, SoftwareImpactSeverity> = {
+  '4': SoftwareImpactSeverity.Info,
+  '9': SoftwareImpactSeverity.Low,
+  '14': SoftwareImpactSeverity.Medium,
+  '19': SoftwareImpactSeverity.High,
+  '24': SoftwareImpactSeverity.Blocker,
+};
+
 export function getIssueSeverityBasedOnConditionValue(
   value: string | number,
-): IssueSeverity | undefined {
-  return ISSUE_SEVERITY_CONDITION_MAPPING[String(Number(value) - 1)];
+  metricKey: MetricKey,
+): IssueSeverity | SoftwareImpactSeverity | undefined {
+  const mapping = isMqrSeverityMetric(metricKey as MetricKey)
+    ? MQR_SEVERITY_CONDITION_MAPPING
+    : ISSUE_SEVERITY_CONDITION_MAPPING;
+
+  return mapping[String(Number(value) - 1)];
 }
 
 /**

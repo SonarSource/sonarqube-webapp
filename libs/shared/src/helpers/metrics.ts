@@ -35,13 +35,26 @@ export const ISSUE_SEVERITY_METRICS = new Set([
   MetricKey.new_bugs_severity,
   MetricKey.new_vulnerabilities_severity,
   MetricKey.new_code_smells_severity,
+]);
+
+export const MQR_SEVERITY_METRICS = new Set([
   MetricKey.new_maintainability_issue_severity,
   MetricKey.new_reliability_issue_severity,
   MetricKey.new_security_issue_severity,
+  MetricKey.maintainability_issue_severity,
+  MetricKey.reliability_issue_severity,
+  MetricKey.security_issue_severity,
 ]);
 
 export function isIssueSeverityMetric(metricKey: string): boolean {
-  return ISSUE_SEVERITY_METRICS.has(metricKey as MetricKey);
+  return (
+    ISSUE_SEVERITY_METRICS.has(metricKey as MetricKey) ||
+    MQR_SEVERITY_METRICS.has(metricKey as MetricKey)
+  );
+}
+
+export function isMqrSeverityMetric(metricKey: string): boolean {
+  return MQR_SEVERITY_METRICS.has(metricKey as MetricKey);
 }
 
 const COVERAGE_METRICS = new Set<string>([

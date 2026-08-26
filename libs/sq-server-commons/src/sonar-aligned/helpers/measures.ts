@@ -31,13 +31,15 @@ import {
   shortDurationFormatter,
   shortIntFormatter,
 } from '~shared/helpers/measures';
-import { normalizeSeverityConditionThreshold } from '~shared/helpers/quality-gates';
+import {
+  MQR_SEVERITY_CONDITION_MAPPING,
+  normalizeSeverityConditionThreshold,
+} from '~shared/helpers/quality-gates';
 import {
   RISK_SEVERITY_LABELS,
   SCA_RISK_SEVERITY_METRIC_THRESHOLDS,
   SCA_RISK_SEVERITY_METRIC_VALUES,
 } from '~shared/helpers/sca';
-import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { ReleaseRiskSeverity } from '~shared/types/sca';
 import { getIntl } from '../../helpers/l10nBundle';
@@ -106,30 +108,23 @@ function makeRiskMetricOptionsFormatter() {
   };
 }
 
-/**
- * These levels are modeled in the DB as 5, 10, 15, 20, 25
- * In order to get the GreaterThanOrEqual operator, we need to subtract 1
- */
-export const ISSUE_SEVERITY_MQR_MAPPING: Record<string, SoftwareImpactSeverity> = {
-  '4': SoftwareImpactSeverity.Info,
-  '9': SoftwareImpactSeverity.Low,
-  '14': SoftwareImpactSeverity.Medium,
-  '19': SoftwareImpactSeverity.High,
-  '24': SoftwareImpactSeverity.Blocker,
-};
-
 export const getIssueSeverityFormatter = (metricKey?: MetricKey): Formatter => {
   const { formatMessage } = getIntl();
   const mode = getModeForMetric(metricKey);
 
   if (mode === Mode.MQR) {
     return (value: string | number): string => {
-      const normalizedKey = normalizeSeverityConditionThreshold(ISSUE_SEVERITY_MQR_MAPPING, value);
+      const normalizedKey = normalizeSeverityConditionThreshold(
+        MQR_SEVERITY_CONDITION_MAPPING,
+        value,
+      );
       if (normalizedKey === undefined) {
         return value.toString();
       }
 
-      return formatMessage({ id: `severity_impact.${ISSUE_SEVERITY_MQR_MAPPING[normalizedKey]}` });
+      return formatMessage({
+        id: `severity_impact.${MQR_SEVERITY_CONDITION_MAPPING[normalizedKey]}`,
+      });
     };
   }
   return issueSeverityFormatter.bind(null, formatMessage);
