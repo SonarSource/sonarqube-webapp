@@ -786,6 +786,8 @@ export const defaultMessages = {
   'ai_capabilities.title': 'AI Capabilities',
   'ai_capabilities.description':
     'Enable agents to remediate tech debt, find complex security issues, and automate fix suggestions.',
+  'ai_capabilities.enablement_badge.enabled': 'Enabled',
+  'ai_capabilities.enablement_badge.not_enabled': 'Not enabled',
   'ai_capabilities.scheduled_jobs.automatic': 'Automatic',
   'ai_capabilities.llm_providers.title': 'LLM Providers',
   'ai_capabilities.llm_providers.description':
