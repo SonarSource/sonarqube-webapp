@@ -41,10 +41,12 @@ interface ButtonProps {
   copyValue: string;
   icon?: ReactNode;
   isDisabled?: boolean;
+  variety?: `${ButtonVariety}`;
 }
 
 export function ClipboardButton(props: Readonly<ButtonProps>) {
-  const { icon, className, children, copyValue, ariaLabel, copiedLabel, isDisabled } = props;
+  const { icon, className, children, copyValue, ariaLabel, copiedLabel, isDisabled, variety } =
+    props;
   const [copySuccess, handleCopy] = useCopyClipboardEffect(copyValue);
 
   return (
@@ -55,6 +57,7 @@ export function ClipboardButton(props: Readonly<ButtonProps>) {
         isDisabled={isDisabled}
         onClick={handleCopy}
         prefix={icon ?? <IconCopy />}
+        variety={variety}
       >
         {children ?? <FormattedMessage id="copy" />}
       </Button>
