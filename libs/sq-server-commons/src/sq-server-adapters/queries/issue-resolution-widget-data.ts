@@ -30,7 +30,12 @@ import {
   portfolioIssueHistoryToTrend,
   type MeasureFilters,
 } from '../../helpers/dashboard-widget-data';
+import {
+  resolveIssueHistoryFiltersForMode,
+  resolveIssueSoftwareQuality,
+} from '../../helpers/dashboard-widget-mode';
 import { useDashboardIssueResolutionHistoryQuery } from '../../queries/dashboard-history';
+import { useStandardExperienceModeQuery } from '../../queries/mode';
 import type {
   DashboardCountTrendData,
   DashboardEntityType,
@@ -46,17 +51,23 @@ export function useOrgIssueResolutionCountWidgetData(params: {
 }): DashboardWidgetQueryResult<DashboardCountTrendData> {
   const { entityId, entityType, measureFilters, statistic } = params;
   const filters = measureFilters as MeasureFilters | undefined;
+  const modeQuery = useStandardExperienceModeQuery({ enabled: Boolean(entityId) });
+  const isModeResolved = !modeQuery.isPending && modeQuery.error == null;
 
-  return useDashboardIssueResolutionHistoryQuery(
+  const query = useDashboardIssueResolutionHistoryQuery(
     {
       entityId,
       entityType,
       startDate: organizationsHistoryStartDateWithRetentionBuffer(),
       statistic,
-      ...issueHistoryFilterParams(filters),
+      ...resolveIssueHistoryFiltersForMode(issueHistoryFilterParams(filters), {
+        isStandardMode: modeQuery.data ?? true,
+        severities: filters?.impactSeverities,
+        softwareQuality: resolveIssueSoftwareQuality(filters?.impactSoftwareQuality),
+      }),
     },
     {
-      enabled: Boolean(entityId),
+      enabled: Boolean(entityId) && isModeResolved,
       refetchOnWindowFocus: false,
       select: (response): DashboardCountTrendData => ({
         latestValue: portfolioIssueCountHistoryLatestTotal(response.issueResolutionHistory),
@@ -65,6 +76,8 @@ export function useOrgIssueResolutionCountWidgetData(params: {
       }),
     },
   );
+
+  return { ...query, isPending: modeQuery.isPending || query.isPending };
 }
 
 export function useOrgIssueResolutionLineChartWidgetData(params: {
@@ -77,17 +90,23 @@ export function useOrgIssueResolutionLineChartWidgetData(params: {
 }): DashboardWidgetQueryResult<DashboardLineChartSeries[]> & { isError: boolean } {
   const { entityId, entityType, historyRange, measureFilters, metricName, statistic } = params;
   const filters = measureFilters as MeasureFilters | undefined;
+  const modeQuery = useStandardExperienceModeQuery({ enabled: Boolean(entityId) });
+  const isModeResolved = !modeQuery.isPending && modeQuery.error == null;
 
-  return useDashboardIssueResolutionHistoryQuery(
+  const query = useDashboardIssueResolutionHistoryQuery(
     {
       entityId,
       entityType,
       startDate: lineChartSinceDate(historyRange),
       statistic,
-      ...issueHistoryFilterParams(filters),
+      ...resolveIssueHistoryFiltersForMode(issueHistoryFilterParams(filters), {
+        isStandardMode: modeQuery.data ?? true,
+        severities: filters?.impactSeverities,
+        softwareQuality: resolveIssueSoftwareQuality(filters?.impactSoftwareQuality),
+      }),
     },
     {
-      enabled: Boolean(entityId),
+      enabled: Boolean(entityId) && isModeResolved,
       retry: false,
       select: (response): DashboardLineChartSeries[] =>
         lineChartDataToSingleSeries(
@@ -96,4 +115,10 @@ export function useOrgIssueResolutionLineChartWidgetData(params: {
         ),
     },
   );
+
+  return {
+    ...query,
+    isError: modeQuery.error != null || query.isError,
+    isPending: modeQuery.isPending || query.isPending,
+  };
 }

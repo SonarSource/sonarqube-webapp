@@ -34,8 +34,13 @@ import {
   organizationsHistoryStartDateWithRetentionBuffer,
   resolveRichCountTrendMetricMetadata,
 } from '../../helpers/dashboard-widget-data';
+import {
+  resolveIssueHistoryFiltersForMode,
+  resolveIssueSoftwareQuality,
+} from '../../helpers/dashboard-widget-mode';
 import { unsupportedDashboardWidgetAdapter } from '../../helpers/unsupported-dashboard-widget-adapter';
 import { useDashboardIssueCountHistoryQuery } from '../../queries/dashboard-history';
+import { useStandardExperienceModeQuery } from '../../queries/mode';
 
 export type UseTopListIssueCountDataOptions = {
   enabled?: boolean;
@@ -73,17 +78,31 @@ export function useTopListIssueCountData(
     metric.type === DashboardMetricType.Rich ? metric.metricKey : RichMetricKey.Issues;
   const isUnsupported = richMetricKey === RichMetricKey.Hotspots;
   const resolvedIssueMetricKey = getActualMetricKey(metric) ?? MetricKey.violations;
+  const modeQuery = useStandardExperienceModeQuery({
+    enabled: enabled && Boolean(entityId) && !isUnsupported,
+  });
+  const isModeResolved = !modeQuery.isPending && modeQuery.error == null;
   const issueCountParams = useMemo(
     () => ({
       entityId,
       entityType,
       sliceBy: 'RULE_KEY',
       startDate: organizationsHistoryStartDateWithRetentionBuffer(),
-      ...issueHistoryQueryExtras(measureFilters, richMetricKey, resolvedIssueMetricKey),
+      ...resolveIssueHistoryFiltersForMode(
+        issueHistoryQueryExtras(measureFilters, richMetricKey, resolvedIssueMetricKey),
+        {
+          isStandardMode: modeQuery.data ?? true,
+          severities: measureFilters?.impactSeverities,
+          softwareQuality: resolveIssueSoftwareQuality(
+            measureFilters?.impactSoftwareQuality,
+            resolvedIssueMetricKey,
+          ),
+        },
+      ),
     }),
-    [entityId, entityType, measureFilters, resolvedIssueMetricKey, richMetricKey],
+    [entityId, entityType, measureFilters, modeQuery.data, resolvedIssueMetricKey, richMetricKey],
   );
-  const queryEnabled = enabled && Boolean(entityId) && !isUnsupported;
+  const queryEnabled = enabled && Boolean(entityId) && !isUnsupported && isModeResolved;
   const countsQuery = useDashboardIssueCountHistoryQuery(issueCountParams, {
     enabled: queryEnabled,
     refetchOnWindowFocus: false,
@@ -139,8 +158,8 @@ export function useTopListIssueCountData(
   return {
     counts: counts ?? {},
     getRuleTrendData,
-    isError: countsQuery.isError,
-    isPending: countsQuery.isPending || isTrendPending,
+    isError: modeQuery.error != null || countsQuery.isError,
+    isPending: modeQuery.isPending || countsQuery.isPending || isTrendPending,
     topRuleKeys,
   };
 }

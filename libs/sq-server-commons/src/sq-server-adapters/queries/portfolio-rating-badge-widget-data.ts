@@ -18,13 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MetricKey } from '~shared/types/metrics';
-import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from '../../helpers/constants';
 import {
   adaptServerReleasabilityDistribution,
   organizationsHistoryStartDateWithRetentionBuffer,
   portfolioMeasuresLatestRecord,
 } from '../../helpers/dashboard-widget-data';
+import { resolvePortfolioDashboardMetricKeys } from '../../helpers/dashboard-widget-mode';
 import {
   useDashboardMeasuresHistoryQuery,
   useDashboardProjectMeasuresQuery,
@@ -45,24 +44,6 @@ interface PortfolioComputedProjectMeasuresParams {
   sort?: string;
 }
 
-function resolvePortfolioMetricKey(metricKey: string, isStandardMode: boolean): string {
-  const serverHistoryMetricKey =
-    metricKey === MetricKey.releasability_status_distribution
-      ? MetricKey.releasability_rating_distribution
-      : metricKey;
-  const standardMetricKey =
-    serverHistoryMetricKey === MetricKey.maintainability_rating
-      ? MetricKey.sqale_rating
-      : serverHistoryMetricKey;
-  return isStandardMode
-    ? standardMetricKey
-    : (SOFTWARE_QUALITY_RATING_METRICS_MAP[standardMetricKey] ?? standardMetricKey);
-}
-
-function resolvePortfolioMetricKeys(metricKeys: string[], isStandardMode: boolean): string[] {
-  return metricKeys.map((metricKey) => resolvePortfolioMetricKey(metricKey, isStandardMode));
-}
-
 export function usePortfolioRatingBadgeMetricKeysQuery(metricKeys: string[]): {
   error: unknown;
   isPending: boolean;
@@ -72,7 +53,7 @@ export function usePortfolioRatingBadgeMetricKeysQuery(metricKeys: string[]): {
   return {
     error: modeQuery.error,
     isPending: modeQuery.isPending,
-    metricKeys: resolvePortfolioMetricKeys(metricKeys, modeQuery.data ?? true),
+    metricKeys: resolvePortfolioDashboardMetricKeys(metricKeys, modeQuery.data ?? true),
   };
 }
 

@@ -20,6 +20,7 @@
 
 import { renderHook } from '@testing-library/react';
 import { getContextWrapper } from '~adapters/helpers/test-utils';
+import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
   CodeScope,
@@ -297,6 +298,55 @@ describe('dashboard widget adapter queries', () => {
       });
     });
 
+    it('translates canonical Cloud count inputs only at the Standard data boundary', () => {
+      renderHook(
+        () =>
+          useOrgIssueCountWidgetData({
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            measureFilters: {
+              impactSeverities: [SoftwareImpactSeverity.High],
+              impactSoftwareQuality: SoftwareQuality.Security,
+            },
+            resolvedIssueMetricKey: MetricKey.violations,
+            richMetricKey: RichMetricKey.Issues,
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      const [queryParams, queryOptions] = mockUseDashboardIssueCountHistoryQuery.mock.calls[0];
+      expect(queryParams).toEqual(
+        expect.objectContaining({
+          issueTypes: ['VULNERABILITY'],
+          severities: ['CRITICAL'],
+        }),
+      );
+      expect(queryParams).not.toHaveProperty('impacts');
+      expect(queryOptions).toEqual(expect.objectContaining({ enabled: true }));
+    });
+
+    it('resolves Cloud measure keys to their MQR data source', () => {
+      mockUseStandardExperienceModeQuery.mockReturnValue(queryResult(false));
+
+      renderHook(
+        () =>
+          useOrgMeasuresCountWidgetData({
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            metricKeyForRequest: MetricKey.security_rating,
+            metricType: MetricType.Rating,
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(mockUseDashboardMeasuresHistoryQuery).toHaveBeenCalledWith(
+        expect.objectContaining({
+          metricKeys: [MetricKey.software_quality_security_rating],
+        }),
+        expect.objectContaining({ enabled: true }),
+      );
+    });
+
     it('selects the measure or issue history path for line charts', () => {
       jest.useFakeTimers();
       jest.setSystemTime(new Date('2026-03-30T12:00:00.000Z'));
@@ -379,6 +429,106 @@ describe('dashboard widget adapter queries', () => {
         }),
       ).toEqual([expect.objectContaining({ id: 'total', label: 'Issues' })]);
       jest.useRealTimers();
+    });
+
+    it.each([
+      [true, { issueTypes: ['VULNERABILITY'] }],
+      [false, { impacts: expect.arrayContaining(['SECURITY:HIGH']) }],
+    ])('resolves semantic line-chart filters for the current mode', (isStandardMode, expected) => {
+      mockUseStandardExperienceModeQuery.mockReturnValue(queryResult(isStandardMode));
+
+      renderHook(
+        () =>
+          useOrganizationLineChartSeriesData({
+            actualMetricKey: MetricKey.security_issues,
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            groupBy: LineChartGroupBy.None,
+            historyRange: '3',
+            measureFilters: { impactSoftwareQuality: SoftwareQuality.Security },
+            measuresHistoryKey: MetricKey.security_issues,
+            metric: {
+              measureFilters: { impactSoftwareQuality: SoftwareQuality.Security },
+              metricKey: RichMetricKey.Issues,
+              type: DashboardMetricType.Rich,
+            },
+            metricName: 'Security issues',
+            metricType: MetricType.Integer,
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(mockUseDashboardIssueCountHistoryQuery).toHaveBeenCalledWith(
+        expect.objectContaining(expected),
+        expect.objectContaining({ enabled: true }),
+      );
+    });
+
+    it('reads a canonical software-quality grouping from the Standard type dimension', () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date('2026-03-30T12:00:00.000Z'));
+
+      renderHook(
+        () =>
+          useOrganizationLineChartSeriesData({
+            actualMetricKey: MetricKey.violations,
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            groupBy: LineChartGroupBy.SoftwareQuality,
+            historyRange: '3',
+            measureFilters: undefined,
+            measuresHistoryKey: MetricKey.violations,
+            metric: { metricKey: RichMetricKey.Issues, type: DashboardMetricType.Rich },
+            metricName: 'Issues',
+            metricType: MetricType.Integer,
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      const queryCall = mockUseDashboardIssueCountHistoryQuery.mock.calls[0];
+      expect(queryCall[0]).toEqual(expect.objectContaining({ sliceBy: 'TYPE' }));
+      expect(
+        selectFrom(queryCall)({
+          issueCountHistory: [{ date: '2026-03-20', distribution: [{ key: 'BUG', value: 2 }] }],
+        }),
+      ).toEqual([expect.objectContaining({ id: SoftwareQuality.Reliability })]);
+      jest.useRealTimers();
+    });
+
+    it('resolves Cloud line-chart measure keys to their MQR data source', () => {
+      mockUseStandardExperienceModeQuery.mockReturnValue(queryResult(false));
+      mockUseWidgetMetricMetadataQuery.mockReturnValue(
+        queryResult({
+          [MetricKey.software_quality_security_rating]: {
+            key: MetricKey.software_quality_security_rating,
+            type: MetricType.Rating,
+          },
+        }),
+      );
+
+      renderHook(
+        () =>
+          useOrganizationLineChartSeriesData({
+            actualMetricKey: MetricKey.security_rating,
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            groupBy: LineChartGroupBy.None,
+            historyRange: '3',
+            measureFilters: undefined,
+            measuresHistoryKey: MetricKey.security_rating,
+            metric: { metricKey: MetricKey.security_rating, type: DashboardMetricType.Raw },
+            metricName: 'Security rating',
+            metricType: MetricType.Rating,
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(mockUseDashboardMeasuresHistoryQuery).toHaveBeenCalledWith(
+        expect.objectContaining({
+          metricKeys: [MetricKey.software_quality_security_rating],
+        }),
+        expect.objectContaining({ enabled: true }),
+      );
     });
 
     it('does not request measure history for a synthetic metric missing from Server metadata', () => {
@@ -566,6 +716,69 @@ describe('dashboard widget adapter queries', () => {
         expect.objectContaining({ enabled: true }),
       );
     });
+
+    it.each([
+      [true, { issueTypes: ['VULNERABILITY'] }],
+      [false, { impacts: expect.arrayContaining(['SECURITY:HIGH']) }],
+    ])('resolves semantic pie-chart filters for the current mode', (isStandardMode, expected) => {
+      mockUseStandardExperienceModeQuery.mockReturnValue(queryResult(isStandardMode));
+
+      renderHook(
+        () =>
+          useOrganizationPieChartData({
+            entity: { entityId: 'portfolio-1', entityType: 'PORTFOLIO' },
+            widget: {
+              filter: 'security',
+              metric: PieChartMetric.IssueCount,
+              scope: CodeScope.Overall,
+              slice: PieChartIssueSlice.ImpactSeverities,
+            },
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(mockUseDashboardIssueCountHistoryQuery).toHaveBeenCalledWith(
+        expect.objectContaining(expected),
+        expect.objectContaining({ enabled: true }),
+      );
+    });
+
+    it.each([
+      [
+        PieChartIssueSlice.ImpactSoftwareQualities,
+        'TYPE',
+        'VULNERABILITY',
+        SoftwareQuality.Security,
+      ],
+      [PieChartIssueSlice.ImpactSeverities, 'SEVERITY', 'CRITICAL', SoftwareImpactSeverity.High],
+    ])(
+      'reads canonical %s pie segments from the Standard %s dimension',
+      (slice, expectedSliceBy, responseKey, canonicalKey) => {
+        renderHook(
+          () =>
+            useOrganizationPieChartData({
+              entity: { entityId: 'portfolio-1', entityType: 'PORTFOLIO' },
+              widget: {
+                filter: '',
+                metric: PieChartMetric.IssueCount,
+                scope: CodeScope.Overall,
+                slice,
+              },
+            }),
+          { wrapper: getContextWrapper() },
+        );
+
+        const queryCall = mockUseDashboardIssueCountHistoryQuery.mock.calls[0];
+        expect(queryCall[0]).toEqual(expect.objectContaining({ sliceBy: expectedSliceBy }));
+        expect(
+          selectFrom(queryCall)({
+            issueCountHistory: [
+              { date: '2026-03-20', distribution: [{ key: responseKey, value: 2 }] },
+            ],
+          }),
+        ).toEqual({ counts: { [canonicalKey]: 2 } });
+      },
+    );
 
     it('fails New-code issue pie data through the shared adapter error', () => {
       expect(() =>
@@ -853,7 +1066,14 @@ describe('dashboard widget adapter queries', () => {
 
       const widget = {
         limit: 5,
-        metric: { type: DashboardMetricType.Rich, metricKey: RichMetricKey.Issues },
+        metric: {
+          measureFilters: {
+            impactSeverities: [SoftwareImpactSeverity.High],
+            impactSoftwareQuality: SoftwareQuality.Security,
+          },
+          type: DashboardMetricType.Rich,
+          metricKey: RichMetricKey.Issues,
+        },
       };
       const portfolio = renderHook(
         () => usePortfolioTopListData(widget, 'portfolio-1', { fetchTrendHistory: false }),
@@ -868,6 +1088,14 @@ describe('dashboard widget adapter queries', () => {
       );
       expect(project.result.current.rulesByKey).toEqual({ 'java:S1': { name: 'Rule 1' } });
       expect(mockUseDashboardRuleLabels).toHaveBeenCalled();
+      expect(mockUseDashboardIssueCountHistoryQuery).toHaveBeenCalledWith(
+        expect.objectContaining({
+          issueTypes: ['VULNERABILITY'],
+          severities: ['CRITICAL'],
+          sliceBy: 'RULE_KEY',
+        }),
+        expect.objectContaining({ enabled: true }),
+      );
     });
   });
 
@@ -907,7 +1135,7 @@ describe('dashboard widget adapter queries', () => {
         expect.objectContaining({
           entityId: 'portfolio-1',
           entityType: 'PORTFOLIO',
-          severities: ['HIGH'],
+          severities: ['CRITICAL'],
           startDate: organizationsHistoryStartDateWithRetentionBuffer(),
         }),
         expect.objectContaining({ enabled: true }),
@@ -971,7 +1199,7 @@ describe('dashboard widget adapter queries', () => {
 
       expect(mockUseDashboardIssueResolutionHistoryQuery).toHaveBeenCalledWith(
         expect.objectContaining({
-          severities: ['HIGH'],
+          severities: ['CRITICAL'],
           startDate: organizationsHistoryStartDateWithRetentionBuffer(),
           statistic: 'MTTR',
         }),

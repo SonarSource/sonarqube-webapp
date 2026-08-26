@@ -48,11 +48,18 @@ import {
   tryQualityGateDistributionMessageId,
   type PieChartWidget,
 } from '../../helpers/dashboard-widget-data';
+import {
+  resolveIssueHistoryDistributionKeyForMode,
+  resolveIssueHistoryFiltersForMode,
+  resolveIssueHistorySliceForMode,
+  resolvePieChartFilterSoftwareQuality,
+} from '../../helpers/dashboard-widget-mode';
 import { unsupportedDashboardWidgetAdapter } from '../../helpers/unsupported-dashboard-widget-adapter';
 import {
   useDashboardIssueCountHistoryQuery,
   useDashboardMeasuresHistoryQuery,
 } from '../../queries/dashboard-history';
+import { useStandardExperienceModeQuery } from '../../queries/mode';
 import { useSonarSourceSecurityCategoriesQuery } from '../../queries/security-standards';
 import type {
   DashboardEntityType,
@@ -225,6 +232,82 @@ function getDashboardRuleLabelsEntity(
     : { organization: organization ?? '', type: 'PROJECT' };
 }
 
+function resolvePieChartHistoryParams(
+  canonicalHistoryParams: ReturnType<typeof mapPieChartToIssueHistoryParams>,
+  filter: string,
+  metric: string,
+  isStandardMode: boolean,
+) {
+  if (canonicalHistoryParams === null || metric !== PieChartMetric.IssueCount) {
+    return canonicalHistoryParams;
+  }
+
+  const { impacts, issueTypes, sliceBy, statuses, ...sharedParams } = canonicalHistoryParams;
+  return {
+    ...sharedParams,
+    sliceBy: resolveIssueHistorySliceForMode(sliceBy, isStandardMode),
+    ...resolveIssueHistoryFiltersForMode(
+      { impacts, issueTypes, statuses },
+      {
+        isStandardMode,
+        softwareQuality: resolvePieChartFilterSoftwareQuality(filter),
+      },
+    ),
+  };
+}
+
+function isPieChartIssueQueryEnabled(
+  args: Readonly<{
+    enabled: boolean;
+    hasHistoryParams: boolean;
+    isModeResolved: boolean;
+    isQualityGateStatusChart: boolean;
+    isUnsupported: boolean;
+    needsExperienceMode: boolean;
+  }>,
+): boolean {
+  return (
+    args.enabled &&
+    args.hasHistoryParams &&
+    !args.isQualityGateStatusChart &&
+    !args.isUnsupported &&
+    (!args.needsExperienceMode || args.isModeResolved)
+  );
+}
+
+function resolvePieChartResult(
+  args: Readonly<{
+    enabled: boolean;
+    error: unknown;
+    isModePending: boolean;
+    isPending: boolean;
+    isUnsupported: boolean;
+    modeError: unknown;
+    needsExperienceMode: boolean;
+    segments: DashboardPieChartSegment[];
+  }>,
+): {
+  error: unknown;
+  isPending: boolean;
+  segments: DashboardPieChartSegment[];
+} {
+  if (args.isUnsupported) {
+    return unsupportedDashboardWidgetAdapter();
+  }
+  const needsMode = args.enabled && args.needsExperienceMode;
+  return {
+    error: needsMode ? (args.modeError ?? args.error) : args.error,
+    isPending: (needsMode && args.isModePending) || args.isPending,
+    segments: args.segments,
+  };
+}
+
+function getPieChartMeasuresHistoryStartDate(entityType: DashboardEntityType): string {
+  return entityType === 'PORTFOLIO'
+    ? organizationsHistoryStartDateWithRetentionBuffer()
+    : lineChartSinceDate(HistoryRange.LastMonth);
+}
+
 export function useOrganizationPieChartData(
   args: Readonly<{
     enabled?: boolean;
@@ -243,6 +326,12 @@ export function useOrganizationPieChartData(
   const { entityId, entityType } = entity;
   const { formatMessage } = useIntl();
   const isUnsupported = shouldFailPieChartAdapter(widget);
+  const needsExperienceMode = widget.metric === PieChartMetric.IssueCount && !isUnsupported;
+  const modeQuery = useStandardExperienceModeQuery({
+    enabled: enabled && needsExperienceMode,
+  });
+  const isModeResolved = !modeQuery.isPending && modeQuery.error == null;
+  const isStandardMode = modeQuery.data ?? true;
   const {
     isLineCountChart,
     isQualityGateStatusChart,
@@ -250,7 +339,7 @@ export function useOrganizationPieChartData(
     needsRulesMetadata,
     needsSecurityCategoryMetadata,
   } = getPieChartQueryRequirements(widget, entityType);
-  const historyParams = useMemo(
+  const canonicalHistoryParams = useMemo(
     () =>
       mapPieChartToIssueHistoryParams({
         entityId,
@@ -260,6 +349,17 @@ export function useOrganizationPieChartData(
         slice: widget.slice,
       }),
     [entityId, entityType, widget.filter, widget.metric, widget.slice],
+  );
+  const canonicalSliceBy = canonicalHistoryParams?.sliceBy;
+  const historyParams = useMemo(
+    () =>
+      resolvePieChartHistoryParams(
+        canonicalHistoryParams,
+        widget.filter,
+        widget.metric,
+        isStandardMode,
+      ),
+    [canonicalHistoryParams, isStandardMode, widget.filter, widget.metric],
   );
   const issueQuery = useDashboardIssueCountHistoryQuery(
     historyParams === null
@@ -276,19 +376,35 @@ export function useOrganizationPieChartData(
           startDate: organizationsHistoryStartDateWithRetentionBuffer(),
         },
     {
-      enabled: enabled && Boolean(historyParams) && !isQualityGateStatusChart && !isUnsupported,
+      enabled: isPieChartIssueQueryEnabled({
+        enabled,
+        hasHistoryParams: Boolean(historyParams),
+        isModeResolved,
+        isQualityGateStatusChart,
+        isUnsupported,
+        needsExperienceMode,
+      }),
       refetchOnWindowFocus: false,
       select: (response) => ({
-        counts: issueCountHistoryToPieCounts(response.issueCountHistory),
+        counts: issueCountHistoryToPieCounts(
+          response.issueCountHistory.map((day) => ({
+            ...day,
+            distribution: day.distribution.map((entry) => ({
+              ...entry,
+              key: resolveIssueHistoryDistributionKeyForMode(
+                entry.key,
+                canonicalSliceBy,
+                isStandardMode,
+              ),
+            })),
+          })),
+        ),
       }),
     },
   );
 
   const lineCountKeys = useMemo(() => lineCountMeasureKeys(widget.scope), [widget.scope]);
-  const measuresHistoryStartDate =
-    entityType === 'PORTFOLIO'
-      ? organizationsHistoryStartDateWithRetentionBuffer()
-      : lineChartSinceDate(HistoryRange.LastMonth);
+  const measuresHistoryStartDate = getPieChartMeasuresHistoryStartDate(entityType);
   const metricMetadataQuery = useWidgetMetricMetadataQuery({
     enabled: enabled && isQualityGateStatusChart && !isUnsupported,
   });
@@ -411,9 +527,14 @@ export function useOrganizationPieChartData(
     widget.slice,
   ]);
 
-  if (isUnsupported) {
-    return unsupportedDashboardWidgetAdapter();
-  }
-
-  return { error, isPending, segments };
+  return resolvePieChartResult({
+    enabled,
+    error,
+    isModePending: modeQuery.isPending,
+    isPending,
+    isUnsupported,
+    modeError: modeQuery.error,
+    needsExperienceMode,
+    segments,
+  });
 }

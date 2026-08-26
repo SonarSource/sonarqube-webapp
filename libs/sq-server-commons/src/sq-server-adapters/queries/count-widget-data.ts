@@ -31,11 +31,17 @@ import {
   portfolioMeasuresHistoryToSparklineSeries,
   portfolioMeasuresHistoryToTrend,
 } from '../../helpers/dashboard-widget-data';
+import {
+  resolveIssueHistoryFiltersForMode,
+  resolveIssueSoftwareQuality,
+  resolvePortfolioDashboardMetricKey,
+} from '../../helpers/dashboard-widget-mode';
 import { unsupportedDashboardWidgetAdapter } from '../../helpers/unsupported-dashboard-widget-adapter';
 import {
   useDashboardIssueCountHistoryQuery,
   useDashboardMeasuresHistoryQuery,
 } from '../../queries/dashboard-history';
+import { useStandardExperienceModeQuery } from '../../queries/mode';
 import type {
   DashboardEntityType,
   DashboardWidgetQueryResult,
@@ -68,16 +74,31 @@ export function useOrgIssueCountWidgetData(_params: {
   const { entityId, entityType, measureFilters, resolvedIssueMetricKey, richMetricKey } = _params;
   const filters = measureFilters as MeasureFilters | undefined;
   const isUnsupported = richMetricKey === RichMetricKey.Hotspots;
+  const modeQuery = useStandardExperienceModeQuery({
+    enabled: Boolean(entityId) && !isUnsupported,
+  });
+  const isModeResolved = !modeQuery.isPending && modeQuery.error == null;
+  const historyFilters = resolveIssueHistoryFiltersForMode(
+    issueHistoryQueryExtras(filters, richMetricKey, resolvedIssueMetricKey),
+    {
+      isStandardMode: modeQuery.data ?? true,
+      severities: filters?.impactSeverities,
+      softwareQuality: resolveIssueSoftwareQuality(
+        filters?.impactSoftwareQuality,
+        resolvedIssueMetricKey,
+      ),
+    },
+  );
 
   const query = useDashboardIssueCountHistoryQuery(
     {
       entityId,
       entityType,
       startDate: organizationsHistoryStartDateWithRetentionBuffer(),
-      ...issueHistoryQueryExtras(filters, richMetricKey, resolvedIssueMetricKey),
+      ...historyFilters,
     },
     {
-      enabled: Boolean(entityId) && !isUnsupported,
+      enabled: Boolean(entityId) && !isUnsupported && isModeResolved,
       refetchOnWindowFocus: false,
       select: (response): IssueCountData => ({
         historicalValues: portfolioIssueHistoryToTrend(response.issueCountHistory),
@@ -91,7 +112,7 @@ export function useOrgIssueCountWidgetData(_params: {
     return unsupportedDashboardWidgetAdapter();
   }
 
-  return query;
+  return { ...query, isPending: modeQuery.isPending || query.isPending };
 }
 
 export function useOrgMeasuresCountWidgetData(_params: {
@@ -101,6 +122,12 @@ export function useOrgMeasuresCountWidgetData(_params: {
   metricType: MetricType | string | undefined;
 }): DashboardWidgetQueryResult<MeasuresCountData> {
   const { entityId, entityType, metricKeyForRequest, metricType } = _params;
+  const modeQuery = useStandardExperienceModeQuery({ enabled: Boolean(entityId) });
+  const isModeResolved = !modeQuery.isPending && modeQuery.error == null;
+  const resolvedMetricKeyForRequest = resolvePortfolioDashboardMetricKey(
+    metricKeyForRequest,
+    modeQuery.data ?? true,
+  );
   const isUnsupported =
     metricKeyForRequest === MetricKey.security_hotspots ||
     metricKeyForRequest === MetricKey.new_security_hotspots;
@@ -109,24 +136,27 @@ export function useOrgMeasuresCountWidgetData(_params: {
     {
       entityId,
       entityType,
-      metricKeys: [metricKeyForRequest],
+      metricKeys: [resolvedMetricKeyForRequest],
       startDate: organizationsHistoryStartDateWithRetentionBuffer(),
     },
     {
-      enabled: Boolean(entityId) && !isUnsupported,
+      enabled: Boolean(entityId) && !isUnsupported && isModeResolved,
       refetchOnWindowFocus: false,
       select: (response): MeasuresCountData => ({
         latestValue: portfolioMeasuresHistoryLatestValue(
           response.measuresHistory,
-          metricKeyForRequest,
+          resolvedMetricKeyForRequest,
         ),
         sparklineSeries: portfolioMeasuresHistoryToSparklineSeries(
           response.measuresHistory,
-          metricKeyForRequest,
+          resolvedMetricKeyForRequest,
           metricType,
           undefined,
         ),
-        trend: portfolioMeasuresHistoryToTrend(response.measuresHistory, metricKeyForRequest),
+        trend: portfolioMeasuresHistoryToTrend(
+          response.measuresHistory,
+          resolvedMetricKeyForRequest,
+        ),
       }),
     },
   );
@@ -135,5 +165,5 @@ export function useOrgMeasuresCountWidgetData(_params: {
     return unsupportedDashboardWidgetAdapter();
   }
 
-  return query;
+  return { ...query, isPending: modeQuery.isPending || query.isPending };
 }

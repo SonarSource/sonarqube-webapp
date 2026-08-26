@@ -37,11 +37,19 @@ import {
   type DashboardMetric,
   type MeasureFilters,
 } from '../../helpers/dashboard-widget-data';
+import {
+  resolveIssueHistoryDistributionKeyForMode,
+  resolveIssueHistoryFiltersForMode,
+  resolveIssueHistorySliceForMode,
+  resolveIssueSoftwareQuality,
+  resolvePortfolioDashboardMetricKey,
+} from '../../helpers/dashboard-widget-mode';
 import { unsupportedDashboardWidgetAdapter } from '../../helpers/unsupported-dashboard-widget-adapter';
 import {
   useDashboardIssueCountHistoryQuery,
   useDashboardMeasuresHistoryQuery,
 } from '../../queries/dashboard-history';
+import { useStandardExperienceModeQuery } from '../../queries/mode';
 import type {
   DashboardEntityType,
   DashboardLineChartSeries,
@@ -63,6 +71,40 @@ export function organizationLineChartRequestKey(
   return dashboardMetric.type === DashboardMetricType.Raw
     ? getPortfolioDashboardMeasureRequestKey(actualMetricKey, scope === CodeScope.New)
     : actualMetricKey;
+}
+
+function resolveLineChartResult(
+  args: Readonly<{
+    isIssueError: boolean;
+    isIssuePending: boolean;
+    isKnownMeasureMetric: boolean;
+    isMeasuresError: boolean;
+    isMeasuresPending: boolean;
+    isModeError: boolean;
+    isModePending: boolean;
+    issueSeries: DashboardLineChartSeries[] | undefined;
+    measureMetadataError: boolean;
+    measureMetadataPending: boolean;
+    measuresSeries: DashboardLineChartSeries[] | undefined;
+    queriesEnabled: boolean;
+    usesIssueQuery: boolean;
+  }>,
+): {
+  isMeasuresHistoryPending: boolean;
+  lineChartHasFetchError: boolean;
+  series: DashboardLineChartSeries[];
+} {
+  return {
+    isMeasuresHistoryPending:
+      (args.queriesEnabled && args.isModePending) ||
+      (args.usesIssueQuery
+        ? args.isIssuePending
+        : args.measureMetadataPending || (args.isKnownMeasureMetric && args.isMeasuresPending)),
+    lineChartHasFetchError:
+      (args.queriesEnabled && args.isModeError) ||
+      (args.usesIssueQuery ? args.isIssueError : args.measureMetadataError || args.isMeasuresError),
+    series: args.usesIssueQuery ? (args.issueSeries ?? []) : (args.measuresSeries ?? []),
+  };
 }
 
 export function useOrganizationLineChartSeriesData(
@@ -115,12 +157,22 @@ export function useOrganizationLineChartSeriesData(
     (metric.type === DashboardMetricType.Rich && metric.metricKey === RichMetricKey.Hotspots);
   const richMetricKey = metric.type === DashboardMetricType.Rich ? metric.metricKey : undefined;
   const useGroupedIssueQuery = groupedIssueHistory && groupByEligible;
+  const usesIssueQuery = metric.type === DashboardMetricType.Rich || useGroupedIssueQuery;
+  const modeQuery = useStandardExperienceModeQuery({
+    enabled: queriesEnabled && !isUnsupported,
+  });
+  const isModeResolved = !modeQuery.isPending && modeQuery.error == null;
+  const isStandardMode = modeQuery.data ?? true;
+  const resolvedMeasuresHistoryKey = resolvePortfolioDashboardMetricKey(
+    measuresHistoryKey,
+    isStandardMode,
+  );
   const metricMetadataQuery = useWidgetMetricMetadataQuery({
     enabled: queriesEnabled && metric.type === DashboardMetricType.Raw,
   });
   const isKnownMeasureMetric =
-    metricMetadataQuery.data?.[measuresHistoryKey] !== undefined &&
-    !isKnownUnsupportedDashboardHistoryMetric(measuresHistoryKey);
+    metricMetadataQuery.data?.[resolvedMeasuresHistoryKey] !== undefined &&
+    !isKnownUnsupportedDashboardHistoryMetric(resolvedMeasuresHistoryKey);
 
   const { issueQueryEnabled, measuresQueryEnabled } = getLineChartQueryEnablement({
     actualMetricKey,
@@ -128,7 +180,7 @@ export function useOrganizationLineChartSeriesData(
     isKnownMeasureMetric,
     isUnsupported,
     metric,
-    queriesEnabled,
+    queriesEnabled: queriesEnabled && isModeResolved,
     resolvedIssueMetricKey,
     useGroupedIssueQuery,
   });
@@ -141,7 +193,7 @@ export function useOrganizationLineChartSeriesData(
     {
       entityId,
       entityType,
-      metricKeys: [measuresHistoryKey],
+      metricKeys: [resolvedMeasuresHistoryKey],
       startDate: lineChartSinceDate(historyRange),
     },
     {
@@ -153,7 +205,7 @@ export function useOrganizationLineChartSeriesData(
           ? lineChartDataToSingleSeries(
               portfolioMeasuresToLineData(
                 response.measuresHistory,
-                measuresHistoryKey,
+                resolvedMeasuresHistoryKey,
                 historyRange,
                 actualMetricKey,
                 metricType,
@@ -165,13 +217,25 @@ export function useOrganizationLineChartSeriesData(
     },
   );
 
+  const issueHistoryFilters = resolveIssueHistoryFiltersForMode(
+    issueHistoryQueryExtras(measureFilters, richMetricKey, resolvedIssueMetricKey),
+    {
+      isStandardMode,
+      severities: measureFilters?.impactSeverities,
+      softwareQuality: resolveIssueSoftwareQuality(
+        measureFilters?.impactSoftwareQuality,
+        resolvedIssueMetricKey,
+      ),
+    },
+  );
+  const canonicalSliceBy = mapLineChartGroupByToSliceBy(groupBy);
   const issueHistoryParams = {
     entityId,
     entityType,
     startDate: organizationsHistoryStartDateWithRetentionBuffer(),
-    ...issueHistoryQueryExtras(measureFilters, richMetricKey, resolvedIssueMetricKey),
-    ...(mapLineChartGroupByToSliceBy(groupBy)
-      ? { sliceBy: mapLineChartGroupByToSliceBy(groupBy) }
+    ...issueHistoryFilters,
+    ...(canonicalSliceBy
+      ? { sliceBy: resolveIssueHistorySliceForMode(canonicalSliceBy, isStandardMode) }
       : {}),
     ...(groupBy === LineChartGroupBy.Status
       ? { statuses: ['OPEN', 'CONFIRMED', 'ACCEPTED', 'FALSE_POSITIVE', 'FIXED'] }
@@ -187,35 +251,46 @@ export function useOrganizationLineChartSeriesData(
     refetchOnWindowFocus: false,
     retry: false,
     select: (response) => {
+      const issueCountHistory = response.issueCountHistory.map((day) => ({
+        ...day,
+        distribution: day.distribution.map((entry) => ({
+          ...entry,
+          key: resolveIssueHistoryDistributionKeyForMode(
+            entry.key,
+            canonicalSliceBy,
+            isStandardMode,
+          ),
+        })),
+      }));
       if (useGroupedIssueQuery) {
-        return portfolioIssueHistoryToMultiLineSeries(
-          response.issueCountHistory,
-          historyRange,
-          groupBy,
-        );
+        return portfolioIssueHistoryToMultiLineSeries(issueCountHistory, historyRange, groupBy);
       }
       return lineChartDataToSingleSeries(
-        portfolioIssueHistoryToLineData(response.issueCountHistory, historyRange),
+        portfolioIssueHistoryToLineData(issueCountHistory, historyRange),
         metricName,
       );
     },
   });
 
-  const usesIssueQuery = metric.type === DashboardMetricType.Rich || useGroupedIssueQuery;
-
   if (isUnsupported) {
     return unsupportedDashboardWidgetAdapter();
   }
 
-  return {
-    isMeasuresHistoryPending: usesIssueQuery
-      ? isIssuePending
-      : metricMetadataQuery.isPending || (isKnownMeasureMetric && isMeasuresPending),
-    lineChartHasFetchError: usesIssueQuery
-      ? isIssueError
-      : metricMetadataQuery.isError || isMeasuresError,
-    series: usesIssueQuery ? (issueSeries ?? []) : (measuresSeries ?? []),
-  };
+  return resolveLineChartResult({
+    isIssueError,
+    isIssuePending,
+    isKnownMeasureMetric,
+    isMeasuresError,
+    isMeasuresPending,
+    isModeError: modeQuery.error != null,
+    isModePending: modeQuery.isPending,
+    issueSeries,
+    measureMetadataError: metricMetadataQuery.isError,
+    measureMetadataPending: metricMetadataQuery.isPending,
+    measuresSeries,
+    queriesEnabled,
+    usesIssueQuery,
+  });
 }
 
 function getLineChartQueryEnablement(
