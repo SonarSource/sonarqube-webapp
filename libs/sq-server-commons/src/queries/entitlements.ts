@@ -19,8 +19,12 @@
  */
 
 import { queryOptions } from '@tanstack/react-query';
+import { useCurrentUser } from '~adapters/helpers/users';
 import { createQueryHook, StaleTime } from '~shared/queries/common';
+import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { getCurrentLicense, getPurchasableFeatures } from '../api/entitlements';
+import { hasGlobalPermission } from '../helpers/users';
+import { Permissions } from '../types/permissions';
 
 export const LICENSE_QUERY_KEY = ['current-sqs-license'] as const;
 
@@ -39,3 +43,20 @@ export const usePurchasableFeaturesQuery = createQueryHook(() =>
     staleTime: StaleTime.NEVER,
   }),
 );
+
+/**
+ * Overage state for a specific feature. Reads from `GET /api/v2/entitlements/license`, which is
+ * admin-only — the query is gated on the current user being a global admin, so non-admin callers
+ * get `data: undefined` without a 403. Callers can safely treat `undefined` and `NOT_ELIGIBLE`
+ * the same way (no overage action available).
+ */
+export function useFeatureOverageState(featureKey: EntitlementCheckFeatureKey) {
+  const { currentUser } = useCurrentUser();
+  const isAdmin = hasGlobalPermission(currentUser, Permissions.Admin);
+
+  return useCurrentLicenseQuery({
+    enabled: isAdmin,
+    select: (license) =>
+      license?.features.find((f) => f.featureKey === featureKey)?.overageState ?? undefined,
+  });
+}

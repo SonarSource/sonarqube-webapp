@@ -970,6 +970,10 @@ export const defaultMessages = {
     'Your instance has used all {limit} monthly Remediation Agent overage credits, so new jobs are paused. Contact an instance admin to increase overage and avoid interruptions{resetDate, select, none {} other { before it resets on {resetDate}}}.',
   'ai_capabilities.remediation_agent.consumption.cta.activate': 'Activate overage',
   'ai_capabilities.remediation_agent.consumption.cta.manage': 'Manage overage',
+  'ai_capabilities.remediation_agent.consumption.no_overage.warning.body':
+    'Your instance has used {used} of its {limit} monthly Remediation Agent suggestions. New jobs will pause once the limit is reached{resetDate, select, none {} other {, until it resets on {resetDate}}}.',
+  'ai_capabilities.remediation_agent.consumption.no_overage.danger.body':
+    'Your instance has used all {limit} monthly Remediation Agent suggestions, so new jobs are paused{resetDate, select, none {} other { until they reset on {resetDate}}}.',
   'ai_capabilities.remediation_agent.issue.assign_to_agent.limit_reached_toggletip':
     'Monthly limit reached. New Remediation Agent jobs are paused.',
   'ai_capabilities.project.not_available':

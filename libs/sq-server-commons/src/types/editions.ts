@@ -55,6 +55,25 @@ export interface License {
   type: string;
 }
 
+/**
+ * Overage lifecycle for a consumable feature, resolved server-side (see BE SQRP-559).
+ * `null` on activation-only features (SQAS, SQARCH) — they have no overage concept.
+ *
+ * - `NOT_ELIGIBLE` — the feature can never have overage.
+ * - `ELIGIBLE` — could be enabled, but isn't (no price, or `allow_overages` false).
+ * - `NOT_ENABLED` — commercially available; admin has not created an overage record.
+ * - `ENABLED` — fully active.
+ * - `OFFLINE_BLOCKED` — was enabled; offline grace exceeded; consumption beyond base cap
+ *   is currently blocked.
+ */
+export enum OverageState {
+  NotEligible = 'NOT_ELIGIBLE',
+  Eligible = 'ELIGIBLE',
+  NotEnabled = 'NOT_ENABLED',
+  Enabled = 'ENABLED',
+  OfflineBlocked = 'OFFLINE_BLOCKED',
+}
+
 export type LicenseV2Features = Array<{
   /** When the feature entitlement ends; null if open-ended. */
   endDate: string | null;
@@ -70,6 +89,11 @@ export type LicenseV2Features = Array<{
   name: string;
   /** Customer opted into overage for this feature. */
   overageEnabled?: boolean;
+  /**
+   * Overage lifecycle for this feature. Null when the concept does not apply (activation-only
+   * features) or the field is not yet populated by the backend. See {@link OverageState}.
+   */
+  overageState?: OverageState | null;
   /** Key of the parent product this feature rolls up into, if any. */
   parent?: EntitlementCheckFeatureKey | null;
   /** When the feature entitlement started. */
