@@ -29,6 +29,7 @@ import { parsePortfolioMetricDirection } from '~shared/helpers/metrics';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinner';
 import { WidgetNoData } from '../../components/common/WidgetNoData';
+import { isPortfolioCountWidgetDrilldownSupported } from '../../components/portfolio-drilldown/portfolioCountDrilldown';
 import { CountWidget } from '../../components/visualizations/CountWidget';
 import { useOptionalWidgetInstanceContext } from '../../dashboard-layout/shared/WidgetInstanceContext';
 import { DashboardMetric, DashboardMetricType } from '../../data/widgets/shared';
@@ -254,15 +255,8 @@ export function PortfolioCountWidgetWrapper(props: Readonly<Props>) {
   } = props;
   const widgetInstance = useOptionalWidgetInstanceContext();
   const { portfolioId } = useDashboardPortfolioContext();
-  const rawMetricSupportsDrilldown =
-    metric.type !== DashboardMetricType.Raw || metric.metricKey !== MetricKey.project_branch_count;
-  const metricSupportsDrilldown =
-    metric.type !== DashboardMetricType.IssueResolution &&
-    metric.type !== DashboardMetricType.IssueDensity &&
-    metric.type !== DashboardMetricType.ScaResolution;
-
   const linkTo = getPortfolioCountWidgetLink(
-    !suppressPortfolioDrilldownLink && metricSupportsDrilldown && rawMetricSupportsDrilldown,
+    !suppressPortfolioDrilldownLink && isPortfolioCountWidgetDrilldownSupported(metric),
     widgetInstance?.widgetKey,
   );
 
