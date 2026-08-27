@@ -19,24 +19,32 @@
  */
 
 import { ComponentProps } from 'react';
-import { renderWithContext } from '~shared/helpers/test-utils';
+import { renderWithContext, renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { LockedStatisticsCard } from '../LockedStatisticsCard';
+
+const CTA_DESTINATION = { pathname: '/create-configuration', search: '?category=devops' };
 
 const ui = {
   title: byText('Unlock onboarding statistics'),
   message: byText('Bind your organization to see your statistics'),
   cta: byRole('button', { name: 'Bind organization' }),
+  // The same call-to-action once it has somewhere to go.
+  ctaLink: byRole('link', { name: 'Bind organization' }),
 };
 
 function renderCard(props: Partial<ComponentProps<typeof LockedStatisticsCard>> = {}) {
-  return renderWithContext(
+  return renderWithContext(cardWith(props));
+}
+
+function cardWith(props: Partial<ComponentProps<typeof LockedStatisticsCard>>) {
+  return (
     <LockedStatisticsCard
       ctaLabel="Bind organization"
       message="Bind your organization to see your statistics"
       title="Unlock onboarding statistics"
       {...props}
-    />,
+    />
   );
 }
 
@@ -77,4 +85,25 @@ it('renders without a handler, leaving the call-to-action inert', async () => {
 
   // The default no-op handler keeps the button clickable without throwing.
   await expect(user.click(ui.cta.get())).resolves.toBeUndefined();
+});
+
+it('turns the call-to-action into a link when it is given a destination', () => {
+  renderWithRouter(cardWith({ ctaTo: CTA_DESTINATION }));
+
+  // Products that resolve a destination navigate instead of firing a handler, so the same
+  // call-to-action must stop being a plain button.
+  expect(ui.ctaLink.get()).toHaveAttribute(
+    'href',
+    `${CTA_DESTINATION.pathname}${CTA_DESTINATION.search}`,
+  );
+  expect(ui.cta.query()).not.toBeInTheDocument();
+});
+
+it('keeps the call-to-action a button when no destination is given', () => {
+  renderCard();
+
+  // Products with no destination yet — the adapter answers `undefined` — keep the inert button
+  // rather than a link that goes nowhere.
+  expect(ui.cta.get()).toBeInTheDocument();
+  expect(ui.ctaLink.query()).not.toBeInTheDocument();
 });

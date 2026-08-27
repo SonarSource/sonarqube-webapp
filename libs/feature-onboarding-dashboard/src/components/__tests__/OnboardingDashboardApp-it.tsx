@@ -43,6 +43,14 @@ jest.mock('~adapters/helpers/useOnboardingCurrentBinding', () => ({
   }),
 }));
 
+// Where "create a DevOps platform configuration" leads is product-specific — SQS has a settings
+// page, SQC has no destination yet — which would make the placeholder's call-to-action a link on one
+// product and a plain button on the other. Pinned to a stub so this shared test asserts one shape;
+// what each product resolves is covered by the adapter's own test.
+jest.mock('~adapters/helpers/useCreateDevopsConfigurationUrl', () => ({
+  useCreateDevopsConfigurationUrl: () => ({ pathname: '/create-configuration' }),
+}));
+
 jest.mock('~adapters/helpers/useAutoImportToggle', () => ({
   useAutoImportToggle: () => ({
     autoImportEnabled: false,
@@ -140,7 +148,7 @@ const ui = {
     'onboarding_dashboard.journey.overtime.legend.repositories_imported',
   ),
   lockedStatsTitle: byText('onboarding_dashboard.journey.locked.stats.title'),
-  lockedStatsCta: byRole('button', { name: 'onboarding_dashboard.journey.locked.stats.cta' }),
+  lockedStatsCta: byRole('link', { name: 'onboarding_dashboard.journey.locked.stats.cta' }),
   lockedMoreTitle: byText('onboarding_dashboard.journey.locked.more.title'),
   lockedMoreCta: byRole('button', { name: 'onboarding_dashboard.journey.locked.more.cta' }),
 

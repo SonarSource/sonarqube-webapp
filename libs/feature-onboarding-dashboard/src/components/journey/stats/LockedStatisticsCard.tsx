@@ -18,15 +18,27 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Card, cssVar, IconLock, Text } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, cssVar, IconLock, Text, TextSize } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
+import { ReactNode } from 'react';
+import { Path } from 'react-router-dom';
 
 const BACKDROP_VIEWBOX = '0 0 400 120';
 const BACKDROP_POLYLINE = '0,104 57,92 114,96 171,70 229,58 286,62 343,30 400,16';
 const BACKDROP_OPACITY = 0.4;
 
+/**
+ * Echoes icons size themselves off the inherited font size — `font-size: calc(1em + 4px)` with a
+ * `calc(2em - 16px)` box — so a 28px font size is what yields the 48px lock the design asks for.
+ */
+const LOCK_ICON_FONT_SIZE_CLASS = 'sw-text-[28px]';
+
 interface Props {
   ctaLabel: string;
+  /** Icon shown before the call-to-action label, when the action warrants one. */
+  ctaPrefix?: ReactNode;
+  /** Where the call-to-action navigates. Levels with no destination yet render an inert button. */
+  ctaTo?: Partial<Path>;
   message: string;
   onCta?: () => void;
   title: string;
@@ -36,23 +48,47 @@ interface Props {
  * Placeholder shown in place of the onboarding statistics that are still locked at the current
  * journey level: a faint chart backdrop behind a lock icon, an explanation and a single
  * call-to-action nudging the user towards the next step.
+ *
+ * Deliberately borderless: the backdrop bleeds across the full width of the section it replaces,
+ * rather than sitting inside card chrome like the statistics it stands in for.
  */
-export function LockedStatisticsCard({ ctaLabel, message, onCta = noop, title }: Readonly<Props>) {
-  return (
-    <Card>
-      <Card.Body className="sw-relative sw-overflow-hidden sw-py-10">
-        <DecorativeChartBackdrop />
+export function LockedStatisticsCard({
+  ctaLabel,
+  ctaPrefix,
+  ctaTo,
+  message,
+  onCta = noop,
+  title,
+}: Readonly<Props>) {
+  // `Button` forbids `to` on its plain-button variety, so the destination cannot be spread in as a
+  // possibly-undefined prop. Levels with no destination yet keep rendering the same inert button.
+  const ctaProps = {
+    children: ctaLabel,
+    prefix: ctaPrefix,
+    variety: ButtonVariety.Default,
+  } as const;
 
-        <div className="sw-relative sw-z-normal sw-flex sw-flex-col sw-items-center sw-gap-3 sw-text-center">
-          <IconLock color="echoes-color-icon-subtle" />
-          <Text isHighlighted>{title}</Text>
+  return (
+    <div className="sw-relative sw-overflow-hidden sw-py-12">
+      <DecorativeChartBackdrop />
+
+      <div className="sw-relative sw-z-normal sw-mx-auto sw-flex sw-max-w-abs-500 sw-flex-col sw-items-center sw-gap-6 sw-p-6 sw-text-center">
+        <IconLock className={LOCK_ICON_FONT_SIZE_CLASS} color="echoes-color-icon-subtle" />
+
+        <div className="sw-flex sw-flex-col sw-items-center sw-gap-2">
+          <Text isHighlighted size={TextSize.Large}>
+            {title}
+          </Text>
           <Text isSubtle>{message}</Text>
-          <Button enablePreventDefault onClick={onCta} variety={ButtonVariety.Default}>
-            {ctaLabel}
-          </Button>
         </div>
-      </Card.Body>
-    </Card>
+
+        {ctaTo === undefined ? (
+          <Button {...ctaProps} enablePreventDefault onClick={onCta} />
+        ) : (
+          <Button {...ctaProps} to={ctaTo} />
+        )}
+      </div>
+    </div>
   );
 }
 

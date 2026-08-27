@@ -18,9 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Divider } from '@sonarsource/echoes-react';
-import { useState } from 'react';
+import { Divider, IconLink } from '@sonarsource/echoes-react';
+import { ReactNode, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { Path } from 'react-router-dom';
+import { useCreateDevopsConfigurationUrl } from '~adapters/helpers/useCreateDevopsConfigurationUrl';
 import { OnboardingTimelinePoint } from '~shared/types/onboarding';
 import { JourneyLevel, JourneyState, JourneyStep } from '../../types/types';
 import { OnboardingDashboardHeader } from '../OnboardingDashboardHeader';
@@ -32,16 +34,15 @@ import { OnboardingOverTimeCard } from './stats/OnboardingOverTimeCard';
 import { JourneyStepper } from './stepper/JourneyStepper';
 
 /**
- * l10n keys for the "locked statistics" placeholder shown at each journey level. Levels that have
- * nothing left to unlock are absent from the map.
- *
- * The CTA is deliberately inert for now — the actions it will trigger land in follow-up PRs.
+ * Copy — and the CTA decoration — of the "locked statistics" placeholder shown at each journey
+ * level. Levels that have nothing left to unlock are absent from the map.
  */
-const LOCKED_STATISTICS_KEYS: Partial<
-  Record<JourneyLevel, { cta: string; message: string; title: string }>
+const LOCKED_STATISTICS_CONTENT: Partial<
+  Record<JourneyLevel, { cta: string; ctaPrefix?: ReactNode; message: string; title: string }>
 > = {
   [JourneyLevel.Unbound]: {
     cta: 'onboarding_dashboard.journey.locked.stats.cta',
+    ctaPrefix: <IconLink />,
     message: 'onboarding_dashboard.journey.locked.stats.message',
     title: 'onboarding_dashboard.journey.locked.stats.title',
   },
@@ -66,13 +67,21 @@ interface Props {
  */
 export function OnboardingJourney({ state, timeline }: Readonly<Props>) {
   const { formatMessage } = useIntl();
+  const createConfigurationUrl = useCreateDevopsConfigurationUrl();
 
   // The stepper selection is UI-only for now. It defaults to the derived active step and is
   // overridden once the user picks a card.
   const [selectedStep, setSelectedStep] = useState<JourneyStep | undefined>(undefined);
   const step = selectedStep ?? state.activeStep;
 
-  const lockedStatistics = LOCKED_STATISTICS_KEYS[state.level];
+  const lockedStatistics = LOCKED_STATISTICS_CONTENT[state.level];
+
+  // Unbound is the only level whose CTA has a destination today — and only on the products that
+  // expose one, which is what the adapter answers. The "import repositories" destination lands in a
+  // follow-up PR, so that CTA stays inert.
+  const lockedCtaUrlByLevel: Partial<Record<JourneyLevel, Partial<Path> | undefined>> = {
+    [JourneyLevel.Unbound]: createConfigurationUrl,
+  };
 
   return (
     <>
@@ -83,15 +92,13 @@ export function OnboardingJourney({ state, timeline }: Readonly<Props>) {
         showProgress={state.isBound}
       />
 
-      <div className="sw-mb-4">
+      <div className="sw-flex sw-flex-col sw-gap-6">
         <JourneyStepper onSelectStep={setSelectedStep} selectedStep={step} state={state} />
-      </div>
 
-      <div className="sw-mb-4">
         <DetailPanel onSelectStep={setSelectedStep} selectedStep={step} state={state} />
       </div>
 
-      <Divider className="sw-mb-4" role="separator" />
+      <Divider className="sw-my-10" role="separator" />
 
       <div className="sw-mb-4 sw-flex sw-flex-col sw-gap-4">
         {state.level !== JourneyLevel.Unbound && (
@@ -104,6 +111,8 @@ export function OnboardingJourney({ state, timeline }: Readonly<Props>) {
         {lockedStatistics !== undefined && (
           <LockedStatisticsCard
             ctaLabel={formatMessage({ id: lockedStatistics.cta })}
+            ctaPrefix={lockedStatistics.ctaPrefix}
+            ctaTo={lockedCtaUrlByLevel[state.level]}
             message={formatMessage({ id: lockedStatistics.message })}
             title={formatMessage({ id: lockedStatistics.title })}
           />

@@ -10959,7 +10959,7 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.overtime.legend.repositories_imported': 'Repositories imported',
   'onboarding_dashboard.journey.locked.stats.title': 'Unlock onboarding statistics',
   'onboarding_dashboard.journey.locked.stats.message':
-    'Configure a DevOps platform to see your onboarding momentum and adoption metrics!',
+    'Configure your first DevOps platform to see your onboarding momentum and adoption metrics!',
   'onboarding_dashboard.journey.locked.stats.cta': 'Create configuration',
   'onboarding_dashboard.journey.locked.more.title': 'Unlock more statistics',
   'onboarding_dashboard.journey.locked.more.message':
