@@ -10479,36 +10479,130 @@ export const defaultMessages = {
     '<ul><li>Detect vulnerabilities in your third-party dependencies</li><li>Catch when malicious packages are used by developers</li><li>Use quality gates to prevent new risks from being added to your code</li></ul>',
   'license.products.vortex.title': 'Vortex',
   'license.products.vortex.usage': '{used}/{limit} tools called',
+  'license.products.vortex.usage.monthly': '{used}/{limit} tools called monthly',
+  'license.products.vortex.overage_usage': '{used}/{limit} overage tools called',
+  'license.products.vortex.overage_usage.monthly': '{used}/{limit} overage tools called monthly',
   'license.products.vortex.features':
     '<ul><li>Automatically analyzes files modified by the agent to find issues in less than 5 seconds</li><li>Advanced code navigation tools for token reduction</li><li>Third party dependency Risks and policy checks before code generation happens</li></ul>',
   'license.products.hunterAgent.title': 'Hunter Agent',
-  'license.products.hunterAgent.usage': '{used}/{limit} credits used',
+  'license.products.hunterAgent.usage': '{used}/{limit} scan units used',
+  'license.products.hunterAgent.usage.monthly': '{used}/{limit} scan units used monthly',
+  'license.products.hunterAgent.overage_usage': '{used}/{limit} overage scan units used',
+  'license.products.hunterAgent.overage_usage.monthly':
+    '{used}/{limit} overage scan units used monthly',
   'license.products.hunterAgent.features':
     "<ul><li>Find high-impact security flaws that static analysis misses, such as broken access control and business-logic errors</li><li>Work with findings as regular issues you triage, assign, and track like any other, with no new tool to learn</li><li>Run the analysis on Sonar's infrastructure, with nothing to install or run locally</li></ul>",
   'license.products.remediationAgent.title': 'Remediation Agent',
   'license.products.remediationAgent.usage': '{used}/{limit} suggestions used',
+  'license.products.remediationAgent.usage.monthly': '{used}/{limit} suggestions used monthly',
+  'license.products.remediationAgent.overage_usage': '{used}/{limit} overage suggestions used',
+  'license.products.remediationAgent.overage_usage.monthly':
+    '{used}/{limit} overage suggestions used monthly',
   'license.products.remediationAgent.features':
     "<ul><li>Generates and verifies fixes with Sonar's own analysis engine — automatically on a schedule, from your backlog, or in PRs</li><li>Creates ready-to-review pull requests, keeping developers in full control before anything is merged</li><li>Covers a broad range of issue types including security, reliability, maintainability, and dependency risks</li></ul>",
   'license.products.key_features': 'Key features',
   'license.products.badge.new': 'New',
-  'license.products.column.monthly_usage.help':
-    '<p>This shows your product usage against your purchased limit.</p><p>The limit will reset the beginning of every calendar month at 00:00 UTC</p>',
-  'license.products.column.monthly_usage': 'Monthly usage',
+  'license.products.overage.activate': 'Activate overage',
+  'license.products.overage.deactivated_badge': 'Deactivated',
+  // Cadence-neutral on purpose: the chip is rendered from the overage state alone, with no cadence
+  // to consult, so it must read correctly for a perpetual pool as well as a monthly allowance.
+  'license.products.overage.deactivated.description':
+    'Activate overage so your workflows keep running even after reaching your limit.',
+  'license.products.overage.deactivated.title': 'Overage is not active',
+  'license.products.overage.manage': 'Manage overage',
+  'license.products.overage.not_applicable': 'Not applicable',
+  'license.products.overage.sales_gated.description':
+    'Overage usage is currently disabled for your account. Get in touch with our team to enable overage options.',
+  'license.products.overage.sales_gated.title': 'Overage is not active',
+  'license.products.overage.stopped.description':
+    'You turned off overage for this feature. Activate it again to avoid service interruptions when reaching your limit.',
+  'license.products.overage.stopped.title': 'Overage deactivated',
+  'license.products.overage.talk_to_sales': 'Talk to sales',
+  'license.products.column.base_usage_limit.help':
+    'This is the usage limit included with your product subscription.',
+  'license.products.column.base_usage_limit': 'Base usage limit',
+  'license.products.column.overage_limit.help':
+    'Additional usage beyond your base limit. Kicks in automatically once your base allowance is fully used.',
+  'license.products.column.overage_limit': 'Overage limit',
   'license.products.column.product': 'Products',
   'license.products.column.status.help':
-    'Although you purchased these products, an organization admin must enable them before your organization can use them.',
+    'An organization admin must enable these products before your organization can use them.',
   'license.products.column.status': 'Status',
   'license.products.enable_now': 'Enable now',
   'license.products.enabled': 'Enabled',
   'license.products.full_access': 'Full access',
   'license.products.read_docs': 'Read the doc',
-  'license.products.percentage_used': '{value}% used',
-  'license.products.usage_limit_reached.description':
-    'You have reached your monthly limit.{resetDate, select, none {} other { Your limit resets on {resetDate}.}}',
-  'license.products.usage_limit_reached.title': 'Monthly limit reached',
-  'license.products.usage_limit_warning.description':
-    'You are close to your monthly limit.{resetDate, select, none {} other { Your limit resets on {resetDate}.}}',
-  'license.products.usage_limit_warning.title': '80% of monthly limit used',
+  'license.products.usage_tip.base.resets_on': 'Your limit resets on {date}.',
+  'license.products.usage_tip.base.valid_until':
+    'Your limit is valid until your license expires on {date}.',
+  'license.products.usage_tip.base.monthly.default.title': 'Monthly usage',
+  'license.products.usage_tip.base.monthly.default.description':
+    'This shows the monthly usage limit included with your plan subscription. {validity}',
+  'license.products.usage_tip.base.monthly.warning.title': '{percentage}% of monthly limit used',
+  'license.products.usage_tip.base.monthly.warning.description':
+    "You're close to reaching your usage limit. {validity}",
+  'license.products.usage_tip.base.monthly.reached.title': 'Monthly limit reached',
+  'license.products.usage_tip.base.monthly.reached.description':
+    'You reached your monthly usage limit. {validity}',
+  'license.products.usage_tip.base.monthly.reached_active.title':
+    'Monthly limit reached and overage is active',
+  'license.products.usage_tip.base.monthly.reached_active.description':
+    'You reached your monthly limit and are currently using overage. {validity}',
+  'license.products.usage_tip.base.term.default.title': 'Usage limit',
+  'license.products.usage_tip.base.term.default.description':
+    'This shows the usage limit included with your plan subscription. {validity}',
+  'license.products.usage_tip.base.term.default.description.valid_until':
+    'The scan units you purchased for {product} are valid until your license expires on {date}.',
+  'license.products.usage_tip.base.term.warning.title': '{percentage}% of limit used',
+  'license.products.usage_tip.base.term.warning.description':
+    "You're close to reaching your usage limit. {validity}",
+  'license.products.usage_tip.base.term.reached.title': 'Limit reached',
+  'license.products.usage_tip.base.term.reached.description':
+    'You reached your usage limit. {validity}',
+  'license.products.usage_tip.base.term.reached_active.title':
+    'Limit reached and overage is active',
+  'license.products.usage_tip.base.term.reached_active.description':
+    'You reached your limit and are currently using overage. {validity}',
+  'license.products.usage_tip.base.warning.prompt.sales':
+    'To avoid interruptions, talk to sales to activate overage to your organization.',
+  'license.products.usage_tip.base.warning.prompt.self_serve':
+    'To avoid interruptions, activate overage to be billed monthly based on your usage.',
+  'license.products.usage_tip.base.reached.prompt.sales':
+    'To keep using the product, talk to sales to activate overage to your organization.',
+  'license.products.usage_tip.base.reached.prompt.self_serve':
+    'To keep using the product, activate overage to be billed monthly based on your usage.',
+  'license.products.usage_tip.base.reached_active.resets_on':
+    'Both your base plan and overage reset on {date}.',
+  'license.products.usage_tip.base.reached_active.valid_until':
+    'Both your base plan and overage are valid until your license expires on {date}.',
+  'license.products.usage_tip.overage.resets_on': 'Your overage limit resets on {date}.',
+  'license.products.usage_tip.overage.valid_until':
+    'Your overage limit is valid until your license expires on {date}.',
+  'license.products.usage_tip.overage.monthly.default.title': 'Overage limit',
+  'license.products.usage_tip.overage.monthly.default.description':
+    'Overage is activated for this product. Overage usage starts only after you reach your purchased limit, and we bill you monthly based on your usage.',
+  'license.products.usage_tip.overage.monthly.warning.title':
+    '{percentage}% of overage limit reached',
+  'license.products.usage_tip.overage.monthly.warning.description':
+    "You're close to reaching your overage limit. {validity}",
+  'license.products.usage_tip.overage.monthly.reached.title': 'Overage limit reached',
+  'license.products.usage_tip.overage.monthly.reached.description':
+    'You reached your overage limit. {validity}',
+  'license.products.usage_tip.overage.term.default.title': 'Overage limit',
+  'license.products.usage_tip.overage.term.default.description':
+    '{validity} We bill you monthly based on your usage alongside your other products.',
+  'license.products.usage_tip.overage.term.default.description.valid_until':
+    'The overage for {product} is valid until your license expires on {date}. We bill you monthly based on your usage alongside your other products.',
+  'license.products.usage_tip.overage.term.warning.title': '{percentage}% of overage limit reached',
+  'license.products.usage_tip.overage.term.warning.description':
+    "You're close to reaching your overage limit. {validity}",
+  'license.products.usage_tip.overage.term.reached.title': 'Overage limit reached',
+  'license.products.usage_tip.overage.term.reached.description':
+    'You reached your overage limit. {validity}',
+  'license.products.usage_tip.overage.warning.prompt.manage':
+    'To keep using the product uninterrupted, consider increasing your overage limit.',
+  'license.products.usage_tip.overage.reached.prompt.manage':
+    'To keep using the product, consider increasing your overage limit.',
   'license.products.valid_until': 'Valid until',
   'license.products.view_demo': 'View demo',
   'license.refresh_license': 'Refresh license',

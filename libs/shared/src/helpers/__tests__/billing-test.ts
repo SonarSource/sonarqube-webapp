@@ -19,7 +19,7 @@
  */
 
 import { Cadence, EntitlementConsumption } from '../../types/billing';
-import { getBaseUsage, getEffectiveLimit, getNextResetDate } from '../billing';
+import { getBaseUsage, getEffectiveLimit, getNextResetDate, getOverageUsage } from '../billing';
 
 describe('getEffectiveLimit', () => {
   it('returns the base limit when overage is disabled', () => {
@@ -64,6 +64,23 @@ describe('getBaseUsage', () => {
 
   it('clamps negative usage up to zero', () => {
     expect(getBaseUsage(mockConsumption({ base: 100, used: -10 }))).toBe(0);
+  });
+});
+
+describe('getOverageUsage', () => {
+  it('is zero while consumption is still inside the base limit', () => {
+    expect(getOverageUsage(mockConsumption({ base: 100, used: 40 }))).toBe(0);
+  });
+
+  it('counts only what sits above the base limit', () => {
+    expect(getOverageUsage(mockConsumption({ base: 100, used: 161 }))).toBe(61);
+  });
+
+  it('still reports accrued units once overage has been switched back off', () => {
+    const consumption = mockConsumption({ base: 100, used: 161 });
+    consumption.limit.overageEnabled = false;
+
+    expect(getOverageUsage(consumption)).toBe(61);
   });
 });
 

@@ -32,6 +32,17 @@ export function getBaseUsage(consumption: EntitlementConsumption): number {
 }
 
 /**
+ * Consumption sitting above the base allowance, which is what an overage bar measures.
+ *
+ * Deliberately independent of `limit.overageEnabled`: units accrued earlier in the period stay
+ * billable after an admin switches overage back off, so the panel keeps showing them instead of
+ * collapsing the row to a "deactivated" chip and hiding a charge the customer will still see.
+ */
+export function getOverageUsage(consumption: EntitlementConsumption): number {
+  return Math.max(0, consumption.metering.used - consumption.limit.base);
+}
+
+/**
  * When consumption next resets, as an ISO instant, or null when it never does.
  *
  * The payload carries no dates, only a cadence, so every consumer must derive the
