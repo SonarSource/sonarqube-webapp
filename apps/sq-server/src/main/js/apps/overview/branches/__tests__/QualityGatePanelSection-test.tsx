@@ -19,7 +19,7 @@
  */
 
 import { screen, waitFor } from '@testing-library/react';
-import { byRole } from '~shared/helpers/testSelector';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { QGStatus } from '~shared/types/common';
 import { MetricKey, MetricType } from '~shared/types/metrics';
@@ -98,7 +98,9 @@ it('should render correctly 0 New issues onboarding', async () => {
     qualityGate: mockQualityGate({ isBuiltIn: true }),
   });
 
-  expect(await byRole('alertdialog').find()).toBeInTheDocument();
+  expect(
+    await byText('overview.quality_gates.conditions.condition_simplification_tour.title').find(),
+  ).toBeInTheDocument();
 });
 
 it('should not render 0 New issues onboarding for user who dismissed it', () => {
@@ -114,7 +116,9 @@ it('should not render 0 New issues onboarding for user who dismissed it', () => 
   );
 
   expect(screen.queryByText('quality_gates.conditions.new_code_1')).not.toBeInTheDocument();
-  expect(byRole('alertdialog').query()).not.toBeInTheDocument();
+  expect(
+    byText('overview.quality_gates.conditions.condition_simplification_tour.title').query(),
+  ).not.toBeInTheDocument();
 });
 
 it('should render correct links for ratings with "overall code" failed conditions', () => {

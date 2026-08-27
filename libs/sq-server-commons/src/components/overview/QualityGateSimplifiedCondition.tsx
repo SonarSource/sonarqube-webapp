@@ -41,6 +41,7 @@ export default function QualityGateSimplifiedCondition({
   branchLike,
   component,
   condition,
+  ...forwardedProps // Necessary for the AnnouncementBubble that wraps this
 }: Readonly<Props>) {
   const metrics = useMetrics();
   const getPrimaryText = () => {
@@ -64,6 +65,7 @@ export default function QualityGateSimplifiedCondition({
         ...propsToIssueParams(condition.measure.metric.key, condition.period != null),
         ...getBranchLikeQuery(branchLike),
       })}
+      {...forwardedProps}
     >
       <div className="sw-flex sw-p-2 sw-items-baseline">
         <Text className="sw-mx-4 sw-w-300 sw-my-0 sw-text-right" isHighlighted>

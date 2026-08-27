@@ -18,62 +18,51 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, Spotlight, SpotlightModalPlacement, SpotlightStep } from '@sonarsource/echoes-react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { useDismissNotice, useIsNoticeDismissed } from '~adapters/helpers/notices';
-import { useCurrentUser } from '~adapters/helpers/users';
+import { Link, TeachingBubble } from '@sonarsource/echoes-react';
+import { ReactElement } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { AnnouncementBubble } from '~shared/components/feature-communication/AnnouncementBubble';
 import { QualityGate } from '../../types/types';
 import { NoticeType } from '../../types/users';
 
 interface Props {
-  qualityGate: QualityGate;
+  children: ReactElement;
+  isNewCode?: boolean;
+  qualityGate?: QualityGate;
 }
 
-export default function ZeroNewIssuesSimplificationGuide({ qualityGate }: Readonly<Props>) {
-  const { isLoggedIn } = useCurrentUser();
-  const isDismissed = useIsNoticeDismissed(NoticeType.OVERVIEW_ZERO_NEW_ISSUES_SIMPLIFICATION);
-  const { dismissNotice } = useDismissNotice();
+export default function ZeroNewIssuesSimplificationGuide(props: Readonly<Props>) {
+  const { children, isNewCode, qualityGate } = props;
 
-  const intl = useIntl();
-
-  const shouldRun = Boolean(qualityGate.isBuiltIn) && isLoggedIn && !isDismissed;
-
-  const steps: SpotlightStep[] = [
-    {
-      bodyText: (
-        <div className="sw-mb-4 sw-flex sw-flex-col sw-gap-2">
-          <FormattedMessage
-            id="overview.quality_gates.conditions.condition_simplification_tour.content"
-            values={{
-              p: (text) => <p>{text}</p>,
-              link: (text) => <Link to={`/quality_gates/show/${qualityGate.name}`}>{text}</Link>,
-              qualityGateName: qualityGate.name,
-            }}
-          />
-        </div>
-      ),
-      headerText: (
-        <FormattedMessage id="overview.quality_gates.conditions.condition_simplification_tour.title" />
-      ),
-      placement: SpotlightModalPlacement.Right,
-      target: `[data-guiding-id="overviewZeroNewIssuesSimplification"]`,
-    },
-  ];
-
-  const onCallback = (props: { action: string; type: string }) => {
-    if (props.action === 'close' && props.type === 'tour:end' && shouldRun) {
-      dismissNotice(NoticeType.OVERVIEW_ZERO_NEW_ISSUES_SIMPLIFICATION);
-    }
-  };
+  if (!qualityGate || !isNewCode) {
+    return children;
+  }
 
   return (
-    <Spotlight
-      callback={(args) => {
-        void onCallback(args);
-      }}
-      closeLabel={intl.formatMessage({ id: 'dismiss' })}
-      isRunning={shouldRun}
-      steps={steps}
-    />
+    <AnnouncementBubble
+      description={
+        <FormattedMessage
+          id="overview.quality_gates.conditions.condition_simplification_tour.content"
+          values={{
+            p: (text) => <p>{text}</p>,
+            link: (text) => <Link to={`/quality_gates/show/${qualityGate.name}`}>{text}</Link>,
+            qualityGateName: qualityGate.name,
+          }}
+        />
+      }
+      dismissSetting={NoticeType.OVERVIEW_ZERO_NEW_ISSUES_SIMPLIFICATION}
+      footer={
+        <TeachingBubble.CloseButton>
+          <FormattedMessage id="dismiss" />
+        </TeachingBubble.CloseButton>
+      }
+      isOpen
+      side="right"
+      title={
+        <FormattedMessage id="overview.quality_gates.conditions.condition_simplification_tour.title" />
+      }
+    >
+      {children}
+    </AnnouncementBubble>
   );
 }

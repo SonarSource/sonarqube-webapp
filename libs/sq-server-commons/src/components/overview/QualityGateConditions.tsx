@@ -27,10 +27,11 @@ import { translate } from '../../helpers/l10n';
 import { CONDITION_ORDER_PRIORITIES } from '../../helpers/quality-gates';
 import { BranchLike } from '../../types/branch-like';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
-import { Component } from '../../types/types';
+import { Component, QualityGate } from '../../types/types';
 import IssuesLinkCausedByUpgrade from './IssuesLinkCausedByUpgrade';
 import QualityGateCondition from './QualityGateCondition';
 import QualityGateSimplifiedCondition from './QualityGateSimplifiedCondition';
+import ZeroNewIssuesSimplificationGuide from './ZeroNewIssuesSimplificationGuide';
 
 const LEVEL_ORDER = ['ERROR', 'WARN'];
 
@@ -40,14 +41,24 @@ interface QualityGateConditionsProps {
   component: Pick<Component, 'key'>;
   failedConditions: QualityGateStatusConditionEnhanced[];
   isBuiltInQualityGate?: boolean;
+  isNewCode?: boolean;
   measures?: MeasureEnhanced[];
+  qualityGate?: QualityGate;
 }
 
 const MAX_CONDITIONS = 5;
 
 function QualityGateConditions(props: Readonly<QualityGateConditionsProps>) {
-  const { branchLike, collapsible, component, failedConditions, isBuiltInQualityGate, measures } =
-    props;
+  const {
+    branchLike,
+    collapsible,
+    component,
+    failedConditions,
+    isBuiltInQualityGate,
+    isNewCode,
+    measures,
+    qualityGate,
+  } = props;
   const [collapsed, toggleCollapsed] = React.useState(Boolean(collapsible));
 
   const handleToggleCollapsed = React.useCallback(() => {
@@ -87,11 +98,13 @@ function QualityGateConditions(props: Readonly<QualityGateConditionsProps>) {
       {renderConditions.map((condition, idx) => (
         <div key={condition.measure.metric.key}>
           {isSimplifiedCondition(condition) ? (
-            <QualityGateSimplifiedCondition
-              branchLike={branchLike}
-              component={component}
-              condition={condition}
-            />
+            <ZeroNewIssuesSimplificationGuide isNewCode={isNewCode} qualityGate={qualityGate}>
+              <QualityGateSimplifiedCondition
+                branchLike={branchLike}
+                component={component}
+                condition={condition}
+              />
+            </ZeroNewIssuesSimplificationGuide>
           ) : (
             <QualityGateCondition
               branchLike={branchLike}

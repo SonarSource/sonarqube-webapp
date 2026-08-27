@@ -28,7 +28,6 @@ import { BranchLike } from '../../types/branch-like';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
 import { Component, QualityGate } from '../../types/types';
 import QualityGateConditions from './QualityGateConditions';
-import ZeroNewIssuesSimplificationGuide from './ZeroNewIssuesSimplificationGuide';
 
 export interface FailedConditionsProps {
   branchLike?: BranchLike;
@@ -71,13 +70,14 @@ export default function FailedConditions({
           <CardSeparator />
         </>
       )}
-      {qualityGate && isNewCode && <ZeroNewIssuesSimplificationGuide qualityGate={qualityGate} />}
       <QualityGateConditions
         branchLike={branchLike}
         component={component}
         failedConditions={isNewCode ? newCodeFailedConditions : overallFailedConditions}
         isBuiltInQualityGate={isNewCode && qualityGate?.isBuiltIn}
+        isNewCode={isNewCode}
         measures={measures}
+        qualityGate={qualityGate}
       />
     </>
   );
