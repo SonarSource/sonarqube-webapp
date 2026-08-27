@@ -860,10 +860,10 @@ export const defaultMessages = {
     'Pick a provider compatible with Remediation Agent. Manage providers in <link>LLM providers</link>.',
   'ai_capabilities.remediation_agent.enable_agent.title': 'Enable agent',
   'ai_capabilities.remediation_agent.enable_agent.disabled_reason': 'Choose a provider first',
-  'ai_capabilities.remediation_agent.manual.title': 'Manual backlog remediation',
+  'ai_capabilities.remediation_agent.manual.title': 'Manual remediation',
   'ai_capabilities.remediation_agent.manual.description':
     "Reduce technical debt by selecting issues from your project's issues list and letting the agent propose fixes in a pull request.",
-  'ai_capabilities.remediation_agent.scheduled.title': 'Automated backlog remediation',
+  'ai_capabilities.remediation_agent.scheduled.title': 'Automated remediation',
   'ai_capabilities.remediation_agent.scheduled.description':
     'Reduce technical debt by automatically fixing high-priority issues on your main branch on a schedule.',
   'ai_capabilities.remediation_agent.scheduled.save_success':
@@ -925,12 +925,12 @@ export const defaultMessages = {
   'ai_capabilities.enabled': 'Enabled',
   'ai_capabilities.disabled': 'Disabled',
   'ai_capabilities.project.manual.available':
-    'Manual backlog remediation is enabled for your SonarQube instance.',
+    'Manual remediation is enabled for your SonarQube instance.',
   'ai_capabilities.project.manual.not_available':
-    'Manual backlog remediation is not enabled for your SonarQube instance. Please contact your administrator to enable the feature.',
+    'Manual remediation is not enabled for your SonarQube instance. Please contact your administrator to enable the feature.',
   'ai_capabilities.project.manual.not_available.admin':
-    'Manual backlog remediation is not enabled for your SonarQube instance.',
-  'ai_capabilities.project.manual.not_available.admin_cta': 'Enable Manual backlog remediation',
+    'Manual remediation is not enabled for your SonarQube instance.',
+  'ai_capabilities.project.manual.not_available.admin_cta': 'Enable Manual remediation',
 
   'ai_capabilities.remediation_agent.add_on_promo.badge': 'New',
   'ai_capabilities.remediation_agent.add_on_promo.heading': 'Your backlog, fixed while you build.',
@@ -977,10 +977,10 @@ export const defaultMessages = {
   'ai_capabilities.remediation_agent.issue.assign_to_agent.limit_reached_toggletip':
     'Monthly limit reached. New Remediation Agent jobs are paused.',
   'ai_capabilities.project.not_available':
-    'Automated backlog remediation is not enabled for this project. Please contact your administrator to enable the feature.',
+    'Automated remediation is not enabled for this project. Please contact your administrator to enable the feature.',
   'ai_capabilities.project.not_available.admin':
-    'Automated backlog remediation is not enabled for this project.',
-  'ai_capabilities.project.not_available.admin_cta': 'Enable Automated backlog remediation',
+    'Automated remediation is not enabled for this project.',
+  'ai_capabilities.project.not_available.admin_cta': 'Enable Automated remediation',
   'ai_capabilities.project.remediation_agent.description':
     'This setting allows project administrators to customize the automated schedule for their project. The default can be adjusted in the {link}.',
   'ai_capabilities.project.remediation_agent.settings_link': 'AI capabilities settings',
