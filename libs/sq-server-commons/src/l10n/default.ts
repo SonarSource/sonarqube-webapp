@@ -10518,6 +10518,12 @@ export const defaultMessages = {
     'You turned off overage for this feature. Activate it again to avoid service interruptions when reaching your limit.',
   'license.products.overage.stopped.title': 'Overage deactivated',
   'license.products.overage.talk_to_sales': 'Talk to sales',
+  'license.products.overage.blocked.title': 'Overage blocked. Connect online to continue overage',
+  'license.products.overage.blocked.description':
+    'Your instance has been offline for a while, which paused product overage usage.<br></br>To continue using overage, reconnect your instance to {url} and try again.',
+  'license.products.overage.blocked.learn_more': 'Learn more',
+  'license.products.overage.offline.manage':
+    "You can't manage overage while offline. Allow your instance to reach {url} and try again.",
   'license.products.column.base_usage_limit.help':
     'This is the usage limit included with your product subscription.',
   'license.products.column.base_usage_limit': 'Base usage limit',
