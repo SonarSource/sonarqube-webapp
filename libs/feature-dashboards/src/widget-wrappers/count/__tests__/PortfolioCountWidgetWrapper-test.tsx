@@ -20,13 +20,16 @@
 
 import { screen } from '@testing-library/react';
 import { useDashboardPortfolioContext } from '~adapters/context/dashboardContext';
-import { useOrgMeasuresCountWidgetData } from '~adapters/queries/count-widget-data';
+import {
+  useOrgIssueCountWidgetData,
+  useOrgMeasuresCountWidgetData,
+} from '~adapters/queries/count-widget-data';
 import { usePortfolioWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-metadata';
 import { renderWithContext } from '~shared/helpers/test-utils';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { CountWidgetProps } from '../../../components/visualizations/CountWidget';
 import { WidgetInstanceProvider } from '../../../dashboard-layout/shared/WidgetInstanceContext';
-import { DashboardMetricType } from '../../../data/widgets/shared';
+import { DashboardMetricType, RichMetricKey } from '../../../data/widgets/shared';
 import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
 import { CodeScope } from '../../../types/widget-common';
 import { PortfolioCountWidgetWrapper as PortfolioCountWidget } from '../PortfolioCountWidgetWrapper';
@@ -38,6 +41,14 @@ const mockCountWidget = jest.fn((props: CountWidgetProps) => (
 jest.mock('~feature-dashboards/components/visualizations/CountWidget', () => ({
   ...(jest.requireActual('~feature-dashboards/components/visualizations/CountWidget') as object),
   CountWidget: (props: CountWidgetProps) => mockCountWidget(props),
+}));
+
+jest.mock('~feature-dashboards/components/common/WidgetNoData', () => ({
+  WidgetNoData: function WidgetNoData({
+    messageKey = 'dashboard.widget.no_data',
+  }: Readonly<{ messageKey?: string }>) {
+    return <div>{messageKey}</div>;
+  },
 }));
 
 jest.mock('../../common/IssueResolutionCountWidgetWrapper', () => ({
@@ -114,6 +125,7 @@ beforeEach(() => {
     data: {
       metrics: [{ direction: '-1.0', key: MetricKey.coverage, type: 'percent' }],
     },
+    isError: false,
     isPending: false,
   } as unknown as ReturnType<typeof usePortfolioWidgetMetricMetadataQuery>);
 
@@ -123,6 +135,7 @@ beforeEach(() => {
       sparklineSeries: [],
       trend: { current: null, past: null },
     },
+    isError: false,
     isPending: false,
   } as unknown as ReturnType<typeof useOrgMeasuresCountWidgetData>);
 });
@@ -182,6 +195,46 @@ describe('PortfolioCountWidget', () => {
 
     expect(screen.getByTestId('count-widget')).not.toHaveAttribute('data-link-to');
     expect(mockCountWidget).toHaveBeenCalledWith(expect.objectContaining({ linkTo: undefined }));
+  });
+
+  it('shows an error state when rich count loading fails', () => {
+    jest.mocked(useOrgIssueCountWidgetData).mockReturnValue({
+      data: undefined,
+      isError: true,
+      isPending: false,
+    } as unknown as ReturnType<typeof useOrgIssueCountWidgetData>);
+
+    renderWithContext(
+      <PortfolioCountWidget
+        metric={{
+          measureFilters: undefined,
+          metricKey: RichMetricKey.Issues,
+          type: DashboardMetricType.Rich,
+        }}
+        scope={CodeScope.Overall}
+      />,
+    );
+
+    expect(screen.getByText('dashboard.widget.error')).toBeInTheDocument();
+    expect(mockCountWidget).not.toHaveBeenCalled();
+  });
+
+  it('shows an error state when raw count loading fails', () => {
+    jest.mocked(useOrgMeasuresCountWidgetData).mockReturnValue({
+      data: undefined,
+      isError: true,
+      isPending: false,
+    } as unknown as ReturnType<typeof useOrgMeasuresCountWidgetData>);
+
+    renderWithContext(
+      <PortfolioCountWidget
+        metric={{ metricKey: MetricKey.coverage, type: DashboardMetricType.Raw }}
+        scope={CodeScope.Overall}
+      />,
+    );
+
+    expect(screen.getByText('dashboard.widget.error')).toBeInTheDocument();
+    expect(mockCountWidget).not.toHaveBeenCalled();
   });
 
   it('renders the shared issue-resolution count widget for MTTR', () => {

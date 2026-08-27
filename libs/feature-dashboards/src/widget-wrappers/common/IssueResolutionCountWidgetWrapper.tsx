@@ -49,12 +49,16 @@ export function IssueResolutionCountWidgetWrapper({
   const { formatMessage } = useIntl();
   const { statistic } = metric;
 
-  const { data, isPending } = useOrgIssueResolutionCountWidgetData({
+  const { data, isError, isPending } = useOrgIssueResolutionCountWidgetData({
     entityId,
     entityType,
     measureFilters: metric.measureFilters,
     statistic,
   });
+
+  if (isError) {
+    return <WidgetNoData messageKey="dashboard.widget.error" />;
+  }
 
   if (isPending) {
     return <WidgetLoadingSpinner />;

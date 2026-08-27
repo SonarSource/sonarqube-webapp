@@ -283,9 +283,13 @@ function resolvePieChartResult(
     return unsupportedDashboardWidgetAdapter();
   }
   const needsMode = args.enabled && args.needsExperienceMode;
+  const modeFailed = needsMode && args.modeError != null;
   return {
     error: needsMode ? (args.modeError ?? args.error) : args.error,
-    isPending: (needsMode && args.isModePending) || args.isPending,
+    // A mode failure permanently disables the issue query, which then reports
+    // isPending forever. Once the mode has definitively errored, stop
+    // reporting pending so the error state can be surfaced instead.
+    isPending: modeFailed ? false : (needsMode && args.isModePending) || args.isPending,
     segments: args.segments,
   };
 }

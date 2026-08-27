@@ -74,7 +74,15 @@ export function useOrgIssueDensityCountWidgetData(params: {
     },
   );
 
-  return { ...query, isPending: modeQuery.isPending || query.isPending };
+  // A mode failure permanently disables the issue query, which then reports
+  // isPending forever. Once the mode has definitively errored, stop reporting
+  // pending and surface the error instead of spinning indefinitely.
+  const modeFailed = modeQuery.error != null;
+  return {
+    ...query,
+    isError: modeFailed || query.isError,
+    isPending: !modeFailed && (modeQuery.isPending || query.isPending),
+  };
 }
 
 export function useOrgIssueDensityLineChartWidgetData(params: {
@@ -111,9 +119,10 @@ export function useOrgIssueDensityLineChartWidgetData(params: {
     },
   );
 
+  const modeFailed = modeQuery.error != null;
   return {
     ...query,
-    isError: modeQuery.error != null || query.isError,
-    isPending: modeQuery.isPending || query.isPending,
+    isError: modeFailed || query.isError,
+    isPending: !modeFailed && (modeQuery.isPending || query.isPending),
   };
 }

@@ -44,8 +44,10 @@ jest.mock('~feature-dashboards/components/common/WidgetLoadingSpinner', () => ({
 }));
 
 jest.mock('~feature-dashboards/components/common/WidgetNoData', () => ({
-  WidgetNoData: function WidgetNoData() {
-    return <div data-testid="no-data" />;
+  WidgetNoData: function WidgetNoData({
+    messageKey = 'dashboard.widget.no_data',
+  }: Readonly<{ messageKey?: string }>) {
+    return <div data-testid="no-data">{messageKey}</div>;
   },
 }));
 
@@ -85,6 +87,23 @@ beforeEach(() => {
 });
 
 describe('IssueDensityCountWidgetWrapper', () => {
+  it('shows an error state when issue density loading fails', () => {
+    jest.mocked(useOrgIssueDensityCountWidgetData).mockReturnValue({
+      data: {
+        latestValue: 4.2,
+        sparklineSeries: [3.8, 4, 4.2],
+        trend: noTrend,
+      },
+      isError: true,
+      isPending: false,
+    } as unknown as ReturnType<typeof useOrgIssueDensityCountWidgetData>);
+
+    setupWidget();
+
+    expect(screen.getByText('dashboard.widget.error')).toBeInTheDocument();
+    expect(mockCountWidget).not.toHaveBeenCalled();
+  });
+
   it('shows a loading spinner while issue density is loading', () => {
     jest.mocked(useOrgIssueDensityCountWidgetData).mockReturnValue({
       data: undefined,

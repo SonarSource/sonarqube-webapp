@@ -101,13 +101,21 @@ function PortfolioRichCountWidget(
   const trendVisible = isCountWidgetTrendVisible(showTrendIndicator, metric, scope);
   const resolvedIssueMetricKey = getActualMetricKey(metric) as MetricKey;
 
-  const { data: issueHistoryData, isPending } = useOrgIssueCountWidgetData({
+  const {
+    data: issueHistoryData,
+    isError,
+    isPending,
+  } = useOrgIssueCountWidgetData({
     entityId: portfolioId,
     entityType: 'PORTFOLIO',
     measureFilters,
     resolvedIssueMetricKey,
     richMetricKey: metric.metricKey,
   });
+
+  if (isError) {
+    return <WidgetNoData messageKey="dashboard.widget.error" />;
+  }
 
   const latestTotal = issueHistoryData?.latestTotal ?? null;
   const historicalValues = issueHistoryData?.historicalValues ?? null;
@@ -164,13 +172,20 @@ function PortfolioRawCountWidget(
   const { getPortfolioMetric } = useDashboardPortfolioContext();
   const metricKeyForRequest = getPortfolioDashboardMeasureRequestKey(actualMetricKey, isScopeNew);
 
-  const { data: portfolioMetricsData, isPending: isPortfolioMetricsPending } =
-    usePortfolioWidgetMetricMetadataQuery();
+  const {
+    data: portfolioMetricsData,
+    isError: isPortfolioMetricsError,
+    isPending: isPortfolioMetricsPending,
+  } = usePortfolioWidgetMetricMetadataQuery();
   const metricMetadata = getMetricMetadata(portfolioMetricsData?.metrics, actualMetricKey);
   const isMetricsListLoading = isPortfolioMetricsPending;
   const metricType = metricMetadata?.type;
 
-  const { data: measuresHistoryData, isPending } = useOrgMeasuresCountWidgetData({
+  const {
+    data: measuresHistoryData,
+    isError,
+    isPending,
+  } = useOrgMeasuresCountWidgetData({
     entityId: portfolioId,
     entityType: 'PORTFOLIO',
     metricKeyForRequest,
@@ -181,6 +196,10 @@ function PortfolioRawCountWidget(
 
   const rawValue = measuresHistoryData?.latestValue;
   const historicalValues = measuresHistoryData?.trend;
+
+  if (isError || isPortfolioMetricsError) {
+    return <WidgetNoData messageKey="dashboard.widget.error" />;
+  }
 
   if (isPending || isMetricsListLoading) {
     return <WidgetLoadingSpinner />;

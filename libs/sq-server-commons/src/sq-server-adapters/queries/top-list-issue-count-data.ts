@@ -155,11 +155,15 @@ export function useTopListIssueCountData(
     return unsupportedDashboardWidgetAdapter();
   }
 
+  // A mode failure permanently disables the counts/trend queries, which then
+  // report isPending forever. Once the mode has definitively errored, stop
+  // reporting pending so the error state can be surfaced instead.
+  const modeFailed = modeQuery.error != null;
   return {
     counts: counts ?? {},
     getRuleTrendData,
-    isError: modeQuery.error != null || countsQuery.isError,
-    isPending: modeQuery.isPending || countsQuery.isPending || isTrendPending,
+    isError: modeFailed || countsQuery.isError,
+    isPending: !modeFailed && (modeQuery.isPending || countsQuery.isPending || isTrendPending),
     topRuleKeys,
   };
 }

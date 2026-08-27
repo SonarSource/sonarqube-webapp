@@ -94,14 +94,18 @@ function resolveLineChartResult(
   lineChartHasFetchError: boolean;
   series: DashboardLineChartSeries[];
 } {
+  const modeFailed = args.queriesEnabled && args.isModeError;
+  const underlyingQueryPending = args.usesIssueQuery
+    ? args.isIssuePending
+    : args.measureMetadataPending || (args.isKnownMeasureMetric && args.isMeasuresPending);
   return {
+    // A mode failure permanently disables the measures/issue query, which then
+    // reports isPending forever. Once the mode has definitively errored, stop
+    // reporting pending so the error state can be surfaced instead.
     isMeasuresHistoryPending:
-      (args.queriesEnabled && args.isModePending) ||
-      (args.usesIssueQuery
-        ? args.isIssuePending
-        : args.measureMetadataPending || (args.isKnownMeasureMetric && args.isMeasuresPending)),
+      !modeFailed && ((args.queriesEnabled && args.isModePending) || underlyingQueryPending),
     lineChartHasFetchError:
-      (args.queriesEnabled && args.isModeError) ||
+      modeFailed ||
       (args.usesIssueQuery ? args.isIssueError : args.measureMetadataError || args.isMeasuresError),
     series: args.usesIssueQuery ? (args.issueSeries ?? []) : (args.measuresSeries ?? []),
   };

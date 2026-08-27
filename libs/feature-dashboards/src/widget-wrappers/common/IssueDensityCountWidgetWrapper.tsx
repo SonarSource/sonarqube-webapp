@@ -44,11 +44,15 @@ export function IssueDensityCountWidgetWrapper({
   showTrendIndicator,
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
-  const { data, isPending } = useOrgIssueDensityCountWidgetData({
+  const { data, isError, isPending } = useOrgIssueDensityCountWidgetData({
     entityId,
     entityType,
     measureFilters: metric.measureFilters,
   });
+
+  if (isError) {
+    return <WidgetNoData messageKey="dashboard.widget.error" />;
+  }
 
   if (isPending) {
     return <WidgetLoadingSpinner />;

@@ -37,7 +37,7 @@ export const useWidgetMetricMetadataQuery = createQueryHook(() =>
 );
 
 export function usePortfolioWidgetMetricMetadataQuery(): DashboardWidgetQueryResult<PortfolioWidgetMetricMetadata> {
-  const { data: metrics, isPending } = useWidgetMetricMetadataQuery();
+  const { data: metrics, isError, isPending } = useWidgetMetricMetadataQuery();
 
   return {
     data:
@@ -50,6 +50,7 @@ export function usePortfolioWidgetMetricMetadataQuery(): DashboardWidgetQueryRes
               type: metric.type,
             })),
           },
+    isError,
     isPending,
   };
 }

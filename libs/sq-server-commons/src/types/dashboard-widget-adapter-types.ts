@@ -30,6 +30,7 @@ export interface DashboardCountTrendData {
 
 export interface DashboardWidgetQueryResult<T> {
   data: T | undefined;
+  isError: boolean;
   isPending: boolean;
 }
 

@@ -112,7 +112,15 @@ export function useOrgIssueCountWidgetData(_params: {
     return unsupportedDashboardWidgetAdapter();
   }
 
-  return { ...query, isPending: modeQuery.isPending || query.isPending };
+  // A mode failure permanently disables the issue query, which then reports
+  // isPending forever. Once the mode has definitively errored, stop reporting
+  // pending and surface the error instead of spinning indefinitely.
+  const modeFailed = modeQuery.error != null;
+  return {
+    ...query,
+    isError: modeFailed || query.isError,
+    isPending: !modeFailed && (modeQuery.isPending || query.isPending),
+  };
 }
 
 export function useOrgMeasuresCountWidgetData(_params: {
@@ -165,5 +173,10 @@ export function useOrgMeasuresCountWidgetData(_params: {
     return unsupportedDashboardWidgetAdapter();
   }
 
-  return { ...query, isPending: modeQuery.isPending || query.isPending };
+  const modeFailed = modeQuery.error != null;
+  return {
+    ...query,
+    isError: modeFailed || query.isError,
+    isPending: !modeFailed && (modeQuery.isPending || query.isPending),
+  };
 }

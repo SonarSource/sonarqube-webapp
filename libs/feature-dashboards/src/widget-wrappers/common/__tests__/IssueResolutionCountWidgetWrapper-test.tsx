@@ -49,8 +49,10 @@ jest.mock('~feature-dashboards/components/common/WidgetLoadingSpinner', () => ({
 }));
 
 jest.mock('~feature-dashboards/components/common/WidgetNoData', () => ({
-  WidgetNoData: function WidgetNoData() {
-    return <div data-testid="no-data" />;
+  WidgetNoData: function WidgetNoData({
+    messageKey = 'dashboard.widget.no_data',
+  }: Readonly<{ messageKey?: string }>) {
+    return <div data-testid="no-data">{messageKey}</div>;
   },
 }));
 
@@ -88,6 +90,30 @@ beforeEach(() => {
 });
 
 describe('OrgIssueResolutionCountWidget', () => {
+  it('shows an error state when issue resolution loading fails', () => {
+    jest.mocked(useOrgIssueResolutionCountWidgetData).mockReturnValue({
+      data: {
+        latestValue: 42,
+        sparklineSeries: [1, 2, 3],
+        trend: noTrend,
+      },
+      isError: true,
+      isPending: false,
+    } as unknown as ReturnType<typeof useOrgIssueResolutionCountWidgetData>);
+
+    renderWithContext(
+      <OrgIssueResolutionCountWidget
+        entityId="entity-1"
+        entityType="PORTFOLIO"
+        metric={resolvedIssuesMetric}
+        showTrendIndicator={false}
+      />,
+    );
+
+    expect(screen.getByText('dashboard.widget.error')).toBeInTheDocument();
+    expect(mockCountWidget).not.toHaveBeenCalled();
+  });
+
   it('shows a loading spinner while data is pending', () => {
     jest.mocked(useOrgIssueResolutionCountWidgetData).mockReturnValue({
       data: undefined,

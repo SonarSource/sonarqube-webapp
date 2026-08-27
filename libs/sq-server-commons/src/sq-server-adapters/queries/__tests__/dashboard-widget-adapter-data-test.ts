@@ -650,6 +650,108 @@ describe('dashboard widget adapter queries', () => {
         expect.objectContaining({ enabled: false }),
       );
     });
+
+    it('surfaces experience-mode errors on count widgets without reporting pending', () => {
+      const modeError = new Error('mode request failed');
+      mockUseStandardExperienceModeQuery.mockReturnValue(
+        queryResult(undefined, { error: modeError }),
+      );
+      // A disabled TanStack query that never fetched reports isPending: true forever.
+      mockUseDashboardIssueCountHistoryQuery.mockReturnValue(
+        queryResult(undefined, { isPending: true }),
+      );
+      mockUseDashboardMeasuresHistoryQuery.mockReturnValue(
+        queryResult(undefined, { isPending: true }),
+      );
+
+      const issueCount = renderHook(
+        () =>
+          useOrgIssueCountWidgetData({
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            measureFilters: undefined,
+            resolvedIssueMetricKey: MetricKey.violations,
+            richMetricKey: RichMetricKey.Issues,
+          }),
+        { wrapper: getContextWrapper() },
+      );
+      expect(issueCount.result.current.isError).toBe(true);
+      expect(issueCount.result.current.isPending).toBe(false);
+
+      const measuresCount = renderHook(
+        () =>
+          useOrgMeasuresCountWidgetData({
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            metricKeyForRequest: MetricKey.coverage,
+            metricType: MetricType.Percent,
+          }),
+        { wrapper: getContextWrapper() },
+      );
+      expect(measuresCount.result.current.isError).toBe(true);
+      expect(measuresCount.result.current.isPending).toBe(false);
+    });
+
+    it('stops reporting isPending on the top list once the experience-mode query has errored', () => {
+      const modeError = new Error('mode request failed');
+      mockUseStandardExperienceModeQuery.mockReturnValue(
+        queryResult(undefined, { error: modeError }),
+      );
+      mockUseDashboardIssueCountHistoryQuery.mockReturnValue(
+        queryResult(undefined, { isPending: true }),
+      );
+
+      const { result } = renderHook(
+        () =>
+          useTopListIssueCountData(
+            {
+              limit: 5,
+              metric: { type: DashboardMetricType.Rich, metricKey: RichMetricKey.Issues },
+            },
+            'portfolio-1',
+            'PORTFOLIO',
+            { fetchTrendHistory: false },
+          ),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(result.current.isError).toBe(true);
+      expect(result.current.isPending).toBe(false);
+    });
+
+    it('stops reporting isPending on line charts once the experience-mode query has errored', () => {
+      const modeError = new Error('mode request failed');
+      mockUseStandardExperienceModeQuery.mockReturnValue(
+        queryResult(undefined, { error: modeError }),
+      );
+      mockUseDashboardIssueCountHistoryQuery.mockReturnValue(
+        queryResult(undefined, { isPending: true }),
+      );
+      const richMetric: DashboardMetric = {
+        type: DashboardMetricType.Rich,
+        metricKey: RichMetricKey.Issues,
+      };
+
+      const { result } = renderHook(
+        () =>
+          useOrganizationLineChartSeriesData({
+            actualMetricKey: undefined,
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            groupBy: LineChartGroupBy.None,
+            historyRange: '3',
+            measureFilters: undefined,
+            measuresHistoryKey: MetricKey.violations,
+            metric: richMetric,
+            metricName: 'Issues',
+            metricType: undefined,
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(result.current.lineChartHasFetchError).toBe(true);
+      expect(result.current.isMeasuresHistoryPending).toBe(false);
+    });
   });
 
   describe('pie-chart queries', () => {
@@ -818,6 +920,34 @@ describe('dashboard widget adapter queries', () => {
         ).toEqual({ counts: { [canonicalKey]: 2 } });
       },
     );
+
+    it('surfaces experience-mode errors without reporting pending', () => {
+      const modeError = new Error('mode request failed');
+      mockUseStandardExperienceModeQuery.mockReturnValue(
+        queryResult(undefined, { error: modeError }),
+      );
+      // A disabled TanStack query that never fetched reports isPending: true forever.
+      mockUseDashboardIssueCountHistoryQuery.mockReturnValue(
+        queryResult(undefined, { isPending: true }),
+      );
+
+      const { result } = renderHook(
+        () =>
+          useOrganizationPieChartData({
+            entity: { entityId: 'portfolio-1', entityType: 'PORTFOLIO' },
+            widget: {
+              filter: '',
+              metric: PieChartMetric.IssueCount,
+              scope: CodeScope.Overall,
+              slice: PieChartIssueSlice.ImpactSeverities,
+            },
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(result.current.error).toBe(modeError);
+      expect(result.current.isPending).toBe(false);
+    });
 
     it('fails New-code issue pie data through the shared adapter error', () => {
       expect(() =>
@@ -1307,6 +1437,42 @@ describe('dashboard widget adapter queries', () => {
       ).toEqual([expect.objectContaining({ id: 'total', label: 'Density' })]);
       jest.useRealTimers();
     });
+
+    it('stops reporting isPending once the experience-mode query has errored', () => {
+      const modeError = new Error('mode request failed');
+      mockUseStandardExperienceModeQuery.mockReturnValue(
+        queryResult(undefined, { error: modeError }),
+      );
+      mockUseDashboardIssueDensityHistoryQuery.mockReturnValue(
+        queryResult(undefined, { isPending: true }),
+      );
+
+      const count = renderHook(
+        () =>
+          useOrgIssueDensityCountWidgetData({
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            measureFilters: undefined,
+          }),
+        { wrapper: getContextWrapper() },
+      );
+      expect(count.result.current.isError).toBe(true);
+      expect(count.result.current.isPending).toBe(false);
+
+      const lineChart = renderHook(
+        () =>
+          useOrgIssueDensityLineChartWidgetData({
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            historyRange: '3',
+            measureFilters: undefined,
+            metricName: 'Density',
+          }),
+        { wrapper: getContextWrapper() },
+      );
+      expect(lineChart.result.current.isError).toBe(true);
+      expect(lineChart.result.current.isPending).toBe(false);
+    });
   });
 
   describe('issue-resolution adapters', () => {
@@ -1380,6 +1546,44 @@ describe('dashboard widget adapter queries', () => {
         }),
       ).toEqual([expect.objectContaining({ id: 'total', label: 'MTTR' })]);
       jest.useRealTimers();
+    });
+
+    it('surfaces experience-mode errors without reporting pending', () => {
+      const modeError = new Error('mode request failed');
+      mockUseStandardExperienceModeQuery.mockReturnValue(
+        queryResult(undefined, { error: modeError }),
+      );
+      mockUseDashboardIssueResolutionHistoryQuery.mockReturnValue(
+        queryResult(undefined, { isPending: true }),
+      );
+
+      const count = renderHook(
+        () =>
+          useOrgIssueResolutionCountWidgetData({
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            measureFilters: undefined,
+            statistic: 'MTTR',
+          }),
+        { wrapper: getContextWrapper() },
+      );
+      expect(count.result.current.isError).toBe(true);
+      expect(count.result.current.isPending).toBe(false);
+
+      const lineChart = renderHook(
+        () =>
+          useOrgIssueResolutionLineChartWidgetData({
+            entityId: 'portfolio-1',
+            entityType: 'PORTFOLIO',
+            historyRange: '3',
+            measureFilters: undefined,
+            metricName: 'MTTR',
+            statistic: 'MTTR',
+          }),
+        { wrapper: getContextWrapper() },
+      );
+      expect(lineChart.result.current.isError).toBe(true);
+      expect(lineChart.result.current.isPending).toBe(false);
     });
   });
 
