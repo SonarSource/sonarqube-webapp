@@ -44,6 +44,7 @@ import Favorite from '~sq-server-commons/components/controls/Favorite';
 import { ContainsAICodeBadge } from '~sq-server-commons/components/shared/ContainsAICodeBadge';
 import AICodeAssuranceStatus from '~sq-server-commons/components/typography/AICodeAssuranceStatus';
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import { getProjectQueryUrl } from '~sq-server-commons/helpers/urls';
 import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { isLoggedIn } from '~sq-server-commons/types/users';
@@ -92,7 +93,15 @@ function CardTitle({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
       )}
 
       <span className="it__project-card-name" title={name}>
-        <LinkStandalone to={getProjectOverviewUrl(key)}>{name}</LinkStandalone>
+        <LinkStandalone
+          to={
+            qualifier === ComponentQualifier.Application
+              ? getProjectQueryUrl(key)
+              : getProjectOverviewUrl(key)
+          }
+        >
+          {name}
+        </LinkStandalone>
       </span>
 
       {qualifier === ComponentQualifier.Application && (

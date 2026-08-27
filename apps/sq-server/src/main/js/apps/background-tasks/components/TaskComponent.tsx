@@ -21,10 +21,15 @@
 import styled from '@emotion/styled';
 import { IconGitBranch, IconPullrequest, Text } from '@sonarsource/echoes-react';
 import { ContentCell, QualifierIcon, StandoutLink } from '~design-system';
-import { isPortfolioLike } from '~shared/helpers/component';
+import { isApplication, isPortfolioLike } from '~shared/helpers/component';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { getBranchUrl, getPortfolioUrl, getPullRequestUrl } from '~sq-server-commons/helpers/urls';
+import {
+  getBranchUrl,
+  getPortfolioUrl,
+  getProjectQueryUrl,
+  getPullRequestUrl,
+} from '~sq-server-commons/helpers/urls';
 import { Task } from '~sq-server-commons/types/tasks';
 
 import { FormattedMessage } from 'react-intl';
@@ -82,6 +87,8 @@ function getTaskComponentUrl(componentKey: string, task: Task) {
     return getBranchUrl(componentKey, task.branch);
   } else if (task.pullRequest) {
     return getPullRequestUrl(componentKey, task.pullRequest);
+  } else if (isApplication(task.componentQualifier)) {
+    return getProjectQueryUrl(componentKey);
   }
   return getProjectOverviewUrl(componentKey);
 }

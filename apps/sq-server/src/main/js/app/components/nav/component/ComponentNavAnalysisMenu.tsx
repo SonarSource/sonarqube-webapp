@@ -97,7 +97,6 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
 
   const portfolioDashboardSearchParams = new URLSearchParams({ id: component.key }).toString();
   const portfolioGovernanceEnabled = isPortfolio && isGovernanceEnabled;
-  const isProject = qualifier === ComponentQualifier.Project;
 
   let dashboardUrl: To | null = getProjectQueryUrl(component.key, branchParameters);
   if (isPortfolio) {
@@ -117,7 +116,7 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
       >
         {dashboardUrl && (
           <Layout.SidebarNavigation.AccordionItem.Item to={dashboardUrl}>
-            <FormattedMessage id="overview.page" />
+            <FormattedMessage id="summary.page" />
           </Layout.SidebarNavigation.AccordionItem.Item>
         )}
       </Layout.SidebarNavigation.AccordionItem>
@@ -135,7 +134,7 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
             isMatchingFullPath={portfolioGovernanceEnabled}
             to={dashboardUrl}
           >
-            <FormattedMessage id={isProject ? 'summary.page' : 'overview.page'} />
+            <FormattedMessage id={isPortfolio ? 'overview.page' : 'summary.page'} />
           </Layout.SidebarNavigation.AccordionItem.Item>
         )}
 

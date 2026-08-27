@@ -38,21 +38,12 @@ import { Feature } from '~sq-server-commons/types/features';
 import { ComponentNav } from '../ComponentNav';
 
 
-jest.mock('~shared/helpers/recent-history', () => {
-  const { ComponentQualifier } = jest.requireActual(
-    '~shared/types/component',
-  ) as typeof import('~shared/types/component');
-
-  return {
-    RecentHistory: {
-      add: jest.fn(),
-      get: jest.fn().mockReturnValue([
-        { key: 'foo', name: 'Foo', qualifier: ComponentQualifier.Project },
-        { key: 'portfoolio', name: 'PortFoolio', qualifier: ComponentQualifier.Portfolio },
-      ]),
-    },
-  };
-});
+jest.mock('~shared/helpers/recent-history', () => ({
+  RecentHistory: {
+    add: jest.fn(),
+    get: jest.fn(),
+  },
+}));
 
 jest.mock('~shared/components/badges/NewBadge', () => ({
   NewBadge: ({ expirationDate }: { expirationDate: string }) => (
@@ -64,9 +55,14 @@ const branchesHandler = new BranchesServiceMock();
 const measuresHandler = new MeasuresServiceMock();
 const settingsHandler = new SettingsServiceMock();
 const originalScaAddon = addons.sca;
+const defaultRecentHistory = [
+  { key: 'foo', name: 'Foo', qualifier: ComponentQualifier.Project },
+  { key: 'portfoolio', name: 'PortFoolio', qualifier: ComponentQualifier.Portfolio },
+];
 
 beforeEach(() => {
   jest.clearAllMocks();
+  jest.mocked(RecentHistory.get).mockReturnValue(defaultRecentHistory);
   branchesHandler.reset();
   measuresHandler.reset();
   settingsHandler.reset();
@@ -300,18 +296,31 @@ describe('ComponentNav', () => {
       expect(ui.allProjectDashboardsLink.query()).not.toBeInTheDocument();
     });
 
-    it('should render analysis and information menus for applications', () => {
+    it('should render analysis and information menus for applications', async () => {
       const component = mockComponent({
         qualifier: ComponentQualifier.Application,
-        breadcrumbs: [{ key: 'foo', name: 'Foo', qualifier: ComponentQualifier.Application }],
+        breadcrumbs: [
+          {
+            key: 'recent-application',
+            name: 'Recent application',
+            qualifier: ComponentQualifier.Application,
+          },
+        ],
         analysisDate: '2024-01-01',
         canBrowseAllChildProjects: true,
       });
+      jest.mocked(RecentHistory.get).mockReturnValue([
+        {
+          key: 'recent-application',
+          name: 'Recent application',
+          qualifier: ComponentQualifier.Application,
+        },
+      ]);
 
-      renderComponentNav({ component });
+      const { user } = renderComponentNav({ component });
 
       expect(ui.navigationItemsList()).toEqual([
-        'overview.page',
+        'summary.page',
         'issues.page',
         'layout.security_hotspotsdeprecated',
         'layout.measures',
@@ -320,8 +329,19 @@ describe('ComponentNav', () => {
         'application.info.title',
       ]);
 
+      getInteractiveElement(byText('MyProject').get()).focus();
+      await user.keyboard('[ArrowDown]');
+      expect(getInteractiveElement(byText('Recent application').get())).toHaveAttribute(
+        'href',
+        '/dashboard?id=recent-application',
+      );
+
       // Analysis menu
-      expect(ui.overviewLink.get()).toBeInTheDocument();
+      expect(ui.summaryLink.get()).toBeInTheDocument();
+      expect(getInteractiveElement(ui.summaryLink.get())).toHaveAttribute(
+        'href',
+        '/dashboard?id=my-project',
+      );
       expect(ui.issuesLink.get()).toBeInTheDocument();
       expect(ui.securityHotspotsLink.get()).toBeInTheDocument();
       expect(ui.appCodeLink.get()).toBeInTheDocument();
@@ -341,11 +361,11 @@ describe('ComponentNav', () => {
 
       renderComponentNav({ component });
 
-      expect(ui.overviewLink.get()).toBeInTheDocument();
+      expect(ui.summaryLink.get()).toBeInTheDocument();
       expect(ui.projectGroup.query()).not.toBeInTheDocument();
       expect(ui.policiesGroup.query()).not.toBeInTheDocument();
 
-      expect(ui.navigationItemsList()).toEqual(['overview.page']);
+      expect(ui.navigationItemsList()).toEqual(['summary.page']);
     });
   });
 
@@ -482,9 +502,9 @@ function getNavigationItemText(element: HTMLElement) {
 }
 
 /* eslint-disable testing-library/no-node-access -- The standalone sidebar is aria-hidden. */
-function getInteractiveElement(element: HTMLElement) {
+function getInteractiveElement(element: HTMLElement): HTMLAnchorElement | HTMLButtonElement {
   // The standalone sidebar is aria-hidden, so role queries cannot reach its interactive parent.
-  const interactiveElement = element.closest('a, button');
+  const interactiveElement = element.closest<HTMLAnchorElement | HTMLButtonElement>('a, button');
 
   if (interactiveElement === null) {
     throw new Error('Expected navigation label to have an interactive parent');

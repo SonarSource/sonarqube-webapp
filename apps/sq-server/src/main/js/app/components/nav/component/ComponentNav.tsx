@@ -39,6 +39,7 @@ import {
 } from '~sq-server-commons/helpers/project-dashboard-routes';
 import {
   getPortfolioUrl,
+  getProjectQueryUrl,
   getProjectsUrl,
   getProjectTutorialLocation,
 } from '~sq-server-commons/helpers/urls';
@@ -185,6 +186,9 @@ export function ComponentNav(props: Readonly<Props>) {
 function getComponentUrl(component: History) {
   if (isPortfolioLike(component.qualifier)) {
     return getPortfolioUrl(component.key);
+  }
+  if (isApplication(component.qualifier)) {
+    return getProjectQueryUrl(component.key);
   }
   return getProjectOverviewUrl(component.key);
 }

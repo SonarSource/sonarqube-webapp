@@ -27,6 +27,7 @@ import {
   byTestId,
   byText,
 } from '~shared/helpers/testSelector';
+import { ComponentQualifier } from '~shared/types/component';
 import ComputeEngineServiceMock from '~sq-server-commons/api/mocks/ComputeEngineServiceMock';
 import { parseDate } from '~sq-server-commons/helpers/dates';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
@@ -163,6 +164,25 @@ describe('The Global background task page', () => {
     await ui.changeTaskFilter('status', 'background_task.status.ALL');
     await user.click(ui.reloadButton.get());
     expect(ui.getAllRows()).toHaveLength(1);
+  });
+
+  it('should link application tasks to their summary', async () => {
+    const { ui } = getPageObject();
+    computeEngineServiceMock.clearTasks();
+    computeEngineServiceMock.addTask({
+      componentKey: 'application-key',
+      componentName: 'Application name',
+      componentQualifier: ComponentQualifier.Application,
+      status: TaskStatuses.Success,
+    });
+
+    renderGlobalBackgroundTasksApp();
+    await ui.appLoaded();
+
+    expect(screen.getByRole('link', { name: 'Application name' })).toHaveAttribute(
+      'href',
+      '/dashboard?id=application-key',
+    );
   });
 
   it.each([[EditionKey.community], [EditionKey.developer], [EditionKey.enterprise]])(
