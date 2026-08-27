@@ -49,10 +49,13 @@ let mockQuery: {
   data: undefined,
   isPending: true,
 };
+const mockProjectPageClassName = jest.fn();
+const mockProjectPageMetadata = jest.fn();
+let mockDashboardKey = 'project-health';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual<typeof import('react-router-dom')>('react-router-dom'),
-  useParams: () => ({ dashboardKey: 'project-health' }),
+  useParams: () => ({ dashboardKey: mockDashboardKey }),
 }));
 
 jest.mock('~sq-server-commons/context/componentContext/withComponentContext', () => ({
@@ -89,27 +92,28 @@ jest.mock(
     },
 );
 jest.mock('~shared/components/pages/ProjectPageTemplate', () => ({
-  ProjectPageTemplate: ({
-    actions,
-    callout,
-    children,
-    metadata,
-    title,
-  }: {
+  ProjectPageTemplate: (props: {
     actions?: React.ReactNode;
     callout?: React.ReactNode;
     children: React.ReactNode;
     metadata?: React.ReactNode;
+    pageClassName?: string;
     title: string;
-  }) => (
-    <div>
-      {callout}
-      <h1>{title}</h1>
-      {metadata}
-      {actions}
-      {children}
-    </div>
-  ),
+  }) => {
+    const { actions, callout, children, metadata, pageClassName, title } = props;
+    mockProjectPageClassName(pageClassName);
+    mockProjectPageMetadata(metadata);
+
+    return (
+      <div>
+        {callout}
+        <h1>{title}</h1>
+        {metadata}
+        {actions}
+        {children}
+      </div>
+    );
+  },
 }));
 jest.mock(
   '../../../overview/branches/ComponentReportActions',
@@ -164,6 +168,8 @@ jest.mock('~shared/components/a11y/A11ySkipTarget', () => () => null);
 describe('ProjectBuiltInDashboardPage', () => {
   beforeEach(() => {
     localStorage.clear();
+    mockProjectPageClassName.mockClear();
+    mockProjectPageMetadata.mockClear();
   });
 
   afterEach(() => {
@@ -176,12 +182,14 @@ describe('ProjectBuiltInDashboardPage', () => {
       tags: ['tag-one'],
     };
     mockQuery = { data: undefined, isPending: true };
+    mockDashboardKey = 'project-health';
   });
 
   it('shows a loading state while the dashboard is being fetched', () => {
     renderWithRouter(<ProjectBuiltInDashboardPage />);
 
     expect(screen.getByText('overview.page')).toBeInTheDocument();
+    expect(mockProjectPageClassName).toHaveBeenCalledWith('it__overview');
   });
 
   it('uses the empty project flow when the project has not been analyzed', () => {
@@ -229,6 +237,25 @@ describe('ProjectBuiltInDashboardPage', () => {
     expect(screen.getByText('downloadable-reports')).toBeInTheDocument();
     expect(screen.getByText('view-on-github')).toBeInTheDocument();
     expect(screen.getByText('favorite')).toBeInTheDocument();
+    expect(mockProjectPageClassName).toHaveBeenCalledWith('it__overview');
+  });
+
+  it('does not render overview metadata on another built-in dashboard', () => {
+    mockDashboardKey = 'reliability';
+    mockQuery = {
+      data: {
+        description: 'Reliability description',
+        key: 'reliability',
+        name: 'Reliability',
+        type: DashboardType.BuiltIn,
+      },
+      isPending: false,
+    };
+
+    renderWithRouter(<ProjectBuiltInDashboardPage />);
+
+    expect(screen.getByText('Reliability description')).toBeInTheDocument();
+    expect(mockProjectPageMetadata).toHaveBeenCalledWith(undefined);
   });
 
   it('shows a dismissable introduction to the new project overview', async () => {

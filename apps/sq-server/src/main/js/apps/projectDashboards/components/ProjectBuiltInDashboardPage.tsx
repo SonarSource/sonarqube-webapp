@@ -83,6 +83,7 @@ export function ProjectBuiltInDashboardPage() {
   const branch = isBranch(branchLike) ? branchLike : undefined;
   const isProjectOverview = dashboardKey === PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY;
   const isProjectAnalyzed = isStringDefined(component?.analysisDate);
+  const overviewPageClassName = isProjectOverview ? 'it__overview' : undefined;
   const { data: measuresAndLeak } = useMeasuresAndLeakQuery(
     {
       branchLike: branch,
@@ -126,10 +127,7 @@ export function ProjectBuiltInDashboardPage() {
     />
   );
   const overviewMetadata = isProjectOverview ? (
-    <>
-      <MetaContentHeader branch={branch} component={component} measures={measures} />
-      <Tags allowUpdate={false} tags={component.tags ?? []} />
-    </>
+    <ProjectOverviewMetadata branch={branch} component={component} measures={measures} />
   ) : undefined;
   const overviewCallout = (
     <ProjectOverviewIntroduction
@@ -146,6 +144,7 @@ export function ProjectBuiltInDashboardPage() {
         callout={overviewCallout}
         disableBranchSelector
         metadata={overviewMetadata}
+        pageClassName={overviewPageClassName}
         title={isProjectOverview ? overviewTitle : formatMessage({ id: 'project_dashboards.page' })}
       >
         <Spinner isLoading />
@@ -182,27 +181,17 @@ export function ProjectBuiltInDashboardPage() {
       }
       disableBranchSelector
       metadata={overviewMetadata}
+      pageClassName={overviewPageClassName}
       title={isProjectOverview ? overviewTitle : dashboard.name}
     >
       <A11ySkipTarget anchor="project_dashboard_main" />
       <div className="sw-flex sw-flex-col sw-gap-6">
-        {isProjectOverview ? (
-          <div className="sw-flex sw-items-start sw-justify-between sw-gap-4">
-            <div className="sw-flex sw-flex-col sw-gap-2">
-              <Heading as="h2">{dashboard.name}</Heading>
-              {isStringDefined(dashboard.description) && (
-                <Text isSubtle>{dashboard.description}</Text>
-              )}
-            </div>
-            <Button to={getProjectDashboardsListRoute(component.key)}>
-              {formatMessage({ id: 'dashboard.view_all_dashboards' })}
-            </Button>
-          </div>
-        ) : (
-          isStringDefined(dashboard.description) && (
-            <DashboardDescriptionAccordion description={dashboard.description} />
-          )
-        )}
+        <ProjectDashboardHeader
+          dashboardDescription={dashboard.description}
+          dashboardName={dashboard.name}
+          isProjectOverview={isProjectOverview}
+          projectKey={component.key}
+        />
         <Dashboard<ProjectDashboardWidgetPropMap>
           bodyMap={projectDashboardWidgetBodyMap}
           dashboard={dashboard.layout}
@@ -230,6 +219,52 @@ function getProjectPageFallback(
   }
 
   return hasQueryError ? <NotFound /> : undefined;
+}
+
+interface ProjectOverviewMetadataProps {
+  branch?: Branch;
+  component: Component;
+  measures: ReturnType<typeof enhanceMeasuresWithMetrics>;
+}
+
+function ProjectOverviewMetadata(props: Readonly<ProjectOverviewMetadataProps>) {
+  const { branch, component, measures } = props;
+
+  return (
+    <>
+      <MetaContentHeader branch={branch} component={component} measures={measures} />
+      <Tags allowUpdate={false} tags={component.tags ?? []} />
+    </>
+  );
+}
+
+interface ProjectDashboardHeaderProps {
+  dashboardDescription?: string;
+  dashboardName: string;
+  isProjectOverview: boolean;
+  projectKey: string;
+}
+
+function ProjectDashboardHeader(props: Readonly<ProjectDashboardHeaderProps>) {
+  const { dashboardDescription, dashboardName, isProjectOverview, projectKey } = props;
+
+  if (!isProjectOverview) {
+    return isStringDefined(dashboardDescription) ? (
+      <DashboardDescriptionAccordion description={dashboardDescription} />
+    ) : null;
+  }
+
+  return (
+    <div className="sw-flex sw-items-start sw-justify-between sw-gap-4">
+      <div className="sw-flex sw-flex-col sw-gap-2">
+        <Heading as="h2">{dashboardName}</Heading>
+        {isStringDefined(dashboardDescription) && <Text isSubtle>{dashboardDescription}</Text>}
+      </div>
+      <Button to={getProjectDashboardsListRoute(projectKey)}>
+        <FormattedMessage id="dashboard.view_all_dashboards" />
+      </Button>
+    </div>
+  );
 }
 
 interface ProjectOverviewIntroductionProps {
