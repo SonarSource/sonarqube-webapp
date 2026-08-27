@@ -27,12 +27,13 @@ import {
   Text,
   TextSize,
 } from '@sonarsource/echoes-react';
+import classNames from 'classnames';
 import { ReactNode } from 'react';
+import { useIntl } from 'react-intl';
 import { DonutChart } from '~shared/components/charts/DonutChart';
 import { StepCardVisual } from '../../../types/types';
 import { OnboardingProgressDonut } from '../../progress/OnboardingProgressDonut';
 
-const AVATAR_SIZE = '3.25rem';
 /** Filled circle sitting inside the ring for the "bound" binding visual. */
 const INNER_AVATAR_SIZE = '1rem';
 const DONUT_SIZE = 64;
@@ -41,10 +42,9 @@ const DONUT_THICKNESS = 6;
 interface Props {
   /** Ring completion (0–100) when `visual` is `donut`. */
   donutPercent?: number;
+  isLocked?: boolean;
   isSelected: boolean;
   onSelect: () => void;
-  /** Large value rendered in the left slot when `visual` is `number`. */
-  primaryValue?: ReactNode;
   /** Subtle caption under the title (e.g. "Unbound", "48 / 120"). */
   secondaryLine?: ReactNode;
   title: string;
@@ -54,8 +54,8 @@ interface Props {
 function Avatar({
   background,
   icon,
-  size = AVATAR_SIZE,
-}: Readonly<{ background: string; icon: ReactNode; size?: string }>) {
+  size,
+}: Readonly<{ background: string; icon: ReactNode; size: string }>) {
   return (
     <span
       aria-hidden
@@ -86,11 +86,7 @@ function IconRing({ icon, ringColor }: Readonly<{ icon: ReactNode; ringColor: st
   );
 }
 
-function VisualSlot({
-  donutPercent,
-  primaryValue,
-  visual,
-}: Readonly<Pick<Props, 'donutPercent' | 'primaryValue' | 'visual'>>) {
+function VisualSlot({ donutPercent, visual }: Readonly<Pick<Props, 'donutPercent' | 'visual'>>) {
   switch (visual) {
     case StepCardVisual.Donut:
       return (
@@ -100,12 +96,6 @@ function VisualSlot({
           thickness={DONUT_THICKNESS}
           value={donutPercent ?? 0}
         />
-      );
-    case StepCardVisual.Number:
-      return (
-        <Text isHighlighted size={TextSize.Large}>
-          {primaryValue}
-        </Text>
       );
     case StepCardVisual.AvatarDone:
       return (
@@ -120,11 +110,11 @@ function VisualSlot({
           ringColor={cssVar('color-background-success-weak-default')}
         />
       );
-    case StepCardVisual.AvatarLocked:
+    case StepCardVisual.RingLocked:
       return (
-        <Avatar
-          background={cssVar('color-background-neutral-subtle-default')}
-          icon={<IconLock color="echoes-color-icon-subtle" />}
+        <IconRing
+          icon={<IconLock color="echoes-color-icon-disabled" />}
+          ringColor={cssVar('color-background-neutral-bolder-default')}
         />
       );
     case StepCardVisual.AvatarUnbound:
@@ -140,23 +130,35 @@ function VisualSlot({
 
 /**
  * A single selectable card in the onboarding stepper. Renders as a button so it is keyboard
- * operable; the selected state is conveyed with an accent ring and `aria-pressed`.
+ * operable; the selected state is conveyed with an accent ring and `aria-pressed`. A locked step
+ * reports `aria-disabled` and folds "locked" into its accessible name, so the lock ring is never
+ * the only thing carrying the state.
  */
 export function StepCard({
   donutPercent,
+  isLocked = false,
   isSelected,
   onSelect,
-  primaryValue,
   secondaryLine,
   title,
   visual,
 }: Readonly<Props>) {
+  const { formatMessage } = useIntl();
+
   return (
     <button
-      aria-label={title}
+      aria-disabled={isLocked}
+      aria-label={
+        isLocked
+          ? formatMessage({ id: 'onboarding_dashboard.journey.step.locked_aria_label' }, { title })
+          : title
+      }
       aria-pressed={isSelected}
-      className="sw-flex sw-items-center sw-w-full sw-cursor-pointer sw-rounded-2 sw-border-0 sw-bg-transparent sw-p-0 sw-text-left"
-      onClick={onSelect}
+      className={classNames(
+        'sw-flex sw-items-center sw-w-full sw-rounded-2 sw-border-0 sw-bg-transparent sw-p-0 sw-text-left',
+        isLocked ? 'sw-cursor-not-allowed' : 'sw-cursor-pointer',
+      )}
+      onClick={isLocked ? undefined : onSelect}
       style={{
         boxShadow: isSelected ? `0 0 0 2px ${cssVar('color-border-accent-default')}` : undefined,
       }}
@@ -165,7 +167,7 @@ export function StepCard({
       <Card className="sw-min-w-0">
         <Card.Body className="sw-flex sw-items-center">
           <div className="sw-flex sw-items-center sw-gap-4 sw-py-2">
-            <VisualSlot donutPercent={donutPercent} primaryValue={primaryValue} visual={visual} />
+            <VisualSlot donutPercent={donutPercent} visual={visual} />
             <div className="sw-flex sw-min-w-0 sw-flex-col">
               <Text isHighlighted>{title}</Text>
               {secondaryLine !== undefined && (

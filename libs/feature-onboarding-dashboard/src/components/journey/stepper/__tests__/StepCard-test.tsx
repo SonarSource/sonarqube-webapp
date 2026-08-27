@@ -26,6 +26,10 @@ import { StepCard } from '../StepCard';
 
 const ui = {
   card: byRole('button', { name: 'Step title' }),
+  // A locked card names itself as locked: formatMessage joins id + values with dots.
+  lockedCard: byRole('button', {
+    name: 'onboarding_dashboard.journey.step.locked_aria_label.Step title',
+  }),
   secondaryLine: byText('secondary caption'),
   // The donut label is rendered by OnboardingProgressDonut via the react-intl mock as
   // `<id>.<value>`, so the value is embedded in the text (percent.0 when donutPercent is omitted).
@@ -57,20 +61,11 @@ it('defaults the donut ring to 0 when no percentage is provided', () => {
   expect(ui.donutLabel(0).get()).toBeInTheDocument();
 });
 
-it('renders the numeric visual with its primary value', () => {
-  renderStepCard({ visual: StepCardVisual.Number, primaryValue: 0 });
-
-  expect(ui.card.get()).toBeInTheDocument();
-  expect(byText('0').get()).toBeInTheDocument();
-  // A numeric visual has no donut label.
-  expect(ui.donutLabel(0).query()).not.toBeInTheDocument();
-});
-
 it.each([
   StepCardVisual.AvatarDone,
-  StepCardVisual.AvatarLocked,
   StepCardVisual.AvatarUnbound,
-] as const)('renders the %s avatar visual without a percentage label', (visual) => {
+  StepCardVisual.RingLocked,
+] as const)('renders the %s visual without a percentage label', (visual) => {
   renderStepCard({ visual });
 
   expect(ui.card.get()).toBeInTheDocument();
@@ -114,4 +109,23 @@ it('calls onSelect when the card is clicked', async () => {
   await user.click(ui.card.get());
 
   expect(onSelect).toHaveBeenCalledTimes(1);
+});
+
+it('reports a locked card as unavailable and refuses selection', async () => {
+  const onSelect = jest.fn();
+  const { user } = renderStepCard({ isLocked: true, onSelect, visual: StepCardVisual.RingLocked });
+
+  // The lock ring is decorative, so the accessible name has to carry the state on its own.
+  expect(ui.lockedCard.get()).toHaveAttribute('aria-disabled', 'true');
+  expect(ui.card.query()).not.toBeInTheDocument();
+
+  await user.click(ui.lockedCard.get());
+
+  expect(onSelect).not.toHaveBeenCalled();
+});
+
+it('does not report an unlocked card as unavailable', () => {
+  renderStepCard();
+
+  expect(ui.card.get()).toHaveAttribute('aria-disabled', 'false');
 });

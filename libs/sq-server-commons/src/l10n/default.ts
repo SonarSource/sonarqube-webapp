@@ -10901,6 +10901,7 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.step.repositories.title': 'Repositories imported',
   'onboarding_dashboard.journey.step.projects.title': 'Projects analyzed',
   'onboarding_dashboard.journey.step.count': '{done} / {total}',
+  'onboarding_dashboard.journey.step.locked_aria_label': '{title}, locked',
   'onboarding_dashboard.journey.binding.title': 'DevOps platform configurations',
   'onboarding_dashboard.journey.binding.description':
     'Linking GitHub, GitLab, Azure DevOps, or Bitbucket lets Sonar find, import and analyze your projects.',

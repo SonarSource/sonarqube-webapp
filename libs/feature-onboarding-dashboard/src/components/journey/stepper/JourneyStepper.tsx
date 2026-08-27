@@ -57,25 +57,26 @@ export function JourneyStepper({ onSelectStep, selectedStep, state }: Readonly<P
 
       <StepCard
         donutPercent={state.importedPct}
+        isLocked={!state.isBound}
         isSelected={selectedStep === JourneyStep.Repositories}
         onSelect={() => {
           onSelectStep(JourneyStep.Repositories);
         }}
-        primaryValue={state.isBound ? undefined : 0}
         secondaryLine={state.isBound ? countLabel(state.imported, state.discovered) : undefined}
         title={formatMessage({ id: 'onboarding_dashboard.journey.step.repositories.title' })}
-        visual={state.isBound ? StepCardVisual.Donut : StepCardVisual.Number}
+        visual={state.isBound ? StepCardVisual.Donut : StepCardVisual.RingLocked}
       />
 
       <StepCard
         donutPercent={state.analyzedPct}
+        isLocked={!state.isBound}
         isSelected={selectedStep === JourneyStep.Projects}
         onSelect={() => {
           onSelectStep(JourneyStep.Projects);
         }}
         secondaryLine={state.isBound ? countLabel(state.analyzed, state.totalProjects) : undefined}
         title={formatMessage({ id: 'onboarding_dashboard.journey.step.projects.title' })}
-        visual={state.isBound ? StepCardVisual.Donut : StepCardVisual.AvatarLocked}
+        visual={state.isBound ? StepCardVisual.Donut : StepCardVisual.RingLocked}
       />
     </div>
   );

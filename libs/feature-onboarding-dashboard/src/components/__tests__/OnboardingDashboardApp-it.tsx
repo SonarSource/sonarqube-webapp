@@ -119,7 +119,10 @@ const ui = {
   headerSubtitle: byText('onboarding_dashboard.header.subtitle'),
   headerProgress: byText('onboarding_dashboard.percent.75'),
 
-  // Journey stepper — three selectable step cards rendered as buttons (aria-label === title).
+  // Journey stepper — three selectable step cards rendered as buttons. These selectors hold only
+  // while the step is unlocked: the default fixture is bound, so each card's aria-label is just its
+  // title. A locked step names itself `locked_aria_label.<title>` instead (see StepCard), so a test
+  // rendering an unbound org must select those two cards by their locked name.
   stepperBinding: byRole('button', {
     name: 'onboarding_dashboard.journey.step.binding.title',
   }),

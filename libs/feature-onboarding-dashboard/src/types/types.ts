@@ -36,8 +36,7 @@ export enum JourneyStep {
 export enum StepCardVisual {
   AvatarUnbound = 'AVATAR_UNBOUND',
   AvatarDone = 'AVATAR_DONE',
-  AvatarLocked = 'AVATAR_LOCKED',
-  Number = 'NUMBER',
+  RingLocked = 'RING_LOCKED',
   Donut = 'DONUT',
 }
 
