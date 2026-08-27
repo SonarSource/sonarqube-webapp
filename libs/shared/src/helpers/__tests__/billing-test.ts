@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { EntitlementConsumption } from '../../types/billing';
-import { getBaseUsage, getEffectiveLimit } from '../billing';
+import { Cadence, EntitlementConsumption } from '../../types/billing';
+import { getBaseUsage, getEffectiveLimit, getNextResetDate } from '../billing';
 
 describe('getEffectiveLimit', () => {
   it('returns the base limit when overage is disabled', () => {
@@ -67,13 +67,40 @@ describe('getBaseUsage', () => {
   });
 });
 
+describe('getNextResetDate', () => {
+  // A Wednesday, so the weekly boundary is five days out.
+  const NOW = Date.parse('2026-08-19T10:30:00Z');
+
+  it.each([
+    [Cadence.Daily, '2026-08-20T00:00:00.000Z'],
+    [Cadence.Weekly, '2026-08-24T00:00:00.000Z'],
+    [Cadence.Monthly, '2026-09-01T00:00:00.000Z'],
+    [Cadence.Annual, '2027-01-01T00:00:00.000Z'],
+  ])('returns the next calendar boundary in UTC for %s', (cadence, expected) => {
+    expect(getNextResetDate(cadence, NOW)).toBe(expected);
+  });
+
+  it('rolls a December monthly reset into the next year', () => {
+    expect(getNextResetDate(Cadence.Monthly, Date.parse('2026-12-31T23:59:00Z'))).toBe(
+      '2027-01-01T00:00:00.000Z',
+    );
+  });
+
+  it('returns null when the allowance never resets', () => {
+    expect(getNextResetDate(Cadence.Perpetual, NOW)).toBeNull();
+  });
+
+  it('returns null when no cadence is reported', () => {
+    expect(getNextResetDate(null, NOW)).toBeNull();
+  });
+});
+
 function mockConsumption({ base, used }: { base: number; used: number }): EntitlementConsumption {
   return {
     allowed: true,
     limit: { base, overage: null, overageEnabled: false },
     metering: {
-      period: { end: '2026-08-01T00:00:00Z', start: '2026-07-01T00:00:00Z' },
-      updatedAt: '2026-07-20T00:00:00Z',
+      period: { cadence: Cadence.Monthly, anchor: null },
       used,
     },
   };

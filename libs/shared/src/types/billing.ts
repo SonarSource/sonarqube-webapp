@@ -38,19 +38,32 @@ export enum EntitlementCheckFeatureKey {
   SQAS = 'sqas', // For SQS backend compatibility, advancedSecurity features return sqas as parent key
 }
 
-/** Current billing window for a metered product. */
+/**
+ * How often a metered product's consumption resets. Sent as `PeriodKey` by the SQS
+ * billing endpoints; boundaries are calendar-aligned in UTC, not license anniversaries.
+ */
+export enum Cadence {
+  Daily = 'DAILY',
+  Weekly = 'WEEKLY',
+  Monthly = 'MONTHLY',
+  Annual = 'ANNUAL',
+  /** Never resets: the allowance is one pool that runs until the license expires. */
+  Perpetual = 'PERPETUAL',
+}
+
 export interface EntitlementPeriod {
-  /** Window start (ISO). */
-  start: string;
-  /** Window end (ISO). */
-  end: string;
+  cadence: Cadence;
+  /**
+   * Which window the cadence refers to, e.g. `2026-07` for MONTHLY. Always null here:
+   * per SQRP-509 the metering read is cadence-only, built with `PeriodKey.of(Cadence)`.
+   */
+  anchor: string | null;
 }
 
 export interface EntitlementMetering {
   /** How much you've used this period. */
   used: number;
-  /** Last time usage was updated (ISO). */
-  updatedAt: string | null;
+  /** Reset period; null when the backend does not report one (SQC today). */
   period: EntitlementPeriod | null;
 }
 

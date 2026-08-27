@@ -21,13 +21,19 @@
 import { http } from 'msw';
 import { AbstractServiceMock } from '~shared/api/mocks/AbstractServiceMock';
 import { EntitlementCheckFeatureKey } from '~shared/types/billing';
-import { LicenseV2, LicenseV2Features, PurchaseableFeature } from '../../types/editions';
+import {
+  LicenseV2,
+  LicenseV2Features,
+  OverageState,
+  PurchaseableFeature,
+} from '../../types/editions';
 
-const FEATURE_DATES = {
-  endDate: null,
-  maxOverage: null,
-  overageEnabled: false,
-  startDate: '2026-01-01T00:00:00.000Z',
+/** Provisional product values shared by every consumption feature (SQRP-561). */
+const PRICED_OVERAGE = {
+  overageGraceDays: 3,
+  overagesStep: 25,
+  overageUnitCurrency: 'USD',
+  overageUnitPrice: 0.75,
 };
 
 export interface EntitlementsServiceData {
@@ -75,47 +81,85 @@ export function mockPurchaseableFeatures(): PurchaseableFeature[] {
 }
 
 /**
+ * One licence row. Every overage key is present and null by default, matching the endpoint, which
+ * always ships the full key set so consumers never have to branch on key presence.
+ */
+export function mockLicenseV2Feature(
+  overrides: Partial<LicenseV2Features[number]> = {},
+): LicenseV2Features[number] {
+  return {
+    endDate: null,
+    maxConsumption: null,
+    maxConsumptionUnit: null,
+    maxOverage: null,
+    name: 'SCA',
+    overageGraceDays: null,
+    overageLimit: null,
+    overagesStep: null,
+    overageState: null,
+    overageUnitCurrency: null,
+    overageUnitPrice: null,
+    startDate: '2026-01-01T00:00:00.000Z',
+    ...overrides,
+  };
+}
+
+/**
  * Shaped like SQRP-481: `name` stays the LicenseSpring code, `featureKey` carries the unified key,
  * and `maxConsumption` is set only on metered products. The Active Products table intentionally
  * skips `LOC`; the existing license-usage section reads LOC from the top-level `loc` / `maxLoc`
  * fields instead.
+ *
+ * Overage states follow the LTA matrix in SQRP-561: activation features carry none at all, the two
+ * Vortex capabilities are eligible but not permitted, and the agents are permitted but unenabled.
  */
 export function mockLicenseV2Features(): LicenseV2Features {
   return [
-    {
-      ...FEATURE_DATES,
+    mockLicenseV2Feature({
       name: 'SCA',
       featureKey: EntitlementCheckFeatureKey.AdvancedSecurity,
-      maxConsumption: null,
       parent: EntitlementCheckFeatureKey.SQAS,
-    },
-    {
-      ...FEATURE_DATES,
+    }),
+    mockLicenseV2Feature({
+      ...PRICED_OVERAGE,
       name: 'SQRA',
       featureKey: EntitlementCheckFeatureKey.RemediationAgent,
       maxConsumption: 5_000,
-    },
-    {
-      ...FEATURE_DATES,
+      overageState: OverageState.NotEnabled,
+    }),
+    mockLicenseV2Feature({
+      ...PRICED_OVERAGE,
       name: 'SQAA',
       featureKey: EntitlementCheckFeatureKey.AgenticAnalysis,
       maxConsumption: 10_000,
+      // Vortex is sold without an overage entitlement for the LTA, so it is priced at zero.
+      overageState: OverageState.Eligible,
+      overageUnitPrice: 0,
       parent: EntitlementCheckFeatureKey.Vortex,
-    },
-    {
-      ...FEATURE_DATES,
+    }),
+    mockLicenseV2Feature({
+      ...PRICED_OVERAGE,
       name: 'CAG',
       featureKey: EntitlementCheckFeatureKey.ContextAugmentation,
       maxConsumption: 10_000,
+      overageState: OverageState.Eligible,
+      overageUnitPrice: 0,
       parent: EntitlementCheckFeatureKey.Vortex,
-    },
-    {
-      ...FEATURE_DATES,
+    }),
+    mockLicenseV2Feature({
+      ...PRICED_OVERAGE,
       name: 'SQHA',
       featureKey: EntitlementCheckFeatureKey.HunterAgent,
       maxConsumption: 1_000,
-    },
-    { ...FEATURE_DATES, name: 'LOC', featureKey: null, maxConsumption: null },
+      overageState: OverageState.NotEnabled,
+    }),
+    mockLicenseV2Feature({
+      ...PRICED_OVERAGE,
+      name: 'LOC',
+      featureKey: null,
+      overagesStep: 100_000,
+      overageState: OverageState.NotEnabled,
+    }),
   ];
 }
 

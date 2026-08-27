@@ -22,6 +22,7 @@ import { http } from 'msw';
 import { AbstractServiceMock } from '~shared/api/mocks/AbstractServiceMock';
 import { getEffectiveLimit } from '~shared/helpers/billing';
 import {
+  Cadence,
   EntitlementCheck,
   EntitlementCheckFeatureKey,
   EntitlementConsumption,
@@ -38,13 +39,10 @@ export interface BillingServiceData {
 }
 
 export function mockEntitlementPeriod(
-  overrides: Partial<EntitlementPeriod> = {},
+  cadence: Cadence = Cadence.Monthly,
+  anchor: string | null = null,
 ): EntitlementPeriod {
-  return {
-    start: '2026-07-01T00:00:00.000Z',
-    end: '2026-08-01T00:00:00.000Z',
-    ...overrides,
-  };
+  return { cadence, anchor };
 }
 
 export function mockEntitlementMetering(
@@ -52,7 +50,6 @@ export function mockEntitlementMetering(
 ): EntitlementMetering {
   return {
     used: 72,
-    updatedAt: '2026-07-20T12:00:00.000Z',
     period: mockEntitlementPeriod(),
     ...overrides,
   };
@@ -92,12 +89,17 @@ export function mockEntitlementCheck(overrides: Partial<EntitlementCheck> = {}):
 }
 
 /** Metered product, sized to its license allowance. */
-function mockMeteredCheck(featureKey: EntitlementCheckFeatureKey, base: number, used: number) {
+function mockMeteredCheck(
+  featureKey: EntitlementCheckFeatureKey,
+  base: number,
+  used: number,
+  period: Cadence = Cadence.Monthly,
+) {
   return mockEntitlementCheck({
     featureKey,
     consumption: mockEntitlementConsumption({
       limit: mockEntitlementLimit({ base, overage: null }),
-      metering: mockEntitlementMetering({ used }),
+      metering: mockEntitlementMetering({ used, period: mockEntitlementPeriod(period) }),
     }),
   });
 }
@@ -110,7 +112,8 @@ export function mockEntitlementChecks(): EntitlementCheck[] {
     // Mirrored keys for one normalized Vortex product — same consumption on both.
     mockMeteredCheck(EntitlementCheckFeatureKey.AgenticAnalysis, 10_000, 1_806),
     mockMeteredCheck(EntitlementCheckFeatureKey.ContextAugmentation, 10_000, 1_806),
-    mockMeteredCheck(EntitlementCheckFeatureKey.HunterAgent, 1_000, 995),
+    // Hunter Agent's allowance is one pool for the life of the license, so it never resets.
+    mockMeteredCheck(EntitlementCheckFeatureKey.HunterAgent, 1_000, 995, Cadence.Perpetual),
     // ENABLED product: entitled, but nothing metered.
     mockEntitlementCheck({
       featureKey: EntitlementCheckFeatureKey.AdvancedSecurity,

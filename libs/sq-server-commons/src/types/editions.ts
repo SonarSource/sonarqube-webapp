@@ -56,21 +56,26 @@ export interface License {
 }
 
 /**
- * Overage lifecycle for a consumable feature, resolved server-side (see BE SQRP-559).
- * `null` on activation-only features (SQAS, SQARCH) — they have no overage concept.
+ * Server-resolved overage state for one licence feature.
  *
- * - `NOT_ELIGIBLE` — the feature can never have overage.
- * - `ELIGIBLE` — could be enabled, but isn't (no price, or `allow_overages` false).
- * - `NOT_ENABLED` — commercially available; admin has not created an overage record.
- * - `ENABLED` — fully active.
- * - `OFFLINE_BLOCKED` — was enabled; offline grace exceeded; consumption beyond base cap
- *   is currently blocked.
+ * The raw LicenseSpring flags behind it are deliberately not exposed, so consumers read this
+ * rather than re-deriving it: the contact-Sales versus can-enable distinction *is* `Eligible`
+ * versus `NotEnabled`. `OfflineBlocked` overlays `Enabled` only, since a feature nobody enabled
+ * has no overage to block.
  */
 export enum OverageState {
+  /** Licence never permits overage here, e.g. any consumption feature on a Developer Edition. */
   NotEligible = 'NOT_ELIGIBLE',
+  /** Licensed, but LicenseSpring does not permit overage. Contact Sales, and no Enable button. */
   Eligible = 'ELIGIBLE',
+  /** Permitted and priced, but no admin has turned it on yet. */
   NotEnabled = 'NOT_ENABLED',
+  /** An admin has enabled overage for this feature. */
   Enabled = 'ENABLED',
+  /**
+   * Overage was enabled, but the instance stayed offline past `overageGraceDays`, so overage
+   * is blocked until it reconnects. Analysis is unaffected.
+   */
   OfflineBlocked = 'OFFLINE_BLOCKED',
 }
 
@@ -82,18 +87,31 @@ export type LicenseV2Features = Array<{
    * Null when this license row has no unified counterpart.
    */
   featureKey?: EntitlementCheckFeatureKey | null;
-  /** Purchased monthly allowance for metered products. */
+  /** Purchased base volume for the period. */
   maxConsumption?: number | null;
-  /** Extra monthly allowance when overage is on; null if unset. */
+  /** What is being counted, e.g. `scans` or `suggestions`; null means render a bare number. */
+  maxConsumptionUnit?: string | null;
+  /** Hard ceiling on what an admin may ever set, bounding `overageLimit`. */
   maxOverage?: number | null;
   name: string;
-  /** Customer opted into overage for this feature. */
-  overageEnabled?: boolean;
+  /** Days the instance may stay out of contact before overage blocks. Already resolved server-side. */
+  overageGraceDays?: number | null;
   /**
-   * Overage lifecycle for this feature. Null when the concept does not apply (activation-only
-   * features) or the field is not yet populated by the backend. See {@link OverageState}.
+   * The admin's chosen allowance, sitting on top of `maxConsumption` rather than being a total.
+   * Null only when no record was ever written, since disabling overage keeps the stored number.
+   */
+  overageLimit?: number | null;
+  /** The allowance must be a whole multiple of this. */
+  overagesStep?: number | null;
+  /**
+   * Null for non-consumption features, which have no overage concept at all. That is a different
+   * fact from `NotEligible`, and only one of the two can change with a licence edit.
    */
   overageState?: OverageState | null;
+  /** ISO 4217 currency for `overageUnitPrice`. */
+  overageUnitCurrency?: string | null;
+  /** Price of one consumed unit. May be a fraction of a cent. */
+  overageUnitPrice?: number | null;
   /** Key of the parent product this feature rolls up into, if any. */
   parent?: EntitlementCheckFeatureKey | null;
   /** When the feature entitlement started. */
