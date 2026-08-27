@@ -18,21 +18,61 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import type { PortfolioProjectIssueCountsParams } from '~shared/types/portfolio-project-breakdown';
-import type { DashboardProjectIssueCountsParams } from '../../api/dashboard-history';
-import { useDashboardProjectIssueCountsQuery } from '../../queries/dashboard-history';
+import type {
+  PortfolioProjectIssueCountsParams,
+  PortfolioProjectMeasuresParams,
+} from '~shared/types/portfolio-project-breakdown';
+import type {
+  DashboardProjectIssueCountsParams,
+  DashboardProjectMeasuresParams,
+} from '../../api/dashboard-history';
+import { resolveIssueHistoryFiltersForMode } from '../../helpers/dashboard-widget-mode';
+import {
+  useDashboardProjectIssueCountsQuery,
+  useDashboardProjectMeasureQuery,
+} from '../../queries/dashboard-history';
+import { useStandardExperienceModeQuery } from '../../queries/mode';
 
 export function usePortfolioProjectIssueCountsQuery(
   params: PortfolioProjectIssueCountsParams,
   options: { enabled?: boolean } = {},
 ) {
   const { portfolioId, sort, ...filters } = params;
+  const modeQuery = useStandardExperienceModeQuery({ enabled: options.enabled !== false });
+  const isModeResolved = !modeQuery.isPending && modeQuery.error == null;
   const serverParams: DashboardProjectIssueCountsParams = {
+    ...resolveIssueHistoryFiltersForMode(filters, {
+      isStandardMode: modeQuery.data ?? true,
+    }),
+    entityId: portfolioId,
+    entityType: 'PORTFOLIO',
+    sort: sort?.split(','),
+  };
+
+  const query = useDashboardProjectIssueCountsQuery(serverParams, {
+    ...options,
+    enabled: options.enabled !== false && isModeResolved,
+  });
+
+  return {
+    ...query,
+    error: modeQuery.error ?? query.error,
+    isError: modeQuery.error != null || query.isError,
+    isPending: modeQuery.isPending || (isModeResolved && query.isPending),
+  };
+}
+
+export function usePortfolioProjectMeasuresQuery(
+  params: PortfolioProjectMeasuresParams,
+  options: { enabled?: boolean } = {},
+) {
+  const { portfolioId, sort, ...filters } = params;
+  const serverParams: DashboardProjectMeasuresParams = {
     ...filters,
     entityId: portfolioId,
     entityType: 'PORTFOLIO',
     sort: sort?.split(','),
   };
 
-  return useDashboardProjectIssueCountsQuery(serverParams, options);
+  return useDashboardProjectMeasureQuery(serverParams, options);
 }

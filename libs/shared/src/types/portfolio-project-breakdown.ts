@@ -31,3 +31,14 @@ export interface PortfolioProjectIssueCountsParams {
   sort?: string;
   statuses?: string[];
 }
+
+export interface PortfolioProjectMeasuresParams {
+  metricKey: string;
+  metricValue?: string;
+  nameContains?: string;
+  pageIndex: number;
+  pageSize: number;
+  portfolioId: string;
+  requireValue: boolean;
+  sort?: string;
+}

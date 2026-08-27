@@ -3687,11 +3687,15 @@ export const defaultMessages = {
   'portfolio_dashboard.breakdown.empty_state.no_data.title': 'No data available to display',
   'portfolio_dashboard.breakdown.permissions.none_accessible_rule':
     'You do not have permissions to browse the {total} {total, plural, one {project that has} other {projects that have}} issues matching this rule.',
+  'portfolio_dashboard.breakdown.permissions.none_accessible':
+    'You do not have permissions to browse the {total} matching {total, plural, one {project} other {projects}}.',
   'portfolio_dashboard.breakdown.table.label': 'Breakdown by projects',
   'portfolio_dashboard.breakdown.not_found.title': 'Breakdown not available',
   'portfolio_dashboard.breakdown.not_found.rule_required': 'Select a rule to see its breakdown.',
   'portfolio_dashboard.breakdown.not_found.unknown_rule':
     'The selected rule is not present in this widget.',
+  'portfolio_dashboard.breakdown.not_found.unknown_segment':
+    'The selected segment is not present in this widget.',
   'portfolio_dashboard.breakdown.not_found.unsupported_widget':
     'This widget does not support breakdown.',
   'portfolio_dashboard.breakdown.viewing_filter.description': 'Viewing:',

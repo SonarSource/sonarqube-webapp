@@ -189,6 +189,15 @@ export const useDashboardProjectIssueCountsQuery = createQueryHook(
     }),
 );
 
+export const useDashboardProjectMeasureQuery = createQueryHook(
+  (params: DashboardProjectMeasuresParams) =>
+    queryOptions({
+      queryKey: ['dashboard', 'project-measures', params],
+      queryFn: () => getDashboardProjectMeasures(params),
+      staleTime: StaleTime.SHORT,
+    }),
+);
+
 export function useDashboardProjectMeasuresQuery(
   params: Omit<DashboardProjectMeasuresParams, 'metricKey'> & { metrics: string[] },
   options: { enabled?: boolean } = {},

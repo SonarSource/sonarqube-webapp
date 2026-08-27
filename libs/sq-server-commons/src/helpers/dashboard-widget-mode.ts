@@ -32,6 +32,12 @@ interface IssueHistoryFilters {
   statuses?: string[];
 }
 
+type ResolvedIssueHistoryFilters<T extends IssueHistoryFilters> = Omit<
+  T,
+  keyof IssueHistoryFilters
+> &
+  IssueHistoryFilters;
+
 const CODE_ISSUE_TYPES: readonly IssueType[] = ['BUG', 'CODE_SMELL', 'VULNERABILITY'];
 
 const ISSUE_TYPE_BY_SOFTWARE_QUALITY: Record<SoftwareQuality, IssueType> = {
@@ -59,6 +65,8 @@ const STANDARD_SEVERITY_BY_IMPACT_SEVERITY: Record<SoftwareImpactSeverity, Issue
   [SoftwareImpactSeverity.Low]: IssueSeverity.Minor,
   [SoftwareImpactSeverity.Info]: IssueSeverity.Info,
 };
+
+const SOFTWARE_IMPACT_SEVERITIES = Object.values(SoftwareImpactSeverity);
 
 const SOFTWARE_QUALITY_BY_STANDARD_ISSUE_TYPE: Record<IssueType, SoftwareQuality> = {
   BUG: SoftwareQuality.Reliability,
@@ -138,32 +146,51 @@ export function resolvePieChartFilterSoftwareQuality(filter: string): SoftwareQu
   }
 }
 
-export function resolveIssueHistoryFiltersForMode(
-  mqrFilters: Readonly<IssueHistoryFilters>,
+export function resolveIssueHistoryFiltersForMode<T extends IssueHistoryFilters>(
+  mqrFilters: Readonly<T>,
   options: Readonly<{
     isStandardMode: boolean;
     severities?: SoftwareImpactSeverity[];
     softwareQuality?: SoftwareQuality;
   }>,
-): IssueHistoryFilters {
+): ResolvedIssueHistoryFilters<T> {
   if (!options.isStandardMode) {
-    return { ...mqrFilters };
+    return { ...mqrFilters } as ResolvedIssueHistoryFilters<T>;
   }
 
-  const { impacts: _impacts, ...sharedFilters } = mqrFilters;
+  const { impacts, severities: mqrSeverities, ...sharedFilters } = mqrFilters;
+  const impactQualities = impacts
+    ?.map((impact) => impact.split(':')[0])
+    .filter((quality): quality is SoftwareQuality =>
+      Object.values(SoftwareQuality).includes(quality as SoftwareQuality),
+    );
+  const inferredSoftwareQuality =
+    impactQualities?.length && new Set(impactQualities).size === 1 ? impactQualities[0] : undefined;
+  const severities = [
+    ...new Set(
+      (
+        options.severities ??
+        mqrSeverities ??
+        impacts?.map((impact) => impact.split(':')[1]) ??
+        []
+      ).filter((severity): severity is SoftwareImpactSeverity =>
+        SOFTWARE_IMPACT_SEVERITIES.includes(severity as SoftwareImpactSeverity),
+      ),
+    ),
+  ];
+  const softwareQuality = options.softwareQuality ?? inferredSoftwareQuality;
+
   return {
     ...sharedFilters,
-    issueTypes: options.softwareQuality
-      ? [ISSUE_TYPE_BY_SOFTWARE_QUALITY[options.softwareQuality]]
+    issueTypes: softwareQuality
+      ? [ISSUE_TYPE_BY_SOFTWARE_QUALITY[softwareQuality]]
       : [...CODE_ISSUE_TYPES],
-    ...(options.severities?.length
+    ...(severities.length > 0 && severities.length < SOFTWARE_IMPACT_SEVERITIES.length
       ? {
-          severities: options.severities.map(
-            (severity) => STANDARD_SEVERITY_BY_IMPACT_SEVERITY[severity],
-          ),
+          severities: severities.map((severity) => STANDARD_SEVERITY_BY_IMPACT_SEVERITY[severity]),
         }
       : {}),
-  };
+  } as ResolvedIssueHistoryFilters<T>;
 }
 
 export function resolveIssueHistorySliceForMode(

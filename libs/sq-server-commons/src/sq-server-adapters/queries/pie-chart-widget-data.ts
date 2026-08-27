@@ -38,7 +38,6 @@ import {
   mapPieChartToIssueHistoryParams,
   organizationMeasuresToLineCountPieData,
   organizationsHistoryStartDateWithRetentionBuffer,
-  PieChartHotspotSlice,
   PieChartIssueSlice,
   PieChartLineSlice,
   PieChartMetric,
@@ -60,7 +59,6 @@ import {
   useDashboardMeasuresHistoryQuery,
 } from '../../queries/dashboard-history';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
-import { useSonarSourceSecurityCategoriesQuery } from '../../queries/security-standards';
 import type {
   DashboardEntityType,
   DashboardPieChartSegment,
@@ -83,7 +81,6 @@ type PieChartQueryRequirements = Readonly<{
   isQualityGateStatusChart: boolean;
   needsLanguageMetadata: boolean;
   needsRulesMetadata: boolean;
-  needsSecurityCategoryMetadata: boolean;
 }>;
 
 function getPieChartQueryRequirements(
@@ -97,9 +94,6 @@ function getPieChartQueryRequirements(
     needsLanguageMetadata: isLineCountChart && widget.slice === PieChartLineSlice.Language,
     needsRulesMetadata:
       widget.metric === PieChartMetric.IssueCount && widget.slice === PieChartIssueSlice.Rules,
-    needsSecurityCategoryMetadata:
-      widget.metric === PieChartMetric.HotspotCount &&
-      widget.slice === PieChartHotspotSlice.SecurityCategory,
   };
 }
 
@@ -119,7 +113,6 @@ function resolveOrganizationPieChartQueryState(
     lineCountError: unknown;
     qualityGateCounts: Record<string, number> | undefined;
     qualityGateError: unknown;
-    securityCategoryMetadataPending: boolean;
   }>,
 ): OrganizationPieChartQueryState {
   if (args.isQualityGateStatusChart) {
@@ -143,8 +136,7 @@ function resolveOrganizationPieChartQueryState(
     error:
       args.issueError ??
       (args.issueMetadataError ? new Error('Unable to load pie chart metadata') : null),
-    isPending:
-      args.isIssuePiePending || args.isRulesMetadataPending || args.securityCategoryMetadataPending,
+    isPending: args.isIssuePiePending || args.isRulesMetadataPending,
   };
 }
 
@@ -155,21 +147,11 @@ type PieCountsToSegmentsArgs = Readonly<{
   languages: Record<string, { name: string }> | undefined;
   metric: string;
   rules: Record<string, { name: string }> | undefined;
-  securityCategories: Record<string, { title: string }> | undefined;
   slice: string;
 }>;
 
 function pieCountsToSegments(args: PieCountsToSegmentsArgs): DashboardPieChartSegment[] {
-  const {
-    counts,
-    formatMessage,
-    isQualityGateStatusChart,
-    languages,
-    metric,
-    rules,
-    securityCategories,
-    slice,
-  } = args;
+  const { counts, formatMessage, isQualityGateStatusChart, languages, metric, rules, slice } = args;
   const entries = Object.entries(counts).filter(([, count]) => count > 0);
   const sortedEntries = sortSegments(entries, slice, metric);
   const total = sortedEntries.reduce((sum, [, count]) => sum + count, 0);
@@ -188,7 +170,6 @@ function pieCountsToSegments(args: PieCountsToSegmentsArgs): DashboardPieChartSe
           ? formatPieChartSegmentLabel(value, formatMessage, metric, slice, {
               languages,
               rules,
-              securityCategories,
             })
           : formatMessage({ id: qualityGateMessageId });
 
@@ -208,8 +189,13 @@ function pieCountsToSegments(args: PieCountsToSegmentsArgs): DashboardPieChartSe
 }
 
 function shouldFailPieChartAdapter(widget: PieChartWidget): boolean {
+  const isSupportedMetric =
+    widget.metric === PieChartMetric.IssueCount ||
+    widget.metric === PieChartMetric.LineCount ||
+    widget.metric === PieChartMetric.ProjectCount;
+
   return (
-    widget.metric === PieChartMetric.HotspotCount ||
+    !isSupportedMetric ||
     (widget.metric === PieChartMetric.IssueCount &&
       (widget.scope === CodeScope.New ||
         widget.slice === PieChartIssueSlice.CleanCodeAttributeCategories ||
@@ -334,13 +320,8 @@ export function useOrganizationPieChartData(
   });
   const isModeResolved = !modeQuery.isPending && modeQuery.error == null;
   const isStandardMode = modeQuery.data ?? true;
-  const {
-    isLineCountChart,
-    isQualityGateStatusChart,
-    needsLanguageMetadata,
-    needsRulesMetadata,
-    needsSecurityCategoryMetadata,
-  } = getPieChartQueryRequirements(widget, entityType);
+  const { isLineCountChart, isQualityGateStatusChart, needsLanguageMetadata, needsRulesMetadata } =
+    getPieChartQueryRequirements(widget, entityType);
   const canonicalHistoryParams = useMemo(
     () =>
       mapPieChartToIssueHistoryParams({
@@ -446,9 +427,6 @@ export function useOrganizationPieChartData(
       }),
     },
   );
-  const securityCategoriesQuery = useSonarSourceSecurityCategoriesQuery({
-    enabled: enabled && needsSecurityCategoryMetadata && !isUnsupported,
-  });
   const languagesQuery = useLanguagesQuery({
     enabled: enabled && needsLanguageMetadata && !isUnsupported,
   });
@@ -497,15 +475,13 @@ export function useOrganizationPieChartData(
     isRulesMetadataPending: needsRulesMetadata && rulesQuery.isPending,
     issueCounts,
     issueError: issueQuery.error,
-    issueMetadataError: rulesQuery.isError || securityCategoriesQuery.isError,
+    issueMetadataError: rulesQuery.isError,
     languageMetadataPending: needsLanguageMetadata && languagesQuery.isPending,
     lineCountData,
     lineCountPending: lineCountQuery.isPending,
     lineCountError: lineCountQuery.error,
     qualityGateCounts: qualityGateQuery.data?.counts,
     qualityGateError: metricMetadataQuery.error ?? qualityGateQuery.error,
-    securityCategoryMetadataPending:
-      needsSecurityCategoryMetadata && securityCategoriesQuery.isPending,
   });
 
   const segments = useMemo(() => {
@@ -516,14 +492,12 @@ export function useOrganizationPieChartData(
       languages: languagesQuery.data,
       metric: widget.metric,
       rules: rulesQuery.rulesByKey,
-      securityCategories: securityCategoriesQuery.data,
       slice: widget.slice,
     });
   }, [
     formatMessage,
     isQualityGateStatusChart,
     languagesQuery.data,
-    securityCategoriesQuery.data,
     rulesQuery.rulesByKey,
     selectedCounts,
     widget.metric,

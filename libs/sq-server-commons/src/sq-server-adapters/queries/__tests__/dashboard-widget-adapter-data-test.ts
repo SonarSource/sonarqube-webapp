@@ -50,6 +50,7 @@ import {
   useOrganizationLineChartSeriesData,
 } from '../line-chart-widget-data';
 import { useOrganizationPieChartData } from '../pie-chart-widget-data';
+import { usePortfolioProjectIssueCountsQuery } from '../portfolio-project-breakdown-data';
 import {
   usePortfolioRatingBadgeComputedMeasuresQuery,
   usePortfolioRatingBadgeMeasuresQuery,
@@ -74,13 +75,13 @@ const mockUseDashboardIssueDensityHistoryQuery = jest.fn();
 const mockUseDashboardIssueResolutionHistoryQuery = jest.fn();
 const mockUseDashboardScaResolutionHistoryQuery = jest.fn();
 const mockUseDashboardMeasuresHistoryQuery = jest.fn();
+const mockUseDashboardProjectIssueCountsQuery = jest.fn();
 const mockUseDashboardProjectMeasuresQuery = jest.fn<unknown[], unknown[]>();
 const mockUseStandardExperienceModeQuery = jest.fn();
 const mockUseComponent = jest.fn();
 const mockUseCurrentBranchQuery = jest.fn();
 const mockUseLanguagesQuery = jest.fn();
 const mockUseDashboardRuleLabels = jest.fn();
-const mockUseSonarSourceSecurityCategoriesQuery = jest.fn();
 const mockUseWidgetMetricMetadataQuery = jest.fn();
 
 jest.mock('../../../queries/dashboard-history', () => ({
@@ -94,6 +95,8 @@ jest.mock('../../../queries/dashboard-history', () => ({
     mockUseDashboardScaResolutionHistoryQuery(...args),
   useDashboardMeasuresHistoryQuery: (...args: unknown[]) =>
     mockUseDashboardMeasuresHistoryQuery(...args),
+  useDashboardProjectIssueCountsQuery: (...args: unknown[]) =>
+    mockUseDashboardProjectIssueCountsQuery(...args),
   useDashboardProjectMeasuresQuery: (...args: unknown[]) =>
     mockUseDashboardProjectMeasuresQuery(...args),
 }));
@@ -119,11 +122,6 @@ jest.mock('../widget-rule-metadata', () => ({
   useDashboardRuleLabels: (...args: unknown[]) => mockUseDashboardRuleLabels(...args),
 }));
 
-jest.mock('~sq-server-commons/queries/security-standards', () => ({
-  useSonarSourceSecurityCategoriesQuery: (...args: unknown[]) =>
-    mockUseSonarSourceSecurityCategoriesQuery(...args),
-}));
-
 jest.mock('../widget-metric-metadata', () => ({
   ...jest.requireActual('../widget-metric-metadata'),
   useWidgetMetricMetadataQuery: (...args: unknown[]) => mockUseWidgetMetricMetadataQuery(...args),
@@ -145,6 +143,7 @@ function setupMocks() {
   mockUseDashboardIssueResolutionHistoryQuery.mockReturnValue(queryResult(undefined));
   mockUseDashboardScaResolutionHistoryQuery.mockReturnValue(queryResult(undefined));
   mockUseDashboardMeasuresHistoryQuery.mockReturnValue(queryResult(undefined));
+  mockUseDashboardProjectIssueCountsQuery.mockReturnValue(queryResult(undefined));
   mockUseDashboardProjectMeasuresQuery.mockReturnValue([]);
   mockUseStandardExperienceModeQuery.mockReturnValue(queryResult(true));
   mockUseComponent.mockReturnValue({ component: 'component-key' });
@@ -156,9 +155,6 @@ function setupMocks() {
     organization: undefined,
     rulesByKey: {},
   });
-  mockUseSonarSourceSecurityCategoriesQuery.mockReturnValue(
-    queryResult({ 'sql-injection': { title: 'SQL Injection' } }),
-  );
   mockUseWidgetMetricMetadataQuery.mockReturnValue(
     queryResult({
       [MetricKey.coverage]: { key: MetricKey.coverage, type: MetricType.Percent },
@@ -704,6 +700,28 @@ describe('dashboard widget adapter queries', () => {
       );
     });
 
+    it('rejects unsupported metrics without requesting issue history', () => {
+      expect(() =>
+        renderHook(
+          () =>
+            useOrganizationPieChartData({
+              entity: { entityId: 'portfolio-1', entityType: 'PORTFOLIO' },
+              widget: {
+                filter: '',
+                metric: 'unsupported',
+                scope: CodeScope.Overall,
+                slice: 'unsupported',
+              },
+            }),
+          { wrapper: getContextWrapper() },
+        ),
+      ).toThrow(DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE);
+      expect(mockUseDashboardIssueCountHistoryQuery).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({ enabled: false }),
+      );
+    });
+
     it('requests the Server releasability distribution for the quality-gate donut', () => {
       mockUseWidgetMetricMetadataQuery.mockReturnValue(
         queryResult({
@@ -837,21 +855,13 @@ describe('dashboard widget adapter queries', () => {
       ).toThrow(DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE);
     });
 
-    it('keeps legacy project data for unsupported and security-category slices', () => {
+    it('keeps legacy project data for unsupported slices', () => {
       expect(
         projectPieChartUsesLegacyIssueData({
           filter: '',
           metric: PieChartMetric.LineCount,
           scope: CodeScope.Overall,
           slice: PieChartLineSlice.Language,
-        }),
-      ).toBe(false);
-      expect(
-        projectPieChartUsesLegacyIssueData({
-          filter: '',
-          metric: PieChartMetric.HotspotCount,
-          scope: CodeScope.Overall,
-          slice: PieChartHotspotSlice.SecurityCategory,
         }),
       ).toBe(false);
       expect(
@@ -915,6 +925,103 @@ describe('dashboard widget adapter queries', () => {
   });
 
   describe('portfolio and project wrappers', () => {
+    it('translates canonical project issue filters at the Standard Experience boundary', () => {
+      renderHook(() =>
+        usePortfolioProjectIssueCountsQuery({
+          impacts: ['SECURITY:HIGH'],
+          pageIndex: 1,
+          pageSize: 20,
+          portfolioId: 'portfolio-1',
+          requireIssues: true,
+          severities: [SoftwareImpactSeverity.High],
+          statuses: ['OPEN'],
+        }),
+      );
+
+      expect(mockUseDashboardProjectIssueCountsQuery).toHaveBeenCalledWith(
+        {
+          entityId: 'portfolio-1',
+          entityType: 'PORTFOLIO',
+          issueTypes: ['VULNERABILITY'],
+          pageIndex: 1,
+          pageSize: 20,
+          requireIssues: true,
+          severities: ['CRITICAL'],
+          sort: undefined,
+          statuses: ['OPEN'],
+        },
+        { enabled: true },
+      );
+    });
+
+    it('preserves canonical project issue filters in MQR mode', () => {
+      mockUseStandardExperienceModeQuery.mockReturnValue(queryResult(false));
+
+      renderHook(() =>
+        usePortfolioProjectIssueCountsQuery({
+          impacts: ['RELIABILITY:MEDIUM'],
+          pageIndex: 1,
+          pageSize: 20,
+          portfolioId: 'portfolio-1',
+          requireIssues: true,
+          severities: [SoftwareImpactSeverity.Medium],
+        }),
+      );
+
+      expect(mockUseDashboardProjectIssueCountsQuery).toHaveBeenCalledWith(
+        expect.objectContaining({
+          impacts: ['RELIABILITY:MEDIUM'],
+          severities: [SoftwareImpactSeverity.Medium],
+        }),
+        { enabled: true },
+      );
+    });
+
+    it('does not send a redundant severity filter for all canonical impacts', () => {
+      renderHook(() =>
+        usePortfolioProjectIssueCountsQuery({
+          impacts: Object.values(SoftwareQuality).flatMap((quality) =>
+            Object.values(SoftwareImpactSeverity).map((severity) => `${quality}:${severity}`),
+          ),
+          pageIndex: 1,
+          pageSize: 20,
+          portfolioId: 'portfolio-1',
+          requireIssues: true,
+        }),
+      );
+
+      expect(mockUseDashboardProjectIssueCountsQuery).toHaveBeenCalledWith(
+        expect.not.objectContaining({ severities: expect.anything() }),
+        { enabled: true },
+      );
+    });
+
+    it('surfaces mode resolution errors without leaving the project query pending', () => {
+      const modeError = new Error('mode failed');
+      mockUseStandardExperienceModeQuery.mockReturnValue(
+        queryResult(undefined, { error: modeError, isError: true }),
+      );
+      mockUseDashboardProjectIssueCountsQuery.mockReturnValue(
+        queryResult(undefined, { isPending: true }),
+      );
+
+      const { result } = renderHook(() =>
+        usePortfolioProjectIssueCountsQuery({
+          pageIndex: 1,
+          pageSize: 20,
+          portfolioId: 'portfolio-1',
+          requireIssues: true,
+        }),
+      );
+
+      expect(result.current).toEqual(
+        expect.objectContaining({ error: modeError, isError: true, isPending: false }),
+      );
+      expect(mockUseDashboardProjectIssueCountsQuery).toHaveBeenCalledWith(expect.anything(), {
+        enabled: false,
+      });
+    });
+
     it('uses the latest portfolio measure history record and computed project measures', () => {
       mockUseDashboardMeasuresHistoryQuery.mockReturnValue(
         queryResult({ [MetricKey.reliability_rating]: 'A' }),
