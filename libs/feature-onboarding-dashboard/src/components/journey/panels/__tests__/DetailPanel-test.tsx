@@ -21,6 +21,7 @@
 import userEvent from '@testing-library/user-event';
 import { useAutoImportToggle } from '~adapters/helpers/useAutoImportToggle';
 import { useBindingSettingsUrl } from '~adapters/helpers/useBindingSettingsUrl';
+import { useCreateDevopsConfigurationUrl } from '~adapters/helpers/useCreateDevopsConfigurationUrl';
 import { useOnboardingCurrentBinding } from '~adapters/helpers/useOnboardingCurrentBinding';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
@@ -31,6 +32,7 @@ import { DetailPanel } from '../DetailPanel';
 // (SQS has no organizations at all), so the shared panel test pins them to stubs. What each product
 // actually resolves is covered by its own adapter test.
 const BINDING_SETTINGS_URL = { pathname: '/binding-settings', search: '?category=binding' };
+const CREATE_CONFIGURATION_URL = { pathname: '/create-configuration', search: '?category=devops' };
 const CURRENT_BINDING = { devopsOrganizationName: 'acme-devops', organizationName: 'Acme' };
 
 // How the product answers `isEnabledOnFirstLoad` is covered by its own adapter test; the panel only
@@ -54,6 +56,10 @@ jest.mock('~adapters/helpers/useBindingSettingsUrl', () => ({
   useBindingSettingsUrl: jest.fn(),
 }));
 
+jest.mock('~adapters/helpers/useCreateDevopsConfigurationUrl', () => ({
+  useCreateDevopsConfigurationUrl: jest.fn(),
+}));
+
 jest.mock('~adapters/helpers/useAutoImportToggle', () => ({
   useAutoImportToggle: jest.fn(),
 }));
@@ -66,6 +72,7 @@ beforeEach(() => {
   jest.clearAllMocks();
 
   jest.mocked(useBindingSettingsUrl).mockReturnValue(BINDING_SETTINGS_URL);
+  jest.mocked(useCreateDevopsConfigurationUrl).mockReturnValue(CREATE_CONFIGURATION_URL);
   jest.mocked(useAutoImportToggle).mockReturnValue(AUTO_IMPORT_OFF);
   jest.mocked(useOnboardingCurrentBinding).mockReturnValue(CURRENT_BINDING);
 });
@@ -109,11 +116,16 @@ const boundNoImportState = stateWith({
 
 const ui = {
   bindingTitle: byText('onboarding_dashboard.journey.binding.title'),
+  bindingUnboundTitle: byText('onboarding_dashboard.journey.binding.unbound_title'),
+  bindingDescription: byText('onboarding_dashboard.journey.binding.description'),
+  bindingUnboundDescription: byText('onboarding_dashboard.journey.binding.unbound_description'),
   importTitle: byText('onboarding_dashboard.journey.import.title'),
   analyzeTitle: byText('onboarding_dashboard.journey.analyze.title'),
 
   // Binding panel
-  bindCta: byRole('button', { name: 'onboarding_dashboard.journey.binding.bind_cta' }),
+  bindCta: byRole('link', { name: 'onboarding_dashboard.journey.binding.bind_cta' }),
+  // Same call-to-action in a product that has no destination for it yet: a plain button.
+  inertBindCta: byRole('button', { name: 'onboarding_dashboard.journey.binding.bind_cta' }),
   viewCta: byRole('link', { name: 'onboarding_dashboard.journey.binding.view_cta' }),
   currentBinding: byText('onboarding_dashboard.journey.binding.current'),
   boundOrgName: byText('Acme'),
@@ -173,16 +185,38 @@ it.each([
 it('renders the unbound binding panel with only the bind call-to-action', () => {
   renderPanel(JourneyStep.Binding, unboundState);
 
-  expect(ui.bindingTitle.get()).toBeInTheDocument();
-  expect(ui.bindCta.get()).toBeInTheDocument();
+  // Unbound reads as a call to action; the bound wording must not leak into this state.
+  expect(ui.bindingUnboundTitle.get()).toBeInTheDocument();
+  expect(ui.bindingUnboundDescription.get()).toBeInTheDocument();
+  expect(ui.bindingTitle.query()).not.toBeInTheDocument();
+  expect(ui.bindingDescription.query()).not.toBeInTheDocument();
+
+  // The call-to-action navigates to the product's DevOps configuration page.
+  expect(ui.bindCta.get()).toHaveAttribute('href', '/create-configuration?category=devops');
 
   // The current-binding row and its controls only exist once the org is bound.
   expect(ui.currentBinding.query()).not.toBeInTheDocument();
   expect(ui.viewCta.query()).not.toBeInTheDocument();
 });
 
+it('keeps the bind call-to-action as an inert button when the product has no destination for it', () => {
+  jest.mocked(useCreateDevopsConfigurationUrl).mockReturnValue(undefined);
+
+  renderPanel(JourneyStep.Binding, unboundState);
+
+  // The call-to-action is still offered, it just cannot navigate anywhere yet.
+  expect(ui.inertBindCta.get()).not.toHaveAttribute('href');
+  expect(ui.bindCta.query()).not.toBeInTheDocument();
+});
+
 it('renders the bound binding panel with the current binding and auto-import controls', () => {
   renderPanel(JourneyStep.Binding, boundState);
+
+  // An already-configured instance is described, not told to go configure itself.
+  expect(ui.bindingTitle.get()).toBeInTheDocument();
+  expect(ui.bindingDescription.get()).toBeInTheDocument();
+  expect(ui.bindingUnboundTitle.query()).not.toBeInTheDocument();
+  expect(ui.bindingUnboundDescription.query()).not.toBeInTheDocument();
 
   // Both ends of the binding are named: Sonar organization → DevOps organization.
   expect(ui.currentBinding.get()).toBeInTheDocument();
@@ -194,6 +228,7 @@ it('renders the bound binding panel with the current binding and auto-import con
 
   // The unbound call-to-action is replaced by "View binding".
   expect(ui.bindCta.query()).not.toBeInTheDocument();
+  expect(ui.inertBindCta.query()).not.toBeInTheDocument();
 });
 
 it('omits the current-binding row when the bound organizations are unknown', () => {

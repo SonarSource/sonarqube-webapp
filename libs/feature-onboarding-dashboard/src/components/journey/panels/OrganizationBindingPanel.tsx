@@ -28,6 +28,7 @@ import {
 } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useBindingSettingsUrl } from '~adapters/helpers/useBindingSettingsUrl';
+import { useCreateDevopsConfigurationUrl } from '~adapters/helpers/useCreateDevopsConfigurationUrl';
 import { useOnboardingCurrentBinding } from '~adapters/helpers/useOnboardingCurrentBinding';
 import { JourneyState } from '../../../types/types';
 
@@ -42,16 +43,36 @@ interface Props {
 export function OrganizationBindingPanel({ state }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const bindingSettingsUrl = useBindingSettingsUrl();
+  const createConfigurationUrl = useCreateDevopsConfigurationUrl();
   const currentBinding = useOnboardingCurrentBinding();
+
+  // `Button` switches to an anchor on the *presence* of `to`, not on its value: `to={undefined}`
+  // type-checks but renders `<a href="/">` instead of a plain button. Products with no destination
+  // yet must therefore omit the prop entirely to keep the call-to-action inert.
+  const bindCtaProps = {
+    children: formatMessage({ id: 'onboarding_dashboard.journey.binding.bind_cta' }),
+    prefix: <IconLink />,
+    variety: ButtonVariety.Primary,
+  } as const;
 
   return (
     <div className="sw-flex sw-flex-col sw-gap-4">
       <Heading as="h3" size={HeadingSize.Small}>
-        {formatMessage({ id: 'onboarding_dashboard.journey.binding.title' })}
+        {formatMessage({
+          id: state.isBound
+            ? 'onboarding_dashboard.journey.binding.title'
+            : 'onboarding_dashboard.journey.binding.unbound_title',
+        })}
       </Heading>
 
       <Text as="p" isSubtle>
-        <FormattedMessage id="onboarding_dashboard.journey.binding.description" />
+        <FormattedMessage
+          id={
+            state.isBound
+              ? 'onboarding_dashboard.journey.binding.description'
+              : 'onboarding_dashboard.journey.binding.unbound_description'
+          }
+        />
       </Text>
 
       {state.isBound ? (
@@ -78,9 +99,11 @@ export function OrganizationBindingPanel({ state }: Readonly<Props>) {
         </>
       ) : (
         <div>
-          <Button prefix={<IconLink />} variety={ButtonVariety.Primary}>
-            {formatMessage({ id: 'onboarding_dashboard.journey.binding.bind_cta' })}
-          </Button>
+          {createConfigurationUrl === undefined ? (
+            <Button {...bindCtaProps} />
+          ) : (
+            <Button {...bindCtaProps} to={createConfigurationUrl} />
+          )}
         </div>
       )}
     </div>

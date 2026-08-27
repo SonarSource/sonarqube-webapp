@@ -10894,19 +10894,22 @@ export const defaultMessages = {
     'Your journey to a 100% validated code security and quality.',
   'onboarding_dashboard.journey.congrats.title': 'Congratulations!',
   'onboarding_dashboard.journey.congrats.message':
-    'You have successfully bound your DevOps platform! We found <b>{count}</b> repositories ready to be imported.',
-  'onboarding_dashboard.journey.step.binding.title': 'Organization binding',
-  'onboarding_dashboard.journey.step.binding.unbound': 'Unbound',
-  'onboarding_dashboard.journey.step.binding.bound': 'Bound',
+    'You have successfully configured your DevOps platform! We found <b>{count}</b> repositories ready to be imported.',
+  'onboarding_dashboard.journey.step.binding.title': 'DevOps platforms configured',
+  'onboarding_dashboard.journey.step.binding.unbound': 'Not configured',
+  'onboarding_dashboard.journey.step.binding.bound': 'Configured',
   'onboarding_dashboard.journey.step.repositories.title': 'Repositories imported',
   'onboarding_dashboard.journey.step.projects.title': 'Projects analyzed',
   'onboarding_dashboard.journey.step.count': '{done} / {total}',
-  'onboarding_dashboard.journey.binding.title': 'Organization binding',
+  'onboarding_dashboard.journey.binding.title': 'DevOps platform configurations',
   'onboarding_dashboard.journey.binding.description':
-    'Binding your SonarQube Cloud organization to their respective DevOps organization keeps them synchronized and enables the easy import of projects into SonarQube Cloud.',
-  'onboarding_dashboard.journey.binding.bind_cta': 'Bind organization',
+    'Linking GitHub, GitLab, Azure DevOps, or Bitbucket lets Sonar find, import and analyze your projects.',
+  'onboarding_dashboard.journey.binding.unbound_title': 'Configure DevOps platforms',
+  'onboarding_dashboard.journey.binding.unbound_description':
+    'To start analyzing your projects, link GitHub, GitLab, Azure DevOps, or Bitbucket for Sonar to find, import and analyze them.',
+  'onboarding_dashboard.journey.binding.bind_cta': 'Create configuration',
   'onboarding_dashboard.journey.binding.current': 'Current binding:',
-  'onboarding_dashboard.journey.binding.view_cta': 'View binding',
+  'onboarding_dashboard.journey.binding.view_cta': 'View configuration',
   'onboarding_dashboard.journey.import.title': 'Import repositories',
   'onboarding_dashboard.journey.import.description':
     "Import all your repositories to unlock central visibility into your team's code health and block vulnerabilities before they hit production.",
@@ -10955,8 +10958,8 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.overtime.legend.repositories_imported': 'Repositories imported',
   'onboarding_dashboard.journey.locked.stats.title': 'Unlock onboarding statistics',
   'onboarding_dashboard.journey.locked.stats.message':
-    'Bind your organization to a Devops platform to see your onboarding momentum and adoption metrics!',
-  'onboarding_dashboard.journey.locked.stats.cta': 'Bind organization',
+    'Configure a DevOps platform to see your onboarding momentum and adoption metrics!',
+  'onboarding_dashboard.journey.locked.stats.cta': 'Create configuration',
   'onboarding_dashboard.journey.locked.more.title': 'Unlock more statistics',
   'onboarding_dashboard.journey.locked.more.message':
     'Import your first repositories to see your onboarding momentum and adoption metrics!',
