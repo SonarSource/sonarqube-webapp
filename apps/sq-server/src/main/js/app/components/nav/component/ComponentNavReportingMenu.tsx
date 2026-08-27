@@ -18,10 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconActivity, IconMeasures, IconReports, Layout } from '@sonarsource/echoes-react';
+import { IconReports, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { useIsEnterpriseTier } from '~adapters/helpers/plan';
-import { IconPulse } from '~feature-quality-gate-history/components/IconPulse';
 import {
   QUALITY_GATE_HISTORY_NEW_BADGE_EXPIRATION_DATE,
   QUALITY_GATE_HISTORY_ROUTE_NAME,
@@ -51,38 +50,36 @@ export function ComponentNavReportingMenu(props: Readonly<Props>) {
   const isSecurityReportsEnabled = !isPullRequest(branchLike) && isEnterprise;
 
   return (
-    <Layout.SidebarNavigation.Group
+    <Layout.SidebarNavigation.AccordionItem
+      Icon={IconReports}
       label={<FormattedMessage id="navigation.project.group.reporting" />}
     >
       {isSecurityReportsEnabled && isDefined(addons.securityReports) && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconReports}
+        <Layout.SidebarNavigation.AccordionItem.Item
           to={{
             pathname: '/project/security-reports',
             search,
           }}
         >
           <FormattedMessage id="layout.security_reports" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
-      <Layout.SidebarNavigation.Item
-        Icon={IconMeasures}
+
+      <Layout.SidebarNavigation.AccordionItem.Item
         to={{
           pathname: '/component_measures',
           search,
         }}
       >
         <FormattedMessage id="layout.measures" />
-      </Layout.SidebarNavigation.Item>
-      <Layout.SidebarNavigation.Item
-        Icon={IconActivity}
-        to={getActivityUrl(component.key, branchLike)}
-      >
+      </Layout.SidebarNavigation.AccordionItem.Item>
+
+      <Layout.SidebarNavigation.AccordionItem.Item to={getActivityUrl(component.key, branchLike)}>
         <FormattedMessage id="project_activity.page" />
-      </Layout.SidebarNavigation.Item>
+      </Layout.SidebarNavigation.AccordionItem.Item>
+
       {isProject(component.qualifier) && isMainBranch(branchLike) && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconPulse}
+        <Layout.SidebarNavigation.AccordionItem.Item
           suffix={<NewBadge expirationDate={QUALITY_GATE_HISTORY_NEW_BADGE_EXPIRATION_DATE} />}
           to={{
             pathname: `/${QUALITY_GATE_HISTORY_ROUTE_NAME}`,
@@ -90,8 +87,8 @@ export function ComponentNavReportingMenu(props: Readonly<Props>) {
           }}
         >
           <FormattedMessage id="layout.quality_gate_history" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
-    </Layout.SidebarNavigation.Group>
+    </Layout.SidebarNavigation.AccordionItem>
   );
 }

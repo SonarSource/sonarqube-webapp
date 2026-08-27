@@ -40,7 +40,7 @@ export function ComponentNavExtensionsMenu(props: Readonly<Props>) {
   );
 
   if (withoutOfficialExtensions.length === 0) {
-    return null;
+    return undefined;
   }
 
   return (
@@ -49,8 +49,7 @@ export function ComponentNavExtensionsMenu(props: Readonly<Props>) {
       label={<FormattedMessage id="navigation.project.group.extensions" />}
     >
       {withoutOfficialExtensions.map((extension) => (
-        <Layout.SidebarNavigation.Item
-          Icon={IconDashboard}
+        <Layout.SidebarNavigation.AccordionItem.Item
           key={extension.key}
           to={{
             pathname: `/project/extension/${extension.key}`,
@@ -61,9 +60,8 @@ export function ComponentNavExtensionsMenu(props: Readonly<Props>) {
             }).toString(),
           }}
         >
-          {/* eslint-disable-next-line react/forbid-component-props */}
-          <FormattedMessage defaultMessage={extension.name} id={extension.name} />
-        </Layout.SidebarNavigation.Item>
+          <FormattedMessage id={extension.name} />
+        </Layout.SidebarNavigation.AccordionItem.Item>
       ))}
     </Layout.SidebarNavigation.AccordionItem>
   );

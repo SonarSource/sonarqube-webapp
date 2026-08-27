@@ -18,19 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  IconDependency,
-  IconFileCode,
-  IconGitBranch,
-  IconInfo,
-  IconSparkle,
-  Layout,
-} from '@sonarsource/echoes-react';
+import { IconFileCode, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { NewBadge } from '~shared/components/badges/NewBadge';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/component';
+import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { getCodeUrl } from '~sq-server-commons/helpers/urls';
@@ -64,13 +58,14 @@ export function ComponentNavProjectMenu(props: Readonly<Props>) {
   );
   const showCode = !isPortfolio && isAnalyzed;
   const scaAddon = addons.sca;
-  const showDependencies = showCode && hasFeature(Feature.Sca) && scaAddon !== undefined;
+  const showDependencies = showCode && hasFeature(Feature.Sca) && isDefined(scaAddon);
   const remediationAgentAddon = addons.remediationAgent;
   const showRemediationAgent =
     isProj &&
     isLoggedIn &&
     hasFeature(Feature.RemediationAgent) &&
-    remediationAgentAddon !== undefined;
+    isDefined(remediationAgentAddon);
+
   const showInformation = isProj || isApp;
 
   if (
@@ -80,40 +75,33 @@ export function ComponentNavProjectMenu(props: Readonly<Props>) {
     !showRemediationAgent &&
     !showInformation
   ) {
-    return null;
+    return undefined;
   }
 
   return (
-    <Layout.SidebarNavigation.Group
+    <Layout.SidebarNavigation.AccordionItem
+      Icon={IconFileCode}
       label={<FormattedMessage id="navigation.project.group.project" />}
     >
       {showBranches && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGitBranch}
-          to={{ pathname: '/project/branches', search }}
-        >
+        <Layout.SidebarNavigation.AccordionItem.Item to={{ pathname: '/project/branches', search }}>
           <FormattedMessage id="project_branch_pull_request.page" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
       {showCode && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconFileCode}
-          to={getCodeUrl(component.key, branchLike)}
-        >
+        <Layout.SidebarNavigation.AccordionItem.Item to={getCodeUrl(component.key, branchLike)}>
           <FormattedMessage id={isApp ? 'view_projects.page' : 'code.page'} />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
       {showDependencies && scaAddon && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconDependency}
+        <Layout.SidebarNavigation.AccordionItem.Item
           to={scaAddon.getReleasesUrl({ newParams: query })}
         >
           <FormattedMessage id="dependencies.bill_of_materials" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
       {showRemediationAgent && remediationAgentAddon && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconSparkle}
+        <Layout.SidebarNavigation.AccordionItem.Item
           suffix={
             <NewBadge
               expirationDate={
@@ -127,19 +115,18 @@ export function ComponentNavProjectMenu(props: Readonly<Props>) {
           }}
         >
           <FormattedMessage id="project_agent_activity.title" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
       {showInformation && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconInfo}
+        <Layout.SidebarNavigation.AccordionItem.Item
           to={{
             pathname: '/project/information',
             search: new URLSearchParams({ id: component.key }).toString(),
           }}
         >
           <FormattedMessage id={isProj ? 'project.info.title' : 'application.info.title'} />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
-    </Layout.SidebarNavigation.Group>
+    </Layout.SidebarNavigation.AccordionItem>
   );
 }

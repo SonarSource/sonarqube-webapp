@@ -18,16 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  IconDashboard,
-  IconDependencyRisk,
-  IconFileCode,
-  IconIssues,
-  IconOverview,
-  IconSecurityFinding,
-  IconSummary,
-  Layout,
-} from '@sonarsource/echoes-react';
+import { IconDashboard, IconIssues, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { To, useLocation } from 'react-router-dom';
 import { DASHBOARDS_NEW_BADGE_EXPIRATION_DATE } from '~feature-dashboards/constants';
@@ -113,36 +104,68 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
     dashboardUrl = isGovernanceEnabled ? getPortfolioUrl(component.key) : null;
   }
 
+  const issuesUrl = getComponentIssuesUrl(component.key, {
+    ...branchParameters,
+    ...DEFAULT_ISSUES_QUERY,
+  });
+
   if (isApplicationChildInaccessible) {
     return (
-      <Layout.SidebarNavigation.Group
+      <Layout.SidebarNavigation.AccordionItem
+        Icon={IconIssues}
         label={<FormattedMessage id="navigation.project.group.analysis" />}
       >
         {dashboardUrl && (
-          <Layout.SidebarNavigation.Item
-            Icon={isProject ? IconSummary : IconOverview}
-            to={dashboardUrl}
-          >
-            <FormattedMessage id={isProject ? 'summary.page' : 'overview.page'} />
-          </Layout.SidebarNavigation.Item>
+          <Layout.SidebarNavigation.AccordionItem.Item to={dashboardUrl}>
+            <FormattedMessage id="overview.page" />
+          </Layout.SidebarNavigation.AccordionItem.Item>
         )}
-      </Layout.SidebarNavigation.Group>
+      </Layout.SidebarNavigation.AccordionItem>
     );
   }
 
   return (
-    <Layout.SidebarNavigation.Group
-      label={<FormattedMessage id="navigation.project.group.analysis" />}
-    >
-      {dashboardUrl && (
-        <Layout.SidebarNavigation.Item
-          Icon={isProject ? IconSummary : IconOverview}
-          isMatchingFullPath={portfolioGovernanceEnabled}
-          to={dashboardUrl}
-        >
-          <FormattedMessage id={isProject ? 'summary.page' : 'overview.page'} />
-        </Layout.SidebarNavigation.Item>
-      )}
+    <>
+      <Layout.SidebarNavigation.AccordionItem
+        Icon={IconIssues}
+        label={<FormattedMessage id="navigation.project.group.analysis" />}
+      >
+        {dashboardUrl && (
+          <Layout.SidebarNavigation.AccordionItem.Item
+            isMatchingFullPath={portfolioGovernanceEnabled}
+            to={dashboardUrl}
+          >
+            <FormattedMessage id={isProject ? 'summary.page' : 'overview.page'} />
+          </Layout.SidebarNavigation.AccordionItem.Item>
+        )}
+
+        {portfolioGovernanceEnabled && (
+          <Layout.SidebarNavigation.AccordionItem.Item to={getCodeUrl(component.key, branchLike)}>
+            <FormattedMessage id="portfolio_breakdown.page" />
+          </Layout.SidebarNavigation.AccordionItem.Item>
+        )}
+
+        <Layout.SidebarNavigation.AccordionItem.Item to={issuesUrl}>
+          <FormattedMessage id="issues.page" />
+        </Layout.SidebarNavigation.AccordionItem.Item>
+
+        {!isPortfolio && (
+          <Layout.SidebarNavigation.AccordionItem.Item
+            suffix={<DeprecatedBadge />}
+            to={getComponentSecurityHotspotsUrl(component.key, branchLike)}
+          >
+            <FormattedMessage id="layout.security_hotspots" />
+          </Layout.SidebarNavigation.AccordionItem.Item>
+        )}
+
+        {hasFeature(Feature.Sca) && (
+          <Layout.SidebarNavigation.AccordionItem.Item
+            to={getRisksUrl({ newParams: { id: component.key, ...branchParameters } })}
+          >
+            <FormattedMessage id="dependencies.risks" />
+          </Layout.SidebarNavigation.AccordionItem.Item>
+        )}
+      </Layout.SidebarNavigation.AccordionItem>
 
       {showPortfolioGovernanceNav && portfolioHealthDashboardRoute && (
         <Layout.SidebarNavigation.AccordionItem
@@ -150,8 +173,7 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
           label={<FormattedMessage id="portfolio_dashboards.nav" />}
           suffix={<NewBadge expirationDate={DASHBOARDS_NEW_BADGE_EXPIRATION_DATE} />}
         >
-          <Layout.SidebarNavigation.Item
-            Icon={IconDashboard}
+          <Layout.SidebarNavigation.AccordionItem.Item
             isActive={isBuiltInPortfolioDashboardNavActive(
               location.pathname,
               portfolioDashboardsListRoute,
@@ -159,9 +181,9 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
             to={portfolioHealthDashboardRoute}
           >
             <FormattedMessage id="portfolio_dashboards.health.page" />
-          </Layout.SidebarNavigation.Item>
-          <Layout.SidebarNavigation.Item
-            Icon={IconDashboard}
+          </Layout.SidebarNavigation.AccordionItem.Item>
+
+          <Layout.SidebarNavigation.AccordionItem.Item
             isActive={isPortfolioDashboardsListNavActive(
               location.pathname,
               portfolioDashboardsListRoute,
@@ -172,44 +194,9 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
             }}
           >
             <FormattedMessage id="portfolio_dashboards.all.page" />
-          </Layout.SidebarNavigation.Item>
+          </Layout.SidebarNavigation.AccordionItem.Item>
         </Layout.SidebarNavigation.AccordionItem>
       )}
-
-      {portfolioGovernanceEnabled && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconFileCode}
-          to={getCodeUrl(component.key, branchLike)}
-        >
-          <FormattedMessage id="portfolio_breakdown.page" />
-        </Layout.SidebarNavigation.Item>
-      )}
-      <Layout.SidebarNavigation.Item
-        Icon={IconIssues}
-        to={getComponentIssuesUrl(component.key, {
-          ...branchParameters,
-          ...DEFAULT_ISSUES_QUERY,
-        })}
-      >
-        <FormattedMessage id="issues.page" />
-      </Layout.SidebarNavigation.Item>
-      {!isPortfolio && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconSecurityFinding}
-          suffix={<DeprecatedBadge />}
-          to={getComponentSecurityHotspotsUrl(component.key, branchLike)}
-        >
-          <FormattedMessage id="layout.security_hotspots" />
-        </Layout.SidebarNavigation.Item>
-      )}
-      {hasFeature(Feature.Sca) && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconDependencyRisk}
-          to={getRisksUrl({ newParams: { id: component.key, ...branchParameters } })}
-        >
-          <FormattedMessage id="dependencies.risks" />
-        </Layout.SidebarNavigation.Item>
-      )}
-    </Layout.SidebarNavigation.Group>
+    </>
   );
 }

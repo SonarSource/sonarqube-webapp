@@ -18,12 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  IconLicenseProfiles,
-  IconQualityGate,
-  IconQualityProfile,
-  Layout,
-} from '@sonarsource/echoes-react';
+import { IconQualityGate, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { isPortfolioLike } from '~shared/helpers/component';
 import { addons } from '~sq-server-addons/index';
@@ -40,51 +35,50 @@ export function ComponentNavPoliciesMenu({ component }: Readonly<Props>) {
   const { configuration } = component;
   const { hasFeature } = useAvailableFeatures();
 
-  if (!configuration?.showQualityProfiles && !configuration?.showQualityGates) {
-    return null;
-  }
-
-  // For now, license profile permissions are based on quality profiles, and not available for portfolios
   const showLicenseProfile =
     configuration?.showQualityProfiles &&
     !isPortfolioLike(component.qualifier) &&
     hasFeature(Feature.Sca);
 
+  const search = new URLSearchParams({ id: component.key }).toString();
+
+  if (!configuration?.showQualityProfiles && !configuration?.showQualityGates) {
+    return undefined;
+  }
+
   return (
-    <Layout.SidebarNavigation.Group
+    <Layout.SidebarNavigation.AccordionItem
+      Icon={IconQualityGate}
       label={<FormattedMessage id="navigation.project.group.policies" />}
     >
       {configuration?.showQualityProfiles && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconQualityProfile}
+        <Layout.SidebarNavigation.AccordionItem.Item
           to={getProjectQualityProfileSettingsUrl(component.key)}
         >
           <FormattedMessage id="project_quality_profiles.page" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
       {configuration?.showQualityGates && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconQualityGate}
+        <Layout.SidebarNavigation.AccordionItem.Item
           to={{
             pathname: '/project/quality_gate',
-            search: new URLSearchParams({ id: component.key }).toString(),
+            search,
           }}
         >
           <FormattedMessage id="project_quality_gate.page" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
       {showLicenseProfile && addons.sca && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconLicenseProfiles}
+        <Layout.SidebarNavigation.AccordionItem.Item
           to={{
             pathname: addons.sca.PROJECT_LICENSE_ROUTE_NAME,
-            search: new URLSearchParams({ id: component.key }).toString(),
+            search,
           }}
         >
           <FormattedMessage id="sca.licenses.page" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
-    </Layout.SidebarNavigation.Group>
+    </Layout.SidebarNavigation.AccordionItem>
   );
 }

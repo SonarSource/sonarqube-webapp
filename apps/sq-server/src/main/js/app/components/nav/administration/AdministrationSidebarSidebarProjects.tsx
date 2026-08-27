@@ -32,31 +32,22 @@ export function AdministrationSidebarProjects() {
       Icon={IconProject}
       label={<FormattedMessage id="sidebar.projects" />}
     >
-      <Layout.SidebarNavigation.Item
-        Icon={IconProject}
+      <Layout.SidebarNavigation.AccordionItem.Item
         isMatchingFullPath
         to="/admin/projects_management"
       >
         <FormattedMessage id="management" />
-      </Layout.SidebarNavigation.Item>
+      </Layout.SidebarNavigation.AccordionItem.Item>
 
       {hasFeature(Feature.RemediationAgent) && addons.remediationAgent && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconProject}
-          isMatchingFullPath
-          to="/admin/agentic_tasks"
-        >
+        <Layout.SidebarNavigation.AccordionItem.Item isMatchingFullPath to="/admin/agentic_tasks">
           <FormattedMessage id="sidebar.agentic_tasks" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
-      <Layout.SidebarNavigation.Item
-        Icon={IconProject}
-        isMatchingFullPath
-        to="/admin/background_tasks"
-      >
+      <Layout.SidebarNavigation.AccordionItem.Item isMatchingFullPath to="/admin/background_tasks">
         <FormattedMessage id="background_tasks.page" />
-      </Layout.SidebarNavigation.Item>
+      </Layout.SidebarNavigation.AccordionItem.Item>
     </Layout.SidebarNavigation.AccordionItem>
   );
 }

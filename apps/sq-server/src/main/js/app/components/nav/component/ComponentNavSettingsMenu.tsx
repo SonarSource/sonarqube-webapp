@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconGear, IconWebhook, Layout } from '@sonarsource/echoes-react';
+import { IconGear, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { NewBadge } from '~shared/components/badges/NewBadge';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
@@ -46,7 +46,7 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
   const appState = useAppState();
 
   if (!configuration.showSettings) {
-    return null;
+    return undefined;
   }
 
   const branchParameters = getBranchLikeQuery(branchLike);
@@ -59,9 +59,11 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
 
   const showSettings = !isApp && !isPortfolio;
   const showBaseline = !isApp && !isPortfolio;
-  const showAiGeneratedCode = isProj && hasFeature(Feature.AiCodeAssurance) && addons.aica;
+  const showAiGeneratedCode = isProj && hasFeature(Feature.AiCodeAssurance) && Boolean(addons.aica);
+
   const showAiCapabilities =
-    isProj && hasFeature(Feature.RemediationAgent) && addons.remediationAgent;
+    isProj && hasFeature(Feature.RemediationAgent) && Boolean(addons.remediationAgent);
+
   const isGovernanceEnabled = appState.qualifiers.includes(ComponentQualifier.Portfolio);
 
   const showApplicationDefinition =
@@ -93,7 +95,7 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
     !showAiCapabilities &&
     adminExtensions.length === 0
   ) {
-    return null;
+    return undefined;
   }
 
   return (
@@ -110,85 +112,69 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
       }
     >
       {showSettings && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGear}
-          to={{ pathname: '/project/settings', search }}
-        >
+        <Layout.SidebarNavigation.AccordionItem.Item to={{ pathname: '/project/settings', search }}>
           <FormattedMessage id="project_settings.page" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
       {showBaseline && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGear}
-          to={{ pathname: '/project/baseline', search }}
-        >
+        <Layout.SidebarNavigation.AccordionItem.Item to={{ pathname: '/project/baseline', search }}>
           <FormattedMessage id="project_baseline.page" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
       {adminExtensions.map(({ key, name }) => (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGear}
+        <Layout.SidebarNavigation.AccordionItem.Item
           key={key}
           to={{
             pathname: pathForExtension(key, true),
             search: new URLSearchParams({ ...query, qualifier }).toString(),
           }}
         >
-          {/* eslint-disable-next-line react/forbid-component-props */}
-          <FormattedMessage defaultMessage={name} id={name} />
-        </Layout.SidebarNavigation.Item>
+          <FormattedMessage id={name} />
+        </Layout.SidebarNavigation.AccordionItem.Item>
       ))}
 
       {showApplicationDefinition && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGear}
+        <Layout.SidebarNavigation.AccordionItem.Item
           to={{ pathname: '/project/admin/application-definition', search }}
         >
           <FormattedMessage id="application_console.page" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
       {showPortfolioDefinition && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGear}
+        <Layout.SidebarNavigation.AccordionItem.Item
           to={{ pathname: '/project/admin/definition', search }}
         >
           <FormattedMessage id="application_console.page" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
       {showApplicationReportSettings && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGear}
+        <Layout.SidebarNavigation.AccordionItem.Item
           to={{ pathname: '/project/admin/application-report', search }}
         >
           <FormattedMessage id="application_settings.report" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
       {showPortfolioReportSettings && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGear}
-          to={{ pathname: '/portfolio/report', search }}
-        >
+        <Layout.SidebarNavigation.AccordionItem.Item to={{ pathname: '/portfolio/report', search }}>
           <FormattedMessage id="report.page" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
       {showAiGeneratedCode && addons.aica && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGear}
+        <Layout.SidebarNavigation.AccordionItem.Item
           to={{ pathname: `/project/${addons.aica.AICA_SETTINGS_PATH}`, search }}
         >
           <FormattedMessage id="ai_generated_code.page" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
       {showAiCapabilities && addons.remediationAgent && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGear}
+        <Layout.SidebarNavigation.AccordionItem.Item
           suffix={
             <NewBadge
               expirationDate={
@@ -202,61 +188,53 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
           }}
         >
           <FormattedMessage id="ai_capabilities.title" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
       {isProj && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGear}
+        <Layout.SidebarNavigation.AccordionItem.Item
           to={{ pathname: '/project/import_export', search }}
         >
           <FormattedMessage id="project_dump.page" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
       {configuration.showLinks && (
-        <Layout.SidebarNavigation.Item Icon={IconGear} to={{ pathname: '/project/links', search }}>
+        <Layout.SidebarNavigation.AccordionItem.Item to={{ pathname: '/project/links', search }}>
           <FormattedMessage id="project_links.page" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
       {configuration.showPermissions && (
-        <Layout.SidebarNavigation.Item Icon={IconGear} to={{ pathname: '/project_roles', search }}>
+        <Layout.SidebarNavigation.AccordionItem.Item to={{ pathname: '/project_roles', search }}>
           <FormattedMessage id="permissions.page" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
       {configuration.showBackgroundTasks && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGear}
+        <Layout.SidebarNavigation.AccordionItem.Item
           to={{ pathname: '/project/background_tasks', search }}
         >
           <FormattedMessage id="background_tasks.page" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
       {configuration.showUpdateKey && (
-        <Layout.SidebarNavigation.Item Icon={IconGear} to={{ pathname: '/project/key', search }}>
+        <Layout.SidebarNavigation.AccordionItem.Item to={{ pathname: '/project/key', search }}>
           <FormattedMessage id="update_key.page" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
       {isProj && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconWebhook}
-          to={{ pathname: '/project/webhooks', search }}
-        >
+        <Layout.SidebarNavigation.AccordionItem.Item to={{ pathname: '/project/webhooks', search }}>
           <FormattedMessage id="webhooks.page" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
       {showDeletion && (
-        <Layout.SidebarNavigation.Item
-          Icon={IconGear}
-          to={{ pathname: '/project/deletion', search }}
-        >
+        <Layout.SidebarNavigation.AccordionItem.Item to={{ pathname: '/project/deletion', search }}>
           <FormattedMessage id="deletion.page" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
     </Layout.SidebarNavigation.AccordionItem>
   );

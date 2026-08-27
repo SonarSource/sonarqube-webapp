@@ -27,37 +27,24 @@ export function AdministrationSidebarSecurity() {
       Icon={IconSecurityFinding}
       label={<FormattedMessage id="sidebar.security" />}
     >
-      <Layout.SidebarNavigation.Item
-        Icon={IconSecurityFinding}
-        isMatchingFullPath
-        to="/admin/users"
-      >
+      <Layout.SidebarNavigation.AccordionItem.Item isMatchingFullPath to="/admin/users">
         <FormattedMessage id="users.page" />
-      </Layout.SidebarNavigation.Item>
+      </Layout.SidebarNavigation.AccordionItem.Item>
 
-      <Layout.SidebarNavigation.Item
-        Icon={IconSecurityFinding}
-        isMatchingFullPath
-        to="/admin/groups"
-      >
+      <Layout.SidebarNavigation.AccordionItem.Item isMatchingFullPath to="/admin/groups">
         <FormattedMessage id="user_groups.page" />
-      </Layout.SidebarNavigation.Item>
+      </Layout.SidebarNavigation.AccordionItem.Item>
 
-      <Layout.SidebarNavigation.Item
-        Icon={IconSecurityFinding}
-        isMatchingFullPath
-        to="/admin/permissions"
-      >
+      <Layout.SidebarNavigation.AccordionItem.Item isMatchingFullPath to="/admin/permissions">
         <FormattedMessage id="global_permissions.page" />
-      </Layout.SidebarNavigation.Item>
+      </Layout.SidebarNavigation.AccordionItem.Item>
 
-      <Layout.SidebarNavigation.Item
-        Icon={IconSecurityFinding}
+      <Layout.SidebarNavigation.AccordionItem.Item
         isMatchingFullPath
         to="/admin/permission_templates"
       >
         <FormattedMessage id="permission_templates" />
-      </Layout.SidebarNavigation.Item>
+      </Layout.SidebarNavigation.AccordionItem.Item>
     </Layout.SidebarNavigation.AccordionItem>
   );
 }

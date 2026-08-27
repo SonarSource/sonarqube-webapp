@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconGear, IconSparkle, Layout } from '@sonarsource/echoes-react';
+import { IconGear, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { NewBadge } from '~shared/components/badges/NewBadge';
 import { Extension } from '~shared/types/common';
@@ -40,14 +40,13 @@ export function AdministrationSidebarConfiguration(props: Readonly<Props>) {
       Icon={IconGear}
       label={<FormattedMessage id="sidebar.project_settings" />}
     >
-      <Layout.SidebarNavigation.Item Icon={IconGear} isMatchingFullPath to="/admin/settings">
+      <Layout.SidebarNavigation.AccordionItem.Item isMatchingFullPath to="/admin/settings">
         <FormattedMessage id="settings.page" />
-      </Layout.SidebarNavigation.Item>
+      </Layout.SidebarNavigation.AccordionItem.Item>
 
       {(hasFeature(Feature.RemediationAgent) || hasFeature(Feature.HunterAgent)) &&
         addons.remediationAgent && (
-          <Layout.SidebarNavigation.Item
-            Icon={IconSparkle}
+          <Layout.SidebarNavigation.AccordionItem.Item
             suffix={
               <NewBadge
                 expirationDate={addons.remediationAgent.AI_CAPABILITIES_NEW_BADGE_EXPIRATION_DATE}
@@ -56,33 +55,33 @@ export function AdministrationSidebarConfiguration(props: Readonly<Props>) {
             to="/admin/agent"
           >
             <FormattedMessage id="sidebar.ai_capabilities" />
-          </Layout.SidebarNavigation.Item>
+          </Layout.SidebarNavigation.AccordionItem.Item>
         )}
 
-      <Layout.SidebarNavigation.Item Icon={IconGear} to="/admin/settings/encryption">
+      <Layout.SidebarNavigation.AccordionItem.Item to="/admin/settings/encryption">
         <FormattedMessage id="property.category.security.encryption" />
-      </Layout.SidebarNavigation.Item>
+      </Layout.SidebarNavigation.AccordionItem.Item>
 
-      <Layout.SidebarNavigation.Item Icon={IconGear} to="/admin/webhooks">
+      <Layout.SidebarNavigation.AccordionItem.Item to="/admin/webhooks">
         <FormattedMessage id="webhooks.page" />
-      </Layout.SidebarNavigation.Item>
+      </Layout.SidebarNavigation.AccordionItem.Item>
 
       {governanceInstalled && (
-        <Layout.SidebarNavigation.Item Icon={IconGear} to="/admin/portfolios">
+        <Layout.SidebarNavigation.AccordionItem.Item to="/admin/portfolios">
           <FormattedMessage id="portfolios.page" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
       {extensions.map(({ key, name }) => (
-        <Layout.SidebarNavigation.Item Icon={IconGear} key={key} to={`/admin/extension/${key}`}>
+        <Layout.SidebarNavigation.AccordionItem.Item key={key} to={`/admin/extension/${key}`}>
           {name}
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       ))}
 
       {addons.license && (
-        <Layout.SidebarNavigation.Item Icon={IconGear} to="/admin/license/app">
+        <Layout.SidebarNavigation.AccordionItem.Item to="/admin/license/app">
           <FormattedMessage id="license.feature_name" />
-        </Layout.SidebarNavigation.Item>
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
     </Layout.SidebarNavigation.AccordionItem>
   );

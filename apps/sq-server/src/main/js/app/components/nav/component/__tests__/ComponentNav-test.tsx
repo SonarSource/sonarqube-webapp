@@ -38,15 +38,22 @@ import { Feature } from '~sq-server-commons/types/features';
 import { ComponentNav } from '../ComponentNav';
 
 
-jest.mock('~shared/helpers/recent-history', () => ({
-  RecentHistory: {
-    add: jest.fn(),
-    get: jest.fn().mockReturnValue([
-      { key: 'foo', name: 'Foo', qualifier: 'TRK' },
-      { key: 'portfoolio', name: 'PortFoolio', qualifier: 'VW' },
-    ]),
-  },
-}));
+jest.mock('~shared/helpers/recent-history', () => {
+  const { ComponentQualifier } = jest.requireActual(
+    '~shared/types/component',
+  ) as typeof import('~shared/types/component');
+
+  return {
+    RecentHistory: {
+      add: jest.fn(),
+      get: jest.fn().mockReturnValue([
+        { key: 'foo', name: 'Foo', qualifier: ComponentQualifier.Project },
+        { key: 'portfoolio', name: 'PortFoolio', qualifier: ComponentQualifier.Portfolio },
+      ]),
+    },
+  };
+});
+
 jest.mock('~shared/components/badges/NewBadge', () => ({
   NewBadge: ({ expirationDate }: { expirationDate: string }) => (
     <span aria-label={`new-badge-${expirationDate}`} />
@@ -101,14 +108,10 @@ const ui = {
   qualityProfilesLink: byText('project_quality_profiles.page'),
   qualityGateLink: byText('project_quality_gate.page'),
   qualityGateHistoryLink: byText('layout.quality_gate_history'),
-  navigationItemsList: () =>
-    byRole('link', { hidden: true })
-      .getAll()
-      .map((n) => n.textContent.slice(1)),
+  navigationItemsList: () => byRole('link', { hidden: true }).getAll().map(getNavigationItemText),
 
   // Group labels
   analysisGroup: byText('navigation.project.group.analysis'),
-  navigationGroups: byRole('group', { hidden: true }),
   projectGroup: byText('navigation.project.group.project'),
   reportingGroup: byText('navigation.project.group.reporting'),
   policiesGroup: byText('navigation.project.group.policies'),
@@ -178,9 +181,9 @@ describe('ComponentNav', () => {
       ]);
       expect(ui.onboardingLink.query()).not.toBeInTheDocument();
       expect(ui.summaryLink.get()).toBeInTheDocument();
-      const analysisGroup = ui.navigationGroups
-        .getAll()
-        .find((group) => ui.analysisGroup.query(group));
+
+      const analysisGroup = getNavigationGroupContainer(ui.analysisGroup.get());
+
       expect(analysisGroup).not.toContainElement(ui.allProjectDashboardsLink.get());
       expect(getInteractiveElement(ui.overviewLink.get())).toHaveAttribute(
         'href',
@@ -212,9 +215,9 @@ describe('ComponentNav', () => {
         renderComponentNav({ component });
 
         expect(await ui.qualityGateHistoryLink.find()).toBeInTheDocument();
-        const reportingGroup = ui.navigationGroups
-          .getAll()
-          .find((group) => ui.reportingGroup.query(group));
+
+        const reportingGroup = getNavigationGroupContainer(ui.reportingGroup.get());
+
         expect(reportingGroup).toContainElement(ui.qualityGateHistoryLink.get());
       } finally {
         useCurrentBranchQuerySpy.mockRestore();
@@ -470,6 +473,14 @@ function renderComponentNav(
   );
 }
 
+function getNavigationItemText(element: HTMLElement) {
+  // Ignore the aria-hidden icon and keep only the visible label text
+  return Array.from(element.children)
+    .filter((child) => child.getAttribute('aria-hidden') !== 'true')
+    .map((child) => child.textContent ?? '')
+    .join('');
+}
+
 /* eslint-disable testing-library/no-node-access -- The standalone sidebar is aria-hidden. */
 function getInteractiveElement(element: HTMLElement) {
   // The standalone sidebar is aria-hidden, so role queries cannot reach its interactive parent.
@@ -480,5 +491,15 @@ function getInteractiveElement(element: HTMLElement) {
   }
 
   return interactiveElement;
+}
+
+function getNavigationGroupContainer(element: HTMLElement) {
+  const navigationGroupContainer = element.closest('li');
+
+  if (navigationGroupContainer === null) {
+    throw new Error('Expected navigation group label to be rendered inside a list item');
+  }
+
+  return navigationGroupContainer;
 }
 /* eslint-enable testing-library/no-node-access */
