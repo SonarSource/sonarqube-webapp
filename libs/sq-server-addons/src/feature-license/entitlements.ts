@@ -61,10 +61,12 @@ export function useEntitlementChecksQuery(featureKeys: readonly EntitlementCheck
  * Community edition stub. The `purchasable-features` endpoint returns nothing on CE, so no
  * feature is ever purchasable. Shape mirrors the commercial hook's `useQuery` result.
  */
-export const usePurchasableFeature = createQueryHook((_featureKey: string) =>
+export const usePurchasableFeature = createQueryHook((featureKey: string) =>
   queryOptions({
-    queryKey: ['purchasable-feature', _featureKey],
-    queryFn: (): Promise<PurchaseableFeature | undefined> => Promise.resolve(undefined),
+    queryKey: ['purchasable-feature', featureKey],
+    queryFn: (): Promise<PurchaseableFeature[]> => Promise.resolve([]),
+    select: (features): PurchaseableFeature | undefined =>
+      features.find((f) => f.featureKey === featureKey),
     staleTime: StaleTime.NEVER,
   }),
 );
