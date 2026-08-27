@@ -10325,6 +10325,11 @@ export const defaultMessages = {
   'portfolio_overview.measures': 'Measures',
   'portfolio_overview.language_breakdown': 'Language Breakdown',
   'portfolio_overview.metric_trend': 'Metric trend',
+  'portfolio_overview.metric_trend.table.caption':
+    '{name} metric trend by month ({count, plural, one {# month} other {# months}})',
+  'portfolio_overview.metric_trend.table.date': 'Date',
+  'portfolio_overview.metric_trend.table.rating': 'Rating',
+  'portfolio_overview.metric_trend.table.no_data': 'No trend data available',
   'portfolio_overview.risk': 'Risk',
   'portfolio_overview.overall_code': 'Overall Code',
   'portfolio_overview.new_code': 'New Code',
