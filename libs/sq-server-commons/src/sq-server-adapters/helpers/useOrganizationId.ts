@@ -20,6 +20,6 @@
 
 import { DEFAULT_ORGANIZATION_ID } from '../../constants/organizations';
 
-export function useOrganizationId(): string | undefined {
+export function useOrganizationId(_organizationKey?: string): string | undefined {
   return DEFAULT_ORGANIZATION_ID;
 }
