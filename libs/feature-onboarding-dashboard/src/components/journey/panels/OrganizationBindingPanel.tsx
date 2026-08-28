@@ -30,21 +30,21 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useBindingSettingsUrl } from '~adapters/helpers/useBindingSettingsUrl';
 import { useCreateDevopsConfigurationUrl } from '~adapters/helpers/useCreateDevopsConfigurationUrl';
 import { useOnboardingCurrentBinding } from '~adapters/helpers/useOnboardingCurrentBinding';
+import { useOnboardingDevopsConfigurations } from '~adapters/helpers/useOnboardingDevopsConfigurations';
 import { JourneyState } from '../../../types/types';
+import { DevopsConfigurationsDonut } from './DevopsConfigurationsDonut';
 
 interface Props {
   state: JourneyState;
 }
 
-/**
- * "Organization binding" detail panel. Shows an unbound call-to-action or, once the org is bound,
- * the current binding plus a link to the binding settings.
- */
+// What this shows is driven by which adapters have something to answer, never by the product.
 export function OrganizationBindingPanel({ state }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const bindingSettingsUrl = useBindingSettingsUrl();
   const createConfigurationUrl = useCreateDevopsConfigurationUrl();
   const currentBinding = useOnboardingCurrentBinding();
+  const { byPlatform } = useOnboardingDevopsConfigurations();
 
   // `Button` switches to an anchor on the *presence* of `to`, not on its value: `to={undefined}`
   // type-checks but renders `<a href="/">` instead of a plain button. Products with no destination
@@ -55,57 +55,59 @@ export function OrganizationBindingPanel({ state }: Readonly<Props>) {
     variety: ButtonVariety.Primary,
   } as const;
 
+  // No per-platform split means a single binding to describe; otherwise the breakdown speaks for it.
+  const showBindingReview = state.isBound && byPlatform === undefined;
+
+  const showCreateCta = createConfigurationUrl !== undefined || !state.isBound;
+
   return (
-    <div className="sw-flex sw-flex-col sw-gap-4">
-      <Heading as="h3" size={HeadingSize.Small}>
-        {formatMessage({
-          id: state.isBound
-            ? 'onboarding_dashboard.journey.binding.title'
-            : 'onboarding_dashboard.journey.binding.unbound_title',
-        })}
-      </Heading>
-
-      <Text as="p" isSubtle>
-        <FormattedMessage
-          id={
-            state.isBound
-              ? 'onboarding_dashboard.journey.binding.description'
-              : 'onboarding_dashboard.journey.binding.unbound_description'
-          }
-        />
-      </Text>
-
-      {state.isBound ? (
-        <>
-          {currentBinding !== undefined && (
-            <div className="sw-flex sw-items-center sw-gap-2">
-              <Text isSubtle>
-                {formatMessage({ id: 'onboarding_dashboard.journey.binding.current' })}
-              </Text>
-              <IconLink color="echoes-color-icon-subtle" />
-              <Text isHighlighted>{currentBinding.organizationName}</Text>
-              <Text isSubtle>→</Text>
-              <Text isHighlighted>{currentBinding.devopsOrganizationName}</Text>
-            </div>
-          )}
-
-          {bindingSettingsUrl !== undefined && (
-            <div>
-              <Button to={bindingSettingsUrl} variety={ButtonVariety.Default}>
-                {formatMessage({ id: 'onboarding_dashboard.journey.binding.view_cta' })}
-              </Button>
-            </div>
-          )}
-        </>
-      ) : (
-        <div>
-          {createConfigurationUrl === undefined ? (
-            <Button {...bindCtaProps} />
-          ) : (
-            <Button {...bindCtaProps} to={createConfigurationUrl} />
-          )}
-        </div>
+    <div className="sw-flex sw-items-start sw-gap-8">
+      {byPlatform !== undefined && byPlatform.length > 0 && (
+        <DevopsConfigurationsDonut byPlatform={byPlatform} configured={state.configured} />
       )}
+
+      <div className="sw-flex sw-min-w-0 sw-flex-1 sw-flex-col sw-gap-4">
+        <Heading as="h3" size={HeadingSize.Small}>
+          {formatMessage({ id: 'onboarding_dashboard.journey.binding.title' })}
+        </Heading>
+
+        <Text as="p" isSubtle>
+          <FormattedMessage id="onboarding_dashboard.journey.binding.description" />
+        </Text>
+
+        {showBindingReview && (
+          <>
+            {currentBinding !== undefined && (
+              <div className="sw-flex sw-items-center sw-gap-2">
+                <Text isSubtle>
+                  {formatMessage({ id: 'onboarding_dashboard.journey.binding.current' })}
+                </Text>
+                <IconLink color="echoes-color-icon-subtle" />
+                <Text isHighlighted>{currentBinding.organizationName}</Text>
+                <Text isSubtle>→</Text>
+                <Text isHighlighted>{currentBinding.devopsOrganizationName}</Text>
+              </div>
+            )}
+
+            {bindingSettingsUrl !== undefined && (
+              <div>
+                <Button to={bindingSettingsUrl} variety={ButtonVariety.Default}>
+                  {formatMessage({ id: 'onboarding_dashboard.journey.binding.view_cta' })}
+                </Button>
+              </div>
+            )}
+          </>
+        )}
+
+        {showCreateCta && (
+          <div>
+            <Button
+              {...bindCtaProps}
+              {...(createConfigurationUrl !== undefined && { to: createConfigurationUrl })}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

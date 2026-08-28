@@ -23,10 +23,12 @@ import { useAutoImportToggle } from '~adapters/helpers/useAutoImportToggle';
 import { useBindingSettingsUrl } from '~adapters/helpers/useBindingSettingsUrl';
 import { useCreateDevopsConfigurationUrl } from '~adapters/helpers/useCreateDevopsConfigurationUrl';
 import { useOnboardingCurrentBinding } from '~adapters/helpers/useOnboardingCurrentBinding';
+import { useOnboardingDevopsConfigurations } from '~adapters/helpers/useOnboardingDevopsConfigurations';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { mockLoggedInUser } from '~shared/helpers/mocks/users';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
+import { OnboardingDevopsConfigurations, OnboardingDevopsPlatform } from '~shared/types/onboarding';
 import { JourneyLevel, JourneyState, JourneyStep } from '../../../../types/types';
 import { DetailPanel } from '../DetailPanel';
 
@@ -36,6 +38,16 @@ import { DetailPanel } from '../DetailPanel';
 const BINDING_SETTINGS_URL = { pathname: '/binding-settings', search: '?category=binding' };
 const CREATE_CONFIGURATION_URL = { pathname: '/create-configuration', search: '?category=devops' };
 const CURRENT_BINDING = { devopsOrganizationName: 'acme-devops', organizationName: 'Acme' };
+
+// No per-platform split is what keeps the current-binding view rather than the breakdown.
+const SINGLE_BINDING_PRODUCT: OnboardingDevopsConfigurations = { byPlatform: undefined };
+
+const MULTI_CONFIGURATION_PRODUCT: OnboardingDevopsConfigurations = {
+  byPlatform: [
+    { count: 4, platform: OnboardingDevopsPlatform.Github },
+    { count: 1, platform: OnboardingDevopsPlatform.Gitlab },
+  ],
+};
 
 // How the product answers `isEnabledOnFirstLoad` is covered by its own adapter test; the panel only
 // decides which card that answer maps to, and owns the "Edit" disclosure on top of it.
@@ -70,6 +82,10 @@ jest.mock('~adapters/helpers/useOnboardingCurrentBinding', () => ({
   useOnboardingCurrentBinding: jest.fn(),
 }));
 
+jest.mock('~adapters/helpers/useOnboardingDevopsConfigurations', () => ({
+  useOnboardingDevopsConfigurations: jest.fn(),
+}));
+
 // SQS gates the import CTA on the Create Projects permission; SQC has no such concept and never
 // reads this. Pinned to a permitted user so this shared test isn't exercising that permission
 // check — the SQS adapter has its own test for the unpermitted case.
@@ -84,6 +100,7 @@ beforeEach(() => {
   jest.mocked(useCreateDevopsConfigurationUrl).mockReturnValue(CREATE_CONFIGURATION_URL);
   jest.mocked(useAutoImportToggle).mockReturnValue(AUTO_IMPORT_OFF);
   jest.mocked(useOnboardingCurrentBinding).mockReturnValue(CURRENT_BINDING);
+  jest.mocked(useOnboardingDevopsConfigurations).mockReturnValue(SINGLE_BINDING_PRODUCT);
   jest.mocked(useCurrentUser).mockReturnValue({
     currentUser: mockLoggedInUser({ permissions: { global: ['provisioning'] } }),
     isLoggedIn: true,
@@ -96,6 +113,7 @@ const boundState: JourneyState = {
   analyze: { notImported: 20, notScanned: 7 },
   analyzed: 72,
   analyzedPct: 60,
+  configured: 1,
   discovered: 120,
   imported: 48,
   importedPct: 40,
@@ -112,6 +130,7 @@ function stateWith(overrides: Partial<JourneyState>): JourneyState {
 
 const unboundState = stateWith({
   activeStep: JourneyStep.Binding,
+  configured: 0,
   imported: 0,
   importedPct: 0,
   isBound: false,
@@ -129,9 +148,7 @@ const boundNoImportState = stateWith({
 
 const ui = {
   bindingTitle: byText('onboarding_dashboard.journey.binding.title'),
-  bindingUnboundTitle: byText('onboarding_dashboard.journey.binding.unbound_title'),
   bindingDescription: byText('onboarding_dashboard.journey.binding.description'),
-  bindingUnboundDescription: byText('onboarding_dashboard.journey.binding.unbound_description'),
   importTitle: byText('onboarding_dashboard.journey.import.title'),
   analyzeTitle: byText('onboarding_dashboard.journey.analyze.title'),
 
@@ -143,6 +160,11 @@ const ui = {
   currentBinding: byText('onboarding_dashboard.journey.binding.current'),
   boundOrgName: byText('Acme'),
   boundDevopsOrgName: byText('acme-devops'),
+  configuredLabel: byText('onboarding_dashboard.journey.binding.configured_label'),
+  viewDetails: byRole('button', { name: 'onboarding_dashboard.journey.binding.view_details' }),
+  githubLegend: byText('alm.github'),
+  gitlabLegend: byText('alm.gitlab'),
+  azureLegend: byText('alm.azure'),
 
   // Import panel
   toImport: byText('onboarding_dashboard.journey.import.to_import'),
@@ -200,11 +222,9 @@ it.each([
 it('renders the unbound binding panel with only the bind call-to-action', () => {
   renderPanel(JourneyStep.Binding, unboundState);
 
-  // Unbound reads as a call to action; the bound wording must not leak into this state.
-  expect(ui.bindingUnboundTitle.get()).toBeInTheDocument();
-  expect(ui.bindingUnboundDescription.get()).toBeInTheDocument();
-  expect(ui.bindingTitle.query()).not.toBeInTheDocument();
-  expect(ui.bindingDescription.query()).not.toBeInTheDocument();
+  // The wording does not change with the bound state.
+  expect(ui.bindingTitle.get()).toBeInTheDocument();
+  expect(ui.bindingDescription.get()).toBeInTheDocument();
 
   // The call-to-action navigates to the product's DevOps configuration page.
   expect(ui.bindCta.get()).toHaveAttribute('href', '/create-configuration?category=devops');
@@ -227,11 +247,8 @@ it('keeps the bind call-to-action as an inert button when the product has no des
 it('renders the bound binding panel with the current binding and auto-import controls', () => {
   renderPanel(JourneyStep.Binding, boundState);
 
-  // An already-configured instance is described, not told to go configure itself.
   expect(ui.bindingTitle.get()).toBeInTheDocument();
   expect(ui.bindingDescription.get()).toBeInTheDocument();
-  expect(ui.bindingUnboundTitle.query()).not.toBeInTheDocument();
-  expect(ui.bindingUnboundDescription.query()).not.toBeInTheDocument();
 
   // Both ends of the binding are named: Sonar organization → DevOps organization.
   expect(ui.currentBinding.get()).toBeInTheDocument();
@@ -241,9 +258,60 @@ it('renders the bound binding panel with the current binding and auto-import con
   // "View binding" links to the product's binding settings page rather than acting as a button.
   expect(ui.viewCta.get()).toHaveAttribute('href', '/binding-settings?category=binding');
 
-  // The unbound call-to-action is replaced by "View binding".
+  expect(ui.bindCta.get()).toHaveAttribute('href', '/create-configuration?category=devops');
+
+  // Without a per-platform split there is nothing to break down.
+  expect(ui.configuredLabel.query()).not.toBeInTheDocument();
+  expect(ui.viewDetails.query()).not.toBeInTheDocument();
+});
+
+it('drops the create call-to-action once bound on products that cannot add configurations', () => {
+  jest.mocked(useCreateDevopsConfigurationUrl).mockReturnValue(undefined);
+
+  renderPanel(JourneyStep.Binding, boundState);
+
+  // Nothing to create and nowhere to create it: only the existing binding is described.
+  expect(ui.currentBinding.get()).toBeInTheDocument();
   expect(ui.bindCta.query()).not.toBeInTheDocument();
   expect(ui.inertBindCta.query()).not.toBeInTheDocument();
+});
+
+it('renders the configuration breakdown on products that hold several configurations', () => {
+  jest.mocked(useOnboardingDevopsConfigurations).mockReturnValue(MULTI_CONFIGURATION_PRODUCT);
+
+  renderPanel(JourneyStep.Binding, stateWith({ configured: 5 }));
+
+  // The donut carries the total from the overview, and one legend entry per configured platform.
+  expect(ui.configuredLabel.get()).toBeInTheDocument();
+  expect(ui.githubLegend.get()).toBeInTheDocument();
+  expect(ui.gitlabLegend.get()).toBeInTheDocument();
+
+  // Platforms with no configuration are left out of the ring and the legend entirely.
+  expect(ui.azureLegend.query()).not.toBeInTheDocument();
+
+  // The details modal lands in a follow-up, so the link cannot navigate yet.
+  expect(ui.viewDetails.get()).not.toHaveAttribute('href');
+
+  // No single binding to describe, so neither the row nor "View binding" is offered.
+  expect(ui.bindCta.get()).toBeInTheDocument();
+  expect(ui.currentBinding.query()).not.toBeInTheDocument();
+  expect(ui.viewCta.query()).not.toBeInTheDocument();
+});
+
+it.each([
+  ['nothing is configured yet', unboundState],
+  ['the split is not known yet', stateWith({ configured: 5 })],
+])('omits the breakdown when %s', (_, state) => {
+  jest.mocked(useOnboardingDevopsConfigurations).mockReturnValue({ byPlatform: [] });
+
+  renderPanel(JourneyStep.Binding, state);
+
+  // An unresolved lookup must not be mistaken for a single-binding product either.
+  expect(ui.configuredLabel.query()).not.toBeInTheDocument();
+  expect(ui.viewDetails.query()).not.toBeInTheDocument();
+  expect(ui.currentBinding.query()).not.toBeInTheDocument();
+  expect(ui.viewCta.query()).not.toBeInTheDocument();
+  expect(ui.bindCta.get()).toBeInTheDocument();
 });
 
 it('omits the current-binding row when the bound organizations are unknown', () => {

@@ -11007,13 +11007,13 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.step.projects.title': 'Projects analyzed',
   'onboarding_dashboard.journey.step.count': '{done} / {total}',
   'onboarding_dashboard.journey.step.locked_aria_label': '{title}, locked',
-  'onboarding_dashboard.journey.binding.title': 'DevOps platform configurations',
+  'onboarding_dashboard.journey.step.ring_count_aria_label': '{count} {title}',
+  'onboarding_dashboard.journey.binding.title': 'Configure DevOps platforms',
   'onboarding_dashboard.journey.binding.description':
-    'Linking GitHub, GitLab, Azure DevOps, or Bitbucket lets Sonar find, import and analyze your projects.',
-  'onboarding_dashboard.journey.binding.unbound_title': 'Configure DevOps platforms',
-  'onboarding_dashboard.journey.binding.unbound_description':
     'To start analyzing your projects, link GitHub, GitLab, Azure DevOps, or Bitbucket for Sonar to find, import and analyze them.',
   'onboarding_dashboard.journey.binding.bind_cta': 'Create configuration',
+  'onboarding_dashboard.journey.binding.configured_label': 'Configured',
+  'onboarding_dashboard.journey.binding.view_details': 'View details',
   'onboarding_dashboard.journey.binding.current': 'Current binding:',
   'onboarding_dashboard.journey.binding.view_cta': 'View configuration',
   'onboarding_dashboard.journey.import.title': 'Import repositories',

@@ -78,7 +78,10 @@ export function ImportRepositoriesPanel({ onSelectStep, state }: Readonly<Props>
   return (
     <div className="sw-flex sw-items-start sw-gap-8">
       <PanelDonut
-        centerPercent={importedPct}
+        centerLabel={formatMessage(
+          { id: 'onboarding_dashboard.percent' },
+          { percent: importedPct },
+        )}
         centerSubLabel={formatMessage(
           { id: 'onboarding_dashboard.journey.step.count' },
           { done: imported, total: discovered },

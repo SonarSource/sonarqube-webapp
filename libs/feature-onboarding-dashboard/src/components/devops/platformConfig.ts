@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { cssVar } from '@sonarsource/echoes-react';
 import { AlmIconKey, OnboardingAlm, OnboardingDevopsPlatform } from '~shared/types/onboarding';
 
 export interface PlatformConfig {
@@ -31,11 +32,12 @@ export interface PlatformConfig {
 
 /**
  * Maps the `devopsPlatforms.shares[].platform` enum to its icon, display name and brand color.
- * The repo has no brand-color tokens, so brand hex values are defined here.
+ * The repo has no brand-color tokens, so brand hex values are defined here. GitHub uses the
+ * inverse-surface token instead: its near-black brand color disappears on a dark surface.
  */
 export const PLATFORM_CONFIG: Record<OnboardingAlm, PlatformConfig> = {
   [OnboardingDevopsPlatform.Github]: {
-    color: '#1F2328',
+    color: cssVar('color-surface-inverse-default'),
     imageKey: 'github',
     labelKey: 'alm.github',
   },

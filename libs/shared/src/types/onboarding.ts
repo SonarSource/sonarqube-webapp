@@ -80,6 +80,23 @@ export interface OnboardingCurrentBinding {
   organizationName: string;
 }
 
+/** Number of DevOps platform configurations that exist for one ALM. */
+export interface OnboardingDevopsPlatformConfigurations {
+  count: number;
+  platform: OnboardingAlm;
+}
+
+/** Return shape of the `useOnboardingDevopsConfigurations` adapter hook. */
+export interface OnboardingDevopsConfigurations {
+  /**
+   * Configuration count per DevOps platform. `undefined` only on products where an organization
+   * binds to a single platform (SQ-Cloud), never "not known yet" — a product that can hold several
+   * reports an empty array until the split is known, so it is never mistaken for a single-binding
+   * one.
+   */
+  byPlatform: OnboardingDevopsPlatformConfigurations[] | undefined;
+}
+
 /**
  * Response of `GET /api/v2/onboarding/overview`.
  *

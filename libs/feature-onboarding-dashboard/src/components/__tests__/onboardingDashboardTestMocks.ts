@@ -58,6 +58,16 @@ export function createDevopsConfigurationUrlMock() {
   };
 }
 
+// Typed inline so contract drift breaks compilation here, without adding a runtime import.
+export function devopsConfigurationsMock() {
+  return {
+    useOnboardingDevopsConfigurations:
+      (): import('~shared/types/onboarding').OnboardingDevopsConfigurations => ({
+        byPlatform: undefined,
+      }),
+  };
+}
+
 /**
  * Same binding constraint as above: the auto-import setting is read from, and written to, the bound
  * platform. The binding panel's own suite covers its states against this same shape.

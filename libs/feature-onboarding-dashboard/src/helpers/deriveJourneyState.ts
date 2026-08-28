@@ -42,7 +42,8 @@ export function deriveJourneyState(overview: OnboardingOverview): JourneyState {
   const analyzed = steps.projects.analyzed;
   const notYetImported = steps.projects.notImported ?? Math.max(discovered - imported, 0);
   const totalProjects = steps.projects.total ?? discovered;
-  const isBound = steps.devopsPlatforms.configured > 0;
+  const { configured } = steps.devopsPlatforms;
+  const isBound = configured > 0;
 
   let activeStep = JourneyStep.Projects;
   if (!isBound) {
@@ -66,6 +67,7 @@ export function deriveJourneyState(overview: OnboardingOverview): JourneyState {
       steps.projects.percent === null
         ? toPercent(analyzed, totalProjects)
         : Math.round(clampPercent(steps.projects.percent)),
+    configured,
     discovered,
     imported,
     importedPct:

@@ -45,6 +45,8 @@ interface Props {
   isLocked?: boolean;
   isSelected: boolean;
   onSelect: () => void;
+  /** Value shown inside the ring when `visual` is `countRing`. Folded into the accessible name. */
+  ringLabel?: string;
   /** Subtle caption under the title (e.g. "Unbound", "48 / 120"). */
   secondaryLine?: ReactNode;
   title: string;
@@ -67,8 +69,8 @@ function Avatar({
   );
 }
 
-/** A full ring with an icon (or filled avatar) centered inside — used by the binding step. */
-function IconRing({ icon, ringColor }: Readonly<{ icon: ReactNode; ringColor: string }>) {
+/** A full ring with arbitrary content (icon, avatar or value) centered inside. */
+function Ring({ center, ringColor }: Readonly<{ center: ReactNode; ringColor: string }>) {
   return (
     <div
       aria-hidden
@@ -81,12 +83,18 @@ function IconRing({ icon, ringColor }: Readonly<{ icon: ReactNode; ringColor: st
         thickness={DONUT_THICKNESS}
         width={DONUT_SIZE}
       />
-      <div className="sw-absolute sw-inset-0 sw-flex sw-items-center sw-justify-center">{icon}</div>
+      <div className="sw-absolute sw-inset-0 sw-flex sw-items-center sw-justify-center">
+        {center}
+      </div>
     </div>
   );
 }
 
-function VisualSlot({ donutPercent, visual }: Readonly<Pick<Props, 'donutPercent' | 'visual'>>) {
+function VisualSlot({
+  donutPercent,
+  ringLabel,
+  visual,
+}: Readonly<Pick<Props, 'donutPercent' | 'ringLabel' | 'visual'>>) {
   switch (visual) {
     case StepCardVisual.Donut:
       return (
@@ -99,8 +107,8 @@ function VisualSlot({ donutPercent, visual }: Readonly<Pick<Props, 'donutPercent
       );
     case StepCardVisual.AvatarDone:
       return (
-        <IconRing
-          icon={
+        <Ring
+          center={
             <Avatar
               background={cssVar('color-background-success-default')}
               icon={<IconCheck color="echoes-color-icon-on-color" />}
@@ -110,49 +118,73 @@ function VisualSlot({ donutPercent, visual }: Readonly<Pick<Props, 'donutPercent
           ringColor={cssVar('color-background-success-weak-default')}
         />
       );
+    case StepCardVisual.CountRing:
+      return (
+        <Ring
+          center={<Text isHighlighted>{ringLabel}</Text>}
+          ringColor={cssVar('color-background-info-default')}
+        />
+      );
     case StepCardVisual.RingLocked:
       return (
-        <IconRing
-          icon={<IconLock color="echoes-color-icon-disabled" />}
+        <Ring
+          center={<IconLock color="echoes-color-icon-disabled" />}
           ringColor={cssVar('color-background-neutral-bolder-default')}
         />
       );
     case StepCardVisual.AvatarUnbound:
     default:
       return (
-        <IconRing
-          icon={<IconLink color="echoes-color-icon-subtle" />}
+        <Ring
+          center={<IconLink color="echoes-color-icon-subtle" />}
           ringColor={cssVar('color-background-neutral-subtle-default')}
         />
       );
   }
 }
 
-/**
- * A single selectable card in the onboarding stepper. Renders as a button so it is keyboard
- * operable; the selected state is conveyed with an accent ring and `aria-pressed`. A locked step
- * reports `aria-disabled` and folds "locked" into its accessible name, so the lock ring is never
- * the only thing carrying the state.
- */
 export function StepCard({
   donutPercent,
   isLocked = false,
   isSelected,
   onSelect,
+  ringLabel,
   secondaryLine,
   title,
   visual,
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
 
+  // The ring is aria-hidden and aria-label overrides the card's content, so whatever the ring
+  // alone carries has to be repeated here or it is never announced.
+  let accessibleName = title;
+  if (isLocked) {
+    accessibleName = formatMessage(
+      { id: 'onboarding_dashboard.journey.step.locked_aria_label' },
+      { title },
+    );
+  } else if (ringLabel !== undefined) {
+    accessibleName = formatMessage(
+      { id: 'onboarding_dashboard.journey.step.ring_count_aria_label' },
+      { count: ringLabel, title },
+    );
+  } else if (visual === StepCardVisual.Donut) {
+    accessibleName = formatMessage(
+      { id: 'onboarding_dashboard.journey.step.ring_count_aria_label' },
+      {
+        count: formatMessage(
+          { id: 'onboarding_dashboard.percent' },
+          { percent: donutPercent ?? 0 },
+        ),
+        title,
+      },
+    );
+  }
+
   return (
     <button
       aria-disabled={isLocked}
-      aria-label={
-        isLocked
-          ? formatMessage({ id: 'onboarding_dashboard.journey.step.locked_aria_label' }, { title })
-          : title
-      }
+      aria-label={accessibleName}
       aria-pressed={isSelected}
       className={classNames(
         'sw-flex sw-items-center sw-w-full sw-rounded-2 sw-border-0 sw-bg-transparent sw-p-0 sw-text-left',
@@ -167,7 +199,7 @@ export function StepCard({
       <Card className="sw-min-w-0">
         <Card.Body className="sw-flex sw-items-center">
           <div className="sw-flex sw-items-center sw-gap-4 sw-py-2">
-            <VisualSlot donutPercent={donutPercent} visual={visual} />
+            <VisualSlot donutPercent={donutPercent} ringLabel={ringLabel} visual={visual} />
             <div className="sw-flex sw-min-w-0 sw-flex-col">
               <Text isHighlighted>{title}</Text>
               {secondaryLine !== undefined && (

@@ -38,6 +38,14 @@ jest.mock('~adapters/helpers/useCreateDevopsConfigurationUrl', () =>
     .createDevopsConfigurationUrlMock(),
 );
 
+jest.mock('~adapters/helpers/useOnboardingDevopsConfigurations', () =>
+  jest
+    .requireActual<typeof import('./onboardingDashboardTestMocks')>(
+      './onboardingDashboardTestMocks',
+    )
+    .devopsConfigurationsMock(),
+);
+
 jest.mock('~adapters/helpers/useAutoImportToggle', () =>
   jest
     .requireActual<typeof import('./onboardingDashboardTestMocks')>(

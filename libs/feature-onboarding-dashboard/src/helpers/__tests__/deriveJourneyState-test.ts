@@ -36,6 +36,7 @@ it('maps the step counters onto the view model', () => {
   expect(state).toMatchObject({
     analyze: { notImported: 295, notScanned: 11 },
     analyzed: 1,
+    configured: 1,
     discovered: 301,
     imported: 6,
     isBound: true,
@@ -48,6 +49,7 @@ it('maps the step counters onto the view model', () => {
 it('treats a configured platform count of zero as unbound', () => {
   const state = deriveJourneyState(buildOverview({ devopsPlatforms: { configured: 0 } }));
 
+  expect(state.configured).toBe(0);
   expect(state.isBound).toBe(false);
   expect(state.activeStep).toBe(JourneyStep.Binding);
   expect(state.level).toBe(JourneyLevel.Unbound);

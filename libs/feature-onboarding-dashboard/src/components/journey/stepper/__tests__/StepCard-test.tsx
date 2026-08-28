@@ -26,11 +26,23 @@ import { StepCard } from '../StepCard';
 
 const ui = {
   card: byRole('button', { name: 'Step title' }),
+  // An unlocked donut card folds its percentage in the same way a count ring does.
+  cardWithPercent: (percent: number) =>
+    byRole('button', {
+      name: `onboarding_dashboard.journey.step.ring_count_aria_label.onboarding_dashboard.percent.${percent}.Step title`,
+    }),
   // A locked card names itself as locked: formatMessage joins id + values with dots.
   lockedCard: byRole('button', {
     name: 'onboarding_dashboard.journey.step.locked_aria_label.Step title',
   }),
+  // A card whose ring carries a value names itself with it: formatMessage joins id + values with
+  // dots, and the values are ordered as declared (`{ count, title }`).
+  cardWithCount: (count: string) =>
+    byRole('button', {
+      name: `onboarding_dashboard.journey.step.ring_count_aria_label.${count}.Step title`,
+    }),
   secondaryLine: byText('secondary caption'),
+  ringLabel: (label: string) => byText(label),
   // The donut label is rendered by OnboardingProgressDonut via the react-intl mock as
   // `<id>.<value>`, so the value is embedded in the text (percent.0 when donutPercent is omitted).
   donutLabel: (value: number) => byText(`onboarding_dashboard.percent.${value}`),
@@ -51,14 +63,22 @@ function renderStepCard(props: Partial<ComponentProps<typeof StepCard>> = {}) {
 it('renders the donut visual with its percentage label', () => {
   renderStepCard({ visual: StepCardVisual.Donut, donutPercent: 40 });
 
-  expect(ui.card.get()).toBeInTheDocument();
+  expect(ui.cardWithPercent(40).get()).toBeInTheDocument();
   expect(ui.donutLabel(40).get()).toBeInTheDocument();
+});
+
+it('announces the donut percentage, which the decorative ring cannot carry on its own', () => {
+  renderStepCard({ visual: StepCardVisual.Donut, donutPercent: 40 });
+
+  expect(ui.cardWithPercent(40).get()).toBeInTheDocument();
+  expect(ui.card.query()).not.toBeInTheDocument();
 });
 
 it('defaults the donut ring to 0 when no percentage is provided', () => {
   renderStepCard({ visual: StepCardVisual.Donut, donutPercent: undefined });
 
   expect(ui.donutLabel(0).get()).toBeInTheDocument();
+  expect(ui.cardWithPercent(0).get()).toBeInTheDocument();
 });
 
 it.each([
@@ -70,6 +90,20 @@ it.each([
 
   expect(ui.card.get()).toBeInTheDocument();
   expect(ui.donutLabel(0).query()).not.toBeInTheDocument();
+});
+
+it('renders the count ring visual with its label instead of a percentage', () => {
+  renderStepCard({ ringLabel: '8', visual: StepCardVisual.CountRing });
+
+  expect(ui.ringLabel('8').get()).toBeInTheDocument();
+  expect(ui.donutLabel(0).query()).not.toBeInTheDocument();
+});
+
+it('announces the ring value, which the decorative ring cannot carry on its own', () => {
+  renderStepCard({ ringLabel: '8', visual: StepCardVisual.CountRing });
+
+  expect(ui.cardWithCount('8').get()).toBeInTheDocument();
+  expect(ui.card.query()).not.toBeInTheDocument();
 });
 
 it('renders the secondary line only when provided', () => {
@@ -89,7 +123,7 @@ it('renders the secondary line only when provided', () => {
 
 it('conveys the selected state through aria-pressed', () => {
   const { rerender } = renderStepCard({ isSelected: true });
-  expect(ui.card.get()).toHaveAttribute('aria-pressed', 'true');
+  expect(ui.cardWithPercent(0).get()).toHaveAttribute('aria-pressed', 'true');
 
   rerender(
     <StepCard
@@ -99,14 +133,14 @@ it('conveys the selected state through aria-pressed', () => {
       visual={StepCardVisual.Donut}
     />,
   );
-  expect(ui.card.get()).toHaveAttribute('aria-pressed', 'false');
+  expect(ui.cardWithPercent(0).get()).toHaveAttribute('aria-pressed', 'false');
 });
 
 it('calls onSelect when the card is clicked', async () => {
   const onSelect = jest.fn();
   const { user } = renderStepCard({ onSelect });
 
-  await user.click(ui.card.get());
+  await user.click(ui.cardWithPercent(0).get());
 
   expect(onSelect).toHaveBeenCalledTimes(1);
 });
@@ -127,5 +161,5 @@ it('reports a locked card as unavailable and refuses selection', async () => {
 it('does not report an unlocked card as unavailable', () => {
   renderStepCard();
 
-  expect(ui.card.get()).toHaveAttribute('aria-disabled', 'false');
+  expect(ui.cardWithPercent(0).get()).toHaveAttribute('aria-disabled', 'false');
 });

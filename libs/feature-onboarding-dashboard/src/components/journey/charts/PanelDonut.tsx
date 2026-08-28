@@ -35,9 +35,9 @@ export interface PanelDonutSegment {
 }
 
 interface Props {
-  /** Large percentage shown at the center of the ring, 0–100. */
-  centerPercent: number;
-  /** Secondary line under the center percentage, e.g. "48 / 120". */
+  /** Large value shown at the center of the ring, e.g. "64%" or a configuration count. */
+  centerLabel: ReactNode;
+  /** Secondary line under the center label, e.g. "48 / 120". */
   centerSubLabel: string;
   /** Segments driving both the ring and the legend. */
   segments: PanelDonutSegment[];
@@ -45,11 +45,7 @@ interface Props {
   viewAll?: ReactNode;
 }
 
-/**
- * A donut with a centered percentage, a legend, and an optional "View all" link. Shared by the
- * "Import repositories" and "Analyze your projects" detail panels of the onboarding dashboard.
- */
-export function PanelDonut({ centerPercent, centerSubLabel, segments, viewAll }: Readonly<Props>) {
+export function PanelDonut({ centerLabel, centerSubLabel, segments, viewAll }: Readonly<Props>) {
   return (
     <StyledCard className="sw-min-w-0 sw-max-w-[300px]">
       <Card.Body className="sw-flex sw-items-center sw-justify-center sw-gap-8">
@@ -68,7 +64,7 @@ export function PanelDonut({ centerPercent, centerSubLabel, segments, viewAll }:
             />
             <div className="sw-absolute sw-inset-0 sw-flex sw-flex-col sw-items-center sw-justify-center">
               <Text isHighlighted size={TextSize.Large}>
-                {centerPercent}%
+                {centerLabel}
               </Text>
               <Text isSubtle size={TextSize.Small}>
                 {centerSubLabel}

@@ -19,7 +19,9 @@
  */
 
 import { useIntl } from 'react-intl';
+import { useOnboardingDevopsConfigurations } from '~adapters/helpers/useOnboardingDevopsConfigurations';
 import { JourneyState, JourneyStep, StepCardVisual } from '../../../types/types';
+import { getBindingStepCard } from './bindingStepCard';
 import { StepCard } from './StepCard';
 
 interface Props {
@@ -35,9 +37,16 @@ interface Props {
  */
 export function JourneyStepper({ onSelectStep, selectedStep, state }: Readonly<Props>) {
   const { formatMessage } = useIntl();
+  const { byPlatform } = useOnboardingDevopsConfigurations();
 
   const countLabel = (done: number, total: number) =>
     formatMessage({ id: 'onboarding_dashboard.journey.step.count' }, { done, total });
+
+  const bindingCard = getBindingStepCard({
+    byPlatform,
+    configured: state.configured,
+    isBound: state.isBound,
+  });
 
   return (
     <div className="sw-grid sw-grid-cols-3 sw-gap-4">
@@ -46,13 +55,14 @@ export function JourneyStepper({ onSelectStep, selectedStep, state }: Readonly<P
         onSelect={() => {
           onSelectStep(JourneyStep.Binding);
         }}
-        secondaryLine={formatMessage({
-          id: state.isBound
-            ? 'onboarding_dashboard.journey.step.binding.bound'
-            : 'onboarding_dashboard.journey.step.binding.unbound',
-        })}
+        ringLabel={bindingCard.ringLabel}
+        secondaryLine={
+          bindingCard.secondaryLineId === undefined
+            ? undefined
+            : formatMessage({ id: bindingCard.secondaryLineId })
+        }
         title={formatMessage({ id: 'onboarding_dashboard.journey.step.binding.title' })}
-        visual={state.isBound ? StepCardVisual.AvatarDone : StepCardVisual.AvatarUnbound}
+        visual={bindingCard.visual}
       />
 
       <StepCard

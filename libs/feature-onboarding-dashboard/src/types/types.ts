@@ -36,6 +36,7 @@ export enum JourneyStep {
 export enum StepCardVisual {
   AvatarUnbound = 'AVATAR_UNBOUND',
   AvatarDone = 'AVATAR_DONE',
+  CountRing = 'COUNT_RING',
   RingLocked = 'RING_LOCKED',
   Donut = 'DONUT',
 }
@@ -69,6 +70,8 @@ export interface JourneyState {
   analyzed: number;
   /** Analysed projects as a percentage of total projects, 0–100. */
   analyzedPct: number;
+  /** Number of configured DevOps platform integrations. 0 or 1 on products that bind to one. */
+  configured: number;
   /** Total repositories discovered on the bound DevOps platform(s). */
   discovered: number;
   /** Number of repositories imported into SonarQube. */

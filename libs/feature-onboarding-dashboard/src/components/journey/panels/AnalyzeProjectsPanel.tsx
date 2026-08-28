@@ -106,7 +106,10 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
   return (
     <div className="sw-flex sw-items-start sw-gap-8">
       <PanelDonut
-        centerPercent={analyzedPct}
+        centerLabel={formatMessage(
+          { id: 'onboarding_dashboard.percent' },
+          { percent: analyzedPct },
+        )}
         centerSubLabel={formatMessage(
           { id: 'onboarding_dashboard.journey.step.count' },
           { done: analyzed, total: totalProjects },

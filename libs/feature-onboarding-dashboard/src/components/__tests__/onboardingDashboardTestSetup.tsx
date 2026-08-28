@@ -84,17 +84,17 @@ export const ui = {
   headerProgress: byText('onboarding_dashboard.percent.75'),
 
   // Journey stepper — three selectable step cards rendered as buttons. These selectors hold only
-  // while the step is unlocked: the default fixture is bound, so each card's aria-label is just its
-  // title. A locked step names itself `locked_aria_label.<title>` instead (see StepCard), so a test
-  // rendering an unbound org must select those two cards by their locked name.
+  // while the step is unlocked; a locked step names itself `locked_aria_label.<title>` instead (see
+  // StepCard), so a test rendering an unbound org must select those two cards by their locked name.
+  // The two donut cards fold their percentage into the name — 2% and 0% in this fixture.
   stepperBinding: byRole('button', {
     name: 'onboarding_dashboard.journey.step.binding.title',
   }),
   stepperRepositories: byRole('button', {
-    name: 'onboarding_dashboard.journey.step.repositories.title',
+    name: 'onboarding_dashboard.journey.step.ring_count_aria_label.onboarding_dashboard.percent.2.onboarding_dashboard.journey.step.repositories.title',
   }),
   stepperProjects: byRole('button', {
-    name: 'onboarding_dashboard.journey.step.projects.title',
+    name: 'onboarding_dashboard.journey.step.ring_count_aria_label.onboarding_dashboard.percent.0.onboarding_dashboard.journey.step.projects.title',
   }),
 
   // Detail panel titles, each unique to the panel rather than to the stepper card above it.

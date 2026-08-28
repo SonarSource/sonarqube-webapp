@@ -18,17 +18,54 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useOnboardingDevopsConfigurations } from '~adapters/helpers/useOnboardingDevopsConfigurations';
 import { renderWithContext } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
+import { OnboardingDevopsConfigurations, OnboardingDevopsPlatform } from '~shared/types/onboarding';
 import { JourneyLevel, JourneyState, JourneyStep } from '../../../../types/types';
 import { JourneyStepper } from '../JourneyStepper';
 
+// Single-binding products report no per-platform split; multi-configuration ones report an entry.
+const SINGLE_BINDING_PRODUCT: OnboardingDevopsConfigurations = { byPlatform: undefined };
+
+const MULTI_CONFIGURATION_PRODUCT: OnboardingDevopsConfigurations = {
+  byPlatform: [
+    { count: 4, platform: OnboardingDevopsPlatform.Github },
+    { count: 1, platform: OnboardingDevopsPlatform.Gitlab },
+  ],
+};
+
+jest.mock('~adapters/helpers/useOnboardingDevopsConfigurations', () => ({
+  useOnboardingDevopsConfigurations: jest.fn(),
+}));
+
+beforeEach(() => {
+  jest.clearAllMocks();
+
+  jest.mocked(useOnboardingDevopsConfigurations).mockReturnValue(SINGLE_BINDING_PRODUCT);
+});
+
+const REPOSITORIES_TITLE = 'onboarding_dashboard.journey.step.repositories.title';
+const PROJECTS_TITLE = 'onboarding_dashboard.journey.step.projects.title';
+
+// formatMessage joins id + values with dots, nested calls included.
+function donutCardName(titleId: string, percent: number) {
+  return `onboarding_dashboard.journey.step.ring_count_aria_label.onboarding_dashboard.percent.${percent}.${titleId}`;
+}
+
 const ui = {
   binding: byRole('button', { name: 'onboarding_dashboard.journey.step.binding.title' }),
-  repositories: byRole('button', { name: 'onboarding_dashboard.journey.step.repositories.title' }),
-  projects: byRole('button', { name: 'onboarding_dashboard.journey.step.projects.title' }),
+  bindingWithCount: (count: number) =>
+    byRole('button', {
+      name: `onboarding_dashboard.journey.step.ring_count_aria_label.${count}.onboarding_dashboard.journey.step.binding.title`,
+    }),
+  repositories: (percent = 0) =>
+    byRole('button', { name: donutCardName(REPOSITORIES_TITLE, percent) }),
+  projects: (percent = 0) => byRole('button', { name: donutCardName(PROJECTS_TITLE, percent) }),
   bindingBound: byText('onboarding_dashboard.journey.step.binding.bound'),
   bindingUnbound: byText('onboarding_dashboard.journey.step.binding.unbound'),
+  // The configuration count rendered inside the binding card's ring.
+  configuredCount: (count: number) => byText(String(count)),
   // The count secondary line: formatMessage joins id + primitives with dots → `...count.<done>.<total>`.
   countLabel: (done: number, total: number) =>
     byText(`onboarding_dashboard.journey.step.count.${done}.${total}`),
@@ -48,6 +85,7 @@ function mockState(overrides: Partial<JourneyState> = {}): JourneyState {
     analyze: { notImported: 0, notScanned: 0 },
     analyzed: 0,
     analyzedPct: 0,
+    configured: 0,
     discovered: 0,
     imported: 0,
     importedPct: 0,
@@ -72,12 +110,11 @@ function renderStepper(props: Partial<React.ComponentProps<typeof JourneyStepper
 }
 
 it('renders the three step cards', () => {
-  // Bound: every step is unlocked, so each card answers to its plain title.
   renderStepper({ state: mockState({ isBound: true }) });
 
   expect(ui.binding.get()).toBeInTheDocument();
-  expect(ui.repositories.get()).toBeInTheDocument();
-  expect(ui.projects.get()).toBeInTheDocument();
+  expect(ui.repositories().get()).toBeInTheDocument();
+  expect(ui.projects().get()).toBeInTheDocument();
 });
 
 it('renders the unbound presentation when the org is not bound', () => {
@@ -96,15 +133,15 @@ it('renders the unbound presentation when the org is not bound', () => {
 
   // Locked is spelled out in the accessible name, not left to the lock ring alone, and the cards
   // report themselves as unavailable.
-  const repositories = ui.lockedCard('onboarding_dashboard.journey.step.repositories.title').get();
-  const projects = ui.lockedCard('onboarding_dashboard.journey.step.projects.title').get();
+  const repositories = ui.lockedCard(REPOSITORIES_TITLE).get();
+  const projects = ui.lockedCard(PROJECTS_TITLE).get();
   expect(repositories).toHaveAttribute('aria-disabled', 'true');
   expect(projects).toHaveAttribute('aria-disabled', 'true');
 
   // The binding step stays reachable, so its name is untouched.
   expect(ui.binding.get()).toHaveAttribute('aria-disabled', 'false');
-  expect(ui.repositories.query()).not.toBeInTheDocument();
-  expect(ui.projects.query()).not.toBeInTheDocument();
+  expect(ui.repositories().query()).not.toBeInTheDocument();
+  expect(ui.projects().query()).not.toBeInTheDocument();
 });
 
 it('renders bound counts and progress captions when the org is bound', () => {
@@ -129,25 +166,57 @@ it('renders bound counts and progress captions when the org is bound', () => {
   // Both cards swap the lock visual for a donut carrying their own progress, and become selectable.
   expect(ui.donutLabel(40).get()).toBeInTheDocument();
   expect(ui.donutLabel(30).get()).toBeInTheDocument();
-  expect(ui.repositories.get()).toHaveAttribute('aria-disabled', 'false');
-  expect(ui.projects.get()).toHaveAttribute('aria-disabled', 'false');
+  expect(ui.repositories(40).get()).toHaveAttribute('aria-disabled', 'false');
+  expect(ui.projects(30).get()).toHaveAttribute('aria-disabled', 'false');
+});
+
+it('shows the configuration count in the ring on products that hold several configurations', () => {
+  jest.mocked(useOnboardingDevopsConfigurations).mockReturnValue(MULTI_CONFIGURATION_PRODUCT);
+
+  renderStepper({ state: mockState({ configured: 5, isBound: true }) });
+
+  // The count is the whole message, so the "Configured" caption would only repeat it — which makes
+  // the accessible name the only place left to announce it.
+  expect(ui.configuredCount(5).get()).toBeInTheDocument();
+  expect(ui.bindingBound.query()).not.toBeInTheDocument();
+  expect(ui.bindingUnbound.query()).not.toBeInTheDocument();
+  expect(ui.bindingWithCount(5).get()).toBeInTheDocument();
+  expect(ui.binding.query()).not.toBeInTheDocument();
+});
+
+it('names the count from the overview before the breakdown arrives', () => {
+  // An unresolved lookup reports an empty split, never `undefined`, so the card must not flip.
+  jest.mocked(useOnboardingDevopsConfigurations).mockReturnValue({ byPlatform: [] });
+
+  renderStepper({ state: mockState({ configured: 5, isBound: true }) });
+
+  expect(ui.configuredCount(5).get()).toBeInTheDocument();
+  expect(ui.bindingBound.query()).not.toBeInTheDocument();
+});
+
+it('falls back to the unbound caption when such a product has no configuration yet', () => {
+  jest.mocked(useOnboardingDevopsConfigurations).mockReturnValue({ byPlatform: [] });
+
+  renderStepper({ state: mockState({ configured: 0, isBound: false }) });
+
+  expect(ui.bindingUnbound.get()).toBeInTheDocument();
+  expect(ui.configuredCount(0).query()).not.toBeInTheDocument();
 });
 
 it('marks the selected step as pressed', () => {
   renderStepper({ selectedStep: JourneyStep.Repositories, state: mockState({ isBound: true }) });
 
-  expect(ui.repositories.get()).toHaveAttribute('aria-pressed', 'true');
+  expect(ui.repositories().get()).toHaveAttribute('aria-pressed', 'true');
   expect(ui.binding.get()).toHaveAttribute('aria-pressed', 'false');
-  expect(ui.projects.get()).toHaveAttribute('aria-pressed', 'false');
+  expect(ui.projects().get()).toHaveAttribute('aria-pressed', 'false');
 });
 
 it.each([
   [JourneyStep.Binding, () => ui.binding.get()],
-  [JourneyStep.Repositories, () => ui.repositories.get()],
-  [JourneyStep.Projects, () => ui.projects.get()],
+  [JourneyStep.Repositories, () => ui.repositories().get()],
+  [JourneyStep.Projects, () => ui.projects().get()],
 ] as const)('calls onSelectStep with %s when its card is clicked', async (step, getCard) => {
   const onSelectStep = jest.fn();
-  // Bound: every step is unlocked, so all three cards are selectable.
   const { user } = renderStepper({ onSelectStep, state: mockState({ isBound: true }) });
 
   await user.click(getCard());
