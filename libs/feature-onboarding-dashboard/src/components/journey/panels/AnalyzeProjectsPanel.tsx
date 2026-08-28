@@ -33,11 +33,11 @@ import {
 } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
 import { useIntl } from 'react-intl';
+import { ImportRepositoriesCta } from '~adapters/components/onboarding/ImportRepositoriesCta';
 import { OnboardingProjectScanStatus } from '~shared/types/onboarding';
 import { JourneyState } from '../../../types/types';
 import { PanelDonut, PanelDonutSegment } from '../charts/PanelDonut';
 import { ConfigureProjectsModal } from '../modals/ConfigureProjectsModal';
-import { ImportRepositoriesModal } from '../modals/ImportRepositoriesModal';
 
 interface Props {
   state: JourneyState;
@@ -92,11 +92,9 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
     {
       badge: <Badge variety={BadgeVariety.Neutral}>{projectsCount(analyze.notImported)}</Badge>,
       cta: (
-        <ImportRepositoriesModal>
-          <Button>
-            {formatMessage({ id: 'onboarding_dashboard.journey.analyze.not_imported.cta' })}
-          </Button>
-        </ImportRepositoriesModal>
+        <ImportRepositoriesCta>
+          {formatMessage({ id: 'onboarding_dashboard.journey.analyze.not_imported.cta' })}
+        </ImportRepositoriesCta>
       ),
       description: formatMessage({ id: 'onboarding_dashboard.journey.analyze.not_imported.desc' }),
       icon: <IconDot color="echoes-color-icon-disabled" isFilled />,

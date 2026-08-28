@@ -38,6 +38,7 @@ import {
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Switch } from '~adapters/components/common/Switch';
+import { ImportRepositoriesCta } from '~adapters/components/onboarding/ImportRepositoriesCta';
 import { useAutoImportToggle } from '~adapters/helpers/useAutoImportToggle';
 import { JourneyState, JourneyStep } from '../../../types/types';
 import { PanelDonut, PanelDonutSegment } from '../charts/PanelDonut';
@@ -110,9 +111,9 @@ export function ImportRepositoriesPanel({ onSelectStep, state }: Readonly<Props>
         <Divider className="sw-max-w-[650px]" />
 
         <div className="sw-flex sw-gap-2">
-          <Button variety={ButtonVariety.Primary}>
+          <ImportRepositoriesCta variety={ButtonVariety.Primary}>
             {formatMessage({ id: 'onboarding_dashboard.journey.import.cta' })}
-          </Button>
+          </ImportRepositoriesCta>
           <Button
             onClick={() => {
               onSelectStep(JourneyStep.Projects);
@@ -186,7 +187,10 @@ function AutoImportRow() {
     return (
       <Card className="sw-max-w-[650px]">
         <Card.Body>
-          <Spinner isLoading />
+          <Spinner
+            ariaLabel={formatMessage({ id: 'onboarding_dashboard.journey.import.auto_loading' })}
+            isLoading
+          />
         </Card.Body>
       </Card>
     );

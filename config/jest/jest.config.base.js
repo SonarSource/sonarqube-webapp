@@ -114,6 +114,7 @@ const projectConfig = {
     '^~feature-remediation-agent/(.+)': '<rootDir>/private/libs/feature-remediation-agent/src/$1',
     '^~feature-quality-gate-history/(.+)': '<rootDir>/libs/feature-quality-gate-history/src/$1',
     '^~feature-dashboards/(.+)': '<rootDir>/libs/feature-dashboards/src/$1',
+    '^~feature-onboarding-dashboard/(.+)': '<rootDir>/libs/feature-onboarding-dashboard/src/$1',
     '^~feature-architecture/(.+)': '<rootDir>/private/libs/feature-architecture/src/$1',
     '^~feature-jira/(.+)': '<rootDir>/private/libs/feature-jira/src/$1',
     '^~feature-rules/(.+)': '<rootDir>/libs/feature-rules/src/$1',

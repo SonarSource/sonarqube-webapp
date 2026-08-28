@@ -24,6 +24,7 @@ import { FormattedMessage } from 'react-intl';
 import { Dropdown, ItemDivider, ItemLink, PopupPlacement, PopupZLevel } from '~design-system';
 import { getAlmSettings } from '~sq-server-commons/api/alm-settings';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { getBoundAlmKeys } from '~sq-server-commons/helpers/alm-settings';
 import { IMPORT_COMPATIBLE_ALMS } from '~sq-server-commons/helpers/constants';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
@@ -41,14 +42,6 @@ interface State {
   boundAlms: Array<AlmKeys>;
 }
 
-const almSettingsValidators = {
-  [AlmKeys.Azure]: (settings: AlmSettingsInstance) => Boolean(settings.url),
-  [AlmKeys.BitbucketCloud]: (_: AlmSettingsInstance) => true,
-  [AlmKeys.BitbucketServer]: (_: AlmSettingsInstance) => true,
-  [AlmKeys.GitHub]: (_: AlmSettingsInstance) => true,
-  [AlmKeys.GitLab]: (settings: AlmSettingsInstance) => Boolean(settings.url),
-};
-
 export class ProjectCreationMenu extends React.PureComponent<Props, State> {
   mounted = false;
   state: State = { boundAlms: [] };
@@ -63,10 +56,6 @@ export class ProjectCreationMenu extends React.PureComponent<Props, State> {
     this.mounted = false;
   }
 
-  almSettingIsValid = (settings: AlmSettingsInstance) => {
-    return almSettingsValidators[settings.alm](settings);
-  };
-
   fetchAlmBindings = async () => {
     const { currentUser } = this.props;
     const canCreateProject = hasGlobalPermission(currentUser, Permissions.ProjectCreation);
@@ -77,16 +66,7 @@ export class ProjectCreationMenu extends React.PureComponent<Props, State> {
     }
 
     const almSettings: AlmSettingsInstance[] = await getAlmSettings().catch(() => []);
-
-    const boundAlms = IMPORT_COMPATIBLE_ALMS.filter((key) => {
-      const currentAlmSettings = almSettings.filter((s) => s.alm === key);
-
-      return (
-        currentAlmSettings.length > 0 &&
-        key === currentAlmSettings[0].alm &&
-        this.almSettingIsValid(currentAlmSettings[0])
-      );
-    });
+    const boundAlms = getBoundAlmKeys(almSettings);
 
     if (this.mounted) {
       this.setState({

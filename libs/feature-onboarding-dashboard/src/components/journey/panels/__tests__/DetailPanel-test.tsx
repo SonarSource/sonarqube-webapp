@@ -23,6 +23,8 @@ import { useAutoImportToggle } from '~adapters/helpers/useAutoImportToggle';
 import { useBindingSettingsUrl } from '~adapters/helpers/useBindingSettingsUrl';
 import { useCreateDevopsConfigurationUrl } from '~adapters/helpers/useCreateDevopsConfigurationUrl';
 import { useOnboardingCurrentBinding } from '~adapters/helpers/useOnboardingCurrentBinding';
+import { useCurrentUser } from '~adapters/helpers/users';
+import { mockLoggedInUser } from '~shared/helpers/mocks/users';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { JourneyLevel, JourneyState, JourneyStep } from '../../../../types/types';
@@ -68,6 +70,13 @@ jest.mock('~adapters/helpers/useOnboardingCurrentBinding', () => ({
   useOnboardingCurrentBinding: jest.fn(),
 }));
 
+// SQS gates the import CTA on the Create Projects permission; SQC has no such concept and never
+// reads this. Pinned to a permitted user so this shared test isn't exercising that permission
+// check — the SQS adapter has its own test for the unpermitted case.
+jest.mock('~adapters/helpers/users', () => ({
+  useCurrentUser: jest.fn(),
+}));
+
 beforeEach(() => {
   jest.clearAllMocks();
 
@@ -75,6 +84,10 @@ beforeEach(() => {
   jest.mocked(useCreateDevopsConfigurationUrl).mockReturnValue(CREATE_CONFIGURATION_URL);
   jest.mocked(useAutoImportToggle).mockReturnValue(AUTO_IMPORT_OFF);
   jest.mocked(useOnboardingCurrentBinding).mockReturnValue(CURRENT_BINDING);
+  jest.mocked(useCurrentUser).mockReturnValue({
+    currentUser: mockLoggedInUser({ permissions: { global: ['provisioning'] } }),
+    isLoggedIn: true,
+  });
 });
 
 // A fully-bound org with imported + analysed repositories (the "everything unlocked" state).
@@ -147,7 +160,9 @@ const ui = {
   }),
   recommendedBadge: byText('onboarding_dashboard.journey.import.recommended'),
   nextCta: byRole('button', { name: 'next' }),
-  spinner: byRole('status'),
+  // Matched by its own label rather than role or the generic "loading" text: the "status" role
+  // and default spinner text are also used by the unrelated ImportRepositoriesCta loading spinner.
+  spinner: byText('onboarding_dashboard.journey.import.auto_loading'),
 
   // Analyze panel
   notScannedLegend: byText('onboarding_dashboard.journey.analyze.legend.not_scanned'),
@@ -252,11 +267,13 @@ it('hides the view-binding link when the binding settings page cannot be resolve
   expect(ui.viewCta.query()).not.toBeInTheDocument();
 });
 
-it('renders the import panel breakdown before any repository is imported', () => {
+it('renders the import panel breakdown before any repository is imported', async () => {
   renderPanel(JourneyStep.Repositories, boundNoImportState);
 
   expect(ui.toImport.get()).toBeInTheDocument();
-  expect(ui.importCta.get()).toBeInTheDocument();
+  // Awaited: the SQS import CTA fetches its ALM bindings on mount and stays in its own loading
+  // state (covered by ImportRepositoriesCta's own test) until that settles.
+  expect(await ui.importCta.find()).toBeInTheDocument();
 
   // With nothing imported the "Imported" donut segment is omitted; only "Not imported" remains.
   expect(ui.notImportedLegend.get()).toBeInTheDocument();
@@ -269,12 +286,12 @@ it('renders the import panel breakdown before any repository is imported', () =>
   expect(ui.nextCta.get()).toBeInTheDocument();
 });
 
-it('renders the import panel auto-import control once repositories are imported', () => {
+it('renders the import panel auto-import control once repositories are imported', async () => {
   renderPanel(JourneyStep.Repositories, boundState);
 
   expect(ui.autoImportRepoSwitch.get()).toBeInTheDocument();
   expect(ui.recommendedBadge.get()).toBeInTheDocument();
-  expect(ui.importCta.get()).toBeInTheDocument();
+  expect(await ui.importCta.find()).toBeInTheDocument();
   expect(ui.nextCta.get()).toBeInTheDocument();
 
   // Both donut segments are present once something is imported.
@@ -393,7 +410,7 @@ it('renders a link with the repositoryAccessUrl in the auto-import help text', a
   expect(await ui.autoHelpAccessLink.find()).toHaveAttribute('href', accessUrl);
 });
 
-it('renders the analyze panel with its two legend entries and two action rows', () => {
+it('renders the analyze panel with its two legend entries and two action rows', async () => {
   renderPanel(JourneyStep.Projects, boundState);
 
   // Donut legend — the overview reports these two cohorts.
@@ -402,7 +419,7 @@ it('renders the analyze panel with its two legend entries and two action rows', 
 
   // Two action rows, each with its own CTA...
   expect(ui.fixCta.get()).toBeInTheDocument();
-  expect(ui.importRowCta.get()).toBeInTheDocument();
+  expect(await ui.importRowCta.find()).toBeInTheDocument();
 
   // ...and the cohort counts land on the matching row.
   expect(ui.notScannedCount.get()).toBeInTheDocument();
