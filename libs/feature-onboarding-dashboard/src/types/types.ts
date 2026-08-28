@@ -18,12 +18,27 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { To } from 'react-router-dom';
 import {
   OnboardingProjectAnalysisMode,
   OnboardingProjectScanStatus,
   OnboardingProjectsGateStatusFilter,
   OnboardingRepositoriesVisibility,
 } from '~shared/types/onboarding';
+
+/** What activating a row menu entry does. */
+export enum RowActionKind {
+  Button = 'BUTTON',
+  Link = 'LINK',
+}
+
+/**
+ * Where a row menu entry leads: somewhere to navigate to, or something to run. Shared by every row
+ * action list of the dashboard, so their cells can all discriminate on the same {@link RowActionKind}.
+ */
+export type RowActionTarget =
+  | { isExternal?: boolean; kind: RowActionKind.Link; to: To }
+  | { kind: RowActionKind.Button; onClick: VoidFunction };
 
 /** The three onboarding steps, in order, that the dashboard guides users through. */
 export enum JourneyStep {

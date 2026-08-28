@@ -37,7 +37,7 @@ function renderPanel(
 ) {
   switch (selectedStep) {
     case JourneyStep.Binding:
-      return <OrganizationBindingPanel state={state} />;
+      return <OrganizationBindingPanel onSelectStep={onSelectStep} state={state} />;
     case JourneyStep.Repositories:
       return <ImportRepositoriesPanel onSelectStep={onSelectStep} state={state} />;
     case JourneyStep.Projects:

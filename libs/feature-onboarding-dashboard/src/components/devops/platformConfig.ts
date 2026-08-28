@@ -20,6 +20,7 @@
 
 import { cssVar } from '@sonarsource/echoes-react';
 import { AlmIconKey, OnboardingAlm, OnboardingDevopsPlatform } from '~shared/types/onboarding';
+import { ANY_PROJECTS_FILTER, ProjectFilterOption } from '../../types/types';
 
 export interface PlatformConfig {
   /** Brand color applied to the platform name and its progress bar. */
@@ -28,6 +29,11 @@ export interface PlatformConfig {
   imageKey?: AlmIconKey;
   /** Localization key for the display name. */
   labelKey: string;
+  /**
+   * Disambiguating label, where {@link labelKey} is not unique: `alm.bitbucket` and
+   * `alm.bitbucketcloud` both translate to plain "Bitbucket". Defaults to {@link labelKey}.
+   */
+  qualifiedLabelKey?: string;
 }
 
 /**
@@ -45,11 +51,13 @@ export const PLATFORM_CONFIG: Record<OnboardingAlm, PlatformConfig> = {
     color: '#2684FF',
     imageKey: 'bitbucket',
     labelKey: 'alm.bitbucket',
+    qualifiedLabelKey: 'alm.bitbucket.long',
   },
   [OnboardingDevopsPlatform.BitbucketCloud]: {
     color: '#2684FF',
     imageKey: 'bitbucket',
     labelKey: 'alm.bitbucketcloud',
+    qualifiedLabelKey: 'alm.bitbucketcloud.long',
   },
   [OnboardingDevopsPlatform.AzureDevops]: {
     color: '#0078D4',
@@ -62,3 +70,19 @@ export const PLATFORM_CONFIG: Record<OnboardingAlm, PlatformConfig> = {
     labelKey: 'alm.gitlab',
   },
 };
+
+/** Value of the DevOps platform dropdown: one platform, or no constraint at all. */
+export type DevopsPlatformFilterValue = OnboardingAlm | typeof ANY_PROJECTS_FILTER;
+
+// Derived from PLATFORM_CONFIG so the dropdown matches the donut's order and adding a platform
+// needs no second edit. Deliberately the full set, not only the configured platforms: options that
+// appear as data lands are worse than one that reports no match.
+export const DEVOPS_PLATFORM_FILTER_OPTIONS: ReadonlyArray<
+  ProjectFilterOption<DevopsPlatformFilterValue>
+> = [
+  { labelKey: 'onboarding_dashboard.projects.filter.all', value: ANY_PROJECTS_FILTER },
+  ...Object.entries(PLATFORM_CONFIG).map(([platform, { labelKey, qualifiedLabelKey }]) => ({
+    labelKey: qualifiedLabelKey ?? labelKey,
+    value: platform as OnboardingAlm,
+  })),
+];

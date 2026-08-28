@@ -22,6 +22,7 @@ import { FormFieldWidth, Label, Select } from '@sonarsource/echoes-react';
 import { useCallback, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import {
+  OnboardingAlm,
   OnboardingProjectAnalysisMode,
   OnboardingProjectScanStatus,
   OnboardingProjectsGateStatusFilter,
@@ -30,6 +31,7 @@ import {
 import { ANY_PROJECTS_FILTER, ProjectFilterOption } from '../../types/types';
 
 type FilterValue =
+  | OnboardingAlm
   | OnboardingProjectAnalysisMode
   | OnboardingProjectScanStatus
   | OnboardingProjectsGateStatusFilter

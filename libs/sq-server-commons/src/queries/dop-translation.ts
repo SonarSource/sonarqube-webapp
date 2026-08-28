@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { StaleTime } from '~shared/queries/common';
 import {
   createGitHubConfiguration,
@@ -37,20 +37,27 @@ import { useSyncWithGitHubNow } from './identity-provider/github';
 /*
  * Project bindings
  */
-export function useProjectBindingsQuery(
-  data: {
-    dopSettingId?: string;
-    pageIndex?: number;
-    pageSize?: number;
-    repository?: string;
-  },
-  enabled = true,
-) {
-  return useQuery({
-    enabled,
+export interface ProjectBindingsQuery {
+  dopSettingId?: string;
+  pageIndex?: number;
+  pageSize?: number;
+  repository?: string;
+}
+
+/**
+ * Query options for the project bindings of one DevOps platform configuration, extracted so callers
+ * that fan out over several configurations (`useQueries`) share the exact cache entries
+ * {@link useProjectBindingsQuery} populates instead of keying their own.
+ */
+export function projectBindingsQueryOptions(data: ProjectBindingsQuery) {
+  return queryOptions({
     queryKey: ['dop-translation', 'project-bindings', data],
     queryFn: () => getProjectBindings(data),
   });
+}
+
+export function useProjectBindingsQuery(data: ProjectBindingsQuery, enabled = true) {
+  return useQuery({ ...projectBindingsQueryOptions(data), enabled });
 }
 
 /*

@@ -28,6 +28,7 @@ import {
 import { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { OnboardingProject } from '~shared/types/onboarding';
+import { RowActionKind } from '../../types/types';
 import { PROJECT_ROW_ACTION_LABEL_KEYS } from './projectRowActions';
 import { ProjectsTableColumn } from './ProjectsTableCard';
 import { RestoreProjectAccessModal } from './RestoreProjectAccessModal';
@@ -76,7 +77,7 @@ export function ProjectRowActionsCell({ project }: Readonly<Props>) {
         items={items.map((item) => {
           const label = formatMessage({ id: PROJECT_ROW_ACTION_LABEL_KEYS[item.action] });
 
-          return item.kind === 'link' ? (
+          return item.kind === RowActionKind.Link ? (
             <DropdownMenu.ItemLink
               enableOpenInNewTab={item.isExternal}
               hasExternalIcon={item.isExternal}

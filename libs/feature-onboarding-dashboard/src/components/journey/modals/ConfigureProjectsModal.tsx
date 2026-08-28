@@ -25,6 +25,7 @@ import {
   IconLinkExternal,
   LinkStandalone,
   Modal,
+  ModalSize,
   SearchInputWidth,
   Table,
   TableCellJustify,
@@ -135,7 +136,7 @@ export function ConfigureProjectsModal({
       }
       onClose={resetFilters}
       secondaryButton={<Button>{formatMessage({ id: 'close' })}</Button>}
-      size="wide"
+      size={ModalSize.Wide}
       title={title}
     >
       {children}
@@ -152,7 +153,7 @@ function ConfigureProjectRow({ project }: Readonly<{ project: OnboardingProject 
   return (
     <Table.Row>
       <Table.Cell className="sw-justify-start">
-        <RepositoryCell alm={project.alm} name={project.name} path={project.path} />
+        <RepositoryCell alm={project.alm} name={project.name} subtitle={project.path} />
       </Table.Cell>
 
       <Table.CellBadge variety={onboardingBadge.variety}>

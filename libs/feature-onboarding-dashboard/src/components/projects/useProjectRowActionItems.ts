@@ -18,20 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { To } from 'react-router-dom';
 import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
 import { getProjectCiConfigurationUrl } from '~adapters/helpers/onboarding-actions';
 import { isDefined } from '~shared/helpers/types';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { OnboardingProject } from '~shared/types/onboarding';
+import { RowActionKind, RowActionTarget } from '../../types/types';
 import { useRerunAutomaticAnalysisMutation } from './projectRowActionMutations';
 import { getProjectRowActions, ProjectRowAction } from './projectRowActions';
 
-/** What activating a row menu entry does: navigate somewhere, or run something. */
-type ProjectRowActionTarget =
-  { isExternal?: boolean; kind: 'link'; to: To } | { kind: 'button'; onClick: VoidFunction };
-
-export type ProjectRowActionItem = ProjectRowActionTarget & { action: ProjectRowAction };
+export type ProjectRowActionItem = RowActionTarget & { action: ProjectRowAction };
 
 interface Options {
   /** Opens the confirmation modal of the "Restore access" action, which the cell owns. */
@@ -55,28 +51,35 @@ export function useProjectRowActionItems(
 
   const { key: projectKey } = project;
 
-  const itemTargets: Record<ProjectRowAction, () => ProjectRowActionTarget | undefined> = {
+  const itemTargets: Record<ProjectRowAction, () => RowActionTarget | undefined> = {
     [ProjectRowAction.ConfigureCi]: () => ({
-      kind: 'link',
+      kind: RowActionKind.Link,
       to: getProjectCiConfigurationUrl(projectKey),
     }),
 
-    [ProjectRowAction.HowToRunNewScan]: () => ({ isExternal: true, kind: 'link', to: scanDocUrl }),
+    [ProjectRowAction.HowToRunNewScan]: () => ({
+      isExternal: true,
+      kind: RowActionKind.Link,
+      to: scanDocUrl,
+    }),
 
     [ProjectRowAction.RerunAutomaticAnalysis]: () =>
       rerunAutomaticAnalysis === undefined
         ? undefined
         : {
-            kind: 'button',
+            kind: RowActionKind.Button,
             onClick: () => {
               rerunAutomaticAnalysis.mutate(projectKey);
             },
           },
 
-    [ProjectRowAction.RestoreAccess]: () => ({ kind: 'button', onClick: onRestoreAccess }),
+    [ProjectRowAction.RestoreAccess]: () => ({
+      kind: RowActionKind.Button,
+      onClick: onRestoreAccess,
+    }),
 
     [ProjectRowAction.ViewProject]: () => ({
-      kind: 'link',
+      kind: RowActionKind.Link,
       to: getProjectOverviewUrl(projectKey),
     }),
   };

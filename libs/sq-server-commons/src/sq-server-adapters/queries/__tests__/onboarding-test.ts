@@ -18,7 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
+import { createElement, PropsWithChildren } from 'react';
 import { getContextWrapper } from '~adapters/helpers/test-utils';
 import { Visibility } from '~shared/types/component';
 import {
@@ -27,9 +29,13 @@ import {
 } from '~shared/types/onboarding';
 import { mockDopSetting } from '../../../api/mocks/data/dop-translation';
 import { AlmKeys } from '../../../types/alm-settings';
-import { useOnboardingRepositoriesQuery } from '../onboarding';
+import {
+  useOnboardingBoundProjectCountsQuery,
+  useOnboardingRepositoriesQuery,
+} from '../onboarding';
 
 const mockGetDopSettings = jest.fn();
+const mockGetProjectBindings = jest.fn();
 const mockGetGithubRepositories = jest.fn();
 const mockGetGitlabProjects = jest.fn();
 const mockGetBitbucketServerRepositories = jest.fn();
@@ -38,6 +44,7 @@ const mockSearchAzureRepositories = jest.fn();
 
 jest.mock('../../../api/dop-translation', () => ({
   getDopSettings: (...args: unknown[]) => mockGetDopSettings(...args) as unknown,
+  getProjectBindings: (...args: unknown[]) => mockGetProjectBindings(...args) as unknown,
 }));
 
 jest.mock('../../../api/alm-integrations', () => ({
@@ -306,5 +313,84 @@ describe('useOnboardingRepositoriesQuery (SQS adapter)', () => {
         slug: 'az-project',
       });
     });
+  });
+});
+
+describe('useOnboardingBoundProjectCountsQuery (SQS adapter)', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  function renderCounts(dopSettingIds: string[]) {
+    return renderHook(() => useOnboardingBoundProjectCountsQuery(dopSettingIds), {
+      wrapper: getContextWrapper(),
+    });
+  }
+
+  it('reports one count per configuration, keyed by its id', async () => {
+    mockGetProjectBindings.mockImplementation(({ dopSettingId }: { dopSettingId: string }) =>
+      Promise.resolve({
+        page: { pageIndex: 1, pageSize: 1, total: dopSettingId === 'gh' ? 12 : 3 },
+      }),
+    );
+
+    const { result } = renderCounts(['gh', 'gl']);
+
+    await waitFor(() => {
+      expect(result.current.data).toEqual({ gh: 12, gl: 3 });
+    });
+
+    // Only the count is wanted, so a single-item page is asked for rather than every binding.
+    expect(mockGetProjectBindings).toHaveBeenCalledWith({
+      dopSettingId: 'gh',
+      pageIndex: 1,
+      pageSize: 1,
+    });
+  });
+
+  it('leaves out a configuration whose count could not be fetched', async () => {
+    mockGetProjectBindings.mockImplementation(({ dopSettingId }: { dopSettingId: string }) =>
+      dopSettingId === 'gh'
+        ? Promise.resolve({ page: { pageIndex: 1, pageSize: 1, total: 12 } })
+        : Promise.reject(new Error('configuration is unreachable')),
+    );
+
+    const { result } = renderCounts(['gh', 'broken']);
+
+    // The healthy configuration still reports its count: a failing neighbour must neither take the
+    // whole column down nor be reported as zero.
+    await waitFor(() => {
+      expect(result.current.data).toEqual({ gh: 12 });
+    });
+  });
+
+  it('asks for nothing when the page holds no configuration', () => {
+    const { result } = renderCounts([]);
+
+    expect(result.current).toEqual({ data: {}, isPending: false });
+    expect(mockGetProjectBindings).not.toHaveBeenCalled();
+  });
+
+  it('reuses a cached count instead of refetching when the page is shown again', async () => {
+    mockGetProjectBindings.mockResolvedValue({ page: { pageIndex: 1, pageSize: 1, total: 12 } });
+
+    // A shared client, unlike `getContextWrapper`'s per-mount one: the modal only asks for the ids of
+    // the current page, so turning the page and coming back remounts these observers against the same
+    // cache. Without a stale time — neither query client sets a default — that would refetch every
+    // row on every page turn.
+    const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+    const wrapper = ({ children }: PropsWithChildren) =>
+      createElement(QueryClientProvider, { client: queryClient }, children);
+
+    const first = renderHook(() => useOnboardingBoundProjectCountsQuery(['gh']), { wrapper });
+    await waitFor(() => {
+      expect(first.result.current.data).toEqual({ gh: 12 });
+    });
+    first.unmount();
+
+    const second = renderHook(() => useOnboardingBoundProjectCountsQuery(['gh']), { wrapper });
+
+    expect(second.result.current.data).toEqual({ gh: 12 });
+    expect(mockGetProjectBindings).toHaveBeenCalledTimes(1);
   });
 });

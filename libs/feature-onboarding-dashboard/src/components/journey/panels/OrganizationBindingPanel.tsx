@@ -31,15 +31,16 @@ import { useBindingSettingsUrl } from '~adapters/helpers/useBindingSettingsUrl';
 import { useCreateDevopsConfigurationUrl } from '~adapters/helpers/useCreateDevopsConfigurationUrl';
 import { useOnboardingCurrentBinding } from '~adapters/helpers/useOnboardingCurrentBinding';
 import { useOnboardingDevopsConfigurations } from '~adapters/helpers/useOnboardingDevopsConfigurations';
-import { JourneyState } from '../../../types/types';
+import { JourneyState, JourneyStep } from '../../../types/types';
 import { DevopsConfigurationsDonut } from './DevopsConfigurationsDonut';
 
 interface Props {
+  onSelectStep: (step: JourneyStep) => void;
   state: JourneyState;
 }
 
 // What this shows is driven by which adapters have something to answer, never by the product.
-export function OrganizationBindingPanel({ state }: Readonly<Props>) {
+export function OrganizationBindingPanel({ onSelectStep, state }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const bindingSettingsUrl = useBindingSettingsUrl();
   const createConfigurationUrl = useCreateDevopsConfigurationUrl();
@@ -63,7 +64,11 @@ export function OrganizationBindingPanel({ state }: Readonly<Props>) {
   return (
     <div className="sw-flex sw-items-start sw-gap-8">
       {byPlatform !== undefined && byPlatform.length > 0 && (
-        <DevopsConfigurationsDonut byPlatform={byPlatform} configured={state.configured} />
+        <DevopsConfigurationsDonut
+          byPlatform={byPlatform}
+          configured={state.configured}
+          onSelectStep={onSelectStep}
+        />
       )}
 
       <div className="sw-flex sw-min-w-0 sw-flex-1 sw-flex-col sw-gap-4">

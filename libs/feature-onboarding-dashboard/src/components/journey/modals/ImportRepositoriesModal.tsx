@@ -18,7 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Badge, BadgeVariety, Button, Modal, Table, Text } from '@sonarsource/echoes-react';
+import {
+  Badge,
+  BadgeVariety,
+  Button,
+  Modal,
+  ModalSize,
+  Table,
+  Text,
+} from '@sonarsource/echoes-react';
 import { PropsWithChildren } from 'react';
 import { useIntl } from 'react-intl';
 import { OnboardingRepository } from '~shared/types/onboarding';
@@ -56,7 +64,7 @@ export function ImportRepositoriesModal({ children }: Readonly<PropsWithChildren
         />
       }
       primaryButton={<Button>{formatMessage({ id: 'close' })}</Button>}
-      size="wide"
+      size={ModalSize.Wide}
       title={title}
     >
       {children}
@@ -71,7 +79,7 @@ function RepositoryRow({ repository }: Readonly<{ repository: OnboardingReposito
   return (
     <Table.Row>
       <Table.Cell className="sw-justify-start">
-        <RepositoryCell alm={alm} name={name} path={slug} />
+        <RepositoryCell alm={alm} name={name} subtitle={slug} />
       </Table.Cell>
       <Table.Cell>
         <Text>

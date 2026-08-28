@@ -30,6 +30,7 @@ import {
   OnboardingProjectScanHealth,
   OnboardingProjectScanStatus,
 } from '~shared/types/onboarding';
+import { RowActionKind } from '../../../types/types';
 import { useRerunAutomaticAnalysisMutation } from '../projectRowActionMutations';
 import { ProjectRowAction } from '../projectRowActions';
 import { ProjectRowActionItem, useProjectRowActionItems } from '../useProjectRowActionItems';
@@ -97,7 +98,7 @@ function renderProjectRowActionItems(project = AUTOSCANNED_PROJECT): ProjectRowA
 function activate(items: ProjectRowActionItem[], action: ProjectRowAction) {
   const item = items.find((candidate) => candidate.action === action);
 
-  if (item?.kind !== 'button') {
+  if (item?.kind !== RowActionKind.Button) {
     throw new Error(`The menu offers no button entry for ${action}`);
   }
 

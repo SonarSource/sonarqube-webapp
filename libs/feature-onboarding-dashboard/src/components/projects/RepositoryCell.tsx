@@ -29,11 +29,12 @@ import { PLATFORM_CONFIG } from '../devops/platformConfig';
 interface Props {
   alm: OnboardingAlm | null;
   name: string;
-  path?: string;
+  /** Secondary line under the name — a repository path, or the platform the entry belongs to. */
+  subtitle?: string;
   projectKey?: string | null;
 }
 
-export function RepositoryCell({ alm, name, path, projectKey }: Readonly<Props>) {
+export function RepositoryCell({ alm, name, projectKey, subtitle }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const platformConfig = alm ? PLATFORM_CONFIG[alm] : undefined;
   const iconSrc = useAlmIconSrc(platformConfig?.imageKey);
@@ -52,9 +53,9 @@ export function RepositoryCell({ alm, name, path, projectKey }: Readonly<Props>)
         ) : (
           <Text isHighlighted>{name}</Text>
         )}
-        {path !== undefined && (
+        {subtitle !== undefined && (
           <Text className="sw-truncate" isSubtle size={TextSize.Small}>
-            {path}
+            {subtitle}
           </Text>
         )}
       </div>

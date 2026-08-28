@@ -288,6 +288,13 @@ export interface OnboardingDopSetting {
   key: string;
   /** The ALM platform type, used to derive the subtitle and icon. */
   type: OnboardingAlm;
+
+  /**
+   * The platform's **API** base URL, e.g. `https://api.github.com` or `https://ghe.acme.com/api/v3`.
+   * Not a page a user can open — deriving a web URL from it is the adapter's job. Absent on
+   * platforms that carry no URL at all (Bitbucket Cloud, which is identified by a workspace).
+   */
+  url?: string;
 }
 
 /**
@@ -296,6 +303,17 @@ export interface OnboardingDopSetting {
  * diverging from the SQ-Server hook's full `UseQueryResult` shape.
  */
 export type OnboardingDopSettingsQueryData = OnboardingDopSetting[] | null;
+
+/**
+ * How many projects are bound to each DevOps platform configuration, keyed by
+ * {@link OnboardingDopSetting.id}. Returned by the `useOnboardingBoundProjectCountsQuery` adapter
+ * hook.
+ *
+ * A configuration whose count could not be resolved — still in flight, or its request failed — is
+ * absent from the map rather than present with a zero, so a lookup failure can never be shown as
+ * "no projects".
+ */
+export type OnboardingBoundProjectCounts = Record<string, number>;
 
 /**
  * Discovered repository as displayed in the "Import repositories" table. A subset of what

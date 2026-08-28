@@ -93,6 +93,20 @@ jest.mock('~adapters/helpers/users', () => ({
   useCurrentUser: jest.fn(),
 }));
 
+// The "View details" modal reads product-specific configurations and bound-project counts; this
+// panel test only asserts that the link opens it.
+jest.mock('~adapters/queries/onboarding', () => ({
+  useOnboardingBoundProjectCountsQuery: jest.fn().mockReturnValue({ data: {}, isPending: false }),
+  useOnboardingDopSettingsQuery: jest.fn().mockReturnValue({ data: [], isPending: false }),
+}));
+
+// Where a configuration's actions lead is product-specific, so the row menu is pinned to stubs here.
+jest.mock('~adapters/helpers/onboarding-actions', () => ({
+  getDevopsPlatformWebUrl: jest.fn().mockReturnValue(undefined),
+  getImportRepositoriesUrl: jest.fn().mockReturnValue(undefined),
+  getProjectCiConfigurationUrl: jest.fn().mockReturnValue({ pathname: '/tutorials' }),
+}));
+
 beforeEach(() => {
   jest.clearAllMocks();
 
@@ -162,6 +176,9 @@ const ui = {
   boundDevopsOrgName: byText('acme-devops'),
   configuredLabel: byText('onboarding_dashboard.journey.binding.configured_label'),
   viewDetails: byRole('button', { name: 'onboarding_dashboard.journey.binding.view_details' }),
+  configurationsModal: byRole('dialog', {
+    name: 'onboarding_dashboard.journey.binding.modal.title',
+  }),
   githubLegend: byText('alm.github'),
   gitlabLegend: byText('alm.gitlab'),
   azureLegend: byText('alm.azure'),
@@ -289,13 +306,24 @@ it('renders the configuration breakdown on products that hold several configurat
   // Platforms with no configuration are left out of the ring and the legend entirely.
   expect(ui.azureLegend.query()).not.toBeInTheDocument();
 
-  // The details modal lands in a follow-up, so the link cannot navigate yet.
+  // The breakdown is only a summary, so the details live behind a modal rather than a destination.
   expect(ui.viewDetails.get()).not.toHaveAttribute('href');
 
   // No single binding to describe, so neither the row nor "View binding" is offered.
   expect(ui.bindCta.get()).toBeInTheDocument();
   expect(ui.currentBinding.query()).not.toBeInTheDocument();
   expect(ui.viewCta.query()).not.toBeInTheDocument();
+});
+
+it('opens the configuration details from the breakdown', async () => {
+  const user = userEvent.setup();
+  jest.mocked(useOnboardingDevopsConfigurations).mockReturnValue(MULTI_CONFIGURATION_PRODUCT);
+
+  renderPanel(JourneyStep.Binding, stateWith({ configured: 5 }));
+
+  await user.click(ui.viewDetails.get());
+
+  expect(await ui.configurationsModal.find()).toBeInTheDocument();
 });
 
 it.each([

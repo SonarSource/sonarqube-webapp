@@ -119,7 +119,7 @@ function ProjectRow({ project }: Readonly<ProjectsTableRowProps>) {
   return (
     <Table.Row>
       <Table.Cell className="sw-justify-start">
-        <RepositoryCell alm={alm} name={name} path={path} projectKey={key} />
+        <RepositoryCell alm={alm} name={name} projectKey={key} subtitle={path} />
       </Table.Cell>
 
       <Table.Cell>

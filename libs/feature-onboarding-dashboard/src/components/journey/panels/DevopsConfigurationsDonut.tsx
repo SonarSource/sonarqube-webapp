@@ -21,19 +21,27 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { OnboardingAlm, OnboardingDevopsPlatformConfigurations } from '~shared/types/onboarding';
+import { JourneyStep } from '../../../types/types';
 import { PLATFORM_CONFIG } from '../../devops/platformConfig';
 import { PanelDonut, PanelDonutSegment } from '../charts/PanelDonut';
+import { DevopsConfigurationsModal } from '../modals/DevopsConfigurationsModal';
 
 interface Props {
   /** Per-platform counts. Expected non-empty. */
   byPlatform: OnboardingDevopsPlatformConfigurations[];
   /** Total number of configurations, from the overview response. */
   configured: number;
+  /** Lets the details modal hand the user on to another step of the journey. */
+  onSelectStep: (step: JourneyStep) => void;
 }
 
 // Segments follow PLATFORM_CONFIG's declaration order, not the response order, so the ring and
 // legend stay stable across reloads. Platforms with no configuration are left out.
-export function DevopsConfigurationsDonut({ byPlatform, configured }: Readonly<Props>) {
+export function DevopsConfigurationsDonut({
+  byPlatform,
+  configured,
+  onSelectStep,
+}: Readonly<Props>) {
   const { formatMessage } = useIntl();
 
   const countsByPlatform = new Map(byPlatform.map(({ count, platform }) => [platform, count]));
@@ -56,10 +64,11 @@ export function DevopsConfigurationsDonut({ byPlatform, configured }: Readonly<P
       })}
       segments={segments}
       viewAll={
-        // The details modal lands in a follow-up, so the link has nothing to open yet.
-        <Button variety={ButtonVariety.PrimaryGhost}>
-          {formatMessage({ id: 'onboarding_dashboard.journey.binding.view_details' })}
-        </Button>
+        <DevopsConfigurationsModal onSelectStep={onSelectStep}>
+          <Button variety={ButtonVariety.PrimaryGhost}>
+            {formatMessage({ id: 'onboarding_dashboard.journey.binding.view_details' })}
+          </Button>
+        </DevopsConfigurationsModal>
       }
     />
   );

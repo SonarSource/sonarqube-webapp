@@ -11016,6 +11016,16 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.binding.view_details': 'View details',
   'onboarding_dashboard.journey.binding.current': 'Current binding:',
   'onboarding_dashboard.journey.binding.view_cta': 'View configuration',
+  'onboarding_dashboard.journey.binding.modal.title': 'Configured DevOps platforms',
+  'onboarding_dashboard.journey.binding.modal.search': 'Search DevOps name...',
+  'onboarding_dashboard.journey.binding.modal.platform_filter.label': 'DevOps',
+  'onboarding_dashboard.journey.binding.modal.loading': 'Loading DevOps platform configurations...',
+  'onboarding_dashboard.journey.binding.modal.col.name': 'Name',
+  'onboarding_dashboard.journey.binding.modal.col.imported': 'Imported projects',
+  'onboarding_dashboard.journey.binding.modal.action.import_repositories':
+    'Import missing repositories',
+  'onboarding_dashboard.journey.binding.modal.action.analyze_projects': 'Analyze projects',
+  'onboarding_dashboard.journey.binding.modal.action.view_on_platform': 'View on {platform}',
   'onboarding_dashboard.journey.import.title': 'Import repositories',
   'onboarding_dashboard.journey.import.description':
     "Import all your repositories to unlock central visibility into your team's code health and block vulnerabilities before they hit production.",

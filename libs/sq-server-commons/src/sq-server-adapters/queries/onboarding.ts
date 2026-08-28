@@ -18,10 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { keepPreviousData, useMutation, UseMutationResult, useQuery } from '@tanstack/react-query';
+import {
+  keepPreviousData,
+  useMutation,
+  UseMutationResult,
+  useQueries,
+  useQuery,
+} from '@tanstack/react-query';
 import { StaleTime } from '~shared/queries/common';
 import {
   OnboardingAlm,
+  OnboardingBoundProjectCounts,
   OnboardingDevopsPlatform,
   OnboardingDopSettingsQueryData,
   OnboardingRepositoriesQuery,
@@ -36,6 +43,7 @@ import {
 } from '../../api/alm-integrations';
 import { getDopSettings } from '../../api/dop-translation';
 import { grantPermissionToUser } from '../../api/permissions';
+import { projectBindingsQueryOptions } from '../../queries/dop-translation';
 import { AlmKeys } from '../../types/alm-settings';
 import { DopSetting } from '../../types/dop-translation';
 
@@ -95,7 +103,36 @@ export function useOnboardingDopSettingsQuery() {
         id: s.id,
         key: s.key,
         type: ALM_KEYS_TO_ONBOARDING_ALM[s.type],
+        url: s.url,
       })),
+  });
+}
+
+/**
+ * Projects bound to each given DevOps platform configuration, keyed by configuration id.
+ *
+ * One request per configuration rather than an aggregate: each gets its own cache entry, and a
+ * failed lookup drops out of the map instead of taking the whole column down. Only the count is
+ * wanted, hence `pageSize: 1`.
+ *
+ * Callers pass the ids they are about to render, so the fan-out stays bounded by the page size.
+ * Paging away therefore remounts these observers — hence the explicit stale time, set here rather
+ * than on the shared options so the creation flow keeps reading a repository's bindings live.
+ */
+export function useOnboardingBoundProjectCountsQuery(dopSettingIds: readonly string[]) {
+  return useQueries({
+    queries: dopSettingIds.map((dopSettingId) => ({
+      ...projectBindingsQueryOptions({ dopSettingId, pageIndex: 1, pageSize: 1 }),
+      staleTime: StaleTime.LONG,
+    })),
+    combine: (results) => ({
+      data: Object.fromEntries(
+        results.flatMap((result, index) =>
+          result.data === undefined ? [] : [[dopSettingIds[index], result.data.page.total]],
+        ),
+      ) as OnboardingBoundProjectCounts,
+      isPending: results.some((result) => result.isPending),
+    }),
   });
 }
 
