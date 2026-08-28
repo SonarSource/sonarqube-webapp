@@ -18,21 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
+import { useCallback, useRef, useState } from 'react';
+import { deleteConfiguration, validateAlmSettings } from '~sq-server-commons/api/alm-settings';
 import {
-  createAzureConfiguration,
-  createBitbucketCloudConfiguration,
-  createBitbucketServerConfiguration,
-  createGithubConfiguration,
-  createGitlabConfiguration,
-  deleteConfiguration,
-  updateAzureConfiguration,
-  updateBitbucketCloudConfiguration,
-  updateBitbucketServerConfiguration,
-  updateGithubConfiguration,
-  updateGitlabConfiguration,
-  validateAlmSettings,
-} from '~sq-server-commons/api/alm-settings';
+  useCreateAzureConfigurationMutation,
+  useCreateBitbucketCloudConfigurationMutation,
+  useCreateBitbucketServerConfigurationMutation,
+  useCreateGithubConfigurationMutation,
+  useCreateGitlabConfigurationMutation,
+  useUpdateAzureConfigurationMutation,
+  useUpdateBitbucketCloudConfigurationMutation,
+  useUpdateBitbucketServerConfigurationMutation,
+  useUpdateGithubConfigurationMutation,
+  useUpdateGitlabConfigurationMutation,
+} from '~sq-server-commons/queries/alm-settings';
 import {
   AlmBindingDefinition,
   AlmBindingDefinitionBase,
@@ -55,32 +54,17 @@ export interface AlmBindingDefinitionFormProps {
   onCancel: () => void;
 }
 
-interface State {
-  alreadySavedFormData?: AlmBindingDefinition;
-  bitbucketVariant?: AlmKeys.BitbucketServer | AlmKeys.BitbucketCloud;
-  formData: AlmBindingDefinition;
-  submitting: boolean;
-  touched: boolean;
-  validationError?: string;
-}
-
 const BINDING_PER_ALM: {
   [key in AlmKeys]: {
-    createApi: (def: AlmBindingDefinition) => Promise<void>;
     defaultBinding: AlmBindingDefinition;
     optionalFields: Record<string, boolean>;
-    updateApi: (def: AlmBindingDefinition) => Promise<void>;
   };
 } = {
   [AlmKeys.Azure]: {
-    createApi: createAzureConfiguration,
-    updateApi: updateAzureConfiguration,
     defaultBinding: { key: '', personalAccessToken: '', url: '' } as AzureBindingDefinition,
     optionalFields: {},
   },
   [AlmKeys.GitHub]: {
-    createApi: createGithubConfiguration,
-    updateApi: updateGithubConfiguration,
     defaultBinding: {
       key: '',
       appId: '',
@@ -93,14 +77,10 @@ const BINDING_PER_ALM: {
     optionalFields: { webhookSecret: true },
   },
   [AlmKeys.GitLab]: {
-    createApi: createGitlabConfiguration,
-    updateApi: updateGitlabConfiguration,
     defaultBinding: { key: '', personalAccessToken: '', url: '' } as GitlabBindingDefinition,
     optionalFields: {},
   },
   [AlmKeys.BitbucketServer]: {
-    createApi: createBitbucketServerConfiguration,
-    updateApi: updateBitbucketServerConfiguration,
     defaultBinding: {
       key: '',
       url: '',
@@ -109,8 +89,6 @@ const BINDING_PER_ALM: {
     optionalFields: {},
   },
   [AlmKeys.BitbucketCloud]: {
-    createApi: createBitbucketCloudConfiguration,
-    updateApi: updateBitbucketCloudConfiguration,
     defaultBinding: {
       key: '',
       clientId: '',
@@ -121,172 +99,159 @@ const BINDING_PER_ALM: {
   },
 };
 
-export default class AlmBindingDefinitionForm extends React.PureComponent<
-  AlmBindingDefinitionFormProps,
-  State
-> {
-  mounted = false;
-  errorListElement = React.createRef<HTMLDivElement>();
+export function AlmBindingDefinitionForm(props: Readonly<AlmBindingDefinitionFormProps>) {
+  const { alm, bindingDefinition, enforceValidation, afterSubmit, onCancel } = props;
 
-  constructor(props: AlmBindingDefinitionFormProps) {
-    super(props);
-
-    let bitbucketVariant: AlmKeys.BitbucketServer | AlmKeys.BitbucketCloud | undefined = undefined;
-
-    if (props.bindingDefinition && props.alm === AlmKeys.BitbucketServer) {
-      bitbucketVariant = isBitbucketCloudBindingDefinition(props.bindingDefinition)
+  const [bitbucketVariant, setBitbucketVariant] = useState<
+    AlmKeys.BitbucketServer | AlmKeys.BitbucketCloud | undefined
+  >(() => {
+    if (bindingDefinition && alm === AlmKeys.BitbucketServer) {
+      return isBitbucketCloudBindingDefinition(bindingDefinition)
         ? AlmKeys.BitbucketCloud
         : AlmKeys.BitbucketServer;
     }
+    return undefined;
+  });
 
-    const alm = bitbucketVariant || props.alm;
+  const [formData, setFormData] = useState<AlmBindingDefinition>(
+    () => bindingDefinition ?? BINDING_PER_ALM[bitbucketVariant ?? alm].defaultBinding,
+  );
+  const [touched, setTouched] = useState(false);
+  const [alreadySavedFormData, setAlreadySavedFormData] = useState<AlmBindingDefinition>();
+  const [validationError, setValidationError] = useState<string>();
+  const [validating, setValidating] = useState(false);
+  const errorListElement = useRef<HTMLDivElement>(null);
 
-    this.state = {
-      formData: props.bindingDefinition ?? BINDING_PER_ALM[alm].defaultBinding,
-      touched: false,
-      submitting: false,
-      bitbucketVariant,
-    };
-  }
-
-  componentDidMount() {
-    this.mounted = true;
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  handleFieldChange = (fieldId: string, value: string) => {
-    this.setState(({ formData }) => ({
-      formData: {
-        ...formData,
-        [fieldId]: value,
-      },
-      touched: true,
-    }));
+  const mutationsByAlm = {
+    [AlmKeys.Azure]: {
+      createMutation: useCreateAzureConfigurationMutation(),
+      updateMutation: useUpdateAzureConfigurationMutation(),
+    },
+    [AlmKeys.GitHub]: {
+      createMutation: useCreateGithubConfigurationMutation(),
+      updateMutation: useUpdateGithubConfigurationMutation(),
+    },
+    [AlmKeys.GitLab]: {
+      createMutation: useCreateGitlabConfigurationMutation(),
+      updateMutation: useUpdateGitlabConfigurationMutation(),
+    },
+    [AlmKeys.BitbucketServer]: {
+      createMutation: useCreateBitbucketServerConfigurationMutation(),
+      updateMutation: useUpdateBitbucketServerConfigurationMutation(),
+    },
+    [AlmKeys.BitbucketCloud]: {
+      createMutation: useCreateBitbucketCloudConfigurationMutation(),
+      updateMutation: useUpdateBitbucketCloudConfigurationMutation(),
+    },
   };
 
-  handleFormSubmit = async () => {
-    const { alm, enforceValidation } = this.props;
-    const { formData, bitbucketVariant, alreadySavedFormData, validationError } = this.state;
-    const apiAlm = bitbucketVariant ?? alm;
+  // apiAlm is only known at runtime, so TS widens createMutation/updateMutation's payload to the
+  // union of every ALM's shape; the `as never` casts below tell it to trust the runtime dispatch.
+  const apiAlm = bitbucketVariant ?? alm;
+  const { createMutation, updateMutation } = mutationsByAlm[apiAlm];
+  const submitting = createMutation.isPending || updateMutation.isPending || validating;
 
-    let apiMethod;
+  const handleFieldChange = useCallback((fieldId: string, value: string) => {
+    setFormData((current) => ({ ...current, [fieldId]: value }));
+    setTouched(true);
+  }, []);
 
-    if (alreadySavedFormData && validationError) {
-      apiMethod = BINDING_PER_ALM[apiAlm].updateApi({
-        newKey: formData.key,
-        ...formData,
-        key: alreadySavedFormData.key,
-      } as any);
-    } else if (this.props.bindingDefinition?.key) {
-      apiMethod = BINDING_PER_ALM[apiAlm].updateApi({
-        newKey: formData.key,
-        ...formData,
-        key: this.props.bindingDefinition.key,
-      } as any);
-    } else {
-      apiMethod = BINDING_PER_ALM[apiAlm].createApi({ ...formData } as any);
-    }
-
-    this.setState({ submitting: true });
-
+  const handleFormSubmit = useCallback(async () => {
     try {
-      await apiMethod;
-
-      if (!this.mounted) {
-        return;
+      if (alreadySavedFormData && validationError) {
+        await updateMutation.mutateAsync({
+          newKey: formData.key,
+          ...formData,
+          key: alreadySavedFormData.key,
+        } as never);
+      } else if (bindingDefinition?.key) {
+        await updateMutation.mutateAsync({
+          newKey: formData.key,
+          ...formData,
+          key: bindingDefinition.key,
+        } as never);
+      } else {
+        await createMutation.mutateAsync({ ...formData } as never);
       }
 
-      this.setState({ alreadySavedFormData: formData });
+      setAlreadySavedFormData(formData);
 
       let error: string | undefined;
 
       if (enforceValidation) {
-        error = await validateAlmSettings(formData.key);
-      }
-
-      if (!this.mounted) {
-        return;
+        setValidating(true);
+        try {
+          error = await validateAlmSettings(formData.key);
+        } finally {
+          setValidating(false);
+        }
       }
 
       if (error) {
-        this.setState({ validationError: error });
-        if (this.errorListElement?.current) {
-          this.errorListElement.current.scrollIntoView({ block: 'start' });
-        }
+        setValidationError(error);
+        errorListElement.current?.scrollIntoView({ block: 'start' });
       } else {
-        this.props.afterSubmit(formData);
+        afterSubmit(formData);
       }
     } finally {
-      if (this.mounted) {
-        this.setState({ submitting: false, touched: false });
-      }
+      setTouched(false);
     }
-  };
+  }, [
+    alreadySavedFormData,
+    validationError,
+    bindingDefinition,
+    formData,
+    enforceValidation,
+    updateMutation,
+    createMutation,
+    afterSubmit,
+  ]);
 
-  handleOnCancel = async () => {
-    const { alreadySavedFormData } = this.state;
-
+  const handleOnCancel = useCallback(async () => {
     if (alreadySavedFormData) {
       await deleteConfiguration(alreadySavedFormData.key);
     }
 
-    this.props.onCancel();
-  };
+    onCancel();
+  }, [alreadySavedFormData, onCancel]);
 
-  handleBitbucketVariantChange = (
-    bitbucketVariant: AlmKeys.BitbucketServer | AlmKeys.BitbucketCloud,
-  ) => {
-    this.setState({
-      bitbucketVariant,
-      formData: { ...BINDING_PER_ALM[bitbucketVariant].defaultBinding },
-    });
-  };
+  const handleBitbucketVariantChange = useCallback(
+    (variant: AlmKeys.BitbucketServer | AlmKeys.BitbucketCloud) => {
+      setBitbucketVariant(variant);
+      setFormData({ ...BINDING_PER_ALM[variant].defaultBinding });
+    },
+    [],
+  );
 
-  canSubmit = () => {
-    const { bitbucketVariant, formData, touched } = this.state;
-    const { alm } = this.props;
-    const allRequiredFieldsProvided =
-      touched &&
-      !Object.entries(formData)
-        .filter(([key, _value]) => !BINDING_PER_ALM[alm].optionalFields[key])
-        .some(([_key, value]) => !value);
+  const allRequiredFieldsProvided =
+    touched &&
+    !Object.entries(formData)
+      .filter(([key, _value]) => !BINDING_PER_ALM[alm].optionalFields[key])
+      .some(([_key, value]) => !value);
 
-    if (
-      bitbucketVariant === AlmKeys.BitbucketCloud &&
-      isBitbucketCloudBindingDefinition(formData)
-    ) {
-      return (
-        allRequiredFieldsProvided && BITBUCKET_CLOUD_WORKSPACE_ID_FORMAT.test(formData.workspace)
-      );
-    }
+  const canSubmit =
+    bitbucketVariant === AlmKeys.BitbucketCloud && isBitbucketCloudBindingDefinition(formData)
+      ? allRequiredFieldsProvided && BITBUCKET_CLOUD_WORKSPACE_ID_FORMAT.test(formData.workspace)
+      : allRequiredFieldsProvided;
 
-    return allRequiredFieldsProvided;
-  };
-
-  render() {
-    const { alm, bindingDefinition } = this.props;
-    const { formData, submitting, bitbucketVariant, validationError } = this.state;
-
-    const isUpdate = !!bindingDefinition;
-
-    return (
-      <AlmBindingDefinitionFormRenderer
-        alm={alm}
-        bitbucketVariant={bitbucketVariant}
-        canSubmit={this.canSubmit()}
-        errorListElementRef={this.errorListElement}
-        formData={formData}
-        isUpdate={isUpdate}
-        onBitbucketVariantChange={this.handleBitbucketVariantChange}
-        onCancel={this.handleOnCancel}
-        onFieldChange={this.handleFieldChange}
-        onSubmit={this.handleFormSubmit}
-        submitting={submitting}
-        validationError={validationError}
-      />
-    );
-  }
+  return (
+    <AlmBindingDefinitionFormRenderer
+      alm={alm}
+      bitbucketVariant={bitbucketVariant}
+      canSubmit={canSubmit}
+      errorListElementRef={errorListElement}
+      formData={formData}
+      isUpdate={!!bindingDefinition}
+      onBitbucketVariantChange={handleBitbucketVariantChange}
+      onCancel={() => {
+        void handleOnCancel();
+      }}
+      onFieldChange={handleFieldChange}
+      onSubmit={() => {
+        void handleFormSubmit();
+      }}
+      submitting={submitting}
+      validationError={validationError}
+    />
+  );
 }

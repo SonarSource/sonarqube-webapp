@@ -51,7 +51,6 @@ export interface AlmIntegrationRendererProps {
   onConfirmDelete: (definitionKey: string) => void;
   onDelete: (definitionKey: string) => void;
   onSelectAlmTab: (alm: AlmTabs) => void;
-  onUpdateDefinitions: () => void;
   projectCount?: number;
 }
 
@@ -144,7 +143,6 @@ export default function AlmIntegrationRenderer(props: Readonly<AlmIntegrationRen
         multipleAlmEnabled={multipleAlmEnabled}
         onCheck={props.onCheckConfiguration}
         onDelete={props.onDelete}
-        onUpdateDefinitions={props.onUpdateDefinitions}
       />
       <DeleteModal
         id={definitionKeyForDeletion}

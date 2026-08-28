@@ -21,13 +21,12 @@
 import * as React from 'react';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location } from '~shared/types/router';
-import { getAlmSettingsNoCatch } from '../../api/alm-settings';
 import { getScannableProjects } from '../../api/components';
 import { getValue } from '../../api/settings';
 import { getHostUrl } from '../../helpers/urls';
 import { hasGlobalPermission } from '../../helpers/users';
+import { useAlmSettingsQuery } from '../../queries/alm-settings';
 import { useProjectBindingQuery } from '../../queries/devops-integration';
-import { AlmSettingsInstance } from '../../types/alm-settings';
 import { Permissions } from '../../types/permissions';
 import { SettingsKey } from '../../types/settings';
 import { Component } from '../../types/types';
@@ -47,9 +46,11 @@ function TutorialSelection(props: Readonly<TutorialSelectionProps>) {
   const [currentUserCanScanProject, setCurrentUserCanScanProject] = React.useState(false);
   const [baseUrl, setBaseUrl] = React.useState(getHostUrl());
   const [loading, setLoading] = React.useState(true);
-  const [loadingAlm, setLoadingAlm] = React.useState(false);
-  const [almBinding, setAlmBinding] = React.useState<AlmSettingsInstance | undefined>(undefined);
   const { data: projectBinding } = useProjectBindingQuery(component.key);
+  const { data: almSettings, isLoading: loadingAlm } = useAlmSettingsQuery(component.key, {
+    enabled: projectBinding != null,
+  });
+  const almBinding = almSettings?.find((d) => d.key === projectBinding?.key);
 
   React.useEffect(() => {
     const checkUserPermissions = async () => {
@@ -78,23 +79,6 @@ function TutorialSelection(props: Readonly<TutorialSelectionProps>) {
       })
       .catch(() => {});
   }, [component.key, currentUser]);
-
-  React.useEffect(() => {
-    const fetchAlmBindings = async () => {
-      if (projectBinding != null) {
-        setLoadingAlm(true);
-        const almSettings = await getAlmSettingsNoCatch(component.key).catch(() => undefined);
-        let almBinding;
-        if (almSettings !== undefined) {
-          almBinding = almSettings.find((d) => d.key === projectBinding.key);
-        }
-        setAlmBinding(almBinding);
-        setLoadingAlm(false);
-      }
-    };
-
-    fetchAlmBindings().catch(() => {});
-  }, [component.key, projectBinding]);
 
   const selectedTutorial: TutorialModes | undefined = location.query?.selectedTutorial;
 

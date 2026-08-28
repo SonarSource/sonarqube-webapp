@@ -24,10 +24,13 @@ import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import {
   countBoundProjects,
   deleteConfiguration,
-  getAlmDefinitions,
   validateAlmSettings,
 } from '~sq-server-commons/api/alm-settings';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import {
+  useAlmDefinitionsQuery,
+  useInvalidateAlmDefinitionsQuery,
+} from '~sq-server-commons/queries/alm-settings';
 import {
   AlmBindingDefinitionBase,
   AlmKeys,
@@ -40,6 +43,14 @@ import AlmIntegrationRenderer from './AlmIntegrationRenderer';
 import { useGithubManifestReturn } from './hooks/useGithubManifestReturn';
 
 export type AlmTabs = AlmKeys.Azure | AlmKeys.GitHub | AlmKeys.GitLab | AlmKeys.BitbucketServer;
+
+const DEFAULT_DEFINITIONS: AlmSettingsBindingDefinitions = {
+  [AlmKeys.Azure]: [],
+  [AlmKeys.BitbucketServer]: [],
+  [AlmKeys.BitbucketCloud]: [],
+  [AlmKeys.GitHub]: [],
+  [AlmKeys.GitLab]: [],
+};
 
 function getInitialAlmTab(alm: AlmKeys): AlmTabs {
   return alm === AlmKeys.BitbucketCloud ? AlmKeys.BitbucketServer : alm;
@@ -59,16 +70,12 @@ export default function AlmIntegration() {
   const [definitionStatus, setDefinitionStatus] = useState<
     Record<string, AlmSettingsBindingStatus>
   >({});
-  const [definitions, setDefinitions] = useState<AlmSettingsBindingDefinitions>({
-    [AlmKeys.Azure]: [],
-    [AlmKeys.BitbucketServer]: [],
-    [AlmKeys.BitbucketCloud]: [],
-    [AlmKeys.GitHub]: [],
-    [AlmKeys.GitLab]: [],
-  });
-  const [loadingAlmDefinitions, setLoadingAlmDefinitions] = useState(true);
   const [loadingProjectCount, setLoadingProjectCount] = useState(false);
   const [projectCount, setProjectCount] = useState<number>();
+
+  const { data, isLoading: loadingAlmDefinitions } = useAlmDefinitionsQuery();
+  const definitions = data ?? DEFAULT_DEFINITIONS;
+  const invalidateAlmDefinitions = useInvalidateAlmDefinitionsQuery();
 
   const handleCheck = useCallback((definitionKey: string, alertSuccess = true) => {
     setDefinitionStatus((current) => ({
@@ -98,30 +105,17 @@ export default function AlmIntegration() {
       .catch(noop);
   }, []);
 
-  const fetchPullRequestDecorationSetting = useCallback(async () => {
-    setLoadingAlmDefinitions(true);
-    try {
-      const definitions = await getAlmDefinitions();
-      setDefinitions(definitions);
-      return definitions;
-    } catch {
-      return undefined;
-    } finally {
-      setLoadingAlmDefinitions(false);
-    }
-  }, []);
-
   const handleConfirmDelete = useCallback(
     async (definitionKey: string) => {
       try {
         await deleteConfiguration(definitionKey);
-        await fetchPullRequestDecorationSetting();
+        await invalidateAlmDefinitions();
       } finally {
         setDefinitionKeyForDeletion(undefined);
         setProjectCount(undefined);
       }
     },
-    [fetchPullRequestDecorationSetting],
+    [invalidateAlmDefinitions],
   );
 
   const handleSelectAlm = useCallback(
@@ -169,15 +163,14 @@ export default function AlmIntegration() {
     [handleCheck],
   );
 
+  const hasValidatedInitialDefinitions = useRef(false);
   useEffect(() => {
-    // Validate all alms on load:
-    void fetchPullRequestDecorationSetting().then((definitions) => {
-      if (definitions) {
-        validateAllDefinitions(definitions);
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // Validate all alms once, when they first become available:
+    if (data !== undefined && !hasValidatedInitialDefinitions.current) {
+      hasValidatedInitialDefinitions.current = true;
+      validateAllDefinitions(data);
+    }
+  }, [data, validateAllDefinitions]);
 
   const didMountRef = useRef(false);
   useEffect(() => {
@@ -207,9 +200,6 @@ export default function AlmIntegration() {
         void handleDelete(definitionKey);
       }}
       onSelectAlmTab={handleSelectAlm}
-      onUpdateDefinitions={() => {
-        void fetchPullRequestDecorationSetting();
-      }}
       projectCount={projectCount}
     />
   );

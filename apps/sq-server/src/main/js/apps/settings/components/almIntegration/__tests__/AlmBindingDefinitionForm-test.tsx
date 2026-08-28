@@ -20,10 +20,12 @@
 
 import userEvent from '@testing-library/user-event';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
+import { validateAlmSettings } from '~sq-server-commons/api/alm-settings';
 import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
-import AlmBindingDefinitionForm, {
+import {
+  AlmBindingDefinitionForm,
   AlmBindingDefinitionFormProps,
 } from '../AlmBindingDefinitionForm';
 
@@ -65,6 +67,30 @@ it('enforceValidation enabled', async () => {
 
   await userEvent.click(ui.cancelButton.get());
   expect(onCancel).toHaveBeenCalled();
+});
+
+it('keeps the save button disabled while post-save validation is in flight', async () => {
+  let resolveValidation!: (message: string) => void;
+  jest.mocked(validateAlmSettings).mockImplementationOnce(
+    () =>
+      new Promise((resolve) => {
+        resolveValidation = resolve;
+      }),
+  );
+
+  renderAlmBindingDefinitionForm();
+
+  await userEvent.type(await ui.configurationInput('name.gitlab').find(), 'Name');
+  await userEvent.type(ui.configurationInput('url.gitlab').get(), 'https://api.alm.com');
+  await userEvent.type(ui.configurationInput('personal_access_token').get(), 'Access Token');
+
+  await userEvent.click(ui.saveConfigurationButton.get());
+
+  expect(byRole('button', { name: /settings\.almintegration\.form\.save/ }).get()).toBeDisabled();
+
+  resolveValidation('');
+
+  expect(await ui.saveConfigurationButton.find()).toBeInTheDocument();
 });
 
 function renderAlmBindingDefinitionForm(props: Partial<AlmBindingDefinitionFormProps> = {}) {

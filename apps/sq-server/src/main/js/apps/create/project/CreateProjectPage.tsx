@@ -31,7 +31,7 @@ import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';
 import { DopSetting } from '~sq-server-commons/types/dop-translation';
 import { Feature } from '~sq-server-commons/types/features';
-import AlmBindingDefinitionForm from '../../settings/components/almIntegration/AlmBindingDefinitionForm';
+import { AlmBindingDefinitionForm } from '../../settings/components/almIntegration/AlmBindingDefinitionForm';
 import AzureProjectCreate from './Azure/AzureProjectCreate';
 import BitbucketCloudProjectCreate from './BitbucketCloud/BitbucketCloudProjectCreate';
 import BitbucketProjectCreate from './BitbucketServer/BitbucketProjectCreate';

@@ -37,7 +37,6 @@ interface Props {
   multipleAlmEnabled: boolean;
   onCheck: (definitionKey: string) => void;
   onDelete: (definitionKey: string) => void;
-  onUpdateDefinitions: () => void;
 }
 
 interface State {
@@ -77,8 +76,6 @@ export default class AlmTab extends React.PureComponent<Props, State> {
         editedDefinition: undefined,
       });
     }
-
-    this.props.onUpdateDefinitions();
 
     this.props.onCheck(config.key);
   };

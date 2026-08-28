@@ -31,7 +31,7 @@ import {
   isBitbucketCloudBindingDefinition,
 } from '~sq-server-commons/types/alm-settings';
 import AlmBindingDefinitionBox from './AlmBindingDefinitionBox';
-import AlmBindingDefinitionForm from './AlmBindingDefinitionForm';
+import { AlmBindingDefinitionForm } from './AlmBindingDefinitionForm';
 import { AlmTabs } from './AlmIntegration';
 import CreationTooltip from './CreationTooltip';
 import GithubManifestCreationModal from './GithubManifestCreationModal';

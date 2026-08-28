@@ -25,14 +25,14 @@ import {
   DropdownMenuAlign,
   IconChevronDown,
 } from '@sonarsource/echoes-react';
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { PropsWithChildren } from 'react';
 import { useIntl } from 'react-intl';
 import { queryToSearchString } from '~shared/helpers/query';
-import { getAlmSettingsNoCatch } from '../../../api/alm-settings';
 import { getBoundAlmKeys } from '../../../helpers/alm-settings';
 import { almKeyToIconKey } from '../../../helpers/almIcons';
 import { IMPORT_COMPATIBLE_ALMS } from '../../../helpers/constants';
 import { hasGlobalPermission } from '../../../helpers/users';
+import { useAlmSettingsQuery } from '../../../queries/alm-settings';
 import { AlmKeys } from '../../../types/alm-settings';
 import { Permissions } from '../../../types/permissions';
 import { useAlmIconSrc } from '../../helpers/almIcons';
@@ -47,25 +47,10 @@ export function ImportRepositoriesCta({ children, variety }: Readonly<PropsWithC
   const { formatMessage } = useIntl();
   const { currentUser } = useCurrentUser();
   const canCreateProject = hasGlobalPermission(currentUser, Permissions.ProjectCreation);
-  const [boundAlms, setBoundAlms] = useState<AlmKeys[]>([]);
-  const [loading, setLoading] = useState(canCreateProject);
-
-  useEffect(() => {
-    if (!canCreateProject) {
-      return;
-    }
-
-    setLoading(true);
-
-    getAlmSettingsNoCatch()
-      .then((almSettings) => {
-        setBoundAlms(getBoundAlmKeys(almSettings));
-      })
-      .catch(() => {})
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [canCreateProject]);
+  const { data: boundAlms = [], isLoading: loading } = useAlmSettingsQuery(undefined, {
+    enabled: canCreateProject,
+    select: getBoundAlmKeys,
+  });
 
   if (!canCreateProject) {
     return null;
