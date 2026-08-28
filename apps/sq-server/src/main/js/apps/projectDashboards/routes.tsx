@@ -18,7 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Outlet, Route, generatePath } from 'react-router-dom';
+import { Navigate, Outlet, Route, generatePath, useLocation, useParams } from 'react-router-dom';
+import { useFlags } from '~adapters/helpers/feature-flags';
+import { PROJECT_SUMMARY_BASE_URL } from '~adapters/helpers/urls';
 import NotFound from '~shared/components/NotFound';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { ComponentQualifier } from '~shared/types/component';
@@ -28,6 +30,7 @@ import {
   PROJECT_BUILT_IN_DASHBOARD_ROUTE,
   PROJECT_CUSTOM_DASHBOARD_ROUTE,
   PROJECT_DASHBOARDS_LIST_ROUTE,
+  PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY,
 } from '~sq-server-commons/helpers/project-dashboard-routes';
 import { supportsCustomProjectDashboards } from './permissions';
 
@@ -67,7 +70,20 @@ export function getProjectBuiltInDashboardRoute(dashboardKey: string, projectKey
 }
 
 function ProjectDashboardsGuard() {
+  const { organizationReportingEnableDashboards } = useFlags();
   const { component } = useComponent();
+  const location = useLocation();
+  const { dashboardKey } = useParams();
+
+  if (!organizationReportingEnableDashboards) {
+    return component?.qualifier === ComponentQualifier.Project &&
+      dashboardKey === PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY ? (
+      <Navigate replace to={{ pathname: PROJECT_SUMMARY_BASE_URL, search: location.search }} />
+    ) : (
+      <NotFound />
+    );
+  }
+
   return component?.qualifier === ComponentQualifier.Project ? <Outlet /> : <NotFound />;
 }
 

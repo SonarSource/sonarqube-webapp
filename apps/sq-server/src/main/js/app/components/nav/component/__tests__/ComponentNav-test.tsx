@@ -20,6 +20,7 @@
 
 import { fireEvent, screen } from '@testing-library/react';
 import { ComponentProps } from 'react';
+import { useFlags } from '~adapters/helpers/feature-flags';
 import * as branchQueries from '~adapters/queries/branch';
 import { DASHBOARDS_NEW_BADGE_EXPIRATION_DATE } from '~feature-dashboards/constants';
 import { RecentHistory } from '~shared/helpers/recent-history';
@@ -30,12 +31,14 @@ import { addons } from '~sq-server-addons/index';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
 import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
-import { mockMainBranch } from '~sq-server-commons/helpers/mocks/branch-like';
+import { mockMainBranch, mockPullRequest } from '~sq-server-commons/helpers/mocks/branch-like';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { Feature } from '~sq-server-commons/types/features';
 import { ComponentNav } from '../ComponentNav';
+
+jest.mock('~adapters/helpers/feature-flags');
 
 
 jest.mock('~shared/helpers/recent-history', () => ({
@@ -118,7 +121,7 @@ const ui = {
 
 describe('ComponentNav', () => {
   describe('project navigation', () => {
-    it('renders project dashboards for Community Build projects', () => {
+    it('renders the old Overview and hides project dashboards for Community Build projects', () => {
       renderComponentNav(
         {
           component: mockComponent({
@@ -128,12 +131,44 @@ describe('ComponentNav', () => {
         },
         [],
         EditionKey.community,
+        false,
       );
 
-      expect(ui.allProjectDashboardsLink.get()).toBeInTheDocument();
+      expect(getInteractiveElement(ui.overviewLink.get())).toHaveAttribute(
+        'href',
+        '/dashboard?id=my-project',
+      );
+      expect(ui.summaryLink.query()).not.toBeInTheDocument();
+      expect(ui.allProjectDashboardsLink.query()).not.toBeInTheDocument();
       expect(
-        screen.getByLabelText(`new-badge-${DASHBOARDS_NEW_BADGE_EXPIRATION_DATE}`),
-      ).toBeInTheDocument();
+        screen.queryByLabelText(`new-badge-${DASHBOARDS_NEW_BADGE_EXPIRATION_DATE}`),
+      ).not.toBeInTheDocument();
+    });
+
+    it('keeps the Summary label for pull requests when the feature flag is disabled', () => {
+      const useCurrentBranchQuerySpy = jest.spyOn(branchQueries, 'useCurrentBranchQuery');
+      useCurrentBranchQuerySpy.mockReturnValue({
+        data: mockPullRequest(),
+      } as ReturnType<typeof branchQueries.useCurrentBranchQuery>);
+
+      try {
+        renderComponentNav(
+          {
+            component: mockComponent({
+              analysisDate: '2024-01-01',
+              qualifier: ComponentQualifier.Project,
+            }),
+          },
+          [],
+          EditionKey.developer,
+          false,
+        );
+
+        expect(ui.summaryLink.get()).toBeInTheDocument();
+        expect(ui.overviewLink.query()).not.toBeInTheDocument();
+      } finally {
+        useCurrentBranchQuerySpy.mockRestore();
+      }
     });
 
     it('should render onboarding link when project is not analyzed', () => {
@@ -141,7 +176,7 @@ describe('ComponentNav', () => {
         analysisDate: undefined,
       });
 
-      renderComponentNav({ component });
+      renderComponentNav({ component }, [], EditionKey.community, false);
 
       expect(ui.navigationItemsList()).toEqual([
         'onboarding.project_analysis.menu_entry',
@@ -494,7 +529,11 @@ function renderComponentNav(
   props: ComponentProps<typeof ComponentNav>,
   features: Feature[] = [],
   edition = EditionKey.community,
+  projectDashboardsEnabled = true,
 ) {
+  jest.mocked(useFlags).mockReturnValue({
+    organizationReportingEnableDashboards: projectDashboardsEnabled,
+  } as ReturnType<typeof useFlags>);
   const { component, isInProgress = false, isPending = false } = props;
 
   measuresHandler.setComponents({ component, ancestors: [], children: [] });

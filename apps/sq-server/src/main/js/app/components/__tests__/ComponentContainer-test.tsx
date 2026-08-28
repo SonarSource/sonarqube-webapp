@@ -102,7 +102,7 @@ const ui = {
   projectText: byText('project'),
   portfolioTitle: byText('component name'),
   portfolioText: byText(/portfolio/i),
-  summaryPageLink: byText('summary.page'),
+  overviewPageLink: byText('overview.page'),
   issuesPageLink: byText('issues.page'),
   hotspotsPageLink: byText('layout.security_hotspots'),
   measuresPageLink: byText('layout.measures'),
@@ -177,7 +177,7 @@ it('should render the component nav correctly for projects', async () => {
 
   renderComponentContainerAsComponent();
   expect(await ui.projectTitle.find()).toBeInTheDocument();
-  expect(getInteractiveElement(ui.summaryPageLink.get())).toHaveAttribute(
+  expect(getInteractiveElement(ui.overviewPageLink.get())).toHaveAttribute(
     'href',
     '/dashboard?id=project-key',
   );

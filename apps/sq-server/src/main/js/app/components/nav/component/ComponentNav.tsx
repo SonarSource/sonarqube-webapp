@@ -22,6 +22,7 @@ import { IconDashboard, IconOverview, IconRocket, Layout } from '@sonarsource/ec
 import { useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
+import { useFlags } from '~adapters/helpers/feature-flags';
 import { useCurrentBranchQuery, useProjectBranchesQuery } from '~adapters/queries/branch';
 import { DASHBOARDS_NEW_BADGE_EXPIRATION_DATE } from '~feature-dashboards/constants';
 import { NewBadge } from '~shared/components/badges/NewBadge';
@@ -63,6 +64,7 @@ interface Props {
 export function ComponentNav(props: Readonly<Props>) {
   const intl = useIntl();
   const location = useLocation();
+  const { organizationReportingEnableDashboards: projectDashboardsEnabled } = useFlags();
   const { component, isInProgress, isPending } = props;
   const { hasFeature } = useAvailableFeatures();
   const { data: branchLikes = [] } = useProjectBranchesQuery(component);
@@ -102,7 +104,7 @@ export function ComponentNav(props: Readonly<Props>) {
       <ComponentNavHeader
         allProjectsUrl={getProjectsUrl()}
         component={component}
-        getItemUrl={getComponentUrl}
+        getItemUrl={(item) => getComponentUrl(item, projectDashboardsEnabled)}
       />
 
       <Layout.SidebarNavigation.Body>
@@ -114,7 +116,7 @@ export function ComponentNav(props: Readonly<Props>) {
             <FormattedMessage id="onboarding.project_analysis.menu_entry" />
           </Layout.SidebarNavigation.Item>
         )}
-        {showProjectNav && (
+        {showProjectNav && projectDashboardsEnabled && (
           <Layout.SidebarNavigation.Item
             Icon={IconOverview}
             isActive={location.pathname === projectOverviewRoute}
@@ -126,7 +128,7 @@ export function ComponentNav(props: Readonly<Props>) {
             <FormattedMessage id="overview.page" />
           </Layout.SidebarNavigation.Item>
         )}
-        {showProjectNav && (
+        {showProjectNav && projectDashboardsEnabled && (
           <Layout.SidebarNavigation.Item
             Icon={IconDashboard}
             isActive={
@@ -178,12 +180,14 @@ export function ComponentNav(props: Readonly<Props>) {
   );
 }
 
-function getComponentUrl(component: History) {
+function getComponentUrl(component: History, projectDashboardsEnabled: boolean) {
   if (isPortfolioLike(component.qualifier)) {
     return getPortfolioUrl(component.key);
   }
   if (isApplication(component.qualifier)) {
     return getProjectQueryUrl(component.key);
   }
-  return getProjectOverviewUrl(component.key);
+  return projectDashboardsEnabled
+    ? getProjectOverviewUrl(component.key)
+    : getProjectQueryUrl(component.key);
 }

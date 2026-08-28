@@ -20,6 +20,7 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import { ReactNode } from 'react';
+import { useFlags } from '~adapters/helpers/feature-flags';
 import { ComponentQualifier } from '~shared/types/component';
 import { getScannableProjects } from '~sq-server-commons/api/components';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
@@ -37,6 +38,8 @@ import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtil
 import { getProjectTutorialLocation } from '~sq-server-commons/helpers/urls';
 import { TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
 import { App } from '../App';
+
+jest.mock('~adapters/helpers/feature-flags');
 
 jest.mock('~sq-server-addons/index', () => ({
   addons: { branches: { PullRequestOverview: () => 'PullRequestOverview' } },
@@ -80,6 +83,9 @@ const handlerBranches = new BranchesServiceMock();
 const handlerCe = new ComputeEngineServiceMock();
 
 beforeEach(() => {
+  jest.mocked(useFlags).mockReturnValue({
+    organizationReportingEnableDashboards: false,
+  } as ReturnType<typeof useFlags>);
   handlerBranches.reset();
   handlerCe.reset();
 });
@@ -90,6 +96,7 @@ it('should render Empty Overview for Application with no analysis', async () => 
   await appLoaded();
 
   expect(await screen.findByText('provisioning.no_analysis.application')).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: 'summary.page' })).toBeInTheDocument();
 });
 
 it('should render Empty Overview on main branch with no analysis', async () => {
@@ -100,6 +107,17 @@ it('should render Empty Overview on main branch with no analysis', async () => {
   expect(
     await screen.findByText('provisioning.no_analysis_on_main_branch.main'),
   ).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: 'overview.page' })).toBeInTheDocument();
+});
+
+it('should call the old Overview Summary when dashboards are enabled', async () => {
+  jest.mocked(useFlags).mockReturnValue({
+    organizationReportingEnableDashboards: true,
+  } as ReturnType<typeof useFlags>);
+
+  renderApp({}, mockCurrentUser());
+
+  await appLoaded();
   expect(screen.getByRole('heading', { name: 'summary.page' })).toBeInTheDocument();
 });
 
@@ -263,6 +281,7 @@ describe('Add-ons', () => {
     await waitFor(() => {
       expect(screen.getByText('PullRequestOverview')).toBeInTheDocument();
     });
+    expect(document.title).toBe('summary.page');
   });
 
   it('should not display the PullRequestOverview component when not available', async () => {

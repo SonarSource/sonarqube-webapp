@@ -20,11 +20,13 @@
 
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
+import { useFlags } from '~adapters/helpers/feature-flags';
 import { useCurrentBranchQuery, useProjectBranchesQuery } from '~adapters/queries/branch';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isPullRequest } from '~shared/helpers/branch-like';
 import { isPortfolioLike } from '~shared/helpers/component';
 import { isDefined, isStringDefined } from '~shared/helpers/types';
+import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
@@ -41,6 +43,7 @@ interface AppProps {
 
 export function App(props: Readonly<AppProps>) {
   const { formatMessage } = useIntl();
+  const { organizationReportingEnableDashboards } = useFlags();
   const { hasFeature } = useAvailableFeatures();
   const { component } = props;
   const { data: branchLike } = useCurrentBranchQuery(component);
@@ -57,10 +60,18 @@ export function App(props: Readonly<AppProps>) {
   const branchSupportEnabled = hasFeature(Feature.BranchSupport) && isDefined(addons.branches);
 
   const PullRequestOverview = addons.branches?.PullRequestOverview || (() => undefined);
+  const pageTitle = formatMessage({
+    id:
+      organizationReportingEnableDashboards ||
+      component.qualifier !== ComponentQualifier.Project ||
+      isPullRequest(branchLike)
+        ? 'summary.page'
+        : 'overview.page',
+  });
 
   return (
     <>
-      <Helmet defer={false} title={formatMessage({ id: 'summary.page' })} />
+      <Helmet defer={false} title={pageTitle} />
       {isPullRequest(branchLike) ? (
         <>
           <Suggestions suggestionGroup="pull_requests" />
@@ -78,7 +89,7 @@ export function App(props: Readonly<AppProps>) {
               disableBranchSelector={!hasBranches}
               overrideBranchSelectorPath={getProjectQueryUrl(component.key)}
               pageClassName="it__empty-overview"
-              title={formatMessage({ id: 'summary.page' })}
+              title={pageTitle}
             >
               <EmptyOverview branchLike={branchLike} component={component} />
             </ProjectPageTemplate>

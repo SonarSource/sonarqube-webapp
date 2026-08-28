@@ -20,11 +20,13 @@
 
 import { IconIssues, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { useFlags } from '~adapters/helpers/feature-flags';
 import { DeprecatedBadge } from '~shared/components/badges/DeprecatedBadge';
-import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
 import { isApplication } from '~shared/helpers/component';
 import { getRisksUrl } from '~shared/helpers/sca-urls';
 import { getComponentIssuesUrl } from '~shared/helpers/urls';
+import { ComponentQualifier } from '~shared/types/component';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { getProjectQueryUrl } from '~sq-server-commons/helpers/urls';
@@ -39,6 +41,7 @@ interface Props {
 }
 
 export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
+  const { organizationReportingEnableDashboards } = useFlags();
   const { hasFeature } = useAvailableFeatures();
   const { branchLike, component } = props;
 
@@ -48,6 +51,12 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
     isApplication(component.qualifier) && !component.canBrowseAllChildProjects;
 
   const dashboardUrl = getProjectQueryUrl(component.key, branchParameters);
+  const summaryMessageId =
+    component.qualifier === ComponentQualifier.Project &&
+    !organizationReportingEnableDashboards &&
+    !isPullRequest(branchLike)
+      ? 'overview.page'
+      : 'summary.page';
 
   const issuesUrl = getComponentIssuesUrl(component.key, {
     ...branchParameters,
@@ -61,7 +70,7 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
         label={<FormattedMessage id="navigation.project.group.analysis" />}
       >
         <Layout.SidebarNavigation.AccordionItem.Item to={dashboardUrl}>
-          <FormattedMessage id="summary.page" />
+          <FormattedMessage id={summaryMessageId} />
         </Layout.SidebarNavigation.AccordionItem.Item>
       </Layout.SidebarNavigation.AccordionItem>
     );
@@ -73,7 +82,7 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
       label={<FormattedMessage id="navigation.project.group.analysis" />}
     >
       <Layout.SidebarNavigation.AccordionItem.Item to={dashboardUrl}>
-        <FormattedMessage id="summary.page" />
+        <FormattedMessage id={summaryMessageId} />
       </Layout.SidebarNavigation.AccordionItem.Item>
 
       <Layout.SidebarNavigation.AccordionItem.Item to={issuesUrl}>

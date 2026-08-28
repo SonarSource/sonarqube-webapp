@@ -32,6 +32,7 @@ interface SQSFlagSet extends FlagSet {
    * Not a BE /api/features/list entitlement — flip off (or remove) before shipping if needed.
    */
   licenseEnableUsageProductsUi: boolean;
+  organizationReportingEnableDashboards: boolean;
   scaEnableReachabilityFrontend: boolean;
   scaKeyChangesPrView: boolean;
 }
@@ -45,6 +46,7 @@ const defaultFlags: SQSFlagSet = {
   designArchitectureSquadExtensionPack: false,
   designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
   licenseEnableUsageProductsUi: true,
+  organizationReportingEnableDashboards: false,
   scaEnableReachabilityFrontend: false,
   scaKeyChangesPrView: false,
 };
