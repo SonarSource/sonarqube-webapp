@@ -2347,7 +2347,7 @@ export const defaultMessages = {
     'Sonar did not find a direct call from your code into vulnerable code. A dependency may still call this transitively',
   'dependencies.risks.reachable_not_analyzed': 'Not analyzed',
   'dependencies.risks.reachable_not_analyzed.tooltip':
-    'Sonar did not analyze this vulnerability for reachability. This vulnerability is not yet supported for reachability analysis.',
+    'Sonar did not analyze this vulnerability for reachability.',
   'dependencies.risks.empty_state.title':
     'No {branchType, select, pullRequest {new } other {}}open dependency risks were found',
   'dependencies.risks.empty_state.body':

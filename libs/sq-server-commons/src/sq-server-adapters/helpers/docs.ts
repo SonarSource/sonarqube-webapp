@@ -31,6 +31,7 @@ export enum SharedDocLink {
   ArchitectureModelDeclaration = '/design-and-architecture/configuring-the-architecture-analysis/#declaration',
   CIAnalysisSetup = '/analyzing-source-code/ci-integration/overview/',
   DependencyRisks = '/advanced-security/reviewing-and-fixing-dependency-risks/',
+  DependencyRisksReachability = '/advanced-security/reviewing-and-fixing-dependency-risks/#vulnerability-reachability',
   JiraIntegration = '/instance-administration/jira-integration',
   JiraIntegrationProjectBinding = '/project-administration/jira-integration',
   JiraIntegrationTroubleshooting = '/instance-administration/jira-integration#troubleshooting',
