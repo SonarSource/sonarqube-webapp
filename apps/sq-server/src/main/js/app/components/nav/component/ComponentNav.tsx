@@ -49,6 +49,7 @@ import { getProjectBuiltInDashboardRoute } from '../../../../apps/projectDashboa
 import { ComponentNavAnalysisMenu } from './ComponentNavAnalysisMenu';
 import { ComponentNavExtensionsMenu } from './ComponentNavExtensionsMenu';
 import { ComponentNavPoliciesMenu } from './ComponentNavPoliciesMenu';
+import { ComponentNavPortfolioMenu } from './ComponentNavPortfolioMenu';
 import { ComponentNavProjectMenu } from './ComponentNavProjectMenu';
 import { ComponentNavReportingMenu } from './ComponentNavReportingMenu';
 import ComponentNavSettingsMenu from './ComponentNavSettingsMenu';
@@ -71,14 +72,9 @@ export function ComponentNav(props: Readonly<Props>) {
   const hasBranches = branchLikes.length > 1;
   const isPortfolio = isPortfolioLike(component.qualifier);
   const isAnalyzed = hasBranches || isInProgress || isPending || isDefined(component.analysisDate);
-  /**
-   * Portfolios aren't set up via a scanner, so there's no onboarding step for them: they
-   * should never show the "set up analysis" tutorial, and their overview/issues navigation
-   * should always be reachable, even before their first computation.
-   */
+  // Portfolios aren't scanner-based and therefore have no analysis onboarding.
   const showOnboarding = !isPortfolio && !isAnalyzed;
-  const showAnalysisMenu = isAnalyzed || isPortfolio;
-  const showProjectNav = showAnalysisMenu && component.qualifier === ComponentQualifier.Project;
+  const showProjectNav = isAnalyzed && component.qualifier === ComponentQualifier.Project;
   const projectOverviewRoute = getProjectBuiltInDashboardRoute(
     PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY,
   );
@@ -146,7 +142,8 @@ export function ComponentNav(props: Readonly<Props>) {
             <FormattedMessage id="project_dashboards.all.page" />
           </Layout.SidebarNavigation.Item>
         )}
-        {showAnalysisMenu && (
+        {isPortfolio && <ComponentNavPortfolioMenu component={component} isAnalyzed={isAnalyzed} />}
+        {isAnalyzed && !isPortfolio && (
           <ComponentNavAnalysisMenu branchLike={branchLike} component={component} />
         )}
 
@@ -163,19 +160,17 @@ export function ComponentNav(props: Readonly<Props>) {
           <ComponentNavExtensionsMenu branchLike={branchLike} component={component} />
         )}
 
-        {isAnalyzed && !isApplicationChildInaccessible && (
+        {isAnalyzed && !isPortfolio && !isApplicationChildInaccessible && (
           <ComponentNavReportingMenu branchLike={branchLike} component={component} />
         )}
 
-        {!isApplicationChildInaccessible && (
-          <>
-            <ComponentNavPoliciesMenu component={component} />
-            <ComponentNavProjectMenu
-              branchLike={branchLike}
-              component={component}
-              isAnalyzed={isAnalyzed}
-            />
-          </>
+        {!isApplicationChildInaccessible && <ComponentNavPoliciesMenu component={component} />}
+        {!isPortfolio && !isApplicationChildInaccessible && (
+          <ComponentNavProjectMenu
+            branchLike={branchLike}
+            component={component}
+            isAnalyzed={isAnalyzed}
+          />
         )}
         <ComponentNavSettingsMenu branchLike={branchLike} component={component} />
       </Layout.SidebarNavigation.Body>

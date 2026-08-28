@@ -113,6 +113,7 @@ const ui = {
   policiesGroup: byText('navigation.project.group.policies'),
   architectureGroup: byText('navigation.project.group.architecture'),
   enterpriseArchitectureGroup: byText('navigation.project.group.enterprise_architecture'),
+  administrationGroup: byText('layout.settings.VW'),
 };
 
 describe('ComponentNav', () => {
@@ -397,6 +398,21 @@ describe('ComponentNav', () => {
         'project.info.title',
       ]);
       expect(screen.getByText('Custom Extension')).toBeInTheDocument();
+    });
+
+    it('should render third-party extension items for portfolios', () => {
+      const portfolioComponent = mockComponent({
+        qualifier: ComponentQualifier.Portfolio,
+        breadcrumbs: [{ key: 'foo', name: 'Foo', qualifier: ComponentQualifier.Portfolio }],
+        extensions: [{ key: 'custom-extension', name: 'Custom Extension' }],
+      });
+
+      renderComponentNav({ component: portfolioComponent }, [], EditionKey.enterprise);
+
+      expect(getInteractiveElement(byText('Custom Extension').get())).toHaveAttribute(
+        'href',
+        expect.stringContaining('/project/extension/custom-extension'),
+      );
     });
   });
 

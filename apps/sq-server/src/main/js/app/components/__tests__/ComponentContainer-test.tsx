@@ -144,7 +144,6 @@ it('should render the component nav correctly for portfolio', async () => {
     'href',
     '/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=portfolioKey',
   );
-
   expect(getInteractiveElement(ui.measuresPageLink.get())).toHaveAttribute(
     'href',
     '/component_measures?id=portfolioKey',

@@ -18,23 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconDashboard, IconIssues, Layout } from '@sonarsource/echoes-react';
+import { IconIssues, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { To, useLocation } from 'react-router-dom';
-import { DASHBOARDS_NEW_BADGE_EXPIRATION_DATE } from '~feature-dashboards/constants';
 import { DeprecatedBadge } from '~shared/components/badges/DeprecatedBadge';
-import { NewBadge } from '~shared/components/badges/NewBadge';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
-import { isApplication, isPortfolioLike } from '~shared/helpers/component';
+import { isApplication } from '~shared/helpers/component';
 import { getRisksUrl } from '~shared/helpers/sca-urls';
-import { isStringDefined } from '~shared/helpers/types';
 import { getComponentIssuesUrl } from '~shared/helpers/urls';
-import { ComponentQualifier } from '~shared/types/component';
-import { addons } from '~sq-server-addons/index';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
-import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { getCodeUrl, getPortfolioUrl, getProjectQueryUrl } from '~sq-server-commons/helpers/urls';
+import { getProjectQueryUrl } from '~sq-server-commons/helpers/urls';
 import { getComponentSecurityHotspotsUrl } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
@@ -45,63 +38,16 @@ interface Props {
   component: Component;
 }
 
-function isPortfolioDashboardsListNavActive(
-  pathname: string,
-  portfolioDashboardsListRoute: string,
-): boolean {
-  if (pathname === portfolioDashboardsListRoute) {
-    return true;
-  }
-
-  if (!pathname.startsWith(`${portfolioDashboardsListRoute}/`)) {
-    return false;
-  }
-
-  return !isBuiltInPortfolioDashboardNavActive(pathname, portfolioDashboardsListRoute);
-}
-
-function isBuiltInPortfolioDashboardNavActive(
-  pathname: string,
-  portfolioDashboardsListRoute: string,
-): boolean {
-  return pathname.startsWith(`${portfolioDashboardsListRoute}/built-in/`);
-}
-
 export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
-  const location = useLocation();
   const { hasFeature } = useAvailableFeatures();
-  const appState = useAppState();
   const { branchLike, component } = props;
-  const { qualifier } = component;
 
   const branchParameters = getBranchLikeQuery(branchLike);
-  const isPortfolio = isPortfolioLike(qualifier);
-  const portfolioDashboardsListRoute = addons.portfolios?.PortfolioDashboardsListRoute;
-  const portfolioHealthDashboardDefaultKey = addons.portfolios?.PortfolioHealthDashboardDefaultKey;
-  const portfolioHealthDashboardRoute = portfolioHealthDashboardDefaultKey
-    ? addons.portfolios?.getPortfolioHealthDashboardRoute?.(
-        portfolioHealthDashboardDefaultKey,
-        component.key,
-      )
-    : undefined;
 
   const isApplicationChildInaccessible =
     isApplication(component.qualifier) && !component.canBrowseAllChildProjects;
 
-  const isGovernanceEnabled = appState.qualifiers.includes(ComponentQualifier.Portfolio);
-  const showPortfolioGovernanceNav =
-    isPortfolio &&
-    isGovernanceEnabled &&
-    isStringDefined(portfolioDashboardsListRoute) &&
-    isStringDefined(portfolioHealthDashboardRoute);
-
-  const portfolioDashboardSearchParams = new URLSearchParams({ id: component.key }).toString();
-  const portfolioGovernanceEnabled = isPortfolio && isGovernanceEnabled;
-
-  let dashboardUrl: To | null = getProjectQueryUrl(component.key, branchParameters);
-  if (isPortfolio) {
-    dashboardUrl = isGovernanceEnabled ? getPortfolioUrl(component.key) : null;
-  }
+  const dashboardUrl = getProjectQueryUrl(component.key, branchParameters);
 
   const issuesUrl = getComponentIssuesUrl(component.key, {
     ...branchParameters,
@@ -114,88 +60,40 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
         Icon={IconIssues}
         label={<FormattedMessage id="navigation.project.group.analysis" />}
       >
-        {dashboardUrl && (
-          <Layout.SidebarNavigation.AccordionItem.Item to={dashboardUrl}>
-            <FormattedMessage id="summary.page" />
-          </Layout.SidebarNavigation.AccordionItem.Item>
-        )}
+        <Layout.SidebarNavigation.AccordionItem.Item to={dashboardUrl}>
+          <FormattedMessage id="summary.page" />
+        </Layout.SidebarNavigation.AccordionItem.Item>
       </Layout.SidebarNavigation.AccordionItem>
     );
   }
 
   return (
-    <>
-      <Layout.SidebarNavigation.AccordionItem
-        Icon={IconIssues}
-        label={<FormattedMessage id="navigation.project.group.analysis" />}
+    <Layout.SidebarNavigation.AccordionItem
+      Icon={IconIssues}
+      label={<FormattedMessage id="navigation.project.group.analysis" />}
+    >
+      <Layout.SidebarNavigation.AccordionItem.Item to={dashboardUrl}>
+        <FormattedMessage id="summary.page" />
+      </Layout.SidebarNavigation.AccordionItem.Item>
+
+      <Layout.SidebarNavigation.AccordionItem.Item to={issuesUrl}>
+        <FormattedMessage id="issues.page" />
+      </Layout.SidebarNavigation.AccordionItem.Item>
+
+      <Layout.SidebarNavigation.AccordionItem.Item
+        suffix={<DeprecatedBadge />}
+        to={getComponentSecurityHotspotsUrl(component.key, branchLike)}
       >
-        {dashboardUrl && (
-          <Layout.SidebarNavigation.AccordionItem.Item
-            isMatchingFullPath={portfolioGovernanceEnabled}
-            to={dashboardUrl}
-          >
-            <FormattedMessage id={isPortfolio ? 'overview.page' : 'summary.page'} />
-          </Layout.SidebarNavigation.AccordionItem.Item>
-        )}
+        <FormattedMessage id="layout.security_hotspots" />
+      </Layout.SidebarNavigation.AccordionItem.Item>
 
-        {portfolioGovernanceEnabled && (
-          <Layout.SidebarNavigation.AccordionItem.Item to={getCodeUrl(component.key, branchLike)}>
-            <FormattedMessage id="portfolio_breakdown.page" />
-          </Layout.SidebarNavigation.AccordionItem.Item>
-        )}
-
-        <Layout.SidebarNavigation.AccordionItem.Item to={issuesUrl}>
-          <FormattedMessage id="issues.page" />
-        </Layout.SidebarNavigation.AccordionItem.Item>
-
-        {!isPortfolio && (
-          <Layout.SidebarNavigation.AccordionItem.Item
-            suffix={<DeprecatedBadge />}
-            to={getComponentSecurityHotspotsUrl(component.key, branchLike)}
-          >
-            <FormattedMessage id="layout.security_hotspots" />
-          </Layout.SidebarNavigation.AccordionItem.Item>
-        )}
-
-        {hasFeature(Feature.Sca) && (
-          <Layout.SidebarNavigation.AccordionItem.Item
-            to={getRisksUrl({ newParams: { id: component.key, ...branchParameters } })}
-          >
-            <FormattedMessage id="dependencies.risks" />
-          </Layout.SidebarNavigation.AccordionItem.Item>
-        )}
-      </Layout.SidebarNavigation.AccordionItem>
-
-      {showPortfolioGovernanceNav && portfolioHealthDashboardRoute && (
-        <Layout.SidebarNavigation.AccordionItem
-          Icon={IconDashboard}
-          label={<FormattedMessage id="portfolio_dashboards.nav" />}
-          suffix={<NewBadge expirationDate={DASHBOARDS_NEW_BADGE_EXPIRATION_DATE} />}
+      {hasFeature(Feature.Sca) && (
+        <Layout.SidebarNavigation.AccordionItem.Item
+          to={getRisksUrl({ newParams: { id: component.key, ...branchParameters } })}
         >
-          <Layout.SidebarNavigation.AccordionItem.Item
-            isActive={isBuiltInPortfolioDashboardNavActive(
-              location.pathname,
-              portfolioDashboardsListRoute,
-            )}
-            to={portfolioHealthDashboardRoute}
-          >
-            <FormattedMessage id="portfolio_dashboards.health.page" />
-          </Layout.SidebarNavigation.AccordionItem.Item>
-
-          <Layout.SidebarNavigation.AccordionItem.Item
-            isActive={isPortfolioDashboardsListNavActive(
-              location.pathname,
-              portfolioDashboardsListRoute,
-            )}
-            to={{
-              pathname: portfolioDashboardsListRoute,
-              search: portfolioDashboardSearchParams,
-            }}
-          >
-            <FormattedMessage id="portfolio_dashboards.all.page" />
-          </Layout.SidebarNavigation.AccordionItem.Item>
-        </Layout.SidebarNavigation.AccordionItem>
+          <FormattedMessage id="dependencies.risks" />
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
-    </>
+    </Layout.SidebarNavigation.AccordionItem>
   );
 }
