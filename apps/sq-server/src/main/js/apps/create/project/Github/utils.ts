@@ -26,9 +26,10 @@ import { DopSetting } from '~sq-server-commons/types/dop-translation';
 
 export async function redirectToGithub(params: {
   isMonorepoSetup: boolean;
+  redirect?: string;
   selectedDopSetting?: DopSetting;
 }) {
-  const { isMonorepoSetup, selectedDopSetting } = params;
+  const { isMonorepoSetup, redirect, selectedDopSetting } = params;
 
   if (selectedDopSetting?.url === undefined) {
     return;
@@ -46,7 +47,9 @@ export async function redirectToGithub(params: {
       value: encodeURIComponent(
         `${getHostUrl()}/projects/create?mode=${AlmKeys.GitHub}&dopSetting=${
           selectedDopSetting.id
-        }${isMonorepoSetup ? '&mono=true' : ''}`,
+        }${isMonorepoSetup ? '&mono=true' : ''}${
+          redirect ? `&redirect=${encodeURIComponent(redirect)}` : ''
+        }`,
       ),
     },
   ]

@@ -329,9 +329,12 @@ export function getProjectTutorialLocation(
 /**
  * Generate URL for the project creation page
  */
-export function getCreateProjectModeLocation(mode?: string): Partial<Path> {
+export function getCreateProjectModeLocation(
+  mode?: string,
+  extraQuery: Record<string, string | undefined> = {},
+): Partial<Path> {
   return {
-    search: queryToSearchString({ mode }),
+    search: queryToSearchString({ ...extraQuery, mode }),
   };
 }
 
@@ -434,6 +437,10 @@ export function getReturnUrl(location: { hash?: string; query?: { return_to?: st
 export function isRelativeUrl(url?: string): boolean {
   const regex = new RegExp(/^\/[^/\\\s]/);
   return Boolean(url && regex.test(url));
+}
+
+export function getSafeRelativeRedirect(redirect: unknown): string | undefined {
+  return typeof redirect === 'string' && isRelativeUrl(redirect) ? redirect : undefined;
 }
 
 export function convertToTo(link: string | Location) {

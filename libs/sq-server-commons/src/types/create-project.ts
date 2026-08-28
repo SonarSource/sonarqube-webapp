@@ -18,6 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+export const DEFAULT_CREATE_PROJECT_REDIRECT = '/projects';
+
 export enum CreateProjectModes {
   Manual = 'manual',
   AzureDevOps = 'azure',

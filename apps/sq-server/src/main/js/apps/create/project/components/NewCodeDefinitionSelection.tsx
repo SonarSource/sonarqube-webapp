@@ -51,7 +51,10 @@ import {
   useImportProjectProgress,
 } from '~sq-server-commons/queries/import-projects';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
-import { ImportProjectParam } from '~sq-server-commons/types/create-project';
+import {
+  DEFAULT_CREATE_PROJECT_REDIRECT,
+  ImportProjectParam,
+} from '~sq-server-commons/types/create-project';
 import { NewCodeDefinitiondWithCompliance } from '~sq-server-commons/types/new-code-definition';
 
 const listener = (event: BeforeUnloadEvent) => {
@@ -89,15 +92,13 @@ export default function NewCodeDefinitionSelection(props: Props) {
 
   useEffect(() => {
     const redirect = (projectCount: number) => {
-      if (!isMonorepo && projectCount === 1 && data) {
-        if (redirectTo === '/projects') {
-          navigate(getProjectOverviewUrl(data.project.key));
-        } else {
-          onClose();
-        }
+      if (redirectTo !== DEFAULT_CREATE_PROJECT_REDIRECT) {
+        onClose();
+      } else if (!isMonorepo && projectCount === 1 && data) {
+        navigate(getProjectOverviewUrl(data.project.key));
       } else {
         navigate({
-          pathname: '/projects',
+          pathname: DEFAULT_CREATE_PROJECT_REDIRECT,
           search: queryToSearchString({ sort: '-creation_date' }),
         });
       }
@@ -120,7 +121,7 @@ export default function NewCodeDefinitionSelection(props: Props) {
     }
 
     if (projectCount > failedImports) {
-      if (redirectTo === '/projects') {
+      if (redirectTo === DEFAULT_CREATE_PROJECT_REDIRECT) {
         addGlobalSuccessMessage(
           formatMessage(
             {

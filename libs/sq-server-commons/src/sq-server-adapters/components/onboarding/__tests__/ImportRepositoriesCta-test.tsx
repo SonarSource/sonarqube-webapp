@@ -48,17 +48,18 @@ const ui = {
   separator: byRole('separator'),
 };
 
-it('shows an import option for each bound and validated ALM configuration', async () => {
+it('shows an import option for each bound and validated ALM configuration, carrying the onboarding redirect param', async () => {
   almSettings.setAlmSettings([mockAlmSettingsInstance({ key: 'gh', alm: AlmKeys.GitHub })]);
   const user = userEvent.setup();
   renderImportRepositoriesCta({ permissions: { global: [Permissions.ProjectCreation] } });
 
   await user.click(ui.toggle.get());
 
-  expect(await ui.githubItem.find()).toHaveAttribute(
-    'href',
-    expect.stringContaining('/projects/create?mode=github'),
-  );
+  const href = (await ui.githubItem.find()).getAttribute('href');
+
+  expect(href).toContain('/projects/create?');
+  expect(href).toContain('mode=github');
+  expect(href).toContain('redirect=%2Fadmin%2Fonboarding-dashboard');
 });
 
 it('does not render a leading separator when no ALM is bound', async () => {
@@ -68,7 +69,10 @@ it('does not render a leading separator when no ALM is bound', async () => {
 
   await user.click(ui.toggle.get());
 
-  expect(await ui.fallbackItem.find()).toBeInTheDocument();
+  expect(await ui.fallbackItem.find()).toHaveAttribute(
+    'href',
+    expect.stringContaining('redirect=%2Fadmin%2Fonboarding-dashboard'),
+  );
   expect(ui.separator.query()).not.toBeInTheDocument();
 });
 

@@ -426,4 +426,12 @@ describe('#get import devops config URL', () => {
       search: '?mode=github',
     });
   });
+
+  it('should carry over the redirect query param', () => {
+    expect(
+      getCreateProjectModeLocation(AlmKeys.GitHub, { redirect: '/admin/onboarding-dashboard' }),
+    ).toEqual({
+      search: '?redirect=%2Fadmin%2Fonboarding-dashboard&mode=github',
+    });
+  });
 });

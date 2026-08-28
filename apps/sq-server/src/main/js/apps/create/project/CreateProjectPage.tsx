@@ -27,8 +27,13 @@ import { getDopSettings } from '~sq-server-commons/api/dop-translation';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { getSafeRelativeRedirect } from '~sq-server-commons/helpers/urls';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
-import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';
+import {
+  CreateProjectModes,
+  DEFAULT_CREATE_PROJECT_REDIRECT,
+  ImportProjectParam,
+} from '~sq-server-commons/types/create-project';
 import { DopSetting } from '~sq-server-commons/types/dop-translation';
 import { Feature } from '~sq-server-commons/types/features';
 import { AlmBindingDefinitionForm } from '../../settings/components/almIntegration/AlmBindingDefinitionForm';
@@ -67,6 +72,17 @@ const PROJECT_MODE_FOR_ALM_KEY = {
   [AlmKeys.GitLab]: CreateProjectModes.GitLab,
 };
 
+function getRedirectSource(location: Location): string | undefined {
+  return (
+    getSafeRelativeRedirect(location.query.redirect) ??
+    getSafeRelativeRedirect((location.state as { from?: string } | undefined)?.from)
+  );
+}
+
+function getRedirectTo(location: Location): string {
+  return getRedirectSource(location) ?? DEFAULT_CREATE_PROJECT_REDIRECT;
+}
+
 export class CreateProjectPage extends React.PureComponent<CreateProjectPageProps, State> {
   mounted = false;
 
@@ -77,7 +93,7 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
     githubSettings: [],
     gitlabSettings: [],
     loading: true,
-    redirectTo: this.props.location.state?.from || '/projects',
+    redirectTo: getRedirectTo(this.props.location),
   };
 
   componentDidMount() {
@@ -143,7 +159,7 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
     const { router, location } = this.props;
     router.push({
       pathname: location.pathname,
-      query: { mode },
+      query: { ...location.query, mode },
     });
   };
 
@@ -187,6 +203,7 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
       redirectTo,
     } = this.state;
     const branchSupportEnabled = this.props.hasFeature(Feature.BranchSupport);
+    const redirect = getRedirectSource(this.props.location);
 
     switch (mode) {
       case CreateProjectModes.AzureDevOps: {
@@ -258,6 +275,7 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
             almCounts={almCounts}
             loadingBindings={loading}
             onConfigMode={this.handleModeConfig}
+            redirect={redirect}
           />
         );
       }

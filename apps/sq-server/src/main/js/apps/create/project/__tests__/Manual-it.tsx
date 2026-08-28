@@ -244,8 +244,26 @@ it('should navigate back to the Projects page when clicking cancel or close', as
   expect(await ui.projectsPageTitle.find()).toBeInTheDocument();
 });
 
-function renderCreateProject() {
-  renderAppRoutes('projects/create?mode=manual', routes, {
+it('redirects to the redirect query param instead of /projects when closing manual project creation', async () => {
+  const user = userEvent.setup();
+  renderCreateProject('projects/create?mode=manual&redirect=/admin/onboarding-dashboard');
+
+  await user.click(await ui.closeButton.find());
+
+  expect(await byText('/admin/onboarding-dashboard').find()).toBeInTheDocument();
+});
+
+it('ignores an unsafe redirect query param and falls back to /projects', async () => {
+  const user = userEvent.setup();
+  renderCreateProject('projects/create?mode=manual&redirect=//evil.example');
+
+  await user.click(await ui.closeButton.find());
+
+  expect(await ui.projectsPageTitle.find()).toBeInTheDocument();
+});
+
+function renderCreateProject(path = 'projects/create?mode=manual') {
+  renderAppRoutes(path, routes, {
     currentUser: mockCurrentUser({
       permissions: { global: [Permissions.ProjectCreation] },
     }),

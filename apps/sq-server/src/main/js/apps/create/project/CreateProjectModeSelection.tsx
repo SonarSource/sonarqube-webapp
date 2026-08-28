@@ -52,6 +52,7 @@ export interface CreateProjectModeSelectionProps {
   appState: AppState;
   loadingBindings: boolean;
   onConfigMode: (mode: AlmKeys) => void;
+  redirect?: string;
 }
 
 type almList = {
@@ -78,6 +79,7 @@ function renderAlmOption(
     almCounts,
     appState: { canAdmin },
     loadingBindings,
+    redirect,
   } = props;
 
   const count = almCounts[alm];
@@ -103,7 +105,7 @@ function renderAlmOption(
     <GreyCard className="sw-col-span-4 sw-p-4 sw-flex sw-justify-between sw-items-center" key={alm}>
       <div className="sw-items-center sw-flex sw-py-2">
         {!disabled && hasConfig ? (
-          <LinkStandalone iconLeft={icon} to={getCreateProjectModeLocation(mode)}>
+          <LinkStandalone iconLeft={icon} to={getCreateProjectModeLocation(mode, { redirect })}>
             <span className="sw-ml-2">
               <FormattedMessage id={`onboarding.create_project.import_select_method.${alm}`} />
             </span>
@@ -155,6 +157,7 @@ export function CreateProjectModeSelection(props: Readonly<CreateProjectModeSele
   const {
     appState: { canAdmin },
     almCounts,
+    redirect,
   } = props;
 
   const { formatMessage } = useIntl();
@@ -194,7 +197,9 @@ export function CreateProjectModeSelection(props: Readonly<CreateProjectModeSele
       <div className="sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12">
         <GreyCard className="sw-col-span-4 sw-p-4 sw-py-6 sw-flex sw-justify-between sw-items-center">
           <div>
-            <LinkStandalone to={getCreateProjectModeLocation(CreateProjectModes.Manual)}>
+            <LinkStandalone
+              to={getCreateProjectModeLocation(CreateProjectModes.Manual, { redirect })}
+            >
               <FormattedMessage id="onboarding.create_project.import_select_method.manual" />
             </LinkStandalone>
           </div>

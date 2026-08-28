@@ -39,6 +39,8 @@ import { useAlmIconSrc } from '../../helpers/almIcons';
 import { useCurrentUser } from '../../helpers/users';
 import { Image } from '../common/Image';
 
+const ONBOARDING_DASHBOARD_PATH = '/admin/onboarding-dashboard';
+
 interface Props {
   variety?: ButtonVariety;
 }
@@ -67,7 +69,12 @@ export function ImportRepositoriesCta({ children, variety }: Readonly<PropsWithC
           {boundAlms.length < IMPORT_COMPATIBLE_ALMS.length && (
             <>
               {boundAlms.length > 0 && <DropdownMenu.Separator />}
-              <DropdownMenu.ItemLink to={{ pathname: '/projects/create' }}>
+              <DropdownMenu.ItemLink
+                to={{
+                  pathname: '/projects/create',
+                  search: queryToSearchString({ redirect: ONBOARDING_DASHBOARD_PATH }),
+                }}
+              >
                 {formatMessage({
                   id:
                     boundAlms.length === 0
@@ -97,7 +104,10 @@ function AlmDropdownItem({ alm }: Readonly<{ alm: AlmKeys }>) {
 
   return (
     <DropdownMenu.ItemLink
-      to={{ pathname: '/projects/create', search: queryToSearchString({ mode: alm }) }}
+      to={{
+        pathname: '/projects/create',
+        search: queryToSearchString({ mode: alm, redirect: ONBOARDING_DASHBOARD_PATH }),
+      }}
     >
       <Image alt={alm} className="sw-mr-2" src={iconSrc} width={16} />
       {formatMessage({ id: `my_account.add_project.${alm}` })}

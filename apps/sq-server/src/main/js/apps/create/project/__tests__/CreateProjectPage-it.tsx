@@ -20,13 +20,16 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { mockLocation } from '~shared/helpers/mocks/router';
 import AlmIntegrationsServiceMock from '~sq-server-commons/api/mocks/AlmIntegrationsServiceMock';
 import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslationServiceMock';
 import NewCodeDefinitionServiceMock from '~sq-server-commons/api/mocks/NewCodeDefinitionServiceMock';
-import { mockAppState } from '~sq-server-commons/helpers/testMocks';
-import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { mockAppState, mockRouter } from '~sq-server-commons/helpers/testMocks';
+import { renderApp, renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
-import CreateProjectPage from '../CreateProjectPage';
+import CreateProjectPage, {
+  CreateProjectPage as UnwrappedCreateProjectPage,
+} from '../CreateProjectPage';
 
 jest.mock('~sq-server-commons/api/alm-integrations');
 jest.mock('~sq-server-commons/api/alm-settings');
@@ -89,6 +92,22 @@ it('should be able to setup if config is present', async () => {
       name: 'onboarding.create_project.import_select_method.bitbucket',
     }),
   ).toBeInTheDocument();
+});
+
+it('carries location.state.from into the mode-selection redirect links when no redirect query param is present', async () => {
+  renderComponent(
+    <UnwrappedCreateProjectPage
+      hasFeature={() => false}
+      location={mockLocation({ pathname: '/project/create', state: { from: '/some/page' } })}
+      router={mockRouter()}
+    />,
+  );
+
+  expect(
+    await screen.findByRole('link', {
+      name: 'onboarding.create_project.import_select_method.bitbucket',
+    }),
+  ).toHaveAttribute('href', expect.stringContaining('redirect=%2Fsome%2Fpage'));
 });
 
 function renderCreateProject(canAdmin = false) {

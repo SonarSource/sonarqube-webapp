@@ -25,6 +25,7 @@ import {
   getGithubOrganizations,
   getGithubRepositories,
 } from '~sq-server-commons/api/alm-integrations';
+import { getSafeRelativeRedirect } from '~sq-server-commons/helpers/urls';
 import { GithubOrganization, GithubRepository } from '~sq-server-commons/types/alm-integration';
 import { AlmInstanceBase, AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';
@@ -183,7 +184,11 @@ export default function GitHubProjectCreate(props: Readonly<Props>) {
     const code = location.query?.code;
     if (!isAuthenticated) {
       if (code === undefined) {
-        redirectToGithub({ isMonorepoSetup, selectedDopSetting }).catch(() => {
+        redirectToGithub({
+          isMonorepoSetup,
+          redirect: getSafeRelativeRedirect(location.query?.redirect),
+          selectedDopSetting,
+        }).catch(() => {
           setIsInError(true);
         });
       } else {
