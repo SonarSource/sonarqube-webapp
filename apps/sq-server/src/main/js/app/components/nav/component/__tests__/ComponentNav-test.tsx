@@ -286,14 +286,16 @@ describe('ComponentNav', () => {
   });
 
   describe('application navigation', () => {
-    it('does not render project dashboards for applications', () => {
+    it('does not render overview or project dashboards for applications', () => {
       const component = mockComponent({
         qualifier: ComponentQualifier.Application,
+        analysisDate: '2024-01-01',
         canBrowseAllChildProjects: true,
       });
 
       renderComponentNav({ component }, [], EditionKey.enterprise);
 
+      expect(ui.overviewLink.query()).not.toBeInTheDocument();
       expect(ui.allProjectDashboardsLink.query()).not.toBeInTheDocument();
     });
 

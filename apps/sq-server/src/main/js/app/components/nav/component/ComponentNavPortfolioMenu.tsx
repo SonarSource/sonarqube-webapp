@@ -22,6 +22,7 @@ import {
   IconDashboard,
   IconDependency,
   IconIssues,
+  IconOverview,
   IconReports,
   Layout,
 } from '@sonarsource/echoes-react';
@@ -74,40 +75,15 @@ export function ComponentNavPortfolioMenu({ component, isAnalyzed }: Readonly<Pr
 
   return (
     <>
-      <Layout.SidebarNavigation.AccordionItem
-        Icon={IconIssues}
-        label={<FormattedMessage id="navigation.project.group.analysis" />}
-      >
-        {isGovernanceEnabled && (
-          <Layout.SidebarNavigation.AccordionItem.Item
-            isMatchingFullPath
-            to={getPortfolioUrl(component.key)}
-          >
-            <FormattedMessage id="overview.page" />
-          </Layout.SidebarNavigation.AccordionItem.Item>
-        )}
-
-        {isGovernanceEnabled && (
-          <Layout.SidebarNavigation.AccordionItem.Item
-            isMatchingFullPath
-            to={getCodeUrl(component.key)}
-          >
-            <FormattedMessage id="portfolio_breakdown.page" />
-          </Layout.SidebarNavigation.AccordionItem.Item>
-        )}
-
-        <Layout.SidebarNavigation.AccordionItem.Item
-          to={getComponentIssuesUrl(component.key, DEFAULT_ISSUES_QUERY)}
+      {isGovernanceEnabled && (
+        <Layout.SidebarNavigation.Item
+          Icon={IconOverview}
+          isMatchingFullPath
+          to={getPortfolioUrl(component.key)}
         >
-          <FormattedMessage id="issues.page" />
-        </Layout.SidebarNavigation.AccordionItem.Item>
-
-        {isAnalyzed && showRisks && (
-          <Layout.SidebarNavigation.AccordionItem.Item to={getRisksUrl({ newParams: query })}>
-            <FormattedMessage id="dependencies.risks" />
-          </Layout.SidebarNavigation.AccordionItem.Item>
-        )}
-      </Layout.SidebarNavigation.AccordionItem>
+          <FormattedMessage id="overview.page" />
+        </Layout.SidebarNavigation.Item>
+      )}
 
       {showPortfolioDashboards && (
         <Layout.SidebarNavigation.AccordionItem
@@ -139,6 +115,32 @@ export function ComponentNavPortfolioMenu({ component, isAnalyzed }: Readonly<Pr
           </Layout.SidebarNavigation.AccordionItem.Item>
         </Layout.SidebarNavigation.AccordionItem>
       )}
+
+      <Layout.SidebarNavigation.AccordionItem
+        Icon={IconIssues}
+        label={<FormattedMessage id="navigation.project.group.analysis" />}
+      >
+        {isGovernanceEnabled && (
+          <Layout.SidebarNavigation.AccordionItem.Item
+            isMatchingFullPath
+            to={getCodeUrl(component.key)}
+          >
+            <FormattedMessage id="portfolio_breakdown.page" />
+          </Layout.SidebarNavigation.AccordionItem.Item>
+        )}
+
+        <Layout.SidebarNavigation.AccordionItem.Item
+          to={getComponentIssuesUrl(component.key, DEFAULT_ISSUES_QUERY)}
+        >
+          <FormattedMessage id="issues.page" />
+        </Layout.SidebarNavigation.AccordionItem.Item>
+
+        {isAnalyzed && showRisks && (
+          <Layout.SidebarNavigation.AccordionItem.Item to={getRisksUrl({ newParams: query })}>
+            <FormattedMessage id="dependencies.risks" />
+          </Layout.SidebarNavigation.AccordionItem.Item>
+        )}
+      </Layout.SidebarNavigation.AccordionItem>
 
       {isAnalyzed && (
         <Layout.SidebarNavigation.AccordionItem
