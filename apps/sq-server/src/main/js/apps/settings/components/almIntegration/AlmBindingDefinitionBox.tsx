@@ -249,7 +249,7 @@ export default function AlmBindingDefinitionBox(props: Readonly<AlmBindingDefini
                     id="settings.almintegration.github.additional_permission"
                     values={{
                       link: (
-                        <DocumentationLink to={DocLink.AlmGitHubIntegration}>
+                        <DocumentationLink enableOpenInNewTab to={DocLink.AlmGitHubIntegration}>
                           <FormattedMessage id="learn_more" />
                         </DocumentationLink>
                       ),

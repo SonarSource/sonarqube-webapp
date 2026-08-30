@@ -43,7 +43,11 @@ export default function ProjectTokenScopeInfo({ className }: Readonly<ProjectTok
               {translate('onboarding.token.text.user_account')}
             </Link>
           ),
-          doc_link: <Link to={docUrl}>{translate('documentation')}</Link>,
+          doc_link: (
+            <Link enableOpenInNewTab to={docUrl}>
+              <FormattedMessage id="documentation" />
+            </Link>
+          ),
         }}
       />
     </MessageCallout>

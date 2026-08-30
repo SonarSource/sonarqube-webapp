@@ -50,7 +50,11 @@ export default function DotNetFramework(props: Readonly<DotNetProps>) {
             values={{
               code: <InlineSnippet snippet="SonarScanner.MSBuild.exe" />,
               path: <InlineSnippet snippet="%PATH%" />,
-              link: <Link to={docUrl}>{translate('onboarding.analysis.msbuild.docs_link')}</Link>,
+              link: (
+                <Link enableOpenInNewTab to={docUrl}>
+                  <FormattedMessage id="onboarding.analysis.msbuild.docs_link" />
+                </Link>
+              ),
             }}
           />
         </p>

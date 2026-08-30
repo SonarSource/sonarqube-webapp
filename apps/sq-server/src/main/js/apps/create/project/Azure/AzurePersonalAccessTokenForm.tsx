@@ -106,7 +106,7 @@ export default function AzurePersonalAccessTokenForm({
           id="onboarding.create_project.pat_help.instructions.azure"
           values={{
             link: url ? (
-              <Link to={getAzurePatUrl(url)}>
+              <Link enableOpenInNewTab to={getAzurePatUrl(url)}>
                 <FormattedMessage id="onboarding.create_project.pat_help.instructions.link.azure" />
               </Link>
             ) : (

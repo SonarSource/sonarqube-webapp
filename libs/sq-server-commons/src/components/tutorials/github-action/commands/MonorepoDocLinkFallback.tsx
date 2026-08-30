@@ -26,7 +26,11 @@ import DocumentationLink from '../../../common/DocumentationLink';
 export default function MonorepoDocLinkFallback() {
   return (
     <NumberedListItem>
-      <DocumentationLink className="sw-mt-4" to={DocLink.AlmGitHubMonorepoWorkfileExample}>
+      <DocumentationLink
+        className="sw-mt-4"
+        enableOpenInNewTab
+        to={DocLink.AlmGitHubMonorepoWorkfileExample}
+      >
         {translate('onboarding.tutorial.with.github_action.monorepo.see_yaml_instructions')}
       </DocumentationLink>
     </NumberedListItem>

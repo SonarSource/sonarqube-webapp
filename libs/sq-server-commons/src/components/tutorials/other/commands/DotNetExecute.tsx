@@ -57,7 +57,11 @@ export default function DotNetExecute({ commands }: Readonly<DotNetExecuteProps>
         <FormattedMessage
           id="onboarding.analysis.docs"
           values={{
-            link: <Link to={docUrl}>{translate('onboarding.analysis.msbuild.docs_link')}</Link>,
+            link: (
+              <Link enableOpenInNewTab to={docUrl}>
+                <FormattedMessage id="onboarding.analysis.msbuild.docs_link" />
+              </Link>
+            ),
           }}
         />
       </p>

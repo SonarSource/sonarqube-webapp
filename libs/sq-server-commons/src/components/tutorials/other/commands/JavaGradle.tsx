@@ -99,7 +99,11 @@ export default function JavaGradle(props: Readonly<JavaGradleProps>) {
           <FormattedMessage
             id="onboarding.analysis.java.gradle.latest_version"
             values={{
-              link: <Link to={docUrl}>{translate('here')}</Link>,
+              link: (
+                <Link enableOpenInNewTab to={docUrl}>
+                  <FormattedMessage id="here" />
+                </Link>
+              ),
             }}
           />
         </Text>
@@ -110,7 +114,11 @@ export default function JavaGradle(props: Readonly<JavaGradleProps>) {
         <FormattedMessage
           id="onboarding.analysis.docs"
           values={{
-            link: <Link to={docUrl}>{translate('onboarding.analysis.java.gradle.docs_link')}</Link>,
+            link: (
+              <Link enableOpenInNewTab to={docUrl}>
+                <FormattedMessage id="onboarding.analysis.java.gradle.docs_link" />
+              </Link>
+            ),
           }}
         />
       </p>

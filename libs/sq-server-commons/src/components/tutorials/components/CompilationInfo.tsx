@@ -39,7 +39,7 @@ export function CompilationInfo({ className = 'sw-my-2' }: Readonly<CompilationI
             id="onboarding.tutorial.cfamilly.compilation_database_info"
             values={{
               link: (
-                <Link to={docUrl(DocLink.CFamilyCompilationDatabase)}>
+                <Link enableOpenInNewTab to={docUrl(DocLink.CFamilyCompilationDatabase)}>
                   {translate('onboarding.tutorial.cfamilly.compilation_database_info.link')}
                 </Link>
               ),

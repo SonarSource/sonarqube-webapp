@@ -55,7 +55,9 @@ export default function ExecBuildWrapper(props: Readonly<ExecBuildWrapperProps>)
           id="onboarding.analysis.build_wrapper.docs"
           values={{
             link: (
-              <Link to={docUrl}>{translate('onboarding.analysis.build_wrapper.docs_link')}</Link>
+              <Link enableOpenInNewTab to={docUrl}>
+                <FormattedMessage id="onboarding.analysis.build_wrapper.docs_link" />
+              </Link>
             ),
           }}
         />

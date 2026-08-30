@@ -98,7 +98,7 @@ export default function BitbucketServerPersonalAccessTokenForm({
           id="onboarding.create_project.pat_help.instructions.bitbucket_server"
           values={{
             link: url ? (
-              <Link to={`${url.replace(/\/$/, '')}/account`}>
+              <Link enableOpenInNewTab to={`${url.replace(/\/$/, '')}/account`}>
                 <FormattedMessage id="onboarding.create_project.pat_help.instructions.bitbucket_server.link" />
               </Link>
             ) : (

@@ -41,7 +41,7 @@ export default function GithubForm(props: GithubFormProps) {
           id="settings.almintegration.github.info"
           values={{
             link: (
-              <DocumentationLink to={DocLink.AlmGitHubIntegration}>
+              <DocumentationLink enableOpenInNewTab to={DocLink.AlmGitHubIntegration}>
                 <FormattedMessage id="learn_more" />
               </DocumentationLink>
             ),

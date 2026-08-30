@@ -98,7 +98,10 @@ export default function GitlabPersonalAccessTokenForm({
             id="onboarding.create_project.pat_help.instructions.gitlab"
             values={{
               link: (
-                <Link to="https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html">
+                <Link
+                  enableOpenInNewTab
+                  to="https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html"
+                >
                   <FormattedMessage id="onboarding.create_project.pat_help.instructions.gitlab.link" />
                 </Link>
               ),

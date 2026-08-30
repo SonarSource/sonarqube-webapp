@@ -139,7 +139,7 @@ export function AlmBindingDefinitionFormField<B extends AlmBindingDefinitionBase
                   id="settings.almintegration.form.secret.can_encrypt"
                   values={{
                     learn_more: (
-                      <DocumentationLink to={DocLink.InstanceAdminEncryption}>
+                      <DocumentationLink enableOpenInNewTab to={DocLink.InstanceAdminEncryption}>
                         <FormattedMessage id="learn_more" />
                       </DocumentationLink>
                     ),

@@ -54,7 +54,7 @@ export default function BitbucketCloudForm(props: BitbucketCloudFormProps) {
             ),
             permission: <strong>Pull Requests: Read</strong>,
             doc_link: (
-              <DocumentationLink to={DocLink.AlmBitBucketCloudIntegration}>
+              <DocumentationLink enableOpenInNewTab to={DocLink.AlmBitBucketCloudIntegration}>
                 <FormattedMessage id="learn_more" />
               </DocumentationLink>
             ),

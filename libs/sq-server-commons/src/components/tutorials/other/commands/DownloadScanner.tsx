@@ -54,7 +54,9 @@ export default function DownloadScanner(props: Readonly<DownloadScannerProps>) {
               dir: <InlineSnippet snippet="bin" />,
               env_var: <InlineSnippet snippet={os === OSs.Windows ? '%PATH%' : 'PATH'} />,
               link: (
-                <Link to={docUrl}>{translate('onboarding.analysis.sq_scanner.docs_link')}</Link>
+                <Link enableOpenInNewTab to={docUrl}>
+                  <FormattedMessage id="onboarding.analysis.sq_scanner.docs_link" />
+                </Link>
               ),
             }}
           />

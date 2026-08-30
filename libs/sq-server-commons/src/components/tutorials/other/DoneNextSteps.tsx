@@ -77,7 +77,7 @@ function DoneNextSteps({ appState }: Readonly<Props>) {
               </span>
               <ul className="sw-flex sw-flex-col sw-gap-2 sw-mt-2">
                 <li>
-                  <Link to={docUrl(DocLink.BranchAnalysis)}>
+                  <Link enableOpenInNewTab to={docUrl(DocLink.BranchAnalysis)}>
                     {translate(
                       'onboarding.analysis.auto_refresh_after_analysis.check_these_links.branches',
                     )}
@@ -85,7 +85,7 @@ function DoneNextSteps({ appState }: Readonly<Props>) {
                 </li>
 
                 <li>
-                  <Link to={docUrl(DocLink.PullRequestAnalysis)}>
+                  <Link enableOpenInNewTab to={docUrl(DocLink.PullRequestAnalysis)}>
                     {translate(
                       'onboarding.analysis.auto_refresh_after_analysis.check_these_links.pr_analysis',
                     )}
@@ -98,21 +98,24 @@ function DoneNextSteps({ appState }: Readonly<Props>) {
               id="onboarding.analysis.auto_refresh_after_analysis.community.check_these_links"
               values={{
                 edition: (
-                  <Link to="https://www.sonarsource.com/plans-and-pricing/developer/">
+                  <Link
+                    enableOpenInNewTab
+                    to="https://www.sonarsource.com/plans-and-pricing/developer/"
+                  >
                     {translate(
                       'onboarding.analysis.auto_refresh_after_analysis.community.check_these_links.edition',
                     )}
                   </Link>
                 ),
                 branches: (
-                  <Link to={docUrl(DocLink.BranchAnalysis)}>
+                  <Link enableOpenInNewTab to={docUrl(DocLink.BranchAnalysis)}>
                     {translate(
                       'onboarding.analysis.auto_refresh_after_analysis.check_these_links.branches',
                     )}
                   </Link>
                 ),
                 pull_requests: (
-                  <Link to={docUrl(DocLink.PullRequestAnalysis)}>
+                  <Link enableOpenInNewTab to={docUrl(DocLink.PullRequestAnalysis)}>
                     {translate(
                       'onboarding.analysis.auto_refresh_after_analysis.check_these_links.pr_analysis',
                     )}

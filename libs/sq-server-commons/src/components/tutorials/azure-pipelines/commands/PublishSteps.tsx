@@ -68,7 +68,7 @@ function PublishSteps(props: Readonly<PublishStepsProps>) {
               id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.branch_protection"
               values={{
                 link: (
-                  <Link to={docUrl}>
+                  <Link enableOpenInNewTab to={docUrl}>
                     {translate(
                       'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.branch_protection.link',
                     )}

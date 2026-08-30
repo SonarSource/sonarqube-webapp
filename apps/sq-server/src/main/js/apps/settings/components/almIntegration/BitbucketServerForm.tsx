@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { Link } from '~design-system';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -67,7 +67,7 @@ export default function BitbucketServerForm(props: BitbucketServerFormProps) {
             values={{
               pat: (
                 <Link
-                  target="_blank"
+                  enableOpenInNewTab
                   to="https://confluence.atlassian.com/bitbucketserver/personal-access-tokens-939515499.html"
                 >
                   <FormattedMessage id="settings.almintegration.form.personal_access_token.bitbucket.help.url" />
@@ -75,7 +75,7 @@ export default function BitbucketServerForm(props: BitbucketServerFormProps) {
               ),
               permission: <strong>Read</strong>,
               doc_link: (
-                <Link to={toStatic}>
+                <Link enableOpenInNewTab to={toStatic}>
                   <FormattedMessage id="learn_more" />
                 </Link>
               ),

@@ -50,7 +50,7 @@ export default function WebhookStepGithub(props: Readonly<WebhookStepGithubProps
           id="onboarding.tutorial.with.jenkins.webhook.step1.sentence"
           values={{
             link: linkUrl ? (
-              <Link to={linkUrl}>
+              <Link enableOpenInNewTab to={linkUrl}>
                 {translate('onboarding.tutorial.with.jenkins.webhook.github.step1.link')}
               </Link>
             ) : (

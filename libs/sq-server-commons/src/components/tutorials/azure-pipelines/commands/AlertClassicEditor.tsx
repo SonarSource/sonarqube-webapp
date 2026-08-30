@@ -34,7 +34,7 @@ export default function AlertClassicEditor() {
           id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info"
           values={{
             doc_link: (
-              <Link to={docUrl}>
+              <Link enableOpenInNewTab to={docUrl}>
                 {translate('onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info.doc_link')}
               </Link>
             ),

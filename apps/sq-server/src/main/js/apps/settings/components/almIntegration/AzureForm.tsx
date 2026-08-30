@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { Link } from '~design-system';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -74,7 +74,7 @@ export default function AzureForm(props: AzureFormProps) {
             values={{
               pat: (
                 <Link
-                  target="_blank"
+                  enableOpenInNewTab
                   to="https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate"
                 >
                   <FormattedMessage id="settings.almintegration.form.personal_access_token.azure.help.url" />
@@ -82,7 +82,7 @@ export default function AzureForm(props: AzureFormProps) {
               ),
               permission: <strong>{'Code > Read & Write'}</strong>,
               doc_link: (
-                <Link to={toStatic}>
+                <Link enableOpenInNewTab to={toStatic}>
                   <FormattedMessage id="learn_more" />
                 </Link>
               ),

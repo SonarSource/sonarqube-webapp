@@ -59,7 +59,11 @@ export default function JavaMaven(props: Readonly<JavaMavenProps>) {
         <FormattedMessage
           id="onboarding.analysis.docs"
           values={{
-            link: <Link to={docUrl}>{translate('onboarding.analysis.java.maven.docs_link')}</Link>,
+            link: (
+              <Link enableOpenInNewTab to={docUrl}>
+                <FormattedMessage id="onboarding.analysis.java.maven.docs_link" />
+              </Link>
+            ),
           }}
         />
       </p>

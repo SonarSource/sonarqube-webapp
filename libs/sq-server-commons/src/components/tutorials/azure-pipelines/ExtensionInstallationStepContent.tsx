@@ -29,7 +29,10 @@ export default function ExtensionInstallationStepContent() {
         id="onboarding.tutorial.with.azure_pipelines.ExtensionInstallation.sentence"
         values={{
           link: (
-            <Link to="https://marketplace.visualstudio.com/items?itemName=SonarSource.sonarqube">
+            <Link
+              enableOpenInNewTab
+              to="https://marketplace.visualstudio.com/items?itemName=SonarSource.sonarqube"
+            >
               {translate(
                 'onboarding.tutorial.with.azure_pipelines.ExtensionInstallation.sentence.link',
               )}

@@ -64,7 +64,7 @@ export default function PreRequisitesStep(props: Readonly<PreRequisitesStepProps
             id="onboarding.tutorial.with.jenkins.prereqs.step_by_step_guide"
             values={{
               link: (
-                <Link to={docUrl}>
+                <Link enableOpenInNewTab to={docUrl}>
                   {translate('onboarding.tutorial.with.jenkins.prereqs.step_by_step_guide.link')}
                 </Link>
               ),

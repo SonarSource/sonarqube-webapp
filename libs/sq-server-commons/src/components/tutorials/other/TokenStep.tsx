@@ -206,7 +206,9 @@ export default class TokenStep extends React.PureComponent<Props, State> {
     const toggleTipContent = (
       <>
         <div>{translate('onboarding.token.name.help')}</div>
-        <DocumentationLink to={DocLink.AccountTokens}>{translate('learn_more')}</DocumentationLink>
+        <DocumentationLink enableOpenInNewTab to={DocLink.AccountTokens}>
+          <FormattedMessage id="learn_more" />
+        </DocumentationLink>
       </>
     );
     return (
@@ -261,7 +263,9 @@ export default class TokenStep extends React.PureComponent<Props, State> {
     const toggleTipContent = (
       <>
         <div>{translate('onboarding.token.name.help')}</div>
-        <DocumentationLink to={DocLink.AccountTokens}>{translate('learn_more')}</DocumentationLink>
+        <DocumentationLink enableOpenInNewTab to={DocLink.AccountTokens}>
+          <FormattedMessage id="learn_more" />
+        </DocumentationLink>
       </>
     );
 

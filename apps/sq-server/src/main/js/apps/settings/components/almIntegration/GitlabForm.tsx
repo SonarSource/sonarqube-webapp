@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { Link } from '~design-system';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -69,7 +69,7 @@ export default function GitlabForm(props: GitlabFormProps) {
             values={{
               pat: (
                 <Link
-                  target="_blank"
+                  enableOpenInNewTab
                   to="https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html"
                 >
                   <FormattedMessage id="settings.almintegration.form.personal_access_token.gitlab.help.url" />
@@ -78,7 +78,7 @@ export default function GitlabForm(props: GitlabFormProps) {
               permission: <strong>Reporter</strong>,
               scope: <strong>api</strong>,
               doc_link: (
-                <Link to={toStatic}>
+                <Link enableOpenInNewTab to={toStatic}>
                   <FormattedMessage id="learn_more" />
                 </Link>
               ),
