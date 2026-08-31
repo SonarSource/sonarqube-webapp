@@ -76,6 +76,7 @@ export enum DocLink {
   InactiveBranches = '/project-administration/maintaining-project/maintaining-the-branches-of-your-project#manage-inactive-branches',
   InstanceAdminEncryption = '/instance-administration/encrypting-settings/',
   InstanceAdminLicense = '/instance-administration/license-administration/',
+  InstanceAdminLicenseOnlineActivation = '/instance-administration/license-administration/online-license-management#online-activation',
   InstanceAdminLoC = '/server-update-and-maintenance/monitoring/lines-of-code',
   InstanceAdminMarketplace = '/server-update-and-maintenance/update/marketplace',
   InstanceAdminPluginVersionMatrix = '/server-installation/plugins/plugin-version-matrix/',
@@ -139,6 +140,7 @@ export type DocLinkUnion = AgentCentricDocLink | DocLink;
 
 export enum SonarSourceLink {
   AiCodeFixTerms = '/legal/ai-codefix-terms/',
+  PrimaryAgreement = '/legal/primary-agreement/',
   TermsAndConditions = '/legal/sonarqube/terms-and-conditions/',
   AdvancedSecurity = '/products/sonarqube/advanced-security/',
   ContactSales = '/products/sonarqube/contact-sales/',

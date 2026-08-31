@@ -10519,6 +10519,64 @@ export const defaultMessages = {
   'license.products.overage.sales_gated.description':
     'Overage usage is currently disabled for your account. Get in touch with our team to enable overage options.',
   'license.products.overage.sales_gated.title': 'Overage is not active',
+  'license.products.overage.dialog.activate.title': 'Activate overage for {product}',
+  'license.products.overage.dialog.manage.title': 'Manage overage for {product}',
+  // Each of the next four pairs is the design's two copy sets: the plain key for an allowance that
+  // runs to licence expiry, the `.monthly` one for an allowance that resets. Keep them in step.
+  'license.products.overage.dialog.acknowledge.title': 'Activate overage limit for {product}',
+  'license.products.overage.dialog.acknowledge.title.monthly':
+    'Activate monthly overage limit for {product}',
+  'license.products.overage.dialog.acknowledge.summary':
+    'You are activating overage for {product} with a limit of {limit} (≈{cost} plus applicable taxes)',
+  'license.products.overage.dialog.acknowledge.authorization':
+    'By activating overage, you represent that you are authorized to bind your organization to recurring charges up to your selected limit whenever your included allowance is exceeded.',
+  'license.products.overage.dialog.acknowledge.consent':
+    'I accept the Terms and Conditions and authorize billing for up to {limit}.',
+  'license.products.overage.dialog.allow': 'Allow overage usage',
+  'license.products.overage.dialog.allow.description':
+    'Enable extra usage to keep using the product uninterrupted. Overage starts after you reach your plan limit.',
+  'license.products.overage.dialog.activated': 'Activated',
+  'license.products.overage.dialog.activated_toast.title': 'Overage activated for {product}',
+  'license.products.overage.dialog.activated_toast.description':
+    'Overage is successfully activated for {product} with {limit} for {cost}. This allowance does not reset and lasts for your license term. Overage starts after you reach your plan limit.',
+  'license.products.overage.dialog.activated_toast.description.monthly':
+    'Overage is successfully activated for {product} with {limit} for {cost} and will reset every month. Overage starts after you reach your plan limit.',
+  'license.products.overage.dialog.limit.label': 'Set overage limit',
+  'license.products.overage.dialog.limit.label.monthly': 'Set monthly overage limit',
+  'license.products.overage.dialog.limit.help':
+    'Enter a value in the multiples of {step, number}. Maximum limit is {max, number}.',
+  'license.products.overage.dialog.limit.help.no_max':
+    'Enter a value in the multiples of {step, number}.',
+  'license.products.overage.dialog.limit.consumed':
+    "You've used {used} of your {limit} overage limit. Enter a new limit below.",
+  'license.products.overage.dialog.limit.consumed.monthly':
+    "You've used {used} of your {limit} overage limit this month. Enter a new monthly limit below.",
+  'license.products.overage.dialog.error.belowConsumed':
+    'Enter a value greater than your current usage.',
+  'license.products.overage.dialog.error.outOfRange':
+    'Enter a value between {min, number} and {max, number}.',
+  'license.products.overage.dialog.error.outOfRange.no_max':
+    'Enter a value of at least {min, number}.',
+  'license.products.overage.dialog.error.notAMultiple':
+    'The value must be in the multiples of {step, number}.',
+  'license.products.overage.dialog.error.missing': 'Enter an overage limit.',
+  'license.products.overage.dialog.next': 'Next',
+  'license.products.overage.dialog.activate': 'Activate overage',
+  'license.products.overage.dialog.confirm_limit': 'Confirm new limit',
+  'license.products.overage.dialog.deactivate': 'Deactivate overage',
+  'license.products.overage.dialog.deactivate.warning':
+    'Turning off overage will pause {product} as soon as you’ve used your limit, it won’t run again until your limit resets.',
+  'license.products.overage.dialog.deactivate.warning.monthly':
+    'Turning off overage will pause {product} as soon as you’ve used your monthly limit, it won’t run again until your limit resets.',
+  'license.products.overage.dialog.deactivate.billed':
+    'You will still be billed for already-consumed overage.',
+  'license.products.overage.dialog.learn_more': 'Learn more',
+  'license.products.overage.dialog.terms': 'Terms and conditions',
+  // Mirrors what the activation endpoint says when a licence enables overage without the settings
+  // it needs, so an admin who hits the gap here reads the same instruction.
+  'license.products.overage.dialog.unavailable':
+    'The license enables overage but is missing required overage settings. Contact SonarSource support.',
+  'license.products.overage.dialog.contact_support': 'Contact support',
   'license.products.overage.stopped.description':
     'You turned off overage for this feature. Activate it again to avoid service interruptions when reaching your limit.',
   'license.products.overage.stopped.title': 'Overage deactivated',

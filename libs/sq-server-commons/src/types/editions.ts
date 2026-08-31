@@ -118,6 +118,12 @@ export type LicenseV2Features = Array<{
   startDate: string | null;
 }>;
 
+/**
+ * One entry of {@link LicenseV2Features}, which `POST /api/v2/billing/overage` returns for the
+ * feature it changed. Aliased rather than extracted so the array type stays the single definition.
+ */
+export type LicenseV2Feature = LicenseV2Features[number];
+
 export interface LicenseV2 {
   activatedOnline?: boolean;
   disabled: boolean;
