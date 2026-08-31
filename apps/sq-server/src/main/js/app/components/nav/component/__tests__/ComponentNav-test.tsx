@@ -107,6 +107,9 @@ const ui = {
   qualityProfilesLink: byText('project_quality_profiles.page'),
   qualityGateLink: byText('project_quality_gate.page'),
   qualityGateHistoryLink: byText('layout.quality_gate_history'),
+  architectureDiscoveryLink: byText('architecture.page.discovery'),
+  architectureModelLink: byText('architecture.page.model.visual.title'),
+  architectureDeviationsLink: byText('architecture.page.deviations'),
   navigationItemsList: () => byRole('link', { hidden: true }).getAll().map(getNavigationItemText),
 
   // Group labels
