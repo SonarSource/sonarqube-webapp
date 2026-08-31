@@ -33,6 +33,7 @@ import { isDefined } from '~shared/helpers/types';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
+import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import {
   PROJECT_DASHBOARDS_LIST_ROUTE,
@@ -46,6 +47,7 @@ import {
 } from '~sq-server-commons/helpers/urls';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
+import { supportsCustomProjectDashboards } from '../../../../apps/projectDashboards/permissions';
 import { getProjectBuiltInDashboardRoute } from '../../../../apps/projectDashboards/routes';
 import { ComponentNavAnalysisMenu } from './ComponentNavAnalysisMenu';
 import { ComponentNavExtensionsMenu } from './ComponentNavExtensionsMenu';
@@ -66,6 +68,7 @@ export function ComponentNav(props: Readonly<Props>) {
   const location = useLocation();
   const { organizationReportingEnableDashboards: projectDashboardsEnabled } = useFlags();
   const { component, isInProgress, isPending } = props;
+  const { edition } = useAppState();
   const { hasFeature } = useAvailableFeatures();
   const { data: branchLikes = [] } = useProjectBranchesQuery(component);
   const { data: branchLike } = useCurrentBranchQuery(component);
@@ -77,6 +80,7 @@ export function ComponentNav(props: Readonly<Props>) {
   // Portfolios aren't scanner-based and therefore have no analysis onboarding.
   const showOnboarding = !isPortfolio && !isAnalyzed;
   const showProjectNav = isAnalyzed && component.qualifier === ComponentQualifier.Project;
+  const showDashboardsNav = showProjectNav && supportsCustomProjectDashboards(edition);
   const projectOverviewRoute = getProjectBuiltInDashboardRoute(
     PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY,
   );
@@ -128,7 +132,7 @@ export function ComponentNav(props: Readonly<Props>) {
             <FormattedMessage id="overview.page" />
           </Layout.SidebarNavigation.Item>
         )}
-        {showProjectNav && projectDashboardsEnabled && (
+        {showDashboardsNav && (
           <Layout.SidebarNavigation.Item
             Icon={IconDashboard}
             isActive={

@@ -87,16 +87,16 @@ function ProjectDashboardsGuard() {
   return component?.qualifier === ComponentQualifier.Project ? <Outlet /> : <NotFound />;
 }
 
-function ProjectCustomDashboardsGuard() {
+function ProjectDashboardsEditionGuard() {
   const { edition } = useAppState();
   return supportsCustomProjectDashboards(edition) ? <Outlet /> : <NotFound />;
 }
 
 export const componentRoutes = () => (
   <Route element={<ProjectDashboardsGuard />}>
-    <Route element={<ProjectDashboardsListPage />} path={PROJECT_DASHBOARDS_LIST_ROUTE} />
     <Route element={<ProjectBuiltInDashboardPage />} path={PROJECT_BUILT_IN_DASHBOARD_ROUTE} />
-    <Route element={<ProjectCustomDashboardsGuard />}>
+    <Route element={<ProjectDashboardsEditionGuard />}>
+      <Route element={<ProjectDashboardsListPage />} path={PROJECT_DASHBOARDS_LIST_ROUTE} />
       <Route element={<ProjectCustomDashboardPage />} path={PROJECT_CUSTOM_DASHBOARD_ROUTE} />
     </Route>
   </Route>

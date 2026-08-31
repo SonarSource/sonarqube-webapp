@@ -21,5 +21,7 @@
 import { EditionKey } from '~sq-server-commons/types/editions';
 
 export function supportsCustomProjectDashboards(edition?: EditionKey) {
-  return edition !== undefined && edition !== EditionKey.community;
+  return (
+    edition !== undefined && edition !== EditionKey.community && edition !== EditionKey.developer
+  );
 }

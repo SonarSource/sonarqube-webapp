@@ -40,6 +40,7 @@ import DocumentationLink from '~sq-server-commons/components/common/Documentatio
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
+
 import { useUsersByIdsQuery } from '~sq-server-commons/queries/users';
 import { useProjectId } from '~sq-server-commons/sq-server-adapters/helpers/useProjectId';
 import { useCurrentUser } from '~sq-server-commons/sq-server-adapters/helpers/users';
@@ -73,9 +74,7 @@ export function ProjectDashboardsListPage() {
   const query = searchParams.get('q') ?? '';
   const [searchInput, setSearchInput] = useState(query);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setFilter] = useState(
-    supportsCustomDashboards ? DashboardFilter.All : DashboardFilter.BuiltIn,
-  );
+  const [filter, setFilter] = useState(DashboardFilter.All);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const { mutate: createDashboard, isPending: isCreating } = useCreateProjectDashboardMutation();
   const isAllFilter = filter === DashboardFilter.All;
@@ -168,17 +167,15 @@ export function ProjectDashboardsListPage() {
       />
     </Text>
   );
+  const metadataMessageId =
+    component?.visibility === Visibility.Public
+      ? 'project_dashboards.page.public_project_message'
+      : 'project_dashboards.page.private_project_message';
   const metadata = (
     <div className="sw-flex sw-items-center sw-gap-2">
       <IconPeople />
       <Text isSubtle>
-        <FormattedMessage
-          id={
-            component?.visibility === Visibility.Public
-              ? 'project_dashboards.page.public_project_message'
-              : 'project_dashboards.page.private_project_message'
-          }
-        />
+        <FormattedMessage id={metadataMessageId} />
       </Text>
     </div>
   );
@@ -272,7 +269,7 @@ export function ProjectDashboardsListPage() {
         projectId={projectId}
         projectKey={projectKey}
       />
-      {paging.total > 0 && (
+      {paging.total > PAGE_SIZE && (
         <div className="sw-flex sw-justify-center sw-mt-4">
           <Pagination
             isDisabled={isLoadingDashboards}

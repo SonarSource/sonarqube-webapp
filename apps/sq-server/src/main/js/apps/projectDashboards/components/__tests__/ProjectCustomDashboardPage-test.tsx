@@ -372,7 +372,7 @@ function setupQuery(overrides: Partial<typeof mockQuery> = {}) {
   mockQuery = { data: dashboard, isPending: false, refetch: mockRetry, ...overrides };
 }
 
-function renderProjectCustomDashboardPage(edition = EditionKey.developer) {
+function renderProjectCustomDashboardPage(edition = EditionKey.enterprise) {
   return renderWithRouter(<ProjectCustomDashboardPage />, {
     appState: mockAppState({ edition }),
   });

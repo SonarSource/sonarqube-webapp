@@ -31,7 +31,7 @@ import { addons } from '~sq-server-addons/index';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
 import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
-import { mockMainBranch, mockPullRequest } from '~sq-server-commons/helpers/mocks/branch-like';
+import { mockMainBranch } from '~sq-server-commons/helpers/mocks/branch-like';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { EditionKey } from '~sq-server-commons/types/editions';
@@ -121,37 +121,9 @@ const ui = {
 
 describe('ComponentNav', () => {
   describe('project navigation', () => {
-    it('renders the old Overview and hides project dashboards for Community Build projects', () => {
-      renderComponentNav(
-        {
-          component: mockComponent({
-            analysisDate: '2024-01-01',
-            qualifier: ComponentQualifier.Project,
-          }),
-        },
-        [],
-        EditionKey.community,
-        false,
-      );
-
-      expect(getInteractiveElement(ui.overviewLink.get())).toHaveAttribute(
-        'href',
-        '/dashboard?id=my-project',
-      );
-      expect(ui.summaryLink.query()).not.toBeInTheDocument();
-      expect(ui.allProjectDashboardsLink.query()).not.toBeInTheDocument();
-      expect(
-        screen.queryByLabelText(`new-badge-${DASHBOARDS_NEW_BADGE_EXPIRATION_DATE}`),
-      ).not.toBeInTheDocument();
-    });
-
-    it('keeps the Summary label for pull requests when the feature flag is disabled', () => {
-      const useCurrentBranchQuerySpy = jest.spyOn(branchQueries, 'useCurrentBranchQuery');
-      useCurrentBranchQuerySpy.mockReturnValue({
-        data: mockPullRequest(),
-      } as ReturnType<typeof branchQueries.useCurrentBranchQuery>);
-
-      try {
+    it.each([EditionKey.community, EditionKey.developer])(
+      'shows Overview but hides Dashboards on %s',
+      (edition) => {
         renderComponentNav(
           {
             component: mockComponent({
@@ -160,23 +132,42 @@ describe('ComponentNav', () => {
             }),
           },
           [],
-          EditionKey.developer,
-          false,
+          edition,
         );
 
-        expect(ui.summaryLink.get()).toBeInTheDocument();
-        expect(ui.overviewLink.query()).not.toBeInTheDocument();
-      } finally {
-        useCurrentBranchQuerySpy.mockRestore();
-      }
-    });
+        expect(ui.overviewLink.get()).toBeInTheDocument();
+        expect(ui.allProjectDashboardsLink.query()).not.toBeInTheDocument();
+      },
+    );
+
+    it.each([EditionKey.enterprise, EditionKey.datacenter])(
+      'shows both Overview and Dashboards on %s',
+      (edition) => {
+        renderComponentNav(
+          {
+            component: mockComponent({
+              analysisDate: '2024-01-01',
+              qualifier: ComponentQualifier.Project,
+            }),
+          },
+          [],
+          edition,
+        );
+
+        expect(ui.overviewLink.get()).toBeInTheDocument();
+        expect(ui.allProjectDashboardsLink.get()).toBeInTheDocument();
+        expect(
+          screen.getByLabelText(`new-badge-${DASHBOARDS_NEW_BADGE_EXPIRATION_DATE}`),
+        ).toBeInTheDocument();
+      },
+    );
 
     it('should render onboarding link when project is not analyzed', () => {
       const component = mockComponent({
         analysisDate: undefined,
       });
 
-      renderComponentNav({ component }, [], EditionKey.community, false);
+      renderComponentNav({ component });
 
       expect(ui.navigationItemsList()).toEqual([
         'onboarding.project_analysis.menu_entry',
@@ -204,6 +195,7 @@ describe('ComponentNav', () => {
         'summary.page',
         'issues.page',
         'layout.security_hotspotsdeprecated',
+        'layout.security_reports',
         'layout.measures',
         'project_activity.page',
         'project_quality_profiles.page',
@@ -273,6 +265,7 @@ describe('ComponentNav', () => {
         'summary.page',
         'issues.page',
         'layout.security_hotspotsdeprecated',
+        'layout.security_reports',
         'layout.measures',
         'project_activity.page',
         'code.page',
@@ -302,6 +295,7 @@ describe('ComponentNav', () => {
         'summary.page',
         'issues.page',
         'layout.security_hotspotsdeprecated',
+        'layout.security_reports',
         'layout.measures',
         'project_activity.page',
         'code.page',
@@ -361,6 +355,7 @@ describe('ComponentNav', () => {
         'summary.page',
         'issues.page',
         'layout.security_hotspotsdeprecated',
+        'layout.security_reports',
         'layout.measures',
         'project_activity.page',
         'view_projects.page',
@@ -429,6 +424,7 @@ describe('ComponentNav', () => {
         'issues.page',
         'layout.security_hotspotsdeprecated',
         'Custom Extension',
+        'layout.security_reports',
         'layout.measures',
         'project_activity.page',
         'code.page',
@@ -528,11 +524,10 @@ describe('ComponentNav', () => {
 function renderComponentNav(
   props: ComponentProps<typeof ComponentNav>,
   features: Feature[] = [],
-  edition = EditionKey.community,
-  projectDashboardsEnabled = true,
+  edition = EditionKey.enterprise,
 ) {
   jest.mocked(useFlags).mockReturnValue({
-    organizationReportingEnableDashboards: projectDashboardsEnabled,
+    organizationReportingEnableDashboards: true,
   } as ReturnType<typeof useFlags>);
   const { component, isInProgress = false, isPending = false } = props;
 

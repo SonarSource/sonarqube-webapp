@@ -194,7 +194,7 @@ jest.mock('~shared/components/pages/ProjectPageTemplate', () => ({
   ),
 }));
 
-function renderProjectDashboardsListPage(edition = EditionKey.developer) {
+function renderProjectDashboardsListPage(edition = EditionKey.enterprise) {
   return renderWithRouter(<ProjectDashboardsListPage />, {
     appState: mockAppState({ edition }),
   });
@@ -257,15 +257,22 @@ describe('ProjectDashboardsListPage', () => {
     expect(mockNavigate).toHaveBeenCalledWith('/project/dashboards/new-id?id=project-key');
   });
 
-  it('only exposes built-in dashboards in Community Build', () => {
-    renderProjectDashboardsListPage(EditionKey.community);
+  it.each([EditionKey.enterprise, EditionKey.datacenter])(
+    'exposes built-in and custom dashboards on %s',
+    (edition) => {
+      renderProjectDashboardsListPage(edition);
 
-    expect(screen.getByTestId('dashboard-table')).toHaveTextContent('Project Health');
-    expect(screen.getByTestId('dashboard-table')).not.toHaveTextContent('Custom dashboard');
-    expect(screen.getByTestId('dashboard-table')).toHaveAttribute('data-can-edit', 'false');
-    expect(
-      screen.queryByRole('button', { name: 'project_dashboards.create_dashboard' }),
-    ).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'dashboard.type.custom' })).not.toBeInTheDocument();
-  });
+      expect(screen.getByTestId('dashboard-table')).toHaveTextContent(
+        'Project Health,Custom dashboard',
+      );
+      expect(screen.getByTestId('dashboard-table')).toHaveAttribute('data-can-edit', 'true');
+      expect(
+        screen.getByRole('button', { name: 'project_dashboards.create_dashboard' }),
+      ).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'dashboard.type.custom' })).toBeInTheDocument();
+      expect(
+        screen.getByText('project_dashboards.page.private_project_message'),
+      ).toBeInTheDocument();
+    },
+  );
 });
