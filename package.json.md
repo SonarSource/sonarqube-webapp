@@ -14,6 +14,10 @@ Graph layout engine used by `feature-architecture` to compute hierarchical (Sugi
 
 Used by sq-cloud to parse Date from string or number.
 
+### @radix-ui/react-slider
+
+Unstyled, accessible slider primitive — Echoes has no Slider component of its own (it's built on Radix under the hood for its other controls), so `libs/shared` wraps this directly for the few places that need a true draggable slider rather than a discrete radio/toggle group.
+
 ### @xyflow/react
 
 React-based interactive graph visualization library used by `feature-architecture` to render nodes, edges, handles, and controls for the architecture diagram, and to manage pan/zoom/selection interactions.

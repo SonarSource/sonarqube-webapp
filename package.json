@@ -68,6 +68,7 @@
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
     "@primer/octicons-react": "19.29.2",
+    "@radix-ui/react-slider": "1.4.7",
     "@react-spring/web": "10.1.2",
     "@sentry/browser": "10.65.0",
     "@sentry/react": "10.65.0",
