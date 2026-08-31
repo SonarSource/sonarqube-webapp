@@ -19,20 +19,25 @@
  */
 
 import {
+  InfiniteData,
   infiniteQueryOptions,
   QueryClient,
   queryOptions,
+  useInfiniteQuery,
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
+import { useCallback } from 'react';
+import { isDefined } from '~shared/helpers/types';
 import {
   createInfiniteQueryHook,
   createQueryHook,
   getNextPagingParam,
   getPreviousPagingParam,
   StaleTime,
+  useFetchAllPages,
 } from '~shared/queries/common';
-import { getScannableProjects, searchProjects } from '../api/components';
+import { ComponentRaw, getScannableProjects, searchProjects } from '../api/components';
 import { deleteProject } from '../api/project-management';
 import { useAvailableFeatures } from '../context/available-features/withAvailableFeatures';
 import { convertToQueryData, defineFacets } from '../helpers/projects';
@@ -42,10 +47,12 @@ import { ProjectsQuery } from '../types/projects';
 import { removeMeasuresByComponentKey } from './measures';
 
 export const PROJECTS_PAGE_SIZE = 50;
+const ALL_PROJECTS_PAGE_SIZE = 500;
 
 export const projectsQueryKeys = {
   all: () => ['project'] as const,
   allList: () => [...projectsQueryKeys.all(), 'list'] as const,
+  allProjects: () => [...projectsQueryKeys.all(), 'all-projects'] as const,
   list: (data?: RequestData) => [...projectsQueryKeys.allList(), data] as const,
   details: (key: string) => [...projectsQueryKeys.all(), 'details', key] as const,
   scannable: () => [...projectsQueryKeys.all(), 'my-scannable'] as const,
@@ -100,6 +107,48 @@ export const useProjectQuery = createQueryHook((key: string) => {
     staleTime: StaleTime.NEVER,
   });
 });
+
+/**
+ * Fetches every project on the instance. `search_projects` has no filter for a specific set of
+ * uuids or keys, so any lookup keyed by uuid (see `useProjectKeysByUuid`) has to page through the
+ * full list and filter client-side — this pages it at {@link ALL_PROJECTS_PAGE_SIZE} per page.
+ * Unlike {@link useProjectsQuery}, there is no UI driving pagination here: the remaining pages
+ * drain in the background via {@link useFetchAllPages}, so `data` starts with just the first page
+ * and grows as more land. Callers derive whatever shape they need via `select`, same as any other
+ * query.
+ */
+export function useAllProjectsQuery<TData>(options: {
+  enabled?: boolean;
+  select: (projects: Array<ComponentRaw & { uuid: string }>) => TData;
+}) {
+  const { enabled = true, select } = options;
+  // Keyed on `select`, not written inline — the only caller today builds a Map from the
+  // result, and query-core can't structurally compare Maps, so any new reference here
+  // means a full Map rebuild (and a dagre re-layout downstream) even if nothing changed.
+  const wrappedSelect = useCallback(
+    (data: InfiniteData<Awaited<ReturnType<typeof searchProjects>>>) =>
+      select(
+        data.pages
+          .flatMap((page) => page.components)
+          .filter((component): component is ComponentRaw & { uuid: string } =>
+            isDefined(component.uuid),
+          ),
+      ),
+    [select],
+  );
+  const query = useInfiniteQuery({
+    enabled,
+    queryKey: projectsQueryKeys.allProjects(),
+    queryFn: ({ pageParam }) => searchProjects({ p: pageParam, ps: ALL_PROJECTS_PAGE_SIZE }),
+    initialPageParam: 1,
+    getNextPageParam: getNextPagingParam,
+    select: wrappedSelect,
+    staleTime: StaleTime.LONG,
+    refetchOnWindowFocus: false,
+  });
+
+  return useFetchAllPages(query, projectsQueryKeys.allProjects());
+}
 
 export const useMyScannableProjectsQuery = createQueryHook(() => {
   return queryOptions({

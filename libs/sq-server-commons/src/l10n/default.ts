@@ -3064,23 +3064,8 @@ export const defaultMessages = {
     "This mapping was found automatically and can't be modified.",
   'architecture.organization.title': 'Organization architecture',
   'architecture.organization.empty': 'No organization-wide architecture data available.',
-  'architecture.organization.node.not_mapped_yet': 'Not mapped yet: {boundaries}',
-  'architecture.organization.node.entry_points_count':
-    '{count, plural, one {# entry point} other {# entry points}}',
-  'architecture.organization.node.exit_points_count':
-    '{count, plural, one {# exit point} other {# exit points}}',
-  'architecture.organization.node.entry_points':
-    '{count, plural, one {Entry point} other {Entry points}}',
-  'architecture.organization.node.exit_points':
-    '{count, plural, one {Exit point} other {Exit points}}',
-  'architecture.organization.intended.page': 'Intended architecture',
-  'architecture.organization.intended.empty':
-    'No intended architecture defined yet. Add a project from the sidebar to get started.',
-  'architecture.organization.intended.spotlight.projects': 'Projects',
-  'architecture.organization.intended.spotlight.no_projects':
-    'All projects are already part of the intended architecture.',
-  'architecture.organization.intended.save_success': 'Intended architecture saved.',
-  'architecture.organization.intended.save_error': 'Failed to save intended architecture.',
+  'architecture.organization.node.exit_points_matched_count':
+    '{matched}/{total, plural, one {# exit point matched} other {# exit points matched}}',
   'architecture.organization.dashboard.deviations': 'Deviations',
   'architecture.organization.dashboard.deviations.description':
     "Mismatches between the organization's intended and current architecture.",
@@ -3092,9 +3077,6 @@ export const defaultMessages = {
     'Pending components count',
   'architecture.organization.dashboard.pending_external_interfaces.count':
     '{count, plural, one {<bold>#</bold> project} other {<bold>#</bold> projects}}',
-  'architecture.organization.dashboard.intended_architecture_link':
-    '<link>Intended architecture</link> of the organization.',
-  'architecture.organization.intended.spotlight.components': 'Components',
 
   // Discovery page
   'architecture.discovery.dismissible.explore_codebase.title': 'Explore the map of your codebase',

@@ -34,7 +34,7 @@ import {
   useSuspenseQuery,
 } from '@tanstack/react-query';
 import { omit } from 'lodash';
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { reportError } from '~adapters/helpers/report-error';
 import { isDefined } from '../helpers/types';
 import { Paging } from '../types/paging';
@@ -280,3 +280,67 @@ export const getNextPagingParam = <T extends { paging: Paging }>(params: T) =>
 
 export const getPreviousPagingParam = <T extends { paging: Paging }>(params: T) =>
   params.paging.pageIndex === 1 ? undefined : params.paging.pageIndex - 1;
+
+const MAX_FETCHED_PAGES = 50;
+const TRUNCATED_ERROR_MESSAGE = 'Stopped fetching pages before draining the query';
+
+type DrainableQuery = Pick<
+  UseInfiniteQueryResult,
+  'fetchNextPage' | 'hasNextPage' | 'isFetchNextPageError' | 'isFetchingNextPage'
+>;
+
+/**
+ * Fetches the remaining pages of an infinite query, one after the other, for endpoints where all
+ * the data is needed and no UI drives the pagination.
+ *
+ * `query` is returned as-is and is *not* fully loaded on first render: the pages are fetched from
+ * an effect, so `data` starts with the first page and grows. Callers that can't render partial
+ * data must gate on `hasNextPage` / `isFetching`.
+ *
+ * Stops early, and reports it, in two cases — neither is expected in normal operation:
+ * a page request failed (the query client gives up on 4xx, so without this guard the effect would
+ * re-fire forever), or {@link MAX_FETCHED_PAGES} pages have been fetched.
+ *
+ * @param queryKey the key of `query`. Needed to count the fetched pages from the cache: a local
+ * counter wouldn't reset when a caller re-keys the query without unmounting, which both
+ * feature-architecture call sites do on navigation (they key on `projectId`).
+ */
+export function useFetchAllPages<T extends DrainableQuery>(query: T, queryKey: QueryKey): T {
+  const queryClient = useQueryClient();
+  const { fetchNextPage, hasNextPage, isFetchNextPageError, isFetchingNextPage } = query;
+
+  const fetchedPages = queryClient.getQueryData<InfiniteData<unknown>>(queryKey)?.pages.length ?? 0;
+  const reachedPageLimit = fetchedPages >= MAX_FETCHED_PAGES;
+  const stoppedEarly = hasNextPage && (isFetchNextPageError || reachedPageLimit);
+  const queryKeyLabel = queryKey.join('/');
+
+  useEffect(() => {
+    if (hasNextPage && !isFetchingNextPage && !isFetchNextPageError && !reachedPageLimit) {
+      void fetchNextPage();
+    }
+    // `fetchedPages` must stay a dep: it's what actually changes each time a page lands. A fast
+    // (or mocked) response can resolve before `isFetchingNextPage` ever renders as `true`, so its
+    // false-to-false transition alone wouldn't re-trigger this effect for the next page.
+  }, [
+    fetchNextPage,
+    fetchedPages,
+    hasNextPage,
+    isFetchNextPageError,
+    isFetchingNextPage,
+    reachedPageLimit,
+  ]);
+
+  useEffect(() => {
+    if (stoppedEarly) {
+      reportError(TRUNCATED_ERROR_MESSAGE, {
+        extra: {
+          fetchedPages,
+          queryKey: queryKeyLabel,
+          reason: isFetchNextPageError ? 'page-error' : 'page-limit',
+        },
+      });
+    }
+  }, [fetchedPages, isFetchNextPageError, queryKeyLabel, stoppedEarly]);
+
+  return query;
+}
