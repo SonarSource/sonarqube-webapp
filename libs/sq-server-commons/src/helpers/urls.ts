@@ -64,6 +64,7 @@ type CodeScopeType = CodeScope.Overall | CodeScope.New;
 export type Query = Location['query'];
 
 const SONARSOURCE_COM_URL = 'https://www.sonarsource.com';
+const SONARSOURCE_SUPPORT_URL = 'https://support.sonarsource.com';
 
 export function getComponentOverviewUrl(
   componentKey: string,
@@ -455,6 +456,10 @@ export function convertToTo(link: string | Location) {
 
 function linkIsLocation(link: string | Location): link is Location {
   return (link as Location).query !== undefined;
+}
+
+export function getSonarSourceSupportUrl(): string {
+  return SONARSOURCE_SUPPORT_URL;
 }
 
 export function getSonarSourceComUrl(link?: SonarSourceLink): string {

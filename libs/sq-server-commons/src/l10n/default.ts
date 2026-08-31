@@ -10516,6 +10516,9 @@ export const defaultMessages = {
   'license.products.overage.deactivated.title': 'Overage is not active',
   'license.products.overage.manage': 'Manage overage',
   'license.products.overage.not_applicable': 'Not applicable',
+  'license.products.overage.misprovisioned.description':
+    'Required overage settings are missing from your license. Contact SonarSource support to resolve this.',
+  'license.products.overage.misprovisioned.title': 'Overage settings incomplete',
   'license.products.overage.sales_gated.description':
     'Overage usage is currently disabled for your account. Get in touch with our team to enable overage options.',
   'license.products.overage.sales_gated.title': 'Overage is not active',
@@ -10581,6 +10584,7 @@ export const defaultMessages = {
     'You turned off overage for this feature. Activate it again to avoid service interruptions when reaching your limit.',
   'license.products.overage.stopped.title': 'Overage deactivated',
   'license.products.overage.talk_to_sales': 'Talk to sales',
+  'license.products.overage.talk_to_support': 'Talk to support',
   'license.products.overage.blocked.title': 'Overage blocked. Connect online to continue overage',
   'license.products.overage.blocked.description':
     'Your instance has been offline for a while, which paused product overage usage.<br></br>To continue using overage, reconnect your instance to {url} and try again.',
@@ -10636,10 +10640,14 @@ export const defaultMessages = {
     'To avoid interruptions, talk to sales to activate overage to your organization.',
   'license.products.usage_tip.base.warning.prompt.self_serve':
     'To avoid interruptions, activate overage to be billed monthly based on your usage.',
+  'license.products.usage_tip.base.warning.prompt.support':
+    'Overage settings are incomplete. Contact SonarSource support to resolve this.',
   'license.products.usage_tip.base.reached.prompt.sales':
     'To keep using the product, talk to sales to activate overage to your organization.',
   'license.products.usage_tip.base.reached.prompt.self_serve':
     'To keep using the product, activate overage to be billed monthly based on your usage.',
+  'license.products.usage_tip.base.reached.prompt.support':
+    'Overage settings are incomplete. Contact SonarSource support to resolve this.',
   'license.products.usage_tip.base.reached_active.resets_on':
     'Both your base plan and overage reset on {date}.',
   'license.products.usage_tip.base.reached_active.valid_until':
