@@ -18,11 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Heading, HeadingSize, ToggleTip } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { GreySeparator, HelperHintIcon, SubHeading } from '~design-system';
+import { GreySeparator } from '~design-system';
 import { whenLoggedIn } from '~sq-server-commons/components/hoc/whenLoggedIn';
-import { translate } from '~sq-server-commons/helpers/l10n';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { LoggedInUser } from '~sq-server-commons/types/users';
 import { AccountPageTemplate } from '../components/AccountPageTemplate';
 import { Preferences } from './Preferences';
@@ -50,7 +49,7 @@ export function Profile({ currentUser }: ProfileProps) {
 
   function renderLogin() {
     if (!currentUser.login && !isExternalProvider) {
-      return null;
+      return undefined;
     }
 
     return (
@@ -66,7 +65,7 @@ export function Profile({ currentUser }: ProfileProps) {
 
   function renderEmail() {
     if (!currentUser.email) {
-      return null;
+      return undefined;
     }
 
     return (
@@ -81,14 +80,15 @@ export function Profile({ currentUser }: ProfileProps) {
 
   function renderUserGroups() {
     if (!currentUser.groups || currentUser.groups.length === 0) {
-      return null;
+      return undefined;
     }
 
     return (
       <>
-        <SubHeading as="h2">
+        <Heading as="h2" hasMarginBottom size={HeadingSize.Medium}>
           <FormattedMessage id="my_profile.groups" />
-        </SubHeading>
+        </Heading>
+
         <ul id="groups">
           {currentUser.groups.map((group) => (
             <li className="sw-mb-2" key={group} title={group}>
@@ -107,17 +107,22 @@ export function Profile({ currentUser }: ProfileProps) {
       !currentUser.email &&
       (!currentUser.scmAccounts || currentUser.scmAccounts.length === 0)
     ) {
-      return null;
+      return undefined;
     }
 
     return (
       <>
-        <SubHeading as="h2">
+        <Heading
+          as="h2"
+          className="sw-flex sw-items-center sw-gap-2"
+          hasMarginBottom
+          size={HeadingSize.Medium}
+        >
           <FormattedMessage id="my_profile.scm_accounts" />
-          <HelpTooltip className="sw-ml-2" overlay={translate('my_profile.scm_accounts.tooltip')}>
-            <HelperHintIcon />
-          </HelpTooltip>
-        </SubHeading>
+
+          <ToggleTip description={<FormattedMessage id="my_profile.scm_accounts.tooltip" />} />
+        </Heading>
+
         <ul id="scm-accounts">
           {currentUser.login && <li title={currentUser.login}>{currentUser.login}</li>}
 

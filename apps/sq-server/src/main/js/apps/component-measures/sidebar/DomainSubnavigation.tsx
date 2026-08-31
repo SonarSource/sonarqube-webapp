@@ -18,12 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  HelperHintIcon,
-  SubnavigationAccordion,
-  SubnavigationItem,
-  SubnavigationSubheading,
-} from '~design-system';
+import { FormattedMessage } from 'react-intl';
+import { SubnavigationItem, SubnavigationSubheading } from '~design-system';
+import { DeprecatedBadge } from '~shared/components/badges/DeprecatedBadge';
 import { MeasureEnhanced } from '~shared/types/measures';
 import { SecurityDevEditionPromoteBanner } from '~sq-server-commons/components/promotion/SecurityDevEditionPromoteBanner';
 import {
@@ -34,7 +31,6 @@ import {
   translate,
 } from '~sq-server-commons/helpers/l10n';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { useBubbleChartMetrics } from '../hooks';
 import {
   addMeasureCategories,
@@ -42,10 +38,8 @@ import {
   hasBubbleChart,
   sortMeasures,
 } from '../utils';
+import DomainSubnavigationAccordion from './DomainSubnavigationAccordion';
 import DomainSubnavigationItem from './DomainSubnavigationItem';
-
-import { FormattedMessage } from 'react-intl';
-import { DeprecatedBadge } from '~shared/components/badges/DeprecatedBadge';
 
 interface Props {
   componentKey: string;
@@ -82,20 +76,16 @@ export default function DomainSubnavigation(props: Readonly<Props>) {
     );
   });
   return (
-    <SubnavigationAccordion
+    <DomainSubnavigationAccordion
       header={
         <div className="sw-flex sw-items-center sw-gap-3 sw-min-w-0">
           <strong className="sw-typo-semibold sw-truncate">
             {getLocalizedMetricDomain(domain.name)}
           </strong>
           {isSecurityReviewDomain && <DeprecatedBadge />}
-          {helper && (
-            <HelpTooltip overlay={helper}>
-              <HelperHintIcon aria-hidden="false" description={helper} />
-            </HelpTooltip>
-          )}
         </div>
       }
+      helpDescription={helper}
       id={`measure-${domain.name}`}
       initExpanded={open}
     >
@@ -128,6 +118,6 @@ export default function DomainSubnavigation(props: Readonly<Props>) {
           />
         ),
       )}
-    </SubnavigationAccordion>
+    </DomainSubnavigationAccordion>
   );
 }

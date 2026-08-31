@@ -203,7 +203,7 @@ export class BackgroundTasksApp extends React.PureComponent<Props, State> {
     this.handleFilterUpdate({ query: task.componentKey });
   };
 
-  handleShowFailing = (e: React.SyntheticEvent<HTMLAnchorElement>) => {
+  handleShowFailing = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
     this.handleFilterUpdate({

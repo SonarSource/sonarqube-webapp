@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen, waitFor, within } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
 import { uniq } from 'lodash';
 import { byRole, byText } from '~shared/helpers/testSelector';
@@ -81,15 +81,22 @@ describe('rendering', () => {
     await user.keyboard('{Escape}');
 
     // Check summaries.
-    const row1 = within(screen.getByRole('row', { name: /Permission Template 1/ }));
+    const row1Cells = byRole('row', { name: /Permission Template 1/ })
+      .byRole('cell')
+      .getAll();
+
     PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE.forEach((permission, i) => {
-      expect(row1.getAllByRole('cell').at(i + 1)?.textContent).toMatchSnapshot(
+      expect(getPermissionCellSummary(row1Cells.at(i + 1))).toMatchSnapshot(
         `Permission Template 1: ${permission}`,
       );
     });
-    const row2 = within(screen.getByRole('row', { name: /Permission Template 2/ }));
+
+    const row2Cells = byRole('row', { name: /Permission Template 2/ })
+      .byRole('cell')
+      .getAll();
+
     PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE.forEach((permission, i) => {
-      expect(row2.getAllByRole('cell').at(i + 1)?.textContent).toMatchSnapshot(
+      expect(getPermissionCellSummary(row2Cells.at(i + 1))).toMatchSnapshot(
         `Permission Template 2: ${permission}`,
       );
     });
@@ -272,11 +279,11 @@ describe('filtering', () => {
     expect(screen.getByText('johndoe')).toBeInTheDocument();
 
     // Filter by specific permission
-    expect(screen.getAllByRole('row').length).toBe(10);
+    expect(screen.getAllByRole('row')).toHaveLength(10);
     await ui.toggleFilterByPermission(Permissions.Admin);
-    expect(screen.getAllByRole('row').length).toBe(3);
+    expect(screen.getAllByRole('row')).toHaveLength(3);
     await ui.toggleFilterByPermission(Permissions.Admin);
-    expect(screen.getAllByRole('row').length).toBe(10);
+    expect(screen.getAllByRole('row')).toHaveLength(10);
   });
 });
 
@@ -344,9 +351,9 @@ it('should correctly handle pagination', async () => {
   await ui.openTemplateDetails('Permission Template 1');
   await ui.appLoaded();
 
-  expect(screen.getAllByRole('row').length).toBe(12);
+  expect(screen.getAllByRole('row')).toHaveLength(12);
   await ui.clickLoadMore();
-  expect(screen.getAllByRole('row').length).toBe(22);
+  expect(screen.getAllByRole('row')).toHaveLength(22);
 });
 
 it.each([ComponentQualifier.Project, ComponentQualifier.Application, ComponentQualifier.Portfolio])(
@@ -359,11 +366,11 @@ it.each([ComponentQualifier.Project, ComponentQualifier.Application, ComponentQu
 
     await ui.setTemplateAsDefaultFor('Permission Template 2', qualifier);
 
-    const row1 = within(screen.getByRole('row', { name: /Permission Template 1/ }));
-    const row2 = within(screen.getByRole('row', { name: /Permission Template 2/ }));
+    const row1 = byRole('row', { name: /Permission Template 1/ });
+    const row2 = byRole('row', { name: /Permission Template 2/ });
     const regex = new RegExp(`permission_template\\.default_for(.*)qualifiers.${qualifier}`);
-    expect(row2.getByText(regex)).toBeInTheDocument();
-    expect(row1.queryByText(regex)).not.toBeInTheDocument();
+    expect(row2.byText(regex).get()).toBeInTheDocument();
+    expect(row1.byText(regex).query()).not.toBeInTheDocument();
   },
 );
 
@@ -470,16 +477,17 @@ function getPageObject(user: UserEvent) {
     },
     async createNewTemplate(name: string, description: string, pattern?: string) {
       await user.click(ui.createNewTemplateBtn.get());
-      const modal = within(ui.modal.get());
-      await user.type(modal.getByRole('textbox', { name: /name/ }), name);
-      await user.type(modal.getByRole('textbox', { name: 'description' }), description);
+      await user.type(ui.modal.byRole('textbox', { name: /name/ }).get(), name);
+      await user.type(ui.modal.byRole('textbox', { name: 'description' }).get(), description);
+
       if (pattern) {
         await user.type(
-          modal.getByRole('textbox', { name: 'permission_template.key_pattern' }),
+          ui.modal.byRole('textbox', { name: 'permission_template.key_pattern' }).get(),
           pattern,
         );
       }
-      await user.click(modal.getByRole('button', { name: 'create' }));
+
+      await user.click(ui.modal.byRole('button', { name: 'create' }).get());
     },
     async openDeleteModal(name: string) {
       await user.click(ui.cogMenuBtn(name).get());
@@ -488,8 +496,7 @@ function getPageObject(user: UserEvent) {
     async deleteTemplate(name: string) {
       await user.click(ui.cogMenuBtn(name).get());
       await user.click(ui.deleteBtn.get());
-      const modal = within(ui.modal.get());
-      await user.click(modal.getByRole('button', { name: 'delete' }));
+      await user.click(ui.modal.byRole('button', { name: 'delete' }).get());
     },
     async openUpdateModal(name: string) {
       await user.click(ui.cogMenuBtn(name).get());
@@ -504,10 +511,12 @@ function getPageObject(user: UserEvent) {
       await user.click(ui.cogMenuBtn(name).get());
       await user.click(ui.updateDetailsBtn.get());
 
-      const modal = within(ui.modal.get());
-      const nameInput = modal.getByRole('textbox', { name: /name/ });
-      const descriptionInput = modal.getByRole('textbox', { name: 'description' });
-      const patternInput = modal.getByRole('textbox', { name: 'permission_template.key_pattern' });
+      const nameInput = ui.modal.byRole('textbox', { name: /name/ }).get();
+      const descriptionInput = ui.modal.byRole('textbox', { name: 'description' }).get();
+
+      const patternInput = ui.modal
+        .byRole('textbox', { name: 'permission_template.key_pattern' })
+        .get();
 
       await user.clear(nameInput);
       await user.type(nameInput, newName);
@@ -516,11 +525,10 @@ function getPageObject(user: UserEvent) {
       await user.clear(patternInput);
       await user.type(patternInput, newPattern);
 
-      await user.click(modal.getByRole('button', { name: 'update_verb' }));
+      await user.click(ui.modal.byRole('button', { name: 'update_verb' }).get());
     },
     async closeModal() {
-      const modal = within(ui.modal.get());
-      await user.click(modal.getByRole('button', { name: 'cancel' }));
+      await user.click(ui.modal.byRole('button', { name: 'cancel' }).get());
     },
     async setTemplateAsDefaultFor(name: string, qualifier: ComponentQualifier) {
       await user.click(ui.cogMenuBtn(name).get());
@@ -551,4 +559,8 @@ function renderPermissionTemplatesApp(
     appState: mockAppState({ qualifiers }),
     featureList,
   });
+}
+
+function getPermissionCellSummary(cell: HTMLElement | undefined) {
+  return cell?.textContent?.replace(/\uE88E/g, '').trim();
 }

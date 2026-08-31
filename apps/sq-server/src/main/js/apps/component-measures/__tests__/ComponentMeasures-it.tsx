@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen, waitFor, within } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { omit, times } from 'lodash';
 import { byLabelText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
@@ -42,10 +42,14 @@ import routes from '../routes';
 // timeout window. Prevents cold-transform-cache flakes on the first test in CI.
 import '../components/ComponentMeasuresApp';
 
-jest.mock('lodash', () => ({
-  ...jest.requireActual('lodash'),
-  throttle: (fn: (...args: unknown[]) => unknown) => fn,
-}));
+jest.mock('lodash', () => {
+  const lodash = jest.requireActual<typeof import('lodash')>('lodash');
+
+  return {
+    ...lodash,
+    throttle: <T extends (...args: unknown[]) => unknown>(fn: T) => fn,
+  };
+});
 
 jest.mock('~sq-server-commons/api/metrics', () => {
   const { DEFAULT_METRICS } = jest.requireActual<Record<string, Record<string, Metric>>>(
@@ -83,11 +87,12 @@ describe('rendering', () => {
     expect(await ui.seeDataAsListLink.find(undefined, { timeout: 10000 })).toBeInTheDocument();
     expect(ui.overviewDomainLink.get()).toHaveAttribute('aria-current', 'true');
     expect(ui.bubbleChart.get()).toBeInTheDocument();
-    expect(within(ui.bubbleChart.get()).getAllByRole('link')).toHaveLength(8);
+    expect(ui.bubbleChart.byRole('link').getAll()).toHaveLength(8);
     expect(ui.newCodePeriodTxt.get()).toBeInTheDocument();
 
     // Sidebar.
     expect(ui.reliabilityDomainBtn.get()).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: 'Reliability' })).toBeInTheDocument();
     expect(ui.securityDomainBtn.get()).toBeInTheDocument();
     expect(ui.securityReviewDomainBtn.get()).toBeInTheDocument();
     expect(ui.maintainabilityDomainBtn.get()).toBeInTheDocument();
@@ -123,7 +128,7 @@ describe('rendering', () => {
     expect(await ui.seeDataAsListLink.find()).toBeInTheDocument();
     expect(ui.overviewDomainLink.get()).toHaveAttribute('aria-current', 'true');
     expect(ui.bubbleChart.get()).toBeInTheDocument();
-    expect(within(ui.bubbleChart.get()).getAllByRole('link')).toHaveLength(8);
+    expect(ui.bubbleChart.byRole('link').getAll()).toHaveLength(8);
     expect(ui.newCodePeriodTxt.get()).toBeInTheDocument();
 
     // Sidebar.
@@ -343,7 +348,8 @@ describe('rendering', () => {
     renderMeasuresApp('component_measures?id=foo&metric=open_issues');
     await ui.appLoaded();
 
-    expect(screen.getAllByText('Issues').length).toEqual(1);
+    expect(screen.getAllByText('Issues')).toHaveLength(1);
+
     [
       'component_measures.metric.new_violations.name 1',
       'component_measures.metric.violations.name 1',
@@ -393,9 +399,7 @@ describe('rendering', () => {
     });
     await ui.appLoaded();
 
-    expect(
-      within(ui.noAccessWarning.get()).getByText('component_measures.not_all_measures_are_shown'),
-    ).toBeInTheDocument();
+    expect(ui.noAccessWarning.get()).toBeInTheDocument();
   });
 
   it('should correctly render the language distribution', async () => {
@@ -502,20 +506,16 @@ describe('navigation', () => {
         .measureLink('component_measures.metric.software_quality_maintainability_issues.name 2')
         .get(),
     );
-    expect(
-      within(ui.measuresRow('folderA').get()).getByRole('cell', { name: '2' }),
-    ).toBeInTheDocument();
-    expect(
-      within(ui.measuresRow('test1.js').get()).getByRole('cell', { name: '2' }),
-    ).toBeInTheDocument();
+
+    expect(ui.measuresRow('folderA').byRole('cell', { name: '2' }).get()).toBeInTheDocument();
+
+    expect(ui.measuresRow('test1.js').byRole('cell', { name: '2' }).get()).toBeInTheDocument();
 
     await user.click(ui.fileLink('folderA').get());
-    expect(
-      within(ui.measuresRow('out.tsx').get()).getByRole('cell', { name: '2' }),
-    ).toBeInTheDocument();
-    expect(
-      within(ui.measuresRow('in.tsx').get()).getByRole('cell', { name: '2' }),
-    ).toBeInTheDocument();
+
+    expect(ui.measuresRow('out.tsx').byRole('cell', { name: '2' }).get()).toBeInTheDocument();
+
+    expect(ui.measuresRow('in.tsx').byRole('cell', { name: '2' }).get()).toBeInTheDocument();
 
     await user.click(ui.fileLink('out.tsx').get());
     expect((await ui.sourceCode.findAll()).length).toBeGreaterThan(0);
@@ -543,11 +543,10 @@ describe('navigation', () => {
     await user.click(ui.selectOptions('component_measures.tab.list').get());
 
     expect(
-      within(await ui.measuresRow('out.tsx').find()).getByRole('cell', { name: '2' }),
+      await ui.measuresRow('out.tsx').byRole('cell', { name: '2' }).find(),
     ).toBeInTheDocument();
-    expect(
-      within(ui.measuresRow('test1.js').get()).getByRole('cell', { name: '2' }),
-    ).toBeInTheDocument();
+
+    expect(ui.measuresRow('test1.js').byRole('cell', { name: '2' }).get()).toBeInTheDocument();
 
     await user.click(ui.fileLink('out.tsx').get());
     expect((await ui.sourceCode.findAll()).length).toBeGreaterThan(0);
@@ -599,19 +598,14 @@ describe('navigation', () => {
     await ui.arrowDown(); // Select the 1st element ("folderA")
     await ui.arrowRight(); // Open "folderA"
 
-    expect(
-      within(ui.measuresRow('out.tsx').get()).getByRole('cell', { name: '2' }),
-    ).toBeInTheDocument();
-    expect(
-      within(ui.measuresRow('in.tsx').get()).getByRole('cell', { name: '2' }),
-    ).toBeInTheDocument();
+    expect(ui.measuresRow('out.tsx').byRole('cell', { name: '2' }).get()).toBeInTheDocument();
+
+    expect(ui.measuresRow('in.tsx').byRole('cell', { name: '2' }).get()).toBeInTheDocument();
 
     // Move back to project
     await ui.arrowLeft(); // Close "folderA"
 
-    expect(
-      within(ui.measuresRow('folderA').get()).getByRole('cell', { name: '2' }),
-    ).toBeInTheDocument();
+    expect(ui.measuresRow('folderA').byRole('cell', { name: '2' }).get()).toBeInTheDocument();
 
     await ui.arrowDown(); // Select the 1st element ("folderA")
     await ui.arrowRight(); // Open "folderA"
@@ -785,34 +779,34 @@ function getPageObject() {
       name: 'component_measures.overview.project_overview.subnavigation',
     }),
     releasabilityDomainBtn: byRole('button', {
-      name: 'Releasability component_measures.domain_subnavigation.Releasability.help',
+      name: 'Releasability',
     }),
     reliabilityDomainBtn: byRole('button', {
-      name: 'Reliability component_measures.domain_subnavigation.Reliability.help',
+      name: 'Reliability',
     }),
     securityDomainBtn: byRole('button', {
-      name: 'Security component_measures.domain_subnavigation.Security.help',
+      name: 'Security',
     }),
     securityReviewDomainBtn: byRole('button', {
-      name: 'SecurityReview deprecated component_measures.domain_subnavigation.SecurityReview.help',
+      name: 'SecurityReview deprecated',
     }),
     maintainabilityDomainBtn: byRole('button', {
-      name: 'Maintainability component_measures.domain_subnavigation.Maintainability.help',
+      name: 'Maintainability',
     }),
     coverageDomainBtn: byRole('button', {
-      name: 'Coverage component_measures.domain_subnavigation.Coverage.help',
+      name: 'Coverage',
     }),
     duplicationsDomainBtn: byRole('button', {
-      name: 'Duplications component_measures.domain_subnavigation.Duplications.help',
+      name: 'Duplications',
     }),
     sizeDomainBtn: byRole('button', {
-      name: 'Size component_measures.domain_subnavigation.Size.help',
+      name: 'Size',
     }),
     complexityDomainBtn: byRole('button', {
-      name: 'Complexity component_measures.domain_subnavigation.Complexity.help',
+      name: 'Complexity',
     }),
     issuesDomainBtn: byRole('button', {
-      name: 'Issues component_measures.domain_subnavigation.Issues.help',
+      name: 'Issues',
     }),
     measureLink: (name: string) => byRole('link', { name }),
 

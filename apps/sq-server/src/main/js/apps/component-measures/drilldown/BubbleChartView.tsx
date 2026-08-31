@@ -19,8 +19,9 @@
  */
 
 import styled from '@emotion/styled';
-import { Heading, IconQuestionMark, LinkStandalone, cssVar } from '@sonarsource/echoes-react';
+import { Heading, LinkStandalone, ToggleTip, cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import {
   BUBBLE_BORDER_COLORS,
   BUBBLE_COLORS,
@@ -40,7 +41,6 @@ import {
 } from '~sq-server-commons/helpers/l10n';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
 import { getComponentDrilldownUrl } from '~sq-server-commons/helpers/urls';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import {
@@ -57,8 +57,6 @@ import {
 } from '../utils';
 import ColorRatingsLegend from './ColorRatingsLegend';
 import EmptyResult from './EmptyResult';
-
-import { FormattedMessage } from 'react-intl';
 
 const HEIGHT = 500;
 
@@ -165,6 +163,8 @@ export default function BubbleChartView(props: Readonly<Props>) {
           getLocalizedMetricDomain(domain),
         );
 
+    const description = getDescription(domain);
+
     return (
       <div className="sw-flex sw-justify-between sw-gap-3">
         <div>
@@ -172,9 +172,8 @@ export default function BubbleChartView(props: Readonly<Props>) {
             <Heading as="h3" className="it__measure-overview-bubble-chart-title">
               {title}
             </Heading>
-            <HelpTooltip className="sw-ml-2" overlay={getDescription(domain)}>
-              <IconQuestionMark />
-            </HelpTooltip>
+
+            {description && <ToggleTip className="sw-ml-2" description={description} />}
           </div>
 
           {paging?.total && paging?.total > BUBBLES_FETCH_LIMIT && (

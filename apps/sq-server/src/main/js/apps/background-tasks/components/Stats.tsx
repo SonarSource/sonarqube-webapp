@@ -28,7 +28,7 @@ export interface Props {
   component?: Pick<Component, 'key'>;
   failingCount?: number;
   onCancelAllPending: () => void;
-  onShowFailing: (e: React.SyntheticEvent<HTMLAnchorElement>) => void;
+  onShowFailing: (e: React.MouseEvent<HTMLElement>) => void;
   pendingCount?: number;
   pendingTime?: number;
 }

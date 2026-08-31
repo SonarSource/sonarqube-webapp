@@ -29,9 +29,9 @@ import {
   Popover,
   Text,
   TextSize,
+  ToggleTip,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { HelperHintIcon } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
 import { AiCodeAssuranceStatus } from '~sq-server-commons/api/ai-code-assurance';
@@ -43,7 +43,6 @@ import {
   useProjectBranchesAiCodeAssuranceStatusQuery,
   useProjectDetectedAiCodeQuery,
 } from '~sq-server-commons/queries/ai-code-assurance';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { Branch } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
@@ -97,13 +96,12 @@ export default function AICodeStatus(props: Readonly<Props>) {
           <Text as="p" isSubtle size={TextSize.Small}>
             <FormattedMessage id="projects.ai_code_detected.description" />
           </Text>
-          <HelpTooltip
+
+          <ToggleTip
             className="sw-mb-1"
-            overlay={<FormattedMessage id="projects.ai_code_detected.tooltip.content" />}
-            placement="right"
-          >
-            <HelperHintIcon />
-          </HelpTooltip>
+            extraContent={<FormattedMessage id="projects.ai_code_detected.tooltip.content" />}
+            side="right"
+          />
         </div>
 
         <Link to={addons?.aica?.getAICodeSettingsUrl(component.key, component.qualifier) ?? ''}>

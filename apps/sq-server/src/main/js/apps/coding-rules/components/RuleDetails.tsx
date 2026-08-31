@@ -22,9 +22,9 @@ import {
   Button,
   ButtonVariety,
   Heading,
-  IconQuestionMark,
   ModalAlert,
   Spinner,
+  ToggleTip,
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import DateFormatter from '~shared/components/intl/DateFormatter';
@@ -34,7 +34,6 @@ import {
   useRuleDetailsQuery,
   useUpdateRuleMutation,
 } from '~sq-server-commons/queries/rules';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import CustomRuleButton from './CustomRuleButton';
 import RuleDetailsCustomRules from './RuleDetailsCustomRules';
@@ -170,16 +169,14 @@ export function RuleDetails(props: Readonly<Props>) {
                   </Button>
                 </ModalAlert>
 
-                <HelpTooltip
+                <ToggleTip
                   className="sw-ml-2"
-                  overlay={
+                  extraContent={
                     <div className="sw-py-4">
                       {intl.formatMessage({ id: 'coding_rules.custom_rule.removal' })}
                     </div>
                   }
-                >
-                  <IconQuestionMark />
-                </HelpTooltip>
+                />
               </div>
             )}
 

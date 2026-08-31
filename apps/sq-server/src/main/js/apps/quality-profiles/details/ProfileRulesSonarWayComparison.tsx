@@ -18,11 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { FormattedMessage } from 'react-intl';
-import { FlagMessage, Link } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { Link, ToggleTip } from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { FlagMessage } from '~design-system';
 import { getRulesUrl } from '~sq-server-commons/helpers/urls';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 
 interface Props {
   language: string;
@@ -31,7 +30,9 @@ interface Props {
   sonarway: string;
 }
 
-export default function ProfileRulesSonarWayComparison(props: Props) {
+export default function ProfileRulesSonarWayComparison(props: Readonly<Props>) {
+  const { formatMessage } = useIntl();
+
   const url = getRulesUrl({
     qprofile: props.profile,
     activation: 'false',
@@ -48,9 +49,9 @@ export default function ProfileRulesSonarWayComparison(props: Props) {
             count: props.sonarWayMissingRules,
             linkCount: (
               <Link
-                aria-label={translateWithParameters(
-                  'quality_profiles.sonarway_see_x_missing_rules',
-                  props.sonarWayMissingRules,
+                aria-label={formatMessage(
+                  { id: 'quality_profiles.sonarway_see_x_missing_rules' },
+                  { 0: props.sonarWayMissingRules },
                 )}
                 to={url}
               >
@@ -59,9 +60,12 @@ export default function ProfileRulesSonarWayComparison(props: Props) {
             ),
           }}
         />
-        <HelpTooltip
+
+        <ToggleTip
           className="sw-ml-2"
-          overlay={translate('quality_profiles.sonarway_missing_rules_description')}
+          description={
+            <FormattedMessage id="quality_profiles.sonarway_missing_rules_description" />
+          }
         />
       </div>
     </FlagMessage>

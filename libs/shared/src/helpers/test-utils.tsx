@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { TooltipProvider } from '@sonarsource/echoes-react';
 import { RenderOptions, RenderResult, render as rtlRender } from '@testing-library/react';
 import userEvent, { UserEvent, Options as UserEventsOptions } from '@testing-library/user-event';
 import { InitialEntry } from 'history';
@@ -53,7 +54,20 @@ export function render(
   options?: RenderOptions,
   userEventOptions?: UserEventsOptions,
 ): RenderResultWithUser {
-  return { ...rtlRender(ui, options), user: userEvent.setup(userEventOptions) };
+  const Wrapper = options?.wrapper;
+
+  function TooltipWrapper({ children }: Readonly<PropsWithChildren<object>>) {
+    return (
+      <TooltipProvider delayDuration={0}>
+        {Wrapper ? <Wrapper>{children}</Wrapper> : children}
+      </TooltipProvider>
+    );
+  }
+
+  return {
+    ...rtlRender(ui, { ...options, wrapper: TooltipWrapper }),
+    user: userEvent.setup(userEventOptions),
+  };
 }
 
 export type RenderContextOptions = Omit<RenderOptions, 'wrapper'> &

@@ -18,22 +18,24 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonGroup, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
-import { FormattedMessage } from 'react-intl';
 import {
-  BasicSeparator,
-  FlagErrorIcon,
-  FlagMessage,
-  FlagSuccessIcon,
-  HelperHintIcon,
-} from '~design-system';
+  Button,
+  ButtonGroup,
+  ButtonVariety,
+  Divider,
+  IconCheckCircle,
+  IconError,
+  LinkStandalone,
+  Spinner,
+  ToggleTip,
+} from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { FlagMessage } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
-import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { IMPORT_COMPATIBLE_ALMS } from '~sq-server-commons/helpers/constants';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { getEdition, getEditionUrl } from '~sq-server-commons/helpers/editions';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import {
   AlmBindingDefinitionBase,
   AlmKeys,
@@ -58,9 +60,15 @@ const DEFAULT_STATUS: AlmSettingsBindingStatus = {
   type: AlmSettingsBindingStatusType.Validating,
 };
 
+type FormatMessage = (descriptor: { id: string }) => string;
+
 const STATUS_ICON = {
-  [AlmSettingsBindingStatusType.Failure]: <FlagErrorIcon className="sw-ml-1" />,
-  [AlmSettingsBindingStatusType.Success]: <FlagSuccessIcon className="sw-ml-1" />,
+  [AlmSettingsBindingStatusType.Failure]: (
+    <IconError className="sw-ml-1" color="echoes-color-icon-danger" />
+  ),
+  [AlmSettingsBindingStatusType.Success]: (
+    <IconCheckCircle className="sw-ml-1" color="echoes-color-icon-success" />
+  ),
   [AlmSettingsBindingStatusType.Validating]: <div className="sw-ml-1 sw-inline-block sw-w-200" />,
 };
 
@@ -74,29 +82,27 @@ function getPRDecorationFeatureStatus(branchesEnabled: boolean, type: keyof type
       <strong className="sw-ml-2">
         <FormattedMessage id="settings.almintegration.feature.pr_decoration.disabled" />
       </strong>
-      <HelpTooltip
+
+      <ToggleTip
         className="sw-ml-1"
-        overlay={
+        description={
           <FormattedMessage
             id="settings.almintegration.feature.pr_decoration.disabled.no_branches"
             values={{
               link: (
-                <a
-                  href={getEditionUrl(getEdition(EditionKey.developer), {
+                <LinkStandalone
+                  enableOpenInNewTab
+                  to={getEditionUrl(getEdition(EditionKey.developer), {
                     sourceEdition: EditionKey.community,
                   })}
-                  rel="noopener noreferrer"
-                  target="_blank"
                 >
                   <FormattedMessage id="settings.almintegration.feature.pr_decoration.disabled.no_branches.link" />
-                </a>
+                </LinkStandalone>
               ),
             }}
           />
         }
-      >
-        <HelperHintIcon />
-      </HelpTooltip>
+      />
     </div>
   );
 }
@@ -106,7 +112,7 @@ function getImportFeatureStatus(
   definition: AlmBindingDefinitionBase,
   type: keyof typeof STATUS_ICON,
 ) {
-  if (definition.url !== undefined || alm === AlmKeys.BitbucketCloud) {
+  if (isDefined(definition.url) || alm === AlmKeys.BitbucketCloud) {
     return STATUS_ICON[type];
   }
 
@@ -115,38 +121,47 @@ function getImportFeatureStatus(
       <strong className="sw-ml-2">
         <FormattedMessage id="settings.almintegration.feature.alm_repo_import.disabled" />
       </strong>
-      <HelpTooltip
+
+      <ToggleTip
         className="sw-ml-1"
-        overlay={translate('settings.almintegration.feature.alm_repo_import.disabled.no_url')}
+        description={
+          <FormattedMessage id="settings.almintegration.feature.alm_repo_import.disabled.no_url" />
+        }
       />
     </div>
   );
 }
 
-function getPrDecoFeatureDescription(alm: AlmKeys) {
+function getPrDecoFeatureDescription(alm: AlmKeys, formatMessage: FormatMessage) {
   switch (alm) {
     case AlmKeys.GitLab:
-      return translate('settings.almintegration.feature.status_reporting.description_mr');
+      return formatMessage({
+        id: 'settings.almintegration.feature.status_reporting.description_mr',
+      });
     case AlmKeys.GitHub:
-      return translate(
-        'settings.almintegration.feature.status_reporting.description_pr_and_commits',
-      );
+      return formatMessage({
+        id: 'settings.almintegration.feature.status_reporting.description_pr_and_commits',
+      });
     default:
-      return translate('settings.almintegration.feature.status_reporting.description_pr');
+      return formatMessage({
+        id: 'settings.almintegration.feature.status_reporting.description_pr',
+      });
   }
 }
 
-export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxProps) {
+export default function AlmBindingDefinitionBox(props: Readonly<AlmBindingDefinitionBoxProps>) {
   const { alm, branchesEnabled, definition, status = DEFAULT_STATUS } = props;
+  const { formatMessage } = useIntl();
 
   return (
     <div className="it__alm-binding-definition sw-pb-10">
-      <BasicSeparator className="sw-mb-6" />
+      <Divider className="sw-mb-6" />
+
       <ButtonGroup className="sw-float-right">
         <Button
-          ariaLabel={translateWithParameters(
-            'settings.almintegration.edit_configuration',
-            definition.key,
+          ariaLabel={formatMessage(
+            { id: 'settings.almintegration.edit_configuration' },
+            { 0: definition.key },
           )}
           onClick={() => {
             props.onEdit(definition.key);
@@ -155,9 +170,9 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
           <FormattedMessage id="edit" />
         </Button>
         <Button
-          ariaLabel={translateWithParameters(
-            'settings.almintegration.delete_configuration',
-            definition.key,
+          ariaLabel={formatMessage(
+            { id: 'settings.almintegration.delete_configuration' },
+            { 0: definition.key },
           )}
           onClick={() => {
             props.onDelete(definition.key);
@@ -174,22 +189,34 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
       {status.type !== AlmSettingsBindingStatusType.Warning && (
         <div className="sw-flex sw-mb-3">
           <div className="sw-mr-10">
-            <Tooltip content={getPrDecoFeatureDescription(alm)}>
+            <div className="sw-flex sw-items-center">
               <span>
                 <FormattedMessage id="settings.almintegration.feature.status_reporting.title" />
               </span>
-            </Tooltip>
+
+              <ToggleTip
+                className="sw-ml-1"
+                description={getPrDecoFeatureDescription(alm, formatMessage)}
+              />
+            </div>
+
             {getPRDecorationFeatureStatus(branchesEnabled, status.type)}
           </div>
           {IMPORT_COMPATIBLE_ALMS.includes(alm) && (
             <div>
-              <Tooltip
-                content={translate('settings.almintegration.feature.alm_repo_import.description')}
-              >
+              <div className="sw-flex sw-items-center">
                 <span>
                   <FormattedMessage id="settings.almintegration.feature.alm_repo_import.title" />
                 </span>
-              </Tooltip>
+
+                <ToggleTip
+                  className="sw-ml-1"
+                  description={
+                    <FormattedMessage id="settings.almintegration.feature.alm_repo_import.description" />
+                  }
+                />
+              </div>
+
               {getImportFeatureStatus(alm, definition, status.type)}
             </div>
           )}
@@ -236,9 +263,9 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
       )}
       <div className="sw-flex sw-items-center">
         <Button
-          aria-label={translateWithParameters(
-            'settings.almintegration.check_configuration_x',
-            definition.key,
+          ariaLabel={formatMessage(
+            { id: 'settings.almintegration.check_configuration_x' },
+            { 0: definition.key },
           )}
           onClick={() => {
             props.onCheck(definition.key);
@@ -247,7 +274,7 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
           <FormattedMessage id="settings.almintegration.check_configuration" />
         </Button>
         <Spinner
-          ariaLabel={translate('settings.almintegration.checking_configuration')}
+          ariaLabel={formatMessage({ id: 'settings.almintegration.checking_configuration' })}
           className="sw-ml-3"
           isLoading={status.type === AlmSettingsBindingStatusType.Validating}
         />

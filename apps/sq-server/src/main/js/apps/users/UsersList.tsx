@@ -18,15 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ActionCell, ContentCell, HelperHintIcon, TableRow } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
+import { ToggleTip } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
+import { ActionCell, ContentCell, TableRow } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { IdentityProvider, Provider } from '~sq-server-commons/types/types';
 import { RestUserDetailed } from '~sq-server-commons/types/users';
 import { StickyTable } from '../../app/components/admin/StickyTable';
 import UserListItem from './components/UserListItem';
-
-import { FormattedMessage } from 'react-intl';
 
 interface Props {
   identityProviders: IdentityProvider[];
@@ -48,9 +47,10 @@ export default function UsersList({ identityProviders, users, manageProvider }: 
       </ContentCell>
       <ContentCell>
         <FormattedMessage id="users.last_sonarlint_connection" />
-        <HelpTooltip overlay={translate('users.last_sonarlint_connection.help_text')}>
-          <HelperHintIcon />
-        </HelpTooltip>
+
+        <ToggleTip
+          description={<FormattedMessage id="users.last_sonarlint_connection.help_text" />}
+        />
       </ContentCell>
       <ContentCell>
         <FormattedMessage id="my_profile.groups" />
@@ -58,7 +58,8 @@ export default function UsersList({ identityProviders, users, manageProvider }: 
       <ContentCell>
         <FormattedMessage id="users.tokens" />
       </ContentCell>
-      {(manageProvider === undefined || users.some((u) => !u.managed)) && (
+
+      {(!isDefined(manageProvider) || users.some((u) => !u.managed)) && (
         <ActionCell>
           <FormattedMessage id="actions" />
         </ActionCell>

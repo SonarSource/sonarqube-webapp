@@ -19,7 +19,7 @@
  */
 
 import { waitFor } from '@testing-library/react';
-import { byRole, byText } from '~shared/helpers/testSelector';
+import { byRole } from '~shared/helpers/testSelector';
 import QualityProfilesServiceMock from '~sq-server-commons/api/mocks/QualityProfilesServiceMock';
 import { getProfilePath } from '~sq-server-commons/helpers/urls';
 
@@ -79,11 +79,9 @@ export const qualityProfilePageObjects = {
   qualityProfilePageLink: byRole('link', { name: 'quality_profiles.back_to_list' }),
   rulesConsistencyRow: byRole('row', { name: /rule.clean_code_attribute_category.CONSISTENT/ }),
   rulesSecurityRow: byRole('row', { name: /rule.clean_code_attribute_category.SECURITY/ }),
-  rulesMissingSonarWayWarning: byText('quality_profiles.sonarway_missing_rules_description'),
   rulesMissingSonarWayLink: byRole('link', {
     name: /quality_profiles.sonarway_see_x_missing_rules/,
   }),
-  rulesDeprecatedWarning: byText('quality_profiles.deprecated_rules_description'),
   rulesDeprecatedLink: byRole('link', { name: '8' }),
 
   waitForDataLoaded: async () => {

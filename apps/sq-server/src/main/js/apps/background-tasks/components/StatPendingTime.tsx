@@ -18,12 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { HelperHintIcon } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
-
+import { ToggleTip } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 
 // Do not display the pending time for values smaller than this threshold (in ms)
 const MIN_PENDING_TIME_THRESHOLD = 1000;
@@ -35,18 +32,17 @@ export interface Props {
 
 export default function StatPendingTime({ pendingCount, pendingTime }: Readonly<Props>) {
   if (!pendingTime || !pendingCount || pendingTime < MIN_PENDING_TIME_THRESHOLD) {
-    return null;
+    return undefined;
   }
   return (
     <div className="sw-flex sw-items-center">
       <span className="sw-typo-lg-semibold sw-mr-1">{formatMeasure(pendingTime, 'MILLISEC')}</span>
       <FormattedMessage id="background_tasks.pending_time" />
-      <HelpTooltip
+
+      <ToggleTip
         className="sw-ml-1"
-        overlay={translate('background_tasks.pending_time.description')}
-      >
-        <HelperHintIcon />
-      </HelpTooltip>
+        description={<FormattedMessage id="background_tasks.pending_time.description" />}
+      />
     </div>
   );
 }

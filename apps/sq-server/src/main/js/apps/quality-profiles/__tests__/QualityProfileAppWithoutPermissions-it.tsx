@@ -126,8 +126,7 @@ describe('Every Users', () => {
     renderQualityProfile();
     await ui.waitForDataLoaded();
 
-    expect(await ui.rulesMissingSonarWayWarning.findAll()).toHaveLength(2);
-    expect(ui.rulesMissingSonarWayLink.get()).toBeInTheDocument();
+    expect(await ui.rulesMissingSonarWayLink.find()).toBeInTheDocument();
     expect(ui.rulesMissingSonarWayLink.get()).toHaveAttribute(
       'href',
       '/coding_rules?qprofile=old-php-qp&activation=false&languages=php',
@@ -138,8 +137,7 @@ describe('Every Users', () => {
     renderQualityProfile();
     await ui.waitForDataLoaded();
 
-    expect(await ui.rulesDeprecatedWarning.findAll()).toHaveLength(1);
-    expect(ui.rulesDeprecatedLink.get()).toBeInTheDocument();
+    expect(await ui.rulesDeprecatedLink.find()).toBeInTheDocument();
     expect(ui.rulesDeprecatedLink.get()).toHaveAttribute(
       'href',
       '/coding_rules?qprofile=old-php-qp&activation=true&statuses=DEPRECATED',

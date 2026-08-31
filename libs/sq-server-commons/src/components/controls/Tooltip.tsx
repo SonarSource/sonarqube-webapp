@@ -37,9 +37,8 @@ interface TooltipProps {
   classNameInner?: string;
   classNameSpace?: string;
   content: ReactNode;
-  // If tooltip overlay has interactive content (links for instance) we may set this to true to stop
-  // default behavior of tabbing (other changes should be done outside of this component to make it work)
-  // See example DocHelpTooltip
+  // If the overlay has interactive content (links for instance) we may set this to true to stop
+  // the default tabbing behavior. Callers still need to provide an accessible interactive trigger.
   isInteractive?: boolean;
   isOpen?: boolean;
   mouseEnterDelay?: number;
@@ -463,8 +462,8 @@ class TooltipInner extends Component<TooltipProps, State> {
             tabIndex: isInteractive ? 0 : undefined,
             // aria-describedby is the semantically correct property to use, but it's not
             // always well supported. We sometimes need to handle this differently, depending
-            // on the triggering element. For example, we can add a child <description> element
-            // if the triggering element is an SVG. See HelpTooltip for an example.
+            // on the triggering element. For example, SVG triggers may need extra accessible
+            // description handling or a surrounding interactive element.
             // We should NOT use aria-labelledby, as this can have unintended effects (e.g., this
             // can mess up buttons that need a tooltip).
             'aria-describedby': this.id,

@@ -18,18 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Link, ToggleTip } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage, HelperHintIcon, Link } from '~design-system';
+import { FlagMessage } from '~design-system';
 import { getDeprecatedActiveRulesUrl } from '~shared/helpers/urls';
-import { translate } from '~sq-server-commons/helpers/l10n';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 
 interface Props {
   activeDeprecatedRules: number;
   profile: string;
 }
 
-export default function ProfileRulesDeprecatedWarning(props: Props) {
+export default function ProfileRulesDeprecatedWarning(props: Readonly<Props>) {
   return (
     <FlagMessage variant="warning">
       <div className="sw-flex sw-gap-1">
@@ -44,9 +43,10 @@ export default function ProfileRulesDeprecatedWarning(props: Props) {
             ),
           }}
         />
-        <HelpTooltip overlay={translate('quality_profiles.deprecated_rules_description')}>
-          <HelperHintIcon aria-label="help-tooltip" />
-        </HelpTooltip>
+
+        <ToggleTip
+          description={<FormattedMessage id="quality_profiles.deprecated_rules_description" />}
+        />
       </div>
     </FlagMessage>
   );

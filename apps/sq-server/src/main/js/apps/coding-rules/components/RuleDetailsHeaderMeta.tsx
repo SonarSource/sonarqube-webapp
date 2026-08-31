@@ -18,16 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Text } from '@sonarsource/echoes-react';
-import { Badge, HelperHintIcon, Link, SeparatorCircleIcon } from '~design-system';
+import { Text, ToggleTip } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
+import { Badge, Link, SeparatorCircleIcon } from '~design-system';
 import { RuleStatusBadge } from '~shared/components/coding-rules/RuleStatusBadge';
+import { isDefined } from '~shared/helpers/types';
 import { RuleDetails, RuleStatus } from '~shared/types/rules';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getRuleUrl } from '~sq-server-commons/helpers/urls';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
-
-import { FormattedMessage } from 'react-intl';
 
 const EXTERNAL_RULE_REPO_PREFIX = 'external_';
 
@@ -52,7 +51,7 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
       {!ruleDetails.isExternal && ruleDetails.isTemplate && (
         <>
           <li>
-            <Tooltip content={translate('coding_rules.rule_template.title')}>
+            <Tooltip content={<FormattedMessage id="coding_rules.rule_template.title" />}>
               <span className="it__coding-rules-detail-property">
                 <FormattedMessage id="coding_rules.rule_template" />
               </span>
@@ -76,9 +75,8 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
               </Link>
               {') '}
             </span>
-            <HelpTooltip overlay={translate('coding_rules.custom_rule.help')}>
-              <HelperHintIcon />
-            </HelpTooltip>
+
+            <ToggleTip description={<FormattedMessage id="coding_rules.custom_rule.help" />} />
           </li>
           <SeparatorCircleIcon aria-hidden as="li" />
         </>
@@ -157,7 +155,8 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
         </>
       )}
       {/* Effort */}
-      {ruleDetails.remFnType && ruleDetails.remFnBaseEffort && (
+
+      {ruleDetails.remFnType && isDefined(ruleDetails.remFnBaseEffort) && (
         <>
           <SeparatorCircleIcon aria-hidden as="li" />
           <li className="sw-flex sw-gap-1">
@@ -168,7 +167,7 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
               className="it__coding-rules-detail-property sw-font-semibold"
               data-meta="remediation-function"
             >
-              {ruleDetails.remFnBaseEffort !== undefined && ` ${ruleDetails.remFnBaseEffort}`}
+              {` ${ruleDetails.remFnBaseEffort}`}
             </span>
           </li>
         </>

@@ -46,16 +46,14 @@ it('should load the component successfully', async () => {
   expect(await screen.findByText('Test Component')).toBeInTheDocument();
 });
 
-it('should display an error message when an error occurs', async () => {
-  const ErrorComponent = () => {
-    throw new Error('Test Error');
-  };
+it('should display an error message when lazy loading fails', async () => {
   const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
-  const LazyComponent = lazyLoadComponent<typeof ErrorComponent>(
+
+  const LazyComponent = lazyLoadComponent<typeof TestComponent>(
     () =>
-      new Promise((resolve) => {
+      new Promise((_resolve, reject) => {
         setTimeout(() => {
-          resolve({ default: ErrorComponent });
+          reject(new Error('Test Error'));
         }, 50);
       }),
   );

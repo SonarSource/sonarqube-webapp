@@ -18,20 +18,21 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { FlagMessage, HelperHintIcon } from '../../design-system';
-import { translate } from '../../helpers/l10n';
-import HelpTooltip from '../../sonar-aligned/components/controls/HelpTooltip';
+import { ToggleTip } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
+import { FlagMessage } from '../../design-system';
 
 export default function IgnoredConditionWarning() {
   return (
     <FlagMessage className="sw-mb-4" variant="info">
-      <span>{translate('overview.quality_gate.ignored_conditions')}</span>
-      <HelpTooltip
-        className="sw-ml-2"
-        overlay={translate('overview.quality_gate.ignored_conditions.tooltip')}
-      >
-        <HelperHintIcon aria-label="help-tooltip" />
-      </HelpTooltip>
+      <span>
+        <FormattedMessage id="overview.quality_gate.ignored_conditions" />
+      </span>
+
+      <ToggleTip
+        className="it__overview-ignored-conditions-help sw-ml-2"
+        description={<FormattedMessage id="overview.quality_gate.ignored_conditions.tooltip" />}
+      />
     </FlagMessage>
   );
 }

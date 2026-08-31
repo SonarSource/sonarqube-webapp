@@ -18,11 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
-import { HelperHintIcon } from '~design-system';
+import { ToggleTip } from '@sonarsource/echoes-react';
+import { memo } from 'react';
+import { useIntl } from 'react-intl';
 import DateFromNow from '~shared/components/intl/DateFromNow';
-import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { ApplicationPeriod } from '~sq-server-commons/types/application';
 
 export interface ApplicationLeakPeriodInfoProps {
@@ -30,22 +29,23 @@ export interface ApplicationLeakPeriodInfoProps {
 }
 
 export function ApplicationLeakPeriodInfo({ leakPeriod }: ApplicationLeakPeriodInfoProps) {
+  const { formatMessage } = useIntl();
+
   return (
     <>
       <DateFromNow date={leakPeriod.date}>
-        {(fromNow) => translateWithParameters('overview.started_x', fromNow)}
+        {(fromNow) => formatMessage({ id: 'overview.started_x' }, { 0: fromNow })}
       </DateFromNow>
-      <HelpTooltip
+
+      <ToggleTip
         className="sw-ml-1"
-        overlay={translateWithParameters(
-          'overview.max_new_code_period_from_x',
-          leakPeriod.projectName,
+        description={formatMessage(
+          { id: 'overview.max_new_code_period_from_x' },
+          { 0: leakPeriod.projectName },
         )}
-      >
-        <HelperHintIcon />
-      </HelpTooltip>
+      />
     </>
   );
 }
 
-export default React.memo(ApplicationLeakPeriodInfo);
+export default memo(ApplicationLeakPeriodInfo);

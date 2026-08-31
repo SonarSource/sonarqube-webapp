@@ -18,22 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Spinner, Tooltip } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner, ToggleTip, Tooltip } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
-import * as React from 'react';
+import { PureComponent } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { OptionProps, SingleValueProps, components } from 'react-select';
-import { Checkbox, DatePicker, HelperHintIcon, InputSearch, InputSelect } from '~design-system';
+import { Checkbox, DatePicker, InputSearch, InputSelect } from '~design-system';
 import { Visibility } from '~shared/types/component';
 import { Project } from '~sq-server-commons/api/project-management';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { AppState } from '~sq-server-commons/types/appstate';
 import BulkApplyTemplateModal from './BulkApplyTemplateModal';
 import DeleteModal from './DeleteModal';
-
-import { FormattedMessage } from 'react-intl';
 
 export interface Props {
   analyzedBefore: Date | undefined;
@@ -63,7 +61,7 @@ interface State {
 
 const QUALIFIERS_ORDER = ['TRK', 'VW', 'APP'];
 
-class Search extends React.PureComponent<Props, State> {
+class Search extends PureComponent<Props, State> {
   state: State = { bulkApplyTemplateModal: false, deleteModal: false };
 
   getQualifierOptions = () => {
@@ -152,7 +150,7 @@ class Search extends React.PureComponent<Props, State> {
   renderQualifierFilter = () => {
     const options = this.getQualifierOptions();
     if (options.length < 2) {
-      return null;
+      return undefined;
     }
     return (
       <InputSelect
@@ -191,8 +189,12 @@ class Search extends React.PureComponent<Props, State> {
     );
   };
 
-  renderTypeFilter = () =>
-    this.props.qualifiers === 'TRK' ? (
+  renderTypeFilter = () => {
+    if (this.props.qualifiers !== 'TRK') {
+      return undefined;
+    }
+
+    return (
       <div className="sw-flex sw-items-center">
         <Checkbox
           checked={this.props.provisioned}
@@ -202,15 +204,15 @@ class Search extends React.PureComponent<Props, State> {
           <span className="sw-ml-1">
             <FormattedMessage id="provisioning.only_provisioned" />
           </span>
-          <HelpTooltip
+
+          <ToggleTip
             className="sw-ml-2"
-            overlay={translate('provisioning.only_provisioned.tooltip')}
-          >
-            <HelperHintIcon />
-          </HelpTooltip>
+            description={<FormattedMessage id="provisioning.only_provisioned.tooltip" />}
+          />
         </Checkbox>
       </div>
-    ) : null;
+    );
+  };
 
   renderDateFilter = () => {
     return (

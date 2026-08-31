@@ -18,11 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ContentCell, HelperHintIcon } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
-
+import { ToggleTip } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { ContentCell } from '~design-system';
 
 interface Props {
   permission: {
@@ -41,12 +39,13 @@ export default function PermissionCell({ permission: p }: Props) {
           {p.withProjectCreator && (
             <li className="sw-mb-2">
               <FormattedMessage id="permission_templates.project_creators" />
-              <HelpTooltip
+
+              <ToggleTip
                 className="sw-ml-2"
-                overlay={translate('permission_templates.project_creators.explanation')}
-              >
-                <HelperHintIcon className="sw-ml-2" />
-              </HelpTooltip>
+                description={
+                  <FormattedMessage id="permission_templates.project_creators.explanation" />
+                }
+              />
             </li>
           )}
           <li className="sw-mb-2">

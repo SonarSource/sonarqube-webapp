@@ -18,17 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ButtonIcon, ButtonVariety, IconEdit, Spinner } from '@sonarsource/echoes-react';
+import { ButtonIcon, ButtonVariety, IconEdit, Spinner, ToggleTip } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FlagWarningIcon, HelperHintIcon } from '~design-system';
+import { FormattedMessage } from 'react-intl';
+import { FlagWarningIcon } from '~design-system';
 import { getWorkers } from '~sq-server-commons/api/ce';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import NoWorkersSupportPopup from './NoWorkersSupportPopup';
 import WorkersForm from './WorkersForm';
-
-import { FormattedMessage } from 'react-intl';
 
 interface State {
   canSetWorkerCount: boolean;
@@ -92,7 +90,7 @@ export default class Workers extends React.PureComponent<{}, State> {
     return (
       <div className="sw-flex sw-items-center">
         {!loading && workerCount > 1 && (
-          <Tooltip content={translate('background_tasks.number_of_workers.warning')}>
+          <Tooltip content={<FormattedMessage id="background_tasks.number_of_workers.warning" />}>
             <div className="sw-py-1/2 sw-mr-1">
               <FlagWarningIcon />
             </div>
@@ -116,9 +114,7 @@ export default class Workers extends React.PureComponent<{}, State> {
           />
         )}
         {!loading && !canSetWorkerCount && (
-          <HelpTooltip className="sw-ml-2" overlay={<NoWorkersSupportPopup />}>
-            <HelperHintIcon />
-          </HelpTooltip>
+          <ToggleTip className="sw-ml-2" extraContent={<NoWorkersSupportPopup />} />
         )}
         {formOpen && <WorkersForm onClose={this.closeForm} workerCount={this.state.workerCount} />}
       </div>

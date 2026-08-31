@@ -19,9 +19,16 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, ButtonVariety, cssVar, Heading, Spinner } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  cssVar,
+  Heading,
+  Spinner,
+  ToggleTip,
+} from '@sonarsource/echoes-react';
 import { keyBy } from 'lodash';
-import * as React from 'react';
+import { useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ContentCell, NumericalCell, Table, TableRow } from '~design-system';
 import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
@@ -34,7 +41,6 @@ import { getRulesUrl } from '~sq-server-commons/helpers/urls';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { useGetQualityProfileQuery } from '~sq-server-commons/queries/quality-profiles';
 import { useSearchRulesQuery } from '~sq-server-commons/queries/rules';
-import DocHelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/DocHelpTooltip';
 import { SearchRulesResponse } from '~sq-server-commons/types/coding-rules';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
 import { RulesFacetName } from '~sq-server-commons/types/rules';
@@ -55,7 +61,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
   const { data: isStandardMode } = useStandardExperienceModeQuery();
   const activateMoreUrl = getRulesUrl({ qprofile: profile.key, activation: 'false' });
   const { actions = {} } = profile;
-  const intl = useIntl();
+  const { formatMessage } = useIntl();
 
   const { data: allRulesPaginated, isLoading: isAllRulesLoading } = useSearchRulesQuery(
     {
@@ -87,12 +93,12 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
     { enabled: !profile.isBuiltIn, select: (data) => data.compareToSonarWay },
   );
 
-  const findFacet = React.useCallback((response: SearchRulesResponse, property: string) => {
+  const findFacet = useCallback((response: SearchRulesResponse, property: string) => {
     const facet = response.facets?.find((f) => f.property === property);
     return facet ? facet.values : [];
   }, []);
 
-  const extractFacetData = React.useCallback(
+  const extractFacetData = useCallback(
     (facetName: string, response: SearchRulesResponse | null | undefined) => {
       if (!response) {
         return {};
@@ -120,7 +126,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
   const countsByTypes = extractFacetData(RulesFacetName.Types, activatedRules);
 
   return (
-    <section aria-label={translate('rules')} className="it__quality-profiles__rules">
+    <section aria-label={formatMessage({ id: 'rules' })} className="it__quality-profiles__rules">
       <Spinner isLoading={isActivatedRulesLoading || isAllRulesLoading || isShowProfileLoading}>
         <Heading as="h2" className="sw-mb-4">
           <FormattedMessage id="quality_profile.rules.breakdown" />
@@ -190,7 +196,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
                   propertyName={RulesFacetName.ImpactSoftwareQualities}
                   propertyValue={quality}
                   qprofile={profile.key}
-                  title={intl.formatMessage({ id: SOFTWARE_QUALITY_LABELS[quality] })}
+                  title={formatMessage({ id: SOFTWARE_QUALITY_LABELS[quality] })}
                   total={totalBySoftwareQuality[quality]?.count}
                 />
               ))}
@@ -262,7 +268,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
           {/* this user could potentially activate more rules if the profile was not built-in */}
           {/* in such cases it's better to show the button but disable it with a tooltip */}
           {actions.copy && profile.isBuiltIn && (
-            <DocHelpTooltip content={translate('quality_profiles.activate_more.help.built_in')}>
+            <div className="sw-inline-flex sw-items-center sw-gap-2">
               <Button
                 className="it__quality-profiles__activate-rules"
                 isDisabled
@@ -270,7 +276,11 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
               >
                 <FormattedMessage id="quality_profiles.activate_more" />
               </Button>
-            </DocHelpTooltip>
+
+              <ToggleTip
+                description={<FormattedMessage id="quality_profiles.activate_more.help.built_in" />}
+              />
+            </div>
           )}
         </div>
       </Spinner>

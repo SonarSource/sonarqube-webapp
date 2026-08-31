@@ -18,42 +18,43 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
-import { HelperHintIcon, StandoutLink } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
-
+import { LinkHighlight, LinkStandalone, ToggleTip } from '@sonarsource/echoes-react';
+import type { MouseEvent } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { isDefined } from '~shared/helpers/types';
 
 export interface Props {
   failingCount?: number;
-  onShowFailing: (e: React.SyntheticEvent<HTMLAnchorElement>) => void;
+  onShowFailing: (e: MouseEvent<HTMLElement>) => void;
 }
 
 export default function StatStillFailing({ failingCount, onShowFailing }: Readonly<Props>) {
-  if (failingCount === undefined) {
-    return null;
+  if (!isDefined(failingCount)) {
+    return undefined;
   }
 
   return (
-    <div className="sw-flex sw-items-center ">
+    <div className="sw-flex sw-items-center">
       {failingCount > 0 ? (
-        <StandoutLink
+        <LinkStandalone
           className="sw-typo-lg-semibold sw-align-baseline"
+          highlight={LinkHighlight.Accent}
           onClick={onShowFailing}
           to="#"
         >
           {failingCount}
-        </StandoutLink>
+        </LinkStandalone>
       ) : (
         <span className="sw-typo-lg-semibold">{failingCount}</span>
       )}
       <span className="sw-ml-1">
         <FormattedMessage id="background_tasks.failures" />
       </span>
-      <HelpTooltip className="sw-ml-1" overlay={translate('background_tasks.failing_count')}>
-        <HelperHintIcon />
-      </HelpTooltip>
+
+      <ToggleTip
+        className="sw-ml-1"
+        description={<FormattedMessage id="background_tasks.failing_count" />}
+      />
     </div>
   );
 }
