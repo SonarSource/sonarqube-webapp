@@ -174,29 +174,8 @@ function AllProjectsCardSkeleton() {
   );
 }
 
-/** One DevOps-platform placeholder row: icon + name, two counts and a share bar. */
-function DevopsRowSkeleton() {
-  return (
-    <div className="sw-flex sw-flex-col sw-gap-2 sw-py-3">
-      <div className="sw-flex sw-items-center sw-justify-between">
-        <div className="sw-flex sw-shrink-0 sw-items-center sw-gap-2 sw-w-[150px]">
-          <LoadingSkeleton className="sw-h-5 sw-w-5" variety="disk" />
-          <LoadingSkeleton className="sw-w-24" variety="text" />
-        </div>
-        <LoadingSkeleton className="sw-w-10" variety="text" />
-        <LoadingSkeleton className="sw-w-10" variety="text" />
-      </div>
-
-      <LoadingSkeleton className="sw-h-2 sw-w-full" variety="rectangle" />
-    </div>
-  );
-}
-
 /**
- * Full-page loading placeholder for the onboarding dashboard. Mirrors the journey layout — header,
- * stepper, detail panel, over-time chart, all-projects table and the DevOps platforms card — so the
- * layout stays stable when data arrives. Meant to render inside a LoadingContainer, from which every
- * skeleton reads its `isLoading` state.
+ * Full-page loading placeholder for the onboarding dashboard.
  */
 export function OnboardingDashboardSkeleton() {
   return (
@@ -219,17 +198,6 @@ export function OnboardingDashboardSkeleton() {
         <OverTimeCardSkeleton />
 
         <AllProjectsCardSkeleton />
-
-        <Card className="sw-min-w-0">
-          <CardHeaderSkeleton />
-          <Card.Body>
-            <div className="sw-flex sw-flex-col">
-              {Array.from({ length: 4 }, (_, index) => (
-                <DevopsRowSkeleton key={`devops-${index}`} />
-              ))}
-            </div>
-          </Card.Body>
-        </Card>
       </div>
     </div>
   );

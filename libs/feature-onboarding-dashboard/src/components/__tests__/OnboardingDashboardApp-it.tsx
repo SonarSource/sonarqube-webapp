@@ -69,14 +69,6 @@ it('shows an error message when the overview request fails', async () => {
   expect(ui.headerSubtitle.query()).not.toBeInTheDocument();
 });
 
-it('shows an error message instead of silently dropping the DevOps platforms card when statistics fail', async () => {
-  onboardingMock.setFailStatistics(true);
-  renderOnboardingDashboard();
-
-  expect(await ui.error.find()).toBeInTheDocument();
-  expect(ui.devopsTitle.query()).not.toBeInTheDocument();
-});
-
 it('shows loading skeletons before the dashboard data resolves', async () => {
   renderOnboardingDashboard();
 
@@ -107,18 +99,6 @@ it('renders the page header with the progress tagline next to the heading', asyn
   // importedPct and analyzedPct — so it appears exactly once. The ring only mounts once the
   // overview query resolves.
   expect(await ui.headerProgress.find()).toBeInTheDocument();
-});
-
-it('renders the DevOps platforms card with brand rows and a not-bound row', async () => {
-  renderOnboardingDashboard();
-
-  expect(await ui.devopsTitle.find()).toBeInTheDocument();
-  expect(ui.devopsGithub.get()).toBeInTheDocument();
-  expect(ui.devopsBitbucket.get()).toBeInTheDocument();
-  expect(ui.devopsGitlab.get()).toBeInTheDocument();
-  expect(ui.devopsAzure.get()).toBeInTheDocument();
-  expect(ui.devopsNotBound.get()).toBeInTheDocument();
-  expect(ui.devopsGithubBar.get()).toBeInTheDocument();
 });
 
 it('composes the all-projects card but not the stale-projects one — STALE_PROJECTS_FEATURE_ENABLED is off', async () => {

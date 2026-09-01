@@ -113,15 +113,6 @@ export const ui = {
   lockedStatsCta: byRole('link', { name: 'onboarding_dashboard.journey.locked.stats.cta' }),
   lockedMoreTitle: byText('onboarding_dashboard.journey.locked.more.title'),
 
-  // DevOps platforms
-  devopsTitle: byText('onboarding_dashboard.devops.title'),
-  devopsGithub: byText('alm.github'),
-  devopsBitbucket: byText('alm.bitbucket'),
-  devopsGitlab: byText('alm.gitlab'),
-  devopsAzure: byText('alm.azure'),
-  devopsNotBound: byText('onboarding_dashboard.devops.not_bound'),
-  devopsGithubBar: byRole('progressbar', { name: 'alm.github' }),
-
   // All-projects card — only what shows the dashboard wired it in. Its own behaviour is covered by
   // AllProjectsCard-it.
   projectsTable: byRole('table', { name: 'onboarding_dashboard.projects.title' }),

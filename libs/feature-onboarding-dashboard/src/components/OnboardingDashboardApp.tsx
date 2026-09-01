@@ -28,7 +28,6 @@ import {
   useOnboardingStatisticsQuery,
 } from '~shared/queries/onboarding';
 import { deriveJourneyState } from '../helpers/deriveJourneyState';
-import { OnboardingDevopsPlatformsCard } from './devops/OnboardingDevopsPlatformsCard';
 import { OnboardingJourney } from './journey/OnboardingJourney';
 import { OnboardingDashboardSkeleton } from './OnboardingDashboardSkeleton';
 
@@ -36,9 +35,6 @@ export default function OnboardingDashboardApp() {
   const { formatMessage } = useIntl();
   const organizationKey = useOnboardingOrganizationKey();
   const { data, isPending, isError } = useOnboardingOverviewQuery({ organizationKey });
-  // The adoption history and platform breakdown live on a separate endpoint; the journey renders
-  // without them, so a slower or failing statistics call must not block or fail the page — it only
-  // replaces the DevOps platforms card with an error message instead of silently dropping it.
   const { data: statistics, isError: isStatisticsError } = useOnboardingStatisticsQuery({
     organizationKey,
   });
@@ -68,14 +64,10 @@ export default function OnboardingDashboardApp() {
               {journeyState !== undefined && (
                 <OnboardingJourney state={journeyState} timeline={statistics?.timeline ?? []} />
               )}
-              {isStatisticsError ? (
+              {isStatisticsError && (
                 <MessageCallout variety="danger">
                   <FormattedMessage id="default_error_message" />
                 </MessageCallout>
-              ) : (
-                statistics !== undefined && (
-                  <OnboardingDevopsPlatformsCard data={statistics.devopsPlatforms} />
-                )
               )}
             </div>
           )}

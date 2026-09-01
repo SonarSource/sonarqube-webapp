@@ -11137,13 +11137,6 @@ export const defaultMessages = {
   'onboarding_dashboard.loading': 'Loading dashboard',
   'onboarding_dashboard.table.results_size': '{size}/{total} results',
   'onboarding_dashboard.percent': '{percent}%',
-  'onboarding_dashboard.devops.title': 'DevOps platforms',
-  'onboarding_dashboard.devops.description':
-    'How all repositories are distributed across DevOps platforms.',
-  'onboarding_dashboard.devops.not_bound': 'Not bound',
-  'onboarding_dashboard.devops.share': '{percent}%',
-  'onboarding_dashboard.devops.count': '{count} project(s)',
-  'onboarding_dashboard.devops.platform_count': '<b>{count}</b> platform(s)',
   'onboarding_dashboard.stale.title': 'Commits not being scanned',
   'onboarding_dashboard.stale.loading': 'Loading stale projects',
   'onboarding_dashboard.stale.description':
