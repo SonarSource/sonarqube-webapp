@@ -178,6 +178,8 @@ const NEW_CODE_METRICS = new Set<MetricKey>([
   MetricKey.lines_to_cover,
   MetricKey.duplicated_lines_density,
   MetricKey.duplicated_lines,
+  MetricKey.ncloc,
+  MetricKey.lines,
   MetricKey.branch_coverage,
   MetricKey.conditions_to_cover,
   MetricKey.duplicated_blocks,

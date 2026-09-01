@@ -39,6 +39,7 @@ describe('portfolioDashboardMeasures', () => {
   it('exposes expected new-code scope keys', () => {
     expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.coverage)).toBe(true);
     expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.ncloc)).toBe(true);
+    expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.lines)).toBe(true);
     expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.new_coverage)).toBe(false);
     expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.alert_status)).toBe(false);
     expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.sca_rating_any_issue)).toBe(
@@ -86,6 +87,12 @@ describe('portfolioDashboardMeasures', () => {
     it('maps ncloc to new_ncloc when scope is new', () => {
       expect(getPortfolioDashboardMeasureRequestKey(MetricKey.ncloc, true)).toBe(
         MetricKey.new_ncloc,
+      );
+    });
+
+    it('maps lines to new_lines when scope is new', () => {
+      expect(getPortfolioDashboardMeasureRequestKey(MetricKey.lines, true)).toBe(
+        MetricKey.new_lines,
       );
     });
 

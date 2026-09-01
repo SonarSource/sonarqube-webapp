@@ -287,7 +287,12 @@ describe('dashboard widget data helpers', () => {
       expect(getPortfolioDashboardMeasureRequestKey(MetricKey.coverage, true)).toBe(
         MetricKey.new_coverage,
       );
-      expect(getPortfolioDashboardMeasureRequestKey(MetricKey.ncloc, true)).toBe(MetricKey.ncloc);
+      expect(getPortfolioDashboardMeasureRequestKey(MetricKey.ncloc, true)).toBe(
+        MetricKey.new_ncloc,
+      );
+      expect(getPortfolioDashboardMeasureRequestKey(MetricKey.lines, true)).toBe(
+        MetricKey.new_lines,
+      );
     });
   });
 
@@ -841,6 +846,8 @@ describe('dashboard widget data helpers', () => {
           MetricKey.new_lines_to_cover,
           MetricKey.new_uncovered_lines,
           MetricKey.new_coverage,
+          MetricKey.new_ncloc,
+          MetricKey.new_lines,
         ]),
       );
     });

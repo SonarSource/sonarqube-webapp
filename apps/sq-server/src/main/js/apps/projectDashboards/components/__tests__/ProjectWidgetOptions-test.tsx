@@ -177,6 +177,20 @@ describe('ProjectWidgetOptions', () => {
     expect(lineValues).toEqual(expect.not.arrayContaining(expectedRatingBadgeMetrics));
   });
 
+  it('includes both lines and NCLOC in count and line chart pickers', () => {
+    const options = getSqsProjectWidgetMetricPickerOptions(createIntl({ locale: 'en' }));
+    const lineChartMetrics = options.lineChartMetrics as NonNullable<
+      typeof options.lineChartMetrics
+    >;
+    const countValues = options.countMetrics.flatMap(({ items }) =>
+      items.map(({ value }) => value),
+    );
+    const lineValues = lineChartMetrics.flatMap(({ items }) => items.map(({ value }) => value));
+
+    expect(countValues).toEqual(expect.arrayContaining([MetricKey.lines, MetricKey.ncloc]));
+    expect(lineValues).toEqual(expect.arrayContaining([MetricKey.lines, MetricKey.ncloc]));
+  });
+
   it('includes issue density and issue resolution metrics in count and line chart pickers', () => {
     const options = getSqsProjectWidgetMetricPickerOptions(createIntl({ locale: 'en' }));
     const lineChartMetrics = options.lineChartMetrics as NonNullable<

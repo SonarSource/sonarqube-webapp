@@ -72,7 +72,12 @@ const PROJECT_WIDGET_METRIC_GROUPS: readonly MetricGroupDefinition[] = [
   },
   {
     domain: 'Size',
-    keys: [MetricKey.comment_lines, MetricKey.comment_lines_density, MetricKey.lines],
+    keys: [
+      MetricKey.comment_lines,
+      MetricKey.comment_lines_density,
+      MetricKey.lines,
+      MetricKey.ncloc,
+    ],
   },
 ];
 
