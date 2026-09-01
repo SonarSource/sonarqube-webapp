@@ -68,12 +68,13 @@ import { useProjectId } from '~sq-server-commons/sq-server-adapters/helpers/useP
 import { useCurrentUser } from '~sq-server-commons/sq-server-adapters/helpers/users';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import {
+  useCreateProjectDashboardDuplicateMutation,
   useDeleteProjectDashboardMutation,
   useGetProjectDashboardQuery,
   useUpdateProjectDashboardMutation,
 } from '../../../queries/project-dashboards';
 import { supportsCustomProjectDashboards } from '../permissions';
-import { getProjectDashboardsListRoute } from '../routes';
+import { getProjectCustomDashboardRoute, getProjectDashboardsListRoute } from '../routes';
 import { ProjectDashboardModal } from './ProjectDashboardModal';
 import {
   projectDashboardWidgetBodyMap,
@@ -90,11 +91,11 @@ export function ProjectCustomDashboardPage() {
   const { formatMessage } = useIntl();
   const navigate = useNavigate();
   const { component } = useComponent();
-  const currentUser = useCurrentUser();
+  const { currentUser, isLoggedIn } = useCurrentUser();
   const { edition } = useAppState();
   const { dashboardId = '' } = useParams<{ dashboardId?: string }>();
   const projectId = useProjectId() ?? '';
-  const canEdit = currentUser.isLoggedIn && supportsCustomProjectDashboards(edition);
+  const canEdit = isLoggedIn && supportsCustomProjectDashboards(edition);
   const canDownloadSchema = hasGlobalPermission(currentUser, Permissions.Admin);
   const editDocumentationUrl = useDocUrl(DocLink.ProjectManagementCreateDashboards);
   const viewDocumentationUrl = useDocUrl(DocLink.ProjectManagementAllDashboards);
@@ -104,6 +105,7 @@ export function ProjectCustomDashboardPage() {
   const [isEditWidgetModalOpen, setIsEditWidgetModalOpen] = useState(false);
   const [isCreateSectionModalOpen, setIsCreateSectionModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDuplicateModalOpen, setIsDuplicateModalOpen] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [localLayout, setLocalLayout] =
     useState<DashboardInstance<ProjectDashboardWidgetPropMap> | null>(null);
@@ -115,6 +117,8 @@ export function ProjectCustomDashboardPage() {
     { dashboardId, projectId },
     { enabled: Boolean(projectId && dashboardId && !invalidId) },
   );
+  const { mutate: duplicateDashboard, isPending: isDuplicating } =
+    useCreateProjectDashboardDuplicateMutation();
   const { mutate: updateDashboard, isPending: isUpdating } = useUpdateProjectDashboardMutation();
   const { mutate: deleteDashboard, isPending: isDeleting } = useDeleteProjectDashboardMutation();
   const dashboard = query.data;
@@ -305,8 +309,8 @@ export function ProjectCustomDashboardPage() {
                     }
                   : undefined
               }
-              onEditDashboard={() => {
-                setIsEditing(true);
+              onDuplicate={() => {
+                setIsDuplicateModalOpen(true);
               }}
               onEditNameDescription={() => {
                 setIsEditModalOpen(true);
@@ -399,6 +403,49 @@ export function ProjectCustomDashboardPage() {
           );
         }}
       />
+      {isDuplicateModalOpen && (
+        <ProjectDashboardModal
+          dashboard={dashboardForModal}
+          isOpen
+          isSaving={isDuplicating}
+          mode={DashboardMode.Duplicate}
+          onClose={() => {
+            setIsDuplicateModalOpen(false);
+          }}
+          onOpenChange={setIsDuplicateModalOpen}
+          onSave={(duplicate) => {
+            duplicateDashboard(
+              {
+                description: duplicate.description,
+                duplicateSource: dashboard,
+                name: duplicate.name,
+                projectId,
+              },
+              {
+                onError: () => {
+                  toast.error({
+                    description: formatMessage({
+                      id: 'project_dashboard.list.toast.duplicate_error',
+                    }),
+                    isDismissable: true,
+                  });
+                },
+                onSuccess: (created) => {
+                  setIsDuplicateModalOpen(false);
+                  toast.success({
+                    description: formatMessage(
+                      { id: 'project_dashboard.list.toast.duplicate_success' },
+                      { dashboardName: created.name },
+                    ),
+                    isDismissable: true,
+                  });
+                  navigate(getProjectCustomDashboardRoute(created.id, component.key));
+                },
+              },
+            );
+          }}
+        />
+      )}
       <CreateSectionModal
         isOpen={isCreateSectionModalOpen}
         onClose={() => {

@@ -18,28 +18,31 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { DashboardType } from '~feature-dashboards/types/dashboard-list';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { Permissions } from '~sq-server-commons/types/permissions';
+import { getProjectCustomDashboardRoute } from '../../routes';
 import { ProjectCustomDashboardPage } from '../ProjectCustomDashboardPage';
 
 const mockUpdate = jest.fn();
 const mockDelete = jest.fn();
+const mockDuplicate = jest.fn();
 const mockRetry = jest.fn();
 const mockResetTargetSection = jest.fn();
 const mockUseUsersByIdsQuery = jest.fn();
 const mockDownloadDashboardSchema = jest.fn();
+const mockNavigate = jest.fn();
 let mockCurrentUser: { isLoggedIn: boolean; permissions: { global: Permissions[] } };
 let mockDashboardId = '77acc15a-1742-42ff-9469-7e4de1faa19f';
 let mockQuery: { data?: unknown; error?: unknown; isPending: boolean; refetch: () => void };
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual<typeof import('react-router-dom')>('react-router-dom'),
-  useNavigate: () => jest.fn(),
+  useNavigate: () => mockNavigate,
   useParams: () => ({ dashboardId: mockDashboardId }),
 }));
 
@@ -50,7 +53,10 @@ jest.mock('~sq-server-commons/sq-server-adapters/helpers/useProjectId', () => ({
   useProjectId: () => 'project-id',
 }));
 jest.mock('~sq-server-commons/sq-server-adapters/helpers/users', () => ({
-  useCurrentUser: () => mockCurrentUser,
+  useCurrentUser: () => ({
+    currentUser: mockCurrentUser,
+    isLoggedIn: mockCurrentUser.isLoggedIn,
+  }),
 }));
 jest.mock('~sq-server-commons/queries/users', () => ({
   useUsersByIdsQuery: (ids: string[]) => mockUseUsersByIdsQuery(ids),
@@ -60,6 +66,10 @@ jest.mock('~feature-dashboards/helpers/downloadDashboardSchema', () => ({
 }));
 
 jest.mock('../../../../queries/project-dashboards', () => ({
+  useCreateProjectDashboardDuplicateMutation: () => ({
+    isPending: false,
+    mutate: mockDuplicate,
+  }),
   useDeleteProjectDashboardMutation: () => ({ isPending: false, mutate: mockDelete }),
   useGetProjectDashboardQuery: () => mockQuery,
   useUpdateProjectDashboardMutation: () => ({ isPending: false, mutate: mockUpdate }),
@@ -265,20 +275,27 @@ jest.mock(
 jest.mock('../ProjectDashboardModal', () => ({
   ProjectDashboardModal: ({
     isOpen,
+    onClose,
     onSave,
   }: {
     isOpen: boolean;
+    onClose: () => void;
     onSave: (dashboard: never) => void;
   }) =>
     isOpen ? (
-      <button
-        onClick={() => {
-          onSave({ id: 'dashboard-id', name: 'Renamed', description: '' } as never);
-        }}
-        type="button"
-      >
-        save-metadata
-      </button>
+      <div>
+        <button
+          onClick={() => {
+            onSave({ id: 'dashboard-id', name: 'Renamed', description: '' } as never);
+          }}
+          type="button"
+        >
+          save-metadata
+        </button>
+        <button onClick={onClose} type="button">
+          close-metadata
+        </button>
+      </div>
     ) : null,
 }));
 jest.mock('../ProjectWidgetOptions', () => ({ ProjectWidgetOptions: () => null }));
@@ -288,12 +305,14 @@ jest.mock('~feature-dashboards/dashboard-list/DashboardKebabMenu', () => ({
   DashboardKebabMenuItems: ({
     onDelete,
     onDownloadSchema,
+    onDuplicate,
     onEditDashboard,
     onEditNameDescription,
   }: {
     onDelete: (controls: { close: () => void }) => void;
     onDownloadSchema?: () => void;
-    onEditDashboard: () => void;
+    onDuplicate?: () => void;
+    onEditDashboard?: () => void;
     onEditNameDescription: () => void;
   }) => (
     <div>
@@ -302,9 +321,16 @@ jest.mock('~feature-dashboards/dashboard-list/DashboardKebabMenu', () => ({
           download-schema
         </button>
       )}
-      <button onClick={onEditDashboard} type="button">
-        edit-dashboard-action
-      </button>
+      {onEditDashboard && (
+        <button onClick={onEditDashboard} type="button">
+          edit-dashboard-action
+        </button>
+      )}
+      {onDuplicate && (
+        <button onClick={onDuplicate} type="button">
+          duplicate-dashboard
+        </button>
+      )}
       <button onClick={onEditNameDescription} type="button">
         edit-metadata
       </button>
@@ -425,6 +451,7 @@ describe('ProjectCustomDashboardPage', () => {
     expect(editStatus).toHaveTextContent('project_dashboard.last_edited_by');
     expect(editStatus).toHaveTextContent('Alice');
     expect(mockUseUsersByIdsQuery).toHaveBeenCalledWith(['editor-id']);
+    expect(screen.queryByRole('button', { name: 'edit-dashboard-action' })).not.toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'dashboard.edit_dashboard' }));
     expect(screen.getByTestId('dashboard-content')).toHaveTextContent('editing:true');
@@ -447,6 +474,36 @@ describe('ProjectCustomDashboardPage', () => {
     rerender(<ProjectCustomDashboardPage />);
 
     expect(screen.queryByRole('button', { name: 'download-schema' })).not.toBeInTheDocument();
+  });
+
+  it('duplicates the dashboard from the menu', async () => {
+    const { user } = renderProjectCustomDashboardPage();
+
+    await user.click(screen.getByRole('button', { name: 'duplicate-dashboard' }));
+    await user.click(screen.getByRole('button', { name: 'close-metadata' }));
+    expect(screen.queryByRole('button', { name: 'save-metadata' })).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'duplicate-dashboard' }));
+    await user.click(screen.getByRole('button', { name: 'save-metadata' }));
+
+    expect(mockDuplicate).toHaveBeenCalledWith(
+      {
+        description: '',
+        duplicateSource: dashboard,
+        name: 'Renamed',
+        projectId: 'project-id',
+      },
+      expect.any(Object),
+    );
+
+    act(() => {
+      mockDuplicate.mock.calls[0][1].onSuccess({ id: 'new-id', name: 'Renamed' });
+    });
+
+    expect(mockNavigate).toHaveBeenCalledWith(
+      getProjectCustomDashboardRoute('new-id', 'project-key'),
+    );
+    expect(screen.queryByRole('button', { name: 'save-metadata' })).not.toBeInTheDocument();
   });
 
   it('renders not found for an invalid dashboard id', () => {
