@@ -32,6 +32,9 @@ import {
   createLinearYScale,
   createTimeXScale,
   getNearestIndex,
+  hasSingleDatapoint,
+  SINGLE_DATAPOINT_OUTLINE_WIDTH_PX,
+  SINGLE_DATAPOINT_RADIUS_PX,
   useChartDimensions,
 } from '../chartGeometry';
 import { RenderArea } from '../RenderArea';
@@ -100,7 +103,7 @@ export function LineChart(props: Readonly<LineChartProps>) {
 
   const [paddingTop, paddingRight, paddingBottom, paddingLeft] = padding;
   const availableWidth = dimensions.width - paddingLeft - paddingRight;
-  const isSingleDatapoint = data.length === 1;
+  const isSingleDatapoint = hasSingleDatapoint(data);
   const availableHeight =
     dimensions.height -
     paddingTop -
@@ -268,14 +271,25 @@ export function LineChart(props: Readonly<LineChartProps>) {
               y2={yScale(milestoneValue)}
             />
           )}
-          <path
-            d={linePath || undefined}
-            fill="none"
-            stroke={color}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={isSingleDatapoint ? 6 : strokeWidth}
-          />
+          {isSingleDatapoint && data[0] ? (
+            <circle
+              cx={xScale(new Date(data[0].x))}
+              cy={yScale(data[0].y)}
+              fill={color}
+              r={SINGLE_DATAPOINT_RADIUS_PX}
+              stroke={cssVar('color-surface-default')}
+              strokeWidth={SINGLE_DATAPOINT_OUTLINE_WIDTH_PX}
+            />
+          ) : (
+            <path
+              d={linePath || undefined}
+              fill="none"
+              stroke={color}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={strokeWidth}
+            />
+          )}
           <RenderDots
             color={color}
             data={data}

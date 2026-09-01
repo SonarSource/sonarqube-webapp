@@ -75,6 +75,7 @@ jest.mock('../../RenderChartFooter', () => ({
   SINGLE_DATAPOINT_MESSAGE_HEIGHT_PX: 24,
   RenderChartFooter: ({
     focusedSeriesIndex,
+    isSingleDatapoint,
     legendContainerRef,
     legendItems,
     onLegendMouseEnter,
@@ -82,8 +83,10 @@ jest.mock('../../RenderChartFooter', () => ({
     onSeriesHover,
     onSeriesSelect,
     showLegend,
+    singleDatapointMessageId,
   }: {
     focusedSeriesIndex: number | undefined;
+    isSingleDatapoint: boolean;
     legendContainerRef?: RefObject<HTMLDivElement | null>;
     legendItems: Array<{ color: string; label: string; seriesIndex?: number }>;
     onLegendMouseEnter?: () => void;
@@ -91,6 +94,7 @@ jest.mock('../../RenderChartFooter', () => ({
     onSeriesHover?: (index: number | undefined) => void;
     onSeriesSelect?: (index: number) => void;
     showLegend: boolean;
+    singleDatapointMessageId?: string;
   }) => (
     <div
       data-testid="legend-container"
@@ -99,7 +103,7 @@ jest.mock('../../RenderChartFooter', () => ({
       ref={legendContainerRef}
     >
       <div data-testid="footer-summary">
-        {`footer:${String(showLegend)}:focused=${String(focusedSeriesIndex)}:count=${legendItems.length}`}
+        {`footer:${String(showLegend)}:single=${String(isSingleDatapoint)}:message=${String(singleDatapointMessageId)}:focused=${String(focusedSeriesIndex)}:count=${legendItems.length}`}
       </div>
       {legendItems.map((item, index) => (
         <button
@@ -577,7 +581,7 @@ describe('MultiLineChart', () => {
     expect(screen.getByTestId('footer-summary')).toHaveTextContent('focused=undefined');
   });
 
-  it('uses thick stroke when every series has a single data point', async () => {
+  it('renders single-point series as outlined markers while preserving other series lines', async () => {
     renderWithContext(
       <MultiLineChart
         ariaLabel="multi-line-chart"
@@ -592,13 +596,157 @@ describe('MultiLineChart', () => {
             id: 'a',
             label: 'A',
           }),
+          buildSeries({ color: '#00ff00', id: 'b', label: 'B' }),
         ]}
       />,
     );
 
     const svg = await screen.findByLabelText('multi-line-chart');
-    // eslint-disable-next-line testing-library/no-node-access -- stroke path has no role
-    expect(svg.querySelector('path')).toHaveAttribute('stroke-width', '6');
+    /* eslint-disable testing-library/no-node-access -- chart primitives have no roles */
+    const marker = svg.querySelector('circle');
+    const line = svg.querySelector('path');
+    expect(marker).toHaveAttribute('fill', '#ff0000');
+    expect(marker).toHaveAttribute('r', '3');
+    expect(marker).toHaveAttribute('stroke-width', '2');
+    expect(line).toHaveAttribute('stroke', '#00ff00');
+    expect(line).toHaveAttribute('stroke-width', '2');
+    /* eslint-enable testing-library/no-node-access */
+    expect(screen.getByTestId('footer-summary')).toHaveTextContent('single=true');
+    expect(screen.getByTestId('footer-summary')).toHaveTextContent(
+      'message=dashboard.line_chart.single_data_series',
+    );
+  });
+
+  it('does not render a marker or message for a single entry without a usable value', async () => {
+    renderWithContext(
+      <MultiLineChart
+        ariaLabel="multi-line-chart"
+        formatDotValue={String}
+        formatTick={String}
+        hasFetchError={false}
+        isMetricRating={false}
+        isPending={false}
+        series={[
+          buildSeries(),
+          buildSeries({
+            data: [
+              {
+                x: new Date('2026-03-01T00:00:00.000Z'),
+                y: undefined as unknown as number,
+              },
+            ],
+            id: 'b',
+            label: 'B',
+          }),
+        ]}
+      />,
+    );
+
+    const svg = await screen.findByLabelText('multi-line-chart');
+    // eslint-disable-next-line testing-library/no-node-access -- chart primitives have no roles
+    expect(svg.querySelector('circle')).toBeNull();
+    expect(screen.getByTestId('footer-summary')).toHaveTextContent('single=false');
+  });
+
+  it('includes the single-point message in the tooltip when any series has one point', async () => {
+    renderRaf();
+
+    renderWithContext(
+      <MultiLineChart
+        ariaLabel="multi-line-chart"
+        formatDotValue={String}
+        formatTick={String}
+        hasFetchError={false}
+        isMetricRating={false}
+        isPending={false}
+        series={[
+          buildSeries({
+            data: [{ x: new Date('2026-03-01T00:00:00.000Z'), y: 2 }],
+            id: 'a',
+            label: 'A',
+          }),
+          buildSeries({ id: 'b', label: 'B' }),
+        ]}
+        showTooltip
+      />,
+    );
+
+    fireEvent.mouseMove(await screen.findByLabelText('multi-line-chart'), {
+      clientX: 200,
+      clientY: 100,
+    });
+
+    expect(await screen.findByTestId('line-chart-tooltip')).toHaveTextContent(
+      'dashboard.line_chart.single_data_series',
+    );
+  });
+
+  it('uses the singular message for a single-series chart with one point', async () => {
+    renderRaf();
+
+    renderWithContext(
+      <MultiLineChart
+        ariaLabel="multi-line-chart"
+        formatDotValue={String}
+        formatTick={String}
+        hasFetchError={false}
+        isMetricRating={false}
+        isPending={false}
+        series={[
+          buildSeries({
+            data: [{ x: new Date('2026-03-01T00:00:00.000Z'), y: 2 }],
+          }),
+        ]}
+        showTooltip
+      />,
+    );
+
+    fireEvent.mouseMove(await screen.findByLabelText('multi-line-chart'), {
+      clientX: 200,
+      clientY: 100,
+    });
+
+    expect(await screen.findByTestId('line-chart-tooltip')).toHaveTextContent(
+      'dashboard.line_chart.single_data',
+    );
+    expect(screen.getByTestId('footer-summary')).toHaveTextContent(
+      'message=dashboard.line_chart.single_data',
+    );
+  });
+
+  it('uses the series message when multiple series each have one point', async () => {
+    renderRaf();
+
+    renderWithContext(
+      <MultiLineChart
+        ariaLabel="multi-line-chart"
+        formatDotValue={String}
+        formatTick={String}
+        hasFetchError={false}
+        isMetricRating={false}
+        isPending={false}
+        series={[
+          buildSeries({
+            data: [{ x: new Date('2026-03-01T00:00:00.000Z'), y: 2 }],
+          }),
+          buildSeries({
+            data: [{ x: new Date('2026-03-01T00:00:00.000Z'), y: 3 }],
+            id: 'b',
+            label: 'B',
+          }),
+        ]}
+        showTooltip
+      />,
+    );
+
+    fireEvent.mouseMove(await screen.findByLabelText('multi-line-chart'), {
+      clientX: 200,
+      clientY: 100,
+    });
+
+    expect(await screen.findByTestId('line-chart-tooltip')).toHaveTextContent(
+      'dashboard.line_chart.single_data_series',
+    );
   });
 
   it('keeps a zero-sized placeholder when container dimensions are zero', () => {

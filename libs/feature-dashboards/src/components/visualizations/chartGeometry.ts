@@ -21,11 +21,25 @@
 import { max, min } from 'd3-array';
 import { scaleLinear, scaleTime, type ScaleLinear, type ScaleTime } from 'd3-scale';
 import { useEffect, useState, type RefObject } from 'react';
-import type { LineChartDataPoint } from '../../types/visualization';
+import type { LineChartDataPoint, LineChartSeries } from '../../types/visualization';
 
 export interface ChartDimensions {
   height: number;
   width: number;
+}
+
+export const SINGLE_DATAPOINT_RADIUS_PX = 3;
+export const SINGLE_DATAPOINT_OUTLINE_WIDTH_PX = 2;
+
+export function hasSingleDatapoint(data: LineChartDataPoint[]): boolean {
+  const point = data[0];
+  return data.length === 1 && point?.y != null && !Number.isNaN(point.y);
+}
+
+export function seriesHasValidData(series: LineChartSeries[]): boolean {
+  return series.some((entry) =>
+    entry.data.some((point) => point.y != null && !Number.isNaN(point.y)),
+  );
 }
 
 /**

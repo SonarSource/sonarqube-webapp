@@ -266,10 +266,11 @@ describe('LineChart', () => {
     expect(screen.getByLabelText('line-chart-milestone')).toContainHTML('stroke="#ff9800"');
   });
 
-  it('uses thick stroke for single data point; dots appear on hover when tooltip is enabled', async () => {
+  it('uses an outlined marker for a single data point; dots appear on hover', async () => {
     render(
       <LineChart
         ariaLabel="line-chart-single-point"
+        color="#123456"
         data={[{ x: new Date('2026-03-01T00:00:00.000Z'), y: 2 }]}
         formatDotValue={String}
         formatTick={String}
@@ -283,7 +284,11 @@ describe('LineChart', () => {
     );
 
     const svg = await screen.findByLabelText('line-chart-single-point');
-    expect(svg).toContainHTML('stroke-width="6"');
+    // eslint-disable-next-line testing-library/no-node-access -- svg chart marker has no role
+    const marker = svg.querySelector('circle');
+    expect(marker).toHaveAttribute('fill', '#123456');
+    expect(marker).toHaveAttribute('r', '3');
+    expect(marker).toHaveAttribute('stroke-width', '2');
     expect(screen.getByText('render-dots:false:undefined')).toBeInTheDocument();
 
     fireEvent.mouseMove(svg, { clientX: 200, clientY: 80 });

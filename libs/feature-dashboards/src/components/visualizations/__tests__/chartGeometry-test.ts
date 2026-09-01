@@ -24,6 +24,8 @@ import {
   createLinearYScale,
   createTimeXScale,
   getNearestIndex,
+  hasSingleDatapoint,
+  seriesHasValidData,
   useChartDimensions,
 } from '../chartGeometry';
 
@@ -83,6 +85,41 @@ describe('getNearestIndex', () => {
     ];
     const target = new Date('2026-01-09T00:00:00.000Z').getTime();
     expect(getNearestIndex(data, target)).toBe(1);
+  });
+});
+
+describe('hasSingleDatapoint', () => {
+  it('only matches data containing exactly one point', () => {
+    expect(hasSingleDatapoint([])).toBe(false);
+    expect(hasSingleDatapoint([{ x: 0, y: 1 }])).toBe(true);
+    expect(
+      hasSingleDatapoint([
+        { x: 0, y: 1 },
+        { x: 1, y: 2 },
+      ]),
+    ).toBe(false);
+    expect(hasSingleDatapoint([{ x: 0, y: undefined as unknown as number }])).toBe(false);
+    expect(hasSingleDatapoint([{ x: 0, y: null as unknown as number }])).toBe(false);
+    expect(hasSingleDatapoint([{ x: 0, y: Number.NaN }])).toBe(false);
+  });
+});
+
+describe('seriesHasValidData', () => {
+  it('matches when at least one series contains a usable value', () => {
+    expect(seriesHasValidData([])).toBe(false);
+    expect(
+      seriesHasValidData([
+        {
+          color: '#000',
+          data: [{ x: 0, y: undefined as unknown as number }],
+          id: 'invalid',
+          label: 'Invalid',
+        },
+      ]),
+    ).toBe(false);
+    expect(
+      seriesHasValidData([{ color: '#000', data: [{ x: 0, y: 1 }], id: 'valid', label: 'Valid' }]),
+    ).toBe(true);
   });
 });
 

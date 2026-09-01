@@ -33,6 +33,10 @@ import {
   createLinearYScale,
   createTimeXScale,
   getNearestIndex,
+  hasSingleDatapoint,
+  seriesHasValidData,
+  SINGLE_DATAPOINT_OUTLINE_WIDTH_PX,
+  SINGLE_DATAPOINT_RADIUS_PX,
   useChartDimensions,
 } from '../chartGeometry';
 import {
@@ -67,23 +71,6 @@ interface MultiLineChartProps {
   strokeWidth?: number;
 }
 
-function getPrimarySeries(series: LineChartSeries[]): LineChartSeries | undefined {
-  return series[0];
-}
-
-function allSeriesHaveSinglePoint(series: LineChartSeries[]): boolean {
-  return series.length > 0 && series.every((entry) => entry.data.length === 1);
-}
-
-function seriesHasValidData(series: LineChartSeries[]): boolean {
-  if (series.length === 0) {
-    return false;
-  }
-  return series.some((entry) =>
-    entry.data.some((point) => !isUndefined(point.y) && !Number.isNaN(point.y)),
-  );
-}
-
 export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
   const {
     ariaLabel,
@@ -110,7 +97,7 @@ export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
   const [isHoverActive, setIsHoverActive] = useState(false);
   const [hoveredDateMs, setHoveredDateMs] = useState<number | undefined>(undefined);
 
-  const primarySeries = getPrimarySeries(series);
+  const primarySeries = series[0];
   const referenceData = useMemo(() => primarySeries?.data ?? [], [primarySeries]);
 
   const seriesIdsKey = series.map((entry) => entry.id).join('|');
@@ -121,13 +108,20 @@ export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
 
   const [paddingTop, paddingRight, paddingBottom, paddingLeft] = padding;
   const availableWidth = dimensions.width - paddingLeft - paddingRight;
-  const isSingleDatapoint = allSeriesHaveSinglePoint(series);
+  const singleDatapointSeriesCount = series.filter((entry) =>
+    hasSingleDatapoint(entry.data),
+  ).length;
+  const hasSingleDatapointSeries = singleDatapointSeriesCount > 0;
+  const singleDatapointMessageId =
+    series.length === 1
+      ? 'dashboard.line_chart.single_data'
+      : 'dashboard.line_chart.single_data_series';
   const availableHeight =
     dimensions.height -
     paddingTop -
     paddingBottom -
-    (isSingleDatapoint ? SINGLE_DATAPOINT_MESSAGE_HEIGHT_PX : 0) -
-    (isSingleDatapoint && showLegend ? FOOTER_GAP_PX : 0) -
+    (hasSingleDatapointSeries ? SINGLE_DATAPOINT_MESSAGE_HEIGHT_PX : 0) -
+    (hasSingleDatapointSeries && showLegend ? FOOTER_GAP_PX : 0) -
     (showLegend ? LEGEND_ROW_HEIGHT_PX : 0);
 
   useEffect(() => {
@@ -269,6 +263,8 @@ export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
     return series.map((entry) => ({
       id: entry.id,
       color: entry.color,
+      data: entry.data,
+      isSingleDatapoint: hasSingleDatapoint(entry.data),
       path: generator(entry.data),
     }));
   }, [series, xScale, yScale]);
@@ -408,27 +404,52 @@ export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
                 y2={availableHeight}
               />
             )}
-            {linePaths.map((entry, index) => (
-              <path
-                d={entry.path || undefined}
-                fill="none"
-                key={entry.id}
-                onMouseEnter={() => {
+            {linePaths.map((entry, index) => {
+              const opacity =
+                focusedSeriesIndex === undefined || focusedSeriesIndex === index ? 1 : 0.35;
+              const singleDatapoint = entry.data[0];
+              const style: React.CSSProperties = {
+                cursor: showTooltip ? 'crosshair' : undefined,
+              };
+              const commonProps = {
+                onMouseEnter: () => {
                   setHoveredSeriesIndex(index);
-                }}
-                opacity={
-                  focusedSeriesIndex === undefined || focusedSeriesIndex === index ? 1 : 0.35
-                }
-                stroke={entry.color}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={isSingleDatapoint ? 6 : strokeWidth}
-                style={{ cursor: showTooltip ? 'crosshair' : undefined }}
-              />
-            ))}
+                },
+                opacity,
+                style,
+              };
+
+              return entry.isSingleDatapoint && singleDatapoint ? (
+                <circle
+                  {...commonProps}
+                  cx={xScale(new Date(singleDatapoint.x))}
+                  cy={yScale(singleDatapoint.y)}
+                  fill={entry.color}
+                  key={entry.id}
+                  r={SINGLE_DATAPOINT_RADIUS_PX}
+                  stroke={cssVar('color-surface-default')}
+                  strokeWidth={SINGLE_DATAPOINT_OUTLINE_WIDTH_PX}
+                />
+              ) : (
+                <path
+                  {...commonProps}
+                  d={entry.path || undefined}
+                  fill="none"
+                  key={entry.id}
+                  stroke={entry.color}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={strokeWidth}
+                />
+              );
+            })}
             {showTooltip && isHoverActive && hoveredDateMs !== undefined && (
               <MultiLineHoverDots
                 getNearestIndex={getNearestIndex}
+                hide={Boolean(
+                  focusedSeriesIndex !== undefined &&
+                  linePaths[focusedSeriesIndex]?.isSingleDatapoint,
+                )}
                 hoveredDateMs={hoveredDateMs}
                 hoveredSeriesIndex={focusedSeriesIndex}
                 series={series}
@@ -440,7 +461,7 @@ export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
           <RenderChartFooter
             availableWidth={availableWidth}
             focusedSeriesIndex={focusedSeriesIndex}
-            isSingleDatapoint={isSingleDatapoint}
+            isSingleDatapoint={hasSingleDatapointSeries}
             legendContainerRef={legendContainerRef}
             legendItems={legendItems}
             onLegendMouseEnter={handleLegendMouseEnter}
@@ -449,6 +470,7 @@ export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
             onSeriesSelect={handleSeriesSelect}
             selectedSeriesIndex={selectedSeriesIndex}
             showLegend={showLegend}
+            singleDatapointMessageId={singleDatapointMessageId}
             x={-40}
             y={availableHeight + 30}
           />
@@ -523,6 +545,11 @@ export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
                       <Text isHighlighted>{tooltipTotal}</Text>
                     </div>
                   </div>
+                )}
+                {hasSingleDatapointSeries && (
+                  <Text isSubtle>
+                    <FormattedMessage id={singleDatapointMessageId} />
+                  </Text>
                 )}
               </div>
             </div>

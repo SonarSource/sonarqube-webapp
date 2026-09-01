@@ -114,6 +114,22 @@ describe('MultiLineHoverDots', () => {
     expect(container.querySelector('circle')).toBeNull();
   });
 
+  it('does not cover an always-visible single-point marker when hidden', () => {
+    const { container } = renderInSvg(
+      <MultiLineHoverDots
+        getNearestIndex={nearestIndex}
+        hide
+        hoveredDateMs={new Date('2026-03-01T00:00:00.000Z').getTime()}
+        hoveredSeriesIndex={0}
+        series={[buildSeries()]}
+        xScale={xScale}
+        yScale={yScale}
+      />,
+    );
+
+    expect(container.querySelector('circle')).toBeNull();
+  });
+
   it('renders a circle stroked with the focused series color', () => {
     const { container } = renderInSvg(
       <MultiLineHoverDots

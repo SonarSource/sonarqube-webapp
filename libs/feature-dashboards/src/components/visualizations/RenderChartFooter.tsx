@@ -35,6 +35,7 @@ interface RenderChartFooterProps {
   onSeriesSelect?: (seriesIndex: number) => void;
   selectedSeriesIndex?: number;
   showLegend: boolean;
+  singleDatapointMessageId?: string;
   x: number;
   y: number;
 }
@@ -55,10 +56,11 @@ export function RenderChartFooter({
   onSeriesHover,
   onSeriesSelect,
   showLegend,
+  singleDatapointMessageId = 'dashboard.line_chart.single_data',
   x,
   y,
 }: Readonly<RenderChartFooterProps>) {
-  const intl = useIntl();
+  const { formatMessage } = useIntl();
   const visibleItems = useMemo(
     () => legendItems.filter((item) => item.visible !== false),
     [legendItems],
@@ -84,7 +86,7 @@ export function RenderChartFooter({
               size={MessageInlineSize.Small}
               variety={MessageVariety.Info}
             >
-              {intl.formatMessage({ id: 'dashboard.line_chart.single_data' })}
+              {formatMessage({ id: singleDatapointMessageId })}
             </MessageInline>
           )}
           {showLegend && visibleItems.length > 0 && (

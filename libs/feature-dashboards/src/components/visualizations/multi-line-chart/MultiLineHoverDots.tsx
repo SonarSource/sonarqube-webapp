@@ -27,6 +27,7 @@ const HOVER_DOT_RADIUS_PX = 4;
 
 interface MultiLineHoverDotsProps {
   getNearestIndex: (data: LineChartDataPoint[], xScaleValue: number) => number;
+  hide?: boolean;
   hoveredDateMs: number;
   hoveredSeriesIndex?: number;
   series: LineChartSeries[];
@@ -36,13 +37,14 @@ interface MultiLineHoverDotsProps {
 
 export function MultiLineHoverDots({
   getNearestIndex,
+  hide = false,
   hoveredDateMs,
   hoveredSeriesIndex,
   series,
   xScale,
   yScale,
 }: Readonly<MultiLineHoverDotsProps>) {
-  if (hoveredSeriesIndex === undefined) {
+  if (hide || hoveredSeriesIndex === undefined) {
     return null;
   }
 

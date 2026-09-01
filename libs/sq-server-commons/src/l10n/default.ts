@@ -3546,6 +3546,8 @@ export const defaultMessages = {
   'dashboard.widget.trend_indicator.no_change': 'No change (last 30 days)',
   'dashboard.line_chart.limited_history_warning': 'Data available from March 2026 onwards.',
   'dashboard.line_chart.single_data': 'Only one data point available to display',
+  'dashboard.line_chart.single_data_series':
+    'Some series have only one data point available to display',
   'dashboard.chart.legend.more': '+{count} more',
   'dashboard.drag_to_reorder': 'Drag to reorder',
   'dashboard.edit_widget': 'Edit widget',
