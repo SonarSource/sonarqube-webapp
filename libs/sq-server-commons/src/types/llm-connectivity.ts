@@ -22,7 +22,7 @@
  * An installation may hold at most this many providers. The backend rejects a
  * create beyond it; the UI mirrors the count to disable the add button early.
  */
-export const MAX_LLM_PROVIDERS = 4;
+export const MAX_LLM_PROVIDERS = 15;
 
 export enum LlmProviderType {
   CustomProxy = 'CUSTOM_PROXY',
