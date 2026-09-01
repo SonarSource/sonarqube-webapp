@@ -34,7 +34,7 @@ const TOOLTIP_WIDTH = 200;
 const X_TICK_COUNT = 5;
 const Y_TICK_COUNT = 5;
 
-const COLOR_PLATFORMS = cssVar('color-background-success-default');
+const COLOR_PROJECTS_SCANNED = cssVar('color-background-success-default');
 const COLOR_IMPORTED = cssVar('color-background-info-default');
 const COLOR_AXIS = cssVar('color-border-weak');
 const COLOR_CURSOR = cssVar('color-border-bold');
@@ -58,11 +58,6 @@ interface Props {
   timeline: OnboardingTimelinePoint[];
 }
 
-/**
- * "Onboarding over time" card: the monthly onboarding history as a line chart. The legend — and the
- * plotted series — grow with the journey level: the platforms-bound series is always shown, the
- * repositories-imported series only once at least one repository has been imported.
- */
 export function OnboardingOverTimeCard({ showImportedSeries, timeline }: Readonly<Props>) {
   const { formatMessage } = useIntl();
 
@@ -82,16 +77,12 @@ export function OnboardingOverTimeCard({ showImportedSeries, timeline }: Readonl
 /**
  * Builds the plotted series from the monthly timeline. Every series shares the same x values, so
  * the first one doubles as the x-axis reference.
- *
- * ⚠️ ASSUMPTION: the statistics endpoint exposes no platform-binding history, so the
- * "Platforms bound" series is approximated by the scanned-projects count. Revisit once the
- * backend exposes a dedicated series.
  */
 function buildSeries(points: OnboardingTimelinePoint[], showImportedSeries: boolean): Series[] {
   const series: Series[] = [
     {
-      color: COLOR_PLATFORMS,
-      labelId: 'onboarding_dashboard.journey.overtime.legend.platforms_bound',
+      color: COLOR_PROJECTS_SCANNED,
+      labelId: 'onboarding_dashboard.journey.overtime.legend.projects_scanned',
       points: points.map((point) => ({ x: new Date(point.date), y: point.projectsScanned })),
     },
   ];

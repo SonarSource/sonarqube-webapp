@@ -11124,7 +11124,7 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.analyze.modal.how_to_configure': 'How to configure projects',
   'onboarding_dashboard.journey.overtime.title': 'Onboarding over time',
   'onboarding_dashboard.journey.overtime.description': 'We encourage everyone to contribute',
-  'onboarding_dashboard.journey.overtime.legend.platforms_bound': 'Platforms bound',
+  'onboarding_dashboard.journey.overtime.legend.projects_scanned': 'Projects scanned',
   'onboarding_dashboard.journey.overtime.legend.repositories_imported': 'Repositories imported',
   'onboarding_dashboard.journey.locked.stats.title': 'Unlock onboarding statistics',
   'onboarding_dashboard.journey.locked.stats.message':

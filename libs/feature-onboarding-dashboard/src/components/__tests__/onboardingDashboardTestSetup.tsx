@@ -103,7 +103,9 @@ export const ui = {
 
   // Journey statistics — progressively unlocked by JourneyLevel.
   overTimeChart: byRole('img', { name: 'onboarding_dashboard.journey.overtime.title' }),
-  overTimePlatformsLegend: byText('onboarding_dashboard.journey.overtime.legend.platforms_bound'),
+  overTimeProjectsScannedLegend: byText(
+    'onboarding_dashboard.journey.overtime.legend.projects_scanned',
+  ),
   overTimeImportedLegend: byText(
     'onboarding_dashboard.journey.overtime.legend.repositories_imported',
   ),

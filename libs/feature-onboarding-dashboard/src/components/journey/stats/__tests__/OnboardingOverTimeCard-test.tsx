@@ -40,17 +40,17 @@ const timeline: OnboardingTimelinePoint[] = [
   { date: MONTH_3, projectsScanned: 25, repositoriesImported: 40 },
 ];
 
-const PLATFORMS_LEGEND = 'onboarding_dashboard.journey.overtime.legend.platforms_bound';
+const PROJECTS_SCANNED = 'onboarding_dashboard.journey.overtime.legend.projects_scanned';
 const IMPORTED_LEGEND = 'onboarding_dashboard.journey.overtime.legend.repositories_imported';
 
 const ui = {
   title: byText('onboarding_dashboard.journey.overtime.title'),
   chart: byRole('img', { name: 'onboarding_dashboard.journey.overtime.title' }),
-  platformsLegend: byText(PLATFORMS_LEGEND),
+  projectsScannedLegend: byText(PROJECTS_SCANNED),
   importedLegend: byText(IMPORTED_LEGEND),
 
   tooltip: byRole('tooltip'),
-  tooltipPlatformsValue: byRole('tooltip').byText('3'),
+  tooltipProjectsScannedValue: byRole('tooltip').byText('3'),
   tooltipImportedValue: byRole('tooltip').byText('7'),
 };
 
@@ -60,20 +60,20 @@ function renderCard(props: Partial<ComponentProps<typeof OnboardingOverTimeCard>
   );
 }
 
-it('renders only the platforms-bound series before any repository is imported', () => {
+it('renders only the projects-scanned series before any repository is imported', () => {
   renderCard({ showImportedSeries: false });
 
   expect(ui.title.get()).toBeInTheDocument();
   expect(ui.chart.get()).toBeInTheDocument();
 
-  expect(ui.platformsLegend.get()).toBeInTheDocument();
+  expect(ui.projectsScannedLegend.get()).toBeInTheDocument();
   expect(ui.importedLegend.query()).not.toBeInTheDocument();
 });
 
 it('adds the repositories-imported series once repositories are imported', () => {
   renderCard({ showImportedSeries: true });
 
-  expect(ui.platformsLegend.get()).toBeInTheDocument();
+  expect(ui.projectsScannedLegend.get()).toBeInTheDocument();
   expect(ui.importedLegend.get()).toBeInTheDocument();
 });
 
@@ -86,7 +86,7 @@ it('shows a tooltip with the hovered month values and hides it again on mouse le
 
   // Hovering at the very left of the plot snaps to the earliest month of the sorted timeline.
   expect(await ui.tooltip.find()).toBeInTheDocument();
-  expect(ui.tooltipPlatformsValue.get()).toBeInTheDocument();
+  expect(ui.tooltipProjectsScannedValue.get()).toBeInTheDocument();
   expect(ui.tooltipImportedValue.get()).toBeInTheDocument();
 
   await user.unhover(ui.chart.get());
@@ -100,7 +100,7 @@ it('reports only the visible series in the tooltip', async () => {
   await user.hover(ui.chart.get());
 
   expect(await ui.tooltip.find()).toBeInTheDocument();
-  expect(ui.tooltipPlatformsValue.get()).toBeInTheDocument();
+  expect(ui.tooltipProjectsScannedValue.get()).toBeInTheDocument();
   expect(ui.tooltipImportedValue.query()).not.toBeInTheDocument();
   expect(byRole('tooltip').byText(IMPORTED_LEGEND).query()).not.toBeInTheDocument();
 });
@@ -109,6 +109,6 @@ it('keeps the legend but draws no graph when there is no history yet', () => {
   renderCard({ timeline: [] });
 
   expect(ui.title.get()).toBeInTheDocument();
-  expect(ui.platformsLegend.get()).toBeInTheDocument();
+  expect(ui.projectsScannedLegend.get()).toBeInTheDocument();
   expect(ui.chart.query()).not.toBeInTheDocument();
 });

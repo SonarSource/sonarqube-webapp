@@ -107,7 +107,7 @@ it('unlocks both over-time series and no placeholder once repositories are impor
   renderOnboardingDashboard();
 
   expect(await ui.overTimeChart.find()).toBeInTheDocument();
-  expect(ui.overTimePlatformsLegend.get()).toBeInTheDocument();
+  expect(ui.overTimeProjectsScannedLegend.get()).toBeInTheDocument();
   expect(ui.overTimeImportedLegend.get()).toBeInTheDocument();
 
   // Nothing is left to unlock at this level.
@@ -126,6 +126,6 @@ it('replaces the chart with the "unlock statistics" placeholder while the org is
   // The over-time chart is fully locked at this level, and the "unlock more" variant belongs to
   // the next one.
   expect(ui.overTimeChart.query()).not.toBeInTheDocument();
-  expect(ui.overTimePlatformsLegend.query()).not.toBeInTheDocument();
+  expect(ui.overTimeProjectsScannedLegend.query()).not.toBeInTheDocument();
   expect(ui.lockedMoreTitle.query()).not.toBeInTheDocument();
 });
