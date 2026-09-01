@@ -20,6 +20,10 @@
 
 import { Button } from '@sonarsource/echoes-react';
 import { waitFor } from '@testing-library/react';
+import {
+  ANALYSIS_MODE_FILTER_OPTIONS,
+  IS_AUTOMATIC_ANALYSIS_SUPPORTED,
+} from '~adapters/helpers/onboarding-actions';
 import { getConfigureProjectUrl } from '~adapters/helpers/urls';
 import { OnboardingServiceMock } from '~shared/api/mocks/OnboardingServiceMock';
 import { registerServiceMocks } from '~shared/api/mocks/server';
@@ -36,6 +40,9 @@ jest.mock('~adapters/queries/onboarding', () => ({
 let onboardingMock: OnboardingServiceMock;
 
 const OPEN_BUTTON_TRIGGER = 'open_modal';
+
+/** Autoscan is offered on SQC and hidden on SQS, which has no automatic analysis. */
+const AUTOSCAN_FILTER_OPTIONS_COUNT = IS_AUTOMATIC_ANALYSIS_SUPPORTED ? 1 : 0;
 
 beforeAll(() => {
   onboardingMock = new OnboardingServiceMock();
@@ -57,6 +64,7 @@ const ui = {
   analysisModeFilter: byRole('combobox', {
     name: 'onboarding_dashboard.projects.filter.analysis_mode.label',
   }),
+  option: (labelKey: string) => byRole('option', { name: labelKey }),
   configureButton: byRole('link', {
     name: /^onboarding_dashboard\.journey\.analyze\.modal\.configure/,
   }),
@@ -157,23 +165,23 @@ it('lists all scan-status options', async () => {
   ).toBeInTheDocument();
 });
 
-it('lists all analysis-mode options', async () => {
+it('lists the analysis-mode options of the platform it runs on, and nothing else', async () => {
   const { user } = await renderModal();
 
   await user.click(await ui.analysisModeFilter.find());
 
-  expect(
-    await byRole('option', { name: 'onboarding_dashboard.projects.filter.all' }).find(),
-  ).toBeInTheDocument();
-  expect(
-    byRole('option', { name: 'onboarding_dashboard.projects.filter.ci' }).get(),
-  ).toBeInTheDocument();
-  expect(
-    byRole('option', { name: 'onboarding_dashboard.projects.filter.autoscan' }).get(),
-  ).toBeInTheDocument();
-  expect(
-    byRole('option', { name: 'onboarding_dashboard.projects.filter.no_analysis_mode' }).get(),
-  ).toBeInTheDocument();
+  await ui.option('onboarding_dashboard.projects.filter.all').find();
+
+  // Only the platform's own adapter knows which modes exist there, and counting the options is what
+  // catches a hardcoded list of modes creeping back into this shared component.
+  expect(byRole('option').getAll()).toHaveLength(ANALYSIS_MODE_FILTER_OPTIONS.length);
+  ANALYSIS_MODE_FILTER_OPTIONS.forEach(({ labelKey }) => {
+    expect(ui.option(labelKey).get()).toBeInTheDocument();
+  });
+
+  expect(ui.option('onboarding_dashboard.projects.filter.autoscan').queryAll()).toHaveLength(
+    AUTOSCAN_FILTER_OPTIONS_COUNT,
+  );
 });
 
 it('filters the project list by scan status', async () => {
@@ -197,22 +205,22 @@ it('filters the project list by scan status', async () => {
 });
 
 it('filters the project list by analysis mode', async () => {
+  // CI rather than autoscan: it is the one mode both platforms offer, and SQS drops the autoscan
+  // option entirely.
   const { user } = await renderModal();
 
   expect(await ui.table.byText('identity-lib').find()).toBeInTheDocument();
 
   await user.click(ui.analysisModeFilter.get());
-  await user.click(
-    await byRole('option', { name: 'onboarding_dashboard.projects.filter.autoscan' }).find(),
-  );
+  await user.click(await ui.option('onboarding_dashboard.projects.filter.ci').find());
 
-  // Only identity-lib uses AUTOMATIC (autoscan).
+  // Only payments-gateway is analysed by CI.
   await waitFor(() => {
     expect(ui.table.byText('platform-jobs').query()).not.toBeInTheDocument();
   });
-  expect(ui.table.byText('identity-lib').get()).toBeInTheDocument();
+  expect(ui.table.byText('payments-gateway').get()).toBeInTheDocument();
+  expect(ui.table.byText('identity-lib').query()).not.toBeInTheDocument();
   expect(ui.table.byText('mobile-worker').query()).not.toBeInTheDocument();
-  expect(ui.table.byText('payments-gateway').query()).not.toBeInTheDocument();
   expect(ui.table.byText('web-core').query()).not.toBeInTheDocument();
 });
 
@@ -223,23 +231,22 @@ it('ANDs the scan-status and analysis-mode filters', async () => {
 
   // Scanned filter: payments-gateway, web-core, identity-lib remain.
   await user.click(ui.scanStatusFilter.get());
-  await user.click(
-    await byRole('option', { name: 'onboarding_dashboard.projects.filter.scanned' }).find(),
-  );
+  await user.click(await ui.option('onboarding_dashboard.projects.filter.scanned').find());
   await waitFor(() => {
     expect(ui.table.byText('platform-jobs').query()).not.toBeInTheDocument();
   });
 
-  // Autoscan filter applied on top: only identity-lib matches both.
+  // "No analysis mode" applied on top: web-core is the only scanned project with no mode, so
+  // dropping the scan status would bring platform-jobs and mobile-worker back.
   await user.click(ui.analysisModeFilter.get());
-  await user.click(
-    await byRole('option', { name: 'onboarding_dashboard.projects.filter.autoscan' }).find(),
-  );
+  await user.click(await ui.option('onboarding_dashboard.projects.filter.no_analysis_mode').find());
   await waitFor(() => {
     expect(ui.table.byText('payments-gateway').query()).not.toBeInTheDocument();
   });
-  expect(ui.table.byText('identity-lib').get()).toBeInTheDocument();
-  expect(ui.table.byText('web-core').query()).not.toBeInTheDocument();
+  expect(ui.table.byText('web-core').get()).toBeInTheDocument();
+  expect(ui.table.byText('identity-lib').query()).not.toBeInTheDocument();
+  expect(ui.table.byText('platform-jobs').query()).not.toBeInTheDocument();
+  expect(ui.table.byText('mobile-worker').query()).not.toBeInTheDocument();
 });
 
 it('applies the defaultScanStatus prop as the initial filter when the modal opens', async () => {

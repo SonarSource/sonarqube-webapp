@@ -20,10 +20,11 @@
 
 import { To } from 'react-router-dom';
 import {
-  OnboardingProjectAnalysisMode,
+  ANY_PROJECTS_FILTER,
   OnboardingProjectScanStatus,
   OnboardingProjectsGateStatusFilter,
   OnboardingRepositoriesVisibility,
+  ProjectFilterOption,
 } from '~shared/types/onboarding';
 
 /** What activating a row menu entry does. */
@@ -105,20 +106,7 @@ export interface JourneyState {
   totalProjects: number;
 }
 
-/**
- * The backend's dimension-agnostic "no constraint" token, reused as the value of every dropdown's
- * "All" option so the select always holds a value and needs no synthetic sentinel.
- */
-export const ANY_PROJECTS_FILTER = 'all' as const;
-
-export interface ProjectFilterOption<T extends string> {
-  labelKey: string;
-  value: T;
-}
-
 export type ScanStatusFilterValue = OnboardingProjectScanStatus | typeof ANY_PROJECTS_FILTER;
-
-export type AnalysisModeFilterValue = OnboardingProjectAnalysisMode | typeof ANY_PROJECTS_FILTER;
 
 export type GateStatusFilterValue = OnboardingProjectsGateStatusFilter | typeof ANY_PROJECTS_FILTER;
 
@@ -138,24 +126,6 @@ export const SCAN_STATUS_FILTER_OPTIONS: ReadonlyArray<ProjectFilterOption<ScanS
       value: OnboardingProjectScanStatus.NotScanned,
     },
   ];
-
-export const ANALYSIS_MODE_FILTER_OPTIONS: ReadonlyArray<
-  ProjectFilterOption<AnalysisModeFilterValue>
-> = [
-  { labelKey: 'onboarding_dashboard.projects.filter.all', value: ANY_PROJECTS_FILTER },
-  {
-    labelKey: 'onboarding_dashboard.projects.filter.ci',
-    value: OnboardingProjectAnalysisMode.Ci,
-  },
-  {
-    labelKey: 'onboarding_dashboard.projects.filter.autoscan',
-    value: OnboardingProjectAnalysisMode.Automatic,
-  },
-  {
-    labelKey: 'onboarding_dashboard.projects.filter.no_analysis_mode',
-    value: OnboardingProjectAnalysisMode.None,
-  },
-];
 
 /**
  * Reuses the gate status labels of `GateStatusBadge` so filter and badge wording stay in sync.

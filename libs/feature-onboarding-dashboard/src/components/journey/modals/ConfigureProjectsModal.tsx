@@ -34,17 +34,17 @@ import {
 import { PropsWithChildren, useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
+import { ANALYSIS_MODE_FILTER_OPTIONS } from '~adapters/helpers/onboarding-actions';
 import { getConfigureProjectUrl } from '~adapters/helpers/urls';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import { isDefined } from '~shared/helpers/types';
-import { OnboardingProject, OnboardingProjectAnalysisMode } from '~shared/types/onboarding';
 import {
-  ANALYSIS_MODE_FILTER_OPTIONS,
-  ANY_PROJECTS_FILTER,
   AnalysisModeFilterValue,
-  SCAN_STATUS_FILTER_OPTIONS,
-  ScanStatusFilterValue,
-} from '../../../types/types';
+  ANY_PROJECTS_FILTER,
+  OnboardingProject,
+  OnboardingProjectAnalysisMode,
+} from '~shared/types/onboarding';
+import { SCAN_STATUS_FILTER_OPTIONS, ScanStatusFilterValue } from '../../../types/types';
 import { NO_DATA } from '../../dashboardConstants';
 import { getAnalysisModeBadge, getOnboardingBadge } from '../../projects/projectBadges';
 import { ProjectsFilterSelect } from '../../projects/ProjectsFilterSelect';

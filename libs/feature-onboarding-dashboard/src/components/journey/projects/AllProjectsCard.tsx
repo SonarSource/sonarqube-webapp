@@ -21,10 +21,9 @@
 import { Badge, Table } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
+import { ANALYSIS_MODE_FILTER_OPTIONS } from '~adapters/helpers/onboarding-actions';
+import { AnalysisModeFilterValue, ANY_PROJECTS_FILTER } from '~shared/types/onboarding';
 import {
-  ANALYSIS_MODE_FILTER_OPTIONS,
-  ANY_PROJECTS_FILTER,
-  AnalysisModeFilterValue,
   PROJECT_HEALTH_FEATURE_ENABLED,
   SCAN_STATUS_FILTER_OPTIONS,
   ScanStatusFilterValue,

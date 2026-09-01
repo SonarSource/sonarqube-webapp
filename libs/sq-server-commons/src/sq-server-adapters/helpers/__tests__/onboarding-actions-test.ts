@@ -18,8 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { OnboardingAlm, OnboardingDevopsPlatform } from '~shared/types/onboarding';
-import { getDevopsPlatformWebUrl, getImportRepositoriesUrl } from '../onboarding-actions';
+import {
+  ANY_PROJECTS_FILTER,
+  OnboardingAlm,
+  OnboardingDevopsPlatform,
+  OnboardingProjectAnalysisMode,
+} from '~shared/types/onboarding';
+import {
+  ANALYSIS_MODE_FILTER_OPTIONS,
+  getDevopsPlatformWebUrl,
+  getImportRepositoriesUrl,
+} from '../onboarding-actions';
 
 describe('getImportRepositoriesUrl', () => {
   it.each([
@@ -80,5 +89,15 @@ describe('getDevopsPlatformWebUrl', () => {
     ['the value is not a web address', 'not a url'],
   ])('offers no destination when %s', (_, url) => {
     expect(getDevopsPlatformWebUrl(OnboardingDevopsPlatform.BitbucketCloud, url)).toBeUndefined();
+  });
+});
+
+describe('ANALYSIS_MODE_FILTER_OPTIONS', () => {
+  it('leaves automatic analysis out, as SonarQube Server does not offer that scan method', () => {
+    expect(ANALYSIS_MODE_FILTER_OPTIONS.map(({ value }) => value)).toEqual([
+      ANY_PROJECTS_FILTER,
+      OnboardingProjectAnalysisMode.Ci,
+      OnboardingProjectAnalysisMode.None,
+    ]);
   });
 });

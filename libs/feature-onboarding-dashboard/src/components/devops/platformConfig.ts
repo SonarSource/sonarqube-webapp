@@ -19,8 +19,13 @@
  */
 
 import { cssVar } from '@sonarsource/echoes-react';
-import { AlmIconKey, OnboardingAlm, OnboardingDevopsPlatform } from '~shared/types/onboarding';
-import { ANY_PROJECTS_FILTER, ProjectFilterOption } from '../../types/types';
+import {
+  AlmIconKey,
+  ANY_PROJECTS_FILTER,
+  OnboardingAlm,
+  OnboardingDevopsPlatform,
+  ProjectFilterOption,
+} from '~shared/types/onboarding';
 
 export interface PlatformConfig {
   /** Brand color applied to the platform name and its progress bar. */

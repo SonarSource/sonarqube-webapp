@@ -328,3 +328,12 @@ export interface OnboardingRepository {
   name: string;
   slug?: string;
 }
+
+export const ANY_PROJECTS_FILTER = 'all' as const;
+
+export type AnalysisModeFilterValue = OnboardingProjectAnalysisMode | typeof ANY_PROJECTS_FILTER;
+
+export interface ProjectFilterOption<T extends string> {
+  labelKey: string;
+  value: T;
+}

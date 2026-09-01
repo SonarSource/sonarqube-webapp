@@ -22,13 +22,14 @@ import { FormFieldWidth, Label, Select } from '@sonarsource/echoes-react';
 import { useCallback, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import {
+  ANY_PROJECTS_FILTER,
   OnboardingAlm,
   OnboardingProjectAnalysisMode,
   OnboardingProjectScanStatus,
   OnboardingProjectsGateStatusFilter,
   OnboardingRepositoriesVisibility,
+  ProjectFilterOption,
 } from '~shared/types/onboarding';
-import { ANY_PROJECTS_FILTER, ProjectFilterOption } from '../../types/types';
 
 type FilterValue =
   | OnboardingAlm

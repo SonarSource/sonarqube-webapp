@@ -18,8 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { OnboardingAlm } from '~shared/types/onboarding';
-import { ANY_PROJECTS_FILTER } from '../../../types/types';
+import { ANY_PROJECTS_FILTER, OnboardingAlm } from '~shared/types/onboarding';
 import { DevopsPlatformFilterValue } from '../../devops/platformConfig';
 
 /** One DevOps platform configuration, as displayed by {@link DevopsConfigurationsModal}. */

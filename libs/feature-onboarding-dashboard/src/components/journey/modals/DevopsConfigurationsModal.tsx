@@ -34,7 +34,8 @@ import {
 } from '@sonarsource/echoes-react';
 import { PropsWithChildren, useCallback, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ANY_PROJECTS_FILTER, JourneyStep } from '../../../types/types';
+import { ANY_PROJECTS_FILTER } from '~shared/types/onboarding';
+import { JourneyStep } from '../../../types/types';
 import { NO_DATA } from '../../dashboardConstants';
 import {
   DEVOPS_PLATFORM_FILTER_OPTIONS,

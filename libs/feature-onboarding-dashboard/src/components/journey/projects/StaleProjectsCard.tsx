@@ -22,8 +22,8 @@ import { BadgeVariety, Table, TableCellJustify } from '@sonarsource/echoes-react
 import { useState } from 'react';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import { isDefined } from '~shared/helpers/types';
+import { ANY_PROJECTS_FILTER } from '~shared/types/onboarding';
 import {
-  ANY_PROJECTS_FILTER,
   GATE_STATUS_FILTER_OPTIONS,
   GateStatusFilterValue,
   STALE_PROJECTS_FEATURE_ENABLED,

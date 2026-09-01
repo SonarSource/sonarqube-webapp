@@ -21,7 +21,14 @@
 import { Path } from 'react-router-dom';
 import { isWebUri } from 'valid-url';
 import { queryToSearchString } from '~shared/helpers/query';
-import { OnboardingAlm, OnboardingDevopsPlatform } from '~shared/types/onboarding';
+import {
+  AnalysisModeFilterValue,
+  ANY_PROJECTS_FILTER,
+  OnboardingAlm,
+  OnboardingDevopsPlatform,
+  OnboardingProjectAnalysisMode,
+  ProjectFilterOption,
+} from '~shared/types/onboarding';
 import { getProjectTutorialLocation } from '../../helpers/urls';
 import { CreateProjectModes } from '../../types/create-project';
 
@@ -89,3 +96,17 @@ export function getDevopsPlatformWebUrl(alm: OnboardingAlm, url?: string): strin
 
   return isWebUri(webUrl) === undefined ? undefined : webUrl;
 }
+
+export const ANALYSIS_MODE_FILTER_OPTIONS: ReadonlyArray<
+  ProjectFilterOption<AnalysisModeFilterValue>
+> = [
+  { labelKey: 'onboarding_dashboard.projects.filter.all', value: ANY_PROJECTS_FILTER },
+  {
+    labelKey: 'onboarding_dashboard.projects.filter.ci',
+    value: OnboardingProjectAnalysisMode.Ci,
+  },
+  {
+    labelKey: 'onboarding_dashboard.projects.filter.no_analysis_mode',
+    value: OnboardingProjectAnalysisMode.None,
+  },
+];

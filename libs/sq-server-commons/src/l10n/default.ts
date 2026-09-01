@@ -11177,7 +11177,6 @@ export const defaultMessages = {
   'onboarding_dashboard.projects.filter.scanned': 'Scanned',
   'onboarding_dashboard.projects.filter.not_scanned': 'Not scanned',
   'onboarding_dashboard.projects.filter.ci': 'CI scan',
-  'onboarding_dashboard.projects.filter.autoscan': 'Autoscan',
   'onboarding_dashboard.projects.filter.no_analysis_mode': 'None',
   'onboarding_dashboard.projects.onboarding.scanned': 'Scanned',
   'onboarding_dashboard.projects.onboarding.scan_failed': 'Scan failed',
