@@ -23,6 +23,7 @@ import {
   infiniteQueryOptions,
   queryOptions,
   useMutation,
+  useQueries,
   useQueryClient,
 } from '@tanstack/react-query';
 import {
@@ -72,6 +73,27 @@ export const useSearchRulesQuery = createInfiniteQueryHook((data: SearchRulesQue
     initialPageParam: data.p ?? 1,
   });
 });
+
+export function useRulesByKeysQuery(
+  ruleKeys: readonly string[],
+  { enabled = true }: { enabled?: boolean } = {},
+) {
+  return useQueries({
+    queries: ruleKeys.map((ruleKey) =>
+      queryOptions({
+        enabled,
+        queryFn: () => searchRules({ ps: 1, rule_key: ruleKey }),
+        queryKey: ['rules', 'metadata', ruleKey],
+        staleTime: StaleTime.NEVER,
+      }),
+    ),
+    combine: (results) => ({
+      data: results.flatMap((result) => result.data?.rules ?? []),
+      isError: results.some((result) => result.isError),
+      isPending: results.some((result) => result.isPending),
+    }),
+  });
+}
 
 export const useRuleDetailsQuery = createQueryHook((data: { actives?: boolean; key: string }) => {
   return queryOptions({

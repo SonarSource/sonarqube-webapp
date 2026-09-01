@@ -30,11 +30,16 @@ import { useDashboardRuleLabels } from '../widget-rule-metadata';
 
 const mockGetAllMetrics = jest.fn();
 const mockGetStandards = jest.fn();
-const mockUseListRulesQuery = jest.fn();
+const mockSearchRules = jest.fn();
 
 jest.mock('../../../api/metrics', () => ({
   ...jest.requireActual<typeof import('../../../api/metrics')>('../../../api/metrics'),
   getAllMetrics: (...args: unknown[]) => mockGetAllMetrics(...args),
+}));
+
+jest.mock('../../../api/rules', () => ({
+  ...jest.requireActual<typeof import('../../../api/rules')>('../../../api/rules'),
+  searchRules: (...args: unknown[]) => mockSearchRules(...args),
 }));
 
 jest.mock('~shared/helpers/security-standards', () => ({
@@ -42,10 +47,6 @@ jest.mock('~shared/helpers/security-standards', () => ({
     '~shared/helpers/security-standards',
   ),
   getStandards: (...args: unknown[]) => mockGetStandards(...args),
-}));
-
-jest.mock('../../../queries/rules', () => ({
-  useListRulesQuery: (...args: unknown[]) => mockUseListRulesQuery(...args),
 }));
 
 describe('dashboard metadata queries', () => {
@@ -57,7 +58,11 @@ describe('dashboard metadata queries', () => {
     mockGetStandards.mockResolvedValue({
       sonarsourceSecurity: { 'sql-injection': { title: 'SQL Injection' } },
     });
-    mockUseListRulesQuery.mockReturnValue({ data: undefined, isError: false, isPending: false });
+    mockSearchRules.mockImplementation(({ rule_key }: { rule_key: string }) =>
+      Promise.resolve({
+        rules: [{ key: rule_key, langName: 'Java', name: `Rule ${rule_key.at(-1)}` }],
+      }),
+    );
   });
 
   it('loads and keys widget metric metadata', async () => {
@@ -94,33 +99,29 @@ describe('dashboard metadata queries', () => {
     expect(result.current.data).toEqual({ 'sql-injection': { title: 'SQL Injection' } });
   });
 
-  it('filters aggregated rule labels and exposes query state', () => {
-    mockUseListRulesQuery.mockImplementation(
-      (_params: unknown, options: { select: (data: unknown) => unknown }) => ({
-        data: options.select({ rules: [{ key: 'java:S1', langName: 'Java', name: 'Rule 1' }] }),
-        isError: false,
-        isPending: false,
-      }),
-    );
-
+  it('loads each rule label by its exact key and filters aggregated labels', async () => {
     const { result } = renderHook(
       () =>
         useDashboardRuleLabels({
           entity: { organization: '', type: 'PROJECT' },
-          ruleKeys: ['java:S1', 'OTHER_2'],
+          ruleKeys: ['java:S1', 'java:S2', 'OTHER_2'],
         }),
       { wrapper: getContextWrapper() },
     );
 
+    await waitFor(() => {
+      expect(result.current.isPending).toBe(false);
+    });
     expect(result.current).toEqual({
       isError: false,
       isPending: false,
       organization: undefined,
-      rulesByKey: { 'java:S1': { langName: 'Java', name: 'Rule 1' } },
+      rulesByKey: {
+        'java:S1': { langName: 'Java', name: 'Rule 1' },
+        'java:S2': { langName: 'Java', name: 'Rule 2' },
+      },
     });
-    expect(mockUseListRulesQuery).toHaveBeenCalledWith(
-      { ps: 1, rule_key: 'java:S1' },
-      expect.objectContaining({ enabled: true }),
-    );
+    expect(mockSearchRules).toHaveBeenNthCalledWith(1, { ps: 1, rule_key: 'java:S1' });
+    expect(mockSearchRules).toHaveBeenNthCalledWith(2, { ps: 1, rule_key: 'java:S2' });
   });
 });

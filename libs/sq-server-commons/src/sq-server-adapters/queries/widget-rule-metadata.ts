@@ -19,20 +19,13 @@
  */
 
 import { useMemo } from 'react';
-import { useListRulesQuery } from '../../queries/rules';
+import { searchRulesResponseToRuleMetadata } from '~shared/helpers/rules';
+import { useRulesByKeysQuery } from '../../queries/rules';
 import type { DashboardRuleMetadataByKey } from '../../types/dashboard-widget-adapter-types';
 
 export type DashboardRuleLabelsEntity =
   | { isResolvingOrganization: boolean; organization: string | undefined; type: 'PORTFOLIO' }
   | { organization: string; type: 'PROJECT' };
-
-function toRuleMetadata(
-  response: { rules?: ReadonlyArray<{ key: string; langName?: string; name: string }> } | undefined,
-): DashboardRuleMetadataByKey {
-  return Object.fromEntries(
-    (response?.rules ?? []).map((rule) => [rule.key, { langName: rule.langName, name: rule.name }]),
-  );
-}
 
 export function useDashboardRuleLabels(args: {
   enabled?: boolean;
@@ -52,18 +45,15 @@ export function useDashboardRuleLabels(args: {
   const queryEnabled = enabled && filteredRuleKeys.length > 0;
   const organization = entity.organization || undefined;
 
-  const { data, isError, isPending } = useListRulesQuery(
-    { rule_key: filteredRuleKeys.join(), ps: filteredRuleKeys.length },
-    {
-      enabled: queryEnabled,
-      select: toRuleMetadata,
-    },
-  );
+  const { data, isError, isPending } = useRulesByKeysQuery(filteredRuleKeys, {
+    enabled: queryEnabled,
+  });
+  const rulesByKey = useMemo(() => searchRulesResponseToRuleMetadata({ rules: data }), [data]);
 
   return {
     isError: queryEnabled && isError,
     isPending: queryEnabled && isPending,
     organization,
-    rulesByKey: data ?? {},
+    rulesByKey,
   };
 }

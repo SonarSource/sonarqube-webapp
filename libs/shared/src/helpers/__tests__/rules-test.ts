@@ -24,9 +24,35 @@ import {
   SoftwareQualityImpact,
 } from '../../types/clean-code-taxonomy';
 import { RuleActivation, RuleParameter } from '../../types/rules';
-import { getImpactsDiffBySeverity, getRuleParams, mergeImpacts } from '../rules';
+import {
+  getImpactsDiffBySeverity,
+  getRuleParams,
+  mergeImpacts,
+  searchRulesResponseToRuleMetadata,
+} from '../rules';
 
 describe('rules helpers', () => {
+  describe('searchRulesResponseToRuleMetadata', () => {
+    it('returns empty metadata when the response is missing or has no rules', () => {
+      expect(searchRulesResponseToRuleMetadata(undefined)).toEqual({});
+      expect(searchRulesResponseToRuleMetadata({ rules: [] })).toEqual({});
+    });
+
+    it('maps name and language name by rule key', () => {
+      expect(
+        searchRulesResponseToRuleMetadata({
+          rules: [
+            { key: 'java:S1', langName: 'Java', name: 'Rule one' },
+            { key: 'ts:S2', name: 'Rule two' },
+          ],
+        }),
+      ).toEqual({
+        'java:S1': { langName: 'Java', name: 'Rule one' },
+        'ts:S2': { langName: undefined, name: 'Rule two' },
+      });
+    });
+  });
+
   describe('getImpactsDiffBySeverity', () => {
     it('should separate rule impacts from custom activation impacts', () => {
       const ruleImpact: SoftwareQualityImpact = {

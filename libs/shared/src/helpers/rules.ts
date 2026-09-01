@@ -25,6 +25,14 @@ import {
 } from '../types/clean-code-taxonomy';
 import { Rule, RuleActivation } from '../types/rules';
 
+export function searchRulesResponseToRuleMetadata(
+  response: { rules?: ReadonlyArray<{ key: string; langName?: string; name: string }> } | undefined,
+): Record<string, { langName?: string; name: string }> {
+  return Object.fromEntries(
+    (response?.rules ?? []).map((rule) => [rule.key, { langName: rule.langName, name: rule.name }]),
+  );
+}
+
 export function getImpactsDiffBySeverity(
   ruleImpacts: SoftwareQualityImpact[] = [],
   activationImpacts?: SoftwareQualityImpact[],
