@@ -33,6 +33,7 @@ import {
   getComponentDrilldownUrl,
   getComponentDrilldownUrlWithSelection,
   getComponentOverviewUrl,
+  getComponentReportSettingsPathname,
   getCreateProjectModeLocation,
   getGlobalSettingsUrl,
   getIssuesUrl,
@@ -86,6 +87,17 @@ describe('getComponentAdminUrl', () => {
     ['Project', ComponentQualifier.Project, { pathname: '/dashboard', search: '?id=key' }],
   ])('should work for %s', (_qualifierName, qualifier, result) => {
     expect(getComponentAdminUrl('key', qualifier)).toEqual(result);
+  });
+});
+
+describe('getComponentReportSettingsPathname', () => {
+  it.each([
+    ['Portfolio', ComponentQualifier.Portfolio, '/portfolio/report'],
+    ['SubPortfolio', ComponentQualifier.SubPortfolio, '/portfolio/report'],
+    ['Application', ComponentQualifier.Application, '/project/admin/application-report'],
+    ['Project', ComponentQualifier.Project, undefined],
+  ])('should return the report settings pathname for %s', (_qualifierName, qualifier, result) => {
+    expect(getComponentReportSettingsPathname(qualifier)).toBe(result);
   });
 });
 

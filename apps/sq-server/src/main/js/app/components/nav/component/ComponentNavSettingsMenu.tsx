@@ -30,6 +30,7 @@ import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { hasMessage } from '~sq-server-commons/helpers/l10n';
+import { getComponentReportSettingsPathname } from '~sq-server-commons/helpers/urls';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
@@ -153,14 +154,16 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
 
       {showApplicationReportSettings && (
         <Layout.SidebarNavigation.AccordionItem.Item
-          to={{ pathname: '/project/admin/application-report', search }}
+          to={{ pathname: getComponentReportSettingsPathname(qualifier), search }}
         >
           <FormattedMessage id="application_settings.report" />
         </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
       {showPortfolioReportSettings && (
-        <Layout.SidebarNavigation.AccordionItem.Item to={{ pathname: '/portfolio/report', search }}>
+        <Layout.SidebarNavigation.AccordionItem.Item
+          to={{ pathname: getComponentReportSettingsPathname(qualifier), search }}
+        >
           <FormattedMessage id="report.page" />
         </Layout.SidebarNavigation.AccordionItem.Item>
       )}

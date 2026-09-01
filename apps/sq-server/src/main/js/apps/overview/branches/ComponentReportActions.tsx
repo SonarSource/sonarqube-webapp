@@ -19,12 +19,14 @@
  */
 
 import { DropdownMenu } from '@sonarsource/echoes-react';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
 import ComponentReportActionsRenderer from '~sq-server-commons/components/controls/ComponentReportActionsRenderer';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { getComponentReportSettingsPathname } from '~sq-server-commons/helpers/urls';
 import {
   useGetReportStatusQuery,
   useSubscribeToEmailReportMutation,
@@ -58,9 +60,24 @@ export function ComponentReportActions(props: Readonly<Props>) {
   const { mutate: unsubscribe } = useUnsubscribeFromEmailReportMutation();
 
   const handleSubscribe = () => {
+    const reportSettingsPathname = getComponentReportSettingsPathname(component.qualifier);
+    const reportSettingsLink =
+      status?.canAdmin &&
+      appState.qualifiers.includes(ComponentQualifier.Portfolio) &&
+      reportSettingsPathname
+        ? {
+            pathname: reportSettingsPathname,
+            search: new URLSearchParams({
+              id: component.key,
+              ...getBranchLikeQuery(branch),
+            }).toString(),
+          }
+        : undefined;
+
     subscribe({
-      component,
       branchKey: branch?.name,
+      component,
+      reportSettingsLink,
     });
   };
 

@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { toast } from '@sonarsource/echoes-react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ComponentQualifier } from '~shared/types/component';
@@ -26,7 +27,6 @@ import {
   subscribeToEmailReport,
   unsubscribeFromEmailReport,
 } from '~sq-server-commons/api/component-report';
-import { addGlobalSuccessMessage } from '~sq-server-commons/design-system';
 import { mockBranch } from '~sq-server-commons/helpers/mocks/branch-like';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockComponentReportStatus } from '~sq-server-commons/helpers/mocks/component-report';
@@ -37,11 +37,6 @@ import {
 } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { ComponentReportActions } from '../ComponentReportActions';
-
-jest.mock('~sq-server-commons/design-system', () => ({
-  ...jest.requireActual('~sq-server-commons/design-system'),
-  addGlobalSuccessMessage: jest.fn(),
-}));
 
 jest.mock('~sq-server-commons/api/component-report', () => ({
   ...jest.requireActual('~sq-server-commons/api/component-report'),
@@ -61,7 +56,10 @@ jest.mock('~sq-server-commons/helpers/system', () => ({
   getBaseUrl: jest.fn().mockReturnValue('baseUrl'),
 }));
 
-beforeEach(jest.clearAllMocks);
+beforeEach(() => {
+  jest.clearAllMocks();
+  jest.spyOn(toast, 'success');
+});
 
 it('should not render anything when no status', async () => {
   jest.mocked(getReportStatus).mockRejectedValueOnce('Nope');
@@ -154,9 +152,9 @@ it('should allow user to (un)subscribe', async () => {
   await user.click(subscribeButton);
 
   expect(subscribeToEmailReport).toHaveBeenCalledWith(component.key, branch.name);
-  expect(addGlobalSuccessMessage).toHaveBeenLastCalledWith(
-    'component_report.subscribe_x_success.report.frequency.monthly.qualifier.trk',
-  );
+  expect(toast.success).toHaveBeenLastCalledWith({
+    description: 'component_report.subscribe_x_success.report.frequency.monthly.qualifier.trk',
+  });
 
   // And unsubscribe!
   await user.click(button);
@@ -169,9 +167,9 @@ it('should allow user to (un)subscribe', async () => {
   await user.click(unsubscribeButton);
 
   expect(unsubscribeFromEmailReport).toHaveBeenCalledWith(component.key, branch.name);
-  expect(addGlobalSuccessMessage).toHaveBeenLastCalledWith(
-    'component_report.unsubscribe_x_success.report.frequency.monthly.qualifier.trk',
-  );
+  expect(toast.success).toHaveBeenLastCalledWith({
+    description: 'component_report.unsubscribe_x_success.report.frequency.monthly.qualifier.trk',
+  });
 });
 
 it('should prevent user to subscribe if no email', async () => {
@@ -192,6 +190,64 @@ it('should prevent user to subscribe if no email', async () => {
   });
   expect(subscribeButton).toBeInTheDocument();
   expect(subscribeButton).toHaveAttribute('aria-disabled', 'true');
+});
+
+it('should link to report settings from the success toast when the user can administer the report', async () => {
+  jest
+    .mocked(getReportStatus)
+    .mockResolvedValueOnce(
+      mockComponentReportStatus({ canAdmin: true, globalFrequency: 'monthly' }),
+    );
+
+  const user = userEvent.setup();
+  const component = mockComponent({ key: 'my-app', qualifier: ComponentQualifier.Application });
+
+  renderComponentReportActions({
+    component,
+    currentUser: mockLoggedInUser({ email: 'igot@nEmail.address' }),
+  });
+
+  await user.click(
+    await screen.findByRole('button', { name: /component_regulatory_report\.dropdown/i }),
+  );
+  await user.click(screen.getByText('component_report.subscribe_x.report.frequency.monthly'));
+
+  const link = await screen.findByRole('link', {
+    name: 'component_report.subscribe_x_success_action',
+  });
+  expect(link).toHaveAttribute('href', '/project/admin/application-report?id=my-app');
+  expect(toast.success).toHaveBeenCalledTimes(1);
+  expect(toast.success).toHaveBeenCalledWith(
+    expect.objectContaining({ actions: expect.any(Function) }),
+  );
+});
+
+it('should show a plain success toast when the user cannot administer the report', async () => {
+  jest
+    .mocked(getReportStatus)
+    .mockResolvedValueOnce(
+      mockComponentReportStatus({ canAdmin: false, globalFrequency: 'monthly' }),
+    );
+
+  const user = userEvent.setup();
+  const component = mockComponent({ key: 'my-app', qualifier: ComponentQualifier.Application });
+
+  renderComponentReportActions({
+    component,
+    currentUser: mockLoggedInUser({ email: 'igot@nEmail.address' }),
+  });
+
+  await user.click(
+    await screen.findByRole('button', { name: /component_regulatory_report\.dropdown/i }),
+  );
+  await user.click(screen.getByText('component_report.subscribe_x.report.frequency.monthly'));
+
+  expect(toast.success).toHaveBeenCalledWith({
+    description: 'component_report.subscribe_x_success.report.frequency.monthly.qualifier.app',
+  });
+  expect(
+    screen.queryByRole('link', { name: 'component_report.subscribe_x_success_action' }),
+  ).not.toBeInTheDocument();
 });
 
 function renderComponentReportActions(

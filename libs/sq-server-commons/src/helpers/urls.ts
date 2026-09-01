@@ -89,6 +89,21 @@ export function getComponentAdminUrl(
   return getProjectUrl(componentKey);
 }
 
+/**
+ * Pathname of the executive report frequency settings page for a given component qualifier.
+ * Only portfolios and applications have such a page; plain projects return `undefined`.
+ */
+export function getComponentReportSettingsPathname(
+  componentQualifier: ComponentQualifier | string,
+): string | undefined {
+  if (isApplication(componentQualifier)) {
+    return '/project/admin/application-report';
+  } else if (isPortfolioLike(componentQualifier)) {
+    return '/portfolio/report';
+  }
+  return undefined;
+}
+
 interface GetProjectUrl {
   /**
    * @deprecated Use {@link ~shared/helpers/urls#getProjectOverviewUrl} instead.

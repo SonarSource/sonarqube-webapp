@@ -18,15 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { LinkStandalone, toast } from '@sonarsource/echoes-react';
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { IntlShape, useIntl } from 'react-intl';
+import { To } from 'react-router-dom';
 import { createQueryHook, StaleTime } from '~shared/queries/common';
 import {
   getReportStatus,
   subscribeToEmailReport,
   unsubscribeFromEmailReport,
 } from '../api/component-report';
-import { addGlobalSuccessMessage } from '../design-system';
 import { translate } from '../helpers/l10n';
 import { ComponentReportStatus } from '../types/component-report';
 import { Component } from '../types/types';
@@ -50,7 +51,7 @@ export const useSubscribeToEmailReportMutation = () => {
   const intl = useIntl();
 
   return useMutation({
-    mutationFn: (data: { branchKey?: string; component: Component }) =>
+    mutationFn: (data: { branchKey?: string; component: Component; reportSettingsLink?: To }) =>
       subscribeToEmailReport(data.component.key, data.branchKey),
     onSuccess: (_, data) => {
       const status = queryClient.getQueryData<Awaited<ReturnType<typeof getReportStatus>>>(
@@ -63,7 +64,23 @@ export const useSubscribeToEmailReportMutation = () => {
           subscribed: true,
         });
 
-        addGlobalSuccessMessage(getTranslationMessage(true, data.component, intl, status));
+        const message = getTranslationMessage(true, data.component, intl, status);
+        const { reportSettingsLink } = data;
+
+        if (reportSettingsLink) {
+          toast.success({
+            actions: ({ dismiss }) => (
+              <LinkStandalone onClick={dismiss} to={reportSettingsLink}>
+                {intl.formatMessage({ id: 'component_report.subscribe_x_success_action' })}
+              </LinkStandalone>
+            ),
+            description: message,
+            duration: 'infinite',
+            isDismissable: true,
+          });
+        } else {
+          toast.success({ description: message });
+        }
       }
     },
   });
@@ -87,7 +104,9 @@ export const useUnsubscribeFromEmailReportMutation = () => {
           subscribed: false,
         });
       }
-      addGlobalSuccessMessage(getTranslationMessage(false, data.component, intl, status));
+      toast.success({
+        description: getTranslationMessage(false, data.component, intl, status),
+      });
     },
   });
 };

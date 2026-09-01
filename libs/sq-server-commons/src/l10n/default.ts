@@ -10052,6 +10052,7 @@ export const defaultMessages = {
     'Subscription successful. You will receive a {frequency} report for this {qualifier} by email.',
   'component_report.subscribe_x_success_no_frequency':
     'Subscription successful. You will start receiving a report for this {qualifier} by email',
+  'component_report.subscribe_x_success_action': 'Change report frequency',
   'component_report.unsubscribe_x_success':
     'You have successfully unsubscribed from receiving {frequency} PDF report about this {qualifier}',
   'component_report.unsubscribe_x_success_no_frequency':
