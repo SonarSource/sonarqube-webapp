@@ -21,6 +21,14 @@
 import { isBranch, isMainBranch, isPullRequest } from '~shared/helpers/branch-like';
 import { BranchLikeBase } from '~shared/types/branch-like';
 
+/**
+ * SonarQube Server has no short-lived branches: every branch other than the main one is permanent,
+ * which is what SonarQube Cloud calls long living.
+ */
+export function isLongLivingBranch(branchLike?: BranchLikeBase) {
+  return isBranch(branchLike) && !branchLike.isMain;
+}
+
 export function isSameBranchLike(a: BranchLikeBase | undefined, b: BranchLikeBase | undefined) {
   // main branches are always equal
   if (isMainBranch(a) && isMainBranch(b)) {

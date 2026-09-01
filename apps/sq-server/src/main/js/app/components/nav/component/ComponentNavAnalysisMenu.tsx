@@ -20,13 +20,16 @@
 
 import { IconIssues, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { useLocation } from 'react-router-dom';
 import { useFlags } from '~adapters/helpers/feature-flags';
+import { useCurrentUser } from '~adapters/helpers/users';
 import { DeprecatedBadge } from '~shared/components/badges/DeprecatedBadge';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
-import { isApplication } from '~shared/helpers/component';
+import { isApplication, isProject } from '~shared/helpers/component';
 import { getRisksUrl } from '~shared/helpers/sca-urls';
 import { getComponentIssuesUrl } from '~shared/helpers/urls';
 import { ComponentQualifier } from '~shared/types/component';
+import { addons } from '~sq-server-addons/index';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { getProjectQueryUrl } from '~sq-server-commons/helpers/urls';
@@ -41,9 +44,11 @@ interface Props {
 }
 
 export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
+  const location = useLocation();
   const { organizationReportingEnableDashboards } = useFlags();
   const { hasFeature } = useAvailableFeatures();
   const { branchLike, component } = props;
+  const { isLoggedIn } = useCurrentUser();
 
   const branchParameters = getBranchLikeQuery(branchLike);
 
@@ -62,6 +67,13 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
     ...branchParameters,
     ...DEFAULT_ISSUES_QUERY,
   });
+
+  const hunterAgentPath = addons.remediationAgent?.PROJECT_HUNTER_AGENT_PATH ?? '';
+  const showHunterAgent =
+    isProject(component.qualifier) &&
+    isLoggedIn &&
+    hasFeature(Feature.HunterAgent) &&
+    addons.remediationAgent !== undefined;
 
   if (isApplicationChildInaccessible) {
     return (
@@ -88,6 +100,15 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
       <Layout.SidebarNavigation.AccordionItem.Item to={issuesUrl}>
         <FormattedMessage id="issues.page" />
       </Layout.SidebarNavigation.AccordionItem.Item>
+
+      {showHunterAgent && addons.remediationAgent?.getProjectHunterAgentResultsUrl && (
+        <Layout.SidebarNavigation.AccordionItem.Item
+          isActive={location.pathname.startsWith(hunterAgentPath)}
+          to={addons.remediationAgent.getProjectHunterAgentResultsUrl(component.key, branchLike)}
+        >
+          <FormattedMessage id="hunter_agent.page" />
+        </Layout.SidebarNavigation.AccordionItem.Item>
+      )}
 
       <Layout.SidebarNavigation.AccordionItem.Item
         suffix={<DeprecatedBadge />}

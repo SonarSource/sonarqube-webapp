@@ -169,6 +169,7 @@ function renderComponentRoutes({
         )}
         {projectIssuesRoutes()}
         {hasRemediationAgentFeature && addons.remediationAgent?.projectRoutes()}
+        {addons.remediationAgent?.hunterAgentProjectRoutes?.()}
         {hasScaFeature && addons?.sca?.projectRoutes}
         {securityHotspotsRoutes()}
         {qualityGateHistoryRoutes()}

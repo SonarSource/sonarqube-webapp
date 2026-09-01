@@ -881,6 +881,161 @@ export const defaultMessages = {
   'hunter_agent.daily_analysis.title': 'Allow project admins to run scans.',
   'hunter_agent.daily_analysis.description':
     'Project administrators can trigger scans on demand or schedule recurring scans.',
+  'hunter_agent.instance_not_enabled.title': 'The Hunter Agent is disabled on this instance',
+  'hunter_agent.instance_not_enabled.description.admin':
+    'Enable the Hunter Agent to uncover complex, context-dependent problems, complementing your foundational SAST by using playbook-driven reasoning.',
+  'hunter_agent.instance_not_enabled.description.member':
+    'Ask an Administrator of this instance to enable the Hunter Agent to uncover complex, context-dependent problems, complementing your foundational SAST by using playbook-driven reasoning.',
+  'hunter_agent.instance_not_enabled.enable_action': 'Enable Hunter Agent',
+  'hunter_agent.onboarding.title': 'Hunt Deeper. Secure Completely.',
+  'hunter_agent.onboarding.description':
+    'Your foundational SAST is essential - but complex, behavioral flaws still slip through. The <b>SonarQube Hunter Agent</b> layers on top of your baseline to catch the sophisticated vulnerabilities standard automation misses.',
+  'hunter_agent.onboarding.server.description.member':
+    'Ask an instance administrator to talk to sales and add the <b>SonarQube Hunter Agent</b> on top of your baseline to catch the sophisticated vulnerabilities standard automation misses.',
+  'hunter_agent.onboarding.bullet.1':
+    '<b>Advanced Workflow Protection:</b> Stops business logic bypasses and resource throttling errors.',
+  'hunter_agent.onboarding.bullet.2':
+    '<b>Broken Access Control:</b> Deep-dive detection for IDOR and authorization flaws.',
+  'hunter_agent.onboarding.bullet.3':
+    '<b>Auth & Session Security:</b> Catches session fixation and weak recovery flows.',
+  'hunter_agent.onboarding.contact_sales': 'Contact sales',
+  'hunter_agent.activity.elapsed': 'elapsed',
+  'hunter_agent.activity.failure.scm_branch_not_found':
+    'The branch could not be found in the source code provider. Check that it still exists.',
+  'hunter_agent.activity.failure.scm_credentials_rejected':
+    'The source code provider rejected the credentials. Update the connection credentials and try again.',
+  'hunter_agent.activity.failure.unsupported_scm_provider':
+    "This project's source code provider is not supported by the Hunter Agent.",
+  'hunter_agent.activity.no_data.description':
+    'When the Hunter Agent runs on this project, scan details will appear here.',
+  'hunter_agent.activity.no_data.title': 'No Hunter Agent activity yet on this project',
+  'hunter_agent.activity.run_completed': 'Latest run completed',
+  'hunter_agent.activity.run_failed': 'Latest run failed',
+  'hunter_agent.activity.run_in_progress': 'Run in progress',
+  'hunter_agent.activity.started_on': 'Started on {date}',
+  'hunter_agent.activity.stepper.analyzing': 'Scanning',
+  'hunter_agent.activity.stepper.analyzing.tooltip':
+    'Executes deep contextual scans to detect critical flaws like IDOR, broken access control, and business logic vulnerabilities.',
+  'hunter_agent.activity.stepper.cloning': 'Cloning',
+  'hunter_agent.activity.stepper.cloning.tooltip':
+    'Securely clones the target repository to grant the AI engine direct access to the source code.',
+  'hunter_agent.activity.stepper.consolidating': 'Consolidating',
+  'hunter_agent.activity.stepper.consolidating.tooltip':
+    'Aggregates and deduplicates findings from all specialized AI sub-agents into a single, unified issue list.',
+  'hunter_agent.activity.stepper.exploring': 'Exploring',
+  'hunter_agent.activity.stepper.exploring.tooltip':
+    'Analyzes the application architecture to map potential attack surfaces and build a comprehensive threat model.',
+  'hunter_agent.activity.stepper.reporting': 'Reporting',
+  'hunter_agent.activity.stepper.reporting.tooltip':
+    'Automatically exports and logs validated vulnerabilities directly into SonarQube for seamless tracking and remediation.',
+  'hunter_agent.activity.table.credits': 'Scan units consumed',
+  'hunter_agent.agent_activity_message':
+    'In progress and completed scans can be found in the <link>hunter agent run history</link>.',
+  'hunter_agent.config.update_error': 'Failed to update Hunter Agent configuration.',
+  'hunter_agent.config.updated': 'Hunter Agent configuration updated.',
+  'hunter_agent.credit_estimation.approximate_units': '~{count, number}',
+  'hunter_agent.credit_estimation.balance_too_low.branch':
+    'Your scan unit balance is too low to run a scan on {branch}.',
+  'hunter_agent.credit_estimation.branch_not_analyzed':
+    'This branch must be analyzed by SonarQube before its scan cost can be estimated.',
+  'hunter_agent.credit_estimation.branch_size': 'Branch size: {size} ({ncloc} lines of code)',
+  'hunter_agent.credit_estimation.calculating': 'Calculating scan units needed',
+  'hunter_agent.credit_estimation.may_vary':
+    'Actual usage per scheduled scan may vary as the branch size changes.',
+  'hunter_agent.credit_estimation.title': 'Estimated usage',
+  'hunter_agent.credit_estimation.units_available':
+    '{count, number} scan {count, plural, one {unit} other {units}} available',
+  'hunter_agent.credit_estimation.units_available_short':
+    '{count, plural, one {unit} other {units}} available',
+  'hunter_agent.credit_estimation.units_needed': '{count, plural, one {unit} other {units}} needed',
+  'hunter_agent.credit_estimation.units_per_scan':
+    '{count, plural, one {unit} other {units}} / scan (based on current lines of code).',
+  'hunter_agent.daily_analysis.project.description': 'Recurring background scans',
+  'hunter_agent.daily_analysis.project.description2':
+    'Keep findings fresh by scanning automatically on a regular cadence.',
+  'hunter_agent.daily_analysis.project.frequency_label': 'Frequency',
+  'hunter_agent.daily_analysis.project.last_day_of_month': 'Runs on last day of month.',
+  'hunter_agent.daily_analysis.project.save_button': 'Save schedule',
+  'hunter_agent.daily_analysis.project.title': 'Scheduled scans',
+  'hunter_agent.latest_job_status.last_scan': 'Last scan {date}',
+  'hunter_agent.latest_job_status.next_scan': 'Next scan {date} on branch {branch}',
+  'hunter_agent.latest_job_status.no_scans_yet': 'No scans yet.',
+  'hunter_agent.latest_job_status.no_scheduled_scans': 'No scheduled scans',
+  'hunter_agent.learn_more': 'Learn more about Hunter Agent',
+  'hunter_agent.main_branch_not_scanned.alternative':
+    "<b>Alternative:</b> Proceed on the main branch. You can manually 'Accept' discovered issues so they don't fail your quality gate.",
+  'hunter_agent.main_branch_not_scanned.description':
+    'Scanning the main branch may surface complex issues that block your next release.',
+  'hunter_agent.main_branch_not_scanned.recommended':
+    '<b>Recommended:</b> Run the agent on a dedicated branch to review and remediate issues safely.',
+  'hunter_agent.main_branch_not_scanned.scan_main_branch': 'Scan main branch',
+  'hunter_agent.main_branch_not_scanned.see_all_branches': 'See all branches',
+  'hunter_agent.main_branch_not_scanned.title': "The main branch hasn't been scanned yet",
+  'hunter_agent.manage_scan_schedule': 'Manage scheduling',
+  'hunter_agent.no_scan_yet.description.admin':
+    'Run a first scan of your project to uncover complex, context-dependent problems in your codebase.',
+  'hunter_agent.no_scan_yet.description.member':
+    'Ask an Administrator of this project to run a first scan to uncover complex, context-dependent problems in your codebase.',
+  'hunter_agent.no_scan_yet.title': 'Start hunting for complex, context-dependent problems',
+  'hunter_agent.not_available_for_branch.action': 'See all branches',
+  'hunter_agent.not_available_for_branch.description':
+    'Select a long-lived branch to run the Hunter Agent',
+  'hunter_agent.not_available_for_branch.title':
+    'Hunter agent is not available for PRs and short-lived branches.',
+  'hunter_agent.results.card.accepted_issues': 'Accepted issues',
+  'hunter_agent.results.card.accepted_issues_description':
+    "Won't fix for now. They won't affect the quality gate.",
+  'hunter_agent.results.card.authentication_session': 'Authentication & session',
+  'hunter_agent.results.card.broken_access_control': 'Broken access control',
+  'hunter_agent.results.card.business_logic': 'Business logic',
+  'hunter_agent.results.card.confirmed_issues': 'Confirmed issues',
+  'hunter_agent.results.card.confirmed_issues_description':
+    'Valid issues to fix. They may affect the quality gate.',
+  'hunter_agent.results.card.open_issues': 'Open issues',
+  'hunter_agent.results.card.open_issues_description':
+    'To review and qualify. They may affect the quality gate.',
+  'hunter_agent.results.heading': 'Latest scan results',
+  'hunter_agent.results.issue_count_suffix': '{count, plural, one {issue} other {issues}}',
+  'hunter_agent.results.most_severe': 'Most severe:',
+  'hunter_agent.results.no_open_issues': 'Nice job! There are no open issues.',
+  'hunter_agent.results.tooltip.authentication_session':
+    'Issues related to authentication and session vulnerabilities.',
+  'hunter_agent.results.tooltip.broken_access_control':
+    'Issues related to broken access control vulnerabilities.',
+  'hunter_agent.results.tooltip.business_logic':
+    'Issues related to business logic vulnerabilities.',
+  'hunter_agent.results.view_all_findings': 'View all findings',
+  'hunter_agent.run_now.branch_label': 'Branch to scan',
+  'hunter_agent.run_now.error': 'Could not start the scan. Please try again.',
+  'hunter_agent.run_now.error.422':
+    'A scan is already in progress. Please wait for it to complete.',
+  'hunter_agent.run_now.success':
+    'Scan started. Track its progress on the hunter agent "Run history" tab.',
+  'hunter_agent.run_now_button': 'Scan now',
+  'hunter_agent.run_now_button.scanning': 'Scanning...',
+  'hunter_agent.scan_modal.about_to_scan.branch': 'You are about to run a scan on {branch}.',
+  'hunter_agent.scan_modal.balance_too_low':
+    'Your scan unit balance is too low to run a scan on this branch.',
+  'hunter_agent.scan_modal.branch_not_analyzed.branch':
+    '{branch} must be analyzed by SonarQube before it can be scanned.',
+  'hunter_agent.scan_modal.branch_size': 'Branch size: {size}',
+  'hunter_agent.scan_modal.contact_sales': 'Contact sales',
+  'hunter_agent.scan_modal.contact_sales_hint':
+    'Contact Sonar sales to increase your scan units balance.',
+  'hunter_agent.scan_modal.setup_binding': 'Set up binding',
+  'hunter_agent.scan_modal.title': 'Confirm scan',
+  'hunter_agent.scan_modal.title.balance_too_low': 'Balance too low',
+  'hunter_agent.scan_modal.units_will_be_used':
+    '{count, plural, one {scan unit} other {scan units}} will be used.',
+  'hunter_agent.tab_activity': 'Run history',
+  'hunter_agent.tab_activity.heading': 'Past jobs',
+  'hunter_agent.tab_results': 'Scan results',
+  'organization.ai_agents.scheduled_jobs.frequency.monthly': 'Monthly',
+  'project_overview.agent_activity.error_description': 'Oops! Something went wrong.',
+  'project_overview.agent_activity.error_reason_description':
+    "We couldn't retrieve the list of agent activity for this project at this time. This might be a temporary issue.",
+  'project_overview.agent_activity.table.outcome': 'Outcome',
+  'project_overview.agent_activity.table.started': 'Started',
   'ai_capabilities.remediation_agent.scheduled.frequency': 'Frequency',
   'ai_capabilities.remediation_agent.scheduled.frequency.at': 'at',
   'ai_capabilities.remediation_agent.scheduled.frequency.on': 'on',
@@ -10623,7 +10778,7 @@ export const defaultMessages = {
   'license.products.usage_tip.base.term.default.description':
     'This shows the usage limit included with your plan subscription. {validity}',
   'license.products.usage_tip.base.term.default.description.valid_until':
-    'The scan units you purchased for {product} are valid until your license expires on {date}.',
+    'The usage you purchased for {product} is valid until your license expires on {date}.',
   'license.products.usage_tip.base.term.warning.title': '{percentage}% of limit used',
   'license.products.usage_tip.base.term.warning.description':
     "You're close to reaching your usage limit. {validity}",

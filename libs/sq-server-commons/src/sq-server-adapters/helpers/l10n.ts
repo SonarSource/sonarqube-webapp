@@ -23,6 +23,8 @@ import { DEFAULT_LOCALE } from '../../design-system/helpers/constants';
 import { getLocalizedMetricName } from '../../helpers/l10n';
 import { getL10nBundleFromCache } from '../../helpers/l10nBundleCache';
 
+export { getWeekDayName } from '../../helpers/l10n';
+
 export function getCurrentLocale() {
   return getL10nBundleFromCache().locale ?? DEFAULT_LOCALE;
 }
