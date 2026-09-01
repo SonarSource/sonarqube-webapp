@@ -23,6 +23,7 @@ import { isNil, omitBy } from 'lodash';
 import { RequestData } from '~shared/helpers/request';
 import { HttpStatus } from '~shared/types/request';
 import { getCookie } from './cookies';
+import { getCachedCSRFToken, setCachedCSRFToken } from './csrf-token';
 import handleRequiredAuthentication from './handleRequiredAuthentication';
 import { translate } from './l10n';
 import { stringify } from './stringify-queryparams';
@@ -33,12 +34,11 @@ export function getCSRFTokenName(): string {
 }
 
 export function getCSRFTokenValue(): string {
-  const cookieName = 'XSRF-TOKEN';
-  const cookieValue = getCookie(cookieName);
-  if (!cookieValue) {
-    return '';
+  const cookieValue = getCookie('XSRF-TOKEN');
+  if (cookieValue) {
+    return cookieValue;
   }
-  return cookieValue;
+  return getCachedCSRFToken() ?? '';
 }
 
 /**
@@ -49,6 +49,28 @@ export function getCSRFToken(): Record<string, string> {
   // so we ensure non-empty value
   const value = getCSRFTokenValue();
   return value ? { [getCSRFTokenName()]: value } : {};
+}
+
+function isSameOriginUrl(url: string): boolean {
+  try {
+    return new URL(url, window.location.href).origin === window.location.origin;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Cache the CSRF token from the response header, so it survives a reverse proxy
+ * forcing `HttpOnly=true` on the `XSRF-TOKEN` cookie.
+ */
+function cacheCSRFTokenFromResponse(response: Response, url: string): Response {
+  if (isSameOriginUrl(url)) {
+    const token = response.headers.get(getCSRFTokenName());
+    if (token) {
+      setCachedCSRFToken(token);
+    }
+  }
+  return response;
 }
 
 export type { RequestData } from '~shared/helpers/request';
@@ -123,7 +145,10 @@ class Request {
 
   submit(): Promise<Response> {
     const { url, options } = this.getSubmitData({ ...getCSRFToken() });
-    return window.fetch(getBaseUrl() + url, options);
+    const fullUrl = getBaseUrl() + url;
+    return window
+      .fetch(fullUrl, options)
+      .then((response) => cacheCSRFTokenFromResponse(response, fullUrl));
   }
 
   setMethod(method: string): this {

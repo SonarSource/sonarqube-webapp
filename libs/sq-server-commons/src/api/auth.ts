@@ -18,7 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { request } from '../helpers/request';
+import { clearCachedCSRFToken } from '../helpers/csrf-token';
+import { getCSRFTokenValue, request } from '../helpers/request';
+import { getCurrentUser } from './users';
 
 export function logIn(login: string, password: string): Promise<Response> {
   return request('/api/authentication/login')
@@ -28,8 +30,19 @@ export function logIn(login: string, password: string): Promise<Response> {
     .then(basicCheckStatus);
 }
 
-export function logOut(): Promise<Response> {
-  return request('/api/authentication/logout').setMethod('POST').submit().then(basicCheckStatus);
+export async function logOut(): Promise<Response> {
+  if (!getCSRFTokenValue()) {
+    // `/sessions/logout` skips the app bootstrap that normally primes the CSRF token
+    // cache, so on deployments where the XSRF-TOKEN cookie is unreadable (HttpOnly
+    // reverse proxy) the logout POST itself would otherwise be CSRF-rejected.
+    await getCurrentUser().catch(() => {});
+  }
+
+  return request('/api/authentication/logout')
+    .setMethod('POST')
+    .submit()
+    .then(basicCheckStatus)
+    .finally(clearCachedCSRFToken);
 }
 
 function basicCheckStatus(response: Response): Promise<Response> {

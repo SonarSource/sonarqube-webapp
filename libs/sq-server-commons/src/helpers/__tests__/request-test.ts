@@ -23,9 +23,12 @@
 import { setImmediate } from 'timers';
 import { requestTryAndRepeatUntil } from '~shared/helpers/request';
 import { HttpStatus } from '~shared/types/request';
+import { clearCachedCSRFToken, setCachedCSRFToken } from '../csrf-token';
 import handleRequiredAuthentication from '../handleRequiredAuthentication';
 import {
   checkStatus,
+  getCSRFToken,
+  getCSRFTokenValue,
   getText,
   isSuccessStatus,
   parseError,
@@ -42,6 +45,7 @@ const url = '/my-url';
 
 beforeEach(() => {
   jest.clearAllMocks();
+  clearCachedCSRFToken();
   window.fetch = jest.fn().mockResolvedValue(mockResponse({}, HttpStatus.Ok, {}));
 });
 
@@ -341,6 +345,49 @@ describe('isSuccessStatus', () => {
     expect(isSuccessStatus(HttpStatus.MultipleChoices)).toBe(false);
     expect(isSuccessStatus(HttpStatus.NotFound)).toBe(false);
     expect(isSuccessStatus(HttpStatus.InternalServerError)).toBe(false);
+  });
+});
+
+describe('CSRF token', () => {
+  afterEach(() => {
+    document.cookie = 'XSRF-TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  });
+
+  it('should have no token when nothing is cached and no cookie is set', () => {
+    expect(getCSRFTokenValue()).toBe('');
+    expect(getCSRFToken()).toEqual({});
+  });
+
+  it('should prefer the cookie over the cached token', () => {
+    document.cookie = 'XSRF-TOKEN=cookie-token';
+    setCachedCSRFToken('cached-token');
+    expect(getCSRFTokenValue()).toBe('cookie-token');
+    expect(getCSRFToken()).toEqual({ 'X-XSRF-TOKEN': 'cookie-token' });
+  });
+
+  it('should fall back to the cached token when the cookie is not available', () => {
+    setCachedCSRFToken('cached-token');
+    expect(getCSRFTokenValue()).toBe('cached-token');
+    expect(getCSRFToken()).toEqual({ 'X-XSRF-TOKEN': 'cached-token' });
+  });
+
+  it('should cache the token from the response header and reuse it on the next request', async () => {
+    window.fetch = jest
+      .fn()
+      .mockResolvedValue(mockResponse({ 'X-XSRF-TOKEN': 'header-token' }, HttpStatus.Ok, {}));
+
+    await getText(url);
+    expect(getCSRFTokenValue()).toBe('header-token');
+
+    window.fetch = jest.fn().mockResolvedValue(mockResponse());
+    await post(url);
+
+    expect(window.fetch).toHaveBeenCalledWith(
+      url,
+      expect.objectContaining({
+        headers: expect.objectContaining({ 'X-XSRF-TOKEN': 'header-token' }),
+      }),
+    );
   });
 });
 

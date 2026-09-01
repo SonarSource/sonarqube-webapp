@@ -19,8 +19,9 @@
  */
 
 import { toast } from '@sonarsource/echoes-react';
-import { AxiosInstance, AxiosInterceptorManager, AxiosResponse } from 'axios';
-import { parseErrorResponse } from '../../helpers/request';
+import { AxiosHeaders, AxiosInstance, AxiosInterceptorManager, AxiosResponse } from 'axios';
+import { setCachedCSRFToken } from '../../helpers/csrf-token';
+import { getCSRFTokenName, getCSRFTokenValue, parseErrorResponse } from '../../helpers/request';
 import { getBaseUrl } from './system';
 
 type AxiosResponseInterceptor = Parameters<AxiosInterceptorManager<AxiosResponse>['use']>;
@@ -30,12 +31,68 @@ type SetupAxiosClientFunc = (
   responseInterceptors?: AxiosResponseInterceptor[],
 ) => Promise<AxiosInstance>;
 
+/**
+ * Some calls made through this client target third-party APIs with an absolute,
+ * cross-origin URL (e.g. Beamer) — the CSRF token must never be attached to, or
+ * cached from, those.
+ */
+function isSameOriginUrl(url?: string, baseURL?: string): boolean {
+  if (!url) {
+    return false;
+  }
+  try {
+    // `baseURL` (e.g. a deployment context path like `/sonarqube`) can itself be relative,
+    // so resolve it against the page URL first to get a valid base for `url`.
+    const base = baseURL ? new URL(baseURL, window.location.href) : window.location.href;
+    return new URL(url, base).origin === window.location.origin;
+  } catch {
+    return false;
+  }
+}
+
+function cacheCSRFTokenFromHeaders(headers: AxiosHeaders): void {
+  const token = headers.get(getCSRFTokenName());
+  if (typeof token === 'string' && token) {
+    setCachedCSRFToken(token);
+  }
+}
+
 export const setupAxiosClient: SetupAxiosClientFunc = async (
   axiosInstance,
   responseInterceptors = [],
 ) => {
   axiosInstance.defaults.baseURL = getBaseUrl();
   axiosInstance.defaults.headers.patch = { 'Content-Type': 'application/merge-patch+json' };
+
+  axiosInstance.interceptors.request.use((config) => {
+    // We manage the CSRF token ourselves; always prevent axios from reading the
+    // (possibly HttpOnly) XSRF-TOKEN cookie on its own.
+    config.withXSRFToken = false;
+
+    if (isSameOriginUrl(config.url, config.baseURL)) {
+      const token = getCSRFTokenValue();
+      if (token) {
+        config.headers.set(getCSRFTokenName(), token);
+      }
+    }
+    return config;
+  });
+
+  axiosInstance.interceptors.response.use(
+    (response) => {
+      if (isSameOriginUrl(response.config.url, response.config.baseURL)) {
+        cacheCSRFTokenFromHeaders(response.headers as AxiosHeaders);
+      }
+      return response;
+    },
+    (error) => {
+      const { response } = error;
+      if (response && isSameOriginUrl(response.config?.url, response.config?.baseURL)) {
+        cacheCSRFTokenFromHeaders(response.headers as AxiosHeaders);
+      }
+      return Promise.reject(error);
+    },
+  );
 
   responseInterceptors.forEach((interceptor) => {
     axiosInstance.interceptors.response.use(...interceptor);
