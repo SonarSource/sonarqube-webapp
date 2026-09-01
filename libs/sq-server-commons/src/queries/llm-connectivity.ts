@@ -116,6 +116,7 @@ export function useUpsertLlmProviderSelectionMutation() {
     mutationFn: upsertLlmProviderSelection,
     onSuccess(_, { aiCapability }) {
       client.invalidateQueries({ queryKey: llmConnectivityQueryKeys.selection(aiCapability) });
+      client.invalidateQueries({ queryKey: ['purchasable-features'] });
     },
   });
 }
