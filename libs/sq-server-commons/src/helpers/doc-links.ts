@@ -105,6 +105,7 @@ export enum DocLink {
   Monorepos = '/project-administration/monorepos/',
   NewCodeDefinition = '/user-guide/about-new-code/',
   NewCodeRecommended = '/user-guide/about-new-code#recommended-option-depending-on-project-type',
+  Overage = '/instance-administration/license-administration/overage-subscriptions',
   PortfolioBreakdown = '/user-guide/viewing-reports/portfolios/#portfolio-breakdown',
   PortfolioManagementAllDashboards = '/managing-portfolios/portfolio-dashboards/viewing-and-managing-dashboards',
   Portfolios = '/user-guide/viewing-reports/portfolios/',
