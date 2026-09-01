@@ -18,7 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { cssVar, Heading, IconChevronDown, IconChevronRight } from '@sonarsource/echoes-react';
+import {
+  ButtonIcon,
+  ButtonSize,
+  ButtonVariety,
+  cssVar,
+  Heading,
+  IconChevronDown,
+  IconChevronRight,
+} from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { getSectionHeight } from '../logic/positioning';
 import { ExplicitSectionInstance } from '../logic/types';
@@ -56,23 +64,14 @@ export function ExplicitSection<WidgetPropMap extends {}>(props: Readonly<Props<
           sectionDescription={section.description}
           titleRow={<Heading as="h3">{section.name}</Heading>}
         />
-        <button
+        <ButtonIcon
+          Icon={isCollapsed ? IconChevronRight : IconChevronDown}
           aria-expanded={!isCollapsed}
-          aria-label={`Toggle ${section.name} section`}
+          ariaLabel={`Toggle ${section.name} section`}
           onClick={handleToggleCollapse}
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: '4px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          type="button"
-        >
-          {isCollapsed ? <IconChevronRight /> : <IconChevronDown />}
-        </button>
+          size={ButtonSize.Medium}
+          variety={ButtonVariety.DefaultGhost}
+        />
       </div>
 
       {/* Widgets stay mounted so the max-height collapse animation keeps working, but the collapsed

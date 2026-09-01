@@ -524,6 +524,14 @@ describe('ReadonlyDashboard', () => {
       expect(ui.toggleButton()).toHaveAttribute('aria-expanded', 'true');
     });
 
+    it('should focus the section toggle when tabbing to it', async () => {
+      const { user } = setupCollapsibleDashboard();
+
+      await user.tab();
+
+      expect(ui.toggleButton()).toHaveFocus();
+    });
+
     it('should keep collapsed content mounted but out of the accessibility tree', async () => {
       const { user } = setupCollapsibleDashboard();
 
