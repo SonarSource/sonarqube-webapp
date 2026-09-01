@@ -4565,6 +4565,15 @@ export const defaultMessages = {
     'Manage how long historical data is kept for project and portfolio dashboards. <bold>Data older than the retention period is automatically deleted.</bold> Longer retention uses more database storage.',
   'settings.dashboard.retention.description2':
     'This setting only affects dashboard history data and does not change data storage for analysis retention or scanner cache cleanup. Learn more about <link>dashboard history retention</link>.',
+  'settings.dashboard.retention.community.title': 'Project overview dashboards history retention',
+  'settings.dashboard.retention.community.description1':
+    'Manage how long historical data is kept for the project overview dashboards. <bold>Data older than the retention period is automatically deleted.</bold> Longer retention uses more database storage.',
+  'settings.dashboard.retention.community.description2':
+    'This setting only affects dashboard history data and does not change data storage for analysis retention or scanner cache cleanup.',
+  'settings.dashboard.retention.coming_soon':
+    'Project overview dashboards will launch in a future release. Data collection is enabled by default to prepare your history ahead of time. You can adjust settings below.',
+  'settings.dashboard.retention.community.success':
+    'Project overview dashboards history retention has been successfully updated.',
   'settings.dashboard.retention.option.365': '365 days (Recommended)',
   'settings.dashboard.retention.option.180': '180 days',
   'settings.dashboard.retention.option.90': '90 days',
@@ -4583,6 +4592,8 @@ export const defaultMessages = {
     'Dashboard history retention period has been successfully updated.',
   'settings.dashboard.retention.unsaved_changes':
     'You have unsaved changes to the dashboard retention setting. Are you sure you want to leave?',
+  'settings.dashboard.retention.community.unsaved_changes':
+    'You have unsaved changes to the project overview dashboards history retention setting. Are you sure you want to leave?',
 
   'settings.advanced_security.title': 'Advanced Security',
   'settings.advanced_security.description':

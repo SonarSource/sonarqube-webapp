@@ -22,8 +22,10 @@ import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { flushPromises } from '~sq-server-commons/helpers/testUtils';
+import { EditionKey } from '~sq-server-commons/types/editions';
 import { DASHBOARD_HISTORY_RETENTION_KEY } from '../../../constants';
 import { DashboardRetentionSection } from '../DashboardRetentionSection';
 
@@ -44,12 +46,14 @@ afterEach(async () => {
 });
 
 const ui = {
-  heading: byRole('heading', { name: 'settings.dashboard.retention.title' }),
+  heading: byRole('heading', { name: 'settings.dashboard.retention.community.title' }),
+  enterpriseHeading: byRole('heading', { name: 'settings.dashboard.retention.title' }),
   radio365: byRole('radio', { name: 'settings.dashboard.retention.option.365' }),
   radio180: byRole('radio', { name: 'settings.dashboard.retention.option.180' }),
   radio90: byRole('radio', { name: 'settings.dashboard.retention.option.90' }),
   radioCustom: byRole('radio', { name: 'settings.dashboard.retention.option.custom' }),
   customInput: byRole('spinbutton'),
+  comingSoonCallout: byText('settings.dashboard.retention.coming_soon'),
   displayLimitCallout: byText('settings.dashboard.retention.display_limit.title'),
   validationHint: byText('settings.dashboard.retention.custom.hint'),
   saveButton: byRole('button', { name: 'save' }),
@@ -60,13 +64,14 @@ const ui = {
   reduceRetentionButton: byRole('button', {
     name: 'settings.dashboard.retention.reduce_modal.confirm',
   }),
-  successToast: byText('settings.dashboard.retention.success'),
+  successToast: byText('settings.dashboard.retention.community.success'),
+  enterpriseSuccessToast: byText('settings.dashboard.retention.success'),
   settingKey: byText(new RegExp(DASHBOARD_HISTORY_RETENTION_KEY)),
 };
 
-function renderDashboardRetentionSection() {
+function renderDashboardRetentionSection(edition = EditionKey.community) {
   const user = userEvent.setup();
-  renderComponent(<DashboardRetentionSection />);
+  renderComponent(<DashboardRetentionSection />, '/', { appState: mockAppState({ edition }) });
   return { user };
 }
 
@@ -222,6 +227,34 @@ it('renders the setting key', async () => {
   renderDashboardRetentionSection();
 
   expect(await ui.settingKey.find()).toBeInTheDocument();
+});
+
+it('shows community title and coming soon callout for community edition', async () => {
+  renderDashboardRetentionSection(EditionKey.community);
+
+  expect(await ui.heading.find()).toBeInTheDocument();
+  expect(ui.comingSoonCallout.get()).toBeInTheDocument();
+});
+
+it('shows community title and coming soon callout for developer edition', async () => {
+  renderDashboardRetentionSection(EditionKey.developer);
+
+  expect(await ui.heading.find()).toBeInTheDocument();
+  expect(ui.comingSoonCallout.get()).toBeInTheDocument();
+});
+
+it('shows enterprise title, no coming soon callout, and correct success toast for enterprise edition', async () => {
+  settingsServiceMock.set(DASHBOARD_HISTORY_RETENTION_KEY, '90');
+  const { user } = renderDashboardRetentionSection(EditionKey.enterprise);
+
+  await waitFor(() => expect(ui.radio90.get()).toBeChecked());
+  expect(ui.enterpriseHeading.get()).toBeInTheDocument();
+  expect(ui.comingSoonCallout.query()).not.toBeInTheDocument();
+
+  await user.click(ui.radio365.get());
+  await user.click(ui.saveButton.get());
+
+  expect(await ui.enterpriseSuccessToast.find()).toBeInTheDocument();
 });
 
 it('restores custom value when switching back to Custom after selecting a preset', async () => {

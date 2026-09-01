@@ -37,8 +37,10 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { unstable_usePrompt as usePrompt } from 'react-router-dom';
 import { RequiredIcon } from '~design-system';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useGetValueQuery, useSaveSimpleValueMutation } from '~sq-server-commons/queries/settings';
+import { supportsCustomProjectDashboards } from '../../../projectDashboards/permissions';
 import { DASHBOARD_HISTORY_RETENTION_KEY } from '../../constants';
 import { ReduceRetentionModal } from './ReduceRetentionModal';
 
@@ -82,6 +84,8 @@ function handleCustomKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
 
 export function DashboardRetentionSection() {
   const { formatMessage } = useIntl();
+  const { edition } = useAppState();
+  const isCommunityOrDeveloper = !supportsCustomProjectDashboards(edition);
 
   const { data: settingValue } = useGetValueQuery({
     key: DASHBOARD_HISTORY_RETENTION_KEY,
@@ -113,7 +117,11 @@ export function DashboardRetentionSection() {
 
   usePrompt({
     when: isDirty,
-    message: formatMessage({ id: 'settings.dashboard.retention.unsaved_changes' }),
+    message: formatMessage({
+      id: isCommunityOrDeveloper
+        ? 'settings.dashboard.retention.community.unsaved_changes'
+        : 'settings.dashboard.retention.unsaved_changes',
+    }),
   });
 
   const { mutate: saveRetentionSetting, isPending: isSavingRetention } = useSaveSimpleValueMutation(
@@ -131,7 +139,12 @@ export function DashboardRetentionSection() {
           setCustomValue(option === 'custom' ? String(days) : '');
           setIsReduceModalOpen(false);
           toast.success({
-            description: formatMessage({ id: 'settings.dashboard.retention.success' }),
+            description: formatMessage({
+              id: isCommunityOrDeveloper
+                ? 'settings.dashboard.retention.community.success'
+                : 'settings.dashboard.retention.success',
+            }),
+            isDismissable: true,
           });
         },
       },
@@ -202,31 +215,55 @@ export function DashboardRetentionSection() {
     <>
       <div className="sw-p-6 sw-max-w-abs-800 sw-box-border">
         <Heading as="h4">
-          <FormattedMessage id="settings.dashboard.retention.title" />
+          <FormattedMessage
+            id={
+              isCommunityOrDeveloper
+                ? 'settings.dashboard.retention.community.title'
+                : 'settings.dashboard.retention.title'
+            }
+          />
         </Heading>
 
-        <Text as="p" className="sw-mt-2 sw-text-black">
+        <Text as="p" className="sw-mt-2">
           <FormattedMessage
-            id="settings.dashboard.retention.description1"
+            id={
+              isCommunityOrDeveloper
+                ? 'settings.dashboard.retention.community.description1'
+                : 'settings.dashboard.retention.description1'
+            }
             values={{ bold: (text) => <strong>{text}</strong> }}
           />
         </Text>
 
-        <Text as="p" className="sw-mt-2 sw-text-black">
-          <FormattedMessage
-            id="settings.dashboard.retention.description2"
-            values={{
-              link: (text) => (
-                <DocumentationLink enableOpenInNewTab to={DocLink.DashboardHistoryRetention}>
-                  {text}
-                </DocumentationLink>
-              ),
-            }}
-          />
+        <Text as="p" className="sw-mt-2">
+          {isCommunityOrDeveloper ? (
+            <FormattedMessage id="settings.dashboard.retention.community.description2" />
+          ) : (
+            <FormattedMessage
+              id="settings.dashboard.retention.description2"
+              values={{
+                link: (text) => (
+                  <DocumentationLink enableOpenInNewTab to={DocLink.DashboardHistoryRetention}>
+                    {text}
+                  </DocumentationLink>
+                ),
+              }}
+            />
+          )}
         </Text>
 
+        {isCommunityOrDeveloper && (
+          <MessageCallout className="sw-mt-4" variety="info">
+            {formatMessage({ id: 'settings.dashboard.retention.coming_soon' })}
+          </MessageCallout>
+        )}
+
         <RadioButtonGroup
-          ariaLabel={formatMessage({ id: 'settings.dashboard.retention.title' })}
+          ariaLabel={formatMessage({
+            id: isCommunityOrDeveloper
+              ? 'settings.dashboard.retention.community.title'
+              : 'settings.dashboard.retention.title',
+          })}
           className="sw-mt-6 sw-w-fit"
           id="dashboard-history-retention"
           onChange={handleOptionChange}
@@ -236,10 +273,7 @@ export function DashboardRetentionSection() {
 
         {selectedOption === 'custom' && (
           <div className="sw-mt-4">
-            <Label
-              className="sw-mb-2 sw-flex sw-items-center sw-text-black"
-              htmlFor="dashboard-retention-custom"
-            >
+            <Label className="sw-mb-2 sw-flex sw-items-center" htmlFor="dashboard-retention-custom">
               {formatMessage({ id: 'settings.dashboard.retention.custom.label' })}
               <RequiredIcon aria-label={formatMessage({ id: 'required' })} className="sw-ml-1" />
             </Label>
