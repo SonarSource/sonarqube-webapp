@@ -186,7 +186,7 @@ describe('getMetricWidgetHeaderText', () => {
         'dashboard.add_widget_modal.apply_filters_section.select.software_quality.label: software_quality.SECURITY',
         'dashboard.add_widget_modal.apply_filters_section.select.severity.label: High',
       ],
-      title: `High+ issue.status.OPEN software_quality.SECURITY ${MetricKey.issues}`,
+      title: `issue.status.OPEN High+ software_quality.SECURITY ${MetricKey.issues}`,
     });
   });
 

@@ -153,13 +153,13 @@ export function getDashboardMetricTitle({
 
 // ─── Private helpers ─────────────────────────────────────────────────────────
 
-type TitlePart =
-  | {
-      messageId: string;
-      suffix?: string;
-      values?: Record<string, { messageId: string }>;
-    }
-  | { metricKey: MetricKey; useShortName: boolean };
+interface MessageTitlePart {
+  messageId: string;
+  suffix?: string;
+  values?: Record<string, { messageId: string }>;
+}
+
+type TitlePart = MessageTitlePart | { metricKey: MetricKey; useShortName: boolean };
 
 interface TitleDescriptor {
   overTime: boolean;
@@ -273,12 +273,28 @@ function buildRawMetricTitleDescriptor(
   };
 }
 
+export function getMeasureFilterTitle(
+  formatMessage: FormatMessage,
+  measureFilters: MeasureFilters | undefined,
+): string {
+  return getMeasureFilterTitleParts(measureFilters)
+    .map((part) => {
+      const message = formatMessage({ id: part.messageId });
+      return part.suffix ? `${message}${part.suffix}` : message;
+    })
+    .join(' ');
+}
+
 function getMeasureFilterTitleParts(
   measureFilters: MeasureFilters | undefined,
   includeSoftwareQuality = true,
-): TitlePart[] {
-  const parts: TitlePart[] = [];
+): MessageTitlePart[] {
+  const parts: MessageTitlePart[] = [];
   const severities = measureFilters?.impactSeverities;
+
+  if (measureFilters?.issueStatus) {
+    parts.push({ messageId: `issue.status.${measureFilters.issueStatus}` });
+  }
 
   if (severities && severities.length > 0 && severities.length < 5) {
     const severityOrder = [
@@ -297,9 +313,6 @@ function getMeasureFilterTitleParts(
     }
   }
 
-  if (measureFilters?.issueStatus) {
-    parts.push({ messageId: `issue.status.${measureFilters.issueStatus}` });
-  }
   if (includeSoftwareQuality && measureFilters?.impactSoftwareQuality) {
     parts.push({ messageId: `software_quality.${measureFilters.impactSoftwareQuality}` });
   }

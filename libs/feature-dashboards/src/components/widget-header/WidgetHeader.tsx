@@ -29,7 +29,11 @@ import { MetricKey } from '~shared/types/metrics';
 import { WidgetFilterLine } from '../../dashboard-layout/shared/WidgetFilterLine';
 import { WidgetHeaderTitle } from '../../dashboard-layout/shared/WidgetHeaderTitle';
 import type { LineChartGroupByValue } from '../../data/widgets/line-chart';
-import type { DashboardMetric, TopListWidgetProps } from '../../types/dashboard-widget';
+import {
+  DashboardMetricType,
+  type DashboardMetric,
+  type TopListWidgetProps,
+} from '../../types/dashboard-widget';
 import { WidgetMode, type CodeScope } from '../../types/widget-common';
 import { normalizeRatingValue } from '../../utils/ratingBadge';
 import { RatingBadgeDisplay } from '../visualizations/RatingBadgeDisplay';
@@ -114,7 +118,12 @@ export function TopListWidgetHeader({
       metric={metric}
       scope={scope}
       showContextualRatingBadge={false}
-      titleOverride={getTopListWidgetTitle(formatMessage, { limit, rankBy })}
+      titleOverride={getTopListWidgetTitle(formatMessage, {
+        limit,
+        measureFilters:
+          metric.type === DashboardMetricType.Rich ? metric.measureFilters : undefined,
+        rankBy,
+      })}
     />
   );
 }

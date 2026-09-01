@@ -19,12 +19,14 @@
  */
 
 import type { IntlShape } from 'react-intl';
+import type { MeasureFilters } from '../../../types/dashboard-widget';
 import {
   TopListMetric,
   TopListRankBy,
   type TopListLimitValue,
   type TopListRankByValue,
 } from '../../../types/widget-common';
+import { getMeasureFilterTitle } from '../../widget-header/widgetHeaderText';
 
 const RANK_BY_TITLE_MESSAGE_ID: Record<TopListRankByValue, string> = {
   [TopListRankBy.Rule]: 'dashboard.top_list.title.rank_by.rule',
@@ -37,19 +39,27 @@ const METRIC_TITLE_MESSAGE_ID: Record<(typeof TopListMetric)[keyof typeof TopLis
 
 export interface GetTopListWidgetTitleParams {
   limit: TopListLimitValue;
+  measureFilters?: MeasureFilters;
   rankBy: TopListRankByValue;
 }
 
 /** Returns a fully-localised widget title string. */
 export function getTopListWidgetTitle(
   formatMessage: IntlShape['formatMessage'],
-  { limit, rankBy }: Readonly<GetTopListWidgetTitleParams>,
+  { limit, measureFilters, rankBy }: Readonly<GetTopListWidgetTitleParams>,
 ): string {
+  const metric = [
+    getMeasureFilterTitle(formatMessage, measureFilters),
+    formatMessage({ id: METRIC_TITLE_MESSAGE_ID[TopListMetric.IssueCount] }),
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return formatMessage(
     { id: 'dashboard.top_list.widget_title' },
     {
       limit,
-      metric: formatMessage({ id: METRIC_TITLE_MESSAGE_ID[TopListMetric.IssueCount] }),
+      metric,
       rankBy: formatMessage({ id: RANK_BY_TITLE_MESSAGE_ID[rankBy] }),
     },
   );

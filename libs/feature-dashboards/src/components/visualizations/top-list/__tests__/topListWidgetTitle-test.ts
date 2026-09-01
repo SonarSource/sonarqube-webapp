@@ -19,6 +19,8 @@
  */
 
 import type { IntlShape } from 'react-intl';
+import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { IssueStatus } from '../../../../types/dashboard-widget';
 import { TopListLimit, TopListRankBy } from '../../../../types/widget-common';
 import { getTopListWidgetTitle } from '../topListWidgetTitle';
 
@@ -39,6 +41,34 @@ describe('getTopListWidgetTitle', () => {
 
     expect(title).toBe(
       'dashboard.top_list.widget_title.5.dashboard.top_list.title.metric.issue_count.dashboard.top_list.title.rank_by.rule',
+    );
+  });
+
+  it('includes the severity in the issue metric', () => {
+    const title = getTopListWidgetTitle(formatMessage, {
+      limit: TopListLimit.Five,
+      measureFilters: { impactSeverities: [SoftwareImpactSeverity.High] },
+      rankBy: TopListRankBy.Rule,
+    });
+
+    expect(title).toBe(
+      'dashboard.top_list.widget_title.5.severity.HIGH+ dashboard.top_list.title.metric.issue_count.dashboard.top_list.title.rank_by.rule',
+    );
+  });
+
+  it('includes the status, severity, and software quality in the issue metric', () => {
+    const title = getTopListWidgetTitle(formatMessage, {
+      limit: TopListLimit.Five,
+      measureFilters: {
+        impactSeverities: [SoftwareImpactSeverity.Blocker],
+        impactSoftwareQuality: SoftwareQuality.Security,
+        issueStatus: IssueStatus.Open,
+      },
+      rankBy: TopListRankBy.Rule,
+    });
+
+    expect(title).toBe(
+      'dashboard.top_list.widget_title.5.issue.status.OPEN severity.BLOCKER software_quality.SECURITY dashboard.top_list.title.metric.issue_count.dashboard.top_list.title.rank_by.rule',
     );
   });
 });
