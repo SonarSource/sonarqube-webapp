@@ -1971,6 +1971,92 @@ export const defaultMessages = {
   'agent_activity.status.completed': 'Completed',
   'agent_activity.status.failed': 'Failed',
   'agent_activity.status.failed.description': 'Try again later',
+  'remediation_agent.error.unknown': 'An error occurred',
+  'remediation_agent.error.unknown.context':
+    'The job could not be completed. Please try again later.',
+  'remediation_agent.error.agent_execution_failed': 'Agent stopped unexpectedly',
+  'remediation_agent.error.agent_execution_failed.context':
+    'Something went wrong while the agent was processing this job. Please try again later.',
+  'remediation_agent.error.agent_execution_timeout': 'Agent timed out',
+  'remediation_agent.error.agent_execution_timeout.context':
+    'The agent did not finish processing this job in time. Please try again later.',
+  'remediation_agent.error.agent_cost_limit_reached': 'Processing limit reached',
+  'remediation_agent.error.agent_cost_limit_reached.context':
+    'The agent reached its processing limit for this job. If this happens frequently, contact your instance administrator.',
+  'remediation_agent.error.base_branch_retrieval_failed': 'Base branch not found',
+  'remediation_agent.error.base_branch_retrieval_failed.context':
+    'The repository’s base branch could not be determined. Check that the branch configured for this project exists in the repository.',
+  'remediation_agent.error.branch_creation_failed': 'Fix branch could not be created',
+  'remediation_agent.error.branch_creation_failed.context':
+    'The agent could not create a branch for the fix. Check that the DevOps platform integration can create branches in this repository.',
+  'remediation_agent.error.db_error': 'Internal error',
+  'remediation_agent.error.db_error.context': 'An internal error occurred. Please try again later.',
+  'remediation_agent.error.dispatch_failed': 'Job could not be dispatched',
+  'remediation_agent.error.dispatch_failed.context':
+    'The agent job could not be queued for processing. Please try again.',
+  'remediation_agent.error.entity_initialization_failed': 'Job setup failed',
+  'remediation_agent.error.entity_initialization_failed.context':
+    'An internal error occurred while setting up the job. Please try again later.',
+  'remediation_agent.error.fetch_issues_failed': 'Failed to retrieve issues',
+  'remediation_agent.error.fetch_issues_failed.context':
+    'The agent could not retrieve the issue details. Please try again later.',
+  'remediation_agent.error.git_clone_failed': 'Repository could not be cloned',
+  'remediation_agent.error.git_clone_failed.context':
+    'The agent could not access the repository. Check that repository permissions are correct and that the branch still exists.',
+  'remediation_agent.error.git_permission_denied': 'Repository permission denied',
+  'remediation_agent.error.git_permission_denied.context':
+    'The DevOps platform integration does not have the required repository permissions. Ask an instance administrator to grant permission to read the repository, create branches, and create pull or merge requests.',
+  'remediation_agent.error.llm_configuration_invalid': 'AI service configuration is invalid',
+  'remediation_agent.error.llm_configuration_invalid.context':
+    'The configured AI provider or model is not supported or is invalid. Ask an instance administrator to review the configuration.',
+  'remediation_agent.error.llm_configuration_missing': 'AI service is not configured',
+  'remediation_agent.error.llm_configuration_missing.context':
+    'An AI provider or model has not been configured for remediation. Ask an instance administrator to complete the AI service configuration.',
+  'remediation_agent.error.llm_model_key_invalid': 'AI API key is invalid or unauthorized',
+  'remediation_agent.error.llm_model_key_invalid.context':
+    'The AI API key configured for this instance is invalid or unauthorized. Ask an instance administrator to update the AI credentials.',
+  'remediation_agent.error.llm_provider_unreachable': 'AI service unavailable',
+  'remediation_agent.error.llm_provider_unreachable.context':
+    'The AI service is temporarily unavailable. Please try again later.',
+  'remediation_agent.error.llm_quota_exceeded': 'AI service quota reached',
+  'remediation_agent.error.llm_quota_exceeded.context':
+    'The AI service quota has been reached. Ask an instance administrator to review the provider account limits.',
+  'remediation_agent.error.llm_rate_limit_exceeded': 'AI service rate limit reached',
+  'remediation_agent.error.llm_rate_limit_exceeded.context':
+    'The AI service rate limit was exceeded. Please try again later.',
+  'remediation_agent.error.llm_validation_failed': 'AI service credentials are unavailable',
+  'remediation_agent.error.llm_validation_failed.context':
+    'The credentials configured for the AI model are missing or no longer valid. Ask an instance administrator to review the configuration.',
+  'remediation_agent.error.no_issues_after_filter': 'No fixable issues found',
+  'remediation_agent.error.no_issues_after_filter.context':
+    'No issues could be processed after filtering. They may already have been resolved or may not be supported for automatic remediation.',
+  'remediation_agent.error.no_patches_applied': 'No fixes could be generated',
+  'remediation_agent.error.no_patches_applied.context':
+    'The agent could not produce a valid fix. The issue may be too complex or use unsupported patterns.',
+  'remediation_agent.error.no_repository_url': 'No repository configured',
+  'remediation_agent.error.no_repository_url.context':
+    'This project is not linked to a repository. Ask an instance administrator to configure the project binding.',
+  'remediation_agent.error.orchestrator_internal_error': 'Internal processing error',
+  'remediation_agent.error.orchestrator_internal_error.context':
+    'An internal error occurred while processing the job. Please try again later. If the problem persists, contact support.',
+  'remediation_agent.error.pull_request_creation_failed': 'Pull request could not be created',
+  'remediation_agent.error.pull_request_creation_failed.context':
+    'The agent generated a fix but could not open a pull or merge request. Check the DevOps platform integration permissions.',
+  'remediation_agent.error.quota_exceeded': 'Processing quota reached',
+  'remediation_agent.error.quota_exceeded.context':
+    'The processing quota for this instance has been reached. Ask an instance administrator to review the quota.',
+  'remediation_agent.error.run_creation_failed': 'Job initialization failed',
+  'remediation_agent.error.run_creation_failed.context':
+    'An internal error occurred while initializing the job. Please try again later.',
+  'remediation_agent.error.runtime_capacity_timeout': 'Agent capacity unavailable',
+  'remediation_agent.error.runtime_capacity_timeout.context':
+    'The agent could not start because processing capacity remained unavailable. Please try again later.',
+  'remediation_agent.error.source_files_not_found': 'Source files not found',
+  'remediation_agent.error.source_files_not_found.context':
+    'The agent could not find the issue files on the checked-out branch. Check that the project’s main branch contains the analyzed source files, then analyze again.',
+  'remediation_agent.error.submodules_not_supported': 'Git submodules are not supported',
+  'remediation_agent.error.submodules_not_supported.context':
+    'This repository uses Git submodules, which are not currently supported by the remediation agent.',
   'agent_activity.status.skipped': 'Skipped',
   'agent_activity.status.skipped.description': 'No changes since last run',
   'pull_request.assign_to_agent': 'Assign to Agent',
@@ -1990,7 +2076,6 @@ export const defaultMessages = {
   'pull_request.assign_to_agent.ready_to_review': 'Ready to review',
   'pull_request.assign_to_agent.pr_opened': '1 PR opened',
   'pull_request.assign_to_agent.fix_pr_number': 'Fix PR #{prNumber}',
-  'pull_request.assign_to_agent.failed.title': 'Could not fix Quality Gate failure',
   'pull_request.assign_to_agent.failed.description': 'Remediation Agent encountered an error',
   'pull_request.assign_to_agent.retry': 'Retry',
   'project_agent_activity.title': 'Remediation Agent',
