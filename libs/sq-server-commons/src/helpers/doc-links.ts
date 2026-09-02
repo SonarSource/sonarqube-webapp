@@ -142,6 +142,7 @@ export type DocLinkUnion = AgentCentricDocLink | DocLink;
 export enum SonarSourceLink {
   AiCodeFixTerms = '/legal/ai-codefix-terms/',
   PrimaryAgreement = '/legal/primary-agreement/',
+  PrivacyNotice = '/company/privacy/',
   RemediationAgentTerms = '/legal/sqra/',
   TermsAndConditions = '/legal/sonarqube/terms-and-conditions/',
   AdvancedSecurity = '/products/sonarqube/advanced-security/',

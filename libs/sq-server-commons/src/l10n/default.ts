@@ -785,7 +785,7 @@ export const defaultMessages = {
 
   'ai_capabilities.title': 'AI Capabilities',
   'ai_capabilities.description':
-    'Enable agents to remediate tech debt, find complex security issues, and automate fix suggestions.',
+    'Enable agents to remediate tech debt, find complex security issues, and automate fix suggestions. By enabling or using AI capabilities, you agree to the <agreementLink>Primary Customer Agreement</agreementLink> and the <privacyLink>Privacy Notice</privacyLink>.',
   'ai_capabilities.enablement_badge.enabled': 'Enabled',
   'ai_capabilities.enablement_badge.not_enabled': 'Not enabled',
   'ai_capabilities.scheduled_jobs.automatic': 'Automatic',
