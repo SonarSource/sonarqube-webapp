@@ -183,7 +183,12 @@ describe('ProjectDashboardsTable', () => {
 
   it('uses the built-in route and allows duplicating built-in dashboards', async () => {
     const user = setup([
-      dashboard({ id: 'project-health', name: 'Health', type: DashboardType.BuiltIn }),
+      dashboard({
+        createdById: undefined,
+        id: 'project-health',
+        name: 'Health',
+        type: DashboardType.BuiltIn,
+      }),
     ]);
 
     expect(screen.getByRole('link', { name: 'Health' })).toHaveAttribute(
@@ -195,6 +200,19 @@ describe('ProjectDashboardsTable', () => {
 
     expect(mockPrefetch).toHaveBeenCalled();
     expect(screen.getByTestId(`modal-${DashboardMode.Duplicate}`)).toBeInTheDocument();
+  });
+
+  it('shows Sonar as the creator of a built-in dashboard', () => {
+    setup([
+      dashboard({
+        createdById: undefined,
+        id: 'project-health',
+        name: 'Health',
+        type: DashboardType.BuiltIn,
+      }),
+    ]);
+
+    expect(screen.getByText('sonar')).toBeInTheDocument();
   });
 
   it('opens the edit modal and updates the dashboard', async () => {

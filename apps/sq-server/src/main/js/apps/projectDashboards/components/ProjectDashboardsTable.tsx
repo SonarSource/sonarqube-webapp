@@ -18,19 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Text, TextSize, toast } from '@sonarsource/echoes-react';
+import { toast } from '@sonarsource/echoes-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
-import Avatar from '~adapters/components/ui/Avatar';
 import { createEmptyDashboard } from '~feature-dashboards/dashboard-layout/logic/constants';
+import { DashboardCreatorCell } from '~feature-dashboards/dashboard-list/DashboardCreatorCell';
 import { DashboardTable } from '~feature-dashboards/dashboard-list/DashboardTable';
 import { DashboardTableActions } from '~feature-dashboards/dashboard-list/DashboardTableActions';
 import { DashboardTypeBadge } from '~feature-dashboards/dashboard-list/DashboardTypeBadge';
 import { DashboardMode, DashboardType } from '~feature-dashboards/types/dashboard-list';
 import type { ProjectDashboardWidgetPropMap } from '~feature-dashboards/types/dashboard-widget';
-import { isDefined, isStringDefined } from '~shared/helpers/types';
+import { isDefined } from '~shared/helpers/types';
 import {
   getProjectDuplicateSourceDashboardQueryOptions,
   useCreateProjectDashboardDuplicateMutation,
@@ -55,43 +55,6 @@ interface Props {
 
 function toModalDashboardData(item: ProjectDashboardListItem): ProjectDashboardData {
   return { ...createEmptyDashboard<ProjectDashboardWidgetPropMap>(DashboardType.Custom), ...item };
-}
-
-function getProjectDashboardCreatorContent(
-  dashboard: ProjectDashboardListItem,
-  dashboardCreators: Props['dashboardCreators'],
-  formatMessage: ReturnType<typeof useIntl>['formatMessage'],
-) {
-  return (
-    <ProjectDashboardCreator
-      dashboard={dashboard}
-      dashboardCreators={dashboardCreators}
-      formatMessage={formatMessage}
-    />
-  );
-}
-
-function ProjectDashboardCreator({
-  dashboard,
-  dashboardCreators,
-  formatMessage,
-}: Readonly<{
-  dashboard: ProjectDashboardListItem;
-  dashboardCreators: Props['dashboardCreators'];
-  formatMessage: ReturnType<typeof useIntl>['formatMessage'];
-}>) {
-  const creator = dashboard.createdById ? dashboardCreators[dashboard.createdById] : undefined;
-
-  return isStringDefined(dashboard.createdById) ? (
-    <div className="sw-flex sw-items-center sw-gap-1">
-      <Avatar hash={creator?.avatar} name={creator?.name} size="xs" />
-      <Text size={TextSize.Small}>
-        {creator?.name ?? formatMessage({ id: 'dashboard.list.removed_user' })}
-      </Text>
-    </div>
-  ) : (
-    ''
-  );
 }
 
 export function ProjectDashboardsTable({
@@ -135,9 +98,9 @@ export function ProjectDashboardsTable({
     <>
       <DashboardTable
         dashboards={dashboards}
-        getCreatorContent={(dashboard) =>
-          getProjectDashboardCreatorContent(dashboard, dashboardCreators, formatMessage)
-        }
+        getCreatorContent={(dashboard) => (
+          <DashboardCreatorCell dashboard={dashboard} dashboardCreators={dashboardCreators} />
+        )}
         getDashboardUrl={(dashboard) =>
           dashboard.type === DashboardType.BuiltIn
             ? getProjectBuiltInDashboardRoute(dashboard.id, projectKey)
