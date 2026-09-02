@@ -977,8 +977,12 @@ export class App extends React.PureComponent<Props, State> {
     });
   };
 
+  clearCheckedIssues = () => {
+    this.setState({ checkAll: false, checked: [] });
+  };
+
   handleBulkChangeDone = () => {
-    this.setState({ checkAll: false });
+    this.clearCheckedIssues();
     this.fetchFirstIssues(false).catch(() => undefined);
     this.handleCloseBulkChange();
   };
@@ -1088,6 +1092,7 @@ export class App extends React.PureComponent<Props, State> {
             <addons.remediationAgent.BacklogJobAssignButton
               allIssues={issues}
               checkedKeys={checked}
+              onAssignSuccess={this.clearCheckedIssues}
               projectKey={remediationAgentProjectKey}
               pullRequestKey={pullRequestKey}
             />

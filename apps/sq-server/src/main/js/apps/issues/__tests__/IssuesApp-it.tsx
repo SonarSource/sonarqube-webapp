@@ -22,8 +22,10 @@ import { screen, waitFor, waitForElementToBeRemoved, within } from '@testing-lib
 import userEvent from '@testing-library/user-event';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
+import { addons } from '~sq-server-addons/index';
 import type * as IssuesApi from '~sq-server-commons/api/issues';
 import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { Feature } from '~sq-server-commons/types/features';
 import { IssueType } from '~sq-server-commons/types/issues';
 import { NoticeType } from '~sq-server-commons/types/users';
 import {
@@ -41,6 +43,18 @@ import { renderIssueApp, renderProjectIssuesApp } from '../test-utils';
 const getSearchIssuesMock = () =>
   jest.mocked(jest.requireMock<typeof IssuesApi>('~sq-server-commons/api/issues').searchIssues);
 
+jest.mock('~sq-server-addons/index', () => ({
+  addons: {
+    architecture: {
+      OpenIntendedArchitecture: () => null,
+    },
+    jira: {
+      IssueJiraWorkItem: () => null,
+      JiraTicketStatusFacet: () => null,
+    },
+  },
+}));
+
 jest.mock('../sidebar/Sidebar', () => {
   const fakeSidebar = () => {
     return <div data-guiding-id="issue-5" />;
@@ -57,6 +71,7 @@ beforeEach(() => {
   componentsHandler.reset();
   branchHandler.reset();
   usersHandler.reset();
+  addons.remediationAgent = undefined;
   window.scrollTo = jest.fn();
   window.HTMLElement.prototype.scrollTo = jest.fn();
   localStorage.clear();
@@ -390,6 +405,7 @@ describe('issues app', () => {
         ),
       ).not.toBeInTheDocument();
     });
+
   });
 });
 
