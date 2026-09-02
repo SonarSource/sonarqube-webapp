@@ -56,6 +56,7 @@ export enum GlobalSettingKeys {
   LogoUrl = 'sonar.lf.logoUrl',
   LogoWidth = 'sonar.lf.logoWidthPx',
   MainBranchName = 'sonar.projectCreation.mainBranchName',
+  NewsEnabled = 'sonar.news.enabled',
   RatingGrid = 'sonar.technicalDebt.ratingGrid',
   UpdatecenterActivated = 'sonar.updatecenter.activate',
 }

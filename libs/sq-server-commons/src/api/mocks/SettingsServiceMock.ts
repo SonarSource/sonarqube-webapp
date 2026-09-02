@@ -30,7 +30,7 @@ import {
 } from '~shared/types/settings';
 import { mockSettingFieldDefinition } from '../../helpers/mocks/settings';
 import { HousekeepingPolicy } from '../../types/audit-logs';
-import { SettingsKey } from '../../types/settings';
+import { GlobalSettingKeys, SettingsKey } from '../../types/settings';
 import {
   checkSecretKey,
   encryptValue,
@@ -165,6 +165,10 @@ export default class SettingsServiceMock {
     },
     {
       key: SettingsKey.QPAdminCanDisableInheritedRules,
+      value: 'true',
+    },
+    {
+      key: GlobalSettingKeys.NewsEnabled,
       value: 'true',
     },
   ];

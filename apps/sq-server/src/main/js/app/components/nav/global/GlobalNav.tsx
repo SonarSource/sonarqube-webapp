@@ -19,18 +19,28 @@
  */
 
 import { Layout } from '@sonarsource/echoes-react';
+import { useCurrentUser } from '~adapters/helpers/users';
 import { BEAMER_NOTIFICATIONS_SETTING } from '~shared/helpers/beamer';
 import useLocalStorage from '~shared/helpers/useLocalStorage';
 import { BeamerWidgetCustom } from '~sq-server-commons/components/beamer/BeamerWidgetCustom';
 import EmbedDocsPopupHelper from '~sq-server-commons/components/embed-docs-modal/EmbedDocsPopupHelper';
-import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import { useGetValueQuery } from '~sq-server-commons/queries/settings';
+import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import GlobalSearch from '../../global-search/GlobalSearch';
 import { GlobalNavMenu } from './GlobalNavMenu';
 import { GlobalNavUser } from './GlobalNavUser';
 import { LogoWithAriaText } from './MainSonarQubeBar';
 
 export function GlobalNav() {
-  const { currentUser } = useCurrentUser();
+  const { currentUser, isLoggedIn } = useCurrentUser();
+
+  const { data: newsEnabledSetting } = useGetValueQuery(
+    {
+      key: GlobalSettingKeys.NewsEnabled,
+    },
+    { enabled: isLoggedIn },
+  );
+  const isNewsEnabled = newsEnabledSetting?.value === 'true';
 
   const [beamerNotifications] = useLocalStorage(BEAMER_NOTIFICATIONS_SETTING, true);
 
@@ -42,9 +52,10 @@ export function GlobalNav() {
         </Layout.GlobalNavigation.Home>
         <GlobalNavMenu currentUser={currentUser} />
       </Layout.GlobalNavigation.Primary>
+
       <Layout.GlobalNavigation.Secondary>
         <GlobalSearch />
-        <BeamerWidgetCustom hideCounter={!beamerNotifications} />
+        {isNewsEnabled && <BeamerWidgetCustom hideCounter={!beamerNotifications} />}
         <EmbedDocsPopupHelper />
         <GlobalNavUser />
       </Layout.GlobalNavigation.Secondary>

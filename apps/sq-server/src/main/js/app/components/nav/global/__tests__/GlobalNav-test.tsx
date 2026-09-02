@@ -18,10 +18,27 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
+import { setImmediate } from 'timers';
+import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { mockAppState, mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import { GlobalNav } from '../GlobalNav';
+
+jest.mock('~sq-server-commons/components/beamer/BeamerWidgetCustom', () => ({
+  BeamerWidgetCustom: () => <button type="button">global_nav.news.tooltip</button>,
+}));
+
+let settingsMock: SettingsServiceMock;
+
+beforeAll(() => {
+  settingsMock = new SettingsServiceMock();
+});
+
+afterEach(() => {
+  settingsMock.reset();
+});
 
 it('render global navigation correctly for anonymous user', () => {
   renderGlobalNav({ appState: mockAppState() });
@@ -33,9 +50,12 @@ it('render global navigation correctly for anonymous user', () => {
   expect(screen.getByText('layout.login')).toBeInTheDocument();
 });
 
-it('render global navigation correctly for logged in user', () => {
+it('render global navigation correctly for logged in user', async () => {
   renderGlobalNav({ currentUser: mockCurrentUser({ isLoggedIn: true }) });
   expect(screen.getByText('projects.page')).toBeInTheDocument();
+  expect(
+    await screen.findByRole('button', { name: 'global_nav.news.tooltip' }),
+  ).toBeInTheDocument();
   expect(screen.queryByText('layout.login')).not.toBeInTheDocument();
 });
 
@@ -49,6 +69,19 @@ it('render the logo correctly', () => {
   });
   const image = screen.getByAltText('layout.nav.home_logo_alt');
   expect(image).toHaveAttribute('src', 'http://sonarsource.com/test.svg');
+});
+
+it('does not render the BeamerWidget when news is disabled', async () => {
+  settingsMock.set(GlobalSettingKeys.NewsEnabled, 'false');
+  renderGlobalNav({ currentUser: mockCurrentUser({ isLoggedIn: true }) });
+
+  // Wait for the settings query to resolve before asserting absence
+  await new Promise(setImmediate);
+  await waitFor(() => {
+    expect(screen.getByText('projects.page')).toBeInTheDocument();
+  });
+
+  expect(screen.queryByRole('button', { name: 'global_nav.news.tooltip' })).not.toBeInTheDocument();
 });
 
 function renderGlobalNav({ appState = mockAppState(), currentUser = mockCurrentUser() }) {
