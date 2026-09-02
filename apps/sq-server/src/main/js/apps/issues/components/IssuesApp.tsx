@@ -1278,9 +1278,6 @@ export class App extends React.PureComponent<Props, State> {
           {showSecurityDevPromotion && hasSecurityFilter && (
             <SecurityDevEditionPromoteBanner className="sw-mb-4 sw-w-full sw-box-border" isWide />
           )}
-          {remediationAgentProjectKey && addons.remediationAgent && (
-            <addons.remediationAgent.RemediationAgentAddOnBanner className="sw-mb-4 sw-w-full sw-box-border" />
-          )}
           <div className="sw-flex sw-w-full sw-items-center sw-justify-between sw-box-border">
             {this.renderBulkChange()}
 

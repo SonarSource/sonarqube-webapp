@@ -8276,11 +8276,6 @@ export const defaultMessages = {
   'promotion.community_build_security.text':
     'SonarQube Community Build does not scan for critical injection vulnerabilities (SQL injection, XSS, and more).',
   'promotion.community_build_security.action': 'Explore other editions',
-  'promotion.remediation_agent_add_on.title': 'Fix issues with Remediation Agent',
-  'promotion.remediation_agent_add_on.badge': 'New',
-  'promotion.remediation_agent_add_on.text':
-    'Issues can be fixed automatically with Remediation Agent, available as an add-on.',
-  'promotion.remediation_agent_add_on.action.sales': 'Talk to sales',
 
   //------------------------------------------------------------------------------
   //
