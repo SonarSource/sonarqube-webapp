@@ -10657,6 +10657,8 @@ export const defaultMessages = {
     '{used}/{limit} overage scan units used monthly',
   'license.products.hunterAgent.features':
     "<ul><li>Find high-impact security flaws that static analysis misses, such as broken access control and business-logic errors</li><li>Work with findings as regular issues you triage, assign, and track like any other, with no new tool to learn</li><li>Run the analysis on Sonar's infrastructure, with nothing to install or run locally</li></ul>",
+  'license.products.hunterAgent.overage.dialog.info_message':
+    'The overage limit stays active until your license expires. We will invoice monthly for usage, and you can update your limit at anytime.',
   'license.products.remediationAgent.title': 'Remediation Agent',
   'license.products.remediationAgent.usage': '{used}/{limit} suggestions used',
   'license.products.remediationAgent.usage.monthly': '{used}/{limit} suggestions used monthly',
@@ -10698,13 +10700,13 @@ export const defaultMessages = {
   'license.products.overage.dialog.allow': 'Allow overage usage',
   'license.products.overage.dialog.allow.description':
     'Enable extra usage to keep using the product uninterrupted. Overage starts after you reach your plan limit.',
-  'license.products.overage.dialog.activated': 'Activated',
   'license.products.overage.dialog.activated_toast.title': 'Overage activated for {product}',
   'license.products.overage.dialog.activated_toast.description':
     'Overage is successfully activated for {product} with {limit} for {cost}. This allowance does not reset and lasts for your license term. Overage starts after you reach your plan limit.',
   'license.products.overage.dialog.activated_toast.description.monthly':
     'Overage is successfully activated for {product} with {limit} for {cost} and will reset every month. Overage starts after you reach your plan limit.',
   'license.products.overage.dialog.limit.label': 'Set overage limit',
+  'license.products.overage.dialog.limit.label.annual.hunterAgent': 'Set annual overage limit',
   'license.products.overage.dialog.limit.label.monthly': 'Set monthly overage limit',
   'license.products.overage.dialog.limit.help':
     'Enter a value in the multiples of {step, number}. Maximum limit is {max, number}.',
