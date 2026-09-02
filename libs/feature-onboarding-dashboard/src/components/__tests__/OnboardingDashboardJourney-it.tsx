@@ -45,13 +45,11 @@ jest.mock('~adapters/helpers/useOnboardingDevopsConfigurations', () =>
     .devopsConfigurationsMock(),
 );
 
-jest.mock('~adapters/helpers/useAutoImportToggle', () =>
-  jest
-    .requireActual<typeof import('./onboardingDashboardTestMocks')>(
-      './onboardingDashboardTestMocks',
-    )
-    .autoImportToggleMock(),
-);
+// The extra card (auto-import on cloud, CLI bulk import on server) is tested at the adapter level;
+// the integration test stubs it out to keep platform internals out of the shared test.
+jest.mock('~adapters/components/onboarding/ImportRepositoriesExtraCard', () => ({
+  ImportRepositoriesExtraCard: () => null,
+}));
 
 const onboardingMock = setupOnboardingMock();
 

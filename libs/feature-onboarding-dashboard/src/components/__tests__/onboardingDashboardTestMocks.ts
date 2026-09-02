@@ -67,20 +67,3 @@ export function devopsConfigurationsMock() {
       }),
   };
 }
-
-/**
- * Same binding constraint as above: the auto-import setting is read from, and written to, the bound
- * platform. The binding panel's own suite covers its states against this same shape.
- */
-export function autoImportToggleMock() {
-  return {
-    useAutoImportToggle: () => ({
-      autoImportEnabled: false,
-      isEnabledOnFirstLoad: false,
-      isLoading: false,
-      isPending: false,
-      repositoryAccessUrl: undefined,
-      toggleAutoImport: jest.fn(),
-    }),
-  };
-}

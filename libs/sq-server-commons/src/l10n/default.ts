@@ -11253,10 +11253,6 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.import.title': 'Import repositories',
   'onboarding_dashboard.journey.import.description':
     "Import all your repositories to unlock central visibility into your team's code health and block vulnerabilities before they hit production.",
-  'onboarding_dashboard.journey.import.to_import': 'Repositories to import:',
-  'onboarding_dashboard.journey.import.active': '<b>{count}</b> active repositories',
-  'onboarding_dashboard.journey.import.stale': '<b>{count}</b> stale repositories',
-  'onboarding_dashboard.journey.import.archived': '<b>{count}</b> Archived',
   'onboarding_dashboard.journey.import.cta': 'Import repositories',
   'onboarding_dashboard.journey.import.auto': 'Automatically import new repositories',
   'onboarding_dashboard.journey.import.auto_loading': 'Loading auto-import settings',
@@ -11266,6 +11262,10 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.import.auto_help':
     '"All repositories" must be selected in GitHub\'s <link>Repository Access settings</link>',
   'onboarding_dashboard.journey.import.recommended': 'Recommended',
+  'onboarding_dashboard.journey.import.cli_title': 'Bulk import your repositories',
+  'onboarding_dashboard.journey.import.cli_description':
+    'Use our CLI tool to import high quantities of repositories at the same time.',
+  'onboarding_dashboard.journey.import.cli_cta': 'Import via CLI',
   'onboarding_dashboard.journey.import.view_all': 'View all',
   'onboarding_dashboard.journey.import.legend.imported': 'Imported',
   'onboarding_dashboard.journey.import.legend.not_imported': 'Not imported',

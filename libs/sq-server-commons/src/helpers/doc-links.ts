@@ -71,6 +71,7 @@ export enum DocLink {
   CIJenkins = '/analyzing-source-code/ci-integration/jenkins-integration/key-features/',
   CleanCode = '/sonarqube-server/quality-standards-administration/managing-rules/software-qualities',
   CleanCodeDefinition = '/glossary/',
+  CLIImportRepositories = '/sonarqube-cli/administration/importing-repositories',
   DatabaseRequirements = '/server-installation/installing-the-database/#database-requirements',
   DeprecatedFeatures = '/server-update-and-maintenance/release-notes#deprecations-and-removals',
   InactiveBranches = '/project-administration/maintaining-project/maintaining-the-branches-of-your-project#manage-inactive-branches',
