@@ -378,6 +378,24 @@ export function getGlobalSettingsUrl(
   };
 }
 
+/**
+ * Path is a literal, not imported from `ADMIN_AGENT_REMEDIATION_PATH`
+ * (feature-ai-capabilities/components/routes.tsx) — commons can't depend on a feature lib. Keep
+ * the two in sync by hand if the route segment ever moves.
+ */
+export function getAdminRemediationAgentUrl(): Partial<Path> {
+  return { pathname: '/admin/agent/remediation' };
+}
+
+/**
+ * Path is a literal, not imported from `ADMIN_AGENT_HUNTER_PATH`
+ * (feature-ai-capabilities/components/project-hunter-agent/constants.ts) — commons can't depend
+ * on a feature lib. Keep the two in sync by hand if the route segment ever moves.
+ */
+export function getAdminHunterAgentUrl(): Partial<Path> {
+  return { pathname: '/admin/agent/hunter-agent' };
+}
+
 export function getProjectSettingsUrl(id: string, category?: string): Partial<Path> {
   return {
     pathname: '/project/settings',

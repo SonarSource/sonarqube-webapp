@@ -29,6 +29,8 @@ import {
   CodeScope,
   convertGithubApiUrlToLink,
   convertToTo,
+  getAdminHunterAgentUrl,
+  getAdminRemediationAgentUrl,
   getComponentAdminUrl,
   getComponentDrilldownUrl,
   getComponentDrilldownUrlWithSelection,
@@ -383,6 +385,18 @@ describe('#getGlobalSettingsUrl', () => {
       pathname: '/admin/settings',
       search: queryToSearchString({ category: 'foo', alm: AlmKeys.GitHub }),
     });
+  });
+});
+
+describe('#getAdminRemediationAgentUrl', () => {
+  it('should work as expected', () => {
+    expect(getAdminRemediationAgentUrl()).toEqual({ pathname: '/admin/agent/remediation' });
+  });
+});
+
+describe('#getAdminHunterAgentUrl', () => {
+  it('should work as expected', () => {
+    expect(getAdminHunterAgentUrl()).toEqual({ pathname: '/admin/agent/hunter-agent' });
   });
 });
 
