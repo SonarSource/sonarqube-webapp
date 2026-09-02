@@ -1262,6 +1262,14 @@ export class App extends React.PureComponent<Props, State> {
 
     const showMaxBulkItemsMessage = checkAll && paging && paging.total > MAX_PAGE_SIZE;
     const remediationAgentProjectKey = this.getRemediationAgentProjectKey();
+    const bulkIssuesLimitMessage = showMaxBulkItemsMessage ? (
+      <MessageCallout className="sw-mt-3" variety={MessageVariety.Info}>
+        <FormattedMessage
+          id="issue_bulk_change.max_issues_reached"
+          values={{ max: <strong>{MAX_PAGE_SIZE}</strong> }}
+        />
+      </MessageCallout>
+    ) : null;
 
     return (
       <div className="it__layout-page-main-inner" id="issues-page">
@@ -1303,14 +1311,18 @@ export class App extends React.PureComponent<Props, State> {
           isLoading={loading}
         >
           <output>
-            {showMaxBulkItemsMessage ? (
-              <MessageCallout className="sw-mt-3" variety={MessageVariety.Info}>
-                <FormattedMessage
-                  id="issue_bulk_change.max_issues_reached"
-                  values={{ max: <strong>{MAX_PAGE_SIZE}</strong> }}
-                />
-              </MessageCallout>
+            {remediationAgentProjectKey && addons.remediationAgent ? (
+              <addons.remediationAgent.AgentIssuesLimitMessage
+                allIssues={issues}
+                checkedKeys={checked}
+                className="sw-mt-3"
+                maxBulkIssues={MAX_PAGE_SIZE}
+                showBulkIssuesLimit={Boolean(showMaxBulkItemsMessage)}
+              />
             ) : (
+              bulkIssuesLimitMessage
+            )}
+            {!showMaxBulkItemsMessage && (
               <span className="sw-sr-only">
                 <FormattedMessage
                   id="issue_bulk_change.selected"

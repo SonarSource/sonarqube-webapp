@@ -2207,6 +2207,10 @@ export const defaultMessages = {
   'issue_bulk_change.selected': '{0} issues selected',
   'issue_bulk_change.max_issues_reached':
     'There are more issues available than can be treated by a single bulk action. Your changes will only be applied to the first {max} issues.',
+  'issue_bulk_change.max_issues_reached.assign_to_agent':
+    'More issues are selected than can be processed. <b>Assign to Agent</b> is limited to <b>20</b> issues.',
+  'issue_bulk_change.max_issues_reached.bulk_change.with_assign_to_agent':
+    'More issues are selected than can be processed. <b>Bulk Change</b> is limited to <b>500</b> issues, and <b>Assign to Agent</b> is limited to <b>20</b> issues.',
   'issue_bulk_change.x_issues': '{0} issues',
   'issue_bulk_change.no_match': 'There is no issue matching your filter selection',
   'issue_bulk_change.assignee.change': 'Assign the selected issues to a user',
