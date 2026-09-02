@@ -26,8 +26,8 @@ import {
   getImportRepositoriesUrl,
 } from '~adapters/helpers/onboarding-actions';
 import { getContextWrapper } from '~adapters/helpers/test-utils';
-import { OnboardingDevopsPlatform } from '~shared/types/onboarding';
-import { JourneyStep, RowActionKind } from '../../../../types/types';
+import { JourneyStep, OnboardingDevopsPlatform } from '~shared/types/onboarding';
+import { RowActionKind } from '../../../../types/types';
 import { DevopsConfigurationRowAction } from '../devopsConfigurationRowActions';
 import { DevopsConfigurationRow } from '../devopsConfigurationRows';
 import {

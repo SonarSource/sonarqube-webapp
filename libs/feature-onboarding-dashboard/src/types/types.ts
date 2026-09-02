@@ -41,13 +41,6 @@ export type RowActionTarget =
   | { isExternal?: boolean; kind: RowActionKind.Link; to: To }
   | { kind: RowActionKind.Button; onClick: VoidFunction };
 
-/** The three onboarding steps, in order, that the dashboard guides users through. */
-export enum JourneyStep {
-  Binding = 'BINDING',
-  Repositories = 'REPOSITORIES',
-  Projects = 'PROJECTS',
-}
-
 /** How the left slot of the card is rendered, depending on the step and binding state. */
 export enum StepCardVisual {
   AvatarUnbound = 'AVATAR_UNBOUND',
@@ -55,55 +48,6 @@ export enum StepCardVisual {
   CountRing = 'COUNT_RING',
   RingLocked = 'RING_LOCKED',
   Donut = 'DONUT',
-}
-
-/**
- * Progressive-disclosure level of the dashboard. Controls which statistics/tables are unlocked:
- * - `Unbound`: nothing bound yet — only the binding step + a locked statistics placeholder.
- * - `BoundNoImport`: bound but no repositories imported — onboarding chart + "unlock more" placeholder.
- * - `Imported`: at least one repository imported — onboarding chart + the all-projects table.
- */
-export enum JourneyLevel {
-  Unbound = 'UNBOUND',
-  BoundNoImport = 'BOUND_NO_IMPORT',
-  Imported = 'IMPORTED',
-}
-
-/**
- * View model for the onboarding dashboard, derived once from `OnboardingOverview` by
- * {@link deriveJourneyState}. Every field is a primitive ready for rendering, so the presentational
- * components never need to reach back into the raw API shape.
- */
-export interface JourneyState {
-  /** The step selected by default (first incomplete step). */
-  activeStep: JourneyStep;
-  /** Breakdown for the "Analyze your projects" panel. */
-  analyze: {
-    notImported: number;
-    notScanned: number;
-  };
-  /** Number of projects that have been analysed (scanned). */
-  analyzed: number;
-  /** Analysed projects as a percentage of total projects, 0–100. */
-  analyzedPct: number;
-  /** Number of configured DevOps platform integrations. 0 or 1 on products that bind to one. */
-  configured: number;
-  /** Total repositories discovered on the bound DevOps platform(s). */
-  discovered: number;
-  /** Number of repositories imported into SonarQube. */
-  imported: number;
-  /** Imported repositories as a percentage of discovered, 0–100. */
-  importedPct: number;
-  /** Whether the organization is bound to at least one DevOps platform. */
-  isBound: boolean;
-  /** Progressive-disclosure level controlling which sections are unlocked. */
-  level: JourneyLevel;
-  /** Repositories discovered but not yet imported. */
-  notYetImported: number;
-  /** Overall onboarding maturity percentage shown in the header ring, 0–100. */
-  overallPct: number;
-  /** Total number of projects across the organization. */
-  totalProjects: number;
 }
 
 export type ScanStatusFilterValue = OnboardingProjectScanStatus | typeof ANY_PROJECTS_FILTER;

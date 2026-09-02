@@ -28,8 +28,13 @@ import { useCurrentUser } from '~adapters/helpers/users';
 import { mockLoggedInUser } from '~shared/helpers/mocks/users';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
-import { OnboardingDevopsConfigurations, OnboardingDevopsPlatform } from '~shared/types/onboarding';
-import { JourneyLevel, JourneyState, JourneyStep } from '../../../../types/types';
+import {
+  JourneyLevel,
+  JourneyState,
+  JourneyStep,
+  OnboardingDevopsConfigurations,
+  OnboardingDevopsPlatform,
+} from '~shared/types/onboarding';
 import { DetailPanel } from '../DetailPanel';
 
 // Both the binding settings destination and the bound organization names come from the product

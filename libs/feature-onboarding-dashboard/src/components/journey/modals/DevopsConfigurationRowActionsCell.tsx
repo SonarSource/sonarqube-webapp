@@ -26,7 +26,8 @@ import {
   TableCellJustify,
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { JourneyStep, RowActionKind } from '../../../types/types';
+import { JourneyStep } from '~shared/types/onboarding';
+import { RowActionKind } from '../../../types/types';
 import { ProjectsTableColumn } from '../../projects/ProjectsTable';
 import { DEVOPS_CONFIGURATION_ROW_ACTION_LABEL_KEYS } from './devopsConfigurationRowActions';
 import { DevopsConfigurationRow } from './devopsConfigurationRows';

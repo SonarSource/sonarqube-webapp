@@ -24,7 +24,8 @@ import {
   getImportRepositoriesUrl,
 } from '~adapters/helpers/onboarding-actions';
 import { isDefined } from '~shared/helpers/types';
-import { JourneyStep, RowActionKind, RowActionTarget } from '../../../types/types';
+import { JourneyStep } from '~shared/types/onboarding';
+import { RowActionKind, RowActionTarget } from '../../../types/types';
 import { PLATFORM_CONFIG } from '../../devops/platformConfig';
 import {
   DevopsConfigurationRowAction,

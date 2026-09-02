@@ -18,11 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { OnboardingOverview } from '~shared/types/onboarding';
-import { clampPercent } from '../components/dashboardSeverity';
-import { JourneyLevel, JourneyState, JourneyStep } from '../types/types';
+import {
+  JourneyLevel,
+  JourneyState,
+  JourneyStep,
+  OnboardingOverview,
+} from '../../types/onboarding';
+import { clampPercent } from './dashboardSeverity';
 
-/** Rounded percentage of `part` over `whole`, clamped to [0, 100]. Returns 0 when `whole` is 0. */
 function toPercent(part: number, whole: number): number {
   return whole > 0 ? Math.round(clampPercent((part / whole) * 100)) : 0;
 }
@@ -30,9 +33,6 @@ function toPercent(part: number, whole: number): number {
 /**
  * Reshapes the `OnboardingOverview` API response into the {@link JourneyState} view model consumed
  * by the onboarding dashboard. Pure and React-free so it can be unit-tested in isolation.
- *
- * Percentages are taken from the response where the backend computed them, and derived locally
- * otherwise (the backend returns null when the denominator is unknown).
  */
 export function deriveJourneyState(overview: OnboardingOverview): JourneyState {
   const { progressPct, steps } = overview;

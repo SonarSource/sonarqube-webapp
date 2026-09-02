@@ -20,8 +20,8 @@
 
 import { cssVar, Text } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { DonutChart } from '~shared/components/charts/DonutChart';
-import { getSeverityColorForPercent } from '../dashboardSeverity';
+import { getSeverityColorForPercent } from '../../helpers/onboarding/dashboardSeverity';
+import { DonutChart } from '../charts/DonutChart';
 
 interface Props {
   /** When `true`, render the percentage centered inside the ring. */
@@ -34,11 +34,6 @@ interface Props {
   value: number;
 }
 
-/**
- * Donut ring conveying an onboarding completion percentage. The ring color follows the shared
- * 5-cohort severity scale (see {@link getSeverityColorForPercent}). Used both as the large progress
- * indicator in the page header and as a compact inline ring on the stat cards.
- */
 export function OnboardingProgressDonut({
   showLabel = false,
   size = 72,

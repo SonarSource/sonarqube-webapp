@@ -20,7 +20,8 @@
 
 import { useIntl } from 'react-intl';
 import { useOnboardingDevopsConfigurations } from '~adapters/helpers/useOnboardingDevopsConfigurations';
-import { JourneyState, JourneyStep, StepCardVisual } from '../../../types/types';
+import { JourneyState, JourneyStep } from '~shared/types/onboarding';
+import { StepCardVisual } from '../../../types/types';
 import { getBindingStepCard } from './bindingStepCard';
 import { StepCard } from './StepCard';
 

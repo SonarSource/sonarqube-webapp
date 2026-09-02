@@ -34,8 +34,7 @@ import {
 import { ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 import { ImportRepositoriesCta } from '~adapters/components/onboarding/ImportRepositoriesCta';
-import { OnboardingProjectScanStatus } from '~shared/types/onboarding';
-import { JourneyState } from '../../../types/types';
+import { JourneyState, OnboardingProjectScanStatus } from '~shared/types/onboarding';
 import { PanelDonut, PanelDonutSegment } from '../charts/PanelDonut';
 import { ConfigureProjectsModal } from '../modals/ConfigureProjectsModal';
 

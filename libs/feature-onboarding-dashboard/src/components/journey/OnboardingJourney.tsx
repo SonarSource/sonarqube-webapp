@@ -23,8 +23,12 @@ import { ReactNode, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Path } from 'react-router-dom';
 import { useCreateDevopsConfigurationUrl } from '~adapters/helpers/useCreateDevopsConfigurationUrl';
-import { OnboardingTimelinePoint } from '~shared/types/onboarding';
-import { JourneyLevel, JourneyState, JourneyStep } from '../../types/types';
+import {
+  JourneyLevel,
+  JourneyState,
+  JourneyStep,
+  OnboardingTimelinePoint,
+} from '~shared/types/onboarding';
 import { OnboardingDashboardHeader } from '../OnboardingDashboardHeader';
 import { DetailPanel } from './panels/DetailPanel';
 import { AllProjectsCard } from './projects/AllProjectsCard';

@@ -20,7 +20,7 @@
 
 import { Heading, MessageCallout, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { OnboardingProgressDonut } from './progress/OnboardingProgressDonut';
+import { OnboardingProgressDonut } from '~shared/components/onboarding/OnboardingProgressDonut';
 
 interface Props {
   discovered: number;

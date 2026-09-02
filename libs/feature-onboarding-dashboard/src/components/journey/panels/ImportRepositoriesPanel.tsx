@@ -40,7 +40,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { Switch } from '~adapters/components/common/Switch';
 import { ImportRepositoriesCta } from '~adapters/components/onboarding/ImportRepositoriesCta';
 import { useAutoImportToggle } from '~adapters/helpers/useAutoImportToggle';
-import { JourneyState, JourneyStep } from '../../../types/types';
+import { JourneyState, JourneyStep } from '~shared/types/onboarding';
 import { PanelDonut, PanelDonutSegment } from '../charts/PanelDonut';
 import { ImportRepositoriesModal } from '../modals/ImportRepositoriesModal';
 

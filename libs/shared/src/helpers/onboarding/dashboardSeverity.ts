@@ -20,19 +20,11 @@
 
 import { cssVar } from '@sonarsource/echoes-react';
 
-/**
- * Clamps `value` to the [0, 100] range.
- * Shared by progress bars and displayed labels to guarantee consistent capping.
- */
+/** Clamps `value` to the [0, 100] range. */
 export function clampPercent(value: number): number {
   return Math.min(Math.max(value, 0), 100);
 }
 
-/**
- * Cohort colors from the Figma onboarding spec. Echoes does not expose palette tokens via
- * `cssVar`, so the palette hex values are defined here (same approach as platformConfig).
- * 0% is a distinct "no data" state rendered with a neutral token.
- */
 const COLOR_NO_DATA = cssVar('color-background-neutral-bolder-default');
 const COLOR_1_24 = '#f04438'; // palette/red/500
 const COLOR_25_49 = '#fd7122'; // palette/orange/400
@@ -41,7 +33,7 @@ const COLOR_75_99 = '#b3dd86'; // palette/green/400
 const COLOR_100 = '#82b73c'; // palette/green/600
 
 /**
- * Maps a completion percentage to its cohort color. Lower completion is more severe (further
+ *  * Maps a completion percentage to its cohort color. Lower completion is more severe (further
  * from the goal), so the importance of reaching it is conveyed more strongly:
  *   0 → no data, [1,25) → red, [25,50) → orange, [50,75) → yellow, [75,100) → green/400, 100 → green/600.
  *

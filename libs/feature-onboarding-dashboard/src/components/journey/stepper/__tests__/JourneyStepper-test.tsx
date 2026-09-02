@@ -21,8 +21,13 @@
 import { useOnboardingDevopsConfigurations } from '~adapters/helpers/useOnboardingDevopsConfigurations';
 import { renderWithContext } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
-import { OnboardingDevopsConfigurations, OnboardingDevopsPlatform } from '~shared/types/onboarding';
-import { JourneyLevel, JourneyState, JourneyStep } from '../../../../types/types';
+import {
+  JourneyLevel,
+  JourneyState,
+  JourneyStep,
+  OnboardingDevopsConfigurations,
+  OnboardingDevopsPlatform,
+} from '~shared/types/onboarding';
 import { JourneyStepper } from '../JourneyStepper';
 
 // Single-binding products report no per-platform split; multi-configuration ones report an entry.

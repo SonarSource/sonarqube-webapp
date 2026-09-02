@@ -31,7 +31,7 @@ import { useBindingSettingsUrl } from '~adapters/helpers/useBindingSettingsUrl';
 import { useCreateDevopsConfigurationUrl } from '~adapters/helpers/useCreateDevopsConfigurationUrl';
 import { useOnboardingCurrentBinding } from '~adapters/helpers/useOnboardingCurrentBinding';
 import { useOnboardingDevopsConfigurations } from '~adapters/helpers/useOnboardingDevopsConfigurations';
-import { JourneyState, JourneyStep } from '../../../types/types';
+import { JourneyState, JourneyStep } from '~shared/types/onboarding';
 import { DevopsConfigurationsDonut } from './DevopsConfigurationsDonut';
 
 interface Props {

@@ -19,7 +19,7 @@
  */
 
 import { Card } from '@sonarsource/echoes-react';
-import { JourneyState, JourneyStep } from '../../../types/types';
+import { JourneyState, JourneyStep } from '~shared/types/onboarding';
 import { AnalyzeProjectsPanel } from './AnalyzeProjectsPanel';
 import { ImportRepositoriesPanel } from './ImportRepositoriesPanel';
 import { OrganizationBindingPanel } from './OrganizationBindingPanel';

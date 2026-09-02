@@ -20,8 +20,11 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { OnboardingAlm, OnboardingDevopsPlatformConfigurations } from '~shared/types/onboarding';
-import { JourneyStep } from '../../../types/types';
+import {
+  JourneyStep,
+  OnboardingAlm,
+  OnboardingDevopsPlatformConfigurations,
+} from '~shared/types/onboarding';
 import { PLATFORM_CONFIG } from '../../devops/platformConfig';
 import { PanelDonut, PanelDonutSegment } from '../charts/PanelDonut';
 import { DevopsConfigurationsModal } from '../modals/DevopsConfigurationsModal';

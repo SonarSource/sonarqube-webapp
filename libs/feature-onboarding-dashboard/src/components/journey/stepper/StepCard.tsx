@@ -31,8 +31,8 @@ import classNames from 'classnames';
 import { ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 import { DonutChart } from '~shared/components/charts/DonutChart';
+import { OnboardingProgressDonut } from '~shared/components/onboarding/OnboardingProgressDonut';
 import { StepCardVisual } from '../../../types/types';
-import { OnboardingProgressDonut } from '../../progress/OnboardingProgressDonut';
 
 /** Filled circle sitting inside the ring for the "bound" binding visual. */
 const INNER_AVATAR_SIZE = '1rem';

@@ -23,11 +23,11 @@ import { Helmet } from 'react-helmet-async';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import { useOnboardingOrganizationKey } from '~adapters/queries/onboarding';
+import { deriveJourneyState } from '~shared/helpers/onboarding/deriveJourneyState';
 import {
   useOnboardingOverviewQuery,
   useOnboardingStatisticsQuery,
 } from '~shared/queries/onboarding';
-import { deriveJourneyState } from '../helpers/deriveJourneyState';
 import { OnboardingJourney } from './journey/OnboardingJourney';
 import { OnboardingDashboardSkeleton } from './OnboardingDashboardSkeleton';
 

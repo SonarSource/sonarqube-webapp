@@ -18,10 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { mockOnboardingOverview } from '~shared/api/mocks/OnboardingServiceMock';
-import { OnboardingOverview } from '~shared/types/onboarding';
-import { JourneyLevel, JourneyStep } from '../../types/types';
-import { deriveJourneyState } from '../deriveJourneyState';
+import { mockOnboardingOverview } from '../../api/mocks/OnboardingServiceMock';
+import { JourneyLevel, JourneyStep, OnboardingOverview } from '../../types/onboarding';
+import { deriveJourneyState } from '../onboarding/deriveJourneyState';
 
 function buildOverview(
   steps: Partial<OnboardingOverview['steps']> = {},

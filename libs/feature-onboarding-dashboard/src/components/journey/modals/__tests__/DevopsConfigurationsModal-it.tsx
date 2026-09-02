@@ -29,11 +29,11 @@ import {
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import {
+  JourneyStep,
   OnboardingBoundProjectCounts,
   OnboardingDevopsPlatform,
   OnboardingDopSetting,
 } from '~shared/types/onboarding';
-import { JourneyStep } from '../../../../types/types';
 import { NO_DATA } from '../../../dashboardConstants';
 import { DevopsConfigurationsModal } from '../DevopsConfigurationsModal';
 

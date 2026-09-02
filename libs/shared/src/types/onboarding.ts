@@ -244,6 +244,50 @@ export interface OnboardingProject {
   isStale?: boolean;
 }
 
+/** The three onboarding steps, in order, that the dashboard guides users through. */
+export enum JourneyStep {
+  Binding = 'BINDING',
+  Repositories = 'REPOSITORIES',
+  Projects = 'PROJECTS',
+}
+
+/**
+ * Progressive-disclosure level of the dashboard. Controls which statistics/tables are unlocked:
+ * - `Unbound`: nothing bound yet — only the binding step + a locked statistics placeholder.
+ * - `BoundNoImport`: bound but no repositories imported — onboarding chart + "unlock more" placeholder.
+ * - `Imported`: at least one repository imported — onboarding chart + the all-projects table.
+ */
+export enum JourneyLevel {
+  Unbound = 'UNBOUND',
+  BoundNoImport = 'BOUND_NO_IMPORT',
+  Imported = 'IMPORTED',
+}
+
+/**
+ * View model for the onboarding dashboard, derived once from `OnboardingOverview` by
+ * `deriveJourneyState`. Every field is a primitive ready for rendering.
+ */
+export interface JourneyState {
+  activeStep: JourneyStep;
+  analyze: {
+    notImported: number;
+    notScanned: number;
+  };
+  analyzed: number;
+  analyzedPct: number;
+  /** Number of configured DevOps platform integrations. 0 or 1 on products that bind to one. */
+  configured: number;
+  discovered: number;
+  imported: number;
+  importedPct: number;
+  isBound: boolean;
+  level: JourneyLevel;
+  notYetImported: number;
+  /** Overall onboarding maturity percentage shown in the header ring, 0–100. */
+  overallPct: number;
+  totalProjects: number;
+}
+
 export enum OnboardingRepositoriesVisibility {
   All = 'ALL',
   Private = 'PRIVATE',
