@@ -19,7 +19,7 @@
  */
 
 import { Button, ButtonVariety, LinkStandalone } from '@sonarsource/echoes-react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import { useAppState } from '../../context/app-state/withAppStateContext';
 import { SubHeading } from '../../design-system';
@@ -32,20 +32,27 @@ import {
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { EditionKey } from '../../types/editions';
 import { ProductName, SystemUpgrade } from '../../types/system';
+import { UpgradeSectionKind } from '../../utils/update-notification-helpers';
 import DocumentationLink from '../common/DocumentationLink';
 import SystemUpgradeIntermediate from './SystemUpgradeIntermediate';
 
+const KIND_HEADER: Record<UpgradeSectionKind, string> = {
+  latest: 'system.latest_version',
+  lta: 'system.lta_version',
+  patch: 'system.latest_patch',
+};
+
 export interface SystemUpgradeItemProps {
   edition: EditionKey | undefined;
-  isLTAVersion: boolean;
-  isPatch: boolean;
+  kinds: UpgradeSectionKind[];
   systemUpgrades: SystemUpgrade[];
 }
 
 export function SystemUpgradeItem(props: Readonly<SystemUpgradeItemProps>) {
   const appState = useAppState();
+  const { formatMessage } = useIntl();
 
-  const { edition, isPatch, isLTAVersion, systemUpgrades } = props;
+  const { edition, kinds, systemUpgrades } = props;
 
   const isCommunityBuildRunning = appState.edition === EditionKey.community;
 
@@ -54,20 +61,16 @@ export function SystemUpgradeItem(props: Readonly<SystemUpgradeItemProps>) {
   const downloadUrl =
     getEditionDownloadUrl(getEdition(edition ?? EditionKey.community), lastUpgrade) ?? '';
 
-  let header = translate('system.latest_version');
-
-  if (isLTAVersion) {
-    header = translate('system.lta_version');
-  } else if (isPatch) {
-    header = translate('system.latest_patch');
-  }
+  // A version can play several roles at once (e.g. latest release and latest LTA); merge the titles.
+  const header = kinds.map((kind) => formatMessage({ id: KIND_HEADER[kind] })).join(' / ');
+  const isPatchOnly = kinds.length === 1 && kinds[0] === 'patch';
 
   return (
     <div className="system-upgrade-version it__upgrade-list-item">
       <SubHeading as="h3">
         <strong>{header}</strong>
 
-        {!isPatch && (
+        {!isPatchOnly && (
           <LinkStandalone
             className="sw-ml-2"
             to="https://www.sonarsource.com/products/sonarqube/whats-new/?referrer=sonarqube"

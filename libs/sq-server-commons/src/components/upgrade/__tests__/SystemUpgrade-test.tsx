@@ -34,6 +34,7 @@ const ui = {
   downloadLink: byRole('link', { name: /system.see_sonarqube_downloads/ }),
 
   ltaVersionHeader: byRole('heading', { name: /system.lta_version/ }),
+  patchHeader: byRole('heading', { name: /system.latest_patch/ }),
 
   newPatchWarning: byText(/admin_notification.update/),
 };
@@ -66,7 +67,8 @@ it('should render properly for new patch', async () => {
 
   expect(ui.header.get()).toBeInTheDocument();
   expect(ui.newPatchWarning.get()).toBeInTheDocument();
-  expect(ui.ltaVersionHeader.get()).toBeInTheDocument();
+  // 9.9.1 is a patch on the installed 9.9 line, so the section header is "Patch Release".
+  expect(ui.patchHeader.get()).toBeInTheDocument();
   expect(ui.downloadLink.get()).toBeInTheDocument();
 });
 

@@ -23,7 +23,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { SystemUpgrade } from '../../types/system';
 import { SystemUpgradeForm } from './SystemUpgradeForm';
-import { groupUpgrades, sortUpgrades, UpdateUseCase } from './utils';
+import { UpdateUseCase } from './utils';
 
 interface Props {
   latestLTA?: string;
@@ -66,7 +66,7 @@ export function SystemUpgradeButton(props: Readonly<Props>) {
         <SystemUpgradeForm
           latestLTA={latestLTA}
           onClose={closeSystemUpgradeForm}
-          systemUpgrades={groupUpgrades(sortUpgrades(systemUpgrades))}
+          systemUpgrades={systemUpgrades}
           updateUseCase={updateUseCase}
         />
       )}

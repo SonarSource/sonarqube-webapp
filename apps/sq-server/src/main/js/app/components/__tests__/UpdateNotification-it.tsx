@@ -207,13 +207,12 @@ describe('when running SQS', () => {
     ).toBeInTheDocument();
     await user.click(ui.openDialogBtn.get());
     expect(ui.dialogWarningMessage.query()).not.toBeInTheDocument();
+    // 10.6.0 is the latest release; 10.5.1 is the patch for the installed 10.5 line - both shown.
     expect(ui.dialog.get()).toHaveTextContent('10.6.0');
-    expect(ui.dialog.get()).not.toHaveTextContent('10.5.1');
+    expect(ui.dialog.get()).toHaveTextContent('10.5.1');
     expect(ui.latestHeader.get()).toBeInTheDocument();
-    expect(ui.patchHeader.query()).not.toBeInTheDocument();
-    expect(ui.showIntermediateBtn.get()).toBeInTheDocument();
-    await user.click(ui.showIntermediateBtn.get());
-    expect(ui.intermediateRegion.get()).toHaveTextContent('10.5.1August 1, 2021');
+    expect(ui.patchHeader.get()).toBeInTheDocument();
+    expect(ui.showIntermediateBtn.query()).not.toBeInTheDocument();
   });
 
   it('no longer active / latest / new minor', async () => {
@@ -236,8 +235,8 @@ describe('when running SQS', () => {
     await user.click(ui.openDialogBtn.get());
     expect(ui.dialogErrorMessage.get()).toBeInTheDocument();
     expect(ui.dialog.get()).toHaveTextContent('10.7.0');
-    expect(ui.dialog.get()).not.toHaveTextContent('10.6.0');
     expect(ui.latestHeader.get()).toBeInTheDocument();
+    // 10.6.0 sits between installed and the 10.7.0 head, so it collapses as an intermediate.
     expect(ui.showIntermediateBtn.get()).toBeInTheDocument();
     await user.click(ui.showIntermediateBtn.get());
     expect(ui.intermediateRegion.get()).toHaveTextContent('10.6.0August 2, 2021');
@@ -264,15 +263,14 @@ describe('when running SQS', () => {
     await user.click(ui.openDialogBtn.get());
     expect(ui.dialogErrorMessage.get()).toBeInTheDocument();
     expect(ui.dialogWarningMessage.query()).not.toBeInTheDocument();
+    // Latest release (10.7.0) with 10.6.0 as its intermediate, plus the patch for the 10.5 line.
     expect(ui.dialog.get()).toHaveTextContent('10.7.0');
-    expect(ui.dialog.get()).not.toHaveTextContent('10.6.0');
-    expect(ui.dialog.get()).not.toHaveTextContent('10.5.1');
+    expect(ui.dialog.get()).toHaveTextContent('10.5.1');
     expect(ui.latestHeader.get()).toBeInTheDocument();
-    expect(ui.patchHeader.query()).not.toBeInTheDocument();
+    expect(ui.patchHeader.get()).toBeInTheDocument();
     expect(ui.showIntermediateBtn.get()).toBeInTheDocument();
     await user.click(ui.showIntermediateBtn.get());
     expect(ui.intermediateRegion.get()).toHaveTextContent('10.6.0August 2, 2021');
-    expect(ui.intermediateRegion.get()).toHaveTextContent('10.5.1August 1, 2021');
   });
 
   it('active / lta / patch', async () => {
@@ -290,9 +288,11 @@ describe('when running SQS', () => {
     await user.click(ui.openDialogBtn.get());
     expect(ui.dialogWarningMessage.get()).toBeInTheDocument();
     expect(ui.dialog.get()).toHaveTextContent('9.9.1');
+    // The only upgrade is a patch on the installed LTA line — it is also the latest version overall
+    // and an LTA patch, so all three roles merge into one heading (matrix row 4).
+    expect(ui.latestHeader.get()).toBeInTheDocument();
     expect(ui.latestLTAHeader.get()).toBeInTheDocument();
-    // If the current version is an LTA version, we don't show Patch header, we show Latest LTA header
-    expect(ui.patchHeader.query()).not.toBeInTheDocument();
+    expect(ui.patchHeader.get()).toBeInTheDocument();
     expect(ui.showIntermediateBtn.query()).not.toBeInTheDocument();
   });
 
@@ -317,6 +317,45 @@ describe('when running SQS', () => {
     expect(ui.showIntermediateBtn.query()).not.toBeInTheDocument();
   });
 
+  it('active / lta / new minor sharing the LTA string prefix is not labeled LTA', async () => {
+    // Regression: latestLTA "2026.1" must not match "2026.10.0" via a string prefix.
+    // "2026.10.0".startsWith("2026.1") is true, but 2026.10 is a different minor line.
+    jest.mocked(getSystemUpgrades).mockResolvedValue({
+      upgrades: [{ ...SQSUpgrade, version: '2026.10.0' }],
+      latestLTA: '2026.1',
+      updateCenterRefresh: '',
+      installedVersionActive: true,
+    });
+    const user = userEvent.setup();
+    renderUpdateNotification(undefined, undefined, { version: '2026.1.0' });
+    expect(
+      await ui.updateMessage(`admin_notification.update.${UpdateUseCase.NewVersion}`).find(),
+    ).toBeInTheDocument();
+    await user.click(ui.openDialogBtn.get());
+    expect(ui.dialog.get()).toHaveTextContent('2026.10.0');
+    expect(ui.latestHeader.get()).toBeInTheDocument();
+    expect(ui.latestLTAHeader.query()).not.toBeInTheDocument();
+  });
+
+  it('active / lta / backend lta flag is authoritative over latestLTA', async () => {
+    // With two LTA lines (2026.1 and 2026.5), the backend flags 2026.5 as lta:true even though
+    // latestLTA is only "2026.1". The frontend must trust the flag and show the LTA header.
+    jest.mocked(getSystemUpgrades).mockResolvedValue({
+      upgrades: [{ ...SQSUpgrade, version: '2026.5.0', lta: true }],
+      latestLTA: '2026.1',
+      updateCenterRefresh: '',
+      installedVersionActive: true,
+    });
+    const user = userEvent.setup();
+    renderUpdateNotification(undefined, undefined, { version: '2025.4.0' });
+    expect(
+      await ui.updateMessage(`admin_notification.update.${UpdateUseCase.NewVersion}`).find(),
+    ).toBeInTheDocument();
+    await user.click(ui.openDialogBtn.get());
+    expect(ui.dialog.get()).toHaveTextContent('2026.5.0');
+    expect(ui.latestLTAHeader.get()).toBeInTheDocument();
+  });
+
   it('active / lta / new minor + patch', async () => {
     jest.mocked(getSystemUpgrades).mockResolvedValue({
       upgrades: [
@@ -337,9 +376,9 @@ describe('when running SQS', () => {
     expect(ui.dialog.get()).toHaveTextContent('10.0.0');
     expect(ui.dialog.get()).toHaveTextContent('9.9.1');
     expect(ui.latestHeader.get()).toBeInTheDocument();
+    // 9.9.1 is a patch on the installed 9.9 LTA line → lta+patch merged; 10.0.0 is the latest release.
+    expect(ui.patchHeader.get()).toBeInTheDocument();
     expect(ui.latestLTAHeader.get()).toBeInTheDocument();
-    // If the current version is an LTA version, we don't show Patch header, we show Latest LTA header
-    expect(ui.patchHeader.query()).not.toBeInTheDocument();
     expect(ui.showIntermediateBtn.query()).not.toBeInTheDocument();
   });
 
@@ -362,7 +401,8 @@ describe('when running SQS', () => {
     expect(ui.dialogWarningMessage.get()).toBeInTheDocument();
     expect(ui.dialog.get()).toHaveTextContent('8.9.1');
     expect(ui.dialog.get()).toHaveTextContent('9.9.0');
-    expect(ui.latestHeader.query()).not.toBeInTheDocument();
+    // 9.9.0 is both the latest release and the latest LTA, so its section header merges the two.
+    expect(ui.latestHeader.get()).toBeInTheDocument();
     expect(ui.latestLTAHeader.get()).toBeInTheDocument();
     expect(ui.patchHeader.get()).toBeInTheDocument();
     expect(ui.showIntermediateBtn.query()).not.toBeInTheDocument();
@@ -448,10 +488,11 @@ describe('when running SQS', () => {
     ).toBeInTheDocument();
     await user.click(ui.openDialogBtn.get());
     expect(ui.dialogErrorMessage.get()).toBeInTheDocument();
+    // 9.9.0 is the latest release and latest LTA (merged); 8.9.1 is the patch for the installed line.
     expect(ui.dialog.get()).toHaveTextContent('9.9.0');
-    expect(ui.dialog.get()).not.toHaveTextContent('8.9.1');
+    expect(ui.dialog.get()).toHaveTextContent('8.9.1');
     expect(ui.latestLTAHeader.get()).toBeInTheDocument();
-    expect(ui.patchHeader.query()).not.toBeInTheDocument();
+    expect(ui.patchHeader.get()).toBeInTheDocument();
     expect(ui.showIntermediateBtn.query()).not.toBeInTheDocument();
   });
 
@@ -481,12 +522,14 @@ describe('when running SQS', () => {
     expect(ui.dialog.get()).toHaveTextContent('10.1.1');
     expect(ui.dialog.get()).not.toHaveTextContent('10.1.0');
     expect(ui.dialog.get()).not.toHaveTextContent('10.0.0');
-    expect(ui.dialog.get()).not.toHaveTextContent('8.9.1');
+    // 8.9.1 is now shown as the patch section for the installed 8.9 line.
+    expect(ui.dialog.get()).toHaveTextContent('8.9.1');
     expect(ui.latestHeader.get()).toBeInTheDocument();
     expect(ui.latestLTAHeader.get()).toBeInTheDocument();
-    expect(ui.patchHeader.query()).not.toBeInTheDocument();
+    expect(ui.patchHeader.get()).toBeInTheDocument();
     expect(ui.showIntermediateBtn.getAll()).toHaveLength(2);
     await user.click(ui.showIntermediateBtn.getAt(0));
+    // The latest section (head 10.1.1) collapses everything between it and the LTA head: 10.1.0 and 10.0.0.
     expect(ui.intermediateRegion.get()).toHaveTextContent('10.1.0August 5, 2021');
     expect(ui.intermediateRegion.get()).toHaveTextContent('10.0.0August 4, 2021');
     expect(ui.intermediateRegion.get()).not.toHaveTextContent('9.9.0');

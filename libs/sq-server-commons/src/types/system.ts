@@ -38,6 +38,9 @@ export enum ProductNameForUpgrade {
 export interface SystemUpgrade extends SystemUpgradeDownloadUrls {
   changeLogUrl?: string;
   description?: string;
+  // Whether this release belongs to a Long-Term Active line. Provided by /api/system/upgrades
+  // since 2026.5, backported to 2026.1; undefined on older servers where LTA membership is derived from latestLTA.
+  lta?: boolean;
   product?: ProductNameForUpgrade;
   releaseDate?: string;
   version: string;

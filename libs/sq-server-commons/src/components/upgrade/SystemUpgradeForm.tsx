@@ -25,20 +25,22 @@ import {
   MessageCallout,
   Modal,
 } from '@sonarsource/echoes-react';
-import { filter, flatMap, isEmpty, negate } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { useAppState } from '../../context/app-state/withAppStateContext';
 import { translate } from '../../helpers/l10n';
 import { EditionKey } from '../../types/editions';
 import { SystemUpgrade } from '../../types/system';
-import { MESSAGE_CALLOUT_VARIANT } from '../../utils/update-notification-helpers';
+import {
+  MESSAGE_CALLOUT_VARIANT,
+  selectUpgradeSections,
+} from '../../utils/update-notification-helpers';
 import { SystemUpgradeItem } from './SystemUpgradeItem';
-import { SYSTEM_VERSION_REGEXP, UpdateUseCase } from './utils';
+import { UpdateUseCase } from './utils';
 
 interface Props {
   latestLTA?: string;
   onClose: () => void;
-  systemUpgrades: SystemUpgrade[][];
+  systemUpgrades: SystemUpgrade[];
   updateUseCase: UpdateUseCase;
 }
 
@@ -49,43 +51,10 @@ export function SystemUpgradeForm(props: Readonly<Props>) {
 
   const isCommunityBuildRunning = appState.edition === EditionKey.community;
 
-  let systemUpgradesWithPatch: SystemUpgrade[][] = [];
-
   const alertVariant =
     updateUseCase !== UpdateUseCase.NewVersion ? MESSAGE_CALLOUT_VARIANT[updateUseCase] : undefined;
 
-  const parsedVersion = SYSTEM_VERSION_REGEXP.exec(appState.version);
-
-  let patches: SystemUpgrade[] = [];
-
-  if (updateUseCase === UpdateUseCase.NewPatch && parsedVersion !== null) {
-    const [, major, minor] = parsedVersion;
-    const majoMinorVersion = `${major}.${minor}`;
-
-    patches = flatMap(systemUpgrades, (upgrades) =>
-      filter(upgrades, (upgrade) => upgrade.version.startsWith(majoMinorVersion)),
-    );
-
-    systemUpgradesWithPatch = systemUpgrades
-      .map((upgrades) =>
-        upgrades.filter((upgrade) => !upgrade.version.startsWith(majoMinorVersion)),
-      )
-      .filter(negate(isEmpty));
-
-    systemUpgradesWithPatch.push(patches);
-  } else {
-    let untilLTA = false;
-
-    for (const upgrades of systemUpgrades) {
-      if (untilLTA === false) {
-        systemUpgradesWithPatch.push(upgrades);
-
-        untilLTA = upgrades.some(
-          (upgrade) => latestLTA !== undefined && upgrade.version.startsWith(latestLTA),
-        );
-      }
-    }
-  }
+  const sections = selectUpgradeSections(systemUpgrades, appState.version, latestLTA);
 
   return (
     <Modal
@@ -97,15 +66,12 @@ export function SystemUpgradeForm(props: Readonly<Props>) {
             </MessageCallout>
           )}
 
-          {systemUpgradesWithPatch.map((upgrades) => (
+          {sections.map((section) => (
             <SystemUpgradeItem
               edition={appState.edition}
-              isLTAVersion={upgrades.some(
-                (upgrade) => latestLTA !== undefined && upgrade.version.startsWith(latestLTA),
-              )}
-              isPatch={upgrades === patches}
-              key={upgrades[upgrades.length - 1].version}
-              systemUpgrades={upgrades}
+              key={section.upgrades[0].version}
+              kinds={section.kinds}
+              systemUpgrades={section.upgrades}
             />
           ))}
         </div>

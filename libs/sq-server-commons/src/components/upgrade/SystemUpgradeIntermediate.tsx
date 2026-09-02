@@ -18,12 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Text } from '@sonarsource/echoes-react';
+import { Divider, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import DateFormatter from '~shared/components/intl/DateFormatter';
-import { Accordion, BasicSeparator, Link } from '../../design-system';
+import { Accordion, Link } from '../../design-system';
 import { translate } from '../../helpers/l10n';
-import { SystemUpgrade } from '../../types/system';
+import { ProductName, SystemUpgrade } from '../../types/system';
 
 interface Props {
   className?: string;
@@ -44,7 +44,10 @@ export default class SystemUpgradeIntermediate extends React.PureComponent<Props
   render() {
     const { showMore } = this.state;
     const { upgrades } = this.props;
-    if (upgrades.length <= 0) {
+    const displayable = upgrades.filter(
+      (upgrade) => upgrade.releaseDate || upgrade.description || upgrade.changeLogUrl,
+    );
+    if (displayable.length <= 0) {
       return null;
     }
 
@@ -59,26 +62,26 @@ export default class SystemUpgradeIntermediate extends React.PureComponent<Props
           onClick={this.toggleIntermediatVersions}
           open={showMore}
         >
-          {upgrades.map((upgrade, index) => (
+          {displayable.map((upgrade, index) => (
             <Text className="sw-block sw-mb-4" isSubtle key={upgrade.version}>
-              {upgrade.releaseDate && (
-                <DateFormatter date={upgrade.releaseDate} long>
-                  {(formattedDate) => (
-                    <p>
-                      <b className="sw-mr-1">SonarQube {upgrade.version}</b>
-                      {formattedDate}
-                      {upgrade.changeLogUrl && (
-                        <Link className="sw-ml-2" to={upgrade.changeLogUrl}>
-                          {translate('system.release_notes')}
-                        </Link>
-                      )}
-                    </p>
-                  )}
-                </DateFormatter>
-              )}
+              <p>
+                <b className="sw-mr-1">
+                  {ProductName.SonarQubeServer} {upgrade.version}
+                </b>
+                {upgrade.releaseDate && (
+                  <DateFormatter date={upgrade.releaseDate} long>
+                    {(formattedDate) => <>{formattedDate}</>}
+                  </DateFormatter>
+                )}
+                {upgrade.changeLogUrl && (
+                  <Link className="sw-ml-2" to={upgrade.changeLogUrl}>
+                    {translate('system.release_notes')}
+                  </Link>
+                )}
+              </p>
               {upgrade.description && <p className="sw-mt-2">{upgrade.description}</p>}
 
-              {index !== upgrades.length - 1 && <BasicSeparator />}
+              {index !== displayable.length - 1 && <Divider />}
             </Text>
           ))}
         </Accordion>

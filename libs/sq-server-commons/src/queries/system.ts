@@ -32,13 +32,20 @@ import { addGlobalSuccessMessage } from '../design-system';
 import { translate } from '../helpers/l10n';
 import { EmailConfiguration } from '../types/system';
 
+const SYSTEM_UPGRADES_QUERY_KEY = ['system', 'upgrades'] as const;
+
 export const useSystemUpgrades = createQueryHook(() => {
   return queryOptions({
-    queryKey: ['system', 'upgrades'],
+    queryKey: SYSTEM_UPGRADES_QUERY_KEY,
     queryFn: () => getSystemUpgrades(),
     staleTime: Infinity,
   });
 });
+
+export function useInvalidateSystemUpgradesQuery() {
+  const queryClient = useQueryClient();
+  return () => queryClient.invalidateQueries({ queryKey: SYSTEM_UPGRADES_QUERY_KEY });
+}
 
 export const useSystemStatusQuery = createQueryHook(() => {
   return queryOptions({
