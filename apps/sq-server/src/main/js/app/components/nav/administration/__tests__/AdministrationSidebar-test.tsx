@@ -40,7 +40,12 @@ beforeEach(() => {
 it('render correctly', () => {
   renderAdminSidebar();
 
-  expect(byRole('link', { hidden: true }).getAll()).toHaveLength(11);
+  expect(byRole('link', { hidden: true }).getAll()).toHaveLength(12);
+  // The sidebar nav is aria-hidden, so its links have no accessible name to query by.
+  expect(byText('onboarding_dashboard.sidebar').get().closest('a')).toHaveAttribute(
+    'href',
+    '/admin/onboarding-dashboard',
+  );
 
   expect(byText('audit_logs.page').query()).not.toBeInTheDocument();
   expect(byText('support').query()).not.toBeInTheDocument();
@@ -51,7 +56,7 @@ it('render correctly with license', () => {
   (jest.mocked(addons).license as unknown) = true;
   renderAdminSidebar();
 
-  expect(byRole('link', { hidden: true }).getAll()).toHaveLength(13);
+  expect(byRole('link', { hidden: true }).getAll()).toHaveLength(14);
   expect(byText('support').get()).toBeInTheDocument();
   expect(byText('license.feature_name').get()).toBeInTheDocument();
 });
@@ -63,7 +68,7 @@ it('render correctly with extensions', () => {
   ];
   renderAdminSidebar(extensions);
 
-  expect(byRole('link', { hidden: true }).getAll()).toHaveLength(13);
+  expect(byRole('link', { hidden: true }).getAll()).toHaveLength(14);
   expect(byText(extensions[0].name).get()).toBeInTheDocument();
   expect(byText(extensions[1].name).get()).toBeInTheDocument();
 });
@@ -71,7 +76,7 @@ it('render correctly with extensions', () => {
 it('render correctly with governance extension', () => {
   renderAdminSidebar([], mockAppState({ qualifiers: [ComponentQualifier.Portfolio] }));
 
-  expect(byRole('link', { hidden: true }).getAll()).toHaveLength(13);
+  expect(byRole('link', { hidden: true }).getAll()).toHaveLength(14);
   expect(byText('audit_logs.page').get()).toBeInTheDocument();
   expect(byText('portfolios.page').get()).toBeInTheDocument();
 });

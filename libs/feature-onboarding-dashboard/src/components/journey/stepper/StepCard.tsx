@@ -99,6 +99,7 @@ function VisualSlot({
     case StepCardVisual.Donut:
       return (
         <OnboardingProgressDonut
+          isDecorative
           showLabel
           size={DONUT_SIZE}
           thickness={DONUT_THICKNESS}
@@ -155,8 +156,9 @@ export function StepCard({
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
 
-  // The ring is aria-hidden and aria-label overrides the card's content, so whatever the ring
-  // alone carries has to be repeated here or it is never announced.
+  // Every ring is decorative here (the donut is asked to be, the others always are) and aria-label
+  // overrides the card's content, so whatever the ring alone carries has to be repeated here or it
+  // is never announced.
   let accessibleName = title;
   if (isLocked) {
     accessibleName = formatMessage(

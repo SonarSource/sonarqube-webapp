@@ -19,11 +19,12 @@
  */
 
 import { PointerEventsCheckLevel } from '@testing-library/user-event';
+import { Route } from 'react-router-dom';
 import { OnboardingServiceMock } from '~shared/api/mocks/OnboardingServiceMock';
 import { registerServiceMocks } from '~shared/api/mocks/server';
 import { renderWithRoutes } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
-import routes from '../../routes';
+import { LazyOnboardingDashboardApp } from '../LazyOnboardingDashboardApp';
 
 /**
  * Lifecycle, render helper and selectors shared by the onboarding dashboard integration suites.
@@ -56,18 +57,22 @@ export function setupOnboardingMock() {
 }
 
 /**
- * Mounts the dashboard through its route, the way the app does, and returns a `user` alongside the
- * render result.
+ * Mounts the dashboard body behind a route and code-split boundary, the way each product's page
+ * does, and returns a `user` alongside the render result. The page chrome around it is owned by the
+ * products and covered by their own suites.
  *
  * `pointerEventsCheck` is disabled because it walks the ancestor chain calling `getComputedStyle`
  * for every pointer event, which otherwise dominates the runtime — the dashboard renders a projects
  * table whose every row carries a dropdown menu.
  */
 export function renderOnboardingDashboard() {
-  return renderWithRoutes(routes(), {
-    initialEntries: ['/onboarding-dashboard'],
-    userEventOptions: { delay: null, pointerEventsCheck: PointerEventsCheckLevel.Never },
-  });
+  return renderWithRoutes(
+    <Route element={<LazyOnboardingDashboardApp />} path="onboarding-dashboard" />,
+    {
+      initialEntries: ['/onboarding-dashboard'],
+      userEventOptions: { delay: null, pointerEventsCheck: PointerEventsCheckLevel.Never },
+    },
+  );
 }
 
 export const ui = {
@@ -77,11 +82,8 @@ export const ui = {
   // literally) while skeletons are shown; it clears once the data resolves.
   loading: byText('onboarding_dashboard.loading'),
 
-  // Header — the ring label reflects the backend `progressPct` (75 in the mock), surfaced by
-  // deriveJourneyState as `overallPct`. It is unique across the fixture: the stepper donuts use
-  // importedPct and analyzedPct, which come out at 2% and 0% here.
-  headerSubtitle: byText('onboarding_dashboard.header.subtitle'),
-  headerProgress: byText('onboarding_dashboard.percent.75'),
+  // The page title, tagline and progress ring live in each product's OnboardingDashboardPage
+  // wrapper, not here — they are covered by that page's own suite on both platforms.
 
   // Journey stepper — three selectable step cards rendered as buttons. These selectors hold only
   // while the step is unlocked; a locked step names itself `locked_aria_label.<title>` instead (see

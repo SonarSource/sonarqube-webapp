@@ -27,6 +27,7 @@ import {
   OnboardingOverviewQuery,
   OnboardingProjectsQuery,
 } from '../api/onboarding';
+import { deriveJourneyState } from '../helpers/onboarding/deriveJourneyState';
 import { createQueryHook, StaleTime } from './common';
 
 /** Prefix of every onboarding query key, so one call can invalidate the whole feature. */
@@ -45,6 +46,15 @@ export const useOnboardingOverviewQuery = createQueryHook((params: OnboardingOve
     retry: 2, // Temporary workaround until Backend initial load issue is fixed
   }),
 );
+
+/**
+ * The overview reduced to the journey view model, so the derivation has a single owner: the
+ * product pages (page title ring, congrats callout) and the dashboard body all observe the same
+ * query and get the same derived state.
+ */
+export function useOnboardingJourneyState(params: OnboardingOverviewQuery) {
+  return useOnboardingOverviewQuery(params, { select: deriveJourneyState });
+}
 
 /** Adoption history and DevOps platform breakdown, shown alongside the journey. */
 export const useOnboardingStatisticsQuery = createQueryHook((params: OnboardingOverviewQuery) =>

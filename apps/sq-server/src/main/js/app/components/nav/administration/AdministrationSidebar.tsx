@@ -23,6 +23,7 @@ import {
   IconLicense,
   IconQuestionMark,
   IconSparkle,
+  IconTableChartView,
   Layout,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -60,6 +61,10 @@ export function AdministrationSidebar(props: Readonly<Props>) {
         <AdministrationSidebarSecurity />
 
         <AdministrationSidebarProjects />
+
+        <Layout.SidebarNavigation.Item Icon={IconTableChartView} to="/admin/onboarding-dashboard">
+          <FormattedMessage id="onboarding_dashboard.sidebar" />
+        </Layout.SidebarNavigation.Item>
 
         <Layout.SidebarNavigation.Item Icon={IconInfo} to="/admin/system">
           <FormattedMessage id="sidebar.system" />

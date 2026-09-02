@@ -56,9 +56,9 @@ jest.mock('~adapters/helpers/useAutoImportToggle', () =>
 const onboardingMock = setupOnboardingMock();
 
 /**
- * The page shell: how the dashboard loads, what it does when a query fails, and which cards it
- * composes. The journey and the modals have their own suites, and each card's own behaviour is
- * covered by that card's suite.
+ * The dashboard body: how it loads, what it does when a query fails, and which cards it composes.
+ * The page chrome around it lives in each product's OnboardingDashboardPage; the journey and the
+ * modals have their own suites, and each card's own behaviour is covered by that card's suite.
  */
 
 it('shows an error message when the overview request fails', async () => {
@@ -66,7 +66,7 @@ it('shows an error message when the overview request fails', async () => {
   renderOnboardingDashboard();
 
   expect(await ui.error.find()).toBeInTheDocument();
-  expect(ui.headerSubtitle.query()).not.toBeInTheDocument();
+  expect(ui.stepperBinding.query()).not.toBeInTheDocument();
 });
 
 it('shows loading skeletons before the dashboard data resolves', async () => {
@@ -83,22 +83,10 @@ it('shows loading skeletons before the dashboard data resolves', async () => {
   // several cards announce this same message and they resolve on different queries, so by the time
   // the header is up the last announcement may already be gone — which that helper treats as an
   // error rather than as success.
-  expect(await ui.headerSubtitle.find()).toBeInTheDocument();
+  expect(await ui.stepperBinding.find()).toBeInTheDocument();
   await waitFor(() => {
     expect(ui.loading.query()).not.toBeInTheDocument();
   });
-});
-
-it('renders the page header with the progress tagline next to the heading', async () => {
-  renderOnboardingDashboard();
-
-  expect(await ui.headerSubtitle.find()).toBeInTheDocument();
-
-  // The header shows the backend `progressPct` ring, surfaced as `overallPct` (not a client-side
-  // computed value). The 75% label is unique to the header ring — the stepper donuts use
-  // importedPct and analyzedPct — so it appears exactly once. The ring only mounts once the
-  // overview query resolves.
-  expect(await ui.headerProgress.find()).toBeInTheDocument();
 });
 
 it('composes the all-projects card but not the stale-projects one — STALE_PROJECTS_FEATURE_ENABLED is off', async () => {

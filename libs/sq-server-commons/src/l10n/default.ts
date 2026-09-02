@@ -11218,6 +11218,7 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
+  'onboarding_dashboard.sidebar': 'Project coverage',
   'onboarding_dashboard.header.subtitle':
     'Your journey to a 100% validated code security and quality.',
   'onboarding_dashboard.journey.congrats.title': 'Congratulations!',

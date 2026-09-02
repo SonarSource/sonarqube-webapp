@@ -29,7 +29,6 @@ import {
   JourneyStep,
   OnboardingTimelinePoint,
 } from '~shared/types/onboarding';
-import { OnboardingDashboardHeader } from '../OnboardingDashboardHeader';
 import { DetailPanel } from './panels/DetailPanel';
 import { AllProjectsCard } from './projects/AllProjectsCard';
 import { StaleProjectsCard } from './projects/StaleProjectsCard';
@@ -89,13 +88,6 @@ export function OnboardingJourney({ state, timeline }: Readonly<Props>) {
 
   return (
     <>
-      <OnboardingDashboardHeader
-        discovered={state.discovered}
-        overallPct={state.overallPct}
-        showCongrats={state.level === JourneyLevel.BoundNoImport}
-        showProgress={state.isBound}
-      />
-
       <div className="sw-flex sw-flex-col sw-gap-6">
         <JourneyStepper onSelectStep={setSelectedStep} selectedStep={step} state={state} />
 

@@ -24,6 +24,11 @@ import { getSeverityColorForPercent } from '../../helpers/onboarding/dashboardSe
 import { DonutChart } from '../charts/DonutChart';
 
 interface Props {
+  /**
+   * When `true`, hide the ring from assistive technology, for callers that already announce the
+   * percentage themselves (a step card folds it into the card's accessible name).
+   */
+  isDecorative?: boolean;
   /** When `true`, render the percentage centered inside the ring. */
   showLabel?: boolean;
   /** Ring diameter in pixels. */
@@ -35,6 +40,7 @@ interface Props {
 }
 
 export function OnboardingProgressDonut({
+  isDecorative = false,
   showLabel = false,
   size = 72,
   thickness = 10,
@@ -42,8 +48,18 @@ export function OnboardingProgressDonut({
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
 
+  const label = formatMessage({ id: 'onboarding_dashboard.percent' }, { percent: value });
+
   return (
-    <div aria-hidden className="sw-relative sw-shrink-0" style={{ height: size, width: size }}>
+    // The ring only encodes the percentage, so it is exposed as a single labelled image: assistive
+    // technology gets the value from the label instead of the (ignored) chart subtree.
+    <div
+      aria-hidden={isDecorative || undefined}
+      aria-label={isDecorative ? undefined : label}
+      className="sw-relative sw-shrink-0"
+      role={isDecorative ? undefined : 'img'}
+      style={{ height: size, width: size }}
+    >
       <DonutChart
         data={[
           { fill: getSeverityColorForPercent(value), value },
@@ -55,9 +71,7 @@ export function OnboardingProgressDonut({
       />
       {showLabel && (
         <div className="sw-absolute sw-inset-0 sw-flex sw-items-center sw-justify-center">
-          <Text isHighlighted>
-            {formatMessage({ id: 'onboarding_dashboard.percent' }, { percent: value })}
-          </Text>
+          <Text isHighlighted>{label}</Text>
         </div>
       )}
     </div>

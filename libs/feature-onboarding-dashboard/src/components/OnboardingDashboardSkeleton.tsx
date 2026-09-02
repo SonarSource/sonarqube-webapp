@@ -20,8 +20,6 @@
 
 import { Card, Divider, LoadingSkeleton, Text, TextSize } from '@sonarsource/echoes-react';
 
-/** Header progress ring, matching the 56px donut rendered by OnboardingDashboardHeader. */
-const HEADER_DONUT_SIZE = 'sw-h-[56px] sw-w-[56px]';
 /** Step-card visual slot, matching the 64px donut rendered by StepCard. */
 const STEP_DONUT_SIZE = 'sw-h-[64px] sw-w-[64px]';
 /** Detail-panel donut, matching the 150px donut rendered by PanelDonut. */
@@ -36,19 +34,6 @@ function CardHeaderSkeleton() {
       description={<LoadingSkeleton className="sw-w-64" variety="text" />}
       title={<LoadingSkeleton className="sw-w-40" variety="text" />}
     />
-  );
-}
-
-/** Page-header placeholder: the progress ring next to the page title and tagline. */
-function HeaderSkeleton() {
-  return (
-    <div className="sw-mb-12 sw-flex sw-items-center sw-gap-4">
-      <LoadingSkeleton className={`${HEADER_DONUT_SIZE} sw-shrink-0`} variety="disk" />
-      <div className="sw-flex sw-flex-col sw-gap-1">
-        <LoadingSkeleton className="sw-h-8 sw-w-64" variety="rectangle" />
-        <LoadingSkeleton className="sw-w-80" variety="text" />
-      </div>
-    </div>
   );
 }
 
@@ -180,8 +165,6 @@ function AllProjectsCardSkeleton() {
 export function OnboardingDashboardSkeleton() {
   return (
     <div>
-      <HeaderSkeleton />
-
       <div className="sw-mb-4 sw-grid sw-grid-cols-3 sw-gap-4">
         {Array.from({ length: 3 }, (_, index) => (
           <StepCardSkeleton key={`step-${index}`} />

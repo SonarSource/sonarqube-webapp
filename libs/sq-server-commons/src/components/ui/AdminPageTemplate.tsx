@@ -39,6 +39,7 @@ interface Props extends PropsWithChildren {
   pageClassName?: string;
   scrollBehavior?: PageHeaderProps['scrollBehavior'];
   title: string;
+  titlePrefix?: ReactNode;
   width?: PageGridProps['width'];
 }
 
@@ -51,6 +52,7 @@ export const AdminPageTemplate = forwardRef<HTMLDivElement, Props>(
       isLoading,
       pageClassName,
       title,
+      titlePrefix,
       width = 'default',
       ...headerProps
     },
@@ -72,7 +74,11 @@ export const AdminPageTemplate = forwardRef<HTMLDivElement, Props>(
                 ]}
               />
             }
-            title={<Layout.PageHeader.Title headingLevel="h1">{title}</Layout.PageHeader.Title>}
+            title={
+              <Layout.PageHeader.Title headingLevel="h1" prefix={titlePrefix}>
+                {title}
+              </Layout.PageHeader.Title>
+            }
             {...headerProps}
           />
 

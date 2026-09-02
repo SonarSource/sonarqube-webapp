@@ -18,62 +18,60 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Layout, LoadingContainer, MessageCallout } from '@sonarsource/echoes-react';
-import { Helmet } from 'react-helmet-async';
+import { LoadingContainer, MessageCallout } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
-import { useOnboardingOrganizationKey } from '~adapters/queries/onboarding';
-import { deriveJourneyState } from '~shared/helpers/onboarding/deriveJourneyState';
 import {
-  useOnboardingOverviewQuery,
+  useOnboardingJourneyState,
   useOnboardingStatisticsQuery,
 } from '~shared/queries/onboarding';
 import { OnboardingJourney } from './journey/OnboardingJourney';
 import { OnboardingDashboardSkeleton } from './OnboardingDashboardSkeleton';
 
-export default function OnboardingDashboardApp() {
+interface Props {
+  /** Organization key supplied by the product-page wrapper via `useOnboardingOrganizationKey`. */
+  organizationKey?: string;
+}
+
+/**
+ * The onboarding dashboard body: loading state and the journey section.
+ * Receives the organization key as a prop — the product-page wrapper calls
+ * `useOnboardingOrganizationKey` and owns the outer page chrome (grid, header, footer).
+ * React Query deduplicates the overview request shared with the product page.
+ */
+export default function OnboardingDashboardApp({ organizationKey }: Readonly<Props>) {
   const { formatMessage } = useIntl();
-  const organizationKey = useOnboardingOrganizationKey();
-  const { data, isPending, isError } = useOnboardingOverviewQuery({ organizationKey });
+  const { data: journeyState, isPending, isError } = useOnboardingJourneyState({ organizationKey });
   const { data: statistics, isError: isStatisticsError } = useOnboardingStatisticsQuery({
     organizationKey,
   });
 
-  const title = formatMessage({ id: 'layout.onboarding_dashboard' });
-
-  const journeyState = data === undefined ? undefined : deriveJourneyState(data);
-
   return (
-    <Layout.PageGrid>
-      <Helmet defer={false} title={title} />
-      <Layout.PageContent>
-        {isError && (
-          <MessageCallout variety="danger">
-            <FormattedMessage id="default_error_message" />
-          </MessageCallout>
-        )}
+    <>
+      {isError && (
+        <MessageCallout variety="danger">
+          <FormattedMessage id="default_error_message" />
+        </MessageCallout>
+      )}
 
-        <LoadingContainer
-          isLoading={isPending}
-          loadingMessage={formatMessage({ id: 'onboarding_dashboard.loading' })}
-        >
-          {isPending ? (
-            <OnboardingDashboardSkeleton />
-          ) : (
-            <div>
-              {journeyState !== undefined && (
-                <OnboardingJourney state={journeyState} timeline={statistics?.timeline ?? []} />
-              )}
-              {isStatisticsError && (
-                <MessageCallout variety="danger">
-                  <FormattedMessage id="default_error_message" />
-                </MessageCallout>
-              )}
-            </div>
-          )}
-        </LoadingContainer>
-      </Layout.PageContent>
-      <GlobalFooter />
-    </Layout.PageGrid>
+      <LoadingContainer
+        isLoading={isPending}
+        loadingMessage={formatMessage({ id: 'onboarding_dashboard.loading' })}
+      >
+        {isPending ? (
+          <OnboardingDashboardSkeleton />
+        ) : (
+          <div>
+            {journeyState !== undefined && (
+              <OnboardingJourney state={journeyState} timeline={statistics?.timeline ?? []} />
+            )}
+            {isStatisticsError && (
+              <MessageCallout variety="danger">
+                <FormattedMessage id="default_error_message" />
+              </MessageCallout>
+            )}
+          </div>
+        )}
+      </LoadingContainer>
+    </>
   );
 }

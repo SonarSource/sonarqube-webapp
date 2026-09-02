@@ -18,16 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Route } from 'react-router-dom';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 
-const App = lazyLoadComponent(() => import('./components/OnboardingDashboardApp'));
-
 /**
- * This is an admin-only page — both products nest these routes under their admin area, which also
- * supplies the `Layout.ContentGrid` the dashboard's `Layout.PageGrid` needs to fill its `page` area:
- * SonarQube Cloud via `OrgAdminAccessContainer`, SonarQube Server via `AdminContainer`.
+ * The dashboard body, code-split out of the product bundles.
+ *
+ * The dynamic import lives here rather than in each product's page so that it stays relative to
+ * this library: SonarQube Cloud also imports this library statically (the `ImportRepositoriesCta`
+ * adapter), and `@nx/enforce-module-boundaries` forbids a project from importing the same library
+ * both ways. Keeping the split inside the library gives both products the same chunk boundary
+ * without that conflict.
  */
-const routes = () => <Route element={<App />} path="onboarding-dashboard" />;
-
-export default routes;
+export const LazyOnboardingDashboardApp = lazyLoadComponent(
+  () => import('./OnboardingDashboardApp'),
+);

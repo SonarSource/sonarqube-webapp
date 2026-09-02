@@ -32,7 +32,6 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
-import onboardingDashboardRoutes from '~feature-onboarding-dashboard/routes';
 import { qualityGateHistoryRoutes } from '~feature-quality-gate-history/components/routes';
 import { A11yProvider } from '~shared/components/a11y/A11yProvider';
 import NotFound from '~shared/components/NotFound';
@@ -244,7 +243,7 @@ function renderAdminRoutes({
         {groupsRoutes()}
         {addons.license?.routes()}
         {marketplaceRoutes()}
-        {onboardingDashboardRoutes()}
+        <Route element={<OnboardingDashboardPage />} path="onboarding-dashboard" />
         {permissionTemplatesRoutes()}
         {projectsManagementRoutes()}
         {settingsRoutes()}
@@ -277,6 +276,11 @@ const ChangeAdminPasswordApp = lazyLoadComponent(
   () => import('../../apps/change-admin-password/ChangeAdminPasswordApp'),
 );
 const PluginRiskConsent = lazyLoadComponent(() => import('../components/PluginRiskConsent'));
+const OnboardingDashboardPage = lazyLoadComponent(() =>
+  import('../../apps/onboarding-dashboard/OnboardingDashboardPage').then((m) => ({
+    default: m.OnboardingDashboardPage,
+  })),
+);
 
 function RootWrapper() {
   useFeatureCommunicationLimiter();
