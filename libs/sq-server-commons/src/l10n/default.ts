@@ -844,6 +844,8 @@ export const defaultMessages = {
   'ai_capabilities.remediation_agent.description':
     'An AI-powered agent that automatically proposes fixes for your issues — creating pull requests for your review and approval. {link}',
   'ai_capabilities.remediation_agent.description.link': 'Learn more in our documentation',
+  'ai_capabilities.remediation_agent.description.terms':
+    'By enabling or using Remediation Agent, you agree to the <link>Remediation Agent Terms</link>.',
   'ai_capabilities_select.provider.placeholder': 'Select a provider',
   'ai_capabilities_select.provider.empty':
     'No LLM providers connected yet. Connect one to choose it here.',
