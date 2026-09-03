@@ -20,12 +20,18 @@
 
 import { IconProject, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { addons } from '~sq-server-addons/index';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { Feature } from '~sq-server-commons/types/features';
 
 export function AdministrationSidebarProjects() {
   const { hasFeature } = useAvailableFeatures();
+  const { data: remediationAgent } = addons.entitlements.usePurchasableFeature(
+    EntitlementCheckFeatureKey.RemediationAgent,
+    { enabled: Boolean(addons.remediationAgent) },
+  );
+  const hasAgenticTasks = remediationAgent?.isAvailable === true || hasFeature(Feature.HunterAgent);
 
   return (
     <Layout.SidebarNavigation.AccordionItem
@@ -39,7 +45,7 @@ export function AdministrationSidebarProjects() {
         <FormattedMessage id="management" />
       </Layout.SidebarNavigation.AccordionItem.Item>
 
-      {hasFeature(Feature.RemediationAgent) && addons.remediationAgent && (
+      {hasAgenticTasks && addons.remediationAgent && (
         <Layout.SidebarNavigation.AccordionItem.Item isMatchingFullPath to="/admin/agentic_tasks">
           <FormattedMessage id="sidebar.agentic_tasks" />
         </Layout.SidebarNavigation.AccordionItem.Item>

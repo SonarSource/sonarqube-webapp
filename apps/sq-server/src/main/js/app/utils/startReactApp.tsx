@@ -126,9 +126,7 @@ function renderComponentRoutes({
   hasApplicationReportFeature,
   hasArchitectureFeature,
   hasBranchSupport,
-  hasHunterAgentFeature,
   hasPortfolioFeature,
-  hasRemediationAgentFeature,
   hasScaFeature,
   hasSecurityReportsFeature,
 }: {
@@ -137,9 +135,7 @@ function renderComponentRoutes({
   hasApplicationReportFeature: boolean;
   hasArchitectureFeature: boolean;
   hasBranchSupport: boolean;
-  hasHunterAgentFeature: boolean;
   hasPortfolioFeature: boolean;
-  hasRemediationAgentFeature: boolean;
   hasScaFeature: boolean;
   hasSecurityReportsFeature: boolean;
 }) {
@@ -169,7 +165,7 @@ function renderComponentRoutes({
           </Route>
         )}
         {projectIssuesRoutes()}
-        {hasRemediationAgentFeature && addons.remediationAgent?.projectRoutes()}
+        {addons.remediationAgent?.projectRoutes()}
         {addons.remediationAgent?.hunterAgentProjectRoutes?.()}
         {hasScaFeature && addons?.sca?.projectRoutes}
         {securityHotspotsRoutes()}
@@ -200,8 +196,7 @@ function renderComponentRoutes({
 
           {hasBranchSupport && addons.branches?.routes()}
           {hasAicaFeature && addons.aica?.aicaSettingsRoutes()}
-          {(hasRemediationAgentFeature || hasHunterAgentFeature) &&
-            addons.remediationAgent?.projectSettingsRoutes()}
+          {addons.remediationAgent?.projectSettingsRoutes()}
 
           {backgroundTasksRoutes()}
           {projectDeletionRoutes()}
@@ -220,18 +215,12 @@ function renderComponentRoutes({
   );
 }
 
-function renderAdminRoutes({
-  hasAiCapabilitiesFeature,
-  hasPortfolioFeature,
-}: {
-  hasAiCapabilitiesFeature: boolean;
-  hasPortfolioFeature: boolean;
-}) {
+function renderAdminRoutes({ hasPortfolioFeature }: { hasPortfolioFeature: boolean }) {
   return (
     <Route path="admin">
       <Route element={<AdminContainer />}>
         {hasPortfolioFeature && addons.portfolios?.globalAdminRoutes()}
-        {hasAiCapabilitiesFeature && addons.remediationAgent?.globalAdminRoutes()}
+        {addons.remediationAgent?.globalAdminRoutes()}
 
         {/* Migrated internal Sonar admin extensions */}
         {globalAdminExtensionMigratedRoutes()}
@@ -364,13 +353,11 @@ const router = ({
               {renderComponentRoutes({
                 hasArchitectureFeature: availableFeatures.includes(Feature.Architecture),
                 hasBranchSupport: availableFeatures.includes(Feature.BranchSupport),
-                hasHunterAgentFeature: availableFeatures.includes(Feature.HunterAgent),
                 hasScaFeature: availableFeatures.includes(Feature.Sca),
                 hasAicaFeature: availableFeatures.includes(Feature.AiCodeAssurance),
                 hasPortfolioFeature: governanceInstalled,
                 hasApplicationFeature,
                 hasApplicationReportFeature: governanceInstalled,
-                hasRemediationAgentFeature: availableFeatures.includes(Feature.RemediationAgent),
                 hasSecurityReportsFeature: isEnterprise,
               })}
 
@@ -378,9 +365,6 @@ const router = ({
               {governanceInstalled && addons.portfolios?.globalRoutes()}
 
               {renderAdminRoutes({
-                hasAiCapabilitiesFeature:
-                  availableFeatures.includes(Feature.RemediationAgent) ||
-                  availableFeatures.includes(Feature.HunterAgent),
                 hasPortfolioFeature: governanceInstalled,
               })}
 

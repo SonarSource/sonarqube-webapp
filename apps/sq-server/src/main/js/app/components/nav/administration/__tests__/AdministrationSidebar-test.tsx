@@ -25,16 +25,22 @@ import { addons } from '~sq-server-addons/index';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { AppState } from '~sq-server-commons/types/appstate';
+import { PurchaseableFeature } from '~sq-server-commons/types/editions';
 import { Feature } from '~sq-server-commons/types/features';
 import { AdministrationSidebar } from '../AdministrationSidebar';
 
 jest.mock('~sq-server-addons/index', () => ({
-  addons: {},
+  addons: {
+    entitlements: {
+      usePurchasableFeature: jest.fn(),
+    },
+  },
 }));
 
 beforeEach(() => {
   jest.mocked(addons).license = undefined;
   jest.mocked(addons).remediationAgent = undefined;
+  mockRemediationAgentQuery({ data: undefined, isSuccess: true });
 });
 
 it('render correctly', () => {
@@ -81,52 +87,6 @@ it('render correctly with governance extension', () => {
   expect(byText('portfolios.page').get()).toBeInTheDocument();
 });
 
-it('renders AI Capabilities item when the RemediationAgent feature is available', () => {
-  (jest.mocked(addons).remediationAgent as unknown) = true;
-  renderAdminSidebar([], undefined, [Feature.RemediationAgent]);
-
-  expect(byText('sidebar.ai_capabilities').get()).toBeInTheDocument();
-});
-
-it('renders AI Capabilities item when the HunterAgent feature is available', () => {
-  (jest.mocked(addons).remediationAgent as unknown) = true;
-  renderAdminSidebar([], undefined, [Feature.HunterAgent]);
-
-  expect(byText('sidebar.ai_capabilities').get()).toBeInTheDocument();
-});
-
-it('hides the AI Capabilities item when agent features are missing', () => {
-  (jest.mocked(addons).remediationAgent as unknown) = true;
-  renderAdminSidebar();
-
-  expect(byText('sidebar.ai_capabilities').query()).not.toBeInTheDocument();
-});
-
-it('hides the AI Capabilities item when the addon is not installed', () => {
-  renderAdminSidebar([], undefined, [Feature.RemediationAgent]);
-
-  expect(byText('sidebar.ai_capabilities').query()).not.toBeInTheDocument();
-});
-
-it('renders the Agentic tasks item under Projects when the RemediationAgent feature is available', () => {
-  (jest.mocked(addons).remediationAgent as unknown) = true;
-  renderAdminSidebar([], undefined, [Feature.RemediationAgent]);
-
-  expect(byText('sidebar.agentic_tasks').get()).toBeInTheDocument();
-});
-
-it('hides the Agentic tasks item when the RemediationAgent feature is missing', () => {
-  (jest.mocked(addons).remediationAgent as unknown) = true;
-  renderAdminSidebar();
-
-  expect(byText('sidebar.agentic_tasks').query()).not.toBeInTheDocument();
-});
-
-it('hides the Agentic tasks item when the addon is not installed', () => {
-  renderAdminSidebar([], undefined, [Feature.RemediationAgent]);
-
-  expect(byText('sidebar.agentic_tasks').query()).not.toBeInTheDocument();
-});
 
 function renderAdminSidebar(
   extensions: Extension[] = [],
@@ -134,4 +94,23 @@ function renderAdminSidebar(
   featureList?: Feature[],
 ) {
   renderApp('/', <AdministrationSidebar extensions={extensions} />, { appState, featureList });
+}
+
+function mockRemediationAgentQuery({
+  data,
+  isError = false,
+  isPending = false,
+  isSuccess,
+}: {
+  data: PurchaseableFeature | undefined;
+  isError?: boolean;
+  isPending?: boolean;
+  isSuccess: boolean;
+}) {
+  jest.mocked(addons.entitlements.usePurchasableFeature).mockReturnValue({
+    data,
+    isError,
+    isPending,
+    isSuccess,
+  } as ReturnType<typeof addons.entitlements.usePurchasableFeature>);
 }

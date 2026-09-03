@@ -32,10 +32,28 @@ import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServic
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { mockMainBranch } from '~sq-server-commons/helpers/mocks/branch-like';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { AppState } from '~sq-server-commons/types/appstate';
-import { EditionKey } from '~sq-server-commons/types/editions';
+import { EditionKey, PurchaseableFeature } from '~sq-server-commons/types/editions';
 import { Feature } from '~sq-server-commons/types/features';
+import { CurrentUser } from '~sq-server-commons/types/users';
 import { ComponentNav } from '../ComponentNav';
+
+jest.mock('~sq-server-addons/index', () => {
+  const actual =
+    jest.requireActual<typeof import('~sq-server-addons/index')>('~sq-server-addons/index');
+
+  return {
+    ...actual,
+    addons: {
+      ...actual.addons,
+      entitlements: {
+        ...actual.addons.entitlements,
+        usePurchasableFeature: jest.fn(),
+      },
+    },
+  };
+});
 
 
 jest.mock('~shared/helpers/recent-history', () => ({
@@ -67,6 +85,7 @@ beforeEach(() => {
   measuresHandler.reset();
   settingsHandler.reset();
   addons.sca = originalScaAddon;
+  mockRemediationAgentQuery({ data: undefined, isSuccess: true });
 });
 
 function createMockScaAddon(): NonNullable<typeof addons.sca> {
@@ -101,6 +120,8 @@ const ui = {
   activityLink: byText('project_activity.page'),
   projectInfoLink: byText('project.info.title'),
   applicationInfoLink: byText('application.info.title'),
+  projectAgentActivityLink: byText('project_agent_activity.title'),
+  aiCapabilitiesLink: byText('ai_capabilities.title'),
   qualityProfilesLink: byText('project_quality_profiles.page'),
   qualityGateLink: byText('project_quality_gate.page'),
   qualityGateHistoryLink: byText('layout.quality_gate_history'),
@@ -312,6 +333,7 @@ describe('ComponentNav', () => {
         'deletion.page',
       ]);
     });
+
   });
 
   describe('application navigation', () => {
@@ -525,6 +547,7 @@ function renderComponentNav(
   props: ComponentProps<typeof ComponentNav>,
   features: Feature[] = [],
   edition = EditionKey.enterprise,
+  initialCurrentUser?: CurrentUser,
 ) {
   const { component, isInProgress = false, isPending = false } = props;
 
@@ -538,6 +561,7 @@ function renderComponentNav(
         edition,
         qualifiers: edition === EditionKey.enterprise ? [ComponentQualifier.Portfolio] : [],
       } as AppState,
+      initialCurrentUser,
     },
   );
 }
@@ -548,6 +572,25 @@ function getNavigationItemText(element: HTMLElement) {
     .filter((child) => child.getAttribute('aria-hidden') !== 'true')
     .map((child) => child.textContent ?? '')
     .join('');
+}
+
+function mockRemediationAgentQuery({
+  data,
+  isError = false,
+  isPending = false,
+  isSuccess,
+}: {
+  data: PurchaseableFeature | undefined;
+  isError?: boolean;
+  isPending?: boolean;
+  isSuccess: boolean;
+}) {
+  jest.mocked(addons.entitlements.usePurchasableFeature).mockReturnValue({
+    data,
+    isError,
+    isPending,
+    isSuccess,
+  } as ReturnType<typeof addons.entitlements.usePurchasableFeature>);
 }
 
 /* eslint-disable testing-library/no-node-access -- The standalone sidebar is aria-hidden. */

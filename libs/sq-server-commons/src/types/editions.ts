@@ -19,6 +19,7 @@
  */
 
 import { EntitlementCheckFeatureKey } from '~shared/types/billing';
+import { Feature } from './features';
 import { SystemUpgradeDownloadUrls } from './system';
 
 export enum EditionKey {
@@ -155,12 +156,19 @@ export interface LicenseV2 {
  */
 export interface PurchaseableFeature {
   featureKey: string;
-  /** On the license — you're allowed to use it. */
+  /** The billing add-on is on the license — you're allowed to use it. */
   isAvailable?: boolean;
-  /** Admin turned it on in settings. Always false when not available. */
+  /**
+   * The feature's runtime configuration is enabled. For Remediation Agent, this means an LLM
+   * provider/model is configured and at least one workflow is enabled. Never use this field to
+   * infer edition support; the entry's presence carries that meaning.
+   */
   isEnabled?: boolean;
   /** Parent product when this is a sub-feature (e.g. sca → advancedSecurity). */
   parent?: string;
   /** Marketing / docs link for the feature. */
   url?: string;
 }
+
+/** The endpoint exposes both unified billing keys and legacy feature keys. */
+export type PurchasableFeatureKey = EntitlementCheckFeatureKey | Feature;

@@ -25,9 +25,11 @@ import { NewBadge } from '~shared/components/badges/NewBadge';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
+import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { addons } from '~sq-server-addons/index';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { getCodeUrl } from '~sq-server-commons/helpers/urls';
+import { isPurchasableFeatureSupportedOrUnknown } from '~sq-server-commons/queries/entitlements';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
@@ -43,13 +45,22 @@ export function ComponentNavProjectMenu(props: Readonly<Props>) {
   const { hasFeature } = useAvailableFeatures();
   const { isLoggedIn } = useCurrentUser();
   const { qualifier } = component;
+  const isProj = isProject(qualifier);
+  const remediationAgentAddon = addons.remediationAgent;
+  const { data: remediationAgent, isSuccess: isRemediationAgentQuerySuccessful } =
+    addons.entitlements.usePurchasableFeature(EntitlementCheckFeatureKey.RemediationAgent, {
+      enabled: isProj && isLoggedIn && isDefined(remediationAgentAddon),
+    });
+  const hasRemediationAgent = isPurchasableFeatureSupportedOrUnknown(
+    remediationAgent,
+    isRemediationAgentQuerySuccessful,
+  );
 
   const branchParameters = getBranchLikeQuery(branchLike);
   const query = { id: component.key, ...branchParameters };
   const search = new URLSearchParams(query).toString();
   const isPortfolio = isPortfolioLike(qualifier);
   const isApp = isApplication(qualifier);
-  const isProj = isProject(qualifier);
   const showBranches = Boolean(
     isProj &&
     component.configuration?.showSettings &&
@@ -59,12 +70,8 @@ export function ComponentNavProjectMenu(props: Readonly<Props>) {
   const showCode = !isPortfolio && isAnalyzed;
   const scaAddon = addons.sca;
   const showDependencies = showCode && hasFeature(Feature.Sca) && isDefined(scaAddon);
-  const remediationAgentAddon = addons.remediationAgent;
   const showRemediationAgent =
-    isProj &&
-    isLoggedIn &&
-    hasFeature(Feature.RemediationAgent) &&
-    isDefined(remediationAgentAddon);
+    isProj && isLoggedIn && hasRemediationAgent && isDefined(remediationAgentAddon);
 
   const showInformation = isProj || isApp;
 

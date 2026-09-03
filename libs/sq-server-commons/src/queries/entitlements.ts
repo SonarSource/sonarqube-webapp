@@ -24,6 +24,7 @@ import { createQueryHook, StaleTime } from '~shared/queries/common';
 import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { getCurrentLicense, getPurchasableFeatures } from '../api/entitlements';
 import { hasGlobalPermission } from '../helpers/users';
+import { PurchasableFeatureKey, PurchaseableFeature } from '../types/editions';
 import { Permissions } from '../types/permissions';
 
 export const LICENSE_QUERY_KEY = ['current-sqs-license'] as const;
@@ -43,6 +44,31 @@ export const usePurchasableFeaturesQuery = createQueryHook(() =>
     staleTime: StaleTime.NEVER,
   }),
 );
+
+/**
+ * Look up a single purchasable feature by key. A successful query with no matching entry means
+ * that the edition does not support the feature.
+ */
+export function usePurchasableFeatureQuery(
+  featureKey: PurchasableFeatureKey,
+  options?: { enabled?: boolean },
+) {
+  return usePurchasableFeaturesQuery({
+    ...options,
+    select: (features) => features.find((feature) => feature.featureKey === featureKey),
+  });
+}
+
+/**
+ * Keep feature entry points visible until a successful response definitively establishes that
+ * the feature is unsupported. Loading and failed requests leave support unknown.
+ */
+export function isPurchasableFeatureSupportedOrUnknown(
+  feature: PurchaseableFeature | undefined,
+  isQuerySuccessful: boolean,
+) {
+  return feature !== undefined || !isQuerySuccessful;
+}
 
 /**
  * Overage state for a specific feature. Reads from `GET /api/v2/entitlements/license`, which is
