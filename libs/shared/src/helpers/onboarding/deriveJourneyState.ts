@@ -24,7 +24,7 @@ import {
   JourneyStep,
   OnboardingOverview,
 } from '../../types/onboarding';
-import { clampPercent } from './dashboardSeverity';
+import { clampPercent } from './percent';
 
 function toPercent(part: number, whole: number): number {
   return whole > 0 ? Math.round(clampPercent((part / whole) * 100)) : 0;

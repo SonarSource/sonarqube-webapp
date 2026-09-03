@@ -20,7 +20,6 @@
 
 import { cssVar, Text } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { getSeverityColorForPercent } from '../../helpers/onboarding/dashboardSeverity';
 import { DonutChart } from '../charts/DonutChart';
 
 interface Props {
@@ -35,7 +34,7 @@ interface Props {
   size?: number;
   /** Ring thickness in pixels. */
   thickness?: number;
-  /** Completion, 0–100. The ring color follows the shared severity scale. */
+  /** Completion, 0–100. The filled arc uses the dataviz categorical-1 token. */
   value: number;
 }
 
@@ -62,7 +61,7 @@ export function OnboardingProgressDonut({
     >
       <DonutChart
         data={[
-          { fill: getSeverityColorForPercent(value), value },
+          { fill: cssVar('color-charts-categorical-1'), value },
           { fill: cssVar('color-background-neutral-subtle-default'), value: 100 - value },
         ]}
         height={size}

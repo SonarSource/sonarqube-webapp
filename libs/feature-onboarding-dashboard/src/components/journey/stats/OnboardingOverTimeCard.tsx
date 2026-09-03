@@ -34,8 +34,8 @@ const TOOLTIP_WIDTH = 200;
 const X_TICK_COUNT = 5;
 const Y_TICK_COUNT = 5;
 
-const COLOR_PROJECTS_SCANNED = cssVar('color-background-success-default');
-const COLOR_IMPORTED = cssVar('color-background-info-default');
+const COLOR_PROJECTS_SCANNED = cssVar('color-charts-categorical-4');
+const COLOR_IMPORTED = cssVar('color-charts-categorical-1');
 const COLOR_AXIS = cssVar('color-border-weak');
 const COLOR_CURSOR = cssVar('color-border-bold');
 const COLOR_LABEL = cssVar('color-text-subtle');

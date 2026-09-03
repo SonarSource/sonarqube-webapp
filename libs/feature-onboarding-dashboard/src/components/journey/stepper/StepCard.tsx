@@ -107,6 +107,8 @@ function VisualSlot({
         />
       );
     case StepCardVisual.AvatarDone:
+      // Deliberately semantic: the ring encodes completion state, not a data series, so the
+      // success surface tokens are more appropriate than a categorical dataviz token here.
       return (
         <Ring
           center={
@@ -123,7 +125,7 @@ function VisualSlot({
       return (
         <Ring
           center={<Text isHighlighted>{ringLabel}</Text>}
-          ringColor={cssVar('color-background-info-default')}
+          ringColor={cssVar('color-charts-categorical-1')}
         />
       );
     case StepCardVisual.RingLocked:

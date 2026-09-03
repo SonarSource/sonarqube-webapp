@@ -52,14 +52,17 @@ export function ImportRepositoriesPanel({ onSelectStep, state }: Readonly<Props>
     ...(imported > 0
       ? [
           {
-            color: cssVar('color-background-success-default'),
+            color: cssVar('color-charts-categorical-1'),
             label: formatMessage({ id: 'onboarding_dashboard.journey.import.legend.imported' }),
             value: imported,
           },
         ]
       : []),
     {
-      color: cssVar('color-background-neutral-subtle-default'),
+      color:
+        imported === 0
+          ? cssVar('color-charts-categorical-2')
+          : cssVar('color-background-neutral-subtle-default'),
       label: formatMessage({ id: 'onboarding_dashboard.journey.import.legend.not_imported' }),
       value: notYetImported,
     },

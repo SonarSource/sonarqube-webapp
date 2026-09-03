@@ -53,7 +53,7 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
 
   const segments: PanelDonutSegment[] = [
     {
-      color: cssVar('color-background-danger-default'),
+      color: cssVar('color-charts-categorical-2'),
       label: formatMessage({ id: 'onboarding_dashboard.journey.analyze.legend.not_scanned' }),
       value: analyze.notScanned,
     },
@@ -76,7 +76,7 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
     titleId: string;
   }> = [
     {
-      badge: <Badge variety={BadgeVariety.Danger}>{projectsCount(analyze.notScanned)}</Badge>,
+      badge: <Badge variety={BadgeVariety.Neutral}>{projectsCount(analyze.notScanned)}</Badge>,
       cta: (
         <PermissionGate
           trigger={

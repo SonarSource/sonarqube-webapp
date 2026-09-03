@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { clampPercent, getSeverityColorForPercent } from '../dashboardSeverity';
+import { clampPercent } from '../percent';
 
 describe('clampPercent', () => {
   it.each([
@@ -29,28 +29,5 @@ describe('clampPercent', () => {
     [150, 100],
   ])('clamps %s to %s', (value, expected) => {
     expect(clampPercent(value)).toBe(expected);
-  });
-});
-
-describe('getSeverityColorForPercent', () => {
-  it('returns the same color inside a cohort and a different one across its boundary', () => {
-    const cohorts = [
-      [-1, 0],
-      [1, 24],
-      [25, 49],
-      [50, 74],
-      [75, 99],
-      [100, 100],
-    ];
-
-    const colors = cohorts.map(([low, high]) => {
-      const lowColor = getSeverityColorForPercent(low);
-
-      expect(getSeverityColorForPercent(high)).toBe(lowColor);
-
-      return lowColor;
-    });
-
-    expect(new Set(colors).size).toBe(cohorts.length);
   });
 });
