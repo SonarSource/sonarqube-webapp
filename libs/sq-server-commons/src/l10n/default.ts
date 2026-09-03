@@ -1186,6 +1186,8 @@ export const defaultMessages = {
     'Check failed',
   'ai_capabilities.remediation_agent.dop_permission_warning.dop_row.status.unknown':
     'Cannot verify',
+  'ai_capabilities.remediation_agent.dop_permission_warning.dop_row.status.unsupported_token_type':
+    'Wrong token type',
 
   // Yellow banner (UNKNOWN — Azure DevOps advisory). One copy across all scopes.
   'ai_capabilities.remediation_agent.dop_permission_warning.yellow.title':
@@ -1202,6 +1204,18 @@ export const defaultMessages = {
     'Remediation Agent is missing permissions',
   'ai_capabilities.remediation_agent.dop_permission_warning.red.project.description':
     "Remediation Agent is connected to {platform}, but doesn't have all the permissions it needs to clone repositories, create branches, and open pull requests. Please see the {link}.",
+
+  // Token-type banner (UNSUPPORTED_TOKEN_TYPE — a GitLab integration bound with a Project or
+  // Group Access Token instead of a Personal Access Token). Split by scope only — instance vs
+  // project.
+  'ai_capabilities.remediation_agent.dop_permission_warning.token_type.instance.title':
+    'Remediation Agent needs a personal access token',
+  'ai_capabilities.remediation_agent.dop_permission_warning.token_type.instance.description':
+    'Remediation Agent found one or more GitLab integrations using a Project or Group Access Token. It needs a Personal Access Token belonging to a real GitLab user to clone repositories, create branches, and open pull requests. Please see the {link}.',
+  'ai_capabilities.remediation_agent.dop_permission_warning.token_type.project.title':
+    'Remediation Agent needs a personal access token',
+  'ai_capabilities.remediation_agent.dop_permission_warning.token_type.project.description':
+    'Remediation Agent is connected to {platform} using a Project or Group Access Token, but it needs a Personal Access Token belonging to a real GitLab user to clone repositories, create branches, and open pull requests. Please see the {link}.',
 
   //------------------------------------------------------------------------------
   //

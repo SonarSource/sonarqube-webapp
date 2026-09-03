@@ -76,6 +76,7 @@ export enum PermissionCheckStatus {
   Insufficient = 'INSUFFICIENT',
   Unknown = 'UNKNOWN',
   CheckFailed = 'CHECK_FAILED',
+  UnsupportedTokenType = 'UNSUPPORTED_TOKEN_TYPE',
 }
 
 export interface PermissionCheckResource {

@@ -45,6 +45,13 @@ export class PermissionChecksServiceMock extends AbstractServiceMock<PermissionC
     status: PermissionCheckStatus.Sufficient,
   };
 
+  /** A GitLab check bound with a Project/Group Access Token instead of a Personal Access Token. */
+  static readonly unsupportedTokenTypeCheck: PermissionCheckResource = {
+    key: 'gitlab-config',
+    type: AlmKeys.GitLab,
+    status: PermissionCheckStatus.UnsupportedTokenType,
+  };
+
   static readonly defaultData: PermissionChecksServiceData = {
     response: { permissionChecks: [PermissionChecksServiceMock.defaultCheck] },
   };

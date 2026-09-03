@@ -1258,6 +1258,7 @@ export class App extends React.PureComponent<Props, State> {
   }
 
   renderIssueList() {
+    const { component } = this.props;
     const { checkAll, checked, issues, loading, paging, showSecurityDevPromotion, query } =
       this.state;
 
@@ -1282,6 +1283,12 @@ export class App extends React.PureComponent<Props, State> {
         <div className="sw-pb-2">
           {showSecurityDevPromotion && hasSecurityFilter && (
             <SecurityDevEditionPromoteBanner className="sw-mb-4 sw-w-full sw-box-border" isWide />
+          )}
+          {remediationAgentProjectKey && addons.remediationAgent && component && (
+            <addons.remediationAgent.AssignToAgentDopPermissionWarning
+              className="sw-mb-4 sw-w-full sw-box-border"
+              component={component}
+            />
           )}
           <div className="sw-flex sw-w-full sw-items-center sw-justify-between sw-box-border">
             {this.renderBulkChange()}
