@@ -832,7 +832,6 @@ export const defaultMessages = {
     'Make sure your provider offers a supported model',
   'ai_capabilities.llm_providers.supported_models.description':
     'Supported models differ by capability:',
-  'ai_capabilities.llm_providers.supported_models.ai_codefix': 'AI CodeFix — any model',
   'ai_capabilities.llm_providers.supported_models.hunter_agent': 'Hunter Agent — Claude Opus 4.8',
   'ai_capabilities.llm_providers.supported_models.remediation_agent':
     'Remediation Agent — Claude Opus 4.6, GPT-5.1',
