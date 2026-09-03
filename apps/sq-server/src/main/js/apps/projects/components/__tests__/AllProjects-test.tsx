@@ -28,6 +28,7 @@ import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import { ProjectsServiceMock } from '~sq-server-commons/api/mocks/ProjectsServiceMock';
 import { mockAppState, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { CurrentUser, NoticeType } from '~sq-server-commons/types/users';
 import projectRoutes from '../../routes';
 import { LS_PROJECTS_SORT, LS_PROJECTS_VIEW } from '../AllProjects';
 
@@ -66,6 +67,19 @@ it('renders correctly', async () => {
   expect(await ui.sortSelect.find()).toBeInTheDocument();
   expect(await ui.perspectiveSelect.find()).toBeInTheDocument();
   expect(await ui.projects.findAll()).toHaveLength(20);
+  expect(ui.buttonCoverage.query()).not.toBeInTheDocument();
+});
+
+it('shows the project coverage button for a system admin', async () => {
+  renderProjects(
+    `${BASE_PATH}?gate=OK`,
+    mockLoggedInUser({
+      dismissedNotices: { [NoticeType.PROJECT_COVERAGE_TOUR]: true },
+      permissions: { global: ['admin'] },
+    }),
+  );
+
+  expect(await ui.buttonCoverage.find()).toHaveAttribute('href', '/admin/onboarding-dashboard');
 });
 
 it('changes sort and perspective', async () => {
@@ -132,12 +146,12 @@ it('shows the empty favorite state when the user has no favorite projects', asyn
   expect(ui.exploreProjectsLink.get()).toHaveAttribute('href', '/projects/all');
 });
 
-function renderProjects(navigateTo?: string) {
+function renderProjects(navigateTo?: string, currentUser?: CurrentUser) {
   return renderAppRoutes(BASE_PATH, projectRoutes, {
     appState: mockAppState({
       qualifiers: [ComponentQualifier.Project, ComponentQualifier.Application],
     }),
-    currentUser: mockLoggedInUser({ dismissedNotices: {} }),
+    currentUser: currentUser ?? mockLoggedInUser({ dismissedNotices: {} }),
     navigateTo,
   });
 }
@@ -146,6 +160,7 @@ const ui = {
   loading: byText('loading'),
   myFavoritesToggleOption: byRole('radio', { name: 'my_favorites' }),
   allToggleOption: byRole('radio', { name: 'all' }),
+  buttonCoverage: byRole('link', { name: 'projects.coverage' }),
   exploreProjectsLink: byRole('link', { name: 'projects.explore_projects' }),
   noFavoriteProjectsDescription: byText('projects.no_favorite_projects.engagement'),
   noFavoriteProjectsTitle: byRole('heading', { name: 'projects.no_favorite_projects' }),

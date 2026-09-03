@@ -3378,6 +3378,12 @@ export const defaultMessages = {
 
   'projects.page': 'Projects',
   'projects.add': 'Create Project',
+  'projects.coverage': 'Project Coverage',
+  'projects.coverage.spotlight.title': 'See which projects are not yet imported or analyzed.',
+  'projects.coverage.spotlight.content':
+    'Your dashboard for importing and analyzing all your projects.',
+  'projects.coverage.spotlight.image_alt': 'Project coverage donut chart',
+  'projects.coverage.spotlight.close': 'Close',
   'projects.create_application': 'Create Application',
   'projects.no_projects.empty_instance': 'There are no visible projects yet.',
   'projects.no_projects.empty_instance.new_project':

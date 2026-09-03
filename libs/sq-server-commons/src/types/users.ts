@@ -47,6 +47,7 @@ export enum NoticeType {
   DESIGN_AND_ARCHITECTURE_OPT_IN_BANNER = 'showDesignAndArchitectureOptInBanner',
   DESIGN_AND_ARCHITECTURE_BANNER = 'showDesignAndArchitectureBanner',
   DESIGN_AND_ARCHITECTURE_TOUR = 'showDesignAndArchitectureTour',
+  PROJECT_COVERAGE_TOUR = 'showProjectCoverageTour',
 }
 
 type LoggedInUserBase = CurrentUser & UserActive & LoggedInUserShared;

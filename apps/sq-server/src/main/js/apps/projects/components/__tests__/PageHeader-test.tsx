@@ -31,7 +31,7 @@ import {
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { FCProps } from '~sq-server-commons/types/misc';
-import { CurrentUser } from '~sq-server-commons/types/users';
+import { CurrentUser, NoticeType } from '~sq-server-commons/types/users';
 import PageHeader from '../PageHeader';
 
 jest.mock('~sq-server-commons/api/alm-settings', () => ({
@@ -44,6 +44,7 @@ jest.mock('~sq-server-commons/api/components', () => ({
 const ui = {
   buttonAddProject: byRole('button', { name: 'projects.add' }),
   buttonAddApplication: byRole('button', { name: 'projects.create_application' }),
+  buttonCoverage: byRole('link', { name: 'projects.coverage' }),
   searchBar: byLabelText('search.search_for_projects search_input.minimum_characters.2'),
   selectPerspective: byLabelText('projects.perspective'),
   selectSort: byLabelText('projects.sort_by'),
@@ -68,6 +69,10 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
+// This file isn't about the Project Coverage tour (see ProjectCoverageButton-test.tsx); pre-dismiss
+// it so it doesn't pop open and interfere with the other interactions tested here.
+const dismissedProjectCoverageTour = { [NoticeType.PROJECT_COVERAGE_TOUR]: true };
+
 it('should work correctly for logged in user with edit permission', async () => {
   const user = userEvent.setup();
   const onQueryChangeMock = jest.fn();
@@ -86,11 +91,15 @@ it('should work correctly for logged in user with edit permission', async () => 
       onPerspectiveChange: onPerspectiveChangeMock,
       onSortChange: onSortChangeMock,
     },
-    mockLoggedInUser({ permissions: { global: ['admin', 'provisioning', 'applicationcreator'] } }),
+    mockLoggedInUser({
+      dismissedNotices: dismissedProjectCoverageTour,
+      permissions: { global: ['admin', 'provisioning', 'applicationcreator'] },
+    }),
   );
   expect(getAlmSettings).toHaveBeenCalled();
   expect(ui.buttonAddProject.get()).toBeInTheDocument();
   expect(ui.buttonAddApplication.get()).toBeInTheDocument();
+  expect(await ui.buttonCoverage.find()).toHaveAttribute('href', '/admin/onboarding-dashboard');
   expect(ui.searchBar.get()).toBeInTheDocument();
   expect(ui.selectPerspective.get()).toBeInTheDocument();
   expect(ui.selectSort.get()).toBeInTheDocument();
@@ -133,6 +142,7 @@ it('should work correctly for logged in user without edit permission', async () 
   expect(getAlmSettings).not.toHaveBeenCalled();
   expect(ui.buttonAddProject.query()).not.toBeInTheDocument();
   expect(ui.buttonAddApplication.query()).not.toBeInTheDocument();
+  expect(ui.buttonCoverage.query()).not.toBeInTheDocument();
   expect(ui.searchBar.get()).toBeInTheDocument();
   expect(ui.selectPerspective.get()).toBeInTheDocument();
   expect(ui.selectSort.get()).toBeInTheDocument();
@@ -147,6 +157,7 @@ it('should work correctly for anonymous user', () => {
   expect(getAlmSettings).not.toHaveBeenCalled();
   expect(ui.buttonAddProject.query()).not.toBeInTheDocument();
   expect(ui.buttonAddApplication.query()).not.toBeInTheDocument();
+  expect(ui.buttonCoverage.query()).not.toBeInTheDocument();
   expect(ui.searchBar.get()).toBeInTheDocument();
   expect(ui.selectPerspective.get()).toBeInTheDocument();
   expect(ui.selectSort.get()).toBeInTheDocument();
@@ -174,7 +185,10 @@ it('should render alm correctly even with wrong data', async () => {
 
   renderPageHeader(
     {},
-    mockLoggedInUser({ permissions: { global: ['admin', 'provisioning', 'applicationcreator'] } }),
+    mockLoggedInUser({
+      dismissedNotices: dismissedProjectCoverageTour,
+      permissions: { global: ['admin', 'provisioning', 'applicationcreator'] },
+    }),
   );
 
   await user.click(ui.buttonAddProject.get());

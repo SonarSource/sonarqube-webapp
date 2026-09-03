@@ -29,6 +29,7 @@ import { DEBOUNCE_DELAY } from '~sq-server-commons/design-system';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 import ApplicationCreation from './ApplicationCreation';
 import PerspectiveSelect from './PerspectiveSelect';
+import ProjectCoverageButton from './ProjectCoverageButton';
 import ProjectCreationMenu from './ProjectCreationMenu';
 import ProjectsSortingSelect from './ProjectsSortingSelect';
 
@@ -76,8 +77,10 @@ export default function PageHeader(props: Readonly<Props>) {
 
   return (
     <div className="it__page-header sw-flex sw-flex-col sw-gap-2 sw-pb-4">
-      <div className="sw-flex sw-justify-end">
-        <ButtonGroup>
+      <div className="sw-flex sw-justify-end sw-mb-2">
+        <ButtonGroup className="sw-flex">
+          <ProjectCoverageButton currentUser={currentUser} />
+
           <ProjectCreationMenu />
 
           <ApplicationCreation />
