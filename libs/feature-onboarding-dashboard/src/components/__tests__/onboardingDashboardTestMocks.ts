@@ -67,3 +67,12 @@ export function devopsConfigurationsMock() {
       }),
   };
 }
+
+/**
+ * Always give permission to create projects, otherwise most interactions are blocked
+ */
+export function canCreateProjectsMock() {
+  return {
+    useCanCreateProjects: () => true,
+  };
+}

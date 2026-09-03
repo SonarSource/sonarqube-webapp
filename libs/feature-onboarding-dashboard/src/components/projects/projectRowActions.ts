@@ -81,6 +81,16 @@ const ANALYSED_ACTIONS_BY_ANALYSIS_MODE: Partial<
 };
 
 /**
+ * Actions that require the "Create projects" permission. When the user lacks this permission, the
+ * row menu is replaced by a permission popover so they understand why nothing happens.
+ */
+export const PERMISSION_REQUIRED_ACTIONS = new Set([
+  ProjectRowAction.ConfigureCi,
+  ProjectRowAction.RerunAutomaticAnalysis,
+  ProjectRowAction.RestoreAccess,
+]);
+
+/**
  * The actions offered for a project, in the order the design lists them.
  *
  * The states are discriminated the same way {@link getOnboardingBadge} picks the scan status badge

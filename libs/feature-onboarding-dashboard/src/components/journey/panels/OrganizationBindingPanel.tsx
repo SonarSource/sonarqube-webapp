@@ -32,6 +32,7 @@ import { useCreateDevopsConfigurationUrl } from '~adapters/helpers/useCreateDevo
 import { useOnboardingCurrentBinding } from '~adapters/helpers/useOnboardingCurrentBinding';
 import { useOnboardingDevopsConfigurations } from '~adapters/helpers/useOnboardingDevopsConfigurations';
 import { JourneyState, JourneyStep } from '~shared/types/onboarding';
+import { PermissionGate } from '../PermissionGate';
 import { DevopsConfigurationsDonut } from './DevopsConfigurationsDonut';
 
 interface Props {
@@ -106,9 +107,13 @@ export function OrganizationBindingPanel({ onSelectStep, state }: Readonly<Props
 
         {showCreateCta && (
           <div>
-            <Button
-              {...bindCtaProps}
-              {...(createConfigurationUrl !== undefined && { to: createConfigurationUrl })}
+            <PermissionGate
+              trigger={
+                <Button
+                  {...bindCtaProps}
+                  {...(createConfigurationUrl !== undefined && { to: createConfigurationUrl })}
+                />
+              }
             />
           </div>
         )}

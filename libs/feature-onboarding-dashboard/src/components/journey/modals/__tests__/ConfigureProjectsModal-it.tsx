@@ -25,13 +25,23 @@ import {
   IS_AUTOMATIC_ANALYSIS_SUPPORTED,
 } from '~adapters/helpers/onboarding-actions';
 import { getConfigureProjectUrl } from '~adapters/helpers/urls';
+import { useCanCreateProjects } from '~adapters/helpers/useCanCreateProjects';
+import { useEditPermissionsUrl } from '~adapters/helpers/useEditPermissionsUrl';
 import { OnboardingServiceMock } from '~shared/api/mocks/OnboardingServiceMock';
 import { registerServiceMocks } from '~shared/api/mocks/server';
 import { renderWithRouter } from '~shared/helpers/test-utils';
-import { byRole } from '~shared/helpers/testSelector';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { OnboardingProjectScanStatus } from '~shared/types/onboarding';
 import { NO_DATA } from '../../../dashboardConstants';
 import { ConfigureProjectsModal } from '../ConfigureProjectsModal';
+
+jest.mock('~adapters/helpers/useCanCreateProjects', () => ({
+  useCanCreateProjects: jest.fn(),
+}));
+
+jest.mock('~adapters/helpers/useEditPermissionsUrl', () => ({
+  useEditPermissionsUrl: jest.fn(),
+}));
 
 jest.mock('~adapters/queries/onboarding', () => ({
   useOnboardingOrganizationKey: jest.fn().mockReturnValue('my-org'),
@@ -48,6 +58,11 @@ beforeAll(() => {
   onboardingMock = new OnboardingServiceMock();
   registerServiceMocks(onboardingMock);
   HTMLElement.prototype.scrollTo = jest.fn();
+});
+
+beforeEach(() => {
+  jest.mocked(useCanCreateProjects).mockReturnValue(true);
+  jest.mocked(useEditPermissionsUrl).mockReturnValue({ pathname: '/admin/permissions' });
 });
 
 afterEach(() => {
@@ -247,6 +262,23 @@ it('ANDs the scan-status and analysis-mode filters', async () => {
   expect(ui.table.byText('identity-lib').query()).not.toBeInTheDocument();
   expect(ui.table.byText('platform-jobs').query()).not.toBeInTheDocument();
   expect(ui.table.byText('mobile-worker').query()).not.toBeInTheDocument();
+});
+
+it('shows the permission popover when the user lacks permission and clicks a configure button', async () => {
+  jest.mocked(useCanCreateProjects).mockReturnValue(false);
+  const { user } = await renderModal();
+
+  await ui.table.byText('web-core').find();
+
+  // With permission denied the 'to' prop is stripped, configure renders as a <button> not an <a>.
+  const configureBtn = byRole('row', { name: /web-core/ }).byRole('button', {
+    name: /^onboarding_dashboard\.journey\.analyze\.modal\.configure/,
+  });
+  await user.click(configureBtn.get());
+
+  expect(
+    await byText('onboarding_dashboard.journey.permission_required.description').find(),
+  ).toBeInTheDocument();
 });
 
 it('applies the defaultScanStatus prop as the initial filter when the modal opens', async () => {

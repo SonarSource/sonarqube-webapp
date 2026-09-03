@@ -50,6 +50,7 @@ import { getAnalysisModeBadge, getOnboardingBadge } from '../../projects/project
 import { ProjectsFilterSelect } from '../../projects/ProjectsFilterSelect';
 import { ProjectsTable, ProjectsTableColumn } from '../../projects/ProjectsTable';
 import { RepositoryCell } from '../../projects/RepositoryCell';
+import { PermissionGate } from '../PermissionGate';
 
 const PAGE_SIZE = 10;
 
@@ -176,13 +177,17 @@ function ConfigureProjectRow({ project }: Readonly<{ project: OnboardingProject 
 
       <Table.Cell>
         {project.analysisMode !== OnboardingProjectAnalysisMode.Ci && (
-          <Button
-            suffix={<IconLinkExternal />}
-            to={getConfigureProjectUrl(project.key)}
-            variety={ButtonVariety.Default}
-          >
-            {formatMessage({ id: 'onboarding_dashboard.journey.analyze.modal.configure' })}
-          </Button>
+          <PermissionGate
+            trigger={
+              <Button
+                suffix={<IconLinkExternal />}
+                to={getConfigureProjectUrl(project.key)}
+                variety={ButtonVariety.Default}
+              >
+                {formatMessage({ id: 'onboarding_dashboard.journey.analyze.modal.configure' })}
+              </Button>
+            }
+          />
         )}
       </Table.Cell>
     </Table.Row>

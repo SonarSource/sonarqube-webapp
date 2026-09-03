@@ -27,17 +27,16 @@ import {
 } from '@sonarsource/echoes-react';
 import { PropsWithChildren } from 'react';
 import { useIntl } from 'react-intl';
+import { useCanCreateProjects } from '~adapters/helpers/useCanCreateProjects';
 import { queryToSearchString } from '~shared/helpers/query';
 import { getBoundAlmKeys } from '../../../helpers/alm-settings';
 import { almKeyToIconKey } from '../../../helpers/almIcons';
 import { IMPORT_COMPATIBLE_ALMS } from '../../../helpers/constants';
-import { hasGlobalPermission } from '../../../helpers/users';
 import { useAlmSettingsQuery } from '../../../queries/alm-settings';
 import { AlmKeys } from '../../../types/alm-settings';
-import { Permissions } from '../../../types/permissions';
 import { useAlmIconSrc } from '../../helpers/almIcons';
-import { useCurrentUser } from '../../helpers/users';
 import { Image } from '../common/Image';
+import { PermissionRequiredPopover } from './PermissionRequiredPopover';
 
 const ONBOARDING_DASHBOARD_PATH = '/admin/onboarding-dashboard';
 
@@ -47,15 +46,18 @@ interface Props {
 
 export function ImportRepositoriesCta({ children, variety }: Readonly<PropsWithChildren<Props>>) {
   const { formatMessage } = useIntl();
-  const { currentUser } = useCurrentUser();
-  const canCreateProject = hasGlobalPermission(currentUser, Permissions.ProjectCreation);
+  const canCreateProject = useCanCreateProjects();
   const { data: boundAlms = [], isLoading: loading } = useAlmSettingsQuery(undefined, {
     enabled: canCreateProject,
     select: getBoundAlmKeys,
   });
 
   if (!canCreateProject) {
-    return null;
+    return (
+      <PermissionRequiredPopover>
+        <Button variety={variety}>{children}</Button>
+      </PermissionRequiredPopover>
+    );
   }
 
   return (

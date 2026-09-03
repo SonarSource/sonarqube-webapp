@@ -51,6 +51,14 @@ jest.mock('~adapters/components/onboarding/ImportRepositoriesExtraCard', () => (
   ImportRepositoriesExtraCard: () => null,
 }));
 
+jest.mock('~adapters/helpers/useCanCreateProjects', () =>
+  jest
+    .requireActual<typeof import('./onboardingDashboardTestMocks')>(
+      './onboardingDashboardTestMocks',
+    )
+    .canCreateProjectsMock(),
+);
+
 const onboardingMock = setupOnboardingMock();
 
 /**

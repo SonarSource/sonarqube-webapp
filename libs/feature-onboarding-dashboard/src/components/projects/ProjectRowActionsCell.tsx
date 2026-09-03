@@ -27,9 +27,11 @@ import {
 } from '@sonarsource/echoes-react';
 import { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useCanCreateProjects } from '~adapters/helpers/useCanCreateProjects';
 import { OnboardingProject } from '~shared/types/onboarding';
 import { RowActionKind } from '../../types/types';
-import { PROJECT_ROW_ACTION_LABEL_KEYS } from './projectRowActions';
+import { PermissionGate } from '../journey/PermissionGate';
+import { PERMISSION_REQUIRED_ACTIONS, PROJECT_ROW_ACTION_LABEL_KEYS } from './projectRowActions';
 import { ProjectsTableColumn } from './ProjectsTableCard';
 import { RestoreProjectAccessModal } from './RestoreProjectAccessModal';
 import { useProjectRowActionItems } from './useProjectRowActionItems';
@@ -68,39 +70,57 @@ export function ProjectRowActionsCell({ project }: Readonly<Props>) {
     setIsRestoreAccessModalOpen(false);
   }, []);
 
+  const canCreateProjects = useCanCreateProjects();
+
   const items = useProjectRowActionItems(project, { onRestoreAccess: openRestoreAccessModal });
+
+  // Without the permission, only the entries that need it are dropped — the rest of the menu ("View
+  // project" and friends) has nothing to do with it and must stay reachable.
+  const visibleItems = canCreateProjects
+    ? items
+    : items.filter((item) => !PERMISSION_REQUIRED_ACTIONS.has(item.action));
+
+  // Nothing left to show is the only case where the menu itself becomes the explanation.
+  const isMenuEmpty = visibleItems.length === 0;
+
+  const dropdownItems = visibleItems.map((item) => {
+    const label = formatMessage({ id: PROJECT_ROW_ACTION_LABEL_KEYS[item.action] });
+
+    return item.kind === RowActionKind.Link ? (
+      <DropdownMenu.ItemLink
+        enableOpenInNewTab={item.isExternal}
+        hasExternalIcon={item.isExternal}
+        key={item.action}
+        to={item.to}
+      >
+        {label}
+      </DropdownMenu.ItemLink>
+    ) : (
+      <DropdownMenu.ItemButton key={item.action} onClick={item.onClick}>
+        {label}
+      </DropdownMenu.ItemButton>
+    );
+  });
+
+  const triggerButton = (
+    <Table.CellButtonIcon
+      Icon={IconMoreVertical}
+      ariaLabel={formatMessage(
+        { id: 'onboarding_dashboard.projects.actions.label' },
+        { name: project.name },
+      )}
+    />
+  );
 
   return (
     <>
-      <DropdownMenu
-        align={DropdownMenuAlign.End}
-        items={items.map((item) => {
-          const label = formatMessage({ id: PROJECT_ROW_ACTION_LABEL_KEYS[item.action] });
-
-          return item.kind === RowActionKind.Link ? (
-            <DropdownMenu.ItemLink
-              enableOpenInNewTab={item.isExternal}
-              hasExternalIcon={item.isExternal}
-              key={item.action}
-              to={item.to}
-            >
-              {label}
-            </DropdownMenu.ItemLink>
-          ) : (
-            <DropdownMenu.ItemButton key={item.action} onClick={item.onClick}>
-              {label}
-            </DropdownMenu.ItemButton>
-          );
-        })}
-      >
-        <Table.CellButtonIcon
-          Icon={IconMoreVertical}
-          ariaLabel={formatMessage(
-            { id: 'onboarding_dashboard.projects.actions.label' },
-            { name: project.name },
-          )}
-        />
-      </DropdownMenu>
+      {isMenuEmpty ? (
+        <PermissionGate trigger={triggerButton} />
+      ) : (
+        <DropdownMenu align={DropdownMenuAlign.End} items={dropdownItems}>
+          {triggerButton}
+        </DropdownMenu>
+      )}
 
       {isRestoreAccessModalOpen && (
         <RestoreProjectAccessModal onClose={closeRestoreAccessModal} projectKey={project.key} />

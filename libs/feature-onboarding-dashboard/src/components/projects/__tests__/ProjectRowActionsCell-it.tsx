@@ -42,6 +42,12 @@ import {
 } from '~shared/types/onboarding';
 import { ProjectRowActionsCell } from '../ProjectRowActionsCell';
 
+let mockCanCreateProjects = true;
+
+jest.mock('~adapters/helpers/useCanCreateProjects', () => ({
+  useCanCreateProjects: () => mockCanCreateProjects,
+}));
+
 const CURRENT_USER_LOGIN = 'luke';
 const PROJECT_KEY = 'identity-lib';
 
@@ -58,13 +64,14 @@ const AUTOSCANNED_PROJECT: OnboardingProject = {
 
 afterEach(() => {
   server.resetHandlers();
+  mockCanCreateProjects = true;
 });
 
 const ui = {
   actionsButton: byRole('button', {
     name: `onboarding_dashboard.projects.actions.label.${PROJECT_KEY}`,
   }),
-  actionItems: byRole('menuitem'),
+  permissionPopover: byText('onboarding_dashboard.journey.permission_required.description'),
   configureCiAction: byRole('menuitem', {
     name: 'onboarding_dashboard.projects.action.configure_ci',
   }),
@@ -275,4 +282,35 @@ it('does not claim an analysis started when the project is not eligible', async 
     expect(ui.rerunNotEligible.queryAll()).toHaveLength(EXPECTED_AUTOMATIC_ANALYSIS_RUNS);
   });
   expect(ui.rerunSuccess.query()).not.toBeInTheDocument();
+});
+
+it('drops only the gated actions when the user cannot create projects', async () => {
+  mockCanCreateProjects = false;
+  const { user } = renderProjectRowActionsCell();
+
+  await user.click(ui.actionsButton.get());
+
+  // "View project" needs no permission, so the menu still opens and still offers it...
+  expect(await ui.viewProjectAction.find()).toBeInTheDocument();
+  expect(ui.permissionPopover.query()).not.toBeInTheDocument();
+
+  // ...while the entries that do need the permission are gone rather than dead.
+  expect(ui.configureCiAction.query()).not.toBeInTheDocument();
+  expect(ui.rerunAutomaticAnalysisAction.query()).not.toBeInTheDocument();
+  expect(ui.restoreAccessAction.query()).not.toBeInTheDocument();
+});
+
+it('opens the dropdown normally when the user lacks permission but the project has no permission-gated actions', async () => {
+  mockCanCreateProjects = false;
+  // A CI-scanned project only offers "How to run a new scan" and "View project", neither needs permission.
+  const { user } = renderProjectRowActionsCell({
+    ...AUTOSCANNED_PROJECT,
+    analysisMode: OnboardingProjectAnalysisMode.Ci,
+  });
+
+  await user.click(ui.actionsButton.get());
+
+  expect(await ui.howToRunNewScanAction.find()).toBeInTheDocument();
+  expect(ui.viewProjectAction.get()).toBeInTheDocument();
+  expect(ui.permissionPopover.query()).not.toBeInTheDocument();
 });

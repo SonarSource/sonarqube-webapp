@@ -11378,6 +11378,9 @@ export const defaultMessages = {
     'Projects with the status "not scanned" need CI configuration to get analysis results.',
   'onboarding_dashboard.journey.analyze.modal.configure': 'Configure',
   'onboarding_dashboard.journey.analyze.modal.how_to_configure': 'How to configure projects',
+  'onboarding_dashboard.journey.permission_required.description':
+    '"Create projects" permission is required to take this action.',
+  'onboarding_dashboard.journey.permission_required.cta': 'Edit permissions',
   'onboarding_dashboard.journey.overtime.title': 'Onboarding over time',
   'onboarding_dashboard.journey.overtime.description': 'We encourage everyone to contribute',
   'onboarding_dashboard.journey.overtime.legend.projects_scanned': 'Projects scanned',

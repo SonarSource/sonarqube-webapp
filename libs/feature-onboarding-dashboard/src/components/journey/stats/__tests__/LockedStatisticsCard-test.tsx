@@ -19,11 +19,26 @@
  */
 
 import { ComponentProps } from 'react';
-import { renderWithContext, renderWithRouter } from '~shared/helpers/test-utils';
+import { useCanCreateProjects } from '~adapters/helpers/useCanCreateProjects';
+import { useEditPermissionsUrl } from '~adapters/helpers/useEditPermissionsUrl';
+import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { LockedStatisticsCard } from '../LockedStatisticsCard';
 
 const CTA_DESTINATION = { pathname: '/create-configuration', search: '?category=devops' };
+
+jest.mock('~adapters/helpers/useCanCreateProjects', () => ({
+  useCanCreateProjects: jest.fn(),
+}));
+
+jest.mock('~adapters/helpers/useEditPermissionsUrl', () => ({
+  useEditPermissionsUrl: jest.fn(),
+}));
+
+beforeEach(() => {
+  jest.mocked(useCanCreateProjects).mockReturnValue(true);
+  jest.mocked(useEditPermissionsUrl).mockReturnValue({ pathname: '/admin/permissions' });
+});
 
 const ui = {
   title: byText('Unlock onboarding statistics'),
@@ -34,7 +49,7 @@ const ui = {
 };
 
 function renderCard(props: Partial<ComponentProps<typeof LockedStatisticsCard>> = {}) {
-  return renderWithContext(cardWith(props));
+  return renderWithRouter(cardWith(props));
 }
 
 function cardWith(props: Partial<ComponentProps<typeof LockedStatisticsCard>>) {
@@ -106,4 +121,17 @@ it('keeps the call-to-action a button when no destination is given', () => {
   // rather than a link that goes nowhere.
   expect(ui.cta.get()).toBeInTheDocument();
   expect(ui.ctaLink.query()).not.toBeInTheDocument();
+});
+
+it('shows the permission popover and does not fire the handler when the user lacks permission', async () => {
+  jest.mocked(useCanCreateProjects).mockReturnValue(false);
+  const onCta = jest.fn();
+  const { user } = renderCard({ onCta });
+
+  await user.click(ui.cta.get());
+
+  expect(
+    await byText('onboarding_dashboard.journey.permission_required.description').find(),
+  ).toBeInTheDocument();
+  expect(onCta).not.toHaveBeenCalled();
 });

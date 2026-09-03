@@ -20,7 +20,9 @@
 
 import userEvent from '@testing-library/user-event';
 import { useBindingSettingsUrl } from '~adapters/helpers/useBindingSettingsUrl';
+import { useCanCreateProjects } from '~adapters/helpers/useCanCreateProjects';
 import { useCreateDevopsConfigurationUrl } from '~adapters/helpers/useCreateDevopsConfigurationUrl';
+import { useEditPermissionsUrl } from '~adapters/helpers/useEditPermissionsUrl';
 import { useOnboardingCurrentBinding } from '~adapters/helpers/useOnboardingCurrentBinding';
 import { useOnboardingDevopsConfigurations } from '~adapters/helpers/useOnboardingDevopsConfigurations';
 import { useCurrentUser } from '~adapters/helpers/users';
@@ -94,6 +96,14 @@ jest.mock('~adapters/components/onboarding/ImportRepositoriesExtraCard', () => (
   ImportRepositoriesExtraCard: () => <div data-testid="import-extra-card" />,
 }));
 
+jest.mock('~adapters/helpers/useCanCreateProjects', () => ({
+  useCanCreateProjects: jest.fn(),
+}));
+
+jest.mock('~adapters/helpers/useEditPermissionsUrl', () => ({
+  useEditPermissionsUrl: jest.fn(),
+}));
+
 beforeEach(() => {
   jest.clearAllMocks();
 
@@ -105,6 +115,8 @@ beforeEach(() => {
     currentUser: mockLoggedInUser({ permissions: { global: ['provisioning'] } }),
     isLoggedIn: true,
   });
+  jest.mocked(useCanCreateProjects).mockReturnValue(true);
+  jest.mocked(useEditPermissionsUrl).mockReturnValue({ pathname: '/admin/permissions' });
 });
 
 // A fully-bound org with imported + analysed repositories (the "everything unlocked" state).
@@ -175,6 +187,9 @@ const ui = {
   importedLegend: byText('onboarding_dashboard.journey.import.legend.imported'),
   notImportedLegend: byText('onboarding_dashboard.journey.import.legend.not_imported'),
   nextCta: byRole('button', { name: 'next' }),
+
+  // Permission
+  permissionDescription: byText('onboarding_dashboard.journey.permission_required.description'),
 
   // Analyze panel
   notScannedLegend: byText('onboarding_dashboard.journey.analyze.legend.not_scanned'),
@@ -376,6 +391,24 @@ it('navigates to the analyze step when the next button is clicked', async () => 
   await user.click(await ui.nextCta.find());
 
   expect(onSelectStep).toHaveBeenCalledWith(JourneyStep.Projects);
+});
+
+it('shows the permission popover when the user lacks permission and clicks the bind CTA', async () => {
+  jest.mocked(useCanCreateProjects).mockReturnValue(false);
+  const { user } = renderPanel(JourneyStep.Binding, unboundState);
+
+  await user.click(ui.inertBindCta.get());
+
+  expect(await ui.permissionDescription.find()).toBeInTheDocument();
+});
+
+it('shows the permission popover when the user lacks permission and clicks the configure projects CTA', async () => {
+  jest.mocked(useCanCreateProjects).mockReturnValue(false);
+  const { user } = renderPanel(JourneyStep.Projects, boundState);
+
+  await user.click(ui.fixCta.get());
+
+  expect(await ui.permissionDescription.find()).toBeInTheDocument();
 });
 
 it('renders the analyze panel with its two legend entries and two action rows', async () => {

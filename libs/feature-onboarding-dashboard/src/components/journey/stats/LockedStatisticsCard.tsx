@@ -22,6 +22,7 @@ import { Button, ButtonVariety, cssVar, IconLock, Text, TextSize } from '@sonars
 import { noop } from 'lodash';
 import { ReactNode } from 'react';
 import { Path } from 'react-router-dom';
+import { PermissionGate } from '../PermissionGate';
 
 const BACKDROP_VIEWBOX = '0 0 400 120';
 const BACKDROP_POLYLINE = '0,104 57,92 114,96 171,70 229,58 286,62 343,30 400,16';
@@ -83,9 +84,9 @@ export function LockedStatisticsCard({
         </div>
 
         {ctaTo === undefined ? (
-          <Button {...ctaProps} enablePreventDefault onClick={onCta} />
+          <PermissionGate trigger={<Button {...ctaProps} enablePreventDefault onClick={onCta} />} />
         ) : (
-          <Button {...ctaProps} to={ctaTo} />
+          <PermissionGate trigger={<Button {...ctaProps} to={ctaTo} />} />
         )}
       </div>
     </div>

@@ -37,6 +37,7 @@ import { ImportRepositoriesCta } from '~adapters/components/onboarding/ImportRep
 import { JourneyState, OnboardingProjectScanStatus } from '~shared/types/onboarding';
 import { PanelDonut, PanelDonutSegment } from '../charts/PanelDonut';
 import { ConfigureProjectsModal } from '../modals/ConfigureProjectsModal';
+import { PermissionGate } from '../PermissionGate';
 
 interface Props {
   state: JourneyState;
@@ -77,11 +78,19 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
     {
       badge: <Badge variety={BadgeVariety.Danger}>{projectsCount(analyze.notScanned)}</Badge>,
       cta: (
-        <ConfigureProjectsModal defaultScanStatus={OnboardingProjectScanStatus.NotScanned}>
-          <Button variety={ButtonVariety.Primary}>
-            {formatMessage({ id: 'onboarding_dashboard.journey.analyze.not_scanned.cta' })}
-          </Button>
-        </ConfigureProjectsModal>
+        <PermissionGate
+          trigger={
+            <Button variety={ButtonVariety.Primary}>
+              {formatMessage({ id: 'onboarding_dashboard.journey.analyze.not_scanned.cta' })}
+            </Button>
+          }
+        >
+          {(trigger) => (
+            <ConfigureProjectsModal defaultScanStatus={OnboardingProjectScanStatus.NotScanned}>
+              {trigger}
+            </ConfigureProjectsModal>
+          )}
+        </PermissionGate>
       ),
       description: formatMessage({ id: 'onboarding_dashboard.journey.analyze.not_scanned.desc' }),
       icon: <IconDot color="echoes-color-icon-danger" isFilled />,

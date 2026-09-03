@@ -28,6 +28,12 @@ import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { AllProjectsCard } from '../AllProjectsCard';
 
+// The card tests cover dropdown content and filtering, not the permission gate. Pin to
+// permitted so PermissionGate doesn't intercept the actions button and hide the menu.
+jest.mock('~adapters/helpers/useCanCreateProjects', () => ({
+  useCanCreateProjects: jest.fn().mockReturnValue(true),
+}));
+
 /**
  * Setup shared by the two "all projects" card suites — one for what the table renders, one for
  * searching, filtering and paging it. They are separate files because a render of this card costs

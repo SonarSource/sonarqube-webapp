@@ -52,6 +52,14 @@ jest.mock('~adapters/components/onboarding/ImportRepositoriesExtraCard', () => (
   ImportRepositoriesExtraCard: () => null,
 }));
 
+jest.mock('~adapters/helpers/useCanCreateProjects', () =>
+  jest
+    .requireActual<typeof import('./onboardingDashboardTestMocks')>(
+      './onboardingDashboardTestMocks',
+    )
+    .canCreateProjectsMock(),
+);
+
 /**
  * Reaching the journey's two modals from the dashboard. Only that the right dialog opens is asserted
  * here — what each one contains is covered by ImportRepositoriesModal-it and

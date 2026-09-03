@@ -19,7 +19,7 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { byRole } from '~shared/helpers/testSelector';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import AlmSettingsServiceMock from '../../../../api/mocks/AlmSettingsServiceMock';
 import { mockAlmSettingsInstance } from '../../../../helpers/mocks/alm-settings';
 import { mockLoggedInUser } from '../../../../helpers/testMocks';
@@ -46,6 +46,8 @@ const ui = {
   githubItem: byRole('menuitem', { name: /add_project\.github/ }),
   fallbackItem: byRole('menuitem', { name: /add_project\.more/ }),
   separator: byRole('separator'),
+  permissionDescription: byText('onboarding_dashboard.journey.permission_required.description'),
+  permissionCta: byRole('link', { name: 'onboarding_dashboard.journey.permission_required.cta' }),
 };
 
 it('shows an import option for each bound and validated ALM configuration, carrying the onboarding redirect param', async () => {
@@ -76,11 +78,16 @@ it('does not render a leading separator when no ALM is bound', async () => {
   expect(ui.separator.query()).not.toBeInTheDocument();
 });
 
-it('renders nothing when the user cannot create projects', () => {
+it('explains the missing permission instead of importing when the user cannot create projects', async () => {
   almSettings.setAlmSettings([mockAlmSettingsInstance({ key: 'gh', alm: AlmKeys.GitHub })]);
+  const user = userEvent.setup();
   renderImportRepositoriesCta({ permissions: { global: [] } });
 
-  expect(ui.toggle.query()).not.toBeInTheDocument();
+  await user.click(ui.toggle.get());
+
+  expect(await ui.permissionDescription.find()).toBeInTheDocument();
+  expect(await ui.permissionCta.find()).toHaveAttribute('href', '/admin/permissions');
+  expect(ui.githubItem.query()).not.toBeInTheDocument();
 });
 
 function renderImportRepositoriesCta(userOverrides: Partial<LoggedInUser> = {}) {
