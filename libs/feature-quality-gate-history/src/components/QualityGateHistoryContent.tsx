@@ -18,12 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, Card, IconActivity, IconQualityGate, Text } from '@sonarsource/echoes-react';
+import {
+  Card,
+  EmptyState,
+  IconActivity,
+  IconQualityGate,
+  LinkStandalone,
+  Text,
+} from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
 import { Release } from '../types';
 import { QualityGateHistoryCard } from './QualityGateHistoryCard';
-import { QualityGateHistoryEmptyState } from './QualityGateHistoryEmptyState';
 
 interface Props {
   isPreviousVersion: boolean;
@@ -36,17 +42,15 @@ export function QualityGateHistoryContent(props: Readonly<Props>) {
 
   if (!isPreviousVersion) {
     return (
-      <QualityGateHistoryEmptyState
-        actions={
-          <Button enableOpenInNewTab to={newCodeDocUrl}>
-            <FormattedMessage id="quality_gate_history.empty.non_compatible.cta" />
-          </Button>
-        }
+      <EmptyState
         className="sw-mt-12"
-        description={
-          <FormattedMessage id="quality_gate_history.empty.non_compatible.description" />
+        graphic={<IconQualityGate />}
+        link={
+          <LinkStandalone enableOpenInNewTab to={newCodeDocUrl}>
+            <FormattedMessage id="quality_gate_history.empty.non_compatible.cta" />
+          </LinkStandalone>
         }
-        icon={<IconQualityGate color="echoes-color-icon-subtle" />}
+        text={<FormattedMessage id="quality_gate_history.empty.non_compatible.description" />}
         title={<FormattedMessage id="quality_gate_history.empty.non_compatible.title" />}
       />
     );
@@ -74,18 +78,17 @@ export function QualityGateHistoryContent(props: Readonly<Props>) {
 
       {releases.length === 0 ? (
         <Card>
-          <Card.Body>
-            <QualityGateHistoryEmptyState
-              actions={
-                <Button enableOpenInNewTab to={newCodeDocUrl}>
+          <Card.Body className="sw-flex sw-items-center sw-justify-center sw-py-8">
+            <EmptyState
+              graphic={<IconActivity />}
+              link={
+                <LinkStandalone enableOpenInNewTab to={newCodeDocUrl}>
                   <FormattedMessage id="quality_gate_history.empty.no_releases.cta" />
-                </Button>
+                </LinkStandalone>
               }
-              description={
-                <FormattedMessage id="quality_gate_history.empty.no_releases.description" />
-              }
-              icon={<IconActivity color="echoes-color-icon-subtle" />}
+              text={<FormattedMessage id="quality_gate_history.empty.no_releases.description" />}
               title={<FormattedMessage id="quality_gate_history.empty.no_releases.title" />}
+              titleSize="medium"
             />
           </Card.Body>
         </Card>

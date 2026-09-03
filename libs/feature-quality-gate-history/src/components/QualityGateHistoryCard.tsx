@@ -18,14 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Card, IconActivity, Text, ToggleButtonGroup } from '@sonarsource/echoes-react';
+import { Card, EmptyState, IconActivity, Text, ToggleButtonGroup } from '@sonarsource/echoes-react';
 import { useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { QualityGateIndicator } from '~adapters/components/ui/QualityGateIndicator';
 import useLocalStorage from '~shared/helpers/useLocalStorage';
 import { Release, ReleasePeriod } from '../types';
 import { computeStats, filterReleasesByPeriod, getLastRelease } from '../utils';
-import { QualityGateHistoryEmptyState } from './QualityGateHistoryEmptyState';
 import { ReleaseSummaryCards } from './ReleaseSummaryCards';
 import { ReleaseTimeline } from './ReleaseTimeline';
 
@@ -103,12 +102,12 @@ export function QualityGateHistoryCard(props: Readonly<Props>) {
         </div>
 
         {filteredReleases.length === 0 ? (
-          <QualityGateHistoryEmptyState
+          <EmptyState
             className="sw-mt-6"
-            description={
+            graphic={<IconActivity />}
+            text={
               <FormattedMessage id="quality_gate_history.empty.no_releases_in_period.description" />
             }
-            icon={<IconActivity color="echoes-color-icon-subtle" />}
             title={
               <FormattedMessage
                 id="quality_gate_history.empty.no_releases_in_period.title"
