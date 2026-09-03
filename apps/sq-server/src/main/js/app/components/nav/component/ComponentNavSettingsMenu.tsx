@@ -63,7 +63,9 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
   const showAiGeneratedCode = isProj && hasFeature(Feature.AiCodeAssurance) && Boolean(addons.aica);
 
   const showAiCapabilities =
-    isProj && hasFeature(Feature.RemediationAgent) && Boolean(addons.remediationAgent);
+    isProj &&
+    (hasFeature(Feature.RemediationAgent) || hasFeature(Feature.HunterAgent)) &&
+    Boolean(addons.remediationAgent);
 
   const isGovernanceEnabled = appState.qualifiers.includes(ComponentQualifier.Portfolio);
 
@@ -185,10 +187,12 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
               }
             />
           }
-          to={{
-            pathname: `/project/${addons.remediationAgent.AI_CAPABILITIES_SETTINGS_PATH}`,
-            search,
-          }}
+          to={addons.remediationAgent.getProjectAICapabilitiesUrl(
+            component.key,
+            hasFeature(Feature.RemediationAgent)
+              ? addons.remediationAgent.ProjectAICapabilitiesCategory.RemediationAgent
+              : addons.remediationAgent.ProjectAICapabilitiesCategory.HunterAgent,
+          )}
         >
           <FormattedMessage id="ai_capabilities.title" />
         </Layout.SidebarNavigation.AccordionItem.Item>

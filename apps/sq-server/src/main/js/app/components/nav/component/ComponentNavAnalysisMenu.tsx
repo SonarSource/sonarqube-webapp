@@ -24,9 +24,11 @@ import { useLocation } from 'react-router-dom';
 import { useFlags } from '~adapters/helpers/feature-flags';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { DeprecatedBadge } from '~shared/components/badges/DeprecatedBadge';
+import { NewBadge } from '~shared/components/badges/NewBadge';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
 import { isApplication, isProject } from '~shared/helpers/component';
 import { getRisksUrl } from '~shared/helpers/sca-urls';
+import { isDefined } from '~shared/helpers/types';
 import { getComponentIssuesUrl } from '~shared/helpers/urls';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
@@ -68,12 +70,8 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
     ...DEFAULT_ISSUES_QUERY,
   });
 
-  const hunterAgentPath = addons.remediationAgent?.PROJECT_HUNTER_AGENT_PATH ?? '';
   const showHunterAgent =
-    isProject(component.qualifier) &&
-    isLoggedIn &&
-    hasFeature(Feature.HunterAgent) &&
-    addons.remediationAgent !== undefined;
+    isProject(component.qualifier) && isLoggedIn && isDefined(addons.remediationAgent);
 
   if (isApplicationChildInaccessible) {
     return (
@@ -101,9 +99,14 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
         <FormattedMessage id="issues.page" />
       </Layout.SidebarNavigation.AccordionItem.Item>
 
-      {showHunterAgent && addons.remediationAgent?.getProjectHunterAgentResultsUrl && (
+      {showHunterAgent && addons.remediationAgent && (
         <Layout.SidebarNavigation.AccordionItem.Item
-          isActive={location.pathname.startsWith(hunterAgentPath)}
+          isActive={location.pathname.startsWith(addons.remediationAgent.PROJECT_HUNTER_AGENT_PATH)}
+          suffix={
+            <NewBadge
+              expirationDate={addons.remediationAgent.HUNTER_AGENT_NEW_BADGE_EXPIRATION_DATE}
+            />
+          }
           to={addons.remediationAgent.getProjectHunterAgentResultsUrl(component.key, branchLike)}
         >
           <FormattedMessage id="hunter_agent.page" />

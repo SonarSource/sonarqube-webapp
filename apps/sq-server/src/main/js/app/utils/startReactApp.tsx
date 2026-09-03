@@ -126,6 +126,7 @@ function renderComponentRoutes({
   hasApplicationReportFeature,
   hasArchitectureFeature,
   hasBranchSupport,
+  hasHunterAgentFeature,
   hasPortfolioFeature,
   hasRemediationAgentFeature,
   hasScaFeature,
@@ -136,6 +137,7 @@ function renderComponentRoutes({
   hasApplicationReportFeature: boolean;
   hasArchitectureFeature: boolean;
   hasBranchSupport: boolean;
+  hasHunterAgentFeature: boolean;
   hasPortfolioFeature: boolean;
   hasRemediationAgentFeature: boolean;
   hasScaFeature: boolean;
@@ -198,7 +200,8 @@ function renderComponentRoutes({
 
           {hasBranchSupport && addons.branches?.routes()}
           {hasAicaFeature && addons.aica?.aicaSettingsRoutes()}
-          {hasRemediationAgentFeature && addons.remediationAgent?.projectSettingsRoutes()}
+          {(hasRemediationAgentFeature || hasHunterAgentFeature) &&
+            addons.remediationAgent?.projectSettingsRoutes()}
 
           {backgroundTasksRoutes()}
           {projectDeletionRoutes()}
@@ -361,6 +364,7 @@ const router = ({
               {renderComponentRoutes({
                 hasArchitectureFeature: availableFeatures.includes(Feature.Architecture),
                 hasBranchSupport: availableFeatures.includes(Feature.BranchSupport),
+                hasHunterAgentFeature: availableFeatures.includes(Feature.HunterAgent),
                 hasScaFeature: availableFeatures.includes(Feature.Sca),
                 hasAicaFeature: availableFeatures.includes(Feature.AiCodeAssurance),
                 hasPortfolioFeature: governanceInstalled,
