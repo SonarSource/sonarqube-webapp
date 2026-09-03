@@ -2017,7 +2017,7 @@ export const defaultMessages = {
     'The AI API key configured for this instance is invalid or unauthorized. Ask an instance administrator to update the AI credentials.',
   'remediation_agent.error.llm_provider_unreachable': 'AI service unavailable',
   'remediation_agent.error.llm_provider_unreachable.context':
-    'The AI service is temporarily unavailable. Please try again later.',
+    'The AI service is unavailable. Confirm that the provider is available or check with your instance administrator that the provider is configured correctly.',
   'remediation_agent.error.llm_quota_exceeded': 'AI service quota reached',
   'remediation_agent.error.llm_quota_exceeded.context':
     'The AI service quota has been reached. Ask an instance administrator to review the provider account limits.',
