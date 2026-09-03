@@ -2513,6 +2513,7 @@ export const defaultMessages = {
   'dependencies.risks.sort_by': 'Sort by',
   'dependencies.risks.sort_by.severity': 'Risk severity',
   'dependencies.risks.sort_by.cvss_score': 'CVSS score',
+  'dependencies.risks.sort_by.creation_date': 'Creation date',
   'dependencies.risks.no_dependencies_risks': 'No dependency risks',
   'dependencies.risks.header.number_of_risks.risks_in':
     '{risksCount} {risksCount, plural, one {risk} other {risks}} in',
