@@ -20,7 +20,6 @@
 
 import { fireEvent, screen } from '@testing-library/react';
 import { ComponentProps } from 'react';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import * as branchQueries from '~adapters/queries/branch';
 import { DASHBOARDS_NEW_BADGE_EXPIRATION_DATE } from '~feature-dashboards/constants';
 import { RecentHistory } from '~shared/helpers/recent-history';
@@ -37,8 +36,6 @@ import { AppState } from '~sq-server-commons/types/appstate';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { Feature } from '~sq-server-commons/types/features';
 import { ComponentNav } from '../ComponentNav';
-
-jest.mock('~adapters/helpers/feature-flags');
 
 
 jest.mock('~shared/helpers/recent-history', () => ({
@@ -529,9 +526,6 @@ function renderComponentNav(
   features: Feature[] = [],
   edition = EditionKey.enterprise,
 ) {
-  jest.mocked(useFlags).mockReturnValue({
-    organizationReportingEnableDashboards: true,
-  } as ReturnType<typeof useFlags>);
   const { component, isInProgress = false, isPending = false } = props;
 
   measuresHandler.setComponents({ component, ancestors: [], children: [] });

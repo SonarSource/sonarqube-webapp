@@ -21,7 +21,6 @@
 import { ButtonSize, ButtonVariety, Layout, TooltipSide } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { QualityGateHistoryLink } from '~feature-quality-gate-history/components/QualityGateHistoryLink';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
@@ -77,7 +76,6 @@ export interface BranchOverviewRendererProps {
 }
 
 export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRendererProps>) {
-  const { organizationReportingEnableDashboards } = useFlags();
   const {
     analyses,
     appLeak,
@@ -157,13 +155,7 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
       metadata={<MetaContentHeader branch={branch} component={component} measures={measures} />}
       overrideBranchSelectorPath={getProjectQueryUrl(component.key)}
       pageClassName="it__overview"
-      title={intl.formatMessage({
-        id:
-          organizationReportingEnableDashboards ||
-          component.qualifier !== ComponentQualifier.Project
-            ? 'summary.page'
-            : 'overview.page',
-      })}
+      title={intl.formatMessage({ id: 'summary.page' })}
     >
       <A11ySkipTarget anchor="overview_main" />
 

@@ -21,16 +21,14 @@
 import { IconIssues, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { useLocation } from 'react-router-dom';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { DeprecatedBadge } from '~shared/components/badges/DeprecatedBadge';
 import { NewBadge } from '~shared/components/badges/NewBadge';
-import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isProject } from '~shared/helpers/component';
 import { getRisksUrl } from '~shared/helpers/sca-urls';
 import { isDefined } from '~shared/helpers/types';
 import { getComponentIssuesUrl } from '~shared/helpers/urls';
-import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
@@ -47,7 +45,6 @@ interface Props {
 
 export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
   const location = useLocation();
-  const { organizationReportingEnableDashboards } = useFlags();
   const { hasFeature } = useAvailableFeatures();
   const { branchLike, component } = props;
   const { isLoggedIn } = useCurrentUser();
@@ -58,12 +55,6 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
     isApplication(component.qualifier) && !component.canBrowseAllChildProjects;
 
   const dashboardUrl = getProjectQueryUrl(component.key, branchParameters);
-  const summaryMessageId =
-    component.qualifier === ComponentQualifier.Project &&
-    !organizationReportingEnableDashboards &&
-    !isPullRequest(branchLike)
-      ? 'overview.page'
-      : 'summary.page';
 
   const issuesUrl = getComponentIssuesUrl(component.key, {
     ...branchParameters,
@@ -80,7 +71,7 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
         label={<FormattedMessage id="navigation.project.group.analysis" />}
       >
         <Layout.SidebarNavigation.AccordionItem.Item to={dashboardUrl}>
-          <FormattedMessage id={summaryMessageId} />
+          <FormattedMessage id="summary.page" />
         </Layout.SidebarNavigation.AccordionItem.Item>
       </Layout.SidebarNavigation.AccordionItem>
     );
@@ -92,7 +83,7 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
       label={<FormattedMessage id="navigation.project.group.analysis" />}
     >
       <Layout.SidebarNavigation.AccordionItem.Item to={dashboardUrl}>
-        <FormattedMessage id={summaryMessageId} />
+        <FormattedMessage id="summary.page" />
       </Layout.SidebarNavigation.AccordionItem.Item>
 
       <Layout.SidebarNavigation.AccordionItem.Item to={issuesUrl}>

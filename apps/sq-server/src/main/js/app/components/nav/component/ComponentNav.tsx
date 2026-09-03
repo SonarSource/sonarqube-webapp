@@ -22,7 +22,6 @@ import { IconDashboard, IconOverview, IconRocket, Layout } from '@sonarsource/ec
 import { useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { useCurrentBranchQuery, useProjectBranchesQuery } from '~adapters/queries/branch';
 import { DASHBOARDS_NEW_BADGE_EXPIRATION_DATE } from '~feature-dashboards/constants';
 import { NewBadge } from '~shared/components/badges/NewBadge';
@@ -48,7 +47,10 @@ import {
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import { supportsCustomProjectDashboards } from '../../../../apps/projectDashboards/permissions';
-import { getProjectBuiltInDashboardRoute } from '../../../../apps/projectDashboards/routes';
+import {
+  getProjectBuiltInDashboardRoute,
+  isProjectDashboardView,
+} from '../../../../apps/projectDashboards/routes';
 import { ComponentNavAnalysisMenu } from './ComponentNavAnalysisMenu';
 import { ComponentNavExtensionsMenu } from './ComponentNavExtensionsMenu';
 import { ComponentNavPoliciesMenu } from './ComponentNavPoliciesMenu';
@@ -66,7 +68,6 @@ interface Props {
 export function ComponentNav(props: Readonly<Props>) {
   const intl = useIntl();
   const location = useLocation();
-  const { organizationReportingEnableDashboards: projectDashboardsEnabled } = useFlags();
   const { component, isInProgress, isPending } = props;
   const { edition } = useAppState();
   const { hasFeature } = useAvailableFeatures();
@@ -84,6 +85,8 @@ export function ComponentNav(props: Readonly<Props>) {
   const projectOverviewRoute = getProjectBuiltInDashboardRoute(
     PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY,
   );
+  const isProjectOverview =
+    location.pathname === projectOverviewRoute && !isProjectDashboardView(location.search);
 
   const isApplicationChildInaccessible =
     isApplication(component.qualifier) && !component.canBrowseAllChildProjects;
@@ -108,7 +111,7 @@ export function ComponentNav(props: Readonly<Props>) {
       <ComponentNavHeader
         allProjectsUrl={getProjectsUrl()}
         component={component}
-        getItemUrl={(item) => getComponentUrl(item, projectDashboardsEnabled)}
+        getItemUrl={getComponentUrl}
       />
 
       <Layout.SidebarNavigation.Body>
@@ -120,10 +123,10 @@ export function ComponentNav(props: Readonly<Props>) {
             <FormattedMessage id="onboarding.project_analysis.menu_entry" />
           </Layout.SidebarNavigation.Item>
         )}
-        {showProjectNav && projectDashboardsEnabled && (
+        {showProjectNav && (
           <Layout.SidebarNavigation.Item
             Icon={IconOverview}
-            isActive={location.pathname === projectOverviewRoute}
+            isActive={isProjectOverview}
             to={getProjectBuiltInDashboardRoute(
               PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY,
               component.key,
@@ -136,8 +139,7 @@ export function ComponentNav(props: Readonly<Props>) {
           <Layout.SidebarNavigation.Item
             Icon={IconDashboard}
             isActive={
-              location.pathname.startsWith(PROJECT_DASHBOARDS_LIST_ROUTE) &&
-              location.pathname !== projectOverviewRoute
+              location.pathname.startsWith(PROJECT_DASHBOARDS_LIST_ROUTE) && !isProjectOverview
             }
             suffix={<NewBadge expirationDate={DASHBOARDS_NEW_BADGE_EXPIRATION_DATE} />}
             to={{
@@ -184,14 +186,12 @@ export function ComponentNav(props: Readonly<Props>) {
   );
 }
 
-function getComponentUrl(component: History, projectDashboardsEnabled: boolean) {
+function getComponentUrl(component: History) {
   if (isPortfolioLike(component.qualifier)) {
     return getPortfolioUrl(component.key);
   }
   if (isApplication(component.qualifier)) {
     return getProjectQueryUrl(component.key);
   }
-  return projectDashboardsEnabled
-    ? getProjectOverviewUrl(component.key)
-    : getProjectQueryUrl(component.key);
+  return getProjectOverviewUrl(component.key);
 }

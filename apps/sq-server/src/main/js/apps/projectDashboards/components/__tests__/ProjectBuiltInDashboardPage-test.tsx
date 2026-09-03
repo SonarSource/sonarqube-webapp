@@ -22,6 +22,8 @@ import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import { DashboardType } from '~feature-dashboards/types/dashboard-list';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { ComponentQualifier } from '~shared/types/component';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
+import { EditionKey } from '~sq-server-commons/types/editions';
 import { ProjectBuiltInDashboardPage } from '../ProjectBuiltInDashboardPage';
 
 let mockComponent:
@@ -42,7 +44,13 @@ let mockComponent:
   tags: ['tag-one'],
 };
 let mockQuery: {
-  data?: { description?: string; key: string; name: string; type: DashboardType };
+  data?: {
+    description?: string;
+    key: string;
+    name: string;
+    type: DashboardType;
+    updatedAt?: number;
+  };
   isError?: boolean;
   isPending?: boolean;
 } = {
@@ -52,17 +60,31 @@ let mockQuery: {
 const mockProjectPageClassName = jest.fn();
 const mockProjectPageMetadata = jest.fn();
 let mockDashboardKey = 'project-health';
+let mockSearch = '';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual<typeof import('react-router-dom')>('react-router-dom'),
   useParams: () => ({ dashboardKey: mockDashboardKey }),
+  useSearchParams: () => [new URLSearchParams(mockSearch)],
 }));
 
 jest.mock('~sq-server-commons/context/componentContext/withComponentContext', () => ({
   useComponent: () => ({ component: mockComponent }),
 }));
 jest.mock('~adapters/helpers/users', () => ({
-  useCurrentUser: () => ({ isLoggedIn: true }),
+  useCurrentUser: () => ({
+    currentUser: {
+      isLoggedIn: true,
+      permissions: {
+        global: [
+          jest.requireActual<typeof import('~sq-server-commons/types/permissions')>(
+            '~sq-server-commons/types/permissions',
+          ).Permissions.Admin,
+        ],
+      },
+    },
+    isLoggedIn: true,
+  }),
 }));
 jest.mock('~adapters/queries/branch', () => ({
   useCurrentBranchQuery: () => ({ data: { analysisDate: '2026-08-19', isMain: true } }),
@@ -81,8 +103,27 @@ jest.mock('~sq-server-commons/queries/measures', () => ({
     data: { component: { measures: [] }, metrics: [] },
   }),
 }));
+jest.mock('~sq-server-commons/queries/users', () => ({
+  useUsersByIdsQuery: () => ({ data: { 'user-id': { name: 'Alice' } } }),
+}));
 jest.mock('../../../../queries/project-dashboards', () => ({
   useGetProjectBuiltInDashboardQuery: () => mockQuery,
+}));
+jest.mock('../ProjectBuiltInDashboardActions', () => ({
+  ProjectBuiltInDashboardActions: ({
+    canCreateCustomDashboard,
+    canDownloadSchema,
+  }: {
+    canCreateCustomDashboard: boolean;
+    canDownloadSchema: boolean;
+  }) => (
+    <>
+      {canCreateCustomDashboard && <button type="button">dashboard.create_custom_dashboard</button>}
+      <a href="/project/dashboards?id=project-key">dashboard.view_all_dashboards</a>
+      {canDownloadSchema && <button type="button">dashboard.download_schema</button>}
+      <button type="button">more_actions</button>
+    </>
+  ),
 }));
 jest.mock(
   '~shared/components/NotFound',
@@ -96,11 +137,12 @@ jest.mock('~shared/components/pages/ProjectPageTemplate', () => ({
     actions?: React.ReactNode;
     callout?: React.ReactNode;
     children: React.ReactNode;
+    description?: React.ReactNode;
     metadata?: React.ReactNode;
     pageClassName?: string;
     title: string;
   }) => {
-    const { actions, callout, children, metadata, pageClassName, title } = props;
+    const { actions, callout, children, description, metadata, pageClassName, title } = props;
     mockProjectPageClassName(pageClassName);
     mockProjectPageMetadata(metadata);
 
@@ -108,6 +150,7 @@ jest.mock('~shared/components/pages/ProjectPageTemplate', () => ({
       <div>
         {callout}
         <h1>{title}</h1>
+        {description}
         {metadata}
         {actions}
         {children}
@@ -164,6 +207,12 @@ jest.mock('~feature-dashboards/dashboard-list/DashboardTypeBadge', () => ({
   ),
 }));
 jest.mock('~shared/components/a11y/A11ySkipTarget', () => () => null);
+jest.mock('~shared/components/intl/DateFromNow', () => ({
+  __esModule: true,
+  default: ({ children }: { children: (date: string) => React.ReactNode }) => (
+    <>{children('today')}</>
+  ),
+}));
 
 describe('ProjectBuiltInDashboardPage', () => {
   beforeEach(() => {
@@ -183,6 +232,7 @@ describe('ProjectBuiltInDashboardPage', () => {
     };
     mockQuery = { data: undefined, isPending: true };
     mockDashboardKey = 'project-health';
+    mockSearch = '';
   });
 
   it('shows a loading state while the dashboard is being fetched', () => {
@@ -223,7 +273,9 @@ describe('ProjectBuiltInDashboardPage', () => {
       isPending: false,
     };
 
-    renderWithRouter(<ProjectBuiltInDashboardPage />);
+    renderWithRouter(<ProjectBuiltInDashboardPage />, {
+      appState: mockAppState({ edition: EditionKey.enterprise }),
+    });
 
     expect(screen.getByText('overview.page')).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Project Health' })).toBeInTheDocument();
@@ -239,6 +291,29 @@ describe('ProjectBuiltInDashboardPage', () => {
     expect(screen.getByText('favorite')).toBeInTheDocument();
     expect(mockProjectPageClassName).toHaveBeenCalledWith('it__overview');
   });
+
+  it.each([EditionKey.community, EditionKey.developer])(
+    'does not link to all dashboards from Project Overview on %s',
+    (edition) => {
+      mockQuery = {
+        data: {
+          description: 'Dashboard description',
+          key: 'project-health',
+          name: 'Project Health',
+          type: DashboardType.BuiltIn,
+        },
+        isPending: false,
+      };
+
+      renderWithRouter(<ProjectBuiltInDashboardPage />, {
+        appState: mockAppState({ edition }),
+      });
+
+      expect(
+        screen.queryByRole('link', { name: 'dashboard.view_all_dashboards' }),
+      ).not.toBeInTheDocument();
+    },
+  );
 
   it('does not render overview metadata on another built-in dashboard', () => {
     mockDashboardKey = 'reliability';
@@ -258,6 +333,46 @@ describe('ProjectBuiltInDashboardPage', () => {
     expect(mockProjectPageMetadata).toHaveBeenCalledWith(undefined);
   });
 
+  it('renders project health as a regular built-in dashboard when opened from the list', () => {
+    mockSearch = 'view=dashboard';
+    mockQuery = {
+      data: {
+        description: 'Dashboard description',
+        key: 'project-health',
+        name: 'Project Health',
+        type: DashboardType.BuiltIn,
+        updatedAt: 1,
+      },
+      isPending: false,
+    };
+
+    renderWithRouter(<ProjectBuiltInDashboardPage />, {
+      appState: mockAppState({ edition: EditionKey.enterprise }),
+    });
+
+    expect(screen.getByRole('heading', { name: 'Project Health' })).toBeInTheDocument();
+    expect(screen.getByText('Dashboard description')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'dashboard.create_custom_dashboard' }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'dashboard.view_all_dashboards' })).toHaveAttribute(
+      'href',
+      '/project/dashboards?id=project-key',
+    );
+    expect(screen.getByRole('button', { name: 'more_actions' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'dashboard.download_schema' })).toBeInTheDocument();
+    const editStatus = screen.getByText(
+      (_content, element) =>
+        element?.tagName === 'SPAN' &&
+        element.textContent?.includes('project_dashboard.last_edited_by') === true &&
+        element.textContent.includes('sonar'),
+    );
+    expect(editStatus).toHaveTextContent('sonar');
+    expect(screen.queryByText('overview.page')).not.toBeInTheDocument();
+    expect(screen.queryByText('project-metadata')).not.toBeInTheDocument();
+    expect(screen.queryByText('favorite')).not.toBeInTheDocument();
+  });
+
   it('shows a dismissable introduction to the new project overview', async () => {
     mockQuery = {
       data: {
@@ -273,6 +388,13 @@ describe('ProjectBuiltInDashboardPage', () => {
 
     const title = screen.getByText('project_dashboard.overview.banner.title');
     expect(screen.getByText('project_dashboard.overview.banner.description')).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'dashboard.create_custom_dashboard' }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'dashboard.download_schema' }),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'more_actions' })).not.toBeInTheDocument();
     expect(
       screen.getByRole('link', {
         name: 'project_dashboard.overview.banner.description_link',

@@ -20,7 +20,6 @@
 
 import { screen } from '@testing-library/react';
 import { Route } from 'react-router-dom';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { renderWithRoutes } from '~shared/helpers/test-utils';
 import { ComponentQualifier } from '~shared/types/component';
 import {
@@ -35,9 +34,8 @@ import {
   getProjectBuiltInDashboardRoute,
   getProjectCustomDashboardRoute,
   getProjectDashboardsListRoute,
+  isProjectOverviewRoute,
 } from '../routes';
-
-jest.mock('~adapters/helpers/feature-flags');
 
 let mockComponentQualifier = ComponentQualifier.Project;
 jest.mock('~sq-server-commons/context/componentContext/withComponentContext', () => ({
@@ -60,7 +58,6 @@ function renderProjectRoutes(path: string, edition = EditionKey.enterprise) {
   renderWithRoutes(
     <>
       {componentRoutes()}
-      <Route element={<div data-testid="project-overview-page" />} path="/dashboard" />
       <Route element={<div data-testid="route-not-found" />} path="*" />
     </>,
     { appState: mockAppState({ edition }), initialEntries: [path] },
@@ -70,15 +67,16 @@ function renderProjectRoutes(path: string, edition = EditionKey.enterprise) {
 describe('project dashboard routes', () => {
   beforeEach(() => {
     mockComponentQualifier = ComponentQualifier.Project;
-    jest.mocked(useFlags).mockReturnValue({
-      organizationReportingEnableDashboards: true,
-    } as ReturnType<typeof useFlags>);
   });
 
   it.each([
     [PROJECT_DASHBOARDS_LIST_ROUTE, 'project-dashboards-list-page'],
     [getProjectCustomDashboardRoute('custom-id'), 'project-custom-dashboard-page'],
     [getProjectBuiltInDashboardRoute('project-health'), 'project-built-in-dashboard-page'],
+    [
+      getProjectBuiltInDashboardRoute('project-health', undefined, { isDashboardView: true }),
+      'project-built-in-dashboard-page',
+    ],
   ])('resolves %s to the expected page', async (path, testId) => {
     renderProjectRoutes(path);
 
@@ -102,52 +100,78 @@ describe('project dashboard routes', () => {
     expect(getProjectBuiltInDashboardRoute('project-health', 'project/key')).toBe(
       '/project/dashboards/built-in/project-health?id=project%2Fkey',
     );
+    expect(
+      getProjectBuiltInDashboardRoute('project-health', 'project/key', {
+        isDashboardView: true,
+      }),
+    ).toBe('/project/dashboards/built-in/project-health?id=project%2Fkey&view=dashboard');
   });
 
-  it('rejects project dashboard routes for applications', () => {
+  it.each([
+    ['project-health', '', true],
+    ['project-health', '?id=project-key', true],
+    ['project-health', '?view=dashboard', false],
+    ['reliability', '', false],
+    [undefined, '', false],
+  ])(
+    'identifies whether dashboard %s with search %s is the Project Overview',
+    (dashboardKey, search, expected) => {
+      expect(isProjectOverviewRoute(dashboardKey, search)).toBe(expected);
+    },
+  );
+
+  it('rejects project dashboard routes for applications', async () => {
     mockComponentQualifier = ComponentQualifier.Application;
 
     renderProjectRoutes(PROJECT_DASHBOARDS_LIST_ROUTE);
 
+    expect(await screen.findByRole('heading', { name: 'page_not_found' })).toBeInTheDocument();
     expect(screen.queryByTestId('project-dashboards-list-page')).not.toBeInTheDocument();
   });
 
-  it('redirects the default built-in dashboard to the summary page when dashboards are disabled', async () => {
-    jest.mocked(useFlags).mockReturnValue({
-      organizationReportingEnableDashboards: false,
-    } as ReturnType<typeof useFlags>);
-
-    renderProjectRoutes(getProjectBuiltInDashboardRoute('project-health', 'my-project'));
-
-    expect(await screen.findByTestId('project-overview-page')).toBeInTheDocument();
-  });
-
-  it.each([PROJECT_DASHBOARDS_LIST_ROUTE, getProjectCustomDashboardRoute('custom-id')])(
-    'renders not found for %s when dashboards are disabled',
-    (path) => {
-      jest.mocked(useFlags).mockReturnValue({
-        organizationReportingEnableDashboards: false,
-      } as ReturnType<typeof useFlags>);
-
-      renderProjectRoutes(path);
-
-      expect(screen.queryByTestId('project-dashboards-list-page')).not.toBeInTheDocument();
-      expect(screen.queryByTestId('project-custom-dashboard-page')).not.toBeInTheDocument();
-      expect(screen.queryByTestId('route-not-found')).not.toBeInTheDocument();
-    },
-  );
-
   it.each([EditionKey.community, EditionKey.developer])(
-    'keeps built-in dashboards accessible but rejects custom dashboards on %s',
+    'keeps the project Overview accessible on %s',
     async (edition) => {
       renderProjectRoutes(getProjectBuiltInDashboardRoute('project-health'), edition);
       expect(await screen.findByTestId('project-built-in-dashboard-page')).toBeInTheDocument();
-
-      renderProjectRoutes(getProjectCustomDashboardRoute('custom-id'), edition);
-      expect(screen.queryByTestId('project-custom-dashboard-page')).not.toBeInTheDocument();
-
-      renderProjectRoutes(PROJECT_DASHBOARDS_LIST_ROUTE, edition);
-      expect(screen.queryByTestId('project-dashboards-list-page')).not.toBeInTheDocument();
     },
   );
+
+  it.each([
+    [
+      EditionKey.community,
+      getProjectBuiltInDashboardRoute('project-health', undefined, { isDashboardView: true }),
+    ],
+    [
+      EditionKey.developer,
+      getProjectBuiltInDashboardRoute('project-health', undefined, { isDashboardView: true }),
+    ],
+    [EditionKey.community, getProjectBuiltInDashboardRoute('reliability')],
+    [EditionKey.developer, getProjectBuiltInDashboardRoute('reliability')],
+  ])('rejects built-in Dashboard views on %s', async (edition, path) => {
+    renderProjectRoutes(path, edition);
+
+    expect(await screen.findByRole('heading', { name: 'page_not_found' })).toBeInTheDocument();
+    expect(screen.queryByTestId('project-built-in-dashboard-page')).not.toBeInTheDocument();
+  });
+
+  it.each([
+    [
+      EditionKey.community,
+      getProjectCustomDashboardRoute('custom-id'),
+      'project-custom-dashboard-page',
+    ],
+    [
+      EditionKey.developer,
+      getProjectCustomDashboardRoute('custom-id'),
+      'project-custom-dashboard-page',
+    ],
+    [EditionKey.community, PROJECT_DASHBOARDS_LIST_ROUTE, 'project-dashboards-list-page'],
+    [EditionKey.developer, PROJECT_DASHBOARDS_LIST_ROUTE, 'project-dashboards-list-page'],
+  ])('rejects custom dashboard routes on %s', async (edition, path, testId) => {
+    renderProjectRoutes(path, edition);
+
+    expect(await screen.findByRole('heading', { name: 'page_not_found' })).toBeInTheDocument();
+    expect(screen.queryByTestId(testId)).not.toBeInTheDocument();
+  });
 });

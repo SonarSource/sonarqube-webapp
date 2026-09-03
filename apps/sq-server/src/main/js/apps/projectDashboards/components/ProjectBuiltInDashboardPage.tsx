@@ -32,7 +32,7 @@ import {
   TooltipSide,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { DashboardDescriptionAccordion } from '~feature-dashboards/dashboard-description/DashboardDescriptionAccordion';
@@ -52,21 +52,26 @@ import { isStringDefined } from '~shared/helpers/types';
 import { MetricKey } from '~shared/types/metrics';
 import Favorite from '~sq-server-commons/components/controls/Favorite';
 import HomePageSelect from '~sq-server-commons/components/controls/HomePageSelect';
+import { CustomDashboardEditStatus } from '~sq-server-commons/components/dashboards/CustomDashboardEditStatus';
 import { ComponentNavBindingStatus } from '~sq-server-commons/components/nav/ComponentNavBindingStatus';
+import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
 import { getComponentAsHomepage } from '~sq-server-commons/helpers/homepage';
 import { enhanceMeasuresWithMetrics } from '~sq-server-commons/helpers/measures';
-import { PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY } from '~sq-server-commons/helpers/project-dashboard-routes';
 import { getProjectUrl } from '~sq-server-commons/helpers/urls';
+import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
 import { useMeasuresAndLeakQuery } from '~sq-server-commons/queries/measures';
 import { Branch } from '~sq-server-commons/types/branch-like';
+import { Permissions } from '~sq-server-commons/types/permissions';
 import { Component } from '~sq-server-commons/types/types';
 import { HomePage } from '~sq-server-commons/types/users';
 import { useGetProjectBuiltInDashboardQuery } from '../../../queries/project-dashboards';
 import ComponentReportActions from '../../overview/branches/ComponentReportActions';
 import MetaContentHeader from '../../overview/branches/MetaContentHeader';
 import { App as ProjectOverviewApp } from '../../overview/components/App';
-import { getProjectDashboardsListRoute } from '../routes';
+import { supportsCustomProjectDashboards } from '../permissions';
+import { getProjectDashboardsListRoute, isProjectOverviewRoute } from '../routes';
+import { ProjectBuiltInDashboardActions } from './ProjectBuiltInDashboardActions';
 import {
   projectDashboardWidgetBodyMap,
   projectDashboardWidgetHeaderMap,
@@ -77,11 +82,14 @@ const NEW_PROJECT_OVERVIEW_BANNER_KEY = 'new-project-overview';
 export function ProjectBuiltInDashboardPage() {
   const { formatMessage } = useIntl();
   const { component } = useComponent();
+  const { edition } = useAppState();
   const { dashboardKey = '' } = useParams<{ dashboardKey?: string }>();
-  const { isLoggedIn } = useCurrentUser();
+  const [searchParams] = useSearchParams();
+  const { currentUser, isLoggedIn } = useCurrentUser();
   const { data: branchLike } = useCurrentBranchQuery(component);
   const branch = isBranch(branchLike) ? branchLike : undefined;
-  const isProjectOverview = dashboardKey === PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY;
+  const isProjectOverview = isProjectOverviewRoute(dashboardKey, searchParams.toString());
+  const canDownloadSchema = hasGlobalPermission(currentUser, Permissions.Admin);
   const isProjectAnalyzed = isStringDefined(component?.analysisDate);
   const overviewPageClassName = isProjectOverview ? 'it__overview' : undefined;
   const { data: measuresAndLeak } = useMeasuresAndLeakQuery(
@@ -153,6 +161,19 @@ export function ProjectBuiltInDashboardPage() {
   }
 
   const dashboard = query.data;
+  const headerActions = (
+    <>
+      {overviewActions}
+      {!isProjectOverview && (
+        <ProjectBuiltInDashboardActions
+          canCreateCustomDashboard={isLoggedIn}
+          canDownloadSchema={canDownloadSchema}
+          dashboard={dashboard}
+          projectKey={component.key}
+        />
+      )}
+    </>
+  );
   const breadcrumbs: BreadcrumbsProps['items'] = [
     {
       linkElement: formatMessage({ id: 'project_dashboards.page' }),
@@ -163,7 +184,7 @@ export function ProjectBuiltInDashboardPage() {
 
   return (
     <ProjectPageTemplate
-      actions={overviewActions}
+      actions={headerActions}
       breadcrumbs={isProjectOverview ? undefined : breadcrumbs}
       callout={overviewCallout}
       contentHeaderTitle={
@@ -176,7 +197,12 @@ export function ProjectBuiltInDashboardPage() {
       }
       description={
         isProjectOverview ? undefined : (
-          <Text isSubtle>{formatMessage({ id: 'project_dashboard.built_in' })}</Text>
+          <CustomDashboardEditStatus
+            canShowEditor={isLoggedIn}
+            isEditing={false}
+            showSonarWhenEditorMissing
+            updatedAt={dashboard.updatedAt}
+          />
         )
       }
       disableBranchSelector
@@ -187,6 +213,7 @@ export function ProjectBuiltInDashboardPage() {
       <A11ySkipTarget anchor="project_dashboard_main" />
       <div className="sw-flex sw-flex-col sw-gap-6">
         <ProjectDashboardHeader
+          canViewAllDashboards={supportsCustomProjectDashboards(edition)}
           dashboardDescription={dashboard.description}
           dashboardName={dashboard.name}
           isProjectOverview={isProjectOverview}
@@ -239,6 +266,7 @@ function ProjectOverviewMetadata(props: Readonly<ProjectOverviewMetadataProps>) 
 }
 
 interface ProjectDashboardHeaderProps {
+  canViewAllDashboards: boolean;
   dashboardDescription?: string;
   dashboardName: string;
   isProjectOverview: boolean;
@@ -246,7 +274,13 @@ interface ProjectDashboardHeaderProps {
 }
 
 function ProjectDashboardHeader(props: Readonly<ProjectDashboardHeaderProps>) {
-  const { dashboardDescription, dashboardName, isProjectOverview, projectKey } = props;
+  const {
+    canViewAllDashboards,
+    dashboardDescription,
+    dashboardName,
+    isProjectOverview,
+    projectKey,
+  } = props;
 
   if (!isProjectOverview) {
     return isStringDefined(dashboardDescription) ? (
@@ -260,9 +294,11 @@ function ProjectDashboardHeader(props: Readonly<ProjectDashboardHeaderProps>) {
         <Heading as="h2">{dashboardName}</Heading>
         {isStringDefined(dashboardDescription) && <Text isSubtle>{dashboardDescription}</Text>}
       </div>
-      <Button to={getProjectDashboardsListRoute(projectKey)}>
-        <FormattedMessage id="dashboard.view_all_dashboards" />
-      </Button>
+      {canViewAllDashboards && (
+        <Button to={getProjectDashboardsListRoute(projectKey)}>
+          <FormattedMessage id="dashboard.view_all_dashboards" />
+        </Button>
+      )}
     </div>
   );
 }

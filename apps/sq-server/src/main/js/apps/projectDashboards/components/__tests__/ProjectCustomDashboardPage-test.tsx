@@ -539,8 +539,9 @@ describe('ProjectCustomDashboardPage', () => {
     );
   });
 
-  it('does not expose authoring controls in Community Build', () => {
-    renderProjectCustomDashboardPage(EditionKey.community);
+  it('does not expose authoring controls to logged-out users', () => {
+    mockCurrentUser = { isLoggedIn: false, permissions: { global: [] } };
+    renderProjectCustomDashboardPage();
 
     expect(screen.getByText('Custom project dashboard')).toBeInTheDocument();
     expect(

@@ -193,7 +193,7 @@ describe('ProjectDashboardsTable', () => {
 
     expect(screen.getByRole('link', { name: 'Health' })).toHaveAttribute(
       'href',
-      '/project/dashboards/built-in/project-health?id=project-key',
+      '/project/dashboards/built-in/project-health?id=project-key&view=dashboard',
     );
     expect(screen.getByText('dashboard.type.built_in')).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'duplicate-Health' }));

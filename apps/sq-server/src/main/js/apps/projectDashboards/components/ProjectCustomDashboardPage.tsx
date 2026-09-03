@@ -59,7 +59,6 @@ import { isApiResourceUuid } from '~shared/helpers/api-resource-validation';
 import { uuidv4 } from '~shared/helpers/crypto';
 import { isStringDefined } from '~shared/helpers/types';
 import { CustomDashboardEditStatus } from '~sq-server-commons/components/dashboards/CustomDashboardEditStatus';
-import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
@@ -73,7 +72,6 @@ import {
   useGetProjectDashboardQuery,
   useUpdateProjectDashboardMutation,
 } from '../../../queries/project-dashboards';
-import { supportsCustomProjectDashboards } from '../permissions';
 import { getProjectCustomDashboardRoute, getProjectDashboardsListRoute } from '../routes';
 import { ProjectDashboardModal } from './ProjectDashboardModal';
 import {
@@ -92,10 +90,9 @@ export function ProjectCustomDashboardPage() {
   const navigate = useNavigate();
   const { component } = useComponent();
   const { currentUser, isLoggedIn } = useCurrentUser();
-  const { edition } = useAppState();
   const { dashboardId = '' } = useParams<{ dashboardId?: string }>();
   const projectId = useProjectId() ?? '';
-  const canEdit = isLoggedIn && supportsCustomProjectDashboards(edition);
+  const canEdit = isLoggedIn;
   const canDownloadSchema = hasGlobalPermission(currentUser, Permissions.Admin);
   const editDocumentationUrl = useDocUrl(DocLink.ProjectManagementCreateDashboards);
   const viewDocumentationUrl = useDocUrl(DocLink.ProjectManagementAllDashboards);

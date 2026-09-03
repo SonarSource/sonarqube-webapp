@@ -28,20 +28,26 @@ import { useUsersByIdsQuery } from '../../queries/users';
 export function CustomDashboardEditStatus({
   canShowEditor,
   isEditing,
+  showSonarWhenEditorMissing = false,
   updatedAt,
   updatedById,
 }: Readonly<{
   canShowEditor: boolean;
   isEditing: boolean;
+  showSonarWhenEditorMissing?: boolean;
   updatedAt: number;
   updatedById?: string;
 }>) {
   const { formatMessage } = useIntl();
   const shouldShowEditor = canShowEditor && isStringDefined(updatedById);
   const { data: editors } = useUsersByIdsQuery(shouldShowEditor ? [updatedById] : []);
-  const updatedByUser = shouldShowEditor
-    ? (editors[updatedById]?.name ?? formatMessage({ id: 'dashboard.list.removed_user' }))
-    : undefined;
+  let updatedByUser: string | undefined;
+  if (shouldShowEditor) {
+    updatedByUser =
+      editors[updatedById]?.name ?? formatMessage({ id: 'dashboard.list.removed_user' });
+  } else if (showSonarWhenEditorMissing && !isStringDefined(updatedById)) {
+    updatedByUser = formatMessage({ id: 'sonar' });
+  }
 
   return (
     <Text isSubtle>

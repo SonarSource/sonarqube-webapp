@@ -152,6 +152,7 @@ describe('project dashboard queries', () => {
       id: 'project-health',
       type: DashboardType.BuiltIn,
     });
+    expect(result.current.data?.updatedById).toBeUndefined();
     expect(result.current.data?.layout).toEqual(expect.any(Object));
 
     jest.mocked(getProjectBuiltInDashboard).mockResolvedValue({

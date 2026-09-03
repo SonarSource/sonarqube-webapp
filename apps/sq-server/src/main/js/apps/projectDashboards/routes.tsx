@@ -18,9 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Navigate, Outlet, Route, generatePath, useLocation, useParams } from 'react-router-dom';
-import { useFlags } from '~adapters/helpers/feature-flags';
-import { PROJECT_SUMMARY_BASE_URL } from '~adapters/helpers/urls';
+import { Outlet, Route, generatePath, useLocation, useParams } from 'react-router-dom';
 import NotFound from '~shared/components/NotFound';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { ComponentQualifier } from '~shared/types/component';
@@ -33,6 +31,9 @@ import {
   PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY,
 } from '~sq-server-commons/helpers/project-dashboard-routes';
 import { supportsCustomProjectDashboards } from './permissions';
+
+const PROJECT_DASHBOARD_VIEW_QUERY_PARAM = 'view';
+const PROJECT_DASHBOARD_VIEW_QUERY_VALUE = 'dashboard';
 
 const ProjectDashboardsListPage = lazyLoadComponent(() =>
   import('./components/ProjectDashboardsListPage').then((m) => ({
@@ -50,8 +51,16 @@ const ProjectBuiltInDashboardPage = lazyLoadComponent(() =>
   })),
 );
 
-function withProjectKey(path: string, projectKey?: string) {
-  return projectKey ? `${path}?id=${encodeURIComponent(projectKey)}` : path;
+function withProjectKey(path: string, projectKey?: string, isDashboardView = false) {
+  const searchParams = new URLSearchParams();
+  if (projectKey) {
+    searchParams.set('id', projectKey);
+  }
+  if (isDashboardView) {
+    searchParams.set(PROJECT_DASHBOARD_VIEW_QUERY_PARAM, PROJECT_DASHBOARD_VIEW_QUERY_VALUE);
+  }
+  const search = searchParams.toString();
+  return search ? `${path}?${search}` : path;
 }
 
 export function getProjectDashboardsListRoute(projectKey?: string) {
@@ -62,40 +71,48 @@ export function getProjectCustomDashboardRoute(dashboardId: string, projectKey?:
   return withProjectKey(generatePath(PROJECT_CUSTOM_DASHBOARD_ROUTE, { dashboardId }), projectKey);
 }
 
-export function getProjectBuiltInDashboardRoute(dashboardKey: string, projectKey?: string) {
+export function getProjectBuiltInDashboardRoute(
+  dashboardKey: string,
+  projectKey?: string,
+  { isDashboardView = false }: { isDashboardView?: boolean } = {},
+) {
   return withProjectKey(
     generatePath(PROJECT_BUILT_IN_DASHBOARD_ROUTE, { dashboardKey }),
     projectKey,
+    isDashboardView,
   );
 }
 
-function ProjectDashboardsGuard() {
-  const { organizationReportingEnableDashboards } = useFlags();
-  const { component } = useComponent();
-  const location = useLocation();
-  const { dashboardKey } = useParams();
+export function isProjectDashboardView(search: string) {
+  return (
+    new URLSearchParams(search).get(PROJECT_DASHBOARD_VIEW_QUERY_PARAM) ===
+    PROJECT_DASHBOARD_VIEW_QUERY_VALUE
+  );
+}
 
-  if (!organizationReportingEnableDashboards) {
-    return component?.qualifier === ComponentQualifier.Project &&
-      dashboardKey === PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY ? (
-      <Navigate replace to={{ pathname: PROJECT_SUMMARY_BASE_URL, search: location.search }} />
-    ) : (
-      <NotFound />
-    );
-  }
+export function isProjectOverviewRoute(dashboardKey: string | undefined, search: string) {
+  return dashboardKey === PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY && !isProjectDashboardView(search);
+}
+
+function ProjectDashboardsGuard() {
+  const { component } = useComponent();
 
   return component?.qualifier === ComponentQualifier.Project ? <Outlet /> : <NotFound />;
 }
 
 function ProjectDashboardsEditionGuard() {
   const { edition } = useAppState();
-  return supportsCustomProjectDashboards(edition) ? <Outlet /> : <NotFound />;
+  const location = useLocation();
+  const { dashboardKey } = useParams();
+  const isProjectOverview = isProjectOverviewRoute(dashboardKey, location.search);
+
+  return supportsCustomProjectDashboards(edition) || isProjectOverview ? <Outlet /> : <NotFound />;
 }
 
 export const componentRoutes = () => (
-  <Route element={<ProjectDashboardsGuard />}>
-    <Route element={<ProjectBuiltInDashboardPage />} path={PROJECT_BUILT_IN_DASHBOARD_ROUTE} />
-    <Route element={<ProjectDashboardsEditionGuard />}>
+  <Route element={<ProjectDashboardsEditionGuard />}>
+    <Route element={<ProjectDashboardsGuard />}>
+      <Route element={<ProjectBuiltInDashboardPage />} path={PROJECT_BUILT_IN_DASHBOARD_ROUTE} />
       <Route element={<ProjectDashboardsListPage />} path={PROJECT_DASHBOARDS_LIST_ROUTE} />
       <Route element={<ProjectCustomDashboardPage />} path={PROJECT_CUSTOM_DASHBOARD_ROUTE} />
     </Route>

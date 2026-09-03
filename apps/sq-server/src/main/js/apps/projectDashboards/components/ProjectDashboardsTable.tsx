@@ -103,7 +103,9 @@ export function ProjectDashboardsTable({
         )}
         getDashboardUrl={(dashboard) =>
           dashboard.type === DashboardType.BuiltIn
-            ? getProjectBuiltInDashboardRoute(dashboard.id, projectKey)
+            ? getProjectBuiltInDashboardRoute(dashboard.id, projectKey, {
+                isDashboardView: true,
+              })
             : getProjectCustomDashboardRoute(dashboard.id, projectKey)
         }
         gridTemplate={canEdit ? '3fr 1fr 1fr 64px' : '3fr 1fr 64px'}

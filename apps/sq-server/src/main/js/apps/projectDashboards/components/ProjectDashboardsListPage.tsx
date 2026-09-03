@@ -68,7 +68,7 @@ export function ProjectDashboardsListPage() {
   const { edition } = useAppState();
   const { component } = useComponent();
   const supportsCustomDashboards = supportsCustomProjectDashboards(edition);
-  const canEdit = currentUser.isLoggedIn && supportsCustomDashboards;
+  const canEdit = currentUser.isLoggedIn;
   const projectId = useProjectId() ?? '';
   const projectKey = component?.key ?? '';
   const query = searchParams.get('q') ?? '';
