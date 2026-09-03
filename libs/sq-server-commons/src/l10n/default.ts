@@ -734,7 +734,7 @@ export const defaultMessages = {
   'layout.nav.home_sonarqube_logo_alt': '{productName} logo, link to homepage',
 
   'sidebar.agentic_tasks': 'Agentic tasks',
-  'sidebar.ai_capabilities': 'AI Capabilities',
+  'sidebar.ai_capabilities': 'AI capabilities',
   'sidebar.projects': 'Projects',
   'sidebar.project_settings': 'Configuration',
   'sidebar.security': 'Security',
@@ -783,7 +783,7 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
-  'ai_capabilities.title': 'AI Capabilities',
+  'ai_capabilities.title': 'AI capabilities',
   'ai_capabilities.description':
     'Enable agents to remediate tech debt, find complex security issues, and automate fix suggestions. By enabling or using AI capabilities, you agree to the <agreementLink>Primary Customer Agreement</agreementLink> and the <privacyLink>Privacy Notice</privacyLink>.',
   'ai_capabilities.enablement_badge.enabled': 'Enabled',
