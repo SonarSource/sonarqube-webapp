@@ -4185,7 +4185,7 @@ export const defaultMessages = {
     'Leave this field empty unless you are using GitHub Code Scanning Alert feature. See documentation for more details.',
   'settings.almintegration.form.personal_access_token': 'Personal Access Token',
   'settings.almintegration.form.personal_access_token.azure.help':
-    '{productName} needs a {pat} to report the quality gate status on Pull Requests in Azure DevOps. To create this token, we recommend using a dedicated Azure DevOps account with administration permissions. The token itself needs {permission} permission. {doc_link}',
+    '{productName} needs a {pat} to report the quality gate status on Pull Requests in Azure DevOps. To create this token, we recommend using a dedicated Azure DevOps account with administration permissions. The token itself needs {permission} permissions. {doc_link}',
   'settings.almintegration.form.personal_access_token.azure.help.url': 'Personal Access Token',
   'settings.almintegration.form.personal_access_token.gitlab.help':
     '{productName} needs a {pat} to report the quality gate status on Merge Requests in GitLab. To create this token, we recommend using a dedicated GitLab account with {permission} permission to all target projects. The token itself needs the {scope} scope. {doc_link}',
@@ -8699,7 +8699,7 @@ export const defaultMessages = {
     'You have to do this again as your token may have expired or has been revoked. If this does not fix the issue, please contact your system administrator.',
 
   'onboarding.create_project.pat_help.instructions.azure':
-    'To create a Personal Access Token on Azure, {link} and make sure to select the “Code (Read)” scope.',
+    'To create a Personal Access Token on Azure, {link} and make sure to select the “Code (Read and Write)” and “Identity (Read)” scopes.',
   'onboarding.create_project.pat_help.instructions.link.azure': 'generate a token',
 
   'onboarding.create_project.pat_help.instructions.gitlab':

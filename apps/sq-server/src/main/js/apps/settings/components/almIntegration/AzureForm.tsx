@@ -80,7 +80,7 @@ export default function AzureForm(props: AzureFormProps) {
                   <FormattedMessage id="settings.almintegration.form.personal_access_token.azure.help.url" />
                 </Link>
               ),
-              permission: <strong>{'Code > Read & Write'}</strong>,
+              permission: <strong>{'Code (Read and Write) and Identity (Read)'}</strong>,
               doc_link: (
                 <Link enableOpenInNewTab to={toStatic}>
                   <FormattedMessage id="learn_more" />
