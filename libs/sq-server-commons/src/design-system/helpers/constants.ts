@@ -66,8 +66,6 @@ export const LAYOUT_LOGO_MAX_WIDTH = 150;
 export const LAYOUT_FOOTER_HEIGHT = 69;
 export const LAYOUT_NOTIFICATIONSBAR_WIDTH = 350;
 
-export const CORE_CONCEPTS_WIDTH = 350;
-
 export const DARK_THEME_ID = 'dark-theme';
 
 export const OPACITY_20_PERCENT = 0.2;

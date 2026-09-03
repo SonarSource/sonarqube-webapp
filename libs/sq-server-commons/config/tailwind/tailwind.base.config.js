@@ -108,7 +108,6 @@ module.exports = {
       popup: '420',
       'global-navbar': '421',
       sidebar: '421',
-      'core-concepts': '422',
       'global-popup': '5000',
       'dropdown-menu': '7500',
       'modal-overlay': 8500,
