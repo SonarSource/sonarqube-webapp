@@ -23,6 +23,7 @@ import { AxiosError } from 'axios';
 import { some } from 'lodash';
 import React, { useContext } from 'react';
 import { useIntl } from 'react-intl';
+import { isHunterAgentRuleEngine } from '~shared/helpers/issues';
 import {
   AIFeatureEnablement,
   getFeatureEnablement,
@@ -183,7 +184,11 @@ export function useGetFixSuggestionsIssuesQuery(issue: Issue) {
       getFixSuggestionsIssues({
         issueId: issue.key,
       }),
-    enabled: hasFeature(Feature.FixSuggestions) && isLoggedIn(currentUser) && isCodeFixEnabled,
+    enabled:
+      hasFeature(Feature.FixSuggestions) &&
+      isLoggedIn(currentUser) &&
+      isCodeFixEnabled &&
+      !isHunterAgentRuleEngine(issue.externalRuleEngine),
     staleTime: Infinity,
   });
 }
