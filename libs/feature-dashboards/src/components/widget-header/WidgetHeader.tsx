@@ -40,6 +40,7 @@ import { RatingBadgeDisplay } from '../visualizations/RatingBadgeDisplay';
 import { getTopListWidgetTitle } from '../visualizations/top-list/topListWidgetTitle';
 import { getProjectContextualRatingMetricKey } from './contextualRatingBadge';
 import { getMetricWidgetHeaderText, getRatingWidgetHeaderText } from './widgetHeaderText';
+import { WidgetHeaderTooltip } from './WidgetHeaderTooltip';
 
 type Props =
   | {
@@ -59,9 +60,15 @@ type Props =
     }
   | { metricKey: MetricKey; mode?: WidgetMode; scope: CodeScope };
 
+type WidgetHeaderCommonProps = {
+  isPortfolio?: boolean;
+};
+
+type WidgetHeaderProps = Props & WidgetHeaderCommonProps;
+
 type ContextualRatingBadgeProps = ComponentProps<typeof RatingBadgeDisplay>;
 
-export function WidgetHeader(props: Readonly<Props>) {
+export function WidgetHeader(props: Readonly<WidgetHeaderProps>) {
   const { formatMessage } = useIntl();
   const headerText =
     'metric' in props
@@ -86,6 +93,8 @@ export function WidgetHeader(props: Readonly<Props>) {
       ? props.titleOverride
       : headerText.title;
   const contextualRatingBadge = useContextualRatingBadge(props);
+  const tooltipProps =
+    'metric' in props ? { metric: props.metric } : { metricKey: props.metricKey };
 
   return (
     <div className="sw-flex sw-w-full sw-min-w-0 sw-flex-col sw-gap-1" data-testid="widget-header">
@@ -93,8 +102,12 @@ export function WidgetHeader(props: Readonly<Props>) {
         className="sw-flex sw-w-full sw-items-center sw-justify-between sw-gap-2"
         data-testid="widget-header-title-row"
       >
-        <div className="sw-min-w-0 sw-flex-1">
+        <div
+          className="sw-flex sw-min-w-0 sw-flex-1 sw-items-center sw-gap-1"
+          data-testid="widget-header-title-container"
+        >
           <WidgetHeaderTitle title={title} />
+          <WidgetHeaderTooltip {...tooltipProps} isPortfolio={props.isPortfolio} />
         </div>
         {contextualRatingBadge ? (
           <RatingBadgeDisplay {...contextualRatingBadge} className="sw-flex-shrink-0" />
@@ -106,15 +119,17 @@ export function WidgetHeader(props: Readonly<Props>) {
 }
 
 export function TopListWidgetHeader({
+  isPortfolio,
   limit,
   metric,
   rankBy,
   scope,
-}: Readonly<TopListWidgetProps>) {
+}: Readonly<TopListWidgetProps & WidgetHeaderCommonProps>) {
   const { formatMessage } = useIntl();
 
   return (
     <WidgetHeader
+      isPortfolio={isPortfolio}
       metric={metric}
       scope={scope}
       showContextualRatingBadge={false}
@@ -126,6 +141,14 @@ export function TopListWidgetHeader({
       })}
     />
   );
+}
+
+export function PortfolioWidgetHeader(props: Readonly<Props>) {
+  return <WidgetHeader {...props} isPortfolio />;
+}
+
+export function PortfolioTopListWidgetHeader(props: Readonly<TopListWidgetProps>) {
+  return <TopListWidgetHeader {...props} isPortfolio />;
 }
 
 function useContextualRatingBadge(props: Props): ContextualRatingBadgeProps | undefined {

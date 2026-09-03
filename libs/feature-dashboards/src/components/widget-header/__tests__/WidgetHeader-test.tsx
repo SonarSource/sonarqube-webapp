@@ -26,6 +26,7 @@ import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
 import { HistoryRange, LineChartGroupBy } from '../../../data/widgets/line-chart';
 import { DashboardMetricType, IssueStatus, RichMetricKey } from '../../../types/dashboard-widget';
+import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
 import { CodeScope, TopListLimit, TopListRankBy, WidgetMode } from '../../../types/widget-common';
 import { TopListWidgetHeader, WidgetHeader } from '../WidgetHeader';
 
@@ -216,5 +217,34 @@ describe('WidgetHeader', () => {
     );
 
     expect(screen.queryByTestId('contextual-rating-badge')).not.toBeInTheDocument();
+  });
+
+  it('renders an info toggletip for issue resolution metrics', async () => {
+    renderWithRouter(
+      <WidgetHeader
+        metric={{
+          statistic: IssueResolutionStatistic.MTTR,
+          type: DashboardMetricType.IssueResolution,
+        }}
+        scope={CodeScope.Overall}
+      />,
+    );
+
+    await expect(screen.getByRole('button', { name: 'toggletip.help' })).toHaveAPopoverWithContent(
+      'dashboard.widget.header.title.mttr_tooltip',
+    );
+  });
+
+  it('renders an info toggletip for SCA MTTR metrics', async () => {
+    renderWithRouter(
+      <WidgetHeader
+        metric={{ type: DashboardMetricType.ScaResolution }}
+        scope={CodeScope.Overall}
+      />,
+    );
+
+    await expect(screen.getByRole('button', { name: 'toggletip.help' })).toHaveAPopoverWithContent(
+      'dashboard.widget.header.title.sca_mttr_tooltip',
+    );
   });
 });
