@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Card, cssVar, Text, TextSize } from '@sonarsource/echoes-react';
+import { Text, TextSize } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
 import { DonutChart } from '~shared/components/charts/DonutChart';
 
@@ -47,8 +47,8 @@ interface Props {
 
 export function PanelDonut({ centerLabel, centerSubLabel, segments, viewAll }: Readonly<Props>) {
   return (
-    <StyledCard className="sw-min-w-0 sw-max-w-[300px]">
-      <Card.Body className="sw-flex sw-items-center sw-justify-center sw-gap-8">
+    <StyledCard>
+      <StyledCardBody className="sw-flex sw-items-center sw-justify-center sw-gap-8">
         <div className="sw-flex sw-flex-col sw-items-center sw-gap-4">
           <div
             aria-hidden
@@ -88,11 +88,20 @@ export function PanelDonut({ centerLabel, centerSubLabel, segments, viewAll }: R
           </div>
           {viewAll}
         </div>
-      </Card.Body>
+      </StyledCardBody>
     </StyledCard>
   );
 }
 
-const StyledCard = styled(Card)`
-  background: ${cssVar('color-surface-canvas-default')};
+const StyledCard = styled.div`
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 270px;
+`;
+
+const StyledCardBody = styled.div`
+  flex: 1;
+  padding: var(--echoes-dimension-space-200, 1rem);
 `;
