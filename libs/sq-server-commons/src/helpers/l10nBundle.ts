@@ -37,6 +37,11 @@ const DEFAULT_MESSAGES: Record<string, string> = {
 
 let intl: IntlShape;
 
+function isDefaultLocale(locale: string): boolean {
+  const normalizedLocale = locale.toLowerCase();
+  return normalizedLocale === DEFAULT_LOCALE || normalizedLocale.startsWith(`${DEFAULT_LOCALE}-`);
+}
+
 export function getIntl() {
   if (!intl) {
     throw new Error(
@@ -96,10 +101,9 @@ export async function loadL10nBundle(appState: AppState | undefined) {
    * Otherwise, we want the translated messages to take precedence, so that we overwrite the
    * defaults properly.
    */
-  const messages =
-    effectiveLocale === DEFAULT_LOCALE
-      ? { ...translatedMessages, ...defaultMessages }
-      : { ...defaultMessages, ...translatedMessages };
+  const messages = isDefaultLocale(effectiveLocale)
+    ? { ...translatedMessages, ...defaultMessages }
+    : { ...defaultMessages, ...translatedMessages };
 
   const bundle = {
     timestamp: toISO8601WithOffsetString(new Date()),

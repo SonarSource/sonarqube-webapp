@@ -19,6 +19,7 @@
  */
 
 import { fetchL10nBundle } from '../../api/l10n';
+import { defaultMessages } from '../../l10n/default';
 import { loadL10nBundle } from '../l10nBundle';
 import { mockAppState } from '../testMocks';
 
@@ -101,5 +102,20 @@ describe('#loadL10nBundle', () => {
 
     expect(messages.yes).toBe('Yes'); // overriden by defaults
     expect(messages.newmessage).toBe('yes!'); // added to defaults
+  });
+
+  it('should prefer bundled ICU messages for default locale variants', async () => {
+    const messageId = 'dashboard.line_chart.limited_history_warning';
+    jest.mocked(fetchL10nBundle).mockResolvedValueOnce({
+      effectiveLocale: 'en-US',
+      messages: {
+        [messageId]: "Data available from '{date}' onwards.",
+      },
+    });
+    jest.spyOn(window.navigator, 'languages', 'get').mockReturnValue(['en-US']);
+
+    const { messages } = await loadL10nBundle(APP_STATE);
+
+    expect(messages[messageId]).toBe(defaultMessages[messageId]);
   });
 });

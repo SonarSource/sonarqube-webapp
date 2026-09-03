@@ -3797,7 +3797,7 @@ export const defaultMessages = {
   'dashboard.widget.trend_indicator.badge.absolute': '{change}',
   'dashboard.widget.trend_indicator.badge.relative': '{change}',
   'dashboard.widget.trend_indicator.no_change': 'No change (last 30 days)',
-  'dashboard.line_chart.limited_history_warning': 'Data available from March 2026 onwards.',
+  'dashboard.line_chart.limited_history_warning': 'Data available from {date} onwards.',
   'dashboard.line_chart.single_data': 'Only one data point available to display',
   'dashboard.line_chart.single_data_series':
     'Some series have only one data point available to display',

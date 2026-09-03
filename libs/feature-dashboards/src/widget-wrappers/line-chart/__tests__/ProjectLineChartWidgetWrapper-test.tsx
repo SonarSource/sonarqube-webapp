@@ -21,7 +21,6 @@
 import { screen } from '@testing-library/react';
 import { useDashboardProjectContext } from '~adapters/context/dashboardContext';
 import { useFlags } from '~adapters/helpers/feature-flags';
-import { shouldShowProjectDashboardLimitedHistoryWarning } from '~adapters/helpers/project-dashboard';
 import { useOrgIssueDensityLineChartWidgetData } from '~adapters/queries/issue-density-widget-data';
 import { useOrgIssueResolutionLineChartWidgetData } from '~adapters/queries/issue-resolution-widget-data';
 import { useOrgScaResolutionLineChartWidgetData } from '~adapters/queries/sca-resolution-widget-data';
@@ -40,10 +39,6 @@ jest.mock('~adapters/context/dashboardContext', () => ({
 
 jest.mock('~adapters/helpers/feature-flags', () => ({
   useFlags: jest.fn(),
-}));
-
-jest.mock('~adapters/helpers/project-dashboard', () => ({
-  shouldShowProjectDashboardLimitedHistoryWarning: jest.fn(),
 }));
 
 jest.mock('~adapters/queries/issue-density-widget-data', () => ({
@@ -82,13 +77,10 @@ const defaultProps = {
   metric: { metricKey: MetricKey.bugs, type: DashboardMetricType.Raw } as const,
   scope: CodeScope.Overall,
 };
-const limitedHistoryWarning = 'dashboard.line_chart.limited_history_warning';
-
 beforeEach(() => {
   jest.mocked(useFlags).mockReturnValue({
     organizationReportingEnableNewDashboardWidgets: true,
   } as unknown as ReturnType<typeof useFlags>);
-  jest.mocked(shouldShowProjectDashboardLimitedHistoryWarning).mockReturnValue(true);
   jest.mocked(useDashboardProjectContext).mockReturnValue({
     componentKey: 'project-key',
     isLoading: false,
@@ -147,18 +139,6 @@ describe('ProjectLineChartWidgetWrapper', () => {
       defaultProps,
     );
     expect(screen.getByTestId('multi-line-chart')).toBeInTheDocument();
-  });
-
-  it('only shows the limited history warning when enabled for the product', () => {
-    const longHistoryProps = { ...defaultProps, historyRange: HistoryRange.Last12Months };
-    const { rerender } = renderWithRouter(<ProjectLineChartWidgetWrapper {...longHistoryProps} />);
-
-    expect(screen.getByText(limitedHistoryWarning)).toBeInTheDocument();
-
-    jest.mocked(shouldShowProjectDashboardLimitedHistoryWarning).mockReturnValue(false);
-    rerender(<ProjectLineChartWidgetWrapper {...longHistoryProps} />);
-
-    expect(screen.queryByText(limitedHistoryWarning)).not.toBeInTheDocument();
   });
 
   it('binds issue-resolution metrics to their adapter', () => {

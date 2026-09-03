@@ -18,29 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MessageInline, MessageVariety, Text, TextSize } from '@sonarsource/echoes-react';
+import { Text } from '@sonarsource/echoes-react';
 import { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDashboardProjectContext } from '~adapters/context/dashboardContext';
-import { useFlags } from '~adapters/helpers/feature-flags';
-import { shouldShowProjectDashboardLimitedHistoryWarning } from '~adapters/helpers/project-dashboard';
 import { useOrgIssueDensityLineChartWidgetData } from '~adapters/queries/issue-density-widget-data';
 import { useOrgIssueResolutionLineChartWidgetData } from '~adapters/queries/issue-resolution-widget-data';
 import { useOrgScaResolutionLineChartWidgetData } from '~adapters/queries/sca-resolution-widget-data';
 import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinner';
 import { WidgetNoData } from '../../components/common/WidgetNoData';
-import { LineChart } from '../../components/visualizations/line-chart/LineChart';
 import {
   formatDotValue,
   formatYAxisTick,
 } from '../../components/visualizations/line-chart/lineChartPresentation';
-import { MultiLineChart } from '../../components/visualizations/multi-line-chart/MultiLineChart';
 import { HistoryRange } from '../../data/widgets/line-chart';
 import { DashboardMetricType } from '../../data/widgets/shared';
 import { useMttrFormatters } from '../../hooks/useMttrFormatters';
 import { ProjectDashboardWidgetPropMap } from '../../types/dashboard-widget';
 import { IssueResolutionStatistic } from '../../types/organization-issue-resolution-history';
 import { getMttrCalendarMessage } from '../../utils/datetime';
+import { LineChartWidgetShell } from './LineChartWidgetShell';
 import {
   type ProjectDashboardLineChartProps,
   useProjectLineChartModelOrganizations,
@@ -82,48 +79,11 @@ interface ScaResolutionProjectLineChartViewProps {
   showLegend?: boolean;
 }
 
-function ProjectLineChartShell(
-  props: Readonly<ProjectDashboardLineChartProps & { historyRange: HistoryRange }>,
-) {
-  const { organizationReportingEnableNewDashboardWidgets } = useFlags();
-  const { formatMessage } = useIntl();
-  const { historyRange, metricName, series, ...rest } = props;
-  const footerNode =
-    shouldShowProjectDashboardLimitedHistoryWarning() && isLongHistoryRange(historyRange) ? (
-      <MessageInline variety={MessageVariety.Info}>
-        <Text isSubtle size={TextSize.Small}>
-          {formatMessage({ id: 'dashboard.line_chart.limited_history_warning' })}
-        </Text>
-      </MessageInline>
-    ) : undefined;
-
-  return (
-    <div className="sw-h-full sw-min-h-0 sw-flex sw-flex-col">
-      <div className="sw-flex-1 sw-min-h-0">
-        {organizationReportingEnableNewDashboardWidgets ? (
-          <MultiLineChart series={series} {...rest} />
-        ) : (
-          <LineChart {...rest} data={series[0]?.data ?? []} metricName={metricName} showDots />
-        )}
-      </div>
-      {footerNode}
-    </div>
-  );
-}
-
 type OrgBranchViewProps = Readonly<{
   branchEntityId: string;
   organization: string;
   widget: Readonly<ProjectDashboardWidgetPropMap['lineChart']>;
 }>;
-
-function isLongHistoryRange(historyRange: HistoryRange): boolean {
-  return (
-    historyRange === HistoryRange.Last6Months ||
-    historyRange === HistoryRange.Last12Months ||
-    historyRange === HistoryRange.All
-  );
-}
 
 function IssueResolutionProjectLineChartView(
   props: Readonly<IssueResolutionProjectLineChartViewProps>,
@@ -186,7 +146,7 @@ function IssueResolutionProjectLineChartView(
     strokeWidth: 2,
   };
 
-  return <ProjectLineChartShell {...lineChartProps} historyRange={historyRange} />;
+  return <LineChartWidgetShell {...lineChartProps} historyRange={historyRange} />;
 }
 
 function IssueDensityProjectLineChartView(props: Readonly<IssueDensityProjectLineChartViewProps>) {
@@ -227,7 +187,7 @@ function IssueDensityProjectLineChartView(props: Readonly<IssueDensityProjectLin
     strokeWidth: 2,
   };
 
-  return <ProjectLineChartShell {...lineChartProps} historyRange={historyRange} />;
+  return <LineChartWidgetShell {...lineChartProps} historyRange={historyRange} />;
 }
 
 function ScaResolutionProjectLineChartView(
@@ -269,7 +229,7 @@ function ScaResolutionProjectLineChartView(
     strokeWidth: 2,
   };
 
-  return <ProjectLineChartShell {...lineChartProps} historyRange={historyRange} />;
+  return <LineChartWidgetShell {...lineChartProps} historyRange={historyRange} />;
 }
 
 function ProjectLineChartWidgetOrganizationsView(props: OrgBranchViewProps) {
@@ -280,7 +240,7 @@ function ProjectLineChartWidgetOrganizationsView(props: OrgBranchViewProps) {
     widget,
   );
 
-  return <ProjectLineChartShell {...lineChartProps} historyRange={widget.historyRange} />;
+  return <LineChartWidgetShell {...lineChartProps} historyRange={widget.historyRange} />;
 }
 
 export function ProjectLineChartWidgetWrapper(

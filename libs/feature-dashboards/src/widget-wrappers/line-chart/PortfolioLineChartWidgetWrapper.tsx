@@ -19,10 +19,9 @@
  */
 
 import { Text } from '@sonarsource/echoes-react';
-import { type ComponentProps, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { useDashboardPortfolioContext } from '~adapters/context/dashboardContext';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { useOrgIssueDensityLineChartWidgetData } from '~adapters/queries/issue-density-widget-data';
 import { useOrgIssueResolutionLineChartWidgetData } from '~adapters/queries/issue-resolution-widget-data';
 import {
@@ -34,12 +33,10 @@ import { useOrgScaResolutionLineChartWidgetData } from '~adapters/queries/sca-re
 import { useDashboardRuleLabels } from '~adapters/queries/widget-rule-metadata';
 import { MetricKey } from '~shared/types/metrics';
 import { WidgetNoData } from '../../components/common/WidgetNoData';
-import { LineChart } from '../../components/visualizations/line-chart/LineChart';
 import {
   formatDotValue,
   formatYAxisTick,
 } from '../../components/visualizations/line-chart/lineChartPresentation';
-import { MultiLineChart } from '../../components/visualizations/multi-line-chart/MultiLineChart';
 import { HistoryRange, LineChartGroupBy } from '../../data/widgets/line-chart';
 import { DashboardMetricType } from '../../data/widgets/shared';
 import { useLineChartMetricCharacteristics } from '../../hooks/useLineChartMetricCharacteristics';
@@ -51,9 +48,10 @@ import {
   relabelMultiLineSeriesWithRules,
   rulesFromGroupedLineChartSeries,
 } from '../../utils/lineChartSeriesTransforms';
+import { LineChartWidgetShell, type LineChartWidgetShellProps } from './LineChartWidgetShell';
 
 export type PortfolioDashboardLineChartProps = Readonly<
-  Omit<ComponentProps<typeof MultiLineChart>, 'ref'> & { metricName: string }
+  Omit<LineChartWidgetShellProps, 'historyRange'>
 >;
 
 type IssueResolutionMetric = Extract<
@@ -179,22 +177,9 @@ function PortfolioStandardLineChartView(
   }>,
 ) {
   const { portfolioId, widget } = props;
-  const { organizationReportingEnableNewDashboardWidgets } = useFlags();
   const lineChartProps = usePortfolioLineChartModel(widget, portfolioId);
 
-  const { metricName, series, ...rest } = lineChartProps;
-
-  return (
-    <div className="sw-h-full sw-min-h-0 sw-flex sw-flex-col">
-      <div className="sw-flex-1 sw-min-h-0">
-        {organizationReportingEnableNewDashboardWidgets ? (
-          <MultiLineChart series={series} {...rest} />
-        ) : (
-          <LineChart {...rest} data={series[0]?.data ?? []} metricName={metricName} showDots />
-        )}
-      </div>
-    </div>
-  );
+  return <LineChartWidgetShell {...lineChartProps} historyRange={widget.historyRange} />;
 }
 
 function IssueResolutionPortfolioLineChartView(
@@ -220,7 +205,6 @@ function IssueResolutionPortfolioLineChartView(
     statistic,
   });
 
-  const { organizationReportingEnableNewDashboardWidgets } = useFlags();
   const isMttr = statistic !== IssueResolutionStatistic.ResolvedIssues;
   const ariaLabel = formatMessage(
     { id: 'portfolio_dashboard.widget.line_chart.aria_label' },
@@ -236,37 +220,19 @@ function IssueResolutionPortfolioLineChartView(
     isMttr ? <Text isHighlighted>{formatMttr(value)}</Text> : formatDotValue(value, false);
 
   return (
-    <div className="sw-h-full sw-min-h-0 sw-flex sw-flex-col">
-      <div className="sw-flex-1 sw-min-h-0">
-        {organizationReportingEnableNewDashboardWidgets ? (
-          <MultiLineChart
-            ariaLabel={ariaLabel}
-            formatDotValue={formatDotValueFn}
-            formatTick={formatTickFn}
-            hasFetchError={isError}
-            isMetricRating={false}
-            isPending={isPending}
-            series={series}
-            showLegend={showLegend}
-            showTooltip
-          />
-        ) : (
-          <LineChart
-            ariaLabel={ariaLabel}
-            data={series[0]?.data ?? []}
-            formatDotValue={formatDotValueFn}
-            formatTick={formatTickFn}
-            hasFetchError={isError}
-            isMetricRating={false}
-            isPending={isPending}
-            metricName={metricName}
-            showDots
-            showLegend={showLegend}
-            showTooltip
-          />
-        )}
-      </div>
-    </div>
+    <LineChartWidgetShell
+      ariaLabel={ariaLabel}
+      formatDotValue={formatDotValueFn}
+      formatTick={formatTickFn}
+      hasFetchError={isError}
+      historyRange={historyRange}
+      isMetricRating={false}
+      isPending={isPending}
+      metricName={metricName}
+      series={series}
+      showLegend={showLegend}
+      showTooltip
+    />
   );
 }
 
@@ -292,44 +258,25 @@ function IssueDensityPortfolioLineChartView(
     metricName,
   });
 
-  const { organizationReportingEnableNewDashboardWidgets } = useFlags();
   const ariaLabel = formatMessage(
     { id: 'portfolio_dashboard.widget.line_chart.aria_label' },
     { metric: metricName },
   );
 
   return (
-    <div className="sw-h-full sw-min-h-0 sw-flex sw-flex-col">
-      <div className="sw-flex-1 sw-min-h-0">
-        {organizationReportingEnableNewDashboardWidgets ? (
-          <MultiLineChart
-            ariaLabel={ariaLabel}
-            formatDotValue={(value: number) => formatDotValue(value, false)}
-            formatTick={(tick: number) => formatYAxisTick(tick, false)}
-            hasFetchError={isError}
-            isMetricRating={false}
-            isPending={isPending}
-            series={series}
-            showLegend={showLegend}
-            showTooltip
-          />
-        ) : (
-          <LineChart
-            ariaLabel={ariaLabel}
-            data={series[0]?.data ?? []}
-            formatDotValue={(value: number) => formatDotValue(value, false)}
-            formatTick={(tick: number) => formatYAxisTick(tick, false)}
-            hasFetchError={isError}
-            isMetricRating={false}
-            isPending={isPending}
-            metricName={metricName}
-            showDots
-            showLegend={showLegend}
-            showTooltip
-          />
-        )}
-      </div>
-    </div>
+    <LineChartWidgetShell
+      ariaLabel={ariaLabel}
+      formatDotValue={(value: number) => formatDotValue(value, false)}
+      formatTick={(tick: number) => formatYAxisTick(tick, false)}
+      hasFetchError={isError}
+      historyRange={historyRange}
+      isMetricRating={false}
+      isPending={isPending}
+      metricName={metricName}
+      series={series}
+      showLegend={showLegend}
+      showTooltip
+    />
   );
 }
 
@@ -353,44 +300,25 @@ function ScaResolutionPortfolioLineChartView(
     measureFilters: metric.measureFilters,
     metricName,
   });
-  const { organizationReportingEnableNewDashboardWidgets } = useFlags();
   const ariaLabel = formatMessage(
     { id: 'portfolio_dashboard.widget.line_chart.aria_label' },
     { metric: metricName },
   );
 
   return (
-    <div className="sw-h-full sw-min-h-0 sw-flex sw-flex-col">
-      <div className="sw-flex-1 sw-min-h-0">
-        {organizationReportingEnableNewDashboardWidgets ? (
-          <MultiLineChart
-            ariaLabel={ariaLabel}
-            formatDotValue={formatMttrDotValue}
-            formatTick={formatMttrTick}
-            hasFetchError={isError}
-            isMetricRating={false}
-            isPending={isPending}
-            series={series}
-            showLegend={showLegend}
-            showTooltip
-          />
-        ) : (
-          <LineChart
-            ariaLabel={ariaLabel}
-            data={series[0]?.data ?? []}
-            formatDotValue={formatMttrDotValue}
-            formatTick={formatMttrTick}
-            hasFetchError={isError}
-            isMetricRating={false}
-            isPending={isPending}
-            metricName={metricName}
-            showDots
-            showLegend={showLegend}
-            showTooltip
-          />
-        )}
-      </div>
-    </div>
+    <LineChartWidgetShell
+      ariaLabel={ariaLabel}
+      formatDotValue={formatMttrDotValue}
+      formatTick={formatMttrTick}
+      hasFetchError={isError}
+      historyRange={historyRange}
+      isMetricRating={false}
+      isPending={isPending}
+      metricName={metricName}
+      series={series}
+      showLegend={showLegend}
+      showTooltip
+    />
   );
 }
 
