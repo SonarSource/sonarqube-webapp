@@ -223,6 +223,32 @@ export function organizationsHistoryStartDateWithRetentionBuffer(from = new Date
   return startOfUTCDay(oneYearAgo).toISOString();
 }
 
+/**
+ * Server-adapter mirror of `feature-dashboards/utils/datetime.ts#dashboardHistoryDateRange`.
+ * Importing the feature here would create a dependency cycle with the adapter consumer, so keep
+ * both implementations and their tests aligned.
+ */
+export function dashboardHistoryDateRange(months = 0, from = new Date()) {
+  if (!Number.isInteger(months) || months < 0) {
+    throw new RangeError(
+      `Dashboard history duration must be a non-negative integer; got ${months}`,
+    );
+  }
+
+  if (months === 0) {
+    return { startDate: organizationsHistoryStartDateWithRetentionBuffer(from) };
+  }
+
+  const requestedStart = startOfUTCDay(subUTCMonths(from, months));
+  const retentionStart = organizationsHistoryStartDateWithRetentionBuffer(from);
+  return {
+    startDate:
+      requestedStart.getTime() < Date.parse(retentionStart)
+        ? retentionStart
+        : requestedStart.toISOString(),
+  };
+}
+
 export function historySinceIsoDate(monthsBack: number, from = new Date()): string {
   return startOfUTCDay(subUTCMonths(from, Math.max(monthsBack, 1))).toISOString();
 }

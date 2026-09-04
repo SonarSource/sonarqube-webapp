@@ -18,281 +18,154 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useIntl } from 'react-intl';
 import { useDashboardProjectContext } from '~adapters/context/dashboardContext';
 import {
   buildProjectRawCountWidgetLink,
   buildProjectRichCountWidgetLink,
   getProjectDashboardMeasureHistoryUrl,
 } from '~adapters/helpers/dashboard-widget-urls';
-import {
-  useOrgIssueCountWidgetData,
-  useOrgMeasuresCountWidgetData,
-} from '~adapters/queries/count-widget-data';
+import { useDashboardMeasureQuery } from '~adapters/queries/dashboard-measure';
 import { useProjectLegacyIssueCountWidgetQuery } from '~adapters/queries/project-count-widget-data';
 import { useWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-metadata';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinner';
 import { WidgetNoData } from '../../components/common/WidgetNoData';
 import { CountWidget } from '../../components/visualizations/CountWidget';
-import { DashboardMetric, DashboardMetricType } from '../../data/widgets/shared';
+import { dashboardMetricToMeasure, type DashboardMeasure } from '../../data/dashboard-measure';
+import {
+  dashboardCountMetricType,
+  dashboardMeasureHistoryValues,
+  dashboardMeasureMetricKey,
+} from '../../data/dashboard-measure-history';
+import type { Props } from '../../data/widgets/count';
+import { DashboardMetricType, type DashboardMetric } from '../../data/widgets/shared';
+import { useMttrFormatters } from '../../hooks/useMttrFormatters';
 import { CodeScope } from '../../types/widget-common';
-import { computeTrendData } from '../../utils/countWidgetTrend';
+import {
+  computeDashboardMeasureTrendData,
+  getDashboardMetricDirectionOverride,
+} from '../../utils/countWidgetTrend';
 import { isCountWidgetTrendVisible } from '../../utils/countWidgetTrendIndicator';
-import { resolveRichCountTrendMetricMetadata } from '../../utils/portfolioWidgetData';
-import { getMetricKeyForScope } from '../../utils/projectWidgetData';
 import { getActualMetricKey } from '../../widget-creation-modal/utils/getActualMetricKey';
-import { IssueDensityCountWidgetWrapper } from '../common/IssueDensityCountWidgetWrapper';
-import { IssueResolutionCountWidgetWrapper } from '../common/IssueResolutionCountWidgetWrapper';
-import { ScaResolutionCountWidgetWrapper } from '../common/ScaResolutionCountWidgetWrapper';
 
-interface Props {
-  metric: DashboardMetric;
-  scope: CodeScope;
-  showTrendIndicator?: boolean;
+interface HistoryCountProps extends Props {
+  componentKey: string;
+  measure: DashboardMeasure;
 }
 
-function RichCountWidgetLegacy({
-  component,
-  metric,
-  scope,
-}: Readonly<{
-  component: string;
-  metric: Extract<DashboardMetric, { type: DashboardMetricType.Rich }>;
-  scope: CodeScope;
-}>) {
-  // Org issue-count-history has no new-code (leak period) filter; legacy search only.
-  const { measureFilters } = metric;
+function ProjectHistoryCountWidget(props: Readonly<HistoryCountProps>) {
+  const { formatMttr } = useMttrFormatters();
+  const { formatMessage } = useIntl();
+  const { projectEntityId } = useDashboardProjectContext();
+  const { componentKey, measure, metric, scope, showTrendIndicator = false } = props;
+  const trendVisible = isCountWidgetTrendVisible(showTrendIndicator, metric, scope);
+  const months = trendVisible ? 1 : undefined;
+  const query = useDashboardMeasureQuery(
+    {
+      entityId: projectEntityId ?? '',
+      entityType: 'PROJECT_BRANCH',
+      measure,
+      months,
+    },
+    Boolean(projectEntityId),
+  );
+  const metadataQuery = useWidgetMetricMetadataQuery();
 
-  const { data: issueCount, isLoading } = useProjectLegacyIssueCountWidgetQuery({
-    componentKey: component,
+  if (query.isPending || (measure.api === 'measures-history' && metadataQuery.isPending)) {
+    return <WidgetLoadingSpinner />;
+  }
+  if (!projectEntityId || !componentKey) {
+    return <WidgetNoData />;
+  }
+  if (query.isError || (measure.api === 'measures-history' && metadataQuery.isError)) {
+    return <WidgetNoData messageKey="dashboard.widget.error" />;
+  }
+
+  const measureFilters =
+    metric.type === DashboardMetricType.Rich ? metric.measureFilters : undefined;
+  const values = dashboardMeasureHistoryValues(
+    query.data,
+    measure,
+    metadataQuery.data?.[dashboardMeasureMetricKey(measure)]?.type,
     measureFilters,
-    scope,
-  });
+  );
+  const latest = values.at(-1);
+  if (latest === undefined) {
+    return <WidgetNoData />;
+  }
 
-  const actualMetricKey = getActualMetricKey(metric) as MetricKey;
+  const metricKey = dashboardMeasureMetricKey(measure);
+  const metricType = dashboardCountMetricType(measure, metadataQuery.data?.[metricKey]?.type);
+  const isMttr = metricType === 'MTTR_CALENDAR';
+  const trendMetric = {
+    direction: metadataQuery.data?.[metricKey]?.direction ?? -1,
+    type: metricType,
+  };
+  const trendData = computeDashboardMeasureTrendData({
+    activityUrl: getProjectDashboardMeasureHistoryUrl(componentKey, metricKey),
+    formatMttr,
+    isMttr,
+    measureFilters,
+    metric: trendMetric,
+    metricDirectionOverride: getDashboardMetricDirectionOverride(metric),
+    values,
+  });
+  let linkTo;
+  if (metric.type === DashboardMetricType.Raw) {
+    linkTo = buildProjectRawCountWidgetLink(componentKey, metric.metricKey, scope);
+  } else if (metric.type === DashboardMetricType.Rich) {
+    linkTo = buildProjectRichCountWidgetLink(componentKey, metric.measureFilters, scope);
+  }
+
+  return (
+    <CountWidget
+      linkTo={linkTo}
+      metricKey={metricKey}
+      metricType={metricType}
+      showTrendIndicator={trendVisible}
+      sparklineSeries={trendVisible ? values : undefined}
+      trendIndicatorData={{ isPending: false, trendData }}
+      unitLabel={
+        measure.api === 'issue-density-history'
+          ? formatMessage({ id: 'dashboard.widget.count.issue_density.unit' })
+          : undefined
+      }
+      value={isMttr ? formatMttr(latest) : String(latest)}
+    />
+  );
+}
+
+function ProjectNewCodeRichCountWidget({
+  componentKey,
+  metric,
+}: Readonly<{
+  componentKey: string;
+  metric: Extract<DashboardMetric, { type: DashboardMetricType.Rich }>;
+}>) {
+  // issue-count-history cannot filter by the leak period. Keep this snapshot-only path until the
+  // persisted dashboard schema migration normalizes unsupported new-code configurations.
+  const { data: issueCount, isLoading } = useProjectLegacyIssueCountWidgetQuery({
+    componentKey,
+    measureFilters: metric.measureFilters,
+    scope: CodeScope.New,
+  });
+  const metricKey = getActualMetricKey(metric) as MetricKey;
 
   if (isLoading) {
     return <WidgetLoadingSpinner />;
   }
-
   if (issueCount === undefined) {
     return <WidgetNoData />;
   }
 
   return (
     <CountWidget
-      linkTo={buildProjectRichCountWidgetLink(component, measureFilters, scope)}
-      metricKey={actualMetricKey}
+      linkTo={buildProjectRichCountWidgetLink(componentKey, metric.measureFilters, CodeScope.New)}
+      metricKey={metricKey}
       metricType={MetricType.Integer}
       showTrendIndicator={false}
       value={String(issueCount)}
-    />
-  );
-}
-
-function RichCountWidgetOrganizations({
-  branchEntityId,
-  componentKey,
-  metric,
-  scope,
-  showTrendIndicator,
-}: Readonly<{
-  branchEntityId: string;
-  componentKey: string;
-  metric: Extract<DashboardMetric, { type: DashboardMetricType.Rich }>;
-  scope: CodeScope;
-  showTrendIndicator: boolean;
-}>) {
-  const trendVisible = isCountWidgetTrendVisible(showTrendIndicator, metric, scope);
-  const { measureFilters } = metric;
-  const resolvedIssueMetricKey = getActualMetricKey(metric) as MetricKey;
-
-  const { data: issueHistoryData, isPending } = useOrgIssueCountWidgetData({
-    entityId: branchEntityId,
-    entityType: 'PROJECT_BRANCH',
-    measureFilters,
-    resolvedIssueMetricKey,
-    richMetricKey: metric.metricKey,
-  });
-
-  const latestTotal = issueHistoryData?.latestTotal ?? null;
-  const historicalValues = issueHistoryData?.historicalValues ?? null;
-  const metricMetadata = resolveRichCountTrendMetricMetadata(resolvedIssueMetricKey);
-
-  if (isPending) {
-    return <WidgetLoadingSpinner />;
-  }
-
-  if (latestTotal === null) {
-    return <WidgetNoData />;
-  }
-
-  const issuesUrl = buildProjectRichCountWidgetLink(componentKey, measureFilters, scope);
-  const trendData =
-    historicalValues?.current && historicalValues?.past
-      ? computeTrendData({
-          activityUrl: getProjectDashboardMeasureHistoryUrl(componentKey, resolvedIssueMetricKey),
-          currentValue: historicalValues.current,
-          measureFilters,
-          metric: metricMetadata,
-          pastValue: historicalValues.past,
-        })
-      : null;
-
-  return (
-    <CountWidget
-      linkTo={issuesUrl}
-      metricKey={resolvedIssueMetricKey}
-      metricType={MetricType.Integer}
-      showTrendIndicator={trendVisible}
-      sparklineSeries={trendVisible ? (issueHistoryData?.sparklineSeries ?? []) : undefined}
-      trendIndicatorData={{
-        isPending,
-        trendData,
-      }}
-      value={String(latestTotal)}
-    />
-  );
-}
-
-function RawCountWidgetOrganizations({
-  branchEntityId,
-  componentKey,
-  metric,
-  scope,
-  showTrendIndicator,
-}: Readonly<{
-  branchEntityId: string;
-  componentKey: string;
-  metric: Extract<DashboardMetric, { type: DashboardMetricType.Raw }>;
-  scope: CodeScope;
-  showTrendIndicator: boolean;
-}>) {
-  const isScopeNew = scope === CodeScope.New;
-  const trendVisible = isCountWidgetTrendVisible(showTrendIndicator, metric, scope);
-  const actualMetricKey = metric.metricKey;
-  const metricKeyForRequest = getMetricKeyForScope(actualMetricKey, isScopeNew);
-
-  const { data: metrics, isLoading: isMetricsListLoading } = useWidgetMetricMetadataQuery();
-  const metricMetadata = metrics?.[actualMetricKey];
-  const metricType = metricMetadata?.type;
-
-  const { data: measuresHistoryData, isPending } = useOrgMeasuresCountWidgetData({
-    entityId: branchEntityId,
-    entityType: 'PROJECT_BRANCH',
-    metricKeyForRequest,
-    metricType,
-  });
-
-  const rawValue = measuresHistoryData?.latestValue;
-  const historicalValues = measuresHistoryData?.trend;
-
-  if (isPending || isMetricsListLoading) {
-    return <WidgetLoadingSpinner />;
-  }
-
-  if (rawValue === undefined) {
-    return <WidgetNoData />;
-  }
-
-  const measureUrl = buildProjectRawCountWidgetLink(componentKey, actualMetricKey, scope);
-  const trendData =
-    historicalValues?.current && historicalValues?.past && metricMetadata
-      ? computeTrendData({
-          activityUrl: getProjectDashboardMeasureHistoryUrl(componentKey, actualMetricKey),
-          currentValue: historicalValues.current,
-          measureFilters: undefined,
-          metric: metricMetadata,
-          pastValue: historicalValues.past,
-        })
-      : null;
-
-  return (
-    <CountWidget
-      linkTo={measureUrl}
-      metricKey={actualMetricKey}
-      metricType={
-        metricType === MetricType.Data ? MetricType.Integer : (metricType ?? MetricType.Integer)
-      }
-      showTrendIndicator={trendVisible && Boolean(metricMetadata)}
-      sparklineSeries={
-        trendVisible && metricMetadata ? (measuresHistoryData?.sparklineSeries ?? []) : undefined
-      }
-      trendIndicatorData={
-        metricMetadata
-          ? {
-              isPending,
-              trendData,
-            }
-          : undefined
-      }
-      value={rawValue}
-    />
-  );
-}
-
-function ProjectCountWidgetOrganizationsView(
-  props: Readonly<Props & { branchEntityId: string; componentKey: string }>,
-) {
-  const { branchEntityId, componentKey, metric, scope, showTrendIndicator = false } = props;
-
-  if (metric.type === DashboardMetricType.Rich) {
-    // Org issue-count-history has no new-code (leak period) filter; keep legacy search for New scope.
-    if (scope === CodeScope.New) {
-      return <RichCountWidgetLegacy component={componentKey} metric={metric} scope={scope} />;
-    }
-
-    return (
-      <RichCountWidgetOrganizations
-        branchEntityId={branchEntityId}
-        componentKey={componentKey}
-        metric={metric}
-        scope={scope}
-        showTrendIndicator={showTrendIndicator}
-      />
-    );
-  }
-
-  if (metric.type === DashboardMetricType.IssueResolution) {
-    return (
-      <IssueResolutionCountWidgetWrapper
-        entityId={branchEntityId}
-        entityType="PROJECT_BRANCH"
-        metric={metric}
-        showTrendIndicator={showTrendIndicator}
-      />
-    );
-  }
-
-  if (metric.type === DashboardMetricType.IssueDensity) {
-    return (
-      <IssueDensityCountWidgetWrapper
-        entityId={branchEntityId}
-        entityType="PROJECT_BRANCH"
-        metric={metric}
-        showTrendIndicator={showTrendIndicator}
-      />
-    );
-  }
-
-  if (metric.type === DashboardMetricType.ScaResolution) {
-    return (
-      <ScaResolutionCountWidgetWrapper
-        entityId={branchEntityId}
-        entityType="PROJECT_BRANCH"
-        metric={metric}
-        showTrendIndicator={showTrendIndicator}
-      />
-    );
-  }
-
-  return (
-    <RawCountWidgetOrganizations
-      branchEntityId={branchEntityId}
-      componentKey={componentKey}
-      metric={metric}
-      scope={scope}
-      showTrendIndicator={showTrendIndicator}
     />
   );
 }
@@ -303,18 +176,18 @@ export function ProjectCountWidgetWrapper(props: Readonly<Props>) {
   if (isLoading) {
     return <WidgetLoadingSpinner />;
   }
-
   if (!projectEntityId || !componentKey) {
     return <WidgetNoData />;
   }
+  if (props.metric.type === DashboardMetricType.Rich && props.scope === CodeScope.New) {
+    return <ProjectNewCodeRichCountWidget componentKey={componentKey} metric={props.metric} />;
+  }
 
   return (
-    <ProjectCountWidgetOrganizationsView
-      branchEntityId={projectEntityId}
+    <ProjectHistoryCountWidget
+      {...props}
       componentKey={componentKey}
-      metric={props.metric}
-      scope={props.scope}
-      showTrendIndicator={props.showTrendIndicator}
+      measure={dashboardMetricToMeasure(props.metric, props.scope)}
     />
   );
 }

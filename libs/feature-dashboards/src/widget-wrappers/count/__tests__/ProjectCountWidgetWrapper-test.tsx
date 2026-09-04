@@ -18,381 +18,170 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
-import * as DashboardContext from '~adapters/context/dashboardContext';
-import * as CountWidgetData from '~adapters/queries/count-widget-data';
-import * as ProjectCountWidgetData from '~adapters/queries/project-count-widget-data';
-import * as WidgetMetricMetadata from '~adapters/queries/widget-metric-metadata';
-import { renderWithRouter } from '~shared/helpers/test-utils';
-import { MetricKey } from '~shared/types/metrics';
+import { render } from '@testing-library/react';
+import { useDashboardProjectContext } from '~adapters/context/dashboardContext';
+import { useDashboardMeasureQuery } from '~adapters/queries/dashboard-measure';
+import { useProjectLegacyIssueCountWidgetQuery } from '~adapters/queries/project-count-widget-data';
+import { useWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-metadata';
+import { MetricKey, MetricType } from '~shared/types/metrics';
+import { CountWidget } from '../../../components/visualizations/CountWidget';
 import { DashboardMetricType, RichMetricKey } from '../../../data/widgets/shared';
-import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
 import { CodeScope } from '../../../types/widget-common';
-import { ProjectCountWidgetWrapper as ProjectCountWidget } from '../ProjectCountWidgetWrapper';
+import { computeDashboardMeasureTrendData } from '../../../utils/countWidgetTrend';
+import { ProjectCountWidgetWrapper } from '../ProjectCountWidgetWrapper';
 
-jest.mock('react-router-dom', () => {
-  const actual = jest.requireActual<typeof import('react-router-dom')>('react-router-dom');
-  return {
-    ...actual,
-    useSearchParams: () => [new URLSearchParams('id=my-project')],
-  };
-});
-
-jest.mock('~feature-dashboards/components/visualizations/CountWidget', () => ({
-  ...(jest.requireActual('~feature-dashboards/components/visualizations/CountWidget') as object),
-  CountWidget: function CountWidget() {
-    return <div data-testid="project-count-widget" />;
-  },
+jest.mock('~adapters/context/dashboardContext');
+jest.mock('~adapters/queries/dashboard-measure');
+jest.mock('~adapters/queries/project-count-widget-data');
+jest.mock('~adapters/queries/widget-metric-metadata');
+jest.mock('../../../components/visualizations/CountWidget', () => ({
+  CountWidget: jest.fn(() => <div data-testid="count" />),
+}));
+jest.mock('../../../utils/countWidgetTrend');
+jest.mock('../../../hooks/useMttrFormatters', () => ({
+  useMttrFormatters: () => ({ formatMttr: String }),
 }));
 
-jest.mock('~feature-dashboards/components/common/WidgetLoadingSpinner', () => ({
-  WidgetLoadingSpinner: function WidgetLoadingSpinner() {
-    return <div data-testid="project-count-loading" />;
-  },
-}));
-
-jest.mock('~feature-dashboards/components/common/WidgetNoData', () => ({
-  WidgetNoData: function WidgetNoData() {
-    return <div data-testid="project-count-no-data" />;
-  },
-}));
-
-jest.mock('../../common/IssueResolutionCountWidgetWrapper', () => ({
-  IssueResolutionCountWidgetWrapper: (props: { entityId: string; entityType: string }) => (
-    <div
-      data-entity-id={props.entityId}
-      data-entity-type={props.entityType}
-      data-testid="issue-resolution-count-widget"
-    />
-  ),
-}));
-
-jest.mock('../../common/IssueDensityCountWidgetWrapper', () => ({
-  IssueDensityCountWidgetWrapper: (props: { entityId: string; entityType: string }) => (
-    <div
-      data-entity-id={props.entityId}
-      data-entity-type={props.entityType}
-      data-testid="issue-density-count-widget"
-    />
-  ),
-}));
-
-jest.mock('../../common/ScaResolutionCountWidgetWrapper', () => ({
-  ScaResolutionCountWidgetWrapper: (props: { entityId: string; entityType: string }) => (
-    <div
-      data-entity-id={props.entityId}
-      data-entity-type={props.entityType}
-      data-testid="sca-resolution-count-widget"
-    />
-  ),
-}));
-
-jest.mock('~adapters/helpers/dashboard-widget-urls', () => ({
-  buildProjectRawCountWidgetLink: () => '#',
-  buildProjectRichCountWidgetLink: () => '#',
-  getProjectDashboardMeasureHistoryUrl: () => ({ pathname: '#' }),
-}));
-
-jest.mock('~adapters/context/dashboardContext', () => ({
-  useDashboardProjectContext: jest.fn(),
-}));
-
-jest.mock('~adapters/queries/count-widget-data', () => ({
-  useOrgIssueCountWidgetData: jest.fn(),
-  useOrgMeasuresCountWidgetData: jest.fn(),
-}));
-
-jest.mock('~adapters/queries/project-count-widget-data', () => ({
-  useProjectLegacyIssueCountWidgetQuery: jest.fn(),
-}));
-
-jest.mock('~adapters/queries/widget-metric-metadata', () => ({
-  useWidgetMetricMetadataQuery: jest.fn(),
-}));
-
-const mockBranchId = '00000000-0000-4000-8000-000000000099';
-
-const rawMetric = {
-  type: DashboardMetricType.Raw,
-  metricKey: MetricKey.ncloc,
-} as const;
-
-const richMetric = {
-  type: DashboardMetricType.Rich,
-  metricKey: RichMetricKey.Issues,
-} as const;
-
-describe('ProjectCountWidget', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-    jest.mocked(DashboardContext.useDashboardProjectContext).mockReturnValue({
-      componentKey: 'my-project',
+describe('ProjectCountWidgetWrapper', () => {
+  it('converts the persisted metric before using the unified query', () => {
+    const measure = {
+      api: 'measures-history' as const,
+      metricKey: MetricKey.coverage,
+      scope: CodeScope.Overall,
+    };
+    jest.mocked(useDashboardProjectContext).mockReturnValue({
+      componentKey: 'project',
       isLoading: false,
-      organization: 'my-org',
-      projectEntityId: mockBranchId,
+      organization: 'org',
+      projectEntityId: 'branch',
     });
-    jest.mocked(CountWidgetData.useOrgMeasuresCountWidgetData).mockReturnValue({
+    jest.mocked(useDashboardMeasureQuery).mockReturnValue({
       data: {
-        latestValue: '42',
-        sparklineSeries: [],
-        trend: { current: null, past: null },
+        api: 'measures-history',
+        history: [
+          {
+            date: '2026-08-30',
+            measures: [{ metric: MetricKey.coverage, type: 'PERCENT', value: '82.5' }],
+          },
+        ],
       },
+      isError: false,
       isPending: false,
-    } as unknown as ReturnType<typeof CountWidgetData.useOrgMeasuresCountWidgetData>);
-    jest.mocked(CountWidgetData.useOrgIssueCountWidgetData).mockReturnValue({
+    } as ReturnType<typeof useDashboardMeasureQuery>);
+    jest.mocked(useWidgetMetricMetadataQuery).mockReturnValue({
       data: {
-        historicalValues: { current: null, past: null },
-        latestTotal: 5,
-        sparklineSeries: [],
+        [MetricKey.coverage]: {
+          key: MetricKey.coverage,
+          name: 'Coverage',
+          type: MetricType.Percent,
+        },
       },
+      isError: false,
       isPending: false,
-    } as unknown as ReturnType<typeof CountWidgetData.useOrgIssueCountWidgetData>);
-    jest.mocked(ProjectCountWidgetData.useProjectLegacyIssueCountWidgetQuery).mockReturnValue({
-      data: 3,
-      isLoading: false,
-    } as ReturnType<typeof ProjectCountWidgetData.useProjectLegacyIssueCountWidgetQuery>);
-    jest.mocked(WidgetMetricMetadata.useWidgetMetricMetadataQuery).mockReturnValue({
-      data: {},
-      isLoading: false,
-    } as unknown as ReturnType<typeof WidgetMetricMetadata.useWidgetMetricMetadataQuery>);
-  });
+    } as unknown as ReturnType<typeof useWidgetMetricMetadataQuery>);
 
-  afterEach(() => {
-    jest.restoreAllMocks();
-  });
+    render(
+      <ProjectCountWidgetWrapper
+        metric={{ metricKey: MetricKey.coverage, type: DashboardMetricType.Raw }}
+        scope={CodeScope.Overall}
+      />,
+    );
 
-  it('uses organizations measures-history for raw metrics', () => {
-    const orgSpy = jest.mocked(CountWidgetData.useOrgMeasuresCountWidgetData).mockReturnValue({
-      data: { latestValue: '42', sparklineSeries: [], trend: { current: '42', past: '40' } },
-      isPending: false,
-    } as unknown as ReturnType<typeof CountWidgetData.useOrgMeasuresCountWidgetData>);
-
-    renderWithRouter(<ProjectCountWidget metric={rawMetric} scope={CodeScope.Overall} />);
-
-    expect(orgSpy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        entityId: mockBranchId,
+    expect(useDashboardMeasureQuery).toHaveBeenCalledWith(
+      {
+        entityId: 'branch',
         entityType: 'PROJECT_BRANCH',
-        metricKeyForRequest: MetricKey.ncloc,
+        measure,
+        months: undefined,
+      },
+      true,
+    );
+    expect(CountWidget).toHaveBeenCalledWith(
+      expect.objectContaining({ metricKey: MetricKey.coverage, value: '82.5' }),
+      undefined,
+    );
+  });
+
+  it('uses the coerced display type for trend formatting', () => {
+    jest.mocked(useDashboardProjectContext).mockReturnValue({
+      componentKey: 'project',
+      isLoading: false,
+      organization: 'org',
+      projectEntityId: 'branch',
+    });
+    jest.mocked(useDashboardMeasureQuery).mockReturnValue({
+      data: {
+        api: 'measures-history',
+        history: [
+          {
+            date: '2026-07-30',
+            measures: [{ metric: MetricKey.coverage, type: 'DATA', value: '70' }],
+          },
+          {
+            date: '2026-08-30',
+            measures: [{ metric: MetricKey.coverage, type: 'DATA', value: '80' }],
+          },
+        ],
+      },
+      isError: false,
+      isPending: false,
+    } as ReturnType<typeof useDashboardMeasureQuery>);
+    jest.mocked(useWidgetMetricMetadataQuery).mockReturnValue({
+      data: {
+        [MetricKey.coverage]: {
+          direction: 1,
+          key: MetricKey.coverage,
+          name: 'Coverage',
+          type: MetricType.Data,
+        },
+      },
+      isError: false,
+      isPending: false,
+    } as unknown as ReturnType<typeof useWidgetMetricMetadataQuery>);
+
+    render(
+      <ProjectCountWidgetWrapper
+        metric={{ metricKey: MetricKey.coverage, type: DashboardMetricType.Raw }}
+        scope={CodeScope.Overall}
+        showTrendIndicator
+      />,
+    );
+
+    expect(computeDashboardMeasureTrendData).toHaveBeenCalledWith(
+      expect.objectContaining({
+        metric: { direction: 1, type: MetricType.Integer },
       }),
     );
   });
 
-  it('renders count widget when raw org history returns data', () => {
-    jest.mocked(CountWidgetData.useOrgMeasuresCountWidgetData).mockReturnValue({
-      data: {
-        latestValue: '42',
-        sparklineSeries: [40, 41, 42],
-        trend: { current: null, past: null },
-      },
-      isPending: false,
-    } as unknown as ReturnType<typeof CountWidgetData.useOrgMeasuresCountWidgetData>);
-    jest
-      .mocked(WidgetMetricMetadata.useWidgetMetricMetadataQuery)
-      .mockReturnValue({ isLoading: false, data: {} } as ReturnType<
-        typeof WidgetMetricMetadata.useWidgetMetricMetadataQuery
-      >);
-
-    renderWithRouter(<ProjectCountWidget metric={rawMetric} scope={CodeScope.Overall} />);
-
-    expect(screen.getByTestId('project-count-widget')).toBeInTheDocument();
-  });
-
-  it('uses pull request entity id when branchLike is a PR', () => {
-    const mockPrId = 'pr-uuid-v4-id';
-    jest.mocked(DashboardContext.useDashboardProjectContext).mockReturnValue({
-      componentKey: 'my-project',
+  it('keeps new-code rich counts on the legacy snapshot query', () => {
+    jest.mocked(useDashboardMeasureQuery).mockClear();
+    jest.mocked(useDashboardProjectContext).mockReturnValue({
+      componentKey: 'project',
       isLoading: false,
-      organization: 'my-org',
-      projectEntityId: mockPrId,
+      organization: 'org',
+      projectEntityId: 'branch',
     });
-    const orgSpy = jest.mocked(CountWidgetData.useOrgIssueCountWidgetData).mockReturnValue({
-      data: {
-        historicalValues: { current: null, past: null },
-        latestTotal: 5,
-        sparklineSeries: [],
-      },
-      isPending: false,
-    } as unknown as ReturnType<typeof CountWidgetData.useOrgIssueCountWidgetData>);
-
-    renderWithRouter(<ProjectCountWidget metric={richMetric} scope={CodeScope.Overall} />);
-
-    expect(orgSpy).toHaveBeenCalledWith(expect.objectContaining({ entityId: mockPrId }));
-  });
-
-  it('uses organizations issue-count-history for rich metrics', () => {
-    const orgSpy = jest.mocked(CountWidgetData.useOrgIssueCountWidgetData).mockReturnValue({
-      data: {
-        historicalValues: { current: '10', past: '8' },
-        latestTotal: 10,
-        sparklineSeries: [8, 9, 10],
-      },
-      isPending: false,
-    } as unknown as ReturnType<typeof CountWidgetData.useOrgIssueCountWidgetData>);
-
-    renderWithRouter(<ProjectCountWidget metric={richMetric} scope={CodeScope.Overall} />);
-
-    expect(orgSpy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        entityId: mockBranchId,
-        entityType: 'PROJECT_BRANCH',
-      }),
-    );
-    expect(screen.getByTestId('project-count-widget')).toBeInTheDocument();
-  });
-
-  it('renders the shared issue-resolution count widget for MTTR', () => {
-    renderWithRouter(
-      <ProjectCountWidget
-        metric={{
-          statistic: IssueResolutionStatistic.MTTR,
-          type: DashboardMetricType.IssueResolution,
-        }}
-        scope={CodeScope.Overall}
-        showTrendIndicator
-      />,
-    );
-
-    expect(screen.getByTestId('issue-resolution-count-widget')).toHaveAttribute(
-      'data-entity-id',
-      mockBranchId,
-    );
-    expect(screen.getByTestId('issue-resolution-count-widget')).toHaveAttribute(
-      'data-entity-type',
-      'PROJECT_BRANCH',
-    );
-  });
-
-  it('renders issue density for the current project branch', () => {
-    renderWithRouter(
-      <ProjectCountWidget
-        metric={{ type: DashboardMetricType.IssueDensity }}
-        scope={CodeScope.Overall}
-        showTrendIndicator
-      />,
-    );
-
-    expect(screen.getByTestId('issue-density-count-widget')).toHaveAttribute(
-      'data-entity-id',
-      mockBranchId,
-    );
-    expect(screen.getByTestId('issue-density-count-widget')).toHaveAttribute(
-      'data-entity-type',
-      'PROJECT_BRANCH',
-    );
-  });
-
-  it('renders SCA MTTR for the current project branch', () => {
-    renderWithRouter(
-      <ProjectCountWidget
-        metric={{
-          type: DashboardMetricType.ScaResolution,
-        }}
-        scope={CodeScope.Overall}
-        showTrendIndicator
-      />,
-    );
-
-    expect(screen.getByTestId('sca-resolution-count-widget')).toHaveAttribute(
-      'data-entity-id',
-      mockBranchId,
-    );
-    expect(screen.getByTestId('sca-resolution-count-widget')).toHaveAttribute(
-      'data-entity-type',
-      'PROJECT_BRANCH',
-    );
-  });
-
-  it('uses legacy issue count search for new-code rich metrics', () => {
-    const legacySpy = jest.mocked(ProjectCountWidgetData.useProjectLegacyIssueCountWidgetQuery);
-    const orgSpy = jest.mocked(CountWidgetData.useOrgIssueCountWidgetData);
-
-    renderWithRouter(<ProjectCountWidget metric={richMetric} scope={CodeScope.New} />);
-
-    expect(legacySpy).toHaveBeenCalled();
-    expect(orgSpy).not.toHaveBeenCalled();
-  });
-
-  it('shows loading spinner while branches are loading', () => {
-    jest.mocked(DashboardContext.useDashboardProjectContext).mockReturnValue({
-      componentKey: 'my-project',
-      isLoading: true,
-      organization: 'my-org',
-      projectEntityId: mockBranchId,
-    });
-
-    renderWithRouter(<ProjectCountWidget metric={rawMetric} scope={CodeScope.Overall} />);
-
-    expect(screen.getByTestId('project-count-loading')).toBeInTheDocument();
-  });
-
-  it('shows no-data widget when branch entity id is unavailable', () => {
-    jest.mocked(DashboardContext.useDashboardProjectContext).mockReturnValue({
-      componentKey: 'my-project',
+    jest.mocked(useProjectLegacyIssueCountWidgetQuery).mockReturnValue({
+      data: 7,
       isLoading: false,
-      organization: 'my-org',
-      projectEntityId: undefined,
     });
 
-    renderWithRouter(<ProjectCountWidget metric={rawMetric} scope={CodeScope.Overall} />);
+    render(
+      <ProjectCountWidgetWrapper
+        metric={{ metricKey: RichMetricKey.Issues, type: DashboardMetricType.Rich }}
+        scope={CodeScope.New}
+        showTrendIndicator
+      />,
+    );
 
-    expect(screen.getByTestId('project-count-no-data')).toBeInTheDocument();
-  });
-
-  it('shows loading spinner while raw org history query is pending', () => {
-    jest.mocked(CountWidgetData.useOrgMeasuresCountWidgetData).mockReturnValue({
-      isPending: true,
-      data: undefined,
-    } as unknown as ReturnType<typeof CountWidgetData.useOrgMeasuresCountWidgetData>);
-
-    renderWithRouter(<ProjectCountWidget metric={rawMetric} scope={CodeScope.Overall} />);
-
-    expect(screen.getByTestId('project-count-loading')).toBeInTheDocument();
-  });
-
-  it('shows no-data widget when raw org history query returns no value', () => {
-    jest.mocked(CountWidgetData.useOrgMeasuresCountWidgetData).mockReturnValue({
-      isPending: false,
-      data: {
-        latestValue: undefined,
-        sparklineSeries: [],
-        trend: { current: null, past: null },
-      },
-    } as unknown as ReturnType<typeof CountWidgetData.useOrgMeasuresCountWidgetData>);
-    jest
-      .mocked(WidgetMetricMetadata.useWidgetMetricMetadataQuery)
-      .mockReturnValue({ isLoading: false, data: {} } as ReturnType<
-        typeof WidgetMetricMetadata.useWidgetMetricMetadataQuery
-      >);
-
-    renderWithRouter(<ProjectCountWidget metric={rawMetric} scope={CodeScope.Overall} />);
-
-    expect(screen.getByTestId('project-count-no-data')).toBeInTheDocument();
-  });
-
-  it('shows loading spinner while rich org history query is pending', () => {
-    jest.mocked(CountWidgetData.useOrgIssueCountWidgetData).mockReturnValue({
-      isPending: true,
-      data: undefined,
-    } as unknown as ReturnType<typeof CountWidgetData.useOrgIssueCountWidgetData>);
-
-    renderWithRouter(<ProjectCountWidget metric={richMetric} scope={CodeScope.Overall} />);
-
-    expect(screen.getByTestId('project-count-loading')).toBeInTheDocument();
-  });
-
-  it('shows no-data widget when rich org history query returns null total', () => {
-    jest.mocked(CountWidgetData.useOrgIssueCountWidgetData).mockReturnValue({
-      isPending: false,
-      data: {
-        historicalValues: { current: null, past: null },
-        latestTotal: null,
-        sparklineSeries: [],
-      },
-    } as unknown as ReturnType<typeof CountWidgetData.useOrgIssueCountWidgetData>);
-
-    renderWithRouter(<ProjectCountWidget metric={richMetric} scope={CodeScope.Overall} />);
-
-    expect(screen.getByTestId('project-count-no-data')).toBeInTheDocument();
+    expect(useProjectLegacyIssueCountWidgetQuery).toHaveBeenCalledWith(
+      expect.objectContaining({ componentKey: 'project', scope: CodeScope.New }),
+    );
+    expect(useDashboardMeasureQuery).not.toHaveBeenCalled();
+    expect(CountWidget).toHaveBeenCalledWith(
+      expect.objectContaining({ showTrendIndicator: false, value: '7' }),
+      undefined,
+    );
   });
 });

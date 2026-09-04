@@ -28,8 +28,6 @@ import {
   RichMetricKey,
 } from '../../types/dashboard-widget';
 import {
-  type IssueCountStatus,
-  type IssueSeverity,
   type OrganizationIssueImpactQueryValue,
   PORTFOLIO_SECURITY_HOTSPOT_ISSUE_TYPES,
 } from '../../types/organization-issue-count-history';
@@ -104,14 +102,12 @@ function getIssueRequest(
         : organizationIssueImpactQueryValuesForSoftwareQualities([quality]);
   }
 
-  request.statuses = measureFilters?.issueStatus
-    ? [measureFilters.issueStatus as IssueCountStatus]
-    : ['OPEN'];
+  request.statuses = measureFilters?.issueStatus ? [measureFilters.issueStatus] : ['OPEN'];
 
   if (!measureFilters?.impactSoftwareQuality) {
     const [severity] = measureFilters?.impactSeverities ?? [];
     if (severity) {
-      request.severities = [severity as IssueSeverity];
+      request.severities = [severity];
     }
   }
 

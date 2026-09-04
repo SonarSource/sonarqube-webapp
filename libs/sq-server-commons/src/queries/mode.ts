@@ -20,18 +20,20 @@
 
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
-import { createQueryHook } from '~shared/queries/common';
+import { createQueryHook, StaleTime } from '~shared/queries/common';
 import { getMode, updateMode } from '../api/mode';
 import { addGlobalSuccessMessage } from '../design-system';
 import { Mode, ModeResponse } from '../types/mode';
 
-const useModeQuery = createQueryHook(() => {
+const modeQueryOptions = () => {
   return queryOptions({
     queryKey: ['mode'] as const,
     queryFn: getMode,
-    staleTime: Infinity,
+    staleTime: StaleTime.NEVER,
   });
-});
+};
+
+const useModeQuery = createQueryHook(modeQueryOptions);
 
 export const useStandardExperienceModeQuery = (options?: Parameters<typeof useModeQuery>[0]) => {
   return useModeQuery({

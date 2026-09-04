@@ -75,6 +75,19 @@ export function isAicaMetric(metricKey: string): boolean {
   return metricKey.endsWith('_with_aica') || metricKey.endsWith('_without_aica');
 }
 
+export function getMetricKeyForScope(
+  metricKey: MetricKey,
+  isScopeNew: boolean,
+): MetricKey | string {
+  if (!isScopeNew || metricKey.startsWith('new_')) {
+    return metricKey;
+  }
+  if (metricKey === MetricKey.sqale_rating) {
+    return MetricKey.new_maintainability_rating;
+  }
+  return `new_${metricKey}`;
+}
+
 export function parsePortfolioMetricDirection(direction: string | undefined): number | undefined {
   if (direction === undefined) {
     return undefined;

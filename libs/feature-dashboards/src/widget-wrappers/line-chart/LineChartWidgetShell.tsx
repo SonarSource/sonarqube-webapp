@@ -24,35 +24,25 @@ import { useIntl } from 'react-intl';
 import { useFlags } from '~adapters/helpers/feature-flags';
 import { LineChart } from '../../components/visualizations/line-chart/LineChart';
 import { MultiLineChart } from '../../components/visualizations/multi-line-chart/MultiLineChart';
-import { HistoryRange } from '../../data/widgets/line-chart';
-import { lineChartSinceDate } from '../../utils/datetime';
 import { getLimitedHistoryStartDate } from '../../utils/lineChartHistoryUtils';
 
 export type LineChartWidgetShellProps = Readonly<
   Omit<ComponentProps<typeof MultiLineChart>, 'ref'> & {
-    historyRange: HistoryRange;
     metricName: string;
+    requestedStartDate?: Date;
   }
 >;
-
-function isLongHistoryRange(historyRange: HistoryRange): boolean {
-  return (
-    historyRange === HistoryRange.Last6Months ||
-    historyRange === HistoryRange.Last12Months ||
-    historyRange === HistoryRange.All
-  );
-}
 
 export function LineChartWidgetShell(props: LineChartWidgetShellProps) {
   const { organizationReportingEnableNewDashboardWidgets } = useFlags();
   const { formatDate, formatMessage } = useIntl();
-  const { hasFetchError, historyRange, isPending, metricName, series, ...rest } = props;
+  const { hasFetchError, isPending, metricName, requestedStartDate, series, ...rest } = props;
   const renderedSeries = organizationReportingEnableNewDashboardWidgets
     ? series
     : series.slice(0, 1);
   const limitedHistoryStartDate =
-    !hasFetchError && !isPending && isLongHistoryRange(historyRange)
-      ? getLimitedHistoryStartDate(renderedSeries, new Date(lineChartSinceDate(historyRange)))
+    !hasFetchError && !isPending && requestedStartDate !== undefined
+      ? getLimitedHistoryStartDate(renderedSeries, requestedStartDate)
       : undefined;
 
   return (

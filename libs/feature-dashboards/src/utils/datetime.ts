@@ -35,8 +35,6 @@ export const THIRTY_DAYS_MS = 30 * MS_PER_DAY;
 /** Stay inside the organizations history API one-year window (clock skew / end-of-day safety). */
 const ORGANIZATIONS_HISTORY_RETENTION_BUFFER_DAYS = 1;
 
-const ORGANIZATIONS_HISTORY_MIN_MONTHS = Number(HistoryRange.Last12Months);
-
 export const FORMAT_MONTH_DAY: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
 export const FORMAT_MONTH_YEAR: Intl.DateTimeFormatOptions = { month: 'short', year: 'numeric' };
 export const FORMAT_FULL: Intl.DateTimeFormatOptions = {
@@ -187,15 +185,45 @@ export function clampOrganizationsHistoryStartDate(
   return new Date(bufferedStartMs).toISOString();
 }
 
-function clampToOrganizationsHistoryRetentionBuffer(
-  startDate: Date,
-  from: Date = new Date(),
-): string {
-  return clampOrganizationsHistoryStartDate(startDate.toISOString(), from);
+export function historyRangeToMonths(historyRange: HistoryRange): number {
+  return Number(historyRange === HistoryRange.All ? HistoryRange.Last12Months : historyRange);
 }
 
-function getHistoryRangeMonths(historyRange: HistoryRange): number {
-  return Number(historyRange === HistoryRange.All ? HistoryRange.Last12Months : historyRange);
+export interface DashboardHistoryDateRange {
+  startDate: string;
+}
+
+/**
+ * The feature conversion boundary from dashboard history duration to API dates.
+ *
+ * Zero or omitted months means "latest snapshot". Because an entity may not have an analysis
+ * today, snapshot queries request the retained window and consumers select its latest point.
+ * Positive values use UTC calendar-month subtraction and are clamped to API retention.
+ *
+ * The Server adapter mirrors this in `sq-server-commons/helpers/dashboard-widget-data.ts` because
+ * it cannot import from the feature that consumes the adapter. Keep both implementations and their
+ * tests aligned.
+ */
+export function dashboardHistoryDateRange(
+  months = 0,
+  from: Date = new Date(),
+): DashboardHistoryDateRange {
+  if (!Number.isInteger(months) || months < 0) {
+    throw new RangeError(
+      `Dashboard history duration must be a non-negative integer; got ${months}`,
+    );
+  }
+
+  if (months === 0) {
+    return {
+      startDate: organizationsHistoryStartDateWithRetentionBuffer(from),
+    };
+  }
+
+  const requestedStart = startOfUTCDay(subUTCMonths(from, months)).toISOString();
+  return {
+    startDate: clampOrganizationsHistoryStartDate(requestedStart, from),
+  };
 }
 
 /**
@@ -205,25 +233,19 @@ function getHistoryRangeMonths(historyRange: HistoryRange): number {
  */
 export function isDateInLineChartRange(pointDate: Date, historyRange: HistoryRange): boolean {
   const maxDate = new Date();
-  const months = getHistoryRangeMonths(historyRange);
+  const months = historyRangeToMonths(historyRange);
   const rangeStartDate = subMonths(maxDate, months);
   return pointDate >= rangeStartDate && pointDate <= maxDate;
 }
 
 /** Generalized function to get an ISO UTC midnight string N months in the past. */
 export function historySinceIsoDate(monthsBack: number, from: Date = new Date()): string {
-  return startOfUTCDay(subUTCMonths(from, Math.max(monthsBack, 1))).toISOString();
+  return dashboardHistoryDateRange(Math.max(monthsBack, 1), from).startDate;
 }
 
 /** ISO UTC midnight for organizations API `startDate`; clamps ranges ≥ 12 months to retention. */
 export function lineChartSinceDate(historyRange: HistoryRange, from: Date = new Date()): string {
-  const months = getHistoryRangeMonths(historyRange);
-  const isoDate = historySinceIsoDate(months, from);
-
-  if (months >= ORGANIZATIONS_HISTORY_MIN_MONTHS) {
-    return clampToOrganizationsHistoryRetentionBuffer(new Date(isoDate), from);
-  }
-  return isoDate;
+  return dashboardHistoryDateRange(historyRangeToMonths(historyRange), from).startDate;
 }
 
 /** ISO UTC midnight 30 days ago, used as API `startDate` for portfolio issue trend history. */

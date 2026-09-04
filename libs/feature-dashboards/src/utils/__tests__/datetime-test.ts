@@ -22,6 +22,7 @@ import { HistoryRange } from '../../data/widgets/line-chart';
 import {
   addUTCDays,
   clampOrganizationsHistoryStartDate,
+  dashboardHistoryDateRange,
   FORMAT_DAY_TIME,
   FORMAT_FULL,
   FORMAT_MONTH_DAY,
@@ -89,6 +90,36 @@ describe('datetime', () => {
     it('clamps to a minimum of 1 month', () => {
       const from = new Date('2026-06-25T15:45:30.123Z');
       expect(historySinceIsoDate(0, from)).toBe('2026-05-25T00:00:00.000Z');
+    });
+  });
+
+  describe('dashboardHistoryDateRange', () => {
+    const endOfMonth = new Date('2026-03-31T12:00:00.000Z');
+
+    it('uses retained history for zero and omitted snapshot durations', () => {
+      expect(dashboardHistoryDateRange(undefined, endOfMonth)).toEqual({
+        startDate: '2025-04-01T00:00:00.000Z',
+      });
+      expect(dashboardHistoryDateRange(0, endOfMonth)).toEqual(
+        dashboardHistoryDateRange(undefined, endOfMonth),
+      );
+    });
+
+    it('subtracts positive durations as UTC calendar months', () => {
+      expect(dashboardHistoryDateRange(1, endOfMonth)).toEqual({
+        startDate: '2026-02-28T00:00:00.000Z',
+      });
+    });
+
+    it('clamps durations beyond API retention', () => {
+      expect(dashboardHistoryDateRange(18, endOfMonth)).toEqual({
+        startDate: '2025-04-01T00:00:00.000Z',
+      });
+    });
+
+    it('rejects negative and fractional durations', () => {
+      expect(() => dashboardHistoryDateRange(-1, endOfMonth)).toThrow(RangeError);
+      expect(() => dashboardHistoryDateRange(1.5, endOfMonth)).toThrow(RangeError);
     });
   });
 

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { type SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 
 /**
  * Request-side shapes for the organizations issue-count-history endpoint
@@ -33,7 +33,7 @@ export type IssueCountSliceBy = 'RULE_KEY' | 'SEVERITY' | 'SOFTWARE_QUALITY' | '
 
 export type IssueType = 'BUG' | 'CODE_SMELL' | 'SECURITY_HOTSPOT' | 'VULNERABILITY';
 
-export type IssueSeverity = 'BLOCKER' | 'HIGH' | 'INFO' | 'LOW' | 'MEDIUM';
+export type IssueSeverity = `${SoftwareImpactSeverity}`;
 
 /**
  * Organizations issue-count APIs `statuses` query param (`IssueCountStatus` on the backend).

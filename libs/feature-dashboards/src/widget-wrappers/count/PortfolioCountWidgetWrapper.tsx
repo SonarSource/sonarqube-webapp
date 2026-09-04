@@ -18,302 +18,122 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useIntl } from 'react-intl';
 import { useDashboardPortfolioContext } from '~adapters/context/dashboardContext';
 import { getPortfolioDashboardWidgetDrilldownUrl } from '~adapters/helpers/dashboard-widget-urls';
-import {
-  useOrgIssueCountWidgetData,
-  useOrgMeasuresCountWidgetData,
-} from '~adapters/queries/count-widget-data';
+import { useDashboardMeasureQuery } from '~adapters/queries/dashboard-measure';
 import { usePortfolioWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-metadata';
 import { parsePortfolioMetricDirection } from '~shared/helpers/metrics';
-import { MetricKey, MetricType } from '~shared/types/metrics';
 import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinner';
 import { WidgetNoData } from '../../components/common/WidgetNoData';
 import { isPortfolioCountWidgetDrilldownSupported } from '../../components/portfolio-drilldown/portfolioCountDrilldown';
 import { CountWidget } from '../../components/visualizations/CountWidget';
 import { useOptionalWidgetInstanceContext } from '../../dashboard-layout/shared/WidgetInstanceContext';
-import { DashboardMetric, DashboardMetricType } from '../../data/widgets/shared';
-import { CodeScope } from '../../types/widget-common';
-import { computeTrendData } from '../../utils/countWidgetTrend';
+import { dashboardMetricToMeasure } from '../../data/dashboard-measure';
+import {
+  dashboardCountMetricType,
+  dashboardMeasureHistoryValues,
+  dashboardMeasureMetricKey,
+} from '../../data/dashboard-measure-history';
+import type { Props as CountWidgetConfig } from '../../data/widgets/count';
+import { DashboardMetricType } from '../../data/widgets/shared';
+import { useMttrFormatters } from '../../hooks/useMttrFormatters';
+import {
+  computeDashboardMeasureTrendData,
+  getDashboardMetricDirectionOverride,
+} from '../../utils/countWidgetTrend';
 import { isCountWidgetTrendVisible } from '../../utils/countWidgetTrendIndicator';
-import { getPortfolioDashboardMeasureRequestKey } from '../../utils/portfolioMeasures';
-import { resolveRichCountTrendMetricMetadata } from '../../utils/portfolioWidgetData';
-import { getActualMetricKey } from '../../widget-creation-modal/utils/getActualMetricKey';
-import { IssueDensityCountWidgetWrapper } from '../common/IssueDensityCountWidgetWrapper';
-import { IssueResolutionCountWidgetWrapper } from '../common/IssueResolutionCountWidgetWrapper';
-import { ScaResolutionCountWidgetWrapper } from '../common/ScaResolutionCountWidgetWrapper';
+import { PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE } from '../../utils/portfolioMeasures';
 
-interface Props {
-  metric: DashboardMetric;
-  scope: CodeScope;
-  showTrendIndicator?: boolean;
-  /**
-   * When true, the count widget is shown in contexts that should not nest another breakdown link
-   * (e.g. portfolio breakdown preview).
-   */
-  suppressPortfolioDrilldownLink?: boolean;
-}
-
-function getPortfolioCountWidgetLink(
-  isDrilldownEnabled: boolean,
-  widgetKey: string | undefined,
-): string | undefined {
-  if (!isDrilldownEnabled || !widgetKey) {
-    return undefined;
-  }
-
-  return getPortfolioDashboardWidgetDrilldownUrl(widgetKey);
-}
-
-function getMetricMetadata(
-  portfolioMetrics: Array<{ direction: string; key: string; type: string }> | undefined,
-  key: string,
-):
-  | {
-      direction: number | undefined;
-      key: string;
-      name: string;
-      type: string;
-    }
-  | undefined {
-  const metric = portfolioMetrics?.find((candidate) => candidate.key === key);
-  if (!metric) {
-    return undefined;
-  }
-  return {
-    direction: parsePortfolioMetricDirection(metric.direction),
-    key: metric.key,
-    name: metric.key,
-    type: metric.type.toUpperCase(),
-  };
-}
-
-function PortfolioRichCountWidget(
-  props: Readonly<{
-    linkTo?: string;
-    metric: Extract<DashboardMetric, { type: DashboardMetricType.Rich }>;
-    portfolioId: string;
-    scope: CodeScope;
-    showTrendIndicator: boolean;
-  }>,
-) {
-  const { linkTo, metric, portfolioId, scope, showTrendIndicator } = props;
-  const { measureFilters } = metric;
-  const trendVisible = isCountWidgetTrendVisible(showTrendIndicator, metric, scope);
-  const resolvedIssueMetricKey = getActualMetricKey(metric) as MetricKey;
-
-  const {
-    data: issueHistoryData,
-    isError,
-    isPending,
-  } = useOrgIssueCountWidgetData({
-    entityId: portfolioId,
-    entityType: 'PORTFOLIO',
-    measureFilters,
-    resolvedIssueMetricKey,
-    richMetricKey: metric.metricKey,
-  });
-
-  if (isError) {
-    return <WidgetNoData messageKey="dashboard.widget.error" />;
-  }
-
-  const latestTotal = issueHistoryData?.latestTotal ?? null;
-  const historicalValues = issueHistoryData?.historicalValues ?? null;
-  const metricMetadata = resolveRichCountTrendMetricMetadata(resolvedIssueMetricKey);
-
-  if (isPending) {
-    return <WidgetLoadingSpinner />;
-  }
-
-  if (latestTotal === null) {
-    return <WidgetNoData />;
-  }
-
-  const trendData =
-    historicalValues?.current && historicalValues?.past
-      ? computeTrendData({
-          activityUrl: { pathname: '#' },
-          currentValue: historicalValues.current,
-          measureFilters,
-          metric: metricMetadata,
-          pastValue: historicalValues.past,
-        })
-      : null;
-
-  return (
-    <CountWidget
-      linkTo={linkTo}
-      metricKey={resolvedIssueMetricKey}
-      metricType={MetricType.Integer}
-      showTrendIndicator={trendVisible}
-      sparklineSeries={trendVisible ? (issueHistoryData?.sparklineSeries ?? []) : undefined}
-      trendIndicatorData={{
-        isPending,
-        trendData,
-      }}
-      value={String(latestTotal)}
-    />
-  );
-}
-
-function PortfolioRawCountWidget(
-  props: Readonly<{
-    linkTo?: string;
-    metric: Extract<DashboardMetric, { type: DashboardMetricType.Raw }>;
-    portfolioId: string;
-    scope: CodeScope;
-    showTrendIndicator: boolean;
-  }>,
-) {
-  const { linkTo, metric, portfolioId, scope, showTrendIndicator } = props;
-  const isScopeNew = scope === CodeScope.New;
-  const trendVisible = isCountWidgetTrendVisible(showTrendIndicator, metric, scope);
-  const actualMetricKey = metric.metricKey;
-  const { getPortfolioMetric } = useDashboardPortfolioContext();
-  const metricKeyForRequest = getPortfolioDashboardMeasureRequestKey(actualMetricKey, isScopeNew);
-
-  const {
-    data: portfolioMetricsData,
-    isError: isPortfolioMetricsError,
-    isPending: isPortfolioMetricsPending,
-  } = usePortfolioWidgetMetricMetadataQuery();
-  const metricMetadata = getMetricMetadata(portfolioMetricsData?.metrics, actualMetricKey);
-  const isMetricsListLoading = isPortfolioMetricsPending;
-  const metricType = metricMetadata?.type;
-
-  const {
-    data: measuresHistoryData,
-    isError,
-    isPending,
-  } = useOrgMeasuresCountWidgetData({
-    entityId: portfolioId,
-    entityType: 'PORTFOLIO',
-    metricKeyForRequest,
-    metricType,
-  });
-
-  const directionOverride = getPortfolioMetric(actualMetricKey)?.direction;
-
-  const rawValue = measuresHistoryData?.latestValue;
-  const historicalValues = measuresHistoryData?.trend;
-
-  if (isError || isPortfolioMetricsError) {
-    return <WidgetNoData messageKey="dashboard.widget.error" />;
-  }
-
-  if (isPending || isMetricsListLoading) {
-    return <WidgetLoadingSpinner />;
-  }
-
-  if (rawValue === undefined) {
-    return <WidgetNoData />;
-  }
-
-  const trendData =
-    historicalValues?.current && historicalValues?.past && metricMetadata
-      ? computeTrendData({
-          activityUrl: { pathname: '#' },
-          currentValue: historicalValues.current,
-          measureFilters: undefined,
-          metric: metricMetadata,
-          metricDirectionOverride: directionOverride,
-          pastValue: historicalValues.past,
-        })
-      : null;
-
-  return (
-    <CountWidget
-      linkTo={linkTo}
-      metricKey={actualMetricKey}
-      metricType={
-        metricType === MetricType.Data ? MetricType.Integer : (metricType ?? MetricType.Integer)
-      }
-      showTrendIndicator={trendVisible && Boolean(metricMetadata)}
-      sparklineSeries={
-        trendVisible && metricMetadata ? (measuresHistoryData?.sparklineSeries ?? []) : undefined
-      }
-      trendIndicatorData={
-        metricMetadata
-          ? {
-              isPending,
-              trendData,
-            }
-          : undefined
-      }
-      value={rawValue}
-    />
-  );
-}
+type Props = CountWidgetConfig & { suppressPortfolioDrilldownLink?: boolean };
 
 export function PortfolioCountWidgetWrapper(props: Readonly<Props>) {
-  const {
-    metric,
-    scope,
-    showTrendIndicator = false,
-    suppressPortfolioDrilldownLink = false,
-  } = props;
+  const { formatMessage } = useIntl();
+  const { formatMttr } = useMttrFormatters();
+  const { getPortfolioMetric, portfolioId } = useDashboardPortfolioContext();
   const widgetInstance = useOptionalWidgetInstanceContext();
-  const { portfolioId } = useDashboardPortfolioContext();
-  const linkTo = getPortfolioCountWidgetLink(
-    !suppressPortfolioDrilldownLink && isPortfolioCountWidgetDrilldownSupported(metric),
-    widgetInstance?.widgetKey,
+  const { metric, scope, showTrendIndicator = false } = props;
+  const measure = dashboardMetricToMeasure(metric, scope, {
+    supportedNewCodeMetrics: PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE,
+  });
+  const trendVisible = isCountWidgetTrendVisible(showTrendIndicator, metric, scope);
+  const months = trendVisible ? 1 : undefined;
+  const query = useDashboardMeasureQuery(
+    {
+      entityId: portfolioId,
+      entityType: 'PORTFOLIO',
+      measure,
+      months,
+    },
+    Boolean(portfolioId),
   );
+  const {
+    data: metrics,
+    isError: isMetadataError,
+    isPending: isMetadataPending,
+  } = usePortfolioWidgetMetricMetadataQuery();
 
-  if (metric.type === DashboardMetricType.Rich) {
-    return (
-      <PortfolioRichCountWidget
-        linkTo={linkTo}
-        metric={metric}
-        portfolioId={portfolioId}
-        scope={scope}
-        showTrendIndicator={showTrendIndicator}
-      />
-    );
+  if (!portfolioId) {
+    return <WidgetNoData />;
+  }
+  if (query.isPending || isMetadataPending) {
+    return <WidgetLoadingSpinner />;
+  }
+  if (query.isError || (measure.api === 'measures-history' && isMetadataError)) {
+    return <WidgetNoData messageKey="dashboard.widget.error" />;
   }
 
-  if (metric.type === DashboardMetricType.IssueResolution) {
-    return (
-      <IssueResolutionCountWidgetWrapper
-        entityId={portfolioId}
-        entityType="PORTFOLIO"
-        linkTo={linkTo}
-        metric={metric}
-        showTrendIndicator={showTrendIndicator}
-      />
-    );
+  const metricKey = dashboardMeasureMetricKey(measure);
+  const metricMetadata = metrics?.metrics.find((candidate) => candidate.key === metricKey);
+  const measureFilters =
+    metric.type === DashboardMetricType.Rich ? metric.measureFilters : undefined;
+  const values = dashboardMeasureHistoryValues(
+    query.data,
+    measure,
+    metricMetadata?.type,
+    measureFilters,
+  );
+  const latest = values.at(-1);
+  if (latest === undefined) {
+    return <WidgetNoData />;
   }
 
-  if (metric.type === DashboardMetricType.IssueDensity) {
-    return (
-      <IssueDensityCountWidgetWrapper
-        entityId={portfolioId}
-        entityType="PORTFOLIO"
-        linkTo={linkTo}
-        metric={metric}
-        showTrendIndicator={showTrendIndicator}
-      />
-    );
-  }
-
-  if (metric.type === DashboardMetricType.ScaResolution) {
-    return (
-      <ScaResolutionCountWidgetWrapper
-        entityId={portfolioId}
-        entityType="PORTFOLIO"
-        metric={metric}
-        showTrendIndicator={showTrendIndicator}
-      />
-    );
-  }
+  const metricType = dashboardCountMetricType(measure, metricMetadata?.type);
+  const isMttr = metricType === 'MTTR_CALENDAR';
+  const trendData = computeDashboardMeasureTrendData({
+    activityUrl: { pathname: '#' },
+    formatMttr,
+    isMttr,
+    measureFilters,
+    metric: {
+      direction: parsePortfolioMetricDirection(metricMetadata?.direction) ?? -1,
+      type: metricType,
+    },
+    metricDirectionOverride:
+      getDashboardMetricDirectionOverride(metric) ?? getPortfolioMetric(metricKey)?.direction,
+    values,
+  });
+  const linkTo =
+    !props.suppressPortfolioDrilldownLink &&
+    isPortfolioCountWidgetDrilldownSupported(metric) &&
+    widgetInstance?.widgetKey
+      ? getPortfolioDashboardWidgetDrilldownUrl(widgetInstance.widgetKey)
+      : undefined;
 
   return (
-    <PortfolioRawCountWidget
+    <CountWidget
       linkTo={linkTo}
-      metric={metric}
-      portfolioId={portfolioId}
-      scope={scope}
-      showTrendIndicator={showTrendIndicator}
+      metricKey={metricKey}
+      metricType={metricType}
+      showTrendIndicator={trendVisible}
+      sparklineSeries={trendVisible ? values : undefined}
+      trendIndicatorData={{ isPending: false, trendData }}
+      unitLabel={
+        measure.api === 'issue-density-history'
+          ? formatMessage({ id: 'dashboard.widget.count.issue_density.unit' })
+          : undefined
+      }
+      value={isMttr ? formatMttr(latest) : String(latest)}
     />
   );
 }

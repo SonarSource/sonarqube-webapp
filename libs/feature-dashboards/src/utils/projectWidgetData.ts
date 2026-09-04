@@ -19,6 +19,11 @@
  */
 
 import { MetricKey } from '~shared/types/metrics';
+import { VisualizationType, type DashboardWidgetType } from '../types/widget-common';
+
+export { getMetricKeyForScope } from '~shared/helpers/metrics';
+
+const METRIC_KEYS = new Set<string>(Object.values(MetricKey));
 
 /** Rule display metadata keyed by rule key, e.g. `{ 'java:S1234': { name } }`. */
 export type ProjectRuleMetadataByKey = Record<string, { name: string }>;
@@ -37,26 +42,31 @@ export function buildProjectRuleLabelMap(
   return Object.fromEntries(rules.map((rule) => [rule.key, { name: rule.name }]));
 }
 
-/**
- * Determines the correct metric key to fetch based on scope.
- * For new code scope, converts to the "new_" prefixed version.
- * Special handling for sqale_rating which maps to new_maintainability_rating.
- */
-export function getMetricKeyForScope(
-  metricKey: MetricKey,
-  isScopeNew: boolean,
-): MetricKey | string {
-  if (!isScopeNew) {
-    return metricKey;
-  }
-
-  if (metricKey === MetricKey.sqale_rating) {
-    return MetricKey.new_maintainability_rating;
-  }
-
+export function projectMetricSupportsNewCodeScope(metricKey: MetricKey): boolean {
   if (metricKey.startsWith('new_')) {
-    return metricKey;
+    return false;
   }
+  if (metricKey === MetricKey.sqale_rating) {
+    return true;
+  }
+  return METRIC_KEYS.has(`new_${metricKey}`);
+}
 
-  return `new_${metricKey}`;
+export function projectDashboardSupportsNewCodeScopeForVisualization(
+  metricKey: MetricKey,
+  visualizationType: DashboardWidgetType,
+): boolean {
+  if (visualizationType === VisualizationType.TopList) {
+    return false;
+  }
+  if (visualizationType === VisualizationType.LineChart && metricKey === MetricKey.violations) {
+    return false;
+  }
+  if (
+    visualizationType === VisualizationType.Count ||
+    visualizationType === VisualizationType.LineChart
+  ) {
+    return projectMetricSupportsNewCodeScope(metricKey);
+  }
+  return metricKey !== MetricKey.alert_status && projectMetricSupportsNewCodeScope(metricKey);
 }

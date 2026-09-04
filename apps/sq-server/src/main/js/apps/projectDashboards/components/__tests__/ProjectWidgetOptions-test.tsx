@@ -129,6 +129,22 @@ describe('ProjectWidgetOptions', () => {
     expect(supportsNewCodeScopeForMetric(MetricKey.sqale_debt_ratio, VisualizationType.Count)).toBe(
       true,
     );
+    expect(
+      supportsNewCodeScopeForMetric(MetricKey.line_coverage, VisualizationType.LineChart),
+    ).toBe(true);
+    expect(supportsNewCodeScopeForMetric(MetricKey.comment_lines, VisualizationType.Count)).toBe(
+      false,
+    );
+    expect(
+      supportsNewCodeScopeForMetric(MetricKey.alert_status, VisualizationType.RatingBadge),
+    ).toBe(false);
+    expect(supportsNewCodeScopeForMetric(MetricKey.violations, VisualizationType.Count)).toBe(true);
+    expect(supportsNewCodeScopeForMetric(MetricKey.violations, VisualizationType.LineChart)).toBe(
+      false,
+    );
+    expect(
+      supportsNewCodeScopeForMetric(MetricKey.comment_lines, VisualizationType.RatingBadge),
+    ).toBe(false);
   });
 
   it('excludes deprecated security hotspot metrics from every creation picker', () => {

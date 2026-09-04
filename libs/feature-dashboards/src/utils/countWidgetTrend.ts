@@ -24,7 +24,13 @@ import { isDefined } from '~shared/helpers/types';
 import type { Metric } from '~shared/types/measures';
 import { MetricType } from '~shared/types/metrics';
 import type { TrendData } from '../components/visualizations/TrendIndicator';
+import { DashboardMetricType, type DashboardMetric } from '../data/widgets/shared';
 import { MeasureFilters } from '../types/dashboard-widget';
+import { ScaResolutionStatistic } from '../types/organization-sca-resolution-history';
+import {
+  ISSUE_RESOLUTION_METRIC_DIRECTION,
+  SCA_RESOLUTION_METRIC_DIRECTION,
+} from '../types/widget-common';
 import { getThirtyDayTrendValues, HistoricalTrendValues } from './datetime';
 import { parseMeasureValue } from './measureValues';
 
@@ -83,6 +89,55 @@ export function computeTrendData(args: {
     past,
     roundedChange,
   };
+}
+
+export function computeDashboardMeasureTrendData(args: {
+  activityUrl: Partial<Path>;
+  formatMttr: (value: number) => string;
+  isMttr: boolean;
+  measureFilters: MeasureFilters | undefined;
+  metric: Pick<Metric, 'direction' | 'type'>;
+  metricDirectionOverride?: number;
+  values: number[];
+}): TrendData | null {
+  const {
+    activityUrl,
+    formatMttr,
+    isMttr,
+    measureFilters,
+    metric,
+    metricDirectionOverride,
+    values,
+  } = args;
+  const currentValue = values.at(-1);
+  const pastValue = values.at(0);
+
+  if (currentValue === undefined || pastValue === undefined || values.length <= 1) {
+    return null;
+  }
+
+  return computeTrendData({
+    absoluteChangeFormatter: isMttr ? formatMttr : undefined,
+    activityUrl,
+    currentValue: String(currentValue),
+    measureFilters,
+    metric,
+    metricDirectionOverride,
+    pastValue: String(pastValue),
+  });
+}
+
+export function getDashboardMetricDirectionOverride(metric: DashboardMetric): number | undefined {
+  switch (metric.type) {
+    case DashboardMetricType.IssueResolution:
+      return ISSUE_RESOLUTION_METRIC_DIRECTION[metric.statistic];
+    case DashboardMetricType.ScaResolution:
+      return SCA_RESOLUTION_METRIC_DIRECTION[ScaResolutionStatistic.ScaMTTR];
+    case DashboardMetricType.IssueDensity:
+    case DashboardMetricType.Raw:
+    case DashboardMetricType.Rich:
+      return undefined;
+  }
 }
 
 /**

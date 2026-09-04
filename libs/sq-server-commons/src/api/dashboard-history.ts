@@ -197,6 +197,40 @@ function serializeIssueHistoryParams(params: DashboardIssueHistoryParams) {
   };
 }
 
+function normalizeIssueHistory(history: DashboardIssueHistoryDay[] | undefined) {
+  return (history ?? []).flatMap((day) =>
+    day.date
+      ? [
+          {
+            date: day.date,
+            distribution: (day.distribution ?? []).flatMap((entry) =>
+              entry.key != null && entry.value != null
+                ? [{ key: entry.key, value: entry.value }]
+                : [],
+            ),
+          },
+        ]
+      : [],
+  );
+}
+
+function normalizeMeasuresHistory(history: DashboardMeasureHistoryDay[] | undefined) {
+  return (history ?? []).flatMap((day) =>
+    day.date
+      ? [
+          {
+            date: day.date,
+            measures: (day.measures ?? []).flatMap((entry) =>
+              entry.metric != null && entry.value != null
+                ? [{ metric: entry.metric, type: entry.type ?? '', value: entry.value }]
+                : [],
+            ),
+          },
+        ]
+      : [],
+  );
+}
+
 export function getDashboardIssueCountHistory(
   params: DashboardIssueHistoryParams,
 ): Promise<DashboardIssueCountHistoryResponse> {
@@ -242,6 +276,34 @@ export function getDashboardMeasuresHistory(
       metricKeys: serializeStringArray(params.metricKeys),
     },
   });
+}
+
+export async function getDashboardIssueCountHistoryData(params: DashboardIssueHistoryParams) {
+  return normalizeIssueHistory((await getDashboardIssueCountHistory(params)).issueCountHistory);
+}
+
+export async function getDashboardIssueDensityHistoryData(params: DashboardIssueHistoryParams) {
+  return normalizeIssueHistory((await getDashboardIssueDensityHistory(params)).issueDensityHistory);
+}
+
+export async function getDashboardIssueResolutionHistoryData(
+  params: DashboardIssueResolutionHistoryParams,
+) {
+  return normalizeIssueHistory(
+    (await getDashboardIssueResolutionHistory(params)).issueResolutionHistory,
+  );
+}
+
+export async function getDashboardScaResolutionHistoryData(
+  params: DashboardScaResolutionHistoryParams,
+) {
+  return normalizeIssueHistory(
+    (await getDashboardScaResolutionHistory(params)).scaResolutionHistory,
+  );
+}
+
+export async function getDashboardMeasuresHistoryData(params: DashboardMeasuresHistoryParams) {
+  return normalizeMeasuresHistory((await getDashboardMeasuresHistory(params)).measuresHistory);
 }
 
 export function getDashboardProjectIssueCounts(

@@ -20,11 +20,8 @@
 
 import type { IntlShape } from 'react-intl';
 import { PieChartMetric } from '~feature-dashboards/types/dashboard-widget';
-import {
-  VisualizationType,
-  type DashboardWidgetType,
-  type WidgetMetricPickerOptions,
-} from '~feature-dashboards/types/widget-common';
+import type { WidgetMetricPickerOptions } from '~feature-dashboards/types/widget-common';
+import { projectDashboardSupportsNewCodeScopeForVisualization } from '~feature-dashboards/utils/projectWidgetData';
 import { appendIssueDensityOption } from '~feature-dashboards/widget-creation-modal/utils/issueDensityMetricOptions';
 import { appendIssueResolutionOptions } from '~feature-dashboards/widget-creation-modal/utils/issueResolutionMetricOptions';
 import { buildPieChartMetricSelectOptions } from '~feature-dashboards/widget-creation-modal/utils/pieChartMetricSelectOptions';
@@ -94,13 +91,6 @@ const PROJECT_RATING_BADGE_METRICS = new Set(
   PROJECT_RATING_BADGE_METRIC_GROUPS.flatMap(({ keys }) => keys),
 );
 
-function supportsNewCodeScopeForMetric(
-  metricKey: MetricKey,
-  visualizationType: DashboardWidgetType,
-) {
-  return !metricKey.startsWith('new_') && visualizationType !== VisualizationType.TopList;
-}
-
 // Temporary catalog; replace it with the SQS project metric metadata API response when available.
 export function getSqsProjectWidgetMetricPickerOptions(
   intl: Pick<IntlShape, 'formatMessage'>,
@@ -131,6 +121,6 @@ export function getSqsProjectWidgetMetricPickerOptions(
       PROJECT_RATING_BADGE_METRICS,
       formatMessage,
     ),
-    supportsNewCodeScopeForMetric,
+    supportsNewCodeScopeForMetric: projectDashboardSupportsNewCodeScopeForVisualization,
   };
 }

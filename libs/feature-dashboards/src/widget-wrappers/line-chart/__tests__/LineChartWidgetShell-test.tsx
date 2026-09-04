@@ -21,7 +21,6 @@
 import { screen } from '@testing-library/react';
 import { useFlags } from '~adapters/helpers/feature-flags';
 import { renderWithContext } from '~shared/helpers/test-utils';
-import { HistoryRange } from '../../../data/widgets/line-chart';
 import { LineChartWidgetShell } from '../LineChartWidgetShell';
 
 jest.mock('~adapters/helpers/feature-flags', () => ({
@@ -41,10 +40,10 @@ const defaultProps = {
   formatDotValue: (value: number) => String(value),
   formatTick: (value: number) => String(value),
   hasFetchError: false,
-  historyRange: HistoryRange.Last6Months,
   isMetricRating: false,
   isPending: false,
   metricName: 'Bugs',
+  requestedStartDate: new Date('2025-10-31T00:00:00.000Z'),
   series: [
     {
       color: '#000',
@@ -122,11 +121,7 @@ it('does not report short-range gaps and only considers the series rendered by t
   ).toBeInTheDocument();
 
   rerender(
-    <LineChartWidgetShell
-      {...defaultProps}
-      historyRange={HistoryRange.LastMonth}
-      series={series}
-    />,
+    <LineChartWidgetShell {...defaultProps} requestedStartDate={undefined} series={series} />,
   );
   expect(screen.queryByText(limitedHistoryMessage)).not.toBeInTheDocument();
 });

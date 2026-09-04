@@ -18,8 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MetricType } from '~shared/types/metrics';
-import { computeTrendData, getHistoricalValuesForTrend } from '../countWidgetTrend';
+import { MetricKey, MetricType } from '~shared/types/metrics';
+import {
+  DashboardMetricType,
+  RichMetricKey,
+  type DashboardMetric,
+} from '../../data/widgets/shared';
+import { IssueResolutionStatistic } from '../../types/organization-issue-resolution-history';
+import {
+  computeDashboardMeasureTrendData,
+  computeTrendData,
+  getDashboardMetricDirectionOverride,
+  getHistoricalValuesForTrend,
+} from '../countWidgetTrend';
 
 jest.mock('~adapters/helpers/dashboard-measures', () => ({
   formatDashboardMeasure: (value: string | number) => String(value),
@@ -66,6 +77,68 @@ describe('computeTrendData', () => {
     });
     expect(absoluteChangeFormatter).toHaveBeenCalledWith(3);
   });
+});
+
+describe('computeDashboardMeasureTrendData', () => {
+  it('builds trend data from the first and latest values', () => {
+    const formatMttr = jest.fn((value: number) => `mttr:${value}`);
+
+    expect(
+      computeDashboardMeasureTrendData({
+        activityUrl: { pathname: '/activity' },
+        formatMttr,
+        isMttr: true,
+        measureFilters: undefined,
+        metric: { direction: -1, type: MetricType.Integer },
+        values: [0, 3],
+      }),
+    ).toMatchObject({
+      change: 3,
+      formattedChange: 'mttr:3',
+      past: 0,
+    });
+    expect(formatMttr).toHaveBeenCalledWith(3);
+  });
+
+  it('returns no trend without distinct current and past values', () => {
+    expect(
+      computeDashboardMeasureTrendData({
+        activityUrl: {},
+        formatMttr: String,
+        isMttr: false,
+        measureFilters: undefined,
+        metric: { type: MetricType.Integer },
+        values: [3],
+      }),
+    ).toBeNull();
+  });
+});
+
+describe('getDashboardMetricDirectionOverride', () => {
+  it('uses the statistic direction for resolution metrics', () => {
+    expect(
+      getDashboardMetricDirectionOverride({
+        statistic: IssueResolutionStatistic.ResolvedIssues,
+        type: DashboardMetricType.IssueResolution,
+      }),
+    ).toBe(1);
+    expect(getDashboardMetricDirectionOverride({ type: DashboardMetricType.ScaResolution })).toBe(
+      -1,
+    );
+  });
+
+  const metricsWithoutDirectionOverride: DashboardMetric[] = [
+    { metricKey: MetricKey.coverage, type: DashboardMetricType.Raw },
+    { metricKey: RichMetricKey.Issues, type: DashboardMetricType.Rich },
+    { type: DashboardMetricType.IssueDensity },
+  ];
+
+  it.each(metricsWithoutDirectionOverride)(
+    'does not override the direction for $type metrics',
+    (metric) => {
+      expect(getDashboardMetricDirectionOverride(metric)).toBeUndefined();
+    },
+  );
 });
 
 describe('getHistoricalValuesForTrend', () => {
