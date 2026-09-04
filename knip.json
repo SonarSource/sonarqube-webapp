@@ -28,6 +28,7 @@
       "entry": [
         "libs/**/src/index.{ts,tsx}",
         "private/libs/**/src/index.{ts,tsx}",
+        "private/libs/sq-server-features/src/feature-*/index.{ts,tsx}",
         ".github/scripts/**/*.{js,mjs}",
         "config/**/*.{js,mjs,ts,mts}",
         "eslint-local-rules/index.js"

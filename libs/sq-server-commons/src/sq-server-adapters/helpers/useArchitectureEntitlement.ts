@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useIsEnterpriseTier } from './plan';
 import { useCurrentUser } from './users';
 
 export interface ArchitectureEntitlement {
@@ -27,11 +28,7 @@ export interface ArchitectureEntitlement {
 
 export function useArchitectureEntitlement(): ArchitectureEntitlement {
   const { isLoggedIn } = useCurrentUser();
+  const isEnterpriseOrAbove = useIsEnterpriseTier();
 
-  // TODO: temporary — SQS has no entitlement backend yet, so access is granted to any logged-in
-  // user (mirrors the SQC adapter's guard for logged-out users, see SONAR-31643). This is the sole
-  // gate for architecture add-on access on SQS (see feature-flags.ts, which keeps
-  // designArchitectureSquadExtensionPack off). Once Server has a real entitlement check, flip this
-  // single return to call it — mirror the SQC adapter's useEntitlementCheckQuery shape.
-  return { allowed: isLoggedIn, isLoading: false };
+  return { allowed: isLoggedIn && isEnterpriseOrAbove, isLoading: false };
 }

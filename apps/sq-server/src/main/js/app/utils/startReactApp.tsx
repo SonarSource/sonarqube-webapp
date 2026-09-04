@@ -124,7 +124,8 @@ function renderComponentRoutes({
   hasAicaFeature,
   hasApplicationFeature,
   hasApplicationReportFeature,
-  hasArchitectureFeature,
+  hasArchitectureCoreFeature,
+  hasArchitectureEnterpriseFeature,
   hasBranchSupport,
   hasPortfolioFeature,
   hasScaFeature,
@@ -133,7 +134,8 @@ function renderComponentRoutes({
   hasAicaFeature: boolean;
   hasApplicationFeature: boolean;
   hasApplicationReportFeature: boolean;
-  hasArchitectureFeature: boolean;
+  hasArchitectureCoreFeature: boolean;
+  hasArchitectureEnterpriseFeature: boolean;
   hasBranchSupport: boolean;
   hasPortfolioFeature: boolean;
   hasScaFeature: boolean;
@@ -155,13 +157,10 @@ function renderComponentRoutes({
           element={<ProjectPageExtension />}
           path="project/extension/:pluginKey/:extensionKey"
         />
-        {hasArchitectureFeature && (
+        {hasArchitectureCoreFeature && (
           <Route path="project">
-            {addons.architecture?.routes()}
-            {addons.architecture?.policiesRoutes?.()}
-            {addons.architecture?.patternsRoutes?.()}
-            {addons.architecture?.orgArchitectureRoutes?.()}
-            {addons.architecture?.externalInterfacesRoutes?.()}
+            {addons.architecture?.coreRoutes()}
+            {hasArchitectureEnterpriseFeature && addons.architecture?.enterpriseRoutes?.()}
           </Route>
         )}
         {projectIssuesRoutes()}
@@ -351,7 +350,8 @@ const router = ({
               {webAPIRoutesV2()}
 
               {renderComponentRoutes({
-                hasArchitectureFeature: availableFeatures.includes(Feature.Architecture),
+                hasArchitectureCoreFeature: availableFeatures.includes(Feature.Architecture),
+                hasArchitectureEnterpriseFeature: isEnterprise,
                 hasBranchSupport: availableFeatures.includes(Feature.BranchSupport),
                 hasScaFeature: availableFeatures.includes(Feature.Sca),
                 hasAicaFeature: availableFeatures.includes(Feature.AiCodeAssurance),

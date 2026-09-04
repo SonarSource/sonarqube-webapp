@@ -26,7 +26,7 @@ describe('useFlags', () => {
     const { result } = renderHook(() => useFlags());
 
     expect(result.current).toMatchObject({
-      designArchitectureSquadExtensionPack: false,
+      designArchitectureSquadExtensionPack: true,
       scaEnableReachabilityFrontend: false,
       scaKeyChangesPrView: false,
     });

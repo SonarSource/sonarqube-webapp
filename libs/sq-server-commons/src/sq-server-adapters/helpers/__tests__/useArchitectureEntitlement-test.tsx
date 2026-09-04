@@ -20,6 +20,7 @@
 
 import { renderHook } from '@testing-library/react';
 import { mockCurrentUser, mockLoggedInUser } from '../../../helpers/testMocks';
+import { useIsEnterpriseTier } from '../plan';
 import { useCurrentUser } from '../users';
 // Relative import so we exercise the real adapter, bypassing the global
 // `~adapters/helpers/useArchitectureEntitlement` jest mock.
@@ -29,22 +30,40 @@ jest.mock('../users', () => ({
   useCurrentUser: jest.fn(),
 }));
 
+jest.mock('../plan', () => ({
+  useIsEnterpriseTier: jest.fn(),
+}));
+
 const mockedUseCurrentUser = jest.mocked(useCurrentUser);
+const mockedUseIsEnterpriseTier = jest.mocked(useIsEnterpriseTier);
 
 beforeEach(() => {
   jest.clearAllMocks();
 });
 
 describe('useArchitectureEntitlement', () => {
-  it('grants access to logged-in users', () => {
+  it('grants access to logged-in users on an Enterprise instance', () => {
     mockedUseCurrentUser.mockReturnValue({
       currentUser: mockLoggedInUser(),
       isLoggedIn: true,
     });
+    mockedUseIsEnterpriseTier.mockReturnValue(true);
 
     const { result } = renderHook(() => useArchitectureEntitlement());
 
     expect(result.current).toEqual({ allowed: true, isLoading: false });
+  });
+
+  it('denies access on a non-Enterprise instance', () => {
+    mockedUseCurrentUser.mockReturnValue({
+      currentUser: mockLoggedInUser(),
+      isLoggedIn: true,
+    });
+    mockedUseIsEnterpriseTier.mockReturnValue(false);
+
+    const { result } = renderHook(() => useArchitectureEntitlement());
+
+    expect(result.current).toEqual({ allowed: false, isLoading: false });
   });
 
   it('denies access to logged-out users', () => {
@@ -52,6 +71,7 @@ describe('useArchitectureEntitlement', () => {
       currentUser: mockCurrentUser(),
       isLoggedIn: false,
     });
+    mockedUseIsEnterpriseTier.mockReturnValue(true);
 
     const { result } = renderHook(() => useArchitectureEntitlement());
 
