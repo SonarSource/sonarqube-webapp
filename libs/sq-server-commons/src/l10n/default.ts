@@ -834,7 +834,7 @@ export const defaultMessages = {
     'Supported models differ by capability:',
   'ai_capabilities.llm_providers.supported_models.hunter_agent': 'Hunter Agent — Claude Opus 4.8',
   'ai_capabilities.llm_providers.supported_models.remediation_agent':
-    'Remediation Agent — Claude Opus 4.6, GPT-5.1',
+    'Remediation Agent — Claude Opus 4.6, GPT-5.5',
   'ai_capabilities.llm_providers.delete.modal.title': 'Remove provider?',
   'ai_capabilities.llm_providers.delete.modal.description':
     'The provider "{name}" will be removed. AI features using it will stop working until another provider is selected.',
