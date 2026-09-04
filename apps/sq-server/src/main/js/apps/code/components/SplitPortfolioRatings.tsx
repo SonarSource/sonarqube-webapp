@@ -22,6 +22,7 @@ import { IconInfo, Tooltip } from '@sonarsource/echoes-react';
 import { useMemo } from 'react';
 import { ContentCell, NumericalCell, TableRowInteractive } from '~design-system';
 import { Metric } from '~shared/types/measures';
+import { MetricKey } from '~shared/types/metrics';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { type ComponentMeasure as ComponentMeasureType } from '~sq-server-commons/types/types';
 import ComponentMeasure from './ComponentMeasure';
@@ -98,6 +99,17 @@ export function AggregateRatingRow({
   showAnalysisDate,
   type,
 }: Readonly<AggregateRatingRowProps>) {
+  const nclocIndex = metrics.findIndex(({ key }) =>
+    [
+      MetricKey.ncloc,
+      MetricKey.ncloc_with_aica,
+      MetricKey.ncloc_without_aica,
+      MetricKey.new_ncloc,
+    ].includes(key as MetricKey),
+  );
+  const ratingMetrics = nclocIndex === -1 ? metrics : metrics.slice(0, nclocIndex);
+  const nclocMetric = nclocIndex === -1 ? undefined : metrics[nclocIndex];
+
   const content = useMemo(() => {
     switch (type) {
       case 'AicaEnabled':
@@ -118,11 +130,17 @@ export function AggregateRatingRow({
         </div>
       </ContentCell>
 
-      {metrics.map((metric) => (
+      {ratingMetrics.map((metric) => (
         <ComponentMeasure component={component} key={metric.key} metric={metric} />
       ))}
 
       {isScaEnabled && <NumericalCell />}
+
+      {nclocMetric ? (
+        <ComponentMeasure component={component} metric={nclocMetric} />
+      ) : (
+        <NumericalCell />
+      )}
 
       {showAnalysisDate && <NumericalCell className="sw-whitespace-nowrap" />}
     </TableRowInteractive>

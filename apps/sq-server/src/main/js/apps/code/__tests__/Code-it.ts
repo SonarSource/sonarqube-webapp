@@ -41,6 +41,7 @@ import {
 } from '~sq-server-commons/helpers/mocks/sources';
 import { mockMeasure, mockRawIssue } from '~sq-server-commons/helpers/testMocks';
 import { renderAppWithComponentContext } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { Feature } from '~sq-server-commons/types/features';
 import { IssueStatus } from '~sq-server-commons/types/issues';
 import { Component } from '~sq-server-commons/types/types';
 import routes from '../routes';
@@ -304,6 +305,7 @@ describe('aggregate ratings for portfolios with AICA enabled projects', () => {
   const setup = async (options?: {
     withAicaDsiabledProjects?: boolean;
     withAicaEnabledProjects?: boolean;
+    featureList?: Feature[];
   }) => {
     const component = mockComponent({
       key: 'MASTER_PROJECT',
@@ -330,7 +332,7 @@ describe('aggregate ratings for portfolios with AICA enabled projects', () => {
       }),
     });
 
-    renderCode({ component });
+    renderCode({ component, featureList: options?.featureList });
 
     const ui = getPageObject(userEvent.setup());
     await ui.appLoaded(component.name);
@@ -365,6 +367,21 @@ describe('aggregate ratings for portfolios with AICA enabled projects', () => {
     ].forEach(([domain, value]) => {
       expect(ui.measureValueCell(aicaDisabledRow, domain, value)).toBeInTheDocument();
     });
+  });
+
+  it('should keep aggregate lines of code after the empty dependency risks cell', async () => {
+    await setup({
+      featureList: [Feature.Sca],
+      withAicaEnabledProjects: true,
+      withAicaDsiabledProjects: true,
+    });
+
+    expect(await byRole('row', { name: /code.aica_enabled_projects/ }).find()).toBeInTheDocument();
+    const cells = byRole('row', { name: /code.aica_enabled_projects/ })
+      .byRole('cell')
+      .getAll();
+    expect(cells.at(-3)?.textContent).toBe('');
+    expect(cells.at(-2)).toHaveTextContent('2');
   });
 
   it('should not display aggregate ratings if all projects are AICA disabled', async () => {
@@ -941,6 +958,7 @@ function generateMeasures(
 function renderCode({
   component = componentsHandler.findComponentTree('foo')?.component,
   navigateTo,
-}: { component?: Component; navigateTo?: string } = {}) {
-  return renderAppWithComponentContext('code', routes, { navigateTo }, { component });
+  featureList = [],
+}: { component?: Component; navigateTo?: string; featureList?: Feature[] } = {}) {
+  return renderAppWithComponentContext('code', routes, { navigateTo, featureList }, { component });
 }
