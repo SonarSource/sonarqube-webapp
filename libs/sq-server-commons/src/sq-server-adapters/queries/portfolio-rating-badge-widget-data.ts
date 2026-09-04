@@ -44,15 +44,19 @@ interface PortfolioComputedProjectMeasuresParams {
   sort?: string;
 }
 
-export function usePortfolioRatingBadgeMetricKeysQuery(metricKeys: string[]): {
+export function usePortfolioRatingBadgeMetricKeysQuery(
+  metricKeys: string[],
+  options: { enabled?: boolean } = {},
+): {
   error: unknown;
   isPending: boolean;
   metricKeys: string[];
 } {
-  const modeQuery = useStandardExperienceModeQuery();
+  const enabled = options.enabled ?? true;
+  const modeQuery = useStandardExperienceModeQuery({ enabled });
   return {
-    error: modeQuery.error,
-    isPending: modeQuery.isPending,
+    error: enabled ? modeQuery.error : null,
+    isPending: enabled && modeQuery.isPending,
     metricKeys: resolvePortfolioDashboardMetricKeys(metricKeys, modeQuery.data ?? true),
   };
 }
