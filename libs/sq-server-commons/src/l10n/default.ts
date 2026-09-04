@@ -374,7 +374,7 @@ export const defaultMessages = {
   facet_might_have_more_results:
     'There might be more results, try another set of filters to see them.',
   false_positive: 'False positive',
-  go_back_to_homepage: 'Go back to the homepage',
+  go_back_to_homepage: 'Back to homepage',
   hidden_for_security: 'Hidden for security',
   last_analysis_before: 'Last analysis before',
   less_than_1_hour_ago: '< 1 hour ago',
