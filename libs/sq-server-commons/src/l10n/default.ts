@@ -1677,6 +1677,7 @@ export const defaultMessages = {
   'issue.comment.delete_confirm_message': 'Do you want to delete this comment?',
   'issue.comment.empty.list': 'There are no comments yet on this issue.',
   'issue.rule_details': 'Rule Details',
+  'issue.back_to_issues_list': 'Back to issues list',
   'issue.send_notifications': 'Send Notifications',
   'issue.label': 'Issue on file {file} and line {line} - {issue},',
   'issue.why_this_issue': 'Why is this an issue?',
