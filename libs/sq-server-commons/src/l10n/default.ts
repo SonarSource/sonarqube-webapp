@@ -3327,6 +3327,13 @@ export const defaultMessages = {
   'architecture.organization.empty': 'No organization-wide architecture data available.',
   'architecture.organization.node.exit_points_matched_count':
     '{matched}/{total, plural, one {# exit point matched} other {# exit points matched}}',
+  'architecture.organization.node.unconnected_projects':
+    '{count, plural, one {# project without relationships detected} other {# projects without relationships detected}}',
+  'architecture.organization.node.unconnected_system_components':
+    '{count, plural, one {# system component without relationships detected} other {# system components without relationships detected}}',
+  'architecture.organization.node.unconnected.more': 'and {count} more',
+  'architecture.organization.edge.dependency_count':
+    '{count, plural, one {# dependency} other {# dependencies}}',
   'architecture.organization.dashboard.deviations': 'Deviations',
   'architecture.organization.dashboard.deviations.description':
     "Mismatches between the organization's intended and current architecture.",
