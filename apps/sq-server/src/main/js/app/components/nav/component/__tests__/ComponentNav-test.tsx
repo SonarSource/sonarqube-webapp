@@ -540,6 +540,57 @@ describe('ComponentNav', () => {
         'navigation.view_all',
       ]);
     });
+
+    it('should only show portfolios in the recently browsed list when viewing a portfolio', async () => {
+      jest.mocked(RecentHistory.get).mockReturnValue([
+        ...defaultRecentHistory,
+        {
+          key: 'other-portfolio',
+          name: 'OtherPortfolio',
+          qualifier: ComponentQualifier.Portfolio,
+        },
+      ]);
+      const portfolioComponent = mockComponent({
+        breadcrumbs: [
+          { key: 'my-portfolio', name: 'MyPortfolio', qualifier: ComponentQualifier.Portfolio },
+        ],
+        key: 'my-portfolio',
+        name: 'MyPortfolio',
+        qualifier: ComponentQualifier.Portfolio,
+      });
+
+      renderComponentNav({ component: portfolioComponent });
+
+      fireEvent.keyDown(getInteractiveElement(byText('MyPortfolio').get()), { key: 'ArrowDown' });
+
+      expect(await ui.headerMenu.find()).toBeInTheDocument();
+      expect(ui.headerMenuItemsList()).toEqual([
+        expect.stringContaining('MyPortfolio'),
+        expect.stringContaining('PortFoolio'),
+        expect.stringContaining('OtherPortfolio'),
+        'navigation.view_all',
+      ]);
+      expect(getInteractiveElement(byText('navigation.view_all').get())).toHaveAttribute(
+        'href',
+        '/portfolios',
+      );
+    });
+
+    it('should render a non-interactive header without a dropdown when there is no recent history to show', () => {
+      jest.mocked(RecentHistory.get).mockReturnValue([]);
+      const projectComponent = mockComponent({
+        breadcrumbs: [
+          { key: 'my-project', name: 'MyProject', qualifier: ComponentQualifier.Project },
+        ],
+        analysisDate: '2024-01-01',
+      });
+
+      renderComponentNav({ component: projectComponent });
+
+      expect(byText('MyProject').get()).toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /MyProject/ })).not.toBeInTheDocument();
+      expect(ui.headerMenu.query()).not.toBeInTheDocument();
+    });
   });
 });
 

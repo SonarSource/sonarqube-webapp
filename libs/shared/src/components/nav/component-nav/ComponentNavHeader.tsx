@@ -19,10 +19,11 @@
  */
 
 import { DropdownMenu, Layout, Tooltip } from '@sonarsource/echoes-react';
-import { forwardRef } from 'react';
+import { forwardRef, ReactNode } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { To } from 'react-router-dom';
 import Avatar from '~adapters/components/ui/Avatar';
+import { AvatarSize } from '../../../components/avatar';
 import { History, RecentHistory } from '../../../helpers/recent-history';
 import { getProjectOverviewUrl } from '../../../helpers/urls';
 import { LightComponent } from '../../../types/component';
@@ -30,20 +31,31 @@ import { LightComponent } from '../../../types/component';
 interface Props {
   allProjectsUrl: To;
   component: LightComponent;
+  getItemAvatar?: (component: History | LightComponent, size: AvatarSize) => ReactNode;
   getItemUrl?: (component: History) => To;
   recentHistoryFilter?: (history: History) => boolean;
 }
 
 const MAX_RECENTLY_BROWSED = 8;
 
+const defaultGetItemAvatar = (component: History | LightComponent, size: AvatarSize) => (
+  <Avatar name={component.name} size={size} />
+);
+
 export function ComponentNavHeader(props: Readonly<Props>) {
-  const { allProjectsUrl, component, getItemUrl, recentHistoryFilter = () => true } = props;
+  const {
+    allProjectsUrl,
+    component,
+    getItemAvatar = defaultGetItemAvatar,
+    getItemUrl,
+    recentHistoryFilter = () => true,
+  } = props;
   const recentlyBrowsed = RecentHistory.get()
     .filter((c) => c.key !== component.key && recentHistoryFilter(c))
     .slice(0, MAX_RECENTLY_BROWSED);
 
   if (recentlyBrowsed.length < 1) {
-    return <SidebarNavigationHeader component={component} />;
+    return <SidebarNavigationHeader component={component} getItemAvatar={getItemAvatar} />;
   }
 
   return (
@@ -54,7 +66,7 @@ export function ComponentNavHeader(props: Readonly<Props>) {
         <DropdownMenu.ItemButtonCheckable
           isChecked
           key={component.key}
-          prefix={<Avatar name={component.name} size="xs" />}
+          prefix={getItemAvatar(component, 'xs')}
         >
           {component.name}
         </DropdownMenu.ItemButtonCheckable>,
@@ -62,7 +74,7 @@ export function ComponentNavHeader(props: Readonly<Props>) {
           <DropdownMenu.ItemLink
             isActive={false}
             key={component.key}
-            prefix={<Avatar name={component.name} size="xs" />}
+            prefix={getItemAvatar(component, 'xs')}
             to={getItemUrl ? getItemUrl(component) : getProjectOverviewUrl(component.key)}
           >
             {component.name}
@@ -75,20 +87,26 @@ export function ComponentNavHeader(props: Readonly<Props>) {
       ]}
       side="right"
     >
-      <SidebarNavigationHeader component={component} isInteractive />
+      <SidebarNavigationHeader component={component} getItemAvatar={getItemAvatar} isInteractive />
     </DropdownMenu>
   );
 }
 
+interface SidebarNavigationHeaderProps {
+  component: LightComponent;
+  getItemAvatar: (component: LightComponent, size: AvatarSize) => ReactNode;
+  isInteractive?: boolean;
+}
+
 const SidebarNavigationHeader = forwardRef<
   HTMLButtonElement,
-  Readonly<{ component: LightComponent; isInteractive?: boolean }>
+  Readonly<SidebarNavigationHeaderProps>
 >((props, ref) => {
-  const { component, ...rest } = props;
+  const { component, getItemAvatar, ...rest } = props;
 
   return (
     <Layout.SidebarNavigation.Header
-      avatar={<Avatar name={component.name} size="sm" />}
+      avatar={getItemAvatar(component, 'sm')}
       name={
         <Tooltip content={component.name} side="right">
           <span className="sw-block sw-truncate">{component.name}</span>

@@ -19,6 +19,7 @@
  */
 
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
+import { RecentHistory } from '~shared/helpers/recent-history';
 import { createQueryHook } from '~shared/queries/common';
 import { deleteApplication, getApplicationLeak } from '../api/application';
 import { invalidateMeasuresByComponentKey } from './measures';
@@ -36,6 +37,7 @@ export function useDeleteApplicationMutation() {
     mutationFn: (key: string) => deleteApplication(key),
     onSuccess: (_, key) => {
       invalidateMeasuresByComponentKey(key, queryClient);
+      RecentHistory.remove(key);
     },
   });
 }

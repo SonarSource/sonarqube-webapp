@@ -19,6 +19,7 @@
  */
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { RecentHistory } from '~shared/helpers/recent-history';
 import { deletePortfolio } from '../api/project-management';
 import { removeMeasuresByComponentKey } from './measures';
 
@@ -28,6 +29,7 @@ export function useDeletePortfolioMutation() {
     mutationFn: (key: string) => deletePortfolio(key),
     onSuccess: (_, key) => {
       removeMeasuresByComponentKey(key, queryClient);
+      RecentHistory.remove(key);
     },
   });
 }

@@ -18,8 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconDashboard, IconOverview, IconRocket, Layout } from '@sonarsource/echoes-react';
-import { useEffect } from 'react';
+import {
+  IconDashboard,
+  IconOverview,
+  IconRocket,
+  IconTableChartView,
+  Layout,
+} from '@sonarsource/echoes-react';
+import { useCallback, useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { useCurrentBranchQuery, useProjectBranchesQuery } from '~adapters/queries/branch';
@@ -39,6 +45,7 @@ import {
   PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY,
 } from '~sq-server-commons/helpers/project-dashboard-routes';
 import {
+  getPortfoliosUrl,
   getPortfolioUrl,
   getProjectQueryUrl,
   getProjectsUrl,
@@ -91,6 +98,11 @@ export function ComponentNav(props: Readonly<Props>) {
   const isApplicationChildInaccessible =
     isApplication(component.qualifier) && !component.canBrowseAllChildProjects;
 
+  const recentHistoryFilter = useCallback(
+    (history: History) => !isPortfolio || isPortfolioLike(history.qualifier),
+    [isPortfolio],
+  );
+
   useEffect(() => {
     if (
       qualifier &&
@@ -109,9 +121,11 @@ export function ComponentNav(props: Readonly<Props>) {
       ariaLabel={intl.formatMessage({ id: `qualifier.${component.qualifier}` })}
     >
       <ComponentNavHeader
-        allProjectsUrl={getProjectsUrl()}
+        allProjectsUrl={isPortfolio ? getPortfoliosUrl() : getProjectsUrl()}
         component={component}
+        getItemAvatar={isPortfolio ? getPortfolioAvatar : undefined}
         getItemUrl={getComponentUrl}
+        recentHistoryFilter={recentHistoryFilter}
       />
 
       <Layout.SidebarNavigation.Body>
@@ -194,4 +208,8 @@ function getComponentUrl(component: History) {
     return getProjectQueryUrl(component.key);
   }
   return getProjectOverviewUrl(component.key);
+}
+
+function getPortfolioAvatar() {
+  return <IconTableChartView />;
 }

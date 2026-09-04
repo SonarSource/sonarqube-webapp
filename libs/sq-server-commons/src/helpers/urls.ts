@@ -424,6 +424,10 @@ export function getProjectsUrl(isFavorite = false): Partial<Path> {
   return { pathname: `/projects` + (isFavorite ? '/favorite' : '') };
 }
 
+export function getPortfoliosUrl(): Partial<Path> {
+  return { pathname: '/portfolios' };
+}
+
 export function getHomePageUrl(homepage: HomePage) {
   switch (homepage.type) {
     case 'APPLICATION':

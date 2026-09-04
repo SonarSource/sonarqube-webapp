@@ -28,6 +28,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { useCallback } from 'react';
+import { RecentHistory } from '~shared/helpers/recent-history';
 import { isDefined } from '~shared/helpers/types';
 import {
   createInfiniteQueryHook,
@@ -165,6 +166,7 @@ export function useDeleteProjectMutation() {
     onSuccess: (_, key) => {
       resetProjectsListQuery(queryClient);
       removeMeasuresByComponentKey(key, queryClient);
+      RecentHistory.remove(key);
     },
   });
 }

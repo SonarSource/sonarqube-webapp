@@ -28,6 +28,7 @@ import {
   MeasuresServiceDefaultDataset,
   MeasuresServiceMock,
 } from '~shared/api/mocks/services/MeasuresServiceMock';
+import { RecentHistory } from '~shared/helpers/recent-history';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
 import { deleteApplication } from '~sq-server-commons/api/application';
@@ -41,6 +42,12 @@ import App from '../App';
 
 jest.mock('~sq-server-commons/api/project-management');
 jest.mock('~sq-server-commons/api/application');
+
+jest.mock('~shared/helpers/recent-history', () => ({
+  RecentHistory: {
+    remove: jest.fn(),
+  },
+}));
 
 jest.mock('~sq-server-commons/api/mode', () => ({
   getMode: jest.fn().mockResolvedValue({ mode: 'MQR', modified: false }),
@@ -84,6 +91,7 @@ it('should be able to delete project', async () => {
 
   expect(await byText(/project_deletion.resource_dele/).find()).toBeInTheDocument();
   expect(deleteProject).toHaveBeenCalledWith('foo');
+  expect(RecentHistory.remove).toHaveBeenCalledWith('foo');
 });
 
 it('should be able to delete Portfolio', async () => {
@@ -112,6 +120,7 @@ it('should be able to delete Portfolio', async () => {
 
   expect(await byText(/project_deletion.resource_dele/).find()).toBeInTheDocument();
   expect(deletePortfolio).toHaveBeenCalledWith('foo');
+  expect(RecentHistory.remove).toHaveBeenCalledWith('foo');
 });
 
 it('should be able to delete Application', async () => {
@@ -139,6 +148,7 @@ it('should be able to delete Application', async () => {
 
   expect(await byText(/project_deletion.resource_dele/).find()).toBeInTheDocument();
   expect(deleteApplication).toHaveBeenCalledWith('foo');
+  expect(RecentHistory.remove).toHaveBeenCalledWith('foo');
 });
 
 it('should render with no component', () => {
