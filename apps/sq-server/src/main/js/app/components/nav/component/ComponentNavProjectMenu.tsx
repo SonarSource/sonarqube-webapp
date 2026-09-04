@@ -29,7 +29,6 @@ import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { addons } from '~sq-server-addons/index';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { getCodeUrl } from '~sq-server-commons/helpers/urls';
-import { isPurchasableFeatureSupportedOrUnknown } from '~sq-server-commons/queries/entitlements';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
@@ -47,14 +46,13 @@ export function ComponentNavProjectMenu(props: Readonly<Props>) {
   const { qualifier } = component;
   const isProj = isProject(qualifier);
   const remediationAgentAddon = addons.remediationAgent;
-  const { data: remediationAgent, isSuccess: isRemediationAgentQuerySuccessful } =
-    addons.entitlements.usePurchasableFeature(EntitlementCheckFeatureKey.RemediationAgent, {
+  const { data: remediationAgent } = addons.entitlements.usePurchasableFeature(
+    EntitlementCheckFeatureKey.RemediationAgent,
+    {
       enabled: isProj && isLoggedIn && isDefined(remediationAgentAddon),
-    });
-  const hasRemediationAgent = isPurchasableFeatureSupportedOrUnknown(
-    remediationAgent,
-    isRemediationAgentQuerySuccessful,
+    },
   );
+  const hasRemediationAgent = isDefined(remediationAgent);
 
   const branchParameters = getBranchLikeQuery(branchLike);
   const query = { id: component.key, ...branchParameters };

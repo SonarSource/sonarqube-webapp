@@ -26,13 +26,13 @@ import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/compo
 import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
+import { FeatureAvailabilityGuard } from '~sq-server-commons/components/shared/FeatureAvailabilityGuard';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { hasMessage } from '~sq-server-commons/helpers/l10n';
 import { getComponentReportSettingsPathname } from '~sq-server-commons/helpers/urls';
-import { isPurchasableFeatureSupportedOrUnknown } from '~sq-server-commons/queries/entitlements';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
@@ -47,17 +47,9 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
   const { branchLike, component, hasFeature } = props;
   const { configuration = {}, qualifier } = component;
   const appState = useAppState();
-  const { data: remediationAgent, isSuccess: isRemediationAgentQuerySuccessful } =
-    addons.entitlements.usePurchasableFeature(EntitlementCheckFeatureKey.RemediationAgent, {
-      enabled:
-        isProject(qualifier) &&
-        Boolean(configuration.showSettings) &&
-        Boolean(addons.remediationAgent),
-    });
-  const hasRemediationAgent = isPurchasableFeatureSupportedOrUnknown(
-    remediationAgent,
-    isRemediationAgentQuerySuccessful,
-  );
+
+  const eligibleForAgentRoutes =
+    isProject(qualifier) && Boolean(configuration.showSettings) && Boolean(addons.remediationAgent);
 
   if (!configuration.showSettings) {
     return undefined;
@@ -74,11 +66,6 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
   const showSettings = !isApp && !isPortfolio;
   const showBaseline = !isApp && !isPortfolio;
   const showAiGeneratedCode = isProj && hasFeature(Feature.AiCodeAssurance) && Boolean(addons.aica);
-
-  const showAiCapabilities =
-    isProj &&
-    (hasRemediationAgent || hasFeature(Feature.HunterAgent)) &&
-    Boolean(addons.remediationAgent);
 
   const isGovernanceEnabled = appState.qualifiers.includes(ComponentQualifier.Portfolio);
 
@@ -108,7 +95,6 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
     !isProj &&
     !showDeletion &&
     !showAiGeneratedCode &&
-    !showAiCapabilities &&
     adminExtensions.length === 0
   ) {
     return undefined;
@@ -191,24 +177,27 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
         </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
-      {showAiCapabilities && addons.remediationAgent && (
-        <Layout.SidebarNavigation.AccordionItem.Item
-          suffix={
-            <NewBadge
-              expirationDate={
-                addons.remediationAgent.PROJECT_AGENT_ACTIVITY_NEW_BADGE_EXPIRATION_DATE
-              }
-            />
-          }
-          to={addons.remediationAgent.getProjectAICapabilitiesUrl(
-            component.key,
-            hasRemediationAgent
-              ? addons.remediationAgent.ProjectAICapabilitiesCategory.RemediationAgent
-              : addons.remediationAgent.ProjectAICapabilitiesCategory.HunterAgent,
-          )}
+      {addons.remediationAgent && eligibleForAgentRoutes && (
+        <FeatureAvailabilityGuard
+          featureKeys={[
+            EntitlementCheckFeatureKey.RemediationAgent,
+            EntitlementCheckFeatureKey.HunterAgent,
+          ]}
+          guardOnly
         >
-          <FormattedMessage id="ai_capabilities.title" />
-        </Layout.SidebarNavigation.AccordionItem.Item>
+          <Layout.SidebarNavigation.AccordionItem.Item
+            suffix={
+              <NewBadge
+                expirationDate={
+                  addons.remediationAgent.PROJECT_AGENT_ACTIVITY_NEW_BADGE_EXPIRATION_DATE
+                }
+              />
+            }
+            to={addons.remediationAgent.getProjectAICapabilitiesUrl(component.key)}
+          >
+            <FormattedMessage id="ai_capabilities.title" />
+          </Layout.SidebarNavigation.AccordionItem.Item>
+        </FeatureAvailabilityGuard>
       )}
 
       {isProj && (

@@ -18,29 +18,38 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { waitFor } from '@testing-library/react';
+import { http, HttpResponse } from 'msw';
+import { registerServiceMocks, resetServiceMocks, server } from '~shared/api/mocks/server';
 import { byRole, byText } from '~shared/helpers/testSelector';
+import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { Extension } from '~shared/types/common';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
+import {
+  BillingServiceDefaultDataset,
+  BillingServiceMock,
+} from '~sq-server-commons/api/mocks/BillingServiceMock';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { AppState } from '~sq-server-commons/types/appstate';
-import { PurchaseableFeature } from '~sq-server-commons/types/editions';
-import { Feature } from '~sq-server-commons/types/features';
 import { AdministrationSidebar } from '../AdministrationSidebar';
 
 jest.mock('~sq-server-addons/index', () => ({
-  addons: {
-    entitlements: {
-      usePurchasableFeature: jest.fn(),
-    },
-  },
+  addons: {},
 }));
+
+const billingHandler = new BillingServiceMock(BillingServiceDefaultDataset);
 
 beforeEach(() => {
   jest.mocked(addons).license = undefined;
   jest.mocked(addons).remediationAgent = undefined;
-  mockRemediationAgentQuery({ data: undefined, isSuccess: true });
+  billingHandler.reset();
+  registerServiceMocks(billingHandler);
+});
+
+afterEach(() => {
+  resetServiceMocks();
 });
 
 it('render correctly', () => {
@@ -48,6 +57,7 @@ it('render correctly', () => {
 
   expect(byRole('link', { hidden: true }).getAll()).toHaveLength(12);
   // The sidebar nav is aria-hidden, so its links have no accessible name to query by.
+  // eslint-disable-next-line testing-library/no-node-access
   expect(byText('onboarding_dashboard.sidebar').get().closest('a')).toHaveAttribute(
     'href',
     '/admin/onboarding-dashboard',
@@ -88,29 +98,6 @@ it('render correctly with governance extension', () => {
 });
 
 
-function renderAdminSidebar(
-  extensions: Extension[] = [],
-  appState?: AppState,
-  featureList?: Feature[],
-) {
-  renderApp('/', <AdministrationSidebar extensions={extensions} />, { appState, featureList });
-}
-
-function mockRemediationAgentQuery({
-  data,
-  isError = false,
-  isPending = false,
-  isSuccess,
-}: {
-  data: PurchaseableFeature | undefined;
-  isError?: boolean;
-  isPending?: boolean;
-  isSuccess: boolean;
-}) {
-  jest.mocked(addons.entitlements.usePurchasableFeature).mockReturnValue({
-    data,
-    isError,
-    isPending,
-    isSuccess,
-  } as ReturnType<typeof addons.entitlements.usePurchasableFeature>);
+function renderAdminSidebar(extensions: Extension[] = [], appState?: AppState) {
+  renderApp('/', <AdministrationSidebar extensions={extensions} />, { appState });
 }

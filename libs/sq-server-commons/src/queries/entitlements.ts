@@ -24,7 +24,7 @@ import { createQueryHook, StaleTime } from '~shared/queries/common';
 import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { getCurrentLicense, getPurchasableFeatures } from '../api/entitlements';
 import { hasGlobalPermission } from '../helpers/users';
-import { PurchasableFeatureKey, PurchaseableFeature } from '../types/editions';
+import { PurchasableFeatureKey } from '../types/editions';
 import { Permissions } from '../types/permissions';
 
 export const LICENSE_QUERY_KEY = ['current-sqs-license'] as const;
@@ -57,17 +57,6 @@ export function usePurchasableFeatureQuery(
     ...options,
     select: (features) => features.find((feature) => feature.featureKey === featureKey),
   });
-}
-
-/**
- * Keep feature entry points visible until a successful response definitively establishes that
- * the feature is unsupported. Loading and failed requests leave support unknown.
- */
-export function isPurchasableFeatureSupportedOrUnknown(
-  feature: PurchaseableFeature | undefined,
-  isQuerySuccessful: boolean,
-) {
-  return feature !== undefined || !isQuerySuccessful;
 }
 
 /**

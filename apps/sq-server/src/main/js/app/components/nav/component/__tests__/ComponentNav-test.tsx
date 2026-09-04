@@ -18,15 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { http, HttpResponse } from 'msw';
 import { ComponentProps } from 'react';
 import * as branchQueries from '~adapters/queries/branch';
 import { DASHBOARDS_NEW_BADGE_EXPIRATION_DATE } from '~feature-dashboards/constants';
+import { registerServiceMocks, resetServiceMocks, server } from '~shared/api/mocks/server';
 import { RecentHistory } from '~shared/helpers/recent-history';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
+import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
+import {
+  BillingServiceDefaultDataset,
+  BillingServiceMock,
+} from '~sq-server-commons/api/mocks/BillingServiceMock';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
 import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
@@ -34,26 +41,10 @@ import { mockMainBranch } from '~sq-server-commons/helpers/mocks/branch-like';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { AppState } from '~sq-server-commons/types/appstate';
-import { EditionKey, PurchaseableFeature } from '~sq-server-commons/types/editions';
+import { EditionKey } from '~sq-server-commons/types/editions';
 import { Feature } from '~sq-server-commons/types/features';
 import { CurrentUser } from '~sq-server-commons/types/users';
 import { ComponentNav } from '../ComponentNav';
-
-jest.mock('~sq-server-addons/index', () => {
-  const actual =
-    jest.requireActual<typeof import('~sq-server-addons/index')>('~sq-server-addons/index');
-
-  return {
-    ...actual,
-    addons: {
-      ...actual.addons,
-      entitlements: {
-        ...actual.addons.entitlements,
-        usePurchasableFeature: jest.fn(),
-      },
-    },
-  };
-});
 
 
 jest.mock('~shared/helpers/recent-history', () => ({
@@ -69,6 +60,10 @@ jest.mock('~shared/components/badges/NewBadge', () => ({
   ),
 }));
 
+const billingHandler = new BillingServiceMock({
+  ...BillingServiceDefaultDataset,
+  purchasableFeatures: [],
+});
 const branchesHandler = new BranchesServiceMock();
 const measuresHandler = new MeasuresServiceMock();
 const settingsHandler = new SettingsServiceMock();
@@ -81,11 +76,16 @@ const defaultRecentHistory = [
 beforeEach(() => {
   jest.clearAllMocks();
   jest.mocked(RecentHistory.get).mockReturnValue(defaultRecentHistory);
+  billingHandler.reset();
   branchesHandler.reset();
   measuresHandler.reset();
   settingsHandler.reset();
   addons.sca = originalScaAddon;
-  mockRemediationAgentQuery({ data: undefined, isSuccess: true });
+  registerServiceMocks(billingHandler);
+});
+
+afterEach(() => {
+  resetServiceMocks();
 });
 
 function createMockScaAddon(): NonNullable<typeof addons.sca> {
@@ -572,25 +572,6 @@ function getNavigationItemText(element: HTMLElement) {
     .filter((child) => child.getAttribute('aria-hidden') !== 'true')
     .map((child) => child.textContent ?? '')
     .join('');
-}
-
-function mockRemediationAgentQuery({
-  data,
-  isError = false,
-  isPending = false,
-  isSuccess,
-}: {
-  data: PurchaseableFeature | undefined;
-  isError?: boolean;
-  isPending?: boolean;
-  isSuccess: boolean;
-}) {
-  jest.mocked(addons.entitlements.usePurchasableFeature).mockReturnValue({
-    data,
-    isError,
-    isPending,
-    isSuccess,
-  } as ReturnType<typeof addons.entitlements.usePurchasableFeature>);
 }
 
 /* eslint-disable testing-library/no-node-access -- The standalone sidebar is aria-hidden. */

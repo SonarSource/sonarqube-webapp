@@ -24,9 +24,7 @@ import { NewBadge } from '~shared/components/badges/NewBadge';
 import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { Extension } from '~shared/types/common';
 import { addons } from '~sq-server-addons/index';
-import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { isPurchasableFeatureSupportedOrUnknown } from '~sq-server-commons/queries/entitlements';
-import { Feature } from '~sq-server-commons/types/features';
+import { FeatureAvailabilityGuard } from '~sq-server-commons/components/shared/FeatureAvailabilityGuard';
 
 interface Props {
   extensions: Extension[];
@@ -35,15 +33,6 @@ interface Props {
 
 export function AdministrationSidebarConfiguration(props: Readonly<Props>) {
   const { extensions, governanceInstalled } = props;
-  const { hasFeature } = useAvailableFeatures();
-  const { data: remediationAgent, isSuccess: isRemediationAgentQuerySuccessful } =
-    addons.entitlements.usePurchasableFeature(EntitlementCheckFeatureKey.RemediationAgent, {
-      enabled: Boolean(addons.remediationAgent),
-    });
-  const hasRemediationAgent = isPurchasableFeatureSupportedOrUnknown(
-    remediationAgent,
-    isRemediationAgentQuerySuccessful,
-  );
 
   return (
     <Layout.SidebarNavigation.AccordionItem
@@ -54,17 +43,25 @@ export function AdministrationSidebarConfiguration(props: Readonly<Props>) {
         <FormattedMessage id="settings.page" />
       </Layout.SidebarNavigation.AccordionItem.Item>
 
-      {(hasRemediationAgent || hasFeature(Feature.HunterAgent)) && addons.remediationAgent && (
-        <Layout.SidebarNavigation.AccordionItem.Item
-          suffix={
-            <NewBadge
-              expirationDate={addons.remediationAgent.AI_CAPABILITIES_NEW_BADGE_EXPIRATION_DATE}
-            />
-          }
-          to="/admin/agent"
+      {addons.remediationAgent && (
+        <FeatureAvailabilityGuard
+          featureKeys={[
+            EntitlementCheckFeatureKey.RemediationAgent,
+            EntitlementCheckFeatureKey.HunterAgent,
+          ]}
+          guardOnly
         >
-          <FormattedMessage id="sidebar.ai_capabilities" />
-        </Layout.SidebarNavigation.AccordionItem.Item>
+          <Layout.SidebarNavigation.AccordionItem.Item
+            suffix={
+              <NewBadge
+                expirationDate={addons.remediationAgent.AI_CAPABILITIES_NEW_BADGE_EXPIRATION_DATE}
+              />
+            }
+            to="/admin/agent"
+          >
+            <FormattedMessage id="sidebar.ai_capabilities" />
+          </Layout.SidebarNavigation.AccordionItem.Item>
+        </FeatureAvailabilityGuard>
       )}
 
       <Layout.SidebarNavigation.AccordionItem.Item to="/admin/settings/encryption">
