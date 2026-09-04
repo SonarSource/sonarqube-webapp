@@ -116,6 +116,7 @@ export function QualityGateHistoryCard(props: Readonly<Props>) {
                 }}
               />
             }
+            titleSize="medium"
           />
         ) : (
           <div className="sw-mt-6 sw-flex sw-flex-col sw-gap-6">
