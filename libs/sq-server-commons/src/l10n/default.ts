@@ -3334,17 +3334,6 @@ export const defaultMessages = {
   'architecture.organization.node.unconnected.more': 'and {count} more',
   'architecture.organization.edge.dependency_count':
     '{count, plural, one {# dependency} other {# dependencies}}',
-  'architecture.organization.dashboard.deviations': 'Deviations',
-  'architecture.organization.dashboard.deviations.description':
-    "Mismatches between the organization's intended and current architecture.",
-  'architecture.organization.dashboard.forbidden_relationships': 'Forbidden relationships',
-  'architecture.organization.dashboard.forbidden_relationships.count':
-    '{count, plural, one {<bold>#</bold> forbidden relationship} other {<bold>#</bold> forbidden relationships}}',
-  'architecture.organization.dashboard.pending_external_interfaces': 'Pending system components',
-  'architecture.organization.dashboard.pending_external_interfaces.column':
-    'Pending components count',
-  'architecture.organization.dashboard.pending_external_interfaces.count':
-    '{count, plural, one {<bold>#</bold> project} other {<bold>#</bold> projects}}',
 
   // Discovery page
   'architecture.discovery.dismissible.explore_codebase.title': 'Explore the map of your codebase',
