@@ -1961,7 +1961,7 @@ export const defaultMessages = {
   'issues.loading_issues': 'Loading issues',
   'issues.return_to_list': 'Return to List',
   'issues.bulk_change_X_issues': 'Bulk Change {0} Issue(s)',
-  'issues.assign_to_agent': 'Assign to agent',
+  'issues.fix_x_with_agent': '{count, plural, =0 {Fix with agent} other {Fix {count} with agent}}',
   'project_issues.assign_to_agent.success.title':
     '{issueCount, plural, one {# issue} other {# issues}} assigned to Agent',
   'project_issues.assign_to_agent.error.title': 'Failed to assign issues',
@@ -2073,7 +2073,7 @@ export const defaultMessages = {
     'This repository uses Git submodules, which are not currently supported by the remediation agent.',
   'agent_activity.status.skipped': 'Skipped',
   'agent_activity.status.skipped.description': 'No changes since last run',
-  'pull_request.assign_to_agent': 'Assign to Agent',
+  'pull_request.assign_to_agent': 'Fix with agent',
   'pull_request.assign_to_agent.fix_issues': 'Fix {count, plural, one {# issue} other {# issues}}',
   'pull_request.assign_to_agent.opens_pr': 'Opens 1 PR',
   'pull_request.assign_to_agent.loading': 'Assigning issues to Agent',
@@ -2160,7 +2160,7 @@ export const defaultMessages = {
   'issue.show_full_execution_flow': 'See the whole {0} step execution flow',
 
   // Issues code fix
-  'issues.code_fix.get_fix_suggestion': 'Generate AI Fix',
+  'issues.code_fix.get_fix_suggestion': 'Preview fix',
   'issues.code_fix.see_fix_suggestion': 'See AI Fix',
   'issues.code_fix.let_us_suggest_fix': 'Let us suggest a fix for this issue',
   'issues.code_fix.fix_is_being_generated': 'A fix is being generated...',

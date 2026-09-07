@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, IconSparkle } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { AxiosError } from 'axios';
 import { FormattedMessage } from 'react-intl';
 import { OverviewQGNotComputedIcon } from '~shared/components/visual-components/OverviewQGNotComputedIcon';
@@ -67,9 +67,8 @@ export function AiCodeFixTab({ branchLike, issue, language }: Readonly<Props>) {
             onClick={() => {
               prefetchSuggestion();
             }}
-            variety={ButtonVariety.Primary}
+            variety={ButtonVariety.Default}
           >
-            <IconSparkle className="sw-mr-1" />
             <FormattedMessage id="issues.code_fix.get_fix_suggestion" />
           </Button>
         </div>
@@ -98,8 +97,7 @@ export function AiCodeFixTab({ branchLike, issue, language }: Readonly<Props>) {
           <p className="sw-my-4">{translate('issues.code_fix.not_able_to_generate_fix')}</p>
           {translate('issues.code_fix.check_how_to_fix')}
           {!isIssueRawError && (
-            <Button className="sw-mt-4" onClick={() => refetch()} variety={ButtonVariety.Primary}>
-              <IconSparkle className="sw-mr-1" />
+            <Button className="sw-mt-4" onClick={() => refetch()} variety={ButtonVariety.Default}>
               <FormattedMessage id="issues.code_fix.get_fix_suggestion" />
             </Button>
           )}
