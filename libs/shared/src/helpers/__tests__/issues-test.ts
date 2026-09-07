@@ -18,7 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { getExternalRuleKey, isHunterAgentRuleEngine, isHunterAgentRuleKey } from '../issues';
+import { IssueTransition } from '../../types/issues';
+import {
+  getExternalRuleKey,
+  isHunterAgentRuleEngine,
+  isHunterAgentRuleKey,
+  orderIssueTransitions,
+} from '../issues';
 
 describe('isHunterAgentRuleEngine', () => {
   it('detects hunter-agent case-insensitively', () => {
@@ -62,5 +68,23 @@ describe('isHunterAgentRuleKey', () => {
   it('returns false for rule keys from other repositories', () => {
     expect(isHunterAgentRuleKey('squid:S1337')).toBe(false);
     expect(isHunterAgentRuleKey('external_eslint:no-unused-vars')).toBe(false);
+  });
+});
+
+describe('orderIssueTransitions', () => {
+  it('orderIssueTransitions should list Snooze first', () => {
+    expect(
+      orderIssueTransitions([
+        IssueTransition.Confirm,
+        IssueTransition.Accept,
+        IssueTransition.Snooze,
+        IssueTransition.FalsePositive,
+      ]),
+    ).toEqual([
+      IssueTransition.Snooze,
+      IssueTransition.Accept,
+      IssueTransition.FalsePositive,
+      IssueTransition.Confirm,
+    ]);
   });
 });
