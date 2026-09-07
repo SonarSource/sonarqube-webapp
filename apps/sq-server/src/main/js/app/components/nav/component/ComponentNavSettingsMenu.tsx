@@ -23,16 +23,17 @@ import { FormattedMessage } from 'react-intl';
 import { NewBadge } from '~shared/components/badges/NewBadge';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/component';
+import { isDefined } from '~shared/helpers/types';
 import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
-import { FeatureAvailabilityGuard } from '~sq-server-commons/components/shared/FeatureAvailabilityGuard';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { hasMessage } from '~sq-server-commons/helpers/l10n';
 import { getComponentReportSettingsPathname } from '~sq-server-commons/helpers/urls';
+import { useRemediationAgentBindingSupport } from '~sq-server-commons/queries/dop-translation';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
@@ -50,6 +51,32 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
 
   const eligibleForAgentRoutes =
     isProject(qualifier) && Boolean(configuration.showSettings) && Boolean(addons.remediationAgent);
+
+  const { data: remediationAgent } = addons.entitlements.usePurchasableFeature(
+    EntitlementCheckFeatureKey.RemediationAgent,
+    { enabled: eligibleForAgentRoutes },
+  );
+  const hasRemediationAgentLicense = isDefined(remediationAgent);
+  // The Remediation Agent only supports a subset of DevOps platforms (see
+  // DopPermissionValidationService server-side). An empty permission-checks response means the
+  // project has no binding, or a binding on an unsupported platform (e.g. Bitbucket) — either way
+  // this entry shouldn't be the only reason it's shown, since the destination page would 404 for
+  // a project where Remediation Agent is licensed but Hunter Agent isn't purchasable.
+  const { isSupported: isRemediationAgentBindingSupported } = useRemediationAgentBindingSupport({
+    projectKey: component.key,
+    enabled: eligibleForAgentRoutes && hasRemediationAgentLicense,
+  });
+  const hasUsableRemediationAgent =
+    hasRemediationAgentLicense && isRemediationAgentBindingSupported;
+
+  const { data: hunterAgent } = addons.entitlements.usePurchasableFeature(
+    EntitlementCheckFeatureKey.HunterAgent,
+    { enabled: eligibleForAgentRoutes },
+  );
+  const hasHunterAgentLicense = isDefined(hunterAgent);
+
+  const showAiCapabilities =
+    eligibleForAgentRoutes && (hasUsableRemediationAgent || hasHunterAgentLicense);
 
   if (!configuration.showSettings) {
     return undefined;
@@ -177,27 +204,19 @@ function ComponentNavSettingsMenu(props: Readonly<Props>) {
         </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
-      {addons.remediationAgent && eligibleForAgentRoutes && (
-        <FeatureAvailabilityGuard
-          featureKeys={[
-            EntitlementCheckFeatureKey.RemediationAgent,
-            EntitlementCheckFeatureKey.HunterAgent,
-          ]}
-          guardOnly
+      {addons.remediationAgent && showAiCapabilities && (
+        <Layout.SidebarNavigation.AccordionItem.Item
+          suffix={
+            <NewBadge
+              expirationDate={
+                addons.remediationAgent.PROJECT_AGENT_ACTIVITY_NEW_BADGE_EXPIRATION_DATE
+              }
+            />
+          }
+          to={addons.remediationAgent.getProjectAICapabilitiesUrl(component.key)}
         >
-          <Layout.SidebarNavigation.AccordionItem.Item
-            suffix={
-              <NewBadge
-                expirationDate={
-                  addons.remediationAgent.PROJECT_AGENT_ACTIVITY_NEW_BADGE_EXPIRATION_DATE
-                }
-              />
-            }
-            to={addons.remediationAgent.getProjectAICapabilitiesUrl(component.key)}
-          >
-            <FormattedMessage id="ai_capabilities.title" />
-          </Layout.SidebarNavigation.AccordionItem.Item>
-        </FeatureAvailabilityGuard>
+          <FormattedMessage id="ai_capabilities.title" />
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
       {isProj && (

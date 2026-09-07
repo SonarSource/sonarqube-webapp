@@ -36,6 +36,7 @@ import {
 } from '~sq-server-commons/api/mocks/BillingServiceMock';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
 import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServiceMock';
+import { PermissionChecksServiceMock } from '~sq-server-commons/api/mocks/PermissionChecksServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { mockMainBranch } from '~sq-server-commons/helpers/mocks/branch-like';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
@@ -67,6 +68,7 @@ const billingHandler = new BillingServiceMock({
 const branchesHandler = new BranchesServiceMock();
 const measuresHandler = new MeasuresServiceMock();
 const settingsHandler = new SettingsServiceMock();
+const permissionChecksHandler = new PermissionChecksServiceMock();
 const originalScaAddon = addons.sca;
 const defaultRecentHistory = [
   { key: 'foo', name: 'Foo', qualifier: ComponentQualifier.Project },
@@ -80,8 +82,9 @@ beforeEach(() => {
   branchesHandler.reset();
   measuresHandler.reset();
   settingsHandler.reset();
+  permissionChecksHandler.reset();
   addons.sca = originalScaAddon;
-  registerServiceMocks(billingHandler);
+  registerServiceMocks(billingHandler, permissionChecksHandler);
 });
 
 afterEach(() => {

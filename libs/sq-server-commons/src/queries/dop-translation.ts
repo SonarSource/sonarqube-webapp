@@ -159,3 +159,38 @@ export function useDopPermissionChecksQuery(
     staleTime: StaleTime.LONG,
   });
 }
+
+/**
+ * The Remediation Agent only supports a subset of DevOps platforms (see
+ * DopPermissionValidationService server-side). An empty `permissionChecks` response means the
+ * project has no binding, or a binding on an unsupported platform (e.g. Bitbucket) — either way
+ * Remediation Agent surfaces (menu entries, tabs, pages) must stay hidden rather than point at a
+ * config screen that can never work.
+ *
+ * Pass `enabled: false` (e.g. while the Remediation Agent license itself hasn't been confirmed
+ * yet) to skip the check — callers combine `isSupported` with their own license signal since what
+ * "confirmed" means (an entry exists vs. entry exists and `isAvailable`) varies by call site.
+ *
+ * `isSupported` fails open while the request is loading or if it errors — same "supported or
+ * unknown" philosophy as `isPurchasableFeatureSupportedOrUnknown` for the license check — so
+ * neither a pending request nor a transient network/API error silently hides Remediation Agent
+ * everywhere. Callers that need to distinguish "confirmed supported" from "not yet known" (e.g.
+ * to defer a request until the binding is actually confirmed) can check `isLoading` themselves.
+ */
+export function useRemediationAgentBindingSupport({
+  projectKey,
+  enabled,
+}: {
+  projectKey: string;
+  enabled: boolean;
+}): { isLoading: boolean; isSupported: boolean } {
+  const { data, isError, isLoading } = useDopPermissionChecksQuery(
+    { projectKey },
+    { enabled: enabled && projectKey !== '' },
+  );
+
+  return {
+    isLoading,
+    isSupported: isLoading || isError || Boolean(data?.permissionChecks?.length),
+  };
+}

@@ -29,6 +29,7 @@ import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { addons } from '~sq-server-addons/index';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { getCodeUrl } from '~sq-server-commons/helpers/urls';
+import { useRemediationAgentBindingSupport } from '~sq-server-commons/queries/dop-translation';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
@@ -52,7 +53,18 @@ export function ComponentNavProjectMenu(props: Readonly<Props>) {
       enabled: isProj && isLoggedIn && isDefined(remediationAgentAddon),
     },
   );
-  const hasRemediationAgent = isDefined(remediationAgent);
+  const hasRemediationAgentLicense = isDefined(remediationAgent);
+  // The Remediation Agent only supports a subset of DevOps platforms (see
+  // DopPermissionValidationService server-side). An empty permission-checks response means the
+  // project has no binding, or a binding on an unsupported platform (e.g. Bitbucket) — either way
+  // this item shouldn't link to a page that can never work. Never fires for non-project
+  // qualifiers, which can't use the result even though the license query's cache may already be
+  // warm from another project page.
+  const { isSupported: isRemediationAgentBindingSupported } = useRemediationAgentBindingSupport({
+    projectKey: component.key,
+    enabled: isProj && hasRemediationAgentLicense,
+  });
+  const hasRemediationAgent = hasRemediationAgentLicense && isRemediationAgentBindingSupported;
 
   const branchParameters = getBranchLikeQuery(branchLike);
   const query = { id: component.key, ...branchParameters };
