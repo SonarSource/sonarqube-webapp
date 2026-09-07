@@ -18,8 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
-import { BreadcrumbsItems, BreadcrumbsProps, cssVar, Layout } from '@sonarsource/echoes-react';
+import { BreadcrumbsItems, BreadcrumbsProps, Layout } from '@sonarsource/echoes-react';
 import { uniqBy } from 'lodash';
 import * as React from 'react';
 import { useLocation } from '~shared/components/hoc/withRouter';
@@ -30,6 +29,7 @@ import { ExtendedSettingDefinition } from '~shared/types/settings';
 import { addons } from '~sq-server-addons/index';
 import ModeBanner from '~sq-server-commons/components/common/ModeBanner';
 import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
+import { PageContentCard } from '~sq-server-commons/components/ui/PageContentCard';
 import { getGlobalSettingsUrl, getProjectSettingsUrl } from '~sq-server-commons/helpers/urls';
 import { Component } from '~sq-server-commons/types/types';
 import { CATEGORY_OVERRIDES } from '../constants';
@@ -114,7 +114,10 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
 
       <div>
         {/* Adding a key to force re-rendering of the category content, so that it resets the scroll position */}
-        <StyledBox className="it__settings_list sw-flex-1 sw-p-6 sw-min-w-0" key={selectedCategory}>
+        <PageContentCard
+          className="it__settings_list sw-flex-1 sw-p-6 sw-min-w-0"
+          key={selectedCategory}
+        >
           {shouldRenderAdditionalCategory ? (
             foundAdditionalCategory.renderComponent({
               categories,
@@ -129,7 +132,7 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
               definitions={definitions}
             />
           )}
-        </StyledBox>
+        </PageContentCard>
       </div>
     </Wrapper>
   );
@@ -179,9 +182,3 @@ function Wrapper({
 }
 
 export default SettingsAppRenderer;
-
-const StyledBox = styled.div`
-  background-color: ${cssVar('color-surface-default')};
-  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
-  margin-left: -1px;
-`;
