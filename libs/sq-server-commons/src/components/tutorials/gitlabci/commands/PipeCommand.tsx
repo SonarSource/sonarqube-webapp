@@ -57,11 +57,11 @@ const BUILD_TOOL_SPECIFIC: {
   };
 } = {
   [BuildTools.Gradle]: {
-    image: 'gradle:8.10.0-jdk17-jammy',
+    image: 'gradle:8.10.0-jdk21-jammy',
     script: () => 'gradle sonar',
   },
   [BuildTools.Maven]: {
-    image: 'maven:3-eclipse-temurin-17',
+    image: 'maven:3-eclipse-temurin-21',
     script: () => `
     - mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar`,
   },

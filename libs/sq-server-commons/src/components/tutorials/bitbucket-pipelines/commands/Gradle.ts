@@ -21,7 +21,7 @@
 import { BuildToolExampleBuilder } from '../AnalysisCommand';
 
 const gradleExample: BuildToolExampleBuilder = ({ branchesEnabled, mainBranchName }) => {
-  return `image: eclipse-temurin:17
+  return `image: eclipse-temurin:21
 
 definitions:
   steps:

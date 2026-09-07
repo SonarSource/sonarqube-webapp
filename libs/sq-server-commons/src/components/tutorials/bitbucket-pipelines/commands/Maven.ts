@@ -26,7 +26,7 @@ const mavenExample: BuildToolExampleBuilder = ({
   projectKey,
   projectName,
 }) => {
-  return `image: maven:3-eclipse-temurin-17
+  return `image: maven:3-eclipse-temurin-21
 
 definitions:
   steps:

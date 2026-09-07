@@ -265,7 +265,7 @@ pipelines:
 exports[`should follow and complete all steps: Dart: sonar-project.properties 1`] = `"sonar.projectKey=my-project"`;
 
 exports[`should follow and complete all steps: Gradle: bitbucket-pipelines.yml 1`] = `
-"image: eclipse-temurin:17
+"image: eclipse-temurin:21
 
 definitions:
   steps:
@@ -319,7 +319,7 @@ sonar {
 `;
 
 exports[`should follow and complete all steps: Maven: bitbucket-pipelines.yml 1`] = `
-"image: maven:3-eclipse-temurin-17
+"image: maven:3-eclipse-temurin-21
 
 definitions:
   steps:
