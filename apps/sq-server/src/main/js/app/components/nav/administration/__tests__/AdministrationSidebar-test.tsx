@@ -58,7 +58,7 @@ it('render correctly', () => {
   expect(byRole('link', { hidden: true }).getAll()).toHaveLength(12);
   // The sidebar nav is aria-hidden, so its links have no accessible name to query by.
   // eslint-disable-next-line testing-library/no-node-access
-  expect(byText('onboarding_dashboard.sidebar').get().closest('a')).toHaveAttribute(
+  expect(byText('layout.onboarding_dashboard').get().closest('a')).toHaveAttribute(
     'href',
     '/admin/onboarding-dashboard',
   );

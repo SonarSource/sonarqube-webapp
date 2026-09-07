@@ -69,7 +69,7 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
-// This file isn't about the Project Coverage tour (see ProjectCoverageButton-test.tsx); pre-dismiss
+// This file isn't about the Project coverage tour (see ProjectCoverageButton-test.tsx); pre-dismiss
 // it so it doesn't pop open and interfere with the other interactions tested here.
 const dismissedProjectCoverageTour = { [NoticeType.PROJECT_COVERAGE_TOUR]: true };
 

@@ -682,7 +682,7 @@ export const defaultMessages = {
   'layout.logout': 'Log out',
   'layout.measures': 'Measures',
   'layout.settings': 'Administration',
-  'layout.onboarding_dashboard': 'Onboarding dashboard',
+  'layout.onboarding_dashboard': 'Project coverage',
   'layout.architecture': 'Architecture',
   'layout.security_hotspots': 'Security hotspots',
   'layout.settings.TRK': 'Project settings',
@@ -3395,7 +3395,7 @@ export const defaultMessages = {
 
   'projects.page': 'Projects',
   'projects.add': 'Create Project',
-  'projects.coverage': 'Project Coverage',
+  'projects.coverage': 'Project coverage',
   'projects.coverage.spotlight.title': 'See which projects are not yet imported or analyzed.',
   'projects.coverage.spotlight.content':
     'Your dashboard for importing and analyzing all your projects.',
@@ -11334,15 +11334,13 @@ export const defaultMessages = {
     'Based on severity of malicious package risks',
   //------------------------------------------------------------------------------
   //
-  // Onboarding dashboard
+  // Project coverage
   //
   //------------------------------------------------------------------------------
 
   'onboarding_dashboard.donut.tooltip.count': 'Count:',
   'onboarding_dashboard.donut.tooltip.percentage': 'Percentage:',
-  'onboarding_dashboard.sidebar': 'Project coverage',
-  'onboarding_dashboard.header.subtitle':
-    'Your journey to a 100% validated code security and quality.',
+  'onboarding_dashboard.header.subtitle': 'Your journey to validated code quality and security.',
   'onboarding_dashboard.journey.congrats.title': 'Congratulations!',
   'onboarding_dashboard.journey.congrats.message':
     'You have successfully configured your DevOps platform! We found <b>{count}</b> repositories ready to be imported.',
