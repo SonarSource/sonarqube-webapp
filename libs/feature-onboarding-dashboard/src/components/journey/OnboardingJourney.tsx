@@ -96,7 +96,7 @@ export function OnboardingJourney({ state, timeline }: Readonly<Props>) {
 
       <Divider className="sw-my-10" role="separator" />
 
-      <div className="sw-mb-4 sw-flex sw-flex-col sw-gap-4">
+      <div className="sw-mb-6 sw-flex sw-flex-col sw-gap-6">
         {state.level !== JourneyLevel.Unbound && (
           <OnboardingOverTimeCard
             showImportedSeries={state.level === JourneyLevel.Imported}

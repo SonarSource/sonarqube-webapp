@@ -50,7 +50,7 @@ export function JourneyStepper({ onSelectStep, selectedStep, state }: Readonly<P
   });
 
   return (
-    <div className="sw-grid sw-grid-cols-3 sw-gap-4">
+    <div className="sw-grid sw-grid-cols-3 sw-gap-6">
       <StepCard
         isSelected={selectedStep === JourneyStep.Binding}
         onSelect={() => {
