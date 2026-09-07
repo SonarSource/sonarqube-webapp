@@ -44,14 +44,28 @@ interface Props {
 }
 
 /**
- * "Analyze your projects" detail panel. Left: a donut breaking analysed projects into scanned vs.
- * not-yet-imported. Right: action cards nudging the user to fix or import projects.
+ * "Analyze your projects" detail panel. Left: a donut breaking projects into analyzed, not scanned
+ * and not-yet-imported (the analyzed segment is omitted when nothing has been analyzed yet).
+ * Right: action cards nudging the user to fix or import projects.
  */
 export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const { analyze, analyzed, analyzedPct, totalProjects } = state;
 
+  const analyzedCapacity =
+    totalProjects > 0 ? totalProjects - analyze.notScanned - analyze.notImported : analyzed;
+  const analyzedSegmentValue = Math.max(Math.min(analyzed, analyzedCapacity), 0);
+
   const segments: PanelDonutSegment[] = [
+    ...(analyzedSegmentValue > 0
+      ? [
+          {
+            color: cssVar('color-charts-categorical-3'),
+            label: formatMessage({ id: 'onboarding_dashboard.journey.analyze.legend.analyzed' }),
+            value: analyzedSegmentValue,
+          },
+        ]
+      : []),
     {
       color: cssVar('color-charts-categorical-2'),
       label: formatMessage({ id: 'onboarding_dashboard.journey.analyze.legend.not_scanned' }),

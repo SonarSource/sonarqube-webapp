@@ -195,6 +195,7 @@ const ui = {
   permissionDescription: byText('onboarding_dashboard.journey.permission_required.description'),
 
   // Analyze panel
+  analyzedLegend: byText('onboarding_dashboard.journey.analyze.legend.analyzed'),
   notScannedLegend: byText('onboarding_dashboard.journey.analyze.legend.not_scanned'),
   notImportedAnalyzeLegend: byText('onboarding_dashboard.journey.analyze.legend.not_imported'),
   fixCta: byRole('button', { name: 'onboarding_dashboard.journey.analyze.not_scanned.cta' }),
@@ -414,10 +415,11 @@ it('shows the permission popover when the user lacks permission and clicks the c
   expect(await ui.permissionDescription.find()).toBeInTheDocument();
 });
 
-it('renders the analyze panel with its two legend entries and two action rows', async () => {
+it('renders the analyze panel with its three legend entries and two action rows', async () => {
   renderPanel(JourneyStep.Projects, boundState);
 
-  // Donut legend — the overview reports these two cohorts.
+  // Donut legend — the overview reports these three cohorts (analyzed is omitted when zero).
+  expect(ui.analyzedLegend.get()).toBeInTheDocument();
   expect(ui.notScannedLegend.get()).toBeInTheDocument();
   expect(ui.notImportedAnalyzeLegend.get()).toBeInTheDocument();
 
@@ -556,4 +558,36 @@ describe('height animation', () => {
     expect(ui.analyzeTitle.get()).toBeInTheDocument();
     jest.useRealTimers();
   });
+});
+
+it('omits the analyzed legend entry when nothing has been analyzed', () => {
+  renderPanel(JourneyStep.Projects, stateWith({ analyzed: 0, analyzedPct: 0 }));
+
+  expect(ui.analyzedLegend.query()).not.toBeInTheDocument();
+  expect(ui.notScannedLegend.get()).toBeInTheDocument();
+  expect(ui.notImportedAnalyzeLegend.get()).toBeInTheDocument();
+});
+
+it('omits the analyzed legend when the reported counts leave no room for it', () => {
+  renderPanel(
+    JourneyStep.Projects,
+    stateWith({ analyze: { notImported: 100, notScanned: 20 }, analyzed: 5, totalProjects: 120 }),
+  );
+
+  expect(ui.analyzedLegend.query()).not.toBeInTheDocument();
+  expect(ui.notScannedLegend.get()).toBeInTheDocument();
+});
+
+it('does not cap the analyzed segment when totalProjects is unusable (discovery unavailable)', () => {
+  renderPanel(
+    JourneyStep.Projects,
+    stateWith({
+      analyze: { notImported: 0, notScanned: 2 },
+      analyzed: 4,
+      totalProjects: 0,
+    }),
+  );
+
+  expect(ui.analyzedLegend.get()).toBeInTheDocument();
+  expect(ui.notScannedLegend.get()).toBeInTheDocument();
 });

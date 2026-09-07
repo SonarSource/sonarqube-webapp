@@ -11420,6 +11420,7 @@ export const defaultMessages = {
     'These projects have not yet reported a scan result. This may happen if analysis has not been set up, a scan has not run successfully, or no code has been analyzed yet.',
   'onboarding_dashboard.journey.analyze.not_imported.cta': 'Import repositories',
   'onboarding_dashboard.journey.analyze.projects_count': '{count} projects',
+  'onboarding_dashboard.journey.analyze.legend.analyzed': 'Analyzed',
   'onboarding_dashboard.journey.analyze.legend.not_scanned': 'Not scanned',
   'onboarding_dashboard.journey.analyze.legend.not_imported': 'Not imported',
   'onboarding_dashboard.journey.analyze.modal.title': 'Projects',
