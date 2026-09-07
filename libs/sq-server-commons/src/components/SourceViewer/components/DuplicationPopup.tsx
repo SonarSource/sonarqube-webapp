@@ -26,7 +26,7 @@ import { ComponentQualifier } from '~shared/types/component';
 import { FlagMessage, QualifierIcon } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { collapsedDirFromPath, fileFromPath } from '../../../helpers/path';
-import { getProjectUrl } from '../../../helpers/urls';
+import { getCodeUrl, getProjectUrl } from '../../../helpers/urls';
 import { BranchLike } from '../../../types/branch-like';
 import { DuplicatedFile, DuplicationBlock, SourceViewerFile } from '../../../types/types';
 import { WorkspaceContextShape } from '../../workspace/context';
@@ -70,6 +70,10 @@ export default class DuplicationPopup extends PureComponent<Props> {
     className?: string,
     style?: React.CSSProperties,
   ) {
+    // branchLike is only relevant if we're in the same project!
+    const branchLike =
+      file.project === this.props.sourceViewerFile.project ? this.props.branchLike : undefined;
+
     return this.shouldLink() ? (
       <Link
         className={className}
@@ -79,7 +83,7 @@ export default class DuplicationPopup extends PureComponent<Props> {
         onClick={this.handleFileClick}
         style={style}
         title={file.name}
-        to={{}}
+        to={getCodeUrl(file.project, branchLike, file.key, line)}
       >
         {children}
       </Link>
