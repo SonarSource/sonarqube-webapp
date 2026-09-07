@@ -1175,6 +1175,12 @@ export const defaultMessages = {
   // GET /api/v2/dop-translation/permission-checks (see SONAR-31624/31625/31628).
   'ai_capabilities.remediation_agent.issue.assign_to_agent.permission_blocked_toggletip':
     "The Remediation Agent can't run on this project's DevOps Platform. See the warning above for details.",
+  'ai_capabilities.remediation_agent.issue.assign_to_agent.info_toggletip':
+    'Select issues to have the Remediation Agent fix them and open pull requests on your behalf. Up to {maxIssues} issues per run.',
+  'ai_capabilities.remediation_agent.issue.assign_to_agent.info_toggletip.secondary':
+    'Only supported languages and rules apply.',
+  'ai_capabilities.remediation_agent.issue.assign_to_agent.info_toggletip.aria_label':
+    'About Assign to Agent',
   'ai_capabilities.remediation_agent.dop_permission_warning.update_permissions_cta':
     'Update permissions',
   'ai_capabilities.remediation_agent.dop_permission_warning.required_permissions_link':
