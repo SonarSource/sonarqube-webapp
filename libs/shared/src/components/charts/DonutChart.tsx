@@ -19,11 +19,14 @@
  */
 
 import { arc as d3Arc, pie as d3Pie, PieArcDatum } from 'd3-shape';
+import type { MouseEvent } from 'react';
 
 export interface DataPoint {
   fill: string;
   value: number;
 }
+
+const HOVER_EXPANSION_PX = 5;
 
 export interface DonutChartProps {
   'aria-hidden'?: boolean | 'true' | 'false';
@@ -31,7 +34,11 @@ export interface DonutChartProps {
   cornerRadius?: number;
   data: DataPoint[];
   height: number;
+  hoveredIndex?: number | null;
   minPercent?: number;
+  onArcMouseEnter?: (index: number, event: MouseEvent<SVGPathElement>) => void;
+  onArcMouseLeave?: (event: MouseEvent<SVGPathElement>) => void;
+  onSvgMouseMove?: (event: MouseEvent<SVGSVGElement>) => void;
   padAngle?: number;
   padding?: [number, number, number, number];
   thickness: number;
@@ -42,7 +49,11 @@ export function DonutChart(props: Readonly<DonutChartProps>) {
   const {
     height,
     cornerRadius,
+    hoveredIndex,
     minPercent = 0,
+    onArcMouseEnter,
+    onArcMouseLeave,
+    onSvgMouseMove,
     padding = [0, 0, 0, 0],
     width,
     padAngle,
@@ -73,7 +84,11 @@ export function DonutChart(props: Readonly<DonutChartProps>) {
         cornerRadius={cornerRadius}
         data={d}
         fill={data[i].fill}
+        index={i}
+        isHovered={hoveredIndex === i}
         key={i}
+        onMouseEnter={onArcMouseEnter}
+        onMouseLeave={onArcMouseLeave}
         radius={radius}
         thickness={thickness}
       />
@@ -81,8 +96,18 @@ export function DonutChart(props: Readonly<DonutChartProps>) {
   });
 
   return (
-    <svg className="donut-chart" height={height} width={width} {...rest}>
-      <g transform={`translate(${padding[3]}, ${padding[0]})`}>
+    <svg
+      className="donut-chart"
+      height={height}
+      onMouseMove={onSvgMouseMove}
+      style={{ overflow: onArcMouseEnter ? 'visible' : undefined }}
+      width={width}
+      {...rest}
+    >
+      <g
+        data-testid="donut-chart-outer-group"
+        transform={`translate(${padding[3]}, ${padding[0]})`}
+      >
         <g transform={`translate(${radius}, ${radius})`}>{sectors}</g>
       </g>
     </svg>
@@ -93,18 +118,36 @@ interface SectorProps {
   cornerRadius?: number;
   data: PieArcDatum<DataPoint>;
   fill: string;
+  index: number;
+  isHovered: boolean;
+  onMouseEnter?: (index: number, event: MouseEvent<SVGPathElement>) => void;
+  onMouseLeave?: (event: MouseEvent<SVGPathElement>) => void;
   radius: number;
   thickness: number;
 }
 
 function Sector(props: Readonly<SectorProps>) {
+  const outerRadius = props.isHovered ? props.radius + HOVER_EXPANSION_PX : props.radius;
   const arc = d3Arc<unknown, PieArcDatum<DataPoint>>()
-    .outerRadius(props.radius)
+    .outerRadius(outerRadius)
     .innerRadius(props.radius - props.thickness);
 
   if (props.cornerRadius) {
     arc.cornerRadius(props.cornerRadius);
   }
   const d = arc(props.data) as string;
-  return <path d={d} style={{ fill: props.fill }} />;
+  return (
+    <path
+      d={d}
+      onMouseEnter={
+        props.onMouseEnter ? (event) => props.onMouseEnter?.(props.index, event) : undefined
+      }
+      onMouseLeave={props.onMouseLeave}
+      style={{
+        cursor: props.onMouseEnter ? 'pointer' : undefined,
+        fill: props.fill,
+        transition: props.onMouseEnter ? 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)' : undefined,
+      }}
+    />
+  );
 }

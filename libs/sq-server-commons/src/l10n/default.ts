@@ -11338,6 +11338,8 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
+  'onboarding_dashboard.donut.tooltip.count': 'Count:',
+  'onboarding_dashboard.donut.tooltip.percentage': 'Percentage:',
   'onboarding_dashboard.sidebar': 'Project coverage',
   'onboarding_dashboard.header.subtitle':
     'Your journey to a 100% validated code security and quality.',

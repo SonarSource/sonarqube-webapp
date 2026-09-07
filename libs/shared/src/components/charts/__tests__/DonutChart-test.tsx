@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { fireEvent, screen } from '@testing-library/react';
 import { render } from '../../../helpers/test-utils';
 import { DataPoint, DonutChart, DonutChartProps } from '../DonutChart';
 
@@ -66,10 +67,12 @@ it('should render nothing but the svg when data is empty', () => {
 });
 
 it('should apply padding to the outer group transform', () => {
-  const { container } = setupWithProps({ padding: [10, 20, 30, 40] });
+  setupWithProps({ padding: [10, 20, 30, 40] });
 
-  const outerGroup = getSvg(container).querySelector('g');
-  expect(outerGroup).toHaveAttribute('transform', 'translate(40, 10)');
+  expect(screen.getByTestId('donut-chart-outer-group')).toHaveAttribute(
+    'transform',
+    'translate(40, 10)',
+  );
 });
 
 it('should give a visible sector to a zero-value slice when minPercent is set', () => {
@@ -99,6 +102,49 @@ it('should change sector geometry when cornerRadius, padAngle or thickness chang
   expect(withCornerRadius).not.toEqual(base);
   expect(withPadAngle).not.toEqual(base);
   expect(withThickness).not.toEqual(base);
+});
+
+it('expands the hovered sector geometry when hoveredIndex is set', () => {
+  const base = getPaths(setupWithProps().container)[0].getAttribute('d');
+  const hovered = getPaths(setupWithProps({ hoveredIndex: 0 }).container)[0].getAttribute('d');
+
+  expect(hovered).not.toEqual(base);
+});
+
+it('sets overflow: visible on the svg only when onArcMouseEnter is provided', () => {
+  const { container: without } = setupWithProps();
+  const { container: withHandler } = setupWithProps({ onArcMouseEnter: jest.fn() });
+
+  expect(getSvg(without)).not.toHaveStyle({ overflow: 'visible' });
+  expect(getSvg(withHandler)).toHaveStyle({ overflow: 'visible' });
+});
+
+it('calls onArcMouseEnter with the arc index when the pointer enters a sector', async () => {
+  const onArcMouseEnter = jest.fn();
+  const { container, user } = setupWithProps({ onArcMouseEnter });
+
+  await user.hover(getPaths(container)[1]);
+
+  expect(onArcMouseEnter).toHaveBeenCalledWith(1, expect.any(Object));
+});
+
+it('calls onArcMouseLeave when the pointer leaves a sector', async () => {
+  const onArcMouseLeave = jest.fn();
+  const { container, user } = setupWithProps({ onArcMouseLeave });
+
+  await user.hover(getPaths(container)[0]);
+  await user.unhover(getPaths(container)[0]);
+
+  expect(onArcMouseLeave).toHaveBeenCalledTimes(1);
+});
+
+it('calls onSvgMouseMove when the pointer moves over the svg', () => {
+  const onSvgMouseMove = jest.fn();
+  const { container } = setupWithProps({ onSvgMouseMove });
+
+  fireEvent.mouseMove(getSvg(container));
+
+  expect(onSvgMouseMove).toHaveBeenCalledTimes(1);
 });
 
 function getSvg(container: HTMLElement) {

@@ -10,6 +10,7 @@ exports[`renders correctly for coverage 1`] = `
         width="24"
       >
         <g
+          data-testid="donut-chart-outer-group"
           transform="translate(0, 0)"
         >
           <g
