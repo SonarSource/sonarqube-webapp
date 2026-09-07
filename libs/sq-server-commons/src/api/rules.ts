@@ -21,6 +21,7 @@
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { axiosToCatch } from '~shared/helpers/axios-clients';
+import { isHunterAgentRuleKey } from '~shared/helpers/issues';
 import { CodeAttribute, SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
 import { HttpStatus } from '~shared/types/request';
 import { RuleActivationAdvanced, RuleDetails, RuleType } from '~shared/types/rules';
@@ -67,9 +68,15 @@ export function getRuleRepositories(parameters: {
 
 export function getRuleDetails(parameters: {
   actives?: boolean;
+  contextKey?: string;
   key: string;
 }): Promise<{ actives?: RuleActivationAdvanced[]; rule: RuleDetails }> {
-  return getJSON('/api/rules/show', parameters).catch(throwGlobalError);
+  // Default Hunter Agent rules to the context-less sections when no specific finding is
+  // requested. Must be the string 'null': getJSON drops real null/undefined params (omitNil).
+  const contextKey =
+    parameters.contextKey ?? (isHunterAgentRuleKey(parameters.key) ? 'null' : undefined);
+
+  return getJSON('/api/rules/show', { ...parameters, contextKey }).catch(throwGlobalError);
 }
 
 export function getRuleTags(parameters: { ps?: number; q: string }): Promise<string[]> {

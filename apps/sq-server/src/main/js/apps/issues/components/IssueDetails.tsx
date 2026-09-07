@@ -23,6 +23,7 @@ import { ComponentProps, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { isPortfolioLike } from '~shared/helpers/component';
+import { isHunterAgentRuleEngine } from '~shared/helpers/issues';
 import { filterQueryToSearchString } from '~shared/helpers/query';
 import { ComponentQualifier } from '~shared/types/component';
 import { Paging } from '~shared/types/paging';
@@ -65,7 +66,11 @@ export default function IssueDetails(props: Readonly<IssueDetailsProps>) {
   const { selectFlow, selectLocation, issues, loading, loadingMore, locationsNavigator } = props;
   const { paging, selected, selectedFlowIndex, selectedLocationIndex } = props;
   const { canBrowseAllChildProjects, qualifier = ComponentQualifier.Project } = component ?? {};
-  const { data: ruleData, isLoading: isLoadingRule } = useRuleDetailsQuery({ key: openIssue.rule });
+  const isHunterAgent = isHunterAgentRuleEngine(openIssue.externalRuleEngine);
+  const { data: ruleData, isLoading: isLoadingRule } = useRuleDetailsQuery({
+    contextKey: isHunterAgent ? openIssue.ruleDescriptionContextKey : undefined,
+    key: openIssue.rule,
+  });
   const openRuleDetails = ruleData?.rule;
 
   const intl = useIntl();

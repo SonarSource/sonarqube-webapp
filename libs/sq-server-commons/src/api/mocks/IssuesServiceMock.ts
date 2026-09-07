@@ -19,6 +19,7 @@
  */
 
 import { cloneDeep, uniqueId } from 'lodash';
+import { isHunterAgentRuleKey } from '~shared/helpers/issues';
 import { getStandards } from '~shared/helpers/security-standards';
 import {
   CodeAttributeCategory,
@@ -73,7 +74,7 @@ import {
 import { getRuleDetails, searchRules } from '../rules';
 import { HUNTER_AGENT_RULE } from './data/ids';
 import { IssueData, mockIssuesList } from './data/issues';
-import { mockRuleList } from './data/rules';
+import { filterDescriptionSectionsByContextKey, mockRuleList } from './data/rules';
 import UsersServiceMock from './UsersServiceMock';
 
 jest.mock('../../api/issues');
@@ -251,108 +252,127 @@ export default class IssuesServiceMock {
     });
   };
 
-  handleGetRuleDetails = (parameters: {
-    actives?: boolean;
-    key: string;
-  }): Promise<{ actives?: RuleActivationAdvanced[]; rule: RuleDetails }> => {
-    if (parameters.key === 'advancedRuleId') {
-      return this.reply({
-        rule: mockRuleDetails({
-          key: parameters.key,
-          name: 'Advanced rule',
-          htmlNote: '<h1>Extended Description</h1>',
-          educationPrinciples: ['defense_in_depth'],
-          descriptionSections: [
-            {
-              key: RuleDescriptionSections.Introduction,
-              content: '<h1>Introduction to this rule</h1>',
-            },
-            {
-              key: RuleDescriptionSections.RootCause,
-              content: '<h1>Because</h1>',
-            },
-            {
-              key: RuleDescriptionSections.HowToFix,
-              content: '<h1>Fix with</h1>',
-            },
-            {
-              content: '<p> Context 1 content<p>',
-              key: RuleDescriptionSections.HowToFix,
-              context: {
-                key: 'spring',
-                displayName: 'Spring',
-              },
-            },
-            {
-              content: '<p> Context 2 content<p>',
-              key: RuleDescriptionSections.HowToFix,
-              context: {
-                key: 'context_2',
-                displayName: 'Context 2',
-              },
-            },
-            {
-              content: '<p> Context 3 content<p>',
-              key: RuleDescriptionSections.HowToFix,
-              context: {
-                key: 'context_3',
-                displayName: 'Context 3',
-              },
-            },
-            {
-              key: RuleDescriptionSections.Resources,
-              content: '<h1>Link</h1>',
-            },
-          ],
-        }),
-      });
-    }
-    if (parameters.key === HUNTER_AGENT_RULE) {
-      return this.reply({
-        rule: mockRuleDetails({
-          key: parameters.key,
-          name: 'Hunter agent rule',
-          descriptionSections: [
-            {
-              key: RuleDescriptionSections.RootCause,
-              content: '<h1>Because</h1>',
-            },
-            {
-              content: '<p>Assess content</p>',
-              key: RuleDescriptionSections.AssessTheProblem,
-              context: {
-                key: 'spring',
-                displayName: 'Spring',
-              },
-            },
-            {
-              key: RuleDescriptionSections.HowToFix,
-              content: '<h1>Fix with</h1>',
-            },
-            {
-              content: '<p>Resources content</p>',
-              key: RuleDescriptionSections.Resources,
-              context: {
-                key: 'spring',
-                displayName: 'Spring',
-              },
-            },
-          ],
-        }),
-      });
-    }
-    return this.reply({
-      rule: mockRuleDetails({
-        key: parameters.key,
-        name: 'Simple rule',
-        htmlNote: '<h1>Note</h1>',
+  getMockRuleDetails = (key: string): RuleDetails => {
+    if (key === 'advancedRuleId') {
+      return mockRuleDetails({
+        key,
+        name: 'Advanced rule',
+        htmlNote: '<h1>Extended Description</h1>',
+        educationPrinciples: ['defense_in_depth'],
         descriptionSections: [
           {
-            key: RuleDescriptionSections.Default,
-            content: '<h1>Default</h1> Default description',
+            key: RuleDescriptionSections.Introduction,
+            content: '<h1>Introduction to this rule</h1>',
+          },
+          {
+            key: RuleDescriptionSections.RootCause,
+            content: '<h1>Because</h1>',
+          },
+          {
+            key: RuleDescriptionSections.HowToFix,
+            content: '<h1>Fix with</h1>',
+          },
+          {
+            content: '<p> Context 1 content<p>',
+            key: RuleDescriptionSections.HowToFix,
+            context: {
+              key: 'spring',
+              displayName: 'Spring',
+            },
+          },
+          {
+            content: '<p> Context 2 content<p>',
+            key: RuleDescriptionSections.HowToFix,
+            context: {
+              key: 'context_2',
+              displayName: 'Context 2',
+            },
+          },
+          {
+            content: '<p> Context 3 content<p>',
+            key: RuleDescriptionSections.HowToFix,
+            context: {
+              key: 'context_3',
+              displayName: 'Context 3',
+            },
+          },
+          {
+            key: RuleDescriptionSections.Resources,
+            content: '<h1>Link</h1>',
           },
         ],
-      }),
+      });
+    }
+    if (key === HUNTER_AGENT_RULE) {
+      return mockRuleDetails({
+        key,
+        name: 'Hunter agent rule',
+        descriptionSections: [
+          {
+            key: RuleDescriptionSections.RootCause,
+            content: '<h1>Because</h1>',
+          },
+          {
+            content: '<p>Assess content</p>',
+            key: RuleDescriptionSections.AssessTheProblem,
+            context: {
+              key: 'spring',
+              displayName: 'Spring',
+            },
+          },
+          {
+            content: '<p>Other framework content</p>',
+            key: RuleDescriptionSections.AssessTheProblem,
+            context: {
+              key: 'other',
+              displayName: 'Other',
+            },
+          },
+          {
+            key: RuleDescriptionSections.HowToFix,
+            content: '<h1>Fix with</h1>',
+          },
+          {
+            content: '<p>Resources content</p>',
+            key: RuleDescriptionSections.Resources,
+            context: {
+              key: 'spring',
+              displayName: 'Spring',
+            },
+          },
+        ],
+      });
+    }
+    return mockRuleDetails({
+      key,
+      name: 'Simple rule',
+      htmlNote: '<h1>Note</h1>',
+      descriptionSections: [
+        {
+          key: RuleDescriptionSections.Default,
+          content: '<h1>Default</h1> Default description',
+        },
+      ],
+    });
+  };
+
+  handleGetRuleDetails = (parameters: {
+    actives?: boolean;
+    contextKey?: string;
+    key: string;
+  }): Promise<{ actives?: RuleActivationAdvanced[]; rule: RuleDetails }> => {
+    const rule = this.getMockRuleDetails(parameters.key);
+    // Same defaulting as the real getRuleDetails, which this mock replaces.
+    const contextKey =
+      parameters.contextKey ?? (isHunterAgentRuleKey(parameters.key) ? 'null' : undefined);
+    return this.reply({
+      rule: {
+        ...rule,
+        descriptionSections: filterDescriptionSectionsByContextKey(
+          rule.descriptionSections,
+          contextKey,
+        ),
+      },
     });
   };
 

@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen, waitFor } from '@testing-library/react';
-import { setImmediate } from 'timers';
+import { act, screen } from '@testing-library/react';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { mockAppState, mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { flushPromises } from '~sq-server-commons/helpers/testUtils';
 import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import { GlobalNav } from '../GlobalNav';
 
@@ -75,12 +75,15 @@ it('does not render the BeamerWidget when news is disabled', async () => {
   settingsMock.set(GlobalSettingKeys.NewsEnabled, 'false');
   renderGlobalNav({ currentUser: mockCurrentUser({ isLoggedIn: true }) });
 
-  // Wait for the settings query to resolve before asserting absence
-  await new Promise(setImmediate);
-  await waitFor(() => {
-    expect(screen.getByText('projects.page')).toBeInTheDocument();
+  // The settings query resolves asynchronously and React Query notifies subscribers via
+  // setTimeout(0) (see notifyManager.ts), so flush it inside act() — otherwise the resulting
+  // re-render lands after this test's assertions, unwrapped, and fails the run on React's
+  // "not wrapped in act(...)" warning.
+  await act(async () => {
+    await flushPromises();
   });
 
+  expect(screen.getByText('projects.page')).toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'global_nav.news.tooltip' })).not.toBeInTheDocument();
 });
 

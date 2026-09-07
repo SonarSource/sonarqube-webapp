@@ -19,6 +19,7 @@
  */
 
 import { cloneDeep, countBy, isEqual, pick, trim, uniq } from 'lodash';
+import { isHunterAgentRuleKey } from '~shared/helpers/issues';
 import { getStandards } from '~shared/helpers/security-standards';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
@@ -78,7 +79,11 @@ import {
 import { dismissNotice, getCurrentUser } from '../users';
 import { STANDARDS_TO_RULES } from './data/ids';
 import { mockQualityProfilesList } from './data/qualityProfiles';
-import { mockRuleDetailsList, mockRulesActivationsInQP } from './data/rules';
+import {
+  filterDescriptionSectionsByContextKey,
+  mockRuleDetailsList,
+  mockRulesActivationsInQP,
+} from './data/rules';
 
 jest.mock('../rules');
 jest.mock('../issues');
@@ -393,6 +398,7 @@ export default class CodingRulesServiceMock {
 
   handleGetRuleDetails = (parameters: {
     actives?: boolean;
+    contextKey?: string;
     key: string;
   }): Promise<{ actives?: RuleActivationAdvanced[]; rule: RuleDetails }> => {
     const rule = this.rules.find((r) => r.key === parameters.key);
@@ -401,9 +407,18 @@ export default class CodingRulesServiceMock {
         errors: [{ msg: `No rule has been found for id ${parameters.key}` }],
       });
     }
+    // Same defaulting as the real getRuleDetails, which this mock replaces.
+    const contextKey =
+      parameters.contextKey ?? (isHunterAgentRuleKey(parameters.key) ? 'null' : undefined);
     return this.reply({
       actives: parameters.actives ? (this.rulesActivations[rule.key] ?? []) : undefined,
-      rule,
+      rule: {
+        ...rule,
+        descriptionSections: filterDescriptionSectionsByContextKey(
+          rule.descriptionSections,
+          contextKey,
+        ),
+      },
     });
   };
 

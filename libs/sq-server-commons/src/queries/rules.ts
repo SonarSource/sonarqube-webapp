@@ -95,9 +95,9 @@ export function useRulesByKeysQuery(
   });
 }
 
-export const useRuleDetailsQuery = createQueryHook((data: { actives?: boolean; key: string }) => {
+export const useRuleDetailsQuery = createQueryHook((data: Parameters<typeof getRuleDetails>[0]) => {
   return queryOptions({
-    queryKey: getRulesQueryKey('details', data.key),
+    queryKey: [...getRulesQueryKey('details', data.key), data.contextKey],
     queryFn: () => getRuleDetails(data),
     staleTime: StaleTime.NEVER,
   });
@@ -140,10 +140,10 @@ export function useUpdateRuleMutation(
     onSuccess: (rule) => {
       onSuccess?.(rule);
       queryClient.resetQueries({ queryKey: getRulesQueryKey('search', searchQuery) });
-      queryClient.setQueryData<{
+      queryClient.setQueriesData<{
         actives?: RuleActivationAdvanced[];
         rule: RuleDetails;
-      }>(getRulesQueryKey('details', rule.key), (oldData) => {
+      }>({ queryKey: getRulesQueryKey('details', rule.key) }, (oldData) => {
         return {
           ...oldData,
           rule,

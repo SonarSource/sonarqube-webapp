@@ -28,7 +28,10 @@ import {
   ISSUE_101,
   ISSUE_1101,
   ISSUE_2,
+  ISSUE_4,
+  ISSUE_TO_RULE,
 } from '~sq-server-commons/api/mocks/data/ids';
+import type * as RulesApi from '~sq-server-commons/api/rules';
 import { TabKeys } from '~sq-server-commons/components/rules/RuleTabViewer';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
@@ -47,6 +50,12 @@ import {
   usersHandler,
 } from '~sq-server-commons/utils/issues-test-utils';
 import { renderIssueApp, renderProjectIssuesApp } from '../test-utils';
+
+// IssuesServiceMock registers its mock implementation via `jest.mock('../../api/rules')`, so this
+// must be fetched lazily from the mock registry rather than imported at module scope, which would
+// bind to the real module if evaluated before that mock registration runs.
+const getRuleDetailsMock = () =>
+  jest.mocked(jest.requireMock<typeof RulesApi>('~sq-server-commons/api/rules').getRuleDetails);
 
 jest.mock('../sidebar/Sidebar', () => {
   const fakeSidebar = () => {
@@ -286,6 +295,53 @@ describe('issue app', () => {
     );
     expect(byText(/Resources content/).get()).toBeInTheDocument();
     expect(screen.queryByRole('radio', { name: 'Spring' })).not.toBeInTheDocument();
+  });
+
+  it('should send the issue rule description context key for Hunter Agent issues, and only render that context', async () => {
+    const user = userEvent.setup();
+    const list = cloneDeep(issuesHandler.defaultList);
+    list.forEach(({ issue }) => {
+      if (issue.key === ISSUE_2) {
+        issue.rule = HUNTER_AGENT_RULE;
+        issue.externalRuleEngine = 'hunter-agent';
+      }
+    });
+    issuesHandler.setIssueList(list);
+
+    renderProjectIssuesApp('project/issues?issues=issue2&open=issue2&id=myproject');
+
+    await screen.findByRole('tab', {
+      name: 'coding_rules.description_section.title.root_cause',
+    });
+
+    expect(getRuleDetailsMock()).toHaveBeenCalledWith(
+      expect.objectContaining({ contextKey: 'spring', key: HUNTER_AGENT_RULE }),
+    );
+
+    // The mock actually filters descriptionSections by the requested contextKey, so only the
+    // 'spring' section comes back from the API and the competing 'other' context never renders.
+    await user.click(
+      screen.getByRole('tab', {
+        name: 'coding_rules.description_section.title.assess_the_problem',
+      }),
+    );
+    expect(byText(/Assess content/).get()).toBeInTheDocument();
+    expect(screen.queryByText(/Other framework content/)).not.toBeInTheDocument();
+  });
+
+  it('should not send a rule description context key for a regular (non Hunter Agent) issue, and render its full description', async () => {
+    renderProjectIssuesApp('project/issues?issues=issue4&open=issue4&id=myproject&why=1');
+
+    await screen.findByRole('tab', {
+      name: 'coding_rules.description_section.title.root_cause',
+    });
+
+    expect(getRuleDetailsMock()).toHaveBeenCalledWith(
+      expect.objectContaining({ contextKey: undefined, key: ISSUE_TO_RULE[ISSUE_4] }),
+    );
+
+    // No contextKey means no filtering, so the rule's description renders as-is.
+    expect(byText(/Default description/).get()).toBeInTheDocument();
   });
 
   it('should be able to change the issue status', async () => {

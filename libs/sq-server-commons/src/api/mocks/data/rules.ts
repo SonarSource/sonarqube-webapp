@@ -23,7 +23,7 @@ import {
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
-import { RuleDescriptionSections, RuleStatus } from '~shared/types/rules';
+import { RuleDescriptionSection, RuleDescriptionSections, RuleStatus } from '~shared/types/rules';
 import { mockRule, mockRuleActivationAdvanced, mockRuleDetails } from '../../../helpers/testMocks';
 import {
   ADVANCED_RULE,
@@ -49,6 +49,21 @@ import {
   S6069_RULE,
   SIMPLE_RULE,
 } from './ids';
+
+// Mirrors the real API contract in ../../rules.ts::getRuleDetails: sections with no context are
+// always kept, `contextKey: 'null'` keeps only those, and any other contextKey keeps just the
+// matching context on top of the context-less sections.
+export function filterDescriptionSectionsByContextKey(
+  sections: RuleDescriptionSection[] | undefined,
+  contextKey: string | undefined,
+) {
+  return sections?.filter(({ context }) => {
+    if (contextKey === undefined || context === undefined) {
+      return true;
+    }
+    return contextKey !== 'null' && context.key === contextKey;
+  });
+}
 
 export function mockRuleList() {
   return [
