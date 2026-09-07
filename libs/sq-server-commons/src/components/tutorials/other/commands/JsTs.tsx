@@ -39,7 +39,7 @@ export default function JsTs(props: Readonly<JsTsProps>) {
   const installCommand = ['npm install -g @sonar/scan'];
 
   const executeCommand = [
-    'sonar',
+    'sonar-scanner-npm',
     `-Dsonar.host.url=${baseUrl}`,
     `-Dsonar.token=${token}`,
     `-Dsonar.projectKey=${component.key}`,

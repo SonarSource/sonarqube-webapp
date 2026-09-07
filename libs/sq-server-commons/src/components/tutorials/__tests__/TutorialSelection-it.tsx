@@ -267,6 +267,7 @@ it('should display the NPM scanner in the JS/TS local tutorial', async () => {
   await waitOnDataLoaded();
 
   expect(screen.getByText('npm install -g @sonar/scan')).toBeInTheDocument();
+  expect(screen.getByText('sonar-scanner-npm', { exact: false })).toBeInTheDocument();
 });
 
 it('should display the PyPI scanner in the Python local tutorial', async () => {
