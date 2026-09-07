@@ -181,6 +181,9 @@ const ui = {
   gitlabLegend: byText('alm.gitlab'),
   azureLegend: byText('alm.azure'),
 
+  // Animation
+  detailPanelContent: byTestId('detail-panel-content'),
+
   // Import panel
   extraCard: byTestId('import-extra-card'),
   importCta: byRole('button', { name: 'onboarding_dashboard.journey.import.cta' }),
@@ -425,4 +428,132 @@ it('renders the analyze panel with its two legend entries and two action rows', 
   // ...and the cohort counts land on the matching row.
   expect(ui.notScannedCount.get()).toBeInTheDocument();
   expect(ui.notImportedCount.get()).toBeInTheDocument();
+});
+
+describe('height animation', () => {
+  it('starts a CSS height transition when switching steps', () => {
+    jest.useFakeTimers();
+
+    const { rerender } = renderPanel(JourneyStep.Binding, boundState);
+
+    rerender(
+      <DetailPanel
+        onSelectStep={jest.fn()}
+        selectedStep={JourneyStep.Repositories}
+        state={boundState}
+      />,
+    );
+
+    // The timeout fallback finalizes the animation after 350 ms.
+    jest.advanceTimersByTime(400);
+
+    // Content for the new step is visible after the animation completes.
+    expect(ui.importTitle.get()).toBeInTheDocument();
+
+    jest.useRealTimers();
+  });
+
+  it('skips the transition when prefers-reduced-motion is set', () => {
+    jest.mocked(window.matchMedia).mockReturnValueOnce({
+      matches: true,
+      media: '(prefers-reduced-motion: reduce)',
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    });
+
+    const { rerender } = renderPanel(JourneyStep.Binding, boundState);
+
+    rerender(
+      <DetailPanel
+        onSelectStep={jest.fn()}
+        selectedStep={JourneyStep.Repositories}
+        state={boundState}
+      />,
+    );
+
+    // No animation starts — content is immediately available.
+    expect(ui.importTitle.get()).toBeInTheDocument();
+  });
+
+  it('cleans up timer and listener when unmounted during an animation', () => {
+    jest.useFakeTimers();
+
+    const { rerender, unmount } = renderPanel(JourneyStep.Binding, boundState);
+
+    rerender(
+      <DetailPanel
+        onSelectStep={jest.fn()}
+        selectedStep={JourneyStep.Repositories}
+        state={boundState}
+      />,
+    );
+
+    // Unmounting mid-animation should not throw and should cancel the pending timer.
+    expect(() => unmount()).not.toThrow();
+    expect(() => jest.advanceTimersByTime(400)).not.toThrow();
+
+    jest.useRealTimers();
+  });
+
+  it('finalizes the animation when transitionend fires for the height property', () => {
+    jest.useFakeTimers();
+
+    const { rerender } = renderPanel(JourneyStep.Binding, boundState);
+
+    rerender(
+      <DetailPanel
+        onSelectStep={jest.fn()}
+        selectedStep={JourneyStep.Repositories}
+        state={boundState}
+      />,
+    );
+
+    const animatedEl = ui.detailPanelContent.get();
+
+    // Non-height property: the if-guard is false, finalize is not called (false branch).
+    animatedEl.dispatchEvent(
+      Object.assign(new Event('transitionend'), { propertyName: 'opacity' }),
+    );
+
+    // Height property: the if-guard is true, finalize runs early without the timeout (lines 92–93).
+    animatedEl.dispatchEvent(Object.assign(new Event('transitionend'), { propertyName: 'height' }));
+
+    expect(ui.importTitle.get()).toBeInTheDocument();
+    jest.useRealTimers();
+  });
+
+  it('starts from the current animated height when interrupted mid-animation', () => {
+    jest.useFakeTimers();
+
+    const { rerender } = renderPanel(JourneyStep.Binding, boundState);
+
+    // First animation: Binding → Repositories. el.style.height is set to an explicit px value.
+    rerender(
+      <DetailPanel
+        onSelectStep={jest.fn()}
+        selectedStep={JourneyStep.Repositories}
+        state={boundState}
+      />,
+    );
+
+    // Second animation before the first completes: Repositories → Projects.
+    // el.style.height is still a px value ('0px'), so the interrupted-animation branch
+    // on the fromHeight calculation (line 70's true branch) is exercised.
+    rerender(
+      <DetailPanel
+        onSelectStep={jest.fn()}
+        selectedStep={JourneyStep.Projects}
+        state={boundState}
+      />,
+    );
+
+    jest.advanceTimersByTime(400);
+
+    expect(ui.analyzeTitle.get()).toBeInTheDocument();
+    jest.useRealTimers();
+  });
 });
