@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import type { ProjectCollectionEntityType } from '~shared/types/dashboard-context';
 import {
   adaptServerReleasabilityDistribution,
   organizationsHistoryStartDateWithRetentionBuffer,
@@ -35,6 +36,7 @@ interface PortfolioComputedProject {
 }
 
 interface PortfolioComputedProjectMeasuresParams {
+  entityType?: ProjectCollectionEntityType;
   filterMetric?: string;
   filterMetricValue?: string;
   metrics: string[];
@@ -63,13 +65,13 @@ export function usePortfolioRatingBadgeMetricKeysQuery(
 
 export function usePortfolioRatingBadgeMeasuresQuery(
   portfolioId: string,
-  options: { enabled?: boolean; metricKeys: string[] },
+  options: { enabled?: boolean; entityType?: ProjectCollectionEntityType; metricKeys: string[] },
 ) {
-  const { enabled = true, metricKeys } = options;
+  const { enabled = true, entityType = 'PORTFOLIO', metricKeys } = options;
   return useDashboardMeasuresHistoryQuery(
     {
       entityId: portfolioId,
-      entityType: 'PORTFOLIO',
+      entityType,
       metricKeys,
       startDate: organizationsHistoryStartDateWithRetentionBuffer(),
     },
@@ -98,7 +100,7 @@ export function usePortfolioRatingBadgeComputedMeasuresQuery(
   const enabled = (options.enabled ?? true) && Boolean(params.portfolioId) && isFilterSupported;
   const queries = useDashboardProjectMeasuresQuery(
     {
-      entityType: 'PORTFOLIO',
+      entityType: params.entityType ?? 'PORTFOLIO',
       entityId: params.portfolioId,
       metrics: params.metrics,
       nameContains: undefined,

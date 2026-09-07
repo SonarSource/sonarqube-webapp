@@ -18,7 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import type { ProjectCollectionEntityType } from './dashboard-context';
+
 export interface PortfolioProjectIssueCountsParams {
+  entityType: ProjectCollectionEntityType;
   impacts?: string[];
   issueTypes?: string[];
   nameContains?: string;
@@ -33,6 +36,7 @@ export interface PortfolioProjectIssueCountsParams {
 }
 
 export interface PortfolioProjectMeasuresParams {
+  entityType: ProjectCollectionEntityType;
   metricKey: string;
   metricValue?: string;
   nameContains?: string;

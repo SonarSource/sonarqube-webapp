@@ -32,7 +32,7 @@ export const RichMetricKey = {
   Lines: 'lineCount',
   Projects: 'projectCount',
 } as const;
-export type DashboardEntityType = 'PORTFOLIO' | 'PROJECT_BRANCH';
+export type DashboardEntityType = 'APPLICATION' | 'PORTFOLIO' | 'PROJECT_BRANCH';
 export const CodeScope = { Overall: 'overall', New: 'new' } as const;
 export type CodeScopeValue = (typeof CodeScope)[keyof typeof CodeScope];
 export const HistoryRange = {

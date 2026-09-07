@@ -22,10 +22,16 @@ import { renderHook } from '@testing-library/react';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { useComponent } from '../../../context/componentContext/withComponentContext';
 import { mockComponent } from '../../../helpers/mocks/component';
+import { useComponentDataQuery } from '../../../queries/component';
 import { useComponentNavigationIdQuery } from '../../../queries/navigation';
 import { useCurrentBranchQuery } from '../../queries/branch';
 import { useWidgetMetricMetadataQuery } from '../../queries/widget-metric-metadata';
 import { useDashboardPortfolioContext, useDashboardProjectContext } from '../dashboardContext';
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual<typeof import('react-router-dom')>('react-router-dom'),
+  useSearchParams: () => [new URLSearchParams(), jest.fn()],
+}));
 
 jest.mock('../../../context/componentContext/withComponentContext', () => ({
   useComponent: jest.fn(),
@@ -33,6 +39,10 @@ jest.mock('../../../context/componentContext/withComponentContext', () => ({
 
 jest.mock('../../queries/branch', () => ({
   useCurrentBranchQuery: jest.fn(),
+}));
+
+jest.mock('../../../queries/component', () => ({
+  useComponentDataQuery: jest.fn(),
 }));
 
 jest.mock('../../../queries/navigation', () => ({
@@ -45,6 +55,10 @@ jest.mock('../../queries/widget-metric-metadata', () => ({
 
 describe('dashboard context adapter', () => {
   beforeEach(() => {
+    jest.mocked(useComponentDataQuery).mockReturnValue({
+      data: undefined,
+      isPending: false,
+    } as ReturnType<typeof useComponentDataQuery>);
     jest.mocked(useComponent).mockReturnValue({
       component: mockComponent({ key: 'component-key', id: 'portfolio-uuid' }),
       isPending: false,

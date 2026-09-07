@@ -33,7 +33,6 @@ import {
   PieChartSlice,
 } from '../types/dashboard-widget';
 import {
-  EntityType,
   GetIssueCountHistoryParams,
   IssueCountSliceBy,
   IssueCountStatus,
@@ -42,6 +41,7 @@ import {
   type IssueCountSnapshotParams,
 } from '../types/organization-issue-count-history';
 import type { OrganizationsIssueCountHistoryDay } from '../types/organization-line-chart-history';
+import type { EntityType } from '../types/types';
 import {
   organizationIssueImpactQueryValuesForSoftwareQualities,
   PORTFOLIO_DEFAULT_CODE_ISSUE_IMPACTS,

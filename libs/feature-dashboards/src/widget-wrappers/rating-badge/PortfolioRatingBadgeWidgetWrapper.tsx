@@ -75,7 +75,7 @@ function getPortfolioRatingBadgeDrilldownTo(
     return undefined;
   }
 
-  return `breakdown/${widgetKey}`;
+  return getPortfolioDashboardWidgetDrilldownUrl(widgetKey);
 }
 
 function getPortfolioRatingBadgeSegmentDrilldownUrl(
@@ -101,7 +101,7 @@ export function PortfolioRatingBadgeWidgetWrapper(props: Readonly<Props>) {
 function PortfolioRatingBadgeBreakdownWidget(props: Readonly<Props>) {
   const { metricKey, mode, scope, showBreakdown = false } = props;
   const widgetInstance = useOptionalWidgetInstanceContext();
-  const { portfolioId } = useDashboardPortfolioContext();
+  const { entityType, isEntityTypePending, portfolioId } = useDashboardPortfolioContext();
   const isScopeNew = scope === CodeScope.New;
   const drilldownEnabled = mode !== WidgetMode.Edit;
   const requestedMetricKeys = getPortfolioRatingBadgeHistoryMetricKeys(metricKey, isScopeNew);
@@ -115,7 +115,8 @@ function PortfolioRatingBadgeBreakdownWidget(props: Readonly<Props>) {
     error: measuresError,
     isPending: isMeasuresPending,
   } = usePortfolioRatingBadgeMeasuresQuery(portfolioId, {
-    enabled: !isMetricResolutionPending && metricResolutionError == null,
+    enabled: !isEntityTypePending && !isMetricResolutionPending && metricResolutionError == null,
+    entityType,
     metricKeys,
   });
 
@@ -127,7 +128,7 @@ function PortfolioRatingBadgeBreakdownWidget(props: Readonly<Props>) {
     throw error;
   }
 
-  if (isMetricResolutionPending || isMeasuresPending) {
+  if (isEntityTypePending || isMetricResolutionPending || isMeasuresPending) {
     return <WidgetLoadingSpinner />;
   }
 

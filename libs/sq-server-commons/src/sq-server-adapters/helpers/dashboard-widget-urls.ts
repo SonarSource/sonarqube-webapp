@@ -197,10 +197,16 @@ export function getPortfolioDashboardWidgetDrilldownUrl(
   }
 
   const searchParams = new URLSearchParams(query ? { q: query } : undefined);
-  const portfolioKey = new URLSearchParams(window.location.search).get('id');
+  const currentSearch = new URLSearchParams(window.location.search);
 
+  const portfolioKey = currentSearch.get('id');
   if (portfolioKey) {
     searchParams.set('id', portfolioKey);
+  }
+
+  const contextKey = currentSearch.get('context');
+  if (contextKey) {
+    searchParams.set('context', contextKey);
   }
 
   const search = searchParams.toString();

@@ -20,6 +20,7 @@
 
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { IssueResolutionStatistic } from '../types/organization-issue-resolution-history';
+import type { EntityType } from '../types/types';
 import { parseLineChartRatingValue } from '../utils/lineChartHistoryUtils';
 import { lineChartMeasureTransformFlags } from '../utils/lineChartMeasureTransformFlags';
 import { parseMeasureValue } from '../utils/measureValues';
@@ -43,24 +44,16 @@ export type DashboardMeasureHistory =
   | { api: 'measures-history'; history: DashboardMeasuresHistoryDay[] }
   | { api: 'sca-resolution-history'; history: DashboardIssueHistoryDay[] };
 
-type DashboardMeasureEntityType = 'PORTFOLIO' | 'PROJECT_BRANCH';
-
 export interface DashboardMeasureQueryInput {
   entityId: string;
-  entityType: DashboardMeasureEntityType;
+  entityType: EntityType;
   measure: DashboardMeasure;
   months?: number;
 }
 
 export interface DashboardMeasureQueryDefinition {
   queryFn: () => Promise<DashboardMeasureHistory>;
-  queryKey: readonly [
-    'dashboard-measure',
-    DashboardMeasureEntityType,
-    string,
-    DashboardMeasure,
-    number,
-  ];
+  queryKey: readonly ['dashboard-measure', EntityType, string, DashboardMeasure, number];
 }
 
 export function dashboardMeasureMetricKey(measure: DashboardMeasure): MetricKey {

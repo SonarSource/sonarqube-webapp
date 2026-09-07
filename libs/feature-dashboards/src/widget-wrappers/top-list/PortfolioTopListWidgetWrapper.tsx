@@ -54,7 +54,7 @@ export function PortfolioTopListWidgetWrapper(
   } = props;
   const { formatMessage } = useIntl();
   const widgetInstance = useOptionalWidgetInstanceContext();
-  const { portfolioId } = useDashboardPortfolioContext();
+  const { entityType, isEntityTypePending, portfolioId } = useDashboardPortfolioContext();
   const showTrendIndicator = scope !== CodeScope.New;
 
   const {
@@ -63,9 +63,12 @@ export function PortfolioTopListWidgetWrapper(
     isError: hasFetchError,
     isPending,
     rulesByKey,
-  } = usePortfolioTopListData(props, portfolioId, {
-    fetchTrendHistory: showTrendIndicator,
-  });
+  } = usePortfolioTopListData(
+    props,
+    portfolioId,
+    { fetchTrendHistory: showTrendIndicator },
+    entityType,
+  );
 
   const getRowUrl = useCallback(
     (ruleKey: string): string | undefined => {
@@ -104,7 +107,7 @@ export function PortfolioTopListWidgetWrapper(
       ariaLabel={ariaLabel}
       columnHeaders={columnHeaders}
       hasFetchError={hasFetchError}
-      isPending={isPending}
+      isPending={isEntityTypePending || isPending}
       onRowClick={onRowSelect === undefined ? undefined : handleRowClick}
       rows={rows}
       selectedRowLabel={selectedRowLabel}

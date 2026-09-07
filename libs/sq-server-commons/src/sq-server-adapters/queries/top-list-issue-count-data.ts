@@ -61,7 +61,7 @@ function topRuleKeysByCount(counts: Record<string, number> | undefined, limit: n
 export function useTopListIssueCountData(
   widget: TopListWidget,
   entityId: string,
-  entityType: 'PORTFOLIO' | 'PROJECT_BRANCH',
+  entityType: 'APPLICATION' | 'PORTFOLIO' | 'PROJECT_BRANCH',
   options: UseTopListIssueCountDataOptions = {},
 ): {
   counts: Record<string, number>;

@@ -90,7 +90,7 @@ function getPieChartQueryRequirements(
   const isLineCountChart = widget.metric === PieChartMetric.LineCount;
   return {
     isLineCountChart,
-    isQualityGateStatusChart: entityType === 'PORTFOLIO' && isQualityGateStatusWidget(widget),
+    isQualityGateStatusChart: entityType !== 'PROJECT_BRANCH' && isQualityGateStatusWidget(widget),
     needsLanguageMetadata: isLineCountChart && widget.slice === PieChartLineSlice.Language,
     needsRulesMetadata:
       widget.metric === PieChartMetric.IssueCount && widget.slice === PieChartIssueSlice.Rules,

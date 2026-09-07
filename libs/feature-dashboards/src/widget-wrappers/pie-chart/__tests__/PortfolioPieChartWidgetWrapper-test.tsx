@@ -108,7 +108,9 @@ function setup(props: PieChartWidgetProps = widget) {
 beforeEach(() => {
   jest.clearAllMocks();
   jest.mocked(useDashboardPortfolioContext).mockReturnValue({
+    entityType: 'PORTFOLIO',
     getPortfolioMetric: jest.fn(),
+    isEntityTypePending: false,
     portfolioId: 'portfolio-1',
   });
   jest.mocked(useOrganizationPieChartData).mockReturnValue({

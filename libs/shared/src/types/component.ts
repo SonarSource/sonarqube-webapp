@@ -89,6 +89,7 @@ export interface TreeComponent extends LightComponent {
   path?: string;
   refId?: string;
   refKey?: string;
+  refQualifier?: ComponentQualifier;
   tags?: string[];
   visibility: Visibility;
 }

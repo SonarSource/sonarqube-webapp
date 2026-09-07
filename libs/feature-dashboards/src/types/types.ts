@@ -18,23 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useOrganizationPieChartData } from '~adapters/queries/pie-chart-widget-data';
-import type { ProjectCollectionEntityType } from '~shared/types/dashboard-context';
-import { PieChartWidgetProps } from '../../types/dashboard-widget';
-import { PieChartSegment } from '../../types/visualization';
-
-export function usePortfolioPieChartData(
-  widget: PieChartWidgetProps,
-  portfolioId: string,
-  enabled = true,
-  entityType: ProjectCollectionEntityType = 'PORTFOLIO',
-): {
-  isPending: boolean;
-  segments: PieChartSegment[];
-} {
-  return useOrganizationPieChartData({
-    enabled,
-    entity: { entityId: portfolioId, entityType },
-    widget,
-  });
-}
+// 'APPLICATION' is only accepted by the SQS /api/v2/history/* endpoints.
+// The SQC adapter must not forward it to /organizations/*-history until
+// sonarcloud-organizations' EntityType enum gains an APPLICATION member.
+export type EntityType = 'APPLICATION' | 'PORTFOLIO' | 'PROJECT_BRANCH';

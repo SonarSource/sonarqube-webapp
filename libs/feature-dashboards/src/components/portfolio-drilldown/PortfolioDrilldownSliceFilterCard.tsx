@@ -125,15 +125,18 @@ export function PortfolioDrilldownSliceFilterCard(props: Readonly<Props>) {
                 { id: 'portfolio_dashboard.breakdown.slice_filter.trigger_aria' },
                 { dimension: dimensionLabel, value: displayedValue },
               )}
-              className="sw-font-regular"
-              size={ButtonSize.Medium}
+              size={ButtonSize.Large}
               suffix={<IconChevronDown />}
             >
               <FormattedMessage
                 id="portfolio_dashboard.breakdown.slice_filter.dimension_with_value"
                 values={{
                   b: (chunks) => <span className="sw-font-semibold">{chunks}</span>,
-                  dim: (chunks) => <span className="sw-font-regular">{chunks}</span>,
+                  dim: (chunks) => (
+                    <Text as="span" className="sw-font-semibold" isSubtle>
+                      {chunks}
+                    </Text>
+                  ),
                   dimension: dimensionLabel,
                   value: displayedValue,
                 }}

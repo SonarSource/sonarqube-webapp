@@ -63,7 +63,9 @@ beforeEach(() => {
   mockPortfolioStandardRatingBadgeWidget.mockClear();
 
   jest.mocked(useDashboardPortfolioContext).mockReturnValue({
+    entityType: 'PORTFOLIO',
     getPortfolioMetric: jest.fn(),
+    isEntityTypePending: false,
     portfolioId: 'portfolio-1',
   });
   jest.mocked(usePortfolioRatingBadgeMetricKeysQuery).mockImplementation((metricKeys) => ({
@@ -106,6 +108,7 @@ describe('PortfolioRatingBadgeWidget', () => {
     ]);
     expect(usePortfolioRatingBadgeMeasuresQuery).toHaveBeenLastCalledWith('portfolio-1', {
       enabled: true,
+      entityType: 'PORTFOLIO',
       metricKeys: [MetricKey.security_rating, MetricKey.security_rating_distribution],
     });
   });
@@ -185,6 +188,7 @@ describe('PortfolioRatingBadgeWidget', () => {
 
     expect(usePortfolioRatingBadgeMeasuresQuery).toHaveBeenCalledWith('portfolio-1', {
       enabled: true,
+      entityType: 'PORTFOLIO',
       metricKeys: [MetricKey.releasability_rating, MetricKey.releasability_rating_distribution],
     });
     expect(screen.getAllByText('metric.level.ERROR')).not.toHaveLength(0);

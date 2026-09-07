@@ -93,7 +93,9 @@ describe('PortfolioStandardRatingBadgeWidget', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     jest.mocked(DashboardContext.useDashboardPortfolioContext).mockReturnValue({
+      entityType: 'PORTFOLIO',
       getPortfolioMetric: jest.fn(),
+      isEntityTypePending: false,
       portfolioId: 'portfolio-1',
     });
     jest
@@ -153,6 +155,7 @@ describe('PortfolioStandardRatingBadgeWidget', () => {
       'portfolio-1',
       {
         enabled: false,
+        entityType: 'PORTFOLIO',
         metricKeys: [MetricKey.releasability_rating],
       },
     );
@@ -286,6 +289,7 @@ describe('PortfolioStandardRatingBadgeWidget', () => {
         'portfolio-1',
         {
           enabled: false,
+          entityType: 'PORTFOLIO',
           metricKeys: [MetricKey.alert_status],
         },
       );

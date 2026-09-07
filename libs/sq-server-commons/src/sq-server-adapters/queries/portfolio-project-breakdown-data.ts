@@ -45,7 +45,7 @@ export function usePortfolioProjectIssueCountsQuery(
       isStandardMode: modeQuery.data ?? true,
     }),
     entityId: portfolioId,
-    entityType: 'PORTFOLIO',
+    entityType: params.entityType,
     sort: sort?.split(','),
   };
 
@@ -70,7 +70,7 @@ export function usePortfolioProjectMeasuresQuery(
   const serverParams: DashboardProjectMeasuresParams = {
     ...filters,
     entityId: portfolioId,
-    entityType: 'PORTFOLIO',
+    entityType: params.entityType,
     sort: sort?.split(','),
   };
 

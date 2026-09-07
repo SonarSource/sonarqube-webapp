@@ -19,17 +19,37 @@
  */
 
 import { useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
+import { ComponentQualifier } from '~shared/types/component';
 import type {
   DashboardPortfolioContext,
   DashboardPortfolioMetric,
   DashboardProjectContext,
+  ProjectCollectionEntityType,
 } from '~shared/types/dashboard-context';
 import type { MetricKey } from '~shared/types/metrics';
 import { useComponent } from '../../context/componentContext/withComponentContext';
+import { useComponentDataQuery } from '../../queries/component';
 import { useComponentNavigationIdQuery } from '../../queries/navigation';
 import { useCurrentBranchQuery } from '../queries/branch';
 import { useWidgetMetricMetadataQuery } from '../queries/widget-metric-metadata';
+
+// SQS-only: the context filter dropdown is not rendered on SQC, so these exports
+// have no cloud counterpart.
+// eslint-disable-next-line local-rules/adapter-api-parity
+export const PORTFOLIO_CONTEXT_PARAM = 'context';
+
+// eslint-disable-next-line local-rules/adapter-api-parity
+export function usePortfolioContextEntityType(contextKey: string) {
+  const { data, isPending } = useComponentDataQuery(
+    { component: contextKey },
+    { enabled: Boolean(contextKey) },
+  );
+  const entityType: ProjectCollectionEntityType =
+    data?.component.qualifier === ComponentQualifier.Application ? 'APPLICATION' : 'PORTFOLIO';
+  return { entityType, isPending: Boolean(contextKey) && isPending };
+}
 
 export function useDashboardProjectContext(): DashboardProjectContext {
   const { component, isPending } = useComponent();
@@ -54,12 +74,17 @@ export function useDashboardProjectContext(): DashboardProjectContext {
 
 export function useDashboardPortfolioContext(): DashboardPortfolioContext {
   const { component } = useComponent();
+  const [searchParams] = useSearchParams();
+  const contextKey = searchParams.get(PORTFOLIO_CONTEXT_PARAM) ?? '';
+  const targetComponentKey = contextKey || (component?.key ?? '');
+
   const { data: portfolioId } = useComponentNavigationIdQuery(
-    { component: component?.key ?? '' },
+    { component: targetComponentKey },
     {
-      enabled: Boolean(component?.key),
+      enabled: Boolean(targetComponentKey),
     },
   );
+  const { entityType, isPending: isEntityTypePending } = usePortfolioContextEntityType(contextKey);
   const { data: metrics } = useWidgetMetricMetadataQuery();
   const getPortfolioMetric = useCallback(
     (key: MetricKey): DashboardPortfolioMetric | undefined => {
@@ -78,7 +103,9 @@ export function useDashboardPortfolioContext(): DashboardPortfolioContext {
   );
 
   return {
+    entityType,
     getPortfolioMetric,
+    isEntityTypePending,
     portfolioId: portfolioId ?? '',
   };
 }

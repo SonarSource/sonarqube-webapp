@@ -19,12 +19,12 @@
  */
 
 import type {
-  EntityType,
   IssueSeverity,
   IssueType,
   OrganizationIssueImpactQueryValue,
 } from './organization-issue-count-history';
 import type { IssueHistoryDay } from './organization-issue-history';
+import type { EntityType } from './types';
 
 /**
  * Dimension axes supported by the issue-density-history slice API.

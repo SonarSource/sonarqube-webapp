@@ -20,7 +20,7 @@
 
 import type { Path } from 'history';
 
-export type DashboardEntityType = 'PORTFOLIO' | 'PROJECT_BRANCH';
+export type DashboardEntityType = 'APPLICATION' | 'PORTFOLIO' | 'PROJECT_BRANCH';
 
 export interface DashboardCountTrendData {
   latestValue: number | null;

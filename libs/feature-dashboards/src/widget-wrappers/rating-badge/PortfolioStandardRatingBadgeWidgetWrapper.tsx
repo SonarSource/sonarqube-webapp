@@ -127,7 +127,7 @@ export function PortfolioStandardRatingBadgeWidgetWrapper(
 ) {
   const { metricKey, mode, scope } = props;
   const { enterpriseKey = '' } = useParams<{ enterpriseKey?: string }>();
-  const { portfolioId } = useDashboardPortfolioContext();
+  const { entityType, isEntityTypePending, portfolioId } = useDashboardPortfolioContext();
   const isScopeNew = scope === CodeScope.New;
   const requestedMetricKey = getPortfolioDashboardMeasureRequestKey(metricKey, isScopeNew);
   const isPortfolioPotentialRatingMetric = isRatingMetric(metricKey, undefined);
@@ -146,13 +146,18 @@ export function PortfolioStandardRatingBadgeWidgetWrapper(
     isPending: isPortfolioMeasuresPending,
   } = usePortfolioRatingBadgeComputedMeasuresQuery(
     {
+      entityType,
       metrics: [metricKeyForRequest],
       pageIndex: 1,
       pageSize: 500,
       portfolioId,
     },
     {
-      enabled: Boolean(portfolioId) && !isMetricResolutionPending && metricResolutionError == null,
+      enabled:
+        Boolean(portfolioId) &&
+        !isEntityTypePending &&
+        !isMetricResolutionPending &&
+        metricResolutionError == null,
     },
   );
   const {
@@ -162,8 +167,10 @@ export function PortfolioStandardRatingBadgeWidgetWrapper(
   } = usePortfolioRatingBadgeMeasuresQuery(portfolioId, {
     enabled:
       isPortfolioPotentialRatingMetric &&
+      !isEntityTypePending &&
       !isMetricResolutionPending &&
       metricResolutionError == null,
+    entityType,
     metricKeys: [aggregateMetricKey],
   });
   const { data: metrics, isLoading: isMetricsListLoading } = useWidgetMetricMetadataQuery();
@@ -195,6 +202,7 @@ export function PortfolioStandardRatingBadgeWidgetWrapper(
   });
 
   const isPortfolioDataLoading =
+    isEntityTypePending ||
     isMetricResolutionPending ||
     isPortfolioMeasuresPending ||
     (isPortfolioPotentialRatingMetric && isPortfolioAggregateMeasuresPending);

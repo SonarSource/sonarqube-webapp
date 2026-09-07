@@ -3995,6 +3995,20 @@ export const defaultMessages = {
   retry: 'Retry',
   'project_dashboard.edit_mode_message': 'Editing dashboard',
   'project_dashboard.last_edited': 'Last edited {lastUpdatedAt}',
+  'portfolio_dashboard.context_filter.label': 'Context',
+  'portfolio_dashboard.context_filter.entire_portfolio': 'Entire portfolio',
+  'portfolio_dashboard.context_filter.entire_portfolio_description': "Everything in ''{name}''",
+  'portfolio_dashboard.context_filter.go_to_overview': "Go to ''{name}'' Overview",
+  'portfolio_dashboard.context_filter.go_to_summary': "Go to ''{name}'' Summary",
+  'portfolio_dashboard.context_filter.qualifier.APP': 'Application',
+  'portfolio_dashboard.context_filter.qualifier.SVW': 'Sub portfolio',
+  'portfolio_dashboard.context_filter.search_placeholder':
+    'Search for sub-portfolios and applications...',
+  'portfolio_dashboard.context_filter.section_header':
+    'Drill down into a sub-portfolio or application',
+  'portfolio_dashboard.context_filter.trigger_aria': '{context}: {value}',
+  'portfolio_dashboard.context_filter.truncated_results':
+    'Use search to find more sub-portfolios and applications.',
   'portfolio_dashboard.custom.toast.save_error': 'We could not save your dashboard. Try again.',
   'project_dashboard.custom.error.description':
     'We could not load this dashboard. Try again later.',

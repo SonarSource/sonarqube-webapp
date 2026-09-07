@@ -19,6 +19,7 @@
  */
 
 import { type SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import type { EntityType } from './types';
 
 /**
  * Request-side shapes for the organizations issue-count-history endpoint
@@ -26,8 +27,6 @@ import { type SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clea
  * line charts. Kept here (rather than in `~api/portfolio-dashboard`) so dashboard helpers can
  * consume them without depending on the API module.
  */
-
-export type EntityType = 'PORTFOLIO' | 'PROJECT_BRANCH';
 
 export type IssueCountSliceBy = 'RULE_KEY' | 'SEVERITY' | 'SOFTWARE_QUALITY' | 'STATUS' | 'TYPE';
 

@@ -33,7 +33,11 @@ export interface DashboardPortfolioMetric {
   type: string;
 }
 
+export type ProjectCollectionEntityType = 'APPLICATION' | 'PORTFOLIO';
+
 export interface DashboardPortfolioContext {
+  entityType: ProjectCollectionEntityType;
   getPortfolioMetric: (key: MetricKey) => DashboardPortfolioMetric | undefined;
+  isEntityTypePending: boolean;
   portfolioId: string;
 }

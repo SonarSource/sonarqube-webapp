@@ -71,7 +71,9 @@ function renderWidget(widget: React.ReactElement) {
 beforeEach(() => {
   jest.mocked(getDashboardMetricDirectionOverride).mockReset();
   jest.mocked(useDashboardPortfolioContext).mockReturnValue({
+    entityType: 'PORTFOLIO',
     getPortfolioMetric: jest.fn(),
+    isEntityTypePending: false,
     portfolioId: 'portfolio-1',
   });
   jest.mocked(useOptionalWidgetInstanceContext).mockReturnValue({
@@ -155,7 +157,9 @@ it('renders loading, query error, and empty portfolio states', () => {
   expect(screen.getByText('dashboard.widget.error')).toBeInTheDocument();
 
   jest.mocked(useDashboardPortfolioContext).mockReturnValue({
+    entityType: 'PORTFOLIO',
     getPortfolioMetric: jest.fn(),
+    isEntityTypePending: false,
     portfolioId: '',
   });
   rerender(

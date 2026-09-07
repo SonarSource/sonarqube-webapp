@@ -70,7 +70,7 @@ type DashboardMeasure =
 
 interface DashboardMeasureQueryInput {
   entityId: string;
-  entityType: 'PORTFOLIO' | 'PROJECT_BRANCH';
+  entityType: 'APPLICATION' | 'PORTFOLIO' | 'PROJECT_BRANCH';
   measure: DashboardMeasure;
   months?: number;
 }

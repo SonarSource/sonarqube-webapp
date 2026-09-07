@@ -68,7 +68,9 @@ beforeEach(() => {
   mockTopList.mockClear();
 
   jest.mocked(useDashboardPortfolioContext).mockReturnValue({
+    entityType: 'PORTFOLIO',
     getPortfolioMetric: jest.fn(),
+    isEntityTypePending: false,
     portfolioId: 'portfolio-1',
   });
 
@@ -109,6 +111,7 @@ describe('PortfolioTopListWidget', () => {
       defaultProps,
       'portfolio-1',
       expect.objectContaining({ fetchTrendHistory: true }),
+      'PORTFOLIO',
     );
   });
 
@@ -163,6 +166,7 @@ describe('PortfolioTopListWidget', () => {
       expect.objectContaining({ scope: CodeScope.New }),
       'portfolio-1',
       expect.objectContaining({ fetchTrendHistory: false }),
+      'PORTFOLIO',
     );
   });
 

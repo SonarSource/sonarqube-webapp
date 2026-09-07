@@ -37,8 +37,8 @@ export function PortfolioPieChartWidgetWrapper(props: Readonly<PieChartWidgetPro
   const navigate = useNavigate();
   const { formatMessage } = useIntl();
   const widgetInstance = useOptionalWidgetInstanceContext();
-  const { portfolioId } = useDashboardPortfolioContext();
-  const { isPending, segments } = usePortfolioPieChartData(props, portfolioId);
+  const { entityType, isEntityTypePending, portfolioId } = useDashboardPortfolioContext();
+  const { isPending, segments } = usePortfolioPieChartData(props, portfolioId, true, entityType);
 
   const getSegmentUrl = useCallback(
     (segment: PieChartSegment): string | undefined => {
@@ -65,7 +65,7 @@ export function PortfolioPieChartWidgetWrapper(props: Readonly<PieChartWidgetPro
     [getSegmentUrl, navigate],
   );
 
-  if (isPending) {
+  if (isEntityTypePending || isPending) {
     return <WidgetLoadingSpinner />;
   }
 

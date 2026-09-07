@@ -50,7 +50,8 @@ type Props = CountWidgetConfig & { suppressPortfolioDrilldownLink?: boolean };
 export function PortfolioCountWidgetWrapper(props: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const { formatMttr } = useMttrFormatters();
-  const { getPortfolioMetric, portfolioId } = useDashboardPortfolioContext();
+  const { entityType, getPortfolioMetric, isEntityTypePending, portfolioId } =
+    useDashboardPortfolioContext();
   const widgetInstance = useOptionalWidgetInstanceContext();
   const { metric, scope, showTrendIndicator = false } = props;
   const measure = dashboardMetricToMeasure(metric, scope, {
@@ -61,7 +62,7 @@ export function PortfolioCountWidgetWrapper(props: Readonly<Props>) {
   const query = useDashboardMeasureQuery(
     {
       entityId: portfolioId,
-      entityType: 'PORTFOLIO',
+      entityType,
       measure,
       months,
     },
@@ -72,6 +73,10 @@ export function PortfolioCountWidgetWrapper(props: Readonly<Props>) {
     isError: isMetadataError,
     isPending: isMetadataPending,
   } = usePortfolioWidgetMetricMetadataQuery();
+
+  if (isEntityTypePending) {
+    return <WidgetLoadingSpinner />;
+  }
 
   if (!portfolioId) {
     return <WidgetNoData />;

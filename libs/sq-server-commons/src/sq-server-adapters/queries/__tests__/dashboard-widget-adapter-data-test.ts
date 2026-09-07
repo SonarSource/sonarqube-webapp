@@ -454,6 +454,7 @@ describe('dashboard widget adapter queries', () => {
     it('translates canonical project issue filters at the Standard Experience boundary', () => {
       renderHook(() =>
         usePortfolioProjectIssueCountsQuery({
+          entityType: 'PORTFOLIO',
           impacts: ['SECURITY:HIGH'],
           pageIndex: 1,
           pageSize: 20,
@@ -485,6 +486,7 @@ describe('dashboard widget adapter queries', () => {
 
       renderHook(() =>
         usePortfolioProjectIssueCountsQuery({
+          entityType: 'PORTFOLIO',
           impacts: ['RELIABILITY:MEDIUM'],
           pageIndex: 1,
           pageSize: 20,
@@ -506,6 +508,7 @@ describe('dashboard widget adapter queries', () => {
     it('does not send a redundant severity filter for all canonical impacts', () => {
       renderHook(() =>
         usePortfolioProjectIssueCountsQuery({
+          entityType: 'PORTFOLIO',
           impacts: Object.values(SoftwareQuality).flatMap((quality) =>
             Object.values(SoftwareImpactSeverity).map((severity) => `${quality}:${severity}`),
           ),
@@ -533,6 +536,7 @@ describe('dashboard widget adapter queries', () => {
 
       const { result } = renderHook(() =>
         usePortfolioProjectIssueCountsQuery({
+          entityType: 'PORTFOLIO',
           pageIndex: 1,
           pageSize: 20,
           portfolioId: 'portfolio-1',

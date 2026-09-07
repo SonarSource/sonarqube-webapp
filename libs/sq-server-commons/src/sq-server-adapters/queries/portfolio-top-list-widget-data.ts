@@ -34,6 +34,7 @@ export function usePortfolioTopListData(
   _widget: unknown,
   _portfolioId: string,
   _options: UseTopListIssueCountDataOptions = {},
+  _entityType: 'APPLICATION' | 'PORTFOLIO' = 'PORTFOLIO',
 ): {
   counts: Record<string, number>;
   getRuleTrendData: (ruleKey: string) => DashboardTrendData | null;
@@ -46,7 +47,7 @@ export function usePortfolioTopListData(
   const { counts, getRuleTrendData, isError, isPending, topRuleKeys } = useTopListIssueCountData(
     widget,
     _portfolioId,
-    'PORTFOLIO',
+    _entityType,
     _options,
   );
   const { isLoading: isResolvingOrganization, organization } =
