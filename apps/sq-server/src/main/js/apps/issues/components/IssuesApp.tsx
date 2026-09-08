@@ -35,7 +35,7 @@ import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { IssuesFilteredResultsAnnouncement } from '~shared/components/issues/IssuesFilteredResultsAnnouncement';
-import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
+import { getBranchLikeQuery, isBranch, isPullRequest } from '~shared/helpers/branch-like';
 import {
   STANDARDS,
   shouldOpenSonarSourceSecurityFacet,
@@ -1064,6 +1064,7 @@ export class App extends React.PureComponent<Props, State> {
     }
 
     const pullRequestKey = isPullRequest(branchLike) ? branchLike.key : undefined;
+    const branch = isBranch(branchLike) ? branchLike.name : undefined;
     const remediationAgentProjectKey = this.getRemediationAgentProjectKey();
 
     return (
@@ -1091,6 +1092,7 @@ export class App extends React.PureComponent<Props, State> {
           {remediationAgentProjectKey && addons.remediationAgent && (
             <addons.remediationAgent.BacklogJobAssignButton
               allIssues={issues}
+              branch={branch}
               checkedKeys={checked}
               onAssignSuccess={this.clearCheckedIssues}
               projectKey={remediationAgentProjectKey}
@@ -1258,9 +1260,12 @@ export class App extends React.PureComponent<Props, State> {
   }
 
   renderIssueList() {
-    const { component } = this.props;
+    const { branchLike, component } = this.props;
     const { checkAll, checked, issues, loading, paging, showSecurityDevPromotion, query } =
       this.state;
+
+    const pullRequestKey = isPullRequest(branchLike) ? branchLike.key : undefined;
+    const branch = isBranch(branchLike) ? branchLike.name : undefined;
 
     const hasSecurityFilter =
       query.impactSoftwareQualities.includes(SoftwareQuality.Security) ||
@@ -1323,9 +1328,11 @@ export class App extends React.PureComponent<Props, State> {
             {remediationAgentProjectKey && addons.remediationAgent ? (
               <addons.remediationAgent.AgentIssuesLimitMessage
                 allIssues={issues}
+                branch={branch}
                 checkedKeys={checked}
                 className="sw-mt-3"
                 maxBulkIssues={MAX_PAGE_SIZE}
+                pullRequestKey={pullRequestKey}
                 showBulkIssuesLimit={Boolean(showMaxBulkItemsMessage)}
               />
             ) : (
@@ -1350,8 +1357,10 @@ export class App extends React.PureComponent<Props, State> {
           {remediationAgentProjectKey && addons.remediationAgent && (
             <addons.remediationAgent.AgentUnsupportedIssuesMessage
               allIssues={issues}
+              branch={branch}
               checkedKeys={checked}
               className="sw-mt-3"
+              pullRequestKey={pullRequestKey}
             />
           )}
 

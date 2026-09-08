@@ -1970,6 +1970,10 @@ export const defaultMessages = {
   'issues.fix_x_with_agent': '{count, plural, =0 {Fix with agent} other {Fix {count} with agent}}',
   'project_issues.assign_to_agent.success.title':
     '{issueCount, plural, one {# issue} other {# issues}} assigned to Agent',
+  'project_issues.assign_to_agent.partial_success.title':
+    '{issueCount, plural, one {# issue} other {# issues}} assigned to Agent, some failed',
+  'project_issues.assign_to_agent.partial_success.description':
+    'Some issues could not be assigned. Try again for the ones that are still selected.',
   'project_issues.assign_to_agent.error.title': 'Failed to assign issues',
   'project_issues.assign_to_agent.error.description':
     'Unable to create the Agent job. Please try again.',
@@ -2083,6 +2087,15 @@ export const defaultMessages = {
   'remediation_agent.error.submodules_not_supported': 'Git submodules are not supported',
   'remediation_agent.error.submodules_not_supported.context':
     'This repository uses Git submodules, which are not currently supported by the remediation agent.',
+  'remediation_agent.error.hunter_plan_unsound': 'No safe fix could be found',
+  'remediation_agent.error.hunter_plan_unsound.context':
+    'The agent reviewed its own plan and judged it unsafe to apply, so no pull request was opened.',
+  'remediation_agent.error.hunter_findings_unreadable': 'Finding could not be read',
+  'remediation_agent.error.hunter_findings_unreadable.context':
+    'The agent could not read the Hunter Agent finding it was given. Please try again later.',
+  'remediation_agent.error.hunter_model_probe_failed': 'AI service did not respond',
+  'remediation_agent.error.hunter_model_probe_failed.context':
+    'The configured AI model failed a start-up check. Verify the AI provider configuration and try again.',
   'agent_activity.status.skipped': 'Skipped',
   'agent_activity.status.skipped.description': 'No changes since last run',
   'pull_request.assign_to_agent': 'Fix with agent',
