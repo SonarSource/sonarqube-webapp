@@ -54,6 +54,7 @@ export function mockLicenseV2(overrides: Partial<LicenseV2> = {}): LicenseV2 {
     licenseKey: 'mock-license-key',
     loc: 229000,
     maxLoc: 500000,
+    maxLocThisPeriod: null,
     officialDistribution: true,
     remainingLocThreshold: 100000,
     serverId: 'mock-server-id',
@@ -107,8 +108,8 @@ export function mockLicenseV2Feature(
 /**
  * Shaped like SQRP-481: `name` stays the LicenseSpring code, `featureKey` carries the unified key,
  * and `maxConsumption` is set only on metered products. The Active Products table intentionally
- * skips `LOC`; the existing license-usage section reads LOC from the top-level `loc` / `maxLoc`
- * fields instead.
+ * skips LOC (`buildLicenseProducts` filters on its `featureKey`); its usage card reads this row
+ * plus the licence's top-level `loc` / `maxLoc` / `maxLocThisPeriod` fields instead (SQRP-591).
  *
  * Overage states follow the LTA matrix in SQRP-561: activation features carry none at all, the two
  * Vortex capabilities are eligible but not permitted, and the agents are permitted but unenabled.
@@ -155,8 +156,12 @@ export function mockLicenseV2Features(): LicenseV2Features {
     }),
     mockLicenseV2Feature({
       ...PRICED_OVERAGE,
-      name: 'LOC',
-      featureKey: null,
+      name: 'Lines of Code',
+      featureKey: EntitlementCheckFeatureKey.LinesOfCode,
+      // Kept equal to mockLicenseV2's maxLoc — buildLocUsage's tests guard against the two
+      // bases drifting, since a real licence would show the card and the invoice disagreeing.
+      maxConsumption: 500_000,
+      maxConsumptionUnit: 'lines',
       overagesStep: 100_000,
       overageState: OverageState.NotEnabled,
     }),

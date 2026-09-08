@@ -138,6 +138,8 @@ export interface LicenseV2 {
   licenseKey: string | null;
   loc: number;
   maxLoc: number;
+  /** Peak `loc` observed so far this billing period. Null until SQRP-597 populates it. */
+  maxLocThisPeriod: number | null;
   officialDistribution: boolean;
   remainingLocThreshold: number;
   serverId: string;

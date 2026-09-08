@@ -107,7 +107,10 @@ function mockMeteredCheck(
 /** Covers every feature the mock license carries, since each one gets its own check call. */
 export function mockEntitlementChecks(): EntitlementCheck[] {
   return [
-    mockMeteredCheck(EntitlementCheckFeatureKey.LinesOfCode, 1_000_000, 650_000),
+    // LOC's count never resets, so it never carries a Monthly cadence (SQRP-590) — the licence's
+    // own maxLoc/maxLocThisPeriod fields drive its usage/overage card, not this check's metering.
+    // Kept sized to mockLicenseV2's maxLoc/loc so the two never read as different plans.
+    mockMeteredCheck(EntitlementCheckFeatureKey.LinesOfCode, 500_000, 229_000, Cadence.Perpetual),
     mockMeteredCheck(EntitlementCheckFeatureKey.RemediationAgent, 5_000, 1_240),
     // Mirrored keys for one normalized Vortex product — same consumption on both.
     mockMeteredCheck(EntitlementCheckFeatureKey.AgenticAnalysis, 10_000, 1_806),
