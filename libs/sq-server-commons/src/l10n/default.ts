@@ -6396,8 +6396,6 @@ export const defaultMessages = {
   'notification.dispatcher.CeReportTaskFailure.project': 'Background tasks in failure',
   'notification.dispatcher.description_x': 'Check to receive notification for {project}',
   'notification.dispatcher.group.label': 'Notifications for project {project}',
-  'notification.calculation_change.message':
-    'The way in which security, reliability, and maintainability counts and ratings are calculated has changed. <link>Learn more in SonarQube documentation</link>',
   'notification.non_production_database.warning':
     "Embedded database should be used for evaluation purposes only. It doesn't support scaling, upgrading to a new SonarQube Server version, or migration to another database engine. {link}",
   'notification.non_production_database.learn_more': 'Learn more',

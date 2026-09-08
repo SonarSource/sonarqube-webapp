@@ -30,7 +30,6 @@ import { Feature } from '~sq-server-commons/types/features';
 import NonProductionDatabaseWarning from './NonProductionDatabaseWarning';
 import SystemAnnouncement from './SystemAnnouncement';
 import EnableAiCodeFixMessage from './ai-codefix-notification/EnableAiCodeFixMessage';
-import CalculationChangeMessage from './calculation-notification/CalculationChangeMessage';
 import { GlobalNav } from './nav/global/GlobalNav';
 import { PromotionNotificationManager } from './promotion-notification/PromotionNotificationManager';
 import { UpdateNotification } from './update-notification/UpdateNotification';
@@ -86,8 +85,6 @@ function Banners() {
       <UpdateNotification isGlobalBanner />
 
       <IndexationNotification />
-
-      <CalculationChangeMessage />
     </>
   );
 }
