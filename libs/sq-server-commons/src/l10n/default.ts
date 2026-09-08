@@ -8022,6 +8022,7 @@ export const defaultMessages = {
   // SYSTEM
   //
   //------------------------------------------------------------------------------
+  'system.agentic_harness_title': 'Agentic Harness',
   'system.application_nodes_title': 'Application Nodes',
   'system.are_you_sure_to_restart':
     'Are you sure you want to restart the server? The restart will first wait for ongoing background tasks to complete.',

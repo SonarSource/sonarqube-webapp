@@ -47,6 +47,13 @@ export interface Query {
 export const LOGS_LEVELS = Object.values(LogsLevels);
 const DEFAULT_LOG_LEVEL = LogsLevels.INFO;
 
+export const AGENTIC_ANALYSIS_FIELD = 'Agentic Analysis';
+export const AGENTIC_HARNESS_FIELDS = [
+  'Agent Orchestrator',
+  AGENTIC_ANALYSIS_FIELD,
+  'Hunter Agent',
+  'Remediation Agent',
+] as const;
 export const APP_NODES_FIELD = 'Application Nodes';
 export const ALMS_FIELD = 'ALMs';
 export const BUNDLED_FIELD = 'Bundled';
@@ -176,10 +183,21 @@ function getSystemData(sysInfoData: SysInfoBase): SysInfoValueObject {
   return { ...sysInfoData[SYSTEM_FIELD], ...statData };
 }
 
+export function getAgenticHarnessSections(sysInfoData: SysInfoBase) {
+  return AGENTIC_HARNESS_FIELDS.flatMap((field) => {
+    const section = sysInfoData[field];
+    const name = field === AGENTIC_ANALYSIS_FIELD ? 'Vortex Analysis' : field;
+    return section && typeof section === 'object' && !Array.isArray(section)
+      ? [{ name, section: section as SysInfoValueObject }]
+      : [];
+  });
+}
+
 export function getClusterMainCardSection(sysInfoData: SysInfoCluster): SysInfoValueObject {
   return {
     ...getSystemData(sysInfoData),
     ...omit(sysInfoData, [
+      ...AGENTIC_HARNESS_FIELDS,
       APP_NODES_FIELD,
       PLUGINS_FIELD,
       SEARCH_NODES_FIELD,
@@ -197,7 +215,13 @@ export function getStandaloneMainSections(sysInfoData: SysInfoBase): SysInfoValu
       sysInfoData,
       (value, key) =>
         value == null ||
-        [PLUGINS_FIELD, SETTINGS_FIELD, STATS_FIELD, SYSTEM_FIELD].includes(key) ||
+        [
+          ...AGENTIC_HARNESS_FIELDS,
+          PLUGINS_FIELD,
+          SETTINGS_FIELD,
+          STATS_FIELD,
+          SYSTEM_FIELD,
+        ].includes(key) ||
         key.startsWith(CE_FIELD_PREFIX) ||
         key.startsWith(SEARCH_PREFIX) ||
         key.startsWith(WEB_PREFIX),

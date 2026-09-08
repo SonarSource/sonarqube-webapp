@@ -46,9 +46,48 @@ describe('System Info Standalone', () => {
     expect(byText('asd564-asd54a-5dsfg45').get()).toBeInTheDocument();
 
     expect(ui.sectionButton('System').get()).toBeInTheDocument();
+    expect(ui.agenticHarnessTitle.query()).not.toBeInTheDocument();
     expect(screen.queryByRole('cell', { name: 'High Availability' })).not.toBeInTheDocument();
     await user.click(ui.sectionButton('System').get());
     expect(screen.getByRole('cell', { name: 'High Availability' })).toBeInTheDocument();
+  });
+
+  it('renders agentic harness containers outside the System section', async () => {
+    addAgenticHarnessInfo();
+    const { user, ui } = getPageObjects();
+    renderSystemApp();
+    await ui.appIsLoaded();
+
+    expect(
+      ui.sectionButton('Search Engine').get().compareDocumentPosition(ui.agenticHarnessTitle.get()),
+    ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+
+    const sectionNames = [
+      'Agent Orchestrator',
+      'Vortex Analysis',
+      'Hunter Agent',
+      'Remediation Agent',
+    ];
+    const sectionButtons = sectionNames.map((name) => ui.sectionButton(name).get());
+    expect(ui.agenticHarnessTitle.get().compareDocumentPosition(sectionButtons[0])).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    sectionButtons.slice(0, -1).forEach((button, index) => {
+      expect(button.compareDocumentPosition(sectionButtons[index + 1])).toBe(
+        Node.DOCUMENT_POSITION_FOLLOWING,
+      );
+    });
+    expect(ui.sectionButton('Agentic Analysis').query()).not.toBeInTheDocument();
+    expect(
+      ui.sectionButton('Agent Orchestrator').byText('system.current_health.red').get(),
+    ).toBeInTheDocument();
+    expect(
+      ui.sectionButton('Agent Orchestrator').byText('Orchestrator unreachable').get(),
+    ).toBeInTheDocument();
+
+    await user.click(ui.sectionButton('Hunter Agent').get());
+    expect(screen.getByRole('cell', { name: 'Hunter unavailable' })).toBeInTheDocument();
+    expect(screen.getByRole('cell', { name: 'Healthy' })).toBeInTheDocument();
   });
 
   it('can change logs level', async () => {
@@ -127,6 +166,23 @@ describe('System Info Cluster', () => {
     expect(screen.getByRole('heading', { name: 'Web Logging' })).toBeInTheDocument();
   });
 
+  it('renders agentic harness containers', async () => {
+    systemMock.setIsCluster(true);
+    addAgenticHarnessInfo();
+    const { ui } = getPageObjects();
+    renderSystemApp();
+    await ui.appIsLoaded();
+
+    expect(
+      ui
+        .sectionButton('server3.example.com')
+        .get()
+        .compareDocumentPosition(ui.agenticHarnessTitle.get()),
+    ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(ui.sectionButton('Vortex Analysis').get()).toBeInTheDocument();
+    expect(ui.sectionButton('Agentic Analysis').query()).not.toBeInTheDocument();
+  });
+
   it('should render current version and status', async () => {
     systemMock.setIsCluster(true);
     const { ui } = getPageObjects();
@@ -148,6 +204,16 @@ describe('System Info Cluster', () => {
   });
 });
 
+function addAgenticHarnessInfo() {
+  systemMock.systemInfo = {
+    ...systemMock.systemInfo,
+    'Agent Orchestrator': { Error: 'Orchestrator unreachable', Healthy: false },
+    'Agentic Analysis': { Healthy: true },
+    'Hunter Agent': { Error: 'Hunter unavailable', Healthy: false },
+    'Remediation Agent': { Healthy: true },
+  };
+}
+
 function renderSystemApp(appState?: AppState) {
   return renderAppRoutes('system', routes, {
     appState: mockAppState({ edition: EditionKey.developer, ...appState }),
@@ -159,6 +225,7 @@ function getPageObjects() {
 
   const ui = {
     pageHeading: byRole('heading', { name: 'system_info.page' }),
+    agenticHarnessTitle: byText('system.agentic_harness_title'),
     downloadLogsButton: byRole('button', { name: 'system.download_logs' }),
     downloadSystemInfoButton: byRole('link', { name: 'system.download_system_info' }),
     copyIdInformation: byRole('button', { name: 'system.copy_id_info' }),

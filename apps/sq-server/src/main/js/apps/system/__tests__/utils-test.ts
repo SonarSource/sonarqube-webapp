@@ -27,6 +27,13 @@ import { LogsLevels } from '~sq-server-commons/types/system';
 import { SysInfoBase, SysInfoStandalone } from '~sq-server-commons/types/types';
 import * as u from '../utils';
 
+const agenticHarnessInfo = {
+  'Agent Orchestrator': { Healthy: true },
+  'Agentic Analysis': { Healthy: false },
+  'Hunter Agent': { Error: 'Hunter error', Healthy: false },
+  'Remediation Agent': { Healthy: true },
+};
+
 describe('parseQuery', () => {
   it('should correctly parse the expand array', () => {
     expect(u.parseQuery({})).toEqual({ expandedCards: [] });
@@ -47,6 +54,29 @@ describe('groupSections', () => {
       mainSection: { foo: 'Foo', bar: 3 },
       sections: { baz: { a: 'a' } },
     });
+  });
+});
+
+describe('getAgenticHarnessSections', () => {
+  it('extracts available sections in product order and renames Agentic Analysis', () => {
+    expect(u.getAgenticHarnessSections(mockStandaloneSysInfo(agenticHarnessInfo))).toEqual([
+      { name: 'Agent Orchestrator', section: { Healthy: true } },
+      { name: 'Vortex Analysis', section: { Healthy: false } },
+      { name: 'Hunter Agent', section: { Error: 'Hunter error', Healthy: false } },
+      { name: 'Remediation Agent', section: { Healthy: true } },
+    ]);
+  });
+
+  it('omits unavailable or invalid sections', () => {
+    expect(
+      u.getAgenticHarnessSections(
+        mockStandaloneSysInfo({
+          'Agent Orchestrator': { Healthy: true },
+          'Agentic Analysis': undefined,
+          'Hunter Agent': 'invalid',
+        }),
+      ),
+    ).toEqual([{ name: 'Agent Orchestrator', section: { Healthy: true } }]);
   });
 });
 
@@ -113,7 +143,9 @@ describe('getStandaloneSecondarySections', () => {
 
 describe('getStandaloneMainSections', () => {
   it('should return the correct information', () => {
-    expect(Object.keys(u.getStandaloneMainSections(mockStandaloneSysInfo()))).toEqual(
+    const sections = u.getStandaloneMainSections(mockStandaloneSysInfo(agenticHarnessInfo));
+
+    expect(Object.keys(sections)).toEqual(
       expect.arrayContaining([
         'Server ID',
         'High Availability',
@@ -122,12 +154,18 @@ describe('getStandaloneMainSections', () => {
         'Database',
       ]),
     );
+    expect(sections).not.toHaveProperty('Agent Orchestrator');
+    expect(sections).not.toHaveProperty('Agentic Analysis');
+    expect(sections).not.toHaveProperty('Hunter Agent');
+    expect(sections).not.toHaveProperty('Remediation Agent');
   });
 });
 
 describe('getClusterMainCardSection', () => {
   it('should return the correct information', () => {
-    expect(Object.keys(u.getClusterMainCardSection(mockClusterSysInfo()))).toEqual(
+    const section = u.getClusterMainCardSection(mockClusterSysInfo(agenticHarnessInfo));
+
+    expect(Object.keys(section)).toEqual(
       expect.arrayContaining([
         'Server ID',
         'High Availability',
@@ -140,6 +178,10 @@ describe('getClusterMainCardSection', () => {
         'Search Indexes',
       ]),
     );
+    expect(section).not.toHaveProperty('Agent Orchestrator');
+    expect(section).not.toHaveProperty('Agentic Analysis');
+    expect(section).not.toHaveProperty('Hunter Agent');
+    expect(section).not.toHaveProperty('Remediation Agent');
   });
 });
 

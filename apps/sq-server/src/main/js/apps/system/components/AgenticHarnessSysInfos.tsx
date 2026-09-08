@@ -18,55 +18,47 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { map } from 'lodash';
-import { SysInfoStandalone } from '~sq-server-commons/types/types';
-import {
-  getHealth,
-  getHealthCauses,
-  getStandaloneMainSections,
-  getStandaloneSecondarySections,
-  ignoreInfoFields,
-} from '../utils';
-import { AgenticHarnessSysInfos } from './AgenticHarnessSysInfos';
+import { Text } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
+import { HealthTypes, SysInfoBase } from '~sq-server-commons/types/types';
+import { getAgenticHarnessSections } from '../utils';
 import HealthCard from './info-items/HealthCard';
 
 interface Props {
   expandedCards: string[];
-  sysInfoData: SysInfoStandalone;
+  sysInfoData: SysInfoBase;
   toggleCard: (toggledCard: string) => void;
 }
 
-const mainCardName = 'System';
-
-export default function StandAloneSysInfos({
+export function AgenticHarnessSysInfos({
   expandedCards,
   sysInfoData,
   toggleCard,
 }: Readonly<Props>) {
+  const sections = getAgenticHarnessSections(sysInfoData);
+
+  if (sections.length === 0) {
+    return null;
+  }
+
   return (
-    <ul className="sw-list-none sw-flex sw-flex-col sw-gap-4 sw-w-3/4">
-      <HealthCard
-        health={getHealth(sysInfoData)}
-        healthCauses={getHealthCauses(sysInfoData)}
-        name={mainCardName}
-        onClick={toggleCard}
-        open={expandedCards.includes(mainCardName)}
-        sysInfoData={ignoreInfoFields(getStandaloneMainSections(sysInfoData))}
-      />
-      {map(getStandaloneSecondarySections(sysInfoData), (section, name) => (
+    <>
+      <li>
+        <Text isSubtle>
+          <FormattedMessage id="system.agentic_harness_title" />
+        </Text>
+      </li>
+      {sections.map(({ name, section }) => (
         <HealthCard
+          health={section.Healthy === false ? HealthTypes.RED : HealthTypes.GREEN}
+          healthCauses={typeof section.Error === 'string' ? [section.Error] : undefined}
           key={name}
           name={name}
           onClick={toggleCard}
           open={expandedCards.includes(name)}
-          sysInfoData={ignoreInfoFields(section)}
+          sysInfoData={section}
         />
       ))}
-      <AgenticHarnessSysInfos
-        expandedCards={expandedCards}
-        sysInfoData={sysInfoData}
-        toggleCard={toggleCard}
-      />
-    </ul>
+    </>
   );
 }

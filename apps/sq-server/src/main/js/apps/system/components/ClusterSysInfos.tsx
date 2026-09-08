@@ -31,6 +31,7 @@ import {
   getSearchNodes,
   ignoreInfoFields,
 } from '../utils';
+import { AgenticHarnessSysInfos } from './AgenticHarnessSysInfos';
 import HealthCard from './info-items/HealthCard';
 
 interface Props {
@@ -85,6 +86,11 @@ export default function ClusterSysInfos({
           sysInfoData={ignoreInfoFields(node)}
         />
       ))}
+      <AgenticHarnessSysInfos
+        expandedCards={expandedCards}
+        sysInfoData={sysInfoData}
+        toggleCard={toggleCard}
+      />
     </ul>
   );
 }
