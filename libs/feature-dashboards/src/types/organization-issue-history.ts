@@ -21,7 +21,7 @@
 interface IssueHistoryDistribution {
   /** Dimension value or `"all"` when no slice is applied. */
   key: string;
-  value: number;
+  value?: number;
 }
 
 export interface IssueHistoryDay {

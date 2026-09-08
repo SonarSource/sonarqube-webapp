@@ -27,6 +27,10 @@ jest.mock('~adapters/helpers/dashboard-measures', () => ({
   formatDashboardMeasure: (value: unknown, type: string) => `${type}:${JSON.stringify(value)}`,
 }));
 
+jest.mock('~adapters/helpers/l10n', () => ({
+  getCurrentLocale: () => 'en-US',
+}));
+
 jest.mock('@sonarsource/echoes-react', () => ({
   RatingBadge: ({ rating }: { rating: string }) => <span>{`badge:${rating}`}</span>,
   Text: ({ children }: { children: React.ReactNode }) => (
@@ -90,4 +94,23 @@ describe('customDashboardLineChart lineChartPresentation', () => {
       ).toBeInTheDocument();
     });
   });
+});
+
+it.each([
+  [2.5944423284132183, '2.59'],
+  [9.87654, '9.88'],
+  [0.123456, '0.123'],
+  [0.0000123456, '0.0000123'],
+  [-2.5944423284132183, '-2.59'],
+])('formats %s with three significant figures on the axis and tooltip', (value, formatted) => {
+  expect(formatYAxisTick(value, false)).toBe(formatted);
+  render(<>{formatDotValue(value, false)}</>);
+  expect(screen.getByText(`text:${JSON.stringify(formatted)}`)).toBeInTheDocument();
+});
+
+it.each([11.2, 12.6666])('preserves fractional tooltip values above 10: %s', (value) => {
+  render(<>{formatDotValue(value, false)}</>);
+  expect(
+    screen.getByText(`text:${JSON.stringify(formatYAxisTick(value, false))}`),
+  ).toBeInTheDocument();
 });

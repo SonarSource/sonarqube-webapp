@@ -29,7 +29,7 @@ import type { MeasureFilters } from './widgets/shared';
 
 interface DashboardIssueHistoryDay {
   date: string;
-  distribution: { key: string; value: number }[];
+  distribution: { key: string; value?: number }[];
 }
 
 interface DashboardMeasuresHistoryDay {
@@ -85,9 +85,9 @@ export function dashboardMeasureHistoryValues(
       return value === undefined ? [] : [value];
     });
   }
-  return sortDashboardHistory(data.history).map((day) =>
-    day.distribution.reduce((total, entry) => total + entry.value, 0),
-  );
+  return sortDashboardHistory(data.history)
+    .map((day) => day.distribution.reduce((total, entry) => total + (entry.value ?? Number.NaN), 0))
+    .filter(Number.isFinite);
 }
 
 export function parseDashboardMeasureValue(

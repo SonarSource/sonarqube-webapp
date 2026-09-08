@@ -149,10 +149,12 @@ function historyToSeries(
     }));
   }
 
-  const points = sortDashboardHistory(data.history).map((day) => ({
-    x: new Date(day.date),
-    y: day.distribution.reduce((sum, entry) => sum + entry.value, 0),
-  }));
+  const points = sortDashboardHistory(data.history)
+    .map((day) => ({
+      x: new Date(day.date),
+      y: day.distribution.reduce((sum, entry) => sum + (entry.value ?? Number.NaN), 0),
+    }))
+    .filter((point) => Number.isFinite(point.y));
   return points.length
     ? [{ color: CHART_CATEGORICAL_COLORS[0], data: points, id: 'total', label }]
     : [];

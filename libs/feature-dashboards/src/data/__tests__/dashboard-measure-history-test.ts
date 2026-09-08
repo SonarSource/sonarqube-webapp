@@ -184,3 +184,19 @@ it('normalizes count display types for density, MTTR, data, and missing metadata
     ),
   ).toBe(MetricType.Integer);
 });
+
+it('omits missing density values while preserving decimals and zeroes', () => {
+  expect(
+    dashboardMeasureHistoryValues(
+      {
+        api: 'issue-density-history',
+        history: [
+          { date: '2026-06-17', distribution: [{ key: 'all', value: 2.5944423284132183 }] },
+          { date: '2026-06-16', distribution: [{ key: 'all', value: 0 }] },
+          { date: '2026-03-22', distribution: [{ key: 'all' }] },
+        ],
+      },
+      { api: 'issue-density-history' },
+    ),
+  ).toEqual([0, 2.5944423284132183]);
+});

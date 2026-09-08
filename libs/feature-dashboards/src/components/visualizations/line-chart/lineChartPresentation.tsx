@@ -21,6 +21,7 @@
 import { RatingBadge, RatingBadgeRating, Text } from '@sonarsource/echoes-react';
 import type { ReactNode } from 'react';
 import { formatDashboardMeasure } from '~adapters/helpers/dashboard-measures';
+import { getCurrentLocale } from '~adapters/helpers/l10n';
 import { MetricType } from '~shared/types/metrics';
 
 /** From this magnitude up, Y-axis and hover use compact notation (e.g. 250k) so labels fit the widget. */
@@ -32,7 +33,9 @@ export function formatYAxisTick(tick: number, isMetricRating: boolean): string {
   }
 
   if (!Number.isInteger(tick)) {
-    return formatDashboardMeasure(tick, MetricType.Float);
+    return Math.abs(tick) < 10
+      ? new Intl.NumberFormat(getCurrentLocale(), { maximumSignificantDigits: 3 }).format(tick)
+      : formatDashboardMeasure(tick, MetricType.Float);
   }
 
   if (Math.abs(tick) >= LINE_CHART_COMPACT_NUMBER_THRESHOLD) {
@@ -55,7 +58,7 @@ export function formatDotValue(value: number, isMetricRating: boolean): ReactNod
   const formatted =
     Math.abs(value) >= LINE_CHART_COMPACT_NUMBER_THRESHOLD
       ? formatDashboardMeasure(value, MetricType.ShortInteger)
-      : formatDashboardMeasure(value, MetricType.Integer);
+      : formatYAxisTick(value, false);
 
   return <Text isHighlighted>{formatted}</Text>;
 }
