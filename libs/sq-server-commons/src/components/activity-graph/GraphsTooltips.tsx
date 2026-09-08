@@ -94,7 +94,7 @@ export class GraphsTooltips extends React.PureComponent<Props> {
         placement={placement}
         style={{ top, left, width: TOOLTIP_WIDTH }}
       >
-        <div className="sw-p-2">
+        <div className="sw-p-2" role="tooltip">
           <div
             className="sw-typo-lg-semibold sw-whitespace-nowrap"
             style={{ color: cssVar('color-text-default') }}

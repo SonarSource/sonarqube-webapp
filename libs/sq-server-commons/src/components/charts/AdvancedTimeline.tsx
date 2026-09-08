@@ -251,19 +251,15 @@ export class AdvancedTimeline extends React.PureComponent<Props, State> {
     this.setState({ mouseOver: true });
   };
 
+  /**
+   * Only clears the hover flag: actually hiding the tooltip is GraphHistory's
+   * responsibility (via its container's onMouseLeave), so that moving the
+   * pointer onto the tooltip itself doesn't dismiss it. Without this reset,
+   * a throttled updateTooltipPos trailing call can fire after the pointer has
+   * left and revive the tooltip, since it only guards on `mouseOver`.
+   */
   handleMouseOut = () => {
-    const { updateTooltip } = this.props;
-
-    if (updateTooltip) {
-      this.setState({
-        mouseOver: false,
-        selectedDate: undefined,
-        selectedDateXPos: undefined,
-        selectedDateIdx: undefined,
-      });
-
-      updateTooltip(undefined, undefined, undefined);
-    }
+    this.setState({ mouseOver: false });
   };
 
   handleClick = () => {

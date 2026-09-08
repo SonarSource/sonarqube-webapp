@@ -27,6 +27,7 @@ import { getShortType } from '../../helpers/measures';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 import { MeasureHistory, ParsedAnalysis, Serie } from '../../types/project-activity';
 import { AdvancedTimeline } from '../charts/AdvancedTimeline';
+import EscKeydownHandler from '../controls/EscKeydownHandler';
 import DataTableModal from './DataTableModal';
 import GraphsLegendCustom from './GraphsLegendCustom';
 import GraphsLegendStatic from './GraphsLegendStatic';
@@ -90,6 +91,12 @@ export default function GraphHistory(props: Readonly<Props>) {
     setTooltipXPos(tooltipXPos);
   };
 
+  const hideTooltip = () => {
+    props.updateTooltip(undefined);
+    setTooltipIdx(undefined);
+    setTooltipXPos(undefined);
+  };
+
   const events = getAnalysisEventsForDate(analyses, selectedDate);
 
   return (
@@ -121,7 +128,7 @@ export default function GraphHistory(props: Readonly<Props>) {
 
         <div className="sw-flex-1 sw-min-w-full sw-overflow-hidden sw-w-0" ref={graphContainerRef}>
           {graphWidth !== undefined && graphHeight !== undefined && (
-            <div className="sw-overflow-hidden sw-w-full">
+            <div className="sw-overflow-hidden sw-w-full" onMouseLeave={hideTooltip}>
               <AdvancedTimeline
                 endDate={graphEndDate}
                 formatYTick={formatValue}
@@ -143,17 +150,19 @@ export default function GraphHistory(props: Readonly<Props>) {
               {selectedDate !== undefined &&
                 tooltipIdx !== undefined &&
                 tooltipXPos !== undefined && (
-                  <GraphsTooltips
-                    events={events}
-                    formatValue={formatTooltipValue}
-                    graph={graph}
-                    graphWidth={graphWidth}
-                    measuresHistory={measuresHistory}
-                    selectedDate={selectedDate}
-                    series={series}
-                    tooltipIdx={tooltipIdx}
-                    tooltipPos={tooltipXPos}
-                  />
+                  <EscKeydownHandler onKeydown={hideTooltip}>
+                    <GraphsTooltips
+                      events={events}
+                      formatValue={formatTooltipValue}
+                      graph={graph}
+                      graphWidth={graphWidth}
+                      measuresHistory={measuresHistory}
+                      selectedDate={selectedDate}
+                      series={series}
+                      tooltipIdx={tooltipIdx}
+                      tooltipPos={tooltipXPos}
+                    />
+                  </EscKeydownHandler>
                 )}
             </div>
           )}
