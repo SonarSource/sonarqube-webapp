@@ -22,23 +22,10 @@ import type { Path } from 'history';
 
 export type DashboardEntityType = 'APPLICATION' | 'PORTFOLIO' | 'PROJECT_BRANCH';
 
-export interface DashboardCountTrendData {
-  latestValue: number | null;
-  sparklineSeries: number[];
-  trend: { current: string | null; past: string | null };
-}
-
 export interface DashboardWidgetQueryResult<T> {
   data: T | undefined;
   isError: boolean;
   isPending: boolean;
-}
-
-export interface DashboardLineChartSeries {
-  color: string;
-  data: Array<{ x: number | Date; y: number }>;
-  id: string;
-  label: string;
 }
 
 export interface DashboardPieChartSegment {

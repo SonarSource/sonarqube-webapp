@@ -23,7 +23,6 @@ import { StaleTime } from '~shared/queries/common';
 import {
   createGitHubConfiguration,
   deleteGitHubConfiguration,
-  fetchGitHubConfiguration,
   getDopPermissionChecks,
   getProjectBindings,
   searchGitHubConfigurations,
@@ -67,13 +66,6 @@ export function useSearchGitHubConfigurationsQuery() {
   return useQuery({
     queryKey: ['dop-translation', 'github-configs', 'search'],
     queryFn: searchGitHubConfigurations,
-  });
-}
-
-export function useFetchGitHubConfigurationQuery(id: string) {
-  return useQuery({
-    queryKey: ['dop-translation', 'github-configs', 'fetch'],
-    queryFn: () => fetchGitHubConfiguration(id),
   });
 }
 

@@ -29,7 +29,7 @@ import { IssueSeverity } from '~shared/types/issues';
 import { MetricKey } from '~shared/types/metrics';
 import { RuleType } from '~shared/types/rules';
 import { AlmKeys } from '../types/alm-settings';
-import { IssueResolution, IssueScope, IssueStatus, IssueType } from '../types/issues';
+import { IssueScope, IssueStatus, IssueType } from '../types/issues';
 
 export const SEVERITIES = Object.values(IssueSeverity);
 
@@ -63,8 +63,6 @@ export const CLEAN_CODE_ATTRIBUTES_BY_CATEGORY = {
 };
 
 export const SOFTWARE_QUALITIES = Object.values(SoftwareQuality);
-
-export const STATUSES = ['OPEN', 'CONFIRMED', 'REOPENED', 'RESOLVED', 'CLOSED'];
 
 export const ISSUE_STATUSES = Object.values(IssueStatus);
 
@@ -148,14 +146,6 @@ export const SOFTWARE_QUALITIES_ISSUES_KEYS_MAP: Record<string, MetricKey> = {
   [MetricKey.security_issues]: MetricKey.software_quality_security_issues,
   [MetricKey.new_security_issues]: MetricKey.new_software_quality_security_issues,
 };
-
-export const RESOLUTIONS = [
-  IssueResolution.Unresolved,
-  IssueResolution.FalsePositive,
-  IssueResolution.Fixed,
-  IssueResolution.Removed,
-  IssueResolution.WontFix,
-];
 
 export const SOURCE_SCOPES = [
   { scope: IssueScope.Main, qualifier: ComponentQualifier.File },
@@ -266,6 +256,5 @@ export enum CustomEvents {
   OpenHelpMenu = 'open-help-menu',
   CloseHelpMenu = 'close-help-menu',
   HelpMenuClosed = 'help-menu-closed',
-  RunTourMode = 'runTour-mode',
   RefetchFacet = 'refetch-facet',
 }

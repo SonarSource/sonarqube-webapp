@@ -220,6 +220,7 @@ function renderAdminRoutes({ hasPortfolioFeature }: { hasPortfolioFeature: boole
       <Route element={<AdminContainer />}>
         {hasPortfolioFeature && addons.portfolios?.globalAdminRoutes()}
         {addons.remediationAgent?.globalAdminRoutes()}
+        {addons.vortexDashboard?.globalAdminRoutes()}
 
         {/* Migrated internal Sonar admin extensions */}
         {globalAdminExtensionMigratedRoutes()}

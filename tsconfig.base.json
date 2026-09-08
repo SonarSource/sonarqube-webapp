@@ -44,7 +44,8 @@
       "~feature-onboarding-dashboard/*": ["./libs/feature-onboarding-dashboard/src/*"],
       "~feature-quality-gate-history/*": ["./libs/feature-quality-gate-history/src/*"],
       "~feature-compliance-reports/*": ["./private/libs/feature-compliance-reports/src/*"],
-      "~feature-hunter-agent/*": ["./private/libs/feature-hunter-agent/src/*"]
+      "~feature-hunter-agent/*": ["./private/libs/feature-hunter-agent/src/*"],
+      "~feature-vortex-dashboard/*": ["./private/libs/feature-vortex-dashboard/src/*"]
     },
     "types": ["node", "vite/client", "jest", "@testing-library/jest-dom"],
     "outDir": "./dist"

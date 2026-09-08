@@ -36,6 +36,7 @@ interface Props extends PropsWithChildren {
   description?: PageHeaderProps['description'];
   hasDivider?: boolean;
   isLoading?: boolean;
+  metadata?: PageHeaderProps['metadata'];
   pageClassName?: string;
   scrollBehavior?: PageHeaderProps['scrollBehavior'];
   title: string;

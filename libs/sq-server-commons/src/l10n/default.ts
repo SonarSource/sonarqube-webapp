@@ -740,6 +740,7 @@ export const defaultMessages = {
   'sidebar.security': 'Security',
   'sidebar.system': 'System',
   'sidebar.tools': 'Tools',
+  'sidebar.vortex_dashboard': 'Vortex dashboard',
 
   //------------------------------------------------------------------------------
   //
@@ -1222,6 +1223,20 @@ export const defaultMessages = {
     'Remediation Agent needs a personal access token',
   'ai_capabilities.remediation_agent.dop_permission_warning.token_type.project.description':
     'Remediation Agent is connected to {platform} using a Project or Group Access Token, but it needs a Personal Access Token belonging to a real GitLab user to clone repositories, create branches, and open pull requests. Please see the {link}.',
+
+  //------------------------------------------------------------------------------
+  //
+  // VORTEX DASHBOARD
+  //
+  //------------------------------------------------------------------------------
+
+  'vortex_dashboard.title': 'Vortex dashboard',
+  'vortex_dashboard.activated_on': 'Activated on: {date}',
+  'vortex_dashboard.description.paragraph1':
+    "Vortex saves engineering time and tokens by providing your agents with context (Guide) before code is written, and fixing issues (Verify) as it's being written.",
+  'vortex_dashboard.description.paragraph2':
+    "This dashboard breaks down each project's savings as Vortex is being used. Read our documentation to <link>learn more about Vortex</link>.",
+  'vortex_dashboard.configuration': 'Configuration',
 
   //------------------------------------------------------------------------------
   //
