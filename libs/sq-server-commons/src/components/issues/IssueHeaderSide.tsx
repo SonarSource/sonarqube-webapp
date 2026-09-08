@@ -20,12 +20,12 @@
 
 import { Spinner, Text } from '@sonarsource/echoes-react';
 import React from 'react';
+import { CleanCodeAttributePill } from '~shared/components/badges/CleanCodeAttributePill';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { IssueSeverity } from '~shared/types/issues';
 import { translate } from '../../helpers/l10n';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
 import { Issue } from '../../types/types';
-import { CleanCodeAttributePill } from '../shared/CleanCodeAttributePill';
 import SoftwareImpactPillList from '../shared/SoftwareImpactPillList';
 
 interface Props {

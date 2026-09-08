@@ -30,12 +30,12 @@ import {
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Badge, InheritanceIcon, OverridenIcon, SeparatorCircleIcon } from '~design-system';
+import { CleanCodeAttributePill } from '~shared/components/badges/CleanCodeAttributePill';
 import { RuleStatusBadge } from '~shared/components/coding-rules/RuleStatusBadge';
 import { getImpactsDiffBySeverity } from '~shared/helpers/rules';
 import { IssueSeverity } from '~shared/types/issues';
 import { Rule, RuleActivationAdvanced, RuleStatus } from '~shared/types/rules';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
-import { CleanCodeAttributePill } from '~sq-server-commons/components/shared/CleanCodeAttributePill';
 import SoftwareImpactPillList from '~sq-server-commons/components/shared/SoftwareImpactPillList';
 import TagsList from '~sq-server-commons/components/tags/TagsList';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';

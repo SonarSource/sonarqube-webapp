@@ -1683,6 +1683,7 @@ export const defaultMessages = {
   'issue.quick_fix': 'Quick fix',
   'issue.quick_fix_available_with_sonarlint': 'Quick fix available in {link}',
   'issue.quick_fix_available_with_sonarlint_no_link': 'Quick fix available in SonarQube for IDE',
+  'issue.details.code_attribute': 'Code Attribute',
   'issue.comment.add_comment': 'Add Comment',
   'issue.comment.add_comment.submit': 'Comment',
   'issue.comment.add_comment.cancel': 'Cancel adding comment',
@@ -1834,97 +1835,143 @@ export const defaultMessages = {
     'This issue has a {severity} impact on the {quality} of your software.',
 
   'issue.clean_code_attribute_category.CONSISTENT': 'Consistency',
-  'issue.clean_code_attribute_category.CONSISTENT.title': 'This is a consistency issue.',
-  'issue.clean_code_attribute_category.CONSISTENT.advice':
-    'To be consistent, the code needs to be written in a uniform and conventional way.',
   'issue.clean_code_attribute_category.INTENTIONAL': 'Intentionality',
-  'issue.clean_code_attribute_category.INTENTIONAL.title': 'This is an intentionality issue.',
-  'issue.clean_code_attribute_category.INTENTIONAL.advice':
-    'To be intentional, the code content needs to be precise and purposeful.',
   'issue.clean_code_attribute_category.ADAPTABLE': 'Adaptability',
-  'issue.clean_code_attribute_category.ADAPTABLE.title': 'This is an adaptability issue.',
-  'issue.clean_code_attribute_category.ADAPTABLE.advice':
-    'To be adaptable, the code needs to be structured to be easy to evolve and develop with confidence.',
   'issue.clean_code_attribute_category.RESPONSIBLE': 'Responsibility',
-  'issue.clean_code_attribute_category.RESPONSIBLE.title': 'This is a responsibility issue.',
-  'issue.clean_code_attribute_category.RESPONSIBLE.advice':
-    'To be responsible, the code must take into account its ethical obligations on data and potential impact of societal norms.',
 
   'cct.clean_code_attribute_category.CONSISTENT': 'Consistency',
+  'cct.clean_code_attribute_category.CONSISTENT.title':
+    'This is a consistency {type, select, rule {rule} other {issue}}.',
+  'cct.clean_code_attribute_category.CONSISTENT.advice':
+    'To be consistent, the code needs to be written in a uniform and conventional way.',
   'cct.clean_code_attribute_category.INTENTIONAL': 'Intentionality',
+  'cct.clean_code_attribute_category.INTENTIONAL.title':
+    'This is an intentionality {type, select, rule {rule} other {issue}}.',
+  'cct.clean_code_attribute_category.INTENTIONAL.advice':
+    'To be intentional, the code content needs to be precise and purposeful.',
   'cct.clean_code_attribute_category.ADAPTABLE': 'Adaptability',
+  'cct.clean_code_attribute_category.ADAPTABLE.title':
+    'This is an adaptability {type, select, rule {rule} other {issue}}.',
+  'cct.clean_code_attribute_category.ADAPTABLE.advice':
+    'To be adaptable, the code needs to be structured to be easy to evolve and develop with confidence.',
   'cct.clean_code_attribute_category.RESPONSIBLE': 'Responsibility',
+  'cct.clean_code_attribute_category.RESPONSIBLE.title':
+    'This is a responsibility {type, select, rule {rule} other {issue}}.',
+  'cct.clean_code_attribute_category.RESPONSIBLE.advice':
+    'To be responsible, the code must take into account its ethical obligations on data and potential impact of societal norms.',
 
-  'issue.clean_code_attribute': 'Code attribute',
-  'issue.clean_code_attribute.CLEAR': 'Not clear',
-  'issue.clean_code_attribute.CLEAR.title':
+  'cct.clean_code_attribute': 'Code attribute',
+  'cct.clean_code_attribute.CLEAR': 'Not clear',
+  'cct.clean_code_attribute.CLEAR.rule': 'Clear',
+  'cct.clean_code_attribute.CLEAR.issue.title':
     'This is an intentionality issue, the code is not clear enough.',
-  'issue.clean_code_attribute.CLEAR.advice':
+  'cct.clean_code_attribute.CLEAR.rule.title':
+    'This is an intentionality rule, the code should be clear.',
+  'cct.clean_code_attribute.CLEAR.advice':
     'To be clear, the code needs to be self-explanatory and transparently communicate its functionality.',
-  'issue.clean_code_attribute.COMPLETE': 'Not complete',
-  'issue.clean_code_attribute.COMPLETE.title':
+  'cct.clean_code_attribute.COMPLETE': 'Not complete',
+  'cct.clean_code_attribute.COMPLETE.rule': 'Complete',
+  'cct.clean_code_attribute.COMPLETE.issue.title':
     'This is an intentionality issue, the code is not complete enough.',
-  'issue.clean_code_attribute.COMPLETE.advice':
+  'cct.clean_code_attribute.COMPLETE.rule.title':
+    'This is an intentionality rule, the code should be complete.',
+  'cct.clean_code_attribute.COMPLETE.advice':
     'To be complete, the code must be functional and achieve its implied goals through comprehensive, adequate, and thorough code constructs.',
-  'issue.clean_code_attribute.CONVENTIONAL': 'Not conventional',
-  'issue.clean_code_attribute.CONVENTIONAL.title':
+  'cct.clean_code_attribute.CONVENTIONAL': 'Not conventional',
+  'cct.clean_code_attribute.CONVENTIONAL.rule': 'Conventional',
+  'cct.clean_code_attribute.CONVENTIONAL.issue.title':
     'This is a consistency issue, the code is not conventional enough.',
-  'issue.clean_code_attribute.CONVENTIONAL.advice':
+  'cct.clean_code_attribute.CONVENTIONAL.rule.title':
+    'This is a consistency rule, the code should be conventional.',
+  'cct.clean_code_attribute.CONVENTIONAL.advice':
     'To be conventional, the code needs to perform tasks with expected instructions, and adhere to a single choice across all instances when faced with equally good options.',
-  'issue.clean_code_attribute.DISTINCT': 'Not distinct',
-  'issue.clean_code_attribute.DISTINCT.title':
+  'cct.clean_code_attribute.DISTINCT': 'Not distinct',
+  'cct.clean_code_attribute.DISTINCT.rule': 'Distinct',
+  'cct.clean_code_attribute.DISTINCT.issue.title':
     'This is an adaptability issue, the code is not distinct enough.',
-  'issue.clean_code_attribute.DISTINCT.advice':
+  'cct.clean_code_attribute.DISTINCT.rule.title':
+    'This is an adaptability rule, the code should be distinct.',
+  'cct.clean_code_attribute.DISTINCT.advice':
     'To be distinct, the code needs to have procedures and data that are unique and distinctive, without unnecessary duplication.',
-  'issue.clean_code_attribute.EFFICIENT': 'Not efficient',
-  'issue.clean_code_attribute.EFFICIENT.title':
+  'cct.clean_code_attribute.EFFICIENT': 'Not efficient',
+  'cct.clean_code_attribute.EFFICIENT.rule': 'Efficient',
+  'cct.clean_code_attribute.EFFICIENT.issue.title':
     'This is an intentionality issue, the code is not efficient enough.',
-  'issue.clean_code_attribute.EFFICIENT.advice':
+  'cct.clean_code_attribute.EFFICIENT.rule.title':
+    'This is an intentionality rule, the code should be efficient.',
+  'cct.clean_code_attribute.EFFICIENT.advice':
     'To be efficient, the code needs to use resources without needless waste, and prioritize economical options when available.',
-  'issue.clean_code_attribute.FOCUSED': 'Not focused',
-  'issue.clean_code_attribute.FOCUSED.title':
+  'cct.clean_code_attribute.FOCUSED': 'Not focused',
+  'cct.clean_code_attribute.FOCUSED.rule': 'Focused',
+  'cct.clean_code_attribute.FOCUSED.issue.title':
     'This is an adaptability issue, the code is not focused enough.',
-  'issue.clean_code_attribute.FOCUSED.advice':
+  'cct.clean_code_attribute.FOCUSED.rule.title':
+    'This is an adaptability rule, the code should be focused.',
+  'cct.clean_code_attribute.FOCUSED.advice':
     'To be focused, the code needs to have a single, narrow, and specific scope. Each of its units should have only one concise purpose.',
-  'issue.clean_code_attribute.FORMATTED': 'Not formatted',
-  'issue.clean_code_attribute.FORMATTED.title':
+  'cct.clean_code_attribute.FORMATTED': 'Not formatted',
+  'cct.clean_code_attribute.FORMATTED.rule': 'Formatted',
+  'cct.clean_code_attribute.FORMATTED.issue.title':
     'This is a consistency issue, the code is not formatted enough.',
-  'issue.clean_code_attribute.FORMATTED.advice':
+  'cct.clean_code_attribute.FORMATTED.rule.title':
+    'This is a consistency rule, the code should be formatted.',
+  'cct.clean_code_attribute.FORMATTED.advice':
     'To be formatted, the code needs to be presented in a systematic and regular way, with the same non-semantic choices used over all the codebase.',
-  'issue.clean_code_attribute.IDENTIFIABLE': 'Not identifiable',
-  'issue.clean_code_attribute.IDENTIFIABLE.title':
+  'cct.clean_code_attribute.IDENTIFIABLE': 'Not identifiable',
+  'cct.clean_code_attribute.IDENTIFIABLE.rule': 'Identifiable',
+  'cct.clean_code_attribute.IDENTIFIABLE.issue.title':
     'This is a consistency issue, the code is not identifiable enough.',
-  'issue.clean_code_attribute.IDENTIFIABLE.advice':
+  'cct.clean_code_attribute.IDENTIFIABLE.rule.title':
+    'This is a consistency rule, the code should be identifiable.',
+  'cct.clean_code_attribute.IDENTIFIABLE.advice':
     'To be identifiable, the code needs to include names and identifiers with a regular structure based on language conventions.',
-  'issue.clean_code_attribute.LAWFUL': 'Not lawful',
-  'issue.clean_code_attribute.LAWFUL.title':
+  'cct.clean_code_attribute.LAWFUL': 'Not lawful',
+  'cct.clean_code_attribute.LAWFUL.rule': 'Lawful',
+  'cct.clean_code_attribute.LAWFUL.issue.title':
     'This is a responsibility issue, the code is not lawful enough.',
-  'issue.clean_code_attribute.LAWFUL.advice':
+  'cct.clean_code_attribute.LAWFUL.rule.title':
+    'This is a responsibility rule, the code should be lawful.',
+  'cct.clean_code_attribute.LAWFUL.advice':
     'To be lawful, the code needs to respect licensing and copyright regulation.',
-  'issue.clean_code_attribute.LOGICAL': 'Not logical',
-  'issue.clean_code_attribute.LOGICAL.title':
+  'cct.clean_code_attribute.LOGICAL': 'Not logical',
+  'cct.clean_code_attribute.LOGICAL.rule': 'Logical',
+  'cct.clean_code_attribute.LOGICAL.issue.title':
     'This is an intentionality issue, the code is not logical enough.',
-  'issue.clean_code_attribute.LOGICAL.advice':
+  'cct.clean_code_attribute.LOGICAL.rule.title':
+    'This is an intentionality rule, the code should be logical.',
+  'cct.clean_code_attribute.LOGICAL.advice':
     'To be logical, the code needs to have well-formed and sound instructions that work together, and be free of explicit errors.',
-  'issue.clean_code_attribute.MODULAR': 'Not modular',
-  'issue.clean_code_attribute.MODULAR.title':
+  'cct.clean_code_attribute.MODULAR': 'Not modular',
+  'cct.clean_code_attribute.MODULAR.rule': 'Modular',
+  'cct.clean_code_attribute.MODULAR.issue.title':
     'This is an adaptability issue, the code is not modular enough.',
-  'issue.clean_code_attribute.MODULAR.advice':
+  'cct.clean_code_attribute.MODULAR.rule.title':
+    'This is an adaptability rule, the code should be modular.',
+  'cct.clean_code_attribute.MODULAR.advice':
     'To be modular, the code needs to be organized and distributed to emphasize the separation between its parts.',
-  'issue.clean_code_attribute.RESPECTFUL': 'Not respectful',
-  'issue.clean_code_attribute.RESPECTFUL.title':
+  'cct.clean_code_attribute.RESPECTFUL': 'Not respectful',
+  'cct.clean_code_attribute.RESPECTFUL.rule': 'Respectful',
+  'cct.clean_code_attribute.RESPECTFUL.issue.title':
     'This is a responsibility issue, the code is not respectful enough.',
-  'issue.clean_code_attribute.RESPECTFUL.advice':
+  'cct.clean_code_attribute.RESPECTFUL.rule.title':
+    'This is a responsibility rule, the code should be respectful.',
+  'cct.clean_code_attribute.RESPECTFUL.advice':
     'To be respectful, the code needs to refrain from using discriminatory and offensive language.',
-  'issue.clean_code_attribute.TESTED': 'Not tested',
-  'issue.clean_code_attribute.TESTED.title':
+  'cct.clean_code_attribute.TESTED': 'Not tested',
+  'cct.clean_code_attribute.TESTED.rule': 'Tested',
+  'cct.clean_code_attribute.TESTED.issue.title':
     'This is an adaptability issue, the code is not tested enough.',
-  'issue.clean_code_attribute.TESTED.advice':
+  'cct.clean_code_attribute.TESTED.rule.title':
+    'This is an adaptability rule, the code should be tested.',
+  'cct.clean_code_attribute.TESTED.advice':
     'To be tested, the code needs to have automated functional tests that provide confidence in the functionality.',
-  'issue.clean_code_attribute.TRUSTWORTHY': 'Not trustworthy',
-  'issue.clean_code_attribute.TRUSTWORTHY.title':
+  'cct.clean_code_attribute.TRUSTWORTHY': 'Not trustworthy',
+  'cct.clean_code_attribute.TRUSTWORTHY.rule': 'Trustworthy',
+  'cct.clean_code_attribute.TRUSTWORTHY.issue.title':
     'This is a responsibility issue, the code is not trustworthy enough.',
-  'issue.clean_code_attribute.TRUSTWORTHY.advice':
+  'cct.clean_code_attribute.TRUSTWORTHY.rule.title':
+    'This is a responsibility rule, the code should be trustworthy.',
+  'cct.clean_code_attribute.TRUSTWORTHY.advice':
     'To be trustworthy, the code needs to abstain from revealing or hard-coding private information.',
 
   'issue.issue_status.OPEN': 'Open',
@@ -6262,56 +6309,24 @@ export const defaultMessages = {
     'Issues found for this rule will have a {severity} impact on the {quality} of your software.',
 
   'rule.clean_code_attribute_category.CONSISTENT': 'Consistency',
-  'rule.clean_code_attribute_category.CONSISTENT.title': 'This is a consistency rule.',
   'rule.clean_code_attribute_category.INTENTIONAL': 'Intentionality',
-  'rule.clean_code_attribute_category.INTENTIONAL.title': 'This is an intentionality rule.',
   'rule.clean_code_attribute_category.ADAPTABLE': 'Adaptability',
-  'rule.clean_code_attribute_category.ADAPTABLE.title': 'This is an adaptability rule.',
   'rule.clean_code_attribute_category.RESPONSIBLE': 'Responsibility',
-  'rule.clean_code_attribute_category.RESPONSIBLE.title': 'This is a responsibility rule.',
 
   'rule.clean_code_attribute.CLEAR': 'Clear',
-  'rule.clean_code_attribute.CLEAR.title':
-    'This is an intentionality rule, the code should be clear.',
   'rule.clean_code_attribute.COMPLETE': 'Complete',
-  'rule.clean_code_attribute.COMPLETE.title':
-    'This is a intentionality rule, the code should be complete.',
   'rule.clean_code_attribute.CONVENTIONAL': 'Conventional',
-  'rule.clean_code_attribute.CONVENTIONAL.title':
-    'This is a consistency rule, the code should be conventional.',
   'rule.clean_code_attribute.DISTINCT': 'Distinct',
-  'rule.clean_code_attribute.DISTINCT.title':
-    'This is an adaptability rule, the code should be distinct.',
   'rule.clean_code_attribute.EFFICIENT': 'Efficient',
-  'rule.clean_code_attribute.EFFICIENT.title':
-    'This is an intentionality rule, the code should be efficient.',
   'rule.clean_code_attribute.FOCUSED': 'Focused',
-  'rule.clean_code_attribute.FOCUSED.title':
-    'This is an adaptability rule, the code should be focused.',
   'rule.clean_code_attribute.FORMATTED': 'Formatted',
-  'rule.clean_code_attribute.FORMATTED.title':
-    'This is a consistency rule, the code should be formatted.',
   'rule.clean_code_attribute.IDENTIFIABLE': 'Identifiable',
-  'rule.clean_code_attribute.IDENTIFIABLE.title':
-    'This is a consistency rule, the code should be identifiable.',
   'rule.clean_code_attribute.LAWFUL': 'Lawful',
-  'rule.clean_code_attribute.LAWFUL.title':
-    'This is a responsibility rule, the code should be lawful.',
   'rule.clean_code_attribute.LOGICAL': 'Logical',
-  'rule.clean_code_attribute.LOGICAL.title':
-    'This is an intentionality rule, the code should be logical.',
   'rule.clean_code_attribute.MODULAR': 'Modular',
-  'rule.clean_code_attribute.MODULAR.title':
-    'This is an adaptability rule, the code should be modular.',
   'rule.clean_code_attribute.RESPECTFUL': 'Respectful',
-  'rule.clean_code_attribute.RESPECTFUL.title':
-    'This is a responsibility rule, the code should be respectful.',
   'rule.clean_code_attribute.TESTED': 'Tested',
-  'rule.clean_code_attribute.TESTED.title':
-    'This is an adaptability rule, the code should be tested.',
   'rule.clean_code_attribute.TRUSTWORTHY': 'Trustworthy',
-  'rule.clean_code_attribute.TRUSTWORTHY.title':
-    'This is a responsibility rule, the code should be trustworthy.',
 
   //------------------------------------------------------------------------------
   //

@@ -390,7 +390,7 @@ function getPageObject() {
       ),
     severityOption: (severity: SoftwareImpactSeverity) => byText(`severity_impact.${severity}`),
     cleanCodeAttribute: (category: CodeAttributeCategory) =>
-      byText(`issue.clean_code_attribute_category.${category}`),
+      byText(`cct.clean_code_attribute_category.${category}`),
     issueType: (type: IssueType) => byText(`issue.type.${type}`),
     standardSeverity: (severity: IssueSeverity) => byText(`severity.${severity}`),
     standardSeverityPopoverButton: (type: IssueType, severity: IssueSeverity) =>

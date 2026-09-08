@@ -22,11 +22,11 @@ import { LinkStandalone } from '@sonarsource/echoes-react';
 import { isEqual } from 'lodash';
 import { useIntl } from 'react-intl';
 import { ActionCell, ContentCell, Table, TableRowInteractive } from '~design-system';
+import { CleanCodeAttributePill } from '~shared/components/badges/CleanCodeAttributePill';
 import { SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
 import { IssueSeverity } from '~shared/types/issues';
 import { CompareResponse, RuleCompare } from '~sq-server-commons/api/quality-profiles';
 import IssueSeverityIcon from '~sq-server-commons/components/icon-mappers/IssueSeverityIcon';
-import { CleanCodeAttributePill } from '~sq-server-commons/components/shared/CleanCodeAttributePill';
 import SoftwareImpactPillList from '~sq-server-commons/components/shared/SoftwareImpactPillList';
 import { getRulesUrl } from '~sq-server-commons/helpers/urls';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
@@ -243,6 +243,7 @@ function RuleCell({ rule, severity, impacts }: Readonly<RuleCellProps>) {
             <li>
               <CleanCodeAttributePill
                 cleanCodeAttributeCategory={rule.cleanCodeAttributeCategory}
+                type="rule"
               />
             </li>
           )}

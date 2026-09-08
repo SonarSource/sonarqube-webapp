@@ -63,11 +63,11 @@ it('renders correctly', async () => {
 
   // CCT attribute
   const cctBadge = await byText(
-    `issue.clean_code_attribute_category.${issue.cleanCodeAttributeCategory}`,
+    `cct.clean_code_attribute_category.${issue.cleanCodeAttributeCategory}`,
   ).find();
   expect(cctBadge).toBeInTheDocument();
   await expect(cctBadge).toHaveAPopoverWithContent(
-    `issue.clean_code_attribute.${issue.cleanCodeAttribute}`,
+    `cct.clean_code_attribute.${issue.cleanCodeAttribute}`,
   );
 
   // Software Qualities

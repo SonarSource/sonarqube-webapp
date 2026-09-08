@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { CleanCodeAttributePill } from '~shared/components/badges/CleanCodeAttributePill';
 import { useStandardExperienceModeQuery } from '../../../queries/mode';
 import { BranchLike } from '../../../types/branch-like';
 import { Issue } from '../../../types/types';
-import { CleanCodeAttributePill } from '../../shared/CleanCodeAttributePill';
 import IssueMessage from './IssueMessage';
 
 export interface IssueTitleBarProps {

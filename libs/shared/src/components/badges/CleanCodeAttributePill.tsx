@@ -19,8 +19,8 @@
  */
 
 import { Badge, Popover } from '@sonarsource/echoes-react';
-import { CodeAttribute, CodeAttributeCategory } from '~shared/types/clean-code-taxonomy';
-import { translate } from '../../helpers/l10n';
+import { useIntl } from 'react-intl';
+import { CodeAttribute, CodeAttributeCategory } from '../../types/clean-code-taxonomy';
 
 export interface Props {
   className?: string;
@@ -31,28 +31,45 @@ export interface Props {
 
 export function CleanCodeAttributePill(props: Readonly<Props>) {
   const { className, cleanCodeAttributeCategory, cleanCodeAttribute, type = 'issue' } = props;
+  const { formatMessage: translate } = useIntl();
+  const attributeKey = cleanCodeAttribute
+    ? 'clean_code_attribute'
+    : 'clean_code_attribute_category';
+  const attributeValue = cleanCodeAttribute ?? cleanCodeAttributeCategory;
 
   return (
     <Popover
-      description={translate(
-        'issue',
-        cleanCodeAttribute ? 'clean_code_attribute' : 'clean_code_attribute_category',
-        cleanCodeAttribute ?? cleanCodeAttributeCategory,
-        'advice',
-      )}
-      title={translate(
-        type,
-        cleanCodeAttribute ? 'clean_code_attribute' : 'clean_code_attribute_category',
-        cleanCodeAttribute ?? cleanCodeAttributeCategory,
-        'title',
-      )}
+      description={translate({
+        id: `cct.${attributeKey}.${attributeValue}.advice`,
+      })}
+      title={
+        cleanCodeAttribute
+          ? translate({ id: `cct.clean_code_attribute.${cleanCodeAttribute}.${type}.title` })
+          : translate({ id: `cct.clean_code_attribute_category.${attributeValue}.title` }, { type })
+      }
     >
-      <Badge className={className} data-guiding-id="issue-1" isInteractive variety="info">
+      <Badge
+        className={className}
+        data-guiding-id="issue-1"
+        data-spotlight-id="issue-1"
+        isInteractive
+        variety="info"
+      >
         <span className={cleanCodeAttribute ? 'sw-font-semibold' : ''}>
-          {translate(type, 'clean_code_attribute_category', cleanCodeAttributeCategory)}
+          {translate({
+            id: `cct.clean_code_attribute_category.${cleanCodeAttributeCategory}`,
+          })}
         </span>
         {cleanCodeAttribute && (
-          <span> | {translate(type, 'clean_code_attribute', cleanCodeAttribute)}</span>
+          <>
+            {' | '}
+            {translate({
+              id:
+                type === 'rule'
+                  ? `cct.clean_code_attribute.${cleanCodeAttribute}.rule`
+                  : `cct.clean_code_attribute.${cleanCodeAttribute}`,
+            })}
+          </>
         )}
       </Badge>
     </Popover>
