@@ -21,6 +21,8 @@
 import { generatePath, Path } from 'react-router-dom';
 import { getBaseUrl } from '~adapters/helpers/system';
 import { queryToSearchString } from '~shared/helpers/query';
+import { getComponentIssuesUrl } from '~shared/helpers/urls';
+import { ComponentQualifier } from '~shared/types/component';
 import { RawQuery } from '~shared/types/router';
 import {
   PROJECT_BUILT_IN_DASHBOARD_ROUTE,
@@ -75,4 +77,12 @@ export function getProjectInformationUrl(project: string): Partial<Path> {
     pathname: '/project/information',
     search: queryToSearchString({ id: project }),
   };
+}
+
+export function getComplianceIssuesLinkUrl(
+  componentKey: string,
+  _qualifier: ComponentQualifier,
+  query?: RawQuery,
+): Partial<Path> | undefined {
+  return getComponentIssuesUrl(componentKey, query);
 }
