@@ -10973,6 +10973,16 @@ export const defaultMessages = {
     'To keep using the product uninterrupted, consider increasing your overage limit.',
   'license.products.usage_tip.overage.reached.prompt.manage':
     'To keep using the product, consider increasing your overage limit.',
+  'license.products.usage_tip.overage.spent.usage_title': 'Usage',
+  'license.products.usage_tip.overage.spent.usage_value':
+    '{used} out of {limit} overage limit used',
+  'license.products.usage_tip.overage.spent.title': 'Spent',
+  'license.products.usage_tip.overage.spent.value': '{amount} plus taxes',
+  'license.products.usage_tip.overage.spent.minimum_charge_note':
+    'The minimum charge equals the price of {count} {unit}, so you will pay for {count} {unit} even if you use fewer.',
+  'license.products.usage_tip.overage.spent.tax_note':
+    'We calculate taxes based on the exchange rate and tax rules on the invoice date.',
+  'license.products.usage_tip.overage.spent.generic_unit': 'units',
   'license.products.valid_until': 'Valid until',
   'license.products.view_demo': 'View demo',
   'license.refresh_license': 'Refresh license',
