@@ -45,7 +45,9 @@ interface Props {
 
 /**
  * "Analyze your projects" detail panel. Left: a donut breaking projects into analyzed, not scanned
- * and not-yet-imported (the analyzed segment is omitted when nothing has been analyzed yet).
+ * and not-yet-imported (the analyzed segment is omitted when nothing has been analyzed yet),
+ * centred on the analyzed percentage. "Analyzed" is the scan-status dimension, so it spans every
+ * analysis mode the product supports — CI, locally run scanners, and automatic analysis on SQ-Cloud.
  * Right: action cards nudging the user to fix or import projects.
  */
 export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
@@ -132,10 +134,9 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
           { id: 'onboarding_dashboard.percent' },
           { percent: analyzedPct },
         )}
-        centerSubLabel={formatMessage(
-          { id: 'onboarding_dashboard.journey.step.count' },
-          { done: analyzed, total: totalProjects },
-        )}
+        centerSubLabel={formatMessage({
+          id: 'onboarding_dashboard.journey.analyze.analyzed_label',
+        })}
         segments={segments}
       />
 

@@ -40,13 +40,14 @@ interface Props {
 }
 
 /**
- * "Import repositories" detail panel. Left: a donut of imported vs not-yet-imported repositories.
+ * "Import repositories" detail panel. Left: a donut of imported vs not-yet-imported repositories,
+ * centred on the imported percentage.
  * Right: the product's extra import card (auto-import toggle on SQC, CLI bulk-import card on SQS),
  * which is told whether everything is already imported.
  */
 export function ImportRepositoriesPanel({ onSelectStep, state }: Readonly<Props>) {
   const { formatMessage } = useIntl();
-  const { discovered, imported, importedPct, notYetImported } = state;
+  const { imported, importedPct, notYetImported } = state;
 
   const segments: PanelDonutSegment[] = [
     ...(imported > 0
@@ -75,10 +76,9 @@ export function ImportRepositoriesPanel({ onSelectStep, state }: Readonly<Props>
           { id: 'onboarding_dashboard.percent' },
           { percent: importedPct },
         )}
-        centerSubLabel={formatMessage(
-          { id: 'onboarding_dashboard.journey.step.count' },
-          { done: imported, total: discovered },
-        )}
+        centerSubLabel={formatMessage({
+          id: 'onboarding_dashboard.journey.import.imported_label',
+        })}
         segments={segments}
         viewAll={
           <ImportRepositoriesModal>

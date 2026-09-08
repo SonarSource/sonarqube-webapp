@@ -43,7 +43,7 @@ interface TooltipPos {
 interface Props {
   /** Large value shown at the center of the ring, e.g. "64%" or a configuration count. */
   centerLabel: ReactNode;
-  /** Secondary line under the center label, e.g. "48 / 120". */
+  /** Already-translated line under the center label naming what it measures, e.g. "Imported". */
   centerSubLabel: string;
   /** Segments driving both the ring and the legend. */
   segments: PanelDonutSegment[];

@@ -188,6 +188,7 @@ const ui = {
   extraCard: byTestId('import-extra-card'),
   importCta: byRole('button', { name: 'onboarding_dashboard.journey.import.cta' }),
   importedLegend: byText('onboarding_dashboard.journey.import.legend.imported'),
+  importedCenterLabel: byText('onboarding_dashboard.journey.import.imported_label'),
   notImportedLegend: byText('onboarding_dashboard.journey.import.legend.not_imported'),
   nextCta: byRole('button', { name: 'next' }),
 
@@ -196,6 +197,7 @@ const ui = {
 
   // Analyze panel
   analyzedLegend: byText('onboarding_dashboard.journey.analyze.legend.analyzed'),
+  analyzedCenterLabel: byText('onboarding_dashboard.journey.analyze.analyzed_label'),
   notScannedLegend: byText('onboarding_dashboard.journey.analyze.legend.not_scanned'),
   notImportedAnalyzeLegend: byText('onboarding_dashboard.journey.analyze.legend.not_imported'),
   fixCta: byRole('button', { name: 'onboarding_dashboard.journey.analyze.not_scanned.cta' }),
@@ -205,6 +207,10 @@ const ui = {
   // Not-scanned/not-imported counts now live in a "{count} projects" badge; full CI keeps it inline.
   notScannedCount: byText('onboarding_dashboard.journey.analyze.projects_count.7'),
   notImportedCount: byText('onboarding_dashboard.journey.analyze.projects_count.20'),
+
+  // Donut centre sub-label. The old "<done> / <total>" line renders through the intl mock as
+  // `onboarding_dashboard.journey.step.count.<done>.<total>`; no panel should show it any more.
+  donutStepCount: byText(/^onboarding_dashboard\.journey\.step\.count/),
 };
 
 function renderPanel(
@@ -368,6 +374,9 @@ it('renders only the not-imported donut segment before any repository is importe
   expect(ui.notImportedLegend.get()).toBeInTheDocument();
   expect(ui.importedLegend.query()).not.toBeInTheDocument();
 
+  // The centre still names what the percentage measures, even with no "Imported" segment.
+  expect(ui.importedCenterLabel.get()).toBeInTheDocument();
+
   // Both footer actions are always present.
   // Awaited: the SQS import CTA fetches its ALM bindings on mount and stays in its own loading
   // state (covered by ImportRepositoriesCta's own test) until that settles.
@@ -384,6 +393,11 @@ it('renders both donut segments once repositories are imported', async () => {
   // Both donut segments are present once something is imported.
   expect(ui.importedLegend.get()).toBeInTheDocument();
   expect(ui.notImportedLegend.get()).toBeInTheDocument();
+
+  // The ring centre reads "<pct>% / Imported", matching the DevOps-configurations donut, rather
+  // than the "<imported> / <discovered>" count it used to show.
+  expect(ui.importedCenterLabel.get()).toBeInTheDocument();
+  expect(ui.donutStepCount.query()).not.toBeInTheDocument();
 });
 
 it('navigates to the analyze step when the next button is clicked', async () => {
@@ -422,6 +436,10 @@ it('renders the analyze panel with its three legend entries and two action rows'
   expect(ui.analyzedLegend.get()).toBeInTheDocument();
   expect(ui.notScannedLegend.get()).toBeInTheDocument();
   expect(ui.notImportedAnalyzeLegend.get()).toBeInTheDocument();
+
+  // The ring centre reads "<pct>% / Analyzed" instead of an "<analyzed> / <total>" count.
+  expect(ui.analyzedCenterLabel.get()).toBeInTheDocument();
+  expect(ui.donutStepCount.query()).not.toBeInTheDocument();
 
   // Two action rows, each with its own CTA...
   expect(ui.fixCta.get()).toBeInTheDocument();
@@ -566,6 +584,9 @@ it('omits the analyzed legend entry when nothing has been analyzed', () => {
   expect(ui.analyzedLegend.query()).not.toBeInTheDocument();
   expect(ui.notScannedLegend.get()).toBeInTheDocument();
   expect(ui.notImportedAnalyzeLegend.get()).toBeInTheDocument();
+
+  // The centre still names what the percentage measures, even with no "Analyzed" segment.
+  expect(ui.analyzedCenterLabel.get()).toBeInTheDocument();
 });
 
 it('omits the analyzed legend when the reported counts leave no room for it', () => {

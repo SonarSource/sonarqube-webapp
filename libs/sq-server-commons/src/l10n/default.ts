@@ -11465,6 +11465,7 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.import.cli_description':
     'Use our CLI tool to import high quantities of repositories at the same time.',
   'onboarding_dashboard.journey.import.cli_cta': 'Import via CLI',
+  'onboarding_dashboard.journey.import.imported_label': 'Imported',
   'onboarding_dashboard.journey.import.view_all': 'View all',
   'onboarding_dashboard.journey.import.legend.imported': 'Imported',
   'onboarding_dashboard.journey.import.legend.not_imported': 'Not imported',
@@ -11473,6 +11474,7 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.import.modal.col.visibility': 'Visibility',
   'onboarding_dashboard.journey.import.modal.col.status': 'Status',
   'onboarding_dashboard.journey.import.modal.platform_select.label': 'Choose platform',
+  'onboarding_dashboard.journey.analyze.analyzed_label': 'Analyzed',
   'onboarding_dashboard.journey.analyze.title': 'Analyze your projects',
   'onboarding_dashboard.journey.analyze.description':
     'For full coverage and deep insights, consider moving as many projects as you can to a Full CI configuration.',
