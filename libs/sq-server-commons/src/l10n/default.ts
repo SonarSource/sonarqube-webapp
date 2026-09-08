@@ -10744,6 +10744,39 @@ export const defaultMessages = {
   'license.license_information': 'License information',
   'license.license_key': 'License key',
   'license.license_usage': 'License usage',
+  'license.loc_usage.title': 'Lines of code',
+  'license.loc_usage.purchased.title': 'Purchased LOC',
+  'license.loc_usage.purchased.description': 'Included in your license',
+  'license.loc_usage.purchased.analyzed_out_of': '{analyzed} lines analyzed out of {purchased}',
+  'license.loc_usage.overage.title': 'Overage',
+  'license.loc_usage.overage.tooltip.title': 'LOC overage',
+  'license.loc_usage.overage.tooltip.description':
+    'Overage is additional lines you can use beyond your purchased plan, billed monthly.',
+  'license.loc_usage.overage.tooltip.usage_title': 'Usage',
+  'license.loc_usage.overage.tooltip.usage_limit': '{used} / {limit} overage limit',
+  'license.loc_usage.overage.tooltip.cost': '{cost} plus taxes',
+  'license.loc_usage.overage.tooltip.tax_note':
+    'Tax will be calculated based on the exchange rate and tax rules in effect on the date the invoice is issued',
+  'license.loc_usage.overage.billable_marker.tooltip':
+    'Highest overage reached this cycle. Your bill is based on this, not your current usage.',
+  'license.loc_usage.overage.resets_on': 'Resets on {date}',
+  'license.loc_usage.overage.limit_reached': 'Limit reached',
+  'license.loc_usage.overage.limit_reached.tooltip':
+    "You've reached your monthly usage limit. Your limit resets on {date}. To keep using the product, increase overage limit.",
+  'license.loc_usage.overage.deactivated.tooltip':
+    'You turned off LOC overage. Activate it again to avoid service interruptions when reaching your limit.',
+  'license.loc_usage.overage.offline.tooltip':
+    'Overage is deactivated as your instance is offline. Allow your instance to reach {url} and try again.',
+  'license.loc_usage.overage.sales_gated.tooltip':
+    'Overage is additional lines you can use beyond your purchased plan, billed monthly. Overage is deactivated for your organization. Contact our sales team to activate or to learn more about the overage.',
+  'license.loc_usage.overage.misprovisioned.tooltip':
+    'Overage is additional lines you can use beyond your purchased plan, billed monthly. Required overage settings are missing from your license. Contact SonarSource support to resolve this.',
+  'license.loc_usage.ratio': '{used}/{limit}',
+  'license.loc_usage.legend.purchased_analyzed': 'Purchased lines analyzed',
+  'license.loc_usage.legend.overage_analyzed': 'Overage lines analyzed',
+  'license.loc_usage.legend.overage_billable': 'Overage Billable ({value})',
+  'license.loc_usage.legend.overage_billable.tooltip':
+    "The highest reading this period, which is what's billed even if analysis has since dropped back down.",
   'license.ncloc_lines_analyzed': '{ncloc} lines currently analyzed',
   'license.no_license.not_added': "It seems like you haven't added any license yet.",
   'license.no_license.reach_out':
@@ -10751,7 +10784,7 @@ export const defaultMessages = {
   'license.no_license': "You don't have any license",
   'license.not_production_database_warning':
     'This license key is valid only for the embedded database, which should be considered disposable. Consider configuring an external database for long-term use and requesting a new license key.',
-  'license.notification_threshold': 'Notification threshold:',
+  'license.notification_threshold': 'Notification threshold',
   'license.notification_threshold.lines_of_code': '{ncloc} remaining lines of code',
   'license.offline.obtain_req_file.button': 'Download .req file',
   'license.offline.obtain_req_file.helptext':
@@ -10776,6 +10809,9 @@ export const defaultMessages = {
   'license.products.explore.title': 'Explore new products',
   'license.products.explore.trial_prompt': 'To try new products. {link}',
   'license.products.explore.talk_to_sales': 'Talk to sales',
+  // Not a row in the Active Products table (LOC has its own usage card), but OverageDialog looks
+  // up this key for any product it's given, LOC included, since it's product-agnostic.
+  'license.products.linesOfCode.title': 'Lines of code',
   'license.products.sqas.title': 'Advanced Security',
   'license.products.sqas.features':
     '<ul><li>Detect vulnerabilities in your third-party dependencies</li><li>Catch when malicious packages are used by developers</li><li>Use quality gates to prevent new risks from being added to your code</li></ul>',
@@ -11025,7 +11061,7 @@ export const defaultMessages = {
     'This SonarQube server is covered by your SonarSource support subscription.',
   'license.support_page.title': 'Support',
   'license.terms_and_conditions': 'terms and conditions',
-  'license.threshold.edit': 'Edit notification threshold',
+  'license.threshold.edit': 'Edit threshold',
   'license.threshold.explanation':
     'Once you reach this point, you will receive an email to inform you that you are approaching your limit of authorized lines of code for analysis.',
   'license.threshold.tooltip': 'This is your notification threshold',
