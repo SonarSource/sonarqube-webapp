@@ -190,12 +190,13 @@ export default function GitHubAuthenticationTab() {
                 onClick={() => {
                   setIsManifestModalOpen(true);
                 }}
-                variety={ButtonVariety.Default}
+                variety={ButtonVariety.Primary}
               >
                 <FormattedMessage id="settings.almintegration.github.manifest.create" />
               </Button>
             ) : undefined
           }
+          isCreateSecondary
           onCreate={() => {
             setIsFormOpen(true);
           }}

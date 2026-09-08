@@ -29,6 +29,7 @@ interface Props {
   onCreate: () => void;
   showCreate: boolean;
   title: string;
+  isCreateSecondary?: boolean;
 }
 
 export default function TabHeader({
@@ -37,6 +38,7 @@ export default function TabHeader({
   onCreate,
   configurationValidity,
   extraAction,
+  isCreateSecondary,
 }: Readonly<Props>) {
   return (
     <>
@@ -45,8 +47,17 @@ export default function TabHeader({
         {(showCreate || extraAction) && (
           <div className="sw-mt-2 sw-flex sw-gap-2">
             {showCreate && (
-              <Button onClick={onCreate} variety={ButtonVariety.Primary}>
-                <FormattedMessage id="settings.authentication.form.create" />
+              <Button
+                onClick={onCreate}
+                variety={isCreateSecondary ? ButtonVariety.Default : ButtonVariety.Primary}
+              >
+                <FormattedMessage
+                  id={
+                    isCreateSecondary
+                      ? 'settings.authentication.form.create.manual'
+                      : 'settings.authentication.form.create'
+                  }
+                />
               </Button>
             )}
             {extraAction}

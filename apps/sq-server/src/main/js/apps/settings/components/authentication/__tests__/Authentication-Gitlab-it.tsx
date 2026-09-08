@@ -61,6 +61,9 @@ const ui = {
   createConfigButton: glContainer.byRole('button', {
     name: 'settings.authentication.form.create',
   }),
+  manualCreateConfigButton: glContainer.byRole('button', {
+    name: 'settings.authentication.form.create.manual',
+  }),
   editConfigButton: glContainer.byRole('button', {
     name: 'settings.authentication.form.edit',
   }),
@@ -214,6 +217,8 @@ it('should create a Gitlab configuration and disable it with proper validation',
 
   expect(await ui.noGitlabConfiguration.find()).toBeInTheDocument();
   expect(ui.createConfigButton.get()).toBeInTheDocument();
+  // GitLab has no secondary creation flow, so the button keeps the generic label.
+  expect(ui.manualCreateConfigButton.query()).not.toBeInTheDocument();
 
   await user.click(ui.createConfigButton.get());
   expect(await ui.createDialog.find()).toBeInTheDocument();

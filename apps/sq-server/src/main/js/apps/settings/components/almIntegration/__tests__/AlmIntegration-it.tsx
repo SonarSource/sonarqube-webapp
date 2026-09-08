@@ -112,7 +112,54 @@ describe('github tab', () => {
     await ui.deleteConfiguration('New Name');
     expect(ui.emptyIntro(AlmKeys.GitHub).get()).toBeInTheDocument();
   });
+
+  it('leads with the GitHub App creation and offers manual configuration alongside it', async () => {
+    const { ui } = getPageObjects();
+    renderAlmIntegration();
+    expect(await ui.almHeading.find()).toBeInTheDocument();
+
+    expect(ui.createGithubAppButton.get()).toBeEnabled();
+    expect(ui.configureManuallyButton.get()).toBeEnabled();
+    // The generic label belongs to the other tabs; GitHub relabels manual creation.
+    expect(ui.createConfigurationButton.query()).not.toBeInTheDocument();
+  });
+
+  it('opens the GitHub App manifest modal from the app creation button', async () => {
+    const { ui, user } = getPageObjects();
+    renderAlmIntegration();
+    expect(await ui.almHeading.find()).toBeInTheDocument();
+
+    await user.click(ui.createGithubAppButton.get());
+
+    expect(await ui.manifestModalDescription.find()).toBeInTheDocument();
+  });
+
+  it('opens the manual configuration form from the manual configuration button', async () => {
+    const { ui, user } = getPageObjects();
+    renderAlmIntegration();
+    expect(await ui.almHeading.find()).toBeInTheDocument();
+
+    await user.click(ui.configureManuallyButton.get());
+
+    expect(await ui.saveConfigurationButton.find()).toBeInTheDocument();
+    expect(ui.manifestModalDescription.query()).not.toBeInTheDocument();
+  });
 });
+
+it.each([AlmKeys.GitLab, AlmKeys.Azure, AlmKeys.BitbucketServer])(
+  'keeps the generic create configuration button and offers no GitHub App creation on the %s tab',
+  async (almKey: AlmKeys.Azure | AlmKeys.BitbucketServer | AlmKeys.GitLab) => {
+    const { ui, user } = getPageObjects();
+    renderAlmIntegration();
+    expect(await ui.almHeading.find()).toBeInTheDocument();
+
+    await user.click(ui.tab(almKey).get());
+
+    expect(ui.createConfigurationButton.get()).toBeEnabled();
+    expect(ui.configureManuallyButton.query()).not.toBeInTheDocument();
+    expect(ui.createGithubAppButton.query()).not.toBeInTheDocument();
+  },
+);
 
 describe.each([AlmKeys.GitLab, AlmKeys.Azure])(
   '%s tab',
@@ -200,7 +247,7 @@ it('closes the configuration form when the modal is dismissed', async () => {
   renderAlmIntegration();
   expect(await ui.almHeading.find()).toBeInTheDocument();
 
-  await user.click(await ui.createConfigurationButton.find());
+  await user.click(await ui.configureManuallyButton.find());
   expect(await ui.saveConfigurationButton.find()).toBeInTheDocument();
 
   // Dismissing the modal (e.g. via Escape) should cancel the form, not just the cancel button.
@@ -303,6 +350,12 @@ function getPageObjects() {
     serverBaseUrlMissingInformation: byText('settings.almintegration.empty.server_base_url'),
     emptyIntro: (almKey: AlmKeys) => byText(`settings.almintegration.empty.${almKey}`),
     createConfigurationButton: byRole('button', { name: 'settings.almintegration.create' }),
+    // GitHub leads with the App creation CTA, so its manual entry point is labelled differently.
+    configureManuallyButton: byRole('button', { name: 'settings.almintegration.create.manual' }),
+    createGithubAppButton: byRole('button', {
+      name: 'settings.almintegration.github.manifest.create',
+    }),
+    manifestModalDescription: byText('settings.almintegration.github.manifest.info'),
     tab: (almKey: AlmKeys) =>
       byRole('tab', { name: `${almKey} settings.almintegration.tab.${almKey}` }),
     bitbucketConfiguration: (almKey: AlmKeys.BitbucketCloud | AlmKeys.BitbucketServer) =>
@@ -332,7 +385,8 @@ function getPageObjects() {
     params: { [key: string]: string },
     almKey?: AlmKeys.BitbucketCloud | AlmKeys.BitbucketServer,
   ) {
-    await userEvent.click(ui.createConfigurationButton.get());
+    // The label of the manual creation button depends on the tab (see the selectors above).
+    await userEvent.click(ui.createConfigurationButton.query() ?? ui.configureManuallyButton.get());
     expect(ui.saveConfigurationButton.get()).toBeDisabled();
 
     if (almKey) {

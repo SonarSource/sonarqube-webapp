@@ -4120,10 +4120,11 @@ export const defaultMessages = {
   'settings.almintegration.empty.gitlab':
     'Create your first GitLab configuration to start analyzing your repositories on {productName}.',
   'settings.almintegration.create': 'Create configuration',
+  'settings.almintegration.create.manual': 'Configure manually',
   'settings.almintegration.create.tooltip':
     'Upgrade to {link} to integrate with multiple {alm} instances.',
   'settings.almintegration.create.tooltip.link': 'Enterprise Edition',
-  'settings.almintegration.github.manifest.create': 'Create app for me',
+  'settings.almintegration.github.manifest.create': 'Create GitHub App',
   'settings.almintegration.github.manifest.title': 'Create a GitHub App automatically',
   'settings.almintegration.github.manifest.info':
     'SonarQube will pre-configure a GitHub App with the required permissions and webhook for you.',
@@ -4276,6 +4277,7 @@ export const defaultMessages = {
     'Compatibility with GitHub OAuth App is deprecated and will be removed in a future release. Please check out the {link} for information on how to update your configuration.',
   'settings.authentication.help.link': 'documentation',
   'settings.authentication.form.create': 'Create configuration',
+  'settings.authentication.form.create.manual': 'Configure manually',
   'settings.authentication.form.edit': 'Edit',
   'settings.authentication.form.delete': 'Delete',
   'settings.authentication.form.delete.tooltip':

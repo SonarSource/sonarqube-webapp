@@ -91,9 +91,15 @@ export default function AlmTabRenderer(props: Readonly<AlmTabRendererProps>) {
                 data-test="settings__alm-create"
                 isDisabled={preventCreation}
                 onClick={props.onCreate}
-                variety={ButtonVariety.Primary}
+                variety={almTab === AlmKeys.GitHub ? ButtonVariety.Default : ButtonVariety.Primary}
               >
-                <FormattedMessage id="settings.almintegration.create" />
+                <FormattedMessage
+                  id={
+                    almTab === AlmKeys.GitHub
+                      ? 'settings.almintegration.create.manual'
+                      : 'settings.almintegration.create'
+                  }
+                />
               </Button>
             </CreationTooltip>
             {almTab === AlmKeys.GitHub && (
@@ -104,7 +110,7 @@ export default function AlmTabRenderer(props: Readonly<AlmTabRendererProps>) {
                   onClick={() => {
                     setManifestModalOpen(true);
                   }}
-                  variety={ButtonVariety.Default}
+                  variety={ButtonVariety.Primary}
                 >
                   <FormattedMessage id="settings.almintegration.github.manifest.create" />
                 </Button>

@@ -95,9 +95,17 @@ const ui = {
   tab: byRole('tab', { name: 'github GitHub' }),
   cancelDialogButton: byRole('alertdialog').byRole('button', { name: 'cancel' }),
   noGithubConfiguration: byText('settings.authentication.github.form.not_configured'),
+  // "Create GitHub App" is the primary CTA here, so manual creation carries the `.manual` label.
   createConfigButton: ghContainer.byRole('button', {
+    name: 'settings.authentication.form.create.manual',
+  }),
+  genericCreateConfigButton: ghContainer.byRole('button', {
     name: 'settings.authentication.form.create',
   }),
+  createGithubAppButton: ghContainer.byRole('button', {
+    name: 'settings.almintegration.github.manifest.create',
+  }),
+  manifestModalDescription: byText('settings.almintegration.github.manifest.info'),
   clientId: byRole('textbox', {
     name: 'property.clientId.name required',
   }),
@@ -272,6 +280,57 @@ describe('Github tab', () => {
     const user = userEvent.setup();
     await user.click(await ui.tab.find());
     expect(await ui.noGithubConfiguration.find()).toBeInTheDocument();
+  });
+
+  it('should lead with the GitHub App creation and demote manual configuration alongside it', async () => {
+    const user = userEvent.setup();
+    renderAuthentication();
+    await user.click(await ui.tab.find());
+
+    expect(await ui.createGithubAppButton.find()).toBeEnabled();
+    // The tab marks its create button as secondary, which relabels it as manual configuration.
+    expect(ui.createConfigButton.get()).toBeEnabled();
+    expect(ui.genericCreateConfigButton.query()).not.toBeInTheDocument();
+  });
+
+  it('should open the GitHub App manifest modal from the app creation button', async () => {
+    const user = userEvent.setup();
+    renderAuthentication();
+    await user.click(await ui.tab.find());
+
+    await user.click(await ui.createGithubAppButton.find());
+
+    expect(await ui.manifestModalDescription.find()).toBeInTheDocument();
+  });
+
+  it('should keep both creation buttons, with manual configuration demoted, for a legacy configuration', async () => {
+    const user = userEvent.setup();
+    // A legacy configuration still allows creation, so the demoted label must survive it.
+    dopTranslationHandler.gitHubConfigurations.push({
+      ...mockedGitHubConfigurationResponse,
+      applicationId: '',
+    });
+    renderAuthentication();
+    await user.click(await ui.tab.find());
+
+    expect(await ui.createGithubAppButton.find()).toBeEnabled();
+    expect(ui.createConfigButton.get()).toBeEnabled();
+    expect(ui.genericCreateConfigButton.query()).not.toBeInTheDocument();
+    // A configuration exists — it is just the legacy kind — yet creation is still offered.
+    expect(ui.noGithubConfiguration.query()).not.toBeInTheDocument();
+  });
+
+  it('should offer neither creation button once a configuration exists', async () => {
+    const user = userEvent.setup();
+    renderAuthentication();
+    await user.click(await ui.tab.find());
+
+    await ui.createConfiguration(user);
+
+    expect(await ui.editConfigButton.find()).toBeInTheDocument();
+    expect(ui.createConfigButton.query()).not.toBeInTheDocument();
+    expect(ui.genericCreateConfigButton.query()).not.toBeInTheDocument();
+    expect(ui.createGithubAppButton.query()).not.toBeInTheDocument();
   });
 
   it('should be able to create a configuration', async () => {
