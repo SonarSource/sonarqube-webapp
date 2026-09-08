@@ -10875,13 +10875,15 @@ export const defaultMessages = {
   'license.products.overage.dialog.manage.title': 'Manage overage for {product}',
   // Each of the next four pairs is the design's two copy sets: the plain key for an allowance that
   // runs to licence expiry, the `.monthly` one for an allowance that resets. Keep them in step.
-  'license.products.overage.dialog.acknowledge.title': 'Activate overage limit for {product}',
+  'license.products.overage.dialog.acknowledge.title': 'Activate overage for {product}',
   'license.products.overage.dialog.acknowledge.title.monthly':
-    'Activate monthly overage limit for {product}',
+    'Activate monthly overage for {product}',
   'license.products.overage.dialog.acknowledge.summary':
-    'You are activating overage for {product} with a limit of {limit} (≈{cost} plus applicable taxes)',
+    'You are activating extra usage for {product} up to {limit} (≈{cost} plus applicable taxes). Extra usage costs {blockCost} per block of {blockSize}, with a {blockCost} minimum monthly charge.',
+  'license.products.overage.dialog.acknowledge.tax_note':
+    'Prices are plus applicable taxes, calculated based on the exchange rate and tax rules in effect on the date the invoice is issued.',
   'license.products.overage.dialog.acknowledge.authorization':
-    'By activating overage, you represent that you are authorized to bind your organization to recurring charges up to your selected limit whenever your included allowance is exceeded.',
+    'By activating overage, you represent that you are authorized to bind your organization to monthly recurring charges up to your selected limit whenever your included allowance is exceeded.',
   'license.products.overage.dialog.acknowledge.consent':
     'I accept the Terms and Conditions and authorize billing for up to {limit}.',
   'license.products.overage.dialog.allow': 'Allow overage usage',
