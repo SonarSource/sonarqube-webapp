@@ -10857,7 +10857,7 @@ export const defaultMessages = {
   'license.products.overage.dialog.next': 'Next',
   'license.products.overage.dialog.activate': 'Activate overage',
   'license.products.overage.dialog.confirm_limit': 'Confirm new limit',
-  'license.products.overage.dialog.deactivate': 'Deactivate overage',
+  'license.products.overage.dialog.confirm_deactivation': 'Confirm',
   'license.products.overage.dialog.deactivate.warning':
     'Turning off overage will pause {product} as soon as you’ve used your limit, it won’t run again until your limit resets.',
   'license.products.overage.dialog.deactivate.warning.monthly':
