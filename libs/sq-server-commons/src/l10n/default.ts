@@ -2014,6 +2014,9 @@ export const defaultMessages = {
   'remediation_agent.error.dispatch_failed': 'Job could not be dispatched',
   'remediation_agent.error.dispatch_failed.context':
     'The agent job could not be queued for processing. Please try again.',
+  'remediation_agent.error.dispatch_timeout': 'Job dispatch timed out',
+  'remediation_agent.error.dispatch_timeout.context':
+    'The job took too long to prepare and dispatch to the agent. Please try again later.',
   'remediation_agent.error.entity_initialization_failed': 'Job setup failed',
   'remediation_agent.error.entity_initialization_failed.context':
     'An internal error occurred while setting up the job. Please try again later.',
@@ -2065,6 +2068,9 @@ export const defaultMessages = {
   'remediation_agent.error.quota_exceeded': 'Processing quota reached',
   'remediation_agent.error.quota_exceeded.context':
     'The processing quota for this instance has been reached. Ask an instance administrator to review the quota.',
+  'remediation_agent.error.repository_too_large': 'Repository too large',
+  'remediation_agent.error.repository_too_large.context':
+    'The repository is larger than the size limit configured for this instance. Ask an instance administrator to review the limit.',
   'remediation_agent.error.run_creation_failed': 'Job initialization failed',
   'remediation_agent.error.run_creation_failed.context':
     'An internal error occurred while initializing the job. Please try again later.',
