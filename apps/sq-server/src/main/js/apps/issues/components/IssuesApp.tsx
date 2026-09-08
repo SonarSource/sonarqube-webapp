@@ -1038,9 +1038,12 @@ export class App extends React.PureComponent<Props, State> {
 
   /** The project key to gate remediation-agent UI on, or `undefined` if it shouldn't be shown. */
   getRemediationAgentProjectKey(): string | undefined {
-    const { component, hasFeature } = this.props;
+    const { component, currentUser, hasFeature } = this.props;
 
+    // Assignment always needs an authenticated user, so anonymous visitors on a public project
+    // must not be offered any agent action they could only fail to complete.
     if (
+      !currentUser.isLoggedIn ||
       !hasFeature(Feature.RemediationAgent) ||
       !component?.key ||
       !isProject(component.qualifier)
@@ -1049,6 +1052,12 @@ export class App extends React.PureComponent<Props, State> {
     }
 
     return component.key;
+  }
+
+  /** Branch the issues are listed on, or `undefined` on a pull request-scoped view. */
+  get listedBranch(): string | undefined {
+    const { branchLike } = this.props;
+    return isBranch(branchLike) ? branchLike.name : undefined;
   }
 
   renderBulkChange() {
@@ -1064,7 +1073,7 @@ export class App extends React.PureComponent<Props, State> {
     }
 
     const pullRequestKey = isPullRequest(branchLike) ? branchLike.key : undefined;
-    const branch = isBranch(branchLike) ? branchLike.name : undefined;
+    const branch = this.listedBranch;
     const remediationAgentProjectKey = this.getRemediationAgentProjectKey();
 
     return (
@@ -1217,6 +1226,13 @@ export class App extends React.PureComponent<Props, State> {
       }
     }
 
+    // The per-row "Fix with agent" action stays backlog-only — a PR-scoped issues view
+    // already has its own whole-PR "Fix with Agent" banner (PullRequestJobAssignAction).
+    const remediationAgentIssueActionProjectKey = isPullRequest(branchLike)
+      ? undefined
+      : this.getRemediationAgentProjectKey();
+    const branch = this.listedBranch;
+
     return (
       <div>
         <IssuesListTitle
@@ -1229,6 +1245,7 @@ export class App extends React.PureComponent<Props, State> {
 
         {issues.length > 0 && (
           <IssuesList
+            branch={branch}
             branchLike={branchLike}
             checked={this.state.checked}
             component={component}
@@ -1238,6 +1255,7 @@ export class App extends React.PureComponent<Props, State> {
             onIssueSelect={this.selectIssue}
             onPopupToggle={this.handlePopupToggle}
             openPopup={this.state.openPopup}
+            remediationAgentProjectKey={remediationAgentIssueActionProjectKey}
             selectedIssue={selectedIssue}
           />
         )}
@@ -1265,7 +1283,7 @@ export class App extends React.PureComponent<Props, State> {
       this.state;
 
     const pullRequestKey = isPullRequest(branchLike) ? branchLike.key : undefined;
-    const branch = isBranch(branchLike) ? branchLike.name : undefined;
+    const branch = this.listedBranch;
 
     const hasSecurityFilter =
       query.impactSoftwareQualities.includes(SoftwareQuality.Security) ||

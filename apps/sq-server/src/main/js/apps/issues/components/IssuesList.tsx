@@ -56,6 +56,8 @@ function groupConsecutiveIssuesByComponent(issues: Issue[]): IssueGroup[] {
 }
 
 interface IssuesListProps {
+  /** Branch the issues are listed on; threaded into the per-row agent action for HUNTER_FIX jobs. */
+  branch: string | undefined;
   branchLike: BranchLike | undefined;
   checked: string[];
   component: Component | undefined;
@@ -65,10 +67,13 @@ interface IssuesListProps {
   onIssueSelect: (issueKey: string) => void;
   onPopupToggle: (issue: string, popupName: string, open?: boolean) => void;
   openPopup: { issue: string; name: string } | undefined;
+  /** Gates the per-row "Fix with agent" action; undefined hides it (e.g. PR-scoped views). */
+  remediationAgentProjectKey?: string;
   selectedIssue: Issue | undefined;
 }
 
 export default function IssuesList({
+  branch,
   branchLike,
   checked,
   component,
@@ -78,6 +83,7 @@ export default function IssuesList({
   onIssueSelect,
   onPopupToggle,
   openPopup,
+  remediationAgentProjectKey,
   selectedIssue,
 }: Readonly<IssuesListProps>) {
   const [prerender, setPrerender] = React.useState(true);
@@ -89,6 +95,16 @@ export default function IssuesList({
       React.ComponentProps<typeof IssueItem>
     >['additionalIssueActions'];
 
+    if (
+      addons.remediationAgent?.IssueAssignToAgentButton !== undefined &&
+      remediationAgentProjectKey !== undefined
+    ) {
+      const AgentButton = addons.remediationAgent.IssueAssignToAgentButton;
+      additionalActions.push(({ issue }) => (
+        <AgentButton branch={branch} issue={issue} projectKey={remediationAgentProjectKey} />
+      ));
+    }
+
     if (addons.jira !== undefined && component !== undefined) {
       const JiraWorkItemComponent = addons.jira.IssueJiraWorkItem;
       additionalActions.push(({ issue }) => (
@@ -97,7 +113,7 @@ export default function IssuesList({
     }
 
     return additionalActions;
-  }, [component]);
+  }, [branch, component, remediationAgentProjectKey]);
 
   React.useEffect(() => {
     if (issues.length > 0) {

@@ -78,6 +78,7 @@ it('merges consecutive issues for the same component into one group', () => {
 function renderIssuesList(overrides: Partial<React.ComponentProps<typeof IssuesList>> = {}) {
   return renderComponent(
     <IssuesList
+      branch={undefined}
       branchLike={undefined}
       checked={[]}
       component={undefined}

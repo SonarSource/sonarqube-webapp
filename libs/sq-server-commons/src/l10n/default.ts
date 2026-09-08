@@ -1968,6 +1968,8 @@ export const defaultMessages = {
   'issues.return_to_list': 'Return to List',
   'issues.bulk_change_X_issues': 'Bulk Change {0} Issue(s)',
   'issues.fix_x_with_agent': '{count, plural, =0 {Fix with agent} other {Fix {count} with agent}}',
+  'issues.fix_with_agent': 'Fix with agent',
+  'issues.fix_issue_x_with_agent': 'Fix with agent: {issue}',
   'project_issues.assign_to_agent.success.title':
     '{issueCount, plural, one {# issue} other {# issues}} assigned to Agent',
   'project_issues.assign_to_agent.partial_success.title':

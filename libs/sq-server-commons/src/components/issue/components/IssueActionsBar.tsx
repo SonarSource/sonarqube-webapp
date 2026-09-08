@@ -80,8 +80,13 @@ export default function IssueActionsBar(props: Readonly<Props>) {
           />
         </li>
 
-        {additionalIssueActions?.map((ActionComponent) => (
-          <li key={`${ActionComponent.displayName}-${issue.key}`}>
+        {additionalIssueActions?.map((ActionComponent, index) => (
+          <li
+            // An action decides per-issue whether to render, so a hidden one leaves an empty
+            // <li> behind; :empty collapses it, otherwise it would still consume a flex gap.
+            className="empty:sw-hidden"
+            key={`${index}-${issue.key}`}
+          >
             <ActionComponent issue={issue} />
           </li>
         ))}
