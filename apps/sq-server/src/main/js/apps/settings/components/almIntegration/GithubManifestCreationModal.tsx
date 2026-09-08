@@ -30,6 +30,8 @@ import {
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useCreateGithubConfigurationFromManifestMutation } from '~sq-server-commons/queries/alm-settings';
+import AuthenticationFormField from '../authentication/AuthenticationFormField';
+import { getGitHubAllowedOrganizationsDefinition } from '../authentication/utils';
 
 export type ManifestScope = 'devops' | 'auth';
 
@@ -65,6 +67,8 @@ export default function GithubManifestCreationModal({ onClose, primaryScope }: R
   const [key, setKey] = React.useState('');
   const [keyEdited, setKeyEdited] = React.useState(false);
   const [organization, setOrganization] = React.useState('');
+  const [allowedOrganizations, setAllowedOrganizations] = React.useState<string[]>([]);
+  const [allowedOrganizationsEdited, setAllowedOrganizationsEdited] = React.useState(false);
   const [alsoSetupOther, setAlsoSetupOther] = React.useState(false);
 
   const { mutateAsync: createConfiguration, isPending: submitting } =
@@ -84,6 +88,15 @@ export default function GithubManifestCreationModal({ onClose, primaryScope }: R
     if (!keyEdited) {
       setKey(value);
     }
+    // Same for the sign-in allow list, where the organization hosting the App is the likeliest answer.
+    if (!allowedOrganizationsEdited) {
+      setAllowedOrganizations(value === '' ? [] : [value]);
+    }
+  };
+
+  const handleAllowedOrganizationsChange = (value: string[]) => {
+    setAllowedOrganizations(value);
+    setAllowedOrganizationsEdited(true);
   };
 
   const handleKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,8 +106,15 @@ export default function GithubManifestCreationModal({ onClose, primaryScope }: R
 
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const sanitizedAllowedOrganizations = allowedOrganizations
+      .map((org) => org.trim())
+      .filter((org) => org !== '');
     try {
       const { githubAppUrl, manifest, state } = await createConfiguration({
+        allowedOrganizations:
+          auth && (allowedOrganizationsEdited || sanitizedAllowedOrganizations.length > 0)
+            ? sanitizedAllowedOrganizations
+            : undefined,
         auth,
         devops,
         key: devops ? key.trim() : undefined,
@@ -122,6 +142,19 @@ export default function GithubManifestCreationModal({ onClose, primaryScope }: R
         type="text"
         value={key}
         width="full"
+      />
+    </div>
+  );
+
+  const allowedOrganizationsField = auth && (
+    <div className="sw-mb-6">
+      <AuthenticationFormField
+        definition={getGitHubAllowedOrganizationsDefinition()}
+        isNotSet
+        onFieldChange={(_, value) => {
+          handleAllowedOrganizationsChange(value as string[]);
+        }}
+        settingValue={allowedOrganizations}
       />
     </div>
   );
@@ -155,7 +188,7 @@ export default function GithubManifestCreationModal({ onClose, primaryScope }: R
         />
       </div>
 
-      {isDevopsPrimary && configurationNameField}
+      {isDevopsPrimary ? configurationNameField : allowedOrganizationsField}
 
       <div className="sw-mb-6">
         <Checkbox
@@ -171,7 +204,7 @@ export default function GithubManifestCreationModal({ onClose, primaryScope }: R
         />
       </div>
 
-      {!isDevopsPrimary && configurationNameField}
+      {isDevopsPrimary ? allowedOrganizationsField : configurationNameField}
     </form>
   );
 

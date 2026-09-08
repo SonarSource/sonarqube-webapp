@@ -22,6 +22,7 @@ import userEvent from '@testing-library/user-event';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { createGithubConfigurationFromManifest } from '~sq-server-commons/api/alm-settings';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { GithubManifestSetup } from '~sq-server-commons/types/alm-settings';
 import GithubManifestCreationModal from '../GithubManifestCreationModal';
 
 jest.mock('~sq-server-commons/api/alm-settings', () => ({
@@ -33,12 +34,30 @@ const ui = {
   organizationInput: byLabelText('settings.almintegration.github.manifest.organization', {
     exact: false,
   }),
+  allowedOrganizationsInputs: byRole('textbox', { name: 'property.allowedOrganizations.name' }),
+  textboxes: byRole('textbox'),
+  deleteAllowedOrganization: (org: string) =>
+    byRole('button', {
+      name: `settings.definition.delete_value.property.allowedOrganizations.name.${org}`,
+    }),
   alsoDevopsCheckbox: byLabelText('settings.almintegration.github.manifest.also_devops', {
+    exact: false,
+  }),
+  alsoAuthCheckbox: byLabelText('settings.almintegration.github.manifest.also_auth', {
     exact: false,
   }),
   continueButton: byRole('button', { name: 'settings.almintegration.github.manifest.continue' }),
   description: byText('settings.almintegration.github.manifest.info'),
 };
+
+function mockManifestResponse(overrides?: Partial<GithubManifestSetup>) {
+  jest.mocked(createGithubConfigurationFromManifest).mockResolvedValue({
+    githubAppUrl: 'https://github.com/settings/apps/new',
+    manifest: '{}',
+    state: 's',
+    ...overrides,
+  });
+}
 
 let submitSpy: jest.SpyInstance;
 
@@ -55,7 +74,7 @@ afterEach(() => {
 
 it('posts the manifest to the GitHub url with the returned state', async () => {
   const user = userEvent.setup();
-  jest.mocked(createGithubConfigurationFromManifest).mockResolvedValue({
+  mockManifestResponse({
     githubAppUrl: 'https://github.com/organizations/my-org/settings/apps/new',
     manifest: '{"name":"SonarQube"}',
     state: 'the-state',
@@ -70,6 +89,7 @@ it('posts the manifest to the GitHub url with the returned state', async () => {
   await user.click(ui.continueButton.get());
 
   expect(createGithubConfigurationFromManifest).toHaveBeenCalledWith({
+    allowedOrganizations: undefined,
     auth: false,
     devops: true,
     key: 'my-github',
@@ -86,11 +106,7 @@ it('posts the manifest to the GitHub url with the returned state', async () => {
 
 it('omits organization when left empty', async () => {
   const user = userEvent.setup();
-  jest.mocked(createGithubConfigurationFromManifest).mockResolvedValue({
-    githubAppUrl: 'https://github.com/settings/apps/new',
-    manifest: '{}',
-    state: 's',
-  });
+  mockManifestResponse();
 
   renderComponent(<GithubManifestCreationModal onClose={jest.fn()} primaryScope="devops" />);
 
@@ -98,6 +114,7 @@ it('omits organization when left empty', async () => {
   await user.click(ui.continueButton.get());
 
   expect(createGithubConfigurationFromManifest).toHaveBeenCalledWith({
+    allowedOrganizations: undefined,
     auth: false,
     devops: true,
     key: 'my-github',
@@ -107,11 +124,7 @@ it('omits organization when left empty', async () => {
 
 it('trims the configuration name before submitting', async () => {
   const user = userEvent.setup();
-  jest.mocked(createGithubConfigurationFromManifest).mockResolvedValue({
-    githubAppUrl: 'https://github.com/settings/apps/new',
-    manifest: '{}',
-    state: 's',
-  });
+  mockManifestResponse();
 
   renderComponent(<GithubManifestCreationModal onClose={jest.fn()} primaryScope="devops" />);
 
@@ -119,6 +132,7 @@ it('trims the configuration name before submitting', async () => {
   await user.click(ui.continueButton.get());
 
   expect(createGithubConfigurationFromManifest).toHaveBeenCalledWith({
+    allowedOrganizations: undefined,
     auth: false,
     devops: true,
     key: 'my-github',
@@ -128,11 +142,7 @@ it('trims the configuration name before submitting', async () => {
 
 it('sets up auth (and not devops) when launched from the authentication tab', async () => {
   const user = userEvent.setup();
-  jest.mocked(createGithubConfigurationFromManifest).mockResolvedValue({
-    githubAppUrl: 'https://github.com/settings/apps/new',
-    manifest: '{}',
-    state: 's',
-  });
+  mockManifestResponse();
 
   renderComponent(<GithubManifestCreationModal onClose={jest.fn()} primaryScope="auth" />);
 
@@ -141,6 +151,7 @@ it('sets up auth (and not devops) when launched from the authentication tab', as
   await user.click(await ui.continueButton.find());
 
   expect(createGithubConfigurationFromManifest).toHaveBeenCalledWith({
+    allowedOrganizations: undefined,
     auth: true,
     devops: false,
     key: undefined,
@@ -193,4 +204,106 @@ it('pre-fills the configuration name from the GitHub organization in the auth va
 
   // The config name should be pre-filled with the org value.
   expect(ui.keyInput.get()).toHaveValue('my-org');
+});
+
+it('hides the organizations allow list for devops-only flows, and shows it once auth is added', async () => {
+  const user = userEvent.setup();
+  renderComponent(<GithubManifestCreationModal onClose={jest.fn()} primaryScope="devops" />);
+
+  expect(ui.allowedOrganizationsInputs.query()).not.toBeInTheDocument();
+
+  await user.click(await ui.alsoAuthCheckbox.find());
+
+  expect(ui.allowedOrganizationsInputs.get()).toBeInTheDocument();
+});
+
+it('shows the organizations allow list right away when launched from the authentication tab', async () => {
+  renderComponent(<GithubManifestCreationModal onClose={jest.fn()} primaryScope="auth" />);
+
+  expect(await ui.allowedOrganizationsInputs.find()).toBeInTheDocument();
+});
+
+it('pre-fills the organizations allow list from the GitHub organization and submits it', async () => {
+  const user = userEvent.setup();
+  mockManifestResponse();
+  renderComponent(<GithubManifestCreationModal onClose={jest.fn()} primaryScope="auth" />);
+
+  await user.type(await ui.organizationInput.find(), 'my-org');
+
+  expect(ui.allowedOrganizationsInputs.getAll()[0]).toHaveValue('my-org');
+
+  await user.click(ui.continueButton.get());
+
+  expect(createGithubConfigurationFromManifest).toHaveBeenCalledWith({
+    allowedOrganizations: ['my-org'],
+    auth: true,
+    devops: false,
+    key: undefined,
+    organization: 'my-org',
+  });
+});
+
+it('stops pre-filling the organizations allow list once it has been edited', async () => {
+  const user = userEvent.setup();
+  mockManifestResponse();
+  renderComponent(<GithubManifestCreationModal onClose={jest.fn()} primaryScope="auth" />);
+
+  const organizationInput = await ui.organizationInput.find();
+  await user.type(organizationInput, 'my-org');
+
+  await user.clear(ui.allowedOrganizationsInputs.get());
+  await user.type(ui.allowedOrganizationsInputs.get(), 'chosen-org');
+
+  await user.clear(organizationInput);
+  await user.type(organizationInput, 'another-host-org');
+  await user.click(ui.continueButton.get());
+
+  expect(createGithubConfigurationFromManifest).toHaveBeenCalledWith({
+    allowedOrganizations: ['chosen-org'],
+    auth: true,
+    devops: false,
+    key: undefined,
+    organization: 'another-host-org',
+  });
+});
+
+it('allows several organizations to be added to the allow list', async () => {
+  const user = userEvent.setup();
+  mockManifestResponse();
+  renderComponent(<GithubManifestCreationModal onClose={jest.fn()} primaryScope="auth" />);
+
+  await user.type(await ui.organizationInput.find(), 'my-org');
+
+  const textboxes = ui.textboxes.getAll();
+  await user.type(textboxes[textboxes.length - 1], 'my-other-org');
+  await user.click(ui.continueButton.get());
+
+  expect(createGithubConfigurationFromManifest).toHaveBeenCalledWith({
+    allowedOrganizations: ['my-org', 'my-other-org'],
+    auth: true,
+    devops: false,
+    key: undefined,
+    organization: 'my-org',
+  });
+});
+
+it('submits an empty allow list when the user clears it', async () => {
+  const user = userEvent.setup();
+  mockManifestResponse();
+  renderComponent(<GithubManifestCreationModal onClose={jest.fn()} primaryScope="auth" />);
+
+  await user.type(await ui.organizationInput.find(), 'my-org');
+  await user.click(ui.deleteAllowedOrganization('my-org').get());
+
+  // An explicitly emptied allow list must not fall back to the hosting organization, so it is sent as
+  // an empty list rather than omitted.
+  await user.click(ui.continueButton.get());
+
+  expect(createGithubConfigurationFromManifest).toHaveBeenCalledWith({
+    allowedOrganizations: [],
+    auth: true,
+    devops: false,
+    key: undefined,
+    organization: 'my-org',
+  });
 });

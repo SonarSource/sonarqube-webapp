@@ -67,18 +67,20 @@ export const GITHUB_PROVISIONING_FIELDS_DEFINITIONS = {
   },
 };
 
+export function getGitHubAllowedOrganizationsDefinition() {
+  return {
+    description: translate('settings.authentication.github.form.allowedOrganizations.description'),
+    key: GitHubAuthFormFields.AllowedOrganizations,
+    multiValues: true,
+    name: translate('settings.authentication.github.form.allowedOrganizations.name'),
+    secured: false,
+  };
+}
+
 export function getInitialGitHubFormData(gitHubConfiguration?: GitHubConfigurationResponse) {
   return {
     [GitHubAuthFormFields.AllowedOrganizations]: {
-      definition: {
-        description: translate(
-          'settings.authentication.github.form.allowedOrganizations.description',
-        ),
-        key: GitHubAuthFormFields.AllowedOrganizations,
-        multiValues: true,
-        name: translate('settings.authentication.github.form.allowedOrganizations.name'),
-        secured: false,
-      },
+      definition: getGitHubAllowedOrganizationsDefinition(),
       required: false,
       value: gitHubConfiguration?.allowedOrganizations ?? [],
     },

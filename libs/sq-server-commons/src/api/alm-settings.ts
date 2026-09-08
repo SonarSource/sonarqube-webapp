@@ -69,14 +69,21 @@ export function createGithubConfiguration(data: GithubBindingDefinition) {
   return post('/api/alm_settings/create_github', data).catch(throwGlobalError);
 }
 
-export function createGithubConfigurationFromManifest(data: {
+export function createGithubConfigurationFromManifest({
+  allowedOrganizations,
+  ...data
+}: {
+  allowedOrganizations?: string[];
   auth: boolean;
   devops: boolean;
   key?: string;
   name?: string;
   organization?: string;
 }): Promise<GithubManifestSetup> {
-  return postJSON('/api/alm_settings/create_github_from_manifest', data).catch(throwGlobalError);
+  return postJSON('/api/alm_settings/create_github_from_manifest', {
+    ...data,
+    allowedOrganizations: allowedOrganizations?.join(','),
+  }).catch(throwGlobalError);
 }
 
 export function updateGithubConfiguration(data: GithubBindingDefinition & { newKey: string }) {
