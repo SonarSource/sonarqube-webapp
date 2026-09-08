@@ -28,6 +28,7 @@ import { PROJECT_HEALTH_FEATURE_ENABLED } from '../../types/types';
 
 /** Every action the row menu of a project table can offer. */
 export enum ProjectRowAction {
+  BindProject = 'BIND_PROJECT',
   ConfigureCi = 'CONFIGURE_CI',
   HowToRunNewScan = 'HOW_TO_RUN_NEW_SCAN',
   RerunAutomaticAnalysis = 'RERUN_AUTOMATIC_ANALYSIS',
@@ -36,6 +37,7 @@ export enum ProjectRowAction {
 }
 
 export const PROJECT_ROW_ACTION_LABEL_KEYS: Record<ProjectRowAction, string> = {
+  [ProjectRowAction.BindProject]: 'onboarding_dashboard.projects.action.bind_project',
   [ProjectRowAction.ConfigureCi]: 'onboarding_dashboard.projects.action.configure_ci',
   [ProjectRowAction.HowToRunNewScan]: 'onboarding_dashboard.projects.action.how_to_run_new_scan',
   [ProjectRowAction.RerunAutomaticAnalysis]:
@@ -50,6 +52,12 @@ const NOT_SCANNED_ACTIONS = [
   ProjectRowAction.RestoreAccess,
   ProjectRowAction.ViewProject,
 ];
+
+/**
+ * Same, for a project no DevOps platform repository is bound to. Binding is what unlocks pull
+ * request decoration, so the menu of an unbound project offers the shortcut to that setting.
+ */
+const NOT_SCANNED_UNBOUND_ACTIONS = [...NOT_SCANNED_ACTIONS, ProjectRowAction.BindProject];
 
 /** Analysed by automatic analysis: can be re-run, or upgraded to a full CI scan. */
 const AUTOSCAN_ACTIONS = [
@@ -81,10 +89,13 @@ const ANALYSED_ACTIONS_BY_ANALYSIS_MODE: Partial<
 };
 
 /**
- * Actions that require the "Create projects" permission. When the user lacks this permission, the
- * row menu is replaced by a permission popover so they understand why nothing happens.
+ * Actions that need administration rights the reader may not have — the pages they lead to are
+ * guarded by the backend, so offering them without the "Create projects" permission would only
+ * navigate to a refusal. When every action of a row is gated this way, the row menu is replaced by
+ * a permission popover so the user understands why nothing happens.
  */
 export const PERMISSION_REQUIRED_ACTIONS = new Set([
+  ProjectRowAction.BindProject,
   ProjectRowAction.ConfigureCi,
   ProjectRowAction.RerunAutomaticAnalysis,
   ProjectRowAction.RestoreAccess,
@@ -107,5 +118,5 @@ export function getProjectRowActions(project: OnboardingProject): readonly Proje
     return ANALYSED_ACTIONS_BY_ANALYSIS_MODE[project.analysisMode] ?? VIEW_ONLY_ACTIONS;
   }
 
-  return NOT_SCANNED_ACTIONS;
+  return project.alm === null ? NOT_SCANNED_UNBOUND_ACTIONS : NOT_SCANNED_ACTIONS;
 }

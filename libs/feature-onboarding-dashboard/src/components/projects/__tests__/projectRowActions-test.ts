@@ -51,6 +51,29 @@ it('offers the first-scan actions for a project that has not been scanned yet', 
   ]);
 });
 
+it('also offers to bind an unscanned project that no repository is bound to', () => {
+  expect(
+    getProjectRowActions(
+      mockProject({ alm: null, scanStatus: OnboardingProjectScanStatus.NotScanned }),
+    ),
+  ).toEqual([
+    ProjectRowAction.ConfigureCi,
+    ProjectRowAction.RestoreAccess,
+    ProjectRowAction.ViewProject,
+    ProjectRowAction.BindProject,
+  ]);
+});
+
+it('does not offer to bind an unbound project that has already been scanned', () => {
+  // Binding only shows up as a first-scan step: an analysed project is onboarded already, so the
+  // menu keeps to the actions of its analysis mode.
+  expect(
+    getProjectRowActions(
+      mockProject({ alm: null, analysisMode: OnboardingProjectAnalysisMode.Automatic }),
+    ),
+  ).not.toContain(ProjectRowAction.BindProject);
+});
+
 it('offers the re-run and upgrade actions for a project scanned by automatic analysis', () => {
   expect(
     getProjectRowActions(mockProject({ analysisMode: OnboardingProjectAnalysisMode.Automatic })),

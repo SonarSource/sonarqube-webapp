@@ -27,7 +27,7 @@ import {
   getProjectCiConfigurationUrl,
   IS_AUTOMATIC_ANALYSIS_SUPPORTED,
 } from '~adapters/helpers/onboarding-actions';
-import { PROJECT_BASE_URL } from '~adapters/helpers/urls';
+import { PROJECT_ALM_BINDING_SETTINGS_CATEGORY, PROJECT_BASE_URL } from '~adapters/helpers/urls';
 import { server } from '~shared/api/mocks/server';
 import { mockLoggedInUser } from '~shared/helpers/mocks/users';
 import { renderWithRouter } from '~shared/helpers/test-utils';
@@ -62,6 +62,14 @@ const AUTOSCANNED_PROJECT: OnboardingProject = {
   scanStatus: OnboardingProjectScanStatus.Scanned,
 };
 
+/** Never analysed and bound to no repository: the only state whose menu offers to bind it. */
+const UNBOUND_PROJECT: OnboardingProject = {
+  ...AUTOSCANNED_PROJECT,
+  alm: null,
+  analysisMode: OnboardingProjectAnalysisMode.None,
+  scanStatus: OnboardingProjectScanStatus.NotScanned,
+};
+
 afterEach(() => {
   server.resetHandlers();
   mockCanCreateProjects = true;
@@ -87,6 +95,9 @@ const ui = {
   }),
   viewProjectAction: byRole('menuitem', {
     name: 'onboarding_dashboard.projects.action.view_project',
+  }),
+  bindProjectAction: byRole('menuitem', {
+    name: 'onboarding_dashboard.projects.action.bind_project',
   }),
 
   restoreAccessModal: byRole('dialog', { name: 'global_permissions.restore_access' }),
@@ -159,6 +170,31 @@ it('links an autoscanned project to its CI setup page and its project home', asy
     'href',
     `${PROJECT_BASE_URL}?id=${PROJECT_KEY}`,
   );
+});
+
+it('sends an unbound project that was never scanned to its binding settings', async () => {
+  const { user } = renderProjectRowActionsCell(UNBOUND_PROJECT);
+
+  await user.click(ui.actionsButton.get());
+
+  // The settings category is product-specific, so it comes from the adapter rather than a literal.
+  expect(await ui.bindProjectAction.find()).toHaveAttribute(
+    'href',
+    `/project/settings?id=${PROJECT_KEY}&category=${PROJECT_ALM_BINDING_SETTINGS_CATEGORY}`,
+  );
+});
+
+it('offers no binding shortcut for a project that is already bound to a repository', async () => {
+  const { user } = renderProjectRowActionsCell({
+    ...UNBOUND_PROJECT,
+    alm: OnboardingDevopsPlatform.Github,
+  });
+
+  await user.click(ui.actionsButton.get());
+
+  // Same never-scanned menu as above, minus the entry: binding it again would be a dead end.
+  expect(await ui.configureCiAction.find()).toBeInTheDocument();
+  expect(ui.bindProjectAction.query()).not.toBeInTheDocument();
 });
 
 it('sends a project scanned by a CI pipeline to the scan documentation', async () => {
@@ -298,6 +334,19 @@ it('drops only the gated actions when the user cannot create projects', async ()
   expect(ui.configureCiAction.query()).not.toBeInTheDocument();
   expect(ui.rerunAutomaticAnalysisAction.query()).not.toBeInTheDocument();
   expect(ui.restoreAccessAction.query()).not.toBeInTheDocument();
+});
+
+it('drops the binding shortcut when the user cannot create projects', async () => {
+  mockCanCreateProjects = false;
+  // Its own case rather than an assertion on the test above: only a never-scanned unbound project
+  // is offered the entry at all, and that state has no "Re-run automatic analysis" to drop.
+  const { user } = renderProjectRowActionsCell(UNBOUND_PROJECT);
+
+  await user.click(ui.actionsButton.get());
+
+  // Project settings are administered, not merely read, so the entry would land on a refusal.
+  expect(await ui.viewProjectAction.find()).toBeInTheDocument();
+  expect(ui.bindProjectAction.query()).not.toBeInTheDocument();
 });
 
 it('opens the dropdown normally when the user lacks permission but the project has no permission-gated actions', async () => {

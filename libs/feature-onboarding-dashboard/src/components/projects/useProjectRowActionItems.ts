@@ -20,8 +20,9 @@
 
 import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
 import { getProjectCiConfigurationUrl } from '~adapters/helpers/onboarding-actions';
+import { PROJECT_ALM_BINDING_SETTINGS_CATEGORY } from '~adapters/helpers/urls';
 import { isDefined } from '~shared/helpers/types';
-import { getProjectOverviewUrl } from '~shared/helpers/urls';
+import { getProjectOverviewUrl, getProjectSettingsUrl } from '~shared/helpers/urls';
 import { OnboardingProject } from '~shared/types/onboarding';
 import { RowActionKind, RowActionTarget } from '../../types/types';
 import { useRerunAutomaticAnalysisMutation } from './projectRowActionMutations';
@@ -52,6 +53,11 @@ export function useProjectRowActionItems(
   const { key: projectKey } = project;
 
   const itemTargets: Record<ProjectRowAction, () => RowActionTarget | undefined> = {
+    [ProjectRowAction.BindProject]: () => ({
+      kind: RowActionKind.Link,
+      to: getProjectSettingsUrl(projectKey, PROJECT_ALM_BINDING_SETTINGS_CATEGORY),
+    }),
+
     [ProjectRowAction.ConfigureCi]: () => ({
       kind: RowActionKind.Link,
       to: getProjectCiConfigurationUrl(projectKey),

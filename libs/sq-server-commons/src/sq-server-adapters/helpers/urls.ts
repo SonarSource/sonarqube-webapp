@@ -27,6 +27,8 @@ import {
   PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY,
 } from '../../helpers/project-dashboard-routes';
 
+export { PULL_REQUEST_DECORATION_BINDING_CATEGORY as PROJECT_ALM_BINDING_SETTINGS_CATEGORY } from '../../constants/settings';
+
 /**
  * Generate URL for the rules page
  */

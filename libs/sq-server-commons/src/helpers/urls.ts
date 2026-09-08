@@ -47,7 +47,12 @@ export {
   getProjectQualityProfileSettingsUrl,
   getRulesUrl,
 } from '~adapters/helpers/urls';
-export { getHostUrl, getPathUrlAsString, getRuleUrl } from '~shared/helpers/urls';
+export {
+  getHostUrl,
+  getPathUrlAsString,
+  getProjectSettingsUrl,
+  getRuleUrl,
+} from '~shared/helpers/urls';
 
 export interface Location {
   pathname: string;
@@ -394,13 +399,6 @@ export function getAdminRemediationAgentUrl(): Partial<Path> {
  */
 export function getAdminHunterAgentUrl(): Partial<Path> {
   return { pathname: '/admin/agent/hunter-agent' };
-}
-
-export function getProjectSettingsUrl(id: string, category?: string): Partial<Path> {
-  return {
-    pathname: '/project/settings',
-    search: queryToSearchString({ id, category }),
-  };
 }
 
 export function getCodeUrl(

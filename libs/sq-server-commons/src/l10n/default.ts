@@ -11468,6 +11468,7 @@ export const defaultMessages = {
   'onboarding_dashboard.projects.col.actions': 'Actions',
   'onboarding_dashboard.projects.actions.label': 'Actions for {name}',
   'onboarding_dashboard.projects.action.configure_ci': 'Configure CI analysis',
+  'onboarding_dashboard.projects.action.bind_project': 'Bind project',
   'onboarding_dashboard.projects.action.rerun_automatic_analysis': 'Re-run automatic analysis',
   'onboarding_dashboard.projects.action.rerun_automatic_analysis.success':
     'Automatic analysis has been triggered.',

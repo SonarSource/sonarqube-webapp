@@ -22,6 +22,7 @@ import { renderHook } from '@testing-library/react';
 import { PropsWithChildren } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { getContextWrapper } from '~adapters/helpers/test-utils';
+import { PROJECT_ALM_BINDING_SETTINGS_CATEGORY } from '~adapters/helpers/urls';
 import {
   OnboardingDevopsPlatform,
   OnboardingProject,
@@ -55,6 +56,14 @@ const AUTOSCANNED_PROJECT: OnboardingProject = {
   name: PROJECT_KEY,
   scanHealth: OnboardingProjectScanHealth.Healthy,
   scanStatus: OnboardingProjectScanStatus.Scanned,
+};
+
+/** Never analysed and bound to no repository: the only state whose menu offers to bind it. */
+const UNBOUND_PROJECT: OnboardingProject = {
+  ...AUTOSCANNED_PROJECT,
+  alm: null,
+  analysisMode: OnboardingProjectAnalysisMode.None,
+  scanStatus: OnboardingProjectScanStatus.NotScanned,
 };
 
 const rerunAutomaticAnalysis = jest.fn();
@@ -105,6 +114,17 @@ function activate(items: ProjectRowActionItem[], action: ProjectRowAction) {
   item.onClick();
 }
 
+/** Destination of an entry that navigates. Mirrors {@link activate} for the link entries. */
+function linkTarget(items: ProjectRowActionItem[], action: ProjectRowAction) {
+  const item = items.find((candidate) => candidate.action === action);
+
+  if (item?.kind !== RowActionKind.Link) {
+    throw new Error(`The menu offers no link entry for ${action}`);
+  }
+
+  return item.to;
+}
+
 beforeEach(() => {
   jest.clearAllMocks();
   mockAutomaticAnalysisSupport(true);
@@ -134,4 +154,15 @@ it('opens the confirmation modal instead of restoring access straight away', () 
   activate(items, ProjectRowAction.RestoreAccess);
 
   expect(onRestoreAccess).toHaveBeenCalled();
+});
+
+it('sends an unbound project to the binding section of its settings', () => {
+  const items = renderProjectRowActionItems(UNBOUND_PROJECT);
+
+  // The settings category is product-specific ('pull_request_decoration_binding' on SQ-Server,
+  // 'project_binding' on SQ-Cloud), so it is read from the adapter rather than spelled out here.
+  expect(linkTarget(items, ProjectRowAction.BindProject)).toEqual({
+    pathname: '/project/settings',
+    search: `?id=${PROJECT_KEY}&category=${PROJECT_ALM_BINDING_SETTINGS_CATEGORY}`,
+  });
 });

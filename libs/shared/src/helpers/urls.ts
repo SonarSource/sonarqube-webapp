@@ -70,6 +70,13 @@ export function getProjectOverviewUrl(projectKey: string): Partial<Path> {
   return { pathname: PROJECT_BASE_URL, search: queryToSearchString({ id: projectKey }) };
 }
 
+export function getProjectSettingsUrl(projectKey: string, category?: string): Partial<Path> {
+  return {
+    pathname: '/project/settings',
+    search: queryToSearchString({ id: projectKey, category }),
+  };
+}
+
 export function getCallbackUrl(): string {
   return `${getHostUrl()}/callback`;
 }
