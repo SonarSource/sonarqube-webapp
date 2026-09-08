@@ -92,7 +92,8 @@ it('offers the first-scan actions on a row that has not been scanned yet', async
   await user.click(ui.rowActionsButton('platform-jobs').get());
 
   expect(await ui.configureCiAction.find()).toBeInTheDocument();
-  expect(ui.restoreAccessAction.get()).toBeInTheDocument();
+  // Offered only once the access lookup answers, so it is awaited rather than read straight away.
+  expect(await ui.restoreAccessAction.find()).toBeInTheDocument();
   expect(ui.viewProjectAction.get()).toBeInTheDocument();
   expect(ui.rowActionItems.getAll()).toHaveLength(3);
 });
@@ -107,7 +108,7 @@ it('offers the automatic-analysis actions on a row scanned by autoscan', async (
   await user.click(ui.rowActionsButton('identity-lib').get());
 
   expect(await ui.configureCiAction.find()).toBeInTheDocument();
-  expect(ui.restoreAccessAction.get()).toBeInTheDocument();
+  expect(await ui.restoreAccessAction.find()).toBeInTheDocument();
   expect(ui.viewProjectAction.get()).toBeInTheDocument();
 
   // Automatic analysis is a SQ-Cloud feature: rather than offer a dead entry, SQ-Server drops it.

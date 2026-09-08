@@ -23,6 +23,7 @@ import { getProjectCiConfigurationUrl } from '~adapters/helpers/onboarding-actio
 import { PROJECT_ALM_BINDING_SETTINGS_CATEGORY } from '~adapters/helpers/urls';
 import { isDefined } from '~shared/helpers/types';
 import { getProjectOverviewUrl, getProjectSettingsUrl } from '~shared/helpers/urls';
+import { useComponentConfigurationQuery } from '~shared/queries/navigation';
 import { OnboardingProject } from '~shared/types/onboarding';
 import { RowActionKind, RowActionTarget } from '../../types/types';
 import { useRerunAutomaticAnalysisMutation } from './projectRowActionMutations';
@@ -31,6 +32,9 @@ import { getProjectRowActions, ProjectRowAction } from './projectRowActions';
 export type ProjectRowActionItem = RowActionTarget & { action: ProjectRowAction };
 
 interface Options {
+  /** Whether the access of the reader may be looked up — see {@link useProjectRowActionItems}. */
+  shouldCheckAccess: boolean;
+
   /** Opens the confirmation modal of the "Restore access" action, which the cell owns. */
   onRestoreAccess: VoidFunction;
 }
@@ -39,18 +43,29 @@ interface Options {
  * Turns the actions {@link getProjectRowActions} offers for a project into ready-to-render row menu
  * entries.
  *
- * An action the row cannot actually perform — because the product doesn't support it — is dropped
- * rather than shown disabled, so the menu never offers a dead end. Adding a new action means adding
- * a builder below and a label key, not another branch in the cell.
+ * An action the row cannot actually perform — because the product doesn't support it, or because
+ * the reader has nothing to gain from it — is dropped rather than shown disabled, so the menu never
+ * offers a dead end. Adding a new action means adding a builder below and a label key, not another
+ * branch in the cell.
+ *
+ * Whether the reader still has access is the one thing that has to be asked of the server, so the
+ * caller decides when it is worth asking: never before the row menu is opened, and never when the
+ * only action it gates is dropped anyway.
  */
 export function useProjectRowActionItems(
   project: OnboardingProject,
-  { onRestoreAccess }: Readonly<Options>,
+  { onRestoreAccess, shouldCheckAccess }: Readonly<Options>,
 ): ProjectRowActionItem[] {
   const scanDocUrl = useSharedDocUrl(SharedDocLink.CIAnalysisSetup);
   const rerunAutomaticAnalysis = useRerunAutomaticAnalysisMutation();
 
   const { key: projectKey } = project;
+
+  const { data: hasProjectAccess } = useComponentConfigurationQuery(projectKey, {
+    enabled: shouldCheckAccess,
+    select: (configuration) =>
+      Boolean(configuration.showPermissions && configuration.canBrowseProject),
+  });
 
   const itemTargets: Record<ProjectRowAction, () => RowActionTarget | undefined> = {
     [ProjectRowAction.BindProject]: () => ({
@@ -79,10 +94,15 @@ export function useProjectRowActionItems(
             },
           },
 
-    [ProjectRowAction.RestoreAccess]: () => ({
-      kind: RowActionKind.Button,
-      onClick: onRestoreAccess,
-    }),
+    // Offered only to a reader known to have lost access — access, or an answer that never came
+    // back, leaves nothing to restore.
+    [ProjectRowAction.RestoreAccess]: () =>
+      hasProjectAccess === false
+        ? {
+            kind: RowActionKind.Button,
+            onClick: onRestoreAccess,
+          }
+        : undefined,
 
     [ProjectRowAction.ViewProject]: () => ({
       kind: RowActionKind.Link,

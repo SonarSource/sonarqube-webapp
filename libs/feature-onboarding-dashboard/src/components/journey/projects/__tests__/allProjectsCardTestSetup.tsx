@@ -19,11 +19,12 @@
  */
 
 import { PointerEventsCheckLevel, UserEvent } from '@testing-library/user-event';
+import { http, HttpResponse } from 'msw';
 import {
   mockOnboardingProjects,
   OnboardingServiceMock,
 } from '~shared/api/mocks/OnboardingServiceMock';
-import { registerServiceMocks } from '~shared/api/mocks/server';
+import { registerServiceMocks, server } from '~shared/api/mocks/server';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { AllProjectsCard } from '../AllProjectsCard';
@@ -51,6 +52,16 @@ const onboardingMock = new OnboardingServiceMock();
 export function setupOnboardingServiceMock() {
   beforeAll(() => {
     registerServiceMocks(onboardingMock);
+  });
+
+  beforeEach(() => {
+    // The row menu looks the access of the reader up before offering "Restore access". Answered as
+    // lost access, so the menus below are asserted with their full action set.
+    server.use(
+      http.get('*/api/navigation/component', () =>
+        HttpResponse.json({ configuration: { canBrowseProject: false, showPermissions: false } }),
+      ),
+    );
   });
 
   afterEach(() => {

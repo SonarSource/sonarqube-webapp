@@ -26,6 +26,7 @@ import {
   useGrantProjectPermissionMutation,
   useTriggerAutomaticAnalysisMutation,
 } from '~adapters/queries/onboarding';
+import { useInvalidateComponentConfiguration } from '~shared/queries/navigation';
 import { useInvalidateOnboardingQueries } from '~shared/queries/onboarding';
 
 /** Permissions "Restore access" grants back, same pair as the project management modals. */
@@ -40,6 +41,7 @@ export function useRestoreProjectAccessMutation() {
   const { formatMessage } = useIntl();
   const { currentUser, isLoggedIn } = useCurrentUser();
   const { mutateAsync: grantProjectPermission } = useGrantProjectPermissionMutation();
+  const invalidateComponentConfiguration = useInvalidateComponentConfiguration();
   const invalidateOnboardingQueries = useInvalidateOnboardingQueries();
 
   return useMutation({
@@ -56,14 +58,18 @@ export function useRestoreProjectAccessMutation() {
         ),
       );
     },
-    onSuccess: async () => {
+    onSuccess: async (_, projectKey) => {
       toast.success({
         description: formatMessage({
           id: 'onboarding_dashboard.projects.action.restore_access.success',
         }),
         duration: 'short',
       });
-      await invalidateOnboardingQueries();
+      await Promise.all([
+        // The row no longer has access to restore.
+        invalidateComponentConfiguration(projectKey),
+        invalidateOnboardingQueries(),
+      ]);
     },
   });
 }

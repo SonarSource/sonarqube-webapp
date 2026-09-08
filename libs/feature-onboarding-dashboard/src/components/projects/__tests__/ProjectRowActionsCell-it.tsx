@@ -70,6 +70,26 @@ const UNBOUND_PROJECT: OnboardingProject = {
   scanStatus: OnboardingProjectScanStatus.NotScanned,
 };
 
+/**
+ * States what `/api/navigation/component` reports about the access of the reader, and answers the
+ * handler so a case can wait for the check to have run.
+ */
+function mockProjectAccess(hasAccess: boolean) {
+  const componentNavigation = jest.fn(() =>
+    HttpResponse.json({
+      configuration: { canBrowseProject: hasAccess, showPermissions: hasAccess },
+    }),
+  );
+  server.use(http.get('*/api/navigation/component', componentNavigation));
+
+  return componentNavigation;
+}
+
+beforeEach(() => {
+  // Lost access is the state most cases below are about; the others state their own.
+  mockProjectAccess(false);
+});
+
 afterEach(() => {
   server.resetHandlers();
   mockCanCreateProjects = true;
@@ -280,6 +300,49 @@ it('leaves the permissions untouched when the restore access modal is closed wit
   expect(grantPermission).not.toHaveBeenCalled();
 });
 
+it('offers no way to restore access to a project the reader can still browse', async () => {
+  const componentNavigation = mockProjectAccess(true);
+  const { user } = renderProjectRowActionsCell();
+
+  await user.click(ui.actionsButton.get());
+  expect(await ui.viewProjectAction.find()).toBeInTheDocument();
+
+  await waitFor(() => {
+    expect(componentNavigation).toHaveBeenCalled();
+  });
+
+  expect(ui.restoreAccessAction.query()).not.toBeInTheDocument();
+});
+
+it('offers no way to restore access when the access lookup fails', async () => {
+  // Unknown access is not lost access: a refused lookup leaves the menu with the entries that need
+  // no answer, rather than an action whose outcome cannot be predicted.
+  const componentNavigation = jest.fn(() => new HttpResponse(null, { status: 403 }));
+  server.use(http.get('*/api/navigation/component', componentNavigation));
+  const { user } = renderProjectRowActionsCell();
+
+  await user.click(ui.actionsButton.get());
+  expect(await ui.viewProjectAction.find()).toBeInTheDocument();
+
+  await waitFor(() => {
+    expect(componentNavigation).toHaveBeenCalled();
+  });
+
+  expect(ui.restoreAccessAction.query()).not.toBeInTheDocument();
+});
+
+it('checks the access of the reader only once the menu is opened', async () => {
+  const componentNavigation = mockProjectAccess(false);
+  const { user } = renderProjectRowActionsCell();
+
+  // A table page renders one cell per project, so the check must not cost a request per row.
+  expect(componentNavigation).not.toHaveBeenCalled();
+
+  await user.click(ui.actionsButton.get());
+
+  expect(await ui.restoreAccessAction.find()).toBeInTheDocument();
+});
+
 it('triggers a new automatic analysis, on the products that run one', async () => {
   const eligibilityCheck = jest.fn(() => HttpResponse.json({ eligible: true }));
   server.use(http.get('*/api/autoscan/eligibility', eligibilityCheck));
@@ -322,6 +385,7 @@ it('does not claim an analysis started when the project is not eligible', async 
 
 it('drops only the gated actions when the user cannot create projects', async () => {
   mockCanCreateProjects = false;
+  const componentNavigation = mockProjectAccess(false);
   const { user } = renderProjectRowActionsCell();
 
   await user.click(ui.actionsButton.get());
@@ -334,6 +398,9 @@ it('drops only the gated actions when the user cannot create projects', async ()
   expect(ui.configureCiAction.query()).not.toBeInTheDocument();
   expect(ui.rerunAutomaticAnalysisAction.query()).not.toBeInTheDocument();
   expect(ui.restoreAccessAction.query()).not.toBeInTheDocument();
+
+  // Its answer could not put the dropped entry back, so it is never asked for.
+  expect(componentNavigation).not.toHaveBeenCalled();
 });
 
 it('drops the binding shortcut when the user cannot create projects', async () => {

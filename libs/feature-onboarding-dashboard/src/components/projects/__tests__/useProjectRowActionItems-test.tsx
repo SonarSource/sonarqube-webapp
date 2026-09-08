@@ -23,6 +23,7 @@ import { PropsWithChildren } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { getContextWrapper } from '~adapters/helpers/test-utils';
 import { PROJECT_ALM_BINDING_SETTINGS_CATEGORY } from '~adapters/helpers/urls';
+import { useComponentConfigurationQuery } from '~shared/queries/navigation';
 import {
   OnboardingDevopsPlatform,
   OnboardingProject,
@@ -43,6 +44,11 @@ import { ProjectRowActionItem, useProjectRowActionItems } from '../useProjectRow
  */
 jest.mock('../projectRowActionMutations', () => ({
   useRerunAutomaticAnalysisMutation: jest.fn(),
+}));
+
+/** Stubbed so each case states the access of the reader rather than waiting for a request. */
+jest.mock('~shared/queries/navigation', () => ({
+  useComponentConfigurationQuery: jest.fn(),
 }));
 
 const PROJECT_KEY = 'identity-lib';
@@ -69,6 +75,13 @@ const UNBOUND_PROJECT: OnboardingProject = {
 const rerunAutomaticAnalysis = jest.fn();
 const onRestoreAccess = jest.fn();
 
+/** `undefined` while the answer is still on its way, as the query reports it. */
+function mockProjectAccess(hasAccess: boolean | undefined) {
+  jest
+    .mocked(useComponentConfigurationQuery)
+    .mockReturnValue({ data: hasAccess } as ReturnType<typeof useComponentConfigurationQuery>);
+}
+
 /** Offers the re-run mutation the way SQ-Cloud does, or drops it the way SQ-Server does. */
 function mockAutomaticAnalysisSupport(isSupported: boolean) {
   jest
@@ -93,9 +106,10 @@ function Wrapper({ children }: Readonly<PropsWithChildren>) {
 }
 
 function renderProjectRowActionItems(project = AUTOSCANNED_PROJECT): ProjectRowActionItem[] {
-  const { result } = renderHook(() => useProjectRowActionItems(project, { onRestoreAccess }), {
-    wrapper: Wrapper,
-  });
+  const { result } = renderHook(
+    () => useProjectRowActionItems(project, { onRestoreAccess, shouldCheckAccess: true }),
+    { wrapper: Wrapper },
+  );
 
   return result.current;
 }
@@ -128,6 +142,7 @@ function linkTarget(items: ProjectRowActionItem[], action: ProjectRowAction) {
 beforeEach(() => {
   jest.clearAllMocks();
   mockAutomaticAnalysisSupport(true);
+  mockProjectAccess(false);
 });
 
 it('runs the automatic analysis of the project when its entry is activated', () => {
@@ -154,6 +169,18 @@ it('opens the confirmation modal instead of restoring access straight away', () 
   activate(items, ProjectRowAction.RestoreAccess);
 
   expect(onRestoreAccess).toHaveBeenCalled();
+});
+
+it.each([
+  ['still has access to the project', true],
+  ['access is not known yet', undefined],
+])('drops the restore access entry when the reader %s', (_, hasAccess) => {
+  mockProjectAccess(hasAccess);
+
+  const actions = renderProjectRowActionItems().map(({ action }) => action);
+
+  expect(actions).not.toContain(ProjectRowAction.RestoreAccess);
+  expect(actions).toContain(ProjectRowAction.ViewProject);
 });
 
 it('sends an unbound project to the binding section of its settings', () => {

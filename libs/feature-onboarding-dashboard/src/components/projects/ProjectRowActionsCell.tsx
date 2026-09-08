@@ -60,7 +60,12 @@ interface Props {
  */
 export function ProjectRowActionsCell({ project }: Readonly<Props>) {
   const { formatMessage } = useIntl();
+  const [isMenuOpened, setIsMenuOpened] = useState(false);
   const [isRestoreAccessModalOpen, setIsRestoreAccessModalOpen] = useState(false);
+
+  const markMenuOpened = useCallback(() => {
+    setIsMenuOpened(true);
+  }, []);
 
   const openRestoreAccessModal = useCallback(() => {
     setIsRestoreAccessModalOpen(true);
@@ -72,7 +77,11 @@ export function ProjectRowActionsCell({ project }: Readonly<Props>) {
 
   const canCreateProjects = useCanCreateProjects();
 
-  const items = useProjectRowActionItems(project, { onRestoreAccess: openRestoreAccessModal });
+  const items = useProjectRowActionItems(project, {
+    onRestoreAccess: openRestoreAccessModal,
+    // Access only gates "Restore access", which the permission filter below drops anyway.
+    shouldCheckAccess: isMenuOpened && canCreateProjects,
+  });
 
   // Without the permission, only the entries that need it are dropped — the rest of the menu ("View
   // project" and friends) has nothing to do with it and must stay reachable.
@@ -117,7 +126,7 @@ export function ProjectRowActionsCell({ project }: Readonly<Props>) {
       {isMenuEmpty ? (
         <PermissionGate trigger={triggerButton} />
       ) : (
-        <DropdownMenu align={DropdownMenuAlign.End} items={dropdownItems}>
+        <DropdownMenu align={DropdownMenuAlign.End} items={dropdownItems} onOpen={markMenuOpened}>
           {triggerButton}
         </DropdownMenu>
       )}
