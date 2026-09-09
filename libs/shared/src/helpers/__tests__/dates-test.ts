@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { parseCalendarDate } from '../dates';
+import { getUtcDateRangeEndingToday, parseCalendarDate } from '../dates';
 
 describe('parseCalendarDate', () => {
   it('parses a date-only value as a local date rather than UTC', () => {
@@ -42,5 +42,46 @@ describe('parseCalendarDate', () => {
   it('returns undefined for values with no recognizable calendar date', () => {
     expect(parseCalendarDate('')).toBeUndefined();
     expect(parseCalendarDate('not-a-date')).toBeUndefined();
+  });
+});
+
+describe('getUtcDateRangeEndingToday', () => {
+  const now = new Date('2026-08-31T15:45:30.123Z');
+
+  it.each([
+    [7, '2026-08-25'],
+    [30, '2026-08-02'],
+    [90, '2026-06-03'],
+    [365, '2025-09-01'],
+  ])('maps %s days to an inclusive range starting %s', (days, expectedFrom) => {
+    expect(getUtcDateRangeEndingToday(days, now)).toEqual({ from: expectedFrom, to: '2026-08-31' });
+  });
+
+  it('produces an inclusive range spanning exactly the requested number of calendar days', () => {
+    const { from, to } = getUtcDateRangeEndingToday(7, now);
+    const spanDays =
+      (new Date(`${to}T00:00:00Z`).getTime() - new Date(`${from}T00:00:00Z`).getTime()) /
+        (24 * 60 * 60 * 1000) +
+      1;
+
+    expect(spanDays).toBe(7);
+  });
+
+  it('is unaffected by the time-of-day component of `now`', () => {
+    const midnight = new Date('2026-08-31T00:00:00.000Z');
+    const lateNight = new Date('2026-08-31T23:59:59.999Z');
+
+    expect(getUtcDateRangeEndingToday(30, midnight)).toEqual(
+      getUtcDateRangeEndingToday(30, lateNight),
+    );
+  });
+
+  it('crosses a year boundary correctly', () => {
+    const newYearsDay = new Date('2026-01-01T12:00:00Z');
+
+    expect(getUtcDateRangeEndingToday(7, newYearsDay)).toEqual({
+      from: '2025-12-26',
+      to: '2026-01-01',
+    });
   });
 });

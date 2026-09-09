@@ -20,6 +20,8 @@
 
 const CALENDAR_DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})/;
 
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+
 // Shared display format for a bare calendar date (e.g. a snooze/deferral date), so every call
 // site formats it identically instead of repeating the same options object.
 export const CALENDAR_DATE_DISPLAY_FORMAT: Intl.DateTimeFormatOptions = {
@@ -43,4 +45,22 @@ export function parseCalendarDate(value: string): Date | undefined {
   const [, year, month, day] = match;
 
   return new Date(Number(year), Number(month) - 1, Number(day));
+}
+
+export interface UtcDateRange {
+  from: string;
+  to: string;
+}
+
+/**
+ * Inclusive UTC calendar date range of `days` days ending on `now`'s UTC calendar date, as
+ * `YYYY-MM-DD` strings — e.g. 7 days ending 2026-08-31 gives
+ * `{ from: '2026-08-25', to: '2026-08-31' }`. For APIs that take explicit `from`/`to` UTC calendar
+ * date params rather than an opaque period key.
+ */
+export function getUtcDateRangeEndingToday(days: number, now: Date = new Date()): UtcDateRange {
+  const to = now.toISOString().slice(0, 10);
+  const from = new Date(now.getTime() - (days - 1) * MS_PER_DAY).toISOString().slice(0, 10);
+
+  return { from, to };
 }

@@ -1237,6 +1237,11 @@ export const defaultMessages = {
   'vortex_dashboard.description.paragraph2':
     "This dashboard breaks down each project's savings as Vortex is being used. Read our documentation to <link>learn more about Vortex</link>.",
   'vortex_dashboard.configuration': 'Configuration',
+  'vortex_dashboard.period.label': 'Period',
+  'vortex_dashboard.period.last_7_days': 'Last 7 days',
+  'vortex_dashboard.period.last_30_days': 'Last 30 days',
+  'vortex_dashboard.period.last_90_days': 'Last 90 days',
+  'vortex_dashboard.period.last_365_days': 'Last 365 days',
 
   //------------------------------------------------------------------------------
   //

@@ -41,6 +41,7 @@ installExtensionsHandler();
 initMockApi([
   ...(addons.architecture?.getArchitectureDevMockHandlers?.() ?? []),
   ...(addons.license?.getLicenseDevMockHandlers?.() ?? []),
+  ...(addons.vortexDashboard?.getVortexDashboardDevMockHandlers?.() ?? []),
 ])
   .then(initApplication)
   .catch((e) => {
