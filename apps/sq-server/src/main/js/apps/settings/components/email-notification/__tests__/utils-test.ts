@@ -469,6 +469,27 @@ describe('checkEmailConfigurationValidity oauth-auth props', () => {
       ),
     ).toBe(true);
   });
+
+  it('should not require oauthScope — form is valid without it', () => {
+    expect(
+      checkEmailConfigurationHasChanges(
+        mockEmailConfiguration(AuthMethod.OAuth, {
+          ...validOAuthValues,
+          oauthScope: undefined,
+        }),
+        null,
+      ),
+    ).toBe(true);
+    expect(
+      checkEmailConfigurationHasChanges(
+        mockEmailConfiguration(AuthMethod.OAuth, {
+          ...validOAuthValues,
+          oauthScope: '',
+        }),
+        null,
+      ),
+    ).toBe(true);
+  });
 });
 
 describe('checkEmailConfigurationValidity editing oauth-auth props', () => {

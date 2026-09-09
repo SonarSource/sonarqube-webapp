@@ -6376,6 +6376,9 @@ export const defaultMessages = {
   'email_notification.form.oauth_client_secret': 'Client Secret',
   'email_notification.form.oauth_client_secret.description':
     'Client password provided by Microsoft Exchange when registering the application.',
+  'email_notification.form.oauth_scope': 'Scope',
+  'email_notification.form.oauth_scope.description':
+    'OAuth scope requested when acquiring an access token. Leave empty to use the default Microsoft 365 scope. Use "https://outlook.office365.us/.default" for Azure Government (GCC High).',
   'email_notification.form.oauth_tenant': 'Tenant',
   'email_notification.form.oauth_tenant.description': 'Microsoft tenant.',
   'email_notification.form.host': 'SMTP host',

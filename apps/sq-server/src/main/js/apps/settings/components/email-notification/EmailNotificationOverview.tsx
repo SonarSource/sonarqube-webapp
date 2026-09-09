@@ -67,6 +67,12 @@ export default function EmailNotificationOverview(props: Readonly<EmailTestModal
                 messageKey="email_notification.form.oauth_tenant"
                 value={emailConfiguration.oauthTenant}
               />
+              {emailConfiguration.oauthScope && (
+                <PublicValue
+                  messageKey="email_notification.form.oauth_scope"
+                  value={emailConfiguration.oauthScope}
+                />
+              )}
             </>
           )}
 

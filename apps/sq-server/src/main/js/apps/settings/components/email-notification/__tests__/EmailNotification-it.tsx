@@ -94,6 +94,7 @@ const ui = {
   oauth_client_id_edit: byTestId('email_notification.form.oauth_client_id-edit'),
   oauth_client_id_reset: byTestId('email_notification.form.oauth_client_id-reset'),
   oauth_client_secret: byLabelText('email_notification.form.oauth_client_secret*'),
+  oauth_scope: byRole('textbox', { name: 'email_notification.form.oauth_scope' }),
   oauth_tenant: byRole('textbox', { name: 'email_notification.form.oauth_tenant field_required' }),
 
   save: byRole('button', {
@@ -108,6 +109,7 @@ const ui = {
   overview_oauth_auth_host: byTestId('email_notification.form.oauth_authentication_host.value'),
   overview_oauth_client_id: byTestId('email_notification.form.oauth_client_id.value'),
   overview_oauth_client_secret: byTestId('email_notification.form.oauth_client_secret.value'),
+  overview_oauth_scope: byTestId('email_notification.form.oauth_scope.value'),
   overview_oauth_tenant: byTestId('email_notification.form.oauth_tenant.value'),
   overview_host: byTestId('email_notification.form.host.value'),
   overview_port: byTestId('email_notification.form.port.value'),
@@ -307,6 +309,7 @@ describe('Email Oauth Configuration', () => {
     expect(ui.oauth_auth_host.get()).toHaveValue('');
     expect(ui.oauth_client_id.get()).toHaveValue('');
     expect(ui.oauth_client_secret.get()).toHaveValue('');
+    expect(ui.oauth_scope.get()).toHaveValue('');
     expect(ui.oauth_tenant.get()).toHaveValue('');
     expect(ui.host.get()).toHaveValue('');
     expect(ui.port.get()).toHaveValue(587);
@@ -318,6 +321,7 @@ describe('Email Oauth Configuration', () => {
     await user.type(ui.oauth_auth_host.get(), 'oauth_auth_host');
     await user.type(ui.oauth_client_id.get(), 'oauth_client_id');
     await user.type(ui.oauth_client_secret.get(), 'oauth_client_secret');
+    await user.type(ui.oauth_scope.get(), 'oauth_scope');
     await user.type(ui.oauth_tenant.get(), 'oauth_tenant');
     await user.type(ui.host.get(), 'host');
     await user.clear(ui.port.get());
@@ -336,6 +340,7 @@ describe('Email Oauth Configuration', () => {
     expect(ui.oauth_auth_host.get()).toHaveValue('oauth_auth_host');
     expect(ui.oauth_client_id.get()).toHaveValue('oauth_client_id');
     expect(ui.oauth_client_secret.get()).toHaveValue('oauth_client_secret');
+    expect(ui.oauth_scope.get()).toHaveValue('oauth_scope');
     expect(ui.oauth_tenant.get()).toHaveValue('oauth_tenant');
     expect(ui.host.get()).toHaveValue('host');
     expect(ui.port.get()).toHaveValue(1234);
@@ -354,6 +359,7 @@ describe('Email Oauth Configuration', () => {
       oauthAuthenticationHost: 'oauth_auth_host',
       oauthClientId: 'oauth_client_id',
       oauthClientSecret: 'oauth_client_secret',
+      oauthScope: 'oauth_scope',
       oauthTenant: 'oauth_tenant',
       fromAddress: 'admin@localhost.com',
       fromName: 'fromName',
@@ -378,6 +384,7 @@ describe('Email Oauth Configuration', () => {
     expect(ui.overview_oauth_client_secret.get()).toHaveTextContent(
       'email_notification.overview.private',
     );
+    expect(ui.overview_oauth_scope.get()).toHaveTextContent('oauth_scope');
     expect(ui.overview_oauth_tenant.get()).toHaveTextContent('oauth_tenant');
     expect(ui.overview_host.get()).toHaveTextContent('host');
     expect(ui.overview_port.get()).toHaveTextContent('1234');
@@ -404,6 +411,7 @@ describe('Email Oauth Configuration', () => {
     expect(ui.overview_oauth_client_secret.get()).toHaveTextContent(
       'email_notification.overview.private',
     );
+    expect(ui.overview_oauth_scope.get()).toHaveTextContent('oauth_scope');
     expect(ui.overview_oauth_tenant.get()).toHaveTextContent('oauth_tenant');
     expect(ui.overview_host.get()).toHaveTextContent('host');
     expect(ui.overview_port.get()).toHaveTextContent('port');
@@ -411,6 +419,17 @@ describe('Email Oauth Configuration', () => {
     expect(ui.overview_from_address.get()).toHaveTextContent('from_address');
     expect(ui.overview_from_name.get()).toHaveTextContent('from_name');
     expect(ui.overview_subject_prefix.get()).toHaveTextContent('subject_prefix');
+  });
+
+  it('hides the scope row in the overview when oauthScope is unset', async () => {
+    systemHandler.addEmailConfiguration(
+      mockEmailConfiguration(AuthMethod.OAuth, { id: 'email-3', oauthScope: undefined }),
+    );
+
+    renderEmailNotifications();
+
+    expect(await ui.overviewHeading.find()).toBeInTheDocument();
+    expect(ui.overview_oauth_scope.query()).not.toBeInTheDocument();
   });
 
   it('can edit the configuration', async () => {
@@ -453,6 +472,7 @@ describe('Email Oauth Configuration', () => {
       oauthAuthenticationHost: 'oauth_auth_host-updated',
       oauthClientId: 'updated_id',
       oauthClientSecret: 'updated_secret',
+      oauthScope: 'oauth_scope',
       oauthTenant: 'oauth_tenant-updated',
       fromAddress: 'updated@email.com',
       fromName: 'from_name-updated',
@@ -480,6 +500,7 @@ describe('Email Oauth Configuration', () => {
     expect(ui.overview_oauth_client_secret.get()).toHaveTextContent(
       'email_notification.overview.private',
     );
+    expect(ui.overview_oauth_scope.get()).toHaveTextContent('oauth_scope');
     expect(ui.overview_oauth_tenant.get()).toHaveTextContent('oauth_tenant');
     expect(ui.overview_host.get()).toHaveTextContent('host');
     expect(ui.overview_port.get()).toHaveTextContent('5678');

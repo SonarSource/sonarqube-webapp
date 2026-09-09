@@ -37,6 +37,7 @@ export const IS_OAUTH_CLIENT_SECRET_SET = 'is-oauth-client-secret-set';
 export const OAUTH_AUTHENTICATION_HOST = 'oauth-authentication-host';
 export const OAUTH_CLIENT_ID = 'oauth-client-id';
 export const OAUTH_CLIENT_SECRET = 'oauth-client-secret';
+export const OAUTH_SCOPE = 'oauth-scope';
 export const OAUTH_TENANT = 'oauth-tenant';
 
 // Common settings

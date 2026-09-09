@@ -103,6 +103,7 @@ interface EmailNotificationOAuth {
   oauthAuthenticationHost: string;
   oauthClientId: string;
   oauthClientSecret: string;
+  oauthScope?: string;
   oauthTenant: string;
 }
 

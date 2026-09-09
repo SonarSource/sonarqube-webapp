@@ -29,6 +29,7 @@ import {
   OAUTH_AUTHENTICATION_HOST,
   OAUTH_CLIENT_ID,
   OAUTH_CLIENT_SECRET,
+  OAUTH_SCOPE,
   OAUTH_TENANT,
   USERNAME,
 } from './utils';
@@ -138,6 +139,18 @@ export function AuthenticationSelector(props: Readonly<EmailNotificationGroupPro
             }}
             required
             value={configuration.oauthTenant ?? ''}
+          />
+          <Divider className="sw-my-1" />
+          <EmailNotificationFormField
+            description={intl.formatMessage({
+              id: 'email_notification.form.oauth_scope.description',
+            })}
+            id={OAUTH_SCOPE}
+            name={intl.formatMessage({ id: 'email_notification.form.oauth_scope' })}
+            onChange={(value) => {
+              onChange({ oauthScope: value });
+            }}
+            value={configuration.oauthScope ?? ''}
           />
         </>
       ) : (

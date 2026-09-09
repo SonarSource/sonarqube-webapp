@@ -51,6 +51,7 @@ export function mockEmailConfiguration(
           oauthAuthenticationHost: 'oauth_auth_host',
           oauthClientId: undefined,
           oauthClientSecret: undefined,
+          oauthScope: 'oauth_scope',
           oauthTenant: 'oauth_tenant',
         };
 
