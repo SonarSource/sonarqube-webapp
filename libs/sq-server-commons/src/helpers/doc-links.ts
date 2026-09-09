@@ -102,8 +102,7 @@ export enum DocLink {
   ManagingPortfoliosAvoidingDuplications = '/project-administration/managing-portfolios#avoiding-duplications-in-portfolios',
   MetricDefinitions = '/user-guide/code-metrics/metrics-definition/',
   PermissionTemplates = '/instance-administration/user-management/user-permissions#permission-templates',
-  // PENDING SONAR-31006: Placeholder link — confirm/update once the docs page is published before releasing.
-  DashboardHistoryRetention = '/instance-administration/housekeeping/dashboard-history-retention',
+  DashboardHistoryRetention = '/instance-administration/system-functions/housekeeping',
   ModeOverview = '/instance-administration/analysis-functions/instance-mode/instance-mode-overview',
   ModeMQR = '/instance-administration/analysis-functions/instance-mode/mqr-mode',
   ModeStandard = '/instance-administration/analysis-functions/instance-mode/standard-experience',
