@@ -11502,7 +11502,7 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.import.title': 'Import repositories',
   'onboarding_dashboard.journey.import.description':
     "Import all your repositories to unlock central visibility into your team's code health and block vulnerabilities before they hit production.",
-  'onboarding_dashboard.journey.import.cta': 'Import repositories',
+  'onboarding_dashboard.journey.import.cta': 'Import',
   'onboarding_dashboard.journey.import.auto': 'Automatically import new repositories',
   'onboarding_dashboard.journey.import.auto_loading': 'Loading auto-import settings',
   'onboarding_dashboard.journey.import.auto_toggle_error':
@@ -11535,7 +11535,7 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.analyze.not_imported.title': 'Not imported',
   'onboarding_dashboard.journey.analyze.not_imported.desc':
     'These projects have not yet reported a scan result. This may happen if analysis has not been set up, a scan has not run successfully, or no code has been analyzed yet.',
-  'onboarding_dashboard.journey.analyze.not_imported.cta': 'Import repositories',
+  'onboarding_dashboard.journey.analyze.not_imported.cta': 'Import',
   'onboarding_dashboard.journey.analyze.projects_count': '{count} projects',
   'onboarding_dashboard.journey.analyze.legend.analyzed': 'Analyzed',
   'onboarding_dashboard.journey.analyze.legend.not_scanned': 'Not scanned',

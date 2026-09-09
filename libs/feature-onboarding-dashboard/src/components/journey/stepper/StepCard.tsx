@@ -32,6 +32,7 @@ import { ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 import { DonutChart } from '~shared/components/charts/DonutChart';
 import { OnboardingProgressDonut } from '~shared/components/onboarding/OnboardingProgressDonut';
+import { OnboardingRingValue } from '~shared/components/onboarding/OnboardingRingValue';
 import { StepCardVisual } from '../../../types/types';
 
 /** Filled circle sitting inside the ring for the "bound" binding visual. */
@@ -99,6 +100,7 @@ function VisualSlot({
     case StepCardVisual.Donut:
       return (
         <OnboardingProgressDonut
+          hasProminentLabel
           isDecorative
           showLabel
           size={DONUT_SIZE}
@@ -124,7 +126,7 @@ function VisualSlot({
     case StepCardVisual.CountRing:
       return (
         <Ring
-          center={<Text isHighlighted>{ringLabel}</Text>}
+          center={<OnboardingRingValue>{ringLabel}</OnboardingRingValue>}
           ringColor={cssVar('color-charts-categorical-1')}
         />
       );
@@ -205,7 +207,9 @@ export function StepCard({
           <div className="sw-flex sw-items-center sw-gap-4 sw-py-2">
             <VisualSlot donutPercent={donutPercent} ringLabel={ringLabel} visual={visual} />
             <div className="sw-flex sw-min-w-0 sw-flex-col">
-              <Text isHighlighted>{title}</Text>
+              <Text isHighlighted size={TextSize.Large}>
+                {title}
+              </Text>
               {secondaryLine !== undefined && (
                 <Text isSubtle size={TextSize.Small}>
                   {secondaryLine}

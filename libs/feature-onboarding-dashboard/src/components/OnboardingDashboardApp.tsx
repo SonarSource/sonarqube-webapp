@@ -46,7 +46,7 @@ export default function OnboardingDashboardApp({ organizationKey }: Readonly<Pro
   });
 
   return (
-    <>
+    <div className="sw-flex sw-flex-col sw-gap-6">
       {isError && (
         <MessageCallout variety="danger">
           <FormattedMessage id="default_error_message" />
@@ -72,6 +72,6 @@ export default function OnboardingDashboardApp({ organizationKey }: Readonly<Pro
           </div>
         )}
       </LoadingContainer>
-    </>
+    </div>
   );
 }

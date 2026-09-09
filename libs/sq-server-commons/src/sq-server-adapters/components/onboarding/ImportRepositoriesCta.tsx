@@ -55,7 +55,9 @@ export function ImportRepositoriesCta({ children, variety }: Readonly<PropsWithC
   if (!canCreateProject) {
     return (
       <PermissionRequiredPopover>
-        <Button variety={variety}>{children}</Button>
+        <Button className="sw-shrink-0" variety={variety}>
+          {children}
+        </Button>
       </PermissionRequiredPopover>
     );
   }
@@ -90,6 +92,7 @@ export function ImportRepositoriesCta({ children, variety }: Readonly<PropsWithC
       }
     >
       <Button
+        className="sw-shrink-0"
         isLoading={loading}
         suffix={<IconChevronDown className="sw-ml-1" />}
         variety={variety}

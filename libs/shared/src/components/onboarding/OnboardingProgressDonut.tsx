@@ -21,8 +21,15 @@
 import { cssVar, Text } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { DonutChart } from '../charts/DonutChart';
+import { OnboardingRingValue } from './OnboardingRingValue';
 
 interface Props {
+  /**
+   * When `true`, the label reads as `heading-medium` instead of `text-default-semibold`. Only for
+   * rings whose hole is wide enough for it: the step cards' 64px ring is, the 56px page-header
+   * ring is not — a three-digit percentage would there overlap the stroke.
+   */
+  hasProminentLabel?: boolean;
   /**
    * When `true`, hide the ring from assistive technology, for callers that already announce the
    * percentage themselves (a step card folds it into the card's accessible name).
@@ -39,6 +46,7 @@ interface Props {
 }
 
 export function OnboardingProgressDonut({
+  hasProminentLabel = false,
   isDecorative = false,
   showLabel = false,
   size = 72,
@@ -70,7 +78,11 @@ export function OnboardingProgressDonut({
       />
       {showLabel && (
         <div className="sw-absolute sw-inset-0 sw-flex sw-items-center sw-justify-center">
-          <Text isHighlighted>{label}</Text>
+          {hasProminentLabel ? (
+            <OnboardingRingValue>{label}</OnboardingRingValue>
+          ) : (
+            <Text isHighlighted>{label}</Text>
+          )}
         </div>
       )}
     </div>

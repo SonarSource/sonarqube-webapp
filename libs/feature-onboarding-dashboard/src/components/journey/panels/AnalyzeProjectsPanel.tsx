@@ -140,14 +140,16 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
         segments={segments}
       />
 
-      <div className="sw-flex sw-min-w-0 sw-flex-1 sw-flex-col sw-gap-4">
-        <Heading as="h3" size={HeadingSize.Small}>
-          {formatMessage({ id: 'onboarding_dashboard.journey.analyze.title' })}
-        </Heading>
+      <div className="sw-flex sw-min-w-0 sw-flex-1 sw-flex-col sw-gap-4 sw-py-4">
+        <div className="sw-flex sw-flex-col sw-gap-2">
+          <Heading as="h3" size={HeadingSize.Medium}>
+            {formatMessage({ id: 'onboarding_dashboard.journey.analyze.title' })}
+          </Heading>
 
-        <Text as="p" isSubtle>
-          {formatMessage({ id: 'onboarding_dashboard.journey.analyze.description' })}
-        </Text>
+          <Text as="p" isSubtle>
+            {formatMessage({ id: 'onboarding_dashboard.journey.analyze.description' })}
+          </Text>
+        </div>
 
         <div className="sw-flex sw-flex-col sw-gap-3">
           {rows.map((row) => (

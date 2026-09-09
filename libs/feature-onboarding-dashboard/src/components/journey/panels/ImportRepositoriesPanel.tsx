@@ -30,12 +30,11 @@ import {
 import { useIntl } from 'react-intl';
 import { ImportRepositoriesCta } from '~adapters/components/onboarding/ImportRepositoriesCta';
 import { ImportRepositoriesExtraCard } from '~adapters/components/onboarding/ImportRepositoriesExtraCard';
-import { JourneyState, JourneyStep } from '~shared/types/onboarding';
+import { JourneyState } from '~shared/types/onboarding';
 import { PanelDonut, PanelDonutSegment } from '../charts/PanelDonut';
 import { ImportRepositoriesModal } from '../modals/ImportRepositoriesModal';
 
 interface Props {
-  onSelectStep: (step: JourneyStep) => void;
   state: JourneyState;
 }
 
@@ -45,7 +44,7 @@ interface Props {
  * Right: the product's extra import card (auto-import toggle on SQC, CLI bulk-import card on SQS),
  * which is told whether everything is already imported.
  */
-export function ImportRepositoriesPanel({ onSelectStep, state }: Readonly<Props>) {
+export function ImportRepositoriesPanel({ state }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const { imported, importedPct, notYetImported } = state;
 
@@ -89,31 +88,25 @@ export function ImportRepositoriesPanel({ onSelectStep, state }: Readonly<Props>
         }
       />
 
-      <div className="sw-flex sw-min-w-0 sw-flex-1 sw-flex-col sw-gap-4">
-        <Heading as="h3" size={HeadingSize.Small}>
-          {formatMessage({ id: 'onboarding_dashboard.journey.import.title' })}
-        </Heading>
+      <div className="sw-flex sw-min-w-0 sw-flex-1 sw-flex-col sw-gap-4 sw-py-4">
+        <div className="sw-flex sw-flex-col sw-gap-2">
+          <Heading as="h3" size={HeadingSize.Medium}>
+            {formatMessage({ id: 'onboarding_dashboard.journey.import.title' })}
+          </Heading>
 
-        <Text as="p" isSubtle>
-          {formatMessage({ id: 'onboarding_dashboard.journey.import.description' })}
-        </Text>
+          <Text as="p" isSubtle>
+            {formatMessage({ id: 'onboarding_dashboard.journey.import.description' })}
+          </Text>
+        </div>
 
         <ImportRepositoriesExtraCard isFullyImported={notYetImported === 0} />
 
-        <Divider className="sw-max-w-[650px]" />
+        <Divider />
 
-        <div className="sw-flex sw-gap-2">
+        <div>
           <ImportRepositoriesCta variety={ButtonVariety.Primary}>
             {formatMessage({ id: 'onboarding_dashboard.journey.import.cta' })}
           </ImportRepositoriesCta>
-          <Button
-            onClick={() => {
-              onSelectStep(JourneyStep.Projects);
-            }}
-            variety={ButtonVariety.Default}
-          >
-            {formatMessage({ id: 'next' })}
-          </Button>
         </div>
       </div>
     </div>

@@ -190,7 +190,6 @@ const ui = {
   importedLegend: byText('onboarding_dashboard.journey.import.legend.imported'),
   importedCenterLabel: byText('onboarding_dashboard.journey.import.imported_label'),
   notImportedLegend: byText('onboarding_dashboard.journey.import.legend.not_imported'),
-  nextCta: byRole('button', { name: 'next' }),
 
   // Permission
   permissionDescription: byText('onboarding_dashboard.journey.permission_required.description'),
@@ -377,18 +376,13 @@ it('renders only the not-imported donut segment before any repository is importe
   // The centre still names what the percentage measures, even with no "Imported" segment.
   expect(ui.importedCenterLabel.get()).toBeInTheDocument();
 
-  // Both footer actions are always present.
-  // Awaited: the SQS import CTA fetches its ALM bindings on mount and stays in its own loading
-  // state (covered by ImportRepositoriesCta's own test) until that settles.
   expect(await ui.importCta.find()).toBeInTheDocument();
-  expect(ui.nextCta.get()).toBeInTheDocument();
 });
 
 it('renders both donut segments once repositories are imported', async () => {
   renderPanel(JourneyStep.Repositories, boundState);
 
   expect(await ui.importCta.find()).toBeInTheDocument();
-  expect(ui.nextCta.get()).toBeInTheDocument();
 
   // Both donut segments are present once something is imported.
   expect(ui.importedLegend.get()).toBeInTheDocument();
@@ -398,17 +392,6 @@ it('renders both donut segments once repositories are imported', async () => {
   // than the "<imported> / <discovered>" count it used to show.
   expect(ui.importedCenterLabel.get()).toBeInTheDocument();
   expect(ui.donutStepCount.query()).not.toBeInTheDocument();
-});
-
-it('navigates to the analyze step when the next button is clicked', async () => {
-  const user = userEvent.setup();
-  const onSelectStep = jest.fn();
-
-  renderPanel(JourneyStep.Repositories, boundState, onSelectStep);
-
-  await user.click(await ui.nextCta.find());
-
-  expect(onSelectStep).toHaveBeenCalledWith(JourneyStep.Projects);
 });
 
 it('shows the permission popover when the user lacks permission and clicks the bind CTA', async () => {

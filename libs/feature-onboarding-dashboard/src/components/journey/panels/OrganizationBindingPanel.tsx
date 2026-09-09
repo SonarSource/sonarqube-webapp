@@ -72,14 +72,16 @@ export function OrganizationBindingPanel({ onSelectStep, state }: Readonly<Props
         />
       )}
 
-      <div className="sw-flex sw-min-w-0 sw-flex-1 sw-flex-col sw-gap-4">
-        <Heading as="h3" size={HeadingSize.Small}>
-          {formatMessage({ id: 'onboarding_dashboard.journey.binding.title' })}
-        </Heading>
+      <div className="sw-flex sw-min-w-0 sw-flex-1 sw-flex-col sw-gap-4 sw-py-4">
+        <div className="sw-flex sw-flex-col sw-gap-2">
+          <Heading as="h3" size={HeadingSize.Medium}>
+            {formatMessage({ id: 'onboarding_dashboard.journey.binding.title' })}
+          </Heading>
 
-        <Text as="p" isSubtle>
-          <FormattedMessage id="onboarding_dashboard.journey.binding.description" />
-        </Text>
+          <Text as="p" isSubtle>
+            <FormattedMessage id="onboarding_dashboard.journey.binding.description" />
+          </Text>
+        </div>
 
         {showBindingReview && (
           <>

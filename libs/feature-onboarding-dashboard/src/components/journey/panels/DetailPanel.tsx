@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Card } from '@sonarsource/echoes-react';
+import { Card, CardSize } from '@sonarsource/echoes-react';
 import { useLayoutEffect, useRef } from 'react';
 import { JourneyState, JourneyStep } from '~shared/types/onboarding';
 import { AnalyzeProjectsPanel } from './AnalyzeProjectsPanel';
@@ -40,7 +40,7 @@ function renderPanel(
     case JourneyStep.Binding:
       return <OrganizationBindingPanel onSelectStep={onSelectStep} state={state} />;
     case JourneyStep.Repositories:
-      return <ImportRepositoriesPanel onSelectStep={onSelectStep} state={state} />;
+      return <ImportRepositoriesPanel state={state} />;
     case JourneyStep.Projects:
       return <AnalyzeProjectsPanel state={state} />;
   }
@@ -130,7 +130,7 @@ export function DetailPanel({ onSelectStep, selectedStep, state }: Readonly<Prop
   }, []);
 
   return (
-    <Card>
+    <Card size={CardSize.Large}>
       <Card.Body>
         <div data-testid="detail-panel-content" ref={contentRef} style={{ overflow: 'hidden' }}>
           {renderPanel(selectedStep, state, onSelectStep)}

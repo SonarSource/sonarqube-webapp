@@ -124,12 +124,8 @@ export function PanelDonut({ centerLabel, centerSubLabel, segments, viewAll }: R
               width={DONUT_SIZE}
             />
             <div className="sw-pointer-events-none sw-absolute sw-inset-0 sw-flex sw-flex-col sw-items-center sw-justify-center">
-              <Text isHighlighted size={TextSize.Large}>
-                {centerLabel}
-              </Text>
-              <Text isSubtle size={TextSize.Small}>
-                {centerSubLabel}
-              </Text>
+              <DonutValue>{centerLabel}</DonutValue>
+              <Text isSubtle>{centerSubLabel}</Text>
             </div>
           </div>
 
@@ -200,6 +196,10 @@ export function PanelDonut({ centerLabel, centerSubLabel, segments, viewAll }: R
     </StyledCard>
   );
 }
+
+const DonutValue = styled(Text)`
+  font: ${cssVar('typography-heading-xlarge')};
+`;
 
 const StyledCard = styled.div`
   align-self: stretch;
