@@ -27,7 +27,7 @@ describe('useFlags', () => {
 
     expect(result.current).toMatchObject({
       designArchitectureSquadExtensionPack: true,
-      scaEnableReachabilityFrontend: false,
+      scaEnableReachabilityFrontend: true,
       scaKeyChangesPrView: false,
     });
   });

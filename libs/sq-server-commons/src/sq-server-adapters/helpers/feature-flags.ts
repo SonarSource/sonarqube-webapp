@@ -51,7 +51,7 @@ const defaultFlags: SQSFlagSet = {
   designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
   enableVortexDashboard: false,
   licenseEnableUsageProductsUi: true,
-  scaEnableReachabilityFrontend: false,
+  scaEnableReachabilityFrontend: true,
   scaKeyChangesPrView: false,
 };
 
