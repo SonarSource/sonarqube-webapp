@@ -197,13 +197,19 @@ function buildDashboardMetricTitleDescriptor(
 
   if (metric.type === DashboardMetricType.IssueResolution) {
     const softwareQuality = metric.measureFilters?.impactSoftwareQuality;
-    if (metric.statistic === IssueResolutionStatistic.RecentMTTR && softwareQuality !== undefined) {
+    const isMttrMetric =
+      metric.statistic === IssueResolutionStatistic.MTTR ||
+      metric.statistic === IssueResolutionStatistic.RecentMTTR;
+    if (isMttrMetric && softwareQuality !== undefined) {
       return {
         overTime: hasHistoryRange,
         parts: [
           ...getMeasureFilterTitleParts(metric.measureFilters, false),
           {
-            messageId: 'dashboard.widget.title.recent_mttr_with_software_quality',
+            messageId:
+              metric.statistic === IssueResolutionStatistic.MTTR
+                ? 'dashboard.widget.title.mttr_with_software_quality'
+                : 'dashboard.widget.title.recent_mttr_with_software_quality',
             values: {
               softwareQuality: { messageId: `software_quality.${softwareQuality}` },
             },

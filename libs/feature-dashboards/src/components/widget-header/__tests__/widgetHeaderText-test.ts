@@ -38,6 +38,9 @@ const formatMessage = ((
   if (descriptor.id === 'dashboard.widget.title.over_time') {
     return `${values?.title} over time`;
   }
+  if (descriptor.id === 'dashboard.widget.title.mttr_with_software_quality') {
+    return `MTTR for ${values?.softwareQuality} issues`;
+  }
   if (descriptor.id === 'dashboard.widget.title.recent_mttr_with_software_quality') {
     return `MTTR for newly introduced ${values?.softwareQuality} issues`;
   }
@@ -99,6 +102,21 @@ describe('getDashboardMetricTitle', () => {
         },
       }),
     ).toBe('MTTR for newly introduced software_quality.SECURITY issues');
+  });
+
+  it('places the software quality within the MTTR title', () => {
+    expect(
+      getDashboardMetricTitle({
+        formatMessage,
+        getLocalizedMetricName,
+        hasHistoryRange: false,
+        metric: {
+          measureFilters: { impactSoftwareQuality: SoftwareQuality.Security },
+          statistic: IssueResolutionStatistic.MTTR,
+          type: DashboardMetricType.IssueResolution,
+        },
+      }),
+    ).toBe('MTTR for software_quality.SECURITY issues');
   });
 
   it('maps hotspot and raw metrics to their localized names', () => {
