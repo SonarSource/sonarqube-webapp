@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export const QUALITY_PROFILE_SONAR_WAY = 'Sonar way';
+export const QUALITY_PROFILE_SONAR_WAY = 'Sonar way comprehensive';
 
 export const QUALITY_PROFILE_SONAR_AGENTIC_AI = 'Sonar agentic AI';
 

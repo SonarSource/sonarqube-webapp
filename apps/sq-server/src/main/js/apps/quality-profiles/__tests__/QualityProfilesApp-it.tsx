@@ -25,6 +25,7 @@ import { LanguagesServiceMock } from '~sq-server-commons/api/mocks/LanguagesServ
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import QualityProfilesServiceMock from '~sq-server-commons/api/mocks/QualityProfilesServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
+import { QUALITY_PROFILE_SONAR_WAY } from '~sq-server-commons/helpers/quality-profiles';
 import { mockCompareResult, mockPaging, mockRule } from '~sq-server-commons/helpers/testMocks';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { Mode } from '~sq-server-commons/types/mode';
@@ -489,14 +490,16 @@ describe('Compare', () => {
     serviceMock.setAdmin();
     renderQualityProfiles();
 
-    await user.click(await ui.listProfileActions('Sonar way', 'Java').find());
+    await user.click(await ui.listProfileActions(QUALITY_PROFILE_SONAR_WAY, 'Java').find());
     await user.click(ui.compareButton.get());
     await user.click(ui.compareDropdown.get());
     await user.click(byRole('option', { name: 'java quality profile' }).get());
 
-    expect(await ui.comparisonDiffTableHeading(1, 'Sonar way').find()).toBeInTheDocument();
-    expect(ui.activeRuleButton('Sonar way').query()).not.toBeInTheDocument();
-    expect(ui.deactivateRuleButton('Sonar way').query()).not.toBeInTheDocument();
+    expect(
+      await ui.comparisonDiffTableHeading(1, QUALITY_PROFILE_SONAR_WAY).find(),
+    ).toBeInTheDocument();
+    expect(ui.activeRuleButton(QUALITY_PROFILE_SONAR_WAY).query()).not.toBeInTheDocument();
+    expect(ui.deactivateRuleButton(QUALITY_PROFILE_SONAR_WAY).query()).not.toBeInTheDocument();
   });
 
   it('should be able to activate or deactivate rules in comparison page', async () => {

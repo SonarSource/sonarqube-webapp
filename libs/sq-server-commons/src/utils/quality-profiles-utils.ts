@@ -26,9 +26,28 @@ import { isValidDate, parseDate } from '../helpers/dates';
 import { queryToSearchString } from '../sonar-aligned/helpers/urls';
 import { BaseProfile, Profile } from '../types/quality-profiles';
 
+/**
+ * The "Sonar way" family is shown before any other profile for a given language, in this fixed order; everything
+ * else falls back to alphabetical order by name. Mirrors the backend's `SearchAction.PINNED_DISPLAY_NAME_ORDER`.
+ */
+const PINNED_PROFILE_NAME_ORDER = [
+  'Sonar way core',
+  'Sonar way extended',
+  'Sonar way comprehensive',
+];
+
+function pinnedProfileNameRank(profile: BaseProfile) {
+  if (!profile.isBuiltIn) {
+    // a custom profile must never be pinned, even if it happens to be named e.g. "Sonar way core"
+    return PINNED_PROFILE_NAME_ORDER.length;
+  }
+  const index = PINNED_PROFILE_NAME_ORDER.indexOf(profile.name);
+  return index === -1 ? PINNED_PROFILE_NAME_ORDER.length : index;
+}
+
 export function sortProfiles(profiles: BaseProfile[]): Profile[] {
   const result: Profile[] = [];
-  const sorted = sortBy(profiles, 'name');
+  const sorted = sortBy(profiles, [pinnedProfileNameRank, 'name']);
 
   function retrieveChildren(parent: BaseProfile | null) {
     return sorted.filter(

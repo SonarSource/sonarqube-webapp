@@ -25,6 +25,10 @@ function createProfile(key: string, parentKey?: string) {
   return { name: key, key, parentKey } as Profile;
 }
 
+function createProfileWithName(key: string, name: string, isBuiltIn?: boolean) {
+  return { name, key, isBuiltIn } as Profile;
+}
+
 describe('#sortProfiles', () => {
   it('should sort when no parents', () => {
     const profile1 = createProfile('profile1');
@@ -62,5 +66,33 @@ describe('#sortProfiles', () => {
     const profile2 = createProfile('profile2');
     const profile3 = createProfile('profile3', 'profile2');
     expect(sortProfiles([profile1, profile2, profile3])).toMatchSnapshot();
+  });
+
+  it('should pin the built-in Sonar way family first, in fixed order, ahead of alphabetical', () => {
+    const extended = createProfileWithName('extended', 'Sonar way extended', true);
+    const zebra = createProfileWithName('zebra', 'Zebra Custom Profile');
+    const comprehensive = createProfileWithName('comprehensive', 'Sonar way comprehensive', true);
+    const another = createProfileWithName('another', 'Another Custom Profile');
+    const core = createProfileWithName('core', 'Sonar way core', true);
+
+    const result = sortProfiles([extended, zebra, comprehensive, another, core]);
+
+    expect(result.map((p) => p.name)).toEqual([
+      'Sonar way core',
+      'Sonar way extended',
+      'Sonar way comprehensive',
+      'Another Custom Profile',
+      'Zebra Custom Profile',
+    ]);
+  });
+
+  it('should not pin a custom profile that happens to share a pinned name', () => {
+    const builtInCore = createProfileWithName('builtin-core', 'Sonar way core', true);
+    const customCore = createProfileWithName('custom-core', 'Sonar way core', false);
+    const another = createProfileWithName('another', 'Another Custom Profile');
+
+    const result = sortProfiles([customCore, another, builtInCore]);
+
+    expect(result.map((p) => p.key)).toEqual(['builtin-core', 'another', 'custom-core']);
   });
 });

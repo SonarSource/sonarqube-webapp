@@ -28,7 +28,10 @@ import {
 import { IssueSeverity } from '~shared/types/issues';
 import { Paging } from '~shared/types/paging';
 import { RuleDetails } from '~shared/types/rules';
-import { QUALITY_PROFILE_SONAR_AGENTIC_AI } from '../../helpers/quality-profiles';
+import {
+  QUALITY_PROFILE_SONAR_AGENTIC_AI,
+  QUALITY_PROFILE_SONAR_WAY,
+} from '../../helpers/quality-profiles';
 import { RequestData } from '../../helpers/request';
 import {
   mockCompareResult,
@@ -176,7 +179,7 @@ export default class QualityProfilesServiceMock {
         key: 'sonar',
         language: 'java',
         languageName: 'Java',
-        name: 'Sonar way',
+        name: QUALITY_PROFILE_SONAR_WAY,
         isBuiltIn: true,
         isDefault: true,
       }),
