@@ -40,6 +40,10 @@ const TOOLTIP_OFFSET_PX = 10;
 const HOVER_DROP_SHADOW = 'drop-shadow(0px 2px 3px rgba(0, 0, 0, 0.3))';
 
 interface TooltipState {
+  // True when opened via keyboard focus (stationary, anchored to the segment) — safe to make
+  // hoverable. False when following the mouse cursor, where enabling pointer events would let
+  // the tooltip itself capture the next mousemove/mouseenter meant for a neighbouring segment.
+  isAnchored: boolean;
   segment: PieChartSegment | null;
   x: number;
   y: number;
@@ -133,6 +137,7 @@ export function PieChart(props: Readonly<PieChartProps>) {
 
       setHoveredIndex(index);
       setTooltip({
+        isAnchored: false,
         segment,
         x: event.clientX,
         y: event.clientY,
@@ -152,15 +157,18 @@ export function PieChart(props: Readonly<PieChartProps>) {
     }
 
     animationFrameRef.current = requestAnimationFrame(() => {
-      setTooltip((previous) =>
-        previous
-          ? {
-              ...previous,
-              x: event.clientX,
-              y: event.clientY,
-            }
-          : null,
-      );
+      setTooltip((previous) => {
+        if (!previous || previous.isAnchored) {
+          // A keyboard-anchored tooltip stays put; dragging it to the cursor while pointer
+          // events are enabled would let it capture the pointer and freeze the chart.
+          return previous;
+        }
+        return {
+          ...previous,
+          x: event.clientX,
+          y: event.clientY,
+        };
+      });
     });
   }, []);
 
@@ -184,11 +192,73 @@ export function PieChart(props: Readonly<PieChartProps>) {
     [setHoveredIndex],
   );
 
+  const handleFocus = useCallback(
+    (segment: PieChartSegment, index: number, event: React.FocusEvent<SVGPathElement>) => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+        hoverTimeoutRef.current = null;
+      }
+
+      const rect = event.currentTarget.getBoundingClientRect();
+      setHoveredIndex(index);
+      setTooltip({
+        isAnchored: true,
+        segment,
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+      });
+    },
+    [setHoveredIndex],
+  );
+
+  const handleBlur = useCallback(() => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    setHoveredIndex(null);
+    setTooltip(null);
+  }, [setHoveredIndex]);
+
+  const handleTooltipMouseEnter = useCallback(() => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+  }, []);
+
+  const handleTooltipMouseLeave = useCallback(() => {
+    hoverTimeoutRef.current = setTimeout(() => {
+      setHoveredIndex(null);
+      setTooltip(null);
+    }, HOVER_DELAY_MS);
+  }, [setHoveredIndex]);
+
   const handleClick = useCallback(
     (segment: PieChartSegment) => {
       onSegmentClick?.(segment);
     },
     [onSegmentClick],
+  );
+
+  const handleKeyDown = useCallback(
+    (segment: PieChartSegment, event: React.KeyboardEvent<SVGPathElement>) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        event.stopPropagation();
+        handleClick(segment);
+      } else if (event.key === 'Escape') {
+        event.preventDefault();
+        event.stopPropagation();
+        if (hoverTimeoutRef.current) {
+          clearTimeout(hoverTimeoutRef.current);
+          hoverTimeoutRef.current = null;
+        }
+        setHoveredIndex(null);
+        setTooltip(null);
+      }
+    },
+    [handleClick, setHoveredIndex],
   );
 
   const handleLabelHover = useCallback(
@@ -223,7 +293,9 @@ export function PieChart(props: Readonly<PieChartProps>) {
         height={svgHeight}
         onMouseMove={handleMouseMove}
         ref={svgRef}
-        role="img"
+        // "group" (not "img") because the segments below are focusable buttons; "img" is an
+        // atomic role that ARIA forbids from having focusable descendants.
+        role="group"
         style={{ display: 'block', margin: 'auto', overflow: 'visible' }}
         width={showLabels ? svgWidth : width}
       >
@@ -239,25 +311,47 @@ export function PieChart(props: Readonly<PieChartProps>) {
             />
           )}
 
-          {arcs.map((arc, index) => (
-            <Sector
-              arc={arc}
-              color={segments[index].color}
-              index={index}
-              innerRadius={innerRadius}
-              isHovered={hoveredIndex === index}
-              key={segments[index].value}
-              onClick={() => {
-                handleClick(segments[index]);
-              }}
-              onMouseEnter={(event) => {
-                handleMouseEnter(segments[index], index, event);
-              }}
-              onMouseLeave={handleMouseLeave}
-              radius={radius}
-              segment={segments[index]}
-            />
-          ))}
+          {arcs.map((arc, index) => {
+            const segment = segments[index];
+            const segmentAriaLabel = [
+              segment.label,
+              formatMessage(
+                { id: tooltipCountMessageKey },
+                { count: numberFormatter(segment.count) },
+              ),
+              formatMessage(
+                { id: tooltipPercentageMessageKey },
+                { percentage: `${segment.percentage}%` },
+              ),
+            ].join('. ');
+
+            return (
+              <Sector
+                arc={arc}
+                ariaLabel={segmentAriaLabel}
+                color={segment.color}
+                index={index}
+                innerRadius={innerRadius}
+                isHovered={hoveredIndex === index}
+                key={segment.value}
+                onBlur={handleBlur}
+                onClick={() => {
+                  handleClick(segment);
+                }}
+                onFocus={(event) => {
+                  handleFocus(segment, index, event);
+                }}
+                onKeyDown={(event) => {
+                  handleKeyDown(segment, event);
+                }}
+                onMouseEnter={(event) => {
+                  handleMouseEnter(segment, index, event);
+                }}
+                onMouseLeave={handleMouseLeave}
+                radius={radius}
+              />
+            );
+          })}
         </g>
       </svg>
 
@@ -266,12 +360,17 @@ export function PieChart(props: Readonly<PieChartProps>) {
           <div
             className="sw-fixed sw-z-popup sw-rounded-1 sw-p-3 sw-whitespace-nowrap"
             data-testid="pie-chart-tooltip"
+            onMouseEnter={handleTooltipMouseEnter}
+            onMouseLeave={handleTooltipMouseLeave}
             style={{
               backgroundColor: cssVar('color-surface-default'),
               border: `1px solid ${cssVar('color-border-weak')}`,
               boxShadow: cssVar('box-shadow-large'),
               left: `${tooltip.x + TOOLTIP_OFFSET_PX}px`,
-              pointerEvents: 'none',
+              // Only the keyboard-anchored tooltip may capture the pointer; a tooltip that
+              // follows the cursor would otherwise swallow the SVG's mousemove/mouseenter and
+              // block hovering over neighbouring segments.
+              pointerEvents: tooltip.isAnchored ? 'auto' : 'none',
               top: `${tooltip.y + TOOLTIP_OFFSET_PX}px`,
               transform: 'translate3d(0, 0, 0)',
               willChange: 'transform',
@@ -305,29 +404,35 @@ export function PieChart(props: Readonly<PieChartProps>) {
 
 interface SectorProps {
   arc: PieArcDatum<PieChartSegment>;
+  ariaLabel: string;
   color: string;
   index: number;
   innerRadius: number;
   isHovered: boolean;
+  onBlur: () => void;
   onClick: () => void;
+  onFocus: (event: React.FocusEvent<SVGPathElement>) => void;
+  onKeyDown: (event: React.KeyboardEvent<SVGPathElement>) => void;
   onMouseEnter: (event: React.MouseEvent<SVGPathElement>) => void;
   onMouseLeave: (event: React.MouseEvent<SVGPathElement>) => void;
   radius: number;
-  segment: PieChartSegment;
 }
 
 function Sector(props: Readonly<SectorProps>) {
   const {
     arc: arcData,
+    ariaLabel,
     color,
     index,
     innerRadius,
     isHovered,
+    onBlur,
     onClick,
+    onFocus,
+    onKeyDown,
     onMouseEnter,
     onMouseLeave,
     radius,
-    segment,
   } = props;
 
   const outerRadius = isHovered ? radius + HOVER_EXPANSION_PX : radius;
@@ -338,11 +443,14 @@ function Sector(props: Readonly<SectorProps>) {
 
   return (
     <path
-      aria-label={segment.label}
+      aria-label={ariaLabel}
       className="sw-cursor-pointer"
       d={path}
       data-testid={`pie-chart-segment-${index}`}
+      onBlur={onBlur}
       onClick={onClick}
+      onFocus={onFocus}
+      onKeyDown={onKeyDown}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       role="button"
@@ -353,6 +461,7 @@ function Sector(props: Readonly<SectorProps>) {
         strokeWidth: 2,
         transition: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)',
       }}
+      tabIndex={0}
     />
   );
 }

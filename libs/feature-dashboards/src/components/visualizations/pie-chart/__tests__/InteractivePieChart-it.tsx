@@ -71,7 +71,27 @@ describe('InteractivePieChart', () => {
       />,
     );
 
-    expect(await screen.findByRole('img', { name: ariaLabel })).toBeInTheDocument();
+    expect(await screen.findByRole('group', { name: ariaLabel })).toBeInTheDocument();
+    expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it('has no a11y violations once a segment is keyboard-focused', async () => {
+    const user = userEvent.setup({ delay: null });
+    const ariaLabel = 'Issues by severity. High: 25 (50%), Medium: 15 (30%)';
+
+    const { container } = renderWithRouter(
+      <InteractivePieChart
+        ariaLabel={ariaLabel}
+        getSegmentUrl={() => undefined}
+        onSegmentClick={jest.fn()}
+        segments={mockSegments}
+        showLegend
+      />,
+    );
+
+    await screen.findByTestId('pie-chart-segment-0');
+    await user.tab();
+
     expect(await axe(container)).toHaveNoViolations();
   });
 

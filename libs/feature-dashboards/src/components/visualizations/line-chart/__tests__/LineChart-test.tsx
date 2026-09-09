@@ -78,8 +78,14 @@ jest.mock('../../RenderChartFooter', () => ({
   FOOTER_GAP_PX: 8,
   LEGEND_ROW_HEIGHT_PX: 32,
   SINGLE_DATAPOINT_MESSAGE_HEIGHT_PX: 24,
+  // The real footer renders its legend as a focusable <button> inside the same <svg> (via a
+  // <foreignObject>) — stub it with a real button so tests can exercise focus/keydown events
+  // that bubble up from it, the way they do in the browser.
   RenderChartFooter: ({ showLegend }: { showLegend: boolean }) => (
-    <div>{`footer:${String(showLegend)}`}</div>
+    <>
+      <div>{`footer:${String(showLegend)}`}</div>
+      {showLegend && <button type="button">legend-item</button>}
+    </>
   ),
 }));
 
@@ -92,6 +98,14 @@ jest.mock('../../RenderDots', () => ({
     showDot: boolean;
   }) => <div>{`render-dots:${String(showDot)}:${String(hoveredDotIndex)}`}</div>,
 }));
+
+// Every real caller's formatDotValue returns rendered UI (e.g. <Text>{value}</Text> or a rating
+// badge), never a plain string — use this in place of formatDotValue={String} wherever a test
+// touches the announcer, so a regression that stringifies the node (producing "[object Object]")
+// gets caught instead of silently passing.
+function formatDotValueAsNode(value: number) {
+  return <strong>{value}%</strong>;
+}
 
 describe('LineChart', () => {
   beforeEach(() => {
@@ -293,6 +307,171 @@ describe('LineChart', () => {
 
     fireEvent.mouseMove(svg, { clientX: 200, clientY: 80 });
     expect(screen.getByText(/render-dots:true:0/)).toBeInTheDocument();
+  });
+
+  it('supports keyboard navigation to the same point values exposed on hover', async () => {
+    render(
+      <LineChart
+        ariaLabel="line-chart-keyboard"
+        data={[
+          { x: new Date('2026-03-01T00:00:00.000Z'), y: 1 },
+          { x: new Date('2026-03-08T00:00:00.000Z'), y: 2 },
+          { x: new Date('2026-03-15T00:00:00.000Z'), y: 3 },
+        ]}
+        formatDotValue={formatDotValueAsNode}
+        formatTick={String}
+        hasFetchError={false}
+        isMetricRating={false}
+        isPending={false}
+        metricName="Coverage"
+        showDots
+        showTooltip
+      />,
+    );
+
+    const svg = await screen.findByLabelText('line-chart-keyboard');
+    expect(svg).toHaveAttribute('tabindex', '0');
+
+    // The live region must already be mounted (empty) before it gets a value: screen readers
+    // only announce mutations to a pre-existing live region, not a node that appears already
+    // populated in the same commit.
+    expect(screen.getByTestId('line-chart-announcer')).toHaveTextContent('');
+
+    fireEvent.focus(svg);
+    expect(screen.getByText('render-dots:true:2')).toBeInTheDocument();
+    // formatDotValue renders a node (as every real caller does), not a plain string — this must
+    // show up as real text, not "[object Object]" from an accidental String(node) coercion.
+    expect(screen.getByTestId('line-chart-announcer')).toHaveTextContent('Coverage: 3%');
+
+    fireEvent.keyDown(svg, { key: 'ArrowLeft' });
+    expect(screen.getByText('render-dots:true:1')).toBeInTheDocument();
+    expect(screen.getByTestId('line-chart-announcer')).toHaveTextContent('Coverage: 2%');
+
+    fireEvent.keyDown(svg, { key: 'ArrowLeft' });
+    expect(screen.getByText('render-dots:true:0')).toBeInTheDocument();
+
+    // Clamped at the first point.
+    fireEvent.keyDown(svg, { key: 'ArrowLeft' });
+    expect(screen.getByText('render-dots:true:0')).toBeInTheDocument();
+
+    fireEvent.keyDown(svg, { key: 'ArrowRight' });
+    expect(screen.getByText('render-dots:true:1')).toBeInTheDocument();
+
+    fireEvent.keyDown(svg, { key: 'Escape' });
+    expect(screen.getByText('render-dots:false:undefined')).toBeInTheDocument();
+    expect(screen.getByTestId('line-chart-announcer')).toHaveTextContent('');
+  });
+
+  it('ignores focus/blur/keydown events bubbling up from the legend button, not the svg itself', async () => {
+    render(
+      <LineChart
+        ariaLabel="line-chart-legend-bubble"
+        data={[
+          { x: new Date('2026-03-01T00:00:00.000Z'), y: 1 },
+          { x: new Date('2026-03-15T00:00:00.000Z'), y: 3 },
+        ]}
+        formatDotValue={formatDotValueAsNode}
+        formatTick={String}
+        hasFetchError={false}
+        isMetricRating={false}
+        isPending={false}
+        metricName="Coverage"
+        showDots
+        showLegend
+        showTooltip
+      />,
+    );
+
+    await screen.findByLabelText('line-chart-legend-bubble');
+    const legendButton = screen.getByText('legend-item');
+
+    fireEvent.focus(legendButton);
+    expect(screen.getByText('render-dots:false:undefined')).toBeInTheDocument();
+    expect(screen.getByTestId('line-chart-announcer')).toHaveTextContent('');
+
+    fireEvent.keyDown(legendButton, { key: 'ArrowLeft' });
+    expect(screen.getByText('render-dots:false:undefined')).toBeInTheDocument();
+
+    fireEvent.blur(legendButton);
+    expect(screen.getByText('render-dots:false:undefined')).toBeInTheDocument();
+  });
+
+  it('does not spam the live region while the mouse is hovering, only for keyboard navigation', async () => {
+    render(
+      <LineChart
+        ariaLabel="line-chart-mouse-vs-keyboard"
+        data={[
+          { x: new Date('2026-03-01T00:00:00.000Z'), y: 1 },
+          { x: new Date('2026-03-15T00:00:00.000Z'), y: 3 },
+        ]}
+        formatDotValue={formatDotValueAsNode}
+        formatTick={String}
+        hasFetchError={false}
+        isMetricRating={false}
+        isPending={false}
+        metricName="Coverage"
+        showDots
+        showTooltip
+      />,
+    );
+
+    const svg = await screen.findByLabelText('line-chart-mouse-vs-keyboard');
+
+    fireEvent.mouseMove(svg, { clientX: 180, clientY: 80 });
+    expect(screen.getByText(/render-dots:true:/)).toBeInTheDocument();
+    expect(screen.getByTestId('line-chart-announcer')).toHaveTextContent('');
+
+    fireEvent.focus(svg);
+    expect(screen.getByTestId('line-chart-announcer')).not.toHaveTextContent('');
+
+    fireEvent.mouseMove(svg, { clientX: 150, clientY: 90 });
+    expect(screen.getByTestId('line-chart-announcer')).toHaveTextContent('');
+  });
+
+  it('hides the keyboard-focused point on blur', async () => {
+    render(
+      <LineChart
+        ariaLabel="line-chart-keyboard-blur"
+        data={[
+          { x: new Date('2026-03-01T00:00:00.000Z'), y: 1 },
+          { x: new Date('2026-03-15T00:00:00.000Z'), y: 3 },
+        ]}
+        formatDotValue={String}
+        formatTick={String}
+        hasFetchError={false}
+        isMetricRating={false}
+        isPending={false}
+        showDots
+        showTooltip
+      />,
+    );
+
+    const svg = await screen.findByLabelText('line-chart-keyboard-blur');
+    fireEvent.focus(svg);
+    expect(screen.getByText('render-dots:true:1')).toBeInTheDocument();
+
+    fireEvent.blur(svg);
+    expect(screen.getByText('render-dots:false:undefined')).toBeInTheDocument();
+  });
+
+  it('is not keyboard-focusable when tooltips are disabled', async () => {
+    render(
+      <LineChart
+        ariaLabel="line-chart-no-keyboard"
+        data={[
+          { x: new Date('2026-03-01T00:00:00.000Z'), y: 1 },
+          { x: new Date('2026-03-15T00:00:00.000Z'), y: 3 },
+        ]}
+        formatDotValue={String}
+        formatTick={String}
+        hasFetchError={false}
+        isMetricRating={false}
+        isPending={false}
+      />,
+    );
+
+    const svg = await screen.findByLabelText('line-chart-no-keyboard');
+    expect(svg).not.toHaveAttribute('tabindex');
   });
 
   it('keeps zero-sized placeholder when container dimensions are zero', () => {

@@ -24,8 +24,9 @@
 import { cssVar } from '@sonarsource/echoes-react';
 import { line as d3Line } from 'd3-shape';
 import { isUndefined } from 'lodash';
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import type { LineChartDataPoint } from '../../../types/visualization';
+import { formatDateDayTime } from '../../../utils/datetime';
 import { WidgetLoadingSpinner } from '../../common/WidgetLoadingSpinner';
 import { WidgetNoData } from '../../common/WidgetNoData';
 import {
@@ -47,6 +48,123 @@ import {
 import { RenderDots } from '../RenderDots';
 import { RenderXAxis } from '../RenderXAxis';
 import { RenderYAxis } from '../RenderYAxis';
+
+function isDefinedPoint(point: LineChartDataPoint | undefined): boolean {
+  return point?.y !== null && point?.y !== undefined;
+}
+
+function findLastDefinedIndex(data: LineChartDataPoint[]): number | undefined {
+  for (let index = data.length - 1; index >= 0; index--) {
+    if (isDefinedPoint(data[index])) {
+      return index;
+    }
+  }
+  return undefined;
+}
+
+function findAdjacentDefinedIndex(
+  data: LineChartDataPoint[],
+  fromIndex: number,
+  step: -1 | 1,
+): number | undefined {
+  for (let index = fromIndex + step; index >= 0 && index < data.length; index += step) {
+    if (isDefinedPoint(data[index])) {
+      return index;
+    }
+  }
+  return undefined;
+}
+
+type LineChartKeyAction = { index: number; type: 'move' } | { type: 'close' } | { type: 'ignore' };
+type LineChartMoveOrCloseAction = Exclude<LineChartKeyAction, { type: 'ignore' }>;
+
+function getArrowKeyStep(key: string): -1 | 1 | undefined {
+  if (key === 'ArrowRight') {
+    return 1;
+  }
+  if (key === 'ArrowLeft') {
+    return -1;
+  }
+  return undefined;
+}
+
+function resolveLineChartKeyAction(
+  key: string,
+  data: LineChartDataPoint[],
+  hoveredDotIndex: number | undefined,
+): LineChartKeyAction {
+  if (key === 'Escape') {
+    return { type: 'close' };
+  }
+
+  const step = getArrowKeyStep(key);
+  if (step === undefined) {
+    return { type: 'ignore' };
+  }
+
+  const currentIndex = hoveredDotIndex ?? findLastDefinedIndex(data) ?? 0;
+  const nextIndex = findAdjacentDefinedIndex(data, currentIndex, step);
+
+  return nextIndex === undefined ? { type: 'ignore' } : { index: nextIndex, type: 'move' };
+}
+
+function applyLineChartKeyAction(
+  action: LineChartMoveOrCloseAction,
+  handlers: { onClose: () => void; onMove: (index: number) => void },
+): void {
+  if (action.type === 'close') {
+    handlers.onClose();
+    return;
+  }
+  handlers.onMove(action.index);
+}
+
+function formatAnnouncerText(
+  point: LineChartDataPoint,
+  metricName: string | undefined,
+  formatDotValue: (value: number) => React.ReactNode,
+): React.ReactNode {
+  const namePart = metricName ? `, ${metricName}` : '';
+  return (
+    <>
+      {formatDateDayTime(point.x as Date)}
+      {namePart}: {formatDotValue(point.y)}
+    </>
+  );
+}
+
+function resolveAnnouncerText(
+  isKeyboardDriven: boolean,
+  currentPoint: LineChartDataPoint | undefined,
+  metricName: string | undefined,
+  formatDotValue: (value: number) => React.ReactNode,
+): React.ReactNode {
+  if (!isKeyboardDriven || !currentPoint || !isDefinedPoint(currentPoint)) {
+    return null;
+  }
+  return formatAnnouncerText(currentPoint, metricName, formatDotValue);
+}
+
+function isLineChartKeyboardNavigable(
+  showTooltip: boolean,
+  showDots: boolean,
+  data: LineChartDataPoint[],
+): boolean {
+  return showTooltip && showDots && data.length > 0;
+}
+
+// The chart footer renders its legend as a real, focusable <button> inside a <foreignObject>
+// within this same <svg>, and focus/keyboard events bubble — without this guard, tabbing onto
+// (or off) the legend would trigger the chart's own focus/keyboard handling.
+function onlyFromSelf<E extends React.SyntheticEvent>(
+  handler: (event: E) => void,
+): (event: E) => void {
+  return (event: E) => {
+    if (event.target === event.currentTarget) {
+      handler(event);
+    }
+  };
+}
 
 interface LineChartProps {
   areaColor?: string;
@@ -99,6 +217,7 @@ export function LineChart(props: Readonly<LineChartProps>) {
   const [hoveredDotIndex, setHoveredDotIndex] = useState<number | undefined>(undefined);
   const [hoveredLineX, setHoveredLineX] = useState<number>(0);
   const [isHoverActive, setIsHoverActive] = useState(false);
+  const [isKeyboardDriven, setIsKeyboardDriven] = useState(false);
   const [hoveredSeriesIndex, setHoveredSeriesIndex] = useState<number | null>(null);
 
   const [paddingTop, paddingRight, paddingBottom, paddingLeft] = padding;
@@ -164,6 +283,57 @@ export function LineChart(props: Readonly<LineChartProps>) {
     )},${yScale(0)} Z`;
   }, [data, showArea, xScale, yScale]);
 
+  const isKeyboardNavigable = isLineChartKeyboardNavigable(showTooltip, showDots, data);
+
+  const handleSvgFocus = useCallback(() => {
+    const index = findLastDefinedIndex(data);
+    if (index === undefined) {
+      return;
+    }
+    setHoveredDotIndex(index);
+    setHoveredLineX(xScale(new Date(data[index].x)));
+    setIsHoverActive(true);
+    setIsKeyboardDriven(true);
+  }, [data, xScale]);
+
+  const handleSvgBlur = useCallback(() => {
+    setIsHoverActive(false);
+    setIsKeyboardDriven(false);
+    setHoveredDotIndex(undefined);
+  }, []);
+
+  const handleSvgKeyDown = useCallback(
+    (event: React.KeyboardEvent<SVGSVGElement>) => {
+      const action = resolveLineChartKeyAction(event.key, data, hoveredDotIndex);
+
+      if (action.type === 'ignore') {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      applyLineChartKeyAction(action, {
+        onClose: handleSvgBlur,
+        onMove: (index) => {
+          setHoveredDotIndex(index);
+          setHoveredLineX(xScale(new Date(data[index].x)));
+          setIsHoverActive(true);
+          setIsKeyboardDriven(true);
+        },
+      });
+    },
+    [data, handleSvgBlur, hoveredDotIndex, xScale],
+  );
+
+  const currentPoint = hoveredDotIndex !== undefined ? data[hoveredDotIndex] : undefined;
+  const announcerText = resolveAnnouncerText(
+    isKeyboardDriven,
+    currentPoint,
+    metricName,
+    formatDotValue,
+  );
+
   if (hasFetchError) {
     return <WidgetNoData className="sw-my-0 sw-h-full" />;
   }
@@ -194,8 +364,12 @@ export function LineChart(props: Readonly<LineChartProps>) {
       <svg
         aria-label={ariaLabel}
         height={dimensions.height}
+        onBlur={onlyFromSelf(handleSvgBlur)}
+        onFocus={onlyFromSelf(handleSvgFocus)}
+        onKeyDown={onlyFromSelf(handleSvgKeyDown)}
         onMouseLeave={() => {
           setIsHoverActive(false);
+          setIsKeyboardDriven(false);
           setHoveredDotIndex(undefined);
         }}
         onMouseMove={(event) => {
@@ -209,9 +383,11 @@ export function LineChart(props: Readonly<LineChartProps>) {
           const hoveredDate = xScale.invert(clampedX).getTime();
           const index = getNearestIndex(data, hoveredDate);
           setHoveredLineX(clampedX);
+          setIsKeyboardDriven(false);
           setHoveredDotIndex(index);
           setIsHoverActive(true);
         }}
+        tabIndex={isKeyboardNavigable ? 0 : undefined}
         width={dimensions.width}
       >
         <g transform={`translate(${paddingLeft}, ${paddingTop})`}>
@@ -317,6 +493,11 @@ export function LineChart(props: Readonly<LineChartProps>) {
           />
         </g>
       </svg>
+      {showTooltip && showDots && (
+        <span aria-live="polite" className="sw-sr-only" data-testid="line-chart-announcer">
+          {announcerText}
+        </span>
+      )}
     </div>
   );
 }

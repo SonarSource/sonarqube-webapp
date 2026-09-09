@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { act, screen } from '@testing-library/react';
+import { act, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { numberFormatter } from '~shared/helpers/measures';
 import { renderWithContext } from '~shared/helpers/test-utils';
@@ -231,6 +231,139 @@ describe('PieChart', () => {
 
     expect(screen.getByLabelText('project_dashboard.widget.pie_chart')).toBeInTheDocument();
     expect(screen.queryByTestId('pie-chart-segment-0')).not.toBeInTheDocument();
+  });
+
+  it('shows the tooltip when a segment receives keyboard focus, with count and percentage in its accessible label', async () => {
+    const user = userEvent.setup({ delay: null });
+    renderWithContext(<PieChart height={200} segments={mockSegments} width={200} />);
+
+    await user.tab();
+
+    const firstSegment = screen.getByTestId('pie-chart-segment-0');
+    expect(firstSegment).toHaveFocus();
+
+    const segmentAriaLabel = firstSegment.getAttribute('aria-label') ?? '';
+    expect(segmentAriaLabel).toContain('High');
+    expect(segmentAriaLabel).toContain(numberFormatter(25));
+    expect(segmentAriaLabel).toContain('50%');
+    expect(screen.getByText('High')).toBeInTheDocument();
+    expect(screen.getByText(numberFormatter(25))).toBeInTheDocument();
+    expect(screen.getByText('50%')).toBeInTheDocument();
+  });
+
+  it('hides the tooltip and un-expands the segment on Escape while keeping focus on it', async () => {
+    const user = userEvent.setup({ delay: null });
+    renderWithContext(<PieChart height={200} segments={mockSegments} width={200} />);
+
+    const firstSegment = screen.getByTestId('pie-chart-segment-0');
+    const initialPath = firstSegment.getAttribute('d');
+
+    await user.tab();
+    expect(screen.getByText('High')).toBeInTheDocument();
+    expect(firstSegment.getAttribute('d')).not.toBe(initialPath);
+
+    await user.keyboard('{Escape}');
+
+    expect(screen.queryByText('High')).not.toBeInTheDocument();
+    expect(firstSegment).toHaveAttribute('d', initialPath ?? '');
+    expect(firstSegment).toHaveFocus();
+  });
+
+  it('invokes onSegmentClick on Enter and Space when a segment is focused', async () => {
+    const user = userEvent.setup({ delay: null });
+    const onSegmentClick = jest.fn();
+    renderWithContext(
+      <PieChart height={200} onSegmentClick={onSegmentClick} segments={mockSegments} width={200} />,
+    );
+
+    await user.tab();
+    await user.keyboard('{Enter}');
+    expect(onSegmentClick).toHaveBeenCalledWith(mockSegments[0]);
+
+    await user.keyboard(' ');
+    expect(onSegmentClick).toHaveBeenCalledTimes(2);
+  });
+
+  it('hides the tooltip immediately when focus moves away, with no timer needed', async () => {
+    const user = userEvent.setup({ delay: null });
+    renderWithContext(<PieChart height={200} segments={mockSegments} width={200} />);
+
+    await user.tab();
+    expect(screen.getByText('High')).toBeInTheDocument();
+
+    await user.tab();
+
+    expect(screen.queryByText('High')).not.toBeInTheDocument();
+  });
+
+  it('keeps the keyboard-anchored tooltip open when the pointer moves onto it, and closes it once the pointer leaves', async () => {
+    const user = userEvent.setup({ delay: null });
+    renderWithContext(<PieChart height={200} segments={mockSegments} width={200} />);
+
+    await user.tab();
+    expect(screen.getByText('High')).toBeInTheDocument();
+
+    const tooltip = screen.getByTestId('pie-chart-tooltip');
+    fireEvent.mouseEnter(tooltip);
+
+    act(() => {
+      jest.advanceTimersByTime(100);
+    });
+    expect(screen.getByText('High')).toBeInTheDocument();
+
+    fireEvent.mouseLeave(tooltip);
+    act(() => {
+      jest.advanceTimersByTime(100);
+    });
+    expect(screen.queryByText('High')).not.toBeInTheDocument();
+  });
+
+  it('only makes the tooltip pointer-events-auto when it is keyboard-anchored, never while following the cursor', async () => {
+    const user = userEvent.setup({ delay: null });
+    renderWithContext(<PieChart height={200} segments={mockSegments} width={200} />);
+
+    await user.hover(screen.getByTestId('pie-chart-segment-0'));
+    expect(screen.getByTestId('pie-chart-tooltip')).toHaveStyle({ pointerEvents: 'none' });
+
+    await user.unhover(screen.getByTestId('pie-chart-segment-0'));
+    act(() => {
+      jest.advanceTimersByTime(100);
+    });
+
+    await user.tab();
+    expect(screen.getByTestId('pie-chart-tooltip')).toHaveStyle({ pointerEvents: 'auto' });
+  });
+
+  it('does not drag the keyboard-anchored tooltip to the cursor on mouse move, which would let it capture the pointer', async () => {
+    const user = userEvent.setup({ delay: null });
+    const mockRequestAnimationFrame = jest.fn((callback: FrameRequestCallback) => {
+      callback(0);
+      return 1;
+    });
+    global.requestAnimationFrame = mockRequestAnimationFrame;
+
+    renderWithContext(<PieChart height={200} segments={mockSegments} width={200} />);
+
+    await user.tab();
+    const tooltip = screen.getByTestId('pie-chart-tooltip');
+    expect(tooltip).toHaveStyle({ pointerEvents: 'auto' });
+    const anchoredLeft = tooltip.style.left;
+    const anchoredTop = tooltip.style.top;
+
+    const svg = screen.getByLabelText('project_dashboard.widget.pie_chart');
+    act(() => {
+      svg.dispatchEvent(
+        new MouseEvent('mousemove', {
+          bubbles: true,
+          clientX: 400,
+          clientY: 400,
+        }),
+      );
+    });
+
+    expect(tooltip.style.left).toBe(anchoredLeft);
+    expect(tooltip.style.top).toBe(anchoredTop);
+    expect(tooltip).toHaveStyle({ pointerEvents: 'auto' });
   });
 
   it('throttles mouse move updates using requestAnimationFrame', async () => {
