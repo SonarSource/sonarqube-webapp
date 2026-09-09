@@ -112,3 +112,15 @@ it('keeps the legend but draws no graph when there is no history yet', () => {
   expect(ui.projectsScannedLegend.get()).toBeInTheDocument();
   expect(ui.chart.query()).not.toBeInTheDocument();
 });
+
+it('labels x-axis ticks with the year when the timeline spans multiple years', () => {
+  renderCard({
+    timeline: [
+      { date: '2013-02-01T00:00:00Z', projectsScanned: 0, repositoriesImported: 2 },
+      { date: '2026-09-01T00:00:00Z', projectsScanned: 12, repositoriesImported: 18 },
+    ],
+  });
+
+  expect(byText(/2026/).get()).toBeInTheDocument();
+  expect(byText(/^Jan 1$/).query()).not.toBeInTheDocument();
+});

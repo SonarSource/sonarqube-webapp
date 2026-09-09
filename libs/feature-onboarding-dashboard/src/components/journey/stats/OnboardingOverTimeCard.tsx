@@ -21,7 +21,7 @@
 import { Card, cssVar, Text, TextSize } from '@sonarsource/echoes-react';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { line as d3Line } from 'd3-shape';
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { isDefined } from '~shared/helpers/types';
 import { useResizeObserver } from '~shared/helpers/useResizeObserver';
@@ -142,29 +142,43 @@ interface GraphProps {
 function OverTimeGraph({ height, hoverIndex, series, setHoverIndex, width }: Readonly<GraphProps>) {
   const { formatDate, formatMessage } = useIntl();
 
-  // Every series shares the same weekly x values.
-  const xValues = series[0].points.map((point) => point.x);
-  const timestamps = xValues.map((date) => date.getTime());
-  const minX = Math.min(...timestamps);
-  const lastX = Math.max(...timestamps);
-  const maxX = lastX === minX ? minX + WEEK_MS : lastX;
-  const yMax = Math.max(...series.flatMap((s) => s.points.map((point) => point.y)), 1);
+  // Scales, ticks and the line generator only depend on the series and the plot's dimensions, not
+  // on hover state, so they are recomputed on data/resize changes rather than on every mouse move.
+  const { lineGen, pointX, xScale, xTickFormat, xTicks, xValues, yScale, yTicks } = useMemo(() => {
+    // Every series shares the same weekly x values.
+    const xValues = series[0].points.map((point) => point.x);
+    const timestamps = xValues.map((date) => date.getTime());
+    const minX = Math.min(...timestamps);
+    const lastX = Math.max(...timestamps);
+    const maxX = lastX === minX ? minX + WEEK_MS : lastX;
+    const yMax = Math.max(...series.flatMap((s) => s.points.map((point) => point.y)), 1);
 
-  const xScale = scaleTime()
-    .domain([new Date(minX), new Date(maxX)])
-    .range([MARGIN.left, width - MARGIN.right]);
-  const yScale = scaleLinear()
-    .domain([0, yMax])
-    .nice()
-    .range([height - MARGIN.bottom, MARGIN.top]);
+    const xScale = scaleTime()
+      .domain([new Date(minX), new Date(maxX)])
+      .range([MARGIN.left, width - MARGIN.right]);
+    const yScale = scaleLinear()
+      .domain([0, yMax])
+      .nice()
+      .range([height - MARGIN.bottom, MARGIN.top]);
 
-  const lineGen = d3Line<Point>()
-    .x((point) => xScale(point.x))
-    .y((point) => yScale(point.y));
+    const lineGen = d3Line<Point>()
+      .x((point) => xScale(point.x))
+      .y((point) => yScale(point.y));
 
-  const xTicks = xScale.ticks(X_TICK_COUNT);
-  const yTicks = yScale.ticks(Y_TICK_COUNT);
-  const pointX = xValues.map((date) => xScale(date));
+    const xTicks = xScale.ticks(X_TICK_COUNT);
+    const spansMultipleYears = new Date(minX).getFullYear() !== new Date(maxX).getFullYear();
+    const xTickFormat = (tick: Date) =>
+      formatDate(
+        tick,
+        spansMultipleYears
+          ? { month: 'short', year: 'numeric' }
+          : { day: 'numeric', month: 'short' },
+      );
+    const yTicks = yScale.ticks(Y_TICK_COUNT);
+    const pointX = xValues.map((date) => xScale(date));
+
+    return { lineGen, pointX, xScale, xTickFormat, xTicks, xValues, yScale, yTicks };
+  }, [series, width, height, formatDate]);
 
   // Hover is captured on the whole plot rather than on an overlay rectangle, so that the chart
   // stays reachable as a single labelled graphic.
@@ -229,7 +243,7 @@ function OverTimeGraph({ height, hoverIndex, series, setHoverIndex, width }: Rea
             x={xScale(tick)}
             y={height - MARGIN.bottom + 16}
           >
-            {formatDate(tick, { day: 'numeric', month: 'short' })}
+            {xTickFormat(tick)}
           </text>
         ))}
 
