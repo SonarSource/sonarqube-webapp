@@ -42,5 +42,5 @@
 
 .line-chart-grid {
   shape-rendering: crispedges;
-  stroke: var(--echoes-color-border-weaker);
+  stroke: var(--echoes-color-border-bolder);
 }

@@ -389,5 +389,5 @@ const StyledNewCodeLegend = styled.rect`
 
 const StyledBaseLine = styled('line')`
   shape-rendering: crispedges;
-  stroke: ${cssVar('color-border-weaker')};
+  stroke: ${cssVar('color-border-bolder')};
 `;
