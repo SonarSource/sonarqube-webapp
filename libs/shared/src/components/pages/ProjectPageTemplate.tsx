@@ -18,9 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import styled from '@emotion/styled';
 import {
   BreadcrumbsProps,
   ContentHeaderProps,
+  cssVar,
   Layout,
   PageGridProps,
 } from '@sonarsource/echoes-react';
@@ -94,15 +96,19 @@ export const ProjectPageTemplate = forwardRef<HTMLDivElement, Props>((props, ref
 
       {asideLeft}
 
-      <Layout.PageGrid className={pageClassName} ref={ref} width={width}>
+      <ProjectPageGrid className={pageClassName} ref={ref} width={width}>
         {header}
 
         {skipPageContentWrapper ? children : <Layout.PageContent>{children}</Layout.PageContent>}
 
         {!fullWindow && <GlobalFooter />}
-      </Layout.PageGrid>
+      </ProjectPageGrid>
     </>
   );
 });
 
 ProjectPageTemplate.displayName = 'ProjectPageTemplate';
+
+const ProjectPageGrid = styled(Layout.PageGrid)`
+  scroll-padding-top: ${cssVar('layout-global-navigation-sizes-height-default')};
+`;

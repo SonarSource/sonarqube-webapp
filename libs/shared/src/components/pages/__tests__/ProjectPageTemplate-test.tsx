@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { cssVar } from '@sonarsource/echoes-react';
 import { createRef } from 'react';
 import { renderWithRouter } from '../../../helpers/test-utils';
 import { ProjectPageTemplate } from '../ProjectPageTemplate';
@@ -40,4 +41,7 @@ it('applies the page class name to the page grid', () => {
   );
 
   expect(pageGridRef.current).toHaveClass('it__overview');
+  expect(pageGridRef.current).toHaveStyle({
+    scrollPaddingTop: cssVar('layout-global-navigation-sizes-height-default'),
+  });
 });
