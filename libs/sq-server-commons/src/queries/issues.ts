@@ -19,11 +19,13 @@
  */
 
 import { QueryClient, queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
+import { throwGlobalError } from '~adapters/helpers/error';
 import { createQueryHook, StaleTime } from '~shared/queries/common';
 import {
   addIssueComment,
   getIssueChangelog,
   searchIssues,
+  setIssueTags,
   setIssueTransition,
 } from '../api/issues';
 import { RequestData } from '../helpers/request';
@@ -65,6 +67,13 @@ export function useIssueCommentMutation() {
     onSuccess: ({ issue }) => {
       invalidateIssueChangelog(issue.key, queryClient);
     },
+  });
+}
+
+export function useSetIssueTagsMutation() {
+  return useMutation({
+    mutationFn: (data: { issue: string; tags: string }) =>
+      setIssueTags(data).catch(throwGlobalError),
   });
 }
 

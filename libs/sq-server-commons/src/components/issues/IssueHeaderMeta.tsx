@@ -18,8 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Badge, HelperText, Text, Tooltip } from '@sonarsource/echoes-react';
+import { HelperText, Text, Tooltip } from '@sonarsource/echoes-react';
 import DateFromNow from '~shared/components/intl/DateFromNow';
+import {
+  AdvancedSastBadge,
+  hasAdvancedSastTags,
+} from '~shared/components/issues/AdvancedSastBadge';
 import { SeparatorCircleIcon } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { Issue } from '../../types/types';
@@ -83,14 +87,10 @@ export default function IssueHeaderMeta({ issue }: Readonly<Props>) {
         </>
       )}
 
-      {/* ADVANCED SAST Badge for issues with 'taint' and 'advanced' internal tags */}
-      {/* ADVANCED SAST should not be translated, this is a concept */}
-      {issue.internalTags?.includes('taint') && issue.internalTags?.includes('advanced') && (
+      {hasAdvancedSastTags(issue.internalTags) && (
         <>
           <SeparatorCircleIcon />
-          <Badge className="sw-ml-2" variety="highlight">
-            ADVANCED SAST
-          </Badge>
+          <AdvancedSastBadge className="sw-ml-2" />
         </>
       )}
     </HelperText>

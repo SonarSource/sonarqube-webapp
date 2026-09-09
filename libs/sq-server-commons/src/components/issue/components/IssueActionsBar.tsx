@@ -18,17 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { IssueTags } from '~shared/components/issues/IssueTags';
 import { HighlightRing } from '../../../design-system';
 import { IssueActions } from '../../../types/issues';
 import { Issue } from '../../../types/types';
+import { useSetIssueTags } from '../hooks/useSetIssueTags';
+import IssueTagsPopup from '../popups/IssueTagsPopup';
 import IssueAssign from './IssueAssign';
-import IssueTags from './IssueTags';
 import IssueTransition from './IssueTransition';
 import SonarLintBadge from './SonarLintBadge';
 
 interface Props {
   additionalIssueActions?: React.ComponentType<{ issue: Issue }>[];
-  canSetTags?: boolean;
   currentPopup?: string;
   issue: Issue;
   onAssign: (login: string) => void;
@@ -41,7 +42,6 @@ interface Props {
 export default function IssueActionsBar(props: Readonly<Props>) {
   const {
     additionalIssueActions,
-    canSetTags,
     currentPopup,
     issue,
     onAssign,
@@ -52,6 +52,7 @@ export default function IssueActionsBar(props: Readonly<Props>) {
   } = props;
 
   const canAssign = issue.actions.includes(IssueActions.Assign);
+  const { canSetTags, setTags } = useSetIssueTags(issue, onChange);
   const tagsPopupOpen = currentPopup === 'edit-tags' && canSetTags;
 
   return (
@@ -95,9 +96,10 @@ export default function IssueActionsBar(props: Readonly<Props>) {
           <li>
             <IssueTags
               canSetTags={canSetTags}
+              className="js-issue-edit-tags sw-typo-sm"
+              isOpen={tagsPopupOpen}
               issue={issue}
-              onChange={props.onChange}
-              open={tagsPopupOpen}
+              overlay={<IssueTagsPopup selectedTags={issue.tags ?? []} setTags={setTags} />}
               tagsToDisplay={1}
               togglePopup={props.togglePopup}
             />

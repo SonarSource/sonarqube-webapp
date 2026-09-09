@@ -24,6 +24,7 @@ import classNames from 'classnames';
 import { useEffect, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation } from '~shared/components/hoc/withRouter';
+import { IssueTags } from '~shared/components/issues/IssueTags';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
@@ -40,9 +41,10 @@ import { Issue } from '../../../types/types';
 import { areMyIssuesSelected, parseQuery, serializeQuery } from '../../../utils/issues-utils';
 import SoftwareImpactPillList from '../../shared/SoftwareImpactPillList';
 import { updateIssue } from '../actions';
+import { useSetIssueTags } from '../hooks/useSetIssueTags';
+import IssueTagsPopup from '../popups/IssueTagsPopup';
 import IssueActionsBar from './IssueActionsBar';
 import IssueMetaBar from './IssueMetaBar';
-import IssueTags from './IssueTags';
 import IssueTitleBar from './IssueTitleBar';
 
 interface Props {
@@ -82,8 +84,9 @@ export default function IssueView(props: Readonly<Props>) {
   const query = parseQuery(location.query);
 
   const hasCheckbox = onCheck != null;
-  const canSetTags = issue.actions.includes(IssueActions.SetTags);
   const canSetSeverity = issue.actions.includes(IssueActions.SetSeverity);
+
+  const { canSetTags, setTags } = useSetIssueTags(issue, onChange);
 
   const handleCheck = () => {
     if (onCheck) {
@@ -201,9 +204,10 @@ export default function IssueView(props: Readonly<Props>) {
             <div className="sw-grow-0 sw-whitespace-nowrap">
               <IssueTags
                 canSetTags={canSetTags}
+                className="js-issue-edit-tags sw-typo-sm"
+                isOpen={currentPopup === 'edit-tags' && canSetTags}
                 issue={issue}
-                onChange={onChange}
-                open={currentPopup === 'edit-tags' && canSetTags}
+                overlay={<IssueTagsPopup selectedTags={issue.tags ?? []} setTags={setTags} />}
                 togglePopup={togglePopup}
               />
             </div>

@@ -186,7 +186,6 @@ function IssueHeader(props: Readonly<Props>) {
     types: issue.type === IssueType.SecurityHotspot ? issue.type : undefined,
   });
 
-  const canSetTags = issue.actions.includes(IssueActions.SetTags);
   const externalRuleKey = getExternalRuleKey(ruleDetails.key);
 
   return (
@@ -244,7 +243,6 @@ function IssueHeader(props: Readonly<Props>) {
           <Divider className="sw-my-50" />
           <IssueActionsBar
             additionalIssueActions={additionalIssueActions}
-            canSetTags={canSetTags}
             currentPopup={issuePopupName}
             issue={issue}
             onAssign={handleAssignement}

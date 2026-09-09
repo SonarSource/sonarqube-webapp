@@ -1763,6 +1763,8 @@ export const defaultMessages = {
   'issue.quick_fix_available_with_sonarlint': 'Quick fix available in {link}',
   'issue.quick_fix_available_with_sonarlint_no_link': 'Quick fix available in SonarQube for IDE',
   'issue.details.code_attribute': 'Code Attribute',
+  'issue.details.properties': 'Properties',
+  'issue.details.tags': 'Tags',
   'issue.comment.add_comment': 'Add Comment',
   'issue.comment.add_comment.submit': 'Comment',
   'issue.comment.add_comment.cancel': 'Cancel adding comment',
