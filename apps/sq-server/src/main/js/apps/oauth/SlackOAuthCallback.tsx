@@ -33,12 +33,13 @@ import {
   TextSize,
   toast,
 } from '@sonarsource/echoes-react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSearchParams } from 'react-router-dom';
 import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { uuidv4 } from '~shared/helpers/crypto';
+import { getSlackRedirectUrl } from '~shared/helpers/slack';
 import { get, remove, save } from '~shared/helpers/storage';
 import { isDefined, isStringDefined } from '~shared/helpers/types';
 import useEffectOnce from '~shared/helpers/useEffectOnce';
@@ -46,9 +47,6 @@ import { whenLoggedIn } from '~sq-server-commons/components/hoc/whenLoggedIn';
 import { usePostUserBindingMutation } from '~sq-server-commons/queries/integrations';
 import { UserBindingType } from '~sq-server-commons/types/integrations';
 import { SLACK_OAUTH_STATE_LS_KEY } from '~sq-server-commons/utils/oauth';
-
-const SLACK_REDIRECT_URL_HOST = 'slack.com';
-const SLACK_REDIRECT_URL_PROTOCOL = 'https';
 
 function SlackOAuthCallback() {
   const { currentUser, isLoggedIn } = useCurrentUser();
@@ -61,6 +59,14 @@ function SlackOAuthCallback() {
   const redirectUri = searchParams.get('redirect_uri');
   const state = searchParams.get('state');
 
+  const redirectUrl = useMemo(
+    () =>
+      isStringDefined(redirectUri) && code === null && state === null
+        ? getSlackRedirectUrl(redirectUri)
+        : undefined,
+    [code, redirectUri, state],
+  );
+
   const {
     isPending: isBindingInProgress,
     isSuccess: isBindingSuccessful,
@@ -71,17 +77,12 @@ function SlackOAuthCallback() {
   useEffectOnce(() => {
     // Handle redirection from Slack app (user ran the /login command)
     // We create a `state` value, save it to the local storage, and redirect the user to the Slack OAuth page
-    if (!isStringDefined(redirectUri) || code !== null || state !== null) {
+    if (redirectUrl === undefined) {
       return;
     }
 
     const stateToSave = uuidv4();
     save(SLACK_OAUTH_STATE_LS_KEY, stateToSave);
-
-    const redirectUrl = new URL(redirectUri);
-    // Make sure the user is redirected to Slack (prevents redirect to malicious URLs in case of forged redirect_uri)
-    redirectUrl.host = SLACK_REDIRECT_URL_HOST;
-    redirectUrl.protocol = SLACK_REDIRECT_URL_PROTOCOL;
     redirectUrl.searchParams.set('state', stateToSave);
 
     globalThis.location.href = redirectUrl.href;
@@ -137,7 +138,7 @@ function SlackOAuthCallback() {
   return (
     <Spinner
       isLoading={
-        isDefined(redirectUri) || (isOAuthValid && (isPreparingBinding || isBindingInProgress))
+        isDefined(redirectUrl) || (isOAuthValid && (isPreparingBinding || isBindingInProgress))
       }
     >
       <div className="sw-mt-24">

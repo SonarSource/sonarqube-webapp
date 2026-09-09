@@ -83,6 +83,45 @@ describe('Slack OAuth callback', () => {
     expect(globalThis.location.href).toBe(`${redirectUri}/?state=${uuid}`);
   });
 
+  it('should always redirect user to slack.com even if a different https host is forged', async () => {
+    const uuid = 'abc-123';
+    jest.mocked(uuidv4).mockReturnValue(uuid);
+    setupSlackOAuthCallback('/slack?redirect_uri=https://attacker.example.com/phish');
+
+    await waitFor(() => {
+      expect(save).toHaveBeenCalledWith(SLACK_OAUTH_STATE_LS_KEY, uuid);
+    });
+    expect(globalThis.location.href).toBe(`https://slack.com/phish?state=${uuid}`);
+  });
+
+  it('should strip a forged port and credentials before redirecting to slack.com', async () => {
+    const uuid = 'abc-123';
+    jest.mocked(uuidv4).mockReturnValue(uuid);
+    setupSlackOAuthCallback(
+      `/slack?redirect_uri=${encodeURIComponent('https://user:pass@attacker.example.com:8443/phish')}`,
+    );
+
+    await waitFor(() => {
+      expect(save).toHaveBeenCalledWith(SLACK_OAUTH_STATE_LS_KEY, uuid);
+    });
+    expect(globalThis.location.href).toBe(`https://slack.com/phish?state=${uuid}`);
+  });
+
+  it.each([
+    ['javascript:alert(document.domain)'],
+    ['data:text/html,<script>alert(1)</script>'],
+    ['http://attacker.example.com'],
+    ['ftp://attacker.example.com'],
+    ['not-a-url'],
+  ])('should not redirect user when redirect_uri is not a valid https URL (%s)', (redirectUri) => {
+    const initialHref = globalThis.location.href;
+    setupSlackOAuthCallback(`/slack?redirect_uri=${encodeURIComponent(redirectUri)}`);
+
+    expect(save).not.toHaveBeenCalled();
+    expect(globalThis.location.href).toBe(initialHref);
+    expect(ui.failureMessage.get()).toBeInTheDocument();
+  });
+
   it('should display success message when API call succeeds', async () => {
     jest.mocked(get).mockReturnValue('123');
     setupSlackOAuthCallback('/slack?code=valid-code&state=123');
