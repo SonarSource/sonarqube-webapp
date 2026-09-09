@@ -42,6 +42,7 @@ import { IssuesPageTemplate } from './IssuesPageTemplate';
 import IssuesSourceViewer from './IssuesSourceViewer';
 
 interface IssueDetailsProps {
+  branch: string | undefined;
   component?: Component;
   fetchMoreIssues: () => void;
   handleIssueChange: (issue: Issue) => void;
@@ -53,6 +54,8 @@ interface IssueDetailsProps {
   locationsNavigator: boolean;
   openIssue: Issue;
   paging?: Paging;
+  /** Gates the "Fix with agent" header action; undefined hides it (e.g. PR-scoped views). */
+  remediationAgentProjectKey?: string;
   router: Router;
   selectFlow: (flowIndex: number) => void;
   selectLocation: (locationIndex: number) => void;
@@ -62,9 +65,11 @@ interface IssueDetailsProps {
 }
 
 export default function IssueDetails(props: Readonly<IssueDetailsProps>) {
-  const { handleOpenIssue, handleIssueChange, openIssue, component, fetchMoreIssues } = props;
+  const { branch, handleOpenIssue, handleIssueChange, openIssue, component, fetchMoreIssues } =
+    props;
   const { selectFlow, selectLocation, issues, loading, loadingMore, locationsNavigator } = props;
   const { paging, selected, selectedFlowIndex, selectedLocationIndex } = props;
+  const { remediationAgentProjectKey } = props;
   const { canBrowseAllChildProjects, qualifier = ComponentQualifier.Project } = component ?? {};
   const isHunterAgent = isHunterAgentRuleEngine(openIssue.externalRuleEngine);
   const { data: ruleData, isLoading: isLoadingRule } = useRuleDetailsQuery({
@@ -81,6 +86,16 @@ export default function IssueDetails(props: Readonly<IssueDetailsProps>) {
       ComponentProps<typeof IssueTabViewer>
     >['additionalIssueActions'];
 
+    if (
+      addons.remediationAgent?.IssueAssignToAgentButton !== undefined &&
+      remediationAgentProjectKey !== undefined
+    ) {
+      const AgentButton = addons.remediationAgent.IssueAssignToAgentButton;
+      additionalActions.push(({ issue }) => (
+        <AgentButton branch={branch} issue={issue} projectKey={remediationAgentProjectKey} />
+      ));
+    }
+
     if (addons.jira !== undefined && component !== undefined) {
       const { IssueJiraWorkItem } = addons.jira;
       additionalActions.push(({ issue }) => (
@@ -89,7 +104,7 @@ export default function IssueDetails(props: Readonly<IssueDetailsProps>) {
     }
 
     return additionalActions;
-  }, [component]);
+  }, [branch, component, remediationAgentProjectKey]);
 
   return (
     <IssuesPageTemplate

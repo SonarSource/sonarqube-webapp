@@ -24,7 +24,7 @@ import { byRole, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
 import type * as IssuesApi from '~sq-server-commons/api/issues';
-import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { Feature } from '~sq-server-commons/types/features';
 import { IssueType } from '~sq-server-commons/types/issues';
 import { NoticeType } from '~sq-server-commons/types/users';
@@ -408,22 +408,6 @@ describe('issues app', () => {
 
   });
 });
-
-function stubRemediationAgentAddon() {
-  addons.remediationAgent = {
-    AgentIssuesLimitMessage: () => null,
-    AgentUnsupportedIssuesMessage: () => null,
-    BacklogJobAssignButton: () => null,
-    AssignToAgentDopPermissionWarning: () => null,
-    IssueAssignToAgentButton: ({
-      branch,
-      issue,
-      projectKey,
-    }: Readonly<{ branch: string | undefined; issue: { key: string }; projectKey: string }>) => (
-      <button type="button">{`fix-with-agent:${projectKey}:${issue.key}:${branch ?? 'no-branch'}`}</button>
-    ),
-  } as unknown as NonNullable<typeof addons.remediationAgent>;
-}
 
 describe('redirects', () => {
   it('should work for hotspots', () => {

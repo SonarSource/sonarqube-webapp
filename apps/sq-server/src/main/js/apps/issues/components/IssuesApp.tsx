@@ -981,6 +981,16 @@ export class App extends React.PureComponent<Props, State> {
     this.setState({ checkAll: false, checked: [] });
   };
 
+  /**
+   * Keeps every issue that still needs user action selected — the ones whose agent job failed
+   * plus the ones no job was ever created for (agent-unsupported, or beyond the agent cap) — so
+   * the retry the partial-success toast asks for cannot re-submit the jobs that already landed.
+   * `checkAll` is dropped because the selection no longer covers every issue.
+   */
+  narrowCheckedIssues = (issueKeys: string[]) => {
+    this.setState({ checkAll: false, checked: issueKeys });
+  };
+
   handleBulkChangeDone = () => {
     this.clearCheckedIssues();
     this.fetchFirstIssues(false).catch(() => undefined);
@@ -1060,6 +1070,15 @@ export class App extends React.PureComponent<Props, State> {
     return isBranch(branchLike) ? branchLike.name : undefined;
   }
 
+  /**
+   * Project key for the per-issue agent actions — the list rows and the open-issue header — or
+   * `undefined` when they shouldn't render. Pull requests are excluded: their whole-PR agent
+   * action lives on the pull request overview page instead.
+   */
+  getRemediationAgentIssueActionProjectKey(): string | undefined {
+    return isPullRequest(this.props.branchLike) ? undefined : this.getRemediationAgentProjectKey();
+  }
+
   renderBulkChange() {
     const { branchLike, component, currentUser } = this.props;
     const { checkAll, bulkChangeModal, checked, issues, paging } = this.state;
@@ -1104,6 +1123,7 @@ export class App extends React.PureComponent<Props, State> {
               branch={branch}
               checkedKeys={checked}
               onAssignSuccess={this.clearCheckedIssues}
+              onPartialSuccess={this.narrowCheckedIssues}
               projectKey={remediationAgentProjectKey}
               pullRequestKey={pullRequestKey}
             />
@@ -1226,11 +1246,7 @@ export class App extends React.PureComponent<Props, State> {
       }
     }
 
-    // The per-row "Fix with agent" action stays backlog-only — a PR-scoped issues view
-    // already has its own whole-PR "Fix with Agent" banner (PullRequestJobAssignAction).
-    const remediationAgentIssueActionProjectKey = isPullRequest(branchLike)
-      ? undefined
-      : this.getRemediationAgentProjectKey();
+    const remediationAgentIssueActionProjectKey = this.getRemediationAgentIssueActionProjectKey();
     const branch = this.listedBranch;
 
     return (
@@ -1405,6 +1421,7 @@ export class App extends React.PureComponent<Props, State> {
     if (openIssue) {
       return (
         <IssueDetails
+          branch={this.listedBranch}
           component={component}
           fetchMoreIssues={this.fetchMoreIssues}
           handleIssueChange={this.handleIssueChange}
@@ -1416,6 +1433,7 @@ export class App extends React.PureComponent<Props, State> {
           locationsNavigator={locationsNavigator}
           openIssue={openIssue}
           paging={paging}
+          remediationAgentProjectKey={this.getRemediationAgentIssueActionProjectKey()}
           router={router}
           selectFlow={this.selectFlow}
           selectLocation={this.selectLocation}
