@@ -19,9 +19,18 @@
  */
 
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { addons } from '~sq-server-addons/index';
 import { mockAppState, mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { Feature } from '~sq-server-commons/types/features';
 import { GlobalNavMenu } from '../GlobalNavMenu';
+
+const originalSecurityAlertsAddon = addons.securityAlerts;
+
+afterEach(() => {
+  addons.securityAlerts = originalSecurityAlertsAddon;
+});
 
 it('should work with extensions', () => {
   const appState = mockAppState({
@@ -52,8 +61,41 @@ it('should show administration menu if the user has the rights', () => {
   expect(screen.getByText('layout.settings')).toBeInTheDocument();
 });
 
-function renderGlobalNavMenu({ appState = mockAppState(), currentUser = mockCurrentUser() }) {
+it('should show the Security Alerts menu when SCA is enabled', async () => {
+  const user = userEvent.setup();
+  const appState = mockAppState({ globalPages: [] });
+  addons.securityAlerts = {} as NonNullable<typeof addons.securityAlerts>;
+
+  renderGlobalNavMenu({ appState, featureList: [Feature.Sca] });
+
+  await user.click(screen.getByText('more'));
+
+  expect(screen.getByText('security_alerts.page')).toBeInTheDocument();
+});
+
+it('should hide the Security Alerts menu when SCA is disabled', async () => {
+  const user = userEvent.setup();
+  const appState = mockAppState({ globalPages: [{ key: 'foo', name: 'Foo' }] });
+
+  renderGlobalNavMenu({ appState });
+
+  await user.click(screen.getByText('more'));
+
+  expect(screen.queryByText('security_alerts.page')).not.toBeInTheDocument();
+});
+
+function renderGlobalNavMenu({
+  appState = mockAppState(),
+  currentUser = mockCurrentUser(),
+  featureList = [],
+}: {
+  appState?: ReturnType<typeof mockAppState>;
+  currentUser?: ReturnType<typeof mockCurrentUser>;
+  featureList?: Feature[];
+}) {
   renderApp('/', <GlobalNavMenu currentUser={currentUser} />, {
     appState,
+    currentUser,
+    featureList,
   });
 }

@@ -20,9 +20,14 @@
 
 import { DropdownMenu, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { SECURITY_ALERTS_ROUTE_NAME } from '~shared/helpers/security-alerts-urls';
+import { isDefined } from '~shared/helpers/types';
 import { Extension } from '~shared/types/common';
+import { addons } from '~sq-server-addons/index';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { AppState } from '~sq-server-commons/types/appstate';
+import { Feature } from '~sq-server-commons/types/features';
 
 const renderGlobalPageLink = ({ key, name }: Extension) => {
   return (
@@ -34,15 +39,26 @@ const renderGlobalPageLink = ({ key, name }: Extension) => {
 
 function GlobalNavMore({ appState: { globalPages = [] } }: Readonly<{ appState: AppState }>) {
   const withoutPortfolios = globalPages.filter((page) => page.key !== 'governance/portfolios');
+  const showSecurityAlerts =
+    useAvailableFeatures().hasFeature(Feature.Sca) && isDefined(addons.securityAlerts);
 
-  if (withoutPortfolios.length === 0) {
+  if (withoutPortfolios.length === 0 && !showSecurityAlerts) {
     return null;
   }
 
   return (
     <Layout.GlobalNavigation.DropdownItem
       id="moreMenuDropdown"
-      items={<>{withoutPortfolios.map(renderGlobalPageLink)}</>}
+      items={
+        <>
+          {showSecurityAlerts && (
+            <DropdownMenu.ItemLink to={`/${SECURITY_ALERTS_ROUTE_NAME}`}>
+              <FormattedMessage id="security_alerts.page" />
+            </DropdownMenu.ItemLink>
+          )}
+          {withoutPortfolios.map(renderGlobalPageLink)}
+        </>
+      }
     >
       <FormattedMessage id="more" />
     </Layout.GlobalNavigation.DropdownItem>

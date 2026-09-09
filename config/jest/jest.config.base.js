@@ -120,6 +120,7 @@ const projectConfig = {
     '^~feature-jira/(.+)': '<rootDir>/private/libs/feature-jira/src/$1',
     '^~feature-rules/(.+)': '<rootDir>/libs/feature-rules/src/$1',
     '^~feature-sca/(.+)': '<rootDir>/private/libs/feature-sca/src/$1',
+    '^~feature-security-alerts/(.+)': '<rootDir>/private/libs/feature-security-alerts/src/$1',
     '^~private-shared/(.+)': '<rootDir>/private/libs/shared/src/$1',
     '^~shared/(.+)': '<rootDir>/libs/shared/src/$1',
 

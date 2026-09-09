@@ -35,6 +35,7 @@
       "~feature-remediation-agent/*": ["./private/libs/feature-remediation-agent/src/*"],
       "~feature-rules/*": ["./libs/feature-rules/src/*"],
       "~feature-sca/*": ["./private/libs/feature-sca/src/*"],
+      "~feature-security-alerts/*": ["./private/libs/feature-security-alerts/src/*"],
       "~private-shared/*": ["./private/libs/shared/src/*"],
       "~shared/*": ["./libs/shared/src/*"],
       "~sq-server-addons/*": ["./libs/sq-server-addons/src/*"],

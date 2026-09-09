@@ -342,6 +342,8 @@ const router = ({
 
               {globalIssuesRoutes()}
 
+              {addons.securityAlerts?.globalRoutes}
+
               {projectsRoutes()}
 
               {qualityGatesRoutes()}

@@ -710,6 +710,12 @@ module.exports = [
     },
   },
   {
+    files: ['private/libs/feature-security-alerts/**/*.{ts,tsx}'],
+    languageOptions: {
+      parserOptions: { tsconfigRootDir: `${__dirname}/private/libs/feature-security-alerts` },
+    },
+  },
+  {
     files: ['private/libs/sq-server-features/**/*.{ts,tsx}'],
     languageOptions: {
       parserOptions: { tsconfigRootDir: `${__dirname}/private/libs/sq-server-features` },
