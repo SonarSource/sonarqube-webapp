@@ -47,6 +47,7 @@ interface Props extends SelectedContentHeaderProps {
   disableQualityGateStatus?: boolean;
   extraTitleSuffix?: ReactNode;
   overrideBranchSelectorPath?: ProjectBranchSelectorProps['overridePath'];
+  titlePrefix?: ContentHeaderProps['title'];
 }
 
 export function ProjectContentHeader(props: Readonly<Props>) {
@@ -62,6 +63,7 @@ export function ProjectContentHeader(props: Readonly<Props>) {
     navigation,
     overrideBranchSelectorPath,
     title,
+    titlePrefix,
   } = props;
 
   const { ProjectBranchSelector } = useAddons().branches ?? {};
@@ -114,6 +116,7 @@ export function ProjectContentHeader(props: Readonly<Props>) {
       title={
         <Layout.ContentHeader.Title
           headingLevel="h1"
+          prefix={titlePrefix}
           suffix={
             <>
               {hasBranchSelector && isDefined(ProjectBranchSelector) && branchLike && component && (

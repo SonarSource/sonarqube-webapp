@@ -59,6 +59,8 @@ interface Props extends PropsWithChildren, ProjectContentHeaderProps {
   asideLeft?: ReactNode;
   /** Optional content header title, useful when the content header title needs to be different from the page title or something else than a string */
   contentHeaderTitle?: ContentHeaderProps['title'];
+  /** Optional content rendered before the content header title, outside the heading text. */
+  contentHeaderTitlePrefix?: ContentHeaderProps['title'];
   /** Additional Page header, displayed under the Content header, not needed for most pages, must be wrapped in a Layout.PageHeader component */
   header?: ReactNode;
   /** Additional Page header navigation, displayed under the Content header, not needed for most pages, must be wrapped in a Layout.PageHeader.Navigation component */
@@ -78,6 +80,7 @@ export const ProjectPageTemplate = forwardRef<HTMLDivElement, Props>((props, ref
     asideLeft,
     children,
     contentHeaderTitle,
+    contentHeaderTitlePrefix,
     header,
     pageClassName,
     skipPageContentWrapper,
@@ -92,7 +95,11 @@ export const ProjectPageTemplate = forwardRef<HTMLDivElement, Props>((props, ref
     <>
       <Helmet defer={false} title={title} />
 
-      <ProjectContentHeader {...contentHeaderProps} title={contentHeaderTitle ?? title} />
+      <ProjectContentHeader
+        {...contentHeaderProps}
+        title={contentHeaderTitle ?? title}
+        titlePrefix={contentHeaderTitlePrefix}
+      />
 
       {asideLeft}
 
