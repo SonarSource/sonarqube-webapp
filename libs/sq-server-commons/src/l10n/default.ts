@@ -789,6 +789,29 @@ export const defaultMessages = {
     'Enable agents to remediate tech debt, find complex security issues, and automate fix suggestions. By enabling or using AI capabilities, you agree to the <agreementLink>Primary Customer Agreement</agreementLink> and the <privacyLink>Privacy Notice</privacyLink>.',
   'ai_capabilities.enablement_badge.enabled': 'Enabled',
   'ai_capabilities.enablement_badge.not_enabled': 'Not enabled',
+  'ai_capabilities_server.vortex.title': 'Vortex',
+  'ai_capabilities_server.vortex.description':
+    'Empower your AI agents during the Guide and Verify stages of the Agent-Centric Development Cycle (ACDC). Vortex helps reduce downstream rework, improve agent efficiency, and estimate engineering time avoided.',
+  'ai_capabilities_server.vortex.guide':
+    '<label>Guide:</label> Provides relevant project context, rules, and constraints before an agent writes code.',
+  'ai_capabilities_server.vortex.verify':
+    '<label>Verify:</label> Analyzes code written by the agent using SonarQube rules and returns findings for the agent to address before a pull request is created.',
+  'ai_capabilities_server.vortex.enable.title': 'Enable Vortex',
+  'ai_capabilities_server.vortex.enable.description':
+    'If enabled, all projects in this instance will benefit from Vortex. By enabling Sonar Vortex, you agree to the <link>Sonar Vortex Supplemental Terms</link>.',
+  'ai_capabilities_server.vortex.enabled_callout.title':
+    'Vortex requires installation in each developer’s machine',
+  'ai_capabilities_server.vortex.enabled_callout.installation_description':
+    'Your developers can now Install Vortex for your agent using SonarQube’s plugin, CLI or MCP server. Share the Install Guide below.',
+  'ai_capabilities_server.vortex.enabled_callout.dashboard_description':
+    'As Vortex is installed and used, the Dashboard will be updated with the ROI, usage and adoption across this instance.',
+  'ai_capabilities_server.vortex.enabled_callout.view_dashboard': 'View dashboard',
+  'ai_capabilities_server.vortex.enabled_callout.install_guide': 'Install guide',
+  'ai_capabilities_server.vortex.promo.badge': 'New',
+  'ai_capabilities_server.vortex.promo.heading':
+    'Empower your agents to produce better code with fewer tokens and reworks',
+  'ai_capabilities_server.vortex.promo.contact_sales': 'Talk to sales',
+  'ai_capabilities_server.vortex.promo.read_docs': 'Read the docs',
   'ai_capabilities.scheduled_jobs.automatic': 'Automatic',
   'ai_capabilities.llm_providers.title': 'LLM Providers',
   'ai_capabilities.llm_providers.description':
