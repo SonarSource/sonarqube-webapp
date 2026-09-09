@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { fireEvent } from '@testing-library/react';
 import type { ComponentProps } from 'react';
 import { renderWithContext } from '../../../helpers/test-utils';
 import { byRole } from '../../../helpers/testSelector';
@@ -155,6 +156,37 @@ it('should reset isFeedback to its configured default after cancelling a transit
 
   expect(byRole('checkbox').get()).toBeChecked();
   expect(byRole('textbox').get()).toHaveValue('');
+});
+
+it('should render quickActions as a submenu instead of a plain clickable item', async () => {
+  const onSelect = jest.fn();
+  const onTransitionOverride = jest.fn();
+  const { user } = renderStatusTransition({
+    onTransition: onTransitionOverride,
+    transitions: [
+      ...defaultTransitions,
+      {
+        value: 'transition-4',
+        quickActions: (
+          <button onClick={onSelect} type="button">
+            quick-option
+          </button>
+        ),
+      },
+    ],
+  });
+
+  await user.hover(
+    byRole('menuitem', {
+      name: 'status_transition.transition-4 status_transition.transition-4.description',
+    }).get(),
+  );
+
+  fireEvent.click(await byRole('button', { name: 'quick-option' }).find());
+
+  expect(onSelect).toHaveBeenCalledTimes(1);
+  expect(onTransitionOverride).not.toHaveBeenCalled();
+  expect(byRole('dialog').query()).not.toBeInTheDocument();
 });
 
 it('should update isFeedback when its configured default changes', async () => {

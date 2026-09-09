@@ -25,7 +25,6 @@ import {
   ButtonVariety,
   DropdownMenu,
   IconChevronDown,
-  Text,
   Tooltip,
 } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
@@ -34,6 +33,13 @@ import { ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { BetaBadge } from '../badges/BetaBadge';
 import { IssueTransitionCommentDialog } from './StatusTransitionCommentDialog';
+
+// DropdownMenuSubProps doesn't declare `helpText`, but DropdownMenuSubMenu spreads unknown props
+// straight through to the same DropdownMenuItemBase that DropdownMenu.ItemButton uses, which does
+// support it — this is a type-only gap in echoes-react, not a runtime limitation.
+const DropdownMenuSubMenuWithHelpText = DropdownMenu.SubMenu as React.ComponentType<
+  React.ComponentProps<typeof DropdownMenu.SubMenu> & { helpText?: ReactNode }
+>;
 
 interface StatusTransitionItem<T extends string> {
   className?: string;
@@ -107,21 +113,16 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
           <>
             {transitions.map((transition) =>
               transition.quickActions ? (
-                <DropdownMenu.SubMenu
+                <DropdownMenuSubMenuWithHelpText
                   className={classNames('it__issue-transition-option', transition.className)}
+                  helpText={
+                    <FormattedMessage id={`status_transition.${transition.value}.description`} />
+                  }
                   items={transition.quickActions}
                   key={transition.value}
                 >
-                  <div className="sw-flex sw-flex-col sw-gap-1">
-                    <div className="sw-flex sw-items-center sw-justify-between sw-gap-2">
-                      <FormattedMessage id={`status_transition.${transition.value}`} />
-                      {renderTransitionBadge(transition)}
-                    </div>
-                    <Text isSubtle size="small">
-                      <FormattedMessage id={`status_transition.${transition.value}.description`} />
-                    </Text>
-                  </div>
-                </DropdownMenu.SubMenu>
+                  <FormattedMessage id={`status_transition.${transition.value}`} />
+                </DropdownMenuSubMenuWithHelpText>
               ) : (
                 <DropdownMenu.ItemButton
                   className={classNames('it__issue-transition-option', transition.className)}

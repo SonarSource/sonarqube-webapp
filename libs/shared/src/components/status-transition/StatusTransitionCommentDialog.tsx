@@ -27,10 +27,14 @@ import {
   TextArea,
   ToggleTip,
 } from '@sonarsource/echoes-react';
+import { ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 interface Props<T extends string> {
   comment: string;
+  /** Extra content rendered under the comment field — static info or an interactive control
+   * (e.g. a snoozed-until note, or a date selector for a dated transition). */
+  extraContent?: ReactNode;
   isFeedback: boolean;
   isOpen: boolean;
   onClose: () => void;
@@ -43,6 +47,7 @@ interface Props<T extends string> {
 
 export function IssueTransitionCommentDialog<T extends string>({
   comment,
+  extraContent,
   isFeedback,
   isOpen,
   onClose,
@@ -79,6 +84,7 @@ export function IssueTransitionCommentDialog<T extends string>({
             rows={5}
             value={comment}
           />
+          {extraContent}
           {showFeedbackCheckbox && (
             <div className="sw-flex sw-gap-1">
               <Checkbox
