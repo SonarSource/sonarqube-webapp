@@ -800,6 +800,13 @@ export const defaultMessages = {
   'ai_capabilities.llm_providers.empty.description': 'Add your first one to get started.',
   'ai_capabilities.llm_providers.table.aria_label': 'Configured LLM providers',
   'ai_capabilities.llm_providers.table.provider': 'Provider',
+  'ai_capabilities.llm_providers.table.valid': 'Valid',
+  'ai_capabilities.llm_providers.validity.checking': 'Checking if {name} is valid',
+  'ai_capabilities.llm_providers.validity.valid': '{name} is valid',
+  'ai_capabilities.llm_providers.validity.invalid': '{name} is not valid: {error}',
+  'ai_capabilities.llm_providers.validity.invalid.no_reason': 'the provider gave no reason',
+  'ai_capabilities.llm_providers.validity.unknown': 'Cannot tell if {name} is valid',
+  'ai_capabilities.llm_providers.validity.managed': '{name} is managed by Sonar',
   'ai_capabilities.llm_providers.edit': 'Edit provider',
   'ai_capabilities.llm_providers.limit_reached':
     "You've reached the limit of {count} providers. Remove one to add another.",

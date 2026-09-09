@@ -77,6 +77,32 @@ export interface LlmProvider {
 }
 
 /**
+ * Outcome of a live connection test against an already-configured provider. The test is never
+ * cached server-side, so this reflects whether the provider accepts its stored credentials right
+ * now. `error` is null when `isValid` is true, and is a short generic reason otherwise — the
+ * server deliberately does not reflect upstream statuses or bodies back, to avoid turning the
+ * test into a probe for internal services.
+ */
+export interface LlmProviderValidation {
+  error: string | null;
+  isValid: boolean;
+  llmProviderId: string;
+}
+
+/**
+ * Per-provider view of its own connection test. Each provider is probed independently, so its
+ * in-flight state has to be tracked independently too: one shared flag would leave a provider whose
+ * probe already settled waiting on the slowest of its siblings.
+ *
+ * `isFetching` covers a re-run as well as the first run, and takes precedence over `validation`:
+ * while a provider is being re-probed its previous verdict is no longer known to hold.
+ */
+export interface LlmProviderValidationState {
+  isFetching: boolean;
+  validation: LlmProviderValidation | undefined;
+}
+
+/**
  * On write, a secret header may omit `value` to keep the stored secret untouched.
  */
 export interface LlmHttpHeaderWrite {

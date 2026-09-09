@@ -27,12 +27,14 @@ import {
   LlmProviderSelection,
   LlmProviderSelectionUpsert,
   LlmProviderUpdate,
+  LlmProviderValidation,
 } from '../types/llm-connectivity';
 
 const LLM_CONNECTIVITY_PATH = '/api/v2/llm-connectivity';
 export const LLM_PROVIDER_DEFINITIONS_PATH = `${LLM_CONNECTIVITY_PATH}/llm-provider-definitions`;
 export const LLM_PROVIDERS_PATH = `${LLM_CONNECTIVITY_PATH}/llm-providers`;
 export const LLM_PROVIDER_MAPPINGS_PATH = `${LLM_CONNECTIVITY_PATH}/llm-provider-mappings`;
+export const LLM_PROVIDER_VALIDATIONS_PATH = `${LLM_CONNECTIVITY_PATH}/llm-provider-validations`;
 
 export function getLlmProviderDefinitions() {
   return axiosClient
@@ -74,6 +76,19 @@ export function updateLlmProvider(id: string, data: LlmProviderUpdate) {
 
 export function deleteLlmProvider(id: string) {
   return axiosToCatch.delete(`${LLM_PROVIDERS_PATH}/${id}`);
+}
+
+/**
+ * Re-runs the connection test for a provider that is already stored. A POST because the test is an
+ * action with an upstream side effect, not a cached resource: nothing is persisted and every call
+ * hits the provider. `axiosToCatch` keeps a failed request in the caller's hands, so the table can
+ * render "unknown" instead of firing a global toast on an admin page.
+ */
+export function validateLlmProvider(llmProviderId: string) {
+  return axiosToCatch.post<LlmProviderValidation, { llmProviderId: string }>(
+    LLM_PROVIDER_VALIDATIONS_PATH,
+    { llmProviderId },
+  );
 }
 
 export function upsertLlmProviderSelection(data: LlmProviderSelectionUpsert) {

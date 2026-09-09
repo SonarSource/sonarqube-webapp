@@ -18,7 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  queryOptions,
+  useMutation,
+  useQueries,
+  useQueryClient,
+  UseQueryResult,
+} from '@tanstack/react-query';
+import { useCallback } from 'react';
 import { createQueryHook, StaleTime } from '~shared/queries/common';
 import {
   createLlmProvider,
@@ -28,8 +35,14 @@ import {
   getLlmProviderSelections,
   updateLlmProvider,
   upsertLlmProviderSelection,
+  validateLlmProvider,
 } from '../api/llm-connectivity';
-import { AiCapability, LlmProviderUpdate } from '../types/llm-connectivity';
+import {
+  AiCapability,
+  LlmProviderUpdate,
+  LlmProviderValidation,
+  LlmProviderValidationState,
+} from '../types/llm-connectivity';
 
 const llmConnectivityQueryKeys = {
   definitions: () => ['llm-connectivity', 'llm-provider-definitions'] as const,
@@ -38,6 +51,8 @@ const llmConnectivityQueryKeys = {
     ['llm-connectivity', 'llm-providers', aiCapability] as const,
   selection: (aiCapability: `${AiCapability}`) =>
     ['llm-connectivity', 'llm-provider-mappings', aiCapability] as const,
+  validation: (llmProviderId: string) =>
+    ['llm-connectivity', 'llm-provider-validations', llmProviderId] as const,
 };
 
 export const useLlmProviderDefinitionsQuery = createQueryHook(() =>
@@ -75,6 +90,54 @@ export const useLlmProviderSelectionQuery = createQueryHook((aiCapability: AiCap
   }),
 );
 
+/**
+ * Fans out one connection test per provider, and reports each provider's state separately.
+ * Credentials can be revoked upstream at any moment and the server caches nothing, so a verdict is
+ * only meaningful when freshly fetched: each probe is re-run whenever an admin opens the page
+ * (`refetchOnMount`), and never expires on its own (`staleTime`) so re-renders in between do not
+ * re-hit the providers.
+ *
+ * A failed probe is a legitimate "unknown" rather than a transient glitch, hence no retries.
+ *
+ * `combine` pairs each result with its provider by position, which `useQueries` guarantees to match
+ * the order of `queries`. It cannot key off the payload instead, because a probe that is still in
+ * flight or that failed has no payload to read the id from. `useCallback` keeps the reference stable
+ * so `useQueries` can still memoize; callers therefore have to pass a memoized `llmProviderIds`.
+ */
+export function useLlmProviderValidationsQuery(llmProviderIds: string[]) {
+  const combine = useCallback(
+    (results: UseQueryResult<LlmProviderValidation>[]) =>
+      new Map<string, LlmProviderValidationState>(
+        llmProviderIds.map((llmProviderId, index) => {
+          const result = results[index];
+
+          return [
+            llmProviderId,
+            {
+              isFetching: result?.isFetching ?? false,
+              // React Query keeps the last successful `data` around after a failed refetch, so a
+              // stale "valid" verdict would otherwise survive a recheck that just failed. Only
+              // trust `data` when the latest fetch actually succeeded.
+              validation: result?.isSuccess ? result.data : undefined,
+            },
+          ] as const;
+        }),
+      ),
+    [llmProviderIds],
+  );
+
+  return useQueries({
+    queries: llmProviderIds.map((llmProviderId) => ({
+      queryKey: llmConnectivityQueryKeys.validation(llmProviderId),
+      queryFn: () => validateLlmProvider(llmProviderId),
+      staleTime: StaleTime.NEVER,
+      refetchOnMount: 'always' as const,
+      retry: false,
+    })),
+    combine,
+  });
+}
+
 export function useCreateLlmProviderMutation() {
   const client = useQueryClient();
 
@@ -92,8 +155,11 @@ export function useUpdateLlmProviderMutation() {
   return useMutation({
     mutationFn: ({ data, id }: { data: LlmProviderUpdate; id: string }) =>
       updateLlmProvider(id, data),
-    onSuccess() {
+    onSuccess(_, { id }) {
       client.invalidateQueries({ queryKey: llmConnectivityQueryKeys.providers() });
+      // A rotated secret or a new endpoint changes the verdict, so the cached one must not survive
+      // the edit that invalidated it.
+      client.invalidateQueries({ queryKey: llmConnectivityQueryKeys.validation(id) });
     },
   });
 }
@@ -105,6 +171,11 @@ export function useDeleteLlmProviderMutation() {
     mutationFn: deleteLlmProvider,
     onSuccess() {
       client.invalidateQueries({ queryKey: llmConnectivityQueryKeys.providers() });
+      // The verdict is deliberately left in the cache to be garbage-collected. Removing it here
+      // would rebuild the query through the row's still-mounted observer while the provider list is
+      // stale, and probe a provider that no longer exists. Leaving it is inert: provider ids are
+      // server-generated UUIDs, so no later provider can inherit this one's verdict, and no row
+      // remains that could render it.
     },
   });
 }

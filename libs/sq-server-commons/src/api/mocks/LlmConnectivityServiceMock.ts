@@ -42,6 +42,7 @@ import {
 import {
   LLM_PROVIDER_DEFINITIONS_PATH,
   LLM_PROVIDER_MAPPINGS_PATH,
+  LLM_PROVIDER_VALIDATIONS_PATH,
   LLM_PROVIDERS_PATH,
 } from '../llm-connectivity';
 
@@ -129,8 +130,13 @@ export default class LlmConnectivityServiceMock extends AbstractServiceMock<LlmC
   #mappingFailureMessage: string | undefined;
   #nextId = 1;
   #providersFailureMessage: string | undefined;
+  #validationErrorByProviderId = new Map<string, string>();
+  #validationFailureMessage: string | undefined;
+  #validationGateByProviderId = new Map<string, { release: () => void; wait: Promise<void> }>();
+  #validationRequestFailureByProviderId = new Map<string, string>();
 
   lastUpdateRequest: { data: LlmProviderUpdate; id: string } | undefined;
+  validatedProviderIds: string[] = [];
 
   get providers() {
     return this.data.providers;
@@ -179,6 +185,40 @@ export default class LlmConnectivityServiceMock extends AbstractServiceMock<LlmC
     this.#mappingFailureMessage = message;
   };
 
+  /** Makes the connection test for one provider report that provider as not valid. */
+  setProviderInvalid = (providerId: string, error: string) => {
+    this.#validationErrorByProviderId.set(providerId, error);
+  };
+
+  /** Makes the connection test endpoint itself fail for every provider, i.e. no verdict at all. */
+  setValidationFailure = (message: string | undefined) => {
+    this.#validationFailureMessage = message;
+  };
+
+  /** Same, but for one provider only, so the others still get a verdict. */
+  setValidationRequestFailure = (providerId: string, message: string) => {
+    this.#validationRequestFailureByProviderId.set(providerId, message);
+  };
+
+  /**
+   * Holds the connection test for one provider until {@link releaseValidation}, so a test can
+   * observe the other providers while this one is still in flight.
+   */
+  blockValidation = (providerId: string) => {
+    let release = () => {
+      /* replaced synchronously below */
+    };
+    const wait = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    this.#validationGateByProviderId.set(providerId, { release, wait });
+  };
+
+  releaseValidation = (providerId: string) => {
+    this.#validationGateByProviderId.get(providerId)?.release();
+    this.#validationGateByProviderId.delete(providerId);
+  };
+
   buildCustomProxy = (index: number): LlmProvider => ({
     id: `custom-proxy-${index}`,
     provider: LlmProviderType.CustomProxy,
@@ -194,7 +234,16 @@ export default class LlmConnectivityServiceMock extends AbstractServiceMock<LlmC
     this.#mappingFailureMessage = undefined;
     this.#nextId = 1;
     this.#providersFailureMessage = undefined;
+    this.#validationErrorByProviderId = new Map();
+    this.#validationFailureMessage = undefined;
+    // Release anything still held, so a test that ends early cannot leave a pending request behind.
+    this.#validationGateByProviderId.forEach((gate) => {
+      gate.release();
+    });
+    this.#validationGateByProviderId = new Map();
+    this.#validationRequestFailureByProviderId = new Map();
     this.lastUpdateRequest = undefined;
+    this.validatedProviderIds = [];
   }
 
   handlers = [
@@ -299,6 +348,31 @@ export default class LlmConnectivityServiceMock extends AbstractServiceMock<LlmC
       );
 
       return this.ok(updated);
+    }),
+
+    http.post(LLM_PROVIDER_VALIDATIONS_PATH, async ({ request }) => {
+      const { llmProviderId } = (await request.json()) as { llmProviderId: string };
+      this.validatedProviderIds.push(llmProviderId);
+
+      await this.#validationGateByProviderId.get(llmProviderId)?.wait;
+
+      const requestFailure =
+        this.#validationFailureMessage ??
+        this.#validationRequestFailureByProviderId.get(llmProviderId);
+      if (requestFailure !== undefined) {
+        return this.badRequest(requestFailure);
+      }
+
+      if (!this.data.providers.some((provider) => provider.id === llmProviderId)) {
+        return this.errorsWithStatus(
+          HttpStatus.NotFound,
+          `No LLM provider found for id '${llmProviderId}'`,
+        );
+      }
+
+      const error = this.#validationErrorByProviderId.get(llmProviderId);
+
+      return this.ok({ llmProviderId, isValid: error === undefined, error: error ?? null });
     }),
 
     http.delete(`${LLM_PROVIDERS_PATH}/:id`, ({ params }) => {
