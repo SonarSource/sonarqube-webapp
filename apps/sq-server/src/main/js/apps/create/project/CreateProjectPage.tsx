@@ -308,6 +308,7 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
             afterSubmit={this.handleAfterSubmit}
             alm={creatingAlmDefinition}
             enforceValidation
+            hideBitbucketVariantChoice
             onCancel={this.handleOnCancelCreation}
           />
         )}

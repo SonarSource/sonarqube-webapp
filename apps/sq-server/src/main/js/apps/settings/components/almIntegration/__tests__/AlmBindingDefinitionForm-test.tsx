@@ -43,7 +43,7 @@ afterEach(() => {
 
 const ui = {
   bitbucketConfiguration: (almKey: AlmKeys.BitbucketCloud | AlmKeys.BitbucketServer) =>
-    byRole('button', { name: `alm.${almKey}.long` }),
+    byRole('radio', { name: `alm.${almKey}.long` }),
   configurationInput: (id: string) =>
     byLabelText(`settings.almintegration.form.${id}`, { exact: false }),
   saveConfigurationButton: byRole('button', { name: 'settings.almintegration.form.save' }),
@@ -91,6 +91,28 @@ it('keeps the save button disabled while post-save validation is in flight', asy
   resolveValidation('');
 
   expect(await ui.saveConfigurationButton.find()).toBeInTheDocument();
+});
+
+it.each([
+  [AlmKeys.BitbucketCloud, 'workspace.bitbucketcloud'],
+  [AlmKeys.BitbucketServer, 'url.bitbucket'],
+])('configures %s directly when the caller already picked the variant', async (alm, field) => {
+  renderAlmBindingDefinitionForm({ alm, hideBitbucketVariantChoice: true });
+
+  expect(await ui.configurationInput(field).find()).toBeInTheDocument();
+  expect(ui.bitbucketConfiguration(AlmKeys.BitbucketServer).query()).not.toBeInTheDocument();
+  expect(ui.bitbucketConfiguration(AlmKeys.BitbucketCloud).query()).not.toBeInTheDocument();
+});
+
+it('asks for the variant on the settings tab covering both Bitbuckets', async () => {
+  renderAlmBindingDefinitionForm({ alm: AlmKeys.BitbucketServer });
+
+  expect(await ui.bitbucketConfiguration(AlmKeys.BitbucketServer).find()).toBeInTheDocument();
+  expect(ui.configurationInput('url.bitbucket').query()).not.toBeInTheDocument();
+
+  await userEvent.click(ui.bitbucketConfiguration(AlmKeys.BitbucketCloud).get());
+
+  expect(ui.configurationInput('workspace.bitbucketcloud').get()).toBeInTheDocument();
 });
 
 function renderAlmBindingDefinitionForm(props: Partial<AlmBindingDefinitionFormProps> = {}) {

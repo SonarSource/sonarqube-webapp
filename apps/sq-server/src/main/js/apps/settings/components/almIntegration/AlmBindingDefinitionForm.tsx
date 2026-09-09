@@ -51,6 +51,13 @@ export interface AlmBindingDefinitionFormProps {
   alm: AlmKeys;
   bindingDefinition?: AlmBindingDefinition;
   enforceValidation?: boolean;
+  /**
+   * Set this when the caller already knows which Bitbucket variant it wants: the form then
+   * configures the one named by `alm` instead of showing the Server/Cloud toggle. The project
+   * creation tiles set it, since picking a tile is already the choice. The Bitbucket settings tab
+   * does not, because a single tab there covers both variants.
+   */
+  hideBitbucketVariantChoice?: boolean;
   onCancel: () => void;
 }
 
@@ -100,17 +107,30 @@ const BINDING_PER_ALM: {
 };
 
 export function AlmBindingDefinitionForm(props: Readonly<AlmBindingDefinitionFormProps>) {
-  const { alm, bindingDefinition, enforceValidation, afterSubmit, onCancel } = props;
+  const {
+    alm,
+    bindingDefinition,
+    enforceValidation,
+    hideBitbucketVariantChoice,
+    afterSubmit,
+    onCancel,
+  } = props;
 
   const [bitbucketVariant, setBitbucketVariant] = useState<
     AlmKeys.BitbucketServer | AlmKeys.BitbucketCloud | undefined
   >(() => {
-    if (bindingDefinition && alm === AlmKeys.BitbucketServer) {
+    if (alm === AlmKeys.BitbucketCloud) {
+      return AlmKeys.BitbucketCloud;
+    }
+    if (alm !== AlmKeys.BitbucketServer) {
+      return undefined;
+    }
+    if (bindingDefinition) {
       return isBitbucketCloudBindingDefinition(bindingDefinition)
         ? AlmKeys.BitbucketCloud
         : AlmKeys.BitbucketServer;
     }
-    return undefined;
+    return hideBitbucketVariantChoice ? AlmKeys.BitbucketServer : undefined;
   });
 
   const [formData, setFormData] = useState<AlmBindingDefinition>(
@@ -238,6 +258,7 @@ export function AlmBindingDefinitionForm(props: Readonly<AlmBindingDefinitionFor
     <AlmBindingDefinitionFormRenderer
       alm={alm}
       bitbucketVariant={bitbucketVariant}
+      canChooseBitbucketVariant={!bindingDefinition && !hideBitbucketVariantChoice}
       canSubmit={canSubmit}
       errorListElementRef={errorListElement}
       formData={formData}

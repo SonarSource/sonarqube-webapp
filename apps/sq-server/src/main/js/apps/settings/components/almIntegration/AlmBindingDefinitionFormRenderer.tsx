@@ -41,6 +41,7 @@ import { FormattedMessage } from 'react-intl';
 export interface Props {
   alm: AlmKeys;
   bitbucketVariant?: AlmKeys.BitbucketServer | AlmKeys.BitbucketCloud;
+  canChooseBitbucketVariant: boolean;
   canSubmit: boolean;
   errorListElementRef: React.RefObject<HTMLDivElement | null>;
   formData: AlmBindingDefinition;
@@ -57,7 +58,7 @@ export interface Props {
 
 export default class AlmBindingDefinitionFormRenderer extends React.PureComponent<Readonly<Props>> {
   renderForm = () => {
-    const { alm, formData, isUpdate, bitbucketVariant } = this.props;
+    const { alm, formData, canChooseBitbucketVariant, bitbucketVariant } = this.props;
 
     switch (alm) {
       case AlmKeys.GitLab:
@@ -82,12 +83,13 @@ export default class AlmBindingDefinitionFormRenderer extends React.PureComponen
           />
         );
       case AlmKeys.BitbucketServer:
+      case AlmKeys.BitbucketCloud:
         return (
           <BitbucketForm
+            canChooseVariant={canChooseBitbucketVariant}
             formData={
               formData as BitbucketServerBindingDefinition | BitbucketCloudBindingDefinition
             }
-            isUpdate={isUpdate}
             onFieldChange={this.props.onFieldChange}
             onVariantChange={this.props.onBitbucketVariantChange}
             variant={bitbucketVariant}

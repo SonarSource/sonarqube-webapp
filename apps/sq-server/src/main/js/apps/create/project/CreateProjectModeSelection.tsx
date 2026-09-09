@@ -85,7 +85,6 @@ function renderAlmOption(
   const count = almCounts[alm];
   const hasConfig = count > 0;
   const disabled = loadingBindings || (!hasConfig && !canAdmin);
-  const configMode = alm === AlmKeys.BitbucketCloud ? AlmKeys.BitbucketServer : alm;
 
   const iconKey = almKeyToIconKey(alm);
 
@@ -125,7 +124,7 @@ function renderAlmOption(
           (canAdmin ? (
             <Button
               onClick={() => {
-                props.onConfigMode(configMode);
+                props.onConfigMode(alm);
               }}
             >
               <FormattedMessage id="setup" />

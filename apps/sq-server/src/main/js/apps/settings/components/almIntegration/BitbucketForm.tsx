@@ -29,8 +29,13 @@ import BitbucketCloudForm from './BitbucketCloudForm';
 import BitbucketServerForm from './BitbucketServerForm';
 
 export interface BitbucketFormProps {
+  /**
+   * Whether to show the Server/Cloud toggle. False when the variant is already settled, which
+   * happens either because an existing binding is being edited or because the caller opened the
+   * form for one specific variant.
+   */
+  canChooseVariant: boolean;
   formData: BitbucketServerBindingDefinition | BitbucketCloudBindingDefinition;
-  isUpdate: boolean;
   onFieldChange: (
     fieldId: keyof (BitbucketServerBindingDefinition & BitbucketCloudBindingDefinition),
     value: string,
@@ -40,11 +45,11 @@ export interface BitbucketFormProps {
 }
 
 export default function BitbucketForm(props: Readonly<BitbucketFormProps>) {
-  const { isUpdate, formData, variant } = props;
+  const { canChooseVariant, formData, variant } = props;
 
   return (
     <>
-      {!isUpdate && (
+      {canChooseVariant && (
         <FormField label={translate('settings.almintegration.form.choose_bitbucket_variant')}>
           <div>
             <ToggleButton
