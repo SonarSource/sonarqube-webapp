@@ -40,8 +40,6 @@ import { DevopsConfigurationsModal } from '../DevopsConfigurationsModal';
 const TRIGGER_LABEL = 'Open';
 const MODAL_TITLE = 'onboarding_dashboard.journey.binding.modal.title';
 
-// The list and the counts are product-specific, so they are re-mocked per test. That also lets this
-// one file cover the SQ-Cloud path, where the settings query answers `null`.
 jest.mock('~adapters/queries/onboarding', () => ({
   useOnboardingBoundProjectCountsQuery: jest.fn(),
   useOnboardingDopSettingsQuery: jest.fn(),
@@ -80,12 +78,13 @@ const COUNTS: OnboardingBoundProjectCounts = { 'bbc-1': 0, 'gh-1': 12 };
 const IMPORT_URL = { pathname: '/projects/create', search: '?dopSetting=gh-1&mode=github' };
 
 function mockConfigurations(
-  settings: OnboardingDopSetting[] | null,
+  settings: OnboardingDopSetting[] | null | undefined,
   counts: OnboardingBoundProjectCounts = COUNTS,
 ) {
   jest.mocked(useOnboardingDopSettingsQuery).mockReturnValue({
     data: settings,
-    isPending: false,
+    isLoading: false,
+    isPending: settings === undefined,
   } as unknown as ReturnType<typeof useOnboardingDopSettingsQuery>);
 
   jest
@@ -333,6 +332,16 @@ it('lists nothing on the products that hold no configuration at all', async () =
   await user.click(ui.openButton.get());
 
   expect(await ui.modal.find()).toBeInTheDocument();
+  expect(ui.resultsCount(0, 0).get()).toBeInTheDocument();
+});
+
+it('lists nothing when the settings query is gated by permissions', async () => {
+  mockConfigurations(undefined, {});
+
+  const { user } = renderModal();
+  await user.click(ui.openButton.get());
+
+  expect(await ui.table.byText(NO_DATA).findAll()).toHaveLength(3);
   expect(ui.resultsCount(0, 0).get()).toBeInTheDocument();
 });
 

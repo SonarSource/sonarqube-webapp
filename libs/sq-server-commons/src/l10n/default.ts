@@ -11600,7 +11600,7 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.analyze.not_scanned.title': 'Not scanned',
   'onboarding_dashboard.journey.analyze.not_scanned.desc':
     'These projects have not yet reported a scan result. This may happen if analysis has not been set up, a scan has not run successfully, or no code has been analyzed yet.',
-  'onboarding_dashboard.journey.analyze.not_scanned.cta': 'Fix scanners',
+  'onboarding_dashboard.journey.analyze.not_scanned.cta': 'Configure scanners',
   'onboarding_dashboard.journey.analyze.not_imported.title': 'Not imported',
   'onboarding_dashboard.journey.analyze.not_imported.desc':
     'These projects have not yet reported a scan result. This may happen if analysis has not been set up, a scan has not run successfully, or no code has been analyzed yet.',

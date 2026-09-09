@@ -199,16 +199,11 @@ const ui = {
   analyzedCenterLabel: byText('onboarding_dashboard.journey.analyze.analyzed_label'),
   notScannedLegend: byText('onboarding_dashboard.journey.analyze.legend.not_scanned'),
   notImportedAnalyzeLegend: byText('onboarding_dashboard.journey.analyze.legend.not_imported'),
-  fixCta: byRole('button', { name: 'onboarding_dashboard.journey.analyze.not_scanned.cta' }),
+  notScannedCta: byRole('button', { name: 'onboarding_dashboard.journey.analyze.not_scanned.cta' }),
   importRowCta: byRole('button', { name: 'onboarding_dashboard.journey.analyze.not_imported.cta' }),
-  // The react-intl mock joins the message id with primitive values by ".", so a `{count}` message
-  // renders as `<id>.<count>` — lets us assert the derived counts reach the right rows.
-  // Not-scanned/not-imported counts now live in a "{count} projects" badge; full CI keeps it inline.
   notScannedCount: byText('onboarding_dashboard.journey.analyze.projects_count.7'),
   notImportedCount: byText('onboarding_dashboard.journey.analyze.projects_count.20'),
 
-  // Donut centre sub-label. The old "<done> / <total>" line renders through the intl mock as
-  // `onboarding_dashboard.journey.step.count.<done>.<total>`; no panel should show it any more.
   donutStepCount: byText(/^onboarding_dashboard\.journey\.step\.count/),
 };
 
@@ -217,7 +212,6 @@ function renderPanel(
   state: JourneyState,
   onSelectStep: (step: JourneyStep) => void = jest.fn(),
 ) {
-  // Rendered within a router: the import panel's auto-import helper uses a LinkStandalone.
   return renderWithRouter(
     <DetailPanel onSelectStep={onSelectStep} selectedStep={selectedStep} state={state} />,
   );
@@ -407,7 +401,7 @@ it('shows the permission popover when the user lacks permission and clicks the c
   jest.mocked(useCanCreateProjects).mockReturnValue(false);
   const { user } = renderPanel(JourneyStep.Projects, boundState);
 
-  await user.click(ui.fixCta.get());
+  await user.click(ui.notScannedCta.get());
 
   expect(await ui.permissionDescription.find()).toBeInTheDocument();
 });
@@ -425,7 +419,7 @@ it('renders the analyze panel with its three legend entries and two action rows'
   expect(ui.donutStepCount.query()).not.toBeInTheDocument();
 
   // Two action rows, each with its own CTA...
-  expect(ui.fixCta.get()).toBeInTheDocument();
+  expect(ui.notScannedCta.get()).toBeInTheDocument();
   expect(await ui.importRowCta.find()).toBeInTheDocument();
 
   // ...and the cohort counts land on the matching row.
@@ -496,8 +490,12 @@ describe('height animation', () => {
     );
 
     // Unmounting mid-animation should not throw and should cancel the pending timer.
-    expect(() => unmount()).not.toThrow();
-    expect(() => jest.advanceTimersByTime(400)).not.toThrow();
+    expect(() => {
+      unmount();
+    }).not.toThrow();
+    expect(() => {
+      jest.advanceTimersByTime(400);
+    }).not.toThrow();
 
     jest.useRealTimers();
   });

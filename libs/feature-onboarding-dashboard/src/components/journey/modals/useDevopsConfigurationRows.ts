@@ -32,19 +32,12 @@ import {
 
 interface Params {
   filters: DevopsConfigurationFilters;
-  /** 1-based, as everywhere else in the dashboard. */
   pageIndex: number;
   pageSize: number;
 }
 
-/**
- * One page of the instance's DevOps platform configurations, each with its bound-project count.
- *
- * Lists, filters and pages before counting, so the per-configuration fan-out stays bounded by the
- * page size rather than growing with the number of configurations.
- */
 export function useDevopsConfigurationRows({ filters, pageIndex, pageSize }: Params) {
-  const { data: dopSettings, isPending: areSettingsPending } = useOnboardingDopSettingsQuery();
+  const { data: dopSettings, isLoading: areSettingsLoading } = useOnboardingDopSettingsQuery();
 
   const matches = useMemo(
     () =>
@@ -76,11 +69,8 @@ export function useDevopsConfigurationRows({ filters, pageIndex, pageSize }: Par
   );
 
   return {
-    // Only the list gates the table; the counts fill in as they land, so names, search and paging
-    // are not hidden behind a skeleton.
-    isPending: areSettingsPending,
+    isLoading: areSettingsLoading,
     page,
-    /** Configurations matching the filters, across every page. */
     total: matches.length,
   };
 }

@@ -46,6 +46,13 @@ import { grantPermissionToUser } from '../../api/permissions';
 import { projectBindingsQueryOptions } from '../../queries/dop-translation';
 import { AlmKeys } from '../../types/alm-settings';
 import { DopSetting } from '../../types/dop-translation';
+import { useCanCreateProjects } from '../helpers/useCanCreateProjects';
+
+const dopSettingsQueryOptions = {
+  queryKey: ['dop-settings'],
+  queryFn: getDopSettings,
+  staleTime: StaleTime.LONG,
+};
 
 const ALM_KEYS_TO_ONBOARDING_ALM: Record<AlmKeys, OnboardingAlm> = {
   [AlmKeys.Azure]: OnboardingDevopsPlatform.AzureDevops,
@@ -94,10 +101,11 @@ export function useTriggerAutomaticAnalysisMutation():
  * adapter having to wrap the query in a custom `{ data, isLoading }` interface.
  */
 export function useOnboardingDopSettingsQuery() {
+  const canCreateProjects = useCanCreateProjects();
+
   return useQuery({
-    queryKey: ['dop-settings'],
-    queryFn: getDopSettings,
-    staleTime: StaleTime.LONG,
+    ...dopSettingsQueryOptions,
+    enabled: canCreateProjects,
     select: (data): OnboardingDopSettingsQueryData =>
       data.dopSettings.map((s) => ({
         id: s.id,
@@ -156,11 +164,9 @@ export function useOnboardingRepositoriesQuery(
   params: OnboardingRepositoriesQuery,
   options?: { enabled?: boolean },
 ) {
-  const dopSettingsQuery = useQuery({
-    queryKey: ['dop-settings'],
-    queryFn: getDopSettings,
-    staleTime: StaleTime.LONG,
-  });
+  const canCreateProjects = useCanCreateProjects();
+
+  const dopSettingsQuery = useQuery({ ...dopSettingsQueryOptions, enabled: canCreateProjects });
 
   const setting = dopSettingsQuery.data?.dopSettings.find((s) => s.id === params.dopSettingId);
   const isEnabled = (options?.enabled ?? true) && setting !== undefined;

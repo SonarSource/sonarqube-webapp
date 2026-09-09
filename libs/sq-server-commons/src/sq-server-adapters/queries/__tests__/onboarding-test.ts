@@ -28,9 +28,12 @@ import {
   OnboardingRepositoriesVisibility,
 } from '~shared/types/onboarding';
 import { mockDopSetting } from '../../../api/mocks/data/dop-translation';
+import { mockLoggedInUser } from '../../../helpers/testMocks';
 import { AlmKeys } from '../../../types/alm-settings';
+import { Permissions } from '../../../types/permissions';
 import {
   useOnboardingBoundProjectCountsQuery,
+  useOnboardingDopSettingsQuery,
   useOnboardingRepositoriesQuery,
 } from '../onboarding';
 
@@ -78,6 +81,64 @@ const BASE_PARAMS = {
   visibility: OnboardingRepositoriesVisibility.All,
 };
 
+/** Reading DOP settings takes the "Create projects" permission, so most tests need a user with it. */
+function permittedWrapper() {
+  return getContextWrapper({
+    initialCurrentUser: mockLoggedInUser({
+      permissions: { global: [Permissions.ProjectCreation] },
+    }),
+  });
+}
+
+describe('useOnboardingDopSettingsQuery (SQS adapter)', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    mockGetDopSettings.mockResolvedValue({ dopSettings: [GITHUB_SETTING, GITLAB_SETTING] });
+  });
+
+  it('maps every configuration onto its onboarding platform', async () => {
+    const { result } = renderHook(() => useOnboardingDopSettingsQuery(), {
+      wrapper: permittedWrapper(),
+    });
+
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
+    expect(result.current.data).toEqual([
+      {
+        id: GITHUB_SETTING.id,
+        key: GITHUB_SETTING.key,
+        type: OnboardingDevopsPlatform.Github,
+        url: GITHUB_SETTING.url,
+      },
+      {
+        id: GITLAB_SETTING.id,
+        key: GITLAB_SETTING.key,
+        type: OnboardingDevopsPlatform.Gitlab,
+        url: GITLAB_SETTING.url,
+      },
+    ]);
+  });
+
+  it('asks for nothing without the "Create projects" permission', async () => {
+    const { result } = renderHook(() => useOnboardingDopSettingsQuery(), {
+      wrapper: getContextWrapper({ initialCurrentUser: mockLoggedInUser() }),
+    });
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+    expect(result.current.data).toBeUndefined();
+    expect(mockGetDopSettings).not.toHaveBeenCalled();
+  });
+
+  it('asks for nothing when nobody is logged in', () => {
+    renderHook(() => useOnboardingDopSettingsQuery(), { wrapper: getContextWrapper() });
+
+    expect(mockGetDopSettings).not.toHaveBeenCalled();
+  });
+});
+
 describe('useOnboardingRepositoriesQuery (SQS adapter)', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -96,7 +157,7 @@ describe('useOnboardingRepositoriesQuery (SQS adapter)', () => {
     );
 
     const { result } = renderHook(() => useOnboardingRepositoriesQuery(BASE_PARAMS), {
-      wrapper: getContextWrapper(),
+      wrapper: permittedWrapper(),
     });
 
     expect(result.current.isPending).toBe(true);
@@ -108,7 +169,7 @@ describe('useOnboardingRepositoriesQuery (SQS adapter)', () => {
 
     const { result } = renderHook(
       () => useOnboardingRepositoriesQuery({ ...BASE_PARAMS, dopSettingId: 'unknown-id' }),
-      { wrapper: getContextWrapper() },
+      { wrapper: permittedWrapper() },
     );
 
     await waitFor(() => {
@@ -120,7 +181,7 @@ describe('useOnboardingRepositoriesQuery (SQS adapter)', () => {
   it('respects the caller-supplied enabled=false option', async () => {
     const { result } = renderHook(
       () => useOnboardingRepositoriesQuery(BASE_PARAMS, { enabled: false }),
-      { wrapper: getContextWrapper() },
+      { wrapper: permittedWrapper() },
     );
 
     await waitFor(() => {
@@ -129,11 +190,23 @@ describe('useOnboardingRepositoriesQuery (SQS adapter)', () => {
     expect(mockGetGithubRepositories).not.toHaveBeenCalled();
   });
 
+  it('looks up no DOP settings without the "Create projects" permission', async () => {
+    const { result } = renderHook(() => useOnboardingRepositoriesQuery(BASE_PARAMS), {
+      wrapper: getContextWrapper({ initialCurrentUser: mockLoggedInUser() }),
+    });
+
+    await waitFor(() => {
+      expect(result.current.isPending).toBe(true);
+    });
+    expect(mockGetDopSettings).not.toHaveBeenCalled();
+    expect(mockGetGithubRepositories).not.toHaveBeenCalled();
+  });
+
   describe('GitHub', () => {
     it('returns empty repositories when no githubOrganization is provided', async () => {
       const { result } = renderHook(
         () => useOnboardingRepositoriesQuery({ ...BASE_PARAMS, githubOrganization: undefined }),
-        { wrapper: getContextWrapper() },
+        { wrapper: permittedWrapper() },
       );
 
       await waitFor(() => {
@@ -162,7 +235,7 @@ describe('useOnboardingRepositoriesQuery (SQS adapter)', () => {
 
       const { result } = renderHook(
         () => useOnboardingRepositoriesQuery({ ...BASE_PARAMS, githubOrganization: 'my-org' }),
-        { wrapper: getContextWrapper() },
+        { wrapper: permittedWrapper() },
       );
 
       await waitFor(() => {
@@ -193,7 +266,7 @@ describe('useOnboardingRepositoriesQuery (SQS adapter)', () => {
     it('fetches and normalises GitLab projects', async () => {
       const { result } = renderHook(
         () => useOnboardingRepositoriesQuery({ ...BASE_PARAMS, dopSettingId: GITLAB_SETTING.id }),
-        { wrapper: getContextWrapper() },
+        { wrapper: permittedWrapper() },
       );
 
       await waitFor(() => {
@@ -225,7 +298,7 @@ describe('useOnboardingRepositoriesQuery (SQS adapter)', () => {
     it('fetches and normalises BitbucketServer repositories', async () => {
       const { result } = renderHook(
         () => useOnboardingRepositoriesQuery({ ...BASE_PARAMS, dopSettingId: BBS_SETTING.id }),
-        { wrapper: getContextWrapper() },
+        { wrapper: permittedWrapper() },
       );
 
       await waitFor(() => {
@@ -258,7 +331,7 @@ describe('useOnboardingRepositoriesQuery (SQS adapter)', () => {
     it('fetches and normalises BitbucketCloud repositories', async () => {
       const { result } = renderHook(
         () => useOnboardingRepositoriesQuery({ ...BASE_PARAMS, dopSettingId: BBC_SETTING.id }),
-        { wrapper: getContextWrapper() },
+        { wrapper: permittedWrapper() },
       );
 
       await waitFor(() => {
@@ -296,7 +369,7 @@ describe('useOnboardingRepositoriesQuery (SQS adapter)', () => {
             dopSettingId: AZURE_SETTING.id,
             pageSize: 1,
           }),
-        { wrapper: getContextWrapper() },
+        { wrapper: permittedWrapper() },
       );
 
       await waitFor(() => {
@@ -357,8 +430,6 @@ describe('useOnboardingBoundProjectCountsQuery (SQS adapter)', () => {
 
     const { result } = renderCounts(['gh', 'broken']);
 
-    // The healthy configuration still reports its count: a failing neighbour must neither take the
-    // whole column down nor be reported as zero.
     await waitFor(() => {
       expect(result.current.data).toEqual({ gh: 12 });
     });

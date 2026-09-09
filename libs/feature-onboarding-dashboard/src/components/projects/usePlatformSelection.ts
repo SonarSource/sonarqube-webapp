@@ -32,17 +32,10 @@ export interface PlatformSelectionResult {
   showPlatformSelect: boolean;
 }
 
-/**
- * Fetches and manages the DOP setting selector state for the "Import repositories" modal.
- *
- * Returns `showPlatformSelect = false` on SQ-Cloud (where the adapter returns `null`) and whenever
- * only a single non-GitHub DOP setting is configured. GitHub DOP settings are not surfaced by this
- * selector — importing from GitHub requires per-organization discovery which is handled separately.
- */
 export function usePlatformSelection(): PlatformSelectionResult {
   const [selectedDopSettingId, setSelectedDopSettingId] = useState<string | undefined>(undefined);
 
-  const { data: dopSettings } = useOnboardingDopSettingsQuery();
+  const { data: dopSettings, isLoading } = useOnboardingDopSettingsQuery();
 
   const platformEntries = useMemo(
     () => (dopSettings ?? []).filter((s) => s.type !== OnboardingDevopsPlatform.Github),
@@ -54,7 +47,7 @@ export function usePlatformSelection(): PlatformSelectionResult {
 
   return {
     effectiveEntry,
-    isLoading: dopSettings === undefined,
+    isLoading,
     platformEntries,
     selectedDopSettingId,
     setSelectedDopSettingId,

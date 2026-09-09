@@ -82,8 +82,6 @@ interface Props {
   onSelectStep: (step: JourneyStep) => void;
 }
 
-// Opened from the configurations donut's "View details". Search, filter and paging run in the
-// browser, since the whole list arrives in one cached response.
 export function DevopsConfigurationsModal({
   children,
   onSelectStep,
@@ -96,7 +94,7 @@ export function DevopsConfigurationsModal({
 
   const filters = useMemo(() => ({ platform, query }), [platform, query]);
 
-  const { isPending, page, total } = useDevopsConfigurationRows({
+  const { isLoading, page, total } = useDevopsConfigurationRows({
     filters,
     pageIndex,
     pageSize: PAGE_SIZE,
@@ -115,7 +113,7 @@ export function DevopsConfigurationsModal({
     <Modal
       content={
         <LoadingContainer
-          isLoading={isPending}
+          isLoading={isLoading}
           loadingMessage={formatMessage({
             id: 'onboarding_dashboard.journey.binding.modal.loading',
           })}
@@ -162,7 +160,7 @@ export function DevopsConfigurationsModal({
               <Table.Body>
                 <TableBodyRows
                   columnCount={COLUMNS.length}
-                  isLoading={isPending}
+                  isLoading={isLoading}
                   items={page}
                   renderRow={(row) => (
                     <DevopsConfigurationTableRow
@@ -207,8 +205,6 @@ function DevopsConfigurationTableRow({ onSelectStep, row }: Readonly<RowProps>) 
   return (
     <Table.Row>
       <Table.Cell className="sw-justify-start">
-        {/* The qualified label, so a Bitbucket Data Center row and a Bitbucket Cloud one do not both
-            read "Bitbucket" under otherwise unrelated configuration names. */}
         <RepositoryCell
           alm={row.alm}
           name={row.key}
@@ -216,8 +212,6 @@ function DevopsConfigurationTableRow({ onSelectStep, row }: Readonly<RowProps>) 
         />
       </Table.Cell>
 
-      {/* A badge is the design's treatment for a count; an unresolved one is not a count, so it
-          stays plain text rather than an empty-looking pill. */}
       {row.imported === undefined ? (
         <Table.Cell>
           <Text isSubtle>{NO_DATA}</Text>
