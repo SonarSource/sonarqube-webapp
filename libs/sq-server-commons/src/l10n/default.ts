@@ -1250,6 +1250,73 @@ export const defaultMessages = {
   'vortex_dashboard.period.last_90_days': 'Last 90 days',
   'vortex_dashboard.period.last_365_days': 'Last 365 days',
 
+  'vortex_dashboard.impact_roi.title': 'Impact and ROI',
+  'vortex_dashboard.impact_roi.error': 'Unable to load this metric right now.',
+  'vortex_dashboard.impact_roi.calculation_link': 'How is this calculated?',
+
+  'vortex_dashboard.impact_roi.guide.heading': 'Vortex Guide',
+  'vortex_dashboard.impact_roi.guide.value': '± {value}',
+  'vortex_dashboard.impact_roi.guide.value_label': 'prevented issues',
+  'vortex_dashboard.impact_roi.guide.tooltip_title': 'Vortex Guide',
+  'vortex_dashboard.impact_roi.guide.tooltip_description':
+    "Vortex Guide gives AI agents relevant context, guardrails, standards, and constraints to help their output meet your organization's requirements before, and as your agent writes code. This helps address issues before the change reaches a pull request, reducing downstream rework.",
+
+  'vortex_dashboard.impact_roi.verify.heading': 'Vortex Verify',
+  'vortex_dashboard.impact_roi.verify.value_label': 'resolved issues',
+  'vortex_dashboard.impact_roi.verify.tooltip_title': 'Vortex Verify',
+  'vortex_dashboard.impact_roi.verify.tooltip_description':
+    'An issue is counted as resolved when it is found in one analysis and no longer appears after the agent updates the code and Vortex verifies it again. This value is based on activity Vortex directly observed, such as an issue resolved between analyses or rules supplied to the agent.',
+
+  'vortex_dashboard.impact_roi.engineering_time.heading': 'Engineering time saved',
+  'vortex_dashboard.impact_roi.engineering_time.value_label': 'hours saved',
+  'vortex_dashboard.impact_roi.engineering_time.tooltip_title': 'Engineering time saved',
+  'vortex_dashboard.impact_roi.engineering_time.tooltip_description':
+    "An estimate of engineering time Vortex helped avoid by catching or preventing issues earlier. It uses Sonar's remediation effort and conservative assumptions about review and rework.",
+
+  'vortex_dashboard.impact_roi.tokens.heading': 'Tokens saved',
+  'vortex_dashboard.impact_roi.tokens.value_label': 'tokens saved',
+  'vortex_dashboard.impact_roi.tokens.tooltip_title': 'Tokens saved',
+  'vortex_dashboard.impact_roi.tokens.tooltip_description':
+    'An estimate of tokens Vortex helped avoid by providing focused context instead of requiring the agent to explore more of the codebase. Vortex reduces unnecessary codebase exploration and compresses large command output before it is added to the agent’s context.',
+
+  'vortex_dashboard.impact_roi.badge.estimate': 'Estimate',
+  'vortex_dashboard.impact_roi.badge.measured': 'Measured',
+  'vortex_dashboard.impact_roi.badge.estimate_description':
+    'This value is calculated from observed Vortex activity and conservative assumptions about what may have happened without it. It is not a directly observed outcome.',
+  'vortex_dashboard.impact_roi.badge.measured_description':
+    'This value is based on activity Vortex directly observed, such as an issue resolved between analyses or rules supplied to the agent.',
+
+  'vortex_dashboard.impact_roi.engineering_time_modal.title':
+    'How engineering time saved is calculated',
+  'vortex_dashboard.impact_roi.engineering_time_modal.intro':
+    'Engineering time saved combines the Guide contribution (estimated prevention) and the Verify contribution (resolved issues).',
+  'vortex_dashboard.impact_roi.engineering_time_modal.guide_contribution_title':
+    'Guide contribution (Estimated prevention)',
+  'vortex_dashboard.impact_roi.engineering_time_modal.guide_contribution_description':
+    'When Guide provides project rules, we estimate the rework avoided if an issue would otherwise have reached review.',
+  'vortex_dashboard.impact_roi.engineering_time_modal.verify_contribution_title':
+    'Verify contribution (Resolved issues)',
+  'vortex_dashboard.impact_roi.engineering_time_modal.verify_contribution_description':
+    'We calculate it from Vortex Guide and Verify activity using Sonar rule remediation effort and conservative assumptions. It is not a measure of individual developer time.',
+  'vortex_dashboard.impact_roi.engineering_time_modal.methodology':
+    'We estimate that issues would otherwise have been caught in your normal pull request workflow, not caused an incident or breach. We count shared review effort once per agent activity rather than once for every issue, and probabilities and batching adjustments prevent the estimate from treating every finding as a full, separate rework cycle.',
+
+  'vortex_dashboard.impact_roi.tokens_modal.title': 'How tokens saved is calculated',
+  'vortex_dashboard.impact_roi.tokens_modal.intro':
+    'Tokens saved estimates the tokens the agent would otherwise have used, accounting for the effect of context amplification—so this metric is labelled Estimated.',
+  'vortex_dashboard.impact_roi.tokens_modal.output_compression_title': 'Output compression',
+  'vortex_dashboard.impact_roi.tokens_modal.output_compression_description':
+    'When Vortex replaces large command output with a smaller version, we measure the bytes removed and estimate the token equivalent.',
+  'vortex_dashboard.impact_roi.tokens_modal.formula_label': 'Formula',
+  'vortex_dashboard.impact_roi.tokens_modal.formula':
+    '(Original output bytes - compressed output bytes) / bytes per token x context amplification factor',
+  'vortex_dashboard.impact_roi.tokens_modal.amplification_title':
+    'What is context amplification factor?',
+  'vortex_dashboard.impact_roi.tokens_modal.amplification_description':
+    'Information added to the agent’s context may be sent again in later requests. The amplification factor estimates the repeated input cost, using a conservative fixed value.',
+  'vortex_dashboard.impact_roi.tokens_modal.trust_note':
+    'The response size and compression byte change are observed. The tokens the agent would otherwise have used, and the effect of context amplification, are estimated—so this metric is labelled Estimated.',
+
   //------------------------------------------------------------------------------
   //
   // VISIBILITY
