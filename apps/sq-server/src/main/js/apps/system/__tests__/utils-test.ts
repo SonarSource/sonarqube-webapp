@@ -32,6 +32,7 @@ const agenticHarnessInfo = {
   'Agentic Analysis': { Healthy: false },
   'Hunter Agent': { Error: 'Hunter error', Healthy: false },
   'Remediation Agent': { Healthy: true },
+  MCP: { Healthy: true },
 };
 
 describe('parseQuery', () => {
@@ -64,6 +65,7 @@ describe('getAgenticHarnessSections', () => {
       { name: 'Vortex Analysis', section: { Healthy: false } },
       { name: 'Hunter Agent', section: { Error: 'Hunter error', Healthy: false } },
       { name: 'Remediation Agent', section: { Healthy: true } },
+      { name: 'MCP', section: { Healthy: true } },
     ]);
   });
 
@@ -158,6 +160,7 @@ describe('getStandaloneMainSections', () => {
     expect(sections).not.toHaveProperty('Agentic Analysis');
     expect(sections).not.toHaveProperty('Hunter Agent');
     expect(sections).not.toHaveProperty('Remediation Agent');
+    expect(sections).not.toHaveProperty('MCP');
   });
 });
 
@@ -182,6 +185,7 @@ describe('getClusterMainCardSection', () => {
     expect(section).not.toHaveProperty('Agentic Analysis');
     expect(section).not.toHaveProperty('Hunter Agent');
     expect(section).not.toHaveProperty('Remediation Agent');
+    expect(section).not.toHaveProperty('MCP');
   });
 });
 

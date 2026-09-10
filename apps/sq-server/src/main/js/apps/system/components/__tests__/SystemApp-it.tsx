@@ -67,6 +67,7 @@ describe('System Info Standalone', () => {
       'Vortex Analysis',
       'Hunter Agent',
       'Remediation Agent',
+      'MCP',
     ];
     const sectionButtons = sectionNames.map((name) => ui.sectionButton(name).get());
     expect(ui.agenticHarnessTitle.get().compareDocumentPosition(sectionButtons[0])).toBe(
@@ -180,6 +181,7 @@ describe('System Info Cluster', () => {
         .compareDocumentPosition(ui.agenticHarnessTitle.get()),
     ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
     expect(ui.sectionButton('Vortex Analysis').get()).toBeInTheDocument();
+    expect(ui.sectionButton('MCP').get()).toBeInTheDocument();
     expect(ui.sectionButton('Agentic Analysis').query()).not.toBeInTheDocument();
   });
 
@@ -211,6 +213,7 @@ function addAgenticHarnessInfo() {
     'Agentic Analysis': { Healthy: true },
     'Hunter Agent': { Error: 'Hunter unavailable', Healthy: false },
     'Remediation Agent': { Healthy: true },
+    MCP: { Healthy: true },
   };
 }
 

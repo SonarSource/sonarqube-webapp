@@ -53,6 +53,7 @@ export const AGENTIC_HARNESS_FIELDS = [
   AGENTIC_ANALYSIS_FIELD,
   'Hunter Agent',
   'Remediation Agent',
+  'MCP',
 ] as const;
 export const APP_NODES_FIELD = 'Application Nodes';
 export const ALMS_FIELD = 'ALMs';
