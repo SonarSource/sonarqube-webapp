@@ -18,23 +18,27 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { throwGlobalError } from '~adapters/helpers/error';
-import { getJSON } from '~adapters/helpers/request';
-import { post } from '../helpers/request';
-import { AddRemoveNotificationParameters, NotificationsResponse } from '../types/notifications';
+import { axiosClient } from '~shared/helpers/axios-clients';
 
-export type NotificationFilter = 'user' | 'groupSubscription' | 'all';
+const NOTIFICATIONS_ENDPOINT = '/api/notifications';
 
-export function getNotifications(filter?: NotificationFilter): Promise<NotificationsResponse> {
-  return getJSON('/api/notifications/list', filter ? { filter } : undefined).catch(
-    throwGlobalError,
+export interface GroupNotificationSubscription {
+  channelKey: string;
+  groupName: string;
+  groupUuid: string;
+  notificationType: string;
+}
+
+export function listGroupNotificationSubscriptions() {
+  return axiosClient.get<{ subscriptions: GroupNotificationSubscription[] }>(
+    `${NOTIFICATIONS_ENDPOINT}/list_groups`,
   );
 }
 
-export function addNotification(data: AddRemoveNotificationParameters) {
-  return post('/api/notifications/add', data).catch(throwGlobalError);
+export function addGroupNotificationSubscription(params: { groupUuid: string; type: string }) {
+  return axiosClient.post(`${NOTIFICATIONS_ENDPOINT}/add_group`, new URLSearchParams(params));
 }
 
-export function removeNotification(data: AddRemoveNotificationParameters) {
-  return post('/api/notifications/remove', data).catch(throwGlobalError);
+export function removeGroupNotificationSubscription(params: { groupUuid: string; type: string }) {
+  return axiosClient.post(`${NOTIFICATIONS_ENDPOINT}/remove_group`, new URLSearchParams(params));
 }

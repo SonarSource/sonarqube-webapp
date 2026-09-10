@@ -21,6 +21,7 @@
 import { sortBy } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { ContentCell, NumericalCell, TableRow } from '~design-system';
+import { GroupNotificationSubscription } from '~sq-server-commons/api/group-notifications';
 import { Group, Provider } from '~sq-server-commons/types/types';
 import { StickyTable } from '../../../app/components/admin/StickyTable';
 import ListItem from './ListItem';
@@ -28,6 +29,7 @@ import ListItem from './ListItem';
 interface Props {
   groups: Group[];
   manageProvider: Provider | undefined;
+  subscriptions: GroupNotificationSubscription[];
 }
 
 function Header() {
@@ -42,6 +44,9 @@ function Header() {
       <ContentCell>
         <FormattedMessage id="description" />
       </ContentCell>
+      <ContentCell>
+        <FormattedMessage id="group_notifications.subscriptions" />
+      </ContentCell>
       <NumericalCell>
         <FormattedMessage id="actions" />
       </NumericalCell>
@@ -50,12 +55,17 @@ function Header() {
 }
 
 export default function List(props: Readonly<Props>) {
-  const { groups, manageProvider } = props;
+  const { groups, manageProvider, subscriptions } = props;
 
   return (
-    <StickyTable columnCount={4} header={<Header />} id="groups-list" overrideTop={-1}>
+    <StickyTable columnCount={5} header={<Header />} id="groups-list" overrideTop={-1}>
       {sortBy(groups, (group) => group.name.toLowerCase()).map((group) => (
-        <ListItem group={group} key={group.name} manageProvider={manageProvider} />
+        <ListItem
+          group={group}
+          key={group.name}
+          manageProvider={manageProvider}
+          subscriptions={subscriptions}
+        />
       ))}
     </StickyTable>
   );

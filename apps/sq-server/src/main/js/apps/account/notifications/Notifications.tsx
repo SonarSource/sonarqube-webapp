@@ -32,7 +32,7 @@ const NEWS_NOTIFICATION_FIELD_ID = 'news-notification-field';
 
 export default function Notifications() {
   const { formatMessage } = useIntl();
-  const { data: notificationResponse, isLoading } = useNotificationsQuery();
+  const { data: notificationResponse, isLoading } = useNotificationsQuery('user');
   const { notifications } = notificationResponse || {
     channels: [],
     globalTypes: [],

@@ -21,29 +21,37 @@
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { uniqWith } from 'lodash';
 import { createQueryHook, StaleTime } from '~shared/queries/common';
-import { addNotification, getNotifications, removeNotification } from '../api/notifications';
+import {
+  addNotification,
+  getNotifications,
+  NotificationFilter,
+  removeNotification,
+} from '../api/notifications';
 import { Notification } from '../types/notifications';
 
 const KEY_PREFIX = 'notifications';
 
-const notificationQuery = queryOptions({
-  queryKey: [KEY_PREFIX],
-  queryFn: () => getNotifications(),
-  staleTime: StaleTime.NEVER,
-});
+const notificationQueryOptions = (filter?: NotificationFilter) =>
+  queryOptions({
+    queryKey: [KEY_PREFIX, filter ?? 'all'],
+    queryFn: () => getNotifications(filter),
+    staleTime: StaleTime.NEVER,
+  });
 
 function areNotificationsEqual(a: Notification, b: Notification) {
   return a.channel === b.channel && a.type === b.type && a.project === b.project;
 }
 
-export const useNotificationsQuery = createQueryHook(() => notificationQuery);
+export const useNotificationsQuery = createQueryHook((filter?: NotificationFilter) =>
+  notificationQueryOptions(filter),
+);
 
 export function useAddNotificationMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: addNotification,
     onSuccess: (_, { channel, type, project }) => {
-      queryClient.setQueryData(notificationQuery.queryKey, (previous) => {
+      queryClient.setQueryData(notificationQueryOptions('user').queryKey, (previous) => {
         if (previous === undefined) {
           return previous;
         }
@@ -65,7 +73,7 @@ export function useRemoveNotificationMutation() {
   return useMutation({
     mutationFn: removeNotification,
     onSuccess: (_, removed) => {
-      queryClient.setQueryData(notificationQuery.queryKey, (previous) => {
+      queryClient.setQueryData(notificationQueryOptions('user').queryKey, (previous) => {
         if (previous === undefined) {
           return previous;
         }

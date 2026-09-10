@@ -49,7 +49,7 @@ export interface NotificationProject {
 
 export interface NotificationsResponse {
   channels: string[];
-  globalTypes: NotificationGlobalType[];
+  globalTypes: string[];
   notifications: Notification[];
   perProjectTypes: NotificationProjectType[];
 }

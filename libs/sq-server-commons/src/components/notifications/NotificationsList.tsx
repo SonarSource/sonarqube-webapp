@@ -51,7 +51,7 @@ export default function NotificationsList({
   className = '',
 }: Readonly<Props>) {
   const intl = useIntl();
-  const { data, isLoading } = useNotificationsQuery();
+  const { data, isLoading } = useNotificationsQuery('user');
   const { mutate: add, isPending: isPendingAdd } = useAddNotificationMutation();
   const { mutate: remove, isPending: isPendingRemove } = useRemoveNotificationMutation();
   const types = (projectKey ? data?.perProjectTypes : data?.globalTypes) || [];

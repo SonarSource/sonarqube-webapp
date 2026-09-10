@@ -26,7 +26,12 @@ import {
   NotificationProjectType,
   NotificationsResponse,
 } from '../../types/notifications';
-import { addNotification, getNotifications, removeNotification } from '../notifications';
+import {
+  addNotification,
+  getNotifications,
+  NotificationFilter,
+  removeNotification,
+} from '../notifications';
 
 jest.mock('../notifications');
 
@@ -47,10 +52,16 @@ export default class NotificationsMock {
     (removeNotification as jest.Mock).mockImplementation(this.handleRemoveNotification);
   }
 
-  handleGetNotifications: () => Promise<NotificationsResponse> = () => {
+  handleGetNotifications: (filter?: NotificationFilter) => Promise<NotificationsResponse> = (
+    filter,
+  ) => {
+    const globalTypes =
+      filter === 'groupSubscription'
+        ? [NotificationGlobalType.NewAlerts, NotificationGlobalType.ChangesOnMyIssue]
+        : Object.values(NotificationGlobalType);
     return Promise.resolve({
       channels: [...channels],
-      globalTypes: Object.values(NotificationGlobalType),
+      globalTypes,
       notifications: cloneDeep(this.notifications),
       perProjectTypes: Object.values(NotificationProjectType),
     });

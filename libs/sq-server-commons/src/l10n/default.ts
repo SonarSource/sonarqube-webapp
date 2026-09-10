@@ -10201,6 +10201,7 @@ export const defaultMessages = {
   'groups.users.edit': 'Change {0} members',
   'groups.users.view': 'View {0} members',
   'groups.edit': 'Edit {0}',
+  'groups.actions': 'Group actions for {0}',
   'group_membership.remove_user.error': 'User {0} is not a member of group {1}',
 
   //------------------------------------------------------------------------------
@@ -11765,4 +11766,21 @@ export const defaultMessages = {
   'security_alerts.detail.sca_issue.version': 'Version',
   'security_alerts.detail.sca_issue.action': 'Action',
   'security_alerts.detail.sca_issue.view_risk': 'View risk details',
+
+  'group_notifications.page': 'Group notification subscriptions',
+  'group_notifications.page.description':
+    'Manage which groups have their security alert banners reshown when a new alert is published.',
+  'group_notifications.add': 'Add subscription',
+  'group_notifications.remove': 'Remove',
+  'group_notifications.empty': 'No group subscriptions configured.',
+  'group_notifications.group': 'Group',
+  'group_notifications.notification_type': 'Notification type',
+  'group_notifications.modal.title': 'Add group subscription',
+  'group_notifications.modal.select_group': 'Select a group',
+  'group_notifications.modal.select_type': 'Select a notification type',
+  'group_notifications.subscriptions': 'Notification subscriptions',
+  'group_notifications.manage_subscriptions': 'Manage subscriptions',
+  'group_notifications.subscriptions_count':
+    '{count, plural, one {# subscription} other {# subscriptions}}',
+  'group_notifications.remove_subscription': 'Remove {type}',
 };

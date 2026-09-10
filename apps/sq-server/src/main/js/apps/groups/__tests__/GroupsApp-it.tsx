@@ -25,7 +25,9 @@ import { byRole, byText } from '~shared/helpers/testSelector';
 import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslationServiceMock';
 import GithubProvisioningServiceMock from '~sq-server-commons/api/mocks/GithubProvisioningServiceMock';
 import GroupMembershipsServiceMock from '~sq-server-commons/api/mocks/GroupMembersipsServiceMock';
+import GroupNotificationsServiceMock from '~sq-server-commons/api/mocks/GroupNotificationsServiceMock';
 import GroupsServiceMock from '~sq-server-commons/api/mocks/GroupsServiceMock';
+import NotificationsServiceMock from '~sq-server-commons/api/mocks/NotificationsServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
 import UsersServiceMock from '~sq-server-commons/api/mocks/UsersServiceMock';
@@ -33,6 +35,7 @@ import { mockGitHubConfiguration } from '~sq-server-commons/helpers/mocks/dop-tr
 import { mockGroup, mockGroupMembership, mockRestUser } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { Feature } from '~sq-server-commons/types/features';
+import { NotificationGlobalType } from '~sq-server-commons/types/notifications';
 import { ProvisioningType } from '~sq-server-commons/types/provisioning';
 import { TaskStatuses } from '~sq-server-commons/types/tasks';
 import { Provider } from '~sq-server-commons/types/types';
@@ -45,6 +48,10 @@ const userHandler = new UsersServiceMock(groupMembershipsHandler);
 const dopTranslationHandler = new DopTranslationServiceMock();
 const githubHandler = new GithubProvisioningServiceMock(dopTranslationHandler);
 const settingsHandler = new SettingsServiceMock();
+const groupNotificationsHandler = new GroupNotificationsServiceMock();
+const notificationsHandler = new NotificationsServiceMock({
+  globalTypes: [NotificationGlobalType.NewAlerts],
+});
 
 const ui = {
   createGroupButton: byRole('button', { name: 'groups.create_group' }),
@@ -87,7 +94,7 @@ const ui = {
   memberBobUser: byText('bob.marley'),
   memberSearchInput: byRole('searchbox', { name: 'search_verb' }),
 
-  managedEditButton: byRole('button', { name: 'groups.edit.managed-group' }),
+  managedEditButton: byRole('button', { name: 'groups.actions.managed-group' }),
 
   localGroupRow: byRole('row', { name: 'local-group 3' }),
   localGroupWithALotOfSelected: byRole('row', { name: 'local-group 15' }),
@@ -96,10 +103,17 @@ const ui = {
   trimmedGroupRow: byRole('row', { name: 'local-group 2 0' }),
   editedLocalGroupRow: byRole('row', { name: 'local-group 3 3 group 3 rocks!' }),
   editedLocalGroupRowName: byRole('row', { name: 'local-group 3 3' }),
-  localEditButton: byRole('button', { name: 'groups.edit.local-group' }),
+  localEditButton: byRole('button', { name: 'groups.actions.local-group' }),
   localGroupRowWithLocalBadge: byRole('row', {
     name: 'local-group local 3',
   }),
+
+  localGroupRowByName: byRole('row', { name: /local-group/ }),
+  managedGroupRowByName: byRole('row', { name: /managed-group/ }),
+  manageSubscriptionsMenuItem: byRole('menuitem', {
+    name: 'group_notifications.manage_subscriptions',
+  }),
+  manageSubscriptionsModal: byRole('dialog', { name: 'local-group' }),
 
   samlWarning: byText('users.update_groups.saml_enabled'),
 
@@ -118,7 +132,9 @@ beforeEach(() => {
   githubHandler.reset();
   userHandler.reset();
   groupMembershipsHandler.reset();
-  registerServiceMocks(userHandler);
+  groupNotificationsHandler.reset();
+  notificationsHandler.reset();
+  registerServiceMocks(userHandler, groupNotificationsHandler, notificationsHandler);
   groupMembershipsHandler.memberships = [
     mockGroupMembership({ groupId: '1', userId: '1' }),
     mockGroupMembership({ groupId: '1', userId: '2' }),
@@ -356,6 +372,40 @@ describe('in non managed mode', () => {
     await user.click(ui.doneButton.get());
     expect(ui.membersDialog.query()).not.toBeInTheDocument();
   });
+
+  it('should show subscription badges in group row', async () => {
+    groupNotificationsHandler.data.subscriptions = [
+      {
+        groupUuid: '2',
+        groupName: 'local-group',
+        notificationType: NotificationGlobalType.NewAlerts,
+        channelKey: 'EmailNotificationChannel',
+      },
+    ];
+
+    renderGroupsApp();
+
+    const localGroupRow = await ui.localGroupRowByName.find();
+    expect(
+      within(localGroupRow).getByText('notification.dispatcher.NewAlerts'),
+    ).toBeInTheDocument();
+    const managedGroupRow = await ui.managedGroupRowByName.find();
+    expect(
+      within(managedGroupRow).queryByText('notification.dispatcher.NewAlerts'),
+    ).not.toBeInTheDocument();
+  });
+
+  it('should open GroupNotificationSubscriptionsModal from dropdown', async () => {
+    const user = userEvent.setup();
+    renderGroupsApp();
+
+    expect(await ui.localGroupRow.find()).toBeInTheDocument();
+
+    await user.click(await ui.localEditButton.find());
+    await user.click(await ui.manageSubscriptionsMenuItem.find());
+
+    expect(await ui.manageSubscriptionsModal.find()).toBeInTheDocument();
+  });
 });
 
 describe('in manage mode', () => {
@@ -377,10 +427,10 @@ describe('in manage mode', () => {
     expect(await ui.localGroupRowWithLocalBadge.find()).toBeInTheDocument();
 
     await user.click(await ui.localFilter.find());
-    expect(ui.localEditButton.query()).not.toBeInTheDocument();
-    expect(await ui.localGroupRowWithLocalBadge.by(ui.deleteIconButton).find()).toBeInTheDocument();
+    expect(await ui.localEditButton.find()).toBeInTheDocument();
 
-    await user.click(ui.localGroupRowWithLocalBadge.by(ui.deleteIconButton).get());
+    await user.click(ui.localEditButton.get());
+    await user.click(await screen.findByRole('menuitem', { name: 'delete' }));
 
     expect(await ui.deleteDialog.find()).toBeInTheDocument();
 
@@ -396,7 +446,12 @@ describe('in manage mode', () => {
     renderGroupsApp();
 
     expect(await ui.managedGroupRow.find()).toBeInTheDocument();
-    expect(ui.managedEditButton.query()).not.toBeInTheDocument();
+    expect(await ui.managedEditButton.find()).toBeInTheDocument();
+
+    await user.click(ui.managedEditButton.get());
+    expect(ui.updateButton.query()).not.toBeInTheDocument();
+    expect(ui.deleteButton.query()).not.toBeInTheDocument();
+    await user.keyboard('{Escape}');
 
     expect(ui.managedGroupEditMembersButton.query()).not.toBeInTheDocument();
 

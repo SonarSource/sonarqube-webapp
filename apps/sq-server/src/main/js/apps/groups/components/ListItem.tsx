@@ -19,43 +19,52 @@
  */
 
 import {
+  Badge,
+  BadgeVariety,
   ButtonIcon,
-  ButtonSize,
-  ButtonVariety,
   DropdownMenu,
-  IconDelete,
   IconMoreVertical,
   Spinner,
 } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { Image } from '~adapters/components/common/Image';
-import { Badge, ContentCell, NumericalCell, TableRow } from '~design-system';
-import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { ContentCell, NumericalCell, TableRow } from '~design-system';
+import { GroupNotificationSubscription } from '~sq-server-commons/api/group-notifications';
 import { useGroupMembersCountQuery } from '~sq-server-commons/queries/group-memberships';
 import { Group, Provider } from '~sq-server-commons/types/types';
 import DeleteGroupForm from './DeleteGroupForm';
 import GroupForm from './GroupForm';
+import { GroupNotificationSubscriptionsModal } from './GroupNotificationSubscriptionsModal';
 import Members from './Members';
 
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useCurrentTheme } from '~shared/helpers/css';
 import { almIconUrl } from '~sq-server-commons/helpers/almIcons';
 
 export interface ListItemProps {
   group: Group;
   manageProvider: Provider | undefined;
+  subscriptions: GroupNotificationSubscription[];
 }
 
 export default function ListItem(props: Readonly<ListItemProps>) {
-  const { manageProvider, group } = props;
+  const { manageProvider, group, subscriptions } = props;
   const { name, managed, description } = group;
 
+  const { formatMessage } = useIntl();
   const [groupToDelete, setGroupToDelete] = useState<Group | undefined>();
   const [groupToEdit, setGroupToEdit] = useState<Group | undefined>();
+  const [groupToSubscribe, setGroupToSubscribe] = useState<Group | undefined>();
 
   const { data: membersCount, isLoading, refetch } = useGroupMembersCountQuery(group.id);
 
   const currentTheme = useCurrentTheme();
+
+  const groupSubscriptionTypes = [
+    ...new Set(
+      subscriptions.filter((s) => s.groupUuid === group.id).map((s) => s.notificationType),
+    ),
+  ];
 
   const isManaged = () => {
     return manageProvider !== undefined;
@@ -91,7 +100,7 @@ export default function ListItem(props: Readonly<ListItemProps>) {
         )}
         {managed && renderIdentityProviderIcon(manageProvider)}
         {isGroupLocal() && (
-          <Badge className="sw-ml-1">
+          <Badge className="sw-ml-1" variety={BadgeVariety.Neutral}>
             <FormattedMessage id="local" />
           </Badge>
         )}
@@ -101,53 +110,56 @@ export default function ListItem(props: Readonly<ListItemProps>) {
         <Members group={group} isManaged={isManaged()} onEdit={refetch} />
       </NumericalCell>
       <ContentCell>{description}</ContentCell>
+      <ContentCell>
+        <div className="sw-flex sw-gap-2">
+          {groupSubscriptionTypes.map((notificationType) => (
+            <Badge key={notificationType} variety={BadgeVariety.Neutral}>
+              <FormattedMessage id={`notification.dispatcher.${notificationType}`} />
+            </Badge>
+          ))}
+        </div>
+      </ContentCell>
       <NumericalCell>
-        {!group.default && (!isManaged() || isGroupLocal()) && (
-          <>
-            {isManaged() && isGroupLocal() && (
-              <ButtonIcon
-                Icon={IconDelete}
-                ariaLabel={translateWithParameters('delete_x', name)}
-                className="sw-ml-2"
+        <DropdownMenu
+          id={`group-actions-${group.name}`}
+          items={
+            <>
+              {!group.default && !isManaged() && (
+                <DropdownMenu.ItemButton
+                  onClick={() => {
+                    setGroupToEdit(group);
+                  }}
+                >
+                  <FormattedMessage id="update_details" />
+                </DropdownMenu.ItemButton>
+              )}
+              <DropdownMenu.ItemButton
                 onClick={() => {
-                  setGroupToDelete(group);
+                  setGroupToSubscribe(group);
                 }}
-                size={ButtonSize.Medium}
-                variety={ButtonVariety.DangerGhost}
-              />
-            )}
-            {!isManaged() && (
-              <DropdownMenu
-                id={`group-actions-${group.name}`}
-                items={
-                  <>
-                    <DropdownMenu.ItemButton
-                      onClick={() => {
-                        setGroupToEdit(group);
-                      }}
-                    >
-                      <FormattedMessage id="update_details" />
-                    </DropdownMenu.ItemButton>
-                    <DropdownMenu.Separator />
-                    <DropdownMenu.ItemButtonDestructive
-                      className="it__quality-profiles__delete"
-                      onClick={() => {
-                        setGroupToDelete(group);
-                      }}
-                    >
-                      <FormattedMessage id="delete" />
-                    </DropdownMenu.ItemButtonDestructive>
-                  </>
-                }
               >
-                <ButtonIcon
-                  Icon={IconMoreVertical}
-                  ariaLabel={translateWithParameters('groups.edit', group.name)}
-                />
-              </DropdownMenu>
-            )}
-          </>
-        )}
+                <FormattedMessage id="group_notifications.manage_subscriptions" />
+              </DropdownMenu.ItemButton>
+              {!group.default && (!isManaged() || isGroupLocal()) && (
+                <>
+                  <DropdownMenu.Separator />
+                  <DropdownMenu.ItemButtonDestructive
+                    onClick={() => {
+                      setGroupToDelete(group);
+                    }}
+                  >
+                    <FormattedMessage id="delete" />
+                  </DropdownMenu.ItemButtonDestructive>
+                </>
+              )}
+            </>
+          }
+        >
+          <ButtonIcon
+            Icon={IconMoreVertical}
+            ariaLabel={formatMessage({ id: 'groups.actions' }, { 0: group.name })}
+          />
+        </DropdownMenu>
         {groupToDelete && (
           <DeleteGroupForm
             group={groupToDelete}
@@ -162,6 +174,14 @@ export default function ListItem(props: Readonly<ListItemProps>) {
             group={groupToEdit}
             onClose={() => {
               setGroupToEdit(undefined);
+            }}
+          />
+        )}
+        {groupToSubscribe && (
+          <GroupNotificationSubscriptionsModal
+            group={groupToSubscribe}
+            onClose={() => {
+              setGroupToSubscribe(undefined);
             }}
           />
         )}
