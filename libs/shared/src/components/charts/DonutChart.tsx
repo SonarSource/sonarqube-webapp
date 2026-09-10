@@ -18,8 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { animated, easings, SpringValue, useSpring } from '@react-spring/web';
 import { arc as d3Arc, pie as d3Pie, PieArcDatum } from 'd3-shape';
-import type { MouseEvent } from 'react';
+import { MouseEvent, ReactNode, useState } from 'react';
+import useMediaQueryMatcher from '../../helpers/useMediaQueryMatcher';
 
 export interface DataPoint {
   fill: string;
@@ -27,10 +29,14 @@ export interface DataPoint {
 }
 
 const HOVER_EXPANSION_PX = 5;
+const MOUNT_ANIMATION_DELAY_MS = 400;
+const MOUNT_ANIMATION_DURATION_MS = 1500;
 
 export interface DonutChartProps {
   'aria-hidden'?: boolean | 'true' | 'false';
   'aria-label'?: string;
+  animateOnMount?: boolean;
+  centerContent?: ReactNode;
   cornerRadius?: number;
   data: DataPoint[];
   height: number;
@@ -47,6 +53,8 @@ export interface DonutChartProps {
 
 export function DonutChart(props: Readonly<DonutChartProps>) {
   const {
+    animateOnMount,
+    centerContent,
     height,
     cornerRadius,
     hoveredIndex,
@@ -61,6 +69,21 @@ export function DonutChart(props: Readonly<DonutChartProps>) {
     thickness,
     ...rest
   } = props;
+
+  const prefersReducedMotion = useMediaQueryMatcher('(prefers-reduced-motion: reduce)');
+  const shouldAnimate = Boolean(animateOnMount) && !prefersReducedMotion;
+  const [isSweeping, setIsSweeping] = useState(shouldAnimate);
+
+  const { sweepT } = useSpring({
+    config: { duration: MOUNT_ANIMATION_DURATION_MS, easing: easings.easeOutCubic },
+    delay: MOUNT_ANIMATION_DELAY_MS,
+    from: { sweepT: 0 },
+    immediate: !shouldAnimate,
+    onRest: () => {
+      setIsSweeping(false);
+    },
+    to: { sweepT: 1 },
+  });
 
   const availableWidth = width - padding[1] - padding[3];
   const availableHeight = height - padding[0] - padding[2];
@@ -86,16 +109,19 @@ export function DonutChart(props: Readonly<DonutChartProps>) {
         fill={data[i].fill}
         index={i}
         isHovered={hoveredIndex === i}
+        isSweeping={isSweeping}
         key={i}
         onMouseEnter={onArcMouseEnter}
         onMouseLeave={onArcMouseLeave}
         radius={radius}
+        shouldAnimate={shouldAnimate}
+        sweepT={sweepT}
         thickness={thickness}
       />
     );
   });
 
-  return (
+  const svgElement = (
     <svg
       className="donut-chart"
       height={height}
@@ -112,6 +138,22 @@ export function DonutChart(props: Readonly<DonutChartProps>) {
       </g>
     </svg>
   );
+
+  if (!centerContent) {
+    return svgElement;
+  }
+
+  return (
+    <div style={{ height, position: 'relative', width }}>
+      {svgElement}
+      <div
+        aria-hidden
+        className="sw-pointer-events-none sw-absolute sw-inset-0 sw-flex sw-items-center sw-justify-center"
+      >
+        {centerContent}
+      </div>
+    </div>
+  );
 }
 
 interface SectorProps {
@@ -120,9 +162,12 @@ interface SectorProps {
   fill: string;
   index: number;
   isHovered: boolean;
+  isSweeping: boolean;
   onMouseEnter?: (index: number, event: MouseEvent<SVGPathElement>) => void;
   onMouseLeave?: (event: MouseEvent<SVGPathElement>) => void;
   radius: number;
+  shouldAnimate: boolean;
+  sweepT: SpringValue<number>;
   thickness: number;
 }
 
@@ -135,19 +180,31 @@ function Sector(props: Readonly<SectorProps>) {
   if (props.cornerRadius) {
     arc.cornerRadius(props.cornerRadius);
   }
-  const d = arc(props.data) as string;
-  return (
-    <path
-      d={d}
-      onMouseEnter={
-        props.onMouseEnter ? (event) => props.onMouseEnter?.(props.index, event) : undefined
-      }
-      onMouseLeave={props.onMouseLeave}
-      style={{
-        cursor: props.onMouseEnter ? 'pointer' : undefined,
-        fill: props.fill,
-        transition: props.onMouseEnter ? 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)' : undefined,
-      }}
-    />
+
+  const pathProps = {
+    onMouseEnter: props.onMouseEnter
+      ? (event: MouseEvent<SVGPathElement>) => props.onMouseEnter?.(props.index, event)
+      : undefined,
+    onMouseLeave: props.onMouseLeave,
+    style: {
+      cursor: props.onMouseEnter ? 'pointer' : undefined,
+      fill: props.fill,
+      transition:
+        props.onMouseEnter && !props.isSweeping
+          ? 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)'
+          : undefined,
+    },
+  };
+
+  if (!props.shouldAnimate) {
+    return <path d={arc(props.data) as string} {...pathProps} />;
+  }
+
+  const { data } = props;
+  const d = props.sweepT.to(
+    (t) =>
+      arc({ ...data, endAngle: data.startAngle + (data.endAngle - data.startAngle) * t }) ?? '',
   );
+
+  return <animated.path d={d} {...pathProps} />;
 }

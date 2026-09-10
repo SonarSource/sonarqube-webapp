@@ -147,6 +147,52 @@ it('calls onSvgMouseMove when the pointer moves over the svg', () => {
   expect(onSvgMouseMove).toHaveBeenCalledTimes(1);
 });
 
+it('renders nothing but the svg when centerContent and animateOnMount are omitted', () => {
+  const { container } = setupWithProps();
+
+  // eslint-disable-next-line testing-library/no-node-access -- asserting no wrapper div is rendered
+  expect(container.firstElementChild).toBe(getSvg(container));
+});
+
+it('renders centerContent as a non-interactive, aria-hidden overlay', () => {
+  const { container } = setupWithProps({ centerContent: <span>83%</span> });
+
+  expect(screen.getByText('83%')).toBeInTheDocument();
+  expect(getSvg(container)).toBeInTheDocument();
+  // eslint-disable-next-line testing-library/no-node-access -- overlay div has no accessible role
+  const overlay = screen.getByText('83%').parentElement;
+  expect(overlay).toHaveAttribute('aria-hidden', 'true');
+  expect(overlay).toHaveClass('sw-pointer-events-none');
+});
+
+it('renders the final sector geometry immediately when reduced motion is preferred', () => {
+  const settled = getPaths(setupWithProps().container)[0].getAttribute('d');
+
+  jest.spyOn(window, 'matchMedia').mockImplementationOnce(
+    (query: string) =>
+      ({
+        addEventListener: jest.fn(),
+        matches: true,
+        media: query,
+        removeEventListener: jest.fn(),
+      }) as unknown as MediaQueryList,
+  );
+  const reducedMotion = getPaths(
+    setupWithProps({ animateOnMount: true }).container,
+  )[0].getAttribute('d');
+
+  expect(reducedMotion).toEqual(settled);
+});
+
+it('starts the sweep animation from a collapsed arc when animateOnMount is set', () => {
+  const settled = getPaths(setupWithProps().container)[0].getAttribute('d');
+  const animating = getPaths(setupWithProps({ animateOnMount: true }).container)[0].getAttribute(
+    'd',
+  );
+
+  expect(animating).not.toEqual(settled);
+});
+
 function getSvg(container: HTMLElement) {
   return container.querySelector<SVGSVGElement>('svg.donut-chart') as SVGSVGElement;
 }

@@ -1339,6 +1339,31 @@ export const defaultMessages = {
   'vortex_dashboard.impact_roi.tokens_modal.trust_note':
     'The response size and compression byte change are observed. The tokens the agent would otherwise have used, and the effect of context amplification, are estimated—so this metric is labelled Estimated.',
 
+  'vortex_dashboard.adoption_coverage.title': 'Adoption and Coverage',
+  'vortex_dashboard.adoption_coverage.caveat':
+    'The numbers listed below represent the total activities and savings to date per project, since Vortex was activated for this instance.',
+  'vortex_dashboard.adoption_coverage.error': 'Unable to load this section right now.',
+  'vortex_dashboard.adoption_coverage.admin_only_note':
+    'Project-level breakdowns are available to system administrators.',
+
+  'vortex_dashboard.adoption_coverage.project_coverage.heading': 'Project coverage',
+  'vortex_dashboard.adoption_coverage.project_coverage.description':
+    'Projects within this organization that have Vortex activity',
+  'vortex_dashboard.adoption_coverage.project_coverage.center_label': 'Active',
+  'vortex_dashboard.adoption_coverage.project_coverage.outer_label':
+    '{activeCount} / {totalCount} projects',
+  'vortex_dashboard.adoption_coverage.project_coverage.legend.active': 'Active',
+  'vortex_dashboard.adoption_coverage.project_coverage.legend.inactive': 'Inactive',
+
+  'vortex_dashboard.adoption_coverage.capability_coverage.heading': 'Vortex capability coverage',
+  'vortex_dashboard.adoption_coverage.capability_coverage.description':
+    'Breakdown of active projects by the Vortex capabilities they use.',
+  'vortex_dashboard.adoption_coverage.capability_coverage.outer_label': 'active projects',
+  'vortex_dashboard.adoption_coverage.capability_coverage.legend.both': 'Guide + Verify',
+  'vortex_dashboard.adoption_coverage.capability_coverage.legend.guide_only': 'Guide only',
+  'vortex_dashboard.adoption_coverage.capability_coverage.legend.verify_only': 'Verify only',
+  'vortex_dashboard.adoption_coverage.capability_coverage.no_activity': 'No activity yet',
+
   //------------------------------------------------------------------------------
   //
   // VISIBILITY
