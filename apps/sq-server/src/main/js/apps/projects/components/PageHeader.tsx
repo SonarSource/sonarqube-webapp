@@ -19,13 +19,12 @@
  */
 
 import { ButtonGroup, SearchInput, Text, Tooltip } from '@sonarsource/echoes-react';
-import { debounce } from 'lodash';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { isDefined } from '~shared/helpers/types';
+import { useDebouncedSearchInput } from '~shared/helpers/useDebouncedSearchInput';
 import { RawQuery } from '~shared/types/router';
 import HomePageSelect from '~sq-server-commons/components/controls/HomePageSelect';
-import { DEBOUNCE_DELAY } from '~sq-server-commons/design-system';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 import ApplicationCreation from './ApplicationCreation';
 import PerspectiveSelect from './PerspectiveSelect';
@@ -48,32 +47,18 @@ const MIN_SEARCH_QUERY_LENGTH = 2;
 
 export default function PageHeader(props: Readonly<Props>) {
   const { query, total, currentUser, onQueryChange, view } = props;
-
-  const [search, setSearch] = useState<string>((query.search as string) ?? '');
   const intl = useIntl();
-
-  useEffect(() => {
-    setSearch((query.search as string) ?? '');
-  }, [query.search]);
-
-  const defaultOption = isLoggedIn(currentUser) ? 'name' : 'analysis_date';
-
-  const onQueryChangeDebounced = useMemo(
-    () => debounce(onQueryChange, DEBOUNCE_DELAY),
+  const handleQueryChange = useCallback(
+    (value: string) => onQueryChange({ search: value || undefined }),
     [onQueryChange],
   );
-  const handleSearch = useCallback(
-    (search: string) => {
-      setSearch(search);
+  const [search, handleSearch] = useDebouncedSearchInput({
+    minLength: MIN_SEARCH_QUERY_LENGTH,
+    onChange: handleQueryChange,
+    value: query.search as string | undefined,
+  });
 
-      if (search.length >= MIN_SEARCH_QUERY_LENGTH) {
-        onQueryChangeDebounced({ search });
-      } else if (search.length === 0) {
-        onQueryChangeDebounced({ search: undefined });
-      }
-    },
-    [onQueryChangeDebounced],
-  );
+  const defaultOption = isLoggedIn(currentUser) ? 'name' : 'analysis_date';
 
   return (
     <div className="it__page-header sw-flex sw-flex-col sw-gap-2 sw-pb-4">
