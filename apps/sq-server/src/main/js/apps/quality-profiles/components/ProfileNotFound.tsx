@@ -18,21 +18,33 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Layout, LinkStandalone } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  EmptyState,
+  IconQualityProfile,
+  Layout,
+} from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { PROFILE_PATH } from '~sq-server-commons/constants/paths';
 
 export default function ProfileNotFound() {
   return (
     <Layout.PageGrid>
-      <Layout.PageContent className="sw-flex sw-flex-col sw-items-center sw-gap-4 sw-mt-12">
-        <Heading as="h1" size="large">
-          <FormattedMessage id="quality_profiles.not_found" />
-        </Heading>
-
-        <LinkStandalone to={PROFILE_PATH}>
-          <FormattedMessage id="quality_profiles.back_to_list" />
-        </LinkStandalone>
+      <Layout.PageContent className="sw-flex sw-flex-col sw-items-center sw-justify-start sw-pt-40">
+        <EmptyState
+          action={
+            <Button to={PROFILE_PATH} variety={ButtonVariety.Primary}>
+              <FormattedMessage id="quality_profiles.back_to_list" />
+            </Button>
+          }
+          className="sw-max-w-[32rem]"
+          graphic={<IconQualityProfile />}
+          text={<FormattedMessage id="quality_profiles.not_found.description" />}
+          title={<FormattedMessage id="quality_profiles.not_found" />}
+          titleAs="h1"
+          titleSize="medium"
+        />
       </Layout.PageContent>
     </Layout.PageGrid>
   );

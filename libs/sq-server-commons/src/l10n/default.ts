@@ -409,7 +409,7 @@ export const defaultMessages = {
   'no_results_search.favorites.2': 'Would you like to search among {url} projects?',
   opens_in_new_window: 'Opens in a new window',
   page_extension_failed: 'Page extension failed.',
-  page_not_found: 'The page you were looking for does not exist.',
+  page_not_found: 'The page you were looking for does not exist',
   please_contact_administrator: 'Please contact the instance administrator.',
   set_as_default: 'Set as Default',
   'short_number_suffix.g': 'G',
@@ -3710,9 +3710,9 @@ export const defaultMessages = {
   'projects.coverage.spotlight.image_alt': 'Project coverage donut chart',
   'projects.coverage.spotlight.close': 'Close',
   'projects.create_application': 'Create Application',
-  'projects.no_projects.empty_instance': 'There are no visible projects yet.',
+  'projects.no_projects.empty_instance': 'There are no visible projects yet',
   'projects.no_projects.empty_instance.new_project':
-    'Once you analyze some projects, they will show up here.',
+    'Once you analyze some projects, they will show up here',
   'projects.no_projects.empty_instance.how_to_add_projects':
     'Here is how you can analyze new projects',
   'projects.no_favorite_projects': "You don't have any favorite projects yet.",
@@ -3909,10 +3909,10 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
-  'dashboard.project.not_found': 'The requested project could not be found.',
+  'dashboard.project.not_found': 'The requested project could not be found',
   'dashboard.project.not_found.2':
     'Either it has never been analyzed successfully or it has been deleted.',
-  'dashboard.portfolio.not_found': 'The requested portfolio could not be found.',
+  'dashboard.portfolio.not_found': 'The requested portfolio could not be found',
   'dashboard.portfolio.not_found.2':
     'Either its parent has not been recomputed or it has been deleted.',
 
@@ -5937,8 +5937,10 @@ export const defaultMessages = {
     'For each language there is a default profile. All projects not explicitly assigned to some other profile will be analyzed with the default.',
   'quality_profiles.x_updated_on_y': '{name}, updated on {date}',
   'quality_profiles.change_projects': 'Change Projects',
-  'quality_profiles.not_found': 'The requested quality profile was not found.',
-  'quality_profiles.back_to_list': 'Go back to the list of quality profiles',
+  'quality_profiles.not_found': 'The requested quality profile was not found',
+  'quality_profiles.not_found.description':
+    'This profile may have been deleted or the link is outdated.',
+  'quality_profiles.back_to_list': 'Back to quality profiles list',
   'quality_profiles.latest_new_rules': 'Recently Added Rules',
   'quality_profiles.latest_new_rules.activated': '{0}, activated on {1} profile(s)',
   'quality_profiles.latest_new_rules.not_activated': '{0}, not yet activated',

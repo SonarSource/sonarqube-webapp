@@ -18,28 +18,28 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Card, Link } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, EmptyState, IconWarning } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 export default function NotFound() {
-  const intl = useIntl();
+  const { formatMessage } = useIntl();
   return (
-    <div className="sw-py-8 sw-flex sw-flex-col sw-items-center sw-pb-24 sw-pt-24 js-page-not-found">
-      <Card className="sw-w-abs-400 sw-p-12 sw-text-center">
-        <Helmet defaultTitle={intl.formatMessage({ id: '404_not_found' })} defer={false} />
-        <h2 className="sw-mb-4">
-          <FormattedMessage id="page_not_found" />
-        </h2>
-        <p className="sw-mb-2">
-          <FormattedMessage id="address_mistyped_or_page_moved" />
-        </p>
-        <p className="sw-pt-4">
-          <Link reloadDocument to="/">
+    <div className="sw-flex sw-flex-col sw-items-center sw-justify-start sw-pt-40">
+      <Helmet defaultTitle={formatMessage({ id: '404_not_found' })} defer={false} />
+      <EmptyState
+        action={
+          <Button reloadDocument to="/" variety={ButtonVariety.Primary}>
             <FormattedMessage id="go_back_to_homepage" />
-          </Link>
-        </p>
-      </Card>
+          </Button>
+        }
+        className="sw-max-w-[32rem]"
+        graphic={<IconWarning />}
+        text={<FormattedMessage id="address_mistyped_or_page_moved" />}
+        title={<FormattedMessage id="page_not_found" />}
+        titleAs="h2"
+        titleSize="medium"
+      />
     </div>
   );
 }

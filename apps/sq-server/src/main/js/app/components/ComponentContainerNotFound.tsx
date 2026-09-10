@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Card, Layout, Link } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, EmptyState, IconWarning, Layout } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage, useIntl } from 'react-intl';
 
@@ -29,29 +29,27 @@ export interface ComponentContainerNotFoundProps {
 export default function ComponentContainerNotFound({
   isPortfolioLike,
 }: Readonly<ComponentContainerNotFoundProps>) {
-  const intl = useIntl();
+  const { formatMessage } = useIntl();
   const componentType = isPortfolioLike ? 'portfolio' : 'project';
 
   return (
     <Layout.ContentGrid>
       <Layout.PageGrid>
-        <Layout.PageContent>
-          <Helmet defaultTitle={intl.formatMessage({ id: '404_not_found' })} defer={false} />
-          <div className="sw-max-w-abs-500 sw-mx-auto sw-mt-24">
-            <Card>
-              <Card.Header
-                title={<FormattedMessage id={`dashboard.${componentType}.not_found`} />}
-              />
-              <Card.Body>
-                <p className="sw-mb-2">
-                  <FormattedMessage id={`dashboard.${componentType}.not_found.2`} />
-                </p>
-                <Link to="/">
-                  <FormattedMessage id="go_back_to_homepage" />
-                </Link>
-              </Card.Body>
-            </Card>
-          </div>
+        <Layout.PageContent className="sw-flex sw-flex-col sw-items-center sw-justify-start sw-pt-40">
+          <Helmet defaultTitle={formatMessage({ id: '404_not_found' })} defer={false} />
+          <EmptyState
+            action={
+              <Button to="/" variety={ButtonVariety.Primary}>
+                <FormattedMessage id="go_back_to_homepage" />
+              </Button>
+            }
+            className="sw-max-w-[32rem]"
+            graphic={<IconWarning />}
+            text={<FormattedMessage id={`dashboard.${componentType}.not_found.2`} />}
+            title={<FormattedMessage id={`dashboard.${componentType}.not_found`} />}
+            titleAs="h2"
+            titleSize="medium"
+          />
         </Layout.PageContent>
       </Layout.PageGrid>
     </Layout.ContentGrid>

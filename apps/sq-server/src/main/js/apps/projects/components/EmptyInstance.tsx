@@ -18,47 +18,45 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Text, TextSize } from '@sonarsource/echoes-react';
-import { FishVisual } from '~design-system';
-import { useRouter } from '~shared/components/hoc/withRouter';
+import { Button, ButtonVariety, EmptyState, IconProject } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { isLoggedIn } from '~sq-server-commons/types/users';
 
-import { FormattedMessage } from 'react-intl';
-
 export default function EmptyInstance() {
   const { currentUser } = useCurrentUser();
-  const router = useRouter();
   const showNewProjectButton =
     isLoggedIn(currentUser) && hasGlobalPermission(currentUser, Permissions.ProjectCreation);
 
   return (
-    <div className="sw-flex sw-flex-col sw-items-center sw-py-8">
-      <FishVisual />
-      <Text className="sw-mt-6" isHighlighted size={TextSize.Large}>
-        {showNewProjectButton
-          ? translate('projects.no_projects.empty_instance.new_project')
-          : translate('projects.no_projects.empty_instance')}
-      </Text>
-      {showNewProjectButton && (
-        <>
-          <p className="sw-mt-2 sw-typo-default">
+    <div className="sw-flex sw-justify-center sw-py-8">
+      <EmptyState
+        action={
+          showNewProjectButton ? (
+            <Button to="/projects/create" variety={ButtonVariety.Primary}>
+              <FormattedMessage id="my_account.create_new.TRK" />
+            </Button>
+          ) : undefined
+        }
+        graphic={<IconProject />}
+        text={
+          showNewProjectButton ? (
             <FormattedMessage id="projects.no_projects.empty_instance.how_to_add_projects" />
-          </p>
-          <Button
-            className="sw-mt-6"
-            onClick={() => {
-              router.push('/projects/create');
-            }}
-            variety={ButtonVariety.Primary}
-          >
-            <FormattedMessage id="my_account.create_new.TRK" />
-          </Button>
-        </>
-      )}
+          ) : undefined
+        }
+        title={
+          <FormattedMessage
+            id={
+              showNewProjectButton
+                ? 'projects.no_projects.empty_instance.new_project'
+                : 'projects.no_projects.empty_instance'
+            }
+          />
+        }
+        titleSize="medium"
+      />
     </div>
   );
 }
