@@ -251,13 +251,11 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
     if (selected.startsWith('qualifier###')) {
       this.searchMore(selected.substring('qualifier###'.length));
     } else {
-      let qualifier = ComponentQualifier.Project;
-
-      if ((results[ComponentQualifier.Portfolio] ?? []).find((r) => r.key === selected)) {
-        qualifier = ComponentQualifier.Portfolio;
-      } else if ((results[ComponentQualifier.SubPortfolio] ?? []).find((r) => r.key === selected)) {
-        qualifier = ComponentQualifier.SubPortfolio;
-      }
+      const qualifier =
+        Object.values(results)
+          .flat()
+          .find((component) => component?.key === selected)?.qualifier ??
+        ComponentQualifier.Project;
 
       this.props.router.push(getComponentOverviewUrl(selected, qualifier));
 

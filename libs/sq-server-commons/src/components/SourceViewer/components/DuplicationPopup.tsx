@@ -22,11 +22,12 @@ import { Link } from '@sonarsource/echoes-react';
 import { groupBy, sortBy } from 'lodash';
 import React, { Fragment, PureComponent } from 'react';
 import { isPullRequest } from '~shared/helpers/branch-like';
+import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { ComponentQualifier } from '~shared/types/component';
 import { FlagMessage, QualifierIcon } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { collapsedDirFromPath, fileFromPath } from '../../../helpers/path';
-import { getCodeUrl, getProjectUrl } from '../../../helpers/urls';
+import { getCodeUrl } from '../../../helpers/urls';
 import { BranchLike } from '../../../types/branch-like';
 import { DuplicatedFile, DuplicationBlock, SourceViewerFile } from '../../../types/types';
 import { WorkspaceContextShape } from '../../workspace/context';
@@ -128,7 +129,7 @@ export default class DuplicationPopup extends PureComponent<Props> {
                     <QualifierIcon className="sw-mr-1" qualifier={ComponentQualifier.Project} />
                     <Link
                       title={duplication.file.projectName}
-                      to={getProjectUrl(duplication.file.project)}
+                      to={getProjectOverviewUrl(duplication.file.project)}
                     >
                       {duplication.file.projectName}
                     </Link>

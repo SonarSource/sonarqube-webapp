@@ -225,6 +225,42 @@ it('should open selected', async () => {
   });
 });
 
+it('should open an application selected with the keyboard on its Summary page', async () => {
+  jest.mocked(getSuggestions).mockResolvedValueOnce({
+    projects: [],
+    results: [
+      {
+        items: [
+          {
+            isFavorite: true,
+            isRecentlyBrowsed: true,
+            key: 'application',
+            match: 'Application',
+            name: 'Application',
+            project: '',
+          },
+        ],
+        more: 0,
+        q: ComponentQualifier.Application,
+      },
+    ],
+  });
+
+  const user = userEvent.setup();
+  const router = mockRouter();
+  renderComponent(<GlobalSearchWithoutRouter router={router} />);
+  await user.click(ui.searchButton.get());
+
+  await user.click(ui.searchInput.get());
+  await user.keyboard('{arrowdown}');
+  await user.keyboard('{enter}');
+
+  expect(router.push).toHaveBeenCalledWith({
+    pathname: '/summary/new_code',
+    search: '?id=application',
+  });
+});
+
 function renderGlobalSearch() {
   return renderComponent(<GlobalSearch />);
 }
