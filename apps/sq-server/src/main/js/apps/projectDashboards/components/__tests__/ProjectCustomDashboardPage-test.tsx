@@ -82,6 +82,7 @@ jest.mock('~feature-dashboards/dashboard-layout/DashboardCustomDashboardViews', 
     Loading: 'loading',
     NotFound: 'not-found',
     Ready: 'ready',
+    UnsupportedVersion: 'unsupported-version',
   } as const;
 
   return {
@@ -93,6 +94,7 @@ jest.mock('~feature-dashboards/dashboard-layout/DashboardCustomDashboardViews', 
     DashboardCustomDashboardInvalidLayout: () => <div>invalid-layout</div>,
     DashboardCustomDashboardLoading: () => <div>loading-dashboard</div>,
     DashboardCustomDashboardNotFound: () => <div>dashboard-not-found</div>,
+    DashboardCustomDashboardUnsupportedVersion: () => <div>unsupported-version</div>,
     DashboardCustomDashboardState: mockDashboardCustomDashboardState,
     getDashboardCustomDashboardState: ({
       error,
@@ -111,6 +113,9 @@ jest.mock('~feature-dashboards/dashboard-layout/DashboardCustomDashboardViews', 
       }
       if (error === 'invalid-layout') {
         return mockDashboardCustomDashboardState.InvalidLayout;
+      }
+      if (error === 'unsupported-version') {
+        return mockDashboardCustomDashboardState.UnsupportedVersion;
       }
       if (error || !dashboard) {
         return mockDashboardCustomDashboardState.Error;
@@ -431,6 +436,10 @@ describe('ProjectCustomDashboardPage', () => {
     setupQuery({ data: undefined, error: 'invalid-layout', isPending: false });
     rerender(<ProjectCustomDashboardPage />);
     expect(screen.getByText('invalid-layout')).toBeInTheDocument();
+
+    setupQuery({ data: undefined, error: 'unsupported-version', isPending: false });
+    rerender(<ProjectCustomDashboardPage />);
+    expect(screen.getByText('unsupported-version')).toBeInTheDocument();
 
     setupQuery({ data: undefined, error: new Error('failed'), isPending: false });
     rerender(<ProjectCustomDashboardPage />);

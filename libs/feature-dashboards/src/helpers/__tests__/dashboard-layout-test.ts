@@ -25,6 +25,7 @@ import { parseDashboardLayoutFromJsonString, stringifyDashboardLayout } from '..
 import {
   DashboardLayoutValidationError,
   resetLayoutValidationReportingForTests,
+  UnsupportedDashboardVersionError,
 } from '../dashboard-layout-validation-reporting';
 
 jest.mock('~adapters/helpers/report-error', () => ({
@@ -117,6 +118,29 @@ describe('parseDashboardLayoutFromJsonString', () => {
     expect(() => parseDashboardLayoutFromJsonString(JSON.stringify({ children: 'bad' }))).toThrow(
       DashboardLayoutValidationError,
     );
+  });
+
+  it('throws UnsupportedDashboardVersionError without reporting it when the layout is newer', () => {
+    const futureLayout = JSON.stringify({
+      ...JSON.parse(VALID_LAYOUT_JSON),
+      version: LATEST_DASHBOARD_SPEC_VERSION + 1,
+    });
+
+    expect(() => parseDashboardLayoutFromJsonString(futureLayout)).toThrow(
+      UnsupportedDashboardVersionError,
+    );
+    expect(jest.mocked(reportError)).not.toHaveBeenCalled();
+    // eslint-disable-next-line no-console -- verify unsupported versions do not log
+    expect(console.error).not.toHaveBeenCalled();
+  });
+
+  it('validates a layout whose version is the latest supported version', () => {
+    const layoutWithVersion = JSON.stringify({
+      ...JSON.parse(VALID_LAYOUT_JSON),
+      version: LATEST_DASHBOARD_SPEC_VERSION,
+    });
+
+    expect(() => parseDashboardLayoutFromJsonString(layoutWithVersion)).not.toThrow();
   });
 
   it('reports widget props to Sentry without full layout JSON', () => {

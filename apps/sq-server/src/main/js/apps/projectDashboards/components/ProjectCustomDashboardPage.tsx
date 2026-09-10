@@ -30,6 +30,7 @@ import {
   DashboardCustomDashboardLoading,
   DashboardCustomDashboardNotFound,
   DashboardCustomDashboardState,
+  DashboardCustomDashboardUnsupportedVersion,
   getDashboardCustomDashboardState,
 } from '~feature-dashboards/dashboard-layout/DashboardCustomDashboardViews';
 import { EditToolbar } from '~feature-dashboards/dashboard-layout/EditToolbar';
@@ -223,6 +224,16 @@ export function ProjectCustomDashboardPage() {
         listUrl={listUrl}
         titleId="project_dashboard.custom.error.invalid_layout.title"
       />
+    );
+  }
+  if (state === DashboardCustomDashboardState.UnsupportedVersion) {
+    return (
+      <ProjectPageTemplate
+        disableBranchSelector
+        title={formatMessage({ id: 'dashboard.schema_version.error.title' })}
+      >
+        <DashboardCustomDashboardUnsupportedVersion />
+      </ProjectPageTemplate>
     );
   }
   if (state === DashboardCustomDashboardState.Error || !dashboard || !effectiveLayout) {

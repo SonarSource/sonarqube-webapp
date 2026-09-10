@@ -19,6 +19,8 @@
  */
 
 import { screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { LATEST_DASHBOARD_SPEC_VERSION } from '~feature-dashboards/data/widgets/shared';
+import { UnsupportedDashboardVersionError } from '~feature-dashboards/helpers/dashboard-layout-validation-reporting';
 import { DashboardType } from '~feature-dashboards/types/dashboard-list';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { ComponentQualifier } from '~shared/types/component';
@@ -51,6 +53,7 @@ let mockQuery: {
     type: DashboardType;
     updatedAt?: number;
   };
+  error?: Error;
   isError?: boolean;
   isPending?: boolean;
 } = {
@@ -240,6 +243,23 @@ describe('ProjectBuiltInDashboardPage', () => {
 
     expect(screen.getByText('overview.page')).toBeInTheDocument();
     expect(mockProjectPageClassName).toHaveBeenCalledWith('it__overview');
+  });
+
+  it('shows the refresh state when the dashboard schema version is unsupported', () => {
+    mockQuery = {
+      error: new UnsupportedDashboardVersionError(
+        LATEST_DASHBOARD_SPEC_VERSION + 1,
+        LATEST_DASHBOARD_SPEC_VERSION,
+      ),
+      isError: true,
+      isPending: false,
+    };
+
+    renderWithRouter(<ProjectBuiltInDashboardPage />);
+
+    expect(screen.getByText('dashboard.schema_version.error.title')).toBeInTheDocument();
+    expect(screen.getByText('dashboard.schema_version.error.description')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'refresh' })).toBeInTheDocument();
   });
 
   it('uses the empty project flow when the project has not been analyzed', () => {

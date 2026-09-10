@@ -4213,6 +4213,9 @@ export const defaultMessages = {
   'project_dashboard.custom.not_found.description':
     'This dashboard may have been deleted or the link is incorrect.',
   'project_dashboard.custom.not_found.title': 'Dashboard not found',
+  'dashboard.schema_version.error.description':
+    'This dashboard was created with a newer version and cannot be displayed. Refresh the page to load the latest version.',
+  'dashboard.schema_version.error.title': 'Dashboard unavailable',
 
   'editable_multigrid.error.description':
     'An error occurred while rendering the dashboard layout. Please refresh the page to recover.',

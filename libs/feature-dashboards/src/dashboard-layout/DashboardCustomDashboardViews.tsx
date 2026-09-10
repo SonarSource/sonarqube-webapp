@@ -29,7 +29,10 @@ import { isAxiosError } from 'axios';
 import type { ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
-import { DashboardLayoutValidationError } from '../helpers/dashboard-layout-validation-reporting';
+import {
+  DashboardLayoutValidationError,
+  UnsupportedDashboardVersionError,
+} from '../helpers/dashboard-layout-validation-reporting';
 
 export enum DashboardCustomDashboardState {
   Error = 'error',
@@ -37,6 +40,7 @@ export enum DashboardCustomDashboardState {
   Loading = 'loading',
   NotFound = 'not-found',
   Ready = 'ready',
+  UnsupportedVersion = 'unsupported-version',
 }
 
 export function getDashboardCustomDashboardState(args: {
@@ -52,6 +56,9 @@ export function getDashboardCustomDashboardState(args: {
   }
   if (args.error instanceof DashboardLayoutValidationError) {
     return DashboardCustomDashboardState.InvalidLayout;
+  }
+  if (args.error instanceof UnsupportedDashboardVersionError) {
+    return DashboardCustomDashboardState.UnsupportedVersion;
   }
   return args.error || !args.dashboard
     ? DashboardCustomDashboardState.Error
@@ -153,5 +160,32 @@ export function DashboardCustomDashboardGenericError(
         </Button>
       </div>
     </ProjectPageTemplate>
+  );
+}
+
+export function DashboardCustomDashboardUnsupportedVersion(
+  props: Readonly<{ onRefresh?: () => void }> = {},
+) {
+  const { formatMessage } = useIntl();
+  const title = formatMessage({ id: 'dashboard.schema_version.error.title' });
+  const handleRefresh =
+    props.onRefresh ??
+    (() => {
+      window.location.reload();
+    });
+
+  return (
+    <div className="sw-flex sw-min-h-[50vh] sw-flex-col sw-items-center sw-justify-center sw-gap-4">
+      <MessageCallout
+        className="sw-w-full sw-max-w-[600px]"
+        title={title}
+        variety={MessageVariety.Warning}
+      >
+        <FormattedMessage id="dashboard.schema_version.error.description" />
+      </MessageCallout>
+      <Button onClick={handleRefresh} variety={ButtonVariety.Primary}>
+        <FormattedMessage id="refresh" />
+      </Button>
+    </div>
   );
 }

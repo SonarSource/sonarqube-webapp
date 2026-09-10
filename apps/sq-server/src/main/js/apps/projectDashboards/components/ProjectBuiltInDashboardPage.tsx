@@ -31,13 +31,16 @@ import {
   Text,
   TooltipSide,
 } from '@sonarsource/echoes-react';
+import type { ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { DashboardDescriptionAccordion } from '~feature-dashboards/dashboard-description/DashboardDescriptionAccordion';
 import { Dashboard } from '~feature-dashboards/dashboard-layout/Dashboard';
+import { DashboardCustomDashboardUnsupportedVersion } from '~feature-dashboards/dashboard-layout/DashboardCustomDashboardViews';
 import { DashboardTypeBadge } from '~feature-dashboards/dashboard-list/DashboardTypeBadge';
+import { UnsupportedDashboardVersionError } from '~feature-dashboards/helpers/dashboard-layout-validation-reporting';
 import {
   widgetEditBehaviorMap,
   type ProjectDashboardWidgetPropMap,
@@ -66,6 +69,7 @@ import { Permissions } from '~sq-server-commons/types/permissions';
 import { Component } from '~sq-server-commons/types/types';
 import { HomePage } from '~sq-server-commons/types/users';
 import { useGetProjectBuiltInDashboardQuery } from '../../../queries/project-dashboards';
+import type { ProjectDashboardData } from '../../../types/project-dashboards';
 import ComponentReportActions from '../../overview/branches/ComponentReportActions';
 import MetaContentHeader from '../../overview/branches/MetaContentHeader';
 import { App as ProjectOverviewApp } from '../../overview/components/App';
@@ -109,6 +113,19 @@ export function ProjectBuiltInDashboardPage() {
     return <NotFound />;
   }
 
+  if (query.error instanceof UnsupportedDashboardVersionError) {
+    return (
+      <ProjectPageTemplate
+        disableBranchSelector
+        title={formatMessage({
+          id: isProjectOverview ? 'overview.page' : 'project_dashboards.page',
+        })}
+      >
+        <DashboardCustomDashboardUnsupportedVersion />
+      </ProjectPageTemplate>
+    );
+  }
+
   const fallback = getProjectPageFallback(
     component,
     isProjectAnalyzed,
@@ -145,26 +162,59 @@ export function ProjectBuiltInDashboardPage() {
     />
   );
 
-  if (query.isPending || !query.data) {
-    return (
-      <ProjectPageTemplate
-        actions={overviewActions}
-        callout={overviewCallout}
-        disableBranchSelector
-        metadata={overviewMetadata}
-        pageClassName={overviewPageClassName}
-        title={isProjectOverview ? overviewTitle : formatMessage({ id: 'project_dashboards.page' })}
-      >
-        <Spinner isLoading />
-      </ProjectPageTemplate>
-    );
-  }
+  return (
+    <ProjectBuiltInDashboardContent
+      callout={overviewCallout}
+      canDownloadSchema={canDownloadSchema}
+      canViewAllDashboards={supportsCustomProjectDashboards(edition)}
+      component={component}
+      dashboard={query.data}
+      isLoading={query.isPending || !query.data}
+      isLoggedIn={isLoggedIn}
+      isProjectOverview={isProjectOverview}
+      metadata={overviewMetadata}
+      overviewActions={overviewActions}
+      overviewPageClassName={overviewPageClassName}
+      overviewTitle={overviewTitle}
+    />
+  );
+}
 
-  const dashboard = query.data;
+interface ProjectBuiltInDashboardContentProps {
+  callout: ReactNode;
+  canViewAllDashboards: boolean;
+  canDownloadSchema: boolean;
+  component: Component;
+  dashboard?: ProjectDashboardData;
+  isLoading: boolean;
+  isLoggedIn: boolean;
+  isProjectOverview: boolean;
+  metadata: ReactNode;
+  overviewActions: ReactNode;
+  overviewPageClassName?: string;
+  overviewTitle: string;
+}
+
+function ProjectBuiltInDashboardContent(props: Readonly<ProjectBuiltInDashboardContentProps>) {
+  const { formatMessage } = useIntl();
+  const {
+    callout,
+    canViewAllDashboards,
+    canDownloadSchema,
+    component,
+    dashboard,
+    isLoading,
+    isLoggedIn,
+    isProjectOverview,
+    metadata,
+    overviewActions,
+    overviewPageClassName,
+    overviewTitle,
+  } = props;
   const headerActions = (
     <>
       {overviewActions}
-      {!isProjectOverview && (
+      {!isProjectOverview && dashboard && (
         <ProjectBuiltInDashboardActions
           canCreateCustomDashboard={isLoggedIn}
           canDownloadSchema={canDownloadSchema}
@@ -174,63 +224,75 @@ export function ProjectBuiltInDashboardPage() {
       )}
     </>
   );
-  const breadcrumbs: BreadcrumbsProps['items'] = [
-    {
-      linkElement: formatMessage({ id: 'project_dashboards.page' }),
-      to: getProjectDashboardsListRoute(component.key),
-    },
-    { hasEllipsis: true, linkElement: dashboard.name },
-  ];
+  const breadcrumbs: BreadcrumbsProps['items'] = dashboard
+    ? [
+        {
+          linkElement: formatMessage({ id: 'project_dashboards.page' }),
+          to: getProjectDashboardsListRoute(component.key),
+        },
+        { hasEllipsis: true, linkElement: dashboard.name },
+      ]
+    : [];
 
   return (
     <ProjectPageTemplate
       actions={headerActions}
-      breadcrumbs={isProjectOverview ? undefined : breadcrumbs}
-      callout={overviewCallout}
+      breadcrumbs={!isProjectOverview && dashboard ? breadcrumbs : undefined}
+      callout={callout}
       contentHeaderTitle={
-        isProjectOverview ? undefined : (
+        !isProjectOverview && dashboard ? (
           <div className="sw-flex sw-items-center sw-gap-2">
             {dashboard.name}
             <DashboardTypeBadge dashboardType={dashboard.type} />
           </div>
-        )
+        ) : undefined
       }
       description={
-        isProjectOverview ? undefined : (
+        !isProjectOverview && dashboard ? (
           <CustomDashboardEditStatus
             canShowEditor={isLoggedIn}
             isEditing={false}
             showSonarWhenEditorMissing
             updatedAt={dashboard.updatedAt}
           />
-        )
+        ) : undefined
       }
       disableBranchSelector
-      metadata={overviewMetadata}
+      metadata={metadata}
       pageClassName={overviewPageClassName}
-      title={isProjectOverview ? overviewTitle : dashboard.name}
+      title={
+        isProjectOverview
+          ? overviewTitle
+          : (dashboard?.name ?? formatMessage({ id: 'project_dashboards.page' }))
+      }
     >
-      <A11ySkipTarget anchor="project_dashboard_main" />
-      <div className="sw-flex sw-flex-col sw-gap-6">
-        <ProjectDashboardHeader
-          canViewAllDashboards={supportsCustomProjectDashboards(edition)}
-          dashboardDescription={dashboard.description}
-          dashboardName={dashboard.name}
-          isProjectOverview={isProjectOverview}
-          projectKey={component.key}
-        />
-        <Dashboard<ProjectDashboardWidgetPropMap>
-          bodyMap={projectDashboardWidgetBodyMap}
-          dashboard={dashboard.layout}
-          editBehaviorMap={widgetEditBehaviorMap}
-          headerMap={projectDashboardWidgetHeaderMap}
-          isEditing={false}
-          onAddWidgetToSection={() => undefined}
-          onDashboardChange={() => undefined}
-          onWidgetEdit={() => undefined}
-          width={12}
-        />
-      </div>
+      {isLoading || !dashboard ? (
+        <Spinner isLoading />
+      ) : (
+        <>
+          <A11ySkipTarget anchor="project_dashboard_main" />
+          <div className="sw-flex sw-flex-col sw-gap-6">
+            <ProjectDashboardHeader
+              canViewAllDashboards={canViewAllDashboards}
+              dashboardDescription={dashboard.description}
+              dashboardName={dashboard.name}
+              isProjectOverview={isProjectOverview}
+              projectKey={component.key}
+            />
+            <Dashboard<ProjectDashboardWidgetPropMap>
+              bodyMap={projectDashboardWidgetBodyMap}
+              dashboard={dashboard.layout}
+              editBehaviorMap={widgetEditBehaviorMap}
+              headerMap={projectDashboardWidgetHeaderMap}
+              isEditing={false}
+              onAddWidgetToSection={() => undefined}
+              onDashboardChange={() => undefined}
+              onWidgetEdit={() => undefined}
+              width={12}
+            />
+          </div>
+        </>
+      )}
     </ProjectPageTemplate>
   );
 }

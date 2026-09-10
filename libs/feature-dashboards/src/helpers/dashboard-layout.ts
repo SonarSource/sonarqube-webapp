@@ -26,9 +26,12 @@ import {
   type DashboardInstance,
 } from '../dashboard-layout/logic/types';
 import { createDashboardWidgetInstanceSchema } from '../data/widgets';
-import type { DashboardSpecVersion } from '../data/widgets/shared';
+import { LATEST_DASHBOARD_SPEC_VERSION, type DashboardSpecVersion } from '../data/widgets/shared';
 import type { PortfolioDashboardWidgetPropMap } from '../types/dashboard-widget';
-import { reportLayoutValidationFailure } from './dashboard-layout-validation-reporting';
+import {
+  reportLayoutValidationFailure,
+  UnsupportedDashboardVersionError,
+} from './dashboard-layout-validation-reporting';
 
 interface FailingWidgetDetails {
   issues: BaseIssue<unknown>[];
@@ -122,6 +125,14 @@ export function parseDashboardLayoutFromJsonString(
       { layoutDomain, layoutJson, reason: 'json_parse_error' },
       { cause },
     );
+  }
+
+  if (
+    isRecord(parsed) &&
+    typeof parsed.version === 'number' &&
+    parsed.version > LATEST_DASHBOARD_SPEC_VERSION
+  ) {
+    throw new UnsupportedDashboardVersionError(parsed.version, LATEST_DASHBOARD_SPEC_VERSION);
   }
 
   const version = getDashboardSpecVersion(parsed);

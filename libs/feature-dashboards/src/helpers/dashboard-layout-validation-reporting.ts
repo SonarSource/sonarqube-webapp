@@ -30,6 +30,19 @@ export class DashboardLayoutValidationError extends Error {
   }
 }
 
+/** Thrown when a dashboard was saved with a schema version newer than this UI supports. */
+export class UnsupportedDashboardVersionError extends Error {
+  constructor(
+    public readonly version: number,
+    public readonly maxSupportedVersion: number,
+  ) {
+    super(
+      `Dashboard schema version ${version} is not supported. The latest supported version is ${maxSupportedVersion}.`,
+    );
+    this.name = 'UnsupportedDashboardVersionError';
+  }
+}
+
 const MAX_REPORTED_LAYOUT_VALIDATION_KEYS = 50;
 
 interface FailingWidgetSummary {

@@ -20,13 +20,17 @@
 
 import { screen } from '@testing-library/react';
 import { renderWithRouter } from '~shared/helpers/test-utils';
-import { DashboardLayoutValidationError } from '../../helpers/dashboard-layout-validation-reporting';
+import {
+  DashboardLayoutValidationError,
+  UnsupportedDashboardVersionError,
+} from '../../helpers/dashboard-layout-validation-reporting';
 import {
   DashboardCustomDashboardGenericError,
   DashboardCustomDashboardInvalidLayout,
   DashboardCustomDashboardLoading,
   DashboardCustomDashboardNotFound,
   DashboardCustomDashboardState,
+  DashboardCustomDashboardUnsupportedVersion,
   getDashboardCustomDashboardState,
 } from '../DashboardCustomDashboardViews';
 
@@ -58,6 +62,16 @@ describe('getDashboardCustomDashboardState', () => {
         isLoading: false,
       }),
     ).toBe(DashboardCustomDashboardState.InvalidLayout);
+  });
+
+  it('maps unsupported dashboard versions to the dedicated error state', () => {
+    expect(
+      getDashboardCustomDashboardState({
+        dashboard: undefined,
+        error: new UnsupportedDashboardVersionError(1, 0),
+        isLoading: false,
+      }),
+    ).toBe(DashboardCustomDashboardState.UnsupportedVersion);
   });
 
   it.each([
@@ -110,5 +124,18 @@ describe('dashboard state views', () => {
     await user.click(screen.getByRole('button', { name: 'retry' }));
 
     expect(onRetry).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders a refresh button for an unsupported dashboard version', async () => {
+    const onRefresh = jest.fn();
+    const { user } = renderWithRouter(
+      <DashboardCustomDashboardUnsupportedVersion onRefresh={onRefresh} />,
+    );
+
+    expect(screen.getByText('dashboard.schema_version.error.title')).toBeInTheDocument();
+    expect(screen.getByText('dashboard.schema_version.error.description')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'refresh' }));
+
+    expect(onRefresh).toHaveBeenCalledTimes(1);
   });
 });
