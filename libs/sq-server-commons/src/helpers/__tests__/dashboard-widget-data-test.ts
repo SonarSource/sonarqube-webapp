@@ -687,6 +687,16 @@ describe('dashboard widget data helpers', () => {
     it('handles malformed distributions and unavailable line-count measures', () => {
       expect(
         organizationMeasuresToLineCountPieData(
+          {
+            [MetricKey.ncloc_language_distribution]:
+              'java=12 lines;ts=70.6;css=0;broken;negative=-2',
+          },
+          PieChartLineSlice.Language,
+          CodeScope.Overall,
+        ),
+      ).toEqual({ counts: { java: 12, ts: 71 } });
+      expect(
+        organizationMeasuresToLineCountPieData(
           { [MetricKey.ncloc_language_distribution]: '{"java": "2", "js": "x"}' },
           PieChartLineSlice.Language,
           CodeScope.Overall,

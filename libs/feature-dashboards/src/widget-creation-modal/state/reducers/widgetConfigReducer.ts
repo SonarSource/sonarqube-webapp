@@ -92,7 +92,7 @@ export function widgetConfigReducer(
     case 'SET_PIE_METRIC':
       return handleSetPieMetric(state, action, options);
     case 'SET_PIE_SLICE':
-      return handleSetPieSlice(state, action);
+      return handleSetPieSlice(state, action, options);
     case 'SET_PIE_SCOPE':
       return handleSetPieScope(state, action, options);
     case 'SET_PIE_FILTER':

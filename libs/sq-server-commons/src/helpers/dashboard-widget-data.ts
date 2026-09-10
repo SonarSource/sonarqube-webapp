@@ -20,6 +20,7 @@
 
 import { cssVar } from '@sonarsource/echoes-react';
 import { CHART_CATEGORICAL_COLORS } from '~shared/helpers/charts';
+import { parseDistributionCounts } from '~shared/helpers/measures';
 import { isAicaMetric } from '~shared/helpers/metrics';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
@@ -1006,8 +1007,15 @@ function numberValue(value: unknown): number | undefined {
 
 function distributionCounts(value: unknown): Record<string, number> {
   if (typeof value === 'string') {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return {};
+    }
+    if (!trimmed.startsWith('{')) {
+      return parseDistributionCounts(trimmed);
+    }
     try {
-      return distributionCounts(JSON.parse(value));
+      return distributionCounts(JSON.parse(trimmed));
     } catch {
       return {};
     }
@@ -1126,7 +1134,10 @@ export function qualityGateCounts(
   return Object.keys(statusDistribution).length > 0
     ? statusDistribution
     : ratingDistributionToQualityGateCounts(
-        distributionCounts(measures?.[MetricKey.releasability_rating_distribution]),
+        normalizeDistribution(
+          distributionCounts(measures?.[MetricKey.releasability_rating_distribution]),
+          true,
+        ),
       );
 }
 

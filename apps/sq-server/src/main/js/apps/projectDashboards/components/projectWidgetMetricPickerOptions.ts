@@ -30,6 +30,7 @@ import {
   buildMetricGroups,
   type MetricGroupDefinition,
 } from '~sq-server-commons/components/dashboards/metricPickerOptions';
+import { sqsDashboardSupportsPieChartSlice } from '~sq-server-commons/helpers/dashboard-pie-chart-capabilities';
 import { getLocalizedMetricDomain } from '~sq-server-commons/helpers/l10n';
 
 const PROJECT_WIDGET_METRIC_GROUPS: readonly MetricGroupDefinition[] = [
@@ -91,6 +92,12 @@ const PROJECT_RATING_BADGE_METRICS = new Set(
   PROJECT_RATING_BADGE_METRIC_GROUPS.flatMap(({ keys }) => keys),
 );
 
+export function sqsProjectDashboardSupportsNewCodeScopeForPieChart(
+  metric: PieChartMetric,
+): boolean {
+  return metric !== PieChartMetric.IssueCount && metric !== PieChartMetric.LineCount;
+}
+
 // Temporary catalog; replace it with the SQS project metric metadata API response when available.
 export function getSqsProjectWidgetMetricPickerOptions(
   intl: Pick<IntlShape, 'formatMessage'>,
@@ -116,6 +123,8 @@ export function getSqsProjectWidgetMetricPickerOptions(
     pieChartMetricOptions: buildPieChartMetricSelectOptions(formatMessage).filter(
       ({ value }) => value !== PieChartMetric.HotspotCount,
     ),
+    supportsPieChartSlice: sqsDashboardSupportsPieChartSlice,
+    supportsNewCodeScopeForPieChart: sqsProjectDashboardSupportsNewCodeScopeForPieChart,
     ratingBadgeMetrics: buildMetricGroups(
       PROJECT_RATING_BADGE_METRIC_GROUPS,
       PROJECT_RATING_BADGE_METRICS,

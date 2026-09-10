@@ -25,9 +25,11 @@ import {
 
 describe('parseLanguageDistributionCounts', () => {
   it('parses legacy counts and ignores malformed or non-positive entries', () => {
-    expect(parseLanguageDistributionCounts('java=10;ts=70.4;css=0;broken;negative=-2')).toEqual({
-      java: 10,
-      ts: 70,
+    expect(
+      parseLanguageDistributionCounts('java=12 lines;ts=70.6;css=0;broken;negative=-2'),
+    ).toEqual({
+      java: 12,
+      ts: 71,
     });
   });
 

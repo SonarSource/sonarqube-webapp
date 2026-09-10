@@ -278,6 +278,18 @@ export function DefineWidgetAccordion({
   const defineWidgetDocUrl = defineWidgetDocumentationUrl ?? defaultDefineWidgetDocumentationUrl;
 
   // PieChart slice options (depends on selected metric)
+  const filterSupportedPieChartSlices = <T extends { value: PieChartSlice }>(
+    metric: PieChartMetric,
+    options: T[],
+  ) => {
+    if (!metricPickerOptions.supportsPieChartSlice) {
+      return options;
+    }
+    return options.filter(({ value }) =>
+      metricPickerOptions.supportsPieChartSlice?.(metric, value),
+    );
+  };
+
   const getPieChartSliceOptions = () => {
     const isPortfolioPie = isPortfolioPieChartConfigurator;
 
@@ -321,26 +333,29 @@ export function DefineWidgetAccordion({
         },
       ];
       if (isPortfolioPie) {
-        return issueSlices.filter(
-          (entry) =>
-            entry.value !== PieChartIssueSlice.CleanCodeAttributeCategories &&
-            entry.value !== PieChartIssueSlice.Languages,
+        return filterSupportedPieChartSlices(
+          PieChartMetric.IssueCount,
+          issueSlices.filter(
+            (entry) =>
+              entry.value !== PieChartIssueSlice.CleanCodeAttributeCategories &&
+              entry.value !== PieChartIssueSlice.Languages,
+          ),
         );
       }
-      return issueSlices;
+      return filterSupportedPieChartSlices(PieChartMetric.IssueCount, issueSlices);
     }
     if (pieChartMetric === PieChartMetric.ProjectCount) {
-      return [
+      return filterSupportedPieChartSlices(PieChartMetric.ProjectCount, [
         {
           value: PieChartProjectSlice.Status,
           label: intl.formatMessage({
             id: 'dashboard.add_widget_modal.define_widget.slice.by_quality_gate_status',
           }),
         },
-      ];
+      ]);
     }
     if (pieChartMetric === PieChartMetric.HotspotCount) {
-      return [
+      return filterSupportedPieChartSlices(PieChartMetric.HotspotCount, [
         {
           value: PieChartHotspotSlice.ReviewPriority,
           label: intl.formatMessage({
@@ -361,10 +376,10 @@ export function DefineWidgetAccordion({
               : 'dashboard.add_widget_modal.define_widget.slice.by_security_category',
           }),
         },
-      ];
+      ]);
     }
     if (pieChartMetric === PieChartMetric.LineCount) {
-      return [
+      return filterSupportedPieChartSlices(PieChartMetric.LineCount, [
         {
           value: PieChartLineSlice.Language,
           label: intl.formatMessage({
@@ -383,7 +398,7 @@ export function DefineWidgetAccordion({
             id: 'dashboard.add_widget_modal.define_widget.slice.by_duplications',
           }),
         },
-      ];
+      ]);
     }
     return [];
   };

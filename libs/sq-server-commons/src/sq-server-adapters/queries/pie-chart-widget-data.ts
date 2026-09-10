@@ -22,6 +22,7 @@ import { useMemo } from 'react';
 import { useIntl, type IntlShape } from 'react-intl';
 import { useLanguagesQuery } from '~shared/queries/languages';
 import { MetricKey } from '~shared/types/metrics';
+import { sqsDashboardSupportsPieChartSlice } from '../../helpers/dashboard-pie-chart-capabilities';
 import {
   aggregateSmallSegments,
   CodeScope,
@@ -196,10 +197,8 @@ function shouldFailPieChartAdapter(widget: PieChartWidget): boolean {
 
   return (
     !isSupportedMetric ||
-    (widget.metric === PieChartMetric.IssueCount &&
-      (widget.scope === CodeScope.New ||
-        widget.slice === PieChartIssueSlice.CleanCodeAttributeCategories ||
-        widget.slice === PieChartIssueSlice.Languages))
+    !sqsDashboardSupportsPieChartSlice(widget.metric, widget.slice) ||
+    (widget.metric === PieChartMetric.IssueCount && widget.scope === CodeScope.New)
   );
 }
 
@@ -294,12 +293,6 @@ function resolvePieChartResult(
   };
 }
 
-function getPieChartMeasuresHistoryStartDate(entityType: DashboardEntityType): string {
-  return entityType === 'PORTFOLIO'
-    ? organizationsHistoryStartDateWithRetentionBuffer()
-    : lineChartSinceDate(HistoryRange.LastMonth);
-}
-
 export function useOrganizationPieChartData(
   args: Readonly<{
     enabled?: boolean;
@@ -324,6 +317,11 @@ export function useOrganizationPieChartData(
   });
   const isModeResolved = !modeQuery.isPending && modeQuery.error == null;
   const isStandardMode = modeQuery.data ?? true;
+  // The current day may not have a snapshot yet. Select the latest row within the
+  // established history window, including a zero-valued row rather than stale nonzero data.
+  const issueHistoryStartDate = organizationsHistoryStartDateWithRetentionBuffer();
+  const measuresHistoryStartDate =
+    entityType === 'PORTFOLIO' ? issueHistoryStartDate : lineChartSinceDate(HistoryRange.LastMonth);
   const { isLineCountChart, isQualityGateStatusChart, needsLanguageMetadata, needsRulesMetadata } =
     getPieChartQueryRequirements(widget, entityType);
   const canonicalHistoryParams = useMemo(
@@ -355,12 +353,12 @@ export function useOrganizationPieChartData(
           entityType,
           impacts: [...DEFAULT_ISSUE_IMPACTS],
           sliceBy: 'SEVERITY',
-          startDate: organizationsHistoryStartDateWithRetentionBuffer(),
+          startDate: issueHistoryStartDate,
           statuses: ['OPEN'],
         }
       : {
           ...historyParams,
-          startDate: organizationsHistoryStartDateWithRetentionBuffer(),
+          startDate: issueHistoryStartDate,
         },
     {
       enabled: isPieChartIssueQueryEnabled({
@@ -392,7 +390,6 @@ export function useOrganizationPieChartData(
   );
 
   const lineCountKeys = useMemo(() => lineCountMeasureKeys(widget.scope), [widget.scope]);
-  const measuresHistoryStartDate = getPieChartMeasuresHistoryStartDate(entityType);
   const metricMetadataQuery = useWidgetMetricMetadataQuery({
     enabled: enabled && isQualityGateStatusChart && !isUnsupported,
   });

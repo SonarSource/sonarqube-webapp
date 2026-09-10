@@ -476,6 +476,8 @@ export function ProjectCustomDashboardPage() {
         onSaveWidget={isEditWidgetModalOpen ? handleSaveEditWidget : handleAddWidget}
         reducerOptions={{
           isPortfolioWidgetConfigurator: false,
+          supportsNewCodeScopeForPieChart: metricPickerOptions.supportsNewCodeScopeForPieChart,
+          supportsPieChartSlice: metricPickerOptions.supportsPieChartSlice,
           supportsNewCodeScopeForMetric: metricPickerOptions.supportsNewCodeScopeForMetric,
         }}
         renderOptions={({ dispatch, isEditMode, metricPickerOptions: options, state }) => (

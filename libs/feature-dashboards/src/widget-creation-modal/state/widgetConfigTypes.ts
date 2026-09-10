@@ -32,6 +32,7 @@ import {
   MetricOptionValue,
   VisualizationType,
   type DashboardWidgetType,
+  type PieChartSliceSupport,
   type TopListLimitValue,
   type TopListMetricValue,
   type TopListRankByValue,
@@ -43,6 +44,8 @@ import {
 
 export interface WidgetConfigReducerOptions {
   isPortfolioWidgetConfigurator?: boolean;
+  supportsPieChartSlice?: PieChartSliceSupport;
+  supportsNewCodeScopeForPieChart?: PieChartSliceSupport;
   supportsNewCodeScopeForMetric?: (
     metricKey: MetricKey,
     visualizationType: DashboardWidgetType,

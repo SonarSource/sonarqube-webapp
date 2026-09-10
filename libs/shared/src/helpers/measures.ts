@@ -21,7 +21,6 @@
 import { RatingBadgeRating } from '@sonarsource/echoes-react';
 import { IntlShape } from 'react-intl';
 import { getCurrentLocale } from '~adapters/helpers/l10n';
-import { isDefined } from '../helpers/types';
 import { Measure } from '../types/measures';
 import {
   ISSUE_SEVERITY_CONDITION_MAPPING,
@@ -34,18 +33,26 @@ type FormatMessageFunction = IntlShape['formatMessage'];
 
 const HOURS_IN_DAY = 8;
 
-function getLanguagesSortedByNCLOC(measures: Measure[]) {
-  return (
-    measures
-      .flatMap((measure) =>
-        measure.value?.split(';').map((pair) => {
-          const [language, count] = pair.split('=');
-          return { language, count: Number.parseInt(count, 10) };
-        }),
-      )
-      .filter(isDefined)
-      .sort((a, b) => b.count - a.count) || []
+/** Parses legacy semicolon-delimited counts using the dashboard count rounding convention. */
+export function parseDistributionCounts(distribution: string): Record<string, number> {
+  return Object.fromEntries(
+    distribution.split(';').flatMap((entry) => {
+      const [key, rawCount] = entry.split('=');
+      const count = Number.parseFloat(rawCount);
+      return key && Number.isFinite(count) && count > 0 ? [[key, Math.round(count)]] : [];
+    }),
   );
+}
+
+function getLanguagesSortedByNCLOC(measures: Measure[]) {
+  return measures
+    .flatMap((measure) =>
+      Object.entries(parseDistributionCounts(measure.value ?? '')).map(([language, count]) => ({
+        language,
+        count,
+      })),
+    )
+    .sort((a, b) => b.count - a.count);
 }
 
 function noFormatter(value: string | number): string | number {

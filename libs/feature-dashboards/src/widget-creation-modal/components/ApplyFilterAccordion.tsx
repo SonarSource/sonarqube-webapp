@@ -100,6 +100,7 @@ export function ApplyFilterAccordion({
         dispatch={dispatch}
         isPortfolioWidgetConfigurator={isPortfolioWidgetConfigurator}
         pieConfig={currentConfig as PieChartConfig}
+        supportsNewCodeScopeForPieChart={metricPickerOptions.supportsNewCodeScopeForPieChart}
       />
     );
   }

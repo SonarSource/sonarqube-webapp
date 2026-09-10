@@ -31,7 +31,12 @@ import type {
   WidgetConfigReducerOptions,
   WidgetConfigState,
 } from '../widgetConfigTypes';
-import { clampScopeForPortfolioPie, updateCurrentConfig } from './utils';
+import {
+  clampPieChartScopeForReducerOptions,
+  isPieChartSliceSupported,
+  normalizePieChartConfigForReducerOptions,
+  updateCurrentConfig,
+} from './utils';
 
 export function handleSetPieMetric(
   state: WidgetConfigState,
@@ -42,19 +47,30 @@ export function handleSetPieMetric(
     return state;
   }
   return updateCurrentConfig(state, (config) =>
-    nextPieConfigAfterMetricChange(config as PieChartConfig, action, options),
+    normalizePieChartConfigForReducerOptions(
+      nextPieConfigAfterMetricChange(config as PieChartConfig, action, options),
+      options,
+    ),
   );
 }
 
 export function handleSetPieSlice(
   state: WidgetConfigState,
   action: Extract<WidgetConfigAction, { type: 'SET_PIE_SLICE' }>,
+  options?: WidgetConfigReducerOptions,
 ): WidgetConfigState {
   if (!isPieSelected(state)) {
     return state;
   }
   return updateCurrentConfig(state, (config) => {
     const pieConfig = config as PieChartConfig;
+    if (
+      pieConfig.metric !== null &&
+      action.slice !== null &&
+      !isPieChartSliceSupported(pieConfig.metric, action.slice, options)
+    ) {
+      return pieConfig;
+    }
     const complete = pieConfig.metric !== null && action.slice !== null;
 
     let { filter } = pieConfig;
@@ -65,12 +81,15 @@ export function handleSetPieSlice(
     ) {
       filter = '';
     }
-    return {
-      ...pieConfig,
-      filter,
-      slice: action.slice,
-      complete: complete as false,
-    };
+    return clampPieChartScopeForReducerOptions(
+      {
+        ...pieConfig,
+        filter,
+        slice: action.slice,
+        complete: complete as false,
+      },
+      options,
+    );
   });
 }
 
@@ -84,7 +103,7 @@ export function handleSetPieScope(
   }
   return updateCurrentConfig(state, (config) => {
     const pieConfig = config as PieChartConfig;
-    return { ...pieConfig, scope: clampScopeForPortfolioPie(action.scope, options) };
+    return clampPieChartScopeForReducerOptions({ ...pieConfig, scope: action.scope }, options);
   });
 }
 
@@ -170,5 +189,8 @@ function resolvePieScopeForMetricChange(
   if (metric === PieChartMetric.LineCount || metric === PieChartMetric.ProjectCount) {
     return CodeScope.Overall;
   }
-  return clampScopeForPortfolioPie(pieConfig.scope, options);
+  return clampPieChartScopeForReducerOptions(
+    { ...pieConfig, complete: false, metric, scope: pieConfig.scope } as PieChartConfig,
+    options,
+  ).scope;
 }

@@ -18,7 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { issueSeverityFormatter, scaRiskFormatter } from '../measures';
+import { MetricKey } from '../../types/metrics';
+import {
+  getLanguagesSortedByNCLOC,
+  issueSeverityFormatter,
+  parseDistributionCounts,
+  scaRiskFormatter,
+} from '../measures';
 
 describe('scaRiskFormatter', () => {
   it('should format a valid risk threshold', () => {
@@ -82,4 +88,36 @@ describe('issueSeverityFormatter', () => {
       expect(formatMessage).not.toHaveBeenCalled();
     },
   );
+});
+
+describe('distribution counts', () => {
+  it('rounds positive numeric prefixes and ignores unavailable counts', () => {
+    expect(
+      parseDistributionCounts(
+        'java=12 lines;ts=70.6;css=0;broken;negative=-2;inf=Infinity;nan=NaN;=3',
+      ),
+    ).toEqual({ java: 12, ts: 71 });
+    expect(parseDistributionCounts('')).toEqual({});
+  });
+
+  it('preserves arbitrary distribution keys and the last value for repeated keys', () => {
+    expect(parseDistributionCounts('1=4;4=1;java=2;java=3;__proto__=5')).toEqual(
+      JSON.parse('{"1":4,"4":1,"java":3,"__proto__":5}'),
+    );
+  });
+
+  it('orders available languages using the same rounded counts as the charts', () => {
+    expect(
+      getLanguagesSortedByNCLOC([
+        {
+          metric: MetricKey.ncloc_language_distribution,
+          value: 'java=12 lines;ts=70.6;css=0;broken',
+        },
+        { metric: MetricKey.ncloc_language_distribution },
+      ]),
+    ).toEqual([
+      { language: 'ts', count: 71 },
+      { language: 'java', count: 12 },
+    ]);
+  });
 });

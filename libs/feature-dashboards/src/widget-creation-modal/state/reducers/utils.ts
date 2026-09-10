@@ -26,6 +26,7 @@ import {
   PieChartHotspotSlice,
   PieChartMetric,
   RichMetricKey,
+  type PieChartSlice,
 } from '../../../types/dashboard-widget';
 import {
   CodeScope,
@@ -96,11 +97,27 @@ export function clampConfigScopeForReducerOptions(
   config: WidgetConfig,
   options?: WidgetConfigReducerOptions,
 ): WidgetConfig {
-  const supports = options?.supportsNewCodeScopeForMetric;
-  if (!supports || selectedType === null || !SCOPE_CLAMPABLE_TYPES.has(selectedType)) {
+  if (selectedType === null || !SCOPE_CLAMPABLE_TYPES.has(selectedType)) {
     return config;
   }
   if (getConfigScope(config) !== CodeScope.New) {
+    return config;
+  }
+
+  if (selectedType === VisualizationType.LineChart || selectedType === VisualizationType.Count) {
+    const metric = (config as LineChartConfig | CountConfig).metric;
+    if (
+      metric &&
+      (metric.type === DashboardMetricType.IssueResolution ||
+        metric.type === DashboardMetricType.IssueDensity ||
+        metric.type === DashboardMetricType.ScaResolution)
+    ) {
+      return clampScopeToOverall(config);
+    }
+  }
+
+  const supports = options?.supportsNewCodeScopeForMetric;
+  if (!supports) {
     return config;
   }
 
@@ -272,11 +289,70 @@ export function clearDisabledPieHotspotFiltersInWidgetState(
  * leak-period (New code) view, so "New code" would render Overall data mislabelled as New code.
  * Returns the requested scope unchanged outside the portfolio widget configurator.
  */
-export function clampScopeForPortfolioPie(
+function clampScopeForPortfolioPie(
   scope: CodeScope,
   options?: WidgetConfigReducerOptions,
 ): CodeScope {
   return options?.isPortfolioWidgetConfigurator === true ? CodeScope.Overall : scope;
+}
+
+export function clampPieChartScopeForReducerOptions(
+  config: PieChartConfig,
+  options?: WidgetConfigReducerOptions,
+): PieChartConfig {
+  if (config.scope !== CodeScope.New) {
+    return config;
+  }
+
+  if (
+    config.metric === PieChartMetric.LineCount ||
+    config.metric === PieChartMetric.ProjectCount ||
+    options?.isPortfolioWidgetConfigurator === true
+  ) {
+    return { ...config, scope: CodeScope.Overall };
+  }
+
+  if (
+    config.metric !== null &&
+    config.slice !== null &&
+    options?.supportsNewCodeScopeForPieChart &&
+    !options.supportsNewCodeScopeForPieChart(config.metric, config.slice)
+  ) {
+    return { ...config, scope: CodeScope.Overall };
+  }
+
+  return config;
+}
+
+export function normalizePieChartConfigForReducerOptions(
+  config: PieChartConfig,
+  options?: WidgetConfigReducerOptions,
+): PieChartConfig {
+  const clamped = clampPieChartScopeForReducerOptions(config, options);
+  let next = clamped;
+  if (
+    config.metric !== null &&
+    config.slice !== null &&
+    options?.supportsPieChartSlice &&
+    !options.supportsPieChartSlice(config.metric, config.slice)
+  ) {
+    next = {
+      ...clamped,
+      complete: false,
+      filter: '',
+      slice: null,
+    };
+  }
+
+  return next;
+}
+
+export function isPieChartSliceSupported(
+  metric: PieChartMetric,
+  slice: PieChartSlice,
+  options?: WidgetConfigReducerOptions,
+): boolean {
+  return options?.supportsPieChartSlice?.(metric, slice) ?? true;
 }
 
 /** Forces portfolio pie/donut scope back to Overall across the shared pie + donut configs. */
@@ -328,11 +404,30 @@ export function normalizeInitializedSelectedConfigScope(
     return state;
   }
   let next = clampConfigScopeForReducerOptions(selectedType, config, options);
+  if (
+    selectedType === VisualizationType.PieChart ||
+    selectedType === VisualizationType.DonutChart
+  ) {
+    next = normalizePieChartConfigForReducerOptions(next as PieChartConfig, options);
+  }
   if (selectedType === VisualizationType.LineChart) {
     next = clampLineChartScope(next as LineChartConfig);
   }
   if (next === config) {
     return state;
+  }
+  if (
+    selectedType === VisualizationType.PieChart ||
+    selectedType === VisualizationType.DonutChart
+  ) {
+    return {
+      ...state,
+      configs: {
+        ...state.configs,
+        [VisualizationType.PieChart]: next as PieChartConfig,
+        [VisualizationType.DonutChart]: next as PieChartConfig,
+      },
+    };
   }
   return {
     ...state,

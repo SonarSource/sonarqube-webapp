@@ -151,6 +151,175 @@ describe('dashboard widget adapter queries', () => {
   });
 
   describe('pie-chart queries', () => {
+    it.each(['PROJECT_BRANCH', 'PORTFOLIO'] as const)(
+      'uses the latest available %s snapshot without requiring data today',
+      (entityType) => {
+        const yesterday = new Date();
+        yesterday.setUTCDate(yesterday.getUTCDate() - 1);
+        yesterday.setUTCHours(0, 0, 0, 0);
+        const older = new Date(yesterday);
+        older.setUTCDate(older.getUTCDate() - 1);
+        const issueHistory = [
+          { date: yesterday.toISOString(), distribution: [{ key: 'CRITICAL', value: 3 }] },
+          { date: older.toISOString(), distribution: [{ key: 'CRITICAL', value: 99 }] },
+        ];
+        const measuresHistory = [
+          {
+            date: yesterday.toISOString(),
+            measures: [
+              {
+                metric: MetricKey.ncloc_language_distribution,
+                type: MetricType.Distribution,
+                value: 'java=12',
+              },
+            ],
+          },
+          {
+            date: older.toISOString(),
+            measures: [
+              {
+                metric: MetricKey.ncloc_language_distribution,
+                type: MetricType.Distribution,
+                value: 'java=99',
+              },
+            ],
+          },
+        ];
+        mockUseDashboardIssueCountHistoryQuery.mockImplementation((params, options) =>
+          queryResult(
+            options.select({
+              issueCountHistory: issueHistory.filter((day) => day.date >= params.startDate),
+            }),
+          ),
+        );
+        mockUseDashboardMeasuresHistoryQuery.mockImplementation((params, options) =>
+          queryResult(
+            options.select({
+              measuresHistory: measuresHistory.filter((day) => day.date >= params.startDate),
+            }),
+          ),
+        );
+        const { result } = renderHook(
+          () =>
+            useOrganizationPieChartData({
+              entity: { entityId: 'entity-1', entityType },
+              widget: {
+                filter: '',
+                metric: PieChartMetric.IssueCount,
+                scope: CodeScope.Overall,
+                slice: PieChartIssueSlice.ImpactSeverities,
+              },
+            }),
+          { wrapper: getContextWrapper() },
+        );
+        expect(result.current.segments.map(({ count }) => count)).toEqual([3]);
+        const { result: lines } = renderHook(
+          () =>
+            useOrganizationPieChartData({
+              entity: { entityId: 'entity-1', entityType },
+              widget: {
+                filter: '',
+                metric: PieChartMetric.LineCount,
+                scope: CodeScope.Overall,
+                slice: PieChartLineSlice.Language,
+              },
+            }),
+          { wrapper: getContextWrapper() },
+        );
+        expect(lines.current.segments).toEqual([
+          expect.objectContaining({ label: 'Java', count: 12 }),
+        ]);
+      },
+    );
+
+    it.each(['{"1":4,"4":1}', '1=4;4=1', 'A=4;D=1'])(
+      'keeps the last available portfolio quality-gate distribution (%s)',
+      (distribution) => {
+        const yesterday = new Date();
+        yesterday.setUTCDate(yesterday.getUTCDate() - 1);
+        yesterday.setUTCHours(0, 0, 0, 0);
+        mockUseWidgetMetricMetadataQuery.mockReturnValue(
+          queryResult({
+            [MetricKey.releasability_rating_distribution]: {
+              key: MetricKey.releasability_rating_distribution,
+              type: MetricType.Distribution,
+            },
+          }),
+        );
+        mockUseDashboardMeasuresHistoryQuery.mockImplementation((params, options) =>
+          queryResult(
+            options.select({
+              measuresHistory: [
+                {
+                  date: yesterday.toISOString(),
+                  measures: [
+                    {
+                      metric: MetricKey.releasability_rating_distribution,
+                      type: MetricType.Distribution,
+                      value: distribution,
+                    },
+                  ],
+                },
+              ].filter((day) => day.date >= params.startDate),
+            }),
+          ),
+        );
+        const { result } = renderHook(
+          () =>
+            useOrganizationPieChartData({
+              entity: { entityId: 'portfolio-1', entityType: 'PORTFOLIO' },
+              widget: {
+                filter: '',
+                metric: PieChartMetric.ProjectCount,
+                scope: CodeScope.Overall,
+                slice: 'status',
+              },
+            }),
+          { wrapper: getContextWrapper() },
+        );
+        expect(result.current.segments).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({ value: 'OK', count: 4 }),
+            expect.objectContaining({ value: 'ERROR', count: 1 }),
+          ]),
+        );
+      },
+    );
+
+    it.each([false, true])(
+      'does not revive old counts when the latest issue snapshot is empty (no history: %s)',
+      (noHistory) => {
+        mockUseDashboardIssueCountHistoryQuery.mockImplementation((_params, options) =>
+          queryResult(
+            options.select({
+              issueCountHistory: noHistory
+                ? []
+                : [
+                    { date: '2026-09-09', distribution: [] },
+                    { date: '2026-09-08', distribution: [{ key: 'CRITICAL', value: 99 }] },
+                  ],
+            }),
+          ),
+        );
+        const { result } = renderHook(
+          () =>
+            useOrganizationPieChartData({
+              entity: { entityId: 'entity-1', entityType: 'PORTFOLIO' },
+              widget: {
+                filter: '',
+                metric: PieChartMetric.IssueCount,
+                scope: CodeScope.Overall,
+                slice: PieChartIssueSlice.ImpactSeverities,
+              },
+            }),
+          { wrapper: getContextWrapper() },
+        );
+        expect(result.current.segments).toEqual([]);
+        expect(result.current.isPending).toBe(false);
+        expect(result.current.error).toBeNull();
+      },
+    );
+
     it('does not request issue history without an entity ID', () => {
       renderHook(
         () =>

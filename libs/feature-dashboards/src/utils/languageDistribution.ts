@@ -19,6 +19,7 @@
  */
 
 import * as v from 'valibot';
+import { parseDistributionCounts } from '~shared/helpers/measures';
 
 const languageDistributionSchema = v.record(v.string(), v.union([v.number(), v.string()]));
 
@@ -46,20 +47,6 @@ function normalizeLanguageDistributionEntries(
   );
 }
 
-function parseLegacyLanguageDistributionCounts(distribution: string): Record<string, number> {
-  return distribution.split(';').reduce(
-    (acc, keyLinesPair) => {
-      const [key, lines] = keyLinesPair.split('=');
-      const parsed = parseLanguageLineCount(lines);
-      if (key && parsed !== undefined && parsed > 0) {
-        acc[key] = Math.round(parsed);
-      }
-      return acc;
-    },
-    {} as Record<string, number>,
-  );
-}
-
 export function parseLanguageDistributionCounts(distribution: unknown): Record<string, number> {
   if (distribution === undefined || distribution === null) {
     return {};
@@ -79,7 +66,7 @@ export function parseLanguageDistributionCounts(distribution: unknown): Record<s
       }
     }
 
-    return parseLegacyLanguageDistributionCounts(trimmed);
+    return parseDistributionCounts(trimmed);
   }
 
   const result = v.safeParse(languageDistributionSchema, distribution);

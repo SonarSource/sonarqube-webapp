@@ -27,7 +27,8 @@ import {
   PieChartIssueSlice,
   PieChartMetric,
 } from '../../types/dashboard-widget';
-import { CodeScope } from '../../types/widget-common';
+import { CodeScope, type PieChartSliceSupport } from '../../types/widget-common';
+import { SCOPE_HELP_TEXT_NEW_CODE_UNAVAILABLE_ID } from '../hooks/applyFiltersViewModelSlices';
 import type { PieChartConfig, WidgetConfigAction } from '../state/widgetConfigTypes';
 import {
   buildPieChartFilterSelectOptions,
@@ -45,7 +46,9 @@ interface PieChartScopeControlParams {
   formatMessage: ReturnType<typeof useIntl>['formatMessage'];
   isPortfolioWidgetConfigurator: boolean;
   pieChartMetric: PieChartMetric | null;
+  pieChartSlice: PieChartConfig['slice'];
   pieChartScope: CodeScope;
+  supportsNewCodeScopeForPieChart?: PieChartSliceSupport;
 }
 
 function buildPieChartScopeControl({
@@ -53,7 +56,9 @@ function buildPieChartScopeControl({
   formatMessage,
   isPortfolioWidgetConfigurator,
   pieChartMetric,
+  pieChartSlice,
   pieChartScope,
+  supportsNewCodeScopeForPieChart,
 }: PieChartScopeControlParams): ReactNode {
   if (pieChartMetric === PieChartMetric.LineCount) {
     return (
@@ -79,9 +84,22 @@ function buildPieChartScopeControl({
       </Text>
     );
   }
+
+  const isScopeSelectDisabled =
+    pieChartMetric !== null &&
+    pieChartSlice !== null &&
+    supportsNewCodeScopeForPieChart !== undefined &&
+    !supportsNewCodeScopeForPieChart(pieChartMetric, pieChartSlice);
+
   return (
     <Select
       data={buildPieChartScopeSelectData(formatMessage)}
+      helpText={
+        isScopeSelectDisabled
+          ? formatMessage({ id: SCOPE_HELP_TEXT_NEW_CODE_UNAVAILABLE_ID })
+          : undefined
+      }
+      isDisabled={isScopeSelectDisabled}
       isNotClearable
       label={formatMessage({
         id: 'dashboard.add_widget_modal.apply_filters_section.select.scope.label',
@@ -101,12 +119,14 @@ export interface PieChartApplyFiltersProps extends Omit<
   dispatch: Dispatch<WidgetConfigAction>;
   isPortfolioWidgetConfigurator: boolean;
   pieConfig: PieChartConfig;
+  supportsNewCodeScopeForPieChart?: PieChartSliceSupport;
 }
 
 export function PieChartApplyFilters({
   dispatch,
   isPortfolioWidgetConfigurator,
   pieConfig,
+  supportsNewCodeScopeForPieChart,
   ...shellProps
 }: Readonly<PieChartApplyFiltersProps>) {
   const { formatMessage } = useIntl();
@@ -134,7 +154,9 @@ export function PieChartApplyFilters({
     formatMessage,
     isPortfolioWidgetConfigurator,
     pieChartMetric,
+    pieChartSlice,
     pieChartScope,
+    supportsNewCodeScopeForPieChart,
   });
 
   return (

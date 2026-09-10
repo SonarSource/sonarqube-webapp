@@ -554,6 +554,60 @@ describe('DefineWidgetAccordion', () => {
     ).toBeInTheDocument();
   });
 
+  it('omits product-unsupported pie slices from the picker', async () => {
+    const state: WidgetConfigState = {
+      configs: {
+        pieChart: {
+          complete: false,
+          filter: '',
+          metric: PieChartMetric.IssueCount,
+          scope: CodeScope.Overall,
+          showLegend: true,
+          slice: null,
+        },
+      },
+      selectedType: VisualizationType.PieChart,
+    };
+    const { user } = renderWithRouter(
+      <DefineWidgetAccordion
+        Accordion={Accordion}
+        defaultDefineWidgetDocumentationUrl="https://docs.example.com/widgets"
+        defineWidgetAccordionOpen
+        dispatch={jest.fn()}
+        isPortfolioPieChartConfigurator={false}
+        metricPickerOptions={{
+          ...metricPickerOptions,
+          supportsPieChartSlice: (metric, slice) =>
+            metric !== PieChartMetric.IssueCount ||
+            (slice !== PieChartIssueSlice.CleanCodeAttributeCategories &&
+              slice !== PieChartIssueSlice.Languages),
+        }}
+        setDefineWidgetAccordionOpen={jest.fn()}
+        state={state}
+      />,
+    );
+
+    await user.click(
+      screen.getByRole('combobox', { name: 'dashboard.add_widget_modal.define_widget.slice_by' }),
+    );
+    await screen.findByRole('listbox');
+    expect(
+      screen.queryByRole('option', {
+        name: 'dashboard.add_widget_modal.define_widget.slice.by_code_attribute',
+      }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('option', {
+        name: 'dashboard.add_widget_modal.define_widget.slice.by_language',
+      }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('option', {
+        name: 'dashboard.add_widget_modal.define_widget.slice.by_severity',
+      }),
+    ).toBeInTheDocument();
+  });
+
   it('auto-selects status slice with help text for portfolio project count pie', () => {
     const state: WidgetConfigState = {
       configs: {

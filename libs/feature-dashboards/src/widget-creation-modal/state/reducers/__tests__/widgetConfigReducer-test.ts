@@ -61,6 +61,7 @@ import {
 } from '../../widgetConfigInitialState';
 import type {
   LineChartConfig,
+  PieChartConfig,
   RatingBadgeConfig,
   WidgetConfigState,
 } from '../../widgetConfigTypes';
@@ -339,6 +340,76 @@ describe('widgetConfigReducer', () => {
     ).toBe('');
   });
 
+  it('INITIALIZE normalizes unsupported pie slices and scopes', () => {
+    const payload: WidgetConfigState = {
+      configs: {
+        [VisualizationType.PieChart]: {
+          ...createInitialPieChartConfig(),
+          complete: true,
+          filter: PieChartIssueFilter.Security,
+          metric: PieChartMetric.IssueCount,
+          scope: CodeScope.New,
+          slice: PieChartIssueSlice.CleanCodeAttributeCategories,
+        },
+      },
+      selectedType: VisualizationType.PieChart,
+    };
+
+    const state = widgetConfigReducer(
+      emptyState,
+      { payload, type: 'INITIALIZE' },
+      {
+        supportsNewCodeScopeForPieChart: () => false,
+        supportsPieChartSlice: () => false,
+      },
+    );
+
+    expect(state.configs[VisualizationType.PieChart]).toMatchObject({
+      complete: false,
+      filter: '',
+      metric: PieChartMetric.IssueCount,
+      scope: CodeScope.Overall,
+      slice: null,
+    });
+  });
+
+  it('INITIALIZE normalizes both pie and donut configs when editing a donut', () => {
+    const config: PieChartConfig = {
+      ...createInitialPieChartConfig(),
+      complete: true,
+      filter: PieChartIssueFilter.Security,
+      metric: PieChartMetric.IssueCount,
+      scope: CodeScope.New,
+      slice: PieChartIssueSlice.CleanCodeAttributeCategories,
+    };
+    const payload: WidgetConfigState = {
+      configs: {
+        [VisualizationType.PieChart]: config,
+        [VisualizationType.DonutChart]: config,
+      },
+      selectedType: VisualizationType.DonutChart,
+    };
+
+    const state = widgetConfigReducer(
+      emptyState,
+      { payload, type: 'INITIALIZE' },
+      {
+        supportsNewCodeScopeForPieChart: () => false,
+        supportsPieChartSlice: () => false,
+      },
+    );
+
+    expect(state.configs[VisualizationType.PieChart]).toMatchObject({
+      complete: false,
+      filter: '',
+      scope: CodeScope.Overall,
+      slice: null,
+    });
+    expect(state.configs[VisualizationType.DonutChart]).toBe(
+      state.configs[VisualizationType.PieChart],
+    );
+  });
+
   it('switches PieChart and DonutChart while sharing the same config object', () => {
     let state = widgetConfigReducer(emptyState, {
       type: 'SET_WIDGET_TYPE',
@@ -500,6 +571,48 @@ describe('widgetConfigReducer', () => {
     expect((state.configs[VisualizationType.PieChart] as { scope: CodeScope }).scope).toBe(
       CodeScope.Overall,
     );
+  });
+
+  it('blocks unsupported pie scope and slice actions', () => {
+    const initialState: WidgetConfigState = {
+      configs: {
+        [VisualizationType.PieChart]: {
+          ...createInitialPieChartConfig(),
+          complete: false,
+          metric: PieChartMetric.IssueCount,
+          slice: null,
+        },
+      },
+      selectedType: VisualizationType.PieChart,
+    };
+    const options = {
+      supportsNewCodeScopeForPieChart: () => false,
+      supportsPieChartSlice: () => false,
+    };
+
+    const afterSlice = widgetConfigReducer(
+      initialState,
+      { slice: PieChartIssueSlice.CleanCodeAttributeCategories, type: 'SET_PIE_SLICE' },
+      options,
+    );
+    expect(afterSlice.configs[VisualizationType.PieChart]).toEqual(
+      initialState.configs[VisualizationType.PieChart],
+    );
+
+    const afterScope = widgetConfigReducer(
+      {
+        ...initialState,
+        configs: {
+          [VisualizationType.PieChart]: {
+            ...initialState.configs[VisualizationType.PieChart],
+            slice: PieChartIssueSlice.ImpactSeverities,
+          },
+        },
+      } as WidgetConfigState,
+      { scope: CodeScope.New, type: 'SET_PIE_SCOPE' },
+      options,
+    );
+    expect(afterScope.configs[VisualizationType.PieChart]?.scope).toBe(CodeScope.Overall);
   });
 
   it('SET_SCOPE keeps line-chart issue status and overall scope for rich metrics', () => {
@@ -934,5 +1047,35 @@ describe('widgetConfigReducer', () => {
     );
 
     expect(state.configs[VisualizationType.RatingBadge]).toEqual(initial);
+  });
+
+  it('INITIALIZE clamps persisted New scope for dedicated history metrics', () => {
+    const metrics: DashboardMetric[] = [
+      {
+        statistic: IssueResolutionStatistic.MTTR,
+        type: DashboardMetricType.IssueResolution,
+      },
+      { type: DashboardMetricType.IssueDensity },
+      { type: DashboardMetricType.ScaResolution },
+    ];
+
+    for (const metric of metrics) {
+      const state = widgetConfigReducer(emptyState, {
+        payload: {
+          configs: {
+            [VisualizationType.Count]: {
+              complete: true,
+              metric,
+              scope: CodeScope.New,
+              showTrendIndicator: true,
+            },
+          },
+          selectedType: VisualizationType.Count,
+        },
+        type: 'INITIALIZE',
+      });
+
+      expect(state.configs[VisualizationType.Count]?.scope).toBe(CodeScope.Overall);
+    }
   });
 });

@@ -21,7 +21,7 @@
 import { screen } from '@testing-library/react';
 import { useState } from 'react';
 import { createIntl } from 'react-intl';
-import { PieChartMetric } from '~feature-dashboards/types/dashboard-widget';
+import { PieChartIssueSlice, PieChartMetric } from '~feature-dashboards/types/dashboard-widget';
 import { IssueResolutionStatistic } from '~feature-dashboards/types/organization-issue-resolution-history';
 import {
   ISSUE_DENSITY_METRIC_OPTION_VALUE,
@@ -29,7 +29,11 @@ import {
 } from '~feature-dashboards/types/widget-common';
 import { render } from '~shared/helpers/test-utils';
 import { MetricKey } from '~shared/types/metrics';
-import { getSqsProjectWidgetMetricPickerOptions } from '../projectWidgetMetricPickerOptions';
+import { sqsDashboardSupportsPieChartSlice } from '~sq-server-commons/helpers/dashboard-pie-chart-capabilities';
+import {
+  getSqsProjectWidgetMetricPickerOptions,
+  sqsProjectDashboardSupportsNewCodeScopeForPieChart,
+} from '../projectWidgetMetricPickerOptions';
 import { ProjectWidgetModalAccordion, ProjectWidgetOptions } from '../ProjectWidgetOptions';
 
 jest.mock(
@@ -145,6 +149,30 @@ describe('ProjectWidgetOptions', () => {
     expect(
       supportsNewCodeScopeForMetric(MetricKey.comment_lines, VisualizationType.RatingBadge),
     ).toBe(false);
+  });
+
+  it('exposes only supported Server pie slices and scopes', () => {
+    expect(
+      sqsDashboardSupportsPieChartSlice(
+        PieChartMetric.IssueCount,
+        PieChartIssueSlice.CleanCodeAttributeCategories,
+      ),
+    ).toBe(false);
+    expect(
+      sqsDashboardSupportsPieChartSlice(PieChartMetric.IssueCount, PieChartIssueSlice.Languages),
+    ).toBe(false);
+    expect(
+      sqsDashboardSupportsPieChartSlice(
+        PieChartMetric.IssueCount,
+        PieChartIssueSlice.ImpactSeverities,
+      ),
+    ).toBe(true);
+    expect(sqsProjectDashboardSupportsNewCodeScopeForPieChart(PieChartMetric.IssueCount)).toBe(
+      false,
+    );
+    expect(sqsProjectDashboardSupportsNewCodeScopeForPieChart(PieChartMetric.LineCount)).toBe(
+      false,
+    );
   });
 
   it('excludes deprecated security hotspot metrics from every creation picker', () => {

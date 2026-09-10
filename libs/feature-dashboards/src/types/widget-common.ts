@@ -20,6 +20,7 @@
 
 import type { ReactNode } from 'react';
 import type { MetricKey } from '~shared/types/metrics';
+import type { PieChartMetric, PieChartSlice } from './dashboard-widget';
 import { IssueResolutionStatistic } from './organization-issue-resolution-history';
 import { ScaResolutionStatistic } from './organization-sca-resolution-history';
 
@@ -131,6 +132,8 @@ export interface MetricGroup {
   items: MetricOption[];
 }
 
+export type PieChartSliceSupport = (metric: PieChartMetric, slice: PieChartSlice) => boolean;
+
 /** Options for the pie/donut visualization "metric" select (counts / line count), not portfolio line-chart MetricKey measures. */
 export interface PieChartMetricSelectOption {
   label: string;
@@ -158,6 +161,10 @@ export interface WidgetMetricPickerOptions {
   pieChartMetricOptions?: PieChartMetricSelectOption[];
   /** Grouped options for the rating-badge metric select (same shape as `countMetrics`). */
   ratingBadgeMetrics: MetricGroup[];
+  /** When set, unsupported pie-chart slices are omitted from the define-widget picker. */
+  supportsPieChartSlice?: PieChartSliceSupport;
+  /** When set, New code is only valid for the given pie-chart metric/slice combination. */
+  supportsNewCodeScopeForPieChart?: PieChartSliceSupport;
   /**
    * When set, "New code" is only valid for metrics where this returns true.
    */

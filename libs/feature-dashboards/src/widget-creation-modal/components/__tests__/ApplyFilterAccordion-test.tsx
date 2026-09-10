@@ -321,6 +321,48 @@ describe('ApplyFilterAccordion', () => {
     expect(screen.queryByRole('combobox', { name: /scope/ })).not.toBeInTheDocument();
   });
 
+  it('disables pie scope when the selected metric and slice do not support New code', () => {
+    const state: WidgetConfigState = {
+      configs: {
+        pieChart: {
+          complete: true,
+          filter: '',
+          metric: PieChartMetric.IssueCount,
+          scope: CodeScope.Overall,
+          showLegend: true,
+          slice: PieChartIssueSlice.ImpactSeverities,
+        },
+      },
+      selectedType: VisualizationType.PieChart,
+    };
+
+    renderWithRouter(
+      <ApplyFilterAccordion
+        Accordion={Accordion}
+        applyFiltersAccordionOpen
+        dispatch={jest.fn()}
+        isPortfolioWidgetConfigurator={false}
+        metricPickerOptions={{
+          ...metricPickerOptions,
+          supportsNewCodeScopeForPieChart: () => false,
+        }}
+        setApplyFiltersAccordionOpen={jest.fn()}
+        state={state}
+      />,
+    );
+
+    expect(
+      screen.getByRole('combobox', {
+        name: 'dashboard.add_widget_modal.apply_filters_section.select.scope.label',
+      }),
+    ).toBeDisabled();
+    expect(
+      screen.getByText(
+        'dashboard.add_widget_modal.apply_filters_section.select.scope.help_text.new_code_unavailable',
+      ),
+    ).toBeInTheDocument();
+  });
+
   it('clamps portfolio line chart history range via effect', async () => {
     const dispatch = jest.fn();
     const state: WidgetConfigState = {
