@@ -25,6 +25,7 @@ import {
   PieChartHotspotSlice,
   PieChartIssueFilter,
   PieChartIssueSlice,
+  PieChartLineSlice,
   PieChartMetric,
   PieChartProjectSlice,
 } from '../../../types/dashboard-widget';
@@ -313,6 +314,41 @@ describe('portfolioPieChartDrilldown', () => {
       }),
     );
   });
+
+  it.each([
+    {
+      metric: PieChartMetric.IssueCount,
+      slice: PieChartIssueSlice.Languages,
+    },
+    {
+      metric: PieChartMetric.LineCount,
+      slice: PieChartLineSlice.Language,
+    },
+    {
+      metric: PieChartMetric.LineCount,
+      slice: PieChartLineSlice.Coverage,
+    },
+    {
+      metric: PieChartMetric.LineCount,
+      slice: PieChartLineSlice.Duplications,
+    },
+  ])(
+    'does not create line-count or language drilldowns for $metric/$slice',
+    ({ metric, slice }) => {
+      expect(
+        getPortfolioPieChartDrilldownDescriptor({
+          formatMessage,
+          segmentLabel: 'Java',
+          widget: {
+            ...commonWidgetProps,
+            filter: noFilter,
+            metric,
+            slice,
+          },
+        }),
+      ).toBeNull();
+    },
+  );
 
   it('returns no unfiltered drilldown for unsupported metrics and slices', () => {
     expect(

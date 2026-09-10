@@ -99,6 +99,7 @@ export function ApplyFilterAccordion({
         {...shellProps}
         dispatch={dispatch}
         isPortfolioWidgetConfigurator={isPortfolioWidgetConfigurator}
+        metricPickerOptions={metricPickerOptions}
         pieConfig={currentConfig as PieChartConfig}
         supportsNewCodeScopeForPieChart={metricPickerOptions.supportsNewCodeScopeForPieChart}
       />

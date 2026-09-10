@@ -26,7 +26,7 @@ import {
   getProjectDashboardMeasureHistoryUrl,
 } from '~adapters/helpers/dashboard-widget-urls';
 import { useDashboardMeasureQuery } from '~adapters/queries/dashboard-measure';
-import { useProjectLegacyIssueCountWidgetQuery } from '~adapters/queries/project-count-widget-data';
+import { useProjectIssueCountSearchQuery } from '~adapters/queries/project-count-widget-data';
 import { useWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-metadata';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinner';
@@ -145,7 +145,7 @@ function ProjectNewCodeRichCountWidget({
 }>) {
   // issue-count-history cannot filter by the leak period. Keep this snapshot-only path until the
   // persisted dashboard schema migration normalizes unsupported new-code configurations.
-  const { data: issueCount, isLoading } = useProjectLegacyIssueCountWidgetQuery({
+  const { data: issueCount, isLoading } = useProjectIssueCountSearchQuery({
     componentKey,
     measureFilters: metric.measureFilters,
     scope: CodeScope.New,

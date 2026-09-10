@@ -160,7 +160,7 @@ describe('ProjectWidgetOptions', () => {
     ).toBe(false);
     expect(
       sqsDashboardSupportsPieChartSlice(PieChartMetric.IssueCount, PieChartIssueSlice.Languages),
-    ).toBe(false);
+    ).toBe(true);
     expect(
       sqsDashboardSupportsPieChartSlice(
         PieChartMetric.IssueCount,
@@ -173,6 +173,13 @@ describe('ProjectWidgetOptions', () => {
     expect(sqsProjectDashboardSupportsNewCodeScopeForPieChart(PieChartMetric.LineCount)).toBe(
       false,
     );
+  });
+
+  it('keeps New code unavailable for issue pies sliced by language', () => {
+    expect(
+      getSqsProjectWidgetMetricPickerOptions(createIntl({ locale: 'en' }))
+        .supportsNewCodeIssueLanguageSlice,
+    ).toBe(false);
   });
 
   it('excludes deprecated security hotspot metrics from every creation picker', () => {

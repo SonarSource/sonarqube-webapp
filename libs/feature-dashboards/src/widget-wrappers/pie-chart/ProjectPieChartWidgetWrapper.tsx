@@ -25,8 +25,8 @@ import { useDashboardProjectContext } from '~adapters/context/dashboardContext';
 import { getProjectDashboardPieChartSegmentUrl } from '~adapters/helpers/dashboard-widget-urls';
 import { useOrganizationPieChartData } from '~adapters/queries/pie-chart-widget-data';
 import {
-  projectPieChartUsesLegacyIssueData,
-  useProjectPieChartSegmentsLegacyQuery,
+  projectPieChartUsesSearchData,
+  useProjectPieChartSegmentsSearchQuery,
 } from '~adapters/queries/project-pie-chart-widget-data';
 import { isTransientDashboardWidgetFetchError } from '~shared/helpers/dashboard-error-reporting';
 import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinner';
@@ -157,11 +157,11 @@ function ProjectPieChartView(props: ProjectPieChartViewProps) {
   );
 }
 
-function ProjectPieChartWidgetLegacyView(
+function ProjectPieChartWidgetIssueSearchView(
   props: Readonly<{ projectKey: string; widget: Readonly<PieChartWidgetProps> }>,
 ) {
   const { projectKey, widget } = props;
-  const { error, isPending, segments } = useProjectPieChartSegmentsLegacyQuery(widget, projectKey);
+  const { error, isPending, segments } = useProjectPieChartSegmentsSearchQuery(widget, projectKey);
 
   return (
     <ProjectPieChartView
@@ -213,8 +213,8 @@ function ProjectPieChartWidgetOrganizationsView(
 ) {
   const { projectKey, widget } = props;
 
-  if (projectPieChartUsesLegacyIssueData(widget)) {
-    return <ProjectPieChartWidgetLegacyView projectKey={projectKey} widget={widget} />;
+  if (projectPieChartUsesSearchData(widget)) {
+    return <ProjectPieChartWidgetIssueSearchView projectKey={projectKey} widget={widget} />;
   }
 
   return <ProjectPieChartWidgetOrganizationsContent {...props} />;

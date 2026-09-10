@@ -22,8 +22,8 @@ import { screen } from '@testing-library/react';
 import { useDashboardProjectContext } from '~adapters/context/dashboardContext';
 import { useOrganizationPieChartData } from '~adapters/queries/pie-chart-widget-data';
 import {
-  projectPieChartUsesLegacyIssueData,
-  useProjectPieChartSegmentsLegacyQuery,
+  projectPieChartUsesSearchData,
+  useProjectPieChartSegmentsSearchQuery,
 } from '~adapters/queries/project-pie-chart-widget-data';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import {
@@ -54,8 +54,8 @@ jest.mock('~adapters/queries/pie-chart-widget-data', () => ({
 }));
 
 jest.mock('~adapters/queries/project-pie-chart-widget-data', () => ({
-  projectPieChartUsesLegacyIssueData: jest.fn(),
-  useProjectPieChartSegmentsLegacyQuery: jest.fn(),
+  projectPieChartUsesSearchData: jest.fn(),
+  useProjectPieChartSegmentsSearchQuery: jest.fn(),
 }));
 
 jest.mock('~feature-dashboards/components/common/WidgetLoadingSpinner', () => ({
@@ -89,13 +89,13 @@ describe('ProjectPieChartWidget', () => {
       organization: 'my-org',
       projectEntityId: mockBranchId,
     });
-    jest.mocked(projectPieChartUsesLegacyIssueData).mockReturnValue(false);
+    jest.mocked(projectPieChartUsesSearchData).mockReturnValue(false);
     jest.mocked(useOrganizationPieChartData).mockReturnValue({
       error: undefined,
       isPending: true,
       segments: [],
     });
-    jest.mocked(useProjectPieChartSegmentsLegacyQuery).mockReturnValue({
+    jest.mocked(useProjectPieChartSegmentsSearchQuery).mockReturnValue({
       error: undefined,
       isPending: false,
       segments: [],
@@ -107,11 +107,11 @@ describe('ProjectPieChartWidget', () => {
   });
 
   it('uses organizations issue-count snapshot for supported slices', () => {
-    const legacySpy = jest.mocked(useProjectPieChartSegmentsLegacyQuery);
+    const searchQuerySpy = jest.mocked(useProjectPieChartSegmentsSearchQuery);
 
     renderWithRouter(<ProjectPieChartWidget {...widgetProps} />);
 
-    expect(legacySpy).not.toHaveBeenCalled();
+    expect(searchQuerySpy).not.toHaveBeenCalled();
     expect(useOrganizationPieChartData).toHaveBeenCalledWith(
       expect.objectContaining({
         entity: { entityId: mockBranchId, entityType: 'PROJECT_BRANCH' },
@@ -119,8 +119,8 @@ describe('ProjectPieChartWidget', () => {
     );
   });
 
-  it('uses legacy pie chart query for hotspot security-category slice', () => {
-    jest.mocked(projectPieChartUsesLegacyIssueData).mockReturnValue(true);
+  it('uses the search query for hotspot security-category slice', () => {
+    jest.mocked(projectPieChartUsesSearchData).mockReturnValue(true);
 
     const securityCategoryWidget = {
       ...widgetProps,
@@ -130,15 +130,15 @@ describe('ProjectPieChartWidget', () => {
 
     renderWithRouter(<ProjectPieChartWidget {...securityCategoryWidget} />);
 
-    expect(useProjectPieChartSegmentsLegacyQuery).toHaveBeenCalledWith(
+    expect(useProjectPieChartSegmentsSearchQuery).toHaveBeenCalledWith(
       securityCategoryWidget,
       'my-project',
     );
     expect(useOrganizationPieChartData).not.toHaveBeenCalled();
   });
 
-  it('uses legacy pie chart query for code-attribute slice', () => {
-    jest.mocked(projectPieChartUsesLegacyIssueData).mockReturnValue(true);
+  it('uses the search query for code-attribute slice', () => {
+    jest.mocked(projectPieChartUsesSearchData).mockReturnValue(true);
 
     const codeAttributeWidget = {
       ...widgetProps,
@@ -147,7 +147,7 @@ describe('ProjectPieChartWidget', () => {
 
     renderWithRouter(<ProjectPieChartWidget {...codeAttributeWidget} />);
 
-    expect(useProjectPieChartSegmentsLegacyQuery).toHaveBeenCalledWith(
+    expect(useProjectPieChartSegmentsSearchQuery).toHaveBeenCalledWith(
       codeAttributeWidget,
       'my-project',
     );

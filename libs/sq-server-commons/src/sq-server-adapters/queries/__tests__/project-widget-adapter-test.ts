@@ -22,7 +22,7 @@ import { renderHook } from '@testing-library/react';
 import { getContextWrapper } from '~adapters/helpers/test-utils';
 import { mockPullRequest } from '~shared/helpers/mocks/branches';
 import { MetricKey } from '~shared/types/metrics';
-import { useProjectLegacyIssueCountWidgetQuery } from '../project-count-widget-data';
+import { useProjectIssueCountSearchQuery } from '../project-count-widget-data';
 import {
   useProjectQualityGateStatusWidgetQuery,
   useProjectRatingBadgeMeasuresQuery,
@@ -84,10 +84,10 @@ describe('project dashboard adapter queries', () => {
     ]);
   });
 
-  it('passes branch context to the legacy project count query', () => {
+  it('passes branch context to the project issue-count search query', () => {
     const { result } = renderHook(
       () =>
-        useProjectLegacyIssueCountWidgetQuery({
+        useProjectIssueCountSearchQuery({
           componentKey: 'project-1',
           measureFilters: undefined,
           scope: 'overall',

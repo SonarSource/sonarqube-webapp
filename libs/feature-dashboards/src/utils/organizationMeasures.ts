@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { parseLanguageDistributionCounts } from '~shared/helpers/languageDistribution';
 import { MetricKey } from '~shared/types/metrics';
 import { PieChartLineSlice } from '../types/dashboard-widget';
 import { CodeScope } from '../types/widget-common';
-import { parseLanguageDistributionCounts } from './languageDistribution';
 import {
   buildCoverageLineCountCounts,
   buildDuplicationsLineCountCounts,

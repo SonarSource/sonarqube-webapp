@@ -146,6 +146,25 @@ describe('PortfolioPieChartWidgetWrapper', () => {
       props: { ...widget, metric: PieChartMetric.LineCount, slice: PieChartLineSlice.Language },
       value: 'java',
     },
+    {
+      name: 'line-count coverage segments',
+      props: { ...widget, metric: PieChartMetric.LineCount, slice: PieChartLineSlice.Coverage },
+      value: 'covered',
+    },
+    {
+      name: 'line-count duplication segments',
+      props: {
+        ...widget,
+        metric: PieChartMetric.LineCount,
+        slice: PieChartLineSlice.Duplications,
+      },
+      value: 'duplicated',
+    },
+    {
+      name: 'issue language segments',
+      props: { ...widget, slice: PieChartIssueSlice.Languages },
+      value: 'java',
+    },
     { name: 'aggregated segments', props: widget, value: 'OTHER_0' },
   ])('does not navigate for $name', async ({ props, value }) => {
     jest.mocked(useOrganizationPieChartData).mockReturnValue({

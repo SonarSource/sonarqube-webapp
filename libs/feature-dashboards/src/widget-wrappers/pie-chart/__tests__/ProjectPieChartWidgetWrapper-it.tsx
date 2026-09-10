@@ -22,8 +22,8 @@ import { screen } from '@testing-library/react';
 import { useDashboardProjectContext } from '~adapters/context/dashboardContext';
 import { useOrganizationPieChartData } from '~adapters/queries/pie-chart-widget-data';
 import {
-  projectPieChartUsesLegacyIssueData,
-  useProjectPieChartSegmentsLegacyQuery,
+  projectPieChartUsesSearchData,
+  useProjectPieChartSegmentsSearchQuery,
 } from '~adapters/queries/project-pie-chart-widget-data';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { PieChartIssueSlice, PieChartMetric } from '../../../types/dashboard-widget';
@@ -43,8 +43,8 @@ jest.mock('~adapters/queries/pie-chart-widget-data', () => ({
 }));
 
 jest.mock('~adapters/queries/project-pie-chart-widget-data', () => ({
-  projectPieChartUsesLegacyIssueData: jest.fn(),
-  useProjectPieChartSegmentsLegacyQuery: jest.fn(),
+  projectPieChartUsesSearchData: jest.fn(),
+  useProjectPieChartSegmentsSearchQuery: jest.fn(),
 }));
 
 jest.mock('../../../components/visualizations/pie-chart/InteractivePieChart', () => ({
@@ -70,13 +70,13 @@ beforeEach(() => {
     organization: 'my-org',
     projectEntityId: 'branch-id',
   });
-  jest.mocked(projectPieChartUsesLegacyIssueData).mockReturnValue(false);
+  jest.mocked(projectPieChartUsesSearchData).mockReturnValue(false);
   jest.mocked(useOrganizationPieChartData).mockReturnValue({
     error: undefined,
     isPending: false,
     segments: [{ color: '#000', count: 2, label: 'High', percentage: '100%', value: 'HIGH' }],
   });
-  jest.mocked(useProjectPieChartSegmentsLegacyQuery).mockReturnValue({
+  jest.mocked(useProjectPieChartSegmentsSearchQuery).mockReturnValue({
     error: undefined,
     isPending: false,
     segments: [],
@@ -99,9 +99,9 @@ describe('ProjectPieChartWidgetWrapper integration', () => {
     );
   });
 
-  it('uses the legacy adapter when the widget requires it', () => {
-    jest.mocked(projectPieChartUsesLegacyIssueData).mockReturnValue(true);
-    jest.mocked(useProjectPieChartSegmentsLegacyQuery).mockReturnValue({
+  it('uses the issue-search adapter when the widget requires it', () => {
+    jest.mocked(projectPieChartUsesSearchData).mockReturnValue(true);
+    jest.mocked(useProjectPieChartSegmentsSearchQuery).mockReturnValue({
       error: undefined,
       isPending: false,
       segments: [{ color: '#000', count: 3, label: 'Legacy', percentage: '100%', value: 'L' }],
@@ -110,6 +110,6 @@ describe('ProjectPieChartWidgetWrapper integration', () => {
     renderWithRouter(<ProjectPieChartWidgetWrapper {...widgetProps} />);
 
     expect(screen.getByTestId('pie-chart')).toHaveTextContent('1');
-    expect(useProjectPieChartSegmentsLegacyQuery).toHaveBeenCalledWith(widgetProps, 'project-key');
+    expect(useProjectPieChartSegmentsSearchQuery).toHaveBeenCalledWith(widgetProps, 'project-key');
   });
 });

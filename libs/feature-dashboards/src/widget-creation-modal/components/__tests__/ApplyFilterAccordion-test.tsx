@@ -335,7 +335,6 @@ describe('ApplyFilterAccordion', () => {
       },
       selectedType: VisualizationType.PieChart,
     };
-
     renderWithRouter(
       <ApplyFilterAccordion
         Accordion={Accordion}
@@ -361,6 +360,72 @@ describe('ApplyFilterAccordion', () => {
         'dashboard.add_widget_modal.apply_filters_section.select.scope.help_text.new_code_unavailable',
       ),
     ).toBeInTheDocument();
+  });
+
+  it('keeps new code unavailable for project issue pies sliced by language', () => {
+    const state: WidgetConfigState = {
+      configs: {
+        pieChart: {
+          complete: true,
+          filter: '',
+          metric: PieChartMetric.IssueCount,
+          scope: CodeScope.Overall,
+          showLegend: true,
+          slice: PieChartIssueSlice.Languages,
+        },
+      },
+      selectedType: VisualizationType.PieChart,
+    };
+    renderWithRouter(
+      <ApplyFilterAccordion
+        Accordion={Accordion}
+        applyFiltersAccordionOpen
+        dispatch={jest.fn()}
+        isPortfolioWidgetConfigurator={false}
+        metricPickerOptions={metricPickerOptions}
+        setApplyFiltersAccordionOpen={jest.fn()}
+        state={state}
+      />,
+    );
+
+    expect(
+      screen.getByText(
+        'dashboard.add_widget_modal.apply_filters_section.select.scope.help_text.new_code_unavailable',
+      ),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole('combobox', { name: /scope/ })).not.toBeInTheDocument();
+  });
+
+  it('offers new code for project issue pies sliced by language when explicitly supported', () => {
+    const state: WidgetConfigState = {
+      configs: {
+        pieChart: {
+          complete: true,
+          filter: '',
+          metric: PieChartMetric.IssueCount,
+          scope: CodeScope.Overall,
+          showLegend: true,
+          slice: PieChartIssueSlice.Languages,
+        },
+      },
+      selectedType: VisualizationType.PieChart,
+    };
+    renderWithRouter(
+      <ApplyFilterAccordion
+        Accordion={Accordion}
+        applyFiltersAccordionOpen
+        dispatch={jest.fn()}
+        isPortfolioWidgetConfigurator={false}
+        metricPickerOptions={{
+          ...metricPickerOptions,
+          supportsNewCodeIssueLanguageSlice: true,
+        }}
+        setApplyFiltersAccordionOpen={jest.fn()}
+        state={state}
+      />,
+    );
+
+    expect(screen.getByRole('combobox', { name: /scope/ })).toBeInTheDocument();
   });
 
   it('clamps portfolio line chart history range via effect', async () => {

@@ -90,6 +90,14 @@ export type PortfolioDashboardMeasureDrilldownDescriptor =
 export type PortfolioDashboardDrilldownDescriptor =
   PortfolioDashboardIssueDrilldownDescriptor | PortfolioDashboardMeasureDrilldownDescriptor;
 
+/** Portfolio line-count and language breakdowns have aggregate data only. */
+export function isPortfolioPieChartSegmentDrilldownSupported(widget: PieChartWidgetProps): boolean {
+  return (
+    widget.metric !== PieChartMetric.LineCount &&
+    !(widget.metric === PieChartMetric.IssueCount && widget.slice === PieChartIssueSlice.Languages)
+  );
+}
+
 const PROJECT_ISSUE_TYPE_BY_FILTER: Partial<Record<PieChartIssueFilter, IssueType>> = {
   [PieChartIssueFilter.Maintainability]: 'CODE_SMELL',
   [PieChartIssueFilter.Reliability]: 'BUG',
@@ -464,6 +472,10 @@ export function getPortfolioPieChartDrilldownDescriptor(args: {
   widget: PieChartWidgetProps;
 }): PortfolioDashboardDrilldownDescriptor | null {
   const { formatMessage, segmentLabel, segments, widget } = args;
+  if (!isPortfolioPieChartSegmentDrilldownSupported(widget)) {
+    return null;
+  }
+
   const widgetTitle = getPieChartTitle(formatMessage, { ...widget, isPortfolioDashboard: true });
   const metricLabel = getPieChartMetricLabel(formatMessage, {
     ...widget,

@@ -20,9 +20,11 @@
 
 import { useMemo } from 'react';
 import { useIntl, type IntlShape } from 'react-intl';
+import { useSearchParams } from 'react-router-dom';
+import { getPieChartFacetCounts } from '~shared/helpers/pieChart';
 import { useLanguagesQuery } from '~shared/queries/languages';
 import { MetricKey } from '~shared/types/metrics';
-import { sqsDashboardSupportsPieChartSlice } from '../../helpers/dashboard-pie-chart-capabilities';
+import { useComponent } from '../../context/componentContext/withComponentContext';
 import {
   aggregateSmallSegments,
   CodeScope,
@@ -59,11 +61,13 @@ import {
   useDashboardIssueCountHistoryQuery,
   useDashboardMeasuresHistoryQuery,
 } from '../../queries/dashboard-history';
+import { useIssuesSearchQuery } from '../../queries/issues';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
 import type {
   DashboardEntityType,
   DashboardPieChartSegment,
 } from '../../types/dashboard-widget-adapter-types';
+import { PORTFOLIO_CONTEXT_PARAM } from '../context/dashboardContext';
 import { usePortfolioRulesMetadataOrganization } from './portfolio-widget-organization-data';
 import { useWidgetMetricMetadataQuery } from './widget-metric-metadata';
 import { useDashboardRuleLabels, type DashboardRuleLabelsEntity } from './widget-rule-metadata';
@@ -77,6 +81,18 @@ type OrganizationPieChartQueryState = Readonly<{
   isPending: boolean;
 }>;
 
+function isCollectionLanguageIssuePieChart(
+  widget: PieChartWidget,
+  entityType: DashboardEntityType,
+): boolean {
+  return (
+    entityType !== 'PROJECT_BRANCH' &&
+    widget.metric === PieChartMetric.IssueCount &&
+    widget.scope !== CodeScope.New &&
+    widget.slice === PieChartIssueSlice.Languages
+  );
+}
+
 type PieChartQueryRequirements = Readonly<{
   isLineCountChart: boolean;
   isQualityGateStatusChart: boolean;
@@ -89,10 +105,13 @@ function getPieChartQueryRequirements(
   entityType: DashboardEntityType,
 ): PieChartQueryRequirements {
   const isLineCountChart = widget.metric === PieChartMetric.LineCount;
+  const needsIssueLanguageMetadata = isCollectionLanguageIssuePieChart(widget, entityType);
   return {
     isLineCountChart,
     isQualityGateStatusChart: entityType !== 'PROJECT_BRANCH' && isQualityGateStatusWidget(widget),
-    needsLanguageMetadata: isLineCountChart && widget.slice === PieChartLineSlice.Language,
+    needsLanguageMetadata:
+      (isLineCountChart && widget.slice === PieChartLineSlice.Language) ||
+      needsIssueLanguageMetadata,
     needsRulesMetadata:
       widget.metric === PieChartMetric.IssueCount && widget.slice === PieChartIssueSlice.Rules,
   };
@@ -108,6 +127,7 @@ function resolveOrganizationPieChartQueryState(
     issueCounts: Record<string, number> | undefined;
     issueError: unknown;
     issueMetadataError: boolean;
+    languageMetadataError: unknown;
     languageMetadataPending: boolean;
     lineCountData: Record<string, number>;
     lineCountPending: boolean;
@@ -127,7 +147,7 @@ function resolveOrganizationPieChartQueryState(
   if (args.isLineCountChart) {
     return {
       counts: args.lineCountData,
-      error: args.lineCountError,
+      error: args.lineCountError ?? args.languageMetadataError,
       isPending: args.lineCountPending || args.languageMetadataPending,
     };
   }
@@ -136,8 +156,10 @@ function resolveOrganizationPieChartQueryState(
     counts: args.issueCounts ?? EMPTY_COUNTS,
     error:
       args.issueError ??
+      args.languageMetadataError ??
       (args.issueMetadataError ? new Error('Unable to load pie chart metadata') : null),
-    isPending: args.isIssuePiePending || args.isRulesMetadataPending,
+    isPending:
+      args.isIssuePiePending || args.isRulesMetadataPending || args.languageMetadataPending,
   };
 }
 
@@ -189,7 +211,10 @@ function pieCountsToSegments(args: PieCountsToSegmentsArgs): DashboardPieChartSe
   );
 }
 
-function shouldFailPieChartAdapter(widget: PieChartWidget): boolean {
+function shouldFailPieChartAdapter(
+  widget: PieChartWidget,
+  entityType: DashboardEntityType,
+): boolean {
   const isSupportedMetric =
     widget.metric === PieChartMetric.IssueCount ||
     widget.metric === PieChartMetric.LineCount ||
@@ -197,8 +222,10 @@ function shouldFailPieChartAdapter(widget: PieChartWidget): boolean {
 
   return (
     !isSupportedMetric ||
-    !sqsDashboardSupportsPieChartSlice(widget.metric, widget.slice) ||
-    (widget.metric === PieChartMetric.IssueCount && widget.scope === CodeScope.New)
+    (widget.metric === PieChartMetric.IssueCount &&
+      (widget.scope === CodeScope.New ||
+        widget.slice === PieChartIssueSlice.CleanCodeAttributeCategories ||
+        (widget.slice === PieChartIssueSlice.Languages && entityType === 'PROJECT_BRANCH')))
   );
 }
 
@@ -250,6 +277,7 @@ function isPieChartIssueQueryEnabled(
     isQualityGateStatusChart: boolean;
     isUnsupported: boolean;
     needsExperienceMode: boolean;
+    usesIssueSearch: boolean;
   }>,
 ): boolean {
   return (
@@ -258,6 +286,7 @@ function isPieChartIssueQueryEnabled(
     args.hasHistoryParams &&
     !args.isQualityGateStatusChart &&
     !args.isUnsupported &&
+    !args.usesIssueSearch &&
     (!args.needsExperienceMode || args.isModeResolved)
   );
 }
@@ -309,9 +338,15 @@ export function useOrganizationPieChartData(
   const { enabled = true, entity, organization, widget: unknownWidget } = args;
   const widget = unknownWidget as PieChartWidget;
   const { entityId, entityType } = entity;
+  const { component } = useComponent();
+  const [searchParams] = useSearchParams();
+  const componentKey = searchParams.get(PORTFOLIO_CONTEXT_PARAM) || component?.key || '';
   const { formatMessage } = useIntl();
-  const isUnsupported = shouldFailPieChartAdapter(widget);
-  const needsExperienceMode = widget.metric === PieChartMetric.IssueCount && !isUnsupported;
+  const issueSearchQuality = resolvePieChartFilterSoftwareQuality(widget.filter);
+  const isUnsupported = shouldFailPieChartAdapter(widget, entityType);
+  const usesIssueSearch = isCollectionLanguageIssuePieChart(widget, entityType);
+  const needsExperienceMode =
+    widget.metric === PieChartMetric.IssueCount && !isUnsupported && !usesIssueSearch;
   const modeQuery = useStandardExperienceModeQuery({
     enabled: enabled && needsExperienceMode,
   });
@@ -369,6 +404,7 @@ export function useOrganizationPieChartData(
         isQualityGateStatusChart,
         isUnsupported,
         needsExperienceMode,
+        usesIssueSearch,
       }),
       refetchOnWindowFocus: false,
       select: (response) => ({
@@ -385,6 +421,23 @@ export function useOrganizationPieChartData(
             })),
           })),
         ),
+      }),
+    },
+  );
+  const issueSearchQuery = useIssuesSearchQuery(
+    {
+      componentKeys: componentKey,
+      facets: widget.slice,
+      issueStatuses: 'OPEN,CONFIRMED',
+      ps: 1,
+      sinceLeakPeriod: false,
+      ...(issueSearchQuality ? { impactSoftwareQualities: issueSearchQuality } : {}),
+    },
+    {
+      enabled: enabled && usesIssueSearch && Boolean(entityId) && Boolean(componentKey),
+      refetchOnWindowFocus: false,
+      select: (response) => ({
+        counts: getPieChartFacetCounts(response.facets, widget.slice),
       }),
     },
   );
@@ -435,7 +488,7 @@ export function useOrganizationPieChartData(
     usePortfolioRulesMetadataOrganization(entityId, {
       enabled: enabled && entityType === 'PORTFOLIO' && needsRulesMetadata && !isUnsupported,
     });
-  const issueCounts = issueQuery.data?.counts;
+  const issueCounts = usesIssueSearch ? issueSearchQuery.data?.counts : issueQuery.data?.counts;
   const ruleKeys = useMemo(
     () =>
       needsRulesMetadata && issueCounts !== undefined
@@ -467,7 +520,7 @@ export function useOrganizationPieChartData(
     error,
     isPending,
   } = resolveOrganizationPieChartQueryState({
-    isIssuePiePending: issueQuery.isPending,
+    isIssuePiePending: usesIssueSearch ? issueSearchQuery.isPending : issueQuery.isPending,
     isLineCountChart,
     isQualityGatePending:
       metricMetadataQuery.isPending ||
@@ -475,8 +528,9 @@ export function useOrganizationPieChartData(
     isQualityGateStatusChart,
     isRulesMetadataPending: needsRulesMetadata && rulesQuery.isPending,
     issueCounts,
-    issueError: issueQuery.error,
+    issueError: usesIssueSearch ? issueSearchQuery.error : issueQuery.error,
     issueMetadataError: rulesQuery.isError,
+    languageMetadataError: needsLanguageMetadata ? languagesQuery.error : undefined,
     languageMetadataPending: needsLanguageMetadata && languagesQuery.isPending,
     lineCountData,
     lineCountPending: lineCountQuery.isPending,

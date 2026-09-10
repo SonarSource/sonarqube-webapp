@@ -18,13 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { PieChartIssueSlice, PieChartMetric } from './dashboard-widget-data';
+export type PieChartFacet = Readonly<{
+  property: string;
+  values: ReadonlyArray<Readonly<{ count: number; val: string }>>;
+}>;
 
-/** Server issue history cannot group by Clean Code Attribute Category. Language slices are served
- * by issue search instead (see `pie-chart-widget-data.ts` / `project-pie-chart-widget-data.ts`). */
-export function sqsDashboardSupportsPieChartSlice(metric: string, slice: string): boolean {
-  return !(
-    metric === PieChartMetric.IssueCount &&
-    slice === PieChartIssueSlice.CleanCodeAttributeCategories
+/**
+ * Converts an issue-search facet into the count map consumed by pie charts.
+ * Empty and zero-count values are intentionally omitted.
+ */
+export function getPieChartFacetCounts(
+  facets: ReadonlyArray<PieChartFacet> | undefined,
+  property: string,
+): Record<string, number> {
+  const facet = facets?.find((candidate) => candidate.property === property);
+
+  return Object.fromEntries(
+    (facet?.values ?? []).filter(({ count }) => count > 0).map(({ count, val }) => [val, count]),
   );
 }

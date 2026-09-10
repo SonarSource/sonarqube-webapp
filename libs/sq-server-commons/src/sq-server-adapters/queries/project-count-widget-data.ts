@@ -23,7 +23,7 @@ import { type CodeScopeValue, type MeasureFilters } from '../../helpers/dashboar
 import { useIssueCountSearchQuery } from '../../queries/dashboard-issue-count';
 import { useCurrentBranchQuery } from './branch';
 
-export function useProjectLegacyIssueCountWidgetQuery(_params: {
+export function useProjectIssueCountSearchQuery(_params: {
   componentKey: string;
   measureFilters: unknown;
   scope: string;

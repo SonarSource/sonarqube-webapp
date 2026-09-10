@@ -506,7 +506,58 @@ describe('DefineWidgetAccordion', () => {
     });
   });
 
-  it('omits attribute and language slices for portfolio issue pie', async () => {
+  it('keeps language slicing available while omitting attribute slicing for portfolio issue pie', async () => {
+    const state: WidgetConfigState = {
+      configs: {
+        pieChart: {
+          complete: true,
+          filter: '',
+          metric: PieChartMetric.IssueCount,
+          scope: CodeScope.Overall,
+          showLegend: true,
+          slice: PieChartIssueSlice.ImpactSeverities,
+        },
+      },
+      selectedType: VisualizationType.PieChart,
+    };
+    const { user } = renderWithRouter(
+      <DefineWidgetAccordion
+        Accordion={Accordion}
+        defaultDefineWidgetDocumentationUrl="https://docs.example.com/widgets"
+        defineWidgetAccordionOpen
+        dispatch={jest.fn()}
+        isPortfolioPieChartConfigurator
+        metricPickerOptions={{
+          ...metricPickerOptions,
+          supportsPortfolioIssueLanguageSlice: true,
+        }}
+        setDefineWidgetAccordionOpen={jest.fn()}
+        state={state}
+      />,
+    );
+
+    await user.click(
+      screen.getByRole('combobox', { name: 'dashboard.add_widget_modal.define_widget.slice_by' }),
+    );
+    await screen.findByRole('listbox');
+    expect(
+      screen.queryByRole('option', {
+        name: 'dashboard.add_widget_modal.define_widget.slice.by_code_attribute',
+      }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('option', {
+        name: 'dashboard.add_widget_modal.define_widget.slice.by_language',
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('option', {
+        name: 'dashboard.add_widget_modal.define_widget.slice.by_status',
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it('omits language slicing when the portfolio adapter does not support it', async () => {
     const state: WidgetConfigState = {
       configs: {
         pieChart: {
@@ -539,19 +590,9 @@ describe('DefineWidgetAccordion', () => {
     await screen.findByRole('listbox');
     expect(
       screen.queryByRole('option', {
-        name: 'dashboard.add_widget_modal.define_widget.slice.by_code_attribute',
-      }),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole('option', {
         name: 'dashboard.add_widget_modal.define_widget.slice.by_language',
       }),
     ).not.toBeInTheDocument();
-    expect(
-      screen.getByRole('option', {
-        name: 'dashboard.add_widget_modal.define_widget.slice.by_status',
-      }),
-    ).toBeInTheDocument();
   });
 
   it('omits product-unsupported pie slices from the picker', async () => {

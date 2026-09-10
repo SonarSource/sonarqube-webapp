@@ -21,7 +21,7 @@
 import { render } from '@testing-library/react';
 import { useDashboardProjectContext } from '~adapters/context/dashboardContext';
 import { useDashboardMeasureQuery } from '~adapters/queries/dashboard-measure';
-import { useProjectLegacyIssueCountWidgetQuery } from '~adapters/queries/project-count-widget-data';
+import { useProjectIssueCountSearchQuery } from '~adapters/queries/project-count-widget-data';
 import { useWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-metadata';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { CountWidget } from '../../../components/visualizations/CountWidget';
@@ -154,7 +154,7 @@ describe('ProjectCountWidgetWrapper', () => {
     );
   });
 
-  it('keeps new-code rich counts on the legacy snapshot query', () => {
+  it('keeps new-code rich counts on the issue-search query', () => {
     jest.mocked(useDashboardMeasureQuery).mockClear();
     jest.mocked(useDashboardProjectContext).mockReturnValue({
       componentKey: 'project',
@@ -162,7 +162,7 @@ describe('ProjectCountWidgetWrapper', () => {
       organization: 'org',
       projectEntityId: 'branch',
     });
-    jest.mocked(useProjectLegacyIssueCountWidgetQuery).mockReturnValue({
+    jest.mocked(useProjectIssueCountSearchQuery).mockReturnValue({
       data: 7,
       isLoading: false,
     });
@@ -175,7 +175,7 @@ describe('ProjectCountWidgetWrapper', () => {
       />,
     );
 
-    expect(useProjectLegacyIssueCountWidgetQuery).toHaveBeenCalledWith(
+    expect(useProjectIssueCountSearchQuery).toHaveBeenCalledWith(
       expect.objectContaining({ componentKey: 'project', scope: CodeScope.New }),
     );
     expect(useDashboardMeasureQuery).not.toHaveBeenCalled();

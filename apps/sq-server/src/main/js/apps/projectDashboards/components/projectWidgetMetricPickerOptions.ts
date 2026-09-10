@@ -130,6 +130,7 @@ export function getSqsProjectWidgetMetricPickerOptions(
       PROJECT_RATING_BADGE_METRICS,
       formatMessage,
     ),
+    supportsNewCodeIssueLanguageSlice: false,
     supportsNewCodeScopeForMetric: projectDashboardSupportsNewCodeScopeForVisualization,
   };
 }

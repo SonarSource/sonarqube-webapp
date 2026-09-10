@@ -19,7 +19,7 @@
  */
 
 import * as v from 'valibot';
-import { parseDistributionCounts } from '~shared/helpers/measures';
+import { parseDistributionCounts } from './measures';
 
 const languageDistributionSchema = v.record(v.string(), v.union([v.number(), v.string()]));
 

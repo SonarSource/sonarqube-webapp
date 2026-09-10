@@ -30,7 +30,7 @@ import {
 } from '../../../types/dashboard-widget';
 import type { RuleMetadataByKey } from '../../../types/widget-common';
 
-export interface AggregateSmallSegmentsOptions {
+interface AggregateSmallSegmentsOptions {
   maxSegments?: number;
   minPercentage?: number;
 }

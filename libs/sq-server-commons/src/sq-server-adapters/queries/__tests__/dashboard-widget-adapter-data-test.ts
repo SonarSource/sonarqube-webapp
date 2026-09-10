@@ -32,6 +32,7 @@ import {
   RichMetricKey,
 } from '../../../helpers/dashboard-widget-data';
 import { DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE } from '../../../helpers/unsupported-dashboard-widget-adapter';
+import { useIssuesSearchQuery } from '../../../queries/issues';
 import { useOrganizationPieChartData } from '../pie-chart-widget-data';
 import { usePortfolioProjectIssueCountsQuery } from '../portfolio-project-breakdown-data';
 import {
@@ -42,8 +43,8 @@ import {
 import { usePortfolioTopListData } from '../portfolio-top-list-widget-data';
 import { usePortfolioRulesMetadataOrganization } from '../portfolio-widget-organization-data';
 import {
-  projectPieChartUsesLegacyIssueData,
-  useProjectPieChartSegmentsLegacyQuery,
+  projectPieChartUsesSearchData,
+  useProjectPieChartSegmentsSearchQuery,
 } from '../project-pie-chart-widget-data';
 import { useProjectTopListData } from '../project-top-list-widget-data';
 import { useWidgetMetricMetadataQuery } from '../widget-metric-metadata';
@@ -61,6 +62,12 @@ const mockUseCurrentBranchQuery = jest.fn();
 const mockUseLanguagesQuery = jest.fn();
 const mockUseDashboardRuleLabels = jest.fn();
 const mockUseWidgetMetricMetadataQuery = jest.fn();
+const mockUseIssuesSearchQuery = jest.mocked(useIssuesSearchQuery);
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual<typeof import('react-router-dom')>('react-router-dom'),
+  useSearchParams: () => [new URLSearchParams(), jest.fn()],
+}));
 
 jest.mock('../../../queries/dashboard-history', () => ({
   useDashboardIssueCountHistoryQuery: (...args: unknown[]) =>
@@ -82,6 +89,10 @@ jest.mock('../../../queries/dashboard-history', () => ({
 jest.mock('../../../queries/mode', () => ({
   useStandardExperienceModeQuery: (...args: unknown[]) =>
     mockUseStandardExperienceModeQuery(...args),
+}));
+
+jest.mock('../../../queries/issues', () => ({
+  useIssuesSearchQuery: jest.fn(),
 }));
 
 jest.mock('../../../context/componentContext/withComponentContext', () => ({
@@ -124,9 +135,10 @@ function setupMocks() {
   mockUseDashboardProjectIssueCountsQuery.mockReturnValue(queryResult(undefined));
   mockUseDashboardProjectMeasuresQuery.mockReturnValue([]);
   mockUseStandardExperienceModeQuery.mockReturnValue(queryResult(true));
-  mockUseComponent.mockReturnValue({ component: 'component-key' });
+  mockUseComponent.mockReturnValue({ component: { key: 'component-key' } });
   mockUseCurrentBranchQuery.mockReturnValue(queryResult(undefined));
   mockUseLanguagesQuery.mockReturnValue(queryResult({ java: { name: 'Java' } }));
+  mockUseIssuesSearchQuery.mockReturnValue(queryResult(undefined));
   mockUseDashboardRuleLabels.mockReturnValue({
     isError: false,
     isPending: false,
@@ -319,6 +331,90 @@ describe('dashboard widget adapter queries', () => {
         expect(result.current.error).toBeNull();
       },
     );
+    it('uses issue search to group portfolio security issues by language', () => {
+      mockUseIssuesSearchQuery.mockReturnValue(
+        queryResult({
+          counts: { java: 4, ts: 2 },
+        }),
+      );
+
+      const { result } = renderHook(
+        () =>
+          useOrganizationPieChartData({
+            entity: { entityId: 'portfolio-1', entityType: 'PORTFOLIO' },
+            widget: {
+              filter: 'security',
+              metric: PieChartMetric.IssueCount,
+              scope: CodeScope.Overall,
+              slice: PieChartIssueSlice.Languages,
+            },
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(mockUseIssuesSearchQuery).toHaveBeenCalledWith(
+        {
+          componentKeys: 'component-key',
+          facets: PieChartIssueSlice.Languages,
+          impactSoftwareQualities: 'SECURITY',
+          issueStatuses: 'OPEN,CONFIRMED',
+          ps: 1,
+          sinceLeakPeriod: false,
+        },
+        expect.objectContaining({ enabled: true }),
+      );
+      expect(mockUseDashboardIssueCountHistoryQuery).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({ enabled: false }),
+      );
+      const searchOptions = mockUseIssuesSearchQuery.mock.calls[0]?.[1] as {
+        select: (response: unknown) => unknown;
+      };
+      expect(
+        searchOptions.select({
+          facets: [
+            {
+              property: PieChartIssueSlice.Languages,
+              values: [
+                { count: 4, val: 'java' },
+                { count: 0, val: 'xml' },
+                { count: 2, val: 'ts' },
+              ],
+            },
+          ],
+        }),
+      ).toEqual({ counts: { java: 4, ts: 2 } });
+      expect(result.current.isPending).toBe(false);
+      expect(result.current.segments).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ count: 4, label: 'Java', value: 'java' }),
+          expect.objectContaining({ count: 2, value: 'ts' }),
+        ]),
+      );
+    });
+
+    it('surfaces language metadata failures for language-sliced line-count charts', () => {
+      const metadataError = new Error('language metadata failed');
+      mockUseLanguagesQuery.mockReturnValue(
+        queryResult(undefined, { error: metadataError, isError: true }),
+      );
+
+      const { result } = renderHook(
+        () =>
+          useOrganizationPieChartData({
+            entity: { entityId: 'portfolio-1', entityType: 'PORTFOLIO' },
+            widget: {
+              filter: '',
+              metric: PieChartMetric.LineCount,
+              scope: CodeScope.Overall,
+              slice: PieChartLineSlice.Language,
+            },
+          }),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(result.current.error).toBe(metadataError);
+    });
 
     it('does not request issue history without an entity ID', () => {
       renderHook(
@@ -532,27 +628,27 @@ describe('dashboard widget adapter queries', () => {
       ).toThrow(DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE);
     });
 
-    it('fails the legacy project pie adapter through the shared adapter error', () => {
+    it('keeps New-code issue language pie data unsupported', () => {
       expect(() =>
         renderHook(
           () =>
-            useProjectPieChartSegmentsLegacyQuery(
-              {
+            useOrganizationPieChartData({
+              entity: { entityId: 'portfolio-1', entityType: 'PORTFOLIO' },
+              widget: {
                 filter: '',
                 metric: PieChartMetric.IssueCount,
-                scope: CodeScope.Overall,
+                scope: CodeScope.New,
                 slice: PieChartIssueSlice.Languages,
               },
-              'project-1',
-            ),
+            }),
           { wrapper: getContextWrapper() },
         ),
       ).toThrow(DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE);
     });
 
-    it('keeps legacy project data for unsupported slices', () => {
+    it('uses issue-search project data for slices unsupported by issue history', () => {
       expect(
-        projectPieChartUsesLegacyIssueData({
+        projectPieChartUsesSearchData({
           filter: '',
           metric: PieChartMetric.LineCount,
           scope: CodeScope.Overall,
@@ -560,13 +656,32 @@ describe('dashboard widget adapter queries', () => {
         }),
       ).toBe(false);
       expect(
-        projectPieChartUsesLegacyIssueData({
+        projectPieChartUsesSearchData({
           filter: '',
           metric: PieChartMetric.ProjectCount,
           scope: CodeScope.Overall,
           slice: 'status',
         }),
       ).toBe(true);
+    });
+
+    it('fails through the shared adapter error for unsupported slices', () => {
+      expect(() =>
+        renderHook(
+          () =>
+            useProjectPieChartSegmentsSearchQuery(
+              {
+                filter: '',
+                metric: PieChartMetric.IssueCount,
+                scope: CodeScope.Overall,
+                slice: PieChartIssueSlice.CleanCodeAttributeCategories,
+              },
+              'project-key',
+            ),
+          { wrapper: getContextWrapper() },
+        ),
+      ).toThrow(DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE);
+      expect(mockUseCurrentBranchQuery).toHaveBeenCalledWith(undefined);
     });
 
     it('does not request a quality-gate distribution missing from Server metadata', () => {

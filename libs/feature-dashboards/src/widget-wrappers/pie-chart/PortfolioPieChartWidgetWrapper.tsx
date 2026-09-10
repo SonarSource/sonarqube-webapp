@@ -27,9 +27,10 @@ import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinn
 import { WidgetNoData } from '../../components/common/WidgetNoData';
 import { buildPieChartAriaLabel } from '../../components/pie-chart/pieChartAriaLabel';
 import { getPieChartTitle } from '../../components/pie-chart/pieChartHeaderText';
+import { isPortfolioPieChartSegmentDrilldownSupported } from '../../components/portfolio-drilldown/portfolioPieChartDrilldown';
 import { InteractivePieChart } from '../../components/visualizations/pie-chart/InteractivePieChart';
 import { useOptionalWidgetInstanceContext } from '../../dashboard-layout/shared/WidgetInstanceContext';
-import { PieChartMetric, PieChartWidgetProps } from '../../types/dashboard-widget';
+import { PieChartWidgetProps } from '../../types/dashboard-widget';
 import { PieChartSegment } from '../../types/visualization';
 import { usePortfolioPieChartData } from './usePortfolioPieChartData';
 
@@ -44,7 +45,7 @@ export function PortfolioPieChartWidgetWrapper(props: Readonly<PieChartWidgetPro
     (segment: PieChartSegment): string | undefined => {
       if (
         widgetInstance === null ||
-        props.metric === PieChartMetric.LineCount ||
+        !isPortfolioPieChartSegmentDrilldownSupported(props) ||
         segment.value.startsWith('OTHER_')
       ) {
         return undefined;
@@ -52,7 +53,7 @@ export function PortfolioPieChartWidgetWrapper(props: Readonly<PieChartWidgetPro
 
       return getPortfolioDashboardWidgetDrilldownUrl(widgetInstance.widgetKey, segment.value);
     },
-    [props.metric, widgetInstance],
+    [props.metric, props.slice, widgetInstance],
   );
 
   const handleSegmentClick = useCallback(

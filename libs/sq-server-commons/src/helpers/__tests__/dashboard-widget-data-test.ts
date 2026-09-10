@@ -651,6 +651,16 @@ describe('dashboard widget data helpers', () => {
   });
 
   describe('organization measures and trend data', () => {
+    it('parses legacy language distributions returned by measures-history', () => {
+      expect(
+        organizationMeasuresToLineCountPieData(
+          { [MetricKey.ncloc_language_distribution]: 'java=9;js=1;css=0;broken' },
+          PieChartLineSlice.Language,
+          CodeScope.Overall,
+        ),
+      ).toEqual({ counts: { java: 9, js: 1 } });
+    });
+
     it('builds language, coverage and duplication pie counts with fallbacks', () => {
       expect(
         organizationMeasuresToLineCountPieData(

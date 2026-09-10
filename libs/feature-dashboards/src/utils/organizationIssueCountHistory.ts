@@ -132,7 +132,7 @@ function mapIssueFilterToHistoryParams(
 
 /**
  * Whether issue/hotspot pie slices can use `/organizations/issue-count-history`.
- * Project dashboards may still use legacy APIs when this returns true but the slice
+ * Project dashboards may still use search APIs when this returns true but the slice
  * needs different semantics (e.g. hotspot `SecurityCategory` is RULE_KEY here, not OWASP category).
  */
 export function supportsOrganizationPieChartIssueHistory(

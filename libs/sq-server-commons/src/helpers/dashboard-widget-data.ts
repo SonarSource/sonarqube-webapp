@@ -20,6 +20,7 @@
 
 import { cssVar } from '@sonarsource/echoes-react';
 import { CHART_CATEGORICAL_COLORS } from '~shared/helpers/charts';
+import { parseLanguageDistributionCounts } from '~shared/helpers/languageDistribution';
 import { parseDistributionCounts } from '~shared/helpers/measures';
 import { isAicaMetric } from '~shared/helpers/metrics';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
@@ -1089,7 +1090,9 @@ export function organizationMeasuresToLineCountPieData(
   const get = (key: MetricKey): number | undefined =>
     numberValue(measures[getPortfolioDashboardMeasureRequestKey(key, scope === CodeScope.New)]);
   if (slice === PieChartLineSlice.Language) {
-    return { counts: distributionCounts(measures[MetricKey.ncloc_language_distribution]) };
+    return {
+      counts: parseLanguageDistributionCounts(measures[MetricKey.ncloc_language_distribution]),
+    };
   }
   if (slice === PieChartLineSlice.Coverage) {
     return getCoveragePieData(get);

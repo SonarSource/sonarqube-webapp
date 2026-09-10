@@ -27,7 +27,11 @@ import {
   PieChartIssueSlice,
   PieChartMetric,
 } from '../../types/dashboard-widget';
-import { CodeScope, type PieChartSliceSupport } from '../../types/widget-common';
+import {
+  CodeScope,
+  type PieChartSliceSupport,
+  type WidgetMetricPickerOptions,
+} from '../../types/widget-common';
 import { SCOPE_HELP_TEXT_NEW_CODE_UNAVAILABLE_ID } from '../hooks/applyFiltersViewModelSlices';
 import type { PieChartConfig, WidgetConfigAction } from '../state/widgetConfigTypes';
 import {
@@ -49,6 +53,7 @@ interface PieChartScopeControlParams {
   pieChartSlice: PieChartConfig['slice'];
   pieChartScope: CodeScope;
   supportsNewCodeScopeForPieChart?: PieChartSliceSupport;
+  supportsNewCodeIssueLanguageSlice: boolean;
 }
 
 function buildPieChartScopeControl({
@@ -59,6 +64,7 @@ function buildPieChartScopeControl({
   pieChartSlice,
   pieChartScope,
   supportsNewCodeScopeForPieChart,
+  supportsNewCodeIssueLanguageSlice,
 }: PieChartScopeControlParams): ReactNode {
   if (pieChartMetric === PieChartMetric.LineCount) {
     return (
@@ -84,13 +90,23 @@ function buildPieChartScopeControl({
       </Text>
     );
   }
+  if (
+    pieChartMetric === PieChartMetric.IssueCount &&
+    pieChartSlice === PieChartIssueSlice.Languages &&
+    !supportsNewCodeIssueLanguageSlice
+  ) {
+    return (
+      <Text isSubtle size={TextSize.Small}>
+        <FormattedMessage id="dashboard.add_widget_modal.apply_filters_section.select.scope.help_text.new_code_unavailable" />
+      </Text>
+    );
+  }
 
   const isScopeSelectDisabled =
     pieChartMetric !== null &&
     pieChartSlice !== null &&
     supportsNewCodeScopeForPieChart !== undefined &&
     !supportsNewCodeScopeForPieChart(pieChartMetric, pieChartSlice);
-
   return (
     <Select
       data={buildPieChartScopeSelectData(formatMessage)}
@@ -118,6 +134,7 @@ export interface PieChartApplyFiltersProps extends Omit<
 > {
   dispatch: Dispatch<WidgetConfigAction>;
   isPortfolioWidgetConfigurator: boolean;
+  metricPickerOptions: WidgetMetricPickerOptions;
   pieConfig: PieChartConfig;
   supportsNewCodeScopeForPieChart?: PieChartSliceSupport;
 }
@@ -125,6 +142,7 @@ export interface PieChartApplyFiltersProps extends Omit<
 export function PieChartApplyFilters({
   dispatch,
   isPortfolioWidgetConfigurator,
+  metricPickerOptions,
   pieConfig,
   supportsNewCodeScopeForPieChart,
   ...shellProps
@@ -157,6 +175,8 @@ export function PieChartApplyFilters({
     pieChartSlice,
     pieChartScope,
     supportsNewCodeScopeForPieChart,
+    supportsNewCodeIssueLanguageSlice:
+      metricPickerOptions.supportsNewCodeIssueLanguageSlice === true,
   });
 
   return (

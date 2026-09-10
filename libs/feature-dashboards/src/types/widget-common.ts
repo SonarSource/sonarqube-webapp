@@ -159,6 +159,10 @@ export interface WidgetMetricPickerOptions {
   lineChartMetrics?: MetricGroup[];
   /** When set, pie/donut uses these instead of the default project message ids (same values supported today). */
   pieChartMetricOptions?: PieChartMetricSelectOption[];
+  /** Whether project issue pies sliced by language can use New code scope. */
+  supportsNewCodeIssueLanguageSlice?: boolean;
+  /** Whether portfolio issue pies can be sliced by language. */
+  supportsPortfolioIssueLanguageSlice?: boolean;
   /** Grouped options for the rating-badge metric select (same shape as `countMetrics`). */
   ratingBadgeMetrics: MetricGroup[];
   /** When set, unsupported pie-chart slices are omitted from the define-widget picker. */

@@ -338,7 +338,8 @@ export function DefineWidgetAccordion({
           issueSlices.filter(
             (entry) =>
               entry.value !== PieChartIssueSlice.CleanCodeAttributeCategories &&
-              entry.value !== PieChartIssueSlice.Languages,
+              (entry.value !== PieChartIssueSlice.Languages ||
+                metricPickerOptions.supportsPortfolioIssueLanguageSlice === true),
           ),
         );
       }
