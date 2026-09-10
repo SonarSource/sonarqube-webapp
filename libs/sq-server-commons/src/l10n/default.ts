@@ -940,6 +940,7 @@ export const defaultMessages = {
   'hunter_agent.activity.no_data.description':
     'When the Hunter Agent runs on this project, scan details will appear here.',
   'hunter_agent.activity.no_data.title': 'No Hunter Agent activity yet on this project',
+  'hunter_agent.activity.not_started': 'Not started',
   'hunter_agent.activity.run_completed': 'Latest run completed',
   'hunter_agent.activity.run_failed': 'Latest run failed',
   'hunter_agent.activity.run_in_progress': 'Run in progress',
@@ -1043,7 +1044,7 @@ export const defaultMessages = {
   'hunter_agent.run_now.success':
     'Scan started. Track its progress on the hunter agent "Run history" tab.',
   'hunter_agent.run_now_button': 'Scan now',
-  'hunter_agent.run_now_button.scanning': 'Scanning...',
+  'hunter_agent.run_now_button.not_admin.tooltip': 'Only project administrators can start scans.',
   'hunter_agent.scan_modal.about_to_scan.branch': 'You are about to run a scan on {branch}.',
   'hunter_agent.scan_modal.balance_too_low':
     'Your scan unit balance is too low to run a scan on this branch.',
