@@ -40,8 +40,10 @@ installWebAnalyticsHandler();
 installExtensionsHandler();
 initMockApi([
   ...(addons.architecture?.getArchitectureDevMockHandlers?.() ?? []),
-  ...(addons.license?.getLicenseDevMockHandlers?.() ?? []),
+  // Vortex must precede license: both mock /api/v2/entitlements/purchasable-features, and MSW
+  // resolves handlers in array order, so whichever is listed first wins for that shared endpoint.
   ...(addons.vortexDashboard?.getVortexDashboardDevMockHandlers?.() ?? []),
+  ...(addons.license?.getLicenseDevMockHandlers?.() ?? []),
 ])
   .then(initApplication)
   .catch((e) => {

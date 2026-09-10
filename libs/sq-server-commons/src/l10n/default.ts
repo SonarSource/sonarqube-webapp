@@ -810,6 +810,7 @@ export const defaultMessages = {
   'ai_capabilities_server.vortex.promo.heading':
     'Empower your agents to produce better code with fewer tokens and reworks',
   'ai_capabilities_server.vortex.promo.contact_sales': 'Talk to sales',
+  'ai_capabilities_server.vortex.promo.activate_feature': 'Activate Feature',
   'ai_capabilities_server.vortex.promo.read_docs': 'Read the docs',
   'ai_capabilities.scheduled_jobs.automatic': 'Automatic',
   'ai_capabilities.llm_providers.title': 'LLM Providers',
@@ -1272,6 +1273,11 @@ export const defaultMessages = {
   'vortex_dashboard.period.last_30_days': 'Last 30 days',
   'vortex_dashboard.period.last_90_days': 'Last 90 days',
   'vortex_dashboard.period.last_365_days': 'Last 365 days',
+
+  'vortex_dashboard.install_guide_callout.title': 'You can now start using Vortex',
+  'vortex_dashboard.install_guide_callout.description':
+    'Your instance has enabled Vortex for all projects. Follow our install guide below to start saving.',
+  'vortex_dashboard.install_guide_callout.action': 'Vortex install guide',
 
   'vortex_dashboard.impact_roi.title': 'Impact and ROI',
   'vortex_dashboard.impact_roi.error': 'Unable to load this metric right now.',
