@@ -44,7 +44,9 @@ export default function EmptyInstance() {
         text={
           showNewProjectButton ? (
             <FormattedMessage id="projects.no_projects.empty_instance.how_to_add_projects" />
-          ) : undefined
+          ) : (
+            ''
+          )
         }
         title={
           <FormattedMessage
