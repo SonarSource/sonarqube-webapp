@@ -45,6 +45,9 @@ export function useDebouncedSearchInput({
 }: Options): [string, (value: string) => void] {
   const [inputValue, setInputValue] = useState(value ?? '');
   const pendingValue = useRef<string | undefined>(undefined);
+  // Whether the pending value came from a plain committed write (onChange got the same value we
+  // preserve) rather than the resetBelowMinLength path (where we write '' but keep the typed text).
+  const committedPlainWrite = useRef(false);
   const onChangeRef = useRef(onChange);
   onChangeRef.current = onChange;
 
@@ -52,6 +55,7 @@ export function useDebouncedSearchInput({
     () =>
       debounce((nextValue: string, expectedValue = nextValue) => {
         pendingValue.current = expectedValue;
+        committedPlainWrite.current = nextValue === expectedValue;
         onChangeRef.current(nextValue);
       }, debounceDelay),
     [debounceDelay],
@@ -65,11 +69,17 @@ export function useDebouncedSearchInput({
 
   useEffect(() => {
     if (pendingValue.current !== undefined) {
-      if (pendingValue.current !== (value ?? '')) {
+      if (committedPlainWrite.current) {
+        // A plain write has been committed. Accept whatever the external value became — the
+        // consumer or router may have transformed it (e.g. trimmed it) so it need not equal what
+        // we sent — and resume syncing so later external changes are not permanently ignored.
+        committedPlainWrite.current = false;
+        pendingValue.current = undefined;
+      } else if (pendingValue.current !== (value ?? '')) {
         return;
+      } else {
+        pendingValue.current = undefined;
       }
-
-      pendingValue.current = undefined;
     }
 
     setInputValue(value ?? '');
@@ -79,8 +89,11 @@ export function useDebouncedSearchInput({
     (nextValue: string) => {
       setInputValue(nextValue);
       pendingValue.current = nextValue;
+      committedPlainWrite.current = false;
 
-      if (nextValue.length >= minLength || nextValue.length === 0) {
+      const trimmedLength = nextValue.trim().length;
+
+      if (trimmedLength >= minLength || trimmedLength === 0) {
         debouncedOnChange(nextValue, nextValue);
       } else if (resetBelowMinLength) {
         debouncedOnChange('', nextValue);

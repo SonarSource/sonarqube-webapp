@@ -23,6 +23,10 @@ import userEvent from '@testing-library/user-event';
 import { render } from '../../helpers/test-utils';
 import { useDebouncedSearchInput } from '../useDebouncedSearchInput';
 
+// Use the real lodash `debounce` (with timers) instead of the global immediate pass-through mock,
+// so the debounce/cancel timing is actually exercised.
+jest.mock('lodash', () => jest.requireActual<typeof import('lodash')>('lodash'));
+
 const DEBOUNCE_DELAY = 250;
 const LONG_DEBOUNCE_DELAY = 2_147_483_647;
 
@@ -115,6 +119,28 @@ describe('useDebouncedSearchInput', () => {
     rerender(<TestComponent onChange={onChange} />);
     rerender(<TestComponent externalValue="other" onChange={onChange} />);
 
+    expect(screen.getByRole('textbox')).toHaveValue('other');
+  });
+
+  it('keeps syncing after a committed write whose external value comes back transformed', () => {
+    // The consumer/router may store a transformed value (e.g. a trimmed query), so the external
+    // value that returns differs from what onChange was given. The pending marker must still clear
+    // so later external changes (browser back, an external reset) are not permanently ignored.
+    const onChange = jest.fn();
+    const { rerender } = render(<TestComponent externalValue="" onChange={onChange} />);
+
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'project ' } });
+    act(() => {
+      jest.advanceTimersByTime(DEBOUNCE_DELAY);
+    });
+    expect(onChange).toHaveBeenCalledWith('project ');
+
+    // External value comes back trimmed — different from the 'project ' we sent.
+    rerender(<TestComponent externalValue="project" onChange={onChange} />);
+    expect(screen.getByRole('textbox')).toHaveValue('project');
+
+    // A later, unrelated external change must still be reflected.
+    rerender(<TestComponent externalValue="other" onChange={onChange} />);
     expect(screen.getByRole('textbox')).toHaveValue('other');
   });
 });

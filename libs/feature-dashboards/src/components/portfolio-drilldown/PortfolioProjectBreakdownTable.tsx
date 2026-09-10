@@ -28,9 +28,9 @@ import {
   Table,
   Text,
 } from '@sonarsource/echoes-react';
-import { debounce } from 'lodash';
-import { type ReactNode, useEffect, useMemo, useState } from 'react';
+import { type ReactNode, useCallback } from 'react';
 import type { To } from 'react-router-dom';
+import { useDebouncedSearchInput } from '~shared/helpers/useDebouncedSearchInput';
 
 const SEARCH_MIN_LENGTH = 3;
 const SEARCH_DEBOUNCE_DELAY = 300;
@@ -94,34 +94,23 @@ export function PortfolioProjectBreakdownTable<Row extends PortfolioProjectBreak
     tableLabel,
     totalPages,
   } = props;
-  const [searchInput, setSearchInput] = useState(projectQuery ?? '');
-
-  useEffect(() => {
-    setSearchInput(projectQuery ?? '');
-  }, [projectQuery]);
-
-  const debouncedUpdateProjectQuery = useMemo(
-    () =>
-      debounce((value: string) => {
-        const trimmed = value.trim();
-        if (trimmed.length > 0 && trimmed.length < SEARCH_MIN_LENGTH) {
-          return;
-        }
-        onProjectQueryChange(trimmed === '' ? undefined : trimmed);
-      }, SEARCH_DEBOUNCE_DELAY),
+  const handleProjectQueryChange = useCallback(
+    (value: string) => {
+      const trimmed = value.trim();
+      onProjectQueryChange(trimmed === '' ? undefined : trimmed);
+    },
     [onProjectQueryChange],
   );
 
-  useEffect(() => {
-    return () => {
-      debouncedUpdateProjectQuery.cancel();
-    };
-  }, [debouncedUpdateProjectQuery]);
-
-  const handleSearchChange = (value: string) => {
-    setSearchInput(value);
-    debouncedUpdateProjectQuery(value);
-  };
+  // Debounce the URL write through a shared hook that keeps the input responsive and preserves an
+  // in-progress edit: its debounced writer has a stable identity, so a mid-debounce re-render (e.g.
+  // clicking sort) no longer cancels the pending search and drops the just-typed query.
+  const [searchInput, handleSearchChange] = useDebouncedSearchInput({
+    debounceDelay: SEARCH_DEBOUNCE_DELAY,
+    minLength: SEARCH_MIN_LENGTH,
+    onChange: handleProjectQueryChange,
+    value: projectQuery,
+  });
 
   const trimmedSearchInput = searchInput.trim();
   const isInputBelowMinLength =
