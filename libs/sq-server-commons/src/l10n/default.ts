@@ -740,7 +740,6 @@ export const defaultMessages = {
   'sidebar.security': 'Security',
   'sidebar.system': 'System',
   'sidebar.tools': 'Tools',
-  'sidebar.vortex_dashboard': 'Vortex dashboard',
 
   //------------------------------------------------------------------------------
   //
@@ -1261,7 +1260,7 @@ export const defaultMessages = {
   //------------------------------------------------------------------------------
 
   'vortex_dashboard.title': 'Vortex dashboard',
-  'vortex_dashboard.activated_on': 'Activated on: {date}',
+  'vortex_dashboard.nav_item': 'Vortex',
   'vortex_dashboard.description.paragraph1':
     "Vortex saves engineering time and tokens by providing your agents with context (Guide) before code is written, and fixing issues (Verify) as it's being written.",
   'vortex_dashboard.description.paragraph2':

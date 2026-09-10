@@ -20,7 +20,6 @@
 
 import { waitFor } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { registerServiceMocks, resetServiceMocks, server } from '~shared/api/mocks/server';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { EntitlementCheckFeatureKey } from '~shared/types/billing';
@@ -40,16 +39,11 @@ jest.mock('~sq-server-addons/index', () => ({
   addons: {},
 }));
 
-jest.mock('~adapters/helpers/feature-flags', () => ({
-  useFlags: jest.fn().mockReturnValue({ enableVortexDashboard: true }),
-}));
-
 const billingHandler = new BillingServiceMock(BillingServiceDefaultDataset);
 
 beforeEach(() => {
   jest.mocked(addons).license = undefined;
   jest.mocked(addons).remediationAgent = undefined;
-  jest.mocked(addons).vortexDashboard = undefined;
   billingHandler.reset();
   registerServiceMocks(billingHandler);
 });

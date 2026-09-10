@@ -19,6 +19,11 @@
  */
 
 import { act, screen } from '@testing-library/react';
+import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
+import {
+  BillingServiceDefaultDataset,
+  BillingServiceMock,
+} from '~sq-server-commons/api/mocks/BillingServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { mockAppState, mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
@@ -32,12 +37,21 @@ jest.mock('~sq-server-commons/components/beamer/BeamerWidgetCustom', () => ({
 
 let settingsMock: SettingsServiceMock;
 
+// GlobalNavMore reads the Vortex entitlement to decide whether to render.
+const billingHandler = new BillingServiceMock(BillingServiceDefaultDataset);
+
 beforeAll(() => {
   settingsMock = new SettingsServiceMock();
 });
 
+beforeEach(() => {
+  billingHandler.reset();
+  registerServiceMocks(billingHandler);
+});
+
 afterEach(() => {
   settingsMock.reset();
+  resetServiceMocks();
 });
 
 it('render global navigation correctly for anonymous user', () => {

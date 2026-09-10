@@ -33,6 +33,7 @@ interface Props extends PropsWithChildren {
   asideLeft?: ReactNode;
   breadcrumbs?: BreadcrumbsProps['items'];
   description?: PageHeaderProps['description'];
+  hasDivider?: PageHeaderProps['hasDivider'];
   hidePageHeader?: boolean;
   pageClassName?: string;
   scrollBehavior?: PageHeaderProps['scrollBehavior'];

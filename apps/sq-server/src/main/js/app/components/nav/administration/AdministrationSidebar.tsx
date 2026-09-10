@@ -19,21 +19,17 @@
  */
 
 import {
-  IconDashboard,
-  IconDataUsage,
   IconInfo,
   IconLicense,
   IconQuestionMark,
   IconSparkle,
+  IconTableChartView,
   Layout,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useFlags } from '~adapters/helpers/feature-flags';
-import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { Extension } from '~shared/types/common';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
-import { FeatureAvailabilityGuard } from '~sq-server-commons/components/shared/FeatureAvailabilityGuard';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { AdministrationSidebarConfiguration } from './AdministrationSidebarConfiguration';
 import { AdministrationSidebarSecurity } from './AdministrationSidebarSecurity';
@@ -52,8 +48,6 @@ export function AdministrationSidebar(props: Readonly<Props>) {
 
   const { formatMessage } = useIntl();
 
-  const { enableVortexDashboard } = useFlags();
-
   return (
     <Layout.SidebarNavigation ariaLabel={formatMessage({ id: 'settings' })}>
       <Layout.SidebarNavigation.Header name={<FormattedMessage id="layout.settings" />} />
@@ -68,22 +62,7 @@ export function AdministrationSidebar(props: Readonly<Props>) {
 
         <AdministrationSidebarProjects />
 
-        {addons.vortexDashboard && enableVortexDashboard && (
-          <FeatureAvailabilityGuard
-            featureKeys={[
-              EntitlementCheckFeatureKey.AgenticAnalysis,
-              EntitlementCheckFeatureKey.ContextAugmentation,
-            ]}
-            guardOnly
-            requiresEntitlement
-          >
-            <Layout.SidebarNavigation.Item Icon={IconDashboard} to="/admin/vortex_dashboard">
-              <FormattedMessage id="sidebar.vortex_dashboard" />
-            </Layout.SidebarNavigation.Item>
-          </FeatureAvailabilityGuard>
-        )}
-
-        <Layout.SidebarNavigation.Item Icon={IconDataUsage} to="/admin/onboarding-dashboard">
+        <Layout.SidebarNavigation.Item Icon={IconTableChartView} to="/admin/onboarding-dashboard">
           <FormattedMessage id="layout.onboarding_dashboard" />
         </Layout.SidebarNavigation.Item>
 

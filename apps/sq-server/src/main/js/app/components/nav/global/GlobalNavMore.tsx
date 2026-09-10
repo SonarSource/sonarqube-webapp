@@ -20,14 +20,19 @@
 
 import { DropdownMenu, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { NewBadge } from '~shared/components/badges/NewBadge';
 import { SECURITY_ALERTS_ROUTE_NAME } from '~shared/helpers/security-alerts-urls';
 import { isDefined } from '~shared/helpers/types';
+import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { Extension } from '~shared/types/common';
 import { addons } from '~sq-server-addons/index';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { useFeatureAvailability } from '~sq-server-commons/hooks/useFeatureAvailability';
+import { useGetValueQuery } from '~sq-server-commons/queries/settings';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { Feature } from '~sq-server-commons/types/features';
+import { SettingsKey } from '~sq-server-commons/types/settings';
 
 const renderGlobalPageLink = ({ key, name }: Extension) => {
   return (
@@ -42,7 +47,31 @@ function GlobalNavMore({ appState: { globalPages = [] } }: Readonly<{ appState: 
   const showSecurityAlerts =
     useAvailableFeatures().hasFeature(Feature.Sca) && isDefined(addons.securityAlerts);
 
-  if (withoutPortfolios.length === 0 && !showSecurityAlerts) {
+  const { vortexDashboard } = addons;
+  const { data: vortexEnabledSetting } = useGetValueQuery(
+    { key: SettingsKey.VortexEnabled },
+    { enabled: Boolean(vortexDashboard) },
+  );
+  const isVortexSettingEnabled = vortexEnabledSetting?.value === 'true';
+
+  // The entitlement answer is needed as a value rather than as a guard, because it decides
+  // whether this dropdown renders at all.
+  const { isAvailable: isVortexEntitled } = useFeatureAvailability(
+    [EntitlementCheckFeatureKey.AgenticAnalysis, EntitlementCheckFeatureKey.ContextAugmentation],
+    { enabled: Boolean(vortexDashboard) && isVortexSettingEnabled, requiresEntitlement: true },
+  );
+
+  const vortexBadge = vortexDashboard && isVortexSettingEnabled && isVortexEntitled && (
+    <NewBadge expirationDate={vortexDashboard.VORTEX_NEW_BADGE_EXPIRATION_DATE} />
+  );
+
+  const vortexItem = vortexDashboard && isVortexSettingEnabled && isVortexEntitled && (
+    <DropdownMenu.ItemLink suffix={vortexBadge} to={vortexDashboard.VORTEX_DASHBOARD_PATH}>
+      <FormattedMessage id="vortex_dashboard.nav_item" />
+    </DropdownMenu.ItemLink>
+  );
+
+  if (withoutPortfolios.length === 0 && !showSecurityAlerts && !vortexItem) {
     return null;
   }
 
@@ -56,11 +85,17 @@ function GlobalNavMore({ appState: { globalPages = [] } }: Readonly<{ appState: 
               <FormattedMessage id="security_alerts.page" />
             </DropdownMenu.ItemLink>
           )}
+          {vortexItem}
           {withoutPortfolios.map(renderGlobalPageLink)}
         </>
       }
     >
-      <FormattedMessage id="more" />
+      {/* DropdownItem's children render inside a plain, non-flex span, so the badge needs its
+          own gap here — DropdownItem hardcodes the chevron as its suffix, leaving no other slot. */}
+      <span className="sw-inline-flex sw-items-center sw-gap-2">
+        <FormattedMessage id="more" />
+        {vortexBadge}
+      </span>
     </Layout.GlobalNavigation.DropdownItem>
   );
 }

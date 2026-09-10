@@ -28,11 +28,6 @@ interface SQSFlagSet extends FlagSet {
     maxNodesCount: number;
   };
   /**
-   * Dev/WIP gate for the CAG-1090 Vortex dashboard admin page.
-   * Not a BE /api/features/list entitlement — flip off (or remove) before shipping if needed.
-   */
-  enableVortexDashboard: boolean;
-  /**
    * Dev/WIP gate for the MMF-5715 License products UI (usage-based products table, etc.).
    * Not a BE /api/features/list entitlement — flip off (or remove) before shipping if needed.
    */
@@ -49,7 +44,6 @@ const defaultFlags: SQSFlagSet = {
   // the entitlement check, so on SQS access is decided by useArchitectureEntitlement() alone.
   designArchitectureSquadExtensionPack: true,
   designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
-  enableVortexDashboard: false,
   licenseEnableUsageProductsUi: true,
   scaEnableReachabilityFrontend: true,
   scaKeyChangesPrView: false,

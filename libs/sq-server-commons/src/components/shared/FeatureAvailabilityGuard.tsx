@@ -19,12 +19,12 @@
  */
 
 import { Button, MessageCallout, MessageVariety, Spinner } from '@sonarsource/echoes-react';
-import { PropsWithChildren, useMemo } from 'react';
+import { PropsWithChildren } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Outlet } from 'react-router-dom';
 import NotFound from '~shared/components/NotFound';
 import { EntitlementCheckFeatureKey } from '~shared/types/billing';
-import { usePurchasableFeaturesQuery } from '../../queries/entitlements';
+import { useFeatureAvailability } from '../../hooks/useFeatureAvailability';
 
 export function FeatureAvailabilityGuard({
   featureKeys,
@@ -38,21 +38,11 @@ export function FeatureAvailabilityGuard({
     requiresEntitlement?: boolean; /* Requires at least one feature to be available if true */
   }>
 >) {
-  const { data, isError, isPending, refetch } = usePurchasableFeaturesQuery();
-  const purchasableFeatureSet = useMemo(
-    () => Object.fromEntries(data?.map((feature) => [feature.featureKey, feature]) ?? []),
-    [data],
-  );
+  const { isAvailable, isError, isPending, refetch } = useFeatureAvailability(featureKeys, {
+    requiresEntitlement,
+  });
 
-  const someFeatureIsPurchasable = featureKeys.some(
-    (featureKey) => purchasableFeatureSet[featureKey] !== undefined,
-  );
-
-  const someFeatureIsAvailable = featureKeys.some(
-    (featureKey) => purchasableFeatureSet[featureKey]?.isAvailable === true,
-  );
-
-  const blockAccess = !someFeatureIsPurchasable || (requiresEntitlement && !someFeatureIsAvailable);
+  const blockAccess = !isAvailable;
 
   if (guardOnly) {
     return isPending || isError || blockAccess ? null : children;
