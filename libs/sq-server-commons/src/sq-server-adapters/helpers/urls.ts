@@ -18,16 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { generatePath, Path } from 'react-router-dom';
+import { Path } from 'react-router-dom';
 import { getBaseUrl } from '~adapters/helpers/system';
 import { queryToSearchString } from '~shared/helpers/query';
 import { getComponentIssuesUrl } from '~shared/helpers/urls';
 import { ComponentQualifier } from '~shared/types/component';
 import { RawQuery } from '~shared/types/router';
-import {
-  PROJECT_BUILT_IN_DASHBOARD_ROUTE,
-  PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY,
-} from '../../helpers/project-dashboard-routes';
 
 export { PULL_REQUEST_DECORATION_BINDING_CATEGORY as PROJECT_ALM_BINDING_SETTINGS_CATEGORY } from '../../constants/settings';
 
@@ -49,10 +45,9 @@ export function getConfigureProjectUrl(key: string): Partial<Path> {
 export const API_V2_BASE_URL = '/api/v2';
 export const API_V2_MOCKS_PREFIX = '/api/v2';
 
-export const PROJECT_BASE_URL = generatePath(PROJECT_BUILT_IN_DASHBOARD_ROUTE, {
-  dashboardKey: PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY,
-});
-export const PROJECT_SUMMARY_BASE_URL = '/dashboard';
+export const PROJECT_BASE_URL = '/project/overview';
+export const PROJECT_SUMMARY_BASE_URL = '/summary/new_code';
+export const PROJECT_SUMMARY_OVERALL_BASE_URL = '/summary/overall';
 
 /**
  * Base path for ALM provider icons. SQS serves them from `/images/alm`, whereas SQC

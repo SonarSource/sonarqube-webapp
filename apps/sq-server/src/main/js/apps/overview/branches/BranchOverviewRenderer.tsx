@@ -21,6 +21,7 @@
 import { ButtonSize, ButtonVariety, Layout, TooltipSide } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
+import { PROJECT_SUMMARY_BASE_URL, PROJECT_SUMMARY_OVERALL_BASE_URL } from '~adapters/helpers/urls';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { QualityGateHistoryLink } from '~feature-quality-gate-history/components/QualityGateHistoryLink';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
@@ -96,19 +97,27 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
   } = props;
 
   const { isLoggedIn } = useCurrentUser();
-  const { query } = useLocation();
+  const { pathname, query } = useLocation();
   const router = useRouter();
   const intl = useIntl();
 
   const currentPage = getComponentAsHomepage(component, branch);
 
-  const tab = query.codeScope === CodeScope.Overall ? CodeScope.Overall : CodeScope.New;
+  const tab =
+    query.codeScope === CodeScope.Overall || pathname.endsWith(PROJECT_SUMMARY_OVERALL_BASE_URL)
+      ? CodeScope.Overall
+      : CodeScope.New;
   const leakPeriod = component.qualifier === ComponentQualifier.Application ? appLeak : period;
   const isNewCodeTab = tab === CodeScope.New;
   const hasNewCodeMeasures = measures.some((m) => isDiffMetric(m.metric.key));
 
   const selectTab = (tab: CodeScope) => {
-    router.replace({ query: { ...query, codeScope: tab } });
+    const { codeScope: _codeScope, ...restQuery } = query;
+    router.replace({
+      pathname:
+        tab === CodeScope.Overall ? PROJECT_SUMMARY_OVERALL_BASE_URL : PROJECT_SUMMARY_BASE_URL,
+      query: restQuery,
+    });
   };
 
   React.useEffect(() => {

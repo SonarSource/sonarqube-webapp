@@ -18,15 +18,34 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Route } from 'react-router-dom';
+import { Navigate, Route, useLocation } from 'react-router-dom';
+import { PROJECT_SUMMARY_BASE_URL, PROJECT_SUMMARY_OVERALL_BASE_URL } from '~adapters/helpers/urls';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { UnsubscribeApp } from './components/UnsubscribeApp';
 
 const App = lazyLoadComponent(() => import('./components/App'));
 
+function DashboardRedirect() {
+  const location = useLocation();
+  return <Navigate replace to={getDashboardRedirectLocation(location.search)} />;
+}
+
+export function getDashboardRedirectLocation(search: string) {
+  const searchParams = new URLSearchParams(search);
+  const codeScope = searchParams.get('codeScope');
+  searchParams.delete('codeScope');
+
+  return {
+    pathname: codeScope === 'overall' ? PROJECT_SUMMARY_OVERALL_BASE_URL : PROJECT_SUMMARY_BASE_URL,
+    search: searchParams.toString(),
+  };
+}
+
 const routes = () => (
   <>
-    <Route element={<App />} path="dashboard" />
+    <Route element={<DashboardRedirect />} path="dashboard" />
+    <Route element={<App />} path={PROJECT_SUMMARY_BASE_URL.slice(1)} />
+    <Route element={<App />} path={PROJECT_SUMMARY_OVERALL_BASE_URL.slice(1)} />
     <Route element={<UnsubscribeApp />} path="unsubscribe" />
   </>
 );

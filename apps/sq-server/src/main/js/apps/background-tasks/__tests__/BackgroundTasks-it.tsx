@@ -181,7 +181,7 @@ describe('The Global background task page', () => {
 
     expect(screen.getByRole('link', { name: 'Application name' })).toHaveAttribute(
       'href',
-      '/dashboard?id=application-key',
+      '/summary/new_code?id=application-key',
     );
   });
 

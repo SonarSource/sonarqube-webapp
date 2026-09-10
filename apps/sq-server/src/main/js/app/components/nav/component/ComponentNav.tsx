@@ -40,10 +40,7 @@ import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import {
-  PROJECT_DASHBOARDS_LIST_ROUTE,
-  PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY,
-} from '~sq-server-commons/helpers/project-dashboard-routes';
+import { PROJECT_DASHBOARDS_LIST_ROUTE } from '~sq-server-commons/helpers/project-dashboard-routes';
 import {
   getPortfoliosUrl,
   getPortfolioUrl,
@@ -54,10 +51,7 @@ import {
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import { supportsCustomProjectDashboards } from '../../../../apps/projectDashboards/permissions';
-import {
-  getProjectBuiltInDashboardRoute,
-  isProjectDashboardView,
-} from '../../../../apps/projectDashboards/routes';
+import { isProjectOverviewLocation } from '../../../../apps/projectDashboards/routes';
 import { ComponentNavAnalysisMenu } from './ComponentNavAnalysisMenu';
 import { ComponentNavExtensionsMenu } from './ComponentNavExtensionsMenu';
 import { ComponentNavPoliciesMenu } from './ComponentNavPoliciesMenu';
@@ -89,11 +83,7 @@ export function ComponentNav(props: Readonly<Props>) {
   const showOnboarding = !isPortfolio && !isAnalyzed;
   const showProjectNav = isAnalyzed && component.qualifier === ComponentQualifier.Project;
   const showDashboardsNav = showProjectNav && supportsCustomProjectDashboards(edition);
-  const projectOverviewRoute = getProjectBuiltInDashboardRoute(
-    PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY,
-  );
-  const isProjectOverview =
-    location.pathname === projectOverviewRoute && !isProjectDashboardView(location.search);
+  const isProjectOverview = isProjectOverviewLocation(location.pathname, location.search);
 
   const isApplicationChildInaccessible =
     isApplication(component.qualifier) && !component.canBrowseAllChildProjects;
@@ -141,10 +131,7 @@ export function ComponentNav(props: Readonly<Props>) {
           <Layout.SidebarNavigation.Item
             Icon={IconOverview}
             isActive={isProjectOverview}
-            to={getProjectBuiltInDashboardRoute(
-              PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY,
-              component.key,
-            )}
+            to={getProjectOverviewUrl(component.key)}
           >
             <FormattedMessage id="overview.page" />
           </Layout.SidebarNavigation.Item>

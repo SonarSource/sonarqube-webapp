@@ -21,6 +21,7 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { ComponentProps } from 'react';
+import { Route } from 'react-router-dom';
 import * as branchQueries from '~adapters/queries/branch';
 import { DASHBOARDS_NEW_BADGE_EXPIRATION_DATE } from '~feature-dashboards/constants';
 import { registerServiceMocks, resetServiceMocks, server } from '~shared/api/mocks/server';
@@ -234,7 +235,7 @@ describe('ComponentNav', () => {
       expect(analysisGroup).not.toContainElement(ui.allProjectDashboardsLink.get());
       expect(getInteractiveElement(ui.overviewLink.get())).toHaveAttribute(
         'href',
-        '/project/dashboards/built-in/project-health?id=my-project',
+        '/project/overview?id=my-project',
       );
       expect(ui.issuesLink.get()).toBeInTheDocument();
       expect(ui.securityHotspotsLink.get()).toBeInTheDocument();
@@ -387,14 +388,14 @@ describe('ComponentNav', () => {
       await user.keyboard('[ArrowDown]');
       expect(getInteractiveElement(byText('Recent application').get())).toHaveAttribute(
         'href',
-        '/dashboard?id=recent-application',
+        '/summary/new_code?id=recent-application',
       );
 
       // Analysis menu
       expect(ui.summaryLink.get()).toBeInTheDocument();
       expect(getInteractiveElement(ui.summaryLink.get())).toHaveAttribute(
         'href',
-        '/dashboard?id=my-project',
+        '/summary/new_code?id=my-project',
       );
       expect(ui.issuesLink.get()).toBeInTheDocument();
       expect(ui.securityHotspotsLink.get()).toBeInTheDocument();
@@ -420,6 +421,19 @@ describe('ComponentNav', () => {
       expect(ui.policiesGroup.query()).not.toBeInTheDocument();
 
       expect(ui.navigationItemsList()).toEqual(['summary.page']);
+    });
+
+    it('marks Summary active on the overall summary route', () => {
+      const component = mockComponent({
+        qualifier: ComponentQualifier.Application,
+        analysisDate: '2024-01-01',
+      });
+
+      renderComponentNav({ component }, [], EditionKey.enterprise, undefined, [
+        '/summary/overall?id=my-project',
+      ]);
+
+      expect(getInteractiveElement(ui.summaryLink.get())).toHaveAttribute('aria-current', 'page');
     });
   });
 
@@ -597,22 +611,26 @@ function renderComponentNav(
   features: Feature[] = [],
   edition = EditionKey.enterprise,
   initialCurrentUser?: CurrentUser,
+  initialEntries: string[] = ['/'],
 ) {
   const { component, isInProgress = false, isPending = false } = props;
 
   measuresHandler.setComponents({ component, ancestors: [], children: [] });
 
-  return renderWithRouter(
-    <ComponentNav component={component} isInProgress={isInProgress} isPending={isPending} />,
-    {
-      availableFeatures: features,
-      appState: {
-        edition,
-        qualifiers: edition === EditionKey.enterprise ? [ComponentQualifier.Portfolio] : [],
-      } as AppState,
-      initialCurrentUser,
-    },
+  const nav = (
+    <ComponentNav component={component} isInProgress={isInProgress} isPending={isPending} />
   );
+
+  return renderWithRouter(nav, {
+    additionalRoutes: <Route element={nav} path="/summary/overall" />,
+    availableFeatures: features,
+    appState: {
+      edition,
+      qualifiers: edition === EditionKey.enterprise ? [ComponentQualifier.Portfolio] : [],
+    } as AppState,
+    initialCurrentUser,
+    initialEntries,
+  });
 }
 
 function getNavigationItemText(element: HTMLElement) {

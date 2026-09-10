@@ -86,7 +86,7 @@ describe('getComponentAdminUrl', () => {
         search: '?id=key',
       },
     ],
-    ['Project', ComponentQualifier.Project, { pathname: '/dashboard', search: '?id=key' }],
+    ['Project', ComponentQualifier.Project, { pathname: '/summary/new_code', search: '?id=key' }],
   ])('should work for %s', (_qualifierName, qualifier, result) => {
     expect(getComponentAdminUrl('key', qualifier)).toEqual(result);
   });
@@ -129,15 +129,15 @@ describe('#getComponentOverviewUrl', () => {
       }),
     );
   });
-  it('should return a dashboard url for a project', () => {
+  it('should return an overview url for a project', () => {
     expect(getComponentOverviewUrl(SIMPLE_COMPONENT_KEY, ComponentQualifier.Project)).toEqual(
       expect.objectContaining({
-        pathname: '/dashboard',
+        pathname: '/project/overview',
         search: queryToSearchString({ id: SIMPLE_COMPONENT_KEY }),
       }),
     );
   });
-  it('should return correct dashboard url for a project when navigating from new code', () => {
+  it('should return correct summary url for a project when navigating from new code', () => {
     expect(
       getComponentOverviewUrl(
         SIMPLE_COMPONENT_KEY,
@@ -147,15 +147,12 @@ describe('#getComponentOverviewUrl', () => {
       ),
     ).toEqual(
       expect.objectContaining({
-        pathname: '/dashboard',
-        search: queryToSearchString({
-          id: SIMPLE_COMPONENT_KEY,
-          codeScope: 'new',
-        }),
+        pathname: '/summary/new_code',
+        search: queryToSearchString({ id: SIMPLE_COMPONENT_KEY }),
       }),
     );
   });
-  it('should return correct dashboard url for a project when navigating from overall code', () => {
+  it('should return correct summary url for a project when navigating from overall code', () => {
     expect(
       getComponentOverviewUrl(
         SIMPLE_COMPONENT_KEY,
@@ -165,18 +162,15 @@ describe('#getComponentOverviewUrl', () => {
       ),
     ).toEqual(
       expect.objectContaining({
-        pathname: '/dashboard',
-        search: queryToSearchString({
-          id: SIMPLE_COMPONENT_KEY,
-          codeScope: 'overall',
-        }),
+        pathname: '/summary/overall',
+        search: queryToSearchString({ id: SIMPLE_COMPONENT_KEY }),
       }),
     );
   });
   it('should return a dashboard url for an app', () => {
     expect(getComponentOverviewUrl(SIMPLE_COMPONENT_KEY, ComponentQualifier.Application)).toEqual(
       expect.objectContaining({
-        pathname: '/dashboard',
+        pathname: '/summary/new_code',
         search: queryToSearchString({ id: SIMPLE_COMPONENT_KEY }),
       }),
     );

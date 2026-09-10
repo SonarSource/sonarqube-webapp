@@ -24,6 +24,7 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { Navigate, Outlet } from 'react-router-dom';
+import { PROJECT_SUMMARY_BASE_URL, PROJECT_SUMMARY_OVERALL_BASE_URL } from '~adapters/helpers/urls';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isFile, isPortfolioLike } from '~shared/helpers/component';
@@ -326,7 +327,13 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
      * Links should be fixed to not rely on this redirect, but:
      * This is a fail-safe in case there are still some faulty links remaining.
      */
-    if (pathname === '/dashboard' && component && isPortfolioLike(component.qualifier)) {
+    if (
+      (pathname === '/dashboard' ||
+        pathname === PROJECT_SUMMARY_BASE_URL ||
+        pathname === PROJECT_SUMMARY_OVERALL_BASE_URL) &&
+      component &&
+      isPortfolioLike(component.qualifier)
+    ) {
       router.replace(getPortfolioUrl(component.key));
     }
 

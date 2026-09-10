@@ -149,7 +149,7 @@ it('load more results', async () => {
 
   expect(await byRole('menuitem', { name: /^Bar/i }).find()).toHaveAttribute(
     'href',
-    '/dashboard?id=bar',
+    '/project/overview?id=bar',
   );
 });
 
@@ -220,7 +220,7 @@ it('should open selected', async () => {
   await user.keyboard('{enter}');
 
   expect(router.push).toHaveBeenCalledWith({
-    pathname: '/dashboard',
+    pathname: '/project/overview',
     search: '?id=sonarqube',
   });
 });

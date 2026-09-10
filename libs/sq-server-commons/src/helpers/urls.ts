@@ -20,7 +20,7 @@
 
 import { Path, To } from 'react-router-dom';
 import { getBaseUrl } from '~adapters/helpers/system';
-import { PROJECT_SUMMARY_BASE_URL } from '~adapters/helpers/urls';
+import { PROJECT_SUMMARY_BASE_URL, PROJECT_SUMMARY_OVERALL_BASE_URL } from '~adapters/helpers/urls';
 import {
   getBranchLikeQuery,
   isBranch,
@@ -77,9 +77,16 @@ export function getComponentOverviewUrl(
   branchParameters?: BranchParameters,
   codeScope?: CodeScopeType,
 ) {
-  return isPortfolioLike(componentQualifier)
-    ? getPortfolioUrl(componentKey)
-    : getProjectQueryUrl(componentKey, branchParameters, codeScope);
+  if (isPortfolioLike(componentQualifier)) {
+    return getPortfolioUrl(componentKey);
+  }
+  if (isApplication(componentQualifier) || codeScope) {
+    return getProjectQueryUrl(componentKey, branchParameters, codeScope);
+  }
+  return {
+    ...getProjectOverviewUrl(componentKey),
+    search: queryToSearchString({ id: componentKey, ...branchParameters }),
+  };
 }
 
 export function getComponentAdminUrl(
@@ -130,12 +137,9 @@ export const getProjectUrl: GetProjectUrl = (
   codeScope?: CodeScopeType,
 ): Partial<Path> => {
   return {
-    pathname: PROJECT_SUMMARY_BASE_URL,
-    search: queryToSearchString({
-      id: project,
-      branch,
-      ...(codeScope && { codeScope }),
-    }),
+    pathname:
+      codeScope === CodeScope.Overall ? PROJECT_SUMMARY_OVERALL_BASE_URL : PROJECT_SUMMARY_BASE_URL,
+    search: queryToSearchString({ id: project, branch }),
   };
 };
 
@@ -152,11 +156,11 @@ export function getProjectQueryUrl(
   codeScope?: CodeScopeType,
 ): To {
   return {
-    pathname: PROJECT_SUMMARY_BASE_URL,
+    pathname:
+      codeScope === CodeScope.Overall ? PROJECT_SUMMARY_OVERALL_BASE_URL : PROJECT_SUMMARY_BASE_URL,
     search: queryToSearchString({
       id: project,
       ...branchParameters,
-      ...(codeScope && { codeScope }),
     }),
   };
 }

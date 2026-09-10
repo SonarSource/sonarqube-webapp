@@ -76,14 +76,14 @@ describe('#getBadgeSnippet', () => {
   it('should generate a correct markdown image for measure', () => {
     const snippet = getBadgeSnippet(BadgeType.measure, options, 'foo');
     expect(snippet).toBe(
-      '[![alert_status](host/api/project_badges/measure?branch=master&project=foo&metric=alert_status&token=foo)](host/dashboard?id=foo&branch=master)',
+      '[![alert_status](host/api/project_badges/measure?branch=master&project=foo&metric=alert_status&token=foo)](host/summary/new_code?id=foo&branch=master)',
     );
   });
 
   it('should generate a correct markdown image for ai code assurance', () => {
     const snippet = getBadgeSnippet(BadgeType.aiCodeAssurance, options, 'foo');
     expect(snippet).toBe(
-      '[![overview.badges.ai_code_assurance](host/api/project_badges/ai_code_assurance?branch=master&project=foo&token=foo)](host/dashboard?id=foo&branch=master)',
+      '[![overview.badges.ai_code_assurance](host/api/project_badges/ai_code_assurance?branch=master&project=foo&token=foo)](host/summary/new_code?id=foo&branch=master)',
     );
   });
 });

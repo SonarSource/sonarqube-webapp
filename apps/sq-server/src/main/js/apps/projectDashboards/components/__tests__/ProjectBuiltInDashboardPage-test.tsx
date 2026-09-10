@@ -419,7 +419,7 @@ describe('ProjectBuiltInDashboardPage', () => {
       screen.getByRole('link', {
         name: 'project_dashboard.overview.banner.description_link',
       }),
-    ).toHaveAttribute('href', '/dashboard?id=project-key');
+    ).toHaveAttribute('href', '/summary/new_code?id=project-key');
 
     const removal = waitForElementToBeRemoved(title);
     await user.click(screen.getByRole('button', { name: 'message_callout.dismiss' }));

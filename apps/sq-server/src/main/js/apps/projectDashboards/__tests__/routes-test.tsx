@@ -34,6 +34,7 @@ import {
   getProjectBuiltInDashboardRoute,
   getProjectCustomDashboardRoute,
   getProjectDashboardsListRoute,
+  isProjectOverviewLocation,
   isProjectOverviewRoute,
 } from '../routes';
 
@@ -119,6 +120,15 @@ describe('project dashboard routes', () => {
       expect(isProjectOverviewRoute(dashboardKey, search)).toBe(expected);
     },
   );
+
+  it.each([
+    ['/project/overview', '', true],
+    ['/project/dashboards/built-in/project-health', '', true],
+    ['/project/dashboards/built-in/project-health', '?view=dashboard', false],
+    ['/project/dashboards/built-in/reliability', '', false],
+  ])('identifies overview location %s with search %s', (pathname, search, expected) => {
+    expect(isProjectOverviewLocation(pathname, search)).toBe(expected);
+  });
 
   it('rejects project dashboard routes for applications', async () => {
     mockComponentQualifier = ComponentQualifier.Application;

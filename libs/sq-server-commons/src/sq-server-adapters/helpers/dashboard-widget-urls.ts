@@ -39,6 +39,11 @@ import {
   getMeasureHistoryUrl,
   getPortfolioUrl,
 } from '../../helpers/urls';
+import {
+  PROJECT_BASE_URL,
+  PROJECT_SUMMARY_BASE_URL,
+  PROJECT_SUMMARY_OVERALL_BASE_URL,
+} from './urls';
 
 export function getDashboardDocumentationUrl(docLink: string): string {
   return docLink;
@@ -64,11 +69,8 @@ export function getProjectDashboardMeasuresUrl(props: {
 
 export function getProjectDashboardSummaryUrl(component: string, overall = false): To {
   return {
-    pathname: '/dashboard',
-    search: new URLSearchParams({
-      codeScope: overall ? CodeScope.Overall : CodeScope.New,
-      id: component,
-    }).toString(),
+    pathname: overall ? PROJECT_SUMMARY_OVERALL_BASE_URL : PROJECT_SUMMARY_BASE_URL,
+    search: new URLSearchParams({ id: component }).toString(),
   };
 }
 
@@ -145,7 +147,7 @@ export function getProjectDashboardPieChartSegmentUrl(
     return `/code?${params.toString()}`;
   }
 
-  return `/dashboard?${params.toString()}`;
+  return `${PROJECT_BASE_URL}?${params.toString()}`;
 }
 
 export function getProjectDashboardTopListRowUrl(

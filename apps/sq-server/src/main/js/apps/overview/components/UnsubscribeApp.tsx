@@ -22,6 +22,7 @@ import { Spinner } from '@sonarsource/echoes-react';
 import { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
+import { PROJECT_SUMMARY_BASE_URL } from '~adapters/helpers/urls';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
@@ -40,7 +41,9 @@ export function UnsubscribeApp() {
 
   useEffect(() => {
     const redirect = () => {
-      const basePath = isPortfolioLike(component?.qualifier) ? '/portfolio' : '/dashboard';
+      const basePath = isPortfolioLike(component?.qualifier)
+        ? '/portfolio'
+        : PROJECT_SUMMARY_BASE_URL;
       navigate(basePath + (location.search ?? ''), { replace: true });
     };
 

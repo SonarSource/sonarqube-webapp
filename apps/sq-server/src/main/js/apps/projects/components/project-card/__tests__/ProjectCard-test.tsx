@@ -161,7 +161,10 @@ it('should display applications', () => {
 it('should link applications to their summary', () => {
   renderProjectCard({ ...PROJECT, qualifier: ComponentQualifier.Application });
 
-  expect(screen.getByRole('link', { name: 'Foo' })).toHaveAttribute('href', '/dashboard?id=foo');
+  expect(screen.getByRole('link', { name: 'Foo' })).toHaveAttribute(
+    'href',
+    '/summary/new_code?id=foo',
+  );
 });
 
 describe('upgrade scenario (awaiting scan)', () => {

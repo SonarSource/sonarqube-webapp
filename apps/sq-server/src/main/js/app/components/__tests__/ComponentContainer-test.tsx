@@ -179,7 +179,7 @@ it('should render the component nav correctly for projects', async () => {
   expect(await ui.projectTitle.find()).toBeInTheDocument();
   expect(getInteractiveElement(ui.overviewPageLink.get())).toHaveAttribute(
     'href',
-    '/project/dashboards/built-in/project-health?id=project-key',
+    '/project/overview?id=project-key',
   );
 
   expect(getInteractiveElement(ui.issuesPageLink.get())).toHaveAttribute(

@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Outlet, Route, generatePath, useLocation, useParams } from 'react-router-dom';
+import { Outlet, Route, generatePath, useLocation } from 'react-router-dom';
+import { PROJECT_BASE_URL } from '~adapters/helpers/urls';
 import NotFound from '~shared/components/NotFound';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { ComponentQualifier } from '~shared/types/component';
@@ -94,6 +95,17 @@ export function isProjectOverviewRoute(dashboardKey: string | undefined, search:
   return dashboardKey === PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY && !isProjectDashboardView(search);
 }
 
+export function isProjectOverviewLocation(pathname: string, search: string) {
+  return (
+    pathname === PROJECT_BASE_URL ||
+    (pathname ===
+      generatePath(PROJECT_BUILT_IN_DASHBOARD_ROUTE, {
+        dashboardKey: PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY,
+      }) &&
+      !isProjectDashboardView(search))
+  );
+}
+
 function ProjectDashboardsGuard() {
   const { component } = useComponent();
 
@@ -103,8 +115,7 @@ function ProjectDashboardsGuard() {
 function ProjectDashboardsEditionGuard() {
   const { edition } = useAppState();
   const location = useLocation();
-  const { dashboardKey } = useParams();
-  const isProjectOverview = isProjectOverviewRoute(dashboardKey, location.search);
+  const isProjectOverview = isProjectOverviewLocation(location.pathname, location.search);
 
   return supportsCustomProjectDashboards(edition) || isProjectOverview ? <Outlet /> : <NotFound />;
 }
@@ -112,6 +123,7 @@ function ProjectDashboardsEditionGuard() {
 export const componentRoutes = () => (
   <Route element={<ProjectDashboardsEditionGuard />}>
     <Route element={<ProjectDashboardsGuard />}>
+      <Route element={<ProjectBuiltInDashboardPage />} path={PROJECT_BASE_URL} />
       <Route element={<ProjectBuiltInDashboardPage />} path={PROJECT_BUILT_IN_DASHBOARD_ROUTE} />
       <Route element={<ProjectDashboardsListPage />} path={PROJECT_DASHBOARDS_LIST_ROUTE} />
       <Route element={<ProjectCustomDashboardPage />} path={PROJECT_CUSTOM_DASHBOARD_ROUTE} />

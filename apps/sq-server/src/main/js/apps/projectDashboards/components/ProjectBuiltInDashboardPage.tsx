@@ -61,6 +61,7 @@ import { useAppState } from '~sq-server-commons/context/app-state/withAppStateCo
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
 import { getComponentAsHomepage } from '~sq-server-commons/helpers/homepage';
 import { enhanceMeasuresWithMetrics } from '~sq-server-commons/helpers/measures';
+import { PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY } from '~sq-server-commons/helpers/project-dashboard-routes';
 import { getProjectUrl } from '~sq-server-commons/helpers/urls';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
 import { useMeasuresAndLeakQuery } from '~sq-server-commons/queries/measures';
@@ -87,12 +88,14 @@ export function ProjectBuiltInDashboardPage() {
   const { formatMessage } = useIntl();
   const { component } = useComponent();
   const { edition } = useAppState();
-  const { dashboardKey = '' } = useParams<{ dashboardKey?: string }>();
+  const params = useParams<{ dashboardKey?: string }>();
+  const { dashboardKey = PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY } = params;
   const [searchParams] = useSearchParams();
   const { currentUser, isLoggedIn } = useCurrentUser();
   const { data: branchLike } = useCurrentBranchQuery(component);
   const branch = isBranch(branchLike) ? branchLike : undefined;
-  const isProjectOverview = isProjectOverviewRoute(dashboardKey, searchParams.toString());
+  const isProjectOverview =
+    isProjectOverviewRoute(dashboardKey, searchParams.toString()) || !params.dashboardKey;
   const canDownloadSchema = hasGlobalPermission(currentUser, Permissions.Admin);
   const isProjectAnalyzed = isStringDefined(component?.analysisDate);
   const overviewPageClassName = isProjectOverview ? 'it__overview' : undefined;

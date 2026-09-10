@@ -21,6 +21,7 @@
 import { IconIssues, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { useLocation } from 'react-router-dom';
+import { PROJECT_SUMMARY_BASE_URL, PROJECT_SUMMARY_OVERALL_BASE_URL } from '~adapters/helpers/urls';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { DeprecatedBadge } from '~shared/components/badges/DeprecatedBadge';
 import { NewBadge } from '~shared/components/badges/NewBadge';
@@ -55,6 +56,9 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
     isApplication(component.qualifier) && !component.canBrowseAllChildProjects;
 
   const dashboardUrl = getProjectQueryUrl(component.key, branchParameters);
+  const isSummaryActive =
+    location.pathname === PROJECT_SUMMARY_BASE_URL ||
+    location.pathname === PROJECT_SUMMARY_OVERALL_BASE_URL;
 
   const issuesUrl = getComponentIssuesUrl(component.key, {
     ...branchParameters,
@@ -70,7 +74,7 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
         Icon={IconIssues}
         label={<FormattedMessage id="navigation.project.group.analysis" />}
       >
-        <Layout.SidebarNavigation.AccordionItem.Item to={dashboardUrl}>
+        <Layout.SidebarNavigation.AccordionItem.Item isActive={isSummaryActive} to={dashboardUrl}>
           <FormattedMessage id="summary.page" />
         </Layout.SidebarNavigation.AccordionItem.Item>
       </Layout.SidebarNavigation.AccordionItem>
@@ -82,7 +86,7 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
       Icon={IconIssues}
       label={<FormattedMessage id="navigation.project.group.analysis" />}
     >
-      <Layout.SidebarNavigation.AccordionItem.Item to={dashboardUrl}>
+      <Layout.SidebarNavigation.AccordionItem.Item isActive={isSummaryActive} to={dashboardUrl}>
         <FormattedMessage id="summary.page" />
       </Layout.SidebarNavigation.AccordionItem.Item>
 

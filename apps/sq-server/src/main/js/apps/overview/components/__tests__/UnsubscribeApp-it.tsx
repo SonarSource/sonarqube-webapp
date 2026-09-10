@@ -83,21 +83,21 @@ afterEach(() => {
 it('unsubscribes project', async () => {
   renderUnsubscribeApp();
   expect(await ui.unsubscribedSuccessfullyMessageForProject.find()).toBeInTheDocument();
-  expect(screen.getByText('/dashboard?id=my-project', { exact: true })).toBeInTheDocument();
+  expect(screen.getByText('/summary/new_code?id=my-project', { exact: true })).toBeInTheDocument();
 });
 
 it('unsubscribes project with a branch', async () => {
   renderUnsubscribeApp('&branch=normal-branch');
   expect(await ui.unsubscribedSuccessfullyMessageForProject.find()).toBeInTheDocument();
   expect(
-    screen.getByText('/dashboard?id=my-project&branch=normal-branch', { exact: true }),
+    screen.getByText('/summary/new_code?id=my-project&branch=normal-branch', { exact: true }),
   ).toBeInTheDocument();
 });
 
 it('does not unsubscribe project with a pullrequest', async () => {
   renderUnsubscribeApp('&pullRequest=01');
   expect(
-    await screen.findByText('/dashboard?id=my-project&pullRequest=01', { exact: true }),
+    await screen.findByText('/summary/new_code?id=my-project&pullRequest=01', { exact: true }),
   ).toBeInTheDocument();
   expect(ui.unsubscribedSuccessfullyMessageForProject.query()).not.toBeInTheDocument();
 });
@@ -105,7 +105,7 @@ it('does not unsubscribe project with a pullrequest', async () => {
 it('unsubscribes application', async () => {
   renderUnsubscribeApp(undefined, mockComponent({ qualifier: ComponentQualifier.Application }));
   expect(await ui.unsubscribedSuccessfullyMessageForApplication.find()).toBeInTheDocument();
-  expect(screen.getByText('/dashboard?id=my-project', { exact: true })).toBeInTheDocument();
+  expect(screen.getByText('/summary/new_code?id=my-project', { exact: true })).toBeInTheDocument();
 });
 
 it('unsubscribes portfolio', async () => {

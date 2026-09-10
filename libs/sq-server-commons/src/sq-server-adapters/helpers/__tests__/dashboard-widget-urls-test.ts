@@ -123,12 +123,10 @@ describe('Server dashboard widget URL seams', () => {
       '/component_measures',
       { id: 'project-key', metric: MetricKey.new_reliability_rating },
     );
-    expectUrl(getProjectDashboardSummaryUrl('project-key'), '/dashboard', {
-      codeScope: CodeScope.New,
+    expectUrl(getProjectDashboardSummaryUrl('project-key'), '/summary/new_code', {
       id: 'project-key',
     });
-    expectUrl(getProjectDashboardSummaryUrl('project-key', true), '/dashboard', {
-      codeScope: CodeScope.Overall,
+    expectUrl(getProjectDashboardSummaryUrl('project-key', true), '/summary/overall', {
       id: 'project-key',
     });
     expect(getProjectDashboardRuleUrl('typescript:S1')).toContain('rule_key=typescript%3AS1');
@@ -195,7 +193,7 @@ describe('Server dashboard widget URL seams', () => {
         scope: CodeScope.Overall,
         slice: 'status',
       }),
-      '/dashboard',
+      '/project/overview',
       { id: 'project-key' },
     );
   });
