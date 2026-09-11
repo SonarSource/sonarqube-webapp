@@ -80,9 +80,6 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
     },
   ];
 
-  const projectsCount = (count: number) =>
-    formatMessage({ id: 'onboarding_dashboard.journey.analyze.projects_count' }, { count });
-
   const rows: Array<{
     badge: ReactNode;
     cta: ReactNode;
@@ -92,7 +89,14 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
     titleId: string;
   }> = [
     {
-      badge: <Badge variety={BadgeVariety.Neutral}>{projectsCount(analyze.notScanned)}</Badge>,
+      badge: (
+        <Badge variety={BadgeVariety.Neutral}>
+          {formatMessage(
+            { id: 'onboarding_dashboard.journey.analyze.projects_count' },
+            { count: analyze.notScanned },
+          )}
+        </Badge>
+      ),
       cta: (
         <PermissionGate
           trigger={
@@ -114,7 +118,16 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
       titleId: 'onboarding_dashboard.journey.analyze.not_scanned.title',
     },
     {
-      badge: <Badge variety={BadgeVariety.Neutral}>{projectsCount(analyze.notImported)}</Badge>,
+      // Counted in repositories, not projects: this cohort is discovered repositories that have
+      // no project yet, which is what the row's description says too.
+      badge: (
+        <Badge variety={BadgeVariety.Neutral}>
+          {formatMessage(
+            { id: 'onboarding_dashboard.journey.analyze.repositories_count' },
+            { count: analyze.notImported },
+          )}
+        </Badge>
+      ),
       cta: (
         <ImportRepositoriesCta>
           {formatMessage({ id: 'onboarding_dashboard.journey.analyze.not_imported.cta' })}

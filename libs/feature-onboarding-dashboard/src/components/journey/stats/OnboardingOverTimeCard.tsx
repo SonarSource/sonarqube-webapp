@@ -61,10 +61,16 @@ interface Props {
 export function OnboardingOverTimeCard({ showImportedSeries, timeline }: Readonly<Props>) {
   const { formatMessage } = useIntl();
 
+  // The subtitle names the plotted series, so it has to drop the imports half whenever that series
+  // is withheld — otherwise it promises a line the chart does not draw.
+  const descriptionId = showImportedSeries
+    ? 'onboarding_dashboard.journey.overtime.description'
+    : 'onboarding_dashboard.journey.overtime.description.analysis_only';
+
   return (
     <Card className="sw-flex sw-h-full sw-flex-col">
       <Card.Header
-        description={formatMessage({ id: 'onboarding_dashboard.journey.overtime.description' })}
+        description={formatMessage({ id: descriptionId })}
         title={formatMessage({ id: 'onboarding_dashboard.journey.overtime.title' })}
       />
       <Card.Body className="sw-flex sw-min-h-0 sw-grow sw-flex-col">

@@ -202,7 +202,7 @@ const ui = {
   notScannedCta: byRole('button', { name: 'onboarding_dashboard.journey.analyze.not_scanned.cta' }),
   importRowCta: byRole('button', { name: 'onboarding_dashboard.journey.analyze.not_imported.cta' }),
   notScannedCount: byText('onboarding_dashboard.journey.analyze.projects_count.7'),
-  notImportedCount: byText('onboarding_dashboard.journey.analyze.projects_count.20'),
+  notImportedCount: byText('onboarding_dashboard.journey.analyze.repositories_count.20'),
 
   donutStepCount: byText(/^onboarding_dashboard\.journey\.step\.count/),
 };

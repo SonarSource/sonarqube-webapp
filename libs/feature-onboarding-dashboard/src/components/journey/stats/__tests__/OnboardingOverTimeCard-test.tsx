@@ -49,6 +49,11 @@ const ui = {
   projectsScannedLegend: byText(PROJECTS_SCANNED),
   importedLegend: byText(IMPORTED_LEGEND),
 
+  description: byText('onboarding_dashboard.journey.overtime.description'),
+  analysisOnlyDescription: byText(
+    'onboarding_dashboard.journey.overtime.description.analysis_only',
+  ),
+
   tooltip: byRole('tooltip'),
   tooltipProjectsScannedValue: byRole('tooltip').byText('3'),
   tooltipImportedValue: byRole('tooltip').byText('7'),
@@ -68,6 +73,10 @@ it('renders only the projects-scanned series before any repository is imported',
 
   expect(ui.projectsScannedLegend.get()).toBeInTheDocument();
   expect(ui.importedLegend.query()).not.toBeInTheDocument();
+
+  // The subtitle must not promise an imports line the chart is not drawing.
+  expect(ui.analysisOnlyDescription.get()).toBeInTheDocument();
+  expect(ui.description.query()).not.toBeInTheDocument();
 });
 
 it('adds the repositories-imported series once repositories are imported', () => {
@@ -75,6 +84,9 @@ it('adds the repositories-imported series once repositories are imported', () =>
 
   expect(ui.projectsScannedLegend.get()).toBeInTheDocument();
   expect(ui.importedLegend.get()).toBeInTheDocument();
+
+  expect(ui.description.get()).toBeInTheDocument();
+  expect(ui.analysisOnlyDescription.query()).not.toBeInTheDocument();
 });
 
 it('shows a tooltip with the hovered month values and hides it again on mouse leave', async () => {
