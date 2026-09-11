@@ -966,7 +966,6 @@ export const defaultMessages = {
     'In progress and completed scans can be found in the <link>hunter agent run history</link>.',
   'hunter_agent.config.update_error': 'Failed to update Hunter Agent configuration.',
   'hunter_agent.config.updated': 'Hunter Agent configuration updated.',
-  'hunter_agent.credit_estimation.approximate_units': '~{count, number}',
   'hunter_agent.credit_estimation.balance_too_low.branch':
     'Your scan unit balance is too low to run a scan on {branch}.',
   'hunter_agent.credit_estimation.branch_not_analyzed':
@@ -974,15 +973,9 @@ export const defaultMessages = {
   'hunter_agent.credit_estimation.branch_size': 'Branch size: {size} ({ncloc} lines of code)',
   'hunter_agent.credit_estimation.calculating': 'Calculating scan units needed',
   'hunter_agent.credit_estimation.may_vary':
-    'Actual usage per scheduled scan may vary as the branch size changes.',
-  'hunter_agent.credit_estimation.title': 'Estimated usage',
-  'hunter_agent.credit_estimation.units_available':
-    '{count, number} scan {count, plural, one {unit} other {units}} available',
-  'hunter_agent.credit_estimation.units_available_short':
-    '{count, plural, one {unit} other {units}} available',
+    'Estimate based on current lines of code. Actual usage per scheduled scan may vary as the branch size changes.',
+  'hunter_agent.credit_estimation.title': 'Estimated usage per scan',
   'hunter_agent.credit_estimation.units_needed': '{count, plural, one {unit} other {units}} needed',
-  'hunter_agent.credit_estimation.units_per_scan':
-    '{count, plural, one {unit} other {units}} / scan (based on current lines of code).',
   'hunter_agent.daily_analysis.project.description': 'Recurring background scans',
   'hunter_agent.daily_analysis.project.description2':
     'Keep findings fresh by scanning automatically on a regular cadence.',
@@ -1051,15 +1044,40 @@ export const defaultMessages = {
     'Your scan unit balance is too low to run a scan on this branch.',
   'hunter_agent.scan_modal.branch_not_analyzed.branch':
     '{branch} must be analyzed by SonarQube before it can be scanned.',
-  'hunter_agent.scan_modal.branch_size': 'Branch size: {size}',
   'hunter_agent.scan_modal.contact_sales': 'Contact sales',
   'hunter_agent.scan_modal.contact_sales_hint':
     'Contact Sonar sales to increase your scan units balance.',
   'hunter_agent.scan_modal.setup_binding': 'Set up binding',
   'hunter_agent.scan_modal.title': 'Confirm scan',
   'hunter_agent.scan_modal.title.balance_too_low': 'Balance too low',
-  'hunter_agent.scan_modal.units_will_be_used':
-    '{count, plural, one {scan unit} other {scan units}} will be used.',
+  'hunter_agent.credit_estimation.base_units_available':
+    '{count, plural, one {unit available} other {units available}}',
+  'hunter_agent.credit_estimation.overage_units_available':
+    '{count, plural, one {overage unit available} other {overage units allowed}}',
+  'hunter_agent.credit_estimation.overage_units_used':
+    '{count, plural, one {overage unit used} other {overage units used}}',
+  'hunter_agent.scan_modal.activate_overage': 'Activate overage',
+  'hunter_agent.scan_modal.activate_overage_hint.admin':
+    'Activate overage to exceed your yearly limit, or <salesLink>talk to sales</salesLink> to increase your balance.',
+  'hunter_agent.scan_modal.activate_overage_hint.member':
+    'Ask an instance administrator to activate overage to exceed your limit, or <salesLink>talk to sales</salesLink> to increase your balance.',
+  'hunter_agent.scan_modal.increase_overage_hint.admin':
+    'Increase your overage limit, or <salesLink>talk to sales</salesLink> to increase your balance.',
+  'hunter_agent.scan_modal.increase_overage_hint.member':
+    'Ask an instance administrator to increase the overage limit, or <salesLink>talk to sales</salesLink> to increase your balance.',
+  'hunter_agent.scan_modal.manage_overage': 'Manage overage',
+  'hunter_agent.scan_modal.overage_about_to_scan.branch':
+    'This scan of {branch} will use overage scan units.',
+  'hunter_agent.scan_modal.overage_invoice_hint':
+    'This will be added to your next invoice. You may also <salesLink>talk to sales</salesLink> to increase your balance.',
+  'hunter_agent.scan_modal.overage_limit_reached':
+    'Your scan unit balance is too low and you reached your overage limit.',
+  'hunter_agent.schedule.manage_overage': 'Manage overage',
+  'hunter_agent.schedule.overage_available':
+    '{count, number} overage scan {count, plural, one {unit} other {units}} available',
+  'hunter_agent.schedule.overage_description':
+    'Once you reach your plan’s scan limit, scheduled scans will automatically use overage units up to your set limit. Additional charges will apply to your next invoice.',
+  'hunter_agent.schedule.overage_enabled': 'Hunter Agent overage enabled',
   'hunter_agent.tab_activity': 'Run history',
   'hunter_agent.tab_activity.heading': 'Past jobs',
   'hunter_agent.tab_results': 'Scan results',
