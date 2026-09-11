@@ -30,7 +30,6 @@ import { Feature } from '~sq-server-commons/types/features';
 import NonProductionDatabaseWarning from './NonProductionDatabaseWarning';
 import { SecurityAlertBanner } from './SecurityAlertBanner';
 import SystemAnnouncement from './SystemAnnouncement';
-import EnableAiCodeFixMessage from './ai-codefix-notification/EnableAiCodeFixMessage';
 import { GlobalNav } from './nav/global/GlobalNav';
 import { PromotionNotificationManager } from './promotion-notification/PromotionNotificationManager';
 import { UpdateNotification } from './update-notification/UpdateNotification';
@@ -65,8 +64,6 @@ export default function GlobalContainer() {
 }
 
 function Banners() {
-  const { hasFeature } = useAvailableFeatures();
-
   return (
     <>
       <StartupLicenseCheckBanner />
@@ -76,10 +73,6 @@ function Banners() {
       <NonProductionDatabaseWarning />
 
       <MonitoringAlerts isGlobalBanner />
-
-      {(hasFeature(Feature.FixSuggestions) || hasFeature(Feature.FixSuggestionsMarketing)) && (
-        <EnableAiCodeFixMessage />
-      )}
 
       <NCDAutoUpdateMessage />
 

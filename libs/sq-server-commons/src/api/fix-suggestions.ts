@@ -19,7 +19,6 @@
  */
 
 import { axiosClient, axiosToCatch } from '~shared/helpers/axios-clients';
-import { postJSONBody } from '../helpers/request';
 import { AiCodeFixFeatureEnablement, SuggestedFix } from '../types/fix-suggestions';
 
 export interface FixParam {
@@ -32,8 +31,6 @@ export interface AiIssue {
 }
 
 export type SubscriptionType = 'EARLY_ACCESS' | 'PAID' | 'NOT_PAID';
-
-export type BannerType = 'ENABLE' | 'LEARN_MORE';
 
 export interface SubscriptionTypeResponse {
   subscriptionType?: SubscriptionType;
@@ -85,14 +82,6 @@ export interface UpdateFeatureEnablementParams {
     model?: string | null;
     type: string;
   } | null;
-}
-
-export function sendTelemetryInfo(bannerType: BannerType) {
-  return () => {
-    postJSONBody('/api/v2/fix-suggestions/feature-enablements/awareness-banner-interactions', {
-      bannerType,
-    }).catch(() => {});
-  };
 }
 
 export function getSuggestions(data: FixParam): Promise<SuggestedFix> {
