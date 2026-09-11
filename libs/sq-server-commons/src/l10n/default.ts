@@ -1389,6 +1389,24 @@ export const defaultMessages = {
   'vortex_dashboard.adoption_coverage.capability_coverage.legend.verify_only': 'Verify only',
   'vortex_dashboard.adoption_coverage.capability_coverage.no_activity': 'No activity yet',
 
+  'vortex_dashboard.project_activity.title': 'Top project activity',
+  'vortex_dashboard.project_activity.error': 'Unable to load this section right now.',
+  'vortex_dashboard.project_activity.no_activity': 'No activity yet',
+  'vortex_dashboard.project_activity.no_projects': 'No projects yet',
+  'vortex_dashboard.project_activity.column.project': 'Project',
+  'vortex_dashboard.project_activity.column.vortex_calls': 'Vortex calls',
+  'vortex_dashboard.project_activity.column.issues_resolved': 'Issues resolved',
+  'vortex_dashboard.project_activity.column.eng_time_saved': 'Eng time saved (hrs)',
+  'vortex_dashboard.project_activity.column.tokens_saved': 'Tokens saved',
+  'vortex_dashboard.project_activity.column.latest_activity': 'Latest activity',
+  'vortex_dashboard.project_activity.vortex_calls_value':
+    '{count, plural, one {# call} other {# calls}}',
+  'vortex_dashboard.project_activity.guide_calls': 'Guide: {count}',
+  'vortex_dashboard.project_activity.verify_calls': 'Verify: {count}',
+  'vortex_dashboard.project_activity.footer':
+    'Viewing the {count} most recent of {total, plural, one {# project} other {# projects}}.',
+  'vortex_dashboard.project_activity.view_all': 'View all projects',
+
   //------------------------------------------------------------------------------
   //
   // VISIBILITY
