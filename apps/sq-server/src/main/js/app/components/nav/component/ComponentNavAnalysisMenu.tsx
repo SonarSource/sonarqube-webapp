@@ -23,7 +23,6 @@ import { FormattedMessage } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { PROJECT_SUMMARY_BASE_URL, PROJECT_SUMMARY_OVERALL_BASE_URL } from '~adapters/helpers/urls';
 import { useCurrentUser } from '~adapters/helpers/users';
-import { DeprecatedBadge } from '~shared/components/badges/DeprecatedBadge';
 import { NewBadge } from '~shared/components/badges/NewBadge';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isProject } from '~shared/helpers/component';
@@ -109,7 +108,6 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
       )}
 
       <Layout.SidebarNavigation.AccordionItem.Item
-        suffix={<DeprecatedBadge />}
         to={getComponentSecurityHotspotsUrl(component.key, branchLike)}
       >
         <FormattedMessage id="layout.security_hotspots" />
