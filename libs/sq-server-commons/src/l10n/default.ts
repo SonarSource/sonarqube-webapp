@@ -7109,6 +7109,17 @@ export const defaultMessages = {
   'metric.major_violations.name': 'Major Issues',
   'metric.minor_violations.description': 'Minor issues',
   'metric.minor_violations.name': 'Minor Issues',
+  'metric.mule_configuration_complexity_rating.description':
+    'Rating based on complexity of Mule configuration file',
+  'metric.mule_configuration_complexity_rating.name': 'Mule Configuration Complexity Rating',
+  'metric.mule_configuration_files.description': 'Number of Mule configuration files',
+  'metric.mule_configuration_files.name': 'Mule Configuration Files',
+  'metric.mule_dw.description': 'Number of DataWeave transformations',
+  'metric.mule_dw.name': 'Mule DataWeave Transformations',
+  'metric.mule_flows.description': 'Number of Mule flows',
+  'metric.mule_flows.name': 'Mule Flows',
+  'metric.mule_subflows.description': 'Number of Mule sub-flows',
+  'metric.mule_subflows.name': 'Mule Sub-flows',
   'metric.ncloc.name': 'Lines of Code',
   'metric.ncloc.description': 'Non commenting lines of code',
   'metric.ncloc_language_distribution.description':
