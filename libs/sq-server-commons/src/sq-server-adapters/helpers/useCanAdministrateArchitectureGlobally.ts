@@ -20,8 +20,6 @@
 
 import { useAppState } from '../../context/app-state/withAppStateContext';
 
-// Enterprise architecture admin items (patterns, entry points, system components) require a
-// global admin account on SonarQube Server — not the project's architectureadmin permission.
-export function useCanAdministrateEnterpriseArchitecture(): boolean {
+export function useCanAdministrateArchitectureGlobally(): boolean {
   return useAppState().canAdmin ?? false;
 }

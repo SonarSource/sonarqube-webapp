@@ -26,6 +26,7 @@ import { useIntl } from 'react-intl';
 import { Outlet } from 'react-router-dom';
 import useEffectOnce from '~shared/helpers/useEffectOnce';
 import { Extension } from '~shared/types/common';
+import { addons } from '~sq-server-addons/index';
 import { getSettingsNavigation } from '~sq-server-commons/api/navigation';
 import { getPendingPlugins } from '~sq-server-commons/api/plugins';
 import { getSystemStatus, waitSystemUPStatus } from '~sq-server-commons/api/system';
@@ -110,8 +111,11 @@ export function AdminContainer({ appState }: Readonly<AdminContainerProps>) {
 
   const adminPagesContext: AdminPagesContext = { adminPages };
 
+  const ArchitectureEnterpriseAccessProvider: React.ComponentType<React.PropsWithChildren> =
+    addons.architecture?.ArchitectureEnterpriseAccessProvider ?? React.Fragment;
+
   return (
-    <>
+    <ArchitectureEnterpriseAccessProvider>
       <AdministrationSidebar extensions={adminPages} />
 
       <Layout.ContentGrid>
@@ -127,7 +131,7 @@ export function AdminContainer({ appState }: Readonly<AdminContainerProps>) {
           <Outlet context={adminPagesContext} />
         </AdminContext.Provider>
       </Layout.ContentGrid>
-    </>
+    </ArchitectureEnterpriseAccessProvider>
   );
 }
 

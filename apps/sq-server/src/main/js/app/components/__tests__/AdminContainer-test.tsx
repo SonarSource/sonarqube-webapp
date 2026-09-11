@@ -25,9 +25,13 @@ import { byLabelText, byRole, byTestId, byText } from '~shared/helpers/testSelec
 import { getSystemStatus, waitSystemUPStatus } from '~sq-server-commons/api/system';
 import AdminContext from '~sq-server-commons/context/AdminContext';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
-import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { RenderContext, renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { AdminPagesContext } from '~sq-server-commons/types/admin';
 import { AdminContainer, AdminContainerProps } from '../AdminContainer';
+
+const { useArchitectureEnterpriseAccess } = jest.requireActual<
+  typeof import('~feature-architecture/hooks/useArchitectureEnterpriseAccess')
+>('~feature-architecture/hooks/useArchitectureEnterpriseAccess');
 
 jest.mock('~sq-server-commons/api/navigation', () => ({
   getSettingsNavigation: jest
@@ -98,22 +102,37 @@ it('should render nav and provide context to children', async () => {
   expect(reload).toHaveBeenCalled();
 });
 
-function renderAdminContainer(props: Partial<AdminContainerProps> = {}) {
-  return renderAppRoutes('admin', () => (
-    <Route
-      element={
-        <AdminContainer
-          appState={mockAppState({
-            canAdmin: true,
-          })}
-          {...props}
-        />
-      }
-      path="admin"
-    >
-      <Route element={<TestChildComponent />} index />
-    </Route>
-  ));
+
+function renderAdminContainer(
+  props: Partial<AdminContainerProps> = {},
+  context: RenderContext = {},
+  outletContent: React.ReactNode = <TestChildComponent />,
+) {
+  return renderAppRoutes(
+    'admin',
+    () => (
+      <Route
+        element={
+          <AdminContainer
+            appState={mockAppState({
+              canAdmin: true,
+            })}
+            {...props}
+          />
+        }
+        path="admin"
+      >
+        <Route element={outletContent} index />
+      </Route>
+    ),
+    context,
+  );
+}
+
+function ArchitectureAccessProbe() {
+  const { canAdministrateArchitectureGlobally } = useArchitectureEnterpriseAccess();
+
+  return <span>canAdministrate:{String(canAdministrateArchitectureGlobally)}</span>;
 }
 
 function TestChildComponent() {
@@ -166,4 +185,5 @@ const ui = {
 
   fetchPluginsButton: byRole('button', { name: 'fetch plugins' }),
   fetchStatusButton: byRole('button', { name: 'fetch status' }),
+  architectureAccessStatus: byText(/^canAdministrate:/),
 };

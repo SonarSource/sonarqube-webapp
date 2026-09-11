@@ -45,6 +45,7 @@ export const enum SettingsKey {
   RemediationAgentManualEnabled = 'sonar.ai.remediationAgent.manual.enabled',
   HunterAgentEnabled = 'sonar.hunteragent.enabled',
   VortexEnabled = 'sonar.vortex.enabled',
+  ArchitectureEnterpriseEnabled = 'sonar.architecture.enterprise.enabled',
 }
 
 export enum GlobalSettingKeys {

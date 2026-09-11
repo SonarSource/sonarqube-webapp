@@ -3510,6 +3510,13 @@ export const defaultMessages = {
     'Deleting the system component "{name}" will also remove it from any project relationships where it is currently used. This can\'t be undone.',
   'architecture.organization.cross_project.title': 'Cross-project architecture',
   'architecture.organization.current.page': 'Current architecture',
+  'architecture.enterprise_settings.nav': 'Architecture',
+  'architecture.enterprise_settings.title': 'Architecture settings',
+  'architecture.enterprise_settings.checkbox.title': 'Enable enterprise architecture features',
+  'architecture.enterprise_settings.checkbox.help':
+    'Controls whether enterprise architecture features are available, including patterns, SDKs, cross-project relationships, and the project-level Directives and Exit points pages.',
+  'architecture.enterprise_settings.enabled': 'Enterprise architecture features enabled.',
+  'architecture.enterprise_settings.disabled': 'Enterprise architecture features disabled.',
   'architecture.external_interfaces.nav': 'System components',
   'architecture.sdks.nav': 'SDKs',
   'architecture.sdks.list.title': 'SDKs',

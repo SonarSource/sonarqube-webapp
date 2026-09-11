@@ -51,7 +51,7 @@ describe('useArchitectureEntitlement', () => {
 
     const { result } = renderHook(() => useArchitectureEntitlement());
 
-    expect(result.current).toEqual({ allowed: true, isLoading: false });
+    expect(result.current).toEqual({ isEntitledToArchitecture: true, isLoading: false });
   });
 
   it('denies access on a non-Enterprise instance', () => {
@@ -63,7 +63,7 @@ describe('useArchitectureEntitlement', () => {
 
     const { result } = renderHook(() => useArchitectureEntitlement());
 
-    expect(result.current).toEqual({ allowed: false, isLoading: false });
+    expect(result.current).toEqual({ isEntitledToArchitecture: false, isLoading: false });
   });
 
   it('denies access to logged-out users', () => {
@@ -75,6 +75,6 @@ describe('useArchitectureEntitlement', () => {
 
     const { result } = renderHook(() => useArchitectureEntitlement());
 
-    expect(result.current).toEqual({ allowed: false, isLoading: false });
+    expect(result.current).toEqual({ isEntitledToArchitecture: false, isLoading: false });
   });
 });

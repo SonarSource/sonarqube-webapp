@@ -44,6 +44,7 @@ const billingHandler = new BillingServiceMock(BillingServiceDefaultDataset);
 beforeEach(() => {
   jest.mocked(addons).license = undefined;
   jest.mocked(addons).remediationAgent = undefined;
+  jest.mocked(addons).architecture = undefined;
   billingHandler.reset();
   registerServiceMocks(billingHandler);
 });

@@ -18,17 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useIsEnterpriseTier } from './plan';
-import { useCurrentUser } from './users';
+import { useAvailableFeatures } from '../../context/available-features/withAvailableFeatures';
+import { Feature } from '../../types/features';
 
-export interface ArchitectureEntitlement {
-  isEntitledToArchitecture: boolean;
-  isLoading: boolean;
-}
+export function useIsArchitectureFeatureAdvertised() {
+  const { hasFeature } = useAvailableFeatures();
 
-export function useArchitectureEntitlement(): ArchitectureEntitlement {
-  const { isLoggedIn } = useCurrentUser();
-  const isEnterpriseOrAbove = useIsEnterpriseTier();
-
-  return { isEntitledToArchitecture: isLoggedIn && isEnterpriseOrAbove, isLoading: false };
+  return hasFeature(Feature.Architecture);
 }

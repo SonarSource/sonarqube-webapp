@@ -384,18 +384,11 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
     return <ComponentContainerNotFound isPortfolioLike={pathname.includes('portfolio')} />;
   }
 
-  // Provides the architecture add-on's access context to the project nav and its routed pages
-  // (e.g. Directives); falls back to a no-op for community builds where the addon is absent.
-  const ArchitectureAddonProvider: React.ComponentType<React.PropsWithChildren> =
-    addons.architecture?.ArchitectureAddonProvider ?? React.Fragment;
+  const ArchitectureEnterpriseAccessProvider: React.ComponentType<React.PropsWithChildren> =
+    addons.architecture?.ArchitectureEnterpriseAccessProvider ?? React.Fragment;
 
   return (
-    <ArchitectureAddonProvider>
-      {/*
-       * ComponentContext.Provider wraps ComponentNav too (not just the routed Outlet) so that
-       * anything rendered inside the nav (e.g. addon nav items reading useComponent()) sees the
-       * real fetched component instead of ComponentContext's empty default.
-       */}
+    <ArchitectureEnterpriseAccessProvider>
       <ComponentContext.Provider value={componentProviderProps}>
         <Helmet
           defer={false}
@@ -419,7 +412,7 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
           )}
         </Layout.ContentGrid>
       </ComponentContext.Provider>
-    </ArchitectureAddonProvider>
+    </ArchitectureEnterpriseAccessProvider>
   );
 }
 

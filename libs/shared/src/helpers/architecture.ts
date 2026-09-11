@@ -30,10 +30,12 @@ export const DEFAULT_PERFORMANCE_LIMITS: PerformanceLimits = {
 };
 
 export interface ArchitectureFlags {
+  architectureEnterpriseEnabled: boolean;
   designArchitectureSquadExtensionPack: boolean;
   designArchitectureSquadPerformanceLimits: {
     maxEdgesCount: number;
     maxNodesCount: number;
   };
   isCurrentOrganizationMember: boolean;
+  isLoading: boolean;
 }

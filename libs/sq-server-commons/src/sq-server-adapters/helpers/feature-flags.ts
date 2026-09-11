@@ -40,8 +40,6 @@ interface SQSFlagSet extends FlagSet {
 // compatibility with SQC in shared code.
 // Add features flags here as needed in shared code, especially useful if you want a default value other than falsy for SQS.
 const defaultFlags: SQSFlagSet = {
-  // Always on on SQS (no LaunchDarkly to read it from): ArchitectureAddonProvider ANDs this with
-  // the entitlement check, so on SQS access is decided by useArchitectureEntitlement() alone.
   designArchitectureSquadExtensionPack: true,
   designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
   licenseEnableUsageProductsUi: true,

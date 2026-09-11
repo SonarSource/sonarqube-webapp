@@ -298,6 +298,13 @@ describe('ComponentNav', () => {
     });
 
     it('should render administaration menu for admins', () => {
+      mockUseArchitectureEnterpriseAccess.useArchitectureEnterpriseAccess.mockReturnValue({
+        canAdministrateArchitectureGlobally: false,
+        isArchitectureEnterpriseActive: false,
+        isArchitectureEnterpriseAvailable: false,
+        isLoading: false,
+      });
+
       const component = mockComponent({
         analysisDate: '2024-01-01',
         configuration: {

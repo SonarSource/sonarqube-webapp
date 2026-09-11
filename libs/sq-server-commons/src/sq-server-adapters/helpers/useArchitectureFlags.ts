@@ -18,18 +18,43 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useMutation } from '@tanstack/react-query';
 import { useFlags } from '~adapters/helpers/feature-flags';
 import { ArchitectureFlags } from '~shared/helpers/architecture';
+import { useGetValueQuery, useSaveSimpleValueMutation } from '../../queries/settings';
+import { SettingsKey } from '../../types/settings';
+import { useArchitectureEntitlement } from './useArchitectureEntitlement';
+import { useIsArchitectureFeatureAdvertised } from './useIsArchitectureFeatureAdvertised';
 
 export function useArchitectureFlags(): ArchitectureFlags {
   const flags = useFlags();
+  const { isEntitledToArchitecture } = useArchitectureEntitlement();
+  const isAdvertised = useIsArchitectureFeatureAdvertised();
+  const enabled =
+    flags.designArchitectureSquadExtensionPack === true && isEntitledToArchitecture && isAdvertised;
+  const { data: architectureEnterpriseEnabledSetting, isLoading } = useGetValueQuery(
+    { key: SettingsKey.ArchitectureEnterpriseEnabled },
+    { enabled },
+  );
 
   return {
-    // SonarQube Server has no extension-pack entitlement concept. The in-model patterns
-    // picker is gated on architecture add-on access (flag or entitlement) instead, so this
-    // field is kept only to satisfy the ArchitectureFlags interface.
+    architectureEnterpriseEnabled:
+      enabled && architectureEnterpriseEnabledSetting?.value !== 'false',
     designArchitectureSquadExtensionPack: false,
     designArchitectureSquadPerformanceLimits: flags.designArchitectureSquadPerformanceLimits,
     isCurrentOrganizationMember: true,
+    isLoading: enabled && isLoading,
   };
+}
+
+export function useSetArchitectureEnterpriseEnabledMutation() {
+  const mutation = useSaveSimpleValueMutation(false, null);
+
+  return useMutation({
+    mutationFn: (value: boolean) =>
+      mutation.mutateAsync({
+        key: SettingsKey.ArchitectureEnterpriseEnabled,
+        value: value.toString(),
+      }),
+  });
 }

@@ -20,9 +20,7 @@
 
 import { renderHook } from '@testing-library/react';
 import { useComponent } from '../../../context/componentContext/withComponentContext';
-// Relative import so we exercise the real adapter, bypassing the global
-// `~adapters/helpers/useCanUpdateArchitectureModel` jest mock.
-import { useCanUpdateArchitectureModel } from '../useCanUpdateArchitectureModel';
+import { useCanAdministrateArchitectureProject } from '../useCanAdministrateArchitectureProject';
 
 jest.mock('../../../context/componentContext/withComponentContext', () => ({
   useComponent: jest.fn(),
@@ -40,11 +38,11 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
-describe('useCanUpdateArchitectureModel', () => {
+describe('useCanAdministrateArchitectureProject', () => {
   it('returns true when the user has the architectureadmin permission', () => {
     mockCanAdminArchitecture(true);
 
-    const { result } = renderHook(() => useCanUpdateArchitectureModel());
+    const { result } = renderHook(() => useCanAdministrateArchitectureProject());
 
     expect(result.current).toBe(true);
   });
@@ -52,7 +50,7 @@ describe('useCanUpdateArchitectureModel', () => {
   it('returns false when the user does not have the architectureadmin permission', () => {
     mockCanAdminArchitecture(false);
 
-    const { result } = renderHook(() => useCanUpdateArchitectureModel());
+    const { result } = renderHook(() => useCanAdministrateArchitectureProject());
 
     expect(result.current).toBe(false);
   });
@@ -60,7 +58,7 @@ describe('useCanUpdateArchitectureModel', () => {
   it('returns false when the flag is absent from the configuration', () => {
     mockCanAdminArchitecture(undefined);
 
-    const { result } = renderHook(() => useCanUpdateArchitectureModel());
+    const { result } = renderHook(() => useCanAdministrateArchitectureProject());
 
     expect(result.current).toBe(false);
   });
@@ -68,7 +66,7 @@ describe('useCanUpdateArchitectureModel', () => {
   it('returns false when there is no component', () => {
     mockedUseComponent.mockReturnValue({ component: undefined } as ReturnType<typeof useComponent>);
 
-    const { result } = renderHook(() => useCanUpdateArchitectureModel());
+    const { result } = renderHook(() => useCanAdministrateArchitectureProject());
 
     expect(result.current).toBe(false);
   });

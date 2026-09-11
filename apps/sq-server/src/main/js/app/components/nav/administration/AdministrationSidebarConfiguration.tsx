@@ -64,6 +64,10 @@ export function AdministrationSidebarConfiguration(props: Readonly<Props>) {
         </FeatureAvailabilityGuard>
       )}
 
+      {addons.architecture?.ArchitectureSettingsNavItem && (
+        <addons.architecture.ArchitectureSettingsNavItem />
+      )}
+
       <Layout.SidebarNavigation.AccordionItem.Item to="/admin/settings/encryption">
         <FormattedMessage id="property.category.security.encryption" />
       </Layout.SidebarNavigation.AccordionItem.Item>

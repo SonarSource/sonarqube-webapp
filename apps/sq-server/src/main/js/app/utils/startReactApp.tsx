@@ -214,12 +214,19 @@ function renderComponentRoutes({
   );
 }
 
-function renderAdminRoutes({ hasPortfolioFeature }: { hasPortfolioFeature: boolean }) {
+function renderAdminRoutes({
+  hasPortfolioFeature,
+  hasArchitectureEnterpriseFeature,
+}: {
+  hasPortfolioFeature: boolean;
+  hasArchitectureEnterpriseFeature: boolean;
+}) {
   return (
     <Route path="admin">
       <Route element={<AdminContainer />}>
         {hasPortfolioFeature && addons.portfolios?.globalAdminRoutes()}
         {addons.remediationAgent?.globalAdminRoutes()}
+        {hasArchitectureEnterpriseFeature && addons.architecture?.globalAdminRoutes?.()}
 
         {/* Migrated internal Sonar admin extensions */}
         {globalAdminExtensionMigratedRoutes()}
@@ -302,8 +309,11 @@ const router = ({
   governanceInstalled: boolean;
   hasApplicationFeature: boolean;
   isEnterprise: boolean;
-}) =>
-  createBrowserRouter(
+}) => {
+  const hasArchitectureCoreFeature = availableFeatures.includes(Feature.Architecture);
+  const hasArchitectureEnterpriseFeature = isEnterprise;
+
+  return createBrowserRouter(
     createRoutesFromElements(
       // Wrapper to set containers and providers that need access to the router context for all routes.
       // This way we can use router context in toast message, for example render links
@@ -352,8 +362,8 @@ const router = ({
               {webAPIRoutesV2()}
 
               {renderComponentRoutes({
-                hasArchitectureCoreFeature: availableFeatures.includes(Feature.Architecture),
-                hasArchitectureEnterpriseFeature: isEnterprise,
+                hasArchitectureCoreFeature,
+                hasArchitectureEnterpriseFeature,
                 hasBranchSupport: availableFeatures.includes(Feature.BranchSupport),
                 hasScaFeature: availableFeatures.includes(Feature.Sca),
                 hasAicaFeature: availableFeatures.includes(Feature.AiCodeAssurance),
@@ -369,6 +379,8 @@ const router = ({
 
               {renderAdminRoutes({
                 hasPortfolioFeature: governanceInstalled,
+                hasArchitectureEnterpriseFeature:
+                  hasArchitectureCoreFeature && hasArchitectureEnterpriseFeature,
               })}
 
               <Route element={<StateCallbackHandler />} path="callback" />
@@ -411,6 +423,7 @@ const router = ({
     ),
     { basename: getBaseUrl() },
   );
+};
 
 export default function startReactApp(
   l10nBundle: IntlShape,
