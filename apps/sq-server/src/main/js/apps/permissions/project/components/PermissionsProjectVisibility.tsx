@@ -45,8 +45,8 @@ export default function PermissionsProjectVisibility(props: Readonly<Props>) {
   const { data: gitHubProvisioningStatus, isFetching: isFetchingGitHubProvisioningStatus } =
     useGithubProvisioningEnabledQuery();
   const isFetching = isFetchingGitHubProvisioningStatus;
-  const isDisabled =
-    (isGitHubProject && !!gitHubProvisioningStatus) || (isGitLabProject && isProjectManaged);
+  const provisionedByGitHub = isGitHubProject && !!gitHubProvisioningStatus;
+  const isDisabled = provisionedByGitHub || (isGitLabProject && isProjectManaged);
 
   return (
     <>
@@ -54,6 +54,13 @@ export default function PermissionsProjectVisibility(props: Readonly<Props>) {
         <Text as="p">
           <FormattedMessage
             id={`visibility.${component.visibility}.description.${component.qualifier}`}
+          />
+        </Text>
+      ) : undefined}
+      {isDisabled ? (
+        <Text as="p">
+          <FormattedMessage
+            id={`roles.page.change_visibility.readonly.${provisionedByGitHub ? 'github' : 'gitlab'}`}
           />
         </Text>
       ) : undefined}

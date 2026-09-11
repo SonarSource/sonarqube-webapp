@@ -71,6 +71,7 @@ describe('GitHub provisioning', () => {
     await ui.appLoaded();
 
     await expectVisibilityChangeBlocked(ui);
+    expect(ui.visibilityReadonlyGithubExplanation.get()).toBeInTheDocument();
   });
 
   it('should allow to change visibility for non-GH Project', async () => {

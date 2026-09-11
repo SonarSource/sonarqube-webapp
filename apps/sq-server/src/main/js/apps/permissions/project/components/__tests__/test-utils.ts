@@ -178,6 +178,8 @@ async function expectVisibilityChangeAllowed(ui: PermissionsProjectPageObject) {
   expect(ui.visibilityRadio(Visibility.Public).get()).not.toHaveClass('disabled');
   expect(ui.visibilityRadio(Visibility.Public).get()).toBeChecked();
   expect(ui.visibilityRadio(Visibility.Private).get()).not.toHaveClass('disabled');
+  expect(ui.visibilityReadonlyGithubExplanation.query()).not.toBeInTheDocument();
+  expect(ui.visibilityReadonlyGitlabExplanation.query()).not.toBeInTheDocument();
   await ui.turnProjectPrivate();
   expect(ui.visibilityRadio(Visibility.Private).get()).toBeChecked();
 }

@@ -44,6 +44,8 @@ export function getPageObject(user: UserEvent) {
     githubExplanations: byText('roles.page.description.github'),
     gitlabLogo: byRole('img', { name: 'project_permission.managed.alm.gitlab' }),
     gitlabExplanations: byText('roles.page.description.gitlab'),
+    visibilityReadonlyGithubExplanation: byText('roles.page.change_visibility.readonly.github'),
+    visibilityReadonlyGitlabExplanation: byText('roles.page.change_visibility.readonly.gitlab'),
     confirmRemovePermissionDialog: byRole('alertdialog', {
       name: 'project_permission.remove_only_confirmation_title',
     }),

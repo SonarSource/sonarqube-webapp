@@ -1465,6 +1465,10 @@ export const defaultMessages = {
   'roles.page.description.gitlab':
     'Project permissions are read-only for users provisioned from GitLab. For non-GitLab users, permissions can only be removed.',
   'roles.page.change_visibility': 'Change project visibility',
+  'roles.page.change_visibility.readonly.github':
+    'Project visibility is synchronized from GitHub and cannot be changed here.',
+  'roles.page.change_visibility.readonly.gitlab':
+    'Project visibility is synchronized from GitLab and cannot be changed here.',
   'project_permission.managed': 'Provisioned from {0}',
   'project_permission.local_project_with_github_provisioning':
     'Please note that this project is not linked to GitHub. Bind it to GitHub to benefit from permission provisioning.',

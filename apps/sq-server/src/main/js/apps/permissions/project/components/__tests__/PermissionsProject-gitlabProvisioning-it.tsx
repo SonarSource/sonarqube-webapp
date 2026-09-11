@@ -83,6 +83,7 @@ describe('GitLab provisioning', () => {
     await ui.appLoaded();
 
     await expectVisibilityChangeBlocked(ui);
+    expect(ui.visibilityReadonlyGitlabExplanation.get()).toBeInTheDocument();
   });
 
   it('should allow to change visibility for non-GitLab Project', async () => {
