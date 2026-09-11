@@ -5041,6 +5041,11 @@ export const defaultMessages = {
   'settings.sandbox_issues.default_enablement.no.description':
     'Project admins must manually enable this feature',
   'settings.sandbox_issues.default_enablement.invalid': 'Choose default status',
+  'settings.sandbox_issues.deferral_days.title': 'Automatically reopen sandboxed issues',
+  'settings.sandbox_issues.deferral_days.description':
+    'Number of days a sandboxed issue stays hidden before it is automatically reopened. Use 0 to disable auto-reopening.',
+  'settings.sandbox_issues.deferral_days.unit': 'days',
+  'settings.sandbox_issues.deferral_days.invalid': 'Enter 0 or a positive number of days',
   'settings.sandbox_issues.confirm.title':
     'This action might compromise your code. Are you sure you want to proceed?',
   'settings.sandbox_issues.confirm.description':
@@ -5104,6 +5109,8 @@ export const defaultMessages = {
     'Type and severity of issues that are isolated in the sandbox',
   'settings.sandbox_issues.project.qualities.description':
     'Configured at the instance level. Contact your administrator for modifications.',
+  'settings.sandbox_issues.project.deferral_days.readonly':
+    'Sandboxed issues {days, plural, =0 {never automatically reopen} one {automatically reopen after # day} other {automatically reopen after # days}}. Configured at the instance level. Contact your administrator for modifications.',
 
   'property.category.announcement': 'Announcement',
   'property.category.general': 'General',
