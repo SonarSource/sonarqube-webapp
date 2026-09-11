@@ -19,6 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
+import { useIntl } from 'react-intl';
 import { useDashboardPortfolioContext } from '~adapters/context/dashboardContext';
 import {
   usePortfolioRatingBadgeMeasuresQuery,
@@ -146,7 +147,11 @@ describe('PortfolioRatingBadgeWidget', () => {
     );
 
     expect(screen.queryByText('project-rating-badge')).not.toBeInTheDocument();
-    expect(screen.getByRole('link')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'metric.has_rating_X.A' })).toBeInTheDocument();
+    // Guards against regressing to a concatenated raw key (SONAR-32169): the accessible name
+    // must come from formatting `metric.has_rating_X` with the rating as parameter 0, not from
+    // string-concatenating the rating onto the key.
+    expect(useIntl().formatMessage).toHaveBeenCalledWith({ id: 'metric.has_rating_X' }, { 0: 'A' });
   });
 
   it('renders the center rating badge without a link in edit mode', () => {

@@ -179,9 +179,10 @@ function PortfolioDashboardRatingBadgeLink(
   }>,
 ) {
   const { extraLinkClassName, rating, ratingDrilldownTo } = props;
+  const { formatMessage } = useIntl();
   const badge = (
     <PortfolioDashboardRatingBadge
-      ariaLabel={`metric.has_rating_X.${rating}`}
+      ariaLabel={formatMessage({ id: 'metric.has_rating_X' }, { 0: rating })}
       rating={rating}
       size={RatingBadgeSize.ExtraLarge}
     />
