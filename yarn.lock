@@ -7728,10 +7728,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remix-run/router@npm:1.23.3":
-  version: 1.23.3
-  resolution: "@remix-run/router@npm:1.23.3"
-  checksum: 10/a12ae9994bf017d47392ce2be24252b4e2281f4b27eac78f0e9b48afa5f522be9c0ec64b85db013ded1fff140d9512b97ac8ea5dd182138dcd6d3ded3136cbf6
+"@remix-run/router@npm:1.23.4":
+  version: 1.23.4
+  resolution: "@remix-run/router@npm:1.23.4"
+  checksum: 10/1b7dd04465a542a8110ee398195ac4b9ac1de5521312f9953041874f0295bf64ff224a0ff88ff36a91c88004529667f566b95fdf94b35fc26b17b1f0d61f03d8
   languageName: node
   linkType: hard
 
@@ -20821,27 +20821,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:6.30.5":
-  version: 6.30.5
-  resolution: "react-router-dom@npm:6.30.5"
+"react-router-dom@npm:6.30.6":
+  version: 6.30.6
+  resolution: "react-router-dom@npm:6.30.6"
   dependencies:
-    "@remix-run/router": "npm:1.23.3"
-    react-router: "npm:6.30.5"
+    "@remix-run/router": "npm:1.23.4"
+    react-router: "npm:6.30.6"
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: 10/4c1971012569edb5b2ee9d2aa4b25ff80ee02b5ad4627a43a2d1434f8c4b813ab13d280f366777829917ca6c47f7887bce0167008a57f3bd22d9c7fa9f239655
+  checksum: 10/6e501c45fd85894b197a84437c12cd0ab6d9c14277af41a7546f965ee0a0861aff1da5d72d56020a1ac2d4d4b1c4ec848a16554372004fdef5cdb1bce75a155e
   languageName: node
   linkType: hard
 
-"react-router@npm:6.30.5":
-  version: 6.30.5
-  resolution: "react-router@npm:6.30.5"
+"react-router@npm:6.30.6":
+  version: 6.30.6
+  resolution: "react-router@npm:6.30.6"
   dependencies:
-    "@remix-run/router": "npm:1.23.3"
+    "@remix-run/router": "npm:1.23.4"
   peerDependencies:
     react: ">=16.8"
-  checksum: 10/04c604da11e83ca5cf3f9478332f4700ea46cc1782285fe4ccf7bdd198ee3d7813ee957040d2ae4ed341a127c8a88b3964b89bfea8004b33d32f65e5dd1c2ec2
+  checksum: 10/df751de74dc460abc9023aecfd09284170939e8ad8892373ec0015aa04187e0b9c66fffcb546bfb0f1ca5c9edb14b67c93a46306a61efcf15a7dc20eca1e16b7
   languageName: node
   linkType: hard
 
@@ -22175,7 +22175,7 @@ __metadata:
     react-intl: "npm:10.1.1"
     react-markdown: "npm:10.1.0"
     react-modal: "npm:3.16.3"
-    react-router-dom: "npm:6.30.5"
+    react-router-dom: "npm:6.30.6"
     react-scanner: "npm:1.2.0"
     react-select: "npm:5.10.1"
     regenerator-runtime: "npm:0.14.1"
