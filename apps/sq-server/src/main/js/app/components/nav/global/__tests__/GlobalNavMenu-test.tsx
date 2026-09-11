@@ -70,7 +70,10 @@ it('should show the Security Alerts menu when SCA is enabled', async () => {
 
   await user.click(screen.getByText('more'));
 
-  expect(screen.getByText('security_alerts.page')).toBeInTheDocument();
+  expect(screen.getByRole('menuitem', { name: 'security_alerts.page' })).toHaveAttribute(
+    'href',
+    '/security-alerts?statuses=OPEN',
+  );
 });
 
 it('should hide the Security Alerts menu when SCA is disabled', async () => {

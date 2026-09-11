@@ -32,7 +32,7 @@ const FILTER_PARAMS = ['alertTypes', 'statuses', 'sort', 'direction'] as const;
  */
 export function getSecurityAlertsUrl(alertId?: string, currentSearch?: string) {
   const currentParams = Object.fromEntries(new URLSearchParams(currentSearch ?? ''));
-  const searchObject: Record<string, unknown> = { ...currentParams };
+  const searchObject: Record<string, unknown> = { statuses: 'OPEN', ...currentParams };
 
   for (const key in searchObject) {
     if (!(FILTER_PARAMS as readonly string[]).includes(key)) {

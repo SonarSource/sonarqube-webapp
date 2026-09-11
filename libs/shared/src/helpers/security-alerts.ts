@@ -51,7 +51,11 @@ export function getPackageInfoFromUrl(packageUrl: string | null) {
 
   try {
     const packageInfo = PackageURL.fromString(packageUrl);
-    return { packageEcosystem: packageInfo.type, packageName: packageInfo.name };
+    return {
+      packageEcosystem: packageInfo.type,
+      packageName: packageInfo.name,
+      packageVersion: packageInfo.version,
+    };
   } catch {
     return null;
   }

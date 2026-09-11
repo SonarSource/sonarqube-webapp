@@ -21,7 +21,7 @@
 import { DropdownMenu, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { NewBadge } from '~shared/components/badges/NewBadge';
-import { SECURITY_ALERTS_ROUTE_NAME } from '~shared/helpers/security-alerts-urls';
+import { getSecurityAlertsUrl } from '~shared/helpers/security-alerts-urls';
 import { isDefined } from '~shared/helpers/types';
 import { Extension } from '~shared/types/common';
 import { addons } from '~sq-server-addons/index';
@@ -42,6 +42,7 @@ function GlobalNavMore({ appState: { globalPages = [] } }: Readonly<{ appState: 
   const withoutPortfolios = globalPages.filter((page) => page.key !== 'governance/portfolios');
   const showSecurityAlerts =
     useAvailableFeatures().hasFeature(Feature.Sca) && isDefined(addons.securityAlerts);
+  const securityAlertsUrl = getSecurityAlertsUrl();
 
   const { vortexDashboard } = addons;
 
@@ -63,11 +64,12 @@ function GlobalNavMore({ appState: { globalPages = [] } }: Readonly<{ appState: 
 
   return (
     <Layout.GlobalNavigation.DropdownItem
+      disableActiveHighlight
       id="moreMenuDropdown"
       items={
         <>
           {showSecurityAlerts && (
-            <DropdownMenu.ItemLink to={`/${SECURITY_ALERTS_ROUTE_NAME}`}>
+            <DropdownMenu.ItemLink to={securityAlertsUrl}>
               <FormattedMessage id="security_alerts.page" />
             </DropdownMenu.ItemLink>
           )}

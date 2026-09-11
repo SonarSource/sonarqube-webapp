@@ -21,6 +21,13 @@
 import { getSecurityAlertsUrl } from '../security-alerts-urls';
 
 describe('getSecurityAlertsUrl', () => {
+  it('includes the default status for a URL without filters', () => {
+    expect(getSecurityAlertsUrl()).toEqual({
+      pathname: '/security-alerts',
+      search: '?statuses=OPEN',
+    });
+  });
+
   it('preserves filter params for an alert detail URL', () => {
     const search = '?alertTypes=VULNERABILITY&statuses=OPEN&sort=LAST_DETECTED_AT&direction=DESC';
     const result = getSecurityAlertsUrl('alert-123', search);
