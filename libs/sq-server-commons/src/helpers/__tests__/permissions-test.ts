@@ -22,6 +22,7 @@ import { isValidElement } from 'react';
 import { Permissions } from '../../types/permissions';
 import {
   PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE,
+  PERMISSIONS_ORDER_GLOBAL,
   convertToPermissionDefinitions,
   removeArchitectureAdminPermission,
 } from '../permissions';
@@ -32,6 +33,29 @@ describe('removeArchitectureAdminPermission', () => {
 
     expect(filtered).not.toContain(Permissions.ArchitectureAdmin);
     expect(filtered).toContain(Permissions.Admin);
+  });
+
+  it('removes architectureadmin from a category group and leaves siblings intact', () => {
+    const filtered = removeArchitectureAdminPermission(PERMISSIONS_ORDER_GLOBAL);
+    const administer = filtered.find(
+      (entry): entry is { category: string; permissions: Permissions[] } =>
+        typeof entry === 'object' && entry.category === 'administer',
+    );
+
+    expect(filtered).toContain(Permissions.Admin);
+    expect(filtered).toContain(Permissions.Scan);
+    expect(administer?.permissions).toEqual([
+      Permissions.QualityGateAdmin,
+      Permissions.QualityProfileAdmin,
+    ]);
+    expect(PERMISSIONS_ORDER_GLOBAL[1]).toEqual({
+      category: 'administer',
+      permissions: [
+        Permissions.QualityGateAdmin,
+        Permissions.QualityProfileAdmin,
+        Permissions.ArchitectureAdmin,
+      ],
+    });
   });
 });
 

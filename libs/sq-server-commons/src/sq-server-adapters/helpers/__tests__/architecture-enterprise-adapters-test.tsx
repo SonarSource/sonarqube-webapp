@@ -21,11 +21,14 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook } from '@testing-library/react';
 import { useFlags } from '~adapters/helpers/feature-flags';
-import { useAppState } from '../../../context/app-state/withAppStateContext';
 import { AvailableFeaturesContext } from '../../../context/available-features/AvailableFeaturesContext';
+import { CurrentUserContext } from '../../../context/current-user/CurrentUserContext';
+import { mockCurrentUser, mockLoggedInUser } from '../../../helpers/testMocks';
 import { useGetValueQuery, useSaveSimpleValueMutation } from '../../../queries/settings';
 import { Feature } from '../../../types/features';
+import { Permissions } from '../../../types/permissions';
 import { SettingsKey } from '../../../types/settings';
+import { CurrentUser } from '../../../types/users';
 import { useArchitectureEntitlement } from '../useArchitectureEntitlement';
 import {
   useArchitectureFlags,
@@ -33,10 +36,6 @@ import {
 } from '../useArchitectureFlags';
 import { useCanAdministrateArchitectureGlobally } from '../useCanAdministrateArchitectureGlobally';
 import { useIsArchitectureFeatureAdvertised } from '../useIsArchitectureFeatureAdvertised';
-
-jest.mock('../../../context/app-state/withAppStateContext', () => ({
-  useAppState: jest.fn(),
-}));
 
 jest.mock('../../../queries/settings', () => ({
   useGetValueQuery: jest.fn(),
@@ -50,8 +49,6 @@ jest.mock('~adapters/helpers/feature-flags', () => ({
 jest.mock('../useArchitectureEntitlement', () => ({
   useArchitectureEntitlement: jest.fn(),
 }));
-
-const mockedUseAppState = jest.mocked(useAppState);
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -69,20 +66,36 @@ beforeEach(() => {
 });
 
 describe('useCanAdministrateArchitectureGlobally', () => {
-  it('returns true for global admins', () => {
-    mockedUseAppState.mockReturnValue({ canAdmin: true } as ReturnType<typeof useAppState>);
+  function renderWithUser(currentUser: CurrentUser) {
+    return renderHook(() => useCanAdministrateArchitectureGlobally(), {
+      wrapper: ({ children }) => (
+        <CurrentUserContext.Provider value={{ currentUser, updateCurrentUserHomepage: jest.fn() }}>
+          {children}
+        </CurrentUserContext.Provider>
+      ),
+    });
+  }
 
-    const { result } = renderHook(() => useCanAdministrateArchitectureGlobally());
+  it('grants access to holders of the instance-scoped architectureadmin permission', () => {
+    const user = mockLoggedInUser({
+      permissions: { global: [Permissions.ArchitectureAdmin] },
+    });
 
-    expect(result.current).toBe(true);
+    expect(renderWithUser(user).result.current).toBe(true);
   });
 
-  it('returns false when canAdmin is false or absent', () => {
-    mockedUseAppState.mockReturnValue({ canAdmin: false } as ReturnType<typeof useAppState>);
-    expect(renderHook(() => useCanAdministrateArchitectureGlobally()).result.current).toBe(false);
+  it('denies access to an instance admin who lacks the permission', () => {
+    const user = mockLoggedInUser({ permissions: { global: [Permissions.Admin] } });
 
-    mockedUseAppState.mockReturnValue({} as ReturnType<typeof useAppState>);
-    expect(renderHook(() => useCanAdministrateArchitectureGlobally()).result.current).toBe(false);
+    expect(renderWithUser(user).result.current).toBe(false);
+  });
+
+  it('denies access when the user carries no permissions payload', () => {
+    expect(renderWithUser(mockLoggedInUser()).result.current).toBe(false);
+  });
+
+  it('denies access to anonymous users', () => {
+    expect(renderWithUser(mockCurrentUser({ isLoggedIn: false })).result.current).toBe(false);
   });
 });
 

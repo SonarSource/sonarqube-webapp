@@ -7698,6 +7698,9 @@ export const defaultMessages = {
   'global_permissions.profileadmin.desc': 'Ability to perform any action on quality profiles.',
   'global_permissions.gateadmin': 'Quality gates',
   'global_permissions.gateadmin.desc': 'Ability to perform any action on quality gates.',
+  'global_permissions.architectureadmin': 'Architecture',
+  'global_permissions.architectureadmin.desc':
+    'Ability to manage the intended architecture at the instance level.',
   'global_permissions.scan': 'Execute Analysis',
   'global_permissions.scan.desc':
     '<p>Grants the ability to:</p><ul><li>Retrieve all settings required to run the analysis, including secured credentials like passwords.</li><li>Push analysis results to SonarQube Server.</li><li>Run scans on any project in this SonarQube Server instance, including private ones, regardless of existing project-level permissions.</li></ul>',

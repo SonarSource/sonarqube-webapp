@@ -24,9 +24,10 @@ import { Route, useOutletContext } from 'react-router-dom';
 import { byLabelText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import { getSystemStatus, waitSystemUPStatus } from '~sq-server-commons/api/system';
 import AdminContext from '~sq-server-commons/context/AdminContext';
-import { mockAppState } from '~sq-server-commons/helpers/testMocks';
+import { mockAppState, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { RenderContext, renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { AdminPagesContext } from '~sq-server-commons/types/admin';
+import { Permissions } from '~sq-server-commons/types/permissions';
 import { AdminContainer, AdminContainerProps } from '../AdminContainer';
 
 const { useArchitectureEnterpriseAccess } = jest.requireActual<

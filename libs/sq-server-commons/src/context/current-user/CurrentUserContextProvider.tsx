@@ -20,7 +20,11 @@
 
 import { useCallback, useMemo, useState } from 'react';
 import { CurrentUser, HomePage, NoticeType } from '../../types/users';
-import { CurrentUserContext, DismissNoticesUpdaterContext } from './CurrentUserContext';
+import {
+  CurrentUserContext,
+  CurrentUserUpdaterContext,
+  DismissNoticesUpdaterContext,
+} from './CurrentUserContext';
 
 interface Props {
   currentUser?: CurrentUser;
@@ -36,6 +40,10 @@ export default function CurrentUserContextProvider({
       dismissedNotices: {},
     },
   );
+
+  const updateCurrentUser = useCallback((user: CurrentUser) => {
+    setCurrentUser(user);
+  }, []);
 
   const updateCurrentUserHomepage = useCallback((homepage: HomePage) => {
     setCurrentUser((prev) => ({ ...prev, homepage }));
@@ -57,12 +65,15 @@ export default function CurrentUserContextProvider({
   );
 
   const dismissContextValue = useMemo(() => ({ updateDismissedNotices }), [updateDismissedNotices]);
+  const updaterContextValue = useMemo(() => ({ updateCurrentUser }), [updateCurrentUser]);
 
   return (
     <CurrentUserContext.Provider value={contextValue}>
-      <DismissNoticesUpdaterContext.Provider value={dismissContextValue}>
-        {children}
-      </DismissNoticesUpdaterContext.Provider>
+      <CurrentUserUpdaterContext.Provider value={updaterContextValue}>
+        <DismissNoticesUpdaterContext.Provider value={dismissContextValue}>
+          {children}
+        </DismissNoticesUpdaterContext.Provider>
+      </CurrentUserUpdaterContext.Provider>
     </CurrentUserContext.Provider>
   );
 }

@@ -18,8 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useAppState } from '../../context/app-state/withAppStateContext';
+import { hasGlobalPermission } from '../../helpers/users';
+import { Permissions } from '../../types/permissions';
+import { useCurrentUser } from './users';
 
 export function useCanAdministrateArchitectureGlobally(): boolean {
-  return useAppState().canAdmin ?? false;
+  const { currentUser, isLoggedIn } = useCurrentUser();
+  return isLoggedIn && hasGlobalPermission(currentUser, Permissions.ArchitectureAdmin);
 }

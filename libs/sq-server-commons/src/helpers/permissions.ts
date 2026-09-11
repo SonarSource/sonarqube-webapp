@@ -37,7 +37,11 @@ export const PERMISSIONS_ORDER_GLOBAL = [
   Permissions.Admin,
   {
     category: 'administer',
-    permissions: [Permissions.QualityGateAdmin, Permissions.QualityProfileAdmin],
+    permissions: [
+      Permissions.QualityGateAdmin,
+      Permissions.QualityProfileAdmin,
+      Permissions.ArchitectureAdmin,
+    ],
   },
   Permissions.Scan,
   {
@@ -108,13 +112,21 @@ export function filterPermissions(
   });
 }
 
-/**
- * Removes the "Administer Architecture" permission from an order array. Centralizes the
- * architectureadmin filtering shared by the project and permission-template permission pages;
- * callers apply it based on Feature.Architecture availability.
- */
-export function removeArchitectureAdminPermission(order: string[]): string[] {
-  return order.filter((permission) => permission !== Permissions.ArchitectureAdmin);
+export function removeArchitectureAdminPermission<
+  T extends string | { category: string; permissions: string[] },
+>(order: T[]): T[] {
+  return order
+    .filter((entry) => entry !== Permissions.ArchitectureAdmin)
+    .map((entry) =>
+      typeof entry === 'object'
+        ? {
+            ...entry,
+            permissions: entry.permissions.filter(
+              (permission) => permission !== Permissions.ArchitectureAdmin,
+            ),
+          }
+        : entry,
+    ) as T[];
 }
 
 export function convertToPermissionDefinitions(

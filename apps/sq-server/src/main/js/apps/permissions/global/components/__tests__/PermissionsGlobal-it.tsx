@@ -21,6 +21,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { without } from 'lodash';
+import { useArchitectureEnterpriseAvailability } from '~shared/hooks/useArchitectureEnterpriseAvailability';
 import { ComponentQualifier } from '~shared/types/component';
 import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
 import ComputeEngineServiceMock from '~sq-server-commons/api/mocks/ComputeEngineServiceMock';
@@ -28,22 +29,28 @@ import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslati
 import GithubProvisioningServiceMock from '~sq-server-commons/api/mocks/GithubProvisioningServiceMock';
 import GitlabProvisioningServiceMock from '~sq-server-commons/api/mocks/GitlabProvisioningServiceMock';
 import PermissionsServiceMock from '~sq-server-commons/api/mocks/PermissionsServiceMock';
+import * as usersApi from '~sq-server-commons/api/users';
 import {
   mockPermissionGroup,
   mockPermissionUser,
 } from '~sq-server-commons/helpers/mocks/permissions';
 import { PERMISSIONS_ORDER_GLOBAL } from '~sq-server-commons/helpers/permissions';
-import { mockAppState } from '~sq-server-commons/helpers/testMocks';
+import { mockAppState, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { PermissionGroup, PermissionUser } from '~sq-server-commons/types/types';
+import { CurrentUser } from '~sq-server-commons/types/users';
 import { globalPermissionsRoutes } from '../../../routes';
 import { flattenPermissionsList, getPageObject } from '../../../test-utils';
 // Eagerly load the lazy-loaded CodingRulesApp chunk so its (potentially cold)
 // transform + module-eval cost is paid at module-load time, outside the findBy
 // timeout window. Prevents cold-transform-cache flakes on the first test in CI.
 import '../PermissionsGlobalApp';
+
+jest.mock('~shared/hooks/useArchitectureEnterpriseAvailability', () => ({
+  useArchitectureEnterpriseAvailability: jest.fn(),
+}));
 
 let serviceMock: PermissionsServiceMock;
 let dopTranslationHandler: DopTranslationServiceMock;
@@ -61,6 +68,10 @@ beforeAll(() => {
   computeEngineHandler = new ComputeEngineServiceMock();
 });
 
+beforeEach(() => {
+  mockArchitectureEnterpriseActive(true);
+});
+
 afterEach(() => {
   serviceMock.reset();
   dopTranslationHandler.reset();
@@ -69,6 +80,17 @@ afterEach(() => {
   almHandler.reset();
   computeEngineHandler.reset();
 });
+
+function mockArchitectureEnterpriseActive(
+  isArchitectureEnterpriseActive: boolean,
+  isLoading = false,
+) {
+  jest.mocked(useArchitectureEnterpriseAvailability).mockReturnValue({
+    isArchitectureEnterpriseActive,
+    isArchitectureEnterpriseAvailable: isArchitectureEnterpriseActive,
+    isLoading,
+  });
+}
 
 describe('rendering', () => {
   it('should render correctly without applications and portfolios', async () => {
@@ -88,6 +110,36 @@ describe('rendering', () => {
     ).forEach((permission) => {
       expect(ui.globalPermissionCheckbox('johndoe', permission).get()).toBeInTheDocument();
     });
+  });
+
+  it('hides the architecture permission when the enterprise architecture feature is not active', async () => {
+    mockArchitectureEnterpriseActive(false);
+    const user = userEvent.setup();
+    const ui = getPageObject(user);
+    renderPermissionsGlobalApp();
+
+    expect(
+      await ui.globalPermissionCheckbox('johndoe', Permissions.Admin).find(),
+    ).toBeInTheDocument();
+
+    expect(
+      ui.globalPermissionCheckbox('johndoe', Permissions.ArchitectureAdmin).query(),
+    ).not.toBeInTheDocument();
+  });
+
+  it('hides the architecture permission while enterprise availability is still loading', async () => {
+    mockArchitectureEnterpriseActive(true, true);
+    const user = userEvent.setup();
+    const ui = getPageObject(user);
+    renderPermissionsGlobalApp();
+
+    expect(
+      await ui.globalPermissionCheckbox('johndoe', Permissions.Admin).find(),
+    ).toBeInTheDocument();
+
+    expect(
+      ui.globalPermissionCheckbox('johndoe', Permissions.ArchitectureAdmin).query(),
+    ).not.toBeInTheDocument();
   });
 
   it.each([
@@ -148,6 +200,57 @@ describe('assigning/revoking permissions', () => {
     await ui.toggleGlobalPermission('johndoe', Permissions.Scan);
     await ui.appLoaded();
     expect(ui.globalPermissionCheckbox('johndoe', Permissions.Scan).get()).not.toBeChecked();
+  });
+
+  it('refetches the current user after granting a permission to themselves', async () => {
+    const getCurrentUser = jest.spyOn(usersApi, 'getCurrentUser').mockResolvedValue(
+      mockLoggedInUser({
+        login: 'john.doe',
+        permissions: { global: [Permissions.ArchitectureAdmin] },
+      }),
+    );
+    const user = userEvent.setup();
+    const ui = getPageObject(user);
+    renderPermissionsGlobalApp(undefined, mockLoggedInUser({ login: 'john.doe' }));
+    await ui.appLoaded();
+
+    await ui.toggleGlobalPermission('johndoe', Permissions.ArchitectureAdmin);
+    await ui.appLoaded();
+
+    expect(getCurrentUser).toHaveBeenCalled();
+    getCurrentUser.mockRestore();
+  });
+
+  it('refetches the current user after granting a permission to a group', async () => {
+    const getCurrentUser = jest
+      .spyOn(usersApi, 'getCurrentUser')
+      .mockResolvedValue(mockLoggedInUser({ login: 'luke' }));
+    const user = userEvent.setup();
+    const ui = getPageObject(user);
+    renderPermissionsGlobalApp(undefined, mockLoggedInUser({ login: 'luke' }));
+    await ui.appLoaded();
+
+    await ui.toggleGlobalPermission('sonar-users', Permissions.Admin);
+    await ui.appLoaded();
+
+    expect(getCurrentUser).toHaveBeenCalled();
+    getCurrentUser.mockRestore();
+  });
+
+  it('does not refetch the current user when granting a permission to someone else', async () => {
+    const getCurrentUser = jest
+      .spyOn(usersApi, 'getCurrentUser')
+      .mockResolvedValue(mockLoggedInUser({ login: 'luke' }));
+    const user = userEvent.setup();
+    const ui = getPageObject(user);
+    renderPermissionsGlobalApp(undefined, mockLoggedInUser({ login: 'luke' }));
+    await ui.appLoaded();
+
+    await ui.toggleGlobalPermission('johndoe', Permissions.Scan);
+    await ui.appLoaded();
+
+    expect(getCurrentUser).not.toHaveBeenCalled();
+    getCurrentUser.mockRestore();
   });
 
   it('should handle errors correctly', async () => {
@@ -215,6 +318,6 @@ it('should correctly handle pagination', async () => {
   expect(screen.getAllByRole('row').length).toBe(21);
 });
 
-function renderPermissionsGlobalApp(appState?: AppState) {
-  return renderAppRoutes('permissions', globalPermissionsRoutes, { appState });
+function renderPermissionsGlobalApp(appState?: AppState, currentUser?: CurrentUser) {
+  return renderAppRoutes('permissions', globalPermissionsRoutes, { appState, currentUser });
 }

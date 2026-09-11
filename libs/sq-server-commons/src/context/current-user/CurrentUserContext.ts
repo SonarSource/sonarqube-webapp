@@ -29,6 +29,14 @@ export interface CurrentUserContextInterface {
   updateCurrentUserHomepage: (homepage: HomePage) => void;
 }
 
+export interface CurrentUserUpdaterContextInterface {
+  updateCurrentUser: (user: CurrentUser) => void;
+}
+
+export const CurrentUserUpdaterContext = React.createContext<CurrentUserUpdaterContextInterface>({
+  updateCurrentUser: noop,
+});
+
 export const CurrentUserContext = React.createContext<CurrentUserContextInterface>({
   currentUser: {
     isLoggedIn: false,

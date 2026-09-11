@@ -21,26 +21,35 @@
 import { Card, Layout } from '@sonarsource/echoes-react';
 import { without } from 'lodash';
 import * as React from 'react';
+import { useCallback, useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useCurrentUser } from '~adapters/helpers/users';
+import { useArchitectureEnterpriseAvailability } from '~shared/hooks/useArchitectureEnterpriseAvailability';
 import { ComponentQualifier } from '~shared/types/component';
 import { Paging } from '~shared/types/paging';
 import * as api from '~sq-server-commons/api/permissions';
+import { getCurrentUser } from '~sq-server-commons/api/users';
 import AllHoldersList from '~sq-server-commons/components/permissions/AllHoldersList';
 import { FilterOption } from '~sq-server-commons/components/permissions/SearchForm';
 import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
 import withAppStateContext, {
   WithAppStateContextProps,
 } from '~sq-server-commons/context/app-state/withAppStateContext';
+import { CurrentUserUpdaterContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import {
   PERMISSIONS_ORDER_GLOBAL,
   convertToPermissionDefinitions,
   filterPermissions,
+  removeArchitectureAdminPermission,
 } from '~sq-server-commons/helpers/permissions';
 import { PermissionGroup, PermissionUser } from '~sq-server-commons/types/types';
 import '../../styles.css';
 
-type Props = WithAppStateContextProps;
+type Props = WithAppStateContextProps & {
+  isArchitectureEnterpriseActive: boolean;
+  onPermissionChange: (login?: string) => void;
+};
 
 interface State {
   filter: FilterOption;
@@ -182,6 +191,7 @@ class PermissionsGlobalApp extends React.PureComponent<Props, State> {
         permission,
       })
       .then(() => {
+        this.props.onPermissionChange();
         if (this.mounted) {
           this.setState(({ groups }) => ({
             loading: false,
@@ -199,6 +209,7 @@ class PermissionsGlobalApp extends React.PureComponent<Props, State> {
         permission,
       })
       .then(() => {
+        this.props.onPermissionChange(user);
         if (this.mounted) {
           this.setState(({ users }) => ({
             loading: false,
@@ -216,6 +227,7 @@ class PermissionsGlobalApp extends React.PureComponent<Props, State> {
         permission,
       })
       .then(() => {
+        this.props.onPermissionChange();
         if (this.mounted) {
           this.setState(({ groups }) => ({
             loading: false,
@@ -233,6 +245,7 @@ class PermissionsGlobalApp extends React.PureComponent<Props, State> {
         permission,
       })
       .then(() => {
+        this.props.onPermissionChange(user);
         if (this.mounted) {
           this.setState(({ users }) => ({
             loading: false,
@@ -249,13 +262,16 @@ class PermissionsGlobalApp extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { appState } = this.props;
+    const { appState, isArchitectureEnterpriseActive } = this.props;
     const { filter, groups, groupsPaging, users, usersPaging, loading, query } = this.state;
 
     const hasPortfoliosEnabled = appState.qualifiers.includes(ComponentQualifier.Portfolio);
     const hasApplicationsEnabled = appState.qualifiers.includes(ComponentQualifier.Application);
+    const order = isArchitectureEnterpriseActive
+      ? PERMISSIONS_ORDER_GLOBAL
+      : removeArchitectureAdminPermission(PERMISSIONS_ORDER_GLOBAL);
     const permissions = convertToPermissionDefinitions(
-      filterPermissions(PERMISSIONS_ORDER_GLOBAL, hasApplicationsEnabled, hasPortfoliosEnabled),
+      filterPermissions(order, hasApplicationsEnabled, hasPortfoliosEnabled),
       'global_permissions',
     );
 
@@ -298,4 +314,29 @@ class PermissionsGlobalApp extends React.PureComponent<Props, State> {
   }
 }
 
-export default withAppStateContext(PermissionsGlobalApp);
+const PermissionsGlobalAppWithAppState = withAppStateContext(PermissionsGlobalApp);
+
+export default function PermissionsGlobalAppContainer() {
+  const { isArchitectureEnterpriseActive, isLoading } = useArchitectureEnterpriseAvailability();
+  const { currentUser, isLoggedIn } = useCurrentUser();
+  const { updateCurrentUser } = useContext(CurrentUserUpdaterContext);
+
+  const handlePermissionChange = useCallback(
+    (login?: string) => {
+      if (!isLoggedIn || (login !== undefined && currentUser.login !== login)) {
+        return;
+      }
+      void getCurrentUser()
+        .then(updateCurrentUser)
+        .catch(() => undefined);
+    },
+    [currentUser, isLoggedIn, updateCurrentUser],
+  );
+
+  return (
+    <PermissionsGlobalAppWithAppState
+      isArchitectureEnterpriseActive={!isLoading && isArchitectureEnterpriseActive}
+      onPermissionChange={handlePermissionChange}
+    />
+  );
+}
