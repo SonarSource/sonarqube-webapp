@@ -1015,6 +1015,12 @@ export const defaultMessages = {
     'Select a long-lived branch to run the Hunter Agent',
   'hunter_agent.not_available_for_branch.title':
     'Hunter agent is not available for PRs and short-lived branches.',
+  'hunter_agent.project_not_bound.action': 'Set up project binding',
+  'hunter_agent.project_not_bound.description.admin':
+    'Set up project binding before running the Hunter Agent.',
+  'hunter_agent.project_not_bound.description.member':
+    'Contact a project administrator to set up project binding before running the Hunter Agent.',
+  'hunter_agent.project_not_bound.title': "This project isn't bound to a repository",
   'hunter_agent.results.card.accepted_issues': 'Accepted issues',
   'hunter_agent.results.card.accepted_issues_description':
     "Won't fix for now. They won't affect the quality gate.",
