@@ -29,6 +29,7 @@ export interface DopSetting extends AlmInstanceBase {
 
 export interface BoundProject {
   devOpsPlatformSettingId: string;
+  inlineAnnotationsEnabled?: boolean;
   monorepo: boolean;
   newCodeDefinitionType?: string;
   newCodeDefinitionValue?: string;
@@ -36,6 +37,7 @@ export interface BoundProject {
   projectKey: string;
   projectName: string;
   repositoryIdentifier: string;
+  summaryCommentEnabled?: boolean;
 }
 
 export interface ProjectBinding {

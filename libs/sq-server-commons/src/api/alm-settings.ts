@@ -26,16 +26,11 @@ import {
   AlmSettingsBindingDefinitions,
   AlmSettingsInstance,
   AzureBindingDefinition,
-  AzureProjectAlmBindingParams,
   BitbucketCloudBindingDefinition,
-  BitbucketCloudProjectAlmBindingParams,
-  BitbucketProjectAlmBindingParams,
   BitbucketServerBindingDefinition,
   GithubBindingDefinition,
   GithubManifestSetup,
-  GithubProjectAlmBindingParams,
   GitlabBindingDefinition,
-  GitlabProjectAlmBindingParams,
   ProjectAlmBindingConfigurationErrors,
   ProjectAlmBindingResponse,
 } from '../types/alm-settings';
@@ -142,26 +137,6 @@ export function getProjectAlmBinding(project: string): Promise<ProjectAlmBinding
 
 export function deleteProjectAlmBinding(project: string): Promise<void> {
   return post('/api/alm_settings/delete_binding', { project }).catch(throwGlobalError);
-}
-
-export function setProjectAzureBinding(data: AzureProjectAlmBindingParams) {
-  return post('/api/alm_settings/set_azure_binding', data).catch(throwGlobalError);
-}
-
-export function setProjectBitbucketBinding(data: BitbucketProjectAlmBindingParams) {
-  return post('/api/alm_settings/set_bitbucket_binding', data).catch(throwGlobalError);
-}
-
-export function setProjectBitbucketCloudBinding(data: BitbucketCloudProjectAlmBindingParams) {
-  return post('/api/alm_settings/set_bitbucketcloud_binding', data).catch(throwGlobalError);
-}
-
-export function setProjectGithubBinding(data: GithubProjectAlmBindingParams) {
-  return post('/api/alm_settings/set_github_binding', data).catch(throwGlobalError);
-}
-
-export function setProjectGitlabBinding(data: GitlabProjectAlmBindingParams) {
-  return post('/api/alm_settings/set_gitlab_binding', data).catch(throwGlobalError);
 }
 
 export function validateProjectAlmBinding(

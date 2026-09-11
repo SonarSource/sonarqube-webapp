@@ -40,6 +40,10 @@ export function createBoundProject(data: BoundProject) {
   return axiosClient.post(BOUND_PROJECTS_PATH, data);
 }
 
+export function updateBoundProject(data: BoundProject) {
+  return axiosClient.put(BOUND_PROJECTS_PATH, data);
+}
+
 export function getDopSettings() {
   return axiosClient.get<{ dopSettings: DopSetting[]; page: Paging }>(DOP_SETTINGS_PATH);
 }

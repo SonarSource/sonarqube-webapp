@@ -21,9 +21,12 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { byRole, byText } from '~shared/helpers/testSelector';
+import { updateBoundProject } from '~sq-server-commons/api/dop-translation';
 import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
+import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslationServiceMock';
 import ComponentNavProjectBindingErrorNotif from '~sq-server-commons/components/nav/ComponentNavProjectBindingErrorNotif';
 import CurrentUserContextProvider from '~sq-server-commons/context/current-user/CurrentUserContextProvider';
+import { mockProjectAlmBindingResponse } from '~sq-server-commons/helpers/mocks/alm-settings';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
@@ -31,19 +34,51 @@ import {
   AlmKeys,
   ProjectAlmBindingConfigurationErrorScope,
 } from '~sq-server-commons/types/alm-settings';
+import { BoundProject } from '~sq-server-commons/types/dop-translation';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import { CurrentUser } from '~sq-server-commons/types/users';
 import PRDecorationBinding, { isDataSame } from '../PRDecorationBinding';
 
+jest.mock('~sq-server-commons/api/dop-translation');
+
 let almSettings: AlmSettingsServiceMock;
+let dopTranslation: DopTranslationServiceMock;
 
 beforeAll(() => {
   almSettings = new AlmSettingsServiceMock();
+  dopTranslation = new DopTranslationServiceMock();
+  // Wire v2 updateBoundProject to also update the AlmSettings mock so that
+  // getProjectAlmBinding reflects the saved binding and isConfigured becomes true.
+  jest.mocked(updateBoundProject).mockImplementation((data) => {
+    const dop = dopTranslation.dopSettings.find((s) => s.id === data.devOpsPlatformSettingId);
+    almSettings.setProjectBinding(
+      data.projectKey,
+      mockProjectAlmBindingResponse({
+        alm: dop?.type ?? AlmKeys.GitHub,
+        key: dop?.key ?? data.devOpsPlatformSettingId,
+        monorepo: data.monorepo,
+        // For Bitbucket Server, repository = projectIdentifier (project key),
+        // slug = repositoryIdentifier (repo slug). For all other ALMs, repository = repositoryIdentifier.
+        repository:
+          dop?.type === AlmKeys.BitbucketServer
+            ? (data.projectIdentifier ?? '')
+            : data.repositoryIdentifier,
+        slug:
+          dop?.type === AlmKeys.BitbucketServer
+            ? data.repositoryIdentifier
+            : (data.projectIdentifier ?? ''),
+        summaryCommentEnabled: data.summaryCommentEnabled ?? false,
+        url: 'https://company.com/project',
+      }),
+    );
+    return Promise.resolve({});
+  });
 });
 
 afterEach(() => {
   almSettings.reset();
+  dopTranslation.reset();
 });
 
 const inputsList = {
@@ -64,6 +99,48 @@ const inputsList = {
     'bitbucket.repository': 'Repository',
     'bitbucket.slug': 'Slug',
     monorepo: false,
+  },
+};
+
+const expectedFirstSavePayload: Record<AlmKeys, BoundProject> = {
+  [AlmKeys.GitLab]: {
+    devOpsPlatformSettingId: 'conf-final-1',
+    projectKey: 'my-project',
+    projectName: 'MyProject',
+    monorepo: false,
+    repositoryIdentifier: 'Repository',
+  },
+  [AlmKeys.GitHub]: {
+    devOpsPlatformSettingId: 'conf-github-1',
+    projectKey: 'my-project',
+    projectName: 'MyProject',
+    monorepo: false,
+    repositoryIdentifier: 'Repository',
+    summaryCommentEnabled: true,
+  },
+  [AlmKeys.Azure]: {
+    devOpsPlatformSettingId: 'conf-azure-1',
+    projectKey: 'my-project',
+    projectName: 'MyProject',
+    monorepo: false,
+    projectIdentifier: 'Project',
+    repositoryIdentifier: 'Repository',
+    inlineAnnotationsEnabled: true,
+  },
+  [AlmKeys.BitbucketCloud]: {
+    devOpsPlatformSettingId: 'conf-bitbucketcloud-1',
+    projectKey: 'my-project',
+    projectName: 'MyProject',
+    monorepo: false,
+    repositoryIdentifier: 'Repository',
+  },
+  [AlmKeys.BitbucketServer]: {
+    devOpsPlatformSettingId: 'conf-bitbucketserver-1',
+    projectKey: 'my-project',
+    projectName: 'MyProject',
+    monorepo: false,
+    projectIdentifier: 'Repository',
+    repositoryIdentifier: 'Slug',
   },
 };
 
@@ -110,6 +187,7 @@ it.each([
     // Save form and check for errors
     await user.click(ui.saveButton.get());
     expect(await ui.validationMsg('cute error').find()).toBeInTheDocument();
+    expect(updateBoundProject).toHaveBeenLastCalledWith(expectedFirstSavePayload[alm]);
 
     // Check validation with errors
     await user.click(ui.validateButton.get());

@@ -28,15 +28,10 @@ import {
   AlmSettingsBindingDefinitions,
   AlmSettingsInstance,
   AzureBindingDefinition,
-  AzureProjectAlmBindingParams,
   BitbucketCloudBindingDefinition,
-  BitbucketCloudProjectAlmBindingParams,
-  BitbucketProjectAlmBindingParams,
   BitbucketServerBindingDefinition,
   GithubBindingDefinition,
-  GithubProjectAlmBindingParams,
   GitlabBindingDefinition,
-  GitlabProjectAlmBindingParams,
   ProjectAlmBindingConfigurationErrors,
   ProjectAlmBindingParams,
   ProjectAlmBindingResponse,
@@ -54,11 +49,6 @@ import {
   getAlmSettings,
   getAlmSettingsNoCatch,
   getProjectAlmBinding,
-  setProjectAzureBinding,
-  setProjectBitbucketBinding,
-  setProjectBitbucketCloudBinding,
-  setProjectGithubBinding,
-  setProjectGitlabBinding,
   updateAzureConfiguration,
   updateBitbucketCloudConfiguration,
   updateBitbucketServerConfiguration,
@@ -172,15 +162,6 @@ export default class AlmSettingsServiceMock {
       .mockImplementation(this.handleUpdateBitbucketCloudConfiguration);
     jest.mocked(getProjectAlmBinding).mockImplementation(this.handleGetProjectBinding);
     jest.mocked(deleteProjectAlmBinding).mockImplementation(this.handleDeleteProjectAlmBinding);
-    jest.mocked(setProjectAzureBinding).mockImplementation(this.handleSetProjectAzureBinding);
-    jest
-      .mocked(setProjectBitbucketBinding)
-      .mockImplementation(this.handleSetProjectBitbucketBinding);
-    jest
-      .mocked(setProjectBitbucketCloudBinding)
-      .mockImplementation(this.handleSetProjectBitbucketCloudBinding);
-    jest.mocked(setProjectGithubBinding).mockImplementation(this.handleSetProjectGithubBinding);
-    jest.mocked(setProjectGitlabBinding).mockImplementation(this.handleSetProjectGitlabBinding);
     jest.mocked(validateProjectAlmBinding).mockImplementation(this.handleValidateProjectAlmBinding);
   }
 
@@ -338,26 +319,6 @@ export default class AlmSettingsServiceMock {
 
   setProjectBinding = (project: string, binding: ProjectAlmBindingResponse) => {
     this.#projectsBindings[project] = binding;
-  };
-
-  handleSetProjectAzureBinding = (data: AzureProjectAlmBindingParams) => {
-    return this.handleSetProjectBinding(AlmKeys.Azure, data);
-  };
-
-  handleSetProjectBitbucketBinding = (data: BitbucketProjectAlmBindingParams) => {
-    return this.handleSetProjectBinding(AlmKeys.BitbucketServer, data);
-  };
-
-  handleSetProjectBitbucketCloudBinding = (data: BitbucketCloudProjectAlmBindingParams) => {
-    return this.handleSetProjectBinding(AlmKeys.BitbucketCloud, data);
-  };
-
-  handleSetProjectGithubBinding = (data: GithubProjectAlmBindingParams) => {
-    return this.handleSetProjectBinding(AlmKeys.GitHub, data);
-  };
-
-  handleSetProjectGitlabBinding = (data: GitlabProjectAlmBindingParams) => {
-    return this.handleSetProjectBinding(AlmKeys.GitLab, data);
   };
 
   handleValidateProjectAlmBinding = () => {

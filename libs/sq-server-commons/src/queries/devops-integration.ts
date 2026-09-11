@@ -18,19 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { toast } from '@sonarsource/echoes-react';
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
 import { createQueryHook } from '~shared/queries/common';
 import { HttpStatus } from '~shared/types/request';
-import {
-  deleteProjectAlmBinding,
-  getProjectAlmBinding,
-  setProjectAzureBinding,
-  setProjectBitbucketBinding,
-  setProjectBitbucketCloudBinding,
-  setProjectGithubBinding,
-  setProjectGitlabBinding,
-} from '../api/alm-settings';
+import { deleteProjectAlmBinding, getProjectAlmBinding } from '../api/alm-settings';
+import { getDopSettings, updateBoundProject } from '../api/dop-translation';
 import { AlmKeys, ProjectAlmBindingParams, ProjectAlmBindingResponse } from '../types/alm-settings';
 import { useInvalidateValidateProjectAlmBindingQuery } from './alm-settings';
 
@@ -98,70 +92,68 @@ export function useDeleteProjectAlmBindingMutation(project?: string) {
   });
 }
 
-const getSetProjectBindingFn = (data: SetBindingParams) => {
+const getSetProjectBindingFn = async (data: SetBindingParams) => {
+  const { dopSettings } = await getDopSettings();
+  const dop = dopSettings.find((s) => s.key === data.almSetting);
+  if (!dop) {
+    const description = `DevOps platform setting not found: ${data.almSetting}`;
+    toast.error({ description, duration: 'short' });
+    throw new Error(description);
+  }
+
   const {
     alm,
-    almSetting,
     inlineAnnotationsEnabled,
     project,
+    projectName,
     monorepo,
     slug,
     repository,
     summaryCommentEnabled,
   } = data;
+
+  const base = {
+    devOpsPlatformSettingId: dop.id,
+    monorepo,
+    projectKey: project,
+    projectName,
+  };
+
   switch (alm) {
-    case AlmKeys.Azure: {
-      return setProjectAzureBinding({
-        almSetting,
+    case AlmKeys.Azure:
+      return updateBoundProject({
+        ...base,
         inlineAnnotationsEnabled,
-        project,
-        projectName: slug,
-        repositoryName: repository,
-        monorepo,
+        projectIdentifier: slug,
+        repositoryIdentifier: repository,
       });
-    }
-    case AlmKeys.BitbucketServer: {
-      return setProjectBitbucketBinding({
-        almSetting,
-        project,
-        repository,
-        slug,
-        monorepo,
+    case AlmKeys.BitbucketServer:
+      return updateBoundProject({
+        ...base,
+        // For Bitbucket Server, v2 repositoryIdentifier = slug (repo slug),
+        // projectIdentifier = repository (project key).
+        projectIdentifier: repository,
+        repositoryIdentifier: slug,
       });
-    }
-    case AlmKeys.BitbucketCloud: {
-      return setProjectBitbucketCloudBinding({
-        almSetting,
-        project,
-        repository,
-        monorepo,
+    case AlmKeys.BitbucketCloud:
+    case AlmKeys.GitLab:
+      return updateBoundProject({
+        ...base,
+        repositoryIdentifier: repository,
       });
-    }
-    case AlmKeys.GitHub: {
-      return setProjectGithubBinding({
-        almSetting,
-        project,
-        repository,
+    case AlmKeys.GitHub:
+      return updateBoundProject({
+        ...base,
+        repositoryIdentifier: repository,
         summaryCommentEnabled,
-        monorepo,
       });
-    }
-
-    case AlmKeys.GitLab: {
-      return setProjectGitlabBinding({
-        almSetting,
-        project,
-        repository,
-        monorepo,
-      });
-    }
-
     default:
       return Promise.reject();
   }
 };
 
 type SetBindingParams = ProjectAlmBindingParams & {
+  projectName: string;
   repository: string;
 } & (
     | {

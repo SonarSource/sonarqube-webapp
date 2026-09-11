@@ -117,30 +117,6 @@ export interface ProjectAlmBindingParams {
   project: string;
 }
 
-export interface AzureProjectAlmBindingParams extends ProjectAlmBindingParams {
-  inlineAnnotationsEnabled: boolean;
-  projectName: string;
-  repositoryName: string;
-}
-
-export interface BitbucketProjectAlmBindingParams extends ProjectAlmBindingParams {
-  repository: string;
-  slug: string;
-}
-
-export interface BitbucketCloudProjectAlmBindingParams extends ProjectAlmBindingParams {
-  repository: string;
-}
-
-export interface GithubProjectAlmBindingParams extends ProjectAlmBindingParams {
-  repository: string;
-  summaryCommentEnabled: boolean;
-}
-
-export interface GitlabProjectAlmBindingParams extends ProjectAlmBindingParams {
-  repository?: string;
-}
-
 export interface AlmSettingsInstance extends AlmInstanceBase {
   alm: AlmKeys;
 }

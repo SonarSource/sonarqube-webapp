@@ -188,10 +188,12 @@ export function PRDecorationBinding(props: Props) {
       inlineAnnotationsEnabled = true,
     } = almSpecificFields;
     const project = component.key;
+    const projectName = component.name;
 
     const baseParams = {
       almSetting,
       project,
+      projectName,
       repository,
       monorepo,
     };

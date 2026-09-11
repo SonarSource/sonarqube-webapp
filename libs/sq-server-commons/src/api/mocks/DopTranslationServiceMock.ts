@@ -35,6 +35,7 @@ import {
   getDopSettings,
   getProjectBindings,
   searchGitHubConfigurations,
+  updateBoundProject,
   updateGitHubConfiguration,
 } from '../dop-translation';
 import { mockDopSetting, mockProjectBinding } from './data/dop-translation';
@@ -108,6 +109,7 @@ export default class DopTranslationServiceMock {
   constructor() {
     this.reset();
     jest.mocked(createBoundProject).mockImplementation(this.createBoundProject);
+    jest.mocked(updateBoundProject).mockImplementation(this.updateBoundProject);
     jest.mocked(getDopSettings).mockImplementation(this.getDopSettings);
     jest.mocked(getProjectBindings).mockImplementation(this.getProjectBindings);
     jest
@@ -131,6 +133,26 @@ export default class DopTranslationServiceMock {
         repository: data.repositoryIdentifier,
       }),
     );
+    return Promise.resolve({});
+  };
+
+  updateBoundProject: typeof updateBoundProject = (data) => {
+    const existingBindingIndex = this.projectBindings.findIndex(
+      (b) => b.projectKey === data.projectKey,
+    );
+    const binding = mockProjectBinding({
+      dopSetting: data.devOpsPlatformSettingId,
+      id: `${data.devOpsPlatformSettingId}-${data.repositoryIdentifier}-${data.projectKey}`,
+      projectId: data.projectKey,
+      projectKey: data.projectKey,
+      repository: data.repositoryIdentifier,
+      slug: data.projectIdentifier ?? '',
+    });
+    if (existingBindingIndex >= 0) {
+      this.projectBindings[existingBindingIndex] = binding;
+    } else {
+      this.projectBindings.push(binding);
+    }
     return Promise.resolve({});
   };
 
