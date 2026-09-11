@@ -6672,6 +6672,7 @@ export const defaultMessages = {
   'notification.dispatcher.CeReportTaskFailure':
     'Background tasks in failure on my administered projects',
   'notification.dispatcher.CeReportTaskFailure.project': 'Background tasks in failure',
+  'notification.dispatcher.security-alert-raised': 'New security alert raised',
   'notification.dispatcher.description_x': 'Check to receive notification for {project}',
   'notification.dispatcher.group.label': 'Notifications for project {project}',
   'notification.non_production_database.warning':
