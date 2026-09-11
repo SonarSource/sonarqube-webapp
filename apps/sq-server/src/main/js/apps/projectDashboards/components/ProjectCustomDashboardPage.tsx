@@ -60,12 +60,14 @@ import { isApiResourceUuid } from '~shared/helpers/api-resource-validation';
 import { uuidv4 } from '~shared/helpers/crypto';
 import { isStringDefined } from '~shared/helpers/types';
 import { CustomDashboardEditStatus } from '~sq-server-commons/components/dashboards/CustomDashboardEditStatus';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
 import { useProjectId } from '~sq-server-commons/sq-server-adapters/helpers/useProjectId';
 import { useCurrentUser } from '~sq-server-commons/sq-server-adapters/helpers/users';
+import { Feature } from '~sq-server-commons/types/features';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import {
   useCreateProjectDashboardDuplicateMutation,
@@ -91,6 +93,7 @@ export function ProjectCustomDashboardPage() {
   const navigate = useNavigate();
   const { component } = useComponent();
   const { currentUser, isLoggedIn } = useCurrentUser();
+  const { hasFeature } = useAvailableFeatures();
   const { dashboardId = '' } = useParams<{ dashboardId?: string }>();
   const projectId = useProjectId() ?? '';
   const canEdit = isLoggedIn;
@@ -108,8 +111,8 @@ export function ProjectCustomDashboardPage() {
   const [localLayout, setLocalLayout] =
     useState<DashboardInstance<ProjectDashboardWidgetPropMap> | null>(null);
   const metricPickerOptions = useMemo(
-    () => getSqsProjectWidgetMetricPickerOptions({ formatMessage }),
-    [formatMessage],
+    () => getSqsProjectWidgetMetricPickerOptions({ formatMessage }, hasFeature(Feature.Sca)),
+    [formatMessage, hasFeature],
   );
   const query = useGetProjectDashboardQuery(
     { dashboardId, projectId },

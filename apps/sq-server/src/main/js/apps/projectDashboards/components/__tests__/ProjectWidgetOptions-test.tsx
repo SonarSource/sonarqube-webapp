@@ -25,6 +25,7 @@ import { PieChartIssueSlice, PieChartMetric } from '~feature-dashboards/types/da
 import { IssueResolutionStatistic } from '~feature-dashboards/types/organization-issue-resolution-history';
 import {
   ISSUE_DENSITY_METRIC_OPTION_VALUE,
+  SCA_MTTR_METRIC_OPTION_VALUE,
   VisualizationType,
 } from '~feature-dashboards/types/widget-common';
 import { render } from '~shared/helpers/test-utils';
@@ -260,5 +261,34 @@ describe('ProjectWidgetOptions', () => {
 
     expect(countValues).toEqual(expect.arrayContaining(expectedMetrics));
     expect(lineValues).toEqual(expect.arrayContaining(expectedMetrics));
+  });
+
+  it('includes SCA metrics and MTTR only when SCA is enabled', () => {
+    const disabledOptions = getSqsProjectWidgetMetricPickerOptions(
+      createIntl({ locale: 'en' }),
+      false,
+    );
+    const enabledOptions = getSqsProjectWidgetMetricPickerOptions(
+      createIntl({ locale: 'en' }),
+      true,
+    );
+    const getMetricValues = (groups: typeof enabledOptions.countMetrics) =>
+      groups.flatMap(({ items }) => items.map(({ value }) => value));
+
+    expect(getMetricValues(disabledOptions.countMetrics)).not.toContain(
+      MetricKey.sca_count_any_issue,
+    );
+    expect(getMetricValues(disabledOptions.ratingBadgeMetrics)).not.toContain(
+      MetricKey.sca_rating_any_issue,
+    );
+    expect(getMetricValues(enabledOptions.countMetrics)).toEqual(
+      expect.arrayContaining([MetricKey.sca_count_any_issue, SCA_MTTR_METRIC_OPTION_VALUE]),
+    );
+    expect(getMetricValues(enabledOptions.lineChartMetrics ?? [])).toEqual(
+      expect.arrayContaining([MetricKey.sca_count_any_issue, SCA_MTTR_METRIC_OPTION_VALUE]),
+    );
+    expect(getMetricValues(enabledOptions.ratingBadgeMetrics)).toContain(
+      MetricKey.sca_rating_any_issue,
+    );
   });
 });

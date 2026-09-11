@@ -25,6 +25,7 @@ import { projectDashboardSupportsNewCodeScopeForVisualization } from '~feature-d
 import { appendIssueDensityOption } from '~feature-dashboards/widget-creation-modal/utils/issueDensityMetricOptions';
 import { appendIssueResolutionOptions } from '~feature-dashboards/widget-creation-modal/utils/issueResolutionMetricOptions';
 import { buildPieChartMetricSelectOptions } from '~feature-dashboards/widget-creation-modal/utils/pieChartMetricSelectOptions';
+import { appendScaMttrOption } from '~feature-dashboards/widget-creation-modal/utils/scaResolutionMetricOptions';
 import { MetricKey } from '~shared/types/metrics';
 import {
   buildMetricGroups,
@@ -81,6 +82,21 @@ const PROJECT_WIDGET_METRIC_GROUPS: readonly MetricGroupDefinition[] = [
 
 const PROJECT_WIDGET_METRICS = new Set(PROJECT_WIDGET_METRIC_GROUPS.flatMap(({ keys }) => keys));
 
+const PROJECT_SCA_METRIC_GROUPS: readonly MetricGroupDefinition[] = [
+  {
+    domain: 'DependencyRisks',
+    keys: [
+      MetricKey.sca_count_any_issue,
+      MetricKey.sca_count_any_security,
+      MetricKey.sca_count_vulnerability,
+      MetricKey.sca_count_malware,
+      MetricKey.sca_count_licensing,
+    ],
+  },
+];
+
+const PROJECT_SCA_METRICS = new Set(PROJECT_SCA_METRIC_GROUPS.flatMap(({ keys }) => keys));
+
 const PROJECT_RATING_BADGE_METRIC_GROUPS: readonly MetricGroupDefinition[] = [
   { domain: 'Quality gate', keys: [MetricKey.alert_status] },
   { domain: 'Security', keys: [MetricKey.security_rating] },
@@ -92,6 +108,23 @@ const PROJECT_RATING_BADGE_METRICS = new Set(
   PROJECT_RATING_BADGE_METRIC_GROUPS.flatMap(({ keys }) => keys),
 );
 
+const PROJECT_SCA_RATING_BADGE_METRIC_GROUPS: readonly MetricGroupDefinition[] = [
+  {
+    domain: 'DependencyRisks',
+    keys: [
+      MetricKey.sca_rating_any_issue,
+      MetricKey.sca_rating_any_security,
+      MetricKey.sca_rating_vulnerability,
+      MetricKey.sca_rating_malware,
+      MetricKey.sca_rating_licensing,
+    ],
+  },
+];
+
+const PROJECT_SCA_RATING_BADGE_METRICS = new Set(
+  PROJECT_SCA_RATING_BADGE_METRIC_GROUPS.flatMap(({ keys }) => keys),
+);
+
 export function sqsProjectDashboardSupportsNewCodeScopeForPieChart(
   metric: PieChartMetric,
 ): boolean {
@@ -101,18 +134,39 @@ export function sqsProjectDashboardSupportsNewCodeScopeForPieChart(
 // Temporary catalog; replace it with the SQS project metric metadata API response when available.
 export function getSqsProjectWidgetMetricPickerOptions(
   intl: Pick<IntlShape, 'formatMessage'>,
+  isScaEnabled = false,
 ): WidgetMetricPickerOptions {
   const { formatMessage } = intl;
   const issuesGroupLabel = getLocalizedMetricDomain('Issues');
-  const projectMetrics = buildMetricGroups(
+  let projectMetrics = buildMetricGroups(
     PROJECT_WIDGET_METRIC_GROUPS,
     PROJECT_WIDGET_METRICS,
     formatMessage,
   );
-  const enrichedMetrics = appendIssueResolutionOptions(
+  if (isScaEnabled) {
+    projectMetrics = [
+      ...projectMetrics,
+      ...buildMetricGroups(PROJECT_SCA_METRIC_GROUPS, PROJECT_SCA_METRICS, formatMessage),
+    ];
+  }
+
+  let enrichedMetrics = appendIssueResolutionOptions(
     appendIssueDensityOption(projectMetrics, formatMessage, issuesGroupLabel),
     formatMessage,
     issuesGroupLabel,
+  );
+  if (isScaEnabled) {
+    enrichedMetrics = appendScaMttrOption(
+      enrichedMetrics,
+      formatMessage,
+      getLocalizedMetricDomain('DependencyRisks'),
+    );
+  }
+
+  const ratingBadgeMetrics = buildMetricGroups(
+    PROJECT_RATING_BADGE_METRIC_GROUPS,
+    PROJECT_RATING_BADGE_METRICS,
+    formatMessage,
   );
 
   return {
@@ -125,11 +179,16 @@ export function getSqsProjectWidgetMetricPickerOptions(
     ),
     supportsPieChartSlice: sqsDashboardSupportsPieChartSlice,
     supportsNewCodeScopeForPieChart: sqsProjectDashboardSupportsNewCodeScopeForPieChart,
-    ratingBadgeMetrics: buildMetricGroups(
-      PROJECT_RATING_BADGE_METRIC_GROUPS,
-      PROJECT_RATING_BADGE_METRICS,
-      formatMessage,
-    ),
+    ratingBadgeMetrics: isScaEnabled
+      ? [
+          ...ratingBadgeMetrics,
+          ...buildMetricGroups(
+            PROJECT_SCA_RATING_BADGE_METRIC_GROUPS,
+            PROJECT_SCA_RATING_BADGE_METRICS,
+            formatMessage,
+          ),
+        ]
+      : ratingBadgeMetrics,
     supportsNewCodeIssueLanguageSlice: false,
     supportsNewCodeScopeForMetric: projectDashboardSupportsNewCodeScopeForVisualization,
   };
