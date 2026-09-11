@@ -18,7 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { GitHubConfigurationResponse } from '../../types/dop-translation';
+import { AlmKeys } from '../../types/alm-settings';
+import {
+  AffectedInstallation,
+  GitHubConfigurationResponse,
+  PermissionCheckResource,
+  PermissionCheckStatus,
+  PermissionDeficit,
+} from '../../types/dop-translation';
 import { ProvisioningType } from '../../types/provisioning';
 
 export function mockGitHubConfiguration(
@@ -36,6 +43,41 @@ export function mockGitHubConfiguration(
     synchronizeGroups: true,
     userConsentRequiredAfterUpgrade: false,
     webUrl: 'webUrl',
+    ...overrides,
+  };
+}
+
+export function mockPermissionCheckResource(
+  overrides: Partial<PermissionCheckResource> = {},
+): PermissionCheckResource {
+  return {
+    checkedAt: 1_700_000_000_000,
+    key: 'github-config',
+    status: PermissionCheckStatus.Sufficient,
+    type: AlmKeys.GitHub,
+    ...overrides,
+  };
+}
+
+export function mockPermissionDeficit(
+  overrides: Partial<PermissionDeficit> = {},
+): PermissionDeficit {
+  return {
+    granted: 'read',
+    permission: 'contents',
+    required: 'write',
+    ...overrides,
+  };
+}
+
+export function mockAffectedInstallation(
+  overrides: Partial<AffectedInstallation> = {},
+): AffectedInstallation {
+  return {
+    installationId: '1',
+    installationOwner: 'acme-corp',
+    missingPermissions: [mockPermissionDeficit()],
+    settingsUrl: 'https://github.com/organizations/acme-corp/settings/installations/1',
     ...overrides,
   };
 }

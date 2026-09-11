@@ -22,7 +22,7 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { getContextWrapper } from '~adapters/helpers/test-utils';
 import { getDopPermissionChecks } from '../../api/dop-translation';
 import { AlmKeys } from '../../types/alm-settings';
-import { PermissionCheckStatus } from '../../types/dop-translation';
+import { InstallationCheckStatus, PermissionCheckStatus } from '../../types/dop-translation';
 import { useRemediationAgentBindingSupport } from '../dop-translation';
 
 jest.mock('../../api/dop-translation', () => ({
@@ -46,7 +46,12 @@ function renderBindingSupport(enabled = true) {
 it('reports supported when the binding has a check', async () => {
   mockGetDopPermissionChecks.mockResolvedValue({
     permissionChecks: [
-      { key: 'github-config', type: AlmKeys.GitHub, status: PermissionCheckStatus.Sufficient },
+      {
+        checkedAt: 1_700_000_000_000,
+        key: 'github-config',
+        type: AlmKeys.GitHub,
+        status: PermissionCheckStatus.Sufficient,
+      },
     ],
   });
 
@@ -60,6 +65,29 @@ it('reports supported when the binding has a check', async () => {
 
 it('reports unsupported when the binding has no check (unbound or an unsupported ALM)', async () => {
   mockGetDopPermissionChecks.mockResolvedValue({ permissionChecks: [] });
+
+  const { result } = renderBindingSupport();
+
+  await waitFor(() => {
+    expect(result.current.isLoading).toBe(false);
+  });
+  expect(result.current.isSupported).toBe(false);
+});
+
+it('reports unsupported when the only check is NOT_RUN (project has no bound repository)', async () => {
+  // NOT_RUN can still carry status: SUFFICIENT — that combination means the check never
+  // actually ran, not that the project has a real, working binding.
+  mockGetDopPermissionChecks.mockResolvedValue({
+    permissionChecks: [
+      {
+        checkedAt: 1_700_000_000_000,
+        key: 'github-config',
+        type: AlmKeys.GitHub,
+        status: PermissionCheckStatus.Sufficient,
+        installationCheckStatus: InstallationCheckStatus.NotRun,
+      },
+    ],
+  });
 
   const { result } = renderBindingSupport();
 

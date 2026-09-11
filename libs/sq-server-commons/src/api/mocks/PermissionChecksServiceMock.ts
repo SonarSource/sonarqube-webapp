@@ -40,6 +40,7 @@ export interface PermissionChecksServiceData {
  */
 export class PermissionChecksServiceMock extends AbstractServiceMock<PermissionChecksServiceData> {
   static readonly defaultCheck: PermissionCheckResource = {
+    checkedAt: 1_700_000_000_000,
     key: 'github-config',
     type: AlmKeys.GitHub,
     status: PermissionCheckStatus.Sufficient,
@@ -47,6 +48,7 @@ export class PermissionChecksServiceMock extends AbstractServiceMock<PermissionC
 
   /** A GitLab check bound with a Project/Group Access Token instead of a Personal Access Token. */
   static readonly unsupportedTokenTypeCheck: PermissionCheckResource = {
+    checkedAt: 1_700_000_000_000,
     key: 'gitlab-config',
     type: AlmKeys.GitLab,
     status: PermissionCheckStatus.UnsupportedTokenType,
@@ -56,6 +58,12 @@ export class PermissionChecksServiceMock extends AbstractServiceMock<PermissionC
     response: { permissionChecks: [PermissionChecksServiceMock.defaultCheck] },
   };
 
+  /** Per-connection override for an explicit "Re-check permissions" refresh
+   * (`configuration=<key>&refresh=true`, SONAR-32166), set via {@link setRefreshResponse}. Falls
+   * back to the cached admin entry for that key so tests that don't care about refresh semantics
+   * keep working unchanged. */
+  private refreshResponses: Record<string, PermissionCheckResource> = {};
+
   constructor(initialData: PermissionChecksServiceData = PermissionChecksServiceMock.defaultData) {
     super(initialData);
   }
@@ -64,7 +72,32 @@ export class PermissionChecksServiceMock extends AbstractServiceMock<PermissionC
     this.data.response = response;
   };
 
+  setRefreshResponse = (configurationKey: string, resource: PermissionCheckResource) => {
+    this.refreshResponses[configurationKey] = resource;
+  };
+
+  reset() {
+    super.reset();
+    this.refreshResponses = {};
+  }
+
   handlers = [
-    http.get('/api/v2/dop-translation/permission-checks', () => this.ok(this.data.response)),
+    http.get('/api/v2/dop-translation/permission-checks', ({ request }) => {
+      const params = this.getQueryParams(request);
+      const configurationKey = params.get('configuration');
+      const isRefresh = params.get('refresh') === 'true';
+
+      if (configurationKey && isRefresh) {
+        const refreshed =
+          this.refreshResponses[configurationKey] ??
+          this.data.response.permissionChecks.find((check) => check.key === configurationKey);
+
+        return this.ok<PermissionChecksResponse>({
+          permissionChecks: refreshed ? [refreshed] : [],
+        });
+      }
+
+      return this.ok(this.data.response);
+    }),
   ];
 }

@@ -18,7 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  queryOptions,
+  useMutation,
+  useQuery,
+  useQueryClient,
+  type UseQueryOptions,
+} from '@tanstack/react-query';
 import { StaleTime } from '~shared/queries/common';
 import {
   createGitHubConfiguration,
@@ -30,6 +36,13 @@ import {
 } from '../api/dop-translation';
 import { addGlobalSuccessMessage } from '../design-system';
 import { translate } from '../helpers/l10n';
+import { AlmKeys } from '../types/alm-settings';
+import {
+  InstallationCheckStatus,
+  PermissionCheckResource,
+  PermissionCheckStatus,
+  PermissionChecksResponse,
+} from '../types/dop-translation';
 import { ProvisioningType } from '../types/provisioning';
 import { useSyncWithGitHubNow } from './identity-provider/github';
 
@@ -140,24 +153,155 @@ export function useDeleteGitHubConfigurationMutation() {
 /*
  * Permission checks
  */
-export function useDopPermissionChecksQuery(
-  { projectKey }: { projectKey?: string } = {},
-  { enabled = true }: { enabled?: boolean } = {},
-) {
-  return useQuery({
-    queryKey: ['dop-translation', 'permission-checks', projectKey ?? '__all__'],
+const PERMISSION_CHECKS_ALL_KEY = '__all__';
+
+/**
+ * Shared query options for the all-connections/one-project permission-checks read. Extracted so
+ * {@link useDopPermissionChecksQuery} and the per-connection/refresh helpers below key and cache
+ * against the exact same query — several DevOps Platform connection widgets calling
+ * {@link useDopPermissionCheckForConfiguration} on the same page therefore share one request
+ * (SONAR-32166).
+ */
+export function dopPermissionChecksQueryOptions({ projectKey }: { projectKey?: string } = {}) {
+  return queryOptions({
+    queryKey: ['dop-translation', 'permission-checks', projectKey ?? PERMISSION_CHECKS_ALL_KEY],
     queryFn: () => getDopPermissionChecks({ projectKey }),
-    enabled,
     staleTime: StaleTime.LONG,
   });
 }
 
+export function useDopPermissionChecksQuery<TData = PermissionChecksResponse>(
+  data: { projectKey?: string } = {},
+  options: Pick<UseQueryOptions<PermissionChecksResponse, Error, TData>, 'enabled' | 'select'> = {},
+) {
+  // Spread the base `queryOptions()` result directly into `options` (rather than the reverse)
+  // would union the two objects' `select` types instead of letting `options.select` narrow to
+  // `TData` — destructuring the base fields first avoids that.
+  const { queryKey, queryFn, staleTime } = dopPermissionChecksQueryOptions(data);
+  return useQuery<PermissionChecksResponse, Error, TData>({
+    queryKey,
+    queryFn,
+    staleTime,
+    ...options,
+  });
+}
+
+/**
+ * One connection's cached admin result, selected out of the shared all-connections query so
+ * several `AlmBindingDefinitionBox` widgets rendered on the same settings page (SONAR-32166)
+ * dedupe to a single request instead of each fetching independently.
+ */
+export function useDopPermissionCheckForConfiguration(
+  configurationKey: string,
+  options: { enabled?: boolean } = {},
+) {
+  return useDopPermissionChecksQuery(
+    {},
+    {
+      ...options,
+      select: (data) => data.permissionChecks.find((check) => check.key === configurationKey),
+    },
+  );
+}
+
+/** Synthetic result upserted by {@link useRefreshDopPermissionCheckMutation} in place of a stale
+ * (possibly SUFFICIENT) cached status when a live refresh fails or omits the requested
+ * connection. */
+function buildSyntheticCheckFailed(
+  almKey: AlmKeys,
+  configurationKey: string,
+): PermissionCheckResource {
+  return {
+    checkedAt: Date.now(),
+    key: configurationKey,
+    status: PermissionCheckStatus.CheckFailed,
+    type: almKey,
+  };
+}
+
+/**
+ * "Check configuration" (SONAR-32166): also runs a live, uncached remediation check for one
+ * connection — there is no separate refresh control; the existing DevOps Platform Integrations
+ * "Check configuration" action (re)runs this check too. Upserts that connection's entry in the
+ * shared all-connections cache directly with the result — deliberately *not* re-invalidated the
+ * ordinary way, since an immediate refetch of that same query would race the still-short-lived
+ * backend cache entry it just bypassed and could overwrite this fresher result with a stale one.
+ * On failure — or on a successful response that unexpectedly omits the requested connection —
+ * upserts a synthetic `CHECK_FAILED` entry instead of leaving a stale (possibly SUFFICIENT)
+ * status silently on screen. Existing *project*-scoped permission-check queries
+ * (instance/project DOP warnings, `use-can-assign-to-agent`) have no such direct replacement
+ * available (this response is connection-, not project-, scoped) and are invalidated the ordinary
+ * TanStack way instead — they refetch on next read rather than being tracked connection-to-project.
+ */
+export function useRefreshDopPermissionCheckMutation() {
+  const client = useQueryClient();
+
+  function upsertConnection(configurationKey: string, resource: PermissionCheckResource) {
+    client.setQueryData<PermissionChecksResponse>(
+      dopPermissionChecksQueryOptions().queryKey,
+      (current) => {
+        const permissionChecks = current?.permissionChecks ?? [];
+        // Upsert: the all-connections query may not have loaded yet (`current` undefined), or may
+        // have loaded without this connection (e.g. its very first check ever, or a prior check
+        // that errored and was never cached) — either way the result must still surface, not be
+        // silently dropped because there was nothing to replace.
+        const exists = permissionChecks.some((check) => check.key === configurationKey);
+        return {
+          permissionChecks: exists
+            ? permissionChecks.map((check) => (check.key === configurationKey ? resource : check))
+            : [...permissionChecks, resource],
+        };
+      },
+    );
+
+    void client.invalidateQueries({
+      predicate: (query) =>
+        query.queryKey[0] === 'dop-translation' &&
+        query.queryKey[1] === 'permission-checks' &&
+        query.queryKey[2] !== PERMISSION_CHECKS_ALL_KEY,
+    });
+  }
+
+  return useMutation({
+    mutationFn: ({ configurationKey }: { almKey: AlmKeys; configurationKey: string }) =>
+      getDopPermissionChecks({ configurationKey, refresh: true }),
+    onSuccess: (response, { almKey, configurationKey }) => {
+      const refreshed = response.permissionChecks.find((check) => check.key === configurationKey);
+
+      // The backend selects by `configurationKey`, so a successful response missing that
+      // connection should not normally happen — but if it does, a stale cached status (possibly
+      // SUFFICIENT) must not be left looking current.
+      upsertConnection(
+        configurationKey,
+        refreshed ?? buildSyntheticCheckFailed(almKey, configurationKey),
+      );
+    },
+    onError: (_error, { almKey, configurationKey }) => {
+      upsertConnection(configurationKey, buildSyntheticCheckFailed(almKey, configurationKey));
+    },
+  });
+}
+
+/**
+ * True when at least one check in a *project-scoped* response reflects a real binding — i.e. was
+ * actually evaluated, rather than skipped because the project has no bound repository. See
+ * {@link InstallationCheckStatus.NotRun}: such an entry can still carry `status: SUFFICIENT`, but
+ * that is not a genuine signal. Shared by {@link useRemediationAgentBindingSupport} and
+ * `useCanAssignToAgent` (feature-ai-capabilities), which both gate Remediation Agent availability
+ * on a real binding existing for the project.
+ */
+export function hasRealDopBinding(checks: PermissionCheckResource[]): boolean {
+  return checks.some((check) => check.installationCheckStatus !== InstallationCheckStatus.NotRun);
+}
+
 /**
  * The Remediation Agent only supports a subset of DevOps platforms (see
- * DopPermissionValidationService server-side). An empty `permissionChecks` response means the
- * project has no binding, or a binding on an unsupported platform (e.g. Bitbucket) — either way
- * Remediation Agent surfaces (menu entries, tabs, pages) must stay hidden rather than point at a
- * config screen that can never work.
+ * DopPermissionValidationService server-side). An empty `permissionChecks` response — or one
+ * where every entry is {@link InstallationCheckStatus.NotRun} (checked but never actually run,
+ * because the project has no bound repository) — means the project has no real binding, or a
+ * binding on an unsupported platform (e.g. Bitbucket) — either way Remediation Agent surfaces
+ * (menu entries, tabs, pages) must stay hidden rather than point at a config screen that can
+ * never work.
  *
  * Pass `enabled: false` (e.g. while the Remediation Agent license itself hasn't been confirmed
  * yet) to skip the check — callers combine `isSupported` with their own license signal since what
@@ -183,6 +327,6 @@ export function useRemediationAgentBindingSupport({
 
   return {
     isLoading,
-    isSupported: isLoading || isError || Boolean(data?.permissionChecks?.length),
+    isSupported: isLoading || isError || hasRealDopBinding(data?.permissionChecks ?? []),
   };
 }

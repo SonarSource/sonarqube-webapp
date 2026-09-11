@@ -19,7 +19,9 @@
  */
 
 import { useCallback, useRef, useState } from 'react';
+import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { deleteConfiguration, validateAlmSettings } from '~sq-server-commons/api/alm-settings';
+import { REMEDIATION_AGENT_SUPPORTED_ALM_KEYS } from '~sq-server-commons/helpers/constants';
 import {
   useCreateAzureConfigurationMutation,
   useCreateBitbucketCloudConfigurationMutation,
@@ -32,6 +34,8 @@ import {
   useUpdateGithubConfigurationMutation,
   useUpdateGitlabConfigurationMutation,
 } from '~sq-server-commons/queries/alm-settings';
+import { useRefreshDopPermissionCheckMutation } from '~sq-server-commons/queries/dop-translation';
+import { usePurchasableFeatureQuery } from '~sq-server-commons/queries/entitlements';
 import {
   AlmBindingDefinition,
   AlmBindingDefinitionBase,
@@ -171,6 +175,13 @@ export function AlmBindingDefinitionForm(props: Readonly<AlmBindingDefinitionFor
   const { createMutation, updateMutation } = mutationsByAlm[apiAlm];
   const submitting = createMutation.isPending || updateMutation.isPending || validating;
 
+  const { data: purchasableFeature } = usePurchasableFeatureQuery(
+    EntitlementCheckFeatureKey.RemediationAgent,
+  );
+  const { mutate: refreshRemediationAgentPermissionCheck } = useRefreshDopPermissionCheckMutation();
+  const canRefreshRemediationAgentPermissionCheck =
+    REMEDIATION_AGENT_SUPPORTED_ALM_KEYS.includes(alm) && purchasableFeature?.isAvailable === true;
+
   const handleFieldChange = useCallback((fieldId: string, value: string) => {
     setFormData((current) => ({ ...current, [fieldId]: value }));
     setTouched(true);
@@ -196,6 +207,14 @@ export function AlmBindingDefinitionForm(props: Readonly<AlmBindingDefinitionFor
 
       setAlreadySavedFormData(formData);
 
+      // Refresh the Remediation Agent permission result now that the configuration is persisted
+      // (SONAR-32166) — independent of the `enforceValidation` check below, which validates plain
+      // ALM connectivity and is unrelated to the DoP permission check. Uses the new key when this
+      // save renamed the connection, since `formData.key` is already the renamed value.
+      if (canRefreshRemediationAgentPermissionCheck) {
+        refreshRemediationAgentPermissionCheck({ almKey: alm, configurationKey: formData.key });
+      }
+
       let error: string | undefined;
 
       if (enforceValidation) {
@@ -213,6 +232,10 @@ export function AlmBindingDefinitionForm(props: Readonly<AlmBindingDefinitionFor
       } else {
         afterSubmit(formData);
       }
+    } catch {
+      // The create/update mutation already tracks its own error state (createMutation.error /
+      // updateMutation.error); swallow here so a failed save doesn't surface as an unhandled
+      // rejection, and so the Remediation Agent refresh below is correctly skipped.
     } finally {
       setTouched(false);
     }
@@ -225,6 +248,9 @@ export function AlmBindingDefinitionForm(props: Readonly<AlmBindingDefinitionFor
     updateMutation,
     createMutation,
     afterSubmit,
+    alm,
+    canRefreshRemediationAgentPermissionCheck,
+    refreshRemediationAgentPermissionCheck,
   ]);
 
   const handleOnCancel = useCallback(async () => {

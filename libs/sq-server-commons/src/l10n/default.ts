@@ -4401,6 +4401,35 @@ export const defaultMessages = {
   'settings.almintegration.configuration_invalid':
     'You have the following errors in your configuration:',
   'settings.almintegration.could_not_validate': 'Could not validate this configuration.',
+
+  // Remediation Agent capability status (SONAR-32166) — third item in the existing capability
+  // row on each DevOps Platform Integrations connection card, beside "Quality gate status
+  // reporting" and "Import repositories...". Same icon vocabulary, and the existing "Check
+  // configuration" action (re)runs this check — there is no separate refresh control. Reuses
+  // ai_capabilities.remediation_agent.dop_permission_warning.* copy for the Azure-advisory
+  // (yellow) and GitLab-token-type banners; the strings below are new to this surface.
+  'settings.almintegration.remediation_agent.title': 'Create branches and pull requests',
+  'settings.almintegration.remediation_agent.description':
+    'Required for the Remediation Agent to clone repositories, create branches, and open pull requests.',
+  'settings.almintegration.remediation_agent.status.missing_permissions': 'Missing permissions',
+  'settings.almintegration.remediation_agent.status.unable_to_verify': 'Unable to verify',
+  'settings.almintegration.remediation_agent.unable_to_verify_description':
+    "We couldn't reach your DevOps Platform to run the check. Select Check configuration to try again.",
+  'settings.almintegration.remediation_agent.app_missing_permissions':
+    'The GitHub App must request {permissions}. <nowrap><link>Required permissions</link>.</nowrap>',
+  'settings.almintegration.remediation_agent.gitlab_missing_scope':
+    'The GitLab personal access token must have the api scope. <nowrap><link>Required permissions</link>.</nowrap>',
+  'settings.almintegration.remediation_agent.installations.summary':
+    "{count, plural, one {Can't create branches and pull requests on # installation.} other {Can't create branches and pull requests on # installations.}}",
+  'settings.almintegration.remediation_agent.installations.show': 'Show',
+  'settings.almintegration.remediation_agent.installations.hide': 'Hide',
+  'settings.almintegration.remediation_agent.installations.incomplete':
+    "We couldn't check every installation. Select Check configuration to try again.",
+  'settings.almintegration.remediation_agent.installations.none':
+    'No installations were found for this GitHub App.',
+  'settings.almintegration.remediation_agent.installations.remaining':
+    '{count, plural, one {+# more installation} other {+# more installations}}',
+  'settings.almintegration.remediation_agent.installations.settings_link': 'Installation settings',
   'settings.almintegration.delete.header': 'Delete configuration',
   'settings.almintegration.delete.message':
     'Are you sure you want to delete the {id} configuration?',

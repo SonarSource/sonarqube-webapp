@@ -27,9 +27,12 @@ import { getGlobalSettingsUrl } from '../../helpers/urls';
  * organizations, so bindings are configured instance-wide from the global settings; the SQ-Cloud
  * adapter points at the current organization's binding settings instead.
  *
+ * `almKey`, when given, opens the DevOps Platform Integrations page directly on that platform's
+ * tab (SONAR-32166) instead of the generic destination.
+ *
  * Returns `undefined` when the destination cannot be resolved, in which case callers should not
  * render the link at all.
  */
-export function useBindingSettingsUrl(): Partial<Path> | undefined {
-  return getGlobalSettingsUrl(ALM_INTEGRATION_CATEGORY);
+export function useBindingSettingsUrl(almKey?: string): Partial<Path> | undefined {
+  return getGlobalSettingsUrl(ALM_INTEGRATION_CATEGORY, { alm: almKey });
 }

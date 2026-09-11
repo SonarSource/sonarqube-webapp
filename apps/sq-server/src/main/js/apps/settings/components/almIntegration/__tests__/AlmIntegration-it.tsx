@@ -21,13 +21,25 @@
 import { toast } from '@sonarsource/echoes-react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { http } from 'msw';
+import { registerServiceMocks, resetServiceMocks, server } from '~shared/api/mocks/server';
 import { byRole, byText } from '~shared/helpers/testSelector';
+import { EntitlementCheckFeatureKey } from '~shared/types/billing';
+import { validateAlmSettings } from '~sq-server-commons/api/alm-settings';
 import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
+import {
+  EntitlementsServiceDefaultDataset,
+  EntitlementsServiceMock,
+  mockPurchaseableFeature,
+} from '~sq-server-commons/api/mocks/EntitlementsServiceMock';
+import { PermissionChecksServiceMock } from '~sq-server-commons/api/mocks/PermissionChecksServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { getEdition } from '~sq-server-commons/helpers/editions';
+import { mockPermissionCheckResource } from '~sq-server-commons/helpers/mocks/dop-translation';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { PermissionCheckStatus } from '~sq-server-commons/types/dop-translation';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { Feature } from '~sq-server-commons/types/features';
 import { SettingsKey } from '~sq-server-commons/types/settings';
@@ -49,15 +61,26 @@ jest.mock('@sonarsource/echoes-react', () => ({
 
 let almSettings: AlmSettingsServiceMock;
 let settings: SettingsServiceMock;
+let entitlements: EntitlementsServiceMock;
+let permissionChecks: PermissionChecksServiceMock;
 
 beforeAll(() => {
   almSettings = new AlmSettingsServiceMock();
   settings = new SettingsServiceMock();
+  entitlements = new EntitlementsServiceMock(EntitlementsServiceDefaultDataset);
+  permissionChecks = new PermissionChecksServiceMock();
+});
+
+beforeEach(() => {
+  registerServiceMocks(entitlements, permissionChecks);
 });
 
 afterEach(() => {
   almSettings.reset();
   settings.reset();
+  entitlements.reset();
+  permissionChecks.reset();
+  resetServiceMocks();
   jest.mocked(toast.success).mockClear();
   jest.mocked(toast.error).mockClear();
   jest.mocked(toast.info).mockClear();
@@ -239,6 +262,265 @@ describe('bitbucket tab', () => {
 
     // Cloud configuration still exists
     expect(screen.getByRole('heading', { name: 'Name Cloud' })).toBeInTheDocument();
+  });
+});
+
+describe('Remediation Agent capability (SONAR-32166)', () => {
+  const remediationAgentTitle = byText('settings.almintegration.remediation_agent.title');
+  const missingPermissions = byText(
+    'settings.almintegration.remediation_agent.status.missing_permissions',
+  );
+  const insufficientDescription = byText(
+    'ai_capabilities.remediation_agent.dop_permission_warning.red.instance.description',
+  );
+
+  async function createGithubConfig(name: string) {
+    const { ui } = getPageObjects();
+    expect(await ui.almHeading.find()).toBeInTheDocument();
+    await ui.createConfiguration(name, {
+      'name.github': name,
+      'url.github': 'https://api.github.com',
+      app_id: 'Github App ID',
+      'client_id.github': 'Github Client ID',
+      'client_secret.github': 'Client Secret',
+      private_key: 'Key',
+    });
+  }
+
+  it('stays hidden when the Remediation Agent feature is not purchasable', async () => {
+    // EntitlementsServiceDefaultDataset's purchasable features don't include RemediationAgent.
+    renderAlmIntegration();
+    await createGithubConfig('Name');
+
+    expect(remediationAgentTitle.query()).not.toBeInTheDocument();
+  });
+
+  it('shows the capability status once the feature is entitled', async () => {
+    entitlements.setPurchasableFeatures([
+      mockPurchaseableFeature({
+        featureKey: EntitlementCheckFeatureKey.RemediationAgent,
+        isAvailable: true,
+        isEnabled: true,
+      }),
+    ]);
+    permissionChecks.setResponse({
+      permissionChecks: [
+        mockPermissionCheckResource({ key: 'Name', status: PermissionCheckStatus.Insufficient }),
+      ],
+    });
+    renderAlmIntegration();
+
+    await createGithubConfig('Name');
+
+    expect(await missingPermissions.find()).toBeInTheDocument();
+    expect(insufficientDescription.get()).toBeInTheDocument();
+  });
+
+  it('re-checks Remediation Agent permissions via the existing Check configuration action', async () => {
+    entitlements.setPurchasableFeatures([
+      mockPurchaseableFeature({
+        featureKey: EntitlementCheckFeatureKey.RemediationAgent,
+        isAvailable: true,
+        isEnabled: true,
+      }),
+    ]);
+    permissionChecks.setResponse({
+      permissionChecks: [
+        mockPermissionCheckResource({ key: 'Name', status: PermissionCheckStatus.Insufficient }),
+      ],
+    });
+    const { ui } = getPageObjects();
+    renderAlmIntegration();
+    await createGithubConfig('Name');
+
+    expect(await missingPermissions.find()).toBeInTheDocument();
+
+    // Creating a configuration triggers its own automatic check (AlmTab's `afterSubmit`) — queue
+    // the Sufficient refresh result only now, so it lands on the deliberate click below rather
+    // than being consumed by that automatic one, which would hide the Insufficient state above.
+    permissionChecks.setRefreshResponse(
+      'Name',
+      mockPermissionCheckResource({ key: 'Name', status: PermissionCheckStatus.Sufficient }),
+    );
+    await userEvent.click(ui.checkConfigurationButton('Name').get());
+
+    await waitFor(() => {
+      expect(missingPermissions.query()).not.toBeInTheDocument();
+    });
+  });
+
+  it('still re-checks Remediation Agent permissions when the general ALM check reports a Warning', async () => {
+    // The capability row unmounts on a Warning status — this is what the always-mounted banner
+    // (rather than the capability row) must keep working through.
+    entitlements.setPurchasableFeatures([
+      mockPurchaseableFeature({
+        featureKey: EntitlementCheckFeatureKey.RemediationAgent,
+        isAvailable: true,
+        isEnabled: true,
+      }),
+    ]);
+    permissionChecks.setResponse({
+      permissionChecks: [
+        mockPermissionCheckResource({ key: 'Name', status: PermissionCheckStatus.Insufficient }),
+      ],
+    });
+    const { ui } = getPageObjects();
+    renderAlmIntegration();
+    await createGithubConfig('Name');
+
+    expect(await insufficientDescription.find()).toBeInTheDocument();
+    // Creating a configuration triggers its own automatic check (AlmTab's `afterSubmit`) — queue
+    // the rejection and the Sufficient refresh result only now, so they land on the deliberate
+    // click below rather than being consumed by that automatic one, which would hide the
+    // Insufficient state above.
+    jest.mocked(validateAlmSettings).mockRejectedValueOnce(new Error('network error'));
+    permissionChecks.setRefreshResponse(
+      'Name',
+      mockPermissionCheckResource({ key: 'Name', status: PermissionCheckStatus.Sufficient }),
+    );
+
+    await userEvent.click(ui.checkConfigurationButton('Name').get());
+
+    expect(await byText('settings.almintegration.could_not_validate').find()).toBeInTheDocument();
+    // The capability row is unmounted during the Warning state ...
+    expect(missingPermissions.query()).not.toBeInTheDocument();
+    // ... but the always-mounted banner still received and acted on the same click.
+    await waitFor(() => {
+      expect(insufficientDescription.query()).not.toBeInTheDocument();
+    });
+  });
+});
+
+describe('Prevent conflicting validation messages (SONAR-32166)', () => {
+  const successMessage = byText('settings.almintegration.configuration_valid');
+  const missingPermissions = byText(
+    'settings.almintegration.remediation_agent.status.missing_permissions',
+  );
+  const unknownDescription = byText(
+    'ai_capabilities.remediation_agent.dop_permission_warning.yellow.description',
+  );
+  const insufficientDescription = byText(
+    'ai_capabilities.remediation_agent.dop_permission_warning.red.instance.description',
+  );
+  const unableToVerifyDescription = byText(
+    'settings.almintegration.remediation_agent.unable_to_verify_description',
+  );
+
+  async function createGithubConfig(name: string) {
+    const { ui } = getPageObjects();
+    expect(await ui.almHeading.find()).toBeInTheDocument();
+    await ui.createConfiguration(name, {
+      'name.github': name,
+      'url.github': 'https://api.github.com',
+      app_id: 'Github App ID',
+      'client_id.github': 'Github Client ID',
+      'client_secret.github': 'Client Secret',
+      private_key: 'Key',
+    });
+  }
+
+  async function createAzureConfig(name: string) {
+    const { ui } = getPageObjects();
+    expect(await ui.almHeading.find()).toBeInTheDocument();
+    await userEvent.click(ui.tab(AlmKeys.Azure).get());
+    await ui.createConfiguration(name, {
+      'name.azure': name,
+      'url.azure': 'https://dev.azure.com/org',
+      personal_access_token: 'Access Token',
+    });
+  }
+
+  function enableRemediationAgentFeature() {
+    entitlements.setPurchasableFeatures([
+      mockPurchaseableFeature({
+        featureKey: EntitlementCheckFeatureKey.RemediationAgent,
+        isAvailable: true,
+        isEnabled: true,
+      }),
+    ]);
+  }
+
+  it('shows Configuration valid when the existing validation succeeds and the Remediation Agent is sufficient', async () => {
+    enableRemediationAgentFeature();
+    permissionChecks.setResponse({
+      permissionChecks: [
+        mockPermissionCheckResource({ key: 'Name', status: PermissionCheckStatus.Sufficient }),
+      ],
+    });
+    renderAlmIntegration();
+
+    await createGithubConfig('Name');
+
+    expect(await successMessage.find()).toBeInTheDocument();
+    expect(missingPermissions.query()).not.toBeInTheDocument();
+  });
+
+  it('shows only the permission banner when the existing validation succeeds and the Remediation Agent is insufficient', async () => {
+    enableRemediationAgentFeature();
+    permissionChecks.setResponse({
+      permissionChecks: [
+        mockPermissionCheckResource({ key: 'Name', status: PermissionCheckStatus.Insufficient }),
+      ],
+    });
+    renderAlmIntegration();
+
+    await createGithubConfig('Name');
+
+    // GitHub falls back to the generic description when it has neither an app-level deficit nor
+    // any installation-level detail to report (SONAR-32166 CI-review follow-up) — it must never
+    // come up empty.
+    expect(await missingPermissions.find()).toBeInTheDocument();
+    expect(await insufficientDescription.find()).toBeInTheDocument();
+    expect(successMessage.query()).not.toBeInTheDocument();
+  });
+
+  it('shows only the warning banner when the existing validation succeeds and Azure is unknown', async () => {
+    enableRemediationAgentFeature();
+    permissionChecks.setResponse({
+      permissionChecks: [
+        mockPermissionCheckResource({
+          key: 'Name',
+          type: AlmKeys.Azure,
+          status: PermissionCheckStatus.Unknown,
+        }),
+      ],
+    });
+    renderAlmIntegration();
+
+    await createAzureConfig('Name');
+
+    expect(await unknownDescription.find()).toBeInTheDocument();
+    expect(successMessage.query()).not.toBeInTheDocument();
+  });
+
+  it('shows only the check-failed banner when the existing validation succeeds and the permission check fails', async () => {
+    enableRemediationAgentFeature();
+    permissionChecks.setResponse({ permissionChecks: [] });
+    renderAlmIntegration();
+
+    await createGithubConfig('Name');
+
+    expect(await unableToVerifyDescription.find()).toBeInTheDocument();
+    expect(successMessage.query()).not.toBeInTheDocument();
+  });
+
+  it('does not show a success banner while the permission result is loading', async () => {
+    enableRemediationAgentFeature();
+    server.use(http.get('/api/v2/dop-translation/permission-checks', () => new Promise(() => {})));
+    renderAlmIntegration();
+
+    await createGithubConfig('Name');
+
+    expect(successMessage.query()).not.toBeInTheDocument();
+  });
+
+  it('preserves the existing success banner when the Remediation Agent is unavailable', async () => {
+    // EntitlementsServiceDefaultDataset's purchasable features don't include RemediationAgent.
+    renderAlmIntegration();
+
+    await createGithubConfig('Name');
+
+    expect(await successMessage.find()).toBeInTheDocument();
   });
 });
 

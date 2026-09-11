@@ -29,3 +29,12 @@ it('points at the instance-wide DevOps platform integration settings', () => {
     search: '?category=almintegration',
   });
 });
+
+it('opens the given platform tab when an almKey is provided', () => {
+  const { result } = renderHook(() => useBindingSettingsUrl('gitlab'));
+
+  expect(result.current).toEqual({
+    pathname: '/admin/settings',
+    search: '?category=almintegration&alm=gitlab',
+  });
+});

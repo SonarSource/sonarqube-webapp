@@ -90,8 +90,20 @@ export function deleteGitHubConfiguration(id: string) {
   return axiosClient.delete(`${GITHUB_CONFIGURATIONS_PATH}/${id}`);
 }
 
-export function getDopPermissionChecks(params: { projectKey?: string }) {
+export function getDopPermissionChecks(params: {
+  /** Scopes the request to one connection. Combine with `refresh: true` to bypass the backend's
+   * cache and run a live check for that connection (SONAR-32166 "Re-check permissions"); the
+   * `configuration` param is otherwise unused by this app — the shared query always fetches the
+   * all-connections result and selects a connection's entry from it by key. */
+  configurationKey?: string;
+  projectKey?: string;
+  refresh?: boolean;
+}) {
   return axiosClient.get<PermissionChecksResponse>(PERMISSION_CHECKS_PATH, {
-    params: params.projectKey ? { project: params.projectKey } : undefined,
+    params: {
+      configuration: params.configurationKey,
+      project: params.projectKey,
+      refresh: params.refresh || undefined,
+    },
   });
 }

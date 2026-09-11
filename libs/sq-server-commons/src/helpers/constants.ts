@@ -248,6 +248,13 @@ export const IMPORT_COMPATIBLE_ALMS = [
   AlmKeys.GitLab,
 ];
 
+/** DevOps platforms the Remediation Agent permission check supports (SONAR-32166 §"Reuse the
+ * existing Remediation Agent feature availability signal ... Supported platforms are GitHub,
+ * GitLab, and Azure DevOps"). Lives here, rather than only in the private
+ * remediation-permission-widget module, because public code (AlmBindingDefinitionForm,
+ * AlmBindingDefinitionBox) also needs it and cannot import from `private/`. */
+export const REMEDIATION_AGENT_SUPPORTED_ALM_KEYS = [AlmKeys.GitHub, AlmKeys.GitLab, AlmKeys.Azure];
+
 export const GRADLE_SCANNER_VERSION = '7.5.0.8588';
 
 export const ONE_SECOND = 1000;

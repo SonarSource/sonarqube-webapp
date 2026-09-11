@@ -29,19 +29,28 @@ import {
   Spinner,
   ToggleTip,
 } from '@sonarsource/echoes-react';
+import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FlagMessage } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
+import { EntitlementCheckFeatureKey } from '~shared/types/billing';
+import { addons } from '~sq-server-addons/index';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
-import { IMPORT_COMPATIBLE_ALMS } from '~sq-server-commons/helpers/constants';
+import {
+  IMPORT_COMPATIBLE_ALMS,
+  REMEDIATION_AGENT_SUPPORTED_ALM_KEYS,
+} from '~sq-server-commons/helpers/constants';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { getEdition, getEditionUrl } from '~sq-server-commons/helpers/editions';
+import { useDopPermissionCheckForConfiguration } from '~sq-server-commons/queries/dop-translation';
+import { usePurchasableFeatureQuery } from '~sq-server-commons/queries/entitlements';
 import {
   AlmBindingDefinitionBase,
   AlmKeys,
   AlmSettingsBindingStatus,
   AlmSettingsBindingStatusType,
 } from '~sq-server-commons/types/alm-settings';
+import { PermissionCheckStatus } from '~sq-server-commons/types/dop-translation';
 import { EditionKey } from '~sq-server-commons/types/editions';
 
 export interface AlmBindingDefinitionBoxProps {
@@ -152,6 +161,41 @@ function getPrDecoFeatureDescription(alm: AlmKeys, formatMessage: FormatMessage)
 export default function AlmBindingDefinitionBox(props: Readonly<AlmBindingDefinitionBoxProps>) {
   const { alm, branchesEnabled, definition, status = DEFAULT_STATUS } = props;
   const { formatMessage } = useIntl();
+  // Bumped on every "Check configuration" click so the Remediation Agent permission banner
+  // (SONAR-32166) can (re)run its own check off the same action — there is no separate refresh
+  // control. Passed to the banner rather than the capability status row above, since that row
+  // unmounts whenever the general ALM check reports a Warning and would otherwise miss the
+  // signal. A plain counter, not `status.type === Validating`, because that flag also flips
+  // during the silent automatic validation on page load, which must not force a live re-check.
+  const [checkRequestId, setCheckRequestId] = useState(0);
+
+  // Whether the Remediation Agent permission check can run at all for this connection — mirrors
+  // the same gate used inside RemediationAgentPermissionBanner/AlmBindingDefinitionForm
+  // (SONAR-32166), so the generic success banner and the permission banner never disagree about
+  // whether the feature applies here.
+  const { data: purchasableFeature } = usePurchasableFeatureQuery(
+    EntitlementCheckFeatureKey.RemediationAgent,
+  );
+  const canCheckRemediationAgentPermission =
+    Boolean(addons.remediationAgent) &&
+    REMEDIATION_AGENT_SUPPORTED_ALM_KEYS.includes(alm) &&
+    purchasableFeature?.isAvailable === true;
+  const {
+    data: remediationAgentPermissionCheck,
+    isLoading: isRemediationAgentPermissionCheckLoading,
+  } = useDopPermissionCheckForConfiguration(definition.key, {
+    enabled: canCheckRemediationAgentPermission,
+  });
+  // Suppresses the generic "Configuration valid" banner until the Remediation Agent permission
+  // result is known to be SUFFICIENT — showing it any earlier (while the check is still loading)
+  // or alongside an INSUFFICIENT/UNKNOWN/CHECK_FAILED/UNSUPPORTED_TOKEN_TYPE result would
+  // contradict the permission banner rendered right below it (SONAR-32166 "Prevent conflicting
+  // validation messages"). Stays `false` for Bitbucket or when the feature isn't purchasable, so
+  // the existing behaviour there is unaffected.
+  const remediationAgentBlocksSuccessBanner =
+    canCheckRemediationAgentPermission &&
+    (isRemediationAgentPermissionCheckLoading ||
+      remediationAgentPermissionCheck?.status !== PermissionCheckStatus.Sufficient);
 
   return (
     <div className="it__alm-binding-definition sw-pb-10">
@@ -203,7 +247,7 @@ export default function AlmBindingDefinitionBox(props: Readonly<AlmBindingDefini
             {getPRDecorationFeatureStatus(branchesEnabled, status.type)}
           </div>
           {IMPORT_COMPATIBLE_ALMS.includes(alm) && (
-            <div>
+            <div className="sw-mr-10">
               <div className="sw-flex sw-items-center">
                 <span>
                   <FormattedMessage id="settings.almintegration.feature.alm_repo_import.title" />
@@ -219,6 +263,12 @@ export default function AlmBindingDefinitionBox(props: Readonly<AlmBindingDefini
 
               {getImportFeatureStatus(alm, definition, status.type)}
             </div>
+          )}
+          {addons.remediationAgent && (
+            <addons.remediationAgent.RemediationAgentCapabilityStatus
+              almKey={alm}
+              connectionKey={definition.key}
+            />
           )}
         </div>
       )}
@@ -236,11 +286,13 @@ export default function AlmBindingDefinitionBox(props: Readonly<AlmBindingDefini
       )}
       {status.type === AlmSettingsBindingStatusType.Success && status.alertSuccess && (
         <>
-          <div className="sw-mb-3">
-            <FlagMessage variant="success">
-              <FormattedMessage id="settings.almintegration.configuration_valid" />
-            </FlagMessage>
-          </div>
+          {!remediationAgentBlocksSuccessBanner && (
+            <div className="sw-mb-3">
+              <FlagMessage variant="success">
+                <FormattedMessage id="settings.almintegration.configuration_valid" />
+              </FlagMessage>
+            </div>
+          )}
           {alm === AlmKeys.GitHub && (
             <div className="sw-mb-3">
               <FlagMessage variant="warning">
@@ -261,6 +313,13 @@ export default function AlmBindingDefinitionBox(props: Readonly<AlmBindingDefini
           )}
         </>
       )}
+      {addons.remediationAgent && (
+        <addons.remediationAgent.RemediationAgentPermissionBanner
+          almKey={alm}
+          checkRequestId={checkRequestId}
+          connectionKey={definition.key}
+        />
+      )}
       <div className="sw-flex sw-items-center">
         <Button
           ariaLabel={formatMessage(
@@ -269,6 +328,7 @@ export default function AlmBindingDefinitionBox(props: Readonly<AlmBindingDefini
           )}
           onClick={() => {
             props.onCheck(definition.key);
+            setCheckRequestId((current) => current + 1);
           }}
         >
           <FormattedMessage id="settings.almintegration.check_configuration" />
