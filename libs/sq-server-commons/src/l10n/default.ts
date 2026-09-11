@@ -11887,4 +11887,7 @@ export const defaultMessages = {
   'group_notifications.subscriptions_count':
     '{count, plural, one {# subscription} other {# subscriptions}}',
   'group_notifications.remove_subscription': 'Remove {type}',
+
+  'security_alerts.security_alert_banner.message':
+    'You have open security alerts in your projects. <link>View security alerts</link>',
 };

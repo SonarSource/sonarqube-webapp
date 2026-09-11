@@ -28,6 +28,7 @@ import IndexationNotification from '~sq-server-commons/context/indexation/Indexa
 import MetricsContextProvider from '~sq-server-commons/context/metrics/MetricsContextProvider';
 import { Feature } from '~sq-server-commons/types/features';
 import NonProductionDatabaseWarning from './NonProductionDatabaseWarning';
+import { SecurityAlertBanner } from './SecurityAlertBanner';
 import SystemAnnouncement from './SystemAnnouncement';
 import EnableAiCodeFixMessage from './ai-codefix-notification/EnableAiCodeFixMessage';
 import { GlobalNav } from './nav/global/GlobalNav';
@@ -85,6 +86,8 @@ function Banners() {
       <UpdateNotification isGlobalBanner />
 
       <IndexationNotification />
+
+      <SecurityAlertBanner />
     </>
   );
 }
