@@ -439,6 +439,7 @@ export const defaultMessages = {
   unexpected_error: 'An unexpected error occurred.',
   update_details: 'Update details',
   update_scm: 'Update SCM details',
+  view_details: 'View details',
   'work_duration.x_days': '{0}d',
   'work_duration.x_hours': '{0}h',
   'work_duration.x_minutes': '{0}min',
