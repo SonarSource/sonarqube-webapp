@@ -22,6 +22,7 @@ import { screen } from '@testing-library/react';
 import { Route } from 'react-router-dom';
 import { renderWithRoutes } from '~shared/helpers/test-utils';
 import { ComponentQualifier } from '~shared/types/component';
+import { mockBranch, mockPullRequest } from '~sq-server-commons/helpers/mocks/branch-like';
 import {
   PROJECT_BUILT_IN_DASHBOARD_ROUTE,
   PROJECT_CUSTOM_DASHBOARD_ROUTE,
@@ -106,6 +107,15 @@ describe('project dashboard routes', () => {
         isDashboardView: true,
       }),
     ).toBe('/project/dashboards/built-in/project-health?id=project%2Fkey&view=dashboard');
+  });
+
+  it.each([
+    [mockBranch({ name: 'feature-branch' }), 'branch=feature-branch'],
+    [mockPullRequest({ key: '02' }), 'pullRequest=02'],
+  ])('preserves the selected branch-like in dashboard list URLs', (branchLike, query) => {
+    expect(getProjectDashboardsListRoute('project-key', branchLike)).toBe(
+      `/project/dashboards?id=project-key&${query}`,
+    );
   });
 
   it.each([

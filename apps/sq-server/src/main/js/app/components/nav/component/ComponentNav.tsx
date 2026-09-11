@@ -32,6 +32,7 @@ import { useCurrentBranchQuery, useProjectBranchesQuery } from '~adapters/querie
 import { DASHBOARDS_NEW_BADGE_EXPIRATION_DATE } from '~feature-dashboards/constants';
 import { NewBadge } from '~shared/components/badges/NewBadge';
 import { ComponentNavHeader } from '~shared/components/nav/component-nav/ComponentNavHeader';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike } from '~shared/helpers/component';
 import { History, RecentHistory } from '~shared/helpers/recent-history';
 import { isDefined } from '~shared/helpers/types';
@@ -42,6 +43,7 @@ import { useAppState } from '~sq-server-commons/context/app-state/withAppStateCo
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { PROJECT_DASHBOARDS_LIST_ROUTE } from '~sq-server-commons/helpers/project-dashboard-routes';
 import {
+  getComponentOverviewUrl,
   getPortfoliosUrl,
   getPortfolioUrl,
   getProjectQueryUrl,
@@ -51,7 +53,10 @@ import {
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import { supportsCustomProjectDashboards } from '../../../../apps/projectDashboards/permissions';
-import { isProjectOverviewLocation } from '../../../../apps/projectDashboards/routes';
+import {
+  getProjectDashboardsListRoute,
+  isProjectOverviewLocation,
+} from '../../../../apps/projectDashboards/routes';
 import { ComponentNavAnalysisMenu } from './ComponentNavAnalysisMenu';
 import { ComponentNavExtensionsMenu } from './ComponentNavExtensionsMenu';
 import { ComponentNavPoliciesMenu } from './ComponentNavPoliciesMenu';
@@ -131,7 +136,11 @@ export function ComponentNav(props: Readonly<Props>) {
           <Layout.SidebarNavigation.Item
             Icon={IconOverview}
             isActive={isProjectOverview}
-            to={getProjectOverviewUrl(component.key)}
+            to={getComponentOverviewUrl(
+              component.key,
+              component.qualifier,
+              getBranchLikeQuery(branchLike),
+            )}
           >
             <FormattedMessage id="overview.page" />
           </Layout.SidebarNavigation.Item>
@@ -143,10 +152,7 @@ export function ComponentNav(props: Readonly<Props>) {
               location.pathname.startsWith(PROJECT_DASHBOARDS_LIST_ROUTE) && !isProjectOverview
             }
             suffix={<NewBadge expirationDate={DASHBOARDS_NEW_BADGE_EXPIRATION_DATE} />}
-            to={{
-              pathname: PROJECT_DASHBOARDS_LIST_ROUTE,
-              search: new URLSearchParams({ id: component.key }).toString(),
-            }}
+            to={getProjectDashboardsListRoute(component.key, branchLike)}
           >
             <FormattedMessage id="project_dashboards.all.page" />
           </Layout.SidebarNavigation.Item>

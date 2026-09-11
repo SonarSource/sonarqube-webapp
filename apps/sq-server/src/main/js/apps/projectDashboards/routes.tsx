@@ -21,7 +21,9 @@
 import { Outlet, Route, generatePath, useLocation } from 'react-router-dom';
 import { PROJECT_BASE_URL } from '~adapters/helpers/urls';
 import NotFound from '~shared/components/NotFound';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
+import { BranchLikeBase, BranchParameters } from '~shared/types/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
@@ -52,20 +54,30 @@ const ProjectBuiltInDashboardPage = lazyLoadComponent(() =>
   })),
 );
 
-function withProjectKey(path: string, projectKey?: string, isDashboardView = false) {
-  const searchParams = new URLSearchParams();
-  if (projectKey) {
-    searchParams.set('id', projectKey);
-  }
-  if (isDashboardView) {
-    searchParams.set(PROJECT_DASHBOARD_VIEW_QUERY_PARAM, PROJECT_DASHBOARD_VIEW_QUERY_VALUE);
-  }
+function withProjectKey(
+  path: string,
+  projectKey?: string,
+  isDashboardView = false,
+  branchParameters?: BranchParameters,
+) {
+  const searchParams = new URLSearchParams({
+    ...(projectKey ? { id: projectKey } : {}),
+    ...(isDashboardView
+      ? { [PROJECT_DASHBOARD_VIEW_QUERY_PARAM]: PROJECT_DASHBOARD_VIEW_QUERY_VALUE }
+      : {}),
+    ...branchParameters,
+  });
   const search = searchParams.toString();
   return search ? `${path}?${search}` : path;
 }
 
-export function getProjectDashboardsListRoute(projectKey?: string) {
-  return withProjectKey(PROJECT_DASHBOARDS_LIST_ROUTE, projectKey);
+export function getProjectDashboardsListRoute(projectKey?: string, branchLike?: BranchLikeBase) {
+  return withProjectKey(
+    PROJECT_DASHBOARDS_LIST_ROUTE,
+    projectKey,
+    false,
+    getBranchLikeQuery(branchLike),
+  );
 }
 
 export function getProjectCustomDashboardRoute(dashboardId: string, projectKey?: string) {

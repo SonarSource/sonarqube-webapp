@@ -23,6 +23,7 @@ import { LATEST_DASHBOARD_SPEC_VERSION } from '~feature-dashboards/data/widgets/
 import { UnsupportedDashboardVersionError } from '~feature-dashboards/helpers/dashboard-layout-validation-reporting';
 import { DashboardType } from '~feature-dashboards/types/dashboard-list';
 import { renderWithRouter } from '~shared/helpers/test-utils';
+import { BranchLikeBase } from '~shared/types/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { EditionKey } from '~sq-server-commons/types/editions';
@@ -61,9 +62,13 @@ let mockQuery: {
   isPending: true,
 };
 const mockProjectPageClassName = jest.fn();
+const mockProjectPageDisableBranchSelector = jest.fn();
 const mockProjectPageMetadata = jest.fn();
 let mockDashboardKey = 'project-health';
 let mockSearch = '';
+let mockBranchLike: BranchLikeBase = { analysisDate: '2026-08-19', isMain: true, name: 'main' };
+const mockDashboardQueryOptions = jest.fn();
+const mockMeasuresQueryOptions = jest.fn();
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual<typeof import('react-router-dom')>('react-router-dom'),
@@ -90,27 +95,25 @@ jest.mock('~adapters/helpers/users', () => ({
   }),
 }));
 jest.mock('~adapters/queries/branch', () => ({
-  useCurrentBranchQuery: () => ({ data: { analysisDate: '2026-08-19', isMain: true } }),
-}));
-jest.mock('~shared/helpers/branch-like', () => ({
-  ...jest.requireActual<typeof import('~shared/helpers/branch-like')>(
-    '~shared/helpers/branch-like',
-  ),
-  isBranch: () => true,
+  useCurrentBranchQuery: () => ({ data: mockBranchLike }),
 }));
 jest.mock('~sq-server-commons/helpers/homepage', () => ({
   getComponentAsHomepage: () => ({ component: 'project-key' }),
 }));
 jest.mock('~sq-server-commons/queries/measures', () => ({
-  useMeasuresAndLeakQuery: () => ({
-    data: { component: { measures: [] }, metrics: [] },
-  }),
+  useMeasuresAndLeakQuery: (_data: unknown, options: unknown) => {
+    mockMeasuresQueryOptions(options);
+    return { data: { component: { measures: [] }, metrics: [] } };
+  },
 }));
 jest.mock('~sq-server-commons/queries/users', () => ({
   useUsersByIdsQuery: () => ({ data: { 'user-id': { name: 'Alice' } } }),
 }));
 jest.mock('../../../../queries/project-dashboards', () => ({
-  useGetProjectBuiltInDashboardQuery: () => mockQuery,
+  useGetProjectBuiltInDashboardQuery: (_data: unknown, options: unknown) => {
+    mockDashboardQueryOptions(options);
+    return mockQuery;
+  },
 }));
 jest.mock('../ProjectBuiltInDashboardActions', () => ({
   ProjectBuiltInDashboardActions: ({
@@ -141,12 +144,23 @@ jest.mock('~shared/components/pages/ProjectPageTemplate', () => ({
     callout?: React.ReactNode;
     children: React.ReactNode;
     description?: React.ReactNode;
+    disableBranchSelector?: boolean;
     metadata?: React.ReactNode;
     pageClassName?: string;
     title: string;
   }) => {
-    const { actions, callout, children, description, metadata, pageClassName, title } = props;
+    const {
+      actions,
+      callout,
+      children,
+      description,
+      disableBranchSelector,
+      metadata,
+      pageClassName,
+      title,
+    } = props;
     mockProjectPageClassName(pageClassName);
+    mockProjectPageDisableBranchSelector(disableBranchSelector);
     mockProjectPageMetadata(metadata);
 
     return (
@@ -221,7 +235,10 @@ describe('ProjectBuiltInDashboardPage', () => {
   beforeEach(() => {
     localStorage.clear();
     mockProjectPageClassName.mockClear();
+    mockProjectPageDisableBranchSelector.mockClear();
     mockProjectPageMetadata.mockClear();
+    mockDashboardQueryOptions.mockClear();
+    mockMeasuresQueryOptions.mockClear();
   });
 
   afterEach(() => {
@@ -236,6 +253,7 @@ describe('ProjectBuiltInDashboardPage', () => {
     mockQuery = { data: undefined, isPending: true };
     mockDashboardKey = 'project-health';
     mockSearch = '';
+    mockBranchLike = { analysisDate: '2026-08-19', isMain: true, name: 'main' };
   });
 
   it('shows a loading state while the dashboard is being fetched', () => {
@@ -310,6 +328,62 @@ describe('ProjectBuiltInDashboardPage', () => {
     expect(screen.getByText('view-on-github')).toBeInTheDocument();
     expect(screen.getByText('favorite')).toBeInTheDocument();
     expect(mockProjectPageClassName).toHaveBeenCalledWith('it__overview');
+    expect(mockProjectPageDisableBranchSelector).toHaveBeenCalledWith(false);
+  });
+
+  it('preserves the selected branch in the view all dashboards link', () => {
+    mockBranchLike = { analysisDate: '2026-08-19', isMain: false, name: 'feature-branch' };
+    mockQuery = {
+      data: {
+        description: 'Dashboard description',
+        key: 'project-health',
+        name: 'Project Health',
+        type: DashboardType.BuiltIn,
+      },
+      isPending: false,
+    };
+
+    renderWithRouter(<ProjectBuiltInDashboardPage />, {
+      appState: mockAppState({ edition: EditionKey.enterprise }),
+    });
+
+    expect(screen.getByRole('link', { name: 'dashboard.view_all_dashboards' })).toHaveAttribute(
+      'href',
+      '/project/dashboards?id=project-key&branch=feature-branch',
+    );
+  });
+
+  it('shows a limitation message instead of the dashboard for pull requests', () => {
+    mockBranchLike = {
+      base: 'main',
+      branch: 'feature',
+      key: 'pull-request-key',
+      pullRequestId: 'pull-request-id',
+      target: 'main',
+      title: 'Feature',
+    };
+    mockQuery = {
+      data: {
+        description: 'Dashboard description',
+        key: 'project-health',
+        name: 'Project Health',
+        type: DashboardType.BuiltIn,
+      },
+      isPending: false,
+    };
+
+    renderWithRouter(<ProjectBuiltInDashboardPage />);
+
+    expect(
+      screen.getByText('overview.dashboard.not_available_for_pull_requests'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('overview.dashboard.not_available_for_pull_requests.description'),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'Project Health' })).not.toBeInTheDocument();
+    expect(mockDashboardQueryOptions).toHaveBeenCalledWith({ enabled: false });
+    expect(mockMeasuresQueryOptions).toHaveBeenCalledWith({ enabled: false });
+    expect(mockProjectPageDisableBranchSelector).toHaveBeenCalledWith(false);
   });
 
   it.each([EditionKey.community, EditionKey.developer])(
@@ -424,5 +498,35 @@ describe('ProjectBuiltInDashboardPage', () => {
     const removal = waitForElementToBeRemoved(title);
     await user.click(screen.getByRole('button', { name: 'message_callout.dismiss' }));
     await removal;
+  });
+
+  it.each([
+    [
+      'a non-main branch',
+      { analysisDate: '2026-08-19', isMain: false, name: 'feature-branch' },
+      '/summary/new_code?id=project-key&branch=feature-branch',
+    ],
+    [
+      'a pull request',
+      {
+        base: 'main',
+        branch: 'feature-branch',
+        key: 'pull-request-key',
+        pullRequestId: 'pull-request-id',
+        target: 'main',
+        title: 'Feature branch',
+      },
+      '/summary/new_code?id=project-key&pullRequest=pull-request-key',
+    ],
+  ])('preserves the selected %s in the introduction link', (_selection, branchLike, href) => {
+    mockBranchLike = branchLike;
+
+    renderWithRouter(<ProjectBuiltInDashboardPage />);
+
+    expect(
+      screen.getByRole('link', {
+        name: 'project_dashboard.overview.banner.description_link',
+      }),
+    ).toHaveAttribute('href', href);
   });
 });

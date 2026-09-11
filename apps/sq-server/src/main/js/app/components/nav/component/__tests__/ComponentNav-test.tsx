@@ -39,7 +39,11 @@ import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMoc
 import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServiceMock';
 import { PermissionChecksServiceMock } from '~sq-server-commons/api/mocks/PermissionChecksServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
-import { mockMainBranch } from '~sq-server-commons/helpers/mocks/branch-like';
+import {
+  mockBranch,
+  mockMainBranch,
+  mockPullRequest,
+} from '~sq-server-commons/helpers/mocks/branch-like';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { AppState } from '~sq-server-commons/types/appstate';
@@ -247,6 +251,90 @@ describe('ComponentNav', () => {
       expect(ui.qualityGateLink.get()).toBeInTheDocument();
       expect(ui.projectGroup.get()).toBeInTheDocument();
       expect(ui.projectInfoLink.get()).toBeInTheDocument();
+    });
+
+    it('preserves the selected branch in the overview link', () => {
+      const component = mockComponent({ analysisDate: '2024-01-01' });
+      const useCurrentBranchQuerySpy = jest.spyOn(branchQueries, 'useCurrentBranchQuery');
+      useCurrentBranchQuerySpy.mockReturnValue({
+        data: mockBranch({ name: 'normal-branch' }),
+      } as ReturnType<typeof branchQueries.useCurrentBranchQuery>);
+
+      try {
+        renderComponentNav({ component }, [], EditionKey.enterprise, undefined, [
+          '/?id=my-project&branch=normal-branch',
+        ]);
+
+        expect(getInteractiveElement(ui.overviewLink.get())).toHaveAttribute(
+          'href',
+          '/project/overview?id=my-project&branch=normal-branch',
+        );
+      } finally {
+        useCurrentBranchQuerySpy.mockRestore();
+      }
+    });
+
+    it('preserves the selected pull request in the overview link', () => {
+      const component = mockComponent({ analysisDate: '2024-01-01' });
+      const useCurrentBranchQuerySpy = jest.spyOn(branchQueries, 'useCurrentBranchQuery');
+      useCurrentBranchQuerySpy.mockReturnValue({
+        data: mockPullRequest({ key: '02' }),
+      } as ReturnType<typeof branchQueries.useCurrentBranchQuery>);
+
+      try {
+        renderComponentNav({ component }, [], EditionKey.enterprise, undefined, [
+          '/?id=my-project&pullRequest=02',
+        ]);
+
+        expect(getInteractiveElement(ui.overviewLink.get())).toHaveAttribute(
+          'href',
+          '/project/overview?id=my-project&pullRequest=02',
+        );
+      } finally {
+        useCurrentBranchQuerySpy.mockRestore();
+      }
+    });
+
+    it('preserves the selected branch in the dashboards link', () => {
+      const component = mockComponent({ analysisDate: '2024-01-01' });
+      const useCurrentBranchQuerySpy = jest.spyOn(branchQueries, 'useCurrentBranchQuery');
+      useCurrentBranchQuerySpy.mockReturnValue({
+        data: mockBranch({ name: 'normal-branch' }),
+      } as ReturnType<typeof branchQueries.useCurrentBranchQuery>);
+
+      try {
+        renderComponentNav({ component }, [], EditionKey.enterprise, undefined, [
+          '/?id=my-project&branch=normal-branch',
+        ]);
+
+        expect(getInteractiveElement(ui.allProjectDashboardsLink.get())).toHaveAttribute(
+          'href',
+          '/project/dashboards?id=my-project&branch=normal-branch',
+        );
+      } finally {
+        useCurrentBranchQuerySpy.mockRestore();
+      }
+    });
+
+    it('preserves the selected pull request in the dashboards link', () => {
+      const component = mockComponent({ analysisDate: '2024-01-01' });
+      const useCurrentBranchQuerySpy = jest.spyOn(branchQueries, 'useCurrentBranchQuery');
+      useCurrentBranchQuerySpy.mockReturnValue({
+        data: mockPullRequest({ key: '02' }),
+      } as ReturnType<typeof branchQueries.useCurrentBranchQuery>);
+
+      try {
+        renderComponentNav({ component }, [], EditionKey.enterprise, undefined, [
+          '/?id=my-project&pullRequest=02',
+        ]);
+
+        expect(getInteractiveElement(ui.allProjectDashboardsLink.get())).toHaveAttribute(
+          'href',
+          '/project/dashboards?id=my-project&pullRequest=02',
+        );
+      } finally {
+        useCurrentBranchQuerySpy.mockRestore();
+      }
     });
 
     it('should render quality gate history link for analyzed projects on the main branch', async () => {

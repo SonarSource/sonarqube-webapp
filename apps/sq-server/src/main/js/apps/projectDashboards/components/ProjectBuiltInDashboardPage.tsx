@@ -50,8 +50,9 @@ import { DismissableMessageCallout } from '~shared/components/common/Dismissable
 import NotFound from '~shared/components/NotFound';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { Tags } from '~shared/components/tags/Tags';
-import { isBranch } from '~shared/helpers/branch-like';
+import { getBranchLikeQuery, isBranch, isPullRequest } from '~shared/helpers/branch-like';
 import { isStringDefined } from '~shared/helpers/types';
+import { BranchLikeBase } from '~shared/types/branch-like';
 import { MetricKey } from '~shared/types/metrics';
 import Favorite from '~sq-server-commons/components/controls/Favorite';
 import HomePageSelect from '~sq-server-commons/components/controls/HomePageSelect';
@@ -59,10 +60,11 @@ import { CustomDashboardEditStatus } from '~sq-server-commons/components/dashboa
 import { ComponentNavBindingStatus } from '~sq-server-commons/components/nav/ComponentNavBindingStatus';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
+import { FishVisual } from '~sq-server-commons/design-system';
 import { getComponentAsHomepage } from '~sq-server-commons/helpers/homepage';
 import { enhanceMeasuresWithMetrics } from '~sq-server-commons/helpers/measures';
 import { PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY } from '~sq-server-commons/helpers/project-dashboard-routes';
-import { getProjectUrl } from '~sq-server-commons/helpers/urls';
+import { getProjectQueryUrl } from '~sq-server-commons/helpers/urls';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
 import { useMeasuresAndLeakQuery } from '~sq-server-commons/queries/measures';
 import { Branch } from '~sq-server-commons/types/branch-like';
@@ -96,6 +98,7 @@ export function ProjectBuiltInDashboardPage() {
   const branch = isBranch(branchLike) ? branchLike : undefined;
   const isProjectOverview =
     isProjectOverviewRoute(dashboardKey, searchParams.toString()) || !params.dashboardKey;
+  const isPullRequestOverview = isProjectOverview && isPullRequest(branchLike);
   const canDownloadSchema = hasGlobalPermission(currentUser, Permissions.Admin);
   const isProjectAnalyzed = isStringDefined(component?.analysisDate);
   const overviewPageClassName = isProjectOverview ? 'it__overview' : undefined;
@@ -105,11 +108,18 @@ export function ProjectBuiltInDashboardPage() {
       componentKey: component?.key ?? '',
       metricKeys: [MetricKey.ncloc],
     },
-    { enabled: Boolean(component) && isProjectOverview && isProjectAnalyzed },
+    {
+      enabled:
+        Boolean(component) && isProjectOverview && isProjectAnalyzed && !isPullRequestOverview,
+    },
   );
   const query = useGetProjectBuiltInDashboardQuery(
     { dashboardKey },
-    { enabled: Boolean(dashboardKey) && (!isProjectOverview || isProjectAnalyzed) },
+    {
+      enabled:
+        Boolean(dashboardKey) &&
+        (!isProjectOverview || (isProjectAnalyzed && !isPullRequestOverview)),
+    },
   );
 
   if (!component) {
@@ -119,7 +129,7 @@ export function ProjectBuiltInDashboardPage() {
   if (query.error instanceof UnsupportedDashboardVersionError) {
     return (
       <ProjectPageTemplate
-        disableBranchSelector
+        disableBranchSelector={!isProjectOverview}
         title={formatMessage({
           id: isProjectOverview ? 'overview.page' : 'project_dashboards.page',
         })}
@@ -159,7 +169,7 @@ export function ProjectBuiltInDashboardPage() {
   ) : undefined;
   const overviewCallout = (
     <ProjectOverviewIntroduction
-      branch={branch}
+      branchLike={branchLike}
       component={component}
       isVisible={isProjectOverview}
     />
@@ -167,6 +177,7 @@ export function ProjectBuiltInDashboardPage() {
 
   return (
     <ProjectBuiltInDashboardContent
+      branchLike={branchLike}
       callout={overviewCallout}
       canDownloadSchema={canDownloadSchema}
       canViewAllDashboards={supportsCustomProjectDashboards(edition)}
@@ -175,6 +186,7 @@ export function ProjectBuiltInDashboardPage() {
       isLoading={query.isPending || !query.data}
       isLoggedIn={isLoggedIn}
       isProjectOverview={isProjectOverview}
+      isPullRequestOverview={isPullRequestOverview}
       metadata={overviewMetadata}
       overviewActions={overviewActions}
       overviewPageClassName={overviewPageClassName}
@@ -184,6 +196,7 @@ export function ProjectBuiltInDashboardPage() {
 }
 
 interface ProjectBuiltInDashboardContentProps {
+  branchLike?: BranchLikeBase;
   callout: ReactNode;
   canViewAllDashboards: boolean;
   canDownloadSchema: boolean;
@@ -192,6 +205,7 @@ interface ProjectBuiltInDashboardContentProps {
   isLoading: boolean;
   isLoggedIn: boolean;
   isProjectOverview: boolean;
+  isPullRequestOverview: boolean;
   metadata: ReactNode;
   overviewActions: ReactNode;
   overviewPageClassName?: string;
@@ -201,6 +215,7 @@ interface ProjectBuiltInDashboardContentProps {
 function ProjectBuiltInDashboardContent(props: Readonly<ProjectBuiltInDashboardContentProps>) {
   const { formatMessage } = useIntl();
   const {
+    branchLike,
     callout,
     canViewAllDashboards,
     canDownloadSchema,
@@ -209,6 +224,7 @@ function ProjectBuiltInDashboardContent(props: Readonly<ProjectBuiltInDashboardC
     isLoading,
     isLoggedIn,
     isProjectOverview,
+    isPullRequestOverview,
     metadata,
     overviewActions,
     overviewPageClassName,
@@ -236,6 +252,38 @@ function ProjectBuiltInDashboardContent(props: Readonly<ProjectBuiltInDashboardC
         { hasEllipsis: true, linkElement: dashboard.name },
       ]
     : [];
+  let dashboardContent: ReactNode = <Spinner isLoading />;
+
+  if (isPullRequestOverview) {
+    dashboardContent = <ProjectHealthDashboardPullRequestEmptyState />;
+  } else if (!isLoading && dashboard) {
+    dashboardContent = (
+      <>
+        <A11ySkipTarget anchor="project_dashboard_main" />
+        <div className="sw-flex sw-flex-col sw-gap-6">
+          <ProjectDashboardHeader
+            branchLike={branchLike}
+            canViewAllDashboards={canViewAllDashboards}
+            dashboardDescription={dashboard.description}
+            dashboardName={dashboard.name}
+            isProjectOverview={isProjectOverview}
+            projectKey={component.key}
+          />
+          <Dashboard<ProjectDashboardWidgetPropMap>
+            bodyMap={projectDashboardWidgetBodyMap}
+            dashboard={dashboard.layout}
+            editBehaviorMap={widgetEditBehaviorMap}
+            headerMap={projectDashboardWidgetHeaderMap}
+            isEditing={false}
+            onAddWidgetToSection={() => undefined}
+            onDashboardChange={() => undefined}
+            onWidgetEdit={() => undefined}
+            width={12}
+          />
+        </div>
+      </>
+    );
+  }
 
   return (
     <ProjectPageTemplate
@@ -260,7 +308,7 @@ function ProjectBuiltInDashboardContent(props: Readonly<ProjectBuiltInDashboardC
           />
         ) : undefined
       }
-      disableBranchSelector
+      disableBranchSelector={!isProjectOverview}
       metadata={metadata}
       pageClassName={overviewPageClassName}
       title={
@@ -269,34 +317,24 @@ function ProjectBuiltInDashboardContent(props: Readonly<ProjectBuiltInDashboardC
           : (dashboard?.name ?? formatMessage({ id: 'project_dashboards.page' }))
       }
     >
-      {isLoading || !dashboard ? (
-        <Spinner isLoading />
-      ) : (
-        <>
-          <A11ySkipTarget anchor="project_dashboard_main" />
-          <div className="sw-flex sw-flex-col sw-gap-6">
-            <ProjectDashboardHeader
-              canViewAllDashboards={canViewAllDashboards}
-              dashboardDescription={dashboard.description}
-              dashboardName={dashboard.name}
-              isProjectOverview={isProjectOverview}
-              projectKey={component.key}
-            />
-            <Dashboard<ProjectDashboardWidgetPropMap>
-              bodyMap={projectDashboardWidgetBodyMap}
-              dashboard={dashboard.layout}
-              editBehaviorMap={widgetEditBehaviorMap}
-              headerMap={projectDashboardWidgetHeaderMap}
-              isEditing={false}
-              onAddWidgetToSection={() => undefined}
-              onDashboardChange={() => undefined}
-              onWidgetEdit={() => undefined}
-              width={12}
-            />
-          </div>
-        </>
-      )}
+      {dashboardContent}
     </ProjectPageTemplate>
+  );
+}
+
+function ProjectHealthDashboardPullRequestEmptyState() {
+  return (
+    <div className="sw-flex sw-flex-col sw-items-center sw-justify-center sw-gap-6 sw-h-full">
+      <FishVisual />
+      <div className="sw-flex sw-flex-col sw-text-center">
+        <Heading as="h2" hasMarginBottom>
+          <FormattedMessage id="overview.dashboard.not_available_for_pull_requests" />
+        </Heading>
+        <Text>
+          <FormattedMessage id="overview.dashboard.not_available_for_pull_requests.description" />
+        </Text>
+      </div>
+    </div>
   );
 }
 
@@ -331,6 +369,7 @@ function ProjectOverviewMetadata(props: Readonly<ProjectOverviewMetadataProps>) 
 }
 
 interface ProjectDashboardHeaderProps {
+  branchLike?: BranchLikeBase;
   canViewAllDashboards: boolean;
   dashboardDescription?: string;
   dashboardName: string;
@@ -340,6 +379,7 @@ interface ProjectDashboardHeaderProps {
 
 function ProjectDashboardHeader(props: Readonly<ProjectDashboardHeaderProps>) {
   const {
+    branchLike,
     canViewAllDashboards,
     dashboardDescription,
     dashboardName,
@@ -360,7 +400,7 @@ function ProjectDashboardHeader(props: Readonly<ProjectDashboardHeaderProps>) {
         {isStringDefined(dashboardDescription) && <Text isSubtle>{dashboardDescription}</Text>}
       </div>
       {canViewAllDashboards && (
-        <Button to={getProjectDashboardsListRoute(projectKey)}>
+        <Button to={getProjectDashboardsListRoute(projectKey, branchLike)}>
           <FormattedMessage id="dashboard.view_all_dashboards" />
         </Button>
       )}
@@ -369,13 +409,13 @@ function ProjectDashboardHeader(props: Readonly<ProjectDashboardHeaderProps>) {
 }
 
 interface ProjectOverviewIntroductionProps {
-  branch?: Branch;
+  branchLike?: BranchLikeBase;
   component: Component;
   isVisible: boolean;
 }
 
 function ProjectOverviewIntroduction(props: Readonly<ProjectOverviewIntroductionProps>) {
-  const { branch, component, isVisible } = props;
+  const { branchLike, component, isVisible } = props;
   const { formatMessage } = useIntl();
 
   if (!isVisible) {
@@ -395,7 +435,7 @@ function ProjectOverviewIntroduction(props: Readonly<ProjectOverviewIntroduction
             link: (text) => (
               <Link
                 highlight={LinkHighlight.CurrentColor}
-                to={getProjectUrl(component.key, branch?.name)}
+                to={getProjectQueryUrl(component.key, getBranchLikeQuery(branchLike))}
               >
                 {text}
               </Link>
