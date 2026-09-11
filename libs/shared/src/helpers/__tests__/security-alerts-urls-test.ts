@@ -23,7 +23,7 @@ import { getSecurityAlertsUrl } from '../security-alerts-urls';
 describe('getSecurityAlertsUrl', () => {
   it('includes the default status for a URL without filters', () => {
     expect(getSecurityAlertsUrl()).toEqual({
-      pathname: '/security-alerts',
+      pathname: '/security_alerts',
       search: '?statuses=OPEN',
     });
   });

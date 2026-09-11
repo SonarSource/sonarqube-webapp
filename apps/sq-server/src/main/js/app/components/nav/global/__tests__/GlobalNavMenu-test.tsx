@@ -72,7 +72,7 @@ it('should show the Security Alerts menu when SCA is enabled', async () => {
 
   expect(screen.getByRole('menuitem', { name: 'security_alerts.page' })).toHaveAttribute(
     'href',
-    '/security-alerts?statuses=OPEN',
+    '/security_alerts?statuses=OPEN',
   );
 });
 

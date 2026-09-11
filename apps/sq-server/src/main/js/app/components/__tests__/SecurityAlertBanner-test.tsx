@@ -71,5 +71,5 @@ it('renders banner with list link when an open alert exists', async () => {
   });
 
   expect(await ui.banner.find()).toBeInTheDocument();
-  expect(await ui.listLink.find()).toHaveAttribute('href', '/security-alerts?statuses=OPEN');
+  expect(await ui.listLink.find()).toHaveAttribute('href', '/security_alerts?statuses=OPEN');
 });

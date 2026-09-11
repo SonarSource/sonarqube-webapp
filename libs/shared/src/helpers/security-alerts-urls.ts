@@ -20,7 +20,7 @@
 
 import { queryToSearchString } from './query';
 
-export const SECURITY_ALERTS_ROUTE_NAME = 'security-alerts';
+export const SECURITY_ALERTS_ROUTE_NAME = 'security_alerts';
 
 const FILTER_PARAMS = ['alertTypes', 'statuses', 'sort', 'direction'] as const;
 
