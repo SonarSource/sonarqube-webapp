@@ -1407,6 +1407,14 @@ export const defaultMessages = {
     'Viewing the {count} most recent of {total, plural, one {# project} other {# projects}}.',
   'vortex_dashboard.project_activity.view_all': 'View all projects',
 
+  'vortex_dashboard.project_activity_page.title': 'Project activity',
+  'vortex_dashboard.project_activity_page.description':
+    'All project activity in this instance is sorted by latest activity, most recent first.',
+  'vortex_dashboard.project_activity_page.error': 'Unable to load project activity right now.',
+  'vortex_dashboard.project_activity_page.empty': 'No project activity yet.',
+  'vortex_dashboard.project_activity_page.footer':
+    'Viewing <b>{count}</b> of <b>{total}</b> {total, plural, one {project} other {projects}}.',
+
   //------------------------------------------------------------------------------
   //
   // VISIBILITY
