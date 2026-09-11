@@ -132,10 +132,12 @@ export interface LlmProviderSelection {
   aiCapability: `${AiCapability}`;
   llmProviderId: string | null;
   modelIdentifier: string | null;
+  secondaryModelIdentifier?: string | null;
 }
 
 export interface LlmProviderSelectionUpsert {
   aiCapability: `${AiCapability}`;
   llmProviderId: string;
   modelIdentifier: string | null;
+  secondaryModelIdentifier?: string | null;
 }

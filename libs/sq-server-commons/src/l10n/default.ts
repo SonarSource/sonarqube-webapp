@@ -886,6 +886,9 @@ export const defaultMessages = {
   'ai_capabilities_select.provider.model.label': 'Choose your model',
   'ai_capabilities_select.provider.model.help':
     'Enter a model supported by this AI capability. An unsupported one is rejected on save.',
+  'ai_capabilities_select.provider.secondary_model.label': 'Choose your secondary model',
+  'ai_capabilities_select.provider.secondary_model.help':
+    'Enter a secondary model supported by this AI capability. An unsupported one is rejected on save.',
   'ai_capabilities_select.provider.save.aria_label': 'Save provider selection',
   'ai_capabilities_select.provider.saved': 'Provider selection saved.',
   'ai_capabilities_select.provider.error':

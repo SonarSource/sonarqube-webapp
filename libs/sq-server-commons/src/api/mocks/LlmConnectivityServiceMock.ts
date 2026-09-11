@@ -287,6 +287,7 @@ export default class LlmConnectivityServiceMock extends AbstractServiceMock<LlmC
         aiCapability: data.aiCapability,
         llmProviderId: data.llmProviderId,
         modelIdentifier: data.modelIdentifier,
+        secondaryModelIdentifier: data.secondaryModelIdentifier,
       };
       this.setSelection(selection);
 
