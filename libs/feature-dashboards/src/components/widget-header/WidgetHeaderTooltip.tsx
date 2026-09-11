@@ -81,7 +81,7 @@ function getWidgetHeaderTooltipKey(
   }
 
   if (metric.type === DashboardMetricType.ScaResolution) {
-    return ScaResolutionStatistic.ScaMTTR;
+    return metric.statistic;
   }
 
   if (metric.type === DashboardMetricType.IssueDensity) {

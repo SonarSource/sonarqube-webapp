@@ -20,6 +20,7 @@
 
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
+import { ScaResolutionStatistic } from '../../types/organization-sca-resolution-history';
 import { CodeScope } from '../../types/widget-common';
 import { PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE } from '../../utils/portfolioMeasures';
 import { dashboardMeasureHistoryMetricKey, dashboardMetricToMeasure } from '../dashboard-measure';
@@ -35,6 +36,22 @@ const issueMetric: DashboardMetric = {
 };
 
 describe('dashboardMetricToMeasure', () => {
+  it('uses the SCA resolution statistic stored on the widget', () => {
+    expect(
+      dashboardMetricToMeasure(
+        {
+          statistic: ScaResolutionStatistic.ScaMTTR,
+          type: DashboardMetricType.ScaResolution,
+        },
+        CodeScope.Overall,
+      ),
+    ).toEqual({
+      api: 'sca-resolution-history',
+      severities: undefined,
+      statistic: ScaResolutionStatistic.ScaMTTR,
+    });
+  });
+
   it('maps an MQR issue metric to backend-shaped impacts', () => {
     expect(dashboardMetricToMeasure(issueMetric, CodeScope.Overall)).toEqual(
       expect.objectContaining({

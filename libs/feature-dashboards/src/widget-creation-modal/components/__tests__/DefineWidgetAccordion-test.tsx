@@ -33,6 +33,7 @@ import {
   RichMetricKey,
 } from '../../../types/dashboard-widget';
 import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
+import { ScaResolutionStatistic } from '../../../types/organization-sca-resolution-history';
 import {
   CodeScope,
   SCA_MTTR_METRIC_OPTION_VALUE,
@@ -896,6 +897,7 @@ describe('DefineWidgetAccordion', () => {
         count: {
           complete: true,
           metric: {
+            statistic: ScaResolutionStatistic.ScaMTTR,
             type: DashboardMetricType.ScaResolution,
           },
           scope: CodeScope.Overall,

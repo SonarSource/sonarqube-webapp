@@ -212,7 +212,7 @@ export function dashboardMetricToMeasure(
       return {
         api: 'sca-resolution-history',
         severities: metric.measureFilters?.impactSeverities,
-        statistic: ScaResolutionStatistic.ScaMTTR,
+        statistic: metric.statistic,
       };
     default:
       metric satisfies never;

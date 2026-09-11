@@ -23,6 +23,7 @@ import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-cod
 import { DEFAULT_LINE_CHART_GROUP_BY, HistoryRange } from '../../../data/widgets/line-chart';
 import { DashboardMetricType, type DashboardMetric } from '../../../types/dashboard-widget';
 import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
+import { ScaResolutionStatistic } from '../../../types/organization-sca-resolution-history';
 import { CodeScope, VisualizationType } from '../../../types/widget-common';
 import type { CountConfig, LineChartConfig } from '../../state/widgetConfigTypes';
 import { useMetricWidgetApplyFiltersViewModel } from '../useMetricWidgetApplyFiltersViewModel';
@@ -107,6 +108,7 @@ describe('useMetricWidgetApplyFiltersViewModel', () => {
       label: 'SCA MTTR',
       metric: {
         measureFilters: {},
+        statistic: ScaResolutionStatistic.ScaMTTR,
         type: DashboardMetricType.ScaResolution,
       },
       name: 'SCA MTTR',
@@ -218,6 +220,7 @@ describe('useMetricWidgetApplyFiltersViewModel', () => {
       complete: true,
       metric: {
         measureFilters: {},
+        statistic: ScaResolutionStatistic.ScaMTTR,
         type: DashboardMetricType.ScaResolution,
       },
       scope: CodeScope.Overall,

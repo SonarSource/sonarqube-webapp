@@ -27,6 +27,7 @@ import { MetricKey } from '~shared/types/metrics';
 import { HistoryRange, LineChartGroupBy } from '../../../data/widgets/line-chart';
 import { DashboardMetricType, IssueStatus, RichMetricKey } from '../../../types/dashboard-widget';
 import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
+import { ScaResolutionStatistic } from '../../../types/organization-sca-resolution-history';
 import { CodeScope, TopListLimit, TopListRankBy, WidgetMode } from '../../../types/widget-common';
 import { TopListWidgetHeader, WidgetHeader } from '../WidgetHeader';
 
@@ -238,7 +239,10 @@ describe('WidgetHeader', () => {
   it('renders an info toggletip for SCA MTTR metrics', async () => {
     renderWithRouter(
       <WidgetHeader
-        metric={{ type: DashboardMetricType.ScaResolution }}
+        metric={{
+          statistic: ScaResolutionStatistic.ScaMTTR,
+          type: DashboardMetricType.ScaResolution,
+        }}
         scope={CodeScope.Overall}
       />,
     );

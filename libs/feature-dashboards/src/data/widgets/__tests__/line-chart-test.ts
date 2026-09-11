@@ -21,6 +21,7 @@
 import { parse } from 'valibot';
 import { MetricKey } from '~shared/types/metrics';
 import { DashboardMetricType } from '../../../types/dashboard-widget';
+import { ScaResolutionStatistic } from '../../../types/organization-sca-resolution-history';
 import { CodeScope } from '../../../types/widget-common';
 import { DEFAULT_LINE_CHART_GROUP_BY, HistoryRange, LineChartGroupBy, spec } from '../line-chart';
 import { LATEST_DASHBOARD_SPEC_VERSION } from '../shared';
@@ -45,5 +46,17 @@ describe('lineChart schema', () => {
     });
 
     expect(output.groupBy).toBe(LineChartGroupBy.Severity);
+  });
+
+  it('fills in the SCA MTTR statistic for legacy SCA resolution metrics', () => {
+    const output = parse(spec.fromVersion[LATEST_DASHBOARD_SPEC_VERSION], {
+      ...baseProps,
+      metric: { type: DashboardMetricType.ScaResolution },
+    });
+
+    expect(output.metric).toEqual({
+      statistic: ScaResolutionStatistic.ScaMTTR,
+      type: DashboardMetricType.ScaResolution,
+    });
   });
 });

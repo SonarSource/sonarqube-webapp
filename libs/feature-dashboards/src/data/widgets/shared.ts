@@ -23,6 +23,7 @@ import * as v from 'valibot';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
 import { IssueResolutionStatistic } from '../../types/organization-issue-resolution-history';
+import { ScaResolutionStatistic } from '../../types/organization-sca-resolution-history';
 
 export type Position = {
   x: number;
@@ -130,6 +131,7 @@ type IssueDensityMetric = {
 
 type ScaResolutionMetric = {
   measureFilters?: Pick<MeasureFilters, 'impactSeverities'>;
+  statistic: ScaResolutionStatistic;
   type: DashboardMetricType.ScaResolution;
 };
 
@@ -176,6 +178,7 @@ const scaResolutionMetricSchema = v.object({
       impactSeverities: v.optional(v.array(v.enum(SoftwareImpactSeverity))),
     }),
   ),
+  statistic: v.optional(v.enum(ScaResolutionStatistic), ScaResolutionStatistic.ScaMTTR),
   type: v.literal(DashboardMetricType.ScaResolution),
 }) satisfies GenericSchema<unknown, ScaResolutionMetric>;
 

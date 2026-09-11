@@ -24,6 +24,7 @@ import { renderWithRouter } from '~shared/helpers/test-utils';
 import { MetricKey } from '~shared/types/metrics';
 import { DashboardMetricType } from '../../../types/dashboard-widget';
 import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
+import { ScaResolutionStatistic } from '../../../types/organization-sca-resolution-history';
 import { WidgetHeaderTooltip } from '../WidgetHeaderTooltip';
 
 const tooltipCases = [
@@ -50,7 +51,10 @@ const tooltipCases = [
   },
   {
     messageId: 'dashboard.widget.header.title.sca_mttr_tooltip',
-    metric: { type: DashboardMetricType.ScaResolution },
+    metric: {
+      statistic: ScaResolutionStatistic.ScaMTTR,
+      type: DashboardMetricType.ScaResolution,
+    },
   },
   {
     messageId: 'dashboard.widget.header.title.issue_density_tooltip',

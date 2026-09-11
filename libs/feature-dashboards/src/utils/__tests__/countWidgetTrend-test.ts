@@ -25,6 +25,7 @@ import {
   type DashboardMetric,
 } from '../../data/widgets/shared';
 import { IssueResolutionStatistic } from '../../types/organization-issue-resolution-history';
+import { ScaResolutionStatistic } from '../../types/organization-sca-resolution-history';
 import {
   computeDashboardMeasureTrendData,
   computeTrendData,
@@ -122,9 +123,12 @@ describe('getDashboardMetricDirectionOverride', () => {
         type: DashboardMetricType.IssueResolution,
       }),
     ).toBe(1);
-    expect(getDashboardMetricDirectionOverride({ type: DashboardMetricType.ScaResolution })).toBe(
-      -1,
-    );
+    expect(
+      getDashboardMetricDirectionOverride({
+        statistic: ScaResolutionStatistic.ScaMTTR,
+        type: DashboardMetricType.ScaResolution,
+      }),
+    ).toBe(-1);
   });
 
   const metricsWithoutDirectionOverride: DashboardMetric[] = [

@@ -36,6 +36,7 @@ import {
   type DashboardMetric,
 } from '../../../../types/dashboard-widget';
 import { IssueResolutionStatistic } from '../../../../types/organization-issue-resolution-history';
+import { ScaResolutionStatistic } from '../../../../types/organization-sca-resolution-history';
 import { PieChartPastry } from '../../../../types/visualization';
 import {
   CodeScope,
@@ -982,6 +983,7 @@ describe('widgetConfigReducer', () => {
           historyRange: HistoryRange.All,
           metric: {
             measureFilters: severityFilters,
+            statistic: ScaResolutionStatistic.ScaMTTR,
             type: DashboardMetricType.ScaResolution,
           },
           scope: CodeScope.New,
@@ -1001,6 +1003,7 @@ describe('widgetConfigReducer', () => {
       groupBy: LineChartGroupBy.None,
       metric: {
         measureFilters: severityFilters,
+        statistic: ScaResolutionStatistic.ScaMTTR,
         type: DashboardMetricType.ScaResolution,
       },
       scope: CodeScope.Overall,
@@ -1013,6 +1016,7 @@ describe('widgetConfigReducer', () => {
         [VisualizationType.Count]: {
           complete: true,
           metric: {
+            statistic: ScaResolutionStatistic.ScaMTTR,
             type: DashboardMetricType.ScaResolution,
           },
           scope: CodeScope.Overall,
@@ -1029,6 +1033,7 @@ describe('widgetConfigReducer', () => {
 
     expect(state.configs[VisualizationType.Count]?.metric).toMatchObject({
       measureFilters: { impactSeverities: [SoftwareImpactSeverity.Medium] },
+      statistic: ScaResolutionStatistic.ScaMTTR,
       type: DashboardMetricType.ScaResolution,
     });
   });
@@ -1056,7 +1061,10 @@ describe('widgetConfigReducer', () => {
         type: DashboardMetricType.IssueResolution,
       },
       { type: DashboardMetricType.IssueDensity },
-      { type: DashboardMetricType.ScaResolution },
+      {
+        statistic: ScaResolutionStatistic.ScaMTTR,
+        type: DashboardMetricType.ScaResolution,
+      },
     ];
 
     for (const metric of metrics) {

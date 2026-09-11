@@ -22,6 +22,7 @@ import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
 import { DashboardMetricType, IssueStatus, RichMetricKey } from '../../../types/dashboard-widget';
 import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
+import { ScaResolutionStatistic } from '../../../types/organization-sca-resolution-history';
 import { getActualMetricKey } from '../getActualMetricKey';
 
 describe('getActualMetricKey', () => {
@@ -130,6 +131,7 @@ describe('getActualMetricKey', () => {
   it('returns undefined for SCA resolution metrics backed by the dedicated API', () => {
     expect(
       getActualMetricKey({
+        statistic: ScaResolutionStatistic.ScaMTTR,
         type: DashboardMetricType.ScaResolution,
       }),
     ).toBeUndefined();

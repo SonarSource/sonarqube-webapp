@@ -25,6 +25,7 @@ import {
   type DashboardMetric,
 } from '../../../types/dashboard-widget';
 import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
+import { ScaResolutionStatistic } from '../../../types/organization-sca-resolution-history';
 import {
   getMeasureFilterCapability,
   getMeasureFilterCapabilityForDashboardMetric,
@@ -88,6 +89,7 @@ describe('measureFilterConfig', () => {
 
     it('allows only severity filtering for SCA resolution metrics', () => {
       const scaResolutionMetric: DashboardMetric = {
+        statistic: ScaResolutionStatistic.ScaMTTR,
         type: DashboardMetricType.ScaResolution,
       };
 

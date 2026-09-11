@@ -22,6 +22,7 @@ import { MetricKey } from '~shared/types/metrics';
 import { LineChartGroupBy } from '../../../data/widgets/line-chart';
 import { DashboardMetricType, type MeasureFilters } from '../../../types/dashboard-widget';
 import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
+import { ScaResolutionStatistic } from '../../../types/organization-sca-resolution-history';
 import {
   CodeScope,
   ISSUE_DENSITY_METRIC_OPTION_VALUE,
@@ -394,6 +395,7 @@ function setScaResolutionMetric(
       : undefined;
   const metric = {
     measureFilters: existingMeasureFilters,
+    statistic: ScaResolutionStatistic.ScaMTTR,
     type: DashboardMetricType.ScaResolution,
   };
   const base = { ...config, metric, complete: true, scope: CodeScope.Overall };

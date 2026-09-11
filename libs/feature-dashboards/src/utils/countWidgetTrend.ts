@@ -26,7 +26,6 @@ import { MetricType } from '~shared/types/metrics';
 import type { TrendData } from '../components/visualizations/TrendIndicator';
 import { DashboardMetricType, type DashboardMetric } from '../data/widgets/shared';
 import { MeasureFilters } from '../types/dashboard-widget';
-import { ScaResolutionStatistic } from '../types/organization-sca-resolution-history';
 import {
   ISSUE_RESOLUTION_METRIC_DIRECTION,
   SCA_RESOLUTION_METRIC_DIRECTION,
@@ -132,7 +131,7 @@ export function getDashboardMetricDirectionOverride(metric: DashboardMetric): nu
     case DashboardMetricType.IssueResolution:
       return ISSUE_RESOLUTION_METRIC_DIRECTION[metric.statistic];
     case DashboardMetricType.ScaResolution:
-      return SCA_RESOLUTION_METRIC_DIRECTION[ScaResolutionStatistic.ScaMTTR];
+      return SCA_RESOLUTION_METRIC_DIRECTION[metric.statistic];
     case DashboardMetricType.IssueDensity:
     case DashboardMetricType.Raw:
     case DashboardMetricType.Rich:
