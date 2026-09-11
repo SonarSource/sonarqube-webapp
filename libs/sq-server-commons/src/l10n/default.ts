@@ -11137,7 +11137,7 @@ export const defaultMessages = {
   'license.products.vortex.overage_usage': '{used}/{limit} overage tools called',
   'license.products.vortex.overage_usage.monthly': '{used}/{limit} overage tools called monthly',
   'license.products.vortex.features':
-    '<ul><li>Automatically analyzes files modified by the agent to find issues in less than 5 seconds</li><li>Advanced code navigation tools for token reduction</li><li>Third party dependency Risks and policy checks before code generation happens</li></ul>',
+    '<ul><li>Automatically analyzes files modified by the agent to find issues in less than 5 seconds</li><li>Advanced code navigation tools for token reduction</li><li>Third party dependency risks and policy checks before code generation happens</li></ul>',
   'license.products.hunterAgent.title': 'Hunter Agent',
   'license.products.hunterAgent.usage': '{used}/{limit} scan units used',
   'license.products.hunterAgent.usage.monthly': '{used}/{limit} scan units used monthly',
