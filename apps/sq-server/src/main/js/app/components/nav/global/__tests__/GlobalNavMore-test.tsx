@@ -24,6 +24,7 @@ import { addons } from '~sq-server-addons/index';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { AppState } from '~sq-server-commons/types/appstate';
+import { Feature } from '~sq-server-commons/types/features';
 import GlobalNavMore from '../GlobalNavMore';
 
 jest.mock('~sq-server-addons/index', () => ({
@@ -37,6 +38,7 @@ const VORTEX_ADDON = {
 
 beforeEach(() => {
   jest.mocked(addons).vortexDashboard = undefined;
+  jest.mocked(addons).securityAlerts = undefined;
 });
 
 function installVortexAddon() {
@@ -100,6 +102,9 @@ it('still renders the Vortex item when other plugin pages are present', async ()
   );
 });
 
-function renderGlobalNavMore(appState: AppState = mockAppState({ globalPages: [] })) {
-  renderApp('/', <GlobalNavMore />, { appState });
+function renderGlobalNavMore(
+  appState: AppState = mockAppState({ globalPages: [] }),
+  featureList: Feature[] = [],
+) {
+  renderApp('/', <GlobalNavMore />, { appState, featureList });
 }

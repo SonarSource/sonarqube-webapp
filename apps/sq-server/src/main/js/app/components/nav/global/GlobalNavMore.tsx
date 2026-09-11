@@ -40,8 +40,9 @@ const renderGlobalPageLink = ({ key, name }: Extension) => {
 
 function GlobalNavMore({ appState: { globalPages = [] } }: Readonly<{ appState: AppState }>) {
   const withoutPortfolios = globalPages.filter((page) => page.key !== 'governance/portfolios');
-  const showSecurityAlerts =
-    useAvailableFeatures().hasFeature(Feature.Sca) && isDefined(addons.securityAlerts);
+  const isScaEnabled = useAvailableFeatures().hasFeature(Feature.Sca);
+  const securityAlertsAddon = addons.securityAlerts;
+  const showSecurityAlerts = isScaEnabled && isDefined(securityAlertsAddon);
   const securityAlertsUrl = getSecurityAlertsUrl();
 
   const { vortexDashboard } = addons;
@@ -58,6 +59,10 @@ function GlobalNavMore({ appState: { globalPages = [] } }: Readonly<{ appState: 
     </DropdownMenu.ItemLink>
   );
 
+  const securityAlertsBadge = showSecurityAlerts && (
+    <NewBadge expirationDate={securityAlertsAddon.SECURITY_ALERTS_NEW_BADGE_EXPIRATION_DATE} />
+  );
+
   if (withoutPortfolios.length === 0 && !showSecurityAlerts && !vortexItem) {
     return null;
   }
@@ -69,7 +74,7 @@ function GlobalNavMore({ appState: { globalPages = [] } }: Readonly<{ appState: 
       items={
         <>
           {showSecurityAlerts && (
-            <DropdownMenu.ItemLink to={securityAlertsUrl}>
+            <DropdownMenu.ItemLink suffix={securityAlertsBadge} to={securityAlertsUrl}>
               <FormattedMessage id="security_alerts.page" />
             </DropdownMenu.ItemLink>
           )}
