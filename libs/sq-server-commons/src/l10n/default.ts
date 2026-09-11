@@ -10809,10 +10809,7 @@ export const defaultMessages = {
   'portfolio.refresh_failure.title': 'Portfolio recomputation failed',
   'portfolio.refresh_failure.generic_description': 'The latest portfolio recomputation failed.',
   'portfolio.refresh_failure.duplicate_details':
-    'The project {projectName} on branch "{branch}" appears more than once in portfolio {portfolioName}.',
-  'portfolio.refresh_failure.duplicate_references':
-    'It appears in the following portfolio locations:',
-  'portfolio.refresh_failure.duplicate_reference': '{name}',
+    'Duplicate project branches exist in the following portfolios:',
   'portfolio.refresh_failure.documentation': 'Learn how to avoid duplications in portfolios',
   'portfolio.refresh_failure.details': 'Details: {errorMessage}',
   'portfolio.refresh_failure.edit_definition':
