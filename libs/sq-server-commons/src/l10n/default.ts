@@ -1300,31 +1300,33 @@ export const defaultMessages = {
   'vortex_dashboard.impact_roi.title': 'Impact and ROI',
   'vortex_dashboard.impact_roi.error': 'Unable to load this metric right now.',
   'vortex_dashboard.impact_roi.calculation_link': 'How is this calculated?',
+  'vortex_dashboard.impact_roi.calculation_summary': 'Calculation summary',
+  'vortex_dashboard.impact_roi.calculation_label': 'Calculation',
 
   'vortex_dashboard.impact_roi.guide.heading': 'Vortex Guide',
   'vortex_dashboard.impact_roi.guide.value': '± {value}',
   'vortex_dashboard.impact_roi.guide.value_label': 'prevented issues',
-  'vortex_dashboard.impact_roi.guide.tooltip_title': 'Vortex Guide',
+  'vortex_dashboard.impact_roi.guide.tooltip_title': 'Prevented issues (Guide)',
   'vortex_dashboard.impact_roi.guide.tooltip_description':
-    "Vortex Guide gives AI agents relevant context, guardrails, standards, and constraints to help their output meet your organization's requirements before, and as your agent writes code. This helps address issues before the change reaches a pull request, reducing downstream rework.",
+    '<p>Prevented issues are an estimated outcome of Vortex Guide in Sonar’s Agent Centric Development Cycle (ACDC).</p><p>Vortex Guide gives AI agents relevant context, guardrails, standards, and constraints to help their output meet your organization’s requirements before, and as your agent writes code.</p><p>Without this context, agents may produce functionally correct code that does not align with your coding standards, architecture, or security posture.</p>',
 
   'vortex_dashboard.impact_roi.verify.heading': 'Vortex Verify',
   'vortex_dashboard.impact_roi.verify.value_label': 'resolved issues',
-  'vortex_dashboard.impact_roi.verify.tooltip_title': 'Vortex Verify',
+  'vortex_dashboard.impact_roi.verify.tooltip_title': 'Resolved issues (Verify)',
   'vortex_dashboard.impact_roi.verify.tooltip_description':
-    'An issue is counted as resolved when it is found in one analysis and no longer appears after the agent updates the code and Vortex verifies it again. This value is based on activity Vortex directly observed, such as an issue resolved between analyses or rules supplied to the agent.',
+    '<p>Resolved issues are a measured outcome of Vortex Verify in Sonar’s Agent Centric Development Cycle (ACDC).</p><p>As an agent writes code, Vortex Verify analyzes the change using SonarQube rules and returns findings for the agent to address.</p><p>An issue is counted as resolved when it is found in one analysis and no longer appears after the agent updates the code and Vortex verifies it again.</p><p>This helps address issues before the change reaches a pull request, reducing downstream rework.</p>',
 
   'vortex_dashboard.impact_roi.engineering_time.heading': 'Engineering time saved',
   'vortex_dashboard.impact_roi.engineering_time.value_label': 'hours saved',
-  'vortex_dashboard.impact_roi.engineering_time.tooltip_title': 'Engineering time saved',
+  'vortex_dashboard.impact_roi.engineering_time.tooltip_title': 'Estimated time saved',
   'vortex_dashboard.impact_roi.engineering_time.tooltip_description':
-    "An estimate of engineering time Vortex helped avoid by catching or preventing issues earlier. It uses Sonar's remediation effort and conservative assumptions about review and rework.",
+    '<p>An estimate of engineering time Vortex helped avoid by catching or preventing issues earlier.</p><p>It uses Sonar’s remediation effort and conservative assumptions about review and rework.</p>',
 
   'vortex_dashboard.impact_roi.tokens.heading': 'Tokens saved',
   'vortex_dashboard.impact_roi.tokens.value_label': 'tokens saved',
-  'vortex_dashboard.impact_roi.tokens.tooltip_title': 'Tokens saved',
+  'vortex_dashboard.impact_roi.tokens.tooltip_title': 'Estimated tokens saved',
   'vortex_dashboard.impact_roi.tokens.tooltip_description':
-    'An estimate of tokens Vortex helped avoid by providing focused context instead of requiring the agent to explore more of the codebase. Vortex reduces unnecessary codebase exploration and compresses large command output before it is added to the agent’s context.',
+    'An estimate of tokens Vortex helped avoid by providing focused context instead of requiring the agent to explore more of the codebase.',
 
   'vortex_dashboard.impact_roi.badge.estimate': 'Estimate',
   'vortex_dashboard.impact_roi.badge.measured': 'Measured',
@@ -1336,31 +1338,47 @@ export const defaultMessages = {
   'vortex_dashboard.impact_roi.engineering_time_modal.title':
     'How engineering time saved is calculated',
   'vortex_dashboard.impact_roi.engineering_time_modal.intro':
-    'Engineering time saved combines the Guide contribution (estimated prevention) and the Verify contribution (resolved issues).',
+    'Engineering time saved is an estimate of rework Vortex helped avoid before code reached review or CI.',
+  'vortex_dashboard.impact_roi.engineering_time_modal.methodology':
+    'We calculate it from Vortex Guide and Verify activity using Sonar rule remediation effort and conservative assumptions. It is not a measure of individual developer time.',
+  'vortex_dashboard.impact_roi.engineering_time_modal.total_label': 'Total estimated time saved',
+  'vortex_dashboard.impact_roi.engineering_time_modal.total_formula':
+    'Guide contribution + Verify contribution',
   'vortex_dashboard.impact_roi.engineering_time_modal.guide_contribution_title':
     'Guide contribution (Estimated prevention)',
   'vortex_dashboard.impact_roi.engineering_time_modal.guide_contribution_description':
     'When Guide provides project rules, we estimate the rework avoided if an issue would otherwise have reached review.',
+  'vortex_dashboard.impact_roi.engineering_time_modal.guide_formula':
+    'Estimated prevented issues × likelihood the issue would otherwise reach review × (Sonar remediation effort + review time)',
   'vortex_dashboard.impact_roi.engineering_time_modal.verify_contribution_title':
     'Verify contribution (Resolved issues)',
   'vortex_dashboard.impact_roi.engineering_time_modal.verify_contribution_description':
-    'We calculate it from Vortex Guide and Verify activity using Sonar rule remediation effort and conservative assumptions. It is not a measure of individual developer time.',
-  'vortex_dashboard.impact_roi.engineering_time_modal.methodology':
-    'We estimate that issues would otherwise have been caught in your normal pull request workflow, not caused an incident or breach. We count shared review effort once per agent activity rather than once for every issue, and probabilities and batching adjustments prevent the estimate from treating every finding as a full, separate rework cycle.',
+    'When Verify finds an issue and a later analysis no longer finds it, we estimate the rework avoided by addressing it during the agent workflow.',
+  'vortex_dashboard.impact_roi.engineering_time_modal.verify_formula':
+    'Likelihood the issue would otherwise be fixed × adjusted Sonar remediation effort + likelihood it would reach review × one estimated review round-trip',
+  'vortex_dashboard.impact_roi.engineering_time_modal.whats_included': "What's included?",
+  'vortex_dashboard.impact_roi.engineering_time_modal.whats_included.items':
+    '<li><b>Sonar remediation effort:</b> the standard estimated time associated with fixing each Sonar rule.</li><li><b>Review time:</b> a conservative estimate of the review, fix, and re-review loop avoided.</li><li><b>Conservative adjustments:</b> probabilities and batching adjustments prevent the estimate from treating every finding as a full, separate rework cycle.</li>',
+  'vortex_dashboard.impact_roi.engineering_time_modal.guardrail_title': 'Guardrail / trust note',
+  'vortex_dashboard.impact_roi.engineering_time_modal.guardrail_description':
+    'We estimate that issues would otherwise have been caught in your normal pull request workflow—not caused an incident or breach. We count shared review effort once per agent activity, rather than once for every issue.',
 
   'vortex_dashboard.impact_roi.tokens_modal.title': 'How tokens saved is calculated',
   'vortex_dashboard.impact_roi.tokens_modal.intro':
-    'Tokens saved estimates the tokens the agent would otherwise have used, accounting for the effect of context amplification—so this metric is labelled Estimated.',
-  'vortex_dashboard.impact_roi.tokens_modal.output_compression_title': 'Output compression',
-  'vortex_dashboard.impact_roi.tokens_modal.output_compression_description':
-    'When Vortex replaces large command output with a smaller version, we measure the bytes removed and estimate the token equivalent.',
-  'vortex_dashboard.impact_roi.tokens_modal.formula_label': 'Formula',
+    'Tokens saved is an estimate of the agent input tokens Vortex helped avoid.',
+  'vortex_dashboard.impact_roi.tokens_modal.methodology':
+    'Vortex reduces unnecessary codebase exploration and compresses large command output before it is added to the agent’s context.',
+  'vortex_dashboard.impact_roi.tokens_modal.total_label': 'Estimated tokens saved',
+  'vortex_dashboard.impact_roi.tokens_modal.total_formula': 'Navigation savings',
+  'vortex_dashboard.impact_roi.tokens_modal.navigation_title':
+    'Navigation savings (Focused codebase navigation)',
+  'vortex_dashboard.impact_roi.tokens_modal.navigation_description':
+    'When Vortex answers a structural codebase question, we estimate the tokens the agent would otherwise have used to search and read code, then subtract the size of Vortex’s response.',
   'vortex_dashboard.impact_roi.tokens_modal.formula':
-    '(Original output bytes - compressed output bytes) / bytes per token x context amplification factor',
-  'vortex_dashboard.impact_roi.tokens_modal.amplification_title':
-    'What is context amplification factor?',
-  'vortex_dashboard.impact_roi.tokens_modal.amplification_description':
-    'Information added to the agent’s context may be sent again in later requests. The amplification factor estimates the repeated input cost, using a conservative fixed value.',
+    'max(0, (Estimated exploration tokens − Vortex response tokens) × Context amplification factor*)',
+  'vortex_dashboard.impact_roi.tokens_modal.amplification_footnote':
+    '*Context amplification factor: Information added to an agent’s context may be sent again in later requests. The amplification factor estimates that repeated input cost, using a conservative fixed value.',
+  'vortex_dashboard.impact_roi.tokens_modal.trust_note_title': 'Trust note',
   'vortex_dashboard.impact_roi.tokens_modal.trust_note':
     'The response size and compression byte change are observed. The tokens the agent would otherwise have used, and the effect of context amplification, are estimated—so this metric is labelled Estimated.',
 

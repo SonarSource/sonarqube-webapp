@@ -33,6 +33,7 @@ export enum AgentCentricDocLink {
   HunterAgent = '/verify/hunter-agent',
   RemediationAgent = '/solve/remediation-agent#sca-basic-remediation',
   Vortex = '/inside-your-agent-the-agentic-loop/sonar-vortex',
+  VortexInstallGuide = '/inside-your-agent-the-agentic-loop/how-to-guides',
 }
 
 export enum DocLink {
@@ -40,7 +41,6 @@ export enum DocLink {
   ActiveVersions = '/server-update-and-maintenance/update/release-cycle-model',
   AdvancedSecurity = '/advanced-security/introduction/',
   AiAgentsDeploy = '/server-installation/ai-agents',
-  AiAgentsVortex = '/server-installation/ai-agents/vortex',
   AiCodeAssurance = '/ai-capabilities/',
   AiCodeAssuranceProfiles = '/quality-standards-administration/ai-code-assurance/quality-profiles-for-agentic-ai',
   AiCodeDetection = '/ai-capabilities/autodetect-ai-code/',
