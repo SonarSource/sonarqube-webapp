@@ -200,8 +200,7 @@ export function DashboardMeasureLineChart({
     : series;
   const isMttr = dashboardMeasureIsMttr(measure);
   const isMetricRating = dashboardMeasureIsRating(measure, metricMetadata?.type);
-  const requestedStartDate =
-    months >= 6 ? new Date(dashboardHistoryDateRange(months).startDate) : undefined;
+  const requestedStartDate = new Date(dashboardHistoryDateRange(months).startDate);
 
   const chartProps = {
     ariaLabel: formatMessage(

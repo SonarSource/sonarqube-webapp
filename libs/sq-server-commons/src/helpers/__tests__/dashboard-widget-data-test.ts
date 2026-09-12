@@ -164,6 +164,19 @@ describe('dashboard widget data helpers', () => {
       expect(portfolioIssueHistoryToSparklineSeries(history)).toEqual([24, 7]);
     });
 
+    it('uses a recent migration seed for a clearly labelled partial comparison', () => {
+      const recentHistory = [
+        issueDay('2026-03-15T00:00:00.000Z', [{ key: 'java:S1', value: 4 }]),
+        issueDay('2026-03-20T00:00:00.000Z', [{ key: 'java:S1', value: 7 }]),
+      ];
+
+      expect(portfolioIssueHistoryToTrend(recentHistory)).toEqual({ current: '7', past: '4' });
+      expect(issueCountHistoryRuleToTrend(recentHistory, 'java:S1')).toEqual({
+        current: '7',
+        past: '4',
+      });
+    });
+
     it('creates line and grouped series, including rules absent from the latest day', () => {
       const line = portfolioIssueHistoryToLineData(history, HistoryRange.Last3Months);
       expect(line.map((point) => point.y)).toEqual([1, 24, 7]);

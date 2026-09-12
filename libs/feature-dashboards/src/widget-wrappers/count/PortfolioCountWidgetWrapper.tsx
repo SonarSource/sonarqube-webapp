@@ -30,25 +30,32 @@ import { isPortfolioCountWidgetDrilldownSupported } from '../../components/portf
 import { CountWidget } from '../../components/visualizations/CountWidget';
 import { useOptionalWidgetInstanceContext } from '../../dashboard-layout/shared/WidgetInstanceContext';
 import { dashboardMetricToMeasure } from '../../data/dashboard-measure';
-import {
-  dashboardCountMetricType,
-  dashboardMeasureHistoryValues,
-  dashboardMeasureMetricKey,
-} from '../../data/dashboard-measure-history';
+import { dashboardMeasureMetricKey } from '../../data/dashboard-measure-history';
 import type { Props as CountWidgetConfig } from '../../data/widgets/count';
-import { DashboardMetricType } from '../../data/widgets/shared';
 import { useMttrFormatters } from '../../hooks/useMttrFormatters';
-import {
-  computeDashboardMeasureTrendData,
-  getDashboardMetricDirectionOverride,
-} from '../../utils/countWidgetTrend';
+import { getDashboardMetricDirectionOverride } from '../../utils/countWidgetTrend';
 import { isCountWidgetTrendVisible } from '../../utils/countWidgetTrendIndicator';
 import { PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE } from '../../utils/portfolioMeasures';
+import {
+  buildCountWidgetPresentation,
+  dashboardCountHistoryMonths,
+} from './countWidgetPresentation';
 
 type Props = CountWidgetConfig & { suppressPortfolioDrilldownLink?: boolean };
 
+function getCountWidgetLink(props: Readonly<Props>, widgetKey: string | undefined) {
+  if (
+    props.suppressPortfolioDrilldownLink ||
+    !isPortfolioCountWidgetDrilldownSupported(props.metric) ||
+    widgetKey === undefined
+  ) {
+    return undefined;
+  }
+  return getPortfolioDashboardWidgetDrilldownUrl(widgetKey);
+}
+
 export function PortfolioCountWidgetWrapper(props: Readonly<Props>) {
-  const { formatMessage } = useIntl();
+  const { formatDate, formatMessage } = useIntl();
   const { formatMttr } = useMttrFormatters();
   const { entityType, getPortfolioMetric, isEntityTypePending, portfolioId } =
     useDashboardPortfolioContext();
@@ -58,7 +65,7 @@ export function PortfolioCountWidgetWrapper(props: Readonly<Props>) {
     supportedNewCodeMetrics: PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE,
   });
   const trendVisible = isCountWidgetTrendVisible(showTrendIndicator, metric, scope);
-  const months = trendVisible ? 1 : undefined;
+  const months = dashboardCountHistoryMonths(metric, trendVisible);
   const query = useDashboardMeasureQuery(
     {
       entityId: portfolioId,
@@ -90,55 +97,25 @@ export function PortfolioCountWidgetWrapper(props: Readonly<Props>) {
 
   const metricKey = dashboardMeasureMetricKey(measure);
   const metricMetadata = metrics?.metrics.find((candidate) => candidate.key === metricKey);
-  const measureFilters =
-    metric.type === DashboardMetricType.Rich ? metric.measureFilters : undefined;
-  const values = dashboardMeasureHistoryValues(
-    query.data,
+  const presentation = buildCountWidgetPresentation({
+    activityUrl: { pathname: '#' },
+    data: query.data,
+    formatDate,
+    formatMessage,
+    formatMttr,
     measure,
-    metricMetadata?.type,
-    measureFilters,
-  );
-  const latest = values.at(-1);
-  if (latest === undefined) {
+    metadataType: metricMetadata?.type,
+    metric,
+    metricDirection: parsePortfolioMetricDirection(metricMetadata?.direction) ?? -1,
+    metricDirectionOverride:
+      getDashboardMetricDirectionOverride(metric) ?? getPortfolioMetric(metricKey)?.direction,
+    trendVisible,
+  });
+  if (presentation === null) {
     return <WidgetNoData />;
   }
 
-  const metricType = dashboardCountMetricType(measure, metricMetadata?.type);
-  const isMttr = metricType === 'MTTR_CALENDAR';
-  const trendData = computeDashboardMeasureTrendData({
-    activityUrl: { pathname: '#' },
-    formatMttr,
-    isMttr,
-    measureFilters,
-    metric: {
-      direction: parsePortfolioMetricDirection(metricMetadata?.direction) ?? -1,
-      type: metricType,
-    },
-    metricDirectionOverride:
-      getDashboardMetricDirectionOverride(metric) ?? getPortfolioMetric(metricKey)?.direction,
-    values,
-  });
-  const linkTo =
-    !props.suppressPortfolioDrilldownLink &&
-    isPortfolioCountWidgetDrilldownSupported(metric) &&
-    widgetInstance?.widgetKey
-      ? getPortfolioDashboardWidgetDrilldownUrl(widgetInstance.widgetKey)
-      : undefined;
-
   return (
-    <CountWidget
-      linkTo={linkTo}
-      metricKey={metricKey}
-      metricType={metricType}
-      showTrendIndicator={trendVisible}
-      sparklineSeries={trendVisible ? values : undefined}
-      trendIndicatorData={{ isPending: false, trendData }}
-      unitLabel={
-        measure.api === 'issue-density-history'
-          ? formatMessage({ id: 'dashboard.widget.count.issue_density.unit' })
-          : undefined
-      }
-      value={isMttr ? formatMttr(latest) : String(latest)}
-    />
+    <CountWidget {...presentation} linkTo={getCountWidgetLink(props, widgetInstance?.widgetKey)} />
   );
 }

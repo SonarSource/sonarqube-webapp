@@ -29,6 +29,7 @@ import {
   Spinner,
   Text,
   TextSize,
+  ToggleTip,
   Tooltip,
 } from '@sonarsource/echoes-react';
 import type { Path } from 'history';
@@ -55,6 +56,7 @@ enum TrendType {
 export interface TrendData {
   activityUrl: Partial<Path>;
   change: number;
+  comparisonStartDate?: Date;
   formattedChange: string;
   metricDirection: number;
   past: number;
@@ -64,7 +66,10 @@ export interface TrendData {
 export interface TrendIndicatorProps {
   /** When true, only the trend badge is shown (e.g. Top list table rows). */
   compact?: boolean;
+  historyStartDate?: Date;
+  isHistoryIncomplete?: boolean;
   isPending: boolean;
+  requiredHistoryDays?: 30 | 60;
   trendData: TrendData | null;
   /**
    * Top list only: show `0%` instead of the default “No change” label when the value is unchanged.
@@ -195,21 +200,59 @@ function TrendIndicatorBadge({
   );
 }
 
-function NoDataTrendIndicatorBadge() {
+function NoDataTrendIndicatorBadge({
+  historyStartDate,
+  isHistoryIncomplete,
+  requiredHistoryDays,
+}: Readonly<{
+  historyStartDate?: Date;
+  isHistoryIncomplete?: boolean;
+  requiredHistoryDays?: 30 | 60;
+}>) {
+  const { formatDate, formatMessage } = useIntl();
+  const description = historyStartDate
+    ? formatMessage(
+        {
+          id:
+            requiredHistoryDays === 60
+              ? 'dashboard.widget.trend_indicator.insufficient_history_60_days'
+              : 'dashboard.widget.trend_indicator.insufficient_history',
+        },
+        {
+          date: formatDate(historyStartDate, {
+            day: 'numeric',
+            month: 'long',
+            timeZone: 'UTC',
+            year: 'numeric',
+          }),
+        },
+      )
+    : formatMessage({
+        id: isHistoryIncomplete
+          ? 'dashboard.widget.trend_indicator.insufficient_history_no_date'
+          : 'dashboard.widget.trend_indicator.no_historical_data',
+      });
+
   return (
-    <Badge IconLeft={IconDash} size={BadgeSize.Small} variety={BadgeVariety.Neutral}>
-      <FormattedMessage id="dashboard.widget.trend_indicator.no_historical_data" />
-    </Badge>
+    <span className="sw-inline-flex sw-items-center sw-gap-1">
+      <Badge IconLeft={IconDash} size={BadgeSize.Small} variety={BadgeVariety.Neutral}>
+        <FormattedMessage id="dashboard.widget.trend_indicator.badge.unavailable" />
+      </Badge>
+      <ToggleTip ariaLabel={description} description={description} />
+    </span>
   );
 }
 
 export function TrendIndicator({
   compact = false,
+  historyStartDate,
+  isHistoryIncomplete,
   isPending,
+  requiredHistoryDays,
   trendData,
   zeroPercentWhenNoChange = false,
 }: Readonly<TrendIndicatorProps>) {
-  const { formatMessage } = useIntl();
+  const { formatDate, formatMessage } = useIntl();
 
   if (isPending) {
     return <Spinner ariaLabel="Loading trend indicator" />;
@@ -218,17 +261,33 @@ export function TrendIndicator({
   const badge = trendData ? (
     <TrendIndicatorBadge data={trendData} zeroPercentWhenNoChange={zeroPercentWhenNoChange} />
   ) : (
-    <NoDataTrendIndicatorBadge />
+    <NoDataTrendIndicatorBadge
+      historyStartDate={historyStartDate}
+      isHistoryIncomplete={isHistoryIncomplete}
+      requiredHistoryDays={requiredHistoryDays}
+    />
   );
 
+  const comparisonMessage = trendData?.comparisonStartDate
+    ? formatMessage(
+        { id: 'dashboard.widget.trend_indicator.since' },
+        {
+          date: formatDate(trendData.comparisonStartDate, {
+            day: 'numeric',
+            month: 'short',
+            timeZone: 'UTC',
+            year: 'numeric',
+          }),
+        },
+      )
+    : formatMessage({ id: 'dashboard.widget.trend_indicator.vs_last_30_days' });
+
   if (compact) {
+    if (!trendData) {
+      return badge;
+    }
     return (
-      <Tooltip
-        content={formatMessage({
-          id: 'dashboard.widget.trend_indicator.change_last_30_days',
-        })}
-        delayDuration={300}
-      >
+      <Tooltip content={comparisonMessage} delayDuration={300}>
         <span className="sw-inline-flex">{badge}</span>
       </Tooltip>
     );
@@ -237,9 +296,11 @@ export function TrendIndicator({
   return (
     <div className="sw-flex sw-flex-wrap sw-items-center sw-gap-2">
       {badge}
-      <Text isSubtle size={TextSize.Small}>
-        <FormattedMessage id="dashboard.widget.trend_indicator.vs_last_30_days" />
-      </Text>
+      {trendData && (
+        <Text isSubtle size={TextSize.Small}>
+          {comparisonMessage}
+        </Text>
+      )}
     </div>
   );
 }

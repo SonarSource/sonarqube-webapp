@@ -219,15 +219,22 @@ it('formats MTTR and preserves its trend semantics', () => {
   ).toBe('function');
 });
 
-it('uses higher-is-better trend direction for resolved issues', () => {
+it('uses 30-day totals and a rolling-total sparkline for resolved issues', () => {
   jest.mocked(getDashboardMetricDirectionOverride).mockReturnValue(1);
+  const history = [
+    ...Array.from({ length: 30 }, (_, index) => ({
+      date: new Date(Date.UTC(2026, 0, index + 1)).toISOString(),
+      distribution: [{ key: 'all', value: 2 }],
+    })),
+    ...Array.from({ length: 30 }, (_, index) => ({
+      date: new Date(Date.UTC(2026, 0, index + 31)).toISOString(),
+      distribution: [{ key: 'all', value: 3 }],
+    })),
+  ];
   jest.mocked(useDashboardMeasureQuery).mockReturnValue({
     data: {
       api: 'issue-resolution-history',
-      history: [
-        { date: '2026-01-01', distribution: [{ key: 'all', value: 10 }] },
-        { date: '2026-02-01', distribution: [{ key: 'all', value: 20 }] },
-      ],
+      history,
     },
     isError: false,
     isPending: false,
@@ -244,8 +251,19 @@ it('uses higher-is-better trend direction for resolved issues', () => {
     />,
   );
 
+  expect(useDashboardMeasureQuery).toHaveBeenCalledWith(
+    expect.objectContaining({ months: 2 }),
+    true,
+  );
   expect(computeDashboardMeasureTrendData).toHaveBeenCalledWith(
-    expect.objectContaining({ metricDirectionOverride: 1 }),
+    expect.objectContaining({ metricDirectionOverride: 1, values: [60, 90] }),
+  );
+  expect(CountWidget).toHaveBeenCalledWith(
+    expect.objectContaining({
+      sparklineSeries: [60, ...Array.from({ length: 30 }, (_, index) => 61 + index)],
+      value: '90',
+    }),
+    undefined,
   );
 });
 

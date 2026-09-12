@@ -123,7 +123,7 @@ export interface MeasuresHistoryDay {
 }
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
-const THIRTY_DAYS_MS = 30 * MS_PER_DAY;
+export const THIRTY_DAYS_MS = 30 * MS_PER_DAY;
 export const DEFAULT_ISSUE_IMPACTS = [
   'SECURITY:BLOCKER',
   'SECURITY:HIGH',
@@ -300,9 +300,10 @@ function trend<T>(
 ): { current: string | null; past: string | null } {
   const window = getThirtyDayTrendWindow(points, getTimestamp);
   const last = window.at(-1);
+  const first = window[0];
   return {
     current: last === undefined ? null : getValue(last),
-    past: window.length === 0 ? null : getValue(window[0]),
+    past: first !== undefined && last !== undefined && first !== last ? getValue(first) : null,
   };
 }
 

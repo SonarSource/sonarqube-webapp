@@ -24,6 +24,7 @@ import {
   DashboardMetricType,
   type MeasureFilters,
   RichMetricKey,
+  THIRTY_DAYS_MS,
   type TopListWidget,
   computeTrendData,
   getActualMetricKey,
@@ -136,16 +137,25 @@ export function useTopListIssueCountData(
         return null;
       }
       const historicalValues = issueCountHistoryRuleToTrend(trendQuery.data, ruleKey);
-      if (!historicalValues.current || !historicalValues.past) {
+      if (historicalValues.current === null || historicalValues.past === null) {
         return null;
       }
-      return computeTrendData({
+      const trendData = computeTrendData({
         activityUrl: { pathname: '#' },
         currentValue: historicalValues.current,
         measureFilters: measureFilters as MeasureFilters | undefined,
         metric: metricMetadata,
         pastValue: historicalValues.past,
       });
+      const historyStart = trendQuery.data
+        ?.map(({ date }) => Date.parse(date))
+        .filter(Number.isFinite)
+        .sort((left, right) => left - right)[0];
+      return trendData !== null &&
+        historyStart !== undefined &&
+        historyStart > Date.now() - THIRTY_DAYS_MS
+        ? { ...trendData, comparisonStartDate: new Date(historyStart) }
+        : trendData;
     },
     [fetchTrendHistory, measureFilters, metricMetadata, trendQuery.data],
   );

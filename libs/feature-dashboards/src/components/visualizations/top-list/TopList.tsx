@@ -220,14 +220,13 @@ function TopListTable({
             />
             {showTrendColumn && (
               <Table.Cell className="sw-box-border sw-flex sw-max-h-[37px] sw-min-h-0 sw-shrink-0 sw-items-center sw-justify-end sw-overflow-hidden sw-whitespace-nowrap">
-                {row.trendData && (
-                  <TrendIndicator
-                    compact
-                    isPending={false}
-                    trendData={row.trendData}
-                    zeroPercentWhenNoChange
-                  />
-                )}
+                <TrendIndicator
+                  compact
+                  isHistoryIncomplete
+                  isPending={false}
+                  trendData={row.trendData ?? null}
+                  zeroPercentWhenNoChange
+                />
               </Table.Cell>
             )}
           </Table.Row>

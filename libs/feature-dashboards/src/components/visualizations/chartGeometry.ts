@@ -19,7 +19,7 @@
  */
 
 import { max, min } from 'd3-array';
-import { scaleLinear, scaleTime, type ScaleLinear, type ScaleTime } from 'd3-scale';
+import { scaleLinear, scaleUtc, type ScaleLinear, type ScaleTime } from 'd3-scale';
 import { useEffect, useState, type RefObject } from 'react';
 import type { LineChartDataPoint, LineChartSeries } from '../../types/visualization';
 
@@ -117,11 +117,11 @@ export function useChartDimensions(
   return dimensions;
 }
 
-/** Builds a d3 time scale spanning the min/max of `dates`, mapped onto `[0, availableWidth]`. */
+/** Builds a d3 UTC time scale spanning the min/max of `dates`, mapped onto `[0, availableWidth]`. */
 export function createTimeXScale(dates: Date[], availableWidth: number): ScaleTime<number, number> {
   const xMin = min(dates);
   const xMax = max(dates);
-  return scaleTime()
+  return scaleUtc()
     .domain([xMin as Date, xMax as Date])
     .range([0, availableWidth]);
 }

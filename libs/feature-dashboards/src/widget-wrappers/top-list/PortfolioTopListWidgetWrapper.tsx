@@ -111,6 +111,7 @@ export function PortfolioTopListWidgetWrapper(
       onRowClick={onRowSelect === undefined ? undefined : handleRowClick}
       rows={rows}
       selectedRowLabel={selectedRowLabel}
+      showTrendColumn={showTrendIndicator}
     />
   );
 }

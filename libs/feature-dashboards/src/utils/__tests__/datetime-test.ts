@@ -268,6 +268,23 @@ describe('datetime', () => {
     });
   });
 
+  it('preserves UTC calendar dates in timezones behind UTC', () => {
+    const originalTimeZone = process.env.TZ;
+    process.env.TZ = 'America/Chicago';
+
+    try {
+      const date = new Date('2026-09-03T00:00:00.000Z');
+      expect(formatDateFull(date)).toBe(
+        date.toLocaleString(undefined, { ...FORMAT_FULL, timeZone: 'UTC' }),
+      );
+      expect(formatDateDayTime(date)).toBe(
+        date.toLocaleString(undefined, { ...FORMAT_DAY_TIME, timeZone: 'UTC' }),
+      );
+    } finally {
+      process.env.TZ = originalTimeZone;
+    }
+  });
+
   describe('issueHistoryTrendStartDate', () => {
     beforeAll(() => {
       jest.useFakeTimers();
@@ -307,9 +324,9 @@ describe('datetime', () => {
       });
     });
 
-    it('returns the single point as both current and past when only one valid point exists', () => {
+    it('does not use a single recent point as historical comparison data', () => {
       const points = [{ t: new Date('2026-03-29T00:00:00.000Z').getTime(), v: '5' }];
-      expect(getThirtyDayTrendValues(points, toTs, toVal)).toEqual({ current: '5', past: '5' });
+      expect(getThirtyDayTrendValues(points, toTs, toVal)).toEqual({ current: '5', past: null });
     });
 
     it('uses latest point as current and latest older-than-30-days point as past', () => {
@@ -321,7 +338,7 @@ describe('datetime', () => {
       expect(getThirtyDayTrendValues(points, toTs, toVal)).toEqual({ current: '7', past: '4' });
     });
 
-    it('falls back to oldest point when no point is older than 30 days', () => {
+    it('uses the oldest point for a partial trend when two recent points exist', () => {
       const points = [
         { t: new Date('2026-03-15T00:00:00.000Z').getTime(), v: '2' },
         { t: new Date('2026-03-20T00:00:00.000Z').getTime(), v: '5' },

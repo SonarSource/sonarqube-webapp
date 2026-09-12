@@ -26,6 +26,7 @@ import { useWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-me
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { CountWidget } from '../../../components/visualizations/CountWidget';
 import { DashboardMetricType, RichMetricKey } from '../../../data/widgets/shared';
+import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
 import { CodeScope } from '../../../types/widget-common';
 import { computeDashboardMeasureTrendData } from '../../../utils/countWidgetTrend';
 import { ProjectCountWidgetWrapper } from '../ProjectCountWidgetWrapper';
@@ -152,6 +153,115 @@ describe('ProjectCountWidgetWrapper', () => {
         metric: { direction: 1, type: MetricType.Integer },
       }),
     );
+  });
+
+  it('requests and displays 30-day resolved-issues totals without requiring a trend', () => {
+    jest.mocked(useDashboardProjectContext).mockReturnValue({
+      componentKey: 'project',
+      isLoading: false,
+      organization: 'org',
+      projectEntityId: 'branch',
+    });
+    jest.mocked(useDashboardMeasureQuery).mockReturnValue({
+      data: {
+        api: 'issue-resolution-history',
+        history: [
+          ...Array.from({ length: 30 }, (_, index) => ({
+            date: new Date(Date.UTC(2026, 0, index + 1)).toISOString(),
+            distribution: [{ key: 'all', value: 2 }],
+          })),
+          ...Array.from({ length: 30 }, (_, index) => ({
+            date: new Date(Date.UTC(2026, 0, index + 31)).toISOString(),
+            distribution: [{ key: 'all', value: 3 }],
+          })),
+        ],
+      },
+      isError: false,
+      isPending: false,
+    } as ReturnType<typeof useDashboardMeasureQuery>);
+    jest.mocked(useWidgetMetricMetadataQuery).mockReturnValue({
+      data: {},
+      isError: false,
+      isPending: false,
+    } as ReturnType<typeof useWidgetMetricMetadataQuery>);
+
+    render(
+      <ProjectCountWidgetWrapper
+        metric={{
+          statistic: IssueResolutionStatistic.ResolvedIssues,
+          type: DashboardMetricType.IssueResolution,
+        }}
+        scope={CodeScope.Overall}
+      />,
+    );
+
+    expect(useDashboardMeasureQuery).toHaveBeenCalledWith(
+      expect.objectContaining({ months: 2 }),
+      true,
+    );
+    expect(CountWidget).toHaveBeenCalledWith(
+      expect.objectContaining({ showTrendIndicator: false, value: '90' }),
+      undefined,
+    );
+  });
+
+  it('displays zero for a successful empty resolved-issues history', () => {
+    jest.mocked(useDashboardProjectContext).mockReturnValue({
+      componentKey: 'project',
+      isLoading: false,
+      organization: 'org',
+      projectEntityId: 'branch',
+    });
+    jest.mocked(useDashboardMeasureQuery).mockReturnValue({
+      data: { api: 'issue-resolution-history', history: [] },
+      isError: false,
+      isPending: false,
+    } as unknown as ReturnType<typeof useDashboardMeasureQuery>);
+    jest.mocked(useWidgetMetricMetadataQuery).mockReturnValue({
+      data: {},
+      isError: false,
+      isPending: false,
+    } as ReturnType<typeof useWidgetMetricMetadataQuery>);
+
+    render(
+      <ProjectCountWidgetWrapper
+        metric={{
+          statistic: IssueResolutionStatistic.ResolvedIssues,
+          type: DashboardMetricType.IssueResolution,
+        }}
+        scope={CodeScope.Overall}
+      />,
+    );
+
+    expect(CountWidget).toHaveBeenCalledWith(expect.objectContaining({ value: '0' }), undefined);
+  });
+
+  it('displays zero for a successful empty issue-count history', () => {
+    jest.mocked(useDashboardProjectContext).mockReturnValue({
+      componentKey: 'project',
+      isLoading: false,
+      organization: 'org',
+      projectEntityId: 'branch',
+    });
+    jest.mocked(useDashboardMeasureQuery).mockReturnValue({
+      data: { api: 'issue-count-history', history: [] },
+      isError: false,
+      isPending: false,
+    } as unknown as ReturnType<typeof useDashboardMeasureQuery>);
+    jest.mocked(useWidgetMetricMetadataQuery).mockReturnValue({
+      data: {},
+      isError: false,
+      isPending: false,
+    } as ReturnType<typeof useWidgetMetricMetadataQuery>);
+
+    render(
+      <ProjectCountWidgetWrapper
+        metric={{ metricKey: RichMetricKey.Issues, type: DashboardMetricType.Rich }}
+        scope={CodeScope.Overall}
+      />,
+    );
+
+    expect(CountWidget).toHaveBeenCalledWith(expect.objectContaining({ value: '0' }), undefined);
   });
 
   it('keeps new-code rich counts on the issue-search query', () => {

@@ -33,34 +33,41 @@ import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinn
 import { WidgetNoData } from '../../components/common/WidgetNoData';
 import { CountWidget } from '../../components/visualizations/CountWidget';
 import { dashboardMetricToMeasure, type DashboardMeasure } from '../../data/dashboard-measure';
-import {
-  dashboardCountMetricType,
-  dashboardMeasureHistoryValues,
-  dashboardMeasureMetricKey,
-} from '../../data/dashboard-measure-history';
+import { dashboardMeasureMetricKey } from '../../data/dashboard-measure-history';
 import type { Props } from '../../data/widgets/count';
 import { DashboardMetricType, type DashboardMetric } from '../../data/widgets/shared';
 import { useMttrFormatters } from '../../hooks/useMttrFormatters';
 import { CodeScope } from '../../types/widget-common';
-import {
-  computeDashboardMeasureTrendData,
-  getDashboardMetricDirectionOverride,
-} from '../../utils/countWidgetTrend';
+import { getDashboardMetricDirectionOverride } from '../../utils/countWidgetTrend';
 import { isCountWidgetTrendVisible } from '../../utils/countWidgetTrendIndicator';
 import { getActualMetricKey } from '../../widget-creation-modal/utils/getActualMetricKey';
+import {
+  buildCountWidgetPresentation,
+  dashboardCountHistoryMonths,
+} from './countWidgetPresentation';
 
 interface HistoryCountProps extends Props {
   componentKey: string;
   measure: DashboardMeasure;
 }
 
+function getCountWidgetLink(componentKey: string, metric: DashboardMetric, scope: CodeScope) {
+  if (metric.type === DashboardMetricType.Raw) {
+    return buildProjectRawCountWidgetLink(componentKey, metric.metricKey, scope);
+  }
+  if (metric.type === DashboardMetricType.Rich) {
+    return buildProjectRichCountWidgetLink(componentKey, metric.measureFilters, scope);
+  }
+  return undefined;
+}
+
 function ProjectHistoryCountWidget(props: Readonly<HistoryCountProps>) {
   const { formatMttr } = useMttrFormatters();
-  const { formatMessage } = useIntl();
+  const { formatDate, formatMessage } = useIntl();
   const { projectEntityId } = useDashboardProjectContext();
   const { componentKey, measure, metric, scope, showTrendIndicator = false } = props;
   const trendVisible = isCountWidgetTrendVisible(showTrendIndicator, metric, scope);
-  const months = trendVisible ? 1 : undefined;
+  const months = dashboardCountHistoryMonths(metric, trendVisible);
   const query = useDashboardMeasureQuery(
     {
       entityId: projectEntityId ?? '',
@@ -82,58 +89,26 @@ function ProjectHistoryCountWidget(props: Readonly<HistoryCountProps>) {
     return <WidgetNoData messageKey="dashboard.widget.error" />;
   }
 
-  const measureFilters =
-    metric.type === DashboardMetricType.Rich ? metric.measureFilters : undefined;
-  const values = dashboardMeasureHistoryValues(
-    query.data,
+  const metricKey = dashboardMeasureMetricKey(measure);
+  const metadata = metadataQuery.data?.[metricKey];
+  const presentation = buildCountWidgetPresentation({
+    activityUrl: getProjectDashboardMeasureHistoryUrl(componentKey, metricKey),
+    data: query.data,
+    formatDate,
+    formatMessage,
+    formatMttr,
     measure,
-    metadataQuery.data?.[dashboardMeasureMetricKey(measure)]?.type,
-    measureFilters,
-  );
-  const latest = values.at(-1);
-  if (latest === undefined) {
+    metadataType: metadata?.type,
+    metric,
+    metricDirection: metadata?.direction ?? -1,
+    metricDirectionOverride: getDashboardMetricDirectionOverride(metric),
+    trendVisible,
+  });
+  if (presentation === null) {
     return <WidgetNoData />;
   }
 
-  const metricKey = dashboardMeasureMetricKey(measure);
-  const metricType = dashboardCountMetricType(measure, metadataQuery.data?.[metricKey]?.type);
-  const isMttr = metricType === 'MTTR_CALENDAR';
-  const trendMetric = {
-    direction: metadataQuery.data?.[metricKey]?.direction ?? -1,
-    type: metricType,
-  };
-  const trendData = computeDashboardMeasureTrendData({
-    activityUrl: getProjectDashboardMeasureHistoryUrl(componentKey, metricKey),
-    formatMttr,
-    isMttr,
-    measureFilters,
-    metric: trendMetric,
-    metricDirectionOverride: getDashboardMetricDirectionOverride(metric),
-    values,
-  });
-  let linkTo;
-  if (metric.type === DashboardMetricType.Raw) {
-    linkTo = buildProjectRawCountWidgetLink(componentKey, metric.metricKey, scope);
-  } else if (metric.type === DashboardMetricType.Rich) {
-    linkTo = buildProjectRichCountWidgetLink(componentKey, metric.measureFilters, scope);
-  }
-
-  return (
-    <CountWidget
-      linkTo={linkTo}
-      metricKey={metricKey}
-      metricType={metricType}
-      showTrendIndicator={trendVisible}
-      sparklineSeries={trendVisible ? values : undefined}
-      trendIndicatorData={{ isPending: false, trendData }}
-      unitLabel={
-        measure.api === 'issue-density-history'
-          ? formatMessage({ id: 'dashboard.widget.count.issue_density.unit' })
-          : undefined
-      }
-      value={isMttr ? formatMttr(latest) : String(latest)}
-    />
-  );
+  return <CountWidget {...presentation} linkTo={getCountWidgetLink(componentKey, metric, scope)} />;
 }
 
 function ProjectNewCodeRichCountWidget({

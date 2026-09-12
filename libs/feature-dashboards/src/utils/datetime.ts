@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { differenceInDays, format, subMonths } from 'date-fns';
+import { differenceInDays, subMonths } from 'date-fns';
 import { HistoryRange } from '../data/widgets/line-chart';
 
 export interface HistoricalTrendValues {
@@ -35,11 +35,21 @@ export const THIRTY_DAYS_MS = 30 * MS_PER_DAY;
 /** Stay inside the organizations history API one-year window (clock skew / end-of-day safety). */
 const ORGANIZATIONS_HISTORY_RETENTION_BUFFER_DAYS = 1;
 
-export const FORMAT_MONTH_DAY: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
-export const FORMAT_MONTH_YEAR: Intl.DateTimeFormatOptions = { month: 'short', year: 'numeric' };
+// Dashboard history timestamps identify UTC calendar buckets, not user-local instants.
+export const FORMAT_MONTH_DAY: Intl.DateTimeFormatOptions = {
+  month: 'short',
+  day: 'numeric',
+  timeZone: 'UTC',
+};
+export const FORMAT_MONTH_YEAR: Intl.DateTimeFormatOptions = {
+  month: 'short',
+  timeZone: 'UTC',
+  year: 'numeric',
+};
 export const FORMAT_FULL: Intl.DateTimeFormatOptions = {
   month: 'short',
   day: 'numeric',
+  timeZone: 'UTC',
   year: 'numeric',
 };
 export const FORMAT_DAY_TIME: Intl.DateTimeFormatOptions = {
@@ -47,6 +57,7 @@ export const FORMAT_DAY_TIME: Intl.DateTimeFormatOptions = {
   day: 'numeric',
   hour: 'numeric',
   minute: '2-digit',
+  timeZone: 'UTC',
 };
 
 /**
@@ -64,13 +75,13 @@ export function getDateFormatOptions(ticks: Date[]): Intl.DateTimeFormatOptions 
   }
 
   // Check for duplicate days among ticks — need time to distinguish them
-  const daySet = new Set(ticks.map((tick) => format(tick, 'yyyy-MM-dd')));
+  const daySet = new Set(ticks.map((tick) => tick.toISOString().slice(0, 10)));
   if (daySet.size < ticks.length) {
     return FORMAT_DAY_TIME;
   }
 
   // Check for duplicate month-year combinations — need day to distinguish them
-  const monthYearSet = new Set(ticks.map((tick) => format(tick, 'yyyy-MM')));
+  const monthYearSet = new Set(ticks.map((tick) => tick.toISOString().slice(0, 7)));
   if (monthYearSet.size < ticks.length) {
     return FORMAT_MONTH_DAY;
   }
@@ -267,9 +278,10 @@ export function getThirtyDayTrendValues<T>(
     return { current: null, past: null };
   }
   const last = window.at(-1);
+  const first = window[0];
   return {
     current: last === undefined ? null : getValue(last),
-    past: getValue(window[0]),
+    past: first !== undefined && last !== undefined && first !== last ? getValue(first) : null,
   };
 }
 

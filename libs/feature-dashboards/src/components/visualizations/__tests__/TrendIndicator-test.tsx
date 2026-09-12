@@ -31,15 +31,82 @@ describe('TrendIndicator', () => {
     expect(screen.getByText('Loading trend indicator')).toBeInTheDocument();
   });
 
-  it('renders a no-data badge with comparison text when trend data is missing', () => {
+  it('renders an unavailable badge with a historical-data toggletip', async () => {
+    const user = userEvent.setup();
     renderWithRouter(<TrendIndicator isPending={false} trendData={null} />);
 
     expect(
-      screen.getByText('dashboard.widget.trend_indicator.no_historical_data'),
+      screen.getByText('dashboard.widget.trend_indicator.badge.unavailable'),
     ).toBeInTheDocument();
     expect(
-      screen.getByText('dashboard.widget.trend_indicator.vs_last_30_days'),
+      screen.queryByText('dashboard.widget.trend_indicator.vs_last_30_days'),
+    ).not.toBeInTheDocument();
+
+    await user.click(
+      screen.getByRole('button', {
+        name: 'dashboard.widget.trend_indicator.no_historical_data',
+      }),
+    );
+
+    expect(
+      await screen.findByText('dashboard.widget.trend_indicator.no_historical_data'),
     ).toBeInTheDocument();
+  });
+
+  it('explains when some history exists but is not mature enough', async () => {
+    const user = userEvent.setup();
+    renderWithRouter(
+      <TrendIndicator
+        historyStartDate={new Date('2026-09-01T00:00:00Z')}
+        isPending={false}
+        trendData={null}
+      />,
+    );
+
+    const toggleTip = screen.getByRole('button', {
+      name: /dashboard\.widget\.trend_indicator\.insufficient_history/,
+    });
+    await user.click(toggleTip);
+
+    expect(
+      await screen.findByText(/dashboard\.widget\.trend_indicator\.insufficient_history/),
+    ).toBeInTheDocument();
+  });
+
+  it('explains the 60-day requirement for resolution trends', () => {
+    renderWithRouter(
+      <TrendIndicator
+        historyStartDate={new Date('2026-09-01T00:00:00Z')}
+        isPending={false}
+        requiredHistoryDays={60}
+        trendData={null}
+      />,
+    );
+
+    expect(
+      screen.getByRole('button', {
+        name: /dashboard\.widget\.trend_indicator\.insufficient_history_60_days/,
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it('labels a partial trend with its actual start date', () => {
+    renderWithRouter(
+      <TrendIndicator
+        isPending={false}
+        trendData={{
+          activityUrl: { pathname: '#' },
+          change: 5,
+          comparisonStartDate: new Date('2026-09-01T00:00:00Z'),
+          formattedChange: '50%',
+          metricDirection: -1,
+          past: 10,
+          roundedChange: 50,
+        }}
+      />,
+    );
+
+    expect(screen.getByText(/dashboard\.widget\.trend_indicator\.since/)).toBeInTheDocument();
   });
 
   it('renders no-change message without link when history is neutral', () => {
@@ -108,9 +175,7 @@ describe('TrendIndicator', () => {
 
     await user.hover(screen.getByText(/dashboard\.widget\.trend_indicator\.badge\.relative/));
 
-    const tooltips = await screen.findAllByText(
-      'dashboard.widget.trend_indicator.change_last_30_days',
-    );
+    const tooltips = await screen.findAllByText('dashboard.widget.trend_indicator.vs_last_30_days');
     expect(tooltips.length).toBeGreaterThan(0);
     expect(tooltips[0]).toBeVisible();
   });

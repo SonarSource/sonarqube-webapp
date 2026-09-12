@@ -27,7 +27,119 @@ import {
   dashboardCountMetricType,
   dashboardMeasureHistoryValues,
   dashboardMeasureMetricKey,
+  dashboardMeasureTrendPoints,
+  dashboardMeasureTrendValues,
+  dashboardMeasureTrendWindowValues,
+  hasCompleteDashboardHistory,
+  resolvedIssuesCountValues,
 } from '../dashboard-measure-history';
+
+describe('dashboard history maturity', () => {
+  const current = { date: new Date('2026-03-31T00:00:00Z'), value: 20 };
+
+  it('requires a genuine point at least 30 days before the current point', () => {
+    const maturePoints = [{ date: new Date('2026-03-01T00:00:00Z'), value: 10 }, current];
+    const immaturePoints = [{ date: new Date('2026-03-02T00:00:00Z'), value: 10 }, current];
+
+    expect(hasCompleteDashboardHistory(maturePoints, 30)).toBe(true);
+    expect(dashboardMeasureTrendValues(maturePoints, 30)).toEqual([10, 20]);
+    expect(hasCompleteDashboardHistory(immaturePoints, 30)).toBe(false);
+    expect(dashboardMeasureTrendValues(immaturePoints, 30)).toEqual([]);
+    expect(dashboardMeasureTrendValues(immaturePoints, 30, true)).toEqual([10, 20]);
+  });
+
+  it('recognizes two adjacent 30-day calendar periods by their 59-day span', () => {
+    const points = [{ date: new Date('2026-01-31T00:00:00Z'), value: 10 }, current];
+
+    expect(hasCompleteDashboardHistory(points, 59)).toBe(true);
+  });
+});
+
+describe('resolvedIssuesCountValues', () => {
+  it('sums adjacent 30-day periods and builds a rolling-total sparkline', () => {
+    const dailyPoints = [
+      ...Array.from({ length: 30 }, (_, index) => ({
+        date: new Date(Date.UTC(2026, 0, index + 1)),
+        value: 2,
+      })),
+      ...Array.from({ length: 30 }, (_, index) => ({
+        date: new Date(Date.UTC(2026, 0, index + 31)),
+        value: 3,
+      })),
+    ];
+
+    expect(resolvedIssuesCountValues(dailyPoints)).toEqual({
+      currentTotal: 90,
+      sparklineSeries: [60, ...Array.from({ length: 30 }, (_, index) => 61 + index)],
+      trendValues: [60, 90],
+    });
+  });
+
+  it('uses calendar periods when zero-resolution dates are omitted', () => {
+    expect(
+      resolvedIssuesCountValues([
+        { date: new Date('2026-01-01T00:00:00Z'), value: 10 },
+        { date: new Date('2026-01-31T00:00:00Z'), value: 20 },
+        { date: new Date('2026-03-01T00:00:00Z'), value: 30 },
+      ]),
+    ).toEqual({
+      currentTotal: 50,
+      sparklineSeries: [20, 50],
+      trendValues: [10, 50],
+    });
+  });
+
+  it('does not produce a trend until two complete periods are available', () => {
+    expect(
+      resolvedIssuesCountValues([
+        { date: new Date('2026-01-01T00:00:00Z'), value: 2 },
+        { date: new Date('2026-01-02T00:00:00Z'), value: 0 },
+        { date: new Date('2026-01-03T00:00:00Z'), value: 3 },
+      ]),
+    ).toEqual({
+      currentTotal: 5,
+      sparklineSeries: [],
+      trendValues: [5],
+    });
+    expect(resolvedIssuesCountValues([])).toEqual({
+      currentTotal: 0,
+      sparklineSeries: [],
+      trendValues: [],
+    });
+  });
+});
+
+it('limits a trend sparkline to the comparison window', () => {
+  const points = Array.from({ length: 61 }, (_, index) => ({
+    date: new Date(Date.UTC(2026, 0, index + 1)),
+    value: index,
+  }));
+
+  expect(dashboardMeasureTrendWindowValues(points)).toEqual(
+    Array.from({ length: 31 }, (_, index) => index + 30),
+  );
+});
+
+it('excludes synthetic leading zeroes from SCA trend maturity', () => {
+  const points = [
+    { date: new Date('2026-01-01T00:00:00Z'), value: 0 },
+    { date: new Date('2026-02-01T00:00:00Z'), value: 0 },
+    { date: new Date('2026-03-01T00:00:00Z'), value: 120 },
+  ];
+
+  expect(
+    dashboardMeasureTrendPoints(points, {
+      api: 'sca-resolution-history',
+      statistic: ScaResolutionStatistic.ScaMTTR,
+    }),
+  ).toEqual([points[2]]);
+  expect(
+    dashboardMeasureTrendPoints(points, {
+      api: 'issue-resolution-history',
+      statistic: IssueResolutionStatistic.MTTR,
+    }),
+  ).toBe(points);
+});
 
 it('extracts valid values for the requested measures-history metric', () => {
   const measure = {
@@ -199,4 +311,24 @@ it('omits missing density values while preserving decimals and zeroes', () => {
       { api: 'issue-density-history' },
     ),
   ).toEqual([0, 2.5944423284132183]);
+});
+
+it('preserves empty resolved-issues days as zeroes but omits empty MTTR days', () => {
+  const history = {
+    api: 'issue-resolution-history' as const,
+    history: [{ date: '2026-06-17', distribution: [] }],
+  };
+
+  expect(
+    dashboardMeasureHistoryValues(history, {
+      api: 'issue-resolution-history',
+      statistic: IssueResolutionStatistic.ResolvedIssues,
+    }),
+  ).toEqual([0]);
+  expect(
+    dashboardMeasureHistoryValues(history, {
+      api: 'issue-resolution-history',
+      statistic: IssueResolutionStatistic.MTTR,
+    }),
+  ).toEqual([]);
 });

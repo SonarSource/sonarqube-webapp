@@ -130,6 +130,24 @@ describe('createTimeXScale', () => {
     expect(scale(dates[0])).toBe(0);
     expect(scale(dates[1])).toBe(300);
   });
+
+  it('generates tick boundaries in UTC regardless of the local timezone', () => {
+    const originalTimeZone = process.env.TZ;
+    process.env.TZ = 'Europe/Berlin';
+
+    try {
+      const scale = createTimeXScale(
+        [new Date('2025-01-01T00:00:00.000Z'), new Date('2026-01-01T00:00:00.000Z')],
+        300,
+      );
+
+      expect(scale.ticks(12).every((tick) => tick.toISOString().endsWith('01T00:00:00.000Z'))).toBe(
+        true,
+      );
+    } finally {
+      process.env.TZ = originalTimeZone;
+    }
+  });
 });
 
 describe('createLinearYScale', () => {

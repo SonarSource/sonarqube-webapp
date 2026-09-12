@@ -99,6 +99,7 @@ function ProjectTopListWidgetView(
       hasFetchError={isError}
       isPending={isPending}
       rows={rows}
+      showTrendColumn={fetchTrendHistory}
     />
   );
 }

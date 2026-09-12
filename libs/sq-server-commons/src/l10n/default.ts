@@ -3960,6 +3960,7 @@ export const defaultMessages = {
   'portfolio_dashboard.widget.line_chart.aria_label': 'Line chart showing {metric} over time',
   'dashboard.add_widget_modal.define_widget.metric.issue_count': 'Issue count',
   'dashboard.widget.count.issue_density.unit': 'issues / 1K LOC',
+  'dashboard.widget.count.issues_closed.since': 'since {date}',
   'dashboard.add_widget_modal.define_widget.metric.line_count': 'Line count',
   'dashboard.add_widget_modal.define_widget.metric.project_count': 'Project count',
   'dashboard.add_widget_modal.define_widget.metric.security_hotspot_count':
@@ -4200,9 +4201,16 @@ export const defaultMessages = {
   'dashboard.widget.loading_visualization': 'Loading visualization',
   'dashboard.widget.no_data': 'No data available to display',
   'dashboard.widget.trend_indicator.badge.no_change': 'No change',
-  'dashboard.widget.trend_indicator.change_last_30_days': 'Change in the last 30 days',
+  'dashboard.widget.trend_indicator.badge.unavailable': 'Trend unavailable',
   'dashboard.widget.trend_indicator.no_historical_data':
     'No historical data available for this metric',
+  'dashboard.widget.trend_indicator.insufficient_history':
+    'Not enough historical data to calculate a trend. Data available from {date}.',
+  'dashboard.widget.trend_indicator.insufficient_history_no_date':
+    'Not enough historical data to calculate a trend.',
+  'dashboard.widget.trend_indicator.insufficient_history_60_days':
+    'Trend requires at least 60 days of history to compare the latest 30 days with the previous 30 days. Data available from {date}.',
+  'dashboard.widget.trend_indicator.since': 'since {date}',
   'dashboard.widget.trend_indicator.vs_last_30_days': 'vs last 30 days',
   'dashboard.widget_actions': 'Widget actions',
   'dashboard.empty.title': 'Your dashboard is currently empty',

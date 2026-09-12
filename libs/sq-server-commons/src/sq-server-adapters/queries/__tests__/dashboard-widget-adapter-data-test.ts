@@ -47,6 +47,7 @@ import {
   useProjectPieChartSegmentsSearchQuery,
 } from '../project-pie-chart-widget-data';
 import { useProjectTopListData } from '../project-top-list-widget-data';
+import { useTopListIssueCountData } from '../top-list-issue-count-data';
 import { useWidgetMetricMetadataQuery } from '../widget-metric-metadata';
 
 const mockUseDashboardIssueCountHistoryQuery = jest.fn();
@@ -1037,6 +1038,53 @@ describe('dashboard widget adapter queries', () => {
           sliceBy: 'RULE_KEY',
         }),
         expect.objectContaining({ enabled: true }),
+      );
+    });
+
+    it('keeps zero-valued SQS baselines and labels a partial top-list trend', () => {
+      const today = new Date();
+      today.setUTCHours(0, 0, 0, 0);
+      const recent = new Date(today);
+      recent.setUTCDate(recent.getUTCDate() - 10);
+      mockUseDashboardIssueCountHistoryQuery.mockImplementation((params, options) =>
+        queryResult(
+          options.select({
+            issueCountHistory: params.ruleKeys
+              ? [
+                  {
+                    date: recent.toISOString(),
+                    distribution: [{ key: 'java:S1', value: 0 }],
+                  },
+                  {
+                    date: today.toISOString(),
+                    distribution: [{ key: 'java:S1', value: 5 }],
+                  },
+                ]
+              : [
+                  {
+                    date: today.toISOString(),
+                    distribution: [{ key: 'java:S1', value: 5 }],
+                  },
+                ],
+          }),
+        ),
+      );
+      const widget = {
+        limit: 5,
+        metric: { type: DashboardMetricType.Rich, metricKey: RichMetricKey.Issues },
+      };
+
+      const { result } = renderHook(
+        () => useTopListIssueCountData(widget, 'portfolio-1', 'PORTFOLIO'),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(result.current.getRuleTrendData('java:S1')).toEqual(
+        expect.objectContaining({
+          change: 5,
+          comparisonStartDate: recent,
+          past: 0,
+        }),
       );
     });
   });
