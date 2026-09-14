@@ -31,6 +31,7 @@ import {
   convertToTo,
   getAdminHunterAgentUrl,
   getAdminRemediationAgentUrl,
+  getAdminVortexUrl,
   getComponentAdminUrl,
   getComponentDrilldownUrl,
   getComponentDrilldownUrlWithSelection,
@@ -391,6 +392,12 @@ describe('#getAdminRemediationAgentUrl', () => {
 describe('#getAdminHunterAgentUrl', () => {
   it('should work as expected', () => {
     expect(getAdminHunterAgentUrl()).toEqual({ pathname: '/admin/agent/hunter-agent' });
+  });
+});
+
+describe('#getAdminVortexUrl', () => {
+  it('should work as expected', () => {
+    expect(getAdminVortexUrl()).toEqual({ pathname: '/admin/agent/vortex' });
   });
 });
 

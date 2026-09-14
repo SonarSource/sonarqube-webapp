@@ -405,6 +405,15 @@ export function getAdminHunterAgentUrl(): Partial<Path> {
   return { pathname: '/admin/agent/hunter-agent' };
 }
 
+/**
+ * Path is a literal, not imported from `ADMIN_AGENT_VORTEX_PATH`
+ * (feature-ai-capabilities/components/routes.tsx) — commons can't depend on a feature lib. Keep
+ * the two in sync by hand if the route segment ever moves.
+ */
+export function getAdminVortexUrl(): Partial<Path> {
+  return { pathname: '/admin/agent/vortex' };
+}
+
 export function getCodeUrl(
   project: string,
   branchLike?: BranchLike,
