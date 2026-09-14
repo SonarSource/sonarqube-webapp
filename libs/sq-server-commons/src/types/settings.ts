@@ -42,7 +42,7 @@ export const enum SettingsKey {
   AutodetectAICode = 'sonar.autodetect.ai.code',
   IssueResolutionEnabled = 'sonar.issues.issueResolution.enabled',
   IssueResolutionGlobalEnabled = 'sonar.issues.issueResolution.global.enabled',
-  RemediationAgentManualEnabled = 'sonar.ai.remediationAgent.manual.enabled',
+  RemediationAgentManualEnabled = 'sonar.remediationagent.manual.enabled',
   HunterAgentEnabled = 'sonar.hunteragent.enabled',
   VortexEnabled = 'sonar.vortex.enabled',
   ArchitectureEnterpriseEnabled = 'sonar.architecture.enterprise.enabled',
