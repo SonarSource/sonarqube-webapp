@@ -199,13 +199,21 @@ describe('EditableDashboard', () => {
       renderEditableDashboard({ dashboard: { children: [mockExplicitSection1] } });
 
       expect(screen.getByText('Quality Metrics')).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { level: 2, name: 'Quality Metrics' }),
+      ).toBeInTheDocument();
       expect(screen.queryByText('Security')).not.toBeInTheDocument();
     });
 
     it('should handle dashboard with only implicit sections', () => {
       renderEditableDashboard({ dashboard: { children: [mockImplicitSection] } });
 
-      expect(screen.queryByRole('heading')).not.toBeInTheDocument();
+      const implicitHeading = screen.getByRole('heading', {
+        level: 2,
+        name: 'dashboard.implicit_section',
+      });
+      const implicitSection = screen.getByRole('region', { name: 'dashboard.implicit_section' });
+      expect(implicitSection).toHaveAttribute('aria-labelledby', implicitHeading.id);
     });
 
     it('should handle dashboard updates', () => {
@@ -347,8 +355,9 @@ describe('EditableDashboard', () => {
       expect(implicitShell).toHaveStyleRule('box-shadow', String(implicitChrome.boxShadow));
 
       const dragControls = screen.getAllByRole('button', {
-        name: 'dashboard.drag_section_to_reorder',
+        name: 'Quality Metrics',
       });
+      expect(dragControls[0]).toHaveAccessibleDescription('dashboard.drag_section_to_reorder');
       fireEvent.mouseDown(dragControls[0], { clientX: 10, clientY: 10 });
 
       const fade = await screen.findByTestId('dashboard-implicit-section-minimize-fade');
@@ -366,7 +375,7 @@ describe('EditableDashboard', () => {
       expect(clipRegion).toHaveStyle({ maxHeight: 'none', overflow: 'visible' });
 
       const dragControls = screen.getAllByRole('button', {
-        name: 'dashboard.drag_section_to_reorder',
+        name: 'Quality Metrics',
       });
       fireEvent.mouseDown(dragControls[0], { clientX: 10, clientY: 10 });
 

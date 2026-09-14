@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { cssVar, Heading } from '@sonarsource/echoes-react';
+import { cssVar, Heading, HeadingSize } from '@sonarsource/echoes-react';
 import { ExplicitSectionInstance } from '../../logic/types';
 import { GRID_CONSTANTS } from '../../ReadonlyDashboard/constants';
 import { SectionHeaderTitleAndDescriptionColumn } from '../../SectionHeaderTitleAndDescriptionColumn';
@@ -81,7 +81,9 @@ export function SectionDragGhost<WidgetPropMap extends {}>(props: Readonly<Props
                 }}
               >
                 <DragHandle titleMessageId="dashboard.drag_section_to_reorder" />
-                <Heading as="h3">{section.name}</Heading>
+                <Heading as="h2" size={HeadingSize.Medium}>
+                  {section.name}
+                </Heading>
               </div>
             }
           />

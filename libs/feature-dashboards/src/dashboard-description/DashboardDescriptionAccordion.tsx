@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { cssVar, Heading, Text } from '@sonarsource/echoes-react';
+import { cssVar, Heading, HeadingSize, Text } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Accordion } from '~shared/components/Accordion';
@@ -38,7 +38,11 @@ export function DashboardDescriptionAccordion(props: Readonly<DashboardDescripti
   return (
     <StyledAccordion
       ariaLabel={dashboardDescriptionLabel}
-      header={<Heading as="h3">{dashboardDescriptionLabel}</Heading>}
+      header={
+        <Heading as="h2" size={HeadingSize.Medium}>
+          {dashboardDescriptionLabel}
+        </Heading>
+      }
       isOpen={isOpen}
       onOpenChange={setIsOpen}
     >

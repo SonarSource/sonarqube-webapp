@@ -29,8 +29,9 @@ type Props = {
   isHorizontal?: boolean;
   /**
    * When set, rendered as the SVG `<title>`. Omit when a parent supplies the accessible name
-   * (e.g. multigrid section row `aria-label`). Widgets pass `dashboard.drag_to_reorder`; section
-   * drag ghost passes `dashboard.drag_section_to_reorder`.
+   * (e.g. the multigrid section drag button, which labels itself with the section name and hides
+   * this handle with `aria-hidden`). Widgets pass `dashboard.drag_to_reorder`; section drag ghost
+   * passes `dashboard.drag_section_to_reorder`.
    */
   titleMessageId?: string;
 };

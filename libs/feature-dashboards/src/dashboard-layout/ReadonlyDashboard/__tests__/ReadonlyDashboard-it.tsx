@@ -250,6 +250,14 @@ describe('ReadonlyDashboard', () => {
     // Check that explicit section is rendered
     expect(screen.getByText('Test Section')).toBeInTheDocument();
     expect(screen.getByText('Test description')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: 'Test Section' })).toBeInTheDocument();
+
+    const implicitHeading = screen.getByRole('heading', {
+      level: 2,
+      name: 'dashboard.implicit_section',
+    });
+    const implicitSection = screen.getByRole('region', { name: 'dashboard.implicit_section' });
+    expect(implicitSection).toHaveAttribute('aria-labelledby', implicitHeading.id);
 
     // Check that widgets are rendered
     expect(screen.getByTestId('metric-widget')).toBeInTheDocument();
@@ -399,7 +407,12 @@ describe('ReadonlyDashboard', () => {
     );
 
     expect(screen.getAllByText(MetricKey.bugs).length).toBeGreaterThan(0);
-    expect(screen.queryByRole('heading')).not.toBeInTheDocument(); // No section titles for implicit
+    const implicitHeading = screen.getByRole('heading', {
+      level: 2,
+      name: 'dashboard.implicit_section',
+    });
+    const implicitSection = screen.getByRole('region', { name: 'dashboard.implicit_section' });
+    expect(implicitSection).toHaveAttribute('aria-labelledby', implicitHeading.id);
     const shell = screen.getByTestId('dashboard-implicit-section-shell');
     const chrome = getImplicitSectionContainerStyle();
     expect(shell).toHaveStyle({

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, cssVar } from '@sonarsource/echoes-react';
+import { Heading, HeadingSize, cssVar } from '@sonarsource/echoes-react';
 import { ExplicitSectionInstance } from '../../logic/types';
 import { GRID_CONSTANTS } from '../../ReadonlyDashboard/constants';
 import { SectionHeaderTitleAndDescriptionColumn } from '../../SectionHeaderTitleAndDescriptionColumn';
@@ -53,7 +53,11 @@ export function SectionTargetPreview<WidgetPropMap extends {}>(
       >
         <SectionHeaderTitleAndDescriptionColumn
           sectionDescription={section.description}
-          titleRow={<Heading as="h3">{section.name}</Heading>}
+          titleRow={
+            <Heading as="h2" size={HeadingSize.Medium}>
+              {section.name}
+            </Heading>
+          }
         />
       </div>
     </div>

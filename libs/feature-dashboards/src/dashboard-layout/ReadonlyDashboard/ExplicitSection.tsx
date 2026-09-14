@@ -24,6 +24,7 @@ import {
   ButtonVariety,
   cssVar,
   Heading,
+  HeadingSize,
   IconChevronDown,
   IconChevronRight,
 } from '@sonarsource/echoes-react';
@@ -62,7 +63,11 @@ export function ExplicitSection<WidgetPropMap extends {}>(props: Readonly<Props<
       >
         <SectionHeaderTitleAndDescriptionColumn
           sectionDescription={section.description}
-          titleRow={<Heading as="h3">{section.name}</Heading>}
+          titleRow={
+            <Heading as="h2" size={HeadingSize.Medium}>
+              {section.name}
+            </Heading>
+          }
         />
         <ButtonIcon
           Icon={isCollapsed ? IconChevronRight : IconChevronDown}

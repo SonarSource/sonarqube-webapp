@@ -3928,6 +3928,7 @@ export const defaultMessages = {
   'dashboard.list.actions.delete': 'Delete dashboard',
   'dashboard.edit_dashboard': 'Edit dashboard',
   'dashboard.about_this_dashboard': 'About this dashboard',
+  'dashboard.implicit_section': 'Overview',
   'dashboard.add_widget': 'Add widget',
   'dashboard.add_widget_modal.title': 'Add new widget',
   'dashboard.add_widget_modal.add_to_dashboard': 'Add to dashboard',

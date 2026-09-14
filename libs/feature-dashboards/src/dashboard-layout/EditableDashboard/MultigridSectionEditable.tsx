@@ -27,11 +27,12 @@ import {
   cssVar,
   DropdownMenu,
   Heading,
+  HeadingSize,
   IconMoreVertical,
   IconPlus,
   Text,
 } from '@sonarsource/echoes-react';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useId, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { DeleteSectionModal } from '../modals/DeleteSectionModal';
 import { EditSectionModal } from '../modals/EditSectionModal';
@@ -135,7 +136,9 @@ export function MultigridSectionEditable(props: Readonly<Props>) {
 
   const isImplicit = sectionType === 'implicit';
 
-  const intl = useIntl();
+  const { formatMessage } = useIntl();
+  const headingId = useId();
+  const dragDescriptionId = useId();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -143,15 +146,6 @@ export function MultigridSectionEditable(props: Readonly<Props>) {
   const shouldBeCollapsed = forceMinimized || isCollapsed;
 
   const handleMouseDown = (event: React.MouseEvent) => {
-    // Prevent dragging if clicking on interactive elements
-    const { target } = event;
-    if (!(target instanceof Element)) {
-      return;
-    }
-    if (target.tagName === 'BUTTON' || target.closest('button')) {
-      return;
-    }
-
     event.preventDefault();
     const mousePos = {
       x: event.clientX,
@@ -194,9 +188,14 @@ export function MultigridSectionEditable(props: Readonly<Props>) {
 
     return (
       <ImplicitDashboardSectionShell
+        aria-labelledby={headingId}
+        as="section"
         data-testid="dashboard-implicit-section-shell"
         ref={sectionRef}
       >
+        <Heading as="h2" className="sw-sr-only" id={headingId} size={HeadingSize.Medium}>
+          {formatMessage({ id: 'dashboard.implicit_section' })}
+        </Heading>
         {/*
          * SC-47124: While reordering an explicit section, every implicit section gets `forceMinimized`.
          * The grid and the inline “add widget” control share one clipped column so the CTA is truncated
@@ -226,7 +225,7 @@ export function MultigridSectionEditable(props: Readonly<Props>) {
               <IconWrapper>
                 <IconPlus />
               </IconWrapper>
-              <Text>{intl.formatMessage({ id: 'dashboard.add_widget' })}</Text>
+              <Text>{formatMessage({ id: 'dashboard.add_widget' })}</Text>
             </AddWidgetButton>
           </div>
 
@@ -273,28 +272,42 @@ export function MultigridSectionEditable(props: Readonly<Props>) {
           <SectionHeaderTitleAndDescriptionColumn
             sectionDescription={sectionDescription}
             titleRow={
-              <div
-                aria-label={intl.formatMessage({ id: 'dashboard.drag_section_to_reorder' })}
-                onMouseDown={handleMouseDown}
-                role="button"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: cssVar('dimension-space-150'),
-                  cursor: 'grab',
-                }}
-                tabIndex={0}
-              >
-                <DragHandle />
-                <Heading as="h3">{sectionName}</Heading>
-              </div>
+              <>
+                <Heading as="h2" size={HeadingSize.Medium}>
+                  <button
+                    aria-describedby={dragDescriptionId}
+                    onMouseDown={handleMouseDown}
+                    style={{
+                      alignItems: 'center',
+                      background: 'transparent',
+                      border: 0,
+                      color: 'inherit',
+                      cursor: 'grab',
+                      display: 'inline-flex',
+                      font: 'inherit',
+                      gap: cssVar('dimension-space-150'),
+                      padding: 0,
+                      textAlign: 'left',
+                    }}
+                    type="button"
+                  >
+                    <span aria-hidden="true">
+                      <DragHandle />
+                    </span>
+                    {sectionName}
+                  </button>
+                </Heading>
+                <span className="sw-sr-only" id={dragDescriptionId}>
+                  {formatMessage({ id: 'dashboard.drag_section_to_reorder' })}
+                </span>
+              </>
             }
           />
           <div style={{ display: 'flex', alignItems: 'center', gap: cssVar('dimension-space-50') }}>
             <Button onClick={onToggleCollapse} variety={ButtonVariety.DefaultGhost}>
               {isCollapsed
-                ? intl.formatMessage({ id: 'dashboard.expand' })
-                : intl.formatMessage({ id: 'dashboard.collapse' })}
+                ? formatMessage({ id: 'dashboard.expand' })
+                : formatMessage({ id: 'dashboard.collapse' })}
             </Button>
 
             <DropdownMenu
@@ -305,7 +318,7 @@ export function MultigridSectionEditable(props: Readonly<Props>) {
                       setIsEditModalOpen(true);
                     }}
                   >
-                    {intl.formatMessage({ id: 'dashboard.edit_section' })}
+                    {formatMessage({ id: 'dashboard.edit_section' })}
                   </DropdownMenu.ItemButton>
 
                   <DropdownMenu.Separator />
@@ -315,14 +328,14 @@ export function MultigridSectionEditable(props: Readonly<Props>) {
                       setIsDeleteModalOpen(true);
                     }}
                   >
-                    {intl.formatMessage({ id: 'dashboard.delete_section' })}
+                    {formatMessage({ id: 'dashboard.delete_section' })}
                   </DropdownMenu.ItemButtonDestructive>
                 </>
               }
             >
               <ButtonIcon
                 Icon={IconMoreVertical}
-                ariaLabel={intl.formatMessage({ id: 'dashboard.section_actions' })}
+                ariaLabel={formatMessage({ id: 'dashboard.section_actions' })}
                 size={ButtonSize.Medium}
                 variety={ButtonVariety.DefaultGhost}
               />
@@ -351,7 +364,7 @@ export function MultigridSectionEditable(props: Readonly<Props>) {
                 <IconWrapper>
                   <IconPlus />
                 </IconWrapper>
-                <Text>{intl.formatMessage({ id: 'dashboard.add_widget' })}</Text>
+                <Text>{formatMessage({ id: 'dashboard.add_widget' })}</Text>
               </AddWidgetButton>
             </div>
           </div>

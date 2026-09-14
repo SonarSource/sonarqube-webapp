@@ -19,7 +19,9 @@
  */
 
 import type { CSSObject } from '@emotion/react';
-import { cssVar } from '@sonarsource/echoes-react';
+import { cssVar, Heading, HeadingSize } from '@sonarsource/echoes-react';
+import { useId } from 'react';
+import { useIntl } from 'react-intl';
 import { getSectionHeight } from '../logic/positioning';
 import { ImplicitSectionInstance } from '../logic/types';
 import {
@@ -56,12 +58,21 @@ interface Props<WidgetPropMap extends {}> {
 
 export function ImplicitSection<WidgetPropMap extends {}>(props: Readonly<Props<WidgetPropMap>>) {
   const { gridWidth, section } = props;
+  const { formatMessage } = useIntl();
+  const headingId = useId();
   if (section.children.length === 0) {
     return null;
   }
   const maxRow = getSectionHeight(section);
   return (
-    <ImplicitDashboardSectionShell data-testid="dashboard-implicit-section-shell">
+    <ImplicitDashboardSectionShell
+      aria-labelledby={headingId}
+      as="section"
+      data-testid="dashboard-implicit-section-shell"
+    >
+      <Heading as="h2" className="sw-sr-only" id={headingId} size={HeadingSize.Medium}>
+        {formatMessage({ id: 'dashboard.implicit_section' })}
+      </Heading>
       <WidgetGrid gridWidth={gridWidth} maxRows={maxRow} section={section} />
     </ImplicitDashboardSectionShell>
   );
