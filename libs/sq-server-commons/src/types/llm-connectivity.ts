@@ -141,3 +141,13 @@ export interface LlmProviderSelectionUpsert {
   modelIdentifier: string | null;
   secondaryModelIdentifier?: string | null;
 }
+
+export interface SupportedModel {
+  modelDisplayName: string;
+  modelIdentifiers: string[];
+  modelKey: string;
+}
+
+export interface SupportedModelsResponse {
+  supportedModels: SupportedModel[];
+}

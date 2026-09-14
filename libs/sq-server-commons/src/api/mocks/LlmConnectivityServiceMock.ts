@@ -38,13 +38,40 @@ import {
   LlmProviderType,
   LlmProviderUpdate,
   MAX_LLM_PROVIDERS,
+  SupportedModel,
 } from '../../types/llm-connectivity';
 import {
   LLM_PROVIDER_DEFINITIONS_PATH,
   LLM_PROVIDER_MAPPINGS_PATH,
   LLM_PROVIDER_VALIDATIONS_PATH,
   LLM_PROVIDERS_PATH,
+  LLM_SUPPORTED_MODELS_PATH,
 } from '../llm-connectivity';
+
+export const MOCK_SUPPORTED_MODELS: Record<
+  AiCapability.HunterAgent | AiCapability.RemediationAgent,
+  SupportedModel[]
+> = {
+  [AiCapability.HunterAgent]: [
+    {
+      modelKey: 'CLAUDE_OPUS_4_8',
+      modelDisplayName: 'Claude Opus 4.8',
+      modelIdentifiers: ['claude-opus-4.8', 'claude-opus-4-8'],
+    },
+  ],
+  [AiCapability.RemediationAgent]: [
+    {
+      modelKey: 'CLAUDE_OPUS_4_6',
+      modelDisplayName: 'Claude Opus 4.6',
+      modelIdentifiers: ['claude-opus-4.6', 'claude-opus-4-6'],
+    },
+    {
+      modelKey: 'GPT_5_5',
+      modelDisplayName: 'GPT-5.5',
+      modelIdentifiers: ['gpt-5.5'],
+    },
+  ],
+};
 
 export const SONAR_PROVIDER_ID = '00000000-0000-0000-0000-00000000s0nr';
 
@@ -247,6 +274,15 @@ export default class LlmConnectivityServiceMock extends AbstractServiceMock<LlmC
   }
 
   handlers = [
+    http.get(LLM_SUPPORTED_MODELS_PATH, ({ request }) => {
+      const aiCapability = this.getQueryParams(request).get('aiCapability') as
+        AiCapability.HunterAgent | AiCapability.RemediationAgent | null;
+      const supportedModels =
+        aiCapability !== null ? (MOCK_SUPPORTED_MODELS[aiCapability] ?? []) : [];
+
+      return this.ok({ supportedModels });
+    }),
+
     http.get(LLM_PROVIDER_DEFINITIONS_PATH, () =>
       this.#definitionsFailureMessage === undefined
         ? this.ok({ providerDefinitions: this.data.definitions })

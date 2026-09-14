@@ -33,6 +33,7 @@ import {
   getLlmProviderDefinitions,
   getLlmProviders,
   getLlmProviderSelections,
+  getSupportedModels,
   updateLlmProvider,
   upsertLlmProviderSelection,
   validateLlmProvider,
@@ -51,6 +52,8 @@ const llmConnectivityQueryKeys = {
     ['llm-connectivity', 'llm-providers', aiCapability] as const,
   selection: (aiCapability: `${AiCapability}`) =>
     ['llm-connectivity', 'llm-provider-mappings', aiCapability] as const,
+  supportedModels: (aiCapability: `${AiCapability}`) =>
+    ['llm-connectivity', 'supported-models', aiCapability] as const,
   validation: (llmProviderId: string) =>
     ['llm-connectivity', 'llm-provider-validations', llmProviderId] as const,
 };
@@ -78,6 +81,15 @@ export const useCapabilityLlmProvidersQuery = createQueryHook((aiCapability: AiC
     queryFn: () => getLlmProviders(aiCapability),
     staleTime: StaleTime.NEVER,
   }),
+);
+
+export const useSupportedModelsQuery = createQueryHook(
+  (aiCapability: AiCapability.HunterAgent | AiCapability.RemediationAgent) =>
+    queryOptions({
+      queryKey: llmConnectivityQueryKeys.supportedModels(aiCapability),
+      queryFn: () => getSupportedModels(aiCapability),
+      staleTime: StaleTime.LONG,
+    }),
 );
 
 /** There is at most one selection per capability, so the list collapses to a single entry. */

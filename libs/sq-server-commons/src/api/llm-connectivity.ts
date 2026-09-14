@@ -28,6 +28,8 @@ import {
   LlmProviderSelectionUpsert,
   LlmProviderUpdate,
   LlmProviderValidation,
+  SupportedModel,
+  SupportedModelsResponse,
 } from '../types/llm-connectivity';
 
 const LLM_CONNECTIVITY_PATH = '/api/v2/llm-connectivity';
@@ -35,6 +37,7 @@ export const LLM_PROVIDER_DEFINITIONS_PATH = `${LLM_CONNECTIVITY_PATH}/llm-provi
 export const LLM_PROVIDERS_PATH = `${LLM_CONNECTIVITY_PATH}/llm-providers`;
 export const LLM_PROVIDER_MAPPINGS_PATH = `${LLM_CONNECTIVITY_PATH}/llm-provider-mappings`;
 export const LLM_PROVIDER_VALIDATIONS_PATH = `${LLM_CONNECTIVITY_PATH}/llm-provider-validations`;
+export const LLM_SUPPORTED_MODELS_PATH = `${LLM_CONNECTIVITY_PATH}/supported-models`;
 
 export function getLlmProviderDefinitions() {
   return axiosClient
@@ -89,6 +92,16 @@ export function validateLlmProvider(llmProviderId: string) {
     LLM_PROVIDER_VALIDATIONS_PATH,
     { llmProviderId },
   );
+}
+
+export function getSupportedModels(
+  aiCapability: AiCapability.HunterAgent | AiCapability.RemediationAgent,
+): Promise<SupportedModel[]> {
+  return axiosClient
+    .get<SupportedModelsResponse>(LLM_SUPPORTED_MODELS_PATH, {
+      params: { aiCapability },
+    })
+    .then((response) => response.supportedModels);
 }
 
 export function upsertLlmProviderSelection(data: LlmProviderSelectionUpsert) {
