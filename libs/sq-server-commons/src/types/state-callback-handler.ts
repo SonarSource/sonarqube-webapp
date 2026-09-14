@@ -24,4 +24,15 @@ export interface CallbackStateBase {
 
 export enum CallbackStateApp {
   Jira = 'jira',
+  GithubProjectImport = 'github_project_import',
+}
+
+// Carries mode/dopSetting/etc. via the OAuth `state` param instead of redirect_uri's query
+// string, which GitHub's exact redirect_uri matching also compares. See Github/utils.ts.
+export interface GithubProjectImportCallbackState extends CallbackStateBase {
+  app: CallbackStateApp.GithubProjectImport;
+  dopSetting: string;
+  mode: string;
+  mono?: boolean;
+  redirect?: string;
 }

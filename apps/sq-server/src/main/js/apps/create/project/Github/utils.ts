@@ -23,6 +23,10 @@ import { getGithubClientId } from '~sq-server-commons/api/alm-integrations';
 import { getHostUrl } from '~sq-server-commons/helpers/urls';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { DopSetting } from '~sq-server-commons/types/dop-translation';
+import {
+  CallbackStateApp,
+  GithubProjectImportCallbackState,
+} from '~sq-server-commons/types/state-callback-handler';
 
 export async function redirectToGithub(params: {
   isMonorepoSetup: boolean;
@@ -40,18 +44,19 @@ export async function redirectToGithub(params: {
   if (clientId === undefined) {
     throw new Error('Received no GitHub client id');
   }
+
+  const state: GithubProjectImportCallbackState = {
+    app: CallbackStateApp.GithubProjectImport,
+    dopSetting: selectedDopSetting.id,
+    mode: AlmKeys.GitHub,
+    ...(isMonorepoSetup && { mono: true }),
+    ...(redirect && { redirect }),
+  };
+
   const queryParams = [
     { param: 'client_id', value: clientId },
-    {
-      param: 'redirect_uri',
-      value: encodeURIComponent(
-        `${getHostUrl()}/projects/create?mode=${AlmKeys.GitHub}&dopSetting=${
-          selectedDopSetting.id
-        }${isMonorepoSetup ? '&mono=true' : ''}${
-          redirect ? `&redirect=${encodeURIComponent(redirect)}` : ''
-        }`,
-      ),
-    },
+    { param: 'redirect_uri', value: encodeURIComponent(`${getHostUrl()}/projects/create`) },
+    { param: 'state', value: encodeURIComponent(btoa(JSON.stringify(state))) },
   ]
     .map(({ param, value }) => `${param}=${value}`)
     .join('&');

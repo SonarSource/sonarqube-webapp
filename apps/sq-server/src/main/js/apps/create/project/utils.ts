@@ -21,6 +21,10 @@
 import { Location } from '~shared/types/router';
 import { PROJECT_KEY_INVALID_CHARACTERS } from '~sq-server-commons/helpers/projects';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import {
+  CallbackStateApp,
+  GithubProjectImportCallbackState,
+} from '~sq-server-commons/types/state-callback-handler';
 
 export function tokenExistedBefore(error?: string) {
   return !error?.includes('is missing');
@@ -36,4 +40,40 @@ export function isProjectSetupDone(location: Location) {
 
 export function getAlmKey(location: Location) {
   return location.query.mode as AlmKeys;
+}
+
+// Decodes redirectToGithub's `state` param back into location.query. Returns whether it matched.
+export function resolveGithubProjectImportState(location: Location): boolean {
+  const { state } = location.query;
+  if (typeof state !== 'string' || state === '') {
+    return false;
+  }
+
+  let decoded: GithubProjectImportCallbackState | null;
+  try {
+    decoded = JSON.parse(atob(state)) as GithubProjectImportCallbackState | null;
+  } catch {
+    return false;
+  }
+
+  // JSON.parse can succeed on valid-but-non-object payloads (e.g. atob('bnVsbA==') === 'null'),
+  // and typeof null === 'object', so both must be checked before reading decoded.app below.
+  if (decoded === null || typeof decoded !== 'object') {
+    return false;
+  }
+
+  if (decoded.app !== CallbackStateApp.GithubProjectImport) {
+    return false;
+  }
+
+  location.query.mode = decoded.mode;
+  location.query.dopSetting = decoded.dopSetting;
+  if (decoded.mono) {
+    location.query.mono = 'true';
+  }
+  if (decoded.redirect) {
+    location.query.redirect = decoded.redirect;
+  }
+  delete location.query.state;
+  return true;
 }

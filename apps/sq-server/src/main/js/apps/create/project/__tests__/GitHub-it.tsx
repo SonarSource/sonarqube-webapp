@@ -124,6 +124,23 @@ it('should not redirect to github when url is malformated', async () => {
   expect(window.location.replace).not.toHaveBeenCalled();
 });
 
+it('should resolve mode and dopSetting from the state param and show import project feature', async () => {
+  Object.defineProperty(window, 'location', { configurable: true, value: original });
+  const user = userEvent.setup();
+
+  const state = btoa(
+    JSON.stringify({ app: 'github_project_import', dopSetting: 'conf-github-2', mode: 'github' }),
+  );
+  renderCreateProject(`project/create?code=213321213&state=${state}`);
+
+  expect(await ui.instanceSelector.find()).toBeInTheDocument();
+
+  await user.click(await ui.organizationSelector.find());
+  await user.click(byRole('option', { name: /org-1/ }).get());
+
+  expect(await ui.project1.find()).toBeInTheDocument();
+});
+
 it('should show import project feature when the authentication is successful', async () => {
   Object.defineProperty(window, 'location', { configurable: true, value: original });
   const user = userEvent.setup();

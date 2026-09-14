@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Layout } from '@sonarsource/echoes-react';
+import { Layout, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { withRouter } from '~shared/components/hoc/withRouter';
@@ -45,7 +45,7 @@ import GitHubProjectCreate from './Github/GitHubProjectCreate';
 import GitlabProjectCreate from './Gitlab/GitlabProjectCreate';
 import NewCodeDefinitionSelection from './components/NewCodeDefinitionSelection';
 import ManualProjectCreate from './manual/ManualProjectCreate';
-import { isProjectSetupDone } from './utils';
+import { isProjectSetupDone, resolveGithubProjectImportState } from './utils';
 
 export interface CreateProjectPageProps extends WithAvailableFeaturesProps {
   location: Location;
@@ -85,6 +85,9 @@ function getRedirectTo(location: Location): string {
 
 export class CreateProjectPage extends React.PureComponent<CreateProjectPageProps, State> {
   mounted = false;
+
+  // Must run before the `state` field below, which reads location.query via getRedirectTo().
+  resolvedGithubState = resolveGithubProjectImportState(this.props.location);
 
   state: State = {
     azureSettings: [],
@@ -131,6 +134,12 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
       // Timeout is required to force the refresh of the URL
       setTimeout(() => {
         location.query.setncd = undefined;
+        router.replace(location);
+      }, 0);
+    }
+    if (this.resolvedGithubState) {
+      // Sync the already-mutated location (see class field above) into the visible URL.
+      setTimeout(() => {
         router.replace(location);
       }, 0);
     }
@@ -287,32 +296,38 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
     const { creatingAlmDefinition, importProjects, redirectTo } = this.state;
     const mode = location.query?.mode as CreateProjectModes | undefined;
 
+    // Holds off mounting children until the real URL carries mode/dopSetting, not just our copy.
+    const isLoadingGithubState =
+      this.resolvedGithubState && new URLSearchParams(location.search).has('state');
+
     return (
-      <Layout.ContentGrid id="create-project">
-        <A11ySkipTarget anchor="create_project_main" />
+      <Spinner isLoading={isLoadingGithubState}>
+        <Layout.ContentGrid id="create-project">
+          <A11ySkipTarget anchor="create_project_main" />
 
-        {this.renderProjectCreation(mode)}
+          {this.renderProjectCreation(mode)}
 
-        {importProjects !== undefined && isProjectSetupDone(location) && (
-          <NewCodeDefinitionSelection
-            importProjects={importProjects}
-            onClose={() => {
-              this.props.router.push({ pathname: redirectTo });
-            }}
-            redirectTo={redirectTo}
-          />
-        )}
+          {importProjects !== undefined && isProjectSetupDone(location) && (
+            <NewCodeDefinitionSelection
+              importProjects={importProjects}
+              onClose={() => {
+                this.props.router.push({ pathname: redirectTo });
+              }}
+              redirectTo={redirectTo}
+            />
+          )}
 
-        {creatingAlmDefinition && (
-          <AlmBindingDefinitionForm
-            afterSubmit={this.handleAfterSubmit}
-            alm={creatingAlmDefinition}
-            enforceValidation
-            hideBitbucketVariantChoice
-            onCancel={this.handleOnCancelCreation}
-          />
-        )}
-      </Layout.ContentGrid>
+          {creatingAlmDefinition && (
+            <AlmBindingDefinitionForm
+              afterSubmit={this.handleAfterSubmit}
+              alm={creatingAlmDefinition}
+              enforceValidation
+              hideBitbucketVariantChoice
+              onCancel={this.handleOnCancelCreation}
+            />
+          )}
+        </Layout.ContentGrid>
+      </Spinner>
     );
   }
 }
