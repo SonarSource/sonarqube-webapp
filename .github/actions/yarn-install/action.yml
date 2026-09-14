@@ -14,7 +14,7 @@ runs:
       with:
         version: 2026.5.8
     - name: Cache Yarn dependencies
-      uses: SonarSource/ci-github-actions/cache@v1
+      uses: SonarSource/ci-github-actions/cache@v2
       with:
         path: |
           .yarn
