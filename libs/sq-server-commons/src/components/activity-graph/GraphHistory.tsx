@@ -185,4 +185,5 @@ export default function GraphHistory(props: Readonly<Props>) {
 
 const StyledGraphContainer = styled.section`
   height: 300px;
+  position: relative;
 `;
