@@ -238,7 +238,7 @@
     "vite-plugin-babel-macros": "1.0.6",
     "vite-plugin-require-transform": "1.0.21",
     "vite-tsconfig-paths": "6.1.1",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   },
   "resolutions": {
     "@types/d3-selection": "3.0.11",
