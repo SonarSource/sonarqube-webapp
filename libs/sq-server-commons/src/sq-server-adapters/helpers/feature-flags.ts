@@ -27,11 +27,6 @@ interface SQSFlagSet extends FlagSet {
     maxEdgesCount: number;
     maxNodesCount: number;
   };
-  /**
-   * Dev/WIP gate for the MMF-5715 License products UI (usage-based products table, etc.).
-   * Not a BE /api/features/list entitlement — flip off (or remove) before shipping if needed.
-   */
-  licenseEnableUsageProductsUi: boolean;
   scaEnableReachabilityFrontend: boolean;
   scaKeyChangesPrView: boolean;
 }
@@ -42,7 +37,6 @@ interface SQSFlagSet extends FlagSet {
 const defaultFlags: SQSFlagSet = {
   designArchitectureSquadExtensionPack: true,
   designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
-  licenseEnableUsageProductsUi: true,
   scaEnableReachabilityFrontend: true,
   scaKeyChangesPrView: false,
 };
