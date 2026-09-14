@@ -39,11 +39,9 @@ export function WidgetNoData({
 
   return (
     <div
-      className={`sw-flex sw-flex-col sw-align-center sw-justify-center sw-items-center ${className ?? 'sw-my-12'}`}
+      className={`sw-flex sw-items-center sw-justify-center sw-text-center ${className ?? 'sw-my-12'}`}
     >
-      <div>
-        <Text isHighlighted>{formatMessage({ id: messageKey })}</Text>
-      </div>
+      <Text isSubtle>{formatMessage({ id: messageKey })}</Text>
     </div>
   );
 }
