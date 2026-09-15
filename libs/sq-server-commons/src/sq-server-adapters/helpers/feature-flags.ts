@@ -27,7 +27,6 @@ interface SQSFlagSet extends FlagSet {
     maxEdgesCount: number;
     maxNodesCount: number;
   };
-  scaEnableReachabilityFrontend: boolean;
   scaKeyChangesPrView: boolean;
 }
 
@@ -37,7 +36,6 @@ interface SQSFlagSet extends FlagSet {
 const defaultFlags: SQSFlagSet = {
   designArchitectureSquadExtensionPack: true,
   designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
-  scaEnableReachabilityFrontend: true,
   scaKeyChangesPrView: false,
 };
 
