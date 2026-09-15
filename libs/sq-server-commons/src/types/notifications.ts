@@ -32,7 +32,7 @@ export enum NotificationGroupType {
 
 export interface MyGroupNotificationSubscription {
   groupName: string;
-  notificationType: NotificationGroupType;
+  notificationType: string;
 }
 
 export enum NotificationProjectType {
