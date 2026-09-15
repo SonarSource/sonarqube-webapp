@@ -19,33 +19,29 @@
  */
 
 import classNames from 'classnames';
-import React, { useMemo } from 'react';
+import { SoftwareImpactPillList as SharedSoftwareImpactPillList } from '~shared/components/issues/SoftwareImpactPillList';
 import {
   SoftwareImpactSeverity,
   SoftwareQuality,
   SoftwareQualityImpact,
 } from '~shared/types/clean-code-taxonomy';
 import { IssueSeverity } from '~shared/types/issues';
+import { DocLink } from '../../helpers/doc-links';
+import { useDocUrl } from '../../helpers/docs';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
 import IssueTypePill from './IssueTypePill';
-import SoftwareImpactPill from './SoftwareImpactPill';
 
-interface SoftwareImpactPillListProps extends React.HTMLAttributes<HTMLUListElement> {
+interface SoftwareImpactPillListProps {
   className?: string;
+  'data-guiding-id'?: string;
   issueSeverity?: IssueSeverity;
   issueType?: string;
   onSetSeverity?: ((severity: IssueSeverity) => Promise<void>) &
     ((severity: SoftwareImpactSeverity, quality: SoftwareQuality) => Promise<void>);
   softwareImpacts?: SoftwareQualityImpact[];
   tooltipMessageId?: string;
-  type?: Parameters<typeof SoftwareImpactPill>[0]['type'];
+  type?: Parameters<typeof SharedSoftwareImpactPillList>[0]['type'];
 }
-
-const sqOrderMap = {
-  [SoftwareQuality.Security]: 3,
-  [SoftwareQuality.Reliability]: 2,
-  [SoftwareQuality.Maintainability]: 1,
-};
 
 export default function SoftwareImpactPillList({
   softwareImpacts,
@@ -55,45 +51,47 @@ export default function SoftwareImpactPillList({
   tooltipMessageId,
   type,
   className,
-  ...props
+  'data-guiding-id': dataGuidingId,
 }: Readonly<SoftwareImpactPillListProps>) {
   const { data: isStandardMode } = useStandardExperienceModeQuery();
+  const learnMoreUrl = useDocUrl(DocLink.MQRSeverity);
 
-  const sortedSoftwareImpacts = useMemo(
-    () =>
-      softwareImpacts
-        ?.slice()
-        .sort((a, b) => sqOrderMap[b.softwareQuality] - sqOrderMap[a.softwareQuality]),
-    [softwareImpacts],
-  );
-
-  return (
-    <ul className={classNames('sw-flex sw-gap-2', className)} {...props}>
-      {!isStandardMode &&
-        sortedSoftwareImpacts?.map(({ severity, softwareQuality }) => (
-          <li key={softwareQuality}>
-            <SoftwareImpactPill
-              onSetSeverity={onSetSeverity}
-              severity={severity}
-              softwareQuality={softwareQuality}
-              tooltipMessageId={tooltipMessageId}
-              type={type}
-            />
-          </li>
-        ))}
-      {!isStandardMode &&
-        (softwareImpacts?.length ?? 0) === 0 &&
-        issueType === 'SECURITY_HOTSPOT' && (
-          <IssueTypePill issueType={issueType} severity={issueSeverity ?? IssueSeverity.Info} />
+  if (isStandardMode) {
+    return (
+      <ul className={classNames('sw-flex sw-gap-2', className)} data-guiding-id={dataGuidingId}>
+        {issueType && issueSeverity && (
+          <IssueTypePill
+            issueType={issueType}
+            onSetSeverity={onSetSeverity}
+            severity={issueSeverity}
+            tooltipMessageId={tooltipMessageId}
+          />
         )}
-      {isStandardMode && issueType && issueSeverity && (
-        <IssueTypePill
-          issueType={issueType}
-          onSetSeverity={onSetSeverity}
-          severity={issueSeverity}
-          tooltipMessageId={tooltipMessageId}
-        />
-      )}
-    </ul>
-  );
+      </ul>
+    );
+  }
+
+  if ((softwareImpacts?.length ?? 0) > 0) {
+    return (
+      <SharedSoftwareImpactPillList
+        className={className}
+        data-guiding-id={dataGuidingId}
+        learnMoreUrl={learnMoreUrl}
+        onSetSeverity={onSetSeverity}
+        softwareImpacts={softwareImpacts}
+        tooltipMessageId={tooltipMessageId}
+        type={type}
+      />
+    );
+  }
+
+  if (issueType === 'SECURITY_HOTSPOT') {
+    return (
+      <ul className={classNames('sw-flex sw-gap-2', className)} data-guiding-id={dataGuidingId}>
+        <IssueTypePill issueType={issueType} severity={issueSeverity ?? IssueSeverity.Info} />
+      </ul>
+    );
+  }
+
+  return null;
 }

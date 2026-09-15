@@ -193,7 +193,7 @@ export default function IssueView(props: Readonly<Props>) {
             issue={issue}
           />
 
-          <div className="sw-mt-3 sw-flex sw-items-start sw-justify-between">
+          <div className="sw-mt-3 sw-flex sw-items-start">
             <SoftwareImpactPillList
               data-guiding-id="issue-2"
               issueSeverity={issue.severity as IssueSeverity}
@@ -201,7 +201,7 @@ export default function IssueView(props: Readonly<Props>) {
               onSetSeverity={canSetSeverity ? setSeverity : undefined}
               softwareImpacts={issue.impacts}
             />
-            <div className="sw-grow-0 sw-whitespace-nowrap">
+            <div className="sw-grow-0 sw-ml-auto sw-whitespace-nowrap">
               <IssueTags
                 canSetTags={canSetTags}
                 className="js-issue-edit-tags sw-typo-sm"

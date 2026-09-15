@@ -75,9 +75,9 @@ it('renders correctly', async () => {
   expect(qualityBadge).toBeInTheDocument();
   await expect(
     byLabelText(
-      'software_impact.button.popover.severity_impact.MEDIUM.software_quality.MAINTAINABILITY',
+      'software_impact.button.severity_impact.MEDIUM.software_quality.MAINTAINABILITY',
     ).get(),
-  ).toHaveAPopoverWithContent('software_quality');
+  ).toHaveAPopoverWithContent('learn_more');
 
   // No old type
   expect(byText(`issue.type.${issue.type}`).query()).not.toBeInTheDocument();

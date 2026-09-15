@@ -22,17 +22,25 @@ import { Divider, Text, Tooltip } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { isDefined } from '../../helpers/types';
-import { CodeAttribute, CodeAttributeCategory } from '../../types/clean-code-taxonomy';
+import {
+  CodeAttribute,
+  CodeAttributeCategory,
+  SoftwareQualityImpact,
+} from '../../types/clean-code-taxonomy';
+import { RuleStatus } from '../../types/rules';
 import { CleanCodeAttributePill } from '../badges/CleanCodeAttributePill';
 import DateFromNow from '../intl/DateFromNow';
-import { AdvancedSastBadge, hasAdvancedSastTags } from './AdvancedSastBadge';
+import { IssueProperties } from './IssueProperties';
 import { IssueTags } from './IssueTags';
+import { SoftwareImpactPillList } from './SoftwareImpactPillList';
 
 interface IssueMetadataIssue {
   cleanCodeAttribute?: CodeAttribute;
   cleanCodeAttributeCategory: CodeAttributeCategory;
   creationDate: string;
   effort?: string;
+  externalRuleEngine?: string;
+  impacts?: SoftwareQualityImpact[];
   internalTags?: string[];
   key: string;
   tags?: string[];
@@ -41,20 +49,40 @@ interface IssueMetadataIssue {
 
 interface Props {
   issue: IssueMetadataIssue;
+  learnMoreUrl?: string;
   tags?: {
     canSetTags?: boolean;
     overlay?: ReactNode;
     selectedIssueKey?: string;
   };
+  rule?: { status: RuleStatus };
 }
 
-export function IssueMetadata({ issue, tags }: Readonly<Props>) {
+export function IssueMetadata({ issue, learnMoreUrl, tags, rule }: Readonly<Props>) {
   const { formatMessage } = useIntl();
 
   return (
-    // temporary: The aside is sticky to the top of the page, but we want it to be below the header and the issue title bar. The header is 64px and the issue title bar is 256px, so we set the top to 320px.
-    <aside className="sw-sticky sw-top-[320px] sw-self-start">
+    // temporary: The aside is sticky to the top of the page, but we want it to be below the header and the issue title bar, so we set the top to 260px.
+    <aside className="sw-sticky sw-top-[260px] sw-self-start">
       <dl className="sw-flex sw-flex-col sw-gap-2">
+        {(issue.impacts?.length ?? 0) > 0 && (
+          <>
+            <dt>
+              <Text isHighlighted>
+                <FormattedMessage id="issue.details.software_quality_impacts" />
+              </Text>
+            </dt>
+            <dd>
+              <SoftwareImpactPillList
+                className="sw-flex-col"
+                learnMoreUrl={learnMoreUrl}
+                softwareImpacts={issue.impacts}
+              />
+            </dd>
+            <Divider className="sw-my-1" />
+          </>
+        )}
+
         <dt>
           <Text isHighlighted>{formatMessage({ id: 'issue.details.code_attribute' })}</Text>
         </dt>
@@ -64,19 +92,7 @@ export function IssueMetadata({ issue, tags }: Readonly<Props>) {
             cleanCodeAttributeCategory={issue.cleanCodeAttributeCategory}
           />
         </dd>
-        {hasAdvancedSastTags(issue.internalTags) && (
-          <>
-            <Divider className="sw-my-1" />
-            <dt>
-              <Text isHighlighted>
-                <FormattedMessage id="issue.details.properties" />
-              </Text>
-            </dt>
-            <dd>
-              <AdvancedSastBadge />
-            </dd>
-          </>
-        )}
+        <IssueProperties issue={issue} rule={rule} />
         <Divider className="sw-my-1" />
 
         <dt>

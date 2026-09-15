@@ -378,9 +378,7 @@ function getPageObject() {
     variants: (n: number) => byText(`issue.x_code_variants.${n}`),
     softwareQuality: (quality: SoftwareQuality) => byText(`software_quality.${quality}`),
     softwareQualitySeverity: (quality: SoftwareQuality, severity: SoftwareImpactSeverity) =>
-      byLabelText(
-        `software_impact.button.popover.severity_impact.${severity}.software_quality.${quality}`,
-      ),
+      byLabelText(`software_impact.button.severity_impact.${severity}.software_quality.${quality}`),
     softwareQualitySeverityChangeButton: (
       quality: SoftwareQuality,
       severity: SoftwareImpactSeverity,

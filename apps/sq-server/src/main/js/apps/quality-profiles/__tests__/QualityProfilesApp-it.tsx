@@ -381,15 +381,13 @@ describe('Compare', () => {
     expect(
       ui
         .comparisonModifiedTableHeading(1)
-        .byLabelText(
-          'software_impact.button.popover.severity_impact.BLOCKER.software_quality.SECURITY',
-        )
+        .byLabelText('software_impact.button.severity_impact.BLOCKER.software_quality.SECURITY')
         .get(),
     ).toBeInTheDocument();
     expect(
       ui
         .comparisonModifiedTableHeading(1)
-        .byLabelText('software_impact.button.popover.severity_impact.LOW.software_quality.SECURITY')
+        .byLabelText('software_impact.button.severity_impact.LOW.software_quality.SECURITY')
         .get(),
     ).toBeInTheDocument();
 

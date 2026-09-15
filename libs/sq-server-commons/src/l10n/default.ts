@@ -1901,6 +1901,7 @@ export const defaultMessages = {
   'issue.quick_fix_available_with_sonarlint_no_link': 'Quick fix available in SonarQube for IDE',
   'issue.details.code_attribute': 'Code Attribute',
   'issue.details.properties': 'Properties',
+  'issue.details.software_quality_impacts': 'Software quality impacts',
   'issue.details.tags': 'Tags',
   'issue.comment.add_comment': 'Add Comment',
   'issue.comment.add_comment.submit': 'Comment',
@@ -6910,6 +6911,10 @@ export const defaultMessages = {
   'severity_impact.help.description':
     '<p1>Severities are now directly tied to the software quality impacted. This means that one software quality impacted has one severity.</p1><p>They can be changed with sufficient permissions.</p>',
   'severity_impact.help.link': 'Learn more about severity and software qualities',
+  'severity_impact.help.line1':
+    'Severities are now directly tied to the software quality impacted. This means that one software quality impacted has one severity.',
+  'severity_impact.help.line2':
+    'There are five levels of severity: blocker, high, medium, low and info.',
 
   'severity.icon.label': 'Severity: {severity}',
   //------------------------------------------------------------------------------
@@ -6923,8 +6928,7 @@ export const defaultMessages = {
   'software_quality.RELIABILITY': 'Reliability',
   'software_quality.MAINTAINABILITY': 'Maintainability',
 
-  'software_impact.button.popover':
-    '{severity} severity impact on {quality}. Click for more information.',
+  'software_impact.button': '{severity} severity impact on {quality}. Click for more information.',
   'software_impact.button.change':
     '{severity} severity impact on {quality}. Click to change the severity.',
 

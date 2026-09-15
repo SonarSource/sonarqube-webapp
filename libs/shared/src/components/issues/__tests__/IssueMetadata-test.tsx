@@ -20,8 +20,13 @@
 
 import { ComponentProps } from 'react';
 import { renderWithContext } from '../../../helpers/test-utils';
-import { byText } from '../../../helpers/testSelector';
-import { CodeAttribute, CodeAttributeCategory } from '../../../types/clean-code-taxonomy';
+import { byRole, byText } from '../../../helpers/testSelector';
+import {
+  CodeAttribute,
+  CodeAttributeCategory,
+  SoftwareImpactSeverity,
+  SoftwareQuality,
+} from '../../../types/clean-code-taxonomy';
 import { IssueMetadata } from '../IssueMetadata';
 
 jest.mock('../../intl/DateFromNow');
@@ -111,23 +116,35 @@ describe('introduced', () => {
   });
 });
 
-describe('properties', () => {
-  it('renders when internalTags contains both taint and advanced', () => {
-    setupWithProps({ issue: { ...baseIssue, internalTags: ['taint', 'advanced'] } });
+describe('software impacts', () => {
+  it('renders section label and pills when impacts are present', () => {
+    setupWithProps({
+      issue: {
+        ...baseIssue,
+        impacts: [
+          { softwareQuality: SoftwareQuality.Security, severity: SoftwareImpactSeverity.High },
+        ],
+      },
+    });
 
-    expect(byText('ADVANCED SAST').get()).toBeVisible();
+    expect(byText('issue.details.software_quality_impacts').get()).toBeInTheDocument();
+    expect(
+      byRole('button', {
+        name: 'software_impact.button.severity_impact.HIGH.software_quality.SECURITY',
+      }).get(),
+    ).toBeInTheDocument();
   });
 
-  it('does not render when only taint tag is present', () => {
-    setupWithProps({ issue: { ...baseIssue, internalTags: ['taint'] } });
-
-    expect(byText('ADVANCED SAST').query()).not.toBeInTheDocument();
-  });
-
-  it('does not render when internalTags is absent', () => {
+  it('does not render when impacts are absent', () => {
     setupWithProps();
 
-    expect(byText('ADVANCED SAST').query()).not.toBeInTheDocument();
+    expect(byText('issue.details.software_quality_impacts').query()).not.toBeInTheDocument();
+  });
+
+  it('does not render when impacts array is empty', () => {
+    setupWithProps({ issue: { ...baseIssue, impacts: [] } });
+
+    expect(byText('issue.details.software_quality_impacts').query()).not.toBeInTheDocument();
   });
 });
 
