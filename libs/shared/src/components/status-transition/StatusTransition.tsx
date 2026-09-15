@@ -34,24 +34,10 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { BetaBadge } from '../badges/BetaBadge';
 import { IssueTransitionCommentDialog } from './StatusTransitionCommentDialog';
 
-// DropdownMenuSubProps doesn't declare `helpText`, but DropdownMenuSubMenu spreads unknown props
-// straight through to the same DropdownMenuItemBase that DropdownMenu.ItemButton uses, which does
-// support it — this is a type-only gap in echoes-react, not a runtime limitation.
-const DropdownMenuSubMenuWithHelpText = DropdownMenu.SubMenu as React.ComponentType<
-  React.ComponentProps<typeof DropdownMenu.SubMenu> & { helpText?: ReactNode }
->;
-
 interface StatusTransitionItem<T extends string> {
   className?: string;
   isBeta?: boolean;
   isDeprecated?: boolean;
-  /**
-   * Renders this transition as a hover-triggered submenu (DropdownMenu.SubMenu) instead of a
-   * plain clickable item — the caller owns everything inside it (quick options, a "custom"
-   * escape hatch, etc.) and is responsible for transitioning and closing the dropdown itself.
-   * Takes precedence over requiresComment, which doesn't apply once set.
-   */
-  quickActions?: ReactNode;
   requiresComment?: boolean;
   value: T;
 }
@@ -111,34 +97,21 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
         isOpen={isOpen}
         items={
           <>
-            {transitions.map((transition) =>
-              transition.quickActions ? (
-                <DropdownMenuSubMenuWithHelpText
-                  className={classNames('it__issue-transition-option', transition.className)}
-                  helpText={
-                    <FormattedMessage id={`status_transition.${transition.value}.description`} />
-                  }
-                  items={transition.quickActions}
-                  key={transition.value}
-                >
-                  <FormattedMessage id={`status_transition.${transition.value}`} />
-                </DropdownMenuSubMenuWithHelpText>
-              ) : (
-                <DropdownMenu.ItemButton
-                  className={classNames('it__issue-transition-option', transition.className)}
-                  helpText={
-                    <FormattedMessage id={`status_transition.${transition.value}.description`} />
-                  }
-                  key={transition.value}
-                  onClick={() => {
-                    handleTransitionChange(transition);
-                  }}
-                  suffix={renderTransitionBadge(transition)}
-                >
-                  {<FormattedMessage id={`status_transition.${transition.value}`} />}
-                </DropdownMenu.ItemButton>
-              ),
-            )}
+            {transitions.map((transition) => (
+              <DropdownMenu.ItemButton
+                className={classNames('it__issue-transition-option', transition.className)}
+                helpText={
+                  <FormattedMessage id={`status_transition.${transition.value}.description`} />
+                }
+                key={transition.value}
+                onClick={() => {
+                  handleTransitionChange(transition);
+                }}
+                suffix={renderTransitionBadge(transition)}
+              >
+                {<FormattedMessage id={`status_transition.${transition.value}`} />}
+              </DropdownMenu.ItemButton>
+            ))}
           </>
         }
         onClose={() => {
