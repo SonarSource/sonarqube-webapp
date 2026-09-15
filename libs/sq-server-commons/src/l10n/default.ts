@@ -4222,7 +4222,7 @@ export const defaultMessages = {
     'Upward trend of {percent} from the first to the last value.',
   'dashboard.widget.error': "We couldn't load this data",
   'dashboard.widget.loading_visualization': 'Loading visualization',
-  'dashboard.widget.no_data': 'No data available to display',
+  'dashboard.widget.no_data': 'No data to display yet',
   'dashboard.widget.trend_indicator.badge.no_change': 'No change',
   'dashboard.widget.trend_indicator.badge.unavailable': 'Trend unavailable',
   'dashboard.widget.trend_indicator.no_historical_data':
