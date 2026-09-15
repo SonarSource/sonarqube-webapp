@@ -61,12 +61,18 @@ const PORTFOLIO_COUNT_DRILLDOWN_PERCENT_METRIC_KEYS = new Set<MetricKey>([
   MetricKey.sqale_debt_ratio,
 ]);
 
+const PORTFOLIO_COUNT_DRILLDOWN_UNSUPPORTED_METRIC_KEYS = new Set<MetricKey>([
+  MetricKey.project_branch_count,
+  MetricKey.projects,
+]);
+
 export function isPortfolioCountWidgetDrilldownSupported(
   metric: DashboardMetric,
 ): metric is PortfolioCountDrilldownMetric {
   return (
     metric.type === DashboardMetricType.Rich ||
-    (metric.type === DashboardMetricType.Raw && metric.metricKey !== MetricKey.project_branch_count)
+    (metric.type === DashboardMetricType.Raw &&
+      !PORTFOLIO_COUNT_DRILLDOWN_UNSUPPORTED_METRIC_KEYS.has(metric.metricKey))
   );
 }
 
