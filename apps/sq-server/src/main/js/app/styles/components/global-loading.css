@@ -17,6 +17,15 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+html,
+body {
+  background-color: var(--echoes-color-surface-canvas-default);
+}
+
+html[data-echoes-theme='dark'] {
+  color-scheme: dark;
+}
+
 .global-loading {
   width: 300px;
   margin: 200px auto 0;
@@ -37,7 +46,7 @@
     'Segoe UI Emoji',
     'Segoe UI Symbol',
     'Noto Color Emoji';
-  color: rgb(62, 67, 87);
+  color: var(--echoes-color-text-default, rgb(62, 67, 87));
 }
 
 .global-loading-spinner {

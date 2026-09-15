@@ -13,6 +13,20 @@
       window.__assetsPath = function (filename) {
         return 'WEB_CONTEXT/' + filename;
       };
+
+      let themeMode = 'system';
+      try {
+        const storedThemeMode = localStorage.getItem('sonarqube.theme_mode');
+        themeMode = storedThemeMode ? JSON.parse(storedThemeMode) : themeMode;
+      } catch {
+        // noop
+      }
+      const useDarkTheme =
+        themeMode === 'dark-theme' ||
+        (themeMode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      if (useDarkTheme) {
+        document.documentElement.dataset.echoesTheme = 'dark';
+      }
     </script>
   </head>
 
