@@ -2262,12 +2262,16 @@ export const defaultMessages = {
     'Unable to create the Agent job. Please try again.',
   'project_issues.assign_to_agent.all_unsupported.languages':
     'All selected issues have unsupported languages and cannot be assigned to the Agent.',
+  'project_issues.assign_to_agent.all_unsupported.rules':
+    'All selected issues have unsupported rules and cannot be assigned to the Agent.',
   'project_issues.assign_to_agent.all_unsupported.status':
     'All selected issues have a status that cannot be assigned to the Agent.',
   'project_issues.assign_to_agent.all_unsupported.multiple_reasons':
     'All selected issues cannot be assigned to the Agent.',
   'project_issues.assign_to_agent.some_unsupported.languages':
     '{count} selected issue(s) have unsupported languages and will not be assigned to the Agent.',
+  'project_issues.assign_to_agent.some_unsupported.rules':
+    '{count} selected issue(s) have unsupported rules and will not be assigned to the Agent.',
   'project_issues.assign_to_agent.some_unsupported.status':
     '{count} selected issue(s) have a status that cannot be assigned to the Agent.',
   'project_issues.assign_to_agent.some_unsupported.multiple_reasons':
