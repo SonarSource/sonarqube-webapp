@@ -155,7 +155,7 @@ export function PortfolioRatingBadgeDrilldownPreview(props: Readonly<Props>) {
     );
   }
 
-  if (segments.length === 0 || centerRating === undefined) {
+  if (centerRating === undefined) {
     return null;
   }
 

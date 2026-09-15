@@ -20,7 +20,7 @@
 
 import { Button, ButtonVariety, Card, Text } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { getRuleUrl } from '~shared/helpers/urls';
+import { getRuleDetailsUrl } from '~adapters/helpers/urls';
 
 interface Props {
   langName?: string;
@@ -33,6 +33,7 @@ export function TopListDrilldownRuleHeaderCard(props: Readonly<Props>) {
   const { langName, name, organization, ruleKey } = props;
   const { formatMessage } = useIntl();
   const title = name ?? ruleKey;
+  const ruleUrl = getRuleDetailsUrl(ruleKey, organization);
   const subtitle = langName
     ? formatMessage(
         { id: 'portfolio_dashboard.breakdown.top_list.rule_details.subtitle' },
@@ -52,8 +53,8 @@ export function TopListDrilldownRuleHeaderCard(props: Readonly<Props>) {
           </Text>
         }
         rightContent={
-          organization === undefined ? undefined : (
-            <Button to={getRuleUrl(ruleKey, organization)} variety={ButtonVariety.DefaultGhost}>
+          ruleUrl && (
+            <Button to={ruleUrl} variety={ButtonVariety.DefaultGhost}>
               {formatMessage({
                 id: 'portfolio_dashboard.breakdown.top_list.rule_details.view_rule',
               })}

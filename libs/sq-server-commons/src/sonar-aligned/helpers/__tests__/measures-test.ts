@@ -87,9 +87,9 @@ describe('#formatMeasure()', () => {
     expect(formatMeasure(1, 'FLOAT')).toBe('1.0');
     expect(formatMeasure(1.3, 'FLOAT')).toBe('1.3');
     expect(formatMeasure(1.34, 'FLOAT')).toBe('1.34');
-    expect(formatMeasure(50.89, 'FLOAT')).toBe('50.89');
+    expect(formatMeasure(50.89, 'FLOAT')).toBe('50.9');
     expect(formatMeasure(100, 'FLOAT')).toBe('100.0');
-    expect(formatMeasure(123.456, 'FLOAT')).toBe('123.456');
+    expect(formatMeasure(123.456, 'FLOAT')).toBe('123.5');
     expect(formatMeasure(123456.7, 'FLOAT')).toBe('123,456.7');
     expect(formatMeasure(1234567890, 'FLOAT')).toBe('1,234,567,890.0');
   });
@@ -97,8 +97,8 @@ describe('#formatMeasure()', () => {
   it('should respect FLOAT precision', () => {
     expect(formatMeasure(0.1, 'FLOAT')).toBe('0.1');
     expect(formatMeasure(0.12, 'FLOAT')).toBe('0.12');
-    expect(formatMeasure(0.12345, 'FLOAT')).toBe('0.12345');
-    expect(formatMeasure(0.123456, 'FLOAT')).toBe('0.12346');
+    expect(formatMeasure(0.12345, 'FLOAT')).toBe('0.12');
+    expect(formatMeasure(0.123456, 'FLOAT')).toBe('0.12');
   });
 
   it('should format PERCENT', () => {

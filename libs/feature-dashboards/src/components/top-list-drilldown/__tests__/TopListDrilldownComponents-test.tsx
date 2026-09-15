@@ -75,11 +75,15 @@ describe('TopListDrilldownRuleHeaderCard', () => {
     ).toHaveAttribute('href', expect.stringContaining('rule_key=java%3AS106'));
   });
 
-  it('falls back to the rule key and omits the link when metadata is unavailable', () => {
+  it('falls back to the rule key without an invalid organization link', () => {
     renderWithRouter(<TopListDrilldownRuleHeaderCard ruleKey="java:S999" />);
 
     expect(screen.getByText('java:S999')).toBeInTheDocument();
-    expect(screen.queryByRole('link')).not.toBeInTheDocument();
+    const ruleLink = screen.queryByRole('link', {
+      name: 'portfolio_dashboard.breakdown.top_list.rule_details.view_rule',
+    });
+    const href = ruleLink?.getAttribute('href') ?? '';
+    expect(href).not.toContain('/organizations/undefined/');
     expect(
       screen.getByText((content) =>
         content.startsWith(

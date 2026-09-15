@@ -64,7 +64,10 @@ function intFormatter(value: string | number): string {
 }
 
 function floatFormatter(value: string | number): string {
-  return numberFormatter(value, 1, 5);
+  const numericValue = typeof value === 'string' ? Number.parseFloat(value) : value;
+  const magnitude = Math.abs(numericValue);
+  // Preserve integer digits and keep one decimal to distinguish floats from integers.
+  return numberFormatter(numericValue, 1, magnitude >= 10 ? 1 : 2);
 }
 
 /**

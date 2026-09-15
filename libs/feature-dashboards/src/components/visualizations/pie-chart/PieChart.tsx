@@ -68,6 +68,8 @@ export function PieChart(props: Readonly<PieChartProps>) {
   const [tooltip, setTooltip] = useState<TooltipState | null>(null);
   const [internalHoveredIndex, setInternalHoveredIndex] = useState<number | null>(null);
 
+  const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
+
   const isControlled = controlledHoveredIndex !== undefined;
   const hoveredIndex = isControlled ? controlledHoveredIndex : internalHoveredIndex;
 
@@ -200,6 +202,7 @@ export function PieChart(props: Readonly<PieChartProps>) {
       }
 
       const rect = event.currentTarget.getBoundingClientRect();
+      setFocusedIndex(index);
       setHoveredIndex(index);
       setTooltip({
         isAnchored: true,
@@ -212,6 +215,7 @@ export function PieChart(props: Readonly<PieChartProps>) {
   );
 
   const handleBlur = useCallback(() => {
+    setFocusedIndex(null);
     if (hoverTimeoutRef.current) {
       clearTimeout(hoverTimeoutRef.current);
       hoverTimeoutRef.current = null;
@@ -332,7 +336,7 @@ export function PieChart(props: Readonly<PieChartProps>) {
                 color={segment.color}
                 index={index}
                 innerRadius={innerRadius}
-                isHovered={hoveredIndex === index}
+                isHovered={focusedIndex === index || hoveredIndex === index}
                 key={segment.value}
                 onBlur={handleBlur}
                 onClick={() => {
@@ -457,6 +461,7 @@ function Sector(props: Readonly<SectorProps>) {
       style={{
         fill: color,
         filter: isHovered ? HOVER_DROP_SHADOW : undefined,
+        outline: 'none',
         stroke: cssVar('color-surface-default'),
         strokeWidth: 2,
         transition: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)',

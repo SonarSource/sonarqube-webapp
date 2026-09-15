@@ -251,7 +251,28 @@ describe('PieChart', () => {
     expect(screen.getByText('50%')).toBeInTheDocument();
   });
 
-  it('hides the tooltip and un-expands the segment on Escape while keeping focus on it', async () => {
+  it('highlights keyboard focus even when hover is controlled without a change handler', async () => {
+    const user = userEvent.setup({ delay: null });
+    renderWithContext(
+      <PieChart height={200} hoveredIndex={null} segments={mockSegments} width={200} />,
+    );
+    const firstSegment = screen.getByTestId('pie-chart-segment-0');
+    const secondSegment = screen.getByTestId('pie-chart-segment-1');
+    const firstPath = firstSegment.getAttribute('d');
+    const secondPath = secondSegment.getAttribute('d');
+
+    await user.tab();
+    expect(firstSegment).toHaveFocus();
+    expect(firstSegment.getAttribute('d')).not.toBe(firstPath);
+    expect(firstSegment).toHaveStyle({ outline: 'none' });
+
+    await user.tab();
+    expect(secondSegment).toHaveFocus();
+    expect(firstSegment).toHaveAttribute('d', firstPath ?? '');
+    expect(secondSegment.getAttribute('d')).not.toBe(secondPath);
+  });
+
+  it('hides the tooltip on Escape while preserving the focused segment highlight', async () => {
     const user = userEvent.setup({ delay: null });
     renderWithContext(<PieChart height={200} segments={mockSegments} width={200} />);
 
@@ -265,7 +286,7 @@ describe('PieChart', () => {
     await user.keyboard('{Escape}');
 
     expect(screen.queryByText('High')).not.toBeInTheDocument();
-    expect(firstSegment).toHaveAttribute('d', initialPath ?? '');
+    expect(firstSegment.getAttribute('d')).not.toBe(initialPath);
     expect(firstSegment).toHaveFocus();
   });
 

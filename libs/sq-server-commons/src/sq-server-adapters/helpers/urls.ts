@@ -21,7 +21,7 @@
 import { Path } from 'react-router-dom';
 import { getBaseUrl } from '~adapters/helpers/system';
 import { queryToSearchString } from '~shared/helpers/query';
-import { getComponentIssuesUrl } from '~shared/helpers/urls';
+import { getComponentIssuesUrl, getRuleUrl } from '~shared/helpers/urls';
 import { ComponentQualifier } from '~shared/types/component';
 import { RawQuery } from '~shared/types/router';
 
@@ -32,6 +32,13 @@ export { PULL_REQUEST_DECORATION_BINDING_CATEGORY as PROJECT_ALM_BINDING_SETTING
  */
 export function getRulesUrl(query: RawQuery, _organization?: string): Partial<Path> {
   return { pathname: '/coding_rules', search: queryToSearchString(query) };
+}
+
+export function getRuleDetailsUrl(
+  ruleKey: string,
+  organization?: string,
+): Partial<Path> | undefined {
+  return getRuleUrl(ruleKey, organization);
 }
 
 export function getFormattingHelpUrl(): string {
