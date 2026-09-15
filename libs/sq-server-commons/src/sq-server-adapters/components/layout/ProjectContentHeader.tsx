@@ -22,6 +22,11 @@ import styled from '@emotion/styled';
 import { BreadcrumbsProps, ContentHeaderProps, Layout } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
+import { getContentHeaderBreadcrumbItems } from '~shared/components/pages/contentHeaderHelpers';
+import {
+  CONTENT_HEADER_BREADCRUMBS_CLASS_NAME,
+  CONTENT_HEADER_TITLE_CLASS_NAME,
+} from '~shared/components/pages/contentHeaderStyles';
 import { getBranchLikeDisplayName, getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
 import { ProjectBranchSelectorProps } from '~shared/types/branch-like';
@@ -75,6 +80,20 @@ export function ProjectContentHeader(props: Readonly<Props>) {
     return null;
   }
 
+  const breadcrumbItems = getContentHeaderBreadcrumbItems([
+    {
+      className: 'js-project-link',
+      linkElement: component.name,
+      to: getComponentOverviewUrl(
+        component.key,
+        component.qualifier,
+        getBranchLikeQuery(branchLike),
+      ),
+      title: component.name,
+    },
+    ...breadcrumbs,
+  ]);
+
   const hasBranchSupport = hasFeature(Feature.BranchSupport);
   const branchName =
     hasBranchSupport || !isDefined(branchLike) ? undefined : getBranchLikeDisplayName(branchLike);
@@ -85,20 +104,8 @@ export function ProjectContentHeader(props: Readonly<Props>) {
       actions={actions}
       breadcrumbs={
         <Layout.PageHeader.Breadcrumbs
-          items={[
-            {
-              hasEllipsis: true,
-              className: 'js-project-link',
-              linkElement: component.name,
-              to: getComponentOverviewUrl(
-                component.key,
-                component.qualifier,
-                getBranchLikeQuery(branchLike),
-              ),
-              title: component.name,
-            },
-            ...breadcrumbs,
-          ]}
+          className={CONTENT_HEADER_BREADCRUMBS_CLASS_NAME}
+          items={breadcrumbItems}
         />
       }
       callout={
@@ -115,6 +122,7 @@ export function ProjectContentHeader(props: Readonly<Props>) {
       navigation={navigation}
       title={
         <Layout.ContentHeader.Title
+          className={CONTENT_HEADER_TITLE_CLASS_NAME}
           headingLevel="h1"
           prefix={titlePrefix}
           suffix={
