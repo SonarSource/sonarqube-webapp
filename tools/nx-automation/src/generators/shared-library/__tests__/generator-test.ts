@@ -20,7 +20,7 @@
 
 import { addProjectConfiguration, readProjectConfiguration, Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { generatorSharedLibrary } from '../generator';
+import generatorSharedLibrary from '../generator';
 import { GeneratorSharedLibrarySchema } from '../types';
 
 const TSCONFIG_WITH_MARKER = [
