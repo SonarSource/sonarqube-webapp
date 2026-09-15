@@ -23,6 +23,7 @@ import { createQueryHook, StaleTime } from '~shared/queries/common';
 import {
   addGroupNotificationSubscription,
   listGroupNotificationSubscriptions,
+  listMyGroupNotificationSubscriptions,
   removeGroupNotificationSubscription,
 } from '../api/group-notifications';
 
@@ -37,6 +38,14 @@ const groupNotificationsQuery = queryOptions({
 export const useGroupNotificationSubscriptionsQuery = createQueryHook(
   () => groupNotificationsQuery,
 );
+
+const myGroupNotificationsQuery = queryOptions({
+  queryKey: [KEY_PREFIX, 'mine'],
+  queryFn: () => listMyGroupNotificationSubscriptions(),
+  staleTime: StaleTime.NEVER,
+});
+
+export const useMyGroupSubscriptionsQuery = createQueryHook(() => myGroupNotificationsQuery);
 
 export function useAddGroupNotificationSubscriptionMutation() {
   const queryClient = useQueryClient();

@@ -23,15 +23,27 @@ import { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { getSecurityAlertsUrl } from '~shared/helpers/security-alerts-urls';
 import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import { useMyGroupSubscriptionsQuery } from '~sq-server-commons/queries/group-notifications';
 import { useMostRecentSecurityAlertQuery } from '~sq-server-commons/queries/security-alerts';
+import { NotificationGroupType } from '~sq-server-commons/types/notifications';
 
 export function SecurityAlertBanner() {
   const { currentUser } = useContext(CurrentUserContext);
 
-  const { data } = useMostRecentSecurityAlertQuery({ enabled: currentUser.isLoggedIn });
+  const { data: subscriptions } = useMyGroupSubscriptionsQuery({
+    enabled: currentUser.isLoggedIn,
+  });
+
+  const receivesAlerts =
+    currentUser.isLoggedIn &&
+    (subscriptions?.groupSubscriptions ?? []).some(
+      (s) => s.notificationType === NotificationGroupType.SecurityAlertRaised,
+    );
+
+  const { data } = useMostRecentSecurityAlertQuery({ enabled: receivesAlerts });
   const alert = data?.securityAlerts[0];
 
-  if (!currentUser.isLoggedIn || !alert) {
+  if (!receivesAlerts || !alert) {
     return null;
   }
 

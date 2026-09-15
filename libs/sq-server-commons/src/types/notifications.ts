@@ -26,6 +26,15 @@ export enum NotificationGlobalType {
   QualityGateConditionsMismatch = 'QualityGateConditionsMismatch',
 }
 
+export enum NotificationGroupType {
+  SecurityAlertRaised = 'security-alert-raised',
+}
+
+export interface MyGroupNotificationSubscription {
+  groupName: string;
+  notificationType: NotificationGroupType;
+}
+
 export enum NotificationProjectType {
   CeReportTaskFailure = 'CeReportTaskFailure',
   ChangesOnMyIssue = 'ChangesOnMyIssue',

@@ -24,6 +24,7 @@ import { server } from '~shared/api/mocks/server';
 import { byRole } from '~shared/helpers/testSelector';
 import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { NotificationGroupType } from '~sq-server-commons/types/notifications';
 import { SecurityAlertBanner } from '../SecurityAlertBanner';
 
 const EMPTY_RESPONSE = {
@@ -36,8 +37,27 @@ const ALERT_RESPONSE = {
   securityAlerts: [{ id: 'alert-1', status: 'OPEN' }],
 };
 
+const SUBSCRIBED_RESPONSE = {
+  groupSubscriptions: [
+    { groupName: 'security-team', notificationType: NotificationGroupType.SecurityAlertRaised },
+  ],
+};
+
+const UNSUBSCRIBED_RESPONSE = {
+  groupSubscriptions: [{ groupName: 'other-group', notificationType: 'some-other-type' }],
+};
+
+const EMPTY_SUBSCRIPTIONS_RESPONSE = {
+  groupSubscriptions: [],
+};
+
 beforeEach(() => {
-  server.use(http.get('/api/v2/security-alerts/alerts', () => HttpResponse.json(EMPTY_RESPONSE)));
+  server.use(
+    http.get('/api/v2/security-alerts/alerts', () => HttpResponse.json(EMPTY_RESPONSE)),
+    http.get('/api/notifications/list_group_subscriptions', () =>
+      HttpResponse.json(SUBSCRIBED_RESPONSE),
+    ),
+  );
 });
 
 afterEach(() => {
@@ -72,4 +92,34 @@ it('renders banner with list link when an open alert exists', async () => {
 
   expect(await ui.banner.find()).toBeInTheDocument();
   expect(await ui.listLink.find()).toHaveAttribute('href', '/security_alerts?statuses=OPEN');
+});
+
+it('renders nothing when subscriptions contain no security-alert-raised entry', async () => {
+  server.use(
+    http.get('/api/v2/security-alerts/alerts', () => HttpResponse.json(ALERT_RESPONSE)),
+    http.get('/api/notifications/list_group_subscriptions', () =>
+      HttpResponse.json(UNSUBSCRIBED_RESPONSE),
+    ),
+  );
+
+  renderComponent(<SecurityAlertBanner />, '/', {
+    currentUser: mockLoggedInUser(),
+  });
+
+  await expect(ui.banner.find()).rejects.toThrow();
+});
+
+it('renders nothing when subscriptions list is empty', async () => {
+  server.use(
+    http.get('/api/v2/security-alerts/alerts', () => HttpResponse.json(ALERT_RESPONSE)),
+    http.get('/api/notifications/list_group_subscriptions', () =>
+      HttpResponse.json(EMPTY_SUBSCRIPTIONS_RESPONSE),
+    ),
+  );
+
+  renderComponent(<SecurityAlertBanner />, '/', {
+    currentUser: mockLoggedInUser(),
+  });
+
+  await expect(ui.banner.find()).rejects.toThrow();
 });

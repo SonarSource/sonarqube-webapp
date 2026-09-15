@@ -19,6 +19,7 @@
  */
 
 import { axiosClient } from '~shared/helpers/axios-clients';
+import { MyGroupNotificationSubscription } from '../types/notifications';
 
 const NOTIFICATIONS_ENDPOINT = '/api/notifications';
 
@@ -32,6 +33,12 @@ export interface GroupNotificationSubscription {
 export function listGroupNotificationSubscriptions() {
   return axiosClient.get<{ subscriptions: GroupNotificationSubscription[] }>(
     `${NOTIFICATIONS_ENDPOINT}/list_groups`,
+  );
+}
+
+export function listMyGroupNotificationSubscriptions() {
+  return axiosClient.get<{ groupSubscriptions: MyGroupNotificationSubscription[] }>(
+    `${NOTIFICATIONS_ENDPOINT}/list_group_subscriptions`,
   );
 }
 
