@@ -20,7 +20,7 @@
 
 /**
  * Shared constants for the architecture dev-server MSW mocks. Navigate to
- * /project/deviations?id=my-project (or current_architecture / intended_architecture)
+ * /project/architecture/deviations?id=my-project (or architecture/current / architecture/intended)
  * to hit the architecture pages.
  */
 export const PROJECT_KEY = 'my-project';

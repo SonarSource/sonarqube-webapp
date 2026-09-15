@@ -41,10 +41,6 @@ import {
 import { UsersServiceDefaultDataset, UsersServiceMock } from './services/UsersServiceMock';
 import { PROJECT_KEY, PROJECT_NAME } from './services/devMockConstants';
 
-/**
- * Navigate to /project/deviations?id=my-project (or current_architecture /
- * intended_architecture) to hit the architecture pages.
- */
 const MY_PROJECT_COMPONENT = mockComponent({ key: PROJECT_KEY, name: PROJECT_NAME });
 
 const developmentHandlers: HttpHandler[] = [

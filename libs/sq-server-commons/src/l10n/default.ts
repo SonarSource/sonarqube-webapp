@@ -3637,7 +3637,6 @@ export const defaultMessages = {
   'architecture.relationships.validate.automapped_badge': 'Auto-mapped',
   'architecture.relationships.validate.automapped_tooltip':
     "This mapping was found automatically and can't be modified.",
-  'architecture.organization.title': 'Organization architecture',
   'architecture.organization.empty': 'No organization-wide architecture data available.',
   'architecture.organization.node.exit_points_matched_count':
     '{matched}/{total, plural, one {# exit point matched} other {# exit points matched}}',
