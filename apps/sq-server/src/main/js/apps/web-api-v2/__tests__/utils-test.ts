@@ -194,6 +194,61 @@ describe('dereferenceSchema', () => {
       },
     });
   });
+
+  it('should stop dereferencing circular references', () => {
+    const schema = dereferenceSchema({
+      openapi: '3.0.1',
+      info: {
+        title: 'SonarQube Web API',
+        version: '1.0.0 beta',
+      },
+      paths: {
+        '/test': {
+          get: {
+            responses: {
+              '200': {
+                description: 'OK',
+                content: {
+                  'application/json': {
+                    schema: {
+                      $ref: '#/components/schemas/RecursiveSchema',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      components: {
+        schemas: {
+          RecursiveSchema: {
+            type: 'object',
+            properties: {
+              children: {
+                type: 'array',
+                items: {
+                  $ref: '#/components/schemas/RecursiveSchema',
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    expect(
+      schema.paths?.['/test']?.get?.responses['200'].content?.['application/json']?.schema,
+    ).toStrictEqual({
+      type: 'object',
+      properties: {
+        children: {
+          type: 'array',
+          items: {},
+        },
+      },
+    });
+  });
 });
 
 describe('mapOpenAPISchema', () => {

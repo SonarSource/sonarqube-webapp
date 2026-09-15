@@ -59,14 +59,26 @@ export const dereferenceSchema = (
     }, document);
   };
 
-  const dereferenceRecursive = <P>(val: P | OpenAPIV3.ReferenceObject): DereferenceRecursive<P> => {
+  const dereferenceRecursive = <P>(
+    val: P | OpenAPIV3.ReferenceObject,
+    activeReferences = new Set<string>(),
+  ): DereferenceRecursive<P> => {
     if (typeof val === 'object' && val !== null) {
       if ('$ref' in val) {
-        return dereferenceRecursive(dereference(val.$ref));
+        if (activeReferences.has(val.$ref)) {
+          return {} as DereferenceRecursive<P>;
+        }
+
+        const nestedReferences = new Set(activeReferences).add(val.$ref);
+        return dereferenceRecursive(dereference(val.$ref), nestedReferences);
       } else if (Array.isArray(val)) {
-        return val.map(dereferenceRecursive) as DereferenceRecursive<P>;
+        return val.map((item) =>
+          dereferenceRecursive(item, activeReferences),
+        ) as DereferenceRecursive<P>;
       }
-      return mapValues(val, dereferenceRecursive) as DereferenceRecursive<P>;
+      return mapValues(val, (property) =>
+        dereferenceRecursive(property, activeReferences),
+      ) as DereferenceRecursive<P>;
     }
     return val as DereferenceRecursive<P>;
   };
