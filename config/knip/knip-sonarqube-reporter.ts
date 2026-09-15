@@ -71,77 +71,82 @@ const ISSUE_TYPE_META: Record<
 > = {
   binaries: {
     name: 'Unlisted binary',
-    description: 'Binary referenced in config or scripts but not listed in package.json.',
+    description:
+      'A binary is referenced in configuration or scripts but is not listed in package.json.',
     impact: 'MEDIUM',
   },
   catalog: {
     name: 'Unused catalog entry',
-    description: 'Catalog dependency entry is not used.',
+    description: 'A dependency catalog entry is not referenced by any workspace.',
     impact: 'LOW',
   },
   dependencies: {
-    name: 'Unused dependency',
-    description: 'Production dependency is listed in package.json but not used.',
+    name: 'Unused production dependency',
+    description:
+      'A production dependency is listed in package.json but is not referenced by configured production code.',
     impact: 'MEDIUM',
   },
   devDependencies: {
-    name: 'Unused devDependency',
-    description: 'Dev dependency is listed in package.json but not used.',
+    name: 'Unused development dependency',
+    description:
+      'A development dependency is listed in package.json but is not referenced by configured development code.',
     impact: 'LOW',
   },
   duplicates: {
     name: 'Duplicate export',
-    description: 'The same export is defined more than once.',
+    description: 'The same export is defined more than once in the project graph.',
     impact: 'MEDIUM',
   },
   enumMembers: {
-    name: 'Unused exported enum member',
-    description: 'Exported enum member is never imported.',
+    name: 'Unreferenced production enum member',
+    description: 'An exported enum member has no references in configured production code.',
     impact: 'LOW',
   },
   exports: {
-    name: 'Unused export',
-    description: 'Exported symbol is never imported.',
+    name: 'Unreferenced production export',
+    description: 'An exported symbol has no references in configured production code.',
     impact: 'LOW',
   },
   files: {
-    name: 'Unused file',
-    description: 'File is not reachable from any configured entry point.',
+    name: 'Dead production file',
+    description: 'A production file is not reachable from any configured production entry point.',
     impact: 'HIGH',
   },
   namespaceMembers: {
-    name: 'Unused exported namespace member',
-    description: 'Exported namespace member is never imported.',
+    name: 'Unreferenced production namespace member',
+    description: 'An exported namespace member has no references in configured production code.',
     impact: 'LOW',
   },
   nsExports: {
-    name: 'Export in used namespace',
-    description: 'Namespace export is unused while the namespace is referenced.',
+    name: 'Unreferenced production namespace export',
+    description:
+      'A namespace export is not referenced even though its namespace is used by configured production code.',
     impact: 'LOW',
   },
   nsTypes: {
-    name: 'Exported type in used namespace',
-    description: 'Exported type in a used namespace is never imported.',
+    name: 'Unreferenced production namespace type',
+    description:
+      'An exported namespace type is not referenced even though its namespace is used by configured production code.',
     impact: 'LOW',
   },
   optionalPeerDependencies: {
-    name: 'Referenced optional peerDependency',
-    description: 'Optional peer dependency is referenced but not declared as expected.',
+    name: 'Referenced optional peer dependency',
+    description: 'An optional peer dependency is referenced but is not declared as expected.',
     impact: 'LOW',
   },
   types: {
-    name: 'Unused exported type',
-    description: 'Exported type is never imported.',
+    name: 'Unreferenced production type',
+    description: 'An exported type has no references in configured production code.',
     impact: 'LOW',
   },
   unlisted: {
     name: 'Unlisted dependency',
-    description: 'Dependency is imported but not listed in package.json.',
+    description: 'A dependency is imported but is not listed in package.json.',
     impact: 'HIGH',
   },
   unresolved: {
     name: 'Unresolved import',
-    description: 'Import cannot be resolved from the project graph.',
+    description: 'An import cannot be resolved from the project graph.',
     impact: 'HIGH',
   },
 };
@@ -167,6 +172,52 @@ function toStandardSeverity(severity: SonarImpactSeverity): SonarStandardSeverit
 
 function toRelativePath(filePath: string, cwd: string): string {
   return relative(cwd, filePath).replaceAll('\\', '/');
+}
+
+function formatSymbol(symbol: string, parentSymbol?: string): string {
+  return `"${symbol}"${parentSymbol ? ` (${parentSymbol})` : ''}`;
+}
+
+function createIssueMessage(
+  issue: Issue,
+  issueType: IssueType,
+  relativeFilePath: string,
+  symbol: string,
+): string {
+  const formattedSymbol = formatSymbol(symbol, issue.parentSymbol);
+
+  switch (issueType) {
+    case 'binaries':
+      return `Unlisted binary ${formattedSymbol}: it is referenced in configuration or scripts but is not listed in package.json.`;
+    case 'catalog':
+      return `Unused catalog entry ${formattedSymbol}: it is not referenced by any workspace.`;
+    case 'dependencies':
+      return `Unused production dependency ${formattedSymbol}: it is not referenced by configured production code.`;
+    case 'devDependencies':
+      return `Unused development dependency ${formattedSymbol}: it is not referenced by configured development code.`;
+    case 'duplicates':
+      return `Duplicate export ${formattedSymbol} in ${relativeFilePath}.`;
+    case 'enumMembers':
+      return `Unreferenced production enum member ${formattedSymbol}: it has no references in configured production code in ${relativeFilePath}.`;
+    case 'exports':
+      return `Unreferenced production export ${formattedSymbol}: it has no references in configured production code in ${relativeFilePath}.`;
+    case 'files':
+      return `Dead production code: file "${relativeFilePath}" is not reachable from any configured production entry point.`;
+    case 'namespaceMembers':
+      return `Unreferenced production namespace member ${formattedSymbol}: it has no references in configured production code in ${relativeFilePath}.`;
+    case 'nsExports':
+      return `Unreferenced production namespace export ${formattedSymbol}: it has no references in configured production code in ${relativeFilePath}.`;
+    case 'nsTypes':
+      return `Unreferenced production namespace type ${formattedSymbol}: it has no references in configured production code in ${relativeFilePath}.`;
+    case 'optionalPeerDependencies':
+      return `Referenced optional peer dependency ${formattedSymbol} is not declared as expected in ${relativeFilePath}.`;
+    case 'types':
+      return `Unreferenced production type ${formattedSymbol}: it has no references in configured production code in ${relativeFilePath}.`;
+    case 'unlisted':
+      return `Unlisted dependency ${formattedSymbol}: it is imported but is not listed in package.json.`;
+    case 'unresolved':
+      return `Unresolved import ${formattedSymbol} in ${relativeFilePath}: it cannot be resolved from the project graph.`;
+  }
 }
 
 function createTextRange(line?: number, col?: number) {
@@ -200,10 +251,7 @@ function createSonarIssue(
   const symbol = symbolOverride?.symbol ?? issue.symbol;
   const line = symbolOverride?.line ?? issue.line;
   const col = symbolOverride?.col ?? issue.col;
-  const message =
-    issueType === 'files'
-      ? symbol
-      : `${symbol}${issue.parentSymbol ? ` (${issue.parentSymbol})` : ''} in ${relativeFilePath}`;
+  const message = createIssueMessage(issue, issueType, relativeFilePath, symbol);
 
   return {
     primaryLocation: {

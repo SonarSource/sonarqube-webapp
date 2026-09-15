@@ -22,19 +22,29 @@
     "ts-node",
     "typescript-eslint"
   ],
+  "ignoreBinaries": ["cdxgen!"],
   "ignoreUnresolved": ["~sq-server-commons/design-system"],
   "workspaces": {
     ".": {
       "entry": [
-        "libs/**/src/index.{ts,tsx}",
-        "private/libs/**/src/index.{ts,tsx}",
-        "private/libs/sq-server-features/src/feature-*/index.{ts,tsx}",
+        "libs/**/src/index.{ts,tsx}!",
+        "private/libs/**/src/index.{ts,tsx}!",
+        "private/libs/sq-server-features/src/feature-*/index.{ts,tsx}!",
         ".github/scripts/**/*.{js,mjs}",
         "config/**/*.{js,mjs,ts,mts}",
         "eslint-local-rules/index.js"
       ],
       "project": [
-        "{libs,private/libs,config,eslint-local-rules,@types,tools/scan-components,.github/scripts}/**/*.{ts,tsx,js,mjs,mts}"
+        "{libs,private/libs}/**/*.{ts,tsx,js,mjs,mts}!",
+        "!{libs,private/libs}/**/__tests__/**!",
+        "!{libs,private/libs}/**/*-{test,smoke,it}.{js,jsx,ts,tsx}!",
+        "!{libs,private/libs}/**/__mocks__/**!",
+        "!{libs,private/libs}/**/mocks*/**!",
+        "!{libs,private/libs}/**/*mock*.{ts,tsx,js,mjs,mts}!",
+        "!{libs,private/libs}/**/test*.{ts,tsx,js,mjs,mts}!",
+        "!{libs,private/libs}/**/*-test-utils.{ts,tsx}!",
+        "!{libs,private/libs}/**/*-tests.{ts,tsx}!",
+        "{config,eslint-local-rules,@types,tools/scan-components,.github/scripts}/**/*.{ts,tsx,js,mjs,mts}"
       ],
       "ignoreFiles": ["eslint-local-rules/test-config/react.tsx"],
       "babel": {
@@ -79,8 +89,20 @@
       }
     },
     "apps/sq-server": {
-      "entry": ["index.html", "src/**/*.{ts,tsx}", "scripts/**/*.{js,ts}"],
-      "project": ["src/**/*.{ts,tsx,js}", "scripts/**/*.{js,ts}", "config/**/*.{js,mjs,ts}"],
+      "entry": ["index.html!", "src/main/js/app/index.ts!", "scripts/**/*.{js,ts}"],
+      "project": [
+        "src/**/*.{ts,tsx,js}!",
+        "!src/**/__tests__/**!",
+        "!src/**/*-{test,smoke,it}.{js,jsx,ts,tsx}!",
+        "!src/**/__mocks__/**!",
+        "!src/**/mocks*/**!",
+        "!src/**/*mock*.{ts,tsx,js,mjs,mts}!",
+        "!src/**/test*.{ts,tsx,js,mjs,mts}!",
+        "!src/**/*-test-utils.{ts,tsx}!",
+        "!src/**/*-tests.{ts,tsx}!",
+        "scripts/**/*.{js,ts}",
+        "config/**/*.{js,mjs,ts}"
+      ],
       "babel": {
         "config": ["config/jest/JestPreprocess.js"]
       },
@@ -99,8 +121,36 @@
       }
     },
     "private/apps/sq-cloud": {
-      "entry": ["index.html", "integration/**/index.html", "src/**/*.{ts,tsx}"],
-      "project": ["src/**/*.{ts,tsx,js}", "config/**/*.{js,ts}"],
+      "entry": [
+        "index.html!",
+        "integration/**/index.html!",
+        "src/app/index-scripts/{gtm,supportedBrowsers}.ts!",
+        "src/pages/entry-client.tsx!",
+        "src/pages/integration/**/index.tsx!",
+        "src/sq-cloud-adapters/**/*.{ts,tsx}!",
+        "!src/sq-cloud-adapters/**/__tests__/**!",
+        "!src/sq-cloud-adapters/**/__mocks__/**!",
+        "!src/sq-cloud-adapters/**/mock*/**!",
+        "!src/sq-cloud-adapters/**/*mock*.{ts,tsx}!",
+        "!src/sq-cloud-adapters/**/test*.{ts,tsx}!",
+        "!src/sq-cloud-adapters/**/*-test-utils.{ts,tsx}!",
+        "!src/sq-cloud-adapters/**/*-tests.{ts,tsx}!"
+      ],
+      "project": [
+        "src/**/*.{ts,tsx,js}!",
+        "!src/**/__tests__/**!",
+        "!src/**/*-{test,smoke,it}.{js,jsx,ts,tsx}!",
+        "!src/**/__mocks__/**!",
+        "!src/**/mocks*/**!",
+        "!src/**/*mock*.{ts,tsx,js,mjs,mts}!",
+        "!src/**/test*.{ts,tsx,js,mjs,mts}!",
+        "!src/**/*-test-utils.{ts,tsx}!",
+        "!src/**/*-tests.{ts,tsx}!",
+        "config/**/*.{js,ts}"
+      ],
+      "paths": {
+        "~adapters/*": ["src/sq-cloud-adapters/*"]
+      },
       "babel": {
         "config": ["babel-plugin-macros.config.js", "config/jest/JestPreprocess.js"]
       },

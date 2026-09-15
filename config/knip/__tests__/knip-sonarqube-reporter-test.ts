@@ -40,9 +40,11 @@ describe('knip-sonarqube-reporter', () => {
 
     expect(report.rules).toEqual([
       expect.objectContaining({
+        description: 'An exported symbol has no references in configured production code.',
         engineId: 'knip',
         id: 'knip:exports',
         impacts: [{ severity: 'LOW', softwareQuality: 'MAINTAINABILITY' }],
+        name: 'Unreferenced production export',
         severity: 'MINOR',
       }),
     ]);
@@ -50,7 +52,8 @@ describe('knip-sonarqube-reporter', () => {
       {
         primaryLocation: {
           filePath: 'libs/shared/src/foo.ts',
-          message: 'unusedHelper in libs/shared/src/foo.ts',
+          message:
+            'Unreferenced production export "unusedHelper": it has no references in configured production code in libs/shared/src/foo.ts.',
           textRange: {
             endColumn: 10,
             endLine: 5,
@@ -61,6 +64,39 @@ describe('knip-sonarqube-reporter', () => {
         ruleId: 'knip:exports',
       },
     ]);
+  });
+
+  it('describes unused production files as dead code', () => {
+    const report = buildSonarReport(
+      [
+        {
+          issueType: 'files',
+          issues: [
+            {
+              filePath: `${cwd}/libs/shared/src/unused.ts`,
+              fixes: [],
+              severity: 'error',
+              symbol: 'libs/shared/src/unused.ts',
+              type: 'files',
+              workspace: '.',
+            },
+          ],
+        },
+      ],
+      cwd,
+    );
+
+    expect(report.rules).toEqual([
+      expect.objectContaining({
+        description:
+          'A production file is not reachable from any configured production entry point.',
+        id: 'knip:files',
+        name: 'Dead production file',
+      }),
+    ]);
+    expect(report.issues[0].primaryLocation.message).toBe(
+      'Dead production code: file "libs/shared/src/unused.ts" is not reachable from any configured production entry point.',
+    );
   });
 
   it('keeps all product paths in one shared report', () => {
