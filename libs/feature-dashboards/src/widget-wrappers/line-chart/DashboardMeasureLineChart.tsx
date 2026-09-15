@@ -228,7 +228,6 @@ export function DashboardMeasureLineChart({
   return (
     <LineChartWidgetShell
       {...chartProps}
-      metricName={metricName}
       requestedStartDate={requestedStartDate}
       series={labelledSeries}
       showLegend={showLegend && labelledSeries.length > 1 && !isMetricRating}

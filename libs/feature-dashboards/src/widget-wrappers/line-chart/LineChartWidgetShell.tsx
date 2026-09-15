@@ -21,50 +21,32 @@
 import { MessageInline, MessageInlineSize, MessageVariety } from '@sonarsource/echoes-react';
 import { type ComponentProps } from 'react';
 import { useIntl } from 'react-intl';
-import { useFlags } from '~adapters/helpers/feature-flags';
-import { LineChart } from '../../components/visualizations/line-chart/LineChart';
 import { MultiLineChart } from '../../components/visualizations/multi-line-chart/MultiLineChart';
 import { getLimitedHistoryStartDate } from '../../utils/lineChartHistoryUtils';
 
 export type LineChartWidgetShellProps = Readonly<
   Omit<ComponentProps<typeof MultiLineChart>, 'ref'> & {
-    metricName: string;
     requestedStartDate?: Date;
   }
 >;
 
 export function LineChartWidgetShell(props: LineChartWidgetShellProps) {
-  const { organizationReportingEnableNewDashboardWidgets } = useFlags();
   const { formatDate, formatMessage } = useIntl();
-  const { hasFetchError, isPending, metricName, requestedStartDate, series, ...rest } = props;
-  const renderedSeries = organizationReportingEnableNewDashboardWidgets
-    ? series
-    : series.slice(0, 1);
+  const { hasFetchError, isPending, requestedStartDate, series, ...rest } = props;
   const limitedHistoryStartDate =
     !hasFetchError && !isPending && requestedStartDate !== undefined
-      ? getLimitedHistoryStartDate(renderedSeries, requestedStartDate)
+      ? getLimitedHistoryStartDate(series, requestedStartDate)
       : undefined;
 
   return (
     <div className="sw-h-full sw-min-h-0 sw-flex sw-flex-col sw-gap-4">
       <div className="sw-flex-1 sw-min-h-0">
-        {organizationReportingEnableNewDashboardWidgets ? (
-          <MultiLineChart
-            {...rest}
-            hasFetchError={hasFetchError}
-            isPending={isPending}
-            series={series}
-          />
-        ) : (
-          <LineChart
-            {...rest}
-            data={series[0]?.data ?? []}
-            hasFetchError={hasFetchError}
-            isPending={isPending}
-            metricName={metricName}
-            showDots
-          />
-        )}
+        <MultiLineChart
+          {...rest}
+          hasFetchError={hasFetchError}
+          isPending={isPending}
+          series={series}
+        />
       </div>
       {limitedHistoryStartDate && (
         <MessageInline

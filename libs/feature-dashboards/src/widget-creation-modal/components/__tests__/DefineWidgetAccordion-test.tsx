@@ -67,11 +67,6 @@ describe('DefineWidgetAccordion', () => {
     ],
   };
 
-  const metricPickerOptionsWithNewWidgets: WidgetMetricPickerOptions = {
-    ...metricPickerOptions,
-    enableNewDashboardWidgets: true,
-  };
-
   it('renders define-widget description and documentation link', () => {
     renderWithRouter(
       <DefineWidgetAccordion
@@ -105,7 +100,7 @@ describe('DefineWidgetAccordion', () => {
         defineWidgetAccordionOpen
         dispatch={dispatch}
         isPortfolioPieChartConfigurator={false}
-        metricPickerOptions={metricPickerOptionsWithNewWidgets}
+        metricPickerOptions={metricPickerOptions}
         setDefineWidgetAccordionOpen={jest.fn()}
         state={{ configs: {}, selectedType: null }}
       />,
@@ -127,33 +122,6 @@ describe('DefineWidgetAccordion', () => {
     });
   });
 
-  it('hides Top list when enableNewDashboardWidgets is false', async () => {
-    const { user } = renderWithRouter(
-      <DefineWidgetAccordion
-        Accordion={Accordion}
-        defaultDefineWidgetDocumentationUrl="https://docs.example.com/widgets"
-        defineWidgetAccordionOpen
-        dispatch={jest.fn()}
-        isPortfolioPieChartConfigurator={false}
-        metricPickerOptions={metricPickerOptions}
-        setDefineWidgetAccordionOpen={jest.fn()}
-        state={{ configs: {}, selectedType: null }}
-      />,
-    );
-
-    await user.click(
-      screen.getByRole('combobox', {
-        name: 'dashboard.add_widget_modal.define_widget.visualization',
-      }),
-    );
-
-    expect(
-      screen.queryByRole('option', {
-        name: 'dashboard.add_widget_modal.define_widget.visualization.top_list',
-      }),
-    ).not.toBeInTheDocument();
-  });
-
   it('auto-selects issue count metric and rule rank-by for Top list', async () => {
     const dispatch = jest.fn();
     const { user } = renderWithRouter(
@@ -163,7 +131,7 @@ describe('DefineWidgetAccordion', () => {
         defineWidgetAccordionOpen
         dispatch={dispatch}
         isPortfolioPieChartConfigurator={false}
-        metricPickerOptions={metricPickerOptionsWithNewWidgets}
+        metricPickerOptions={metricPickerOptions}
         setDefineWidgetAccordionOpen={jest.fn()}
         state={{ configs: {}, selectedType: null }}
       />,
@@ -216,7 +184,7 @@ describe('DefineWidgetAccordion', () => {
         defineWidgetAccordionOpen
         dispatch={jest.fn()}
         isPortfolioPieChartConfigurator={false}
-        metricPickerOptions={metricPickerOptionsWithNewWidgets}
+        metricPickerOptions={metricPickerOptions}
         setDefineWidgetAccordionOpen={jest.fn()}
         state={state}
       />,
@@ -251,7 +219,7 @@ describe('DefineWidgetAccordion', () => {
         defineWidgetAccordionOpen
         dispatch={jest.fn()}
         isPortfolioPieChartConfigurator={false}
-        metricPickerOptions={metricPickerOptionsWithNewWidgets}
+        metricPickerOptions={metricPickerOptions}
         setDefineWidgetAccordionOpen={jest.fn()}
         state={state}
       />,
@@ -282,7 +250,7 @@ describe('DefineWidgetAccordion', () => {
         defineWidgetAccordionOpen
         dispatch={dispatch}
         isPortfolioPieChartConfigurator={false}
-        metricPickerOptions={metricPickerOptionsWithNewWidgets}
+        metricPickerOptions={metricPickerOptions}
         setDefineWidgetAccordionOpen={jest.fn()}
         state={state}
       />,
@@ -344,7 +312,7 @@ describe('DefineWidgetAccordion', () => {
         defineWidgetAccordionOpen
         dispatch={dispatch}
         isPortfolioPieChartConfigurator={false}
-        metricPickerOptions={metricPickerOptionsWithNewWidgets}
+        metricPickerOptions={metricPickerOptions}
         setDefineWidgetAccordionOpen={jest.fn()}
         state={state}
       />,
@@ -373,7 +341,7 @@ describe('DefineWidgetAccordion', () => {
         defineWidgetAccordionOpen
         dispatch={jest.fn()}
         isPortfolioPieChartConfigurator
-        metricPickerOptions={metricPickerOptionsWithNewWidgets}
+        metricPickerOptions={metricPickerOptions}
         setDefineWidgetAccordionOpen={jest.fn()}
         state={{ configs: {}, selectedType: null }}
       />,

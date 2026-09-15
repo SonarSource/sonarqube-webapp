@@ -148,10 +148,6 @@ export interface WidgetMetricPickerOptions {
   /** Override doc URL for the define-widget description link (e.g. portfolio metrics docs). */
   defineWidgetDocumentationUrl?: string;
   /**
-   * When true, new visualization types (Top list & Multi-line chart) are available in the add-widget modal.
-   */
-  enableNewDashboardWidgets?: boolean;
-  /**
    * Portfolio add-widget flow: store `security_hotspots` as a rich metric for issue APIs, and apply portfolio pie rules.
    */
   isPortfolioWidgetConfigurator?: boolean;

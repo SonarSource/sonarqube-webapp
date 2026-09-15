@@ -171,7 +171,6 @@ export function getSqsProjectWidgetMetricPickerOptions(
 
   return {
     countMetrics: enrichedMetrics,
-    enableNewDashboardWidgets: true,
     isPortfolioWidgetConfigurator: false,
     lineChartMetrics: enrichedMetrics,
     pieChartMetricOptions: buildPieChartMetricSelectOptions(formatMessage).filter(

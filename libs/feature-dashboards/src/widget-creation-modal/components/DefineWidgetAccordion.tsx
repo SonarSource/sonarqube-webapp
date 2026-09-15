@@ -196,7 +196,6 @@ export function DefineWidgetAccordion({
     pieChartMetricOptions: pieChartMetricOptionsFromPicker,
     defineWidgetDescriptionMessageId,
     defineWidgetDocumentationUrl,
-    enableNewDashboardWidgets = false,
   } = metricPickerOptions;
 
   const metricGroupsForLineOrCount =
@@ -215,7 +214,6 @@ export function DefineWidgetAccordion({
       : undefined;
   const lineChartDashboardMetric = lineChartConfig?.metric ?? null;
   const showLineChartGroupBy =
-    enableNewDashboardWidgets &&
     visualization === VisualizationType.LineChart &&
     lineChartDashboardMetric !== null &&
     isLineChartGroupByEligibleForMetric(lineChartDashboardMetric);
@@ -500,7 +498,7 @@ export function DefineWidgetAccordion({
                   ),
                   value: VisualizationType.PieChart,
                 },
-                ...(enableNewDashboardWidgets ? [topListVisualizationOption] : []),
+                topListVisualizationOption,
               ],
             },
           ]}

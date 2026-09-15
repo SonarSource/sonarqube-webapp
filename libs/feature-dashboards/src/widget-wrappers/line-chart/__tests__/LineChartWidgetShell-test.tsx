@@ -19,20 +19,11 @@
  */
 
 import { screen } from '@testing-library/react';
-import { useFlags } from '~adapters/helpers/feature-flags';
 import { renderWithContext } from '~shared/helpers/test-utils';
 import { LineChartWidgetShell } from '../LineChartWidgetShell';
 
-jest.mock('~adapters/helpers/feature-flags', () => ({
-  useFlags: jest.fn(),
-}));
-
 jest.mock('~feature-dashboards/components/visualizations/multi-line-chart/MultiLineChart', () => ({
   MultiLineChart: () => <div data-testid="multi-line-chart" />,
-}));
-
-jest.mock('~feature-dashboards/components/visualizations/line-chart/LineChart', () => ({
-  LineChart: () => <div data-testid="legacy-line-chart" />,
 }));
 
 const defaultProps = {
@@ -42,7 +33,6 @@ const defaultProps = {
   hasFetchError: false,
   isMetricRating: false,
   isPending: false,
-  metricName: 'Bugs',
   requestedStartDate: new Date('2025-10-31T00:00:00.000Z'),
   series: [
     {
@@ -58,9 +48,6 @@ const limitedHistoryMessage = /dashboard\.line_chart\.limited_history_warning/;
 
 beforeEach(() => {
   jest.useFakeTimers().setSystemTime(new Date('2026-04-30T12:00:00.000Z'));
-  jest.mocked(useFlags).mockReturnValue({
-    organizationReportingEnableNewDashboardWidgets: true,
-  } as unknown as ReturnType<typeof useFlags>);
 });
 
 afterEach(() => {
@@ -76,10 +63,7 @@ it('renders Queena’s dynamic limited-history message below the active chart', 
   ).toBeInTheDocument();
 });
 
-it('supports the legacy renderer and hides the message for complete, pending, or failed data', () => {
-  jest.mocked(useFlags).mockReturnValue({
-    organizationReportingEnableNewDashboardWidgets: false,
-  } as unknown as ReturnType<typeof useFlags>);
+it('hides the message for complete, pending, or failed data', () => {
   const completeSeries = [
     {
       ...defaultProps.series[0],
@@ -90,7 +74,7 @@ it('supports the legacy renderer and hides the message for complete, pending, or
     <LineChartWidgetShell {...defaultProps} series={completeSeries} />,
   );
 
-  expect(screen.getByTestId('legacy-line-chart')).toBeInTheDocument();
+  expect(screen.getByTestId('multi-line-chart')).toBeInTheDocument();
   expect(screen.queryByText(limitedHistoryMessage)).not.toBeInTheDocument();
 
   rerender(<LineChartWidgetShell {...defaultProps} isPending />);
@@ -100,10 +84,7 @@ it('supports the legacy renderer and hides the message for complete, pending, or
   expect(screen.queryByText(limitedHistoryMessage)).not.toBeInTheDocument();
 });
 
-it('does not report short-range gaps and only considers the series rendered by the legacy chart', () => {
-  jest.mocked(useFlags).mockReturnValue({
-    organizationReportingEnableNewDashboardWidgets: false,
-  } as unknown as ReturnType<typeof useFlags>);
+it('does not report limited history when one series has complete history', () => {
   const series = [
     defaultProps.series[0],
     {
@@ -116,9 +97,7 @@ it('does not report short-range gaps and only considers the series rendered by t
     <LineChartWidgetShell {...defaultProps} series={series} />,
   );
 
-  expect(
-    screen.getByText('dashboard.line_chart.limited_history_warning.Apr 15, 2026'),
-  ).toBeInTheDocument();
+  expect(screen.queryByText(limitedHistoryMessage)).not.toBeInTheDocument();
 
   rerender(
     <LineChartWidgetShell {...defaultProps} requestedStartDate={undefined} series={series} />,
