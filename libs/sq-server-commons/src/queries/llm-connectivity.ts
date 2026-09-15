@@ -44,6 +44,7 @@ import {
   LlmProviderValidation,
   LlmProviderValidationState,
 } from '../types/llm-connectivity';
+import { PURCHASABLE_FEATURES_QUERY_KEY } from './entitlements';
 
 const llmConnectivityQueryKeys = {
   definitions: () => ['llm-connectivity', 'llm-provider-definitions'] as const,
@@ -199,7 +200,7 @@ export function useUpsertLlmProviderSelectionMutation() {
     mutationFn: upsertLlmProviderSelection,
     onSuccess(_, { aiCapability }) {
       client.invalidateQueries({ queryKey: llmConnectivityQueryKeys.selection(aiCapability) });
-      client.invalidateQueries({ queryKey: ['purchasable-features'] });
+      client.invalidateQueries({ queryKey: PURCHASABLE_FEATURES_QUERY_KEY });
     },
   });
 }

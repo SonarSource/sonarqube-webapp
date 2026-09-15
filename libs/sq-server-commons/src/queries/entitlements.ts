@@ -28,6 +28,7 @@ import { PurchasableFeatureKey } from '../types/editions';
 import { Permissions } from '../types/permissions';
 
 export const LICENSE_QUERY_KEY = ['current-sqs-license'] as const;
+export const PURCHASABLE_FEATURES_QUERY_KEY = ['purchasable-features'] as const;
 
 export const useCurrentLicenseQuery = createQueryHook(() =>
   queryOptions({
@@ -39,7 +40,7 @@ export const useCurrentLicenseQuery = createQueryHook(() =>
 
 export const usePurchasableFeaturesQuery = createQueryHook(() =>
   queryOptions({
-    queryKey: ['purchasable-features'],
+    queryKey: PURCHASABLE_FEATURES_QUERY_KEY,
     queryFn: getPurchasableFeatures,
     staleTime: StaleTime.NEVER,
   }),
