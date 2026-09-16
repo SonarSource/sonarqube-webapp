@@ -1248,6 +1248,10 @@ export const defaultMessages = {
     'Update permissions',
   'ai_capabilities.remediation_agent.dop_permission_warning.required_permissions_link':
     'required permissions',
+  'ai_capabilities.remediation_agent.dop_permission_warning.connections.summary':
+    '{count, plural, one {# connection} other {# connections}}',
+  'ai_capabilities.remediation_agent.dop_permission_warning.connections.show': 'Show',
+  'ai_capabilities.remediation_agent.dop_permission_warning.connections.hide': 'Hide',
   'ai_capabilities.remediation_agent.dop_permission_warning.dop_row.status.sufficient': 'OK',
   'ai_capabilities.remediation_agent.dop_permission_warning.dop_row.status.insufficient':
     'Missing permissions',

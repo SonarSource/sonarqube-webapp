@@ -25,7 +25,11 @@ import { MeasuresServiceMock } from '~shared/api/mocks/services/MeasuresServiceM
 import { mockMainBranch } from '~shared/helpers/mocks/branches';
 import { mockComponent } from '~shared/helpers/mocks/component';
 import { MetricKey } from '~shared/types/metrics';
+import { AlmKeys } from '../../types/alm-settings';
+import { PermissionCheckResource, PermissionCheckStatus } from '../../types/dop-translation';
 import { Feature } from '../../types/features';
+import { BillingServiceDefaultDataset, BillingServiceMock } from '../mocks/BillingServiceMock';
+import { PermissionChecksServiceMock } from '../mocks/PermissionChecksServiceMock';
 import {
   ComponentsServiceDefaultDataset,
   ComponentsServiceMock,
@@ -42,6 +46,41 @@ import { UsersServiceDefaultDataset, UsersServiceMock } from './services/UsersSe
 import { PROJECT_KEY, PROJECT_NAME } from './services/devMockConstants';
 
 const MY_PROJECT_COMPONENT = mockComponent({ key: PROJECT_KEY, name: PROJECT_NAME });
+
+// Unix timestamp for 2023-11-14T22:13:20Z — stable placeholder for dev mock data.
+const MOCK_CHECKED_AT_TIMESTAMP = 1_700_000_000_000;
+
+function mockDopCheck(
+  key: string,
+  type: AlmKeys,
+  status: PermissionCheckStatus,
+): PermissionCheckResource {
+  return { checkedAt: MOCK_CHECKED_AT_TIMESTAMP, key, type, status };
+}
+
+/**
+ * Reproduces the SONAR-32262 scenario: many configured DOPs at once, in deliberately
+ * unsorted order and with a very long Azure key, so the instance-admin banner can be
+ * checked for SUFFICIENT filtering, severity ordering, the Show/Hide disclosure and
+ * key-column truncation.
+ */
+const DEV_PERMISSION_CHECKS: PermissionCheckResource[] = [
+  mockDopCheck('github-ok-1', AlmKeys.GitHub, PermissionCheckStatus.Sufficient),
+  mockDopCheck('bitbucket-ci', AlmKeys.BitbucketServer, PermissionCheckStatus.CheckFailed),
+  mockDopCheck('github-ok-2', AlmKeys.GitHub, PermissionCheckStatus.Sufficient),
+  mockDopCheck('bitbucket-cloud-main', AlmKeys.BitbucketCloud, PermissionCheckStatus.CheckFailed),
+  mockDopCheck(
+    'azure-server-2020-ado-server-2020-test-default-collection',
+    AlmKeys.Azure,
+    PermissionCheckStatus.Unknown,
+  ),
+  mockDopCheck('github-legacy', AlmKeys.GitHub, PermissionCheckStatus.CheckFailed),
+  mockDopCheck('gitlab-selfhosted', AlmKeys.GitLab, PermissionCheckStatus.UnsupportedTokenType),
+  mockDopCheck('github-ok-3', AlmKeys.GitHub, PermissionCheckStatus.Sufficient),
+  mockDopCheck('github-missing-scopes', AlmKeys.GitHub, PermissionCheckStatus.Insufficient),
+  mockDopCheck('azure-cloud', AlmKeys.Azure, PermissionCheckStatus.CheckFailed),
+  mockDopCheck('gitlab-saas', AlmKeys.GitLab, PermissionCheckStatus.CheckFailed),
+];
 
 const developmentHandlers: HttpHandler[] = [
   ...new NavigationServiceMock(NavigationServiceDefaultDataset).handlers,
@@ -73,6 +112,15 @@ const developmentHandlers: HttpHandler[] = [
   }).handlers,
 
   ...new LanguagesServiceMock(LanguagesServiceDefaultDataset).handlers,
+
+  // The AI capabilities admin routes sit behind FeatureAvailabilityGuard, which reads
+  // /api/v2/entitlements/purchasable-features. An unlicensed local instance returns nothing
+  // there, so the guard renders NotFound and /admin/agent/remediation 404s. Mocking billing
+  // makes the route resolve; the permission checks then drive the banner under test.
+  ...new BillingServiceMock(BillingServiceDefaultDataset).handlers,
+  ...new PermissionChecksServiceMock({
+    response: { permissionChecks: DEV_PERMISSION_CHECKS },
+  }).handlers,
 
   // SQS-only endpoints with no SQC counterpart — kept inline.
   http.get('/api/features/list', () =>
