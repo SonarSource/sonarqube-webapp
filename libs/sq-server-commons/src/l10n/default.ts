@@ -2410,6 +2410,12 @@ export const defaultMessages = {
   'project_agent_activity.empty': 'No agent jobs yet',
   'project_agent_activity.error.title': 'Something went wrong while loading agent jobs.',
   'project_agent_activity.error.retry': 'Retry',
+  'project_agent_activity.unavailable.title': 'Remediation Agent is not currently available',
+  'project_agent_activity.unavailable.non_admin.body':
+    'Past activity is shown below, but no new fixes will be proposed. Contact your system administrator to reactivate Remediation Agent.',
+  'project_agent_activity.unavailable.admin.body':
+    'Past activity is shown below, but no new fixes will be proposed. Reactivate Remediation Agent to resume.',
+  'project_agent_activity.unavailable.admin.cta': 'Manage settings',
   'project_agent_activity.table.status_duration': 'Status / Duration',
   'project_agent_activity.table.started': 'Started',
   'project_agent_activity.table.source': 'Source',
