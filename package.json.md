@@ -177,7 +177,7 @@ We force it to use the explicit version we declare (3.0.11)
 
 ### adm-zip
 
-`sonarqube-scanner@4.3.8` still depends on `adm-zip@0.5.17`, which is reported as vulnerable on the SonarQube dependency-risks page. We keep the scanner on 4.3.8 because the repository imports it programmatically in the sq-cloud e2e helpers, and force `adm-zip@0.6.0` across transitive deps instead of taking a scanner major bump just to clear that archive dependency.
+`sonarqube-scanner@4.3.8` still depends on `adm-zip@0.5.17`, which is reported as vulnerable on the SonarQube dependency-risks page. We keep the scanner on 4.3.8 because the repository imports it programmatically in the sq-cloud e2e helpers, and force `adm-zip@0.6.1` across transitive deps instead of taking a scanner major bump just to clear that archive dependency.
 
 ### axios
 
