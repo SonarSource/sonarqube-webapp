@@ -157,6 +157,7 @@ export enum SonarSourceLink {
   PlansAndPricing = '/plans-and-pricing/sonarqube/',
   Downloads = '/products/sonarqube/downloads/',
   VortexLegalLink = '/legal/vortex/',
+  HunterLegalLink = '/legal/hunter-agent/',
   WhyUpgrade = '/products/sonarqube/why-upgrade/',
 }
 

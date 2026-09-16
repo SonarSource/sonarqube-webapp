@@ -910,6 +910,7 @@ export const defaultMessages = {
   'ai_capabilities.remediation_agent.scheduled.save_error':
     'Something went wrong. Failed to save the schedule configuration.',
   'hunter_agent.page': 'Hunter Agent',
+  'hunter_agent.enable': 'Enable agent',
   'hunter_agent.description':
     'The SonarQube Hunter Agent is a high-precision detection engine designed to uncover complex, context-dependent problems, complementing your foundational SAST by using playbook-driven reasoning.',
   'ai_capabilities_server.hunter_agent.provider.title': 'Choose your provider',
@@ -917,9 +918,11 @@ export const defaultMessages = {
     'Pick a provider compatible with Hunter Agent. Manage providers in <link>LLM providers</link>.',
   'ai_capabilities_server.hunter_agent.configure.disabled_reason':
     'Choose a provider and model first.',
+  'ai_capabilities_server.hunter_agent.legal_terms_link':
+    'By enabling or using the Hunter Agent, you agree to the <link>Hunter Agent Supplemental Terms</link>.',
   'hunter_agent.daily_analysis.title': 'Allow project admins to run scans.',
   'hunter_agent.daily_analysis.description':
-    'Project administrators can trigger scans on demand or schedule recurring scans.',
+    'Enable the Hunter Agent to allow project administrators to run scans on demand or schedule recurring scans of their projects.',
   'hunter_agent.instance_not_enabled.title': 'The Hunter Agent is disabled on this instance',
   'hunter_agent.instance_not_enabled.description.admin':
     'Enable the Hunter Agent to uncover complex, context-dependent problems, complementing your foundational SAST by using playbook-driven reasoning.',
