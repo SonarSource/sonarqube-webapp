@@ -42,7 +42,7 @@ export enum SharedDocLink {
   NewCodeDefinition = '/user-guide/about-new-code#new-code-definitions',
   QualityGates = '/quality-standards-administration/managing-quality-gates/introduction-to-quality-gates/',
   SCATroubleshooting = '/advanced-security/troubleshooting/',
-  SlackIntegration = '/instance-administration/system-functions/notifications/slack/setup',
+  SlackIntegration = '/instance-administration/integrations/slack',
   SlackSubscriptionSetup = '/user-guide/managing-your-account/subscribing-to-notifications/slack',
   FailedPipelineGate = '/analyzing-source-code/ci-integration/not-integrated-tools',
 }
