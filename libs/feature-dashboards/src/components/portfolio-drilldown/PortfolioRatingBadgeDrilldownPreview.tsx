@@ -89,6 +89,7 @@ function RatingBadgeChart(
           }}
           pastry={PieChartPastry.Donut}
           segments={segments}
+          tooltipCountMessageKey="portfolio_dashboard.widget.tooltip.count"
           width={PORTFOLIO_RATING_BADGE_DONUT_SIZE_PX}
         />
         <div className="sw-pointer-events-none sw-absolute sw-inset-0 sw-flex sw-items-center sw-justify-center">

@@ -3973,6 +3973,7 @@ export const defaultMessages = {
     'Select a visualization and metric first to enable customization options.',
   'portfolio_dashboard.widget.releasability_rating_over_time': 'Releasability rating over time',
   'portfolio_dashboard.widget.line_chart.aria_label': 'Line chart showing {metric} over time',
+  'portfolio_dashboard.widget.tooltip.count': 'Project count: {count}',
   'dashboard.add_widget_modal.define_widget.metric.issue_count': 'Issue count',
   'dashboard.widget.count.issue_density.unit': 'issues / 1K LOC',
   'dashboard.widget.count.issues_closed.since': 'since {date}',

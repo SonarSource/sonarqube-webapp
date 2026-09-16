@@ -278,6 +278,7 @@ function PortfolioDashboardRatingDonut(
           onSegmentClick={handleSegmentClick}
           pastry={PieChartPastry.Donut}
           segments={segments}
+          tooltipCountMessageKey="portfolio_dashboard.widget.tooltip.count"
           width={PORTFOLIO_RATING_BADGE_DONUT_SIZE_PX}
         />
 
