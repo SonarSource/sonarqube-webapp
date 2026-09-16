@@ -12482,6 +12482,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cron-parser@npm:5.10.1":
+  version: 5.10.1
+  resolution: "cron-parser@npm:5.10.1"
+  dependencies:
+    luxon: "npm:^3.7.2"
+  checksum: 10/11b330f15001e4905689bcad8091d707d2a4abb17c661f84664967c955aeae53f8cb0677998de90f183f3b8f3136525929ace6843fe93b4b0b7d0c068e1907d6
+  languageName: node
+  linkType: hard
+
 "cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.3, cross-spawn@npm:^7.0.6":
   version: 7.0.6
   resolution: "cross-spawn@npm:7.0.6"
@@ -17791,6 +17800,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"luxon@npm:^3.7.2":
+  version: 3.7.2
+  resolution: "luxon@npm:3.7.2"
+  checksum: 10/b24cd205ed306ce7415991687897dcc4027921ae413c9116590bc33a95f93b86ce52cf74ba72b4f5c5ab1c10090517f54ac8edfb127c049e0bf55b90dc2260be
+  languageName: node
+  linkType: hard
+
 "lz-string@npm:^1.5.0":
   version: 1.5.0
   resolution: "lz-string@npm:1.5.0"
@@ -22111,6 +22127,7 @@ __metadata:
     classnames: "npm:2.5.1"
     clipboard: "npm:2.0.11"
     core-js: "npm:3.49.0"
+    cron-parser: "npm:5.10.1"
     d3-array: "npm:3.2.4"
     d3-hierarchy: "npm:3.1.2"
     d3-scale: "npm:4.0.2"

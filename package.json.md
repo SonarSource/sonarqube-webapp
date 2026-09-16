@@ -22,6 +22,10 @@ Unstyled, accessible slider primitive — Echoes has no Slider component of its 
 
 React-based interactive graph visualization library used by `feature-architecture` to render nodes, edges, handles, and controls for the architecture diagram, and to manage pan/zoom/selection interactions.
 
+### cron-parser
+
+Parses scheduled Remediation Agent recurrence rules to calculate the next run with timezone and daylight-saving support.
+
 ### launchdarkly-react-client-sdk
 
 LaunchDarkly SDK for React used by sq-cloud to manage feature flags.
