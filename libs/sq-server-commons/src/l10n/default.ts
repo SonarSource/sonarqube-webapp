@@ -4304,6 +4304,10 @@ export const defaultMessages = {
     'Projects require a second analysis to generate a rating',
   'portfolio_dashboard.breakdown.empty_state.no_computed_rating.label': 'No rating computed',
   'portfolio_dashboard.breakdown.empty_state.no_data.title': 'No data available to display',
+  'portfolio_dashboard.breakdown.empty_state.application.title':
+    'Widget data aggregation is not currently supported for applications',
+  'portfolio_dashboard.breakdown.empty_state.application.description':
+    'Project level data is shown below if available',
   'portfolio_dashboard.breakdown.permissions.none_accessible_rule':
     'You do not have permissions to browse the {total} {total, plural, one {project that has} other {projects that have}} issues matching this rule.',
   'portfolio_dashboard.breakdown.permissions.none_accessible':
