@@ -3412,6 +3412,8 @@ export const defaultMessages = {
   'architecture.oversized.table.empty': 'No oversized components found',
   'architecture.oversized.not_found.title': 'This oversized component no longer exists',
   'architecture.oversized.not_found.go_back_text': 'Back to oversized components',
+  'architecture.oversized.dismissible.interpret_visualization.message':
+    'An oversized component contains too many subcomponents. This can make it harder to understand. Consider moving some of the subcomponents out of the oversized component, or grouping them inside new subcomponent(s).',
   'architecture.split_responsibility.issue_name': 'Split responsibility {index}',
   'architecture.split_responsibility.detail_breadcrumb':
     '{container} · depth {depth} · {fragments} fragments · {classes} classes',
