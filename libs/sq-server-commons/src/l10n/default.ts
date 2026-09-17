@@ -1708,10 +1708,11 @@ export const defaultMessages = {
   'project_dashboard.overview.banner.title': 'Meet the new Overview',
   'project_dashboard.overview.banner.description':
     "The Overview page has a new look, putting your project health metrics front and center. Looking for the previous Overview page? It's still available, now as the <link>analysis summary page.</link>",
-  'overview.dashboard.not_available_for_pull_requests':
-    'Project health dashboards are not available for pull requests',
-  'overview.dashboard.not_available_for_pull_requests.description':
-    'Pull requests are short lived. Project health dashboards are only available for long lived branches. View the dashboard for the target branch to check project health.',
+  'overview.dashboard.not_available.title': 'Overview dashboard is not available for pull requests',
+  'overview.dashboard.not_available.description':
+    "Overview dashboards are only available for long-lived branches. Switch to the target branch, {branch}, to view project health, or check the PR's analysis summary.",
+  'overview.dashboard.not_available.switch_to_target_branch': 'Switch to target branch',
+  'overview.dashboard.not_available.go_to_pr_analysis_summary': 'Go to PR analysis summary',
   'portfolio_breakdown.page': 'Portfolio breakdown',
   'project_activity.page': 'Activity',
 

@@ -374,12 +374,20 @@ describe('ProjectBuiltInDashboardPage', () => {
 
     renderWithRouter(<ProjectBuiltInDashboardPage />);
 
+    expect(screen.getByText('overview.dashboard.not_available.title')).toBeInTheDocument();
     expect(
-      screen.getByText('overview.dashboard.not_available_for_pull_requests'),
+      screen.getByText(/^overview\.dashboard\.not_available\.description/),
     ).toBeInTheDocument();
     expect(
-      screen.getByText('overview.dashboard.not_available_for_pull_requests.description'),
-    ).toBeInTheDocument();
+      screen.getByRole('link', {
+        name: 'overview.dashboard.not_available.switch_to_target_branch',
+      }),
+    ).toHaveAttribute('href', '/project/overview?id=project-key&branch=main');
+    expect(
+      screen.getByRole('link', {
+        name: 'overview.dashboard.not_available.go_to_pr_analysis_summary',
+      }),
+    ).toHaveAttribute('href', '/summary/new_code?id=project-key&pullRequest=pull-request-key');
     expect(screen.queryByRole('heading', { name: 'Project Health' })).not.toBeInTheDocument();
     expect(mockDashboardQueryOptions).toHaveBeenCalledWith({ enabled: false });
     expect(mockMeasuresQueryOptions).toHaveBeenCalledWith({ enabled: false });

@@ -60,7 +60,6 @@ import { CustomDashboardEditStatus } from '~sq-server-commons/components/dashboa
 import { ComponentNavBindingStatus } from '~sq-server-commons/components/nav/ComponentNavBindingStatus';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
-import { FishVisual } from '~sq-server-commons/design-system';
 import { getComponentAsHomepage } from '~sq-server-commons/helpers/homepage';
 import { enhanceMeasuresWithMetrics } from '~sq-server-commons/helpers/measures';
 import { PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY } from '~sq-server-commons/helpers/project-dashboard-routes';
@@ -79,6 +78,7 @@ import { App as ProjectOverviewApp } from '../../overview/components/App';
 import { supportsCustomProjectDashboards } from '../permissions';
 import { getProjectDashboardsListRoute, isProjectOverviewRoute } from '../routes';
 import { ProjectBuiltInDashboardActions } from './ProjectBuiltInDashboardActions';
+import { ProjectDashboardUnavailableEmptyState } from './ProjectDashboardUnavailableEmptyState';
 import {
   projectDashboardWidgetBodyMap,
   projectDashboardWidgetHeaderMap,
@@ -255,7 +255,9 @@ function ProjectBuiltInDashboardContent(props: Readonly<ProjectBuiltInDashboardC
   let dashboardContent: ReactNode = <Spinner isLoading />;
 
   if (isPullRequestOverview) {
-    dashboardContent = <ProjectHealthDashboardPullRequestEmptyState />;
+    dashboardContent = (
+      <ProjectDashboardUnavailableEmptyState branchLike={branchLike} componentKey={component.key} />
+    );
   } else if (!isLoading && dashboard) {
     dashboardContent = (
       <>
@@ -321,22 +323,6 @@ function ProjectBuiltInDashboardContent(props: Readonly<ProjectBuiltInDashboardC
     >
       {dashboardContent}
     </ProjectPageTemplate>
-  );
-}
-
-function ProjectHealthDashboardPullRequestEmptyState() {
-  return (
-    <div className="sw-flex sw-flex-col sw-items-center sw-justify-center sw-gap-6 sw-h-full">
-      <FishVisual />
-      <div className="sw-flex sw-flex-col sw-text-center">
-        <Heading as="h2" hasMarginBottom>
-          <FormattedMessage id="overview.dashboard.not_available_for_pull_requests" />
-        </Heading>
-        <Text>
-          <FormattedMessage id="overview.dashboard.not_available_for_pull_requests.description" />
-        </Text>
-      </div>
-    </div>
   );
 }
 
