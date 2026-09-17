@@ -24,15 +24,11 @@ import { Route, useOutletContext } from 'react-router-dom';
 import { byLabelText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import { getSystemStatus, waitSystemUPStatus } from '~sq-server-commons/api/system';
 import AdminContext from '~sq-server-commons/context/AdminContext';
-import { mockAppState, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { RenderContext, renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { AdminPagesContext } from '~sq-server-commons/types/admin';
-import { Permissions } from '~sq-server-commons/types/permissions';
 import { AdminContainer, AdminContainerProps } from '../AdminContainer';
 
-const { useArchitectureEnterpriseAccess } = jest.requireActual<
-  typeof import('~feature-architecture/hooks/useArchitectureEnterpriseAccess')
->('~feature-architecture/hooks/useArchitectureEnterpriseAccess');
 
 jest.mock('~sq-server-commons/api/navigation', () => ({
   getSettingsNavigation: jest
@@ -130,11 +126,6 @@ function renderAdminContainer(
   );
 }
 
-function ArchitectureAccessProbe() {
-  const { canAdministrateArchitectureGlobally } = useArchitectureEnterpriseAccess();
-
-  return <span>canAdministrate:{String(canAdministrateArchitectureGlobally)}</span>;
-}
 
 function TestChildComponent() {
   const { adminPages } = useOutletContext<AdminPagesContext>();
