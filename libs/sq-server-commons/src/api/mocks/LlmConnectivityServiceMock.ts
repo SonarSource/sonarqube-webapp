@@ -57,6 +57,25 @@ export const MOCK_SUPPORTED_MODELS: Record<
       modelKey: 'CLAUDE_OPUS_4_8',
       modelDisplayName: 'Claude Opus 4.8',
       modelIdentifiers: ['claude-opus-4.8', 'claude-opus-4-8'],
+      supportedSecondaryModels: [
+        {
+          modelKey: 'CLAUDE_OPUS_4_6',
+          modelDisplayName: 'Claude Opus 4.6',
+          modelIdentifiers: ['claude-opus-4.6', 'claude-opus-4-6'],
+        },
+      ],
+    },
+    {
+      modelKey: 'GPT_5_5',
+      modelDisplayName: 'GPT-5.5',
+      modelIdentifiers: ['gpt-5.5'],
+      supportedSecondaryModels: [
+        {
+          modelKey: 'GPT_5_4_MINI',
+          modelDisplayName: 'GPT-5.4 mini',
+          modelIdentifiers: ['gpt-5.4-mini'],
+        },
+      ],
     },
   ],
   [AiCapability.RemediationAgent]: [
@@ -64,11 +83,13 @@ export const MOCK_SUPPORTED_MODELS: Record<
       modelKey: 'CLAUDE_OPUS_4_6',
       modelDisplayName: 'Claude Opus 4.6',
       modelIdentifiers: ['claude-opus-4.6', 'claude-opus-4-6'],
+      supportedSecondaryModels: [],
     },
     {
       modelKey: 'GPT_5_5',
       modelDisplayName: 'GPT-5.5',
       modelIdentifiers: ['gpt-5.5'],
+      supportedSecondaryModels: [],
     },
   ],
 };

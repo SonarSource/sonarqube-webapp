@@ -146,6 +146,7 @@ export interface SupportedModel {
   modelDisplayName: string;
   modelIdentifiers: string[];
   modelKey: string;
+  supportedSecondaryModels: Omit<SupportedModel, 'supportedSecondaryModels'>[];
 }
 
 export interface SupportedModelsResponse {

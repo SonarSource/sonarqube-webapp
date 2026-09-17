@@ -883,13 +883,15 @@ export const defaultMessages = {
   'ai_capabilities_select.provider.placeholder': 'Select a provider',
   'ai_capabilities_select.provider.empty':
     'No LLM providers connected yet. Connect one to choose it here.',
+  'ai_capabilities_select.provider.model.help_intro':
+    'Enter the slug of a supported model. Make sure it matches the format of your provider.',
   'ai_capabilities_select.provider.empty.link': 'Go to LLM providers',
-  'ai_capabilities_select.provider.model.label': 'Choose your model',
+  'ai_capabilities_select.provider.model.label': 'Primary model slug',
   'ai_capabilities_select.provider.model.help':
     'Supported {count, plural, one {model} other {models}}: {models}',
-  'ai_capabilities_select.provider.secondary_model.label': 'Choose your secondary model',
+  'ai_capabilities_select.provider.secondary_model.label': 'Secondary model slug',
   'ai_capabilities_select.provider.secondary_model.help':
-    'Supported {count, plural, one {model} other {models}}: {models}',
+    'For primary model {primary}, the secondary supported {count, plural, one {model is} other {models are}} {models}',
   'ai_capabilities_select.provider.save.aria_label': 'Save provider selection',
   'ai_capabilities_select.provider.saved': 'Provider selection saved',
   'ai_capabilities_select.provider.error':
