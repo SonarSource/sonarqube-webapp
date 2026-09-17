@@ -28,6 +28,7 @@ import {
 import { useDashboardMeasureQuery } from '~adapters/queries/dashboard-measure';
 import { useProjectIssueCountSearchQuery } from '~adapters/queries/project-count-widget-data';
 import { useWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-metadata';
+import { BranchLikeBase } from '~shared/types/branch-like';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinner';
 import { WidgetNoData } from '../../components/common/WidgetNoData';
@@ -47,16 +48,22 @@ import {
 } from './countWidgetPresentation';
 
 interface HistoryCountProps extends Props {
+  branchLike?: BranchLikeBase;
   componentKey: string;
   measure: DashboardMeasure;
 }
 
-function getCountWidgetLink(componentKey: string, metric: DashboardMetric, scope: CodeScope) {
+function getCountWidgetLink(
+  componentKey: string,
+  metric: DashboardMetric,
+  scope: CodeScope,
+  branchLike?: BranchLikeBase,
+) {
   if (metric.type === DashboardMetricType.Raw) {
-    return buildProjectRawCountWidgetLink(componentKey, metric.metricKey, scope);
+    return buildProjectRawCountWidgetLink(componentKey, metric.metricKey, scope, branchLike);
   }
   if (metric.type === DashboardMetricType.Rich) {
-    return buildProjectRichCountWidgetLink(componentKey, metric.measureFilters, scope);
+    return buildProjectRichCountWidgetLink(componentKey, metric.measureFilters, scope, branchLike);
   }
   return undefined;
 }
@@ -65,7 +72,7 @@ function ProjectHistoryCountWidget(props: Readonly<HistoryCountProps>) {
   const { formatMttr } = useMttrFormatters();
   const { formatDate, formatMessage } = useIntl();
   const { projectEntityId } = useDashboardProjectContext();
-  const { componentKey, measure, metric, scope, showTrendIndicator = false } = props;
+  const { branchLike, componentKey, measure, metric, scope, showTrendIndicator = false } = props;
   const trendVisible = isCountWidgetTrendVisible(showTrendIndicator, metric, scope);
   const months = dashboardCountHistoryMonths(metric, trendVisible);
   const query = useDashboardMeasureQuery(
@@ -92,7 +99,7 @@ function ProjectHistoryCountWidget(props: Readonly<HistoryCountProps>) {
   const metricKey = dashboardMeasureMetricKey(measure);
   const metadata = metadataQuery.data?.[metricKey];
   const presentation = buildCountWidgetPresentation({
-    activityUrl: getProjectDashboardMeasureHistoryUrl(componentKey, metricKey),
+    activityUrl: getProjectDashboardMeasureHistoryUrl(componentKey, metricKey, branchLike),
     data: query.data,
     formatDate,
     formatMessage,
@@ -108,13 +115,20 @@ function ProjectHistoryCountWidget(props: Readonly<HistoryCountProps>) {
     return <WidgetNoData />;
   }
 
-  return <CountWidget {...presentation} linkTo={getCountWidgetLink(componentKey, metric, scope)} />;
+  return (
+    <CountWidget
+      {...presentation}
+      linkTo={getCountWidgetLink(componentKey, metric, scope, branchLike)}
+    />
+  );
 }
 
 function ProjectNewCodeRichCountWidget({
+  branchLike,
   componentKey,
   metric,
 }: Readonly<{
+  branchLike?: BranchLikeBase;
   componentKey: string;
   metric: Extract<DashboardMetric, { type: DashboardMetricType.Rich }>;
 }>) {
@@ -136,7 +150,12 @@ function ProjectNewCodeRichCountWidget({
 
   return (
     <CountWidget
-      linkTo={buildProjectRichCountWidgetLink(componentKey, metric.measureFilters, CodeScope.New)}
+      linkTo={buildProjectRichCountWidgetLink(
+        componentKey,
+        metric.measureFilters,
+        CodeScope.New,
+        branchLike,
+      )}
       metricKey={metricKey}
       metricType={MetricType.Integer}
       showTrendIndicator={false}
@@ -146,7 +165,7 @@ function ProjectNewCodeRichCountWidget({
 }
 
 export function ProjectCountWidgetWrapper(props: Readonly<Props>) {
-  const { componentKey, isLoading, projectEntityId } = useDashboardProjectContext();
+  const { branchLike, componentKey, isLoading, projectEntityId } = useDashboardProjectContext();
 
   if (isLoading) {
     return <WidgetLoadingSpinner />;
@@ -155,12 +174,19 @@ export function ProjectCountWidgetWrapper(props: Readonly<Props>) {
     return <WidgetNoData />;
   }
   if (props.metric.type === DashboardMetricType.Rich && props.scope === CodeScope.New) {
-    return <ProjectNewCodeRichCountWidget componentKey={componentKey} metric={props.metric} />;
+    return (
+      <ProjectNewCodeRichCountWidget
+        branchLike={branchLike}
+        componentKey={componentKey}
+        metric={props.metric}
+      />
+    );
   }
 
   return (
     <ProjectHistoryCountWidget
       {...props}
+      branchLike={branchLike}
       componentKey={componentKey}
       measure={dashboardMetricToMeasure(props.metric, props.scope)}
     />

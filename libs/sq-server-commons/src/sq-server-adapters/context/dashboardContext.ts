@@ -63,6 +63,7 @@ export function useDashboardProjectContext(): DashboardProjectContext {
   }
 
   return {
+    branchLike: currentBranch,
     componentKey: component?.key ?? '',
     isLoading: Boolean(isPending) || isBranchPending,
     // Server has no organization concept. The project key is only used as a non-empty value by

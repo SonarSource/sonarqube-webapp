@@ -85,6 +85,7 @@ describe('dashboard context adapter', () => {
     const { result } = renderHook(() => useDashboardProjectContext());
 
     expect(result.current).toEqual({
+      branchLike: { branchId: 'branch-id', isMain: true, name: 'main' },
       componentKey: 'component-key',
       isLoading: false,
       organization: 'component-key',

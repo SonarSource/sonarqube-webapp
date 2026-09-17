@@ -20,7 +20,9 @@
 
 import type { Path } from 'history';
 import type { To } from 'react-router-dom';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { getComponentIssuesUrl, getPathUrlAsString, getRuleUrl } from '~shared/helpers/urls';
+import { BranchLikeBase } from '~shared/types/branch-like';
 import { MetricKey } from '~shared/types/metrics';
 import {
   CodeScope,
@@ -52,25 +54,35 @@ export function getDashboardDocumentationUrl(docLink: string): string {
 export function getProjectDashboardMeasureHistoryUrl(
   component: string,
   metric: string,
+  branchLike?: BranchLikeBase,
 ): Partial<Path> {
-  return getMeasureHistoryUrl(component, metric);
+  return getMeasureHistoryUrl(component, metric, branchLike);
 }
 
 export function getProjectDashboardMeasuresUrl(props: {
+  branchLike?: BranchLikeBase;
   component: string;
   metric: string;
   sinceLeakPeriod?: boolean;
 }): To {
   return getComponentDrilldownUrl({
+    branchLike: props.branchLike,
     componentKey: props.component,
     metric: getMetricKeyForScope(props.metric, props.sinceLeakPeriod === true),
   });
 }
 
-export function getProjectDashboardSummaryUrl(component: string, overall = false): To {
+export function getProjectDashboardSummaryUrl(
+  component: string,
+  overall = false,
+  branchLike?: BranchLikeBase,
+): To {
   return {
     pathname: overall ? PROJECT_SUMMARY_OVERALL_BASE_URL : PROJECT_SUMMARY_BASE_URL,
-    search: new URLSearchParams({ id: component }).toString(),
+    search: new URLSearchParams({
+      id: component,
+      ...getBranchLikeQuery(branchLike),
+    }).toString(),
   };
 }
 
@@ -82,12 +94,14 @@ export function buildProjectRichCountWidgetLink(
   component: string,
   measureFilters: MeasureFilters | undefined,
   scope: CodeScopeValue,
+  branchLike?: BranchLikeBase,
 ): To {
   return getComponentIssuesUrl(component, {
     impactSeverities: measureFilters?.impactSeverities?.join(','),
     impactSoftwareQualities: measureFilters?.impactSoftwareQuality,
     issueStatuses: measureFilters?.issueStatus ?? 'OPEN,CONFIRMED',
     ...(scope === CodeScope.New ? { sinceLeakPeriod: 'true' } : {}),
+    ...getBranchLikeQuery(branchLike),
   });
 }
 
@@ -95,8 +109,10 @@ export function buildProjectRawCountWidgetLink(
   component: string,
   metricKey: MetricKey,
   scope: CodeScopeValue,
+  branchLike?: BranchLikeBase,
 ): To {
   return getComponentDrilldownUrl({
+    branchLike,
     componentKey: component,
     metric: getMetricKeyForScope(metricKey, scope === CodeScope.New),
   });
@@ -117,9 +133,10 @@ export function getProjectDashboardPieChartSegmentUrl(
   projectKey: string,
   value: string,
   props: PieChartWidget,
+  branchLike?: BranchLikeBase,
 ): string {
   const { filter, metric, scope, slice } = props;
-  const params = new URLSearchParams({ id: projectKey });
+  const params = new URLSearchParams({ id: projectKey, ...getBranchLikeQuery(branchLike) });
 
   if (metric === PieChartMetric.IssueCount) {
     if (scope === CodeScope.New) {
@@ -154,12 +171,14 @@ export function getProjectDashboardTopListRowUrl(
   projectKey: string,
   facetValue: string,
   props: TopListWidgetLinkProps,
+  branchLike?: BranchLikeBase,
 ): string {
   const { metric, scope } = props;
   const params = new URLSearchParams({
     id: projectKey,
     issueStatuses: 'OPEN,CONFIRMED',
     rules: facetValue,
+    ...getBranchLikeQuery(branchLike),
   });
 
   if (scope === CodeScope.New) {

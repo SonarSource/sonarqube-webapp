@@ -19,6 +19,7 @@
  */
 
 import type { To } from 'react-router-dom';
+import type { BranchLikeBase } from '~shared/types/branch-like';
 import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
 import {
@@ -251,5 +252,124 @@ describe('Server dashboard widget URL seams', () => {
     expect(getPortfolioDashboardWidgetDrilldownUrl('widget-key', 'java:S1')).toBe(
       'breakdown/widget-key?q=java%3AS1&id=portfolio%2Fkey',
     );
+  });
+
+  describe('branch and pull request context', () => {
+    const NON_MAIN_BRANCH: BranchLikeBase = { isMain: false, name: 'feature/foo' };
+    const PULL_REQUEST: BranchLikeBase = {
+      base: 'main',
+      branch: 'feature/foo',
+      key: '42',
+      target: 'main',
+      title: 'PR title',
+    };
+
+    it('carries a non-main branch through every widget link', () => {
+      expectUrl(
+        buildProjectRawCountWidgetLink(
+          'project-key',
+          MetricKey.coverage,
+          CodeScope.Overall,
+          NON_MAIN_BRANCH,
+        ),
+        '/component_measures',
+        { branch: 'feature/foo', id: 'project-key', metric: MetricKey.coverage },
+      );
+      expectUrl(
+        buildProjectRichCountWidgetLink(
+          'project-key',
+          undefined,
+          CodeScope.Overall,
+          NON_MAIN_BRANCH,
+        ),
+        '/project/issues',
+        { branch: 'feature/foo', id: 'project-key', issueStatuses: 'OPEN,CONFIRMED' },
+      );
+      expectUrl(
+        getProjectDashboardMeasureHistoryUrl('project-key', MetricKey.coverage, NON_MAIN_BRANCH),
+        '/project/activity',
+        {
+          branch: 'feature/foo',
+          [CUSTOM_METRICS_PARAM]: MetricKey.coverage,
+          graph: 'custom',
+          id: 'project-key',
+        },
+      );
+      expectUrl(
+        getProjectDashboardMeasuresUrl({
+          branchLike: NON_MAIN_BRANCH,
+          component: 'project-key',
+          metric: MetricKey.reliability_rating,
+        }),
+        '/component_measures',
+        { branch: 'feature/foo', id: 'project-key', metric: MetricKey.reliability_rating },
+      );
+      expectUrl(
+        getProjectDashboardSummaryUrl('project-key', false, NON_MAIN_BRANCH),
+        '/summary/new_code',
+        { branch: 'feature/foo', id: 'project-key' },
+      );
+      expectUrl(
+        getProjectDashboardPieChartSegmentUrl(
+          'project-key',
+          'java',
+          {
+            filter: '',
+            metric: PieChartMetric.LineCount,
+            scope: CodeScope.Overall,
+            slice: 'language',
+          },
+          NON_MAIN_BRANCH,
+        ),
+        '/code',
+        { branch: 'feature/foo', id: 'project-key' },
+      );
+      expectUrl(
+        getProjectDashboardTopListRowUrl(
+          'project-key',
+          'typescript:S1',
+          {
+            metric: { type: DashboardMetricType.Raw, metricKey: MetricKey.bugs },
+            rankBy: 'rule',
+            scope: CodeScope.Overall,
+          },
+          NON_MAIN_BRANCH,
+        ),
+        '/project/issues',
+        {
+          branch: 'feature/foo',
+          id: 'project-key',
+          issueStatuses: 'OPEN,CONFIRMED',
+          rules: 'typescript:S1',
+        },
+      );
+    });
+
+    it('carries a pull request through every widget link', () => {
+      expectUrl(
+        buildProjectRawCountWidgetLink(
+          'project-key',
+          MetricKey.coverage,
+          CodeScope.Overall,
+          PULL_REQUEST,
+        ),
+        '/component_measures',
+        { id: 'project-key', metric: MetricKey.coverage, pullRequest: '42' },
+      );
+      expectUrl(
+        getProjectDashboardSummaryUrl('project-key', false, PULL_REQUEST),
+        '/summary/new_code',
+        { id: 'project-key', pullRequest: '42' },
+      );
+    });
+
+    it('omits branch params for the main branch, matching getBranchLikeQuery', () => {
+      const MAIN_BRANCH: BranchLikeBase = { isMain: true, name: 'main' };
+      expectUrl(
+        getProjectDashboardSummaryUrl('project-key', false, MAIN_BRANCH),
+        '/summary/new_code',
+        { id: 'project-key' },
+      );
+    });
   });
 });

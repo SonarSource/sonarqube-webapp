@@ -30,7 +30,7 @@ import {
 import { isApplication, isPortfolioLike } from '~shared/helpers/component';
 import { queryToSearchString } from '~shared/helpers/query';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
-import { BranchParameters } from '~shared/types/branch-like';
+import { BranchLikeBase, BranchParameters } from '~shared/types/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import { DEFAULT_ISSUES_QUERY } from '../components/shared/utils';
 import { PROFILE_PATH } from '../constants/paths';
@@ -234,7 +234,7 @@ export function getIssuesUrl(query: Query): To {
  */
 export function getComponentDrilldownUrl(options: {
   asc?: boolean;
-  branchLike?: BranchLike;
+  branchLike?: BranchLikeBase;
   componentKey: string;
   listView?: boolean;
   metric: string;
@@ -298,7 +298,11 @@ export function getActivityUrl(component: string, branchLike?: BranchLike, graph
 /**
  * Generate URL for a component's measure history
  */
-export function getMeasureHistoryUrl(component: string, metric: string, branchLike?: BranchLike) {
+export function getMeasureHistoryUrl(
+  component: string,
+  metric: string,
+  branchLike?: BranchLikeBase,
+) {
   return {
     pathname: '/project/activity',
     search: queryToSearchString({

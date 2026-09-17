@@ -29,6 +29,7 @@ import {
   useProjectPieChartSegmentsSearchQuery,
 } from '~adapters/queries/project-pie-chart-widget-data';
 import { isTransientDashboardWidgetFetchError } from '~shared/helpers/dashboard-error-reporting';
+import { BranchLikeBase } from '~shared/types/branch-like';
 import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinner';
 import { WidgetNoData } from '../../components/common/WidgetNoData';
 import { buildPieChartAriaLabel } from '../../components/pie-chart/pieChartAriaLabel';
@@ -82,6 +83,7 @@ function useProjectPieChartModelOrganizations(
 }
 
 type ProjectPieChartViewProps = Readonly<{
+  branchLike?: BranchLikeBase;
   error: unknown;
   hasEntityKey: boolean;
   isPending: boolean;
@@ -91,7 +93,7 @@ type ProjectPieChartViewProps = Readonly<{
 }>;
 
 function ProjectPieChartView(props: ProjectPieChartViewProps) {
-  const { error, hasEntityKey, isPending, projectKey, segments, widget } = props;
+  const { branchLike, error, hasEntityKey, isPending, projectKey, segments, widget } = props;
   const navigate = useNavigate();
   const { formatMessage } = useIntl();
   const { filter, metric, pastry = PieChartPastry.Pie, showLegend, slice } = widget;
@@ -101,9 +103,9 @@ function ProjectPieChartView(props: ProjectPieChartViewProps) {
       if (segment.value.startsWith('OTHER_')) {
         return undefined;
       }
-      return getProjectDashboardPieChartSegmentUrl(projectKey, segment.value, widget);
+      return getProjectDashboardPieChartSegmentUrl(projectKey, segment.value, widget, branchLike);
     },
-    [projectKey, widget],
+    [branchLike, projectKey, widget],
   );
 
   const handleSegmentClick = useCallback(
@@ -158,13 +160,18 @@ function ProjectPieChartView(props: ProjectPieChartViewProps) {
 }
 
 function ProjectPieChartWidgetIssueSearchView(
-  props: Readonly<{ projectKey: string; widget: Readonly<PieChartWidgetProps> }>,
+  props: Readonly<{
+    branchLike?: BranchLikeBase;
+    projectKey: string;
+    widget: Readonly<PieChartWidgetProps>;
+  }>,
 ) {
-  const { projectKey, widget } = props;
+  const { branchLike, projectKey, widget } = props;
   const { error, isPending, segments } = useProjectPieChartSegmentsSearchQuery(widget, projectKey);
 
   return (
     <ProjectPieChartView
+      branchLike={branchLike}
       error={error}
       hasEntityKey={Boolean(projectKey)}
       isPending={isPending}
@@ -178,12 +185,13 @@ function ProjectPieChartWidgetIssueSearchView(
 function ProjectPieChartWidgetOrganizationsContent(
   props: Readonly<{
     branchEntityId: string;
+    branchLike?: BranchLikeBase;
     organization: string;
     projectKey: string;
     widget: Readonly<PieChartWidgetProps>;
   }>,
 ) {
-  const { branchEntityId, organization, projectKey, widget } = props;
+  const { branchEntityId, branchLike, organization, projectKey, widget } = props;
   const { error, isPending, segments } = useProjectPieChartModelOrganizations(
     branchEntityId,
     projectKey,
@@ -193,6 +201,7 @@ function ProjectPieChartWidgetOrganizationsContent(
 
   return (
     <ProjectPieChartView
+      branchLike={branchLike}
       error={error}
       hasEntityKey={Boolean(branchEntityId)}
       isPending={isPending}
@@ -206,15 +215,22 @@ function ProjectPieChartWidgetOrganizationsContent(
 function ProjectPieChartWidgetOrganizationsView(
   props: Readonly<{
     branchEntityId: string;
+    branchLike?: BranchLikeBase;
     organization: string;
     projectKey: string;
     widget: Readonly<PieChartWidgetProps>;
   }>,
 ) {
-  const { projectKey, widget } = props;
+  const { branchLike, projectKey, widget } = props;
 
   if (projectPieChartUsesSearchData(widget)) {
-    return <ProjectPieChartWidgetIssueSearchView projectKey={projectKey} widget={widget} />;
+    return (
+      <ProjectPieChartWidgetIssueSearchView
+        branchLike={branchLike}
+        projectKey={projectKey}
+        widget={widget}
+      />
+    );
   }
 
   return <ProjectPieChartWidgetOrganizationsContent {...props} />;
@@ -222,6 +238,7 @@ function ProjectPieChartWidgetOrganizationsView(
 
 export function ProjectPieChartWidgetWrapper(props: Readonly<PieChartWidgetProps>) {
   const {
+    branchLike,
     componentKey: projectKey,
     isLoading,
     organization,
@@ -238,6 +255,7 @@ export function ProjectPieChartWidgetWrapper(props: Readonly<PieChartWidgetProps
   return (
     <ProjectPieChartWidgetOrganizationsView
       branchEntityId={projectEntityId}
+      branchLike={branchLike}
       organization={organization}
       projectKey={projectKey}
       widget={props}

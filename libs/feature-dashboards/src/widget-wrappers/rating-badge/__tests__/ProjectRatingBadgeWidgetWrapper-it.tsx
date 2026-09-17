@@ -19,6 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
+import { useDashboardProjectContext } from '~adapters/context/dashboardContext';
 import { useProjectRatingBadgeMeasuresQuery } from '~adapters/queries/project-rating-badge-widget-data';
 import { useWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-metadata';
 import { renderWithRouter } from '~shared/helpers/test-utils';
@@ -32,6 +33,8 @@ jest.mock('~adapters/components/measure/Measure', () => ({
     <div data-testid="measure">{`${componentKey}:${value}`}</div>
   ),
 }));
+
+jest.mock('~adapters/context/dashboardContext');
 
 jest.mock('~adapters/helpers/dashboard-measures', () => ({
   extractDashboardMeasureValue: (measure: { value?: string } | undefined) => measure?.value,
@@ -56,6 +59,12 @@ jest.mock('../ProjectQualityGateStatusBadge', () => ({
 }));
 
 beforeEach(() => {
+  jest.mocked(useDashboardProjectContext).mockReturnValue({
+    componentKey: 'project-key',
+    isLoading: false,
+    organization: 'org',
+    projectEntityId: 'branch',
+  });
   jest.mocked(useProjectRatingBadgeMeasuresQuery).mockReturnValue({
     data: [{ metric: MetricKey.reliability_rating, value: '2' }],
     isLoading: false,

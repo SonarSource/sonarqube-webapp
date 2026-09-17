@@ -26,6 +26,7 @@ import {
   getProjectDashboardTopListRowUrl,
 } from '~adapters/helpers/dashboard-widget-urls';
 import { useProjectTopListData } from '~adapters/queries/project-top-list-widget-data';
+import { BranchLikeBase } from '~shared/types/branch-like';
 import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinner';
 import { WidgetNoData } from '../../components/common/WidgetNoData';
 import { formatSegmentLabel } from '../../components/visualizations/pie-chart/pieChartSegmentUtils';
@@ -43,12 +44,13 @@ import { topListRankByToIssueFacet } from '../../utils/topList';
 function ProjectTopListWidgetView(
   props: Readonly<{
     branchEntityId: string;
+    branchLike?: BranchLikeBase;
     organization: string;
     projectKey: string;
     widget: Readonly<TopListWidgetProps>;
   }>,
 ) {
-  const { branchEntityId, organization, projectKey, widget } = props;
+  const { branchEntityId, branchLike, organization, projectKey, widget } = props;
   const { formatMessage } = useIntl();
   const { limit, metric, rankBy, scope } = widget;
   const facet = topListRankByToIssueFacet(rankBy);
@@ -64,8 +66,8 @@ function ProjectTopListWidgetView(
   // Count cell navigates to the filtered issues page (the previous label behaviour).
   const getCountUrl = useCallback(
     (value: string) =>
-      getProjectDashboardTopListRowUrl(projectKey, value, { metric, rankBy, scope }),
-    [metric, projectKey, rankBy, scope],
+      getProjectDashboardTopListRowUrl(projectKey, value, { metric, rankBy, scope }, branchLike),
+    [branchLike, metric, projectKey, rankBy, scope],
   );
 
   // Label cell navigates to the rule details page. Only rule rank-by carries rule keys as values.
@@ -106,6 +108,7 @@ function ProjectTopListWidgetView(
 
 export function ProjectTopListWidgetWrapper(props: Readonly<TopListWidgetProps>) {
   const {
+    branchLike,
     componentKey: projectKey,
     isLoading,
     organization,
@@ -123,6 +126,7 @@ export function ProjectTopListWidgetWrapper(props: Readonly<TopListWidgetProps>)
   return (
     <ProjectTopListWidgetView
       branchEntityId={projectEntityId}
+      branchLike={branchLike}
       organization={organization}
       projectKey={projectKey}
       widget={props}

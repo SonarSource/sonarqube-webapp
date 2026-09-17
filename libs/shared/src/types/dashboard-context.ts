@@ -18,9 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import type { BranchLikeBase } from './branch-like';
 import type { MetricKey } from './metrics';
 
 export interface DashboardProjectContext {
+  branchLike?: BranchLikeBase;
   componentKey: string;
   isLoading: boolean;
   organization: string;

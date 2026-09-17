@@ -85,7 +85,15 @@ describe('ProjectQualityGateStatusBadge', () => {
     renderStatus('ERROR');
 
     expect(screen.getByText('2')).toBeInTheDocument();
-    expect(useProjectQualityGateStatusWidgetQuery).toHaveBeenCalledWith('project-key');
+    expect(useProjectQualityGateStatusWidgetQuery).toHaveBeenCalledWith('project-key', undefined);
+  });
+
+  it('forwards the current branch to the status query', () => {
+    const branchLike = { isMain: false, name: 'feature/foo' };
+
+    renderStatus('OK', false, branchLike);
+
+    expect(useProjectQualityGateStatusWidgetQuery).toHaveBeenCalledWith('project-key', branchLike);
   });
 
   it('renders the optional breakdown after conditions resolve', () => {
@@ -104,9 +112,17 @@ describe('ProjectQualityGateStatusBadge', () => {
   });
 });
 
-function renderStatus(status: QGStatusExtended, showBreakdown = false) {
+function renderStatus(
+  status: QGStatusExtended,
+  showBreakdown = false,
+  branchLike?: { isMain: boolean; name: string },
+) {
   return renderWithRouter(
-    <ProjectQualityGateStatusBadge showBreakdown={showBreakdown} status={status} />,
-    { initialEntries: ['/?id=project-key'] },
+    <ProjectQualityGateStatusBadge
+      branchLike={branchLike}
+      component="project-key"
+      showBreakdown={showBreakdown}
+      status={status}
+    />,
   );
 }

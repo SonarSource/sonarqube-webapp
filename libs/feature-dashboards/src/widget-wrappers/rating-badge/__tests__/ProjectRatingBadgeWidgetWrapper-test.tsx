@@ -19,6 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
+import { useDashboardProjectContext } from '~adapters/context/dashboardContext';
 import * as ProjectRatingBadgeData from '~adapters/queries/project-rating-badge-widget-data';
 import * as WidgetMetricMetadata from '~adapters/queries/widget-metric-metadata';
 import { renderWithContext } from '~shared/helpers/test-utils';
@@ -26,13 +27,7 @@ import { MetricKey, MetricType } from '~shared/types/metrics';
 import { CodeScope, WidgetMode } from '../../../types/widget-common';
 import { ProjectRatingBadgeWidgetWrapper as RatingBadgeWidget } from '../ProjectRatingBadgeWidgetWrapper';
 
-jest.mock('react-router-dom', () => {
-  const actual = jest.requireActual<typeof import('react-router-dom')>('react-router-dom');
-  return {
-    ...actual,
-    useSearchParams: () => [new URLSearchParams('id=my-project')],
-  };
-});
+jest.mock('~adapters/context/dashboardContext');
 
 jest.mock('@sonarsource/echoes-react', () => ({
   ...jest.requireActual<typeof import('@sonarsource/echoes-react')>('@sonarsource/echoes-react'),
@@ -78,6 +73,12 @@ jest.mock('~adapters/queries/widget-metric-metadata', () => ({
 describe('RatingBadgeWidget', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    jest.mocked(useDashboardProjectContext).mockReturnValue({
+      componentKey: 'my-project',
+      isLoading: false,
+      organization: 'org',
+      projectEntityId: 'branch',
+    });
     jest.mocked(ProjectRatingBadgeData.useProjectRatingBadgeMeasuresQuery).mockReturnValue({
       data: [{ metric: MetricKey.reliability_rating, value: '1' }],
       isLoading: false,
@@ -114,6 +115,18 @@ describe('RatingBadgeWidget', () => {
       data: undefined,
       isLoading: true,
     } as unknown as ReturnType<typeof ProjectRatingBadgeData.useProjectRatingBadgeMeasuresQuery>);
+
+    renderRatingBadgeWidget(MetricKey.reliability_rating);
+    expect(screen.getByText('loading-widget')).toBeInTheDocument();
+  });
+
+  it('shows the loading state while the dashboard context (branch resolution) is loading', () => {
+    jest.mocked(useDashboardProjectContext).mockReturnValue({
+      componentKey: 'my-project',
+      isLoading: true,
+      organization: 'org',
+      projectEntityId: 'branch',
+    });
 
     renderRatingBadgeWidget(MetricKey.reliability_rating);
     expect(screen.getByText('loading-widget')).toBeInTheDocument();

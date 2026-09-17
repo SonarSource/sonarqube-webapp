@@ -22,14 +22,16 @@ import { Badge, BadgeVariety, LinkStandalone, Text } from '@sonarsource/echoes-r
 import { useIntl } from 'react-intl';
 import { getProjectDashboardSummaryUrl } from '~adapters/helpers/dashboard-widget-urls';
 import { filterConditions } from '~shared/helpers/quality-gates';
+import { BranchLikeBase } from '~shared/types/branch-like';
 import { QualityGateStatusCondition } from '~shared/types/quality-gates';
 
 interface Props {
+  branchLike?: BranchLikeBase;
   componentKey: string;
   conditions: QualityGateStatusCondition[];
 }
 
-export function QualityGateBreakdown({ componentKey, conditions }: Readonly<Props>) {
+export function QualityGateBreakdown({ branchLike, componentKey, conditions }: Readonly<Props>) {
   const { formatMessage } = useIntl();
 
   const { failedNewCodeConditions, failedOverallConditions } = filterConditions(conditions);
@@ -42,8 +44,8 @@ export function QualityGateBreakdown({ componentKey, conditions }: Readonly<Prop
     return null;
   }
 
-  const newCodeUrl = getProjectDashboardSummaryUrl(componentKey);
-  const overallUrl = getProjectDashboardSummaryUrl(componentKey, true);
+  const newCodeUrl = getProjectDashboardSummaryUrl(componentKey, false, branchLike);
+  const overallUrl = getProjectDashboardSummaryUrl(componentKey, true, branchLike);
 
   // Determine badge variety based on counts
   const newCodeVariety = newCodeCount > 0 ? BadgeVariety.Danger : BadgeVariety.Success;

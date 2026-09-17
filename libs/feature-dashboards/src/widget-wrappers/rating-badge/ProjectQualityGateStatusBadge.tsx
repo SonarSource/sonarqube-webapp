@@ -21,36 +21,40 @@
 import styled from '@emotion/styled';
 import { LinkStandalone, Spinner, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useSearchParams } from 'react-router-dom';
 import tw from 'twin.macro';
 import { QualityGateIndicator } from '~adapters/components/ui/QualityGateIndicator';
 import { formatDashboardMeasure } from '~adapters/helpers/dashboard-measures';
 import { getProjectDashboardSummaryUrl } from '~adapters/helpers/dashboard-widget-urls';
 import { useProjectQualityGateStatusWidgetQuery } from '~adapters/queries/project-rating-badge-widget-data';
+import type { BranchLikeBase } from '~shared/types/branch-like';
 import type { QGStatusExtended } from '~shared/types/common';
 import { MetricType } from '~shared/types/metrics';
 import { QualityGateBreakdown } from './QualityGateBreakdown';
 
 interface Props {
+  branchLike?: BranchLikeBase;
+  component: string;
   showBreakdown?: boolean;
   status?: QGStatusExtended;
 }
 
 interface StatusDescriptionProps {
+  branchLike?: BranchLikeBase;
+  component: string;
   failedConditionsCount: number | undefined;
   isLoading: boolean;
   status: QGStatusExtended;
 }
 
 function StatusDescription({
+  branchLike,
+  component,
   failedConditionsCount,
   isLoading,
   status,
 }: Readonly<StatusDescriptionProps>) {
   const intl = useIntl();
-  const [searchParams] = useSearchParams();
-  const component = searchParams.get('id');
-  const summaryUrl = component ? getProjectDashboardSummaryUrl(component) : '#';
+  const summaryUrl = component ? getProjectDashboardSummaryUrl(component, false, branchLike) : '#';
 
   switch (status) {
     case 'OK':
@@ -112,12 +116,15 @@ function StatusDescription({
 }
 
 export function ProjectQualityGateStatusBadge({
+  branchLike,
+  component,
   showBreakdown = false,
   status = 'NOT_COMPUTED',
 }: Readonly<Props>) {
-  const [searchParams] = useSearchParams();
-  const component = searchParams.get('id') ?? '';
-  const { data: qualityGateStatus, isLoading } = useProjectQualityGateStatusWidgetQuery(component);
+  const { data: qualityGateStatus, isLoading } = useProjectQualityGateStatusWidgetQuery(
+    component,
+    branchLike,
+  );
 
   const statusLabel = formatDashboardMeasure(status, MetricType.Level);
 
@@ -134,6 +141,8 @@ export function ProjectQualityGateStatusBadge({
         <div className="sw-flex sw-flex-col">
           <Text className="sw-typo-lg-semibold sw-text-2xl">{statusLabel}</Text>
           <StatusDescription
+            branchLike={branchLike}
+            component={component}
             failedConditionsCount={failedConditionsCount}
             isLoading={isLoading}
             status={status}
@@ -141,7 +150,11 @@ export function ProjectQualityGateStatusBadge({
         </div>
       </div>
       {showBreakdown && status === 'ERROR' && !isLoading && (
-        <QualityGateBreakdown componentKey={component} conditions={conditions} />
+        <QualityGateBreakdown
+          branchLike={branchLike}
+          componentKey={component}
+          conditions={conditions}
+        />
       )}
     </div>
   );

@@ -19,12 +19,13 @@
  */
 
 import { RatingBadgeSize } from '@sonarsource/echoes-react';
-import { useSearchParams } from 'react-router-dom';
 import Measure from '~adapters/components/measure/Measure';
+import { useDashboardProjectContext } from '~adapters/context/dashboardContext';
 import { extractDashboardMeasureValue } from '~adapters/helpers/dashboard-measures';
 import { getProjectDashboardMeasuresUrl } from '~adapters/helpers/dashboard-widget-urls';
 import { useProjectRatingBadgeMeasuresQuery } from '~adapters/queries/project-rating-badge-widget-data';
 import { useWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-metadata';
+import { BranchLikeBase } from '~shared/types/branch-like';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinner';
 import { WidgetNoData } from '../../components/common/WidgetNoData';
@@ -44,8 +45,11 @@ interface Props {
 
 export function ProjectRatingBadgeWidgetWrapper(props: Readonly<Props>) {
   const { metricKey, mode, scope, showBreakdown } = props;
-  const [searchParams] = useSearchParams();
-  const component = searchParams.get('id') ?? '';
+  const {
+    branchLike,
+    componentKey: component,
+    isLoading: isContextLoading,
+  } = useDashboardProjectContext();
   const isScopeNew = scope === CodeScope.New;
 
   const { data: measureData, isLoading } = useProjectRatingBadgeMeasuresQuery(
@@ -66,12 +70,12 @@ export function ProjectRatingBadgeWidgetWrapper(props: Readonly<Props>) {
 
   const value = extractDashboardMeasureValue(measureData?.[0], isScopeNew);
 
-  if (isLoading || isMetricsListLoading) {
+  if (isContextLoading || isLoading || isMetricsListLoading) {
     return <WidgetLoadingSpinner />;
   }
 
   if (metricKey === MetricKey.alert_status) {
-    return renderAlertStatusWidget({ showBreakdown, value });
+    return renderAlertStatusWidget({ branchLike, component, showBreakdown, value });
   }
 
   if (value === undefined) {
@@ -84,6 +88,7 @@ export function ProjectRatingBadgeWidgetWrapper(props: Readonly<Props>) {
   const ratingLinkTo =
     isLinkable && !isEditMode
       ? getProjectDashboardMeasuresUrl({
+          branchLike,
           component,
           metric: metricKey,
           sinceLeakPeriod: isScopeNew,
@@ -113,14 +118,23 @@ export function ProjectRatingBadgeWidgetWrapper(props: Readonly<Props>) {
 }
 
 function renderAlertStatusWidget(args: {
+  branchLike?: BranchLikeBase;
+  component: string;
   showBreakdown: boolean | undefined;
   value: string | undefined;
 }): React.ReactNode {
-  const { showBreakdown, value } = args;
+  const { branchLike, component, showBreakdown, value } = args;
 
   if (!isQualityGateStatus(value)) {
     return <WidgetNoData />;
   }
 
-  return <ProjectQualityGateStatusBadge showBreakdown={showBreakdown} status={value} />;
+  return (
+    <ProjectQualityGateStatusBadge
+      branchLike={branchLike}
+      component={component}
+      showBreakdown={showBreakdown}
+      status={value}
+    />
+  );
 }
