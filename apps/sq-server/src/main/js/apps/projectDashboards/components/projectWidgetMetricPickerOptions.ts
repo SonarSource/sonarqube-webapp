@@ -45,8 +45,8 @@ const PROJECT_WIDGET_METRIC_GROUPS: readonly MetricGroupDefinition[] = [
     domain: 'Maintainability',
     keys: [
       MetricKey.effort_to_reach_maintainability_rating_a,
+      MetricKey.software_quality_maintainability_remediation_effort,
       MetricKey.sqale_debt_ratio,
-      MetricKey.new_sqale_debt_ratio,
     ],
   },
   {

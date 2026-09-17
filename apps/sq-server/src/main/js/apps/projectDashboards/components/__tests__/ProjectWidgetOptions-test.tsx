@@ -243,6 +243,20 @@ describe('ProjectWidgetOptions', () => {
     expect(lineValues).toEqual(expect.arrayContaining([MetricKey.lines, MetricKey.ncloc]));
   });
 
+  it('includes Technical Debt in count and line chart project widgets', () => {
+    const options = getSqsProjectWidgetMetricPickerOptions(createIntl({ locale: 'en' }));
+    const lineChartMetrics = options.lineChartMetrics as NonNullable<
+      typeof options.lineChartMetrics
+    >;
+    const lineValues = lineChartMetrics.flatMap(({ items }) => items.map(({ value }) => value));
+    const countValues = options.countMetrics.flatMap(({ items }) =>
+      items.map(({ value }) => value),
+    );
+
+    expect(lineValues).toContain(MetricKey.software_quality_maintainability_remediation_effort);
+    expect(countValues).toContain(MetricKey.software_quality_maintainability_remediation_effort);
+  });
+
   it('includes issue density and issue resolution metrics in count and line chart pickers', () => {
     const options = getSqsProjectWidgetMetricPickerOptions(createIntl({ locale: 'en' }));
     const lineChartMetrics = options.lineChartMetrics as NonNullable<
