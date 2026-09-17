@@ -71,6 +71,15 @@ export function MetricWidgetApplyFilters({
     visualization,
   });
 
+  if (
+    viewModel.hasMetric &&
+    !viewModel.showScopeFilter &&
+    viewModel.richMeasureFilters === undefined &&
+    viewModel.lineChart === undefined
+  ) {
+    return null;
+  }
+
   return (
     <ApplyFiltersAccordionShell {...shellProps}>
       {viewModel.hasMetric ? (

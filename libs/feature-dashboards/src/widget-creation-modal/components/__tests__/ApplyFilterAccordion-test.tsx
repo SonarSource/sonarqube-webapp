@@ -321,6 +321,95 @@ describe('ApplyFilterAccordion', () => {
     expect(screen.queryByRole('combobox', { name: /scope/ })).not.toBeInTheDocument();
   });
 
+  it('hides the scope filter for Server portfolio pie widgets', () => {
+    const state: WidgetConfigState = {
+      configs: {
+        pieChart: {
+          complete: true,
+          filter: '',
+          metric: PieChartMetric.IssueCount,
+          scope: CodeScope.Overall,
+          showLegend: true,
+          slice: PieChartIssueSlice.ImpactSeverities,
+        },
+      },
+      selectedType: VisualizationType.PieChart,
+    };
+
+    renderWithRouter(
+      <ApplyFilterAccordion
+        Accordion={Accordion}
+        applyFiltersAccordionOpen
+        dispatch={jest.fn()}
+        isPortfolioWidgetConfigurator
+        metricPickerOptions={{ ...metricPickerOptions, hideWidgetScopeFilter: true }}
+        setApplyFiltersAccordionOpen={jest.fn()}
+        state={state}
+      />,
+    );
+
+    expect(screen.queryByRole('combobox', { name: /scope/ })).not.toBeInTheDocument();
+    expect(screen.queryByText(/scope/)).not.toBeInTheDocument();
+  });
+
+  it('hides the Apply filters section when Scope is the only filter', () => {
+    const state: WidgetConfigState = {
+      configs: {
+        count: {
+          complete: true,
+          metric: { metricKey: MetricKey.ncloc, type: DashboardMetricType.Raw },
+          scope: CodeScope.Overall,
+          showTrendIndicator: false,
+        },
+      },
+      selectedType: VisualizationType.Count,
+    };
+
+    renderWithRouter(
+      <ApplyFilterAccordion
+        Accordion={Accordion}
+        applyFiltersAccordionOpen
+        dispatch={jest.fn()}
+        isPortfolioWidgetConfigurator
+        metricPickerOptions={{ ...metricPickerOptions, hideWidgetScopeFilter: true }}
+        setApplyFiltersAccordionOpen={jest.fn()}
+        state={state}
+      />,
+    );
+
+    expect(screen.queryByText('dashboard.add_widget_modal.apply_filters')).not.toBeInTheDocument();
+  });
+
+  it('hides the Apply filters section for Server portfolio line-count pies', () => {
+    const state: WidgetConfigState = {
+      configs: {
+        pieChart: {
+          complete: true,
+          filter: '',
+          metric: PieChartMetric.LineCount,
+          scope: CodeScope.Overall,
+          showLegend: true,
+          slice: PieChartLineSlice.Language,
+        },
+      },
+      selectedType: VisualizationType.PieChart,
+    };
+
+    renderWithRouter(
+      <ApplyFilterAccordion
+        Accordion={Accordion}
+        applyFiltersAccordionOpen
+        dispatch={jest.fn()}
+        isPortfolioWidgetConfigurator
+        metricPickerOptions={{ ...metricPickerOptions, hideWidgetScopeFilter: true }}
+        setApplyFiltersAccordionOpen={jest.fn()}
+        state={state}
+      />,
+    );
+
+    expect(screen.queryByText('dashboard.add_widget_modal.apply_filters')).not.toBeInTheDocument();
+  });
+
   it('disables pie scope when the selected metric and slice do not support New code', () => {
     const state: WidgetConfigState = {
       configs: {

@@ -149,4 +149,16 @@ describe('useTopListApplyFiltersViewModel', () => {
 
     expect(result.current.scope.isScopeSelectDisabled).toBe(true);
   });
+
+  it('hides the scope filter for Server portfolio dashboards', () => {
+    const { result } = renderHook(() =>
+      useTopListApplyFiltersViewModel({
+        dispatch: jest.fn(),
+        metricPickerOptions: { ...metricPickerOptions, hideWidgetScopeFilter: true },
+        topListConfig,
+      }),
+    );
+
+    expect(result.current.showScopeFilter).toBe(false);
+  });
 });

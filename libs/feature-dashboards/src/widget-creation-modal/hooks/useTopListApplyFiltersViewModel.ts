@@ -53,6 +53,7 @@ export interface TopListApplyFiltersViewModel {
   hasMetric: boolean;
   richMeasureFilters: RichMeasureFiltersSlice;
   scope: ScopeFilterSlice;
+  showScopeFilter: boolean;
 }
 
 export function useTopListApplyFiltersViewModel({
@@ -150,5 +151,6 @@ export function useTopListApplyFiltersViewModel({
     hasMetric: complete,
     richMeasureFilters: richMeasureFiltersSlice,
     scope: scopeSlice,
+    showScopeFilter: !metricPickerOptions.hideWidgetScopeFilter,
   };
 }

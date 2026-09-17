@@ -192,6 +192,34 @@ describe('useMetricWidgetApplyFiltersViewModel', () => {
     );
   });
 
+  it('hides the scope filter when the option is enabled', () => {
+    const { result } = renderHook(() =>
+      useMetricWidgetApplyFiltersViewModel({
+        dispatch: jest.fn(),
+        isPortfolioWidgetConfigurator: true,
+        metricConfig: issueDensityCountConfig,
+        metricPickerOptions: { ...metricPickerOptions, hideWidgetScopeFilter: true },
+        visualization: VisualizationType.Count,
+      }),
+    );
+
+    expect(result.current.showScopeFilter).toBe(false);
+  });
+
+  it('hides the scope filter when the option is enabled regardless of dashboard type', () => {
+    const { result } = renderHook(() =>
+      useMetricWidgetApplyFiltersViewModel({
+        dispatch: jest.fn(),
+        isPortfolioWidgetConfigurator: false,
+        metricConfig: issueDensityCountConfig,
+        metricPickerOptions: { ...metricPickerOptions, hideWidgetScopeFilter: true },
+        visualization: VisualizationType.Count,
+      }),
+    );
+
+    expect(result.current.showScopeFilter).toBe(false);
+  });
+
   it('dispatches issue density software-quality filter changes for count widgets', () => {
     const dispatch = jest.fn();
     const { result } = renderHook(() =>

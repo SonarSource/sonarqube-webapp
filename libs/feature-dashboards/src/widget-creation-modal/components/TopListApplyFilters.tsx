@@ -56,7 +56,7 @@ export function TopListApplyFilters({
     <ApplyFiltersAccordionShell {...shellProps}>
       {viewModel.hasMetric ? (
         <ApplyFiltersAccordionContent>
-          <MetricWidgetScopeFilter slice={viewModel.scope} />
+          {viewModel.showScopeFilter && <MetricWidgetScopeFilter slice={viewModel.scope} />}
           <MetricWidgetRichMeasureFilters slice={viewModel.richMeasureFilters} />
         </ApplyFiltersAccordionContent>
       ) : (

@@ -147,6 +147,8 @@ export interface WidgetMetricPickerOptions {
   defineWidgetDescriptionMessageId?: string;
   /** Override doc URL for the define-widget description link (e.g. portfolio metrics docs). */
   defineWidgetDocumentationUrl?: string;
+  /** Optionally hide the Scope filter. */
+  hideWidgetScopeFilter?: boolean;
   /**
    * Portfolio add-widget flow: store `security_hotspots` as a rich metric for issue APIs, and apply portfolio pie rules.
    */

@@ -154,6 +154,12 @@ export function PieChartApplyFilters({
     scope: pieChartScope,
     filter: pieChartFilter,
   } = pieConfig;
+  const hidePieFilterSelect =
+    pieChartMetric === PieChartMetric.LineCount || pieChartMetric === PieChartMetric.ProjectCount;
+
+  if (pieConfig.complete && metricPickerOptions.hideWidgetScopeFilter && hidePieFilterSelect) {
+    return null;
+  }
 
   const disablePieFilterSelect =
     (pieChartMetric === PieChartMetric.HotspotCount &&
@@ -185,29 +191,28 @@ export function PieChartApplyFilters({
         <ApplyFiltersWarning />
       ) : (
         <ApplyFiltersAccordionContent>
-          {pieScopeControl}
+          {!metricPickerOptions.hideWidgetScopeFilter && pieScopeControl}
 
-          {pieChartMetric !== PieChartMetric.LineCount &&
-            pieChartMetric !== PieChartMetric.ProjectCount && (
-              <Select
-                data={buildPieChartFilterSelectOptions(pieChartMetric, formatMessage)}
-                helpText={
-                  disablePieFilterSelect
-                    ? formatMessage({
-                        id: pieFilterDisabledHelpMessageId,
-                      })
-                    : undefined
-                }
-                isDisabled={disablePieFilterSelect}
-                label={formatMessage({
-                  id: 'dashboard.add_widget_modal.apply_filters_section.pie_filter.label',
-                })}
-                onChange={(value) => {
-                  dispatch({ type: 'SET_PIE_FILTER', filter: value as PieChartFilter | '' });
-                }}
-                value={pieChartFilter}
-              />
-            )}
+          {!hidePieFilterSelect && (
+            <Select
+              data={buildPieChartFilterSelectOptions(pieChartMetric, formatMessage)}
+              helpText={
+                disablePieFilterSelect
+                  ? formatMessage({
+                      id: pieFilterDisabledHelpMessageId,
+                    })
+                  : undefined
+              }
+              isDisabled={disablePieFilterSelect}
+              label={formatMessage({
+                id: 'dashboard.add_widget_modal.apply_filters_section.pie_filter.label',
+              })}
+              onChange={(value) => {
+                dispatch({ type: 'SET_PIE_FILTER', filter: value as PieChartFilter | '' });
+              }}
+              value={pieChartFilter}
+            />
+          )}
         </ApplyFiltersAccordionContent>
       )}
     </ApplyFiltersAccordionShell>

@@ -389,6 +389,6 @@ export function useMetricWidgetApplyFiltersViewModel({
     lineChart: lineChartSlice,
     richMeasureFilters: richMeasureFiltersSlice,
     scope: scopeSlice,
-    showScopeFilter: true,
+    showScopeFilter: !metricPickerOptions.hideWidgetScopeFilter,
   };
 }
