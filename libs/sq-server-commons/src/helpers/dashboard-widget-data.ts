@@ -23,6 +23,7 @@ import { CHART_CATEGORICAL_COLORS } from '~shared/helpers/charts';
 import { parseLanguageDistributionCounts } from '~shared/helpers/languageDistribution';
 import { parseDistributionCounts } from '~shared/helpers/measures';
 import { isAicaMetric } from '~shared/helpers/metrics';
+import { SCA_ISSUE_RISK_RATING_METRICS } from '~shared/helpers/sca';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { formatDashboardMeasure } from '../sq-server-adapters/helpers/dashboard-measures';
@@ -1216,7 +1217,13 @@ export function portfolioMeasuresLatestRecord(
         return [
           measure.metric,
           typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed)
-            ? normalizeDistribution(parsed, measure.metric.endsWith('_rating_distribution'))
+            ? normalizeDistribution(
+                parsed,
+                measure.metric.endsWith('_rating_distribution') ||
+                  SCA_ISSUE_RISK_RATING_METRICS.includes(
+                    measure.metric.replace(/_distribution$/, ''),
+                  ),
+              )
             : measure.value,
         ];
       } catch {

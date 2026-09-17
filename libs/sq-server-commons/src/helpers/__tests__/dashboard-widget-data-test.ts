@@ -441,38 +441,47 @@ describe('dashboard widget data helpers', () => {
               {
                 metric: MetricKey.security_issues,
                 type: MetricType.Distribution,
-                value: '{"HIGH":"3","LOW":"x"}',
+                value: '{"HIGH":"3","LOW":"x","1":"2"}',
               },
             ]),
           ],
           undefined,
         ),
-      ).toEqual({ security_issues: { HIGH: 3 } });
+      ).toEqual({ security_issues: { HIGH: 3, '1': 2 } });
     });
 
-    it('normalizes Server rating values and distribution buckets', () => {
-      expect(
-        portfolioMeasuresLatestRecord(
-          [
+    it.each([
+      [MetricKey.security_rating, MetricKey.security_rating_distribution],
+      [MetricKey.sca_rating_any_issue, MetricKey.sca_rating_any_issue_distribution],
+      [MetricKey.sca_rating_any_security, MetricKey.sca_rating_any_security_distribution],
+      [MetricKey.sca_rating_licensing, MetricKey.sca_rating_licensing_distribution],
+      [MetricKey.sca_rating_malware, MetricKey.sca_rating_malware_distribution],
+      [MetricKey.sca_rating_vulnerability, MetricKey.sca_rating_vulnerability_distribution],
+      [MetricKey.new_sca_rating_any_issue, MetricKey.new_sca_rating_any_issue_distribution],
+      [MetricKey.new_sca_rating_any_security, MetricKey.new_sca_rating_any_security_distribution],
+      [MetricKey.new_sca_rating_licensing, MetricKey.new_sca_rating_licensing_distribution],
+      [MetricKey.new_sca_rating_malware, MetricKey.new_sca_rating_malware_distribution],
+      [MetricKey.new_sca_rating_vulnerability, MetricKey.new_sca_rating_vulnerability_distribution],
+    ])(
+      'normalizes Server %s values and distribution buckets',
+      (ratingMetric, distributionMetric) => {
+        expect(
+          portfolioMeasuresLatestRecord([
             measureDay('2026-03-01', [
-              { metric: MetricKey.security_rating, type: MetricType.Rating, value: '2.0' },
+              { metric: ratingMetric, type: MetricType.Rating, value: '2.0' },
               {
-                metric: MetricKey.security_rating_distribution,
+                metric: distributionMetric,
                 type: MetricType.Distribution,
-                value: '{"1":"3","5":"2"}',
+                value: '{"1":"3","2.0":"1","3":"4","4":"5","5":"2"}',
               },
             ]),
-          ],
-          {
-            [MetricKey.security_rating]: { type: MetricType.Rating },
-            [MetricKey.security_rating_distribution]: { type: MetricType.Distribution },
-          },
-        ),
-      ).toEqual({
-        [MetricKey.security_rating]: 'B',
-        [MetricKey.security_rating_distribution]: { A: 3, E: 2 },
-      });
-    });
+          ]),
+        ).toEqual({
+          [ratingMetric]: 'B',
+          [distributionMetric]: { A: 3, B: 1, C: 4, D: 5, E: 2 },
+        });
+      },
+    );
   });
 
   describe('pie chart data', () => {
