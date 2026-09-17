@@ -22,6 +22,7 @@ import { screen } from '@testing-library/react';
 import type { IntlShape } from 'react-intl';
 import { renderWithContext } from '~shared/helpers/test-utils';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { DashboardMetricType, IssueStatus, RichMetricKey } from '../../../types/dashboard-widget';
 import { CodeScope } from '../../../types/widget-common';
@@ -162,7 +163,7 @@ describe('portfolioCountDrilldown', () => {
       }),
     ).toEqual(
       expect.objectContaining({
-        request: { severities: ['HIGH'], statuses: ['OPEN'] },
+        request: { severities: ['HIGH'], statuses: [...FILTERABLE_CODE_ISSUE_STATUSES] },
       }),
     );
   });

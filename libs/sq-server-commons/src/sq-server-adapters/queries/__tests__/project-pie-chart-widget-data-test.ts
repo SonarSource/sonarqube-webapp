@@ -111,7 +111,7 @@ it('uses issue search to render security issues grouped by language', () => {
       componentKeys: 'project-key',
       facets: PieChartIssueSlice.Languages,
       impactSoftwareQualities: 'SECURITY',
-      issueStatuses: 'OPEN,CONFIRMED',
+      issueStatuses: 'OPEN,CONFIRMED,ACCEPTED,FALSE_POSITIVE',
       ps: 1,
       sinceLeakPeriod: false,
     },

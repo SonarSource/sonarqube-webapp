@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import {
   isPieChartIssueFilter,
   mapPieChartHotspotFilterToIssueCountStatuses,
@@ -35,8 +36,6 @@ import {
 import {
   GetIssueCountHistoryParams,
   IssueCountSliceBy,
-  IssueCountStatus,
-  ORGANIZATION_CODE_ISSUE_COUNT_STATUSES_FOR_STATUS_SLICE,
   PORTFOLIO_SECURITY_HOTSPOT_ISSUE_TYPES,
   type IssueCountSnapshotParams,
 } from '../types/organization-issue-count-history';
@@ -104,15 +103,11 @@ export function mapPieChartToIssueHistoryParams(args: {
     return null;
   }
 
-  const statuses: IssueCountStatus[] =
-    slice === PieChartIssueSlice.IssueStatuses
-      ? [...ORGANIZATION_CODE_ISSUE_COUNT_STATUSES_FOR_STATUS_SLICE]
-      : ['OPEN'];
-
   return {
     ...base,
     ...mapIssueFilterToHistoryParams(filter),
-    statuses,
+    statuses:
+      slice === PieChartIssueSlice.IssueStatuses ? undefined : [...FILTERABLE_CODE_ISSUE_STATUSES],
     sliceBy,
   };
 }

@@ -19,11 +19,7 @@
  */
 
 import type { IntlShape } from 'react-intl';
-import {
-  PieChartIssueSlice,
-  PieChartMetric,
-  PieChartWidgetProps,
-} from '../../types/dashboard-widget';
+import { PieChartMetric, PieChartWidgetProps } from '../../types/dashboard-widget';
 import {
   HOTSPOT_FILTER_MESSAGE_ID,
   isPieChartHotspotFilter,
@@ -61,10 +57,6 @@ export function getPieChartTitle(
   }
 
   const parts: string[] = [];
-
-  if (metric === PieChartMetric.IssueCount && slice !== PieChartIssueSlice.IssueStatuses) {
-    parts.push(formatMessage({ id: 'dashboard.pie_chart.header.open_prefix' }));
-  }
 
   const filterMessageId = resolveFilterMessageId(filter);
   if (filterMessageId) {

@@ -172,11 +172,12 @@ describe('applyFilterAccordionHelpers', () => {
   });
 
   describe('buildRichMetricIssueStatusSelectOptions', () => {
-    it('includes all statuses (open, accepted, false positive) for every dashboard type', () => {
+    it('includes all filterable issue statuses for every dashboard type', () => {
       const options = buildRichMetricIssueStatusSelectOptions(formatId);
       expect(options.map((option) => option.value)).toEqual([
         '',
         IssueStatus.Open,
+        IssueStatus.Confirmed,
         IssueStatus.Accepted,
         IssueStatus.FalsePositive,
       ]);

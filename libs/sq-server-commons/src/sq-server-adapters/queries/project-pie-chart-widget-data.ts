@@ -23,6 +23,7 @@ import { useIntl } from 'react-intl';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { getPieChartFacetCounts } from '~shared/helpers/pieChart';
 import { useLanguagesQuery } from '~shared/queries/languages';
+import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { useComponent } from '../../context/componentContext/withComponentContext';
 import {
   aggregateSmallSegments,
@@ -62,7 +63,7 @@ function buildIssueSearchQuery(
   return {
     componentKeys: projectKey,
     facets: widget.slice,
-    issueStatuses: 'OPEN,CONFIRMED',
+    issueStatuses: FILTERABLE_CODE_ISSUE_STATUSES.join(','),
     ps: 1,
     sinceLeakPeriod: false,
     ...(impactSoftwareQuality ? { impactSoftwareQualities: impactSoftwareQuality } : {}),

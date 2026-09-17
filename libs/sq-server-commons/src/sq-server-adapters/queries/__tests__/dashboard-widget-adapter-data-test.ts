@@ -358,7 +358,7 @@ describe('dashboard widget adapter queries', () => {
           componentKeys: 'component-key',
           facets: PieChartIssueSlice.Languages,
           impactSoftwareQualities: 'SECURITY',
-          issueStatuses: 'OPEN,CONFIRMED',
+          issueStatuses: 'OPEN,CONFIRMED,ACCEPTED,FALSE_POSITIVE',
           ps: 1,
           sinceLeakPeriod: false,
         },

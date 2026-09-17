@@ -169,6 +169,44 @@ it('groups issue history, resolves rule labels, and shows the legend', () => {
   expect(props?.showLegend).toBe(true);
 });
 
+it('uses localized messages for grouped issue status legend labels', () => {
+  jest.mocked(useDashboardMeasureQuery).mockReturnValue({
+    data: {
+      api: 'issue-count-history',
+      history: [
+        {
+          date: '2026-01-01',
+          distribution: [
+            { key: 'OPEN', value: 3 },
+            { key: 'FALSE_POSITIVE', value: 2 },
+          ],
+        },
+      ],
+    },
+    isError: false,
+    isPending: false,
+  } as unknown as ReturnType<typeof useDashboardMeasureQuery>);
+
+  renderChart(
+    <DashboardMeasureLineChart
+      entityId="portfolio-1"
+      entityType="PORTFOLIO"
+      measure={{ api: 'issue-count-history', metricKey: MetricKey.violations, sliceBy: 'STATUS' }}
+      metric={{ metricKey: MetricKey.violations, type: DashboardMetricType.Raw }}
+      months={3}
+      showLegend
+    />,
+  );
+
+  expect(jest.mocked(MultiLineChart).mock.calls.at(-1)?.[0].series).toEqual([
+    expect.objectContaining({ id: 'OPEN', label: 'issue.status.OPEN' }),
+    expect.objectContaining({
+      id: 'FALSE_POSITIVE',
+      label: 'issue.status.FALSE_POSITIVE',
+    }),
+  ]);
+});
+
 it('uses MTTR formatters and forwards loading errors to the chart', () => {
   jest.mocked(useDashboardMeasureQuery).mockReturnValue({
     data: undefined,

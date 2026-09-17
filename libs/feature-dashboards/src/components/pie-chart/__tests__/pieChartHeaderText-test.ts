@@ -34,7 +34,7 @@ const formatMessage = ((descriptor: { id: string }): string =>
   descriptor.id) as IntlShape['formatMessage'];
 
 describe('getPieChartTitle', () => {
-  it('builds open+filter title for issue count with security filter and severity slice', () => {
+  it('builds a filter title for issue count with security filter and severity slice', () => {
     const title = getPieChartTitle(formatMessage, {
       filter: PieChartIssueFilter.Security,
       isPortfolioDashboard: false,
@@ -43,7 +43,7 @@ describe('getPieChartTitle', () => {
     });
 
     expect(title).toBe(
-      'dashboard.pie_chart.header.open_prefix software_quality.SECURITY dashboard.pie_chart.header.metric.issue_count dashboard.pie_chart.header.join_by dashboard.pie_chart.header.slice.impact_severities',
+      'software_quality.SECURITY dashboard.pie_chart.header.metric.issue_count dashboard.pie_chart.header.join_by dashboard.pie_chart.header.slice.impact_severities',
     );
   });
 

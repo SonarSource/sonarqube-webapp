@@ -265,6 +265,10 @@ export function buildRichMetricIssueStatusSelectOptions(
       value: IssueStatus.Open,
     },
     {
+      label: formatMessage({ id: 'issue.status.CONFIRMED' }),
+      value: IssueStatus.Confirmed,
+    },
+    {
       label: formatMessage({ id: 'issue.status.ACCEPTED' }),
       value: IssueStatus.Accepted,
     },

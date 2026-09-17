@@ -21,6 +21,7 @@
 import { queryOptions } from '@tanstack/react-query';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { createQueryHook, StaleTime } from '~shared/queries/common';
+import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { searchIssues } from '../api/issues';
 import {
   CodeScope,
@@ -43,7 +44,7 @@ export const useIssueCountSearchQuery = createQueryHook(
           componentKeys: params.componentKey,
           issueStatuses:
             params.measureFilters?.issueStatus === undefined
-              ? 'OPEN,CONFIRMED'
+              ? FILTERABLE_CODE_ISSUE_STATUSES.join(',')
               : params.measureFilters.issueStatus,
           ps: 1,
           sinceLeakPeriod: params.scope === CodeScope.New,

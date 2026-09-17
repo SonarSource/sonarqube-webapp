@@ -76,6 +76,7 @@ export const dimensionsSchema = v.object({
 
 export enum IssueStatus {
   Open = 'OPEN',
+  Confirmed = 'CONFIRMED',
   Accepted = 'ACCEPTED',
   FalsePositive = 'FALSE_POSITIVE',
 }

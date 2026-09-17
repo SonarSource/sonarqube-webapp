@@ -20,6 +20,7 @@
 
 import type { IntlShape } from 'react-intl';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MetricKey } from '~shared/types/metrics';
 import {
   PieChartHotspotSlice,
@@ -29,7 +30,6 @@ import {
   PieChartMetric,
   PieChartProjectSlice,
 } from '../../../types/dashboard-widget';
-import { ORGANIZATION_CODE_ISSUE_COUNT_STATUSES_FOR_STATUS_SLICE } from '../../../types/organization-issue-count-history';
 import { CodeScope } from '../../../types/widget-common';
 import { PORTFOLIO_DEFAULT_CODE_ISSUE_IMPACTS } from '../../../utils/organizationIssueCountHistoryUtils';
 import {
@@ -71,7 +71,11 @@ describe('portfolioPieChartDrilldown', () => {
       getPortfolioPieChartDrilldownDescriptor({ formatMessage, segmentLabel: 'High', widget }),
     ).toEqual(
       expect.objectContaining({
-        request: { issueTypes: undefined, severities: ['HIGH'], statuses: ['OPEN'] },
+        request: {
+          issueTypes: undefined,
+          severities: ['HIGH'],
+          statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
+        },
       }),
     );
     expect(
@@ -85,7 +89,7 @@ describe('portfolioPieChartDrilldown', () => {
         request: {
           issueTypes: undefined,
           severities: ['CUSTOM_SEVERITY'],
-          statuses: ['OPEN'],
+          statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
         },
       }),
     );
@@ -109,7 +113,7 @@ describe('portfolioPieChartDrilldown', () => {
           impacts: Object.values(SoftwareImpactSeverity).map(
             (severity) => `${SoftwareQuality.Security}:${severity}`,
           ),
-          statuses: ['OPEN'],
+          statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
         },
       }),
     );
@@ -177,20 +181,15 @@ describe('portfolioPieChartDrilldown', () => {
         formatMessage,
         widget: { ...widget, slice: PieChartIssueSlice.ImpactSeverities },
       }),
-    ).toEqual(expect.objectContaining({ request: { statuses: ['OPEN'] } }));
+    ).toEqual(
+      expect.objectContaining({ request: { statuses: [...FILTERABLE_CODE_ISSUE_STATUSES] } }),
+    );
     expect(
       getPortfolioPieChartDrilldownDescriptor({
         formatMessage,
         widget: { ...widget, slice: PieChartIssueSlice.IssueStatuses },
       }),
-    ).toEqual(
-      expect.objectContaining({
-        request: {
-          issueTypes: undefined,
-          statuses: [...ORGANIZATION_CODE_ISSUE_COUNT_STATUSES_FOR_STATUS_SLICE],
-        },
-      }),
-    );
+    ).toEqual(expect.objectContaining({ request: { issueTypes: undefined } }));
   });
 
   it('builds unfiltered Software Quality, hotspot, and quality-gate requests', () => {
@@ -210,7 +209,7 @@ describe('portfolioPieChartDrilldown', () => {
           impacts: Object.values(SoftwareImpactSeverity).map(
             (severity) => `${SoftwareQuality.Security}:${severity}`,
           ),
-          statuses: ['OPEN'],
+          statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
         },
       }),
     );
@@ -256,7 +255,7 @@ describe('portfolioPieChartDrilldown', () => {
         request: {
           impacts: [...PORTFOLIO_DEFAULT_CODE_ISSUE_IMPACTS],
           ruleKeys: ['java:S100'],
-          statuses: ['OPEN'],
+          statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
         },
       }),
     );
@@ -283,7 +282,7 @@ describe('portfolioPieChartDrilldown', () => {
           impacts: Object.values(SoftwareImpactSeverity).map(
             (severity) => `${SoftwareQuality.Reliability}:${severity}`,
           ),
-          statuses: ['OPEN'],
+          statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
         },
       }),
     );

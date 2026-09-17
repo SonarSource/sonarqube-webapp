@@ -23,6 +23,7 @@ import type { To } from 'react-router-dom';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { getComponentIssuesUrl, getPathUrlAsString, getRuleUrl } from '~shared/helpers/urls';
 import { BranchLikeBase } from '~shared/types/branch-like';
+import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MetricKey } from '~shared/types/metrics';
 import {
   CodeScope,
@@ -46,6 +47,8 @@ import {
   PROJECT_SUMMARY_BASE_URL,
   PROJECT_SUMMARY_OVERALL_BASE_URL,
 } from './urls';
+
+const ALL_FILTERABLE_CODE_ISSUE_STATUSES = FILTERABLE_CODE_ISSUE_STATUSES.join(',');
 
 export function getDashboardDocumentationUrl(docLink: string): string {
   return docLink;
@@ -99,7 +102,7 @@ export function buildProjectRichCountWidgetLink(
   return getComponentIssuesUrl(component, {
     impactSeverities: measureFilters?.impactSeverities?.join(','),
     impactSoftwareQualities: measureFilters?.impactSoftwareQuality,
-    issueStatuses: measureFilters?.issueStatus ?? 'OPEN,CONFIRMED',
+    issueStatuses: measureFilters?.issueStatus ?? ALL_FILTERABLE_CODE_ISSUE_STATUSES,
     ...(scope === CodeScope.New ? { sinceLeakPeriod: 'true' } : {}),
     ...getBranchLikeQuery(branchLike),
   });
@@ -143,7 +146,7 @@ export function getProjectDashboardPieChartSegmentUrl(
       params.set('sinceLeakPeriod', 'true');
     }
     if (slice !== PieChartIssueSlice.IssueStatuses) {
-      params.set('issueStatuses', 'OPEN,CONFIRMED');
+      params.set('issueStatuses', ALL_FILTERABLE_CODE_ISSUE_STATUSES);
     }
     params.set(slice, value);
     addIssueQualityFilter(params, filter);
@@ -176,7 +179,7 @@ export function getProjectDashboardTopListRowUrl(
   const { metric, scope } = props;
   const params = new URLSearchParams({
     id: projectKey,
-    issueStatuses: 'OPEN,CONFIRMED',
+    issueStatuses: ALL_FILTERABLE_CODE_ISSUE_STATUSES,
     rules: facetValue,
     ...getBranchLikeQuery(branchLike),
   });

@@ -41,6 +41,13 @@ export enum IssueStatus {
   FalsePositive = 'FALSE_POSITIVE',
 }
 
+export const FILTERABLE_CODE_ISSUE_STATUSES = [
+  IssueStatus.Open,
+  IssueStatus.Confirmed,
+  IssueStatus.Accepted,
+  IssueStatus.FalsePositive,
+] as const;
+
 // The order should be kept for issue transition
 export enum IssueTransition {
   // Experimenting, Feature Flag is backend. UI-facing name is "Snooze"; the value stays 'defer'

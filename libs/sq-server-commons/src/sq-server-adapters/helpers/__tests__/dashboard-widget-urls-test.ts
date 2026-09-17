@@ -96,12 +96,12 @@ describe('Server dashboard widget URL seams', () => {
     );
   });
 
-  it('defaults rich Issue Count links to open issues', () => {
+  it('defaults rich Issue Count links to all code issue statuses', () => {
     expect.hasAssertions();
     expectUrl(
       buildProjectRichCountWidgetLink('project-key', undefined, CodeScope.Overall),
       '/project/issues',
-      { id: 'project-key', issueStatuses: 'OPEN,CONFIRMED' },
+      { id: 'project-key', issueStatuses: 'OPEN,CONFIRMED,ACCEPTED,FALSE_POSITIVE' },
     );
   });
 
@@ -149,7 +149,7 @@ describe('Server dashboard widget URL seams', () => {
         id: 'project-key',
         impactSeverities: 'HIGH',
         impactSoftwareQualities: 'SECURITY',
-        issueStatuses: 'OPEN,CONFIRMED',
+        issueStatuses: 'OPEN,CONFIRMED,ACCEPTED,FALSE_POSITIVE',
         sinceLeakPeriod: 'true',
       },
     );
@@ -224,6 +224,19 @@ describe('Server dashboard widget URL seams', () => {
         sinceLeakPeriod: 'true',
       },
     );
+    expectUrl(
+      getProjectDashboardTopListRowUrl('project-key', 'typescript:S1', {
+        metric: { metricKey: MetricKey.violations, type: DashboardMetricType.Raw },
+        rankBy: 'rule',
+        scope: CodeScope.Overall,
+      }),
+      '/project/issues',
+      {
+        id: 'project-key',
+        issueStatuses: 'OPEN,CONFIRMED,ACCEPTED,FALSE_POSITIVE',
+        rules: 'typescript:S1',
+      },
+    );
   });
 
   it('builds safe portfolio links', () => {
@@ -283,7 +296,11 @@ describe('Server dashboard widget URL seams', () => {
           NON_MAIN_BRANCH,
         ),
         '/project/issues',
-        { branch: 'feature/foo', id: 'project-key', issueStatuses: 'OPEN,CONFIRMED' },
+        {
+          branch: 'feature/foo',
+          id: 'project-key',
+          issueStatuses: 'OPEN,CONFIRMED,ACCEPTED,FALSE_POSITIVE',
+        },
       );
       expectUrl(
         getProjectDashboardMeasureHistoryUrl('project-key', MetricKey.coverage, NON_MAIN_BRANCH),
@@ -339,7 +356,7 @@ describe('Server dashboard widget URL seams', () => {
         {
           branch: 'feature/foo',
           id: 'project-key',
-          issueStatuses: 'OPEN,CONFIRMED',
+          issueStatuses: 'OPEN,CONFIRMED,ACCEPTED,FALSE_POSITIVE',
           rules: 'typescript:S1',
         },
       );

@@ -132,7 +132,13 @@ describe('useTopListApplyFiltersViewModel', () => {
 
     expect(
       result.current.richMeasureFilters.issueStatusSelectOptions.map((option) => option.value),
-    ).toEqual(['', IssueStatus.Open, IssueStatus.Accepted, IssueStatus.FalsePositive]);
+    ).toEqual([
+      '',
+      IssueStatus.Open,
+      IssueStatus.Confirmed,
+      IssueStatus.Accepted,
+      IssueStatus.FalsePositive,
+    ]);
   });
 
   it('disables new code scope when metric picker does not support it', () => {

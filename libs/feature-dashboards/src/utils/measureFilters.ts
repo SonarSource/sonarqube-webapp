@@ -18,7 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MeasureFilters } from '../types/dashboard-widget';
+
+export const ALL_FILTERABLE_CODE_ISSUE_STATUSES = FILTERABLE_CODE_ISSUE_STATUSES.join(',');
 
 /**
  * Builds the base issue search parameters from measure filters.
@@ -30,7 +33,9 @@ export function buildMeasureFilterParams(measureFilters: MeasureFilters | undefi
   issueStatuses: string;
 } {
   const issueStatuses =
-    measureFilters?.issueStatus === undefined ? 'OPEN,CONFIRMED' : measureFilters.issueStatus;
+    measureFilters?.issueStatus === undefined
+      ? ALL_FILTERABLE_CODE_ISSUE_STATUSES
+      : measureFilters.issueStatus;
 
   return {
     issueStatuses,

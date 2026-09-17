@@ -20,6 +20,7 @@
 
 import type { IntlShape } from 'react-intl';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
   PieChartFilter,
@@ -35,7 +36,6 @@ import {
   type IssueCountStatus,
   type IssueSeverity,
   type IssueType,
-  ORGANIZATION_CODE_ISSUE_COUNT_STATUSES_FOR_STATUS_SLICE,
   ORGANIZATION_ISSUE_COUNT_SEVERITIES,
   type OrganizationIssueImpactQueryValue,
   PORTFOLIO_SECURITY_HOTSPOT_ISSUE_TYPES,
@@ -219,11 +219,11 @@ function getPieChartAllImpactSeveritiesIssueCountRequest(
   if (quality !== null) {
     return {
       impacts: organizationIssueImpactQueryValuesForSoftwareQualities([quality]),
-      statuses: ['OPEN'],
+      statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
     };
   }
 
-  return { statuses: ['OPEN'] };
+  return { statuses: [...FILTERABLE_CODE_ISSUE_STATUSES] };
 }
 
 function getPieChartImpactSeveritiesIssueCountRequest(
@@ -239,14 +239,14 @@ function getPieChartImpactSeveritiesIssueCountRequest(
         severity === null
           ? organizationIssueImpactQueryValuesForSoftwareQualities([quality])
           : [`${quality}:${severity}`],
-      statuses: ['OPEN'],
+      statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
     };
   }
 
   return {
     issueTypes: issueType === undefined ? undefined : [issueType],
     severities: issueCountSeveritiesForProjectIssueCountsQuery(segmentValue),
-    statuses: ['OPEN'],
+    statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
   };
 }
 
@@ -310,17 +310,17 @@ function getUnfilteredDescriptor(
         quality === null
           ? {
               issueTypes: issueType === undefined ? undefined : [issueType],
-              statuses: [...ORGANIZATION_CODE_ISSUE_COUNT_STATUSES_FOR_STATUS_SLICE],
             }
           : {
               impacts: organizationIssueImpactQueryValuesForSoftwareQualities([quality]),
-              statuses: [...ORGANIZATION_CODE_ISSUE_COUNT_STATUSES_FOR_STATUS_SLICE],
             };
       break;
     }
     case PieChartIssueSlice.ImpactSoftwareQualities:
     case PieChartIssueSlice.Rules:
-      request = getPieChartIssueCountScopeRequest(widget.filter, ['OPEN']);
+      request = getPieChartIssueCountScopeRequest(widget.filter, [
+        ...FILTERABLE_CODE_ISSUE_STATUSES,
+      ]);
       break;
     case PieChartIssueSlice.CleanCodeAttributeCategories:
     case PieChartIssueSlice.Languages:
@@ -438,7 +438,7 @@ function getIssueDescriptor(
             (severity) =>
               `${impactSoftwareQuality}:${severity}` as OrganizationIssueImpactQueryValue,
           ),
-          statuses: ['OPEN'],
+          statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
         },
       };
     }
@@ -447,7 +447,7 @@ function getIssueDescriptor(
         ...base,
         kind: 'issue-counts',
         request: {
-          ...getPieChartIssueCountScopeRequest(widget.filter, ['OPEN']),
+          ...getPieChartIssueCountScopeRequest(widget.filter, [...FILTERABLE_CODE_ISSUE_STATUSES]),
           ruleKeys: [segmentValue],
         },
       };

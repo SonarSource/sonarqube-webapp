@@ -19,6 +19,7 @@
  */
 
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import {
   PieChartHotspotSlice,
   PieChartIssueFilter,
@@ -47,7 +48,7 @@ describe('organizationPieChartIssueHistory', () => {
         entityId: 'entity-1',
         entityType: 'PORTFOLIO',
         sliceBy: 'SEVERITY',
-        statuses: ['OPEN'],
+        statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
       }),
     );
   });

@@ -51,7 +51,12 @@ describe('dashboard issue count queries', () => {
     });
     expect(result.current.data).toBe(7);
     expect(searchIssues).toHaveBeenCalledWith(
-      expect.objectContaining({ componentKeys: 'project-1', sinceLeakPeriod: true, ps: 1 }),
+      expect.objectContaining({
+        componentKeys: 'project-1',
+        issueStatuses: 'OPEN,CONFIRMED,ACCEPTED,FALSE_POSITIVE',
+        sinceLeakPeriod: true,
+        ps: 1,
+      }),
     );
   });
 });

@@ -19,12 +19,19 @@
  */
 
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MetricKey } from '~shared/types/metrics';
+import { IssueResolutionStatistic } from '../../types/organization-issue-resolution-history';
 import { ScaResolutionStatistic } from '../../types/organization-sca-resolution-history';
 import { CodeScope } from '../../types/widget-common';
 import { PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE } from '../../utils/portfolioMeasures';
 import { dashboardMeasureHistoryMetricKey, dashboardMetricToMeasure } from '../dashboard-measure';
-import { DashboardMetricType, RichMetricKey, type DashboardMetric } from '../widgets/shared';
+import {
+  DashboardMetricType,
+  IssueStatus,
+  RichMetricKey,
+  type DashboardMetric,
+} from '../widgets/shared';
 
 const issueMetric: DashboardMetric = {
   measureFilters: {
@@ -52,14 +59,57 @@ describe('dashboardMetricToMeasure', () => {
     });
   });
 
+  it('includes all filterable statuses for issue resolution metrics', () => {
+    expect(
+      dashboardMetricToMeasure(
+        {
+          statistic: IssueResolutionStatistic.MTTR,
+          type: DashboardMetricType.IssueResolution,
+        },
+        CodeScope.Overall,
+      ),
+    ).toEqual({
+      api: 'issue-resolution-history',
+      statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
+      statistic: IssueResolutionStatistic.MTTR,
+    });
+  });
+
+  it('includes all filterable statuses for issue density metrics', () => {
+    expect(
+      dashboardMetricToMeasure({ type: DashboardMetricType.IssueDensity }, CodeScope.Overall),
+    ).toEqual({
+      api: 'issue-density-history',
+      statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
+    });
+  });
+
   it('maps an MQR issue metric to backend-shaped impacts', () => {
     expect(dashboardMetricToMeasure(issueMetric, CodeScope.Overall)).toEqual(
       expect.objectContaining({
         api: 'issue-count-history',
         impacts: ['SECURITY:HIGH'],
-        statuses: ['OPEN'],
+        statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
       }),
     );
+  });
+
+  it('uses generic issue history for confirmed issues', () => {
+    expect(
+      dashboardMetricToMeasure(
+        {
+          measureFilters: { issueStatus: IssueStatus.Confirmed },
+          metricKey: RichMetricKey.Issues,
+          type: DashboardMetricType.Rich,
+        },
+        CodeScope.Overall,
+      ),
+    ).toEqual({
+      api: 'issue-count-history',
+      metricKey: MetricKey.violations,
+      sliceBy: undefined,
+      statuses: ['CONFIRMED'],
+    });
   });
 
   it('expands severity-only filters across all software qualities', () => {
@@ -77,7 +127,7 @@ describe('dashboardMetricToMeasure', () => {
       impacts: ['SECURITY:HIGH', 'RELIABILITY:HIGH', 'MAINTAINABILITY:HIGH'],
       metricKey: MetricKey.violations,
       sliceBy: undefined,
-      statuses: ['OPEN'],
+      statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
     });
   });
 
@@ -112,8 +162,32 @@ describe('dashboardMetricToMeasure', () => {
       api: 'issue-count-history',
       impacts: ['SECURITY:HIGH'],
       metricKey: MetricKey.software_quality_security_issues,
-      statuses: ['OPEN'],
+      statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
     });
+  });
+
+  it('lets the backend provide all issues when grouping issue history by status', () => {
+    expect(dashboardMetricToMeasure(issueMetric, CodeScope.Overall, { groupBy: 'status' })).toEqual(
+      expect.objectContaining({
+        sliceBy: 'STATUS',
+        statuses: undefined,
+      }),
+    );
+  });
+
+  it('uses all filterable statuses for raw violation groupings other than status', () => {
+    expect(
+      dashboardMetricToMeasure(
+        { metricKey: MetricKey.violations, type: DashboardMetricType.Raw },
+        CodeScope.Overall,
+        { groupBy: 'rule' },
+      ),
+    ).toEqual(
+      expect.objectContaining({
+        sliceBy: 'RULE_KEY',
+        statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
+      }),
+    );
   });
 
   it('preserves new-code scope for project raw metrics', () => {

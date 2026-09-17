@@ -19,6 +19,7 @@
  */
 
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
   CodeScope,
@@ -216,7 +217,7 @@ describe('dashboard widget data helpers', () => {
           'SECURITY:INFO',
         ],
         sliceBy: 'STATUS',
-        statuses: ['OPEN', 'CONFIRMED', 'ACCEPTED', 'FALSE_POSITIVE', 'FIXED'],
+        statuses: undefined,
       });
 
       expect(
@@ -255,7 +256,10 @@ describe('dashboard widget data helpers', () => {
           RichMetricKey.Issues,
           undefined,
         ),
-      ).toEqual({ impacts: ['SECURITY:HIGH'], statuses: ['OPEN'] });
+      ).toEqual({
+        impacts: ['SECURITY:HIGH'],
+        statuses: ['OPEN', 'CONFIRMED', 'ACCEPTED', 'FALSE_POSITIVE'],
+      });
       expect(
         issueHistoryQueryExtras(
           { impactSeverities: [SoftwareImpactSeverity.Low] },
@@ -264,7 +268,7 @@ describe('dashboard widget data helpers', () => {
         ),
       ).toEqual({
         impacts: ['SECURITY:LOW', 'RELIABILITY:LOW', 'MAINTAINABILITY:LOW'],
-        statuses: ['OPEN'],
+        statuses: ['OPEN', 'CONFIRMED', 'ACCEPTED', 'FALSE_POSITIVE'],
       });
       expect(issueHistoryQueryExtras(undefined, RichMetricKey.Hotspots, undefined)).toEqual({
         issueTypes: ['SECURITY_HOTSPOT'],
@@ -279,11 +283,14 @@ describe('dashboard widget data helpers', () => {
           'RELIABILITY:LOW',
           'RELIABILITY:INFO',
         ],
-        statuses: ['OPEN'],
+        statuses: ['OPEN', 'CONFIRMED', 'ACCEPTED', 'FALSE_POSITIVE'],
       });
       expect(
         issueHistoryQueryExtras({ issueStatus: 'FIXED' }, RichMetricKey.Issues, undefined),
-      ).toEqual({ impacts: expect.any(Array), statuses: ['FIXED'] });
+      ).toEqual({
+        impacts: expect.any(Array),
+        statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
+      });
     });
 
     it('resolves rich/raw metric keys and new-code request keys', () => {

@@ -19,6 +19,7 @@
  */
 
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MetricKey } from '~shared/types/metrics';
 import { MeasureFilters, RichMetricKey } from '../types/dashboard-widget';
 import {
@@ -80,7 +81,10 @@ function getIssueHistoryStatusExtra(
   }
 
   const normalizedStatus = issueStatuses.trim().toUpperCase();
-  if (!ORGANIZATION_ISSUE_COUNT_STATUSES.includes(normalizedStatus as IssueCountStatus)) {
+  if (
+    normalizedStatus === 'FIXED' ||
+    !ORGANIZATION_ISSUE_COUNT_STATUSES.includes(normalizedStatus as IssueCountStatus)
+  ) {
     return {};
   }
 
@@ -150,12 +154,12 @@ export function issueHistoryQueryExtras(
     extras.impacts = [...PORTFOLIO_DEFAULT_CODE_ISSUE_IMPACTS];
   }
 
-  // No explicit status: OPEN only so history matches dashboard totals (not multi-status STATUS slices).
+  // No explicit status means the user selected All code-issue statuses.
   if (
     richMetricKey !== RichMetricKey.Hotspots &&
     (extras.statuses === undefined || extras.statuses.length === 0)
   ) {
-    extras.statuses = ['OPEN'];
+    extras.statuses = [...FILTERABLE_CODE_ISSUE_STATUSES];
   }
 
   return extras;

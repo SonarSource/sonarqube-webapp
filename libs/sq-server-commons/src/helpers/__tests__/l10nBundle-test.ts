@@ -42,6 +42,10 @@ afterAll(() => {
 const APP_STATE = mockAppState({});
 
 describe('#loadL10nBundle', () => {
+  it('includes the fixed issue status used by dashboard legends', () => {
+    expect(defaultMessages['issue.status.FIXED']).toBe('Fixed');
+  });
+
   it('should fetch bundle without any timestamp', async () => {
     const bundle = await loadL10nBundle(APP_STATE);
 

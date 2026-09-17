@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useIntl } from 'react-intl';
+import { useIntl, type IntlShape } from 'react-intl';
 import { getDashboardLocalizedMetricName } from '~adapters/helpers/l10n';
 import { useDashboardMeasureQuery } from '~adapters/queries/dashboard-measure';
 import { usePortfolioRulesMetadataOrganization } from '~adapters/queries/portfolio-widget-organization-data';
@@ -102,11 +102,29 @@ function dashboardMeasureIsMttr(measure: DashboardMeasure): boolean {
   );
 }
 
+function groupedSeriesLabel(
+  key: string,
+  sliceBy: NonNullable<Extract<DashboardMeasure, { api: 'issue-count-history' }>['sliceBy']>,
+  formatMessage: IntlShape['formatMessage'],
+): string {
+  switch (sliceBy) {
+    case 'STATUS':
+      return formatMessage({ id: `issue.status.${key}` });
+    case 'SEVERITY':
+      return formatMessage({ id: `severity.${key}` });
+    case 'SOFTWARE_QUALITY':
+      return formatMessage({ id: `software_quality.${key}` });
+    default:
+      return key;
+  }
+}
+
 function historyToSeries(
   data: DashboardMeasureHistory | undefined,
   measure: DashboardMeasure,
   label: string,
   metric: DashboardMetric,
+  formatMessage: IntlShape['formatMessage'],
   metadataType?: string,
 ): LineChartSeries[] {
   if (data === undefined) {
@@ -135,6 +153,7 @@ function historyToSeries(
 
   if (measure.api === 'issue-count-history' && measure.sliceBy !== undefined) {
     const sortedHistory = sortDashboardHistory(data.history);
+    const sliceBy = measure.sliceBy;
     const keys = [
       ...new Set(sortedHistory.flatMap((day) => day.distribution.map(({ key }) => key))),
     ];
@@ -145,7 +164,7 @@ function historyToSeries(
         y: day.distribution.find((entry) => entry.key === key)?.value ?? 0,
       })),
       id: key,
-      label: key,
+      label: groupedSeriesLabel(key, sliceBy, formatMessage),
     }));
   }
 
@@ -184,7 +203,14 @@ export function DashboardMeasureLineChart({
   });
   const metricMetadata =
     measure.api === 'measures-history' ? metadata.data?.[measure.metricKey] : undefined;
-  const series = historyToSeries(query.data, measure, metricName, metric, metricMetadata?.type);
+  const series = historyToSeries(
+    query.data,
+    measure,
+    metricName,
+    metric,
+    formatMessage,
+    metricMetadata?.type,
+  );
   const isGroupedByRule = measure.api === 'issue-count-history' && measure.sliceBy === 'RULE_KEY';
   const ruleKeys = isGroupedByRule ? rulesFromGroupedLineChartSeries(series) : [];
   const portfolioOrganization = usePortfolioRulesMetadataOrganization(entityId, {

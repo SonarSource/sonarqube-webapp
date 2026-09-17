@@ -96,4 +96,13 @@ describe('buildTopListIssueCountFilterSegments', () => {
       ),
     ).toEqual(['dashboard_widget.codescope.new']);
   });
+
+  it('omits issue status when the widget uses all code issue statuses', () => {
+    expect(
+      buildTopListIssueCountFilterSegments(
+        formatMessage,
+        widget({ metricKey: RichMetricKey.Issues, type: DashboardMetricType.Rich }),
+      ),
+    ).toEqual(['dashboard_widget.codescope.new']);
+  });
 });

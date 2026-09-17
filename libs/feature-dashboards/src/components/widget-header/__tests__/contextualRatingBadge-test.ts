@@ -46,15 +46,13 @@ describe('contextualRatingBadge', () => {
     );
   });
 
-  it('shows the matching rating when issue status defaults to open', () => {
+  it('does not show the matching rating when all code issue statuses are selected', () => {
     const metric = richIssuesMetric({
       impactSoftwareQuality: SoftwareQuality.Reliability,
     });
 
-    expect(shouldShowContextualRatingBadge(metric, CodeScope.Overall)).toBe(true);
-    expect(getProjectContextualRatingMetricKey(metric, CodeScope.Overall)).toBe(
-      MetricKey.reliability_rating,
-    );
+    expect(shouldShowContextualRatingBadge(metric, CodeScope.Overall)).toBe(false);
+    expect(getProjectContextualRatingMetricKey(metric, CodeScope.Overall)).toBeUndefined();
   });
 
   it('maps maintainability issue counts to the project maintainability rating', () => {

@@ -2215,6 +2215,7 @@ export const defaultMessages = {
   'issue.status.OPEN': 'Open',
   'issue.status.CONFIRMED': 'Confirmed',
   'issue.status.FALSE_POSITIVE': 'False Positive',
+  'issue.status.FIXED': 'Fixed',
   'issue.status.CLOSED': 'Closed',
   'issue.status.TO_REVIEW': 'To Review',
   'issue.status.IN_REVIEW': 'In Review',
@@ -4096,7 +4097,6 @@ export const defaultMessages = {
   'dashboard.add_widget_modal.apply_filters_section.pie_filter.label': 'Filter',
   'dashboard.pie_chart.header.title.portfolio_projects_by_quality_gate':
     'Projects by quality gate status',
-  'dashboard.pie_chart.header.open_prefix': 'Open',
   'dashboard.pie_chart.header.join_by': 'by',
   'dashboard.pie_chart.header.metric.issue_count': 'Issues',
   'dashboard.pie_chart.header.metric.hotspot_count': 'Security Hotspots',

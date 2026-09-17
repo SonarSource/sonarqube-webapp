@@ -67,6 +67,13 @@ describe('getActualMetricKey', () => {
         type: DashboardMetricType.Rich,
       }),
     ).toBe(MetricKey.false_positive_issues);
+    expect(
+      getActualMetricKey({
+        measureFilters: { issueStatus: IssueStatus.Confirmed },
+        metricKey: RichMetricKey.Issues,
+        type: DashboardMetricType.Rich,
+      }),
+    ).toBe(MetricKey.violations);
   });
 
   it('maps software quality filters to backend metric keys', () => {

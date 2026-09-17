@@ -41,10 +41,6 @@ export type IssueSeverity = `${SoftwareImpactSeverity}`;
 export type IssueCountStatus =
   'ACCEPTED' | 'CONFIRMED' | 'FALSE_POSITIVE' | 'FIXED' | 'OPEN' | 'SAFE' | 'TO_REVIEW';
 
-/** Code-issue statuses for organization issue-count-history when slicing by STATUS (excludes hotspot-only values). */
-export const ORGANIZATION_CODE_ISSUE_COUNT_STATUSES_FOR_STATUS_SLICE: readonly IssueCountStatus[] =
-  ['OPEN', 'CONFIRMED', 'ACCEPTED', 'FALSE_POSITIVE', 'FIXED'];
-
 /**
  * Organizations API `impacts` query param: `{SoftwareQuality}:{Severity}` (see
  * `SoftwareQualityImpact.parse` in sonarcloud-organizations). Used by

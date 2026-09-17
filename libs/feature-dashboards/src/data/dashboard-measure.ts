@@ -19,7 +19,10 @@
  */
 
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
-import { IssueSeverity as StandardIssueSeverity } from '~shared/types/issues';
+import {
+  FILTERABLE_CODE_ISSUE_STATUSES,
+  IssueSeverity as StandardIssueSeverity,
+} from '~shared/types/issues';
 import { MetricKey } from '~shared/types/metrics';
 import {
   OrganizationIssueImpactQueryValue,
@@ -111,11 +114,12 @@ function actualMetricKey(metric: DashboardMetric): MetricKey | undefined {
     return MetricKey.security_hotspots;
   }
   if (metric.measureFilters?.issueStatus) {
-    return {
+    const metricByStatus: Partial<Record<IssueStatus, MetricKey>> = {
       [IssueStatus.Open]: MetricKey.open_issues,
       [IssueStatus.Accepted]: MetricKey.accepted_issues,
       [IssueStatus.FalsePositive]: MetricKey.false_positive_issues,
-    }[metric.measureFilters.issueStatus];
+    };
+    return metricByStatus[metric.measureFilters.issueStatus];
   }
   return metric.measureFilters?.impactSoftwareQuality
     ? {
@@ -126,7 +130,10 @@ function actualMetricKey(metric: DashboardMetric): MetricKey | undefined {
     : MetricKey.violations;
 }
 
-function mqrIssueFilters(filters: MeasureFilters | undefined): DashboardIssueFilters {
+function mqrIssueFilters(
+  filters: MeasureFilters | undefined,
+  statusesWhenMissing: readonly IssueCountStatus[] | null = FILTERABLE_CODE_ISSUE_STATUSES,
+): DashboardIssueFilters {
   const quality = filters?.impactSoftwareQuality;
   const impactSeverities = filters?.impactSeverities;
   const hasQuality = quality !== undefined;
@@ -137,10 +144,41 @@ function mqrIssueFilters(filters: MeasureFilters | undefined): DashboardIssueFil
   if (hasQuality || hasSeverities) {
     severityFilters = { impacts: impactsForQualities(qualities, severities) };
   }
+  const statuses = statusesWhenMissing === null ? undefined : [...statusesWhenMissing];
 
   return {
     ...severityFilters,
-    statuses: [filters?.issueStatus ?? 'OPEN'],
+    statuses: filters?.issueStatus ? [filters.issueStatus] : statuses,
+  };
+}
+
+function statusesWhenMissingForGroupBy(
+  groupBy: LineChartGroupByValue,
+): readonly IssueCountStatus[] | null {
+  return groupBy === 'status' ? null : FILTERABLE_CODE_ISSUE_STATUSES;
+}
+
+function richMetricToMeasure(
+  metric: Extract<DashboardMetric, { type: DashboardMetricType.Rich }>,
+  historyScope: CodeScope,
+  groupBy: LineChartGroupByValue,
+): DashboardMeasure {
+  const measureMetricByRichMetric: Partial<Record<RichMetricKey, MetricKey>> = {
+    [RichMetricKey.Hotspots]: MetricKey.security_hotspots,
+    [RichMetricKey.Lines]: MetricKey.ncloc,
+    [RichMetricKey.Projects]: MetricKey.projects,
+  };
+  const measureMetricKey = measureMetricByRichMetric[metric.metricKey];
+
+  if (measureMetricKey !== undefined) {
+    return { api: 'measures-history', metricKey: measureMetricKey, scope: historyScope };
+  }
+
+  return {
+    api: 'issue-count-history',
+    ...mqrIssueFilters(metric.measureFilters, statusesWhenMissingForGroupBy(groupBy)),
+    metricKey: actualMetricKey(metric) ?? MetricKey.violations,
+    sliceBy: GROUP_BY_SLICE[groupBy],
   };
 }
 
@@ -168,7 +206,7 @@ export function dashboardMetricToMeasure(
   ) {
     return {
       api: 'issue-count-history',
-      ...mqrIssueFilters(undefined),
+      ...mqrIssueFilters(undefined, statusesWhenMissingForGroupBy(groupBy)),
       metricKey: metric.metricKey,
       sliceBy: GROUP_BY_SLICE[groupBy],
     };
@@ -178,25 +216,7 @@ export function dashboardMetricToMeasure(
     case DashboardMetricType.Raw:
       return { api: 'measures-history', metricKey: metric.metricKey, scope: historyScope };
     case DashboardMetricType.Rich:
-      if (metric.metricKey === RichMetricKey.Lines) {
-        return { api: 'measures-history', metricKey: MetricKey.ncloc, scope: historyScope };
-      }
-      if (metric.metricKey === RichMetricKey.Projects) {
-        return { api: 'measures-history', metricKey: MetricKey.projects, scope: historyScope };
-      }
-      if (metric.metricKey === RichMetricKey.Hotspots) {
-        return {
-          api: 'measures-history',
-          metricKey: MetricKey.security_hotspots,
-          scope: historyScope,
-        };
-      }
-      return {
-        api: 'issue-count-history',
-        ...mqrIssueFilters(metric.measureFilters),
-        metricKey: actualMetricKey(metric) ?? MetricKey.violations,
-        sliceBy: GROUP_BY_SLICE[groupBy],
-      };
+      return richMetricToMeasure(metric, historyScope, groupBy);
     case DashboardMetricType.IssueResolution:
       return {
         api: 'issue-resolution-history',

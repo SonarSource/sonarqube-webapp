@@ -19,6 +19,7 @@
  */
 
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
@@ -32,7 +33,6 @@ import {
   PieChartMetric,
   RichMetricKey,
 } from '../../types/dashboard-widget';
-import { ORGANIZATION_CODE_ISSUE_COUNT_STATUSES_FOR_STATUS_SLICE } from '../../types/organization-issue-count-history';
 import { CodeScope } from '../../types/widget-common';
 import { getThirtyDayTrendWindow } from '../datetime';
 import {
@@ -606,7 +606,7 @@ describe('mapPieChartToIssueHistoryParams', () => {
       entityType: 'PORTFOLIO',
       impacts: [...PORTFOLIO_DEFAULT_CODE_ISSUE_IMPACTS],
       sliceBy: 'SEVERITY',
-      statuses: ['OPEN'],
+      statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
     });
     expect(params).not.toHaveProperty('startDate');
     expect(params).not.toHaveProperty('endDate');
@@ -672,7 +672,7 @@ describe('mapPieChartToIssueHistoryParams', () => {
     });
   });
 
-  it('requests all code issue statuses when slicing by issue status', () => {
+  it('lets the backend provide all code issue statuses when slicing by issue status', () => {
     const params = mapPieChartToIssueHistoryParams({
       filter: '',
       metric: PieChartMetric.IssueCount,
@@ -685,7 +685,7 @@ describe('mapPieChartToIssueHistoryParams', () => {
       entityType: 'PORTFOLIO',
       impacts: [...PORTFOLIO_DEFAULT_CODE_ISSUE_IMPACTS],
       sliceBy: 'STATUS',
-      statuses: [...ORGANIZATION_CODE_ISSUE_COUNT_STATUSES_FOR_STATUS_SLICE],
+      statuses: undefined,
     });
   });
 
@@ -699,7 +699,7 @@ describe('mapPieChartToIssueHistoryParams', () => {
     });
     expect(securityParams).toMatchObject({
       sliceBy: 'STATUS',
-      statuses: [...ORGANIZATION_CODE_ISSUE_COUNT_STATUSES_FOR_STATUS_SLICE],
+      statuses: undefined,
       impacts: [
         'SECURITY:BLOCKER',
         'SECURITY:HIGH',
@@ -720,7 +720,7 @@ describe('mapPieChartToIssueHistoryParams', () => {
       entityId: 'p1',
       entityType: 'PORTFOLIO',
       sliceBy: 'SEVERITY',
-      statuses: ['OPEN'],
+      statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
       impacts: [
         'RELIABILITY:BLOCKER',
         'RELIABILITY:HIGH',
@@ -760,7 +760,7 @@ describe('issueHistoryQueryExtras', () => {
       }),
     ).toEqual({
       impacts: ['SECURITY:HIGH'],
-      statuses: ['OPEN'],
+      statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
     });
 
     expect(
@@ -771,7 +771,7 @@ describe('issueHistoryQueryExtras', () => {
       }),
     ).toEqual({
       impacts: ['MAINTAINABILITY:BLOCKER'],
-      statuses: ['OPEN'],
+      statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
     });
 
     expect(
@@ -787,7 +787,7 @@ describe('issueHistoryQueryExtras', () => {
         'RELIABILITY:LOW',
         'RELIABILITY:INFO',
       ],
-      statuses: ['OPEN'],
+      statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
     });
 
     expect(
@@ -804,7 +804,7 @@ describe('issueHistoryQueryExtras', () => {
         'MAINTAINABILITY:HIGH',
         'MAINTAINABILITY:MEDIUM',
       ],
-      statuses: ['OPEN'],
+      statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
     });
 
     const malformedFilters = {
@@ -826,7 +826,7 @@ describe('issueHistoryQueryExtras', () => {
 
     expect(issueHistoryQueryExtras(undefined)).toEqual({
       impacts: [...PORTFOLIO_DEFAULT_CODE_ISSUE_IMPACTS],
-      statuses: ['OPEN'],
+      statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
     });
 
     expect(
@@ -846,7 +846,7 @@ describe('issueHistoryQueryExtras', () => {
         'RELIABILITY:LOW',
         'RELIABILITY:INFO',
       ],
-      statuses: ['OPEN'],
+      statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
     });
   });
 });

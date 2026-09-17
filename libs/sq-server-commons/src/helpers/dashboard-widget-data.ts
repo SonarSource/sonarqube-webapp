@@ -25,6 +25,7 @@ import { parseDistributionCounts } from '~shared/helpers/measures';
 import { isAicaMetric } from '~shared/helpers/metrics';
 import { SCA_ISSUE_RISK_RATING_METRICS } from '~shared/helpers/sca';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { formatDashboardMeasure } from '../sq-server-adapters/helpers/dashboard-measures';
 
@@ -141,13 +142,6 @@ export const DEFAULT_ISSUE_IMPACTS = [
   'MAINTAINABILITY:MEDIUM',
   'MAINTAINABILITY:LOW',
   'MAINTAINABILITY:INFO',
-];
-const ISSUE_STATUSES_FOR_STATUS_SLICE = [
-  'OPEN',
-  'CONFIRMED',
-  'ACCEPTED',
-  'FALSE_POSITIVE',
-  'FIXED',
 ];
 const PIE_SLICE_TO_HISTORY_DIMENSION: Record<string, string> = {
   [PieChartIssueSlice.ImpactSeverities]: 'SEVERITY',
@@ -445,13 +439,10 @@ function getIssueHistoryStatuses(
   richMetricKey: string | undefined,
 ): string[] | undefined {
   const issueStatus = measureFilters?.issueStatus;
-  if (
-    issueStatus &&
-    ['OPEN', 'CONFIRMED', 'ACCEPTED', 'FALSE_POSITIVE', 'FIXED'].includes(issueStatus)
-  ) {
+  if (issueStatus && ['OPEN', 'CONFIRMED', 'ACCEPTED', 'FALSE_POSITIVE'].includes(issueStatus)) {
     return [issueStatus];
   }
-  return richMetricKey === RichMetricKey.Hotspots ? undefined : ['OPEN'];
+  return richMetricKey === RichMetricKey.Hotspots ? undefined : [...FILTERABLE_CODE_ISSUE_STATUSES];
 }
 
 export function issueHistoryQueryExtras(
@@ -962,14 +953,13 @@ export function mapPieChartToIssueHistoryParams(args: {
   } else if (filter === PieChartIssueFilter.Maintainability) {
     quality = 'MAINTAINABILITY';
   }
-  const statuses =
-    slice === PieChartIssueSlice.IssueStatuses ? [...ISSUE_STATUSES_FOR_STATUS_SLICE] : ['OPEN'];
   return {
     entityId,
     entityType,
     impacts: quality ? impactsForQuality(quality) : [...DEFAULT_ISSUE_IMPACTS],
     sliceBy,
-    statuses,
+    statuses:
+      slice === PieChartIssueSlice.IssueStatuses ? undefined : [...FILTERABLE_CODE_ISSUE_STATUSES],
   };
 }
 

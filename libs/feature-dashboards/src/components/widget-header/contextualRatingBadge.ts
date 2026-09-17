@@ -42,8 +42,7 @@ function isEligibleIssueCountMetric(
   }
 
   const { measureFilters } = metric;
-  const isOpenIssuesConfiguration =
-    measureFilters?.issueStatus === undefined || measureFilters.issueStatus === IssueStatus.Open;
+  const isOpenIssuesConfiguration = measureFilters?.issueStatus === IssueStatus.Open;
 
   return (
     measureFilters?.impactSoftwareQuality !== undefined &&

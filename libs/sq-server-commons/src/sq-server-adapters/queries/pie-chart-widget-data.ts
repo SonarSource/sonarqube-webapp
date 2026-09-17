@@ -23,6 +23,7 @@ import { useIntl, type IntlShape } from 'react-intl';
 import { useSearchParams } from 'react-router-dom';
 import { getPieChartFacetCounts } from '~shared/helpers/pieChart';
 import { useLanguagesQuery } from '~shared/queries/languages';
+import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MetricKey } from '~shared/types/metrics';
 import { useComponent } from '../../context/componentContext/withComponentContext';
 import {
@@ -389,7 +390,7 @@ export function useOrganizationPieChartData(
           impacts: [...DEFAULT_ISSUE_IMPACTS],
           sliceBy: 'SEVERITY',
           startDate: issueHistoryStartDate,
-          statuses: ['OPEN'],
+          statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
         }
       : {
           ...historyParams,
@@ -428,7 +429,7 @@ export function useOrganizationPieChartData(
     {
       componentKeys: componentKey,
       facets: widget.slice,
-      issueStatuses: 'OPEN,CONFIRMED',
+      issueStatuses: FILTERABLE_CODE_ISSUE_STATUSES.join(','),
       ps: 1,
       sinceLeakPeriod: false,
       ...(issueSearchQuality ? { impactSoftwareQualities: issueSearchQuality } : {}),
