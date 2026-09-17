@@ -3544,6 +3544,8 @@ export const defaultMessages = {
   'architecture.search.more': 'Top results shown. Refine for more.',
   'architecture.discovery.rollup.button.on': 'Simple',
   'architecture.discovery.rollup.button.off': 'Detailed',
+  'architecture.discovery.rollup.button.disabled_tooltip':
+    'Select a component or relationship to switch between Simple and Detailed views',
   'architecture.model.no_subcomponents': 'No subcomponents',
   'architecture.model.add_subcomponent': 'Subcomponent',
   'architecture.model.add_subcomponent_label': 'Add subcomponent',
