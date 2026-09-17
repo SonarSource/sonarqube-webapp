@@ -24,6 +24,12 @@ import { mockMetric } from '~sq-server-commons/helpers/testMocks';
 import { Condition } from '~sq-server-commons/types/types';
 import { DecoratedCondition, useConditions } from '../useConditions';
 
+jest.mock('~adapters/helpers/users', () => ({
+  useCurrentUser: jest
+    .fn()
+    .mockReturnValue({ currentUser: { isLoggedIn: true }, isLoggedIn: true }),
+}));
+
 const METRICS = {
   [MetricKey.new_violations]: mockMetric({
     key: MetricKey.new_violations,
@@ -228,6 +234,27 @@ describe('useConditions', () => {
 
     expect(result.current.builtInNewCodeConditions[0].isDisabled).toBe(true);
     expect(result.current.builtInNewCodeConditions[0].suffix).toBeDefined();
+  });
+
+  describe('when user is not logged in', () => {
+    beforeEach(() => {
+      const { useCurrentUser } = jest.requireMock('~adapters/helpers/users');
+      useCurrentUser.mockReturnValue({ currentUser: { isLoggedIn: false }, isLoggedIn: false });
+    });
+
+    afterEach(() => {
+      const { useCurrentUser } = jest.requireMock('~adapters/helpers/users');
+      useCurrentUser.mockReturnValue({ currentUser: { isLoggedIn: true }, isLoggedIn: true });
+    });
+
+    it('does not disable SCA conditions when user is not logged in', () => {
+      const scaCondition = mockCondition({ metric: MetricKey.new_sca_severity_any_issue });
+
+      const { result } = setup({ conditions: [scaCondition] });
+
+      const decorated = result.current.newCodeConditions[0] as DecoratedCondition;
+      expect(decorated.isDisabled).toBe(false);
+    });
   });
 
   it('does not decorate overall-code conditions', () => {

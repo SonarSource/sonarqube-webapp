@@ -56,7 +56,11 @@ export function createScaConditionDecorator({
   return (metricKey: string) => {
     const needSca = isScaMeasure(metricKey);
     return {
-      isDisabled: needSca && (!isScaEnabled || !isScaAvailable),
+      // Guard on isLoggedIn: entitlement queries fail for anonymous visitors, leaving data
+      // undefined so isScaEnabled/isScaAvailable fall back to false regardless of the org's
+      // actual license. ConditionScaSuffix already returns null when not logged in, so
+      // isDisabled must match.
+      isDisabled: needSca && isLoggedIn && (!isScaEnabled || !isScaAvailable),
       suffix: needSca ? (
         <ConditionScaSuffix
           advancedSecurityDocsUrl={advancedSecurityDocsUrl}
