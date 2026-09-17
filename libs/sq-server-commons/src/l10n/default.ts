@@ -2417,6 +2417,8 @@ export const defaultMessages = {
   'project_agent_activity.empty': 'No agent jobs yet',
   'project_agent_activity.error.title': 'Something went wrong while loading agent jobs.',
   'project_agent_activity.error.retry': 'Retry',
+  'project_agent_activity.error.download_logs_hint':
+    'For more information, ask your instance administrator to download the Agentic tasks logs from the administration section.',
   'project_agent_activity.unavailable.title': 'Remediation Agent is not currently available',
   'project_agent_activity.unavailable.non_admin.body':
     'Past activity is shown below, but no new fixes will be proposed. Contact your system administrator to reactivate Remediation Agent.',
