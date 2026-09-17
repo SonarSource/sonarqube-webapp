@@ -10966,6 +10966,8 @@ export const defaultMessages = {
     'A detailed list of ratings for this portfolio and the projects, applications, and nested portfolios contained within it that you are allowed to browse. Switch between new code and overall code to see the ratings. Learn more about <link>portfolio breakdowns</link>.',
 
   'portfolio_overview.empty': 'This portfolio is empty.',
+  'portfolio_overview.empty.no_edit_permission':
+    "You don't have permission to edit this portfolio's definition.",
   'portfolio_overview.empty.description':
     'Add projects and applications to your portfolio definition to compute quality metrics.',
   'portfolio_overview.no_lines_of_code': 'All projects in this portfolio are empty',
