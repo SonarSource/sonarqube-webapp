@@ -53,6 +53,7 @@ interface StatusTransitionProps<T extends string> {
   showFeedbackCheckbox?: boolean;
   status: string;
   transitions: StatusTransitionItem<T>[];
+  variety?: ButtonVariety;
 }
 
 export function StatusTransition<T extends string>(props: Readonly<StatusTransitionProps<T>>) {
@@ -68,6 +69,7 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
     dropdownHeader,
     showFeedbackCheckbox,
     status,
+    variety,
   } = props;
 
   const defaultIsFeedback = Boolean(showFeedbackCheckbox && configuredDefaultIsFeedback);
@@ -131,7 +133,7 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
             isDisabled={transitions.length === 0}
             isLoading={isTransiting}
             suffix={transitions.length > 0 ? <IconChevronDown /> : null}
-            variety={ButtonVariety.DefaultGhost}
+            variety={variety ?? ButtonVariety.DefaultGhost}
           >
             {status}
           </Button>

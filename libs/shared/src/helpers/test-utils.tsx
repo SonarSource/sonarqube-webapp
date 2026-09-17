@@ -19,7 +19,14 @@
  */
 
 import { TooltipProvider } from '@sonarsource/echoes-react';
-import { RenderOptions, RenderResult, render as rtlRender } from '@testing-library/react';
+import {
+  createEvent,
+  EventType,
+  fireEvent,
+  RenderOptions,
+  RenderResult,
+  render as rtlRender,
+} from '@testing-library/react';
 import userEvent, { UserEvent, Options as UserEventsOptions } from '@testing-library/user-event';
 import { InitialEntry } from 'history';
 import { ldClientMock } from 'jest-launchdarkly-mock';
@@ -29,6 +36,7 @@ import {
   Attributes,
   createElement,
   forwardRef,
+  Key,
   PropsWithChildren,
   PropsWithoutRef,
   ReactElement,
@@ -208,3 +216,14 @@ export const LdClientMock = {
   ...ldClientMock,
   addHook: jest.fn(),
 };
+
+/**
+ * Fire a custom keyboard event on window
+ * Useful to test if the handler is properly preventing default
+ */
+export function fireCustomKeyboardEvent(type: EventType, key: Key | string): Event {
+  const event = createEvent[type](window, { key });
+  fireEvent(window, event);
+
+  return event;
+}

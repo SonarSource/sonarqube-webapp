@@ -30,11 +30,16 @@ import {
 import { RuleStatus } from '../../types/rules';
 import { CleanCodeAttributePill } from '../badges/CleanCodeAttributePill';
 import DateFromNow from '../intl/DateFromNow';
+import { IssueAssign, type IssueAssignProps } from './IssueAssign';
 import { IssueProperties } from './IssueProperties';
 import { IssueTags } from './IssueTags';
 import { SoftwareImpactPillList } from './SoftwareImpactPillList';
 
 interface IssueMetadataIssue {
+  assignee?: string;
+  assigneeActive?: boolean;
+  assigneeAvatar?: string;
+  assigneeName?: string;
   cleanCodeAttribute?: CodeAttribute;
   cleanCodeAttributeCategory: CodeAttributeCategory;
   creationDate: string;
@@ -48,23 +53,52 @@ interface IssueMetadataIssue {
 }
 
 interface Props {
+  assign: {
+    canAssign: boolean;
+    isSelected: boolean;
+    onAssign: IssueAssignProps['onAssign'];
+    renderDropdown: IssueAssignProps['renderDropdown'];
+  };
   issue: IssueMetadataIssue;
   learnMoreUrl?: string;
-  tags?: {
+  tags: {
     canSetTags?: boolean;
     overlay?: ReactNode;
     selectedIssueKey?: string;
   };
   rule?: { status: RuleStatus };
+  deferralDate?: ReactNode;
 }
 
-export function IssueMetadata({ issue, learnMoreUrl, tags, rule }: Readonly<Props>) {
+export function IssueMetadata({
+  assign,
+  issue,
+  learnMoreUrl,
+  tags,
+  rule,
+  deferralDate,
+}: Readonly<Props>) {
   const { formatMessage } = useIntl();
 
   return (
-    // temporary: The aside is sticky to the top of the page, but we want it to be below the header and the issue title bar, so we set the top to 260px.
-    <aside className="sw-sticky sw-top-[260px] sw-self-start">
+    <aside className="sw-self-start">
       <dl className="sw-flex sw-flex-col sw-gap-2">
+        <dt>
+          <Text isHighlighted>{formatMessage({ id: 'issue.details.assignee' })}</Text>
+        </dt>
+        <dd>
+          <IssueAssign
+            canAssign={assign.canAssign}
+            isSelected={assign.isSelected}
+            issue={issue}
+            onAssign={assign.onAssign}
+            renderDropdown={assign.renderDropdown}
+          />
+        </dd>
+        <Divider className="sw-my-1" />
+
+        {deferralDate}
+
         {(issue.impacts?.length ?? 0) > 0 && (
           <>
             <dt>
@@ -100,10 +134,10 @@ export function IssueMetadata({ issue, learnMoreUrl, tags, rule }: Readonly<Prop
         </dt>
         <dd>
           <IssueTags
-            canSetTags={tags?.canSetTags}
+            canSetTags={tags.canSetTags}
             issue={issue}
-            overlay={tags?.overlay ?? null}
-            selectedIssueKey={tags?.selectedIssueKey}
+            overlay={tags.overlay ?? null}
+            selectedIssueKey={tags.selectedIssueKey}
           />
         </dd>
 

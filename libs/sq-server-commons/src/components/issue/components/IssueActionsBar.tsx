@@ -18,19 +18,23 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useCallback } from 'react';
+import { AssigneeUser, IssueAssign } from '~shared/components/issues/IssueAssign';
 import { IssueTags } from '~shared/components/issues/IssueTags';
 import { HighlightRing } from '../../../design-system';
 import { IssueActions } from '../../../types/issues';
 import { Issue } from '../../../types/types';
 import { useSetIssueTags } from '../hooks/useSetIssueTags';
 import IssueTagsPopup from '../popups/IssueTagsPopup';
-import IssueAssign from './IssueAssign';
+import { AssigneeDropdown } from './AssigneeDropdown';
 import IssueTransition from './IssueTransition';
 import SonarLintBadge from './SonarLintBadge';
 
 interface Props {
   additionalIssueActions?: React.ComponentType<{ issue: Issue }>[];
   currentPopup?: string;
+  isSelected?: boolean;
+  isShortcutEnabled?: boolean;
   issue: Issue;
   onAssign: (login: string) => void;
   onChange: (issue: Issue) => void;
@@ -43,6 +47,8 @@ export default function IssueActionsBar(props: Readonly<Props>) {
   const {
     additionalIssueActions,
     currentPopup,
+    isSelected = false,
+    isShortcutEnabled,
     issue,
     onAssign,
     onChange,
@@ -54,6 +60,14 @@ export default function IssueActionsBar(props: Readonly<Props>) {
   const canAssign = issue.actions.includes(IssueActions.Assign);
   const { canSetTags, setTags } = useSetIssueTags(issue, onChange);
   const tagsPopupOpen = currentPopup === 'edit-tags' && canSetTags;
+  const assignedUser = issue.assigneeName ?? issue.assignee;
+
+  const handleAssign = useCallback(
+    (user: AssigneeUser) => {
+      onAssign(user.login);
+    },
+    [onAssign],
+  );
 
   return (
     <div className="sw-flex sw-gap-3 sw-min-w-0">
@@ -74,10 +88,20 @@ export default function IssueActionsBar(props: Readonly<Props>) {
         <li className="sw-min-w-0">
           <IssueAssign
             canAssign={canAssign}
-            isOpen={currentPopup === 'assign'}
+            isSelected={isSelected}
+            isShortcutEnabled={isShortcutEnabled}
             issue={issue}
-            onAssign={onAssign}
-            togglePopup={togglePopup}
+            onAssign={handleAssign}
+            renderDropdown={({ menuIsOpen, onMenuClose, onSelect }) => (
+              <AssigneeDropdown
+                assignedUser={assignedUser}
+                assigneeAvatar={issue.assigneeAvatar}
+                assigneeLogin={issue.assigneeLogin}
+                menuIsOpen={menuIsOpen}
+                onMenuClose={onMenuClose}
+                onSelect={onSelect}
+              />
+            )}
           />
         </li>
 

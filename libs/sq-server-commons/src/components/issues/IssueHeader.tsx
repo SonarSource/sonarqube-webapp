@@ -89,9 +89,8 @@ function IssueHeader(props: Readonly<Props>) {
           setIssueAssignee({ issue: issue.key, assignee: login }),
         );
       }
-      handleIssuePopupToggle('assign');
     },
-    [issue.assignee, issue.key, onIssueChange, handleIssuePopupToggle],
+    [issue.assignee, issue.key, onIssueChange],
   );
 
   const handleSeverityChange = useCallback(
@@ -143,11 +142,6 @@ function IssueHeader(props: Readonly<Props>) {
       } else if (event.key === KeyboardKeys.KeyF) {
         event.preventDefault();
         handleIssuePopupToggle('transition');
-
-        return undefined;
-      } else if (event.key === KeyboardKeys.KeyA) {
-        event.preventDefault();
-        handleIssuePopupToggle('assign');
 
         return undefined;
       } else if (event.key === KeyboardKeys.KeyM && issue.actions.includes('assign')) {
@@ -244,6 +238,8 @@ function IssueHeader(props: Readonly<Props>) {
           <IssueActionsBar
             additionalIssueActions={additionalIssueActions}
             currentPopup={issuePopupName}
+            isSelected
+            isShortcutEnabled={getKeyboardShortcutEnabled()}
             issue={issue}
             onAssign={handleAssignement}
             onChange={onIssueChange}

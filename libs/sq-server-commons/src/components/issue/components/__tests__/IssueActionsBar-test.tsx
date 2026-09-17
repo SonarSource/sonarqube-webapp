@@ -29,9 +29,9 @@ jest.mock('../IssueTransition', () => ({
   default: () => <span>transition</span>,
 }));
 
-jest.mock('../IssueAssign', () => ({
+jest.mock('~shared/components/issues/IssueAssign', () => ({
   __esModule: true,
-  default: () => <span>assign</span>,
+  IssueAssign: () => <span>assign</span>,
 }));
 
 function AgentAction() {

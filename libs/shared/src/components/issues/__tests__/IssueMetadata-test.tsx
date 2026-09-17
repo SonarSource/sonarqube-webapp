@@ -37,6 +37,47 @@ const baseIssue = {
   key: 'issue-key',
 };
 
+describe('assignee', () => {
+  it('always renders the assignee label', () => {
+    setupWithProps();
+
+    expect(byText('issue.details.assignee').get()).toBeInTheDocument();
+  });
+
+  it('renders "unassigned" when issue has no assignee', () => {
+    setupWithProps();
+
+    expect(byText('unassigned').get()).toBeInTheDocument();
+  });
+
+  it('renders the assignee name when issue has an active assignee', () => {
+    setupWithProps({
+      issue: { ...baseIssue, assigneeActive: true, assigneeName: 'John Doe' },
+    });
+
+    expect(byText('John Doe').get()).toBeInTheDocument();
+  });
+
+  it('renders the provided dropdown when canAssign is true', () => {
+    const renderDropdown = jest.fn(() => <button type="button">Assign user</button>);
+
+    setupWithProps({
+      assign: { canAssign: true, isSelected: false, onAssign: jest.fn(), renderDropdown },
+    });
+
+    expect(renderDropdown).toHaveBeenCalled();
+    expect(byRole('button', { name: 'Assign user' }).get()).toBeInTheDocument();
+  });
+});
+
+describe('deferral date', () => {
+  it('renders the deferral date content when provided', () => {
+    setupWithProps({ deferralDate: <span>Deferred until Jan 1 2024</span> });
+
+    expect(byText('Deferred until Jan 1 2024').get()).toBeInTheDocument();
+  });
+});
+
 describe('code attribute', () => {
   it('renders only the category when no attribute is given', () => {
     setupWithProps();
@@ -148,6 +189,17 @@ describe('software impacts', () => {
   });
 });
 
+const defaultAssign = {
+  canAssign: false,
+  isSelected: false,
+  onAssign: jest.fn(),
+  renderDropdown: jest.fn(),
+};
+
+const defaultTags = {};
+
 function setupWithProps(props: Partial<ComponentProps<typeof IssueMetadata>> = {}) {
-  return renderWithContext(<IssueMetadata issue={baseIssue} {...props} />);
+  return renderWithContext(
+    <IssueMetadata assign={defaultAssign} issue={baseIssue} tags={defaultTags} {...props} />,
+  );
 }

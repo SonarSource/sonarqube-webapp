@@ -41,7 +41,7 @@ export function IssueTitle({ title, issuePermalink, closeIssue }: Readonly<Props
         size="medium"
         tooltipContent={formatMessage({ id: 'issue.back_to_issues_list' })}
       />
-      <Layout.PageHeader.Title className=" sw-flex sw-justify-center" headingLevel="h2">
+      <Layout.PageHeader.Title className="sw-flex sw-justify-center" headingLevel="h3">
         {title}
 
         <ClipboardIconButton

@@ -1906,6 +1906,8 @@ export const defaultMessages = {
   'issue.quick_fix': 'Quick fix',
   'issue.quick_fix_available_with_sonarlint': 'Quick fix available in {link}',
   'issue.quick_fix_available_with_sonarlint_no_link': 'Quick fix available in SonarQube for IDE',
+  'issue.details.assignee': 'Assignee',
+  'issue.details.deferral_date': 'Reopening Date',
   'issue.details.code_attribute': 'Code Attribute',
   'issue.details.properties': 'Properties',
   'issue.details.software_quality_impacts': 'Software quality impacts',

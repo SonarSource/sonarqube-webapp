@@ -27,23 +27,14 @@ import {
   AssigneeSelectOption,
   userToOption,
 } from '~shared/components/issues/AssigneeSelect';
+import { AssigneeUser } from '~shared/components/issues/IssueAssign';
 import { CurrentUserContext } from '../../../context/current-user/CurrentUserContext';
 import { useUsersQueries } from '../../../queries/users';
-import { Issue } from '../../../types/types';
 import { isLoggedIn } from '../../../types/users';
-import { IssueAssignee } from './IssueAssignee';
 
-interface Props {
-  canAssign: boolean;
-  isOpen: boolean;
-  issue: Issue;
-  onAssign: (login: string) => void;
-  togglePopup: (popup: string, show?: boolean) => void;
-}
+const MIN_SEARCH_LENGTH = 2;
 
-const minSearchLength = 2;
-
-const useOptions = ({
+function useOptions({
   assigneeLogin,
   assigneeAvatar,
   assignedUser,
@@ -51,7 +42,7 @@ const useOptions = ({
   assignedUser?: string;
   assigneeAvatar?: string;
   assigneeLogin?: string;
-}>) => {
+}>) {
   const { formatMessage } = useIntl();
   const { currentUser } = useContext(CurrentUserContext);
 
@@ -111,42 +102,36 @@ const useOptions = ({
   }, [debouncedSetQuery]);
 
   return { options: allOptions, searchQuery, setSearchQuery: debouncedSetQuery };
-};
+}
 
-export default function IssueAssign({
-  canAssign,
-  isOpen,
-  onAssign,
-  togglePopup,
-  issue: { assignee, assigneeName, assigneeLogin, assigneeAvatar, assigneeActive },
-}: Readonly<Props>) {
+export interface AssigneeDropdownProps {
+  assigneeAvatar?: string;
+  assigneeLogin?: string;
+  assignedUser?: string;
+  menuIsOpen: boolean;
+  onMenuClose: () => void;
+  onSelect: (user: AssigneeUser) => void;
+}
+
+export function AssigneeDropdown({
+  assigneeAvatar,
+  assigneeLogin,
+  assignedUser,
+  menuIsOpen,
+  onMenuClose,
+  onSelect,
+}: Readonly<AssigneeDropdownProps>) {
   const { formatMessage } = useIntl();
-
   const inputRef = useRef<HTMLInputElement>(null);
-  const assignedUser = assigneeName ?? assignee;
-
   const { options, searchQuery, setSearchQuery } = useOptions({
     assigneeLogin,
     assigneeAvatar,
     assignedUser,
   });
 
-  useEffect(() => {
-    if (isOpen && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isOpen]);
-
-  const handleToggleDropdown = useCallback(
-    (open: boolean) => {
-      togglePopup('assign', open);
-    },
-    [togglePopup],
-  );
-
   const handleSearch = useCallback(
     (query: string) => {
-      if (query.length < minSearchLength || query === searchQuery) {
+      if (query.length < MIN_SEARCH_LENGTH || query === searchQuery) {
         return;
       }
       setSearchQuery(query);
@@ -154,21 +139,27 @@ export default function IssueAssign({
     [setSearchQuery, searchQuery],
   );
 
-  const handleAssign = (option: AssigneeSelectOption) => {
-    onAssign(option.value);
-    inputRef.current?.blur();
-  };
+  useEffect(() => {
+    if (menuIsOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [menuIsOpen]);
 
-  if (!canAssign) {
-    return (
-      <IssueAssignee
-        assignee={assignee}
-        assigneeAvatar={assigneeAvatar}
-        assigneeName={assigneeName}
-        isActive={assigneeActive}
-      />
-    );
-  }
+  const handleAssign = useCallback(
+    (option: AssigneeSelectOption) => {
+      onSelect({ login: option.value, name: option.label });
+    },
+    [onSelect],
+  );
+
+  const handleToggleDropdown = useCallback(
+    (isOpen: boolean) => {
+      if (!isOpen) {
+        onMenuClose();
+      }
+    },
+    [onMenuClose],
+  );
 
   const ariaLabel = assignedUser
     ? formatMessage({ id: 'issue.assign.assigned_to_x_click_to_change' }, { user: assignedUser })
@@ -189,7 +180,7 @@ export default function IssueAssign({
       onToggleDropdown={handleToggleDropdown}
       placeholder={formatMessage({ id: 'unassigned' })}
       ref={inputRef}
-      value={assignedUser ? assigneeLogin : undefined}
+      value={assigneeLogin}
       valueIcon={valueIcon}
       width="small"
     />

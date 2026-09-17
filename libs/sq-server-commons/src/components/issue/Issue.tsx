@@ -110,8 +110,6 @@ function Issue(props: Readonly<Props>) {
         return true;
       } else if (event.key === KeyboardKeys.KeyF) {
         handlePopupKeyboardEvent('transition', event);
-      } else if (event.key === KeyboardKeys.KeyA) {
-        handlePopupKeyboardEvent('assign', event);
       } else if (event.key === KeyboardKeys.KeyM && issue.actions.includes('assign')) {
         event.preventDefault();
         handleAssignement('_me');
@@ -152,6 +150,7 @@ function Issue(props: Readonly<Props>) {
       checked={checked}
       currentPopup={openPopup}
       displayWhyIsThisAnIssue={displayWhyIsThisAnIssue}
+      isShortcutEnabled={getKeyboardShortcutEnabled()}
       issue={issue}
       onAssign={handleAssignement}
       onChange={onChange}

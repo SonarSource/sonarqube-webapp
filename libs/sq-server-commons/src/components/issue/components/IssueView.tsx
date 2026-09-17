@@ -53,6 +53,7 @@ interface Props {
   checked?: boolean;
   currentPopup?: string;
   displayWhyIsThisAnIssue?: boolean;
+  isShortcutEnabled?: boolean;
   issue: Issue;
   onAssign: (login: string) => void;
   onChange: (issue: Issue) => void;
@@ -69,6 +70,7 @@ export default function IssueView(props: Readonly<Props>) {
     checked,
     currentPopup,
     displayWhyIsThisAnIssue,
+    isShortcutEnabled,
     issue,
     onAssign,
     onChange,
@@ -219,6 +221,8 @@ export default function IssueView(props: Readonly<Props>) {
             <IssueActionsBar
               additionalIssueActions={additionalIssueActions}
               currentPopup={currentPopup}
+              isSelected={selected}
+              isShortcutEnabled={isShortcutEnabled}
               issue={issue}
               onAssign={onAssign}
               onChange={onChange}
