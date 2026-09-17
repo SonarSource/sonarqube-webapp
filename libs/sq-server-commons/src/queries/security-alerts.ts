@@ -20,12 +20,12 @@
 
 import { queryOptions } from '@tanstack/react-query';
 import { createQueryHook, StaleTime } from '~shared/queries/common';
-import { getMostRecentSecurityAlert } from '../api/security-alerts';
+import { getNewestSecurityAlert } from '../api/security-alerts';
 
-export const useMostRecentSecurityAlertQuery = createQueryHook(() =>
+export const useNewestSecurityAlertQuery = createQueryHook(() =>
   queryOptions({
     queryKey: ['security-alerts', 'banner'],
-    queryFn: getMostRecentSecurityAlert,
+    queryFn: getNewestSecurityAlert,
     staleTime: StaleTime.NEVER,
   }),
 );

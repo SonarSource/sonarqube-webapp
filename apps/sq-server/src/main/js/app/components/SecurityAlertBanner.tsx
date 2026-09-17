@@ -22,9 +22,10 @@ import { Layout, Link } from '@sonarsource/echoes-react';
 import { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { getSecurityAlertsUrl } from '~shared/helpers/security-alerts-urls';
+import { SecurityAlertSortField, SortDirection } from '~shared/types/security-alert';
 import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { useMyGroupSubscriptionsQuery } from '~sq-server-commons/queries/group-notifications';
-import { useMostRecentSecurityAlertQuery } from '~sq-server-commons/queries/security-alerts';
+import { useNewestSecurityAlertQuery } from '~sq-server-commons/queries/security-alerts';
 import { NotificationGroupType } from '~sq-server-commons/types/notifications';
 
 export function SecurityAlertBanner() {
@@ -40,10 +41,14 @@ export function SecurityAlertBanner() {
       (s) => s.notificationType === NotificationGroupType.SecurityAlertRaised,
     );
 
-  const { data } = useMostRecentSecurityAlertQuery({ enabled: receivesAlerts });
+  const { data } = useNewestSecurityAlertQuery({ enabled: receivesAlerts });
   const alert = data?.securityAlerts[0];
 
-  if (!receivesAlerts || !alert) {
+  const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+  const isNewWithinPastWeek =
+    !!alert && Date.now() - new Date(alert.firstDetectedAt).getTime() <= ONE_WEEK_MS;
+
+  if (!receivesAlerts || !isNewWithinPastWeek) {
     return null;
   }
 
@@ -52,7 +57,16 @@ export function SecurityAlertBanner() {
       <FormattedMessage
         id="security_alerts.security_alert_banner.message"
         values={{
-          link: (text) => <Link to={getSecurityAlertsUrl()}>{text}</Link>,
+          link: (text) => (
+            <Link
+              to={getSecurityAlertsUrl(
+                undefined,
+                `sort=${SecurityAlertSortField.FIRST_DETECTED_AT}&direction=${SortDirection.DESC}`,
+              )}
+            >
+              {text}
+            </Link>
+          ),
         }}
       />
     </Layout.Banner>

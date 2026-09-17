@@ -33,10 +33,10 @@ const SECURITY_ALERTS_ENDPOINT = `${API_V2_BASE_URL}/security-alerts/alerts`;
 // because that library is not accessible from sq-server-commons. The banner needs only
 // the single most-recent open alert, so a minimal function is defined here rather than
 // depending on the private feature library.
-export function getMostRecentSecurityAlert() {
+export function getNewestSecurityAlert() {
   return axiosClient.get<SecurityAlertSearchResponse>(SECURITY_ALERTS_ENDPOINT, {
     params: {
-      sort: SecurityAlertSortField.LAST_DETECTED_AT,
+      sort: SecurityAlertSortField.FIRST_DETECTED_AT,
       direction: SortDirection.DESC,
       pageSize: 1,
       pageIndex: 1,

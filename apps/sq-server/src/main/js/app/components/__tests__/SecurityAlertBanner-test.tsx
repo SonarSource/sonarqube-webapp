@@ -27,6 +27,9 @@ import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtil
 import { NotificationGroupType } from '~sq-server-commons/types/notifications';
 import { SecurityAlertBanner } from '../SecurityAlertBanner';
 
+const TWO_DAYS_AGO = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString();
+const TWO_WEEKS_AGO = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString();
+
 const EMPTY_RESPONSE = {
   page: { pageIndex: 1, pageSize: 1, total: 0 },
   securityAlerts: [],
@@ -34,7 +37,12 @@ const EMPTY_RESPONSE = {
 
 const ALERT_RESPONSE = {
   page: { pageIndex: 1, pageSize: 1, total: 1 },
-  securityAlerts: [{ id: 'alert-1', status: 'OPEN' }],
+  securityAlerts: [{ id: 'alert-1', status: 'OPEN', firstDetectedAt: TWO_DAYS_AGO }],
+};
+
+const OLD_ALERT_RESPONSE = {
+  page: { pageIndex: 1, pageSize: 1, total: 1 },
+  securityAlerts: [{ id: 'alert-1', status: 'OPEN', firstDetectedAt: TWO_WEEKS_AGO }],
 };
 
 const SUBSCRIBED_RESPONSE = {
@@ -91,7 +99,10 @@ it('renders banner with list link when an open alert exists', async () => {
   });
 
   expect(await ui.banner.find()).toBeInTheDocument();
-  expect(await ui.listLink.find()).toHaveAttribute('href', '/security_alerts?statuses=OPEN');
+  expect(await ui.listLink.find()).toHaveAttribute(
+    'href',
+    '/security_alerts?statuses=OPEN&sort=FIRST_DETECTED_AT&direction=DESC',
+  );
 });
 
 it('renders nothing when subscriptions contain no security-alert-raised entry', async () => {
@@ -100,6 +111,18 @@ it('renders nothing when subscriptions contain no security-alert-raised entry', 
     http.get('/api/notifications/list_group_subscriptions', () =>
       HttpResponse.json(UNSUBSCRIBED_RESPONSE),
     ),
+  );
+
+  renderComponent(<SecurityAlertBanner />, '/', {
+    currentUser: mockLoggedInUser(),
+  });
+
+  await expect(ui.banner.find()).rejects.toThrow();
+});
+
+it('renders nothing when the most recent alert is older than one week', async () => {
+  server.use(
+    http.get('/api/v2/security-alerts/alerts', () => HttpResponse.json(OLD_ALERT_RESPONSE)),
   );
 
   renderComponent(<SecurityAlertBanner />, '/', {

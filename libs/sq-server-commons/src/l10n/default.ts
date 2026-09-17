@@ -11956,6 +11956,12 @@ export const defaultMessages = {
     '{count, plural, one {# subscription} other {# subscriptions}}',
   'group_notifications.remove_subscription': 'Remove {type}',
 
+  'security_alerts.page.intro':
+    'Security alerts are shown when critical findings are detected in your projects that could need immediate remediation. Review them to understand the risk and take action when needed.',
+
+  'security_alerts.page.intro.learn_more':
+    'Learn more about <docsLink>security alerts and how to get notified when they are detected</docsLink>.',
+
   'security_alerts.security_alert_banner.message':
-    'You have open security alerts in your projects. <link>View security alerts</link>',
+    'New security alerts were detected in your projects in the past week. <link>View all security alerts</link>',
 };
