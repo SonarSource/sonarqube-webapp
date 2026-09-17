@@ -11915,6 +11915,7 @@ export const defaultMessages = {
 
   'security_alerts.page': 'Security Alerts',
   'security_alerts.branch_label': 'Branch:',
+  'security_alerts.branch_link_label': '{projectName} on branch {branchName}',
   'security_alerts.filter.alert_type': 'Alert Type',
   'security_alerts.filter.status': 'Status',
   'security_alerts.sort.first_detected_at': 'First Detection',

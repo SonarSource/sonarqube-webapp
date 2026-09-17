@@ -66,8 +66,14 @@ export function getDeprecatedActiveRulesUrl(
   return getRulesUrl({ ...query, ...baseQuery }, organization);
 }
 
-export function getProjectOverviewUrl(projectKey: string): Partial<Path> {
-  return { pathname: PROJECT_BASE_URL, search: queryToSearchString({ id: projectKey }) };
+export function getProjectOverviewUrl(
+  projectKey: string,
+  branchKey?: string | null,
+): Partial<Path> {
+  return {
+    pathname: PROJECT_BASE_URL,
+    search: queryToSearchString({ id: projectKey, branch: branchKey }),
+  };
 }
 
 export function getProjectSettingsUrl(projectKey: string, category?: string): Partial<Path> {
