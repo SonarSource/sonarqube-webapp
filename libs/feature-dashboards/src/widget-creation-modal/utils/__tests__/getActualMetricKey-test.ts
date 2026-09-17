@@ -73,7 +73,7 @@ describe('getActualMetricKey', () => {
         metricKey: RichMetricKey.Issues,
         type: DashboardMetricType.Rich,
       }),
-    ).toBe(MetricKey.violations);
+    ).toBe(MetricKey.confirmed_issues);
   });
 
   it('maps software quality filters to backend metric keys', () => {

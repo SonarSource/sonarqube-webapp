@@ -94,7 +94,7 @@ describe('dashboardMetricToMeasure', () => {
     );
   });
 
-  it('uses generic issue history for confirmed issues', () => {
+  it('uses the confirmed issues metric identity for confirmed issues', () => {
     expect(
       dashboardMetricToMeasure(
         {
@@ -106,7 +106,7 @@ describe('dashboardMetricToMeasure', () => {
       ),
     ).toEqual({
       api: 'issue-count-history',
-      metricKey: MetricKey.violations,
+      metricKey: MetricKey.confirmed_issues,
       sliceBy: undefined,
       statuses: ['CONFIRMED'],
     });

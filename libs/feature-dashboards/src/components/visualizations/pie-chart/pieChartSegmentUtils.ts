@@ -65,7 +65,16 @@ export const SENTIMENT_COLORS = {
 };
 
 const SEVERITY_ORDER = ['BLOCKER', 'HIGH', 'MEDIUM', 'LOW', 'INFO'];
-const STATUS_ORDER = ['OPEN', 'FIXED', 'ACCEPTED', 'FALSE_POSITIVE', 'ERROR', 'NOT_COMPUTED', 'OK'];
+const STATUS_ORDER = [
+  'OPEN',
+  'CONFIRMED',
+  'FIXED',
+  'ACCEPTED',
+  'FALSE_POSITIVE',
+  'ERROR',
+  'NOT_COMPUTED',
+  'OK',
+];
 const COVERAGE_ORDER = ['uncovered', 'covered'];
 const DUPLICATION_ORDER = ['duplicated', 'non-duplicated'];
 const HOTSPOT_REVIEW_ORDER = ['TO_REVIEW', 'FIXED', 'SAFE'];

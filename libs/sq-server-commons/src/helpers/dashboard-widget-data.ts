@@ -741,7 +741,16 @@ function orderForSlice(slice: string, metric: string): string[] | undefined {
     return ['BLOCKER', 'HIGH', 'MEDIUM', 'LOW', 'INFO'];
   }
   if (slice === PieChartIssueSlice.IssueStatuses || slice === PieChartProjectSlice.Status) {
-    return ['OPEN', 'FIXED', 'ACCEPTED', 'FALSE_POSITIVE', 'ERROR', 'NOT_COMPUTED', 'OK'];
+    return [
+      'OPEN',
+      'CONFIRMED',
+      'FIXED',
+      'ACCEPTED',
+      'FALSE_POSITIVE',
+      'ERROR',
+      'NOT_COMPUTED',
+      'OK',
+    ];
   }
   if (slice === PieChartHotspotSlice.ReviewStatus) {
     return ['TO_REVIEW', 'FIXED', 'SAFE'];

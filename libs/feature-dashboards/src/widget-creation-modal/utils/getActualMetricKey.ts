@@ -62,6 +62,7 @@ export function getActualMetricKey(metric: DashboardMetric): MetricKey | undefin
   if (measureFilters?.issueStatus) {
     const statusToMetricMap: Partial<Record<IssueStatus, MetricKey>> = {
       [IssueStatus.Open]: MetricKey.open_issues,
+      [IssueStatus.Confirmed]: MetricKey.confirmed_issues,
       [IssueStatus.Accepted]: MetricKey.accepted_issues,
       [IssueStatus.FalsePositive]: MetricKey.false_positive_issues,
     };

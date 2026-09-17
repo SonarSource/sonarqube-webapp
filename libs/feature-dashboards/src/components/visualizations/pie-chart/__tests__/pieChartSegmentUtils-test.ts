@@ -281,6 +281,20 @@ describe('pieChartSegmentUtils', () => {
   });
 
   describe('sortSegments', () => {
+    it('orders confirmed issues between open and fixed issues', () => {
+      expect(
+        sortSegments(
+          [
+            ['FIXED', 30],
+            ['OPEN', 10],
+            ['CONFIRMED', 20],
+          ],
+          PieChartIssueSlice.IssueStatuses,
+          PieChartMetric.IssueCount,
+        ).map(([value]) => value),
+      ).toEqual(['OPEN', 'CONFIRMED', 'FIXED']);
+    });
+
     it('uses inherent ordering for issue severities and hotspot review status', () => {
       expect(
         sortSegments(

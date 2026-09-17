@@ -506,6 +506,17 @@ describe('dashboard widget data helpers', () => {
         ),
       ).toEqual(['BLOCKER', 'HIGH', 'MEDIUM', 'LOW', 'INFO']);
       expect(
+        sortSegments(
+          [
+            ['FIXED', 3],
+            ['OPEN', 1],
+            ['CONFIRMED', 2],
+          ],
+          PieChartIssueSlice.IssueStatuses,
+          PieChartMetric.IssueCount,
+        ).map(([key]) => key),
+      ).toEqual(['OPEN', 'CONFIRMED', 'FIXED']);
+      expect(
         aggregateSmallSegments(
           [
             ['a', 20],
