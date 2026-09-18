@@ -278,10 +278,10 @@ export function getThirtyDayTrendWindow<T>(
   const sorted = [...points]
     .filter((point) => !Number.isNaN(getTimestamp(point)))
     .sort((a, b) => getTimestamp(a) - getTimestamp(b));
-  const threshold = Date.now() - THIRTY_DAYS_MS;
+  const threshold = startOfUTCDay(Date.now()).getTime() - THIRTY_DAYS_MS;
   let startIndex = 0;
   for (let index = 0; index < sorted.length; index += 1) {
-    if (getTimestamp(sorted[index]) < threshold) {
+    if (getTimestamp(sorted[index]) <= threshold) {
       startIndex = index;
     }
   }
@@ -296,9 +296,16 @@ function trend<T>(
   const window = getThirtyDayTrendWindow(points, getTimestamp);
   const last = window.at(-1);
   const first = window[0];
+  const comparisonThreshold = startOfUTCDay(Date.now()).getTime() - THIRTY_DAYS_MS;
   return {
     current: last === undefined ? null : getValue(last),
-    past: first !== undefined && last !== undefined && first !== last ? getValue(first) : null,
+    past:
+      first !== undefined &&
+      last !== undefined &&
+      first !== last &&
+      getTimestamp(first) <= comparisonThreshold
+        ? getValue(first)
+        : null,
   };
 }
 

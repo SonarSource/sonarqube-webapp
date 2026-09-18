@@ -40,12 +40,12 @@ describe('dashboard history maturity', () => {
   it('requires a genuine point at least 30 days before the current point', () => {
     const maturePoints = [{ date: new Date('2026-03-01T00:00:00Z'), value: 10 }, current];
     const immaturePoints = [{ date: new Date('2026-03-02T00:00:00Z'), value: 10 }, current];
+    const asOf = current.date.getTime();
 
-    expect(hasCompleteDashboardHistory(maturePoints, 30)).toBe(true);
-    expect(dashboardMeasureTrendValues(maturePoints, 30)).toEqual([10, 20]);
-    expect(hasCompleteDashboardHistory(immaturePoints, 30)).toBe(false);
-    expect(dashboardMeasureTrendValues(immaturePoints, 30)).toEqual([]);
-    expect(dashboardMeasureTrendValues(immaturePoints, 30, true)).toEqual([10, 20]);
+    expect(hasCompleteDashboardHistory(maturePoints, 30, asOf)).toBe(true);
+    expect(dashboardMeasureTrendValues(maturePoints, 30, asOf)).toEqual([10, 20]);
+    expect(hasCompleteDashboardHistory(immaturePoints, 30, asOf)).toBe(false);
+    expect(dashboardMeasureTrendValues(immaturePoints, 30, asOf)).toEqual([]);
   });
 
   it('recognizes two adjacent 30-day calendar periods by their 59-day span', () => {
@@ -68,7 +68,7 @@ describe('resolvedIssuesCountValues', () => {
       })),
     ];
 
-    expect(resolvedIssuesCountValues(dailyPoints)).toEqual({
+    expect(resolvedIssuesCountValues(dailyPoints, Date.UTC(2026, 2, 1))).toEqual({
       currentTotal: 90,
       sparklineSeries: [60, ...Array.from({ length: 30 }, (_, index) => 61 + index)],
       trendValues: [60, 90],
@@ -77,11 +77,14 @@ describe('resolvedIssuesCountValues', () => {
 
   it('uses calendar periods when zero-resolution dates are omitted', () => {
     expect(
-      resolvedIssuesCountValues([
-        { date: new Date('2026-01-01T00:00:00Z'), value: 10 },
-        { date: new Date('2026-01-31T00:00:00Z'), value: 20 },
-        { date: new Date('2026-03-01T00:00:00Z'), value: 30 },
-      ]),
+      resolvedIssuesCountValues(
+        [
+          { date: new Date('2026-01-01T00:00:00Z'), value: 10 },
+          { date: new Date('2026-01-31T00:00:00Z'), value: 20 },
+          { date: new Date('2026-03-01T00:00:00Z'), value: 30 },
+        ],
+        Date.parse('2026-03-01T00:00:00Z'),
+      ),
     ).toEqual({
       currentTotal: 50,
       sparklineSeries: [20, 50],
@@ -89,13 +92,32 @@ describe('resolvedIssuesCountValues', () => {
     });
   });
 
+  it('anchors the sparkline tip and current total to the same as-of date', () => {
+    expect(
+      resolvedIssuesCountValues(
+        [
+          { date: new Date('2026-01-01T00:00:00Z'), value: 10 },
+          { date: new Date('2026-01-31T00:00:00Z'), value: 20 },
+        ],
+        Date.parse('2026-03-01T00:00:00Z'),
+      ),
+    ).toEqual({
+      currentTotal: 20,
+      sparklineSeries: [20, 20],
+      trendValues: [10, 20],
+    });
+  });
+
   it('does not produce a trend until two complete periods are available', () => {
     expect(
-      resolvedIssuesCountValues([
-        { date: new Date('2026-01-01T00:00:00Z'), value: 2 },
-        { date: new Date('2026-01-02T00:00:00Z'), value: 0 },
-        { date: new Date('2026-01-03T00:00:00Z'), value: 3 },
-      ]),
+      resolvedIssuesCountValues(
+        [
+          { date: new Date('2026-01-01T00:00:00Z'), value: 2 },
+          { date: new Date('2026-01-02T00:00:00Z'), value: 0 },
+          { date: new Date('2026-01-03T00:00:00Z'), value: 3 },
+        ],
+        Date.parse('2026-01-03T00:00:00Z'),
+      ),
     ).toEqual({
       currentTotal: 5,
       sparklineSeries: [],

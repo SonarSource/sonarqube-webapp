@@ -1079,13 +1079,7 @@ describe('dashboard widget adapter queries', () => {
         { wrapper: getContextWrapper() },
       );
 
-      expect(result.current.getRuleTrendData('java:S1')).toEqual(
-        expect.objectContaining({
-          change: 5,
-          comparisonStartDate: recent,
-          past: 0,
-        }),
-      );
+      expect(result.current.getRuleTrendData('java:S1')).toBeNull();
     });
   });
 

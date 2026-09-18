@@ -121,8 +121,10 @@ export function CountWidget({
 
   const trendProps: TrendIndicatorProps = {
     historyStartDate: trendIndicatorData.historyStartDate,
+    isCurrentPeriodIncomplete: trendIndicatorData.isCurrentPeriodIncomplete,
     isPending: trendIndicatorData.isPending ?? false,
     requiredHistoryDays: trendIndicatorData.requiredHistoryDays,
+    trendType: trendIndicatorData.trendType,
     trendData: trendIndicatorData.trendData ?? null,
   };
 

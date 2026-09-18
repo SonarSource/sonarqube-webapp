@@ -21,8 +21,6 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithRouter } from '~shared/helpers/test-utils';
-import { WidgetHeaderTitle } from '../../../dashboard-layout/shared/WidgetHeaderTitle';
-import { WidgetInstanceProvider } from '../../../dashboard-layout/shared/WidgetInstanceContext';
 import { TrendIndicator } from '../TrendIndicator';
 
 describe('TrendIndicator', () => {
@@ -36,20 +34,25 @@ describe('TrendIndicator', () => {
     renderWithRouter(<TrendIndicator isPending={false} trendData={null} />);
 
     expect(
-      screen.getByText('dashboard.widget.trend_indicator.badge.unavailable'),
+      screen.getByRole('button', {
+        name: 'dashboard.widget.trend_indicator.badge.unavailable',
+      }),
     ).toBeInTheDocument();
+    expect(
+      screen.queryByText('dashboard.widget.trend_indicator.badge.unavailable'),
+    ).not.toBeInTheDocument();
     expect(
       screen.queryByText('dashboard.widget.trend_indicator.vs_last_30_days'),
     ).not.toBeInTheDocument();
 
     await user.click(
       screen.getByRole('button', {
-        name: 'dashboard.widget.trend_indicator.no_historical_data',
+        name: 'dashboard.widget.trend_indicator.badge.unavailable',
       }),
     );
 
     expect(
-      await screen.findByText('dashboard.widget.trend_indicator.no_historical_data'),
+      await screen.findByText(/dashboard\.widget\.trend_indicator\.no_historical_data/),
     ).toBeInTheDocument();
   });
 
@@ -63,50 +66,93 @@ describe('TrendIndicator', () => {
       />,
     );
 
-    const toggleTip = screen.getByRole('button', {
-      name: /dashboard\.widget\.trend_indicator\.insufficient_history/,
-    });
-    await user.click(toggleTip);
+    await user.click(
+      screen.getByRole('button', {
+        name: 'dashboard.widget.trend_indicator.badge.unavailable',
+      }),
+    );
 
     expect(
       await screen.findByText(/dashboard\.widget\.trend_indicator\.insufficient_history/),
     ).toBeInTheDocument();
   });
 
-  it('explains the 60-day requirement for resolution trends', () => {
+  it('explains the 60-day requirement for resolution trends', async () => {
+    const user = userEvent.setup();
     renderWithRouter(
       <TrendIndicator
         historyStartDate={new Date('2026-09-01T00:00:00Z')}
         isPending={false}
         requiredHistoryDays={60}
         trendData={null}
+        trendType="rolling-average"
       />,
     );
 
-    expect(
+    await user.click(
       screen.getByRole('button', {
-        name: /dashboard\.widget\.trend_indicator\.insufficient_history_60_days/,
+        name: 'dashboard.widget.trend_indicator.badge.unavailable',
       }),
+    );
+    expect(
+      await screen.findByText(
+        /dashboard\.widget\.trend_indicator\.description\.rolling_average\.insufficient_history/,
+      ),
     ).toBeInTheDocument();
   });
 
-  it('labels a partial trend with its actual start date', () => {
+  it('explains when the current resolved-issues period is incomplete', async () => {
+    const user = userEvent.setup();
+    renderWithRouter(
+      <TrendIndicator
+        historyStartDate={new Date('2026-09-01T00:00:00Z')}
+        isCurrentPeriodIncomplete
+        isPending={false}
+        requiredHistoryDays={60}
+        trendData={null}
+        trendType="resolved-issues"
+      />,
+    );
+
+    await user.click(
+      screen.getByRole('button', {
+        name: 'dashboard.widget.trend_indicator.badge.unavailable',
+      }),
+    );
+
+    expect(
+      await screen.findByText(
+        /dashboard\.widget\.trend_indicator\.description\.resolved_issues\.current_period_incomplete/,
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it('uses metric-specific copy in the trend toggletip', async () => {
+    const user = userEvent.setup();
     renderWithRouter(
       <TrendIndicator
         isPending={false}
         trendData={{
           activityUrl: { pathname: '#' },
           change: 5,
-          comparisonStartDate: new Date('2026-09-01T00:00:00Z'),
-          formattedChange: '50%',
-          metricDirection: -1,
-          past: 10,
-          roundedChange: 50,
+          formattedChange: '5%',
+          metricDirection: 1,
+          past: 100,
+          roundedChange: 5,
         }}
+        trendType="rolling-average"
       />,
     );
 
-    expect(screen.getByText(/dashboard\.widget\.trend_indicator\.since/)).toBeInTheDocument();
+    await user.click(
+      screen.getByRole('button', {
+        name: /dashboard\.widget\.trend_indicator\.badge\.relative/,
+      }),
+    );
+
+    expect(
+      await screen.findByText('dashboard.widget.trend_indicator.description.rolling_average'),
+    ).toBeInTheDocument();
   });
 
   it('renders no-change message without link when history is neutral', () => {
@@ -155,8 +201,7 @@ describe('TrendIndicator', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('shows a last-30-days tooltip when compact', async () => {
-    const user = userEvent.setup();
+  it('does not render comparison text for compact indicators', () => {
     renderWithRouter(
       <TrendIndicator
         compact
@@ -173,11 +218,9 @@ describe('TrendIndicator', () => {
       />,
     );
 
-    await user.hover(screen.getByText(/dashboard\.widget\.trend_indicator\.badge\.relative/));
-
-    const tooltips = await screen.findAllByText('dashboard.widget.trend_indicator.vs_last_30_days');
-    expect(tooltips.length).toBeGreaterThan(0);
-    expect(tooltips[0]).toBeVisible();
+    expect(
+      screen.queryByText('dashboard.widget.trend_indicator.vs_last_30_days'),
+    ).not.toBeInTheDocument();
   });
 
   it('renders absolute-change message for zero baseline', () => {
@@ -200,7 +243,8 @@ describe('TrendIndicator', () => {
     ).toBeInTheDocument();
   });
 
-  it('renders percentage-change message with activity link', () => {
+  it('offers the activity link from the trend popover', async () => {
+    const user = userEvent.setup();
     renderWithRouter(
       <TrendIndicator
         isPending={false}
@@ -215,32 +259,15 @@ describe('TrendIndicator', () => {
       />,
     );
 
-    expect(
-      screen.getByRole('link', { name: /dashboard\.widget\.trend_indicator\.badge\.relative/ }),
-    ).toBeInTheDocument();
-  });
-
-  it('includes the widget title in the trend link accessible name when widget context is available', () => {
-    renderWithRouter(
-      <WidgetInstanceProvider dimensions={{ height: 4, width: 3 }} widgetKey="w1">
-        <WidgetHeaderTitle title="Bugs" />
-        <TrendIndicator
-          isPending={false}
-          trendData={{
-            activityUrl: { pathname: '/activity' },
-            change: 20,
-            formattedChange: '20.0%',
-            metricDirection: 1,
-            past: 100,
-            roundedChange: 20,
-          }}
-        />
-      </WidgetInstanceProvider>,
+    await user.click(
+      screen.getByRole('button', {
+        name: /dashboard\.widget\.trend_indicator\.badge\.relative/,
+      }),
     );
 
     expect(
-      screen.getByRole('link', {
-        name: /dashboard\.widget\.trend_indicator\.badge\.relative.*Bugs/,
+      await screen.findByRole('link', {
+        name: 'dashboard.widget.trend_indicator.view_activity',
       }),
     ).toBeInTheDocument();
   });

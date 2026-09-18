@@ -338,12 +338,12 @@ describe('datetime', () => {
       expect(getThirtyDayTrendValues(points, toTs, toVal)).toEqual({ current: '7', past: '4' });
     });
 
-    it('uses the oldest point for a partial trend when two recent points exist', () => {
+    it('does not produce a trend when two recent points exist', () => {
       const points = [
         { t: new Date('2026-03-15T00:00:00.000Z').getTime(), v: '2' },
         { t: new Date('2026-03-20T00:00:00.000Z').getTime(), v: '5' },
       ];
-      expect(getThirtyDayTrendValues(points, toTs, toVal)).toEqual({ current: '5', past: '2' });
+      expect(getThirtyDayTrendValues(points, toTs, toVal)).toEqual({ current: '5', past: null });
     });
   });
 
@@ -548,6 +548,13 @@ describe('datetime', () => {
         { t: new Date('2026-03-20T00:00:00.000Z').getTime() },
       ];
       expect(getThirtyDayTrendWindow(points, toTs)).toEqual(points);
+    });
+
+    it('uses a point exactly 30 days old as the comparison baseline', () => {
+      const baseline = { t: new Date('2026-02-28T00:00:00.000Z').getTime() };
+      const recent = { t: new Date('2026-03-20T00:00:00.000Z').getTime() };
+
+      expect(getThirtyDayTrendWindow([baseline, recent], toTs)).toEqual([baseline, recent]);
     });
   });
 });

@@ -70,7 +70,7 @@ function getCountWidgetLink(
 
 function ProjectHistoryCountWidget(props: Readonly<HistoryCountProps>) {
   const { formatMttr } = useMttrFormatters();
-  const { formatDate, formatMessage } = useIntl();
+  const { formatMessage } = useIntl();
   const { projectEntityId } = useDashboardProjectContext();
   const { branchLike, componentKey, measure, metric, scope, showTrendIndicator = false } = props;
   const trendVisible = isCountWidgetTrendVisible(showTrendIndicator, metric, scope);
@@ -101,7 +101,6 @@ function ProjectHistoryCountWidget(props: Readonly<HistoryCountProps>) {
   const presentation = buildCountWidgetPresentation({
     activityUrl: getProjectDashboardMeasureHistoryUrl(componentKey, metricKey, branchLike),
     data: query.data,
-    formatDate,
     formatMessage,
     formatMttr,
     measure,

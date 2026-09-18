@@ -265,8 +265,8 @@ export function issueHistoryTrendStartDate(): string {
 }
 
 /**
- * Extracts latest value and a comparison point roughly 30 days in the past.
- * Uses the last history point strictly before `now − 30d` as the comparison baseline.
+ * Extracts the latest value and the start of its trailing 30-day window. Both values are returned
+ * only once the complete window is available.
  */
 export function getThirtyDayTrendValues<T>(
   points: readonly T[],
@@ -279,15 +279,22 @@ export function getThirtyDayTrendValues<T>(
   }
   const last = window.at(-1);
   const first = window[0];
+  const comparisonThreshold = startOfUTCDay(Date.now()).getTime() - THIRTY_DAYS_MS;
   return {
     current: last === undefined ? null : getValue(last),
-    past: first !== undefined && last !== undefined && first !== last ? getValue(first) : null,
+    past:
+      first !== undefined &&
+      last !== undefined &&
+      first !== last &&
+      getTimestamp(first) <= comparisonThreshold
+        ? getValue(first)
+        : null,
   };
 }
 
 /**
  * Returns the subset of points starting from the comparison baseline
- * (the last point strictly before `now − 30d`).
+ * (the last point before the UTC comparison threshold, or the point exactly at the threshold).
  */
 // --- MTTR Duration Formatting ---
 
@@ -356,11 +363,11 @@ export function getThirtyDayTrendWindow<T>(
     .filter((p) => !Number.isNaN(getTimestamp(p)))
     .sort((a, b) => getTimestamp(a) - getTimestamp(b));
 
-  const threshold = Date.now() - THIRTY_DAYS_MS;
+  const threshold = startOfUTCDay(Date.now()).getTime() - THIRTY_DAYS_MS;
   let startIndex = 0;
 
   for (let i = 0; i < sorted.length; i += 1) {
-    if (getTimestamp(sorted[i]) < threshold) {
+    if (getTimestamp(sorted[i]) <= threshold) {
       startIndex = i;
     }
   }

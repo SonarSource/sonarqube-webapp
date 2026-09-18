@@ -98,7 +98,7 @@ function renderTrend(isPending: boolean, showTrend: boolean, trendData: TrendDat
 
 export function TopListDrilldownOverview(props: Readonly<Props>) {
   const { data, filterSegments, onRuleChange, selectedRuleKey, widget } = props;
-  const { formatDate, formatMessage } = useIntl();
+  const { formatMessage } = useIntl();
   const ruleKey = selectedRuleKey;
   const issueCount = ruleKey === undefined ? null : (data.counts[ruleKey] ?? 0);
   const metricKey = getActualMetricKey(widget.metric) as MetricKey;
@@ -108,19 +108,7 @@ export function TopListDrilldownOverview(props: Readonly<Props>) {
   );
   const issueCountFilterSegments = buildTopListIssueCountFilterSegments(formatMessage, widget);
   const trendFilterSegments = [
-    trendData?.comparisonStartDate
-      ? formatMessage(
-          { id: 'dashboard.widget.trend_indicator.since' },
-          {
-            date: formatDate(trendData.comparisonStartDate, {
-              day: 'numeric',
-              month: 'short',
-              timeZone: 'UTC',
-              year: 'numeric',
-            }),
-          },
-        )
-      : formatMessage({ id: 'dashboard.widget.trend_indicator.vs_last_30_days' }),
+    formatMessage({ id: 'dashboard.widget.trend_indicator.vs_last_30_days' }),
   ];
 
   return (

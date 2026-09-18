@@ -68,7 +68,12 @@ function renderWidget(widget: React.ReactElement) {
   );
 }
 
+beforeAll(() => {
+  jest.useFakeTimers();
+});
+
 beforeEach(() => {
+  jest.setSystemTime(new Date('2026-02-01T00:00:00Z'));
   jest.mocked(getDashboardMetricDirectionOverride).mockReset();
   jest.mocked(useDashboardPortfolioContext).mockReturnValue({
     entityType: 'PORTFOLIO',
@@ -106,6 +111,10 @@ beforeEach(() => {
   jest.mocked(computeDashboardMeasureTrendData).mockReturnValue(null);
 });
 
+afterAll(() => {
+  jest.useRealTimers();
+});
+
 it('renders the latest value, trend, and supported portfolio drilldown', () => {
   renderWidget(
     <PortfolioCountWidgetWrapper
@@ -124,7 +133,43 @@ it('renders the latest value, trend, and supported portfolio drilldown', () => {
       linkTo: 'breakdown/widget-1',
       metricType: MetricType.Percent,
       sparklineSeries: [70, 80],
+      trendIndicatorData: expect.objectContaining({
+        requiredHistoryDays: 30,
+        trendType: 'snapshot',
+      }),
       value: '80',
+    }),
+    undefined,
+  );
+});
+
+it('shows a dashed snapshot sparkline and withholds the trend until 30 days are available', () => {
+  jest.mocked(useDashboardMeasureQuery).mockReturnValue({
+    data: {
+      api: 'measures-history',
+      history: [
+        {
+          date: '2026-01-15',
+          measures: [{ metric: MetricKey.coverage, type: MetricType.Percent, value: '80' }],
+        },
+      ],
+    },
+    isError: false,
+    isPending: false,
+  } as unknown as ReturnType<typeof useDashboardMeasureQuery>);
+
+  renderWidget(
+    <PortfolioCountWidgetWrapper
+      metric={{ metricKey: MetricKey.coverage, type: DashboardMetricType.Raw }}
+      scope={CodeScope.Overall}
+      showTrendIndicator
+    />,
+  );
+
+  expect(CountWidget).toHaveBeenCalledWith(
+    expect.objectContaining({
+      sparklineSeries: [],
+      trendIndicatorData: expect.objectContaining({ trendData: null }),
     }),
     undefined,
   );
@@ -174,13 +219,14 @@ it('renders loading, query error, and empty portfolio states', () => {
 });
 
 it('formats MTTR and preserves its trend semantics', () => {
+  jest.setSystemTime(new Date('2026-03-01T00:00:00Z'));
   jest.mocked(getDashboardMetricDirectionOverride).mockReturnValue(-1);
   jest.mocked(useDashboardMeasureQuery).mockReturnValue({
     data: {
       api: 'issue-resolution-history',
       history: [
         { date: '2026-01-01', distribution: [{ key: 'all', value: 60 }] },
-        { date: '2026-02-01', distribution: [{ key: 'all', value: 120 }] },
+        { date: '2026-03-01', distribution: [{ key: 'all', value: 120 }] },
       ],
     },
     isError: false,
@@ -204,6 +250,10 @@ it('formats MTTR and preserves its trend semantics', () => {
       linkTo: undefined,
       metricType: 'MTTR_CALENDAR',
       sparklineSeries: [60, 120],
+      trendIndicatorData: expect.objectContaining({
+        requiredHistoryDays: 60,
+        trendType: 'rolling-average',
+      }),
       value: 'mttr:120',
     }),
     undefined,
@@ -219,7 +269,46 @@ it('formats MTTR and preserves its trend semantics', () => {
   ).toBe('function');
 });
 
+it('withholds the MTTR trend and sparkline until 60 days of history are available', () => {
+  jest.setSystemTime(new Date('2026-03-01T00:00:00Z'));
+  jest.mocked(useDashboardMeasureQuery).mockReturnValue({
+    data: {
+      api: 'issue-resolution-history',
+      history: [
+        { date: '2026-01-15', distribution: [{ key: 'all', value: 60 }] },
+        { date: '2026-03-01', distribution: [{ key: 'all', value: 120 }] },
+      ],
+    },
+    isError: false,
+    isPending: false,
+  } as unknown as ReturnType<typeof useDashboardMeasureQuery>);
+
+  renderWidget(
+    <PortfolioCountWidgetWrapper
+      metric={{
+        statistic: IssueResolutionStatistic.MTTR,
+        type: DashboardMetricType.IssueResolution,
+      }}
+      scope={CodeScope.Overall}
+      showTrendIndicator
+      suppressPortfolioDrilldownLink
+    />,
+  );
+
+  expect(computeDashboardMeasureTrendData).toHaveBeenCalledWith(
+    expect.objectContaining({ values: [] }),
+  );
+  expect(CountWidget).toHaveBeenCalledWith(
+    expect.objectContaining({
+      sparklineSeries: [],
+      trendIndicatorData: expect.objectContaining({ trendData: null }),
+    }),
+    undefined,
+  );
+});
+
 it('uses 30-day totals and a rolling-total sparkline for resolved issues', () => {
+  jest.setSystemTime(new Date('2026-03-01T00:00:00Z'));
   jest.mocked(getDashboardMetricDirectionOverride).mockReturnValue(1);
   const history = [
     ...Array.from({ length: 30 }, (_, index) => ({
@@ -261,6 +350,10 @@ it('uses 30-day totals and a rolling-total sparkline for resolved issues', () =>
   expect(CountWidget).toHaveBeenCalledWith(
     expect.objectContaining({
       sparklineSeries: [60, ...Array.from({ length: 30 }, (_, index) => 61 + index)],
+      trendIndicatorData: expect.objectContaining({
+        requiredHistoryDays: 60,
+        trendType: 'resolved-issues',
+      }),
       value: '90',
     }),
     undefined,

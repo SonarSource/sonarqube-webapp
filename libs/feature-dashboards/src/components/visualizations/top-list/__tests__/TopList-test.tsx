@@ -83,6 +83,9 @@ describe('TopList', () => {
     expect(screen.getByText('Rule')).toBeInTheDocument();
     expect(screen.getByText('Issues')).toBeInTheDocument();
     expect(screen.getByText('Trend')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'dashboard.top_list.column.trend.aria_label' }),
+    ).toBeInTheDocument();
     expect(screen.getByText('Rule A')).toBeInTheDocument();
     expect(screen.getByText('12')).toBeInTheDocument();
 
@@ -101,6 +104,16 @@ describe('TopList', () => {
     expect(screen.getByText('Rule')).toBeInTheDocument();
     expect(screen.getByText('Issues')).toBeInTheDocument();
     expect(screen.queryByText('Trend')).not.toBeInTheDocument();
+  });
+
+  it('keeps trend details in the column header when a row has no trend', () => {
+    renderTopList({
+      rows: [{ count: 12, label: 'Rule A', rank: 1, value: 'rule-a' }],
+    });
+
+    expect(
+      screen.getAllByRole('button', { name: 'dashboard.top_list.column.trend.aria_label' }),
+    ).toHaveLength(1);
   });
 
   it('links the label and count cells independently when targets are provided', () => {

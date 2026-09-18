@@ -113,13 +113,14 @@ describe('dashboard widget data helpers', () => {
       jest.setSystemTime(new Date('2026-03-30T12:00:00.000Z'));
       const points = [
         { timestamp: Number.NaN, value: 'invalid' },
-        { timestamp: new Date('2026-03-01T00:00:00.000Z').getTime(), value: 'old' },
+        { timestamp: new Date('2026-01-01T00:00:00.000Z').getTime(), value: 'old' },
+        { timestamp: new Date('2026-02-28T00:00:00.000Z').getTime(), value: 'baseline' },
         { timestamp: new Date('2026-03-29T00:00:00.000Z').getTime(), value: 'new' },
       ];
 
       expect(getThirtyDayTrendWindow(points, (point) => point.timestamp)).toEqual([
-        points[1],
         points[2],
+        points[3],
       ]);
 
       jest.useRealTimers();
@@ -165,16 +166,16 @@ describe('dashboard widget data helpers', () => {
       expect(portfolioIssueHistoryToSparklineSeries(history)).toEqual([24, 7]);
     });
 
-    it('uses a recent migration seed for a clearly labelled partial comparison', () => {
+    it('does not produce a trend from a recent migration seed', () => {
       const recentHistory = [
         issueDay('2026-03-15T00:00:00.000Z', [{ key: 'java:S1', value: 4 }]),
         issueDay('2026-03-20T00:00:00.000Z', [{ key: 'java:S1', value: 7 }]),
       ];
 
-      expect(portfolioIssueHistoryToTrend(recentHistory)).toEqual({ current: '7', past: '4' });
+      expect(portfolioIssueHistoryToTrend(recentHistory)).toEqual({ current: '7', past: null });
       expect(issueCountHistoryRuleToTrend(recentHistory, 'java:S1')).toEqual({
         current: '7',
-        past: '4',
+        past: null,
       });
     });
 

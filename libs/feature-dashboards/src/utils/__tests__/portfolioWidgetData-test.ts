@@ -115,12 +115,12 @@ describe('portfolioIssueHistoryToTrend', () => {
     expect(portfolioIssueHistoryToTrend(days)).toEqual({ current: '7', past: '4' });
   });
 
-  it('falls back to oldest when no point is older than 30 days', () => {
+  it('withholds the past value when less than 30 days of history are available', () => {
     const days = [
       { date: '2026-03-15T00:00:00.000Z', distribution: [{ key: 'a', value: 2 }] },
       { date: '2026-03-20T00:00:00.000Z', distribution: [{ key: 'a', value: 5 }] },
     ];
-    expect(portfolioIssueHistoryToTrend(days)).toEqual({ current: '5', past: '2' });
+    expect(portfolioIssueHistoryToTrend(days)).toEqual({ current: '5', past: null });
   });
 });
 
@@ -213,10 +213,7 @@ describe('issueCountHistoryRuleToTrend', () => {
       { date: '2026-03-25T00:00:00.000Z', distribution: [{ key: 'java:S1', value: 5 }] },
     ];
 
-    expect(issueCountHistoryRuleToTrend(days, 'java:S1')).toEqual({
-      current: '5',
-      past: '2',
-    });
+    expect(issueCountHistoryRuleToTrend(days, 'java:S1')).toEqual({ current: '5', past: null });
   });
 });
 
@@ -363,7 +360,7 @@ describe('portfolioMeasuresHistoryToTrend', () => {
     ];
     expect(portfolioMeasuresHistoryToTrend(recentOnly, MetricKey.coverage)).toEqual({
       current: '55',
-      past: '44',
+      past: null,
     });
   });
 });

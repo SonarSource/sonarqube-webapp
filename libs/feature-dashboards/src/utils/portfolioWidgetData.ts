@@ -54,7 +54,7 @@ export function resolveRichCountTrendMetricMetadata(actualMetricKey: MetricKey):
   };
 }
 
-/** Trend: latest value vs last point before now−30d (else earliest). */
+/** Trend: latest value vs the latest point available at or before the 30-day threshold. */
 function computeThirtyDayTrend(points: readonly { t: number; value: string }[]): {
   current: string | null;
   past: string | null;

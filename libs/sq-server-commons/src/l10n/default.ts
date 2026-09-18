@@ -3991,7 +3991,6 @@ export const defaultMessages = {
   'portfolio_dashboard.widget.tooltip.count': 'Project count: {count}',
   'dashboard.add_widget_modal.define_widget.metric.issue_count': 'Issue count',
   'dashboard.widget.count.issue_density.unit': 'issues / 1K LOC',
-  'dashboard.widget.count.issues_closed.since': 'since {date}',
   'dashboard.add_widget_modal.define_widget.metric.line_count': 'Line count',
   'dashboard.add_widget_modal.define_widget.metric.project_count': 'Project count',
   'dashboard.add_widget_modal.define_widget.metric.security_hotspot_count':
@@ -4045,6 +4044,9 @@ export const defaultMessages = {
   'dashboard.top_list.column.rank_by.rule': 'Rule',
   'dashboard.top_list.column.metric.issue_count': 'Issues',
   'dashboard.top_list.column.trend': 'Trend',
+  'dashboard.top_list.column.trend.aria_label': 'More information about issue count trends',
+  'dashboard.top_list.column.trend.tooltip':
+    'Compares the current issue count with the count from 30 days ago.',
   'dashboard.top_list.title.rank_by.rule': 'rules',
   'dashboard.top_list.title.metric.issue_count': 'issues',
   'dashboard.top_list.widget_title': 'Top {limit} {rankBy} by {metric}',
@@ -4232,6 +4234,19 @@ export const defaultMessages = {
   'dashboard.widget.no_data': 'No data to display yet',
   'dashboard.widget.trend_indicator.badge.no_change': 'No change',
   'dashboard.widget.trend_indicator.badge.unavailable': 'Trend unavailable',
+  'dashboard.widget.trend_indicator.description.snapshot':
+    'Compares the current value with the value from 30 days ago.',
+  'dashboard.widget.trend_indicator.description.rolling_average':
+    'Compares the current 30-day average with the latest available 30-day average on or before 30 days ago.',
+  'dashboard.widget.trend_indicator.description.resolved_issues':
+    'Compares issues closed during the latest 30 days with the previous 30 days.',
+  'dashboard.widget.trend_indicator.description.resolved_issues.current_period_incomplete':
+    'Compares issues closed during the latest 30 days with the previous 30 days. A trend requires 60 days of history. The current value includes data since {date}.',
+  'dashboard.widget.trend_indicator.description.resolved_issues.insufficient_history':
+    'Compares issues closed during the latest 30 days with the previous 30 days. A trend requires 60 days of history. Data available from {date}.',
+  'dashboard.widget.trend_indicator.description.rolling_average.insufficient_history':
+    'Compares the latest 30-day average with the previous 30-day average. A trend requires 60 days of history. Data available from {date}.',
+  'dashboard.widget.trend_indicator.view_activity': 'View activity',
   'dashboard.widget.trend_indicator.no_historical_data':
     'No historical data available for this metric',
   'dashboard.widget.trend_indicator.insufficient_history':
@@ -4240,7 +4255,6 @@ export const defaultMessages = {
     'Not enough historical data to calculate a trend.',
   'dashboard.widget.trend_indicator.insufficient_history_60_days':
     'Trend requires at least 60 days of history to compare the latest 30 days with the previous 30 days. Data available from {date}.',
-  'dashboard.widget.trend_indicator.since': 'since {date}',
   'dashboard.widget.trend_indicator.vs_last_30_days': 'vs last 30 days',
   'dashboard.widget_actions': 'Widget actions',
   'dashboard.empty.title': 'Your dashboard is currently empty',

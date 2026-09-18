@@ -26,19 +26,12 @@ import {
   IconArrowUpRight,
   IconDash,
   LinkStandalone,
+  Popover,
   Spinner,
-  Text,
-  TextSize,
-  ToggleTip,
-  Tooltip,
 } from '@sonarsource/echoes-react';
 import type { Path } from 'history';
-import { type ReactNode, useId } from 'react';
+import { type ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import {
-  getWidgetTitleId,
-  useOptionalWidgetInstanceContext,
-} from '../../dashboard-layout/shared/WidgetInstanceContext';
 
 enum TrendDirection {
   Up = 'up',
@@ -46,17 +39,24 @@ enum TrendDirection {
   Equal = 'equal',
 }
 
-enum TrendType {
+enum TrendBadgeType {
   Positive = 'positive',
   Negative = 'negative',
   Neutral = 'neutral',
   Disabled = 'disabled',
 }
 
+export type TrendIndicatorType = 'snapshot' | 'rolling-average' | 'resolved-issues';
+
+const TREND_DESCRIPTION_MESSAGE_IDS: Record<TrendIndicatorType, string> = {
+  snapshot: 'dashboard.widget.trend_indicator.description.snapshot',
+  'rolling-average': 'dashboard.widget.trend_indicator.description.rolling_average',
+  'resolved-issues': 'dashboard.widget.trend_indicator.description.resolved_issues',
+};
+
 export interface TrendData {
   activityUrl: Partial<Path>;
   change: number;
-  comparisonStartDate?: Date;
   formattedChange: string;
   metricDirection: number;
   past: number;
@@ -67,9 +67,11 @@ export interface TrendIndicatorProps {
   /** When true, only the trend badge is shown (e.g. Top list table rows). */
   compact?: boolean;
   historyStartDate?: Date;
+  isCurrentPeriodIncomplete?: boolean;
   isHistoryIncomplete?: boolean;
   isPending: boolean;
   requiredHistoryDays?: 30 | 60;
+  trendType?: TrendIndicatorType;
   trendData: TrendData | null;
   /**
    * Top list only: show `0%` instead of the default “No change” label when the value is unchanged.
@@ -98,20 +100,20 @@ function determineTrendType(
   metricDirection: number,
   past: number,
   roundedChange: number,
-): TrendType {
+): TrendBadgeType {
   if (
     (past === 0 && change === 0) ||
     (past !== 0 && roundedChange === 0) ||
     metricDirection === 0
   ) {
-    return TrendType.Neutral;
+    return TrendBadgeType.Neutral;
   }
 
   const isPositive =
     past === 0
       ? Math.sign(change) === Math.sign(metricDirection)
       : Math.sign(roundedChange) === Math.sign(metricDirection);
-  return isPositive ? TrendType.Positive : TrendType.Negative;
+  return isPositive ? TrendBadgeType.Positive : TrendBadgeType.Negative;
 }
 
 function getTrendBadgeMessage(data: TrendData, zeroPercentWhenNoChange: boolean): ReactNode {
@@ -156,61 +158,58 @@ const ICON_BY_DIRECTION: Record<TrendDirection, typeof IconArrowUpRight> = {
   [TrendDirection.Equal]: IconDash,
 };
 
-const BADGE_VARIETY_BY_TYPE: Record<TrendType, BadgeVariety> = {
-  [TrendType.Positive]: BadgeVariety.Success,
-  [TrendType.Negative]: BadgeVariety.Danger,
-  [TrendType.Neutral]: BadgeVariety.Neutral,
-  [TrendType.Disabled]: BadgeVariety.Neutral,
+const BADGE_VARIETY_BY_TYPE: Record<TrendBadgeType, BadgeVariety> = {
+  [TrendBadgeType.Positive]: BadgeVariety.Success,
+  [TrendBadgeType.Negative]: BadgeVariety.Danger,
+  [TrendBadgeType.Neutral]: BadgeVariety.Neutral,
+  [TrendBadgeType.Disabled]: BadgeVariety.Neutral,
 };
 
 function TrendIndicatorBadge({
   data,
   zeroPercentWhenNoChange,
 }: Readonly<{ data: TrendData; zeroPercentWhenNoChange: boolean }>) {
-  const widgetKey = useOptionalWidgetInstanceContext()?.widgetKey;
   const direction = determineTrendDirection(data.change, data.roundedChange, data.past);
   const type = determineTrendType(data.change, data.metricDirection, data.past, data.roundedChange);
   const IconComponent = ICON_BY_DIRECTION[direction];
   const variety = BADGE_VARIETY_BY_TYPE[type];
   const message = getTrendBadgeMessage(data, zeroPercentWhenNoChange);
-  const { activityUrl } = data;
-  const badgeTextId = useId();
-  const widgetTitleId = widgetKey ? getWidgetTitleId(widgetKey) : undefined;
-
-  const badge = (
+  return (
     <Badge IconLeft={IconComponent} size={BadgeSize.Small} variety={variety}>
       {message}
     </Badge>
   );
-
-  if (activityUrl.pathname === '#') {
-    return badge;
-  }
-
-  return (
-    <LinkStandalone
-      aria-labelledby={widgetTitleId ? `${badgeTextId} ${widgetTitleId}` : undefined}
-      className="sw-contents"
-      to={activityUrl}
-    >
-      <span className="sw-contents" id={badgeTextId}>
-        {badge}
-      </span>
-    </LinkStandalone>
-  );
 }
 
 function NoDataTrendIndicatorBadge({
+  ariaLabel,
+}: Readonly<{
+  ariaLabel?: string;
+}>) {
+  return (
+    <Badge
+      IconLeft={IconDash}
+      ariaLabel={ariaLabel}
+      size={BadgeSize.Small}
+      variety={BadgeVariety.Neutral}
+    />
+  );
+}
+
+function getHistoryDescription({
   historyStartDate,
   isHistoryIncomplete,
   requiredHistoryDays,
+  formatDate,
+  formatMessage,
 }: Readonly<{
+  formatDate: ReturnType<typeof useIntl>['formatDate'];
+  formatMessage: ReturnType<typeof useIntl>['formatMessage'];
   historyStartDate?: Date;
   isHistoryIncomplete?: boolean;
   requiredHistoryDays?: 30 | 60;
-}>) {
-  const { formatDate, formatMessage } = useIntl();
-  const description = historyStartDate
+}>): string {
+  return historyStartDate
     ? formatMessage(
         {
           id:
@@ -232,23 +231,73 @@ function NoDataTrendIndicatorBadge({
           ? 'dashboard.widget.trend_indicator.insufficient_history_no_date'
           : 'dashboard.widget.trend_indicator.no_historical_data',
       });
+}
 
-  return (
-    <span className="sw-inline-flex sw-items-center sw-gap-1">
-      <Badge IconLeft={IconDash} size={BadgeSize.Small} variety={BadgeVariety.Neutral}>
-        <FormattedMessage id="dashboard.widget.trend_indicator.badge.unavailable" />
-      </Badge>
-      <ToggleTip ariaLabel={description} description={description} />
-    </span>
-  );
+function getTrendDescription({
+  formatDate,
+  formatMessage,
+  historyStartDate,
+  isCurrentPeriodIncomplete,
+  isHistoryIncomplete,
+  requiredHistoryDays,
+  trendData,
+  trendType,
+}: Readonly<{
+  formatDate: ReturnType<typeof useIntl>['formatDate'];
+  formatMessage: ReturnType<typeof useIntl>['formatMessage'];
+  historyStartDate?: Date;
+  isCurrentPeriodIncomplete?: boolean;
+  isHistoryIncomplete?: boolean;
+  requiredHistoryDays?: 30 | 60;
+  trendData: TrendData | null;
+  trendType: TrendIndicatorType;
+}>): string {
+  const description = formatMessage({ id: TREND_DESCRIPTION_MESSAGE_IDS[trendType] });
+
+  if (trendData === null) {
+    if ((trendType === 'resolved-issues' || trendType === 'rolling-average') && historyStartDate) {
+      const isResolvedIssues = trendType === 'resolved-issues';
+      let unavailableDescriptionId =
+        'dashboard.widget.trend_indicator.description.rolling_average.insufficient_history';
+      if (isResolvedIssues) {
+        unavailableDescriptionId = isCurrentPeriodIncomplete
+          ? 'dashboard.widget.trend_indicator.description.resolved_issues.current_period_incomplete'
+          : 'dashboard.widget.trend_indicator.description.resolved_issues.insufficient_history';
+      }
+      return formatMessage(
+        { id: unavailableDescriptionId },
+        {
+          date: formatDate(historyStartDate, {
+            day: 'numeric',
+            month: 'long',
+            timeZone: 'UTC',
+            year: 'numeric',
+          }),
+        },
+      );
+    }
+
+    const historyDescription = getHistoryDescription({
+      formatDate,
+      formatMessage,
+      historyStartDate,
+      isHistoryIncomplete,
+      requiredHistoryDays,
+    });
+    return `${description} ${historyDescription}`;
+  }
+
+  return description;
 }
 
 export function TrendIndicator({
   compact = false,
   historyStartDate,
+  isCurrentPeriodIncomplete,
   isHistoryIncomplete,
   isPending,
   requiredHistoryDays,
+  trendType = 'snapshot',
   trendData,
   zeroPercentWhenNoChange = false,
 }: Readonly<TrendIndicatorProps>) {
@@ -262,45 +311,49 @@ export function TrendIndicator({
     <TrendIndicatorBadge data={trendData} zeroPercentWhenNoChange={zeroPercentWhenNoChange} />
   ) : (
     <NoDataTrendIndicatorBadge
-      historyStartDate={historyStartDate}
-      isHistoryIncomplete={isHistoryIncomplete}
-      requiredHistoryDays={requiredHistoryDays}
+      ariaLabel={
+        compact
+          ? formatMessage({ id: 'dashboard.widget.trend_indicator.badge.unavailable' })
+          : undefined
+      }
     />
   );
 
-  const comparisonMessage = trendData?.comparisonStartDate
-    ? formatMessage(
-        { id: 'dashboard.widget.trend_indicator.since' },
-        {
-          date: formatDate(trendData.comparisonStartDate, {
-            day: 'numeric',
-            month: 'short',
-            timeZone: 'UTC',
-            year: 'numeric',
-          }),
-        },
-      )
-    : formatMessage({ id: 'dashboard.widget.trend_indicator.vs_last_30_days' });
+  const description = getTrendDescription({
+    formatDate,
+    formatMessage,
+    historyStartDate,
+    isCurrentPeriodIncomplete,
+    isHistoryIncomplete,
+    requiredHistoryDays,
+    trendData,
+    trendType,
+  });
 
   if (compact) {
-    if (!trendData) {
-      return badge;
-    }
-    return (
-      <Tooltip content={comparisonMessage} delayDuration={300}>
-        <span className="sw-inline-flex">{badge}</span>
-      </Tooltip>
-    );
+    return badge;
   }
 
+  const activityLink =
+    trendData?.activityUrl.pathname && trendData.activityUrl.pathname !== '#' ? (
+      <LinkStandalone to={trendData.activityUrl}>
+        <FormattedMessage id="dashboard.widget.trend_indicator.view_activity" />
+      </LinkStandalone>
+    ) : undefined;
+
   return (
-    <div className="sw-flex sw-flex-wrap sw-items-center sw-gap-2">
-      {badge}
-      {trendData && (
-        <Text isSubtle size={TextSize.Small}>
-          {comparisonMessage}
-        </Text>
-      )}
-    </div>
+    <Popover description={description} footer={activityLink}>
+      <button
+        aria-label={
+          trendData === null
+            ? formatMessage({ id: 'dashboard.widget.trend_indicator.badge.unavailable' })
+            : undefined
+        }
+        className="sw-inline-flex sw-cursor-pointer sw-appearance-none sw-border-0 sw-bg-transparent sw-p-0"
+        type="button"
+      >
+        {badge}
+      </button>
+    </Popover>
   );
 }

@@ -103,13 +103,13 @@ describe('issueHistoryToTrend', () => {
     expect(issueHistoryToTrend(days)).toEqual({ current: '0.25', past: '0.8' });
   });
 
-  it('falls back to the oldest point when no point is older than 30 days', () => {
+  it('withholds the past value when less than 30 days of history are available', () => {
     const days = [
       { date: '2026-03-15T00:00:00Z', distribution: [{ key: 'all', value: 0.4 }] },
       { date: '2026-03-25T00:00:00Z', distribution: [{ key: 'all', value: 0.9 }] },
     ];
 
-    expect(issueHistoryToTrend(days)).toEqual({ current: '0.9', past: '0.4' });
+    expect(issueHistoryToTrend(days)).toEqual({ current: '0.9', past: null });
   });
 
   it('uses 0 for a day whose "all" bucket is absent', () => {

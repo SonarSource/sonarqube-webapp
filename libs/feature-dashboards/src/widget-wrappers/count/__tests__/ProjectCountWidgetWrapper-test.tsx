@@ -44,6 +44,18 @@ jest.mock('../../../hooks/useMttrFormatters', () => ({
 }));
 
 describe('ProjectCountWidgetWrapper', () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
+  beforeEach(() => {
+    jest.setSystemTime(new Date('2026-08-30T00:00:00Z'));
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
   it('converts the persisted metric before using the unified query', () => {
     const measure = {
       api: 'measures-history' as const,
@@ -156,6 +168,7 @@ describe('ProjectCountWidgetWrapper', () => {
   });
 
   it('requests and displays 30-day resolved-issues totals without requiring a trend', () => {
+    jest.setSystemTime(new Date('2026-03-01T00:00:00Z'));
     jest.mocked(useDashboardProjectContext).mockReturnValue({
       componentKey: 'project',
       isLoading: false,

@@ -21,7 +21,7 @@
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { IssueResolutionStatistic } from '../types/organization-issue-resolution-history';
 import type { EntityType } from '../types/types';
-import { MS_PER_DAY } from '../utils/datetime';
+import { MS_PER_DAY, startOfUTCDay } from '../utils/datetime';
 import { parseLineChartRatingValue } from '../utils/lineChartHistoryUtils';
 import { lineChartMeasureTransformFlags } from '../utils/lineChartMeasureTransformFlags';
 import { parseMeasureValue } from '../utils/measureValues';
@@ -76,6 +76,7 @@ export interface DashboardHistoryPoint {
  */
 export function resolvedIssuesCountValues(
   points: readonly DashboardHistoryPoint[],
+  asOf: number = startOfUTCDay(Date.now()).getTime(),
 ): ResolvedIssuesCountValues {
   if (points.length === 0) {
     return { currentTotal: 0, sparklineSeries: [], trendValues: [] };
@@ -85,12 +86,10 @@ export function resolvedIssuesCountValues(
     (left, right) => left.date.getTime() - right.date.getTime(),
   );
   const firstPoint = sortedPoints[0];
-  const currentPoint = sortedPoints.at(-1);
-  if (firstPoint === undefined || currentPoint === undefined) {
+  if (firstPoint === undefined) {
     return { currentTotal: 0, sparklineSeries: [], trendValues: [] };
   }
   const firstTimestamp = firstPoint.date.getTime();
-  const currentTimestamp = currentPoint.date.getTime();
   const periodSpan = (RESOLVED_ISSUES_PERIOD_DAYS - 1) * MS_PER_DAY;
   const sumPeriodEndingAt = (endTimestamp: number) =>
     sortedPoints.reduce(
@@ -101,13 +100,18 @@ export function resolvedIssuesCountValues(
       0,
     );
   const sparklineSeries = sortedPoints.flatMap(({ date }) =>
-    date.getTime() - firstTimestamp >= periodSpan ? [sumPeriodEndingAt(date.getTime())] : [],
+    date.getTime() - firstTimestamp >= periodSpan && date.getTime() < asOf
+      ? [sumPeriodEndingAt(date.getTime())]
+      : [],
   );
-  const currentTotal = sumPeriodEndingAt(currentTimestamp);
+  const currentTotal = sumPeriodEndingAt(asOf);
+  if (asOf - firstTimestamp >= periodSpan) {
+    sparklineSeries.push(currentTotal);
+  }
   const hasTwoCompletePeriods =
-    currentTimestamp - firstTimestamp >= (RESOLVED_ISSUES_PERIOD_DAYS * 2 - 1) * MS_PER_DAY;
+    asOf - firstTimestamp >= (RESOLVED_ISSUES_PERIOD_DAYS * 2 - 1) * MS_PER_DAY;
   const trendValues = hasTwoCompletePeriods
-    ? [sumPeriodEndingAt(currentTimestamp - RESOLVED_ISSUES_PERIOD_DAYS * MS_PER_DAY), currentTotal]
+    ? [sumPeriodEndingAt(asOf - RESOLVED_ISSUES_PERIOD_DAYS * MS_PER_DAY), currentTotal]
     : [currentTotal];
 
   return { currentTotal, sparklineSeries, trendValues };
@@ -217,20 +221,15 @@ export function hasCompleteDashboardHistory(
 export function dashboardMeasureTrendValues(
   points: readonly DashboardHistoryPoint[],
   minimumHistoryDays: number,
-  allowPartialHistory = false,
-  asOf: number = points.at(-1)?.date.getTime() ?? Date.now(),
+  asOf: number = startOfUTCDay(Date.now()).getTime(),
 ): number[] {
   if (!hasCompleteDashboardHistory(points, minimumHistoryDays, asOf)) {
-    const first = points.at(0);
-    const last = points.at(-1);
-    return allowPartialHistory && first !== undefined && last !== undefined && first !== last
-      ? [first.value, last.value]
-      : [];
+    return [];
   }
 
   const comparisonThreshold = asOf - RESOLVED_ISSUES_PERIOD_DAYS * MS_PER_DAY;
   const past = [...points].reverse().find(({ date }) => date.getTime() <= comparisonThreshold);
-  const current = points.at(-1);
+  const current = [...points].reverse().find(({ date }) => date.getTime() <= asOf);
   return past === undefined || current === undefined || past === current
     ? []
     : [past.value, current.value];

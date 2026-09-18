@@ -185,6 +185,10 @@ function TopListTable({
               className="sw-shrink-0"
               justify="end"
               label={columnHeaders.trend}
+              toggleTip={{
+                ariaLabel: formatMessage({ id: 'dashboard.top_list.column.trend.aria_label' }),
+                description: formatMessage({ id: 'dashboard.top_list.column.trend.tooltip' }),
+              }}
             />
           )}
         </Table.Row>

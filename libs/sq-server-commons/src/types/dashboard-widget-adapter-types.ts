@@ -42,7 +42,6 @@ export type DashboardRuleMetadataByKey = Record<string, { langName?: string; nam
 export interface DashboardTrendData {
   activityUrl: Partial<Path>;
   change: number;
-  comparisonStartDate?: Date;
   formattedChange: string;
   metricDirection: number;
   past: number;

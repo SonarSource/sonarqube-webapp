@@ -21,6 +21,7 @@
 import type { Path } from 'history';
 import type { IntlShape } from 'react-intl';
 import type { CountWidgetProps } from '../../components/visualizations/CountWidget';
+import type { TrendIndicatorType } from '../../components/visualizations/TrendIndicator';
 import type { DashboardMeasure } from '../../data/dashboard-measure';
 import {
   dashboardCountMetricType,
@@ -42,10 +43,11 @@ import {
 } from '../../data/widgets/shared';
 import { IssueResolutionStatistic } from '../../types/organization-issue-resolution-history';
 import { computeDashboardMeasureTrendData } from '../../utils/countWidgetTrend';
+import { startOfUTCDay } from '../../utils/datetime';
 
 const STANDARD_TREND_HISTORY_DAYS = 30;
-const RESOLUTION_TREND_HISTORY_DAYS = 59;
-const RESOLVED_ISSUES_TOTAL_HISTORY_DAYS = 29;
+const PERIOD_COMPARISON_TREND_HISTORY_DAYS = 59;
+const RESOLVED_ISSUES_CURRENT_PERIOD_DAYS = 29;
 
 type CountWidgetPresentation = Pick<
   CountWidgetProps,
@@ -61,7 +63,6 @@ type CountWidgetPresentation = Pick<
 interface CountWidgetPresentationOptions {
   activityUrl: Partial<Path>;
   data: DashboardMeasureHistory | undefined;
-  formatDate: IntlShape['formatDate'];
   formatMessage: IntlShape['formatMessage'];
   formatMttr: (value: number) => string;
   measure: DashboardMeasure;
@@ -79,15 +80,18 @@ function isResolvedIssuesMetric(metric: DashboardMetric): boolean {
   );
 }
 
+function getTrendIndicatorType(isResolvedIssues: boolean, isMttr: boolean): TrendIndicatorType {
+  if (isResolvedIssues) {
+    return 'resolved-issues';
+  }
+  return isMttr ? 'rolling-average' : 'snapshot';
+}
+
 export function dashboardCountHistoryMonths(
   metric: DashboardMetric,
   trendVisible: boolean,
 ): number | undefined {
   return isResolvedIssuesMetric(metric) || trendVisible ? 2 : undefined;
-}
-
-function isResolutionMeasure(measure: DashboardMeasure): boolean {
-  return measure.api === 'issue-resolution-history' || measure.api === 'sca-resolution-history';
 }
 
 function getLatestValue(
@@ -109,16 +113,13 @@ function getTrendValues(
   trendHistoryPoints: readonly DashboardHistoryPoint[],
   resolvedIssuesValues: ResolvedIssuesCountValues | undefined,
   hasMatureHistory: boolean,
-  isResolution: boolean,
+  asOf: number,
+  minimumHistoryDays: number,
 ): number[] {
   if (resolvedIssuesValues !== undefined) {
     return hasMatureHistory ? resolvedIssuesValues.trendValues : [];
   }
-  return dashboardMeasureTrendValues(
-    trendHistoryPoints,
-    isResolution ? RESOLUTION_TREND_HISTORY_DAYS : STANDARD_TREND_HISTORY_DAYS,
-    !isResolution,
-  );
+  return dashboardMeasureTrendValues(trendHistoryPoints, minimumHistoryDays, asOf);
 }
 
 function getSparklineSeries(
@@ -137,33 +138,11 @@ function getSparklineSeries(
 
 function getUnitLabel(
   measure: DashboardMeasure,
-  isResolvedIssues: boolean,
-  historyPoints: readonly DashboardHistoryPoint[],
-  formatDate: IntlShape['formatDate'],
   formatMessage: IntlShape['formatMessage'],
 ): string | undefined {
-  if (measure.api === 'issue-density-history') {
-    return formatMessage({ id: 'dashboard.widget.count.issue_density.unit' });
-  }
-  const historyStart = historyPoints[0];
-  if (
-    !isResolvedIssues ||
-    historyStart === undefined ||
-    hasCompleteDashboardHistory(historyPoints, RESOLVED_ISSUES_TOTAL_HISTORY_DAYS)
-  ) {
-    return undefined;
-  }
-  return formatMessage(
-    { id: 'dashboard.widget.count.issues_closed.since' },
-    {
-      date: formatDate(historyStart.date, {
-        day: 'numeric',
-        month: 'short',
-        timeZone: 'UTC',
-        year: 'numeric',
-      }),
-    },
-  );
+  return measure.api === 'issue-density-history'
+    ? formatMessage({ id: 'dashboard.widget.count.issue_density.unit' })
+    : undefined;
 }
 
 export function buildCountWidgetPresentation(
@@ -172,7 +151,6 @@ export function buildCountWidgetPresentation(
   const {
     activityUrl,
     data,
-    formatDate,
     formatMessage,
     formatMttr,
     measure,
@@ -187,8 +165,9 @@ export function buildCountWidgetPresentation(
   const historyPoints = dashboardMeasureHistoryPoints(data, measure, metadataType, measureFilters);
   const trendHistoryPoints = dashboardMeasureTrendPoints(historyPoints, measure);
   const isResolvedIssues = isResolvedIssuesMetric(metric);
+  const asOf = startOfUTCDay(Date.now()).getTime();
   const resolvedIssuesValues = isResolvedIssues
-    ? resolvedIssuesCountValues(historyPoints)
+    ? resolvedIssuesCountValues(historyPoints, asOf)
     : undefined;
   const latest = getLatestValue(historyPoints, measure, resolvedIssuesValues);
   if (latest === undefined) {
@@ -198,16 +177,21 @@ export function buildCountWidgetPresentation(
   const metricKey = dashboardMeasureMetricKey(measure);
   const metricType = dashboardCountMetricType(measure, metadataType);
   const isMttr = metricType === 'MTTR_CALENDAR';
-  const isResolution = isResolutionMeasure(measure);
-  const requiredHistoryDays = isResolution
-    ? RESOLUTION_TREND_HISTORY_DAYS
+  const isPeriodComparison = isResolvedIssues || isMttr;
+  const requiredHistoryDays = isPeriodComparison
+    ? PERIOD_COMPARISON_TREND_HISTORY_DAYS
     : STANDARD_TREND_HISTORY_DAYS;
-  const hasMatureHistory = hasCompleteDashboardHistory(trendHistoryPoints, requiredHistoryDays);
+  const hasMatureHistory = hasCompleteDashboardHistory(
+    trendHistoryPoints,
+    requiredHistoryDays,
+    asOf,
+  );
   const trendValues = getTrendValues(
     trendHistoryPoints,
     resolvedIssuesValues,
     hasMatureHistory,
-    isResolution,
+    asOf,
+    requiredHistoryDays,
   );
   const computedTrendData = computeDashboardMeasureTrendData({
     activityUrl,
@@ -218,23 +202,28 @@ export function buildCountWidgetPresentation(
     metricDirectionOverride,
     values: trendValues,
   });
-  let trendData = computedTrendData;
-  if (computedTrendData !== null && !hasMatureHistory && !isResolution) {
-    trendData = { ...computedTrendData, comparisonStartDate: trendHistoryPoints[0]?.date };
+  let sparklineSeries: number[] | undefined;
+  if (trendVisible) {
+    sparklineSeries = hasMatureHistory
+      ? getSparklineSeries(true, trendHistoryPoints, resolvedIssuesValues)
+      : [];
   }
-
   return {
     metricKey,
     metricType,
     showTrendIndicator: trendVisible,
-    sparklineSeries: getSparklineSeries(trendVisible, trendHistoryPoints, resolvedIssuesValues),
+    sparklineSeries,
     trendIndicatorData: {
       historyStartDate: trendHistoryPoints.at(0)?.date,
+      isCurrentPeriodIncomplete:
+        isResolvedIssues &&
+        !hasCompleteDashboardHistory(trendHistoryPoints, RESOLVED_ISSUES_CURRENT_PERIOD_DAYS, asOf),
       isPending: false,
-      requiredHistoryDays: isResolution ? 60 : 30,
-      trendData,
+      requiredHistoryDays: isPeriodComparison ? 60 : 30,
+      trendType: getTrendIndicatorType(isResolvedIssues, isMttr),
+      trendData: computedTrendData,
     },
-    unitLabel: getUnitLabel(measure, isResolvedIssues, historyPoints, formatDate, formatMessage),
+    unitLabel: getUnitLabel(measure, formatMessage),
     value: isMttr ? formatMttr(latest) : String(latest),
   };
 }

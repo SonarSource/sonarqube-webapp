@@ -55,7 +55,7 @@ function getCountWidgetLink(props: Readonly<Props>, widgetKey: string | undefine
 }
 
 export function PortfolioCountWidgetWrapper(props: Readonly<Props>) {
-  const { formatDate, formatMessage } = useIntl();
+  const { formatMessage } = useIntl();
   const { formatMttr } = useMttrFormatters();
   const { entityType, getPortfolioMetric, isEntityTypePending, portfolioId } =
     useDashboardPortfolioContext();
@@ -100,7 +100,6 @@ export function PortfolioCountWidgetWrapper(props: Readonly<Props>) {
   const presentation = buildCountWidgetPresentation({
     activityUrl: { pathname: '#' },
     data: query.data,
-    formatDate,
     formatMessage,
     formatMttr,
     measure,
