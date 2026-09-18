@@ -95,6 +95,7 @@ function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
       );
     case BuildTools.JsTs:
     case BuildTools.Python:
+    case BuildTools.Rust:
     case BuildTools.Other:
       return (
         <Others

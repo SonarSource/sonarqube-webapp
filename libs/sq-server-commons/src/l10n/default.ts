@@ -9360,6 +9360,17 @@ export const defaultMessages = {
   'onboarding.analysis.python.execute.text': `Running a SonarQube analysis with the Scanner for Python projects is straightforward. You just need to run the following command in your project's folder.`,
   'onboarding.analysis.python.step.footer': `Please visit the {link} for more details.`,
 
+  'onboarding.build.rust': 'Rust/Cargo',
+  'onboarding.analysis.rust.install.header': 'Install the Scanner for Cargo projects',
+  'onboarding.analysis.rust.install.text': `Prebuilt binaries are also available. If you have {binstallCommand} installed, you can use it instead for a faster installation.`,
+  'onboarding.analysis.rust.links.documentation':
+    'official documentation of the Scanner for Cargo projects',
+  'onboarding.analysis.rust.configure.header': 'Configure the analysis',
+  'onboarding.analysis.rust.configure.text': `Add the following to the {projectManifestName} in your project's folder. Cargo build output is not excluded from the analysis automatically yet, so exclude it explicitly. In a virtual workspace, use {workspaceTable} in the workspace root instead.`,
+  'onboarding.analysis.rust.execute.header': 'Execute the Scanner',
+  'onboarding.analysis.rust.execute.text': `Running a SonarQube analysis with the Scanner for Cargo projects is straightforward. You just need to run the following command in your project's folder.`,
+  'onboarding.analysis.rust.step.footer': `Please visit the {link} for more details.`,
+
   'onboarding.build.dotnet.variant': 'Which framework do you use?',
   'onboarding.build.dotnet.variant.dotnet_core': '.NET Core',
   'onboarding.build.dotnet.variant.dotnet_framework': '.NET Framework',
@@ -9576,6 +9587,8 @@ export const defaultMessages = {
   'onboarding.tutorial.with.gitlab_ci.project_key.jsts.step2':
     'Create a {file} file in your repository and paste the following code:',
   'onboarding.tutorial.with.gitlab_ci.project_key.python.step2':
+    'Create a {file} file in your repository and paste the following code:',
+  'onboarding.tutorial.with.gitlab_ci.project_key.rust.step2':
     'Create a {file} file in your repository and paste the following code:',
   'onboarding.tutorial.with.gitlab_ci.project_key.other.step2':
     'Create a {file} file in your repository and paste the following code:',

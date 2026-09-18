@@ -103,6 +103,7 @@ const ui = {
   chooseMaven: byRole('radio', { name: 'onboarding.build.maven' }),
   chooseJsTs: byRole('radio', { name: 'onboarding.build.jsts' }),
   choosePython: byRole('radio', { name: 'onboarding.build.python' }),
+  chooseRust: byRole('radio', { name: 'onboarding.build.rust' }),
 };
 
 it.each([
@@ -279,6 +280,30 @@ it('should display the PyPI scanner in the Python local tutorial', async () => {
   await waitOnDataLoaded();
 
   expect(screen.getByText('pip install pysonar')).toBeInTheDocument();
+});
+
+it('should display the Cargo scanner in the Rust local tutorial', async () => {
+  const user = userEvent.setup();
+  renderTutorialSelection();
+  await waitOnDataLoaded();
+
+  await startLocalTutorial(user, ui.chooseRust);
+  await waitOnDataLoaded();
+
+  expect(screen.getByText('cargo install cargo-sonar-scanner')).toBeInTheDocument();
+
+  // Syntax highlighting splits a snippet across spans, so match on whole code blocks.
+  const snippetContaining = (fragment: string) =>
+    screen.getByText(
+      (_, element) =>
+        element?.tagName === 'PRE' && element.textContent?.includes(fragment) === true,
+    );
+
+  // Cargo build output is not auto-excluded yet, so the manifest step has to spell it out.
+  expect(snippetContaining('[package.metadata.sonar]')).toHaveTextContent(
+    'exclusions = ["target/**"]',
+  );
+  expect(snippetContaining('cargo sonar-scanner')).toBeInTheDocument();
 });
 
 async function waitOnDataLoaded() {

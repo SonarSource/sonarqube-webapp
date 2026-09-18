@@ -96,6 +96,7 @@ const BUILD_TOOL_SPECIFIC: {
   },
   [BuildTools.JsTs]: DEFAULT_OTHER_BUILD,
   [BuildTools.Python]: DEFAULT_OTHER_BUILD,
+  [BuildTools.Rust]: DEFAULT_OTHER_BUILD,
   [BuildTools.Other]: DEFAULT_OTHER_BUILD,
 };
 

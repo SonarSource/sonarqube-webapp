@@ -28,6 +28,7 @@ import JavaMaven from './JavaMaven';
 import JsTs from './JsTs';
 import Other from './Other';
 import Python from './Python';
+import Rust from './Rust';
 
 export interface AnalysisCommandProps {
   arch: Arch;
@@ -63,6 +64,20 @@ export default function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
     case BuildTools.Python:
       return isLocal ? (
         <Python baseUrl={baseUrl} component={component} token={token} />
+      ) : (
+        <Other
+          arch={arch}
+          baseUrl={baseUrl}
+          component={component}
+          isLocal={isLocal}
+          os={os}
+          token={token}
+        />
+      );
+
+    case BuildTools.Rust:
+      return isLocal ? (
+        <Rust baseUrl={baseUrl} component={component} token={token} />
       ) : (
         <Other
           arch={arch}

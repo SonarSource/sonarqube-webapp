@@ -18,30 +18,21 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Component } from '../../../types/types';
-import DefaultProjectKey from '../components/DefaultProjectKey';
-import GradleBuild from '../components/GradleBuild';
-import { BuildTools } from '../types';
+import { buildCargoManifestSnippet } from '../cargo';
 
-export interface PreambuleYamlProps {
-  buildTool: BuildTools;
-  component: Component;
-}
+it('should build a manifest snippet without an organization', () => {
+  expect(buildCargoManifestSnippet({ projectKey: 'my-crate' })).toBe(
+    `[package.metadata.sonar]
+project-key = "my-crate"
+exclusions = ["target/**"]`,
+  );
+});
 
-export function PreambuleYaml(props: PreambuleYamlProps) {
-  const { buildTool, component } = props;
-  switch (buildTool) {
-    case BuildTools.Gradle:
-      return <GradleBuild component={component} />;
-    case BuildTools.JsTs:
-    case BuildTools.Python:
-    case BuildTools.Rust:
-    case BuildTools.Cpp:
-    case BuildTools.ObjectiveC:
-    case BuildTools.Dart:
-    case BuildTools.Other:
-      return <DefaultProjectKey component={component} />;
-    default:
-      return null;
-  }
-}
+it('should build a manifest snippet with an organization', () => {
+  expect(buildCargoManifestSnippet({ organization: 'my-org', projectKey: 'my-org_my-crate' })).toBe(
+    `[package.metadata.sonar]
+project-key = "my-org_my-crate"
+organization = "my-org"
+exclusions = ["target/**"]`,
+  );
+});

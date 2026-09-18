@@ -133,6 +133,7 @@ export enum DocLink {
   ServerUpgradeRoadmap = '/server-update-and-maintenance/update/roadmap',
   SonarLintConnectedMode = '/user-guide/connected-mode/',
   SonarScanner = '/analyzing-source-code/scanners/sonarscanner/',
+  SonarScannerCargo = '/analyzing-source-code/scanners/sonarscanner-for-cargo/',
   SonarScannerRequirements = '/analyzing-source-code/scanners/scanner-environment/general-requirements/',
   SonarScannerDotNet = '/analyzing-source-code/scanners/dotnet/introduction/',
   SonarScannerGradle = '/analyzing-source-code/scanners/sonarscanner-for-gradle/',

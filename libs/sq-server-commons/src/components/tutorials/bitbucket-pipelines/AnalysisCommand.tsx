@@ -58,6 +58,7 @@ const YamlTemplate: Dictionary<BuildToolExampleBuilder> = {
   [BuildTools.JsTs]: othersExample,
   [BuildTools.DotNet]: dotNetExample,
   [BuildTools.Python]: othersExample,
+  [BuildTools.Rust]: othersExample,
   [BuildTools.Cpp]: cFamilyExample,
   [BuildTools.ObjectiveC]: cFamilyExample,
   [BuildTools.Dart]: dartExample,

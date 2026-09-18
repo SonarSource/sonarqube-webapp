@@ -55,6 +55,7 @@ export default function AnalysisCommand(props: AnalysisCommandProps) {
 
     case BuildTools.JsTs:
     case BuildTools.Python:
+    case BuildTools.Rust:
     case BuildTools.Dart:
     case BuildTools.Other:
       return <Other projectKey={projectKey} />;

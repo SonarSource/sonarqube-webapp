@@ -43,6 +43,7 @@ const BUILDTOOL_COMPONENT_MAP: {
   [BuildTools.Other]: Other,
   [BuildTools.JsTs]: Other,
   [BuildTools.Python]: Other,
+  [BuildTools.Rust]: Other,
 };
 
 export interface LanguageProps {

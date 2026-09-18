@@ -91,6 +91,7 @@ const snippetForBuildTool = {
   [BuildTools.Dart]: otherSnippet,
   [BuildTools.JsTs]: otherSnippet,
   [BuildTools.Python]: otherSnippet,
+  [BuildTools.Rust]: otherSnippet,
   [BuildTools.Other]: otherSnippet,
 };
 
@@ -102,6 +103,7 @@ const filenameForBuildTool = {
   [BuildTools.Dart]: 'sonar-project.properties',
   [BuildTools.JsTs]: 'sonar-project.properties',
   [BuildTools.Python]: 'sonar-project.properties',
+  [BuildTools.Rust]: 'sonar-project.properties',
   [BuildTools.Other]: 'sonar-project.properties',
 };
 
@@ -113,6 +115,7 @@ const snippetLanguageForBuildTool = {
   [BuildTools.Dart]: undefined,
   [BuildTools.JsTs]: undefined,
   [BuildTools.Python]: undefined,
+  [BuildTools.Rust]: undefined,
   [BuildTools.Other]: undefined,
 };
 

@@ -106,6 +106,7 @@ export function getBuildToolOptions(supportCFamily: boolean) {
     BuildTools.JsTs,
     BuildTools.DotNet,
     BuildTools.Python,
+    BuildTools.Rust,
   ];
   if (supportCFamily) {
     list.push(BuildTools.Cpp);
@@ -138,6 +139,7 @@ export function shouldShowOsSelector(config: TutorialConfig, isLocal: boolean) {
     config.buildTool === BuildTools.Dart ||
     (config.buildTool === BuildTools.JsTs && !isLocal) ||
     (config.buildTool === BuildTools.Python && !isLocal) ||
+    (config.buildTool === BuildTools.Rust && !isLocal) ||
     config.buildTool === BuildTools.Other
   );
 }
