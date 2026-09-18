@@ -58,6 +58,32 @@ holding its username/password, following the same naming convention e.g.
 
 Do not create a separate item — the passkey belongs with the rest of that account's credentials.
 
+### Storing the credential in Vault (required for CI)
+
+The session-refresh workflow reads secrets from Vault. For an account named `<account>` listed in
+`ACCOUNTS` in `.github/workflows/e2e-sessions-refresh.yml`, write the three values to:
+
+```
+development/team/sonarcloud/kv/data/github-<account>
+```
+
+using these key names (note the lowercase-hyphen convention Vault uses):
+
+| Printed value         | Vault key             |
+| --------------------- | --------------------- |
+| `PASSKEY_ID`          | `passkey-id`          |
+| `PASSKEY_PRIVATE_KEY` | `passkey-private-key` |
+| `PASSKEY_USER_HANDLE` | `passkey-user-handle` |
+
+Also add the three corresponding `secrets:` lines to the `Get passkey secrets` step in the
+workflow (follow the pattern already there for the existing accounts).
+
+- Ensure the 1Password entry is created and fully populated with all the required fields (copy
+  what's done in the **"GitHub - Webapp E2E - Orgs admin"** entry) before requesting the Vault
+  write.
+- Follow the [Vault guidelines](https://xtranet-sonarsource.atlassian.net/wiki/x/EQCqrQ) to add
+  the new values.
+
 ---
 
 ## github-login.mts — CI session refresh
