@@ -51,6 +51,7 @@ interface HistoryCountProps extends Props {
   branchLike?: BranchLikeBase;
   componentKey: string;
   measure: DashboardMeasure;
+  isStandardMode?: boolean;
 }
 
 function getCountWidgetLink(
@@ -58,12 +59,19 @@ function getCountWidgetLink(
   metric: DashboardMetric,
   scope: CodeScope,
   branchLike?: BranchLikeBase,
+  isStandardMode = false,
 ) {
   if (metric.type === DashboardMetricType.Raw) {
     return buildProjectRawCountWidgetLink(componentKey, metric.metricKey, scope, branchLike);
   }
   if (metric.type === DashboardMetricType.Rich) {
-    return buildProjectRichCountWidgetLink(componentKey, metric.measureFilters, scope, branchLike);
+    return buildProjectRichCountWidgetLink(
+      componentKey,
+      metric.measureFilters,
+      scope,
+      branchLike,
+      isStandardMode,
+    );
   }
   return undefined;
 }
@@ -72,7 +80,15 @@ function ProjectHistoryCountWidget(props: Readonly<HistoryCountProps>) {
   const { formatMttr } = useMttrFormatters();
   const { formatMessage } = useIntl();
   const { projectEntityId } = useDashboardProjectContext();
-  const { branchLike, componentKey, measure, metric, scope, showTrendIndicator = false } = props;
+  const {
+    branchLike,
+    componentKey,
+    isStandardMode,
+    measure,
+    metric,
+    scope,
+    showTrendIndicator = false,
+  } = props;
   const trendVisible = isCountWidgetTrendVisible(showTrendIndicator, metric, scope);
   const months = dashboardCountHistoryMonths(metric, trendVisible);
   const query = useDashboardMeasureQuery(
@@ -117,7 +133,7 @@ function ProjectHistoryCountWidget(props: Readonly<HistoryCountProps>) {
   return (
     <CountWidget
       {...presentation}
-      linkTo={getCountWidgetLink(componentKey, metric, scope, branchLike)}
+      linkTo={getCountWidgetLink(componentKey, metric, scope, branchLike, isStandardMode)}
     />
   );
 }
@@ -126,10 +142,12 @@ function ProjectNewCodeRichCountWidget({
   branchLike,
   componentKey,
   metric,
+  isStandardMode,
 }: Readonly<{
   branchLike?: BranchLikeBase;
   componentKey: string;
   metric: Extract<DashboardMetric, { type: DashboardMetricType.Rich }>;
+  isStandardMode?: boolean;
 }>) {
   // issue-count-history cannot filter by the leak period. Keep this snapshot-only path until the
   // persisted dashboard schema migration normalizes unsupported new-code configurations.
@@ -154,6 +172,7 @@ function ProjectNewCodeRichCountWidget({
         metric.measureFilters,
         CodeScope.New,
         branchLike,
+        isStandardMode,
       )}
       metricKey={metricKey}
       metricType={MetricType.Integer}
@@ -163,7 +182,7 @@ function ProjectNewCodeRichCountWidget({
   );
 }
 
-export function ProjectCountWidgetWrapper(props: Readonly<Props>) {
+export function ProjectCountWidgetWrapper(props: Readonly<Props & { isStandardMode?: boolean }>) {
   const { branchLike, componentKey, isLoading, projectEntityId } = useDashboardProjectContext();
 
   if (isLoading) {
@@ -177,6 +196,7 @@ export function ProjectCountWidgetWrapper(props: Readonly<Props>) {
       <ProjectNewCodeRichCountWidget
         branchLike={branchLike}
         componentKey={componentKey}
+        isStandardMode={props.isStandardMode}
         metric={props.metric}
       />
     );
@@ -187,6 +207,7 @@ export function ProjectCountWidgetWrapper(props: Readonly<Props>) {
       {...props}
       branchLike={branchLike}
       componentKey={componentKey}
+      isStandardMode={props.isStandardMode}
       measure={dashboardMetricToMeasure(props.metric, props.scope)}
     />
   );

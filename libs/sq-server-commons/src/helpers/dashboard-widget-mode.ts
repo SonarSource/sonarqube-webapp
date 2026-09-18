@@ -30,6 +30,7 @@ interface IssueHistoryFilters {
   issueTypes?: string[];
   severities?: string[];
   statuses?: string[];
+  typeSeverities?: string[];
 }
 
 interface IssueSearchModeFilters {
@@ -69,6 +70,14 @@ const STANDARD_SEVERITY_BY_IMPACT_SEVERITY: Record<SoftwareImpactSeverity, Issue
   [SoftwareImpactSeverity.Medium]: IssueSeverity.Major,
   [SoftwareImpactSeverity.Low]: IssueSeverity.Minor,
   [SoftwareImpactSeverity.Info]: IssueSeverity.Info,
+};
+
+const IMPACT_SEVERITY_BY_STANDARD_SEVERITY: Record<IssueSeverity, SoftwareImpactSeverity> = {
+  [IssueSeverity.Blocker]: SoftwareImpactSeverity.Blocker,
+  [IssueSeverity.Critical]: SoftwareImpactSeverity.High,
+  [IssueSeverity.Major]: SoftwareImpactSeverity.Medium,
+  [IssueSeverity.Minor]: SoftwareImpactSeverity.Low,
+  [IssueSeverity.Info]: SoftwareImpactSeverity.Info,
 };
 
 const SOFTWARE_IMPACT_SEVERITIES = Object.values(SoftwareImpactSeverity);
@@ -163,7 +172,7 @@ export function resolveIssueHistoryFiltersForMode<T extends IssueHistoryFilters>
     );
   const inferredSoftwareQuality =
     impactQualities?.length && new Set(impactQualities).size === 1 ? impactQualities[0] : undefined;
-  const severities = [
+  const impactSeverities = [
     ...new Set(
       (
         options.severities ??
@@ -182,8 +191,12 @@ export function resolveIssueHistoryFiltersForMode<T extends IssueHistoryFilters>
     issueTypes: softwareQuality
       ? [ISSUE_TYPE_BY_SOFTWARE_QUALITY[softwareQuality]]
       : [...CODE_ISSUE_TYPES],
-    ...(severities.length > 0 && severities.length < SOFTWARE_IMPACT_SEVERITIES.length
-      ? { severities: [...severities] }
+    ...(impactSeverities.length > 0 && impactSeverities.length < SOFTWARE_IMPACT_SEVERITIES.length
+      ? {
+          typeSeverities: impactSeverities.map(
+            (severity) => STANDARD_SEVERITY_BY_IMPACT_SEVERITY[severity],
+          ),
+        }
       : {}),
   } as ResolvedIssueHistoryFilters<T>;
 }
@@ -221,7 +234,15 @@ export function resolveIssueHistorySliceForMode(
   sliceBy: string | undefined,
   isStandardMode: boolean,
 ): string | undefined {
-  return isStandardMode && sliceBy === 'SOFTWARE_QUALITY' ? 'TYPE' : sliceBy;
+  if (!isStandardMode) {
+    return sliceBy;
+  }
+
+  if (sliceBy === 'SOFTWARE_QUALITY') {
+    return 'TYPE';
+  }
+
+  return sliceBy === 'SEVERITY' ? 'TYPE_SEVERITY' : sliceBy;
 }
 
 export function resolveIssueHistoryDistributionKeyForMode(
@@ -234,6 +255,9 @@ export function resolveIssueHistoryDistributionKeyForMode(
   }
   if (canonicalSliceBy === 'SOFTWARE_QUALITY' && key in SOFTWARE_QUALITY_BY_STANDARD_ISSUE_TYPE) {
     return SOFTWARE_QUALITY_BY_STANDARD_ISSUE_TYPE[key as IssueType];
+  }
+  if (canonicalSliceBy === 'SEVERITY' && key in IMPACT_SEVERITY_BY_STANDARD_SEVERITY) {
+    return IMPACT_SEVERITY_BY_STANDARD_SEVERITY[key as IssueSeverity];
   }
   return key;
 }

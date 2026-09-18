@@ -103,6 +103,7 @@ export interface DashboardIssueHistoryParams {
   sliceBy?: string;
   startDate: string;
   statuses?: string[];
+  typeSeverities?: string[];
 }
 
 export interface DashboardIssueResolutionHistoryParams extends DashboardIssueHistoryParams {
@@ -154,6 +155,7 @@ export type DashboardProjectIssueCountsParams = DashboardProjectCollectionSelect
   severities?: string[];
   sort?: string[];
   statuses?: string[];
+  typeSeverities?: string[];
 };
 
 interface DashboardProjectMeasure {
@@ -194,6 +196,7 @@ function serializeIssueHistoryParams(params: DashboardIssueHistoryParams) {
     ruleKeys: serializeStringArray(params.ruleKeys ?? []),
     severities: serializeStringArray(params.severities ?? []),
     statuses: serializeStringArray(params.statuses ?? []),
+    typeSeverities: serializeStringArray(params.typeSeverities ?? []),
   };
 }
 
@@ -318,6 +321,7 @@ export function getDashboardProjectIssueCounts(
       severities: serializeStringArray(params.severities ?? []),
       sort: serializeStringArray(params.sort ?? []),
       statuses: serializeStringArray(params.statuses ?? []),
+      typeSeverities: serializeStringArray(params.typeSeverities ?? []),
     },
   });
 }

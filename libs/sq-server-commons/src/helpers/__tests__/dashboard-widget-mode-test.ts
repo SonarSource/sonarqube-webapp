@@ -44,7 +44,7 @@ describe('Server dashboard widget mode resolution', () => {
     expect(resolvePortfolioDashboardMetricKey(metricKey, isStandardMode)).toBe(expected);
   });
 
-  it('uses issue types and MQR severities in Standard Experience', () => {
+  it('uses issue types and mapped type severities in Standard Experience', () => {
     expect(
       resolveIssueHistoryFiltersForMode(
         {
@@ -59,8 +59,8 @@ describe('Server dashboard widget mode resolution', () => {
       ),
     ).toEqual({
       issueTypes: ['VULNERABILITY'],
-      severities: ['HIGH'],
       statuses: ['OPEN'],
+      typeSeverities: ['CRITICAL'],
     });
   });
 
@@ -110,11 +110,15 @@ describe('Server dashboard widget mode resolution', () => {
 
   it('uses legacy dimensions for Standard queries and restores canonical MQR response keys', () => {
     expect(resolveIssueHistorySliceForMode('SOFTWARE_QUALITY', true)).toBe('TYPE');
+    expect(resolveIssueHistorySliceForMode('SEVERITY', true)).toBe('TYPE_SEVERITY');
     expect(resolveIssueHistorySliceForMode('SOFTWARE_QUALITY', false)).toBe('SOFTWARE_QUALITY');
+    expect(resolveIssueHistorySliceForMode('SEVERITY', false)).toBe('SEVERITY');
     expect(resolveIssueHistoryDistributionKeyForMode('BUG', 'SOFTWARE_QUALITY', true)).toBe(
       SoftwareQuality.Reliability,
     );
-    expect(resolveIssueHistoryDistributionKeyForMode('HIGH', 'SEVERITY', true)).toBe('HIGH');
+    expect(resolveIssueHistoryDistributionKeyForMode('CRITICAL', 'SEVERITY', true)).toBe(
+      SoftwareImpactSeverity.High,
+    );
     expect(resolveIssueHistoryDistributionKeyForMode('OPEN', 'STATUS', true)).toBe('OPEN');
   });
 });

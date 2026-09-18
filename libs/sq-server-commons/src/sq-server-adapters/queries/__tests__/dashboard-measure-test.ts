@@ -19,7 +19,6 @@
  */
 
 import { useQuery } from '@tanstack/react-query';
-import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
 import { IssueSeverity } from '~shared/types/issues';
 import { MetricKey } from '~shared/types/metrics';
 import {
@@ -119,8 +118,8 @@ describe('dashboardMeasureQueryOptions', () => {
     expect(getDashboardIssueCountHistoryData).toHaveBeenCalledWith(
       expect.objectContaining({
         issueTypes: ['VULNERABILITY'],
-        severities: [SoftwareImpactSeverity.High],
         sliceBy: 'TYPE',
+        typeSeverities: [IssueSeverity.Critical],
       }),
     );
     expect(jest.mocked(getDashboardIssueCountHistoryData).mock.calls[0]?.[0]).not.toHaveProperty(

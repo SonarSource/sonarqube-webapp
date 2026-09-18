@@ -40,14 +40,16 @@ function createModeAwareBodyMap(
 ): WidgetBodyMap<ProjectDashboardWidgetPropMap> {
   const modeAwarePieChart = createModeAwareWidget(ProjectPieChartWidgetWrapper, isStandardMode);
   const modeAwareLineChart = createModeAwareWidget(ProjectLineChartWidgetWrapper, isStandardMode);
+  const modeAwareCount = createModeAwareWidget(ProjectCountWidgetWrapper, isStandardMode);
+  const modeAwareTopList = createModeAwareWidget(ProjectTopListWidgetWrapper, isStandardMode);
 
   return {
-    count: ProjectCountWidgetWrapper,
+    count: modeAwareCount,
     donutChart: modeAwarePieChart,
     lineChart: modeAwareLineChart,
     pieChart: modeAwarePieChart,
     ratingBadge: ProjectRatingBadgeWidgetWrapper,
-    topList: ProjectTopListWidgetWrapper,
+    topList: modeAwareTopList,
   };
 }
 

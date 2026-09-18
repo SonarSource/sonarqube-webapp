@@ -20,6 +20,7 @@
 
 import { screen } from '@testing-library/react';
 import { useDashboardProjectContext } from '~adapters/context/dashboardContext';
+import { getProjectDashboardTopListRowUrl } from '~adapters/helpers/dashboard-widget-urls';
 import { useProjectTopListData } from '~adapters/queries/project-top-list-widget-data';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { TopListProps } from '../../../types/visualization';
@@ -37,7 +38,7 @@ jest.mock('~adapters/context/dashboardContext', () => ({
 
 jest.mock('~adapters/helpers/dashboard-widget-urls', () => ({
   getProjectDashboardRuleUrl: () => '#rule',
-  getProjectDashboardTopListRowUrl: () => '#issues',
+  getProjectDashboardTopListRowUrl: jest.fn(() => '#issues'),
 }));
 
 jest.mock('~adapters/queries/project-top-list-widget-data', () => ({
@@ -47,6 +48,10 @@ jest.mock('~adapters/queries/project-top-list-widget-data', () => ({
 jest.mock('~feature-dashboards/components/visualizations/top-list/TopList', () => ({
   TopList: (props: TopListProps) => mockTopList(props),
 }));
+
+beforeEach(() => {
+  jest.clearAllMocks();
+});
 
 it('renders rows returned by the project top-list adapter', () => {
   jest.mocked(useDashboardProjectContext).mockReturnValue({
@@ -75,4 +80,43 @@ it('renders rows returned by the project top-list adapter', () => {
   expect(useProjectTopListData).toHaveBeenCalledWith(widget, 'branch-id', 'my-org', {
     fetchTrendHistory: true,
   });
+});
+
+it('builds count links using Standard mode without forwarding it as widget data', () => {
+  jest.mocked(useDashboardProjectContext).mockReturnValue({
+    componentKey: 'project-key',
+    isLoading: false,
+    organization: 'my-org',
+    projectEntityId: 'branch-id',
+  });
+  jest.mocked(useProjectTopListData).mockReturnValue({
+    counts: { 'java:S1': 3 },
+    getRuleTrendData: () => null,
+    isError: false,
+    isPending: false,
+    rulesByKey: { 'java:S1': { langName: 'Java', name: 'Rule one' } },
+  });
+  const widget = {
+    limit: TopListLimit.Five,
+    metric: buildDashboardMetricForTopList(undefined),
+    rankBy: TopListRankBy.Rule,
+    scope: CodeScope.Overall,
+  };
+
+  renderWithRouter(<ProjectTopListWidgetWrapper {...widget} isStandardMode />);
+
+  expect(useProjectTopListData).toHaveBeenCalledWith(widget, 'branch-id', 'my-org', {
+    fetchTrendHistory: true,
+  });
+  expect(getProjectDashboardTopListRowUrl).toHaveBeenLastCalledWith(
+    'project-key',
+    'java:S1',
+    {
+      metric: widget.metric,
+      rankBy: widget.rankBy,
+      scope: widget.scope,
+    },
+    undefined,
+    true,
+  );
 });

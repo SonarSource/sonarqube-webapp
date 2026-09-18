@@ -47,10 +47,11 @@ function ProjectTopListWidgetView(
     branchLike?: BranchLikeBase;
     organization: string;
     projectKey: string;
+    isStandardMode?: boolean;
     widget: Readonly<TopListWidgetProps>;
   }>,
 ) {
-  const { branchEntityId, branchLike, organization, projectKey, widget } = props;
+  const { branchEntityId, branchLike, isStandardMode, organization, projectKey, widget } = props;
   const { formatMessage } = useIntl();
   const { limit, metric, rankBy, scope } = widget;
   const facet = topListRankByToIssueFacet(rankBy);
@@ -66,8 +67,14 @@ function ProjectTopListWidgetView(
   // Count cell navigates to the filtered issues page (the previous label behaviour).
   const getCountUrl = useCallback(
     (value: string) =>
-      getProjectDashboardTopListRowUrl(projectKey, value, { metric, rankBy, scope }, branchLike),
-    [branchLike, metric, projectKey, rankBy, scope],
+      getProjectDashboardTopListRowUrl(
+        projectKey,
+        value,
+        { metric, rankBy, scope },
+        branchLike,
+        isStandardMode,
+      ),
+    [branchLike, isStandardMode, metric, projectKey, rankBy, scope],
   );
 
   // Label cell navigates to the rule details page. Only rule rank-by carries rule keys as values.
@@ -106,7 +113,10 @@ function ProjectTopListWidgetView(
   );
 }
 
-export function ProjectTopListWidgetWrapper(props: Readonly<TopListWidgetProps>) {
+export function ProjectTopListWidgetWrapper(
+  props: Readonly<TopListWidgetProps & { isStandardMode?: boolean }>,
+) {
+  const { isStandardMode, ...widget } = props;
   const {
     branchLike,
     componentKey: projectKey,
@@ -127,9 +137,10 @@ export function ProjectTopListWidgetWrapper(props: Readonly<TopListWidgetProps>)
     <ProjectTopListWidgetView
       branchEntityId={projectEntityId}
       branchLike={branchLike}
+      isStandardMode={isStandardMode}
       organization={organization}
       projectKey={projectKey}
-      widget={props}
+      widget={widget}
     />
   );
 }

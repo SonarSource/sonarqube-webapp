@@ -52,6 +52,7 @@ describe('dashboard history API', () => {
       sliceBy: 'SEVERITY',
       startDate: '2026-01-01',
       statuses: ['OPEN'],
+      typeSeverities: ['CRITICAL'],
     });
 
     expect(mockGet).toHaveBeenCalledWith('/api/v2/history/issue-count-history', {
@@ -65,6 +66,7 @@ describe('dashboard history API', () => {
         sliceBy: 'SEVERITY',
         startDate: '2026-01-01',
         statuses: 'OPEN',
+        typeSeverities: 'CRITICAL',
       },
     });
   });
@@ -76,6 +78,7 @@ describe('dashboard history API', () => {
       impacts: ['SECURITY:HIGH'],
       severities: ['HIGH'],
       startDate: '2026-01-01',
+      typeSeverities: ['CRITICAL'],
     });
 
     expect(mockGet).toHaveBeenCalledWith('/api/v2/history/issue-density-history', {
@@ -83,6 +86,7 @@ describe('dashboard history API', () => {
         entityId: 'portfolio-1',
         impacts: 'SECURITY:HIGH',
         severities: 'HIGH',
+        typeSeverities: 'CRITICAL',
       }),
     });
   });
@@ -94,6 +98,7 @@ describe('dashboard history API', () => {
       severities: ['HIGH'],
       startDate: '2026-01-01',
       statistic: 'MTTR',
+      typeSeverities: ['CRITICAL'],
     });
 
     expect(mockGet).toHaveBeenCalledWith('/api/v2/history/issue-resolution-history', {
@@ -101,6 +106,7 @@ describe('dashboard history API', () => {
         entityId: 'portfolio-1',
         severities: 'HIGH',
         statistic: 'MTTR',
+        typeSeverities: 'CRITICAL',
       }),
     });
   });
@@ -139,6 +145,7 @@ describe('dashboard history API', () => {
       severities: ['HIGH'],
       sort: ['issueCount'],
       statuses: ['OPEN'],
+      typeSeverities: ['CRITICAL'],
     });
     await getDashboardProjectMeasures({
       entityId: 'portfolio-1',
@@ -165,6 +172,7 @@ describe('dashboard history API', () => {
         severities: 'HIGH',
         sort: 'issueCount',
         statuses: 'OPEN',
+        typeSeverities: 'CRITICAL',
       },
     });
     expect(mockGet).toHaveBeenNthCalledWith(3, '/api/v2/history/project-measures', {

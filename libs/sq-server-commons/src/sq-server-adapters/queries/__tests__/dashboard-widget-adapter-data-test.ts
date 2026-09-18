@@ -553,7 +553,12 @@ describe('dashboard widget adapter queries', () => {
         'VULNERABILITY',
         SoftwareQuality.Security,
       ],
-      [PieChartIssueSlice.ImpactSeverities, 'SEVERITY', 'HIGH', SoftwareImpactSeverity.High],
+      [
+        PieChartIssueSlice.ImpactSeverities,
+        'TYPE_SEVERITY',
+        'CRITICAL',
+        SoftwareImpactSeverity.High,
+      ],
     ])(
       'reads canonical %s pie segments from the Standard %s dimension',
       (slice, expectedSliceBy, responseKey, canonicalKey) => {
@@ -794,9 +799,9 @@ describe('dashboard widget adapter queries', () => {
           pageIndex: 1,
           pageSize: 20,
           requireIssues: true,
-          severities: ['HIGH'],
           sort: undefined,
           statuses: ['OPEN'],
+          typeSeverities: ['CRITICAL'],
         },
         { enabled: true },
       );
@@ -1070,8 +1075,8 @@ describe('dashboard widget adapter queries', () => {
       expect(mockUseDashboardIssueCountHistoryQuery).toHaveBeenCalledWith(
         expect.objectContaining({
           issueTypes: ['VULNERABILITY'],
-          severities: ['HIGH'],
           sliceBy: 'RULE_KEY',
+          typeSeverities: ['CRITICAL'],
         }),
         expect.objectContaining({ enabled: true }),
       );

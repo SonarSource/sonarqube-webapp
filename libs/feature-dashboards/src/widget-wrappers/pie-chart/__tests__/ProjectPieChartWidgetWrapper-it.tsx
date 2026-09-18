@@ -20,6 +20,7 @@
 
 import { screen } from '@testing-library/react';
 import { useDashboardProjectContext } from '~adapters/context/dashboardContext';
+import { getProjectDashboardPieChartSegmentUrl } from '~adapters/helpers/dashboard-widget-urls';
 import { useOrganizationPieChartData } from '~adapters/queries/pie-chart-widget-data';
 import {
   projectPieChartUsesSearchData,
@@ -39,7 +40,7 @@ jest.mock('~adapters/context/dashboardContext', () => ({
 }));
 
 jest.mock('~adapters/helpers/dashboard-widget-urls', () => ({
-  getProjectDashboardPieChartSegmentUrl: () => '#',
+  getProjectDashboardPieChartSegmentUrl: jest.fn(() => '#'),
 }));
 
 jest.mock('~adapters/queries/pie-chart-widget-data', () => ({
@@ -52,11 +53,24 @@ jest.mock('~adapters/queries/project-pie-chart-widget-data', () => ({
 }));
 
 jest.mock('../../../components/visualizations/pie-chart/InteractivePieChart', () => ({
-  InteractivePieChart: ({ ariaLabel, segments }: { ariaLabel: string; segments: unknown[] }) => (
-    <div aria-label={ariaLabel} data-testid="pie-chart">
-      {segments.length}
-    </div>
-  ),
+  InteractivePieChart: ({
+    ariaLabel,
+    getSegmentUrl,
+    segments,
+  }: {
+    ariaLabel: string;
+    getSegmentUrl: (segment: unknown) => string | undefined;
+    segments: unknown[];
+  }) => {
+    if (segments[0] !== undefined) {
+      getSegmentUrl(segments[0]);
+    }
+    return (
+      <div aria-label={ariaLabel} data-testid="pie-chart">
+        {segments.length}
+      </div>
+    );
+  },
 }));
 
 const widgetProps = {
@@ -68,6 +82,7 @@ const widgetProps = {
 } as const;
 
 beforeEach(() => {
+  jest.clearAllMocks();
   jest.mocked(useDashboardProjectContext).mockReturnValue({
     componentKey: 'project-key',
     isLoading: false,
@@ -128,5 +143,15 @@ describe('ProjectPieChartWidgetWrapper integration', () => {
     );
 
     expect(screen.getByTestId('pie-chart')).toHaveAccessibleName(/issue\.type\.BUG\.plural/);
+    expect(getProjectDashboardPieChartSegmentUrl).toHaveBeenCalledWith(
+      'project-key',
+      'HIGH',
+      expect.objectContaining({
+        filter: PieChartIssueFilter.Reliability,
+        slice: PieChartIssueSlice.ImpactSoftwareQualities,
+      }),
+      undefined,
+      true,
+    );
   });
 });

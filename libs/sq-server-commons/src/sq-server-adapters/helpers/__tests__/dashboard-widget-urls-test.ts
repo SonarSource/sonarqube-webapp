@@ -94,6 +94,27 @@ describe('Server dashboard widget URL seams', () => {
         sinceLeakPeriod: 'true',
       },
     );
+    expectUrl(
+      buildProjectRichCountWidgetLink(
+        'project-key',
+        {
+          impactSeverities: [SoftwareImpactSeverity.High, SoftwareImpactSeverity.Low],
+          impactSoftwareQuality: 'SECURITY',
+          issueStatus: 'ACCEPTED',
+        },
+        CodeScope.New,
+        undefined,
+        true,
+      ),
+      '/project/issues',
+      {
+        id: 'project-key',
+        issueStatuses: 'ACCEPTED',
+        severities: 'CRITICAL,MINOR',
+        sinceLeakPeriod: 'true',
+        types: 'VULNERABILITY',
+      },
+    );
   });
 
   it('defaults rich Issue Count links to all code issue statuses', () => {
@@ -151,6 +172,17 @@ describe('Server dashboard widget URL seams', () => {
         impactSoftwareQualities: 'SECURITY',
         issueStatuses: 'OPEN,CONFIRMED,ACCEPTED,FALSE_POSITIVE',
         sinceLeakPeriod: 'true',
+      },
+    );
+    expectUrl(
+      getProjectDashboardPieChartSegmentUrl('project-key', 'HIGH', baseProps, undefined, true),
+      '/project/issues',
+      {
+        id: 'project-key',
+        issueStatuses: 'OPEN,CONFIRMED,ACCEPTED,FALSE_POSITIVE',
+        severities: 'CRITICAL',
+        sinceLeakPeriod: 'true',
+        types: 'VULNERABILITY',
       },
     );
     expectUrl(
@@ -222,6 +254,35 @@ describe('Server dashboard widget URL seams', () => {
         issueStatuses: 'ACCEPTED',
         rules: 'typescript:S1',
         sinceLeakPeriod: 'true',
+      },
+    );
+    expectUrl(
+      getProjectDashboardTopListRowUrl(
+        'project-key',
+        'typescript:S1',
+        {
+          metric: {
+            measureFilters: {
+              impactSeverities: [SoftwareImpactSeverity.High],
+              impactSoftwareQuality: 'RELIABILITY',
+              issueStatus: 'ACCEPTED',
+            },
+            type: DashboardMetricType.Rich,
+          },
+          rankBy: 'rule',
+          scope: CodeScope.New,
+        },
+        undefined,
+        true,
+      ),
+      '/project/issues',
+      {
+        id: 'project-key',
+        issueStatuses: 'ACCEPTED',
+        rules: 'typescript:S1',
+        severities: 'CRITICAL',
+        sinceLeakPeriod: 'true',
+        types: 'BUG',
       },
     );
     expectUrl(

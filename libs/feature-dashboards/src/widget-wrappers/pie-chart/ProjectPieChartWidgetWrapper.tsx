@@ -113,9 +113,15 @@ function ProjectPieChartView(props: ProjectPieChartViewProps) {
       if (segment.value.startsWith('OTHER_')) {
         return undefined;
       }
-      return getProjectDashboardPieChartSegmentUrl(projectKey, segment.value, widget, branchLike);
+      return getProjectDashboardPieChartSegmentUrl(
+        projectKey,
+        segment.value,
+        widget,
+        branchLike,
+        isStandardMode,
+      );
     },
-    [branchLike, projectKey, widget],
+    [branchLike, isStandardMode, projectKey, widget],
   );
 
   const handleSegmentClick = useCallback(

@@ -23,13 +23,13 @@ import type { To } from 'react-router-dom';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { getComponentIssuesUrl, getPathUrlAsString, getRuleUrl } from '~shared/helpers/urls';
 import { BranchLikeBase } from '~shared/types/branch-like';
+import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
 import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MetricKey } from '~shared/types/metrics';
 import {
   CodeScope,
   DashboardMetricType,
   PieChartHotspotSlice,
-  PieChartIssueFilter,
   PieChartIssueSlice,
   PieChartMetric,
   type CodeScopeValue,
@@ -37,6 +37,10 @@ import {
   type PieChartWidget,
   type TopListWidgetLinkProps,
 } from '../../helpers/dashboard-widget-data';
+import {
+  resolveIssueSearchFiltersForMode,
+  resolvePieChartFilterSoftwareQuality,
+} from '../../helpers/dashboard-widget-mode';
 import {
   getComponentDrilldownUrl,
   getMeasureHistoryUrl,
@@ -98,10 +102,16 @@ export function buildProjectRichCountWidgetLink(
   measureFilters: MeasureFilters | undefined,
   scope: CodeScopeValue,
   branchLike?: BranchLikeBase,
+  isStandardMode = false,
 ): To {
   return getComponentIssuesUrl(component, {
-    impactSeverities: measureFilters?.impactSeverities?.join(','),
-    impactSoftwareQualities: measureFilters?.impactSoftwareQuality,
+    ...resolveIssueSearchFiltersForMode(
+      {
+        impactSeverities: measureFilters?.impactSeverities,
+        impactSoftwareQuality: measureFilters?.impactSoftwareQuality,
+      },
+      isStandardMode,
+    ),
     issueStatuses: measureFilters?.issueStatus ?? ALL_FILTERABLE_CODE_ISSUE_STATUSES,
     ...(scope === CodeScope.New ? { sinceLeakPeriod: 'true' } : {}),
     ...getBranchLikeQuery(branchLike),
@@ -137,20 +147,13 @@ export function getProjectDashboardPieChartSegmentUrl(
   value: string,
   props: PieChartWidget,
   branchLike?: BranchLikeBase,
+  isStandardMode = false,
 ): string {
-  const { filter, metric, scope, slice } = props;
+  const { metric, scope, slice } = props;
   const params = new URLSearchParams({ id: projectKey, ...getBranchLikeQuery(branchLike) });
 
   if (metric === PieChartMetric.IssueCount) {
-    if (scope === CodeScope.New) {
-      params.set('sinceLeakPeriod', 'true');
-    }
-    if (slice !== PieChartIssueSlice.IssueStatuses) {
-      params.set('issueStatuses', ALL_FILTERABLE_CODE_ISSUE_STATUSES);
-    }
-    params.set(slice, value);
-    addIssueQualityFilter(params, filter);
-    return `/project/issues?${params.toString()}`;
+    return getProjectIssuePieChartSegmentUrl(params, value, props, isStandardMode);
   }
 
   if (metric === PieChartMetric.HotspotCount) {
@@ -170,11 +173,41 @@ export function getProjectDashboardPieChartSegmentUrl(
   return `${PROJECT_BASE_URL}?${params.toString()}`;
 }
 
+function getProjectIssuePieChartSegmentUrl(
+  params: URLSearchParams,
+  value: string,
+  props: PieChartWidget,
+  isStandardMode: boolean,
+): string {
+  const { filter, scope, slice } = props;
+  if (scope === CodeScope.New) {
+    params.set('sinceLeakPeriod', 'true');
+  }
+  if (slice !== PieChartIssueSlice.IssueStatuses) {
+    params.set('issueStatuses', ALL_FILTERABLE_CODE_ISSUE_STATUSES);
+  }
+  const filterSoftwareQuality = resolvePieChartFilterSoftwareQuality(filter);
+  const impactSoftwareQuality =
+    filterSoftwareQuality ??
+    (slice === PieChartIssueSlice.ImpactSoftwareQualities ? value : undefined);
+  const impactSeverities =
+    slice === PieChartIssueSlice.ImpactSeverities ? [value as SoftwareImpactSeverity] : undefined;
+  if (
+    slice !== PieChartIssueSlice.ImpactSoftwareQualities &&
+    slice !== PieChartIssueSlice.ImpactSeverities
+  ) {
+    params.set(slice, value);
+  }
+  addIssueModeFilters(params, { impactSeverities, impactSoftwareQuality }, isStandardMode);
+  return `/project/issues?${params.toString()}`;
+}
+
 export function getProjectDashboardTopListRowUrl(
   projectKey: string,
   facetValue: string,
   props: TopListWidgetLinkProps,
   branchLike?: BranchLikeBase,
+  isStandardMode = false,
 ): string {
   const { metric, scope } = props;
   const params = new URLSearchParams({
@@ -193,12 +226,7 @@ export function getProjectDashboardTopListRowUrl(
     if (filters?.issueStatus) {
       params.set('issueStatuses', filters.issueStatus);
     }
-    if (filters?.impactSoftwareQuality) {
-      params.set('impactSoftwareQualities', filters.impactSoftwareQuality);
-    }
-    if (filters?.impactSeverities?.length) {
-      params.set('impactSeverities', filters.impactSeverities.join(','));
-    }
+    addIssueModeFilters(params, filters ?? {}, isStandardMode);
   }
 
   return `/project/issues?${params.toString()}`;
@@ -248,15 +276,14 @@ function getMetricKeyForScope(metricKey: string, isNewCode: boolean): string {
     : `new_${metricKey}`;
 }
 
-function addIssueQualityFilter(params: URLSearchParams, filter: string): void {
-  const quality = {
-    [PieChartIssueFilter.Maintainability]: 'MAINTAINABILITY',
-    [PieChartIssueFilter.Reliability]: 'RELIABILITY',
-    [PieChartIssueFilter.Security]: 'SECURITY',
-  }[filter];
-
-  if (quality) {
-    params.set('impactSoftwareQualities', quality);
+function addIssueModeFilters(
+  params: URLSearchParams,
+  filters: Pick<MeasureFilters, 'impactSeverities' | 'impactSoftwareQuality'>,
+  isStandardMode: boolean,
+): void {
+  const modeFilters = resolveIssueSearchFiltersForMode(filters, isStandardMode);
+  for (const [key, value] of Object.entries(modeFilters)) {
+    params.set(key, Array.isArray(value) ? value.join(',') : value);
   }
 }
 

@@ -20,6 +20,7 @@
 
 import { render } from '@testing-library/react';
 import { useDashboardProjectContext } from '~adapters/context/dashboardContext';
+import { buildProjectRichCountWidgetLink } from '~adapters/helpers/dashboard-widget-urls';
 import { useDashboardMeasureQuery } from '~adapters/queries/dashboard-measure';
 import { useProjectIssueCountSearchQuery } from '~adapters/queries/project-count-widget-data';
 import { useWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-metadata';
@@ -32,6 +33,11 @@ import { computeDashboardMeasureTrendData } from '../../../utils/countWidgetTren
 import { ProjectCountWidgetWrapper } from '../ProjectCountWidgetWrapper';
 
 jest.mock('~adapters/context/dashboardContext');
+jest.mock('~adapters/helpers/dashboard-widget-urls', () => ({
+  ...jest.requireActual('~adapters/helpers/dashboard-widget-urls'),
+  buildProjectRawCountWidgetLink: jest.fn(),
+  buildProjectRichCountWidgetLink: jest.fn(),
+}));
 jest.mock('~adapters/queries/dashboard-measure');
 jest.mock('~adapters/queries/project-count-widget-data');
 jest.mock('~adapters/queries/widget-metric-metadata');
@@ -305,6 +311,35 @@ describe('ProjectCountWidgetWrapper', () => {
     expect(CountWidget).toHaveBeenCalledWith(
       expect.objectContaining({ showTrendIndicator: false, value: '7' }),
       undefined,
+    );
+  });
+
+  it('builds new-code rich count links using Standard mode', () => {
+    jest.mocked(useDashboardProjectContext).mockReturnValue({
+      componentKey: 'project',
+      isLoading: false,
+      organization: 'org',
+      projectEntityId: 'branch',
+    });
+    jest.mocked(useProjectIssueCountSearchQuery).mockReturnValue({
+      data: 7,
+      isLoading: false,
+    });
+
+    render(
+      <ProjectCountWidgetWrapper
+        isStandardMode
+        metric={{ metricKey: RichMetricKey.Issues, type: DashboardMetricType.Rich }}
+        scope={CodeScope.New}
+      />,
+    );
+
+    expect(buildProjectRichCountWidgetLink).toHaveBeenCalledWith(
+      'project',
+      undefined,
+      CodeScope.New,
+      undefined,
+      true,
     );
   });
 });
