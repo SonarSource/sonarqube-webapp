@@ -31,6 +31,7 @@ export enum AgentCentricDocLink {
   AgenticAnalysis = '/verify/sonar-vortex-agentic-analysis',
   ContextAugmentation = '/guide/sonar-vortex-context-augmentation',
   HunterAgent = '/verify/hunter-agent',
+  HunterAgentDetectedVulnerabilities = '/in-your-long-living-branches-the-code-maintenance-loop/hunter-agent#what-it-detects',
   RemediationAgent = '/solve/remediation-agent#sca-basic-remediation',
   Vortex = '/inside-your-agent-the-agentic-loop/sonar-vortex',
   VortexInstallGuide = '/inside-your-agent-the-agentic-loop/how-to-guides',

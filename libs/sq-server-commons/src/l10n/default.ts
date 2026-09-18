@@ -1052,11 +1052,12 @@ export const defaultMessages = {
   'hunter_agent.results.most_severe': 'Most severe:',
   'hunter_agent.results.no_open_issues': 'Nice job! There are no open issues.',
   'hunter_agent.results.tooltip.authentication_session':
-    'Issues related to authentication and session vulnerabilities.',
+    'Broken authentication, session fixation, non-expiring sessions, weak password recovery, missing multi-factor authentication (MFA), and brute-force gaps.',
   'hunter_agent.results.tooltip.broken_access_control':
-    'Issues related to broken access control vulnerabilities.',
+    'Insecure direct object references (IDOR), missing or incorrect authorization checks, privilege escalation, sensitive data exposure, and cross-site request forgery (CSRF).',
   'hunter_agent.results.tooltip.business_logic':
-    'Issues related to business logic vulnerabilities.',
+    'Skipping required workflow steps, abusing repeatable actions, and missing rate limits.',
+  'hunter_agent.results.tooltip.documentation': 'Learn more in the documentation',
   'hunter_agent.results.view_all_findings': 'View all findings',
   'hunter_agent.run_now.branch_label': 'Branch to scan',
   'hunter_agent.run_now.error': 'Could not start the scan. Please try again.',
