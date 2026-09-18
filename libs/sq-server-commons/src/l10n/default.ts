@@ -1405,25 +1405,26 @@ export const defaultMessages = {
     'The response size and compression byte change are observed. The tokens the agent would otherwise have used, and the effect of context amplification, are estimated—so this metric is labelled Estimated.',
 
   'vortex_dashboard.adoption_coverage.title': 'Adoption and Coverage',
-  'vortex_dashboard.adoption_coverage.caveat':
-    'The numbers listed below represent the total activities and savings to date per project, since Vortex was activated for this instance.',
   'vortex_dashboard.adoption_coverage.error': 'Unable to load this section right now.',
   'vortex_dashboard.adoption_coverage.admin_only_note':
     'Project-level breakdowns are available to system administrators.',
 
-  'vortex_dashboard.adoption_coverage.project_coverage.heading': 'Project coverage',
+  'vortex_dashboard.adoption_coverage.project_coverage.heading': 'Vortex activity',
   'vortex_dashboard.adoption_coverage.project_coverage.description':
-    'Projects within this organization that have Vortex activity',
-  'vortex_dashboard.adoption_coverage.project_coverage.center_label': 'Active',
+    'Share of active projects during the selected date range that used Vortex.',
+  'vortex_dashboard.adoption_coverage.project_coverage.center_label': 'Using Vortex',
   'vortex_dashboard.adoption_coverage.project_coverage.outer_label':
     '{activeCount} / {totalCount} projects',
-  'vortex_dashboard.adoption_coverage.project_coverage.legend.active': 'Active',
-  'vortex_dashboard.adoption_coverage.project_coverage.legend.inactive': 'Inactive',
+  'vortex_dashboard.adoption_coverage.project_coverage.legend.active': 'Using',
+  'vortex_dashboard.adoption_coverage.project_coverage.legend.inactive': 'Not using',
+  'vortex_dashboard.adoption_coverage.project_coverage.toggletip.title': 'What counts as activity?',
+  'vortex_dashboard.adoption_coverage.project_coverage.toggletip.description':
+    'For this chart, a project is active if it had at least one analysis on its default branch or a long-lived branch, or if it used Vortex during the selected date range. Pull request analyses alone do not count as activity.',
 
   'vortex_dashboard.adoption_coverage.capability_coverage.heading': 'Vortex capability coverage',
   'vortex_dashboard.adoption_coverage.capability_coverage.description':
-    'Breakdown of active projects by the Vortex capabilities they use.',
-  'vortex_dashboard.adoption_coverage.capability_coverage.outer_label': 'active projects',
+    'Breakdown of projects using Vortex by capabilities they use.',
+  'vortex_dashboard.adoption_coverage.capability_coverage.outer_label': 'projects using Vortex',
   'vortex_dashboard.adoption_coverage.capability_coverage.legend.both': 'Guide + Verify',
   'vortex_dashboard.adoption_coverage.capability_coverage.legend.guide_only': 'Guide only',
   'vortex_dashboard.adoption_coverage.capability_coverage.legend.verify_only': 'Verify only',
@@ -1438,18 +1439,18 @@ export const defaultMessages = {
   'vortex_dashboard.project_activity.column.issues_resolved': 'Issues resolved',
   'vortex_dashboard.project_activity.column.eng_time_saved': 'Eng time saved (hrs)',
   'vortex_dashboard.project_activity.column.tokens_saved': 'Tokens saved',
-  'vortex_dashboard.project_activity.column.latest_activity': 'Latest activity',
+  'vortex_dashboard.project_activity.column.latest_activity': 'Latest Vortex activity',
   'vortex_dashboard.project_activity.vortex_calls_value':
     '{count, plural, one {# call} other {# calls}}',
   'vortex_dashboard.project_activity.guide_calls': 'Guide: {count}',
   'vortex_dashboard.project_activity.verify_calls': 'Verify: {count}',
   'vortex_dashboard.project_activity.footer':
-    'Viewing the {count} most recent of {total, plural, one {# project} other {# projects}}.',
+    'Viewing {count} of {total, plural, one {# project} other {# projects}}.',
   'vortex_dashboard.project_activity.view_all': 'View all projects',
 
   'vortex_dashboard.project_activity_page.title': 'Project activity',
   'vortex_dashboard.project_activity_page.description':
-    'All project activity in this instance is sorted by latest activity, most recent first.',
+    'All project activity in this instance is sorted by "Vortex Calls" in descending order.',
   'vortex_dashboard.project_activity_page.error': 'Unable to load project activity right now.',
   'vortex_dashboard.project_activity_page.empty': 'No project activity yet.',
   'vortex_dashboard.project_activity_page.footer':
