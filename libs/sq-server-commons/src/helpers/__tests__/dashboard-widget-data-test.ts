@@ -586,6 +586,23 @@ describe('dashboard widget data helpers', () => {
       ).toBe('cct.clean_code_attribute_category.ADAPTABLE');
     });
 
+    it.each([
+      [SoftwareQuality.Reliability, 'issue.type.BUG.plural'],
+      [SoftwareQuality.Security, 'issue.type.VULNERABILITY.plural'],
+      [SoftwareQuality.Maintainability, 'issue.type.CODE_SMELL.plural'],
+    ])('uses Standard issue type labels for %s pie segments', (quality, expectedLabel) => {
+      expect(
+        formatPieChartSegmentLabel(
+          quality,
+          formatMessage,
+          PieChartMetric.IssueCount,
+          PieChartIssueSlice.ImpactSoftwareQualities,
+          {},
+          true,
+        ),
+      ).toBe(expectedLabel);
+    });
+
     it('formats line-chart labels and applies the known segment colors', () => {
       expect(
         formatPieChartSegmentLabel(

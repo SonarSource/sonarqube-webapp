@@ -25,7 +25,7 @@ import { usePortfolioRulesMetadataOrganization } from '~adapters/queries/portfol
 import { useWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-metadata';
 import { useDashboardRuleLabels } from '~adapters/queries/widget-rule-metadata';
 import { CHART_CATEGORICAL_COLORS } from '~shared/helpers/charts';
-import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
+import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import {
   formatDotValue,
   formatYAxisTick,
@@ -50,7 +50,10 @@ import {
   relabelMultiLineSeriesWithRules,
   rulesFromGroupedLineChartSeries,
 } from '../../utils/lineChartSeriesTransforms';
-import { getIssueFilterSeverityValueMessageId } from '../../widget-creation-modal/utils/issueFilterPresentation';
+import {
+  getIssueFilterSeverityValueMessageId,
+  getIssueFilterTypeValueMessageId,
+} from '../../widget-creation-modal/utils/issueFilterPresentation';
 import { LineChartWidgetShell } from './LineChartWidgetShell';
 
 interface Props {
@@ -231,12 +234,16 @@ export function DashboardMeasureLineChart({
     : series;
   const isGroupedBySeverity =
     measure.api === 'issue-count-history' && measure.sliceBy === 'SEVERITY';
+  const isGroupedBySoftwareQuality =
+    measure.api === 'issue-count-history' && measure.sliceBy === 'SOFTWARE_QUALITY';
   const displaySeries =
-    isGroupedBySeverity && isStandardMode
+    isStandardMode && (isGroupedBySeverity || isGroupedBySoftwareQuality)
       ? ruleRelabelledSeries.map((lineSeries) => ({
           ...lineSeries,
           label: formatMessage({
-            id: getIssueFilterSeverityValueMessageId(lineSeries.id as SoftwareImpactSeverity, true),
+            id: isGroupedBySeverity
+              ? getIssueFilterSeverityValueMessageId(lineSeries.id as SoftwareImpactSeverity, true)
+              : getIssueFilterTypeValueMessageId(lineSeries.id as SoftwareQuality, true),
           }),
         }))
       : ruleRelabelledSeries;

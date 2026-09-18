@@ -832,6 +832,12 @@ const IMPACT_SEVERITY_STANDARD_MESSAGE_ID: Partial<Record<string, string>> = {
   INFO: 'severity.INFO',
 };
 
+const SOFTWARE_QUALITY_STANDARD_MESSAGE_ID: Partial<Record<string, string>> = {
+  MAINTAINABILITY: 'issue.type.CODE_SMELL.plural',
+  RELIABILITY: 'issue.type.BUG.plural',
+  SECURITY: 'issue.type.VULNERABILITY.plural',
+};
+
 export function formatPieChartSegmentLabel(
   value: string,
   formatMessage: (descriptor: { id: string }) => string,
@@ -854,6 +860,12 @@ export function formatPieChartSegmentLabel(
   const lineChartLabel = getLineChartLabel(value, metric, slice);
   if (lineChartLabel !== undefined) {
     return lineChartLabel;
+  }
+  if (isStandardMode && slice === 'impactSoftwareQualities') {
+    const messageId = SOFTWARE_QUALITY_STANDARD_MESSAGE_ID[value.toUpperCase()];
+    if (messageId) {
+      return formatMessage({ id: messageId });
+    }
   }
   if (isStandardMode && slice === 'impactSeverities') {
     const messageId = IMPACT_SEVERITY_STANDARD_MESSAGE_ID[value.toUpperCase()];

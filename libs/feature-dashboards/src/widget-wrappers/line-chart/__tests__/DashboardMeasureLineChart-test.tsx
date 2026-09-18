@@ -207,6 +207,48 @@ it('uses localized messages for grouped issue status legend labels', () => {
   ]);
 });
 
+it('uses Standard issue type labels for software quality legend entries', () => {
+  jest.mocked(useDashboardMeasureQuery).mockReturnValue({
+    data: {
+      api: 'issue-count-history',
+      history: [
+        {
+          date: '2026-01-01',
+          distribution: [
+            { key: 'RELIABILITY', value: 3 },
+            { key: 'SECURITY', value: 2 },
+            { key: 'MAINTAINABILITY', value: 1 },
+          ],
+        },
+      ],
+    },
+    isError: false,
+    isPending: false,
+  } as unknown as ReturnType<typeof useDashboardMeasureQuery>);
+
+  renderChart(
+    <DashboardMeasureLineChart
+      entityId="portfolio-1"
+      entityType="PORTFOLIO"
+      isStandardMode
+      measure={{
+        api: 'issue-count-history',
+        metricKey: MetricKey.violations,
+        sliceBy: 'SOFTWARE_QUALITY',
+      }}
+      metric={{ metricKey: MetricKey.violations, type: DashboardMetricType.Raw }}
+      months={3}
+      showLegend
+    />,
+  );
+
+  expect(jest.mocked(MultiLineChart).mock.calls.at(-1)?.[0].series).toEqual([
+    expect.objectContaining({ id: 'RELIABILITY', label: 'issue.type.BUG.plural' }),
+    expect.objectContaining({ id: 'SECURITY', label: 'issue.type.VULNERABILITY.plural' }),
+    expect.objectContaining({ id: 'MAINTAINABILITY', label: 'issue.type.CODE_SMELL.plural' }),
+  ]);
+});
+
 it('uses MTTR formatters and forwards loading errors to the chart', () => {
   jest.mocked(useDashboardMeasureQuery).mockReturnValue({
     data: undefined,
