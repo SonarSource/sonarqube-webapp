@@ -62,7 +62,7 @@ export function AdministrationSidebar(props: Readonly<Props>) {
 
         <AdministrationSidebarProjects />
 
-        <Layout.SidebarNavigation.Item Icon={IconTableChartView} to="/admin/onboarding-dashboard">
+        <Layout.SidebarNavigation.Item Icon={IconTableChartView} to="/admin/project-coverage">
           <FormattedMessage id="layout.onboarding_dashboard" />
         </Layout.SidebarNavigation.Item>
 

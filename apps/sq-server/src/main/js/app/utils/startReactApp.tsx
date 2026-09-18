@@ -241,7 +241,7 @@ function renderAdminRoutes({
         {groupsRoutes()}
         {addons.license?.routes()}
         {marketplaceRoutes()}
-        <Route element={<OnboardingDashboardPage />} path="onboarding-dashboard" />
+        <Route element={<OnboardingDashboardPage />} path="project-coverage" />
         {permissionTemplatesRoutes()}
         {projectsManagementRoutes()}
         {settingsRoutes()}

@@ -52,7 +52,7 @@ it('does not render for a non-admin user', () => {
 it('shows the button and opens the tour for a system admin', async () => {
   renderProjectCoverageButton(mockLoggedInUser({ permissions: { global: ['admin'] } }));
 
-  expect(await ui.button.find()).toHaveAttribute('href', '/admin/onboarding-dashboard');
+  expect(await ui.button.find()).toHaveAttribute('href', '/admin/project-coverage');
   expect(ui.tourTitle.get()).toBeInTheDocument();
 });
 
@@ -77,7 +77,7 @@ it('dismisses the tour forever without navigating when clicking Close', async ()
   expect(dismissNotice).toHaveBeenCalledWith(NoticeType.PROJECT_COVERAGE_TOUR);
   expect(ui.tourTitle.query()).not.toBeInTheDocument();
   expect(ui.currentPathname.get()).toHaveTextContent(/^\/$/);
-  expect(await ui.button.find()).toHaveAttribute('href', '/admin/onboarding-dashboard');
+  expect(await ui.button.find()).toHaveAttribute('href', '/admin/project-coverage');
 });
 
 it('dismisses the tour forever when clicking the button itself', async () => {
@@ -88,7 +88,7 @@ it('dismisses the tour forever when clicking the button itself', async () => {
 
   expect(dismissNotice).toHaveBeenCalledTimes(1);
   expect(dismissNotice).toHaveBeenCalledWith(NoticeType.PROJECT_COVERAGE_TOUR);
-  expect(ui.currentPathname.get()).toHaveTextContent('/admin/onboarding-dashboard');
+  expect(ui.currentPathname.get()).toHaveTextContent('/admin/project-coverage');
 });
 
 function CurrentPathname() {

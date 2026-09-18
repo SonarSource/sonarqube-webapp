@@ -79,7 +79,7 @@ it('shows the project coverage button for a system admin', async () => {
     }),
   );
 
-  expect(await ui.buttonCoverage.find()).toHaveAttribute('href', '/admin/onboarding-dashboard');
+  expect(await ui.buttonCoverage.find()).toHaveAttribute('href', '/admin/project-coverage');
 });
 
 it('changes sort and perspective', async () => {

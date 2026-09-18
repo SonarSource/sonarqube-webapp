@@ -38,7 +38,7 @@ import { useAlmIconSrc } from '../../helpers/almIcons';
 import { Image } from '../common/Image';
 import { PermissionRequiredPopover } from './PermissionRequiredPopover';
 
-const ONBOARDING_DASHBOARD_PATH = '/admin/onboarding-dashboard';
+const ONBOARDING_DASHBOARD_PATH = '/admin/project-coverage';
 
 interface Props {
   variety?: ButtonVariety;

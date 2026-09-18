@@ -61,7 +61,7 @@ it('render correctly', () => {
   // eslint-disable-next-line testing-library/no-node-access
   expect(byText('layout.onboarding_dashboard').get().closest('a')).toHaveAttribute(
     'href',
-    '/admin/onboarding-dashboard',
+    '/admin/project-coverage',
   );
 
   expect(byText('audit_logs.page').query()).not.toBeInTheDocument();

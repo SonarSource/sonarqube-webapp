@@ -99,7 +99,7 @@ it('should work correctly for logged in user with edit permission', async () => 
   expect(getAlmSettings).toHaveBeenCalled();
   expect(ui.buttonAddProject.get()).toBeInTheDocument();
   expect(ui.buttonAddApplication.get()).toBeInTheDocument();
-  expect(await ui.buttonCoverage.find()).toHaveAttribute('href', '/admin/onboarding-dashboard');
+  expect(await ui.buttonCoverage.find()).toHaveAttribute('href', '/admin/project-coverage');
   expect(ui.searchBar.get()).toBeInTheDocument();
   expect(ui.selectPerspective.get()).toBeInTheDocument();
   expect(ui.selectSort.get()).toBeInTheDocument();

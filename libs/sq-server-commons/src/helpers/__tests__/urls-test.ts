@@ -456,9 +456,9 @@ describe('#get import devops config URL', () => {
 
   it('should carry over the redirect query param', () => {
     expect(
-      getCreateProjectModeLocation(AlmKeys.GitHub, { redirect: '/admin/onboarding-dashboard' }),
+      getCreateProjectModeLocation(AlmKeys.GitHub, { redirect: '/admin/project-coverage' }),
     ).toEqual({
-      search: '?redirect=%2Fadmin%2Fonboarding-dashboard&mode=github',
+      search: '?redirect=%2Fadmin%2Fproject-coverage&mode=github',
     });
   });
 });

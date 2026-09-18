@@ -67,9 +67,9 @@ export function setupOnboardingMock() {
  */
 export function renderOnboardingDashboard() {
   return renderWithRoutes(
-    <Route element={<LazyOnboardingDashboardApp />} path="onboarding-dashboard" />,
+    <Route element={<LazyOnboardingDashboardApp />} path="project-coverage" />,
     {
-      initialEntries: ['/onboarding-dashboard'],
+      initialEntries: ['/project-coverage'],
       userEventOptions: { delay: null, pointerEventsCheck: PointerEventsCheckLevel.Never },
     },
   );

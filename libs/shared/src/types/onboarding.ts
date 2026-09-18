@@ -161,12 +161,12 @@ export interface OnboardingTimelinePoint {
   repositoriesImported: number;
 }
 
-export interface OnboardingDevopsPlatforms {
+interface OnboardingDevopsPlatforms {
   shares: OnboardingDevopsPlatformShare[];
   total: number | null;
 }
 
-export interface OnboardingDevopsPlatformShare {
+interface OnboardingDevopsPlatformShare {
   count: number;
   percentage: number | null;
   platform: OnboardingDevopsPlatform;

@@ -61,7 +61,7 @@ it('shows an import option for each bound and validated ALM configuration, carry
 
   expect(href).toContain('/projects/create?');
   expect(href).toContain('mode=github');
-  expect(href).toContain('redirect=%2Fadmin%2Fonboarding-dashboard');
+  expect(href).toContain('redirect=%2Fadmin%2Fproject-coverage');
 });
 
 it('does not render a leading separator when no ALM is bound', async () => {
@@ -73,7 +73,7 @@ it('does not render a leading separator when no ALM is bound', async () => {
 
   expect(await ui.fallbackItem.find()).toHaveAttribute(
     'href',
-    expect.stringContaining('redirect=%2Fadmin%2Fonboarding-dashboard'),
+    expect.stringContaining('redirect=%2Fadmin%2Fproject-coverage'),
   );
   expect(ui.separator.query()).not.toBeInTheDocument();
 });

@@ -30,7 +30,7 @@ interface Props {
   currentUser: CurrentUser;
 }
 
-export const ONBOARDING_DASHBOARD_PATH = '/admin/onboarding-dashboard';
+const ONBOARDING_DASHBOARD_PATH = '/admin/project-coverage';
 
 /**
  * Links system admins to the onboarding dashboard. Hidden for non-admins.

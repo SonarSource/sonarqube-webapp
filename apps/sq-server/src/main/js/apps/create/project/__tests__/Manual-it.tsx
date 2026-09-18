@@ -246,11 +246,11 @@ it('should navigate back to the Projects page when clicking cancel or close', as
 
 it('redirects to the redirect query param instead of /projects when closing manual project creation', async () => {
   const user = userEvent.setup();
-  renderCreateProject('projects/create?mode=manual&redirect=/admin/onboarding-dashboard');
+  renderCreateProject('projects/create?mode=manual&redirect=/admin/project-coverage');
 
   await user.click(await ui.closeButton.find());
 
-  expect(await byText('/admin/onboarding-dashboard').find()).toBeInTheDocument();
+  expect(await byText('/admin/project-coverage').find()).toBeInTheDocument();
 });
 
 it('ignores an unsafe redirect query param and falls back to /projects', async () => {
