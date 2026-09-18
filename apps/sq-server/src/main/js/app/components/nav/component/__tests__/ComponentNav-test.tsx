@@ -337,6 +337,24 @@ describe('ComponentNav', () => {
       }
     });
 
+    it('keeps the security reports link visible when a pull request is selected', () => {
+      const component = mockComponent({ analysisDate: '2024-01-01' });
+      const useCurrentBranchQuerySpy = jest.spyOn(branchQueries, 'useCurrentBranchQuery');
+      useCurrentBranchQuerySpy.mockReturnValue({
+        data: mockPullRequest({ key: '02' }),
+      } as ReturnType<typeof branchQueries.useCurrentBranchQuery>);
+
+      try {
+        renderComponentNav({ component }, [], EditionKey.enterprise, undefined, [
+          '/?id=my-project&pullRequest=02',
+        ]);
+
+        expect(ui.securityReportsLink.get()).toBeInTheDocument();
+      } finally {
+        useCurrentBranchQuerySpy.mockRestore();
+      }
+    });
+
     it('should render quality gate history link for analyzed projects on the main branch', async () => {
       const component = mockComponent({
         analysisDate: '2024-01-01',

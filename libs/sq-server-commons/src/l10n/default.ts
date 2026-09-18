@@ -11698,6 +11698,11 @@ export const defaultMessages = {
   'compliancereport.navigation.filter.accessibility': 'Accessibility',
   'compliancereport.navigation.filter.select_from': 'Select from:',
   'compliancereport.overview.title': 'Compliance reports',
+  'compliancereport.unavailable_for_pull_request.title':
+    'Compliance reports are not available for pull requests',
+  'compliancereport.unavailable_for_pull_request.description':
+    'Compliance reporting is tracked exclusively on long-lived branches. Switch to the main branch or select another long-lived branch above.',
+  'compliancereport.unavailable_for_pull_request.action': 'Switch to main branch',
   'compliancereport.misra': 'MISRA',
   'compliancereport.misra.description':
     'Identify and address issues based on <link>MISRA</link> guidelines. The report results are generated based on relevant active MISRA rules for this project.',

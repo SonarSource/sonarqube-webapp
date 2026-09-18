@@ -26,7 +26,7 @@ import {
   QUALITY_GATE_HISTORY_ROUTE_NAME,
 } from '~feature-quality-gate-history/constants';
 import { NewBadge } from '~shared/components/badges/NewBadge';
-import { getBranchLikeQuery, isMainBranch, isPullRequest } from '~shared/helpers/branch-like';
+import { getBranchLikeQuery, isMainBranch } from '~shared/helpers/branch-like';
 import { isProject } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
@@ -47,14 +47,12 @@ export function ComponentNavReportingMenu(props: Readonly<Props>) {
 
   const isEnterprise = useIsEnterpriseTier();
 
-  const isSecurityReportsEnabled = !isPullRequest(branchLike) && isEnterprise;
-
   return (
     <Layout.SidebarNavigation.AccordionItem
       Icon={IconReports}
       label={<FormattedMessage id="navigation.project.group.reporting" />}
     >
-      {isSecurityReportsEnabled && isDefined(addons.securityReports) && (
+      {isEnterprise && isDefined(addons.securityReports) && (
         <Layout.SidebarNavigation.AccordionItem.Item
           to={{
             pathname: '/project/security-reports',
