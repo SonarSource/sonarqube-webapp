@@ -944,6 +944,15 @@ export const defaultMessages = {
     '<b>Auth & Session Security:</b> Catches session fixation and weak recovery flows.',
   'hunter_agent.onboarding.contact_sales': 'Contact sales',
   'hunter_agent.activity.elapsed': 'elapsed',
+  'hunter_agent.activity.failure.analysis_timeout':
+    'The scan timed out. Contact your SonarQube administrator.',
+  'hunter_agent.activity.failure.generic': 'The scan failed. Contact your SonarQube administrator.',
+  'hunter_agent.activity.failure.llm_not_accessible':
+    'Could not access the LLM. Ask your SonarQube administrator to check the LLM configuration, credentials, and outbound access from the agent to the LLM provider.',
+  'hunter_agent.activity.failure.result_publication_failed':
+    'Could not publish results. Ask your SonarQube administrator to check the agent services and their connection to SonarQube.',
+  'hunter_agent.activity.failure.runtime_unavailable':
+    'The agent runtime is unavailable. Ask your SonarQube administrator to check the agent services.',
   'hunter_agent.activity.failure.scm_branch_not_found':
     'The branch could not be found in the source code provider. Check that it still exists.',
   'hunter_agent.activity.failure.scm_credentials_rejected':
@@ -2295,7 +2304,6 @@ export const defaultMessages = {
   'agent_activity.status.in_progress.description': 'Please wait...',
   'agent_activity.status.completed': 'Completed',
   'agent_activity.status.failed': 'Failed',
-  'agent_activity.status.failed.description': 'Try again later',
   'remediation_agent.error.unknown': 'An error occurred',
   'remediation_agent.error.unknown.context':
     'The job could not be completed. Please try again later.',
