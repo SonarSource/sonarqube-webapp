@@ -19,6 +19,7 @@
  */
 
 import { getBranchLikeQuery, isBranch, isPullRequest } from '~shared/helpers/branch-like';
+import type { BranchParameters } from '~shared/types/branch-like';
 import type { Measure } from '~shared/types/measures';
 import { useComponent } from '../../context/componentContext/withComponentContext';
 import {
@@ -41,7 +42,10 @@ interface QualityGateStatusCondition {
 }
 
 export function useProjectRatingBadgeMeasuresQuery(
-  params: { component: string; metricKeys: string },
+  // SQS resolves the current branch itself below via useCurrentBranchQuery, so branch/pullRequest
+  // are accepted only for call-site parity with the SQC adapter (which has no such fallback and
+  // needs them explicitly) — they're intentionally unused here.
+  params: { component: string; metricKeys: string } & BranchParameters,
   options?: { enabled?: boolean },
 ): { data: Measure[] | undefined; isLoading: boolean } {
   const { component } = useComponent();

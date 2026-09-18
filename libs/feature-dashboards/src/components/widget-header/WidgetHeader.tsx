@@ -25,6 +25,8 @@ import { extractDashboardMeasureValue } from '~adapters/helpers/dashboard-measur
 import { getProjectDashboardMeasuresUrl } from '~adapters/helpers/dashboard-widget-urls';
 import { getDashboardLocalizedMetricName } from '~adapters/helpers/l10n';
 import { useProjectRatingBadgeMeasuresQuery } from '~adapters/queries/project-rating-badge-widget-data';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import type { BranchLikeBase } from '~shared/types/branch-like';
 import { MetricKey } from '~shared/types/metrics';
 import { WidgetFilterLine } from '../../dashboard-layout/shared/WidgetFilterLine';
 import { WidgetHeaderTitle } from '../../dashboard-layout/shared/WidgetHeaderTitle';
@@ -151,6 +153,23 @@ export function PortfolioTopListWidgetHeader(props: Readonly<TopListWidgetProps>
   return <TopListWidgetHeader {...props} isPortfolio />;
 }
 
+/**
+ * Portfolios have no branch concept and never carry `branch`/`pullRequest` in their URL, so
+ * reading straight from search params (rather than the project-only dashboard context) is safe
+ * for both the project and portfolio widget headers that share this hook.
+ */
+function branchLikeFromSearchParams(searchParams: URLSearchParams): BranchLikeBase | undefined {
+  const pullRequest = searchParams.get('pullRequest');
+  if (pullRequest) {
+    return { key: pullRequest } as BranchLikeBase;
+  }
+  const branch = searchParams.get('branch');
+  // `isMain` is unknown from the URL alone; `getBranchLikeQuery` only drops the param for main
+  // branches, so an explicit `branch=<main>` URL still yields the same measures as the rest of
+  // the dashboard, just under its own query key.
+  return branch ? { isMain: false, name: branch } : undefined;
+}
+
 function useContextualRatingBadge(props: Props): ContextualRatingBadgeProps | undefined {
   const [searchParams] = useSearchParams();
   const isCountWidget =
@@ -159,10 +178,12 @@ function useContextualRatingBadge(props: Props): ContextualRatingBadgeProps | un
     ? getProjectContextualRatingMetricKey(props.metric, props.scope)
     : undefined;
   const component = searchParams.get('id') ?? '';
+  const branchLike = branchLikeFromSearchParams(searchParams);
   const { data: measureData } = useProjectRatingBadgeMeasuresQuery(
     {
       component,
       metricKeys: ratingMetricKey ?? MetricKey.alert_status,
+      ...getBranchLikeQuery(branchLike),
     },
     { enabled: Boolean(component) && ratingMetricKey !== undefined },
   );
@@ -182,7 +203,7 @@ function useContextualRatingBadge(props: Props): ContextualRatingBadgeProps | un
     linkTo:
       props.mode === WidgetMode.Edit
         ? undefined
-        : getProjectDashboardMeasuresUrl({ component, metric: ratingMetricKey }),
+        : getProjectDashboardMeasuresUrl({ branchLike, component, metric: ratingMetricKey }),
     metricKey: ratingMetricKey,
     value: normalizedValue,
   };

@@ -31,11 +31,13 @@ import { ScaResolutionStatistic } from '../../../types/organization-sca-resoluti
 import { CodeScope, TopListLimit, TopListRankBy, WidgetMode } from '../../../types/widget-common';
 import { TopListWidgetHeader, WidgetHeader } from '../WidgetHeader';
 
+const mockSearchParams = { current: new URLSearchParams('id=my-project') };
+
 jest.mock('react-router-dom', () => {
   const actual = jest.requireActual<typeof import('react-router-dom')>('react-router-dom');
   return {
     ...actual,
-    useSearchParams: () => [new URLSearchParams('id=my-project')],
+    useSearchParams: () => [mockSearchParams.current],
   };
 });
 
@@ -44,7 +46,13 @@ jest.mock('~adapters/queries/project-rating-badge-widget-data', () => ({
 }));
 
 jest.mock('~adapters/helpers/dashboard-widget-urls', () => ({
-  getProjectDashboardMeasuresUrl: ({ metric }: { metric: string }) => `#metric=${metric}`,
+  getProjectDashboardMeasuresUrl: ({
+    branchLike,
+    metric,
+  }: {
+    branchLike?: { key?: string; name?: string };
+    metric: string;
+  }) => `#metric=${metric}${branchLike ? `&branchLike=${branchLike.key ?? branchLike.name}` : ''}`,
 }));
 
 jest.mock('../../visualizations/RatingBadgeDisplay', () => ({
@@ -77,6 +85,7 @@ const securityIssuesMetric = {
 
 describe('WidgetHeader', () => {
   beforeEach(() => {
+    mockSearchParams.current = new URLSearchParams('id=my-project');
     jest.mocked(ProjectRatingBadgeData.useProjectRatingBadgeMeasuresQuery).mockReturnValue({
       data: undefined,
       isLoading: false,
@@ -164,6 +173,25 @@ describe('WidgetHeader', () => {
     expect(screen.getByRole('link')).toHaveAttribute(
       'href',
       `#metric=${MetricKey.security_rating}`,
+    );
+  });
+
+  it('forwards the current branch to the contextual rating badge query and link', () => {
+    mockSearchParams.current = new URLSearchParams('id=my-project&branch=feature/foo');
+    jest.mocked(ProjectRatingBadgeData.useProjectRatingBadgeMeasuresQuery).mockReturnValue({
+      data: [{ metric: MetricKey.security_rating, value: '3.0' }],
+      isLoading: false,
+    } as unknown as ReturnType<typeof ProjectRatingBadgeData.useProjectRatingBadgeMeasuresQuery>);
+
+    renderWithRouter(<WidgetHeader metric={securityIssuesMetric} scope={CodeScope.Overall} />);
+
+    expect(ProjectRatingBadgeData.useProjectRatingBadgeMeasuresQuery).toHaveBeenCalledWith(
+      expect.objectContaining({ branch: 'feature/foo' }),
+      expect.anything(),
+    );
+    expect(screen.getByRole('link')).toHaveAttribute(
+      'href',
+      `#metric=${MetricKey.security_rating}&branchLike=feature/foo`,
     );
   });
 

@@ -97,6 +97,23 @@ describe('ProjectRatingBadgeWidgetWrapper integration', () => {
     );
   });
 
+  it('forwards the current branch to the measures query', () => {
+    jest.mocked(useDashboardProjectContext).mockReturnValue({
+      branchLike: { isMain: false, name: 'feature/foo' },
+      componentKey: 'project-key',
+      isLoading: false,
+      organization: 'org',
+      projectEntityId: 'branch',
+    });
+
+    renderWidget(MetricKey.reliability_rating);
+
+    expect(useProjectRatingBadgeMeasuresQuery).toHaveBeenCalledWith(
+      expect.objectContaining({ branch: 'feature/foo', component: 'project-key' }),
+      { enabled: true },
+    );
+  });
+
   it('delegates quality-gate status rendering', () => {
     jest.mocked(useProjectRatingBadgeMeasuresQuery).mockReturnValue({
       data: [{ metric: MetricKey.alert_status, value: 'ERROR' }],

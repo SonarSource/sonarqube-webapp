@@ -25,6 +25,7 @@ import { extractDashboardMeasureValue } from '~adapters/helpers/dashboard-measur
 import { getProjectDashboardMeasuresUrl } from '~adapters/helpers/dashboard-widget-urls';
 import { useProjectRatingBadgeMeasuresQuery } from '~adapters/queries/project-rating-badge-widget-data';
 import { useWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-metadata';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { BranchLikeBase } from '~shared/types/branch-like';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinner';
@@ -56,6 +57,7 @@ export function ProjectRatingBadgeWidgetWrapper(props: Readonly<Props>) {
     {
       component,
       metricKeys: getMetricKeyForScope(metricKey, isScopeNew),
+      ...getBranchLikeQuery(branchLike),
     },
     { enabled: Boolean(component) },
   );
