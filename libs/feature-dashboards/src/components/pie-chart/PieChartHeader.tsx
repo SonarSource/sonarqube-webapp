@@ -30,10 +30,12 @@ export interface PieChartHeaderProps extends PieChartWidgetProps {
    * When true, portfolio dashboard title/slice rules apply (replaces optional portfolio widget context).
    */
   isPortfolioDashboardWidget?: boolean;
+  isStandardMode?: boolean;
 }
 
 export function PieChartHeader({
   isPortfolioDashboardWidget = false,
+  isStandardMode = false,
   ...props
 }: Readonly<PieChartHeaderProps>) {
   const { metric, filter, slice, scope } = props;
@@ -42,6 +44,7 @@ export function PieChartHeader({
   const filterSegments = getPieChartFilterLineSegments(formatMessage, {
     filter,
     isPortfolioDashboard: isPortfolioDashboardWidget,
+    isStandardMode,
     metric,
     scope,
     slice,
@@ -50,6 +53,7 @@ export function PieChartHeader({
   const title = getPieChartTitle(formatMessage, {
     filter,
     isPortfolioDashboard: isPortfolioDashboardWidget,
+    isStandardMode,
     metric,
     slice,
   });

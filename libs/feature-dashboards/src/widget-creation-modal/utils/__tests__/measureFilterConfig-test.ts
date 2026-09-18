@@ -73,7 +73,7 @@ describe('measureFilterConfig', () => {
       });
     });
 
-    it('allows severity and software-quality filtering for issue density metrics', () => {
+    it('allows severity, software-quality, and status filtering for issue density metrics', () => {
       const issueDensityMetric: DashboardMetric = {
         measureFilters: undefined,
         type: DashboardMetricType.IssueDensity,
@@ -83,7 +83,7 @@ describe('measureFilterConfig', () => {
         isDrillable: true,
         supportsSeverityFilter: true,
         supportsSoftwareQualityFilter: true,
-        supportsStatusFilter: false,
+        supportsStatusFilter: true,
       });
     });
 

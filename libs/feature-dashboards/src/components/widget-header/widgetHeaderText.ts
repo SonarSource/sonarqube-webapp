@@ -32,6 +32,11 @@ import { IssueResolutionStatistic } from '../../types/organization-issue-resolut
 import { CodeScope } from '../../types/widget-common';
 import { buildLabeledSegment } from '../../utils/filterLineSegments';
 import {
+  getIssueFilterSeverityValueMessageId,
+  getIssueFilterTypeLabelMessageId,
+  getIssueFilterTypeValueMessageId,
+} from '../../widget-creation-modal/utils/issueFilterPresentation';
+import {
   getLineChartGroupByLabelMessageId,
   isLineChartGroupByActive,
 } from '../../widget-creation-modal/utils/lineChartGroupByHelpers';
@@ -54,6 +59,7 @@ interface MetricWidgetHeaderTextInput extends WidgetHeaderTextDeps {
   filterLineScopeOnly?: boolean;
   groupBy?: LineChartGroupByValue;
   hasHistoryRange: boolean;
+  isStandardMode?: boolean;
   metric: DashboardMetric;
   scope: CodeScope;
 }
@@ -64,6 +70,7 @@ export function getMetricWidgetHeaderText({
   getLocalizedMetricName,
   groupBy,
   hasHistoryRange,
+  isStandardMode = false,
   metric,
   scope,
 }: Readonly<MetricWidgetHeaderTextInput>): WidgetHeaderText {
@@ -89,13 +96,18 @@ export function getMetricWidgetHeaderText({
   if (groupBy !== undefined && isLineChartGroupByActive(groupBy)) {
     filterSegments.push(
       buildLabeledSegment(formatMessage, 'dashboard.line_chart.group_by.label', [
-        getLineChartGroupByLabelMessageId(groupBy),
+        getLineChartGroupByLabelMessageId(groupBy, isStandardMode),
       ]),
     );
   }
 
   if (!filterLineScopeOnly && metric.type !== DashboardMetricType.Raw) {
-    appendLocalizedMeasureFilterSegments(formatMessage, filterSegments, metric.measureFilters);
+    appendLocalizedMeasureFilterSegments(
+      formatMessage,
+      filterSegments,
+      metric.measureFilters,
+      isStandardMode,
+    );
   }
 
   return {
@@ -104,6 +116,7 @@ export function getMetricWidgetHeaderText({
       formatMessage,
       getLocalizedMetricName,
       hasHistoryRange,
+      isStandardMode,
       metric,
     }),
   };
@@ -131,6 +144,7 @@ export function getRatingWidgetHeaderText({
 
 interface DashboardMetricTitleInput extends WidgetHeaderTextDeps {
   hasHistoryRange: boolean;
+  isStandardMode?: boolean;
   metric: DashboardMetric;
 }
 
@@ -138,9 +152,10 @@ export function getDashboardMetricTitle({
   formatMessage,
   getLocalizedMetricName,
   hasHistoryRange,
+  isStandardMode = false,
   metric,
 }: Readonly<DashboardMetricTitleInput>): string {
-  const descriptor = buildDashboardMetricTitleDescriptor(metric, hasHistoryRange);
+  const descriptor = buildDashboardMetricTitleDescriptor(metric, hasHistoryRange, isStandardMode);
 
   const title = descriptor.parts
     .map((part) => localizeTitlePart(part, formatMessage, getLocalizedMetricName))
@@ -190,6 +205,7 @@ function localizeTitlePart(
 function buildDashboardMetricTitleDescriptor(
   metric: DashboardMetric,
   hasHistoryRange: boolean,
+  isStandardMode: boolean,
 ): TitleDescriptor {
   if (metric.type === DashboardMetricType.Raw) {
     return buildRawMetricTitleDescriptor(metric.metricKey, hasHistoryRange);
@@ -204,14 +220,16 @@ function buildDashboardMetricTitleDescriptor(
       return {
         overTime: hasHistoryRange,
         parts: [
-          ...getMeasureFilterTitleParts(metric.measureFilters, false),
+          ...getMeasureFilterTitleParts(metric.measureFilters, false, isStandardMode),
           {
             messageId:
               metric.statistic === IssueResolutionStatistic.MTTR
                 ? 'dashboard.widget.title.mttr_with_software_quality'
                 : 'dashboard.widget.title.recent_mttr_with_software_quality',
             values: {
-              softwareQuality: { messageId: `software_quality.${softwareQuality}` },
+              softwareQuality: {
+                messageId: getIssueFilterTypeValueMessageId(softwareQuality, isStandardMode),
+              },
             },
           },
         ],
@@ -221,7 +239,7 @@ function buildDashboardMetricTitleDescriptor(
     return {
       overTime: hasHistoryRange,
       parts: [
-        ...getMeasureFilterTitleParts(metric.measureFilters),
+        ...getMeasureFilterTitleParts(metric.measureFilters, true, isStandardMode),
         {
           messageId: `dashboard.add_widget_modal.define_widget.metric.${metric.statistic.toLowerCase()}`,
         },
@@ -233,7 +251,7 @@ function buildDashboardMetricTitleDescriptor(
     return {
       overTime: hasHistoryRange,
       parts: [
-        ...getMeasureFilterTitleParts(metric.measureFilters),
+        ...getMeasureFilterTitleParts(metric.measureFilters, true, isStandardMode),
         { messageId: 'dashboard.add_widget_modal.define_widget.metric.sca_mttr' },
       ],
     };
@@ -243,7 +261,7 @@ function buildDashboardMetricTitleDescriptor(
     return {
       overTime: hasHistoryRange,
       parts: [
-        ...getMeasureFilterTitleParts(metric.measureFilters),
+        ...getMeasureFilterTitleParts(metric.measureFilters, true, isStandardMode),
         { messageId: 'dashboard.add_widget_modal.define_widget.metric.issue_density' },
       ],
     };
@@ -256,7 +274,7 @@ function buildDashboardMetricTitleDescriptor(
   return {
     overTime: hasHistoryRange,
     parts: [
-      ...getMeasureFilterTitleParts(metric.measureFilters),
+      ...getMeasureFilterTitleParts(metric.measureFilters, true, isStandardMode),
       { metricKey: MetricKey.issues, useShortName: false },
     ],
   };
@@ -282,8 +300,9 @@ function buildRawMetricTitleDescriptor(
 export function getMeasureFilterTitle(
   formatMessage: FormatMessage,
   measureFilters: MeasureFilters | undefined,
+  isStandardMode = false,
 ): string {
-  return getMeasureFilterTitleParts(measureFilters)
+  return getMeasureFilterTitleParts(measureFilters, true, isStandardMode)
     .map((part) => {
       const message = formatMessage({ id: part.messageId });
       return part.suffix ? `${message}${part.suffix}` : message;
@@ -294,6 +313,7 @@ export function getMeasureFilterTitle(
 function getMeasureFilterTitleParts(
   measureFilters: MeasureFilters | undefined,
   includeSoftwareQuality = true,
+  isStandardMode = false,
 ): MessageTitlePart[] {
   const parts: MessageTitlePart[] = [];
   const severities = measureFilters?.impactSeverities;
@@ -313,14 +333,19 @@ function getMeasureFilterTitleParts(
     const lowestSeverity = severityOrder.find((severity) => severities.includes(severity));
     if (lowestSeverity) {
       parts.push({
-        messageId: `severity.${lowestSeverity}`,
+        messageId: getIssueFilterSeverityValueMessageId(lowestSeverity, isStandardMode),
         suffix: lowestSeverity === SoftwareImpactSeverity.Blocker ? undefined : '+',
       });
     }
   }
 
   if (includeSoftwareQuality && measureFilters?.impactSoftwareQuality) {
-    parts.push({ messageId: `software_quality.${measureFilters.impactSoftwareQuality}` });
+    parts.push({
+      messageId: getIssueFilterTypeValueMessageId(
+        measureFilters.impactSoftwareQuality,
+        isStandardMode,
+      ),
+    });
   }
 
   return parts;
@@ -330,6 +355,7 @@ function appendLocalizedMeasureFilterSegments(
   formatMessage: FormatMessage,
   segments: string[],
   measureFilters: MeasureFilters | undefined,
+  isStandardMode: boolean,
 ): void {
   if (measureFilters?.issueStatus) {
     segments.push(
@@ -343,11 +369,9 @@ function appendLocalizedMeasureFilterSegments(
 
   if (measureFilters?.impactSoftwareQuality) {
     segments.push(
-      buildLabeledSegment(
-        formatMessage,
-        'dashboard.add_widget_modal.apply_filters_section.select.software_quality.label',
-        [`software_quality.${measureFilters.impactSoftwareQuality}`],
-      ),
+      buildLabeledSegment(formatMessage, getIssueFilterTypeLabelMessageId(isStandardMode), [
+        getIssueFilterTypeValueMessageId(measureFilters.impactSoftwareQuality, isStandardMode),
+      ]),
     );
   }
 
@@ -356,7 +380,9 @@ function appendLocalizedMeasureFilterSegments(
       buildLabeledSegment(
         formatMessage,
         'dashboard.add_widget_modal.apply_filters_section.select.severity.label',
-        measureFilters.impactSeverities.map((severity) => `severity.${severity}`),
+        measureFilters.impactSeverities.map((severity) =>
+          getIssueFilterSeverityValueMessageId(severity, isStandardMode),
+        ),
       ),
     );
   }

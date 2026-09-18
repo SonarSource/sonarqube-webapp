@@ -29,6 +29,10 @@ import {
   PieChartMetric,
 } from '../../types/dashboard-widget';
 import { CodeScope } from '../../types/widget-common';
+import {
+  getIssueFilterSeverityValueMessageId,
+  getIssueFilterTypeValueMessageId,
+} from '../utils/issueFilterPresentation';
 
 const IMPACT_SEVERITY_CUMULATIVE_ORDER: readonly SoftwareImpactSeverity[] = [
   SoftwareImpactSeverity.Info,
@@ -132,6 +136,7 @@ export function applySoftwareQualityMeasureFiltersPreservingSeverity(
 export function buildPieChartFilterSelectOptions(
   pieChartMetric: PieChartMetric,
   formatMessage: (descriptor: { id: string }) => string,
+  isStandardMode = false,
 ): { label: string; value: PieChartFilter | '' }[] {
   switch (pieChartMetric) {
     case PieChartMetric.IssueCount:
@@ -145,19 +150,25 @@ export function buildPieChartFilterSelectOptions(
         {
           value: PieChartIssueFilter.Security,
           label: formatMessage({
-            id: 'dashboard.add_widget_modal.apply_filters.pie_filter.security_issues',
+            id: isStandardMode
+              ? 'issue.type.VULNERABILITY.plural'
+              : 'dashboard.add_widget_modal.apply_filters.pie_filter.security_issues',
           }),
         },
         {
           value: PieChartIssueFilter.Reliability,
           label: formatMessage({
-            id: 'dashboard.add_widget_modal.apply_filters.pie_filter.reliability_issues',
+            id: isStandardMode
+              ? 'issue.type.BUG.plural'
+              : 'dashboard.add_widget_modal.apply_filters.pie_filter.reliability_issues',
           }),
         },
         {
           value: PieChartIssueFilter.Maintainability,
           label: formatMessage({
-            id: 'dashboard.add_widget_modal.apply_filters.pie_filter.maintainability_issues',
+            id: isStandardMode
+              ? 'issue.type.CODE_SMELL.plural'
+              : 'dashboard.add_widget_modal.apply_filters.pie_filter.maintainability_issues',
           }),
         },
       ];
@@ -281,7 +292,12 @@ export function buildRichMetricIssueStatusSelectOptions(
 
 export function buildSoftwareQualitySelectOptions(
   formatMessage: (descriptor: { id: string }) => string,
+  isStandardMode = false,
 ): Array<{ label: string; value: SoftwareQuality | '' }> {
+  const softwareQualities = isStandardMode
+    ? [SoftwareQuality.Reliability, SoftwareQuality.Security, SoftwareQuality.Maintainability]
+    : [SoftwareQuality.Security, SoftwareQuality.Reliability, SoftwareQuality.Maintainability];
+
   return [
     {
       label: formatMessage({
@@ -289,23 +305,18 @@ export function buildSoftwareQualitySelectOptions(
       }),
       value: '',
     },
-    {
-      label: formatMessage({ id: 'software_quality.SECURITY' }),
-      value: SoftwareQuality.Security,
-    },
-    {
-      label: formatMessage({ id: 'software_quality.RELIABILITY' }),
-      value: SoftwareQuality.Reliability,
-    },
-    {
-      label: formatMessage({ id: 'software_quality.MAINTAINABILITY' }),
-      value: SoftwareQuality.Maintainability,
-    },
+    ...softwareQualities.map((softwareQuality) => ({
+      label: formatMessage({
+        id: getIssueFilterTypeValueMessageId(softwareQuality, isStandardMode),
+      }),
+      value: softwareQuality,
+    })),
   ];
 }
 
 export function buildImpactSeveritySelectOptions(
   formatMessage: (descriptor: { id: string }) => string,
+  isStandardMode = false,
 ) {
   return [
     {
@@ -319,19 +330,27 @@ export function buildImpactSeveritySelectOptions(
       value: SoftwareImpactSeverity.Blocker,
     },
     {
-      label: `${formatMessage({ id: 'severity.HIGH' })} +`,
+      label: `${formatMessage({
+        id: getIssueFilterSeverityValueMessageId(SoftwareImpactSeverity.High, isStandardMode),
+      })} +`,
       value: SoftwareImpactSeverity.High,
     },
     {
-      label: `${formatMessage({ id: 'severity.MEDIUM' })} +`,
+      label: `${formatMessage({
+        id: getIssueFilterSeverityValueMessageId(SoftwareImpactSeverity.Medium, isStandardMode),
+      })} +`,
       value: SoftwareImpactSeverity.Medium,
     },
     {
-      label: `${formatMessage({ id: 'severity.LOW' })} +`,
+      label: `${formatMessage({
+        id: getIssueFilterSeverityValueMessageId(SoftwareImpactSeverity.Low, isStandardMode),
+      })} +`,
       value: SoftwareImpactSeverity.Low,
     },
     {
-      label: `${formatMessage({ id: 'severity.INFO' })} +`,
+      label: `${formatMessage({
+        id: getIssueFilterSeverityValueMessageId(SoftwareImpactSeverity.Info, isStandardMode),
+      })} +`,
       value: SoftwareImpactSeverity.Info,
     },
   ];

@@ -38,6 +38,7 @@ const METRIC_TITLE_MESSAGE_ID: Record<(typeof TopListMetric)[keyof typeof TopLis
   };
 
 export interface GetTopListWidgetTitleParams {
+  isStandardMode?: boolean;
   limit: TopListLimitValue;
   measureFilters?: MeasureFilters;
   rankBy: TopListRankByValue;
@@ -46,10 +47,10 @@ export interface GetTopListWidgetTitleParams {
 /** Returns a fully-localised widget title string. */
 export function getTopListWidgetTitle(
   formatMessage: IntlShape['formatMessage'],
-  { limit, measureFilters, rankBy }: Readonly<GetTopListWidgetTitleParams>,
+  { isStandardMode = false, limit, measureFilters, rankBy }: Readonly<GetTopListWidgetTitleParams>,
 ): string {
   const metric = [
-    getMeasureFilterTitle(formatMessage, measureFilters),
+    getMeasureFilterTitle(formatMessage, measureFilters, isStandardMode),
     formatMessage({ id: METRIC_TITLE_MESSAGE_ID[TopListMetric.IssueCount] }),
   ]
     .filter(Boolean)

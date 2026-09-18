@@ -361,6 +361,7 @@ export function useMetricWidgetApplyFiltersViewModel({
     supportsRichMeasureFilters && filterCapability
       ? {
           filterCapability,
+          isStandardMode: metricPickerOptions.isStandardMode === true,
           isIssueStatusFilterDisabled: groupByFilterConflict === 'issueStatus',
           isSoftwareQualityFilterDisabled: groupByFilterConflict === 'impactSoftwareQuality',
           issueStatusSelectOptions,

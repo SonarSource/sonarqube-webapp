@@ -34,18 +34,21 @@ import { PieChartWidgetProps } from '../../types/dashboard-widget';
 import { PieChartSegment } from '../../types/visualization';
 import { usePortfolioPieChartData } from './usePortfolioPieChartData';
 
-export function PortfolioPieChartWidgetWrapper(props: Readonly<PieChartWidgetProps>) {
+export function PortfolioPieChartWidgetWrapper(
+  props: Readonly<PieChartWidgetProps & { isStandardMode?: boolean }>,
+) {
+  const { isStandardMode = false, ...widget } = props;
   const navigate = useNavigate();
   const { formatMessage } = useIntl();
   const widgetInstance = useOptionalWidgetInstanceContext();
   const { entityType, isEntityTypePending, portfolioId } = useDashboardPortfolioContext();
-  const { isPending, segments } = usePortfolioPieChartData(props, portfolioId, true, entityType);
+  const { isPending, segments } = usePortfolioPieChartData(widget, portfolioId, true, entityType);
 
   const getSegmentUrl = useCallback(
     (segment: PieChartSegment): string | undefined => {
       if (
         widgetInstance === null ||
-        !isPortfolioPieChartSegmentDrilldownSupported(props) ||
+        !isPortfolioPieChartSegmentDrilldownSupported(widget) ||
         segment.value.startsWith('OTHER_')
       ) {
         return undefined;
@@ -53,7 +56,7 @@ export function PortfolioPieChartWidgetWrapper(props: Readonly<PieChartWidgetPro
 
       return getPortfolioDashboardWidgetDrilldownUrl(widgetInstance.widgetKey, segment.value);
     },
-    [props.metric, props.slice, widgetInstance],
+    [widget.metric, widget.slice, widgetInstance],
   );
 
   const handleSegmentClick = useCallback(
@@ -75,10 +78,11 @@ export function PortfolioPieChartWidgetWrapper(props: Readonly<PieChartWidgetPro
   }
 
   const title = getPieChartTitle(formatMessage, {
-    filter: props.filter,
+    filter: widget.filter,
     isPortfolioDashboard: true,
-    metric: props.metric,
-    slice: props.slice,
+    isStandardMode,
+    metric: widget.metric,
+    slice: widget.slice,
   });
   const ariaLabel = buildPieChartAriaLabel(formatMessage, { segments, title });
 
@@ -87,9 +91,9 @@ export function PortfolioPieChartWidgetWrapper(props: Readonly<PieChartWidgetPro
       ariaLabel={ariaLabel}
       getSegmentUrl={getSegmentUrl}
       onSegmentClick={handleSegmentClick}
-      pastry={props.pastry}
+      pastry={widget.pastry}
       segments={segments}
-      showLegend={props.showLegend}
+      showLegend={widget.showLegend}
     />
   );
 }

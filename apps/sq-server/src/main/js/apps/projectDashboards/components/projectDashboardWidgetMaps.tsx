@@ -23,6 +23,7 @@ import {
   TopListWidgetHeader,
   WidgetHeader,
 } from '~feature-dashboards/components/widget-header/WidgetHeader';
+import { createModeAwareWidget } from '~feature-dashboards/dashboard-layout/logic/modeAwareWidget';
 import type {
   WidgetBodyMap,
   WidgetHeaderMap,
@@ -34,20 +35,52 @@ import { ProjectPieChartWidgetWrapper } from '~feature-dashboards/widget-wrapper
 import { ProjectRatingBadgeWidgetWrapper } from '~feature-dashboards/widget-wrappers/rating-badge/ProjectRatingBadgeWidgetWrapper';
 import { ProjectTopListWidgetWrapper } from '~feature-dashboards/widget-wrappers/top-list/ProjectTopListWidgetWrapper';
 
-export const projectDashboardWidgetBodyMap: WidgetBodyMap<ProjectDashboardWidgetPropMap> = {
-  count: ProjectCountWidgetWrapper,
-  donutChart: ProjectPieChartWidgetWrapper,
-  lineChart: ProjectLineChartWidgetWrapper,
-  pieChart: ProjectPieChartWidgetWrapper,
-  ratingBadge: ProjectRatingBadgeWidgetWrapper,
-  topList: ProjectTopListWidgetWrapper,
-};
+function createModeAwareBodyMap(
+  isStandardMode: boolean,
+): WidgetBodyMap<ProjectDashboardWidgetPropMap> {
+  const modeAwarePieChart = createModeAwareWidget(ProjectPieChartWidgetWrapper, isStandardMode);
+  const modeAwareLineChart = createModeAwareWidget(ProjectLineChartWidgetWrapper, isStandardMode);
 
-export const projectDashboardWidgetHeaderMap: WidgetHeaderMap<ProjectDashboardWidgetPropMap> = {
-  count: WidgetHeader,
-  donutChart: PieChartHeader,
-  lineChart: WidgetHeader,
-  pieChart: PieChartHeader,
-  ratingBadge: WidgetHeader,
-  topList: TopListWidgetHeader,
-};
+  return {
+    count: ProjectCountWidgetWrapper,
+    donutChart: modeAwarePieChart,
+    lineChart: modeAwareLineChart,
+    pieChart: modeAwarePieChart,
+    ratingBadge: ProjectRatingBadgeWidgetWrapper,
+    topList: ProjectTopListWidgetWrapper,
+  };
+}
+
+export const projectDashboardWidgetBodyMap = createModeAwareBodyMap(false);
+export const standardProjectDashboardWidgetBodyMap = createModeAwareBodyMap(true);
+
+function createModeAwareHeaderMap(
+  isStandardMode: boolean,
+): WidgetHeaderMap<ProjectDashboardWidgetPropMap> {
+  const modeAwareWidgetHeader = createModeAwareWidget(WidgetHeader, isStandardMode);
+  const modeAwarePieChartHeader = createModeAwareWidget(PieChartHeader, isStandardMode);
+  const modeAwareTopListHeader = createModeAwareWidget(TopListWidgetHeader, isStandardMode);
+
+  return {
+    count: modeAwareWidgetHeader,
+    donutChart: modeAwarePieChartHeader,
+    lineChart: modeAwareWidgetHeader,
+    pieChart: modeAwarePieChartHeader,
+    ratingBadge: modeAwareWidgetHeader,
+    topList: modeAwareTopListHeader,
+  };
+}
+
+export const projectDashboardWidgetHeaderMap = createModeAwareHeaderMap(false);
+export const standardProjectDashboardWidgetHeaderMap = createModeAwareHeaderMap(true);
+
+export const projectDashboardWidgetMapsByMode = [
+  {
+    bodyMap: projectDashboardWidgetBodyMap,
+    headerMap: projectDashboardWidgetHeaderMap,
+  },
+  {
+    bodyMap: standardProjectDashboardWidgetBodyMap,
+    headerMap: standardProjectDashboardWidgetHeaderMap,
+  },
+] as const;

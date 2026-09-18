@@ -32,6 +32,11 @@ interface IssueHistoryFilters {
   statuses?: string[];
 }
 
+interface IssueSearchModeFilters {
+  impactSeverities?: SoftwareImpactSeverity[];
+  impactSoftwareQuality?: string;
+}
+
 type ResolvedIssueHistoryFilters<T extends IssueHistoryFilters> = Omit<
   T,
   keyof IssueHistoryFilters
@@ -72,14 +77,6 @@ const SOFTWARE_QUALITY_BY_STANDARD_ISSUE_TYPE: Record<IssueType, SoftwareQuality
   BUG: SoftwareQuality.Reliability,
   CODE_SMELL: SoftwareQuality.Maintainability,
   VULNERABILITY: SoftwareQuality.Security,
-};
-
-const IMPACT_SEVERITY_BY_STANDARD_SEVERITY: Record<IssueSeverity, SoftwareImpactSeverity> = {
-  [IssueSeverity.Blocker]: SoftwareImpactSeverity.Blocker,
-  [IssueSeverity.Critical]: SoftwareImpactSeverity.High,
-  [IssueSeverity.Major]: SoftwareImpactSeverity.Medium,
-  [IssueSeverity.Minor]: SoftwareImpactSeverity.Low,
-  [IssueSeverity.Info]: SoftwareImpactSeverity.Info,
 };
 
 const STANDARD_METRIC_BY_MQR_METRIC: Readonly<Record<string, string>> = Object.fromEntries(
@@ -186,11 +183,38 @@ export function resolveIssueHistoryFiltersForMode<T extends IssueHistoryFilters>
       ? [ISSUE_TYPE_BY_SOFTWARE_QUALITY[softwareQuality]]
       : [...CODE_ISSUE_TYPES],
     ...(severities.length > 0 && severities.length < SOFTWARE_IMPACT_SEVERITIES.length
-      ? {
-          severities: severities.map((severity) => STANDARD_SEVERITY_BY_IMPACT_SEVERITY[severity]),
-        }
+      ? { severities: [...severities] }
       : {}),
   } as ResolvedIssueHistoryFilters<T>;
+}
+
+export function resolveIssueSearchFiltersForMode(
+  filters: Readonly<IssueSearchModeFilters>,
+  isStandardMode: boolean,
+): Record<string, string | string[]> {
+  const { impactSeverities, impactSoftwareQuality } = filters;
+
+  if (!isStandardMode) {
+    return {
+      ...(impactSoftwareQuality ? { impactSoftwareQualities: impactSoftwareQuality } : {}),
+      ...(impactSeverities?.length ? { impactSeverities: impactSeverities.join(',') } : {}),
+    };
+  }
+
+  const issueType = impactSoftwareQuality
+    ? ISSUE_TYPE_BY_SOFTWARE_QUALITY[impactSoftwareQuality as SoftwareQuality]
+    : undefined;
+
+  return {
+    ...(issueType ? { types: issueType } : {}),
+    ...(impactSeverities?.length
+      ? {
+          severities: impactSeverities
+            .map((severity) => STANDARD_SEVERITY_BY_IMPACT_SEVERITY[severity])
+            .join(','),
+        }
+      : {}),
+  };
 }
 
 export function resolveIssueHistorySliceForMode(
@@ -210,9 +234,6 @@ export function resolveIssueHistoryDistributionKeyForMode(
   }
   if (canonicalSliceBy === 'SOFTWARE_QUALITY' && key in SOFTWARE_QUALITY_BY_STANDARD_ISSUE_TYPE) {
     return SOFTWARE_QUALITY_BY_STANDARD_ISSUE_TYPE[key as IssueType];
-  }
-  if (canonicalSliceBy === 'SEVERITY' && key in IMPACT_SEVERITY_BY_STANDARD_SEVERITY) {
-    return IMPACT_SEVERITY_BY_STANDARD_SEVERITY[key as IssueSeverity];
   }
   return key;
 }

@@ -21,6 +21,7 @@
 import { useComponent } from '../../context/componentContext/withComponentContext';
 import { type CodeScopeValue, type MeasureFilters } from '../../helpers/dashboard-widget-data';
 import { useIssueCountSearchQuery } from '../../queries/dashboard-issue-count';
+import { useStandardExperienceModeQuery } from '../../queries/mode';
 import { useCurrentBranchQuery } from './branch';
 
 export function useProjectIssueCountSearchQuery(_params: {
@@ -30,18 +31,23 @@ export function useProjectIssueCountSearchQuery(_params: {
 }): { data: number | undefined; isLoading: boolean } {
   const { component } = useComponent();
   const branchQuery = useCurrentBranchQuery(component);
+  const modeQuery = useStandardExperienceModeQuery({
+    enabled: Boolean(_params.componentKey) && !branchQuery.isPending,
+  });
+  const modeResolved = !modeQuery.isPending && modeQuery.error == null;
   const query = useIssueCountSearchQuery(
     {
       branchLike: branchQuery.data,
       componentKey: _params.componentKey,
+      isStandardMode: modeQuery.data === true,
       measureFilters: _params.measureFilters as MeasureFilters | undefined,
       scope: _params.scope as CodeScopeValue,
     },
-    { enabled: Boolean(_params.componentKey) && !branchQuery.isPending },
+    { enabled: Boolean(_params.componentKey) && !branchQuery.isPending && modeResolved },
   );
 
   return {
     data: query.data,
-    isLoading: branchQuery.isPending || query.isLoading,
+    isLoading: branchQuery.isPending || modeQuery.isPending || query.isLoading,
   };
 }

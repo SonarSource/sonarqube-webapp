@@ -55,6 +55,7 @@ import {
   resolveIssueHistoryDistributionKeyForMode,
   resolveIssueHistoryFiltersForMode,
   resolveIssueHistorySliceForMode,
+  resolveIssueSearchFiltersForMode,
   resolvePieChartFilterSoftwareQuality,
 } from '../../helpers/dashboard-widget-mode';
 import { unsupportedDashboardWidgetAdapter } from '../../helpers/unsupported-dashboard-widget-adapter';
@@ -168,6 +169,7 @@ type PieCountsToSegmentsArgs = Readonly<{
   counts: Record<string, number>;
   formatMessage: IntlShape['formatMessage'];
   isQualityGateStatusChart: boolean;
+  isStandardMode: boolean;
   languages: Record<string, { name: string }> | undefined;
   metric: string;
   rules: Record<string, { name: string }> | undefined;
@@ -175,7 +177,16 @@ type PieCountsToSegmentsArgs = Readonly<{
 }>;
 
 function pieCountsToSegments(args: PieCountsToSegmentsArgs): DashboardPieChartSegment[] {
-  const { counts, formatMessage, isQualityGateStatusChart, languages, metric, rules, slice } = args;
+  const {
+    counts,
+    formatMessage,
+    isQualityGateStatusChart,
+    isStandardMode,
+    languages,
+    metric,
+    rules,
+    slice,
+  } = args;
   const entries = Object.entries(counts).filter(([, count]) => count > 0);
   const sortedEntries = sortSegments(entries, slice, metric);
   const total = sortedEntries.reduce((sum, [, count]) => sum + count, 0);
@@ -191,10 +202,17 @@ function pieCountsToSegments(args: PieCountsToSegmentsArgs): DashboardPieChartSe
         : undefined;
       const label =
         qualityGateMessageId === undefined
-          ? formatPieChartSegmentLabel(value, formatMessage, metric, slice, {
-              languages,
-              rules,
-            })
+          ? formatPieChartSegmentLabel(
+              value,
+              formatMessage,
+              metric,
+              slice,
+              {
+                languages,
+                rules,
+              },
+              isStandardMode,
+            )
           : formatMessage({ id: qualityGateMessageId });
 
       return {
@@ -346,8 +364,7 @@ export function useOrganizationPieChartData(
   const issueSearchQuality = resolvePieChartFilterSoftwareQuality(widget.filter);
   const isUnsupported = shouldFailPieChartAdapter(widget, entityType);
   const usesIssueSearch = isCollectionLanguageIssuePieChart(widget, entityType);
-  const needsExperienceMode =
-    widget.metric === PieChartMetric.IssueCount && !isUnsupported && !usesIssueSearch;
+  const needsExperienceMode = widget.metric === PieChartMetric.IssueCount && !isUnsupported;
   const modeQuery = useStandardExperienceModeQuery({
     enabled: enabled && needsExperienceMode,
   });
@@ -432,10 +449,14 @@ export function useOrganizationPieChartData(
       issueStatuses: FILTERABLE_CODE_ISSUE_STATUSES.join(','),
       ps: 1,
       sinceLeakPeriod: false,
-      ...(issueSearchQuality ? { impactSoftwareQualities: issueSearchQuality } : {}),
+      ...resolveIssueSearchFiltersForMode(
+        { impactSoftwareQuality: issueSearchQuality },
+        isStandardMode,
+      ),
     },
     {
-      enabled: enabled && usesIssueSearch && Boolean(entityId) && Boolean(componentKey),
+      enabled:
+        enabled && usesIssueSearch && Boolean(entityId) && Boolean(componentKey) && isModeResolved,
       refetchOnWindowFocus: false,
       select: (response) => ({
         counts: getPieChartFacetCounts(response.facets, widget.slice),
@@ -545,6 +566,7 @@ export function useOrganizationPieChartData(
       counts: selectedCounts,
       formatMessage,
       isQualityGateStatusChart,
+      isStandardMode,
       languages: languagesQuery.data,
       metric: widget.metric,
       rules: rulesQuery.rulesByKey,
@@ -553,6 +575,7 @@ export function useOrganizationPieChartData(
   }, [
     formatMessage,
     isQualityGateStatusChart,
+    isStandardMode,
     languagesQuery.data,
     rulesQuery.rulesByKey,
     selectedCounts,

@@ -53,10 +53,11 @@ const PIE_CHART_SLICE_LABEL_MESSAGE_ID: Record<PieChartSlice, string> = {
  */
 export function getPieChartSliceLabelMessageId(options: {
   isPortfolioDashboard: boolean;
+  isStandardMode?: boolean;
   metric: PieChartMetric;
   slice: PieChartSlice;
 }): string {
-  const { isPortfolioDashboard, metric, slice } = options;
+  const { isPortfolioDashboard, isStandardMode = false, metric, slice } = options;
 
   const sliceForLabel: PieChartSlice =
     isPortfolioDashboard &&
@@ -64,6 +65,10 @@ export function getPieChartSliceLabelMessageId(options: {
     slice === PieChartHotspotSlice.SecurityCategory
       ? PieChartIssueSlice.Rules
       : slice;
+
+  if (isStandardMode && sliceForLabel === PieChartIssueSlice.ImpactSoftwareQualities) {
+    return 'issues.facet.types';
+  }
 
   return PIE_CHART_SLICE_LABEL_MESSAGE_ID[sliceForLabel];
 }

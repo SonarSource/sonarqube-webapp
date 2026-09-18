@@ -63,6 +63,7 @@ export function isLineChartGroupByEligibleForMetric(metric: DashboardMetric | nu
 
 export function buildLineChartGroupBySelectOptions(
   formatMessage: IntlShape['formatMessage'],
+  isStandardMode = false,
 ): Array<{ label: string; value: LineChartGroupByValue }> {
   return [
     LineChartGroupBy.None,
@@ -71,12 +72,18 @@ export function buildLineChartGroupBySelectOptions(
     LineChartGroupBy.Status,
     LineChartGroupBy.Rule,
   ].map((value) => ({
-    label: formatMessage({ id: GROUP_BY_LABEL_MESSAGE_ID[value] }),
+    label: formatMessage({ id: getLineChartGroupByLabelMessageId(value, isStandardMode) }),
     value,
   }));
 }
 
-export function getLineChartGroupByLabelMessageId(groupBy: LineChartGroupByValue): string {
+export function getLineChartGroupByLabelMessageId(
+  groupBy: LineChartGroupByValue,
+  isStandardMode = false,
+): string {
+  if (isStandardMode && groupBy === LineChartGroupBy.SoftwareQuality) {
+    return 'issues.facet.types';
+  }
   return GROUP_BY_LABEL_MESSAGE_ID[groupBy];
 }
 

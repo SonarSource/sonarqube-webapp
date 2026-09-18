@@ -357,9 +357,9 @@ describe('dashboard widget adapter queries', () => {
         {
           componentKeys: 'component-key',
           facets: PieChartIssueSlice.Languages,
-          impactSoftwareQualities: 'SECURITY',
           issueStatuses: 'OPEN,CONFIRMED,ACCEPTED,FALSE_POSITIVE',
           ps: 1,
+          types: 'VULNERABILITY',
           sinceLeakPeriod: false,
         },
         expect.objectContaining({ enabled: true }),
@@ -553,7 +553,7 @@ describe('dashboard widget adapter queries', () => {
         'VULNERABILITY',
         SoftwareQuality.Security,
       ],
-      [PieChartIssueSlice.ImpactSeverities, 'SEVERITY', 'CRITICAL', SoftwareImpactSeverity.High],
+      [PieChartIssueSlice.ImpactSeverities, 'SEVERITY', 'HIGH', SoftwareImpactSeverity.High],
     ])(
       'reads canonical %s pie segments from the Standard %s dimension',
       (slice, expectedSliceBy, responseKey, canonicalKey) => {
@@ -666,6 +666,42 @@ describe('dashboard widget adapter queries', () => {
       ).toBe(true);
     });
 
+    it('uses Standard issue types for project language pie charts', () => {
+      mockUseIssuesSearchQuery.mockReturnValue(
+        queryResult({
+          facets: [
+            {
+              property: PieChartIssueSlice.Languages,
+              values: [{ count: 4, val: 'java' }],
+            },
+          ],
+        }),
+      );
+
+      renderHook(
+        () =>
+          useProjectPieChartSegmentsSearchQuery(
+            {
+              filter: 'security',
+              metric: PieChartMetric.IssueCount,
+              scope: CodeScope.Overall,
+              slice: PieChartIssueSlice.Languages,
+            },
+            'project-key',
+          ),
+        { wrapper: getContextWrapper() },
+      );
+
+      expect(mockUseIssuesSearchQuery).toHaveBeenCalledWith(
+        expect.objectContaining({ types: 'VULNERABILITY' }),
+        expect.objectContaining({ enabled: true }),
+      );
+      expect(mockUseIssuesSearchQuery).toHaveBeenCalledWith(
+        expect.not.objectContaining({ impactSoftwareQualities: expect.anything() }),
+        expect.anything(),
+      );
+    });
+
     it('fails through the shared adapter error for unsupported slices', () => {
       expect(() =>
         renderHook(
@@ -758,7 +794,7 @@ describe('dashboard widget adapter queries', () => {
           pageIndex: 1,
           pageSize: 20,
           requireIssues: true,
-          severities: ['CRITICAL'],
+          severities: ['HIGH'],
           sort: undefined,
           statuses: ['OPEN'],
         },
@@ -1034,7 +1070,7 @@ describe('dashboard widget adapter queries', () => {
       expect(mockUseDashboardIssueCountHistoryQuery).toHaveBeenCalledWith(
         expect.objectContaining({
           issueTypes: ['VULNERABILITY'],
-          severities: ['CRITICAL'],
+          severities: ['HIGH'],
           sliceBy: 'RULE_KEY',
         }),
         expect.objectContaining({ enabled: true }),

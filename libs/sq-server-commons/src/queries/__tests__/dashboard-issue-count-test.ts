@@ -20,6 +20,7 @@
 
 import { renderHook, waitFor } from '@testing-library/react';
 import { getContextWrapper } from '~adapters/helpers/test-utils';
+import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { searchIssues } from '../../api/issues';
 import { CodeScope } from '../../helpers/dashboard-widget-data';
 import { useIssueCountSearchQuery } from '../dashboard-issue-count';
@@ -56,6 +57,41 @@ describe('dashboard issue count queries', () => {
         issueStatuses: 'OPEN,CONFIRMED,ACCEPTED,FALSE_POSITIVE',
         sinceLeakPeriod: true,
         ps: 1,
+      }),
+    );
+  });
+
+  it('uses Standard issue types and severities for Standard mode', async () => {
+    jest.mocked(searchIssues).mockResolvedValue({ paging: { total: 3 } } as never);
+
+    const { result } = renderHook(
+      () =>
+        useIssueCountSearchQuery({
+          componentKey: 'project-1',
+          isStandardMode: true,
+          measureFilters: {
+            impactSeverities: [SoftwareImpactSeverity.High, SoftwareImpactSeverity.Low],
+            impactSoftwareQuality: SoftwareQuality.Security,
+          },
+          scope: CodeScope.Overall,
+        }),
+      { wrapper: getContextWrapper() },
+    );
+
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
+
+    expect(searchIssues).toHaveBeenCalledWith(
+      expect.objectContaining({
+        severities: 'CRITICAL,MINOR',
+        types: 'VULNERABILITY',
+      }),
+    );
+    expect(searchIssues).toHaveBeenCalledWith(
+      expect.not.objectContaining({
+        impactSeverities: expect.anything(),
+        impactSoftwareQualities: expect.anything(),
       }),
     );
   });

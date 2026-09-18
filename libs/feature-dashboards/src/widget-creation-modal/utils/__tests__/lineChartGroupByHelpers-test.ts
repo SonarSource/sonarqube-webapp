@@ -98,6 +98,19 @@ describe('buildLineChartGroupBySelectOptions', () => {
     expect(options[3].label).toBe('t:dashboard.line_chart.group_by.status');
     expect(options[4].label).toBe('t:dashboard.line_chart.group_by.rule');
   });
+
+  it('labels the canonical software-quality group as Type in Standard mode', () => {
+    const formatMessage = jest.fn(({ id }: { id: string }) => `t:${id}`);
+    const options = buildLineChartGroupBySelectOptions(formatMessage as never, true);
+
+    expect(options[2]).toEqual({
+      label: 't:issues.facet.types',
+      value: LineChartGroupBy.SoftwareQuality,
+    });
+    expect(getLineChartGroupByLabelMessageId(LineChartGroupBy.SoftwareQuality, true)).toBe(
+      'issues.facet.types',
+    );
+  });
 });
 
 describe('getLineChartGroupByLabelMessageId', () => {

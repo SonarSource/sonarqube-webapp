@@ -24,6 +24,7 @@ import {
   resolveIssueHistoryDistributionKeyForMode,
   resolveIssueHistoryFiltersForMode,
   resolveIssueHistorySliceForMode,
+  resolveIssueSearchFiltersForMode,
   resolveIssueSoftwareQuality,
   resolvePieChartFilterSoftwareQuality,
   resolvePortfolioDashboardMetricKey,
@@ -43,7 +44,7 @@ describe('Server dashboard widget mode resolution', () => {
     expect(resolvePortfolioDashboardMetricKey(metricKey, isStandardMode)).toBe(expected);
   });
 
-  it('uses issue types and legacy severities in Standard Experience', () => {
+  it('uses issue types and MQR severities in Standard Experience', () => {
     expect(
       resolveIssueHistoryFiltersForMode(
         {
@@ -58,7 +59,7 @@ describe('Server dashboard widget mode resolution', () => {
       ),
     ).toEqual({
       issueTypes: ['VULNERABILITY'],
-      severities: ['CRITICAL'],
+      severities: ['HIGH'],
       statuses: ['OPEN'],
     });
   });
@@ -76,6 +77,30 @@ describe('Server dashboard widget mode resolution', () => {
     ).toEqual({ impacts: ['RELIABILITY:MEDIUM'], statuses: ['OPEN'] });
   });
 
+  it('uses issue types and legacy severities for issue-search requests in Standard Experience', () => {
+    expect(
+      resolveIssueSearchFiltersForMode(
+        {
+          impactSeverities: [SoftwareImpactSeverity.High, SoftwareImpactSeverity.Low],
+          impactSoftwareQuality: SoftwareQuality.Security,
+        },
+        true,
+      ),
+    ).toEqual({ types: 'VULNERABILITY', severities: 'CRITICAL,MINOR' });
+  });
+
+  it('preserves impact filters for issue-search requests in MQR mode', () => {
+    expect(
+      resolveIssueSearchFiltersForMode(
+        {
+          impactSeverities: [SoftwareImpactSeverity.High],
+          impactSoftwareQuality: SoftwareQuality.Reliability,
+        },
+        false,
+      ),
+    ).toEqual({ impactSoftwareQualities: 'RELIABILITY', impactSeverities: 'HIGH' });
+  });
+
   it('maps semantic qualities consistently for queries and presentation', () => {
     expect(resolveIssueSoftwareQuality(undefined, MetricKey.code_smells)).toBe(
       SoftwareQuality.Maintainability,
@@ -89,9 +114,7 @@ describe('Server dashboard widget mode resolution', () => {
     expect(resolveIssueHistoryDistributionKeyForMode('BUG', 'SOFTWARE_QUALITY', true)).toBe(
       SoftwareQuality.Reliability,
     );
-    expect(resolveIssueHistoryDistributionKeyForMode('CRITICAL', 'SEVERITY', true)).toBe(
-      SoftwareImpactSeverity.High,
-    );
+    expect(resolveIssueHistoryDistributionKeyForMode('HIGH', 'SEVERITY', true)).toBe('HIGH');
     expect(resolveIssueHistoryDistributionKeyForMode('OPEN', 'STATUS', true)).toBe('OPEN');
   });
 });

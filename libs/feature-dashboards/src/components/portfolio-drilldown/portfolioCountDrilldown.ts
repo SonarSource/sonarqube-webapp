@@ -124,18 +124,19 @@ function getIssueRequest(
 }
 
 export function getPortfolioCountWidgetTitle(
-  args: CountDrilldownLocalization & { widget: CountWidgetProps },
+  args: CountDrilldownLocalization & { isStandardMode?: boolean; widget: CountWidgetProps },
 ): string {
   return getDashboardMetricTitle({
     formatMessage: args.formatMessage,
     getLocalizedMetricName: args.getLocalizedMetricName,
     hasHistoryRange: false,
+    isStandardMode: args.isStandardMode,
     metric: args.widget.metric,
   });
 }
 
 export function getPortfolioCountWidgetDrilldownDescriptor(
-  args: CountDrilldownLocalization & { widget: CountWidgetProps },
+  args: CountDrilldownLocalization & { isStandardMode?: boolean; widget: CountWidgetProps },
 ): PortfolioDashboardDrilldownDescriptor | null {
   const { widget } = args;
   if (!isPortfolioCountWidgetDrilldownSupported(widget.metric)) {

@@ -31,7 +31,7 @@ import {
   Text,
   TooltipSide,
 } from '@sonarsource/echoes-react';
-import type { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useCurrentUser } from '~adapters/helpers/users';
@@ -66,6 +66,7 @@ import { PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY } from '~sq-server-commons/helpers
 import { getProjectQueryUrl } from '~sq-server-commons/helpers/urls';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
 import { useMeasuresAndLeakQuery } from '~sq-server-commons/queries/measures';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { Branch } from '~sq-server-commons/types/branch-like';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { Component } from '~sq-server-commons/types/types';
@@ -79,10 +80,7 @@ import { supportsCustomProjectDashboards } from '../permissions';
 import { getProjectDashboardsListRoute, isProjectOverviewRoute } from '../routes';
 import { ProjectBuiltInDashboardActions } from './ProjectBuiltInDashboardActions';
 import { ProjectDashboardUnavailableEmptyState } from './ProjectDashboardUnavailableEmptyState';
-import {
-  projectDashboardWidgetBodyMap,
-  projectDashboardWidgetHeaderMap,
-} from './projectDashboardWidgetMaps';
+import { projectDashboardWidgetMapsByMode } from './projectDashboardWidgetMaps';
 
 const NEW_PROJECT_OVERVIEW_BANNER_KEY = 'new-project-overview';
 
@@ -94,6 +92,7 @@ export function ProjectBuiltInDashboardPage() {
   const { dashboardKey = PROJECT_HEALTH_DASHBOARD_DEFAULT_KEY } = params;
   const [searchParams] = useSearchParams();
   const { currentUser, isLoggedIn } = useCurrentUser();
+  const { data: isStandardMode } = useStandardExperienceModeQuery();
   const { data: branchLike } = useCurrentBranchQuery(component);
   const branch = isBranch(branchLike) ? branchLike : undefined;
   const isProjectOverview =
@@ -187,6 +186,7 @@ export function ProjectBuiltInDashboardPage() {
       isLoggedIn={isLoggedIn}
       isProjectOverview={isProjectOverview}
       isPullRequestOverview={isPullRequestOverview}
+      isStandardMode={isStandardMode === true}
       metadata={overviewMetadata}
       overviewActions={overviewActions}
       overviewPageClassName={overviewPageClassName}
@@ -206,6 +206,7 @@ interface ProjectBuiltInDashboardContentProps {
   isLoggedIn: boolean;
   isProjectOverview: boolean;
   isPullRequestOverview: boolean;
+  isStandardMode: boolean;
   metadata: ReactNode;
   overviewActions: ReactNode;
   overviewPageClassName?: string;
@@ -225,11 +226,14 @@ function ProjectBuiltInDashboardContent(props: Readonly<ProjectBuiltInDashboardC
     isLoggedIn,
     isProjectOverview,
     isPullRequestOverview,
+    isStandardMode,
     metadata,
     overviewActions,
     overviewPageClassName,
     overviewTitle,
   } = props;
+  const { bodyMap: widgetBodyMap, headerMap: widgetHeaderMap } =
+    projectDashboardWidgetMapsByMode[Number(isStandardMode ?? false)];
   const headerActions = (
     <>
       {overviewActions}
@@ -272,10 +276,10 @@ function ProjectBuiltInDashboardContent(props: Readonly<ProjectBuiltInDashboardC
             projectKey={component.key}
           />
           <Dashboard<ProjectDashboardWidgetPropMap>
-            bodyMap={projectDashboardWidgetBodyMap}
+            bodyMap={widgetBodyMap}
             dashboard={dashboard.layout}
             editBehaviorMap={widgetEditBehaviorMap}
-            headerMap={projectDashboardWidgetHeaderMap}
+            headerMap={widgetHeaderMap}
             isEditing={false}
             onAddWidgetToSection={() => undefined}
             onDashboardChange={() => undefined}

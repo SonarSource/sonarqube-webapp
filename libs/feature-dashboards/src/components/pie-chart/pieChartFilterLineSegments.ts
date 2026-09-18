@@ -28,6 +28,10 @@ import {
 } from '../../types/dashboard-widget';
 import { CodeScope } from '../../types/widget-common';
 import { buildLabeledSegment } from '../../utils/filterLineSegments';
+import {
+  getIssueFilterTypeLabelMessageId,
+  getIssueFilterTypeValueMessageId,
+} from '../../widget-creation-modal/utils/issueFilterPresentation';
 import { getPieChartSliceLabelMessageId } from './utils';
 
 export const PIE_ISSUE_FILTER_TO_SOFTWARE_QUALITY: Record<PieChartIssueFilter, SoftwareQuality> = {
@@ -83,23 +87,32 @@ export function mapPieChartHotspotFilterToIssueCountStatuses(
 
 type BuildArgs = Pick<PieChartWidgetProps, 'filter' | 'metric' | 'slice'> & {
   isPortfolioDashboard: boolean;
+  isStandardMode?: boolean;
   scope: CodeScope;
 };
 
 /** Returns fully-localised filter-line segment strings for the pie-chart widget header. */
 export function getPieChartFilterLineSegments(
   formatMessage: IntlShape['formatMessage'],
-  { filter, isPortfolioDashboard, metric, scope, slice }: Readonly<BuildArgs>,
+  {
+    filter,
+    isPortfolioDashboard,
+    isStandardMode = false,
+    metric,
+    scope,
+    slice,
+  }: Readonly<BuildArgs>,
 ): string[] {
   const segments: string[] = [formatMessage({ id: `dashboard_widget.codescope.${scope}` })];
 
   if (filter && isPieChartIssueFilter(filter)) {
     segments.push(
-      buildLabeledSegment(
-        formatMessage,
-        'dashboard.add_widget_modal.apply_filters_section.select.software_quality.label',
-        [`software_quality.${PIE_ISSUE_FILTER_TO_SOFTWARE_QUALITY[filter]}`],
-      ),
+      buildLabeledSegment(formatMessage, getIssueFilterTypeLabelMessageId(isStandardMode), [
+        getIssueFilterTypeValueMessageId(
+          PIE_ISSUE_FILTER_TO_SOFTWARE_QUALITY[filter],
+          isStandardMode,
+        ),
+      ]),
     );
   } else if (filter && isPieChartHotspotFilter(filter)) {
     segments.push(
@@ -113,7 +126,12 @@ export function getPieChartFilterLineSegments(
 
   segments.push(
     buildLabeledSegment(formatMessage, 'dashboard.add_widget_modal.define_widget.slice_by', [
-      getPieChartSliceLabelMessageId({ isPortfolioDashboard, metric, slice }),
+      getPieChartSliceLabelMessageId({
+        isPortfolioDashboard,
+        isStandardMode,
+        metric,
+        slice,
+      }),
     ]),
   );
 

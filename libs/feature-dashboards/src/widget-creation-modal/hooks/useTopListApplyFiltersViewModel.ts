@@ -133,6 +133,7 @@ export function useTopListApplyFiltersViewModel({
 
   const richMeasureFiltersSlice: RichMeasureFiltersSlice = {
     filterCapability,
+    isStandardMode: metricPickerOptions.isStandardMode === true,
     isIssueStatusFilterDisabled: false,
     isSoftwareQualityFilterDisabled: false,
     issueStatusSelectOptions,

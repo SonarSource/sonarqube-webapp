@@ -142,6 +142,8 @@ export interface PieChartMetricSelectOption {
 }
 
 export interface WidgetMetricPickerOptions {
+  /** Whether the current SQS instance uses the legacy Standard issue taxonomy. */
+  isStandardMode?: boolean;
   countMetrics: MetricGroup[];
   /** Override blurb above the define-widget form (must accept a `link` rich-text value like the project default). */
   defineWidgetDescriptionMessageId?: string;

@@ -23,6 +23,7 @@ import { useIntl } from 'react-intl';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { IssueStatus } from '../../types/dashboard-widget';
 import type { RichMeasureFiltersSlice } from '../hooks/applyFiltersViewModelSlices';
+import { getIssueFilterTypeLabelMessageId } from '../utils/issueFilterPresentation';
 import {
   buildImpactSeveritySelectOptions,
   buildSoftwareQualitySelectOptions,
@@ -38,6 +39,7 @@ export function MetricWidgetRichMeasureFilters({
   const { formatMessage } = useIntl();
   const {
     filterCapability,
+    isStandardMode,
     isIssueStatusFilterDisabled,
     isSoftwareQualityFilterDisabled,
     issueStatusSelectOptions,
@@ -71,12 +73,10 @@ export function MetricWidgetRichMeasureFilters({
 
       {filterCapability.supportsSoftwareQualityFilter && (
         <Select
-          data={buildSoftwareQualitySelectOptions(formatMessage)}
+          data={buildSoftwareQualitySelectOptions(formatMessage, isStandardMode)}
           helpText={softwareQualityFilterDisabledHelp}
           isDisabled={isSoftwareQualityFilterDisabled}
-          label={formatMessage({
-            id: 'dashboard.add_widget_modal.apply_filters_section.select.software_quality.label',
-          })}
+          label={formatMessage({ id: getIssueFilterTypeLabelMessageId(isStandardMode) })}
           onChange={(value) => {
             setSoftwareQualityFilter(value as SoftwareQuality | '');
           }}
@@ -86,7 +86,7 @@ export function MetricWidgetRichMeasureFilters({
 
       {showSeverityFilter && (
         <Select
-          data={buildImpactSeveritySelectOptions(formatMessage)}
+          data={buildImpactSeveritySelectOptions(formatMessage, isStandardMode)}
           label={formatMessage({
             id: 'dashboard.add_widget_modal.apply_filters_section.select.severity.label',
           })}

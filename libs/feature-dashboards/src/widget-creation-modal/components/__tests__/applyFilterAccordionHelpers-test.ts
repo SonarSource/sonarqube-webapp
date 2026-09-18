@@ -288,6 +288,20 @@ describe('applyFilterAccordionHelpers', () => {
         SoftwareQuality.Maintainability,
       ]);
     });
+
+    it('uses Standard issue type labels and order in Standard mode', () => {
+      const options = buildSoftwareQualitySelectOptions(formatId, true);
+
+      expect(options).toEqual([
+        {
+          label: 'dashboard.add_widget_modal.apply_filters_section.software_quality.all',
+          value: '',
+        },
+        { label: 'issue.type.BUG.plural', value: SoftwareQuality.Reliability },
+        { label: 'issue.type.VULNERABILITY.plural', value: SoftwareQuality.Security },
+        { label: 'issue.type.CODE_SMELL.plural', value: SoftwareQuality.Maintainability },
+      ]);
+    });
   });
 
   describe('buildImpactSeveritySelectOptions', () => {
@@ -301,6 +315,19 @@ describe('applyFilterAccordionHelpers', () => {
         SoftwareImpactSeverity.Medium,
         SoftwareImpactSeverity.Low,
         SoftwareImpactSeverity.Info,
+      ]);
+    });
+
+    it('maps MQR severities to Standard severity labels', () => {
+      const options = buildImpactSeveritySelectOptions(formatId, true);
+
+      expect(options.map((option) => option.label)).toEqual([
+        'dashboard.add_widget_modal.apply_filters_section.software_quality.all',
+        'severity.BLOCKER',
+        'severity.CRITICAL +',
+        'severity.MAJOR +',
+        'severity.MINOR +',
+        'severity.INFO +',
       ]);
     });
   });

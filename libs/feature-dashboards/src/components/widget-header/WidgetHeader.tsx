@@ -64,6 +64,7 @@ type Props =
 
 type WidgetHeaderCommonProps = {
   isPortfolio?: boolean;
+  isStandardMode?: boolean;
 };
 
 type WidgetHeaderProps = Props & WidgetHeaderCommonProps;
@@ -82,6 +83,7 @@ export function WidgetHeader(props: Readonly<WidgetHeaderProps>) {
           groupBy: 'groupBy' in props ? props.groupBy : undefined,
           hasHistoryRange: 'historyRange' in props,
           metric: props.metric,
+          isStandardMode: props.isStandardMode === true,
           scope: props.scope,
         })
       : getRatingWidgetHeaderText({
@@ -122,6 +124,7 @@ export function WidgetHeader(props: Readonly<WidgetHeaderProps>) {
 
 export function TopListWidgetHeader({
   isPortfolio,
+  isStandardMode,
   limit,
   metric,
   rankBy,
@@ -132,6 +135,7 @@ export function TopListWidgetHeader({
   return (
     <WidgetHeader
       isPortfolio={isPortfolio}
+      isStandardMode={isStandardMode}
       metric={metric}
       scope={scope}
       showContextualRatingBadge={false}
@@ -139,17 +143,20 @@ export function TopListWidgetHeader({
         limit,
         measureFilters:
           metric.type === DashboardMetricType.Rich ? metric.measureFilters : undefined,
+        isStandardMode,
         rankBy,
       })}
     />
   );
 }
 
-export function PortfolioWidgetHeader(props: Readonly<Props>) {
+export function PortfolioWidgetHeader(props: Readonly<Props & WidgetHeaderCommonProps>) {
   return <WidgetHeader {...props} isPortfolio />;
 }
 
-export function PortfolioTopListWidgetHeader(props: Readonly<TopListWidgetProps>) {
+export function PortfolioTopListWidgetHeader(
+  props: Readonly<TopListWidgetProps & WidgetHeaderCommonProps>,
+) {
   return <TopListWidgetHeader {...props} isPortfolio />;
 }
 

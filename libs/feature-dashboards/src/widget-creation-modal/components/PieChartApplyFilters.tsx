@@ -167,11 +167,17 @@ export function PieChartApplyFilters({
     pieChartMetric === PieChartMetric.ProjectCount ||
     (pieChartMetric === PieChartMetric.IssueCount &&
       pieChartSlice === PieChartIssueSlice.ImpactSoftwareQualities);
-  const pieFilterDisabledHelpMessageId =
+  let pieFilterDisabledHelpMessageId =
+    metricPickerOptions.isStandardMode === true
+      ? 'dashboard.add_widget_modal.apply_filters.pie_type_slice_help'
+      : 'dashboard.add_widget_modal.apply_filters.pie_software_quality_slice_help';
+  if (
     pieChartMetric === PieChartMetric.HotspotCount &&
     pieChartSlice === PieChartHotspotSlice.ReviewStatus
-      ? 'dashboard.add_widget_modal.apply_filters.pie_hotspot_review_status_slice_filter_help'
-      : 'dashboard.add_widget_modal.apply_filters.pie_software_quality_slice_help';
+  ) {
+    pieFilterDisabledHelpMessageId =
+      'dashboard.add_widget_modal.apply_filters.pie_hotspot_review_status_slice_filter_help';
+  }
 
   const pieScopeControl = buildPieChartScopeControl({
     dispatch,
@@ -195,7 +201,11 @@ export function PieChartApplyFilters({
 
           {!hidePieFilterSelect && (
             <Select
-              data={buildPieChartFilterSelectOptions(pieChartMetric, formatMessage)}
+              data={buildPieChartFilterSelectOptions(
+                pieChartMetric,
+                formatMessage,
+                metricPickerOptions.isStandardMode === true,
+              )}
               helpText={
                 disablePieFilterSelect
                   ? formatMessage({

@@ -25,6 +25,7 @@ import { usePortfolioRulesMetadataOrganization } from '~adapters/queries/portfol
 import { useWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-metadata';
 import { useDashboardRuleLabels } from '~adapters/queries/widget-rule-metadata';
 import { CHART_CATEGORICAL_COLORS } from '~shared/helpers/charts';
+import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
 import {
   formatDotValue,
   formatYAxisTick,
@@ -49,11 +50,13 @@ import {
   relabelMultiLineSeriesWithRules,
   rulesFromGroupedLineChartSeries,
 } from '../../utils/lineChartSeriesTransforms';
+import { getIssueFilterSeverityValueMessageId } from '../../widget-creation-modal/utils/issueFilterPresentation';
 import { LineChartWidgetShell } from './LineChartWidgetShell';
 
 interface Props {
   entityId: string;
   entityType: 'PORTFOLIO' | 'PROJECT_BRANCH';
+  isStandardMode?: boolean;
   measure: DashboardMeasure;
   metric: DashboardMetric;
   months: number;
@@ -182,6 +185,7 @@ function historyToSeries(
 export function DashboardMeasureLineChart({
   entityId,
   entityType,
+  isStandardMode = false,
   measure,
   metric,
   months,
@@ -199,6 +203,7 @@ export function DashboardMeasureLineChart({
     formatMessage,
     getLocalizedMetricName: getDashboardLocalizedMetricName,
     hasHistoryRange: true,
+    isStandardMode,
     metric,
   });
   const metricMetadata =
@@ -221,9 +226,20 @@ export function DashboardMeasureLineChart({
     entity: dashboardRuleEntity(entityType, organization, portfolioOrganization),
     ruleKeys,
   });
-  const labelledSeries = isGroupedByRule
+  const ruleRelabelledSeries = isGroupedByRule
     ? relabelMultiLineSeriesWithRules(series, 'rule', ruleLabels.rulesByKey)
     : series;
+  const isGroupedBySeverity =
+    measure.api === 'issue-count-history' && measure.sliceBy === 'SEVERITY';
+  const displaySeries =
+    isGroupedBySeverity && isStandardMode
+      ? ruleRelabelledSeries.map((lineSeries) => ({
+          ...lineSeries,
+          label: formatMessage({
+            id: getIssueFilterSeverityValueMessageId(lineSeries.id as SoftwareImpactSeverity, true),
+          }),
+        }))
+      : ruleRelabelledSeries;
   const isMttr = dashboardMeasureIsMttr(measure);
   const isMetricRating = dashboardMeasureIsRating(measure, metricMetadata?.type);
   const requestedStartDate = new Date(dashboardHistoryDateRange(months).startDate);
@@ -255,8 +271,8 @@ export function DashboardMeasureLineChart({
     <LineChartWidgetShell
       {...chartProps}
       requestedStartDate={requestedStartDate}
-      series={labelledSeries}
-      showLegend={showLegend && labelledSeries.length > 1 && !isMetricRating}
+      series={displaySeries}
+      showLegend={showLegend && displaySeries.length > 1 && !isMetricRating}
     />
   );
 }

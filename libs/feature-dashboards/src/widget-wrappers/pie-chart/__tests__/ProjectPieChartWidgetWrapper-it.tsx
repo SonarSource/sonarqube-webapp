@@ -26,7 +26,11 @@ import {
   useProjectPieChartSegmentsSearchQuery,
 } from '~adapters/queries/project-pie-chart-widget-data';
 import { renderWithRouter } from '~shared/helpers/test-utils';
-import { PieChartIssueSlice, PieChartMetric } from '../../../types/dashboard-widget';
+import {
+  PieChartIssueFilter,
+  PieChartIssueSlice,
+  PieChartMetric,
+} from '../../../types/dashboard-widget';
 import { CodeScope } from '../../../types/widget-common';
 import { ProjectPieChartWidgetWrapper } from '../ProjectPieChartWidgetWrapper';
 
@@ -111,5 +115,18 @@ describe('ProjectPieChartWidgetWrapper integration', () => {
 
     expect(screen.getByTestId('pie-chart')).toHaveTextContent('1');
     expect(useProjectPieChartSegmentsSearchQuery).toHaveBeenCalledWith(widgetProps, 'project-key');
+  });
+
+  it('uses Standard terminology in the chart accessibility label', () => {
+    renderWithRouter(
+      <ProjectPieChartWidgetWrapper
+        {...widgetProps}
+        filter={PieChartIssueFilter.Reliability}
+        isStandardMode
+        slice={PieChartIssueSlice.ImpactSoftwareQualities}
+      />,
+    );
+
+    expect(screen.getByTestId('pie-chart')).toHaveAccessibleName(/issue\.type\.BUG\.plural/);
   });
 });

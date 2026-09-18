@@ -65,6 +65,7 @@ import { useComponent } from '~sq-server-commons/context/componentContext/withCo
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { useProjectId } from '~sq-server-commons/sq-server-adapters/helpers/useProjectId';
 import { useCurrentUser } from '~sq-server-commons/sq-server-adapters/helpers/users';
 import { Feature } from '~sq-server-commons/types/features';
@@ -77,10 +78,7 @@ import {
 } from '../../../queries/project-dashboards';
 import { getProjectCustomDashboardRoute, getProjectDashboardsListRoute } from '../routes';
 import { ProjectDashboardModal } from './ProjectDashboardModal';
-import {
-  projectDashboardWidgetBodyMap,
-  projectDashboardWidgetHeaderMap,
-} from './projectDashboardWidgetMaps';
+import { projectDashboardWidgetMapsByMode } from './projectDashboardWidgetMaps';
 import { getSqsProjectWidgetMetricPickerOptions } from './projectWidgetMetricPickerOptions';
 import { ProjectWidgetOptions } from './ProjectWidgetOptions';
 
@@ -94,6 +92,7 @@ export function ProjectCustomDashboardPage() {
   const { component } = useComponent();
   const { currentUser, isLoggedIn } = useCurrentUser();
   const { hasFeature } = useAvailableFeatures();
+  const { data: isStandardMode } = useStandardExperienceModeQuery();
   const { dashboardId = '' } = useParams<{ dashboardId?: string }>();
   const projectId = useProjectId() ?? '';
   const canEdit = isLoggedIn;
@@ -111,9 +110,16 @@ export function ProjectCustomDashboardPage() {
   const [localLayout, setLocalLayout] =
     useState<DashboardInstance<ProjectDashboardWidgetPropMap> | null>(null);
   const metricPickerOptions = useMemo(
-    () => getSqsProjectWidgetMetricPickerOptions({ formatMessage }, hasFeature(Feature.Sca)),
-    [formatMessage, hasFeature],
+    () =>
+      getSqsProjectWidgetMetricPickerOptions(
+        { formatMessage },
+        hasFeature(Feature.Sca),
+        isStandardMode === true,
+      ),
+    [formatMessage, hasFeature, isStandardMode],
   );
+  const { bodyMap: widgetBodyMap, headerMap: widgetHeaderMap } =
+    projectDashboardWidgetMapsByMode[Number(isStandardMode ?? false)];
   const query = useGetProjectDashboardQuery(
     { dashboardId, projectId },
     { enabled: Boolean(projectId && dashboardId && !invalidId) },
@@ -356,14 +362,14 @@ export function ProjectCustomDashboardPage() {
           <DashboardDescriptionAccordion description={dashboard.description} />
         )}
         <DashboardCustomDashboardContent
-          bodyMap={projectDashboardWidgetBodyMap}
+          bodyMap={widgetBodyMap}
           canEdit={canEdit}
           dashboard={effectiveLayout}
           editBehaviorMap={widgetEditBehaviorMap}
           emptyDashboardButtonLabelKey="project_dashboard.empty.button.enter_edit_mode"
           emptyDashboardEditDocumentationUrl={editDocumentationUrl}
           emptyDashboardViewDocumentationUrl={viewDocumentationUrl}
-          headerMap={projectDashboardWidgetHeaderMap}
+          headerMap={widgetHeaderMap}
           isEditing={isEditing}
           isEmptyDashboard={isEmptyDashboard}
           onAddWidgetToSection={(index) => {
@@ -491,8 +497,8 @@ export function ProjectCustomDashboardPage() {
             state={state}
           />
         )}
-        widgetBodyMap={projectDashboardWidgetBodyMap}
-        widgetHeaderMap={projectDashboardWidgetHeaderMap}
+        widgetBodyMap={widgetBodyMap}
+        widgetHeaderMap={widgetHeaderMap}
       />
     </>
   );

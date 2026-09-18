@@ -58,6 +58,7 @@ export interface LineChartHistorySlice {
  */
 export interface RichMeasureFiltersSlice {
   filterCapability: MeasureFilterCapability;
+  isStandardMode: boolean;
   isIssueStatusFilterDisabled: boolean;
   isSoftwareQualityFilterDisabled: boolean;
   issueStatusSelectOptions: Array<{ label: string; value: IssueStatus | '' }>;

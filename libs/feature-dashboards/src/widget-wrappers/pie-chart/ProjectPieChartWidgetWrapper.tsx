@@ -86,6 +86,7 @@ type ProjectPieChartViewProps = Readonly<{
   branchLike?: BranchLikeBase;
   error: unknown;
   hasEntityKey: boolean;
+  isStandardMode?: boolean;
   isPending: boolean;
   projectKey: string;
   segments: PieChartSegment[];
@@ -93,7 +94,16 @@ type ProjectPieChartViewProps = Readonly<{
 }>;
 
 function ProjectPieChartView(props: ProjectPieChartViewProps) {
-  const { branchLike, error, hasEntityKey, isPending, projectKey, segments, widget } = props;
+  const {
+    branchLike,
+    error,
+    hasEntityKey,
+    isPending,
+    isStandardMode = false,
+    projectKey,
+    segments,
+    widget,
+  } = props;
   const navigate = useNavigate();
   const { formatMessage } = useIntl();
   const { filter, metric, pastry = PieChartPastry.Pie, showLegend, slice } = widget;
@@ -142,6 +152,7 @@ function ProjectPieChartView(props: ProjectPieChartViewProps) {
   const title = getPieChartTitle(formatMessage, {
     filter,
     isPortfolioDashboard: false,
+    isStandardMode,
     metric,
     slice,
   });
@@ -162,6 +173,7 @@ function ProjectPieChartView(props: ProjectPieChartViewProps) {
 function ProjectPieChartWidgetIssueSearchView(
   props: Readonly<{
     branchLike?: BranchLikeBase;
+    isStandardMode?: boolean;
     projectKey: string;
     widget: Readonly<PieChartWidgetProps>;
   }>,
@@ -175,6 +187,7 @@ function ProjectPieChartWidgetIssueSearchView(
       error={error}
       hasEntityKey={Boolean(projectKey)}
       isPending={isPending}
+      isStandardMode={props.isStandardMode}
       projectKey={projectKey}
       segments={segments}
       widget={widget}
@@ -186,6 +199,7 @@ function ProjectPieChartWidgetOrganizationsContent(
   props: Readonly<{
     branchEntityId: string;
     branchLike?: BranchLikeBase;
+    isStandardMode?: boolean;
     organization: string;
     projectKey: string;
     widget: Readonly<PieChartWidgetProps>;
@@ -205,6 +219,7 @@ function ProjectPieChartWidgetOrganizationsContent(
       error={error}
       hasEntityKey={Boolean(branchEntityId)}
       isPending={isPending}
+      isStandardMode={props.isStandardMode}
       projectKey={projectKey}
       segments={segments}
       widget={widget}
@@ -216,6 +231,7 @@ function ProjectPieChartWidgetOrganizationsView(
   props: Readonly<{
     branchEntityId: string;
     branchLike?: BranchLikeBase;
+    isStandardMode?: boolean;
     organization: string;
     projectKey: string;
     widget: Readonly<PieChartWidgetProps>;
@@ -227,6 +243,7 @@ function ProjectPieChartWidgetOrganizationsView(
     return (
       <ProjectPieChartWidgetIssueSearchView
         branchLike={branchLike}
+        isStandardMode={props.isStandardMode}
         projectKey={projectKey}
         widget={widget}
       />
@@ -236,7 +253,10 @@ function ProjectPieChartWidgetOrganizationsView(
   return <ProjectPieChartWidgetOrganizationsContent {...props} />;
 }
 
-export function ProjectPieChartWidgetWrapper(props: Readonly<PieChartWidgetProps>) {
+export function ProjectPieChartWidgetWrapper(
+  props: Readonly<PieChartWidgetProps & { isStandardMode?: boolean }>,
+) {
+  const { isStandardMode, ...widget } = props;
   const {
     branchLike,
     componentKey: projectKey,
@@ -256,9 +276,10 @@ export function ProjectPieChartWidgetWrapper(props: Readonly<PieChartWidgetProps
     <ProjectPieChartWidgetOrganizationsView
       branchEntityId={projectEntityId}
       branchLike={branchLike}
+      isStandardMode={isStandardMode}
       organization={organization}
       projectKey={projectKey}
-      widget={props}
+      widget={widget}
     />
   );
 }

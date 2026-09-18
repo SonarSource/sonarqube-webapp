@@ -37,9 +37,13 @@ import {
   supportsOrganizationPieChartIssueHistory,
   type PieChartWidget,
 } from '../../helpers/dashboard-widget-data';
-import { resolvePieChartFilterSoftwareQuality } from '../../helpers/dashboard-widget-mode';
+import {
+  resolveIssueSearchFiltersForMode,
+  resolvePieChartFilterSoftwareQuality,
+} from '../../helpers/dashboard-widget-mode';
 import { unsupportedDashboardWidgetAdapter } from '../../helpers/unsupported-dashboard-widget-adapter';
 import { useIssuesSearchQuery } from '../../queries/issues';
+import { useStandardExperienceModeQuery } from '../../queries/mode';
 import type { DashboardPieChartSegment } from '../../types/dashboard-widget-adapter-types';
 import { useCurrentBranchQuery } from './branch';
 
@@ -57,6 +61,7 @@ function buildIssueSearchQuery(
   widget: PieChartWidget,
   projectKey: string,
   branchLike: Parameters<typeof getBranchLikeQuery>[0],
+  isStandardMode: boolean,
 ) {
   const impactSoftwareQuality = resolvePieChartFilterSoftwareQuality(widget.filter);
 
@@ -66,7 +71,7 @@ function buildIssueSearchQuery(
     issueStatuses: FILTERABLE_CODE_ISSUE_STATUSES.join(','),
     ps: 1,
     sinceLeakPeriod: false,
-    ...(impactSoftwareQuality ? { impactSoftwareQualities: impactSoftwareQuality } : {}),
+    ...resolveIssueSearchFiltersForMode({ impactSoftwareQuality }, isStandardMode),
     ...getBranchLikeQuery(branchLike),
   };
 }
@@ -76,6 +81,7 @@ function countsToSegments(
   widget: PieChartWidget,
   languages: Record<string, { name: string }> | undefined,
   formatMessage: (descriptor: { id: string }) => string,
+  isStandardMode = false,
 ): DashboardPieChartSegment[] {
   const entries = Object.entries(counts).filter(([, count]) => count > 0);
   const sortedEntries = sortSegments(entries, widget.slice, widget.metric);
@@ -91,9 +97,16 @@ function countsToSegments(
     return {
       color: getSegmentColor(value, index, widget.slice),
       count,
-      label: formatPieChartSegmentLabel(value, formatMessage, widget.metric, widget.slice, {
-        languages,
-      }),
+      label: formatPieChartSegmentLabel(
+        value,
+        formatMessage,
+        widget.metric,
+        widget.slice,
+        {
+          languages,
+        },
+        isStandardMode,
+      ),
       percentage: formatPercentage(rawPercentage),
       value,
       visualCount:
@@ -119,13 +132,19 @@ export function useProjectPieChartSegmentsSearchQuery(
   const { component } = useComponent();
   const isSupported = isLanguageIssuePieChart(widget);
   const branchQuery = useCurrentBranchQuery(isSupported ? component : undefined);
+  const modeQuery = useStandardExperienceModeQuery({ enabled: isSupported && Boolean(projectKey) });
   const languagesQuery = useLanguagesQuery({
     enabled: isSupported && Boolean(projectKey),
   });
   const issueQuery = useIssuesSearchQuery(
-    buildIssueSearchQuery(widget, projectKey ?? '', branchQuery.data),
+    buildIssueSearchQuery(widget, projectKey ?? '', branchQuery.data, modeQuery.data === true),
     {
-      enabled: isSupported && Boolean(projectKey) && !branchQuery.isPending,
+      enabled:
+        isSupported &&
+        Boolean(projectKey) &&
+        !branchQuery.isPending &&
+        !modeQuery.isPending &&
+        modeQuery.error == null,
     },
   );
 
@@ -137,9 +156,10 @@ export function useProjectPieChartSegmentsSearchQuery(
             widget,
             languagesQuery.data,
             formatMessage,
+            modeQuery.data === true,
           )
         : [],
-    [formatMessage, isSupported, issueQuery.data, languagesQuery.data, widget],
+    [formatMessage, isSupported, issueQuery.data, languagesQuery.data, modeQuery.data, widget],
   );
 
   if (!isSupported) {
@@ -147,8 +167,12 @@ export function useProjectPieChartSegmentsSearchQuery(
   }
 
   return {
-    error: branchQuery.error ?? issueQuery.error ?? languagesQuery.error,
-    isPending: branchQuery.isPending || issueQuery.isPending || languagesQuery.isPending,
+    error: modeQuery.error ?? branchQuery.error ?? issueQuery.error ?? languagesQuery.error,
+    isPending:
+      modeQuery.isPending ||
+      branchQuery.isPending ||
+      issueQuery.isPending ||
+      languagesQuery.isPending,
     segments,
   };
 }

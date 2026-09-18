@@ -824,12 +824,21 @@ export function formatPercentage(value: number): string {
   return value.toPrecision(1);
 }
 
+const IMPACT_SEVERITY_STANDARD_MESSAGE_ID: Partial<Record<string, string>> = {
+  BLOCKER: 'severity.BLOCKER',
+  HIGH: 'severity.CRITICAL',
+  MEDIUM: 'severity.MAJOR',
+  LOW: 'severity.MINOR',
+  INFO: 'severity.INFO',
+};
+
 export function formatPieChartSegmentLabel(
   value: string,
   formatMessage: (descriptor: { id: string }) => string,
   metric: string,
   slice: string,
   metadata: PieChartLabelMetadata = {},
+  isStandardMode = false,
 ): string {
   if (value.startsWith('OTHER_')) {
     return `Other (${value.split('_')[1]})`;
@@ -845,6 +854,12 @@ export function formatPieChartSegmentLabel(
   const lineChartLabel = getLineChartLabel(value, metric, slice);
   if (lineChartLabel !== undefined) {
     return lineChartLabel;
+  }
+  if (isStandardMode && slice === 'impactSeverities') {
+    const messageId = IMPACT_SEVERITY_STANDARD_MESSAGE_ID[value.toUpperCase()];
+    if (messageId) {
+      return formatMessage({ id: messageId });
+    }
   }
   return titleCase(value);
 }

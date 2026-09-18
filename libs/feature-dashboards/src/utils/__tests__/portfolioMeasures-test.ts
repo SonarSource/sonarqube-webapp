@@ -40,6 +40,12 @@ describe('portfolioDashboardMeasures', () => {
     expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.coverage)).toBe(true);
     expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.ncloc)).toBe(true);
     expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.lines)).toBe(true);
+    expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.bugs)).toBe(true);
+    expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.vulnerabilities)).toBe(true);
+    expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.code_smells)).toBe(true);
+    expect(
+      PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.software_quality_security_rating),
+    ).toBe(true);
     expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.new_coverage)).toBe(false);
     expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.alert_status)).toBe(false);
     expect(PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE.has(MetricKey.sca_rating_any_issue)).toBe(

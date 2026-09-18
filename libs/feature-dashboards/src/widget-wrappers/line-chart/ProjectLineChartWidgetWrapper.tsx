@@ -26,7 +26,10 @@ import type { Props } from '../../data/widgets/line-chart';
 import { historyRangeToMonths } from '../../utils/datetime';
 import { DashboardMeasureLineChart } from './DashboardMeasureLineChart';
 
-export function ProjectLineChartWidgetWrapper(props: Readonly<Props>) {
+export function ProjectLineChartWidgetWrapper(
+  props: Readonly<Props & { isStandardMode?: boolean }>,
+) {
+  const { isStandardMode, ...widget } = props;
   const { isLoading, organization, projectEntityId } = useDashboardProjectContext();
   if (isLoading) {
     return <WidgetLoadingSpinner />;
@@ -39,11 +42,12 @@ export function ProjectLineChartWidgetWrapper(props: Readonly<Props>) {
     <DashboardMeasureLineChart
       entityId={projectEntityId}
       entityType="PROJECT_BRANCH"
-      measure={dashboardMetricToMeasure(props.metric, props.scope, { groupBy: props.groupBy })}
-      metric={props.metric}
-      months={historyRangeToMonths(props.historyRange)}
+      isStandardMode={isStandardMode}
+      measure={dashboardMetricToMeasure(widget.metric, widget.scope, { groupBy: widget.groupBy })}
+      metric={widget.metric}
+      months={historyRangeToMonths(widget.historyRange)}
       organization={organization}
-      showLegend={props.showLegend}
+      showLegend={widget.showLegend}
     />
   );
 }

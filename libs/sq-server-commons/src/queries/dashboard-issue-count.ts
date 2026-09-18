@@ -28,11 +28,13 @@ import {
   type CodeScopeValue,
   type MeasureFilters,
 } from '../helpers/dashboard-widget-data';
+import { resolveIssueSearchFiltersForMode } from '../helpers/dashboard-widget-mode';
 import type { BranchLike } from '../types/branch-like';
 
 export const useIssueCountSearchQuery = createQueryHook(
   (params: {
     componentKey: string;
+    isStandardMode?: boolean;
     measureFilters?: MeasureFilters;
     scope: CodeScopeValue;
     branchLike?: BranchLike;
@@ -48,14 +50,21 @@ export const useIssueCountSearchQuery = createQueryHook(
               : params.measureFilters.issueStatus,
           ps: 1,
           sinceLeakPeriod: params.scope === CodeScope.New,
-          ...(params.measureFilters?.impactSoftwareQuality
-            ? { impactSoftwareQualities: params.measureFilters.impactSoftwareQuality }
-            : {}),
-          ...(params.measureFilters?.impactSeverities?.length
-            ? { impactSeverities: params.measureFilters.impactSeverities.join(',') }
-            : {}),
+          ...getIssueFilterQuery(params.measureFilters, params.isStandardMode === true),
           ...getBranchLikeQuery(params.branchLike),
         }).then((response) => response.paging.total),
       staleTime: StaleTime.LIVE,
     }),
 );
+
+function getIssueFilterQuery(
+  measureFilters: MeasureFilters | undefined,
+  isStandardMode: boolean,
+): Record<string, string | string[]> {
+  const quality = measureFilters?.impactSoftwareQuality;
+  const severities = measureFilters?.impactSeverities;
+  return resolveIssueSearchFiltersForMode(
+    { impactSeverities: severities, impactSoftwareQuality: quality },
+    isStandardMode,
+  );
+}

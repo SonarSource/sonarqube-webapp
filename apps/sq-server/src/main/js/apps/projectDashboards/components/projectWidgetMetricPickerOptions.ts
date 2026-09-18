@@ -135,6 +135,7 @@ export function sqsProjectDashboardSupportsNewCodeScopeForPieChart(
 export function getSqsProjectWidgetMetricPickerOptions(
   intl: Pick<IntlShape, 'formatMessage'>,
   isScaEnabled = false,
+  isStandardMode = false,
 ): WidgetMetricPickerOptions {
   const { formatMessage } = intl;
   const issuesGroupLabel = getLocalizedMetricDomain('Issues');
@@ -171,6 +172,7 @@ export function getSqsProjectWidgetMetricPickerOptions(
 
   return {
     countMetrics: enrichedMetrics,
+    isStandardMode,
     isPortfolioWidgetConfigurator: false,
     lineChartMetrics: enrichedMetrics,
     pieChartMetricOptions: buildPieChartMetricSelectOptions(formatMessage).filter(

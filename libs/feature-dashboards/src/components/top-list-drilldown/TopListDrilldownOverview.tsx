@@ -51,6 +51,7 @@ interface TopListDrilldownData {
 interface Props {
   data: TopListDrilldownData;
   filterSegments: PieChartSegment[];
+  isStandardMode?: boolean;
   onRuleChange: (ruleKey: string) => void;
   selectedRuleKey?: string;
   widget: TopListWidgetProps;
@@ -97,7 +98,14 @@ function renderTrend(isPending: boolean, showTrend: boolean, trendData: TrendDat
 }
 
 export function TopListDrilldownOverview(props: Readonly<Props>) {
-  const { data, filterSegments, onRuleChange, selectedRuleKey, widget } = props;
+  const {
+    data,
+    filterSegments,
+    isStandardMode = false,
+    onRuleChange,
+    selectedRuleKey,
+    widget,
+  } = props;
   const { formatMessage } = useIntl();
   const ruleKey = selectedRuleKey;
   const issueCount = ruleKey === undefined ? null : (data.counts[ruleKey] ?? 0);
@@ -106,7 +114,11 @@ export function TopListDrilldownOverview(props: Readonly<Props>) {
     () => (ruleKey === undefined ? null : data.getRuleTrendData(ruleKey)),
     [data, ruleKey],
   );
-  const issueCountFilterSegments = buildTopListIssueCountFilterSegments(formatMessage, widget);
+  const issueCountFilterSegments = buildTopListIssueCountFilterSegments(
+    formatMessage,
+    widget,
+    isStandardMode,
+  );
   const trendFilterSegments = [
     formatMessage({ id: 'dashboard.widget.trend_indicator.vs_last_30_days' }),
   ];

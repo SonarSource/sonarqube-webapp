@@ -467,19 +467,25 @@ function getIssueDescriptor(
 
 export function getPortfolioPieChartDrilldownDescriptor(args: {
   formatMessage: IntlShape['formatMessage'];
+  isStandardMode?: boolean;
   segmentLabel?: string;
   segments?: PortfolioPieChartSegmentDefinition[];
   widget: PieChartWidgetProps;
 }): PortfolioDashboardDrilldownDescriptor | null {
-  const { formatMessage, segmentLabel, segments, widget } = args;
+  const { formatMessage, isStandardMode = false, segmentLabel, segments, widget } = args;
   if (!isPortfolioPieChartSegmentDrilldownSupported(widget)) {
     return null;
   }
 
-  const widgetTitle = getPieChartTitle(formatMessage, { ...widget, isPortfolioDashboard: true });
+  const widgetTitle = getPieChartTitle(formatMessage, {
+    ...widget,
+    isPortfolioDashboard: true,
+    isStandardMode,
+  });
   const metricLabel = getPieChartMetricLabel(formatMessage, {
     ...widget,
     isPortfolioDashboard: true,
+    isStandardMode,
   });
 
   if (!segmentLabel?.trim()) {

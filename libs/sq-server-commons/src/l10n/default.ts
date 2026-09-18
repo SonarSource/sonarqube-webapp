@@ -4074,6 +4074,7 @@ export const defaultMessages = {
   'dashboard.line_chart.group_by.status': 'Status',
   'dashboard.line_chart.group_by.rule': 'Rule',
   'dashboard.add_widget_modal.define_widget.slice.by_software_quality': 'By Software Quality',
+  'dashboard.add_widget_modal.define_widget.slice.by_type': 'By Type',
   'dashboard.add_widget_modal.define_widget.slice.by_severity': 'By Severity',
   'dashboard.add_widget_modal.define_widget.slice.by_code_attribute': 'By Code Attribute',
   'dashboard.add_widget_modal.define_widget.slice.by_status': 'By Status',
@@ -4094,6 +4095,8 @@ export const defaultMessages = {
     'Start by choosing a visualization, then decide which metrics to show. Learn more about <link>metric definitions.</link>',
   'dashboard.add_widget_modal.apply_filters.pie_software_quality_slice_help':
     'Software quality filters are not available when the chart is sliced by software quality.',
+  'dashboard.add_widget_modal.apply_filters.pie_type_slice_help':
+    'Type filters are not available when the chart is sliced by type.',
   'dashboard.add_widget_modal.apply_filters.pie_hotspot_count_filter_help':
     'Filters are not available for security hotspot charts.',
   'dashboard.add_widget_modal.apply_filters.pie_hotspot_review_status_slice_filter_help':

@@ -25,19 +25,23 @@ import { historyRangeToMonths } from '../../utils/datetime';
 import { PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE } from '../../utils/portfolioMeasures';
 import { DashboardMeasureLineChart } from './DashboardMeasureLineChart';
 
-export function PortfolioLineChartWidgetWrapper(props: Readonly<Props>) {
+export function PortfolioLineChartWidgetWrapper(
+  props: Readonly<Props & { isStandardMode?: boolean }>,
+) {
+  const { isStandardMode, ...widget } = props;
   const { portfolioId } = useDashboardPortfolioContext();
   return (
     <DashboardMeasureLineChart
       entityId={portfolioId}
       entityType="PORTFOLIO"
-      measure={dashboardMetricToMeasure(props.metric, props.scope, {
-        groupBy: props.groupBy,
+      isStandardMode={isStandardMode}
+      measure={dashboardMetricToMeasure(widget.metric, widget.scope, {
+        groupBy: widget.groupBy,
         supportedNewCodeMetrics: PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE,
       })}
-      metric={props.metric}
-      months={historyRangeToMonths(props.historyRange)}
-      showLegend={props.showLegend}
+      metric={widget.metric}
+      months={historyRangeToMonths(widget.historyRange)}
+      showLegend={widget.showLegend}
     />
   );
 }

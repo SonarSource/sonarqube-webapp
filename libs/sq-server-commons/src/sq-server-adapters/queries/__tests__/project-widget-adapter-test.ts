@@ -32,6 +32,7 @@ const mockUseComponent = jest.fn();
 const mockUseCurrentBranchQuery = jest.fn();
 const mockUseDashboardMeasuresHistoryQuery = jest.fn();
 const mockUseIssueCountSearchQuery = jest.fn();
+const mockUseStandardExperienceModeQuery = jest.fn();
 const mockUseProjectQualityGateStatus = jest.fn();
 const mockExtractStatusConditionsFromProjectStatus = jest.fn();
 
@@ -45,6 +46,11 @@ jest.mock('../branch', () => ({
 
 jest.mock('../../../queries/dashboard-issue-count', () => ({
   useIssueCountSearchQuery: (...args: unknown[]) => mockUseIssueCountSearchQuery(...args),
+}));
+
+jest.mock('../../../queries/mode', () => ({
+  useStandardExperienceModeQuery: (...args: unknown[]) =>
+    mockUseStandardExperienceModeQuery(...args),
 }));
 
 jest.mock('../../../queries/dashboard-history', () => ({
@@ -74,6 +80,11 @@ describe('project dashboard adapter queries', () => {
       isPending: false,
     });
     mockUseIssueCountSearchQuery.mockReturnValue({ data: 4, isLoading: false });
+    mockUseStandardExperienceModeQuery.mockReturnValue({
+      data: false,
+      error: null,
+      isPending: false,
+    });
     mockUseDashboardMeasuresHistoryQuery.mockReturnValue({ data: undefined, isLoading: false });
     mockUseProjectQualityGateStatus.mockReturnValue({
       data: { ignoredConditions: false, status: 'OK' },
@@ -100,6 +111,7 @@ describe('project dashboard adapter queries', () => {
       expect.objectContaining({
         branchLike: { branchId: 'branch-id', isMain: true, name: 'main' },
         componentKey: 'project-1',
+        isStandardMode: false,
       }),
       { enabled: true },
     );

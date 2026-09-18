@@ -119,6 +119,22 @@ describe('getDashboardMetricTitle', () => {
     ).toBe('MTTR for software_quality.SECURITY issues');
   });
 
+  it('uses Standard issue types within the MTTR title in Standard mode', () => {
+    expect(
+      getDashboardMetricTitle({
+        formatMessage,
+        getLocalizedMetricName,
+        hasHistoryRange: false,
+        isStandardMode: true,
+        metric: {
+          measureFilters: { impactSoftwareQuality: SoftwareQuality.Security },
+          statistic: IssueResolutionStatistic.MTTR,
+          type: DashboardMetricType.IssueResolution,
+        },
+      }),
+    ).toBe('MTTR for issue.type.VULNERABILITY.plural issues');
+  });
+
   it('maps hotspot and raw metrics to their localized names', () => {
     expect(
       getDashboardMetricTitle({
@@ -206,6 +222,53 @@ describe('getMetricWidgetHeaderText', () => {
       ],
       title: `issue.status.OPEN High+ software_quality.SECURITY ${MetricKey.issues}`,
     });
+  });
+
+  it('uses Standard issue types and severities in headers', () => {
+    const header = getMetricWidgetHeaderText({
+      formatMessage,
+      getLocalizedMetricName,
+      hasHistoryRange: false,
+      isStandardMode: true,
+      metric: {
+        measureFilters: {
+          impactSeverities: [SoftwareImpactSeverity.High],
+          impactSoftwareQuality: SoftwareQuality.Security,
+        },
+        metricKey: RichMetricKey.Issues,
+        type: DashboardMetricType.Rich,
+      },
+      scope: CodeScope.Overall,
+    });
+
+    expect(header).toEqual({
+      filterSegments: [
+        'dashboard_widget.codescope.overall',
+        'issues.facet.types: issue.type.VULNERABILITY.plural',
+        'dashboard.add_widget_modal.apply_filters_section.select.severity.label: severity.CRITICAL',
+      ],
+      title: 'severity.CRITICAL+ issue.type.VULNERABILITY.plural ' + MetricKey.issues,
+    });
+  });
+
+  it('uses Type for the canonical software-quality group in Standard mode', () => {
+    const header = getMetricWidgetHeaderText({
+      formatMessage,
+      getLocalizedMetricName,
+      groupBy: LineChartGroupBy.SoftwareQuality,
+      hasHistoryRange: false,
+      isStandardMode: true,
+      metric: {
+        metricKey: RichMetricKey.Issues,
+        type: DashboardMetricType.Rich,
+      },
+      scope: CodeScope.Overall,
+    });
+
+    expect(header.filterSegments).toEqual([
+      'dashboard_widget.codescope.overall',
+      'dashboard.line_chart.group_by.label: issues.facet.types',
+    ]);
   });
 
   it('adds a fixed time range for issue-resolution metrics', () => {

@@ -30,6 +30,7 @@ import {
 } from '../../../helpers/dashboard-widget-data';
 import { DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE } from '../../../helpers/unsupported-dashboard-widget-adapter';
 import { useIssuesSearchQuery } from '../../../queries/issues';
+import { useStandardExperienceModeQuery } from '../../../queries/mode';
 import { useCurrentBranchQuery } from '../branch';
 import { useProjectPieChartSegmentsSearchQuery } from '../project-pie-chart-widget-data';
 
@@ -39,6 +40,10 @@ jest.mock('../../../context/componentContext/withComponentContext', () => ({
 
 jest.mock('../../../queries/issues', () => ({
   useIssuesSearchQuery: jest.fn(),
+}));
+
+jest.mock('../../../queries/mode', () => ({
+  useStandardExperienceModeQuery: jest.fn(),
 }));
 
 jest.mock('~shared/queries/languages', () => ({
@@ -51,6 +56,7 @@ jest.mock('../branch', () => ({
 
 const mockUseComponent = jest.mocked(useComponent);
 const mockUseIssuesSearchQuery = jest.mocked(useIssuesSearchQuery);
+const mockUseStandardExperienceModeQuery = jest.mocked(useStandardExperienceModeQuery);
 const mockUseLanguagesQuery = jest.mocked(useLanguagesQuery);
 const mockUseCurrentBranchQuery = jest.mocked(useCurrentBranchQuery);
 
@@ -97,6 +103,11 @@ beforeEach(() => {
     error: null,
     isPending: false,
   } as ReturnType<typeof useIssuesSearchQuery>);
+  mockUseStandardExperienceModeQuery.mockReturnValue({
+    data: false,
+    error: null,
+    isPending: false,
+  } as ReturnType<typeof useStandardExperienceModeQuery>);
 });
 
 it('uses issue search to render security issues grouped by language', () => {

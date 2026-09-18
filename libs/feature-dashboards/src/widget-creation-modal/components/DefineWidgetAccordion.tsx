@@ -218,7 +218,10 @@ export function DefineWidgetAccordion({
     lineChartDashboardMetric !== null &&
     isLineChartGroupByEligibleForMetric(lineChartDashboardMetric);
   const lineChartGroupBy = lineChartConfig?.groupBy ?? LineChartGroupBy.None;
-  const lineChartGroupBySelectOptions = buildLineChartGroupBySelectOptions(intl.formatMessage);
+  const lineChartGroupBySelectOptions = buildLineChartGroupBySelectOptions(
+    intl.formatMessage,
+    metricPickerOptions.isStandardMode === true,
+  );
 
   const pieChartMetric =
     currentConfig &&
@@ -296,7 +299,10 @@ export function DefineWidgetAccordion({
         {
           value: PieChartIssueSlice.ImpactSoftwareQualities,
           label: intl.formatMessage({
-            id: 'dashboard.add_widget_modal.define_widget.slice.by_software_quality',
+            id:
+              metricPickerOptions.isStandardMode === true
+                ? 'dashboard.add_widget_modal.define_widget.slice.by_type'
+                : 'dashboard.add_widget_modal.define_widget.slice.by_software_quality',
           }),
         },
         {

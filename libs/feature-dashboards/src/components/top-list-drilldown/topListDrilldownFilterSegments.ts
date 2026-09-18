@@ -25,6 +25,11 @@ import {
   RichMetricKey,
   type TopListWidgetProps,
 } from '../../types/dashboard-widget';
+import {
+  getIssueFilterSeverityValueMessageId,
+  getIssueFilterTypeLabelMessageId,
+  getIssueFilterTypeValueMessageId,
+} from '../../widget-creation-modal/utils/issueFilterPresentation';
 
 export function buildTopListDrilldownSegments(
   counts: Record<string, number>,
@@ -41,13 +46,17 @@ export function buildTopListDrilldownSegments(
 function formatSeverityValueLabels(
   formatMessage: IntlShape['formatMessage'],
   severities: SoftwareImpactSeverity[],
+  isStandardMode: boolean,
 ): string[] {
-  return severities.map((severity) => formatMessage({ id: `severity.${severity}` }));
+  return severities.map((severity) =>
+    formatMessage({ id: getIssueFilterSeverityValueMessageId(severity, isStandardMode) }),
+  );
 }
 
 export function buildTopListIssueCountFilterSegments(
   formatMessage: IntlShape['formatMessage'],
   widget: TopListWidgetProps,
+  isStandardMode = false,
 ): string[] {
   const segments = [formatMessage({ id: `dashboard_widget.codescope.${widget.scope}` })];
 
@@ -66,10 +75,10 @@ export function buildTopListIssueCountFilterSegments(
 
   if (measureFilters?.impactSoftwareQuality) {
     const softwareQualityLabel = formatMessage({
-      id: 'dashboard.add_widget_modal.apply_filters_section.select.software_quality.label',
+      id: getIssueFilterTypeLabelMessageId(isStandardMode),
     });
     const softwareQuality = formatMessage({
-      id: `software_quality.${measureFilters.impactSoftwareQuality}`,
+      id: getIssueFilterTypeValueMessageId(measureFilters.impactSoftwareQuality, isStandardMode),
     });
     segments.push(`${softwareQualityLabel}: ${softwareQuality}`);
   }
@@ -81,6 +90,7 @@ export function buildTopListIssueCountFilterSegments(
     const severityValues = formatSeverityValueLabels(
       formatMessage,
       measureFilters.impactSeverities,
+      isStandardMode,
     ).join(', ');
     segments.push(`${severityLabel}: ${severityValues}`);
   }

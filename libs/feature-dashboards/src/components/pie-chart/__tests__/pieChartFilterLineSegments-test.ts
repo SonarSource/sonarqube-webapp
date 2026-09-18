@@ -55,6 +55,23 @@ describe('getPieChartFilterLineSegments', () => {
     ]);
   });
 
+  it('uses Standard type labels for issue filters and slices', () => {
+    const segments = getPieChartFilterLineSegments(formatMessage, {
+      filter: PieChartIssueFilter.Reliability,
+      isPortfolioDashboard: false,
+      isStandardMode: true,
+      metric: PieChartMetric.IssueCount,
+      scope: CodeScope.Overall,
+      slice: PieChartIssueSlice.ImpactSoftwareQualities,
+    });
+
+    expect(segments).toEqual([
+      'dashboard_widget.codescope.overall',
+      'issues.facet.types: issue.type.BUG.plural',
+      'dashboard.add_widget_modal.define_widget.slice_by: issues.facet.types',
+    ]);
+  });
+
   it('returns scope, hotspot status, and slice labels when a hotspot filter is set', () => {
     expect(
       getPieChartFilterLineSegments(formatMessage, {

@@ -105,4 +105,27 @@ describe('buildTopListIssueCountFilterSegments', () => {
       ),
     ).toEqual(['dashboard_widget.codescope.new']);
   });
+
+  it('uses Standard type and severity labels when requested', () => {
+    expect(
+      buildTopListIssueCountFilterSegments(
+        formatMessage,
+        widget({
+          measureFilters: {
+            impactSeverities: [SoftwareImpactSeverity.High],
+            impactSoftwareQuality: SoftwareQuality.Security,
+            issueStatus: IssueStatus.Open,
+          },
+          metricKey: RichMetricKey.Issues,
+          type: DashboardMetricType.Rich,
+        }),
+        true,
+      ),
+    ).toEqual([
+      'dashboard_widget.codescope.new',
+      'dashboard.add_widget_modal.apply_filters_section.select.status.label: issue.status.OPEN',
+      'issues.facet.types: issue.type.VULNERABILITY.plural',
+      'dashboard.add_widget_modal.apply_filters_section.select.severity.label: severity.CRITICAL',
+    ]);
+  });
 });

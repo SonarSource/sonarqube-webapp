@@ -20,6 +20,7 @@
 
 import type { IntlShape } from 'react-intl';
 import { PieChartMetric, PieChartWidgetProps } from '../../types/dashboard-widget';
+import { getIssueFilterTypeValueMessageId } from '../../widget-creation-modal/utils/issueFilterPresentation';
 import {
   HOTSPOT_FILTER_MESSAGE_ID,
   isPieChartHotspotFilter,
@@ -32,6 +33,7 @@ type FormatMessage = IntlShape['formatMessage'];
 
 type PieChartTitleInput = Pick<PieChartWidgetProps, 'filter' | 'metric' | 'slice'> & {
   isPortfolioDashboard: boolean;
+  isStandardMode?: boolean;
 };
 
 const PIE_HEADER_METRIC_MESSAGE_ID: Record<PieChartMetric, string> = {
@@ -44,12 +46,18 @@ const PIE_HEADER_METRIC_MESSAGE_ID: Record<PieChartMetric, string> = {
 /** Returns a fully-localised pie-chart title string. */
 export function getPieChartTitle(
   formatMessage: FormatMessage,
-  { filter, isPortfolioDashboard, metric, slice }: Readonly<PieChartTitleInput>,
+  {
+    filter,
+    isPortfolioDashboard,
+    isStandardMode = false,
+    metric,
+    slice,
+  }: Readonly<PieChartTitleInput>,
 ): string {
   if (
     isPortfolioDashboard &&
     isQualityGateStatusWidget({ filter, metric, slice }) &&
-    !resolveFilterMessageId(filter)
+    !resolveFilterMessageId(filter, isStandardMode)
   ) {
     return formatMessage({
       id: 'dashboard.pie_chart.header.title.portfolio_projects_by_quality_gate',
@@ -58,7 +66,7 @@ export function getPieChartTitle(
 
   const parts: string[] = [];
 
-  const filterMessageId = resolveFilterMessageId(filter);
+  const filterMessageId = resolveFilterMessageId(filter, isStandardMode);
   if (filterMessageId) {
     parts.push(formatMessage({ id: filterMessageId }));
   }
@@ -67,7 +75,12 @@ export function getPieChartTitle(
     formatMessage({ id: PIE_HEADER_METRIC_MESSAGE_ID[metric] }),
     formatMessage({ id: 'dashboard.pie_chart.header.join_by' }),
     formatMessage({
-      id: getPieChartSliceLabelMessageId({ isPortfolioDashboard, metric, slice }),
+      id: getPieChartSliceLabelMessageId({
+        isPortfolioDashboard,
+        isStandardMode,
+        metric,
+        slice,
+      }),
     }),
   );
 
@@ -77,13 +90,19 @@ export function getPieChartTitle(
 /** Returns a fully-localised metric-label string (used in drilldown column headers and card labels). */
 export function getPieChartMetricLabel(
   formatMessage: FormatMessage,
-  { filter, isPortfolioDashboard, metric, slice }: Readonly<PieChartTitleInput>,
+  {
+    filter,
+    isPortfolioDashboard,
+    isStandardMode = false,
+    metric,
+    slice,
+  }: Readonly<PieChartTitleInput>,
 ): string {
   if (isPortfolioDashboard && isQualityGateStatusWidget({ filter, metric, slice })) {
     return formatMessage({ id: 'dashboard.pie_chart.header.metric.quality_gate' });
   }
 
-  const filterMessageId = resolveFilterMessageId(filter);
+  const filterMessageId = resolveFilterMessageId(filter, isStandardMode);
   const parts: string[] = filterMessageId
     ? [
         formatMessage({ id: filterMessageId }),
@@ -94,9 +113,15 @@ export function getPieChartMetricLabel(
   return parts.join(' ');
 }
 
-function resolveFilterMessageId(filter: PieChartWidgetProps['filter']): string | undefined {
+function resolveFilterMessageId(
+  filter: PieChartWidgetProps['filter'],
+  isStandardMode: boolean,
+): string | undefined {
   if (filter && isPieChartIssueFilter(filter)) {
-    return `software_quality.${PIE_ISSUE_FILTER_TO_SOFTWARE_QUALITY[filter]}`;
+    return getIssueFilterTypeValueMessageId(
+      PIE_ISSUE_FILTER_TO_SOFTWARE_QUALITY[filter],
+      isStandardMode,
+    );
   }
   if (filter && isPieChartHotspotFilter(filter)) {
     return HOTSPOT_FILTER_MESSAGE_ID[filter];

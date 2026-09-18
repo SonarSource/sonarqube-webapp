@@ -277,6 +277,23 @@ describe('ProjectWidgetOptions', () => {
     expect(lineValues).toEqual(expect.arrayContaining(expectedMetrics));
   });
 
+  it('exposes only the generic issue-count metric in Standard mode', () => {
+    const options = getSqsProjectWidgetMetricPickerOptions(
+      createIntl({ locale: 'en' }),
+      false,
+      true,
+    );
+    const metricValues = options.countMetrics.flatMap(({ items }) =>
+      items.map(({ value }) => value),
+    );
+
+    expect(metricValues).toContain(MetricKey.violations);
+    expect(metricValues).not.toContain(MetricKey.bugs);
+    expect(metricValues).not.toContain(MetricKey.vulnerabilities);
+    expect(metricValues).not.toContain(MetricKey.code_smells);
+    expect(options.isStandardMode).toBe(true);
+  });
+
   it('includes SCA metrics and MTTR only when SCA is enabled', () => {
     const disabledOptions = getSqsProjectWidgetMetricPickerOptions(
       createIntl({ locale: 'en' }),

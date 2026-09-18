@@ -78,7 +78,7 @@ export function getMeasureFilterCapabilityForDashboardMetric(
       isDrillable: true,
       supportsSeverityFilter: true,
       supportsSoftwareQualityFilter: true,
-      supportsStatusFilter: false,
+      supportsStatusFilter: true,
     };
   }
 
