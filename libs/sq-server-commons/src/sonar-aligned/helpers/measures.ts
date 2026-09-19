@@ -20,10 +20,10 @@
 
 import {
   durationFormatter,
-  floatFormatter,
   intFormatter,
   issueSeverityFormatter,
   levelFormatter,
+  measureFloatFormatter,
   millisecondsFormatter,
   noFormatter,
   percentFormatter,
@@ -79,7 +79,7 @@ function getFormatter(type: string, metricKey?: MetricKey): Formatter {
   const FORMATTERS: Record<string, Formatter> = {
     INT: intFormatter,
     SHORT_INT: shortIntFormatter.bind(null, formatMessage),
-    FLOAT: floatFormatter,
+    FLOAT: measureFloatFormatter,
     PERCENT: percentFormatter,
     WORK_DUR: durationFormatter.bind(null, formatMessage),
     SHORT_WORK_DUR: shortDurationFormatter.bind(null, formatMessage),

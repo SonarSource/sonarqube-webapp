@@ -19,14 +19,7 @@
  */
 
 import { MetricType } from '~shared/types/metrics';
-import { formatMeasure } from '../../../sonar-aligned/helpers/measures';
 import { extractDashboardMeasureValue, formatDashboardMeasure } from '../dashboard-measures';
-
-jest.mock('../../../sonar-aligned/helpers/measures', () => ({
-  formatMeasure: jest.fn(),
-}));
-
-const mockedFormatMeasure = jest.mocked(formatMeasure);
 
 describe('extractDashboardMeasureValue', () => {
   it('returns undefined when the measure is missing', () => {
@@ -49,15 +42,15 @@ describe('extractDashboardMeasureValue', () => {
 });
 
 describe('formatDashboardMeasure', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
+  it('preserves percentage formatting options', () => {
+    expect(formatDashboardMeasure(42.1234, MetricType.Percent, { decimals: 2 })).toBe('42.12%');
   });
 
-  it('delegates formatting to the Server measure formatter', () => {
-    const options = { decimals: 2, omitExtraDecimalZeros: true };
-    mockedFormatMeasure.mockReturnValue('formatted');
-
-    expect(formatDashboardMeasure(42, MetricType.Integer, options)).toBe('formatted');
-    expect(mockedFormatMeasure).toHaveBeenCalledWith(42, MetricType.Integer, options);
+  it.each([
+    [12.34567, '12.3'],
+    [1.2345, '1.23'],
+    [1234567890, '1,234,567,890.0'],
+  ])('formats float measure %s through the core formatter', (value, expected) => {
+    expect(formatDashboardMeasure(value, MetricType.Float)).toBe(expected);
   });
 });

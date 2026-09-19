@@ -64,7 +64,14 @@ function intFormatter(value: string | number): string {
 }
 
 function floatFormatter(value: string | number): string {
+  return numberFormatter(value, 1, 5);
+}
+
+function measureFloatFormatter(value: string | number): string {
   const numericValue = typeof value === 'string' ? Number.parseFloat(value) : value;
+  if (!Number.isFinite(numericValue)) {
+    return '';
+  }
   const magnitude = Math.abs(numericValue);
   // Preserve integer digits and keep one decimal to distinguish floats from integers.
   return numberFormatter(numericValue, 1, magnitude >= 10 ? 1 : 2);
@@ -372,6 +379,7 @@ export {
   intFormatter,
   issueSeverityFormatter,
   levelFormatter,
+  measureFloatFormatter,
   millisecondsFormatter,
   noFormatter,
   numberFormatter,

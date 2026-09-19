@@ -23,6 +23,7 @@ import {
   floatFormatter,
   getLanguagesSortedByNCLOC,
   issueSeverityFormatter,
+  measureFloatFormatter,
   parseDistributionCounts,
   scaRiskFormatter,
 } from '../measures';
@@ -59,6 +60,40 @@ describe('scaRiskFormatter', () => {
 
       expect(scaRiskFormatter(formatMessage, value)).toBe(value);
       expect(formatMessage).not.toHaveBeenCalled();
+    },
+  );
+});
+
+describe('floatFormatter', () => {
+  it.each([
+    [12.34567, '12.34567'],
+    [0.123456, '0.12346'],
+    [1234567890, '1,234,567,890.0'],
+  ])('preserves generic float precision for %s', (value, expected) => {
+    expect(floatFormatter(value)).toBe(expected);
+  });
+});
+
+describe('measureFloatFormatter', () => {
+  it.each([
+    [12.34567, '12.3'],
+    [1.2345, '1.23'],
+    [0.12345, '0.12'],
+    [0.004999, '0.0'],
+    [0.005, '0.01'],
+    [1234.56, '1,234.6'],
+    [1234567890, '1,234,567,890.0'],
+    [-1234567890, '-1,234,567,890.0'],
+    [99.99, '100.0'],
+    [100.01, '100.0'],
+    [0, '0.0'],
+    ['12.34567', '12.3'],
+    ['', ''],
+    ['not-a-number', ''],
+  ])(
+    'formats %s with fewer decimal places while preserving integer precision',
+    (value, expected) => {
+      expect(measureFloatFormatter(value)).toBe(expected);
     },
   );
 });
@@ -121,26 +156,4 @@ describe('distribution counts', () => {
       { language: 'java', count: 12 },
     ]);
   });
-});
-
-describe('floatFormatter', () => {
-  it.each([
-    [12.34567, '12.3'],
-    [1.2345, '1.23'],
-    [0.12345, '0.12'],
-    [0.004999, '0.0'],
-    [0.005, '0.01'],
-    [1234.56, '1,234.6'],
-    [1234567890, '1,234,567,890.0'],
-    [-1234567890, '-1,234,567,890.0'],
-    [99.99, '100.0'],
-    [100.01, '100.0'],
-    [0, '0.0'],
-    ['12.34567', '12.3'],
-  ])(
-    'formats %s with fewer decimal places while preserving integer precision',
-    (value, expected) => {
-      expect(floatFormatter(value)).toBe(expected);
-    },
-  );
 });

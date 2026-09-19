@@ -165,7 +165,7 @@ export default function Measure({
       decimals,
       omitExtraDecimalZeros: metricType === MetricType.Percent,
     });
-    return <span className={classNameWithFont}>{formattedValue ?? '—'}</span>;
+    return <span className={classNameWithFont}>{formattedValue || '—'}</span>;
   }
 
   return (
