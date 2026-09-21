@@ -233,6 +233,10 @@ describe('ComponentNav', () => {
       ]);
       expect(ui.onboardingLink.query()).not.toBeInTheDocument();
       expect(ui.summaryLink.get()).toBeInTheDocument();
+      expect(getInteractiveElement(ui.analysisGroup.get())).toHaveAttribute(
+        'aria-expanded',
+        'true',
+      );
 
       const analysisGroup = getNavigationGroupContainer(ui.analysisGroup.get());
 
@@ -456,6 +460,10 @@ describe('ComponentNav', () => {
 
       expect(ui.overviewLink.query()).not.toBeInTheDocument();
       expect(ui.allProjectDashboardsLink.query()).not.toBeInTheDocument();
+      expect(getInteractiveElement(ui.analysisGroup.get())).toHaveAttribute(
+        'aria-expanded',
+        'false',
+      );
     });
 
     it('should render analysis and information menus for applications', async () => {

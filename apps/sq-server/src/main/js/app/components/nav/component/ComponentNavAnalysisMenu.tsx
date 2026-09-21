@@ -50,6 +50,7 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
   const { isLoggedIn } = useCurrentUser();
 
   const branchParameters = getBranchLikeQuery(branchLike);
+  const isProjectComponent = isProject(component.qualifier);
 
   const isApplicationChildInaccessible =
     isApplication(component.qualifier) && !component.canBrowseAllChildProjects;
@@ -64,13 +65,13 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
     ...DEFAULT_ISSUES_QUERY,
   });
 
-  const showHunterAgent =
-    isProject(component.qualifier) && isLoggedIn && isDefined(addons.remediationAgent);
+  const showHunterAgent = isProjectComponent && isLoggedIn && isDefined(addons.remediationAgent);
 
   if (isApplicationChildInaccessible) {
     return (
       <Layout.SidebarNavigation.AccordionItem
         Icon={IconIssues}
+        isDefaultOpen={isProjectComponent}
         label={<FormattedMessage id="navigation.project.group.analysis" />}
       >
         <Layout.SidebarNavigation.AccordionItem.Item isActive={isSummaryActive} to={dashboardUrl}>
@@ -83,6 +84,7 @@ export function ComponentNavAnalysisMenu(props: Readonly<Props>) {
   return (
     <Layout.SidebarNavigation.AccordionItem
       Icon={IconIssues}
+      isDefaultOpen={isProjectComponent}
       label={<FormattedMessage id="navigation.project.group.analysis" />}
     >
       <Layout.SidebarNavigation.AccordionItem.Item isActive={isSummaryActive} to={dashboardUrl}>
