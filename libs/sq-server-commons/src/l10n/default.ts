@@ -929,7 +929,7 @@ export const defaultMessages = {
   'hunter_agent.instance_not_enabled.description.admin':
     'Enable the Hunter Agent to uncover complex, context-dependent problems, complementing your foundational SAST by using playbook-driven reasoning.',
   'hunter_agent.instance_not_enabled.description.member':
-    'Ask an Administrator of this instance to enable the Hunter Agent to uncover complex, context-dependent problems, complementing your foundational SAST by using playbook-driven reasoning.',
+    'Ask an administrator of this instance to enable the Hunter Agent to uncover complex, context-dependent problems, complementing your foundational SAST by using playbook-driven reasoning.',
   'hunter_agent.instance_not_enabled.enable_action': 'Enable Hunter Agent',
   'hunter_agent.onboarding.title': 'Hunt Deeper. Secure Completely.',
   'hunter_agent.onboarding.description':
@@ -984,7 +984,7 @@ export const defaultMessages = {
     'Automatically exports and logs validated vulnerabilities directly into SonarQube for seamless tracking and remediation.',
   'hunter_agent.activity.table.credits': 'Scan units consumed',
   'hunter_agent.agent_activity_message':
-    'In progress and completed scans can be found in the <link>hunter agent run history</link>.',
+    'In progress and completed scans can be found in the <link>Hunter Agent run history</link>.',
   'hunter_agent.config.update_error': 'Failed to update Hunter Agent configuration.',
   'hunter_agent.config.updated': 'Hunter Agent configuration updated.',
   'hunter_agent.credit_estimation.balance_too_low.branch':
@@ -1022,13 +1022,13 @@ export const defaultMessages = {
   'hunter_agent.no_scan_yet.description.admin':
     'Run a first scan of your project to uncover complex, context-dependent problems in your codebase.',
   'hunter_agent.no_scan_yet.description.member':
-    'Ask an Administrator of this project to run a first scan to uncover complex, context-dependent problems in your codebase.',
+    'Ask an administrator of this project to run a first scan to uncover complex, context-dependent problems in your codebase.',
   'hunter_agent.no_scan_yet.title': 'Start hunting for complex, context-dependent problems',
   'hunter_agent.not_available_for_branch.action': 'See all branches',
   'hunter_agent.not_available_for_branch.description':
     'Select a long-lived branch to run the Hunter Agent',
   'hunter_agent.not_available_for_branch.title':
-    'Hunter agent is not available for PRs and short-lived branches.',
+    'Hunter Agent is not available for PRs and short-lived branches.',
   'hunter_agent.project_not_bound.action': 'Set up project binding',
   'hunter_agent.project_not_bound.description.admin':
     'Set up project binding before running the Hunter Agent.',
@@ -1064,7 +1064,7 @@ export const defaultMessages = {
   'hunter_agent.run_now.error.422':
     'A scan is already in progress. Please wait for it to complete.',
   'hunter_agent.run_now.success':
-    'Scan started. Track its progress on the hunter agent "Run history" tab.',
+    'Scan started. Track its progress on the Hunter Agent "Run history" tab.',
   'hunter_agent.run_now_button': 'Scan now',
   'hunter_agent.run_now_button.not_admin.tooltip': 'Only project administrators can start scans.',
   'hunter_agent.scan_modal.about_to_scan.branch': 'You are about to run a scan on {branch}.',
