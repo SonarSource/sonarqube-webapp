@@ -24,6 +24,7 @@ import {
   Checkbox,
   Label,
   Modal,
+  ModalProps,
   TextArea,
   ToggleTip,
 } from '@sonarsource/echoes-react';
@@ -32,16 +33,20 @@ import { FormattedMessage, useIntl } from 'react-intl';
 
 interface Props<T extends string> {
   comment: string;
-  /** Extra content rendered under the comment field — static info or an interactive control
+  /** Extra content rendered above the comment field — static info or an interactive control
    * (e.g. a snoozed-until note, or a date selector for a dated transition). */
   extraContent?: ReactNode;
   isFeedback: boolean;
   isOpen: boolean;
+  /** Overrides the comment field's label. Defaults to the generic status_transition.comment.label. */
+  label?: ReactNode;
   onClose: () => void;
   onCommentChange: (comment: string) => void;
   onConfirm: (comment: string, isFeedback: boolean) => void;
   onIsFeedbackChange: (isFeedback: boolean) => void;
   showFeedbackCheckbox?: boolean;
+  /** Overrides the dialog's title. Defaults to the generic status_transition.comment.title. */
+  title?: ModalProps['title'];
   transition: T;
 }
 
@@ -50,11 +55,13 @@ export function IssueTransitionCommentDialog<T extends string>({
   extraContent,
   isFeedback,
   isOpen,
+  label,
   onClose,
   onCommentChange,
   onConfirm,
   onIsFeedbackChange,
   showFeedbackCheckbox,
+  title,
   transition,
 }: Readonly<Props<T>>) {
   const { formatMessage } = useIntl();
@@ -63,18 +70,21 @@ export function IssueTransitionCommentDialog<T extends string>({
     <Modal
       content={
         <div className="sw-flex sw-flex-col sw-gap-4">
+          {extraContent}
           <TextArea
             isResizable
             label={
               <Label>
-                <FormattedMessage
-                  id="status_transition.comment.label"
-                  values={{
-                    status: formatMessage({
-                      id: `status_transition.${transition}.to_status`,
-                    }),
-                  }}
-                />
+                {label ?? (
+                  <FormattedMessage
+                    id="status_transition.comment.label"
+                    values={{
+                      status: formatMessage({
+                        id: `status_transition.${transition}.to_status`,
+                      }),
+                    }}
+                  />
+                )}
               </Label>
             }
             onChange={(event) => {
@@ -84,7 +94,6 @@ export function IssueTransitionCommentDialog<T extends string>({
             rows={5}
             value={comment}
           />
-          {extraContent}
           {showFeedbackCheckbox && (
             <div className="sw-flex sw-gap-1">
               <Checkbox
@@ -125,7 +134,7 @@ export function IssueTransitionCommentDialog<T extends string>({
           <FormattedMessage id="cancel" />
         </Button>
       }
-      title={<FormattedMessage id="status_transition.comment.title" />}
+      title={title ?? <FormattedMessage id="status_transition.comment.title" />}
     />
   );
 }
