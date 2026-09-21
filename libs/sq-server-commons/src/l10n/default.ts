@@ -11153,7 +11153,8 @@ export const defaultMessages = {
     'Overage is calculated from your highest LOC peak this month. Upgrade your plan to unlock a higher LOC limit at a lower rate.',
   'license.loc_usage.overage.tooltip.usage_title': 'Usage',
   'license.loc_usage.overage.tooltip.usage_limit': '{used} / {limit} overage limit',
-  'license.loc_usage.overage.tooltip.cost': '{cost} plus taxes',
+  'license.loc_usage.overage.tooltip.cost_title': 'Cost',
+  'license.loc_usage.overage.tooltip.cost': '{cost} plus taxes per month<br></br>(limit {limit})',
   'license.loc_usage.overage.tooltip.tax_note':
     'Tax will be calculated based on the exchange rate and tax rules in effect on the date the invoice is issued',
   'license.loc_usage.overage.billable_marker.tooltip':
