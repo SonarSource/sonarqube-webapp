@@ -11144,13 +11144,13 @@ export const defaultMessages = {
   'license.license_key': 'License key',
   'license.license_usage': 'License usage',
   'license.loc_usage.title': 'Lines of code',
-  'license.loc_usage.purchased.title': 'Purchased LOC',
+  'license.loc_usage.purchased.title': 'Lines of code usage',
   'license.loc_usage.purchased.description': 'Included in your license',
   'license.loc_usage.purchased.analyzed_out_of': '{analyzed} lines analyzed out of {purchased}',
   'license.loc_usage.overage.title': 'Overage',
   'license.loc_usage.overage.tooltip.title': 'LOC overage',
   'license.loc_usage.overage.tooltip.description':
-    'Overage is additional lines you can use beyond your purchased plan, billed monthly.',
+    'Overage is calculated from your highest LOC peak this month. Upgrade your plan to unlock a higher LOC limit at a lower rate.',
   'license.loc_usage.overage.tooltip.usage_title': 'Usage',
   'license.loc_usage.overage.tooltip.usage_limit': '{used} / {limit} overage limit',
   'license.loc_usage.overage.tooltip.cost': '{cost} plus taxes',
@@ -11171,11 +11171,10 @@ export const defaultMessages = {
   'license.loc_usage.overage.misprovisioned.tooltip':
     'Overage is additional lines you can use beyond your purchased plan, billed monthly. Required overage settings are missing from your license. Contact SonarSource support to resolve this.',
   'license.loc_usage.ratio': '{used}/{limit}',
-  'license.loc_usage.legend.purchased_analyzed': 'Purchased lines analyzed',
-  'license.loc_usage.legend.overage_analyzed': 'Overage lines analyzed',
-  'license.loc_usage.legend.overage_billable': 'Overage Billable ({value})',
+  'license.loc_usage.legend.purchased_analyzed': 'Lines of code analyzed',
+  'license.loc_usage.legend.overage_billable': 'Overage lines of code',
   'license.loc_usage.legend.overage_billable.tooltip':
-    "The highest reading this period, which is what's billed even if analysis has since dropped back down.",
+    'Overage is calculated from your highest LOC peak this month. Upgrade your plan to unlock a higher LOC limit at a lower rate.',
   'license.ncloc_lines_analyzed': '{ncloc} lines currently analyzed',
   'license.no_license.not_added': "It seems like you haven't added any license yet.",
   'license.no_license.reach_out':
