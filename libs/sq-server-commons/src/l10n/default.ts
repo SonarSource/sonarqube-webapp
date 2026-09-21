@@ -3367,6 +3367,8 @@ export const defaultMessages = {
   'architecture.page.model.spotlight.patterns': 'Patterns',
   'architecture.page.model.pattern_select.label': 'Apply a pattern',
   'architecture.page.model.pattern_select.no_pattern': 'No pattern',
+  'architecture.page.model.pattern_select.empty':
+    'There are no patterns defined. <link>Go to Patterns</link>',
   'architecture.page.model.pattern_badge.has_pattern': 'Pattern applied',
   'architecture.page.model.pattern_confirm.title': 'Assign pattern?',
   'architecture.page.model.pattern_confirm.message':
