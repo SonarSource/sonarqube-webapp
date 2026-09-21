@@ -36,6 +36,16 @@ export function hasSingleDatapoint(data: LineChartDataPoint[]): boolean {
   return data.length === 1 && point?.y != null && !Number.isNaN(point.y);
 }
 
+export function hasSingleDatapointSeries(series: LineChartSeries[]): boolean {
+  return series.some((entry) => hasSingleDatapoint(entry.data));
+}
+
+export function singleDatapointMessageId(series: LineChartSeries[]): string {
+  return series.length === 1
+    ? 'dashboard.line_chart.single_data'
+    : 'dashboard.line_chart.single_data_series';
+}
+
 export function seriesHasValidData(series: LineChartSeries[]): boolean {
   return series.some((entry) =>
     entry.data.some((point) => point.y != null && !Number.isNaN(point.y)),

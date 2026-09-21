@@ -30,6 +30,10 @@ import {
   formatDotValue,
   formatYAxisTick,
 } from '../../components/visualizations/line-chart/lineChartPresentation';
+import {
+  aggregateSmallSegments,
+  getSegmentColor,
+} from '../../components/visualizations/pie-chart/pieChartSegmentUtils';
 import { getDashboardMetricTitle } from '../../components/widget-header/widgetHeaderText';
 import {
   dashboardMeasureHistoryMetricKey,
@@ -42,6 +46,7 @@ import {
 } from '../../data/dashboard-measure-history';
 import { DashboardMetricType, type DashboardMetric } from '../../data/widgets/shared';
 import { useMttrFormatters } from '../../hooks/useMttrFormatters';
+import { PieChartIssueSlice } from '../../types/dashboard-widget';
 import { IssueResolutionStatistic } from '../../types/organization-issue-resolution-history';
 import type { LineChartSeries } from '../../types/visualization';
 import { dashboardHistoryDateRange } from '../../utils/datetime';
@@ -108,6 +113,22 @@ function dashboardMeasureIsMttr(measure: DashboardMeasure): boolean {
   );
 }
 
+function rankedRuleSeriesKeys(
+  sortedHistory: ReadonlyArray<{ distribution: Array<{ key: string; value?: number }> }>,
+): string[] {
+  const totals = new Map<string, number>();
+  for (const day of sortedHistory) {
+    for (const entry of day.distribution) {
+      if ((entry.value ?? 0) > 0) {
+        totals.set(entry.key, (totals.get(entry.key) ?? 0) + (entry.value ?? 0));
+      }
+    }
+  }
+  const sortedEntries = [...totals].sort((a, b) => b[1] - a[1]);
+  const total = sortedEntries.reduce((sum, [, count]) => sum + count, 0);
+  return total > 0 ? aggregateSmallSegments(sortedEntries, total).map(([key]) => key) : [];
+}
+
 function groupedSeriesLabel(
   key: string,
   sliceBy: NonNullable<Extract<DashboardMeasure, { api: 'issue-count-history' }>['sliceBy']>,
@@ -160,14 +181,23 @@ function historyToSeries(
   if (measure.api === 'issue-count-history' && measure.sliceBy !== undefined) {
     const sortedHistory = sortDashboardHistory(data.history);
     const sliceBy = measure.sliceBy;
-    const keys = [
-      ...new Set(sortedHistory.flatMap((day) => day.distribution.map(({ key }) => key))),
-    ];
+    const isGroupedByRule = sliceBy === 'RULE_KEY';
+    const keys = isGroupedByRule
+      ? rankedRuleSeriesKeys(sortedHistory)
+      : [...new Set(sortedHistory.flatMap((day) => day.distribution.map(({ key }) => key)))];
+    const explicitKeys = new Set(keys.filter((key) => !key.startsWith('OTHER_')));
+
     return keys.map((key, index) => ({
-      color: CHART_CATEGORICAL_COLORS[index % CHART_CATEGORICAL_COLORS.length],
+      color: isGroupedByRule
+        ? getSegmentColor(key, index, PieChartIssueSlice.Rules)
+        : CHART_CATEGORICAL_COLORS[index % CHART_CATEGORICAL_COLORS.length],
       data: sortedHistory.map((day) => ({
         x: new Date(day.date),
-        y: day.distribution.find((entry) => entry.key === key)?.value ?? 0,
+        y: key.startsWith('OTHER_')
+          ? day.distribution
+              .filter((entry) => !explicitKeys.has(entry.key))
+              .reduce((sum, entry) => sum + (entry.value ?? 0), 0)
+          : (day.distribution.find((entry) => entry.key === key)?.value ?? 0),
       })),
       id: key,
       label: groupedSeriesLabel(key, sliceBy, formatMessage),
@@ -230,7 +260,7 @@ export function DashboardMeasureLineChart({
     ruleKeys,
   });
   const ruleRelabelledSeries = isGroupedByRule
-    ? relabelMultiLineSeriesWithRules(series, 'rule', ruleLabels.rulesByKey)
+    ? relabelMultiLineSeriesWithRules(series, 'rule', ruleLabels.rulesByKey, formatMessage)
     : series;
   const isGroupedBySeverity =
     measure.api === 'issue-count-history' && measure.sliceBy === 'SEVERITY';

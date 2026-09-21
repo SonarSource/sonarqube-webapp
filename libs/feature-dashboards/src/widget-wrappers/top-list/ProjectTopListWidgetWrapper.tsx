@@ -89,13 +89,29 @@ function ProjectTopListWidgetView(
       buildTopListRows(
         counts,
         (value) =>
-          formatSegmentLabel(value, PieChartMetric.IssueCount, facet, { rules: rulesByKey }),
+          formatSegmentLabel(
+            value,
+            PieChartMetric.IssueCount,
+            facet,
+            { rules: rulesByKey },
+            formatMessage,
+          ),
         projectKey ? getLabelUrl : undefined,
         getRuleTrendData,
         limit,
         projectKey ? getCountUrl : undefined,
       ),
-    [counts, facet, getCountUrl, getLabelUrl, getRuleTrendData, limit, projectKey, rulesByKey],
+    [
+      counts,
+      facet,
+      formatMessage,
+      getCountUrl,
+      getLabelUrl,
+      getRuleTrendData,
+      limit,
+      projectKey,
+      rulesByKey,
+    ],
   );
 
   const ariaLabel = formatMessage({ id: 'dashboard.top_list.aria_label' }, { limit });

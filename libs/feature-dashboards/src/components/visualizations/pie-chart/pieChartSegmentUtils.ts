@@ -19,6 +19,7 @@
  */
 
 import { cssVar } from '@sonarsource/echoes-react';
+import type { IntlShape } from 'react-intl';
 import { CHART_CATEGORICAL_COLORS } from '~shared/helpers/charts';
 import {
   PieChartHotspotSlice,
@@ -172,7 +173,7 @@ function cleanCodeAttributeCategoryMessageId(
 /** Shared pie segment label for clean-code categories and standard slice metadata. */
 export function formatPieChartSegmentLabel(
   value: string,
-  formatMessage: (descriptor: { id: string }) => string,
+  formatMessage: IntlShape['formatMessage'],
   metric: PieChartMetric,
   slice: PieChartSlice,
   metadata?: PieChartSegmentLabelMetadata,
@@ -191,11 +192,17 @@ export function formatPieChartSegmentLabel(
     slice === PieChartLineSlice.Language ||
     Boolean(options?.needsLanguageMetadata);
 
-  return formatSegmentLabel(value, metric, slice, {
-    languages: usesLanguageMetadata ? metadata?.languages : undefined,
-    rules: metadata?.rules,
-    securityCategories: metadata?.securityCategories,
-  });
+  return formatSegmentLabel(
+    value,
+    metric,
+    slice,
+    {
+      languages: usesLanguageMetadata ? metadata?.languages : undefined,
+      rules: metadata?.rules,
+      securityCategories: metadata?.securityCategories,
+    },
+    formatMessage,
+  );
 }
 
 /**
@@ -300,14 +307,25 @@ export function sortSegments(
   });
 }
 
+function formatOtherSegmentLabel(
+  value: string,
+  formatMessage?: IntlShape['formatMessage'],
+): string {
+  const count = value.split('_')[1];
+  return formatMessage
+    ? formatMessage({ id: 'dashboard.chart.other_n' }, { count })
+    : `Other (${count})`;
+}
+
 export function formatSegmentLabel(
   value: string,
   metric: PieChartMetric,
   slice: PieChartSlice,
   metadata?: PieChartSegmentLabelMetadata,
+  formatMessage?: IntlShape['formatMessage'],
 ): string {
   if (value.startsWith('OTHER_')) {
-    return `Other (${value.split('_')[1]})`;
+    return formatOtherSegmentLabel(value, formatMessage);
   }
 
   if (

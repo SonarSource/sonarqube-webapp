@@ -21,6 +21,10 @@
 import { MessageInline, MessageInlineSize, MessageVariety } from '@sonarsource/echoes-react';
 import { type ComponentProps } from 'react';
 import { useIntl } from 'react-intl';
+import {
+  hasSingleDatapointSeries,
+  singleDatapointMessageId,
+} from '../../components/visualizations/chartGeometry';
 import { MultiLineChart } from '../../components/visualizations/multi-line-chart/MultiLineChart';
 import { getLimitedHistoryStartDate } from '../../utils/lineChartHistoryUtils';
 
@@ -37,6 +41,24 @@ export function LineChartWidgetShell(props: LineChartWidgetShellProps) {
     !hasFetchError && !isPending && requestedStartDate !== undefined
       ? getLimitedHistoryStartDate(series, requestedStartDate)
       : undefined;
+  const hasLimitedData = !hasFetchError && !isPending && hasSingleDatapointSeries(series);
+
+  const infoMessages = [
+    hasLimitedData ? formatMessage({ id: singleDatapointMessageId(series) }) : undefined,
+    limitedHistoryStartDate
+      ? formatMessage(
+          { id: 'dashboard.line_chart.limited_history_warning' },
+          {
+            date: formatDate(limitedHistoryStartDate, {
+              day: 'numeric',
+              month: 'long',
+              timeZone: 'UTC',
+              year: 'numeric',
+            }),
+          },
+        )
+      : undefined,
+  ].filter((message) => message !== undefined);
 
   return (
     <div className="sw-h-full sw-min-h-0 sw-flex sw-flex-col sw-gap-4">
@@ -48,23 +70,13 @@ export function LineChartWidgetShell(props: LineChartWidgetShellProps) {
           series={series}
         />
       </div>
-      {limitedHistoryStartDate && (
+      {infoMessages.length > 0 && (
         <MessageInline
           className="sw-flex-shrink-0 sw-self-start"
           size={MessageInlineSize.Small}
           variety={MessageVariety.Info}
         >
-          {formatMessage(
-            { id: 'dashboard.line_chart.limited_history_warning' },
-            {
-              date: formatDate(limitedHistoryStartDate, {
-                day: 'numeric',
-                month: 'long',
-                timeZone: 'UTC',
-                year: 'numeric',
-              }),
-            },
-          )}
+          {infoMessages.join(' · ')}
         </MessageInline>
       )}
     </div>

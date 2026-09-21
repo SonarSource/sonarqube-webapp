@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import type { IntlShape } from 'react-intl';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MetricKey, MetricType } from '~shared/types/metrics';
@@ -25,7 +26,6 @@ import {
   CodeScope,
   DashboardMetricType,
   HistoryRange,
-  LineChartGroupBy,
   PieChartHotspotSlice,
   PieChartIssueFilter,
   PieChartIssueSlice,
@@ -58,7 +58,6 @@ import {
   organizationsHistoryStartDateWithRetentionBuffer,
   portfolioIssueCountHistoryLatestTotal,
   portfolioIssueHistoryToLineData,
-  portfolioIssueHistoryToMultiLineSeries,
   portfolioIssueHistoryToSparklineSeries,
   portfolioIssueHistoryToTrend,
   portfolioMeasuresHistoryLatestValue,
@@ -73,7 +72,10 @@ import {
   tryQualityGateDistributionMessageId,
 } from '../dashboard-widget-data';
 
-const formatMessage = ({ id }: { id: string }) => id;
+const formatMessage = ((descriptor: { id: string }, values?: Record<string, unknown>) =>
+  values
+    ? `${descriptor.id}.${Object.values(values).join('.')}`
+    : descriptor.id) as unknown as IntlShape['formatMessage'];
 
 function issueDay(date: string, distribution: Array<{ key: string; value: number }>) {
   return { date, distribution };
@@ -179,21 +181,10 @@ describe('dashboard widget data helpers', () => {
       });
     });
 
-    it('creates line and grouped series, including rules absent from the latest day', () => {
+    it('creates a line series summing every day in range', () => {
       const line = portfolioIssueHistoryToLineData(history, HistoryRange.Last3Months);
       expect(line.map((point) => point.y)).toEqual([1, 24, 7]);
       expect(portfolioIssueHistoryToLineData(undefined, HistoryRange.Last3Months)).toEqual([]);
-
-      const series = portfolioIssueHistoryToMultiLineSeries(
-        history,
-        HistoryRange.Last3Months,
-        LineChartGroupBy.Rule,
-      );
-      expect(series.map((entry) => entry.id)).toEqual(['java:S2', 'java:S1']);
-      expect(series[0]?.data.map((point) => point.y)).toEqual([0, 20, 0]);
-      expect(
-        portfolioIssueHistoryToMultiLineSeries(history, HistoryRange.Last3Months, 'none'),
-      ).toEqual([]);
     });
   });
 
@@ -574,7 +565,7 @@ describe('dashboard widget data helpers', () => {
         ),
       ).toBe('Rule name');
       expect(formatPieChartSegmentLabel('OTHER_2', formatMessage, 'metric', 'slice')).toBe(
-        'Other (2)',
+        'dashboard.chart.other_n.2',
       );
       expect(
         formatPieChartSegmentLabel(
@@ -928,54 +919,6 @@ describe('dashboard widget data helpers', () => {
           MetricKey.new_lines,
         ]),
       );
-    });
-
-    it('creates grouped series for each issue-history dimension', () => {
-      jest.useFakeTimers();
-      jest.setSystemTime(new Date('2026-03-30T12:00:00.000Z'));
-      const groupedHistory = [
-        issueDay('2026-03-20T00:00:00.000Z', [
-          { key: 'BLOCKER', value: 5 },
-          { key: 'SECURITY:HIGH', value: 4 },
-          { key: 'OPEN', value: 3 },
-          { key: 'java:S1', value: 2 },
-          { key: 'java:S2', value: 2 },
-          { key: 'java:S3', value: 2 },
-          { key: 'java:S4', value: 2 },
-          { key: 'java:S5', value: 2 },
-          { key: 'java:S6', value: 2 },
-        ]),
-      ];
-
-      expect(
-        portfolioIssueHistoryToMultiLineSeries(
-          groupedHistory,
-          HistoryRange.Last3Months,
-          LineChartGroupBy.Severity,
-        ),
-      ).toHaveLength(9);
-      expect(
-        portfolioIssueHistoryToMultiLineSeries(
-          groupedHistory,
-          HistoryRange.Last3Months,
-          LineChartGroupBy.SoftwareQuality,
-        ),
-      ).toHaveLength(9);
-      expect(
-        portfolioIssueHistoryToMultiLineSeries(
-          groupedHistory,
-          HistoryRange.Last3Months,
-          LineChartGroupBy.Status,
-        ),
-      ).toHaveLength(9);
-      expect(
-        portfolioIssueHistoryToMultiLineSeries(
-          groupedHistory,
-          HistoryRange.Last3Months,
-          LineChartGroupBy.Rule,
-        ).some((series) => series.id.startsWith('OTHER_')),
-      ).toBe(true);
-      jest.useRealTimers();
     });
   });
 

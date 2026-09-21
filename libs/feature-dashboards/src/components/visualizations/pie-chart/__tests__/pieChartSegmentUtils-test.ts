@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import type { IntlShape } from 'react-intl';
 import {
   PieChartHotspotSlice,
   PieChartIssueSlice,
@@ -37,6 +38,12 @@ import {
   SEVERITY_COLORS,
   sortSegments,
 } from '../pieChartSegmentUtils';
+
+function mockFormatMessage(
+  impl: (descriptor: { id: string }, values?: Record<string, unknown>) => string,
+): IntlShape['formatMessage'] {
+  return impl as unknown as IntlShape['formatMessage'];
+}
 
 describe('pieChartSegmentUtils', () => {
   describe('aggregateSmallSegments', () => {
@@ -182,6 +189,15 @@ describe('pieChartSegmentUtils', () => {
         formatSegmentLabel('OTHER_4', PieChartMetric.IssueCount, PieChartIssueSlice.Languages),
       ).toBe('Other (4)');
       expect(
+        formatSegmentLabel(
+          'OTHER_4',
+          PieChartMetric.IssueCount,
+          PieChartIssueSlice.Languages,
+          undefined,
+          mockFormatMessage((descriptor, values) => `${descriptor.id}:${JSON.stringify(values)}`),
+        ),
+      ).toBe('dashboard.chart.other_n:{"count":"4"}');
+      expect(
         formatSegmentLabel('covered', PieChartMetric.LineCount, PieChartLineSlice.Coverage),
       ).toBe('Covered');
       expect(
@@ -220,7 +236,7 @@ describe('pieChartSegmentUtils', () => {
       expect(
         formatPieChartSegmentLabel(
           'INTENTIONAL',
-          (descriptor) => descriptor.id,
+          mockFormatMessage((descriptor) => descriptor.id),
           PieChartMetric.IssueCount,
           PieChartIssueSlice.CleanCodeAttributeCategories,
         ),
@@ -231,7 +247,7 @@ describe('pieChartSegmentUtils', () => {
       expect(
         formatPieChartSegmentLabel(
           'js',
-          (descriptor) => descriptor.id,
+          mockFormatMessage((descriptor) => descriptor.id),
           PieChartMetric.IssueCount,
           PieChartIssueSlice.Languages,
           { languages: { js: { name: 'JavaScript' } } },

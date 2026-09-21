@@ -54,20 +54,51 @@ afterEach(() => {
   jest.useRealTimers();
 });
 
-it('renders Queena’s dynamic limited-history message below the active chart', () => {
+it('combines the single-datapoint and limited-history messages into one banner below the chart', () => {
   renderWithContext(<LineChartWidgetShell {...defaultProps} />);
 
   expect(screen.getByTestId('multi-line-chart')).toBeInTheDocument();
+  expect(
+    screen.getByText(
+      'dashboard.line_chart.single_data · dashboard.line_chart.limited_history_warning.Apr 15, 2026',
+    ),
+  ).toBeInTheDocument();
+});
+
+it('shows only the limited-history message when every series has more than one point', () => {
+  const series = [
+    {
+      ...defaultProps.series[0],
+      data: [
+        { x: new Date('2026-04-15T00:00:00.000Z'), y: 7 },
+        { x: new Date('2026-04-20T00:00:00.000Z'), y: 9 },
+      ],
+    },
+  ];
+
+  renderWithContext(<LineChartWidgetShell {...defaultProps} series={series} />);
+
   expect(
     screen.getByText('dashboard.line_chart.limited_history_warning.Apr 15, 2026'),
   ).toBeInTheDocument();
 });
 
-it('hides the message for complete, pending, or failed data', () => {
+it('shows only the single-datapoint message when history is not limited', () => {
+  renderWithContext(<LineChartWidgetShell {...defaultProps} requestedStartDate={undefined} />);
+
+  expect(screen.getByText('dashboard.line_chart.single_data')).toBeInTheDocument();
+});
+
+const singleDatapointMessage = /dashboard\.line_chart\.single_data/;
+
+it('hides both messages for complete, pending, or failed data', () => {
   const completeSeries = [
     {
       ...defaultProps.series[0],
-      data: [{ x: new Date('2025-10-31T00:00:00.000Z'), y: 7 }],
+      data: [
+        { x: new Date('2025-10-31T00:00:00.000Z'), y: 7 },
+        { x: new Date('2026-04-15T00:00:00.000Z'), y: 9 },
+      ],
     },
   ];
   const { rerender } = renderWithContext(
@@ -76,12 +107,15 @@ it('hides the message for complete, pending, or failed data', () => {
 
   expect(screen.getByTestId('multi-line-chart')).toBeInTheDocument();
   expect(screen.queryByText(limitedHistoryMessage)).not.toBeInTheDocument();
+  expect(screen.queryByText(singleDatapointMessage)).not.toBeInTheDocument();
 
   rerender(<LineChartWidgetShell {...defaultProps} isPending />);
   expect(screen.queryByText(limitedHistoryMessage)).not.toBeInTheDocument();
+  expect(screen.queryByText(singleDatapointMessage)).not.toBeInTheDocument();
 
   rerender(<LineChartWidgetShell {...defaultProps} hasFetchError />);
   expect(screen.queryByText(limitedHistoryMessage)).not.toBeInTheDocument();
+  expect(screen.queryByText(singleDatapointMessage)).not.toBeInTheDocument();
 });
 
 it('does not report limited history when one series has complete history', () => {

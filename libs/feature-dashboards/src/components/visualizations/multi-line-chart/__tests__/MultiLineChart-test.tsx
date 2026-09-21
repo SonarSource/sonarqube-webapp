@@ -70,12 +70,9 @@ jest.mock('../../RenderYAxis', () => ({
 }));
 
 jest.mock('../../RenderChartFooter', () => ({
-  FOOTER_GAP_PX: 8,
   LEGEND_ROW_HEIGHT_PX: 32,
-  SINGLE_DATAPOINT_MESSAGE_HEIGHT_PX: 24,
   RenderChartFooter: ({
     focusedSeriesIndex,
-    isSingleDatapoint,
     legendContainerRef,
     legendItems,
     onLegendMouseEnter,
@@ -83,10 +80,8 @@ jest.mock('../../RenderChartFooter', () => ({
     onSeriesHover,
     onSeriesSelect,
     showLegend,
-    singleDatapointMessageId,
   }: {
     focusedSeriesIndex: number | undefined;
-    isSingleDatapoint: boolean;
     legendContainerRef?: RefObject<HTMLDivElement | null>;
     legendItems: Array<{ color: string; label: string; seriesIndex?: number }>;
     onLegendMouseEnter?: () => void;
@@ -94,7 +89,6 @@ jest.mock('../../RenderChartFooter', () => ({
     onSeriesHover?: (index: number | undefined) => void;
     onSeriesSelect?: (index: number) => void;
     showLegend: boolean;
-    singleDatapointMessageId?: string;
   }) => (
     <div
       data-testid="legend-container"
@@ -103,7 +97,7 @@ jest.mock('../../RenderChartFooter', () => ({
       ref={legendContainerRef}
     >
       <div data-testid="footer-summary">
-        {`footer:${String(showLegend)}:single=${String(isSingleDatapoint)}:message=${String(singleDatapointMessageId)}:focused=${String(focusedSeriesIndex)}:count=${legendItems.length}`}
+        {`footer:${String(showLegend)}:focused=${String(focusedSeriesIndex)}:count=${legendItems.length}`}
       </div>
       {legendItems.map((item, index) => (
         <button
@@ -611,10 +605,6 @@ describe('MultiLineChart', () => {
     expect(line).toHaveAttribute('stroke', '#00ff00');
     expect(line).toHaveAttribute('stroke-width', '2');
     /* eslint-enable testing-library/no-node-access */
-    expect(screen.getByTestId('footer-summary')).toHaveTextContent('single=true');
-    expect(screen.getByTestId('footer-summary')).toHaveTextContent(
-      'message=dashboard.line_chart.single_data_series',
-    );
   });
 
   it('does not render a marker or message for a single entry without a usable value', async () => {
@@ -645,7 +635,6 @@ describe('MultiLineChart', () => {
     const svg = await screen.findByLabelText('multi-line-chart');
     // eslint-disable-next-line testing-library/no-node-access -- chart primitives have no roles
     expect(svg.querySelector('circle')).toBeNull();
-    expect(screen.getByTestId('footer-summary')).toHaveTextContent('single=false');
   });
 
   it('includes the single-point message in the tooltip when any series has one point', async () => {
@@ -708,9 +697,6 @@ describe('MultiLineChart', () => {
 
     expect(await screen.findByTestId('line-chart-tooltip')).toHaveTextContent(
       'dashboard.line_chart.single_data',
-    );
-    expect(screen.getByTestId('footer-summary')).toHaveTextContent(
-      'message=dashboard.line_chart.single_data',
     );
   });
 

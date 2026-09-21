@@ -26,7 +26,6 @@ import {
   issueHistoryToLineData,
   lineChartDataToSingleSeries,
   portfolioIssueHistoryToLineData,
-  portfolioIssueHistoryToMultiLineSeries,
   portfolioMeasuresToLineData,
   projectMeasuresHistoryToLineChartData,
   relabelMultiLineSeriesWithRules,
@@ -140,94 +139,6 @@ describe('customDashboardLineChart lineChartSeriesTransforms', () => {
       );
       expect(points).toEqual([{ x: new Date('2026-06-01T00:00:00Z'), y: 5 }]);
       jest.useRealTimers();
-    });
-  });
-
-  describe('portfolioIssueHistoryToMultiLineSeries (grouped by rule)', () => {
-    beforeEach(() => {
-      jest.useFakeTimers();
-      jest.setSystemTime(new Date('2026-06-17T12:00:00.000Z'));
-    });
-
-    afterEach(() => {
-      jest.useRealTimers();
-    });
-
-    it('still produces series when the latest day reports zero counts for every rule', () => {
-      const series = portfolioIssueHistoryToMultiLineSeries(
-        [
-          {
-            date: '2026-06-17T00:00:00Z',
-            distribution: [
-              { key: 'java:S1128', value: 0 },
-              { key: 'java:S1133', value: 0 },
-            ],
-          },
-          {
-            date: '2026-06-15T00:00:00Z',
-            distribution: [
-              { key: 'java:S1128', value: 5 },
-              { key: 'java:S1133', value: 2 },
-            ],
-          },
-        ],
-        HistoryRange.LastMonth,
-        LineChartGroupBy.Rule,
-      );
-
-      expect(series.map((entry) => entry.id)).toEqual(['java:S1128', 'java:S1133']);
-      expect(series[0].data).toHaveLength(2);
-      expect(
-        series[0].data.find((p) => (p.x as Date).toISOString().startsWith('2026-06-15'))?.y,
-      ).toBe(5);
-      expect(
-        series[0].data.find((p) => (p.x as Date).toISOString().startsWith('2026-06-17'))?.y,
-      ).toBe(0);
-    });
-
-    it('includes a rule key that no longer appears on the latest day', () => {
-      const series = portfolioIssueHistoryToMultiLineSeries(
-        [
-          {
-            date: '2026-06-17T00:00:00Z',
-            distribution: [{ key: 'java:S1128', value: 4 }],
-          },
-          {
-            date: '2026-06-15T00:00:00Z',
-            distribution: [
-              { key: 'java:S1128', value: 5 },
-              { key: 'java:S1133', value: 2 },
-            ],
-          },
-        ],
-        HistoryRange.LastMonth,
-        LineChartGroupBy.Rule,
-      );
-
-      expect(series.map((entry) => entry.id)).toEqual(['java:S1128', 'java:S1133']);
-      const s1133 = series.find((entry) => entry.id === 'java:S1133');
-      expect(s1133?.data.find((p) => (p.x as Date).toISOString().startsWith('2026-06-17'))?.y).toBe(
-        0,
-      );
-    });
-
-    it('returns no series when every day in the window has zero counts', () => {
-      const series = portfolioIssueHistoryToMultiLineSeries(
-        [
-          {
-            date: '2026-06-17T00:00:00Z',
-            distribution: [{ key: 'java:S1128', value: 0 }],
-          },
-          {
-            date: '2026-06-15T00:00:00Z',
-            distribution: [{ key: 'java:S1128', value: 0 }],
-          },
-        ],
-        HistoryRange.LastMonth,
-        LineChartGroupBy.Rule,
-      );
-
-      expect(series).toEqual([]);
     });
   });
 
@@ -432,6 +343,21 @@ describe('customDashboardLineChart lineChartSeriesTransforms', () => {
       expect(result[0]?.id).toBe('java:S1128');
       expect(result[0]?.data).toBe(inputSeries[0]?.data);
       expect(typeof result[0]?.label).toBe('string');
+    });
+
+    it('localizes the Other bucket label via formatMessage when provided', () => {
+      const inputSeries = [{ id: 'OTHER_3', label: 'orig', data: [], color: 'gray' }];
+      const formatMessage = jest.fn(
+        (descriptor: { id: string }, values?: Record<string, unknown>) =>
+          `${descriptor.id}:${JSON.stringify(values)}`,
+      );
+      const result = relabelMultiLineSeriesWithRules(
+        inputSeries,
+        LineChartGroupBy.Rule,
+        {},
+        formatMessage as unknown as Parameters<typeof relabelMultiLineSeriesWithRules>[3],
+      );
+      expect(result[0]?.label).toBe('dashboard.chart.other_n:{"count":"3"}');
     });
   });
 });

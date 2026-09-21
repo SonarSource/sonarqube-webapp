@@ -4186,6 +4186,7 @@ export const defaultMessages = {
   'dashboard.line_chart.single_data_series':
     'Some series have only one data point available to display',
   'dashboard.chart.legend.more': '+{count} more',
+  'dashboard.chart.other_n': 'Other ({count})',
   'dashboard.drag_to_reorder': 'Drag to reorder',
   'dashboard.edit_widget': 'Edit widget',
   'dashboard.edit_section_title': 'Edit section',

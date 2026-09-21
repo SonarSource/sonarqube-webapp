@@ -19,14 +19,10 @@
  */
 
 import { cssVar } from '@sonarsource/echoes-react';
+import type { IntlShape } from 'react-intl';
 import { isDefined } from '~shared/helpers/types';
 import { MetricKey } from '~shared/types/metrics';
-import {
-  aggregateSmallSegments,
-  formatSegmentLabel,
-  getSegmentColor,
-  sortSegments,
-} from '../components/visualizations/pie-chart/pieChartSegmentUtils';
+import { formatSegmentLabel } from '../components/visualizations/pie-chart/pieChartSegmentUtils';
 import {
   HistoryRange,
   LineChartGroupBy,
@@ -131,105 +127,6 @@ export function portfolioIssueHistoryToLineData(
   return points;
 }
 
-function issueCountForDistributionKey(
-  day: OrganizationsIssueCountHistoryDay,
-  distributionKey: string,
-): number {
-  const entry = day.distribution.find((e) => e.key === distributionKey);
-  return entry?.value ?? 0;
-}
-
-function issueCountForOtherKeys(
-  day: OrganizationsIssueCountHistoryDay,
-  keptKeys: readonly string[],
-): number {
-  const kept = new Set(keptKeys);
-  return day.distribution
-    .filter((entry) => !kept.has(entry.key))
-    .reduce((sum, entry) => sum + entry.value, 0);
-}
-
-function resolveSeriesKeys(
-  filteredDays: OrganizationsIssueCountHistoryDay[],
-  groupBy: LineChartGroupByValue,
-  pieChartSlice: PieChartIssueSlice,
-): string[] {
-  if (filteredDays.length === 0) {
-    return [];
-  }
-
-  const keyCounts = new Map<string, number>();
-  for (const day of filteredDays) {
-    for (const entry of day.distribution) {
-      if (entry.value <= 0) {
-        continue;
-      }
-      keyCounts.set(entry.key, (keyCounts.get(entry.key) ?? 0) + entry.value);
-    }
-  }
-
-  if (groupBy === LineChartGroupBy.Rule) {
-    const entries = [...keyCounts.entries()].sort((a, b) => b[1] - a[1]);
-    const total = entries.reduce((sum, [, count]) => sum + count, 0);
-    if (total === 0) {
-      return [];
-    }
-    return aggregateSmallSegments(entries, total).map(([key]) => key);
-  }
-
-  const entries = [...keyCounts.entries()];
-  return sortSegments(entries, pieChartSlice, PieChartMetric.IssueCount).map(([key]) => key);
-}
-
-export function portfolioIssueHistoryToMultiLineSeries(
-  days: OrganizationsIssueCountHistoryDay[] | undefined,
-  historyRange: HistoryRange,
-  groupBy: LineChartGroupByValue,
-  rulesByKey?: RuleMetadataByKey,
-): LineChartSeries[] {
-  if (!days?.length || groupBy === LineChartGroupBy.None) {
-    return [];
-  }
-
-  const pieChartSlice = mapLineChartGroupByToPieChartSlice(groupBy) as PieChartIssueSlice;
-  if (!pieChartSlice) {
-    return [];
-  }
-
-  const filteredDays = days.filter((day) =>
-    isDateInLineChartRange(new Date(day.date), historyRange),
-  );
-  if (filteredDays.length === 0) {
-    return [];
-  }
-
-  const seriesKeys = resolveSeriesKeys(filteredDays, groupBy, pieChartSlice);
-  if (seriesKeys.length === 0) {
-    return [];
-  }
-
-  const explicitKeys = seriesKeys.filter((key) => !key.startsWith('OTHER_'));
-
-  return seriesKeys.map((key, index) => {
-    const isOther = key.startsWith('OTHER_');
-    const data: LineChartDataPoint[] = filteredDays.map((day) => ({
-      x: new Date(day.date),
-      y: isOther
-        ? issueCountForOtherKeys(day, explicitKeys)
-        : issueCountForDistributionKey(day, key),
-    }));
-
-    return {
-      color: getSegmentColor(key, index, pieChartSlice),
-      data,
-      id: key,
-      label: formatSegmentLabel(key, PieChartMetric.IssueCount, pieChartSlice, {
-        rules: rulesByKey,
-      }),
-    };
-  });
-}
-
 export function rulesFromGroupedLineChartSeries(series: LineChartSeries[]): string[] {
   return series.map((entry) => entry.id).filter((key) => !key.startsWith('OTHER_'));
 }
@@ -243,6 +140,7 @@ export function relabelMultiLineSeriesWithRules(
   series: LineChartSeries[],
   groupBy: LineChartGroupByValue,
   rulesByKey: RuleMetadataByKey,
+  formatMessage?: IntlShape['formatMessage'],
 ): LineChartSeries[] {
   if (series.length === 0 || groupBy === LineChartGroupBy.None) {
     return series;
@@ -253,9 +151,13 @@ export function relabelMultiLineSeriesWithRules(
   }
   return series.map((entry) => ({
     ...entry,
-    label: formatSegmentLabel(entry.id, PieChartMetric.IssueCount, pieChartSlice, {
-      rules: rulesByKey,
-    }),
+    label: formatSegmentLabel(
+      entry.id,
+      PieChartMetric.IssueCount,
+      pieChartSlice,
+      { rules: rulesByKey },
+      formatMessage,
+    ),
   }));
 }
 

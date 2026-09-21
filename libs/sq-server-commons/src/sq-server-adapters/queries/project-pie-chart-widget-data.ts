@@ -19,7 +19,7 @@
  */
 
 import { useMemo } from 'react';
-import { useIntl } from 'react-intl';
+import { useIntl, type IntlShape } from 'react-intl';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { getPieChartFacetCounts } from '~shared/helpers/pieChart';
 import { useLanguagesQuery } from '~shared/queries/languages';
@@ -80,7 +80,7 @@ function countsToSegments(
   counts: Record<string, number>,
   widget: PieChartWidget,
   languages: Record<string, { name: string }> | undefined,
-  formatMessage: (descriptor: { id: string }) => string,
+  formatMessage: IntlShape['formatMessage'],
   isStandardMode = false,
 ): DashboardPieChartSegment[] {
   const entries = Object.entries(counts).filter(([, count]) => count > 0);

@@ -18,15 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MessageInline, MessageInlineSize, MessageVariety } from '@sonarsource/echoes-react';
 import { useMemo, type RefObject } from 'react';
-import { useIntl } from 'react-intl';
 import { ChartHorizontalLegend, type LegendItem } from './ChartHorizontalLegend';
 
 interface RenderChartFooterProps {
   availableWidth: number;
   focusedSeriesIndex?: number;
-  isSingleDatapoint: boolean;
   legendContainerRef?: RefObject<HTMLDivElement | null>;
   legendItems: LegendItem[];
   onLegendMouseEnter?: () => void;
@@ -35,19 +32,15 @@ interface RenderChartFooterProps {
   onSeriesSelect?: (seriesIndex: number) => void;
   selectedSeriesIndex?: number;
   showLegend: boolean;
-  singleDatapointMessageId?: string;
   x: number;
   y: number;
 }
 
-export const SINGLE_DATAPOINT_MESSAGE_HEIGHT_PX = 24;
 export const LEGEND_ROW_HEIGHT_PX = 32;
-export const FOOTER_GAP_PX = 8;
 
 export function RenderChartFooter({
   availableWidth,
   focusedSeriesIndex,
-  isSingleDatapoint,
   selectedSeriesIndex,
   legendContainerRef,
   legendItems,
@@ -56,53 +49,35 @@ export function RenderChartFooter({
   onSeriesHover,
   onSeriesSelect,
   showLegend,
-  singleDatapointMessageId = 'dashboard.line_chart.single_data',
   x,
   y,
 }: Readonly<RenderChartFooterProps>) {
-  const { formatMessage } = useIntl();
   const visibleItems = useMemo(
     () => legendItems.filter((item) => item.visible !== false),
     [legendItems],
   );
 
-  if (!isSingleDatapoint && !showLegend) {
+  if (!showLegend || visibleItems.length === 0) {
     return null;
   }
 
-  const footerHeight =
-    (isSingleDatapoint ? SINGLE_DATAPOINT_MESSAGE_HEIGHT_PX : 0) +
-    (isSingleDatapoint && showLegend && visibleItems.length > 0 ? FOOTER_GAP_PX : 0) +
-    (showLegend && visibleItems.length > 0 ? LEGEND_ROW_HEIGHT_PX : 0);
+  const footerHeight = LEGEND_ROW_HEIGHT_PX;
   const footerWidth = availableWidth - x;
 
   return (
     <g className="chart-footer" transform={`translate(${x}, ${y})`}>
       <foreignObject height={footerHeight} width={footerWidth} x="0" y="0">
-        <div className="sw-flex sw-w-full sw-min-w-0 sw-flex-col" style={{ gap: FOOTER_GAP_PX }}>
-          {isSingleDatapoint && (
-            <MessageInline
-              className="sw-flex-shrink-0 sw-whitespace-nowrap"
-              size={MessageInlineSize.Small}
-              variety={MessageVariety.Info}
-            >
-              {formatMessage({ id: singleDatapointMessageId })}
-            </MessageInline>
-          )}
-          {showLegend && visibleItems.length > 0 && (
-            <ChartHorizontalLegend
-              containerWidth={footerWidth}
-              focusedSeriesIndex={focusedSeriesIndex}
-              items={visibleItems}
-              legendContainerRef={legendContainerRef}
-              onLegendMouseEnter={onLegendMouseEnter}
-              onLegendMouseLeave={onLegendMouseLeave}
-              onSeriesHover={onSeriesHover}
-              onSeriesSelect={onSeriesSelect}
-              selectedSeriesIndex={selectedSeriesIndex}
-            />
-          )}
-        </div>
+        <ChartHorizontalLegend
+          containerWidth={footerWidth}
+          focusedSeriesIndex={focusedSeriesIndex}
+          items={visibleItems}
+          legendContainerRef={legendContainerRef}
+          onLegendMouseEnter={onLegendMouseEnter}
+          onLegendMouseLeave={onLegendMouseLeave}
+          onSeriesHover={onSeriesHover}
+          onSeriesSelect={onSeriesSelect}
+          selectedSeriesIndex={selectedSeriesIndex}
+        />
       </foreignObject>
     </g>
   );

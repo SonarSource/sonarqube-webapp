@@ -169,6 +169,60 @@ it('groups issue history, resolves rule labels, and shows the legend', () => {
   expect(props?.showLegend).toBe(true);
 });
 
+it('caps rule series and folds the remainder into a trailing Other series', () => {
+  const ruleValues = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10];
+  jest.mocked(useDashboardMeasureQuery).mockReturnValue({
+    data: {
+      api: 'issue-count-history',
+      history: [
+        {
+          date: '2026-01-01',
+          distribution: ruleValues.map((value, index) => ({
+            key: `typescript:S${index + 1}`,
+            value,
+          })),
+        },
+      ],
+    },
+    isError: false,
+    isPending: false,
+  } as unknown as ReturnType<typeof useDashboardMeasureQuery>);
+
+  renderChart(
+    <DashboardMeasureLineChart
+      entityId="portfolio-1"
+      entityType="PORTFOLIO"
+      measure={{
+        api: 'issue-count-history',
+        metricKey: MetricKey.violations,
+        sliceBy: 'RULE_KEY',
+      }}
+      metric={{ metricKey: MetricKey.violations, type: DashboardMetricType.Raw }}
+      months={3}
+    />,
+  );
+
+  const props = jest.mocked(MultiLineChart).mock.calls.at(-1)?.[0];
+  const seriesIds = props?.series.map((entry) => entry.id) ?? [];
+  expect(seriesIds).toEqual([
+    'typescript:S1',
+    'typescript:S2',
+    'typescript:S3',
+    'typescript:S4',
+    'typescript:S5',
+    'typescript:S6',
+    'typescript:S7',
+    'OTHER_3',
+  ]);
+
+  const otherSeries = props?.series.at(-1);
+  expect(otherSeries?.data[0]?.y).toBe(60);
+
+  expect(useDashboardRuleLabels).toHaveBeenCalledWith(
+    expect.objectContaining({ ruleKeys: expect.not.arrayContaining([otherSeries?.id]) }),
+  );
+});
+
 it('uses localized messages for grouped issue status legend labels', () => {
   jest.mocked(useDashboardMeasureQuery).mockReturnValue({
     data: {
@@ -305,7 +359,9 @@ it('passes the requested date to the high-resolution limited-history warning', (
 
   expect(screen.getByTestId('multi-line-chart')).toBeInTheDocument();
   expect(
-    screen.getByText('dashboard.line_chart.limited_history_warning.Apr 15, 2026'),
+    screen.getByText(
+      'dashboard.line_chart.single_data · dashboard.line_chart.limited_history_warning.Apr 15, 2026',
+    ),
   ).toBeInTheDocument();
 });
 

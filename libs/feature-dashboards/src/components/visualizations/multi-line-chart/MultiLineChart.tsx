@@ -30,21 +30,18 @@ import { formatDateFull } from '../../../utils/datetime';
 import { WidgetLoadingSpinner } from '../../common/WidgetLoadingSpinner';
 import { WidgetNoData } from '../../common/WidgetNoData';
 import {
+  hasSingleDatapointSeries as computeHasSingleDatapointSeries,
   createLinearYScale,
   createTimeXScale,
   getNearestIndex,
   hasSingleDatapoint,
+  singleDatapointMessageId as resolveSingleDatapointMessageId,
   seriesHasValidData,
   SINGLE_DATAPOINT_OUTLINE_WIDTH_PX,
   SINGLE_DATAPOINT_RADIUS_PX,
   useChartDimensions,
 } from '../chartGeometry';
-import {
-  FOOTER_GAP_PX,
-  LEGEND_ROW_HEIGHT_PX,
-  RenderChartFooter,
-  SINGLE_DATAPOINT_MESSAGE_HEIGHT_PX,
-} from '../RenderChartFooter';
+import { LEGEND_ROW_HEIGHT_PX, RenderChartFooter } from '../RenderChartFooter';
 import { RenderXAxis } from '../RenderXAxis';
 import { RenderYAxis } from '../RenderYAxis';
 import { MultiLineHoverDots } from './MultiLineHoverDots';
@@ -108,21 +105,10 @@ export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
 
   const [paddingTop, paddingRight, paddingBottom, paddingLeft] = padding;
   const availableWidth = dimensions.width - paddingLeft - paddingRight;
-  const singleDatapointSeriesCount = series.filter((entry) =>
-    hasSingleDatapoint(entry.data),
-  ).length;
-  const hasSingleDatapointSeries = singleDatapointSeriesCount > 0;
-  const singleDatapointMessageId =
-    series.length === 1
-      ? 'dashboard.line_chart.single_data'
-      : 'dashboard.line_chart.single_data_series';
+  const hasSingleDatapointSeries = computeHasSingleDatapointSeries(series);
+  const singleDatapointMessageId = resolveSingleDatapointMessageId(series);
   const availableHeight =
-    dimensions.height -
-    paddingTop -
-    paddingBottom -
-    (hasSingleDatapointSeries ? SINGLE_DATAPOINT_MESSAGE_HEIGHT_PX : 0) -
-    (hasSingleDatapointSeries && showLegend ? FOOTER_GAP_PX : 0) -
-    (showLegend ? LEGEND_ROW_HEIGHT_PX : 0);
+    dimensions.height - paddingTop - paddingBottom - (showLegend ? LEGEND_ROW_HEIGHT_PX : 0);
 
   useEffect(() => {
     return () => {
@@ -461,7 +447,6 @@ export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
           <RenderChartFooter
             availableWidth={availableWidth}
             focusedSeriesIndex={focusedSeriesIndex}
-            isSingleDatapoint={hasSingleDatapointSeries}
             legendContainerRef={legendContainerRef}
             legendItems={legendItems}
             onLegendMouseEnter={handleLegendMouseEnter}
@@ -470,7 +455,6 @@ export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
             onSeriesSelect={handleSeriesSelect}
             selectedSeriesIndex={selectedSeriesIndex}
             showLegend={showLegend}
-            singleDatapointMessageId={singleDatapointMessageId}
             x={-40}
             y={availableHeight + 30}
           />
@@ -547,7 +531,7 @@ export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
                   </div>
                 )}
                 {hasSingleDatapointSeries && (
-                  <Text isSubtle>
+                  <Text className="sw-pl-[7px]" isSubtle>
                     <FormattedMessage id={singleDatapointMessageId} />
                   </Text>
                 )}

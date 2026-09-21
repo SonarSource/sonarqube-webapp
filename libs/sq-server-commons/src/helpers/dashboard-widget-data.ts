@@ -19,6 +19,7 @@
  */
 
 import { cssVar } from '@sonarsource/echoes-react';
+import type { IntlShape } from 'react-intl';
 import { CHART_CATEGORICAL_COLORS } from '~shared/helpers/charts';
 import { parseLanguageDistributionCounts } from '~shared/helpers/languageDistribution';
 import { parseDistributionCounts } from '~shared/helpers/measures';
@@ -840,14 +841,14 @@ const SOFTWARE_QUALITY_STANDARD_MESSAGE_ID: Partial<Record<string, string>> = {
 
 export function formatPieChartSegmentLabel(
   value: string,
-  formatMessage: (descriptor: { id: string }) => string,
+  formatMessage: IntlShape['formatMessage'],
   metric: string,
   slice: string,
   metadata: PieChartLabelMetadata = {},
   isStandardMode = false,
 ): string {
   if (value.startsWith('OTHER_')) {
-    return `Other (${value.split('_')[1]})`;
+    return formatMessage({ id: 'dashboard.chart.other_n' }, { count: value.split('_')[1] });
   }
   const cleanCodeAttributeLabel = getCleanCodeAttributeLabel(value, slice, formatMessage);
   if (cleanCodeAttributeLabel !== undefined) {
@@ -1287,55 +1288,6 @@ function normalizeRatingIndex(value: string): string {
   return Number.isInteger(rating) && rating >= 1 && rating <= ratingLabels.length
     ? ratingLabels[rating - 1]
     : value;
-}
-
-export function portfolioIssueHistoryToMultiLineSeries(
-  history: HistoryDay[] | undefined,
-  historyRange: string,
-  groupBy: string,
-): Array<{ color: string; data: Array<{ x: Date; y: number }>; id: string; label: string }> {
-  if (!history?.length || groupBy === LineChartGroupBy.None) {
-    return [];
-  }
-  let slice: string = PieChartIssueSlice.Rules;
-  if (groupBy === LineChartGroupBy.Severity) {
-    slice = PieChartIssueSlice.ImpactSeverities;
-  } else if (groupBy === LineChartGroupBy.SoftwareQuality) {
-    slice = PieChartIssueSlice.ImpactSoftwareQualities;
-  } else if (groupBy === LineChartGroupBy.Status) {
-    slice = PieChartIssueSlice.IssueStatuses;
-  }
-  const days = history.filter((day) => isDateInHistoryRange(new Date(day.date), historyRange));
-  const totals = new Map<string, number>();
-  days.forEach((day) => {
-    day.distribution.forEach((entry) => {
-      if (entry.value > 0) {
-        totals.set(entry.key, (totals.get(entry.key) ?? 0) + entry.value);
-      }
-    });
-  });
-  let keys = [...totals.entries()].sort((a, b) => b[1] - a[1]);
-  if (groupBy === LineChartGroupBy.Rule) {
-    keys = aggregateSmallSegments(
-      keys,
-      keys.reduce((sum, [, count]) => sum + count, 0),
-    );
-  }
-  return keys.map(([key], index) => ({
-    color: lineColor(key, index, slice),
-    data: days.map((day) => ({
-      x: new Date(day.date),
-      y: key.startsWith('OTHER_')
-        ? day.distribution
-            .filter(
-              (entry) => !keys.some(([kept]) => kept === entry.key && !kept.startsWith('OTHER_')),
-            )
-            .reduce((sum, entry) => sum + entry.value, 0)
-        : (day.distribution.find((entry) => entry.key === key)?.value ?? 0),
-    })),
-    id: key,
-    label: key.startsWith('OTHER_') ? `Other (${key.split('_')[1]})` : titleCase(key),
-  }));
 }
 
 export function isKnownUnsupportedDashboardHistoryMetric(metricKey: string) {
