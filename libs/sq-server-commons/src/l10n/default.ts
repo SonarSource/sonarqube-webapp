@@ -3281,7 +3281,7 @@ export const defaultMessages = {
   'architecture.page.model.unsaved_changes': 'You have unsaved changes.',
   'architecture.page.model.seed.empty_model.title': 'Your intended architecture is empty',
   'architecture.page.model.seed.empty_model.message':
-    'Generate a draft from the top-level components and relationships for your main language {language} or start from scratch.',
+    'Generate a draft from the top-level components and relationships for {language} or start from scratch.',
   'architecture.page.model.seed.empty_language.title':
     'The {language} intended architecture is empty',
   'architecture.page.model.seed.empty_language.message':
