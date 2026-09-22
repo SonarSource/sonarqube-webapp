@@ -39,7 +39,7 @@ interface Props extends PropsWithChildren {
   width?: PageGridProps['width'];
 }
 
-export const SCALicensePageTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
+export const ScaGlobalPageTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
   const {
     asideLeft,
     children,
@@ -76,4 +76,4 @@ export const SCALicensePageTemplate = forwardRef<HTMLDivElement, Props>((props, 
   );
 });
 
-SCALicensePageTemplate.displayName = 'SCALicensePageTemplate';
+ScaGlobalPageTemplate.displayName = 'ScaGlobalPageTemplate';
