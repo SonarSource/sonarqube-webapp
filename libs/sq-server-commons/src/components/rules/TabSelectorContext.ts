@@ -20,6 +20,6 @@
 
 import { noop } from 'lodash';
 import { createContext } from 'react';
-import { TabKeys } from './IssueTabViewer';
+import { TabKeys } from '../issue/hooks/useIssueTabs';
 
 export const TabSelectorContext = createContext<(selectedTab: TabKeys) => void>(noop);

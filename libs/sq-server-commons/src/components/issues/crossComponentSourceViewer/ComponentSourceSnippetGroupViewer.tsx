@@ -48,7 +48,7 @@ import {
   SourceViewerFile,
   Issue as TypeIssue,
 } from '../../../types/types';
-import { TabKeys } from '../../rules/IssueTabViewer';
+import { TabKeys } from '../../issue/hooks/useIssueTabs';
 import { TabSelectorContext } from '../../rules/TabSelectorContext';
 import { locationsByLine } from '../../SourceViewer/helpers/indexing';
 import { IssueSourceViewerScrollContext } from '../IssueSourceViewerScrollContext';
