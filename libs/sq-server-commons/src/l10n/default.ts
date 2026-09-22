@@ -6640,6 +6640,10 @@ export const defaultMessages = {
   'coding_rules.system_tags_tooltip':
     "This tag can't be removed because it has been predefined by our system",
 
+  'coding_rules.rule_impacts_aria_label': 'Rule impacts for {key}',
+  'coding_rules.software_impacts_aria_label': 'Software impacts for rule {key}',
+  'coding_rules.custom_activation_impacts_aria_label': 'Custom activation impacts for {key}',
+
   'rule.impact.severity.tooltip':
     'Issues found for this rule will have a {severity} impact on the {quality} of your software.',
 

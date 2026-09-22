@@ -24,6 +24,7 @@ import { SoftwareQuality, SoftwareQualityImpact } from '../../types/clean-code-t
 import SoftwareImpactPill, { Props as SoftwareImpactPillProps } from './SoftwareImpactPill';
 
 interface SoftwareImpactPillListProps {
+  ariaLabel?: string;
   className?: string;
   'data-guiding-id'?: string;
   'data-spotlight-id'?: string;
@@ -41,6 +42,7 @@ const sqOrderMap = {
 };
 
 export function SoftwareImpactPillList({
+  ariaLabel,
   className,
   'data-guiding-id': dataGuidingId,
   'data-spotlight-id': dataSpotlightId,
@@ -64,6 +66,7 @@ export function SoftwareImpactPillList({
 
   return (
     <ul
+      aria-label={ariaLabel}
       className={classNames('sw-flex sw-gap-2', className)}
       data-guiding-id={dataGuidingId}
       data-spotlight-id={dataSpotlightId}

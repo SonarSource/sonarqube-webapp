@@ -76,7 +76,7 @@ function RuleListItem(props: Readonly<Props>) {
     onActivate,
     onOpen,
   } = props;
-  const intl = useIntl();
+  const { formatMessage } = useIntl();
   const [ruleIsChanged, setRuleIsChanged] = React.useState(false);
   const { data } = useRuleDetailsQuery(
     { key: rule.key, actives: true },
@@ -238,6 +238,7 @@ function RuleListItem(props: Readonly<Props>) {
   };
 
   const allTags = [...(rule.tags ?? []), ...(rule.sysTags ?? [])];
+  const ruleNameId = `rule-name-${rule.key}`;
 
   return (
     <ListItemStyled
@@ -249,18 +250,20 @@ function RuleListItem(props: Readonly<Props>) {
       }}
       selected={selected}
     >
-      <div className="sw-flex sw-flex-col sw-gap-3">
+      <section aria-labelledby={ruleNameId} className="sw-flex sw-flex-col sw-gap-3">
         <div className="sw-flex sw-justify-between sw-items-center">
           <div className="sw-flex sw-items-center">
             {renderActivation()}
 
-            <LinkStandalone
-              className="sw-typo-semibold"
-              onClick={handleNameClick}
-              to={getRuleUrl(rule.key)}
-            >
-              {rule.name}
-            </LinkStandalone>
+            <span id={ruleNameId}>
+              <LinkStandalone
+                className="sw-typo-semibold"
+                onClick={handleNameClick}
+                to={getRuleUrl(rule.key)}
+              >
+                {rule.name}
+              </LinkStandalone>
+            </span>
           </div>
 
           <div>
@@ -279,13 +282,14 @@ function RuleListItem(props: Readonly<Props>) {
               <>
                 {activation && activation.severity !== rule.severity && (
                   <Text isSubtle size={TextSize.Small}>
-                    {intl.formatMessage(
-                      { id: 'coding_rules.activation_custom_severity' },
-                      { count: 1 },
-                    )}
+                    {formatMessage({ id: 'coding_rules.activation_custom_severity' }, { count: 1 })}
                   </Text>
                 )}
                 <SoftwareImpactPillList
+                  ariaLabel={formatMessage(
+                    { id: 'coding_rules.software_impacts_aria_label' },
+                    { key: rule.key },
+                  )}
                   issueSeverity={(activation?.severity ?? rule.severity) as IssueSeverity}
                   issueType={rule.type}
                   softwareImpacts={rule.impacts}
@@ -302,6 +306,10 @@ function RuleListItem(props: Readonly<Props>) {
               <>
                 {ruleImpacts.length > 0 && (
                   <SoftwareImpactPillList
+                    ariaLabel={formatMessage(
+                      { id: 'coding_rules.rule_impacts_aria_label' },
+                      { key: rule.key },
+                    )}
                     issueSeverity={rule.severity as IssueSeverity}
                     issueType={rule.type}
                     softwareImpacts={ruleImpacts}
@@ -314,12 +322,16 @@ function RuleListItem(props: Readonly<Props>) {
                 {activationImpacts.length > 0 && (
                   <>
                     <Text isSubtle size={TextSize.Small}>
-                      {intl.formatMessage(
+                      {formatMessage(
                         { id: 'coding_rules.activation_custom_severity' },
                         { count: activationImpacts.length },
                       )}
                     </Text>
                     <SoftwareImpactPillList
+                      ariaLabel={formatMessage(
+                        { id: 'coding_rules.custom_activation_impacts_aria_label' },
+                        { key: rule.key },
+                      )}
                       issueSeverity={activation?.severity as IssueSeverity}
                       issueType={rule.type}
                       softwareImpacts={activationImpacts}
@@ -376,7 +388,7 @@ function RuleListItem(props: Readonly<Props>) {
 
           <div className="sw-flex sw-items-center">{renderActions()}</div>
         </div>
-      </div>
+      </section>
     </ListItemStyled>
   );
 }

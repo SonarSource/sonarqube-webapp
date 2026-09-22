@@ -32,6 +32,7 @@ import { useStandardExperienceModeQuery } from '../../queries/mode';
 import IssueTypePill from './IssueTypePill';
 
 interface SoftwareImpactPillListProps {
+  ariaLabel?: string;
   className?: string;
   'data-guiding-id'?: string;
   issueSeverity?: IssueSeverity;
@@ -44,6 +45,7 @@ interface SoftwareImpactPillListProps {
 }
 
 export default function SoftwareImpactPillList({
+  ariaLabel,
   softwareImpacts,
   onSetSeverity,
   issueSeverity,
@@ -74,6 +76,7 @@ export default function SoftwareImpactPillList({
   if ((softwareImpacts?.length ?? 0) > 0) {
     return (
       <SharedSoftwareImpactPillList
+        ariaLabel={ariaLabel}
         className={className}
         data-guiding-id={dataGuidingId}
         learnMoreUrl={learnMoreUrl}
