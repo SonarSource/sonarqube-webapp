@@ -3689,6 +3689,14 @@ export const defaultMessages = {
   'architecture.organization.node.unconnected.more': 'and {count} more',
   'architecture.organization.edge.dependency_count':
     '{count, plural, one {# dependency} other {# dependencies}}',
+  'architecture.organization.legend': 'Legend',
+  'architecture.organization.legend.description':
+    "Shows the projects analyzed by SonarQube and the relationships detected between them. A relationship appears when an exit point in one project matches an entry point in another. Add missing ones from a project's exit points page, or define an SDK for unsupported tools.",
+  'architecture.organization.legend.title': 'Projects are grouped top to bottom:',
+  'architecture.organization.legend.bullet.1': 'Projects with relationships',
+  'architecture.organization.legend.bullet.2': 'Projects with unmatched exit points',
+  'architecture.organization.legend.bullet.3': 'System components without relationships',
+  'architecture.organization.legend.bullet.4': 'Projects without relationships detected',
 
   // Discovery page
   'architecture.discovery.dismissible.explore_codebase.title': 'Explore the map of your codebase',
