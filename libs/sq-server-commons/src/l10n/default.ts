@@ -3094,9 +3094,14 @@ export const defaultMessages = {
   'sca.container_images.risk_count': '{count} {count, plural, one {risk} other {risks}}',
   'sca.container_images.highest_severity': 'Highest severity:',
   'sca.container_images.last_analysis': 'Last analysis: {date}',
+  'sca.container_images.digest': 'Digest: {digest}',
+  'sca.container_images.select_digest': 'Select image tag and digest',
   'sca.container_images.search': 'Search container images',
   'sca.container_images.empty.title': 'No container images analyzed yet',
   'sca.container_images.empty.description': 'Scan a container image to uncover dependency risks.',
+  'sca.container_images.risks.empty.title': 'No open dependency risks were found',
+  'sca.container_images.risks.empty.body':
+    'This may be because this container image has no dependencies, all dependencies are risk-free, or an error occurred during analysis.',
   'sca.licenses.page': 'License profiles',
   'sca.licenses.page.intro':
     'A license profile is a collection of policies that define which licenses are allowed or prohibited for the dependencies used by your projects. If a dependency with a prohibited license is found during an analysis, it will be identified as a dependency risk. For more details see the documentation for {docsLink}.',

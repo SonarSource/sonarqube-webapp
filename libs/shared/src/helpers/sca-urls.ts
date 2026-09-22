@@ -37,7 +37,15 @@ export const RISKS_PROMO_ROUTE_NAME = 'dependency-risks/promo';
 
 export const LICENSE_EXTERNAL_COPYLEFT_DETAILS_LINK = 'https://blueoakcouncil.org/copyleft';
 
-const OPTIONAL_PARAMS = ['id', 'branch', 'pullRequest'] as const;
+const OPTIONAL_PARAMS = [
+  'id',
+  'branch',
+  'pullRequest',
+  'newlyIntroduced',
+  'imageDigest',
+  'imageName',
+  'imageTag',
+] as const;
 
 /** The default risk status filters when none are selected */
 export const DefaultRiskStatusFilters: Partial<Record<RiskStatus, boolean>> = {
@@ -91,17 +99,16 @@ export function getReleaseDetailsUrl(
   });
 }
 
-const RELEASES_OPTIONAL_PARAMS = [...OPTIONAL_PARAMS, 'newlyIntroduced', 'id'] as const;
 export function getReleasesUrl(params: {
   baseUrl?: string;
   currentSearch?: string;
-  newParams?: NewParams<(typeof RELEASES_OPTIONAL_PARAMS)[number]>;
+  newParams?: NewParams<(typeof OPTIONAL_PARAMS)[number]>;
 }) {
   const { currentSearch, newParams, baseUrl = '/' } = params;
   return buildUrlWithCurrentParams({
     pathname: withBase(baseUrl, `${RELEASES_ROUTE_NAME}`),
     currentSearch,
-    optionalParams: RELEASES_OPTIONAL_PARAMS,
+    optionalParams: OPTIONAL_PARAMS,
     newParams,
   });
 }
@@ -109,11 +116,9 @@ export function getReleasesUrl(params: {
 const RISKS_OPTIONAL_PARAMS = [
   ...OPTIONAL_PARAMS,
   'riskStatuses',
-  'newlyIntroduced',
   'qualities',
   'severities',
   'types',
-  'id',
   'standard',
   'standardCategory',
   'standardLevel',
