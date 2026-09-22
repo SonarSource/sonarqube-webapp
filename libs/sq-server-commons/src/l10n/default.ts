@@ -11171,7 +11171,7 @@ export const defaultMessages = {
   'license.loc_usage.overage.tooltip.cost_title': 'Cost',
   'license.loc_usage.overage.tooltip.cost': '{cost} plus taxes per month<br></br>(limit {limit})',
   'license.loc_usage.overage.tooltip.tax_note':
-    'Tax will be calculated based on the exchange rate and tax rules in effect on the date the invoice is issued',
+    'Taxes will be calculated based on tax rules in effect on the date the invoice is issued.',
   'license.loc_usage.overage.billable_marker.tooltip':
     'Highest overage reached this cycle. Your bill is based on this, not your current usage.',
   'license.loc_usage.overage.resets_on': 'Resets on {date}',
@@ -11279,13 +11279,21 @@ export const defaultMessages = {
   'license.products.overage.dialog.acknowledge.title.monthly':
     'Activate monthly overage for {product}',
   'license.products.overage.dialog.acknowledge.summary':
-    'You are activating extra usage for {product} up to {limit} (≈{cost} plus applicable taxes). Extra usage costs {blockCost} per block of {blockSize}, with a {blockCost} minimum monthly charge.',
+    'You are activating extra usage for {product} (capped at {limit}). Extra usage is billed at {blockCost} per block of {blockSize}, subject to a {blockCost} minimum monthly charge.',
+  'license.products.overage.dialog.acknowledge.units.hunterAgent':
+    '{count, plural, one {# scan} other {# scans}}',
+  'license.products.overage.dialog.acknowledge.units.remediationAgent':
+    '{count, plural, one {# suggestion} other {# suggestions}}',
+  'license.products.overage.dialog.acknowledge.units.vortex':
+    '{count, plural, one {# tool used} other {# tools used}}',
+  'license.products.overage.dialog.acknowledge.units.linesOfCode':
+    '{count, plural, one {# line of code} other {# lines of code}}',
   'license.products.overage.dialog.acknowledge.tax_note':
-    'Prices are plus applicable taxes, calculated based on the exchange rate and tax rules in effect on the date the invoice is issued.',
+    'Prices are exclusive of applicable taxes, calculated based on tax rules in effect on the date the invoice is issued.',
   'license.products.overage.dialog.acknowledge.authorization':
     'By activating overage, you represent that you are authorized to bind your organization to monthly recurring charges up to your selected limit whenever your included allowance is exceeded.',
   'license.products.overage.dialog.acknowledge.consent':
-    'I accept the Terms and Conditions and authorize billing for up to {limit}.',
+    'I accept the Terms and Conditions and authorize billing for up to {limit} (cancel or adjust limit anytime in settings).',
   'license.products.overage.dialog.allow': 'Allow overage usage',
   'license.products.overage.dialog.allow.description':
     'Enable extra usage to keep using the product uninterrupted. Overage starts after you reach your plan limit.',
@@ -11439,7 +11447,7 @@ export const defaultMessages = {
   'license.products.usage_tip.overage.spent.minimum_charge_note':
     'The minimum charge equals the price of {count} {unit}, so you will pay for {count} {unit} even if you use fewer.',
   'license.products.usage_tip.overage.spent.tax_note':
-    'We calculate taxes based on the exchange rate and tax rules on the invoice date.',
+    'Taxes will be calculated based on tax rules in effect on the date the invoice is issued.',
   'license.products.usage_tip.overage.spent.generic_unit': 'units',
   'license.products.valid_until': 'Valid until',
   'license.products.view_demo': 'View demo',
