@@ -7,6 +7,7 @@
     "apps/sq-server",
     "private/apps/sq-cloud",
     "private/sq-cloud-e2e-tests",
+    "private/sq-server-e2e-tests",
     "private/sq-cloud-metrics",
     "tools/nx-automation"
   ],

@@ -20316,6 +20316,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"sq-server-e2e-tests@workspace:private/sq-server-e2e-tests":
+  version: 0.0.0-use.local
+  resolution: "sq-server-e2e-tests@workspace:private/sq-server-e2e-tests"
+  languageName: unknown
+  linkType: soft
+
 "sq-server@workspace:apps/sq-server":
   version: 0.0.0-use.local
   resolution: "sq-server@workspace:apps/sq-server"
