@@ -125,7 +125,7 @@ it('should behave correctly', async () => {
   expect(await ui.header.find()).toBeInTheDocument();
 
   expect(ui.githubButton.get()).toBeInTheDocument();
-  expect(ui.githubImage.get()).toHaveAttribute('src', '/path/icon.svg');
+  expect(ui.githubImage.get()).toHaveAttribute('src', '/images/alm/light/github.svg');
 
   await user.click(await ui.loginOptionsButton.find());
 
@@ -156,7 +156,7 @@ it('should have correct image URL with different baseURL', async () => {
   renderLoginContainer();
 
   expect(await ui.header.find()).toBeInTheDocument();
-  expect(ui.githubImage.get()).toHaveAttribute('src', '/context/path/icon.svg');
+  expect(ui.githubImage.get()).toHaveAttribute('src', '/context/images/alm/light/github.svg');
 });
 
 it('should not show any OAuth providers if none are configured', async () => {

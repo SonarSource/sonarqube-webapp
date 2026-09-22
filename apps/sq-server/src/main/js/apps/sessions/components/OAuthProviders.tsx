@@ -21,7 +21,10 @@
 import { Divider, Text, TextSize, ToggleTip } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { ThirdPartyButton } from '~design-system';
+import { useCurrentTheme } from '~shared/helpers/css';
+import { almIconUrl, almKeyToIconKey } from '~sq-server-commons/helpers/almIcons';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { IdentityProvider } from '~sq-server-commons/types/types';
 
 interface Props {
@@ -30,6 +33,8 @@ interface Props {
 }
 
 export default function OAuthProviders({ identityProviders, returnTo }: Readonly<Props>) {
+  const currentTheme = useCurrentTheme();
+
   const authenticate = (key: string) => {
     // We need a real page refresh, as the login mechanism is handled on the server
     window.location.replace(
@@ -44,7 +49,7 @@ export default function OAuthProviders({ identityProviders, returnTo }: Readonly
           <div key={key}>
             <ThirdPartyButton
               className="sw-w-full sw-justify-center"
-              iconPath={`${getBaseUrl()}${iconPath}`}
+              iconPath={getIconPath(currentTheme, key, iconPath)}
               name={name}
               onClick={() => {
                 authenticate(key);
@@ -70,4 +75,20 @@ export default function OAuthProviders({ identityProviders, returnTo }: Readonly
       />
     </>
   );
+}
+
+const ALM_KEY_VALUES = new Set<string>([
+  AlmKeys.Azure,
+  AlmKeys.BitbucketServer,
+  AlmKeys.BitbucketCloud,
+  AlmKeys.GitHub,
+  AlmKeys.GitLab,
+]);
+
+function getIconPath(currentTheme: string, key: string, iconPath: string) {
+  if (ALM_KEY_VALUES.has(key)) {
+    return almIconUrl(currentTheme, almKeyToIconKey(key as AlmKeys));
+  }
+
+  return `${getBaseUrl()}${iconPath}`;
 }
