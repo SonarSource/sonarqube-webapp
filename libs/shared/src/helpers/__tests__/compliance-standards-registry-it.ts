@@ -185,7 +185,7 @@ describe('compliance-standards-registry', () => {
       const cweStandards = standards.filter((s) => s.queryProp.startsWith('cwe'));
 
       // Should only have the base 'cwe' standard, not cwe-2021, cwe-2022, etc.
-      expect(cweStandards.length).toBe(1);
+      expect(cweStandards).toHaveLength(1);
       expect(cweStandards[0].queryProp).toBe('cwe');
       expect(cweStandards[0].version).toBeUndefined();
     });
@@ -446,7 +446,7 @@ describe('compliance-standards-registry', () => {
 
     it('should return exactly 3 defaults', () => {
       const defaults = getDefaultPdfStandards();
-      expect(defaults.length).toBe(3);
+      expect(defaults).toHaveLength(3);
     });
   });
 
@@ -473,7 +473,7 @@ describe('compliance-standards-registry', () => {
 
       expect(owaspAsvsGroups.length).toBeGreaterThan(0);
       owaspAsvsGroups.forEach((group) => {
-        expect(group.options.length).toBe(3); // Three levels
+        expect(group.options).toHaveLength(3); // Three levels
         expect(group.options[0].label).toBe('Level 1');
         expect(group.options[1].label).toBe('Level 2');
         expect(group.options[2].label).toBe('Level 3');
@@ -861,7 +861,7 @@ describe('compliance-standards-registry', () => {
   describe('getAllComplianceStandardFacets', () => {
     it('should return all queryProp values from the registry', () => {
       const facets = getAllComplianceStandardFacets();
-      expect(facets.length).toBe(STANDARDS_REGISTRY.length);
+      expect(facets).toHaveLength(STANDARDS_REGISTRY.length);
       expect(facets).toContain('sonarsourceSecurity');
       expect(facets).toContain('cwe');
       expect(facets).toContain('pciDss-4.0');
